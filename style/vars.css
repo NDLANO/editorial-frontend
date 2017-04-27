@@ -1,0 +1,9 @@
+:root {
+  --font-size--medium: 18px;
+
+  /*@custom-media --xlarge-viewport (min-width: 1200px);
+  @custom-media --large-viewport (min-width: 800px);
+  @custom-media --medium-viewport (max-width: 800px);
+  @custom-media --small-viewport (max-width: 600px);
+  @custom-media --xsmall-viewport (max-width: 400px);*/
+}

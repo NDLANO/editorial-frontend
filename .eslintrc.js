@@ -1,0 +1,11 @@
+module.exports = {
+  extends: 'ndla',
+  env: {
+    jest: true
+  },
+  rules: {
+    'react/prop-types': [ 2, {'ignore': ['children', 'className', 't'] }],
+  },
+  'globals': {
+  }
+};

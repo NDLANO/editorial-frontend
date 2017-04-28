@@ -1,5 +1,5 @@
 {
-  "name": "creation-frontend",
+  "name": "editorial-frontend",
   "version": "0.0.1",
   "description": "System for producing content for NDLA",
   "scripts": {
@@ -99,12 +99,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NDLANO/creation-frontend.git"
+    "url": "https://github.com/NDLANO/editorial-frontend.git"
   },
   "bugs": {
-    "url": "https://github.com/NDLANO/creation-frontend/issues"
+    "url": "https://github.com/NDLANO/editorial-frontend/issues"
   },
-  "homepage": "https://github.com/NDLANO/creation-frontend",
+  "homepage": "https://github.com/NDLANO/editorial-frontend",
   "author": "ndla@knowit.no",
   "license": "GPL-3.0"
 }

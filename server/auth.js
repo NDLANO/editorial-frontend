@@ -20,7 +20,7 @@ export const getToken = () => fetch(url, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-    Authorization: `Basic ${b64EncodeUnicode(`${config.creationFrontendClientId}:${config.creationFrontendClientSecret}`)}`,
+    Authorization: `Basic ${b64EncodeUnicode(`${config.editorialFrontendClientId}:${config.editorialFrontendClientSecret}`)}`,
   },
   body: 'grant_type=client_credentials',
 }).then(res => res.json());

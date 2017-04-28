@@ -27,7 +27,7 @@ const apiDomain = () => {
   }
 };
 
-const creationFrontendDomain = () => {
+const editorialFrontendDomain = () => {
   switch (process.env.NDLA_ENVIRONMENT) {
     case 'local':
       return 'http://localhost:30017';
@@ -41,13 +41,13 @@ const creationFrontendDomain = () => {
 
 module.exports = Object.assign({
   componentName: process.env.npm_package_name,
-  host: process.env.CREATION_FRONTEND_HOST || 'localhost',
-  port: process.env.CREATION_FRONTEND_PORT || '3000',
+  host: process.env.EDITORIAL_FRONTEND_HOST || 'localhost',
+  port: process.env.EDITORIAL_FRONTEND_PORT || '3000',
   redirectPort: process.env.NDLA_REDIRECT_PORT || '3001',
   logEnvironment: process.env.NDLA_ENVIRONMENT || 'local',
   logglyApiKey: process.env.LOGGLY_API_KEY,
   ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
-  creationFrontendClientId: process.env.CREATION_FRONTEND_CLIENT_ID || 'swagger-client',
-  creationFrontendClientSecret: process.env.CREATION_FRONTEND_CLIENT_SECRET || 'swagger-public-client-secret',
-  creationFrontendDomain: creationFrontendDomain(),
+  editorialFrontendClientId: process.env.EDITORIAL_FRONTEND_CLIENT_ID || 'swagger-client',
+  editorialFrontendClientSecret: process.env.EDITORIAL_FRONTEND_CLIENT_SECRET || 'swagger-public-client-secret',
+  editorialFrontendDomain: editorialFrontendDomain(),
 }, environment);

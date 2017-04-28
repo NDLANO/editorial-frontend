@@ -6,10 +6,9 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from '../../i18n';
-import { SubjectShape } from '../../shapes';
 
 export const WelcomePage = ({ t }) =>
   <div className="c-resources u-padding-top-large">
@@ -24,7 +23,6 @@ export const WelcomePage = ({ t }) =>
 ;
 
 WelcomePage.propTypes = {
-  subjects: PropTypes.arrayOf(SubjectShape),
 };
 
 export default injectT(WelcomePage);

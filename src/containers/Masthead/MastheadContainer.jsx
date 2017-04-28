@@ -6,10 +6,10 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Masthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
 import { toSearch } from '../../routes';
-import { SubjectShape, TopicShape } from '../../shapes';
 
 
 const MastheadContainer = ({ t }) => (
@@ -33,8 +33,6 @@ MastheadContainer.propTypes = {
     topicId: PropTypes.string,
   }).isRequired,
   t: PropTypes.func.isRequired,
-  subject: SubjectShape,
-  topics: PropTypes.arrayOf(TopicShape).isRequired,
 };
 
 

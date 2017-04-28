@@ -8,16 +8,7 @@
 
 import defined from 'defined';
 
-const NDLA_API_URL = window.config.ndlaApiUrl;
-
-const apiBaseUrl = (() => {
-  if (process.env.NODE_ENV === 'unittest') {
-    return 'http://ndla-api';
-  }
-
-  return NDLA_API_URL;
-})();
-
+const apiBaseUrl = window.config.ndlaApiUrl;
 
 export { apiBaseUrl };
 

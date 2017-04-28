@@ -7,6 +7,7 @@
  */
 
 /* eslint-disable */
-
-
+window.config = {
+  ndlaApiUrl: 'http://ndla-api'
+}
 /* eslint-enable */

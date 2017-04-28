@@ -7,7 +7,7 @@
  */
 
 import { handleActions } from 'redux-actions';
-import * as constants from './searchConstants';
+import * as actions from './searchActions';
 
 export const initalState = {
   results: [],
@@ -17,19 +17,19 @@ export const initalState = {
 };
 
 export default handleActions({
-  [constants.SEARCH]: {
+  [actions.search]: {
     next: state => ({ ...state, searching: true }),
     throw: state => state,
   },
-  [constants.SET_SEARCH_RESULT]: {
+  [actions.setSearchResult]: {
     next: (state, action) => ({ ...state, ...action.payload, searching: false }),
     throw: state => state,
   },
-  [constants.CLEAR_SEARCH_RESULT]: {
+  [actions.clearSearchResult]: {
     next: () => initalState,
     throw: state => state,
   },
-  [constants.SEARCH_ERROR]: {
+  [actions.searchError]: {
     next: state => ({ ...state, searching: false }),
     throw: state => state,
   },

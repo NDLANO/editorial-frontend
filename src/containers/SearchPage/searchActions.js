@@ -7,9 +7,8 @@
  */
 
 import { createAction } from 'redux-actions';
-import * as constants from './searchConstants';
 
-export const search = createAction(constants.SEARCH);
-export const searchError = createAction(constants.SEARCH_ERROR);
-export const clearSearchResult = createAction(constants.CLEAR_SEARCH_RESULT);
-export const setSearchResult = createAction(constants.SET_SEARCH_RESULT);
+export const search = createAction('SEARCH');
+export const searchError = createAction('SEARCH_ERROR');
+export const clearSearchResult = createAction('CLEAR_SEARCH_RESULT');
+export const setSearchResult = createAction('SET_SEARCH_RESULT');

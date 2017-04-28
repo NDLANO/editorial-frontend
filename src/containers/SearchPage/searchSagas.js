@@ -10,7 +10,6 @@ import { take, call, put, select } from 'redux-saga-effects';
 
 import { getLocale } from '../Locale/localeSelectors';
 import { getAccessToken } from '../App/sessionSelectors';
-import * as constants from './searchConstants';
 import * as actions from './searchActions';
 import * as api from './searchApi';
 
@@ -29,7 +28,7 @@ export function* search(queryString) {
 
 export function* watchSearch() {
   while (true) {
-    const { payload: queryString } = yield take(constants.SEARCH);
+    const { payload: queryString } = yield take(actions.search);
     yield call(search, queryString);
   }
 }

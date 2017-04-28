@@ -7,7 +7,7 @@
  */
 
 import reducer, { initalState } from '../searchReducer';
-import * as constants from '../searchConstants';
+import * as actions from '../searchActions';
 import searchResult from './_mockSearchResult';
 
 test('reducers/search initalState', () => {
@@ -22,7 +22,7 @@ test('reducers/search initalState', () => {
 });
 
 test('reducers/search search', () => {
-  const nextState = reducer(undefined, { type: constants.SEARCH });
+  const nextState = reducer(undefined, actions.search());
 
   expect(nextState).toEqual({
     results: [],
@@ -34,14 +34,14 @@ test('reducers/search search', () => {
 
 test('reducers/search searchError', () => {
   const state = { ...initalState, searching: true };
-  const nextState = reducer(state, { type: constants.SEARCH_ERROR });
+  const nextState = reducer(state, actions.searchError());
   expect(nextState.searching).toBe(false);
 });
 
 
 test('reducers/search handle set search result', () => {
   const nextState = reducer(initalState, {
-    type: constants.SET_SEARCH_RESULT,
+    type: actions.setSearchResult,
     payload: searchResult,
   });
 
@@ -54,7 +54,7 @@ test('reducers/search handle set search result', () => {
 
 test('reducers/search handle clear search result', () => {
   const nextState = reducer(searchResult, {
-    type: constants.CLEAR_SEARCH_RESULT,
+    type: actions.clearSearchResult,
   });
 
   expect(nextState).toEqual(initalState);

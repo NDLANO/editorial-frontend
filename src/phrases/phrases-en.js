@@ -28,6 +28,12 @@ const phrases = {
       title: 'Alphabetical',
     },
   },
+  topicArticleForm: {
+    save: 'Save',
+    labels: {
+      title: 'Save',
+    },
+  },
   searchPage: {
     noHits: 'Your search - {query} - did not match any articles. ',
   },

@@ -12,6 +12,7 @@ import { Route, Switch } from 'react-router-dom';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import App from './containers/App/App';
 import SearchPage from './containers/SearchPage/SearchPage';
+import TopicArticlePage from './containers/TopicArticlePage/TopicArticlePage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import { createQueryString } from './util/queryHelpers';
 
@@ -22,14 +23,10 @@ export function toSearch(queryString) {
   return '/search';
 }
 
-export function toTopic(subjectId, ...topicIds) {
-  if (topicIds.length === 0) {
-    return toSubject(subjectId);
-  }
-  return `/subjects/${subjectId}/${topicIds.join('/')}`;
+export function toTopicArticle(articleId) {
+  return `/topic-article/${articleId}`;
 }
 
-export const toTopicPartial = (subjectId, ...topicIds) => topicId => toTopic(subjectId, ...topicIds, topicId);
 
 class ScrollToTop extends React.Component {
   componentDidUpdate() {
@@ -47,6 +44,7 @@ export default (
     <Switch>
       <Route path="/" exact component={WelcomePage} />
       <Route path="/search" component={SearchPage} />
+      <Route path="/topic-article/:articleId" component={TopicArticlePage} />
       <Route component={NotFoundPage} />
     </Switch>
   </App>

@@ -28,6 +28,12 @@ const phrases = {
       title: 'Alfabetisk',
     },
   },
+  topicArticleForm: {
+    save: 'Lagre',
+    labels: {
+      title: 'Tittel',
+    },
+  },
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
   },

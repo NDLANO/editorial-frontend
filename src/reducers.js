@@ -11,6 +11,7 @@ import { combineReducers } from 'redux';
 import locale from './containers/Locale/localeReducer';
 import messages from './containers/Messages/messagesReducer';
 import search from './containers/SearchPage/searchReducer';
+import articles from './containers/TopicArticlePage/articleDucks';
 import accessToken from './containers/App/sessionReducer';
 
 const rootReducers = combineReducers({
@@ -18,6 +19,7 @@ const rootReducers = combineReducers({
   locale,
   messages,
   search,
+  articles,
 });
 
 export default rootReducers;

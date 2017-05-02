@@ -27,3 +27,8 @@ export const CopyrightObjectShape = PropTypes.shape({
     authors: PropTypes.array.isRequired,
   }).isRequired,
 });
+
+export const ArticleShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+});

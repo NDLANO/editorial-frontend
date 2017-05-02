@@ -13,20 +13,13 @@ import WelcomePage from './containers/WelcomePage/WelcomePage';
 import App from './containers/App/App';
 import SearchPage from './containers/SearchPage/SearchPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
+import { createQueryString } from './util/queryHelpers';
 
-export function toSearch() {
-  return '/search';
-}
-
-export function toArticle(articleId, subjectId, topicId) {
-  if (subjectId && topicId) {
-    return `/article/${subjectId}/${topicId}/${articleId}`;
+export function toSearch(queryString) {
+  if (queryString) {
+    return `/search?${createQueryString(queryString)}`;
   }
-  return `/article/${articleId}`;
-}
-
-export function toSubject(subjectId) {
-  return `/subjects/${subjectId}`;
+  return '/search';
 }
 
 export function toTopic(subjectId, ...topicIds) {

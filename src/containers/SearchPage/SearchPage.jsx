@@ -18,7 +18,7 @@ import SearchForm from './components/SearchForm';
 import SearchResultList from './components/SearchResultList';
 import SelectSearchSortOrder from './components/SelectSearchSortOrder';
 import { toSearch } from '../../routes';
-import { createQueryString, parseQueryString } from '../../util/queryHelpers';
+import { parseQueryString } from '../../util/queryHelpers';
 
 class SearchPage extends Component {
 
@@ -45,12 +45,12 @@ class SearchPage extends Component {
         <SearchForm
           query={query.query}
           searching={searching}
-          onSearchQuerySubmit={searchQuery => history.push(`/search?${createQueryString({ query: searchQuery, page: 1, sort: query.sort ? query.sort : '-relevance' })}`)}
+          onSearchQuerySubmit={searchQuery => history.push(toSearch({ query: searchQuery, page: 1, sort: query.sort ? query.sort : '-relevance' }))}
         />
 
         <SelectSearchSortOrder
           sort={query.sort}
-          onSortOrderChange={sort => history.push(`/search?${createQueryString({ query: query.query, sort, page: 1 })}`)}
+          onSortOrderChange={sort => history.push(toSearch({ query: query.query, sort, page: 1 }))}
         />
 
         <SearchResultList query={query} locale={locale} results={results} />

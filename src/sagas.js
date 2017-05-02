@@ -10,8 +10,8 @@ import searchSagas from './containers/SearchPage/searchSagas';
 import sessionSagas from './containers/App/sessionSagas';
 
 export default function* root() {
-  yield all(
+  yield all([
     ...searchSagas.map(s => spawn(s)),
     ...sessionSagas.map(s => spawn(s)),
-  );
+  ]);
 }

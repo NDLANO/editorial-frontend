@@ -17,7 +17,6 @@ import ErrorReporter from 'ndla-error-reporter';
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
 import routes from './routes';
-import rootSaga from './sagas';
 
 const initialState = window.initialState;
 const localeString = initialState.locale;
@@ -29,8 +28,6 @@ const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 const store = configureStore(
   initialState,
 );
-
-store.runSaga(rootSaga);
 
 const { logglyApiKey, logEnvironment: environment, componentName } = window.config;
 window.errorReporter = ErrorReporter.getInstance({ store, logglyApiKey, environment, componentName });

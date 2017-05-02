@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { spawn } from 'redux-saga-effects';
+import { spawn, all } from 'redux-saga/effects';
 import searchSagas from './containers/SearchPage/searchSagas';
 import sessionSagas from './containers/App/sessionSagas';
 
 export default function* root() {
-  yield [
+  yield all(
     ...searchSagas.map(s => spawn(s)),
     ...sessionSagas.map(s => spawn(s)),
-  ];
+  );
 }

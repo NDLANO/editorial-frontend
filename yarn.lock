@@ -5185,13 +5185,9 @@ redux-mock-store@^1.2.2:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.2.3.tgz#1b3ad299da91cb41ba30d68e3b6f024475fb9e1b"
 
-redux-saga-effects@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/redux-saga-effects/-/redux-saga-effects-1.1.0.tgz#fba610e988eb8bef7a6e58008d9ec54943870a5f"
-
-redux-saga-test-plan@^2.2.1:
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/redux-saga-test-plan/-/redux-saga-test-plan-2.4.3.tgz#3a65833b3c19f8bfa95c9231bb0ba53ea968402a"
+redux-saga-test-plan@^2.4.4:
+  version "2.4.4"
+  resolved "https://registry.yarnpkg.com/redux-saga-test-plan/-/redux-saga-test-plan-2.4.4.tgz#91a620e42580b3a92b0f55fa2e0785900f1f2924"
   dependencies:
     core-js "^2.4.1"
     fsm-iterator "^1.1.0"
@@ -5200,9 +5196,9 @@ redux-saga-test-plan@^2.2.1:
     object-assign "^4.1.0"
     util-inspect "^0.1.8"
 
-redux-saga@^0.14.3:
-  version "0.14.8"
-  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.14.8.tgz#ad01afabe02ec41a17df54e2e09aa236b30a7732"
+redux-saga@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.15.0.tgz#14c4aae5bfece7266d6b16e9050556a102fc6d38"
 
 redux@3.6.0:
   version "3.6.0"

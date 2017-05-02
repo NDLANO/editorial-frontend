@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { OneColumn } from 'ndla-ui';
 
 import { actions, getArticle } from './articleDucks';
+import { updateArticle } from './articleApi';
 import { getLocale } from '../Locale/localeSelectors';
 import TopicArticleForm from './components/TopicArticleForm';
 import { ArticleShape } from '../../shapes';
@@ -21,6 +22,12 @@ class TopicArticlePage extends Component {
     const { match: { params }, fetchArticle } = this.props;
     const { articleId } = params;
     fetchArticle(articleId);
+    this.updateArticle = this.updateArticle.bind(this);
+  }
+
+  updateArticle(article) {
+    const { token } = this.props;
+    updateArticle(article, token);
   }
 
   render() {
@@ -31,7 +38,7 @@ class TopicArticlePage extends Component {
         <TopicArticleForm
           locale={locale}
           article={article}
-          onUpdate={() => {}}
+          onUpdate={this.updateArticle}
         />
 
       </OneColumn>
@@ -47,6 +54,7 @@ TopicArticlePage.propTypes = {
   }).isRequired,
   fetchArticle: PropTypes.func.isRequired,
   article: ArticleShape,
+  token: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
 };
 
@@ -55,6 +63,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, props) => ({
+  token: state.accessToken,
   article: getArticle(props.match.params.articleId)(state),
   locale: getLocale(state),
 });

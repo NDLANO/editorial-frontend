@@ -19,6 +19,7 @@ class TopicArticleForm extends Component {
       title: '',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,8 +34,12 @@ class TopicArticleForm extends Component {
   }
 
   handleSubmit(evt) {
+    const { article } = this.props;
     evt.preventDefault();
-    this.props.onUpdate();
+    this.props.onUpdate({
+      ...article,
+      title: [...article.title, { title: this.state.title, language: 'nb' }],
+    });
   }
 
   render() {

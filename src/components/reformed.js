@@ -38,9 +38,6 @@ const makeWrapper = (WrappedComponent) => {
       return model;
     }
 
-    // This, of course, does not handle all possible inputs. In such cases,
-    // you should just use `setProperty` or `setModel`. Or, better yet,
-    // extend `reformed` to supply the bindings that match your needs.
     bindToChangeEvent(e) {
       const { name, type, value } = e.target;
 

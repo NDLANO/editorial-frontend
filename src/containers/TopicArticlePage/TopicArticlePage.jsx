@@ -12,7 +12,7 @@ import { OneColumn } from 'ndla-ui';
 
 import { actions, getArticle } from './articleDucks';
 import { getLocale } from '../Locale/localeSelectors';
-import TopicArticleFormReformed from './components/TopicArticleFormReformed';
+import TopicArticleForm from './components/TopicArticleForm';
 import { ArticleShape } from '../../shapes';
 
 class TopicArticlePage extends Component {
@@ -37,8 +37,12 @@ class TopicArticlePage extends Component {
 
     return (
       <OneColumn cssModifier="narrow">
-        <TopicArticleFormReformed
-          initialModel={{ id: article.id, title: article.title || '' }}
+        <TopicArticleForm
+          initialModel={{
+            id: article.id,
+            title: article.title || '',
+            introduction: article.introduction || '',
+          }}
           locale={locale}
           article={article}
           onUpdate={this.updateArticle}

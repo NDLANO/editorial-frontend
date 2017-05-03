@@ -1,6 +1,5 @@
 const getComponentName = component => (
-  component.displayName ||
-  component.name
+  component.displayName || component.name
 );
 
 export default getComponentName;

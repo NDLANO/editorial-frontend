@@ -31,7 +31,8 @@ const phrases = {
   topicArticleForm: {
     save: 'Save',
     labels: {
-      title: 'Save',
+      title: 'Title',
+      introduction: 'Introduction',
     },
   },
   searchPage: {

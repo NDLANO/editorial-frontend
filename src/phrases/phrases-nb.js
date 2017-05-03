@@ -32,6 +32,7 @@ const phrases = {
     save: 'Lagre',
     labels: {
       title: 'Tittel',
+      introduction: 'Ingress',
     },
   },
   searchPage: {

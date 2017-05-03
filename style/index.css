@@ -8,3 +8,11 @@
 
 @import './vars.css';
 @import '../node_modules/ndla-ui/lib/style.css';
+
+.topic-article-form {
+  min-width: 640px;
+}
+
+.form-control {
+  width: 100%;
+}

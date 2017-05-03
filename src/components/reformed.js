@@ -2,12 +2,13 @@ import React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import getComponentName from './getComponentName';
 
-const makeWrapper = middleware => (WrappedComponent) => {
+const makeWrapper = (WrappedComponent) => {
   class FormWrapper extends React.Component {
 
     constructor(props, ctx) {
       super(props, ctx);
       this.state = {
+        submitted: false,
         model: props.initialModel || {},
         fields: {},
       };
@@ -15,17 +16,26 @@ const makeWrapper = middleware => (WrappedComponent) => {
       this.setProperty = this.setProperty.bind(this);
       this.bindToChangeEvent = this.bindToChangeEvent.bind(this);
       this.bindInput = this.bindInput.bind(this);
+      this.setSubmitted = this.setSubmitted.bind(this);
     }
 
-    setModel(model, prop) {
-      this.setState({ model, fields: { ...this.state.fields, [prop]: { isDirty: true } } });
+    setModel(model) {
+      this.setState({ model });
       return model;
     }
 
+    setSubmitted(submitted) {
+      this.setState({ submitted });
+    }
+
     setProperty(prop, value) {
-      return this.setModel({ ...this.state.model,
+      const model = { ...this.state.model,
         [prop]: value,
-      }, prop);
+      };
+      const fields = { ...this.state.fields, [prop]: { isDirty: true } };
+
+      this.setState({ model, fields });
+      return model;
     }
 
     // This, of course, does not handle all possible inputs. In such cases,
@@ -60,15 +70,13 @@ const makeWrapper = middleware => (WrappedComponent) => {
         bindToChangeEvent: this.bindToChangeEvent,
         model: this.state.model,
         fields: this.state.fields,
+        submitted: this.state.submitted,
         setProperty: this.setProperty,
+        setSubmitted: this.setSubmitted,
         setModel: this.setModel,
       };
-      // SIDE EFFECT-ABLE. Just for developer convenience and expirementation.
-      const finalProps = typeof middleware === 'function'
-        ? middleware(nextProps)
-        : nextProps;
 
-      return React.createElement(WrappedComponent, finalProps);
+      return React.createElement(WrappedComponent, nextProps);
     }
   }
 

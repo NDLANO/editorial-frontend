@@ -37,8 +37,8 @@ class TopicArticleForm extends Component {
     const { article } = this.props;
     evt.preventDefault();
     this.props.onUpdate({
-      ...article,
-      title: [...article.title, { title: this.state.title, language: 'nb' }],
+      id: article.id,
+      title: [{ title: this.state.title, language: 'nb' }],
     });
   }
 

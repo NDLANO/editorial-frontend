@@ -16,8 +16,10 @@ import formatDate from '../../util/formatDate';
 
 export const fetchArticle = createAction('FETCH_ARTICLE');
 export const setArticle = createAction('SET_ARTICLE');
+export const updateArticle = createAction('UPDATE_ARTICLE');
 
 export const actions = {
+  updateArticle,
   fetchArticle,
   setArticle,
 };

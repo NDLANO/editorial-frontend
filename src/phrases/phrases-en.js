@@ -33,6 +33,10 @@ const phrases = {
     labels: {
       title: 'Title',
       introduction: 'Introduction',
+      metaDescription: 'Meta description',
+    },
+    description: {
+      metaDescription: 'The description will be viewable in search.',
     },
   },
   form: {

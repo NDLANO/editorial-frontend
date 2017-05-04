@@ -115,24 +115,29 @@ class TopicArticleForm extends Component {
 
   render() {
     const { t, bindInput, schema, submitted } = this.props;
+    const commonFieldProps = { bindInput, schema, submitted };
     return (
       <form onSubmit={this.handleSubmit} className="topic-article-form">
         <div style={{ marginTop: '3rem' }}>
           <FieldText
             label={t('topicArticleForm.labels.title')}
             name="title"
-            bindInput={bindInput}
-            schema={schema}
-            submitted={submitted}
+            {...commonFieldProps}
           />
           <FieldTextArea
             label={t('topicArticleForm.labels.introduction')}
             name="introduction"
-            bindInput={bindInput}
             maxLength={300}
             getMaxLengthRemaingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
-            schema={schema}
-            submitted={submitted}
+            {...commonFieldProps}
+          />
+          <br />
+          <FieldTextArea
+            label={t('topicArticleForm.labels.metaDescription')}
+            name="metaDescription"
+            maxLength={150}
+            getMaxLengthRemaingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
+            {...commonFieldProps}
           />
         </div>
         <Button submit outline>{t('topicArticleForm.save')}</Button>
@@ -164,6 +169,9 @@ export default compose(
       required: true,
     },
     introduction: {
+      required: true,
+    },
+    metaDescription: {
       required: true,
     },
   }),

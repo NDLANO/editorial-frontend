@@ -33,6 +33,10 @@ const phrases = {
     labels: {
       title: 'Tittel',
       introduction: 'Ingress',
+      metaDescription: 'Metabeskrivelse',
+    },
+    description: {
+      metaDescription: 'Beskrivelsen blir synlig i søk.',
     },
   },
   form: {

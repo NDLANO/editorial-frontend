@@ -42,6 +42,7 @@ class TopicArticlePage extends Component {
             id: article.id,
             title: article.title || '',
             introduction: article.introduction || '',
+            metaDescription: article.metaDescription || '',
           }}
           locale={locale}
           article={article}

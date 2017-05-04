@@ -13,6 +13,7 @@ import messages from './containers/Messages/messagesReducer';
 import search from './containers/SearchPage/searchReducer';
 import articles from './containers/TopicArticlePage/articleDucks';
 import accessToken from './containers/App/sessionReducer';
+import tags from './containers/Tag/tagDucks';
 
 const rootReducers = combineReducers({
   accessToken,
@@ -20,6 +21,7 @@ const rootReducers = combineReducers({
   messages,
   search,
   articles,
+  tags,
 });
 
 export default rootReducers;

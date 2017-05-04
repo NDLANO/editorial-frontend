@@ -7,9 +7,8 @@
  */
 
 import { take, call, put, select } from 'redux-saga/effects';
-
 import * as api from './tagApi';
-import { actions, getAllTags } from './tagDucks';
+import { actions } from './tagDucks';
 import { getAccessToken } from '../App/sessionSelectors';
 
 export function* fetchTags() {
@@ -26,10 +25,10 @@ export function* fetchTags() {
 export function* watchFetchTags() {
   while (true) {
     yield take(actions.fetchTags);
-    const tags = yield select(getAllTags);
-    if (tags.length > 0) {
-      yield call(fetchTags);
-    }
+    // const tags = yield select(getAllTags);
+    // if (tags.length > 0) {
+    yield call(fetchTags);
+    // }
   }
 }
 

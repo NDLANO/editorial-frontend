@@ -35,6 +35,9 @@ const phrases = {
       introduction: 'Ingress',
     },
   },
+  form: {
+    remainingCharacters: 'Max {maxLength, number} tegn og du har {remaining, number} igjen.',
+  },
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
   },

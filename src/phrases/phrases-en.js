@@ -35,6 +35,9 @@ const phrases = {
       introduction: 'Introduction',
     },
   },
+  form: {
+    remainingCharacters: 'Max {maxLength, number} characters and you have {remaining, number} remaining.',
+  },
   searchPage: {
     noHits: 'Your search - {query} - did not match any articles. ',
   },

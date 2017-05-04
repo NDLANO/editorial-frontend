@@ -25,7 +25,7 @@ FieldMessage.propTypes = {
   submitted: PropTypes.bool.isRequired,
 };
 
-const FieldText = ({ bindInput, name, label, submitted, schema }) => (
+const FieldText = ({ bindInput, name, label, submitted, schema, ...rest }) => (
   <div style={{ marginTop: '3rem' }}>
     <label htmlFor={name}>{label}</label>
     <input
@@ -33,6 +33,7 @@ const FieldText = ({ bindInput, name, label, submitted, schema }) => (
       type="text"
       className="form-control"
       {...bindInput(name)}
+      {...rest}
     />
     <div>
       <FieldMessage field={schema.fields[name]} submitted={submitted} />
@@ -49,6 +50,45 @@ FieldText.propTypes = {
     isValid: PropTypes.bool.isRequired,
   }),
   submitted: PropTypes.bool.isRequired,
+};
+
+const ShowRemainingCharacters = ({ value, maxLength, getMaxLengthRemaingLabel }) => (<span>{getMaxLengthRemaingLabel(maxLength, maxLength - value.length)}</span>);
+
+ShowRemainingCharacters.propTypes = {
+  value: PropTypes.string.isRequired,
+  maxLength: PropTypes.number.isRequired,
+  getMaxLengthRemaingLabel: PropTypes.func.isRequired,
+};
+
+
+const FieldTextArea = ({ bindInput, name, label, submitted, schema, maxLength, getMaxLengthRemaingLabel, ...rest }) => (
+  <div style={{ marginTop: '3rem' }}>
+    <label htmlFor={name}>{label}</label>
+    <textarea
+      id={name}
+      className="form-control"
+      maxLength={maxLength}
+      {...bindInput(name)}
+      {...rest}
+    />
+    <div>
+      <FieldMessage field={schema.fields[name]} submitted={submitted} />
+    </div>
+    { getMaxLengthRemaingLabel ? <ShowRemainingCharacters maxLength={maxLength} getMaxLengthRemaingLabel={getMaxLengthRemaingLabel} value={bindInput(name).value} /> : null }
+  </div>
+);
+
+FieldTextArea.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+    isValid: PropTypes.bool.isRequired,
+  }),
+  submitted: PropTypes.bool.isRequired,
+  maxLength: PropTypes.number,
+  getMaxLengthRemaingLabel: PropTypes.func,
 };
 
 class TopicArticleForm extends Component {
@@ -78,8 +118,22 @@ class TopicArticleForm extends Component {
     return (
       <form onSubmit={this.handleSubmit} className="topic-article-form">
         <div style={{ marginTop: '3rem' }}>
-          <FieldText label={t('topicArticleForm.labels.title')} name="title" bindInput={bindInput} schema={schema} submitted={submitted} />
-          <FieldText label={t('topicArticleForm.labels.introduction')} name="introduction" bindInput={bindInput} schema={schema} submitted={submitted} />
+          <FieldText
+            label={t('topicArticleForm.labels.title')}
+            name="title"
+            bindInput={bindInput}
+            schema={schema}
+            submitted={submitted}
+          />
+          <FieldTextArea
+            label={t('topicArticleForm.labels.introduction')}
+            name="introduction"
+            bindInput={bindInput}
+            maxLength={300}
+            getMaxLengthRemaingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
+            schema={schema}
+            submitted={submitted}
+          />
         </div>
         <Button submit outline>{t('topicArticleForm.save')}</Button>
       </form>

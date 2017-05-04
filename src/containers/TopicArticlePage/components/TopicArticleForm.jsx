@@ -13,8 +13,9 @@ import { Button } from 'ndla-ui';
 import { injectT } from '../../../i18n';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
+import TagsInput from './TagsInput';
 
-const FieldMessage = ({ field, submitted }) => (!field.isValid && (field.isDirty || submitted) ? <span>{field.errors[0]}</span> : null);
+const FieldMessage = ({ field, submitted }) => (field && !field.isValid && (field.isDirty || submitted) ? <span>{field.errors[0]}</span> : null);
 
 FieldMessage.propTypes = {
   field: PropTypes.shape({
@@ -47,7 +48,6 @@ FieldText.propTypes = {
   label: PropTypes.string.isRequired,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
-    isValid: PropTypes.bool.isRequired,
   }),
   submitted: PropTypes.bool.isRequired,
 };
@@ -78,17 +78,41 @@ const FieldTextArea = ({ bindInput, name, label, submitted, schema, maxLength, g
   </div>
 );
 
+
 FieldTextArea.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
-    isValid: PropTypes.bool.isRequired,
   }),
   submitted: PropTypes.bool.isRequired,
   maxLength: PropTypes.number,
   getMaxLengthRemaingLabel: PropTypes.func,
+};
+
+const FieldTags = ({ bindInput, name, label, submitted, schema }) => (
+  <div style={{ marginTop: '3rem' }}>
+    <label htmlFor={name}>{label}</label>
+    <TagsInput
+      name={name}
+      {...bindInput(name)}
+    />
+    <div>
+      <FieldMessage field={schema.fields[name]} submitted={submitted} />
+    </div>
+  </div>
+);
+
+
+FieldTags.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  submitted: PropTypes.bool.isRequired,
 };
 
 class TopicArticleForm extends Component {
@@ -110,6 +134,7 @@ class TopicArticleForm extends Component {
       id: model.id,
       title: [{ title: model.title, language: 'nb' }],
       introduction: [{ introduction: model.introduction, language: 'nb' }],
+      tags: [{ tags: model.tags, language: 'nb' }],
     });
   }
 
@@ -137,6 +162,11 @@ class TopicArticleForm extends Component {
             name="metaDescription"
             maxLength={150}
             getMaxLengthRemaingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
+            {...commonFieldProps}
+          />
+          <FieldTags
+            name="tags"
+            label={t('topicArticleForm.labels.tags')}
             {...commonFieldProps}
           />
         </div>

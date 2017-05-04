@@ -8,23 +8,5 @@
 
 @import './vars.css';
 @import '../node_modules/ndla-ui/lib/style.css';
-
-.topic-article-form {
-  min-width: 640px;
-}
-
-.form-control {
-  width: 100%;
-}
-
-input, textarea {
-  width: 100%;
-  max-width: 100%;
-  padding: 0.75rem;
-  margin: 8px -2px 20px;
-  box-sizing: border-box;
-  border-radius: 4px;
-  border: 2px solid #d4d4d4;
-  font-size: 1rem;
-  min-height: 49px;
-}
+@import './form.css';
+@import './multiselect.css';

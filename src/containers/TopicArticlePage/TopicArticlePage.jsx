@@ -33,6 +33,7 @@ class TopicArticlePage extends Component {
 
   render() {
     const { locale, article } = this.props;
+
     if (!article) {
       return null;
     }
@@ -42,13 +43,13 @@ class TopicArticlePage extends Component {
         <TopicArticleForm
           initialModel={{
             id: article.id,
+            revision: article.revision,
             title: article.title || '',
             introduction: article.introduction || '',
             tags: article.tags || [],
             metaDescription: article.metaDescription || '',
           }}
           locale={locale}
-          article={article}
           onUpdate={this.updateArticle}
         />
 

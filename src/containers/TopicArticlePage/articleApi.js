@@ -10,7 +10,6 @@ import fetch from 'isomorphic-fetch';
 import { resolveJsonOrRejectWithError, apiResourceUrl, headerWithAccessToken } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/article-api/v1/articles');
-export const authorizationHeader = token => `Bearer ${token}`;
 
 export const fetchArticle = (id, token) =>
   fetch(`${baseUrl}/${id}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);

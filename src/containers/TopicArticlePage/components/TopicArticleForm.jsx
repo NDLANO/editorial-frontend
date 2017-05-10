@@ -132,6 +132,7 @@ class TopicArticleForm extends Component {
 
     this.props.onUpdate({
       id: model.id,
+      revision: model.revision,
       title: [{ title: model.title, language: 'nb' }],
       introduction: [{ introduction: model.introduction, language: 'nb' }],
       tags: [{ tags: model.tags, language: 'nb' }],

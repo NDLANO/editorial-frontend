@@ -34,7 +34,8 @@ const phrases = {
       title: 'Tittel',
       introduction: 'Ingress',
       metaDescription: 'Metabeskrivelse',
-      tags: 'Tags',
+      tags: 'Nøkkelord',
+      authors: 'Forfattere',
     },
     description: {
       metaDescription: 'Beskrivelsen blir synlig i søk.',

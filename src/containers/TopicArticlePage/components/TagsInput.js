@@ -18,13 +18,7 @@ class TagsInput extends Component {
 
   render() {
     const { open } = this.state;
-    const { name, value, onChange, data } = this.props;
-
-    const messages = {
-      createNew: 'Opprett ny tag',
-      emptyFilter: 'Fant ingen passende tagger',
-      emptyList: 'Det er ingen tagger i denne listen',
-    };
+    const { name, value, messages, onChange, data } = this.props;
 
     const handleChange = (tags) => {
       onChange({ target: { name, value: tags, type: 'tags' } });
@@ -41,7 +35,7 @@ class TagsInput extends Component {
       if (searchTerm.length === 3) {
         this.setState({ open: true, data: data.filter(string => string.indexOf(searchTerm) !== -1) });
       } else if (searchTerm.length < 3) {
-        this.setState({ open: false, data: [] });
+        this.setState({ open: false, data: ['zzzxxx'] }); // Needs one data item to dispay correct message
       }
     };
 
@@ -62,10 +56,19 @@ class TagsInput extends Component {
 }
 
 TagsInput.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.string).isRequired,
+  data: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func.isRequired,
   value: PropTypes.arrayOf(PropTypes.string).isRequired,
+  messages: PropTypes.shape({
+    createNew: PropTypes.string.isRequired,
+    emptyFilter: PropTypes.string.isRequired,
+    emptyList: PropTypes.string.isRequired,
+  }),
   name: PropTypes.string.isRequired,
+};
+
+TagsInput.defaultProps = {
+  data: [],
 };
 
 export default TagsInput;

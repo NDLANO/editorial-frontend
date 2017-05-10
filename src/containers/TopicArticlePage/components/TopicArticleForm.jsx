@@ -113,7 +113,7 @@ FieldTags.propTypes = {
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),
-  data: PropTypes.arrayOf(PropTypes.string).isRequired,
+  data: PropTypes.arrayOf(PropTypes.string),
   submitted: PropTypes.bool.isRequired,
 };
 
@@ -138,6 +138,10 @@ class TopicArticleForm extends Component {
       title: [{ title: model.title, language: 'nb' }],
       introduction: [{ introduction: model.introduction, language: 'nb' }],
       tags: [{ tags: model.tags, language: 'nb' }],
+      copyright: {
+        ...model.copyright,
+        authors: model.authors.map(name => ({ type: 'Forfatter', name })),
+      },
     });
   }
 
@@ -171,6 +175,21 @@ class TopicArticleForm extends Component {
             name="tags"
             data={tags}
             label={t('topicArticleForm.labels.tags')}
+            messages={{
+              createNew: 'Opprett nytt nøkkelord',
+              emptyFilter: 'Fant ingen passende nøkkelord',
+              emptyList: 'Det er ingen tagger i denne listen',
+            }}
+            {...commonFieldProps}
+          />
+          <FieldTags
+            name="authors"
+            label={t('topicArticleForm.labels.authors')}
+            messages={{
+              createNew: 'Opprett ny bidragsyter',
+              emptyFilter: '',
+              emptyList: '',
+            }}
             {...commonFieldProps}
           />
         </div>

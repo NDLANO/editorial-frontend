@@ -35,6 +35,7 @@ const phrases = {
       introduction: 'Introduction',
       metaDescription: 'Meta description',
       tags: 'Tags',
+      authors: 'Authors',
     },
     description: {
       metaDescription: 'The description will be viewable in search.',

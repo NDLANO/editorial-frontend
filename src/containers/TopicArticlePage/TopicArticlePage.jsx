@@ -47,6 +47,8 @@ class TopicArticlePage extends Component {
             title: article.title || '',
             introduction: article.introduction || '',
             tags: article.tags || [],
+            authors: article.copyright.authors.map(author => author.name) || [],
+            copyright: article.copyright,
             metaDescription: article.metaDescription || '',
           }}
           tags={tags}

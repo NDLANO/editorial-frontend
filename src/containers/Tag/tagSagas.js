@@ -7,7 +7,7 @@
  */
 
 import { take, call, put, select } from 'redux-saga/effects';
-import * as api from './tagApi';
+import * as api from '../TopicArticlePage/articleApi';
 import { actions } from './tagDucks';
 import { getAccessToken } from '../App/sessionSelectors';
 

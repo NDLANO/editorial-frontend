@@ -10,40 +10,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Multiselect from 'react-widgets/lib/Multiselect';
 
-const tagOptions = [
-  'access control',
-  'activity',
-  'addiction',
-  'adjective',
-  'advertisement',
-  'advertising',
-  'advertising photography',
-  'afghanistan',
-  'africa',
-  'al-andalus',
-  'alarm system',
-  'an enemy of the people',
-  'antenna',
-  'aquaculture',
-  'aquafarming',
-  'asia',
-  'attention demanding work',
-  'audio production',
-  'audio recording',
-  'author',
-  'automated',
-  'availability',
-];
-
 class TagsInput extends Component {
   constructor() {
     super();
-    this.state = { open: false };
+    this.state = { open: false, data: [] };
   }
 
   render() {
     const { open } = this.state;
-    const { name, value, onChange } = this.props;
+    const { name, value, onChange, data } = this.props;
 
     const messages = {
       createNew: 'Opprett ny tag',
@@ -63,26 +38,31 @@ class TagsInput extends Component {
     };
 
     const handleSearch = (searchTerm) => {
-      this.setState({ open: searchTerm.length > 2 });
+      if (searchTerm.length === 3) {
+        this.setState({ open: true, data: data.filter(string => string.indexOf(searchTerm) !== -1) });
+      } else if (searchTerm.length < 3) {
+        this.setState({ open: false, data: [] });
+      }
     };
 
     return (
       <Multiselect
-        data={tagOptions}
         filter="contains"
         open={open}
         messages={messages}
         value={value}
         onChange={handleChange}
         onCreate={handleAdd}
-        onToggle={() => { }}
+        onToggle={() => {}}
         onSearch={handleSearch}
+        data={this.state.data}
       />
     );
   }
 }
 
 TagsInput.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.arrayOf(PropTypes.string).isRequired,
   name: PropTypes.string.isRequired,

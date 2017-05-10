@@ -91,12 +91,13 @@ FieldTextArea.propTypes = {
   getMaxLengthRemaingLabel: PropTypes.func,
 };
 
-const FieldTags = ({ bindInput, name, label, submitted, schema }) => (
+const FieldTags = ({ bindInput, name, label, submitted, schema, ...rest }) => (
   <div style={{ marginTop: '3rem' }}>
     <label htmlFor={name}>{label}</label>
     <TagsInput
       name={name}
       {...bindInput(name)}
+      {...rest}
     />
     <div>
       <FieldMessage field={schema.fields[name]} submitted={submitted} />
@@ -112,6 +113,7 @@ FieldTags.propTypes = {
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),
+  data: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
 };
 
@@ -140,7 +142,7 @@ class TopicArticleForm extends Component {
   }
 
   render() {
-    const { t, bindInput, schema, submitted } = this.props;
+    const { t, bindInput, schema, submitted, tags } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
     return (
       <form onSubmit={this.handleSubmit} className="topic-article-form">
@@ -167,6 +169,7 @@ class TopicArticleForm extends Component {
           />
           <FieldTags
             name="tags"
+            data={tags}
             label={t('topicArticleForm.labels.tags')}
             {...commonFieldProps}
           />
@@ -186,6 +189,7 @@ TopicArticleForm.propTypes = {
     fields: PropTypes.object.isRequired,
     isValid: PropTypes.bool.isRequired,
   }),
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
   setSubmitted: PropTypes.func.isRequired,

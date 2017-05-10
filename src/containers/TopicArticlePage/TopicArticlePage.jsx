@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { OneColumn } from 'ndla-ui';
 
 import { actions, getArticle } from './articleDucks';
-import { actions as tagActions } from '../Tag/tagDucks';
+import { actions as tagActions, getAllTags } from '../Tag/tagDucks';
 import { getLocale } from '../Locale/localeSelectors';
 import TopicArticleForm from './components/TopicArticleForm';
 import { ArticleShape } from '../../shapes';
@@ -32,7 +32,7 @@ class TopicArticlePage extends Component {
   }
 
   render() {
-    const { locale, article } = this.props;
+    const { locale, article, tags } = this.props;
 
     if (!article) {
       return null;
@@ -49,6 +49,7 @@ class TopicArticlePage extends Component {
             tags: article.tags || [],
             metaDescription: article.metaDescription || '',
           }}
+          tags={tags}
           locale={locale}
           onUpdate={this.updateArticle}
         />
@@ -64,6 +65,7 @@ TopicArticlePage.propTypes = {
       articleId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchArticle: PropTypes.func.isRequired,
   fetchTags: PropTypes.func.isRequired,
   updateArticle: PropTypes.func.isRequired,
@@ -82,7 +84,7 @@ const mapStateToProps = (state, props) => ({
   token: state.accessToken,
   article: getArticle(props.match.params.articleId)(state),
   locale: getLocale(state),
-  // tags: getAllTags(state),
+  tags: getAllTags(state),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopicArticlePage);

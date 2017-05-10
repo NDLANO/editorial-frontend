@@ -19,6 +19,18 @@ const makeWrapper = (WrappedComponent) => {
       this.setSubmitted = this.setSubmitted.bind(this);
     }
 
+    componentWillReceiveProps(nextProps) {
+      const currentModel = this.props.initialModel;
+      const nextModel = nextProps.initialModel;
+
+      if (currentModel !== nextModel) {
+        const hasChanges = Object.keys(nextModel).find(key => nextModel[key] !== currentModel[key]);
+        if (hasChanges) {
+          this.setModel(nextModel);
+        }
+      }
+    }
+
     setModel(model) {
       this.setState({ model });
       return model;

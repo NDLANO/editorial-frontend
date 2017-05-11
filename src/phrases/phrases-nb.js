@@ -36,6 +36,7 @@ const phrases = {
       metaDescription: 'Metabeskrivelse',
       tags: 'Nøkkelord',
       authors: 'Forfattere',
+      content: 'Innhold',
     },
     fields: {
       tags: {

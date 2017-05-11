@@ -9,6 +9,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { OneColumn } from 'ndla-ui';
+import { EditorState } from 'draft-js';
 
 import { actions, getArticle } from './articleDucks';
 import { actions as tagActions, getAllTags } from '../Tag/tagDucks';
@@ -46,6 +47,7 @@ class TopicArticlePage extends Component {
             revision: article.revision,
             title: article.title || '',
             introduction: article.introduction || '',
+            content: EditorState.createEmpty(),
             tags: article.tags || [],
             authors: article.copyright.authors.map(author => author.name) || [],
             copyright: article.copyright,

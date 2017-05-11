@@ -13,7 +13,7 @@ import { Button } from 'ndla-ui';
 import { injectT } from '../../../i18n';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
-import { TextField, TextAreaField, MultiSelectField } from '../../../components/Fields';
+import { TextField, TextAreaField, MultiSelectField, RichTextField } from '../../../components/Fields';
 
 class TopicArticleForm extends Component {
   constructor(props) {
@@ -67,6 +67,11 @@ class TopicArticleForm extends Component {
             name="metaDescription"
             maxLength={150}
             getMaxLengthRemaingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
+            {...commonFieldProps}
+          />
+          <RichTextField
+            label={t('topicArticleForm.labels.content')}
+            name="content"
             {...commonFieldProps}
           />
           <MultiSelectField

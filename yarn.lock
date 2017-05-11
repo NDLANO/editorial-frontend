@@ -1607,6 +1607,10 @@ deconstruct-number-format@0.0.1, deconstruct-number-format@~0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/deconstruct-number-format/-/deconstruct-number-format-0.0.1.tgz#fbb5d7dcd45bd2b2fa0e579ed91b59c7e29b386a"
 
+decorate-component-with-props@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/decorate-component-with-props/-/decorate-component-with-props-1.0.2.tgz#5764d3cf6a58685a522201bad31bff0cb531e5fe"
+
 deep-eql@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/deep-eql/-/deep-eql-0.1.3.tgz#ef558acab8de25206cd713906d74e56930eb69f2"
@@ -1744,6 +1748,114 @@ domutils@1.5.1, domutils@^1.5.1:
   dependencies:
     dom-serializer "0"
     domelementtype "1"
+
+draft-js-alignment-plugin@2.0.0-beta11:
+  version "2.0.0-beta11"
+  resolved "https://registry.yarnpkg.com/draft-js-alignment-plugin/-/draft-js-alignment-plugin-2.0.0-beta11.tgz#e13068485eab6f3708c688c01d44ea662ed621c2"
+  dependencies:
+    decorate-component-with-props "^1.0.2"
+    draft-js ">=0.9.1"
+    draft-js-buttons "^2.0.0-beta11"
+    find-with-regex "^1.0.2"
+    immutable "~3.7.4"
+    prop-types "^15.5.8"
+    union-class-names "^1.0.0"
+
+draft-js-buttons@2.0.0-beta11, draft-js-buttons@^2.0.0-beta11:
+  version "2.0.0-beta11"
+  resolved "https://registry.yarnpkg.com/draft-js-buttons/-/draft-js-buttons-2.0.0-beta11.tgz#33e60ab2ceb81420e9c3195a411189bbeab3c98c"
+  dependencies:
+    draft-js ">=0.9.1"
+    union-class-names "^1.0.0"
+
+draft-js-focus-plugin@2.0.0-beta11:
+  version "2.0.0-beta11"
+  resolved "https://registry.yarnpkg.com/draft-js-focus-plugin/-/draft-js-focus-plugin-2.0.0-beta11.tgz#d31a3caf56b54e17d72d0cfed929cdba557041bb"
+  dependencies:
+    decorate-component-with-props "^1.0.2"
+    draft-js ">=0.9.1"
+    find-with-regex "^1.0.2"
+    immutable "~3.7.4"
+    prop-types "^15.5.8"
+    union-class-names "^1.0.0"
+
+draft-js-image-plugin@2.0.0-beta11:
+  version "2.0.0-beta11"
+  resolved "https://registry.yarnpkg.com/draft-js-image-plugin/-/draft-js-image-plugin-2.0.0-beta11.tgz#40a342fcf38eb4cbf0e7a09a5002c40d69980f5a"
+  dependencies:
+    decorate-component-with-props "^1.0.2"
+    draft-js ">=0.9.1"
+    find-with-regex "^1.0.2"
+    immutable "~3.7.4"
+    prop-types "^15.5.8"
+    union-class-names "^1.0.0"
+
+draft-js-inline-toolbar-plugin@2.0.0-beta11:
+  version "2.0.0-beta11"
+  resolved "https://registry.yarnpkg.com/draft-js-inline-toolbar-plugin/-/draft-js-inline-toolbar-plugin-2.0.0-beta11.tgz#9a664eeb333ba30f366cb8e15b1510e4b805d663"
+  dependencies:
+    decorate-component-with-props "^1.0.2"
+    draft-js ">=0.9.1"
+    draft-js-buttons "^2.0.0-beta11"
+    find-with-regex "^1.0.2"
+    immutable "~3.7.4"
+    prop-types "^15.5.8"
+    union-class-names "^1.0.0"
+
+draft-js-plugins-editor@2.0.0-beta11:
+  version "2.0.0-beta11"
+  resolved "https://registry.yarnpkg.com/draft-js-plugins-editor/-/draft-js-plugins-editor-2.0.0-beta11.tgz#4b67d159a8c8b394c1c974c8d99aa294c6b3ee72"
+  dependencies:
+    decorate-component-with-props "^1.0.2"
+    draft-js ">=0.9.1"
+    find-with-regex "^1.0.2"
+    immutable "~3.7.4"
+    prop-types "^15.5.8"
+    union-class-names "^1.0.0"
+
+draft-js-side-toolbar-plugin@2.0.0-beta11:
+  version "2.0.0-beta11"
+  resolved "https://registry.yarnpkg.com/draft-js-side-toolbar-plugin/-/draft-js-side-toolbar-plugin-2.0.0-beta11.tgz#8bb6d2e371aade0ea573cec5228d62c1588222db"
+  dependencies:
+    decorate-component-with-props "^1.0.2"
+    draft-js ">=0.8.1"
+    draft-js-buttons "^2.0.0-beta11"
+    find-with-regex "^1.0.2"
+    immutable "~3.7.4"
+    prop-types "^15.5.8"
+    union-class-names "^1.0.0"
+
+draft-js-undo-plugin@2.0.0-beta11:
+  version "2.0.0-beta11"
+  resolved "https://registry.yarnpkg.com/draft-js-undo-plugin/-/draft-js-undo-plugin-2.0.0-beta11.tgz#d9a328139ce73b64204e7792eead7d92bdf5bbbd"
+  dependencies:
+    decorate-component-with-props "^1.0.2"
+    draft-js ">=0.9.1"
+    immutable "~3.7.4"
+    prop-types "^15.5.8"
+    union-class-names "^1.0.0"
+
+draft-js@0.10.0, draft-js@>=0.8.1, draft-js@>=0.9.1:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.0.tgz#29d16191012b932fdab28a9b37ec1538f421abf6"
+  dependencies:
+    fbjs "^0.8.7"
+    immutable "~3.7.4"
+    object-assign "^4.1.0"
+
+draft-js@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.1.tgz#6f1219d8095729691429ca6fd7a58d2a8be5cb67"
+  dependencies:
+    fbjs "^0.8.7"
+    immutable "~3.7.4"
+    object-assign "^4.1.0"
+
+draftjs-utils@0.7.5:
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/draftjs-utils/-/draftjs-utils-0.7.5.tgz#982b671bf9b8296c89b05683e63257817d30de55"
+  dependencies:
+    immutable "^3.x.x"
 
 duplexer@^0.1.1, duplexer@~0.1.1:
   version "0.1.1"
@@ -2250,7 +2362,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fbjs@^0.8.4, fbjs@^0.8.9:
+fbjs@^0.8.4, fbjs@^0.8.7, fbjs@^0.8.9:
   version "0.8.12"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.12.tgz#10b5d92f76d45575fd63a217d4ea02bea2f8ed04"
   dependencies:
@@ -2339,6 +2451,10 @@ find-up@^2.1.0:
   resolved "https://registry.yarnpkg.com/find-up/-/find-up-2.1.0.tgz#45d1b7e506c717ddd482775a2b77920a3c0c57a7"
   dependencies:
     locate-path "^2.0.0"
+
+find-with-regex@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/find-with-regex/-/find-with-regex-1.0.2.tgz#d3b36286539f14c527e31f194159c6d251651a45"
 
 flat-cache@^1.2.1:
   version "1.2.2"
@@ -2743,6 +2859,10 @@ ignore-by-default@^1.0.0:
 ignore@^3.2.0:
   version "3.2.7"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.2.7.tgz#4810ca5f1d8eca5595213a34b94f2eb4ed926bbd"
+
+immutable@^3.x.x, immutable@~3.7.4:
+  version "3.7.6"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.7.6.tgz#13b4d3cb12befa15482a26fe1b2ebae640071e4b"
 
 imurmurhash@^0.1.4:
   version "0.1.4"
@@ -3857,6 +3977,23 @@ ndla-article-scripts@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.0.3.tgz#e12827f66a0af970215f373736cf351ff312d0a2"
 
+ndla-editor@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/ndla-editor/-/ndla-editor-0.1.0.tgz#385ae34473cbc64166fccdb6c2d076b7fcb357a7"
+  dependencies:
+    decorate-component-with-props "^1.0.2"
+    draft-js "0.10.0"
+    draft-js-alignment-plugin "2.0.0-beta11"
+    draft-js-buttons "2.0.0-beta11"
+    draft-js-focus-plugin "2.0.0-beta11"
+    draft-js-image-plugin "2.0.0-beta11"
+    draft-js-inline-toolbar-plugin "2.0.0-beta11"
+    draft-js-plugins-editor "2.0.0-beta11"
+    draft-js-side-toolbar-plugin "2.0.0-beta11"
+    draft-js-undo-plugin "2.0.0-beta11"
+    draftjs-utils "0.7.5"
+    hoist-non-react-statics "^1.2.0"
+
 ndla-error-reporter@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.1.2.tgz#2bed950333d87e59c85417ec0ea38686f257c87d"
@@ -3869,17 +4006,17 @@ ndla-licenses@^0.0.7:
   dependencies:
     defined "1.0.0"
 
-ndla-ui@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.3.2.tgz#f95d62789e9a9fff72c3491e570a8917ba0d716f"
+ndla-ui@0.4.0-0:
+  version "0.4.0-0"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.4.0-0.tgz#f00f496b991ea78f7b61f220464df24665040014"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"
     react-prop-types "0.4.0"
 
-ndla-util@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.0.tgz#27284ecfda92dabeddb8bd0bdb034ef5697bf3c3"
+ndla-util@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.1.tgz#ae5f5fb6b087c586ae85c4e90b110f5ab26d37df"
 
 negotiator@0.6.1:
   version "0.6.1"
@@ -5967,6 +6104,10 @@ uncontrollable@^4.0.0:
 undefsafe@0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/undefsafe/-/undefsafe-0.0.3.tgz#ecca3a03e56b9af17385baac812ac83b994a962f"
+
+union-class-names@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/union-class-names/-/union-class-names-1.0.0.tgz#9259608adacc39094a2b0cfe16c78e6200617847"
 
 uniq@^1.0.1:
   version "1.0.1"

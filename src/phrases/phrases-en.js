@@ -36,6 +36,7 @@ const phrases = {
       metaDescription: 'Meta description',
       tags: 'Tags',
       authors: 'Authors',
+      content: 'Content',
     },
     fields: {
       tags: {

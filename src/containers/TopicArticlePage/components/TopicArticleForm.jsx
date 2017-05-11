@@ -176,9 +176,9 @@ class TopicArticleForm extends Component {
             data={tags}
             label={t('topicArticleForm.labels.tags')}
             messages={{
-              createNew: 'Opprett nytt nøkkelord',
-              emptyFilter: 'Fant ingen passende nøkkelord',
-              emptyList: 'Det er ingen tagger i denne listen',
+              createNew: t('topicArticleForm.fields.tags.createNew'),
+              emptyFilter: t('topicArticleForm.fields.tags.emptyFilter'),
+              emptyList: t('topicArticleForm.fields.tags.emptyList'),
             }}
             {...commonFieldProps}
           />
@@ -186,9 +186,9 @@ class TopicArticleForm extends Component {
             name="authors"
             label={t('topicArticleForm.labels.authors')}
             messages={{
-              createNew: 'Opprett ny bidragsyter',
-              emptyFilter: '',
-              emptyList: '',
+              createNew: t('topicArticleForm.fields.authors.createNew'),
+              emptyFilter: t('topicArticleForm.fields.authors.emptyFilter'),
+              emptyList: t('topicArticleForm.fields.authors.emptyList'),
             }}
             {...commonFieldProps}
           />

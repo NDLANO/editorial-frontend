@@ -35,7 +35,7 @@ class TagsInput extends Component {
       if (searchTerm.length === 3) {
         this.setState({ open: true, data: data.filter(string => string.indexOf(searchTerm) !== -1) });
       } else if (searchTerm.length < 3) {
-        this.setState({ open: false, data: ['zzzxxx'] }); // Needs one data item to dispay correct message
+        this.setState({ open: false, data: ['¥†¥∂¥¥'] }); // Needs one data item to dispay correct messages
       }
     };
 

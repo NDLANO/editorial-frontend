@@ -37,6 +37,18 @@ const phrases = {
       tags: 'Tags',
       authors: 'Authors',
     },
+    fields: {
+      tags: {
+        createNew: 'Create new tag',
+        emptyList: 'No tags available',
+        emptyFilter: 'No matching tags found',
+      },
+      authors: {
+        createNew: 'Add new author',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+    },
     description: {
       metaDescription: 'The description will be viewable in search.',
     },

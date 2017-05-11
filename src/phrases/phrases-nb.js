@@ -37,6 +37,18 @@ const phrases = {
       tags: 'Nøkkelord',
       authors: 'Forfattere',
     },
+    fields: {
+      tags: {
+        createNew: 'Opprett nytt nøkkelord',
+        emptyFilter: 'Fant ingen passende nøkkelord',
+        emptyList: 'Det er ingen tagger i denne listen',
+      },
+      authors: {
+        createNew: 'Opprett ny bidragsyter',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+    },
     description: {
       metaDescription: 'Beskrivelsen blir synlig i søk.',
     },

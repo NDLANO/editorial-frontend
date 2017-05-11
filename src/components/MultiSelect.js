@@ -8,9 +8,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Multiselect from 'react-widgets/lib/Multiselect';
+import RWMultiselect from 'react-widgets/lib/Multiselect';
 
-class TagsInput extends Component {
+class MultiSelect extends Component {
   constructor() {
     super();
     this.state = { open: false, data: [] };
@@ -40,7 +40,7 @@ class TagsInput extends Component {
     };
 
     return (
-      <Multiselect
+      <RWMultiselect
         filter="contains"
         open={open}
         messages={messages}
@@ -55,7 +55,7 @@ class TagsInput extends Component {
   }
 }
 
-TagsInput.propTypes = {
+MultiSelect.propTypes = {
   data: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func.isRequired,
   value: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -67,8 +67,8 @@ TagsInput.propTypes = {
   name: PropTypes.string.isRequired,
 };
 
-TagsInput.defaultProps = {
+MultiSelect.defaultProps = {
   data: [],
 };
 
-export default TagsInput;
+export default MultiSelect;

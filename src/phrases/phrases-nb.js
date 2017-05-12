@@ -39,6 +39,10 @@ const phrases = {
       content: 'Innhold',
     },
     fields: {
+      content: {
+        label: 'Innhold',
+        placeholder: 'Innhold',
+      },
       tags: {
         createNew: 'Opprett nytt nøkkelord',
         emptyFilter: 'Fant ingen passende nøkkelord',

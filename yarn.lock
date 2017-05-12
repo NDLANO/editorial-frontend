@@ -3976,9 +3976,9 @@ ndla-article-scripts@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.0.3.tgz#e12827f66a0af970215f373736cf351ff312d0a2"
 
-ndla-editor@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/ndla-editor/-/ndla-editor-0.1.0.tgz#385ae34473cbc64166fccdb6c2d076b7fcb357a7"
+ndla-editor@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ndla-editor/-/ndla-editor-0.1.1.tgz#91f42858dd2c1d33c16e99370596d64c1d3f633d"
   dependencies:
     decorate-component-with-props "^1.0.2"
     draft-js "0.10.0"
@@ -4005,9 +4005,9 @@ ndla-licenses@^0.0.7:
   dependencies:
     defined "1.0.0"
 
-ndla-ui@0.4.0-0:
-  version "0.4.0-0"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.4.0-0.tgz#f00f496b991ea78f7b61f220464df24665040014"
+ndla-ui@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.4.0.tgz#6cd8425b9c5accd8bcac9c8ebb8b07e5af51408e"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"

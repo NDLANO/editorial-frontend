@@ -36,9 +36,12 @@ const phrases = {
       metaDescription: 'Meta description',
       tags: 'Tags',
       authors: 'Authors',
-      content: 'Content',
     },
     fields: {
+      content: {
+        label: 'Content',
+        placeholder: 'Write here...',
+      },
       tags: {
         createNew: 'Create new tag',
         emptyList: 'No tags available',

@@ -64,7 +64,8 @@ class TopicArticleForm extends Component {
             {...commonFieldProps}
           />
           <RichTextField
-            label={t('topicArticleForm.labels.content')}
+            label={t('topicArticleForm.fields.content.label')}
+            placeholder={t('topicArticleForm.fields.content.placeholder')}
             name="content"
             {...commonFieldProps}
           />

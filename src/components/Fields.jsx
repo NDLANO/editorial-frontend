@@ -91,7 +91,6 @@ export const RichTextField = ({ bindInput, name, label, submitted, schema, ...re
   <div style={{ marginTop: '3rem' }}>
     <label htmlFor={name}>{label}</label>
     <RichTextEditor
-      className="alt"
       {...bindInput(name)}
       onChange={value => bindInput(name).onChange({ target: { name, value, type: 'EditorState' } })}
       {...rest}

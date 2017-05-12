@@ -17,6 +17,7 @@ import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import { createQueryString } from './util/queryHelpers';
 import { LogoutSession } from './containers/App/LogoutSession';
 import { LoginProviders } from './containers/App/LoginProviders';
+import { PrivateRoute } from './containers/PrivateRoute/PrivateRoute';
 
 export function toSearch(queryString) {
   if (queryString) {
@@ -47,7 +48,7 @@ export default (
       <Route path="/" exact component={WelcomePage} />
       <Route path="/login" component={LoginProviders} />
       <Route path="/logout" component={LogoutSession} />
-      <Route path="/search" component={SearchPage} />
+      <PrivateRoute path="/search" component={SearchPage} />
       <Route path="/topic-article/:articleId" component={TopicArticlePage} />
       <Route component={NotFoundPage} />
     </Switch>

@@ -15,8 +15,11 @@ import { getAccessToken } from './sessionSelectors';
 
 export function* fetchAccessToken() {
   try {
+    console.log('fetchAccessToken');
     const accessToken = yield call(api.fetchAccessToken);
+    console.log('accessToken', accessToken);
     yield put(actions.setAccessToken(accessToken.access_token));
+    console.log('done yield put');
   } catch (error) {
     // TODO: handle error
     console.error(error); //eslint-disable-line

@@ -32,13 +32,15 @@ const auth = new auth0.WebAuth({
 });
 
 export function parseHash(hash) {
+  console.log('sessionActions parseHash', hash);
+
   return (dispatch) => {
     auth.parseHash({ hash, _idTokenVerification: false }, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         dispatch(setIdToken(authResult.idToken));
         dispatch(setAuthenticated(true));
         dispatch(setUserData(decodeIdToken(authResult.idToken)));
-        dispatch(routerActions.replace('/minside'));
+        dispatch(routerActions.replace('/search'));
       }
     });
   };

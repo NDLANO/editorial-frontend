@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 
-const PrivateRoute = ({ authenticated, component: Component, ...rest }) => {
+export const PrivateRoute = ({ authenticated, component: Component, ...rest }) => {
   console.log('Private route authenticated', authenticated);
   return (<Route
     {...rest} render={props => (

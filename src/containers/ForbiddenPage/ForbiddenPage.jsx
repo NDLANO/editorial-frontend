@@ -1,15 +1,17 @@
-/**
- * Copyright (c) 2016-present, NDLA.
+/*
+ * Part of NDLA editorial-frontend.
+ * Copyright (C) 2017 -present, NDLA
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
-
+import { OneColumn } from 'ndla-ui';
 import React from 'react';
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
-import { OneColumn } from 'ndla-ui';
+import { injectT } from '../../i18n';
+
 
 const Status = ({ code, children }) => (
   <Route
@@ -27,14 +29,17 @@ Status.propTypes = {
   code: PropTypes.number.isRequired,
 };
 
-export default function NotFound() {
-  return (
-    <Status code={404}>
-      <OneColumn cssModifier="narrow">
-        <div>
-          <h2>404 - The page cannot be found</h2>
-        </div>
-      </OneColumn>
-    </Status>
-  );
-}
+const Forbidden = ({ t }) =>
+  <Status code={403}>
+    <OneColumn cssModifier="narrow">
+      <div>
+        <h2>403 - {t('forbiddenPage.no')}</h2>
+        <p>{t('forbiddenPage.info')}</p>
+      </div>
+    </OneColumn>
+  </Status>
+;
+
+export default compose(
+  injectT,
+)(Forbidden);

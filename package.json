@@ -14,7 +14,17 @@
     "lint": "eslint --ext .js --ext .jsx src server"
   },
   "jest": {
+    "moduleDirectories": [
+      "src",
+      "server",
+      "node_modules"
+    ],
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
+    "globals": {
+      "__CLIENT__": false,
+      "__SERVER__": true,
+      "__DISABLE_SSR__": true
+    },
     "setupFiles": [
       "./src/__tests__/_initTestEnv.js"
     ]
@@ -49,7 +59,7 @@
     "postcss-reporter": "^3.0.0",
     "react-addons-test-utils": "^15.4.2",
     "redux-mock-store": "^1.2.2",
-    "redux-saga-test-plan": "^2.4.4",
+    "redux-saga-test-plan": "^3.0.2",
     "rimraf": "^2.6.1",
     "sinon": "^2.1.0",
     "style-loader": "^0.16.1",
@@ -60,6 +70,7 @@
     "webpack-manifest-plugin": "^1.1.0"
   },
   "dependencies": {
+    "auth0-js": "^8.5.0",
     "babel-polyfill": "^6.23.0",
     "babel-register": "^6.24.0",
     "btoa": "^1.1.2",
@@ -87,9 +98,10 @@
     "react-intl": "^2.2.3",
     "react-motion": "^0.5.0",
     "react-prop-types": "^0.4.0",
-    "react-redux": "^5.0.3",
+    "react-redux": "^5.0.4",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
+    "react-router-redux": "5.0.0-alpha.6",
     "redux": "3.6.0",
     "redux-actions": "^2.0.2",
     "redux-saga": "^0.15.0",

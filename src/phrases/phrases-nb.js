@@ -20,6 +20,13 @@ const phrases = {
     chooseSubject: 'Velg fag',
     search: 'Søk',
   },
+  loginFailure: {
+    errorMessage: 'Sorry. Login failed.',
+    loginLink: 'Log in',
+  },
+  loginProviders: {
+    description: 'Log in with',
+  },
   searchForm: {
     placeholder: 'Søk etter artikler',
     btn: 'Søk',

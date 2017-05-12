@@ -20,6 +20,7 @@ import { getLocale } from '../Locale/localeSelectors';
 import { getMessages } from '../Messages/messagesSelectors';
 import Alerts from '../Messages/Alerts';
 import { injectT } from '../../i18n';
+import { checkAccessTokenOnEnter } from '../App/sessionActions';
 
 export class App extends React.Component {
   getChildContext() {
@@ -28,7 +29,15 @@ export class App extends React.Component {
     };
   }
 
+  componentWillMount() {
+    console.log('#100 App will mount checkit, current dispatch', this.props.dispatch);
+    // this.props.dispatch(checkAccessTokenOnEnter());
+    console.log('#110 App will mount checkit, after token dispatch', this.props.dispatch);
+  }
+
+
   render() {
+    console.log('App.jsx ... ');
     const { dispatch, children, messages, t, match: { params } } = this.props;
     return (
       <PageContainer>

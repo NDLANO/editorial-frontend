@@ -50,4 +50,7 @@ module.exports = Object.assign({
   editorialFrontendClientId: process.env.EDITORIAL_FRONTEND_CLIENT_ID || 'swagger-client',
   editorialFrontendClientSecret: process.env.EDITORIAL_FRONTEND_CLIENT_SECRET || 'swagger-public-client-secret',
   editorialFrontendDomain: editorialFrontendDomain(),
+  auth0ClientID: process.env.AUTH0_CLIENT_ID || '',
+  auth0Domain: process.env.AUTH0_DOMAIN || '',
+  disableSSR: process.env.DISABLE_SSR || false,
 }, environment);

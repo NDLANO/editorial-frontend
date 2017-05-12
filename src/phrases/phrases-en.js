@@ -20,6 +20,13 @@ const phrases = {
     chooseSubject: 'Choose Subject',
     search: 'Search',
   },
+  loginFailure: {
+    errorMessage: 'Beklager. Innlogging feilet.',
+    loginLink: 'Logg inn',
+  },
+  loginProviders: {
+    description: 'Logg inn i NDLA med',
+  },
   searchForm: {
     placeholder: 'Search articles',
     btn: 'Search',

@@ -41,3 +41,5 @@ export const getAllTags = createSelector(
     return defined(language.tags, []);
   },
 );
+
+export const getHasFetched = state => state.tags.hasFetched;

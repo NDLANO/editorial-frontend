@@ -6,12 +6,13 @@
  *
  */
 
-import { getAllTags } from '../tagDucks';
+import { getAllTags, getHasFetched } from '../tagDucks';
 import mockTags from './mockTags';
 
 const state = {
   locale: 'zh',
   tags: {
+    hasFetched: true,
     all: mockTags,
   },
 };
@@ -29,4 +30,8 @@ test('tagSelector getAllTags with newnorwegian locale', () => {
 test('tagSelector getAllTags with unknown locale', () => {
   const updatedState = { ...state, locale: 'nbsdjf' };
   expect(getAllTags(updatedState).length).toBe(0);
+});
+
+test('tagSelector getHasFetched', () => {
+  expect(getHasFetched(state)).toBe(true);
 });

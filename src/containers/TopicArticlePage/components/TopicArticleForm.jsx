@@ -14,6 +14,7 @@ import { injectT } from '../../../i18n';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { TextField, TextAreaField, MultiSelectField, RichTextField } from '../../../components/Fields';
+import { convertEditorStateToHTML } from '../topicArticleContentConverter';
 
 class TopicArticleForm extends Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class TopicArticleForm extends Component {
       title: [{ title: model.title, language: 'nb' }],
       introduction: [{ introduction: model.introduction, language: 'nb' }],
       tags: [{ tags: model.tags, language: 'nb' }],
+      content: [{ content: convertEditorStateToHTML(model.content), language: 'nb' }],
       copyright: {
         ...model.copyright,
         authors: model.authors.map(name => ({ type: 'Forfatter', name })),
@@ -61,17 +63,17 @@ class TopicArticleForm extends Component {
             getMaxLengthRemaingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
             {...commonFieldProps}
           />
-          <br />
+          <RichTextField
+            label={t('topicArticleForm.labels.content')}
+            name="content"
+            {...commonFieldProps}
+          />
+          <hr />
           <TextAreaField
             label={t('topicArticleForm.labels.metaDescription')}
             name="metaDescription"
             maxLength={150}
             getMaxLengthRemaingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
-            {...commonFieldProps}
-          />
-          <RichTextField
-            label={t('topicArticleForm.labels.content')}
-            name="content"
             {...commonFieldProps}
           />
           <MultiSelectField

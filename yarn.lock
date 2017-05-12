@@ -1749,6 +1749,13 @@ domutils@1.5.1, domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
+draft-convert@^1.4.6:
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/draft-convert/-/draft-convert-1.4.6.tgz#0f8308399db4388bea9f7b99f420c28c787f03ee"
+  dependencies:
+    immutable "~3.7.4"
+    invariant "^2.2.1"
+
 draft-js-alignment-plugin@2.0.0-beta11:
   version "2.0.0-beta11"
   resolved "https://registry.yarnpkg.com/draft-js-alignment-plugin/-/draft-js-alignment-plugin-2.0.0-beta11.tgz#e13068485eab6f3708c688c01d44ea662ed621c2"
@@ -1838,14 +1845,6 @@ draft-js-undo-plugin@2.0.0-beta11:
 draft-js@0.10.0, draft-js@>=0.8.1, draft-js@>=0.9.1:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.0.tgz#29d16191012b932fdab28a9b37ec1538f421abf6"
-  dependencies:
-    fbjs "^0.8.7"
-    immutable "~3.7.4"
-    object-assign "^4.1.0"
-
-draft-js@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.1.tgz#6f1219d8095729691429ca6fd7a58d2a8be5cb67"
   dependencies:
     fbjs "^0.8.7"
     immutable "~3.7.4"

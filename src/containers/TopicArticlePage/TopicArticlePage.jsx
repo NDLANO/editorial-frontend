@@ -16,6 +16,7 @@ import { actions as tagActions, getAllTags } from '../Tag/tagDucks';
 import { getLocale } from '../Locale/localeSelectors';
 import TopicArticleForm from './components/TopicArticleForm';
 import { ArticleShape } from '../../shapes';
+import { convertHTMLToContentState } from './topicArticleContentConverter';
 
 class TopicArticlePage extends Component {
 
@@ -47,7 +48,7 @@ class TopicArticlePage extends Component {
             revision: article.revision,
             title: article.title || '',
             introduction: article.introduction || '',
-            content: EditorState.createEmpty(),
+            content: article.content ? convertHTMLToContentState(article.content) : EditorState.createEmpty(),
             tags: article.tags || [],
             authors: article.copyright.authors.map(author => author.name) || [],
             copyright: article.copyright,

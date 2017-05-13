@@ -10,7 +10,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import getComponentName from './getComponentName';
+import { getComponentName } from 'ndla-ui';
 
 const getValidationErrors = (schema, model, fields) => Object.keys(schema).reduce((acc, key) => {
   const errors = [];

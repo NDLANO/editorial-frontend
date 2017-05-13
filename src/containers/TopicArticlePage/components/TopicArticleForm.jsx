@@ -132,6 +132,9 @@ export default compose(
     introduction: {
       required: true,
     },
+    content: {
+      required: true,
+    },
     metaDescription: {
       required: true,
     },

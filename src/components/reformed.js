@@ -9,7 +9,7 @@
 
 import React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { getComponentName } from 'ndla-ui';
+import { getComponentName } from 'ndla-util';
 
 const makeWrapper = (WrappedComponent) => {
   class FormWrapper extends React.Component {

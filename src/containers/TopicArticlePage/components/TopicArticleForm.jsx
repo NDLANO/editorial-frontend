@@ -25,7 +25,7 @@ class TopicArticleForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const { model, schema, setSubmitted } = this.props;
+    const { model, schema, locale: language, setSubmitted } = this.props;
     if (!schema.isValid) {
       setSubmitted(true);
       return;
@@ -34,10 +34,10 @@ class TopicArticleForm extends Component {
     this.props.onUpdate({
       id: model.id,
       revision: model.revision,
-      title: [{ title: model.title, language: 'nb' }],
-      introduction: [{ introduction: model.introduction, language: 'nb' }],
-      tags: [{ tags: model.tags, language: 'nb' }],
-      content: [{ content: convertEditorStateToHTML(model.content), language: 'nb' }],
+      title: [{ title: model.title, language }],
+      introduction: [{ introduction: model.introduction, language }],
+      tags: [{ tags: model.tags, language }],
+      content: [{ content: convertEditorStateToHTML(model.content), language }],
       copyright: {
         ...model.copyright,
         authors: model.authors.map(name => ({ type: 'Forfatter', name })),
@@ -117,6 +117,7 @@ TopicArticleForm.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
 };

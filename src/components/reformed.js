@@ -1,3 +1,12 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * A modified version of https://github.com/davezuko/react-reformed (MIT license)
+ */
+
 import React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import getComponentName from './getComponentName';

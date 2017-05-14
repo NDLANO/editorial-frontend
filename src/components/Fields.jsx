@@ -11,13 +11,15 @@ import PropTypes from 'prop-types';
 import { RichTextEditor } from 'ndla-editor';
 import MultiSelect from './MultiSelect';
 
-const FieldMessage = ({ field, submitted }) => (field && !field.isValid && (field.isDirty || submitted) ? <span>{field.errors[0]}</span> : null);
+const FieldMessage = ({ field, submitted, label }) =>
+  (field && !field.isValid && (field.isDirty || submitted) ? <span>{field.errors[0](label)}</span> : null);
 
 FieldMessage.propTypes = {
+  label: PropTypes.string.isRequired,
   field: PropTypes.shape({
     isDirty: PropTypes.bool.isRequired,
     isValid: PropTypes.bool.isRequired,
-    errors: PropTypes.array,
+    errors: PropTypes.arrayOf(PropTypes.func),
   }),
   submitted: PropTypes.bool.isRequired,
 };
@@ -33,7 +35,7 @@ export const TextField = ({ bindInput, name, label, submitted, schema, ...rest }
       {...rest}
     />
     <div>
-      <FieldMessage field={schema.fields[name]} submitted={submitted} />
+      <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
     </div>
   </div>
 );
@@ -68,7 +70,7 @@ export const TextAreaField = ({ bindInput, name, label, submitted, schema, maxLe
       {...rest}
     />
     <div>
-      <FieldMessage field={schema.fields[name]} submitted={submitted} />
+      <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
     </div>
     { getMaxLengthRemaingLabel ? <ShowRemainingCharacters maxLength={maxLength} getMaxLengthRemaingLabel={getMaxLengthRemaingLabel} value={bindInput(name).value} /> : null }
   </div>
@@ -96,7 +98,7 @@ export const RichTextField = ({ bindInput, name, label, submitted, schema, ...re
       {...rest}
     />
     <div>
-      <FieldMessage field={schema.fields[name]} submitted={submitted} />
+      <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
     </div>
   </div>
 );
@@ -120,7 +122,7 @@ export const MultiSelectField = ({ bindInput, name, label, submitted, schema, ..
       {...rest}
     />
     <div>
-      <FieldMessage field={schema.fields[name]} submitted={submitted} />
+      <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
     </div>
   </div>
 );

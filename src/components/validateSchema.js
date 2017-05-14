@@ -13,22 +13,22 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import { getComponentName } from 'ndla-util';
 import { isEmpty, minLength, maxLength } from './validators';
 
-const getValidationErrors = (schema, model, fields) => Object.keys(schema).reduce((acc, key) => {
+const getValidationErrors = (schema, model, fields, t) => Object.keys(schema).reduce((acc, key) => {
   const errors = [];
   const value = model[key];
   const rules = schema[key];
   const isDirty = fields[key] ? fields[key].isDirty : false;
 
   if (rules.required && isEmpty(value)) {
-    errors.push(`${key} is required`);
+    errors.push(label => t('validation.isRequired', { label }));
   }
 
   if (rules.minLength && minLength(value, rules.minLength)) {
-    errors.push(`${key} must have at least ${rules.minLength} characters`);
+    errors.push(label => t('validation.minLength', { label, minLength: rules.minLength }));
   }
 
   if (rules.maxLength && maxLength(value, rules.maxLength)) {
-    errors.push(`${key} must not have more than ${rules.maxLength} characters`);
+    errors.push(label => t('validation.maxLength', { label, maxLength: rules.maxLength }));
   }
 
   if (rules.test) {

@@ -61,6 +61,11 @@ const phrases = {
   form: {
     remainingCharacters: 'Max {maxLength, number} tegn og du har {remaining, number} igjen.',
   },
+  validation: {
+    isRequired: '{label} er påkrevd.',
+    maxLength: '{label} kan ikke ha mer enn {maxLength, number} tegn',
+    minLength: '{label} må ha minst {minLength, number} tegn',
+  },
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
   },

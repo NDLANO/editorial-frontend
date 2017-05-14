@@ -60,6 +60,11 @@ const phrases = {
   form: {
     remainingCharacters: 'Max {maxLength, number} characters and you have {remaining, number} remaining.',
   },
+  validation: {
+    isRequired: '{label} is required',
+    maxLength: '{label} must not have more than {maxLength, number} characters',
+    minLength: '{length} must have at least {minLength, number} characters',
+  },
   searchPage: {
     noHits: 'Your search - {query} - did not match any articles. ',
   },

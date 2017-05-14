@@ -34,8 +34,6 @@ const phrases = {
       title: 'Title',
       introduction: 'Introduction',
       metaDescription: 'Meta description',
-      tags: 'Tags',
-      authors: 'Authors',
     },
     fields: {
       content: {
@@ -43,11 +41,13 @@ const phrases = {
         placeholder: 'Write here...',
       },
       tags: {
+        label: 'Tags',
         createNew: 'Create new tag',
         emptyList: 'No tags available',
         emptyFilter: 'No matching tags found',
       },
       authors: {
+        label: 'Author',
         createNew: 'Add new author',
         emptyFilter: ' ',
         emptyList: ' ',
@@ -61,9 +61,10 @@ const phrases = {
     remainingCharacters: 'Max {maxLength, number} characters and you have {remaining, number} remaining.',
   },
   validation: {
-    isRequired: '{label} is required',
-    maxLength: '{label} must not have more than {maxLength, number} characters',
-    minLength: '{length} must have at least {minLength, number} characters',
+    isRequired: '{label} is required.',
+    maxLength: '{label} must not have more than {maxLength, number} characters.',
+    minLength: '{length} must have at least {minLength, number} characters.',
+    minItems: '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
   },
   searchPage: {
     noHits: 'Your search - {query} - did not match any articles. ',

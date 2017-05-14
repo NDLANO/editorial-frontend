@@ -80,7 +80,7 @@ class TopicArticleForm extends Component {
           <MultiSelectField
             name="tags"
             data={tags}
-            label={t('topicArticleForm.labels.tags')}
+            label={t('topicArticleForm.fields.tags.label')}
             messages={{
               createNew: t('topicArticleForm.fields.tags.createNew'),
               emptyFilter: t('topicArticleForm.fields.tags.emptyFilter'),
@@ -90,7 +90,7 @@ class TopicArticleForm extends Component {
           />
           <MultiSelectField
             name="authors"
-            label={t('topicArticleForm.labels.authors')}
+            label={t('topicArticleForm.fields.authors.label')}
             messages={{
               createNew: t('topicArticleForm.fields.authors.createNew'),
               emptyFilter: t('topicArticleForm.fields.authors.emptyFilter'),
@@ -137,6 +137,12 @@ export default compose(
     },
     metaDescription: {
       required: true,
+    },
+    tags: {
+      minItems: 3,
+    },
+    authors: {
+      minItems: 1,
     },
   }),
 )(TopicArticleForm);

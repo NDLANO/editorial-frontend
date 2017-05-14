@@ -24,3 +24,5 @@ export const isEmpty = (value) => {
 
 export const minLength = (value, length) => !value || getLength(value) < length;
 export const maxLength = (value, length) => !value || getLength(value) > length;
+
+export const minItems = (value, number) => !value || (Array.isArray(value) && value.length < number);

@@ -34,8 +34,6 @@ const phrases = {
       title: 'Tittel',
       introduction: 'Ingress',
       metaDescription: 'Metabeskrivelse',
-      tags: 'Nøkkelord',
-      authors: 'Forfattere',
       content: 'Innhold',
     },
     fields: {
@@ -44,11 +42,13 @@ const phrases = {
         placeholder: 'Innhold',
       },
       tags: {
+        label: 'Nøkkelord',
         createNew: 'Opprett nytt nøkkelord',
         emptyFilter: 'Fant ingen passende nøkkelord',
         emptyList: 'Det er ingen tagger i denne listen',
       },
       authors: {
+        label: 'Forfatter',
         createNew: 'Opprett ny bidragsyter',
         emptyFilter: ' ',
         emptyList: ' ',
@@ -63,8 +63,9 @@ const phrases = {
   },
   validation: {
     isRequired: '{label} er påkrevd.',
-    maxLength: '{label} kan ikke ha mer enn {maxLength, number} tegn',
-    minLength: '{label} må ha minst {minLength, number} tegn',
+    maxLength: '{label} kan ikke ha mer enn {maxLength, number} tegn.',
+    minLength: '{label} må ha minst {minLength, number} tegn.',
+    minItems: '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
   },
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',

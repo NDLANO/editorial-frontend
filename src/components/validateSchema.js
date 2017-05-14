@@ -11,7 +11,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { getComponentName } from 'ndla-util';
-import { isEmpty, minLength, maxLength } from './validators';
+import { isEmpty, minLength, minItems, maxLength } from './validators';
 
 const getValidationErrors = (schema, model, fields, t) => Object.keys(schema).reduce((acc, key) => {
   const errors = [];
@@ -29,6 +29,10 @@ const getValidationErrors = (schema, model, fields, t) => Object.keys(schema).re
 
   if (rules.maxLength && maxLength(value, rules.maxLength)) {
     errors.push(label => t('validation.maxLength', { label, maxLength: rules.maxLength }));
+  }
+
+  if (rules.minItems && minItems(value, rules.minItems)) {
+    errors.push(label => t('validation.minItems', { label, labelLowerCase: label.toLowerCase(), minItems: rules.minItems }));
   }
 
   if (rules.test) {

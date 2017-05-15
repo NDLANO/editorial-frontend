@@ -14,6 +14,7 @@ import search from './containers/SearchPage/searchReducer';
 import articles from './containers/TopicArticlePage/articleDucks';
 import accessToken from './containers/App/sessionReducer';
 import tags from './containers/Tag/tagDucks';
+import imageSearch from './containers/ImageSearch/imageReducer';
 
 const rootReducers = combineReducers({
   accessToken,
@@ -22,6 +23,7 @@ const rootReducers = combineReducers({
   search,
   articles,
   tags,
+  imageSearch,
 });
 
 export default rootReducers;

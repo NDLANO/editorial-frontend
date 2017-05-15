@@ -13,6 +13,8 @@ import { resolveJsonOrRejectWithError, apiResourceUrl, headerWithAccessToken } f
 
 const baseUrl = apiResourceUrl('/image-api/v1/images');
 
-export const search = (query = { 'page-size': 16, page: 1 }, token) =>
-  fetch(`${baseUrl}/?${queryString.stringify(query)}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
+export const search = (query = { 'page-size': 16, page: 1 }, locale, token) =>
+  fetch(`${baseUrl}/?${queryString.stringify(query)}&language=${locale}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
 
+// export const search = (queryString, locale, token) =>
+//   fetch(`${baseUrl}/${queryString}&language=${locale}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);

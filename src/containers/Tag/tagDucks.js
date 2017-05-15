@@ -37,7 +37,9 @@ const getTagsFromState = state => state.tags.all;
 export const getAllTags = createSelector(
   [getTagsFromState, getLocale],
   (tags, locale) => {
-    const language = defined(tags.all.find(tag => tag.language === locale), {});
+    const language = defined(tags.find(tag => tag.language === locale), {});
     return defined(language.tags, []);
   },
 );
+
+export const getHasFetched = state => state.tags.hasFetched;

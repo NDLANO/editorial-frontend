@@ -8,48 +8,17 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Multiselect from 'react-widgets/lib/Multiselect';
+import RWMultiselect from 'react-widgets/lib/Multiselect';
 
-const tagOptions = [
-  'access control',
-  'activity',
-  'addiction',
-  'adjective',
-  'advertisement',
-  'advertising',
-  'advertising photography',
-  'afghanistan',
-  'africa',
-  'al-andalus',
-  'alarm system',
-  'an enemy of the people',
-  'antenna',
-  'aquaculture',
-  'aquafarming',
-  'asia',
-  'attention demanding work',
-  'audio production',
-  'audio recording',
-  'author',
-  'automated',
-  'availability',
-];
-
-class TagsInput extends Component {
+class MultiSelect extends Component {
   constructor() {
     super();
-    this.state = { open: false };
+    this.state = { open: false, data: [] };
   }
 
   render() {
     const { open } = this.state;
-    const { name, value, onChange } = this.props;
-
-    const messages = {
-      createNew: 'Opprett ny tag',
-      emptyFilter: 'Fant ingen passende tagger',
-      emptyList: 'Det er ingen tagger i denne listen',
-    };
+    const { name, value, messages, onChange, data } = this.props;
 
     const handleChange = (tags) => {
       onChange({ target: { name, value: tags, type: 'tags' } });
@@ -63,29 +32,43 @@ class TagsInput extends Component {
     };
 
     const handleSearch = (searchTerm) => {
-      this.setState({ open: searchTerm.length > 2 });
+      if (searchTerm.length === 3) {
+        this.setState({ open: true, data: data.filter(string => string.indexOf(searchTerm) !== -1) });
+      } else if (searchTerm.length < 3) {
+        this.setState({ open: false, data: ['¥†¥∂¥¥'] }); // Needs one data item to dispay correct messages
+      }
     };
 
     return (
-      <Multiselect
-        data={tagOptions}
+      <RWMultiselect
         filter="contains"
         open={open}
         messages={messages}
         value={value}
         onChange={handleChange}
         onCreate={handleAdd}
-        onToggle={() => { }}
+        onToggle={() => {}}
         onSearch={handleSearch}
+        data={this.state.data}
       />
     );
   }
 }
 
-TagsInput.propTypes = {
+MultiSelect.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func.isRequired,
   value: PropTypes.arrayOf(PropTypes.string).isRequired,
+  messages: PropTypes.shape({
+    createNew: PropTypes.string.isRequired,
+    emptyFilter: PropTypes.string.isRequired,
+    emptyList: PropTypes.string.isRequired,
+  }),
   name: PropTypes.string.isRequired,
 };
 
-export default TagsInput;
+MultiSelect.defaultProps = {
+  data: [],
+};
+
+export default MultiSelect;

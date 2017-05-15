@@ -12,6 +12,8 @@ const phrases = {
   },
   welcomePage: {
     hello: 'Hello world',
+    subjects: 'Subjects',
+    search: 'Search',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -28,13 +30,36 @@ const phrases = {
       title: 'Alphabetical',
     },
   },
+  subjectsPage: {
+    subjects: 'Subjects',
+  },
+  subjectPage: {
+    topics: 'Topics',
+  },
   topicArticleForm: {
     save: 'Save',
     labels: {
       title: 'Title',
       introduction: 'Introduction',
       metaDescription: 'Meta description',
-      tags: 'Tags',
+    },
+    fields: {
+      content: {
+        label: 'Content',
+        placeholder: 'Write here...',
+      },
+      tags: {
+        label: 'Tags',
+        createNew: 'Create new tag',
+        emptyList: 'No tags available',
+        emptyFilter: 'No matching tags found',
+      },
+      authors: {
+        label: 'Author',
+        createNew: 'Add new author',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
     },
     description: {
       metaDescription: 'The description will be viewable in search.',
@@ -42,6 +67,12 @@ const phrases = {
   },
   form: {
     remainingCharacters: 'Max {maxLength, number} characters and you have {remaining, number} remaining.',
+  },
+  validation: {
+    isRequired: '{label} is required.',
+    maxLength: '{label} must not have more than {maxLength, number} characters.',
+    minLength: '{length} must have at least {minLength, number} characters.',
+    minItems: '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
   },
   searchPage: {
     noHits: 'Your search - {query} - did not match any articles. ',

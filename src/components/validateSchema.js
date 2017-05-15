@@ -1,30 +1,40 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * A modified version of https://github.com/davezuko/react-reformed (MIT license)
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import getComponentName from './getComponentName';
+import { getComponentName } from 'ndla-util';
+import { isEmpty, minLength, minItems, maxLength } from './validators';
 
-const getValidationErrors = (schema, model, fields) => Object.keys(schema).reduce((acc, key) => {
+const getValidationErrors = (schema, model, fields, t) => Object.keys(schema).reduce((acc, key) => {
   const errors = [];
   const value = model[key];
   const rules = schema[key];
   const isDirty = fields[key] ? fields[key].isDirty : false;
 
-  if (rules.required && !value) {
-    errors.push(`${key} is required`);
+  if (rules.required && isEmpty(value)) {
+    errors.push(label => t('validation.isRequired', { label }));
   }
-  // if (rules.type && typeof value !== rules.type) {
-  //   errors.push(`${key} must be of type ${rules.type}, but got ${typeof value}`);
-  // }
-  if (rules.minLength) {
-    if (!value || value.length < rules.minLength) {
-      errors.push(`${key} must have at least ${rules.minLength} characters`);
-    }
+
+  if (rules.minLength && minLength(value, rules.minLength)) {
+    errors.push(label => t('validation.minLength', { label, minLength: rules.minLength }));
   }
-  if (rules.maxLength) {
-    if (value && value.length > rules.maxLength) {
-      errors.push(`${key} must not have more than ${rules.maxLength} characters`);
-    }
+
+  if (rules.maxLength && maxLength(value, rules.maxLength)) {
+    errors.push(label => t('validation.maxLength', { label, maxLength: rules.maxLength }));
   }
+
+  if (rules.minItems && minItems(value, rules.minItems)) {
+    errors.push(label => t('validation.minItems', { label, labelLowerCase: label.toLowerCase(), minItems: rules.minItems }));
+  }
+
   if (rules.test) {
     let error;
     rules.test(value, (msg) => {

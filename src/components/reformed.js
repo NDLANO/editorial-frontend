@@ -1,6 +1,15 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * A modified version of https://github.com/davezuko/react-reformed (MIT license)
+ */
+
 import React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import getComponentName from './getComponentName';
+import { getComponentName } from 'ndla-util';
 
 const makeWrapper = (WrappedComponent) => {
   class FormWrapper extends React.Component {
@@ -17,6 +26,18 @@ const makeWrapper = (WrappedComponent) => {
       this.bindToChangeEvent = this.bindToChangeEvent.bind(this);
       this.bindInput = this.bindInput.bind(this);
       this.setSubmitted = this.setSubmitted.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+      const currentModel = this.props.initialModel;
+      const nextModel = nextProps.initialModel;
+
+      if (currentModel !== nextModel) {
+        const hasChanges = Object.keys(nextModel).find(key => nextModel[key] !== currentModel[key]);
+        if (hasChanges) {
+          this.setModel(nextModel);
+        }
+      }
     }
 
     setModel(model) {

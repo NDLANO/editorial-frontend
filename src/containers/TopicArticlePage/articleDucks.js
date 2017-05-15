@@ -10,7 +10,7 @@ import { handleActions, createAction } from 'redux-actions';
 
 import { createSelector } from 'reselect';
 import { getLocale } from '../Locale/localeSelectors';
-import { titleI18N, tagsI18N, introductionI18N, metaDescriptionI18N } from '../../util/i18nFieldFinder';
+import { titleI18N, tagsI18N, introductionI18N, metaDescriptionI18N, contentI18N } from '../../util/i18nFieldFinder';
 import formatDate from '../../util/formatDate';
 
 export const fetchArticle = createAction('FETCH_ARTICLE');
@@ -46,6 +46,7 @@ export const getArticle = articleId => createSelector(
       ...article,
       title: titleI18N(article, locale, true),
       introduction: introductionI18N(article, locale, true),
+      content: contentI18N(article, locale, true),
       metaDescription: metaDescriptionI18N(article, locale, true),
       tags: tagsI18N(article, locale, true),
       created: formatDate(article.created, locale),

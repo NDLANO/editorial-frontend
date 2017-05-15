@@ -9,12 +9,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { OneColumn } from 'ndla-ui';
+import { EditorState } from 'draft-js';
 
 import { actions, getArticle } from './articleDucks';
-import { actions as tagActions } from '../Tag/tagDucks';
+import { actions as tagActions, getAllTags } from '../Tag/tagDucks';
 import { getLocale } from '../Locale/localeSelectors';
 import TopicArticleForm from './components/TopicArticleForm';
 import { ArticleShape } from '../../shapes';
+import { convertHTMLToContentState } from './topicArticleContentConverter';
 
 class TopicArticlePage extends Component {
 
@@ -32,7 +34,8 @@ class TopicArticlePage extends Component {
   }
 
   render() {
-    const { locale, article } = this.props;
+    const { locale, article, tags } = this.props;
+
     if (!article) {
       return null;
     }
@@ -42,13 +45,17 @@ class TopicArticlePage extends Component {
         <TopicArticleForm
           initialModel={{
             id: article.id,
+            revision: article.revision,
             title: article.title || '',
             introduction: article.introduction || '',
+            content: article.content ? convertHTMLToContentState(article.content) : EditorState.createEmpty(),
             tags: article.tags || [],
+            authors: article.copyright.authors.map(author => author.name) || [],
+            copyright: article.copyright,
             metaDescription: article.metaDescription || '',
           }}
+          tags={tags}
           locale={locale}
-          article={article}
           onUpdate={this.updateArticle}
         />
 
@@ -63,6 +70,7 @@ TopicArticlePage.propTypes = {
       articleId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchArticle: PropTypes.func.isRequired,
   fetchTags: PropTypes.func.isRequired,
   updateArticle: PropTypes.func.isRequired,
@@ -81,7 +89,7 @@ const mapStateToProps = (state, props) => ({
   token: state.accessToken,
   article: getArticle(props.match.params.articleId)(state),
   locale: getLocale(state),
-  // tags: getAllTags(state),
+  tags: getAllTags(state),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopicArticlePage);

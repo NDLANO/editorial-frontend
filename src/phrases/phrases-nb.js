@@ -12,6 +12,8 @@ const phrases = {
   },
   welcomePage: {
     hello: 'Hello verden',
+    subjects: 'Fag',
+    search: 'Søk',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -30,6 +32,9 @@ const phrases = {
   },
   subjectsPage: {
     subjects: 'Fag',
+  },
+  subjectPage: {
+    topics: 'Emner',
   },
   topicArticleForm: {
     save: 'Lagre',

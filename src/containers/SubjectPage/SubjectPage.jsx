@@ -10,43 +10,53 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { OneColumn } from 'ndla-ui';
-import { Link } from 'react-router-dom';
 import { injectT } from '../../i18n';
-import { fetchSubjects } from '../SubjectPage/subjectApi';
+import { fetchTopics, fetchSubject } from './subjectApi';
 import { getAccessToken } from '../App/sessionSelectors';
 
 
-class SubjectsPage extends Component {
+class SubjectPage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { subjects: [], msg: '' };
+    this.state = { topics: [] };
   }
 
+
   componentWillMount() {
+    this.fetchData(this.props.match.params.subjectId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.match.params.subjectId !== this.props.match.params.subjectId) {
+      this.fetchData(nextProps.match.params.subjectId);
+    }
+  }
+
+
+  fetchData(subjectId) {
     const { token } = this.props;
-    fetchSubjects(token).then((subjects) => {
-      this.setState({ subjects, msg: 'success' });
+
+    fetchSubject(token, subjectId).then(subject => this.setState({ subject }));
+
+    fetchTopics(token, subjectId).then((topics) => {
+      this.setState({ topics });
     }).catch((error) => {
-      this.setState({ msg: 'error' });
       console.error(error); //eslint-disable-line
     });
   }
 
   render() {
     const { t } = this.props;
-    const { subjects, msg } = this.state;
+    const { topics, subject } = this.state;
 
     return (
       <div>
         <OneColumn>
-          <h1>{t('subjectsPage.subjects')} - {msg}</h1>
+          { subject ? <h1>{subject.name}</h1> : null}
+          <h3>{t('subjectPage.topics')}</h3>
           <ul>
-            {subjects.map(subject =>
-              <li key={subject.id}>
-                <Link to={`/subjects/${subject.id}`}>{subject.name}</Link>
-              </li>)
-             }
+            {topics.map(topic => <li key={topic.id}>{topic.name}</li>)}
           </ul>
         </OneColumn>
       </div>
@@ -54,7 +64,12 @@ class SubjectsPage extends Component {
   }
 }
 
-SubjectsPage.propTypes = {
+SubjectPage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      subjectId: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
   token: PropTypes.string.isRequired,
 };
 
@@ -68,4 +83,4 @@ const mapStateToProps = state => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   injectT,
-)(SubjectsPage);
+)(SubjectPage);

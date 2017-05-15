@@ -12,3 +12,7 @@ import { resolveJsonOrRejectWithError, apiResourceUrl, headerWithAccessToken } f
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
 export const fetchSubjects = token => fetch(`${baseUrl}/subjects/`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
+
+export const fetchSubject = (token, subjectId) => fetch(`${baseUrl}/subjects/${subjectId}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
+
+export const fetchTopics = (token, subjectId) => fetch(`${baseUrl}/subjects/${subjectId}/topics/?recursive=true`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);

@@ -12,6 +12,8 @@ const phrases = {
   },
   welcomePage: {
     hello: 'Hello world',
+    subjects: 'Subjects',
+    search: 'Search',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -30,6 +32,9 @@ const phrases = {
   },
   subjectsPage: {
     subjects: 'Subjects',
+  },
+  subjectPage: {
+    topics: 'Topics',
   },
   topicArticleForm: {
     save: 'Save',

@@ -14,6 +14,7 @@ import App from './containers/App/App';
 import SearchPage from './containers/SearchPage/SearchPage';
 import TopicArticlePage from './containers/TopicArticlePage/TopicArticlePage';
 import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
+import SubjectPage from './containers/SubjectPage/SubjectPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import { createQueryString } from './util/queryHelpers';
 
@@ -46,6 +47,7 @@ export default (
       <Route path="/" exact component={WelcomePage} />
       <Route path="/search" component={SearchPage} />
       <Route path="/topic-article/:articleId" component={TopicArticlePage} />
+      <Route path="/subjects/:subjectId" component={SubjectPage} />
       <Route path="/subjects/" component={SubjectsPage} />
       <Route component={NotFoundPage} />
     </Switch>

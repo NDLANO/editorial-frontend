@@ -1,5 +1,17 @@
 :root {
   --font-size--medium: 18px;
+  --gray-1: gray(34);
+  --gray-2: gray(68);
+  --gray-3: gray(92);
+  --gray-4: gray(102);
+  --gray-5: gray(121);
+  --gray-6: gray(136);
+  --gray-7: gray(216);
+  --gray-8: gray(221);
+  --gray-9: gray(230);
+  --gray-10: gray(234);
+  --gray-11: gray(238);
+  --gray-12: gray(248);
 
   /*@custom-media --xlarge-viewport (min-width: 1200px);
   @custom-media --large-viewport (min-width: 800px);

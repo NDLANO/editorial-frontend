@@ -31,8 +31,40 @@ const phrases = {
   topicArticleForm: {
     save: 'Save',
     labels: {
-      title: 'Save',
+      title: 'Title',
+      introduction: 'Introduction',
+      metaDescription: 'Meta description',
     },
+    fields: {
+      content: {
+        label: 'Content',
+        placeholder: 'Write here...',
+      },
+      tags: {
+        label: 'Tags',
+        createNew: 'Create new tag',
+        emptyList: 'No tags available',
+        emptyFilter: 'No matching tags found',
+      },
+      authors: {
+        label: 'Author',
+        createNew: 'Add new author',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+    },
+    description: {
+      metaDescription: 'The description will be viewable in search.',
+    },
+  },
+  form: {
+    remainingCharacters: 'Max {maxLength, number} characters and you have {remaining, number} remaining.',
+  },
+  validation: {
+    isRequired: '{label} is required.',
+    maxLength: '{label} must not have more than {maxLength, number} characters.',
+    minLength: '{length} must have at least {minLength, number} characters.',
+    minItems: '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
   },
   searchPage: {
     noHits: 'Your search - {query} - did not match any articles. ',

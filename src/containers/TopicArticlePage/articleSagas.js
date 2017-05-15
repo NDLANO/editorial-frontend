@@ -6,7 +6,7 @@
  *
  */
 
-import { take, call, put, select } from 'redux-saga/effects';
+import { take, takeEvery, call, put, select } from 'redux-saga/effects';
 import { actions, getArticle } from './articleDucks';
 import * as api from './articleApi';
 import { getAccessToken } from '../App/sessionSelectors';
@@ -32,6 +32,21 @@ export function* watchFetchArticle() {
   }
 }
 
+export function* updateArticle({ payload: article }) {
+  try {
+    const token = yield select(getAccessToken);
+    const updatedArticle = yield call(api.updateArticle, article, token);
+    yield put(actions.setArticle(updatedArticle));
+  } catch (error) {
+    // TODO: handle error
+    console.error(error); //eslint-disable-line
+  }
+}
+export function* watchUpdateArticle() {
+  yield takeEvery(actions.updateArticle, updateArticle);
+}
+
 export default [
   watchFetchArticle,
+  watchUpdateArticle,
 ];

@@ -16,7 +16,7 @@ export const WelcomePage = ({ t }) =>
       <article>
         <section>
           <h1>{t('welcomePage.hello')}</h1>
-          <a href="/search">Let's go searching ...</a>
+          <a href="/search">Go go searching ...</a>
         </section>
       </article>
     </OneColumn>

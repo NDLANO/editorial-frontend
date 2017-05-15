@@ -9,15 +9,25 @@
 import { compose, createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import thunkMiddleware from 'redux-thunk';
+import persistState from 'redux-localstorage';
+import { routerMiddleware } from 'react-router-redux';
 
 
 import rootReducer from './reducers';
 import rootSaga from './sagas';
-
 import { errorReporter } from './middleware';
 
+const slicer = paths =>
+  // custom slicer because default slicer does not store falsy values
+  state => paths.reduce((acc, path) => {
+    // eslint-disable-next-line no-param-reassign
+    acc[path] = state[path];
+    return acc;
+  }, {});
 
-export default function configureStore(initialState) {
+
+export default function configureStore(initialState, history) {
+  const middleware = routerMiddleware(history);
   const sagaMiddleware = createSagaMiddleware();
 
   const createFinalStore = compose(
@@ -25,7 +35,9 @@ export default function configureStore(initialState) {
       thunkMiddleware,
       sagaMiddleware,
       errorReporter,
+      middleware,
     ),
+    __CLIENT__ ? persistState(['authenticated', 'idToken', 'user'], { key: 'ndla:sti', slicer }) : f => f,
     window && window.devToolsExtension ? window.devToolsExtension() : f => f,
   )(createStore);
 

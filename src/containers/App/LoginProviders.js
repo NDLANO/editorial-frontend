@@ -23,8 +23,6 @@ export const LoginProviders = (props) => {
     messageEl = <p>{message}</p>;
   }
 
-
-  console.log('Loginprov...', loginSocialMedia);
   return (
     <OneColumn cssModifier="narrow">
       <Route path={`${match.url}/success`} component={SessionInitializer} />

@@ -6,18 +6,7 @@
  *
  */
 
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-
-import WelcomePage from './containers/WelcomePage/WelcomePage';
-import App from './containers/App/App';
-import SearchPage from './containers/SearchPage/SearchPage';
-import TopicArticlePage from './containers/TopicArticlePage/TopicArticlePage';
-import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import { createQueryString } from './util/queryHelpers';
-import { LogoutSession } from './containers/App/LogoutSession';
-import { LoginProviders } from './containers/App/LoginProviders';
-import { PrivateRoute } from './containers/PrivateRoute/PrivateRoute';
 
 export function toSearch(queryString) {
   if (queryString) {
@@ -31,26 +20,3 @@ export function toTopicArticle(articleId) {
 }
 
 
-class ScrollToTop extends React.Component {
-  componentDidUpdate() {
-    window.scrollTo(0, 0);
-  }
-
-  render() {
-    return null;
-  }
-}
-
-export default (
-  <App>
-    <ScrollToTop />
-    <Switch>
-      <Route path="/" exact component={WelcomePage} />
-      <Route path="/login" component={LoginProviders} />
-      <Route path="/logout" component={LogoutSession} />
-      <PrivateRoute path="/search" component={SearchPage} />
-      <Route path="/topic-article/:articleId" component={TopicArticlePage} />
-      <Route component={NotFoundPage} />
-    </Switch>
-  </App>
-);

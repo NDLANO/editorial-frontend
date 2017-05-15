@@ -9,9 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { PageContainer } from 'ndla-ui';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
 import { MessageShape } from '../../shapes';
 import Masthead from '../Masthead';
@@ -20,7 +20,15 @@ import { getLocale } from '../Locale/localeSelectors';
 import { getMessages } from '../Messages/messagesSelectors';
 import Alerts from '../Messages/Alerts';
 import { injectT } from '../../i18n';
-import { checkAccessTokenOnEnter } from '../App/sessionActions';
+import LogoutSession from '../App/LogoutSession';
+import LoginProviders from '../App/LoginProviders';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
+import Forbidden from '../ForbiddenPage/ForbiddenPage';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import WelcomePage from '../WelcomePage/WelcomePage';
+import SearchPage from '../SearchPage/SearchPage';
+import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
+import ScrollToTop from '../App/components/ScrollToTop';
 
 export class App extends React.Component {
   getChildContext() {
@@ -29,16 +37,8 @@ export class App extends React.Component {
     };
   }
 
-  componentWillMount() {
-    console.log('#100 App will mount checkit, current dispatch', this.props.dispatch);
-    // this.props.dispatch(checkAccessTokenOnEnter());
-    console.log('#110 App will mount checkit, after token dispatch', this.props.dispatch);
-  }
-
-
   render() {
-    console.log('App.jsx ... ');
-    const { dispatch, children, messages, t, match: { params } } = this.props;
+    const { dispatch, messages, t, match: { params } } = this.props;
     return (
       <PageContainer>
         <Helmet
@@ -49,7 +49,16 @@ export class App extends React.Component {
         />
 
         <Masthead t={t} params={params} />
-        {children}
+        <Switch>
+          <ScrollToTop />
+          <Route path="/" exact component={WelcomePage} />
+          <Route path="/login" component={LoginProviders} />
+          <Route path="/logout" component={LogoutSession} />
+          <PrivateRoute path="/search" component={SearchPage} />
+          <Route path="/topic-article/:articleId" component={TopicArticlePage} />
+          <Route path="/forbidden" component={Forbidden} />
+          <Route component={NotFoundPage} />
+        </Switch>
         <Footer t={t} />
         <Alerts dispatch={dispatch} messages={messages} />
       </PageContainer>
@@ -67,6 +76,7 @@ App.propTypes = {
   locale: PropTypes.string.isRequired,
   messages: PropTypes.arrayOf(MessageShape).isRequired,
   dispatch: PropTypes.func.isRequired,
+  authenticated: PropTypes.bool.isRequired,
 };
 
 App.childContextTypes = {
@@ -76,6 +86,8 @@ App.childContextTypes = {
 const mapStateToProps = state => ({
   locale: getLocale(state),
   messages: getMessages(state),
+  authenticated: state.authenticated,
 });
 
 export default withRouter(connect(mapStateToProps)(injectT(App)));
+

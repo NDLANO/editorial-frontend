@@ -13,14 +13,11 @@ import { parseHash } from './sessionActions';
 
 export class SessionInitializer extends React.Component {
   componentWillMount() {
-    console.log('welcome to the SessionInitializer we have props:', this.props);
     const { localParseHash, location: { hash } } = this.props;
-    console.log('hash', hash);
     localParseHash(hash);
   }
 
   render() {
-    console.log('rendering a div');
     return <div />;
   }
 }

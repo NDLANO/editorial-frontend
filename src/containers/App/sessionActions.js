@@ -20,8 +20,6 @@ export const setUserData = createAction('SET_USER_DATA');
 export const logoutAction = createAction('LOGOUT_ID_TOKEN');
 export const setIdToken = createAction('SET_ID_TOKEN');
 
-export const fetchAccessToken = createAction('FETCH_ACCESS_TOKEN');
-
 
 const auth = new auth0.WebAuth({
   clientID: auth0ClientId || '',
@@ -32,8 +30,6 @@ const auth = new auth0.WebAuth({
 });
 
 export function parseHash(hash) {
-  console.log('sessionActions parseHash', hash);
-
   return (dispatch) => {
     auth.parseHash({ hash, _idTokenVerification: false }, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {

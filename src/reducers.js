@@ -15,6 +15,7 @@ import articles from './containers/TopicArticlePage/articleDucks';
 import accessToken from './reducers/accessToken';
 import authenticated from './reducers/authenticated';
 import idToken from './reducers/idToken';
+import user from './reducers/user';
 
 const rootReducers = combineReducers({
   accessToken,
@@ -24,6 +25,7 @@ const rootReducers = combineReducers({
   articles,
   authenticated,
   idToken,
+  user,
 });
 
 export default rootReducers;

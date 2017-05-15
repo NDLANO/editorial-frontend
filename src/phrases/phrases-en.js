@@ -19,6 +19,8 @@ const phrases = {
   siteNav: {
     chooseSubject: 'Choose Subject',
     search: 'Search',
+    login: 'Logg inn',
+    logout: 'Log out %{name}',
   },
   loginFailure: {
     errorMessage: 'Beklager. Innlogging feilet.',

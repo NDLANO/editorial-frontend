@@ -28,7 +28,6 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import WelcomePage from '../WelcomePage/WelcomePage';
 import SearchPage from '../SearchPage/SearchPage';
 import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
-import ScrollToTop from '../App/components/ScrollToTop';
 
 export class App extends React.Component {
   getChildContext() {
@@ -38,6 +37,7 @@ export class App extends React.Component {
   }
 
   render() {
+    console.log('App start ');
     const { dispatch, messages, t, match: { params } } = this.props;
     return (
       <PageContainer>
@@ -47,10 +47,8 @@ export class App extends React.Component {
             { name: 'description', content: t('meta.description') },
           ]}
         />
-
-        <Masthead t={t} params={params} />
+        <Masthead t={t} params={params} authenticated={this.props.authenticated} />
         <Switch>
-          <ScrollToTop />
           <Route path="/" exact component={WelcomePage} />
           <Route path="/login" component={LoginProviders} />
           <Route path="/logout" component={LogoutSession} />

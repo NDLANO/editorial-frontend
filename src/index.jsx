@@ -20,6 +20,7 @@ import App from '../src/containers/App/App';
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
 
+//TODO ... det er noe galt her ...
 
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';

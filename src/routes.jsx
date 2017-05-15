@@ -19,4 +19,10 @@ export function toTopicArticle(articleId) {
   return `/topic-article/${articleId}`;
 }
 
+export function toLogin() {
+  return '/login';
+}
 
+export function toLogout() {
+  return '/logout';
+}

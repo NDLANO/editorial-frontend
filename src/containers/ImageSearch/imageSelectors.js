@@ -24,3 +24,13 @@ export const getLastPage = createSelector(
     [getImageSearchFromState],
     search => Math.ceil(search.totalCount / search.pageSize),
 );
+
+export const getTotalCount = createSelector(
+    [getImageSearchFromState],
+    search => search.totalCount,
+);
+
+export const getQuery = createSelector(
+    [getImageSearchFromState],
+    search => search.query,
+);

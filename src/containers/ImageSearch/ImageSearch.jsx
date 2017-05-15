@@ -9,15 +9,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import ImageSearchForm from './ImageSearchForm';
+import ImageSearchForm from './components/SearchForm';
 import ImageSearchResult from './ImageSearchResult';
 // import ButtonPager from '../common/pager/ButtonPager';
 import * as actions from './imageActions';
 import {
-  // getSelectedImage, getImageSearchQuery,
-   getResults, getLastPage,
-  //  getTotalCount
-  } from './imageSelectors';
+  // getSelectedImage,
+  getQuery, getResults, getLastPage, getTotalCount, getSearching } from './imageSelectors';
 
 export function ImageSearch(props) {
   const {
@@ -28,7 +26,10 @@ export function ImageSearch(props) {
     // fetchImage,
     // selectedImage,
     // lastPage,
-    // totalCount,
+    searching,
+    searchImages,
+    totalCount,
+    query,
     // localSetSavedImage,
   } = props;
 
@@ -39,10 +40,11 @@ export function ImageSearch(props) {
   //     fetchImage(image.id);
     // }
   };
-  // const submitImageSearchQuery = (evt, q) => {
+  const submitImageSearchQuery = (q) => {
+    searchImages({ query: q, page: 1 });
   //   evt.preventDefault();
   //   localFetchImages(q, false);
-  // };
+  };
   // const base = '/image-api/v1/images';
 
   const onSelectImage = (evt, image) => {
@@ -55,7 +57,12 @@ export function ImageSearch(props) {
 
   return (
     <div>
-      {/* <ImageSearchForm onSubmit={submitImageSearchQuery} query={imageSearchQuery} localChangeImageSearchQuery={localChangeImageSearchQuery} totalCount={totalCount} />*/}
+      <ImageSearchForm
+        onSearchQuerySubmit={submitImageSearchQuery}
+        query={query}
+        searching={searching}
+        totalCount={totalCount}
+      />
       <div>
         {images.map(image =>
           <ImageSearchResult
@@ -79,12 +86,12 @@ ImageSearch.propTypes = {
   })),
   // onChange: PropTypes.func.isRequired,
   // imageSearchQuery: PropTypes.object.isRequired,
-  // localFetchImages: PropTypes.func.isRequired,
+  query: PropTypes.string,
   // localChangeImageSearchQuery: PropTypes.func.isRequired,
-  // fetchImage: PropTypes.func.isRequired,
+  searching: PropTypes.bool.isRequired,
   // selectedImage: PropTypes.object,
   lastPage: PropTypes.number.isRequired,
-  // totalCount: PropTypes.number.isRequired,
+  totalCount: PropTypes.number,
   searchImages: PropTypes.func.isRequired,
 };
 
@@ -93,8 +100,9 @@ const mapStateToProps = state => Object.assign({}, state, {
   images: getResults(state),
   // selectedImage: getSelectedImage(state),
   lastPage: getLastPage(state),
-  // totalCount: getTotalCount(state),
-  // imageSearchQuery: getImageSearchQuery(state),
+  searching: getSearching(state),
+  totalCount: getTotalCount(state),
+  query: getQuery(state),
 });
 
 const mapDispatchToProps = {

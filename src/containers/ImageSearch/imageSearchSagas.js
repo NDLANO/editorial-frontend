@@ -13,11 +13,11 @@ import { getAccessToken } from '../App/sessionSelectors';
 import * as actions from './imageActions';
 import * as api from './imageApi';
 
-export function* search(query) {
+export function* search(query, page) {
   try {
     const locale = yield select(getLocale);
     const token = yield select(getAccessToken);
-    const searchResult = yield call(api.search, query, locale, token);
+    const searchResult = yield call(api.search, query, page, locale, token);
     yield put(actions.setImageSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchImagesError());
@@ -28,8 +28,12 @@ export function* search(query) {
 
 export function* watchImageSearch() {
   while (true) {
-    const { payload: query } = yield take(actions.searchImages);
-    yield call(search, query);
+    const { payload } = yield take(actions.searchImages);
+    if (!payload) {
+      yield call(search, undefined, 1);
+    } else {
+      yield call(search, payload.query, payload.page);
+    }
   }
 }
 

@@ -22,7 +22,7 @@ const initialState = {
 export default handleActions({
   [actions.searchImages]: {
     next(state, action) {
-      return { ...state, query: action.payload, searching: true };
+      return { ...state, ...action.payload, searching: true };
     },
     throw(state) { return state; },
   },

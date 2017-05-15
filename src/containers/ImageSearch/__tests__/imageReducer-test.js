@@ -24,14 +24,14 @@ test('reducers/image initalState', () => {
 });
 
 test('reducers/image search', () => {
-  const nextState = reducer(undefined, actions.searchImages('17. mai'));
+  const nextState = reducer(undefined, actions.searchImages({ query: '17. mai', page: 2 }));
 
   expect(nextState).toEqual({
     results: [],
     searching: true,
     selectedImage: {},
     query: '17. mai',
-    page: 1,
+    page: 2,
     pageSize: 16,
   });
 });

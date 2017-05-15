@@ -28,6 +28,9 @@ const phrases = {
       title: 'Alphabetical',
     },
   },
+  subjectsPage: {
+    subjects: 'Subjects',
+  },
   topicArticleForm: {
     save: 'Save',
     labels: {

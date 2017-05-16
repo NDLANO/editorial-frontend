@@ -4,7 +4,7 @@ FROM node:6.6.0
 RUN useradd --user-group --create-home --shell /bin/false app
 
 ENV HOME=/home/app
-ENV APP_PATH=$HOME/listing-frontend
+ENV APP_PATH=$HOME/editorial-frontend
 
 #Install yarn
 RUN npm install --global yarn

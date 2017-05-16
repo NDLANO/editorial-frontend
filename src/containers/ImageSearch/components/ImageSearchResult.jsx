@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import classNames from 'classnames';
-import PreviewImage from './components/PreviewImage';
+import PreviewImage from './PreviewImage';
 import { scaleImage } from './imageScaler';
 
 export default function ImageSearchResult({ image, onImageClick, selectedImage, onSelectImage }) {

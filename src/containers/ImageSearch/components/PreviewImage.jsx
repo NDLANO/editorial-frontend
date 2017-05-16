@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { uuid } from 'ndla-util';
-import { scaleImage } from '../imageScaler';
+import { scaleImage } from './imageScaler';
 
 export default function PreviewImage({ image, onSaveImage }) {
   return (

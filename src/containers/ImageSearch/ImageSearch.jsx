@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { Pager } from 'ndla-ui';
 
 import ImageSearchForm from './components/SearchForm';
-import ImageSearchResult from './ImageSearchResult';
+import ImageSearchResult from './components/ImageSearchResult';
 import * as actions from './imageActions';
 import {
   getSelectedImage,

@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'ndla-ui';
 import { uuid } from 'ndla-util';
 import { scaleImage } from './imageScaler';
 
@@ -43,7 +44,7 @@ export default function PreviewImage({ image, onSaveImage }) {
             <span key={uuid()} className="tag_item">{`#${tag}`}</span>,
           )}
         </div>
-        <button className="button button--primary button--block" onClick={onSaveImage}>Bruk bildet</button>
+        <Button className="button button--primary button--block" onClick={onSaveImage}>Bruk bildet</Button>
       </div>
       <div className="clear" />
     </div>

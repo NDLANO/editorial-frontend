@@ -108,7 +108,7 @@ ImageSearch.propTypes = {
 };
 
 
-const mapStateToProps = state => Object.assign({}, state, {
+const mapStateToProps = state => ({
   images: getResults(state),
   selectedImage: getSelectedImage(state),
   lastPage: getLastPage(state),

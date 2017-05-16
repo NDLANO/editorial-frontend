@@ -14,6 +14,7 @@ import { injectT } from '../../../i18n';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { TextField, TextAreaField, MultiSelectField, RichTextField } from '../../../components/Fields';
+import ImageSelectField from '../../../components/ImageSelectField';
 import { convertEditorStateToHTML } from '../topicArticleContentConverter';
 
 class TopicArticleForm extends Component {
@@ -63,6 +64,7 @@ class TopicArticleForm extends Component {
             getMaxLengthRemaingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
             {...commonFieldProps}
           />
+          <ImageSelectField />
           <RichTextField
             label={t('topicArticleForm.fields.content.label')}
             placeholder={t('topicArticleForm.fields.content.placeholder')}

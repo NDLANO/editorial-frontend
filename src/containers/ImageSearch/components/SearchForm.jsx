@@ -19,6 +19,13 @@ class SearchForm extends Component {
     };
     this.handleQueryChange = this.handleQueryChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onKeyPress = this.onKeyPress.bind(this);
+  }
+
+  onKeyPress(evt) {
+    if (evt.key === 'Enter') {
+      this.handleSubmit(evt);
+    }
   }
 
   handleQueryChange(evt) {
@@ -30,19 +37,20 @@ class SearchForm extends Component {
     this.props.onSearchQuerySubmit(this.state.query);
   }
 
+
   render() {
     const { searching, t } = this.props;
     return (
-      <form onSubmit={this.handleSubmit} className="image-search_form">
+      <div className="image-search_form">
         <input
           type="text" className="image-search_form-query"
           onChange={this.handleQueryChange}
+          onKeyPress={this.onKeyPress}
           value={this.state.query}
           placeholder={t('searchForm.placeholder')}
         />
-
-        <Button className="image-search-form_btn" submit loading={searching}>{t('searchForm.btn')}</Button>
-      </form>
+        <Button className="image-search-form_btn" onClick={this.handleSubmit}loading={searching}>{t('searchForm.btn')}</Button>
+      </div>
     );
   }
 }

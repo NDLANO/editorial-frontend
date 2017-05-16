@@ -9,13 +9,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Pager } from 'ndla-ui';
+
 import ImageSearchForm from './components/SearchForm';
 import ImageSearchResult from './ImageSearchResult';
-// import ButtonPager from '../common/pager/ButtonPager';
 import * as actions from './imageActions';
 import {
   // getSelectedImage,
-  getQuery, getResults, getLastPage, getTotalCount, getSearching } from './imageSelectors';
+  getQueryObject, getResults, getLastPage, getTotalCount, getSearching } from './imageSelectors';
 
 export function ImageSearch(props) {
   const {
@@ -25,13 +26,15 @@ export function ImageSearch(props) {
     // localChangeImageSearchQuery,
     // fetchImage,
     // selectedImage,
-    // lastPage,
+    lastPage,
     searching,
     searchImages,
     totalCount,
-    query,
-    // localSetSavedImage,
+    // query,
+    queryObject,
   } = props;
+
+  const { query, page } = queryObject;
 
   const onImageClick = (evt, image) => {
     evt.preventDefault();
@@ -42,8 +45,6 @@ export function ImageSearch(props) {
   };
   const submitImageSearchQuery = (q) => {
     searchImages({ query: q, page: 1 });
-  //   evt.preventDefault();
-  //   localFetchImages(q, false);
   };
   // const base = '/image-api/v1/images';
 
@@ -63,18 +64,23 @@ export function ImageSearch(props) {
         searching={searching}
         totalCount={totalCount}
       />
-      <div>
-        {images.map(image =>
-          <ImageSearchResult
-            key={image.id}
-            image={image}
-            onImageClick={onImageClick}
-            selectedImage={image}
-            onSelectImage={onSelectImage}
-          />,
+      {images.map(image =>
+        <ImageSearchResult
+          key={image.id}
+          image={image}
+          onImageClick={onImageClick}
+          selectedImage={image}
+          onSelectImage={onSelectImage}
+        />,
         )}
-      </div>
-      {/* <ButtonPager page={imageSearchQuery.page} lastPage={lastPage} query={imageSearchQuery} pagerAction={localFetchImages} />*/}
+      <Pager
+        page={page ? parseInt(page, 10) : 1}
+        pathname=""
+        lastPage={lastPage}
+        query={queryObject}
+        onClick={searchImages}
+        pageItemComponentClass="button"
+      />
     </div>
   );
 }
@@ -86,7 +92,10 @@ ImageSearch.propTypes = {
   })),
   // onChange: PropTypes.func.isRequired,
   // imageSearchQuery: PropTypes.object.isRequired,
-  query: PropTypes.string,
+  queryObject: PropTypes.shape({
+    page: PropTypes.number.isRequired,
+    query: PropTypes.string.isRequired,
+  }).isRequired,
   // localChangeImageSearchQuery: PropTypes.func.isRequired,
   searching: PropTypes.bool.isRequired,
   // selectedImage: PropTypes.object,
@@ -102,7 +111,7 @@ const mapStateToProps = state => Object.assign({}, state, {
   lastPage: getLastPage(state),
   searching: getSearching(state),
   totalCount: getTotalCount(state),
-  query: getQuery(state),
+  queryObject: getQueryObject(state),
 });
 
 const mapDispatchToProps = {

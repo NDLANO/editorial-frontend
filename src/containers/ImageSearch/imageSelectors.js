@@ -22,7 +22,7 @@ export const getSearching = createSelector(
 
 export const getLastPage = createSelector(
     [getImageSearchFromState],
-    search => Math.ceil(search.totalCount / search.pageSize),
+    search => Math.ceil(search.totalCount / search.pageSize) || 1,
 );
 
 export const getTotalCount = createSelector(
@@ -30,7 +30,10 @@ export const getTotalCount = createSelector(
     search => search.totalCount,
 );
 
-export const getQuery = createSelector(
+export const getQueryObject = createSelector(
     [getImageSearchFromState],
-    search => search.query,
+    search => ({
+      query: search.query,
+      page: search.page,
+    }),
 );

@@ -31,6 +31,8 @@ export function* watchImageSearch() {
     const { payload } = yield take(actions.searchImages);
     if (!payload) {
       yield call(search, undefined, 1);
+    } else if (payload.query === '') {
+      yield call(search, undefined, payload.page);
     } else {
       yield call(search, payload.query, payload.page);
     }

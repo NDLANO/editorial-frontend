@@ -37,8 +37,8 @@ export class App extends React.Component {
   }
 
   render() {
-    console.log('App start ');
     const { dispatch, messages, t, match: { params } } = this.props;
+
     return (
       <PageContainer>
         <Helmet
@@ -47,7 +47,12 @@ export class App extends React.Component {
             { name: 'description', content: t('meta.description') },
           ]}
         />
-        <Masthead t={t} params={params} authenticated={this.props.authenticated} />
+        <Masthead
+          t={t}
+          params={params}
+          authenticated={this.props.authenticated}
+          userName={this.props.userName}
+        />
         <Switch>
           <Route path="/" exact component={WelcomePage} />
           <Route path="/login" component={LoginProviders} />
@@ -75,6 +80,7 @@ App.propTypes = {
   messages: PropTypes.arrayOf(MessageShape).isRequired,
   dispatch: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
+  userName: PropTypes.string,
 };
 
 App.childContextTypes = {
@@ -85,6 +91,7 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
   messages: getMessages(state),
   authenticated: state.authenticated,
+  userName: state.user.name,
 });
 
 export default withRouter(connect(mapStateToProps)(injectT(App)));

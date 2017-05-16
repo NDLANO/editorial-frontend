@@ -12,14 +12,12 @@ import { Masthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
 import { toSearch, toLogin, toLogout } from '../../routes';
 
 
-const MastheadContainer = ({ t, authenticated }) => {
-  console.log('hello....', authenticated);
-
+const MastheadContainer = ({ t, authenticated, userName }) => {
   const autentication = () => {
     if (authenticated) {
       return (
-        <SiteNavItem to={toLogout}>
-          {t('siteNav.logout')}
+        <SiteNavItem to={toLogout()}>
+          {t('siteNav.logout', { name: userName })}
         </SiteNavItem>
       );
     }
@@ -53,6 +51,7 @@ MastheadContainer.propTypes = {
   }).isRequired,
   t: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
+  userName: PropTypes.string,
 };
 
 

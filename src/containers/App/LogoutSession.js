@@ -15,9 +15,6 @@ import ifAuthenticated from '../../util/ifAuthenticated';
 export class LogoutSession extends React.Component {
   componentWillMount() {
     const { localLogout, authenticated, localIfAuthenticated } = this.props;
-    console.log('LogoutSession localLogout', localLogout);
-    console.log('LogoutSession authenticated', authenticated);
-    console.log('LogoutSession localIfAuthenticated', localIfAuthenticated);
     localIfAuthenticated(authenticated, localLogout);
   }
 

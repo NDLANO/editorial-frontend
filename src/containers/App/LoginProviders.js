@@ -40,7 +40,7 @@ export const LoginProviders = (props) => {
 
 LoginProviders.propTypes = {
   message: PropTypes.string,
-  match: PropTypes.object.isRequired,
+  match: PropTypes.match,
 };
 
 export default injectT(LoginProviders);

@@ -20,14 +20,13 @@ import App from '../src/containers/App/App';
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
 
-//TODO ... det er noe galt her ...
-
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
-const initialStateLocale = 'nb';
+const localeString = paths.length > 2 && isValidLocale(paths[1]) ? paths[1] : 'nb';
 
 const browserHistory = basename ? createHistory({ basename }) : createHistory();
 
+const locale = getLocaleObject(localeString);
 
 const emptyState = {
   authenticated: false,
@@ -35,13 +34,10 @@ const emptyState = {
   idToken: '',
   user: {},
   messages: [],
-  locale: initialStateLocale,
+  locale: locale.abbreviation, //Usikker på om dette er riktig...
 };
+
 const initialState = !isEmpty(window.initialState) ? window.initalState : emptyState;
-// const initialState = emptyState;
-// const localeString = initialState.locale;
-const localeString = 'nb';
-const locale = getLocaleObject(localeString);
 
 const store = configureStore(initialState, browserHistory);
 

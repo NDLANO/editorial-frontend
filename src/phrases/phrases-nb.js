@@ -20,7 +20,7 @@ const phrases = {
     chooseSubject: 'Velg fag',
     search: 'Søk',
     login: 'Logg inn',
-    logout: 'Logg ut %{name}',
+    logout: 'Logg ut [{name}]',
   },
   loginFailure: {
     errorMessage: 'Sorry. Login failed.',

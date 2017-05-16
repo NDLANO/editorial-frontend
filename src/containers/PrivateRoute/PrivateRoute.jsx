@@ -22,7 +22,7 @@ const PrivateRoute = ({ authenticated, component: Component, ...rest }) => (
 PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
-  location: PropTypes.object.isRequired,
+  location: PropTypes.location,
 };
 
 export default connect(state => state)(PrivateRoute);

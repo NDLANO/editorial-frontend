@@ -12,6 +12,7 @@ import locale from './containers/Locale/localeReducer';
 import messages from './containers/Messages/messagesReducer';
 import search from './containers/SearchPage/searchReducer';
 import articles from './containers/TopicArticlePage/articleDucks';
+import tags from './containers/Tag/tagDucks';
 import accessToken from './reducers/accessToken';
 import authenticated from './reducers/authenticated';
 import idToken from './reducers/idToken';
@@ -23,6 +24,7 @@ const rootReducers = combineReducers({
   messages,
   search,
   articles,
+  tags,
   authenticated,
   idToken,
   user,

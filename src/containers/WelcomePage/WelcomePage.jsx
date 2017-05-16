@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { OneColumn } from 'ndla-ui';
+import { Link } from 'react-router-dom';
 import { injectT } from '../../i18n';
 
 export const WelcomePage = ({ t }) =>
@@ -16,6 +17,10 @@ export const WelcomePage = ({ t }) =>
       <article>
         <section>
           <h1>{t('welcomePage.hello')}</h1>
+          <ul>
+            <li><Link to="/subjects">{t('welcomePage.subjects')}</Link></li>
+            <li><Link to="/search">{t('welcomePage.search')}</Link></li>
+          </ul>
         </section>
       </article>
     </OneColumn>

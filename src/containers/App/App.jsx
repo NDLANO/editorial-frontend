@@ -28,6 +28,8 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import WelcomePage from '../WelcomePage/WelcomePage';
 import SearchPage from '../SearchPage/SearchPage';
 import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
+import SubjectsPage from '../SubjectsPage/SubjectsPage';
+import SubjectPage from '../SubjectPage/SubjectPage';
 
 export class App extends React.Component {
   getChildContext() {
@@ -58,6 +60,8 @@ export class App extends React.Component {
           <Route path="/login" component={LoginProviders} />
           <Route path="/logout" component={LogoutSession} />
           <PrivateRoute path="/search" component={SearchPage} />
+          <PrivateRoute path="/subjects/:subjectId" component={SubjectPage} />
+          <PrivateRoute path="/subjects/" component={SubjectsPage} />
           <Route path="/topic-article/:articleId" component={TopicArticlePage} />
           <Route path="/forbidden" component={Forbidden} />
           <Route component={NotFoundPage} />

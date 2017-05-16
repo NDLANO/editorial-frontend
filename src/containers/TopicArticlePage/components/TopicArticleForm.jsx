@@ -7,47 +7,96 @@
  */
 
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { injectT } from '../../../i18n';
-import { ArticleShape } from '../../../shapes';
+import reformed from '../../../components/reformed';
+import validateSchema from '../../../components/validateSchema';
+import { TextField, TextAreaField, MultiSelectField, RichTextField } from '../../../components/Fields';
+import { convertEditorStateToHTML } from '../topicArticleContentConverter';
 
 class TopicArticleForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      title: '',
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.article !== this.props.article) {
-      this.setState({
-        title: nextProps.article.title,
-      });
-    }
-  }
-  handleChange(evt) {
-    this.setState({ title: evt.target.value });
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(evt) {
     evt.preventDefault();
-    this.props.onUpdate();
+
+    const { model, schema, locale: language, setSubmitted } = this.props;
+    if (!schema.isValid) {
+      setSubmitted(true);
+      return;
+    }
+
+    this.props.onUpdate({
+      id: model.id,
+      revision: model.revision,
+      title: [{ title: model.title, language }],
+      introduction: [{ introduction: model.introduction, language }],
+      tags: [{ tags: model.tags, language }],
+      content: [{ content: convertEditorStateToHTML(model.content), language }],
+      copyright: {
+        ...model.copyright,
+        authors: model.authors.map(name => ({ type: 'Forfatter', name })),
+      },
+    });
   }
 
   render() {
-    const { t } = this.props;
+    const { t, bindInput, schema, submitted, tags } = this.props;
+    const commonFieldProps = { bindInput, schema, submitted };
     return (
       <form onSubmit={this.handleSubmit} className="topic-article-form">
         <div style={{ marginTop: '3rem' }}>
-          <label htmlFor="title">{t('topicArticleForm.labels.title')}</label>
-          <input
-            id="title"
-            type="text" className="field"
-            onChange={this.handleChange}
-            value={this.state.title}
+          <TextField
+            label={t('topicArticleForm.labels.title')}
+            name="title"
+            {...commonFieldProps}
+          />
+          <TextAreaField
+            label={t('topicArticleForm.labels.introduction')}
+            name="introduction"
+            maxLength={300}
+            getMaxLengthRemaingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
+            {...commonFieldProps}
+          />
+          <RichTextField
+            label={t('topicArticleForm.fields.content.label')}
+            placeholder={t('topicArticleForm.fields.content.placeholder')}
+            name="content"
+            {...commonFieldProps}
+          />
+          <hr />
+          <TextAreaField
+            label={t('topicArticleForm.labels.metaDescription')}
+            name="metaDescription"
+            maxLength={150}
+            getMaxLengthRemaingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
+            {...commonFieldProps}
+          />
+          <MultiSelectField
+            name="tags"
+            data={tags}
+            label={t('topicArticleForm.fields.tags.label')}
+            messages={{
+              createNew: t('topicArticleForm.fields.tags.createNew'),
+              emptyFilter: t('topicArticleForm.fields.tags.emptyFilter'),
+              emptyList: t('topicArticleForm.fields.tags.emptyList'),
+            }}
+            {...commonFieldProps}
+          />
+          <MultiSelectField
+            name="authors"
+            label={t('topicArticleForm.fields.authors.label')}
+            messages={{
+              createNew: t('topicArticleForm.fields.authors.createNew'),
+              emptyFilter: t('topicArticleForm.fields.authors.emptyFilter'),
+              emptyList: t('topicArticleForm.fields.authors.emptyList'),
+            }}
+            {...commonFieldProps}
           />
         </div>
         <Button submit outline>{t('topicArticleForm.save')}</Button>
@@ -57,8 +106,43 @@ class TopicArticleForm extends Component {
 }
 
 TopicArticleForm.propTypes = {
-  article: ArticleShape,
+  model: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string,
+  }),
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+    isValid: PropTypes.bool.isRequired,
+  }),
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  submitted: PropTypes.bool.isRequired,
+  bindInput: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
+  setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
 };
 
-export default injectT(TopicArticleForm);
+export default compose(
+  injectT,
+  reformed,
+  validateSchema({
+    title: {
+      required: true,
+    },
+    introduction: {
+      required: true,
+    },
+    content: {
+      required: true,
+    },
+    metaDescription: {
+      required: true,
+    },
+    tags: {
+      minItems: 3,
+    },
+    authors: {
+      minItems: 1,
+    },
+  }),
+)(TopicArticleForm);

@@ -8,10 +8,12 @@
 import { spawn, all } from 'redux-saga/effects';
 import searchSagas from './containers/SearchPage/searchSagas';
 import articleSagas from './containers/TopicArticlePage/articleSagas';
+import tagSagas from './containers/Tag/tagSagas';
 
 export default function* root() {
   yield all([
     ...searchSagas.map(s => spawn(s)),
     ...articleSagas.map(s => spawn(s)),
+    ...tagSagas.map(s => spawn(s)),
   ]);
 }

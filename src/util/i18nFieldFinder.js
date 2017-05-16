@@ -13,6 +13,7 @@ import createFieldByLanguageFinder, { findFallbackTranslation } from './createFi
 export const titleI18N = createFieldByLanguageFinder('title');
 export const titlesI18N = createFieldByLanguageFinder('titles', 'title');
 export const descriptionI18N = createFieldByLanguageFinder('description');
+export const contentI18N = createFieldByLanguageFinder('content');
 export const oembedUrlI18N = createFieldByLanguageFinder('embedUrl', 'url');
 export const tagsI18N = createFieldByLanguageFinder('tags');
 export const alttextsI18N = createFieldByLanguageFinder('alttexts');

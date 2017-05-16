@@ -16,7 +16,7 @@ test('reducers/image initalState', () => {
   expect(nextState).toEqual({
     results: [],
     searching: false,
-    selectedImage: {},
+    selectedImage: undefined,
     query: '',
     page: 1,
     pageSize: 16,
@@ -29,7 +29,7 @@ test('reducers/image search', () => {
   expect(nextState).toEqual({
     results: [],
     searching: true,
-    selectedImage: {},
+    selectedImage: undefined,
     query: '17. mai',
     page: 2,
     pageSize: 16,

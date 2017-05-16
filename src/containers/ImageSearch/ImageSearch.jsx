@@ -15,22 +15,24 @@ import ImageSearchForm from './components/SearchForm';
 import ImageSearchResult from './ImageSearchResult';
 import * as actions from './imageActions';
 import {
-  // getSelectedImage,
-  getQueryObject, getResults, getLastPage, getTotalCount, getSearching } from './imageSelectors';
+  getSelectedImage,
+  getQueryObject,
+  getResults,
+  getLastPage,
+  getTotalCount,
+  getSearching,
+} from './imageSelectors';
 
 export function ImageSearch(props) {
   const {
     images,
     // onChange,
-    // imageSearchQuery,
-    // localChangeImageSearchQuery,
-    // fetchImage,
-    // selectedImage,
+    fetchSelectedImage,
+    selectedImage,
     lastPage,
     searching,
     searchImages,
     totalCount,
-    // query,
     queryObject,
   } = props;
 
@@ -38,10 +40,9 @@ export function ImageSearch(props) {
 
   const onImageClick = (evt, image) => {
     evt.preventDefault();
-    console.log(image);
-  //   if (image.id !== selectedImage.id) {
-  //     fetchImage(image.id);
-    // }
+    if (!selectedImage || image.id !== selectedImage.id) {
+      fetchSelectedImage(image.id);
+    }
   };
   const submitImageSearchQuery = (q) => {
     searchImages({ query: q, page: 1 });
@@ -64,15 +65,17 @@ export function ImageSearch(props) {
         searching={searching}
         totalCount={totalCount}
       />
-      {images.map(image =>
-        <ImageSearchResult
-          key={image.id}
-          image={image}
-          onImageClick={onImageClick}
-          selectedImage={image}
-          onSelectImage={onSelectImage}
-        />,
+      <div className="image-search_list">
+        {images.map(image =>
+          <ImageSearchResult
+            key={image.id}
+            image={image}
+            onImageClick={onImageClick}
+            selectedImage={selectedImage}
+            onSelectImage={onSelectImage}
+          />,
         )}
+      </div>
       <Pager
         page={page ? parseInt(page, 10) : 1}
         pathname=""
@@ -96,9 +99,9 @@ ImageSearch.propTypes = {
     page: PropTypes.number.isRequired,
     query: PropTypes.string.isRequired,
   }).isRequired,
-  // localChangeImageSearchQuery: PropTypes.func.isRequired,
+  fetchSelectedImage: PropTypes.func.isRequired,
   searching: PropTypes.bool.isRequired,
-  // selectedImage: PropTypes.object,
+  selectedImage: PropTypes.object,
   lastPage: PropTypes.number.isRequired,
   totalCount: PropTypes.number,
   searchImages: PropTypes.func.isRequired,
@@ -107,7 +110,7 @@ ImageSearch.propTypes = {
 
 const mapStateToProps = state => Object.assign({}, state, {
   images: getResults(state),
-  // selectedImage: getSelectedImage(state),
+  selectedImage: getSelectedImage(state),
   lastPage: getLastPage(state),
   searching: getSearching(state),
   totalCount: getTotalCount(state),
@@ -116,6 +119,7 @@ const mapStateToProps = state => Object.assign({}, state, {
 
 const mapDispatchToProps = {
   searchImages: actions.searchImages,
+  fetchSelectedImage: actions.fetchSelectedImage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImageSearch);

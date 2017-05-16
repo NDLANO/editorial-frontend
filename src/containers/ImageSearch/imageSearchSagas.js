@@ -39,6 +39,25 @@ export function* watchImageSearch() {
   }
 }
 
+export function* fetchSelectedImage(id) {
+  try {
+    const token = yield select(getAccessToken);
+    const image = yield call(api.fetchImage, id, token);
+    yield put(actions.setSelectedImage(image));
+  } catch (error) {
+    yield put(actions.searchImagesError());
+    // TODO: handle error
+    console.error(error); //eslint-disable-line
+  }
+}
+export function* watchFetchSelectedImage() {
+  while (true) {
+    const { payload: id } = yield take(actions.fetchSelectedImage);
+    yield call(fetchSelectedImage, id);
+  }
+}
+
 export default [
   watchImageSearch,
+  watchFetchSelectedImage,
 ];

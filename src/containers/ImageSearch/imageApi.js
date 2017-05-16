@@ -18,3 +18,6 @@ export const search = (query, page, locale, token) =>
 
 // export const search = (queryString, locale, token) =>
 //   fetch(`${baseUrl}/${queryString}&language=${locale}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
+
+export const fetchImage = (imageId, token) =>
+  fetch(`${baseUrl}/${imageId}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);

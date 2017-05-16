@@ -7,6 +7,8 @@
  */
 
 import { createSelector } from 'reselect';
+import { getLocale } from '../Locale/localeSelectors';
+import { tagsI18N } from '../../util/i18nFieldFinder';
 
 const getImageSearchFromState = state => state.imageSearch;
 
@@ -28,6 +30,14 @@ export const getLastPage = createSelector(
 export const getTotalCount = createSelector(
     [getImageSearchFromState],
     search => search.totalCount,
+);
+
+export const getSelectedImage = createSelector(
+  [getImageSearchFromState, getLocale],
+  (search, lang) => (search.selectedImage ? {
+    ...search.selectedImage,
+    tags: search.selectedImage ? tagsI18N(search.selectedImage, lang) : [],
+  } : undefined),
 );
 
 export const getQueryObject = createSelector(

@@ -13,7 +13,7 @@ import * as actions from './imageActions';
 const initialState = {
   results: [],
   searching: false,
-  selectedImage: {},
+  selectedImage: undefined,
   query: '',
   page: 1,
   pageSize: 16,

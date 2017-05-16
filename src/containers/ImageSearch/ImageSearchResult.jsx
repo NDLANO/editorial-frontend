@@ -10,24 +10,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import classNames from 'classnames';
-// import PreviewImage from './PreviewImage';
+import PreviewImage from './components/PreviewImage';
 import { scaleImage } from './imageScaler';
 
 export default function ImageSearchResult({ image, onImageClick, selectedImage, onSelectImage }) {
   const activeClassName = () => classNames({
-    'image_list-item': true,
-    'image_list-item--active': selectedImage.id === image.id,
+    'image-search_list-item': true,
+    'image-search_list-item--active': selectedImage && selectedImage.id === image.id,
   });
 
   return (
     <div key={image.id} className={activeClassName()}>
-      <div className="image_list-item-inner">
+      <div className="image-search_list-item-inner">
         <Button stripped onClick={evt => onImageClick(evt, image)}>
           <img role="presentation" alt="presentation" src={scaleImage(image.previewUrl)} />
         </Button>
       </div>
-      <Button onClick={evt => onSelectImage(evt, selectedImage)}>Velg bilde</Button>
-      {/* {selectedImage.id === image.id ? <PreviewImage image={selectedImage} onSaveImage={evt => onSaveImage(evt, selectedImage)} /> : ''}*/}
+      {selectedImage && selectedImage.id === image.id ? <PreviewImage image={selectedImage} onSaveImage={evt => onSelectImage(evt, selectedImage)} /> : ''}
     </div>
   );
 }
@@ -40,7 +39,6 @@ ImageSearchResult.propTypes = {
   onImageClick: PropTypes.func.isRequired,
   selectedImage: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    previewUrl: PropTypes.string.isRequired,
   }),
   onSelectImage: PropTypes.func.isRequired,
 };

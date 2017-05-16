@@ -33,15 +33,15 @@ class SearchForm extends Component {
   render() {
     const { searching, t } = this.props;
     return (
-      <form onSubmit={this.handleSubmit} className="search-form">
+      <form onSubmit={this.handleSubmit} className="image-search_form">
         <input
-          type="text" className="search-form_query"
+          type="text" className="image-search_form-query"
           onChange={this.handleQueryChange}
           value={this.state.query}
           placeholder={t('searchForm.placeholder')}
         />
 
-        <Button submit square loading={searching}>{t('searchForm.btn')}</Button>
+        <Button className="image-search-form_btn" submit loading={searching}>{t('searchForm.btn')}</Button>
       </form>
     );
   }

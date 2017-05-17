@@ -12,7 +12,7 @@ import { Button } from 'ndla-ui';
 import { uuid } from 'ndla-util';
 import { scaleImage } from './imageScaler';
 
-export default function PreviewImage({ image, onSaveImage }) {
+export default function PreviewImage({ image, onSelectImage }) {
   return (
     <div className="image-preview">
       <div className="image-preview_image">
@@ -44,7 +44,7 @@ export default function PreviewImage({ image, onSaveImage }) {
             <span key={uuid()} className="tag_item">{`#${tag}`}</span>,
           )}
         </div>
-        <Button className="button button--primary button--block" onClick={onSaveImage}>Bruk bildet</Button>
+        <Button className="button button--primary button--block" onClick={() => onSelectImage(image)}>Bruk bildet</Button>
       </div>
       <div className="clear" />
     </div>
@@ -53,5 +53,5 @@ export default function PreviewImage({ image, onSaveImage }) {
 
 PreviewImage.propTypes = {
   image: PropTypes.object.isRequired,
-  onSaveImage: PropTypes.func.isRequired,
+  onSelectImage: PropTypes.func.isRequired,
 };

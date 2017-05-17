@@ -23,10 +23,10 @@ import {
   getSearching,
 } from './imageSelectors';
 
-export function ImageSearch(props) {
+const ImageSearch = (props) => {
   const {
     images,
-    // onChange,
+    onChange,
     fetchSelectedImage,
     selectedImage,
     lastPage,
@@ -38,8 +38,7 @@ export function ImageSearch(props) {
 
   const { query, page } = queryObject;
 
-  const onImageClick = (evt, image) => {
-    evt.preventDefault();
+  const onImageClick = (image) => {
     if (!selectedImage || image.id !== selectedImage.id) {
       fetchSelectedImage(image.id);
     }
@@ -47,14 +46,9 @@ export function ImageSearch(props) {
   const submitImageSearchQuery = (q) => {
     searchImages({ query: q, page: 1 });
   };
-  // const base = '/image-api/v1/images';
 
-  const onSelectImage = (evt, image) => {
-    console.log(image);
-    // closeLightBox();
-    // const coverPhotoMetaUrl = `${window.config.ndlaApiUrl}${base}/${image.id}`;
-    // onChange(coverPhotoMetaUrl);
-    // localSetSavedImage(image);
+  const handleSelectImage = (image) => {
+    onChange(image);
   };
 
   return (
@@ -72,7 +66,7 @@ export function ImageSearch(props) {
             image={image}
             onImageClick={onImageClick}
             selectedImage={selectedImage}
-            onSelectImage={onSelectImage}
+            onSelectImage={handleSelectImage}
           />,
         )}
       </div>
@@ -86,15 +80,14 @@ export function ImageSearch(props) {
       />
     </div>
   );
-}
+};
 
 ImageSearch.propTypes = {
   images: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     previewUrl: PropTypes.string.isRequired,
   })),
-  // onChange: PropTypes.func.isRequired,
-  // imageSearchQuery: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
   queryObject: PropTypes.shape({
     page: PropTypes.number.isRequired,
     query: PropTypes.string.isRequired,

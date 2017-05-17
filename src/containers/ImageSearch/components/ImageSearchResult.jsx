@@ -22,11 +22,14 @@ export default function ImageSearchResult({ image, onImageClick, selectedImage, 
   return (
     <div key={image.id} className={activeClassName()}>
       <div className="image-search_list-item-inner">
-        <Button stripped onClick={evt => onImageClick(evt, image)}>
+        <Button stripped onClick={() => onImageClick(image)}>
           <img role="presentation" alt="presentation" src={scaleImage(image.previewUrl)} />
         </Button>
       </div>
-      {selectedImage && selectedImage.id === image.id ? <PreviewImage image={selectedImage} onSaveImage={evt => onSelectImage(evt, selectedImage)} /> : ''}
+      {
+         selectedImage && selectedImage.id === image.id ?
+           <PreviewImage image={selectedImage} onSelectImage={onSelectImage} /> : ''
+      }
     </div>
   );
 }

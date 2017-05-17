@@ -38,27 +38,29 @@ export default class DisplayEmbedTag extends React.Component {
   constructor(props) {
     super(props);
     this.state = { embed: undefined };
+    this.handleFetchImage = this.handleFetchImage.bind(this);
   }
 
   componentWillMount() {
-    const embed = parseEmbedTag(this.props.embedTag);
+    this.handleFetchImage(this.props.embedTag);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.embedTag !== this.props.embedTag) {
+      this.handleFetchImage(nextProps.embedTag);
+    }
+  }
+
+  handleFetchImage(embedTag) {
+    const embed = parseEmbedTag(embedTag);
     if (!embed || embed.resource !== 'image') {
       return;
     }
 
     fetchImage(embed.id, window.accessToken).then((image) => {
-      this.setState(prevState => ({ embed: { ...prevState.embed, src: image.imageUrl } }));
+      this.setState(() => ({ embed: { ...embed, src: image.imageUrl } }));
     });
   }
-
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.embedTag !== this.props.embedTag) {
-      const embed = parseEmbedTag(nextProps.embedTag);
-      console.log(embed.url);
-    }
-  }
-
 
   render() {
     const { embed } = this.state;

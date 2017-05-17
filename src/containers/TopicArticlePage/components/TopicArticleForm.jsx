@@ -65,8 +65,7 @@ class TopicArticleForm extends Component {
             {...commonFieldProps}
           />
           <ImageSelectField
-            name="visualElement"
-            {...commonFieldProps}
+            {...bindInput('visualElement')}
           />
           <RichTextField
             label={t('topicArticleForm.fields.content.label')}

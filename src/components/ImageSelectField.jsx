@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button } from 'ndla-ui';
@@ -15,50 +15,63 @@ import ImageSearch from '../containers/ImageSearch/ImageSearch';
 import DisplayEmbedTag from './DisplayEmbedTag';
 import * as actions from '../containers/ImageSearch/imageActions';
 
-
-class ImageSelectField extends React.Component {
+class ImageSelectField extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isOpen: false,
     };
+    this.handleImageChange = this.handleImageChange.bind(this);
+    this.onImageLightboxOpen = this.onImageLightboxOpen.bind(this);
+    this.onImageLightboxClose = this.onImageLightboxClose.bind(this);
+  }
+
+  onImageLightboxOpen() {
+    this.props.searchImages();
+    this.setState(() => ({ isOpen: true }));
+  }
+
+  onImageLightboxClose() {
+    this.setState(() => ({ isOpen: false }));
+  }
+
+  handleImageChange(image) {
+    const { name, onChange } = this.props;
+    onChange(
+      { target: {
+        name,
+        value: `<embed data-resource="image" data-resource_id="${image.id}" />`,
+      } },
+    );
+    this.setState(() => ({ isOpen: false }));
   }
 
   render() {
     const {
-      searchImages,
-      name,
-      bindInput,
+      value,
     } = this.props;
-
-    const { onChange, value } = bindInput(name);
-
-    const onImageLightboxClose = () => {
-      this.setState({ isOpen: false });
-    };
-    const onImageLightboxOpen = () => {
-      searchImages();
-      this.setState({ isOpen: true });
-    };
-    console.log(value);
 
     return (
       <div>
-        <DisplayEmbedTag embedTag={value} />
-        <Button onClick={onImageLightboxOpen}>Legg til visuelt element</Button>
-        <div className="big-lightbox_wrapper big-lightbox_wrapper--scroll">
-          <Lightbox display={this.state.isOpen} big onClose={onImageLightboxClose}>
-            <h2>Bildesøk</h2>
-            <ImageSearch onChange={onChange} />
-          </Lightbox>
-        </div>
+        { value ?
+          <Button stripped onClick={this.onImageLightboxOpen}>
+            <DisplayEmbedTag embedTag={value} />
+          </Button>
+          :
+          <Button onClick={this.onImageLightboxOpen}>Legg til visuelt element</Button>
+        }
+        <Lightbox display={this.state.isOpen} big onClose={this.onImageLightboxClose}>
+          <h2>Bildesøk</h2>
+          <ImageSearch onChange={this.handleImageChange} />
+        </Lightbox>
       </div>
     );
   }
 }
 
 ImageSelectField.propTypes = {
-  bindInput: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string,
   name: PropTypes.string.isRequired,
   searchImages: PropTypes.func.isRequired,
 };

@@ -52,7 +52,7 @@ class TopicArticlePage extends Component {
             tags: article.tags || [],
             authors: article.copyright.authors.map(author => author.name) || [],
             copyright: article.copyright,
-            visualElement: '<embed data-align="" data-alt="Johan Gutenberg i verkstedet" data-caption="Johan Gutenberg hadde ideen til trykkpressen og klarte å realisere den. Det la grunnlaget for massedistribusjon av bøker, og etter hvert også aviser og ukeblader. Gutenbergs idé ga grobunn for det vi i dag kaller massemedier." data-resource="image" data-resource_id="398" data-size="fullbredde" data-id="0" data-url="http://test.api.ndla.no/image-api/v1/images/398" />',
+            visualElement: article.visualElement || '',
             metaDescription: article.metaDescription || '',
           }}
           tags={tags}

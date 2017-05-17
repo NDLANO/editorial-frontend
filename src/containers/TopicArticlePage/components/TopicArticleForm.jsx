@@ -39,6 +39,7 @@ class TopicArticleForm extends Component {
       introduction: [{ introduction: model.introduction, language }],
       tags: [{ tags: model.tags, language }],
       content: [{ content: convertEditorStateToHTML(model.content), language }],
+      visualElement: [{ content: model.visualElement, language }],
       copyright: {
         ...model.copyright,
         authors: model.authors.map(name => ({ type: 'Forfatter', name })),

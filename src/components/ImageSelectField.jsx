@@ -40,7 +40,7 @@ class ImageSelectField extends Component {
     onChange(
       { target: {
         name,
-        value: `<embed data-resource="image" data-resource_id="${image.id}" />`,
+        value: `<embed data-size="fullbredde" data-align="" data-alt="" data-caption="" data-resource="image" data-resource_id="${image.id}" />`,
       } },
     );
     this.setState(() => ({ isOpen: false }));

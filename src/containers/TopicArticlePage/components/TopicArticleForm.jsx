@@ -64,7 +64,10 @@ class TopicArticleForm extends Component {
             getMaxLengthRemaingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
             {...commonFieldProps}
           />
-          <ImageSelectField />
+          <ImageSelectField
+            name="visualElement"
+            {...commonFieldProps}
+          />
           <RichTextField
             label={t('topicArticleForm.fields.content.label')}
             placeholder={t('topicArticleForm.fields.content.placeholder')}

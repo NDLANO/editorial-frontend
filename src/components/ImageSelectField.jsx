@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { Button } from 'ndla-ui';
 import Lightbox from './Lightbox';
 import ImageSearch from '../containers/ImageSearch/ImageSearch';
+import DisplayEmbedTag from './DisplayEmbedTag';
 import * as actions from '../containers/ImageSearch/imageActions';
 
 
@@ -26,7 +27,11 @@ class ImageSelectField extends React.Component {
   render() {
     const {
       searchImages,
+      name,
+      bindInput,
     } = this.props;
+
+    const { onChange, value } = bindInput(name);
 
     const onImageLightboxClose = () => {
       this.setState({ isOpen: false });
@@ -35,14 +40,16 @@ class ImageSelectField extends React.Component {
       searchImages();
       this.setState({ isOpen: true });
     };
+    console.log(value);
 
     return (
       <div>
+        <DisplayEmbedTag embedTag={value} />
         <Button onClick={onImageLightboxOpen}>Legg til visuelt element</Button>
         <div className="big-lightbox_wrapper big-lightbox_wrapper--scroll">
           <Lightbox display={this.state.isOpen} big onClose={onImageLightboxClose}>
             <h2>Bildesøk</h2>
-            <ImageSearch />
+            <ImageSearch onChange={onChange} />
           </Lightbox>
         </div>
       </div>
@@ -51,6 +58,8 @@ class ImageSelectField extends React.Component {
 }
 
 ImageSelectField.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
   searchImages: PropTypes.func.isRequired,
 };
 

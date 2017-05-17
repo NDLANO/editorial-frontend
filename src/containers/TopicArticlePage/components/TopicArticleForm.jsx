@@ -10,12 +10,27 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
+import { EditorState } from 'draft-js';
+
 import { injectT } from '../../../i18n';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { TextField, TextAreaField, MultiSelectField, RichTextField } from '../../../components/Fields';
 import ImageSelectField from '../../../components/ImageSelectField';
-import { convertEditorStateToHTML } from '../topicArticleContentConverter';
+import { convertEditorStateToHTML, convertHTMLToContentState } from '../topicArticleContentConverter';
+
+export const getInitialModel = (article = {}) => ({
+  id: article.id,
+  revision: article.revision,
+  title: article.title || '',
+  introduction: article.introduction || '',
+  content: article.content ? convertHTMLToContentState(article.content) : EditorState.createEmpty(),
+  tags: article.tags || [],
+  authors: article.copyright.authors.map(author => author.name) || [],
+  copyright: article.copyright,
+  visualElement: article.visualElement || '',
+  metaDescription: article.metaDescription || '',
+});
 
 class TopicArticleForm extends Component {
   constructor(props) {

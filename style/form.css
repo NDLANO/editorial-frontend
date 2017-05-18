@@ -18,7 +18,8 @@ label {
   font-size: 1.5rem;
 }
 
-input, textarea {
+input,
+textarea {
   width: 100%;
   max-width: 100%;
   padding: 0.75rem;

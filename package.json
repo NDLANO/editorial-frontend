@@ -11,6 +11,7 @@
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js -p --bail",
     "start": "cross-env NODE_ENV=development nodemon server --watch server",
     "start-prod": "cross-env NODE_ENV=production node server",
+    "stylelint": "stylelint style/**/*.css",
     "lint": "eslint --ext .js --ext .jsx src server"
   },
   "jest": {
@@ -53,6 +54,8 @@
     "rimraf": "^2.6.1",
     "sinon": "^2.1.0",
     "style-loader": "^0.16.1",
+    "stylelint": "^7.10.1",
+    "stylelint-config-standard": "^16.0.0",
     "webpack": "^2.3.2",
     "webpack-bundle-analyzer": "^2.3.1",
     "webpack-dev-middleware": "^1.10.1",

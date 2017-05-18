@@ -9,7 +9,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { RichTextEditor } from 'ndla-editor';
+import BEMHelper from 'react-bem-helper';
 import MultiSelect from './MultiSelect';
+
+const classes = new BEMHelper({
+  name: 'field',
+  prefix: 'c-',
+});
+
+const Field = ({ children, className }) => <div {...classes('', '', className)}>{children}</div>;
 
 const FieldMessage = ({ field, submitted, label }) =>
   (field && !field.isValid && (field.isDirty || submitted) ? <span>{field.errors[0](label)}</span> : null);
@@ -25,7 +33,7 @@ FieldMessage.propTypes = {
 };
 
 export const TextField = ({ bindInput, name, label, submitted, schema, ...rest }) => (
-  <div style={{ marginTop: '3rem' }}>
+  <Field>
     <label htmlFor={name}>{label}</label>
     <input
       id={name}
@@ -37,7 +45,7 @@ export const TextField = ({ bindInput, name, label, submitted, schema, ...rest }
     <div>
       <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
     </div>
-  </div>
+  </Field>
 );
 
 TextField.propTypes = {
@@ -60,7 +68,8 @@ ShowRemainingCharacters.propTypes = {
 
 
 export const TextAreaField = ({ bindInput, name, label, submitted, schema, maxLength, getMaxLengthRemaingLabel, ...rest }) => (
-  <div style={{ marginTop: '3rem' }}>
+  <Field>
+
     <label htmlFor={name}>{label}</label>
     <textarea
       id={name}
@@ -73,7 +82,7 @@ export const TextAreaField = ({ bindInput, name, label, submitted, schema, maxLe
       <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
     </div>
     { getMaxLengthRemaingLabel ? <ShowRemainingCharacters maxLength={maxLength} getMaxLengthRemaingLabel={getMaxLengthRemaingLabel} value={bindInput(name).value} /> : null }
-  </div>
+  </Field>
 );
 
 
@@ -90,7 +99,7 @@ TextAreaField.propTypes = {
 };
 
 export const RichTextField = ({ bindInput, name, label, submitted, schema, ...rest }) => (
-  <div style={{ marginTop: '3rem' }}>
+  <Field>
     <label htmlFor={name}>{label}</label>
     <RichTextEditor
       {...bindInput(name)}
@@ -100,7 +109,8 @@ export const RichTextField = ({ bindInput, name, label, submitted, schema, ...re
     <div>
       <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
     </div>
-  </div>
+  </Field>
+
 );
 
 
@@ -115,7 +125,7 @@ RichTextField.propTypes = {
 };
 
 export const MultiSelectField = ({ bindInput, name, label, submitted, schema, ...rest }) => (
-  <div style={{ marginTop: '3rem' }}>
+  <Field style={{ marginTop: '3rem' }}>
     <label htmlFor={name}>{label}</label>
     <MultiSelect
       {...bindInput(name)}
@@ -124,7 +134,7 @@ export const MultiSelectField = ({ bindInput, name, label, submitted, schema, ..
     <div>
       <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
     </div>
-  </div>
+  </Field>
 );
 
 

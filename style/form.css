@@ -29,3 +29,7 @@ textarea {
   border: 2px solid #d4d4d4;
   font-size: 1rem;
 }
+
+.c-field {
+  margin-top: 3rem;
+}

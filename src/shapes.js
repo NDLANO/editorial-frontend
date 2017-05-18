@@ -7,6 +7,7 @@ export const ArticleResultShape = PropTypes.shape({
     title: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
   })).isRequired,
+  articleType: PropTypes.string.isRequired,
 });
 
 export const MessageShape = PropTypes.shape({

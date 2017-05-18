@@ -15,11 +15,17 @@ import { ArticleResultShape } from '../../../shapes';
 
 const SearchResult = ({ article, locale }) => (
   <div className="search-result">
-    <Link className="search-result_link" to={toTopicArticle(article.id)}>
-      <h3 className="search-result_title">
-        { titleI18N(article, locale, true) }
-      </h3>
-    </Link>
+    { article.articleType === 'topic-article' ?
+      <Link className="search-result_link" to={toTopicArticle(article.id)}>
+        <h4 className="search-result_title">
+          { titleI18N(article, locale, true) }
+        </h4>
+      </Link>
+     :
+        <h4 className="search-result_title">
+          { titleI18N(article, locale, true) }
+        </h4>
+    }
   </div>
 );
 

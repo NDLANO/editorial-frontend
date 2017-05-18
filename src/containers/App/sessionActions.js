@@ -67,8 +67,8 @@ export function logout() {
 
 
 export function logoutFederated() {
-  console.log('auth0 logout links', `${locationOrigin}/`);
-  console.log('auth0 logout auth0ClientId', auth0ClientId);
+  console.log('auth0 logoutFederated links', `${locationOrigin}/`);
+  console.log('auth0 logoutFederated auth0ClientId', auth0ClientId);
   return dispatch => fetchNewToken()
     .then((token) => {
       dispatch(setAccessToken(token.access_token));

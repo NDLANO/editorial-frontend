@@ -13,6 +13,7 @@ import messages from './containers/Messages/messagesReducer';
 import search from './containers/SearchPage/searchReducer';
 import articles from './containers/TopicArticlePage/articleDucks';
 import tags from './containers/Tag/tagDucks';
+import imageSearch from './containers/ImageSearch/imageReducer';
 import accessToken from './reducers/accessToken';
 import authenticated from './reducers/authenticated';
 import idToken from './reducers/idToken';
@@ -25,6 +26,7 @@ const rootReducers = combineReducers({
   search,
   articles,
   tags,
+  imageSearch,
   authenticated,
   idToken,
   user,

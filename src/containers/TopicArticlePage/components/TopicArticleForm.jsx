@@ -14,6 +14,7 @@ import { injectT } from '../../../i18n';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { TextField, TextAreaField, MultiSelectField, RichTextField } from '../../../components/Fields';
+import ImageSelectField from '../../../components/ImageSelectField';
 import { convertEditorStateToHTML } from '../topicArticleContentConverter';
 
 class TopicArticleForm extends Component {
@@ -38,6 +39,7 @@ class TopicArticleForm extends Component {
       introduction: [{ introduction: model.introduction, language }],
       tags: [{ tags: model.tags, language }],
       content: [{ content: convertEditorStateToHTML(model.content), language }],
+      visualElement: [{ content: model.visualElement, language }],
       copyright: {
         ...model.copyright,
         authors: model.authors.map(name => ({ type: 'Forfatter', name })),
@@ -62,6 +64,9 @@ class TopicArticleForm extends Component {
             maxLength={300}
             getMaxLengthRemaingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
             {...commonFieldProps}
+          />
+          <ImageSelectField
+            {...bindInput('visualElement')}
           />
           <RichTextField
             label={t('topicArticleForm.fields.content.label')}

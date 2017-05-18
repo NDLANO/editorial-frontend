@@ -52,6 +52,7 @@ class TopicArticlePage extends Component {
             tags: article.tags || [],
             authors: article.copyright.authors.map(author => author.name) || [],
             copyright: article.copyright,
+            visualElement: article.visualElement || '',
             metaDescription: article.metaDescription || '',
           }}
           tags={tags}

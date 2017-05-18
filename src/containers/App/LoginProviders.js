@@ -17,7 +17,7 @@ import SessionInitializer from './SessionInitializer';
 
 
 export const LoginProviders = (props) => {
-  const { message, match } = props;
+  const { t, message, match } = props;
   let messageEl;
   if (message) {
     messageEl = <p>{message}</p>;
@@ -27,12 +27,12 @@ export const LoginProviders = (props) => {
     <OneColumn cssModifier="narrow">
       <Route path={`${match.url}/success`} component={SessionInitializer} />
       <Route path={`${match.url}/failure(/)`} component={LoginFailure} />
-      <h3>TODO ... Denne må hentes fra poloygot later</h3>
+      <h3>{t('loginProviders.description')}</h3>
       {messageEl}
       <ul className="vertical-menu">
-        <li className="vertical-menu_item"><button onClick={() => loginSocialMedia('google-oauth2')} className="un-button cta-link cta-link--block cta-link--gl">Google</button></li>
-        <li className="vertical-menu_item"><button onClick={() => loginSocialMedia('facebook')} className="un-button cta-link cta-link--block cta-link--fb">Facebook</button></li>
-        <li className="vertical-menu_item"><button onClick={() => loginSocialMedia('twitter')} className="un-button cta-link cta-link--block cta-link--tw">Twitter</button></li>
+        <li className="vertical-menu_item"><button onClick={() => loginSocialMedia('google-oauth2')} className="login-button login-button-google c-button">Google</button></li>
+        <li className="vertical-menu_item"><button onClick={() => loginSocialMedia('facebook')} className="login-button login-button-fb c-button">Facebook</button></li>
+        <li className="vertical-menu_item"><button onClick={() => loginSocialMedia('twitter')} className="login-button login-button-twitter c-button">Twitter</button></li>
       </ul>
     </OneColumn>
   );

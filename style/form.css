@@ -28,3 +28,45 @@ input, textarea {
   border: 2px solid #d4d4d4;
   font-size: 1rem;
 }
+
+.login-button {
+  min-width: 150px;
+  display: block;
+}
+
+.login-button-google{
+  background-color: #dd4b39;
+  border-color: #dd4b39;
+}
+
+.login-button-google:hover{
+  background-color: #c23321;
+}
+
+.login-button-fb {
+  background-color: #3b5998;
+  border-color: #3b5998;
+}
+
+.login-button-fb:hover{
+  background-color: #2d4373;
+}
+
+.login-button-twitter {
+  background-color: #55acee;
+  border-color: #55acee;
+}
+
+.login-button-twitter:hover{
+  background-color: #2795e9;
+}
+
+.vertical-menu {
+  padding: 0 .5em;
+  margin: 0;
+  list-style: none
+}
+
+.vertical-menu_item {
+  margin: 0 0 1em
+}

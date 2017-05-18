@@ -25,11 +25,11 @@ const phrases = {
     logout: 'Logout [{name}]',
   },
   loginFailure: {
-    errorMessage: 'Beklager. Innlogging feilet.',
-    loginLink: 'Logg inn',
+    errorMessage: 'Sorry. Login failed.',
+    loginLink: 'Log in',
   },
   loginProviders: {
-    description: 'Logg inn i NDLA med',
+    description: 'Log in with',
   },
   searchForm: {
     placeholder: 'Search articles',

@@ -25,11 +25,11 @@ const phrases = {
     logout: 'Logg ut [{name}]',
   },
   loginFailure: {
-    errorMessage: 'Sorry. Login failed.',
-    loginLink: 'Log in',
+    errorMessage: 'Beklager. Innlogging feilet.',
+    loginLink: 'Logg inn',
   },
   loginProviders: {
-    description: 'Log in with',
+    description: 'Logg inn i NDLA med',
   },
   searchForm: {
     placeholder: 'Søk etter artikler',

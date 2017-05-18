@@ -34,7 +34,7 @@ export const getInitialModel = (article = {}) => ({
   content: article.content ? convertHTMLToContentState(article.content) : EditorState.createEmpty(),
   tags: article.tags || [],
   authors: article.copyright ? article.copyright.authors.map(author => author.name) : [],
-  copyright: article.copyright ? article.copyright : { license: DEFAULT_LICENSE, origin: "" },
+  copyright: article.copyright ? article.copyright : { license: DEFAULT_LICENSE, origin: '' },
   visualElement: article.visualElement || '',
   metaDescription: article.metaDescription || '',
 });

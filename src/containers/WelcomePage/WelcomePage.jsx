@@ -19,7 +19,7 @@ export const WelcomePage = ({ t }) =>
           <h1>{t('welcomePage.hello')}</h1>
           <ul>
             <li><Link to="/subjects">{t('welcomePage.subjects')}</Link></li>
-            <li><Link to="/search">{t('welcomePage.search')}</Link></li>
+            <li><Link to="/search?articleTypes=topic-article">{t('welcomePage.search')}</Link></li>
           </ul>
         </section>
       </article>

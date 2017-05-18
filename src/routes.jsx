@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import queryString from 'query-string';
 
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import App from './containers/App/App';
@@ -17,11 +18,10 @@ import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
 import SubjectPage from './containers/SubjectPage/SubjectPage';
 import ImageSearchPage from './containers/ImageSearch/ImageSearchPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
-import { createQueryString } from './util/queryHelpers';
 
-export function toSearch(queryString) {
-  if (queryString) {
-    return `/search?${createQueryString(queryString)}`;
+export function toSearch(query) {
+  if (query) {
+    return `/search?${queryString.stringify(query)}`;
   }
   return '/search';
 }

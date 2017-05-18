@@ -6,7 +6,7 @@
  *
  */
 
-import { take, takeEvery, call, put, select } from 'redux-saga/effects';
+import { take, call, put, select } from 'redux-saga/effects';
 import { actions, getArticle } from './articleDucks';
 import * as api from './articleApi';
 import { getAccessToken } from '../App/sessionSelectors';

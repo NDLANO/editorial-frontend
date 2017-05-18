@@ -25,6 +25,11 @@ const phrases = {
   searchForm: {
     placeholder: 'Søk etter artikler',
     btn: 'Søk',
+    articleType: {
+      all: 'Alle',
+      standard: 'Standard',
+      topicArticle: 'Emne artikkel',
+    },
     order: {
       relevance: 'Relevans',
       title: 'Alfabetisk',

@@ -25,6 +25,11 @@ const phrases = {
   searchForm: {
     placeholder: 'Search articles',
     btn: 'Search',
+    articleType: {
+      all: 'All',
+      standard: 'Standard',
+      topicArticle: 'Topic article',
+    },
     order: {
       relevance: 'Relevance',
       title: 'Alphabetical',

@@ -9,22 +9,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { toTopicArticle } from '../../../routes';
+import { toEditTopicArticle } from '../../../routes';
 import { titleI18N } from '../../../util/i18nFieldFinder';
 import { ArticleResultShape } from '../../../shapes';
 
 const SearchResult = ({ article, locale }) => (
   <div className="search-result">
     { article.articleType === 'topic-article' ?
-      <Link className="search-result_link" to={toTopicArticle(article.id)}>
+      <Link className="search-result_link" to={toEditTopicArticle(article.id)}>
         <h4 className="search-result_title">
           { titleI18N(article, locale, true) }
         </h4>
       </Link>
      :
-        <h4 className="search-result_title">
-          { titleI18N(article, locale, true) }
-        </h4>
+      <h4 className="search-result_title">
+        { titleI18N(article, locale, true) }
+      </h4>
     }
   </div>
 );

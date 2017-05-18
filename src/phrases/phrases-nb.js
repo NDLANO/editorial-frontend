@@ -11,9 +11,9 @@ const phrases = {
     description: 'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
   },
   welcomePage: {
-    hello: 'Hello verden',
-    subjects: 'Fag',
-    search: 'Søk',
+    shortcuts: 'Snarveier',
+    searchTopicArticles: 'Søk etter emneartikler',
+    createTopicArticle: 'Opprett emneartikler',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',

@@ -26,8 +26,12 @@ export function toSearch(query) {
   return '/search';
 }
 
-export function toTopicArticle(articleId) {
-  return `/topic-article/${articleId}`;
+export function toEditTopicArticle(articleId) {
+  return `/topic-article/${articleId}/edit`;
+}
+
+export function toCreateTopicArticle() {
+  return '/topic-article/new';
 }
 
 

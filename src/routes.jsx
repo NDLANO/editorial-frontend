@@ -37,18 +37,3 @@ export function toLogin() {
 export function toLogout() {
   return '/logoutProviders';
 }
-
-export default (
-  <App>
-    <ScrollToTop />
-    <Switch>
-      <Route path="/" exact component={WelcomePage} />
-      <Route path="/search" component={SearchPage} />
-      <Route path="/topic-article/:articleId" component={TopicArticlePage} />
-      <Route path="/subjects/:subjectId" component={SubjectPage} />
-      <Route path="/subjects/" component={SubjectsPage} />
-      <Route path="/images/" component={ImageSearchPage} />
-      <Route component={NotFoundPage} />
-    </Switch>
-  </App>
-);

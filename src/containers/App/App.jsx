@@ -32,6 +32,7 @@ import SearchPage from '../SearchPage/SearchPage';
 import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
 import SubjectsPage from '../SubjectsPage/SubjectsPage';
 import SubjectPage from '../SubjectPage/SubjectPage';
+import ImageSearchPage from '../../containers/ImageSearch/ImageSearch';
 
 export class App extends React.Component {
   getChildContext() {
@@ -67,6 +68,7 @@ export class App extends React.Component {
           <PrivateRoute path="/search" component={SearchPage} />
           <PrivateRoute path="/subjects/:subjectId" component={SubjectPage} />
           <PrivateRoute path="/subjects/" component={SubjectsPage} />
+          <PrivateRoute path="/images/" component={ImageSearchPage} />
           <Route path="/topic-article/:articleId" component={TopicArticlePage} />
           <Route path="/forbidden" component={Forbidden} />
           <Route component={NotFoundPage} />

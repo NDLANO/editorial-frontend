@@ -49,6 +49,8 @@ export function loginSocialMedia(type) {
 }
 
 export function logout() {
+  console.log('auth0 logout links', `${locationOrigin}/`);
+  console.log('auth0 logout auth0ClientId', auth0ClientId);
   return dispatch => fetchNewToken()
     .then((token) => {
       dispatch(setAccessToken(token.access_token));
@@ -61,6 +63,25 @@ export function logout() {
     })
     .catch(err => dispatch(applicationError(err)));
 }
+
+
+export function logoutFederated() {
+  console.log('auth0 logout links', `${locationOrigin}/`);
+  console.log('auth0 logout auth0ClientId', auth0ClientId);
+  return dispatch => fetchNewToken()
+    .then((token) => {
+      dispatch(setAccessToken(token.access_token));
+      dispatch(setAuthenticated(false));
+      dispatch(logoutAction());
+      auth.logout({
+        returnTo: `${locationOrigin}/`,
+        client_id: auth0ClientId,
+        federated: true,
+      });
+    })
+    .catch(err => dispatch(applicationError(err)));
+}
+
 
 export function checkValidSession(token = undefined) {
   return (dispatch, getState) => setTimeout(

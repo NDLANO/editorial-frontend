@@ -24,5 +24,5 @@ export function toLogin() {
 }
 
 export function toLogout() {
-  return '/logout';
+  return '/logoutProviders';
 }

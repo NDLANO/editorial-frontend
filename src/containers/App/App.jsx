@@ -22,6 +22,8 @@ import Alerts from '../Messages/Alerts';
 import { injectT } from '../../i18n';
 import LogoutSession from '../App/LogoutSession';
 import LoginProviders from '../App/LoginProviders';
+import LogoutFederated from '../App/LogoutFederated';
+import LogoutProviders from '../App/LogoutProviders';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import Forbidden from '../ForbiddenPage/ForbiddenPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -59,6 +61,9 @@ export class App extends React.Component {
           <Route path="/" exact component={WelcomePage} />
           <Route path="/login" component={LoginProviders} />
           <Route path="/logout" component={LogoutSession} />
+          <Route path="/logoutProviders" component={LogoutProviders} />
+          <Route path="/logoutLocal" component={LogoutSession} />
+          <Route path="/logoutFederated" component={LogoutFederated} />
           <PrivateRoute path="/search" component={SearchPage} />
           <PrivateRoute path="/subjects/:subjectId" component={SubjectPage} />
           <PrivateRoute path="/subjects/" component={SubjectsPage} />

@@ -243,7 +243,7 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
 
-auth0-js@^8.5.0:
+auth0-js@^8.6.1:
   version "8.6.1"
   resolved "https://registry.yarnpkg.com/auth0-js/-/auth0-js-8.6.1.tgz#8053c47b51f8856fcca659c76b511a1cd639df24"
   dependencies:

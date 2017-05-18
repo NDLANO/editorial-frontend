@@ -19,6 +19,13 @@ import { TextField, TextAreaField, MultiSelectField, RichTextField } from '../..
 import ImageSelectField from '../../../components/ImageSelectField';
 import { convertEditorStateToHTML, convertHTMLToContentState } from '../topicArticleContentConverter';
 
+
+const DEFAULT_LICENSE = {
+  description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
+  license: 'by-sa',
+  url: 'https://creativecommons.org/licenses/by-sa/2.0/',
+};
+
 export const getInitialModel = (article = {}) => ({
   id: article.id,
   revision: article.revision,
@@ -26,8 +33,8 @@ export const getInitialModel = (article = {}) => ({
   introduction: article.introduction || '',
   content: article.content ? convertHTMLToContentState(article.content) : EditorState.createEmpty(),
   tags: article.tags || [],
-  authors: article.copyright.authors.map(author => author.name) || [],
-  copyright: article.copyright,
+  authors: article.copyright ? article.copyright.authors.map(author => author.name) : [],
+  copyright: article.copyright ? article.copyright : { license: DEFAULT_LICENSE },
   visualElement: article.visualElement || '',
   metaDescription: article.metaDescription || '',
 });
@@ -127,7 +134,7 @@ class TopicArticleForm extends Component {
 
 TopicArticleForm.propTypes = {
   model: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
     title: PropTypes.string,
   }),
   schema: PropTypes.shape({

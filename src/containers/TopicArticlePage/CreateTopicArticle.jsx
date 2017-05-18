@@ -1,0 +1,55 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
+
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { actions, getArticle } from './articleDucks';
+import TopicArticleForm, { getInitialModel } from './components/TopicArticleForm';
+
+class CreateTopicArticle extends Component {
+  constructor(props) {
+    super(props);
+    this.updateArticle = this.updateArticle.bind(this);
+  }
+
+  updateArticle(article) {
+    const { updateArticle } = this.props;
+    updateArticle(article);
+  }
+
+  render() {
+    const { locale, tags } = this.props;
+
+    return (
+      <TopicArticleForm
+        initialModel={getInitialModel({})}
+        tags={tags}
+        locale={locale}
+        onUpdate={this.updateArticle}
+      />
+    );
+  }
+}
+
+CreateTopicArticle.propTypes = {
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  updateArticle: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
+};
+
+const mapDispatchToProps = {
+  fetchArticle: actions.fetchArticle,
+  updateArticle: actions.updateArticle,
+};
+
+const mapStateToProps = (state, props) => ({
+  article: getArticle(props.articleId)(state),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTopicArticle);

@@ -76,7 +76,7 @@
     "isomorphic-fetch": "2.2.1",
     "jwt-decode": "^2.2.0",
     "ndla-article-scripts": "^0.0.3",
-    "ndla-editor": "^0.1.1",
+    "ndla-editor": "^0.1.2",
     "ndla-error-reporter": "^0.1.2",
     "ndla-licenses": "^0.0.7",
     "ndla-ui": "^0.4.1",

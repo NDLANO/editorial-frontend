@@ -31,5 +31,36 @@ textarea {
 }
 
 .c-field {
-  margin-top: 3rem;
+  margin-top: 2rem;
+  position: relative;
+
+  &__focus-label {
+    color: var(--brand-color--tertiary);
+    position: absolute;
+    height: 2rem;
+    left: -4rem;
+    width: 3.5em;
+    border-right: 1px solid;
+    padding-right: 0.7rem;
+  }
+
+  &__focus-text {
+    float: right;
+    padding-top: 0.7rem;
+  }
+
+  &--big {
+    & input {
+      font-size: 2rem;
+    }
+  }
+
+  &--no-border {
+    & input {
+      border: none;
+      padding: 0;
+      margin: 0;
+      outline: none;
+    }
+  }
 }

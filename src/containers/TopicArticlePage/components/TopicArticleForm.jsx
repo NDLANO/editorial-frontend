@@ -80,6 +80,9 @@ class TopicArticleForm extends Component {
           <TextField
             label={t('topicArticleForm.labels.title')}
             name="title"
+            big
+            noBorder
+            placeholder={t('topicArticleForm.labels.title')}
             {...commonFieldProps}
           />
           <TextAreaField
@@ -93,6 +96,7 @@ class TopicArticleForm extends Component {
             {...bindInput('visualElement')}
           />
           <RichTextField
+            noBorder
             label={t('topicArticleForm.fields.content.label')}
             placeholder={t('topicArticleForm.fields.content.placeholder')}
             name="content"

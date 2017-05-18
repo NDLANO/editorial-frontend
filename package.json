@@ -11,8 +11,9 @@
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js -p --bail",
     "start": "cross-env NODE_ENV=development nodemon server --watch server",
     "start-prod": "cross-env NODE_ENV=production node server",
-    "stylelint": "stylelint style/**/*.css",
-    "lint": "eslint --ext .js --ext .jsx src server"
+    "csslint": "stylelint style/**/*.css",
+    "jslint": "eslint --ext .js --ext .jsx src server",
+    "lint": "npm run csslint && npm run jslint"
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",

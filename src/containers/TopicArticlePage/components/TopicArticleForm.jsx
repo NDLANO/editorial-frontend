@@ -34,7 +34,7 @@ export const getInitialModel = (article = {}) => ({
   content: article.content ? convertHTMLToContentState(article.content) : EditorState.createEmpty(),
   tags: article.tags || [],
   authors: article.copyright ? article.copyright.authors.map(author => author.name) : [],
-  copyright: article.copyright ? article.copyright : { license: DEFAULT_LICENSE },
+  copyright: article.copyright ? article.copyright : { license: DEFAULT_LICENSE, origin: "" },
   visualElement: article.visualElement || '',
   metaDescription: article.metaDescription || '',
 });
@@ -62,6 +62,8 @@ class TopicArticleForm extends Component {
       tags: [{ tags: model.tags, language }],
       content: [{ content: convertEditorStateToHTML(model.content), language }],
       visualElement: [{ content: model.visualElement, language }],
+      metaDescription: [{ metaDescription: model.metaDescription, language }],
+      articleType: 'topic-article',
       copyright: {
         ...model.copyright,
         authors: model.authors.map(name => ({ type: 'Forfatter', name })),

@@ -32,7 +32,7 @@ export function* watchFetchArticle() {
   }
 }
 
-export function* updateArticle({ payload: article }) {
+export function* updateArticle(article) {
   try {
     const token = yield select(getAccessToken);
     const updatedArticle = yield call(api.updateArticle, article, token);
@@ -42,8 +42,27 @@ export function* updateArticle({ payload: article }) {
     console.error(error); //eslint-disable-line
   }
 }
+
+export function* createArticle(article) {
+  try {
+    const token = yield select(getAccessToken);
+    const createdArticle = yield call(api.createArticle, article, token);
+    yield put(actions.setArticle(createdArticle));
+  } catch (error) {
+    // TODO: handle error
+    console.error(error); //eslint-disable-line
+  }
+}
+
 export function* watchUpdateArticle() {
-  yield takeEvery(actions.updateArticle, updateArticle);
+  while (true) {
+    const { payload: article } = yield take(actions.updateArticle);
+    if (article.id) {
+      yield call(updateArticle, article);
+    } else {
+      yield call(createArticle, article);
+    }
+  }
 }
 
 export default [

@@ -45,6 +45,7 @@ export function parseHash(hash) {
 export function loginSocialMedia(type) {
   auth.authorize({
     connection: type,
+    client_id: auth0ClientId,
   });
 }
 

@@ -16,6 +16,7 @@ import { getAccessToken } from './sessionSelectors';
 export function* fetchAccessToken() {
   try {
     const accessToken = yield call(api.fetchAccessToken);
+    window.accessToken = accessToken; // tmp hack
     yield put(actions.setAccessToken(accessToken.access_token));
   } catch (error) {
     // TODO: handle error

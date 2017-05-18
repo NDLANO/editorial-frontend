@@ -15,6 +15,7 @@ import SearchPage from './containers/SearchPage/SearchPage';
 import TopicArticlePage from './containers/TopicArticlePage/TopicArticlePage';
 import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
 import SubjectPage from './containers/SubjectPage/SubjectPage';
+import ImageSearchPage from './containers/ImageSearch/ImageSearchPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import { createQueryString } from './util/queryHelpers';
 
@@ -49,6 +50,7 @@ export default (
       <Route path="/topic-article/:articleId" component={TopicArticlePage} />
       <Route path="/subjects/:subjectId" component={SubjectPage} />
       <Route path="/subjects/" component={SubjectsPage} />
+      <Route path="/images/" component={ImageSearchPage} />
       <Route component={NotFoundPage} />
     </Switch>
   </App>

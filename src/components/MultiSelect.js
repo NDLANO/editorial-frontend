@@ -33,7 +33,6 @@ class MultiSelect extends Component {
 
     const handleSearch = (searchTerm) => {
       if (searchTerm.length === 2) {
-        console.log(data.filter(string => string.indexOf(searchTerm)));
         this.setState({ open: true, data: data.filter(string => string.indexOf(searchTerm) !== -1) });
       } else if (searchTerm.length < 2) {
         this.setState({ open: false, data: ['¥†¥∂¥¥'] }); // Needs one data item to dispay correct messages

@@ -7,6 +7,7 @@
  */
 
 .topic-article-form {
+  color: var(--brand-grey-dark);
   width: 640px;
 }
 
@@ -14,25 +15,29 @@
   width: 100%;
 }
 
-label {
-  font-size: 1.5rem;
-}
-
 input,
 textarea {
+  color: var(--brand-grey-dark);
   width: 100%;
   max-width: 100%;
-  padding: 0.75rem;
-  margin: 8px 0 0.1rem;
+  padding: 0.25rem;
+  margin: 0 0 0.1rem;
   box-sizing: border-box;
-  border-radius: 4px;
-  border: 2px solid #d4d4d4;
+  border: 1px solid #d4d4d4;
   font-size: 1rem;
+}
+
+input::placeholder {
+  color: rgb(153, 153, 153);
 }
 
 .c-field {
   margin-top: 2rem;
   position: relative;
+
+  & label {
+    font-size: 1.5rem;
+  }
 
   &__help {
     display: block;
@@ -44,7 +49,6 @@ textarea {
 
     &--right {
       text-align: right;
-      float: right;
     }
   }
 
@@ -58,6 +62,11 @@ textarea {
     padding-right: 0.7rem;
   }
 
+  &__description {
+    margin: 0.2em 0;
+    font-size: 0.75em;
+  }
+
   &__focus-text {
     float: right;
     padding-top: 0.7rem;
@@ -67,6 +76,10 @@ textarea {
     & input {
       font-size: 2rem;
     }
+  }
+
+  &--right {
+    text-align: right;
   }
 
   &--no-border {

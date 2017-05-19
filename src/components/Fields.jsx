@@ -19,8 +19,8 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-export const Field = ({ children, noBorder, big, className }) => (
-  <div {...classes('', { 'no-border': noBorder, big }, className)}>
+export const Field = ({ children, noBorder, big, className, right }) => (
+  <div {...classes('', { 'no-border': noBorder, right, big }, className)}>
     {children}
   </div>
 );
@@ -28,6 +28,7 @@ export const Field = ({ children, noBorder, big, className }) => (
 Field.propTypes = {
   noBorder: PropTypes.bool,
   big: PropTypes.bool,
+  right: PropTypes.bool,
 };
 
 Field.defaultProps = {

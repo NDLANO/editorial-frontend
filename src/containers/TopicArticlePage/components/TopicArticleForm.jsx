@@ -15,7 +15,7 @@ import { EditorState } from 'draft-js';
 import { injectT } from '../../../i18n';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
-import { TextField, TextAreaField, MultiSelectField, RichTextField, PlainTextField, RemainingCharacters } from '../../../components/Fields';
+import { TextField, TextAreaField, MultiSelectField, RichTextField, PlainTextField, RemainingCharacters, Field } from '../../../components/Fields';
 import ImageSelectField from '../../../components/ImageSelectField';
 import { convertEditorStateToHTML, convertHTMLToContentState, createEditorStateFromText, getPlainTextFromEditorState } from '../topicArticleContentConverter';
 
@@ -149,7 +149,9 @@ class TopicArticleForm extends Component {
             {...commonFieldProps}
           />
         </div>
-        <Button submit outline>{t('topicArticleForm.save')}</Button>
+        <Field right>
+          <Button submit outline>{t('topicArticleForm.save')}</Button>
+        </Field>
       </form>
     );
   }

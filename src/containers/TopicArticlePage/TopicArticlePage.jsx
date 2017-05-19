@@ -24,7 +24,7 @@ class TopicArticlePage extends Component {
   }
 
   render() {
-    const { locale, tags, match } = this.props;
+    const { locale, tags, match, history } = this.props;
 
     return (
       <OneColumn cssModifier="narrow">
@@ -34,6 +34,7 @@ class TopicArticlePage extends Component {
             render={() => (
               <CreateTopicArticle
                 tags={tags}
+                history={history}
                 locale={locale}
               />
             )}
@@ -57,6 +58,9 @@ class TopicArticlePage extends Component {
 TopicArticlePage.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchTags: PropTypes.func.isRequired,

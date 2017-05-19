@@ -26,7 +26,7 @@ class EditTopicArticle extends Component {
 
   updateArticle(article) {
     const { updateArticle } = this.props;
-    updateArticle(article);
+    updateArticle({ article });
   }
 
   render() {

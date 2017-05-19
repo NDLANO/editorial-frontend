@@ -13,7 +13,7 @@ const phrases = {
   welcomePage: {
     shortcuts: 'Snarveier',
     searchTopicArticles: 'Søk etter emneartikler',
-    createTopicArticle: 'Opprett emneartikler',
+    createTopicArticle: 'Opprett emneartikkel',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',

@@ -19,8 +19,8 @@ class CreateTopicArticle extends Component {
   }
 
   updateArticle(article) {
-    const { updateArticle } = this.props;
-    updateArticle(article);
+    const { updateArticle, history } = this.props;
+    updateArticle({ article, history });
   }
 
   render() {
@@ -39,6 +39,9 @@ class CreateTopicArticle extends Component {
 
 CreateTopicArticle.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   updateArticle: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
 };

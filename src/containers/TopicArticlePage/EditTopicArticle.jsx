@@ -60,8 +60,12 @@ const mapDispatchToProps = {
   updateArticle: actions.updateArticle,
 };
 
-const mapStateToProps = (state, props) => ({
-  article: getArticle(props.articleId)(state),
-});
+const makeMapStateToProps = (_, props) => {
+  const { articleId } = props;
+  const getArticleSelector = getArticle(articleId);
+  return state => ({
+    article: getArticleSelector(state),
+  });
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditTopicArticle);
+export default connect(makeMapStateToProps, mapDispatchToProps)(EditTopicArticle);

@@ -63,4 +63,10 @@ textarea {
       outline: none;
     }
   }
+
+  &__plain-text-editor {
+    & .public-DraftEditor-content {
+      min-height: 6em;
+    }
+  }
 }

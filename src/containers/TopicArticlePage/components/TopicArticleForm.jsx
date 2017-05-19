@@ -15,9 +15,9 @@ import { EditorState } from 'draft-js';
 import { injectT } from '../../../i18n';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
-import { TextField, TextAreaField, MultiSelectField, RichTextField } from '../../../components/Fields';
+import { TextField, TextAreaField, MultiSelectField, RichTextField, PlainTextField } from '../../../components/Fields';
 import ImageSelectField from '../../../components/ImageSelectField';
-import { convertEditorStateToHTML, convertHTMLToContentState } from '../topicArticleContentConverter';
+import { convertEditorStateToHTML, convertHTMLToContentState, createEditorStateFromText, getPlainTextFromEditorState } from '../topicArticleContentConverter';
 
 
 const DEFAULT_LICENSE = {
@@ -30,7 +30,7 @@ export const getInitialModel = (article = {}) => ({
   id: article.id,
   revision: article.revision,
   title: article.title || '',
-  introduction: article.introduction || '',
+  introduction: createEditorStateFromText(article.introduction),
   content: article.content ? convertHTMLToContentState(article.content) : EditorState.createEmpty(),
   tags: article.tags || [],
   authors: article.copyright ? article.copyright.authors.map(author => author.name) : [],
@@ -58,7 +58,7 @@ class TopicArticleForm extends Component {
       id: model.id,
       revision: model.revision,
       title: [{ title: model.title, language }],
-      introduction: [{ introduction: model.introduction, language }],
+      introduction: [{ introduction: getPlainTextFromEditorState(model.introduction), language }],
       tags: [{ tags: model.tags, language }],
       content: [{ content: convertEditorStateToHTML(model.content), language }],
       visualElement: [{ content: model.visualElement, language }],
@@ -85,9 +85,11 @@ class TopicArticleForm extends Component {
             placeholder={t('topicArticleForm.labels.title')}
             {...commonFieldProps}
           />
-          <TextAreaField
+          <PlainTextField
             label={t('topicArticleForm.labels.introduction')}
+            placeholder={t('topicArticleForm.labels.introduction')}
             name="introduction"
+            noBorder
             maxLength={300}
             getMaxLengthRemaingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
             {...commonFieldProps}
@@ -164,6 +166,7 @@ export default compose(
     },
     introduction: {
       required: true,
+      maxLength: 150,
     },
     content: {
       required: true,

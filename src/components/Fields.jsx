@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { RichTextEditor } from 'ndla-editor';
+import { RichTextEditor, PlainTextEditor } from 'ndla-editor';
 import BEMHelper from 'react-bem-helper';
 import MultiSelect from './MultiSelect';
 import { isEmpty } from './validators';
@@ -161,6 +161,39 @@ export const RichTextField = ({ bindInput, name, label, noBorder, submitted, sch
 
 
 RichTextField.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  noBorder: PropTypes.bool,
+  submitted: PropTypes.bool.isRequired,
+};
+
+export const PlainTextField = ({ bindInput, name, label, noBorder, submitted, schema, ...rest }) => {
+  const { value, onChange } = bindInput(name);
+  return (
+    <Field noBorder>
+      { !noBorder ? <label htmlFor={name}>{label}</label> : <label className="u-hidden" htmlFor={name}>{label}</label> }
+      { noBorder && <FocusLabel name={name} hasFocus={() => value.getSelection().hasFocus} value={value}>{label}</FocusLabel> }
+      <div {...classes('plain-text-editor')}>
+        <PlainTextEditor
+          id={name}
+          onChange={val => onChange({ target: { name, value: val, type: 'EditorState' } })}
+          value={value}
+          {...rest}
+        />
+      </div>
+      <div>
+        <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
+      </div>
+    </Field>
+  );
+};
+
+
+PlainTextField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,

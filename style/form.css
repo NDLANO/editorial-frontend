@@ -23,7 +23,7 @@ textarea {
   width: 100%;
   max-width: 100%;
   padding: 0.75rem;
-  margin: 8px -2px 20px;
+  margin: 8px 0 0.1rem;
   box-sizing: border-box;
   border-radius: 4px;
   border: 2px solid #d4d4d4;
@@ -33,6 +33,20 @@ textarea {
 .c-field {
   margin-top: 2rem;
   position: relative;
+
+  &__help {
+    display: block;
+    font-size: 0.75rem;
+
+    &--error {
+      color: var(--mark-color);
+    }
+
+    &--right {
+      text-align: right;
+      float: right;
+    }
+  }
 
   &__focus-label {
     color: var(--brand-color--tertiary);

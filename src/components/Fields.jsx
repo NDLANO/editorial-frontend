@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { RichTextEditor, PlainTextEditor } from 'ndla-editor';
+import { uuid } from 'ndla-util';
 import BEMHelper from 'react-bem-helper';
 import MultiSelect from './MultiSelect';
 import { isEmpty } from './validators';
@@ -33,10 +34,32 @@ Field.defaultProps = {
   noBorder: false,
 };
 
-export const FieldMessage = ({ field, submitted, label }) =>
-  (field && !field.isValid && (field.isDirty || submitted) ? <span>{field.errors[0](label)}</span> : null);
+export const FieldHelp = ({ children, error, right }) => (
+  <span {...classes('help', { error, right })}>
+    {children}
+  </span>
+);
 
-FieldMessage.propTypes = {
+FieldHelp.propTypes = {
+  error: PropTypes.bool,
+  right: PropTypes.bool,
+};
+
+const hasError = field => field && !field.isValid;
+const showError = (field, submitted) => hasError(field) && (field.isDirty || submitted);
+
+export const FieldErrorMessages = ({ field, submitted, label }) => {
+  if (!showError(field, submitted)) {
+    return null;
+  }
+  return (
+    <div>
+      {field.errors.map(error => <FieldHelp key={uuid()} error>{error(label)}</FieldHelp>) }
+    </div>
+  );
+};
+
+FieldErrorMessages.propTypes = {
   label: PropTypes.string.isRequired,
   field: PropTypes.shape({
     isDirty: PropTypes.bool.isRequired,
@@ -71,6 +94,14 @@ FocusLabel.defaultProps = {
   hasFocus: name => document.activeElement.id === name,
 };
 
+export const RemainingCharacters = ({ value, maxLength, getRemainingLabel }) => (<FieldHelp right>{getRemainingLabel(maxLength, maxLength - value.length)}</FieldHelp>);
+
+RemainingCharacters.propTypes = {
+  value: PropTypes.string.isRequired,
+  maxLength: PropTypes.number.isRequired,
+  getRemainingLabel: PropTypes.func.isRequired,
+};
+
 export const TextField = ({ bindInput, name, label, submitted, schema, noBorder, big, ...rest }) => (
   <Field noBorder big>
     { !noBorder ? <label htmlFor={name}>{label}</label> : <label className="u-hidden" htmlFor={name}>{label}</label> }
@@ -83,9 +114,7 @@ export const TextField = ({ bindInput, name, label, submitted, schema, noBorder,
       {...bindInput(name)}
       {...rest}
     />
-    <div>
-      <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
-    </div>
+    <FieldErrorMessages label={label} field={schema.fields[name]} submitted={submitted} />
   </Field>
 );
 
@@ -101,14 +130,6 @@ TextField.propTypes = {
   submitted: PropTypes.bool.isRequired,
 };
 
-export const RemainingCharacters = ({ value, maxLength, getRemainingLabel }) => (<span>{getRemainingLabel(maxLength, maxLength - value.length)}</span>);
-
-RemainingCharacters.propTypes = {
-  value: PropTypes.string.isRequired,
-  maxLength: PropTypes.number.isRequired,
-  getRemainingLabel: PropTypes.func.isRequired,
-};
-
 
 export const TextAreaField = ({ bindInput, name, label, submitted, schema, maxLength, children, getMaxLengthRemaingLabel, ...rest }) => (
   <Field>
@@ -120,10 +141,8 @@ export const TextAreaField = ({ bindInput, name, label, submitted, schema, maxLe
       {...bindInput(name)}
       {...rest}
     />
+    <FieldErrorMessages label={label} field={schema.fields[name]} submitted={submitted} />
     { children }
-    <div>
-      <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
-    </div>
   </Field>
 );
 
@@ -152,9 +171,7 @@ export const RichTextField = ({ bindInput, name, label, noBorder, submitted, sch
         value={value}
         {...rest}
       />
-      <div>
-        <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
-      </div>
+      <FieldErrorMessages label={label} field={schema.fields[name]} submitted={submitted} />
     </Field>
   );
 };
@@ -185,10 +202,8 @@ export const PlainTextField = ({ bindInput, name, label, noBorder, submitted, sc
           {...rest}
         />
       </div>
+      <FieldErrorMessages label={label} field={schema.fields[name]} submitted={submitted} />
       { children }
-      <div>
-        <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
-      </div>
     </Field>
   );
 };
@@ -212,9 +227,7 @@ export const MultiSelectField = ({ bindInput, name, label, submitted, schema, ..
       {...bindInput(name)}
       {...rest}
     />
-    <div>
-      <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
-    </div>
+    <FieldErrorMessages label={label} field={schema.fields[name]} submitted={submitted} />
   </Field>
 );
 

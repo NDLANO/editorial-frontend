@@ -14,7 +14,7 @@ import Lightbox from './Lightbox';
 import ImageSearch from '../containers/ImageSearch/ImageSearch';
 import DisplayEmbedTag from './DisplayEmbedTag';
 import * as actions from '../containers/ImageSearch/imageActions';
-import { Field, FieldMessage } from './Fields';
+import { Field, FieldErrorMessages } from './Fields';
 
 class ImageSelectField extends Component {
   constructor(props) {
@@ -69,9 +69,7 @@ class ImageSelectField extends Component {
           <h2>Bildesøk</h2>
           <ImageSearch onChange={this.handleImageChange} />
         </Lightbox>
-        <div>
-          <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
-        </div>
+        <FieldErrorMessages label={label} field={schema.fields[name]} submitted={submitted} />
       </Field>
     );
   }

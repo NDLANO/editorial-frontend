@@ -14,7 +14,7 @@ import BEMHelper from 'react-bem-helper';
 import MultiSelect from './MultiSelect';
 import { isEmpty } from './validators';
 
-const classes = new BEMHelper({
+export const classes = new BEMHelper({
   name: 'field',
   prefix: 'c-',
 });

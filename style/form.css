@@ -6,15 +6,6 @@
  *
  */
 
-.topic-article-form {
-  color: var(--brand-grey-dark);
-  width: 640px;
-}
-
-.form-control {
-  width: 100%;
-}
-
 input,
 textarea {
   color: var(--brand-grey-dark);
@@ -94,6 +85,15 @@ input::placeholder {
   &__plain-text-editor {
     & .public-DraftEditor-content {
       min-height: 6em;
+    }
+  }
+
+  &__add-visual-element {
+    border-color: var(--brand-color--tertiary);
+    color: var(--brand-grey-dark);
+
+    &:hover {
+      background-color: var(--brand-color--tertiary);
     }
   }
 }

@@ -14,7 +14,7 @@ import Lightbox from './Lightbox';
 import ImageSearch from '../containers/ImageSearch/ImageSearch';
 import DisplayEmbedTag from './DisplayEmbedTag';
 import * as actions from '../containers/ImageSearch/imageActions';
-import { Field, FieldErrorMessages } from './Fields';
+import { Field, FieldErrorMessages, classes } from './Fields';
 
 class ImageSelectField extends Component {
   constructor(props) {
@@ -63,7 +63,7 @@ class ImageSelectField extends Component {
             <DisplayEmbedTag embedTag={value} />
           </Button>
           :
-          <Button onClick={this.onImageLightboxOpen}>Legg til visuelt element</Button>
+          <Button outline {...classes('add-visual-element')} onClick={this.onImageLightboxOpen}>Legg til visuelt element</Button>
         }
         <Lightbox display={this.state.isOpen} big onClose={this.onImageLightboxClose}>
           <h2>Bildesøk</h2>

@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { convertFromHTML, convertToHTML } from 'draft-convert';
-import { EditorState, Entity } from 'draft-js';
+import { ContentState, EditorState, Entity } from 'draft-js';
 
 function reduceAttributesArrayToObject(attributes) {
   // Reduce attributes array to object with attribute name (striped of data-) as keys.
@@ -48,3 +48,12 @@ export function convertEditorStateToHTML(editorState) {
 
   return `<section>${html.replace('<deleteme>a</deleteme>', '')}</section>`;
 }
+
+export const createEditorStateFromText = (text) => {
+  if (text) {
+    return EditorState.createWithContent(ContentState.createFromText(text));
+  }
+  return EditorState.createEmpty();
+};
+
+export const getPlainTextFromEditorState = editorState => editorState.getCurrentContent().getPlainText();

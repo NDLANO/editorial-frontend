@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import queryString from 'query-string';
 
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import App from './containers/App/App';
@@ -17,17 +18,20 @@ import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
 import SubjectPage from './containers/SubjectPage/SubjectPage';
 import ImageSearchPage from './containers/ImageSearch/ImageSearchPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
-import { createQueryString } from './util/queryHelpers';
 
-export function toSearch(queryString) {
-  if (queryString) {
-    return `/search?${createQueryString(queryString)}`;
+export function toSearch(query) {
+  if (query) {
+    return `/search?${queryString.stringify(query)}`;
   }
   return '/search';
 }
 
-export function toTopicArticle(articleId) {
-  return `/topic-article/${articleId}`;
+export function toEditTopicArticle(articleId) {
+  return `/topic-article/${articleId}/edit`;
+}
+
+export function toCreateTopicArticle() {
+  return '/topic-article/new';
 }
 
 
@@ -47,7 +51,7 @@ export default (
     <Switch>
       <Route path="/" exact component={WelcomePage} />
       <Route path="/search" component={SearchPage} />
-      <Route path="/topic-article/:articleId" component={TopicArticlePage} />
+      <Route path="/topic-article/" component={TopicArticlePage} />
       <Route path="/subjects/:subjectId" component={SubjectPage} />
       <Route path="/subjects/" component={SubjectsPage} />
       <Route path="/images/" component={ImageSearchPage} />

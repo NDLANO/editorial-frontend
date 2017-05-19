@@ -6,10 +6,11 @@
  *
  */
 
-import { take, takeEvery, call, put, select } from 'redux-saga/effects';
+import { take, call, put, select } from 'redux-saga/effects';
 import { actions, getArticle } from './articleDucks';
 import * as api from './articleApi';
 import { getAccessToken } from '../App/sessionSelectors';
+import { toEditTopicArticle } from '../../routes';
 
 export function* fetchArticle(id) {
   try {
@@ -32,7 +33,7 @@ export function* watchFetchArticle() {
   }
 }
 
-export function* updateArticle({ payload: article }) {
+export function* updateArticle(article) {
   try {
     const token = yield select(getAccessToken);
     const updatedArticle = yield call(api.updateArticle, article, token);
@@ -42,8 +43,28 @@ export function* updateArticle({ payload: article }) {
     console.error(error); //eslint-disable-line
   }
 }
+
+export function* createArticle(article, history) {
+  try {
+    const token = yield select(getAccessToken);
+    const createdArticle = yield call(api.createArticle, article, token);
+    yield put(actions.setArticle(createdArticle));
+    history.push(toEditTopicArticle(createdArticle.id));
+  } catch (error) {
+    // TODO: handle error
+    console.error(error); //eslint-disable-line
+  }
+}
+
 export function* watchUpdateArticle() {
-  yield takeEvery(actions.updateArticle, updateArticle);
+  while (true) {
+    const { payload: { article, history } } = yield take(actions.updateArticle);
+    if (article.id) {
+      yield call(updateArticle, article);
+    } else {
+      yield call(createArticle, article, history);
+    }
+  }
 }
 
 export default [

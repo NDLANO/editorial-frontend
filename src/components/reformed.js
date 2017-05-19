@@ -49,13 +49,18 @@ const makeWrapper = (WrappedComponent) => {
       this.setState({ submitted });
     }
 
-    setProperty(prop, value) {
+    setProperty(prop, value, isDirty = true) {
       const model = { ...this.state.model,
         [prop]: value,
       };
-      const fields = { ...this.state.fields, [prop]: { isDirty: true } };
 
-      this.setState({ model, fields });
+      if (this.state.fields[prop] && this.state.fields[prop].isDirty) {
+        this.setState(() => ({ model }));
+      } else {
+        const fields = { ...this.state.fields, [prop]: { isDirty } };
+        this.setState(() => ({ model, fields }));
+      }
+
       return model;
     }
 
@@ -69,6 +74,8 @@ const makeWrapper = (WrappedComponent) => {
           : oldCheckboxValue.filter(v => v !== value);
 
         this.setProperty(name, newCheckboxValue);
+      } else if (type === 'EditorState') {
+        this.setProperty(name, value, value.getCurrentContent().hasText()); // Only set dirty flag if text has changed
       } else {
         this.setProperty(name, value);
       }

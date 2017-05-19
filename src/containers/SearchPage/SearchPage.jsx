@@ -7,6 +7,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { OneColumn, Pager } from 'ndla-ui';
 
@@ -17,8 +18,8 @@ import { getLocale } from '../Locale/localeSelectors';
 import SearchForm from './components/SearchForm';
 import SearchResultList from './components/SearchResultList';
 import SelectSearchSortOrder from './components/SelectSearchSortOrder';
+import SelectArticleType from './components/SelectArticleType';
 import { toSearch } from '../../routes';
-import { parseQueryString } from '../../util/queryHelpers';
 
 class SearchPage extends Component {
 
@@ -38,19 +39,26 @@ class SearchPage extends Component {
 
   render() {
     const { location, results, locale, searching, lastPage, history } = this.props;
-    const query = parseQueryString(location.search);
+    const query = queryString.parse(location.search);
 
     return (
       <OneColumn cssModifier="narrow">
         <SearchForm
           query={query.query}
           searching={searching}
-          onSearchQuerySubmit={searchQuery => history.push(toSearch({ query: searchQuery, page: 1, sort: query.sort ? query.sort : '-relevance' }))}
+          onSearchQuerySubmit={searchQuery => history.push(toSearch({ ...query, query: searchQuery, page: 1, sort: query.sort ? query.sort : '-relevance' }))}
+        />
+
+        <SelectArticleType
+          articleType={query.articleType}
+          onArticleTypeChange={
+            articleTypes => history.push(toSearch({ ...query, page: 1, articleTypes }))
+          }
         />
 
         <SelectSearchSortOrder
           sort={query.sort}
-          onSortOrderChange={sort => history.push(toSearch({ query: query.query, sort, page: 1 }))}
+          onSortOrderChange={sort => history.push(toSearch({ ...query, sort, page: 1 }))}
         />
 
         <SearchResultList query={query} locale={locale} results={results} />

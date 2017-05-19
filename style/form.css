@@ -6,25 +6,94 @@
  *
  */
 
-.topic-article-form {
-  width: 640px;
-}
-
-.form-control {
-  width: 100%;
-}
-
-label {
-  font-size: 1.5rem;
-}
-
-input, textarea {
+input,
+textarea {
+  color: var(--brand-grey-dark);
   width: 100%;
   max-width: 100%;
-  padding: 0.75rem;
-  margin: 8px -2px 20px;
+  padding: 0.25rem;
+  margin: 0 0 0.1rem;
   box-sizing: border-box;
-  border-radius: 4px;
-  border: 2px solid #d4d4d4;
+  border: 1px solid #d4d4d4;
   font-size: 1rem;
+}
+
+input::placeholder {
+  color: rgb(153, 153, 153);
+}
+
+.c-field {
+  margin-top: 2rem;
+  position: relative;
+
+  & label {
+    font-size: 1.5rem;
+  }
+
+  &__help {
+    display: block;
+    font-size: 0.75rem;
+
+    &--error {
+      color: var(--mark-color);
+    }
+
+    &--right {
+      text-align: right;
+    }
+  }
+
+  &__focus-label {
+    color: var(--brand-color--tertiary);
+    position: absolute;
+    height: 2rem;
+    left: -4rem;
+    width: 3.5em;
+    border-right: 1px solid;
+    padding-right: 0.7rem;
+  }
+
+  &__description {
+    margin: 0.2em 0;
+    font-size: 0.75em;
+  }
+
+  &__focus-text {
+    float: right;
+    padding-top: 0.7rem;
+  }
+
+  &--big {
+    & input {
+      font-size: 2rem;
+    }
+  }
+
+  &--right {
+    text-align: right;
+  }
+
+  &--no-border {
+    & input {
+      border: none;
+      padding: 0;
+      margin: 0;
+      outline: none;
+    }
+  }
+
+  &__plain-text-editor {
+    & .public-DraftEditor-content {
+      min-height: 6em;
+    }
+  }
+
+  &__add-visual-element {
+    border-color: var(--brand-color--tertiary);
+    color: var(--brand-grey-dark);
+
+    &:hover {
+      background-color: var(--brand-color--tertiary);
+    }
+  }
 }

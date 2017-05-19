@@ -14,6 +14,7 @@ import Lightbox from './Lightbox';
 import ImageSearch from '../containers/ImageSearch/ImageSearch';
 import DisplayEmbedTag from './DisplayEmbedTag';
 import * as actions from '../containers/ImageSearch/imageActions';
+import { Field, FieldErrorMessages, classes } from './Fields';
 
 class ImageSelectField extends Component {
   constructor(props) {
@@ -48,23 +49,28 @@ class ImageSelectField extends Component {
 
   render() {
     const {
+      name,
+      label,
+      schema,
+      submitted,
       value,
     } = this.props;
 
     return (
-      <div>
+      <Field>
         { value ?
           <Button stripped onClick={this.onImageLightboxOpen}>
             <DisplayEmbedTag embedTag={value} />
           </Button>
           :
-          <Button onClick={this.onImageLightboxOpen}>Legg til visuelt element</Button>
+          <Button outline {...classes('add-visual-element')} onClick={this.onImageLightboxOpen}>Legg til visuelt element</Button>
         }
         <Lightbox display={this.state.isOpen} big onClose={this.onImageLightboxClose}>
           <h2>Bildesøk</h2>
           <ImageSearch onChange={this.handleImageChange} />
         </Lightbox>
-      </div>
+        <FieldErrorMessages label={label} field={schema.fields[name]} submitted={submitted} />
+      </Field>
     );
   }
 }
@@ -74,6 +80,11 @@ ImageSelectField.propTypes = {
   value: PropTypes.string,
   name: PropTypes.string.isRequired,
   searchImages: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  submitted: PropTypes.bool.isRequired,
 };
 
 

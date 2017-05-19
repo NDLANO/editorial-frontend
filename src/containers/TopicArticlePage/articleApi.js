@@ -22,3 +22,9 @@ export const updateArticle = (article, token) => fetch(`${baseUrl}/${article.id}
   method: 'PATCH',
   body: JSON.stringify(article),
 }).then(resolveJsonOrRejectWithError);
+
+export const createArticle = (article, token) => fetch(`${baseUrl}/`, {
+  headers: headerWithAccessToken(token),
+  method: 'POST',
+  body: JSON.stringify(article),
+}).then(resolveJsonOrRejectWithError);

@@ -43,25 +43,30 @@ const phrases = {
   },
   topicArticleForm: {
     save: 'Lagre',
-    labels: {
-      title: 'Tittel',
-      introduction: 'Ingress',
-      metaDescription: 'Metabeskrivelse',
-      content: 'Innhold',
-    },
     fields: {
+      title: {
+        label: 'Tittel',
+      },
+      introduction: {
+        label: 'Ingress',
+      },
+      visualElement: {
+        label: 'Visuelt element',
+      },
       content: {
         label: 'Innhold',
         placeholder: 'Innhold',
       },
       tags: {
         label: 'Nøkkelord',
+        description: 'Obligatorisk med 3 nøkkelord.',
         createNew: 'Opprett nytt nøkkelord',
         emptyFilter: 'Fant ingen passende nøkkelord',
         emptyList: 'Det er ingen tagger i denne listen',
       },
-      visualElement: {
-        label: 'Visuelt element',
+      metaDescription: {
+        label: 'Metabeskrivelse',
+        description: 'Beskrivelsen blir synlig i søk.',
       },
       authors: {
         label: 'Forfatter',
@@ -69,9 +74,6 @@ const phrases = {
         emptyFilter: ' ',
         emptyList: ' ',
       },
-    },
-    description: {
-      metaDescription: 'Beskrivelsen blir synlig i søk.',
     },
   },
   form: {

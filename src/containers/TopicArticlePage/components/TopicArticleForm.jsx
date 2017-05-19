@@ -78,16 +78,16 @@ class TopicArticleForm extends Component {
       <form onSubmit={this.handleSubmit} className="topic-article-form">
         <div style={{ marginTop: '3rem' }}>
           <TextField
-            label={t('topicArticleForm.labels.title')}
+            label={t('topicArticleForm.fields.title.label')}
             name="title"
             big
             noBorder
-            placeholder={t('topicArticleForm.labels.title')}
+            placeholder={t('topicArticleForm.fields.title.label')}
             {...commonFieldProps}
           />
           <PlainTextField
-            label={t('topicArticleForm.labels.introduction')}
-            placeholder={t('topicArticleForm.labels.introduction')}
+            label={t('topicArticleForm.fields.introduction.label')}
+            placeholder={t('topicArticleForm.fields.introduction.label')}
             name="introduction"
             noBorder
             maxLength={300}
@@ -113,8 +113,21 @@ class TopicArticleForm extends Component {
             {...commonFieldProps}
           />
           <hr />
+          <MultiSelectField
+            name="tags"
+            data={tags}
+            label={t('topicArticleForm.fields.tags.label')}
+            description={t('topicArticleForm.fields.tags.description')}
+            messages={{
+              createNew: t('topicArticleForm.fields.tags.createNew'),
+              emptyFilter: t('topicArticleForm.fields.tags.emptyFilter'),
+              emptyList: t('topicArticleForm.fields.tags.emptyList'),
+            }}
+            {...commonFieldProps}
+          />
           <TextAreaField
-            label={t('topicArticleForm.labels.metaDescription')}
+            label={t('topicArticleForm.fields.metaDescription.label')}
+            description={t('topicArticleForm.fields.metaDescription.description')}
             name="metaDescription"
             maxLength={150}
             {...commonFieldProps}
@@ -125,17 +138,6 @@ class TopicArticleForm extends Component {
               value={bindInput('metaDescription').value}
             />
           </TextAreaField>
-          <MultiSelectField
-            name="tags"
-            data={tags}
-            label={t('topicArticleForm.fields.tags.label')}
-            messages={{
-              createNew: t('topicArticleForm.fields.tags.createNew'),
-              emptyFilter: t('topicArticleForm.fields.tags.emptyFilter'),
-              emptyList: t('topicArticleForm.fields.tags.emptyList'),
-            }}
-            {...commonFieldProps}
-          />
           <MultiSelectField
             name="authors"
             label={t('topicArticleForm.fields.authors.label')}

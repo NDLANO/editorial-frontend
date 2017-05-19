@@ -43,24 +43,30 @@ const phrases = {
   },
   topicArticleForm: {
     save: 'Save',
-    labels: {
-      title: 'Title',
-      introduction: 'Introduction',
-      metaDescription: 'Meta description',
-    },
     fields: {
+      title: {
+        label: 'Title',
+      },
+      introduction: {
+        label: 'Introduction',
+      },
+      visualElement: {
+        label: 'Visual element',
+      },
       content: {
         label: 'Content',
         placeholder: 'Write here...',
       },
       tags: {
         label: 'Tags',
+        description: '3 tags is required.',
         createNew: 'Create new tag',
         emptyList: 'No tags available',
         emptyFilter: 'No matching tags found',
       },
-      visualElement: {
-        label: 'Visual element',
+      metaDescription: {
+        label: 'Meta description',
+        description: 'The description will be viewable in search.',
       },
       authors: {
         label: 'Author',

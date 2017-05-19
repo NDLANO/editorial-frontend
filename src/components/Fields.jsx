@@ -130,10 +130,12 @@ TextField.propTypes = {
   submitted: PropTypes.bool.isRequired,
 };
 
+export const FieldDescription = ({ children }) => <p {...classes('description')} >{children}</p>;
 
-export const TextAreaField = ({ bindInput, name, label, submitted, schema, maxLength, children, getMaxLengthRemaingLabel, ...rest }) => (
+export const TextAreaField = ({ bindInput, name, description, label, submitted, schema, maxLength, children, getMaxLengthRemaingLabel, ...rest }) => (
   <Field>
     <label htmlFor={name}>{label}</label>
+    { description && <FieldDescription>{description}</FieldDescription>}
     <textarea
       id={name}
       className="form-control"
@@ -150,6 +152,7 @@ export const TextAreaField = ({ bindInput, name, label, submitted, schema, maxLe
 TextAreaField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  description: PropTypes.string,
   label: PropTypes.string.isRequired,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
@@ -220,9 +223,10 @@ PlainTextField.propTypes = {
   submitted: PropTypes.bool.isRequired,
 };
 
-export const MultiSelectField = ({ bindInput, name, label, submitted, schema, ...rest }) => (
+export const MultiSelectField = ({ bindInput, name, description, label, submitted, schema, ...rest }) => (
   <Field>
     <label htmlFor={name}>{label}</label>
+    { description && <FieldDescription>{description}</FieldDescription> }
     <MultiSelect
       {...bindInput(name)}
       {...rest}
@@ -235,6 +239,7 @@ export const MultiSelectField = ({ bindInput, name, label, submitted, schema, ..
 MultiSelectField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  description: PropTypes.string,
   label: PropTypes.string.isRequired,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,

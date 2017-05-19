@@ -18,7 +18,7 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const Field = ({ children, noBorder, big, className }) => (
+export const Field = ({ children, noBorder, big, className }) => (
   <div {...classes('', { 'no-border': noBorder, big }, className)}>
     {children}
   </div>
@@ -33,7 +33,7 @@ Field.defaultProps = {
   noBorder: false,
 };
 
-const FieldMessage = ({ field, submitted, label }) =>
+export const FieldMessage = ({ field, submitted, label }) =>
   (field && !field.isValid && (field.isDirty || submitted) ? <span>{field.errors[0](label)}</span> : null);
 
 FieldMessage.propTypes = {

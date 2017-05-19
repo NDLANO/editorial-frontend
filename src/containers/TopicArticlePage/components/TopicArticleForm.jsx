@@ -95,6 +95,9 @@ class TopicArticleForm extends Component {
             {...commonFieldProps}
           />
           <ImageSelectField
+            label={t('topicArticleForm.fields.visualElement.label')}
+            schema={schema}
+            submitted={submitted}
             {...bindInput('visualElement')}
           />
           <RichTextField
@@ -172,6 +175,9 @@ export default compose(
       required: true,
     },
     metaDescription: {
+      required: true,
+    },
+    visualElement: {
       required: true,
     },
     tags: {

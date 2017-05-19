@@ -60,6 +60,9 @@ const phrases = {
         emptyFilter: 'Fant ingen passende nøkkelord',
         emptyList: 'Det er ingen tagger i denne listen',
       },
+      visualElement: {
+        label: 'Visuelt element',
+      },
       authors: {
         label: 'Forfatter',
         createNew: 'Opprett ny bidragsyter',

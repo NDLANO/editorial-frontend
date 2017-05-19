@@ -59,6 +59,9 @@ const phrases = {
         emptyList: 'No tags available',
         emptyFilter: 'No matching tags found',
       },
+      visualElement: {
+        label: 'Visual element',
+      },
       authors: {
         label: 'Author',
         createNew: 'Add new author',

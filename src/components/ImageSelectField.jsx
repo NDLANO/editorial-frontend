@@ -14,6 +14,7 @@ import Lightbox from './Lightbox';
 import ImageSearch from '../containers/ImageSearch/ImageSearch';
 import DisplayEmbedTag from './DisplayEmbedTag';
 import * as actions from '../containers/ImageSearch/imageActions';
+import { Field, FieldMessage } from './Fields';
 
 class ImageSelectField extends Component {
   constructor(props) {
@@ -48,11 +49,15 @@ class ImageSelectField extends Component {
 
   render() {
     const {
+      name,
+      label,
+      schema,
+      submitted,
       value,
     } = this.props;
 
     return (
-      <div>
+      <Field>
         { value ?
           <Button stripped onClick={this.onImageLightboxOpen}>
             <DisplayEmbedTag embedTag={value} />
@@ -64,7 +69,10 @@ class ImageSelectField extends Component {
           <h2>Bildesøk</h2>
           <ImageSearch onChange={this.handleImageChange} />
         </Lightbox>
-      </div>
+        <div>
+          <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
+        </div>
+      </Field>
     );
   }
 }
@@ -74,6 +82,11 @@ ImageSelectField.propTypes = {
   value: PropTypes.string,
   name: PropTypes.string.isRequired,
   searchImages: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  submitted: PropTypes.bool.isRequired,
 };
 
 

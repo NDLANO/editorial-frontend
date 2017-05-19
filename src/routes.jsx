@@ -6,17 +6,6 @@
  *
  */
 
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-
-import WelcomePage from './containers/WelcomePage/WelcomePage';
-import App from './containers/App/App';
-import SearchPage from './containers/SearchPage/SearchPage';
-import TopicArticlePage from './containers/TopicArticlePage/TopicArticlePage';
-import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
-import SubjectPage from './containers/SubjectPage/SubjectPage';
-import ImageSearchPage from './containers/ImageSearch/ImageSearchPage';
-import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import { createQueryString } from './util/queryHelpers';
 
 export function toSearch(queryString) {

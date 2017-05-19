@@ -34,31 +34,40 @@ input, textarea {
   display: block;
 }
 
-.login-button-google{
+.btn-google{
   background-color: #dd4b39;
   border-color: #dd4b39;
 }
 
-.login-button-google:hover{
+.btn-google:hover{
   background-color: #c23321;
 }
 
-.login-button-fb {
+.btn-fb {
   background-color: #3b5998;
   border-color: #3b5998;
 }
 
-.login-button-fb:hover{
+.btn-fb:hover{
   background-color: #2d4373;
 }
 
-.login-button-twitter {
+.btn-twitter {
   background-color: #55acee;
   border-color: #55acee;
 }
 
-.login-button-twitter:hover{
+.btn-twitter:hover{
   background-color: #2795e9;
+}
+
+.btn-ndla {
+  background-color: #20588f;
+  border-color: #20588f;
+}
+
+.btn-ndla:hover{
+  background-color: #20467d;
 }
 
 .vertical-menu {

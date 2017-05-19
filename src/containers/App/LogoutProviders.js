@@ -7,41 +7,21 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { OneColumn } from 'ndla-ui';
-import { connect } from 'react-redux';
-import * as actions from './sessionActions';
-import ifAuthenticated from '../../util/ifAuthenticated';
+import { compose } from 'redux';
+import { injectT } from '../../i18n';
 
-export class LogoutProviders extends React.Component {
-  componentWillMount() {
-    // const { localLogout, authenticated, localIfAuthenticated } = this.props;
-    // localIfAuthenticated(authenticated, localLogout);
-  }
 
-  render() {
-    return (
-      <OneColumn cssModifier="narrow">
-        <div>
-          <ul className="vertical-menu">
-            <li className="vertical-menu_item"><a href="/logoutFederated" className="login-button login-button-google c-button">Logg ut globalt</a></li>
-            <li className="vertical-menu_item"><a href="/logout" className="login-button login-button-fb c-button">Logg ut lokalt</a></li>
-          </ul>
-        </div>
-      </OneColumn>
-    );
-  }
-}
+const LogoutProviders = ({ t }) => (
+  <OneColumn cssModifier="narrow">
+    <div>
+      <ul className="vertical-menu">
+        <li className="vertical-menu_item"><a href="/logoutFederated" className="login-button btn-google c-button">{t('logoutProviders.federatedLogout')}</a></li>
+        <li className="vertical-menu_item"><a href="/logoutSession" className="login-button btn-fb c-button">{t('logoutProviders.localLogout')}</a></li>
+      </ul>
+    </div>
+  </OneColumn>
+  );
 
-LogoutProviders.propTypes = {
-  localLogout: PropTypes.func.isRequired,
-  localIfAuthenticated: PropTypes.func.isRequired,
-  authenticated: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = {
-  localLogout: actions.logout,
-  localIfAuthenticated: ifAuthenticated,
-};
-
-export default connect(state => state, mapDispatchToProps)(LogoutProviders);
+export default compose(
+  injectT)(LogoutProviders);

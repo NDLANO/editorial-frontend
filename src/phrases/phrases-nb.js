@@ -31,6 +31,10 @@ const phrases = {
   loginProviders: {
     description: 'Logg inn i NDLA med',
   },
+  logoutProviders: {
+    federatedLogout: 'Logg helt ut av autentiseringstjenesten (Google/Facebook/Twitter). Forlater denne applikasjonen.',
+    localLogout: 'Logg ut av NDLA applikasjonen',
+  },
   searchForm: {
     placeholder: 'Søk etter artikler',
     btn: 'Søk',

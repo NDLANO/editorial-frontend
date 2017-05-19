@@ -49,9 +49,7 @@ export function loginSocialMedia(type) {
   });
 }
 
-export function logout() {
-  console.log('auth0 logout links', `${locationOrigin}/`);
-  console.log('auth0 logout auth0ClientId', auth0ClientId);
+function doLogout(federated) {
   return dispatch => fetchNewToken()
     .then((token) => {
       dispatch(setAccessToken(token.access_token));
@@ -60,27 +58,18 @@ export function logout() {
       auth.logout({
         returnTo: `${locationOrigin}/`,
         client_id: auth0ClientId,
+        federated,
       });
     })
     .catch(err => dispatch(applicationError(err)));
 }
 
+export function logout() {
+  return doLogout(false);
+}
 
 export function logoutFederated() {
-  console.log('auth0 logoutFederated links', `${locationOrigin}/`);
-  console.log('auth0 logoutFederated auth0ClientId', auth0ClientId);
-  return dispatch => fetchNewToken()
-    .then((token) => {
-      dispatch(setAccessToken(token.access_token));
-      dispatch(setAuthenticated(false));
-      dispatch(logoutAction());
-      auth.logout({
-        returnTo: `${locationOrigin}/`,
-        client_id: auth0ClientId,
-        federated: true,
-      });
-    })
-    .catch(err => dispatch(applicationError(err)));
+  return doLogout(true);
 }
 
 

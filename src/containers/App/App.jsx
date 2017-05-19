@@ -61,9 +61,8 @@ export class App extends React.Component {
         <Switch>
           <Route path="/" exact component={WelcomePage} />
           <Route path="/login" component={LoginProviders} />
-          <Route path="/logout" component={LogoutSession} />
           <Route path="/logoutProviders" component={LogoutProviders} />
-          <Route path="/logoutLocal" component={LogoutSession} />
+          <Route path="/logoutSession" component={LogoutSession} />
           <Route path="/logoutFederated" component={LogoutFederated} />
           <PrivateRoute path="/search" component={SearchPage} />
           <PrivateRoute path="/subjects/:subjectId" component={SubjectPage} />

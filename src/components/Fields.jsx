@@ -101,16 +101,16 @@ TextField.propTypes = {
   submitted: PropTypes.bool.isRequired,
 };
 
-const ShowRemainingCharacters = ({ value, maxLength, getMaxLengthRemaingLabel }) => (<span>{getMaxLengthRemaingLabel(maxLength, maxLength - value.length)}</span>);
+export const RemainingCharacters = ({ value, maxLength, getRemainingLabel }) => (<span>{getRemainingLabel(maxLength, maxLength - value.length)}</span>);
 
-ShowRemainingCharacters.propTypes = {
+RemainingCharacters.propTypes = {
   value: PropTypes.string.isRequired,
   maxLength: PropTypes.number.isRequired,
-  getMaxLengthRemaingLabel: PropTypes.func.isRequired,
+  getRemainingLabel: PropTypes.func.isRequired,
 };
 
 
-export const TextAreaField = ({ bindInput, name, label, submitted, schema, maxLength, getMaxLengthRemaingLabel, ...rest }) => (
+export const TextAreaField = ({ bindInput, name, label, submitted, schema, maxLength, children, getMaxLengthRemaingLabel, ...rest }) => (
   <Field>
     <label htmlFor={name}>{label}</label>
     <textarea
@@ -120,10 +120,10 @@ export const TextAreaField = ({ bindInput, name, label, submitted, schema, maxLe
       {...bindInput(name)}
       {...rest}
     />
+    { children }
     <div>
       <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
     </div>
-    { getMaxLengthRemaingLabel ? <ShowRemainingCharacters maxLength={maxLength} getMaxLengthRemaingLabel={getMaxLengthRemaingLabel} value={bindInput(name).value} /> : null }
   </Field>
 );
 
@@ -171,7 +171,7 @@ RichTextField.propTypes = {
   submitted: PropTypes.bool.isRequired,
 };
 
-export const PlainTextField = ({ bindInput, name, label, noBorder, submitted, schema, ...rest }) => {
+export const PlainTextField = ({ bindInput, name, label, noBorder, submitted, schema, children, ...rest }) => {
   const { value, onChange } = bindInput(name);
   return (
     <Field noBorder>
@@ -185,6 +185,7 @@ export const PlainTextField = ({ bindInput, name, label, noBorder, submitted, sc
           {...rest}
         />
       </div>
+      { children }
       <div>
         <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
       </div>

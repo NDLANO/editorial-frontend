@@ -15,7 +15,7 @@ import { EditorState } from 'draft-js';
 import { injectT } from '../../../i18n';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
-import { TextField, TextAreaField, MultiSelectField, RichTextField, PlainTextField } from '../../../components/Fields';
+import { TextField, TextAreaField, MultiSelectField, RichTextField, PlainTextField, RemainingCharacters } from '../../../components/Fields';
 import ImageSelectField from '../../../components/ImageSelectField';
 import { convertEditorStateToHTML, convertHTMLToContentState, createEditorStateFromText, getPlainTextFromEditorState } from '../topicArticleContentConverter';
 
@@ -91,9 +91,14 @@ class TopicArticleForm extends Component {
             name="introduction"
             noBorder
             maxLength={300}
-            getMaxLengthRemaingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
             {...commonFieldProps}
-          />
+          >
+            <RemainingCharacters
+              maxLength={300}
+              getRemainingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
+              value={bindInput('introduction').value.getCurrentContent().getPlainText()}
+            />
+          </PlainTextField>
           <ImageSelectField
             label={t('topicArticleForm.fields.visualElement.label')}
             schema={schema}
@@ -112,9 +117,14 @@ class TopicArticleForm extends Component {
             label={t('topicArticleForm.labels.metaDescription')}
             name="metaDescription"
             maxLength={150}
-            getMaxLengthRemaingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
             {...commonFieldProps}
-          />
+          >
+            <RemainingCharacters
+              maxLength={150}
+              getRemainingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
+              value={bindInput('metaDescription').value}
+            />
+          </TextAreaField>
           <MultiSelectField
             name="tags"
             data={tags}
@@ -169,7 +179,7 @@ export default compose(
     },
     introduction: {
       required: true,
-      maxLength: 150,
+      maxLength: 300,
     },
     content: {
       required: true,

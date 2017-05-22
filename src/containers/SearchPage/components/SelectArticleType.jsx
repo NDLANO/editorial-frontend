@@ -33,7 +33,7 @@ class SelectArticleType extends Component {
     const { t } = this.props;
     return (
       <select
-        className="search-type-order"
+        className="search-filters__select"
         onChange={this.handleArticleTypeChange}
         value={this.state.articleType}
       >

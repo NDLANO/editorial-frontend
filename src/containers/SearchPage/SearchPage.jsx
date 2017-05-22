@@ -50,7 +50,7 @@ class SearchPage extends Component {
         />
 
         <SelectArticleType
-          articleType={query.articleType}
+          articleType={query.articleTypes}
           onArticleTypeChange={
             articleTypes => history.push(toSearch({ ...query, page: 1, articleTypes }))
           }

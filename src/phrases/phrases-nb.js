@@ -12,8 +12,8 @@ const phrases = {
   },
   welcomePage: {
     shortcuts: 'Snarveier',
-    searchTopicArticles: 'Søk etter emneartikler',
-    createTopicArticle: 'Opprett emneartikkel',
+    searchTopicArticles: 'Søk etter emnebeskrivelse',
+    createTopicArticle: 'Opprett emnebeskrivelse',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -28,7 +28,7 @@ const phrases = {
     articleType: {
       all: 'Alle',
       standard: 'Standard',
-      topicArticle: 'Emne artikkel',
+      topicArticle: 'Emnebeskrivelse',
     },
     order: {
       relevance: 'Relevans',
@@ -43,6 +43,10 @@ const phrases = {
   },
   topicArticleForm: {
     save: 'Lagre',
+    title: {
+      create: 'Du oppretter nå en emnebeskrivelse',
+      update: 'Du redigerer nå en emnebeskrivelse',
+    },
     fields: {
       title: {
         label: 'Tittel',

@@ -78,10 +78,13 @@ class TopicArticleForm extends Component {
   }
 
   render() {
-    const { t, bindInput, schema, submitted, tags, isSaving } = this.props;
+    const { t, bindInput, schema, model: { id }, submitted, tags, isSaving } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
     return (
       <form onSubmit={this.handleSubmit} {...classes()}>
+        <div {...classes('title')} >
+          {id ? t('topicArticleForm.title.update') : t('topicArticleForm.title.create') }
+        </div>
         <TextField
           label={t('topicArticleForm.fields.title.label')}
           name="title"

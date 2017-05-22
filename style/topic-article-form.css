@@ -9,10 +9,16 @@
 .c-topic-article-form {
   margin-top: -6rem;
   width: 970px;
-  padding: 1rem 9rem 3rem;
+  padding: 0 9rem 3rem;
   background: white;
   color: var(--brand-grey-dark);
   border: 1px solid var(--brand-grey--light);
+
+  &__title {
+    margin: 0 -9rem;
+    padding: 0.5rem 9rem;
+    background-color: #ffc;
+  }
 
   &__save-button {
     border-color: var(--green);
@@ -38,17 +44,21 @@
 
   @media (max-width: 970px) {
     width: 770px;
-    padding: 1rem 5rem 3rem;
+    padding: 0 5rem 3rem;
+
+    &__heading {
+      margin: 0 -5rem;
+      padding: 0.5rem 5rem;
+    }
   }
 
   @media (--medium-viewport) {
     width: 100%;
-    padding: 1rem 5rem 3rem;
   }
 
   @media (max-width: 37.5em) {
-    margin-top: 1rem;
-    padding: 1rem;
+    margin-top: 0;
+    padding: 0;
     border: none;
   }
 }

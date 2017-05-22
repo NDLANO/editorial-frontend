@@ -12,8 +12,8 @@ const phrases = {
   },
   welcomePage: {
     shortcuts: 'Shortcuts',
-    searchTopicArticles: 'Search for topic articles',
-    createTopicArticle: 'Create topic article',
+    searchTopicArticles: 'Search for topic description',
+    createTopicArticle: 'Create topic description',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -28,7 +28,7 @@ const phrases = {
     articleType: {
       all: 'All',
       standard: 'Standard',
-      topicArticle: 'Topic article',
+      topicArticle: 'Topic description',
     },
     order: {
       relevance: 'Relevance',
@@ -43,6 +43,10 @@ const phrases = {
   },
   topicArticleForm: {
     save: 'Save',
+    title: {
+      create: 'You are now creating a topic description',
+      update: 'You are now editing a topic description',
+    },
     fields: {
       title: {
         label: 'Title',

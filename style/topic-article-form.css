@@ -7,8 +7,12 @@
  */
 
 .c-topic-article-form {
+  margin-top: -6rem;
+  width: 970px;
+  padding: 1rem 9rem 3rem;
+  background: white;
   color: var(--brand-grey-dark);
-  width: 640px;
+  border: 1px solid var(--brand-grey--light);
 
   &__save-button {
     border-color: var(--green);
@@ -30,6 +34,22 @@
       transform: none;
       border: 0;
     }
+  }
+
+  @media (max-width: 970px) {
+    width: 770px;
+    padding: 1rem 5rem 3rem;
+  }
+
+  @media (--medium-viewport) {
+    width: 100%;
+    padding: 1rem 5rem 3rem;
+  }
+
+  @media (max-width: 37.5em) {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: none;
   }
 }
 

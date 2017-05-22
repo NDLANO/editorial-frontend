@@ -38,7 +38,9 @@ export function* updateArticle(article) {
     const token = yield select(getAccessToken);
     const updatedArticle = yield call(api.updateArticle, article, token);
     yield put(actions.setArticle(updatedArticle));
+    yield put(actions.updateArticleSuccess());
   } catch (error) {
+    yield put(actions.updateArticleError());
     // TODO: handle error
     console.error(error); //eslint-disable-line
   }
@@ -50,7 +52,9 @@ export function* createArticle(article, history) {
     const createdArticle = yield call(api.createArticle, article, token);
     yield put(actions.setArticle(createdArticle));
     history.push(toEditTopicArticle(createdArticle.id));
+    yield put(actions.updateArticleSuccess());
   } catch (error) {
+    yield put(actions.updateArticleError());
     // TODO: handle error
     console.error(error); //eslint-disable-line
   }

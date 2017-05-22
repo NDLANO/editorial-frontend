@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { OneColumn } from 'ndla-ui';
 
 import { actions as tagActions, getAllTags } from '../Tag/tagDucks';
+import { getSaving } from './articleDucks';
 import { getLocale } from '../Locale/localeSelectors';
 import EditTopicArticle from './EditTopicArticle';
 import CreateTopicArticle from './CreateTopicArticle';
@@ -24,7 +25,7 @@ class TopicArticlePage extends Component {
   }
 
   render() {
-    const { locale, tags, match, history } = this.props;
+    const { locale, tags, match, history, isSaving } = this.props;
 
     return (
       <OneColumn cssModifier="narrow">
@@ -33,9 +34,10 @@ class TopicArticlePage extends Component {
             path={`${match.url}/new`}
             render={() => (
               <CreateTopicArticle
-                tags={tags}
                 history={history}
                 locale={locale}
+                tags={tags}
+                isSaving={isSaving}
               />
             )}
           />
@@ -46,6 +48,7 @@ class TopicArticlePage extends Component {
                 articleId={props.match.params.articleId}
                 tags={tags}
                 locale={locale}
+                isSaving={isSaving}
               />
             )}
           />
@@ -65,6 +68,7 @@ TopicArticlePage.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchTags: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
+  isSaving: PropTypes.bool.isRequired,
 };
 
 const mapDispatchToProps = {
@@ -74,6 +78,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   locale: getLocale(state),
   tags: getAllTags(state),
+  isSaving: getSaving(state),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopicArticlePage);

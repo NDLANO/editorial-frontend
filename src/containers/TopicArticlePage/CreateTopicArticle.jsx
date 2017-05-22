@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { actions, getArticle } from './articleDucks';
+import { actions } from './articleDucks';
 import TopicArticleForm, { getInitialModel } from './components/TopicArticleForm';
 
 class CreateTopicArticle extends Component {
@@ -24,13 +24,14 @@ class CreateTopicArticle extends Component {
   }
 
   render() {
-    const { locale, tags } = this.props;
+    const { locale, tags, isSaving } = this.props;
 
     return (
       <TopicArticleForm
         initialModel={getInitialModel({})}
         tags={tags}
         locale={locale}
+        isSaving={isSaving}
         onUpdate={this.updateArticle}
       />
     );
@@ -44,6 +45,7 @@ CreateTopicArticle.propTypes = {
   }).isRequired,
   updateArticle: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
+  isSaving: PropTypes.bool.isRequired,
 };
 
 const mapDispatchToProps = {
@@ -51,8 +53,4 @@ const mapDispatchToProps = {
   updateArticle: actions.updateArticle,
 };
 
-const mapStateToProps = (state, props) => ({
-  article: getArticle(props.articleId)(state),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateTopicArticle);
+export default connect(undefined, mapDispatchToProps)(CreateTopicArticle);

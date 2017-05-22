@@ -14,8 +14,21 @@
     border-color: var(--green);
     color: var(--brand-grey-dark);
 
-    &:hover {
+    &:hover:enabled,
+    &:focus:enabled {
       background-color: var(--green);
+      transform: none;
+    }
+
+    &:active {
+      transform: none;
+    }
+
+    /* NB! Should use :enabled in ndla-ui button css instead */
+    &:disabled {
+      background-color: var(--background-color--dark);
+      transform: none;
+      border: 0;
     }
   }
 }

@@ -47,7 +47,7 @@ module.exports = Object.assign({
   logEnvironment: process.env.NDLA_ENVIRONMENT || 'local',
   logglyApiKey: process.env.LOGGLY_API_KEY,
   ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
-  editorialFrontendClientId: process.env.EDITORIAL_FRONTEND_CLIENT_ID || 'swagger-client',
-  editorialFrontendClientSecret: process.env.EDITORIAL_FRONTEND_CLIENT_SECRET || 'swagger-public-client-secret',
+  editorialFrontendClientId: process.env.NDLA_EDITORIAL_CLIENT_ID || 'swagger-client',
+  editorialFrontendClientSecret: process.env.NDLA_EDITORIAL_CLIENT_SECRET || 'swagger-public-client-secret',
   editorialFrontendDomain: editorialFrontendDomain(),
 }, environment);

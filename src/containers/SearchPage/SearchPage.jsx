@@ -49,17 +49,19 @@ class SearchPage extends Component {
           onSearchQuerySubmit={searchQuery => history.push(toSearch({ ...query, query: searchQuery, page: 1, sort: query.sort ? query.sort : '-relevance' }))}
         />
 
-        <SelectArticleType
-          articleType={query.articleType}
-          onArticleTypeChange={
-            articleTypes => history.push(toSearch({ ...query, page: 1, articleTypes }))
-          }
-        />
+        <div className="search-filters">
+          <SelectArticleType
+            articleType={query.articleTypes}
+            onArticleTypeChange={
+              articleTypes => history.push(toSearch({ ...query, page: 1, articleTypes }))
+            }
+          />
 
-        <SelectSearchSortOrder
-          sort={query.sort}
-          onSortOrderChange={sort => history.push(toSearch({ ...query, sort, page: 1 }))}
-        />
+          <SelectSearchSortOrder
+            sort={query.sort}
+            onSortOrderChange={sort => history.push(toSearch({ ...query, sort, page: 1 }))}
+          />
+        </div>
 
         <SearchResultList query={query} locale={locale} results={results} />
 

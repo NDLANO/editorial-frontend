@@ -16,27 +16,64 @@ import formatDate from '../../util/formatDate';
 export const fetchArticle = createAction('FETCH_ARTICLE');
 export const setArticle = createAction('SET_ARTICLE');
 export const updateArticle = createAction('UPDATE_ARTICLE');
+export const updateArticleSuccess = createAction('UPDATE_ARTICLE_SUCCESS');
+export const updateArticleError = createAction('UPDATE_ARTICLE_ERROR');
 
 export const actions = {
   updateArticle,
   fetchArticle,
   setArticle,
+  updateArticleSuccess,
+  updateArticleError,
 };
 
-const initalState = {};
+const initalState = {
+  all: {},
+  isSaving: false,
+};
 
 export default handleActions({
   [setArticle]: {
-    next: (state, action) => ({ ...state, [action.payload.id]: { ...action.payload } }),
+    next: (state, action) => (
+      { ...state,
+        all: { ...state.all, [action.payload.id]: { ...action.payload } },
+      }),
     throw: state => state,
   },
+  [updateArticle]: {
+    next: state => (
+      { ...state,
+        isSaving: true,
+      }),
+    throw: state => state,
+  },
+  [updateArticleSuccess]: {
+    next: state => (
+      { ...state,
+        isSaving: false,
+      }),
+    throw: state => state,
+  },
+  [updateArticleError]: {
+    next: state => (
+      { ...state,
+        isSaving: false,
+      }),
+    throw: state => state,
+  },
+
 }, initalState);
 
-const getArticleFromState = state => state.articles;
+const getArticlesFromState = state => state.articles;
 
 export const getArticleById = articleId => createSelector(
-  [getArticleFromState],
-  articles => articles[articleId],
+  [getArticlesFromState],
+  articles => articles.all[articleId],
+);
+
+export const getSaving = createSelector(
+  [getArticlesFromState],
+  articles => articles.isSaving,
 );
 
 export const getArticle = articleId => createSelector(

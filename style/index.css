@@ -14,3 +14,15 @@
 @import './imageSearch.css';
 @import './lightbox.css';
 @import './topic-article-form.css';
+@import './search.css';
+
+.c-hero--alt {
+  background-color: var(--brand-color--light);
+}
+
+@media (--medium-viewport) {
+  .o-wrapper {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

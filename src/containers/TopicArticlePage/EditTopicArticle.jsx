@@ -30,16 +30,19 @@ class EditTopicArticle extends Component {
   }
 
   render() {
-    const { locale, article, tags } = this.props;
+    const { locale, article, tags, isSaving } = this.props;
 
     if (!article) {
       return null;
     }
+
     return (
       <TopicArticleForm
         initialModel={getInitialModel(article)}
+        revision={article.revision}
         tags={tags}
         locale={locale}
+        isSaving={isSaving}
         onUpdate={this.updateArticle}
       />
     );
@@ -53,6 +56,7 @@ EditTopicArticle.propTypes = {
   updateArticle: PropTypes.func.isRequired,
   article: ArticleShape,
   locale: PropTypes.string.isRequired,
+  isSaving: PropTypes.bool.isRequired,
 };
 
 const mapDispatchToProps = {
@@ -60,8 +64,12 @@ const mapDispatchToProps = {
   updateArticle: actions.updateArticle,
 };
 
-const mapStateToProps = (state, props) => ({
-  article: getArticle(props.articleId)(state),
-});
+const makeMapStateToProps = (_, props) => {
+  const { articleId } = props;
+  const getArticleSelector = getArticle(articleId);
+  return state => ({
+    article: getArticleSelector(state),
+  });
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditTopicArticle);
+export default connect(makeMapStateToProps, mapDispatchToProps)(EditTopicArticle);

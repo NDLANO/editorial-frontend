@@ -47,4 +47,4 @@ const mapDispatchToProps = {
   searchImages: actions.searchImages,
 };
 
-export default connect(state => state, mapDispatchToProps)(ImageSearchPage);
+export default connect(undefined, mapDispatchToProps)(ImageSearchPage);

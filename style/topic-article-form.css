@@ -7,16 +7,59 @@
  */
 
 .c-topic-article-form {
+  margin-top: -6rem;
+  width: 970px;
+  padding: 0 9rem 3rem;
+  background: white;
   color: var(--brand-grey-dark);
-  width: 640px;
+  border: 1px solid var(--brand-grey--light);
+
+  &__title {
+    margin: 0 -9rem;
+    padding: 0.5rem 9rem;
+    background-color: #ffc;
+  }
 
   &__save-button {
     border-color: var(--green);
     color: var(--brand-grey-dark);
 
-    &:hover {
+    &:hover:enabled,
+    &:focus:enabled {
       background-color: var(--green);
+      transform: none;
     }
+
+    &:active {
+      transform: none;
+    }
+
+    /* NB! Should use :enabled in ndla-ui button css instead */
+    &:disabled {
+      background-color: var(--background-color--dark);
+      transform: none;
+      border: 0;
+    }
+  }
+
+  @media (max-width: 970px) {
+    width: 770px;
+    padding: 0 5rem 3rem;
+
+    &__heading {
+      margin: 0 -5rem;
+      padding: 0.5rem 5rem;
+    }
+  }
+
+  @media (--medium-viewport) {
+    width: 100%;
+  }
+
+  @media (max-width: 37.5em) {
+    margin-top: 0;
+    padding: 0;
+    border: none;
   }
 }
 

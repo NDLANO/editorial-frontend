@@ -54,7 +54,7 @@ class TopicArticleForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const { model, schema, locale: language, setSubmitted } = this.props;
+    const { model, schema, revision, locale: language, setSubmitted } = this.props;
     if (!schema.isValid) {
       setSubmitted(true);
       return;
@@ -62,7 +62,7 @@ class TopicArticleForm extends Component {
 
     this.props.onUpdate({
       id: model.id,
-      revision: model.revision,
+      revision,
       title: [{ title: model.title, language }],
       introduction: [{ introduction: getPlainTextFromEditorState(model.introduction), language }],
       tags: [{ tags: model.tags, language }],
@@ -78,10 +78,13 @@ class TopicArticleForm extends Component {
   }
 
   render() {
-    const { t, bindInput, schema, submitted, tags } = this.props;
+    const { t, bindInput, schema, model: { id }, submitted, tags, isSaving } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
     return (
       <form onSubmit={this.handleSubmit} {...classes()}>
+        <div {...classes('title')} >
+          {id ? t('topicArticleForm.title.update') : t('topicArticleForm.title.create') }
+        </div>
         <TextField
           label={t('topicArticleForm.fields.title.label')}
           name="title"
@@ -154,7 +157,7 @@ class TopicArticleForm extends Component {
           {...commonFieldProps}
         />
         <Field right>
-          <Button submit outline {...classes('save-button')} >{t('topicArticleForm.save')}</Button>
+          <Button submit outline disabled={isSaving} {...classes('save-button')} >{t('topicArticleForm.save')}</Button>
         </Field>
       </form>
     );
@@ -174,8 +177,10 @@ TopicArticleForm.propTypes = {
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
+  revision: PropTypes.number,
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  isSaving: PropTypes.bool.isRequired,
 };
 
 export default compose(

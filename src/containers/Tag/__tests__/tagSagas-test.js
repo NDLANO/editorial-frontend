@@ -17,7 +17,7 @@ expectSaga.DEFAULT_TIMEOUT = 100;
 
 test('tagSagas fetch tags if nor already defined', () => {
   nock('http://ndla-api')
-    .get('/article-api/v1/articles/tags/')
+    .get('/article-api/v1/articles/tags/?size=7000')
     .reply(200, ['tag1', 'tag2', 'tag3']);
 
   return expectSaga(sagas.watchFetchTags)
@@ -30,7 +30,7 @@ test('tagSagas fetch tags if nor already defined', () => {
 
 test('tagSagas do not fetch tags if already fetched', () => {
   nock('http://ndla-api')
-    .get('/article-api/v1/articles/tags/')
+    .get('/article-api/v1/articles/tags/?size=7000')
     .reply(200, ['tag1', 'tag2', 'tag3']);
 
   return expectSaga(sagas.watchFetchTags)

@@ -15,7 +15,7 @@ export const fetchArticle = (id, token) =>
   fetch(`${baseUrl}/${id}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
 
 export const fetchTags = token =>
-  fetch(`${baseUrl}/tags/`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
+  fetch(`${baseUrl}/tags/?size=7000`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
 
 export const updateArticle = (article, token) => fetch(`${baseUrl}/${article.id}`, {
   headers: headerWithAccessToken(token),

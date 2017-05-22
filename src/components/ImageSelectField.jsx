@@ -92,4 +92,4 @@ const mapDispatchToProps = {
   searchImages: actions.searchImages,
 };
 
-export default connect(state => state, mapDispatchToProps)(ImageSelectField);
+export default connect(undefined, mapDispatchToProps)(ImageSelectField);

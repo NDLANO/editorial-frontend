@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`articleSelectors getArticle (en locale) 1`] = `
+Object {
+  "articleType": "topic-article",
+  "content": "<section><p>Tim Berners Lees the World Wide Web is...</p></section>",
+  "copyright": Object {
+    "authors": Array [
+      Object {
+        "name": "Ragna Marie Tørdal",
+        "type": "Forfatter",
+      },
+    ],
+    "license": Object {
+      "description": "Creative Commons Attribution-ShareAlike 2.0 Generic",
+      "license": "by-sa",
+      "url": "https://creativecommons.org/licenses/by-sa/2.0/",
+    },
+    "origin": "",
+  },
+  "created": "11/26/2016",
+  "id": "1",
+  "introduction": "Brainstorming is an important",
+  "metaDescription": "Brainstorming",
+  "oldNdlaUrl": "//ndla.no/node/172732",
+  "requiredLibraries": Array [],
+  "revision": 1,
+  "tags": Array [
+    "storytelling",
+    "idea development",
+    "media design",
+    "instruments",
+  ],
+  "title": "Brainstorming",
+  "updated": "12/01/2016",
+  "updatedBy": "content-import-client",
+  "visualElement": "<embed/>",
+}
+`;
+
+exports[`articleSelectors getArticle (nb locale) 1`] = `[Function]`;

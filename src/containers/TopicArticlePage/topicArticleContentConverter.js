@@ -46,7 +46,7 @@ export function convertEditorStateToHTML(editorState) {
     },
   })(contentState);
 
-  return `<section>${html.replace('<deleteme>a</deleteme>', '')}</section>`;
+  return `<section>${html.replace(/<deleteme>a<\/deleteme>/g, '')}</section>`;
 }
 
 export const createEditorStateFromText = (text) => {

@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers/article overwrite articles with same id 1`] = `
+Object {
+  "1": Object {
+    "id": 1,
+    "title": "Unit test 1",
+  },
+  "all": Object {
+    "1": Object {
+      "id": 1,
+      "title": "Unit test 2",
+    },
+  },
+}
+`;
+
+exports[`reducers/articles initalState 1`] = `
+Object {
+  "all": Object {},
+  "isSaving": false,
+}
+`;
+
+exports[`reducers/articles set article 1`] = `
+Object {
+  "all": Object {
+    "1": Object {
+      "id": 1,
+      "title": "Unit test",
+    },
+  },
+  "isSaving": false,
+}
+`;
+
+exports[`reducers/articles set multiple articles 1`] = `
+Object {
+  "all": Object {
+    "1": Object {
+      "id": 1,
+      "title": "Unit test 1",
+    },
+    "2": Object {
+      "id": 2,
+      "title": "Unit test 2",
+    },
+  },
+  "isSaving": false,
+}
+`;

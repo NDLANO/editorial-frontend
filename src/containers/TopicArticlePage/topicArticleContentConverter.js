@@ -16,6 +16,7 @@ function reduceAttributesArrayToObject(attributes) {
 }
 
 export function convertHTMLToContentState(html) {
+  let embeds = [];
   const contentState = convertFromHTML({
     htmlToBlock: (nodeName) => {
       if (nodeName === 'embed') {
@@ -26,11 +27,13 @@ export function convertHTMLToContentState(html) {
     htmlToEntity: (nodeName, node) => {
       if (nodeName === 'embed') {
         const data = reduceAttributesArrayToObject(Array.from(node.attributes));
-        return Entity.create('resource-placeholder', 'IMMUTABLE', data);
+        embeds.push(data);
+        return embeds.length.toString();
       }
       return undefined;
     },
   })(html);
+  embeds.forEach(embed => contentState.createEntity('resource-placeholder', 'IMMUTABLE', embed))
   return EditorState.createWithContent(contentState);
 }
 

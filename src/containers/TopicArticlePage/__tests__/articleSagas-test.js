@@ -44,8 +44,8 @@ test('articleSagas watchUpdateArticle create new article', () => {
           .put(actions.updateArticleSuccess())
 
           .dispatch(actions.updateArticle({
-            article:{ title: 'unit test' },
-            history: { push: () => {} }
+            article: { title: 'unit test' },
+            history: { push: () => {} },
           }))
           .run({ silenceTimeout: true });
 });

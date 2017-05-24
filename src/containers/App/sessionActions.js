@@ -7,7 +7,6 @@
  */
 
 import { createAction } from 'redux-actions';
-import { routerActions } from 'react-router-redux';
 import auth0 from 'auth0-js';
 import { applicationError } from '../../containers/Messages/messagesActions';
 import { fetchNewToken, isTokenValid } from '../../util/tokens';
@@ -29,14 +28,14 @@ const auth = new auth0.WebAuth({
   scope: 'openid app_metadata name',
 });
 
-export function parseHash(hash) {
+export function parseHash(hash, history) {
   return (dispatch) => {
     auth.parseHash({ hash, _idTokenVerification: false }, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         dispatch(setIdToken(authResult.idToken));
         dispatch(setAuthenticated(true));
         dispatch(setUserData(decodeIdToken(authResult.idToken)));
-        dispatch(routerActions.replace('/search'));
+        history.replace('/search');
       }
     });
   };

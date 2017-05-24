@@ -13,8 +13,8 @@ import { parseHash } from './sessionActions';
 
 export class SessionInitializer extends React.Component {
   componentWillMount() {
-    const { localParseHash, location: { hash } } = this.props;
-    localParseHash(hash);
+    const { localParseHash, location: { hash }, history } = this.props;
+    localParseHash(hash, history);
   }
 
   render() {
@@ -23,6 +23,9 @@ export class SessionInitializer extends React.Component {
 }
 
 SessionInitializer.propTypes = {
+  history: PropTypes.shape({
+    replace: PropTypes.func.isRequired,
+  }).isRequired,
   localParseHash: PropTypes.func.isRequired,
   location: PropTypes.shape({ hash: PropTypes.string }),
 };

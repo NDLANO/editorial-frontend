@@ -10,36 +10,24 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import ErrorReporter from 'ndla-error-reporter';
-import isEmpty from 'lodash/isEmpty';
-import createHistory from 'history/createBrowserHistory';
 import App from '../src/containers/App/App';
+// import routes from './routes';
 
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
 
-const paths = window.location.pathname.split('/');
-const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
-const localeString = paths.length > 2 && isValidLocale(paths[1]) ? paths[1] : 'nb';
-
-const browserHistory = basename ? createHistory({ basename }) : createHistory();
-
+const initialState = window.initialState;
+const localeString = initialState.locale;
 const locale = getLocaleObject(localeString);
 
-const emptyState = {
-  authenticated: false,
-  accessToken: '',
-  idToken: '',
-  user: {},
-  messages: [],
-  locale: locale.abbreviation, //Usikker på om dette er riktig...
-};
+const paths = window.location.pathname.split('/');
+const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 
-const initialState = !isEmpty(window.initialState) ? window.initalState : emptyState;
-
-const store = configureStore(initialState, browserHistory);
+window.accessToken = initialState.accessToken; // tmp hack
+const store = configureStore(initialState);
 
 const { logglyApiKey, logEnvironment: environment, componentName } = window.config;
 window.errorReporter = ErrorReporter.getInstance({ store, logglyApiKey, environment, componentName });
@@ -47,9 +35,10 @@ window.errorReporter = ErrorReporter.getInstance({ store, logglyApiKey, environm
 ReactDOM.render(
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-      <Router history={browserHistory} onUpdate={() => window.scrollTo(0, 0)}>
+      <BrowserRouter basename={basename}>
+        {/* {routes}*/}
         <App />
-      </Router>
+      </BrowserRouter>
     </IntlProvider>
   </Provider>,
   document.getElementById('root'),

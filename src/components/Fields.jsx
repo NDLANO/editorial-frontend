@@ -8,13 +8,59 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { RichTextEditor } from 'ndla-editor';
+import { RichTextEditor, PlainTextEditor } from 'ndla-editor';
+import { uuid } from 'ndla-util';
+import BEMHelper from 'react-bem-helper';
 import MultiSelect from './MultiSelect';
+import { isEmpty } from './validators';
 
-const FieldMessage = ({ field, submitted, label }) =>
-  (field && !field.isValid && (field.isDirty || submitted) ? <span>{field.errors[0](label)}</span> : null);
+export const classes = new BEMHelper({
+  name: 'field',
+  prefix: 'c-',
+});
 
-FieldMessage.propTypes = {
+export const Field = ({ children, noBorder, big, className, right }) => (
+  <div {...classes('', { 'no-border': noBorder, right, big }, className)}>
+    {children}
+  </div>
+);
+
+Field.propTypes = {
+  noBorder: PropTypes.bool,
+  big: PropTypes.bool,
+  right: PropTypes.bool,
+};
+
+Field.defaultProps = {
+  noBorder: false,
+};
+
+export const FieldHelp = ({ children, error, right }) => (
+  <span {...classes('help', { error, right })}>
+    {children}
+  </span>
+);
+
+FieldHelp.propTypes = {
+  error: PropTypes.bool,
+  right: PropTypes.bool,
+};
+
+const hasError = field => field && !field.isValid;
+const showError = (field, submitted) => hasError(field) && (field.isDirty || submitted);
+
+export const FieldErrorMessages = ({ field, submitted, label }) => {
+  if (!showError(field, submitted)) {
+    return null;
+  }
+  return (
+    <div>
+      {field.errors.map(error => <FieldHelp key={uuid()} error>{error(label)}</FieldHelp>) }
+    </div>
+  );
+};
+
+FieldErrorMessages.propTypes = {
   label: PropTypes.string.isRequired,
   field: PropTypes.shape({
     isDirty: PropTypes.bool.isRequired,
@@ -24,9 +70,44 @@ FieldMessage.propTypes = {
   submitted: PropTypes.bool.isRequired,
 };
 
-export const TextField = ({ bindInput, name, label, submitted, schema, ...rest }) => (
-  <div style={{ marginTop: '3rem' }}>
-    <label htmlFor={name}>{label}</label>
+
+export const FocusLabel = ({ name, value, hasFocus, children }) => {
+  if (!hasFocus(name) || isEmpty(value)) {
+    return null;
+  }
+  return (
+    <div className="c-field__focus-label">
+      <span className="c-field__focus-text">{children}</span>
+    </div>
+  );
+};
+
+FocusLabel.propTypes = {
+  name: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({ _immutable: PropTypes.object }),
+  ]).isRequired,
+  hasFocus: PropTypes.func.isRequired,
+};
+
+FocusLabel.defaultProps = {
+  hasFocus: name => document.activeElement.id === name,
+};
+
+export const RemainingCharacters = ({ value, maxLength, getRemainingLabel }) => (<FieldHelp right>{getRemainingLabel(maxLength, maxLength - value.length)}</FieldHelp>);
+
+RemainingCharacters.propTypes = {
+  value: PropTypes.string.isRequired,
+  maxLength: PropTypes.number.isRequired,
+  getRemainingLabel: PropTypes.func.isRequired,
+};
+
+export const TextField = ({ bindInput, name, label, submitted, schema, noBorder, big, ...rest }) => (
+  <Field noBorder big>
+    { !noBorder ? <label htmlFor={name}>{label}</label> : <label className="u-hidden" htmlFor={name}>{label}</label> }
+    { noBorder && <FocusLabel name={name} value={bindInput(name).value}>{label}</FocusLabel> }
+
     <input
       id={name}
       type="text"
@@ -34,10 +115,8 @@ export const TextField = ({ bindInput, name, label, submitted, schema, ...rest }
       {...bindInput(name)}
       {...rest}
     />
-    <div>
-      <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
-    </div>
-  </div>
+    <FieldErrorMessages label={label} field={schema.fields[name]} submitted={submitted} />
+  </Field>
 );
 
 TextField.propTypes = {
@@ -47,21 +126,17 @@ TextField.propTypes = {
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),
+  noBorder: PropTypes.bool,
+  big: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
 
-const ShowRemainingCharacters = ({ value, maxLength, getMaxLengthRemaingLabel }) => (<span>{getMaxLengthRemaingLabel(maxLength, maxLength - value.length)}</span>);
+export const FieldDescription = ({ children }) => <p {...classes('description')} >{children}</p>;
 
-ShowRemainingCharacters.propTypes = {
-  value: PropTypes.string.isRequired,
-  maxLength: PropTypes.number.isRequired,
-  getMaxLengthRemaingLabel: PropTypes.func.isRequired,
-};
-
-
-export const TextAreaField = ({ bindInput, name, label, submitted, schema, maxLength, getMaxLengthRemaingLabel, ...rest }) => (
-  <div style={{ marginTop: '3rem' }}>
+export const TextAreaField = ({ bindInput, name, description, label, submitted, schema, maxLength, children, getMaxLengthRemaingLabel, ...rest }) => (
+  <Field>
     <label htmlFor={name}>{label}</label>
+    { description && <FieldDescription>{description}</FieldDescription>}
     <textarea
       id={name}
       className="form-control"
@@ -69,17 +144,16 @@ export const TextAreaField = ({ bindInput, name, label, submitted, schema, maxLe
       {...bindInput(name)}
       {...rest}
     />
-    <div>
-      <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
-    </div>
-    { getMaxLengthRemaingLabel ? <ShowRemainingCharacters maxLength={maxLength} getMaxLengthRemaingLabel={getMaxLengthRemaingLabel} value={bindInput(name).value} /> : null }
-  </div>
+    <FieldErrorMessages label={label} field={schema.fields[name]} submitted={submitted} />
+    { children }
+  </Field>
 );
 
 
 TextAreaField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  description: PropTypes.string,
   label: PropTypes.string.isRequired,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
@@ -89,19 +163,22 @@ TextAreaField.propTypes = {
   getMaxLengthRemaingLabel: PropTypes.func,
 };
 
-export const RichTextField = ({ bindInput, name, label, submitted, schema, ...rest }) => (
-  <div style={{ marginTop: '3rem' }}>
-    <label htmlFor={name}>{label}</label>
-    <RichTextEditor
-      {...bindInput(name)}
-      onChange={value => bindInput(name).onChange({ target: { name, value, type: 'EditorState' } })}
-      {...rest}
-    />
-    <div>
-      <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
-    </div>
-  </div>
-);
+export const RichTextField = ({ bindInput, name, label, noBorder, submitted, schema, ...rest }) => {
+  const { value, onChange } = bindInput(name);
+  return (
+    <Field noBorder>
+      { !noBorder ? <label htmlFor={name}>{label}</label> : <label className="u-hidden" htmlFor={name}>{label}</label> }
+      { noBorder && <FocusLabel name={name} hasFocus={() => value.getSelection().hasFocus} value={value}>{label}</FocusLabel> }
+      <RichTextEditor
+        id={name}
+        onChange={val => onChange({ target: { name, value: val, type: 'EditorState' } })}
+        value={value}
+        {...rest}
+      />
+      <FieldErrorMessages label={label} field={schema.fields[name]} submitted={submitted} />
+    </Field>
+  );
+};
 
 
 RichTextField.propTypes = {
@@ -111,26 +188,59 @@ RichTextField.propTypes = {
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),
+  noBorder: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
 
-export const MultiSelectField = ({ bindInput, name, label, submitted, schema, ...rest }) => (
-  <div style={{ marginTop: '3rem' }}>
+export const PlainTextField = ({ bindInput, name, label, noBorder, submitted, schema, children, ...rest }) => {
+  const { value, onChange } = bindInput(name);
+  return (
+    <Field noBorder>
+      { !noBorder ? <label htmlFor={name}>{label}</label> : <label className="u-hidden" htmlFor={name}>{label}</label> }
+      { noBorder && <FocusLabel name={name} hasFocus={() => value.getSelection().hasFocus} value={value}>{label}</FocusLabel> }
+      <div {...classes('plain-text-editor')}>
+        <PlainTextEditor
+          id={name}
+          onChange={val => onChange({ target: { name, value: val, type: 'EditorState' } })}
+          value={value}
+          {...rest}
+        />
+      </div>
+      <FieldErrorMessages label={label} field={schema.fields[name]} submitted={submitted} />
+      { children }
+    </Field>
+  );
+};
+
+
+PlainTextField.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  noBorder: PropTypes.bool,
+  submitted: PropTypes.bool.isRequired,
+};
+
+export const MultiSelectField = ({ bindInput, name, description, label, submitted, schema, ...rest }) => (
+  <Field>
     <label htmlFor={name}>{label}</label>
+    { description && <FieldDescription>{description}</FieldDescription> }
     <MultiSelect
       {...bindInput(name)}
       {...rest}
     />
-    <div>
-      <FieldMessage label={label} field={schema.fields[name]} submitted={submitted} />
-    </div>
-  </div>
+    <FieldErrorMessages label={label} field={schema.fields[name]} submitted={submitted} />
+  </Field>
 );
 
 
 MultiSelectField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  description: PropTypes.string,
   label: PropTypes.string.isRequired,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,

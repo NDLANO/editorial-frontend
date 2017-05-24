@@ -8,6 +8,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { getComponentName } from 'ndla-util';
 
@@ -32,7 +33,7 @@ const makeWrapper = (WrappedComponent) => {
       const currentModel = this.props.initialModel;
       const nextModel = nextProps.initialModel;
 
-      if (currentModel !== nextModel) {
+      if (this.props.resetOnInitialModelChange && currentModel !== nextModel) {
         const hasChanges = Object.keys(nextModel).find(key => nextModel[key] !== currentModel[key]);
         if (hasChanges) {
           this.setModel(nextModel);
@@ -49,13 +50,18 @@ const makeWrapper = (WrappedComponent) => {
       this.setState({ submitted });
     }
 
-    setProperty(prop, value) {
+    setProperty(prop, value, isDirty = true) {
       const model = { ...this.state.model,
         [prop]: value,
       };
-      const fields = { ...this.state.fields, [prop]: { isDirty: true } };
 
-      this.setState({ model, fields });
+      if (this.state.fields[prop] && this.state.fields[prop].isDirty) {
+        this.setState(() => ({ model }));
+      } else {
+        const fields = { ...this.state.fields, [prop]: { isDirty } };
+        this.setState(() => ({ model, fields }));
+      }
+
       return model;
     }
 
@@ -69,6 +75,8 @@ const makeWrapper = (WrappedComponent) => {
           : oldCheckboxValue.filter(v => v !== value);
 
         this.setProperty(name, newCheckboxValue);
+      } else if (type === 'EditorState') {
+        this.setProperty(name, value, value.getCurrentContent().hasText()); // Only set dirty flag if text has changed
       } else {
         this.setProperty(name, value);
       }
@@ -99,7 +107,11 @@ const makeWrapper = (WrappedComponent) => {
   }
 
   FormWrapper.propTypes = {
-    initialModel: React.PropTypes.object, //eslint-disable-line
+    initialModel: PropTypes.object, //eslint-disable-line
+    resetOnInitialModelChange: PropTypes.bool.isRequired,
+  };
+  FormWrapper.defaultProps = {
+    resetOnInitialModelChange: false,
   };
   FormWrapper.displayName = `Reformed(${getComponentName(WrappedComponent)})`;
   return hoistNonReactStatics(FormWrapper, WrappedComponent);

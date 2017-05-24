@@ -35,13 +35,13 @@ class SearchForm extends Component {
     return (
       <form onSubmit={this.handleSubmit} className="search-form">
         <input
-          type="text" className="search-form_query"
+          type="text" className="search-form__query"
           onChange={this.handleQueryChange}
           value={this.state.query}
           placeholder={t('searchForm.placeholder')}
         />
 
-        <Button submit square loading={searching}>{t('searchForm.btn')}</Button>
+        <Button submit square loading={searching} className="search-form__button" >{t('searchForm.btn')}</Button>
       </form>
     );
   }

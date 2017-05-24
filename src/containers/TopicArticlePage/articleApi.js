@@ -15,10 +15,16 @@ export const fetchArticle = (id, token) =>
   fetch(`${baseUrl}/${id}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
 
 export const fetchTags = token =>
-  fetch(`${baseUrl}/tags/`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
+  fetch(`${baseUrl}/tags/?size=7000`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
 
 export const updateArticle = (article, token) => fetch(`${baseUrl}/${article.id}`, {
   headers: headerWithAccessToken(token),
   method: 'PATCH',
+  body: JSON.stringify(article),
+}).then(resolveJsonOrRejectWithError);
+
+export const createArticle = (article, token) => fetch(`${baseUrl}/`, {
+  headers: headerWithAccessToken(token),
+  method: 'POST',
   body: JSON.stringify(article),
 }).then(resolveJsonOrRejectWithError);

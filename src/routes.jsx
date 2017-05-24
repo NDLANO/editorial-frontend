@@ -6,17 +6,37 @@
  *
  */
 
-import { createQueryString } from './util/queryHelpers';
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import queryString from 'query-string';
 
-export function toSearch(queryString) {
-  if (queryString) {
-    return `/search?${createQueryString(queryString)}`;
+import App from './containers/App/App';
+import LogoutSession from './containers/App/LogoutSession';
+import LoginProviders from './containers/App/LoginProviders';
+import LogoutFederated from './containers/App/LogoutFederated';
+import LogoutProviders from './containers/App/LogoutProviders';
+import PrivateRoute from './containers/PrivateRoute/PrivateRoute';
+import WelcomePage from './containers/WelcomePage/WelcomePage';
+import SearchPage from './containers/SearchPage/SearchPage';
+import TopicArticlePage from './containers/TopicArticlePage/TopicArticlePage';
+import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
+import SubjectPage from './containers/SubjectPage/SubjectPage';
+import ImageSearchPage from './containers/ImageSearch/ImageSearchPage';
+import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
+
+export function toSearch(query) {
+  if (query) {
+    return `/search?${queryString.stringify(query)}`;
   }
   return '/search';
 }
 
-export function toTopicArticle(articleId) {
-  return `/topic-article/${articleId}`;
+export function toEditTopicArticle(articleId) {
+  return `/topic-article/${articleId}/edit`;
+}
+
+export function toCreateTopicArticle() {
+  return '/topic-article/new';
 }
 
 export function toLogin() {
@@ -26,3 +46,32 @@ export function toLogin() {
 export function toLogout() {
   return '/logoutProviders';
 }
+
+class ScrollToTop extends React.Component {
+  componentDidUpdate() {
+    window.scrollTo(0, 0);
+  }
+
+  render() {
+    return null;
+  }
+}
+
+export default (
+  <App>
+    <ScrollToTop />
+    <Switch>
+      <Route path="/" exact component={WelcomePage} />
+      <Route path="/login" component={LoginProviders} />
+      <Route path="/logoutProviders" component={LogoutProviders} />
+      <Route path="/logoutSession" component={LogoutSession} />
+      <Route path="/logoutFederated" component={LogoutFederated} />
+      <PrivateRoute path="/search" component={SearchPage} />
+      <PrivateRoute path="/subjects/:subjectId" component={SubjectPage} />
+      <PrivateRoute path="/subjects/" component={SubjectsPage} />
+      <PrivateRoute path="/images/" component={ImageSearchPage} />
+      <PrivateRoute path="/topic-article/" component={TopicArticlePage} />
+      <Route component={NotFoundPage} />
+    </Switch>
+  </App>
+);

@@ -13,8 +13,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import ErrorReporter from 'ndla-error-reporter';
-import App from '../src/containers/App/App';
-// import routes from './routes';
+import routes from './routes';
 
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
@@ -36,8 +35,7 @@ ReactDOM.render(
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
       <BrowserRouter basename={basename}>
-        {/* {routes}*/}
-        <App />
+        {routes}
       </BrowserRouter>
     </IntlProvider>
   </Provider>,

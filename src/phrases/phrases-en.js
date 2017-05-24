@@ -11,9 +11,9 @@ const phrases = {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
   welcomePage: {
-    hello: 'Hello world',
-    subjects: 'Subjects',
-    search: 'Search',
+    shortcuts: 'Shortcuts',
+    searchTopicArticles: 'Search for topic description',
+    createTopicArticle: 'Create topic description',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -38,6 +38,11 @@ const phrases = {
   searchForm: {
     placeholder: 'Search articles',
     btn: 'Search',
+    articleType: {
+      all: 'All',
+      standard: 'Standard',
+      topicArticle: 'Topic description',
+    },
     order: {
       relevance: 'Relevance',
       title: 'Alphabetical',
@@ -51,21 +56,34 @@ const phrases = {
   },
   topicArticleForm: {
     save: 'Save',
-    labels: {
-      title: 'Title',
-      introduction: 'Introduction',
-      metaDescription: 'Meta description',
+    title: {
+      create: 'You are now creating a topic description',
+      update: 'You are now editing a topic description',
     },
     fields: {
+      title: {
+        label: 'Title',
+      },
+      introduction: {
+        label: 'Introduction',
+      },
+      visualElement: {
+        label: 'Visual element',
+      },
       content: {
         label: 'Content',
         placeholder: 'Write here...',
       },
       tags: {
         label: 'Tags',
+        description: '3 tags is required.',
         createNew: 'Create new tag',
         emptyList: 'No tags available',
         emptyFilter: 'No matching tags found',
+      },
+      metaDescription: {
+        label: 'Meta description',
+        description: 'The description will be viewable in search.',
       },
       authors: {
         label: 'Author',

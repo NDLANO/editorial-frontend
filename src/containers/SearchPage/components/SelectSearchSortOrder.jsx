@@ -29,7 +29,7 @@ class SelectSearchSortOrder extends Component {
     const { t } = this.props;
     return (
       <select
-        className="search-sort-order"
+        className="search-filters__select"
         onChange={this.handleSortChange}
         value={this.state.sort}
       >

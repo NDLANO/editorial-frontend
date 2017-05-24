@@ -10,16 +10,20 @@ import React from 'react';
 import { OneColumn } from 'ndla-ui';
 import { Link } from 'react-router-dom';
 import { injectT } from '../../i18n';
+import { toCreateTopicArticle, toSearch } from '../../routes';
+
+const query = { articleTypes: 'topic-article' };
+
 
 export const WelcomePage = ({ t }) =>
   <div className="c-resources u-padding-top-large">
     <OneColumn cssModifier="narrow">
       <article>
         <section>
-          <h1>{t('welcomePage.hello')}</h1>
+          <h1>{t('welcomePage.shortcuts')}</h1>
           <ul>
-            <li><Link to="/subjects">{t('welcomePage.subjects')}</Link></li>
-            <li><Link to="/search">{t('welcomePage.search')}</Link></li>
+            <li><Link to={`${toSearch(query)}`}>{t('welcomePage.searchTopicArticles')}</Link></li>
+            <li><Link to={`${toCreateTopicArticle()}`}>{t('welcomePage.createTopicArticle')}</Link></li>
           </ul>
         </section>
       </article>

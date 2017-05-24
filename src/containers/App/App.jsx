@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { PageContainer } from 'ndla-ui';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import { MessageShape } from '../../shapes';
 import Masthead from '../Masthead';
@@ -20,19 +20,6 @@ import { getLocale } from '../Locale/localeSelectors';
 import { getMessages } from '../Messages/messagesSelectors';
 import Alerts from '../Messages/Alerts';
 import { injectT } from '../../i18n';
-import LogoutSession from '../App/LogoutSession';
-import LoginProviders from '../App/LoginProviders';
-import LogoutFederated from '../App/LogoutFederated';
-import LogoutProviders from '../App/LogoutProviders';
-import PrivateRoute from '../PrivateRoute/PrivateRoute';
-import Forbidden from '../ForbiddenPage/ForbiddenPage';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import WelcomePage from '../WelcomePage/WelcomePage';
-import SearchPage from '../SearchPage/SearchPage';
-import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
-import SubjectsPage from '../SubjectsPage/SubjectsPage';
-import SubjectPage from '../SubjectPage/SubjectPage';
-import ImageSearchPage from '../../containers/ImageSearch/ImageSearch';
 
 export class App extends React.Component {
   getChildContext() {
@@ -42,7 +29,7 @@ export class App extends React.Component {
   }
 
   render() {
-    const { dispatch, messages, t, match: { params } } = this.props;
+    const { dispatch, messages, t, children, match: { params } } = this.props;
 
     return (
       <PageContainer>
@@ -58,20 +45,7 @@ export class App extends React.Component {
           authenticated={this.props.authenticated}
           userName={this.props.userName}
         />
-        <Switch>
-          <Route path="/" exact component={WelcomePage} />
-          <Route path="/login" component={LoginProviders} />
-          <Route path="/logoutProviders" component={LogoutProviders} />
-          <Route path="/logoutSession" component={LogoutSession} />
-          <Route path="/logoutFederated" component={LogoutFederated} />
-          <PrivateRoute path="/search" component={SearchPage} />
-          <PrivateRoute path="/subjects/:subjectId" component={SubjectPage} />
-          <PrivateRoute path="/subjects/" component={SubjectsPage} />
-          <PrivateRoute path="/images/" component={ImageSearchPage} />
-          <Route path="/topic-article/:articleId" component={TopicArticlePage} />
-          <Route path="/forbidden" component={Forbidden} />
-          <Route component={NotFoundPage} />
-        </Switch>
+        {children}
         <Footer t={t} />
         <Alerts dispatch={dispatch} messages={messages} />
       </PageContainer>

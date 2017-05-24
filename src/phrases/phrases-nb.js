@@ -11,9 +11,9 @@ const phrases = {
     description: 'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
   },
   welcomePage: {
-    hello: 'Hello verden',
-    subjects: 'Fag',
-    search: 'Søk',
+    shortcuts: 'Snarveier',
+    searchTopicArticles: 'Søk etter emnebeskrivelse',
+    createTopicArticle: 'Opprett emnebeskrivelse',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -38,6 +38,11 @@ const phrases = {
   searchForm: {
     placeholder: 'Søk etter artikler',
     btn: 'Søk',
+    articleType: {
+      all: 'Alle',
+      standard: 'Standard',
+      topicArticle: 'Emnebeskrivelse',
+    },
     order: {
       relevance: 'Relevans',
       title: 'Alfabetisk',
@@ -51,22 +56,34 @@ const phrases = {
   },
   topicArticleForm: {
     save: 'Lagre',
-    labels: {
-      title: 'Tittel',
-      introduction: 'Ingress',
-      metaDescription: 'Metabeskrivelse',
-      content: 'Innhold',
+    title: {
+      create: 'Du oppretter nå en emnebeskrivelse',
+      update: 'Du redigerer nå en emnebeskrivelse',
     },
     fields: {
+      title: {
+        label: 'Tittel',
+      },
+      introduction: {
+        label: 'Ingress',
+      },
+      visualElement: {
+        label: 'Visuelt element',
+      },
       content: {
         label: 'Innhold',
         placeholder: 'Innhold',
       },
       tags: {
         label: 'Nøkkelord',
+        description: 'Obligatorisk med 3 nøkkelord.',
         createNew: 'Opprett nytt nøkkelord',
         emptyFilter: 'Fant ingen passende nøkkelord',
         emptyList: 'Det er ingen tagger i denne listen',
+      },
+      metaDescription: {
+        label: 'Metabeskrivelse',
+        description: 'Beskrivelsen blir synlig i søk.',
       },
       authors: {
         label: 'Forfatter',
@@ -74,9 +91,6 @@ const phrases = {
         emptyFilter: ' ',
         emptyList: ' ',
       },
-    },
-    description: {
-      metaDescription: 'Beskrivelsen blir synlig i søk.',
     },
   },
   form: {

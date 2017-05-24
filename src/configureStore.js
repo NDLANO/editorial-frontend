@@ -10,7 +10,7 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import thunkMiddleware from 'redux-thunk';
 import persistState from 'redux-localstorage';
-import { routerMiddleware } from 'react-router-redux';
+// import { routerMiddleware } from 'react-router-redux';
 
 
 import rootReducer from './reducers';
@@ -26,8 +26,8 @@ const slicer = paths =>
   }, {});
 
 
-export default function configureStore(initialState, history) {
-  const middleware = routerMiddleware(history);
+export default function configureStore(initialState) {
+  // const middleware = routerMiddleware(history);
   const sagaMiddleware = createSagaMiddleware();
 
   const createFinalStore = compose(
@@ -35,7 +35,7 @@ export default function configureStore(initialState, history) {
       thunkMiddleware,
       sagaMiddleware,
       errorReporter,
-      middleware,
+      // middleware,
     ),
     __CLIENT__ ? persistState(['authenticated', 'idToken', 'user'], { key: 'ndla:sti', slicer }) : f => f,
     window && window.devToolsExtension ? window.devToolsExtension() : f => f,

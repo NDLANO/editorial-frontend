@@ -13,7 +13,7 @@
   margin: -1px;
   padding: 0;
   overflow: hidden;
-  clip: rect(0,0,0,0);
+  clip: rect(0, 0, 0, 0);
   border: 0;
 }
 
@@ -43,7 +43,7 @@
 }
 
 .rw-multiselect {
-  background-color: #FFFFFF;
+  background-color: #fff;
 
   &:hover {
     border-color: $state-border-hover;
@@ -71,6 +71,7 @@
   padding-top: 5px;
   margin-top: 5px;
 }
+
 .rw-multiselect-taglist {
   display: inline;
   padding: 0;
@@ -106,11 +107,10 @@
     }
 
     & .rw-tag-btn {
-      padding: 0 0.45em 0 0.45em;
+      padding: 0 0.45em;
     }
   }
 }
-
 
 ul.rw-list {
   margin: 0;
@@ -131,7 +131,7 @@ ul.rw-list {
 
   & > li.rw-list-option,
   & > li.rw-list-empty {
-    padding: 0.6em 0.6em;
+    padding: 0.6em;
     margin: 0.2em 0;
   }
 
@@ -161,13 +161,10 @@ ul.rw-list {
 
 .rw-popup {
   position: absolute;
-  box-shadow: 0 5px 6px rgba(0,0,0,.2);
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
+  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 3px 3px;
   border: 1px solid var(--gray-8);
-  background: #ffffff;
+  background: #fff;
   padding: 2px;
   overflow: auto;
   left: 11px;

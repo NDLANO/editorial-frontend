@@ -11,6 +11,7 @@ import { renderToString } from 'react-dom/server';
 import express from 'express';
 import compression from 'compression';
 
+import Auth0SilentCallback from './Auth0SilentCallback';
 import enableDevMiddleWare from './enableDevMiddleware';
 import getConditionalClassnames from './getConditionalClassnames';
 import { getLocaleObject } from '../src/i18n';
@@ -35,6 +36,9 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 200, text: 'Health check ok' });
 });
 
+app.get('/login/silent-callback', (req, res) => {
+  res.send('<!doctype html>\n' + Auth0SilentCallback); // eslint-disable-line
+});
 
 app.get('/get_token', (req, res) => {
   getToken().then((token) => {

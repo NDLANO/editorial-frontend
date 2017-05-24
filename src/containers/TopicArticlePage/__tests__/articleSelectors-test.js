@@ -6,12 +6,13 @@
  *
  */
 
-import { getArticle } from '../articleDucks';
+import { getArticle, getSaving } from '../articleDucks';
 import { topicArticle } from './mockArticles';
 
 const state = {
   locale: 'nb',
   articles: {
+    isSaving: true,
     all: {
       [topicArticle.id]: topicArticle,
       2: {
@@ -58,4 +59,8 @@ test('articleSelectors getArticle (en locale)', () => {
 test('articleSelectors getArticle returns undefined if article is not in state', () => {
   const getArticleSelector = getArticle(1337);
   expect(getArticleSelector(state)).toEqual(undefined);
+});
+
+test('articleSelectors getSaving', () => {
+  expect(getSaving(state)).toBe(true);
 });

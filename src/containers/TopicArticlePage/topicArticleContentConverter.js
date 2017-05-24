@@ -8,14 +8,15 @@
 
 import React from 'react';
 import { convertFromHTML, convertToHTML } from 'draft-convert';
-import { ContentState, EditorState, Entity } from 'draft-js';
+import { EditorState } from 'draft-js';
 
 function reduceAttributesArrayToObject(attributes) {
   // Reduce attributes array to object with attribute name (striped of data-) as keys.
   return attributes.reduce((all, attr) => Object.assign({}, all, { [attr.nodeName.replace('data-', '')]: attr.nodeValue }), {});
 }
 
-export function convertHTMLToContentState(html) {
+function convertHTMLToEditorState(html) {
+  const embeds = [];
   const contentState = convertFromHTML({
     htmlToBlock: (nodeName) => {
       if (nodeName === 'embed') {
@@ -26,15 +27,17 @@ export function convertHTMLToContentState(html) {
     htmlToEntity: (nodeName, node) => {
       if (nodeName === 'embed') {
         const data = reduceAttributesArrayToObject(Array.from(node.attributes));
-        return Entity.create('resource-placeholder', 'IMMUTABLE', data);
+        embeds.push(data);
+        return embeds.length.toString();
       }
       return undefined;
     },
   })(html);
+  embeds.forEach(embed => contentState.createEntity('resource-placeholder', 'IMMUTABLE', embed));
   return EditorState.createWithContent(contentState);
 }
 
-export function convertEditorStateToHTML(editorState) {
+function convertEditorStateToHTML(editorState) {
   const contentState = editorState.getCurrentContent();
 
   const html = convertToHTML({
@@ -46,14 +49,10 @@ export function convertEditorStateToHTML(editorState) {
     },
   })(contentState);
 
-  return `<section>${html.replace('<deleteme>a</deleteme>', '')}</section>`;
+  return `<section>${html.replace(/<deleteme>a<\/deleteme>/g, '')}</section>`;
 }
 
-export const createEditorStateFromText = (text) => {
-  if (text) {
-    return EditorState.createWithContent(ContentState.createFromText(text));
-  }
-  return EditorState.createEmpty();
+export default {
+  toHtml: convertEditorStateToHTML,
+  toEditorState: convertHTMLToEditorState,
 };
-
-export const getPlainTextFromEditorState = editorState => editorState.getCurrentContent().getPlainText();

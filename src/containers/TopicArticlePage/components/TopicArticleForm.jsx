@@ -18,7 +18,8 @@ import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { TextField, TextAreaField, MultiSelectField, RichTextField, PlainTextField, RemainingCharacters, Field } from '../../../components/Fields';
 import ImageSelectField from '../../../components/ImageSelectField';
-import { convertEditorStateToHTML, convertHTMLToContentState, createEditorStateFromText, getPlainTextFromEditorState } from '../topicArticleContentConverter';
+import converter from '../topicArticleContentConverter';
+import { createEditorStateFromText, getPlainTextFromEditorState } from '../../../util/draftjsHelpers';
 
 
 const DEFAULT_LICENSE = {
@@ -32,7 +33,7 @@ export const getInitialModel = (article = {}) => ({
   revision: article.revision,
   title: article.title || '',
   introduction: createEditorStateFromText(article.introduction),
-  content: article.content ? convertHTMLToContentState(article.content) : EditorState.createEmpty(),
+  content: article.content ? converter.toEditorState(article.content) : EditorState.createEmpty(),
   tags: article.tags || [],
   authors: article.copyright ? article.copyright.authors.map(author => author.name) : [],
   copyright: article.copyright ? article.copyright : { license: DEFAULT_LICENSE, origin: '' },
@@ -66,7 +67,7 @@ class TopicArticleForm extends Component {
       title: [{ title: model.title, language }],
       introduction: [{ introduction: getPlainTextFromEditorState(model.introduction), language }],
       tags: [{ tags: model.tags, language }],
-      content: [{ content: convertEditorStateToHTML(model.content), language }],
+      content: [{ content: converter.toHtml(model.content), language }],
       visualElement: [{ content: model.visualElement, language }],
       metaDescription: [{ metaDescription: model.metaDescription, language }],
       articleType: 'topic-article',

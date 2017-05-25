@@ -118,12 +118,12 @@ input::placeholder {
   display: block;
 }
 
-.btn-google{
+.btn-google {
   background-color: #dd4b39;
   border-color: #dd4b39;
 }
 
-.btn-google:hover{
+.btn-google:hover {
   background-color: #c23321;
 }
 
@@ -132,7 +132,7 @@ input::placeholder {
   border-color: #3b5998;
 }
 
-.btn-fb:hover{
+.btn-fb:hover {
   background-color: #2d4373;
 }
 
@@ -141,16 +141,16 @@ input::placeholder {
   border-color: #20588f;
 }
 
-.btn-ndla:hover{
+.btn-ndla:hover {
   background-color: #20467d;
 }
 
 .vertical-menu {
-  padding: 0 .5em;
+  padding: 0 0.5em;
   margin: 0;
-  list-style: none
+  list-style: none;
 }
 
 .vertical-menu_item {
-  margin: 0 0 1em
+  margin: 0 0 1em;
 }

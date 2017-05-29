@@ -17,6 +17,11 @@
    return decoded.iat;
  }
 
+ export function expiresIn(token) {
+   const decoded = decode(token);
+   return decoded.exp - decoded.iat - 60;
+ }
+
  export function isTokenExpired(token) {
    return getTokenExpiration(token) - getTokenIssuedAt(token) < 0;
  }

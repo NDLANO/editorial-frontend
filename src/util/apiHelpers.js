@@ -7,6 +7,9 @@
  */
 
 import defined from 'defined';
+import fetch from 'isomorphic-fetch';
+import { expiresIn } from './jwtHelper';
+
 
 const apiBaseUrl = window.config.ndlaApiUrl;
 
@@ -32,3 +35,20 @@ export function resolveJsonOrRejectWithError(res) {
       .catch(reject);
   });
 }
+
+export const fetchAccessToken = () => fetch('/get_token').then(resolveJsonOrRejectWithError);
+
+export const fetchWithAccessToken = (url, config = {}) => {
+  let accessToken = localStorage.getItem('access_token');
+  const expiresAt = JSON.parse(localStorage.getItem('access_token_expires_at'));
+
+  if (new Date().getTime() > expiresAt) {
+    return fetchAccessToken().then((res) => {
+      accessToken = res.access_token;
+      localStorage.setItem('access_token', accessToken);
+      localStorage.setItem('access_token_expires_at', (expiresIn(accessToken) * 1000) + new Date().getTime());
+      return fetch(url, { ...config, headers: { Authorization: `Bearer ${accessToken}` } });
+    });
+  }
+  return fetch(url, { ...config, headers: { Authorization: `Bearer ${accessToken}` } });
+};

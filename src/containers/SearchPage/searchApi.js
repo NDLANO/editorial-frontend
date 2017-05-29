@@ -6,10 +6,9 @@
  *
  */
 
-import fetch from 'isomorphic-fetch';
-import { resolveJsonOrRejectWithError, apiResourceUrl, headerWithAccessToken } from '../../util/apiHelpers';
+import { resolveJsonOrRejectWithError, apiResourceUrl, fetchWithAccessToken } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/article-api/v1/articles');
 
-export const search = (queryString, locale, token) =>
-  fetch(`${baseUrl}/${queryString}&language=${locale}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
+export const search = (queryString, locale) =>
+  fetchWithAccessToken(`${baseUrl}/${queryString}&language=${locale}`).then(resolveJsonOrRejectWithError);

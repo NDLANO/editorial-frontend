@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as actions from './sessionActions';
 
-export class SessionInitializer extends React.Component {
+export class LoginSuccess extends React.Component {
   componentWillMount() {
     const { loginSuccess, location: { hash }, history } = this.props;
     actions.auth.parseHash({ hash, _idTokenVerification: false }, (err, authResult) => {
@@ -26,7 +26,7 @@ export class SessionInitializer extends React.Component {
   }
 }
 
-SessionInitializer.propTypes = {
+LoginSuccess.propTypes = {
   history: PropTypes.shape({
     replace: PropTypes.func.isRequired,
   }).isRequired,
@@ -37,4 +37,4 @@ SessionInitializer.propTypes = {
 const mapDispatchToProps = {
   loginSuccess: actions.loginSuccess,
 };
-export default connect(undefined, mapDispatchToProps)(SessionInitializer);
+export default connect(undefined, mapDispatchToProps)(LoginSuccess);

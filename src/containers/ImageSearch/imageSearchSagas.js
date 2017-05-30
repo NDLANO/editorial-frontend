@@ -9,15 +9,13 @@
 import { take, call, put, select } from 'redux-saga/effects';
 
 import { getLocale } from '../Locale/localeSelectors';
-import { getAccessToken } from '../App/sessionSelectors';
 import * as actions from './imageActions';
 import * as api from './imageApi';
 
 export function* search(query, page) {
   try {
     const locale = yield select(getLocale);
-    const token = yield select(getAccessToken);
-    const searchResult = yield call(api.search, query, page, locale, token);
+    const searchResult = yield call(api.search, query, page, locale);
     yield put(actions.setImageSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchImagesError());
@@ -41,8 +39,7 @@ export function* watchImageSearch() {
 
 export function* fetchSelectedImage(id) {
   try {
-    const token = yield select(getAccessToken);
-    const image = yield call(api.fetchImage, id, token);
+    const image = yield call(api.fetchImage, id);
     yield put(actions.setSelectedImage(image));
   } catch (error) {
     yield put(actions.searchImagesError());

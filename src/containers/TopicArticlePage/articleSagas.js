@@ -9,13 +9,11 @@
 import { take, call, put, select } from 'redux-saga/effects';
 import { actions, getArticle } from './articleDucks';
 import * as api from './articleApi';
-import { getAccessToken } from '../App/sessionSelectors';
 import { toEditTopicArticle } from '../../routes';
 
 export function* fetchArticle(id) {
   try {
-    const token = yield select(getAccessToken);
-    const article = yield call(api.fetchArticle, id, token);
+    const article = yield call(api.fetchArticle, id);
     yield put(actions.setArticle(article));
   } catch (error) {
     // TODO: handle error
@@ -36,8 +34,7 @@ export function* watchFetchArticle() {
 
 export function* updateArticle(article) {
   try {
-    const token = yield select(getAccessToken);
-    const updatedArticle = yield call(api.updateArticle, article, token);
+    const updatedArticle = yield call(api.updateArticle, article);
     yield put(actions.setArticle(updatedArticle));
     yield put(actions.updateArticleSuccess());
   } catch (error) {
@@ -49,8 +46,7 @@ export function* updateArticle(article) {
 
 export function* createArticle(article, history) {
   try {
-    const token = yield select(getAccessToken);
-    const createdArticle = yield call(api.createArticle, article, token);
+    const createdArticle = yield call(api.createArticle, article);
     yield put(actions.setArticle(createdArticle));
     history.push(toEditTopicArticle(createdArticle.id));
     yield put(actions.updateArticleSuccess());

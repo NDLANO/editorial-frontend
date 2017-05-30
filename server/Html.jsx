@@ -17,7 +17,8 @@ const assets = config.isProduction ? require('../htdocs/assets/assets') : requir
 
 
 const Html = (props) => {
-  const { lang, className, component, state } = props;
+  const { lang, className, component, accessToken, state } = props;
+  const configWithAccessToken = { ...config, accessToken };
   const content = component ? renderToString(component) : '';
   const head = Helmet.rewind();
 
@@ -37,7 +38,7 @@ const Html = (props) => {
       <body>
         <div id="root" dangerouslySetInnerHTML={{ __html: content }} />
         <script dangerouslySetInnerHTML={{ __html: `window.initialState = ${serialize(state)}` }} />
-        <script dangerouslySetInnerHTML={{ __html: `window.config = ${serialize(config)}` }} />
+        <script dangerouslySetInnerHTML={{ __html: `window.config = ${serialize(configWithAccessToken)}` }} />
         <script src={`/assets/${assets['main.js']}`} />
         {/* <script type="text/javascript" async src={`https://cdn.mathjax.org/mathjax/2.7-latest/MathJax.js?config=/assets/${assets['mathjaxConfig.js']}`} /> */}
       </body>
@@ -47,6 +48,7 @@ const Html = (props) => {
 
 Html.propTypes = {
   lang: PropTypes.string.isRequired,
+  accessToken: PropTypes.string.isRequired,
   component: PropTypes.node,
   state: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   className: PropTypes.string.isRequired,

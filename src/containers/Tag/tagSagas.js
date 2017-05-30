@@ -9,12 +9,10 @@
 import { take, call, put, select } from 'redux-saga/effects';
 import * as api from '../TopicArticlePage/articleApi';
 import { actions, getHasFetched } from './tagDucks';
-import { getAccessToken } from '../App/sessionSelectors';
 
 export function* fetchTags() {
   try {
-    const token = yield select(getAccessToken);
-    const tags = yield call(api.fetchTags, token);
+    const tags = yield call(api.fetchTags);
     yield put(actions.setTags(tags));
   } catch (error) {
     // TODO: handle error

@@ -57,7 +57,7 @@ export default class DisplayEmbedTag extends React.Component {
       return;
     }
 
-    fetchImage(embed.id, window.accessToken).then((image) => {
+    fetchImage(embed.id).then((image) => {
       this.setState(() => ({ embed: { ...embed, src: image.imageUrl } }));
     });
   }

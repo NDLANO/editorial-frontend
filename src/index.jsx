@@ -17,7 +17,7 @@ import routes from './routes';
 
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
-import { expiresIn } from './util/jwtHelper';
+import { setAccessTokenInLocalStorage } from './util/apiHelpers';
 
 const initialState = window.initialState;
 const localeString = initialState.locale;
@@ -26,9 +26,7 @@ const locale = getLocaleObject(localeString);
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 
-window.accessToken = initialState.accessToken; // tmp hack
-localStorage.setItem('access_token', initialState.accessToken);
-localStorage.setItem('access_token_expires_at', (expiresIn(initialState.accessToken) * 1000) + new Date().getTime());
+setAccessTokenInLocalStorage(window.config.accessToken);
 
 const store = configureStore(initialState);
 

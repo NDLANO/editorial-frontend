@@ -19,8 +19,6 @@ import PrivateRoute from './containers/PrivateRoute/PrivateRoute';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import SearchPage from './containers/SearchPage/SearchPage';
 import TopicArticlePage from './containers/TopicArticlePage/TopicArticlePage';
-import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
-import SubjectPage from './containers/SubjectPage/SubjectPage';
 import ImageSearchPage from './containers/ImageSearch/ImageSearchPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 
@@ -67,8 +65,6 @@ export default (
       <Route path="/logoutSession" component={LogoutSession} />
       <Route path="/logoutFederated" component={LogoutFederated} />
       <PrivateRoute path="/search" component={SearchPage} />
-      <PrivateRoute path="/subjects/:subjectId" component={SubjectPage} />
-      <PrivateRoute path="/subjects/" component={SubjectsPage} />
       <PrivateRoute path="/images/" component={ImageSearchPage} />
       <PrivateRoute path="/topic-article/" component={TopicArticlePage} />
       <Route component={NotFoundPage} />

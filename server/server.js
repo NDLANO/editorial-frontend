@@ -29,8 +29,15 @@ app.use(express.static('htdocs', {
   maxAge: 1000 * 60 * 60 * 24 * 365, // One year
 }));
 
-const renderHtmlString = (locale, userAgentString, state = {}, component = undefined) =>
-  renderToString(<Html lang={locale} state={state} component={component} className={getConditionalClassnames(userAgentString)} />);
+const renderHtmlString = (locale, userAgentString, accessToken, state = {}) =>
+  renderToString((
+    <Html
+      lang={locale}
+      state={state}
+      accessToken={accessToken}
+      className={getConditionalClassnames(userAgentString)}
+    />
+  ));
 
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 200, text: 'Health check ok' });
@@ -51,7 +58,7 @@ function handleResponse(req, res, token) {
   const { abbreviation: locale } = getLocaleObject(paths[1]);
   const userAgentString = req.headers['user-agent'];
 
-  const htmlString = renderHtmlString(locale, userAgentString, { accessToken: token.access_token, locale });
+  const htmlString = renderHtmlString(locale, userAgentString, token.access_token, { locale });
   res.send(`<!doctype html>\n${htmlString}`);
 }
 

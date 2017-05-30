@@ -14,7 +14,6 @@ import { decodeIdToken, getTimeToUpdateInMs } from '../../util/jwtHelper';
 import { locationOrigin, auth0ClientId, auth0Domain, getToken } from '../../util/authHelpers';
 
 export const setAuthenticated = createAction('SET_AUTHENTICATED');
-export const setAccessToken = createAction('SET_ACCESS_TOKEN');
 export const setUserData = createAction('SET_USER_DATA');
 export const logoutAction = createAction('LOGOUT_ID_TOKEN');
 export const setIdToken = createAction('SET_ID_TOKEN');
@@ -50,8 +49,8 @@ export function loginSocialMedia(type) {
 
 function doLogout(federated) {
   return dispatch => fetchNewToken()
-    .then((token) => {
-      dispatch(setAccessToken(token.access_token));
+    .then(() => {
+      // Todo: clear localStorage
       dispatch(setAuthenticated(false));
       dispatch(logoutAction());
       auth.logout({
@@ -109,20 +108,11 @@ export function renewAuth0Token() {
   });
 }
 
-export function renewAuthToken() {
-  return dispatch => fetchNewToken()
-    .then((token) => {
-      dispatch(setAccessToken(token.access_token));
-    });
-}
-
 
 export function refreshToken() {
   return (dispatch, getState) => new Promise((resolve) => {
     if (getState().authenticated) {
       dispatch(renewAuth0Token()).then(() => resolve());
-    } else {
-      dispatch(renewAuthToken()).then(() => resolve());
     }
   });
 }

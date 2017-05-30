@@ -6,25 +6,20 @@
  *
  */
 
-import fetch from 'isomorphic-fetch';
-import { resolveJsonOrRejectWithError, apiResourceUrl, headerWithAccessToken } from '../../util/apiHelpers';
+import { resolveJsonOrRejectWithError, apiResourceUrl, fetchWithAccessToken } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/article-api/v1/articles');
 
-export const fetchArticle = (id, token) =>
-  fetch(`${baseUrl}/${id}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
+export const fetchArticle = id => fetchWithAccessToken(`${baseUrl}/${id}`).then(resolveJsonOrRejectWithError);
 
-export const fetchTags = token =>
-  fetch(`${baseUrl}/tags/?size=7000`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
+export const fetchTags = () => fetchWithAccessToken(`${baseUrl}/tags/?size=7000`).then(resolveJsonOrRejectWithError);
 
-export const updateArticle = (article, token) => fetch(`${baseUrl}/${article.id}`, {
-  headers: headerWithAccessToken(token),
+export const updateArticle = article => fetchWithAccessToken(`${baseUrl}/${article.id}`, {
   method: 'PATCH',
   body: JSON.stringify(article),
 }).then(resolveJsonOrRejectWithError);
 
-export const createArticle = (article, token) => fetch(`${baseUrl}/`, {
-  headers: headerWithAccessToken(token),
+export const createArticle = article => fetchWithAccessToken(`${baseUrl}/`, {
   method: 'POST',
   body: JSON.stringify(article),
 }).then(resolveJsonOrRejectWithError);

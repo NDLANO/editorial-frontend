@@ -38,16 +38,19 @@ export function resolveJsonOrRejectWithError(res) {
 
 export const fetchAccessToken = () => fetch('/get_token').then(resolveJsonOrRejectWithError);
 
+export const setAccessTokenInLocalStorage = (accessToken) => {
+  localStorage.setItem('access_token', accessToken);
+  localStorage.setItem('access_token_expires_at', (expiresIn(accessToken) * 1000) + new Date().getTime());
+};
+
 export const fetchWithAccessToken = (url, config = {}) => {
-  let accessToken = localStorage.getItem('access_token');
+  const accessToken = localStorage.getItem('access_token');
   const expiresAt = JSON.parse(localStorage.getItem('access_token_expires_at'));
 
   if (new Date().getTime() > expiresAt) {
     return fetchAccessToken().then((res) => {
-      accessToken = res.access_token;
-      localStorage.setItem('access_token', accessToken);
-      localStorage.setItem('access_token_expires_at', (expiresIn(accessToken) * 1000) + new Date().getTime());
-      return fetch(url, { ...config, headers: { Authorization: `Bearer ${accessToken}` } });
+      setAccessTokenInLocalStorage(res.access_token);
+      return fetch(url, { ...config, headers: { Authorization: `Bearer ${res.access_token}` } });
     });
   }
   return fetch(url, { ...config, headers: { Authorization: `Bearer ${accessToken}` } });

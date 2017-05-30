@@ -6,8 +6,28 @@
  *
  */
 
-/* eslint-disable */
 window.config = {
-  ndlaApiUrl: 'http://ndla-api'
-}
-/* eslint-enable */
+  ndlaApiUrl: 'http://ndla-api',
+};
+
+const localStorageMock = (function createLocalStorage() {
+  let store = {};
+  return {
+    getItem(key) {
+      return store[key] || null;
+    },
+    setItem(key, value) {
+      store[key] = value.toString();
+    },
+    clear() {
+      store = {};
+    },
+  };
+}());
+
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock,
+});
+
+localStorage.setItem('access_token', '123456789');
+localStorage.setItem('access_token_expires_at', new Date().getTime() + 10000);

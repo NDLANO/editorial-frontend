@@ -15,5 +15,8 @@ export default handleActions({
     next: (state, action) => action.payload,
     throw: state => state,
   },
-  LOGOUT: () => ({}),
+  [actions.clearUserData]: {
+    next: () => ({}),
+    throw: state => state,
+  },
 }, {});

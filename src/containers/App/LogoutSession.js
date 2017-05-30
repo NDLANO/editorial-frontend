@@ -10,12 +10,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as actions from './sessionActions';
-import ifAuthenticated from '../../util/ifAuthenticated';
 
 export class LogoutSession extends React.Component {
   componentWillMount() {
-    const { localLogout, authenticated, localIfAuthenticated } = this.props;
-    localIfAuthenticated(authenticated, localLogout);
+    const { logout } = this.props;
+    logout({ federated: false });
   }
 
   render() {
@@ -24,14 +23,12 @@ export class LogoutSession extends React.Component {
 }
 
 LogoutSession.propTypes = {
-  localLogout: PropTypes.func.isRequired,
-  localIfAuthenticated: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
   authenticated: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
-  localLogout: actions.logout,
-  localIfAuthenticated: ifAuthenticated,
+  logout: actions.logout,
 };
 
-export default connect(state => state, mapDispatchToProps)(LogoutSession);
+export default connect(undefined, mapDispatchToProps)(LogoutSession);

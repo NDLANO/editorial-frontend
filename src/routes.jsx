@@ -45,6 +45,10 @@ export function toLogout() {
   return '/logoutProviders';
 }
 
+export function toLogoutSession() {
+  return '/logoutSession';
+}
+
 class ScrollToTop extends React.Component {
   componentDidUpdate() {
     window.scrollTo(0, 0);

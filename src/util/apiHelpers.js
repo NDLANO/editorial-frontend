@@ -55,3 +55,16 @@ export const fetchWithAccessToken = (url, config = {}) => {
   }
   return fetch(url, { ...config, headers: { Authorization: `Bearer ${accessToken}` } });
 };
+
+// export const fetchAuthorized = (url, config = {}) => {
+//   const accessToken = localStorage.getItem('access_token');
+//   const expiresAt = JSON.parse(localStorage.getItem('access_token_expires_at'));
+
+//   if (new Date().getTime() > expiresAt) {
+//     return fetchAccessToken().then((res) => {
+//       setAccessTokenInLocalStorage(res.access_token);
+//       return fetch(url, { ...config, headers: { Authorization: `Bearer ${res.access_token}` } });
+//     });
+//   }
+//   return fetch(url, { ...config, headers: { Authorization: `Bearer ${accessToken}` } });
+// };

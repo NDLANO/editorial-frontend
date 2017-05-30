@@ -23,5 +23,4 @@ const LogoutProviders = ({ t }) => (
   </OneColumn>
   );
 
-export default compose(
-  injectT)(LogoutProviders);
+export default compose(injectT)(LogoutProviders);

@@ -11,25 +11,46 @@ import * as actions from './sessionActions';
 import { toSearch, toLogin } from '../../routes';
 import { decodeIdToken } from '../../util/jwtHelper';
 
+const ID_TOKEN_KEY = 'id_token';
+
 export function* login(idToken, history) {
   try {
     yield put(actions.setAuthenticated(true));
     yield put(actions.setUserData(decodeIdToken(idToken)));
-    localStorage.setItem('id_token', idToken);
+    localStorage.setItem(ID_TOKEN_KEY, idToken);
     history.replace(toSearch());
   } catch (error) {
     history.replace(`${toLogin()}/failure`);
   }
 }
 
+export function* logout(federated) {
+  try {
+    yield put(actions.setAuthenticated(false));
+    yield put(actions.clearUserData());
+    actions.authLogout(federated);
+    localStorage.removeItem(ID_TOKEN_KEY);
+  } catch (error) {
+    console.log(error);
+    // history.replace(`${toLogin()}/failure`);
+  }
+}
+
 export function* watchLoginSuccess() {
   while (true) {
     const { payload: { idToken, history } } = yield take(actions.loginSuccess);
-
     yield call(login, idToken, history);
+  }
+}
+
+export function* watchLogout() {
+  while (true) {
+    const { payload: { federated } } = yield take(actions.logout);
+    yield call(logout, federated);
   }
 }
 
 export default [
   watchLoginSuccess,
+  watchLogout,
 ];

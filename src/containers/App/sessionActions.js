@@ -15,9 +15,9 @@ import { locationOrigin, auth0ClientId, auth0Domain, getToken } from '../../util
 
 export const setAuthenticated = createAction('SET_AUTHENTICATED');
 export const setUserData = createAction('SET_USER_DATA');
-export const logoutAction = createAction('LOGOUT_ID_TOKEN');
+export const clearUserData = createAction('CLEAR_USER_DATA');
 export const loginSuccess = createAction('LOGIN_SUCCESS');
-export const setIdToken = createAction('SET_ID_TOKEN');
+export const logout = createAction('LOGOUT');
 
 
 export const auth = new auth0.WebAuth({
@@ -28,18 +28,20 @@ export const auth = new auth0.WebAuth({
   scope: 'openid app_metadata name',
 });
 
-export function parseHash(hash, history) {
-  return (dispatch) => {
-    auth.parseHash({ hash, _idTokenVerification: false }, (err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        dispatch(setIdToken(authResult.idToken));
-        dispatch(setAuthenticated(true));
-        dispatch(setUserData(decodeIdToken(authResult.idToken)));
-        history.replace('/search');
-      }
+export const authLogout = (federated) => {
+  const config = {
+    returnTo: `${locationOrigin}/`,
+    client_id: auth0ClientId,
+  }
+  if (federated) {
+    return auth.logout({
+      ...config,
+      federated,
     });
-  };
-}
+  }
+  return auth.logout({ config });
+};
+
 
 export function loginSocialMedia(type) {
   auth.authorize({
@@ -48,25 +50,6 @@ export function loginSocialMedia(type) {
   });
 }
 
-function doLogout(federated) {
-  return dispatch => fetchNewToken()
-    .then(() => {
-      // Todo: clear localStorage
-      dispatch(setAuthenticated(false));
-      dispatch(logoutAction());
-      console.log(federated);
-      auth.logout({
-        returnTo: `${locationOrigin}/`,
-        client_id: auth0ClientId,
-        federated,
-      });
-    })
-    .catch(err => dispatch(applicationError(err)));
-}
-
-export function logout() {
-  return doLogout(false);
-}
 
 export function logoutFederated() {
   return doLogout(true);

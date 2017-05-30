@@ -37,4 +37,4 @@ SessionInitializer.propTypes = {
 const mapDispatchToProps = {
   loginSuccess: actions.loginSuccess,
 };
-export default connect(() => {}, mapDispatchToProps)(SessionInitializer);
+export default connect(undefined, mapDispatchToProps)(SessionInitializer);

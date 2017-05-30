@@ -9,6 +9,7 @@ import { spawn, all } from 'redux-saga/effects';
 import searchSagas from './containers/SearchPage/searchSagas';
 import articleSagas from './containers/TopicArticlePage/articleSagas';
 import tagSagas from './containers/Tag/tagSagas';
+import sessionSagas from './containers/App/sessionSagas';
 import imageSearchSagas from './containers/ImageSearch/imageSearchSagas';
 
 export default function* root() {
@@ -17,5 +18,6 @@ export default function* root() {
     ...articleSagas.map(s => spawn(s)),
     ...tagSagas.map(s => spawn(s)),
     ...imageSearchSagas.map(s => spawn(s)),
+    ...sessionSagas.map(s => spawn(s)),
   ]);
 }

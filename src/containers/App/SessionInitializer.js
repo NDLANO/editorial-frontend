@@ -9,12 +9,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { parseHash } from './sessionActions';
+import * as actions from './sessionActions';
 
 export class SessionInitializer extends React.Component {
   componentWillMount() {
-    const { localParseHash, location: { hash }, history } = this.props;
-    localParseHash(hash, history);
+    const { loginSuccess, location: { hash }, history } = this.props;
+    actions.auth.parseHash({ hash, _idTokenVerification: false }, (err, authResult) => {
+      if (authResult && authResult.idToken) {
+        loginSuccess({ idToken: authResult.idToken, history });
+      }
+    });
   }
 
   render() {
@@ -26,11 +30,11 @@ SessionInitializer.propTypes = {
   history: PropTypes.shape({
     replace: PropTypes.func.isRequired,
   }).isRequired,
-  localParseHash: PropTypes.func.isRequired,
+  loginSuccess: PropTypes.func.isRequired,
   location: PropTypes.shape({ hash: PropTypes.string }),
 };
 
 const mapDispatchToProps = {
-  localParseHash: parseHash,
+  loginSuccess: actions.loginSuccess,
 };
-export default connect(state => state, mapDispatchToProps)(SessionInitializer);
+export default connect(() => {}, mapDispatchToProps)(SessionInitializer);

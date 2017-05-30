@@ -16,10 +16,11 @@ import { locationOrigin, auth0ClientId, auth0Domain, getToken } from '../../util
 export const setAuthenticated = createAction('SET_AUTHENTICATED');
 export const setUserData = createAction('SET_USER_DATA');
 export const logoutAction = createAction('LOGOUT_ID_TOKEN');
+export const loginSuccess = createAction('LOGIN_SUCCESS');
 export const setIdToken = createAction('SET_ID_TOKEN');
 
 
-const auth = new auth0.WebAuth({
+export const auth = new auth0.WebAuth({
   clientID: auth0ClientId || '',
   domain: auth0Domain || '',
   responseType: 'token id_token',
@@ -53,6 +54,7 @@ function doLogout(federated) {
       // Todo: clear localStorage
       dispatch(setAuthenticated(false));
       dispatch(logoutAction());
+      console.log(federated);
       auth.logout({
         returnTo: `${locationOrigin}/`,
         client_id: auth0ClientId,

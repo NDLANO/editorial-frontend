@@ -15,7 +15,6 @@ import { loginSocialMedia } from './sessionActions';
 import LoginFailure from './LoginFailure';
 import SessionInitializer from './SessionInitializer';
 
-
 export const LoginProviders = (props) => {
   const { t, message, match } = props;
   let messageEl;
@@ -26,7 +25,7 @@ export const LoginProviders = (props) => {
   return (
     <OneColumn cssModifier="narrow">
       <Route path={`${match.url}/success`} component={SessionInitializer} />
-      <Route path={`${match.url}/failure(/)`} component={LoginFailure} />
+      <Route path={`${match.url}/failure`} component={LoginFailure} />
       <h3>{t('loginProviders.description')}</h3>
       {messageEl}
       <ul className="vertical-menu">
@@ -40,9 +39,7 @@ export const LoginProviders = (props) => {
 LoginProviders.propTypes = {
   message: PropTypes.string,
   match: PropTypes.shape({
-    path: PropTypes.string,
-    exact: PropTypes.bool,
-    strict: PropTypes.bool,
+    url: PropTypes.string.isRequired,
   }).isRequired,
 };
 

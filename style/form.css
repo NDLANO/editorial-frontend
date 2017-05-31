@@ -116,6 +116,7 @@ input::placeholder {
 .login-button {
   min-width: 150px;
   display: block;
+  margin: 0 auto;
 }
 
 .btn-google {
@@ -146,7 +147,7 @@ input::placeholder {
 }
 
 .vertical-menu {
-  padding: 0 0.5em;
+  padding: 0;
   margin: 0;
   list-style: none;
 }

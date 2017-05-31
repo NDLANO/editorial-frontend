@@ -26,7 +26,7 @@ const phrases = {
   },
   loginFailure: {
     errorMessage: 'Sorry. Login failed.',
-    loginLink: 'Log in',
+    loginLink: 'Click to try again.',
   },
   loginProviders: {
     description: 'Log in with',

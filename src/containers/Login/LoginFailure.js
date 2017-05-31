@@ -1,5 +1,4 @@
-/*
- * Part of NDLA editorial-frontend.
+/**
  * Copyright (C) 2017 -present, NDLA
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -12,7 +11,10 @@ import { injectT } from '../../i18n';
 
 export const LoginFailure = ({ t }) =>
   <div>
-    {t('loginFailure.errorMessage')} <br /><br /> <Link to="/login">{t('loginFailure.loginLink')}</Link>.
+    <h2> {t('loginFailure.errorMessage')}</h2>
+    <p>
+      <Link to="/login">{t('loginFailure.loginLink')}</Link>
+    </p>
   </div>
 ;
 

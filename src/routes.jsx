@@ -12,7 +12,7 @@ import queryString from 'query-string';
 
 import App from './containers/App/App';
 import LogoutSession from './containers/Logout/LogoutSession';
-import LoginProviders from './containers/Login/LoginProviders';
+import Login from './containers/Login/Login';
 import LogoutFederated from './containers/Logout/LogoutFederated';
 import LogoutProviders from './containers/Logout/LogoutProviders';
 import PrivateRoute from './containers/PrivateRoute/PrivateRoute';
@@ -64,7 +64,7 @@ export default (
     <ScrollToTop />
     <Switch>
       <Route path="/" exact component={WelcomePage} />
-      <Route path="/login" component={LoginProviders} />
+      <Route path="/login" component={Login} />
       <Route path="/logout" component={LogoutProviders} />
       <Route path="/logoutSession" component={LogoutSession} />
       <Route path="/logoutFederated" component={LogoutFederated} />

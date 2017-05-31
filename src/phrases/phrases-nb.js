@@ -26,10 +26,10 @@ const phrases = {
   },
   loginFailure: {
     errorMessage: 'Beklager. Innlogging feilet.',
-    loginLink: 'Logg inn',
+    loginLink: 'Klikk for å prøve igjen.',
   },
   loginProviders: {
-    description: 'Logg inn i NDLA med',
+    description: 'Logg inn i produksjonssystem med',
   },
   logoutProviders: {
     federatedLogout: 'Logg helt ut av autentiseringstjenesten (Google/Facebook/Twitter). Forlater denne applikasjonen.',

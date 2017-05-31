@@ -10,14 +10,15 @@ import { take, call, put } from 'redux-saga/effects';
 import * as actions from './sessionActions';
 import { toSearch, toLogin } from '../../routes';
 import { decodeIdToken } from '../../util/jwtHelper';
+import { setIdTokenInLocalStorage, clearIdTokenFromLocalStorage } from '../../util/authHelpers';
 
-const ID_TOKEN_KEY = 'id_token';
 
 export function* login(idToken, history) {
   try {
+    const decoded = decodeIdToken(idToken);
     yield put(actions.setAuthenticated(true));
-    yield put(actions.setUserData(decodeIdToken(idToken)));
-    localStorage.setItem(ID_TOKEN_KEY, idToken);
+    yield put(actions.setUserData(decoded));
+    setIdTokenInLocalStorage(idToken);
     history.replace(toSearch());
   } catch (error) {
     history.replace(`${toLogin()}/failure`);
@@ -29,7 +30,7 @@ export function* logout(federated) {
     yield put(actions.setAuthenticated(false));
     yield put(actions.clearUserData());
     actions.authLogout(federated);
-    localStorage.removeItem(ID_TOKEN_KEY);
+    clearIdTokenFromLocalStorage();
   } catch (error) {
     console.log(error);
     // history.replace(`${toLogin()}/failure`);

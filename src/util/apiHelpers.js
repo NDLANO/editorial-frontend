@@ -9,13 +9,14 @@
 import defined from 'defined';
 import fetch from 'isomorphic-fetch';
 import { expiresIn } from './jwtHelper';
-
+import { isIdTokenValid, getIdToken } from './authHelpers';
+import { renewAuth } from '../containers/App/sessionActions';
 
 const apiBaseUrl = window.config.ndlaApiUrl;
 
 export { apiBaseUrl };
 
-export function headerWithAccessToken(token) {
+export function headerWithToken(token) {
   return { Authorization: `Bearer ${token}` };
 }
 
@@ -56,15 +57,10 @@ export const fetchWithAccessToken = (url, config = {}) => {
   return fetch(url, { ...config, headers: { Authorization: `Bearer ${accessToken}` } });
 };
 
-// export const fetchAuthorized = (url, config = {}) => {
-//   const accessToken = localStorage.getItem('access_token');
-//   const expiresAt = JSON.parse(localStorage.getItem('access_token_expires_at'));
-
-//   if (new Date().getTime() > expiresAt) {
-//     return fetchAccessToken().then((res) => {
-//       setAccessTokenInLocalStorage(res.access_token);
-//       return fetch(url, { ...config, headers: { Authorization: `Bearer ${res.access_token}` } });
-//     });
-//   }
-//   return fetch(url, { ...config, headers: { Authorization: `Bearer ${accessToken}` } });
-// };
+export const fetchAuthorized = (url, config = {}) => {
+  if (!isIdTokenValid()) {
+    return renewAuth().then(idToken => fetch(url, { ...config, headers: headerWithToken(idToken) }));
+  }
+  const idToken = getIdToken();
+  return fetch(url, { ...config, headers: headerWithToken(idToken) });
+};

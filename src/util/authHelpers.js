@@ -7,6 +7,7 @@
  */
 
 import 'isomorphic-fetch';
+import { expiresIn } from './jwtHelper';
 
 export const AUTH0_DOMAIN = window.config.auth0Domain;
 export const AUTH0_CLIENT_ID = window.config.auth0ClientID;
@@ -48,6 +49,21 @@ export function getToken(getState) {
 
 export { locationOrigin };
 
+export const setIdTokenInLocalStorage = (idToken) => {
+  localStorage.setItem('id_token', idToken);
+  localStorage.setItem('id_token_expires_at', (expiresIn(idToken) * 1000) + new Date().getTime());
+};
+
+export const clearIdTokenFromLocalStorage = () => {
+  localStorage.removeItem('id_token');
+  localStorage.removeItem('id_token_expires_at');
+};
+
+export const getExpiresAt = () => JSON.parse(localStorage.getItem('id_token_expires_at'));
+
+export const getIdToken = () => localStorage.getItem('id_token');
+
+export const isIdTokenValid = () => new Date().getTime() < getExpiresAt();
 
 export function ApiError(message, res = {}, json) {
   this.name = 'ApiError';

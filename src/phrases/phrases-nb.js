@@ -114,6 +114,9 @@ const phrases = {
     footerEditiorInChief: 'Ansvarlig redaktør: ',
     footerManagingEditor: 'Utgaveansvarlig: ',
   },
+  notFound: {
+    description: 'Denne siden finnes ikke.',
+  },
 };
 
 export default phrases;

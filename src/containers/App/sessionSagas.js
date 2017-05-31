@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2017-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -32,8 +32,7 @@ export function* logout(federated) {
     authLogout(federated);
     clearIdTokenFromLocalStorage();
   } catch (error) {
-    console.log(error);
-    // history.replace(`${toLogin()}/failure`);
+    console.error(error); //eslint-disable-line
   }
 }
 

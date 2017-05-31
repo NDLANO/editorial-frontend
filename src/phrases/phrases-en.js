@@ -117,6 +117,9 @@ const phrases = {
     footerEditiorInChief: 'Editor in chief: ',
     footerManagingEditor: 'Managing editor: ',
   },
+  notFound: {
+    description: 'The page cannot be found',
+  },
 };
 
 export default phrases;

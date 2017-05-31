@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { OneColumn } from 'ndla-ui';
+import { injectT } from '../../i18n';
 
 const Status = ({ code, children }) => (
   <Route
@@ -27,14 +28,16 @@ Status.propTypes = {
   code: PropTypes.number.isRequired,
 };
 
-export default function NotFound() {
+function NotFound({ t }) {
   return (
     <Status code={404}>
       <OneColumn cssModifier="narrow">
         <div>
-          <h2>404 - The page cannot be found</h2>
+          <h2>404 - {t('notFound.description')}</h2>
         </div>
       </OneColumn>
     </Status>
   );
 }
+
+export default injectT(NotFound);

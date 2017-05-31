@@ -9,6 +9,7 @@
 import 'isomorphic-fetch';
 import auth0 from 'auth0-js';
 import createHistory from 'history/createBrowserHistory';
+import { toLogoutSession } from '../routes';
 import { expiresIn } from './jwtHelper';
 
 export const auth0Domain = window.config.auth0Domain;
@@ -95,7 +96,7 @@ export const renewAuth = () => new Promise((resolve, reject) => {
   }, (err, authResult) => {
     if (authResult && (authResult.source === '@devtools-page' || authResult.source === '@devtools-extension' || authResult.source === 'react-devtools-detector')) { // Temporarily fix for bug in auth0
       if (!isIdTokenValid()) {
-        createHistory().push('/logoutSession'); // Push to logoutPath
+        createHistory().push(toLogoutSession()); // Push to logoutPath
         return;
       }
     }
@@ -104,7 +105,7 @@ export const renewAuth = () => new Promise((resolve, reject) => {
       setIdTokenInLocalStorage(authResult.idToken);
       resolve(authResult.idToken);
     } else {
-      createHistory().push('/logoutSession'); // Push to logoutPath
+      createHistory().push(toLogoutSession()); // Push to logoutPath
       reject();
     }
   });

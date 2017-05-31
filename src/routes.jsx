@@ -12,7 +12,7 @@ import queryString from 'query-string';
 
 import App from './containers/App/App';
 import LogoutSession from './containers/App/LogoutSession';
-import LoginProviders from './containers/App/LoginProviders';
+import LoginProviders from './containers/Login/LoginProviders';
 import LogoutFederated from './containers/App/LogoutFederated';
 import LogoutProviders from './containers/App/LogoutProviders';
 import PrivateRoute from './containers/PrivateRoute/PrivateRoute';

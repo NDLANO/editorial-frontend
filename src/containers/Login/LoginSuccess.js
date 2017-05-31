@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as actions from './sessionActions';
+import * as actions from '../App/sessionActions';
 import { parseHash } from '../../util/authHelpers';
 
 export class LoginSuccess extends React.Component {

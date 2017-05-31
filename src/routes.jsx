@@ -11,10 +11,10 @@ import { Route, Switch } from 'react-router-dom';
 import queryString from 'query-string';
 
 import App from './containers/App/App';
-import LogoutSession from './containers/App/LogoutSession';
+import LogoutSession from './containers/Logout/LogoutSession';
 import LoginProviders from './containers/Login/LoginProviders';
-import LogoutFederated from './containers/App/LogoutFederated';
-import LogoutProviders from './containers/App/LogoutProviders';
+import LogoutFederated from './containers/Logout/LogoutFederated';
+import LogoutProviders from './containers/Logout/LogoutProviders';
 import PrivateRoute from './containers/PrivateRoute/PrivateRoute';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import SearchPage from './containers/SearchPage/SearchPage';
@@ -42,7 +42,7 @@ export function toLogin() {
 }
 
 export function toLogout() {
-  return '/logoutProviders';
+  return '/logout';
 }
 
 export function toLogoutSession() {
@@ -65,7 +65,7 @@ export default (
     <Switch>
       <Route path="/" exact component={WelcomePage} />
       <Route path="/login" component={LoginProviders} />
-      <Route path="/logoutProviders" component={LogoutProviders} />
+      <Route path="/logout" component={LogoutProviders} />
       <Route path="/logoutSession" component={LogoutSession} />
       <Route path="/logoutFederated" component={LogoutFederated} />
       <PrivateRoute path="/search" component={SearchPage} />

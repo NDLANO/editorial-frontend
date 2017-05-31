@@ -12,37 +12,43 @@ import { Masthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
 import { toSearch, toLogin, toLogout } from '../../routes';
 
 
-const MastheadContainer = ({ t, authenticated, userName }) => {
-  const autentication = () => {
-    if (authenticated) {
-      return (
-        <SiteNavItem to={toLogout()}>
-          {t('siteNav.logout', { name: userName })}
-        </SiteNavItem>
-      );
-    }
+const AuthSiteNavItem = ({ t, name, authenticated }) => {
+  if (authenticated) {
     return (
-      <SiteNavItem to={toLogin()}>
-        {t('siteNav.login')}
-      </SiteNavItem>);
-  };
-
+      <SiteNavItem to={toLogout()}>
+        {t('siteNav.logout', { name })}
+      </SiteNavItem>
+    );
+  }
   return (
-    <Masthead>
-      <MastheadItem left>
-        <Logo to="/" altText="Nasjonal digital læringsarena" />
-      </MastheadItem>
-      <MastheadItem right>
-        <SiteNav>
-          <SiteNavItem to={toSearch()}>
-            {t('siteNav.search')}
-          </SiteNavItem>
-          {autentication()}
-        </SiteNav>
-      </MastheadItem>
-    </Masthead>
-  );
+    <SiteNavItem to={toLogin()}>
+      {t('siteNav.login')}
+    </SiteNavItem>);
 };
+
+AuthSiteNavItem.propTypes = {
+  t: PropTypes.func.isRequired,
+  authenticated: PropTypes.bool.isRequired,
+  name: PropTypes.string,
+};
+
+const MastheadContainer = ({ t, authenticated, userName }) => (
+  <Masthead>
+    <MastheadItem left>
+      <Logo to="/" altText="Nasjonal digital læringsarena" />
+    </MastheadItem>
+    <MastheadItem right>
+      <SiteNav>
+        <SiteNavItem to={toSearch()}>
+          {t('siteNav.search')}
+        </SiteNavItem>
+        <AuthSiteNavItem t={t} authenticated={authenticated} name={userName}>
+          {t('siteNav.search')}
+        </AuthSiteNavItem>
+      </SiteNav>
+    </MastheadItem>
+  </Masthead>
+  );
 
 MastheadContainer.propTypes = {
   params: PropTypes.shape({

@@ -16,10 +16,6 @@ require('babel-polyfill');
 
 var config = require('../src/config');
 
-global.__CLIENT__ = false;
-global.__SERVER__ = true;
-global.__DISABLE_SSR__ = config.disableSSR;  // Disables server side rendering
-
 var serverConfig = require('./server');
 
 var server = http.createServer(serverConfig);

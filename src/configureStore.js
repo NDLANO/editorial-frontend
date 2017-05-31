@@ -34,7 +34,7 @@ export default function configureStore(initialState) {
       sagaMiddleware,
       errorReporter,
     ),
-    __CLIENT__ ? persistState(['authenticated', 'user'], { key: 'ndla.no', slicer }) : f => f,
+    persistState(['authenticated', 'user'], { key: 'ndla.no', slicer }),
     window && window.devToolsExtension ? window.devToolsExtension() : f => f,
   )(createStore);
 

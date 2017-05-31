@@ -62,8 +62,6 @@ module.exports = options => ({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
-      __CLIENT__: true,
-      __SERVER__: false,
     }),
   ]),
 

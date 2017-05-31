@@ -22,11 +22,6 @@
       "node_modules"
     ],
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "globals": {
-      "__CLIENT__": false,
-      "__SERVER__": true,
-      "__DISABLE_SSR__": true
-    },
     "setupFiles": [
       "./src/__tests__/_initTestEnv.js"
     ]

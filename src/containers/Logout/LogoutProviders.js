@@ -1,5 +1,4 @@
-/*
- * Part of NDLA editorial-frontend.
+/**
  * Copyright (C) 2017 -present, NDLA
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,20 +6,24 @@
  */
 
 import React from 'react';
-import { OneColumn } from 'ndla-ui';
-import { compose } from 'redux';
+import { Link } from 'react-router-dom';
 import { injectT } from '../../i18n';
+import { toLogoutFederated, toLogoutSession } from '../../routes';
 
 
 const LogoutProviders = ({ t }) => (
-  <OneColumn cssModifier="narrow">
-    <div>
-      <ul className="vertical-menu">
-        <li className="vertical-menu_item"><a href="/logoutFederated" className="login-button btn-google c-button">{t('logoutProviders.federatedLogout')}</a></li>
-        <li className="vertical-menu_item"><a href="/logoutSession" className="login-button btn-fb c-button">{t('logoutProviders.localLogout')}</a></li>
-      </ul>
-    </div>
-  </OneColumn>
+  <div className="c-logout-providers">
+    <Link to={toLogoutSession()} className="c-button c-button--outline">
+      {t('logoutProviders.localLogout')}
+    </Link>
+    <p className="c-logout-providers__or">
+      {t('logoutProviders.or')}
+    </p>
+    <Link to={toLogoutFederated()} className="c-button c-button--outline">
+      {t('logoutProviders.federatedLogout')}
+    </Link>
+    <p> {t('logoutProviders.description')} </p>
+  </div>
   );
 
-export default compose(injectT)(LogoutProviders);
+export default injectT(LogoutProviders);

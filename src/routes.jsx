@@ -11,10 +11,8 @@ import { Route, Switch } from 'react-router-dom';
 import queryString from 'query-string';
 
 import App from './containers/App/App';
-import LogoutSession from './containers/Logout/LogoutSession';
 import Login from './containers/Login/Login';
-import LogoutFederated from './containers/Logout/LogoutFederated';
-import LogoutProviders from './containers/Logout/LogoutProviders';
+import Logout from './containers/Logout/Logout';
 import PrivateRoute from './containers/PrivateRoute/PrivateRoute';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import SearchPage from './containers/SearchPage/SearchPage';
@@ -46,7 +44,11 @@ export function toLogout() {
 }
 
 export function toLogoutSession() {
-  return '/logoutSession';
+  return '/logout/session';
+}
+
+export function toLogoutFederated() {
+  return '/logout/federated';
 }
 
 class ScrollToTop extends React.Component {
@@ -65,9 +67,7 @@ export default (
     <Switch>
       <Route path="/" exact component={WelcomePage} />
       <Route path="/login" component={Login} />
-      <Route path="/logout" component={LogoutProviders} />
-      <Route path="/logoutSession" component={LogoutSession} />
-      <Route path="/logoutFederated" component={LogoutFederated} />
+      <Route path="/logout" component={Logout} />
       <PrivateRoute path="/search" component={SearchPage} />
       <PrivateRoute path="/images/" component={ImageSearchPage} />
       <PrivateRoute path="/topic-article/" component={TopicArticlePage} />

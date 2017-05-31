@@ -32,8 +32,10 @@ const phrases = {
     description: 'Log in with',
   },
   logoutProviders: {
-    federatedLogout: 'Log out of identyprovider (Google/Facebook/Twitter). Leaves this application as well.',
-    localLogout: 'Log out of NDLA application',
+    localLogout: 'Logg ut av prouctionsystem',
+    or: 'eller',
+    federatedLogout: 'Log out of all providers',
+    description: 'N.B. All providers include the identityprovider (Google or Facebook).',
   },
   searchForm: {
     placeholder: 'Search articles',

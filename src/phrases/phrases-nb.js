@@ -32,8 +32,10 @@ const phrases = {
     description: 'Logg inn i produksjonssystem med',
   },
   logoutProviders: {
-    federatedLogout: 'Logg helt ut av autentiseringstjenesten (Google/Facebook/Twitter). Forlater denne applikasjonen.',
-    localLogout: 'Logg ut av NDLA applikasjonen',
+    localLogout: 'Logg ut av produksjonssystem',
+    or: 'eller',
+    federatedLogout: 'Logg ut av alle tjenester',
+    description: 'N.B. Alle tjenester inkluderer autentiseringstjenesten (Google eller Facebook).',
   },
   searchForm: {
     placeholder: 'Søk etter artikler',

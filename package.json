@@ -16,11 +16,6 @@
     "lint": "npm run csslint && npm run jslint"
   },
   "jest": {
-    "moduleDirectories": [
-      "src",
-      "server",
-      "node_modules"
-    ],
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
     "setupFiles": [
       "./src/__tests__/_initTestEnv.js"

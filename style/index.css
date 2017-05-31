@@ -15,6 +15,7 @@
 @import './lightbox.css';
 @import './topic-article-form.css';
 @import './search.css';
+@import './auth.css';
 
 .c-hero--alt {
   background-color: var(--brand-color--light);
@@ -25,4 +26,9 @@
     margin-left: 0;
     margin-right: 0;
   }
+}
+
+a.c-button {
+  display: block;
+  text-align: center;
 }

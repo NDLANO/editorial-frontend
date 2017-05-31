@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers/session getSessionStateFromLocalStorage when id_token does not exists in local storage 1`] = `
+Object {
+  "authenticated": false,
+  "user": Object {},
+}
+`;
+
+exports[`reducers/session getSessionStateFromLocalStorage when id_token exists in local storage 1`] = `
+Object {
+  "authenticated": true,
+  "user": Object {
+    "app_metadata": Object {
+      "ndla_id": "Qadvp699iHtjOmDHMClmXbA-",
+    },
+    "at_hash": "9FBItRCXxfSShmk0JDeKIQ",
+    "aud": "WU0Kr4CDkrM0uL9xYeFV4cl9Ga1vB3JY",
+    "exp": 1496236003,
+    "iat": 1496235403,
+    "iss": "https://ndla.eu.auth0.com/",
+    "name": "Øyvind Marthinsen",
+    "nonce": "lQ5MRZpV689nmZOC09BSQi19F~15f99A",
+    "sub": "google-oauth2|107064045385648404816",
+  },
+}
+`;
+
+exports[`reducers/session initialState when id_token exists in localstorage 1`] = `
+Object {
+  "authenticated": false,
+  "user": Object {},
+}
+`;

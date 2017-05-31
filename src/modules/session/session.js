@@ -7,22 +7,25 @@
 
 import { handleActions } from 'redux-actions';
 import * as actions from './sessionActions';
-import { isIdTokenValid, getIdToken } from '../../util/authHelpers';
+import { getIdToken } from '../../util/authHelpers';
 import { decodeToken } from '../../util/jwtHelper';
 
 
-const initialState = (() => {
-  if (isIdTokenValid()) {
+const initialState = {
+  user: {},
+  authenticated: false,
+};
+
+export const getSessionStateFromLocalStorage = () => {
+  const token = getIdToken();
+  if (token) {
     return {
-      user: decodeToken(getIdToken()),
+      user: decodeToken(token),
       authenticated: true,
     };
   }
-  return {
-    user: {},
-    authenticated: false,
-  };
-})();
+  return initialState; // Return inital state if token is undefined
+};
 
 export default handleActions({
   [actions.setUserData]: {

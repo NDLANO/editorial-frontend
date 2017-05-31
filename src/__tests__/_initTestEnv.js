@@ -10,10 +10,6 @@ window.config = {
   ndlaApiUrl: 'http://ndla-api',
 };
 
-// Object.defineProperty(window, 'config', {
-//   ndlaApiUrl: 'http://ndla-api',
-// });
-
 const localStorageMock = (function createLocalStorage() {
   let store = {};
   return {
@@ -22,6 +18,9 @@ const localStorageMock = (function createLocalStorage() {
     },
     setItem(key, value) {
       store[key] = value.toString();
+    },
+    removeItem(key) {
+      delete store[key];
     },
     clear() {
       store = {};
@@ -35,7 +34,6 @@ Object.defineProperty(window, 'localStorage', {
 
 
 localStorage.setItem('access_token', '123456789');
-localStorage.setItem('id_token', '123456789');
-// Use late exires at time to prevent it expiring when running tdd
-localStorage.setItem('access_token_expires_at', new Date().getTime() + (24 * 60 * 1000));
-localStorage.setItem('id_token_expires_at', new Date().getTime() + (24 * 60 * 1000));
+localStorage.setItem('access_token_expires_at', new Date().getTime() + 5000);
+localStorage.setItem('id_token', '12345678');
+localStorage.setItem('id_token_expires_at', new Date().getTime() + 5000);

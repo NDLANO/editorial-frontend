@@ -8,19 +8,10 @@
 
 import { compose, createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import persistState from 'redux-localstorage';
 
 import rootReducer from './reducers';
 import rootSaga from './sagas';
 import { errorReporter } from './middleware';
-
-const slicer = paths =>
-  // custom slicer because default slicer does not store falsy values
-  state => paths.reduce((acc, path) => {
-    // eslint-disable-next-line no-param-reassign
-    acc[path] = state[path];
-    return acc;
-  }, {});
 
 
 export default function configureStore(initialState) {
@@ -31,7 +22,6 @@ export default function configureStore(initialState) {
       sagaMiddleware,
       errorReporter,
     ),
-    persistState(['authenticated', 'user'], { key: 'ndla.no', slicer }),
     window && window.devToolsExtension ? window.devToolsExtension() : f => f,
   )(createStore);
 

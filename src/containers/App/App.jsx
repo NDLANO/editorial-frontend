@@ -74,8 +74,8 @@ App.childContextTypes = {
 const mapStateToProps = state => ({
   locale: getLocale(state),
   messages: getMessages(state),
-  authenticated: state.authenticated,
-  userName: state.user.name,
+  authenticated: state.session.authenticated,
+  userName: state.session.user.name,
 });
 
 export default withRouter(connect(mapStateToProps)(injectT(App)));

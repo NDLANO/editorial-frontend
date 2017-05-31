@@ -14,8 +14,7 @@ import search from './containers/SearchPage/searchReducer';
 import articles from './containers/TopicArticlePage/articleDucks';
 import tags from './containers/Tag/tagDucks';
 import imageSearch from './containers/ImageSearch/imageReducer';
-import authenticated from './reducers/authenticated';
-import user from './reducers/user';
+import session from './modules/session/session';
 
 const rootReducers = combineReducers({
   locale,
@@ -24,8 +23,7 @@ const rootReducers = combineReducers({
   articles,
   tags,
   imageSearch,
-  authenticated,
-  user,
+  session,
 });
 
 export default rootReducers;

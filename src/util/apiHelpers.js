@@ -11,15 +11,13 @@ import fetch from 'isomorphic-fetch';
 import { expiresIn } from './jwtHelper';
 import { renewAuth, isIdTokenValid, getIdToken } from './authHelpers';
 
-const apiBaseUrl = window.config.ndlaApiUrl;
-
-export { apiBaseUrl };
-
 export function headerWithToken(token) {
   return { Authorization: `Bearer ${token}` };
 }
 
-export function apiResourceUrl(path) { return apiBaseUrl + path; }
+export function apiResourceUrl(path) {
+  return window.config.ndlaApiUrl + path;
+}
 
 export function createErrorPayload(status, message, json) {
   return Object.assign(new Error(message), { status, json });

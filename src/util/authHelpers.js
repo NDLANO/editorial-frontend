@@ -40,7 +40,7 @@ export const clearIdTokenFromLocalStorage = () => {
   localStorage.removeItem('id_token_expires_at');
 };
 
-export const getExpiresAt = () => JSON.parse(localStorage.getItem('id_token_expires_at'));
+export const getExpiresAt = () => (localStorage.getItem('id_token_expires_at') ? JSON.parse(localStorage.getItem('id_token_expires_at')) : 0);
 
 export const getIdToken = () => localStorage.getItem('id_token');
 

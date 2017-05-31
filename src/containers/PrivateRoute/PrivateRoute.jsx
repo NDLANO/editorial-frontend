@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
+import { toLogin } from '../../routes';
 
 const PrivateRoute = ({ authenticated, component: Component, ...rest }) => (
   <Route
@@ -11,7 +12,7 @@ const PrivateRoute = ({ authenticated, component: Component, ...rest }) => (
     ) : (
       <Redirect
         to={{
-          pathname: '/login',
+          pathname: toLogin(),
           state: { from: props.location },
         }}
       />
@@ -25,4 +26,8 @@ PrivateRoute.propTypes = {
   location: PropTypes.shape({}),
 };
 
-export default connect(state => state)(PrivateRoute);
+const mapStateToProps = state => ({
+  authenticated: state.session.authenticated,
+});
+
+export default connect(mapStateToProps)(PrivateRoute);

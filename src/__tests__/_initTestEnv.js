@@ -10,6 +10,10 @@ window.config = {
   ndlaApiUrl: 'http://ndla-api',
 };
 
+// Object.defineProperty(window, 'config', {
+//   ndlaApiUrl: 'http://ndla-api',
+// });
+
 const localStorageMock = (function createLocalStorage() {
   let store = {};
   return {

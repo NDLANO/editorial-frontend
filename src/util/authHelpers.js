@@ -7,14 +7,13 @@
  */
 
 import 'isomorphic-fetch';
+import auth0 from 'auth0-js';
+import createHistory from 'history/createBrowserHistory';
 import { expiresIn } from './jwtHelper';
 
-export const AUTH0_DOMAIN = window.config.auth0Domain;
-export const AUTH0_CLIENT_ID = window.config.auth0ClientID;
+export const auth0Domain = window.config.auth0Domain;
+export const auth0ClientId = window.config.auth0ClientID;
 
-if (process.env.NODE_ENV === 'unittest') {
-  global.__SERVER__ = false; //eslint-disable-line
-}
 
 const locationOrigin = (() => {
   if (process.env.NODE_ENV === 'unittest') {
@@ -27,25 +26,6 @@ const locationOrigin = (() => {
 
   return location.origin;
 })();
-
-export const auth0ClientId = (() => {
-  if (process.env.NODE_ENV === 'unittest') {
-    return '123456789';
-  }
-  return AUTH0_CLIENT_ID;
-})();
-
-export const auth0Domain = (() => {
-  if (process.env.NODE_ENV === 'unittest') {
-    return 'http://auth-ndla';
-  }
-  return AUTH0_DOMAIN;
-})();
-
-
-export function getToken(getState) {
-  return getState().authenticated ? getState().idToken : getState().accessToken;
-}
 
 export { locationOrigin };
 
@@ -65,21 +45,67 @@ export const getIdToken = () => localStorage.getItem('id_token');
 
 export const isIdTokenValid = () => new Date().getTime() < getExpiresAt();
 
-export function ApiError(message, res = {}, json) {
-  this.name = 'ApiError';
-  this.message = message;
-  this.url = res.url;
-  this.status = res.status;
-  this.json = json;
-  this.code = json.code;
-  // Drop creating a stack for easier unit testing
-  // The stack does'nt give any value as long as the ApiError is only created in createErrorPayload()
-  // this.stack = (new Error()).stack;
-}
-ApiError.prototype = Object.create(Error.prototype);
-ApiError.prototype.constructor = ApiError;
+const auth = new auth0.WebAuth({
+  clientID: auth0ClientId || '',
+  domain: auth0Domain || '',
+  responseType: 'token id_token',
+  redirectUri: `${locationOrigin}/login/success`,
+  scope: 'openid app_metadata name',
+});
 
-export function createErrorPayload(res, message, json) {
-  return new ApiError(`${res.status} ${message} ${json.code} ${json.description}`, res, json);
+export function parseHash(hash) {
+  return new Promise((resolve, reject) => {
+    auth.parseHash({ hash, _idTokenVerification: false }, (err, authResult) => {
+      if (!err) {
+        resolve(authResult);
+      } else {
+        reject(err);
+      }
+    });
+  });
 }
 
+export const authLogout = (federated) => {
+  const config = {
+    returnTo: `${locationOrigin}/`,
+    client_id: auth0ClientId,
+  };
+
+  if (federated) {
+    return auth.logout({
+      ...config,
+      federated, // N.B. federated is parsed  as a flag by auth0. So you are logged out federated even if it is false
+    });
+  }
+  return auth.logout({ config });
+};
+
+
+export function loginSocialMedia(type) {
+  auth.authorize({
+    connection: type,
+    client_id: auth0ClientId,
+  });
+}
+
+export const renewAuth = () => new Promise((resolve, reject) => {
+  auth.renewAuth({
+    redirectUri: `${locationOrigin}/login/silent-callback`,
+    usePostMessage: true,
+  }, (err, authResult) => {
+    if (authResult && (authResult.source === '@devtools-page' || authResult.source === '@devtools-extension' || authResult.source === 'react-devtools-detector')) { // Temporarily fix for bug in auth0
+      if (!isIdTokenValid()) {
+        createHistory().push('/logoutSession'); // Push to logoutPath
+        return;
+      }
+    }
+
+    if (authResult && authResult.idToken) {
+      setIdTokenInLocalStorage(authResult.idToken);
+      resolve(authResult.idToken);
+    } else {
+      createHistory().push('/logoutSession'); // Push to logoutPath
+      reject();
+    }
+  });
+});

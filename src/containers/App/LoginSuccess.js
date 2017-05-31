@@ -10,11 +10,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as actions from './sessionActions';
+import { parseHash } from '../../util/authHelpers';
 
 export class LoginSuccess extends React.Component {
   componentWillMount() {
     const { loginSuccess, location: { hash }, history } = this.props;
-    actions.auth.parseHash({ hash, _idTokenVerification: false }, (err, authResult) => {
+    parseHash(hash).then((authResult) => {
       if (authResult && authResult.idToken) {
         loginSuccess({ idToken: authResult.idToken, history });
       }

@@ -9,8 +9,7 @@
 import defined from 'defined';
 import fetch from 'isomorphic-fetch';
 import { expiresIn } from './jwtHelper';
-import { isIdTokenValid, getIdToken } from './authHelpers';
-import { renewAuth } from '../containers/App/sessionActions';
+import { renewAuth, isIdTokenValid, getIdToken } from './authHelpers';
 
 const apiBaseUrl = window.config.ndlaApiUrl;
 
@@ -59,7 +58,8 @@ export const fetchWithAccessToken = (url, config = {}) => {
 
 export const fetchAuthorized = (url, config = {}) => {
   if (!isIdTokenValid()) {
-    return renewAuth().then(idToken => fetch(url, { ...config, headers: headerWithToken(idToken) }));
+    return renewAuth()
+      .then(idToken => fetch(url, { ...config, headers: headerWithToken(idToken) }));
   }
   const idToken = getIdToken();
   return fetch(url, { ...config, headers: headerWithToken(idToken) });

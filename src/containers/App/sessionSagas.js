@@ -9,13 +9,13 @@
 import { take, call, put } from 'redux-saga/effects';
 import * as actions from './sessionActions';
 import { toSearch, toLogin } from '../../routes';
-import { decodeIdToken } from '../../util/jwtHelper';
-import { setIdTokenInLocalStorage, clearIdTokenFromLocalStorage } from '../../util/authHelpers';
+import { decodeToken } from '../../util/jwtHelper';
+import { authLogout, setIdTokenInLocalStorage, clearIdTokenFromLocalStorage } from '../../util/authHelpers';
 
 
 export function* login(idToken, history) {
   try {
-    const decoded = decodeIdToken(idToken);
+    const decoded = decodeToken(idToken);
     yield put(actions.setAuthenticated(true));
     yield put(actions.setUserData(decoded));
     setIdTokenInLocalStorage(idToken);
@@ -29,7 +29,7 @@ export function* logout(federated) {
   try {
     yield put(actions.setAuthenticated(false));
     yield put(actions.clearUserData());
-    actions.authLogout(federated);
+    authLogout(federated);
     clearIdTokenFromLocalStorage();
   } catch (error) {
     console.log(error);

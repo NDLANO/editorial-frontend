@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from '../../i18n';
-import { loginSocialMedia } from './sessionActions';
+import { loginSocialMedia } from '../../util/authHelpers';
 import LoginFailure from './LoginFailure';
 import LoginSuccess from './LoginSuccess';
 

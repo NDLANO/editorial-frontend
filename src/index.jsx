@@ -17,7 +17,6 @@ import routes from './routes';
 
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
-import { setAccessTokenInLocalStorage } from './util/apiHelpers';
 
 const initialState = window.initialState;
 const localeString = initialState.locale;
@@ -25,8 +24,6 @@ const locale = getLocaleObject(localeString);
 
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
-
-setAccessTokenInLocalStorage(window.config.accessToken);
 
 const store = configureStore(initialState);
 

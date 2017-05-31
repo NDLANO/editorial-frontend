@@ -45,7 +45,7 @@ export const setAccessTokenInLocalStorage = (accessToken) => {
 
 export const fetchWithAccessToken = (url, config = {}) => {
   const accessToken = localStorage.getItem('access_token');
-  const expiresAt = JSON.parse(localStorage.getItem('access_token_expires_at'));
+  const expiresAt = accessToken ? JSON.parse(localStorage.getItem('access_token_expires_at')) : 0;
 
   if (new Date().getTime() > expiresAt) {
     return fetchAccessToken().then((res) => {

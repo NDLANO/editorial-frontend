@@ -8,7 +8,7 @@
 
 import { take, call, put } from 'redux-saga/effects';
 import { actions } from './session';
-import { toSearch, toLogin } from '../../routes';
+import { toLogin } from '../../routes';
 import { decodeToken } from '../../util/jwtHelper';
 import { authLogout, setIdTokenInLocalStorage, clearIdTokenFromLocalStorage } from '../../util/authHelpers';
 
@@ -17,10 +17,11 @@ export function* login(idToken, history) {
   try {
     const decoded = decodeToken(idToken);
     yield put(actions.setAuthenticated(true));
-    yield put(actions.setUserData(decoded));
+    yield put(actions.setUserData({ name: decoded.name }));
     setIdTokenInLocalStorage(idToken);
-    history.replace(toSearch());
+    history.replace('/');
   } catch (error) {
+    console.error(error); //eslint-disable-line
     history.replace(`${toLogin()}/failure`);
   }
 }

@@ -8,11 +8,15 @@
 
 import reducer, { getSessionStateFromLocalStorage, actions } from '../session';
 
+const idToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ';
+
 test('reducers/session getSessionStateFromLocalStorage when id_token exists in local storage', () => {
-  localStorage.setItem('id_token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBfbWV0YWRhdGEiOnsibmRsYV9pZCI6IlFhZHZwNjk5aUh0ak9tREhNQ2xtWGJBLSJ9LCJuYW1lIjoiw5h5dmluZCBNYXJ0aGluc2VuIiwiaXNzIjoiaHR0cHM6Ly9uZGxhLmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwNzA2NDA0NTM4NTY0ODQwNDgxNiIsImF1ZCI6IldVMEtyNENEa3JNMHVMOXhZZUZWNGNsOUdhMXZCM0pZIiwiZXhwIjoxNDk2MjM2MDAzLCJpYXQiOjE0OTYyMzU0MDMsIm5vbmNlIjoibFE1TVJacFY2ODlubVpPQzA5QlNRaTE5Rn4xNWY5OUEiLCJhdF9oYXNoIjoiOUZCSXRSQ1h4ZlNTaG1rMEpEZUtJUSJ9.-LhugcAhXJltZ6KI9d1hzR8XklaDCFK7AsmQrZ72oXA9');
+  localStorage.setItem('id_token', idToken);
   const nextState = getSessionStateFromLocalStorage();
 
   expect(nextState).toMatchSnapshot();
+
+  localStorage.setItem('id_token', '12345678');
 });
 
 test('reducers/session getSessionStateFromLocalStorage when id_token does not exists in local storage', () => {

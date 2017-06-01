@@ -32,7 +32,7 @@ export const getSessionStateFromLocalStorage = () => {
   const token = getIdToken();
   if (token) {
     return {
-      user: decodeToken(token),
+      user: { name: decodeToken(token).name },
       authenticated: true,
     };
   }

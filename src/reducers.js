@@ -12,18 +12,18 @@ import locale from './containers/Locale/localeReducer';
 import messages from './containers/Messages/messagesReducer';
 import search from './containers/SearchPage/searchReducer';
 import articles from './containers/TopicArticlePage/articleDucks';
-import accessToken from './containers/App/sessionReducer';
 import tags from './containers/Tag/tagDucks';
 import imageSearch from './containers/ImageSearch/imageReducer';
+import session from './modules/session/session';
 
 const rootReducers = combineReducers({
-  accessToken,
   locale,
   messages,
   search,
   articles,
   tags,
   imageSearch,
+  session,
 });
 
 export default rootReducers;

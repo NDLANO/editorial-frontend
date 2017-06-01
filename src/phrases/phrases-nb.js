@@ -21,6 +21,21 @@ const phrases = {
   siteNav: {
     chooseSubject: 'Velg fag',
     search: 'Søk',
+    login: 'Logg inn',
+    logout: 'Logg ut [{name}]',
+  },
+  loginFailure: {
+    errorMessage: 'Beklager. Innlogging feilet.',
+    loginLink: 'Klikk for å prøve igjen.',
+  },
+  loginProviders: {
+    description: 'Logg inn i produksjonssystem med',
+  },
+  logoutProviders: {
+    localLogout: 'Logg ut av produksjonssystem',
+    or: 'eller',
+    federatedLogout: 'Logg ut av alle tjenester',
+    description: 'N.B. Alle tjenester inkluderer autentiseringstjenesten (Google eller Facebook).',
   },
   searchForm: {
     placeholder: 'Søk etter artikler',
@@ -98,6 +113,9 @@ const phrases = {
     footerInfo: 'Nettstedet er utarbeidet av NDLA som åpen kildekode.',
     footerEditiorInChief: 'Ansvarlig redaktør: ',
     footerManagingEditor: 'Utgaveansvarlig: ',
+  },
+  notFound: {
+    description: 'Denne siden finnes ikke.',
   },
 };
 

@@ -20,7 +20,7 @@ test('articleSagas watchFetchArticle fetch article if not in state', () => {
     .reply(200, { id: 123, title: 'unit test' });
 
   return expectSaga(sagas.watchFetchArticle)
-          .withState({ articles: { all: {} }, accessToken: '123456789' })
+          .withState({ articles: { all: {} } })
           .put(actions.setArticle({ id: 123, title: 'unit test' }))
 
           .dispatch(actions.fetchArticle(123))
@@ -29,7 +29,7 @@ test('articleSagas watchFetchArticle fetch article if not in state', () => {
 
 test('articleSagas watchFetchArticle do not refetch existing article ', () =>
     expectSaga(sagas.watchFetchArticle)
-      .withState({ articles: { all: { 123: { id: '123' } } }, accessToken: '123456789' })
+      .withState({ articles: { all: { 123: { id: '123' } } } })
       .dispatch(actions.fetchArticle('123'))
       .run({ silenceTimeout: true }));
 
@@ -39,7 +39,7 @@ test('articleSagas watchUpdateArticle create new article', () => {
     .reply(200, { id: '123', title: 'unit test' });
 
   return expectSaga(sagas.watchUpdateArticle)
-          .withState({ accessToken: '123456789' })
+          .withState({})
           .put(actions.setArticle({ id: '123', title: 'unit test' }))
           .put(actions.updateArticleSuccess())
 
@@ -56,7 +56,7 @@ test('articleSagas watchUpdateArticle update article', () => {
     .reply(200, { id: '123', title: 'unit test updated' });
 
   return expectSaga(sagas.watchUpdateArticle)
-          .withState({ accessToken: '123456789' })
+          .withState({ })
           .put(actions.setArticle({ id: '123', title: 'unit test updated' }))
           .put(actions.updateArticleSuccess())
 

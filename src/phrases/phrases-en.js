@@ -21,6 +21,21 @@ const phrases = {
   siteNav: {
     chooseSubject: 'Choose Subject',
     search: 'Search',
+    login: 'Login',
+    logout: 'Logout [{name}]',
+  },
+  loginFailure: {
+    errorMessage: 'Sorry. Login failed.',
+    loginLink: 'Click to try again.',
+  },
+  loginProviders: {
+    description: 'Log in with',
+  },
+  logoutProviders: {
+    localLogout: 'Logg ut av prouctionsystem',
+    or: 'eller',
+    federatedLogout: 'Log out of all providers',
+    description: 'N.B. All providers include the identityprovider (Google or Facebook).',
   },
   searchForm: {
     placeholder: 'Search articles',
@@ -101,6 +116,9 @@ const phrases = {
     footerInfo: 'This webapplication is developed by NDLA as Open Source code.',
     footerEditiorInChief: 'Editor in chief: ',
     footerManagingEditor: 'Managing editor: ',
+  },
+  notFound: {
+    description: 'The page cannot be found',
   },
 };
 

@@ -9,9 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { PageContainer } from 'ndla-ui';
+import { withRouter } from 'react-router-dom';
 
 import { MessageShape } from '../../shapes';
 import Masthead from '../Masthead';
@@ -29,7 +29,8 @@ export class App extends React.Component {
   }
 
   render() {
-    const { dispatch, children, messages, t, match: { params } } = this.props;
+    const { dispatch, messages, t, children, match: { params } } = this.props;
+
     return (
       <PageContainer>
         <Helmet
@@ -38,8 +39,12 @@ export class App extends React.Component {
             { name: 'description', content: t('meta.description') },
           ]}
         />
-
-        <Masthead t={t} params={params} />
+        <Masthead
+          t={t}
+          params={params}
+          authenticated={this.props.authenticated}
+          userName={this.props.userName}
+        />
         {children}
         <Footer t={t} />
         <Alerts dispatch={dispatch} messages={messages} />
@@ -58,6 +63,8 @@ App.propTypes = {
   locale: PropTypes.string.isRequired,
   messages: PropTypes.arrayOf(MessageShape).isRequired,
   dispatch: PropTypes.func.isRequired,
+  authenticated: PropTypes.bool.isRequired,
+  userName: PropTypes.string,
 };
 
 App.childContextTypes = {
@@ -67,6 +74,9 @@ App.childContextTypes = {
 const mapStateToProps = state => ({
   locale: getLocale(state),
   messages: getMessages(state),
+  authenticated: state.session.authenticated,
+  userName: state.session.user.name,
 });
 
 export default withRouter(connect(mapStateToProps)(injectT(App)));
+

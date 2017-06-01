@@ -21,7 +21,7 @@ test('tagSagas fetch tags if nor already defined', () => {
     .reply(200, ['tag1', 'tag2', 'tag3']);
 
   return expectSaga(sagas.watchFetchTags)
-          .withState({ tags: { hasFetched: false }, accessToken: '123456789' })
+          .withState({ tags: { hasFetched: false } })
           .put(actions.setTags(['tag1', 'tag2', 'tag3']))
 
           .dispatch(actions.fetchTags())
@@ -34,6 +34,6 @@ test('tagSagas do not fetch tags if already fetched', () => {
     .reply(200, ['tag1', 'tag2', 'tag3']);
 
   return expectSaga(sagas.watchFetchTags)
-          .withState({ tags: { hasFetched: true }, accessToken: '123456789' })
+          .withState({ tags: { hasFetched: true } })
           .run({ silenceTimeout: true });
 });

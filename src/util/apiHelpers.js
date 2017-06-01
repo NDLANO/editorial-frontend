@@ -7,16 +7,17 @@
  */
 
 import defined from 'defined';
+import fetch from 'isomorphic-fetch';
+import { expiresIn } from './jwtHelper';
+import { renewAuth, isIdTokenValid, getIdToken } from './authHelpers';
 
-const apiBaseUrl = window.config.ndlaApiUrl;
-
-export { apiBaseUrl };
-
-export function headerWithAccessToken(token) {
+export function headerWithToken(token) {
   return { Authorization: `Bearer ${token}` };
 }
 
-export function apiResourceUrl(path) { return apiBaseUrl + path; }
+export function apiResourceUrl(path) {
+  return window.config.ndlaApiUrl + path;
+}
 
 export function createErrorPayload(status, message, json) {
   return Object.assign(new Error(message), { status, json });
@@ -32,3 +33,32 @@ export function resolveJsonOrRejectWithError(res) {
       .catch(reject);
   });
 }
+
+export const fetchAccessToken = () => fetch('/get_token').then(resolveJsonOrRejectWithError);
+
+export const setAccessTokenInLocalStorage = (accessToken) => {
+  localStorage.setItem('access_token', accessToken);
+  localStorage.setItem('access_token_expires_at', (expiresIn(accessToken) * 1000) + new Date().getTime());
+};
+
+export const fetchWithAccessToken = (url, config = {}) => {
+  const accessToken = localStorage.getItem('access_token');
+  const expiresAt = accessToken ? JSON.parse(localStorage.getItem('access_token_expires_at')) : 0;
+
+  if (new Date().getTime() > expiresAt) {
+    return fetchAccessToken().then((res) => {
+      setAccessTokenInLocalStorage(res.access_token);
+      return fetch(url, { ...config, headers: { Authorization: `Bearer ${res.access_token}` } });
+    });
+  }
+  return fetch(url, { ...config, headers: { Authorization: `Bearer ${accessToken}` } });
+};
+
+export const fetchAuthorized = (url, config = {}) => {
+  if (!isIdTokenValid()) {
+    return renewAuth()
+      .then(idToken => fetch(url, { ...config, headers: headerWithToken(idToken) }));
+  }
+  const idToken = getIdToken();
+  return fetch(url, { ...config, headers: headerWithToken(idToken) });
+};

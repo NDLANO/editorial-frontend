@@ -10,12 +10,13 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import queryString from 'query-string';
 
-import WelcomePage from './containers/WelcomePage/WelcomePage';
 import App from './containers/App/App';
+import Login from './containers/Login/Login';
+import Logout from './containers/Logout/Logout';
+import PrivateRoute from './containers/PrivateRoute/PrivateRoute';
+import WelcomePage from './containers/WelcomePage/WelcomePage';
 import SearchPage from './containers/SearchPage/SearchPage';
 import TopicArticlePage from './containers/TopicArticlePage/TopicArticlePage';
-import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
-import SubjectPage from './containers/SubjectPage/SubjectPage';
 import ImageSearchPage from './containers/ImageSearch/ImageSearchPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 
@@ -34,6 +35,21 @@ export function toCreateTopicArticle() {
   return '/topic-article/new';
 }
 
+export function toLogin() {
+  return '/login';
+}
+
+export function toLogout() {
+  return '/logout';
+}
+
+export function toLogoutSession() {
+  return '/logout/session';
+}
+
+export function toLogoutFederated() {
+  return '/logout/federated';
+}
 
 class ScrollToTop extends React.Component {
   componentDidUpdate() {
@@ -50,11 +66,11 @@ export default (
     <ScrollToTop />
     <Switch>
       <Route path="/" exact component={WelcomePage} />
-      <Route path="/search" component={SearchPage} />
-      <Route path="/topic-article/" component={TopicArticlePage} />
-      <Route path="/subjects/:subjectId" component={SubjectPage} />
-      <Route path="/subjects/" component={SubjectsPage} />
-      <Route path="/images/" component={ImageSearchPage} />
+      <Route path="/login" component={Login} />
+      <Route path="/logout" component={Logout} />
+      <PrivateRoute path="/search" component={SearchPage} />
+      <PrivateRoute path="/images/" component={ImageSearchPage} />
+      <PrivateRoute path="/topic-article/" component={TopicArticlePage} />
       <Route component={NotFoundPage} />
     </Switch>
   </App>

@@ -6,6 +6,6 @@ module.exports = {
   rules: {
     'react/prop-types': [ 2, {'ignore': ['children', 'className', 't'] }],
   },
-  'globals': {
+  globals: {
   }
 };

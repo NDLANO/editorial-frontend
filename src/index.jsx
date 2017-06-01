@@ -13,10 +13,11 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import ErrorReporter from 'ndla-error-reporter';
+import routes from './routes';
 
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
-import routes from './routes';
+import { getSessionStateFromLocalStorage } from './modules/session/session';
 
 const initialState = window.initialState;
 const localeString = initialState.locale;
@@ -25,10 +26,7 @@ const locale = getLocaleObject(localeString);
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 
-window.accessToken = initialState.accessToken; // tmp hack
-const store = configureStore(
-  initialState,
-);
+const store = configureStore({ ...initialState, session: getSessionStateFromLocalStorage() });
 
 const { logglyApiKey, logEnvironment: environment, componentName } = window.config;
 window.errorReporter = ErrorReporter.getInstance({ store, logglyApiKey, environment, componentName });
@@ -36,7 +34,7 @@ window.errorReporter = ErrorReporter.getInstance({ store, logglyApiKey, environm
 ReactDOM.render(
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-      <BrowserRouter basename={basename} onUpdate={() => window.scrollTo(0, 0)}>
+      <BrowserRouter basename={basename}>
         {routes}
       </BrowserRouter>
     </IntlProvider>

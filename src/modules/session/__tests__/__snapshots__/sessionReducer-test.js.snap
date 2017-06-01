@@ -32,3 +32,26 @@ Object {
   "user": Object {},
 }
 `;
+
+exports[`reducers/session sets if authenticated 1`] = `
+Object {
+  "authenticated": true,
+  "user": Object {},
+}
+`;
+
+exports[`reducers/session sets if authenticated 2`] = `
+Object {
+  "authenticated": false,
+  "user": Object {},
+}
+`;
+
+exports[`reducers/session sets user data 1`] = `
+Object {
+  "authenticated": false,
+  "user": Object {
+    "name": "Ola Nordmann",
+  },
+}
+`;

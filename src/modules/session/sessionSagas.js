@@ -7,7 +7,7 @@
  */
 
 import { take, call, put } from 'redux-saga/effects';
-import * as actions from './sessionActions';
+import { actions } from './session';
 import { toSearch, toLogin } from '../../routes';
 import { decodeToken } from '../../util/jwtHelper';
 import { authLogout, setIdTokenInLocalStorage, clearIdTokenFromLocalStorage } from '../../util/authHelpers';

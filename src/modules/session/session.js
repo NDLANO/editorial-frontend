@@ -5,11 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { handleActions } from 'redux-actions';
-import * as actions from './sessionActions';
+import { handleActions, createAction } from 'redux-actions';
 import { getIdToken } from '../../util/authHelpers';
 import { decodeToken } from '../../util/jwtHelper';
 
+export const setAuthenticated = createAction('SET_AUTHENTICATED');
+export const setUserData = createAction('SET_USER_DATA');
+export const clearUserData = createAction('CLEAR_USER_DATA');
+export const loginSuccess = createAction('LOGIN_SUCCESS');
+export const logout = createAction('LOGOUT');
+
+export const actions = {
+  setAuthenticated,
+  setUserData,
+  clearUserData,
+  loginSuccess,
+  logout,
+};
 
 const initialState = {
   user: {},

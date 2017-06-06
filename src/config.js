@@ -15,7 +15,7 @@ const environment = {
   },
 }[process.env.NODE_ENV || 'development'];
 
-const ndlaEnvironment = process.env.NDLA_ENVIRONMENT || 'staging';
+const ndlaEnvironment = process.env.NDLA_ENVIRONMENT || 'test';
 const apiDomain = () => {
   switch (process.env.NDLA_ENVIRONMENT) {
     case 'local':
@@ -47,11 +47,6 @@ module.exports = Object.assign(
     logEnvironment: process.env.NDLA_ENVIRONMENT || 'local',
     logglyApiKey: process.env.LOGGLY_API_KEY,
     ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
-    editorialFrontendClientId:
-      process.env.NDLA_EDITORIAL_CLIENT_ID || 'swagger-client',
-    editorialFrontendClientSecret:
-      process.env.NDLA_EDITORIAL_CLIENT_SECRET ||
-        'swagger-public-client-secret',
     editorialFrontendDomain: editorialFrontendDomain(),
     auth0ClientID: process.env.AUTH0_CLIENT_ID || '',
     auth0Domain: process.env.AUTH0_DOMAIN || '',

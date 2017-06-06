@@ -13,6 +13,10 @@ import config from '../src/config';
 const NDLA_API_URL = config.ndlaApiUrl;
 
 const url = `${NDLA_API_URL}/auth/tokens`;
+const editorialFrontendClientId =
+  process.env.NDLA_EDITORIAL_CLIENT_ID || 'swagger-client';
+const editorialFrontendClientSecret =
+  process.env.NDLA_EDITORIAL_CLIENT_SECRET || 'swagger-public-client-secret';
 
 const b64EncodeUnicode = str =>
   btoa(
@@ -27,7 +31,7 @@ export const getToken = () =>
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
       Authorization: `Basic ${b64EncodeUnicode(
-        `${config.editorialFrontendClientId}:${config.editorialFrontendClientSecret}`,
+        `${editorialFrontendClientId}:${editorialFrontendClientSecret}`,
       )}`,
     },
     body: 'grant_type=client_credentials',

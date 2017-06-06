@@ -21,8 +21,7 @@ const LogoutProviders = ({ t }) =>
     <Link to={toLogoutFederated()} className="c-button c-button--outline">
       {t('logoutProviders.federatedLogout')}
     </Link>
-    <p> {t('logoutProviders.description')}
-    {' '}</p>
+    <p>{t('logoutProviders.description')}</p>
   </div>;
 
 export default injectT(LogoutProviders);

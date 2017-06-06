@@ -93,13 +93,6 @@ export const renewAuth = () => new Promise((resolve, reject) => {
     redirectUri: `${locationOrigin}/login/silent-callback`,
     usePostMessage: true,
   }, (err, authResult) => {
-    if (authResult && (authResult.source === '@devtools-page' || authResult.source === '@devtools-extension' || authResult.source === 'react-devtools-detector')) { // Temporarily fix for bug in auth0
-      if (!isIdTokenValid()) {
-        createHistory().push('/logout/session'); // Push to logoutPath
-        return;
-      }
-    }
-
     if (authResult && authResult.idToken) {
       setIdTokenInLocalStorage(authResult.idToken);
       resolve(authResult.idToken);

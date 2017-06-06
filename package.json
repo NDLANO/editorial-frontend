@@ -63,7 +63,7 @@
     "webpack-manifest-plugin": "^1.1.0"
   },
   "dependencies": {
-    "auth0-js": "^8.6.1",
+    "auth0-js": "^8.7.0",
     "babel-polyfill": "^6.23.0",
     "babel-register": "^6.24.0",
     "btoa": "^1.1.2",

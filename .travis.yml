@@ -4,6 +4,7 @@ node_js:
 script:
 - yarn test
 - yarn build
+cache: yarn
 notifications:
   slack:
     on_success: change

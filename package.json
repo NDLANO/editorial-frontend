@@ -9,7 +9,7 @@
     "lint-css": "stylelint style/**/*.css",
     "lint-es": "eslint --ext .js --ext .jsx src server",
     "lint-prettier": "node prettier.js lint",
-    "prebuild": "yarn clean --silent",
+    "prebuild": "yarn run clean --silent",
     "pretest": "yarn lint",
     "prettier": "node prettier.js write",
     "start": "cross-env NODE_ENV=development nodemon server --watch server",

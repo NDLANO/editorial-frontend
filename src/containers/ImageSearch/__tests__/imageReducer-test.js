@@ -24,7 +24,10 @@ test('reducers/image initalState', () => {
 });
 
 test('reducers/image search', () => {
-  const nextState = reducer(undefined, actions.searchImages({ query: '17. mai', page: 2 }));
+  const nextState = reducer(
+    undefined,
+    actions.searchImages({ query: '17. mai', page: 2 }),
+  );
 
   expect(nextState).toEqual({
     results: [],
@@ -41,7 +44,6 @@ test('reducers/image searchError', () => {
   const nextState = reducer(state, actions.searchImagesError());
   expect(nextState.searching).toBe(false);
 });
-
 
 test('reducers/image handle set search result', () => {
   const nextState = reducer(initalState, {

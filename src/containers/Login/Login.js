@@ -13,15 +13,14 @@ import LoginFailure from './LoginFailure';
 import LoginSuccess from './LoginSuccess';
 import LoginProviders from './LoginProviders';
 
-export const Login = ({ match }) => (
+export const Login = ({ match }) =>
   <OneColumn cssModifier="narrow">
     <Switch>
       <Route path={`${match.url}/success`} component={LoginSuccess} />
       <Route path={`${match.url}/failure`} component={LoginFailure} />
       <Route component={LoginProviders} />
     </Switch>
-  </OneColumn>
-  );
+  </OneColumn>;
 
 Login.propTypes = {
   match: PropTypes.shape({

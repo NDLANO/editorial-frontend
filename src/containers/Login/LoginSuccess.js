@@ -15,7 +15,7 @@ import { parseHash } from '../../util/authHelpers';
 export class LoginSuccess extends React.Component {
   componentWillMount() {
     const { loginSuccess, location: { hash }, history } = this.props;
-    parseHash(hash).then((authResult) => {
+    parseHash(hash).then(authResult => {
       if (authResult && authResult.idToken) {
         loginSuccess({ idToken: authResult.idToken, history });
       }

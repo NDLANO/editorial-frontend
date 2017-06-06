@@ -12,8 +12,7 @@ import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { injectT } from '../../i18n';
 
-
-const Status = ({ code, children }) => (
+const Status = ({ code, children }) =>
   <Route
     render={({ staticContext }) => {
       const context = staticContext;
@@ -22,8 +21,7 @@ const Status = ({ code, children }) => (
       }
       return children;
     }}
-  />
-);
+  />;
 
 Status.propTypes = {
   code: PropTypes.number.isRequired,
@@ -37,9 +35,6 @@ const Forbidden = ({ t }) =>
         <p>{t('forbiddenPage.info')}</p>
       </div>
     </OneColumn>
-  </Status>
-;
+  </Status>;
 
-export default compose(
-  injectT,
-)(Forbidden);
+export default compose(injectT)(Forbidden);

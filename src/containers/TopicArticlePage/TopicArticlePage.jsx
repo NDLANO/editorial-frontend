@@ -18,7 +18,6 @@ import EditTopicArticle from './EditTopicArticle';
 import CreateTopicArticle from './CreateTopicArticle';
 
 class TopicArticlePage extends Component {
-
   componentWillMount() {
     const { fetchTags } = this.props;
     fetchTags();
@@ -34,25 +33,23 @@ class TopicArticlePage extends Component {
           <Switch>
             <Route
               path={`${match.url}/new`}
-              render={() => (
+              render={() =>
                 <CreateTopicArticle
                   history={history}
                   locale={locale}
                   tags={tags}
                   isSaving={isSaving}
-                />
-              )}
+                />}
             />
             <Route
               path={`${match.url}/:articleId/edit`}
-              render={props => (
+              render={props =>
                 <EditTopicArticle
                   articleId={props.match.params.articleId}
                   tags={tags}
                   locale={locale}
                   isSaving={isSaving}
-                />
-              )}
+                />}
             />
           </Switch>
         </OneColumn>

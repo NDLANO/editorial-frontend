@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { Masthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
 import { toSearch, toLogin, toLogout } from '../../routes';
 
-
 const AuthSiteNavItem = ({ t, name, authenticated }) => {
   if (authenticated) {
     return (
@@ -23,7 +22,8 @@ const AuthSiteNavItem = ({ t, name, authenticated }) => {
   return (
     <SiteNavItem to={toLogin()}>
       {t('siteNav.login')}
-    </SiteNavItem>);
+    </SiteNavItem>
+  );
 };
 
 AuthSiteNavItem.propTypes = {
@@ -32,7 +32,7 @@ AuthSiteNavItem.propTypes = {
   name: PropTypes.string,
 };
 
-const MastheadContainer = ({ t, authenticated, userName }) => (
+const MastheadContainer = ({ t, authenticated, userName }) =>
   <Masthead>
     <MastheadItem left>
       <Logo to="/" altText="Nasjonal digital læringsarena" />
@@ -47,8 +47,7 @@ const MastheadContainer = ({ t, authenticated, userName }) => (
         </AuthSiteNavItem>
       </SiteNav>
     </MastheadItem>
-  </Masthead>
-  );
+  </Masthead>;
 
 MastheadContainer.propTypes = {
   params: PropTypes.shape({
@@ -59,6 +58,5 @@ MastheadContainer.propTypes = {
   authenticated: PropTypes.bool.isRequired,
   userName: PropTypes.string,
 };
-
 
 export default MastheadContainer;

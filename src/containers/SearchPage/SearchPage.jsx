@@ -22,7 +22,6 @@ import SelectArticleType from './components/SelectArticleType';
 import { toSearch } from '../../routes';
 
 class SearchPage extends Component {
-
   componentWillMount() {
     const { location, search } = this.props;
     if (location.search) {
@@ -38,7 +37,14 @@ class SearchPage extends Component {
   }
 
   render() {
-    const { location, results, locale, searching, lastPage, history } = this.props;
+    const {
+      location,
+      results,
+      locale,
+      searching,
+      lastPage,
+      history,
+    } = this.props;
     const query = queryString.parse(location.search);
 
     return (
@@ -46,20 +52,28 @@ class SearchPage extends Component {
         <SearchForm
           query={query.query}
           searching={searching}
-          onSearchQuerySubmit={searchQuery => history.push(toSearch({ ...query, query: searchQuery, page: 1, sort: query.sort ? query.sort : '-relevance' }))}
+          onSearchQuerySubmit={searchQuery =>
+            history.push(
+              toSearch({
+                ...query,
+                query: searchQuery,
+                page: 1,
+                sort: query.sort ? query.sort : '-relevance',
+              }),
+            )}
         />
 
         <div className="search-filters">
           <SelectArticleType
             articleType={query.articleTypes}
-            onArticleTypeChange={
-              articleTypes => history.push(toSearch({ ...query, page: 1, articleTypes }))
-            }
+            onArticleTypeChange={articleTypes =>
+              history.push(toSearch({ ...query, page: 1, articleTypes }))}
           />
 
           <SelectSearchSortOrder
             sort={query.sort}
-            onSortOrderChange={sort => history.push(toSearch({ ...query, sort, page: 1 }))}
+            onSortOrderChange={sort =>
+              history.push(toSearch({ ...query, sort, page: 1 }))}
           />
         </div>
 

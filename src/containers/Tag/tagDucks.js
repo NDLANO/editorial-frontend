@@ -25,12 +25,19 @@ const initalState = {
   hasFetched: false,
 };
 
-export default handleActions({
-  [setTags]: {
-    next: (state, action) => ({ ...state, all: action.payload, hasFetched: true }),
-    throw: state => state,
+export default handleActions(
+  {
+    [setTags]: {
+      next: (state, action) => ({
+        ...state,
+        all: action.payload,
+        hasFetched: true,
+      }),
+      throw: state => state,
+    },
   },
-}, initalState);
+  initalState,
+);
 
 const getTagsFromState = state => state.tags.all;
 

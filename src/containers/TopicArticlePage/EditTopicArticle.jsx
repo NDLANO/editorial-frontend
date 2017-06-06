@@ -72,4 +72,6 @@ const makeMapStateToProps = (_, props) => {
   });
 };
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(EditTopicArticle);
+export default connect(makeMapStateToProps, mapDispatchToProps)(
+  EditTopicArticle,
+);

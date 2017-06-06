@@ -8,7 +8,8 @@
 
 import reducer, { getSessionStateFromLocalStorage, actions } from '../session';
 
-const idToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ';
+const idToken =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ';
 
 test('reducers/session getSessionStateFromLocalStorage when id_token exists in local storage', () => {
   localStorage.setItem('id_token', idToken);
@@ -35,13 +36,18 @@ test('reducers/session initialState when id_token exists in localstorage', () =>
 });
 
 test('reducers/session sets if authenticated', () => {
-  const nextState = reducer(undefined, { type: actions.setAuthenticated, payload: true });
+  const nextState = reducer(undefined, {
+    type: actions.setAuthenticated,
+    payload: true,
+  });
   expect(nextState).toMatchSnapshot();
 });
 
-
 test('reducers/session sets if authenticated', () => {
-  const nextState = reducer(undefined, { type: actions.setAuthenticated, payload: false });
+  const nextState = reducer(undefined, {
+    type: actions.setAuthenticated,
+    payload: false,
+  });
   expect(nextState).toMatchSnapshot();
 });
 
@@ -56,14 +62,17 @@ test('reducers/session sets user data', () => {
 });
 
 test('reducers/session clears user data', () => {
-  const nextState = reducer({
-    user: {
-      name: 'Ola Nordmann',
+  const nextState = reducer(
+    {
+      user: {
+        name: 'Ola Nordmann',
+      },
+      authenicated: false,
     },
-    authenicated: false,
-  }, {
-    type: actions.clearUserData,
-  });
+    {
+      type: actions.clearUserData,
+    },
+  );
 
   expect(nextState.user).toEqual({});
 });

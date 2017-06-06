@@ -26,14 +26,19 @@ const localStorageMock = (function createLocalStorage() {
       store = {};
     },
   };
-}());
+})();
 
 Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
 });
 
-
 localStorage.setItem('access_token', '123456789');
-localStorage.setItem('access_token_expires_at', new Date().getTime() + (24 * 60 * 60 * 1000));
+localStorage.setItem(
+  'access_token_expires_at',
+  new Date().getTime() + 24 * 60 * 60 * 1000,
+);
 localStorage.setItem('id_token', '12345678');
-localStorage.setItem('id_token_expires_at', new Date().getTime() + (24 * 60 * 60 * 1000));
+localStorage.setItem(
+  'id_token_expires_at',
+  new Date().getTime() + 24 * 60 * 60 * 1000,
+);

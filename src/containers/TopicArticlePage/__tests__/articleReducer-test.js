@@ -15,42 +15,63 @@ test('reducers/articles initalState', () => {
 });
 
 test('reducers/articles set article', () => {
-  const nextState = reducer(undefined, { type: actions.setArticle, payload: { id: 1, title: 'Unit test' } });
+  const nextState = reducer(undefined, {
+    type: actions.setArticle,
+    payload: { id: 1, title: 'Unit test' },
+  });
 
   expect(nextState).toMatchSnapshot();
 });
 
 test('reducers/articles set multiple articles', () => {
-  const state = reducer(undefined, { type: actions.setArticle, payload: { id: 1, title: 'Unit test 1' } });
-  const nextState = reducer(state, { type: actions.setArticle, payload: { id: 2, title: 'Unit test 2' } });
+  const state = reducer(undefined, {
+    type: actions.setArticle,
+    payload: { id: 1, title: 'Unit test 1' },
+  });
+  const nextState = reducer(state, {
+    type: actions.setArticle,
+    payload: { id: 2, title: 'Unit test 2' },
+  });
 
   expect(nextState).toMatchSnapshot();
 });
 
 test('reducers/article overwrite articles with same id', () => {
-  const nextState = reducer({
-    all: {
-      1: { id: 1, title: 'Unit test 1' },
+  const nextState = reducer(
+    {
+      all: {
+        1: { id: 1, title: 'Unit test 1' },
+      },
     },
-  }, { type: actions.setArticle, payload: { id: 1, title: 'Unit test 2' } });
+    { type: actions.setArticle, payload: { id: 1, title: 'Unit test 2' } },
+  );
 
   expect(nextState).toMatchSnapshot();
 });
 
 test('reducers/article sets isSaving to true on update', () => {
-  const nextState = reducer(undefined, { type: actions.updateArticle, payload: undefined });
+  const nextState = reducer(undefined, {
+    type: actions.updateArticle,
+    payload: undefined,
+  });
 
   expect(nextState).toMatchSnapshot();
 });
 
 test('reducers/article sets isSaving to false on update error', () => {
-  const nextState = reducer({ isSaving: true }, { type: actions.updateArticleError, payload: undefined });
+  const nextState = reducer(
+    { isSaving: true },
+    { type: actions.updateArticleError, payload: undefined },
+  );
 
   expect(nextState).toMatchSnapshot();
 });
 
 test('reducers/article sets isSaving to false on update success', () => {
-  const nextState = reducer({ isSaving: true }, { type: actions.updateArticleSuccess, payload: undefined });
+  const nextState = reducer(
+    { isSaving: true },
+    { type: actions.updateArticleSuccess, payload: undefined },
+  );
 
   expect(nextState).toMatchSnapshot();
 });

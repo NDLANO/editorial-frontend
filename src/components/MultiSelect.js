@@ -20,20 +20,23 @@ class MultiSelect extends Component {
     const { open } = this.state;
     const { name, value, messages, onChange, data } = this.props;
 
-    const handleChange = (tags) => {
+    const handleChange = tags => {
       onChange({ target: { name, value: tags, type: 'tags' } });
     };
 
-    const handleAdd = (tag) => {
+    const handleAdd = tag => {
       if (value.includes(tag)) {
         return;
       }
       handleChange([...value, tag]);
     };
 
-    const handleSearch = (searchTerm) => {
+    const handleSearch = searchTerm => {
       if (searchTerm.length === 2) {
-        this.setState({ open: true, data: data.filter(string => string.indexOf(searchTerm) !== -1) });
+        this.setState({
+          open: true,
+          data: data.filter(string => string.indexOf(searchTerm) !== -1),
+        });
       } else if (searchTerm.length < 2) {
         this.setState({ open: false, data: ['¥†¥∂¥¥'] }); // Needs one data item to dispay correct messages
       }

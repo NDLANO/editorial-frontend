@@ -6,17 +6,22 @@
  *
  */
 
-export const getLength = (value) => {
+export const getLength = value => {
   if (value && value.getCurrentContent) {
     return value.getCurrentContent().getPlainText().length;
   }
   return value.length;
 };
 
-export const isEmpty = (value) => {
+export const isEmpty = value => {
   if (!value) {
     return true;
-  } else if (value && value.getCurrentContent && !value.getCurrentContent().hasText()) { // Draftjs check
+  } else if (
+    value &&
+    value.getCurrentContent &&
+    !value.getCurrentContent().hasText()
+  ) {
+    // Draftjs check
     return true;
   }
   return false;
@@ -25,4 +30,5 @@ export const isEmpty = (value) => {
 export const minLength = (value, length) => !value || getLength(value) < length;
 export const maxLength = (value, length) => !value || getLength(value) > length;
 
-export const minItems = (value, number) => !value || (Array.isArray(value) && value.length < number);
+export const minItems = (value, number) =>
+  !value || (Array.isArray(value) && value.length < number);

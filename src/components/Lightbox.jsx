@@ -41,17 +41,29 @@ export default class Lightbox extends React.Component {
 
     const style = width ? { maxWidth: width } : undefined;
 
-    return this.state.display ? <div {...classes()} >
-      <div {...classes('content', modifiers)} style={style}>
-        <Button {...classes('close')} stripped onClick={this.onCloseButtonClick}>
-          <svg className="icon" viewBox="0 0 24 24" width="100%" height="100%">
-            <title>close</title>
-            <path className="path1" d="M18.984 6.422l-5.578 5.578 5.578 5.578-1.406 1.406-5.578-5.578-5.578 5.578-1.406-1.406 5.578-5.578-5.578-5.578 1.406-1.406 5.578 5.578 5.578-5.578z" />
-          </svg>
-        </Button>
-        {children}
-      </div>
-    </div> : null;
+    return this.state.display
+      ? <div {...classes()}>
+          <div {...classes('content', modifiers)} style={style}>
+            <Button
+              {...classes('close')}
+              stripped
+              onClick={this.onCloseButtonClick}>
+              <svg
+                className="icon"
+                viewBox="0 0 24 24"
+                width="100%"
+                height="100%">
+                <title>close</title>
+                <path
+                  className="path1"
+                  d="M18.984 6.422l-5.578 5.578 5.578 5.578-1.406 1.406-5.578-5.578-5.578 5.578-1.406-1.406 5.578-5.578-5.578-5.578 1.406-1.406 5.578 5.578 5.578-5.578z"
+                />
+              </svg>
+            </Button>
+            {children}
+          </div>
+        </div>
+      : null;
   }
 }
 

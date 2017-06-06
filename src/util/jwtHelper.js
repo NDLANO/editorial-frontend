@@ -6,11 +6,11 @@
  *
  */
 
- import decode from 'jwt-decode';
+import decode from 'jwt-decode';
 
- export function expiresIn(token) {
-   const decoded = decode(token);
-   return decoded.exp - decoded.iat - 60; // Add 60 second buffer
- }
+export function expiresIn(token) {
+  const decoded = decode(token);
+  return decoded.exp - decoded.iat - 60; // Add 60 second buffer
+}
 
- export const decodeToken = idToken => decode(idToken);
+export const decodeToken = idToken => decode(idToken);

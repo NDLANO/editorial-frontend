@@ -38,18 +38,23 @@ const editorialFrontendDomain = () => {
   }
 };
 
-
-module.exports = Object.assign({
-  componentName: process.env.npm_package_name,
-  host: process.env.EDITORIAL_FRONTEND_HOST || 'localhost',
-  port: process.env.EDITORIAL_FRONTEND_PORT || '3000',
-  redirectPort: process.env.NDLA_REDIRECT_PORT || '3001',
-  logEnvironment: process.env.NDLA_ENVIRONMENT || 'local',
-  logglyApiKey: process.env.LOGGLY_API_KEY,
-  ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
-  editorialFrontendClientId: process.env.NDLA_EDITORIAL_CLIENT_ID || 'swagger-client',
-  editorialFrontendClientSecret: process.env.NDLA_EDITORIAL_CLIENT_SECRET || 'swagger-public-client-secret',
-  editorialFrontendDomain: editorialFrontendDomain(),
-  auth0ClientID: process.env.AUTH0_CLIENT_ID || '',
-  auth0Domain: process.env.AUTH0_DOMAIN || '',
-}, environment);
+module.exports = Object.assign(
+  {
+    componentName: process.env.npm_package_name,
+    host: process.env.EDITORIAL_FRONTEND_HOST || 'localhost',
+    port: process.env.EDITORIAL_FRONTEND_PORT || '3000',
+    redirectPort: process.env.NDLA_REDIRECT_PORT || '3001',
+    logEnvironment: process.env.NDLA_ENVIRONMENT || 'local',
+    logglyApiKey: process.env.LOGGLY_API_KEY,
+    ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
+    editorialFrontendClientId:
+      process.env.NDLA_EDITORIAL_CLIENT_ID || 'swagger-client',
+    editorialFrontendClientSecret:
+      process.env.NDLA_EDITORIAL_CLIENT_SECRET ||
+        'swagger-public-client-secret',
+    editorialFrontendDomain: editorialFrontendDomain(),
+    auth0ClientID: process.env.AUTH0_CLIENT_ID || '',
+    auth0Domain: process.env.AUTH0_DOMAIN || '',
+  },
+  environment,
+);

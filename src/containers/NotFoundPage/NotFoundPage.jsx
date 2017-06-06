@@ -12,7 +12,7 @@ import { Route } from 'react-router-dom';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from '../../i18n';
 
-const Status = ({ code, children }) => (
+const Status = ({ code, children }) =>
   <Route
     render={({ staticContext }) => {
       const context = staticContext;
@@ -21,8 +21,7 @@ const Status = ({ code, children }) => (
       }
       return children;
     }}
-  />
-);
+  />;
 
 Status.propTypes = {
   code: PropTypes.number.isRequired,

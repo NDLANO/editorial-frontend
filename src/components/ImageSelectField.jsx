@@ -38,38 +38,42 @@ class ImageSelectField extends Component {
 
   handleImageChange(image) {
     const { name, onChange } = this.props;
-    onChange(
-      { target: {
+    onChange({
+      target: {
         name,
         value: `<embed data-size="fullbredde" data-align="" data-alt="" data-caption="" data-resource="image" data-resource_id="${image.id}" />`,
-      } },
-    );
+      },
+    });
     this.setState(() => ({ isOpen: false }));
   }
 
   render() {
-    const {
-      name,
-      label,
-      schema,
-      submitted,
-      value,
-    } = this.props;
+    const { name, label, schema, submitted, value } = this.props;
 
     return (
       <Field>
-        { value ?
-          <Button stripped onClick={this.onImageLightboxOpen}>
-            <DisplayEmbedTag embedTag={value} />
-          </Button>
-          :
-          <Button outline {...classes('add-visual-element')} onClick={this.onImageLightboxOpen}>Legg til visuelt element</Button>
-        }
-        <Lightbox display={this.state.isOpen} big onClose={this.onImageLightboxClose}>
+        {value
+          ? <Button stripped onClick={this.onImageLightboxOpen}>
+              <DisplayEmbedTag embedTag={value} />
+            </Button>
+          : <Button
+              outline
+              {...classes('add-visual-element')}
+              onClick={this.onImageLightboxOpen}>
+              Legg til visuelt element
+            </Button>}
+        <Lightbox
+          display={this.state.isOpen}
+          big
+          onClose={this.onImageLightboxClose}>
           <h2>Bildesøk</h2>
           <ImageSearch onChange={this.handleImageChange} />
         </Lightbox>
-        <FieldErrorMessages label={label} field={schema.fields[name]} submitted={submitted} />
+        <FieldErrorMessages
+          label={label}
+          field={schema.fields[name]}
+          submitted={submitted}
+        />
       </Field>
     );
   }
@@ -86,7 +90,6 @@ ImageSelectField.propTypes = {
   }),
   submitted: PropTypes.bool.isRequired,
 };
-
 
 const mapDispatchToProps = {
   searchImages: actions.searchImages,

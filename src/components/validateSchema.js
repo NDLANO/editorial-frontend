@@ -13,56 +13,77 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import { getComponentName } from 'ndla-util';
 import { isEmpty, minLength, minItems, maxLength } from './validators';
 
-const getValidationErrors = (schema, model, fields, t) => Object.keys(schema).reduce((acc, key) => {
-  const errors = [];
-  const value = model[key];
-  const rules = schema[key];
-  const isDirty = fields[key] ? fields[key].isDirty : false;
+const getValidationErrors = (schema, model, fields, t) =>
+  Object.keys(schema).reduce(
+    (acc, key) => {
+      const errors = [];
+      const value = model[key];
+      const rules = schema[key];
+      const isDirty = fields[key] ? fields[key].isDirty : false;
 
-  if (rules.required && isEmpty(value)) {
-    errors.push(label => t('validation.isRequired', { label }));
-  }
+      if (rules.required && isEmpty(value)) {
+        errors.push(label => t('validation.isRequired', { label }));
+      }
 
-  if (rules.minLength && minLength(value, rules.minLength)) {
-    errors.push(label => t('validation.minLength', { label, minLength: rules.minLength }));
-  }
+      if (rules.minLength && minLength(value, rules.minLength)) {
+        errors.push(label =>
+          t('validation.minLength', { label, minLength: rules.minLength }),
+        );
+      }
 
-  if (rules.maxLength && maxLength(value, rules.maxLength)) {
-    errors.push(label => t('validation.maxLength', { label, maxLength: rules.maxLength }));
-  }
+      if (rules.maxLength && maxLength(value, rules.maxLength)) {
+        errors.push(label =>
+          t('validation.maxLength', { label, maxLength: rules.maxLength }),
+        );
+      }
 
-  if (rules.minItems && minItems(value, rules.minItems)) {
-    errors.push(label => t('validation.minItems', { label, labelLowerCase: label.toLowerCase(), minItems: rules.minItems }));
-  }
+      if (rules.minItems && minItems(value, rules.minItems)) {
+        errors.push(label =>
+          t('validation.minItems', {
+            label,
+            labelLowerCase: label.toLowerCase(),
+            minItems: rules.minItems,
+          }),
+        );
+      }
 
-  if (rules.test) {
-    let error;
-    rules.test(value, (msg) => {
-      error = msg;
-    });
-    if (error) {
-      errors.push(error);
-    }
-  }
+      if (rules.test) {
+        let error;
+        rules.test(value, msg => {
+          error = msg;
+        });
+        if (error) {
+          errors.push(error);
+        }
+      }
 
-  return { ...acc,
-    isValid: !errors.length && acc.isValid,
-    fields: { ...acc.fields,
-      [key]: {
-        isValid: !errors.length,
-        errors,
-        isDirty,
-      },
+      return {
+        ...acc,
+        isValid: !errors.length && acc.isValid,
+        fields: {
+          ...acc.fields,
+          [key]: {
+            isValid: !errors.length,
+            errors,
+            isDirty,
+          },
+        },
+      };
     },
-  };
-},
-{ isValid: true, fields: {} });
+    { isValid: true, fields: {} },
+  );
 
-const validateSchema = schema => (WrappedComponent) => {
-  const validated = (props) => {
-    const validationErrors = getValidationErrors(schema, props.model, props.fields, props.t);
+const validateSchema = schema => WrappedComponent => {
+  const validated = props => {
+    const validationErrors = getValidationErrors(
+      schema,
+      props.model,
+      props.fields,
+      props.t,
+    );
 
-    return React.createElement(WrappedComponent, { ...props,
+    return React.createElement(WrappedComponent, {
+      ...props,
       schema: validationErrors,
     });
   };
@@ -71,7 +92,9 @@ const validateSchema = schema => (WrappedComponent) => {
     model: PropTypes.object, //eslint-disable-line
     fields: PropTypes.object, //eslint-disable-line
   };
-  validated.displayName = `ValidateSchema(${getComponentName(WrappedComponent)})`;
+  validated.displayName = `ValidateSchema(${getComponentName(
+    WrappedComponent,
+  )})`;
   return hoistNonReactStatics(validated, WrappedComponent);
 };
 

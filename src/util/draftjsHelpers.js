@@ -8,11 +8,12 @@
 
 import { ContentState, EditorState } from 'draft-js';
 
-export const createEditorStateFromText = (text) => {
+export const createEditorStateFromText = text => {
   if (text) {
     return EditorState.createWithContent(ContentState.createFromText(text));
   }
   return EditorState.createEmpty();
 };
 
-export const getPlainTextFromEditorState = editorState => editorState.getCurrentContent().getPlainText();
+export const getPlainTextFromEditorState = editorState =>
+  editorState.getCurrentContent().getPlainText();

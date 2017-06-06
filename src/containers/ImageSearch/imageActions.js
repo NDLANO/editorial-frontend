@@ -6,7 +6,6 @@
  *
  */
 
-
 import { createAction } from 'redux-actions';
 
 export const searchImages = createAction('SEARCH_IMAGES');

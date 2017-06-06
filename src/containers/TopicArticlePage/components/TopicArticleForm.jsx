@@ -16,11 +16,21 @@ import { EditorState } from 'draft-js';
 import { injectT } from '../../../i18n';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
-import { TextField, TextAreaField, MultiSelectField, RichTextField, PlainTextField, RemainingCharacters, Field } from '../../../components/Fields';
+import {
+  TextField,
+  TextAreaField,
+  MultiSelectField,
+  RichTextField,
+  PlainTextField,
+  RemainingCharacters,
+  Field,
+} from '../../../components/Fields';
 import ImageSelectField from '../../../components/ImageSelectField';
 import converter from '../topicArticleContentConverter';
-import { createEditorStateFromText, getPlainTextFromEditorState } from '../../../util/draftjsHelpers';
-
+import {
+  createEditorStateFromText,
+  getPlainTextFromEditorState,
+} from '../../../util/draftjsHelpers';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -33,10 +43,16 @@ export const getInitialModel = (article = {}) => ({
   revision: article.revision,
   title: article.title || '',
   introduction: createEditorStateFromText(article.introduction),
-  content: article.content ? converter.toEditorState(article.content) : EditorState.createEmpty(),
+  content: article.content
+    ? converter.toEditorState(article.content)
+    : EditorState.createEmpty(),
   tags: article.tags || [],
-  authors: article.copyright ? article.copyright.authors.map(author => author.name) : [],
-  copyright: article.copyright ? article.copyright : { license: DEFAULT_LICENSE, origin: '' },
+  authors: article.copyright
+    ? article.copyright.authors.map(author => author.name)
+    : [],
+  copyright: article.copyright
+    ? article.copyright
+    : { license: DEFAULT_LICENSE, origin: '' },
   visualElement: article.visualElement || '',
   metaDescription: article.metaDescription || '',
 });
@@ -55,7 +71,13 @@ class TopicArticleForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const { model, schema, revision, locale: language, setSubmitted } = this.props;
+    const {
+      model,
+      schema,
+      revision,
+      locale: language,
+      setSubmitted,
+    } = this.props;
     if (!schema.isValid) {
       setSubmitted(true);
       return;
@@ -65,7 +87,12 @@ class TopicArticleForm extends Component {
       id: model.id,
       revision,
       title: [{ title: model.title, language }],
-      introduction: [{ introduction: getPlainTextFromEditorState(model.introduction), language }],
+      introduction: [
+        {
+          introduction: getPlainTextFromEditorState(model.introduction),
+          language,
+        },
+      ],
       tags: [{ tags: model.tags, language }],
       content: [{ content: converter.toHtml(model.content), language }],
       visualElement: [{ content: model.visualElement, language }],
@@ -79,12 +106,22 @@ class TopicArticleForm extends Component {
   }
 
   render() {
-    const { t, bindInput, schema, model: { id }, submitted, tags, isSaving } = this.props;
+    const {
+      t,
+      bindInput,
+      schema,
+      model: { id },
+      submitted,
+      tags,
+      isSaving,
+    } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
     return (
       <form onSubmit={this.handleSubmit} {...classes()}>
-        <div {...classes('title')} >
-          {id ? t('topicArticleForm.title.update') : t('topicArticleForm.title.create') }
+        <div {...classes('title')}>
+          {id
+            ? t('topicArticleForm.title.update')
+            : t('topicArticleForm.title.create')}
         </div>
         <TextField
           label={t('topicArticleForm.fields.title.label')}
@@ -100,12 +137,14 @@ class TopicArticleForm extends Component {
           name="introduction"
           noBorder
           maxLength={300}
-          {...commonFieldProps}
-        >
+          {...commonFieldProps}>
           <RemainingCharacters
             maxLength={300}
-            getRemainingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
-            value={bindInput('introduction').value.getCurrentContent().getPlainText()}
+            getRemainingLabel={(maxLength, remaining) =>
+              t('form.remainingCharacters', { maxLength, remaining })}
+            value={bindInput('introduction').value
+              .getCurrentContent()
+              .getPlainText()}
           />
         </PlainTextField>
         <ImageSelectField
@@ -139,11 +178,11 @@ class TopicArticleForm extends Component {
           description={t('topicArticleForm.fields.metaDescription.description')}
           name="metaDescription"
           maxLength={150}
-          {...commonFieldProps}
-        >
+          {...commonFieldProps}>
           <RemainingCharacters
             maxLength={150}
-            getRemainingLabel={(maxLength, remaining) => t('form.remainingCharacters', { maxLength, remaining })}
+            getRemainingLabel={(maxLength, remaining) =>
+              t('form.remainingCharacters', { maxLength, remaining })}
             value={bindInput('metaDescription').value}
           />
         </TextAreaField>
@@ -158,7 +197,13 @@ class TopicArticleForm extends Component {
           {...commonFieldProps}
         />
         <Field right>
-          <Button submit outline disabled={isSaving} {...classes('save-button')} >{t('topicArticleForm.save')}</Button>
+          <Button
+            submit
+            outline
+            disabled={isSaving}
+            {...classes('save-button')}>
+            {t('topicArticleForm.save')}
+          </Button>
         </Field>
       </form>
     );

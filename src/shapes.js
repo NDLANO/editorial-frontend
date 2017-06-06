@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 
-
 export const ArticleResultShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
-  title: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    language: PropTypes.string.isRequired,
-  })).isRequired,
+  title: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      language: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   articleType: PropTypes.string.isRequired,
 });
 

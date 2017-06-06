@@ -35,11 +35,12 @@ class SelectArticleType extends Component {
       <select
         className="search-filters__select"
         onChange={this.handleArticleTypeChange}
-        value={this.state.articleType}
-      >
+        value={this.state.articleType}>
         <option value="all">{t('searchForm.articleType.all')}</option>
         <option value="standard">{t('searchForm.articleType.standard')}</option>
-        <option value="topic-article">{t('searchForm.articleType.topicArticle')}</option>
+        <option value="topic-article">
+          {t('searchForm.articleType.topicArticle')}
+        </option>
       </select>
     );
   }

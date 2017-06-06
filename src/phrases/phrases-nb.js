@@ -8,7 +8,8 @@
 
 const phrases = {
   meta: {
-    description: 'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
+    description:
+      'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
   },
   welcomePage: {
     shortcuts: 'Snarveier',
@@ -35,7 +36,8 @@ const phrases = {
     localLogout: 'Logg ut av produksjonssystem',
     or: 'eller',
     federatedLogout: 'Logg ut av alle tjenester',
-    description: 'N.B. Alle tjenester inkluderer autentiseringstjenesten (Google eller Facebook).',
+    description:
+      'N.B. Alle tjenester inkluderer autentiseringstjenesten (Google eller Facebook).',
   },
   searchForm: {
     placeholder: 'Søk etter artikler',
@@ -96,13 +98,15 @@ const phrases = {
     },
   },
   form: {
-    remainingCharacters: 'Max {maxLength, number} tegn og du har {remaining, number} igjen.',
+    remainingCharacters:
+      'Max {maxLength, number} tegn og du har {remaining, number} igjen.',
   },
   validation: {
     isRequired: '{label} er påkrevd.',
     maxLength: '{label} kan ikke ha mer enn {maxLength, number} tegn.',
     minLength: '{label} må ha minst {minLength, number} tegn.',
-    minItems: '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
+    minItems:
+      '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
   },
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',

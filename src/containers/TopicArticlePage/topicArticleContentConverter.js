@@ -12,13 +12,19 @@ import { EditorState } from 'draft-js';
 
 function reduceAttributesArrayToObject(attributes) {
   // Reduce attributes array to object with attribute name (striped of data-) as keys.
-  return attributes.reduce((all, attr) => Object.assign({}, all, { [attr.nodeName.replace('data-', '')]: attr.nodeValue }), {});
+  return attributes.reduce(
+    (all, attr) =>
+      Object.assign({}, all, {
+        [attr.nodeName.replace('data-', '')]: attr.nodeValue,
+      }),
+    {},
+  );
 }
 
 function convertHTMLToEditorState(html) {
   const embeds = [];
   const contentState = convertFromHTML({
-    htmlToBlock: (nodeName) => {
+    htmlToBlock: nodeName => {
       if (nodeName === 'embed') {
         return 'atomic';
       }
@@ -33,7 +39,9 @@ function convertHTMLToEditorState(html) {
       return undefined;
     },
   })(html);
-  embeds.forEach(embed => contentState.createEntity('resource-placeholder', 'IMMUTABLE', embed));
+  embeds.forEach(embed =>
+    contentState.createEntity('resource-placeholder', 'IMMUTABLE', embed),
+  );
   return EditorState.createWithContent(contentState);
 }
 
@@ -41,7 +49,7 @@ function convertEditorStateToHTML(editorState) {
   const contentState = editorState.getCurrentContent();
 
   const html = convertToHTML({
-    blockToHTML: (block) => {
+    blockToHTML: block => {
       if (block.type === 'atomic') {
         return <deleteme />;
       }

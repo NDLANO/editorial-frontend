@@ -14,14 +14,19 @@ import { expiresIn } from './jwtHelper';
 export const auth0Domain = window.config.auth0Domain;
 export const auth0ClientId = window.config.auth0ClientID;
 
-
 const locationOrigin = (() => {
   if (process.env.NODE_ENV === 'unittest') {
     return 'http://ndla-frontend';
   }
 
   if (typeof location.origin === 'undefined') {
-    location.origin = [location.protocol, '//', location.host, ':', location.port].join('');
+    location.origin = [
+      location.protocol,
+      '//',
+      location.host,
+      ':',
+      location.port,
+    ].join('');
   }
 
   return location.origin;
@@ -29,9 +34,12 @@ const locationOrigin = (() => {
 
 export { locationOrigin };
 
-export const setIdTokenInLocalStorage = (idToken) => {
+export const setIdTokenInLocalStorage = idToken => {
   localStorage.setItem('id_token', idToken);
-  localStorage.setItem('id_token_expires_at', (expiresIn(idToken) * 1000) + new Date().getTime());
+  localStorage.setItem(
+    'id_token_expires_at',
+    expiresIn(idToken) * 1000 + new Date().getTime(),
+  );
 };
 
 export const clearIdTokenFromLocalStorage = () => {
@@ -39,7 +47,10 @@ export const clearIdTokenFromLocalStorage = () => {
   localStorage.removeItem('id_token_expires_at');
 };
 
-export const getExpiresAt = () => (localStorage.getItem('id_token_expires_at') ? JSON.parse(localStorage.getItem('id_token_expires_at')) : 0);
+export const getExpiresAt = () =>
+  localStorage.getItem('id_token_expires_at')
+    ? JSON.parse(localStorage.getItem('id_token_expires_at'))
+    : 0;
 
 export const getIdToken = () => localStorage.getItem('id_token');
 
@@ -65,7 +76,7 @@ export function parseHash(hash) {
   });
 }
 
-export const authLogout = (federated) => {
+export const authLogout = federated => {
   const config = {
     returnTo: `${locationOrigin}/`,
     client_id: auth0ClientId,
@@ -80,7 +91,6 @@ export const authLogout = (federated) => {
   return auth.logout({ config });
 };
 
-
 export function loginSocialMedia(type) {
   auth.authorize({
     connection: type,
@@ -88,17 +98,21 @@ export function loginSocialMedia(type) {
   });
 }
 
-export const renewAuth = () => new Promise((resolve, reject) => {
-  auth.renewAuth({
-    redirectUri: `${locationOrigin}/login/silent-callback`,
-    usePostMessage: true,
-  }, (err, authResult) => {
-    if (authResult && authResult.idToken) {
-      setIdTokenInLocalStorage(authResult.idToken);
-      resolve(authResult.idToken);
-    } else {
-      createHistory().push('/logout/session'); // Push to logoutPath
-      reject();
-    }
+export const renewAuth = () =>
+  new Promise((resolve, reject) => {
+    auth.renewAuth(
+      {
+        redirectUri: `${locationOrigin}/login/silent-callback`,
+        usePostMessage: true,
+      },
+      (err, authResult) => {
+        if (authResult && authResult.idToken) {
+          setIdTokenInLocalStorage(authResult.idToken);
+          resolve(authResult.idToken);
+        } else {
+          createHistory().push('/logout/session'); // Push to logoutPath
+          reject();
+        }
+      },
+    );
   });
-});

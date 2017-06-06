@@ -14,7 +14,6 @@ import { toCreateTopicArticle, toSearch } from '../../routes';
 
 const query = { articleTypes: 'topic-article' };
 
-
 export const WelcomePage = ({ t }) =>
   <div className="c-resources u-padding-top-large">
     <OneColumn cssModifier="narrow">
@@ -22,16 +21,22 @@ export const WelcomePage = ({ t }) =>
         <section>
           <h1>{t('welcomePage.shortcuts')}</h1>
           <ul>
-            <li><Link to={`${toSearch(query)}`}>{t('welcomePage.searchTopicArticles')}</Link></li>
-            <li><Link to={`${toCreateTopicArticle()}`}>{t('welcomePage.createTopicArticle')}</Link></li>
+            <li>
+              <Link to={`${toSearch(query)}`}>
+                {t('welcomePage.searchTopicArticles')}
+              </Link>
+            </li>
+            <li>
+              <Link to={`${toCreateTopicArticle()}`}>
+                {t('welcomePage.createTopicArticle')}
+              </Link>
+            </li>
           </ul>
         </section>
       </article>
     </OneColumn>
-  </div>
-;
+  </div>;
 
-WelcomePage.propTypes = {
-};
+WelcomePage.propTypes = {};
 
 export default injectT(WelcomePage);

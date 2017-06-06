@@ -15,13 +15,25 @@ export const titlesI18N = createFieldByLanguageFinder('titles', 'title');
 export const descriptionI18N = createFieldByLanguageFinder('description');
 export const contentI18N = createFieldByLanguageFinder('content');
 export const oembedUrlI18N = createFieldByLanguageFinder('embedUrl', 'url');
-export const visualElementI18N = createFieldByLanguageFinder('visualElement', 'content');
+export const visualElementI18N = createFieldByLanguageFinder(
+  'visualElement',
+  'content',
+);
 export const tagsI18N = createFieldByLanguageFinder('tags');
 export const alttextsI18N = createFieldByLanguageFinder('alttexts');
 export const introductionI18N = createFieldByLanguageFinder('introduction');
-export const metaDescriptionI18N = createFieldByLanguageFinder('metaDescription');
+export const metaDescriptionI18N = createFieldByLanguageFinder(
+  'metaDescription',
+);
 
-export function oembedContentI18N(learningPathStep, lang, withFallback = false) {
+export function oembedContentI18N(
+  learningPathStep,
+  lang,
+  withFallback = false,
+) {
   const translations = defined(learningPathStep.embedUrl, []);
-  return defined(translations.find(d => d.language === lang), withFallback ? findFallbackTranslation(translations) : undefined);
+  return defined(
+    translations.find(d => d.language === lang),
+    withFallback ? findFallbackTranslation(translations) : undefined,
+  );
 }

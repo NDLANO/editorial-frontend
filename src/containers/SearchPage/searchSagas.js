@@ -31,6 +31,4 @@ export function* watchSearch() {
   }
 }
 
-export default [
-  watchSearch,
-];
+export default [watchSearch];

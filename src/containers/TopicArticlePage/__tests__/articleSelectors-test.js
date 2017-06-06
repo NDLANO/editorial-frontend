@@ -19,8 +19,8 @@ const state = {
         id: '2',
         created: '2014-12-24T10:44:06Z',
         title: [
-            { title: 'Tester', language: 'nb' },
-            { title: 'Testing', language: 'en' },
+          { title: 'Tester', language: 'nb' },
+          { title: 'Testing', language: 'en' },
         ],
         metaDescription: [
           { metaDescription: 'Beskrivelse', language: 'nb' },

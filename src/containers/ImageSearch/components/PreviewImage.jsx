@@ -16,7 +16,11 @@ export default function PreviewImage({ image, onSelectImage }) {
   return (
     <div className="image-preview">
       <div className="image-preview_image">
-        <img alt="presentation" role="presentation" src={scaleImage(image.imageUrl)} />
+        <img
+          alt="presentation"
+          role="presentation"
+          src={scaleImage(image.imageUrl)}
+        />
       </div>
       <div className="image-preview_information">
         <h2 className="image-preview_title">{image.titles[0].title}</h2>
@@ -25,9 +29,7 @@ export default function PreviewImage({ image, onSelectImage }) {
             {/* {polyglot.t('learningPath.image.authors')}*/}
           </b>
           <span className="image-preview_text--right">
-            {image.copyright.authors.map(author =>
-              author.name,
-            ).join(', ')}
+            {image.copyright.authors.map(author => author.name).join(', ')}
           </span>
         </div>
         <div className="image-prieview_license">
@@ -44,7 +46,11 @@ export default function PreviewImage({ image, onSelectImage }) {
             <span key={uuid()} className="tag_item">{`#${tag}`}</span>,
           )}
         </div>
-        <Button className="button button--primary button--block" onClick={() => onSelectImage(image)}>Bruk bildet</Button>
+        <Button
+          className="button button--primary button--block"
+          onClick={() => onSelectImage(image)}>
+          Bruk bildet
+        </Button>
       </div>
       <div className="clear" />
     </div>

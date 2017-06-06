@@ -15,10 +15,8 @@ export const LoginFailure = ({ t }) =>
     <p>
       <Link to="/login">{t('loginFailure.loginLink')}</Link>
     </p>
-  </div>
-;
+  </div>;
 
-LoginFailure.propTypes = {
-};
+LoginFailure.propTypes = {};
 
 export default injectT(LoginFailure);

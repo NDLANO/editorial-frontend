@@ -39,17 +39,20 @@ export const getSessionStateFromLocalStorage = () => {
   return initialState; // Return inital state if token is undefined
 };
 
-export default handleActions({
-  [actions.setUserData]: {
-    next: (state, action) => ({ ...state, user: action.payload }),
-    throw: state => state,
+export default handleActions(
+  {
+    [actions.setUserData]: {
+      next: (state, action) => ({ ...state, user: action.payload }),
+      throw: state => state,
+    },
+    [actions.clearUserData]: {
+      next: state => ({ ...state, user: {} }),
+      throw: state => state,
+    },
+    [actions.setAuthenticated]: {
+      next: (state, action) => ({ ...state, authenticated: action.payload }),
+      throw: state => state,
+    },
   },
-  [actions.clearUserData]: {
-    next: state => ({ ...state, user: {} }),
-    throw: state => state,
-  },
-  [actions.setAuthenticated]: {
-    next: (state, action) => ({ ...state, authenticated: action.payload }),
-    throw: state => state,
-  },
-}, initialState);
+  initialState,
+);

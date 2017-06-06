@@ -25,18 +25,20 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use(compression());
-app.use(express.static('htdocs', {
-  maxAge: 1000 * 60 * 60 * 24 * 365, // One year
-}));
+app.use(
+  express.static('htdocs', {
+    maxAge: 1000 * 60 * 60 * 24 * 365, // One year
+  }),
+);
 
 const renderHtmlString = (locale, userAgentString, state = {}) =>
-  renderToString((
+  renderToString(
     <Html
       lang={locale}
       state={state}
       className={getConditionalClassnames(userAgentString)}
-    />
-  ));
+    />,
+  );
 
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 200, text: 'Health check ok' });
@@ -47,11 +49,12 @@ app.get('/login/silent-callback', (req, res) => {
 });
 
 app.get('/get_token', (req, res) => {
-  getToken().then((token) => {
-    res.send(token);
-  }).catch(err => res.status(500).send(err.message));
+  getToken()
+    .then(token => {
+      res.send(token);
+    })
+    .catch(err => res.status(500).send(err.message));
 });
-
 
 app.get('*', (req, res) => {
   const paths = req.url.split('/');

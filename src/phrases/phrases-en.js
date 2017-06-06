@@ -35,7 +35,8 @@ const phrases = {
     localLogout: 'Logg ut av prouctionsystem',
     or: 'eller',
     federatedLogout: 'Log out of all providers',
-    description: 'N.B. All providers include the identityprovider (Google or Facebook).',
+    description:
+      'N.B. All providers include the identityprovider (Google or Facebook).',
   },
   searchForm: {
     placeholder: 'Search articles',
@@ -99,13 +100,16 @@ const phrases = {
     },
   },
   form: {
-    remainingCharacters: 'Max {maxLength, number} characters and you have {remaining, number} remaining.',
+    remainingCharacters:
+      'Max {maxLength, number} characters and you have {remaining, number} remaining.',
   },
   validation: {
     isRequired: '{label} is required.',
-    maxLength: '{label} must not have more than {maxLength, number} characters.',
+    maxLength:
+      '{label} must not have more than {maxLength, number} characters.',
     minLength: '{length} must have at least {minLength, number} characters.',
-    minItems: '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
+    minItems:
+      '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
   },
   searchPage: {
     noHits: 'Your search - {query} - did not match any articles. ',

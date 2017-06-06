@@ -13,37 +13,42 @@ import { tagsI18N } from '../../util/i18nFieldFinder';
 const getImageSearchFromState = state => state.imageSearch;
 
 export const getResults = createSelector(
-    [getImageSearchFromState],
-    search => search.results,
+  [getImageSearchFromState],
+  search => search.results,
 );
 
 export const getSearching = createSelector(
-    [getImageSearchFromState],
-    search => search.searching,
+  [getImageSearchFromState],
+  search => search.searching,
 );
 
 export const getLastPage = createSelector(
-    [getImageSearchFromState],
-    search => Math.ceil(search.totalCount / search.pageSize) || 1,
+  [getImageSearchFromState],
+  search => Math.ceil(search.totalCount / search.pageSize) || 1,
 );
 
 export const getTotalCount = createSelector(
-    [getImageSearchFromState],
-    search => search.totalCount,
+  [getImageSearchFromState],
+  search => search.totalCount,
 );
 
 export const getSelectedImage = createSelector(
   [getImageSearchFromState, getLocale],
-  (search, lang) => (search.selectedImage ? {
-    ...search.selectedImage,
-    tags: search.selectedImage ? tagsI18N(search.selectedImage, lang) : [],
-  } : undefined),
+  (search, lang) =>
+    search.selectedImage
+      ? {
+          ...search.selectedImage,
+          tags: search.selectedImage
+            ? tagsI18N(search.selectedImage, lang)
+            : [],
+        }
+      : undefined,
 );
 
 export const getQueryObject = createSelector(
-    [getImageSearchFromState],
-    search => ({
-      query: search.query,
-      page: search.page,
-    }),
+  [getImageSearchFromState],
+  search => ({
+    query: search.query,
+    page: search.page,
+  }),
 );

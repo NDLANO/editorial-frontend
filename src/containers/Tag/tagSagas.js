@@ -30,6 +30,4 @@ export function* watchFetchTags() {
   }
 }
 
-export default [
-  watchFetchTags,
-];
+export default [watchFetchTags];

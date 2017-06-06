@@ -14,7 +14,8 @@ import { actions } from '../session';
 
 expectSaga.DEFAULT_TIMEOUT = 100;
 
-const idToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ';
+const idToken =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ';
 
 let currentIdToken;
 let currentExpiresAt;
@@ -32,14 +33,15 @@ afterEach(() => {
 test('sessionSagas login success', () => {
   const replace = sinon.spy(() => {});
   const result = expectSaga(sagas.watchLoginSuccess)
-    .withState({ })
-
+    .withState({})
     .put(actions.setUserData({ name: 'John Doe' }))
     .put(actions.setAuthenticated(true))
-    .dispatch(actions.loginSuccess({
-      history: { replace },
-      idToken,
-    }))
+    .dispatch(
+      actions.loginSuccess({
+        history: { replace },
+        idToken,
+      }),
+    )
     .run({ silenceTimeout: true });
 
   return result.then(() => {
@@ -51,13 +53,14 @@ test('sessionSagas login success', () => {
 
 test('sessionSagas logout', () => {
   const result = expectSaga(sagas.watchLogout)
-    .withState({ })
-
+    .withState({})
     .put(actions.clearUserData())
     .put(actions.setAuthenticated(false))
-    .dispatch(actions.logout({
-      federated: true,
-    }))
+    .dispatch(
+      actions.logout({
+        federated: true,
+      }),
+    )
     .run({ silenceTimeout: true });
 
   return result.then(() => {

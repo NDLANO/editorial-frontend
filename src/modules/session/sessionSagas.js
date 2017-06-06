@@ -10,8 +10,11 @@ import { take, call, put } from 'redux-saga/effects';
 import { actions } from './session';
 import { toLogin } from '../../routes';
 import { decodeToken } from '../../util/jwtHelper';
-import { authLogout, setIdTokenInLocalStorage, clearIdTokenFromLocalStorage } from '../../util/authHelpers';
-
+import {
+  authLogout,
+  setIdTokenInLocalStorage,
+  clearIdTokenFromLocalStorage,
+} from '../../util/authHelpers';
 
 export function* login(idToken, history) {
   try {
@@ -51,7 +54,4 @@ export function* watchLogout() {
   }
 }
 
-export default [
-  watchLoginSuccess,
-  watchLogout,
-];
+export default [watchLoginSuccess, watchLogout];

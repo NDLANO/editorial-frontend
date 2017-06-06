@@ -20,18 +20,17 @@ test('articleSagas watchFetchArticle fetch article if not in state', () => {
     .reply(200, { id: 123, title: 'unit test' });
 
   return expectSaga(sagas.watchFetchArticle)
-          .withState({ articles: { all: {} } })
-          .put(actions.setArticle({ id: 123, title: 'unit test' }))
-
-          .dispatch(actions.fetchArticle(123))
-          .run({ silenceTimeout: true });
+    .withState({ articles: { all: {} } })
+    .put(actions.setArticle({ id: 123, title: 'unit test' }))
+    .dispatch(actions.fetchArticle(123))
+    .run({ silenceTimeout: true });
 });
 
 test('articleSagas watchFetchArticle do not refetch existing article ', () =>
-    expectSaga(sagas.watchFetchArticle)
-      .withState({ articles: { all: { 123: { id: '123' } } } })
-      .dispatch(actions.fetchArticle('123'))
-      .run({ silenceTimeout: true }));
+  expectSaga(sagas.watchFetchArticle)
+    .withState({ articles: { all: { 123: { id: '123' } } } })
+    .dispatch(actions.fetchArticle('123'))
+    .run({ silenceTimeout: true }));
 
 test('articleSagas watchUpdateArticle create new article', () => {
   nock('http://ndla-api')
@@ -39,15 +38,16 @@ test('articleSagas watchUpdateArticle create new article', () => {
     .reply(200, { id: '123', title: 'unit test' });
 
   return expectSaga(sagas.watchUpdateArticle)
-          .withState({})
-          .put(actions.setArticle({ id: '123', title: 'unit test' }))
-          .put(actions.updateArticleSuccess())
-
-          .dispatch(actions.updateArticle({
-            article: { title: 'unit test' },
-            history: { push: () => {} },
-          }))
-          .run({ silenceTimeout: true });
+    .withState({})
+    .put(actions.setArticle({ id: '123', title: 'unit test' }))
+    .put(actions.updateArticleSuccess())
+    .dispatch(
+      actions.updateArticle({
+        article: { title: 'unit test' },
+        history: { push: () => {} },
+      }),
+    )
+    .run({ silenceTimeout: true });
 });
 
 test('articleSagas watchUpdateArticle update article', () => {
@@ -56,12 +56,13 @@ test('articleSagas watchUpdateArticle update article', () => {
     .reply(200, { id: '123', title: 'unit test updated' });
 
   return expectSaga(sagas.watchUpdateArticle)
-          .withState({ })
-          .put(actions.setArticle({ id: '123', title: 'unit test updated' }))
-          .put(actions.updateArticleSuccess())
-
-          .dispatch(actions.updateArticle({
-            article: { id: '123', title: 'unit test' },
-          }))
-          .run({ silenceTimeout: true });
+    .withState({})
+    .put(actions.setArticle({ id: '123', title: 'unit test updated' }))
+    .put(actions.updateArticleSuccess())
+    .dispatch(
+      actions.updateArticle({
+        article: { id: '123', title: 'unit test' },
+      }),
+    )
+    .run({ silenceTimeout: true });
 });

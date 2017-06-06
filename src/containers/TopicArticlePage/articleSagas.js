@@ -68,7 +68,4 @@ export function* watchUpdateArticle() {
   }
 }
 
-export default [
-  watchFetchArticle,
-  watchUpdateArticle,
-];
+export default [watchFetchArticle, watchUpdateArticle];

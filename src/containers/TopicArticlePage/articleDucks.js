@@ -10,7 +10,14 @@ import { handleActions, createAction } from 'redux-actions';
 
 import { createSelector } from 'reselect';
 import { getLocale } from '../Locale/localeSelectors';
-import { titleI18N, tagsI18N, introductionI18N, visualElementI18N, metaDescriptionI18N, contentI18N } from '../../util/i18nFieldFinder';
+import {
+  titleI18N,
+  tagsI18N,
+  introductionI18N,
+  visualElementI18N,
+  metaDescriptionI18N,
+  contentI18N,
+} from '../../util/i18nFieldFinder';
 import formatDate from '../../util/formatDate';
 
 export const fetchArticle = createAction('FETCH_ARTICLE');
@@ -32,63 +39,65 @@ const initalState = {
   isSaving: false,
 };
 
-export default handleActions({
-  [setArticle]: {
-    next: (state, action) => (
-      { ...state,
+export default handleActions(
+  {
+    [setArticle]: {
+      next: (state, action) => ({
+        ...state,
         all: { ...state.all, [action.payload.id]: { ...action.payload } },
       }),
-    throw: state => state,
-  },
-  [updateArticle]: {
-    next: state => (
-      { ...state,
+      throw: state => state,
+    },
+    [updateArticle]: {
+      next: state => ({
+        ...state,
         isSaving: true,
       }),
-    throw: state => state,
-  },
-  [updateArticleSuccess]: {
-    next: state => (
-      { ...state,
+      throw: state => state,
+    },
+    [updateArticleSuccess]: {
+      next: state => ({
+        ...state,
         isSaving: false,
       }),
-    throw: state => state,
-  },
-  [updateArticleError]: {
-    next: state => (
-      { ...state,
+      throw: state => state,
+    },
+    [updateArticleError]: {
+      next: state => ({
+        ...state,
         isSaving: false,
       }),
-    throw: state => state,
+      throw: state => state,
+    },
   },
-
-}, initalState);
+  initalState,
+);
 
 const getArticlesFromState = state => state.articles;
 
-export const getArticleById = articleId => createSelector(
-  [getArticlesFromState],
-  articles => articles.all[articleId],
-);
+export const getArticleById = articleId =>
+  createSelector([getArticlesFromState], articles => articles.all[articleId]);
 
 export const getSaving = createSelector(
   [getArticlesFromState],
   articles => articles.isSaving,
 );
 
-export const getArticle = articleId => createSelector(
-  [getArticleById(articleId), getLocale],
-  (article, locale) => (
-    article ? {
-      ...article,
-      title: titleI18N(article, locale, true),
-      introduction: introductionI18N(article, locale, true),
-      visualElement: visualElementI18N(article, locale, true),
-      content: contentI18N(article, locale, true),
-      metaDescription: metaDescriptionI18N(article, locale, true),
-      tags: tagsI18N(article, locale, true),
-      created: formatDate(article.created, locale),
-      updated: formatDate(article.updated, locale),
-    } : undefined
-  ),
-);
+export const getArticle = articleId =>
+  createSelector(
+    [getArticleById(articleId), getLocale],
+    (article, locale) =>
+      article
+        ? {
+            ...article,
+            title: titleI18N(article, locale, true),
+            introduction: introductionI18N(article, locale, true),
+            visualElement: visualElementI18N(article, locale, true),
+            content: contentI18N(article, locale, true),
+            metaDescription: metaDescriptionI18N(article, locale, true),
+            tags: tagsI18N(article, locale, true),
+            created: formatDate(article.created, locale),
+            updated: formatDate(article.updated, locale),
+          }
+        : undefined,
+  );

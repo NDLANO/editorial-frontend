@@ -12,9 +12,8 @@ import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { getComponentName } from 'ndla-util';
 
-const makeWrapper = (WrappedComponent) => {
+const makeWrapper = WrappedComponent => {
   class FormWrapper extends React.Component {
-
     constructor(props, ctx) {
       super(props, ctx);
       this.state = {
@@ -34,7 +33,9 @@ const makeWrapper = (WrappedComponent) => {
       const nextModel = nextProps.initialModel;
 
       if (this.props.resetOnInitialModelChange && currentModel !== nextModel) {
-        const hasChanges = Object.keys(nextModel).find(key => nextModel[key] !== currentModel[key]);
+        const hasChanges = Object.keys(nextModel).find(
+          key => nextModel[key] !== currentModel[key],
+        );
         if (hasChanges) {
           this.setModel(nextModel);
         }
@@ -51,7 +52,8 @@ const makeWrapper = (WrappedComponent) => {
     }
 
     setProperty(prop, value, isDirty = true) {
-      const model = { ...this.state.model,
+      const model = {
+        ...this.state.model,
         [prop]: value,
       };
 
@@ -91,7 +93,8 @@ const makeWrapper = (WrappedComponent) => {
     }
 
     render() {
-      const nextProps = { ...this.props,
+      const nextProps = {
+        ...this.props,
         bindInput: this.bindInput,
         bindToChangeEvent: this.bindToChangeEvent,
         model: this.state.model,

@@ -54,7 +54,4 @@ export function* watchFetchSelectedImage() {
   }
 }
 
-export default [
-  watchImageSearch,
-  watchFetchSelectedImage,
-];
+export default [watchImageSearch, watchFetchSelectedImage];

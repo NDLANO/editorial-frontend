@@ -21,7 +21,6 @@ test('tagSelector getAllTags with chinese locale', () => {
   expect(getAllTags(state).length).toBe(4);
 });
 
-
 test('tagSelector getAllTags with newnorwegian locale', () => {
   const updatedState = { ...state, locale: 'nn' };
   expect(getAllTags(updatedState).length).toBe(4);

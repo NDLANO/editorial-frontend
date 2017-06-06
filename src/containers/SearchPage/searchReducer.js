@@ -16,21 +16,28 @@ export const initalState = {
   searching: false,
 };
 
-export default handleActions({
-  [actions.search]: {
-    next: state => ({ ...state, searching: true }),
-    throw: state => state,
+export default handleActions(
+  {
+    [actions.search]: {
+      next: state => ({ ...state, searching: true }),
+      throw: state => state,
+    },
+    [actions.setSearchResult]: {
+      next: (state, action) => ({
+        ...state,
+        ...action.payload,
+        searching: false,
+      }),
+      throw: state => state,
+    },
+    [actions.clearSearchResult]: {
+      next: () => initalState,
+      throw: state => state,
+    },
+    [actions.searchError]: {
+      next: state => ({ ...state, searching: false }),
+      throw: state => state,
+    },
   },
-  [actions.setSearchResult]: {
-    next: (state, action) => ({ ...state, ...action.payload, searching: false }),
-    throw: state => state,
-  },
-  [actions.clearSearchResult]: {
-    next: () => initalState,
-    throw: state => state,
-  },
-  [actions.searchError]: {
-    next: state => ({ ...state, searching: false }),
-    throw: state => state,
-  },
-}, initalState);
+  initalState,
+);

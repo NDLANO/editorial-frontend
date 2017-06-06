@@ -23,7 +23,7 @@ import {
   getSearching,
 } from './imageSelectors';
 
-const ImageSearch = (props) => {
+const ImageSearch = props => {
   const {
     images,
     onChange,
@@ -38,16 +38,16 @@ const ImageSearch = (props) => {
 
   const { query, page } = queryObject;
 
-  const onImageClick = (image) => {
+  const onImageClick = image => {
     if (!selectedImage || image.id !== selectedImage.id) {
       fetchSelectedImage(image.id);
     }
   };
-  const submitImageSearchQuery = (q) => {
+  const submitImageSearchQuery = q => {
     searchImages({ query: q, page: 1 });
   };
 
-  const handleSelectImage = (image) => {
+  const handleSelectImage = image => {
     onChange(image);
   };
 
@@ -83,10 +83,12 @@ const ImageSearch = (props) => {
 };
 
 ImageSearch.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    previewUrl: PropTypes.string.isRequired,
-  })),
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      previewUrl: PropTypes.string.isRequired,
+    }),
+  ),
   onChange: PropTypes.func.isRequired,
   queryObject: PropTypes.shape({
     page: PropTypes.number.isRequired,
@@ -99,7 +101,6 @@ ImageSearch.propTypes = {
   totalCount: PropTypes.number,
   searchImages: PropTypes.func.isRequired,
 };
-
 
 const mapStateToProps = state => ({
   images: getResults(state),
@@ -116,4 +117,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImageSearch);
-

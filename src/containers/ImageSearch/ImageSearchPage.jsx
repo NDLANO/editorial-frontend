@@ -14,7 +14,6 @@ import ImageSearch from './ImageSearch';
 import * as actions from './imageActions';
 
 class ImageSearchPage extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -26,7 +25,6 @@ class ImageSearchPage extends React.Component {
     const { searchImages } = this.props;
     searchImages();
   }
-
 
   render() {
     // const { } = this.props;

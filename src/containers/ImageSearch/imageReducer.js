@@ -6,7 +6,6 @@
  *
  */
 
-
 import { handleActions } from 'redux-actions';
 import * as actions from './imageActions';
 
@@ -19,29 +18,40 @@ const initialState = {
   pageSize: 16,
 };
 
-export default handleActions({
-  [actions.searchImages]: {
-    next(state, action) {
-      return { ...state, ...action.payload, searching: true };
+export default handleActions(
+  {
+    [actions.searchImages]: {
+      next(state, action) {
+        return { ...state, ...action.payload, searching: true };
+      },
+      throw(state) {
+        return state;
+      },
     },
-    throw(state) { return state; },
-  },
-  [actions.setImageSearchResult]: {
-    next(state, action) {
-      return { ...state, ...action.payload, searching: false };
+    [actions.setImageSearchResult]: {
+      next(state, action) {
+        return { ...state, ...action.payload, searching: false };
+      },
+      throw(state) {
+        return state;
+      },
     },
-    throw(state) { return state; },
-  },
-  [actions.searchImagesError]: {
-    next(state) {
-      return { ...state, searching: false };
+    [actions.searchImagesError]: {
+      next(state) {
+        return { ...state, searching: false };
+      },
+      throw(state) {
+        return state;
+      },
     },
-    throw(state) { return state; },
-  },
-  [actions.setSelectedImage]: {
-    next(state, action) {
-      return { ...state, selectedImage: action.payload };
+    [actions.setSelectedImage]: {
+      next(state, action) {
+        return { ...state, selectedImage: action.payload };
+      },
+      throw(state) {
+        return state;
+      },
     },
-    throw(state) { return state; },
   },
-}, initialState);
+  initialState,
+);

@@ -8,21 +8,11 @@
 
 export default [
   {
-    tags: [
-      'teknologiutvikling',
-      'tekstil',
-      'telefonnummer',
-      'tempelridder',
-    ],
+    tags: ['teknologiutvikling', 'tekstil', 'telefonnummer', 'tempelridder'],
     language: 'nn',
   },
   {
-    tags: [
-      '中国',
-      '动词',
-      '手机',
-      '爱好',
-    ],
+    tags: ['中国', '动词', '手机', '爱好'],
     language: 'zh',
   },
 ];

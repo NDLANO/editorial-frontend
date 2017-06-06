@@ -9,7 +9,6 @@
 import reducer, { actions } from '../tagDucks';
 import mockTags from './mockTags';
 
-
 test('reducers/tags initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
 

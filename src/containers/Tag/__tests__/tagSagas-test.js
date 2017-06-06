@@ -6,7 +6,6 @@
  *
  */
 
-
 import nock from 'nock';
 
 import { expectSaga } from 'redux-saga-test-plan';
@@ -21,11 +20,10 @@ test('tagSagas fetch tags if nor already defined', () => {
     .reply(200, ['tag1', 'tag2', 'tag3']);
 
   return expectSaga(sagas.watchFetchTags)
-          .withState({ tags: { hasFetched: false } })
-          .put(actions.setTags(['tag1', 'tag2', 'tag3']))
-
-          .dispatch(actions.fetchTags())
-          .run({ silenceTimeout: true });
+    .withState({ tags: { hasFetched: false } })
+    .put(actions.setTags(['tag1', 'tag2', 'tag3']))
+    .dispatch(actions.fetchTags())
+    .run({ silenceTimeout: true });
 });
 
 test('tagSagas do not fetch tags if already fetched', () => {
@@ -34,6 +32,6 @@ test('tagSagas do not fetch tags if already fetched', () => {
     .reply(200, ['tag1', 'tag2', 'tag3']);
 
   return expectSaga(sagas.watchFetchTags)
-          .withState({ tags: { hasFetched: true } })
-          .run({ silenceTimeout: true });
+    .withState({ tags: { hasFetched: true } })
+    .run({ silenceTimeout: true });
 });

@@ -35,9 +35,7 @@ export class App extends React.Component {
       <PageContainer>
         <Helmet
           title="NDLA"
-          meta={[
-            { name: 'description', content: t('meta.description') },
-          ]}
+          meta={[{ name: 'description', content: t('meta.description') }]}
         />
         <Masthead
           t={t}
@@ -79,4 +77,3 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps)(injectT(App)));
-

@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { fetchImage } from '../containers/ImageSearch/imageApi';
 
-const parseEmbedTag = (embedTag) => {
+const parseEmbedTag = embedTag => {
   if (embedTag === '') {
     return undefined;
   }
@@ -32,7 +32,6 @@ const parseEmbedTag = (embedTag) => {
     resource: getAttribute('resource'),
   };
 };
-
 
 export default class DisplayEmbedTag extends React.Component {
   constructor(props) {
@@ -57,7 +56,7 @@ export default class DisplayEmbedTag extends React.Component {
       return;
     }
 
-    fetchImage(embed.id).then((image) => {
+    fetchImage(embed.id).then(image => {
       this.setState(() => ({ embed: { ...embed, src: image.imageUrl } }));
     });
   }
@@ -80,4 +79,3 @@ export default class DisplayEmbedTag extends React.Component {
 DisplayEmbedTag.propTypes = {
   embedTag: PropTypes.string.isRequired,
 };
-

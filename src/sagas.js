@@ -7,8 +7,8 @@
  */
 import { spawn, all } from 'redux-saga/effects';
 import searchSagas from './containers/SearchPage/searchSagas';
-import articleSagas from './containers/TopicArticlePage/articleSagas';
-import tagSagas from './containers/Tag/tagSagas';
+import articleSagas from './modules/article/articleSagas';
+import tagSagas from './modules/tag/tagSagas';
 import sessionSagas from './modules/session/sessionSagas';
 import imageSearchSagas from './containers/ImageSearch/imageSearchSagas';
 

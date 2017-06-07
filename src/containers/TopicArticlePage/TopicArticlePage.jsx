@@ -11,9 +11,9 @@ import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn, Hero } from 'ndla-ui';
 
-import { actions as tagActions, getAllTags } from '../Tag/tagDucks';
-import { getSaving } from './articleDucks';
-import { getLocale } from '../Locale/localeSelectors';
+import { actions as tagActions, getAllTags } from '../../modules/tag/tag';
+import { getSaving } from '../../modules/article/article';
+import { getLocale } from '../../modules/locale/locale';
 import EditTopicArticle from './EditTopicArticle';
 import CreateTopicArticle from './CreateTopicArticle';
 

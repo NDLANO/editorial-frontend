@@ -6,7 +6,7 @@
  *
  */
 
-import { getAllTags, getHasFetched } from '../tagDucks';
+import { getAllTags, getHasFetched } from '../tag';
 import mockTags from './mockTags';
 
 const state = {

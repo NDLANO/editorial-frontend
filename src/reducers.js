@@ -8,11 +8,11 @@
 
 import { combineReducers } from 'redux';
 
-import locale from './containers/Locale/localeReducer';
+import locale from './modules/locale/locale';
 import messages from './containers/Messages/messagesReducer';
 import search from './containers/SearchPage/searchReducer';
-import articles from './containers/TopicArticlePage/articleDucks';
-import tags from './containers/Tag/tagDucks';
+import articles from './modules/article/article';
+import tags from './modules/tag/tag';
 import imageSearch from './containers/ImageSearch/imageReducer';
 import session from './modules/session/session';
 

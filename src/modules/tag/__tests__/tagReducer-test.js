@@ -6,7 +6,7 @@
  *
  */
 
-import reducer, { actions } from '../tagDucks';
+import reducer, { actions } from '../tag';
 import mockTags from './mockTags';
 
 test('reducers/tags initalState', () => {

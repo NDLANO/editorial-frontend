@@ -6,7 +6,7 @@
  *
  */
 
-import reducer from '../localeReducer';
+import reducer from '../locale';
 
 test('reducers/locale', () => {
   expect(reducer(undefined, { type: 'NONE' })).toBe('nb');

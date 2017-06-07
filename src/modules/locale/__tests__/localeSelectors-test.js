@@ -6,8 +6,12 @@
  *
  */
 
-import { createSelector } from 'reselect';
+import { getLocale } from '../locale';
 
-const getLocaleFromState = state => state.locale;
+test('localeSelectors', () => {
+  const state = {
+    locale: 'nb',
+  };
 
-export const getLocale = createSelector([getLocaleFromState], locale => locale);
+  expect(getLocale(state)).toBe('nb');
+});

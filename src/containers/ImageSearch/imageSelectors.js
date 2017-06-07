@@ -7,7 +7,7 @@
  */
 
 import { createSelector } from 'reselect';
-import { getLocale } from '../Locale/localeSelectors';
+import { getLocale } from '../../modules/locale/locale';
 import { tagsI18N } from '../../util/i18nFieldFinder';
 
 const getImageSearchFromState = state => state.imageSearch;

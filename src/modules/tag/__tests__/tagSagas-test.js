@@ -10,7 +10,7 @@ import nock from 'nock';
 
 import { expectSaga } from 'redux-saga-test-plan';
 import * as sagas from '../tagSagas';
-import * as actions from '../tagDucks';
+import * as actions from '../tag';
 
 expectSaga.DEFAULT_TIMEOUT = 100;
 

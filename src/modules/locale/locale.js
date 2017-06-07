@@ -7,6 +7,7 @@
  */
 
 import { handleActions } from 'redux-actions';
+import { createSelector } from 'reselect';
 
 const initalState = 'nb';
 export default handleActions(
@@ -18,3 +19,7 @@ export default handleActions(
   },
   initalState,
 );
+
+const getLocaleFromState = state => state.locale;
+
+export const getLocale = createSelector([getLocaleFromState], locale => locale);

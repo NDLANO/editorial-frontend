@@ -8,7 +8,7 @@
 
 import { take, call, put, select } from 'redux-saga/effects';
 
-import { getLocale } from '../Locale/localeSelectors';
+import { getLocale } from '../../modules/locale/locale';
 import * as actions from './imageActions';
 import * as api from './imageApi';
 

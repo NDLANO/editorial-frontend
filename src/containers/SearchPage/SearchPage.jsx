@@ -14,7 +14,7 @@ import { OneColumn, Pager } from 'ndla-ui';
 import * as actions from './searchActions';
 import { ArticleResultShape } from '../../shapes';
 import { getResults, getLastPage, getSearching } from './searchSelectors';
-import { getLocale } from '../Locale/localeSelectors';
+import { getLocale } from '../../modules/locale/locale';
 import SearchForm from './components/SearchForm';
 import SearchResultList from './components/SearchResultList';
 import SelectSearchSortOrder from './components/SelectSearchSortOrder';

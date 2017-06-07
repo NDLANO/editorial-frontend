@@ -16,7 +16,7 @@ import { withRouter } from 'react-router-dom';
 import { MessageShape } from '../../shapes';
 import Masthead from '../Masthead';
 import Footer from './components/Footer';
-import { getLocale } from '../Locale/localeSelectors';
+import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
 import Alerts from '../Messages/Alerts';
 import { injectT } from '../../i18n';

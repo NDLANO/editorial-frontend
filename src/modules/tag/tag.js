@@ -10,7 +10,7 @@ import { handleActions, createAction } from 'redux-actions';
 import { createSelector } from 'reselect';
 import defined from 'defined';
 
-import { getLocale } from '../Locale/localeSelectors';
+import { getLocale } from '../locale/locale';
 
 export const fetchTags = createAction('FETCH_TAGS');
 export const setTags = createAction('SET_TAGS');

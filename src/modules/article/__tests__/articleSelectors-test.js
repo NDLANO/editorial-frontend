@@ -6,7 +6,7 @@
  *
  */
 
-import { getArticle, getSaving } from '../articleDucks';
+import { getArticle, getSaving } from '../article';
 import { topicArticle } from './mockArticles';
 
 const state = {

@@ -7,8 +7,8 @@
  */
 
 import { take, call, put, select } from 'redux-saga/effects';
-import * as api from '../TopicArticlePage/articleApi';
-import { actions, getHasFetched } from './tagDucks';
+import * as api from '../article/articleApi';
+import { actions, getHasFetched } from './tag';
 
 export function* fetchTags() {
   try {

@@ -9,7 +9,7 @@
 import { handleActions, createAction } from 'redux-actions';
 
 import { createSelector } from 'reselect';
-import { getLocale } from '../Locale/localeSelectors';
+import { getLocale } from '../locale/locale';
 import {
   titleI18N,
   tagsI18N,

@@ -74,6 +74,14 @@ const phrases = {
       visualElement: {
         label: 'Visuelt element',
       },
+      caption: {
+        label: 'Bildetekst',
+        placeholder: 'Bildetekst'
+      },
+      alt: {
+        label: 'Alt-tekst',
+        placeholder: 'Alt-tekst',
+      },
       content: {
         label: 'Innhold',
         placeholder: 'Innhold',

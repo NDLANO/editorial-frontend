@@ -10,29 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { fetchImage } from '../containers/ImageSearch/imageApi';
 
-const parseEmbedTag = embedTag => {
-  if (embedTag === '') {
-    return undefined;
-  }
-
-  const el = document.createElement('html');
-  el.innerHTML = embedTag;
-  const embedElements = el.getElementsByTagName('embed');
-
-  if (embedElements.length !== 1) {
-    return undefined;
-  }
-  const getAttribute = name => embedElements[0].getAttribute(`data-${name}`);
-
-  return {
-    id: getAttribute('resource_id'),
-    alt: getAttribute('alt'),
-    caption: getAttribute('caption'),
-    url: getAttribute('url'),
-    resource: getAttribute('resource'),
-  };
-};
-
 export default class DisplayEmbedTag extends React.Component {
   constructor(props) {
     super(props);
@@ -45,37 +22,42 @@ export default class DisplayEmbedTag extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.embedTag !== this.props.embedTag) {
+    if (nextProps.embedTag.id !== this.props.embedTag.id) {
       this.handleFetchImage(nextProps.embedTag);
     }
   }
 
   handleFetchImage(embedTag) {
-    const embed = parseEmbedTag(embedTag);
-    if (!embed || embed.resource !== 'image') {
+    if (!embedTag || embedTag.resource !== 'image') {
       return;
     }
 
-    fetchImage(embed.id).then(image => {
-      this.setState(() => ({ embed: { ...embed, src: image.imageUrl } }));
+    fetchImage(embedTag.id).then(image => {
+      this.setState(() => ({ embed: { ...embedTag, src: image.imageUrl } }));
     });
   }
 
   render() {
     const { embed } = this.state;
+    const { embedTag } = this.props;
     if (!embed) {
       return null;
     }
 
     return (
       <figure>
-        <img src={embed.src} alt={embed.alt} />
-        <figcaption>{embed.caption}</figcaption>
+        <img src={embed.src} alt={embedTag.alt} />
+        <figcaption>{embedTag.caption}</figcaption>
       </figure>
     );
   }
 }
 
 DisplayEmbedTag.propTypes = {
-  embedTag: PropTypes.string.isRequired,
+  embedTag: PropTypes.shape({
+    caption: PropTypes.string.isRequired,
+    alt: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    resource: PropTypes.string.isRequired
+  }),
 };

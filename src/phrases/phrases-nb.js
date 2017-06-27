@@ -76,7 +76,7 @@ const phrases = {
       },
       caption: {
         label: 'Bildetekst',
-        placeholder: 'Bildetekst'
+        placeholder: 'Bildetekst',
       },
       alt: {
         label: 'Alt-tekst',

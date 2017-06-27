@@ -75,7 +75,7 @@ const phrases = {
       },
       caption: {
         label: 'Caption',
-        placeholder: 'Caption'
+        placeholder: 'Caption',
       },
       alt: {
         label: 'Alt-text',

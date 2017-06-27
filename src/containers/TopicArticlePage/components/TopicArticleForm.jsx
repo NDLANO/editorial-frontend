@@ -31,9 +31,7 @@ import {
   createEditorStateFromText,
   getPlainTextFromEditorState,
 } from '../../../util/draftjsHelpers';
-import {
-  parseEmbedTag
-} from '../../../util/embedTagHelpers';
+import { parseEmbedTag } from '../../../util/embedTagHelpers';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -43,7 +41,7 @@ const DEFAULT_LICENSE = {
 
 export const getInitialModel = (article = {}) => {
   const image = parseEmbedTag(article.visualElement) || {};
-  return ({
+  return {
     id: article.id,
     revision: article.revision,
     title: article.title || '',
@@ -62,7 +60,7 @@ export const getInitialModel = (article = {}) => {
     metaDescription: article.metaDescription || '',
     imageCaption: image.caption || '',
     imageAltText: image.alt || '',
-  })
+  };
 };
 
 const classes = new BEMHelper({
@@ -106,7 +104,7 @@ class TopicArticleForm extends Component {
         {
           content: `<embed data-size="fullbredde" data-align="" data-alt="${model.imageAltText}" data-caption="${model.imageCaption}" data-resource="image" data-resource_id="${model.imageId}" />`,
           language,
-        }
+        },
       ],
       metaDescription: [{ metaDescription: model.metaDescription, language }],
       articleType: 'topic-article',
@@ -133,7 +131,7 @@ class TopicArticleForm extends Component {
       resource: 'image',
       id: model.imageId,
       caption: model.imageCaption,
-      alt: model.imageAltText
+      alt: model.imageAltText,
     };
     return (
       <form onSubmit={this.handleSubmit} {...classes()}>
@@ -190,7 +188,6 @@ class TopicArticleForm extends Component {
           maxLength={300}
           {...commonFieldProps}
         />
-
 
         <RichTextField
           noBorder

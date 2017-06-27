@@ -58,6 +58,6 @@ DisplayEmbedTag.propTypes = {
     caption: PropTypes.string.isRequired,
     alt: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    resource: PropTypes.string.isRequired
+    resource: PropTypes.string.isRequired,
   }),
 };

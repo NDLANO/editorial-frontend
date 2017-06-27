@@ -41,7 +41,7 @@ class ImageSelectField extends Component {
     onChange({
       target: {
         name,
-        value: image.id
+        value: image.id,
       },
     });
     this.setState(() => ({ isOpen: false }));
@@ -49,7 +49,7 @@ class ImageSelectField extends Component {
 
   render() {
     const { name, label, schema, submitted, value, embedTag } = this.props;
-    console.log(embedTag)
+    console.log(embedTag);
     return (
       <Field>
         {value
@@ -93,7 +93,7 @@ ImageSelectField.propTypes = {
     caption: PropTypes.string.isRequired,
     alt: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    resource: PropTypes.string.isRequired
+    resource: PropTypes.string.isRequired,
   }),
 };
 

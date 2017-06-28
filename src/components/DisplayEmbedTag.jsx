@@ -32,7 +32,12 @@ export default class DisplayEmbedTag extends React.Component {
       return;
     }
 
-    this.setState(() => ({ embed: { ...embedTag, src: `${config.ndlaApiUrl}/image-api/raw/id/${embedTag.id}` } }));
+    this.setState(() => ({
+      embed: {
+        ...embedTag,
+        src: `${config.ndlaApiUrl}/image-api/raw/id/${embedTag.id}`,
+      },
+    }));
   }
 
   render() {

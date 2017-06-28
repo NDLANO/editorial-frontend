@@ -121,6 +121,9 @@ const phrases = {
   notFound: {
     description: 'Denne siden finnes ikke.',
   },
+  forbiddenPage: {
+    description: 'Du har ikke tilgang til denne siden',
+  }
 };
 
 export default phrases;

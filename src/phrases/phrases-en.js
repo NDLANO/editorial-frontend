@@ -124,6 +124,9 @@ const phrases = {
   notFound: {
     description: 'The page cannot be found',
   },
+  forbiddenPage: {
+    description: 'You do not have access to this page',
+  }
 };
 
 export default phrases;

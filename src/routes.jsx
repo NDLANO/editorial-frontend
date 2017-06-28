@@ -19,6 +19,7 @@ import SearchPage from './containers/SearchPage/SearchPage';
 import TopicArticlePage from './containers/TopicArticlePage/TopicArticlePage';
 import ImageSearchPage from './containers/ImageSearch/ImageSearchPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
+import ForbiddenPage from './containers/ForbiddenPage/ForbiddenPage';
 
 export function toSearch(query) {
   if (query) {
@@ -71,6 +72,7 @@ export default (
       <PrivateRoute path="/search" component={SearchPage} />
       <PrivateRoute path="/images/" component={ImageSearchPage} />
       <PrivateRoute path="/topic-article/" component={TopicArticlePage} />
+      <Route path="/forbidden" component={ForbiddenPage} />
       <Route component={NotFoundPage} />
     </Switch>
   </App>

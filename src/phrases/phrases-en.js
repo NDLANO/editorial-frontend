@@ -59,6 +59,8 @@ const phrases = {
   },
   topicArticleForm: {
     save: 'Save',
+    savedOk: 'Saved OK',
+    createdOk: 'Created OK',
     title: {
       create: 'You are now creating a topic description',
       update: 'You are now editing a topic description',

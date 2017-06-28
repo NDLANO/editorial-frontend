@@ -13,7 +13,8 @@ export const ArticleResultShape = PropTypes.shape({
 
 export const MessageShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired,
+  message: PropTypes.string,
+  translationKey: PropTypes.string,
   severity: PropTypes.string,
   action: PropTypes.shape({
     title: PropTypes.string.isRequired,

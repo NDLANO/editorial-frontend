@@ -60,6 +60,8 @@ const phrases = {
   },
   topicArticleForm: {
     save: 'Lagre',
+    savedOk: 'Lagret OK',
+    createdOk: 'Opprettet OK',
     title: {
       create: 'Du oppretter nå en emnebeskrivelse',
       update: 'Du redigerer nå en emnebeskrivelse',

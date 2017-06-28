@@ -9,8 +9,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Button } from 'ndla-ui';
+import { injectT } from '../../i18n';
 
-import { timeoutMessage, clearMessage } from './messagesActions';
+import { clearMessage } from './messagesActions';
 import { MessageShape } from '../../shapes';
 
 export const Action = ({ title, onClick }) =>
@@ -23,7 +25,7 @@ Action.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-export const Alert = ({ message, dispatch }) => {
+export const Alert = injectT(({ message, dispatch, t }) => {
   const onClick = () => {
     message.action.onClick();
     dispatch(clearMessage(message.id));
@@ -34,19 +36,20 @@ export const Alert = ({ message, dispatch }) => {
   return (
     <div className={`alert alert--${severity}`}>
       <div className="alert_msg">
-        {message.message}
+        {message.translationKey ? t(message.translationKey) : message.message}
       </div>
-      <button
-        className="alert_dismiss un-button"
+      <Button
+        className="alert_dismiss"
+        stripped
         onClick={() => dispatch(clearMessage(message.id))}>
         X
-      </button>
+      </Button>
       {message.action
         ? <Action title={message.action.title} onClick={onClick} />
         : null}
     </div>
   );
-};
+});
 
 Alert.propTypes = {
   message: MessageShape.isRequired,
@@ -61,9 +64,11 @@ export const Alerts = ({ dispatch, messages }) => {
     'alert-overlay--hidden': isHidden,
   });
 
-  messages
-    .filter(m => m.timeToLive > 0)
-    .forEach(item => dispatch(timeoutMessage(item)));
+  const timeoutMessage = item => {
+    setTimeout(() => dispatch(clearMessage(item.id)), item.timeToLive);
+  };
+
+  messages.filter(m => m.timeToLive > 0).forEach(item => timeoutMessage(item));
 
   return (
     <div className={overlayClasses}>

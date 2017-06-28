@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { fetchImage } from '../containers/ImageSearch/imageApi';
+import config from '../config';
 
 export default class DisplayEmbedTag extends React.Component {
   constructor(props) {
@@ -32,9 +32,7 @@ export default class DisplayEmbedTag extends React.Component {
       return;
     }
 
-    fetchImage(embedTag.id).then(image => {
-      this.setState(() => ({ embed: { ...embedTag, src: image.imageUrl } }));
-    });
+    this.setState(() => ({ embed: { ...embedTag, src: `${config.ndlaApiUrl}/image-api/raw/id/${embedTag.id}` } }));
   }
 
   render() {

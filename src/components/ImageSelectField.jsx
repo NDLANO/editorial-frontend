@@ -49,7 +49,7 @@ class ImageSelectField extends Component {
 
   render() {
     const { name, label, schema, submitted, value, embedTag } = this.props;
-    console.log(embedTag);
+
     return (
       <Field>
         {value

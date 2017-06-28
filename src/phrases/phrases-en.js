@@ -126,7 +126,7 @@ const phrases = {
   },
   forbiddenPage: {
     description: 'You do not have access to this page',
-  }
+  },
 };
 
 export default phrases;

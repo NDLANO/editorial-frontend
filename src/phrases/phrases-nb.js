@@ -123,7 +123,7 @@ const phrases = {
   },
   forbiddenPage: {
     description: 'Du har ikke tilgang til denne siden',
-  }
+  },
 };
 
 export default phrases;

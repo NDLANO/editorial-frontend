@@ -37,7 +37,7 @@ class EditTopicArticle extends Component {
     }
 
     if (article.articleType !== 'topic-article') {
-      return <Redirect to="/forbidden" />
+      return <Redirect to="/forbidden" />;
     }
 
     return (

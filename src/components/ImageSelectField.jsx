@@ -41,20 +41,20 @@ class ImageSelectField extends Component {
     onChange({
       target: {
         name,
-        value: `<embed data-size="fullbredde" data-align="" data-alt="" data-caption="" data-resource="image" data-resource_id="${image.id}" />`,
+        value: image.id,
       },
     });
     this.setState(() => ({ isOpen: false }));
   }
 
   render() {
-    const { name, label, schema, submitted, value } = this.props;
+    const { name, label, schema, submitted, value, embedTag } = this.props;
 
     return (
       <Field>
         {value
           ? <Button stripped onClick={this.onImageLightboxOpen}>
-              <DisplayEmbedTag embedTag={value} />
+              <DisplayEmbedTag embedTag={embedTag} />
             </Button>
           : <Button
               outline
@@ -89,6 +89,12 @@ ImageSelectField.propTypes = {
     fields: PropTypes.object.isRequired,
   }),
   submitted: PropTypes.bool.isRequired,
+  embedTag: PropTypes.shape({
+    caption: PropTypes.string.isRequired,
+    alt: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    resource: PropTypes.string.isRequired,
+  }),
 };
 
 const mapDispatchToProps = {

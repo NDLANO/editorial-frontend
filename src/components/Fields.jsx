@@ -116,7 +116,7 @@ export const TextField = ({
   big,
   ...rest
 }) =>
-  <Field noBorder big>
+  <Field noBorder={noBorder} big={big}>
     {!noBorder
       ? <label htmlFor={name}>{label}</label>
       : <label className="u-hidden" htmlFor={name}>{label}</label>}
@@ -149,6 +149,11 @@ TextField.propTypes = {
   noBorder: PropTypes.bool,
   big: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
+};
+
+TextField.defaultProps = {
+  big: false,
+  noBorder: false,
 };
 
 export const FieldDescription = ({ children }) =>

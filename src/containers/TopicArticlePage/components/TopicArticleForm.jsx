@@ -31,6 +31,7 @@ import {
   createEditorStateFromText,
   getPlainTextFromEditorState,
 } from '../../../util/draftjsHelpers';
+import { parseEmbedTag } from '../../../util/embedTagHelpers';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -38,24 +39,29 @@ const DEFAULT_LICENSE = {
   url: 'https://creativecommons.org/licenses/by-sa/2.0/',
 };
 
-export const getInitialModel = (article = {}) => ({
-  id: article.id,
-  revision: article.revision,
-  title: article.title || '',
-  introduction: createEditorStateFromText(article.introduction),
-  content: article.content
-    ? converter.toEditorState(article.content)
-    : EditorState.createEmpty(),
-  tags: article.tags || [],
-  authors: article.copyright
-    ? article.copyright.authors.map(author => author.name)
-    : [],
-  copyright: article.copyright
-    ? article.copyright
-    : { license: DEFAULT_LICENSE, origin: '' },
-  visualElement: article.visualElement || '',
-  metaDescription: article.metaDescription || '',
-});
+export const getInitialModel = (article = {}) => {
+  const image = parseEmbedTag(article.visualElement) || {};
+  return {
+    id: article.id,
+    revision: article.revision,
+    title: article.title || '',
+    introduction: createEditorStateFromText(article.introduction),
+    content: article.content
+      ? converter.toEditorState(article.content)
+      : EditorState.createEmpty(),
+    tags: article.tags || [],
+    authors: article.copyright
+      ? article.copyright.authors.map(author => author.name)
+      : [],
+    copyright: article.copyright
+      ? article.copyright
+      : { license: DEFAULT_LICENSE, origin: '' },
+    imageId: image.id || '',
+    metaDescription: article.metaDescription || '',
+    imageCaption: image.caption || '',
+    imageAltText: image.alt || '',
+  };
+};
 
 const classes = new BEMHelper({
   name: 'topic-article-form',
@@ -82,7 +88,6 @@ class TopicArticleForm extends Component {
       setSubmitted(true);
       return;
     }
-
     this.props.onUpdate({
       id: model.id,
       revision,
@@ -95,7 +100,12 @@ class TopicArticleForm extends Component {
       ],
       tags: [{ tags: model.tags, language }],
       content: [{ content: converter.toHtml(model.content), language }],
-      visualElement: [{ content: model.visualElement, language }],
+      visualElement: [
+        {
+          content: `<embed data-size="fullbredde" data-align="" data-alt="${model.imageAltText}" data-caption="${model.imageCaption}" data-resource="image" data-resource_id="${model.imageId}" />`,
+          language,
+        },
+      ],
       metaDescription: [{ metaDescription: model.metaDescription, language }],
       articleType: 'topic-article',
       copyright: {
@@ -110,16 +120,23 @@ class TopicArticleForm extends Component {
       t,
       bindInput,
       schema,
-      model: { id },
+      model,
       submitted,
       tags,
       isSaving,
     } = this.props;
+
     const commonFieldProps = { bindInput, schema, submitted };
+    const imageTag = {
+      resource: 'image',
+      id: model.imageId,
+      caption: model.imageCaption,
+      alt: model.imageAltText,
+    };
     return (
       <form onSubmit={this.handleSubmit} {...classes()}>
         <div {...classes('title')}>
-          {id
+          {model.id
             ? t('topicArticleForm.title.update')
             : t('topicArticleForm.title.create')}
         </div>
@@ -151,8 +168,27 @@ class TopicArticleForm extends Component {
           label={t('topicArticleForm.fields.visualElement.label')}
           schema={schema}
           submitted={submitted}
-          {...bindInput('visualElement')}
+          embedTag={imageTag}
+          {...bindInput('imageId')}
         />
+        <TextField
+          placeholder={t('topicArticleForm.fields.caption.placeholder')}
+          label={t('topicArticleForm.fields.caption.label')}
+          name="imageCaption"
+          noBorder
+          maxLength={300}
+          {...commonFieldProps}
+        />
+
+        <TextField
+          placeholder={t('topicArticleForm.fields.alt.placeholder')}
+          label={t('topicArticleForm.fields.alt.label')}
+          name="imageAltText"
+          noBorder
+          maxLength={300}
+          {...commonFieldProps}
+        />
+
         <RichTextField
           noBorder
           label={t('topicArticleForm.fields.content.label')}
@@ -246,7 +282,7 @@ export default compose(
     metaDescription: {
       required: true,
     },
-    visualElement: {
+    imageId: {
       required: true,
     },
     tags: {

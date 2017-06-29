@@ -11,7 +11,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { IntlProvider } from 'react-intl';
+import IntlProvider from 'ndla-i18n';
 import ErrorReporter from 'ndla-error-reporter';
 import routes from './routes';
 

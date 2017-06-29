@@ -10,7 +10,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { actions, getArticle } from '../../modules/article/article';
-import TopicArticleForm, { getInitialModel } from './components/TopicArticleForm';
+import TopicArticleForm, {
+  getInitialModel,
+} from './components/TopicArticleForm';
 import { ArticleShape } from '../../shapes';
 
 class EditTopicArticle extends Component {

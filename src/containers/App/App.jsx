@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { PageContainer } from 'ndla-ui';
 import { withRouter } from 'react-router-dom';
+import { injectT } from 'ndla-i18n';
 
 import { MessageShape } from '../../shapes';
 import Masthead from '../Masthead';
@@ -19,7 +20,6 @@ import Footer from './components/Footer';
 import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
 import Alerts from '../Messages/Alerts';
-import { injectT } from '../../i18n';
 
 export class App extends React.Component {
   getChildContext() {

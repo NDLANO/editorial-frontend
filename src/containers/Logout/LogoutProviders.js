@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { injectT } from '../../i18n';
+import { injectT } from 'ndla-i18n';
 import { toLogoutFederated, toLogoutSession } from '../../routes';
 
 const LogoutProviders = ({ t }) =>
@@ -21,7 +21,9 @@ const LogoutProviders = ({ t }) =>
     <Link to={toLogoutFederated()} className="c-button c-button--outline">
       {t('logoutProviders.federatedLogout')}
     </Link>
-    <p>{t('logoutProviders.description')}</p>
+    <p>
+      {t('logoutProviders.description')}
+    </p>
   </div>;
 
 export default injectT(LogoutProviders);

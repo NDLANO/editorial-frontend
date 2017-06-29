@@ -23,7 +23,9 @@ export default function PreviewImage({ image, onSelectImage }) {
         />
       </div>
       <div className="image-preview_information">
-        <h2 className="image-preview_title">{image.titles[0].title}</h2>
+        <h2 className="image-preview_title">
+          {image.titles[0].title}
+        </h2>
         <div className="image-prieview_copyright-author">
           <b className="image-preview_text--left">
             {/* {polyglot.t('learningPath.image.authors')}*/}

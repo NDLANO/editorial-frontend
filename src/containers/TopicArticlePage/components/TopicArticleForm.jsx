@@ -18,8 +18,6 @@ import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import {
   TextField,
-  TextAreaField,
-  MultiSelectField,
   RichTextField,
   PlainTextField,
   RemainingCharacters,
@@ -32,6 +30,7 @@ import {
   getPlainTextFromEditorState,
 } from '../../../util/draftjsHelpers';
 import { parseEmbedTag } from '../../../util/embedTagHelpers';
+import TopicArticleMetadata from './TopicArticleMetadata';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -196,42 +195,7 @@ class TopicArticleForm extends Component {
           name="content"
           {...commonFieldProps}
         />
-        <hr />
-        <MultiSelectField
-          name="tags"
-          data={tags}
-          label={t('topicArticleForm.fields.tags.label')}
-          description={t('topicArticleForm.fields.tags.description')}
-          messages={{
-            createNew: t('topicArticleForm.fields.tags.createNew'),
-            emptyFilter: t('topicArticleForm.fields.tags.emptyFilter'),
-            emptyList: t('topicArticleForm.fields.tags.emptyList'),
-          }}
-          {...commonFieldProps}
-        />
-        <TextAreaField
-          label={t('topicArticleForm.fields.metaDescription.label')}
-          description={t('topicArticleForm.fields.metaDescription.description')}
-          name="metaDescription"
-          maxLength={150}
-          {...commonFieldProps}>
-          <RemainingCharacters
-            maxLength={150}
-            getRemainingLabel={(maxLength, remaining) =>
-              t('form.remainingCharacters', { maxLength, remaining })}
-            value={bindInput('metaDescription').value}
-          />
-        </TextAreaField>
-        <MultiSelectField
-          name="authors"
-          label={t('topicArticleForm.fields.authors.label')}
-          messages={{
-            createNew: t('topicArticleForm.fields.authors.createNew'),
-            emptyFilter: t('topicArticleForm.fields.authors.emptyFilter'),
-            emptyList: t('topicArticleForm.fields.authors.emptyList'),
-          }}
-          {...commonFieldProps}
-        />
+        <TopicArticleMetadata classes={classes} commonFieldProps={commonFieldProps} bindInput={bindInput} tags={tags} />
         <Field right>
           <Button
             submit

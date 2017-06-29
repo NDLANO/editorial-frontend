@@ -23,29 +23,27 @@ class TopicArticleMetadata extends Component {
     super(props);
     this.state = {
       hiddenMetadata: true,
-    }
+    };
     this.toggleMetadata = this.toggleMetadata.bind(this);
   }
 
   toggleMetadata() {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       hiddenMetadata: !prevState.hiddenMetadata,
-    }))
+    }));
   }
 
-
   render() {
-    const {
-      t,
-      bindInput,
-      commonFieldProps,
-      tags,
-      classes,
-    } = this.props;
-    const metdataClasses = this.state.hiddenMetadata ? classes('metadata', 'hidden') : classes('metadata')
+    const { t, bindInput, commonFieldProps, tags, classes } = this.props;
+    const metdataClasses = this.state.hiddenMetadata
+      ? classes('metadata', 'hidden')
+      : classes('metadata');
     return (
       <div>
-        <Button {...classes('metadata-button')} stripped onClick={this.toggleMetadata}>
+        <Button
+          {...classes('metadata-button')}
+          stripped
+          onClick={this.toggleMetadata}>
           <span {...classes('metadata-header')}>
             Metadata
           </span>
@@ -66,7 +64,9 @@ class TopicArticleMetadata extends Component {
           />
           <TextAreaField
             label={t('topicArticleForm.fields.metaDescription.label')}
-            description={t('topicArticleForm.fields.metaDescription.description')}
+            description={t(
+              'topicArticleForm.fields.metaDescription.description',
+            )}
             name="metaDescription"
             maxLength={150}
             {...commonFieldProps}>

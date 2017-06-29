@@ -195,7 +195,12 @@ class TopicArticleForm extends Component {
           name="content"
           {...commonFieldProps}
         />
-        <TopicArticleMetadata classes={classes} commonFieldProps={commonFieldProps} bindInput={bindInput} tags={tags} />
+        <TopicArticleMetadata
+          classes={classes}
+          commonFieldProps={commonFieldProps}
+          bindInput={bindInput}
+          tags={tags}
+        />
         <Field right>
           <Button
             submit

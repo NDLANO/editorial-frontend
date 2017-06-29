@@ -45,7 +45,7 @@ class TopicArticleMetadata extends Component {
           stripped
           onClick={this.toggleMetadata}>
           <span {...classes('metadata-header')}>
-            Metadata
+            {t('topicArticleForm.metadata')}
           </span>
           <Icon.ArrowDown />
         </Button>

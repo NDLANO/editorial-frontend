@@ -255,6 +255,7 @@ export const PlainTextField = ({
   bindInput,
   name,
   label,
+  description,
   noBorder,
   submitted,
   schema,
@@ -275,6 +276,7 @@ export const PlainTextField = ({
           {label}
         </FocusLabel>}
       <div {...classes('plain-text-editor')}>
+        {description && <FieldDescription>{description}</FieldDescription>}
         <PlainTextEditor
           id={name}
           onChange={val =>
@@ -297,6 +299,7 @@ PlainTextField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  description: PropTypes.string,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),

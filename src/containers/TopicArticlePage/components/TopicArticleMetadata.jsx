@@ -13,7 +13,7 @@ import { Button } from 'ndla-ui';
 import Icon from '../../../components/Icon';
 import { injectT } from '../../../i18n';
 import {
-  TextAreaField,
+  PlainTextField,
   MultiSelectField,
   RemainingCharacters,
 } from '../../../components/Fields';
@@ -62,7 +62,7 @@ class TopicArticleMetadata extends Component {
             }}
             {...commonFieldProps}
           />
-          <TextAreaField
+          <PlainTextField
             label={t('topicArticleForm.fields.metaDescription.label')}
             description={t(
               'topicArticleForm.fields.metaDescription.description',
@@ -74,9 +74,11 @@ class TopicArticleMetadata extends Component {
               maxLength={150}
               getRemainingLabel={(maxLength, remaining) =>
                 t('form.remainingCharacters', { maxLength, remaining })}
-              value={bindInput('metaDescription').value}
+              value={bindInput('metaDescription').value
+                .getCurrentContent()
+                .getPlainText()}
             />
-          </TextAreaField>
+          </PlainTextField>
           <MultiSelectField
             name="authors"
             label={t('topicArticleForm.fields.authors.label')}

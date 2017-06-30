@@ -56,7 +56,9 @@ export const getInitialModel = (article = {}) => {
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
     imageId: image.id || '',
-    metaDescription: article.metaDescription || '',
+    metaDescription:
+      createEditorStateFromText(article.metaDescription) ||
+        createEditorStateFromText(''),
     imageCaption: image.caption || '',
     imageAltText: image.alt || '',
   };
@@ -105,7 +107,12 @@ class TopicArticleForm extends Component {
           language,
         },
       ],
-      metaDescription: [{ metaDescription: model.metaDescription, language }],
+      metaDescription: [
+        {
+          metaDescription: getPlainTextFromEditorState(model.metaDescription),
+          language,
+        },
+      ],
       articleType: 'topic-article',
       copyright: {
         ...model.copyright,
@@ -250,6 +257,7 @@ export default compose(
     },
     metaDescription: {
       required: true,
+      maxLength: 150,
     },
     imageId: {
       required: true,

@@ -41,21 +41,26 @@
       border: 0;
     }
   }
+
   &__metadata-button {
     text-align: left;
     border-bottom: 1px solid var(--brand-color--light);
     width: 110%;
     margin-left: -5%;
-    &:hover, &:focus {
+
+    &:hover,
+    &:focus {
       color: var(--brand-grey-dark);
       border-bottom: 1px solid var(--brand-color--light);
     }
   }
+
   &__metadata-header {
     padding-left: 0.5rem;
     font-size: 1.2rem;
     margin-right: 0.2rem;
   }
+
   &__metadata {
     display: block;
   }

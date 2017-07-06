@@ -76,6 +76,14 @@ const phrases = {
       visualElement: {
         label: 'Visuelt element',
       },
+      caption: {
+        label: 'Bildetekst',
+        placeholder: 'Bildetekst',
+      },
+      alt: {
+        label: 'Alt-tekst',
+        placeholder: 'Alt-tekst',
+      },
       content: {
         label: 'Innhold',
         placeholder: 'Innhold',
@@ -122,6 +130,9 @@ const phrases = {
   },
   notFound: {
     description: 'Denne siden finnes ikke.',
+  },
+  forbiddenPage: {
+    description: 'Du har ikke tilgang til denne siden',
   },
 };
 

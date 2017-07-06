@@ -9,7 +9,7 @@
 import { take, call, put, select } from 'redux-saga/effects';
 import { actions, getArticle } from './article';
 import * as api from './articleApi';
-import { toEditTopicArticle } from '../../routes';
+import { toEditTopicArticle } from '../../util/routeHelpers';
 import * as messageActions from '../../containers/Messages/messagesActions';
 
 export function* fetchArticle(id) {

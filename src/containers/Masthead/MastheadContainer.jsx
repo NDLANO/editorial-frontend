@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Masthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
-import { toSearch, toLogin, toLogout } from '../../routes';
+import { toSearch, toLogin, toLogout } from '../../util/routeHelpers';
 
 const AuthSiteNavItem = ({ t, name, authenticated }) => {
   if (authenticated) {

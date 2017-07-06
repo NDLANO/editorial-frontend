@@ -16,6 +16,7 @@ import { getSaving } from '../../modules/article/article';
 import { getLocale } from '../../modules/locale/locale';
 import EditTopicArticle from './EditTopicArticle';
 import CreateTopicArticle from './CreateTopicArticle';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 class TopicArticlePage extends Component {
   componentWillMount() {
@@ -51,6 +52,7 @@ class TopicArticlePage extends Component {
                   isSaving={isSaving}
                 />}
             />
+            <Route component={NotFoundPage} />
           </Switch>
         </OneColumn>
       </div>

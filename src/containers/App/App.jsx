@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { PageContainer } from 'ndla-ui';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Route, Switch } from 'react-router-dom';
 
 import { MessageShape } from '../../shapes';
 import Masthead from '../Masthead';
@@ -20,6 +20,16 @@ import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
 import Alerts from '../Messages/Alerts';
 import { injectT } from '../../i18n';
+import ScrollToTop from './ScrollToTop';
+import Login from '../Login/Login';
+import Logout from '../Logout/Logout';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
+import WelcomePage from '../WelcomePage/WelcomePage';
+import SearchPage from '../SearchPage/SearchPage';
+import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
+import ImageSearchPage from '../ImageSearch/ImageSearchPage';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import ForbiddenPage from '../ForbiddenPage/ForbiddenPage';
 
 export class App extends React.Component {
   getChildContext() {
@@ -29,7 +39,7 @@ export class App extends React.Component {
   }
 
   render() {
-    const { dispatch, messages, t, children, match: { params } } = this.props;
+    const { dispatch, messages, t, match: { params } } = this.props;
 
     return (
       <PageContainer>
@@ -43,7 +53,17 @@ export class App extends React.Component {
           authenticated={this.props.authenticated}
           userName={this.props.userName}
         />
-        {children}
+        <ScrollToTop />
+        <Switch>
+          <Route path="/" exact component={WelcomePage} />
+          <Route path="/login" component={Login} />
+          <Route path="/logout" component={Logout} />
+          <PrivateRoute path="/search" component={SearchPage} />
+          <PrivateRoute path="/images/" component={ImageSearchPage} />
+          <PrivateRoute path="/topic-article/" component={TopicArticlePage} />
+          <Route path="/forbidden" component={ForbiddenPage} />
+          <Route component={NotFoundPage} />
+        </Switch>
         <Footer t={t} />
         <Alerts dispatch={dispatch} messages={messages} />
       </PageContainer>

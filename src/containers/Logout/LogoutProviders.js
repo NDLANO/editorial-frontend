@@ -8,7 +8,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { injectT } from '../../i18n';
-import { toLogoutFederated, toLogoutSession } from '../../routes';
+import { toLogoutFederated, toLogoutSession } from '../../util/routeHelpers';
 
 const LogoutProviders = ({ t }) =>
   <div className="c-logout-providers">

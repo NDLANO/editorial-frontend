@@ -58,18 +58,18 @@ const makeWrapper = WrappedComponent => {
       };
 
       if (this.state.fields[prop] && this.state.fields[prop].isDirty) {
-        this.setState(() => ({ model }));
+        this.setState((prevstate) => ({ model: { ...prevstate.model, [prop]: value }}));
       } else {
-        const fields = { ...this.state.fields, [prop]: { isDirty } };
-        this.setState(() => ({ model, fields }));
+        this.setState((prevstate) =>{
+          const fields = { ...prevstate.fields, [prop]: { isDirty } };
+          return ({ model: { ...prevstate.model, [prop]: value }, fields })
+        });
       }
-
       return model;
     }
 
     bindToChangeEvent(e) {
       const { name, type, value } = e.target;
-
       if (type === 'checkbox') {
         const oldCheckboxValue = this.state.model[name] || [];
         const newCheckboxValue = e.target.checked

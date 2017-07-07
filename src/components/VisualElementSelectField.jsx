@@ -11,63 +11,87 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button } from 'ndla-ui';
 import Lightbox from './Lightbox';
-import ImageSearch from '../containers/ImageSearch/ImageSearch';
 import DisplayEmbedTag from './DisplayEmbedTag';
 import * as actions from '../containers/ImageSearch/imageActions';
 import { Field, FieldErrorMessages, classes } from './Fields';
+import VisualElementSearch from './VisualElementSearch';
 
-class ImageSelectField extends Component {
+class VisualElementSelectField extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isOpen: false,
     };
-    this.handleImageChange = this.handleImageChange.bind(this);
-    this.onImageLightboxOpen = this.onImageLightboxOpen.bind(this);
+    this.handleVisualElementChange = this.handleVisualElementChange.bind(this);
+    this.removeVisualElement = this.removeVisualElement.bind(this);
     this.onImageLightboxClose = this.onImageLightboxClose.bind(this);
   }
 
-  onImageLightboxOpen() {
-    this.props.searchImages();
-    this.setState(() => ({ isOpen: true }));
+  componentWillReceiveProps(nextProps) {
+    if (this.state.isOpen !== nextProps.showVisualElement) {
+      this.setState({isOpen: nextProps.showVisualElement});
+      if (nextProps.showVisualElement) {
+        this.props.searchImages();
+      }
+    }
   }
 
   onImageLightboxClose() {
+    const { onChange, toggleShowVisualElement } = this.props;
+    onChange({
+      target: {
+        name: 'visualElementType',
+        value: '',
+      }
+    });
+    toggleShowVisualElement()
     this.setState(() => ({ isOpen: false }));
   }
 
-  handleImageChange(image) {
-    const { name, onChange } = this.props;
+  handleVisualElementChange(visualElement) {
+    const { name, onChange, toggleShowVisualElement } = this.props;
     onChange({
       target: {
         name,
-        value: image.id,
+        value: visualElement.id,
       },
     });
+    toggleShowVisualElement();
     this.setState(() => ({ isOpen: false }));
+  }
+
+  removeVisualElement() {
+    const { onChange } = this.props;
+    ['visualElementId', 'visualElementCaption', 'visualElementAlt', 'visualElementType'].forEach((name) => {
+      onChange({
+        target: {
+          name,
+          value: '',
+        },
+      });
+    });
   }
 
   render() {
     const { name, label, schema, submitted, value, embedTag } = this.props;
+    if (value) {
+      return (
+        <Field>
+          <div {...classes('visual-element-container')} >
+            <DisplayEmbedTag embedTag={embedTag} {...classes('visual-element')}/>
+            <Button onClick={this.removeVisualElement}>Fjern element</Button>
+          </div>
+        </Field>
+      )
+    }
 
     return (
       <Field>
-        {value
-          ? <Button stripped onClick={this.onImageLightboxOpen}>
-              <DisplayEmbedTag embedTag={embedTag} />
-            </Button>
-          : <Button
-              outline
-              {...classes('add-visual-element')}
-              onClick={this.onImageLightboxOpen}>
-              Legg til visuelt element
-            </Button>}
         <Lightbox
           display={this.state.isOpen}
           big
           onClose={this.onImageLightboxClose}>
-          <h2>Bildesøk</h2>
-          <ImageSearch onChange={this.handleImageChange} />
+          <VisualElementSearch embedTag={embedTag} handleVisualElementChange={this.handleVisualElementChange} />
         </Lightbox>
         <FieldErrorMessages
           label={label}
@@ -79,7 +103,7 @@ class ImageSelectField extends Component {
   }
 }
 
-ImageSelectField.propTypes = {
+VisualElementSelectField.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
   name: PropTypes.string.isRequired,
@@ -95,10 +119,12 @@ ImageSelectField.propTypes = {
     id: PropTypes.string.isRequired,
     resource: PropTypes.string.isRequired,
   }),
+  showVisualElement: PropTypes.bool.isRequired,
+  toggleShowVisualElement: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
   searchImages: actions.searchImages,
 };
 
-export default connect(undefined, mapDispatchToProps)(ImageSelectField);
+export default connect(undefined, mapDispatchToProps)(VisualElementSelectField);

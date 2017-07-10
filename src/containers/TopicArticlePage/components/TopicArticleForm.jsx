@@ -26,6 +26,7 @@ import {
   Field,
 } from '../../../components/Fields';
 import ImageSelectField from '../../../components/ImageSelectField';
+import H5PSelectField from '../../../components/H5PSelectField';
 import converter from '../topicArticleContentConverter';
 import {
   createEditorStateFromText,
@@ -170,6 +171,13 @@ class TopicArticleForm extends Component {
           submitted={submitted}
           embedTag={imageTag}
           {...bindInput('imageId')}
+        />
+        <H5PSelectField
+          label={t('topicArticleForm.fields.visualElement.label')}
+          schema={schema}
+          submitted={submitted}
+          embedTag={imageTag}
+          {...bindInput('h5pId')}
         />
         <TextField
           placeholder={t('topicArticleForm.fields.caption.placeholder')}

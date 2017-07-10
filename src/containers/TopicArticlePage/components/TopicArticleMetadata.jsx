@@ -9,8 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
-
-import Icon from '../../../components/Icon';
+import { Arrow } from 'ndla-ui/icons';
 import { injectT } from '../../../i18n';
 import {
   TextAreaField,
@@ -47,7 +46,7 @@ class TopicArticleMetadata extends Component {
           <span {...classes('metadata-header')}>
             {t('topicArticleForm.metadata')}
           </span>
-          <Icon.ArrowDown />
+          <Arrow direction={`${this.state.hiddenMetadata ? 'down' : 'up'}`} />
         </Button>
         <div {...metdataClasses}>
           <MultiSelectField

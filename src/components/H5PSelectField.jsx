@@ -22,8 +22,17 @@ class H5PSelectField extends Component {
       url: undefined,
       isOpen: false,
     };
+    this.handleH5PChange = this.handleH5PChange.bind(this);
     this.onLightboxOpen = this.onLightboxOpen.bind(this);
     this.onLightboxClose = this.onLightboxClose.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('message', this.handleH5PChange);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('message', this.handleH5PChange);
   }
 
   onLightboxOpen() {
@@ -40,6 +49,21 @@ class H5PSelectField extends Component {
   }
 
   onLightboxClose() {
+    this.setState(() => ({ isOpen: false }));
+  }
+
+  handleH5PChange(event) {
+    const { name, onChange } = this.props;
+    if (event.data.type !== 'h5p') {
+      return;
+    }
+
+    onChange({
+      target: {
+        name,
+        value: event.target.oembed_url,
+      },
+    });
     this.setState(() => ({ isOpen: false }));
   }
 

@@ -177,7 +177,7 @@ class TopicArticleForm extends Component {
           schema={schema}
           submitted={submitted}
           embedTag={imageTag}
-          {...bindInput('h5pId')}
+          {...bindInput('h5p_oembed_url')}
         />
         <TextField
           placeholder={t('topicArticleForm.fields.caption.placeholder')}

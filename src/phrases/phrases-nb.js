@@ -60,6 +60,8 @@ const phrases = {
   },
   topicArticleForm: {
     save: 'Lagre',
+    savedOk: 'Lagret OK',
+    createdOk: 'Opprettet OK',
     metadata: 'Metadata',
     title: {
       create: 'Du oppretter nå en emnebeskrivelse',

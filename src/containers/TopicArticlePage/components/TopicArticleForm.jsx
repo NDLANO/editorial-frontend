@@ -51,6 +51,7 @@ export const getInitialModel = (article = {}) => {
       ? converter.toEditorState(article.content)
       : EditorState.createEmpty(),
     tags: article.tags || [],
+    h5pOembedUrl: undefined,
     authors: article.copyright
       ? article.copyright.authors.map(author => author.name)
       : [],
@@ -176,8 +177,7 @@ class TopicArticleForm extends Component {
           label={t('topicArticleForm.fields.visualElement.label')}
           schema={schema}
           submitted={submitted}
-          embedTag={imageTag}
-          {...bindInput('h5p_oembed_url')}
+          {...bindInput('h5pOembedUrl')}
         />
         <TextField
           placeholder={t('topicArticleForm.fields.caption.placeholder')}

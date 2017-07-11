@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import fetch from 'isomorphic-fetch';
 import { Button } from 'ndla-ui';
 import Lightbox from './Lightbox';
-import DisplayEmbedTag from './DisplayEmbedTag';
+import H5PDisplay from './H5PDisplay';
 import { Field, FieldErrorMessages, classes } from './Fields';
 import { resolveJsonOrRejectWithError } from '../util/apiHelpers';
 
@@ -57,25 +57,22 @@ class H5PSelectField extends Component {
     if (event.data.type !== 'h5p') {
       return;
     }
-
     onChange({
       target: {
         name,
-        value: event.target.oembed_url,
+        value: event.data.oembed_url,
       },
     });
     this.setState(() => ({ isOpen: false }));
   }
 
   render() {
-    const { name, label, schema, submitted, value, embedTag } = this.props;
+    const { name, label, schema, submitted, value } = this.props;
 
     return (
       <Field>
         {value
-          ? <Button stripped onClick={this.onLightboxOpen}>
-              <DisplayEmbedTag embedTag={embedTag} />
-            </Button>
+          ? <H5PDisplay url={value} />
           : <Button
               outline
               {...classes('add-visual-element')}
@@ -115,12 +112,6 @@ H5PSelectField.propTypes = {
     fields: PropTypes.object.isRequired,
   }),
   submitted: PropTypes.bool.isRequired,
-  embedTag: PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    resource: PropTypes.string.isRequired,
-  }),
 };
 
 export default H5PSelectField;

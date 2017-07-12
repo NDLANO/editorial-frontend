@@ -10,6 +10,7 @@ import { take, call, put, select } from 'redux-saga/effects';
 import { actions, getArticle } from './article';
 import * as api from './articleApi';
 import { toEditTopicArticle } from '../../util/routeHelpers';
+import * as messageActions from '../../containers/Messages/messagesActions';
 
 export function* fetchArticle(id) {
   try {
@@ -37,10 +38,13 @@ export function* updateArticle(article) {
     const updatedArticle = yield call(api.updateArticle, article);
     yield put(actions.setArticle(updatedArticle));
     yield put(actions.updateArticleSuccess());
+    yield put(
+      messageActions.addMessage({ translationKey: 'topicArticleForm.savedOk' }),
+    );
   } catch (error) {
     yield put(actions.updateArticleError());
     // TODO: handle error
-    console.error(error); //eslint-disable-line
+    yield put(messageActions.applicationError(error));
   }
 }
 
@@ -50,10 +54,15 @@ export function* createArticle(article, history) {
     yield put(actions.setArticle(createdArticle));
     history.push(toEditTopicArticle(createdArticle.id));
     yield put(actions.updateArticleSuccess());
+    yield put(
+      messageActions.addMessage({
+        translationKey: 'topicArticleForm.createdOk',
+      }),
+    );
   } catch (error) {
     yield put(actions.updateArticleError());
     // TODO: handle error
-    console.error(error); //eslint-disable-line
+    yield put(messageActions.applicationError(error));
   }
 }
 

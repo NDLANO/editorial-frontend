@@ -17,6 +17,7 @@
 @import './search.css';
 @import './auth.css';
 @import './fields.css';
+@import './alert.css';
 
 .c-hero--alt {
   background-color: var(--brand-color--light);

@@ -4043,7 +4043,7 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.1.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@~4.17.2:
+lodash@4.17.4, "lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.1.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@~4.17.2:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -4286,13 +4286,14 @@ ndla-licenses@^0.0.7:
   dependencies:
     defined "1.0.0"
 
-ndla-ui@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.4.3.tgz#6ffbe64fc34800751b93d28a51e271c2ec509b19"
+ndla-ui@^0.6.6:
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.6.6.tgz#7ac65643d431fcd5cafe302788ecd0d9dd1603e2"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"
     react-prop-types "0.4.0"
+    react-sticky-header "^0.1.6"
 
 ndla-util@^0.1.1:
   version "0.1.1"
@@ -5605,6 +5606,12 @@ react-side-effect@^1.1.0:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
 
+react-sticky-header@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/react-sticky-header/-/react-sticky-header-0.1.6.tgz#a0f0fe88b05be366ace1704e1648380af5764bca"
+  dependencies:
+    react "^15.5.4"
+
 react-test-renderer@^15.5.4:
   version "15.5.4"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-15.5.4.tgz#d4ebb23f613d685ea8f5390109c2d20fbf7c83bc"
@@ -5627,7 +5634,7 @@ react-widgets@^3.4.6:
     deconstruct-number-format "0.0.1"
     format-number-with-string "0.0.2"
 
-react@^15.4.2:
+react@^15.4.2, react@^15.5.4:
   version "15.5.4"
   resolved "https://registry.yarnpkg.com/react/-/react-15.5.4.tgz#fa83eb01506ab237cdc1c8c3b1cea8de012bf047"
   dependencies:

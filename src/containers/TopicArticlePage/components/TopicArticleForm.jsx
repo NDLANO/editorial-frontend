@@ -60,7 +60,7 @@ export const getInitialModel = (article = {}) => {
     visualElementId: visualElement.id || '',
     visualElementCaption: visualElement.caption || '',
     visualElementAlt: visualElement.alt || '',
-    visualElementType: visualElement.type || '',
+    visualElementType: visualElement.resource || '',
   };
 };
 
@@ -165,7 +165,11 @@ class TopicArticleForm extends Component {
               .getPlainText()}
           />
         </PlainTextField>
-        <TopicArticleVisualElement visualElementTag={visualElementTag} commonFieldProps={commonFieldProps} bindInput={bindInput}/>
+        <TopicArticleVisualElement
+          visualElementTag={visualElementTag}
+          commonFieldProps={commonFieldProps}
+          bindInput={bindInput}
+        />
 
         <RichTextField
           noBorder

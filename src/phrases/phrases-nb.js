@@ -63,6 +63,10 @@ const phrases = {
     savedOk: 'Lagret OK',
     createdOk: 'Opprettet OK',
     metadata: 'Metadata',
+    visualElementTitle: {
+      image: 'Bildetittel',
+    },
+    visualElementCopyright: 'Opphav',
     title: {
       create: 'Du oppretter nå en emnebeskrivelse',
       update: 'Du redigerer nå en emnebeskrivelse',

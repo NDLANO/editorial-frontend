@@ -10,12 +10,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { injectT } from '../../../i18n';
-import {
-  TextField,
-  classes,
-} from '../../../components/Fields';
-import VisualElementSelectField from '../../../components/VisualElementSelectField';
-import VisualElementTypeSelect from '../../../components/VisualElementTypeSelect';
+import { TextField, classes } from '../../../components/Fields';
+import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
+import VisualElementTypeSelect from '../../VisualElement/VisualElementTypeSelect';
 
 class TopicArticleVisualElement extends Component {
   constructor(props) {
@@ -27,8 +24,8 @@ class TopicArticleVisualElement extends Component {
   }
 
   toggleShowVisualElement() {
-    this.setState((prevState) => ({
-      showVisualElement: !prevState.showVisualElement
+    this.setState(prevState => ({
+      showVisualElement: !prevState.showVisualElement,
     }));
   }
 
@@ -39,7 +36,8 @@ class TopicArticleVisualElement extends Component {
     return (
       <div>
         <div {...classes('add-visual-element-title')}>
-          <span>Legg til visuelt element
+          <span>
+            Legg til visuelt element
             <div {...classes('add-visual-element-title', 'border')} />
           </span>
         </div>
@@ -59,25 +57,26 @@ class TopicArticleVisualElement extends Component {
           showVisualElement={this.state.showVisualElement}
           toggleShowVisualElement={this.toggleShowVisualElement}
         />
-        {visualElementTag.id ?
-          <div>
-            <TextField
-              placeholder={t('topicArticleForm.fields.caption.placeholder')}
-              label={t('topicArticleForm.fields.caption.label')}
-              name="visualElementCaption"
-              noBorder
-              maxLength={300}
-              {...commonFieldProps}
-            />
-            <TextField
-              placeholder={t('topicArticleForm.fields.alt.placeholder')}
-              label={t('topicArticleForm.fields.alt.label')}
-              name="visualElementAlt"
-              noBorder
-              maxLength={300}
-              {...commonFieldProps}
-            />
-          </div> : ''}
+        {visualElementTag.id
+          ? <div>
+              <TextField
+                placeholder={t('topicArticleForm.fields.caption.placeholder')}
+                label={t('topicArticleForm.fields.caption.label')}
+                name="visualElementCaption"
+                noBorder
+                maxLength={300}
+                {...commonFieldProps}
+              />
+              <TextField
+                placeholder={t('topicArticleForm.fields.alt.placeholder')}
+                label={t('topicArticleForm.fields.alt.label')}
+                name="visualElementAlt"
+                noBorder
+                maxLength={300}
+                {...commonFieldProps}
+              />
+            </div>
+          : ''}
       </div>
     );
   }

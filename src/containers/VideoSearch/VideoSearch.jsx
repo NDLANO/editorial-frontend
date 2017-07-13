@@ -8,8 +8,6 @@
 
 import React from 'react';
 
-
-const VideoSearch  = () => <p>hei</p>
-
+const VideoSearch = () => <p>hei</p>;
 
 export default VideoSearch;

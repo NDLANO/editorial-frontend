@@ -9,7 +9,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
-import { classes } from './Fields';
+import { Cross, Camera, Plus } from 'ndla-ui/icons';
+import { classes } from '../../components/Fields';
 
 class VisualElementTypeSelect extends Component {
   constructor(props) {
@@ -26,36 +27,37 @@ class VisualElementTypeSelect extends Component {
     onChange({
       target: {
         name,
-        value: type
-      }
+        value: type,
+      },
     });
-    this.setState({isOpen: false})
+    this.setState({ isOpen: false });
     toggleShowVisualElement();
   }
 
   toggleIsOpen() {
-    this.setState((prevState) => ({ isOpen: !prevState.isOpen }));
+    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
   }
-
-
 
   render() {
     const { value } = this.props;
     if (value) {
       return null;
     }
-    const typeClassName = this.state.isOpen ? '' : 'hidden'
+    const typeClassName = this.state.isOpen ? '' : 'hidden';
     return (
       <div>
-        <Button stripped {...classes('visual-element-type-button')} onClick={this.toggleIsOpen}>
-          {this.state.isOpen ? 'x' : '+'}
+        <Button
+          stripped
+          {...classes('visual-element-type-button')}
+          onClick={this.toggleIsOpen}>
+          {this.state.isOpen ? <Cross /> : <Plus />}
         </Button>
         <div {...classes('visual-element-type', typeClassName)}>
-          <Button stripped {...classes('visual-element-type-button')} onClick={() => this.onTypeChange('image')}>
-            B
-          </Button>
-          <Button stripped {...classes('visual-element-type-button')} onClick={() => this.onTypeChange('video')}>
-            V
+          <Button
+            stripped
+            {...classes('visual-element-type-button')}
+            onClick={() => this.onTypeChange('image')}>
+            <Camera />
           </Button>
         </div>
       </div>

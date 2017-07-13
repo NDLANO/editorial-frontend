@@ -58,11 +58,13 @@ const makeWrapper = WrappedComponent => {
       };
 
       if (this.state.fields[prop] && this.state.fields[prop].isDirty) {
-        this.setState((prevstate) => ({ model: { ...prevstate.model, [prop]: value }}));
+        this.setState(prevstate => ({
+          model: { ...prevstate.model, [prop]: value },
+        }));
       } else {
-        this.setState((prevstate) =>{
+        this.setState(prevstate => {
           const fields = { ...prevstate.fields, [prop]: { isDirty } };
-          return ({ model: { ...prevstate.model, [prop]: value }, fields })
+          return { model: { ...prevstate.model, [prop]: value }, fields };
         });
       }
       return model;

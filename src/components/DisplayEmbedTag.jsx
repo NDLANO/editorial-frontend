@@ -67,4 +67,4 @@ DisplayEmbedTag.propTypes = {
 
 DisplayEmbedTag.defaultProps = {
   className: '',
-}
+};

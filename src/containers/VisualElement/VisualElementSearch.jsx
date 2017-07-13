@@ -8,29 +8,41 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImageSearch from '../containers/ImageSearch/ImageSearch';
-import VideoSearch from '../containers/VideoSearch/VideoSearch';
+
+import ImageSearch from 'ndla-image-search';
+import * as api from './visualElementApi';
+import VideoSearch from '../VideoSearch/VideoSearch';
 
 const titles = {
   video: 'Videosøk',
-  image: 'Bildesøk'
-}
+  image: 'Bildesøk',
+};
 
-const VisualElementSearch = ({embedTag, handleVisualElementChange}) => {
+const VisualElementSearch = ({ embedTag, handleVisualElementChange }) => {
   const searchContainer = () => {
     if (embedTag.resource === 'image') {
-      return <ImageSearch onChange={handleVisualElementChange} />
+      return (
+        <ImageSearch
+          fetchImage={api.fetchImage}
+          searchImages={api.searchImages}
+          locale="nb"
+          searchPlaceholder="Søk i bilder"
+          searchButtonTitle="Søk"
+          onImageSelect={handleVisualElementChange}
+          onError={api.onError}
+        />
+      );
     }
-    return <VideoSearch onChange={handleVisualElementChange} />
+    return <VideoSearch onChange={handleVisualElementChange} />;
   };
 
-  return(
+  return (
     <div>
       <h2>{titles[embedTag.resource]}</h2>
       {searchContainer()}
     </div>
   );
-}
+};
 
 VisualElementSearch.propTypes = {
   embedTag: PropTypes.shape({
@@ -41,6 +53,5 @@ VisualElementSearch.propTypes = {
   }),
   handleVisualElementChange: PropTypes.func.isRequired,
 };
-
 
 export default VisualElementSearch;

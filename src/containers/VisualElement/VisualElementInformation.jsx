@@ -38,7 +38,10 @@ const VisualElementInformation = ({ visualElement, locale, embedTag, t }) => {
 };
 
 VisualElementInformation.propTypes = {
-  visualElement: PropTypes.object.isRequired,
+  visualElement: PropTypes.shape({
+    alttexts: PropTypes.arrayOf(PropTypes.object),
+    captions: PropTypes.arrayOf(PropTypes.object),
+  }),
   locale: PropTypes.string.isRequired,
   embedTag: PropTypes.shape({
     caption: PropTypes.string.isRequired,

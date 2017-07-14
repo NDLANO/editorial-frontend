@@ -8,40 +8,43 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import ImageSearch from 'ndla-image-search';
 import * as api from './visualElementApi';
-import VideoSearch from '../VideoSearch/VideoSearch';
+import { injectT } from '../../i18n';
+import { getLocale } from '../../modules/locale/locale';
 
 const titles = {
   video: 'Videosøk',
   image: 'Bildesøk',
 };
 
-const VisualElementSearch = ({ embedTag, handleVisualElementChange }) => {
-  const searchContainer = () => {
-    if (embedTag.resource === 'image') {
+const VisualElementSearch = ({
+  embedTag,
+  handleVisualElementChange,
+  locale,
+  t,
+}) => {
+  switch (embedTag.resource) {
+    case 'image':
       return (
-        <ImageSearch
-          fetchImage={api.fetchImage}
-          searchImages={api.searchImages}
-          locale="nb"
-          searchPlaceholder="Søk i bilder"
-          searchButtonTitle="Søk"
-          onImageSelect={handleVisualElementChange}
-          onError={api.onError}
-        />
+        <div>
+          <h2>{titles[embedTag.resource]}</h2>
+          <ImageSearch
+            fetchImage={api.fetchImage}
+            searchImages={api.searchImages}
+            locale={locale}
+            searchPlaceholder={t('imageSearch.placeholder')}
+            searchButtonTitle={t('imageSearch.buttonTitle')}
+            onImageSelect={handleVisualElementChange}
+            onError={api.onError}
+          />
+        </div>
       );
-    }
-    return <VideoSearch onChange={handleVisualElementChange} />;
-  };
-
-  return (
-    <div>
-      <h2>{titles[embedTag.resource]}</h2>
-      {searchContainer()}
-    </div>
-  );
+    default:
+      return <p>{`Embedtag ${embedTag.resource} is not supported.`}</p>;
+  }
 };
 
 VisualElementSearch.propTypes = {
@@ -52,6 +55,11 @@ VisualElementSearch.propTypes = {
     resource: PropTypes.string.isRequired,
   }),
   handleVisualElementChange: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
-export default VisualElementSearch;
+const mapStateToProps = state => ({
+  locale: getLocale(state),
+});
+
+export default connect(mapStateToProps)(injectT(VisualElementSearch));

@@ -58,6 +58,10 @@ const phrases = {
   subjectPage: {
     topics: 'Emner',
   },
+  imageSearch: {
+    placeholder: 'Søk i bilder',
+    buttonTitle: 'Søk',
+  },
   topicArticleForm: {
     save: 'Lagre',
     savedOk: 'Lagret OK',

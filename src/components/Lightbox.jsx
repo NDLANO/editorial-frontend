@@ -10,6 +10,7 @@ import React from 'react';
 import { Button } from 'ndla-ui';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
+import { Cross } from 'ndla-ui/icons';
 
 const classes = new BEMHelper({
   name: 'lightbox',
@@ -48,17 +49,7 @@ export default class Lightbox extends React.Component {
               {...classes('close')}
               stripped
               onClick={this.onCloseButtonClick}>
-              <svg
-                className="icon"
-                viewBox="0 0 24 24"
-                width="100%"
-                height="100%">
-                <title>close</title>
-                <path
-                  className="path1"
-                  d="M18.984 6.422l-5.578 5.578 5.578 5.578-1.406 1.406-5.578-5.578-5.578 5.578-1.406-1.406 5.578-5.578-5.578-5.578 1.406-1.406 5.578 5.578 5.578-5.578z"
-                />
-              </svg>
+              <Cross />
             </Button>
             {children}
           </div>

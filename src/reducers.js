@@ -13,7 +13,6 @@ import messages from './containers/Messages/messagesReducer';
 import search from './containers/SearchPage/searchReducer';
 import articles from './modules/article/article';
 import tags from './modules/tag/tag';
-import imageSearch from './containers/ImageSearch/imageReducer';
 import session from './modules/session/session';
 
 const rootReducers = combineReducers({
@@ -22,7 +21,6 @@ const rootReducers = combineReducers({
   search,
   articles,
   tags,
-  imageSearch,
   session,
 });
 

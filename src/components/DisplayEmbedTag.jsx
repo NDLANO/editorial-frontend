@@ -42,13 +42,12 @@ export default class DisplayEmbedTag extends React.Component {
 
   render() {
     const { embed } = this.state;
-    const { embedTag } = this.props;
+    const { embedTag, className } = this.props;
     if (!embed) {
       return null;
     }
-
     return (
-      <figure>
+      <figure className={className}>
         <img src={embed.src} alt={embedTag.alt} />
         <figcaption>{embedTag.caption}</figcaption>
       </figure>
@@ -63,4 +62,9 @@ DisplayEmbedTag.propTypes = {
     id: PropTypes.string.isRequired,
     resource: PropTypes.string.isRequired,
   }),
+  className: PropTypes.string,
+};
+
+DisplayEmbedTag.defaultProps = {
+  className: '',
 };

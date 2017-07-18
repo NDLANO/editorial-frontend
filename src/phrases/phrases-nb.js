@@ -83,6 +83,7 @@ const phrases = {
         label: 'Ingress',
       },
       visualElement: {
+        title: 'Legg til visuelt element',
         label: 'Visuelt element',
       },
       caption: {

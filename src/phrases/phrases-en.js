@@ -78,6 +78,7 @@ const phrases = {
         label: 'Introduction',
       },
       visualElement: {
+        title: 'Add visual element',
         label: 'Visual element',
       },
       caption: {

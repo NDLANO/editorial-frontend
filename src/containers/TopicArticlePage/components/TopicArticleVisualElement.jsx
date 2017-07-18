@@ -37,7 +37,7 @@ class TopicArticleVisualElement extends Component {
       <div>
         <div {...classes('add-visual-element-title')}>
           <span>
-            Legg til visuelt element
+            {t('topicArticleForm.fields.visualElement.title')}
             <div {...classes('add-visual-element-title', 'border')} />
           </span>
         </div>

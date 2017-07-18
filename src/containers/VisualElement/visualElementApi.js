@@ -23,13 +23,15 @@ export const searchImages = (query, page, locale) =>
       query,
       page,
     })}&page-size=16&language=${locale}`,
-  ).then(res => res.json());
+  ).then(resolveJsonOrRejectWithError);
 
 // export const search = (queryString, locale) =>
 //   fetchWithAccessToken(`${baseUrl}/${queryString}&language=${locale}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
 
 export const fetchImage = imageId =>
-  fetchWithAccessToken(`${baseUrl}/${imageId}`).then(res => res.json());
+  fetchWithAccessToken(`${baseUrl}/${imageId}`).then(
+    resolveJsonOrRejectWithError,
+  );
 
 export const onError = err => {
   createErrorPayload(err.status, defined(err.message, err.statusText), err);

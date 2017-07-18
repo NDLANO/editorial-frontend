@@ -59,7 +59,6 @@ app.get('/get_token', (req, res) => {
 app.get('/get_brightcove_token', (req, res) => {
   getBrightcoveToken()
     .then(token => {
-      console.log(token)
       res.send(token);
     })
     .catch(err => res.status(500).send(err.message));

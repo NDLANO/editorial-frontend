@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import ImageSearch from 'ndla-image-search';
+import VideoSearch from 'ndla-video-search';
 import * as api from './visualElementApi';
 import { injectT } from '../../i18n';
 import { getLocale } from '../../modules/locale/locale';
@@ -26,6 +27,16 @@ const VisualElementSearch = ({
   locale,
   t,
 }) => {
+
+  const videoTranslations = {
+    searchPlaceholder: 'Søk i videoer',
+    searchButtonTitle: 'Søk',
+    loadMoreVideos: 'Last flere videor',
+    noResults: 'Ingen videor funnet.',
+    addVideo: 'Bruk video',
+    previewVideo: 'Forhåndsvis',
+  };
+
   switch (embedTag.resource) {
     case 'image':
       return (
@@ -38,6 +49,20 @@ const VisualElementSearch = ({
             searchPlaceholder={t('imageSearch.placeholder')}
             searchButtonTitle={t('imageSearch.buttonTitle')}
             onImageSelect={handleVisualElementChange}
+            onError={api.onError}
+          />
+        </div>
+      );
+    case 'video':
+      return (
+        <div>
+          <h2>{titles[embedTag.resource]}</h2>
+          <VideoSearch
+            fetchVideo={api.fetchBrightcoveVideo}
+            searchVideos={api.searchBrightcoveVideos}
+            locale={locale}
+            translations={videoTranslations}
+            onVideoSelect={handleVisualElementChange}
             onError={api.onError}
           />
         </div>

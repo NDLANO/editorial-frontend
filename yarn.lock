@@ -4280,33 +4280,40 @@ ndla-error-reporter@^0.1.2:
   dependencies:
     raven-js "^3.9.2"
 
-ndla-image-search@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/ndla-image-search/-/ndla-image-search-0.1.0.tgz#bc451b1fd4a57e576d8593a3e1de767c264be2ca"
+ndla-image-search@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/ndla-image-search/-/ndla-image-search-0.1.2.tgz#76a444933cce2c63b33dd3876d728918747bc478"
   dependencies:
     defined "1.0.0"
     react-bem-helper "^1.2.0"
 
-ndla-licenses@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.7.tgz#8337dc92c5726706c936c2b2691130037ee43f6f"
+ndla-licenses@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.9.tgz#5ba25c076403e5d7cffc251f37feb2ff4e9bdf69"
   dependencies:
     defined "1.0.0"
 
-ndla-ui@^0.6.13:
-  version "0.6.13"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.6.13.tgz#bbf969bf3f40d33527e477b63e8d559512d80c91"
+ndla-ui@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.7.2.tgz#fd4515742d2cb22cf7cf574a07e0aaad994616a7"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"
     react-prop-types "0.4.0"
     react-sticky-header "^0.1.6"
 
-ndla-util@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.3.tgz#41a9d65e76c9360bdc69c5cc1956bb77bc8cd042"
+ndla-util@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.4.tgz#1ade34998a9a1c93cba4f4da64abd931f33d1a8a"
   dependencies:
     defined "1.0.0"
+
+ndla-video-search@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ndla-video-search/-/ndla-video-search-0.1.4.tgz#f536d6c2e63b005c164dfca72642ad376ef9ef3d"
+  dependencies:
+    defined "1.0.0"
+    react-bem-helper "^1.2.0"
 
 negotiator@0.6.1:
   version "0.6.1"

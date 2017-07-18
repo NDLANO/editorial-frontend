@@ -9,6 +9,7 @@
 @import './vars.css';
 @import '../node_modules/ndla-ui/lib/main.css';
 @import '../node_modules/ndla-ui/lib/editor.css';
+@import '../node_modules/ndla-ui/lib/imageSearch.css';
 @import './form.css';
 @import './multiselect.css';
 @import './imageSearch.css';
@@ -16,6 +17,7 @@
 @import './topic-article-form.css';
 @import './search.css';
 @import './auth.css';
+@import './fields.css';
 @import './alert.css';
 
 .c-hero--alt {

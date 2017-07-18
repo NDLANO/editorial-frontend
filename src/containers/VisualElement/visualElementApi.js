@@ -7,15 +7,17 @@
  */
 
 import queryString from 'query-string';
+import defined from 'defined';
 import {
-  resolveJsonOrRejectWithError,
+  createErrorPayload,
   apiResourceUrl,
   fetchWithAccessToken,
+  resolveJsonOrRejectWithError,
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/image-api/v1/images');
 
-export const search = (query, page, locale) =>
+export const searchImages = (query, page, locale) =>
   fetchWithAccessToken(
     `${baseUrl}/?${queryString.stringify({
       query,
@@ -30,3 +32,19 @@ export const fetchImage = imageId =>
   fetchWithAccessToken(`${baseUrl}/${imageId}`).then(
     resolveJsonOrRejectWithError,
   );
+
+export const onError = err => {
+  createErrorPayload(err.status, defined(err.message, err.statusText), err);
+};
+
+export const fetchVisualElement = embedTag => {
+  if (embedTag.resource === 'image') {
+    return fetchWithAccessToken(`${baseUrl}/${embedTag.id}`).then(
+      resolveJsonOrRejectWithError,
+    );
+  }
+
+  return new Promise((resolve, reject) => {
+    reject(`No embedtag with resource type ${embedTag.resource} exists`);
+  });
+};

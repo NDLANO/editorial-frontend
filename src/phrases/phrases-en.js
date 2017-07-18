@@ -62,6 +62,10 @@ const phrases = {
     savedOk: 'Saved OK',
     createdOk: 'Created OK',
     metadata: 'Metadata',
+    visualElementTitle: {
+      image: 'Image title',
+    },
+    visualElementCopyright: 'Origin',
     title: {
       create: 'You are now creating a topic description',
       update: 'You are now editing a topic description',
@@ -74,6 +78,7 @@ const phrases = {
         label: 'Introduction',
       },
       visualElement: {
+        title: 'Add visual element',
         label: 'Visual element',
       },
       caption: {

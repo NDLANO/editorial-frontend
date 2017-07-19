@@ -8,10 +8,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Helmet from 'react-helmet'
+import Helmet from 'react-helmet';
 import config from '../../config';
 
-const DisplayImageTag = ({embedTag, className}) => {
+const DisplayImageTag = ({ embedTag, className }) => {
   if (!embedTag || !embedTag.id) {
     return null;
   }
@@ -23,19 +23,19 @@ const DisplayImageTag = ({embedTag, className}) => {
       </Helmet>
       {/* eslint-disable */}
       <video
-         data-video-id={embedTag.id}
-         data-account={config.brightCoveAccountId}
-         data-player={config.brightcovePlayerId}
-         data-embed="default"
-         className="video-js"
-         controls
-         alt={embedTag.alt}
-       />
+        data-video-id={embedTag.id}
+        data-account={config.brightCoveAccountId}
+        data-player={config.brightcovePlayerId}
+        data-embed="default"
+        className="video-js"
+        controls
+        alt={embedTag.alt}
+      />
       <figcaption>{embedTag.caption}</figcaption>
       {/* eslint-enable */}
     </figure>
   );
-}
+};
 
 DisplayImageTag.propTypes = {
   embedTag: PropTypes.shape({
@@ -45,6 +45,6 @@ DisplayImageTag.propTypes = {
     resource: PropTypes.string.isRequired,
   }),
   className: PropTypes.string,
-}
+};
 
 export default DisplayImageTag;

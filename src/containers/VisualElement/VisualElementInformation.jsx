@@ -17,8 +17,12 @@ const VisualElementInformation = ({ visualElement, locale, embedTag, t }) => {
   if (!visualElement) {
     return null;
   }
-  console.log(visualElement)
-  const element = getVisualElementInformation(visualElement, embedTag.resource, locale);
+
+  const element = getVisualElementInformation(
+    visualElement,
+    embedTag.resource,
+    locale,
+  );
   return (
     <div>
       <span {...classes('visual-element-information')}>

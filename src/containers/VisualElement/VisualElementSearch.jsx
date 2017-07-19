@@ -27,7 +27,6 @@ const VisualElementSearch = ({
   locale,
   t,
 }) => {
-
   const videoTranslations = {
     searchPlaceholder: 'Søk i videoer',
     searchButtonTitle: 'Søk',

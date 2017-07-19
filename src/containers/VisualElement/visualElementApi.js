@@ -18,7 +18,9 @@ import {
 } from '../../util/apiHelpers';
 
 const baseNdlaUrl = apiResourceUrl('/image-api/v1/images');
-const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(`/v1/accounts/${window.config.brightCoveAccountId}/videos`);
+const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
+  `/v1/accounts/${window.config.brightCoveAccountId}/videos`,
+);
 
 export const searchImages = (query, page, locale) =>
   fetchWithAccessToken(
@@ -31,16 +33,24 @@ export const searchImages = (query, page, locale) =>
 // export const search = (queryString, locale) =>
 //   fetchWithAccessToken(`${baseUrl}/${queryString}&language=${locale}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
 
-export const fetchImage = imageId => fetchWithAccessToken(`${baseNdlaUrl}/${imageId}`).then(resolveJsonOrRejectWithError);
+export const fetchImage = imageId =>
+  fetchWithAccessToken(`${baseNdlaUrl}/${imageId}`).then(
+    resolveJsonOrRejectWithError,
+  );
 
 export const searchBrightcoveVideos = (query, offset, limit) =>
-  fetchWithBrightCoveToken(`${baseBrightCoveUrlV3}/?${queryString.stringify({
-    q: query || '',
-    offset,
-    limit,
-  })}`).then(resolveJsonOrRejectWithError);
+  fetchWithBrightCoveToken(
+    `${baseBrightCoveUrlV3}/?${queryString.stringify({
+      q: query || '',
+      offset,
+      limit,
+    })}`,
+  ).then(resolveJsonOrRejectWithError);
 
-export const fetchBrightcoveVideo = videoId => fetchWithAccessToken(`${baseBrightCoveUrlV3}/${videoId}`).then(resolveJsonOrRejectWithError);
+export const fetchBrightcoveVideo = videoId =>
+  fetchWithAccessToken(`${baseBrightCoveUrlV3}/${videoId}`).then(
+    resolveJsonOrRejectWithError,
+  );
 
 export const onError = err => {
   createErrorPayload(err.status, defined(err.message, err.statusText), err);

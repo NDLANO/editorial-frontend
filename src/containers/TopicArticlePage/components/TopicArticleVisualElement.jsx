@@ -60,8 +60,12 @@ class TopicArticleVisualElement extends Component {
         {visualElementTag.id
           ? <div>
               <TextField
-                placeholder={t(`topicArticleForm.fields.caption.placeholder.${visualElementTag.resource}`)}
-                label={t(`topicArticleForm.fields.caption.label.${visualElementTag.resource}`)}
+                placeholder={t(
+                  `topicArticleForm.fields.caption.placeholder.${visualElementTag.resource}`,
+                )}
+                label={t(
+                  `topicArticleForm.fields.caption.label.${visualElementTag.resource}`,
+                )}
                 name="visualElementCaption"
                 noBorder
                 maxLength={300}

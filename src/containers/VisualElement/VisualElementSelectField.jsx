@@ -32,7 +32,7 @@ class VisualElementSelectField extends Component {
   }
   componentWillMount() {
     const { embedTag } = this.props;
-    if (embedTag.id){
+    if (embedTag.id) {
       api
         .fetchVisualElement(embedTag)
         .then(visualElement => this.setState({ visualElement }));

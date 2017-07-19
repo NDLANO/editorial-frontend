@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import config from '../../config';
 
-const DisplayImageTag = ({embedTag, className}) => {
+const DisplayImageTag = ({ embedTag, className }) => {
   if (!embedTag || !embedTag.id) {
     return null;
   }
@@ -21,7 +21,7 @@ const DisplayImageTag = ({embedTag, className}) => {
       <figcaption>{embedTag.caption}</figcaption>
     </figure>
   );
-}
+};
 
 DisplayImageTag.propTypes = {
   embedTag: PropTypes.shape({
@@ -31,6 +31,6 @@ DisplayImageTag.propTypes = {
     resource: PropTypes.string.isRequired,
   }),
   className: PropTypes.string,
-}
+};
 
 export default DisplayImageTag;

@@ -93,7 +93,10 @@ export const fetchBrightcoveAccessToken = () =>
   fetch('/get_brightcove_token').then(resolveJsonOrRejectWithError);
 
 export const setBrightcoveAccessTokenInLocalStorage = brightcoveAccessToken => {
-  localStorage.setItem('brightcove_access_token', brightcoveAccessToken.access_token);
+  localStorage.setItem(
+    'brightcove_access_token',
+    brightcoveAccessToken.access_token,
+  );
   localStorage.setItem(
     'brightcove_access_token_expires_at',
     brightcoveAccessToken.expires_in * 1000 + new Date().getTime(),
@@ -118,5 +121,4 @@ export const fetchWithBrightCoveToken = (url, config = {}) => {
     ...config,
     headers: { Authorization: `Bearer ${birghtcoveAccessToken}` },
   });
-
-}
+};

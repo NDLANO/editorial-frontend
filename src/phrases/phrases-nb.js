@@ -94,7 +94,7 @@ const phrases = {
         },
         placeholder: {
           image: 'Bildetekst',
-          video: 'Videotekst'
+          video: 'Videotekst',
         },
       },
       alt: {

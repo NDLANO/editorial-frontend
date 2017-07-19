@@ -11,20 +11,19 @@ import PropTypes from 'prop-types';
 import DisplayImageTag from './DisplayImageTag';
 import DisplayVideoTag from './DisplayVideoTag';
 
-const DisplayEmbedTag = ({embedTag, className}) => {
+const DisplayEmbedTag = ({ embedTag, className }) => {
   if (!embedTag) {
     return null;
   }
   switch (embedTag.resource) {
     case 'image':
-      return <DisplayImageTag embedTag={embedTag} className={className} />
+      return <DisplayImageTag embedTag={embedTag} className={className} />;
     case 'video':
-      return <DisplayVideoTag embedTag={embedTag} className={className} />
+      return <DisplayVideoTag embedTag={embedTag} className={className} />;
     default:
       return null;
-
   }
-}
+};
 
 DisplayEmbedTag.propTypes = {
   embedTag: PropTypes.shape({

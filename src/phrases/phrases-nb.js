@@ -62,6 +62,14 @@ const phrases = {
     placeholder: 'Søk i bilder',
     buttonTitle: 'Søk',
   },
+  videoSearch: {
+    searchPlaceholder: 'Søk i videoer',
+    searchButtonTitle: 'Søk',
+    loadMoreVideos: 'Last flere videor',
+    noResults: 'Ingen videor funnet.',
+    addVideo: 'Bruk video',
+    previewVideo: 'Forhåndsvis',
+  },
   topicArticleForm: {
     save: 'Lagre',
     savedOk: 'Lagret OK',

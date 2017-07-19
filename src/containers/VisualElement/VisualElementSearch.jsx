@@ -27,15 +27,6 @@ const VisualElementSearch = ({
   locale,
   t,
 }) => {
-  const videoTranslations = {
-    searchPlaceholder: 'Søk i videoer',
-    searchButtonTitle: 'Søk',
-    loadMoreVideos: 'Last flere videor',
-    noResults: 'Ingen videor funnet.',
-    addVideo: 'Bruk video',
-    previewVideo: 'Forhåndsvis',
-  };
-
   switch (embedTag.resource) {
     case 'image':
       return (
@@ -52,7 +43,15 @@ const VisualElementSearch = ({
           />
         </div>
       );
-    case 'video':
+    case 'video': {
+      const videoTranslations = {
+        searchPlaceholder: t('videoSearch.searchPlaceholder'),
+        searchButtonTitle: t('videoSearch.searchButtonTitle'),
+        loadMoreVideos: t('videoSearch.loadMoreVideos'),
+        noResults: t('videoSearch.noResults'),
+        addVideo: t('videoSearch.addVideo'),
+        previewVideo: t('videoSearch.previewVideo'),
+      };
       return (
         <div>
           <h2>{titles[embedTag.resource]}</h2>
@@ -66,6 +65,7 @@ const VisualElementSearch = ({
           />
         </div>
       );
+    }
     default:
       return <p>{`Embedtag ${embedTag.resource} is not supported.`}</p>;
   }

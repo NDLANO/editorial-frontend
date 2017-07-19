@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button } from 'ndla-ui';
 import Lightbox from '../../components/Lightbox';
-import DisplayEmbedTag from '../../components/DisplayEmbedTag';
+import DisplayEmbedTag from '../../components/DisplayEmbedTag/DisplayEmbedTag';
 import * as api from './visualElementApi';
 import { Field, FieldErrorMessages, classes } from '../../components/Fields';
 import VisualElementSearch from './VisualElementSearch';
@@ -109,6 +109,7 @@ class VisualElementSelectField extends Component {
       embedTag,
       locale,
     } = this.props;
+
     if (value) {
       return (
         <Field>
@@ -116,7 +117,7 @@ class VisualElementSelectField extends Component {
             <div {...classes('visual-element', 'left')}>
               <DisplayEmbedTag
                 embedTag={embedTag}
-                {...classes('visual-element')}
+                {...classes('visual-element', embedTag.resource)}
               />
             </div>
             <div {...classes('visual-element', 'right')}>

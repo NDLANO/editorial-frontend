@@ -51,6 +51,7 @@ module.exports = Object.assign(
     auth0ClientID: process.env.AUTH0_CLIENT_ID || '',
     auth0Domain: process.env.AUTH0_DOMAIN || '',
     brightCoveAccountId: process.env.BRIGHTCOVE_ACCOUNT_ID || '123456789',
+    brightcovePlayerId: process.env.BRIGHTCOVE_PLAYER_ID || 'Ab1234',
     brightcoveApiUrl: 'https://cms.api.brightcove.com',
     brightcoveClientId: process.env.BRIGHTCOVE_API_CLIENT_ID || '',
     brightcoveClientSecret: process.env.BRIGHTCOVE_API_CLIENT_SECRET || '',

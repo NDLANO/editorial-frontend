@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DisplayImageTag from './DisplayImageTag';
+import DisplayVideoTag from './DisplayVideoTag';
 
 const DisplayEmbedTag = ({embedTag, className}) => {
   if (!embedTag) {
@@ -17,6 +18,8 @@ const DisplayEmbedTag = ({embedTag, className}) => {
   switch (embedTag.resource) {
     case 'image':
       return <DisplayImageTag embedTag={embedTag} className={className} />
+    case 'video':
+      return <DisplayVideoTag embedTag={embedTag} className={className} />
     default:
       return null;
 
@@ -36,3 +39,5 @@ DisplayEmbedTag.propTypes = {
 DisplayEmbedTag.defaultProps = {
   className: '',
 };
+
+export default DisplayEmbedTag;

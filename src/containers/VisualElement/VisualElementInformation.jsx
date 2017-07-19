@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { titlesI18N } from '../../util/i18nFieldFinder';
+import { getVisualElementInformation } from '../../util/visualElementHelper';
 import { classes } from '../../components/Fields';
 import { injectT } from '../../i18n';
 
@@ -17,22 +17,20 @@ const VisualElementInformation = ({ visualElement, locale, embedTag, t }) => {
   if (!visualElement) {
     return null;
   }
-  const title = titlesI18N(visualElement, locale, true);
-  const copyright = visualElement.copyright && visualElement.copyright.authors
-    ? visualElement.copyright.authors.map(author => author.name).join(', ')
-    : undefined;
+  console.log(visualElement)
+  const element = getVisualElementInformation(visualElement, embedTag.resource, locale);
   return (
     <div>
       <span {...classes('visual-element-information')}>
-        {title
+        {element.title
           ? t(`topicArticleForm.visualElementTitle.${embedTag.resource}`)
           : ''}
       </span>
-      <span>{title || ''}</span>
+      <span>{element.title || ''}</span>
       <span {...classes('visual-element-information')}>
-        {copyright ? t('topicArticleForm.visualElementCopyright') : ''}
+        {element.copyright ? t('topicArticleForm.visualElementCopyright') : ''}
       </span>
-      <span>{copyright}</span>
+      <span>{element.copyright}</span>
     </div>
   );
 };

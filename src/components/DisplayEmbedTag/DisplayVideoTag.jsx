@@ -8,34 +8,31 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import Helmet from 'react-helmet'
 import config from '../../config';
 
 const DisplayImageTag = ({embedTag, className}) => {
   if (!embedTag || !embedTag.id) {
     return null;
   }
-  const src = `${config.ndlaApiUrl}/image-api/raw/id/${embedTag.id}`;
+  const src = `//players.brightcove.net/${config.brightcoveAccountId}/${config.brightcovePlayerId}_default/index.min.js`;
   return (
     <figure className={className}>
+      <Helmet>
+        <script src={src} type="text/javascript" />
+      </Helmet>
+      {/* eslint-disable */}
       <video
-         style={{
-           width: '100%',
-           height: '100%',
-           position: 'absolute',
-           top: '0px',
-           bottom: '0px',
-           right: '0px',
-           left: '0px',
-         }}
-         data-video-id={videoid}
-         data-account={account}
-         data-player={player}
+         data-video-id={embedTag.id}
+         data-account={config.brightCoveAccountId}
+         data-player={config.brightcovePlayerId}
          data-embed="default"
          className="video-js"
          controls
          alt={embedTag.alt}
        />
       <figcaption>{embedTag.caption}</figcaption>
+      {/* eslint-enable */}
     </figure>
   );
 }

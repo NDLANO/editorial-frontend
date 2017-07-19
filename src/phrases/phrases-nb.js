@@ -69,6 +69,7 @@ const phrases = {
     metadata: 'Metadata',
     visualElementTitle: {
       image: 'Bildetittel',
+      video: 'Videotittel',
     },
     visualElementCopyright: 'Opphav',
     title: {
@@ -87,8 +88,14 @@ const phrases = {
         label: 'Visuelt element',
       },
       caption: {
-        label: 'Bildetekst',
-        placeholder: 'Bildetekst',
+        label: {
+          image: 'Bildetekst',
+          video: 'Videotekst',
+        },
+        placeholder: {
+          image: 'Bildetekst',
+          video: 'Videotekst'
+        },
       },
       alt: {
         label: 'Alt-tekst',

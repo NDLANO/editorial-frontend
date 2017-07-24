@@ -11,7 +11,9 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import { actions, getArticle } from '../../modules/article/article';
-import TopicArticleForm, { getInitialModel } from './components/TopicArticleForm';
+import TopicArticleForm, {
+  getInitialModel,
+} from './components/TopicArticleForm';
 import { ArticleShape } from '../../shapes';
 
 class EditTopicArticle extends Component {

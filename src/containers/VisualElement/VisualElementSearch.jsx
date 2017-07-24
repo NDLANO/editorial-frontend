@@ -9,10 +9,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { injectT } from 'ndla-i18n';
 
 import ImageSearch from 'ndla-image-search';
 import * as api from './visualElementApi';
-import { injectT } from '../../i18n';
 import { getLocale } from '../../modules/locale/locale';
 
 const titles = {
@@ -30,7 +30,9 @@ const VisualElementSearch = ({
     case 'image':
       return (
         <div>
-          <h2>{titles[embedTag.resource]}</h2>
+          <h2>
+            {titles[embedTag.resource]}
+          </h2>
           <ImageSearch
             fetchImage={api.fetchImage}
             searchImages={api.searchImages}

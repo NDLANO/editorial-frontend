@@ -49,7 +49,9 @@ export default class DisplayEmbedTag extends React.Component {
     return (
       <figure className={className}>
         <img src={embed.src} alt={embedTag.alt} />
-        <figcaption>{embedTag.caption}</figcaption>
+        <figcaption>
+          {embedTag.caption}
+        </figcaption>
       </figure>
     );
   }

@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Arrow } from 'ndla-ui/icons';
-import { injectT } from '../../../i18n';
+import { injectT } from 'ndla-i18n';
 import {
   TextAreaField,
   MultiSelectField,

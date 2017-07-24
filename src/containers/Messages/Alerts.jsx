@@ -10,14 +10,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button } from 'ndla-ui';
-import { injectT } from '../../i18n';
+import { injectT } from 'ndla-i18n';
 
 import { clearMessage } from './messagesActions';
 import { MessageShape } from '../../shapes';
 
 export const Action = ({ title, onClick }) =>
   <button onClick={onClick} className="un-button alert_action">
-    <span className="alert_action-text">{title}</span>
+    <span className="alert_action-text">
+      {title}
+    </span>
   </button>;
 
 Action.propTypes = {

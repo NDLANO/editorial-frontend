@@ -8,19 +8,20 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 
 import { titlesI18N } from '../../util/i18nFieldFinder';
 import { classes } from '../../components/Fields';
-import { injectT } from '../../i18n';
 
 const VisualElementInformation = ({ visualElement, locale, embedTag, t }) => {
   if (!visualElement) {
     return null;
   }
   const title = titlesI18N(visualElement, locale, true);
-  const copyright = visualElement.copyright && visualElement.copyright.authors
-    ? visualElement.copyright.authors.map(author => author.name).join(', ')
-    : undefined;
+  const copyright =
+    visualElement.copyright && visualElement.copyright.authors
+      ? visualElement.copyright.authors.map(author => author.name).join(', ')
+      : undefined;
   return (
     <div>
       <span {...classes('visual-element-information')}>
@@ -28,11 +29,15 @@ const VisualElementInformation = ({ visualElement, locale, embedTag, t }) => {
           ? t(`topicArticleForm.visualElementTitle.${embedTag.resource}`)
           : ''}
       </span>
-      <span>{title || ''}</span>
+      <span>
+        {title || ''}
+      </span>
       <span {...classes('visual-element-information')}>
         {copyright ? t('topicArticleForm.visualElementCopyright') : ''}
       </span>
-      <span>{copyright}</span>
+      <span>
+        {copyright}
+      </span>
     </div>
   );
 };

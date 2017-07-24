@@ -6,12 +6,14 @@
  */
 
 import React from 'react';
-import { injectT } from '../../i18n';
+import { injectT } from 'ndla-i18n';
 import { loginSocialMedia } from '../../util/authHelpers';
 
 export const LoginProviders = ({ t }) =>
   <div>
-    <h3>{t('loginProviders.description')}</h3>
+    <h3>
+      {t('loginProviders.description')}
+    </h3>
     <ul className="vertical-menu">
       <li className="vertical-menu_item">
         <button

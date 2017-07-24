@@ -55,7 +55,9 @@ export const FieldErrorMessages = ({ field, submitted, label }) => {
   return (
     <div>
       {field.errors.map(error =>
-        <FieldHelp key={uuid()} error>{error(label)}</FieldHelp>,
+        <FieldHelp key={uuid()} error>
+          {error(label)}
+        </FieldHelp>,
       )}
     </div>
   );
@@ -77,7 +79,9 @@ export const FocusLabel = ({ name, value, hasFocus, children }) => {
   }
   return (
     <div className="c-field__focus-label">
-      <span className="c-field__focus-text">{children}</span>
+      <span className="c-field__focus-text">
+        {children}
+      </span>
     </div>
   );
 };
@@ -118,8 +122,12 @@ export const TextField = ({
 }) =>
   <Field noBorder={noBorder} big={big}>
     {!noBorder
-      ? <label htmlFor={name}>{label}</label>
-      : <label className="u-hidden" htmlFor={name}>{label}</label>}
+      ? <label htmlFor={name}>
+          {label}
+        </label>
+      : <label className="u-hidden" htmlFor={name}>
+          {label}
+        </label>}
     {noBorder &&
       <FocusLabel name={name} value={bindInput(name).value}>
         {label}
@@ -157,7 +165,9 @@ TextField.defaultProps = {
 };
 
 export const FieldDescription = ({ children }) =>
-  <p {...classes('description')}>{children}</p>;
+  <p {...classes('description')}>
+    {children}
+  </p>;
 
 export const TextAreaField = ({
   bindInput,
@@ -172,8 +182,13 @@ export const TextAreaField = ({
   ...rest
 }) =>
   <Field>
-    <label htmlFor={name}>{label}</label>
-    {description && <FieldDescription>{description}</FieldDescription>}
+    <label htmlFor={name}>
+      {label}
+    </label>
+    {description &&
+      <FieldDescription>
+        {description}
+      </FieldDescription>}
     <textarea
       id={name}
       className="form-control"
@@ -215,8 +230,12 @@ export const RichTextField = ({
   return (
     <Field noBorder>
       {!noBorder
-        ? <label htmlFor={name}>{label}</label>
-        : <label className="u-hidden" htmlFor={name}>{label}</label>}
+        ? <label htmlFor={name}>
+            {label}
+          </label>
+        : <label className="u-hidden" htmlFor={name}>
+            {label}
+          </label>}
       {noBorder &&
         <FocusLabel
           name={name}
@@ -265,8 +284,12 @@ export const PlainTextField = ({
   return (
     <Field noBorder>
       {!noBorder
-        ? <label htmlFor={name}>{label}</label>
-        : <label className="u-hidden" htmlFor={name}>{label}</label>}
+        ? <label htmlFor={name}>
+            {label}
+          </label>
+        : <label className="u-hidden" htmlFor={name}>
+            {label}
+          </label>}
       {noBorder &&
         <FocusLabel
           name={name}
@@ -314,8 +337,13 @@ export const MultiSelectField = ({
   ...rest
 }) =>
   <Field>
-    <label htmlFor={name}>{label}</label>
-    {description && <FieldDescription>{description}</FieldDescription>}
+    <label htmlFor={name}>
+      {label}
+    </label>
+    {description &&
+      <FieldDescription>
+        {description}
+      </FieldDescription>}
     <MultiSelect {...bindInput(name)} {...rest} />
     <FieldErrorMessages
       label={label}

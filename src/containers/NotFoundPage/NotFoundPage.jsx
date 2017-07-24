@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { OneColumn } from 'ndla-ui';
-import { injectT } from '../../i18n';
+import { injectT } from 'ndla-i18n';
 
 const Status = ({ code, children }) =>
   <Route
@@ -32,7 +32,9 @@ function NotFound({ t }) {
     <Status code={404}>
       <OneColumn cssModifier="narrow">
         <div>
-          <h2>404 - {t('notFound.description')}</h2>
+          <h2>
+            404 - {t('notFound.description')}
+          </h2>
         </div>
       </OneColumn>
     </Status>

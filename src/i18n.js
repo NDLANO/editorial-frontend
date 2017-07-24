@@ -6,17 +6,8 @@
  *
  */
 
-import React from 'react';
-import { addLocaleData, intlShape } from 'react-intl';
-
-import enLocaleData from 'react-intl/locale-data/en';
-import nbLocaleData from 'react-intl/locale-data/nb';
-import nnLocaleData from 'react-intl/locale-data/nn';
-
 import nb from './phrases/phrases-nb';
 import en from './phrases/phrases-en';
-
-addLocaleData([...nbLocaleData, ...nnLocaleData, ...enLocaleData]);
 
 function* entries(obj) {
   // eslint-disable-next-line
@@ -78,25 +69,3 @@ export const getHtmlLang = localeAbbreviation => {
   const locale = appLocales.find(l => l.abbreviation === localeAbbreviation);
   return locale ? locale.abbreviation : 'nb'; // Defaults to nb if not found
 };
-
-export const injectT = WrappedComponent => {
-  function getDisplayName(component) {
-    return component.displayName || component.name || 'Component';
-  }
-
-  const InjectT = (props, context) =>
-    <WrappedComponent
-      {...props}
-      t={(id, value = {}) => context.intl.formatMessage({ id }, value)}
-    />;
-
-  InjectT.contextTypes = {
-    intl: intlShape,
-  };
-
-  InjectT.displayName = `InjectT(${getDisplayName(WrappedComponent)})`;
-
-  return InjectT;
-};
-
-export default injectT;

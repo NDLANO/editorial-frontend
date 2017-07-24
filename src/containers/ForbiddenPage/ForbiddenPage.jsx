@@ -10,7 +10,7 @@ import React from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
-import { injectT } from '../../i18n';
+import { injectT } from 'ndla-i18n';
 
 const Status = ({ code, children }) =>
   <Route
@@ -31,8 +31,9 @@ const Forbidden = ({ t }) =>
   <Status code={403}>
     <OneColumn cssModifier="narrow">
       <div>
-        <h2>403 - {t('forbiddenPage.no')}</h2>
-        <p>{t('forbiddenPage.info')}</p>
+        <h2>
+          403 - {t('forbiddenPage.description')}
+        </h2>
       </div>
     </OneColumn>
   </Status>;

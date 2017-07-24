@@ -11,13 +11,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { IntlProvider } from 'react-intl';
+import IntlProvider from 'ndla-i18n';
 import ErrorReporter from 'ndla-error-reporter';
-import routes from './routes';
 
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
 import { getSessionStateFromLocalStorage } from './modules/session/session';
+import App from './containers/App/App';
 
 const initialState = window.initialState;
 const localeString = initialState.locale;
@@ -47,7 +47,7 @@ ReactDOM.render(
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
       <BrowserRouter basename={basename}>
-        {routes}
+        <App />
       </BrowserRouter>
     </IntlProvider>
   </Provider>,

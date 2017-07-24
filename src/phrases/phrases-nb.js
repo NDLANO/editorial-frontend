@@ -58,9 +58,19 @@ const phrases = {
   subjectPage: {
     topics: 'Emner',
   },
+  imageSearch: {
+    placeholder: 'Søk i bilder',
+    buttonTitle: 'Søk',
+  },
   topicArticleForm: {
     save: 'Lagre',
+    savedOk: 'Lagret OK',
+    createdOk: 'Opprettet OK',
     metadata: 'Metadata',
+    visualElementTitle: {
+      image: 'Bildetittel',
+    },
+    visualElementCopyright: 'Opphav',
     title: {
       create: 'Du oppretter nå en emnebeskrivelse',
       update: 'Du redigerer nå en emnebeskrivelse',
@@ -73,6 +83,7 @@ const phrases = {
         label: 'Ingress',
       },
       visualElement: {
+        title: 'Legg til visuelt element',
         label: 'Visuelt element',
       },
       caption: {
@@ -129,6 +140,9 @@ const phrases = {
   },
   notFound: {
     description: 'Denne siden finnes ikke.',
+  },
+  forbiddenPage: {
+    description: 'Du har ikke tilgang til denne siden',
   },
 };
 

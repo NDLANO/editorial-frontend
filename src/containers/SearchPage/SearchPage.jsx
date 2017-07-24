@@ -19,7 +19,7 @@ import SearchForm from './components/SearchForm';
 import SearchResultList from './components/SearchResultList';
 import SelectSearchSortOrder from './components/SelectSearchSortOrder';
 import SelectArticleType from './components/SelectArticleType';
-import { toSearch } from '../../routes';
+import { toSearch } from '../../util/routeHelpers';
 
 class SearchPage extends Component {
   componentWillMount() {

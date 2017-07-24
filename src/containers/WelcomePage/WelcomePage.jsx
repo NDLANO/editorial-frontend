@@ -9,8 +9,8 @@
 import React from 'react';
 import { OneColumn } from 'ndla-ui';
 import { Link } from 'react-router-dom';
-import { injectT } from '../../i18n';
-import { toCreateTopicArticle, toSearch } from '../../routes';
+import { injectT } from 'ndla-i18n';
+import { toCreateTopicArticle, toSearch } from '../../util/routeHelpers';
 
 const query = { articleTypes: 'topic-article' };
 
@@ -19,7 +19,9 @@ export const WelcomePage = ({ t }) =>
     <OneColumn cssModifier="narrow">
       <article>
         <section>
-          <h1>{t('welcomePage.shortcuts')}</h1>
+          <h1>
+            {t('welcomePage.shortcuts')}
+          </h1>
           <ul>
             <li>
               <Link to={`${toSearch(query)}`}>

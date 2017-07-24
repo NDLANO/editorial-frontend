@@ -8,9 +8,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import { actions, getArticle } from '../../modules/article/article';
-import TopicArticleForm, { getInitialModel } from './components/TopicArticleForm';
+import TopicArticleForm, {
+  getInitialModel,
+} from './components/TopicArticleForm';
 import { ArticleShape } from '../../shapes';
 
 class EditTopicArticle extends Component {
@@ -31,9 +34,12 @@ class EditTopicArticle extends Component {
 
   render() {
     const { locale, article, tags, isSaving } = this.props;
-
     if (!article) {
       return null;
+    }
+
+    if (article.articleType !== 'topic-article') {
+      return <Redirect to="/forbidden" />;
     }
 
     return (

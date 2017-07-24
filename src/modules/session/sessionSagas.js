@@ -8,7 +8,7 @@
 
 import { take, call, put } from 'redux-saga/effects';
 import { actions } from './session';
-import { toLogin } from '../../routes';
+import { toLogin } from '../../util/routeHelpers';
 import { decodeToken } from '../../util/jwtHelper';
 import {
   authLogout,

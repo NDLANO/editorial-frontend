@@ -11,7 +11,6 @@ export const parseEmbedTag = embedTag => {
     return undefined;
   }
   const getAttribute = name => embedElements[0].getAttribute(`data-${name}`);
-
   return {
     id: getAttribute('resource_id'),
     alt: getAttribute('alt'),

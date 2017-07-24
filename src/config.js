@@ -50,6 +50,8 @@ module.exports = Object.assign(
     editorialFrontendDomain: editorialFrontendDomain(),
     auth0ClientID: process.env.AUTH0_CLIENT_ID || '',
     auth0Domain: process.env.AUTH0_DOMAIN || '',
+    brightcoveClientId: process.env.BRIGHTCOVE_API_CLIENT_ID || '',
+    brightcoveClientSecret: process.env.BRIGHTCOVE_API_CLIENT_SECRET || '',
   },
   environment,
 );

@@ -59,6 +59,13 @@ const phrases = {
   },
   topicArticleForm: {
     save: 'Save',
+    savedOk: 'Saved OK',
+    createdOk: 'Created OK',
+    metadata: 'Metadata',
+    visualElementTitle: {
+      image: 'Image title',
+    },
+    visualElementCopyright: 'Origin',
     title: {
       create: 'You are now creating a topic description',
       update: 'You are now editing a topic description',
@@ -71,6 +78,7 @@ const phrases = {
         label: 'Introduction',
       },
       visualElement: {
+        title: 'Add visual element',
         label: 'Visual element',
       },
       caption: {
@@ -131,6 +139,9 @@ const phrases = {
   },
   notFound: {
     description: 'The page cannot be found',
+  },
+  forbiddenPage: {
+    description: 'You do not have access to this page',
   },
 };
 

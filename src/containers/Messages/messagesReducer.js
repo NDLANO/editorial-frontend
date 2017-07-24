@@ -16,6 +16,7 @@ export default handleActions(
         const message = {
           id: uuid(),
           message: action.payload.message,
+          translationKey: action.payload.translationKey,
           severity: action.payload.severity,
           action: action.payload.action,
           timeToLive:

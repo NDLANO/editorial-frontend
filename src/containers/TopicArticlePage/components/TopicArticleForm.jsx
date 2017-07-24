@@ -18,20 +18,20 @@ import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import {
   TextField,
-  TextAreaField,
-  MultiSelectField,
   RichTextField,
   PlainTextField,
   RemainingCharacters,
   Field,
 } from '../../../components/Fields';
-import ImageSelectField from '../../../components/ImageSelectField';
+
 import converter from '../topicArticleContentConverter';
 import {
   createEditorStateFromText,
   getPlainTextFromEditorState,
 } from '../../../util/draftjsHelpers';
 import { parseEmbedTag } from '../../../util/embedTagHelpers';
+import TopicArticleVisualElement from './TopicArticleVisualElement';
+import TopicArticleMetadata from './TopicArticleMetadata';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -40,7 +40,7 @@ const DEFAULT_LICENSE = {
 };
 
 export const getInitialModel = (article = {}) => {
-  const image = parseEmbedTag(article.visualElement) || {};
+  const visualElement = parseEmbedTag(article.visualElement) || {};
   return {
     id: article.id,
     revision: article.revision,
@@ -56,10 +56,11 @@ export const getInitialModel = (article = {}) => {
     copyright: article.copyright
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
-    imageId: image.id || '',
     metaDescription: article.metaDescription || '',
-    imageCaption: image.caption || '',
-    imageAltText: image.alt || '',
+    visualElementId: visualElement.id || '',
+    visualElementCaption: visualElement.caption || '',
+    visualElementAlt: visualElement.alt || '',
+    visualElementType: visualElement.resource || '',
   };
 };
 
@@ -102,7 +103,7 @@ class TopicArticleForm extends Component {
       content: [{ content: converter.toHtml(model.content), language }],
       visualElement: [
         {
-          content: `<embed data-size="fullbredde" data-align="" data-alt="${model.imageAltText}" data-caption="${model.imageCaption}" data-resource="image" data-resource_id="${model.imageId}" />`,
+          content: `<embed data-size="fullbredde" data-align="" data-alt="${model.visualElementAlt}" data-caption="${model.visualElementCaption}" data-resource="${model.visualElementType}" data-resource_id="${model.visualElementId}" />`,
           language,
         },
       ],
@@ -127,11 +128,11 @@ class TopicArticleForm extends Component {
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
-    const imageTag = {
-      resource: 'image',
-      id: model.imageId,
-      caption: model.imageCaption,
-      alt: model.imageAltText,
+    const visualElementTag = {
+      resource: model.visualElementType,
+      id: model.visualElementId,
+      caption: model.visualElementCaption,
+      alt: model.visualElementAlt,
     };
     return (
       <form onSubmit={this.handleSubmit} {...classes()}>
@@ -164,29 +165,10 @@ class TopicArticleForm extends Component {
               .getPlainText()}
           />
         </PlainTextField>
-        <ImageSelectField
-          label={t('topicArticleForm.fields.visualElement.label')}
-          schema={schema}
-          submitted={submitted}
-          embedTag={imageTag}
-          {...bindInput('imageId')}
-        />
-        <TextField
-          placeholder={t('topicArticleForm.fields.caption.placeholder')}
-          label={t('topicArticleForm.fields.caption.label')}
-          name="imageCaption"
-          noBorder
-          maxLength={300}
-          {...commonFieldProps}
-        />
-
-        <TextField
-          placeholder={t('topicArticleForm.fields.alt.placeholder')}
-          label={t('topicArticleForm.fields.alt.label')}
-          name="imageAltText"
-          noBorder
-          maxLength={300}
-          {...commonFieldProps}
+        <TopicArticleVisualElement
+          visualElementTag={visualElementTag}
+          commonFieldProps={commonFieldProps}
+          bindInput={bindInput}
         />
 
         <RichTextField
@@ -196,41 +178,11 @@ class TopicArticleForm extends Component {
           name="content"
           {...commonFieldProps}
         />
-        <hr />
-        <MultiSelectField
-          name="tags"
-          data={tags}
-          label={t('topicArticleForm.fields.tags.label')}
-          description={t('topicArticleForm.fields.tags.description')}
-          messages={{
-            createNew: t('topicArticleForm.fields.tags.createNew'),
-            emptyFilter: t('topicArticleForm.fields.tags.emptyFilter'),
-            emptyList: t('topicArticleForm.fields.tags.emptyList'),
-          }}
-          {...commonFieldProps}
-        />
-        <TextAreaField
-          label={t('topicArticleForm.fields.metaDescription.label')}
-          description={t('topicArticleForm.fields.metaDescription.description')}
-          name="metaDescription"
-          maxLength={150}
-          {...commonFieldProps}>
-          <RemainingCharacters
-            maxLength={150}
-            getRemainingLabel={(maxLength, remaining) =>
-              t('form.remainingCharacters', { maxLength, remaining })}
-            value={bindInput('metaDescription').value}
-          />
-        </TextAreaField>
-        <MultiSelectField
-          name="authors"
-          label={t('topicArticleForm.fields.authors.label')}
-          messages={{
-            createNew: t('topicArticleForm.fields.authors.createNew'),
-            emptyFilter: t('topicArticleForm.fields.authors.emptyFilter'),
-            emptyList: t('topicArticleForm.fields.authors.emptyList'),
-          }}
-          {...commonFieldProps}
+        <TopicArticleMetadata
+          classes={classes}
+          commonFieldProps={commonFieldProps}
+          bindInput={bindInput}
+          tags={tags}
         />
         <Field right>
           <Button
@@ -282,7 +234,7 @@ export default compose(
     metaDescription: {
       required: true,
     },
-    imageId: {
+    visualElementId: {
       required: true,
     },
     tags: {

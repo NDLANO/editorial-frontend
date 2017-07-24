@@ -56,7 +56,7 @@ export const getInitialModel = (article = {}) => {
     copyright: article.copyright
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
-    metaDescription: article.metaDescription || '',
+    metaDescription: createEditorStateFromText(article.metaDescription) || '',
     visualElementId: visualElement.id || '',
     visualElementCaption: visualElement.caption || '',
     visualElementAlt: visualElement.alt || '',

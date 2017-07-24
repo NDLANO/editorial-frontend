@@ -299,7 +299,10 @@ export const PlainTextField = ({
           {label}
         </FocusLabel>}
       <div {...classes('plain-text-editor')}>
-        {description && <FieldDescription>{description}</FieldDescription>}
+        {description &&
+          <FieldDescription>
+            {description}
+          </FieldDescription>}
         <PlainTextEditor
           id={name}
           onChange={val =>

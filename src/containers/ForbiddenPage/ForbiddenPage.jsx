@@ -31,7 +31,9 @@ const Forbidden = ({ t }) =>
   <Status code={403}>
     <OneColumn cssModifier="narrow">
       <div>
-        <h2>403 - {t('forbiddenPage.description')}</h2>
+        <h2>
+          403 - {t('forbiddenPage.description')}
+        </h2>
       </div>
     </OneColumn>
   </Status>;

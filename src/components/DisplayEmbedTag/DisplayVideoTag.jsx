@@ -21,7 +21,6 @@ const DisplayImageTag = ({ embedTag, className }) => {
       <Helmet>
         <script src={src} type="text/javascript" />
       </Helmet>
-      {/* eslint-disable */}
       <video
         data-video-id={embedTag.id}
         data-account={config.brightCoveAccountId}
@@ -30,11 +29,12 @@ const DisplayImageTag = ({ embedTag, className }) => {
         className="video-js"
         controls
         alt={embedTag.alt}
-      />
+      >
+        <track kind="captions" label={embedTag.caption} />
+      </video>
       <figcaption>
         {embedTag.caption}
       </figcaption>
-      {/* eslint-enable */}
     </figure>
   );
 };

@@ -4295,9 +4295,9 @@ ndla-licenses@^0.0.9:
   dependencies:
     defined "1.0.0"
 
-ndla-ui@^0.7.2:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.7.4.tgz#3c79d9cb14be924a5f1554d953364a225b37c5c6"
+ndla-ui@^0.7.6:
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.7.6.tgz#4a563b376f45c732e6d3614ca6bb81aa2444f668"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"
@@ -4310,9 +4310,9 @@ ndla-util@^0.1.4:
   dependencies:
     defined "1.0.0"
 
-ndla-video-search@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/ndla-video-search/-/ndla-video-search-0.1.4.tgz#f536d6c2e63b005c164dfca72642ad376ef9ef3d"
+ndla-video-search@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/ndla-video-search/-/ndla-video-search-0.1.6.tgz#1dc062b6fd70ba54f37efcf0262f9e6515838ba4"
   dependencies:
     defined "1.0.0"
     react-bem-helper "^1.2.0"

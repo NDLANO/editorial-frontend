@@ -99,7 +99,9 @@ input::placeholder {
 
   &__plain-text-editor {
     & .public-DraftEditor-content {
+      border: 1px solid rgb(230, 230, 230);
       min-height: 6em;
+      padding: 0.6em;
     }
   }
 

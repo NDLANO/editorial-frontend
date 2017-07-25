@@ -36,3 +36,17 @@ export const getToken = () =>
     },
     body: 'grant_type=client_credentials',
   }).then(res => res.json());
+
+export const getBrightcoveToken = () => {
+  const bightCoveUrl = 'https://oauth.brightcove.com/v3/access_token';
+  const clientIdSecret = `${process.env.BRIGHTCOVE_API_CLIENT_ID}:${process.env
+    .BRIGHTCOVE_API_CLIENT_SECRET}`;
+  return fetch(bightCoveUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+      Authorization: `Basic ${b64EncodeUnicode(clientIdSecret)}`,
+    },
+    body: 'grant_type=client_credentials',
+  }).then(res => res.json());
+};

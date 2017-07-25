@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
-import { Cross, Camera, Plus } from 'ndla-ui/icons';
+import { Cross, Camera, Plus, Video } from 'ndla-ui/icons';
 import { classes } from '../../components/Fields';
 
 class VisualElementTypeSelect extends Component {
@@ -58,6 +58,12 @@ class VisualElementTypeSelect extends Component {
             {...classes('visual-element-type-button')}
             onClick={() => this.onTypeChange('image')}>
             <Camera />
+          </Button>
+          <Button
+            stripped
+            {...classes('visual-element-type-button')}
+            onClick={() => this.onTypeChange('video')}>
+            <Video />
           </Button>
         </div>
       </div>

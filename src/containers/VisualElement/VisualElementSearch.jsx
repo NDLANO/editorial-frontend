@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { injectT } from 'ndla-i18n';
 
 import ImageSearch from 'ndla-image-search';
+import VideoSearch from 'ndla-video-search';
 import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
 
@@ -44,6 +45,31 @@ const VisualElementSearch = ({
           />
         </div>
       );
+    case 'video': {
+      const videoTranslations = {
+        searchPlaceholder: t('videoSearch.searchPlaceholder'),
+        searchButtonTitle: t('videoSearch.searchButtonTitle'),
+        loadMoreVideos: t('videoSearch.loadMoreVideos'),
+        noResults: t('videoSearch.noResults'),
+        addVideo: t('videoSearch.addVideo'),
+        previewVideo: t('videoSearch.previewVideo'),
+      };
+      return (
+        <div>
+          <h2>
+            {titles[embedTag.resource]}
+          </h2>
+          <VideoSearch
+            fetchVideo={api.fetchBrightcoveVideo}
+            searchVideos={api.searchBrightcoveVideos}
+            locale={locale}
+            translations={videoTranslations}
+            onVideoSelect={handleVisualElementChange}
+            onError={api.onError}
+          />
+        </div>
+      );
+    }
     default:
       return <p>{`Embedtag ${embedTag.resource} is not supported.`}</p>;
   }

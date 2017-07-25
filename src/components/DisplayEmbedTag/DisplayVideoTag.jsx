@@ -28,8 +28,7 @@ const DisplayImageTag = ({ embedTag, className }) => {
         data-embed="default"
         className="video-js"
         controls
-        alt={embedTag.alt}
-      >
+        alt={embedTag.alt}>
         <track kind="captions" label={embedTag.caption} />
       </video>
       <figcaption>

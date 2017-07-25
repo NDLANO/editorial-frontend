@@ -31,7 +31,9 @@ const DisplayImageTag = ({ embedTag, className }) => {
         controls
         alt={embedTag.alt}
       />
-      <figcaption>{embedTag.caption}</figcaption>
+      <figcaption>
+        {embedTag.caption}
+      </figcaption>
       {/* eslint-enable */}
     </figure>
   );

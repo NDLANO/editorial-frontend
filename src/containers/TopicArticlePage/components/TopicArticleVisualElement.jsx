@@ -8,8 +8,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 
-import { injectT } from '../../../i18n';
 import { TextField, classes } from '../../../components/Fields';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 import VisualElementTypeSelect from '../../VisualElement/VisualElementTypeSelect';

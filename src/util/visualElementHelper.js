@@ -5,9 +5,10 @@ export function getVisualElementInformation(element, type, locale) {
     case 'image':
       return {
         title: titlesI18N(element, locale, true),
-        copyright: element.copyright && element.copyright.authors
-          ? element.copyright.authors.map(author => author.name).join(', ')
-          : undefined,
+        copyright:
+          element.copyright && element.copyright.authors
+            ? element.copyright.authors.map(author => author.name).join(', ')
+            : undefined,
       };
     case 'video': {
       const copyrightsKeys = Object.keys(element.custom_fields).filter(key =>

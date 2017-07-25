@@ -8,10 +8,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 
 import { getVisualElementInformation } from '../../util/visualElementHelper';
 import { classes } from '../../components/Fields';
-import { injectT } from '../../i18n';
 
 const VisualElementInformation = ({ visualElement, locale, embedTag, t }) => {
   if (!visualElement) {
@@ -30,11 +30,15 @@ const VisualElementInformation = ({ visualElement, locale, embedTag, t }) => {
           ? t(`topicArticleForm.visualElementTitle.${embedTag.resource}`)
           : ''}
       </span>
-      <span>{element.title || ''}</span>
+      <span>
+        {element.title || ''}
+      </span>
       <span {...classes('visual-element-information')}>
         {element.copyright ? t('topicArticleForm.visualElementCopyright') : ''}
       </span>
-      <span>{element.copyright}</span>
+      <span>
+        {element.copyright}
+      </span>
     </div>
   );
 };

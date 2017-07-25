@@ -18,7 +18,9 @@ const DisplayImageTag = ({ embedTag, className }) => {
   return (
     <figure className={className}>
       <img src={src} alt={embedTag.alt} />
-      <figcaption>{embedTag.caption}</figcaption>
+      <figcaption>
+        {embedTag.caption}
+      </figcaption>
     </figure>
   );
 };

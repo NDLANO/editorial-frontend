@@ -9,12 +9,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-
+import { Button } from 'ndla-ui';
 import { TextField, classes } from '../../../components/Fields';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
-import VisualElementTypeSelect from '../../VisualElement/VisualElementTypeSelect';
 
-class TopicArticleVisualElement extends Component {
+class LearningResourceVisualElement extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,51 +29,42 @@ class TopicArticleVisualElement extends Component {
   }
 
   render() {
-    const { t, bindInput, commonFieldProps, visualElementTag } = this.props;
+    const { t, bindInput, commonFieldProps, metaImageTag } = this.props;
     const { schema, submitted } = commonFieldProps;
 
     return (
       <div>
-        <div {...classes('add-visual-element-title')}>
-          <span>
-            {t('topicArticleForm.fields.visualElement.title')}
-            <div {...classes('add-visual-element-title', 'border')} />
-          </span>
-        </div>
-        <VisualElementTypeSelect
-          schema={schema}
-          submitted={submitted}
-          embedTag={visualElementTag}
-          toggleShowVisualElement={this.toggleShowVisualElement}
-          {...bindInput('visualElementType')}
-        />
+        <h3>
+            {t('learningResourceForm.fields.metaImage.title')}
+        </h3>
         <VisualElementSelectField
-          label={t('topicArticleForm.fields.visualElement.label')}
+          label={t('learningResourceForm.fields.metaImage.label')}
           schema={schema}
           submitted={submitted}
-          embedTag={visualElementTag}
-          {...bindInput('visualElementId')}
+          embedTag={metaImageTag}
+          {...bindInput('metaImageId')}
           showVisualElement={this.state.showVisualElement}
           toggleShowVisualElement={this.toggleShowVisualElement}
         />
-        {visualElementTag.id
+        {!metaImageTag.id ? <Button onClick={this.toggleShowVisualElement}>Velg bilde</Button> : ''}
+        {metaImageTag.id
           ? <div>
               <TextField
                 placeholder={t(
-                  `topicArticleForm.fields.caption.placeholder.${visualElementTag.resource}`,
+                  `learningResourceForm.fields.caption.placeholder.image`,
                 )}
                 label={t(
-                  `topicArticleForm.fields.caption.label.${visualElementTag.resource}`,
+                  `learningResourceForm.fields.caption.label.image`,
                 )}
-                name="visualElementCaption"
+                name="metaImageCaption"
                 noBorder
                 maxLength={300}
                 {...commonFieldProps}
               />
               <TextField
-                placeholder={t('topicArticleForm.fields.alt.placeholder')}
-                label={t('topicArticleForm.fields.alt.label')}
-                name="visualElementAlt"
+                placeholder={t('learningResourceForm.fields.alt.placeholder')}
+                label={t('learningResourceForm.fields.alt.label')}
+                name="metaImageAlt"
                 noBorder
                 maxLength={300}
                 {...commonFieldProps}
@@ -86,7 +76,7 @@ class TopicArticleVisualElement extends Component {
   }
 }
 
-TopicArticleVisualElement.propTypes = {
+LearningResourceVisualElement.propTypes = {
   bindInput: PropTypes.func.isRequired,
   commonFieldProps: PropTypes.shape({
     schema: PropTypes.shape({
@@ -96,7 +86,7 @@ TopicArticleVisualElement.propTypes = {
     submitted: PropTypes.bool.isRequired,
     bindInput: PropTypes.func.isRequired,
   }),
-  visualElementTag: PropTypes.shape({
+  metaImageTag: PropTypes.shape({
     caption: PropTypes.string.isRequired,
     alt: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
@@ -104,4 +94,4 @@ TopicArticleVisualElement.propTypes = {
   }),
 };
 
-export default injectT(TopicArticleVisualElement);
+export default injectT(LearningResourceVisualElement);

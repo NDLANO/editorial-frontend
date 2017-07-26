@@ -60,7 +60,10 @@ export class App extends React.Component {
           <Route path="/logout" component={Logout} />
           <PrivateRoute path="/search" component={SearchPage} />
           <PrivateRoute path="/topic-article/" component={TopicArticlePage} />
-          <PrivateRoute path="/learning-resource" component={LearningResourcePage} />
+          <PrivateRoute
+            path="/learning-resource"
+            component={LearningResourcePage}
+          />
           <Route path="/forbidden" component={ForbiddenPage} />
           <Route component={NotFoundPage} />
         </Switch>

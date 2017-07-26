@@ -16,22 +16,17 @@ import { injectT } from 'ndla-i18n';
 
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
-import {
-  TextField,
-  RichTextField,
-  PlainTextField,
-  RemainingCharacters,
-  Field,
-} from '../../../components/Fields';
+import { Field } from '../../../components/Fields';
 
-import converter from '../topicArticleContentConverter';
+import converter from '../../../util/articleContentConverter';
 import {
   createEditorStateFromText,
   getPlainTextFromEditorState,
 } from '../../../util/draftjsHelpers';
 import { parseEmbedTag } from '../../../util/embedTagHelpers';
-import TopicArticleVisualElement from './TopicArticleVisualElement';
-import TopicArticleMetadata from './TopicArticleMetadata';
+
+import LearningResourceMetadata from './LearningResourceMetadata';
+import LearningResourceContent from './LearningResourceContent';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -40,7 +35,7 @@ const DEFAULT_LICENSE = {
 };
 
 export const getInitialModel = (article = {}) => {
-  const visualElement = parseEmbedTag(article.visualElement) || {};
+  const metaImage = parseEmbedTag(article.visualElement) || {};
   return {
     id: article.id,
     revision: article.revision,
@@ -57,10 +52,9 @@ export const getInitialModel = (article = {}) => {
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
     metaDescription: createEditorStateFromText(article.metaDescription) || '',
-    visualElementId: visualElement.id || '',
-    visualElementCaption: visualElement.caption || '',
-    visualElementAlt: visualElement.alt || '',
-    visualElementType: visualElement.resource || '',
+    metaImageId: metaImage.id || '',
+    metaImageCaption: metaImage.caption || '',
+    metaImageAlt: metaImage.alt || '',
   };
 };
 
@@ -69,7 +63,7 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-class TopicArticleForm extends Component {
+class LearningResourceForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -103,7 +97,7 @@ class TopicArticleForm extends Component {
       content: [{ content: converter.toHtml(model.content), language }],
       visualElement: [
         {
-          content: `<embed data-size="fullbredde" data-align="" data-alt="${model.visualElementAlt}" data-caption="${model.visualElementCaption}" data-resource="${model.visualElementType}" data-resource_id="${model.visualElementId}" />`,
+          content: `<embed data-size="fullbredde" data-align="" data-alt="${model.metaImageAlt}" data-caption="${model.metaImageCaption}" data-resource="image" data-resource_id="${model.metaImageId}" />`,
           language,
         },
       ],
@@ -113,7 +107,7 @@ class TopicArticleForm extends Component {
           language,
         },
       ],
-      articleType: 'topic-article',
+      articleType: 'standard',
       copyright: {
         ...model.copyright,
         authors: model.authors.map(name => ({ type: 'Forfatter', name })),
@@ -133,61 +127,27 @@ class TopicArticleForm extends Component {
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
-    const visualElementTag = {
-      resource: model.visualElementType,
-      id: model.visualElementId,
-      caption: model.visualElementCaption,
-      alt: model.visualElementAlt,
-    };
+    console.log("HALLA");
+
     return (
       <form onSubmit={this.handleSubmit} {...classes()}>
         <div {...classes('title')}>
           {model.id
-            ? t('topicArticleForm.title.update')
-            : t('topicArticleForm.title.create')}
+            ? t('learningResourceForm.title.update')
+            : t('learningResourceForm.title.create')}
         </div>
-        <TextField
-          label={t('topicArticleForm.fields.title.label')}
-          name="title"
-          big
-          noBorder
-          placeholder={t('topicArticleForm.fields.title.label')}
-          {...commonFieldProps}
-        />
-        <PlainTextField
-          label={t('topicArticleForm.fields.introduction.label')}
-          placeholder={t('topicArticleForm.fields.introduction.label')}
-          name="introduction"
-          noBorder
-          maxLength={300}
-          {...commonFieldProps}>
-          <RemainingCharacters
-            maxLength={300}
-            getRemainingLabel={(maxLength, remaining) =>
-              t('form.remainingCharacters', { maxLength, remaining })}
-            value={bindInput('introduction').value
-              .getCurrentContent()
-              .getPlainText()}
-          />
-        </PlainTextField>
-        <TopicArticleVisualElement
-          visualElementTag={visualElementTag}
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-        />
-
-        <RichTextField
-          noBorder
-          label={t('topicArticleForm.fields.content.label')}
-          placeholder={t('topicArticleForm.fields.content.placeholder')}
-          name="content"
-          {...commonFieldProps}
-        />
-        <TopicArticleMetadata
+        <LearningResourceMetadata
           classes={classes}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
           tags={tags}
+        />
+        <LearningResourceContent
+          classes={classes}
+          commonFieldProps={commonFieldProps}
+          bindInput={bindInput}
+          tags={tags}
+          model={model}
         />
         <Field right>
           <Button
@@ -195,7 +155,7 @@ class TopicArticleForm extends Component {
             outline
             disabled={isSaving}
             {...classes('save-button')}>
-            {t('topicArticleForm.save')}
+            {t('learningResourceForm.save')}
           </Button>
         </Field>
       </form>
@@ -203,7 +163,7 @@ class TopicArticleForm extends Component {
   }
 }
 
-TopicArticleForm.propTypes = {
+LearningResourceForm.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,
@@ -240,7 +200,7 @@ export default compose(
       required: true,
       maxLength: 150,
     },
-    visualElementId: {
+    metaImageId: {
       required: true,
     },
     tags: {
@@ -250,4 +210,4 @@ export default compose(
       minItems: 1,
     },
   }),
-)(TopicArticleForm);
+)(LearningResourceForm);

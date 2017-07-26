@@ -18,7 +18,7 @@ import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 
-import converter from '../topicArticleContentConverter';
+import converter from '../../../util/articleContentConverter';
 import {
   createEditorStateFromText,
   getPlainTextFromEditorState,

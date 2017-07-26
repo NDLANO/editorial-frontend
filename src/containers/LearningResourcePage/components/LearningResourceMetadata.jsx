@@ -8,16 +8,15 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
-import { Arrow } from 'ndla-ui/icons';
 import { injectT } from 'ndla-i18n';
 import {
   PlainTextField,
   MultiSelectField,
   RemainingCharacters,
 } from '../../../components/Fields';
+import Accordion from '../../../components/Accordion';
 
-class TopicArticleMetadata extends Component {
+class LearningResourceMetadata extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,68 +32,57 @@ class TopicArticleMetadata extends Component {
   }
 
   render() {
-    const { t, bindInput, commonFieldProps, tags, classes } = this.props;
-    const metdataClasses = this.state.hiddenMetadata
-      ? classes('metadata', 'hidden')
-      : classes('metadata');
+    const { t, bindInput, commonFieldProps, tags } = this.props;
     return (
-      <div>
-        <Button
-          {...classes('metadata-button')}
-          stripped
-          onClick={this.toggleMetadata}>
-          <span {...classes('metadata-header')}>
-            {t('topicArticleForm.metadata')}
-          </span>
-          <Arrow direction={`${this.state.hiddenMetadata ? 'down' : 'up'}`} />
-        </Button>
-        <div {...metdataClasses}>
-          <MultiSelectField
-            name="tags"
-            data={tags}
-            label={t('topicArticleForm.fields.tags.label')}
-            description={t('topicArticleForm.fields.tags.description')}
-            messages={{
-              createNew: t('topicArticleForm.fields.tags.createNew'),
-              emptyFilter: t('topicArticleForm.fields.tags.emptyFilter'),
-              emptyList: t('topicArticleForm.fields.tags.emptyList'),
-            }}
-            {...commonFieldProps}
-          />
-          <PlainTextField
-            label={t('topicArticleForm.fields.metaDescription.label')}
-            description={t(
-              'topicArticleForm.fields.metaDescription.description',
-            )}
-            name="metaDescription"
+      <Accordion
+        fill
+        handleToggle={this.toggleMetadata}
+        header={t('learningResourceForm.metadata')}
+        hidden={this.state.hiddenMetadata}>
+        <MultiSelectField
+          obligatory
+          name="tags"
+          data={tags}
+          label={t('learningResourceForm.fields.tags.label')}
+          description={t('learningResourceForm.fields.tags.description')}
+          messages={{
+            createNew: t('learningResourceForm.fields.tags.createNew'),
+            emptyFilter: t('learningResourceForm.fields.tags.emptyFilter'),
+            emptyList: t('learningResourceForm.fields.tags.emptyList'),
+          }}
+          {...commonFieldProps}
+        />
+        <PlainTextField
+          label={t('learningResourceForm.fields.metaDescription.label')}
+          description={t('learningResourceForm.fields.metaDescription.description')}
+          name="metaDescription"
+          maxLength={150}
+          {...commonFieldProps}>
+          <RemainingCharacters
             maxLength={150}
-            {...commonFieldProps}>
-            <RemainingCharacters
-              maxLength={150}
-              getRemainingLabel={(maxLength, remaining) =>
-                t('form.remainingCharacters', { maxLength, remaining })}
-              value={bindInput('metaDescription').value
-                .getCurrentContent()
-                .getPlainText()}
-            />
-          </PlainTextField>
-          <MultiSelectField
-            name="authors"
-            label={t('topicArticleForm.fields.authors.label')}
-            messages={{
-              createNew: t('topicArticleForm.fields.authors.createNew'),
-              emptyFilter: t('topicArticleForm.fields.authors.emptyFilter'),
-              emptyList: t('topicArticleForm.fields.authors.emptyList'),
-            }}
-            {...commonFieldProps}
+            getRemainingLabel={(maxLength, remaining) =>
+              t('form.remainingCharacters', { maxLength, remaining })}
+            value={bindInput('metaDescription').value
+              .getCurrentContent()
+              .getPlainText()}
           />
-        </div>
-      </div>
+        </PlainTextField>
+        <MultiSelectField
+          name="authors"
+          label={t('learningResourceForm.fields.authors.label')}
+          messages={{
+            createNew: t('learningResourceForm.fields.authors.createNew'),
+            emptyFilter: t('learningResourceForm.fields.authors.emptyFilter'),
+            emptyList: t('learningResourceForm.fields.authors.emptyList'),
+          }}
+          {...commonFieldProps}
+        />
+      </Accordion>
     );
   }
 }
 
-TopicArticleMetadata.propTypes = {
+LearningResourceMetadata.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   bindInput: PropTypes.func.isRequired,
   commonFieldProps: PropTypes.shape({
@@ -108,4 +96,4 @@ TopicArticleMetadata.propTypes = {
   classes: PropTypes.func.isRequired,
 };
 
-export default injectT(TopicArticleMetadata);
+export default injectT(LearningResourceMetadata);

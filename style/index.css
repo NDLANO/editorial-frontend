@@ -20,6 +20,7 @@
 @import './auth.css';
 @import './fields.css';
 @import './alert.css';
+@import './accordion.css';
 
 .c-hero--alt {
   background-color: var(--brand-color--light);

@@ -52,11 +52,11 @@
     color: var(--gray-5);
   }
 
-  &__visible {
+  &--visible {
     padding-bottom: 3rem;
   }
 
-  &__hidden {
+  &--hidden {
     display: none;
   }
 }

@@ -29,8 +29,11 @@ const Accordion = ({
   const modifiers = {
     fill,
   };
+  const contentModifiers = {
+    hidden,
+    visible: !hidden,
+  };
 
-  const accordionClasses = hidden ? classes('hidden') : classes('visible');
   const buttonClasses = fill ? classes('button', 'fill') : classes('button');
 
   return (
@@ -41,7 +44,7 @@ const Accordion = ({
         </span>
         <Arrow direction={`${hidden ? 'down' : 'up'}`} {...classes('arrow')} />
       </Button>
-      <div {...accordionClasses}>
+      <div {...classes('', contentModifiers, className)}>
         {rest.children}
       </div>
     </div>

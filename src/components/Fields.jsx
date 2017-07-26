@@ -165,9 +165,10 @@ TextField.defaultProps = {
 };
 
 export const FieldDescription = ({ obligatory, children }) => {
-  const fieldDescriptionClasses = obligatory
-    ? classes('description', 'obligatory')
-    : classes('description');
+  const fieldDescriptionClasses = classes(
+    'description',
+    obligatory ? 'obligatory' : '',
+  );
   return (
     <span {...classes('description--block')}>
       <p {...fieldDescriptionClasses}>

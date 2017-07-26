@@ -164,15 +164,29 @@ TextField.defaultProps = {
   noBorder: false,
 };
 
-export const FieldDescription = ({ children }) =>
-  <p {...classes('description')}>
-    {children}
-  </p>;
+export const FieldDescription = ({ obligatory, children }) => {
+  const fieldDescriptionClasses = classes(
+    'description',
+    obligatory ? 'obligatory' : '',
+  );
+  return (
+    <span {...classes('description--block')}>
+      <p {...fieldDescriptionClasses}>
+        {children}
+      </p>
+    </span>
+  );
+};
+
+FieldDescription.propTypes = {
+  obligatory: PropTypes.bool,
+};
 
 export const TextAreaField = ({
   bindInput,
   name,
   description,
+  obligatory,
   label,
   submitted,
   schema,
@@ -186,7 +200,7 @@ export const TextAreaField = ({
       {label}
     </label>
     {description &&
-      <FieldDescription>
+      <FieldDescription obligatory={obligatory}>
         {description}
       </FieldDescription>}
     <textarea
@@ -207,6 +221,7 @@ export const TextAreaField = ({
 TextAreaField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  obligatory: PropTypes.bool,
   description: PropTypes.string,
   label: PropTypes.string.isRequired,
   schema: PropTypes.shape({
@@ -274,6 +289,7 @@ export const PlainTextField = ({
   bindInput,
   name,
   label,
+  obligatory,
   description,
   noBorder,
   submitted,
@@ -300,7 +316,7 @@ export const PlainTextField = ({
         </FocusLabel>}
       <div {...classes('plain-text-editor')}>
         {description &&
-          <FieldDescription>
+          <FieldDescription obligatory={obligatory}>
             {description}
           </FieldDescription>}
         <PlainTextEditor
@@ -325,6 +341,7 @@ PlainTextField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  obligatory: PropTypes.bool,
   description: PropTypes.string,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
@@ -336,6 +353,7 @@ PlainTextField.propTypes = {
 export const MultiSelectField = ({
   bindInput,
   name,
+  obligatory,
   description,
   label,
   submitted,
@@ -347,7 +365,7 @@ export const MultiSelectField = ({
       {label}
     </label>
     {description &&
-      <FieldDescription>
+      <FieldDescription obligatory={obligatory}>
         {description}
       </FieldDescription>}
     <MultiSelect {...bindInput(name)} {...rest} />
@@ -361,6 +379,7 @@ export const MultiSelectField = ({
 MultiSelectField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  obligatory: PropTypes.bool,
   description: PropTypes.string,
   label: PropTypes.string.isRequired,
   schema: PropTypes.shape({

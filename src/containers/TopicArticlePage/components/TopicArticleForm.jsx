@@ -16,13 +16,7 @@ import { injectT } from 'ndla-i18n';
 
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
-import {
-  TextField,
-  RichTextField,
-  PlainTextField,
-  RemainingCharacters,
-  Field,
-} from '../../../components/Fields';
+import { Field } from '../../../components/Fields';
 
 import converter from '../topicArticleContentConverter';
 import {
@@ -30,8 +24,9 @@ import {
   getPlainTextFromEditorState,
 } from '../../../util/draftjsHelpers';
 import { parseEmbedTag } from '../../../util/embedTagHelpers';
-import TopicArticleVisualElement from './TopicArticleVisualElement';
+
 import TopicArticleMetadata from './TopicArticleMetadata';
+import TopicArticleContent from './TopicArticleContent';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -133,12 +128,7 @@ class TopicArticleForm extends Component {
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
-    const visualElementTag = {
-      resource: model.visualElementType,
-      id: model.visualElementId,
-      caption: model.visualElementCaption,
-      alt: model.visualElementAlt,
-    };
+
     return (
       <form onSubmit={this.handleSubmit} {...classes()}>
         <div {...classes('title')}>
@@ -146,48 +136,18 @@ class TopicArticleForm extends Component {
             ? t('topicArticleForm.title.update')
             : t('topicArticleForm.title.create')}
         </div>
-        <TextField
-          label={t('topicArticleForm.fields.title.label')}
-          name="title"
-          big
-          noBorder
-          placeholder={t('topicArticleForm.fields.title.label')}
-          {...commonFieldProps}
-        />
-        <PlainTextField
-          label={t('topicArticleForm.fields.introduction.label')}
-          placeholder={t('topicArticleForm.fields.introduction.label')}
-          name="introduction"
-          noBorder
-          maxLength={300}
-          {...commonFieldProps}>
-          <RemainingCharacters
-            maxLength={300}
-            getRemainingLabel={(maxLength, remaining) =>
-              t('form.remainingCharacters', { maxLength, remaining })}
-            value={bindInput('introduction').value
-              .getCurrentContent()
-              .getPlainText()}
-          />
-        </PlainTextField>
-        <TopicArticleVisualElement
-          visualElementTag={visualElementTag}
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-        />
-
-        <RichTextField
-          noBorder
-          label={t('topicArticleForm.fields.content.label')}
-          placeholder={t('topicArticleForm.fields.content.placeholder')}
-          name="content"
-          {...commonFieldProps}
-        />
         <TopicArticleMetadata
           classes={classes}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
           tags={tags}
+        />
+        <TopicArticleContent
+          classes={classes}
+          commonFieldProps={commonFieldProps}
+          bindInput={bindInput}
+          tags={tags}
+          model={model}
         />
         <Field right>
           <Button

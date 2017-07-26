@@ -68,9 +68,18 @@ input::placeholder {
     padding-right: 0.7rem;
   }
 
+  &__description--block {
+    display: flex;
+  }
+
   &__description {
     margin: 0.2em 0;
     font-size: 0.75em;
+
+    &--obligatory {
+      background-color: rgba(230, 132, 154, 1);
+      padding: 0.2em 0.6em;
+    }
   }
 
   &__focus-text {

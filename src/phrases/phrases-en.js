@@ -57,6 +57,18 @@ const phrases = {
   subjectPage: {
     topics: 'Topics',
   },
+  imageSearch: {
+    placeholder: 'Search images',
+    buttonTitle: 'Search',
+  },
+  videoSearch: {
+    searchPlaceholder: 'Search videos',
+    searchButtonTitle: 'Search',
+    loadMoreVideos: 'Load more videos',
+    noResults: 'No videos found',
+    addVideo: 'Use video',
+    previewVideo: 'Preview',
+  },
   topicArticleForm: {
     save: 'Save',
     savedOk: 'Saved OK',

@@ -11,15 +11,20 @@ import defined from 'defined';
 import {
   createErrorPayload,
   apiResourceUrl,
+  brightcoveApiResourceUrl,
   fetchWithAccessToken,
+  fetchWithBrightCoveToken,
   resolveJsonOrRejectWithError,
 } from '../../util/apiHelpers';
 
-const baseUrl = apiResourceUrl('/image-api/v1/images');
+const baseNdlaUrl = apiResourceUrl('/image-api/v1/images');
+const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
+  `/v1/accounts/${window.config.brightCoveAccountId}/videos`,
+);
 
 export const searchImages = (query, page, locale) =>
   fetchWithAccessToken(
-    `${baseUrl}/?${queryString.stringify({
+    `${baseNdlaUrl}/?${queryString.stringify({
       query,
       page,
     })}&page-size=16&language=${locale}`,
@@ -29,7 +34,21 @@ export const searchImages = (query, page, locale) =>
 //   fetchWithAccessToken(`${baseUrl}/${queryString}&language=${locale}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
 
 export const fetchImage = imageId =>
-  fetchWithAccessToken(`${baseUrl}/${imageId}`).then(
+  fetchWithAccessToken(`${baseNdlaUrl}/${imageId}`).then(
+    resolveJsonOrRejectWithError,
+  );
+
+export const searchBrightcoveVideos = (query, offset, limit) =>
+  fetchWithBrightCoveToken(
+    `${baseBrightCoveUrlV3}/?${queryString.stringify({
+      q: query || '',
+      offset,
+      limit,
+    })}`,
+  ).then(resolveJsonOrRejectWithError);
+
+export const fetchBrightcoveVideo = videoId =>
+  fetchWithAccessToken(`${baseBrightCoveUrlV3}/${videoId}`).then(
     resolveJsonOrRejectWithError,
   );
 
@@ -38,13 +57,14 @@ export const onError = err => {
 };
 
 export const fetchVisualElement = embedTag => {
-  if (embedTag.resource === 'image') {
-    return fetchWithAccessToken(`${baseUrl}/${embedTag.id}`).then(
-      resolveJsonOrRejectWithError,
-    );
+  switch (embedTag.resource) {
+    case 'image':
+      return fetchImage(embedTag.id);
+    case 'video':
+      return fetchBrightcoveVideo(embedTag.id);
+    default:
+      return new Promise((resolve, reject) => {
+        reject(`No embedtag with resource type ${embedTag.resource} exists`);
+      });
   }
-
-  return new Promise((resolve, reject) => {
-    reject(`No embedtag with resource type ${embedTag.resource} exists`);
-  });
 };

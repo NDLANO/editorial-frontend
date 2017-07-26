@@ -1489,14 +1489,6 @@ create-react-class@^15.5.3:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
-create-react-class@^15.6.0:
-  version "15.6.0"
-  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.0.tgz#ab448497c26566e1e29413e883207d57cfe7bed4"
-  dependencies:
-    fbjs "^0.8.9"
-    loose-envify "^1.3.1"
-    object-assign "^4.1.1"
-
 cross-env@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-4.0.0.tgz#16083862d08275a4628b0b243b121bedaa55dd80"
@@ -4290,33 +4282,40 @@ ndla-i18n@^0.0.2:
     intl-messageformat "^1.3.0"
     invariant "^2.2.2"
 
-ndla-image-search@^0.1.0:
+ndla-image-search@^0.1.2:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/ndla-image-search/-/ndla-image-search-0.1.4.tgz#f30b896d8bc751742245193e054942190d72cf53"
   dependencies:
     defined "1.0.0"
     react-bem-helper "^1.2.0"
 
-ndla-licenses@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.7.tgz#8337dc92c5726706c936c2b2691130037ee43f6f"
+ndla-licenses@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.9.tgz#5ba25c076403e5d7cffc251f37feb2ff4e9bdf69"
   dependencies:
     defined "1.0.0"
 
-ndla-ui@^0.6.13:
-  version "0.6.13"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.6.13.tgz#bbf969bf3f40d33527e477b63e8d559512d80c91"
+ndla-ui@^0.7.6:
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.7.6.tgz#4a563b376f45c732e6d3614ca6bb81aa2444f668"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"
     react-prop-types "0.4.0"
     react-sticky-header "^0.1.6"
 
-ndla-util@^0.1.3:
+ndla-util@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.4.tgz#1ade34998a9a1c93cba4f4da64abd931f33d1a8a"
   dependencies:
     defined "1.0.0"
+
+ndla-video-search@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/ndla-video-search/-/ndla-video-search-0.1.6.tgz#1dc062b6fd70ba54f37efcf0262f9e6515838ba4"
+  dependencies:
+    defined "1.0.0"
+    react-bem-helper "^1.2.0"
 
 negotiator@0.6.1:
   version "0.6.1"
@@ -5644,7 +5643,7 @@ react-widgets@^3.4.6:
     deconstruct-number-format "0.0.1"
     format-number-with-string "0.0.2"
 
-react@^15.4.2:
+react@^15.4.2, react@^15.5.4:
   version "15.5.4"
   resolved "https://registry.yarnpkg.com/react/-/react-15.5.4.tgz#fa83eb01506ab237cdc1c8c3b1cea8de012bf047"
   dependencies:
@@ -5652,16 +5651,6 @@ react@^15.4.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "^15.5.7"
-
-react@^15.5.4:
-  version "15.6.1"
-  resolved "https://registry.yarnpkg.com/react/-/react-15.6.1.tgz#baa8434ec6780bde997cdc380b79cd33b96393df"
-  dependencies:
-    create-react-class "^15.6.0"
-    fbjs "^0.8.9"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.0"
-    prop-types "^15.5.10"
 
 read-all-stream@^3.0.0:
   version "3.1.0"

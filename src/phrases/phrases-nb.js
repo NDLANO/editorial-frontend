@@ -62,6 +62,14 @@ const phrases = {
     placeholder: 'Søk i bilder',
     buttonTitle: 'Søk',
   },
+  videoSearch: {
+    searchPlaceholder: 'Søk i videoer',
+    searchButtonTitle: 'Søk',
+    loadMoreVideos: 'Last flere videor',
+    noResults: 'Ingen videor funnet.',
+    addVideo: 'Bruk video',
+    previewVideo: 'Forhåndsvis',
+  },
   topicArticleForm: {
     save: 'Lagre',
     savedOk: 'Lagret OK',
@@ -70,6 +78,7 @@ const phrases = {
     content: 'Innhold',
     visualElementTitle: {
       image: 'Bildetittel',
+      video: 'Videotittel',
     },
     visualElementCopyright: 'Opphav',
     title: {
@@ -88,8 +97,14 @@ const phrases = {
         label: 'Visuelt element',
       },
       caption: {
-        label: 'Bildetekst',
-        placeholder: 'Bildetekst',
+        label: {
+          image: 'Bildetekst',
+          video: 'Videotekst',
+        },
+        placeholder: {
+          image: 'Bildetekst',
+          video: 'Videotekst',
+        },
       },
       alt: {
         label: 'Alt-tekst',

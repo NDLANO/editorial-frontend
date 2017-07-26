@@ -19,8 +19,9 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-export const Field = ({ children, noBorder, big, className, right }) =>
-  <div {...classes('', { 'no-border': noBorder, right, big }, className)}>
+export const Field = ({ children, noBorder, big, title, className, right }) =>
+  <div
+    {...classes('', { 'no-border': noBorder, right, big, title }, className)}>
     {children}
   </div>;
 
@@ -28,6 +29,7 @@ Field.propTypes = {
   noBorder: PropTypes.bool,
   big: PropTypes.bool,
   right: PropTypes.bool,
+  title: PropTypes.bool,
 };
 
 Field.defaultProps = {
@@ -118,9 +120,10 @@ export const TextField = ({
   schema,
   noBorder,
   big,
+  title,
   ...rest
 }) =>
-  <Field noBorder={noBorder} big={big}>
+  <Field noBorder={noBorder} big={big} title={title}>
     {!noBorder
       ? <label htmlFor={name}>
           {label}
@@ -156,6 +159,7 @@ TextField.propTypes = {
   }),
   noBorder: PropTypes.bool,
   big: PropTypes.bool,
+  title: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
 
@@ -187,6 +191,7 @@ export const TextAreaField = ({
   name,
   description,
   obligatory,
+  noBorder,
   label,
   submitted,
   schema,
@@ -195,7 +200,7 @@ export const TextAreaField = ({
   getMaxLengthRemaingLabel,
   ...rest
 }) =>
-  <Field>
+  <Field noBorder={noBorder}>
     <label htmlFor={name}>
       {label}
     </label>
@@ -222,6 +227,7 @@ TextAreaField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   obligatory: PropTypes.bool,
+  noBorder: PropTypes.bool,
   description: PropTypes.string,
   label: PropTypes.string.isRequired,
   schema: PropTypes.shape({
@@ -243,7 +249,7 @@ export const RichTextField = ({
 }) => {
   const { value, onChange } = bindInput(name);
   return (
-    <Field noBorder>
+    <Field noBorder={noBorder}>
       {!noBorder
         ? <label htmlFor={name}>
             {label}
@@ -299,7 +305,7 @@ export const PlainTextField = ({
 }) => {
   const { value, onChange } = bindInput(name);
   return (
-    <Field noBorder>
+    <Field noBorder={noBorder}>
       {!noBorder
         ? <label htmlFor={name}>
             {label}
@@ -314,7 +320,7 @@ export const PlainTextField = ({
           value={value}>
           {label}
         </FocusLabel>}
-      <div {...classes('plain-text-editor')}>
+      <div {...classes('plain-text-editor', noBorder ? 'no-border' : '')}>
         {description &&
           <FieldDescription obligatory={obligatory}>
             {description}

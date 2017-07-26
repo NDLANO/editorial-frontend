@@ -93,8 +93,32 @@ input::placeholder {
     }
   }
 
+  &--title {
+    & input {
+      font-size: 2.11111rem;
+      font-family: 'SourceSansPro-Semibold', 'Source Sans Pro Semibold', 'Source Sans Pro';
+    }
+  }
+
   &--right {
     text-align: right;
+  }
+
+  &__plain-text-editor {
+    & .public-DraftEditor-content {
+      border: 1px solid rgb(230, 230, 230);
+      min-height: 6em;
+      padding: 0.6em;
+    }
+
+    &--no-border {
+      & .public-DraftEditor-content {
+        border: none;
+        padding: 0;
+        margin: 0;
+        outline: none;
+      }
+    }
   }
 
   &--no-border {
@@ -103,14 +127,6 @@ input::placeholder {
       padding: 0;
       margin: 0;
       outline: none;
-    }
-  }
-
-  &__plain-text-editor {
-    & .public-DraftEditor-content {
-      border: 1px solid rgb(230, 230, 230);
-      min-height: 6em;
-      padding: 0.6em;
     }
   }
 

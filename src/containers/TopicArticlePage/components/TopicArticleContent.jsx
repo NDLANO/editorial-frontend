@@ -52,6 +52,7 @@ class TopicArticleContent extends Component {
           label={t('topicArticleForm.fields.title.label')}
           name="title"
           big
+          title
           noBorder
           placeholder={t('topicArticleForm.fields.title.label')}
           {...commonFieldProps}

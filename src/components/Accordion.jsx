@@ -34,11 +34,12 @@ const Accordion = ({
     visible: !hidden,
   };
 
-  const buttonClasses = fill ? classes('button', 'fill') : classes('button');
-
   return (
     <div {...classes('', modifiers, className)} {...rest}>
-      <Button {...buttonClasses} stripped onClick={handleToggle}>
+      <Button
+        {...classes('button', fill ? 'fill' : '')}
+        stripped
+        onClick={handleToggle}>
         <span {...classes('header')}>
           {header}
         </span>

@@ -67,6 +67,7 @@ const phrases = {
     savedOk: 'Lagret OK',
     createdOk: 'Opprettet OK',
     metadata: 'Metadata',
+    content: 'Innhold',
     visualElementTitle: {
       image: 'Bildetittel',
     },

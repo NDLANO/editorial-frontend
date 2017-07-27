@@ -119,6 +119,15 @@ input::placeholder {
         outline: none;
       }
     }
+
+    &--big {
+      & .public-DraftEditor-content {
+        font-family: 'SourceSansPro-Light', 'Source Sans Pro Light', 'Source Sans Pro';
+        font-weight: 200;
+        font-style: normal;
+        font-size: 1.56rem;
+      }
+    }
   }
 
   &--no-border {

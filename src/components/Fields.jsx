@@ -298,6 +298,7 @@ export const PlainTextField = ({
   obligatory,
   description,
   noBorder,
+  big,
   submitted,
   schema,
   children,
@@ -320,7 +321,11 @@ export const PlainTextField = ({
           value={value}>
           {label}
         </FocusLabel>}
-      <div {...classes('plain-text-editor', noBorder ? 'no-border' : '')}>
+      <div
+        {...classes('plain-text-editor', [
+          noBorder ? 'no-border' : '',
+          big ? 'big' : '',
+        ])}>
         {description &&
           <FieldDescription obligatory={obligatory}>
             {description}
@@ -353,6 +358,7 @@ PlainTextField.propTypes = {
     fields: PropTypes.object.isRequired,
   }),
   noBorder: PropTypes.bool,
+  big: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
 

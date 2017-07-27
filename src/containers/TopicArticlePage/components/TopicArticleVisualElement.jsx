@@ -14,6 +14,13 @@ import { TextField, classes } from '../../../components/Fields';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 import VisualElementTypeSelect from '../../VisualElement/VisualElementTypeSelect';
 
+const visualElementFields = {
+  id: 'visualElementId',
+  caption: 'visualElementCaption',
+  alt: 'visualElementAlt',
+  type: 'visualElementType',
+};
+
 class TopicArticleVisualElement extends Component {
   constructor(props) {
     super(props);
@@ -56,6 +63,7 @@ class TopicArticleVisualElement extends Component {
           {...bindInput('visualElementId')}
           showVisualElement={this.state.showVisualElement}
           toggleShowVisualElement={this.toggleShowVisualElement}
+          visualElementFields={visualElementFields}
         />
         {visualElementTag.id
           ? <div>

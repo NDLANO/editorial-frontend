@@ -57,7 +57,13 @@ class VisualElementSelectField extends Component {
   }
 
   handleVisualElementChange(visualElement) {
-    const { name, onChange, toggleShowVisualElement, locale } = this.props;
+    const {
+      name,
+      onChange,
+      toggleShowVisualElement,
+      locale,
+      visualElementFields,
+    } = this.props;
     onChange({
       target: {
         name,
@@ -68,8 +74,8 @@ class VisualElementSelectField extends Component {
     const altText = alttextsI18N(visualElement, locale, true);
     const caption = captionsI18N(visualElement, locale, true);
     const visualElementTexts = [
-      { name: 'visualElementAlt', value: altText || '' },
-      { name: 'visualElementCaption', value: caption || '' },
+      { name: visualElementFields.alt, value: altText || '' },
+      { name: visualElementFields.caption, value: caption || '' },
     ];
 
     visualElementTexts.forEach(text =>
@@ -81,21 +87,18 @@ class VisualElementSelectField extends Component {
   }
 
   removeVisualElement() {
-    const { onChange } = this.props;
+    const { onChange, visualElementFields } = this.props;
 
     this.setState({ visualElement: undefined });
-    [
-      'visualElementId',
-      'visualElementCaption',
-      'visualElementAlt',
-      'visualElementType',
-    ].forEach(name => {
-      onChange({
-        target: {
-          name,
-          value: '',
-        },
-      });
+    ['id', 'caption', 'alt', 'type'].forEach(name => {
+      if (visualElementFields[name]) {
+        onChange({
+          target: {
+            name: visualElementFields[name],
+            value: '',
+          },
+        });
+      }
     });
   }
 
@@ -131,6 +134,10 @@ class VisualElementSelectField extends Component {
           </div>
         </Field>
       );
+    }
+
+    if (!this.state.isOpen) {
+      return null;
     }
 
     return (
@@ -172,6 +179,12 @@ VisualElementSelectField.propTypes = {
   showVisualElement: PropTypes.bool.isRequired,
   toggleShowVisualElement: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
+  visualElementFields: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    alt: PropTypes.string.isRequired,
+    caption: PropTypes.string.isRequired,
+    type: PropTypes.string,
+  }),
 };
 
 const mapStateToProps = state => ({

@@ -17,11 +17,10 @@ const SearchResult = ({ article, locale }) =>
   <div className="search-result">
     <Link
       className="search-result__link"
-      to={toEditArticle(article.id, article.articleType)}
-      >
-        <h1 className="search-result__title">
-          {titleI18N(article, locale, true)}
-        </h1>
+      to={toEditArticle(article.id, article.articleType)}>
+      <h1 className="search-result__title">
+        {titleI18N(article, locale, true)}
+      </h1>
     </Link>
 
     <p className="search-result__description">

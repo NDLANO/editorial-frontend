@@ -135,6 +135,7 @@ const phrases = {
     createdOk: 'Created OK',
     metadata: 'Metadata',
     content: 'Content',
+    copyrightAccordion: 'License and authors',
     visualElementTitle: {
       image: 'Image title',
     },

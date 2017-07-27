@@ -140,6 +140,7 @@ const phrases = {
     createdOk: 'Opprettet OK',
     metadata: 'Metadata',
     content: 'Innhold',
+    copyrightAccordion: 'Lisens og bruker',
     metaImageTitle: {
       image: 'Bildetittel',
     },

@@ -15,6 +15,7 @@ import {
   RemainingCharacters,
 } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
+import LearningResourceVisualElement from './LearningResourceVisualElement';
 
 class LearningResourceMetadata extends Component {
   constructor(props) {
@@ -32,7 +33,15 @@ class LearningResourceMetadata extends Component {
   }
 
   render() {
-    const { t, bindInput, commonFieldProps, tags } = this.props;
+    const { t, bindInput, commonFieldProps, tags, model } = this.props;
+
+    const metaImageTag = {
+      resource: 'image',
+      id: model.metaImageId,
+      caption: model.metaImageCaption,
+      alt: model.metaImageAlt,
+    };
+
     return (
       <Accordion
         fill
@@ -54,7 +63,9 @@ class LearningResourceMetadata extends Component {
         />
         <PlainTextField
           label={t('learningResourceForm.fields.metaDescription.label')}
-          description={t('learningResourceForm.fields.metaDescription.description')}
+          description={t(
+            'learningResourceForm.fields.metaDescription.description',
+          )}
           name="metaDescription"
           maxLength={150}
           {...commonFieldProps}>
@@ -67,15 +78,10 @@ class LearningResourceMetadata extends Component {
               .getPlainText()}
           />
         </PlainTextField>
-        <MultiSelectField
-          name="authors"
-          label={t('learningResourceForm.fields.authors.label')}
-          messages={{
-            createNew: t('learningResourceForm.fields.authors.createNew'),
-            emptyFilter: t('learningResourceForm.fields.authors.emptyFilter'),
-            emptyList: t('learningResourceForm.fields.authors.emptyList'),
-          }}
-          {...commonFieldProps}
+        <LearningResourceVisualElement
+          metaImageTag={metaImageTag}
+          commonFieldProps={commonFieldProps}
+          bindInput={bindInput}
         />
       </Accordion>
     );
@@ -94,6 +100,11 @@ LearningResourceMetadata.propTypes = {
     bindInput: PropTypes.func.isRequired,
   }),
   classes: PropTypes.func.isRequired,
+  model: PropTypes.shape({
+    metaImageId: PropTypes.string,
+    metaImageCaption: PropTypes.string,
+    metaImageAlt: PropTypes.string,
+  }),
 };
 
 export default injectT(LearningResourceMetadata);

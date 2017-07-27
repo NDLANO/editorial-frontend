@@ -83,4 +83,6 @@ const mapStateToProps = state => ({
   isSaving: getSaving(state),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LearningResourcePage);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  LearningResourcePage,
+);

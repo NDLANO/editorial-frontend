@@ -13,6 +13,12 @@ import { Button } from 'ndla-ui';
 import { TextField, classes } from '../../../components/Fields';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 
+const metaImageFields = {
+  id: 'metaImageId',
+  caption: 'metaImageCaption',
+  alt: 'metaImageAlt',
+};
+
 class LearningResourceVisualElement extends Component {
   constructor(props) {
     super(props);
@@ -31,11 +37,10 @@ class LearningResourceVisualElement extends Component {
   render() {
     const { t, bindInput, commonFieldProps, metaImageTag } = this.props;
     const { schema, submitted } = commonFieldProps;
-
     return (
       <div>
-        <h3>
-            {t('learningResourceForm.fields.metaImage.title')}
+        <h3 {...classes('learning-resource-meta-image')}>
+          {t('learningResourceForm.fields.metaImage.title')}
         </h3>
         <VisualElementSelectField
           label={t('learningResourceForm.fields.metaImage.label')}
@@ -45,17 +50,18 @@ class LearningResourceVisualElement extends Component {
           {...bindInput('metaImageId')}
           showVisualElement={this.state.showVisualElement}
           toggleShowVisualElement={this.toggleShowVisualElement}
+          visualElementFields={metaImageFields}
         />
-        {!metaImageTag.id ? <Button onClick={this.toggleShowVisualElement}>Velg bilde</Button> : ''}
+        {!metaImageTag.id
+          ? <Button onClick={this.toggleShowVisualElement}>Velg bilde</Button>
+          : ''}
         {metaImageTag.id
           ? <div>
               <TextField
                 placeholder={t(
                   `learningResourceForm.fields.caption.placeholder.image`,
                 )}
-                label={t(
-                  `learningResourceForm.fields.caption.label.image`,
-                )}
+                label={t(`learningResourceForm.fields.caption.label.image`)}
                 name="metaImageCaption"
                 noBorder
                 maxLength={300}

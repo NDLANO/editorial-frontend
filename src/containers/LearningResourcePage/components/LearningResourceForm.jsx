@@ -27,6 +27,7 @@ import { parseEmbedTag } from '../../../util/embedTagHelpers';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
+import LearningResourceCopyright from './LearningResourceCopyright';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -127,7 +128,6 @@ class LearningResourceForm extends Component {
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
-    console.log("HALLA");
 
     return (
       <form onSubmit={this.handleSubmit} {...classes()}>
@@ -141,15 +141,19 @@ class LearningResourceForm extends Component {
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
           tags={tags}
+          model={model}
         />
         <LearningResourceContent
           classes={classes}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
           tags={tags}
-          model={model}
         />
+        <LearningResourceCopyright commonFieldProps={commonFieldProps} />
         <Field right>
+          <Button outline disabled={isSaving} {...classes('abort-button')}>
+            {t('learningResourceForm.abort')}
+          </Button>
           <Button
             submit
             outline

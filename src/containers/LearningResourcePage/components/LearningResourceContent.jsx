@@ -16,7 +16,6 @@ import {
   RemainingCharacters,
 } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
-import LearningResourceVisualElement from './LearningResourceVisualElement';
 
 class LearningResourceContent extends Component {
   constructor(props) {
@@ -34,15 +33,7 @@ class LearningResourceContent extends Component {
   }
 
   render() {
-    const { t, bindInput, commonFieldProps, model } = this.props;
-
-    const metaImageTag = {
-      resource: 'image',
-      id: model.metaImageId,
-      caption: model.metaImageCaption,
-      alt: model.metaImageAlt,
-    };
-    console.log(metaImageTag)
+    const { t, bindInput, commonFieldProps } = this.props;
 
     return (
       <Accordion
@@ -73,11 +64,6 @@ class LearningResourceContent extends Component {
               .getPlainText()}
           />
         </PlainTextField>
-        <LearningResourceVisualElement
-          metaImageTag={metaImageTag}
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-        />
 
         <RichTextField
           noBorder
@@ -92,10 +78,6 @@ class LearningResourceContent extends Component {
 }
 
 LearningResourceContent.propTypes = {
-  model: PropTypes.shape({
-    id: PropTypes.string,
-    title: PropTypes.string,
-  }),
   bindInput: PropTypes.func.isRequired,
   commonFieldProps: PropTypes.shape({
     schema: PropTypes.shape({

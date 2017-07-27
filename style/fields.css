@@ -34,6 +34,11 @@
     }
   }
 
+  &__learning-resource-meta-image {
+    font-size: 1.5rem;
+    font-weight: normal;
+  }
+
   &__visual-element-information {
     display: block;
     font-size: 1rem;

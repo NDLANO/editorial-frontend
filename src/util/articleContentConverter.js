@@ -33,7 +33,6 @@ function convertHTMLToEditorState(html) {
     htmlToEntity: (nodeName, node) => {
       if (nodeName === 'embed') {
         const data = reduceAttributesArrayToObject(Array.from(node.attributes));
-        console.log(data)
         embeds.push(data);
         return embeds.length.toString();
       }

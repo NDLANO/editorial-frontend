@@ -19,15 +19,26 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-export const Field = ({ children, noBorder, big, title, className, right }) =>
+export const Field = ({
+  children,
+  noBorder,
+  bigText,
+  title,
+  className,
+  right,
+}) =>
   <div
-    {...classes('', { 'no-border': noBorder, right, big, title }, className)}>
+    {...classes(
+      '',
+      { 'no-border': noBorder, right, bigText, title },
+      className,
+    )}>
     {children}
   </div>;
 
 Field.propTypes = {
   noBorder: PropTypes.bool,
-  big: PropTypes.bool,
+  bigText: PropTypes.bool,
   right: PropTypes.bool,
   title: PropTypes.bool,
 };
@@ -119,11 +130,11 @@ export const TextField = ({
   submitted,
   schema,
   noBorder,
-  big,
+  bigText,
   title,
   ...rest
 }) =>
-  <Field noBorder={noBorder} big={big} title={title}>
+  <Field noBorder={noBorder} bigText={bigText} title={title}>
     {!noBorder
       ? <label htmlFor={name}>
           {label}
@@ -158,13 +169,13 @@ TextField.propTypes = {
     fields: PropTypes.object.isRequired,
   }),
   noBorder: PropTypes.bool,
-  big: PropTypes.bool,
+  bigText: PropTypes.bool,
   title: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
 
 TextField.defaultProps = {
-  big: false,
+  bigText: false,
   noBorder: false,
 };
 
@@ -298,7 +309,7 @@ export const PlainTextField = ({
   obligatory,
   description,
   noBorder,
-  big,
+  bigText,
   submitted,
   schema,
   children,
@@ -324,7 +335,7 @@ export const PlainTextField = ({
       <div
         {...classes('plain-text-editor', [
           noBorder ? 'no-border' : '',
-          big ? 'big' : '',
+          bigText ? 'bigText' : '',
         ])}>
         {description &&
           <FieldDescription obligatory={obligatory}>
@@ -358,7 +369,7 @@ PlainTextField.propTypes = {
     fields: PropTypes.object.isRequired,
   }),
   noBorder: PropTypes.bool,
-  big: PropTypes.bool,
+  bigText: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
 

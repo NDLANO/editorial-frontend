@@ -60,7 +60,7 @@ class TopicArticleContent extends Component {
         <TextField
           label={t('topicArticleForm.fields.title.label')}
           name="title"
-          big
+          bigText
           title
           noBorder
           placeholder={t('topicArticleForm.fields.title.label')}
@@ -81,7 +81,7 @@ class TopicArticleContent extends Component {
           placeholder={t('topicArticleForm.fields.introduction.label')}
           name="introduction"
           noBorder
-          big
+          bigText
           maxLength={300}
           {...commonFieldProps}>
           <RemainingCharacters

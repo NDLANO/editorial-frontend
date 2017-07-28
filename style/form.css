@@ -87,7 +87,7 @@ input::placeholder {
     padding-top: 0.7rem;
   }
 
-  &--big {
+  &--bigText {
     & input {
       font-size: 2rem;
     }
@@ -120,7 +120,7 @@ input::placeholder {
       }
     }
 
-    &--big {
+    &--bigText {
       & .public-DraftEditor-content {
         font-family: 'SourceSansPro-Light', 'Source Sans Pro Light', 'Source Sans Pro';
         font-weight: 200;

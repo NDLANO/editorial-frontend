@@ -14,6 +14,7 @@ const phrases = {
     shortcuts: 'Shortcuts',
     searchTopicArticles: 'Search for topic description',
     createTopicArticle: 'Create topic description',
+    createLearningResource: 'Create learning resource',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',

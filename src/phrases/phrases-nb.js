@@ -15,6 +15,7 @@ const phrases = {
     shortcuts: 'Snarveier',
     searchTopicArticles: 'Søk etter emnebeskrivelse',
     createTopicArticle: 'Opprett emnebeskrivelse',
+    createLearningResource: 'Opprett læringsressurs',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',

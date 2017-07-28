@@ -10,7 +10,7 @@ import React from 'react';
 import { OneColumn } from 'ndla-ui';
 import { Link } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
-import { toCreateTopicArticle, toSearch } from '../../util/routeHelpers';
+import { toCreateTopicArticle, toCreateLearningResource, toSearch } from '../../util/routeHelpers';
 
 const query = { articleTypes: 'topic-article' };
 
@@ -31,6 +31,11 @@ export const WelcomePage = ({ t }) =>
             <li>
               <Link to={`${toCreateTopicArticle()}`}>
                 {t('welcomePage.createTopicArticle')}
+              </Link>
+            </li>
+            <li>
+              <Link to={`${toCreateLearningResource()}`}>
+                {t('welcomePage.createLearningResource')}
               </Link>
             </li>
           </ul>

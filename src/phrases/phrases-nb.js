@@ -81,6 +81,9 @@ const phrases = {
       video: 'Videotittel',
     },
     visualElementCopyright: 'Opphav',
+    info: {
+      lastUpdated: 'Sist oppdatert: {updated}',
+    },
     title: {
       create: 'Du oppretter nå en emnebeskrivelse',
       update: 'Du redigerer nå en emnebeskrivelse',
@@ -135,7 +138,7 @@ const phrases = {
   },
   form: {
     remainingCharacters:
-      'Max {maxLength, number} tegn og du har {remaining, number} igjen.',
+      'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
   },
   validation: {
     isRequired: '{label} er påkrevd.',

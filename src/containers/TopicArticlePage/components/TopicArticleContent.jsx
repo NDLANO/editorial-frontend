@@ -9,6 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import BEMHelper from 'react-bem-helper';
 import {
   TextField,
   RichTextField,
@@ -17,6 +18,11 @@ import {
 } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
+
+const classes = new BEMHelper({
+  name: 'topic-article-content',
+  prefix: 'c-',
+});
 
 class TopicArticleContent extends Component {
   constructor(props) {
@@ -43,6 +49,9 @@ class TopicArticleContent extends Component {
       alt: model.visualElementAlt,
     };
 
+    const authors = model.authors;
+    const updated = model.updated;
+
     return (
       <Accordion
         handleToggle={this.toggleContent}
@@ -51,16 +60,28 @@ class TopicArticleContent extends Component {
         <TextField
           label={t('topicArticleForm.fields.title.label')}
           name="title"
-          big
+          bigText
+          title
           noBorder
           placeholder={t('topicArticleForm.fields.title.label')}
           {...commonFieldProps}
         />
+        <div {...classes('info')}>
+          {authors.map((author, i) => {
+            if (authors.length === i + 1 || authors.length === 1) {
+              return `${author}`;
+            }
+            return `${author}, `;
+          })}
+          {` - ${t('topicArticleForm.info.lastUpdated', { updated })}`}
+        </div>
+
         <PlainTextField
           label={t('topicArticleForm.fields.introduction.label')}
           placeholder={t('topicArticleForm.fields.introduction.label')}
           name="introduction"
           noBorder
+          bigText
           maxLength={300}
           {...commonFieldProps}>
           <RemainingCharacters

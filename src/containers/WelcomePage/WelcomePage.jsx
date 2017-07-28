@@ -10,7 +10,11 @@ import React from 'react';
 import { OneColumn } from 'ndla-ui';
 import { Link } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
-import { toCreateTopicArticle, toCreateLearningResource, toSearch } from '../../util/routeHelpers';
+import {
+  toCreateTopicArticle,
+  toCreateLearningResource,
+  toSearch,
+} from '../../util/routeHelpers';
 
 const query = { articleTypes: 'topic-article' };
 

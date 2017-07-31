@@ -99,7 +99,12 @@ class TopicArticleForm extends Component {
       content: [{ content: converter.toHtml(model.content), language }],
       visualElement: [
         {
-          content: `<embed data-size="fullbredde" data-align="" data-alt="${model.visualElementAlt}" data-caption="${model.visualElementCaption}" data-resource="${model.visualElementType}" data-resource_id="${model.visualElementId}" />`,
+          content: `<embed data-size="fullbredde" data-align="" data-alt="${model.visualElementAlt}" data-caption="${model.visualElementCaption}" data-resource="${model.visualElementType}" data-resource_id="${model.visualElementType ===
+          'image'
+            ? model.visualElementId
+            : ''}" data-videoid="${model.visualElementType === 'brightcove'
+            ? model.visualElementId
+            : ''}" />`,
           language,
         },
       ],

@@ -103,10 +103,12 @@ const phrases = {
         label: {
           image: 'Bildetekst',
           video: 'Videotekst',
+          brightcove: 'Videotekst',
         },
         placeholder: {
           image: 'Bildetekst',
           video: 'Videotekst',
+          brightcove: 'Videotekst',
         },
       },
       alt: {

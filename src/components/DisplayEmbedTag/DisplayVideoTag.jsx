@@ -9,13 +9,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import config from '../../config';
 
-const DisplayImageTag = ({ embedTag, className }) => {
+const DisplayVideoTag = ({ embedTag, className }) => {
   if (!embedTag || !embedTag.id) {
     return null;
   }
-  const src = `//players.brightcove.net/${config.brightcoveAccountId}/${config.brightcovePlayerId}_default/index.min.js`;
+
+  const src = `//players.brightcove.net/${window.config
+    .brightCoveAccountId}/${window.config
+    .brightcovePlayerId}_default/index.min.js`;
   return (
     <figure className={className}>
       <Helmet>
@@ -23,8 +25,8 @@ const DisplayImageTag = ({ embedTag, className }) => {
       </Helmet>
       <video
         data-video-id={embedTag.id}
-        data-account={config.brightCoveAccountId}
-        data-player={config.brightcovePlayerId}
+        data-account={window.config.brightCoveAccountId}
+        data-player={window.config.brightcovePlayerId}
         data-embed="default"
         className="video-js"
         controls
@@ -38,7 +40,7 @@ const DisplayImageTag = ({ embedTag, className }) => {
   );
 };
 
-DisplayImageTag.propTypes = {
+DisplayVideoTag.propTypes = {
   embedTag: PropTypes.shape({
     caption: PropTypes.string.isRequired,
     alt: PropTypes.string.isRequired,
@@ -48,4 +50,4 @@ DisplayImageTag.propTypes = {
   className: PropTypes.string,
 };
 
-export default DisplayImageTag;
+export default DisplayVideoTag;

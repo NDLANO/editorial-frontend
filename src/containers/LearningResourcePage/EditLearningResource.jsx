@@ -33,7 +33,7 @@ class EditLearningResource extends Component {
   }
 
   render() {
-    const { locale, article, tags, isSaving } = this.props;
+    const { locale, article, tags, isSaving, licenses } = this.props;
     if (!article) {
       return null;
     }
@@ -47,6 +47,7 @@ class EditLearningResource extends Component {
         initialModel={getInitialModel(article)}
         revision={article.revision}
         tags={tags}
+        licenses={licenses}
         locale={locale}
         isSaving={isSaving}
         onUpdate={this.updateArticle}
@@ -58,6 +59,12 @@ class EditLearningResource extends Component {
 EditLearningResource.propTypes = {
   articleId: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  licenses: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string,
+      license: PropTypes.string,
+    }),
+  ).isRequired,
   fetchArticle: PropTypes.func.isRequired,
   updateArticle: PropTypes.func.isRequired,
   article: ArticleShape,

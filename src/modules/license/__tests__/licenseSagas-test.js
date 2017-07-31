@@ -17,7 +17,7 @@ expectSaga.DEFAULT_TIMEOUT = 100;
 
 test('licenseSagas fetch licenses if not already defined', () => {
   nock('http://ndla-api')
-    .get('/article-api/v1/articles/licenses')
+    .get('/learningpath-api/v1/learningpaths/licenses')
     .reply(200, mockLicenses);
 
   return expectSaga(sagas.watchFetchLicenses)
@@ -29,7 +29,7 @@ test('licenseSagas fetch licenses if not already defined', () => {
 
 test('licenseSagas do not fetch licenses if already fetched', () => {
   nock('http://ndla-api')
-    .get('/article-api/v1/articles/licenses')
+    .get('/learningpath-api/v1/learningpaths/licenses')
     .reply(200, mockLicenses);
 
   return expectSaga(sagas.watchFetchLicenses)

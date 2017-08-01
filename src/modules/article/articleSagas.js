@@ -9,7 +9,7 @@
 import { take, call, put, select } from 'redux-saga/effects';
 import { actions, getArticle } from './article';
 import * as api from './articleApi';
-import { toEditTopicArticle } from '../../util/routeHelpers';
+import { toEditArticle } from '../../util/routeHelpers';
 import * as messageActions from '../../containers/Messages/messagesActions';
 
 export function* fetchArticle(id) {
@@ -52,7 +52,7 @@ export function* createArticle(article, history) {
   try {
     const createdArticle = yield call(api.createArticle, article);
     yield put(actions.setArticle(createdArticle));
-    history.push(toEditTopicArticle(createdArticle.id));
+    history.push(toEditArticle(createdArticle.id, createdArticle.articleType));
     yield put(actions.updateArticleSuccess());
     yield put(
       messageActions.addMessage({

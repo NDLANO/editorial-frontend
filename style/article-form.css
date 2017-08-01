@@ -6,7 +6,8 @@
  *
  */
 
-.c-topic-article-form {
+.c-topic-article-form,
+.c-learning-resource-form {
   margin-top: -6rem;
   width: 970px;
   padding: 0 9rem 3rem;
@@ -24,13 +25,22 @@
     font-style: normal;
   }
 
-  &__save-button {
-    border-color: var(--green);
-    color: var(--brand-grey-dark);
+  &__abort-button + &__save-button {
+    margin-left: 2rem;
+  }
+
+  &__abort-button {
+    border-color: var(--brand-grey--light);
+  }
+
+  &__save-button,
+  &__abort-button {
+    min-width: 6rem;
+    border-width: 1px;
 
     &:hover:enabled,
     &:focus:enabled {
-      background-color: var(--green);
+      border-width: 1px;
       transform: none;
     }
 

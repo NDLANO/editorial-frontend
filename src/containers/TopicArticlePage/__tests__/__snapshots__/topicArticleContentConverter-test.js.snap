@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`topicArticleContentConverter convert to and from editorState 1`] = `"<section><h2>Lorem</h2><p>       Lorem <strong>ipsum dolor sit amet</strong>, consectetur <u>adipiscing</u> elit,       sed do eiusmod tempor incididunt ut labore et <em>dolore magna aliqua</em>. Ut enim ad minim veniam,       quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.     </p><blockquote>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </blockquote><h3>Ipsum</h3><ul><li>Lorem ipsum </li><li>Dolor sit amet</li><li>Consectetur adipiscing</li></ul></section>"`;

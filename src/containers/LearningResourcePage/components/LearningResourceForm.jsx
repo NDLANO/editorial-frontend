@@ -13,11 +13,10 @@ import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { EditorState } from 'draft-js';
 import { injectT } from 'ndla-i18n';
-
+import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
-
 import converter from '../../../util/articleContentConverter';
 import {
   createEditorStateFromText,
@@ -25,8 +24,9 @@ import {
 } from '../../../util/draftjsHelpers';
 import { parseEmbedTag } from '../../../util/embedTagHelpers';
 
-import TopicArticleMetadata from './TopicArticleMetadata';
-import TopicArticleContent from './TopicArticleContent';
+import LearningResourceMetadata from './LearningResourceMetadata';
+import LearningResourceContent from './LearningResourceContent';
+import LearningResourceCopyright from './LearningResourceCopyright';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -35,11 +35,10 @@ const DEFAULT_LICENSE = {
 };
 
 export const getInitialModel = (article = {}) => {
-  const visualElement = parseEmbedTag(article.visualElement) || {};
+  const metaImage = parseEmbedTag(article.visualElement) || {};
   return {
     id: article.id,
     revision: article.revision,
-    updated: article.updated,
     title: article.title || '',
     introduction: createEditorStateFromText(article.introduction),
     content: article.content
@@ -53,10 +52,9 @@ export const getInitialModel = (article = {}) => {
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
     metaDescription: createEditorStateFromText(article.metaDescription) || '',
-    visualElementId: visualElement.id || '',
-    visualElementCaption: visualElement.caption || '',
-    visualElementAlt: visualElement.alt || '',
-    visualElementType: visualElement.resource || '',
+    metaImageId: metaImage.id || '',
+    metaImageCaption: metaImage.caption || '',
+    metaImageAlt: metaImage.alt || '',
   };
 };
 
@@ -65,7 +63,7 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-class TopicArticleForm extends Component {
+class LearningResourceForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -99,7 +97,7 @@ class TopicArticleForm extends Component {
       content: [{ content: converter.toHtml(model.content), language }],
       visualElement: [
         {
-          content: `<embed data-size="fullbredde" data-align="" data-alt="${model.visualElementAlt}" data-caption="${model.visualElementCaption}" data-resource="${model.visualElementType}" data-resource_id="${model.visualElementId}" />`,
+          content: `<embed data-size="fullbredde" data-align="" data-alt="${model.metaImageAlt}" data-caption="${model.metaImageCaption}" data-resource="image" data-resource_id="${model.metaImageId}" />`,
           language,
         },
       ],
@@ -109,7 +107,7 @@ class TopicArticleForm extends Component {
           language,
         },
       ],
-      articleType: 'topic-article',
+      articleType: 'standard',
       copyright: {
         ...model.copyright,
         authors: model.authors.map(name => ({ type: 'Forfatter', name })),
@@ -134,29 +132,36 @@ class TopicArticleForm extends Component {
       <form onSubmit={this.handleSubmit} {...classes()}>
         <div {...classes('title')}>
           {model.id
-            ? t('topicArticleForm.title.update')
-            : t('topicArticleForm.title.create')}
+            ? t('learningResourceForm.title.update')
+            : t('learningResourceForm.title.create')}
         </div>
-        <TopicArticleMetadata
-          classes={classes}
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-          tags={tags}
-        />
-        <TopicArticleContent
+        <LearningResourceMetadata
           classes={classes}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
           tags={tags}
           model={model}
         />
+        <LearningResourceContent
+          classes={classes}
+          commonFieldProps={commonFieldProps}
+          bindInput={bindInput}
+          tags={tags}
+        />
+        <LearningResourceCopyright commonFieldProps={commonFieldProps} />
         <Field right>
+          <Link
+            to={'/'}
+            {...classes('abort-button', '', 'c-button c-button--outline')}
+            disabled={isSaving}>
+            {t('learningResourceForm.abort')}
+          </Link>
           <Button
             submit
             outline
             disabled={isSaving}
             {...classes('save-button')}>
-            {t('topicArticleForm.save')}
+            {t('learningResourceForm.save')}
           </Button>
         </Field>
       </form>
@@ -164,7 +169,7 @@ class TopicArticleForm extends Component {
   }
 }
 
-TopicArticleForm.propTypes = {
+LearningResourceForm.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,
@@ -201,7 +206,7 @@ export default compose(
       required: true,
       maxLength: 150,
     },
-    visualElementId: {
+    metaImageId: {
       required: true,
     },
     tags: {
@@ -211,4 +216,4 @@ export default compose(
       minItems: 1,
     },
   }),
-)(TopicArticleForm);
+)(LearningResourceForm);

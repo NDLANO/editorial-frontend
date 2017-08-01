@@ -11,7 +11,7 @@
   padding: 0 9rem;
 
   &--fill {
-    border-bottom: 1px solid var(--brand-color--light);
+    border-bottom: 1px solid var(--gray-11);
   }
 
   &__button {

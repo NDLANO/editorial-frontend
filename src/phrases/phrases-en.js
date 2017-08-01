@@ -14,6 +14,7 @@ const phrases = {
     shortcuts: 'Shortcuts',
     searchTopicArticles: 'Search for topic description',
     createTopicArticle: 'Create topic description',
+    createLearningResource: 'Create learning resource',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -85,6 +86,67 @@ const phrases = {
     title: {
       create: 'You are now creating a topic description',
       update: 'You are now editing a topic description',
+    },
+    fields: {
+      title: {
+        label: 'Title',
+      },
+      introduction: {
+        label: 'Introduction',
+      },
+      visualElement: {
+        title: 'Add visual element',
+        label: 'Visual element',
+      },
+      caption: {
+        label: 'Caption',
+        placeholder: 'Caption',
+      },
+      alt: {
+        label: 'Alt-text',
+        placeholder: 'Alt-text',
+      },
+      content: {
+        label: 'Content',
+        placeholder: 'Write here...',
+      },
+      tags: {
+        label: 'Tags',
+        description: '3 tags is required.',
+        createNew: 'Create new tag',
+        emptyList: 'No tags available',
+        emptyFilter: 'No matching tags found',
+      },
+      metaDescription: {
+        label: 'Meta description',
+        description: 'The description will be viewable in search.',
+      },
+      authors: {
+        label: 'Author',
+        createNew: 'Add new author',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+    },
+    description: {
+      metaDescription: 'The description will be viewable in search.',
+    },
+  },
+  learningResourceForm: {
+    save: 'Save',
+    abort: 'Abort',
+    savedOk: 'Saved OK',
+    createdOk: 'Created OK',
+    metadata: 'Metadata',
+    content: 'Content',
+    copyrightAccordion: 'License and authors',
+    visualElementTitle: {
+      image: 'Image title',
+    },
+    visualElementCopyright: 'Origin',
+    title: {
+      create: 'You are now creating a learning resource',
+      update: 'You are now editing a learning resource',
     },
     fields: {
       title: {

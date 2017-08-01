@@ -1,5 +1,10 @@
 import queryString from 'query-string';
 
+const articleTypes = {
+  'topic-article': 'topic-article',
+  standard: 'learning-resource',
+};
+
 export function toSearch(query) {
   if (query) {
     return `/search?${queryString.stringify(query)}`;
@@ -7,8 +12,11 @@ export function toSearch(query) {
   return '/search';
 }
 
-export function toEditTopicArticle(articleId) {
-  return `/topic-article/${articleId}/edit`;
+export function toEditArticle(articleId, articleType) {
+  return `/${articleTypes[articleType]}/${articleId}/edit`;
+}
+export function toCreateLearningResource() {
+  return `/learning-resource/new`;
 }
 
 export function toCreateTopicArticle() {

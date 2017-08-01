@@ -6,6 +6,11 @@
  *
  */
 
+a.c-topic-article-form__abort-button.c-button,
+a.c-learning-resource-form__abort-button.c-button {
+  display: inline-block;
+}
+
 .c-topic-article-form,
 .c-learning-resource-form {
   margin-top: -6rem;
@@ -35,6 +40,7 @@
 
   &__save-button,
   &__abort-button {
+    display: inline-block;
     min-width: 6rem;
     border-width: 1px;
 

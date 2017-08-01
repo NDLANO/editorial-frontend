@@ -60,7 +60,7 @@ export const fetchVisualElement = embedTag => {
   switch (embedTag.resource) {
     case 'image':
       return fetchImage(embedTag.id);
-    case 'video':
+    case 'brightcove':
       return fetchBrightcoveVideo(embedTag.id);
     default:
       return new Promise((resolve, reject) => {

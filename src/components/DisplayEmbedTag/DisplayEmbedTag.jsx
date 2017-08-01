@@ -18,7 +18,7 @@ const DisplayEmbedTag = ({ embedTag, className }) => {
   switch (embedTag.resource) {
     case 'image':
       return <DisplayImageTag embedTag={embedTag} className={className} />;
-    case 'video':
+    case 'brightcove':
       return <DisplayVideoTag embedTag={embedTag} className={className} />;
     default:
       return null;

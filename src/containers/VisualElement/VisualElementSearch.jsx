@@ -45,7 +45,7 @@ const VisualElementSearch = ({
           />
         </div>
       );
-    case 'video': {
+    case 'brightcove': {
       const videoTranslations = {
         searchPlaceholder: t('videoSearch.searchPlaceholder'),
         searchButtonTitle: t('videoSearch.searchButtonTitle'),

@@ -62,7 +62,7 @@ class VisualElementTypeSelect extends Component {
           <Button
             stripped
             {...classes('visual-element-type-button')}
-            onClick={() => this.onTypeChange('video')}>
+            onClick={() => this.onTypeChange('brightcove')}>
             <Video />
           </Button>
         </div>

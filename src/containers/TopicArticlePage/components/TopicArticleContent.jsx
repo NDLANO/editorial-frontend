@@ -73,7 +73,9 @@ class TopicArticleContent extends Component {
             }
             return `${author}, `;
           })}
-          {` - ${t('topicArticleForm.info.lastUpdated', { updated })}`}
+          {updated
+            ? ` - ${t('topicArticleForm.info.lastUpdated', { updated })}`
+            : ''}
         </div>
 
         <PlainTextField

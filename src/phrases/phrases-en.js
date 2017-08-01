@@ -80,6 +80,9 @@ const phrases = {
       image: 'Image title',
     },
     visualElementCopyright: 'Origin',
+    info: {
+      lastUpdated: 'Last updated: {updated}',
+    },
     title: {
       create: 'You are now creating a topic description',
       update: 'You are now editing a topic description',

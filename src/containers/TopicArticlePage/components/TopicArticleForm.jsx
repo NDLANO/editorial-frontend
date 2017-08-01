@@ -39,6 +39,7 @@ export const getInitialModel = (article = {}) => {
   return {
     id: article.id,
     revision: article.revision,
+    updated: article.updated,
     title: article.title || '',
     introduction: createEditorStateFromText(article.introduction),
     content: article.content

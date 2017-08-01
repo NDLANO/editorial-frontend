@@ -76,3 +76,11 @@
     border: none;
   }
 }
+
+.c-topic-article-content {
+  &__info {
+    padding-top: 0.5rem;
+    margin-bottom: -1rem;
+    color: var(--gray-6);
+  }
+}

@@ -15,6 +15,7 @@ const phrases = {
     shortcuts: 'Snarveier',
     searchTopicArticles: 'Søk etter emnebeskrivelse',
     createTopicArticle: 'Opprett emnebeskrivelse',
+    createLearningResource: 'Opprett læringsressurs',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -109,6 +110,68 @@ const phrases = {
           image: 'Bildetekst',
           video: 'Videotekst',
           brightcove: 'Videotekst',
+        },
+      },
+      alt: {
+        label: 'Alt-tekst',
+        placeholder: 'Alt-tekst',
+      },
+      content: {
+        label: 'Innhold',
+        placeholder: 'Innhold',
+      },
+      tags: {
+        label: 'Nøkkelord',
+        description: 'Obligatorisk med 3 nøkkelord.',
+        createNew: 'Opprett nytt nøkkelord',
+        emptyFilter: 'Fant ingen passende nøkkelord',
+        emptyList: 'Det er ingen tagger i denne listen',
+      },
+      metaDescription: {
+        label: 'Metabeskrivelse',
+        description: 'Beskrivelsen blir synlig i søk.',
+      },
+      authors: {
+        label: 'Forfatter',
+        createNew: 'Opprett ny bidragsyter',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+    },
+  },
+  learningResourceForm: {
+    save: 'Lagre',
+    abort: 'Avbryt',
+    savedOk: 'Lagret OK',
+    createdOk: 'Opprettet OK',
+    metadata: 'Metadata',
+    content: 'Innhold',
+    copyrightAccordion: 'Lisens og bruker',
+    metaImageTitle: {
+      image: 'Bildetittel',
+    },
+    metaImageCopyright: 'Opphav',
+    title: {
+      create: 'Du oppretter nå en læringsressurs',
+      update: 'Du redigerer nå en læringsressurs',
+    },
+    fields: {
+      title: {
+        label: 'Tittel',
+      },
+      introduction: {
+        label: 'Ingress',
+      },
+      metaImage: {
+        title: 'Metabilde',
+        label: 'Metabilde',
+      },
+      caption: {
+        label: {
+          image: 'Bildetekst',
+        },
+        placeholder: {
+          image: 'Bildetekst',
         },
       },
       alt: {

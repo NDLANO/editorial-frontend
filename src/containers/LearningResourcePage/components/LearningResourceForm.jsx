@@ -13,11 +13,10 @@ import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { EditorState } from 'draft-js';
 import { injectT } from 'ndla-i18n';
-
+import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
-
 import converter from '../../../util/articleContentConverter';
 import {
   createEditorStateFromText,
@@ -151,9 +150,12 @@ class LearningResourceForm extends Component {
         />
         <LearningResourceCopyright commonFieldProps={commonFieldProps} />
         <Field right>
-          <Button outline disabled={isSaving} {...classes('abort-button')}>
+          <Link
+            to={'/'}
+            {...classes('abort-button', '', 'c-button c-button--outline')}
+            disabled={isSaving}>
             {t('learningResourceForm.abort')}
-          </Button>
+          </Link>
           <Button
             submit
             outline

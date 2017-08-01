@@ -38,7 +38,7 @@ class LearningResourceContent extends Component {
         <TextField
           label={t('learningResourceForm.fields.title.label')}
           name="title"
-          big
+          bigText
           noBorder
           placeholder={t('learningResourceForm.fields.title.label')}
           {...commonFieldProps}

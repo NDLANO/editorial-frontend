@@ -193,11 +193,26 @@ const phrases = {
         label: 'Metabeskrivelse',
         description: 'Beskrivelsen blir synlig i søk.',
       },
-      authors: {
-        label: 'Forfatter',
+      contributors: {
+        label: 'Bidragsyter',
         createNew: 'Opprett ny bidragsyter',
         emptyFilter: ' ',
         emptyList: ' ',
+      },
+      licensees: {
+        label: 'Rettighetshaver',
+        createNew: 'Opprett ny rettighetshaver',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      authors: {
+        label: 'Opphavsperson',
+        createNew: 'Opprett ny opphavsperson',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      license: {
+        label: 'Lisens',
       },
     },
   },

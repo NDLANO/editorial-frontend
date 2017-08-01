@@ -9,7 +9,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { MultiSelectField } from '../../../components/Fields';
+import {
+  MultiSelectField,
+  SelectObjectField,
+} from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 
 class LearningResourceCopyright extends Component {
@@ -28,7 +31,7 @@ class LearningResourceCopyright extends Component {
   }
 
   render() {
-    const { t, commonFieldProps } = this.props;
+    const { t, commonFieldProps, licenses } = this.props;
 
     return (
       <Accordion
@@ -46,6 +49,36 @@ class LearningResourceCopyright extends Component {
           }}
           {...commonFieldProps}
         />
+        <MultiSelectField
+          name="licensees"
+          label={t('learningResourceForm.fields.licensees.label')}
+          messages={{
+            createNew: t('learningResourceForm.fields.licensees.createNew'),
+            emptyFilter: t('learningResourceForm.fields.licensees.emptyFilter'),
+            emptyList: t('learningResourceForm.fields.licensees.emptyList'),
+          }}
+          {...commonFieldProps}
+        />
+        <MultiSelectField
+          name="contributors"
+          label={t('learningResourceForm.fields.contributors.label')}
+          messages={{
+            createNew: t('learningResourceForm.fields.contributors.createNew'),
+            emptyFilter: t(
+              'learningResourceForm.fields.contributors.emptyFilter',
+            ),
+            emptyList: t('learningResourceForm.fields.contributors.emptyList'),
+          }}
+          {...commonFieldProps}
+        />
+        <SelectObjectField
+          name="license"
+          label={t('learningResourceForm.fields.license.label')}
+          options={licenses}
+          idKey="license"
+          labelKey="description"
+          {...commonFieldProps}
+        />
       </Accordion>
     );
   }
@@ -60,6 +93,12 @@ LearningResourceCopyright.propTypes = {
     submitted: PropTypes.bool.isRequired,
     bindInput: PropTypes.func.isRequired,
   }),
+  licenses: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string,
+      license: PropTypes.string,
+    }),
+  ).isRequired,
 };
 
 export default injectT(LearningResourceCopyright);

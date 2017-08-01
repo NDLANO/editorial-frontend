@@ -34,6 +34,13 @@ const DEFAULT_LICENSE = {
   url: 'https://creativecommons.org/licenses/by-sa/2.0/',
 };
 
+const parseCopyrightAuthors = (article, type) =>
+  article.copyright
+    ? article.copyright.authors
+        .filter(author => author.type === type)
+        .map(author => author.name)
+    : [];
+
 export const getInitialModel = (article = {}) => {
   const metaImage = parseEmbedTag(article.visualElement) || {};
   return {
@@ -45,12 +52,16 @@ export const getInitialModel = (article = {}) => {
       ? converter.toEditorState(article.content)
       : EditorState.createEmpty(),
     tags: article.tags || [],
-    authors: article.copyright
-      ? article.copyright.authors.map(author => author.name)
-      : [],
-    copyright: article.copyright
-      ? article.copyright
-      : { license: DEFAULT_LICENSE, origin: '' },
+    authors: parseCopyrightAuthors(article, 'Forfatter'),
+    licensees: parseCopyrightAuthors(article, 'Rettighetshaver'),
+    contributors: parseCopyrightAuthors(article, 'Bidragsyter'),
+    copyrightOrigin:
+      article.copyright && article.copyright.origin
+        ? article.copyright.origin
+        : '',
+    license: article.copyright
+      ? article.copyright.license.license
+      : DEFAULT_LICENSE.license,
     metaDescription: createEditorStateFromText(article.metaDescription) || '',
     metaImageId: metaImage.id || '',
     metaImageCaption: metaImage.caption || '',
@@ -78,11 +89,23 @@ class LearningResourceForm extends Component {
       revision,
       locale: language,
       setSubmitted,
+      licenses,
     } = this.props;
     if (!schema.isValid) {
       setSubmitted(true);
       return;
     }
+
+    const authors = model.authors.map(name => ({ type: 'Forfatter', name }));
+    const licensees = model.licensees.map(name => ({
+      type: 'Rettighetshaver',
+      name,
+    }));
+    const contributors = model.contributors.map(name => ({
+      type: 'Bidragsyter',
+      name,
+    }));
+
     this.props.onUpdate({
       id: model.id,
       revision,
@@ -109,8 +132,9 @@ class LearningResourceForm extends Component {
       ],
       articleType: 'standard',
       copyright: {
-        ...model.copyright,
-        authors: model.authors.map(name => ({ type: 'Forfatter', name })),
+        license: licenses.find(license => license.license === model.license),
+        origin: model.origin,
+        authors: authors.concat(licensees).concat(contributors),
       },
     });
   }
@@ -123,6 +147,7 @@ class LearningResourceForm extends Component {
       model,
       submitted,
       tags,
+      licenses,
       isSaving,
     } = this.props;
 
@@ -148,7 +173,10 @@ class LearningResourceForm extends Component {
           bindInput={bindInput}
           tags={tags}
         />
-        <LearningResourceCopyright commonFieldProps={commonFieldProps} />
+        <LearningResourceCopyright
+          commonFieldProps={commonFieldProps}
+          licenses={licenses}
+        />
         <Field right>
           <Link
             to={'/'}
@@ -178,6 +206,12 @@ LearningResourceForm.propTypes = {
     fields: PropTypes.object.isRequired,
     isValid: PropTypes.bool.isRequired,
   }),
+  licenses: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string,
+      license: PropTypes.string,
+    }),
+  ).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,

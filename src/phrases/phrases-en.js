@@ -182,11 +182,26 @@ const phrases = {
         label: 'Meta description',
         description: 'The description will be viewable in search.',
       },
+      contributors: {
+        label: 'Contributor',
+        createNew: 'Add new contributor',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      licensees: {
+        label: 'Licensee',
+        createNew: 'Add new licensee',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
       authors: {
         label: 'Author',
         createNew: 'Add new author',
         emptyFilter: ' ',
         emptyList: ' ',
+      },
+      license: {
+        label: 'Lisens',
       },
     },
     description: {

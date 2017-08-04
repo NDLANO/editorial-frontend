@@ -9,6 +9,8 @@
 import React from 'react';
 import { convertFromHTML, convertToHTML } from 'draft-convert';
 import { EditorState } from 'draft-js';
+import { Html, Plain } from 'slate';
+import { RULES } from '../util/slateHelpers';
 
 function reduceAttributesArrayToObject(attributes) {
   // Reduce attributes array to object with attribute name (striped of data-) as keys.
@@ -45,6 +47,23 @@ function convertHTMLToEditorState(html) {
   return EditorState.createWithContent(contentState);
 }
 
+function convertHTMLToSlateEditorState(html) {
+  let contentState;
+  if (!html) {
+    contentState = Plain.deserialize('');
+  } else {
+    const serializer = new Html({ rules: RULES });
+    contentState = serializer.deserialize(html);
+  }
+  return contentState;
+}
+
+function convertSlateEditorStatetoHTML(contentState) {
+  const serializer = new Html({ rules: RULES });
+  const html = serializer.serialize(contentState);
+  return html;
+}
+
 function convertEditorStateToHTML(editorState) {
   const contentState = editorState.getCurrentContent();
 
@@ -62,5 +81,7 @@ function convertEditorStateToHTML(editorState) {
 
 export default {
   toHtml: convertEditorStateToHTML,
+  slateToHtml: convertSlateEditorStatetoHTML,
   toEditorState: convertHTMLToEditorState,
+  toSlateEditorState: convertHTMLToSlateEditorState,
 };

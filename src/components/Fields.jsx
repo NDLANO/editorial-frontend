@@ -13,6 +13,7 @@ import { uuid } from 'ndla-util';
 import BEMHelper from 'react-bem-helper';
 import MultiSelect from './MultiSelect';
 import { isEmpty } from './validators';
+import SlateEditor from '../components/SlateEditor/SlateEditor';
 
 export const classes = new BEMHelper({
   name: 'field',
@@ -412,39 +413,36 @@ MultiSelectField.propTypes = {
   submitted: PropTypes.bool.isRequired,
 };
 
-export const SelectObjectField = props => {
-  const {
-    bindInput,
-    name,
-    idKey,
-    labelKey,
-    obligatory,
-    description,
-    label,
-    submitted,
-    schema,
-    options,
-    ...rest
-  } = props;
-
+export const RichTextSlateField = ({
+  bindInput,
+  name,
+  label,
+  noBorder,
+  submitted,
+  schema,
+  ...rest
+}) => {
+  const { value, onChange } = bindInput(name);
   return (
-    <Field>
-      <label htmlFor={name}>
-        {label}
-      </label>
-      {description &&
-        <FieldDescription obligatory={obligatory}>
-          {description}
-        </FieldDescription>}
-      <select {...bindInput(name)} {...rest}>
-        {options.map(option =>
-          <option
-            key={option[idKey] ? option[idKey] : uuid()}
-            value={option[idKey]}>
-            {option[labelKey]}
-          </option>,
-        )}
-      </select>
+    <Field noBorder={noBorder}>
+      {!noBorder
+        ? <label htmlFor={name}>
+            {label}
+          </label>
+        : <label className="u-hidden" htmlFor={name}>
+            {label}
+          </label>}
+      {noBorder &&
+        <FocusLabel name={name} hasFocus={() => value.isFocused} value={value}>
+          {label}
+        </FocusLabel>}
+      <SlateEditor
+        id={name}
+        onChange={val =>
+          onChange({ target: { name, value: val, type: 'SlateEditorState' } })}
+        value={value}
+        {...rest}
+      />
       <FieldErrorMessages
         label={label}
         field={schema.fields[name]}
@@ -454,18 +452,13 @@ export const SelectObjectField = props => {
   );
 };
 
-SelectObjectField.propTypes = {
+RichTextSlateField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  obligatory: PropTypes.bool,
-  description: PropTypes.string,
   label: PropTypes.string.isRequired,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),
-  options: PropTypes.arrayOf(PropTypes.object).isRequired,
-  data: PropTypes.arrayOf(PropTypes.string),
+  noBorder: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
-  idKey: PropTypes.string.isRequired,
-  labelKey: PropTypes.string.isRequired,
 };

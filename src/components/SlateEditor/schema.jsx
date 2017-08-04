@@ -1,5 +1,7 @@
 import React from 'react';
 
+/* eslint-disable react/prop-types */
+
 export const schema = {
   nodes: {
     section: props =>

@@ -1,9 +1,17 @@
 import React from 'react';
+import DisplayEmbedTag from '../DisplayEmbedTag/DisplayEmbedTag';
+
+const getSchemaEmbedTag = props => ({
+  caption: props.node.get('data').get('caption'),
+  alt: props.node.get('data').get('alt'),
+  id: props.node.get('data').get('id'),
+  resource: props.node.get('data').get('resource'),
+});
 
 /* eslint-disable react/prop-types */
-
 export const schema = {
   nodes: {
+    embed: props => <DisplayEmbedTag embedTag={getSchemaEmbedTag(props)} />,
     section: props =>
       <section {...props.attributes}>
         {props.children}

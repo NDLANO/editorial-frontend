@@ -24,6 +24,27 @@ const MARK_TAGS = {
   code: 'code',
 };
 
+const getEmbedTag = el => {
+  const attributes = el.attributes;
+  const idTypes = {
+    brightcove: 'data-videoid',
+    image: 'data-resource_id',
+  };
+  const alt = attributes.getNamedItem('data-alt');
+  const caption = attributes.getNamedItem('data-caption');
+  const resourceType = attributes.getNamedItem('data-resource')
+    ? attributes.getNamedItem('data-resource').value
+    : '';
+  const id = attributes.getNamedItem(idTypes[resourceType]);
+
+  return {
+    caption: caption ? caption.value : '',
+    alt: alt ? alt.value : '',
+    id: id ? id.value : '',
+    resource: resourceType,
+  };
+};
+
 /* eslint-disable consistent-return, default-case */
 
 export const RULES = [
@@ -183,6 +204,25 @@ export const RULES = [
               </code>
             </pre>
           );
+      }
+    },
+  },
+  {
+    // Embeds handling
+    deserialize(el, next) {
+      if (el.tagName.toLowerCase() !== 'embed') return;
+      return {
+        kind: 'block',
+        type: 'embed',
+        nodes: next(el.childNodes),
+        data: getEmbedTag(el),
+      };
+    },
+    serialize(object) {
+      if (object.kind !== 'embed') return;
+      switch (object.type) {
+        case 'embed':
+          return <embed {...object.data} />;
       }
     },
   },

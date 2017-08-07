@@ -26,7 +26,6 @@ class SlateEditor extends Component {
     this.focus = this.focus.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
   }
-te
   onContentChange(state, index) {
     const { name, onChange, value } = this.props;
     const newValue = [].concat(value);
@@ -53,7 +52,7 @@ te
           {value.map((val, index) =>
             <div
               key={uuid()}
-              {...classes(undefined, className)}
+              {...classes('container', className)}
               onClick={this.focus}>
               <Editor
                 state={val.state}
@@ -74,9 +73,7 @@ te
 
     return (
       <article>
-        <div
-          {...classes(undefined, className)}
-          >
+        <div {...classes(undefined, className)}>
           <Editor
             state={value}
             schema={schema}
@@ -89,7 +86,7 @@ te
           {children}
         </div>
       </article>
-    )
+    );
   }
 }
 

@@ -8,7 +8,9 @@
 
 import defined from 'defined';
 
-import createFieldByLanguageFinder, { findFallbackTranslation } from './createFieldByLanguageFinder';
+import createFieldByLanguageFinder, {
+  findFallbackTranslation,
+} from './createFieldByLanguageFinder';
 
 export const titleI18N = createFieldByLanguageFinder('title');
 export const titlesI18N = createFieldByLanguageFinder('titles', 'title');
@@ -20,11 +22,13 @@ export const visualElementI18N = createFieldByLanguageFinder(
   'content',
 );
 export const tagsI18N = createFieldByLanguageFinder('tags');
-export const alttextsI18N = createFieldByLanguageFinder('alttexts');
+export const alttextsI18N = createFieldByLanguageFinder('alttexts', 'alttext');
 export const introductionI18N = createFieldByLanguageFinder('introduction');
 export const metaDescriptionI18N = createFieldByLanguageFinder(
   'metaDescription',
 );
+
+export const captionsI18N = createFieldByLanguageFinder('captions', 'caption');
 
 export function oembedContentI18N(
   learningPathStep,

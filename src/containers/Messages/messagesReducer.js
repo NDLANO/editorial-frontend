@@ -16,11 +16,13 @@ export default handleActions(
         const message = {
           id: uuid(),
           message: action.payload.message,
+          translationKey: action.payload.translationKey,
           severity: action.payload.severity,
           action: action.payload.action,
-          timeToLive: typeof action.payload.timeToLive === 'undefined'
-            ? 1500
-            : action.payload.timeToLive,
+          timeToLive:
+            typeof action.payload.timeToLive === 'undefined'
+              ? 1500
+              : action.payload.timeToLive,
         };
 
         return [...state, message];

@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { PageContainer } from 'ndla-ui';
 import { withRouter, Route, Switch } from 'react-router-dom';
+import { injectT } from 'ndla-i18n';
 
 import { MessageShape } from '../../shapes';
 import Masthead from '../Masthead';
@@ -19,7 +20,6 @@ import Footer from './components/Footer';
 import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
 import Alerts from '../Messages/Alerts';
-import { injectT } from '../../i18n';
 import ScrollToTop from './ScrollToTop';
 import Login from '../Login/Login';
 import Logout from '../Logout/Logout';
@@ -27,7 +27,7 @@ import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import WelcomePage from '../WelcomePage/WelcomePage';
 import SearchPage from '../SearchPage/SearchPage';
 import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
-import ImageSearchPage from '../ImageSearch/ImageSearchPage';
+import LearningResourcePage from '../LearningResourcePage/LearningResourcePage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import ForbiddenPage from '../ForbiddenPage/ForbiddenPage';
 
@@ -59,8 +59,11 @@ export class App extends React.Component {
           <Route path="/login" component={Login} />
           <Route path="/logout" component={Logout} />
           <PrivateRoute path="/search" component={SearchPage} />
-          <PrivateRoute path="/images/" component={ImageSearchPage} />
           <PrivateRoute path="/topic-article/" component={TopicArticlePage} />
+          <PrivateRoute
+            path="/learning-resource"
+            component={LearningResourcePage}
+          />
           <Route path="/forbidden" component={ForbiddenPage} />
           <Route component={NotFoundPage} />
         </Switch>

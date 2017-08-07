@@ -19,15 +19,28 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-export const Field = ({ children, noBorder, big, className, right }) =>
-  <div {...classes('', { 'no-border': noBorder, right, big }, className)}>
+export const Field = ({
+  children,
+  noBorder,
+  bigText,
+  title,
+  className,
+  right,
+}) =>
+  <div
+    {...classes(
+      '',
+      { 'no-border': noBorder, right, bigText, title },
+      className,
+    )}>
     {children}
   </div>;
 
 Field.propTypes = {
   noBorder: PropTypes.bool,
-  big: PropTypes.bool,
+  bigText: PropTypes.bool,
   right: PropTypes.bool,
+  title: PropTypes.bool,
 };
 
 Field.defaultProps = {
@@ -55,7 +68,9 @@ export const FieldErrorMessages = ({ field, submitted, label }) => {
   return (
     <div>
       {field.errors.map(error =>
-        <FieldHelp key={uuid()} error>{error(label)}</FieldHelp>,
+        <FieldHelp key={uuid()} error>
+          {error(label)}
+        </FieldHelp>,
       )}
     </div>
   );
@@ -77,7 +92,9 @@ export const FocusLabel = ({ name, value, hasFocus, children }) => {
   }
   return (
     <div className="c-field__focus-label">
-      <span className="c-field__focus-text">{children}</span>
+      <span className="c-field__focus-text">
+        {children}
+      </span>
     </div>
   );
 };
@@ -113,13 +130,18 @@ export const TextField = ({
   submitted,
   schema,
   noBorder,
-  big,
+  bigText,
+  title,
   ...rest
 }) =>
-  <Field noBorder={noBorder} big={big}>
+  <Field noBorder={noBorder} bigText={bigText} title={title}>
     {!noBorder
-      ? <label htmlFor={name}>{label}</label>
-      : <label className="u-hidden" htmlFor={name}>{label}</label>}
+      ? <label htmlFor={name}>
+          {label}
+        </label>
+      : <label className="u-hidden" htmlFor={name}>
+          {label}
+        </label>}
     {noBorder &&
       <FocusLabel name={name} value={bindInput(name).value}>
         {label}
@@ -147,22 +169,40 @@ TextField.propTypes = {
     fields: PropTypes.object.isRequired,
   }),
   noBorder: PropTypes.bool,
-  big: PropTypes.bool,
+  bigText: PropTypes.bool,
+  title: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
 
 TextField.defaultProps = {
-  big: false,
+  bigText: false,
   noBorder: false,
 };
 
-export const FieldDescription = ({ children }) =>
-  <p {...classes('description')}>{children}</p>;
+export const FieldDescription = ({ obligatory, children }) => {
+  const fieldDescriptionClasses = classes(
+    'description',
+    obligatory ? 'obligatory' : '',
+  );
+  return (
+    <span {...classes('description--block')}>
+      <p {...fieldDescriptionClasses}>
+        {children}
+      </p>
+    </span>
+  );
+};
+
+FieldDescription.propTypes = {
+  obligatory: PropTypes.bool,
+};
 
 export const TextAreaField = ({
   bindInput,
   name,
   description,
+  obligatory,
+  noBorder,
   label,
   submitted,
   schema,
@@ -171,9 +211,14 @@ export const TextAreaField = ({
   getMaxLengthRemaingLabel,
   ...rest
 }) =>
-  <Field>
-    <label htmlFor={name}>{label}</label>
-    {description && <FieldDescription>{description}</FieldDescription>}
+  <Field noBorder={noBorder}>
+    <label htmlFor={name}>
+      {label}
+    </label>
+    {description &&
+      <FieldDescription obligatory={obligatory}>
+        {description}
+      </FieldDescription>}
     <textarea
       id={name}
       className="form-control"
@@ -192,6 +237,8 @@ export const TextAreaField = ({
 TextAreaField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  obligatory: PropTypes.bool,
+  noBorder: PropTypes.bool,
   description: PropTypes.string,
   label: PropTypes.string.isRequired,
   schema: PropTypes.shape({
@@ -213,10 +260,14 @@ export const RichTextField = ({
 }) => {
   const { value, onChange } = bindInput(name);
   return (
-    <Field noBorder>
+    <Field noBorder={noBorder}>
       {!noBorder
-        ? <label htmlFor={name}>{label}</label>
-        : <label className="u-hidden" htmlFor={name}>{label}</label>}
+        ? <label htmlFor={name}>
+            {label}
+          </label>
+        : <label className="u-hidden" htmlFor={name}>
+            {label}
+          </label>}
       {noBorder &&
         <FocusLabel
           name={name}
@@ -255,7 +306,10 @@ export const PlainTextField = ({
   bindInput,
   name,
   label,
+  obligatory,
+  description,
   noBorder,
+  bigText,
   submitted,
   schema,
   children,
@@ -263,10 +317,14 @@ export const PlainTextField = ({
 }) => {
   const { value, onChange } = bindInput(name);
   return (
-    <Field noBorder>
+    <Field noBorder={noBorder}>
       {!noBorder
-        ? <label htmlFor={name}>{label}</label>
-        : <label className="u-hidden" htmlFor={name}>{label}</label>}
+        ? <label htmlFor={name}>
+            {label}
+          </label>
+        : <label className="u-hidden" htmlFor={name}>
+            {label}
+          </label>}
       {noBorder &&
         <FocusLabel
           name={name}
@@ -274,7 +332,15 @@ export const PlainTextField = ({
           value={value}>
           {label}
         </FocusLabel>}
-      <div {...classes('plain-text-editor')}>
+      <div
+        {...classes('plain-text-editor', [
+          noBorder ? 'no-border' : '',
+          bigText ? 'bigText' : '',
+        ])}>
+        {description &&
+          <FieldDescription obligatory={obligatory}>
+            {description}
+          </FieldDescription>}
         <PlainTextEditor
           id={name}
           onChange={val =>
@@ -297,16 +363,20 @@ PlainTextField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  obligatory: PropTypes.bool,
+  description: PropTypes.string,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),
   noBorder: PropTypes.bool,
+  bigText: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
 
 export const MultiSelectField = ({
   bindInput,
   name,
+  obligatory,
   description,
   label,
   submitted,
@@ -314,8 +384,13 @@ export const MultiSelectField = ({
   ...rest
 }) =>
   <Field>
-    <label htmlFor={name}>{label}</label>
-    {description && <FieldDescription>{description}</FieldDescription>}
+    <label htmlFor={name}>
+      {label}
+    </label>
+    {description &&
+      <FieldDescription obligatory={obligatory}>
+        {description}
+      </FieldDescription>}
     <MultiSelect {...bindInput(name)} {...rest} />
     <FieldErrorMessages
       label={label}
@@ -327,6 +402,7 @@ export const MultiSelectField = ({
 MultiSelectField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  obligatory: PropTypes.bool,
   description: PropTypes.string,
   label: PropTypes.string.isRequired,
   schema: PropTypes.shape({
@@ -334,4 +410,62 @@ MultiSelectField.propTypes = {
   }),
   data: PropTypes.arrayOf(PropTypes.string),
   submitted: PropTypes.bool.isRequired,
+};
+
+export const SelectObjectField = props => {
+  const {
+    bindInput,
+    name,
+    idKey,
+    labelKey,
+    obligatory,
+    description,
+    label,
+    submitted,
+    schema,
+    options,
+    ...rest
+  } = props;
+
+  return (
+    <Field>
+      <label htmlFor={name}>
+        {label}
+      </label>
+      {description &&
+        <FieldDescription obligatory={obligatory}>
+          {description}
+        </FieldDescription>}
+      <select {...bindInput(name)} {...rest}>
+        {options.map(option =>
+          <option
+            key={option[idKey] ? option[idKey] : uuid()}
+            value={option[idKey]}>
+            {option[labelKey]}
+          </option>,
+        )}
+      </select>
+      <FieldErrorMessages
+        label={label}
+        field={schema.fields[name]}
+        submitted={submitted}
+      />
+    </Field>
+  );
+};
+
+SelectObjectField.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  obligatory: PropTypes.bool,
+  description: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  data: PropTypes.arrayOf(PropTypes.string),
+  submitted: PropTypes.bool.isRequired,
+  idKey: PropTypes.string.isRequired,
+  labelKey: PropTypes.string.isRequired,
 };

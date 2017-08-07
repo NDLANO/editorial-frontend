@@ -12,7 +12,6 @@ import sinon from 'sinon';
 import { uuid } from 'ndla-util';
 
 import { Alerts, Alert, Action } from '../Alerts';
-import { clearMessage } from '../messagesActions';
 
 const noop = () => {};
 
@@ -43,23 +42,6 @@ test('component/Alerts two messages', () => {
 test('component/Alerts without messages', () => {
   const component = shallow(<Alerts messages={[]} dispatch={noop} />);
   expect(component.hasClass('alert-overlay--hidden')).toBeTruthy();
-});
-
-test('component/Alert dismiss', () => {
-  const dispatch = sinon.spy(() => {});
-  const id = uuid();
-
-  const dismissBt = shallow(
-    <Alert
-      message={{ id, message: 'whatever', severity: 'info' }}
-      dispatch={dispatch}
-    />,
-  ).find('.alert_dismiss');
-
-  dismissBt.simulate('click');
-
-  expect(dispatch.calledOnce).toBeTruthy();
-  expect(dispatch.firstCall.args).toEqual([clearMessage(id)]);
 });
 
 test('component/Action click', () => {

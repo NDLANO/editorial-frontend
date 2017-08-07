@@ -9,13 +9,18 @@
 @import './vars.css';
 @import '../node_modules/ndla-ui/lib/main.css';
 @import '../node_modules/ndla-ui/lib/editor.css';
+@import '../node_modules/ndla-ui/lib/imageSearch.css';
+@import '../node_modules/ndla-ui/lib/videoSearch.css';
 @import './form.css';
 @import './multiselect.css';
 @import './imageSearch.css';
 @import './lightbox.css';
-@import './topic-article-form.css';
+@import './article-form.css';
 @import './search.css';
 @import './auth.css';
+@import './fields.css';
+@import './alert.css';
+@import './accordion.css';
 
 .c-hero--alt {
   background-color: var(--brand-color--light);

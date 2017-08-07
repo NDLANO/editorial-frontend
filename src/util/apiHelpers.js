@@ -19,6 +19,10 @@ export function apiResourceUrl(path) {
   return window.config.ndlaApiUrl + path;
 }
 
+export function brightcoveApiResourceUrl(path) {
+  return window.config.brightcoveApiUrl + path;
+}
+
 export function createErrorPayload(status, message, json) {
   return Object.assign(new Error(message), { status, json });
 }
@@ -31,10 +35,12 @@ export function resolveJsonOrRejectWithError(res) {
     return res
       .json()
       .then(json =>
-        createErrorPayload(
-          res.status,
-          defined(json.message, res.statusText),
-          json,
+        reject(
+          createErrorPayload(
+            res.status,
+            defined(json.message, res.statusText),
+            json,
+          ),
         ),
       )
       .catch(reject);
@@ -81,4 +87,38 @@ export const fetchAuthorized = (url, config = {}) => {
   }
   const idToken = getIdToken();
   return fetch(url, { ...config, headers: headerWithToken(idToken) });
+};
+
+export const fetchBrightcoveAccessToken = () =>
+  fetch('/get_brightcove_token').then(resolveJsonOrRejectWithError);
+
+export const setBrightcoveAccessTokenInLocalStorage = brightcoveAccessToken => {
+  localStorage.setItem(
+    'brightcove_access_token',
+    brightcoveAccessToken.access_token,
+  );
+  localStorage.setItem(
+    'brightcove_access_token_expires_at',
+    brightcoveAccessToken.expires_in * 1000 + new Date().getTime(),
+  );
+};
+
+export const fetchWithBrightCoveToken = (url, config = {}) => {
+  const birghtcoveAccessToken = localStorage.getItem('brightcove_access_token');
+  const expiresAt = birghtcoveAccessToken
+    ? JSON.parse(localStorage.getItem('brightcove_access_token_expires_at'))
+    : 0;
+  if (new Date().getTime() > expiresAt || !expiresAt) {
+    return fetchBrightcoveAccessToken().then(res => {
+      setBrightcoveAccessTokenInLocalStorage(res);
+      return fetch(url, {
+        ...config,
+        headers: { Authorization: `Bearer ${res.access_token}` },
+      });
+    });
+  }
+  return fetch(url, {
+    ...config,
+    headers: { Authorization: `Bearer ${birghtcoveAccessToken}` },
+  });
 };

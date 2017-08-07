@@ -3129,19 +3129,13 @@ intl-messageformat-parser@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-1.2.0.tgz#5906b7f953ab7470e0dc8549097b648b991892ff"
 
-intl-messageformat@1.3.0, intl-messageformat@^1.3.0:
+intl-messageformat@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/intl-messageformat/-/intl-messageformat-1.3.0.tgz#f7d926aded7a3ab19b2dc601efd54e99a4bd4eae"
   dependencies:
     intl-messageformat-parser "1.2.0"
 
-intl-relativeformat@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/intl-relativeformat/-/intl-relativeformat-1.3.0.tgz#893dc7076fccd380cf091a2300c380fa57ace45b"
-  dependencies:
-    intl-messageformat "1.3.0"
-
-invariant@^2.0.0, invariant@^2.1.0, invariant@^2.1.1, invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2:
+invariant@^2.0.0, invariant@^2.1.0, invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
@@ -4280,23 +4274,48 @@ ndla-error-reporter@^0.1.2:
   dependencies:
     raven-js "^3.9.2"
 
-ndla-licenses@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.7.tgz#8337dc92c5726706c936c2b2691130037ee43f6f"
+ndla-i18n@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/ndla-i18n/-/ndla-i18n-0.0.2.tgz#f0ca9575ebf719f66e8a757e480eafcb4862cd1f"
+  dependencies:
+    intl-format-cache "^2.0.5"
+    intl-messageformat "^1.3.0"
+    invariant "^2.2.2"
+
+ndla-image-search@^0.1.2:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ndla-image-search/-/ndla-image-search-0.1.4.tgz#f30b896d8bc751742245193e054942190d72cf53"
+  dependencies:
+    defined "1.0.0"
+    react-bem-helper "^1.2.0"
+
+ndla-licenses@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.9.tgz#5ba25c076403e5d7cffc251f37feb2ff4e9bdf69"
   dependencies:
     defined "1.0.0"
 
-ndla-ui@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.4.3.tgz#6ffbe64fc34800751b93d28a51e271c2ec509b19"
+ndla-ui@^0.7.6:
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.7.6.tgz#4a563b376f45c732e6d3614ca6bb81aa2444f668"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"
     react-prop-types "0.4.0"
+    react-sticky-header "^0.1.6"
 
-ndla-util@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.1.tgz#ae5f5fb6b087c586ae85c4e90b110f5ab26d37df"
+ndla-util@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.4.tgz#1ade34998a9a1c93cba4f4da64abd931f33d1a8a"
+  dependencies:
+    defined "1.0.0"
+
+ndla-video-search@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/ndla-video-search/-/ndla-video-search-0.1.6.tgz#1dc062b6fd70ba54f37efcf0262f9e6515838ba4"
+  dependencies:
+    defined "1.0.0"
+    react-bem-helper "^1.2.0"
 
 negotiator@0.6.1:
   version "0.6.1"
@@ -5354,9 +5373,9 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
-prettier@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.4.2.tgz#bcdd95ed1eca434ac7f98ca26ea4d25a2af6a2ac"
+prettier@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.5.2.tgz#7ea0751da27b93bfb6cecfcec509994f52d83bb3"
 
 pretty-format@^20.0.3:
   version "20.0.3"
@@ -5506,7 +5525,7 @@ rc@^1.0.1, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-bem-helper@1.4.1, react-bem-helper@^1.3.1:
+react-bem-helper@1.4.1, react-bem-helper@^1.2.0, react-bem-helper@^1.3.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/react-bem-helper/-/react-bem-helper-1.4.1.tgz#cb27aeadda020e9fe9d169bfaae1095c559f4cf5"
   dependencies:
@@ -5541,15 +5560,6 @@ react-helmet@^5.0.3:
     object-assign "^4.1.1"
     prop-types "^15.5.4"
     react-side-effect "^1.1.0"
-
-react-intl@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/react-intl/-/react-intl-2.3.0.tgz#e1df6af5667fdf01cbe4aab20e137251e2ae5142"
-  dependencies:
-    intl-format-cache "^2.0.5"
-    intl-messageformat "^1.3.0"
-    intl-relativeformat "^1.3.0"
-    invariant "^2.1.1"
 
 react-motion@^0.5.0:
   version "0.5.0"
@@ -5605,6 +5615,12 @@ react-side-effect@^1.1.0:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
 
+react-sticky-header@^0.1.6:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/react-sticky-header/-/react-sticky-header-0.1.8.tgz#8c7d36bb17fea9f137cb36243c497c935e5ecdfe"
+  dependencies:
+    react "^15.5.4"
+
 react-test-renderer@^15.5.4:
   version "15.5.4"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-15.5.4.tgz#d4ebb23f613d685ea8f5390109c2d20fbf7c83bc"
@@ -5627,7 +5643,7 @@ react-widgets@^3.4.6:
     deconstruct-number-format "0.0.1"
     format-number-with-string "0.0.2"
 
-react@^15.4.2:
+react@^15.4.2, react@^15.5.4:
   version "15.5.4"
   resolved "https://registry.yarnpkg.com/react/-/react-15.5.4.tgz#fa83eb01506ab237cdc1c8c3b1cea8de012bf047"
   dependencies:

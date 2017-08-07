@@ -68,9 +68,18 @@ input::placeholder {
     padding-right: 0.7rem;
   }
 
+  &__description--block {
+    display: flex;
+  }
+
   &__description {
     margin: 0.2em 0;
     font-size: 0.75em;
+
+    &--obligatory {
+      background-color: rgba(230, 132, 154, 1);
+      padding: 0.2em 0.6em;
+    }
   }
 
   &__focus-text {
@@ -78,14 +87,47 @@ input::placeholder {
     padding-top: 0.7rem;
   }
 
-  &--big {
+  &--bigText {
     & input {
       font-size: 2rem;
     }
   }
 
+  &--title {
+    & input {
+      font-size: 2.11111rem;
+      font-family: 'SourceSansPro-Semibold', 'Source Sans Pro Semibold', 'Source Sans Pro';
+    }
+  }
+
   &--right {
     text-align: right;
+  }
+
+  &__plain-text-editor {
+    & .public-DraftEditor-content {
+      border: 1px solid rgb(230, 230, 230);
+      min-height: 6em;
+      padding: 0.6em;
+    }
+
+    &--no-border {
+      & .public-DraftEditor-content {
+        border: none;
+        padding: 0;
+        margin: 0;
+        outline: none;
+      }
+    }
+
+    &--bigText {
+      & .public-DraftEditor-content {
+        font-family: 'SourceSansPro-Light', 'Source Sans Pro Light', 'Source Sans Pro';
+        font-weight: 200;
+        font-style: normal;
+        font-size: 1.56rem;
+      }
+    }
   }
 
   &--no-border {
@@ -94,12 +136,6 @@ input::placeholder {
       padding: 0;
       margin: 0;
       outline: none;
-    }
-  }
-
-  &__plain-text-editor {
-    & .public-DraftEditor-content {
-      min-height: 6em;
     }
   }
 

@@ -15,6 +15,7 @@ const phrases = {
     shortcuts: 'Snarveier',
     searchTopicArticles: 'Søk etter emnebeskrivelse',
     createTopicArticle: 'Opprett emnebeskrivelse',
+    createLearningResource: 'Opprett læringsressurs',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -58,8 +59,32 @@ const phrases = {
   subjectPage: {
     topics: 'Emner',
   },
+  imageSearch: {
+    placeholder: 'Søk i bilder',
+    buttonTitle: 'Søk',
+  },
+  videoSearch: {
+    searchPlaceholder: 'Søk i videoer',
+    searchButtonTitle: 'Søk',
+    loadMoreVideos: 'Last flere videor',
+    noResults: 'Ingen videor funnet.',
+    addVideo: 'Bruk video',
+    previewVideo: 'Forhåndsvis',
+  },
   topicArticleForm: {
     save: 'Lagre',
+    savedOk: 'Lagret OK',
+    createdOk: 'Opprettet OK',
+    metadata: 'Metadata',
+    content: 'Innhold',
+    visualElementTitle: {
+      image: 'Bildetittel',
+      video: 'Videotittel',
+    },
+    visualElementCopyright: 'Opphav',
+    info: {
+      lastUpdated: 'Sist oppdatert: {updated}',
+    },
     title: {
       create: 'Du oppretter nå en emnebeskrivelse',
       update: 'Du redigerer nå en emnebeskrivelse',
@@ -72,11 +97,20 @@ const phrases = {
         label: 'Ingress',
       },
       visualElement: {
+        title: 'Legg til visuelt element',
         label: 'Visuelt element',
       },
       caption: {
-        label: 'Bildetekst',
-        placeholder: 'Bildetekst',
+        label: {
+          image: 'Bildetekst',
+          video: 'Videotekst',
+          brightcove: 'Videotekst',
+        },
+        placeholder: {
+          image: 'Bildetekst',
+          video: 'Videotekst',
+          brightcove: 'Videotekst',
+        },
       },
       alt: {
         label: 'Alt-tekst',
@@ -105,9 +139,86 @@ const phrases = {
       },
     },
   },
+  learningResourceForm: {
+    save: 'Lagre',
+    abort: 'Avbryt',
+    savedOk: 'Lagret OK',
+    createdOk: 'Opprettet OK',
+    metadata: 'Metadata',
+    content: 'Innhold',
+    copyrightAccordion: 'Lisens og bruker',
+    metaImageTitle: {
+      image: 'Bildetittel',
+    },
+    metaImageCopyright: 'Opphav',
+    title: {
+      create: 'Du oppretter nå en læringsressurs',
+      update: 'Du redigerer nå en læringsressurs',
+    },
+    fields: {
+      title: {
+        label: 'Tittel',
+      },
+      introduction: {
+        label: 'Ingress',
+      },
+      metaImage: {
+        title: 'Metabilde',
+        label: 'Metabilde',
+      },
+      caption: {
+        label: {
+          image: 'Bildetekst',
+        },
+        placeholder: {
+          image: 'Bildetekst',
+        },
+      },
+      alt: {
+        label: 'Alt-tekst',
+        placeholder: 'Alt-tekst',
+      },
+      content: {
+        label: 'Innhold',
+        placeholder: 'Innhold',
+      },
+      tags: {
+        label: 'Nøkkelord',
+        description: 'Obligatorisk med 3 nøkkelord.',
+        createNew: 'Opprett nytt nøkkelord',
+        emptyFilter: 'Fant ingen passende nøkkelord',
+        emptyList: 'Det er ingen tagger i denne listen',
+      },
+      metaDescription: {
+        label: 'Metabeskrivelse',
+        description: 'Beskrivelsen blir synlig i søk.',
+      },
+      contributors: {
+        label: 'Bidragsyter',
+        createNew: 'Opprett ny bidragsyter',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      licensees: {
+        label: 'Rettighetshaver',
+        createNew: 'Opprett ny rettighetshaver',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      authors: {
+        label: 'Opphavsperson',
+        createNew: 'Opprett ny opphavsperson',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      license: {
+        label: 'Lisens',
+      },
+    },
+  },
   form: {
     remainingCharacters:
-      'Max {maxLength, number} tegn og du har {remaining, number} igjen.',
+      'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
   },
   validation: {
     isRequired: '{label} er påkrevd.',

@@ -6,7 +6,13 @@
  *
  */
 
-.c-topic-article-form {
+a.c-topic-article-form__abort-button.c-button,
+a.c-learning-resource-form__abort-button.c-button {
+  display: inline-block;
+}
+
+.c-topic-article-form,
+.c-learning-resource-form {
   margin-top: -6rem;
   width: 970px;
   padding: 0 9rem 3rem;
@@ -16,17 +22,31 @@
 
   &__title {
     margin: 0 -9rem;
-    padding: 0.5rem 9rem;
-    background-color: #ffc;
+    padding: 0.8rem 9rem;
+    background-color: var(--yellow-1);
+    font-size: 0.899rem;
+    font-family: 'SourceSansPro-Regular', 'Source Sans Pro';
+    font-weight: 400;
+    font-style: normal;
   }
 
-  &__save-button {
-    border-color: var(--green);
-    color: var(--brand-grey-dark);
+  &__abort-button + &__save-button {
+    margin-left: 2rem;
+  }
+
+  &__abort-button {
+    border-color: var(--brand-grey--light);
+  }
+
+  &__save-button,
+  &__abort-button {
+    display: inline-block;
+    min-width: 6rem;
+    border-width: 1px;
 
     &:hover:enabled,
     &:focus:enabled {
-      background-color: var(--green);
+      border-width: 1px;
       transform: none;
     }
 
@@ -63,3 +83,10 @@
   }
 }
 
+.c-topic-article-content {
+  &__info {
+    padding-top: 0.5rem;
+    margin-bottom: -1rem;
+    color: var(--gray-6);
+  }
+}

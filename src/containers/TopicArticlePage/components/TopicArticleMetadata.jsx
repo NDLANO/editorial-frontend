@@ -1,0 +1,99 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
+import {
+  PlainTextField,
+  MultiSelectField,
+  RemainingCharacters,
+} from '../../../components/Fields';
+import Accordion from '../../../components/Accordion';
+
+class TopicArticleMetadata extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hiddenMetadata: true,
+    };
+    this.toggleMetadata = this.toggleMetadata.bind(this);
+  }
+
+  toggleMetadata() {
+    this.setState(prevState => ({
+      hiddenMetadata: !prevState.hiddenMetadata,
+    }));
+  }
+
+  render() {
+    const { t, bindInput, commonFieldProps, tags } = this.props;
+    return (
+      <Accordion
+        fill
+        handleToggle={this.toggleMetadata}
+        header={t('topicArticleForm.metadata')}
+        hidden={this.state.hiddenMetadata}>
+        <MultiSelectField
+          obligatory
+          name="tags"
+          data={tags}
+          label={t('topicArticleForm.fields.tags.label')}
+          description={t('topicArticleForm.fields.tags.description')}
+          messages={{
+            createNew: t('topicArticleForm.fields.tags.createNew'),
+            emptyFilter: t('topicArticleForm.fields.tags.emptyFilter'),
+            emptyList: t('topicArticleForm.fields.tags.emptyList'),
+          }}
+          {...commonFieldProps}
+        />
+        <PlainTextField
+          label={t('topicArticleForm.fields.metaDescription.label')}
+          description={t('topicArticleForm.fields.metaDescription.description')}
+          name="metaDescription"
+          maxLength={150}
+          {...commonFieldProps}>
+          <RemainingCharacters
+            maxLength={150}
+            getRemainingLabel={(maxLength, remaining) =>
+              t('form.remainingCharacters', { maxLength, remaining })}
+            value={bindInput('metaDescription').value
+              .getCurrentContent()
+              .getPlainText()}
+          />
+        </PlainTextField>
+        <MultiSelectField
+          name="authors"
+          label={t('topicArticleForm.fields.authors.label')}
+          messages={{
+            createNew: t('topicArticleForm.fields.authors.createNew'),
+            emptyFilter: t('topicArticleForm.fields.authors.emptyFilter'),
+            emptyList: t('topicArticleForm.fields.authors.emptyList'),
+          }}
+          {...commonFieldProps}
+        />
+      </Accordion>
+    );
+  }
+}
+
+TopicArticleMetadata.propTypes = {
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  bindInput: PropTypes.func.isRequired,
+  commonFieldProps: PropTypes.shape({
+    schema: PropTypes.shape({
+      fields: PropTypes.object.isRequired,
+      isValid: PropTypes.bool.isRequired,
+    }),
+    submitted: PropTypes.bool.isRequired,
+    bindInput: PropTypes.func.isRequired,
+  }),
+  classes: PropTypes.func.isRequired,
+};
+
+export default injectT(TopicArticleMetadata);

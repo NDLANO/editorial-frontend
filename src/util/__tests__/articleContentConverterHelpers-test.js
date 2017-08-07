@@ -6,7 +6,7 @@
  *
  */
 
-import converter from '../topicArticleContentConverter';
+import converter from '../articleContentConverter';
 
 const contentHTML = `
   <section>
@@ -26,7 +26,7 @@ const contentHTML = `
   </section>
 `;
 
-test('topicArticleContentConverter convert to and from editorState', () => {
+test('articleContentConverter convert to and from editorState', () => {
   const editorState = converter.toEditorState(contentHTML);
   const html = converter.toHtml(editorState);
   expect(html).toMatchSnapshot();

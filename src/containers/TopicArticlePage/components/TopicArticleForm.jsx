@@ -12,27 +12,21 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { EditorState } from 'draft-js';
+import { injectT } from 'ndla-i18n';
 
-import { injectT } from '../../../i18n';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
-import {
-  TextField,
-  TextAreaField,
-  MultiSelectField,
-  RichTextField,
-  PlainTextField,
-  RemainingCharacters,
-  Field,
-} from '../../../components/Fields';
-import ImageSelectField from '../../../components/ImageSelectField';
-import H5PSelectField from '../../../components/H5PSelectField';
-import converter from '../topicArticleContentConverter';
+import { Field } from '../../../components/Fields';
+
+import converter from '../../../util/articleContentConverter';
 import {
   createEditorStateFromText,
   getPlainTextFromEditorState,
 } from '../../../util/draftjsHelpers';
 import { parseEmbedTag } from '../../../util/embedTagHelpers';
+
+import TopicArticleMetadata from './TopicArticleMetadata';
+import TopicArticleContent from './TopicArticleContent';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -41,10 +35,11 @@ const DEFAULT_LICENSE = {
 };
 
 export const getInitialModel = (article = {}) => {
-  const image = parseEmbedTag(article.visualElement) || {};
+  const visualElement = parseEmbedTag(article.visualElement) || {};
   return {
     id: article.id,
     revision: article.revision,
+    updated: article.updated,
     title: article.title || '',
     introduction: createEditorStateFromText(article.introduction),
     content: article.content
@@ -58,10 +53,11 @@ export const getInitialModel = (article = {}) => {
     copyright: article.copyright
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
-    imageId: image.id || '',
-    metaDescription: article.metaDescription || '',
-    imageCaption: image.caption || '',
-    imageAltText: image.alt || '',
+    metaDescription: createEditorStateFromText(article.metaDescription) || '',
+    visualElementId: visualElement.id || '',
+    visualElementCaption: visualElement.caption || '',
+    visualElementAlt: visualElement.alt || '',
+    visualElementType: visualElement.resource || '',
   };
 };
 
@@ -104,11 +100,21 @@ class TopicArticleForm extends Component {
       content: [{ content: converter.toHtml(model.content), language }],
       visualElement: [
         {
-          content: `<embed data-size="fullbredde" data-align="" data-alt="${model.imageAltText}" data-caption="${model.imageCaption}" data-resource="image" data-resource_id="${model.imageId}" />`,
+          content: `<embed data-size="fullbredde" data-align="" data-alt="${model.visualElementAlt}" data-caption="${model.visualElementCaption}" data-resource="${model.visualElementType}" data-resource_id="${model.visualElementType ===
+          'image'
+            ? model.visualElementId
+            : ''}" data-videoid="${model.visualElementType === 'brightcove'
+            ? model.visualElementId
+            : ''}" />`,
           language,
         },
       ],
-      metaDescription: [{ metaDescription: model.metaDescription, language }],
+      metaDescription: [
+        {
+          metaDescription: getPlainTextFromEditorState(model.metaDescription),
+          language,
+        },
+      ],
       articleType: 'topic-article',
       copyright: {
         ...model.copyright,
@@ -129,12 +135,7 @@ class TopicArticleForm extends Component {
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
-    const imageTag = {
-      resource: 'image',
-      id: model.imageId,
-      caption: model.imageCaption,
-      alt: model.imageAltText,
-    };
+
     return (
       <form onSubmit={this.handleSubmit} {...classes()}>
         <div {...classes('title')}>
@@ -142,103 +143,18 @@ class TopicArticleForm extends Component {
             ? t('topicArticleForm.title.update')
             : t('topicArticleForm.title.create')}
         </div>
-        <TextField
-          label={t('topicArticleForm.fields.title.label')}
-          name="title"
-          big
-          noBorder
-          placeholder={t('topicArticleForm.fields.title.label')}
-          {...commonFieldProps}
+        <TopicArticleMetadata
+          classes={classes}
+          commonFieldProps={commonFieldProps}
+          bindInput={bindInput}
+          tags={tags}
         />
-        <PlainTextField
-          label={t('topicArticleForm.fields.introduction.label')}
-          placeholder={t('topicArticleForm.fields.introduction.label')}
-          name="introduction"
-          noBorder
-          maxLength={300}
-          {...commonFieldProps}>
-          <RemainingCharacters
-            maxLength={300}
-            getRemainingLabel={(maxLength, remaining) =>
-              t('form.remainingCharacters', { maxLength, remaining })}
-            value={bindInput('introduction').value
-              .getCurrentContent()
-              .getPlainText()}
-          />
-        </PlainTextField>
-        <ImageSelectField
-          label={t('topicArticleForm.fields.visualElement.label')}
-          schema={schema}
-          submitted={submitted}
-          embedTag={imageTag}
-          {...bindInput('imageId')}
-        />
-        <H5PSelectField
-          label={t('topicArticleForm.fields.visualElement.label')}
-          schema={schema}
-          submitted={submitted}
-          {...bindInput('h5pOembedUrl')}
-        />
-        <TextField
-          placeholder={t('topicArticleForm.fields.caption.placeholder')}
-          label={t('topicArticleForm.fields.caption.label')}
-          name="imageCaption"
-          noBorder
-          maxLength={300}
-          {...commonFieldProps}
-        />
-
-        <TextField
-          placeholder={t('topicArticleForm.fields.alt.placeholder')}
-          label={t('topicArticleForm.fields.alt.label')}
-          name="imageAltText"
-          noBorder
-          maxLength={300}
-          {...commonFieldProps}
-        />
-
-        <RichTextField
-          noBorder
-          label={t('topicArticleForm.fields.content.label')}
-          placeholder={t('topicArticleForm.fields.content.placeholder')}
-          name="content"
-          {...commonFieldProps}
-        />
-        <hr />
-        <MultiSelectField
-          name="tags"
-          data={tags}
-          label={t('topicArticleForm.fields.tags.label')}
-          description={t('topicArticleForm.fields.tags.description')}
-          messages={{
-            createNew: t('topicArticleForm.fields.tags.createNew'),
-            emptyFilter: t('topicArticleForm.fields.tags.emptyFilter'),
-            emptyList: t('topicArticleForm.fields.tags.emptyList'),
-          }}
-          {...commonFieldProps}
-        />
-        <TextAreaField
-          label={t('topicArticleForm.fields.metaDescription.label')}
-          description={t('topicArticleForm.fields.metaDescription.description')}
-          name="metaDescription"
-          maxLength={150}
-          {...commonFieldProps}>
-          <RemainingCharacters
-            maxLength={150}
-            getRemainingLabel={(maxLength, remaining) =>
-              t('form.remainingCharacters', { maxLength, remaining })}
-            value={bindInput('metaDescription').value}
-          />
-        </TextAreaField>
-        <MultiSelectField
-          name="authors"
-          label={t('topicArticleForm.fields.authors.label')}
-          messages={{
-            createNew: t('topicArticleForm.fields.authors.createNew'),
-            emptyFilter: t('topicArticleForm.fields.authors.emptyFilter'),
-            emptyList: t('topicArticleForm.fields.authors.emptyList'),
-          }}
-          {...commonFieldProps}
+        <TopicArticleContent
+          classes={classes}
+          commonFieldProps={commonFieldProps}
+          bindInput={bindInput}
+          tags={tags}
+          model={model}
         />
         <Field right>
           <Button
@@ -289,8 +205,9 @@ export default compose(
     },
     metaDescription: {
       required: true,
+      maxLength: 150,
     },
-    imageId: {
+    visualElementId: {
       required: true,
     },
     tags: {

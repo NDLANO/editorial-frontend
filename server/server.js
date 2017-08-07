@@ -16,7 +16,7 @@ import enableDevMiddleWare from './enableDevMiddleware';
 import getConditionalClassnames from './getConditionalClassnames';
 import { getLocaleObject } from '../src/i18n';
 import Html from './Html';
-import { getToken } from './auth';
+import { getToken, getBrightcoveToken } from './auth';
 
 const app = express();
 
@@ -50,6 +50,14 @@ app.get('/login/silent-callback', (req, res) => {
 
 app.get('/get_token', (req, res) => {
   getToken()
+    .then(token => {
+      res.send(token);
+    })
+    .catch(err => res.status(500).send(err.message));
+});
+
+app.get('/get_brightcove_token', (req, res) => {
+  getBrightcoveToken()
     .then(token => {
       res.send(token);
     })

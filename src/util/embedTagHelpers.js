@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 export const parseEmbedTag = embedTag => {
   if (embedTag === '') {
     return undefined;
@@ -11,9 +19,11 @@ export const parseEmbedTag = embedTag => {
     return undefined;
   }
   const getAttribute = name => embedElements[0].getAttribute(`data-${name}`);
-
   return {
-    id: getAttribute('resource_id'),
+    id:
+      getAttribute('resource_id') ||
+      getAttribute('videoid') ||
+      getAttribute('id'),
     alt: getAttribute('alt'),
     caption: getAttribute('caption'),
     url: getAttribute('url'),

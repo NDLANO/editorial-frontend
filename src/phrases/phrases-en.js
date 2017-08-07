@@ -14,6 +14,7 @@ const phrases = {
     shortcuts: 'Shortcuts',
     searchTopicArticles: 'Search for topic description',
     createTopicArticle: 'Create topic description',
+    createLearningResource: 'Create learning resource',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -57,8 +58,31 @@ const phrases = {
   subjectPage: {
     topics: 'Topics',
   },
+  imageSearch: {
+    placeholder: 'Search images',
+    buttonTitle: 'Search',
+  },
+  videoSearch: {
+    searchPlaceholder: 'Search videos',
+    searchButtonTitle: 'Search',
+    loadMoreVideos: 'Load more videos',
+    noResults: 'No videos found',
+    addVideo: 'Use video',
+    previewVideo: 'Preview',
+  },
   topicArticleForm: {
     save: 'Save',
+    savedOk: 'Saved OK',
+    createdOk: 'Created OK',
+    metadata: 'Metadata',
+    content: 'Content',
+    visualElementTitle: {
+      image: 'Image title',
+    },
+    visualElementCopyright: 'Origin',
+    info: {
+      lastUpdated: 'Last updated: {updated}',
+    },
     title: {
       create: 'You are now creating a topic description',
       update: 'You are now editing a topic description',
@@ -71,6 +95,7 @@ const phrases = {
         label: 'Introduction',
       },
       visualElement: {
+        title: 'Add visual element',
         label: 'Visual element',
       },
       caption: {
@@ -101,6 +126,82 @@ const phrases = {
         createNew: 'Add new author',
         emptyFilter: ' ',
         emptyList: ' ',
+      },
+    },
+    description: {
+      metaDescription: 'The description will be viewable in search.',
+    },
+  },
+  learningResourceForm: {
+    save: 'Save',
+    abort: 'Abort',
+    savedOk: 'Saved OK',
+    createdOk: 'Created OK',
+    metadata: 'Metadata',
+    content: 'Content',
+    copyrightAccordion: 'License and authors',
+    visualElementTitle: {
+      image: 'Image title',
+    },
+    visualElementCopyright: 'Origin',
+    title: {
+      create: 'You are now creating a learning resource',
+      update: 'You are now editing a learning resource',
+    },
+    fields: {
+      title: {
+        label: 'Title',
+      },
+      introduction: {
+        label: 'Introduction',
+      },
+      visualElement: {
+        title: 'Add visual element',
+        label: 'Visual element',
+      },
+      caption: {
+        label: 'Caption',
+        placeholder: 'Caption',
+      },
+      alt: {
+        label: 'Alt-text',
+        placeholder: 'Alt-text',
+      },
+      content: {
+        label: 'Content',
+        placeholder: 'Write here...',
+      },
+      tags: {
+        label: 'Tags',
+        description: '3 tags is required.',
+        createNew: 'Create new tag',
+        emptyList: 'No tags available',
+        emptyFilter: 'No matching tags found',
+      },
+      metaDescription: {
+        label: 'Meta description',
+        description: 'The description will be viewable in search.',
+      },
+      contributors: {
+        label: 'Contributor',
+        createNew: 'Add new contributor',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      licensees: {
+        label: 'Licensee',
+        createNew: 'Add new licensee',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      authors: {
+        label: 'Author',
+        createNew: 'Add new author',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      license: {
+        label: 'Lisens',
       },
     },
     description: {

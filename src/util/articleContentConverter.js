@@ -55,7 +55,15 @@ function extractSections(html) {
     .map(section => `${section}</section>`);
 }
 
-function convertHTMLToSlateEditorState(html) {
+function convertHTMLToSlateEditorState(html, isBlocks = false) {
+  if (!isBlocks) {
+    if (!html) {
+      return Plain.deserialize('');
+    }
+    const serializer = new Html({ rules: RULES });
+    return serializer.deserialize(html);
+  }
+
   let contentState;
   if (!html) {
     contentState = [

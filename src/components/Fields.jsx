@@ -413,7 +413,7 @@ MultiSelectField.propTypes = {
   submitted: PropTypes.bool.isRequired,
 };
 
-export const RichTextSlateField = ({
+export const RichBlockSlateField = ({
   bindInput,
   name,
   label,
@@ -442,6 +442,61 @@ export const RichTextSlateField = ({
             {`${label} Blokk ${i + 1}`}
           </FocusLabel>,
         )}
+      <SlateEditor
+        bindInput={bindInput}
+        id={name}
+        name={name}
+        value={value}
+        {...rest}
+      />
+      <FieldErrorMessages
+        label={label}
+        field={schema.fields[name]}
+        submitted={submitted}
+      />
+    </Field>
+  );
+};
+
+RichBlockSlateField.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  noBorder: PropTypes.bool,
+  submitted: PropTypes.bool.isRequired,
+};
+
+export const RichTextSlateField = ({
+  bindInput,
+  name,
+  label,
+  noBorder,
+  submitted,
+  schema,
+  ...rest
+}) => {
+  const { value } = bindInput(name);
+  return (
+    <Field noBorder={noBorder}>
+      {!noBorder
+        ? <label htmlFor={name}>
+            {label}
+          </label>
+        : <label className="u-hidden" htmlFor={name}>
+            {label}
+          </label>}
+      {noBorder &&
+          <FocusLabel
+            key={uuid()}
+            name={name}
+            hasFocus={() => value.isFocused}
+            value={value}>
+            {label}
+          </FocusLabel>
+        }
       <SlateEditor
         bindInput={bindInput}
         id={name}

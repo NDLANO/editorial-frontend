@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { TextField } from '../../../components/Fields';
+import { TextField, RichBlockSlateField } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 
 class LearningResourceContent extends Component {
@@ -41,6 +41,13 @@ class LearningResourceContent extends Component {
           bigText
           noBorder
           placeholder={t('learningResourceForm.fields.title.label')}
+          {...commonFieldProps}
+        />
+        <RichBlockSlateField
+          noBorder
+          label={t('learningResourceForm.fields.content.label')}
+          placeholder={t('learningResourceForm.fields.content.placeholder')}
+          name="content"
           {...commonFieldProps}
         />
       </Accordion>

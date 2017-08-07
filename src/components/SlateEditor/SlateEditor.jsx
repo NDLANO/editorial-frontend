@@ -53,36 +53,58 @@ class SlateEditor extends Component {
   }
 
   render() {
-    const { children, className, value, ...rest } = this.props;
+    const { children, className, value, bindInput, name, ...rest } = this.props;
+    if (Array.isArray(value)) {
+      return (
+        <article>
+          {value.map(val =>
+            <div
+              key={uuid()}
+              {...classes(undefined, className)}
+              onClick={this.focus}>
+              <Editor
+                state={val.state}
+                schema={schema}
+                onChange={editorState =>
+                  this.onContentChange(editorState, val.index)}
+                ref={element => {
+                  this.editor = element;
+                }}
+                {...rest}
+              />
+              {children}
+            </div>,
+          )}
+        </article>
+      );
+    }
+    
+    const contentProps = bindInput(name);
     return (
       <article>
-        {value.map(val =>
-          <div
-            key={uuid()}
-            {...classes(undefined, className)}
-            onClick={this.focus}>
-            <Editor
-              state={val.state}
-              schema={schema}
-              onChange={editorState =>
-                this.onContentChange(editorState, val.index)}
-              ref={element => {
-                this.editor = element;
-              }}
-              {...rest}
-            />
-            {children}
-          </div>,
-        )}
+        <div
+          {...classes(undefined, className)}
+          >
+          <Editor
+            state={value}
+            schema={schema}
+            onChange={(state) => contentProps.onChange({target: { name, value: state}})}
+            ref={element => {
+              this.editor = element;
+            }}
+            {...rest}
+          />
+          {children}
+        </div>
       </article>
-    );
+    )
   }
 }
 
 SlateEditor.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  value: PropTypes.array.isRequired,
+  value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
 };

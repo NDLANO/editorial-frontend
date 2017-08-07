@@ -26,26 +26,19 @@ class SlateEditor extends Component {
     this.focus = this.focus.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
   }
-
-  onChange(editorState) {
-    this.setState({ editorState });
-  }
-
+te
   onContentChange(state, index) {
-    const { name, bindInput } = this.props;
-    const contentProps = bindInput(name);
-
-    const value = contentProps.value;
-    value[index] = { state, index };
+    const { name, onChange, value } = this.props;
+    const newValue = [].concat(value);
+    newValue[index] = { state, index };
     const changedState = {
       target: {
-        value,
+        value: newValue,
         name,
         type: 'SlateEditorState',
       },
     };
-
-    contentProps.onChange(changedState);
+    return onChange(changedState);
   }
 
   focus() {
@@ -53,11 +46,11 @@ class SlateEditor extends Component {
   }
 
   render() {
-    const { children, className, value, bindInput, name, ...rest } = this.props;
+    const { children, className, value, name, onChange, ...rest } = this.props;
     if (Array.isArray(value)) {
       return (
         <article>
-          {value.map(val =>
+          {value.map((val, index) =>
             <div
               key={uuid()}
               {...classes(undefined, className)}
@@ -65,8 +58,8 @@ class SlateEditor extends Component {
               <Editor
                 state={val.state}
                 schema={schema}
-                onChange={editorState =>
-                  this.onContentChange(editorState, val.index)}
+                onChange={(editorState) => this.onContentChange(editorState, index)}
+                onBeforeInput={(e, d, state) => state}
                 ref={element => {
                   this.editor = element;
                 }}
@@ -78,8 +71,7 @@ class SlateEditor extends Component {
         </article>
       );
     }
-    
-    const contentProps = bindInput(name);
+
     return (
       <article>
         <div
@@ -88,7 +80,7 @@ class SlateEditor extends Component {
           <Editor
             state={value}
             schema={schema}
-            onChange={(state) => contentProps.onChange({target: { name, value: state}})}
+            onChange={(state) => onChange({target: { name, value: state}})}
             ref={element => {
               this.editor = element;
             }}
@@ -102,7 +94,7 @@ class SlateEditor extends Component {
 }
 
 SlateEditor.propTypes = {
-  bindInput: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,

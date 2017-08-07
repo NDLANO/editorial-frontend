@@ -422,7 +422,7 @@ export const RichBlockSlateField = ({
   schema,
   ...rest
 }) => {
-  const { value } = bindInput(name);
+  const { value, onChange } = bindInput(name);
   return (
     <Field noBorder={noBorder}>
       {!noBorder
@@ -443,10 +443,10 @@ export const RichBlockSlateField = ({
           </FocusLabel>,
         )}
       <SlateEditor
-        bindInput={bindInput}
         id={name}
         name={name}
         value={value}
+        onChange={onChange}
         {...rest}
       />
       <FieldErrorMessages
@@ -478,7 +478,7 @@ export const RichTextSlateField = ({
   schema,
   ...rest
 }) => {
-  const { value } = bindInput(name);
+  const { value, onChange } = bindInput(name);
   return (
     <Field noBorder={noBorder}>
       {!noBorder
@@ -498,10 +498,10 @@ export const RichTextSlateField = ({
           </FocusLabel>
         }
       <SlateEditor
-        bindInput={bindInput}
         id={name}
         name={name}
         value={value}
+        onChange={onChange}
         {...rest}
       />
       <FieldErrorMessages

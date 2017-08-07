@@ -60,7 +60,7 @@ class SlateEditor extends Component {
           {value.map(val =>
             <div
               key={uuid()}
-              {...classes(undefined, className)}
+              {...classes('container', className)}
               onClick={this.focus}>
               <Editor
                 state={val.state}
@@ -78,17 +78,16 @@ class SlateEditor extends Component {
         </article>
       );
     }
-    
+
     const contentProps = bindInput(name);
     return (
       <article>
-        <div
-          {...classes(undefined, className)}
-          >
+        <div {...classes(undefined, className)}>
           <Editor
             state={value}
             schema={schema}
-            onChange={(state) => contentProps.onChange({target: { name, value: state}})}
+            onChange={state =>
+              contentProps.onChange({ target: { name, value: state } })}
             ref={element => {
               this.editor = element;
             }}
@@ -97,7 +96,7 @@ class SlateEditor extends Component {
           {children}
         </div>
       </article>
-    )
+    );
   }
 }
 

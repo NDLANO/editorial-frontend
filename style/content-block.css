@@ -1,0 +1,15 @@
+.c-editor {
+  &__container {
+    border-bottom: 1px solid var(--brand-grey--light);
+    margin: 0 -7rem;
+    padding: 3rem 9rem;
+  }
+
+    &__container:first-child {
+    padding: 0 9rem;
+  }
+
+  &__container:last-child {
+    border-bottom: none;
+  }
+}

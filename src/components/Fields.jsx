@@ -462,3 +462,61 @@ RichTextSlateField.propTypes = {
   noBorder: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
+
+export const SelectObjectField = props => {
+  const {
+    bindInput,
+    name,
+    idKey,
+    labelKey,
+    obligatory,
+    description,
+    label,
+    submitted,
+    schema,
+    options,
+    ...rest
+  } = props;
+
+  return (
+    <Field>
+      <label htmlFor={name}>
+        {label}
+      </label>
+      {description &&
+        <FieldDescription obligatory={obligatory}>
+          {description}
+        </FieldDescription>}
+      <select {...bindInput(name)} {...rest}>
+        {options.map(option =>
+          <option
+            key={option[idKey] ? option[idKey] : uuid()}
+            value={option[idKey]}>
+            {option[labelKey]}
+          </option>,
+        )}
+      </select>
+      <FieldErrorMessages
+        label={label}
+        field={schema.fields[name]}
+        submitted={submitted}
+      />
+    </Field>
+  );
+};
+
+SelectObjectField.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  obligatory: PropTypes.bool,
+  description: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  data: PropTypes.arrayOf(PropTypes.string),
+  submitted: PropTypes.bool.isRequired,
+  idKey: PropTypes.string.isRequired,
+  labelKey: PropTypes.string.isRequired,
+};

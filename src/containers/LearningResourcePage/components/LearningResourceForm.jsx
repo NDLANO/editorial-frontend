@@ -48,9 +48,7 @@ export const getInitialModel = (article = {}) => {
     revision: article.revision,
     title: article.title || '',
     introduction: createEditorStateFromText(article.introduction),
-    content: article.content
-      ? converter.toEditorState(article.content)
-      : EditorState.createEmpty(),
+    content: converter.toSlateEditorState(article.content),
     tags: article.tags || [],
     authors: parseCopyrightAuthors(article, 'Forfatter'),
     licensees: parseCopyrightAuthors(article, 'Rettighetshaver'),

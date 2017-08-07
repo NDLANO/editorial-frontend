@@ -14,6 +14,7 @@ import { Editor } from 'slate';
 import { uuid } from 'ndla-util';
 import BEMHelper from 'react-bem-helper';
 import { schema } from './schema';
+import SlateBlockPicker from './SlateBlockPicker';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -25,6 +26,9 @@ class SlateEditor extends Component {
     super(props);
     this.focus = this.focus.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
+    this.state = {
+      showTypePicker: false
+    }
   }
   onContentChange(state, index) {
     const { name, onChange, value } = this.props;
@@ -37,6 +41,7 @@ class SlateEditor extends Component {
         type: 'SlateEditorState',
       },
     };
+    this.setState({showTypePicker: state.endText.text.length === 0})
     return onChange(changedState);
   }
 
@@ -64,6 +69,7 @@ class SlateEditor extends Component {
                 }}
                 {...rest}
               />
+              {this.state.showTypePicker ? <SlateBlockPicker /> : ''}
               {children}
             </div>,
           )}

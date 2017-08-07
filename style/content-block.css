@@ -1,15 +1,42 @@
 .c-editor {
   &__container {
-    border-bottom: 1px solid var(--brand-grey--light);
-    margin: 0 -7rem;
+    margin: 0 -9rem;
     padding: 3rem 9rem;
+    border: 1px solid white;
+    &:hover,
+    &:focus {
+      border-top: 1px solid var(--brand-grey--light);
+      border-bottom: 1px solid var(--brand-grey--light);
+    }
   }
 
-    &__container:first-child {
+  &__container:first-child {
     padding: 0 9rem;
   }
 
-  &__container:last-child {
-    border-bottom: none;
+
+  &__editor-block-type-button {
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--gray-3);
+    border-radius: 25px;
+    margin-right: 0.3rem;
+    color: var(--gray-3);
+
+    &:focus,
+    &:hover {
+      padding: 0.2rem 0.5rem;
+      color: var(--gray-3);
+      border: 1px solid var(--gray-3);
+      border-radius: 25px;
+    }
   }
+
+    &__editor-block--type {
+      display: inline-block;
+    }
+
+    &__editor-block-type--hidden {
+      display: none;
+    }
+
 }

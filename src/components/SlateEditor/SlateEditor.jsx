@@ -11,6 +11,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate';
+import { uuid } from 'ndla-util';
 import BEMHelper from 'react-bem-helper';
 import { schema } from './schema';
 
@@ -23,10 +24,28 @@ class SlateEditor extends Component {
   constructor(props) {
     super(props);
     this.focus = this.focus.bind(this);
+    this.onContentChange = this.onContentChange.bind(this);
   }
 
   onChange(editorState) {
     this.setState({ editorState });
+  }
+
+  onContentChange(state, index) {
+    const { name, bindInput } = this.props;
+    const contentProps = bindInput(name);
+
+    const value = contentProps.value;
+    value[index] = { state, index };
+    const changedState = {
+      target: {
+        value,
+        name,
+        type: 'SlateEditorState',
+      },
+    };
+
+    contentProps.onChange(changedState);
   }
 
   focus() {
@@ -34,29 +53,36 @@ class SlateEditor extends Component {
   }
 
   render() {
-    const { children, className, value, onChange, ...rest } = this.props;
+    const { children, className, value, ...rest } = this.props;
     return (
       <article>
-        <div {...classes(undefined, className)} onClick={this.focus}>
-          <Editor
-            state={value}
-            schema={schema}
-            onChange={onChange}
-            ref={element => {
-              this.editor = element;
-            }}
-            {...rest}
-          />
-          {children}
-        </div>
+        {value.map(val =>
+          <div
+            key={uuid()}
+            {...classes(undefined, className)}
+            onClick={this.focus}>
+            <Editor
+              state={val.state}
+              schema={schema}
+              onChange={editorState =>
+                this.onContentChange(editorState, val.index)}
+              ref={element => {
+                this.editor = element;
+              }}
+              {...rest}
+            />
+            {children}
+          </div>,
+        )}
       </article>
     );
   }
 }
 
 SlateEditor.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.shape({}).isRequired,
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.array.isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
 };

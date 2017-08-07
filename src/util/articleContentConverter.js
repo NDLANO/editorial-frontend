@@ -47,21 +47,39 @@ function convertHTMLToEditorState(html) {
   return EditorState.createWithContent(contentState);
 }
 
+// TODO: Find a better way to extract each section into an array.
+function extractSections(html) {
+  return html
+    .split('</section>')
+    .filter(section => section.length > 0)
+    .map(section => `${section}</section>`);
+}
+
 function convertHTMLToSlateEditorState(html) {
   let contentState;
   if (!html) {
-    contentState = Plain.deserialize('');
+    contentState = [
+      {
+        state: Plain.deserialize(''),
+        index: 0,
+      },
+    ];
   } else {
+    const sections = extractSections(html);
     const serializer = new Html({ rules: RULES });
-    contentState = serializer.deserialize(html);
+    contentState = sections.map((section, index) => ({
+      state: serializer.deserialize(section),
+      index,
+    }));
   }
   return contentState;
 }
 
 function convertSlateEditorStatetoHTML(contentState) {
   const serializer = new Html({ rules: RULES });
-  const html = serializer.serialize(contentState);
-  return html;
+  const html = [];
+  contentState.map(section => html.push(serializer.serialize(section.state)));
+  return html.join('');
 }
 
 function convertEditorStateToHTML(editorState) {

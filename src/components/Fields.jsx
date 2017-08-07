@@ -422,7 +422,7 @@ export const RichTextSlateField = ({
   schema,
   ...rest
 }) => {
-  const { value, onChange } = bindInput(name);
+  const { value } = bindInput(name);
   return (
     <Field noBorder={noBorder}>
       {!noBorder
@@ -433,13 +433,19 @@ export const RichTextSlateField = ({
             {label}
           </label>}
       {noBorder &&
-        <FocusLabel name={name} hasFocus={() => value.isFocused} value={value}>
-          {label}
-        </FocusLabel>}
+        value.map((val, i) =>
+          <FocusLabel
+            key={uuid()}
+            name={name}
+            hasFocus={() => val.state.isFocused}
+            value={val.state}>
+            {`${label} Blokk ${i + 1}`}
+          </FocusLabel>,
+        )}
       <SlateEditor
+        bindInput={bindInput}
         id={name}
-        onChange={val =>
-          onChange({ target: { name, value: val, type: 'SlateEditorState' } })}
+        name={name}
         value={value}
         {...rest}
       />

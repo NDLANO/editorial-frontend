@@ -489,14 +489,13 @@ export const RichTextSlateField = ({
             {label}
           </label>}
       {noBorder &&
-          <FocusLabel
-            key={uuid()}
-            name={name}
-            hasFocus={() => value.isFocused}
-            value={value}>
-            {label}
-          </FocusLabel>
-        }
+        <FocusLabel
+          key={uuid()}
+          name={name}
+          hasFocus={() => value.isFocused}
+          value={value}>
+          {label}
+        </FocusLabel>}
       <SlateEditor
         id={name}
         name={name}

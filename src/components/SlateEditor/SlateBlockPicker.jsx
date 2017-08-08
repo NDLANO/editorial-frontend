@@ -12,12 +12,10 @@ import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { Cross, Camera, Plus, Video } from 'ndla-ui/icons';
 
-
 const classes = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
 });
-
 
 class SlateBlockPicker extends Component {
   constructor(props) {
@@ -41,7 +39,7 @@ class SlateBlockPicker extends Component {
   }
 
   toggleIsOpen() {
-    console.log('YO')
+    console.log('YO');
     this.setState(prevState => ({ isOpen: !prevState.isOpen }));
   }
 

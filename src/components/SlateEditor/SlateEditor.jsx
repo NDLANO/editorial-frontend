@@ -27,8 +27,8 @@ class SlateEditor extends Component {
     this.focus = this.focus.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
     this.state = {
-      showTypePicker: false
-    }
+      showTypePicker: false,
+    };
   }
   onContentChange(state, index) {
     const { name, onChange, value } = this.props;
@@ -41,7 +41,7 @@ class SlateEditor extends Component {
         type: 'SlateEditorState',
       },
     };
-    this.setState({showTypePicker: state.endText.text.length === 0})
+    this.setState({ showTypePicker: state.endText.text.length === 0 });
     return onChange(changedState);
   }
 
@@ -62,7 +62,8 @@ class SlateEditor extends Component {
               <Editor
                 state={val.state}
                 schema={schema}
-                onChange={(editorState) => this.onContentChange(editorState, index)}
+                onChange={editorState =>
+                  this.onContentChange(editorState, index)}
                 onBeforeInput={(e, d, state) => state}
                 ref={element => {
                   this.editor = element;
@@ -83,7 +84,7 @@ class SlateEditor extends Component {
           <Editor
             state={value}
             schema={schema}
-            onChange={(state) => onChange({target: { name, value: state}})}
+            onChange={state => onChange({ target: { name, value: state } })}
             ref={element => {
               this.editor = element;
             }}

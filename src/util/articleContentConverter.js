@@ -85,8 +85,11 @@ function convertHTMLToSlateEditorState(html, isBlocks = false) {
   return contentState;
 }
 
-function convertSlateEditorStatetoHTML(contentState) {
+function convertSlateEditorStatetoHTML(contentState, isBlocks = false) {
   const serializer = new Html({ rules: RULES });
+  if (!isBlocks) {
+    return serializer.serialize(contentState);
+  }
   const html = [];
   contentState.map(section => html.push(serializer.serialize(section.state)));
   return html.join('');

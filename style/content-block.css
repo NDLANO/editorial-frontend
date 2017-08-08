@@ -39,3 +39,17 @@
     display: none;
   }
 }
+
+.c-block {
+  &__bulleted-list {
+    margin: 16px 0;
+    padding: 0;
+  }
+
+  &__list-item {
+    line-height: 1.7em;
+    margin-bottom: 13px;
+    direction: ltr;
+    margin-left: 1.5em;
+  }
+}

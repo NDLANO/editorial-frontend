@@ -10,17 +10,19 @@
     }
   }
 
-  &__container:first-child {
-    padding: 0 9rem;
+  &__block-type-container {
+    margin-top: -30px;
+    margin-left: -70px;
+    z-index: 9;
+    display: inline;
   }
-
-
-  &__editor-block-type-button {
+  &__block-type-button {
     padding: 0.2rem 0.5rem;
     border: 1px solid var(--gray-3);
     border-radius: 25px;
     margin-right: 0.3rem;
     color: var(--gray-3);
+    background-color: white;
 
     &:focus,
     &:hover {
@@ -28,15 +30,15 @@
       color: var(--gray-3);
       border: 1px solid var(--gray-3);
       border-radius: 25px;
+      background-color: white;
     }
   }
 
-    &__editor-block--type {
-      display: inline-block;
-    }
+  &__block-type {
+    display: inline-block;
+  }
 
-    &__editor-block-type--hidden {
-      display: none;
-    }
-
+  &__block-type--hidden {
+    display: none;
+  }
 }

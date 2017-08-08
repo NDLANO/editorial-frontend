@@ -10,8 +10,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
-import { Cross, Camera, Plus, Video } from 'ndla-ui/icons';
-
+import { Cross, Document, Plus, Video } from 'ndla-ui/icons';
+import { createEmptyState } from '../../util/articleContentConverter';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -26,41 +26,54 @@ class SlateBlockPicker extends Component {
       isOpen: false,
     };
     this.toggleIsOpen = this.toggleIsOpen.bind(this);
-    this.onTypeChange = this.onTypeChange.bind(this);
+    this.onElementAdd = this.onElementAdd.bind(this);
   }
 
-  onTypeChange(type) {
-    /* onChange({
-      target: {
-        name,
-        value: type,
-      },
-    });*/
+  onElementAdd(type) {
+    const { blocks, onChange, name } = this.props;
+    switch (type) {
+      case 'block': {
+        const newblocks = [].concat(blocks);
+        newblocks.push({state: createEmptyState(), index: blocks.length});
+        onChange({
+          target: {
+            name,
+            value: newblocks,
+          }
+        });
+        break;
+      }
+      default:
+        break;
+    }
     this.setState({ isOpen: false });
-    // toggleShowVisualElement();
   }
 
   toggleIsOpen() {
-    console.log('YO')
     this.setState(prevState => ({ isOpen: !prevState.isOpen }));
   }
 
   render() {
+    const { showTypePicker, index } = this.props;
+    if (!showTypePicker.show || index !== showTypePicker.index) {
+      return null;
+    }
+
     const typeClassName = this.state.isOpen ? '' : 'hidden';
     return (
-      <div>
+      <div {...classes('block-type-container')}>
         <Button
           stripped
-          {...classes('editor-block-type-button')}
+          {...classes('block-type-button')}
           onClick={this.toggleIsOpen}>
           {this.state.isOpen ? <Cross /> : <Plus />}
         </Button>
-        <div {...classes('editor-block-type', typeClassName)}>
+        <div {...classes('block-type', typeClassName)}>
           <Button
             stripped
-            {...classes('editor-block-type-button')}
-            onClick={() => this.onTypeChange('image')}>
-            <Camera />
+            {...classes('block-type-button')}
+            onClick={() => this.onElementAdd('block')}>
+            <Document />
           </Button>
         </div>
       </div>
@@ -69,8 +82,14 @@ class SlateBlockPicker extends Component {
 }
 
 SlateBlockPicker.propTypes = {
-  value: PropTypes.string,
+  blocks: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
+  showTypePicker: PropTypes.shape({
+    show: PropTypes.bool.isRequired,
+    index: PropTypes.number.isRequired,
+  }).isRequired,
+  onChange: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default SlateBlockPicker;

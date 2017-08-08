@@ -24,10 +24,9 @@ const classes = new BEMHelper({
 class SlateEditor extends Component {
   constructor(props) {
     super(props);
-    this.focus = this.focus.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
     this.state = {
-      showTypePicker: false
+      showTypePicker: { show: false, index: 0 },
     }
   }
   onContentChange(state, index) {
@@ -41,35 +40,29 @@ class SlateEditor extends Component {
         type: 'SlateEditorState',
       },
     };
-    this.setState({showTypePicker: state.endText.text.length === 0})
+    this.setState({showTypePicker: {show: state.endText.text.length === 0, index}})
     return onChange(changedState);
-  }
-
-  focus() {
-    this.editor.focus();
   }
 
   render() {
     const { children, className, value, name, onChange, ...rest } = this.props;
     if (Array.isArray(value)) {
       return (
-        <article>
+        <article {...classes('article')}>
           {value.map((val, index) =>
             <div
               key={uuid()}
               {...classes('container', className)}
-              onClick={this.focus}>
+              onClick={this.focus}
+              tabIndex={index}>
               <Editor
                 state={val.state}
                 schema={schema}
                 onChange={(editorState) => this.onContentChange(editorState, index)}
                 onBeforeInput={(e, d, state) => state}
-                ref={element => {
-                  this.editor = element;
-                }}
                 {...rest}
               />
-              {this.state.showTypePicker ? <SlateBlockPicker /> : ''}
+            <SlateBlockPicker name={name} onChange={onChange} blocks={value} showTypePicker={this.state.showTypePicker} index={index}/>
               {children}
             </div>,
           )}

@@ -23,6 +23,8 @@ function reduceAttributesArrayToObject(attributes) {
   );
 }
 
+export const createEmptyState = () => Plain.deserialize('');
+
 function convertHTMLToEditorState(html) {
   const embeds = [];
   const contentState = convertFromHTML({
@@ -58,7 +60,7 @@ function extractSections(html) {
 function convertHTMLToSlateEditorState(html, isBlocks = false) {
   if (!isBlocks) {
     if (!html) {
-      return Plain.deserialize('');
+      return createEmptyState();
     }
     const serializer = new Html({ rules: RULES });
     return serializer.deserialize(html);
@@ -68,7 +70,7 @@ function convertHTMLToSlateEditorState(html, isBlocks = false) {
   if (!html) {
     contentState = [
       {
-        state: Plain.deserialize(''),
+        state: createEmptyState(),
         index: 0,
       },
     ];

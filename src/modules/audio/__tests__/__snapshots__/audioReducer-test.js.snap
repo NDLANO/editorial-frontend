@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers/audio initalState 1`] = `
+Object {
+  "all": Object {},
+  "isSaving": false,
+}
+`;
+
+exports[`reducers/audio overwrite audio with same id 1`] = `
+Object {
+  "all": Object {
+    "1": Object {
+      "id": 1,
+      "title": "Unit test 2",
+    },
+  },
+}
+`;
+
+exports[`reducers/audio set audio 1`] = `
+Object {
+  "all": Object {
+    "1": Object {
+      "id": 1,
+      "title": "Unit test",
+    },
+  },
+  "isSaving": false,
+}
+`;
+
+exports[`reducers/audio set multiple audio 1`] = `
+Object {
+  "all": Object {
+    "1": Object {
+      "id": 1,
+      "title": "Unit test 1",
+    },
+    "2": Object {
+      "id": 2,
+      "title": "Unit test 2",
+    },
+  },
+  "isSaving": false,
+}
+`;
+
+exports[`reducers/audio sets isSaving to false on update error 1`] = `
+Object {
+  "isSaving": false,
+}
+`;
+
+exports[`reducers/audio sets isSaving to false on update success 1`] = `
+Object {
+  "isSaving": true,
+}
+`;
+
+exports[`reducers/audio sets isSaving to true on update 1`] = `
+Object {
+  "all": Object {},
+  "isSaving": true,
+}
+`;

@@ -209,12 +209,11 @@ export const RULES = [
   },
   {
     // Embeds handling
-    deserialize(el, next) {
+    deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
       return {
         kind: 'block',
         type: 'embed',
-        nodes: next(el.childNodes),
         data: getEmbedTag(el),
       };
     },

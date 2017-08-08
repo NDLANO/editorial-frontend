@@ -30,6 +30,7 @@ class SlateEditor extends Component {
     };
   }
   onContentChange(state, index) {
+    console.log('test')
     const { name, onChange, value } = this.props;
     const newValue = [].concat(value);
     newValue[index] = { state, index };
@@ -41,7 +42,7 @@ class SlateEditor extends Component {
       },
     };
     this.setState({
-      showTypePicker: { show: state.endText.text.length === 0, index },
+      showTypePicker: { show: state.endText.length === 0, index },
     });
     return onChange(changedState);
   }

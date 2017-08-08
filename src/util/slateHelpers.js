@@ -45,7 +45,6 @@ const getEmbedTag = el => {
   };
 };
 
-
 /* eslint-disable consistent-return, default-case */
 
 export const RULES = [

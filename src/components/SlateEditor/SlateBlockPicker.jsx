@@ -10,14 +10,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
-import { Cross, Document, Plus, Video } from 'ndla-ui/icons';
+import { Cross, Document, Plus } from 'ndla-ui/icons';
 import { createEmptyState } from '../../util/articleContentConverter';
 
 const classes = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
 });
-
 
 class SlateBlockPicker extends Component {
   constructor(props) {
@@ -34,12 +33,12 @@ class SlateBlockPicker extends Component {
     switch (type) {
       case 'block': {
         const newblocks = [].concat(blocks);
-        newblocks.push({state: createEmptyState(), index: blocks.length});
+        newblocks.push({ state: createEmptyState(), index: blocks.length });
         onChange({
           target: {
             name,
             value: newblocks,
-          }
+          },
         });
         break;
       }

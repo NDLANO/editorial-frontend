@@ -3,6 +3,7 @@
     margin: 0 -9rem;
     padding: 3rem 9rem;
     border: 1px solid white;
+
     &:hover,
     &:focus {
       border-top: 1px solid var(--brand-grey--light);
@@ -16,6 +17,7 @@
     z-index: 9;
     display: inline;
   }
+
   &__block-type-button {
     padding: 0.2rem 0.5rem;
     border: 1px solid var(--gray-3);
@@ -40,5 +42,19 @@
 
   &__block-type--hidden {
     display: none;
+  }
+}
+
+.c-block {
+  &__bulleted-list {
+    margin: 16px 0;
+    padding: 0;
+  }
+
+  &__list-item {
+    line-height: 1.7em;
+    margin-bottom: 13px;
+    direction: ltr;
+    margin-left: 1.5em;
   }
 }

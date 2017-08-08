@@ -21,7 +21,7 @@ export const schema = {
         {props.children}
       </p>,
     'bulleted-list': props =>
-      <ul style={{ margin: '16px 0', padding: 0 }} {...props.attributes}>
+      <ul className="c-block__bulleted-list" {...props.attributes}>
         {props.children}
       </ul>,
     code: props =>
@@ -55,14 +55,7 @@ export const schema = {
         {props.children}
       </h6>,
     'list-item': props =>
-      <li
-        style={{
-          lineHeight: '1.7em',
-          marginBottom: '13px',
-          direction: 'ltr',
-          marginLeft: '1.5em',
-        }}
-        {...props.attributes}>
+      <li className="c-block__list-item" {...props.attributes}>
         {props.children}
       </li>,
     'numbered-list': props =>

@@ -114,7 +114,9 @@ class LearningResourceForm extends Component {
         },
       ],
       tags: [{ tags: model.tags, language }],
-      content: [{ content: converter.toHtml(model.content), language }],
+      content: [
+        { content: converter.slateToHtml(model.content, true), language },
+      ],
       visualElement: [
         {
           content: `<embed data-size="fullbredde" data-align="" data-alt="${model.metaImageAlt}" data-caption="${model.metaImageCaption}" data-resource="image" data-resource_id="${model.metaImageId}" />`,

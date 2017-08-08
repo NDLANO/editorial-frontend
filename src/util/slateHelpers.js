@@ -30,20 +30,35 @@ const getEmbedTag = el => {
     brightcove: 'data-videoid',
     image: 'data-resource_id',
   };
-  const alt = attributes.getNamedItem('data-alt');
+  const size = attributes.getNamedItem('data-size');
+  const align = attributes.getNamedItem('data-align');
   const caption = attributes.getNamedItem('data-caption');
+  const alt = attributes.getNamedItem('data-alt');
   const resourceType = attributes.getNamedItem('data-resource')
     ? attributes.getNamedItem('data-resource').value
     : '';
   const id = attributes.getNamedItem(idTypes[resourceType]);
 
   return {
+    size: size ? size.value : '',
+    align: align ? align.value : '',
     caption: caption ? caption.value : '',
     alt: alt ? alt.value : '',
     id: id ? id.value : '',
     resource: resourceType,
   };
 };
+
+const setEmbedTag = data => ({
+  'data-size': data.get('size') || '',
+  'data-align': data.get('align') || '',
+  'data-caption': data.get('caption') || '',
+  'data-alt': data.get('alt') || '',
+  'data-id': data.get('id') || 0,
+  'data-resource': data.get('resource') || '',
+  'data-videoid': data.get('resource') === 'brightcove' ? data.get('id') : '',
+  'data-resource_id': data.get('resource') === 'image' ? data.get('id') : '',
+});
 
 /* eslint-disable consistent-return, default-case */
 
@@ -219,10 +234,13 @@ export const RULES = [
       };
     },
     serialize(object) {
-      if (object.kind !== 'embed') return;
+      if (object.kind !== 'block') return;
+      if (object.type !== 'embed') return;
+      const embedTags = setEmbedTag(object.data);
+      console.log(embedTags);
       switch (object.type) {
         case 'embed':
-          return <embed {...object.data} />;
+          return <embed {...embedTags} />;
       }
     },
   },

@@ -28,6 +28,7 @@ import WelcomePage from '../WelcomePage/WelcomePage';
 import SearchPage from '../SearchPage/SearchPage';
 import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
 import LearningResourcePage from '../LearningResourcePage/LearningResourcePage';
+import AudioUploaderPage from '../AudioUploader/AudioUploaderPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import ForbiddenPage from '../ForbiddenPage/ForbiddenPage';
 
@@ -64,6 +65,7 @@ export class App extends React.Component {
             path="/learning-resource"
             component={LearningResourcePage}
           />
+          <PrivateRoute path="/audio-upload" component={AudioUploaderPage} />
           <Route path="/forbidden" component={ForbiddenPage} />
           <Route component={NotFoundPage} />
         </Switch>

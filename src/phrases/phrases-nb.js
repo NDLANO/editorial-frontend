@@ -16,6 +16,7 @@ const phrases = {
     searchTopicArticles: 'Søk etter emnebeskrivelse',
     createTopicArticle: 'Opprett emnebeskrivelse',
     createLearningResource: 'Opprett læringsressurs',
+    createAudioFile: 'Last opp lydfil',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -136,6 +137,82 @@ const phrases = {
         createNew: 'Opprett ny bidragsyter',
         emptyFilter: ' ',
         emptyList: ' ',
+      },
+    },
+  },
+  audioForm: {
+    title: {
+      create: 'Du oppretter nå en lyd fil',
+      update: 'Du redigerer nå en lyd fil',
+    },
+    save: 'Lagre',
+    abort: 'Avbryt',
+    savedOk: 'Lagret OK',
+    createdOk: 'Opprettet OK',
+    metadata: 'Metadata',
+    content: 'Innhold',
+    copyrightAccordion: 'Lisens og bruker',
+    fields: {
+      title: {
+        label: 'Tittel',
+      },
+      introduction: {
+        label: 'Ingress',
+      },
+      caption: {
+        label: {
+          image: 'Bildetekst',
+        },
+        placeholder: {
+          image: 'Bildetekst',
+        },
+      },
+      origin: {
+        label: 'Opphav',
+      },
+      alt: {
+        label: 'Alt-tekst',
+        placeholder: 'Alt-tekst',
+      },
+      content: {
+        label: 'Innhold',
+        placeholder: 'Innhold',
+      },
+      tags: {
+        label: 'Nøkkelord',
+        description: 'Obligatorisk med 3 nøkkelord.',
+        createNew: 'Opprett nytt nøkkelord',
+        emptyFilter: 'Fant ingen passende nøkkelord',
+        emptyList: 'Det er ingen tagger i denne listen',
+      },
+      metaDescription: {
+        label: 'Metabeskrivelse',
+        description: 'Beskrivelsen blir synlig i søk.',
+      },
+      contributors: {
+        label: 'Bidragsyter',
+        createNew: 'Opprett ny bidragsyter',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      licensees: {
+        label: 'Rettighetshaver',
+        createNew: 'Opprett ny rettighetshaver',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      authors: {
+        label: 'Opphavsperson',
+        description: 'Obligatorisk med minst 1 opphavsperson.',
+        createNew: 'Opprett ny opphavsperson',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      license: {
+        label: 'Lisens',
+      },
+      audioFile: {
+        label: 'Lydfil',
       },
     },
   },

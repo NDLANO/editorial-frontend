@@ -15,6 +15,7 @@ const phrases = {
     searchTopicArticles: 'Search for topic description',
     createTopicArticle: 'Create topic description',
     createLearningResource: 'Create learning resource',
+    createAudioFile: 'Upload audiofile',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -130,6 +131,78 @@ const phrases = {
     },
     description: {
       metaDescription: 'The description will be viewable in search.',
+    },
+  },
+  audioForm: {
+    save: 'Save',
+    abort: 'Abort',
+    savedOk: 'Saved OK',
+    createdOk: 'Created OK',
+    metadata: 'Metadata',
+    content: 'Content',
+    copyrightAccordion: 'License and authors',
+    title: {
+      create: 'You are now creating a audio file',
+      update: 'You are now editing a audio file',
+    },
+    fields: {
+      title: {
+        label: 'Title',
+      },
+      introduction: {
+        label: 'Introduction',
+      },
+      caption: {
+        label: 'Caption',
+        placeholder: 'Caption',
+      },
+      origin: {
+        label: 'Origin',
+      },
+      alt: {
+        label: 'Alt-text',
+        placeholder: 'Alt-text',
+      },
+      content: {
+        label: 'Content',
+        placeholder: 'Write here...',
+      },
+      tags: {
+        label: 'Tags',
+        description: '3 tags is required.',
+        createNew: 'Create new tag',
+        emptyList: 'No tags available',
+        emptyFilter: 'No matching tags found',
+      },
+      metaDescription: {
+        label: 'Meta description',
+        description: 'The description will be viewable in search.',
+      },
+      contributors: {
+        label: 'Contributor',
+        createNew: 'Add new contributor',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      licensees: {
+        label: 'Licensee',
+        createNew: 'Add new licensee',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      authors: {
+        label: 'Author',
+        description: 'At least 1 author is required.',
+        createNew: 'Add new author',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      license: {
+        label: 'Lisens',
+      },
+      audioFile: {
+        label: 'Audiofile',
+      },
     },
   },
   learningResourceForm: {

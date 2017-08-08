@@ -13,6 +13,7 @@ import { injectT } from 'ndla-i18n';
 import {
   toCreateTopicArticle,
   toCreateLearningResource,
+  toCreateAudioFile,
   toSearch,
 } from '../../util/routeHelpers';
 
@@ -40,6 +41,11 @@ export const WelcomePage = ({ t }) =>
             <li>
               <Link to={`${toCreateLearningResource()}`}>
                 {t('welcomePage.createLearningResource')}
+              </Link>
+            </li>
+            <li>
+              <Link to={`${toCreateAudioFile()}`}>
+                {t('welcomePage.createAudioFile')}
               </Link>
             </li>
           </ul>

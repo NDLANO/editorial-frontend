@@ -9,6 +9,8 @@
 import React from 'react';
 import { convertFromHTML, convertToHTML } from 'draft-convert';
 import { EditorState } from 'draft-js';
+import { Html, Plain } from 'slate';
+import { RULES } from '../util/slateHelpers';
 
 function reduceAttributesArrayToObject(attributes) {
   // Reduce attributes array to object with attribute name (striped of data-) as keys.
@@ -20,6 +22,8 @@ function reduceAttributesArrayToObject(attributes) {
     {},
   );
 }
+
+export const createEmptyState = () => Plain.deserialize('');
 
 function convertHTMLToEditorState(html) {
   const embeds = [];
@@ -45,6 +49,52 @@ function convertHTMLToEditorState(html) {
   return EditorState.createWithContent(contentState);
 }
 
+// TODO: Find a better way to extract each section into an array.
+function extractSections(html) {
+  return html
+    .split('</section>')
+    .filter(section => section.length > 0)
+    .map(section => `${section}</section>`);
+}
+
+function convertHTMLToSlateEditorState(html, isBlocks = false) {
+  if (!isBlocks) {
+    if (!html) {
+      return createEmptyState();
+    }
+    const serializer = new Html({ rules: RULES });
+    return serializer.deserialize(html);
+  }
+
+  let contentState;
+  if (!html) {
+    contentState = [
+      {
+        state: createEmptyState(),
+        index: 0,
+      },
+    ];
+  } else {
+    const sections = extractSections(html);
+    const serializer = new Html({ rules: RULES });
+    contentState = sections.map((section, index) => ({
+      state: serializer.deserialize(section),
+      index,
+    }));
+  }
+  return contentState;
+}
+
+function convertSlateEditorStatetoHTML(contentState, isBlocks = false) {
+  const serializer = new Html({ rules: RULES });
+  if (!isBlocks) {
+    return serializer.serialize(contentState);
+  }
+  const html = [];
+  contentState.map(section => html.push(serializer.serialize(section.state)));
+  return html.join('');
+}
+
 function convertEditorStateToHTML(editorState) {
   const contentState = editorState.getCurrentContent();
 
@@ -62,5 +112,7 @@ function convertEditorStateToHTML(editorState) {
 
 export default {
   toHtml: convertEditorStateToHTML,
+  slateToHtml: convertSlateEditorStatetoHTML,
   toEditorState: convertHTMLToEditorState,
+  toSlateEditorState: convertHTMLToSlateEditorState,
 };

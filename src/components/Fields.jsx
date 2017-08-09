@@ -13,6 +13,7 @@ import { uuid } from 'ndla-util';
 import BEMHelper from 'react-bem-helper';
 import MultiSelect from './MultiSelect';
 import { isEmpty } from './validators';
+import SlateEditor from '../components/SlateEditor/SlateEditor';
 
 export const classes = new BEMHelper({
   name: 'field',
@@ -409,6 +410,116 @@ MultiSelectField.propTypes = {
     fields: PropTypes.object.isRequired,
   }),
   data: PropTypes.arrayOf(PropTypes.string),
+  submitted: PropTypes.bool.isRequired,
+};
+
+export const RichBlockSlateField = ({
+  bindInput,
+  name,
+  label,
+  noBorder,
+  submitted,
+  schema,
+  ...rest
+}) => {
+  const { value, onChange } = bindInput(name);
+  return (
+    <Field noBorder={noBorder}>
+      {!noBorder
+        ? <label htmlFor={name}>
+            {label}
+          </label>
+        : <label className="u-hidden" htmlFor={name}>
+            {label}
+          </label>}
+      {noBorder &&
+        value.map((val, i) =>
+          <FocusLabel
+            key={uuid()}
+            name={name}
+            hasFocus={() => val.state.isFocused}
+            value={val.state}>
+            {`${label} Blokk ${i + 1}`}
+          </FocusLabel>,
+        )}
+      <SlateEditor
+        id={name}
+        name={name}
+        value={value}
+        onChange={onChange}
+        {...rest}
+      />
+      <FieldErrorMessages
+        label={label}
+        field={schema.fields[name]}
+        submitted={submitted}
+      />
+    </Field>
+  );
+};
+
+RichBlockSlateField.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  noBorder: PropTypes.bool,
+  submitted: PropTypes.bool.isRequired,
+};
+
+export const RichTextSlateField = ({
+  bindInput,
+  name,
+  label,
+  noBorder,
+  submitted,
+  schema,
+  ...rest
+}) => {
+  const { value, onChange } = bindInput(name);
+  return (
+    <Field noBorder={noBorder}>
+      {!noBorder
+        ? <label htmlFor={name}>
+            {label}
+          </label>
+        : <label className="u-hidden" htmlFor={name}>
+            {label}
+          </label>}
+      {noBorder &&
+        <FocusLabel
+          key={uuid()}
+          name={name}
+          hasFocus={() => value.isFocused}
+          value={value}>
+          {label}
+        </FocusLabel>}
+      <SlateEditor
+        id={name}
+        name={name}
+        value={value}
+        onChange={onChange}
+        {...rest}
+      />
+      <FieldErrorMessages
+        label={label}
+        field={schema.fields[name]}
+        submitted={submitted}
+      />
+    </Field>
+  );
+};
+
+RichTextSlateField.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  noBorder: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
 

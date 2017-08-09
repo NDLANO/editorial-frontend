@@ -20,7 +20,6 @@ export const schema = {
   nodes: {
     embed: props => {
       const { state, node } = props;
-      console.log(state.isFocused)
       const active = state.isFocused && state.selection.hasEdgeIn(node);
       const className = active ? 'c-editor__figure c-editor__figure--active' : 'c-editor__figure'
       return <DisplayEmbedTag embedTag={getSchemaEmbedTag(props)} className={className} />

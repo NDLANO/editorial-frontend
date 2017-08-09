@@ -236,7 +236,6 @@ export const RULES = [
       if (object.kind !== 'block') return;
       if (object.type !== 'embed') return;
       const embedTags = setEmbedTag(object.data);
-      console.log(embedTags);
       switch (object.type) {
         case 'embed':
           return <embed {...embedTags} />;

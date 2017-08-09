@@ -11,7 +11,6 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
-import { EditorState } from 'draft-js';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
@@ -48,9 +47,7 @@ export const getInitialModel = (article = {}) => {
     revision: article.revision,
     title: article.title || '',
     introduction: createEditorStateFromText(article.introduction),
-    content: article.content
-      ? converter.toEditorState(article.content)
-      : EditorState.createEmpty(),
+    content: converter.toSlateEditorState(article.content, true),
     tags: article.tags || [],
     authors: parseCopyrightAuthors(article, 'Forfatter'),
     licensees: parseCopyrightAuthors(article, 'Rettighetshaver'),
@@ -117,7 +114,9 @@ class LearningResourceForm extends Component {
         },
       ],
       tags: [{ tags: model.tags, language }],
-      content: [{ content: converter.toHtml(model.content), language }],
+      content: [
+        { content: converter.slateToHtml(model.content, true), language },
+      ],
       visualElement: [
         {
           content: `<embed data-size="fullbredde" data-align="" data-alt="${model.metaImageAlt}" data-caption="${model.metaImageCaption}" data-resource="image" data-resource_id="${model.metaImageId}" />`,

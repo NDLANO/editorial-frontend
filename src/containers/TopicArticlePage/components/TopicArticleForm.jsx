@@ -11,7 +11,6 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
-import { EditorState } from 'draft-js';
 import { injectT } from 'ndla-i18n';
 
 import reformed from '../../../components/reformed';
@@ -42,9 +41,7 @@ export const getInitialModel = (article = {}) => {
     updated: article.updated,
     title: article.title || '',
     introduction: createEditorStateFromText(article.introduction),
-    content: article.content
-      ? converter.toEditorState(article.content)
-      : EditorState.createEmpty(),
+    content: converter.toSlateEditorState(article.content),
     tags: article.tags || [],
     authors: article.copyright
       ? article.copyright.authors.map(author => author.name)
@@ -96,7 +93,7 @@ class TopicArticleForm extends Component {
         },
       ],
       tags: [{ tags: model.tags, language }],
-      content: [{ content: converter.toHtml(model.content), language }],
+      content: [{ content: converter.slateToHtml(model.content), language }],
       visualElement: [
         {
           content: `<embed data-size="fullbredde" data-align="" data-alt="${model.visualElementAlt}" data-caption="${model.visualElementCaption}" data-resource="${model.visualElementType}" data-resource_id="${model.visualElementType ===

@@ -12,8 +12,8 @@ const getSchemaEmbedTag = props => ({
 const defaultBlock = {
   type: 'paragraph',
   isVoid: false,
-  data: {}
-}
+  data: {},
+};
 
 /* eslint-disable react/prop-types */
 export const schema = {
@@ -21,8 +21,15 @@ export const schema = {
     embed: props => {
       const { state, node } = props;
       const active = state.isFocused && state.selection.hasEdgeIn(node);
-      const className = active ? 'c-editor__figure c-editor__figure--active' : 'c-editor__figure'
-      return <DisplayEmbedTag embedTag={getSchemaEmbedTag(props)} className={className} />
+      const className = active
+        ? 'c-editor__figure c-editor__figure--active'
+        : 'c-editor__figure';
+      return (
+        <DisplayEmbedTag
+          embedTag={getSchemaEmbedTag(props)}
+          className={className}
+        />
+      );
     },
     section: props =>
       <section {...props.attributes}>
@@ -109,25 +116,25 @@ export const schema = {
   rules: [
     // Rule to insert a paragraph block if the document is empty.
     {
-      match: (node) => node.kind === 'document',
-      validate: (document) => document.nodes.size ? null : true,
+      match: node => node.kind === 'document',
+      validate: document => (document.nodes.size ? null : true),
       normalize: (transform, document) => {
-        const block = Block.create(defaultBlock)
-        transform.insertNodeByKey(document.key, 0, block)
-      }
+        const block = Block.create(defaultBlock);
+        transform.insertNodeByKey(document.key, 0, block);
+      },
     },
     // Rule to insert a paragraph below a void node (the image) if that node is
     // the last one in the document.
     {
-      match: (node) => node.kind === 'document',
-      validate: (document) => {
-        const lastNode = document.nodes.last()
-        return lastNode && lastNode.isVoid ? true : null
+      match: node => node.kind === 'document',
+      validate: document => {
+        const lastNode = document.nodes.last();
+        return lastNode && lastNode.isVoid ? true : null;
       },
       normalize: (transform, document) => {
-        const block = Block.create(defaultBlock)
-        transform.insertNodeByKey(document.key, document.nodes.size, block)
-      }
-    }
-  ]
+        const block = Block.create(defaultBlock);
+        transform.insertNodeByKey(document.key, document.nodes.size, block);
+      },
+    },
+  ],
 };

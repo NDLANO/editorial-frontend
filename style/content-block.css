@@ -43,6 +43,7 @@
   &__block-type--hidden {
     display: none;
   }
+
   &__figure--active {
     border: 1px solid var(--brand-color--light);
   }

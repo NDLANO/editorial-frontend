@@ -86,6 +86,7 @@ LearningResourceContent.propTypes = {
     submitted: PropTypes.bool.isRequired,
   }),
   classes: PropTypes.func.isRequired,
+  bindInput: PropTypes.func.isRequired,
 };
 
 export default injectT(LearningResourceContent);

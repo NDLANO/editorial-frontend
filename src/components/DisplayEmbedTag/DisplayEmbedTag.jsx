@@ -11,15 +11,28 @@ import PropTypes from 'prop-types';
 import DisplayImageTag from './DisplayImageTag';
 import DisplayVideoTag from './DisplayVideoTag';
 
-const DisplayEmbedTag = ({ embedTag, className }) => {
+const DisplayEmbedTag = ({ embedTag, className, deletedOnSave }) => {
   if (!embedTag) {
     return null;
   }
+
   switch (embedTag.resource) {
     case 'image':
-      return <DisplayImageTag embedTag={embedTag} className={className} />;
+      return (
+        <DisplayImageTag
+          embedTag={embedTag}
+          className={className}
+          deletedOnSave={deletedOnSave}
+        />
+      );
     case 'brightcove':
-      return <DisplayVideoTag embedTag={embedTag} className={className} />;
+      return (
+        <DisplayVideoTag
+          embedTag={embedTag}
+          className={className}
+          deletedOnSave={deletedOnSave}
+        />
+      );
     default:
       return <p>{`Mediatype ${embedTag.resource} is not supported yet.`}</p>;
   }
@@ -33,10 +46,12 @@ DisplayEmbedTag.propTypes = {
     resource: PropTypes.string.isRequired,
   }),
   className: PropTypes.string,
+  deletedOnSave: PropTypes.bool,
 };
 
 DisplayEmbedTag.defaultProps = {
   className: '',
+  deletedOnSave: false,
 };
 
 export default DisplayEmbedTag;

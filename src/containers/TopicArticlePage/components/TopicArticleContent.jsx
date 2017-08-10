@@ -18,6 +18,7 @@ import {
 } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
+import { topicArticleSchema } from '../../../components/SlateEditor/schema';
 
 const classes = new BEMHelper({
   name: 'topic-article-content',
@@ -51,6 +52,8 @@ class TopicArticleContent extends Component {
 
     const authors = model.authors;
     const updated = model.updated;
+
+    console.log(topicArticleSchema);
 
     return (
       <Accordion
@@ -105,6 +108,7 @@ class TopicArticleContent extends Component {
           label={t('topicArticleForm.fields.content.label')}
           placeholder={t('topicArticleForm.fields.content.placeholder')}
           name="content"
+          slateSchema={topicArticleSchema}
           {...commonFieldProps}
         />
         {/* <Editor

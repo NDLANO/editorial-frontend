@@ -16,6 +16,7 @@ import {
   RichBlockSlateField,
 } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
+import { learningResourceSchema } from '../../../components/SlateEditor/schema';
 
 class LearningResourceContent extends Component {
   constructor(props) {
@@ -67,6 +68,7 @@ class LearningResourceContent extends Component {
         </PlainTextField>
         <RichBlockSlateField
           noBorder
+          slateSchema={learningResourceSchema}
           label={t('learningResourceForm.fields.content.label')}
           placeholder={t('learningResourceForm.fields.content.placeholder')}
           name="content"

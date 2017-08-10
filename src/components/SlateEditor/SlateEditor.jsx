@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { Editor } from 'slate';
 import { uuid } from 'ndla-util';
 import BEMHelper from 'react-bem-helper';
-import { schema } from './schema';
 import SlateBlockPicker from './SlateBlockPicker';
 
 const classes = new BEMHelper({
@@ -47,7 +46,15 @@ class SlateEditor extends Component {
   }
 
   render() {
-    const { children, className, value, name, onChange, ...rest } = this.props;
+    const {
+      schema,
+      children,
+      className,
+      value,
+      name,
+      onChange,
+      ...rest
+    } = this.props;
     if (Array.isArray(value)) {
       return (
         <article {...classes('article')}>
@@ -99,6 +106,7 @@ class SlateEditor extends Component {
 }
 
 SlateEditor.propTypes = {
+  schema: PropTypes.shape({}).isRequired,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,

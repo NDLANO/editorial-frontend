@@ -420,6 +420,7 @@ export const RichBlockSlateField = ({
   noBorder,
   submitted,
   schema,
+  slateSchema,
   ...rest
 }) => {
   const { value, onChange } = bindInput(name);
@@ -447,6 +448,7 @@ export const RichBlockSlateField = ({
         name={name}
         value={value}
         onChange={onChange}
+        schema={slateSchema}
         {...rest}
       />
       <FieldErrorMessages
@@ -459,6 +461,7 @@ export const RichBlockSlateField = ({
 };
 
 RichBlockSlateField.propTypes = {
+  slateSchema: PropTypes.shape({}).isRequired,
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
@@ -476,6 +479,7 @@ export const RichTextSlateField = ({
   noBorder,
   submitted,
   schema,
+  slateSchema,
   ...rest
 }) => {
   const { value, onChange } = bindInput(name);
@@ -501,6 +505,7 @@ export const RichTextSlateField = ({
         name={name}
         value={value}
         onChange={onChange}
+        schema={slateSchema}
         {...rest}
       />
       <FieldErrorMessages
@@ -513,6 +518,7 @@ export const RichTextSlateField = ({
 };
 
 RichTextSlateField.propTypes = {
+  slateSchema: PropTypes.shape({}).isRequired,
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,

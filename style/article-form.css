@@ -11,6 +11,12 @@ a.c-learning-resource-form__abort-button.c-button {
   display: inline-block;
 }
 
+.c-topic-article-form {
+  & .c-editor__figure {
+    position: relative;
+  }
+}
+
 .c-topic-article-form,
 .c-learning-resource-form {
   margin-top: -6rem;
@@ -88,5 +94,66 @@ a.c-learning-resource-form__abort-button.c-button {
     padding-top: 0.5rem;
     margin-bottom: -1rem;
     color: var(--gray-6);
+  }
+}
+
+.c-content {
+  user-select: none;
+  &__forbidden-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    display: block;
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  &__forbidden-sign {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    display: block;
+    box-sizing: content-box;
+    width: 0.75em;
+    height: 0.75em;
+    border: 0.15em solid red;
+    border-radius: 0.5em;
+    font: normal 8em/normal Arial, Helvetica, sans-serif;
+    color: rgba(0, 0, 0, 1);
+    text-overflow: clip;
+  }
+
+  &__forbidden-sign::after {
+    box-sizing: content-box;
+    width: 0.85em;
+    height: 0.15em;
+    position: absolute;
+    content: "";
+    top: 0.3em;
+    left: -0.05em;
+    border: none;
+    font: normal 100%/normal Arial, Helvetica, sans-serif;
+    color: rgba(0, 0, 0, 1);
+    text-overflow: clip;
+    background: red;
+    text-shadow: none;
+    transform: rotateZ(-45deg);
+  }
+
+  &__forbidden-text {
+    color: white;
+
+    position: absolute;
+    width: 80%;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
   }
 }

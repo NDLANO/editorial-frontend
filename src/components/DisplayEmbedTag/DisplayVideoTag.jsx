@@ -9,8 +9,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
+import { injectT } from 'ndla-i18n';
+import ForbiddenOverlay from '../ForbiddenOverlay';
 
-const DisplayVideoTag = ({ embedTag, className }) => {
+const DisplayVideoTag = ({ embedTag, className, deletedOnSave, t }) => {
   if (!embedTag || !embedTag.id) {
     return null;
   }
@@ -36,6 +38,10 @@ const DisplayVideoTag = ({ embedTag, className }) => {
       <figcaption>
         {embedTag.caption}
       </figcaption>
+      {deletedOnSave &&
+        <ForbiddenOverlay
+          text={t('topicArticleForm.fields.content.deleteEmbedOnSave')}
+        />}
     </figure>
   );
 };
@@ -48,6 +54,7 @@ DisplayVideoTag.propTypes = {
     resource: PropTypes.string.isRequired,
   }),
   className: PropTypes.string,
+  deletedOnSave: PropTypes.bool,
 };
 
-export default DisplayVideoTag;
+export default injectT(DisplayVideoTag);

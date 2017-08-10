@@ -7,21 +7,17 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const ForbiddenOverlay = ({ text, onHover }) => {
-  return (
-    <div>
-      <div {...classes('forbidden-overlay')} />
-      <div {...classes('forbidden-sign')} />
-      <strong {...classes('forbidden-text')}>
-        {text}
-      </strong>
-    </div>
-  );
-};
+const ForbiddenOverlay = ({ text }) =>
+  <div>
+    <div {...classes('forbidden-overlay')} />
+    <div {...classes('forbidden-sign')} />
+    <strong {...classes('forbidden-text')}>
+      {text}
+    </strong>
+  </div>;
 
 ForbiddenOverlay.propTypes = {
   text: PropTypes.string,
-  onHover: PropTypes.bool,
 };
 
 export default ForbiddenOverlay;

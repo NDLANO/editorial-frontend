@@ -53,8 +53,6 @@ class TopicArticleContent extends Component {
     const authors = model.authors;
     const updated = model.updated;
 
-    console.log(topicArticleSchema);
-
     return (
       <Accordion
         handleToggle={this.toggleContent}

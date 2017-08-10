@@ -98,7 +98,6 @@ a.c-learning-resource-form__abort-button.c-button {
 }
 
 .c-content {
-  user-select: none;
   &__forbidden-overlay {
     position: absolute;
     top: 0;
@@ -147,7 +146,7 @@ a.c-learning-resource-form__abort-button.c-button {
 
   &__forbidden-text {
     color: white;
-
+    user-select: none;
     position: absolute;
     width: 80%;
     text-align: center;

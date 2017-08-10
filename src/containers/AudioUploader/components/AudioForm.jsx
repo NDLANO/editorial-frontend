@@ -16,22 +16,13 @@ import BEMHelper from 'react-bem-helper';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
+import {
+  DEFAULT_LICENSE,
+  parseCopyrightAuthors,
+} from '../../../util/formHelper';
 
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
-
-const DEFAULT_LICENSE = {
-  description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
-  license: 'by-sa',
-  url: 'https://creativecommons.org/licenses/by-sa/2.0/',
-};
-
-const parseCopyrightAuthors = (audio, type) =>
-  audio.copyright
-    ? audio.copyright.authors
-        .filter(author => author.type === type)
-        .map(author => author.name)
-    : [];
 
 export const getInitialModel = (audio = {}) => {
   const authors = parseCopyrightAuthors(audio, 'Forfatter');
@@ -53,7 +44,7 @@ export const getInitialModel = (audio = {}) => {
 };
 
 const classes = new BEMHelper({
-  name: 'topic-article-form',
+  name: 'audio-form',
   prefix: 'c-',
 });
 

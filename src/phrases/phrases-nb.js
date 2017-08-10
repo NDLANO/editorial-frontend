@@ -156,27 +156,8 @@ const phrases = {
       title: {
         label: 'Tittel',
       },
-      introduction: {
-        label: 'Ingress',
-      },
-      caption: {
-        label: {
-          image: 'Bildetekst',
-        },
-        placeholder: {
-          image: 'Bildetekst',
-        },
-      },
       origin: {
         label: 'Opphav',
-      },
-      alt: {
-        label: 'Alt-tekst',
-        placeholder: 'Alt-tekst',
-      },
-      content: {
-        label: 'Innhold',
-        placeholder: 'Innhold',
       },
       tags: {
         label: 'Nøkkelord',
@@ -184,22 +165,6 @@ const phrases = {
         createNew: 'Opprett nytt nøkkelord',
         emptyFilter: 'Fant ingen passende nøkkelord',
         emptyList: 'Det er ingen tagger i denne listen',
-      },
-      metaDescription: {
-        label: 'Metabeskrivelse',
-        description: 'Beskrivelsen blir synlig i søk.',
-      },
-      contributors: {
-        label: 'Bidragsyter',
-        createNew: 'Opprett ny bidragsyter',
-        emptyFilter: ' ',
-        emptyList: ' ',
-      },
-      licensees: {
-        label: 'Rettighetshaver',
-        createNew: 'Opprett ny rettighetshaver',
-        emptyFilter: ' ',
-        emptyList: ' ',
       },
       authors: {
         label: 'Opphavsperson',

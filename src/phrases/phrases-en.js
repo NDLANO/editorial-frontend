@@ -149,23 +149,8 @@ const phrases = {
       title: {
         label: 'Title',
       },
-      introduction: {
-        label: 'Introduction',
-      },
-      caption: {
-        label: 'Caption',
-        placeholder: 'Caption',
-      },
       origin: {
         label: 'Origin',
-      },
-      alt: {
-        label: 'Alt-text',
-        placeholder: 'Alt-text',
-      },
-      content: {
-        label: 'Content',
-        placeholder: 'Write here...',
       },
       tags: {
         label: 'Tags',
@@ -173,22 +158,6 @@ const phrases = {
         createNew: 'Create new tag',
         emptyList: 'No tags available',
         emptyFilter: 'No matching tags found',
-      },
-      metaDescription: {
-        label: 'Meta description',
-        description: 'The description will be viewable in search.',
-      },
-      contributors: {
-        label: 'Contributor',
-        createNew: 'Add new contributor',
-        emptyFilter: ' ',
-        emptyList: ' ',
-      },
-      licensees: {
-        label: 'Licensee',
-        createNew: 'Add new licensee',
-        emptyFilter: ' ',
-        emptyList: ' ',
       },
       authors: {
         label: 'Author',

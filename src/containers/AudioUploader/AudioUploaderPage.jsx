@@ -33,7 +33,7 @@ class AudioUploaderPage extends Component {
     const { locale, tags, match, history, licenses, isSaving } = this.props;
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div>
         <Hero alt />
         <OneColumn cssModifier="narrow">
           <Switch>
@@ -52,7 +52,7 @@ class AudioUploaderPage extends Component {
               path={`${match.url}/:audioId/edit`}
               render={props =>
                 <EditAudio
-                  audioId={props.match.params.audioId.toString()}
+                  audioId={props.match.params.audioId}
                   history={history}
                   locale={locale}
                   tags={tags}

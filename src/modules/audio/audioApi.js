@@ -19,3 +19,14 @@ export const postAudio = formData =>
     method: 'POST',
     body: formData,
   }).then(resolveJsonOrRejectWithError);
+
+export const fetchAudio = (id, locale) =>
+  fetchWithAccessToken(`${baseUrl}/${id}?language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );
+
+export const updateAudio = (id, formData) =>
+  fetchWithAccessToken(`${baseUrl}/${id}`, {
+    method: 'PUT',
+    body: formData,
+  }).then(resolveJsonOrRejectWithError);

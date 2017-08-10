@@ -19,6 +19,7 @@ import {
 import { getSaving } from '../../modules/audio/audio';
 import { getLocale } from '../../modules/locale/locale';
 import CreateAudio from './CreateAudio';
+import EditAudio from './EditAudio';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 class AudioUploaderPage extends Component {
@@ -40,6 +41,18 @@ class AudioUploaderPage extends Component {
               path={`${match.url}/new`}
               render={() =>
                 <CreateAudio
+                  history={history}
+                  locale={locale}
+                  tags={tags}
+                  licenses={licenses}
+                  isSaving={isSaving}
+                />}
+            />
+            <Route
+              path={`${match.url}/:audioId/edit`}
+              render={props =>
+                <EditAudio
+                  audioId={props.match.params.audioId.toString()}
                   history={history}
                   locale={locale}
                   tags={tags}

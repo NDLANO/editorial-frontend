@@ -1,0 +1,83 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
+
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import AudioForm, { getInitialModel } from './components/AudioForm';
+import { actions, getAudio } from '../../modules/audio/audio';
+import { AudioShape } from '../../shapes';
+
+class EditAudio extends Component {
+  componentWillMount() {
+    const { audioId: id, fetchAudio, locale } = this.props;
+    fetchAudio({ id, locale });
+  }
+  render() {
+    const {
+      locale,
+      tags,
+      licenses,
+      isSaving,
+      history,
+      audio: audioData,
+      updateAudio,
+    } = this.props;
+
+    if (!audioData) {
+      return null;
+    }
+
+    return (
+      <AudioForm
+        initialModel={getInitialModel(audioData)}
+        revision={audioData.revision}
+        audioInfo={audioData.audioFile}
+        tags={tags}
+        licenses={licenses}
+        locale={locale}
+        onUpdate={(audio, file) => updateAudio({ audio, file, history })}
+        isSaving={isSaving}
+      />
+    );
+  }
+}
+
+EditAudio.propTypes = {
+  audioId: PropTypes.string.isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  fetchAudio: PropTypes.func.isRequired,
+  licenses: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string,
+      license: PropTypes.string,
+    }),
+  ).isRequired,
+  audio: AudioShape,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  locale: PropTypes.string.isRequired,
+  updateAudio: PropTypes.func.isRequired,
+  isSaving: PropTypes.bool.isRequired,
+};
+
+const mapDispatchToProps = {
+  fetchAudio: actions.fetchAudio,
+  updateAudio: actions.updateAudio,
+};
+
+const makeMapStateToProps = (_, props) => {
+  const { audioId } = props;
+  const getAudioSelector = getAudio(audioId);
+  return state => ({
+    audio: getAudioSelector(state),
+  });
+};
+
+export default connect(makeMapStateToProps, mapDispatchToProps)(EditAudio);

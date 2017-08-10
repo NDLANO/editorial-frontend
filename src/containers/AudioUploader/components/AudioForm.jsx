@@ -37,12 +37,13 @@ export const getInitialModel = (audio = {}) => {
   const authors = parseCopyrightAuthors(audio, 'Forfatter');
   return {
     id: audio.id,
+    revision: audio.revision,
     language: audio.language,
     title: audio.title || '',
     audioFile: audio.audioFile,
     tags: audio.tags || [],
     authors,
-    copyrightOrigin:
+    origin:
       audio.copyright && audio.copyright.origin ? audio.copyright.origin : '',
     license:
       audio.copyright && audio.copyright.license
@@ -71,6 +72,8 @@ class AudioForm extends Component {
       locale: language,
       licenses,
       setSubmitted,
+      onUpdate,
+      revision,
     } = this.props;
 
     if (!schema.isValid) {
@@ -78,19 +81,19 @@ class AudioForm extends Component {
       return;
     }
 
-    this.props.onUpdate(
-      {
-        title: model.title,
-        language,
-        tags: model.tags,
-        copyright: {
-          license: licenses.find(license => license.license === model.license),
-          origin: model.origin,
-          authors: model.authors.map(name => ({ type: 'Forfatter', name })),
-        },
+    const audioMetaData = {
+      id: model.id,
+      revision,
+      title: model.title,
+      language,
+      tags: model.tags,
+      copyright: {
+        license: licenses.find(license => license.license === model.license),
+        origin: model.origin,
+        authors: model.authors.map(name => ({ type: 'Forfatter', name })),
       },
-      model.audioFile,
-    );
+    };
+    onUpdate(audioMetaData, model.audioFile);
   }
 
   render() {
@@ -103,6 +106,7 @@ class AudioForm extends Component {
       tags,
       licenses,
       isSaving,
+      audioInfo,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
@@ -116,6 +120,8 @@ class AudioForm extends Component {
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
           tags={tags}
+          model={model}
+          audioInfo={audioInfo}
         />
         <AudioMetaData
           classes={classes}
@@ -123,7 +129,6 @@ class AudioForm extends Component {
           bindInput={bindInput}
           tags={tags}
           licenses={licenses}
-          model={model}
         />
         <Field right>
           <Link
@@ -143,7 +148,7 @@ class AudioForm extends Component {
 
 AudioForm.propTypes = {
   model: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     title: PropTypes.string,
   }),
   schema: PropTypes.shape({
@@ -163,6 +168,13 @@ AudioForm.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   setSubmitted: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  revision: PropTypes.number,
+  audioInfo: PropTypes.shape({
+    fileSize: PropTypes.number.isRequired,
+    language: PropTypes.string.isRequired,
+    mimeType: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+  }),
 };
 
 export default compose(

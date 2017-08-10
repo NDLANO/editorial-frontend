@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { InputFileField, TextField } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
+import AudioPlayer from './AudioPlayer';
 
 class AudioContent extends Component {
   constructor(props) {
@@ -28,8 +29,7 @@ class AudioContent extends Component {
   }
 
   render() {
-    const { t, commonFieldProps } = this.props;
-
+    const { t, commonFieldProps, model, audioInfo } = this.props;
     return (
       <Accordion
         handleToggle={this.toggleContent}
@@ -48,6 +48,7 @@ class AudioContent extends Component {
           name="audioFile"
           {...commonFieldProps}
         />
+        {model.id && <AudioPlayer audio={audioInfo} />}
       </Accordion>
     );
   }
@@ -62,6 +63,22 @@ AudioContent.propTypes = {
     submitted: PropTypes.bool.isRequired,
   }),
   classes: PropTypes.func.isRequired,
+  bindInput: PropTypes.func.isRequired,
+  model: PropTypes.shape({
+    id: PropTypes.number,
+    audioFile: PropTypes.shape({
+      fileSize: PropTypes.number,
+      language: PropTypes.string,
+      mimeType: PropTypes.string,
+      url: PropTypes.string,
+    }),
+  }),
+  audioInfo: PropTypes.shape({
+    fileSize: PropTypes.number.isRequired,
+    language: PropTypes.string.isRequired,
+    mimeType: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+  }),
 };
 
 export default injectT(AudioContent);

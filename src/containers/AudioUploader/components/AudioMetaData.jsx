@@ -67,7 +67,6 @@ class AudioMetaData extends Component {
         <TextField
           label={t('audioForm.fields.origin.label')}
           name="origin"
-          bigText
           {...commonFieldProps}
         />
         <SelectObjectField
@@ -95,11 +94,6 @@ AudioMetaData.propTypes = {
     bindInput: PropTypes.func.isRequired,
   }),
   classes: PropTypes.func.isRequired,
-  model: PropTypes.shape({
-    metaImageId: PropTypes.string,
-    metaImageCaption: PropTypes.string,
-    metaImageAlt: PropTypes.string,
-  }),
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

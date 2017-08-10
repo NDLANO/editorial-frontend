@@ -6,15 +6,37 @@
  *
  */
 
-import { take, call, put } from 'redux-saga/effects';
-import { actions } from './audio';
+import { take, call, put, select } from 'redux-saga/effects';
+import { actions, getAudioById } from './audio';
 import * as api from './audioApi';
 import * as messageActions from '../../containers/Messages/messagesActions';
 import { createFormData } from '../../util/formDataHelper';
+import { toEditAudio } from '../../util/routeHelpers';
+
+export function* fetchAudio(id, locale) {
+  try {
+    const audio = yield call(api.fetchAudio, id, locale);
+    yield put(actions.setAudio(audio));
+  } catch (error) {
+    // TODO: handle error
+    console.error(error); //eslint-disable-line
+  }
+}
+
+export function* watchFetchAudio() {
+  while (true) {
+    const { payload: { id, locale } } = yield take(actions.fetchAudio);
+    const audio = yield select(getAudioById(id));
+    if (!audio || audio.id !== id) {
+      yield call(fetchAudio, id, locale);
+    }
+  }
+}
 
 export function* updateAudio(audio, file) {
   try {
-    const updatedAudio = yield call(api.updateAudio, audio, file);
+    const formData = yield call(createFormData, audio, file);
+    const updatedAudio = yield call(api.updateAudio, audio.id, formData);
     yield put(actions.setAudio(updatedAudio));
     yield put(actions.updateAudioSuccess());
     yield put(
@@ -27,12 +49,12 @@ export function* updateAudio(audio, file) {
   }
 }
 
-export function* createAudio(audio, file) {
+export function* createAudio(audio, file, history) {
   try {
     const formData = yield call(createFormData, audio, file);
     const createdAudio = yield call(api.postAudio, formData);
     yield put(actions.setAudio(createdAudio));
-    // history.push(toEditAudio(createdAudio.id, createdAudio.audioType));
+    history.push(toEditAudio(createdAudio.id));
     yield put(actions.updateAudioSuccess());
     yield put(
       messageActions.addMessage({
@@ -59,4 +81,4 @@ export function* watchUpdateAudio() {
   }
 }
 
-export default [watchUpdateAudio];
+export default [watchFetchAudio, watchUpdateAudio];

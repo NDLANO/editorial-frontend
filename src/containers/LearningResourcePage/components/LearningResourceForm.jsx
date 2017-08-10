@@ -52,7 +52,7 @@ export const getInitialModel = (article = {}) => {
     authors: parseCopyrightAuthors(article, 'Forfatter'),
     licensees: parseCopyrightAuthors(article, 'Rettighetshaver'),
     contributors: parseCopyrightAuthors(article, 'Bidragsyter'),
-    copyrightOrigin:
+    origin:
       article.copyright && article.copyright.origin
         ? article.copyright.origin
         : '',

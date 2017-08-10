@@ -38,3 +38,11 @@ export function toLogoutSession() {
 export function toLogoutFederated() {
   return '/logout/federated';
 }
+
+export function toCreateAudioFile() {
+  return '/audio-upload/new';
+}
+
+export function toEditAudio(audioId) {
+  return `/audio-upload/${audioId}/edit`;
+}

@@ -124,6 +124,44 @@ RemainingCharacters.propTypes = {
   getRemainingLabel: PropTypes.func.isRequired,
 };
 
+export const InputFileField = ({
+  bigText,
+  bindInput,
+  name,
+  label,
+  submitted,
+  schema,
+  noBorder,
+  title,
+  ...rest
+}) =>
+  <Field noBorder={noBorder} bigText={bigText} title={title}>
+    <input name={name} type="file" {...bindInput(name, true)} {...rest} />
+    <FieldErrorMessages
+      label={label}
+      field={schema.fields[name]}
+      submitted={submitted}
+    />
+  </Field>;
+
+InputFileField.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  noBorder: PropTypes.bool,
+  title: PropTypes.bool,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  submitted: PropTypes.bool.isRequired,
+  bigText: PropTypes.bool,
+};
+
+InputFileField.defaultProps = {
+  bigText: false,
+  noBorder: true,
+};
+
 export const TextField = ({
   bindInput,
   name,

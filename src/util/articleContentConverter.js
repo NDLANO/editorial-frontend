@@ -10,7 +10,7 @@ import React from 'react';
 import { convertFromHTML, convertToHTML } from 'draft-convert';
 import { EditorState } from 'draft-js';
 import { Html, Plain } from 'slate';
-import { RULES } from '../util/slateHelpers';
+import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
 
 function reduceAttributesArrayToObject(attributes) {
   // Reduce attributes array to object with attribute name (striped of data-) as keys.
@@ -62,7 +62,7 @@ function convertHTMLToSlateEditorState(html, isBlocks = false) {
     if (!html) {
       return createEmptyState();
     }
-    const serializer = new Html({ rules: RULES });
+    const serializer = new Html({ rules: topicArticeRules });
     return serializer.deserialize(html);
   }
 
@@ -76,7 +76,7 @@ function convertHTMLToSlateEditorState(html, isBlocks = false) {
     ];
   } else {
     const sections = extractSections(html);
-    const serializer = new Html({ rules: RULES });
+    const serializer = new Html({ rules: learningResourceRules });
     contentState = sections.map((section, index) => ({
       state: serializer.deserialize(section),
       index,
@@ -86,10 +86,14 @@ function convertHTMLToSlateEditorState(html, isBlocks = false) {
 }
 
 function convertSlateEditorStatetoHTML(contentState, isBlocks = false) {
-  const serializer = new Html({ rules: RULES });
+  let serializer;
   if (!isBlocks) {
-    return serializer.serialize(contentState);
+    serializer = new Html({ rules: topicArticeRules });
+    return serializer
+      .serialize(contentState)
+      .replace(/<deleteme><\/deleteme>/g, '');
   }
+  serializer = new Html({ rules: learningResourceRules });
   const html = [];
   contentState.map(section => html.push(serializer.serialize(section.state)));
   return html.join('');

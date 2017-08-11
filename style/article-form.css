@@ -7,6 +7,7 @@
  */
 
 a.c-topic-article-form__abort-button.c-button,
+a.c-audio-form__abort-button.c-button,
 a.c-learning-resource-form__abort-button.c-button {
   display: inline-block;
 }
@@ -18,6 +19,7 @@ a.c-learning-resource-form__abort-button.c-button {
 }
 
 .c-topic-article-form,
+.c-audio-form,
 .c-learning-resource-form {
   margin-top: -6rem;
   width: 970px;

@@ -81,6 +81,8 @@ const makeWrapper = WrappedComponent => {
         this.setProperty(name, newCheckboxValue);
       } else if (type === 'EditorState') {
         this.setProperty(name, value, value.getCurrentContent().hasText()); // Only set dirty flag if text has changed
+      } else if (type === 'file') {
+        this.setProperty(name, e.target.files[0]);
       } else if (type === 'SlateEditorState') {
         // console.log('y0y00')
         this.setProperty(name, value); // TODO: Handle dirty flag with SlateEditorState
@@ -89,10 +91,10 @@ const makeWrapper = WrappedComponent => {
       }
     }
 
-    bindInput(name) {
+    bindInput(name, isFile = false) {
       return {
         name,
-        value: this.state.model[name] || '',
+        value: isFile ? undefined : this.state.model[name] || '',
         onChange: this.bindToChangeEvent,
       };
     }

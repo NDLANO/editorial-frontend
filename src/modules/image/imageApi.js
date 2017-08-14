@@ -19,3 +19,14 @@ export const postImage = formData =>
     method: 'POST',
     body: formData,
   }).then(resolveJsonOrRejectWithError);
+
+export const fetchImage = (id, locale) =>
+  fetchWithAccessToken(`${baseUrl}/${id}?language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );
+
+export const updateImage = (id, formData) =>
+  fetchWithAccessToken(`${baseUrl}/${id}`, {
+    method: 'POST',
+    body: formData,
+  }).then(resolveJsonOrRejectWithError);

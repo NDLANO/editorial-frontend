@@ -81,6 +81,8 @@ export const getImage = imageId =>
             ...image,
             title: image.title.title,
             tags: image.tags.tags,
+            alttext: image.alttext.alttext,
+            caption: image.caption.caption,
             language,
           }
         : undefined,

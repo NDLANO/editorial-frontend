@@ -33,7 +33,10 @@ export const getInitialModel = (image = {}) => {
     title: image.title || '',
     alttext: image.alttext || '',
     caption: image.caption || '',
-    imageFile: image.imageFile,
+    imageFile: {
+      file: image.imageFile,
+      url: image.imageUrl,
+    },
     tags: image.tags || [],
     authors,
     origin:
@@ -141,7 +144,7 @@ class ImageForm extends Component {
 
 ImageForm.propTypes = {
   model: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     title: PropTypes.string,
   }),
   schema: PropTypes.shape({

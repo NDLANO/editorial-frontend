@@ -19,6 +19,7 @@ import {
 import { getSaving } from '../../modules/audio/audio';
 import { getLocale } from '../../modules/locale/locale';
 import CreateImage from './CreateImage';
+import EditImage from './EditImage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 class ImageUploaderPage extends Component {
@@ -40,6 +41,18 @@ class ImageUploaderPage extends Component {
               path={`${match.url}/new`}
               render={() =>
                 <CreateImage
+                  history={history}
+                  locale={locale}
+                  tags={tags}
+                  licenses={licenses}
+                  isSaving={isSaving}
+                />}
+            />
+            <Route
+              path={`${match.url}/:imageId/edit`}
+              render={props =>
+                <EditImage
+                  imageId={props.match.params.imageId}
                   history={history}
                   locale={locale}
                   tags={tags}

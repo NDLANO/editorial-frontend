@@ -6,12 +6,32 @@
  *
  */
 
-import { take, call, put } from 'redux-saga/effects';
-import { actions } from './image';
+import { take, call, put, select } from 'redux-saga/effects';
+import { actions, getImageById } from './image';
 import * as api from './imageApi';
 import * as messageActions from '../../containers/Messages/messagesActions';
 import { createFormData } from '../../util/formDataHelper';
-// import { toEditImage } from '../../util/routeHelpers';
+import { toEditImage } from '../../util/routeHelpers';
+
+export function* fetchImage(id, locale) {
+  try {
+    const image = yield call(api.fetchImage, id, locale);
+    yield put(actions.setImage(image));
+  } catch (error) {
+    // TODO: handle error
+    console.error(error); //eslint-disable-line
+  }
+}
+
+export function* watchFetchImage() {
+  while (true) {
+    const { payload: { id, locale } } = yield take(actions.fetchImage);
+    const image = yield select(getImageById(id));
+    if (!image || image.id !== id) {
+      yield call(fetchImage, id, locale);
+    }
+  }
+}
 
 export function* updateImage(image, file) {
   try {
@@ -34,7 +54,7 @@ export function* createImage(image, file, history) {
     const formData = yield call(createFormData, image, file);
     const createdImage = yield call(api.postImage, formData);
     yield put(actions.setImage(createdImage));
-    //history.push(toEditImage(createdImage.id));
+    history.push(toEditImage(createdImage.id));
     yield put(actions.updateImageSuccess());
     yield put(
       messageActions.addMessage({
@@ -61,4 +81,4 @@ export function* watchUpdateImage() {
   }
 }
 
-export default [watchUpdateImage];
+export default [watchFetchImage, watchUpdateImage];

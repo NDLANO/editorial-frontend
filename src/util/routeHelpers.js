@@ -50,3 +50,7 @@ export function toEditAudio(audioId) {
 export function toCreateImage() {
   return '/image-upload/new';
 }
+
+export function toEditImage(imageId) {
+  return `/image-upload/${imageId}/edit`;
+}

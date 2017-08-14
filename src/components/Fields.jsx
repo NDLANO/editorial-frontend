@@ -8,12 +8,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { RichTextEditor, PlainTextEditor } from 'ndla-editor';
+import { RichTextEditor } from 'ndla-editor';
 import { uuid } from 'ndla-util';
 import BEMHelper from 'react-bem-helper';
 import MultiSelect from './MultiSelect';
 import { isEmpty } from './validators';
 import SlateEditor from '../components/SlateEditor/SlateEditor';
+import PlainSlateEditor from '../components/SlateEditor/PlainSlateEditor';
 
 export const classes = new BEMHelper({
   name: 'field',
@@ -367,7 +368,7 @@ export const PlainTextField = ({
       {noBorder &&
         <FocusLabel
           name={name}
-          hasFocus={() => value.getSelection().hasFocus}
+          hasFocus={() => value.selection.isFocused}
           value={value}>
           {label}
         </FocusLabel>}
@@ -380,10 +381,12 @@ export const PlainTextField = ({
           <FieldDescription obligatory={obligatory}>
             {description}
           </FieldDescription>}
-        <PlainTextEditor
+        <PlainSlateEditor
           id={name}
           onChange={val =>
-            onChange({ target: { name, value: val, type: 'EditorState' } })}
+            onChange({
+              target: { name, value: val, type: 'SlateEditorState' },
+            })}
           value={value}
           {...rest}
         />

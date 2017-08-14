@@ -11,7 +11,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate';
-import { uuid } from 'ndla-util';
 import BEMHelper from 'react-bem-helper';
 import { schema } from './schema';
 import SlateBlockPicker from './SlateBlockPicker';
@@ -47,13 +46,22 @@ class SlateEditor extends Component {
   }
 
   render() {
-    const { children, className, value, name, onChange, ...rest } = this.props;
+    const {
+      children,
+      className,
+      value,
+      name,
+      onChange,
+      ingress,
+      ingressRef,
+      ...rest
+    } = this.props;
     if (Array.isArray(value)) {
       return (
         <article {...classes('article')}>
           {value.map((val, index) =>
             <div
-              key={uuid()}
+              key={`editor_${index}`} //eslint-disable-line
               {...classes('container', className)}
               onClick={this.focus}
               tabIndex={index}>
@@ -71,6 +79,8 @@ class SlateEditor extends Component {
                 blocks={value}
                 showTypePicker={this.state.showTypePicker}
                 index={index}
+                ingress={ingress}
+                ingressRef={ingressRef}
               />
               {children}
             </div>,
@@ -100,10 +110,17 @@ class SlateEditor extends Component {
 
 SlateEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
+  ingressRef: PropTypes.shape({
+    scrollIntoView: PropTypes.func.isRequired,
+  }),
   name: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
+  ingress: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    value: PropTypes.object,
+  }),
 };
 
 export default SlateEditor;

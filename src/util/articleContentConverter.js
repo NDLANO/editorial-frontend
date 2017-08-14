@@ -110,9 +110,19 @@ function convertEditorStateToHTML(editorState) {
   return `<section>${html.replace(/<deleteme>a<\/deleteme>/g, '')}</section>`;
 }
 
+function convertTextToSlateEditorState(text) {
+  return text ? Plain.deserialize(text) : undefined;
+}
+
+function convertSlateEditorStateToText(editorState) {
+  return editorState ? Plain.serialize(editorState) : '';
+}
+
 export default {
   toHtml: convertEditorStateToHTML,
   slateToHtml: convertSlateEditorStatetoHTML,
   toEditorState: convertHTMLToEditorState,
   toSlateEditorState: convertHTMLToSlateEditorState,
+  toPlainSlateEditorState: convertTextToSlateEditorState,
+  slateToText: convertSlateEditorStateToText,
 };

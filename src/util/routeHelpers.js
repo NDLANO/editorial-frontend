@@ -46,3 +46,7 @@ export function toCreateAudioFile() {
 export function toEditAudio(audioId) {
   return `/audio-upload/${audioId}/edit`;
 }
+
+export function toCreateImage() {
+  return '/image-upload/new';
+}

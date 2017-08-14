@@ -136,7 +136,13 @@ export const InputFileField = ({
   ...rest
 }) =>
   <Field noBorder={noBorder} bigText={bigText} title={title}>
-    <input name={name} type="file" {...bindInput(name, true)} {...rest} />
+    <input
+      id="file"
+      name={name}
+      type="file"
+      {...bindInput(name, true)}
+      {...rest}
+    />
     <FieldErrorMessages
       label={label}
       field={schema.fields[name]}

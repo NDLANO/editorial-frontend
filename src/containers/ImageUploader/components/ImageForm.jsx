@@ -1,0 +1,190 @@
+/**
+* Copyright (c) 2016-present, NDLA.
+*
+* This source code is licensed under the GPLv3 license found in the
+* LICENSE file in the root directory of this source tree. *
+*/
+
+import React, { Component } from 'react';
+import { compose } from 'redux';
+import { injectT } from 'ndla-i18n';
+import { Button } from 'ndla-ui';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
+import BEMHelper from 'react-bem-helper';
+import reformed from '../../../components/reformed';
+import validateSchema from '../../../components/validateSchema';
+import { Field } from '../../../components/Fields';
+import {
+  DEFAULT_LICENSE,
+  parseCopyrightAuthors,
+} from '../../../util/formHelper';
+
+import ImageMetaData from './ImageMetaData';
+import ImageContent from './ImageContent';
+
+export const getInitialModel = (image = {}) => {
+  const authors = parseCopyrightAuthors(image, 'Forfatter');
+  return {
+    id: image.id,
+    revision: image.revision,
+    language: image.language,
+    title: image.title || '',
+    alttext: image.alttext || '',
+    caption: image.caption || '',
+    imageFile: image.imageFile,
+    tags: image.tags || [],
+    authors,
+    origin:
+      image.copyright && image.copyright.origin ? image.copyright.origin : '',
+    license:
+      image.copyright && image.copyright.license
+        ? image.copyright.license.license
+        : DEFAULT_LICENSE.license,
+  };
+};
+
+const classes = new BEMHelper({
+  name: 'image-form',
+  prefix: 'c-',
+});
+
+class ImageForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { title: '', tags: [], license: '', image: {} };
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+
+    const {
+      model,
+      schema,
+      locale: language,
+      licenses,
+      setSubmitted,
+      onUpdate,
+      revision,
+    } = this.props;
+
+    if (!schema.isValid) {
+      setSubmitted(true);
+      return;
+    }
+
+    const imageMetaData = {
+      id: model.id,
+      revision,
+      title: model.title,
+      alttext: model.alttext,
+      caption: model.caption,
+      language,
+      tags: model.tags,
+      copyright: {
+        license: licenses.find(license => license.license === model.license),
+        origin: model.origin,
+        authors: model.authors.map(name => ({ type: 'Forfatter', name })),
+      },
+    };
+    onUpdate(imageMetaData, model.imageFile.file);
+  }
+
+  render() {
+    const {
+      t,
+      bindInput,
+      schema,
+      model,
+      submitted,
+      tags,
+      licenses,
+      isSaving,
+    } = this.props;
+    const commonFieldProps = { bindInput, schema, submitted };
+
+    return (
+      <form onSubmit={event => this.handleSubmit(event)} {...classes()}>
+        <div {...classes('title')}>
+          {model.id ? t('imageForm.title.update') : t('imageForm.title.create')}
+        </div>
+        <ImageContent
+          classes={classes}
+          commonFieldProps={commonFieldProps}
+          bindInput={bindInput}
+          tags={tags}
+          model={model}
+        />
+        <ImageMetaData
+          classes={classes}
+          commonFieldProps={commonFieldProps}
+          bindInput={bindInput}
+          tags={tags}
+          licenses={licenses}
+        />
+        <Field right>
+          <Link
+            to={'/'}
+            {...classes('abort-button', '', 'c-button c-button--outline')}
+            disabled={isSaving}>
+            {t('imageForm.abort')}
+          </Link>
+          <Button submit outline disabled={false} {...classes('save-button')}>
+            {t('imageForm.save')}
+          </Button>
+        </Field>
+      </form>
+    );
+  }
+}
+
+ImageForm.propTypes = {
+  model: PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+  }),
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+    isValid: PropTypes.bool.isRequired,
+  }),
+  licenses: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string,
+      license: PropTypes.string,
+    }),
+  ).isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  submitted: PropTypes.bool.isRequired,
+  bindInput: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  setSubmitted: PropTypes.func.isRequired,
+  isSaving: PropTypes.bool.isRequired,
+  revision: PropTypes.number,
+};
+
+export default compose(
+  injectT,
+  reformed,
+  validateSchema({
+    title: {
+      required: true,
+    },
+    alttext: {
+      required: true,
+    },
+    caption: {
+      required: true,
+    },
+    tags: {
+      minItems: 3,
+    },
+    authors: {
+      minItems: 1,
+    },
+    imageFile: {
+      required: true,
+    },
+  }),
+)(ImageForm);

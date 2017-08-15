@@ -13,14 +13,14 @@ import PropTypes from 'prop-types';
 import { Editor } from 'slate';
 import BEMHelper from 'react-bem-helper';
 import { schema } from './schema';
-import SlateBlockPicker from './SlateBlockPicker';
+import SlateBlockPicker from './plugins/SlateBlockPicker';
 
 const classes = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
 });
 
-class SlateEditor extends Component {
+class RichBlockTextEditor extends Component {
   constructor(props) {
     super(props);
     this.onContentChange = this.onContentChange.bind(this);
@@ -56,59 +56,39 @@ class SlateEditor extends Component {
       ingressRef,
       ...rest
     } = this.props;
-    if (Array.isArray(value)) {
-      return (
-        <article {...classes('article')}>
-          {value.map((val, index) =>
-            <div
-              key={`editor_${index}`} //eslint-disable-line
-              {...classes('container', className)}
-              onClick={this.focus}
-              tabIndex={index}>
-              <Editor
-                state={val.state}
-                schema={schema}
-                onChange={editorState =>
-                  this.onContentChange(editorState, index)}
-                onBeforeInput={(e, d, state) => state}
-                {...rest}
-              />
-              <SlateBlockPicker
-                name={name}
-                onChange={onChange}
-                blocks={value}
-                showTypePicker={this.state.showTypePicker}
-                index={index}
-                ingress={ingress}
-                ingressRef={ingressRef}
-              />
-              {children}
-            </div>,
-          )}
-        </article>
-      );
-    }
-
     return (
-      <article>
-        <div {...classes(undefined, className)}>
-          <Editor
-            state={value}
-            schema={schema}
-            onChange={state => onChange({ target: { name, value: state } })}
-            ref={element => {
-              this.editor = element;
-            }}
-            {...rest}
-          />
-          {children}
-        </div>
+      <article {...classes('article')}>
+        {value.map((val, index) =>
+          <div
+            key={`editor_${index}`} //eslint-disable-line
+            {...classes('container', className)}
+            onClick={this.focus}
+            tabIndex={index}>
+            <Editor
+              state={val.state}
+              schema={schema}
+              onChange={editorState => this.onContentChange(editorState, index)}
+              onBeforeInput={(e, d, state) => state}
+              {...rest}
+            />
+            <SlateBlockPicker
+              name={name}
+              onChange={onChange}
+              blocks={value}
+              showTypePicker={this.state.showTypePicker}
+              index={index}
+              ingress={ingress}
+              ingressRef={ingressRef}
+            />
+            {children}
+          </div>,
+        )}
       </article>
     );
   }
 }
 
-SlateEditor.propTypes = {
+RichBlockTextEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
   ingressRef: PropTypes.shape({
     scrollIntoView: PropTypes.func.isRequired,
@@ -123,4 +103,4 @@ SlateEditor.propTypes = {
   }),
 };
 
-export default SlateEditor;
+export default RichBlockTextEditor;

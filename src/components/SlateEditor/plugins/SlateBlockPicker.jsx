@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { Cross, Plus } from 'ndla-ui/icons';
-import { createEmptyState } from '../../util/articleContentConverter';
+import { createEmptyState } from '../../../util/articleContentConverter';
 
 const classes = new BEMHelper({
   name: 'editor',

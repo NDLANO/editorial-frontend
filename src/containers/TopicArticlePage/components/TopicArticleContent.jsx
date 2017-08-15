@@ -12,7 +12,7 @@ import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
 import {
   TextField,
-  RichTextSlateField,
+  RichTextField,
   PlainTextField,
   RemainingCharacters,
 } from '../../../components/Fields';
@@ -98,7 +98,7 @@ class TopicArticleContent extends Component {
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
         />
-        <RichTextSlateField
+        <RichTextField
           noBorder
           label={t('topicArticleForm.fields.content.label')}
           placeholder={t('topicArticleForm.fields.content.placeholder')}

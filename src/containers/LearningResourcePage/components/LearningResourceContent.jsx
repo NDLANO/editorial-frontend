@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { State } from 'slate';
 import { injectT } from 'ndla-i18n';
-import { TextField, RichBlockSlateField } from '../../../components/Fields';
+import { TextField, RichBlockTextField } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 import LearningResourceIngress from './LearningResourceIngress';
 
@@ -70,7 +70,7 @@ class LearningResourceContent extends Component {
             {...ingress}
           />
         </div>
-        <RichBlockSlateField
+        <RichBlockTextField
           noBorder
           label={t('learningResourceForm.fields.content.label')}
           placeholder={t('learningResourceForm.fields.content.placeholder')}

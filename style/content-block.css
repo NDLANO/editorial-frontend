@@ -1,3 +1,4 @@
+
 .c-editor {
   &__container {
     margin: 0 -9rem;
@@ -11,14 +12,34 @@
     }
   }
 
+  &__container:hover &__delete-block-button,
+  &__container:focus &__delete-block-button {
+    visibility: visible;
+  }
+
+  &__delete-block-button {
+    top: 0;
+    visibility: hidden;
+    position: absolute;
+    right: -4rem;
+    color: red;
+
+    &:hover,
+    &:focus {
+      color: color(red blackness(+ 20%));
+    }
+  }
+
   &__block-type-container {
     margin-left: -70px;
     z-index: 9;
-    display: inline;
+    position: relative;
+    float: left;
   }
 
   &__block-type-button {
-    padding: 0.2rem 0.5rem;
+    height: 40px;
+    width: 40px;
     border: 1px solid var(--gray-3);
     border-radius: 25px;
     margin-right: 0.3rem;
@@ -33,6 +54,11 @@
       border-radius: 25px;
       background-color: white;
     }
+
+    &--green {
+      border-color: var(--green-1);
+      color: var(--green-1);
+    }
   }
 
   &__block-type {
@@ -45,6 +71,27 @@
 
   &__figure--active {
     border: 1px solid var(--brand-color--light);
+  }
+
+  &__figure--not-supported {
+    border: 1px solid red;
+    color: red;
+    padding: 1rem;
+  }
+
+  &__figure-focus-input-label {
+    color: black;
+    position: absolute;
+    height: 25px;
+    left: -4.2rem;
+    width: 4rem;
+    border-right: 1px solid;
+    padding-right: 0.7rem;
+  }
+
+  &__figure-focus-input-text {
+    float: right;
+    font-size: 0.9rem;
   }
 }
 

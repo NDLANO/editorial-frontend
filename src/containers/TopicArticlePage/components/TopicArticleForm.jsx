@@ -18,10 +18,7 @@ import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 
 import converter from '../../../util/articleContentConverter';
-import {
-  createEditorStateFromText,
-  getPlainTextFromEditorState,
-} from '../../../util/draftjsHelpers';
+
 import { parseEmbedTag } from '../../../util/embedTagHelpers';
 
 import TopicArticleMetadata from './TopicArticleMetadata';
@@ -40,7 +37,7 @@ export const getInitialModel = (article = {}) => {
     revision: article.revision,
     updated: article.updated,
     title: article.title || '',
-    introduction: createEditorStateFromText(article.introduction),
+    introduction: converter.toPlainSlateEditorState(article.introduction, true),
     content: converter.toSlateEditorState(article.content),
     tags: article.tags || [],
     authors: article.copyright
@@ -49,7 +46,10 @@ export const getInitialModel = (article = {}) => {
     copyright: article.copyright
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
-    metaDescription: createEditorStateFromText(article.metaDescription) || '',
+    metaDescription: converter.toPlainSlateEditorState(
+      article.metaDescription,
+      true,
+    ),
     visualElementId: visualElement.id || '',
     visualElementCaption: visualElement.caption || '',
     visualElementAlt: visualElement.alt || '',
@@ -89,7 +89,7 @@ class TopicArticleForm extends Component {
       title: [{ title: model.title, language }],
       introduction: [
         {
-          introduction: getPlainTextFromEditorState(model.introduction),
+          introduction: converter.slateToText(model.introduction),
           language,
         },
       ],
@@ -108,7 +108,7 @@ class TopicArticleForm extends Component {
       ],
       metaDescription: [
         {
-          metaDescription: getPlainTextFromEditorState(model.metaDescription),
+          metaDescription: converter.slateToText(model.metaDescription),
           language,
         },
       ],

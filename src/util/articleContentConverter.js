@@ -9,7 +9,7 @@
 import React from 'react';
 import { convertFromHTML, convertToHTML } from 'draft-convert';
 import { EditorState } from 'draft-js';
-import { Html, Plain } from 'slate';
+import { Html, Raw, Plain } from 'slate';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
 
 function reduceAttributesArrayToObject(attributes) {
@@ -23,7 +23,30 @@ function reduceAttributesArrayToObject(attributes) {
   );
 }
 
-export const createEmptyState = () => Plain.deserialize('');
+export const createEmptyState = () =>
+  Raw.deserialize(
+    {
+      nodes: [
+        {
+          kind: 'block',
+          type: 'section',
+          nodes: [
+            {
+              kind: 'block',
+              type: 'paragraph',
+              nodes: [
+                {
+                  kind: 'text',
+                  text: '',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    { terse: true },
+  );
 
 function convertHTMLToEditorState(html) {
   const embeds = [];
@@ -114,9 +137,22 @@ function convertEditorStateToHTML(editorState) {
   return `<section>${html.replace(/<deleteme>a<\/deleteme>/g, '')}</section>`;
 }
 
+function convertTextToSlateEditorState(text, withDefaultPlainState = false) {
+  if (withDefaultPlainState) {
+    return text ? Plain.deserialize(text) : Plain.deserialize('');
+  }
+  return text ? Plain.deserialize(text) : undefined;
+}
+
+function convertSlateEditorStateToText(editorState) {
+  return editorState ? Plain.serialize(editorState) : '';
+}
+
 export default {
   toHtml: convertEditorStateToHTML,
   slateToHtml: convertSlateEditorStatetoHTML,
   toEditorState: convertHTMLToEditorState,
   toSlateEditorState: convertHTMLToSlateEditorState,
+  toPlainSlateEditorState: convertTextToSlateEditorState,
+  slateToText: convertSlateEditorStateToText,
 };

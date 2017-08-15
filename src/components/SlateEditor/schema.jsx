@@ -1,13 +1,6 @@
 import React from 'react';
 import { Block } from 'slate';
-import DisplayEmbedTag from '../DisplayEmbedTag/DisplayEmbedTag';
-
-const getSchemaEmbedTag = props => ({
-  caption: props.node.get('data').get('caption'),
-  alt: props.node.get('data').get('alt'),
-  id: props.node.get('data').get('id'),
-  resource: props.node.get('data').get('resource'),
-});
+import SlateFigure from './SlateFigure';
 
 const defaultBlock = {
   type: 'paragraph',
@@ -18,19 +11,7 @@ const defaultBlock = {
 /* eslint-disable react/prop-types */
 export const schema = {
   nodes: {
-    embed: props => {
-      const { state, node } = props;
-      const active = state.isFocused && state.selection.hasEdgeIn(node);
-      const className = active
-        ? 'c-editor__figure c-editor__figure--active'
-        : 'c-editor__figure';
-      return (
-        <DisplayEmbedTag
-          embedTag={getSchemaEmbedTag(props)}
-          className={className}
-        />
-      );
-    },
+    embed: SlateFigure,
     section: props =>
       <section {...props.attributes}>
         {props.children}

@@ -73,6 +73,27 @@
   &__figure--active {
     border: 1px solid var(--brand-color--light);
   }
+
+  &__figure--not-supported {
+    border: 1px solid red;
+    color: red;
+    padding: 1rem;
+  }
+
+  &__figure-focus-input-label {
+    color: black;
+    position: absolute;
+    height: 25px;
+    left: -4.2rem;
+    width: 4rem;
+    border-right: 1px solid;
+    padding-right: 0.7rem;
+  }
+
+  &__figure-focus-input-text {
+    float: right;
+    font-size: 0.9rem;
+  }
 }
 
 .c-block {

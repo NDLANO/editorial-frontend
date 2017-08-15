@@ -8,12 +8,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { RichTextEditor, PlainTextEditor } from 'ndla-editor';
 import { uuid } from 'ndla-util';
 import BEMHelper from 'react-bem-helper';
 import MultiSelect from './MultiSelect';
 import { isEmpty } from './validators';
-import SlateEditor from '../components/SlateEditor/SlateEditor';
+import RichTextEditor from '../components/SlateEditor/RichTextEditor';
+import PlainTextEditor from '../components/SlateEditor/PlainTextEditor';
+import RichBlockTextEditor from '../components/SlateEditor/RichBlockTextEditor';
 
 export const classes = new BEMHelper({
   name: 'field',
@@ -288,59 +289,6 @@ TextAreaField.propTypes = {
   getMaxLengthRemaingLabel: PropTypes.func,
 };
 
-export const RichTextField = ({
-  bindInput,
-  name,
-  label,
-  noBorder,
-  submitted,
-  schema,
-  ...rest
-}) => {
-  const { value, onChange } = bindInput(name);
-  return (
-    <Field noBorder={noBorder}>
-      {!noBorder
-        ? <label htmlFor={name}>
-            {label}
-          </label>
-        : <label className="u-hidden" htmlFor={name}>
-            {label}
-          </label>}
-      {noBorder &&
-        <FocusLabel
-          name={name}
-          hasFocus={() => value.getSelection().hasFocus}
-          value={value}>
-          {label}
-        </FocusLabel>}
-      <RichTextEditor
-        id={name}
-        onChange={val =>
-          onChange({ target: { name, value: val, type: 'EditorState' } })}
-        value={value}
-        {...rest}
-      />
-      <FieldErrorMessages
-        label={label}
-        field={schema.fields[name]}
-        submitted={submitted}
-      />
-    </Field>
-  );
-};
-
-RichTextField.propTypes = {
-  bindInput: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  schema: PropTypes.shape({
-    fields: PropTypes.object.isRequired,
-  }),
-  noBorder: PropTypes.bool,
-  submitted: PropTypes.bool.isRequired,
-};
-
 export const PlainTextField = ({
   bindInput,
   name,
@@ -367,7 +315,7 @@ export const PlainTextField = ({
       {noBorder &&
         <FocusLabel
           name={name}
-          hasFocus={() => value.getSelection().hasFocus}
+          hasFocus={() => value.selection.isFocused}
           value={value}>
           {label}
         </FocusLabel>}
@@ -383,7 +331,9 @@ export const PlainTextField = ({
         <PlainTextEditor
           id={name}
           onChange={val =>
-            onChange({ target: { name, value: val, type: 'EditorState' } })}
+            onChange({
+              target: { name, value: val, type: 'SlateEditorState' },
+            })}
           value={value}
           {...rest}
         />
@@ -451,7 +401,7 @@ MultiSelectField.propTypes = {
   submitted: PropTypes.bool.isRequired,
 };
 
-export const RichBlockSlateField = ({
+export const RichBlockTextField = ({
   bindInput,
   name,
   label,
@@ -480,7 +430,7 @@ export const RichBlockSlateField = ({
             {`${label} Blokk ${i + 1}`}
           </FocusLabel>,
         )}
-      <SlateEditor
+      <RichBlockTextEditor
         id={name}
         name={name}
         value={value}
@@ -496,7 +446,7 @@ export const RichBlockSlateField = ({
   );
 };
 
-RichBlockSlateField.propTypes = {
+RichBlockTextField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
@@ -507,7 +457,7 @@ RichBlockSlateField.propTypes = {
   submitted: PropTypes.bool.isRequired,
 };
 
-export const RichTextSlateField = ({
+export const RichTextField = ({
   bindInput,
   name,
   label,
@@ -534,7 +484,7 @@ export const RichTextSlateField = ({
           value={value}>
           {label}
         </FocusLabel>}
-      <SlateEditor
+      <RichTextEditor
         id={name}
         name={name}
         value={value}
@@ -550,7 +500,7 @@ export const RichTextSlateField = ({
   );
 };
 
-RichTextSlateField.propTypes = {
+RichTextField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,

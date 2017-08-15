@@ -17,10 +17,6 @@ import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import converter from '../../../util/articleContentConverter';
-import {
-  createEditorStateFromText,
-  getPlainTextFromEditorState,
-} from '../../../util/draftjsHelpers';
 import { parseEmbedTag } from '../../../util/embedTagHelpers';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
@@ -46,7 +42,7 @@ export const getInitialModel = (article = {}) => {
     id: article.id,
     revision: article.revision,
     title: article.title || '',
-    introduction: createEditorStateFromText(article.introduction),
+    introduction: converter.toPlainSlateEditorState(article.introduction),
     content: converter.toSlateEditorState(article.content, true),
     tags: article.tags || [],
     authors: parseCopyrightAuthors(article, 'Forfatter'),
@@ -59,7 +55,10 @@ export const getInitialModel = (article = {}) => {
     license: article.copyright
       ? article.copyright.license.license
       : DEFAULT_LICENSE.license,
-    metaDescription: createEditorStateFromText(article.metaDescription) || '',
+    metaDescription: converter.toPlainSlateEditorState(
+      article.metaDescription,
+      true,
+    ),
     metaImageId: metaImage.id || '',
     metaImageCaption: metaImage.caption || '',
     metaImageAlt: metaImage.alt || '',
@@ -109,7 +108,7 @@ class LearningResourceForm extends Component {
       title: [{ title: model.title, language }],
       introduction: [
         {
-          introduction: getPlainTextFromEditorState(model.introduction),
+          introduction: converter.slateToText(model.introduction),
           language,
         },
       ],
@@ -125,7 +124,7 @@ class LearningResourceForm extends Component {
       ],
       metaDescription: [
         {
-          metaDescription: getPlainTextFromEditorState(model.metaDescription),
+          metaDescription: converter.slateToText(model.metaDescription),
           language,
         },
       ],

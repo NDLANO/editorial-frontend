@@ -11,7 +11,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
-import { Plain } from 'slate'
+import { Plain } from 'slate';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
@@ -56,7 +56,10 @@ export const getInitialModel = (article = {}) => {
     license: article.copyright
       ? article.copyright.license.license
       : DEFAULT_LICENSE.license,
-    metaDescription: converter.toPlainSlateEditorState(article.metaDescription) || Plain.deserialize(''),
+    metaDescription: converter.toPlainSlateEditorState(
+      article.metaDescription,
+      true,
+    ),
     metaImageId: metaImage.id || '',
     metaImageCaption: metaImage.caption || '',
     metaImageAlt: metaImage.alt || '',

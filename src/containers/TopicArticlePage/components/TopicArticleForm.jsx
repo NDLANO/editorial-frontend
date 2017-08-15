@@ -37,7 +37,7 @@ export const getInitialModel = (article = {}) => {
     revision: article.revision,
     updated: article.updated,
     title: article.title || '',
-    introduction: converter.toPlainSlateEditorState(article.introduction),
+    introduction: converter.toPlainSlateEditorState(article.introduction, true),
     content: converter.toSlateEditorState(article.content),
     tags: article.tags || [],
     authors: article.copyright
@@ -46,8 +46,10 @@ export const getInitialModel = (article = {}) => {
     copyright: article.copyright
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
-    metaDescription:
-      converter.toPlainSlateEditorState(article.metaDescription) || '',
+    metaDescription: converter.toPlainSlateEditorState(
+      article.metaDescription,
+      true,
+    ),
     visualElementId: visualElement.id || '',
     visualElementCaption: visualElement.caption || '',
     visualElementAlt: visualElement.alt || '',

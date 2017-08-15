@@ -16,23 +16,20 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const SlateInputLabel = ({ label, name, focus, value }) => {
+const SlateInputLabel = ({ label, focus, value }) => {
   if (!focus || isEmpty(value)) {
     return null;
   }
   return (
     <div {...classes('figure-focus-input-label')}>
       <span {...classes('figure-focus-input-text')}>
-        <label htmlFor={name}>
-          {label}
-        </label>
+        {label}
       </span>
     </div>
   );
 };
 
 SlateInputLabel.propTypes = {
-  name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   focus: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
@@ -66,12 +63,7 @@ class SlateInputField extends React.Component {
 
     return (
       <div>
-        <SlateInputLabel
-          name={name}
-          label={label}
-          value={value}
-          focus={this.state.focus}
-        />
+        <SlateInputLabel label={label} value={value} focus={this.state.focus} />
         <input
           id={name}
           name={name}

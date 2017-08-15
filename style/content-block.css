@@ -73,6 +73,7 @@
   &__figure--active {
     border: 1px solid var(--brand-color--light);
   }
+
   &__figure--not-supported {
     border: 1px solid red;
     color: red;
@@ -88,11 +89,10 @@
     border-right: 1px solid;
     padding-right: 0.7rem;
   }
+
   &__figure-focus-input-text {
     float: right;
-    & label {
-      font-size: 0.9rem;
-    }
+    font-size: 0.9rem;
   }
 }
 

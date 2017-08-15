@@ -9,7 +9,7 @@
 import React from 'react';
 import { convertFromHTML, convertToHTML } from 'draft-convert';
 import { EditorState } from 'draft-js';
-import { Html, Raw } from 'slate';
+import { Html, Raw, Plain } from 'slate';
 import { RULES } from '../util/slateHelpers';
 
 function reduceAttributesArrayToObject(attributes) {

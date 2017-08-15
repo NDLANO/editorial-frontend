@@ -11,7 +11,6 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
-import { Plain } from 'slate';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';

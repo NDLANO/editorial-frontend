@@ -86,7 +86,6 @@ SlateInputField.propTypes = {
   }),
   value: PropTypes.string.isRequired,
   className: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,

@@ -212,6 +212,14 @@ const phrases = {
       content: {
         label: 'Content',
         placeholder: 'Write here...',
+        figure: {
+          caption: {
+            brightcove: 'Video caption',
+            image: 'Image caption',
+          },
+          alt: 'Alt text',
+          notSupported: 'Media type {mediaType} is not supported.',
+        },
       },
       tags: {
         label: 'Tags',

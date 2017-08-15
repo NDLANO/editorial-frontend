@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
+import { injectT } from 'ndla-i18n';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 
@@ -59,17 +60,16 @@ class SlateFigure extends React.Component {
   }
 
   render() {
-    const className = classes('figure', this.isSelected() ? 'active' : '');
+    const figureClass = classes('figure', this.isSelected() ? 'active' : '');
 
     const embedTag = this.getSchemaEmbedTag();
-
     switch (embedTag.resource) {
       case 'image':
         return (
           <SlateImage
             embedTag={embedTag}
             onFigureInputChange={this.onFigureInputChange}
-            {...className}
+            figureClass={figureClass}
             {...this.props}
           />
         );
@@ -77,7 +77,7 @@ class SlateFigure extends React.Component {
         return (
           <SlateVideo
             embedTag={embedTag}
-            {...className}
+            figureClass={figureClass}
             onFigureInputChange={this.onFigureInputChange}
             {...this.props}
           />
@@ -87,7 +87,12 @@ class SlateFigure extends React.Component {
           <div
             {...classes('figure', 'not-supported')}
             {...this.props.attributes}>
-            <span>{`Media type ${embedTag.resource} is not supported yet.`}</span>
+            <span>
+              {this.props.t(
+                'learningResourceForm.fields.content.figure.notSupported',
+                { mediaType: embedTag.resource },
+              )}
+            </span>
           </div>
         );
     }
@@ -114,4 +119,4 @@ SlateFigure.defaultProps = {
   className: '',
 };
 
-export default SlateFigure;
+export default injectT(SlateFigure);

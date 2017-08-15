@@ -9,13 +9,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
+import { injectT } from 'ndla-i18n';
 import SlateInputField from './SlateInputField';
 
 const SlateVideo = ({
   embedTag,
-  className,
+  figureClass,
   onFigureInputChange,
   attributes,
+  t,
 }) => {
   if (!embedTag || !embedTag.id) {
     return null;
@@ -26,7 +28,7 @@ const SlateVideo = ({
     .brightcovePlayerId}_default/index.min.js`;
   return (
     <div {...attributes}>
-      <figure className={className}>
+      <figure className={figureClass}>
         <Helmet>
           <script src={src} type="text/javascript" />
         </Helmet>
@@ -43,11 +45,15 @@ const SlateVideo = ({
       </figure>
       <SlateInputField
         name="caption"
-        label="caption"
+        label={t(
+          'learningResourceForm.fields.content.figure.caption.brightcove',
+        )}
         type="text"
         value={embedTag.caption}
         onChange={onFigureInputChange}
-        placeholder="caption"
+        placeholder={t(
+          'learningResourceForm.fields.content.figure.caption.brightcove',
+        )}
       />
     </div>
   );
@@ -60,11 +66,11 @@ SlateVideo.propTypes = {
     id: PropTypes.string.isRequired,
     resource: PropTypes.string.isRequired,
   }),
-  className: PropTypes.string,
+  figureClass: PropTypes.object.isRequired,
   onFigureInputChange: PropTypes.func.isRequired,
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
 };
 
-export default SlateVideo;
+export default injectT(SlateVideo);

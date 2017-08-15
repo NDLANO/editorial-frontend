@@ -223,6 +223,14 @@ const phrases = {
       content: {
         label: 'Innhold',
         placeholder: 'Innhold',
+        figure: {
+          caption: {
+            brightcove: 'Videotekst',
+            image: 'Bildetekst',
+          },
+          alt: 'Alt tekst',
+          notSupported: 'Mediatype {mediaType} er ikke støttet.',
+        },
       },
       tags: {
         label: 'Nøkkelord',

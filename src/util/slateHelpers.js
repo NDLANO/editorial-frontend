@@ -259,6 +259,7 @@ const topicArticeEmbedRule = [
         kind: 'block',
         type: 'embed',
         data: getEmbedTag(el),
+        isVoid: true,
       };
     },
     serialize(object) {
@@ -281,6 +282,7 @@ const learningResourceEmbedRule = [
         kind: 'block',
         type: 'embed',
         data: getEmbedTag(el),
+        isVoid: true,
       };
     },
     serialize(object) {

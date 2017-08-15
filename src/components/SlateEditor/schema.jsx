@@ -20,13 +20,13 @@ const defaultBlock = {
 /* eslint-disable react/prop-types */
 const topicArticleItems = {
   nodes: {
-    embed: <SlateFigure deletedOnSave />,
+    embed: props => <SlateFigure deletedOnSave {...props} />,
   },
 };
 
 const learningResourceItems = {
   nodes: {
-    embed: <SlateFigure />,
+    embed: SlateFigure,
   },
 };
 

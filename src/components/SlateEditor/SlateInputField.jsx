@@ -60,7 +60,9 @@ class SlateInputField extends React.Component {
 
   render() {
     const { label, name, value, ...rest } = this.props;
-
+    if (rest.deletedOnSave) {
+      return null;
+    }
     return (
       <div>
         <SlateInputLabel label={label} value={value} focus={this.state.focus} />

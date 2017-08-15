@@ -31,6 +31,10 @@ const SlateImage = props => {
     <div {...attributes}>
       <figure {...figureClass}>
         <img src={src} alt={embedTag.alt} />
+        {deletedOnSave &&
+          <ForbiddenOverlay
+            text={t('topicArticleForm.fields.content.deleteEmbedOnSave')}
+          />}
       </figure>
       <SlateInputField
         name="caption"
@@ -41,6 +45,7 @@ const SlateImage = props => {
         placeholder={t(
           'learningResourceForm.fields.content.figure.caption.image',
         )}
+        deletedOnSave={deletedOnSave}
       />
       <SlateInputField
         name="alt"
@@ -49,11 +54,8 @@ const SlateImage = props => {
         value={embedTag.alt}
         onChange={onFigureInputChange}
         placeholder={t('learningResourceForm.fields.content.figure.alt')}
+        deletedOnSave={deletedOnSave}
       />
-      {deletedOnSave &&
-        <ForbiddenOverlay
-          text={t('topicArticleForm.fields.content.deleteEmbedOnSave')}
-        />}
     </div>
   );
 };

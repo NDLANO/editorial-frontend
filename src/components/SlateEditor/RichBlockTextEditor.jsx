@@ -12,7 +12,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate';
 import BEMHelper from 'react-bem-helper';
-import { schema } from './schema';
 import SlateBlockPicker from './plugins/SlateBlockPicker';
 
 const classes = new BEMHelper({
@@ -47,6 +46,7 @@ class RichBlockTextEditor extends Component {
 
   render() {
     const {
+      schema,
       children,
       className,
       value,
@@ -89,6 +89,7 @@ class RichBlockTextEditor extends Component {
 }
 
 RichBlockTextEditor.propTypes = {
+  schema: PropTypes.shape({}),
   onChange: PropTypes.func.isRequired,
   ingressRef: PropTypes.shape({
     scrollIntoView: PropTypes.func.isRequired,

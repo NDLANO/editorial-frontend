@@ -32,6 +32,7 @@ export const getInitialModel = (audio = {}) => {
     language: audio.language,
     title: audio.title || '',
     audioFile: audio.audioFile,
+    filepath: '',
     tags: audio.tags || [],
     authors,
     origin:

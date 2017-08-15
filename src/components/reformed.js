@@ -83,13 +83,19 @@ const makeWrapper = WrappedComponent => {
         this.setProperty(name, value, value.getCurrentContent().hasText()); // Only set dirty flag if text has changed
       } else if (type === 'file') {
         const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = res =>
-          this.setProperty(name, {
-            file,
-            url: res.target.result,
-          });
-        reader.readAsDataURL(file);
+        if (file.type.search('audio') === -1) {
+          const reader = new FileReader();
+          reader.onload = res => {
+            this.setProperty(name, {
+              file,
+              url: res.target.result,
+            });
+          };
+          reader.readAsDataURL(file);
+        } else {
+          this.setProperty(name, file);
+          this.setProperty('filepath', URL.createObjectURL(file));
+        }
       } else if (type === 'SlateEditorState') {
         // console.log('y0y00')
         this.setProperty(name, value); // TODO: Handle dirty flag with SlateEditorState

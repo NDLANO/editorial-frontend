@@ -33,10 +33,7 @@ export const getInitialModel = (image = {}) => {
     title: image.title || '',
     alttext: image.alttext || '',
     caption: image.caption || '',
-    imageFile: {
-      file: image.imageFile,
-      url: image.imageUrl,
-    },
+    imageFile: image.imageUrl,
     tags: image.tags || [],
     authors,
     origin:
@@ -91,7 +88,7 @@ class ImageForm extends Component {
         authors: model.authors.map(name => ({ type: 'Forfatter', name })),
       },
     };
-    onUpdate(imageMetaData, model.imageFile.file);
+    onUpdate(imageMetaData, model.imageFile);
   }
 
   render() {

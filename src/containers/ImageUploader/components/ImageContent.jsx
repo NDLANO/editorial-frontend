@@ -49,7 +49,7 @@ class ImageContent extends Component {
           {...commonFieldProps}
         />
         {model.imageFile &&
-          <img src={model.imageFile.url} alt="" height="500" />}
+          <img src={model.filepath || model.imageFile} alt="" height="500" />}
         <TextField
           placeholder={t(`imageForm.fields.caption.placeholder`)}
           label={t(`imageForm.fields.caption.label`)}
@@ -83,12 +83,6 @@ ImageContent.propTypes = {
   bindInput: PropTypes.func.isRequired,
   model: PropTypes.shape({
     id: PropTypes.string,
-    imageFile: PropTypes.shape({
-      fileSize: PropTypes.number,
-      language: PropTypes.string,
-      mimeType: PropTypes.string,
-      url: PropTypes.string,
-    }),
   }),
 };
 

@@ -8,10 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
-import ForbiddenOverlay from '../ForbiddenOverlay';
 
-const DisplayImageTag = ({ embedTag, className, deletedOnSave, t }) => {
+const DisplayImageTag = ({ embedTag, className }) => {
   if (!embedTag || !embedTag.id) {
     return null;
   }
@@ -22,10 +20,6 @@ const DisplayImageTag = ({ embedTag, className, deletedOnSave, t }) => {
       <figcaption>
         {embedTag.caption}
       </figcaption>
-      {deletedOnSave &&
-        <ForbiddenOverlay
-          text={t('topicArticleForm.fields.content.deleteEmbedOnSave')}
-        />}
     </figure>
   );
 };
@@ -38,7 +32,6 @@ DisplayImageTag.propTypes = {
     resource: PropTypes.string.isRequired,
   }),
   className: PropTypes.string,
-  deletedOnSave: PropTypes.bool,
 };
 
-export default injectT(DisplayImageTag);
+export default DisplayImageTag;

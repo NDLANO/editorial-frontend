@@ -11,12 +11,14 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
 import SlateInputField from './SlateInputField';
+import ForbiddenOverlay from '../ForbiddenOverlay';
 
 const SlateVideo = ({
   embedTag,
   figureClass,
   onFigureInputChange,
   attributes,
+  deletedOnSave,
   t,
 }) => {
   if (!embedTag || !embedTag.id) {
@@ -55,6 +57,10 @@ const SlateVideo = ({
           'learningResourceForm.fields.content.figure.caption.brightcove',
         )}
       />
+      {deletedOnSave &&
+        <ForbiddenOverlay
+          text={t('topicArticleForm.fields.content.deleteEmbedOnSave')}
+        />}
     </div>
   );
 };
@@ -71,6 +77,7 @@ SlateVideo.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
+  deletedOnSave: PropTypes.bool,
 };
 
 export default injectT(SlateVideo);

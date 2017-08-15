@@ -8,8 +8,8 @@
 
 import React from 'react';
 import { Block } from 'slate';
-import SlateFigure from './SlateFigure';
 import merge from 'lodash/merge';
+import SlateFigure from './SlateFigure';
 
 const defaultBlock = {
   type: 'paragraph',
@@ -20,13 +20,13 @@ const defaultBlock = {
 /* eslint-disable react/prop-types */
 const topicArticleItems = {
   nodes: {
-    embed: props => <SlateFigure deletedOnSave />,
+    embed: <SlateFigure deletedOnSave />,
   },
 };
 
 const learningResourceItems = {
   nodes: {
-    embed: props => <SlateFigure />,
+    embed: <SlateFigure />,
   },
 };
 

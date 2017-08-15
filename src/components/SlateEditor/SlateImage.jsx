@@ -10,9 +10,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import SlateInputField from './SlateInputField';
+import ForbiddenOverlay from '../ForbiddenOverlay';
 
 const SlateImage = props => {
-  const { embedTag, figureClass, attributes, onFigureInputChange, t } = props;
+  const {
+    embedTag,
+    figureClass,
+    attributes,
+    onFigureInputChange,
+    deletedOnSave,
+    t,
+  } = props;
 
   if (!embedTag || !embedTag.id) {
     return null;
@@ -42,6 +50,10 @@ const SlateImage = props => {
         onChange={onFigureInputChange}
         placeholder={t('learningResourceForm.fields.content.figure.alt')}
       />
+      {deletedOnSave &&
+        <ForbiddenOverlay
+          text={t('topicArticleForm.fields.content.deleteEmbedOnSave')}
+        />}
     </div>
   );
 };
@@ -58,6 +70,7 @@ SlateImage.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
+  deletedOnSave: PropTypes.bool,
 };
 
 export default injectT(SlateImage);

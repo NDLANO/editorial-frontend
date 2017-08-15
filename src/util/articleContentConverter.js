@@ -49,6 +49,7 @@ function convertHTMLToEditorState(html) {
   return EditorState.createWithContent(contentState);
 }
 
+
 // TODO: Find a better way to extract each section into an array.
 function extractSections(html) {
   return html

@@ -9,7 +9,7 @@
 import React from 'react';
 import { convertFromHTML, convertToHTML } from 'draft-convert';
 import { EditorState } from 'draft-js';
-import { Html, Plain } from 'slate';
+import { Html, Raw } from 'slate';
 import { RULES } from '../util/slateHelpers';
 
 function reduceAttributesArrayToObject(attributes) {
@@ -23,7 +23,30 @@ function reduceAttributesArrayToObject(attributes) {
   );
 }
 
-export const createEmptyState = () => Plain.deserialize('');
+export const createEmptyState = () =>
+  Raw.deserialize(
+    {
+      nodes: [
+        {
+          kind: 'block',
+          type: 'section',
+          nodes: [
+            {
+              kind: 'block',
+              type: 'paragraph',
+              nodes: [
+                {
+                  kind: 'text',
+                  text: '',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    { terse: true },
+  );
 
 function convertHTMLToEditorState(html) {
   const embeds = [];

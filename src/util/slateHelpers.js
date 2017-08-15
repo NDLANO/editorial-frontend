@@ -229,6 +229,7 @@ export const RULES = [
       return {
         kind: 'block',
         type: 'embed',
+        isVoid: true,
         data: getEmbedTag(el),
       };
     },

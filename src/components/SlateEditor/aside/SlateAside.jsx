@@ -14,14 +14,15 @@ const SlateAside = props => {
   const { node } = props;
 
   const type = node.get('data').get('type');
-
   switch (type) {
     case 'rightAside':
       return <SlateRightAside {...props} />;
     default: {
       return (
-        <aside className="c-aside" {...props.attributes}>
-          {props.children}
+        <aside className="c-aside expanded" {...props.attributes}>
+          <div className="c-aside__content">
+            {props.children}
+          </div>
         </aside>
       );
     }

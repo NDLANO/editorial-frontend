@@ -12,7 +12,7 @@ import merge from 'lodash/merge';
 import SlateFigure from './SlateFigure';
 import SlateAside from './aside/SlateAside';
 
-const defaultBlock = {
+export const defaultBlock = {
   type: 'paragraph',
   isVoid: false,
   data: {},
@@ -137,6 +137,19 @@ const defaultSchema = {
       validate: document => {
         const lastNode = document.nodes.last();
         return lastNode && lastNode.isVoid ? true : null;
+      },
+      normalize: (transform, document) => {
+        const block = Block.create(defaultBlock);
+        transform.insertNodeByKey(document.key, document.nodes.size, block);
+      },
+    },
+    // Rule to insert a paragraph below a node with type aside if that node is the last node
+    // in the document
+    {
+      match: node => node.kind === 'block' && node.type === 'section',
+      validate: document => {
+        const lastNode = document.nodes.last();
+        return lastNode && lastNode.type === 'aside' ? true : null;
       },
       normalize: (transform, document) => {
         const block = Block.create(defaultBlock);

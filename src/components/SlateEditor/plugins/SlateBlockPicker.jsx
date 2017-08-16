@@ -7,12 +7,13 @@
  */
 
 import React, { Component } from 'react';
-import { Plain } from 'slate';
+import { Plain, Block } from 'slate';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
-import { Cross, Plus } from 'ndla-ui/icons';
+import { Cross, Plus, InsertTemplate } from 'ndla-ui/icons';
 import { createEmptyState } from '../../../util/articleContentConverter';
+import { defaultBlock } from '../schema';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -30,7 +31,7 @@ class SlateBlockPicker extends Component {
   }
 
   onElementAdd(type) {
-    const { blocks, onChange, ingress, ingressRef } = this.props;
+    const { blocks, onChange, ingress, ingressRef, index } = this.props;
     switch (type) {
       case 'block': {
         const newblocks = [].concat(blocks);
@@ -49,6 +50,25 @@ class SlateBlockPicker extends Component {
           target: {
             name: ingress.name,
             value: Plain.deserialize(''),
+          },
+        });
+        break;
+      }
+      case 'factAside': {
+        const newblocks = [].concat(blocks);
+        const currentState = blocks[index];
+        const factAsideBlock = Block.create({
+          data: {type: 'factAside'},
+          isVoid: false,
+          type: 'aside',
+          nodes: Block.createList([defaultBlock]),
+        })
+        const nextState = currentState.state.transform().insertBlock(factAsideBlock).apply();
+        newblocks[index] = {...newblocks[index], state: nextState};
+        onChange({
+          target: {
+            name: 'content',
+            value: newblocks,
           },
         });
         break;
@@ -92,6 +112,12 @@ class SlateBlockPicker extends Component {
             {...classes('block-type-button')}
             onClick={() => this.onElementAdd('block')}>
             ...
+          </Button>
+          <Button
+            stripped
+            {...classes('block-type-button')}
+            onClick={() => this.onElementAdd('factAside')}>
+            <InsertTemplate />
           </Button>
         </div>
       </div>

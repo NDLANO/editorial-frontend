@@ -48,7 +48,7 @@ SlateRightAside.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   node: PropTypes.shape({
-    key: PropTypes.number.isRequired,
+    key: PropTypes.string.isRequired,
   }),
   editor: PropTypes.shape({
     onChange: PropTypes.func.isRequired,

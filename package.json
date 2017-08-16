@@ -90,7 +90,7 @@
     "ndla-i18n": "^0.0.2",
     "ndla-image-search": "^0.1.2",
     "ndla-licenses": "^0.0.9",
-    "ndla-ui": "^0.7.6",
+    "ndla-ui": "^0.7.12",
     "ndla-util": "^0.1.4",
     "ndla-video-search": "^0.1.6",
     "prop-types": "^15.5.10",

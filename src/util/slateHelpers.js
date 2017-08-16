@@ -71,7 +71,7 @@ const setAsideTag = data => ({
 });
 /* eslint-disable consistent-return, default-case */
 
-export const RULES = [
+const RULES = [
   {
     // empty text nodes
     deserialize(el) {
@@ -264,27 +264,6 @@ export const RULES = [
     },
   },
   {
-    // Embeds handling
-    deserialize(el) {
-      if (el.tagName.toLowerCase() !== 'embed') return;
-      return {
-        kind: 'block',
-        type: 'embed',
-        isVoid: true,
-        data: getEmbedTag(el),
-      };
-    },
-    serialize(object) {
-      if (object.kind !== 'block') return;
-      if (object.type !== 'embed') return;
-      const embedTags = setEmbedTag(object.data);
-      switch (object.type) {
-        case 'embed':
-          return <embed {...embedTags} />;
-      }
-    },
-  },
-  {
     // Special case for links, to grab their href.
     deserialize(el, next) {
       if (el.tagName.toLowerCase() !== 'a') return;
@@ -311,3 +290,53 @@ export const RULES = [
     },
   },
 ];
+
+const topicArticeEmbedRule = [
+  {
+    // Embeds handling
+    deserialize(el) {
+      if (el.tagName.toLowerCase() !== 'embed') return;
+      return {
+        kind: 'block',
+        type: 'embed',
+        data: getEmbedTag(el),
+        isVoid: true,
+      };
+    },
+    serialize(object) {
+      if (object.kind !== 'block') return;
+      if (object.type !== 'embed') return;
+      switch (object.type) {
+        case 'embed':
+          return <deleteme />;
+      }
+    },
+  },
+];
+
+const learningResourceEmbedRule = [
+  {
+    // Embeds handling
+    deserialize(el) {
+      if (el.tagName.toLowerCase() !== 'embed') return;
+      return {
+        kind: 'block',
+        type: 'embed',
+        data: getEmbedTag(el),
+        isVoid: true,
+      };
+    },
+    serialize(object) {
+      if (object.kind !== 'block') return;
+      if (object.type !== 'embed') return;
+      const embedTags = setEmbedTag(object.data);
+      switch (object.type) {
+        case 'embed':
+          return <embed {...embedTags} />;
+      }
+    },
+  },
+];
+
+export const topicArticeRules = topicArticeEmbedRule.concat(RULES);
+export const learningResourceRules = learningResourceEmbedRule.concat(RULES);

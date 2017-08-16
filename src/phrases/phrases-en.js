@@ -110,6 +110,8 @@ const phrases = {
       content: {
         label: 'Content',
         placeholder: 'Write here...',
+        deleteEmbedOnSave:
+          'WARNING: Figure in content block will be removed on save',
       },
       tags: {
         label: 'Tags',

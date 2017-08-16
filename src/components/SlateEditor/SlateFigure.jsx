@@ -12,6 +12,7 @@ import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
+import ForbiddenOverlay from '../ForbiddenOverlay';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -93,6 +94,12 @@ class SlateFigure extends React.Component {
                 { mediaType: embedTag.resource },
               )}
             </span>
+            {this.props.deletedOnSave &&
+              <ForbiddenOverlay
+                text={this.props.t(
+                  'topicArticleForm.fields.content.deleteEmbedOnSave',
+                )}
+              />}
           </div>
         );
     }
@@ -113,6 +120,7 @@ SlateFigure.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
+  deletedOnSave: PropTypes.bool,
 };
 
 SlateFigure.defaultProps = {

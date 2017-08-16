@@ -120,6 +120,8 @@ const phrases = {
       content: {
         label: 'Innhold',
         placeholder: 'Innhold',
+        deleteEmbedOnSave:
+          'ADVARSEL: Figur i innholdsblokk vil bli fjernet ved lagring',
       },
       tags: {
         label: 'Nøkkelord',

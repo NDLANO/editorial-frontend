@@ -43,6 +43,7 @@
     position: absolute;
     top: 1rem;
     right: 1rem;
+
     &:hover,
     &:focus {
       color: color(red blackness(+ 20%));

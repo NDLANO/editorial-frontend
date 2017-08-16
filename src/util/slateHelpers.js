@@ -63,7 +63,7 @@ const setEmbedTag = data => ({
 
 // TODO: get type of aside in here. Default should be rightAside since that is the only
 const getAsideTag = () => ({
-  type: 'rightAside'
+  type: 'rightAside',
 });
 
 const setAsideTag = data => ({
@@ -188,6 +188,12 @@ const RULES = [
             <blockquote>
               {children}
             </blockquote>
+          );
+        case 'div':
+          return (
+            <div>
+              {children}
+            </div>
           );
       }
     },

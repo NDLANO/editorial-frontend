@@ -100,7 +100,7 @@ const defaultSchema = {
     div: props =>
       <div {...props.attributes}>
         {props.children}
-      </div>
+      </div>,
   },
   marks: {
     bold: props =>
@@ -146,16 +146,18 @@ const defaultSchema = {
     // Rule to remove all empty text nodes that exists in the document
     {
       match: node => node.kind === 'block',
-      validate: (node) => {
-        const invalidChildren = node.nodes.filter((child) => child.kind === 'block' && child.type === "emptyTextNode");
-        return invalidChildren.size ? invalidChildren : null
+      validate: node => {
+        const invalidChildren = node.nodes.filter(
+          child => child.kind === 'block' && child.type === 'emptyTextNode',
+        );
+        return invalidChildren.size ? invalidChildren : null;
       },
       normalize: (transform, node, invalidChildren) => {
-        invalidChildren.forEach((child) => {
-          transform.removeNodeByKey(child.key)
+        invalidChildren.forEach(child => {
+          transform.removeNodeByKey(child.key);
         });
-        return transform
-      }
+        return transform;
+      },
     },
   ],
 };

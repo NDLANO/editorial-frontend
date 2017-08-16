@@ -8,7 +8,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
 import SlateRightAside from './SlateRightAside';
 
 const SlateAside = props => {
@@ -21,7 +20,9 @@ const SlateAside = props => {
       return <SlateRightAside {...props} />;
     default: {
       return (
-        <aside className="c-aside" {...props.attributes}>{props.children}</aside>
+        <aside className="c-aside" {...props.attributes}>
+          {props.children}
+        </aside>
       );
     }
   }
@@ -31,7 +32,9 @@ SlateAside.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  node: PropTypes.object.isRequired,
+  node: PropTypes.shape({
+    get: PropTypes.func.isRequired,
+  }),
 };
 
 export default SlateAside;

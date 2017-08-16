@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button} from 'ndla-ui'
+import { Button } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
 
 const classes = new BEMHelper({
@@ -16,7 +16,7 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const SlateRightAside = (props) => {
+const SlateRightAside = props => {
   const { children, node, editor } = props;
 
   const onRemoveClick = () => {
@@ -29,13 +29,18 @@ const SlateRightAside = (props) => {
   };
 
   return (
-    <aside {...classes("right-aside", "", "c-aside expanded")}>
+    <aside {...classes('right-aside', '', 'c-aside expanded')}>
       <div className="c-aside__content">
         {children}
       </div>
-      <Button stripped onClick={onRemoveClick} {...classes('delete-aside-button')}>X</Button>
+      <Button
+        stripped
+        onClick={onRemoveClick}
+        {...classes('delete-aside-button')}>
+        X
+      </Button>
     </aside>
-  )
+  );
 };
 
 SlateRightAside.propTypes = {
@@ -47,7 +52,7 @@ SlateRightAside.propTypes = {
   }),
   editor: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
-  })
+  }),
 };
 
 export default SlateRightAside;

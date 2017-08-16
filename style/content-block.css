@@ -30,6 +30,25 @@
     }
   }
 
+  &__right-aside {
+    margin: 0 -60% 0 0;
+    width: 50%;
+    float: right;
+    display: inline;
+    background-color: white;
+  }
+
+  &__delete-aside-button {
+    color: red;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    &:hover,
+    &:focus {
+      color: color(red blackness(+ 20%));
+    }
+  }
+
   &__block-type-container {
     margin-top: -30px;
     margin-left: -70px;

@@ -14,6 +14,7 @@ const BLOCK_TAGS = {
   h4: 'heading-four',
   h5: 'heading-five',
   h6: 'heading-six',
+  div: 'div',
 };
 
 const MARK_TAGS = {
@@ -60,9 +61,49 @@ const setEmbedTag = data => ({
   'data-resource_id': data.get('resource') === 'image' ? data.get('id') : '',
 });
 
+// TODO: get type of aside in here. Default should be rightAside since that is the only
+const getAsideTag = () => ({
+  type: 'rightAside'
+});
+
+const setAsideTag = data => ({
+  'data-type': data.get('type') || '',
+});
 /* eslint-disable consistent-return, default-case */
 
 export const RULES = [
+  {
+    // empty text nodes
+    deserialize(el) {
+      if (el.nodeName.toLowerCase() !== '#text') return;
+      if (el.textContent.trim().length !== 0) return;
+      return {
+        kind: 'block',
+        type: 'emptyTextNode',
+      };
+    },
+  },
+  {
+    // Aside handling
+    deserialize(el, next) {
+      if (el.tagName.toLowerCase() !== 'aside') return;
+      return {
+        kind: 'block',
+        type: 'aside',
+        nodes: next(el.childNodes),
+        data: getAsideTag(),
+      };
+    },
+    serialize(object, children) {
+      if (object.kind !== 'block') return;
+      if (object.type !== 'aside') return;
+      return (
+        <aside {...setAsideTag(object.data)}>
+          {children}
+        </aside>
+      );
+    },
+  },
   {
     deserialize(el, next) {
       const block = BLOCK_TAGS[el.tagName.toLowerCase()];

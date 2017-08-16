@@ -101,7 +101,7 @@ function convertHTMLToSlateEditorState(html, isBlocks = false) {
     const sections = extractSections(html);
     const serializer = new Html({ rules: RULES });
     contentState = sections.map((section, index) => ({
-      state: serializer.deserialize(section),
+      state: serializer.deserialize(section.replace(/\s\s+/g, '')),
       index,
     }));
   }

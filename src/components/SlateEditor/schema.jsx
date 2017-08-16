@@ -1,6 +1,7 @@
 import React from 'react';
 import { Block } from 'slate';
 import SlateFigure from './SlateFigure';
+import SlateAside from './aside/SlateAside';
 
 const defaultBlock = {
   type: 'paragraph',
@@ -16,6 +17,7 @@ export const schema = {
       <section {...props.attributes}>
         {props.children}
       </section>,
+    aside: SlateAside,
     paragraph: props =>
       <p className="c-block__paragraph" {...props.attributes}>
         {props.children}
@@ -75,6 +77,10 @@ export const schema = {
         </a>
       );
     },
+    div: props =>
+      <div {...props.attributes}>
+        {props.children}
+      </div>
   },
   marks: {
     bold: props =>
@@ -107,7 +113,7 @@ export const schema = {
     // Rule to insert a paragraph below a void node (the image) if that node is
     // the last one in the document.
     {
-      match: node => node.kind === 'document',
+      match: node => node.kind === 'block',
       validate: document => {
         const lastNode = document.nodes.last();
         return lastNode && lastNode.isVoid ? true : null;
@@ -116,6 +122,20 @@ export const schema = {
         const block = Block.create(defaultBlock);
         transform.insertNodeByKey(document.key, document.nodes.size, block);
       },
+    },
+    // Rule to remove all empty text nodes that exists in the document
+    {
+      match: node => node.kind === 'block',
+      validate: (node) => {
+        const invalidChildren = node.nodes.filter((child) => child.kind === 'block' && child.type === "emptyTextNode");
+        return invalidChildren.size ? invalidChildren : null
+      },
+      normalize: (transform, node, invalidChildren) => {
+        invalidChildren.forEach((child) => {
+          transform.removeNodeByKey(child.key)
+        });
+        return transform
+      }
     },
   ],
 };

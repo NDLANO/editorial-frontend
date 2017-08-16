@@ -12,7 +12,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate';
 import BEMHelper from 'react-bem-helper';
-import { schema } from './schema';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -20,7 +19,7 @@ const classes = new BEMHelper({
 });
 
 const RichTextEditor = props => {
-  const { children, className, value, name, onChange, ...rest } = props;
+  const { schema, children, className, value, name, onChange, ...rest } = props;
 
   return (
     <article>
@@ -41,6 +40,7 @@ const RichTextEditor = props => {
 };
 
 RichTextEditor.propTypes = {
+  schema: PropTypes.shape({}),
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,

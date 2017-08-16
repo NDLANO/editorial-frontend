@@ -15,6 +15,7 @@ const DisplayEmbedTag = ({ embedTag, className }) => {
   if (!embedTag) {
     return null;
   }
+
   switch (embedTag.resource) {
     case 'image':
       return <DisplayImageTag embedTag={embedTag} className={className} />;

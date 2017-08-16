@@ -18,6 +18,7 @@ import {
 } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
+import { topicArticleSchema } from '../../../components/SlateEditor/schema';
 
 const classes = new BEMHelper({
   name: 'topic-article-content',
@@ -66,6 +67,7 @@ class TopicArticleContent extends Component {
           placeholder={t('topicArticleForm.fields.title.label')}
           {...commonFieldProps}
         />
+        {/* TODO: Change to c-article-byline */}
         <div {...classes('info')}>
           {authors.map((author, i) => {
             if (authors.length === i + 1 || authors.length === 1) {
@@ -103,13 +105,9 @@ class TopicArticleContent extends Component {
           label={t('topicArticleForm.fields.content.label')}
           placeholder={t('topicArticleForm.fields.content.placeholder')}
           name="content"
+          slateSchema={topicArticleSchema}
           {...commonFieldProps}
         />
-        {/* <Editor
-          schema={schema}
-          state={this.state.state}
-          onChange={this.onChange}
-        /> */}
       </Accordion>
     );
   }

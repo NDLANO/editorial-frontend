@@ -13,6 +13,7 @@ import { injectT } from 'ndla-i18n';
 import { TextField, RichBlockTextField } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 import LearningResourceIngress from './LearningResourceIngress';
+import { learningResourceSchema } from '../../../components/SlateEditor/schema';
 
 class LearningResourceContent extends Component {
   constructor(props) {
@@ -72,6 +73,7 @@ class LearningResourceContent extends Component {
         </div>
         <RichBlockTextField
           noBorder
+          slateSchema={learningResourceSchema}
           label={t('learningResourceForm.fields.content.label')}
           placeholder={t('learningResourceForm.fields.content.placeholder')}
           name="content"

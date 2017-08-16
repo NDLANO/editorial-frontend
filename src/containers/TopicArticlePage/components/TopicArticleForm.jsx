@@ -82,6 +82,7 @@ class TopicArticleForm extends Component {
       setSubmitted(true);
       return;
     }
+
     this.props.onUpdate({
       id: model.id,
       revision,

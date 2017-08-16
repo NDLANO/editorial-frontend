@@ -11,12 +11,14 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
 import SlateInputField from './SlateInputField';
+import ForbiddenOverlay from '../ForbiddenOverlay';
 
 const SlateVideo = ({
   embedTag,
   figureClass,
   onFigureInputChange,
   attributes,
+  deletedOnSave,
   t,
 }) => {
   if (!embedTag || !embedTag.id) {
@@ -28,7 +30,7 @@ const SlateVideo = ({
     .brightcovePlayerId}_default/index.min.js`;
   return (
     <div {...attributes}>
-      <figure className={figureClass}>
+      <figure {...figureClass}>
         <Helmet>
           <script src={src} type="text/javascript" />
         </Helmet>
@@ -42,6 +44,10 @@ const SlateVideo = ({
           alt={embedTag.alt}>
           <track kind="captions" label={embedTag.caption} />
         </video>
+        {deletedOnSave &&
+          <ForbiddenOverlay
+            text={t('topicArticleForm.fields.content.deleteEmbedOnSave')}
+          />}
       </figure>
       <SlateInputField
         name="caption"
@@ -54,6 +60,7 @@ const SlateVideo = ({
         placeholder={t(
           'learningResourceForm.fields.content.figure.caption.brightcove',
         )}
+        deletedOnSave={deletedOnSave}
       />
     </div>
   );
@@ -71,6 +78,7 @@ SlateVideo.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
+  deletedOnSave: PropTypes.bool,
 };
 
 export default injectT(SlateVideo);

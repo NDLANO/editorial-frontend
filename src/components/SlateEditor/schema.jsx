@@ -1,5 +1,14 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import { Block } from 'slate';
+import merge from 'lodash/merge';
 import SlateFigure from './SlateFigure';
 
 const defaultBlock = {
@@ -9,9 +18,20 @@ const defaultBlock = {
 };
 
 /* eslint-disable react/prop-types */
-export const schema = {
+const topicArticleItems = {
+  nodes: {
+    embed: props => <SlateFigure deletedOnSave {...props} />,
+  },
+};
+
+const learningResourceItems = {
   nodes: {
     embed: SlateFigure,
+  },
+};
+
+const defaultSchema = {
+  nodes: {
     section: props =>
       <section {...props.attributes}>
         {props.children}
@@ -119,3 +139,9 @@ export const schema = {
     },
   ],
 };
+
+export const topicArticleSchema = merge(topicArticleItems, defaultSchema);
+export const learningResourceSchema = merge(
+  learningResourceItems,
+  defaultSchema,
+);

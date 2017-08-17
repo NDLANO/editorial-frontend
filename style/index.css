@@ -22,6 +22,7 @@
 @import './content-block.css';
 @import './alert.css';
 @import './accordion.css';
+@import './toolbar.css';
 
 .c-hero--alt {
   background-color: var(--brand-color--light);

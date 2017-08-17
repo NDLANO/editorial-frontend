@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { Editor } from 'slate';
 import BEMHelper from 'react-bem-helper';
 import SlateBlockPicker from './plugins/SlateBlockPicker';
+import SlateToolBar from './plugins/SlateToolBar';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -64,6 +65,13 @@ class RichBlockTextEditor extends Component {
             {...classes('container', className)}
             onClick={this.focus}
             tabIndex={index}>
+            <SlateToolBar
+              state={val.state}
+              onChange={onChange}
+              handleBlockContentChange={this.onContentChange}
+              index={index}
+              name={name}
+            />
             <Editor
               state={val.state}
               schema={schema}

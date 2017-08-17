@@ -1,0 +1,40 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.c-toolbar {
+  padding: 8px 7px 6px;
+  position: absolute;
+  z-index: 1;
+  top: -10000px;
+  left: -10000px;
+  margin-top: -6px;
+  opacity: 0;
+  color: black;
+  background-color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(204, 204, 204, 1);
+  border-radius: 4px;
+  transition: opacity 0.75s;
+  box-shadow: 3px 3px 5px rgba(153, 153, 153, 0.349019607843137);
+}
+
+.c-toolbar > * + * {
+  margin-left: 1rem;
+}
+
+.c-toolbar__icon {
+  vertical-align: text-bottom;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+}

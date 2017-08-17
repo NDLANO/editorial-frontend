@@ -52,6 +52,7 @@
 
   &__block-type-container {
     margin-left: -70px;
+    margin-top: -50px;
     z-index: 9;
     position: relative;
     float: left;

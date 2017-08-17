@@ -58,13 +58,16 @@ class SlateBlockPicker extends Component {
         const newblocks = [].concat(blocks);
         const currentState = blocks[index];
         const factAsideBlock = Block.create({
-          data: {type: 'factAside'},
+          data: { type: 'factAside' },
           isVoid: false,
           type: 'aside',
           nodes: Block.createList([defaultBlock]),
-        })
-        const nextState = currentState.state.transform().insertBlock(factAsideBlock).apply();
-        newblocks[index] = {...newblocks[index], state: nextState};
+        });
+        const nextState = currentState.state
+          .transform()
+          .insertBlock(factAsideBlock)
+          .apply();
+        newblocks[index] = { ...newblocks[index], state: nextState };
         onChange({
           target: {
             name: 'content',

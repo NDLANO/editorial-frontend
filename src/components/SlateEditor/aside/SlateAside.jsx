@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SlateRightAside from './SlateRightAside';
+import SlateFactAside from './SlateFactAside';
 
 const SlateAside = props => {
   const { node } = props;
@@ -17,14 +18,10 @@ const SlateAside = props => {
   switch (type) {
     case 'rightAside':
       return <SlateRightAside {...props} />;
+    case 'factAside':
+      return <SlateFactAside {...props} />;
     default: {
-      return (
-        <aside className="c-aside expanded" {...props.attributes}>
-          <div className="c-aside__content">
-            {props.children}
-          </div>
-        </aside>
-      );
+      return <SlateFactAside {...props} />;
     }
   }
 };

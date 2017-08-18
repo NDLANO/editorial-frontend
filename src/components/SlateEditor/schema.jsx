@@ -10,8 +10,9 @@ import React from 'react';
 import { Block } from 'slate';
 import merge from 'lodash/merge';
 import SlateFigure from './SlateFigure';
+import SlateAside from './aside/SlateAside';
 
-const defaultBlock = {
+export const defaultBlock = {
   type: 'paragraph',
   isVoid: false,
   data: {},
@@ -36,6 +37,7 @@ const defaultSchema = {
       <section {...props.attributes}>
         {props.children}
       </section>,
+    aside: SlateAside,
     paragraph: props =>
       <p className="c-block__paragraph" {...props.attributes}>
         {props.children}
@@ -95,22 +97,26 @@ const defaultSchema = {
         </a>
       );
     },
+    div: props =>
+      <div {...props.attributes}>
+        {props.children}
+      </div>,
   },
   marks: {
     bold: props =>
-      <strong>
+      <strong {...props.attributes}>
         {props.children}
       </strong>,
     code: props =>
-      <code>
+      <code {...props.attributes}>
         {props.children}
       </code>,
     italic: props =>
-      <em>
+      <em {...props.attributes}>
         {props.children}
       </em>,
     underlined: props =>
-      <u>
+      <u {...props.attributes}>
         {props.children}
       </u>,
   },
@@ -127,7 +133,7 @@ const defaultSchema = {
     // Rule to insert a paragraph below a void node (the image) if that node is
     // the last one in the document.
     {
-      match: node => node.kind === 'document',
+      match: node => node.kind === 'block',
       validate: document => {
         const lastNode = document.nodes.last();
         return lastNode && lastNode.isVoid ? true : null;
@@ -135,6 +141,35 @@ const defaultSchema = {
       normalize: (transform, document) => {
         const block = Block.create(defaultBlock);
         transform.insertNodeByKey(document.key, document.nodes.size, block);
+      },
+    },
+    // Rule to insert a paragraph below a node with type aside if that node is the last node
+    // in the document
+    {
+      match: node => node.kind === 'block' && node.type === 'section',
+      validate: document => {
+        const lastNode = document.nodes.last();
+        return lastNode && lastNode.type === 'aside' ? true : null;
+      },
+      normalize: (transform, document) => {
+        const block = Block.create(defaultBlock);
+        transform.insertNodeByKey(document.key, document.nodes.size, block);
+      },
+    },
+    // Rule to remove all empty text nodes that exists in the document
+    {
+      match: node => node.kind === 'block',
+      validate: node => {
+        const invalidChildren = node.nodes.filter(
+          child => child.kind === 'block' && child.type === 'emptyTextNode',
+        );
+        return invalidChildren.size ? invalidChildren : null;
+      },
+      normalize: (transform, node, invalidChildren) => {
+        invalidChildren.forEach(child => {
+          transform.removeNodeByKey(child.key);
+        });
+        return transform;
       },
     },
   ],

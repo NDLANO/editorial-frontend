@@ -17,6 +17,7 @@ const phrases = {
     createTopicArticle: 'Opprett emnebeskrivelse',
     createLearningResource: 'Opprett læringsressurs',
     createAudioFile: 'Last opp lydfil',
+    createImage: 'Last opp bilde',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -180,6 +181,55 @@ const phrases = {
       },
       audioFile: {
         label: 'Lydfil',
+      },
+    },
+  },
+  imageForm: {
+    title: {
+      create: 'Du oppretter nå et bilde',
+      update: 'Du redigerer nå et bilde',
+    },
+    save: 'Lagre',
+    abort: 'Avbryt',
+    savedOk: 'Lagret OK',
+    createdOk: 'Opprettet OK',
+    metadata: 'Metadata',
+    content: 'Innhold',
+    copyrightAccordion: 'Lisens og bruker',
+    fields: {
+      title: {
+        label: 'Tittel',
+      },
+      alttext: {
+        label: 'Alternativ bilde tekst',
+        placeholder: 'Alt-tekst',
+      },
+      caption: {
+        label: 'Bilde tekst',
+        placeholder: 'Bilde tekst',
+      },
+      origin: {
+        label: 'Opphav',
+      },
+      tags: {
+        label: 'Nøkkelord',
+        description: 'Obligatorisk med 3 nøkkelord.',
+        createNew: 'Opprett nytt nøkkelord',
+        emptyFilter: 'Fant ingen passende nøkkelord',
+        emptyList: 'Det er ingen tagger i denne listen',
+      },
+      authors: {
+        label: 'Opphavsperson',
+        description: 'Obligatorisk med minst 1 opphavsperson.',
+        createNew: 'Opprett ny opphavsperson',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      license: {
+        label: 'Lisens',
+      },
+      imageFile: {
+        label: 'Bilde',
       },
     },
   },

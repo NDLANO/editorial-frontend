@@ -12,13 +12,13 @@ import { Field } from '../../../components/Fields';
 
 class AudioPlayer extends React.Component {
   componentWillReceiveProps(props) {
-    if (this.props.audio.url !== props.audio.url) {
+    if (this.props.filepath !== props.filepath) {
       this.audioPlayer.pause();
       this.audioPlayer.load();
     }
   }
   render() {
-    const { audio, noBorder, bigText } = this.props;
+    const { audio, noBorder, bigText, filepath } = this.props;
     return (
       <Field noBorder={noBorder} bigText={bigText}>
         {
@@ -28,7 +28,7 @@ class AudioPlayer extends React.Component {
             ref={audioPlayer => {
               this.audioPlayer = audioPlayer;
             }}>
-            <source src={audio.url} type={audio.mimeType} />
+            <source src={filepath || audio.url} type={audio.mimeType} />
           </audio>
         }
       </Field>
@@ -43,6 +43,7 @@ AudioPlayer.propTypes = {
     mimeType: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
   }),
+  filepath: PropTypes.string,
   noBorder: PropTypes.bool,
   bigText: PropTypes.bool,
 };

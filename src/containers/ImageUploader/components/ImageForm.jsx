@@ -21,38 +21,39 @@ import {
   parseCopyrightAuthors,
 } from '../../../util/formHelper';
 
-import AudioMetaData from './AudioMetaData';
-import AudioContent from './AudioContent';
+import ImageMetaData from './ImageMetaData';
+import ImageContent from './ImageContent';
 
-export const getInitialModel = (audio = {}) => {
-  const authors = parseCopyrightAuthors(audio, 'Forfatter');
+export const getInitialModel = (image = {}) => {
+  const authors = parseCopyrightAuthors(image, 'Forfatter');
   return {
-    id: audio.id,
-    revision: audio.revision,
-    language: audio.language,
-    title: audio.title || '',
-    audioFile: audio.audioFile,
-    filepath: '',
-    tags: audio.tags || [],
+    id: image.id,
+    revision: image.revision,
+    language: image.language,
+    title: image.title || '',
+    alttext: image.alttext || '',
+    caption: image.caption || '',
+    imageFile: image.imageUrl,
+    tags: image.tags || [],
     authors,
     origin:
-      audio.copyright && audio.copyright.origin ? audio.copyright.origin : '',
+      image.copyright && image.copyright.origin ? image.copyright.origin : '',
     license:
-      audio.copyright && audio.copyright.license
-        ? audio.copyright.license.license
+      image.copyright && image.copyright.license
+        ? image.copyright.license.license
         : DEFAULT_LICENSE.license,
   };
 };
 
 const classes = new BEMHelper({
-  name: 'audio-form',
+  name: 'image-form',
   prefix: 'c-',
 });
 
-class AudioForm extends Component {
+class ImageForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { title: '', tags: [], license: '', audio: {} };
+    this.state = { title: '', tags: [], license: '', image: {} };
   }
 
   handleSubmit(event) {
@@ -73,10 +74,12 @@ class AudioForm extends Component {
       return;
     }
 
-    const audioMetaData = {
+    const imageMetaData = {
       id: model.id,
       revision,
       title: model.title,
+      alttext: model.alttext,
+      caption: model.caption,
       language,
       tags: model.tags,
       copyright: {
@@ -85,7 +88,7 @@ class AudioForm extends Component {
         authors: model.authors.map(name => ({ type: 'Forfatter', name })),
       },
     };
-    onUpdate(audioMetaData, model.audioFile);
+    onUpdate(imageMetaData, model.imageFile);
   }
 
   render() {
@@ -98,24 +101,22 @@ class AudioForm extends Component {
       tags,
       licenses,
       isSaving,
-      audioInfo,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
     return (
       <form onSubmit={event => this.handleSubmit(event)} {...classes()}>
         <div {...classes('title')}>
-          {model.id ? t('audioForm.title.update') : t('audioForm.title.create')}
+          {model.id ? t('imageForm.title.update') : t('imageForm.title.create')}
         </div>
-        <AudioContent
+        <ImageContent
           classes={classes}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
           tags={tags}
           model={model}
-          audioInfo={audioInfo}
         />
-        <AudioMetaData
+        <ImageMetaData
           classes={classes}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
@@ -127,10 +128,10 @@ class AudioForm extends Component {
             to={'/'}
             {...classes('abort-button', '', 'c-button c-button--outline')}
             disabled={isSaving}>
-            {t('audioForm.abort')}
+            {t('imageForm.abort')}
           </Link>
           <Button submit outline disabled={false} {...classes('save-button')}>
-            {t('audioForm.save')}
+            {t('imageForm.save')}
           </Button>
         </Field>
       </form>
@@ -138,9 +139,9 @@ class AudioForm extends Component {
   }
 }
 
-AudioForm.propTypes = {
+ImageForm.propTypes = {
   model: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     title: PropTypes.string,
   }),
   schema: PropTypes.shape({
@@ -161,12 +162,6 @@ AudioForm.propTypes = {
   setSubmitted: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
   revision: PropTypes.number,
-  audioInfo: PropTypes.shape({
-    fileSize: PropTypes.number.isRequired,
-    language: PropTypes.string.isRequired,
-    mimeType: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-  }),
 };
 
 export default compose(
@@ -176,14 +171,20 @@ export default compose(
     title: {
       required: true,
     },
+    alttext: {
+      required: true,
+    },
+    caption: {
+      required: true,
+    },
     tags: {
       minItems: 3,
     },
     authors: {
       minItems: 1,
     },
-    audioFile: {
+    imageFile: {
       required: true,
     },
   }),
-)(AudioForm);
+)(ImageForm);

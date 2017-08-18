@@ -11,9 +11,8 @@ import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { InputFileField, TextField } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
-import AudioPlayer from './AudioPlayer';
 
-class AudioContent extends Component {
+class ImageContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,33 +28,50 @@ class AudioContent extends Component {
   }
 
   render() {
-    const { t, commonFieldProps, model, audioInfo } = this.props;
+    const { t, commonFieldProps, model } = this.props;
     return (
       <Accordion
         handleToggle={this.toggleContent}
-        header={t('audioForm.content')}
+        header={t('imageForm.content')}
         hidden={this.state.hiddenContent}>
         <TextField
-          label={t('audioForm.fields.title.label')}
+          label={t('imageForm.fields.title.label')}
           name="title"
           bigText
           noBorder
-          placeholder={t('audioForm.fields.title.label')}
+          maxLength={300}
+          placeholder={t('imageForm.fields.title.label')}
           {...commonFieldProps}
         />
         <InputFileField
-          label={t('audioForm.fields.audioFile.label')}
-          name="audioFile"
+          label={t('imageForm.fields.imageFile.label')}
+          name="imageFile"
           {...commonFieldProps}
         />
-        {model.id &&
-          <AudioPlayer audio={audioInfo} filepath={model.filepath} />}
+        {model.imageFile &&
+          <img src={model.filepath || model.imageFile} alt="" height="500" />}
+        <TextField
+          placeholder={t(`imageForm.fields.caption.placeholder`)}
+          label={t(`imageForm.fields.caption.label`)}
+          name="caption"
+          noBorder
+          maxLength={300}
+          {...commonFieldProps}
+        />
+        <TextField
+          placeholder={t('imageForm.fields.alttext.placeholder')}
+          label={t('imageForm.fields.alttext.label')}
+          name="alttext"
+          noBorder
+          maxLength={300}
+          {...commonFieldProps}
+        />
       </Accordion>
     );
   }
 }
 
-AudioContent.propTypes = {
+ImageContent.propTypes = {
   commonFieldProps: PropTypes.shape({
     schema: PropTypes.shape({
       fields: PropTypes.object.isRequired,
@@ -66,20 +82,8 @@ AudioContent.propTypes = {
   classes: PropTypes.func.isRequired,
   bindInput: PropTypes.func.isRequired,
   model: PropTypes.shape({
-    id: PropTypes.number,
-    audioFile: PropTypes.shape({
-      fileSize: PropTypes.number,
-      language: PropTypes.string,
-      mimeType: PropTypes.string,
-      url: PropTypes.string,
-    }),
-  }),
-  audioInfo: PropTypes.shape({
-    fileSize: PropTypes.number.isRequired,
-    language: PropTypes.string.isRequired,
-    mimeType: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
+    id: PropTypes.string,
   }),
 };
 
-export default injectT(AudioContent);
+export default injectT(ImageContent);

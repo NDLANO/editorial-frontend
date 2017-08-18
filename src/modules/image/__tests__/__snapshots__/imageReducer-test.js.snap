@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers/image initalState 1`] = `
+Object {
+  "all": Object {},
+  "isSaving": false,
+}
+`;
+
+exports[`reducers/image overwrite image with same id 1`] = `
+Object {
+  "all": Object {
+    "1": Object {
+      "id": 1,
+      "title": "Unit test 2",
+    },
+  },
+}
+`;
+
+exports[`reducers/image set image 1`] = `
+Object {
+  "all": Object {
+    "1": Object {
+      "id": 1,
+      "title": "Unit test",
+    },
+  },
+  "isSaving": false,
+}
+`;
+
+exports[`reducers/image set multiple image 1`] = `
+Object {
+  "all": Object {
+    "1": Object {
+      "id": 1,
+      "title": "Unit test 1",
+    },
+    "2": Object {
+      "id": 2,
+      "title": "Unit test 2",
+    },
+  },
+  "isSaving": false,
+}
+`;
+
+exports[`reducers/image sets isSaving to false on update error 1`] = `
+Object {
+  "isSaving": false,
+}
+`;
+
+exports[`reducers/image sets isSaving to false on update success 1`] = `
+Object {
+  "isSaving": true,
+}
+`;
+
+exports[`reducers/image sets isSaving to true on update 1`] = `
+Object {
+  "all": Object {},
+  "isSaving": true,
+}
+`;

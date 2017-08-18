@@ -25,7 +25,7 @@ class RichBlockTextEditor extends Component {
     super(props);
     this.onContentChange = this.onContentChange.bind(this);
     this.state = {
-      showTypePicker: { show: false, index: 0 },
+      activeEditor: 0,
     };
   }
   onContentChange(state, index) {
@@ -40,9 +40,10 @@ class RichBlockTextEditor extends Component {
       },
     };
     this.setState({
-      showTypePicker: { show: state.endText.length === 0, index },
+      activeEditor: index,
     });
-    return onChange(changedState);
+
+    onChange(changedState);
   }
 
   render() {
@@ -83,7 +84,8 @@ class RichBlockTextEditor extends Component {
               name={name}
               onChange={onChange}
               blocks={value}
-              showTypePicker={this.state.showTypePicker}
+              state={val}
+              activeEditor={this.state.activeEditor}
               index={index}
               ingress={ingress}
               ingressRef={ingressRef}

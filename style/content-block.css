@@ -30,11 +30,33 @@
     }
   }
 
-  &__block-type-container {
-    margin-left: -70px;
-    z-index: 9;
-    position: relative;
-    float: left;
+  &__right-aside,
+  &__fact-aside {
+    & h1,
+    & h2,
+    & h3 {
+      border-bottom: 2px solid var(--brand-color);
+    }
+  }
+
+  &__right-aside {
+    margin: 0 -60% 0 0;
+    width: 50%;
+    float: right;
+    display: inline;
+    background-color: white;
+  }
+
+  &__delete-aside-button {
+    color: red;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+
+    &:hover,
+    &:focus {
+      color: color(red blackness(+ 20%));
+    }
   }
 
   &__block-type-button {
@@ -42,9 +64,13 @@
     width: 40px;
     border: 1px solid var(--gray-3);
     border-radius: 25px;
-    margin-right: 0.3rem;
+    margin-bottom: 0.1rem;
     color: var(--gray-3);
     background-color: white;
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.1s, visibility 0s linear 0.1s;
 
     &:focus,
     &:hover {
@@ -66,7 +92,9 @@
   }
 
   &__block-type--hidden {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.1s, visibility 0s linear 0.2s;
   }
 
   &__figure--active {

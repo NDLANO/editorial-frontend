@@ -14,6 +14,7 @@ import {
   toCreateTopicArticle,
   toCreateLearningResource,
   toCreateAudioFile,
+  toCreateImage,
   toSearch,
 } from '../../util/routeHelpers';
 
@@ -46,6 +47,11 @@ export const WelcomePage = ({ t }) =>
             <li>
               <Link to={`${toCreateAudioFile()}`}>
                 {t('welcomePage.createAudioFile')}
+              </Link>
+            </li>
+            <li>
+              <Link to={`${toCreateImage()}`}>
+                {t('welcomePage.createImage')}
               </Link>
             </li>
           </ul>

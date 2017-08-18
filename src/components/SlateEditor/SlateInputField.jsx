@@ -59,8 +59,8 @@ class SlateInputField extends React.Component {
   }
 
   render() {
-    const { label, name, value, ...rest } = this.props;
-    if (rest.deletedOnSave) {
+    const { label, name, value, deletedOnSave, ...rest } = this.props;
+    if (deletedOnSave) {
       return null;
     }
     return (
@@ -86,6 +86,7 @@ SlateInputField.propTypes = {
     id: PropTypes.string.isRequired,
     resource: PropTypes.string.isRequired,
   }),
+  deletedOnSave: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
   className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
@@ -98,6 +99,7 @@ SlateInputField.propTypes = {
 
 SlateInputField.defaultProps = {
   value: '',
+  deletedOnSave: false,
 };
 
 export default SlateInputField;

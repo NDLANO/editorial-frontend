@@ -4849,6 +4849,10 @@ pluralize@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-1.2.1.tgz#d1a21483fd22bb41e58a12fa3421823140897c45"
 
+positions@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/positions/-/positions-1.6.1.tgz#0a70cb7826d568c077ea20cc641f25f44d1702c2"
+
 postcss-apply@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/postcss-apply/-/postcss-apply-0.3.0.tgz#a2f37c5bdfa881e4c15f4f245ec0cd96dd2e70d5"

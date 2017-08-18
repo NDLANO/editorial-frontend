@@ -104,19 +104,19 @@ const defaultSchema = {
   },
   marks: {
     bold: props =>
-      <strong>
+      <strong {...props.attributes}>
         {props.children}
       </strong>,
     code: props =>
-      <code>
+      <code {...props.attributes}>
         {props.children}
       </code>,
     italic: props =>
-      <em>
+      <em {...props.attributes}>
         {props.children}
       </em>,
     underlined: props =>
-      <u>
+      <u {...props.attributes}>
         {props.children}
       </u>,
   },

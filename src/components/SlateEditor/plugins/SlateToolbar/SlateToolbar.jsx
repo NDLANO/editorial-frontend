@@ -33,12 +33,12 @@ class SlateToolbar extends Component {
   constructor(props) {
     super(props);
     this.onClickMark = this.onClickMark.bind(this);
+    this.onClickBlock = this.onClickBlock.bind(this);
     this.onOpen = this.onOpen.bind(this);
     this.hasMark = this.hasMark.bind(this);
     this.hasBlock = this.hasBlock.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
-    this.renderMarkButton = this.renderMarkButton.bind(this);
     this.state = {
       state: this.props.state,
     };

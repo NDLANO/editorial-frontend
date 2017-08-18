@@ -20,7 +20,7 @@ const BLOCK_TAGS = {
 const MARK_TAGS = {
   strong: 'bold',
   em: 'italic',
-  u: 'underline',
+  u: 'underlined',
   s: 'strikethrough',
   code: 'code',
 };
@@ -122,6 +122,30 @@ const RULES = [
             <section>
               {children}
             </section>
+          );
+        case 'paragraph-left':
+          return (
+            <p style={{ textAlign: 'left' }}>
+              {children}
+            </p>
+          );
+        case 'paragraph-center':
+          return (
+            <p style={{ textAlign: 'center' }}>
+              {children}
+            </p>
+          );
+        case 'paragraph-right':
+          return (
+            <p style={{ textAlign: 'right' }}>
+              {children}
+            </p>
+          );
+        case 'paragraph-justify':
+          return (
+            <p style={{ textAlign: 'justify' }}>
+              {children}
+            </p>
           );
         case 'paragraph':
           return (
@@ -229,11 +253,17 @@ const RULES = [
               {children}
             </em>
           );
-        case 'underline':
+        case 'underlined':
           return (
             <u>
               {children}
             </u>
+          );
+        case 'strikethrough':
+          return (
+            <s>
+              {children}
+            </s>
           );
       }
     },

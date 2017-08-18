@@ -12,7 +12,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate';
 import BEMHelper from 'react-bem-helper';
-import SlateToolBar from './plugins/SlateToolBar';
+import SlateToolbar from './plugins/SlateToolbar/SlateToolbar';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -25,7 +25,7 @@ const RichTextEditor = props => {
   return (
     <article>
       <div {...classes(undefined, className)}>
-        <SlateToolBar state={value} onChange={onChange} name={name} />
+        <SlateToolbar state={value} onChange={onChange} name={name} />
         <Editor
           state={value}
           schema={schema}

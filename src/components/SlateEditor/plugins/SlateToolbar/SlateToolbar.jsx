@@ -9,7 +9,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Portal from 'react-portal';
-import { Button } from 'ndla-ui';
 import {
   Bold,
   Embed,
@@ -24,12 +23,13 @@ import {
   Strikethrough,
   Underline,
 } from 'ndla-ui/icons';
+import { renderMarkButton, renderBlockButton } from './SlateToolbarButtons';
 
 const DEFAULT_NODE = 'paragraph';
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-class SlateToolBar extends Component {
+class SlateToolbar extends Component {
   constructor(props) {
     super(props);
     this.onClickMark = this.onClickMark.bind(this);
@@ -152,55 +152,60 @@ class SlateToolBar extends Component {
       rect.width / 2}px`;
   }
 
-  renderMarkButton(type, icon) {
-    const isActive = this.hasMark(type);
-    const onMouseDown = e => this.onClickMark(e, type);
-
-    return (
-      <Button stripped onMouseDown={onMouseDown} data-active={isActive}>
-        <span className="c-toolbar__icon">
-          {icon}
-        </span>
-      </Button>
-    );
-  }
-  renderBlockButton(type, icon) {
-    const isActive = this.hasBlock(type);
-    const onMouseDown = e => this.onClickBlock(e, type);
-
-    return (
-      <Button stripped onMouseDown={onMouseDown} data-active={isActive}>
-        <span className="c-toolbar__icon">
-          {icon}
-        </span>
-      </Button>
-    );
-  }
-
   render() {
     return (
       <Portal isOpened onOpen={this.onOpen}>
         <div className="c-toolbar">
-          {this.renderMarkButton('bold', <Bold />)}
-          {this.renderMarkButton('italic', <Italic />)}
-          {this.renderMarkButton('underlined', <Underline />)}
-          {this.renderMarkButton('strikethrough', <Strikethrough />)}
-          {this.renderMarkButton('code', <Embed />)}
-          {this.renderBlockButton('quote', <Section />)}
-          {this.renderBlockButton('numbered-list', <ListNumbered />)}
-          {this.renderBlockButton('bulleted-list', <ListCircle />)}
+          {renderMarkButton('bold', <Bold />, this.hasMark, this.onClickMark)}
+          {renderMarkButton(
+            'italic',
+            <Italic />,
+            this.hasMark,
+            this.onClickMark,
+          )}
+          {renderMarkButton(
+            'underlined',
+            <Underline />,
+            this.hasMark,
+            this.onClickMark,
+          )}
+          {renderMarkButton(
+            'strikethrough',
+            <Strikethrough />,
+            this.hasMark,
+            this.onClickMark,
+          )}
+          {renderMarkButton('code', <Embed />, this.hasMark, this.onClickMark)}
+          {renderBlockButton(
+            'quote',
+            <Section />,
+            this.hasBlock,
+            this.onClickBlock,
+          )}
+          {renderBlockButton(
+            'numbered-list',
+            <ListNumbered />,
+            this.hasBlock,
+            this.onClickBlock,
+          )}
+          {renderBlockButton(
+            'bulleted-list',
+            <ListCircle />,
+            this.hasBlock,
+            this.onClickBlock,
+          )}
           {/* TODO: To be implemented when requested
-          {this.renderBlockButton('paragraph-left', <ParagraphLeft />)}
-          {this.renderBlockButton('paragraph-center', <ParagraphCenter />)}
-          {this.renderBlockButton('paragraph-right', <ParagraphRight />)}
-          {this.renderBlockButton('paragraph-justify', <ParagraphJustify />)} */}
+          {renderBlockButton('paragraph-left', <ParagraphLeft />, this.hasBlock, this.onClickBlock)}
+          {renderBlockButton('paragraph-center', <ParagraphCenter />, this.hasBlock, this.onClickBlock)}
+          {renderBlockButton('paragraph-right', <ParagraphRight />, this.hasBlock, this.onClickBlock)}
+          {renderBlockButton('paragraph-justify', <ParagraphJustify />, this.hasBlock, this.onClickBlock)} */}
         </div>
       </Portal>
     );
   }
 }
 
-SlateToolBar.propTypes = {
+SlateToolbar.propTypes = {
   onChange: PropTypes.func.isRequired,
   handleBlockContentChange: PropTypes.func,
   index: PropTypes.number,
@@ -208,4 +213,4 @@ SlateToolBar.propTypes = {
   state: PropTypes.shape({}).isRequired,
 };
 
-export default SlateToolBar;
+export default SlateToolbar;

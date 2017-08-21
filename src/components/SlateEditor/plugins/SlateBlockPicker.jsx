@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import Portal from 'react-portal';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
-import { Cross, Plus, InsertTemplate } from 'ndla-ui/icons';
+import { Cross, Plus, FactBox } from 'ndla-ui/icons';
 import { createEmptyState } from '../../../util/articleContentConverter';
 import { defaultBlock } from '../schema';
 
@@ -200,7 +200,7 @@ class SlateBlockPicker extends Component {
               stripped
               {...classes('block-type-button')}
               onClick={() => this.onElementAdd('factAside')}>
-              <InsertTemplate />
+              <FactBox />
             </Button>
           </div>
         </div>

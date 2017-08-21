@@ -19,11 +19,13 @@ import {
   // ParagraphCenter,
   // ParagraphRight,
   // ParagraphJustify,
-  Section, // TODO: Change to Quote when Icon is available
+  Quote, // TODO: Change to Quote when Icon is available
   Strikethrough,
   Underline,
+  Link,
 } from 'ndla-ui/icons';
 import { renderMarkButton, renderBlockButton } from './SlateToolbarButtons';
+import SlateToolbarLink from './SlateToolbarLink';
 
 const DEFAULT_NODE = 'paragraph';
 
@@ -39,8 +41,14 @@ class SlateToolbar extends Component {
     this.hasBlock = this.hasBlock.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
+    this.onContentLinkSubmit = this.onContentLinkSubmit.bind(this);
     this.state = {
       state: this.props.state,
+      contentLink: {
+        url: '',
+        text: '',
+        showDialog: false,
+      }
     };
   }
 
@@ -65,9 +73,12 @@ class SlateToolbar extends Component {
     const { state } = this.props;
     const transform = state.transform();
     const { document } = state;
-
+    if(type === 'link') {
+      this.setState({contentLink: {showDialog: true}})
+      return;
+    }
     // Handle everything but list buttons.
-    if (type !== 'bulleted-list' && type !== 'numbered-list') {
+    else if (type !== 'bulleted-list' && type !== 'numbered-list') {
       const isActive = this.hasBlock(type);
       const isList = this.hasBlock('list-item');
 
@@ -111,6 +122,36 @@ class SlateToolbar extends Component {
     this.setState({ menu: portal.firstChild });
   }
 
+  onContentLinkSubmit(evt) {
+    console.log(evt)
+    const { state } = this.props;
+    const transform = state.transform();
+    if (evt === 'link') {
+      const isActive = this.hasBlock(type);
+      const href = prompt('Enter the URL of the link:')
+      const isNDLAUrl = (/^https:\/(.*).ndla.no\/article\/\d*/).test(href);
+      if (isNDLAUrl) {
+        const text = prompt('Enter the text for the link:');
+        if (!text || !href) return;
+        if (isActive) {
+          transform.setBlock(DEFAULT_NODE);
+        } else {
+          const splittedHref = href.split('/');
+          const id = splittedHref[splittedHref.length - 1];
+          transform
+          .insertText(text)
+          .extend(0 - text.length)
+          .wrapInline({
+            type: 'link',
+            data: { id, resource: 'content-link', contentLinkText: text }
+          })
+          .collapseToEnd()
+          .apply();
+        }
+      }
+    }
+  }
+
   handleStateChange(state) {
     const { name, onChange, handleBlockContentChange, index } = this.props;
     if (handleBlockContentChange) {
@@ -135,12 +176,10 @@ class SlateToolbar extends Component {
     const { menu } = this.state;
     const { state } = this.props;
     if (!menu) return;
-
     if (state.isBlurred || state.isEmpty) {
       menu.removeAttribute('style');
       return;
     }
-
     const selection = window.getSelection();
     const range = selection.getRangeAt(0);
     const rect = range.getBoundingClientRect();
@@ -152,55 +191,65 @@ class SlateToolbar extends Component {
       rect.width / 2}px`;
   }
 
+
   render() {
     return (
-      <Portal isOpened onOpen={this.onOpen}>
-        <div className="c-toolbar">
-          {renderMarkButton('bold', <Bold />, this.hasMark, this.onClickMark)}
-          {renderMarkButton(
-            'italic',
-            <Italic />,
-            this.hasMark,
-            this.onClickMark,
-          )}
-          {renderMarkButton(
-            'underlined',
-            <Underline />,
-            this.hasMark,
-            this.onClickMark,
-          )}
-          {renderMarkButton(
-            'strikethrough',
-            <Strikethrough />,
-            this.hasMark,
-            this.onClickMark,
-          )}
-          {renderMarkButton('code', <Embed />, this.hasMark, this.onClickMark)}
-          {renderBlockButton(
-            'quote',
-            <Section />,
-            this.hasBlock,
-            this.onClickBlock,
-          )}
-          {renderBlockButton(
-            'numbered-list',
-            <ListNumbered />,
-            this.hasBlock,
-            this.onClickBlock,
-          )}
-          {renderBlockButton(
-            'bulleted-list',
-            <ListCircle />,
-            this.hasBlock,
-            this.onClickBlock,
-          )}
-          {/* TODO: To be implemented when requested
-          {renderBlockButton('paragraph-left', <ParagraphLeft />, this.hasBlock, this.onClickBlock)}
-          {renderBlockButton('paragraph-center', <ParagraphCenter />, this.hasBlock, this.onClickBlock)}
-          {renderBlockButton('paragraph-right', <ParagraphRight />, this.hasBlock, this.onClickBlock)}
-          {renderBlockButton('paragraph-justify', <ParagraphJustify />, this.hasBlock, this.onClickBlock)} */}
-        </div>
-      </Portal>
+      <div>
+        <SlateToolbarLink {...this.state.contentLink} />
+        <Portal isOpened onOpen={this.onOpen}>
+          <div className="c-toolbar">
+            {renderMarkButton('bold', <Bold />, this.hasMark, this.onClickMark)}
+            {renderMarkButton(
+              'italic',
+              <Italic />,
+              this.hasMark,
+              this.onClickMark,
+            )}
+            {renderMarkButton(
+              'underlined',
+              <Underline />,
+              this.hasMark,
+              this.onClickMark,
+            )}
+            {renderMarkButton(
+              'strikethrough',
+              <Strikethrough />,
+              this.hasMark,
+              this.onClickMark,
+            )}
+            {renderMarkButton('code', <Embed />, this.hasMark, this.onClickMark)}
+            {renderBlockButton(
+              'quote',
+              <Quote />,
+              this.hasBlock,
+              this.onClickBlock,
+            )}
+            {renderBlockButton(
+              'link',
+              <Link />,
+              this.hasBlock,
+              this.onClickBlock,
+            )}
+            {renderBlockButton(
+              'numbered-list',
+              <ListNumbered />,
+              this.hasBlock,
+              this.onClickBlock,
+            )}
+            {renderBlockButton(
+              'bulleted-list',
+              <ListCircle />,
+              this.hasBlock,
+              this.onClickBlock,
+            )}
+            {/* TODO: To be implemented when requested
+            {renderBlockButton('paragraph-left', <ParagraphLeft />, this.hasBlock, this.onClickBlock)}
+            {renderBlockButton('paragraph-center', <ParagraphCenter />, this.hasBlock, this.onClickBlock)}
+            {renderBlockButton('paragraph-right', <ParagraphRight />, this.hasBlock, this.onClickBlock)}
+            {renderBlockButton('paragraph-justify', <ParagraphJustify />, this.hasBlock, this.onClickBlock)} */}
+          </div>
+        </Portal>
+      </div>
     );
   }
 }

@@ -9,25 +9,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Portal from 'react-portal';
-import {
-  Bold,
-  Embed,
-  Italic,
-  ListCircle,
-  ListNumbered,
-  // ParagraphLeft,
-  // ParagraphCenter,
-  // ParagraphRight,
-  // ParagraphJustify,
-  Quote, // TODO: Change to Quote when Icon is available
-  Strikethrough,
-  Underline,
-  Link,
-} from 'ndla-ui/icons';
-import { renderMarkButton, renderBlockButton } from './SlateToolbarButtons';
+import BEMHelper from 'react-bem-helper';
+import ToolbarButton from './ToolbarButton';
 import SlateToolbarLink from './SlateToolbarLink';
 
 const DEFAULT_NODE = 'paragraph';
+
+const suportedToolbarElements = {
+  marks: ['bold', 'italic', 'underlined', 'code', 'strikethrough'],
+  blocks: ['quote', 'link', 'numbered-list', 'bulleted-list'],
+};
+
+export const toolbarClasses = new BEMHelper({
+  name: 'toolbar',
+  prefix: 'c-',
+});
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
@@ -39,16 +35,13 @@ class SlateToolbar extends Component {
     this.onOpen = this.onOpen.bind(this);
     this.hasMark = this.hasMark.bind(this);
     this.hasBlock = this.hasBlock.bind(this);
+    this.hasInlines = this.hasInlines.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
-    this.onContentLinkSubmit = this.onContentLinkSubmit.bind(this);
+    this.onCloseContentlinkDialog = this.onCloseContentlinkDialog.bind(this);
     this.state = {
       state: this.props.state,
-      contentLink: {
-        url: '',
-        text: '',
-        showDialog: false,
-      }
+      showContentlinkDialog: false,
     };
   }
 
@@ -67,18 +60,19 @@ class SlateToolbar extends Component {
 
     this.handleStateChange(nextState);
   }
+  onCloseContentlinkDialog() {
+    this.setState({ showContentlinkDialog: false });
+  }
 
   onClickBlock(e, type) {
     e.preventDefault();
     const { state } = this.props;
     const transform = state.transform();
     const { document } = state;
-    if(type === 'link') {
-      this.setState({contentLink: {showDialog: true}})
-      return;
-    }
-    // Handle everything but list buttons.
-    else if (type !== 'bulleted-list' && type !== 'numbered-list') {
+    if (type === 'link') {
+      this.setState({ showContentlinkDialog: true });
+    } else if (type !== 'bulleted-list' && type !== 'numbered-list') {
+      // Handle everything but list buttons.
       const isActive = this.hasBlock(type);
       const isList = this.hasBlock('list-item');
 
@@ -122,34 +116,16 @@ class SlateToolbar extends Component {
     this.setState({ menu: portal.firstChild });
   }
 
-  onContentLinkSubmit(evt) {
-    console.log(evt)
-    const { state } = this.props;
-    const transform = state.transform();
-    if (evt === 'link') {
-      const isActive = this.hasBlock(type);
-      const href = prompt('Enter the URL of the link:')
-      const isNDLAUrl = (/^https:\/(.*).ndla.no\/article\/\d*/).test(href);
-      if (isNDLAUrl) {
-        const text = prompt('Enter the text for the link:');
-        if (!text || !href) return;
-        if (isActive) {
-          transform.setBlock(DEFAULT_NODE);
-        } else {
-          const splittedHref = href.split('/');
-          const id = splittedHref[splittedHref.length - 1];
-          transform
-          .insertText(text)
-          .extend(0 - text.length)
-          .wrapInline({
-            type: 'link',
-            data: { id, resource: 'content-link', contentLinkText: text }
-          })
-          .collapseToEnd()
-          .apply();
-        }
-      }
-    }
+  onContentLinkChange(evt) {
+    const name = evt.target.name;
+    const value = evt.target.value;
+
+    this.setState(prevState => ({
+      contentLink: {
+        ...prevState.contentLink,
+        [name]: value,
+      },
+    }));
   }
 
   handleStateChange(state) {
@@ -172,6 +148,11 @@ class SlateToolbar extends Component {
     return state.blocks.some(node => node.type === type);
   }
 
+  hasInlines(type) {
+    const { state } = this.props;
+    return state.inlines.some(node => node.type === type);
+  }
+
   updateMenu() {
     const { menu } = this.state;
     const { state } = this.props;
@@ -191,62 +172,35 @@ class SlateToolbar extends Component {
       rect.width / 2}px`;
   }
 
-
   render() {
+    const { state } = this.props;
     return (
       <div>
-        <SlateToolbarLink {...this.state.contentLink} />
+        <SlateToolbarLink
+          showDialog={this.state.showContentlinkDialog}
+          closeDialog={this.onCloseContentlinkDialog}
+          hasInlines={this.hasInlines}
+          state={state}
+          handleStateChange={this.handleStateChange}
+        />
         <Portal isOpened onOpen={this.onOpen}>
-          <div className="c-toolbar">
-            {renderMarkButton('bold', <Bold />, this.hasMark, this.onClickMark)}
-            {renderMarkButton(
-              'italic',
-              <Italic />,
-              this.hasMark,
-              this.onClickMark,
+          <div {...toolbarClasses()}>
+            {suportedToolbarElements.marks.map(type =>
+              <ToolbarButton
+                key={type}
+                type={type}
+                handleHasType={this.hasMark}
+                handleOnClick={this.onClickMark}
+              />,
             )}
-            {renderMarkButton(
-              'underlined',
-              <Underline />,
-              this.hasMark,
-              this.onClickMark,
+            {suportedToolbarElements.blocks.map(type =>
+              <ToolbarButton
+                key={type}
+                type={type}
+                handleHasType={this.hasBlock}
+                handleOnClick={this.onClickBlock}
+              />,
             )}
-            {renderMarkButton(
-              'strikethrough',
-              <Strikethrough />,
-              this.hasMark,
-              this.onClickMark,
-            )}
-            {renderMarkButton('code', <Embed />, this.hasMark, this.onClickMark)}
-            {renderBlockButton(
-              'quote',
-              <Quote />,
-              this.hasBlock,
-              this.onClickBlock,
-            )}
-            {renderBlockButton(
-              'link',
-              <Link />,
-              this.hasBlock,
-              this.onClickBlock,
-            )}
-            {renderBlockButton(
-              'numbered-list',
-              <ListNumbered />,
-              this.hasBlock,
-              this.onClickBlock,
-            )}
-            {renderBlockButton(
-              'bulleted-list',
-              <ListCircle />,
-              this.hasBlock,
-              this.onClickBlock,
-            )}
-            {/* TODO: To be implemented when requested
-            {renderBlockButton('paragraph-left', <ParagraphLeft />, this.hasBlock, this.onClickBlock)}
-            {renderBlockButton('paragraph-center', <ParagraphCenter />, this.hasBlock, this.onClickBlock)}
-            {renderBlockButton('paragraph-right', <ParagraphRight />, this.hasBlock, this.onClickBlock)}
-            {renderBlockButton('paragraph-justify', <ParagraphJustify />, this.hasBlock, this.onClickBlock)} */}
           </div>
         </Portal>
       </div>

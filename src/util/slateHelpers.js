@@ -1,5 +1,4 @@
 import React from 'react';
-import config from '../config';
 
 const BLOCK_TAGS = {
   section: 'section',
@@ -41,8 +40,7 @@ const getEmbedTag = el => {
     ? attributes.getNamedItem('data-resource').value
     : '';
   const id = attributes.getNamedItem(idTypes[resourceType]);
-  const contentLinkText = attributes.getNamedItem('data-link-text')
-  console.log("hei", contentLinkText, attributes)
+  const contentLinkText = attributes.getNamedItem('data-link-text');
   return {
     size: size ? size.value : '',
     align: align ? align.value : '',
@@ -365,14 +363,14 @@ const learningResourceEmbedRule = [
           nodes: [
             {
               kind: 'text',
-              text: embedTag.contentLinkText
+              text: embedTag.contentLinkText,
             },
           ],
           isVoid: false,
         };
       }
       return {
-        kind:  'block',
+        kind: 'block',
         type: 'embed',
         data: getEmbedTag(el),
         isVoid: true,

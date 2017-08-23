@@ -19,12 +19,12 @@ export const defaultBlock = {
   data: {},
 };
 
-export const getSchemaEmbedTag = (node) => ({
+export const getSchemaEmbedTag = node => ({
   caption: node.get('data').get('caption'),
   alt: node.get('data').get('alt'),
   id: node.get('data').get('id'),
   resource: node.get('data').get('resource'),
-  contentLinkText: node.get('data').get('contentLinkText')
+  contentLinkText: node.get('data').get('contentLinkText'),
 });
 
 /* eslint-disable react/prop-types */

@@ -525,7 +525,7 @@ RichTextField.propTypes = {
 
 RichBlockTextEditor.defaultProps = {
   noBorder: false,
-}
+};
 
 export const SelectObjectField = props => {
   const {

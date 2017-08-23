@@ -16,6 +16,9 @@ export const getLength = value => {
 export const isEmpty = value => {
   if (!value) {
     return true;
+  } else if (value && value.isState && value.isEmpty()) {
+    // Slate check
+    return true;
   } else if (
     value &&
     value.getCurrentContent &&

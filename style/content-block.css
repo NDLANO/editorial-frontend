@@ -1,0 +1,138 @@
+
+.c-editor {
+  &__container {
+    margin: 0 -9rem;
+    padding: 3rem 9rem;
+    border: 1px solid white;
+
+    &:hover,
+    &:focus {
+      border-top: 1px solid var(--brand-grey--light);
+      border-bottom: 1px solid var(--brand-grey--light);
+    }
+  }
+
+  &__container:hover &__delete-block-button,
+  &__container:focus &__delete-block-button {
+    visibility: visible;
+  }
+
+  &__delete-block-button {
+    top: 0;
+    visibility: hidden;
+    position: absolute;
+    right: -4rem;
+    color: red;
+
+    &:hover,
+    &:focus {
+      color: color(red blackness(+ 20%));
+    }
+  }
+
+  &__right-aside,
+  &__fact-aside {
+    & h1,
+    & h2,
+    & h3 {
+      border-bottom: 2px solid var(--brand-color);
+    }
+  }
+
+  &__right-aside {
+    margin: 0 -60% 0 0;
+    width: 50%;
+    float: right;
+    display: inline;
+    background-color: white;
+  }
+
+  &__delete-aside-button {
+    color: red;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+
+    &:hover,
+    &:focus {
+      color: color(red blackness(+ 20%));
+    }
+  }
+
+  &__block-type-button {
+    height: 40px;
+    width: 40px;
+    border: 1px solid var(--gray-3);
+    border-radius: 25px;
+    margin-bottom: 0.1rem;
+    color: var(--gray-3);
+    background-color: white;
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.1s, visibility 0s linear 0.1s;
+
+    &:focus,
+    &:hover {
+      padding: 0.2rem 0.5rem;
+      color: var(--gray-3);
+      border: 1px solid var(--gray-3);
+      border-radius: 25px;
+      background-color: white;
+    }
+
+    &--green {
+      border-color: var(--green-1);
+      color: var(--green-1);
+    }
+  }
+
+  &__block-type {
+    display: inline-block;
+  }
+
+  &__block-type--hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.1s, visibility 0s linear 0.2s;
+  }
+
+  &__figure--active {
+    border: 1px solid var(--brand-color--light);
+  }
+
+  &__figure--not-supported {
+    border: 1px solid red;
+    color: red;
+    padding: 1rem;
+  }
+
+  &__figure-focus-input-label {
+    color: black;
+    position: absolute;
+    height: 25px;
+    left: -4.2rem;
+    width: 4rem;
+    border-right: 1px solid;
+    padding-right: 0.7rem;
+  }
+
+  &__figure-focus-input-text {
+    float: right;
+    font-size: 0.9rem;
+  }
+}
+
+.c-block {
+  &__bulleted-list {
+    margin: 16px 0;
+    padding: 0;
+  }
+
+  &__list-item {
+    line-height: 1.7em;
+    margin-bottom: 13px;
+    direction: ltr;
+    margin-left: 3.2em;
+  }
+}

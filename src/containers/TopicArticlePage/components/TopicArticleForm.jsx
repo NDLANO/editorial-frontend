@@ -11,7 +11,6 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
-import { EditorState } from 'draft-js';
 import { injectT } from 'ndla-i18n';
 
 import reformed from '../../../components/reformed';
@@ -19,10 +18,7 @@ import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 
 import converter from '../../../util/articleContentConverter';
-import {
-  createEditorStateFromText,
-  getPlainTextFromEditorState,
-} from '../../../util/draftjsHelpers';
+
 import { parseEmbedTag } from '../../../util/embedTagHelpers';
 
 import TopicArticleMetadata from './TopicArticleMetadata';
@@ -41,10 +37,8 @@ export const getInitialModel = (article = {}) => {
     revision: article.revision,
     updated: article.updated,
     title: article.title || '',
-    introduction: createEditorStateFromText(article.introduction),
-    content: article.content
-      ? converter.toEditorState(article.content)
-      : EditorState.createEmpty(),
+    introduction: converter.toPlainSlateEditorState(article.introduction, true),
+    content: converter.toSlateEditorState(article.content),
     tags: article.tags || [],
     h5pOembedUrl: undefined,
     authors: article.copyright
@@ -53,7 +47,10 @@ export const getInitialModel = (article = {}) => {
     copyright: article.copyright
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
-    metaDescription: createEditorStateFromText(article.metaDescription) || '',
+    metaDescription: converter.toPlainSlateEditorState(
+      article.metaDescription,
+      true,
+    ),
     visualElementId: visualElement.id || '',
     visualElementCaption: visualElement.caption || '',
     visualElementAlt: visualElement.alt || '',
@@ -86,18 +83,19 @@ class TopicArticleForm extends Component {
       setSubmitted(true);
       return;
     }
+
     this.props.onUpdate({
       id: model.id,
       revision,
       title: [{ title: model.title, language }],
       introduction: [
         {
-          introduction: getPlainTextFromEditorState(model.introduction),
+          introduction: converter.slateToText(model.introduction),
           language,
         },
       ],
       tags: [{ tags: model.tags, language }],
-      content: [{ content: converter.toHtml(model.content), language }],
+      content: [{ content: converter.slateToHtml(model.content), language }],
       visualElement: [
         {
           content: `<embed data-size="fullbredde" data-align="" data-alt="${model.visualElementAlt}" data-caption="${model.visualElementCaption}" data-resource="${model.visualElementType}" data-resource_id="${model.visualElementType ===
@@ -111,7 +109,7 @@ class TopicArticleForm extends Component {
       ],
       metaDescription: [
         {
-          metaDescription: getPlainTextFromEditorState(model.metaDescription),
+          metaDescription: converter.slateToText(model.metaDescription),
           language,
         },
       ],

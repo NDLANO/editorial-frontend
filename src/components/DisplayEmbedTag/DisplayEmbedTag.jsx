@@ -15,13 +15,14 @@ const DisplayEmbedTag = ({ embedTag, className }) => {
   if (!embedTag) {
     return null;
   }
+
   switch (embedTag.resource) {
     case 'image':
       return <DisplayImageTag embedTag={embedTag} className={className} />;
     case 'brightcove':
       return <DisplayVideoTag embedTag={embedTag} className={className} />;
     default:
-      return null;
+      return <p>{`Mediatype ${embedTag.resource} is not supported yet.`}</p>;
   }
 };
 
@@ -29,7 +30,7 @@ DisplayEmbedTag.propTypes = {
   embedTag: PropTypes.shape({
     caption: PropTypes.string.isRequired,
     alt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
     resource: PropTypes.string.isRequired,
   }),
   className: PropTypes.string,

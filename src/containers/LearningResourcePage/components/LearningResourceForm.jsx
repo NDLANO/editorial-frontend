@@ -11,17 +11,12 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
-import { EditorState } from 'draft-js';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import converter from '../../../util/articleContentConverter';
-import {
-  createEditorStateFromText,
-  getPlainTextFromEditorState,
-} from '../../../util/draftjsHelpers';
 import { parseEmbedTag } from '../../../util/embedTagHelpers';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
@@ -47,22 +42,23 @@ export const getInitialModel = (article = {}) => {
     id: article.id,
     revision: article.revision,
     title: article.title || '',
-    introduction: createEditorStateFromText(article.introduction),
-    content: article.content
-      ? converter.toEditorState(article.content)
-      : EditorState.createEmpty(),
+    introduction: converter.toPlainSlateEditorState(article.introduction),
+    content: converter.toSlateEditorState(article.content, true),
     tags: article.tags || [],
     authors: parseCopyrightAuthors(article, 'Forfatter'),
     licensees: parseCopyrightAuthors(article, 'Rettighetshaver'),
     contributors: parseCopyrightAuthors(article, 'Bidragsyter'),
-    copyrightOrigin:
+    origin:
       article.copyright && article.copyright.origin
         ? article.copyright.origin
         : '',
     license: article.copyright
       ? article.copyright.license.license
       : DEFAULT_LICENSE.license,
-    metaDescription: createEditorStateFromText(article.metaDescription) || '',
+    metaDescription: converter.toPlainSlateEditorState(
+      article.metaDescription,
+      true,
+    ),
     metaImageId: metaImage.id || '',
     metaImageCaption: metaImage.caption || '',
     metaImageAlt: metaImage.alt || '',
@@ -70,7 +66,7 @@ export const getInitialModel = (article = {}) => {
 };
 
 const classes = new BEMHelper({
-  name: 'topic-article-form',
+  name: 'learning-resource-form',
   prefix: 'c-',
 });
 
@@ -112,12 +108,14 @@ class LearningResourceForm extends Component {
       title: [{ title: model.title, language }],
       introduction: [
         {
-          introduction: getPlainTextFromEditorState(model.introduction),
+          introduction: converter.slateToText(model.introduction),
           language,
         },
       ],
       tags: [{ tags: model.tags, language }],
-      content: [{ content: converter.toHtml(model.content), language }],
+      content: [
+        { content: converter.slateToHtml(model.content, true), language },
+      ],
       visualElement: [
         {
           content: `<embed data-size="fullbredde" data-align="" data-alt="${model.metaImageAlt}" data-caption="${model.metaImageCaption}" data-resource="image" data-resource_id="${model.metaImageId}" />`,
@@ -126,7 +124,7 @@ class LearningResourceForm extends Component {
       ],
       metaDescription: [
         {
-          metaDescription: getPlainTextFromEditorState(model.metaDescription),
+          metaDescription: converter.slateToText(model.metaDescription),
           language,
         },
       ],

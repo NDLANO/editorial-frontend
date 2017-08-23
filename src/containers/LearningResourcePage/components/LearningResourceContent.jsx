@@ -8,9 +8,12 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { State } from 'slate';
 import { injectT } from 'ndla-i18n';
-import { TextField } from '../../../components/Fields';
+import { TextField, RichBlockTextField } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
+import LearningResourceIngress from './LearningResourceIngress';
+import { learningResourceSchema } from '../../../components/SlateEditor/schema';
 
 class LearningResourceContent extends Component {
   constructor(props) {
@@ -26,10 +29,26 @@ class LearningResourceContent extends Component {
       hiddenContent: !prevState.hiddenContent,
     }));
   }
+  removeIngress() {
+    const { bindInput } = this.props;
+    const ingress = bindInput('introduction');
+
+    ingress.onChange({
+      name: ingress.name,
+      value: undefined,
+    });
+  }
 
   render() {
-    const { t, commonFieldProps } = this.props;
-
+    const { t, bindInput, commonFieldProps } = this.props;
+    const ingressBindInput = bindInput('introduction');
+    const ingress = {
+      ...ingressBindInput,
+      value:
+        ingressBindInput.value instanceof State
+          ? ingressBindInput.value
+          : undefined,
+    };
     return (
       <Accordion
         handleToggle={this.toggleContent}
@@ -41,6 +60,25 @@ class LearningResourceContent extends Component {
           bigText
           noBorder
           placeholder={t('learningResourceForm.fields.title.label')}
+          {...commonFieldProps}
+        />
+        <div
+          ref={ingressRef => {
+            this.ingressRef = ingressRef;
+          }}>
+          <LearningResourceIngress
+            commonFieldProps={commonFieldProps}
+            {...ingress}
+          />
+        </div>
+        <RichBlockTextField
+          noBorder
+          slateSchema={learningResourceSchema}
+          label={t('learningResourceForm.fields.content.label')}
+          placeholder={t('learningResourceForm.fields.content.placeholder')}
+          name="content"
+          ingress={ingress}
+          ingressRef={this.ingressRef}
           {...commonFieldProps}
         />
       </Accordion>
@@ -57,6 +95,7 @@ LearningResourceContent.propTypes = {
     submitted: PropTypes.bool.isRequired,
   }),
   classes: PropTypes.func.isRequired,
+  bindInput: PropTypes.func.isRequired,
 };
 
 export default injectT(LearningResourceContent);

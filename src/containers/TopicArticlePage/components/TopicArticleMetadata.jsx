@@ -62,9 +62,7 @@ class TopicArticleMetadata extends Component {
             maxLength={150}
             getRemainingLabel={(maxLength, remaining) =>
               t('form.remainingCharacters', { maxLength, remaining })}
-            value={bindInput('metaDescription').value
-              .getCurrentContent()
-              .getPlainText()}
+            value={bindInput('metaDescription').value.document.text}
           />
         </PlainTextField>
         <MultiSelectField

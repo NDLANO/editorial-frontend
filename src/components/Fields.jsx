@@ -8,11 +8,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { RichTextEditor, PlainTextEditor } from 'ndla-editor';
 import { uuid } from 'ndla-util';
 import BEMHelper from 'react-bem-helper';
 import MultiSelect from './MultiSelect';
 import { isEmpty } from './validators';
+import RichTextEditor from '../components/SlateEditor/RichTextEditor';
+import PlainTextEditor from '../components/SlateEditor/PlainTextEditor';
+import RichBlockTextEditor from '../components/SlateEditor/RichBlockTextEditor';
 
 export const classes = new BEMHelper({
   name: 'field',
@@ -121,6 +123,50 @@ RemainingCharacters.propTypes = {
   value: PropTypes.string.isRequired,
   maxLength: PropTypes.number.isRequired,
   getRemainingLabel: PropTypes.func.isRequired,
+};
+
+export const InputFileField = ({
+  bigText,
+  bindInput,
+  name,
+  label,
+  submitted,
+  schema,
+  noBorder,
+  title,
+  ...rest
+}) =>
+  <Field noBorder={noBorder} bigText={bigText} title={title}>
+    <input
+      id="file"
+      name={name}
+      type="file"
+      {...bindInput(name, true)}
+      {...rest}
+    />
+    <FieldErrorMessages
+      label={label}
+      field={schema.fields[name]}
+      submitted={submitted}
+    />
+  </Field>;
+
+InputFileField.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  noBorder: PropTypes.bool,
+  title: PropTypes.bool,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  submitted: PropTypes.bool.isRequired,
+  bigText: PropTypes.bool,
+};
+
+InputFileField.defaultProps = {
+  bigText: false,
+  noBorder: true,
 };
 
 export const TextField = ({
@@ -249,59 +295,6 @@ TextAreaField.propTypes = {
   getMaxLengthRemaingLabel: PropTypes.func,
 };
 
-export const RichTextField = ({
-  bindInput,
-  name,
-  label,
-  noBorder,
-  submitted,
-  schema,
-  ...rest
-}) => {
-  const { value, onChange } = bindInput(name);
-  return (
-    <Field noBorder={noBorder}>
-      {!noBorder
-        ? <label htmlFor={name}>
-            {label}
-          </label>
-        : <label className="u-hidden" htmlFor={name}>
-            {label}
-          </label>}
-      {noBorder &&
-        <FocusLabel
-          name={name}
-          hasFocus={() => value.getSelection().hasFocus}
-          value={value}>
-          {label}
-        </FocusLabel>}
-      <RichTextEditor
-        id={name}
-        onChange={val =>
-          onChange({ target: { name, value: val, type: 'EditorState' } })}
-        value={value}
-        {...rest}
-      />
-      <FieldErrorMessages
-        label={label}
-        field={schema.fields[name]}
-        submitted={submitted}
-      />
-    </Field>
-  );
-};
-
-RichTextField.propTypes = {
-  bindInput: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  schema: PropTypes.shape({
-    fields: PropTypes.object.isRequired,
-  }),
-  noBorder: PropTypes.bool,
-  submitted: PropTypes.bool.isRequired,
-};
-
 export const PlainTextField = ({
   bindInput,
   name,
@@ -328,7 +321,7 @@ export const PlainTextField = ({
       {noBorder &&
         <FocusLabel
           name={name}
-          hasFocus={() => value.getSelection().hasFocus}
+          hasFocus={() => value.selection.isFocused}
           value={value}>
           {label}
         </FocusLabel>}
@@ -344,7 +337,9 @@ export const PlainTextField = ({
         <PlainTextEditor
           id={name}
           onChange={val =>
-            onChange({ target: { name, value: val, type: 'EditorState' } })}
+            onChange({
+              target: { name, value: val, type: 'SlateEditorState' },
+            })}
           value={value}
           {...rest}
         />
@@ -409,6 +404,122 @@ MultiSelectField.propTypes = {
     fields: PropTypes.object.isRequired,
   }),
   data: PropTypes.arrayOf(PropTypes.string),
+  submitted: PropTypes.bool.isRequired,
+};
+
+export const RichBlockTextField = ({
+  bindInput,
+  name,
+  label,
+  noBorder,
+  submitted,
+  schema,
+  slateSchema,
+  ...rest
+}) => {
+  const { value, onChange } = bindInput(name);
+  return (
+    <Field noBorder={noBorder}>
+      {!noBorder
+        ? <label htmlFor={name}>
+            {label}
+          </label>
+        : <label className="u-hidden" htmlFor={name}>
+            {label}
+          </label>}
+      {noBorder &&
+        value.map((val, i) =>
+          <FocusLabel
+            key={uuid()}
+            name={name}
+            hasFocus={() => val.state.isFocused}
+            value={val.state}>
+            {`${label} Blokk ${i + 1}`}
+          </FocusLabel>,
+        )}
+      <RichBlockTextEditor
+        id={name}
+        name={name}
+        value={value}
+        onChange={onChange}
+        schema={slateSchema}
+        {...rest}
+      />
+      <FieldErrorMessages
+        label={label}
+        field={schema.fields[name]}
+        submitted={submitted}
+      />
+    </Field>
+  );
+};
+
+RichBlockTextField.propTypes = {
+  slateSchema: PropTypes.shape({}).isRequired,
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  noBorder: PropTypes.bool,
+  submitted: PropTypes.bool.isRequired,
+};
+
+export const RichTextField = ({
+  bindInput,
+  name,
+  label,
+  noBorder,
+  submitted,
+  schema,
+  slateSchema,
+  ...rest
+}) => {
+  const { value, onChange } = bindInput(name);
+  return (
+    <Field noBorder={noBorder}>
+      {!noBorder
+        ? <label htmlFor={name}>
+            {label}
+          </label>
+        : <label className="u-hidden" htmlFor={name}>
+            {label}
+          </label>}
+      {noBorder &&
+        <FocusLabel
+          key={uuid()}
+          name={name}
+          hasFocus={() => value.isFocused}
+          value={value}>
+          {label}
+        </FocusLabel>}
+      <RichTextEditor
+        id={name}
+        name={name}
+        value={value}
+        onChange={onChange}
+        schema={slateSchema}
+        {...rest}
+      />
+      <FieldErrorMessages
+        label={label}
+        field={schema.fields[name]}
+        submitted={submitted}
+      />
+    </Field>
+  );
+};
+
+RichTextField.propTypes = {
+  slateSchema: PropTypes.shape({}).isRequired,
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  noBorder: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
 

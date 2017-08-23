@@ -15,6 +15,8 @@ const phrases = {
     searchTopicArticles: 'Search for topic description',
     createTopicArticle: 'Create topic description',
     createLearningResource: 'Create learning resource',
+    createAudioFile: 'Upload audiofile',
+    createImage: 'Upload image',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -109,6 +111,8 @@ const phrases = {
       content: {
         label: 'Content',
         placeholder: 'Write here...',
+        deleteEmbedOnSave:
+          'WARNING: Figure in content block will be removed on save',
       },
       tags: {
         label: 'Tags',
@@ -130,6 +134,96 @@ const phrases = {
     },
     description: {
       metaDescription: 'The description will be viewable in search.',
+    },
+  },
+  audioForm: {
+    save: 'Save',
+    abort: 'Abort',
+    savedOk: 'Saved OK',
+    createdOk: 'Created OK',
+    metadata: 'Metadata',
+    content: 'Content',
+    copyrightAccordion: 'License and authors',
+    title: {
+      create: 'You are now creating a audio file',
+      update: 'You are now editing a audio file',
+    },
+    fields: {
+      title: {
+        label: 'Title',
+      },
+      origin: {
+        label: 'Origin',
+      },
+      tags: {
+        label: 'Tags',
+        description: '3 tags is required.',
+        createNew: 'Create new tag',
+        emptyList: 'No tags available',
+        emptyFilter: 'No matching tags found',
+      },
+      authors: {
+        label: 'Author',
+        description: 'At least 1 author is required.',
+        createNew: 'Add new author',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      license: {
+        label: 'Lisens',
+      },
+      audioFile: {
+        label: 'Audiofile',
+      },
+    },
+  },
+  imageForm: {
+    save: 'Save',
+    abort: 'Abort',
+    savedOk: 'Saved OK',
+    createdOk: 'Created OK',
+    metadata: 'Metadata',
+    content: 'Content',
+    copyrightAccordion: 'License and authors',
+    title: {
+      create: 'You are now creating an image',
+      update: 'You are now editing an image',
+    },
+    fields: {
+      title: {
+        label: 'Title',
+      },
+      alttext: {
+        label: 'Alternative image text',
+        placeholder: 'Alt-text',
+      },
+      caption: {
+        label: 'Caption',
+        placeholder: 'Caption',
+      },
+      origin: {
+        label: 'Origin',
+      },
+      tags: {
+        label: 'Tags',
+        description: '3 tags is required.',
+        createNew: 'Create new tag',
+        emptyList: 'No tags available',
+        emptyFilter: 'No matching tags found',
+      },
+      authors: {
+        label: 'Author',
+        description: 'At least 1 author is required.',
+        createNew: 'Add new author',
+        emptyFilter: ' ',
+        emptyList: ' ',
+      },
+      license: {
+        label: 'Lisens',
+      },
+      imageFile: {
+        label: 'Image',
+      },
     },
   },
   learningResourceForm: {
@@ -170,6 +264,14 @@ const phrases = {
       content: {
         label: 'Content',
         placeholder: 'Write here...',
+        figure: {
+          caption: {
+            brightcove: 'Video caption',
+            image: 'Image caption',
+          },
+          alt: 'Alt text',
+          notSupported: 'Media type {mediaType} is not supported.',
+        },
       },
       tags: {
         label: 'Tags',

@@ -21,44 +21,42 @@ import {
 const query = { articleTypes: 'topic-article' };
 
 export const WelcomePage = ({ t }) =>
-  <div className="c-resources u-padding-top-large">
-    <OneColumn cssModifier="narrow">
-      <article>
-        <section>
-          <h1>
-            {t('welcomePage.shortcuts')}
-          </h1>
-          <ul>
-            <li>
-              <Link to={`${toSearch(query)}`}>
-                {t('welcomePage.searchTopicArticles')}
-              </Link>
-            </li>
-            <li>
-              <Link to={`${toCreateTopicArticle()}`}>
-                {t('welcomePage.createTopicArticle')}
-              </Link>
-            </li>
-            <li>
-              <Link to={`${toCreateLearningResource()}`}>
-                {t('welcomePage.createLearningResource')}
-              </Link>
-            </li>
-            <li>
-              <Link to={`${toCreateAudioFile()}`}>
-                {t('welcomePage.createAudioFile')}
-              </Link>
-            </li>
-            <li>
-              <Link to={`${toCreateImage()}`}>
-                {t('welcomePage.createImage')}
-              </Link>
-            </li>
-          </ul>
-        </section>
-      </article>
-    </OneColumn>
-  </div>;
+  <OneColumn cssModifier="clear">
+    <article>
+      <section>
+        <h1>
+          {t('welcomePage.shortcuts')}
+        </h1>
+        <ul>
+          <li>
+            <Link to={`${toSearch(query)}`}>
+              {t('welcomePage.searchTopicArticles')}
+            </Link>
+          </li>
+          <li>
+            <Link to={`${toCreateTopicArticle()}`}>
+              {t('welcomePage.createTopicArticle')}
+            </Link>
+          </li>
+          <li>
+            <Link to={`${toCreateLearningResource()}`}>
+              {t('welcomePage.createLearningResource')}
+            </Link>
+          </li>
+          <li>
+            <Link to={`${toCreateAudioFile()}`}>
+              {t('welcomePage.createAudioFile')}
+            </Link>
+          </li>
+          <li>
+            <Link to={`${toCreateImage()}`}>
+              {t('welcomePage.createImage')}
+            </Link>
+          </li>
+        </ul>
+      </section>
+    </article>
+  </OneColumn>;
 
 WelcomePage.propTypes = {};
 

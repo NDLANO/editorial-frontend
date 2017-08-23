@@ -23,7 +23,7 @@ a.c-learning-resource-form__abort-button.c-button {
 .c-audio-form,
 .c-image-form,
 .c-learning-resource-form {
-  margin-top: -6rem;
+  margin-top: calc(var(--spacing) * -6);
   width: 970px;
   padding: 0 9rem 3rem;
   background: white;

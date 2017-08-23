@@ -26,7 +26,6 @@ export const toolbarClasses = new BEMHelper({
 });
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-
 class SlateToolbar extends Component {
   constructor(props) {
     super(props);

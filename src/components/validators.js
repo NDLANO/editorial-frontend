@@ -19,13 +19,6 @@ export const isEmpty = value => {
   } else if (value && value.isState && value.isEmpty()) {
     // Slate check
     return true;
-  } else if (
-    value &&
-    value.getCurrentContent &&
-    !value.getCurrentContent().hasText()
-  ) {
-    // Draftjs check
-    return true;
   }
   return false;
 };

@@ -28,9 +28,9 @@ class TopicArticlePage extends Component {
     const { locale, tags, match, history, isSaving } = this.props;
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div>
         <Hero alt />
-        <OneColumn cssModifier="narrow">
+        <OneColumn>
           <Switch>
             <Route
               path={`${match.url}/new`}

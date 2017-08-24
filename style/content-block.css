@@ -67,7 +67,8 @@
     margin-bottom: 0.1rem;
     color: var(--gray-3);
     background-color: white;
-    display: block;
+    display: inline-block;
+    margin-right: 0.2rem;
     opacity: 1;
     visibility: visible;
     transition: opacity 0.1s, visibility 0s linear 0.1s;

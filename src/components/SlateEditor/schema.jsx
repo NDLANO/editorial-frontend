@@ -18,6 +18,21 @@ export const defaultBlock = {
   data: {},
 };
 
+export const defaultAsideBlock = type =>
+  Block.create({
+    data: { type },
+    isVoid: false,
+    type: 'aside',
+    nodes: Block.createList([defaultBlock]),
+  });
+
+export const defaultEmbedBlock = data =>
+  Block.create({
+    data,
+    isVoid: true,
+    type: 'embed',
+  });
+
 /* eslint-disable react/prop-types */
 const topicArticleItems = {
   nodes: {

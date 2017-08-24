@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { PageContainer } from 'ndla-ui';
+import { Content, PageContainer } from 'ndla-ui';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
 
@@ -49,28 +49,30 @@ export class App extends React.Component {
           title="NDLA"
           meta={[{ name: 'description', content: t('meta.description') }]}
         />
-        <Masthead
-          t={t}
-          params={params}
-          authenticated={this.props.authenticated}
-          userName={this.props.userName}
-        />
         <ScrollToTop />
-        <Switch>
-          <Route path="/" exact component={WelcomePage} />
-          <Route path="/login" component={Login} />
-          <Route path="/logout" component={Logout} />
-          <PrivateRoute path="/search" component={SearchPage} />
-          <PrivateRoute path="/topic-article/" component={TopicArticlePage} />
-          <PrivateRoute
-            path="/learning-resource"
-            component={LearningResourcePage}
+        <Content>
+          <Masthead
+            t={t}
+            params={params}
+            authenticated={this.props.authenticated}
+            userName={this.props.userName}
           />
-          <PrivateRoute path="/audio-upload" component={AudioUploaderPage} />
-          <PrivateRoute path="/image-upload" component={ImageUploaderPage} />
-          <Route path="/forbidden" component={ForbiddenPage} />
-          <Route component={NotFoundPage} />
-        </Switch>
+          <Switch>
+            <Route path="/" exact component={WelcomePage} />
+            <Route path="/login" component={Login} />
+            <Route path="/logout" component={Logout} />
+            <PrivateRoute path="/search" component={SearchPage} />
+            <PrivateRoute path="/topic-article/" component={TopicArticlePage} />
+            <PrivateRoute
+              path="/learning-resource"
+              component={LearningResourcePage}
+            />
+            <PrivateRoute path="/audio-upload" component={AudioUploaderPage} />
+            <PrivateRoute path="/image-upload" component={ImageUploaderPage} />
+            <Route path="/forbidden" component={ForbiddenPage} />
+            <Route component={NotFoundPage} />
+          </Switch>
+        </Content>
         <Footer t={t} />
         <Alerts dispatch={dispatch} messages={messages} />
       </PageContainer>

@@ -8,9 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { resolveJsonOrRejectWithError } from '../util/apiHelpers';
+import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 
-export default class Oembed extends React.Component {
+export default class DisplayOembedTag extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,6 +41,6 @@ export default class Oembed extends React.Component {
   }
 }
 
-Oembed.propTypes = {
+DisplayOembedTag.propTypes = {
   url: PropTypes.string.isRequired,
 };

@@ -65,7 +65,7 @@ class TopicArticleVisualElement extends Component {
           toggleShowVisualElement={this.toggleShowVisualElement}
           visualElementFields={visualElementFields}
         />
-        {visualElementTag.id
+        {visualElementTag.id && visualElementTag.resource !== 'h5p'
           ? <div>
               <TextField
                 placeholder={t(

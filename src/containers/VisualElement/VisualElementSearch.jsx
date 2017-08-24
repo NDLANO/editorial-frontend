@@ -15,6 +15,7 @@ import ImageSearch from 'ndla-image-search';
 import VideoSearch from 'ndla-video-search';
 import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
+import H5PSearch from '../../components/H5PSearch';
 
 const titles = {
   video: 'Videosøk',
@@ -71,12 +72,12 @@ const VisualElementSearch = ({
       );
     }
     case 'h5p': {
-      return <H5PSelectField
-        label={t('topicArticleForm.fields.visualElement.label')}
-        schema={schema}
-        submitted={submitted}
-        {...bindInput('h5pOembedUrl')}
-      />
+      return (
+        <H5PSearch
+          onSelect={handleVisualElementChange}
+          label={t('topicArticleForm.fields.visualElement.label')}
+        />
+      );
     }
     default:
       return <p>{`Embedtag ${embedTag.resource} is not supported.`}</p>;

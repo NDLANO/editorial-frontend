@@ -43,7 +43,7 @@ const phrases = {
       'N.B. Alle tjenester inkluderer autentiseringstjenesten (Google eller Facebook).',
   },
   searchForm: {
-    placeholder: 'Søk etter artikler',
+    placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
     btn: 'Søk',
     articleType: {
       all: 'Alle',

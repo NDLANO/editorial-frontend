@@ -6,26 +6,31 @@
  *
  */
 
-@import './vars.css';
-@import '../node_modules/ndla-ui/lib/main.css';
 @import '../node_modules/ndla-ui/lib/editor.css';
 @import '../node_modules/ndla-ui/lib/imageSearch.css';
+@import '../node_modules/ndla-ui/lib/main.css';
 @import '../node_modules/ndla-ui/lib/videoSearch.css';
+@import './accordion.css';
+@import './alert.css';
+@import './article-form.css';
+@import './auth.css';
+@import './content-block.css';
+@import './fields.css';
 @import './form.css';
-@import './multiselect.css';
 @import './imageSearch.css';
 @import './lightbox.css';
-@import './article-form.css';
+@import './masthead.css';
+@import './multiselect.css';
 @import './search.css';
-@import './auth.css';
-@import './fields.css';
-@import './content-block.css';
-@import './alert.css';
-@import './accordion.css';
 @import './toolbar.css';
+@import './vars.css';
 
-.c-hero--alt {
-  background-color: var(--brand-color--light);
+.c-hero {
+  margin-bottom: -5.6em;
+}
+
+.o-wrapper {
+  margin-top: 2.8em;
 }
 
 @media (--medium-viewport) {

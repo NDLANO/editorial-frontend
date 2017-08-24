@@ -53,6 +53,7 @@ module.exports = Object.assign(
     brightCoveAccountId: process.env.BRIGHTCOVE_ACCOUNT_ID || '123456789',
     brightcovePlayerId: process.env.BRIGHTCOVE_PLAYER_ID || 'Ab1234',
     brightcoveApiUrl: 'https://cms.api.brightcove.com',
+    h5pApiUrl: process.env.H5P_API_URL || 'https://h5p.ndla.no',
   },
   environment,
 );

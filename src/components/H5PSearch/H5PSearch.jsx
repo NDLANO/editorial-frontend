@@ -8,8 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import fetch from 'isomorphic-fetch';
-import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
+import { fetchH5PiframeUrl } from './h5pApi';
 
 class H5PSearch extends Component {
   constructor(props) {
@@ -22,14 +21,14 @@ class H5PSearch extends Component {
   }
 
   componentDidMount() {
-    fetch('https://h5p.ndla.no/select', {
-      method: 'POST',
-      headers: { Authorization: `Bearer JWT-token` },
-    })
-      .then(resolveJsonOrRejectWithError)
+    fetchH5PiframeUrl()
       .then(data => {
         this.setState(() => ({ url: data.url }));
+      })
+      .catch(() => {
+        this.setState({ error: 'Failed' });
       });
+
     window.addEventListener('message', this.handleH5PChange);
   }
 

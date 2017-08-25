@@ -6,10 +6,13 @@
  *
  */
 
-import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
+import {
+  resolveJsonOrRejectWithError,
+  fetchAuthorized,
+} from '../../util/apiHelpers';
 
-export const fetchH5PiframeUrl = () =>
-  fetch(`${window.config.h5pApiUrl}/select`, {
+export const fetchH5PiframeUrl = async () =>
+  fetchAuthorized(`${window.config.h5pApiUrl}/select`, {
     method: 'POST',
     headers: { Authorization: `Bearer JWT-token` },
   }).then(resolveJsonOrRejectWithError);

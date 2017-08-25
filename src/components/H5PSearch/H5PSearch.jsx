@@ -8,6 +8,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
+import { ErrorMessage } from 'ndla-ui';
 import { fetchH5PiframeUrl } from './h5pApi';
 
 class H5PSearch extends Component {
@@ -15,21 +17,21 @@ class H5PSearch extends Component {
     super(props);
     this.state = {
       url: undefined,
-      isOpen: false,
+      fetchFailed: false,
     };
     this.handleH5PChange = this.handleH5PChange.bind(this);
   }
 
-  componentDidMount() {
-    fetchH5PiframeUrl()
-      .then(data => {
-        this.setState(() => ({ url: data.url }));
-      })
-      .catch(() => {
-        this.setState({ error: 'Failed' });
-      });
-
+  /* eslint-disable react/no-did-mount-set-state */
+  /* See: https://github.com/yannickcr/eslint-plugin-react/issues/1110 */
+  async componentDidMount() {
     window.addEventListener('message', this.handleH5PChange);
+    try {
+      const data = await fetchH5PiframeUrl();
+      this.setState(() => ({ url: data.url }));
+    } catch (e) {
+      this.setState({ fetchFailed: true });
+    }
   }
 
   componentWillUnmount() {
@@ -47,9 +49,16 @@ class H5PSearch extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div>
-        <h2>H5P</h2>
+        {this.state.fetchFailed &&
+          <ErrorMessage
+            messages={{
+              title: t('errorMessage.title'),
+              description: t('h5pSearch.fetchError'),
+            }}
+          />}
         {this.state.url
           ? <iframe
               src={this.state.url}
@@ -67,4 +76,4 @@ H5PSearch.propTypes = {
   onSelect: PropTypes.func.isRequired,
 };
 
-export default H5PSearch;
+export default injectT(H5PSearch);

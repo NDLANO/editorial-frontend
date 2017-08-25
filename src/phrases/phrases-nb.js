@@ -73,6 +73,10 @@ const phrases = {
     addVideo: 'Bruk video',
     previewVideo: 'Forhåndsvis',
   },
+  h5pSearch: {
+    fetchError:
+      'Vi beklager, men en feil oppsto under lasting av H5P klienten.',
+  },
   topicArticleForm: {
     save: 'Lagre',
     savedOk: 'Lagret OK',
@@ -338,6 +342,12 @@ const phrases = {
     footerInfo: 'Nettstedet er utarbeidet av NDLA som åpen kildekode.',
     footerEditiorInChief: 'Ansvarlig redaktør: ',
     footerManagingEditor: 'Utgaveansvarlig: ',
+  },
+  errorMessage: {
+    title: 'Oops, noe gikk galt',
+    description: 'Vi beklager, men en feil oppsto.',
+    back: 'Tilbake',
+    goToFrontPage: 'Gå til forsiden',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',

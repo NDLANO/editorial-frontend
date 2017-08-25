@@ -72,6 +72,9 @@ const phrases = {
     addVideo: 'Use video',
     previewVideo: 'Preview',
   },
+  h5pSearch: {
+    fetchError: 'Sorry, an error occurd while loading the H5P client.',
+  },
   topicArticleForm: {
     save: 'Save',
     savedOk: 'Saved OK',
@@ -331,6 +334,12 @@ const phrases = {
     footerInfo: 'This webapplication is developed by NDLA as Open Source code.',
     footerEditiorInChief: 'Editor in chief: ',
     footerManagingEditor: 'Managing editor: ',
+  },
+  errorMessage: {
+    title: 'Oops, something went wrong',
+    description: 'Sorry, an error occurd.',
+    back: 'Back',
+    goToFrontPage: 'Go to frontpage',
   },
   notFound: {
     description: 'The page cannot be found',

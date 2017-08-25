@@ -30,6 +30,7 @@ const getEmbedTag = el => {
   const idTypes = {
     brightcove: 'data-videoid',
     image: 'data-resource_id',
+    'content-link': 'data-content-id',
   };
   const size = attributes.getNamedItem('data-size');
   const align = attributes.getNamedItem('data-align');
@@ -39,7 +40,7 @@ const getEmbedTag = el => {
     ? attributes.getNamedItem('data-resource').value
     : '';
   const id = attributes.getNamedItem(idTypes[resourceType]);
-
+  const contentLinkText = attributes.getNamedItem('data-link-text');
   return {
     size: size ? size.value : '',
     align: align ? align.value : '',
@@ -47,6 +48,7 @@ const getEmbedTag = el => {
     alt: alt ? alt.value : '',
     id: id ? id.value : '',
     resource: resourceType,
+    contentLinkText: contentLinkText ? contentLinkText.value : '',
   };
 };
 
@@ -307,9 +309,6 @@ const RULES = [
         kind: 'inline',
         type: 'link',
         nodes: next(el.childNodes),
-        data: {
-          href: el.attrs.find(({ name }) => name === 'href').value,
-        },
       };
     },
     serialize(object, children) {
@@ -355,6 +354,21 @@ const learningResourceEmbedRule = [
     // Embeds handling
     deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
+      const embedTag = getEmbedTag(el);
+      if (embedTag.resource === 'content-link') {
+        return {
+          kind: 'inline',
+          type: 'link',
+          data: embedTag,
+          nodes: [
+            {
+              kind: 'text',
+              text: embedTag.contentLinkText,
+            },
+          ],
+          isVoid: false,
+        };
+      }
       return {
         kind: 'block',
         type: 'embed',

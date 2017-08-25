@@ -72,7 +72,6 @@ class LearningResourceContent extends Component {
           />
         </div>
         <RichBlockTextField
-          noBorder
           slateSchema={learningResourceSchema}
           label={t('learningResourceForm.fields.content.label')}
           placeholder={t('learningResourceForm.fields.content.placeholder')}

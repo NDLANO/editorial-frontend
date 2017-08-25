@@ -33,7 +33,7 @@ class VisualElementSelectField extends Component {
 
   componentWillMount() {
     const { embedTag } = this.props;
-    if (embedTag.id && !embedTag.id.startsWith('http')) {
+    if (embedTag.id && embedTag.resource !== 'h5p') {
       api
         .fetchVisualElement(embedTag)
         .then(visualElement => this.setState({ visualElement }));

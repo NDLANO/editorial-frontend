@@ -17,24 +17,34 @@ import {
   resolveJsonOrRejectWithError,
 } from '../../util/apiHelpers';
 
-const baseNdlaUrl = apiResourceUrl('/image-api/v1/images');
+const baseImageNdlaUrl = apiResourceUrl('/image-api/v1/images');
+const baseAudioNdlaUrl = apiResourceUrl('/audio-api/v1/audio');
 const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
   `/v1/accounts/${window.config.brightCoveAccountId}/videos`,
 );
 
 export const searchImages = (query, page, locale) =>
   fetchWithAccessToken(
-    `${baseNdlaUrl}/?${queryString.stringify({
+    `${baseImageNdlaUrl}/?${queryString.stringify({
       query,
       page,
     })}&page-size=16&language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
+export const searchAudios = query =>
+  fetchWithAccessToken(
+    `${baseAudioNdlaUrl}/?${queryString.stringify({
+      query: query.query,
+      page: query.page,
+    })}&page-size=16&language=${query.locale}`,
+  ).then(resolveJsonOrRejectWithError);
 
-// export const search = (queryString, locale) =>
-//   fetchWithAccessToken(`${baseUrl}/${queryString}&language=${locale}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
+export const fetchAudio = audioId =>
+  fetchWithAccessToken(`${baseAudioNdlaUrl}/${audioId}`).then(
+    resolveJsonOrRejectWithError,
+  );
 
 export const fetchImage = imageId =>
-  fetchWithAccessToken(`${baseNdlaUrl}/${imageId}`).then(
+  fetchWithAccessToken(`${baseImageNdlaUrl}/${imageId}`).then(
     resolveJsonOrRejectWithError,
   );
 

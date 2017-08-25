@@ -72,6 +72,12 @@ const phrases = {
     addVideo: 'Use video',
     previewVideo: 'Preview',
   },
+  audioSearch: {
+    searchPlaceholder: 'Search in audio files',
+    searchButtonTitle: 'Search',
+    useAudio: 'Chose audio',
+    noResults: 'No audio files found',
+  },
   topicArticleForm: {
     save: 'Save',
     savedOk: 'Saved OK',

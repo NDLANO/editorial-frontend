@@ -19,6 +19,21 @@ export const defaultBlock = {
   data: {},
 };
 
+export const defaultAsideBlock = type =>
+  Block.create({
+    data: { type },
+    isVoid: false,
+    type: 'aside',
+    nodes: Block.createList([defaultBlock]),
+  });
+
+export const defaultEmbedBlock = data =>
+  Block.create({
+    data,
+    isVoid: true,
+    type: 'embed',
+  });
+
 export const getSchemaEmbedTag = node => ({
   caption: node.get('data').get('caption'),
   alt: node.get('data').get('alt'),

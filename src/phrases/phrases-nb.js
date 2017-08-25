@@ -73,6 +73,12 @@ const phrases = {
     addVideo: 'Bruk video',
     previewVideo: 'Forhåndsvis',
   },
+  audioSearch: {
+    searchPlaceholder: 'Søk i lydfiler',
+    searchButtonTitle: 'Søk',
+    useAudio: 'Velg lyd',
+    noResults: 'Ingen resultater funnet',
+  },
   topicArticleForm: {
     save: 'Lagre',
     savedOk: 'Lagret OK',

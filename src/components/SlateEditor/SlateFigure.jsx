@@ -12,6 +12,7 @@ import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
+import SlateAudio from './SlateAudio';
 import ForbiddenOverlay from '../ForbiddenOverlay';
 import { getSchemaEmbedTag } from './schema';
 
@@ -71,6 +72,14 @@ class SlateFigure extends React.Component {
             embedTag={embedTag}
             figureClass={figureClass}
             onFigureInputChange={this.onFigureInputChange}
+            {...this.props}
+          />
+        );
+      case 'audio':
+        return (
+          <SlateAudio
+            embedTag={embedTag}
+            figureClass={figureClass}
             {...this.props}
           />
         );

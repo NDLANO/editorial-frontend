@@ -4317,6 +4317,12 @@ ndla-article-scripts@^0.0.9:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.0.9.tgz#798fcfa04a8515d19222b1a6a23fc36d4cc55d70"
 
+ndla-audio-search@^0.1.12:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/ndla-audio-search/-/ndla-audio-search-0.1.12.tgz#9345e8df3de3596234669588bba44f5a8d66df1b"
+  dependencies:
+    defined "1.0.0"
+
 ndla-editor@^0.1.10:
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/ndla-editor/-/ndla-editor-0.1.10.tgz#e4e73f1045ce7a7b19bdee4728c81ee296eca471"

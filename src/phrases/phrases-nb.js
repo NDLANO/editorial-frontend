@@ -77,6 +77,12 @@ const phrases = {
     fetchError:
       'Vi beklager, men en feil oppsto under lasting av H5P klienten.',
   },
+  audioSearch: {
+    searchPlaceholder: 'Søk i lydfiler',
+    searchButtonTitle: 'Søk',
+    useAudio: 'Velg lyd',
+    noResults: 'Ingen resultater funnet',
+  },
   topicArticleForm: {
     save: 'Lagre',
     savedOk: 'Lagret OK',
@@ -286,6 +292,16 @@ const phrases = {
           },
           alt: 'Alt tekst',
           notSupported: 'Mediatype {mediaType} er ikke støttet.',
+        },
+        link: {
+          save: 'Lagre',
+          abort: 'Avbryt',
+          removeUrl: 'Fjern lenke',
+          urlError: 'Lenke må komme fra ndla.no',
+          url: 'Lenke',
+          text: 'Tekst',
+          addTitle: 'Legg til lenke',
+          changeTitle: 'Endre lenke',
         },
       },
       tags: {

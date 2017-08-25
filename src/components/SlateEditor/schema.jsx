@@ -11,12 +11,36 @@ import { Block } from 'slate';
 import merge from 'lodash/merge';
 import SlateFigure from './SlateFigure';
 import SlateAside from './aside/SlateAside';
+import SlateLink from './SlateLink';
 
 export const defaultBlock = {
   type: 'paragraph',
   isVoid: false,
   data: {},
 };
+
+export const defaultAsideBlock = type =>
+  Block.create({
+    data: { type },
+    isVoid: false,
+    type: 'aside',
+    nodes: Block.createList([defaultBlock]),
+  });
+
+export const defaultEmbedBlock = data =>
+  Block.create({
+    data,
+    isVoid: true,
+    type: 'embed',
+  });
+
+export const getSchemaEmbedTag = node => ({
+  caption: node.get('data').get('caption'),
+  alt: node.get('data').get('alt'),
+  id: node.get('data').get('id'),
+  resource: node.get('data').get('resource'),
+  contentLinkText: node.get('data').get('contentLinkText'),
+});
 
 /* eslint-disable react/prop-types */
 const topicArticleItems = {
@@ -116,15 +140,7 @@ const defaultSchema = {
       <blockquote {...props.attributes}>
         {props.children}
       </blockquote>,
-    link: props => {
-      const { data } = props.node;
-      const href = data.get('href');
-      return (
-        <a href={href} {...props.attributes}>
-          {props.children}
-        </a>
-      );
-    },
+    link: SlateLink,
     div: props =>
       <div {...props.attributes}>
         {props.children}

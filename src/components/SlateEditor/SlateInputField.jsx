@@ -70,6 +70,7 @@ class SlateInputField extends React.Component {
           id={name}
           name={name}
           value={value}
+          className="c-editor__figure-input-field"
           onClick={this.onFigureInputClick}
           onBlur={this.onFigureInputBlur}
           {...rest}

@@ -12,7 +12,9 @@ import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
+import SlateAudio from './SlateAudio';
 import ForbiddenOverlay from '../ForbiddenOverlay';
+import { getSchemaEmbedTag } from './schema';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -23,7 +25,6 @@ class SlateFigure extends React.Component {
   constructor() {
     super();
     this.isSelected = this.isSelected.bind(this);
-    this.getSchemaEmbedTag = this.getSchemaEmbedTag.bind(this);
     this.onFigureInputChange = this.onFigureInputChange.bind(this);
   }
 
@@ -34,7 +35,7 @@ class SlateFigure extends React.Component {
     const { node, editor } = this.props;
 
     const properties = {
-      data: { ...this.getSchemaEmbedTag(), [name]: value },
+      data: { ...getSchemaEmbedTag(node), [name]: value },
     };
     const next = editor
       .getState()
@@ -42,16 +43,6 @@ class SlateFigure extends React.Component {
       .setNodeByKey(node.key, properties)
       .apply();
     editor.onChange(next);
-  }
-
-  getSchemaEmbedTag() {
-    const { node } = this.props;
-    return {
-      caption: node.get('data').get('caption'),
-      alt: node.get('data').get('alt'),
-      id: node.get('data').get('id'),
-      resource: node.get('data').get('resource'),
-    };
   }
 
   isSelected() {
@@ -63,7 +54,8 @@ class SlateFigure extends React.Component {
   render() {
     const figureClass = classes('figure', this.isSelected() ? 'active' : '');
 
-    const embedTag = this.getSchemaEmbedTag();
+    const embedTag = getSchemaEmbedTag(this.props.node);
+
     switch (embedTag.resource) {
       case 'image':
         return (
@@ -80,6 +72,14 @@ class SlateFigure extends React.Component {
             embedTag={embedTag}
             figureClass={figureClass}
             onFigureInputChange={this.onFigureInputChange}
+            {...this.props}
+          />
+        );
+      case 'audio':
+        return (
+          <SlateAudio
+            embedTag={embedTag}
+            figureClass={figureClass}
             {...this.props}
           />
         );

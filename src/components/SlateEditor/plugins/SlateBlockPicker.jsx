@@ -7,14 +7,24 @@
  */
 
 import React, { Component } from 'react';
-import { Plain, Block, findDOMNode } from 'slate';
+import { Plain, findDOMNode } from 'slate';
 import PropTypes from 'prop-types';
 import Portal from 'react-portal';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
-import { Cross, Plus, InsertTemplate } from 'ndla-ui/icons';
+import {
+  Cross,
+  Plus,
+  Ingress,
+  Paragraph,
+  Camera,
+  Video,
+  Audio,
+  FactBox,
+} from 'ndla-ui/icons';
 import { createEmptyState } from '../../../util/articleContentConverter';
-import { defaultBlock } from '../schema';
+import { defaultAsideBlock } from '../schema';
+import SlateEmbedPicker from './SlateEmbedPicker';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -33,6 +43,9 @@ class SlateBlockPicker extends Component {
     super(props);
     this.state = {
       isOpen: false,
+      embedSelect: {
+        isOpen: false,
+      },
     };
     this.toggleIsOpen = this.toggleIsOpen.bind(this);
     this.onElementAdd = this.onElementAdd.bind(this);
@@ -42,56 +55,56 @@ class SlateBlockPicker extends Component {
     this.update = this.update.bind(this);
     this.showPicker = this.showPicker.bind(this);
     this.focusInsideAside = this.focusInsideAside.bind(this);
+    this.onStateChange = this.onStateChange.bind(this);
+    this.onEmbedClose = this.onEmbedClose.bind(this);
+  }
+
+  onStateChange(name, value) {
+    const { onChange } = this.props;
+    onChange({
+      target: {
+        name,
+        value,
+      },
+    });
+  }
+
+  onEmbedClose() {
+    this.setState({ embedSelect: { isOpen: false, embedType: '' } });
   }
 
   onElementAdd(type) {
-    const { blocks, onChange, ingress, ingressRef, state } = this.props;
-    switch (type) {
+    const { blocks, ingress, ingressRef, state } = this.props;
+    switch (type.type) {
       case 'block': {
         const newblocks = [].concat(blocks);
         newblocks.push({ state: createEmptyState(), index: blocks.length });
-        onChange({
-          target: {
-            name: 'content',
-            value: newblocks,
-          },
-        });
+        this.onStateChange('content', newblocks);
         break;
       }
       case 'ingress': {
         ingressRef.scrollIntoView();
-        onChange({
-          target: {
-            name: ingress.name,
-            value: Plain.deserialize(''),
-          },
-        });
+        this.onStateChange(ingress.name, Plain.deserialize(''));
         break;
       }
-      case 'factAside': {
+      case 'aside': {
         const newblocks = [].concat(blocks);
         const currentState = blocks[state.index];
-        const factAsideBlock = Block.create({
-          data: { type: 'factAside' },
-          isVoid: false,
-          type: 'aside',
-          nodes: Block.createList([defaultBlock]),
-        });
         const nextState = currentState.state
           .transform()
-          .insertBlock(factAsideBlock)
+          .insertBlock(defaultAsideBlock(type.kind))
           .apply();
 
         newblocks[state.index] = {
           ...newblocks[state.index],
           state: nextState,
         };
-        onChange({
-          target: {
-            name: 'content',
-            value: newblocks,
-          },
-        });
+
+        this.onStateChange('content', newblocks);
+        break;
+      }
+      case 'embed': {
+        this.setState({ embedSelect: { isOpen: true, embedType: type.kind } });
         break;
       }
       default:
@@ -166,45 +179,79 @@ class SlateBlockPicker extends Component {
   }
 
   render() {
-    const { ingress } = this.props;
+    const { ingress, state, blocks } = this.props;
     const typeClassName = this.state.isOpen ? '' : 'hidden';
     return (
-      <Portal
-        {...this.props}
-        isOpened={this.showPicker()}
-        onOpen={this.onOpen}
-        onUpdate={this.onUpdate}>
-        <div {...classes('block-type-container')}>
-          <Button
-            stripped
-            {...classes('block-type-button')}
-            onClick={this.toggleIsOpen}>
-            {this.state.isOpen ? <Cross /> : <Plus />}
-          </Button>
-          <div {...classes('block-type', typeClassName)}>
-            {!ingress.value
-              ? <Button
-                  stripped
-                  {...classes('block-type-button', 'green')}
-                  onClick={() => this.onElementAdd('ingress')}>
-                  In.
-                </Button>
-              : ''}
+      <div>
+        {this.state.embedSelect.isOpen
+          ? <SlateEmbedPicker
+              state={state}
+              blocks={blocks}
+              embedTag={{ resource: this.state.embedSelect.embedType }}
+              isOpen={this.state.embedSelect.isOpen}
+              onEmbedClose={this.onEmbedClose}
+              onStateChange={this.onStateChange}
+            />
+          : ''}
+        <Portal
+          {...this.props}
+          isOpened={this.showPicker()}
+          onOpen={this.onOpen}
+          onUpdate={this.onUpdate}>
+          <div {...classes('block-type-container')}>
             <Button
               stripped
               {...classes('block-type-button')}
-              onClick={() => this.onElementAdd('block')}>
-              ...
+              onClick={this.toggleIsOpen}>
+              {this.state.isOpen ? <Cross /> : <Plus />}
             </Button>
-            <Button
-              stripped
-              {...classes('block-type-button')}
-              onClick={() => this.onElementAdd('factAside')}>
-              <InsertTemplate />
-            </Button>
+            <div {...classes('block-type', typeClassName)}>
+              {!ingress.value
+                ? <Button
+                    stripped
+                    {...classes('block-type-button')}
+                    onClick={() => this.onElementAdd({ type: 'ingress' })}>
+                    <Ingress />
+                  </Button>
+                : ''}
+              <Button
+                stripped
+                {...classes('block-type-button')}
+                onClick={() => this.onElementAdd({ type: 'block' })}>
+                <Paragraph />
+              </Button>
+              <Button
+                stripped
+                {...classes('block-type-button')}
+                onClick={() =>
+                  this.onElementAdd({ type: 'aside', kind: 'factAside' })}>
+                <FactBox />
+              </Button>
+              <Button
+                stripped
+                {...classes('block-type-button')}
+                onClick={() =>
+                  this.onElementAdd({ type: 'embed', kind: 'image' })}>
+                <Camera />
+              </Button>
+              <Button
+                stripped
+                {...classes('block-type-button')}
+                onClick={() =>
+                  this.onElementAdd({ type: 'embed', kind: 'brightcove' })}>
+                <Video />
+              </Button>
+              <Button
+                stripped
+                {...classes('block-type-button')}
+                onClick={() =>
+                  this.onElementAdd({ type: 'embed', kind: 'audio' })}>
+                <Audio />
+              </Button>
+            </div>
           </div>
-        </div>
-      </Portal>
+        </Portal>
+      </div>
     );
   }
 }

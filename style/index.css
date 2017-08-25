@@ -11,6 +11,7 @@
 @import '../node_modules/ndla-ui/lib/editor.css';
 @import '../node_modules/ndla-ui/lib/imageSearch.css';
 @import '../node_modules/ndla-ui/lib/videoSearch.css';
+@import '../node_modules/ndla-ui/lib/audioSearch.css';
 @import './form.css';
 @import './multiselect.css';
 @import './imageSearch.css';
@@ -26,6 +27,15 @@
 
 .c-hero--alt {
   background-color: var(--brand-color--light);
+}
+
+.c-audio-search {
+  width: 70%;
+  margin: 0 auto;
+
+  &__form-query {
+    width: 87%;
+  }
 }
 
 @media (--medium-viewport) {

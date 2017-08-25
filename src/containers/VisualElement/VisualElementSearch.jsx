@@ -10,9 +10,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectT } from 'ndla-i18n';
-
 import ImageSearch from 'ndla-image-search';
 import VideoSearch from 'ndla-video-search';
+import AudioSearch from 'ndla-audio-search';
+
 import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
 import H5PSearch from '../../components/H5PSearch';
@@ -79,6 +80,33 @@ const VisualElementSearch = ({
         />
       );
     }
+    case 'audio': {
+      const defaultQueryObject = {
+        query: '',
+        page: 1,
+        pageSize: 16,
+        locale,
+      };
+
+      const translations = {
+        searchPlaceholder: t('audioSearch.searchPlaceholder'),
+        searchButtonTitle: t('audioSearch.searchButtonTitle'),
+        useAudio: t('audioSearch.useAudio'),
+        noResults: t('audioSearch.noResults'),
+      };
+
+      return (
+        <AudioSearch
+          translations={translations}
+          locale={locale}
+          fetchAudio={api.fetchAudio}
+          searchAudios={api.searchAudios}
+          onAudioSelect={handleVisualElementChange}
+          onError={api.onError}
+          queryObject={defaultQueryObject}
+        />
+      );
+    }
     default:
       return <p>{`Embedtag ${embedTag.resource} is not supported.`}</p>;
   }
@@ -86,9 +114,6 @@ const VisualElementSearch = ({
 
 VisualElementSearch.propTypes = {
   embedTag: PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
     resource: PropTypes.string.isRequired,
   }),
   handleVisualElementChange: PropTypes.func.isRequired,

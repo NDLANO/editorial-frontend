@@ -140,7 +140,7 @@ class SlateBlockPicker extends Component {
         state.state.selection.startKey,
       );
       menuEl.style.position = 'absolute';
-      const nodeEl = findDOMNode(node);
+      const nodeEl = findDOMNode(node); // eslint-disable-line
       const rect = nodeEl.getBoundingClientRect();
       menuEl.style.top = `${rect.top - bodyRect.top - 5}px`;
       menuEl.style.left = `${rect.left - bodyRect.left - 100}px`;

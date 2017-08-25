@@ -48,7 +48,7 @@ class SearchPage extends Component {
     const query = queryString.parse(location.search);
 
     return (
-      <OneColumn cssModifier="narrow">
+      <OneColumn cssModifier="clear">
         <SearchForm
           query={query.query}
           searching={searching}

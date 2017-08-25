@@ -20,13 +20,22 @@ export const parseEmbedTag = embedTag => {
   }
   const getAttribute = name => embedElements[0].getAttribute(`data-${name}`);
   return {
-    id:
-      getAttribute('resource_id') ||
-      getAttribute('videoid') ||
-      getAttribute('id'),
+    id: getAttribute('resource_id') || getAttribute('videoid'),
     alt: getAttribute('alt'),
     caption: getAttribute('caption'),
     url: getAttribute('url'),
     resource: getAttribute('resource'),
   };
+};
+
+export const createEmbedTag = (id, type, caption = '', alt = '') => {
+  if (type === 'h5p') {
+    return `<embed data-resource="${type}" data-url="${id}">`;
+  } else if (type === 'brightcove') {
+    return `<embed data-resource="${type}" data-caption=${caption} data-videoid=="${id}">`;
+  } else if (type === 'image') {
+    return `<embed data-size="fullbredde" data-resource="${type}" data-alt=${alt} data-caption=${caption} data-resource_id=="${id}">`;
+  }
+  console.error('Unkown embed tag type');
+  return '';
 };

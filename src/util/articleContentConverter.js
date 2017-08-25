@@ -6,22 +6,8 @@
  *
  */
 
-import React from 'react';
-import { convertFromHTML, convertToHTML } from 'draft-convert';
-import { EditorState } from 'draft-js';
 import { Html, Raw, Plain } from 'slate';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
-
-function reduceAttributesArrayToObject(attributes) {
-  // Reduce attributes array to object with attribute name (striped of data-) as keys.
-  return attributes.reduce(
-    (all, attr) =>
-      Object.assign({}, all, {
-        [attr.nodeName.replace('data-', '')]: attr.nodeValue,
-      }),
-    {},
-  );
-}
 
 export const createEmptyState = () =>
   Raw.deserialize(
@@ -47,30 +33,6 @@ export const createEmptyState = () =>
     },
     { terse: true },
   );
-
-function convertHTMLToEditorState(html) {
-  const embeds = [];
-  const contentState = convertFromHTML({
-    htmlToBlock: nodeName => {
-      if (nodeName === 'embed') {
-        return 'atomic';
-      }
-      return undefined;
-    },
-    htmlToEntity: (nodeName, node) => {
-      if (nodeName === 'embed') {
-        const data = reduceAttributesArrayToObject(Array.from(node.attributes));
-        embeds.push(data);
-        return embeds.length.toString();
-      }
-      return undefined;
-    },
-  })(html);
-  embeds.forEach(embed =>
-    contentState.createEntity('resource-placeholder', 'IMMUTABLE', embed),
-  );
-  return EditorState.createWithContent(contentState);
-}
 
 // TODO: Find a better way to extract each section into an array.
 function extractSections(html) {
@@ -122,21 +84,6 @@ function convertSlateEditorStatetoHTML(contentState, isBlocks = false) {
   return html.join('');
 }
 
-function convertEditorStateToHTML(editorState) {
-  const contentState = editorState.getCurrentContent();
-
-  const html = convertToHTML({
-    blockToHTML: block => {
-      if (block.type === 'atomic') {
-        return <deleteme />;
-      }
-      return null;
-    },
-  })(contentState);
-
-  return `<section>${html.replace(/<deleteme>a<\/deleteme>/g, '')}</section>`;
-}
-
 function convertTextToSlateEditorState(text, withDefaultPlainState = false) {
   if (withDefaultPlainState) {
     return text ? Plain.deserialize(text) : Plain.deserialize('');
@@ -149,9 +96,7 @@ function convertSlateEditorStateToText(editorState) {
 }
 
 export default {
-  toHtml: convertEditorStateToHTML,
   slateToHtml: convertSlateEditorStatetoHTML,
-  toEditorState: convertHTMLToEditorState,
   toSlateEditorState: convertHTMLToSlateEditorState,
   toPlainSlateEditorState: convertTextToSlateEditorState,
   slateToText: convertSlateEditorStateToText,

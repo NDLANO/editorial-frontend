@@ -523,6 +523,10 @@ RichTextField.propTypes = {
   submitted: PropTypes.bool.isRequired,
 };
 
+RichBlockTextEditor.defaultProps = {
+  noBorder: false,
+};
+
 export const SelectObjectField = props => {
   const {
     bindInput,

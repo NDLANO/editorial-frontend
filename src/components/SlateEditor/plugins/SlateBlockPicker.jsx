@@ -17,10 +17,10 @@ import {
   Plus,
   Ingress,
   Paragraph,
-  InsertTemplate,
   Camera,
   Video,
   Audio,
+  FactBox,
 } from 'ndla-ui/icons';
 import { createEmptyState } from '../../../util/articleContentConverter';
 import { defaultAsideBlock } from '../schema';
@@ -225,7 +225,7 @@ class SlateBlockPicker extends Component {
                 {...classes('block-type-button')}
                 onClick={() =>
                   this.onElementAdd({ type: 'aside', kind: 'factAside' })}>
-                <InsertTemplate />
+                <FactBox />
               </Button>
               <Button
                 stripped

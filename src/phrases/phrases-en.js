@@ -278,6 +278,16 @@ const phrases = {
           alt: 'Alt text',
           notSupported: 'Media type {mediaType} is not supported.',
         },
+        link: {
+          save: 'Save',
+          abort: 'Abort',
+          removeUrl: 'Remove link',
+          urlError: 'Link has to come from ndla.no',
+          url: 'Link',
+          text: 'Text',
+          addTitle: 'Add link',
+          changeTitle: 'Change link',
+        },
       },
       tags: {
         label: 'Tags',

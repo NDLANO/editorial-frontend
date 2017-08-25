@@ -108,6 +108,14 @@
     padding: 1rem;
   }
 
+  &__figure-input-field {
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
   &__figure-focus-input-label {
     color: black;
     position: absolute;

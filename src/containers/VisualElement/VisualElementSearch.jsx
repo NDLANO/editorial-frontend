@@ -85,7 +85,7 @@ const VisualElementSearch = ({
         useAudio: t('audioSearch.useAudio'),
         noResults: t('audioSearch.noResults'),
       };
-      
+
       return (
         <AudioSearch
           translations={translations}

@@ -30,14 +30,16 @@ class VisualElementSelectField extends Component {
     this.removeVisualElement = this.removeVisualElement.bind(this);
     this.onImageLightboxClose = this.onImageLightboxClose.bind(this);
   }
+
   componentWillMount() {
     const { embedTag } = this.props;
-    if (embedTag.id) {
+    if (embedTag.id && !embedTag.id.startsWith('http')) {
       api
         .fetchVisualElement(embedTag)
         .then(visualElement => this.setState({ visualElement }));
     }
   }
+
   componentWillReceiveProps(nextProps) {
     if (this.state.isOpen !== nextProps.showVisualElement) {
       this.setState({ isOpen: nextProps.showVisualElement });

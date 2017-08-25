@@ -51,7 +51,7 @@ export const getInitialModel = (article = {}) => {
       article.metaDescription,
       true,
     ),
-    visualElementId: visualElement.id || '',
+    visualElementId: visualElement.id || visualElement.url || '',
     visualElementCaption: visualElement.caption || '',
     visualElementAlt: visualElement.alt || '',
     visualElementType: visualElement.resource || '',

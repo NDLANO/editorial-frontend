@@ -80,11 +80,12 @@ const VisualElementSearch = ({
       };
 
       const translations = {
-        searchPlaceholder: 'Søk i lydfiler',
-        searchButtonTitle: 'Søk',
-        useAudio: 'Velg lyd',
-        noResults: 'Ingen resultater funnet',
+        searchPlaceholder: t('audioSearch.searchPlaceholder'),
+        searchButtonTitle: t('audioSearch.searchButtonTitle'),
+        useAudio: t('audioSearch.useAudio'),
+        noResults: t('audioSearch.noResults'),
       };
+      
       return (
         <AudioSearch
           translations={translations}

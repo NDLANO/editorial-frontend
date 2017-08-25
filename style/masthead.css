@@ -29,6 +29,10 @@
     border-color: rgba(0, 90, 145, 1);
     border-radius: 3px;
 
+    &__hidden {
+      display: none;
+    }
+
     &__query {
       font-weight: 200;
       font-style: normal;
@@ -41,9 +45,7 @@
     }
 
     &__button {
-      width: 15%;
-      margin-left: -1px;
-      height: 3rem;
+      color: #20588f;
 
       &:hover,
       &:focus,

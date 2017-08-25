@@ -43,7 +43,7 @@ class MastheadSearch extends Component {
             <SiteNavItem onClick={this.handleSearchIconClick}>
               <div className="c-topic-menu__search">
                 <div className="c-topic-menu__search-icon">
-                  <Search />
+                  <Search className="c-icon--medium" />
                 </div>
               </div>
             </SiteNavItem>}
@@ -51,23 +51,23 @@ class MastheadSearch extends Component {
             <SiteNavItem onClick={this.handleSearchIconClick}>
               <div className="c-topic-menu__search">
                 <div className="c-topic-menu__search-icon">
-                  <Cross />
+                  <Cross className="c-icon--medium" />
                 </div>
               </div>
             </SiteNavItem>}
         </SiteNav>
-        {showSearchField &&
-          <MastheadSearchForm
-            searching={searching}
-            onSearchQuerySubmit={searchQuery =>
-              history.push(
-                toSearch({
-                  query: searchQuery,
-                  page: 1,
-                  sort: '-relevance',
-                }),
-              )}
-          />}
+        <MastheadSearchForm
+          show={showSearchField}
+          searching={searching}
+          onSearchQuerySubmit={searchQuery =>
+            history.push(
+              toSearch({
+                query: searchQuery,
+                page: 1,
+                sort: '-relevance',
+              }),
+            )}
+        />
       </div>
     );
   }

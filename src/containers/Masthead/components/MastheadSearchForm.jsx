@@ -32,9 +32,13 @@ class MastheadSearchForm extends Component {
   }
 
   render() {
-    const { searching, t } = this.props;
+    const { show, searching, t } = this.props;
     return (
-      <form onSubmit={this.handleSubmit} className="masthead-search__form">
+      <form
+        onSubmit={this.handleSubmit}
+        className={
+          show ? `masthead-search__form` : `masthead-search__form__hidden`
+        }>
         <input
           type="text"
           className="masthead-search__form__query"
@@ -42,8 +46,12 @@ class MastheadSearchForm extends Component {
           value={this.state.query}
           placeholder={t('searchForm.placeholder')}
         />
-        <Button submit stripped loading={searching}>
-          <Search />
+        <Button
+          submit
+          stripped
+          loading={searching}
+          className="masthead-search__form__button">
+          <Search className="c-icon--medium" />
         </Button>
       </form>
     );
@@ -51,12 +59,14 @@ class MastheadSearchForm extends Component {
 }
 
 MastheadSearchForm.propTypes = {
+  show: PropTypes.bool.isRequired,
   query: PropTypes.string,
   searching: PropTypes.bool.isRequired,
   onSearchQuerySubmit: PropTypes.func.isRequired,
 };
 
 MastheadSearchForm.defaultProps = {
+  show: false,
   query: '',
 };
 

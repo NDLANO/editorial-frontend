@@ -15,6 +15,8 @@ import { Button } from 'ndla-ui';
 import {
   Cross,
   Plus,
+  Ingress,
+  Paragraph,
   InsertTemplate,
   Camera,
   Video,
@@ -207,16 +209,16 @@ class SlateBlockPicker extends Component {
               {!ingress.value
                 ? <Button
                     stripped
-                    {...classes('block-type-button', 'green')}
+                    {...classes('block-type-button')}
                     onClick={() => this.onElementAdd({ type: 'ingress' })}>
-                    In.
+                    <Ingress />
                   </Button>
                 : ''}
               <Button
                 stripped
                 {...classes('block-type-button')}
                 onClick={() => this.onElementAdd({ type: 'block' })}>
-                ...
+                <Paragraph />
               </Button>
               <Button
                 stripped

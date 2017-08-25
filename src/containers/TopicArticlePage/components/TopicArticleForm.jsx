@@ -40,7 +40,6 @@ export const getInitialModel = (article = {}) => {
     introduction: converter.toPlainSlateEditorState(article.introduction, true),
     content: converter.toSlateEditorState(article.content),
     tags: article.tags || [],
-    h5pOembedUrl: undefined,
     authors: article.copyright
       ? article.copyright.authors.map(author => author.name)
       : [],

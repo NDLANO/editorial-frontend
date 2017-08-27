@@ -200,11 +200,12 @@ export const TextField = ({
       {...bindInput(name)}
       {...rest}
     />
-    <FieldErrorMessages
-      label={label}
-      field={schema.fields[name]}
-      submitted={submitted}
-    />
+    {schema &&
+      <FieldErrorMessages
+        label={label}
+        field={schema.fields[name]}
+        submitted={submitted}
+      />}
   </Field>;
 
 TextField.propTypes = {

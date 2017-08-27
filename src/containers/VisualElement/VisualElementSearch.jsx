@@ -24,17 +24,17 @@ const titles = {
 };
 
 const VisualElementSearch = ({
-  embedTag,
+  selectedResource,
   handleVisualElementChange,
   locale,
   t,
 }) => {
-  switch (embedTag.resource) {
+  switch (selectedResource) {
     case 'image':
       return (
         <div>
           <h2>
-            {titles[embedTag.resource]}
+            {titles[selectedResource]}
           </h2>
           <ImageSearch
             fetchImage={api.fetchImage}
@@ -59,7 +59,7 @@ const VisualElementSearch = ({
       return (
         <div>
           <h2>
-            {titles[embedTag.resource]}
+            {titles[selectedResource]}
           </h2>
           <VideoSearch
             fetchVideo={api.fetchBrightcoveVideo}
@@ -108,14 +108,12 @@ const VisualElementSearch = ({
       );
     }
     default:
-      return <p>{`Embedtag ${embedTag.resource} is not supported.`}</p>;
+      return <p>{`Embedtag ${selectedResource} is not supported.`}</p>;
   }
 };
 
 VisualElementSearch.propTypes = {
-  embedTag: PropTypes.shape({
-    resource: PropTypes.string.isRequired,
-  }),
+  selectedResource: PropTypes.string.isRequired,
   handleVisualElementChange: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
 };

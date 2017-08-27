@@ -14,18 +14,12 @@ import { TextField, classes } from '../../../components/Fields';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 import VisualElementTypeSelect from '../../VisualElement/VisualElementTypeSelect';
 
-const visualElementFields = {
-  id: 'visualElementId',
-  caption: 'visualElementCaption',
-  alt: 'visualElementAlt',
-  type: 'visualElementType',
-};
-
 class TopicArticleVisualElement extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showVisualElement: false,
+      selectedResource: undefined,
     };
     this.toggleShowVisualElement = this.toggleShowVisualElement.bind(this);
   }
@@ -37,8 +31,20 @@ class TopicArticleVisualElement extends Component {
   }
 
   render() {
-    const { t, bindInput, commonFieldProps, visualElementTag } = this.props;
+    const { t, bindInput, commonFieldProps } = this.props;
     const { schema, submitted } = commonFieldProps;
+
+    const { onChange, value: visualElement } = bindInput('visualElement');
+
+    const bindChildInput = name => ({
+      name,
+      value: visualElement[name] || '',
+      onChange: e => {
+        const { value } = e.target;
+        visualElement[name] = value;
+        onChange({ target: { name: 'visualElement', value: visualElement } });
+      },
+    });
 
     return (
       <div>
@@ -51,41 +57,45 @@ class TopicArticleVisualElement extends Component {
         <VisualElementTypeSelect
           schema={schema}
           submitted={submitted}
-          embedTag={visualElementTag}
           toggleShowVisualElement={this.toggleShowVisualElement}
-          {...bindInput('visualElementType')}
+          value={this.state.selectedResource}
+          onSelect={resource => this.setState({ selectedResource: resource })}
         />
         <VisualElementSelectField
           label={t('topicArticleForm.fields.visualElement.label')}
           schema={schema}
           submitted={submitted}
-          embedTag={visualElementTag}
-          {...bindInput('visualElementId')}
+          visualElement={visualElement}
+          selectedResource={this.state.selectedResource}
+          onRemoveVisualElement={() =>
+            this.setState({ selectedResource: undefined })}
+          {...bindInput('visualElement')}
           showVisualElement={this.state.showVisualElement}
           toggleShowVisualElement={this.toggleShowVisualElement}
-          visualElementFields={visualElementFields}
         />
-        {visualElementTag.id && visualElementTag.resource !== 'h5p'
+        {visualElement.id && visualElement.resource !== 'h5p'
           ? <div>
               <TextField
                 placeholder={t(
-                  `topicArticleForm.fields.caption.placeholder.${visualElementTag.resource}`,
+                  `topicArticleForm.fields.caption.placeholder.${visualElement.resource}`,
                 )}
                 label={t(
-                  `topicArticleForm.fields.caption.label.${visualElementTag.resource}`,
+                  `topicArticleForm.fields.caption.label.${visualElement.resource}`,
                 )}
-                name="visualElementCaption"
+                name="caption"
+                submitted={submitted}
+                bindInput={bindChildInput}
                 noBorder
                 maxLength={300}
-                {...commonFieldProps}
               />
               <TextField
                 placeholder={t('topicArticleForm.fields.alt.placeholder')}
                 label={t('topicArticleForm.fields.alt.label')}
-                name="visualElementAlt"
+                name="alt"
+                submitted={submitted}
+                bindInput={bindChildInput}
                 noBorder
                 maxLength={300}
-                {...commonFieldProps}
               />
             </div>
           : ''}
@@ -104,11 +114,11 @@ TopicArticleVisualElement.propTypes = {
     submitted: PropTypes.bool.isRequired,
     bindInput: PropTypes.func.isRequired,
   }),
-  visualElementTag: PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    resource: PropTypes.string.isRequired,
+  visualElement: PropTypes.shape({
+    caption: PropTypes.string,
+    alt: PropTypes.string,
+    id: PropTypes.string,
+    resource: PropTypes.string,
   }),
 };
 

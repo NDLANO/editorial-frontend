@@ -31,7 +31,7 @@ const DEFAULT_LICENSE = {
 };
 
 export const getInitialModel = (article = {}) => {
-  const visualElement = parseEmbedTag(article.visualElement) || {};
+  const visualElement = parseEmbedTag(article.visualElement);
   return {
     id: article.id,
     revision: article.revision,
@@ -50,10 +50,7 @@ export const getInitialModel = (article = {}) => {
       article.metaDescription,
       true,
     ),
-    visualElementId: visualElement.id || visualElement.url || '',
-    visualElementCaption: visualElement.caption || '',
-    visualElementAlt: visualElement.alt || '',
-    visualElementType: visualElement.resource || '',
+    visualElement: visualElement || {},
   };
 };
 

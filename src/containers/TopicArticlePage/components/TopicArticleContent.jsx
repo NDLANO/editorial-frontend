@@ -97,6 +97,7 @@ class TopicArticleContent extends Component {
         </PlainTextField>
         <TopicArticleVisualElement
           visualElementTag={visualElementTag}
+          visualElement={model.visualElement}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
         />

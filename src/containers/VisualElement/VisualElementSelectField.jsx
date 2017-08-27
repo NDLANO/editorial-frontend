@@ -22,86 +22,60 @@ import { alttextsI18N, captionsI18N } from '../../util/i18nFieldFinder';
 class VisualElementSelectField extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isOpen: false,
-      visualElement: undefined,
-    };
     this.handleVisualElementChange = this.handleVisualElementChange.bind(this);
     this.removeVisualElement = this.removeVisualElement.bind(this);
     this.onImageLightboxClose = this.onImageLightboxClose.bind(this);
   }
 
   componentWillMount() {
-    const { embedTag } = this.props;
-    if (embedTag.id && embedTag.resource !== 'h5p') {
+    const { value } = this.props;
+    if (value.id && value.resource !== 'h5p') {
       api
-        .fetchVisualElement(embedTag)
-        .then(visualElement => this.setState({ visualElement }));
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.state.isOpen !== nextProps.showVisualElement) {
-      this.setState({ isOpen: nextProps.showVisualElement });
+        .fetchVisualElement(value)
+        .then(visualElementMetaData =>
+          this.setState({ visualElementMetaData }),
+        );
     }
   }
 
   onImageLightboxClose() {
-    const { onChange, toggleShowVisualElement } = this.props;
-    onChange({
-      target: {
-        name: 'visualElementType',
-        value: '',
-      },
-    });
+    const { toggleShowVisualElement } = this.props;
     toggleShowVisualElement();
-    this.setState(() => ({ isOpen: false }));
   }
 
   handleVisualElementChange(visualElement) {
     const {
       name,
       onChange,
+      selectedResource,
       toggleShowVisualElement,
       locale,
-      visualElementFields,
     } = this.props;
+
+    const alt = alttextsI18N(visualElement, locale, true);
+    const caption = captionsI18N(visualElement, locale, true);
+
     onChange({
       target: {
         name,
-        value: visualElement.id,
+        value: {
+          ...visualElement,
+          resource: selectedResource,
+          alt,
+          caption,
+        },
       },
     });
 
-    const altText = alttextsI18N(visualElement, locale, true);
-    const caption = captionsI18N(visualElement, locale, true);
-    const visualElementTexts = [
-      { name: visualElementFields.alt, value: altText || '' },
-      { name: visualElementFields.caption, value: caption || '' },
-    ];
-
-    visualElementTexts.forEach(text =>
-      onChange({ target: { name: text.name, value: text.value } }),
-    );
-
     toggleShowVisualElement();
-    this.setState(() => ({ isOpen: false, visualElement }));
   }
 
   removeVisualElement() {
-    const { onChange, visualElementFields } = this.props;
+    const { onChange, onRemoveVisualElement } = this.props;
 
-    this.setState({ visualElement: undefined });
-    ['id', 'caption', 'alt', 'type'].forEach(name => {
-      if (visualElementFields[name]) {
-        onChange({
-          target: {
-            name: visualElementFields[name],
-            value: '',
-          },
-        });
-      }
-    });
+    this.setState({ visualElementMetaData: undefined });
+    onChange({ target: { name: 'visualElement', value: {} } });
+    onRemoveVisualElement();
   }
 
   render() {
@@ -111,24 +85,25 @@ class VisualElementSelectField extends Component {
       schema,
       submitted,
       value,
-      embedTag,
+      showVisualElement,
       locale,
+      selectedResource,
     } = this.props;
 
-    if (value) {
+    if (value.resource) {
       return (
         <Field>
           <div {...classes('visual-element-container')}>
             <div {...classes('visual-element', 'left')}>
               <DisplayEmbedTag
-                embedTag={embedTag}
-                {...classes('visual-element', embedTag.resource)}
+                embedTag={value}
+                {...classes('visual-element', value.resource)}
               />
             </div>
             <div {...classes('visual-element', 'right')}>
               <VisualElementInformation
-                visualElement={this.state.visualElement}
-                embedTag={embedTag}
+                visualElement={this.state.visualElementMetaData}
+                embedTag={value}
                 locale={locale}
               />
               <Button onClick={this.removeVisualElement}>Fjern element</Button>
@@ -138,18 +113,19 @@ class VisualElementSelectField extends Component {
       );
     }
 
-    if (!this.state.isOpen) {
+    if (!showVisualElement) {
       return null;
     }
 
     return (
       <Field>
         <Lightbox
-          display={this.state.isOpen}
+          display={showVisualElement}
           big
           onClose={this.onImageLightboxClose}>
           <VisualElementSearch
-            embedTag={embedTag}
+            selectedResource={selectedResource}
+            embedTag={value}
             handleVisualElementChange={this.handleVisualElementChange}
           />
         </Lightbox>
@@ -165,28 +141,23 @@ class VisualElementSelectField extends Component {
 
 VisualElementSelectField.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string,
+  onRemoveVisualElement: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  selectedResource: PropTypes.string,
   label: PropTypes.string.isRequired,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),
   submitted: PropTypes.bool.isRequired,
-  embedTag: PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    resource: PropTypes.string.isRequired,
-  }),
+  value: PropTypes.shape({
+    caption: PropTypes.string,
+    alt: PropTypes.string,
+    id: PropTypes.string,
+    resource: PropTypes.string,
+  }).isRequired,
   showVisualElement: PropTypes.bool.isRequired,
   toggleShowVisualElement: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
-  visualElementFields: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    caption: PropTypes.string.isRequired,
-    type: PropTypes.string,
-  }),
 };
 
 const mapStateToProps = state => ({

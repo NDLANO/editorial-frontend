@@ -66,9 +66,10 @@ const showError = (field, submitted) =>
   hasError(field) && (field.isDirty || submitted);
 
 export const FieldErrorMessages = ({ field, submitted, label }) => {
-  if (!showError(field, submitted)) {
+  if (!field || !showError(field, submitted)) {
     return null;
   }
+
   return (
     <div>
       {field.errors.map(error =>
@@ -202,12 +203,12 @@ export const TextField = ({
       {...bindInput(name)}
       {...rest}
     />
-    {schema &&
-      <FieldErrorMessages
-        label={label}
-        field={getField(name, schema)}
-        submitted={submitted}
-      />}
+
+    <FieldErrorMessages
+      label={label}
+      field={getField(name, schema)}
+      submitted={submitted}
+    />
   </Field>;
 
 TextField.propTypes = {

@@ -13,7 +13,12 @@ import { Button } from 'ndla-ui';
 import Lightbox from '../../components/Lightbox';
 import DisplayEmbedTag from '../../components/DisplayEmbedTag/DisplayEmbedTag';
 import * as api from './visualElementApi';
-import { Field, FieldErrorMessages, classes } from '../../components/Fields';
+import {
+  Field,
+  FieldErrorMessages,
+  classes,
+  getField,
+} from '../../components/Fields';
 import VisualElementSearch from './VisualElementSearch';
 import VisualElementInformation from './VisualElementInformation';
 import { getLocale } from '../../modules/locale/locale';
@@ -22,6 +27,7 @@ import { alttextsI18N, captionsI18N } from '../../util/i18nFieldFinder';
 class VisualElementSelectField extends Component {
   constructor(props) {
     super(props);
+    this.state = {};
     this.handleVisualElementChange = this.handleVisualElementChange.bind(this);
     this.removeVisualElement = this.removeVisualElement.bind(this);
     this.onImageLightboxClose = this.onImageLightboxClose.bind(this);
@@ -131,7 +137,7 @@ class VisualElementSelectField extends Component {
         </Lightbox>
         <FieldErrorMessages
           label={label}
-          field={schema.fields[name]}
+          field={getField(schema, name)}
           submitted={submitted}
         />
       </Field>

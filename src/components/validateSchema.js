@@ -10,6 +10,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import get from 'lodash/fp/get';
+import set from 'lodash/fp/set';
 import { getComponentName } from 'ndla-util';
 import { isEmpty, minLength, minItems, maxLength } from './validators';
 
@@ -19,7 +21,8 @@ const getValidationErrors = (schema, model, fields, t) =>
       const errors = [];
       const value = model[key];
       const rules = schema[key];
-      const isDirty = fields[key] ? fields[key].isDirty : false;
+      const field = get(key, fields);
+      const isDirty = field ? field.isDirty : false;
 
       if (rules.required && isEmpty(value)) {
         errors.push(label => t('validation.isRequired', { label }));
@@ -60,14 +63,11 @@ const getValidationErrors = (schema, model, fields, t) =>
       return {
         ...acc,
         isValid: !errors.length && acc.isValid,
-        fields: {
-          ...acc.fields,
-          [key]: {
-            isValid: !errors.length,
-            errors,
-            isDirty,
-          },
-        },
+        fields: set(
+          key,
+          { isValid: !errors.length, errors, isDirty },
+          acc.fields,
+        ),
       };
     },
     { isValid: true, fields: {} },

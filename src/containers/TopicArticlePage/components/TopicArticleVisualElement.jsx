@@ -34,17 +34,7 @@ class TopicArticleVisualElement extends Component {
     const { t, bindInput, commonFieldProps } = this.props;
     const { schema, submitted } = commonFieldProps;
 
-    const { onChange, value: visualElement } = bindInput('visualElement');
-
-    const bindChildInput = name => ({
-      name,
-      value: visualElement[name] || '',
-      onChange: e => {
-        const { value } = e.target;
-        visualElement[name] = value;
-        onChange({ target: { name: 'visualElement', value: visualElement } });
-      },
-    });
+    const { value: visualElement } = bindInput('visualElement');
 
     return (
       <div>
@@ -82,18 +72,18 @@ class TopicArticleVisualElement extends Component {
                 label={t(
                   `topicArticleForm.fields.caption.label.${visualElement.resource}`,
                 )}
-                name="caption"
+                name="visualElement.caption"
                 submitted={submitted}
-                bindInput={bindChildInput}
+                bindInput={bindInput}
                 noBorder
                 maxLength={300}
               />
               <TextField
                 placeholder={t('topicArticleForm.fields.alt.placeholder')}
                 label={t('topicArticleForm.fields.alt.label')}
-                name="alt"
+                name="visualElement.alt"
                 submitted={submitted}
-                bindInput={bindChildInput}
+                bindInput={bindInput}
                 noBorder
                 maxLength={300}
               />

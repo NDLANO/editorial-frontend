@@ -201,8 +201,15 @@ export default compose(
       required: true,
       maxLength: 150,
     },
-    visualElementId: {
+    'visualElement.alt': {
       required: true,
+      onlyValidateIf: model =>
+        model.visualElement && model.visualElement.resource === 'image',
+    },
+    'visualElement.caption': {
+      required: true,
+      onlyValidateIf: model =>
+        model.visualElement && model.visualElement.resource === 'image',
     },
     tags: {
       minItems: 3,

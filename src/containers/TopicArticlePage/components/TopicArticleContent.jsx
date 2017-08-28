@@ -43,13 +43,6 @@ class TopicArticleContent extends Component {
   render() {
     const { t, bindInput, commonFieldProps, model } = this.props;
 
-    const visualElementTag = {
-      resource: model.visualElementType,
-      id: model.visualElementId,
-      caption: model.visualElementCaption,
-      alt: model.visualElementAlt,
-    };
-
     const authors = model.authors;
     const updated = model.updated;
 
@@ -96,7 +89,6 @@ class TopicArticleContent extends Component {
           />
         </PlainTextField>
         <TopicArticleVisualElement
-          visualElementTag={visualElementTag}
           visualElement={model.visualElement}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}

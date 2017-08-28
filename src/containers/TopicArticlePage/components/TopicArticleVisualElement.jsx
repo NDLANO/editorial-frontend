@@ -73,8 +73,7 @@ class TopicArticleVisualElement extends Component {
                   `topicArticleForm.fields.caption.label.${visualElement.resource}`,
                 )}
                 name="visualElement.caption"
-                submitted={submitted}
-                bindInput={bindInput}
+                {...commonFieldProps}
                 noBorder
                 maxLength={300}
               />
@@ -82,8 +81,7 @@ class TopicArticleVisualElement extends Component {
                 placeholder={t('topicArticleForm.fields.alt.placeholder')}
                 label={t('topicArticleForm.fields.alt.label')}
                 name="visualElement.alt"
-                submitted={submitted}
-                bindInput={bindInput}
+                {...commonFieldProps}
                 noBorder
                 maxLength={300}
               />

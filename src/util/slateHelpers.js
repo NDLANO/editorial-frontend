@@ -64,8 +64,10 @@ const setEmbedTag = data => ({
 });
 
 // TODO: get type of aside in here. Default should be rightAside since that is the only
-const getAsideTag = () => ({
-  type: 'rightAside',
+const getAsideTag = el => ({
+  type: el.attributes.getNamedItem('data-type')
+    ? el.attributes.getNamedItem('data-type')
+    : 'rightAside',
 });
 
 const setAsideTag = data => ({
@@ -93,7 +95,7 @@ const RULES = [
         kind: 'block',
         type: 'aside',
         nodes: next(el.childNodes),
-        data: getAsideTag(),
+        data: getAsideTag(el),
       };
     },
     serialize(object, children) {

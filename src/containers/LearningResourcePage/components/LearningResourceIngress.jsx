@@ -11,6 +11,8 @@ import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
+import { Cross } from 'ndla-ui/icons';
+
 import {
   PlainTextField,
   RemainingCharacters,
@@ -56,7 +58,7 @@ const LearningResourceIngress = props => {
           stripped
           onClick={removeIngress}
           {...classes('delete-block-button')}>
-          X
+          <Cross />
         </Button>
       </PlainTextField>
     </div>

@@ -10,49 +10,61 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
+import { Cross } from 'ndla-ui/icons';
 
 const classes = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
 });
 
-const SlateFactAside = props => {
-  const { children, node, editor } = props;
+class SlateFactAside extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      expanded: true,
+    };
+    this.toggleExpanded = this.toggleExpanded.bind(this);
+  }
 
-  const onRemoveClick = () => {
-    const next = editor
-      .getState()
-      .transform()
-      .removeNodeByKey(node.key)
-      .apply();
-    editor.onChange(next);
-  };
+  toggleExpanded() {
+    this.setState(prevState => ({
+      expanded: !prevState.expanded,
+    }));
+  }
 
-  return (
-    <aside {...classes('fact-aside', '', 'c-aside expanded')}>
-      <div className="c-aside__content">
-        {children}
-      </div>
-      <Button
-        stripped
-        onClick={onRemoveClick}
-        {...classes('delete-aside-button')}>
-        X
-      </Button>
-    </aside>
-  );
-};
+  render() {
+    const { children, onRemoveClick } = this.props;
+
+    return (
+      <aside
+        {...classes(
+          'fact-aside',
+          '',
+          this.state.expanded ? 'c-aside expanded' : 'c-aside',
+        )}>
+        <div className="c-aside__content">
+          {children}
+        </div>
+        <Button
+          onClick={this.toggleExpanded}
+          className="c-button c-aside__button"
+        />
+        <Button
+          stripped
+          onClick={onRemoveClick}
+          {...classes('delete-aside-button')}>
+          <Cross />
+        </Button>
+      </aside>
+    );
+  }
+}
 
 SlateFactAside.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  node: PropTypes.shape({
-    key: PropTypes.string.isRequired,
-  }),
-  editor: PropTypes.shape({
-    onChange: PropTypes.func.isRequired,
-  }),
+  onRemoveClick: PropTypes.func.isRequired,
 };
 
 export default SlateFactAside;

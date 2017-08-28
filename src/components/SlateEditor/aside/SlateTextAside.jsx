@@ -17,11 +17,11 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const SlateRightAside = props => {
+const SlateTextAside = props => {
   const { children, onRemoveClick } = props;
 
   return (
-    <aside {...classes('right-aside', '', 'c-aside expanded')}>
+    <aside {...classes('text-aside', '', 'c-aside expanded')}>
       <div className="c-aside__content">
         {children}
       </div>
@@ -35,11 +35,11 @@ const SlateRightAside = props => {
   );
 };
 
-SlateRightAside.propTypes = {
+SlateTextAside.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
   onRemoveClick: PropTypes.func.isRequired,
 };
 
-export default SlateRightAside;
+export default SlateTextAside;

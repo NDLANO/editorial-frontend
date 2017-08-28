@@ -94,12 +94,7 @@ class TopicArticleForm extends Component {
       content: [{ content: converter.slateToHtml(model.content), language }],
       visualElement: [
         {
-          content: createEmbedTag(
-            model.visualElementId,
-            model.visualElementType,
-            model.visualElementCaption,
-            model.visualElementAlt,
-          ),
+          content: createEmbedTag(model.visualElement),
           language,
         },
       ],

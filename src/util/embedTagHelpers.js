@@ -28,13 +28,13 @@ export const parseEmbedTag = embedTag => {
   };
 };
 
-export const createEmbedTag = (id, type, caption = '', alt = '') => {
-  if (type === 'h5p') {
-    return `<embed data-resource="${type}" data-url="${id}">`;
-  } else if (type === 'brightcove') {
-    return `<embed data-resource="${type}" data-caption=${caption} data-videoid=="${id}">`;
-  } else if (type === 'image') {
-    return `<embed data-size="fullbredde" data-resource="${type}" data-alt=${alt} data-caption=${caption} data-resource_id=="${id}">`;
+export const createEmbedTag = visualElement => {
+  if (visualElement.resource === 'h5p') {
+    return `<embed data-resource="${visualElement.resource}" data-url="${visualElement.id}">`;
+  } else if (visualElement.resource === 'brightcove') {
+    return `<embed data-resource="${visualElement.resource}" data-caption=${visualElement.caption} data-videoid="${visualElement.id}">`;
+  } else if (visualElement.resource === 'image') {
+    return `<embed data-size="fullbredde" data-align="" data-resource="${visualElement.resource}" data-alt=${visualElement.alt} data-caption=${visualElement.caption} data-resource_id="${visualElement.id}">`;
   }
   console.error('Unkown embed tag type');
   return '';

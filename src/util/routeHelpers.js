@@ -12,6 +12,13 @@ export function toSearch(query) {
   return '/search';
 }
 
+export function toSearchResult(query) {
+  if (query) {
+    return `/search-result?${queryString.stringify(query)}`;
+  }
+  return '/search-result';
+}
+
 export function toEditArticle(articleId, articleType) {
   return `/${articleTypes[articleType]}/${articleId}/edit`;
 }

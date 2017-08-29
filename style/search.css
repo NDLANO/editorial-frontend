@@ -59,3 +59,12 @@
     margin: 0.2rem 0 1.2rem;
   }
 }
+
+.search-result-filter {
+  margin-top: 8rem;
+  width: 670px;
+
+  &__select {
+    margin-right: 0.5em;
+  }
+}

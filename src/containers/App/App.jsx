@@ -26,6 +26,7 @@ import Logout from '../Logout/Logout';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import WelcomePage from '../WelcomePage/WelcomePage';
 import SearchPage from '../SearchPage/SearchPage';
+import SearchResultPage from '../SearchResultPage/SearchResultPage';
 import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
 import LearningResourcePage from '../LearningResourcePage/LearningResourcePage';
 import AudioUploaderPage from '../AudioUploader/AudioUploaderPage';
@@ -62,6 +63,7 @@ export class App extends React.Component {
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
             <PrivateRoute path="/search" component={SearchPage} />
+            <PrivateRoute path="/search-result" component={SearchResultPage} />
             <PrivateRoute path="/topic-article/" component={TopicArticlePage} />
             <PrivateRoute
               path="/learning-resource"

@@ -8,6 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { SiteNav, SiteNavItem } from 'ndla-ui';
 import { Search, Cross } from 'ndla-ui/icons';
@@ -15,15 +16,37 @@ import { withRouter } from 'react-router-dom';
 
 import MastheadSearchForm from './components/MastheadSearchForm';
 import { getSearching } from './mastheadSelectors';
-import { toSearch } from '../../util/routeHelpers';
+import { toSearchResult } from '../../util/routeHelpers';
 
 class MastheadSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      query: undefined,
       showSearchField: false,
     };
     this.handleSearchIconClick = this.handleSearchIconClick.bind(this);
+  }
+
+  componentWillMount() {
+    const { location } = this.props;
+    if (location.search) {
+      const query = queryString.parse(location.search);
+      this.setState({
+        query: query.query,
+        showSearchField:
+          !!query.query || location.pathname === '/search-result',
+      });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { location } = nextProps;
+    if (location.pathname && location.pathname !== '/search-result') {
+      this.setState({ showSearchField: false });
+    } else if (location.pathname && location.pathname === '/search-result') {
+      this.setState({ showSearchField: true });
+    }
   }
 
   handleSearchIconClick() {
@@ -34,7 +57,7 @@ class MastheadSearch extends Component {
 
   render() {
     const { history, searching } = this.props;
-    const { showSearchField } = this.state;
+    const { showSearchField, query } = this.state;
 
     return (
       <div className="masthead-search">
@@ -57,11 +80,12 @@ class MastheadSearch extends Component {
             </SiteNavItem>}
         </SiteNav>
         <MastheadSearchForm
+          query={query}
           show={showSearchField}
           searching={searching}
           onSearchQuerySubmit={searchQuery =>
             history.push(
-              toSearch({
+              toSearchResult({
                 query: searchQuery,
                 page: 1,
                 sort: '-relevance',
@@ -74,6 +98,9 @@ class MastheadSearch extends Component {
 }
 
 MastheadSearch.propTypes = {
+  location: PropTypes.shape({
+    search: PropTypes.string,
+  }).isRequired,
   searching: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

@@ -48,6 +48,7 @@ const phrases = {
     articleType: {
       all: 'Alle',
       standard: 'Standard',
+      learningResource: 'Læringsressurs',
       topicArticle: 'Emnebeskrivelse',
     },
     order: {

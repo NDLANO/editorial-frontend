@@ -12,12 +12,9 @@ import { injectT } from 'ndla-i18n';
 
 import { getVisualElementInformation } from '../../util/visualElementHelper';
 import { classes } from '../../components/Fields';
+import { EmbedShape } from '../../shapes';
 
 const VisualElementInformation = ({ visualElement, locale, embedTag, t }) => {
-  if (!visualElement) {
-    return null;
-  }
-
   const element = getVisualElementInformation(
     visualElement,
     embedTag.resource,
@@ -49,12 +46,7 @@ VisualElementInformation.propTypes = {
     captions: PropTypes.arrayOf(PropTypes.object),
   }),
   locale: PropTypes.string.isRequired,
-  embedTag: PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    resource: PropTypes.string.isRequired,
-  }),
+  embedTag: EmbedShape.isRequired,
 };
 
 export default injectT(VisualElementInformation);

@@ -204,7 +204,9 @@ export default compose(
     'visualElement.caption': {
       required: true,
       onlyValidateIf: model =>
-        model.visualElement && model.visualElement.resource === 'image',
+        model.visualElement &&
+        (model.visualElement.resource === 'image' ||
+          model.visualElement.resource === 'brightcove'),
     },
     tags: {
       minItems: 3,

@@ -18,23 +18,23 @@ export const parseEmbedTag = embedTag => {
   if (embedElements.length !== 1) {
     return undefined;
   }
-  const getAttribute = name => embedElements[0].getAttribute(`data-${name}`);
-  return {
-    id: getAttribute('resource_id') || getAttribute('videoid'),
-    alt: getAttribute('alt'),
-    caption: getAttribute('caption'),
-    url: getAttribute('url'),
-    resource: getAttribute('resource'),
-  };
+  const attrs = [].slice.call(embedElements[0].attributes);
+  const obj = attrs.reduce(
+    (all, attr) =>
+      Object.assign({}, all, { [attr.name.replace('data-', '')]: attr.value }),
+    {},
+  );
+  delete obj.id;
+  return { ...obj, metaData: {} };
 };
 
 export const createEmbedTag = visualElement => {
   if (visualElement.resource === 'h5p') {
-    return `<embed data-resource="${visualElement.resource}" data-url="${visualElement.id}">`;
+    return `<embed data-resource="${visualElement.resource}" data-url="${visualElement.url}">`;
   } else if (visualElement.resource === 'brightcove') {
-    return `<embed data-resource="${visualElement.resource}" data-caption=${visualElement.caption} data-videoid="${visualElement.id}">`;
+    return `<embed data-resource="${visualElement.resource}" data-caption=${visualElement.caption} data-videoid="${visualElement.videoid}">`;
   } else if (visualElement.resource === 'image') {
-    return `<embed data-size="fullbredde" data-align="" data-resource="${visualElement.resource}" data-alt=${visualElement.alt} data-caption=${visualElement.caption} data-resource_id="${visualElement.id}">`;
+    return `<embed data-size="fullbredde" data-align="" data-resource="${visualElement.resource}" data-alt=${visualElement.alt} data-caption=${visualElement.caption} data-resource_id="${visualElement.resource_id}">`;
   }
   console.error('Unkown embed tag type');
   return '';

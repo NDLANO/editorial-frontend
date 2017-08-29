@@ -63,7 +63,7 @@ class TopicArticleVisualElement extends Component {
           showVisualElement={this.state.showVisualElement}
           toggleShowVisualElement={this.toggleShowVisualElement}
         />
-        {visualElement.id && visualElement.resource !== 'h5p'
+        {visualElement.resource && visualElement.resource !== 'h5p'
           ? <div>
               <TextField
                 placeholder={t(
@@ -77,14 +77,15 @@ class TopicArticleVisualElement extends Component {
                 noBorder
                 maxLength={300}
               />
-              <TextField
-                placeholder={t('topicArticleForm.fields.alt.placeholder')}
-                label={t('topicArticleForm.fields.alt.label')}
-                name="visualElement.alt"
-                {...commonFieldProps}
-                noBorder
-                maxLength={300}
-              />
+              {visualElement.resource === 'image' &&
+                <TextField
+                  placeholder={t('topicArticleForm.fields.alt.placeholder')}
+                  label={t('topicArticleForm.fields.alt.label')}
+                  name="visualElement.alt"
+                  {...commonFieldProps}
+                  noBorder
+                  maxLength={300}
+                />}
             </div>
           : ''}
       </div>

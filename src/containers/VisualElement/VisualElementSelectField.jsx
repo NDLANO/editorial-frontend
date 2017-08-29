@@ -22,25 +22,27 @@ import {
 import VisualElementSearch from './VisualElementSearch';
 import VisualElementInformation from './VisualElementInformation';
 import { getLocale } from '../../modules/locale/locale';
-import { alttextsI18N, captionsI18N } from '../../util/i18nFieldFinder';
 
 class VisualElementSelectField extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
     this.handleVisualElementChange = this.handleVisualElementChange.bind(this);
     this.removeVisualElement = this.removeVisualElement.bind(this);
     this.onImageLightboxClose = this.onImageLightboxClose.bind(this);
   }
 
   componentWillMount() {
-    const { value } = this.props;
-    if (value.id && value.resource !== 'h5p') {
-      api
-        .fetchVisualElement(value)
-        .then(visualElementMetaData =>
-          this.setState({ visualElementMetaData }),
-        );
+    const { value, name, onChange } = this.props;
+
+    if (value.resource && value.resource !== 'h5p') {
+      api.fetchVisualElement(value).then(metaData => {
+        onChange({
+          target: {
+            name,
+            value: { ...value, metaData },
+          },
+        });
+      });
     }
   }
 
@@ -55,11 +57,7 @@ class VisualElementSelectField extends Component {
       onChange,
       selectedResource,
       toggleShowVisualElement,
-      locale,
     } = this.props;
-
-    const alt = alttextsI18N(visualElement, locale, true);
-    const caption = captionsI18N(visualElement, locale, true);
 
     onChange({
       target: {
@@ -67,8 +65,6 @@ class VisualElementSelectField extends Component {
         value: {
           ...visualElement,
           resource: selectedResource,
-          alt,
-          caption,
         },
       },
     });
@@ -79,7 +75,6 @@ class VisualElementSelectField extends Component {
   removeVisualElement() {
     const { onChange, onRemoveVisualElement } = this.props;
 
-    this.setState({ visualElementMetaData: undefined });
     onChange({ target: { name: 'visualElement', value: {} } });
     onRemoveVisualElement();
   }
@@ -108,7 +103,7 @@ class VisualElementSelectField extends Component {
             </div>
             <div {...classes('visual-element', 'right')}>
               <VisualElementInformation
-                visualElement={this.state.visualElementMetaData}
+                visualElement={value.metaData}
                 embedTag={value}
                 locale={locale}
               />

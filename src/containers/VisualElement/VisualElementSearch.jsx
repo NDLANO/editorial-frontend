@@ -14,6 +14,7 @@ import ImageSearch from 'ndla-image-search';
 import VideoSearch from 'ndla-video-search';
 import AudioSearch from 'ndla-audio-search';
 
+import { alttextsI18N, captionsI18N } from '../../util/i18nFieldFinder';
 import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
 import H5PSearch from '../../components/H5PSearch';
@@ -42,7 +43,13 @@ const VisualElementSearch = ({
             locale={locale}
             searchPlaceholder={t('imageSearch.placeholder')}
             searchButtonTitle={t('imageSearch.buttonTitle')}
-            onImageSelect={handleVisualElementChange}
+            onImageSelect={image =>
+              handleVisualElementChange({
+                resource_id: image.id,
+                alt: alttextsI18N(image, locale, true),
+                caption: captionsI18N(image, locale, true),
+                metaData: image,
+              })}
             onError={api.onError}
           />
         </div>
@@ -66,7 +73,11 @@ const VisualElementSearch = ({
             searchVideos={api.searchBrightcoveVideos}
             locale={locale}
             translations={videoTranslations}
-            onVideoSelect={handleVisualElementChange}
+            onVideoSelect={video =>
+              handleVisualElementChange({
+                videoid: video.id,
+                metaData: video,
+              })}
             onError={api.onError}
           />
         </div>
@@ -75,7 +86,11 @@ const VisualElementSearch = ({
     case 'h5p': {
       return (
         <H5PSearch
-          onSelect={handleVisualElementChange}
+          onSelect={h5p =>
+            handleVisualElementChange({
+              ...h5p,
+              metaData: {},
+            })}
           label={t('topicArticleForm.fields.visualElement.label')}
         />
       );

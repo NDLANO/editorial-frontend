@@ -54,3 +54,10 @@ export const EmbedShape = PropTypes.shape({
   caption: PropTypes.string,
   alt: PropTypes.string,
 });
+
+export const MetaImageShape = PropTypes.shape({
+  resource: PropTypes.string,
+  resource_id: PropTypes.string,
+  caption: PropTypes.string,
+  alt: PropTypes.string,
+});

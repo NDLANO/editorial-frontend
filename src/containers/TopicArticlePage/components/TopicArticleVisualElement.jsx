@@ -12,22 +12,24 @@ import { injectT } from 'ndla-i18n';
 
 import { TextField, classes } from '../../../components/Fields';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
-import VisualElementTypeSelect from '../../VisualElement/VisualElementTypeSelect';
+import VisualElementMenu from '../../VisualElement/VisualElementMenu';
 
 class TopicArticleVisualElement extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showVisualElement: false,
       selectedResource: undefined,
     };
-    this.toggleShowVisualElement = this.toggleShowVisualElement.bind(this);
+    this.handleSelectResource = this.handleSelectResource.bind(this);
+    this.resetSelectedResource = this.resetSelectedResource.bind(this);
   }
 
-  toggleShowVisualElement() {
-    this.setState(prevState => ({
-      showVisualElement: !prevState.showVisualElement,
-    }));
+  resetSelectedResource() {
+    this.setState({ selectedResource: undefined });
+  }
+
+  handleSelectResource(selectedResource) {
+    this.setState({ selectedResource });
   }
 
   render() {
@@ -44,13 +46,12 @@ class TopicArticleVisualElement extends Component {
             <div {...classes('add-visual-element-title', 'border')} />
           </span>
         </div>
-        <VisualElementTypeSelect
-          schema={schema}
-          submitted={submitted}
-          toggleShowVisualElement={this.toggleShowVisualElement}
-          value={this.state.selectedResource}
-          onSelect={resource => this.setState({ selectedResource: resource })}
-        />
+        {!visualElement.resource
+          ? <VisualElementMenu
+              onSelect={resource =>
+                this.setState({ selectedResource: resource })}
+            />
+          : null}
         <VisualElementSelectField
           label={t('topicArticleForm.fields.visualElement.label')}
           schema={schema}
@@ -60,8 +61,7 @@ class TopicArticleVisualElement extends Component {
           onRemoveVisualElement={() =>
             this.setState({ selectedResource: undefined })}
           {...bindInput('visualElement')}
-          showVisualElement={this.state.showVisualElement}
-          toggleShowVisualElement={this.toggleShowVisualElement}
+          resetSelectedResource={this.resetSelectedResource}
         />
         {visualElement.resource && visualElement.resource !== 'h5p'
           ? <div>

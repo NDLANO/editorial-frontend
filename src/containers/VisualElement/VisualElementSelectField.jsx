@@ -47,8 +47,8 @@ class VisualElementSelectField extends Component {
   }
 
   onImageLightboxClose() {
-    const { toggleShowVisualElement } = this.props;
-    toggleShowVisualElement();
+    const { resetSelectedResource } = this.props;
+    resetSelectedResource();
   }
 
   handleVisualElementChange(visualElement) {
@@ -56,7 +56,7 @@ class VisualElementSelectField extends Component {
       name,
       onChange,
       selectedResource,
-      toggleShowVisualElement,
+      resetSelectedResource,
     } = this.props;
 
     onChange({
@@ -69,7 +69,7 @@ class VisualElementSelectField extends Component {
       },
     });
 
-    toggleShowVisualElement();
+    resetSelectedResource();
   }
 
   removeVisualElement() {
@@ -86,7 +86,6 @@ class VisualElementSelectField extends Component {
       schema,
       submitted,
       value,
-      showVisualElement,
       locale,
       selectedResource,
     } = this.props;
@@ -114,29 +113,25 @@ class VisualElementSelectField extends Component {
       );
     }
 
-    if (!showVisualElement) {
-      return null;
-    }
-
-    return (
-      <Field>
-        <Lightbox
-          display={showVisualElement}
-          big
-          onClose={this.onImageLightboxClose}>
-          <VisualElementSearch
-            selectedResource={selectedResource}
-            embedTag={value}
-            handleVisualElementChange={this.handleVisualElementChange}
+    if (selectedResource) {
+      return (
+        <Field>
+          <Lightbox display big onClose={this.onImageLightboxClose}>
+            <VisualElementSearch
+              selectedResource={selectedResource}
+              embedTag={value}
+              handleVisualElementChange={this.handleVisualElementChange}
+            />
+          </Lightbox>
+          <FieldErrorMessages
+            label={label}
+            field={getField(schema, name)}
+            submitted={submitted}
           />
-        </Lightbox>
-        <FieldErrorMessages
-          label={label}
-          field={getField(schema, name)}
-          submitted={submitted}
-        />
-      </Field>
-    );
+        </Field>
+      );
+    }
+    return null;
   }
 }
 
@@ -156,8 +151,7 @@ VisualElementSelectField.propTypes = {
     id: PropTypes.string,
     resource: PropTypes.string,
   }).isRequired,
-  showVisualElement: PropTypes.bool.isRequired,
-  toggleShowVisualElement: PropTypes.func.isRequired,
+  resetSelectedResource: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
 };
 

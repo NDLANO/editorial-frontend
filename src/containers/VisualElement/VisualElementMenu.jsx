@@ -12,7 +12,7 @@ import { Button } from 'ndla-ui';
 import { Cross, H5P, Camera, Plus, Video } from 'ndla-ui/icons';
 import { classes } from '../../components/Fields';
 
-class VisualElementTypeSelect extends Component {
+class VisualElementMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,9 +23,8 @@ class VisualElementTypeSelect extends Component {
   }
 
   handleSelect(type) {
-    const { onSelect, toggleShowVisualElement } = this.props;
+    const { onSelect } = this.props;
     this.setState({ isOpen: false });
-    toggleShowVisualElement();
     onSelect(type);
   }
 
@@ -34,10 +33,6 @@ class VisualElementTypeSelect extends Component {
   }
 
   render() {
-    const { value } = this.props;
-    if (value) {
-      return null;
-    }
     const typeClassName = this.state.isOpen ? '' : 'hidden';
     return (
       <div>
@@ -72,10 +67,8 @@ class VisualElementTypeSelect extends Component {
   }
 }
 
-VisualElementTypeSelect.propTypes = {
-  toggleShowVisualElement: PropTypes.func.isRequired,
+VisualElementMenu.propTypes = {
   onSelect: PropTypes.func.isRequired,
-  value: PropTypes.string,
 };
 
-export default VisualElementTypeSelect;
+export default VisualElementMenu;

@@ -16,6 +16,7 @@ import AudioSearch from 'ndla-audio-search';
 
 import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
+import H5PSearch from '../../components/H5PSearch';
 
 const titles = {
   video: 'Videosøk',
@@ -69,6 +70,14 @@ const VisualElementSearch = ({
             onError={api.onError}
           />
         </div>
+      );
+    }
+    case 'h5p': {
+      return (
+        <H5PSearch
+          onSelect={handleVisualElementChange}
+          label={t('topicArticleForm.fields.visualElement.label')}
+        />
       );
     }
     case 'audio': {

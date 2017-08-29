@@ -19,7 +19,7 @@ import { Field } from '../../../components/Fields';
 
 import converter from '../../../util/articleContentConverter';
 
-import { parseEmbedTag } from '../../../util/embedTagHelpers';
+import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
 
 import TopicArticleMetadata from './TopicArticleMetadata';
 import TopicArticleContent from './TopicArticleContent';
@@ -50,7 +50,7 @@ export const getInitialModel = (article = {}) => {
       article.metaDescription,
       true,
     ),
-    visualElementId: visualElement.id || '',
+    visualElementId: visualElement.id || visualElement.url || '',
     visualElementCaption: visualElement.caption || '',
     visualElementAlt: visualElement.alt || '',
     visualElementType: visualElement.resource || '',
@@ -97,12 +97,12 @@ class TopicArticleForm extends Component {
       content: [{ content: converter.slateToHtml(model.content), language }],
       visualElement: [
         {
-          content: `<embed data-size="fullbredde" data-align="" data-alt="${model.visualElementAlt}" data-caption="${model.visualElementCaption}" data-resource="${model.visualElementType}" data-resource_id="${model.visualElementType ===
-          'image'
-            ? model.visualElementId
-            : ''}" data-videoid="${model.visualElementType === 'brightcove'
-            ? model.visualElementId
-            : ''}" />`,
+          content: createEmbedTag(
+            model.visualElementId,
+            model.visualElementType,
+            model.visualElementCaption,
+            model.visualElementAlt,
+          ),
           language,
         },
       ],

@@ -69,6 +69,7 @@ export const FieldErrorMessages = ({ field, submitted, label }) => {
   if (!field || !showError(field, submitted)) {
     return null;
   }
+  // console.log(field);
 
   return (
     <div>

@@ -196,6 +196,9 @@ export default compose(
       required: true,
       maxLength: 150,
     },
+    visualElement: {
+      required: true,
+    },
     'visualElement.alt': {
       required: true,
       onlyValidateIf: model =>

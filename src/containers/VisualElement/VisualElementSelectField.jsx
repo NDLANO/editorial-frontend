@@ -47,8 +47,7 @@ class VisualElementSelectField extends Component {
   }
 
   onImageLightboxClose() {
-    const { resetSelectedResource } = this.props;
-    resetSelectedResource();
+    this.props.resetSelectedResource();
   }
 
   handleVisualElementChange(visualElement) {
@@ -73,10 +72,10 @@ class VisualElementSelectField extends Component {
   }
 
   removeVisualElement() {
-    const { onChange, onRemoveVisualElement } = this.props;
+    const { onChange, name, resetSelectedResource } = this.props;
 
-    onChange({ target: { name: 'visualElement', value: {} } });
-    onRemoveVisualElement();
+    onChange({ target: { name, value: {} } });
+    resetSelectedResource();
   }
 
   render() {
@@ -115,29 +114,30 @@ class VisualElementSelectField extends Component {
 
     if (selectedResource) {
       return (
-        <Field>
-          <Lightbox display big onClose={this.onImageLightboxClose}>
-            <VisualElementSearch
-              selectedResource={selectedResource}
-              embedTag={value}
-              handleVisualElementChange={this.handleVisualElementChange}
-            />
-          </Lightbox>
-          <FieldErrorMessages
-            label={label}
-            field={getField(schema, name)}
-            submitted={submitted}
+        <Lightbox display big onClose={this.onImageLightboxClose}>
+          <VisualElementSearch
+            selectedResource={selectedResource}
+            embedTag={value}
+            handleVisualElementChange={this.handleVisualElementChange}
           />
-        </Field>
+        </Lightbox>
       );
     }
-    return null;
+
+    return (
+      <Field>
+        <FieldErrorMessages
+          label={label}
+          field={getField(name, schema)}
+          submitted={submitted}
+        />
+      </Field>
+    );
   }
 }
 
 VisualElementSelectField.propTypes = {
   onChange: PropTypes.func.isRequired,
-  onRemoveVisualElement: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   selectedResource: PropTypes.string,
   label: PropTypes.string.isRequired,
@@ -146,10 +146,8 @@ VisualElementSelectField.propTypes = {
   }),
   submitted: PropTypes.bool.isRequired,
   value: PropTypes.shape({
-    caption: PropTypes.string,
-    alt: PropTypes.string,
-    id: PropTypes.string,
     resource: PropTypes.string,
+    metaData: PropTypes.object,
   }).isRequired,
   resetSelectedResource: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,

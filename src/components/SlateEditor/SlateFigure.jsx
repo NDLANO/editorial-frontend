@@ -113,7 +113,9 @@ SlateFigure.propTypes = {
       hasEdgeIn: PropTypes.func.isRequired,
     }),
   }),
-  node: PropTypes.object.isRequired,
+  node: PropTypes.shape({
+    get: PropTypes.func.isRequired,
+  }),
   editor: PropTypes.shape({
     getState: PropTypes.func.isRequired,
   }),

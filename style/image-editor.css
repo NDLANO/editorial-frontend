@@ -1,0 +1,46 @@
+.c-image-editor {
+  &__focal-point {
+    cursor: crosshair;
+  }
+
+  &__focal-point-marker {
+    cursor: crosshair;
+    position: absolute;
+    background-color: var(--brand-color);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid var(--brand-color);
+    margin-left: -5px;
+    margin-top: -5px;
+  }
+
+  &__focal-point-container {
+    position: relative;
+  }
+
+  &__top-bar {
+    color: white;
+    background-color: var(--gray-2);
+    border: 1px solid  var(--gray-2);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 0.5rem;
+  }
+
+  &__edit {
+    position: relative;
+    z-index: 101;
+  }
+
+  &__overlay {
+    position: fixed;
+    background-color: var(--gray-2);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.4;
+    z-index: 100;
+  }
+}

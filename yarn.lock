@@ -5663,6 +5663,10 @@ react-helmet@^5.0.3:
     prop-types "^15.5.4"
     react-side-effect "^1.1.0"
 
+react-image-crop@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-2.0.8.tgz#59c917bbc251c455a92c32aff4dad1595ff38a96"
+
 react-motion@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/react-motion/-/react-motion-0.5.0.tgz#1708fc2aee552900d21c1e6bed28346863e017b6"

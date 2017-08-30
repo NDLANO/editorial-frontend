@@ -10,5 +10,5 @@ import { createAction } from 'redux-actions';
 
 export const search = createAction('SEARCH');
 export const searchError = createAction('SEARCH_ERROR');
-export const clearSearchResult = createAction('CLEAR_SEARCH_RESULT');
-export const setSearchResult = createAction('SET_SEARCH_RESULT');
+export const clearSearch = createAction('CLEAR_SEARCH_RESULT');
+export const setSearch = createAction('SET_SEARCH_RESULT');

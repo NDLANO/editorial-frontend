@@ -6,9 +6,9 @@
  *
  */
 
-import reducer, { initalState } from '../searchResultReducer';
-import * as actions from '../searchResultActions';
-import searchResult from './_mockSearchResult';
+import reducer, { initalState } from '../searchReducer';
+import * as actions from '../searchActions';
+import search from './_mockSearch';
 
 test('reducers/search initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
@@ -40,8 +40,8 @@ test('reducers/search searchError', () => {
 
 test('reducers/search handle set search result', () => {
   const nextState = reducer(initalState, {
-    type: actions.setSearchResult,
-    payload: searchResult,
+    type: actions.setSearch,
+    payload: search,
   });
 
   expect(nextState.totalCount).toBe(32);
@@ -52,8 +52,8 @@ test('reducers/search handle set search result', () => {
 });
 
 test('reducers/search handle clear search result', () => {
-  const nextState = reducer(searchResult, {
-    type: actions.clearSearchResult,
+  const nextState = reducer(search, {
+    type: actions.clearSearch,
   });
 
   expect(nextState).toEqual(initalState);

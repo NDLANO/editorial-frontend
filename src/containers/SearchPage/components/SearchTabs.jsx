@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import Tabs from 'ndla-tabs';
 import { injectT } from 'ndla-i18n';
 
-class SearchResultTabs extends Component {
+class SearchTabs extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,10 +69,10 @@ class SearchResultTabs extends Component {
   }
 }
 
-SearchResultTabs.propTypes = {
+SearchTabs.propTypes = {
   tabIndex: PropTypes.number.isRequired,
   tabContent: PropTypes.node.isRequired,
   onSearchTypeChange: PropTypes.func.isRequired,
 };
 
-export default injectT(SearchResultTabs);
+export default injectT(SearchTabs);

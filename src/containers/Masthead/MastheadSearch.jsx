@@ -16,7 +16,7 @@ import { withRouter } from 'react-router-dom';
 
 import MastheadSearchForm from './components/MastheadSearchForm';
 import { getSearching } from './mastheadSelectors';
-import { toSearchResult } from '../../util/routeHelpers';
+import { toSearch } from '../../util/routeHelpers';
 
 class MastheadSearch extends Component {
   constructor(props) {
@@ -34,17 +34,16 @@ class MastheadSearch extends Component {
       const query = queryString.parse(location.search);
       this.setState({
         query: query.query,
-        showSearchField:
-          !!query.query || location.pathname === '/search-result',
+        showSearchField: !!query.query || location.pathname === 'search',
       });
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { location } = nextProps;
-    if (location.pathname && location.pathname !== '/search-result') {
+    if (location.pathname && location.pathname !== 'search') {
       this.setState({ showSearchField: false });
-    } else if (location.pathname && location.pathname === '/search-result') {
+    } else if (location.pathname && location.pathname === 'search') {
       this.setState({ showSearchField: true });
     }
   }
@@ -85,7 +84,7 @@ class MastheadSearch extends Component {
           searching={searching}
           onSearchQuerySubmit={searchQuery =>
             history.push(
-              toSearchResult({
+              toSearch({
                 query: searchQuery,
                 page: 1,
                 sort: '-relevance',

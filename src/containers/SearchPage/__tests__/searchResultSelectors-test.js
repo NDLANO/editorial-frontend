@@ -6,8 +6,8 @@
  *
  */
 
-import { getResults, getLastPage } from '../searchResultSelectors';
-import search from './_mockSearchResult';
+import { getResults, getLastPage } from '../searchSelectors';
+import search from './_mockSearch';
 
 test('searchSelectors getResults', () => {
   const state = {

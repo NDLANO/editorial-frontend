@@ -13,7 +13,7 @@ import { toEditArticle } from '../../../util/routeHelpers';
 import { titleI18N, introductionI18N } from '../../../util/i18nFieldFinder';
 import { ArticleResultShape } from '../../../shapes';
 
-const SearchResult = ({ article, locale }) =>
+const Search = ({ article, locale }) =>
   <div className="search-result">
     <Link
       className="search-result__link"
@@ -28,9 +28,9 @@ const SearchResult = ({ article, locale }) =>
     </p>
   </div>;
 
-SearchResult.propTypes = {
+Search.propTypes = {
   article: ArticleResultShape.isRequired,
   locale: PropTypes.string.isRequired,
 };
 
-export default SearchResult;
+export default Search;

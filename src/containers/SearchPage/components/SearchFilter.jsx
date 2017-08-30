@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 
-class SearchForm extends Component {
+class SearchFilter extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -54,14 +54,14 @@ class SearchForm extends Component {
   }
 }
 
-SearchForm.propTypes = {
+SearchFilter.propTypes = {
   query: PropTypes.string,
   searching: PropTypes.bool.isRequired,
   onSearchQuerySubmit: PropTypes.func.isRequired,
 };
 
-SearchForm.defaultProps = {
+SearchFilter.defaultProps = {
   query: '',
 };
 
-export default injectT(SearchForm);
+export default injectT(SearchFilter);

@@ -9,8 +9,8 @@
 import nock from 'nock';
 
 import { expectSaga } from 'redux-saga-test-plan';
-import * as sagas from '../searchResultSagas';
-import * as actions from '../searchResultActions';
+import * as sagas from '../searchSagas';
+import * as actions from '../searchActions';
 
 expectSaga.DEFAULT_TIMEOUT = 100;
 
@@ -21,7 +21,7 @@ test('searchSagas search', () => {
 
   return expectSaga(sagas.watchSearch)
     .withState({ locale: 'nb' })
-    .put(actions.setSearchResult({ results: [1, 2, 3] }))
+    .put(actions.setSearch({ results: [1, 2, 3] }))
     .dispatch(actions.search('?query=testing&page=3&sort=alfa'))
     .run({ silenceTimeout: true });
 });

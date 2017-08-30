@@ -46,6 +46,8 @@ const VisualElementSearch = ({
             onImageSelect={image =>
               handleVisualElementChange({
                 resource_id: image.id,
+                size: 'fullbredde',
+                align: '',
                 alt: alttextsI18N(image, locale, true),
                 caption: captionsI18N(image, locale, true),
                 metaData: image,

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import isObject from 'lodash/fp/isObject';
 
 export const parseEmbedTag = embedTag => {
   if (embedTag === '') {
@@ -29,13 +30,11 @@ export const parseEmbedTag = embedTag => {
 };
 
 export const createEmbedTag = visualElement => {
-  if (visualElement.resource === 'h5p') {
-    return `<embed data-resource="${visualElement.resource}" data-url="${visualElement.url}">`;
-  } else if (visualElement.resource === 'brightcove') {
-    return `<embed data-resource="${visualElement.resource}" data-caption=${visualElement.caption} data-videoid="${visualElement.videoid}">`;
-  } else if (visualElement.resource === 'image') {
-    return `<embed data-size="fullbredde" data-align="" data-resource="${visualElement.resource}" data-alt=${visualElement.alt} data-caption=${visualElement.caption} data-resource_id="${visualElement.resource_id}">`;
-  }
-  console.error('Unkown embed tag type');
-  return '';
+  const embed = document.createElement('embed');
+  Object.keys(visualElement)
+    .filter(
+      key => visualElement[key] !== undefined && !isObject(visualElement[key]),
+    )
+    .forEach(key => embed.setAttribute(`data-${key}`, visualElement[key]));
+  return embed.outerHTML;
 };

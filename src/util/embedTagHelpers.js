@@ -7,6 +7,15 @@
  */
 import isObject from 'lodash/fp/isObject';
 
+export const reduceElementDataAttributes = el => {
+  const attrs = [].slice.call(el.attributes);
+  const obj = attrs.reduce(
+    (all, attr) =>
+      Object.assign({}, all, { [attr.name.replace('data-', '')]: attr.value }),
+    {},
+  );
+  return obj;
+};
 export const parseEmbedTag = embedTag => {
   if (embedTag === '') {
     return undefined;
@@ -19,12 +28,8 @@ export const parseEmbedTag = embedTag => {
   if (embedElements.length !== 1) {
     return undefined;
   }
-  const attrs = [].slice.call(embedElements[0].attributes);
-  const obj = attrs.reduce(
-    (all, attr) =>
-      Object.assign({}, all, { [attr.name.replace('data-', '')]: attr.value }),
-    {},
-  );
+
+  const obj = reduceElementDataAttributes(embedElements[0]);
   delete obj.id;
   return { ...obj, metaData: {} };
 };

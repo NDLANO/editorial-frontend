@@ -11,10 +11,11 @@ import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import SlateInputField from './SlateInputField';
 import ForbiddenOverlay from '../ForbiddenOverlay';
+import { EmbedShape } from '../../shapes';
 
 const SlateImage = props => {
   const {
-    embedTag,
+    embed,
     figureClass,
     attributes,
     onFigureInputChange,
@@ -22,15 +23,12 @@ const SlateImage = props => {
     t,
   } = props;
 
-  if (!embedTag || !embedTag.id) {
-    return null;
-  }
-
-  const src = `${window.config.ndlaApiUrl}/image-api/raw/id/${embedTag.id}`;
+  const src = `${window.config
+    .ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
   return (
     <div {...attributes}>
       <figure {...figureClass}>
-        <img src={src} alt={embedTag.alt} />
+        <img src={src} alt={embed.alt} />
         {deletedOnSave &&
           <ForbiddenOverlay
             text={t('topicArticleForm.fields.content.deleteEmbedOnSave')}
@@ -40,7 +38,7 @@ const SlateImage = props => {
         name="caption"
         label={t('learningResourceForm.fields.content.figure.caption.image')}
         type="text"
-        value={embedTag.caption}
+        value={embed.caption}
         onChange={onFigureInputChange}
         placeholder={t(
           'learningResourceForm.fields.content.figure.caption.image',
@@ -51,7 +49,7 @@ const SlateImage = props => {
         name="alt"
         label={t('learningResourceForm.fields.content.figure.alt')}
         type="text"
-        value={embedTag.alt}
+        value={embed.alt}
         onChange={onFigureInputChange}
         placeholder={t('learningResourceForm.fields.content.figure.alt')}
         deletedOnSave={deletedOnSave}
@@ -61,12 +59,7 @@ const SlateImage = props => {
 };
 
 SlateImage.propTypes = {
-  embedTag: PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    resource: PropTypes.string.isRequired,
-  }),
+  embed: EmbedShape.isRequired,
   figureClass: PropTypes.object.isRequired,
   onFigureInputChange: PropTypes.func.isRequired,
   attributes: PropTypes.shape({

@@ -34,6 +34,7 @@ export const defaultEmbedBlock = data =>
     type: 'embed',
   });
 
+export const getSchemaEmbed = node => node.get('data').toJS();
 export const getSchemaEmbedTag = node => ({
   caption: node.get('data').get('caption'),
   alt: node.get('data').get('alt'),

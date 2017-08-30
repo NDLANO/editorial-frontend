@@ -45,6 +45,7 @@ const VisualElementSearch = ({
             searchButtonTitle={t('imageSearch.buttonTitle')}
             onImageSelect={image =>
               handleVisualElementChange({
+                resource: selectedResource,
                 resource_id: image.id,
                 size: 'fullbredde',
                 align: '',
@@ -77,6 +78,7 @@ const VisualElementSearch = ({
             translations={videoTranslations}
             onVideoSelect={video =>
               handleVisualElementChange({
+                resource: selectedResource,
                 videoid: video.id,
                 caption: '',
                 metaData: video,
@@ -91,6 +93,7 @@ const VisualElementSearch = ({
         <H5PSearch
           onSelect={h5p =>
             handleVisualElementChange({
+              resource: selectedResource,
               ...h5p,
               metaData: {},
             })}
@@ -119,7 +122,12 @@ const VisualElementSearch = ({
           locale={locale}
           fetchAudio={api.fetchAudio}
           searchAudios={api.searchAudios}
-          onAudioSelect={handleVisualElementChange}
+          onAudioSelect={audio =>
+            handleVisualElementChange({
+              resource: selectedResource,
+              resource_id: audio.id.toString(),
+              metaData: audio,
+            })}
           onError={api.onError}
           queryObject={defaultQueryObject}
         />

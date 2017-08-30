@@ -51,20 +51,12 @@ class VisualElementSelectField extends Component {
   }
 
   handleVisualElementChange(visualElement) {
-    const {
-      name,
-      onChange,
-      selectedResource,
-      resetSelectedResource,
-    } = this.props;
+    const { name, onChange, resetSelectedResource } = this.props;
 
     onChange({
       target: {
         name,
-        value: {
-          ...visualElement,
-          resource: selectedResource,
-        },
+        value: visualElement,
       },
     });
 

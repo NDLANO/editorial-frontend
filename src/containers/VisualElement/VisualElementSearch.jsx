@@ -78,6 +78,7 @@ const VisualElementSearch = ({
             onVideoSelect={video =>
               handleVisualElementChange({
                 videoid: video.id,
+                caption: '',
                 metaData: video,
               })}
             onError={api.onError}

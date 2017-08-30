@@ -22,7 +22,7 @@
 
   &__form {
     margin-top: 12px;
-    width: 670px;
+    min-width: 670px;
     height: 42px;
     border-width: 1px;
     border-style: solid;

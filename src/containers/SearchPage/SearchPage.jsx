@@ -92,7 +92,6 @@ SearchPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  clearSearch: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   lastPage: PropTypes.number.isRequired,
   results: PropTypes.arrayOf(ArticleResultShape).isRequired,
@@ -102,7 +101,6 @@ SearchPage.propTypes = {
 
 const mapDispatchToProps = {
   search: actions.search,
-  clearSearch: actions.clearSearch,
 };
 
 const mapStateToProps = state => ({

@@ -22,7 +22,7 @@ export default handleActions(
       next: state => ({ ...state, searching: true }),
       throw: state => state,
     },
-    [actions.setSearch]: {
+    [actions.setSearchResult]: {
       next: (state, action) => ({
         ...state,
         ...action.payload,
@@ -30,7 +30,7 @@ export default handleActions(
       }),
       throw: state => state,
     },
-    [actions.clearSearch]: {
+    [actions.clearSearchResult]: {
       next: () => initalState,
       throw: state => state,
     },

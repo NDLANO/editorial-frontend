@@ -21,7 +21,7 @@ test('searchSagas search', () => {
 
   return expectSaga(sagas.watchSearch)
     .withState({ locale: 'nb' })
-    .put(actions.setSearch({ results: [1, 2, 3] }))
+    .put(actions.setSearchResult({ results: [1, 2, 3] }))
     .dispatch(actions.search('?query=testing&page=3&sort=alfa'))
     .run({ silenceTimeout: true });
 });

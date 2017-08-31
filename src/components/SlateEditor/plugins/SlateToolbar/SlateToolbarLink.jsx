@@ -52,13 +52,17 @@ class SlateToolbarLink extends React.Component {
     if (isNDLAUrl && href && text) {
       const splittedHref = href.split('/');
       const id = splittedHref[splittedHref.length - 1];
-      if (this.state.nodeType === 'link') {
+      if (this.state.nodeType === 'embed-inline') {
         transform
           .insertText(text)
           .extend(0 - text.length)
           .setInline({
             type: LINK_TYPE,
-            data: { id, resource: 'content-link', contentLinkText: text },
+            data: {
+              'content-id': id,
+              resource: 'content-link',
+              contentLinkText: text,
+            },
           })
           .collapseToEnd();
       } else {
@@ -66,8 +70,12 @@ class SlateToolbarLink extends React.Component {
           .insertText(text)
           .extend(0 - text.length)
           .wrapInline({
-            type: 'link',
-            data: { id, resource: 'content-link', contentLinkText: text },
+            type: 'embed-inline',
+            data: {
+              'content-id': id,
+              resource: 'content-link',
+              contentLinkText: text,
+            },
           })
           .collapseToEnd();
       }
@@ -137,7 +145,7 @@ class SlateToolbarLink extends React.Component {
           nodeLink.type === LINK_TYPE
             ? `${window.config.editorialFrontendDomain}/article/${nodeLink
                 .get('data')
-                .get('id')}`
+                .get('content-id')}`
             : '',
         text,
         isEdit: nodeLink.type === LINK_TYPE,

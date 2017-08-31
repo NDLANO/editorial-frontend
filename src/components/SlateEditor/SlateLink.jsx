@@ -8,18 +8,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getSchemaEmbedTag } from './schema';
+import { getSchemaEmbed } from './schema';
 
 const SlateLink = props => {
   const { attributes, node } = props;
-  const embedTag = getSchemaEmbedTag(node);
+  const embed = getSchemaEmbed(node);
 
-  if (!embedTag || !embedTag.id) {
-    return null;
-  }
-
-  const href = `${window.config
-    .editorialFrontendDomain}/article/${embedTag.id}`;
+  const href = `${window.config.editorialFrontendDomain}/article/${embed.id}`;
   return (
     <a href={href} {...attributes}>
       {props.children}

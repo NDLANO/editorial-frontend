@@ -10,6 +10,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import get from 'lodash/fp/get';
+import set from 'lodash/fp/set';
 import { getComponentName } from 'ndla-util';
 
 const makeWrapper = WrappedComponent => {
@@ -51,21 +53,18 @@ const makeWrapper = WrappedComponent => {
       this.setState({ submitted });
     }
 
-    setProperty(prop, value, isDirty = true) {
-      const model = {
-        ...this.state.model,
-        [prop]: value,
-      };
-
-      if (this.state.fields[prop] && this.state.fields[prop].isDirty) {
+    setProperty(name, value, isDirty = true) {
+      const model = set(name, value, this.state.model);
+      const field = get(name, this.state.fields, false);
+      if (field && field.isDirty) {
         this.setState(prevstate => ({
-          model: { ...prevstate.model, [prop]: value },
+          model: set(name, value, prevstate.model),
         }));
       } else {
-        this.setState(prevstate => {
-          const fields = { ...prevstate.fields, [prop]: { isDirty } };
-          return { model: { ...prevstate.model, [prop]: value }, fields };
-        });
+        this.setState(prevstate => ({
+          model: set(name, value, prevstate.model),
+          fields: set(name, { isDirty }, prevstate.fields),
+        }));
       }
       return model;
     }
@@ -84,7 +83,6 @@ const makeWrapper = WrappedComponent => {
         this.setProperty(name, file);
         this.setProperty('filepath', URL.createObjectURL(file));
       } else if (type === 'SlateEditorState') {
-        // console.log('y0y00')
         this.setProperty(name, value); // TODO: Handle dirty flag with SlateEditorState
       } else {
         this.setProperty(name, value);
@@ -92,9 +90,18 @@ const makeWrapper = WrappedComponent => {
     }
 
     bindInput(name, isFile = false) {
+      if (isFile) {
+        return {
+          name,
+          onChange: this.bindToChangeEvent,
+        };
+      }
+
+      const value = get(name, this.state.model, '');
+
       return {
         name,
-        value: isFile ? undefined : this.state.model[name] || '',
+        value,
         onChange: this.bindToChangeEvent,
       };
     }

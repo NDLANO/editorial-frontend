@@ -12,19 +12,16 @@ import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
 import SlateInputField from './SlateInputField';
 import ForbiddenOverlay from '../ForbiddenOverlay';
+import { EmbedShape } from '../../shapes';
 
 const SlateVideo = ({
-  embedTag,
+  embed,
   figureClass,
   onFigureInputChange,
   attributes,
   deletedOnSave,
   t,
 }) => {
-  if (!embedTag || !embedTag.id) {
-    return null;
-  }
-
   const src = `//players.brightcove.net/${window.config
     .brightCoveAccountId}/${window.config
     .brightcovePlayerId}_default/index.min.js`;
@@ -35,14 +32,14 @@ const SlateVideo = ({
           <script src={src} type="text/javascript" />
         </Helmet>
         <video
-          data-video-id={embedTag.id}
+          data-video-id={embed.videoid}
           data-account={window.config.brightCoveAccountId}
           data-player={window.config.brightcovePlayerId}
           data-embed="default"
           className="video-js"
           controls
-          alt={embedTag.alt}>
-          <track kind="captions" label={embedTag.caption} />
+          alt={embed.alt}>
+          <track kind="captions" label={embed.caption} />
         </video>
         {deletedOnSave &&
           <ForbiddenOverlay
@@ -55,7 +52,7 @@ const SlateVideo = ({
           'learningResourceForm.fields.content.figure.caption.brightcove',
         )}
         type="text"
-        value={embedTag.caption}
+        value={embed.caption}
         onChange={onFigureInputChange}
         placeholder={t(
           'learningResourceForm.fields.content.figure.caption.brightcove',
@@ -67,12 +64,7 @@ const SlateVideo = ({
 };
 
 SlateVideo.propTypes = {
-  embedTag: PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    resource: PropTypes.string.isRequired,
-  }),
+  embed: EmbedShape.isRequired,
   figureClass: PropTypes.object.isRequired,
   onFigureInputChange: PropTypes.func.isRequired,
   attributes: PropTypes.shape({

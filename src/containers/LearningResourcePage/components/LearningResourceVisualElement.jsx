@@ -12,12 +12,7 @@ import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import { TextField, classes } from '../../../components/Fields';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
-
-const metaImageFields = {
-  id: 'metaImageId',
-  caption: 'metaImageCaption',
-  alt: 'metaImageAlt',
-};
+import { MetaImageShape } from '../../../shapes';
 
 class LearningResourceVisualElement extends Component {
   constructor(props) {
@@ -25,13 +20,16 @@ class LearningResourceVisualElement extends Component {
     this.state = {
       showVisualElement: false,
     };
-    this.toggleShowVisualElement = this.toggleShowVisualElement.bind(this);
+    this.hideVisualElement = this.hideVisualElement.bind(this);
+    this.showVisualElement = this.showVisualElement.bind(this);
   }
 
-  toggleShowVisualElement() {
-    this.setState(prevState => ({
-      showVisualElement: !prevState.showVisualElement,
-    }));
+  showVisualElement() {
+    this.setState({ showVisualElement: true });
+  }
+
+  hideVisualElement() {
+    this.setState({ showVisualElement: false });
   }
 
   render() {
@@ -47,22 +45,18 @@ class LearningResourceVisualElement extends Component {
           schema={schema}
           submitted={submitted}
           embedTag={metaImageTag}
-          {...bindInput('metaImageId')}
-          showVisualElement={this.state.showVisualElement}
-          toggleShowVisualElement={this.toggleShowVisualElement}
-          visualElementFields={metaImageFields}
+          {...bindInput('metaImage')}
+          selectedResource={this.state.showVisualElement ? 'image' : undefined}
+          resetSelectedResource={this.hideVisualElement}
         />
-        {!metaImageTag.id
-          ? <Button onClick={this.toggleShowVisualElement}>Velg bilde</Button>
-          : ''}
-        {metaImageTag.id
+        {metaImageTag.resource
           ? <div>
               <TextField
                 placeholder={t(
                   `learningResourceForm.fields.caption.placeholder.image`,
                 )}
                 label={t(`learningResourceForm.fields.caption.label.image`)}
-                name="metaImageCaption"
+                name="metaImage.caption"
                 noBorder
                 maxLength={300}
                 {...commonFieldProps}
@@ -70,13 +64,13 @@ class LearningResourceVisualElement extends Component {
               <TextField
                 placeholder={t('learningResourceForm.fields.alt.placeholder')}
                 label={t('learningResourceForm.fields.alt.label')}
-                name="metaImageAlt"
+                name="metaImage.alt"
                 noBorder
                 maxLength={300}
                 {...commonFieldProps}
               />
             </div>
-          : ''}
+          : <Button onClick={this.showVisualElement}>Velg bilde</Button>}
       </div>
     );
   }
@@ -92,12 +86,7 @@ LearningResourceVisualElement.propTypes = {
     submitted: PropTypes.bool.isRequired,
     bindInput: PropTypes.func.isRequired,
   }),
-  metaImageTag: PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    resource: PropTypes.string.isRequired,
-  }),
+  metaImageTag: MetaImageShape,
 };
 
 export default injectT(LearningResourceVisualElement);

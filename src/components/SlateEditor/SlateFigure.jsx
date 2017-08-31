@@ -14,7 +14,7 @@ import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
 import ForbiddenOverlay from '../ForbiddenOverlay';
-import { getSchemaEmbedTag } from './schema';
+import { getSchemaEmbed } from './schema';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -35,7 +35,7 @@ class SlateFigure extends React.Component {
     const { node, editor } = this.props;
 
     const properties = {
-      data: { ...getSchemaEmbedTag(node), [name]: value },
+      data: { ...getSchemaEmbed(node), [name]: value },
     };
     const next = editor
       .getState()
@@ -54,13 +54,13 @@ class SlateFigure extends React.Component {
   render() {
     const figureClass = classes('figure', this.isSelected() ? 'active' : '');
 
-    const embedTag = getSchemaEmbedTag(this.props.node);
+    const embed = getSchemaEmbed(this.props.node);
 
-    switch (embedTag.resource) {
+    switch (embed.resource) {
       case 'image':
         return (
           <SlateImage
-            embedTag={embedTag}
+            embed={embed}
             onFigureInputChange={this.onFigureInputChange}
             figureClass={figureClass}
             {...this.props}
@@ -69,7 +69,7 @@ class SlateFigure extends React.Component {
       case 'brightcove':
         return (
           <SlateVideo
-            embedTag={embedTag}
+            embed={embed}
             figureClass={figureClass}
             onFigureInputChange={this.onFigureInputChange}
             {...this.props}
@@ -77,11 +77,7 @@ class SlateFigure extends React.Component {
         );
       case 'audio':
         return (
-          <SlateAudio
-            embedTag={embedTag}
-            figureClass={figureClass}
-            {...this.props}
-          />
+          <SlateAudio embed={embed} figureClass={figureClass} {...this.props} />
         );
       default:
         return (
@@ -91,7 +87,7 @@ class SlateFigure extends React.Component {
             <span>
               {this.props.t(
                 'learningResourceForm.fields.content.figure.notSupported',
-                { mediaType: embedTag.resource },
+                { mediaType: embed.resource },
               )}
             </span>
             {this.props.deletedOnSave &&

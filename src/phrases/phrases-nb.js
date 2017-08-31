@@ -91,7 +91,8 @@ const phrases = {
     content: 'Innhold',
     visualElementTitle: {
       image: 'Bildetittel',
-      video: 'Videotittel',
+      h5p: 'H5P tittel',
+      brightcove: 'Videotittel',
     },
     visualElementCopyright: 'Opphav',
     info: {
@@ -120,7 +121,6 @@ const phrases = {
         },
         placeholder: {
           image: 'Bildetekst',
-          video: 'Videotekst',
           brightcove: 'Videotekst',
         },
       },

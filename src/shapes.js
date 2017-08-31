@@ -45,3 +45,19 @@ export const ImageShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 });
+
+export const EmbedShape = PropTypes.shape({
+  resource: PropTypes.string.isRequired,
+  url: PropTypes.string,
+  videoid: PropTypes.string,
+  resource_id: PropTypes.string,
+  caption: PropTypes.string,
+  alt: PropTypes.string,
+});
+
+export const MetaImageShape = PropTypes.shape({
+  resource: PropTypes.string,
+  resource_id: PropTypes.string,
+  caption: PropTypes.string,
+  alt: PropTypes.string,
+});

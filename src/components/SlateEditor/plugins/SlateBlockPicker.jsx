@@ -188,7 +188,7 @@ class SlateBlockPicker extends Component {
           ? <SlateEmbedPicker
               state={state}
               blocks={blocks}
-              embedTag={{ resource: this.state.embedSelect.embedType }}
+              resource={this.state.embedSelect.embedType}
               isOpen={this.state.embedSelect.isOpen}
               onEmbedClose={this.onEmbedClose}
               onStateChange={this.onStateChange}

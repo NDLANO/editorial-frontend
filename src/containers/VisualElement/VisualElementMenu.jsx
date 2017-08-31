@@ -12,26 +12,20 @@ import { Button } from 'ndla-ui';
 import { Cross, H5P, Camera, Plus, Video } from 'ndla-ui/icons';
 import { classes } from '../../components/Fields';
 
-class VisualElementTypeSelect extends Component {
+class VisualElementMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isOpen: false,
     };
     this.toggleIsOpen = this.toggleIsOpen.bind(this);
-    this.onTypeChange = this.onTypeChange.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
-  onTypeChange(type) {
-    const { onChange, name, toggleShowVisualElement } = this.props;
-    onChange({
-      target: {
-        name,
-        value: type,
-      },
-    });
+  handleSelect(type) {
+    const { onSelect } = this.props;
     this.setState({ isOpen: false });
-    toggleShowVisualElement();
+    onSelect(type);
   }
 
   toggleIsOpen() {
@@ -39,10 +33,6 @@ class VisualElementTypeSelect extends Component {
   }
 
   render() {
-    const { value } = this.props;
-    if (value) {
-      return null;
-    }
     const typeClassName = this.state.isOpen ? '' : 'hidden';
     return (
       <div>
@@ -56,19 +46,19 @@ class VisualElementTypeSelect extends Component {
           <Button
             stripped
             {...classes('visual-element-type-button')}
-            onClick={() => this.onTypeChange('image')}>
+            onClick={() => this.handleSelect('image')}>
             <Camera />
           </Button>
           <Button
             stripped
             {...classes('visual-element-type-button')}
-            onClick={() => this.onTypeChange('brightcove')}>
+            onClick={() => this.handleSelect('brightcove')}>
             <Video />
           </Button>
           <Button
             stripped
             {...classes('visual-element-type-button')}
-            onClick={() => this.onTypeChange('h5p')}>
+            onClick={() => this.handleSelect('h5p')}>
             <H5P />
           </Button>
         </div>
@@ -77,11 +67,8 @@ class VisualElementTypeSelect extends Component {
   }
 }
 
-VisualElementTypeSelect.propTypes = {
-  toggleShowVisualElement: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.string,
-  name: PropTypes.string.isRequired,
+VisualElementMenu.propTypes = {
+  onSelect: PropTypes.func.isRequired,
 };
 
-export default VisualElementTypeSelect;
+export default VisualElementMenu;

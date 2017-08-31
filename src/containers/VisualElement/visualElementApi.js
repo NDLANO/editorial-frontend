@@ -69,9 +69,9 @@ export const onError = err => {
 export const fetchVisualElement = embedTag => {
   switch (embedTag.resource) {
     case 'image':
-      return fetchImage(embedTag.id);
+      return fetchImage(embedTag.resource_id);
     case 'brightcove':
-      return fetchBrightcoveVideo(embedTag.id);
+      return fetchBrightcoveVideo(embedTag.videoid);
     default:
       return new Promise((resolve, reject) => {
         reject(`No embedtag with resource type ${embedTag.resource} exists`);

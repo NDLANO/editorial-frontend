@@ -44,7 +44,7 @@ class H5PSearch extends Component {
       return;
     }
     onSelect({
-      id: event.data.oembed_url,
+      url: event.data.oembed_url,
     });
   }
 

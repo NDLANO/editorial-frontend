@@ -89,6 +89,8 @@ const phrases = {
     content: 'Content',
     visualElementTitle: {
       image: 'Image title',
+      brightcove: 'Videotittel',
+      h5p: 'H5P title',
     },
     visualElementCopyright: 'Origin',
     info: {

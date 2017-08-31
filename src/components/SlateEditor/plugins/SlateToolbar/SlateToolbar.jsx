@@ -17,7 +17,15 @@ const DEFAULT_NODE = 'paragraph';
 
 const suportedToolbarElements = {
   marks: ['bold', 'italic', 'underlined', 'code', 'strikethrough'],
-  blocks: ['quote', 'link', 'numbered-list', 'bulleted-list'],
+  blocks: [
+    'quote',
+    'link',
+    'numbered-list',
+    'bulleted-list',
+    'heading-one',
+    'heading-two',
+    'heading-three',
+  ],
 };
 
 export const toolbarClasses = new BEMHelper({

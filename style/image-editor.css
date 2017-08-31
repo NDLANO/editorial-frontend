@@ -6,11 +6,11 @@
   &__focal-point-marker {
     cursor: crosshair;
     position: absolute;
-    background-color: var(--brand-color);
+    background-color: var(--brand-color--light);
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    border: 1px solid var(--brand-color);
+    border: 1px solid var(--brand-color--light);
     margin-left: -5px;
     margin-top: -5px;
   }
@@ -19,18 +19,26 @@
     position: relative;
   }
 
-  &__top-bar {
+  &__menu {
     color: white;
     background-color: var(--gray-2);
     border: 1px solid  var(--gray-2);
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     padding: 0.5rem;
+
+    & button:hover,
+    & button:focus {
+      color: white;
+    }
   }
 
   &__edit {
     position: relative;
     z-index: 101;
+    background-color: var(--gray-4);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
   }
 
   &__overlay {

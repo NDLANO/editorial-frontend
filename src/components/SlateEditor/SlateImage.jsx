@@ -39,7 +39,8 @@ class SlateImage extends React.Component {
       deletedOnSave,
       t,
     } = this.props;
-    const src = `${window.config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
+    const src = `${window.config
+      .ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
     return (
       <div {...attributes}>
         {this.state.editModus

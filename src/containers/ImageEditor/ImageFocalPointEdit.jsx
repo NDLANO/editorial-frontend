@@ -7,6 +7,7 @@ import {
   getClientPos,
   getImageDimensions,
 } from '../../util/imageEditorUtil';
+import { EmbedShape } from '../../shapes';
 
 export const classes = new BEMHelper({
   name: 'image-editor',
@@ -46,8 +47,9 @@ class ImageFocalPointEdit extends React.Component {
   }
 
   render() {
-    const { embedTag } = this.props;
-    const src = `${window.config.ndlaApiUrl}/image-api/raw/id/${embedTag.id}`;
+    const { embed } = this.props;
+    const src = `${window.config
+      .ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
     const style = !this.state.showMarker
       ? { display: 'none' }
       : {
@@ -62,7 +64,7 @@ class ImageFocalPointEdit extends React.Component {
             onClick={this.onImageClick}
             {...classes('focal-point')}>
             <img
-              alt={embedTag.alt}
+              alt={embed.alt}
               ref={focalImg => {
                 this.focalImg = focalImg;
               }}
@@ -77,10 +79,7 @@ class ImageFocalPointEdit extends React.Component {
 }
 
 ImageFocalPointEdit.propTypes = {
-  embedTag: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-  }),
+  embed: EmbedShape.isRequired,
   focalPoint: PropTypes.shape({
     x: PropTypes.number,
     y: PropTypes.number,

@@ -10,8 +10,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
-import ImageEdit from './ImageEdit';
-import { getSchemaEmbedTag } from '../../components/SlateEditor/schema';
+import { getSchemaEmbed } from '../../components/SlateEditor/schema';
+import { EmbedShape } from '../../shapes';
+import ImageFocalPointEdit from './ImageFocalPointEdit';
 
 export const classes = new BEMHelper({
   name: 'image-editor',
@@ -39,7 +40,7 @@ class ImageEditor extends Component {
 
     const properties = {
       data: {
-        ...getSchemaEmbedTag(node),
+        ...getSchemaEmbed(node),
         focalX: focalPoint.x,
         focalY: focalPoint.y,
       },
@@ -62,7 +63,9 @@ class ImageEditor extends Component {
   }
 
   render() {
-    const { embedTag } = this.props;
+    const { embed } = this.props;
+    const src = `${window.config
+      .ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
     return (
       <div {...classes()}>
         <div
@@ -71,17 +74,20 @@ class ImageEditor extends Component {
           role="presentation"
         />
         <div {...classes('edit')}>
-          <div {...classes('top-bar')}>
+          <div {...classes('menu')}>
             <Button stripped onClick={() => this.onEditorTypeSet('focalPoint')}>
               Rediger fokus punkt
             </Button>
           </div>
-          <ImageEdit
-            embedTag={embedTag}
-            editType={this.state.editType}
-            focalPoint={this.state.focalPoint}
-            onFocalPointChange={this.onFocalPointChange}
-          />
+          {this.state.editType === 'focalPoint'
+            ? <ImageFocalPointEdit
+                embed={embed}
+                focalPoint={this.state.focalPoint}
+                onFocalPointChange={this.onFocalPointChange}
+              />
+            : <figure>
+                <img src={src} alt={embed.alt} />
+              </figure>}
         </div>
       </div>
     );
@@ -89,10 +95,7 @@ class ImageEditor extends Component {
 }
 
 ImageEditor.propTypes = {
-  embedTag: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    alt: PropTypes.string,
-  }),
+  embed: EmbedShape.isRequired,
   toggleEditModus: PropTypes.func.isRequired,
   node: PropTypes.shape({
     get: PropTypes.func.isRequired,

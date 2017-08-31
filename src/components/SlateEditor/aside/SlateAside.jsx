@@ -10,18 +10,29 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SlateRightAside from './SlateRightAside';
 import SlateFactAside from './SlateFactAside';
+import SlateTextAside from './SlateTextAside';
 
 const SlateAside = props => {
-  const { node } = props;
+  const { node, editor } = props;
 
+  const onRemoveClick = () => {
+    const next = editor
+      .getState()
+      .transform()
+      .removeNodeByKey(node.key)
+      .apply();
+    editor.onChange(next);
+  };
   const type = node.get('data').get('type');
   switch (type) {
     case 'rightAside':
-      return <SlateRightAside {...props} />;
+      return <SlateRightAside onRemoveClick={onRemoveClick} {...props} />;
     case 'factAside':
-      return <SlateFactAside {...props} />;
+      return <SlateFactAside onRemoveClick={onRemoveClick} {...props} />;
+    case 'textAside':
+      return <SlateTextAside onRemoveClick={onRemoveClick} {...props} />;
     default: {
-      return <SlateFactAside {...props} />;
+      return <SlateFactAside onRemoveClick={onRemoveClick} {...props} />;
     }
   }
 };
@@ -32,6 +43,9 @@ SlateAside.propTypes = {
   }),
   node: PropTypes.shape({
     get: PropTypes.func.isRequired,
+  }),
+  editor: PropTypes.shape({
+    onChange: PropTypes.func.isRequired,
   }),
 };
 

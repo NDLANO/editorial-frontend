@@ -74,6 +74,16 @@ const phrases = {
     addVideo: 'Bruk video',
     previewVideo: 'Forhåndsvis',
   },
+  h5pSearch: {
+    fetchError:
+      'Vi beklager, men en feil oppsto under lasting av H5P klienten.',
+  },
+  audioSearch: {
+    searchPlaceholder: 'Søk i lydfiler',
+    searchButtonTitle: 'Søk',
+    useAudio: 'Velg lyd',
+    noResults: 'Ingen resultater funnet',
+  },
   topicArticleForm: {
     save: 'Lagre',
     savedOk: 'Lagret OK',
@@ -82,7 +92,8 @@ const phrases = {
     content: 'Innhold',
     visualElementTitle: {
       image: 'Bildetittel',
-      video: 'Videotittel',
+      h5p: 'H5P tittel',
+      brightcove: 'Videotittel',
     },
     visualElementCopyright: 'Opphav',
     info: {
@@ -111,7 +122,6 @@ const phrases = {
         },
         placeholder: {
           image: 'Bildetekst',
-          video: 'Videotekst',
           brightcove: 'Videotekst',
         },
       },
@@ -284,6 +294,16 @@ const phrases = {
           alt: 'Alt tekst',
           notSupported: 'Mediatype {mediaType} er ikke støttet.',
         },
+        link: {
+          save: 'Lagre',
+          abort: 'Avbryt',
+          removeUrl: 'Fjern lenke',
+          urlError: 'Lenke må komme fra ndla.no',
+          url: 'Lenke',
+          text: 'Tekst',
+          addTitle: 'Legg til lenke',
+          changeTitle: 'Endre lenke',
+        },
       },
       tags: {
         label: 'Nøkkelord',
@@ -339,6 +359,12 @@ const phrases = {
     footerInfo: 'Nettstedet er utarbeidet av NDLA som åpen kildekode.',
     footerEditiorInChief: 'Ansvarlig redaktør: ',
     footerManagingEditor: 'Utgaveansvarlig: ',
+  },
+  errorMessage: {
+    title: 'Oops, noe gikk galt',
+    description: 'Vi beklager, men en feil oppsto.',
+    back: 'Tilbake',
+    goToFrontPage: 'Gå til forsiden',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',

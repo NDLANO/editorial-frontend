@@ -24,6 +24,8 @@ class RichBlockTextEditor extends Component {
   constructor(props) {
     super(props);
     this.onContentChange = this.onContentChange.bind(this);
+    this.toggleMark = this.toggleMark.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
     this.state = {
       activeEditor: 0,
     };
@@ -44,6 +46,35 @@ class RichBlockTextEditor extends Component {
     });
 
     onChange(changedState);
+  }
+
+  onKeyDown(e, data, state, index) {
+    if (!data.isMod) return;
+    let mark;
+    switch (data.key) {
+      case 'b':
+        mark = 'bold';
+        break;
+      case 'i':
+        mark = 'italic';
+        break;
+      case 'u':
+        mark = 'underlined';
+        break;
+      case '`':
+        mark = 'code';
+        break;
+      default:
+    }
+    if (mark) {
+      this.toggleMark(e, state, mark, index);
+    }
+  }
+
+  toggleMark(e, state, type, index) {
+    e.preventDefault();
+    const nextState = state.transform().toggleMark(type).apply();
+    this.onContentChange(nextState, index);
   }
 
   render() {
@@ -78,6 +109,8 @@ class RichBlockTextEditor extends Component {
               schema={schema}
               onChange={editorState => this.onContentChange(editorState, index)}
               onBeforeInput={(e, d, state) => state}
+              onKeyDown={(evt, data, state) =>
+                this.onKeyDown(evt, data, state, index)}
               {...rest}
             />
             <SlateBlockPicker

@@ -5,7 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import isObject from 'lodash/fp/isObject';
 
+export const reduceElementDataAttributes = el => {
+  const attrs = [].slice.call(el.attributes);
+  const obj = attrs.reduce(
+    (all, attr) =>
+      Object.assign({}, all, { [attr.name.replace('data-', '')]: attr.value }),
+    {},
+  );
+  return obj;
+};
 export const parseEmbedTag = embedTag => {
   if (embedTag === '') {
     return undefined;
@@ -18,15 +28,18 @@ export const parseEmbedTag = embedTag => {
   if (embedElements.length !== 1) {
     return undefined;
   }
-  const getAttribute = name => embedElements[0].getAttribute(`data-${name}`);
-  return {
-    id:
-      getAttribute('resource_id') ||
-      getAttribute('videoid') ||
-      getAttribute('id'),
-    alt: getAttribute('alt'),
-    caption: getAttribute('caption'),
-    url: getAttribute('url'),
-    resource: getAttribute('resource'),
-  };
+
+  const obj = reduceElementDataAttributes(embedElements[0]);
+  delete obj.id;
+  return { ...obj, metaData: {} };
+};
+
+export const createEmbedTag = visualElement => {
+  const embed = document.createElement('embed');
+  Object.keys(visualElement)
+    .filter(
+      key => visualElement[key] !== undefined && !isObject(visualElement[key]),
+    )
+    .forEach(key => embed.setAttribute(`data-${key}`, visualElement[key]));
+  return embed.outerHTML;
 };

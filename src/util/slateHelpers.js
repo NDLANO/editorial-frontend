@@ -1,4 +1,14 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
+import isObject from 'lodash/fp/isObject';
+import { reduceElementDataAttributes } from './embedTagHelpers';
 
 const BLOCK_TAGS = {
   section: 'section',
@@ -25,45 +35,11 @@ const MARK_TAGS = {
   code: 'code',
 };
 
-const getEmbedTag = el => {
-  const attributes = el.attributes;
-  const idTypes = {
-    brightcove: 'data-videoid',
-    image: 'data-resource_id',
-  };
-  const size = attributes.getNamedItem('data-size');
-  const align = attributes.getNamedItem('data-align');
-  const caption = attributes.getNamedItem('data-caption');
-  const alt = attributes.getNamedItem('data-alt');
-  const resourceType = attributes.getNamedItem('data-resource')
-    ? attributes.getNamedItem('data-resource').value
-    : '';
-  const id = attributes.getNamedItem(idTypes[resourceType]);
-
-  return {
-    size: size ? size.value : '',
-    align: align ? align.value : '',
-    caption: caption ? caption.value : '',
-    alt: alt ? alt.value : '',
-    id: id ? id.value : '',
-    resource: resourceType,
-  };
-};
-
-const setEmbedTag = data => ({
-  'data-size': data.get('size') || '',
-  'data-align': data.get('align') || '',
-  'data-caption': data.get('caption') || '',
-  'data-alt': data.get('alt') || '',
-  'data-id': data.get('id') || 0,
-  'data-resource': data.get('resource') || '',
-  'data-videoid': data.get('resource') === 'brightcove' ? data.get('id') : '',
-  'data-resource_id': data.get('resource') === 'image' ? data.get('id') : '',
-});
-
 // TODO: get type of aside in here. Default should be rightAside since that is the only
-const getAsideTag = () => ({
-  type: 'rightAside',
+const getAsideTag = el => ({
+  type: el.attributes.getNamedItem('data-type')
+    ? el.attributes.getNamedItem('data-type')
+    : 'rightAside',
 });
 
 const setAsideTag = data => ({
@@ -91,7 +67,7 @@ const RULES = [
         kind: 'block',
         type: 'aside',
         nodes: next(el.childNodes),
-        data: getAsideTag(),
+        data: getAsideTag(el),
       };
     },
     serialize(object, children) {
@@ -307,9 +283,6 @@ const RULES = [
         kind: 'inline',
         type: 'link',
         nodes: next(el.childNodes),
-        data: {
-          href: el.attrs.find(({ name }) => name === 'href').value,
-        },
       };
     },
     serialize(object, children) {
@@ -335,7 +308,7 @@ const topicArticeEmbedRule = [
       return {
         kind: 'block',
         type: 'embed',
-        data: getEmbedTag(el),
+        data: reduceElementDataAttributes(el),
         isVoid: true,
       };
     },
@@ -350,26 +323,43 @@ const topicArticeEmbedRule = [
   },
 ];
 
-const learningResourceEmbedRule = [
+export const learningResourceEmbedRule = [
   {
-    // Embeds handling
     deserialize(el) {
-      if (el.tagName.toLowerCase() !== 'embed') return;
+      if (!el.tagName.toLowerCase().startsWith('embed')) return;
+      const embed = reduceElementDataAttributes(el);
+      if (embed.resource === 'content-link') {
+        return {
+          kind: 'inline',
+          type: 'embed-inline',
+          data: embed,
+          nodes: [
+            {
+              kind: 'text',
+              text: embed['link-text']
+                ? embed['link-text']
+                : 'Ukjent link tekst',
+            },
+          ],
+          isVoid: false,
+        };
+      }
       return {
         kind: 'block',
         type: 'embed',
-        data: getEmbedTag(el),
+        data: embed,
         isVoid: true,
       };
     },
     serialize(object) {
-      if (object.kind !== 'block') return;
-      if (object.type !== 'embed') return;
-      const embedTags = setEmbedTag(object.data);
-      switch (object.type) {
-        case 'embed':
-          return <embed {...embedTags} />;
-      }
+      if (!object.type || !object.type.startsWith('embed')) return;
+
+      const data = object.data.toJS();
+      const props = Object.keys(data)
+        .filter(key => data[key] !== undefined && !isObject(data[key]))
+        .reduce((acc, key) => ({ ...acc, [`data-${key}`]: data[key] }), {});
+
+      return <embed {...props} />;
     },
   },
 ];

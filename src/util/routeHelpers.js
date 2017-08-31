@@ -7,9 +7,9 @@ const articleTypes = {
 
 export function toSearch(query) {
   if (query) {
-    return `search?${queryString.stringify(query)}`;
+    return `/search?${queryString.stringify(query)}`;
   }
-  return 'search';
+  return '/search';
 }
 
 export function toEditArticle(articleId, articleType) {

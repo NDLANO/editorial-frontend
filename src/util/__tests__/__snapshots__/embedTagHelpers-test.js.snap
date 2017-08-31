@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createEmbedTag creates brightcove embed tag from object 1`] = `"<embed data-account=\\"4806596774001\\" data-caption=\\"Intervju med Hallvard\\" data-player=\\"BkLm8fT\\" data-resource=\\"brightcove\\" data-videoid=\\"ref:106952\\">"`;
+
+exports[`createEmbedTag creates h5p embed tag from object 1`] = `"<embed data-resource=\\"h5p\\" data-url=\\"https://h5p-test.ndla.no/resource/3ab6850d/oembed\\">"`;
+
+exports[`createEmbedTag creates image embed tag from object 1`] = `"<embed data-align=\\"\\" data-alt=\\"Guinness sign\\" data-caption=\\"Guinness is good for you\\" data-resource=\\"image\\" data-resource_id=\\"42159\\" data-size=\\"fullbredde\\" data-url=\\"https://api.ndla.no/image-api/v2/images/42159\\">"`;
+
+exports[`parseEmbedTag parses brightcove embed tag to object 1`] = `
+Object {
+  "account": "4806596774001",
+  "caption": "Intervju med Hallvard",
+  "metaData": Object {},
+  "player": "BkLm8fT",
+  "resource": "brightcove",
+  "videoid": "ref:106952",
+}
+`;
+
+exports[`parseEmbedTag parses h5p embed tag to object 1`] = `
+Object {
+  "metaData": Object {},
+  "resource": "h5p",
+  "url": "https://h5p-test.ndla.no/resource/3ab6850d-cd30-4f11-aead-8be65f66f566/oembed",
+}
+`;
+
+exports[`parseEmbedTag parses image embed tag to object 1`] = `
+Object {
+  "align": "",
+  "alt": "Guinness sign",
+  "caption": "Guinness is good for you",
+  "metaData": Object {},
+  "resource": "image",
+  "resource_id": "42159",
+  "size": "fullbredde",
+  "url": "https://api.ndla.no/image-api/v2/images/42159",
+}
+`;

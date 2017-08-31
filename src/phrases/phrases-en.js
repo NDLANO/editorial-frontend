@@ -73,6 +73,15 @@ const phrases = {
     addVideo: 'Use video',
     previewVideo: 'Preview',
   },
+  h5pSearch: {
+    fetchError: 'Sorry, an error occurd while loading the H5P client.',
+  },
+  audioSearch: {
+    searchPlaceholder: 'Search in audio files',
+    searchButtonTitle: 'Search',
+    useAudio: 'Chose audio',
+    noResults: 'No audio files found',
+  },
   topicArticleForm: {
     save: 'Save',
     savedOk: 'Saved OK',
@@ -81,6 +90,8 @@ const phrases = {
     content: 'Content',
     visualElementTitle: {
       image: 'Image title',
+      brightcove: 'Videotittel',
+      h5p: 'H5P title',
     },
     visualElementCopyright: 'Origin',
     info: {
@@ -273,6 +284,16 @@ const phrases = {
           alt: 'Alt text',
           notSupported: 'Media type {mediaType} is not supported.',
         },
+        link: {
+          save: 'Save',
+          abort: 'Abort',
+          removeUrl: 'Remove link',
+          urlError: 'Link has to come from ndla.no',
+          url: 'Link',
+          text: 'Text',
+          addTitle: 'Add link',
+          changeTitle: 'Change link',
+        },
       },
       tags: {
         label: 'Tags',
@@ -332,6 +353,12 @@ const phrases = {
     footerInfo: 'This webapplication is developed by NDLA as Open Source code.',
     footerEditiorInChief: 'Editor in chief: ',
     footerManagingEditor: 'Managing editor: ',
+  },
+  errorMessage: {
+    title: 'Oops, something went wrong',
+    description: 'Sorry, an error occurd.',
+    back: 'Back',
+    goToFrontPage: 'Go to frontpage',
   },
   notFound: {
     description: 'The page cannot be found',

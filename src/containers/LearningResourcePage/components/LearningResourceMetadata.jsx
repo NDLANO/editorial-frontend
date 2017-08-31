@@ -15,6 +15,7 @@ import {
   RemainingCharacters,
 } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
+import { MetaImageShape } from '../../../shapes';
 import LearningResourceVisualElement from './LearningResourceVisualElement';
 
 class LearningResourceMetadata extends Component {
@@ -34,13 +35,6 @@ class LearningResourceMetadata extends Component {
 
   render() {
     const { t, bindInput, commonFieldProps, tags, model } = this.props;
-
-    const metaImageTag = {
-      resource: 'image',
-      id: model.metaImageId,
-      caption: model.metaImageCaption,
-      alt: model.metaImageAlt,
-    };
 
     return (
       <Accordion
@@ -77,7 +71,7 @@ class LearningResourceMetadata extends Component {
           />
         </PlainTextField>
         <LearningResourceVisualElement
-          metaImageTag={metaImageTag}
+          metaImageTag={model.metaImage}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
         />
@@ -99,9 +93,7 @@ LearningResourceMetadata.propTypes = {
   }),
   classes: PropTypes.func.isRequired,
   model: PropTypes.shape({
-    metaImageId: PropTypes.string,
-    metaImageCaption: PropTypes.string,
-    metaImageAlt: PropTypes.string,
+    metaImage: MetaImageShape,
   }),
 };
 

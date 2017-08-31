@@ -17,6 +17,10 @@
   }
 }
 
+.masthead > div {
+  padding: 18px -1px 52px 52px;
+}
+
 .masthead-search {
   display: flex;
 

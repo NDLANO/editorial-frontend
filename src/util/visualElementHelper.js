@@ -10,10 +10,12 @@ export function getVisualElementInformation(element, type, locale) {
             ? element.copyright.authors.map(author => author.name).join(', ')
             : undefined,
       };
-    case 'video': {
-      const copyrightsKeys = Object.keys(element.custom_fields).filter(key =>
-        key.includes('licenseinfo'),
-      );
+    case 'brightcove': {
+      const copyrightsKeys = element.custom_fields
+        ? Object.keys(element.custom_fields).filter(key =>
+            key.includes('licenseinfo'),
+          )
+        : [];
       const copyrights = copyrightsKeys
         .map(key => {
           const licenseinfo = element.custom_fields[key];
@@ -29,8 +31,8 @@ export function getVisualElementInformation(element, type, locale) {
     }
     default:
       return {
-        title: '',
-        copyright: '',
+        title: 'Ukjent',
+        copyright: 'Ukjent',
       };
   }
 }

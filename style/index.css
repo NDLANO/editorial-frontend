@@ -6,6 +6,7 @@
  *
  */
 
+@import '../node_modules/ndla-ui/lib/audioSearch.css';
 @import '../node_modules/ndla-ui/lib/editor.css';
 @import '../node_modules/ndla-ui/lib/imageSearch.css';
 @import '../node_modules/ndla-ui/lib/main.css';
@@ -26,11 +27,16 @@
 @import './vars.css';
 
 .c-hero {
-  margin-bottom: -5.6em;
+  margin-bottom: 0;
 }
 
-.o-wrapper {
-  margin-top: 2.8em;
+.c-audio-search {
+  width: 70%;
+  margin: 0 auto;
+
+  &__form-query {
+    width: 87%;
+  }
 }
 
 @media (--medium-viewport) {

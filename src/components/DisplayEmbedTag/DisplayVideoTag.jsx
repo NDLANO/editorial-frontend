@@ -13,10 +13,6 @@ import { injectT } from 'ndla-i18n';
 import ForbiddenOverlay from '../ForbiddenOverlay';
 
 const DisplayVideoTag = ({ embedTag, className, deletedOnSave, t }) => {
-  if (!embedTag || !embedTag.id) {
-    return null;
-  }
-
   const src = `//players.brightcove.net/${window.config
     .brightCoveAccountId}/${window.config
     .brightcovePlayerId}_default/index.min.js`;
@@ -26,7 +22,7 @@ const DisplayVideoTag = ({ embedTag, className, deletedOnSave, t }) => {
         <script src={src} type="text/javascript" />
       </Helmet>
       <video
-        data-video-id={embedTag.id}
+        data-video-id={embedTag.videoid}
         data-account={window.config.brightCoveAccountId}
         data-player={window.config.brightcovePlayerId}
         data-embed="default"
@@ -48,11 +44,10 @@ const DisplayVideoTag = ({ embedTag, className, deletedOnSave, t }) => {
 
 DisplayVideoTag.propTypes = {
   embedTag: PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
     resource: PropTypes.string.isRequired,
-  }),
+    videoid: PropTypes.string.isRequired,
+    caption: PropTypes.string,
+  }).isRequired,
   className: PropTypes.string,
   deletedOnSave: PropTypes.bool,
 };

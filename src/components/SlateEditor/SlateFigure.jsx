@@ -13,6 +13,7 @@ import { injectT } from 'ndla-i18n';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
+import DisplayOembed from '../DisplayEmbedTag/DisplayOembed';
 import ForbiddenOverlay from '../ForbiddenOverlay';
 import { getSchemaEmbed } from './schema';
 
@@ -79,6 +80,8 @@ class SlateFigure extends React.Component {
         return (
           <SlateAudio embed={embed} figureClass={figureClass} {...this.props} />
         );
+      case 'h5p':
+        return <DisplayOembed url={embed.url} />;
       default:
         return (
           <div

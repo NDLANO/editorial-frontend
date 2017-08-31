@@ -10,10 +10,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const DisplayImageTag = ({ embedTag, className }) => {
-  if (!embedTag || !embedTag.id) {
-    return null;
-  }
-  const src = `${window.config.ndlaApiUrl}/image-api/raw/id/${embedTag.id}`;
+  const src = `${window.config
+    .ndlaApiUrl}/image-api/raw/id/${embedTag.resource_id}`;
   return (
     <figure className={className}>
       <img src={src} alt={embedTag.alt} />
@@ -26,10 +24,10 @@ const DisplayImageTag = ({ embedTag, className }) => {
 
 DisplayImageTag.propTypes = {
   embedTag: PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
+    resource_id: PropTypes.string.isRequired,
     resource: PropTypes.string.isRequired,
+    caption: PropTypes.string,
+    alt: PropTypes.string,
   }),
   className: PropTypes.string,
 };

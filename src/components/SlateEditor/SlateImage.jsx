@@ -13,6 +13,7 @@ import { Button } from 'ndla-ui';
 import SlateInputField from './SlateInputField';
 import ForbiddenOverlay from '../ForbiddenOverlay';
 import ImageEditor from '../../containers/ImageEditor/ImageEditor';
+import { EmbedShape } from '../../shapes';
 
 class SlateImage extends React.Component {
   constructor() {
@@ -31,26 +32,25 @@ class SlateImage extends React.Component {
 
   render() {
     const {
-      embedTag,
+      embed,
       figureClass,
       attributes,
       onFigureInputChange,
       deletedOnSave,
       t,
     } = this.props;
-    console.log(embedTag);
-    const src = `${window.config.ndlaApiUrl}/image-api/raw/id/${embedTag.id}`;
+    const src = `${window.config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
     return (
       <div {...attributes}>
         {this.state.editModus
           ? <ImageEditor
-              embedTag={embedTag}
+              embedTag={embed}
               toggleEditModus={this.toggleEditModus}
               {...this.props}
             />
           : <Button stripped onClick={this.toggleEditModus}>
               <figure {...figureClass}>
-                <img src={src} alt={embedTag.alt} />
+                <img src={src} alt={embed.alt} />
                 {deletedOnSave &&
                   <ForbiddenOverlay
                     text={t(
@@ -63,7 +63,7 @@ class SlateImage extends React.Component {
           name="caption"
           label={t('learningResourceForm.fields.content.figure.caption.image')}
           type="text"
-          value={embedTag.caption}
+          value={embed.caption}
           onChange={onFigureInputChange}
           placeholder={t(
             'learningResourceForm.fields.content.figure.caption.image',
@@ -74,7 +74,7 @@ class SlateImage extends React.Component {
           name="alt"
           label={t('learningResourceForm.fields.content.figure.alt')}
           type="text"
-          value={embedTag.alt}
+          value={embed.alt}
           onChange={onFigureInputChange}
           placeholder={t('learningResourceForm.fields.content.figure.alt')}
           deletedOnSave={deletedOnSave}
@@ -85,12 +85,7 @@ class SlateImage extends React.Component {
 }
 
 SlateImage.propTypes = {
-  embedTag: PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    resource: PropTypes.string.isRequired,
-  }),
+  embed: EmbedShape.isRequired,
   figureClass: PropTypes.object.isRequired,
   onFigureInputChange: PropTypes.func.isRequired,
   attributes: PropTypes.shape({

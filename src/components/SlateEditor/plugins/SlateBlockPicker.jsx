@@ -21,6 +21,7 @@ import {
   Video,
   Audio,
   FactBox,
+  TextInBox,
 } from 'ndla-ui/icons';
 import { createEmptyState } from '../../../util/articleContentConverter';
 import { defaultAsideBlock } from '../schema';
@@ -187,7 +188,7 @@ class SlateBlockPicker extends Component {
           ? <SlateEmbedPicker
               state={state}
               blocks={blocks}
-              embedTag={{ resource: this.state.embedSelect.embedType }}
+              resource={this.state.embedSelect.embedType}
               isOpen={this.state.embedSelect.isOpen}
               onEmbedClose={this.onEmbedClose}
               onStateChange={this.onStateChange}
@@ -226,6 +227,13 @@ class SlateBlockPicker extends Component {
                 onClick={() =>
                   this.onElementAdd({ type: 'aside', kind: 'factAside' })}>
                 <FactBox />
+              </Button>
+              <Button
+                stripped
+                {...classes('block-type-button')}
+                onClick={() =>
+                  this.onElementAdd({ type: 'aside', kind: 'textAside' })}>
+                <TextInBox />
               </Button>
               <Button
                 stripped

@@ -73,6 +73,10 @@ const phrases = {
     addVideo: 'Bruk video',
     previewVideo: 'Forhåndsvis',
   },
+  h5pSearch: {
+    fetchError:
+      'Vi beklager, men en feil oppsto under lasting av H5P klienten.',
+  },
   audioSearch: {
     searchPlaceholder: 'Søk i lydfiler',
     searchButtonTitle: 'Søk',
@@ -87,7 +91,8 @@ const phrases = {
     content: 'Innhold',
     visualElementTitle: {
       image: 'Bildetittel',
-      video: 'Videotittel',
+      h5p: 'H5P tittel',
+      brightcove: 'Videotittel',
     },
     visualElementCopyright: 'Opphav',
     info: {
@@ -116,7 +121,6 @@ const phrases = {
         },
         placeholder: {
           image: 'Bildetekst',
-          video: 'Videotekst',
           brightcove: 'Videotekst',
         },
       },
@@ -354,6 +358,12 @@ const phrases = {
     footerInfo: 'Nettstedet er utarbeidet av NDLA som åpen kildekode.',
     footerEditiorInChief: 'Ansvarlig redaktør: ',
     footerManagingEditor: 'Utgaveansvarlig: ',
+  },
+  errorMessage: {
+    title: 'Oops, noe gikk galt',
+    description: 'Vi beklager, men en feil oppsto.',
+    back: 'Tilbake',
+    goToFrontPage: 'Gå til forsiden',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',

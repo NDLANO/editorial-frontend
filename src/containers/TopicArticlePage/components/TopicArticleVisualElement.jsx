@@ -12,33 +12,31 @@ import { injectT } from 'ndla-i18n';
 
 import { TextField, classes } from '../../../components/Fields';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
-import VisualElementTypeSelect from '../../VisualElement/VisualElementTypeSelect';
-
-const visualElementFields = {
-  id: 'visualElementId',
-  caption: 'visualElementCaption',
-  alt: 'visualElementAlt',
-  type: 'visualElementType',
-};
+import VisualElementMenu from '../../VisualElement/VisualElementMenu';
 
 class TopicArticleVisualElement extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showVisualElement: false,
+      selectedResource: undefined,
     };
-    this.toggleShowVisualElement = this.toggleShowVisualElement.bind(this);
+    this.handleSelectResource = this.handleSelectResource.bind(this);
+    this.resetSelectedResource = this.resetSelectedResource.bind(this);
   }
 
-  toggleShowVisualElement() {
-    this.setState(prevState => ({
-      showVisualElement: !prevState.showVisualElement,
-    }));
+  resetSelectedResource() {
+    this.setState({ selectedResource: undefined });
+  }
+
+  handleSelectResource(selectedResource) {
+    this.setState({ selectedResource });
   }
 
   render() {
-    const { t, bindInput, commonFieldProps, visualElementTag } = this.props;
+    const { t, bindInput, commonFieldProps } = this.props;
     const { schema, submitted } = commonFieldProps;
+
+    const { value: visualElement } = bindInput('visualElement');
 
     return (
       <div>
@@ -48,45 +46,46 @@ class TopicArticleVisualElement extends Component {
             <div {...classes('add-visual-element-title', 'border')} />
           </span>
         </div>
-        <VisualElementTypeSelect
-          schema={schema}
-          submitted={submitted}
-          embedTag={visualElementTag}
-          toggleShowVisualElement={this.toggleShowVisualElement}
-          {...bindInput('visualElementType')}
-        />
+        {!visualElement.resource
+          ? <VisualElementMenu
+              onSelect={resource =>
+                this.setState({ selectedResource: resource })}
+            />
+          : null}
         <VisualElementSelectField
           label={t('topicArticleForm.fields.visualElement.label')}
           schema={schema}
           submitted={submitted}
-          embedTag={visualElementTag}
-          {...bindInput('visualElementId')}
-          showVisualElement={this.state.showVisualElement}
-          toggleShowVisualElement={this.toggleShowVisualElement}
-          visualElementFields={visualElementFields}
+          visualElement={visualElement}
+          selectedResource={this.state.selectedResource}
+          onRemoveVisualElement={() =>
+            this.setState({ selectedResource: undefined })}
+          {...bindInput('visualElement')}
+          resetSelectedResource={this.resetSelectedResource}
         />
-        {visualElementTag.id
+        {visualElement.resource && visualElement.resource !== 'h5p'
           ? <div>
               <TextField
                 placeholder={t(
-                  `topicArticleForm.fields.caption.placeholder.${visualElementTag.resource}`,
+                  `topicArticleForm.fields.caption.placeholder.${visualElement.resource}`,
                 )}
                 label={t(
-                  `topicArticleForm.fields.caption.label.${visualElementTag.resource}`,
+                  `topicArticleForm.fields.caption.label.${visualElement.resource}`,
                 )}
-                name="visualElementCaption"
+                name="visualElement.caption"
+                {...commonFieldProps}
                 noBorder
                 maxLength={300}
-                {...commonFieldProps}
               />
-              <TextField
-                placeholder={t('topicArticleForm.fields.alt.placeholder')}
-                label={t('topicArticleForm.fields.alt.label')}
-                name="visualElementAlt"
-                noBorder
-                maxLength={300}
-                {...commonFieldProps}
-              />
+              {visualElement.resource === 'image' &&
+                <TextField
+                  placeholder={t('topicArticleForm.fields.alt.placeholder')}
+                  label={t('topicArticleForm.fields.alt.label')}
+                  name="visualElement.alt"
+                  {...commonFieldProps}
+                  noBorder
+                  maxLength={300}
+                />}
             </div>
           : ''}
       </div>
@@ -104,11 +103,11 @@ TopicArticleVisualElement.propTypes = {
     submitted: PropTypes.bool.isRequired,
     bindInput: PropTypes.func.isRequired,
   }),
-  visualElementTag: PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    resource: PropTypes.string.isRequired,
+  visualElement: PropTypes.shape({
+    caption: PropTypes.string,
+    alt: PropTypes.string,
+    id: PropTypes.string,
+    resource: PropTypes.string,
   }),
 };
 

@@ -19,6 +19,9 @@ import {
   Strikethrough,
   Underline,
   Link,
+  Heading1,
+  Heading2,
+  Heading3,
 } from 'ndla-ui/icons';
 import { toolbarClasses } from './SlateToolbar';
 
@@ -32,6 +35,9 @@ const toolbarIcon = {
   link: <Link />,
   'numbered-list': <ListNumbered />,
   'bulleted-list': <ListCircle />,
+  'heading-one': <Heading1 />,
+  'heading-two': <Heading2 />,
+  'heading-three': <Heading3 />,
 };
 
 const ToolbarButton = ({ type, handleHasType, handleOnClick }) => {

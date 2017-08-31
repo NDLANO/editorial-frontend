@@ -13,93 +13,61 @@ import { Button } from 'ndla-ui';
 import Lightbox from '../../components/Lightbox';
 import DisplayEmbedTag from '../../components/DisplayEmbedTag/DisplayEmbedTag';
 import * as api from './visualElementApi';
-import { Field, FieldErrorMessages, classes } from '../../components/Fields';
+import {
+  Field,
+  FieldErrorMessages,
+  classes,
+  getField,
+} from '../../components/Fields';
 import VisualElementSearch from './VisualElementSearch';
 import VisualElementInformation from './VisualElementInformation';
 import { getLocale } from '../../modules/locale/locale';
-import { alttextsI18N, captionsI18N } from '../../util/i18nFieldFinder';
 
 class VisualElementSelectField extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isOpen: false,
-      visualElement: undefined,
-    };
     this.handleVisualElementChange = this.handleVisualElementChange.bind(this);
     this.removeVisualElement = this.removeVisualElement.bind(this);
     this.onImageLightboxClose = this.onImageLightboxClose.bind(this);
   }
+
   componentWillMount() {
-    const { embedTag } = this.props;
-    if (embedTag.id) {
-      api
-        .fetchVisualElement(embedTag)
-        .then(visualElement => this.setState({ visualElement }));
-    }
-  }
-  componentWillReceiveProps(nextProps) {
-    if (this.state.isOpen !== nextProps.showVisualElement) {
-      this.setState({ isOpen: nextProps.showVisualElement });
+    const { value, name, onChange } = this.props;
+
+    if (value.resource && value.resource !== 'h5p') {
+      api.fetchVisualElement(value).then(metaData => {
+        onChange({
+          target: {
+            name,
+            value: { ...value, metaData },
+          },
+        });
+      });
     }
   }
 
   onImageLightboxClose() {
-    const { onChange, toggleShowVisualElement } = this.props;
-    onChange({
-      target: {
-        name: 'visualElementType',
-        value: '',
-      },
-    });
-    toggleShowVisualElement();
-    this.setState(() => ({ isOpen: false }));
+    this.props.resetSelectedResource();
   }
 
   handleVisualElementChange(visualElement) {
-    const {
-      name,
-      onChange,
-      toggleShowVisualElement,
-      locale,
-      visualElementFields,
-    } = this.props;
+    const { name, onChange, resetSelectedResource } = this.props;
+
     onChange({
       target: {
         name,
-        value: visualElement.id,
+        value: visualElement,
       },
     });
 
-    const altText = alttextsI18N(visualElement, locale, true);
-    const caption = captionsI18N(visualElement, locale, true);
-    const visualElementTexts = [
-      { name: visualElementFields.alt, value: altText || '' },
-      { name: visualElementFields.caption, value: caption || '' },
-    ];
-
-    visualElementTexts.forEach(text =>
-      onChange({ target: { name: text.name, value: text.value } }),
-    );
-
-    toggleShowVisualElement();
-    this.setState(() => ({ isOpen: false, visualElement }));
+    resetSelectedResource();
   }
 
   removeVisualElement() {
-    const { onChange, visualElementFields } = this.props;
+    const { onChange, name, resetSelectedResource } = this.props;
 
-    this.setState({ visualElement: undefined });
-    ['id', 'caption', 'alt', 'type'].forEach(name => {
-      if (visualElementFields[name]) {
-        onChange({
-          target: {
-            name: visualElementFields[name],
-            value: '',
-          },
-        });
-      }
-    });
+    onChange({ target: { name, value: {} } });
+    resetSelectedResource();
   }
 
   render() {
@@ -109,24 +77,24 @@ class VisualElementSelectField extends Component {
       schema,
       submitted,
       value,
-      embedTag,
       locale,
+      selectedResource,
     } = this.props;
 
-    if (value) {
+    if (value.resource) {
       return (
         <Field>
           <div {...classes('visual-element-container')}>
             <div {...classes('visual-element', 'left')}>
               <DisplayEmbedTag
-                embedTag={embedTag}
-                {...classes('visual-element', embedTag.resource)}
+                embedTag={value}
+                {...classes('visual-element', value.resource)}
               />
             </div>
             <div {...classes('visual-element', 'right')}>
               <VisualElementInformation
-                visualElement={this.state.visualElement}
-                embedTag={embedTag}
+                visualElement={value.metaData}
+                embedTag={value}
                 locale={locale}
               />
               <Button onClick={this.removeVisualElement}>Fjern element</Button>
@@ -136,24 +104,23 @@ class VisualElementSelectField extends Component {
       );
     }
 
-    if (!this.state.isOpen) {
-      return null;
+    if (selectedResource) {
+      return (
+        <Lightbox display big onClose={this.onImageLightboxClose}>
+          <VisualElementSearch
+            selectedResource={selectedResource}
+            embedTag={value}
+            handleVisualElementChange={this.handleVisualElementChange}
+          />
+        </Lightbox>
+      );
     }
 
     return (
       <Field>
-        <Lightbox
-          display={this.state.isOpen}
-          big
-          onClose={this.onImageLightboxClose}>
-          <VisualElementSearch
-            embedTag={embedTag}
-            handleVisualElementChange={this.handleVisualElementChange}
-          />
-        </Lightbox>
         <FieldErrorMessages
           label={label}
-          field={schema.fields[name]}
+          field={getField(name, schema)}
           submitted={submitted}
         />
       </Field>
@@ -163,28 +130,19 @@ class VisualElementSelectField extends Component {
 
 VisualElementSelectField.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string,
   name: PropTypes.string.isRequired,
+  selectedResource: PropTypes.string,
   label: PropTypes.string.isRequired,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),
   submitted: PropTypes.bool.isRequired,
-  embedTag: PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    resource: PropTypes.string.isRequired,
-  }),
-  showVisualElement: PropTypes.bool.isRequired,
-  toggleShowVisualElement: PropTypes.func.isRequired,
+  value: PropTypes.shape({
+    resource: PropTypes.string,
+    metaData: PropTypes.object,
+  }).isRequired,
+  resetSelectedResource: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
-  visualElementFields: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    caption: PropTypes.string.isRequired,
-    type: PropTypes.string,
-  }),
 };
 
 const mapStateToProps = state => ({

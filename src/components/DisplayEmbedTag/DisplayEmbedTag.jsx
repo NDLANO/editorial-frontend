@@ -10,29 +10,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DisplayImageTag from './DisplayImageTag';
 import DisplayVideoTag from './DisplayVideoTag';
+import DisplayH5PTag from './DisplayH5PTag';
+import { EmbedShape } from '../../shapes';
 
 const DisplayEmbedTag = ({ embedTag, className }) => {
-  if (!embedTag) {
-    return null;
-  }
-
   switch (embedTag.resource) {
     case 'image':
       return <DisplayImageTag embedTag={embedTag} className={className} />;
     case 'brightcove':
       return <DisplayVideoTag embedTag={embedTag} className={className} />;
+    case 'h5p':
+      return <DisplayH5PTag url={embedTag.url} />;
     default:
       return <p>{`Mediatype ${embedTag.resource} is not supported yet.`}</p>;
   }
 };
 
 DisplayEmbedTag.propTypes = {
-  embedTag: PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    id: PropTypes.string,
-    resource: PropTypes.string.isRequired,
-  }),
+  embedTag: EmbedShape.isRequired,
   className: PropTypes.string,
 };
 

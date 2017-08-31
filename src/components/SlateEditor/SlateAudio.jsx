@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as visualElementApi from '../../containers/VisualElement/visualElementApi';
+import { EmbedShape } from '../../shapes';
 
 class SlateAudio extends React.Component {
   constructor() {
@@ -22,7 +23,7 @@ class SlateAudio extends React.Component {
 
   loadAudio() {
     visualElementApi
-      .fetchAudio(this.props.embedTag.id)
+      .fetchAudio(this.props.embed.resource_id)
       .then(result => {
         this.setState({
           audioSource: result.audioFile.url,
@@ -34,12 +35,7 @@ class SlateAudio extends React.Component {
       });
   }
   render() {
-    const { embedTag, figureClass, attributes } = this.props;
-
-    if (!embedTag || !embedTag.id) {
-      return null;
-    }
-
+    const { embed, figureClass, attributes } = this.props;
     const { audioSource, audioType } = this.state;
     return (
       <div {...attributes}>
@@ -51,7 +47,7 @@ class SlateAudio extends React.Component {
           {audioSource
             ? <source src={audioSource} type={audioType} />
             : undefined}
-          <track kind="captions" label={embedTag.caption} />
+          <track kind="captions" label={embed.caption} />
         </audio>
       </div>
     );
@@ -59,11 +55,7 @@ class SlateAudio extends React.Component {
 }
 
 SlateAudio.propTypes = {
-  embedTag: PropTypes.shape({
-    caption: PropTypes.string,
-    id: PropTypes.string.isRequired,
-    resource: PropTypes.string.isRequired,
-  }),
+  embed: EmbedShape.isRequired,
   figureClass: PropTypes.object.isRequired,
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,

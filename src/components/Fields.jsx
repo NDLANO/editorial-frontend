@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { uuid } from 'ndla-util';
 import BEMHelper from 'react-bem-helper';
+import get from 'lodash/fp/get';
 import MultiSelect from './MultiSelect';
 import { isEmpty } from './validators';
 import RichTextEditor from '../components/SlateEditor/RichTextEditor';
@@ -59,14 +60,16 @@ FieldHelp.propTypes = {
   right: PropTypes.bool,
 };
 
+export const getField = (name, schema) => get(name, schema.fields);
 const hasError = field => field && !field.isValid;
 const showError = (field, submitted) =>
   hasError(field) && (field.isDirty || submitted);
 
 export const FieldErrorMessages = ({ field, submitted, label }) => {
-  if (!showError(field, submitted)) {
+  if (!field || !showError(field, submitted)) {
     return null;
   }
+
   return (
     <div>
       {field.errors.map(error =>
@@ -146,7 +149,7 @@ export const InputFileField = ({
     />
     <FieldErrorMessages
       label={label}
-      field={schema.fields[name]}
+      field={getField(name, schema)}
       submitted={submitted}
     />
   </Field>;
@@ -200,9 +203,10 @@ export const TextField = ({
       {...bindInput(name)}
       {...rest}
     />
+
     <FieldErrorMessages
       label={label}
-      field={schema.fields[name]}
+      field={getField(name, schema)}
       submitted={submitted}
     />
   </Field>;
@@ -274,7 +278,7 @@ export const TextAreaField = ({
     />
     <FieldErrorMessages
       label={label}
-      field={schema.fields[name]}
+      field={getField(name, schema)}
       submitted={submitted}
     />
     {children}
@@ -346,7 +350,7 @@ export const PlainTextField = ({
       </div>
       <FieldErrorMessages
         label={label}
-        field={schema.fields[name]}
+        field={getField(name, schema)}
         submitted={submitted}
       />
       {children}
@@ -389,7 +393,7 @@ export const MultiSelectField = ({
     <MultiSelect {...bindInput(name)} {...rest} />
     <FieldErrorMessages
       label={label}
-      field={schema.fields[name]}
+      field={getField(name, schema)}
       submitted={submitted}
     />
   </Field>;
@@ -447,7 +451,7 @@ export const RichBlockTextField = ({
       />
       <FieldErrorMessages
         label={label}
-        field={schema.fields[name]}
+        field={getField(name, schema)}
         submitted={submitted}
       />
     </Field>
@@ -504,7 +508,7 @@ export const RichTextField = ({
       />
       <FieldErrorMessages
         label={label}
-        field={schema.fields[name]}
+        field={getField(name, schema)}
         submitted={submitted}
       />
     </Field>
@@ -562,7 +566,7 @@ export const SelectObjectField = props => {
       </select>
       <FieldErrorMessages
         label={label}
-        field={schema.fields[name]}
+        field={getField(name, schema)}
         submitted={submitted}
       />
     </Field>

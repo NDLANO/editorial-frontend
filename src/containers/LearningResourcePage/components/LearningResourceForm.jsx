@@ -17,7 +17,7 @@ import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import converter from '../../../util/articleContentConverter';
-import { parseEmbedTag } from '../../../util/embedTagHelpers';
+import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
@@ -59,9 +59,7 @@ export const getInitialModel = (article = {}) => {
       article.metaDescription,
       true,
     ),
-    metaImageId: metaImage.id || '',
-    metaImageCaption: metaImage.caption || '',
-    metaImageAlt: metaImage.alt || '',
+    metaImage,
   };
 };
 
@@ -118,7 +116,7 @@ class LearningResourceForm extends Component {
       ],
       visualElement: [
         {
-          content: `<embed data-size="fullbredde" data-align="" data-alt="${model.metaImageAlt}" data-caption="${model.metaImageCaption}" data-resource="image" data-resource_id="${model.metaImageId}" />`,
+          content: createEmbedTag(model.metaImage),
           language,
         },
       ],
@@ -238,8 +236,18 @@ export default compose(
       required: true,
       maxLength: 150,
     },
-    metaImageId: {
+    metaImage: {
       required: true,
+    },
+    'metaImage.alt': {
+      required: true,
+      onlyValidateIf: model =>
+        model.metaImage && model.metaImage.resource === 'image',
+    },
+    'metaImage.caption': {
+      required: true,
+      onlyValidateIf: model =>
+        model.metaImage && model.metaImage.resource === 'image',
     },
     tags: {
       minItems: 3,

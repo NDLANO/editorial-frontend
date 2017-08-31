@@ -72,6 +72,9 @@ const phrases = {
     addVideo: 'Use video',
     previewVideo: 'Preview',
   },
+  h5pSearch: {
+    fetchError: 'Sorry, an error occurd while loading the H5P client.',
+  },
   audioSearch: {
     searchPlaceholder: 'Search in audio files',
     searchButtonTitle: 'Search',
@@ -86,6 +89,8 @@ const phrases = {
     content: 'Content',
     visualElementTitle: {
       image: 'Image title',
+      brightcove: 'Videotittel',
+      h5p: 'H5P title',
     },
     visualElementCopyright: 'Origin',
     info: {
@@ -347,6 +352,12 @@ const phrases = {
     footerInfo: 'This webapplication is developed by NDLA as Open Source code.',
     footerEditiorInChief: 'Editor in chief: ',
     footerManagingEditor: 'Managing editor: ',
+  },
+  errorMessage: {
+    title: 'Oops, something went wrong',
+    description: 'Sorry, an error occurd.',
+    back: 'Back',
+    goToFrontPage: 'Go to frontpage',
   },
   notFound: {
     description: 'The page cannot be found',

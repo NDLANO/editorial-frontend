@@ -10,6 +10,11 @@
       border-top: 1px solid var(--brand-grey--light);
       border-bottom: 1px solid var(--brand-grey--light);
     }
+
+    & ol,
+    & ul {
+      margin-top: 1rem;
+    }
   }
 
   &__container:hover &__delete-block-button,
@@ -31,7 +36,8 @@
   }
 
   &__right-aside,
-  &__fact-aside {
+  &__fact-aside,
+  &__text-aside, {
     & h1,
     & h2,
     & h3 {
@@ -50,8 +56,8 @@
   &__delete-aside-button {
     color: red;
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 0.1rem;
+    right: 0.2rem;
 
     &:hover,
     &:focus {

@@ -19,7 +19,7 @@ import { Field } from '../../../components/Fields';
 
 import converter from '../../../util/articleContentConverter';
 
-import { parseEmbedTag } from '../../../util/embedTagHelpers';
+import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
 
 import TopicArticleMetadata from './TopicArticleMetadata';
 import TopicArticleContent from './TopicArticleContent';
@@ -31,7 +31,7 @@ const DEFAULT_LICENSE = {
 };
 
 export const getInitialModel = (article = {}) => {
-  const visualElement = parseEmbedTag(article.visualElement) || {};
+  const visualElement = parseEmbedTag(article.visualElement);
   return {
     id: article.id,
     revision: article.revision,
@@ -50,10 +50,7 @@ export const getInitialModel = (article = {}) => {
       article.metaDescription,
       true,
     ),
-    visualElementId: visualElement.id || '',
-    visualElementCaption: visualElement.caption || '',
-    visualElementAlt: visualElement.alt || '',
-    visualElementType: visualElement.resource || '',
+    visualElement: visualElement || {},
   };
 };
 
@@ -97,12 +94,7 @@ class TopicArticleForm extends Component {
       content: [{ content: converter.slateToHtml(model.content), language }],
       visualElement: [
         {
-          content: `<embed data-size="fullbredde" data-align="" data-alt="${model.visualElementAlt}" data-caption="${model.visualElementCaption}" data-resource="${model.visualElementType}" data-resource_id="${model.visualElementType ===
-          'image'
-            ? model.visualElementId
-            : ''}" data-videoid="${model.visualElementType === 'brightcove'
-            ? model.visualElementId
-            : ''}" />`,
+          content: createEmbedTag(model.visualElement),
           language,
         },
       ],
@@ -204,8 +196,20 @@ export default compose(
       required: true,
       maxLength: 150,
     },
-    visualElementId: {
+    visualElement: {
       required: true,
+    },
+    'visualElement.alt': {
+      required: true,
+      onlyValidateIf: model =>
+        model.visualElement && model.visualElement.resource === 'image',
+    },
+    'visualElement.caption': {
+      required: true,
+      onlyValidateIf: model =>
+        model.visualElement &&
+        (model.visualElement.resource === 'image' ||
+          model.visualElement.resource === 'brightcove'),
     },
     tags: {
       minItems: 3,

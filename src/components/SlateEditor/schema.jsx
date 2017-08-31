@@ -34,13 +34,7 @@ export const defaultEmbedBlock = data =>
     type: 'embed',
   });
 
-export const getSchemaEmbedTag = node => ({
-  caption: node.get('data').get('caption'),
-  alt: node.get('data').get('alt'),
-  id: node.get('data').get('id'),
-  resource: node.get('data').get('resource'),
-  contentLinkText: node.get('data').get('contentLinkText'),
-});
+export const getSchemaEmbed = node => node.get('data').toJS();
 
 /* eslint-disable react/prop-types */
 const topicArticleItems = {
@@ -140,7 +134,7 @@ const defaultSchema = {
       <blockquote {...props.attributes}>
         {props.children}
       </blockquote>,
-    link: SlateLink,
+    'embed-inline': SlateLink,
     div: props =>
       <div {...props.attributes}>
         {props.children}

@@ -14,8 +14,10 @@ import ImageSearch from 'ndla-image-search';
 import VideoSearch from 'ndla-video-search';
 import AudioSearch from 'ndla-audio-search';
 
+import { alttextsI18N, captionsI18N } from '../../util/i18nFieldFinder';
 import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
+import H5PSearch from '../../components/H5PSearch';
 
 const titles = {
   video: 'Videosøk',
@@ -23,17 +25,17 @@ const titles = {
 };
 
 const VisualElementSearch = ({
-  embedTag,
+  selectedResource,
   handleVisualElementChange,
   locale,
   t,
 }) => {
-  switch (embedTag.resource) {
+  switch (selectedResource) {
     case 'image':
       return (
         <div>
           <h2>
-            {titles[embedTag.resource]}
+            {titles[selectedResource]}
           </h2>
           <ImageSearch
             fetchImage={api.fetchImage}
@@ -41,7 +43,16 @@ const VisualElementSearch = ({
             locale={locale}
             searchPlaceholder={t('imageSearch.placeholder')}
             searchButtonTitle={t('imageSearch.buttonTitle')}
-            onImageSelect={handleVisualElementChange}
+            onImageSelect={image =>
+              handleVisualElementChange({
+                resource: selectedResource,
+                resource_id: image.id,
+                size: 'fullbredde',
+                align: '',
+                alt: alttextsI18N(image, locale, true),
+                caption: captionsI18N(image, locale, true),
+                metaData: image,
+              })}
             onError={api.onError}
           />
         </div>
@@ -58,17 +69,36 @@ const VisualElementSearch = ({
       return (
         <div>
           <h2>
-            {titles[embedTag.resource]}
+            {titles[selectedResource]}
           </h2>
           <VideoSearch
             fetchVideo={api.fetchBrightcoveVideo}
             searchVideos={api.searchBrightcoveVideos}
             locale={locale}
             translations={videoTranslations}
-            onVideoSelect={handleVisualElementChange}
+            onVideoSelect={video =>
+              handleVisualElementChange({
+                resource: selectedResource,
+                videoid: video.id,
+                caption: '',
+                metaData: video,
+              })}
             onError={api.onError}
           />
         </div>
+      );
+    }
+    case 'h5p': {
+      return (
+        <H5PSearch
+          onSelect={h5p =>
+            handleVisualElementChange({
+              resource: selectedResource,
+              ...h5p,
+              metaData: {},
+            })}
+          label={t('topicArticleForm.fields.visualElement.label')}
+        />
       );
     }
     case 'audio': {
@@ -92,21 +122,24 @@ const VisualElementSearch = ({
           locale={locale}
           fetchAudio={api.fetchAudio}
           searchAudios={api.searchAudios}
-          onAudioSelect={handleVisualElementChange}
+          onAudioSelect={audio =>
+            handleVisualElementChange({
+              resource: selectedResource,
+              resource_id: audio.id.toString(),
+              metaData: audio,
+            })}
           onError={api.onError}
           queryObject={defaultQueryObject}
         />
       );
     }
     default:
-      return <p>{`Embedtag ${embedTag.resource} is not supported.`}</p>;
+      return <p>{`Embedtag ${selectedResource} is not supported.`}</p>;
   }
 };
 
 VisualElementSearch.propTypes = {
-  embedTag: PropTypes.shape({
-    resource: PropTypes.string.isRequired,
-  }),
+  selectedResource: PropTypes.string.isRequired,
   handleVisualElementChange: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
 };

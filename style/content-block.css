@@ -104,14 +104,14 @@
     transition: opacity 0.1s, visibility 0s linear 0.2s;
   }
 
-  &__figure--active {
-    border: 1px solid var(--brand-color--light);
-  }
-
-  &__figure--not-supported {
+  &__error {
     border: 1px solid red;
     color: red;
     padding: 1rem;
+  }
+
+  &__figure--active {
+    border: 1px solid var(--brand-color--light);
   }
 
   &__figure-input-field {

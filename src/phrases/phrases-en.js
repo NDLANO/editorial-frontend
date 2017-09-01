@@ -75,6 +75,9 @@ const phrases = {
   h5pSearch: {
     fetchError: 'Sorry, an error occurd while loading the H5P client.',
   },
+  displayOembed: {
+    errorMessage: 'An error occurd when displaying oEmbed.',
+  },
   audioSearch: {
     searchPlaceholder: 'Search in audio files',
     searchButtonTitle: 'Search',

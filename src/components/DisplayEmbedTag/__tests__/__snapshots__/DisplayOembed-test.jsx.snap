@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DisplayOembed renderers correctly 1`] = `
+<iframe
+  frameBorder="0"
+  src={undefined}
+  title={undefined}
+/>
+`;
+
+exports[`DisplayOembed renderers correctly 2`] = `
+<iframe
+  frameBorder="0"
+  src="iframe.html"
+  title="unit test"
+/>
+`;

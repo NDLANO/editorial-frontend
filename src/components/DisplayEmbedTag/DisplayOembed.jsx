@@ -8,29 +8,36 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
+import { injectT } from 'ndla-i18n';
+import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
+import { fetchOembed } from '../../util/apiHelpers';
 
-export default class DisplayOembed extends React.Component {
+export const getIframeSrcFromHtmlString = html => {
+  const el = document.createElement('html');
+  el.innerHTML = html;
+  const iframe = el.getElementsByTagName('iframe')[0];
+  return iframe.getAttribute('src');
+};
+
+export class DisplayOembed extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      src: '',
-    };
+    this.state = {};
     this.handleResizeMessage = this.handleResizeMessage.bind(this);
   }
 
-  componentWillMount() {
-    const { url } = this.props;
+  async componentWillMount() {
     this.enableIframeResizing();
-    if (url) {
-      fetch(url).then(resolveJsonOrRejectWithError).then(data => {
-        if (data.type === 'rich' && data.html.indexOf('<iframe') !== -1) {
-          const el = document.createElement('html');
-          el.innerHTML = data.html;
-          const iframe = el.getElementsByTagName('iframe')[0];
-          this.setState({ title: data.title, src: iframe.getAttribute('src') });
-        }
-      });
+    try {
+      const data = await fetchOembed(this.props.url);
+      const src = getIframeSrcFromHtmlString(data.html);
+      if (src) {
+        this.setState({ title: data.title, src });
+      } else {
+        this.setState({ error: true });
+      }
+    } catch (e) {
+      this.setState({ error: true });
     }
   }
 
@@ -49,7 +56,11 @@ export default class DisplayOembed extends React.Component {
   handleResizeMessage(evt) {
     const iframe = this.iframe;
 
-    if (iframe.contentWindow !== evt.source || evt.data.context !== 'h5p') {
+    if (
+      !iframe ||
+      iframe.contentWindow !== evt.source ||
+      evt.data.context !== 'h5p'
+    ) {
       return;
     }
 
@@ -57,13 +68,18 @@ export default class DisplayOembed extends React.Component {
     iframe.setAttribute('scrolling', 'no');
 
     const newHeight = evt.data.scrollHeight ? evt.data.scrollHeight + 35 : 800;
-    // const newHeight = parseInt(heightString, 10) + 55;
 
     iframe.style.height = `${newHeight}px`;
   }
 
   render() {
-    const { title, src } = this.state;
+    const { title, src, error } = this.state;
+
+    if (error) {
+      return (
+        <EditorErrorMessage msg={this.props.t('displayOembed.errorMessage')} />
+      );
+    }
 
     return (
       <iframe
@@ -81,3 +97,5 @@ export default class DisplayOembed extends React.Component {
 DisplayOembed.propTypes = {
   url: PropTypes.string.isRequired,
 };
+
+export default injectT(DisplayOembed);

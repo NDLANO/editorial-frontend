@@ -38,8 +38,8 @@ test('getIframeSrcFromHtmlString returns null id src not found', () => {
   expect(src).toBe(null);
 });
 
-test('DisplayOembed renderers correctly', async () => {
-  nock('https://ndla.no/oembed').get('').reply(200, {
+test('DisplayOembed renderers correctly', () => {
+  nock('https://ndla.no').get('/oembed').reply(200, {
     title: 'unit test',
     type: 'rich',
     html: '<iframe src="iframe.html">',
@@ -55,6 +55,29 @@ test('DisplayOembed renderers correctly', async () => {
     setTimeout(() => {
       expect(component.toJSON()).toMatchSnapshot();
       resolve();
-    }, 100);
+    }, 20);
+  });
+});
+
+test('DisplayOembed display error on fetch fail', () => {
+  nock('https://ndla.no')
+    .get('/oembed')
+    .replyWithError('something awful happened');
+
+  let component;
+
+  try {
+    component = renderer.create(
+      <DisplayOembed url="https://ndla.no/oembed" t={() => 'Error message'} />,
+    );
+  } catch (e) {
+    // Should fail noop
+  }
+
+  return new Promise(resolve => {
+    setTimeout(() => {
+      expect(component.toJSON()).toMatchSnapshot();
+      resolve();
+    }, 20);
   });
 });

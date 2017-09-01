@@ -37,7 +37,7 @@ export class DisplayOembed extends React.Component {
       }
     } catch (e) {
       this.setState({ error: true });
-      throw new Error(e);
+      // throw new Error(e);
     }
   }
 

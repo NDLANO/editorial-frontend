@@ -61,7 +61,7 @@ class SlateToolbarLink extends React.Component {
             data: {
               'content-id': id,
               resource: 'content-link',
-              contentLinkText: text,
+              'link-text': text,
             },
           })
           .collapseToEnd();
@@ -74,7 +74,7 @@ class SlateToolbarLink extends React.Component {
             data: {
               'content-id': id,
               resource: 'content-link',
-              contentLinkText: text,
+              'link-text': text,
             },
           })
           .collapseToEnd();

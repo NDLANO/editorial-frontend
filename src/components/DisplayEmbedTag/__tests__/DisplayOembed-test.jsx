@@ -55,7 +55,7 @@ test('DisplayOembed renderers correctly', () => {
     setTimeout(() => {
       expect(component.toJSON()).toMatchSnapshot();
       resolve();
-    }, 20);
+    }, 50);
   });
 });
 
@@ -78,6 +78,6 @@ test('DisplayOembed display error on fetch fail', () => {
     setTimeout(() => {
       expect(component.toJSON()).toMatchSnapshot();
       resolve();
-    }, 20);
+    }, 50);
   });
 });

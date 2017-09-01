@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import './h5pResizer';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import { fetchOembed } from '../../util/apiHelpers';
 
@@ -23,11 +24,9 @@ export class DisplayOembed extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.handleResizeMessage = this.handleResizeMessage.bind(this);
   }
 
   async componentWillMount() {
-    this.enableIframeResizing();
     try {
       const data = await fetchOembed(this.props.url);
       const src = getIframeSrcFromHtmlString(data.html);
@@ -38,38 +37,8 @@ export class DisplayOembed extends React.Component {
       }
     } catch (e) {
       this.setState({ error: true });
+      throw new Error(e);
     }
-  }
-
-  componentWillUnmount() {
-    this.disableIframeResizing();
-  }
-
-  enableIframeResizing() {
-    window.addEventListener('message', this.handleResizeMessage);
-  }
-
-  disableIframeResizing() {
-    window.removeEventListener('message', this.handleResizeMessage);
-  }
-
-  handleResizeMessage(evt) {
-    const iframe = this.iframe;
-
-    if (
-      !iframe ||
-      iframe.contentWindow !== evt.source ||
-      evt.data.context !== 'h5p'
-    ) {
-      return;
-    }
-
-    /* Needed to enforce content to stay within iframe on Safari iOS */
-    iframe.setAttribute('scrolling', 'no');
-
-    const newHeight = evt.data.scrollHeight ? evt.data.scrollHeight + 35 : 800;
-
-    iframe.style.height = `${newHeight}px`;
   }
 
   render() {

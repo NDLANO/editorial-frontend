@@ -8,9 +8,15 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { Search } from 'ndla-ui/icons';
 import { injectT } from 'ndla-i18n';
+
+const classes = new BEMHelper({
+  name: 'search-form',
+  prefix: 'masthead-',
+});
 
 class MastheadSearchForm extends Component {
   constructor(props) {
@@ -34,23 +40,15 @@ class MastheadSearchForm extends Component {
   render() {
     const { show, searching, t } = this.props;
     return (
-      <form
-        onSubmit={this.handleSubmit}
-        className={
-          show ? `masthead-search__form` : `masthead-search__form__hidden`
-        }>
+      <form onSubmit={this.handleSubmit} {...classes(show ? '' : 'hidden')}>
         <input
           type="text"
-          className="masthead-search__form__query"
+          {...classes('query')}
           onChange={this.handleQueryChange}
           value={this.state.query}
           placeholder={t('searchForm.placeholder')}
         />
-        <Button
-          submit
-          stripped
-          loading={searching}
-          className="masthead-search__form__button">
+        <Button submit stripped loading={searching} {...classes('button')}>
           <Search className="c-icon--medium" />
         </Button>
       </form>

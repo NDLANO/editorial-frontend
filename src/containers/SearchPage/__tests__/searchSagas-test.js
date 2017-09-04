@@ -12,8 +12,6 @@ import { expectSaga } from 'redux-saga-test-plan';
 import * as sagas from '../searchSagas';
 import * as actions from '../searchActions';
 
-expectSaga.DEFAULT_TIMEOUT = 100;
-
 test('searchSagas search', () => {
   nock('http://ndla-api')
     .get('/article-api/v1/articles/?query=testing&page=3&sort=alfa&language=nb')

@@ -12,8 +12,6 @@ import { expectSaga } from 'redux-saga-test-plan';
 import * as sagas from '../tagSagas';
 import * as actions from '../tag';
 
-expectSaga.DEFAULT_TIMEOUT = 100;
-
 test('tagSagas fetch tags if nor already defined', () => {
   nock('http://ndla-api')
     .get('/article-api/v1/articles/tags/?size=7000')

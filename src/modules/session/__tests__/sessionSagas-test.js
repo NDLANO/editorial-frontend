@@ -12,8 +12,6 @@ import sinon from 'sinon';
 import * as sagas from '../sessionSagas';
 import { actions } from '../session';
 
-expectSaga.DEFAULT_TIMEOUT = 100;
-
 const idToken =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ';
 

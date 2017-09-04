@@ -78,6 +78,9 @@ const phrases = {
     fetchError:
       'Vi beklager, men en feil oppsto under lasting av H5P klienten.',
   },
+  displayOembed: {
+    errorMessage: 'En feil oppsto ved visning av oEmbed innhold.',
+  },
   audioSearch: {
     searchPlaceholder: 'Søk i lydfiler',
     searchButtonTitle: 'Søk',

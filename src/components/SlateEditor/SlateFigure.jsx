@@ -13,6 +13,8 @@ import { injectT } from 'ndla-i18n';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
+import EditorErrorMessage from './EditorErrorMessage';
+import DisplayOembed from '../DisplayEmbedTag/DisplayOembed';
 import ForbiddenOverlay from '../ForbiddenOverlay';
 import { getSchemaEmbed } from './schema';
 
@@ -79,24 +81,23 @@ class SlateFigure extends React.Component {
         return (
           <SlateAudio embed={embed} figureClass={figureClass} {...this.props} />
         );
+      case 'h5p':
+        return <DisplayOembed url={embed.url} />;
       default:
         return (
-          <div
-            {...classes('figure', 'not-supported')}
-            {...this.props.attributes}>
-            <span>
-              {this.props.t(
-                'learningResourceForm.fields.content.figure.notSupported',
-                { mediaType: embed.resource },
-              )}
-            </span>
+          <EditorErrorMessage
+            attributes={this.props.attributes}
+            msg={this.props.t(
+              'learningResourceForm.fields.content.figure.notSupported',
+              { mediaType: embed.resource },
+            )}>
             {this.props.deletedOnSave &&
               <ForbiddenOverlay
                 text={this.props.t(
                   'topicArticleForm.fields.content.deleteEmbedOnSave',
                 )}
               />}
-          </div>
+          </EditorErrorMessage>
         );
     }
   }

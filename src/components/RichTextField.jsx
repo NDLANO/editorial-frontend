@@ -1,0 +1,65 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import React from 'react';
+import PropTypes from 'prop-types';
+import RichTextEditor from '../components/SlateEditor/RichTextEditor';
+import { Field, FocusLabel, FieldErrorMessages, getField } from './Fields';
+
+export const RichTextField = ({
+  bindInput,
+  name,
+  label,
+  noBorder,
+  submitted,
+  schema,
+  slateSchema,
+  ...rest
+}) => {
+  const { value, onChange } = bindInput(name);
+  return (
+    <Field noBorder={noBorder}>
+      {!noBorder
+        ? <label htmlFor={name}>
+            {label}
+          </label>
+        : <label className="u-hidden" htmlFor={name}>
+            {label}
+          </label>}
+      {noBorder &&
+        <FocusLabel name={name} hasFocus={() => value.isFocused} value={value}>
+          {label}
+        </FocusLabel>}
+      <RichTextEditor
+        id={name}
+        name={name}
+        value={value}
+        onChange={onChange}
+        schema={slateSchema}
+        {...rest}
+      />
+      <FieldErrorMessages
+        label={label}
+        field={getField(name, schema)}
+        submitted={submitted}
+      />
+    </Field>
+  );
+};
+
+RichTextField.propTypes = {
+  slateSchema: PropTypes.shape({}).isRequired,
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  noBorder: PropTypes.bool,
+  submitted: PropTypes.bool.isRequired,
+};

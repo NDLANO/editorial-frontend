@@ -363,7 +363,6 @@ export const learningResourceEmbedRule = [
       const props = Object.keys(data)
         .filter(key => data[key] !== undefined && !isObject(data[key]))
         .reduce((acc, key) => ({ ...acc, [`data-${key}`]: data[key] }), {});
-      console.log(data, props);
       return <embed {...props} />;
     },
   },

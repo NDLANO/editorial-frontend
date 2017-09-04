@@ -27,7 +27,6 @@ const ImageCropEdit = ({ embed, onCropChange }) => {
         height: embed['lower-right-y'] - embed['upper-left-y'],
       }
     : undefined;
-  console.log(crop);
   return <ReactCrop src={src} onChange={onCropChange} crop={crop} />;
 };
 

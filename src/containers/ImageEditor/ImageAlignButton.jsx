@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { AlignLeft, AlignCenter, AlignRight } from 'ndla-ui/icons';
-import { EmbedShape } from '../../shapes';
 
 export const classes = new BEMHelper({
   name: 'image-editor',
@@ -23,21 +22,17 @@ const icon = {
   center: <AlignCenter />,
 };
 
-const ImageAlignButton = ({ embed, alignType, onAlignChange }) => {
-  const active = embed.align === alignType;
-
-  return (
+const ImageAlignButton = ({ currentAlign, alignType, onAlignChange }) => (
     <Button
-      {...classes('align-image-button', active ? 'active' : '')}
+      {...classes('align-image-button', currentAlign === alignType ? 'active' : '')}
       stripped
       onClick={evt => onAlignChange(evt, alignType)}>
       {icon[alignType]}
     </Button>
   );
-};
 
 ImageAlignButton.propTypes = {
-  embed: EmbedShape.isRequired,
+  currentAlign: PropTypes.string.isRequired,
   alignType: PropTypes.string.isRequired,
   onAlignChange: PropTypes.func.isRequired,
 };

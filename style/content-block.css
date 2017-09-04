@@ -99,9 +99,7 @@
   }
 
   &__block-type--hidden {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.1s, visibility 0s linear 0.2s;
+    display: none;
   }
 
   &__figure--active {

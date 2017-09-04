@@ -188,6 +188,12 @@ const phrases = {
       },
     },
   },
+  imageEditor: {
+    remove: {
+      crop: 'Remove crop',
+      focalPoint: 'Remove focal point',
+    },
+  },
   imageForm: {
     save: 'Save',
     abort: 'Abort',

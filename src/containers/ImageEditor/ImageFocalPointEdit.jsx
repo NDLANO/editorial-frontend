@@ -51,14 +51,18 @@ class ImageFocalPointEdit extends React.Component {
   setXandY(target) {
     const { embed } = this.props;
     const dimensions = getImageDimensions(target);
-    const x =  embed['focal-x'] ? (embed['focal-x'] / 100) * dimensions.current.width : undefined;
-    const y =  embed['focal-y'] ? (embed['focal-y'] / 100) * dimensions.current.height : undefined;
+    const x = embed['focal-x']
+      ? embed['focal-x'] / 100 * dimensions.current.width
+      : undefined;
+    const y = embed['focal-y']
+      ? embed['focal-y'] / 100 * dimensions.current.height
+      : undefined;
 
     this.setState({
       xMarkPos: x,
       yMarkPos: y,
-      showMarker: x && y || false
-    })
+      showMarker: (x && y) || false,
+    });
   }
 
   render() {

@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { FocalPoint, Crop } from 'ndla-ui/icons';
+import { injectT } from 'ndla-i18n';
 import { getSchemaEmbed } from '../../components/SlateEditor/schema';
 import { EmbedShape } from '../../shapes';
 import ImageTransformEditor from './ImageTransformEditor';
@@ -20,6 +21,21 @@ export const classes = new BEMHelper({
   name: 'image-editor',
   prefix: 'c-',
 });
+
+const defaultData = {
+  focalPoint: {
+    'focal-x': '',
+    'focal-y': '',
+  },
+  crop: {
+    'upper-left-x': '',
+    'upper-left-y': '',
+    'lower-right-x': '',
+    'lower-right-y': '',
+    'focal-x': '',
+    'focal-y': '',
+  },
+};
 
 const defaultState = {
   editType: undefined,
@@ -35,6 +51,7 @@ class ImageEditor extends Component {
     this.onEditorTypeSet = this.onEditorTypeSet.bind(this);
     this.onDocumentClick = this.onDocumentClick.bind(this);
     this.onCropChange = this.onCropChange.bind(this);
+    this.onRemoveData = this.onRemoveData.bind(this);
   }
   onDataChange(data) {
     const { node, editor } = this.props;
@@ -68,8 +85,7 @@ class ImageEditor extends Component {
       'upper-left-y': crop.y,
       'lower-right-x': crop.x + crop.width,
       'lower-right-y': crop.y + crop.height,
-      'focal-x': '',
-      'focal-y': '',
+      ...defaultData.focalPoint,
     };
     this.onDataChange(data);
   }
@@ -93,30 +109,20 @@ class ImageEditor extends Component {
     this.setState(defaultState);
     this.props.toggleEditModus();
   }
-  onRemoveData(field) {
+
+  onRemoveData(evt, field) {
+    evt.stopPropagation();
     const { node } = this.props;
-    const defaultData = {
-      focalPoint: {
-        'focal-x': '',
-        'focal-y': '',
-      },
-      crop: {
-        'upper-left-x': '',
-        'upper-left-y': '',
-        'lower-right-x': '',
-        'lower-right-y': '',
-        'focal-x': '',
-        'focal-y': '',
-      }
-    }
     const data = {
       ...getSchemaEmbed(node),
-      ...defaultData[field]
+      ...defaultData[field],
     };
     this.onDataChange(data);
+    this.setState(defaultState);
   }
+
   render() {
-    const { embed } = this.props;
+    const { embed, t } = this.props;
     return (
       <div {...classes()}>
         <div
@@ -129,17 +135,17 @@ class ImageEditor extends Component {
             <ImageAlignButton
               alignType="left"
               onAlignChange={this.onAlignChange}
-              embed={embed}
+              currentAlign={embed.align}
             />
             <ImageAlignButton
               alignType="center"
               onAlignChange={this.onAlignChange}
-              embed={embed}
+              currentAlign={embed.align}
             />
             <ImageAlignButton
               alignType="right"
               onAlignChange={this.onAlignChange}
-              embed={embed}
+              currentAlign={embed.align}
             />
           </div>
           <ImageTransformEditor
@@ -155,8 +161,10 @@ class ImageEditor extends Component {
               <FocalPoint />
             </Button>
             {this.state.editType
-              ? <Button stripped>
-                  {`Fjern ${this.state.editType}`}
+              ? <Button
+                  onClick={evt => this.onRemoveData(evt, this.state.editType)}
+                  stripped>
+                  {t(`imageEditor.remove.${this.state.editType}`)}
                 </Button>
               : ''}
             <Button stripped onClick={evt => this.onEditorTypeSet(evt, 'crop')}>
@@ -180,4 +188,4 @@ ImageEditor.propTypes = {
   }),
 };
 
-export default ImageEditor;
+export default injectT(ImageEditor);

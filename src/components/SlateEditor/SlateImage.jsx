@@ -18,8 +18,10 @@ import { EmbedShape } from '../../shapes';
 const getSrcSets = embed => {
   const src = `${window.config
     .ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
-  const cropString = `cropStartX=${embed['upper-left-x']}&cropStartY=${embed['upper-left-y']}&cropEndX=${embed['lower-right-x']}&cropEndY=${embed['lower-right-y']}`;
-  const focalString = `focalX=${embed['focal-x']}&focalY=${embed['focal-y']}`
+  const cropString = `cropStartX=${embed['upper-left-x']}&cropStartY=${embed[
+    'upper-left-y'
+  ]}&cropEndX=${embed['lower-right-x']}&cropEndY=${embed['lower-right-y']}`;
+  const focalString = `focalX=${embed['focal-x']}&focalY=${embed['focal-y']}`;
   return [
     `${src}?width=1440&${cropString}&${focalString} 1440w`,
     `${src}?width=1120&${cropString}&${focalString} 1120w`,
@@ -69,7 +71,7 @@ class SlateImage extends React.Component {
             />
           : <Button stripped onClick={this.toggleEditModus}>
               <figure {...figureClass}>
-                <img src={src} alt={embed.alt} srcSet={getSrcSets(embed)}/>
+                <img src={src} alt={embed.alt} srcSet={getSrcSets(embed)} />
                 {deletedOnSave &&
                   <ForbiddenOverlay
                     text={t(

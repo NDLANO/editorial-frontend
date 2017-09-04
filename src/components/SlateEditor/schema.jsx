@@ -51,16 +51,15 @@ const learningResourceItems = {
 
 const defaultSchema = {
   nodes: {
-    section: props => (
-        <section {...props.attributes}>
-          {props.editor.props.placeholder
-            ? <Placeholder {...props}>
-                {props.editor.props.placeholder}
-              </Placeholder>
-            : null}
-          {props.children}
-        </section>
-      ),
+    section: props =>
+      <section {...props.attributes}>
+        {props.editor.props.placeholder
+          ? <Placeholder {...props}>
+              {props.editor.props.placeholder}
+            </Placeholder>
+          : null}
+        {props.children}
+      </section>,
     aside: SlateAside,
     paragraph: props =>
       <p className="c-block__paragraph" {...props.attributes}>

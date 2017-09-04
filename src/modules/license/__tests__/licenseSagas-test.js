@@ -13,8 +13,6 @@ import * as sagas from '../licenseSagas';
 import * as actions from '../license';
 import mockLicenses from './mockLicenses';
 
-expectSaga.DEFAULT_TIMEOUT = 100;
-
 test('licenseSagas fetch licenses if not already defined', () => {
   nock('http://ndla-api')
     .get('/learningpath-api/v1/learningpaths/licenses')

@@ -38,6 +38,17 @@ const editorialFrontendDomain = () => {
   }
 };
 
+const h5pApiUrl = () => {
+  switch (process.env.NDLA_ENVIRONMENT) {
+    case 'local':
+      return 'https://h5p-test.ndla.no';
+    case 'prod':
+      return 'https://h5p.ndla.no';
+    default:
+      return 'https://h5p-test.ndla.no';
+  }
+};
+
 module.exports = Object.assign(
   {
     componentName: process.env.npm_package_name,
@@ -53,7 +64,7 @@ module.exports = Object.assign(
     brightCoveAccountId: process.env.BRIGHTCOVE_ACCOUNT_ID || '123456789',
     brightcovePlayerId: process.env.BRIGHTCOVE_PLAYER_ID || 'Ab1234',
     brightcoveApiUrl: 'https://cms.api.brightcove.com',
-    h5pApiUrl: process.env.H5P_API_URL || 'https://h5p-test.ndla.no',
+    h5pApiUrl: process.env.H5P_API_URL || h5pApiUrl(),
   },
   environment,
 );

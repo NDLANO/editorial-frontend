@@ -39,9 +39,7 @@ export function* updateAudio(audio, file) {
     const updatedAudio = yield call(api.updateAudio, audio.id, formData);
     yield put(actions.setAudio(updatedAudio));
     yield put(actions.updateAudioSuccess());
-    yield put(
-      messageActions.addMessage({ translationKey: 'audioForm.savedOk' }),
-    );
+    yield put(messageActions.addMessage({ translationKey: 'form.savedOk' }));
   } catch (error) {
     yield put(actions.updateAudioError());
     // TODO: handle error
@@ -58,7 +56,7 @@ export function* createAudio(audio, file, history) {
     yield put(actions.updateAudioSuccess());
     yield put(
       messageActions.addMessage({
-        translationKey: 'audioForm.createdOk',
+        translationKey: 'form.createdOk',
       }),
     );
   } catch (error) {

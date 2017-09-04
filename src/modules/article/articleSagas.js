@@ -38,9 +38,7 @@ export function* updateArticle(article) {
     const updatedArticle = yield call(api.updateArticle, article);
     yield put(actions.setArticle(updatedArticle));
     yield put(actions.updateArticleSuccess());
-    yield put(
-      messageActions.addMessage({ translationKey: 'topicArticleForm.savedOk' }),
-    );
+    yield put(messageActions.addMessage({ translationKey: 'form.savedOk' }));
   } catch (error) {
     yield put(actions.updateArticleError());
     // TODO: handle error
@@ -56,7 +54,7 @@ export function* createArticle(article, history) {
     yield put(actions.updateArticleSuccess());
     yield put(
       messageActions.addMessage({
-        translationKey: 'topicArticleForm.createdOk',
+        translationKey: 'form.createdOk',
       }),
     );
   } catch (error) {

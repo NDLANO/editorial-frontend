@@ -82,9 +82,6 @@ const phrases = {
     noResults: 'No audio files found',
   },
   topicArticleForm: {
-    save: 'Save',
-    savedOk: 'Saved OK',
-    createdOk: 'Created OK',
     metadata: 'Metadata',
     content: 'Content',
     visualElementTitle: {
@@ -148,10 +145,6 @@ const phrases = {
     },
   },
   audioForm: {
-    save: 'Save',
-    abort: 'Abort',
-    savedOk: 'Saved OK',
-    createdOk: 'Created OK',
     metadata: 'Metadata',
     content: 'Content',
     copyrightAccordion: 'License and authors',
@@ -189,10 +182,6 @@ const phrases = {
     },
   },
   imageForm: {
-    save: 'Save',
-    abort: 'Abort',
-    savedOk: 'Saved OK',
-    createdOk: 'Created OK',
     metadata: 'Metadata',
     content: 'Content',
     copyrightAccordion: 'License and authors',
@@ -238,10 +227,6 @@ const phrases = {
     },
   },
   learningResourceForm: {
-    save: 'Save',
-    abort: 'Abort',
-    savedOk: 'Saved OK',
-    createdOk: 'Created OK',
     metadata: 'Metadata',
     content: 'Content',
     copyrightAccordion: 'License and authors',

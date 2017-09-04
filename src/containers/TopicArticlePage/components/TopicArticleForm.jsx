@@ -158,7 +158,7 @@ class TopicArticleForm extends Component {
             outline
             disabled={isSaving}
             {...classes('save-button')}>
-            {t('topicArticleForm.save')}
+            {t('form.save')}
           </Button>
         </Field>
       </form>

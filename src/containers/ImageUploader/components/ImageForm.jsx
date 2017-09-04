@@ -128,10 +128,10 @@ class ImageForm extends Component {
             to={'/'}
             {...classes('abort-button', '', 'c-button c-button--outline')}
             disabled={isSaving}>
-            {t('imageForm.abort')}
+            {t('form.abort')}
           </Link>
           <Button submit outline disabled={false} {...classes('save-button')}>
-            {t('imageForm.save')}
+            {t('form.save')}
           </Button>
         </Field>
       </form>

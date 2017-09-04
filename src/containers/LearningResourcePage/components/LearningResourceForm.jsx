@@ -178,14 +178,14 @@ class LearningResourceForm extends Component {
             to={'/'}
             {...classes('abort-button', '', 'c-button c-button--outline')}
             disabled={isSaving}>
-            {t('learningResourceForm.abort')}
+            {t('form.abort')}
           </Link>
           <Button
             submit
             outline
             disabled={isSaving}
             {...classes('save-button')}>
-            {t('learningResourceForm.save')}
+            {t('form.save')}
           </Button>
         </Field>
       </form>

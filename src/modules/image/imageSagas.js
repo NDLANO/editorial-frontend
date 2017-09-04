@@ -39,9 +39,7 @@ export function* updateImage(image, file) {
     const updatedImage = yield call(api.updateImage, image.id, formData);
     yield put(actions.setImage(updatedImage));
     yield put(actions.updateImageSuccess());
-    yield put(
-      messageActions.addMessage({ translationKey: 'imageForm.savedOk' }),
-    );
+    yield put(messageActions.addMessage({ translationKey: 'form.savedOk' }));
   } catch (error) {
     yield put(actions.updateImageError());
     // TODO: handle error
@@ -58,7 +56,7 @@ export function* createImage(image, file, history) {
     yield put(actions.updateImageSuccess());
     yield put(
       messageActions.addMessage({
-        translationKey: 'imageForm.createdOk',
+        translationKey: 'form.createdOk',
       }),
     );
   } catch (error) {

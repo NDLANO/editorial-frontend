@@ -15,9 +15,42 @@ class SearchTabs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedIndex: this.props.tabIndex,
+      index: 0,
     };
     this.handleOnSelect = this.handleOnSelect.bind(this);
+    this.setIndexTab = this.setIndexTab.bind(this);
+  }
+
+  componentWillMount() {
+    const { searchTypes } = this.props;
+    this.setIndexTab(searchTypes);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { searchTypes } = nextProps;
+    if (
+      this.state.index !== 0 &&
+      searchTypes === undefined &&
+      this.props.searchTypes !== undefined
+    ) {
+      this.setIndexTab(searchTypes);
+    }
+  }
+
+  setIndexTab(searchTypes) {
+    switch (searchTypes) {
+      case undefined:
+        this.setState({ index: 0 });
+        break;
+      case 'standard':
+        this.setState({ index: 1 });
+        break;
+      case 'topic-article':
+        this.setState({ index: 2 });
+        break;
+      default:
+        break;
+    }
   }
 
   handleOnSelect(index, last) {
@@ -26,15 +59,15 @@ class SearchTabs extends Component {
       switch (index) {
         case 0:
           onSearchTypeChange(undefined);
-          this.setState({ selectedIndex: 0 });
+          this.setState({ index });
           break;
         case 1:
           onSearchTypeChange('standard');
-          this.setState({ selectedIndex: 1 });
+          this.setState({ index });
           break;
         case 2:
           onSearchTypeChange('topic-article');
-          this.setState({ selectedIndex: 2 });
+          this.setState({ index });
           break;
         default:
           break;
@@ -43,12 +76,12 @@ class SearchTabs extends Component {
   }
 
   render() {
-    const { selectedIndex } = this.state;
+    const { index } = this.state;
     const { t, tabContent } = this.props;
 
     return (
       <Tabs
-        selectedIndex={selectedIndex}
+        selectedIndex={index}
         onSelect={this.handleOnSelect}
         tabs={[
           {
@@ -70,7 +103,7 @@ class SearchTabs extends Component {
 }
 
 SearchTabs.propTypes = {
-  tabIndex: PropTypes.number.isRequired,
+  searchTypes: PropTypes.string,
   tabContent: PropTypes.node.isRequired,
   onSearchTypeChange: PropTypes.func.isRequired,
 };

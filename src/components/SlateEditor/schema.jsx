@@ -12,6 +12,7 @@ import merge from 'lodash/merge';
 import SlateFigure from './SlateFigure';
 import SlateAside from './aside/SlateAside';
 import SlateLink from './SlateLink';
+import SlateFootNote from './SlateFootNote';
 
 export const defaultBlock = {
   type: 'paragraph',
@@ -139,6 +140,7 @@ const defaultSchema = {
       <div {...props.attributes}>
         {props.children}
       </div>,
+    footnote: SlateFootNote,
   },
   marks: {
     bold: props =>
@@ -161,6 +163,10 @@ const defaultSchema = {
       <s>
         {props.children}
       </s>,
+    superscripted: props =>
+      <sup>
+        {props.children}
+      </sup>,
   },
   rules: [
     // Rule to insert a paragraph block if the document is empty.

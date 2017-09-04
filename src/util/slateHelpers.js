@@ -33,6 +33,7 @@ const MARK_TAGS = {
   u: 'underlined',
   s: 'strikethrough',
   code: 'code',
+  sup: 'superscripted',
 };
 
 // TODO: get type of aside in here. Default should be rightAside since that is the only
@@ -241,6 +242,12 @@ const RULES = [
               {children}
             </s>
           );
+        case 'superscripted':
+          return (
+            <sup>
+              {children}
+            </sup>
+          );
       }
     },
   },
@@ -275,16 +282,32 @@ const RULES = [
       }
     },
   },
+
   {
     // Special case for links, to grab their href.
     deserialize(el, next) {
       if (el.tagName.toLowerCase() !== 'a') return;
+      const sup = el.childNodes[0];
+      if (sup && sup.tagName.toLowerCase() === 'sup') {
+        return {
+          kind: 'inline',
+          type: 'footnote',
+          nodes: next(el.childNodes),
+          data: {
+            href: el.attributes.getNamedItem('href').value,
+            name: el.attributes.getNamedItem('name').value,
+          },
+        };
+      }
       return {
         kind: 'inline',
         type: 'link',
         nodes: next(el.childNodes),
       };
     },
+  },
+
+  {
     serialize(object, children) {
       if (object.kind !== 'a') return;
       const href = object.data.href;
@@ -351,6 +374,7 @@ export const learningResourceEmbedRule = [
         isVoid: true,
       };
     },
+
     serialize(object) {
       if (!object.type || !object.type.startsWith('embed')) return;
 

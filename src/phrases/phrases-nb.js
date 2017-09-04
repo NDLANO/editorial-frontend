@@ -339,6 +339,10 @@ const phrases = {
     },
   },
   form: {
+    save: 'Lagre',
+    abort: 'Avbryt',
+    savedOk: 'Lagret OK',
+    createdOk: 'Opprettet OK',
     remainingCharacters:
       'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
   },

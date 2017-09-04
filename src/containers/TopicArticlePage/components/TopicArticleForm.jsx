@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
+import { Link } from 'react-router-dom';
 
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
@@ -146,6 +147,12 @@ class TopicArticleForm extends Component {
           model={model}
         />
         <Field right>
+          <Link
+            to={'/'}
+            {...classes('abort-button', '', 'c-button c-button--outline')}
+            disabled={isSaving}>
+            {t('form.abort')}
+          </Link>
           <Button
             submit
             outline

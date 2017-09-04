@@ -332,6 +332,10 @@ const phrases = {
     },
   },
   form: {
+    save: 'Save',
+    abort: 'Abort',
+    savedOk: 'Saved OK',
+    createdOk: 'Created OK',
     remainingCharacters:
       'Max {maxLength, number} characters and you have {remaining, number} remaining.',
   },

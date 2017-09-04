@@ -136,12 +136,7 @@ class SlateToolbar extends Component {
   }
 
   handleStateChange(state) {
-    const { name, onChange, handleBlockContentChange, index } = this.props;
-    if (handleBlockContentChange) {
-      handleBlockContentChange(state, index);
-      return;
-    }
-
+    const { name, onChange } = this.props;
     onChange({ target: { name, value: state } });
   }
 
@@ -217,8 +212,6 @@ class SlateToolbar extends Component {
 
 SlateToolbar.propTypes = {
   onChange: PropTypes.func.isRequired,
-  handleBlockContentChange: PropTypes.func,
-  index: PropTypes.number,
   name: PropTypes.string.isRequired,
   state: PropTypes.shape({}).isRequired,
 };

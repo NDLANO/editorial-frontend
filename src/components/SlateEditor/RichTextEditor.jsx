@@ -24,9 +24,10 @@ const RichTextEditor = props => {
 
   return (
     <article>
-      <div {...classes(undefined, className)}>
+      <div>
         <SlateToolbar state={value} onChange={onChange} name={name} />
         <Editor
+          {...classes(undefined, className)}
           state={value}
           schema={schema}
           onChange={state => onChange({ target: { name, value: state } })}

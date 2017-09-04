@@ -19,7 +19,7 @@ import {
 } from '../../../components/Fields';
 
 const classes = new BEMHelper({
-  name: 'editor',
+  name: 'learning-resource-form',
   prefix: 'c-',
 });
 

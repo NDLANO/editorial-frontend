@@ -16,6 +16,11 @@ import SlateBlockPicker from './plugins/SlateBlockPicker';
 import SlateToolbar from './plugins/SlateToolbar/SlateToolbar';
 
 const classes = new BEMHelper({
+  name: 'learning-resource-form',
+  prefix: 'c-',
+});
+
+const editorClasses = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
 });
@@ -90,7 +95,7 @@ class RichBlockTextEditor extends Component {
       ...rest
     } = this.props;
     return (
-      <article {...classes('article')}>
+      <article>
         {value.map((val, index) =>
           <div
             key={`editor_${index}`} //eslint-disable-line
@@ -105,6 +110,7 @@ class RichBlockTextEditor extends Component {
               name={name}
             />
             <Editor
+              {...editorClasses()}
               state={val.state}
               schema={schema}
               onChange={editorState => this.onContentChange(editorState, index)}

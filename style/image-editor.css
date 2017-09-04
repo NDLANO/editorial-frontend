@@ -19,26 +19,33 @@
     position: relative;
   }
 
-  &__menu {
+  &__top-menu,
+  &__bottom-menu {
     color: white;
-    background-color: var(--gray-2);
-    border: 1px solid  var(--gray-2);
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    background-color: black;
     padding: 0.5rem;
+  }
 
-    & button:hover,
-    & button:focus {
-      color: white;
+  &__top-menu,
+  &__bottom-menu {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__align-image-button--active {
+    color: var(--brand-color);
+
+    &:focus,
+    &:hover {
+      color: var(--brand-color);
     }
   }
 
   &__edit {
     position: relative;
     z-index: 101;
-    background-color: var(--gray-4);
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    background-color: var(--gray-2);
+    border: 1px solid var(--gray-6);
   }
 
   &__overlay {
@@ -51,4 +58,8 @@
     opacity: 0.4;
     z-index: 100;
   }
+}
+
+.ReactCrop {
+  display: block;
 }

@@ -18,6 +18,7 @@ class ImageFocalPointEdit extends React.Component {
   constructor() {
     super();
     this.onImageClick = this.onImageClick.bind(this);
+    this.setXandY = this.setXandY.bind(this);
     this.state = {
       xMarkPos: undefined,
       yMarkPos: undefined,
@@ -26,30 +27,43 @@ class ImageFocalPointEdit extends React.Component {
   }
 
   onImageClick(evt) {
+    evt.preventDefault();
     const imageOffset = getElementOffset(this.focalImg);
     const dimensions = getImageDimensions(this.focalImg);
     const clientPos = getClientPos(evt);
 
     const xPc = (clientPos.x - imageOffset.left) / dimensions.current.width;
     const yPc = (clientPos.y - imageOffset.top) / dimensions.current.height;
-    const naturalX = Math.round(dimensions.natural.width * xPc);
-    const naturalY = Math.round(dimensions.natural.height * yPc);
+    this.setState(
+      {
+        showMarker: true,
+        xMarkPos: clientPos.x - imageOffset.left,
+        yMarkPos: clientPos.y - imageOffset.top,
+      },
+      () => {
+        this.props.onFocalPointChange({
+          x: xPc * 100,
+          y: yPc * 100,
+        });
+      },
+    );
+  }
+  setXandY(target) {
+    const { embed } = this.props;
+    const dimensions = getImageDimensions(target);
+    const x =  embed['focal-x'] ? (embed['focal-x'] / 100) * dimensions.current.width : undefined;
+    const y =  embed['focal-y'] ? (embed['focal-y'] / 100) * dimensions.current.height : undefined;
 
-    this.props.onFocalPointChange({
-      x: naturalX > 0 ? naturalX : 0,
-      y: naturalY > 0 ? naturalY : 0,
-    });
     this.setState({
-      showMarker: true,
-      xMarkPos: clientPos.x - imageOffset.left,
-      yMarkPos: clientPos.y - imageOffset.top,
-    });
+      xMarkPos: x,
+      yMarkPos: y,
+      showMarker: x && y || false
+    })
   }
 
   render() {
-    const { embed } = this.props;
-    const src = `${window.config
-      .ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
+    const { embed, src } = this.props;
+
     const style = !this.state.showMarker
       ? { display: 'none' }
       : {
@@ -68,6 +82,7 @@ class ImageFocalPointEdit extends React.Component {
               ref={focalImg => {
                 this.focalImg = focalImg;
               }}
+              onLoad={e => this.setXandY(e.target)}
               src={src}
             />
           </Button>
@@ -85,6 +100,7 @@ ImageFocalPointEdit.propTypes = {
     y: PropTypes.number,
   }),
   onFocalPointChange: PropTypes.func.isRequired,
+  src: PropTypes.string.isRequired,
 };
 
 export default ImageFocalPointEdit;

@@ -58,6 +58,11 @@ const RULES = [
         type: 'emptyTextNode',
       };
     },
+    serialize(object) {
+      if (object.kind !== 'block') return;
+      if (object.type !== 'emptyTextNode') return;
+      return <span />;
+    },
   },
   {
     // Aside handling
@@ -358,7 +363,7 @@ export const learningResourceEmbedRule = [
       const props = Object.keys(data)
         .filter(key => data[key] !== undefined && !isObject(data[key]))
         .reduce((acc, key) => ({ ...acc, [`data-${key}`]: data[key] }), {});
-
+      console.log(data, props);
       return <embed {...props} />;
     },
   },

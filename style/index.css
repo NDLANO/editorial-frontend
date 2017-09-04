@@ -11,6 +11,7 @@
 @import '../node_modules/ndla-ui/lib/imageSearch.css';
 @import '../node_modules/ndla-ui/lib/main.css';
 @import '../node_modules/ndla-ui/lib/videoSearch.css';
+@import '../node_modules/react-image-crop/dist/ReactCrop.css';
 @import './accordion.css';
 @import './alert.css';
 @import './article-form.css';
@@ -24,6 +25,7 @@
 @import './multiselect.css';
 @import './search.css';
 @import './toolbar.css';
+@import './image-editor.css';
 @import './vars.css';
 
 .c-hero {

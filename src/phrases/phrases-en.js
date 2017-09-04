@@ -185,6 +185,12 @@ const phrases = {
       },
     },
   },
+  imageEditor: {
+    remove: {
+      crop: 'Remove crop',
+      focalPoint: 'Remove focal point',
+    },
+  },
   imageForm: {
     metadata: 'Metadata',
     content: 'Content',

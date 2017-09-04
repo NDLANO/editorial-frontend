@@ -4373,9 +4373,9 @@ ndla-tabs@^0.3.5:
   dependencies:
     lodash "^4.17.2"
 
-ndla-ui@^0.7.17:
-  version "0.7.17"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.7.17.tgz#a73bf242a66e74e6bc88f2be8fea3ea652e2b26c"
+ndla-ui@^0.7.18:
+  version "0.7.18"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.7.18.tgz#413a7597134b701ec51b208e126a7b28246ca495"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"
@@ -5668,6 +5668,10 @@ react-helmet@^5.0.3:
     object-assign "^4.1.1"
     prop-types "^15.5.4"
     react-side-effect "^1.1.0"
+
+react-image-crop@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-2.0.8.tgz#59c917bbc251c455a92c32aff4dad1595ff38a96"
 
 react-motion@^0.5.0:
   version "0.5.0"

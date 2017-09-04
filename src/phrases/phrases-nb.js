@@ -191,6 +191,12 @@ const phrases = {
       },
     },
   },
+  imageEditor: {
+    remove: {
+      crop: 'Fjern utsnitt',
+      focalPoint: 'Fjern fokuspunkt',
+    },
+  },
   imageForm: {
     title: {
       create: 'Du oppretter nå et bilde',

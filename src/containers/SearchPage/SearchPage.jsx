@@ -21,18 +21,10 @@ import SearchTabs from './components/SearchTabs';
 import { toSearch } from '../../util/routeHelpers';
 
 class SearchPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchTypes: undefined,
-    };
-  }
   componentWillMount() {
     const { location, search } = this.props;
     if (location.search) {
       search(location.search);
-      const query = queryString.parse(location.search);
-      this.setState({ searchTypes: query.articleTypes });
     }
   }
 
@@ -40,13 +32,10 @@ class SearchPage extends Component {
     const { location, search } = nextProps;
     if (location.search && location.search !== this.props.location.search) {
       search(location.search);
-      const query = queryString.parse(location.search);
-      this.setState({ searchTypes: query.articleTypes });
     }
   }
 
   render() {
-    const { searchTypes } = this.state;
     const { location, results, locale, lastPage, history } = this.props;
     const query = queryString.parse(location.search);
 
@@ -60,7 +49,7 @@ class SearchPage extends Component {
           />
         </div>
         <SearchTabs
-          searchTypes={searchTypes}
+          searchTypes={query.articleTypes}
           tabContent={
             <SearchList query={query} locale={locale} results={results} />
           }
@@ -89,7 +78,6 @@ SearchPage.propTypes = {
   locale: PropTypes.string.isRequired,
   lastPage: PropTypes.number.isRequired,
   results: PropTypes.arrayOf(ArticleResultShape).isRequired,
-  searchTypes: PropTypes.string,
   searching: PropTypes.bool.isRequired,
   search: PropTypes.func.isRequired,
 };

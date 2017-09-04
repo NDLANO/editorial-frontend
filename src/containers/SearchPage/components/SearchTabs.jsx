@@ -56,18 +56,16 @@ class SearchTabs extends Component {
   handleOnSelect(index, last) {
     const { onSearchTypeChange } = this.props;
     if (index !== last) {
+      this.setState({ index });
       switch (index) {
         case 0:
           onSearchTypeChange(undefined);
-          this.setState({ index });
           break;
         case 1:
           onSearchTypeChange('standard');
-          this.setState({ index });
           break;
         case 2:
           onSearchTypeChange('topic-article');
-          this.setState({ index });
           break;
         default:
           break;

@@ -43,6 +43,8 @@
 
 .search-result {
   color: var(--brand-grey-dark);
+  min-height: 9.2rem;
+  border-bottom: 1px solid #b7cde2;
 
   &__link {
     &:any-link {
@@ -51,11 +53,25 @@
   }
 
   &__title {
-    font-size: 1.1rem;
-    margin: 0.8rem 0 0.3rem;
+    font-size: 1.2rem;
+    margin: 1.3rem 0 0.3rem;
+    font-weight: 600;
+  }
+
+  & a {
+    text-decoration: none;
   }
 
   &__description {
     margin: 0.2rem 0 1.2rem;
+  }
+}
+
+.search-result-filter {
+  margin-top: 8rem;
+  width: 670px;
+
+  &__select {
+    margin-right: 0.5em;
   }
 }

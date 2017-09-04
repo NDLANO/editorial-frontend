@@ -9,7 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Masthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
-import { toSearch, toLogin, toLogout } from '../../util/routeHelpers';
+import MastHeadSearch from './MastheadSearch';
+import { toLogin, toLogout } from '../../util/routeHelpers';
 
 const AuthSiteNavItem = ({ t, name, authenticated }) => {
   if (authenticated) {
@@ -36,12 +37,10 @@ const MastheadContainer = ({ t, authenticated, userName }) =>
   <Masthead>
     <MastheadItem left>
       <Logo to="/" altText="Nasjonal digital læringsarena" />
+      <MastHeadSearch t={t} />
     </MastheadItem>
     <MastheadItem right>
       <SiteNav>
-        <SiteNavItem to={toSearch()}>
-          {t('siteNav.search')}
-        </SiteNavItem>
         <AuthSiteNavItem t={t} authenticated={authenticated} name={userName}>
           {t('siteNav.search')}
         </AuthSiteNavItem>

@@ -15,10 +15,9 @@ import * as actions from './searchActions';
 import { ArticleResultShape } from '../../shapes';
 import { getResults, getLastPage, getSearching } from './searchSelectors';
 import { getLocale } from '../../modules/locale/locale';
-import SearchForm from './components/SearchForm';
-import SearchResultList from './components/SearchResultList';
 import SelectSearchSortOrder from './components/SelectSearchSortOrder';
-import SelectArticleType from './components/SelectArticleType';
+import SearchList from './components/SearchList';
+import SearchTabs from './components/SearchTabs';
 import { toSearch } from '../../util/routeHelpers';
 
 class SearchPage extends Component {
@@ -37,47 +36,26 @@ class SearchPage extends Component {
   }
 
   render() {
-    const {
-      location,
-      results,
-      locale,
-      searching,
-      lastPage,
-      history,
-    } = this.props;
+    const { location, results, locale, lastPage, history } = this.props;
     const query = queryString.parse(location.search);
 
     return (
       <OneColumn cssModifier="clear">
-        <SearchForm
-          query={query.query}
-          searching={searching}
-          onSearchQuerySubmit={searchQuery =>
-            history.push(
-              toSearch({
-                ...query,
-                query: searchQuery,
-                page: 1,
-                sort: query.sort ? query.sort : '-relevance',
-              }),
-            )}
-        />
-
-        <div className="search-filters">
-          <SelectArticleType
-            articleType={query.articleTypes}
-            onArticleTypeChange={articleTypes =>
-              history.push(toSearch({ ...query, page: 1, articleTypes }))}
-          />
-
+        <div className="search-result-filter">
           <SelectSearchSortOrder
             sort={query.sort}
             onSortOrderChange={sort =>
               history.push(toSearch({ ...query, sort, page: 1 }))}
           />
         </div>
-
-        <SearchResultList query={query} locale={locale} results={results} />
+        <SearchTabs
+          searchTypes={query.articleTypes}
+          tabContent={
+            <SearchList query={query} locale={locale} results={results} />
+          }
+          onSearchTypeChange={articleTypes =>
+            history.push(toSearch({ ...query, page: 1, articleTypes }))}
+        />
 
         <Pager
           page={query.page ? parseInt(query.page, 10) : 1}
@@ -97,7 +75,6 @@ SearchPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  clearSearchResult: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   lastPage: PropTypes.number.isRequired,
   results: PropTypes.arrayOf(ArticleResultShape).isRequired,
@@ -107,7 +84,6 @@ SearchPage.propTypes = {
 
 const mapDispatchToProps = {
   search: actions.search,
-  clearSearchResult: actions.clearSearchResult,
 };
 
 const mapStateToProps = state => ({

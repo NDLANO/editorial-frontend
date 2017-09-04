@@ -74,7 +74,6 @@ const RichTextEditor = class extends React.Component {
             schema={schema}
             onKeyDown={this.onKeyDown}
             onChange={state => onChange({ target: { name, value: state } })}
-            onBeforeInput={(e, d, state) => state}
             {...rest}
           />
           {children}

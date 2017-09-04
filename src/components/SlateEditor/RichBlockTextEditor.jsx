@@ -66,9 +66,6 @@ class RichBlockTextEditor extends Component {
       case 'u':
         mark = 'underlined';
         break;
-      case '`':
-        mark = 'code';
-        break;
       default:
     }
     if (mark) {

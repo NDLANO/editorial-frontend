@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import {
   Bold,
-  Embed,
   Italic,
   ListCircle,
   ListNumbered,
@@ -27,7 +26,6 @@ import { toolbarClasses } from './SlateToolbar';
 
 const toolbarIcon = {
   bold: <Bold />,
-  code: <Embed />,
   italic: <Italic />,
   strikethrough: <Strikethrough />,
   underlined: <Underline />,

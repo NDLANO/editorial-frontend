@@ -16,7 +16,7 @@ import SlateToolbarLink from './SlateToolbarLink';
 const DEFAULT_NODE = 'paragraph';
 
 const suportedToolbarElements = {
-  marks: ['bold', 'italic', 'underlined', 'code', 'strikethrough'],
+  marks: ['bold', 'italic', 'underlined', 'strikethrough'],
   blocks: [
     'quote',
     'link',

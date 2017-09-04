@@ -88,9 +88,6 @@ const phrases = {
     noResults: 'Ingen resultater funnet',
   },
   topicArticleForm: {
-    save: 'Lagre',
-    savedOk: 'Lagret OK',
-    createdOk: 'Opprettet OK',
     metadata: 'Metadata',
     content: 'Innhold',
     visualElementTitle: {
@@ -162,10 +159,6 @@ const phrases = {
       create: 'Du oppretter nå en lyd fil',
       update: 'Du redigerer nå en lyd fil',
     },
-    save: 'Lagre',
-    abort: 'Avbryt',
-    savedOk: 'Lagret OK',
-    createdOk: 'Opprettet OK',
     metadata: 'Metadata',
     content: 'Innhold',
     copyrightAccordion: 'Lisens og bruker',
@@ -203,10 +196,6 @@ const phrases = {
       create: 'Du oppretter nå et bilde',
       update: 'Du redigerer nå et bilde',
     },
-    save: 'Lagre',
-    abort: 'Avbryt',
-    savedOk: 'Lagret OK',
-    createdOk: 'Opprettet OK',
     metadata: 'Metadata',
     content: 'Innhold',
     copyrightAccordion: 'Lisens og bruker',
@@ -248,10 +237,6 @@ const phrases = {
     },
   },
   learningResourceForm: {
-    save: 'Lagre',
-    abort: 'Avbryt',
-    savedOk: 'Lagret OK',
-    createdOk: 'Opprettet OK',
     metadata: 'Metadata',
     content: 'Innhold',
     copyrightAccordion: 'Lisens og bruker',
@@ -343,6 +328,10 @@ const phrases = {
     },
   },
   form: {
+    save: 'Lagre',
+    abort: 'Avbryt',
+    savedOk: 'Lagret OK',
+    createdOk: 'Opprettet OK',
     remainingCharacters:
       'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
   },

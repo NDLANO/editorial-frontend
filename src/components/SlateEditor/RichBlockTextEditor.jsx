@@ -10,13 +10,12 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Editor } from 'slate';
 import BEMHelper from 'react-bem-helper';
 import SlateBlockPicker from './plugins/SlateBlockPicker';
-import SlateToolbar from './plugins/SlateToolbar/SlateToolbar';
+import RichTextEditor from './RichTextEditor';
 
 const classes = new BEMHelper({
-  name: 'editor',
+  name: 'learning-resource-form',
   prefix: 'c-',
 });
 
@@ -24,16 +23,15 @@ class RichBlockTextEditor extends Component {
   constructor(props) {
     super(props);
     this.onContentChange = this.onContentChange.bind(this);
-    this.toggleMark = this.toggleMark.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
     this.state = {
       activeEditor: 0,
     };
   }
-  onContentChange(state, index) {
+
+  onContentChange(e, index) {
     const { name, onChange, value } = this.props;
     const newValue = [].concat(value);
-    newValue[index] = { state, index };
+    newValue[index] = { state: e.target.value, index };
     const changedState = {
       target: {
         value: newValue,
@@ -46,35 +44,6 @@ class RichBlockTextEditor extends Component {
     });
 
     onChange(changedState);
-  }
-
-  onKeyDown(e, data, state, index) {
-    if (!data.isMod) return;
-    let mark;
-    switch (data.key) {
-      case 'b':
-        mark = 'bold';
-        break;
-      case 'i':
-        mark = 'italic';
-        break;
-      case 'u':
-        mark = 'underlined';
-        break;
-      case '`':
-        mark = 'code';
-        break;
-      default:
-    }
-    if (mark) {
-      this.toggleMark(e, state, mark, index);
-    }
-  }
-
-  toggleMark(e, state, type, index) {
-    e.preventDefault();
-    const nextState = state.transform().toggleMark(type).apply();
-    this.onContentChange(nextState, index);
   }
 
   render() {
@@ -90,28 +59,19 @@ class RichBlockTextEditor extends Component {
       ...rest
     } = this.props;
     return (
-      <article {...classes('article')}>
+      <article>
         {value.map((val, index) =>
           <div
             key={`editor_${index}`} //eslint-disable-line
             {...classes('container', className)}
             onClick={this.focus}
             tabIndex={index}>
-            <SlateToolbar
-              state={val.state}
-              onChange={onChange}
-              handleBlockContentChange={this.onContentChange}
-              index={index}
+            <RichTextEditor
               name={name}
-            />
-            <Editor
-              state={val.state}
               schema={schema}
-              onChange={editorState => this.onContentChange(editorState, index)}
-              onBeforeInput={(e, d, state) => state}
-              onKeyDown={(evt, data, state) =>
-                this.onKeyDown(evt, data, state, index)}
+              onChange={e => this.onContentChange(e, index)}
               {...rest}
+              value={val.state}
             />
             <SlateBlockPicker
               name={name}

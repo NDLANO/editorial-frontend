@@ -19,23 +19,68 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const RichTextEditor = props => {
-  const { schema, children, className, value, name, onChange, ...rest } = props;
+const RichTextEditor = class extends React.Component {
+  constructor(props) {
+    super(props);
+    this.toggleMark = this.toggleMark.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
+  }
 
-  return (
-    <article>
-      <div {...classes(undefined, className)}>
-        <SlateToolbar state={value} onChange={onChange} name={name} />
-        <Editor
-          state={value}
-          schema={schema}
-          onChange={state => onChange({ target: { name, value: state } })}
-          {...rest}
-        />
-        {children}
-      </div>
-    </article>
-  );
+  onKeyDown(e, data, state) {
+    if (!data.isMod) return;
+    let mark;
+    switch (data.key) {
+      case 'b':
+        mark = 'bold';
+        break;
+      case 'i':
+        mark = 'italic';
+        break;
+      case 'u':
+        mark = 'underlined';
+        break;
+      default:
+    }
+    if (mark) {
+      this.toggleMark(e, state, mark);
+    }
+  }
+
+  toggleMark(e, state, type) {
+    const { name, onChange } = this.props;
+    e.preventDefault();
+    const nextState = state.transform().toggleMark(type).apply();
+    onChange({ target: { name, value: nextState } });
+  }
+
+  render() {
+    const {
+      schema,
+      children,
+      className,
+      value,
+      name,
+      onChange,
+      ...rest
+    } = this.props;
+
+    return (
+      <article>
+        <div>
+          <SlateToolbar state={value} onChange={onChange} name={name} />
+          <Editor
+            {...classes(undefined, className)}
+            state={value}
+            schema={schema}
+            onKeyDown={this.onKeyDown}
+            onChange={state => onChange({ target: { name, value: state } })}
+            {...rest}
+          />
+          {children}
+        </div>
+      </article>
+    );
+  }
 };
 
 RichTextEditor.propTypes = {

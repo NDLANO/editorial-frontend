@@ -55,7 +55,7 @@ test('DisplayOembed renderers correctly', () => {
     setTimeout(() => {
       expect(component.toJSON()).toMatchSnapshot();
       resolve();
-    }, 100);
+    }, global.DEFAULT_TIMEOUT);
   });
 });
 

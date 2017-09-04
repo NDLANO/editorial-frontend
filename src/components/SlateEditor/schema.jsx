@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Block } from 'slate';
+import { Block, Placeholder } from 'slate';
 import merge from 'lodash/merge';
 import SlateFigure from './SlateFigure';
 import SlateAside from './aside/SlateAside';
@@ -51,10 +51,16 @@ const learningResourceItems = {
 
 const defaultSchema = {
   nodes: {
-    section: props =>
-      <section {...props.attributes}>
-        {props.children}
-      </section>,
+    section: props => (
+        <section {...props.attributes}>
+          {props.editor.props.placeholder
+            ? <Placeholder {...props}>
+                {props.editor.props.placeholder}
+              </Placeholder>
+            : null}
+          {props.children}
+        </section>
+      ),
     aside: SlateAside,
     paragraph: props =>
       <p className="c-block__paragraph" {...props.attributes}>

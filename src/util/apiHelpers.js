@@ -122,3 +122,8 @@ export const fetchWithBrightCoveToken = (url, config = {}) => {
     headers: { Authorization: `Bearer ${birghtcoveAccessToken}` },
   });
 };
+
+export const fetchOembed = async (url, options) => {
+  const data = await fetchAuthorized(url, options);
+  return resolveJsonOrRejectWithError(data);
+};

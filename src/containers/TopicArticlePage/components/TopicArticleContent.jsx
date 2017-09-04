@@ -12,10 +12,10 @@ import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
 import {
   TextField,
-  RichTextField,
   PlainTextField,
   RemainingCharacters,
 } from '../../../components/Fields';
+import { RichTextField } from '../../../components/RichTextField';
 import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
 import { topicArticleSchema } from '../../../components/SlateEditor/schema';

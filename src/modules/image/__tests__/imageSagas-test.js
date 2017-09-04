@@ -12,8 +12,6 @@ import { expectSaga } from 'redux-saga-test-plan';
 import * as sagas from '../imageSagas';
 import { actions } from '../image';
 
-expectSaga.DEFAULT_TIMEOUT = 100;
-
 test('imageSagas watchUpdateImage create new image', () => {
   nock('http://ndla-api')
     .post('/image-api/v2/images')

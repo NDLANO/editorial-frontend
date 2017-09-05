@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reformed HOC renderers form component correctly 1`] = `
+<form>
+  <input
+    name="title"
+    onChange={[Function]}
+    type="text"
+    value="Olé"
+  />
+  <input
+    name="introcution"
+    onChange={[Function]}
+    type="text"
+    value={undefined}
+  />
+  <input
+    name="content"
+    onChange={[Function]}
+    type="text"
+    value="Olé, Olé, Olé"
+  />
+</form>
+`;

@@ -9,54 +9,101 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { Button } from 'ndla-ui';
 import SlateInputField from './SlateInputField';
 import ForbiddenOverlay from '../ForbiddenOverlay';
+import ImageEditor from '../../containers/ImageEditor/ImageEditor';
 import { EmbedShape } from '../../shapes';
 
-const SlateImage = props => {
-  const {
-    embed,
-    figureClass,
-    attributes,
-    onFigureInputChange,
-    deletedOnSave,
-    t,
-  } = props;
-
+const getSrcSets = embed => {
   const src = `${window.config
     .ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
-  return (
-    <div {...attributes}>
-      <figure {...figureClass}>
-        <img src={src} alt={embed.alt} />
-        {deletedOnSave &&
-          <ForbiddenOverlay
-            text={t('topicArticleForm.fields.content.deleteEmbedOnSave')}
-          />}
-      </figure>
-      <SlateInputField
-        name="caption"
-        label={t('learningResourceForm.fields.content.figure.caption.image')}
-        type="text"
-        value={embed.caption}
-        onChange={onFigureInputChange}
-        placeholder={t(
-          'learningResourceForm.fields.content.figure.caption.image',
-        )}
-        deletedOnSave={deletedOnSave}
-      />
-      <SlateInputField
-        name="alt"
-        label={t('learningResourceForm.fields.content.figure.alt')}
-        type="text"
-        value={embed.alt}
-        onChange={onFigureInputChange}
-        placeholder={t('learningResourceForm.fields.content.figure.alt')}
-        deletedOnSave={deletedOnSave}
-      />
-    </div>
-  );
+  const cropString = `cropStartX=${embed['upper-left-x']}&cropStartY=${embed[
+    'upper-left-y'
+  ]}&cropEndX=${embed['lower-right-x']}&cropEndY=${embed['lower-right-y']}`;
+  const focalString = `focalX=${embed['focal-x']}&focalY=${embed['focal-y']}`;
+  return [
+    `${src}?width=1440&${cropString}&${focalString} 1440w`,
+    `${src}?width=1120&${cropString}&${focalString} 1120w`,
+    `${src}?width=1000&${cropString}&${focalString} 1000w`,
+    `${src}?width=960&${cropString}&${focalString} 960w`,
+    `${src}?width=800&${cropString}&${focalString} 800w`,
+    `${src}?width=640&${cropString}&${focalString} 640w`,
+    `${src}?width=480&${cropString}&${focalString} 480w`,
+    `${src}?width=320&${cropString}&${focalString} 320w`,
+    `${src}?width=320&${cropString}&${focalString} 320w`,
+  ].join(', ');
 };
+
+class SlateImage extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      editModus: false,
+    };
+    this.toggleEditModus = this.toggleEditModus.bind(this);
+  }
+
+  toggleEditModus() {
+    this.setState(prevState => ({
+      editModus: !prevState.editModus,
+    }));
+  }
+
+  render() {
+    const {
+      embed,
+      figureClass,
+      attributes,
+      onFigureInputChange,
+      deletedOnSave,
+      t,
+    } = this.props;
+    const src = `${window.config
+      .ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
+    return (
+      <div {...attributes}>
+        {this.state.editModus
+          ? <ImageEditor
+              embedTag={embed}
+              toggleEditModus={this.toggleEditModus}
+              {...this.props}
+            />
+          : <Button stripped onClick={this.toggleEditModus}>
+              <figure {...figureClass}>
+                <img src={src} alt={embed.alt} srcSet={getSrcSets(embed)} />
+                {deletedOnSave &&
+                  <ForbiddenOverlay
+                    text={t(
+                      'topicArticleForm.fields.content.deleteEmbedOnSave',
+                    )}
+                  />}
+              </figure>
+            </Button>}
+        <SlateInputField
+          name="caption"
+          label={t('learningResourceForm.fields.content.figure.caption.image')}
+          type="text"
+          value={embed.caption}
+          onChange={onFigureInputChange}
+          placeholder={t(
+            'learningResourceForm.fields.content.figure.caption.image',
+          )}
+          deletedOnSave={deletedOnSave}
+        />
+        <SlateInputField
+          name="alt"
+          label={t('learningResourceForm.fields.content.figure.alt')}
+          type="text"
+          value={embed.alt}
+          onChange={onFigureInputChange}
+          placeholder={t('learningResourceForm.fields.content.figure.alt')}
+          deletedOnSave={deletedOnSave}
+        />
+      </div>
+    );
+  }
+}
 
 SlateImage.propTypes = {
   embed: EmbedShape.isRequired,

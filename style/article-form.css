@@ -93,6 +93,43 @@ a.c-learning-resource-form__abort-button.c-button {
   }
 }
 
+.c-learning-resource-form {
+  &__container {
+    margin: 0 -9rem;
+    padding: 3rem 9rem;
+    border: 1px solid white;
+
+    &:hover,
+    &:focus {
+      border-top: 1px solid var(--brand-grey--light);
+      border-bottom: 1px solid var(--brand-grey--light);
+    }
+
+    & ol,
+    & ul {
+      margin-top: 1rem;
+    }
+  }
+
+  &__container:hover &__delete-block-button,
+  &__container:focus &__delete-block-button {
+    visibility: visible;
+  }
+
+  &__delete-block-button {
+    top: 0;
+    visibility: hidden;
+    position: absolute;
+    right: -4rem;
+    color: red;
+
+    &:hover,
+    &:focus {
+      color: color(red blackness(+ 20%));
+    }
+  }
+}
+
 .c-topic-article-content {
   &__info {
     padding-top: 0.5rem;

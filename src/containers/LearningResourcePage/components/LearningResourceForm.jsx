@@ -99,7 +99,10 @@ class LearningResourceForm extends Component {
       type: 'Bidragsyter',
       name,
     }));
-
+    const content = {
+      content: converter.slateToHtml(model.content, true),
+      language,
+    };
     this.props.onUpdate({
       id: model.id,
       revision,
@@ -111,9 +114,7 @@ class LearningResourceForm extends Component {
         },
       ],
       tags: [{ tags: model.tags, language }],
-      content: [
-        { content: converter.slateToHtml(model.content, true), language },
-      ],
+      content: [content],
       visualElement: [
         {
           content: createEmbedTag(model.metaImage),
@@ -178,14 +179,14 @@ class LearningResourceForm extends Component {
             to={'/'}
             {...classes('abort-button', '', 'c-button c-button--outline')}
             disabled={isSaving}>
-            {t('learningResourceForm.abort')}
+            {t('form.abort')}
           </Link>
           <Button
             submit
             outline
             disabled={isSaving}
             {...classes('save-button')}>
-            {t('learningResourceForm.save')}
+            {t('form.save')}
           </Button>
         </Field>
       </form>

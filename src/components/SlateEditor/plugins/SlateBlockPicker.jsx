@@ -13,6 +13,7 @@ import Portal from 'react-portal';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import {
+  H5P,
   Cross,
   Plus,
   Ingress,
@@ -255,6 +256,13 @@ class SlateBlockPicker extends Component {
                 onClick={() =>
                   this.onElementAdd({ type: 'embed', kind: 'audio' })}>
                 <Audio />
+              </Button>
+              <Button
+                stripped
+                {...classes('block-type-button')}
+                onClick={() =>
+                  this.onElementAdd({ type: 'embed', kind: 'h5p' })}>
+                <H5P />
               </Button>
             </div>
           </div>

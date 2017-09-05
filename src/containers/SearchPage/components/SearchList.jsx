@@ -12,7 +12,7 @@ import { injectT } from 'ndla-i18n';
 import SearchResult from './SearchResult';
 import { ArticleResultShape } from '../../../shapes';
 
-const SearchResultList = ({ results, query, locale, t }) => {
+const SearchList = ({ results, query, locale, t }) => {
   const noSearchHits = query.query && results.length === 0;
   return (
     <div className="search-results">
@@ -27,7 +27,7 @@ const SearchResultList = ({ results, query, locale, t }) => {
   );
 };
 
-SearchResultList.propTypes = {
+SearchList.propTypes = {
   results: PropTypes.arrayOf(ArticleResultShape).isRequired,
   query: PropTypes.shape({
     query: PropTypes.string,
@@ -35,4 +35,4 @@ SearchResultList.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default injectT(SearchResultList);
+export default injectT(SearchList);

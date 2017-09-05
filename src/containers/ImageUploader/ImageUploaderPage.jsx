@@ -34,7 +34,7 @@ class ImageUploaderPage extends Component {
 
     return (
       <div>
-        <Hero alt />
+        <Hero />
         <OneColumn cssModifier="narrow">
           <Switch>
             <Route

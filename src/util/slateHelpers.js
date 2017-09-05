@@ -59,6 +59,11 @@ const RULES = [
         type: 'emptyTextNode',
       };
     },
+    serialize(object) {
+      if (object.kind !== 'block') return;
+      if (object.type !== 'emptyTextNode') return;
+      return <span />;
+    },
   },
   {
     // Aside handling
@@ -218,12 +223,6 @@ const RULES = [
               {children}
             </strong>
           );
-        case 'code':
-          return (
-            <code>
-              {children}
-            </code>
-          );
         case 'italic':
           return (
             <em>
@@ -251,38 +250,6 @@ const RULES = [
       }
     },
   },
-  {
-    // Special case for code blocks, which need to grab the nested childNodes.
-    deserialize(el, next) {
-      if (el.tagName.toLowerCase() !== 'pre') return;
-      const code = el.childNodes[0];
-      const childNodes =
-        code && code.tagName.toLowerCase() === 'code'
-          ? code.childNodes
-          : el.childNodes;
-
-      return {
-        kind: 'block',
-        type: 'code',
-        nodes: next(childNodes),
-      };
-    },
-    serialize(object, children) {
-      if (object.kind !== 'block') return;
-      if (object.type !== 'pre') return;
-      switch (object.type) {
-        case 'code':
-          return (
-            <pre>
-              <code>
-                {children}
-              </code>
-            </pre>
-          );
-      }
-    },
-  },
-
   {
     // Special case for links, to grab their href.
     deserialize(el, next) {
@@ -382,7 +349,6 @@ export const learningResourceEmbedRule = [
       const props = Object.keys(data)
         .filter(key => data[key] !== undefined && !isObject(data[key]))
         .reduce((acc, key) => ({ ...acc, [`data-${key}`]: data[key] }), {});
-
       return <embed {...props} />;
     },
   },

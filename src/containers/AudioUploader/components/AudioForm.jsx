@@ -127,10 +127,10 @@ class AudioForm extends Component {
             to={'/'}
             {...classes('abort-button', '', 'c-button c-button--outline')}
             disabled={isSaving}>
-            {t('audioForm.abort')}
+            {t('form.abort')}
           </Link>
           <Button submit outline disabled={false} {...classes('save-button')}>
-            {t('audioForm.save')}
+            {t('form.save')}
           </Button>
         </Field>
       </form>

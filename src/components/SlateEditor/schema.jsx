@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Block } from 'slate';
+import { Block, Placeholder } from 'slate';
 import merge from 'lodash/merge';
 import SlateFigure from './SlateFigure';
 import SlateAside from './aside/SlateAside';
@@ -54,6 +54,11 @@ const defaultSchema = {
   nodes: {
     section: props =>
       <section {...props.attributes}>
+        {props.editor.props.placeholder
+          ? <Placeholder {...props}>
+              {props.editor.props.placeholder}
+            </Placeholder>
+          : null}
         {props.children}
       </section>,
     aside: SlateAside,
@@ -93,12 +98,6 @@ const defaultSchema = {
       <ul className="c-block__bulleted-list" {...props.attributes}>
         {props.children}
       </ul>,
-    code: props =>
-      <pre>
-        <code {...props.attributes}>
-          {props.children}
-        </code>
-      </pre>,
     'heading-one': props =>
       <h1 {...props.attributes}>
         {props.children}
@@ -147,10 +146,6 @@ const defaultSchema = {
       <strong {...props.attributes}>
         {props.children}
       </strong>,
-    code: props =>
-      <code {...props.attributes}>
-        {props.children}
-      </code>,
     italic: props =>
       <em {...props.attributes}>
         {props.children}

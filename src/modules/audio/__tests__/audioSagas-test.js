@@ -12,8 +12,6 @@ import { expectSaga } from 'redux-saga-test-plan';
 import * as sagas from '../audioSagas';
 import { actions } from '../audio';
 
-expectSaga.DEFAULT_TIMEOUT = 100;
-
 test('audioSagas watchUpdateAudio create new audio', () => {
   nock('http://ndla-api')
     .post('/audio-api/v1/audio')

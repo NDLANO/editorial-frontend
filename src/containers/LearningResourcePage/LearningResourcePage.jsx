@@ -34,7 +34,7 @@ class LearningResourcePage extends Component {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <Hero alt />
+        <Hero />
         <OneColumn cssModifier="narrow">
           <Switch>
             <Route

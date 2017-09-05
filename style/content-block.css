@@ -32,6 +32,10 @@
     }
   }
 
+  &__block-type-container--hidden {
+    display: none;
+  }
+
   &__block-type-button {
     height: 40px;
     width: 40px;

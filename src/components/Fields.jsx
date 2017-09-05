@@ -422,7 +422,9 @@ export const RichBlockTextField = ({
 }) => {
   const { value, onChange } = bindInput(name);
   return (
-    <Field noBorder={noBorder}>
+    <Field
+      noBorder={noBorder}
+      className={classes('', 'position-static').className}>
       {!noBorder
         ? <label htmlFor={name}>
             {label}

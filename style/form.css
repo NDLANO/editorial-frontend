@@ -41,6 +41,10 @@ input::placeholder {
   margin-top: 2rem;
   position: relative;
 
+  &--position-static {
+    position: static;
+  }
+
   & label {
     font-size: 1.5rem;
   }

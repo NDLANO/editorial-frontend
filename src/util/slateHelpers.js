@@ -56,6 +56,7 @@ const RULES = [
       return {
         kind: 'block',
         type: 'emptyTextNode',
+        nodes: [],
       };
     },
     serialize(object) {

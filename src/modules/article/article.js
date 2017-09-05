@@ -17,6 +17,7 @@ import {
   visualElementI18N,
   metaDescriptionI18N,
   contentI18N,
+  footNotesI18N,
 } from '../../util/i18nFieldFinder';
 import formatDate from '../../util/formatDate';
 
@@ -94,6 +95,7 @@ export const getArticle = articleId =>
             introduction: introductionI18N(article, locale, true),
             visualElement: visualElementI18N(article, locale, true),
             content: contentI18N(article, locale, true),
+            footNotes: footNotesI18N(article, locale, true),
             metaDescription: metaDescriptionI18N(article, locale, true),
             tags: tagsI18N(article, locale, true),
             created: formatDate(article.created, locale),

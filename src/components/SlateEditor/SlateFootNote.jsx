@@ -18,7 +18,7 @@ const SlateFootNote = props => {
 
   return (
     <a href={href} name={name} {...attributes}>
-      <sup>
+      <sup id={name}>
         {props.children}
       </sup>
     </a>

@@ -22,6 +22,7 @@ import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
 import LearningResourceCopyright from './LearningResourceCopyright';
+import LearningResourceFootNotes from './LearningResourceFootNotes';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -44,6 +45,7 @@ export const getInitialModel = (article = {}) => {
     title: article.title || '',
     introduction: converter.toPlainSlateEditorState(article.introduction),
     content: converter.toSlateEditorState(article.content, true),
+    footNotes: article.footNotes,
     tags: article.tags || [],
     authors: parseCopyrightAuthors(article, 'Forfatter'),
     licensees: parseCopyrightAuthors(article, 'Rettighetshaver'),
@@ -170,6 +172,9 @@ class LearningResourceForm extends Component {
           bindInput={bindInput}
           tags={tags}
         />
+        {model.footNotes
+          ? <LearningResourceFootNotes t={t} footNotes={model.footNotes} />
+          : null}
         <LearningResourceCopyright
           commonFieldProps={commonFieldProps}
           licenses={licenses}

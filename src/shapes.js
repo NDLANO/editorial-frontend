@@ -61,3 +61,11 @@ export const MetaImageShape = PropTypes.shape({
   caption: PropTypes.string,
   alt: PropTypes.string,
 });
+
+export const FootNoteShape = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  year: PropTypes.string.isRequired,
+  authors: PropTypes.array.isRequired,
+  edition: PropTypes.string.isRequired,
+  publisher: PropTypes.string.isRequired,
+});

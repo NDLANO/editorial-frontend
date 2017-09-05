@@ -155,13 +155,9 @@ const defaultSchema = {
         {props.children}
       </u>,
     strikethrough: props =>
-      <s>
+      <s {...props.attributes}>
         {props.children}
       </s>,
-    superscripted: props =>
-      <sup>
-        {props.children}
-      </sup>,
   },
   rules: [
     // Rule to insert a paragraph block if the document is empty.

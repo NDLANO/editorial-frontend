@@ -299,6 +299,10 @@ const phrases = {
           changeTitle: 'Endre lenke',
         },
       },
+      footNotes: {
+        edition: 'Utgave',
+        publisher: 'Utgiver',
+      },
       tags: {
         label: 'Nøkkelord',
         description: 'Obligatorisk med 3 nøkkelord.',

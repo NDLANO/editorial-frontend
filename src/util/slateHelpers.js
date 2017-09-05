@@ -33,7 +33,7 @@ const MARK_TAGS = {
   u: 'underlined',
   s: 'strikethrough',
   code: 'code',
-  sup: 'superscripted',
+  // sup: 'superscripted',
 };
 
 // TODO: get type of aside in here. Default should be rightAside since that is the only

@@ -16,6 +16,10 @@ export const titleI18N = createFieldByLanguageFinder('title');
 export const titlesI18N = createFieldByLanguageFinder('titles', 'title');
 export const descriptionI18N = createFieldByLanguageFinder('description');
 export const contentI18N = createFieldByLanguageFinder('content');
+export const footNotesI18N = createFieldByLanguageFinder(
+  'content',
+  'footNotes',
+);
 export const oembedUrlI18N = createFieldByLanguageFinder('embedUrl', 'url');
 export const visualElementI18N = createFieldByLanguageFinder(
   'visualElement',

@@ -9,16 +9,28 @@ exports[`reformed HOC renderers form component correctly 1`] = `
     value="Olé"
   />
   <input
-    name="introcution"
+    name="introduction"
     onChange={[Function]}
     type="text"
-    value={undefined}
+    value=""
   />
   <input
     name="content"
     onChange={[Function]}
     type="text"
     value="Olé, Olé, Olé"
+  />
+  <input
+    name="image.alt"
+    onChange={[Function]}
+    type="text"
+    value="Alternative image text"
+  />
+  <input
+    name="image.caption"
+    onChange={[Function]}
+    type="text"
+    value=""
   />
 </form>
 `;

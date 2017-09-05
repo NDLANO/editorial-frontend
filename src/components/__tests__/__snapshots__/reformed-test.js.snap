@@ -1,5 +1,75 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`reformed HOC handles onChange event correctly 1`] = `
+<form>
+  <input
+    name="title"
+    onChange={[Function]}
+    type="text"
+    value="Hombre"
+  />
+  <input
+    name="introduction"
+    onChange={[Function]}
+    type="text"
+    value=""
+  />
+  <input
+    name="content"
+    onChange={[Function]}
+    type="text"
+    value="Olé, Olé, Olé"
+  />
+  <input
+    name="image.alt"
+    onChange={[Function]}
+    type="text"
+    value="Alternative image text"
+  />
+  <input
+    name="image.caption"
+    onChange={[Function]}
+    type="text"
+    value=""
+  />
+</form>
+`;
+
+exports[`reformed HOC handles onChange event on nested property correctly 1`] = `
+<form>
+  <input
+    name="title"
+    onChange={[Function]}
+    type="text"
+    value="Olé"
+  />
+  <input
+    name="introduction"
+    onChange={[Function]}
+    type="text"
+    value=""
+  />
+  <input
+    name="content"
+    onChange={[Function]}
+    type="text"
+    value="Olé, Olé, Olé"
+  />
+  <input
+    name="image.alt"
+    onChange={[Function]}
+    type="text"
+    value="Alternative image text"
+  />
+  <input
+    name="image.caption"
+    onChange={[Function]}
+    type="text"
+    value="El Grande"
+  />
+</form>
+`;
+
 exports[`reformed HOC renderers form component correctly 1`] = `
 <form>
   <input

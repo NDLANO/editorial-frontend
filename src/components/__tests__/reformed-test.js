@@ -30,6 +30,10 @@ Form.propTypes = {
 };
 
 const Reformed = reformed(Form);
+
+const findInputByName = (tree, name) =>
+  tree.children.find(child => child.props.name === name);
+
 const initialModel = {
   title: 'Olé',
   introduction: '',
@@ -43,6 +47,28 @@ const initialModel = {
 
 test('reformed HOC renderers form component correctly', () => {
   const component = renderer.create(<Reformed initialModel={initialModel} />);
+
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('reformed HOC handles onChange event correctly', () => {
+  const component = renderer.create(<Reformed initialModel={initialModel} />);
+  const tree = component.toJSON();
+  const input = findInputByName(tree, 'title');
+
+  input.props.onChange({ target: { value: 'Hombre', name: input.props.name } });
+
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('reformed HOC handles onChange event on nested property correctly', () => {
+  const component = renderer.create(<Reformed initialModel={initialModel} />);
+  const tree = component.toJSON();
+  const input = findInputByName(tree, 'image.caption');
+
+  input.props.onChange({
+    target: { value: 'El Grande', name: input.props.name },
+  });
 
   expect(component.toJSON()).toMatchSnapshot();
 });

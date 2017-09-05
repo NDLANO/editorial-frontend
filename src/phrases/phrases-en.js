@@ -126,6 +126,10 @@ const phrases = {
         deleteEmbedOnSave:
           'WARNING: Figure in content block will be removed on save',
       },
+      footNotes: {
+        edition: 'Edition',
+        publisher: 'Publisher',
+      },
       tags: {
         label: 'Tags',
         description: '3 tags is required.',

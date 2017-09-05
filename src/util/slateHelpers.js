@@ -251,7 +251,7 @@ const RULES = [
       return {
         kind: 'inline',
         type: 'link',
-        data: { href: el.href ? el.href : '#'},
+        data: { href: el.href ? el.href : '#' },
         nodes: next(el.childNodes),
       };
     },

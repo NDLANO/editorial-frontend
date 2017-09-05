@@ -135,8 +135,8 @@ const defaultSchema = {
       </blockquote>,
     'embed-inline': SlateLink,
     link: props => {
-      const { data } = props.node
-      const href = data.get('href')
+      const { data } = props.node;
+      const href = data.get('href');
       return (
         <a href={href} {...props.attributes}>
           {props.children}

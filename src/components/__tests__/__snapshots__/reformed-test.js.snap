@@ -1,5 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`reformed HOC handles file input correctly 1`] = `
+<form>
+  <input
+    name="file"
+    onChange={[Function]}
+    type="file"
+  />
+</form>
+`;
+
+exports[`reformed HOC handles file input correctly 2`] = `
+<form>
+  <input
+    name="file"
+    onChange={[Function]}
+    type="file"
+  />
+  <span>
+    foo.txt text/plain 3
+  </span>
+  <span>
+    blob:foo.txt
+  </span>
+</form>
+`;
+
 exports[`reformed HOC handles onChange event correctly 1`] = `
 <form>
   <input

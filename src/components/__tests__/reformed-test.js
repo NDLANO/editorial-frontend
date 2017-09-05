@@ -7,29 +7,11 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import renderer from 'react-test-renderer';
 import reformed from '../reformed';
+import Form, { FileForm } from './testforms';
 
-const Form = props => {
-  const { bindInput } = props;
-
-  return (
-    <form>
-      <input type="text" {...bindInput('title')} />
-      <input type="text" {...bindInput('introduction')} />
-      <input type="text" {...bindInput('content')} />
-      <input type="text" {...bindInput('image.alt')} />
-      <input type="text" {...bindInput('image.caption')} />
-    </form>
-  );
-};
-
-Form.propTypes = {
-  bindInput: PropTypes.func.isRequired,
-};
-
-const Reformed = reformed(Form);
+// console.log(new URL('1'));
 
 const findInputByName = (tree, name) =>
   tree.children.find(child => child.props.name === name);
@@ -46,12 +28,14 @@ const initialModel = {
 };
 
 test('reformed HOC renderers form component correctly', () => {
+  const Reformed = reformed(Form);
   const component = renderer.create(<Reformed initialModel={initialModel} />);
 
   expect(component.toJSON()).toMatchSnapshot();
 });
 
 test('reformed HOC handles onChange event correctly', () => {
+  const Reformed = reformed(Form);
   const component = renderer.create(<Reformed initialModel={initialModel} />);
   const tree = component.toJSON();
   const input = findInputByName(tree, 'title');
@@ -62,12 +46,33 @@ test('reformed HOC handles onChange event correctly', () => {
 });
 
 test('reformed HOC handles onChange event on nested property correctly', () => {
+  const Reformed = reformed(Form);
   const component = renderer.create(<Reformed initialModel={initialModel} />);
   const tree = component.toJSON();
   const input = findInputByName(tree, 'image.caption');
 
   input.props.onChange({
     target: { value: 'El Grande', name: input.props.name },
+  });
+
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('reformed HOC handles file input correctly', () => {
+  URL.createObjectURL = file => `blob:${file.name}`; // Mock
+  const Reformed = reformed(FileForm);
+  const component = renderer.create(
+    <Reformed initialModel={{ file: undefined }} />,
+  );
+  const tree = component.toJSON();
+  expect(tree).toMatchSnapshot();
+
+  const input = findInputByName(tree, 'file');
+  const file = new File(['foo'], 'foo.txt', {
+    type: 'text/plain',
+  });
+  input.props.onChange({
+    target: { files: [file], type: 'file', name: input.props.name },
   });
 
   expect(component.toJSON()).toMatchSnapshot();

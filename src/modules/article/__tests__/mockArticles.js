@@ -18,11 +18,13 @@ export const topicArticle = {
     {
       content:
         '<section><p>Trykkpressen til Gutenberg og Tim Berners Lees the World Wide Web er begge...</p></section>',
+      footNotes: [],
       language: 'nb',
     },
     {
       content:
         '<section><p>Tim Berners Lees the World Wide Web is...</p></section>',
+      footNotes: [],
       language: 'en',
     },
   ],

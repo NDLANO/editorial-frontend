@@ -11,8 +11,7 @@ const basicAuth = require('express-basic-auth');
 export default function enableBasicAuth(app) {
   app.use((req, res, next) => {
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    // Always allow Knowit IP
-    if (ip !== '213.236.148.83') {
+    if (ip !== '213.236.148.83' && req.url !== '/health') {
       basicAuth({
         users: { admin: '!NDLA' },
         challenge: true,

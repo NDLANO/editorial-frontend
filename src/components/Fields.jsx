@@ -112,10 +112,6 @@ FocusLabel.propTypes = {
   hasFocus: PropTypes.func.isRequired,
 };
 
-FocusLabel.defaultProps = {
-  hasFocus: name => document.activeElement.id === name,
-};
-
 export const RemainingCharacters = ({ value, maxLength, getRemainingLabel }) =>
   <FieldHelp right>
     {getRemainingLabel(maxLength, maxLength - value.length)}
@@ -191,7 +187,10 @@ export const TextField = ({
           {label}
         </label>}
     {noBorder &&
-      <FocusLabel name={name} value={bindInput(name).value}>
+      <FocusLabel
+        name={name}
+        hasFocus={() => getField(name, schema).active}
+        value={bindInput(name).value}>
         {label}
       </FocusLabel>}
 

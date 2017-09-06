@@ -96,3 +96,17 @@ test('reformed HOC removes active flag and set touched flag on blur', () => {
 
   expect(component.toJSON()).toMatchSnapshot();
 });
+
+// test('reformed HOC removes active flag and set touched flag on blur', () => {
+//   const Reformed = reformed(FieldForm);
+
+//   const component = renderer.create(<Reformed initialModel={initialModel} />);
+//   const tree = component.toJSON();
+
+//   triggerEvent(tree, 'title', 'focus');
+//   triggerEvent(tree, 'title', 'blur');
+//   triggerEvent(tree, 'image.caption', 'focus');
+//   triggerEvent(tree, 'image.caption', 'blur');
+
+//   expect(component.toJSON()).toMatchSnapshot();
+// });

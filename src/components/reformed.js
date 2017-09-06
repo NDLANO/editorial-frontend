@@ -56,25 +56,22 @@ const makeWrapper = WrappedComponent => {
     }
 
     setInputFlags(name, flags) {
-      this.setState(prevstate => ({
-        fields: set(name, flags, prevstate.fields),
-      }));
+      this.setState(prevState => {
+        const currentFlags = get(name, prevState.fields);
+        return {
+          fields: set(
+            name,
+            { isDirty: false, ...currentFlags, ...flags },
+            prevState.fields,
+          ),
+        };
+      });
     }
 
-    setProperty(name, value, isDirty = true) {
-      const model = set(name, value, this.state.model);
-      const field = get(name, this.state.fields, false);
-      if (field && field.isDirty) {
-        this.setState(prevstate => ({
-          model: set(name, value, prevstate.model),
-        }));
-      } else {
-        this.setState(prevstate => ({
-          model: set(name, value, prevstate.model),
-          fields: set(name, { isDirty }, prevstate.fields),
-        }));
-      }
-      return model;
+    setProperty(name, value) {
+      this.setState(prevstate => ({
+        model: set(name, value, prevstate.model),
+      }));
     }
 
     bindToChangeEvent(e) {
@@ -95,6 +92,7 @@ const makeWrapper = WrappedComponent => {
       } else {
         this.setProperty(name, value);
       }
+      this.setInputFlags(name, { isDirty: true });
     }
 
     bindInputEvent(e) {
@@ -120,7 +118,7 @@ const makeWrapper = WrappedComponent => {
         name,
         value,
         onChange: this.bindToChangeEvent,
-        oBlur: this.bindInputEvent,
+        onBlur: this.bindInputEvent,
         onFocus: this.bindInputEvent,
       };
     }

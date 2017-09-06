@@ -62,7 +62,7 @@ FieldHelp.propTypes = {
 export const getField = (name, schema) => get(name, schema.fields);
 const hasError = field => field && !field.isValid;
 const showError = (field, submitted) =>
-  hasError(field) && (field.isDirty || submitted);
+  hasError(field) && (field.dirty || submitted);
 
 export const FieldErrorMessages = ({ field, submitted, label }) => {
   if (!field || !showError(field, submitted)) {
@@ -83,7 +83,7 @@ export const FieldErrorMessages = ({ field, submitted, label }) => {
 FieldErrorMessages.propTypes = {
   label: PropTypes.string.isRequired,
   field: PropTypes.shape({
-    isDirty: PropTypes.bool.isRequired,
+    dirty: PropTypes.bool.isRequired,
     isValid: PropTypes.bool.isRequired,
     errors: PropTypes.arrayOf(PropTypes.func),
   }),

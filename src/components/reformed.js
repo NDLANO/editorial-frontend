@@ -47,7 +47,7 @@ const makeWrapper = WrappedComponent => {
         return {
           fields: set(
             name,
-            { isDirty: false, ...currentFlags, ...flags },
+            { dirty: false, ...currentFlags, ...flags },
             prevState.fields,
           ),
         };
@@ -69,7 +69,7 @@ const makeWrapper = WrappedComponent => {
       } else {
         this.setProperty(name, value);
       }
-      this.setInputFlags(name, { isDirty: true });
+      this.setInputFlags(name, { dirty: true });
     }
 
     bindInputEvent(e) {

@@ -4,7 +4,7 @@ exports[`reformed HOC merges and overrides input flags correctly 1`] = `
 <form>
   <span
     active={true}
-    isDirty={false}
+    dirty={false}
   />
   <input
     name="title"
@@ -48,7 +48,7 @@ exports[`reformed HOC merges and overrides input flags correctly 2`] = `
 <form>
   <span
     active={true}
-    isDirty={true}
+    dirty={true}
   />
   <input
     name="title"
@@ -92,7 +92,7 @@ exports[`reformed HOC merges and overrides input flags correctly 3`] = `
 <form>
   <span
     active={false}
-    isDirty={true}
+    dirty={true}
     touched={true}
   />
   <input
@@ -137,7 +137,7 @@ exports[`reformed HOC removes active flag and set touched flag on blur 1`] = `
 <form>
   <span
     active={false}
-    isDirty={false}
+    dirty={false}
     touched={true}
   />
   <input
@@ -168,7 +168,7 @@ exports[`reformed HOC removes active flag and set touched flag on blur 1`] = `
   />
   <span
     active={false}
-    isDirty={false}
+    dirty={false}
     touched={true}
   />
   <input
@@ -186,7 +186,7 @@ exports[`reformed HOC sets active flag on focus 1`] = `
 <form>
   <span
     active={true}
-    isDirty={false}
+    dirty={false}
   />
   <input
     name="title"
@@ -216,7 +216,7 @@ exports[`reformed HOC sets active flag on focus 1`] = `
   />
   <span
     active={true}
-    isDirty={false}
+    dirty={false}
   />
   <input
     name="image.caption"
@@ -273,7 +273,7 @@ exports[`reformed HOC sets dirty flag in fields 1`] = `
 exports[`reformed HOC sets dirty flag in fields 2`] = `
 <form>
   <span
-    isDirty={true}
+    dirty={true}
   />
   <input
     name="title"
@@ -302,7 +302,7 @@ exports[`reformed HOC sets dirty flag in fields 2`] = `
     value="Alternative image text"
   />
   <span
-    isDirty={true}
+    dirty={true}
   />
   <input
     name="image.caption"

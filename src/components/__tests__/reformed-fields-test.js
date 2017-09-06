@@ -12,9 +12,17 @@ import renderer from 'react-test-renderer';
 import get from 'lodash/fp/get';
 import reformed from '../reformed';
 
+const findInput = (tree, name) =>
+  tree.children.find(child => child.props.name === name);
+
 const triggerOnChange = (tree, name, value) => {
-  const input = tree.children.find(child => child.props.name === name);
-  input.props.onChange({ target: { value, name } });
+  const input = findInput(tree, name);
+  input.props.onChange({ type: 'change', target: { value, name } });
+};
+
+const triggerEvent = (tree, name, type) => {
+  const input = findInput(tree, name);
+  input.props.onFocus({ type, target: { name } });
 };
 
 export const FieldForm = props => {
@@ -48,7 +56,7 @@ const initialModel = {
   },
 };
 
-test('reformed HOC sets meta data about fields', () => {
+test('reformed HOC sets dirty flag in fields', () => {
   const Reformed = reformed(FieldForm);
 
   const component = renderer.create(<Reformed initialModel={initialModel} />);
@@ -59,6 +67,32 @@ test('reformed HOC sets meta data about fields', () => {
   triggerOnChange(tree, 'title', 'Hom');
   triggerOnChange(tree, 'title', 'Hombre');
   triggerOnChange(tree, 'image.caption', 'El Grande');
+
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('reformed HOC sets active flag on focus', () => {
+  const Reformed = reformed(FieldForm);
+
+  const component = renderer.create(<Reformed initialModel={initialModel} />);
+  const tree = component.toJSON();
+
+  triggerEvent(tree, 'title', 'focus');
+  triggerEvent(tree, 'image.caption', 'focus');
+
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('reformed HOC removes active flag and set touched flag on blur', () => {
+  const Reformed = reformed(FieldForm);
+
+  const component = renderer.create(<Reformed initialModel={initialModel} />);
+  const tree = component.toJSON();
+
+  triggerEvent(tree, 'title', 'focus');
+  triggerEvent(tree, 'title', 'blur');
+  triggerEvent(tree, 'image.caption', 'focus');
+  triggerEvent(tree, 'image.caption', 'blur');
 
   expect(component.toJSON()).toMatchSnapshot();
 });

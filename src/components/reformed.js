@@ -27,7 +27,9 @@ const makeWrapper = WrappedComponent => {
       this.setProperty = this.setProperty.bind(this);
       this.bindToChangeEvent = this.bindToChangeEvent.bind(this);
       this.bindInput = this.bindInput.bind(this);
+      this.setInputFlags = this.setInputFlags.bind(this);
       this.setSubmitted = this.setSubmitted.bind(this);
+      this.bindInputEvent = this.bindInputEvent.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -51,6 +53,12 @@ const makeWrapper = WrappedComponent => {
 
     setSubmitted(submitted) {
       this.setState({ submitted });
+    }
+
+    setInputFlags(name, flags) {
+      this.setState(prevstate => ({
+        fields: set(name, flags, prevstate.fields),
+      }));
     }
 
     setProperty(name, value, isDirty = true) {
@@ -89,6 +97,15 @@ const makeWrapper = WrappedComponent => {
       }
     }
 
+    bindInputEvent(e) {
+      const { type, target: { name } } = e;
+      if (type === 'blur') {
+        this.setInputFlags(name, { touched: true, active: false });
+      } else if (type === 'focus') {
+        this.setInputFlags(name, { active: true });
+      }
+    }
+
     bindInput(name, isFile = false) {
       if (isFile) {
         return {
@@ -103,6 +120,8 @@ const makeWrapper = WrappedComponent => {
         name,
         value,
         onChange: this.bindToChangeEvent,
+        oBlur: this.bindInputEvent,
+        onFocus: this.bindInputEvent,
       };
     }
 

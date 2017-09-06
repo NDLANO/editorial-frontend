@@ -6,31 +6,41 @@ exports[`reformed HOC handles onChange event correctly 1`] = `
 >
   <input
     name="title"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="Hombre"
   />
   <input
     name="introduction"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value=""
   />
   <input
     name="content"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="Olé, Olé, Olé"
   />
   <input
     name="image.alt"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="Alternative image text"
   />
   <input
     name="image.caption"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value=""
   />
@@ -43,31 +53,41 @@ exports[`reformed HOC handles onChange event on nested property correctly 1`] = 
 >
   <input
     name="title"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="Olé"
   />
   <input
     name="introduction"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value=""
   />
   <input
     name="content"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="Olé, Olé, Olé"
   />
   <input
     name="image.alt"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="Alternative image text"
   />
   <input
     name="image.caption"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="El Grande"
   />
@@ -83,31 +103,41 @@ exports[`reformed HOC handles setModel and setSubmitted 1`] = `
   </span>
   <input
     name="title"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value=""
   />
   <input
     name="introduction"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value=""
   />
   <input
     name="content"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value=""
   />
   <input
     name="image.alt"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value=""
   />
   <input
     name="image.caption"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value=""
   />
@@ -120,31 +150,41 @@ exports[`reformed HOC renderers form component correctly 1`] = `
 >
   <input
     name="title"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="Olé"
   />
   <input
     name="introduction"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value=""
   />
   <input
     name="content"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="Olé, Olé, Olé"
   />
   <input
     name="image.alt"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="Alternative image text"
   />
   <input
     name="image.caption"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value=""
   />

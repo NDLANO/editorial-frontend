@@ -1,60 +1,166 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reformed HOC sets meta data about fields 1`] = `
+exports[`reformed HOC removes active flag and set touched flag on blur 1`] = `
 <form>
-  <span />
+  <span
+    active={false}
+    touched={true}
+  />
   <input
     name="title"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="Olé"
   />
   <span />
   <input
     name="content"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="Olé, Olé, Olé"
   />
   <span />
   <input
     name="image.alt"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="Alternative image text"
   />
-  <span />
+  <span
+    active={false}
+    touched={true}
+  />
   <input
     name="image.caption"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value=""
   />
 </form>
 `;
 
-exports[`reformed HOC sets meta data about fields 2`] = `
+exports[`reformed HOC sets active flag on focus 1`] = `
 <form>
   <span
-    isDirty={true}
+    active={true}
   />
   <input
     name="title"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
-    value="Hombre"
+    value="Olé"
   />
   <span />
   <input
     name="content"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="Olé, Olé, Olé"
   />
   <span />
   <input
     name="image.alt"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="Alternative image text"
+  />
+  <span
+    active={true}
+  />
+  <input
+    name="image.caption"
+    oBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value=""
+  />
+</form>
+`;
+
+exports[`reformed HOC sets dirty flag in fields 1`] = `
+<form>
+  <span />
+  <input
+    name="title"
+    oBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="Olé"
+  />
+  <span />
+  <input
+    name="content"
+    oBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="Olé, Olé, Olé"
+  />
+  <span />
+  <input
+    name="image.alt"
+    oBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="Alternative image text"
+  />
+  <span />
+  <input
+    name="image.caption"
+    oBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value=""
+  />
+</form>
+`;
+
+exports[`reformed HOC sets dirty flag in fields 2`] = `
+<form>
+  <span
+    isDirty={true}
+  />
+  <input
+    name="title"
+    oBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="Hombre"
+  />
+  <span />
+  <input
+    name="content"
+    oBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="Olé, Olé, Olé"
+  />
+  <span />
+  <input
+    name="image.alt"
+    oBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="Alternative image text"
   />
@@ -63,7 +169,9 @@ exports[`reformed HOC sets meta data about fields 2`] = `
   />
   <input
     name="image.caption"
+    oBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     type="text"
     value="El Grande"
   />

@@ -32,20 +32,6 @@ const makeWrapper = WrappedComponent => {
       this.bindInputEvent = this.bindInputEvent.bind(this);
     }
 
-    componentWillReceiveProps(nextProps) {
-      const currentModel = this.props.initialModel;
-      const nextModel = nextProps.initialModel;
-
-      if (this.props.resetOnInitialModelChange && currentModel !== nextModel) {
-        const hasChanges = Object.keys(nextModel).find(
-          key => nextModel[key] !== currentModel[key],
-        );
-        if (hasChanges) {
-          this.setModel(nextModel);
-        }
-      }
-    }
-
     setModel(model) {
       this.setState({ model });
       return model;
@@ -76,19 +62,10 @@ const makeWrapper = WrappedComponent => {
 
     bindToChangeEvent(e) {
       const { name, type, value } = e.target;
-      if (type === 'checkbox') {
-        const oldCheckboxValue = this.state.model[name] || [];
-        const newCheckboxValue = e.target.checked
-          ? oldCheckboxValue.concat(value)
-          : oldCheckboxValue.filter(v => v !== value);
-
-        this.setProperty(name, newCheckboxValue);
-      } else if (type === 'file') {
+      if (type === 'file') {
         const file = e.target.files[0];
         this.setProperty(name, file);
         this.setProperty('filepath', URL.createObjectURL(file));
-      } else if (type === 'SlateEditorState') {
-        this.setProperty(name, value); // TODO: Handle dirty flag with SlateEditorState
       } else {
         this.setProperty(name, value);
       }
@@ -142,10 +119,6 @@ const makeWrapper = WrappedComponent => {
 
   FormWrapper.propTypes = {
     initialModel: PropTypes.object, //eslint-disable-line
-    resetOnInitialModelChange: PropTypes.bool.isRequired,
-  };
-  FormWrapper.defaultProps = {
-    resetOnInitialModelChange: false,
   };
   FormWrapper.displayName = `Reformed(${getComponentName(WrappedComponent)})`;
   return hoistNonReactStatics(FormWrapper, WrappedComponent);

@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import get from 'lodash/fp/get';
 
 export const Form = props => {
   const { bindInput } = props;
@@ -50,6 +51,28 @@ export const FileForm = props => {
 };
 
 FileForm.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+};
+
+export const FieldForm = props => {
+  const { bindInput, fields } = props;
+
+  return (
+    <form>
+      <span {...get('title', fields)} />
+      <input type="text" {...bindInput('title')} />
+      <span {...get('content', fields)} />
+      <input type="text" {...bindInput('content')} />
+      <span {...get('image.alt', fields)} />
+      <input type="text" {...bindInput('image.alt')} />
+      <span {...get('image.caption', fields)} />
+      <input type="text" {...bindInput('image.caption')} />
+    </form>
+  );
+};
+
+FieldForm.propTypes = {
+  fields: PropTypes.object, //eslint-disable-line
   bindInput: PropTypes.func.isRequired,
 };
 

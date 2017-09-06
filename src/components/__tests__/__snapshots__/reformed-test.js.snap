@@ -130,3 +130,73 @@ exports[`reformed HOC renderers form component correctly 1`] = `
   />
 </form>
 `;
+
+exports[`reformed HOC sets meta data about fields 1`] = `
+<form>
+  <span />
+  <input
+    name="title"
+    onChange={[Function]}
+    type="text"
+    value="Olé"
+  />
+  <span />
+  <input
+    name="content"
+    onChange={[Function]}
+    type="text"
+    value="Olé, Olé, Olé"
+  />
+  <span />
+  <input
+    name="image.alt"
+    onChange={[Function]}
+    type="text"
+    value="Alternative image text"
+  />
+  <span />
+  <input
+    name="image.caption"
+    onChange={[Function]}
+    type="text"
+    value=""
+  />
+</form>
+`;
+
+exports[`reformed HOC sets meta data about fields 2`] = `
+<form>
+  <span
+    isDirty={true}
+  />
+  <input
+    name="title"
+    onChange={[Function]}
+    type="text"
+    value="Hombre"
+  />
+  <span />
+  <input
+    name="content"
+    onChange={[Function]}
+    type="text"
+    value="Olé, Olé, Olé"
+  />
+  <span />
+  <input
+    name="image.alt"
+    onChange={[Function]}
+    type="text"
+    value="Alternative image text"
+  />
+  <span
+    isDirty={true}
+  />
+  <input
+    name="image.caption"
+    onChange={[Function]}
+    type="text"
+    value="El grande"
+  />
+</form>
+`;

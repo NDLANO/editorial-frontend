@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`reformed HOC handles onChange event correctly 1`] = `
-<form>
+<form
+  onSubmit={[Function]}
+>
   <input
     name="title"
     onChange={[Function]}
@@ -36,7 +38,9 @@ exports[`reformed HOC handles onChange event correctly 1`] = `
 `;
 
 exports[`reformed HOC handles onChange event on nested property correctly 1`] = `
-<form>
+<form
+  onSubmit={[Function]}
+>
   <input
     name="title"
     onChange={[Function]}
@@ -70,8 +74,50 @@ exports[`reformed HOC handles onChange event on nested property correctly 1`] = 
 </form>
 `;
 
+exports[`reformed HOC handles setModel and setSubmitted 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <span>
+    Submitted!
+  </span>
+  <input
+    name="title"
+    onChange={[Function]}
+    type="text"
+    value=""
+  />
+  <input
+    name="introduction"
+    onChange={[Function]}
+    type="text"
+    value=""
+  />
+  <input
+    name="content"
+    onChange={[Function]}
+    type="text"
+    value=""
+  />
+  <input
+    name="image.alt"
+    onChange={[Function]}
+    type="text"
+    value=""
+  />
+  <input
+    name="image.caption"
+    onChange={[Function]}
+    type="text"
+    value=""
+  />
+</form>
+`;
+
 exports[`reformed HOC renderers form component correctly 1`] = `
-<form>
+<form
+  onSubmit={[Function]}
+>
   <input
     name="title"
     onChange={[Function]}

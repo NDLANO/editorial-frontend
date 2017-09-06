@@ -12,10 +12,24 @@ import renderer from 'react-test-renderer';
 import reformed from '../reformed';
 
 export const Form = props => {
-  const { bindInput } = props;
+  const { bindInput, setModel, submitted, setSubmitted } = props;
+
+  const handleSubmit = () => {
+    setModel({
+      title: '',
+      introduction: '',
+      content: '',
+      image: {
+        caption: '',
+        alt: '',
+      },
+    });
+    setSubmitted(true);
+  };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
+      {submitted && <span>Submitted!</span>}
       <input type="text" {...bindInput('title')} />
       <input type="text" {...bindInput('introduction')} />
       <input type="text" {...bindInput('content')} />
@@ -27,9 +41,15 @@ export const Form = props => {
 
 Form.propTypes = {
   bindInput: PropTypes.func.isRequired,
+  setModel: PropTypes.func.isRequired,
+  submitted: PropTypes.bool.isRequired,
+  setSubmitted: PropTypes.func.isRequired,
 };
-const findInputByName = (tree, name) =>
-  tree.children.find(child => child.props.name === name);
+
+const triggerOnChange = (tree, name, value) => {
+  const input = tree.children.find(child => child.props.name === name);
+  input.props.onChange({ target: { value, name } });
+};
 
 const initialModel = {
   title: 'Olé',
@@ -53,9 +73,8 @@ test('reformed HOC handles onChange event correctly', () => {
   const Reformed = reformed(Form);
   const component = renderer.create(<Reformed initialModel={initialModel} />);
   const tree = component.toJSON();
-  const input = findInputByName(tree, 'title');
 
-  input.props.onChange({ target: { value: 'Hombre', name: input.props.name } });
+  triggerOnChange(tree, 'title', 'Hombre');
 
   expect(component.toJSON()).toMatchSnapshot();
 });
@@ -64,11 +83,18 @@ test('reformed HOC handles onChange event on nested property correctly', () => {
   const Reformed = reformed(Form);
   const component = renderer.create(<Reformed initialModel={initialModel} />);
   const tree = component.toJSON();
-  const input = findInputByName(tree, 'image.caption');
 
-  input.props.onChange({
-    target: { value: 'El Grande', name: input.props.name },
-  });
+  triggerOnChange(tree, 'image.caption', 'El Grande');
+
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('reformed HOC handles setModel and setSubmitted', () => {
+  const Reformed = reformed(Form);
+  const component = renderer.create(<Reformed initialModel={initialModel} />);
+  const tree = component.toJSON();
+
+  tree.props.onSubmit();
 
   expect(component.toJSON()).toMatchSnapshot();
 });

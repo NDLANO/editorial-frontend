@@ -37,7 +37,17 @@ FileForm.propTypes = {
   bindInput: PropTypes.func.isRequired,
 };
 
-test('reformed HOC handles file input correctly', () => {
+test('reformed HOC renders file input correctly', () => {
+  const Reformed = reformed(FileForm);
+
+  const component = renderer.create(
+    <Reformed initialModel={{ file: undefined }} />,
+  );
+
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('reformed HOC handles file input change correctly', () => {
   URL.createObjectURL = file => `blob:${file.name}`; // Mock
   const Reformed = reformed(FileForm);
 
@@ -45,8 +55,6 @@ test('reformed HOC handles file input correctly', () => {
     <Reformed initialModel={{ file: undefined }} />,
   );
   const tree = component.toJSON();
-
-  expect(tree).toMatchSnapshot();
 
   const input = tree.children[0];
   const file = new File(['foo'], 'foo.txt', { type: 'text/plain' });

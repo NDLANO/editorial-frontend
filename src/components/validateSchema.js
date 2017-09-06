@@ -70,7 +70,7 @@ const getValidationErrors = (schema, model, fields, t) =>
         isValid: !errors.length && acc.isValid,
         fields: set(
           key,
-          { isValid: !errors.length, errors, ...field, dirty },
+          { valid: !errors.length, errors, ...field, dirty },
           acc.fields,
         ),
       };

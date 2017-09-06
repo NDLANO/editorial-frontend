@@ -63,7 +63,6 @@ const RichTextEditor = class extends React.Component {
       onChange,
       ...rest
     } = this.props;
-
     return (
       <article>
         <div>

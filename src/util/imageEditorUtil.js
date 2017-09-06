@@ -9,10 +9,8 @@
 export function getElementOffset(el) {
   const rect = el.getBoundingClientRect();
   const docEl = document.documentElement;
-
   const rectTop = rect.top + window.pageYOffset - docEl.clientTop;
   const rectLeft = rect.left + window.pageXOffset - docEl.clientLeft;
-
   return {
     top: rectTop,
     left: rectLeft,

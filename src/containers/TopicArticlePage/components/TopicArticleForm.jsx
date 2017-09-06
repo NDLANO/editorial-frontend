@@ -24,6 +24,7 @@ import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
 
 import TopicArticleMetadata from './TopicArticleMetadata';
 import TopicArticleContent from './TopicArticleContent';
+import { SchemaShape } from '../../../shapes';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -171,10 +172,7 @@ TopicArticleForm.propTypes = {
     id: PropTypes.string,
     title: PropTypes.string,
   }),
-  schema: PropTypes.shape({
-    fields: PropTypes.object.isRequired,
-    isValid: PropTypes.bool.isRequired,
-  }),
+  schema: SchemaShape,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,

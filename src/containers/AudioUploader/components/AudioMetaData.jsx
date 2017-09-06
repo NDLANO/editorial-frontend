@@ -15,6 +15,7 @@ import {
   TextField,
 } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
+import { CommonFieldPropsShape } from '../../../shapes';
 
 class AudioMetaData extends Component {
   constructor(props) {
@@ -85,14 +86,7 @@ class AudioMetaData extends Component {
 AudioMetaData.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   bindInput: PropTypes.func.isRequired,
-  commonFieldProps: PropTypes.shape({
-    schema: PropTypes.shape({
-      fields: PropTypes.object.isRequired,
-      isValid: PropTypes.bool.isRequired,
-    }),
-    submitted: PropTypes.bool.isRequired,
-    bindInput: PropTypes.func.isRequired,
-  }),
+  commonFieldProps: CommonFieldPropsShape.isRequired,
   classes: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({

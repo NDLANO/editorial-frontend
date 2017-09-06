@@ -14,6 +14,7 @@ import { TextField, RichBlockTextField } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 import LearningResourceIngress from './LearningResourceIngress';
 import { learningResourceSchema } from '../../../components/SlateEditor/schema';
+import { CommonFieldPropsShape } from '../../../shapes';
 
 class LearningResourceContent extends Component {
   constructor(props) {
@@ -86,13 +87,7 @@ class LearningResourceContent extends Component {
 }
 
 LearningResourceContent.propTypes = {
-  commonFieldProps: PropTypes.shape({
-    schema: PropTypes.shape({
-      fields: PropTypes.object.isRequired,
-      isValid: PropTypes.bool.isRequired,
-    }),
-    submitted: PropTypes.bool.isRequired,
-  }),
+  commonFieldProps: CommonFieldPropsShape.isRequired,
   classes: PropTypes.func.isRequired,
   bindInput: PropTypes.func.isRequired,
 };

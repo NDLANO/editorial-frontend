@@ -23,6 +23,7 @@ import {
 
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
+import { SchemaShape } from '../../../shapes';
 
 export const getInitialModel = (image = {}) => {
   const authors = parseCopyrightAuthors(image, 'Forfatter');
@@ -144,10 +145,7 @@ ImageForm.propTypes = {
     id: PropTypes.string,
     title: PropTypes.string,
   }),
-  schema: PropTypes.shape({
-    fields: PropTypes.object.isRequired,
-    isValid: PropTypes.bool.isRequired,
-  }),
+  schema: SchemaShape,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

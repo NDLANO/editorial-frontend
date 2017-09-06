@@ -18,6 +18,7 @@ import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import converter from '../../../util/articleContentConverter';
 import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
+import { SchemaShape } from '../../../shapes';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
@@ -199,10 +200,7 @@ LearningResourceForm.propTypes = {
     id: PropTypes.string,
     title: PropTypes.string,
   }),
-  schema: PropTypes.shape({
-    fields: PropTypes.object.isRequired,
-    isValid: PropTypes.bool.isRequired,
-  }),
+  schema: SchemaShape,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

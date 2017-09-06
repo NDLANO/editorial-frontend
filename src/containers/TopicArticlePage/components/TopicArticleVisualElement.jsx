@@ -13,6 +13,7 @@ import { injectT } from 'ndla-i18n';
 import { TextField, classes } from '../../../components/Fields';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 import VisualElementMenu from '../../VisualElement/VisualElementMenu';
+import { CommonFieldPropsShape } from '../../../shapes';
 
 class TopicArticleVisualElement extends Component {
   constructor(props) {
@@ -95,14 +96,7 @@ class TopicArticleVisualElement extends Component {
 
 TopicArticleVisualElement.propTypes = {
   bindInput: PropTypes.func.isRequired,
-  commonFieldProps: PropTypes.shape({
-    schema: PropTypes.shape({
-      fields: PropTypes.object.isRequired,
-      isValid: PropTypes.bool.isRequired,
-    }),
-    submitted: PropTypes.bool.isRequired,
-    bindInput: PropTypes.func.isRequired,
-  }),
+  commonFieldProps: CommonFieldPropsShape.isRequired,
   visualElement: PropTypes.shape({
     caption: PropTypes.string,
     alt: PropTypes.string,

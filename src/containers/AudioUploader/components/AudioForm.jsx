@@ -20,6 +20,7 @@ import {
   DEFAULT_LICENSE,
   parseCopyrightAuthors,
 } from '../../../util/formHelper';
+import { SchemaShape } from '../../../shapes';
 
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
@@ -143,10 +144,7 @@ AudioForm.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
   }),
-  schema: PropTypes.shape({
-    fields: PropTypes.object.isRequired,
-    isValid: PropTypes.bool.isRequired,
-  }),
+  schema: SchemaShape,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

@@ -9,11 +9,17 @@
 const basicAuth = require('express-basic-auth');
 
 export default function enableBasicAuth(app) {
-  app.use(
-    basicAuth({
-      users: { admin: '!NDLA' },
-      challenge: true,
-      realm: 'editorial-frontend.test',
-    }),
-  );
+  app.use((req, res, next) => {
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    // Always allow Knowit IP
+    if (ip !== '213.236.148.83') {
+      basicAuth({
+        users: { admin: '!NDLA' },
+        challenge: true,
+        realm: 'editorial-frontend.test',
+      })(req, res, next);
+    } else {
+      next();
+    }
+  });
 }

@@ -69,7 +69,7 @@ const RichTextEditor = class extends React.Component {
         <div>
           <SlateToolbar state={value} onChange={onChange} name={name} />
           <Editor
-            {...classes(undefined, className)}
+            {...classes(undefined, undefined, className)}
             state={value}
             schema={schema}
             onKeyDown={this.onKeyDown}

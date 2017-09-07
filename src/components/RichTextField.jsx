@@ -19,11 +19,12 @@ export const RichTextField = ({
   submitted,
   schema,
   slateSchema,
+  fieldClassName,
   ...rest
 }) => {
   const { value, onChange } = bindInput(name);
   return (
-    <Field noBorder={noBorder}>
+    <Field noBorder={noBorder} className={fieldClassName}>
       {!noBorder
         ? <label htmlFor={name}>
             {label}
@@ -57,6 +58,7 @@ RichTextField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  fieldClassName: PropTypes.string,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),

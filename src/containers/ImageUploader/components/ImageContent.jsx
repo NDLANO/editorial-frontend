@@ -38,7 +38,7 @@ class ImageContent extends Component {
         <TextField
           label={t('imageForm.fields.title.label')}
           name="title"
-          bigText
+          title
           noBorder
           maxLength={300}
           placeholder={t('imageForm.fields.title.label')}

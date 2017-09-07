@@ -14,6 +14,7 @@ import {
   TextField,
   PlainTextField,
   RemainingCharacters,
+  classes as fieldClasses,
 } from '../../../components/Fields';
 import { RichTextField } from '../../../components/RichTextField';
 import Accordion from '../../../components/Accordion';
@@ -55,7 +56,6 @@ class TopicArticleContent extends Component {
         <TextField
           label={t('topicArticleForm.fields.title.label')}
           name="title"
-          bigText
           title
           noBorder
           placeholder={t('topicArticleForm.fields.title.label')}
@@ -78,8 +78,9 @@ class TopicArticleContent extends Component {
           label={t('topicArticleForm.fields.introduction.label')}
           placeholder={t('topicArticleForm.fields.introduction.label')}
           name="introduction"
+          className="article_introduction"
+          fieldClassName={fieldClasses(undefined, 'introduction').className}
           noBorder
-          bigText
           maxLength={300}
           {...commonFieldProps}>
           <RemainingCharacters

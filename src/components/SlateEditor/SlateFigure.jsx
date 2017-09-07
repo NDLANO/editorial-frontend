@@ -54,6 +54,7 @@ class SlateFigure extends React.Component {
   }
 
   render() {
+    console.log(this.props.editor.props.showErrors);
     const figureClass = classes('figure', this.isSelected() ? 'active' : '');
 
     const embed = getSchemaEmbed(this.props.node);
@@ -115,6 +116,9 @@ SlateFigure.propTypes = {
   }),
   editor: PropTypes.shape({
     getState: PropTypes.func.isRequired,
+    props: PropTypes.shape({
+      showErrors: PropTypes.bool.isRequired,
+    }),
   }),
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,

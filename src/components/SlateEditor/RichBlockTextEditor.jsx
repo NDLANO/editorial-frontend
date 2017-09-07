@@ -23,15 +23,19 @@ class RichBlockTextEditor extends Component {
   constructor(props) {
     super(props);
     this.onContentChange = this.onContentChange.bind(this);
+    this.onContentFocus = this.onContentFocus.bind(this);
+    this.onContentBlur = this.onContentBlur.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.setFocus = this.setFocus.bind(this);
     this.state = {
-      activeEditor: 0,
+      activeEditor: { index: -1, hasFocus: false },
     };
   }
 
-  onContentChange(e, index) {
+  onChange(newState, index) {
     const { name, onChange, value } = this.props;
     const newValue = [].concat(value);
-    newValue[index] = { state: e.target.value, index };
+    newValue[index] = { state: newState, index };
     const changedState = {
       target: {
         value: newValue,
@@ -40,10 +44,33 @@ class RichBlockTextEditor extends Component {
       },
     };
     this.setState({
-      activeEditor: index,
+      activeEditor: { index, hasFocus: true },
     });
 
     onChange(changedState);
+  }
+
+  onContentChange(e, index) {
+    this.onChange(e.target.value, index);
+  }
+
+  onContentFocus(index, state) {
+    this.onChange(
+      state.transform().collapseToEndOf(state.endBlock).focus().apply(),
+      index,
+    );
+    this.setFocus(index);
+  }
+  onContentBlur(index, state) {
+    this.onChange(state.transform().blur().apply(), index);
+    this.setState({
+      activeEditor: { index, hasFocus: false },
+    });
+  }
+  setFocus(index) {
+    this.setState({
+      activeEditor: { index, hasFocus: true },
+    });
   }
 
   render() {
@@ -58,14 +85,17 @@ class RichBlockTextEditor extends Component {
       ingressRef,
       ...rest
     } = this.props;
+
     return (
       <article>
         {value.map((val, index) =>
           <div
             key={`editor_${index}`} //eslint-disable-line
             {...classes('container', className)}
-            onClick={this.focus}
-            tabIndex={index}>
+            onClick={this.onClig}
+            tabIndex={index}
+            onFocus={() => this.onContentFocus(index, val.state)}
+            onBlur={() => this.onContentBlur(index, val.state)}>
             <RichTextEditor
               name={name}
               schema={schema}
@@ -82,6 +112,7 @@ class RichBlockTextEditor extends Component {
               index={index}
               ingress={ingress}
               ingressRef={ingressRef}
+              setFocus={this.setFocus}
             />
             {children}
           </div>,

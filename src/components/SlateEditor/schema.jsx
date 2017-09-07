@@ -134,6 +134,15 @@ const defaultSchema = {
         {props.children}
       </blockquote>,
     'embed-inline': SlateLink,
+    link: props => {
+      const { data } = props.node;
+      const href = data.get('href');
+      return (
+        <a href={href} {...props.attributes}>
+          {props.children}
+        </a>
+      );
+    },
     div: props =>
       <div {...props.attributes}>
         {props.children}

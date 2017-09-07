@@ -4,7 +4,7 @@
 
   &__right-aside,
   &__fact-aside,
-  &__text-aside, {
+  &__text-aside {
     & h1,
     & h2,
     & h3 {
@@ -30,6 +30,10 @@
     &:focus {
       color: color(red blackness(+ 20%));
     }
+  }
+
+  &__block-type-container--hidden {
+    display: none;
   }
 
   &__block-type-button {

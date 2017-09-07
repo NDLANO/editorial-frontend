@@ -56,6 +56,7 @@ const RULES = [
       return {
         kind: 'block',
         type: 'emptyTextNode',
+        nodes: [],
       };
     },
     serialize(object) {
@@ -250,14 +251,15 @@ const RULES = [
       return {
         kind: 'inline',
         type: 'link',
+        data: { href: el.href ? el.href : '#' },
         nodes: next(el.childNodes),
       };
     },
     serialize(object, children) {
-      if (object.kind !== 'a') return;
+      if (object.kind !== 'inline') return;
       const href = object.data.href;
       switch (object.type) {
-        case 'a':
+        case 'link':
           return (
             <a href={href}>
               {children}

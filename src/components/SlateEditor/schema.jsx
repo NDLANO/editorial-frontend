@@ -43,12 +43,6 @@ const topicArticleItems = {
   },
 };
 
-const learningResourceItems = {
-  nodes: {
-    embed: SlateFigure,
-  },
-};
-
 const defaultSchema = {
   nodes: {
     section: props =>
@@ -213,7 +207,4 @@ const defaultSchema = {
 };
 
 export const topicArticleSchema = merge(topicArticleItems, defaultSchema);
-export const learningResourceSchema = merge(
-  learningResourceItems,
-  defaultSchema,
-);
+export const learningResourceSchema = merge(defaultSchema);

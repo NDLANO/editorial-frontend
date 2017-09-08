@@ -80,7 +80,13 @@ function convertSlateEditorStatetoHTML(contentState, isBlocks = false) {
   }
   serializer = new Html({ rules: learningResourceRules });
   const html = [];
-  contentState.map(section => html.push(serializer.serialize(section.state)));
+  contentState.map(section =>
+    html.push(
+      serializer
+        .serialize(section.state)
+        .replace(/<deleteme><\/deleteme>/g, ''),
+    ),
+  );
   return html.join('');
 }
 

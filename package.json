@@ -19,13 +19,11 @@
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": [
-      "./src/__tests__/_initTestEnv.js"
-    ]
+    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
   },
   "engines": {
-    "node": "~6.6.0",
-    "npm": "~3.10.3"
+    "node": ">=8.1.4 < 9.0.0",
+    "npm": ">=5.0.0 < 6.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

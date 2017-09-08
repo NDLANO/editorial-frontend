@@ -57,12 +57,13 @@ const RULES = [
       return {
         kind: 'block',
         type: 'emptyTextNode',
+        nodes: [],
       };
     },
     serialize(object) {
       if (object.kind !== 'block') return;
       if (object.type !== 'emptyTextNode') return;
-      return <span />;
+      return <deleteme />;
     },
   },
   {
@@ -259,18 +260,51 @@ const RULES = [
         return {
           kind: 'inline',
           type: 'footnote',
-          nodes: next(el.childNodes),
+          nodes: [
+            {
+              kind: 'text',
+              text: `[${sup.innerHTML}]`, // Needs [] to expand clickable area
+              isVoid: true,
+            },
+          ],
           data: {
-            href: el.attributes.getNamedItem('href').value,
-            name: el.attributes.getNamedItem('name').value,
+            href: el.attributes.getNamedItem('href'),
+            name: el.attributes.getNamedItem('name'),
           },
         };
       }
       return {
         kind: 'inline',
         type: 'link',
+        data: { href: el.href ? el.href : '#' },
         nodes: next(el.childNodes),
       };
+    },
+  },
+
+  {
+    serialize(object, children) {
+      if (object.kind !== 'inline') return;
+      const href = object.data.get('href').value;
+      const name = object.data.get('name').value;
+      switch (object.type) {
+        case 'link': {
+          return (
+            <a href={href}>
+              {children}
+            </a>
+          );
+        }
+        case 'footnote': {
+          return (
+            <a href={href} name={name}>
+              <sup>
+                {name.replace(/\D/g, '')}
+              </sup>
+            </a>
+          );
+        }
+      }
     },
   },
 

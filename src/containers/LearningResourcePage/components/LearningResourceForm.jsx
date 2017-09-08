@@ -103,6 +103,7 @@ class LearningResourceForm extends Component {
     }));
     const content = {
       content: converter.slateToHtml(model.content, true),
+      footNotes: model.footNotes,
       language,
     };
     this.props.onUpdate({

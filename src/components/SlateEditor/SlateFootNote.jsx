@@ -13,8 +13,8 @@ const SlateFootNote = props => {
   const { attributes } = props;
   const { data } = props.node;
 
-  const href = data.get('href');
-  const name = data.get('name');
+  const href = data.get('href') ? data.get('href').value : null;
+  const name = data.get('name') ? data.get('name').value : null;
 
   return (
     <a href={href} name={name} {...attributes}>

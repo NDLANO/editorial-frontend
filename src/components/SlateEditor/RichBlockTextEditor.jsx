@@ -101,6 +101,7 @@ RichBlockTextEditor.propTypes = {
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
+  submitted: PropTypes.bool.isRequired,
   ingress: PropTypes.shape({
     name: PropTypes.string.isRequired,
     value: PropTypes.object,

@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
+import { injectT } from 'ndla-i18n';
 import { isEmpty } from '../validators';
 import { Field, FocusLabel, FieldHelp } from '../Fields';
 
@@ -61,9 +62,10 @@ class SlateInputField extends React.Component {
 
   render() {
     const {
+      t,
       label,
       required,
-      showErrors,
+      submitted,
       name,
       value,
       deletedOnSave,
@@ -91,8 +93,10 @@ class SlateInputField extends React.Component {
         />
         {isEmpty(value) &&
           required &&
-          showErrors &&
-          <FieldHelp error>test</FieldHelp>}
+          submitted &&
+          <FieldHelp error>
+            {t('validation.isRequired', { label })}
+          </FieldHelp>}
       </Field>
     );
   }
@@ -106,10 +110,7 @@ SlateInputField.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   required: PropTypes.bool.isRequired,
-  showErrors: PropTypes.bool,
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
+  submitted: PropTypes.bool.isRequired,
 };
 
 SlateInputField.defaultProps = {
@@ -118,4 +119,4 @@ SlateInputField.defaultProps = {
   deletedOnSave: false,
 };
 
-export default SlateInputField;
+export default injectT(SlateInputField);

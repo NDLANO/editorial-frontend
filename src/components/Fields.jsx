@@ -420,6 +420,7 @@ export const RichBlockTextField = ({
         value={value}
         onChange={onChange}
         schema={slateSchema}
+        submitted={submitted}
         {...rest}
       />
       <FieldErrorMessages

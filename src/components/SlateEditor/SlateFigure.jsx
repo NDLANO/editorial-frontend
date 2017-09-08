@@ -54,34 +54,32 @@ class SlateFigure extends React.Component {
   }
 
   render() {
-    console.log(this.props.editor.props.showErrors);
     const figureClass = classes('figure', this.isSelected() ? 'active' : '');
+    const {
+      node,
+      deletedOnSave,
+      attributes,
+      editor: { props: { submitted } },
+    } = this.props;
 
-    const embed = getSchemaEmbed(this.props.node);
+    const embed = getSchemaEmbed(node);
+
+    const props = {
+      embed,
+      onFigureInputChange: this.onFigureInputChange,
+      figureClass,
+      attributes,
+      deletedOnSave,
+      submitted,
+    };
 
     switch (embed.resource) {
       case 'image':
-        return (
-          <SlateImage
-            embed={embed}
-            onFigureInputChange={this.onFigureInputChange}
-            figureClass={figureClass}
-            {...this.props}
-          />
-        );
+        return <SlateImage {...props} />;
       case 'brightcove':
-        return (
-          <SlateVideo
-            embed={embed}
-            figureClass={figureClass}
-            onFigureInputChange={this.onFigureInputChange}
-            {...this.props}
-          />
-        );
+        return <SlateVideo {...props} />;
       case 'audio':
-        return (
-          <SlateAudio embed={embed} figureClass={figureClass} {...this.props} />
-        );
+        return <SlateAudio {...props} />;
       case 'h5p':
         return <DisplayOembed url={embed.url} />;
       default:
@@ -117,7 +115,7 @@ SlateFigure.propTypes = {
   editor: PropTypes.shape({
     getState: PropTypes.func.isRequired,
     props: PropTypes.shape({
-      showErrors: PropTypes.bool.isRequired,
+      submitted: PropTypes.bool.isRequired,
     }),
   }),
   attributes: PropTypes.shape({

@@ -74,7 +74,6 @@ const RichTextEditor = class extends React.Component {
             schema={schema}
             onKeyDown={this.onKeyDown}
             onChange={state => onChange({ target: { name, value: state } })}
-            showErrors
             {...rest}
           />
           {children}
@@ -88,6 +87,7 @@ RichTextEditor.propTypes = {
   schema: PropTypes.shape({}),
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  submitted: PropTypes.bool.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,

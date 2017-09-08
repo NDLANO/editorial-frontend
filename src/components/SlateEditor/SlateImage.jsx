@@ -57,6 +57,7 @@ class SlateImage extends React.Component {
       attributes,
       onFigureInputChange,
       deletedOnSave,
+      submitted,
       t,
     } = this.props;
     const src = `${window.config
@@ -86,20 +87,22 @@ class SlateImage extends React.Component {
           type="text"
           value={embed.caption}
           required
-          showErrors
           onChange={onFigureInputChange}
           placeholder={t(
             'learningResourceForm.fields.content.figure.caption.image',
           )}
+          submitted={submitted}
           deletedOnSave={deletedOnSave}
         />
         <SlateInputField
           name="alt"
           label={t('learningResourceForm.fields.content.figure.alt')}
           type="text"
+          required
           value={embed.alt}
           onChange={onFigureInputChange}
           placeholder={t('learningResourceForm.fields.content.figure.alt')}
+          submitted={submitted}
           deletedOnSave={deletedOnSave}
         />
       </div>
@@ -115,6 +118,7 @@ SlateImage.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   deletedOnSave: PropTypes.bool,
+  submitted: PropTypes.bool.isRequired,
 };
 
 export default injectT(SlateImage);

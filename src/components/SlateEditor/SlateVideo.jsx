@@ -20,6 +20,7 @@ const SlateVideo = ({
   onFigureInputChange,
   attributes,
   deletedOnSave,
+  submitted,
   t,
 }) => {
   const src = `//players.brightcove.net/${window.config
@@ -53,6 +54,7 @@ const SlateVideo = ({
         )}
         type="text"
         value={embed.caption}
+        submitted={submitted}
         onChange={onFigureInputChange}
         placeholder={t(
           'learningResourceForm.fields.content.figure.caption.brightcove',
@@ -71,6 +73,7 @@ SlateVideo.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   deletedOnSave: PropTypes.bool,
+  submitted: PropTypes.bool.isRequired,
 };
 
 export default injectT(SlateVideo);

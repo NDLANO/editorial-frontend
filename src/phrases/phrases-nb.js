@@ -254,6 +254,10 @@ const phrases = {
       create: 'Du oppretter nå en læringsressurs',
       update: 'Du redigerer nå en læringsressurs',
     },
+    validation: {
+      missingEmbedData:
+        'En eller flere inkluderte lyd, bilde, eller video elementer mangler beskrivende tekst eller alternativ tekst.',
+    },
     fields: {
       title: {
         label: 'Tittel',

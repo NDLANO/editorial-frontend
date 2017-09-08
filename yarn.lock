@@ -6303,8 +6303,8 @@ slash@^1.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
 
 slate@^0.21.3:
-  version "0.21.3"
-  resolved "https://registry.yarnpkg.com/slate/-/slate-0.21.3.tgz#6818d2871e8bf4421a286c54efecae1beacec288"
+  version "0.21.6"
+  resolved "https://registry.yarnpkg.com/slate/-/slate-0.21.6.tgz#62a7b2f1d7c560ad7eb7f3ff17c77ff905cfae94"
   dependencies:
     debug "^2.3.2"
     direction "^0.1.5"

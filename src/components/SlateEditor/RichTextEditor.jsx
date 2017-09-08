@@ -63,11 +63,9 @@ const RichTextEditor = class extends React.Component {
       onChange,
       ...rest
     } = this.props;
-
     return (
       <article>
         <div>
-          <SlateToolbar state={value} onChange={onChange} name={name} />
           <Editor
             {...classes(undefined, className)}
             state={value}
@@ -78,6 +76,7 @@ const RichTextEditor = class extends React.Component {
           />
           {children}
         </div>
+        <SlateToolbar state={value} onChange={onChange} name={name} />
       </article>
     );
   }

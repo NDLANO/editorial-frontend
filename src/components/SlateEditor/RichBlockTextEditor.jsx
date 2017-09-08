@@ -23,15 +23,13 @@ class RichBlockTextEditor extends Component {
   constructor(props) {
     super(props);
     this.onContentChange = this.onContentChange.bind(this);
-    this.state = {
-      activeEditor: 0,
-    };
+    this.onChange = this.onChange.bind(this);
   }
 
-  onContentChange(e, index) {
+  onChange(newState, index) {
     const { name, onChange, value } = this.props;
     const newValue = [].concat(value);
-    newValue[index] = { state: e.target.value, index };
+    newValue[index] = { state: newState, index };
     const changedState = {
       target: {
         value: newValue,
@@ -39,11 +37,12 @@ class RichBlockTextEditor extends Component {
         type: 'SlateEditorState',
       },
     };
-    this.setState({
-      activeEditor: index,
-    });
 
     onChange(changedState);
+  }
+
+  onContentChange(e, index) {
+    this.onChange(e.target.value, index);
   }
 
   render() {
@@ -58,13 +57,13 @@ class RichBlockTextEditor extends Component {
       ingressRef,
       ...rest
     } = this.props;
+
     return (
       <article>
         {value.map((val, index) =>
           <div
             key={`editor_${index}`} //eslint-disable-line
-            {...classes('container', className)}
-            onClick={this.focus}
+            {...classes('container', 'no-padding')}
             tabIndex={index}>
             <RichTextEditor
               name={name}
@@ -77,12 +76,13 @@ class RichBlockTextEditor extends Component {
               name={name}
               onChange={onChange}
               blocks={value}
-              state={val}
-              activeEditor={this.state.activeEditor}
+              editorState={val}
               index={index}
               ingress={ingress}
               ingressRef={ingressRef}
+              setFocus={this.setFocus}
             />
+
             {children}
           </div>,
         )}

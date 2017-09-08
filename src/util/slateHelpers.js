@@ -310,10 +310,10 @@ const RULES = [
 
   {
     serialize(object, children) {
-      if (object.kind !== 'a') return;
+      if (object.kind !== 'inline') return;
       const href = object.data.href;
       switch (object.type) {
-        case 'a':
+        case 'link':
           return (
             <a href={href}>
               {children}

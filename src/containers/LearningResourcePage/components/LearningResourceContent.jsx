@@ -49,6 +49,17 @@ class LearningResourceContent extends Component {
           ? ingressBindInput.value
           : undefined,
     };
+    const contentPlaceholder = (
+      <span
+        style={{
+          position: 'absolute',
+          left: '9em',
+          top: '4em',
+          opacity: '0.333',
+        }}>
+        {t('learningResourceForm.fields.content.placeholder')}
+      </span>
+    );
     return (
       <Accordion
         handleToggle={this.toggleContent}
@@ -74,7 +85,7 @@ class LearningResourceContent extends Component {
         <RichBlockTextField
           slateSchema={learningResourceSchema}
           label={t('learningResourceForm.fields.content.label')}
-          placeholder={t('learningResourceForm.fields.content.placeholder')}
+          placeholder={contentPlaceholder}
           name="content"
           ingress={ingress}
           ingressRef={this.ingressRef}

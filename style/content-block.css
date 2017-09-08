@@ -1,6 +1,7 @@
 
 .c-editor {
   position: relative;
+  padding: 3rem 9rem;
 
   &__right-aside,
   &__fact-aside,

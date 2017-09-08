@@ -56,7 +56,7 @@ class SlateBlockPicker extends Component {
     this.onEmbedClose = this.onEmbedClose.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.activeEditor.hasFocus && this.state.isOpen) {
+    if (!nextProps.editorState.state.isFocused && this.state.isOpen) {
       this.setState({ isOpen: false });
     }
   }
@@ -76,7 +76,7 @@ class SlateBlockPicker extends Component {
   }
 
   onElementAdd(type) {
-    const { blocks, ingress, ingressRef, state } = this.props;
+    const { blocks, ingress, ingressRef, editorState } = this.props;
     switch (type.type) {
       case 'block': {
         const newblocks = [].concat(blocks);
@@ -91,14 +91,14 @@ class SlateBlockPicker extends Component {
       }
       case 'aside': {
         const newblocks = [].concat(blocks);
-        const currentState = blocks[state.index];
+        const currentState = blocks[editorState.index];
         const nextState = currentState.state
           .transform()
           .insertBlock(defaultAsideBlock(type.kind))
           .apply();
 
-        newblocks[state.index] = {
-          ...newblocks[state.index],
+        newblocks[editorState.index] = {
+          ...newblocks[editorState.index],
           state: nextState,
         };
 
@@ -117,21 +117,19 @@ class SlateBlockPicker extends Component {
 
   toggleIsOpen(evt) {
     evt.preventDefault();
-    const { setFocus, activeEditor } = this.props;
-    setFocus(activeEditor.index);
     this.setState(prevState => ({ isOpen: !prevState.isOpen }));
   }
 
   update() {
     if (!this.menuEl) return;
-    const { state } = this.props;
+    const { editorState } = this.props;
     const menuEl = this.menuEl;
     const bodyRect = document.body.getBoundingClientRect();
-    const node = state.state.document.getClosestBlock(
-      state.state.selection.startKey,
+    const node = editorState.state.document.getClosestBlock(
+      editorState.state.selection.startKey,
     );
+
     menuEl.style.position = 'absolute';
-    menuEl.style.zIndex = '1000';
     const nodeEl = findDOMNode(node); // eslint-disable-line
     const rect = nodeEl.getBoundingClientRect();
     menuEl.style.top = `${rect.top - bodyRect.top - 5}px`;
@@ -139,12 +137,12 @@ class SlateBlockPicker extends Component {
   }
 
   focusInsideAside() {
-    const { state } = this.props;
-    let node = state.state.document.getClosestBlock(
-      state.state.selection.startKey,
+    const { editorState } = this.props;
+    let node = editorState.state.document.getClosestBlock(
+      editorState.state.selection.startKey,
     );
     while (true) {
-      const parent = state.state.document.getParent(node.key);
+      const parent = editorState.state.document.getParent(node.key);
       if (
         parent.get('type') === 'section' ||
         parent.get('type') === 'document' ||
@@ -158,16 +156,15 @@ class SlateBlockPicker extends Component {
   }
 
   showPicker() {
-    const { state, activeEditor } = this.props;
-    const node = state.state.document.getClosestBlock(
-      state.state.selection.startKey,
+    const { editorState } = this.props;
+    const node = editorState.state.document.getClosestBlock(
+      editorState.state.selection.startKey,
     );
     const show =
       node.text.length === 0 &&
       !this.focusInsideAside() &&
       allowedPickAreas.includes(node.type) &&
-      state.index === activeEditor.index &&
-      activeEditor.hasFocus;
+      editorState.state.isFocused;
     if (show) {
       this.update();
     }
@@ -175,13 +172,13 @@ class SlateBlockPicker extends Component {
   }
 
   render() {
-    const { ingress, state, blocks } = this.props;
+    const { ingress, editorState, blocks } = this.props;
     const typeClassName = this.state.isOpen ? '' : 'hidden';
     return (
       <div>
         {this.state.embedSelect.isOpen
           ? <SlateEmbedPicker
-              state={state}
+              state={editorState}
               blocks={blocks}
               resource={this.state.embedSelect.embedType}
               isOpen={this.state.embedSelect.isOpen}
@@ -208,55 +205,56 @@ class SlateBlockPicker extends Component {
               ? <Button
                   stripped
                   {...classes('block-type-button')}
-                  onClick={() => this.onElementAdd({ type: 'ingress' })}>
+                  onMouseDown={() => this.onElementAdd({ type: 'ingress' })}>
                   <Ingress />
                 </Button>
               : ''}
             <Button
               stripped
               {...classes('block-type-button')}
-              onClick={() => this.onElementAdd({ type: 'block' })}>
+              onMouseDown={() => this.onElementAdd({ type: 'block' })}>
               <Paragraph />
             </Button>
             <Button
               stripped
               {...classes('block-type-button')}
-              onClick={() =>
+              onMouseDown={() =>
                 this.onElementAdd({ type: 'aside', kind: 'factAside' })}>
               <FactBox />
             </Button>
             <Button
               stripped
               {...classes('block-type-button')}
-              onClick={() =>
+              onMouseDown={() =>
                 this.onElementAdd({ type: 'aside', kind: 'textAside' })}>
               <TextInBox />
             </Button>
             <Button
               stripped
               {...classes('block-type-button')}
-              onClick={() =>
+              onMouseDown={() =>
                 this.onElementAdd({ type: 'embed', kind: 'image' })}>
               <Camera />
             </Button>
             <Button
               stripped
               {...classes('block-type-button')}
-              onClick={() =>
+              onMouseDown={() =>
                 this.onElementAdd({ type: 'embed', kind: 'brightcove' })}>
               <Video />
             </Button>
             <Button
               stripped
               {...classes('block-type-button')}
-              onClick={() =>
+              onMouseDown={() =>
                 this.onElementAdd({ type: 'embed', kind: 'audio' })}>
               <Audio />
             </Button>
             <Button
               stripped
               {...classes('block-type-button')}
-              onClick={() => this.onElementAdd({ type: 'embed', kind: 'h5p' })}>
+              onMouseDown={() =>
+                this.onElementAdd({ type: 'embed', kind: 'h5p' })}>
               <H5P />
             </Button>
           </div>
@@ -269,10 +267,6 @@ class SlateBlockPicker extends Component {
 SlateBlockPicker.propTypes = {
   blocks: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
-  activeEditor: PropTypes.shape({
-    index: PropTypes.number.isRequired,
-    hasFocus: PropTypes.bool.isRequired,
-  }),
   ingress: PropTypes.shape({
     name: PropTypes.string.isRequired,
     value: PropTypes.object,
@@ -280,11 +274,10 @@ SlateBlockPicker.propTypes = {
   ingressRef: PropTypes.shape({
     scrollIntoView: PropTypes.func.isRequired,
   }),
-  state: PropTypes.shape({
+  editorState: PropTypes.shape({
     index: PropTypes.number.isRequired,
     state: PropTypes.object.isRequired,
   }),
-  setFocus: PropTypes.func.isRequired,
 };
 
 export default SlateBlockPicker;

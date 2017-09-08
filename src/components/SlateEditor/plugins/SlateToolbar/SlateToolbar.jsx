@@ -64,9 +64,9 @@ class SlateToolbar extends Component {
     e.preventDefault();
     const { state } = this.props;
     const nextState = state.transform().toggleMark(type).apply();
-
     this.handleStateChange(nextState);
   }
+
   onCloseContentlinkDialog() {
     this.setState({ showContentlinkDialog: false });
   }
@@ -138,6 +138,7 @@ class SlateToolbar extends Component {
   handleStateChange(state) {
     const { name, onChange } = this.props;
     onChange({ target: { name, value: state } });
+    this.updateMenu();
   }
 
   hasMark(type) {
@@ -163,15 +164,16 @@ class SlateToolbar extends Component {
       menu.removeAttribute('style');
       return;
     }
+    menu.style.display = 'block';
     const selection = window.getSelection();
     const range = selection.getRangeAt(0);
     const rect = range.getBoundingClientRect();
+
     menu.style.opacity = 1;
+    const left =
+      rect.left + window.scrollX - menu.offsetWidth / 2 + rect.width / 2;
     menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight}px`;
-    menu.style.left = `${rect.left +
-      window.scrollX -
-      menu.offsetWidth / 2 +
-      rect.width / 2}px`;
+    menu.style.left = `${left}px`;
   }
 
   render() {

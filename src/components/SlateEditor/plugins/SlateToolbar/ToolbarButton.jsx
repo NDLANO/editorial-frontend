@@ -44,7 +44,7 @@ const ToolbarButton = ({ type, handleHasType, handleOnClick }) => {
 
   return (
     <Button stripped onMouseDown={onMouseDown} data-active={isActive}>
-      <span {...toolbarClasses('icon')}>
+      <span {...toolbarClasses('icon', isActive ? 'active' : '')}>
         {toolbarIcon[type]}
       </span>
     </Button>

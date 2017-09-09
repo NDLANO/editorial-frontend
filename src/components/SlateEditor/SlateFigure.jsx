@@ -46,7 +46,7 @@ class SlateFigure extends React.Component {
   onSubmittedChange() {
     const { editor: { props: { slateStore } } } = this.props;
     this.setState({
-      submitted: slateStore.getState(),
+      submitted: slateStore.getState().submitted,
     });
   }
 

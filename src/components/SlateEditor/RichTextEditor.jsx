@@ -24,6 +24,10 @@ const classes = new BEMHelper({
 const RichTextEditor = class extends React.Component {
   constructor(props) {
     super(props);
+    // Need to use a observer pattern to notify slate nodes of
+    // changes to editor props. Instead of implementing our own
+    // observer we use a Redux store.
+    // See: https://github.com/ianstormtaylor/slate/issues/763
     const slateStore = createSlateStore();
     this.state = {
       slateStore,
@@ -34,8 +38,11 @@ const RichTextEditor = class extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { slateStore } = this.state;
-    if (nextProps.submitted !== slateStore.getState()) {
-      slateStore.dispatch({ type: 'update' });
+    if (nextProps.submitted !== slateStore.getState().submitted) {
+      slateStore.dispatch({
+        type: 'SET_SUBMITTED',
+        payload: nextProps.submitted,
+      });
     }
   }
 

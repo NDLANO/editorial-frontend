@@ -9,9 +9,12 @@
 import { createStore } from 'redux';
 
 export default () =>
-  createStore((state, action) => {
-    if (action.type === 'update') {
-      return !state;
-    }
-    return state;
-  }, false);
+  createStore(
+    (state, action) => {
+      if (action.type === 'SET_SUBMITTED') {
+        return { ...state, submitted: action.payload };
+      }
+      return state;
+    },
+    { submitted: false },
+  );

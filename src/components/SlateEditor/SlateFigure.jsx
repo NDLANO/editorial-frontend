@@ -24,10 +24,30 @@ const classes = new BEMHelper({
 });
 
 class SlateFigure extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
+    this.state = {
+      submitted: props.editor.props.submitted,
+    };
     this.isSelected = this.isSelected.bind(this);
     this.onFigureInputChange = this.onFigureInputChange.bind(this);
+    this.onSubmittedChange = this.onSubmittedChange.bind(this);
+  }
+
+  componentWillMount() {
+    const { editor: { props: { slateStore } } } = this.props;
+    this.unsubscribe = slateStore.subscribe(this.onSubmittedChange);
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  onSubmittedChange() {
+    const { editor: { props: { slateStore } } } = this.props;
+    this.setState({
+      submitted: slateStore.getState(),
+    });
   }
 
   onFigureInputChange(e) {
@@ -55,12 +75,7 @@ class SlateFigure extends React.Component {
 
   render() {
     const figureClass = classes('figure', this.isSelected() ? 'active' : '');
-    const {
-      node,
-      deletedOnSave,
-      attributes,
-      editor: { props: { submitted } },
-    } = this.props;
+    const { node, deletedOnSave, attributes } = this.props;
 
     const embed = getSchemaEmbed(node);
 
@@ -70,7 +85,7 @@ class SlateFigure extends React.Component {
       figureClass,
       attributes,
       deletedOnSave,
-      submitted,
+      submitted: this.state.submitted,
     };
 
     switch (embed.resource) {
@@ -116,6 +131,10 @@ SlateFigure.propTypes = {
     getState: PropTypes.func.isRequired,
     props: PropTypes.shape({
       submitted: PropTypes.bool.isRequired,
+      slateStore: PropTypes.shape({
+        getState: PropTypes.func.isRequired,
+        subscribe: PropTypes.func.isRequired,
+      }),
     }),
   }),
   attributes: PropTypes.shape({

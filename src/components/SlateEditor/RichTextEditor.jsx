@@ -12,6 +12,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate';
 import BEMHelper from 'react-bem-helper';
+import createSlateStore from './createSlateStore';
 import SlateToolbar from './plugins/SlateToolbar/SlateToolbar';
 import createEmbedPlugin from './embedPlugin';
 
@@ -23,8 +24,19 @@ const classes = new BEMHelper({
 const RichTextEditor = class extends React.Component {
   constructor(props) {
     super(props);
+    const slateStore = createSlateStore();
+    this.state = {
+      slateStore,
+    };
     this.toggleMark = this.toggleMark.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { slateStore } = this.state;
+    if (nextProps.submitted !== slateStore.getState()) {
+      slateStore.dispatch({ type: 'update' });
+    }
   }
 
   onKeyDown(e, data, state) {
@@ -76,6 +88,7 @@ const RichTextEditor = class extends React.Component {
             schema={schema}
             onKeyDown={this.onKeyDown}
             onChange={state => onChange({ target: { name, value: state } })}
+            slateStore={this.state.slateStore}
             {...rest}
           />
           {children}

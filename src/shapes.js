@@ -84,5 +84,3 @@ export const CommonFieldPropsShape = PropTypes.shape({
 export const PluginShape = PropTypes.shape({
   schema: PropTypes.object.isRequired,
 });
-
-

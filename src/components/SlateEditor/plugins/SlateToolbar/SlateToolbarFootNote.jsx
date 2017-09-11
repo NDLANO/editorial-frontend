@@ -59,14 +59,14 @@ class SlateToolbarFootNote extends Component {
     this.props.closeDialog();
   }
 
-  countFootNotes() {
-    const { state } = this.props;
-    const { document } = state;
-  }
+  // countFootNotes() {
+  //   const { state } = this.props;
+  //   const { document } = state;
+  // }
 
-  addFootNoteData() {
-    const { state } = this.props;
-  }
+  // addFootNoteData() {
+  //   const { state } = this.props;
+  // }
 
   render() {
     const { title, year, authors, edition, publisher, isEdit } = this.state;

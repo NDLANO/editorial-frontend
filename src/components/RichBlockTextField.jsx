@@ -52,11 +52,12 @@ export const RichBlockTextField = ({
         submitted={submitted}
         {...rest}
       />
-      <FieldErrorMessages
-        label={label}
-        field={getField(name, schema)}
-        submitted={submitted}
-      />
+      {submitted && // Only show if submitted
+        <FieldErrorMessages
+          label={label}
+          field={getField(name, schema)}
+          submitted={submitted}
+        />}
     </Field>
   );
 };

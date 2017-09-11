@@ -17,6 +17,7 @@ import {
   PlainTextField,
   RemainingCharacters,
 } from '../../../components/Fields';
+import { CommonFieldPropsShape } from '../../../shapes';
 
 const classes = new BEMHelper({
   name: 'learning-resource-form',
@@ -69,13 +70,7 @@ LearningResourceIngress.propTypes = {
   value: PropTypes.object,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  commonFieldProps: PropTypes.shape({
-    schema: PropTypes.shape({
-      fields: PropTypes.object.isRequired,
-      isValid: PropTypes.bool.isRequired,
-    }),
-    submitted: PropTypes.bool.isRequired,
-  }),
+  commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 
 export default injectT(LearningResourceIngress);

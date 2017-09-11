@@ -12,7 +12,7 @@ import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import { TextField, classes } from '../../../components/Fields';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
-import { MetaImageShape } from '../../../shapes';
+import { MetaImageShape, CommonFieldPropsShape } from '../../../shapes';
 
 class LearningResourceVisualElement extends Component {
   constructor(props) {
@@ -78,14 +78,7 @@ class LearningResourceVisualElement extends Component {
 
 LearningResourceVisualElement.propTypes = {
   bindInput: PropTypes.func.isRequired,
-  commonFieldProps: PropTypes.shape({
-    schema: PropTypes.shape({
-      fields: PropTypes.object.isRequired,
-      isValid: PropTypes.bool.isRequired,
-    }),
-    submitted: PropTypes.bool.isRequired,
-    bindInput: PropTypes.func.isRequired,
-  }),
+  commonFieldProps: CommonFieldPropsShape.isRequired,
   metaImageTag: MetaImageShape,
 };
 

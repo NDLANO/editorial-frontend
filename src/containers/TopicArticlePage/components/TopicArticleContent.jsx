@@ -19,6 +19,7 @@ import { RichTextField } from '../../../components/RichTextField';
 import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
 import { topicArticleSchema } from '../../../components/SlateEditor/schema';
+import { CommonFieldPropsShape } from '../../../shapes';
 
 const classes = new BEMHelper({
   name: 'topic-article-content',
@@ -112,14 +113,7 @@ TopicArticleContent.propTypes = {
     title: PropTypes.string,
   }),
   bindInput: PropTypes.func.isRequired,
-  commonFieldProps: PropTypes.shape({
-    schema: PropTypes.shape({
-      fields: PropTypes.object.isRequired,
-      isValid: PropTypes.bool.isRequired,
-    }),
-    submitted: PropTypes.bool.isRequired,
-    bindInput: PropTypes.func.isRequired,
-  }),
+  commonFieldProps: CommonFieldPropsShape.isRequired,
   classes: PropTypes.func.isRequired,
 };
 

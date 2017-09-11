@@ -60,9 +60,9 @@ FieldHelp.propTypes = {
 };
 
 export const getField = (name, schema) => get(name, schema.fields);
-const hasError = field => field && !field.isValid;
+const hasError = field => field && !field.valid;
 const showError = (field, submitted) =>
-  hasError(field) && (field.isDirty || submitted);
+  hasError(field) && (field.dirty || submitted);
 
 export const FieldErrorMessages = ({ field, submitted, label }) => {
   if (!field || !showError(field, submitted)) {
@@ -83,8 +83,8 @@ export const FieldErrorMessages = ({ field, submitted, label }) => {
 FieldErrorMessages.propTypes = {
   label: PropTypes.string.isRequired,
   field: PropTypes.shape({
-    isDirty: PropTypes.bool.isRequired,
-    isValid: PropTypes.bool.isRequired,
+    dirty: PropTypes.bool.isRequired,
+    valid: PropTypes.bool.isRequired,
     errors: PropTypes.arrayOf(PropTypes.func),
   }),
   submitted: PropTypes.bool.isRequired,
@@ -110,10 +110,6 @@ FocusLabel.propTypes = {
     PropTypes.shape({ _immutable: PropTypes.object }),
   ]).isRequired,
   hasFocus: PropTypes.func.isRequired,
-};
-
-FocusLabel.defaultProps = {
-  hasFocus: name => document.activeElement.id === name,
 };
 
 export const RemainingCharacters = ({ value, maxLength, getRemainingLabel }) =>
@@ -191,7 +187,10 @@ export const TextField = ({
           {label}
         </label>}
     {noBorder &&
-      <FocusLabel name={name} value={bindInput(name).value}>
+      <FocusLabel
+        name={name}
+        hasFocus={() => getField(name, schema).active}
+        value={bindInput(name).value}>
         {label}
       </FocusLabel>}
 

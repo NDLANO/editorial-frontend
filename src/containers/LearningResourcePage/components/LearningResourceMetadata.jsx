@@ -15,7 +15,7 @@ import {
   RemainingCharacters,
 } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
-import { MetaImageShape } from '../../../shapes';
+import { MetaImageShape, CommonFieldPropsShape } from '../../../shapes';
 import LearningResourceVisualElement from './LearningResourceVisualElement';
 
 class LearningResourceMetadata extends Component {
@@ -83,14 +83,7 @@ class LearningResourceMetadata extends Component {
 LearningResourceMetadata.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   bindInput: PropTypes.func.isRequired,
-  commonFieldProps: PropTypes.shape({
-    schema: PropTypes.shape({
-      fields: PropTypes.object.isRequired,
-      isValid: PropTypes.bool.isRequired,
-    }),
-    submitted: PropTypes.bool.isRequired,
-    bindInput: PropTypes.func.isRequired,
-  }),
+  commonFieldProps: CommonFieldPropsShape.isRequired,
   classes: PropTypes.func.isRequired,
   model: PropTypes.shape({
     metaImage: MetaImageShape,

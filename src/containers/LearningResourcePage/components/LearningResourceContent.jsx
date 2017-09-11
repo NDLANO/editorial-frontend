@@ -14,6 +14,9 @@ import { TextField, RichBlockTextField } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 import LearningResourceIngress from './LearningResourceIngress';
 import { learningResourceSchema } from '../../../components/SlateEditor/schema';
+import footNotePlugin from '../../../components/SlateEditor/plugins/footNotePlugin';
+
+const plugins = [footNotePlugin()];
 
 class LearningResourceContent extends Component {
   constructor(props) {
@@ -89,6 +92,7 @@ class LearningResourceContent extends Component {
           name="content"
           ingress={ingress}
           ingressRef={this.ingressRef}
+          plugins={plugins}
           {...commonFieldProps}
         />
       </Accordion>

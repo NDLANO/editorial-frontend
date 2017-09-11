@@ -263,7 +263,7 @@ const RULES = [
           nodes: [
             {
               kind: 'text',
-              text: `[${sup.innerHTML}]`, // Needs [] to expand clickable area
+              text: `[${sup.innerHTML}]`, // Needs [] to expand clickable area in editor
               isVoid: true,
             },
           ],

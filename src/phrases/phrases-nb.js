@@ -269,27 +269,10 @@ const phrases = {
         title: 'Metabilde',
         label: 'Metabilde',
       },
-      caption: {
-        label: {
-          image: 'Bildetekst',
-        },
-        placeholder: {
-          image: 'Bildetekst',
-        },
-      },
-      alt: {
-        label: 'Alt-tekst',
-        placeholder: 'Alt-tekst',
-      },
       content: {
         label: 'Innhold',
         placeholder: 'Innhold',
         figure: {
-          caption: {
-            brightcove: 'Videotekst',
-            image: 'Bildetekst',
-          },
-          alt: 'Alt tekst',
           notSupported: 'Mediatype {mediaType} er ikke støttet.',
         },
         link: {
@@ -344,6 +327,28 @@ const phrases = {
     createdOk: 'Opprettet OK',
     remainingCharacters:
       'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
+    image: {
+      caption: {
+        label: 'Bildetekst',
+        placeholder: 'Bildetekst',
+      },
+      alt: {
+        label: 'Alt-tekst',
+        placeholder: 'Alt-tekst',
+      },
+    },
+    video: {
+      caption: {
+        label: 'Videotekst',
+        placeholder: 'Videotekst',
+      },
+    },
+    audio: {
+      caption: {
+        label: 'Lydtekst',
+        placeholder: 'Lydtekst',
+      },
+    },
   },
   validation: {
     isRequired: '{label} er påkrevd.',

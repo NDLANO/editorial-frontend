@@ -29,8 +29,8 @@ class SlateToolbarFootNote extends Component {
     };
     this.onContentChange = this.onContentChange.bind(this);
     this.onCloseDialog = this.onCloseDialog.bind(this);
-    this.addFootNoteData = this.addFootNoteData.bind(this);
-    this.countFootNotes = this.countFootNotes.bind(this);
+    // this.addFootNoteData = this.addFootNoteData.bind(this);
+    // this.countFootNotes = this.countFootNotes.bind(this);
   }
 
   componentWillReceiveProps(nextProps, nextState) {

@@ -21,6 +21,7 @@ import {
 import formatDate from '../../util/formatDate';
 
 export const fetchArticle = createAction('FETCH_ARTICLE');
+export const fetchTopicArticle = createAction('FETCH_TOPIC_ARTICLE');
 export const setArticle = createAction('SET_ARTICLE');
 export const updateArticle = createAction('UPDATE_ARTICLE');
 export const updateArticleSuccess = createAction('UPDATE_ARTICLE_SUCCESS');
@@ -32,6 +33,7 @@ export const actions = {
   setArticle,
   updateArticleSuccess,
   updateArticleError,
+  fetchTopicArticle,
 };
 
 const initalState = {

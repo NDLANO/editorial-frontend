@@ -12,6 +12,11 @@ import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { Search } from 'ndla-ui/icons';
 import { injectT } from 'ndla-i18n';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { toEditArticle } from '../../../util/routeHelpers';
+import { fetchTopicArticle } from '../../../modules/article/articleApi';
+import { getLocale } from '../../../modules/locale/locale';
 
 const classes = new BEMHelper({
   name: 'search-form',
@@ -30,6 +35,32 @@ class MastheadSearchForm extends Component {
 
   handleQueryChange(evt) {
     this.setState({ query: evt.target.value });
+    this.handleUrlPaste(evt.target.value);
+  }
+
+  handleUrlPaste(ndlaUrl) {
+    const { history, locale } = this.props;
+    const isNDLAUrl = /^https:\/(.*).ndla.no\/(article|subjects)\/\d*/.test(
+      ndlaUrl,
+    );
+    if (!isNDLAUrl) return;
+
+    this.setState({ query: '' });
+    const splittedNdlaUrl = ndlaUrl.split('/');
+    if (splittedNdlaUrl[splittedNdlaUrl.length - 1].includes('urn:topic')) {
+      fetchTopicArticle(
+        splittedNdlaUrl[splittedNdlaUrl.length - 1],
+        locale,
+      ).then(topicArticle => {
+        const arr = topicArticle.contentUri.split(':');
+        const id = arr[arr.length - 1];
+        history.push(toEditArticle(id, 'topic-article'));
+      });
+    } else {
+      history.push(
+        toEditArticle(splittedNdlaUrl[splittedNdlaUrl.length - 1], 'standard'),
+      );
+    }
   }
 
   handleSubmit(evt) {
@@ -61,6 +92,10 @@ MastheadSearchForm.propTypes = {
   query: PropTypes.string,
   searching: PropTypes.bool.isRequired,
   onSearchQuerySubmit: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 MastheadSearchForm.defaultProps = {
@@ -68,4 +103,10 @@ MastheadSearchForm.defaultProps = {
   query: '',
 };
 
-export default injectT(MastheadSearchForm);
+const mapStateToProps = state => ({
+  locale: getLocale(state),
+});
+
+export default connect(mapStateToProps)(
+  withRouter(injectT(MastheadSearchForm)),
+);

@@ -24,7 +24,6 @@ const BLOCK_TAGS = {
   h4: 'heading-four',
   h5: 'heading-five',
   h6: 'heading-six',
-  div: 'div',
 };
 
 const MARK_TAGS = {
@@ -63,6 +62,42 @@ const RULES = [
       if (object.kind !== 'block') return;
       if (object.type !== 'emptyTextNode') return;
       return <span />;
+    },
+  },
+  {
+    // Aside handling
+    deserialize(el, next) {
+      if (el.tagName.toLowerCase() !== 'div') return;
+      if (el.className === 'c-bodybox') {
+        return {
+          kind: 'block',
+          type: 'bodybox',
+          nodes: next(el.childNodes),
+        };
+      }
+      return {
+        kind: 'block',
+        type: 'div',
+        nodes: next(el.childNodes),
+      };
+    },
+    serialize(object, children) {
+      if (object.kind !== 'block') return;
+      if (object.type !== 'div' || !object.type !== 'bodybox') return;
+      switch (object.type) {
+        case 'bodybox':
+          return (
+            <div className="c-bodybox">
+              {children}
+            </div>
+          );
+        default:
+          return (
+            <div>
+              {children}
+            </div>
+          );
+      }
     },
   },
   {

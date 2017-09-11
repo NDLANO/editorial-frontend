@@ -16,6 +16,7 @@ import { Cross } from 'ndla-ui/icons';
 import {
   PlainTextField,
   RemainingCharacters,
+  classes as fieldClasses,
 } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 
@@ -45,8 +46,9 @@ const LearningResourceIngress = props => {
         label={t('learningResourceForm.fields.introduction.label')}
         placeholder={t('learningResourceForm.fields.introduction.label')}
         name="introduction"
+        className="article_introduction"
+        fieldClassName={fieldClasses(undefined, 'introduction').className}
         noBorder
-        bigText
         maxLength={300}
         {...commonFieldProps}>
         <RemainingCharacters

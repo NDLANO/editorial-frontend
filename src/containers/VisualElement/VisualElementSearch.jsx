@@ -81,6 +81,8 @@ const VisualElementSearch = ({
                 resource: selectedResource,
                 videoid: video.id,
                 caption: '',
+                account: window.config.brightCoveAccountId,
+                player: window.config.brightcovePlayerId,
                 metaData: video,
               })}
             onError={api.onError}

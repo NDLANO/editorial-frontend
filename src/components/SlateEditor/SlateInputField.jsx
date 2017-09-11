@@ -9,7 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
+import { injectT } from 'ndla-i18n';
 import { isEmpty } from '../validators';
+import { Field, FocusLabel, FieldHelp } from '../Fields';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -59,13 +61,27 @@ class SlateInputField extends React.Component {
   }
 
   render() {
-    const { label, name, value, deletedOnSave, ...rest } = this.props;
+    const {
+      t,
+      label,
+      required,
+      submitted,
+      name,
+      value,
+      deletedOnSave,
+      ...rest
+    } = this.props;
     if (deletedOnSave) {
       return null;
     }
     return (
-      <div>
-        <SlateInputLabel label={label} value={value} focus={this.state.focus} />
+      <Field noBorder className="c-field--no-margin-top">
+        <label className="u-hidden" htmlFor={name}>
+          {label}
+        </label>
+        <FocusLabel name={name} hasFocus={() => this.state.focus} value={value}>
+          {label}
+        </FocusLabel>
         <input
           id={name}
           name={name}
@@ -75,32 +91,32 @@ class SlateInputField extends React.Component {
           onBlur={this.onFigureInputBlur}
           {...rest}
         />
-      </div>
+        {isEmpty(value) &&
+          required &&
+          submitted &&
+          <FieldHelp error>
+            {t('validation.isRequired', { label })}
+          </FieldHelp>}
+      </Field>
     );
   }
 }
 
 SlateInputField.propTypes = {
-  embedTag: PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    resource: PropTypes.string.isRequired,
-  }),
   deletedOnSave: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
   className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
+  required: PropTypes.bool.isRequired,
+  submitted: PropTypes.bool.isRequired,
 };
 
 SlateInputField.defaultProps = {
   value: '',
+  required: true,
   deletedOnSave: false,
 };
 
-export default SlateInputField;
+export default injectT(SlateInputField);

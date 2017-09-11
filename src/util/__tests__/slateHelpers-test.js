@@ -8,7 +8,9 @@
 
 import { fromJS } from 'immutable';
 import renderer from 'react-test-renderer';
-import { learningResourceEmbedRule } from '../slateHelpers';
+import { Raw } from 'slate';
+import { stateWithTwoImageEmbeds } from './slateMockStates';
+import { learningResourceEmbedRule, findEmbedNodes } from '../slateHelpers';
 
 test('serialize embed block', () => {
   const obj = {
@@ -19,4 +21,10 @@ test('serialize embed block', () => {
   const tag = learningResourceEmbedRule[0].serialize(obj);
 
   expect(renderer.create(tag).toJSON()).toMatchSnapshot();
+});
+
+test('findEmbedNodes in slate Document', () => {
+  const document = Raw.deserialize(stateWithTwoImageEmbeds).document;
+  const embeds = findEmbedNodes(document);
+  expect(embeds.length).toBe(2);
 });

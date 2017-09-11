@@ -14,33 +14,19 @@ import get from 'lodash/fp/get';
 import MultiSelect from './MultiSelect';
 import { isEmpty } from './validators';
 import PlainTextEditor from '../components/SlateEditor/PlainTextEditor';
-import RichBlockTextEditor from '../components/SlateEditor/RichBlockTextEditor';
 
 export const classes = new BEMHelper({
   name: 'field',
   prefix: 'c-',
 });
 
-export const Field = ({
-  children,
-  noBorder,
-  bigText,
-  title,
-  className,
-  right,
-}) =>
-  <div
-    {...classes(
-      '',
-      { 'no-border': noBorder, right, bigText, title },
-      className,
-    )}>
+export const Field = ({ children, className, noBorder, title, right }) =>
+  <div {...classes('', { 'no-border': noBorder, right, title }, className)}>
     {children}
   </div>;
 
 Field.propTypes = {
   noBorder: PropTypes.bool,
-  bigText: PropTypes.bool,
   right: PropTypes.bool,
   title: PropTypes.bool,
 };
@@ -124,7 +110,6 @@ RemainingCharacters.propTypes = {
 };
 
 export const InputFileField = ({
-  bigText,
   bindInput,
   name,
   label,
@@ -134,7 +119,7 @@ export const InputFileField = ({
   title,
   ...rest
 }) =>
-  <Field noBorder={noBorder} bigText={bigText} title={title}>
+  <Field noBorder={noBorder} title={title}>
     <input
       id="file"
       name={name}
@@ -159,11 +144,9 @@ InputFileField.propTypes = {
     fields: PropTypes.object.isRequired,
   }),
   submitted: PropTypes.bool.isRequired,
-  bigText: PropTypes.bool,
 };
 
 InputFileField.defaultProps = {
-  bigText: false,
   noBorder: true,
 };
 
@@ -174,11 +157,10 @@ export const TextField = ({
   submitted,
   schema,
   noBorder,
-  bigText,
   title,
   ...rest
 }) =>
-  <Field noBorder={noBorder} bigText={bigText} title={title}>
+  <Field noBorder={noBorder} title={title}>
     {!noBorder
       ? <label htmlFor={name}>
           {label}
@@ -217,13 +199,11 @@ TextField.propTypes = {
     fields: PropTypes.object.isRequired,
   }),
   noBorder: PropTypes.bool,
-  bigText: PropTypes.bool,
   title: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
 
 TextField.defaultProps = {
-  bigText: false,
   noBorder: false,
 };
 
@@ -304,15 +284,15 @@ export const PlainTextField = ({
   obligatory,
   description,
   noBorder,
-  bigText,
   submitted,
   schema,
   children,
+  fieldClassName,
   ...rest
 }) => {
   const { value, onChange } = bindInput(name);
   return (
-    <Field noBorder={noBorder}>
+    <Field noBorder={noBorder} className={fieldClassName}>
       {!noBorder
         ? <label htmlFor={name}>
             {label}
@@ -327,25 +307,19 @@ export const PlainTextField = ({
           value={value}>
           {label}
         </FocusLabel>}
-      <div
-        {...classes('plain-text-editor', [
-          noBorder ? 'no-border' : '',
-          bigText ? 'bigText' : '',
-        ])}>
-        {description &&
-          <FieldDescription obligatory={obligatory}>
-            {description}
-          </FieldDescription>}
-        <PlainTextEditor
-          id={name}
-          onChange={val =>
-            onChange({
-              target: { name, value: val, type: 'SlateEditorState' },
-            })}
-          value={value}
-          {...rest}
-        />
-      </div>
+      {description &&
+        <FieldDescription obligatory={obligatory}>
+          {description}
+        </FieldDescription>}
+      <PlainTextEditor
+        id={name}
+        onChange={val =>
+          onChange({
+            target: { name, value: val, type: 'SlateEditorState' },
+          })}
+        value={value}
+        {...rest}
+      />
       <FieldErrorMessages
         label={label}
         field={getField(name, schema)}
@@ -362,11 +336,11 @@ PlainTextField.propTypes = {
   label: PropTypes.string.isRequired,
   obligatory: PropTypes.bool,
   description: PropTypes.string,
+  fieldClassName: PropTypes.string,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),
   noBorder: PropTypes.bool,
-  bigText: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
 
@@ -407,71 +381,6 @@ MultiSelectField.propTypes = {
   }),
   data: PropTypes.arrayOf(PropTypes.string),
   submitted: PropTypes.bool.isRequired,
-};
-
-export const RichBlockTextField = ({
-  bindInput,
-  name,
-  label,
-  noBorder,
-  submitted,
-  schema,
-  slateSchema,
-  ...rest
-}) => {
-  const { value, onChange } = bindInput(name);
-  return (
-    <Field
-      noBorder={noBorder}
-      className={classes('', 'position-static').className}>
-      {!noBorder
-        ? <label htmlFor={name}>
-            {label}
-          </label>
-        : <label className="u-hidden" htmlFor={name}>
-            {label}
-          </label>}
-      {noBorder &&
-        value.map((val, i) =>
-          <FocusLabel
-            key={uuid()}
-            name={name}
-            hasFocus={() => val.state.isFocused}
-            value={val.state}>
-            {`${label} Blokk ${i + 1}`}
-          </FocusLabel>,
-        )}
-      <RichBlockTextEditor
-        id={name}
-        name={name}
-        value={value}
-        onChange={onChange}
-        schema={slateSchema}
-        {...rest}
-      />
-      <FieldErrorMessages
-        label={label}
-        field={getField(name, schema)}
-        submitted={submitted}
-      />
-    </Field>
-  );
-};
-
-RichBlockTextField.propTypes = {
-  slateSchema: PropTypes.shape({}).isRequired,
-  bindInput: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  schema: PropTypes.shape({
-    fields: PropTypes.object.isRequired,
-  }),
-  noBorder: PropTypes.bool,
-  submitted: PropTypes.bool.isRequired,
-};
-
-RichBlockTextEditor.defaultProps = {
-  noBorder: false,
 };
 
 export const SelectObjectField = props => {

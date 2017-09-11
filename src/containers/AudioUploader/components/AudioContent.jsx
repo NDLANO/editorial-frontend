@@ -39,7 +39,7 @@ class AudioContent extends Component {
         <TextField
           label={t('audioForm.fields.title.label')}
           name="title"
-          bigText
+          title
           noBorder
           placeholder={t('audioForm.fields.title.label')}
           {...commonFieldProps}

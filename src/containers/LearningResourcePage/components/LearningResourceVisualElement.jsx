@@ -52,18 +52,16 @@ class LearningResourceVisualElement extends Component {
         {metaImageTag.resource
           ? <div>
               <TextField
-                placeholder={t(
-                  `learningResourceForm.fields.caption.placeholder.image`,
-                )}
-                label={t(`learningResourceForm.fields.caption.label.image`)}
+                placeholder={t(`form.image.caption.placeholder`)}
+                label={t(`form.image.caption.label`)}
                 name="metaImage.caption"
                 noBorder
                 maxLength={300}
                 {...commonFieldProps}
               />
               <TextField
-                placeholder={t('learningResourceForm.fields.alt.placeholder')}
-                label={t('learningResourceForm.fields.alt.label')}
+                placeholder={t('form.image.alt.placeholder')}
+                label={t('form.image.alt.label')}
                 name="metaImage.alt"
                 noBorder
                 maxLength={300}

@@ -31,6 +31,7 @@ class MastheadSearchForm extends Component {
     };
     this.handleQueryChange = this.handleQueryChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUrlPaste = this.handleUrlPaste.bind(this);
   }
 
   handleQueryChange(evt) {
@@ -47,19 +48,15 @@ class MastheadSearchForm extends Component {
 
     this.setState({ query: '' });
     const splittedNdlaUrl = ndlaUrl.split('/');
-    if (splittedNdlaUrl[splittedNdlaUrl.length - 1].includes('urn:topic')) {
-      fetchTopicArticle(
-        splittedNdlaUrl[splittedNdlaUrl.length - 1],
-        locale,
-      ).then(topicArticle => {
+    const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
+    if (urlId.includes('urn:topic')) {
+      fetchTopicArticle(urlId, locale).then(topicArticle => {
         const arr = topicArticle.contentUri.split(':');
         const id = arr[arr.length - 1];
         history.push(toEditArticle(id, 'topic-article'));
       });
     } else {
-      history.push(
-        toEditArticle(splittedNdlaUrl[splittedNdlaUrl.length - 1], 'standard'),
-      );
+      history.push(toEditArticle(urlId, 'standard'));
     }
   }
 

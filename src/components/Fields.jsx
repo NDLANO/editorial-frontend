@@ -14,7 +14,6 @@ import get from 'lodash/fp/get';
 import MultiSelect from './MultiSelect';
 import { isEmpty } from './validators';
 import PlainTextEditor from '../components/SlateEditor/PlainTextEditor';
-import RichBlockTextEditor from '../components/SlateEditor/RichBlockTextEditor';
 
 export const classes = new BEMHelper({
   name: 'field',
@@ -382,70 +381,6 @@ MultiSelectField.propTypes = {
   }),
   data: PropTypes.arrayOf(PropTypes.string),
   submitted: PropTypes.bool.isRequired,
-};
-
-export const RichBlockTextField = ({
-  bindInput,
-  name,
-  label,
-  noBorder,
-  submitted,
-  schema,
-  slateSchema,
-  ...rest
-}) => {
-  const { value, onChange } = bindInput(name);
-  return (
-    <Field noBorder={noBorder}>
-      {!noBorder
-        ? <label htmlFor={name}>
-            {label}
-          </label>
-        : <label className="u-hidden" htmlFor={name}>
-            {label}
-          </label>}
-      {noBorder &&
-        value.map((val, i) =>
-          <FocusLabel
-            key={uuid()}
-            name={name}
-            hasFocus={() => val.state.isFocused}
-            value={val.state}>
-            {`${label} Blokk ${i + 1}`}
-          </FocusLabel>,
-        )}
-      <RichBlockTextEditor
-        id={name}
-        name={name}
-        value={value}
-        onChange={onChange}
-        schema={slateSchema}
-        submitted={submitted}
-        {...rest}
-      />
-      <FieldErrorMessages
-        label={label}
-        field={getField(name, schema)}
-        submitted={submitted}
-      />
-    </Field>
-  );
-};
-
-RichBlockTextField.propTypes = {
-  slateSchema: PropTypes.shape({}).isRequired,
-  bindInput: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  schema: PropTypes.shape({
-    fields: PropTypes.object.isRequired,
-  }),
-  noBorder: PropTypes.bool,
-  submitted: PropTypes.bool.isRequired,
-};
-
-RichBlockTextEditor.defaultProps = {
-  noBorder: false,
 };
 
 export const SelectObjectField = props => {

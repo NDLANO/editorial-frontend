@@ -17,15 +17,18 @@ import {
   classes as fieldClasses,
 } from '../../../components/Fields';
 import { RichTextField } from '../../../components/RichTextField';
+import createEmbedPlugin from '../../../components/SlateEditor/embedPlugin';
 import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
-import { topicArticleSchema } from '../../../components/SlateEditor/schema';
+import schema from '../../../components/SlateEditor/schema';
 import { CommonFieldPropsShape } from '../../../shapes';
 
 const classes = new BEMHelper({
   name: 'topic-article-content',
   prefix: 'c-',
 });
+
+const plugins = [createEmbedPlugin({ deleteOnSave: true })];
 
 class TopicArticleContent extends Component {
   constructor(props) {
@@ -100,7 +103,8 @@ class TopicArticleContent extends Component {
           label={t('topicArticleForm.fields.content.label')}
           placeholder={t('topicArticleForm.fields.content.placeholder')}
           name="content"
-          slateSchema={topicArticleSchema}
+          slateSchema={schema}
+          plugins={plugins}
           {...commonFieldProps}
         />
       </Accordion>

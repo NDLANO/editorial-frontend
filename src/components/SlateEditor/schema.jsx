@@ -4,12 +4,11 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ *
  */
 
 import React from 'react';
 import { Block, Placeholder } from 'slate';
-import merge from 'lodash/merge';
-import SlateFigure from './SlateFigure';
 import SlateAside from './aside/SlateAside';
 import SlateLink from './SlateLink';
 
@@ -37,12 +36,6 @@ export const defaultEmbedBlock = data =>
 export const getSchemaEmbed = node => node.get('data').toJS();
 
 /* eslint-disable react/prop-types */
-const topicArticleItems = {
-  nodes: {
-    embed: props => <SlateFigure deletedOnSave {...props} />,
-  },
-};
-
 const defaultSchema = {
   nodes: {
     section: props =>
@@ -206,5 +199,4 @@ const defaultSchema = {
   ],
 };
 
-export const topicArticleSchema = merge(topicArticleItems, defaultSchema);
-export const learningResourceSchema = merge(defaultSchema);
+export default defaultSchema;

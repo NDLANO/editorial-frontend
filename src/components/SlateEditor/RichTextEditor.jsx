@@ -14,7 +14,7 @@ import { Editor } from 'slate';
 import BEMHelper from 'react-bem-helper';
 import createSlateStore from './createSlateStore';
 import SlateToolbar from './plugins/SlateToolbar/SlateToolbar';
-import createEmbedPlugin from './embedPlugin';
+import { PluginShape } from '../../shapes';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -81,6 +81,7 @@ const RichTextEditor = class extends React.Component {
       value,
       name,
       onChange,
+      plugins,
       ...rest
     } = this.props;
 
@@ -91,7 +92,7 @@ const RichTextEditor = class extends React.Component {
           <Editor
             {...classes(undefined, undefined, className)}
             state={value}
-            plugins={[createEmbedPlugin()]}
+            plugins={plugins}
             schema={schema}
             onKeyDown={this.onKeyDown}
             onChange={state => onChange({ target: { name, value: state } })}
@@ -113,6 +114,7 @@ RichTextEditor.propTypes = {
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
+  plugins: PropTypes.arrayOf(PluginShape).isRequired,
 };
 
 export default RichTextEditor;

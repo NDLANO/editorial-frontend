@@ -13,6 +13,7 @@ import compression from 'compression';
 
 import Auth0SilentCallback from './Auth0SilentCallback';
 import enableDevMiddleWare from './enableDevMiddleware';
+import enableBasicAuth from './enableBasicAuth';
 import getConditionalClassnames from './getConditionalClassnames';
 import { getLocaleObject } from '../src/i18n';
 import Html from './Html';
@@ -22,6 +23,10 @@ const app = express();
 
 if (process.env.NODE_ENV === 'development') {
   enableDevMiddleWare(app);
+}
+
+if (process.env.NDLA_ENVIRONMENT === 'test') {
+  enableBasicAuth(app);
 }
 
 app.use(compression());

@@ -8,13 +8,11 @@ const classes = new BEMHelper({
 });
 
 const EditorErrorMessage = ({ msg, attributes, children }) =>
-  <div>
-    <div {...classes('error')} {...attributes}>
-      <span>
-        {msg}
-      </span>
-      {children}
-    </div>
+  <div {...classes('error')} {...attributes}>
+    <span>
+      {msg}
+    </span>
+    {children}
   </div>;
 
 EditorErrorMessage.propTypes = {

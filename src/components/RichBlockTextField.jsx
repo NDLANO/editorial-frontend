@@ -10,7 +10,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { uuid } from 'ndla-util';
 import RichBlockTextEditor from '../components/SlateEditor/RichBlockTextEditor';
-import { Field, FocusLabel, FieldErrorMessages, getField } from './Fields';
+import {
+  Field,
+  FocusLabel,
+  FieldErrorMessages,
+  getField,
+  classes,
+} from './Fields';
 import { PluginShape } from '../shapes';
 
 export const RichBlockTextField = ({
@@ -25,7 +31,9 @@ export const RichBlockTextField = ({
 }) => {
   const { value, onChange } = bindInput(name);
   return (
-    <Field noBorder={noBorder}>
+    <Field
+      noBorder={noBorder}
+      className={classes('', 'position-static').className}>
       {!noBorder
         ? <label htmlFor={name}>
             {label}

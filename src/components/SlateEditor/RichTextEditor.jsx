@@ -61,6 +61,7 @@ const RichTextEditor = class extends React.Component {
       value,
       name,
       onChange,
+      plugins,
       ...rest
     } = this.props;
     return (
@@ -68,6 +69,7 @@ const RichTextEditor = class extends React.Component {
         <div>
           <Editor
             {...classes(undefined, className)}
+            plugins={plugins}
             state={value}
             schema={schema}
             onKeyDown={this.onKeyDown}

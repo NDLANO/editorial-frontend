@@ -12,6 +12,7 @@ import Portal from 'react-portal';
 import BEMHelper from 'react-bem-helper';
 import ToolbarButton from './ToolbarButton';
 import SlateToolbarLink from './SlateToolbarLink';
+import SlateToolbarFootNote from './SlateToolbarFootNote';
 
 const DEFAULT_NODE = 'paragraph';
 
@@ -19,13 +20,14 @@ const suportedToolbarElements = {
   marks: ['bold', 'italic', 'underlined', 'strikethrough'],
   blocks: [
     'quote',
-    'link',
     'numbered-list',
     'bulleted-list',
     'heading-one',
     'heading-two',
     'heading-three',
+    'list-item',
   ],
+  inlines: ['embed-inline', 'footnote'],
 };
 
 export const toolbarClasses = new BEMHelper({
@@ -39,16 +41,18 @@ class SlateToolbar extends Component {
     super(props);
     this.onClickMark = this.onClickMark.bind(this);
     this.onClickBlock = this.onClickBlock.bind(this);
+    this.onClickInline = this.onClickInline.bind(this);
     this.onOpen = this.onOpen.bind(this);
     this.hasMark = this.hasMark.bind(this);
     this.hasBlock = this.hasBlock.bind(this);
     this.hasInlines = this.hasInlines.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
-    this.onCloseContentlinkDialog = this.onCloseContentlinkDialog.bind(this);
+    this.onCloseDialog = this.onCloseDialog.bind(this);
     this.state = {
       state: this.props.state,
       showContentlinkDialog: false,
+      showFootNotesDialog: false,
     };
   }
 
@@ -60,15 +64,8 @@ class SlateToolbar extends Component {
     this.updateMenu();
   }
 
-  onClickMark(e, type) {
-    e.preventDefault();
-    const { state } = this.props;
-    const nextState = state.transform().toggleMark(type).apply();
-    this.handleStateChange(nextState);
-  }
-
-  onCloseContentlinkDialog() {
-    this.setState({ showContentlinkDialog: false });
+  onCloseDialog() {
+    this.setState({ showContentlinkDialog: false, showFootNotesDialog: false });
   }
 
   onClickBlock(e, type) {
@@ -76,9 +73,7 @@ class SlateToolbar extends Component {
     const { state } = this.props;
     const transform = state.transform();
     const { document } = state;
-    if (type === 'link') {
-      this.setState({ showContentlinkDialog: true });
-    } else if (type !== 'bulleted-list' && type !== 'numbered-list') {
+    if (type !== 'bulleted-list' && type !== 'numbered-list') {
       // Handle everything but list buttons.
       const isActive = this.hasBlock(type);
       const isList = this.hasBlock('list-item');
@@ -117,6 +112,22 @@ class SlateToolbar extends Component {
 
     const nextState = transform.apply();
     this.handleStateChange(nextState);
+  }
+
+  onClickMark(e, type) {
+    e.preventDefault();
+    const { state } = this.props;
+    const nextState = state.transform().toggleMark(type).apply();
+    this.handleStateChange(nextState);
+  }
+
+  onClickInline(e, type) {
+    e.preventDefault();
+    if (type === ('embed-inline' || 'link')) {
+      this.setState({ showContentlinkDialog: true });
+    } else if (type === 'footnote') {
+      this.setState({ showFootNotesDialog: true });
+    }
   }
 
   onOpen(portal) {
@@ -177,13 +188,20 @@ class SlateToolbar extends Component {
   }
 
   render() {
+    const { showContentlinkDialog, showFootNotesDialog } = this.state;
     const { state } = this.props;
     return (
       <div>
         <SlateToolbarLink
-          showDialog={this.state.showContentlinkDialog}
-          closeDialog={this.onCloseContentlinkDialog}
+          showDialog={showContentlinkDialog}
+          closeDialog={this.onCloseDialog}
           hasInlines={this.hasInlines}
+          state={state}
+          handleStateChange={this.handleStateChange}
+        />
+        <SlateToolbarFootNote
+          showDialog={showFootNotesDialog}
+          closeDialog={this.onCloseDialog}
           state={state}
           handleStateChange={this.handleStateChange}
         />
@@ -203,6 +221,14 @@ class SlateToolbar extends Component {
                 type={type}
                 handleHasType={this.hasBlock}
                 handleOnClick={this.onClickBlock}
+              />,
+            )}
+            {suportedToolbarElements.inlines.map(type =>
+              <ToolbarButton
+                key={type}
+                type={type}
+                handleHasType={this.hasInlines}
+                handleOnClick={this.onClickInline}
               />,
             )}
           </div>

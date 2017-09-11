@@ -7,6 +7,8 @@
  */
 import isObject from 'lodash/fp/isObject';
 
+import { isEmpty } from '../components/validators';
+
 export const reduceElementDataAttributes = el => {
   const attrs = [].slice.call(el.attributes);
   const obj = attrs.reduce(
@@ -42,4 +44,15 @@ export const createEmbedTag = visualElement => {
     )
     .forEach(key => embed.setAttribute(`data-${key}`, visualElement[key]));
   return embed.outerHTML;
+};
+
+export const isUserProvidedEmbedDataValid = embed => {
+  if (embed.resource === 'image') {
+    return !isEmpty(embed.alt) && !isEmpty(embed.caption);
+  } else if (embed.resource === 'brightcove') {
+    return !isEmpty(embed.caption);
+  } else if (embed.resource === 'audio') {
+    return !isEmpty(embed.caption);
+  }
+  return true;
 };

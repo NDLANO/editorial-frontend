@@ -27,21 +27,9 @@ const makeWrapper = WrappedComponent => {
       this.setProperty = this.setProperty.bind(this);
       this.bindToChangeEvent = this.bindToChangeEvent.bind(this);
       this.bindInput = this.bindInput.bind(this);
+      this.setInputFlags = this.setInputFlags.bind(this);
       this.setSubmitted = this.setSubmitted.bind(this);
-    }
-
-    componentWillReceiveProps(nextProps) {
-      const currentModel = this.props.initialModel;
-      const nextModel = nextProps.initialModel;
-
-      if (this.props.resetOnInitialModelChange && currentModel !== nextModel) {
-        const hasChanges = Object.keys(nextModel).find(
-          key => nextModel[key] !== currentModel[key],
-        );
-        if (hasChanges) {
-          this.setModel(nextModel);
-        }
-      }
+      this.bindInputEvent = this.bindInputEvent.bind(this);
     }
 
     setModel(model) {
@@ -53,39 +41,43 @@ const makeWrapper = WrappedComponent => {
       this.setState({ submitted });
     }
 
-    setProperty(name, value, isDirty = true) {
-      const model = set(name, value, this.state.model);
-      const field = get(name, this.state.fields, false);
-      if (field && field.isDirty) {
-        this.setState(prevstate => ({
-          model: set(name, value, prevstate.model),
-        }));
-      } else {
-        this.setState(prevstate => ({
-          model: set(name, value, prevstate.model),
-          fields: set(name, { isDirty }, prevstate.fields),
-        }));
-      }
-      return model;
+    setInputFlags(name, flags) {
+      this.setState(prevState => {
+        const currentFlags = get(name, prevState.fields);
+        return {
+          fields: set(
+            name,
+            { dirty: false, ...currentFlags, ...flags },
+            prevState.fields,
+          ),
+        };
+      });
+    }
+
+    setProperty(name, value) {
+      this.setState(prevstate => ({
+        model: set(name, value, prevstate.model),
+      }));
     }
 
     bindToChangeEvent(e) {
       const { name, type, value } = e.target;
-      if (type === 'checkbox') {
-        const oldCheckboxValue = this.state.model[name] || [];
-        const newCheckboxValue = e.target.checked
-          ? oldCheckboxValue.concat(value)
-          : oldCheckboxValue.filter(v => v !== value);
-
-        this.setProperty(name, newCheckboxValue);
-      } else if (type === 'file') {
+      if (type === 'file') {
         const file = e.target.files[0];
         this.setProperty(name, file);
         this.setProperty('filepath', URL.createObjectURL(file));
-      } else if (type === 'SlateEditorState') {
-        this.setProperty(name, value); // TODO: Handle dirty flag with SlateEditorState
       } else {
         this.setProperty(name, value);
+      }
+      this.setInputFlags(name, { dirty: true });
+    }
+
+    bindInputEvent(e) {
+      const { type, target: { name } } = e;
+      if (type === 'blur') {
+        this.setInputFlags(name, { touched: true, active: false });
+      } else if (type === 'focus') {
+        this.setInputFlags(name, { active: true });
       }
     }
 
@@ -103,6 +95,8 @@ const makeWrapper = WrappedComponent => {
         name,
         value,
         onChange: this.bindToChangeEvent,
+        onBlur: this.bindInputEvent,
+        onFocus: this.bindInputEvent,
       };
     }
 
@@ -125,10 +119,6 @@ const makeWrapper = WrappedComponent => {
 
   FormWrapper.propTypes = {
     initialModel: PropTypes.object, //eslint-disable-line
-    resetOnInitialModelChange: PropTypes.bool.isRequired,
-  };
-  FormWrapper.defaultProps = {
-    resetOnInitialModelChange: false,
   };
   FormWrapper.displayName = `Reformed(${getComponentName(WrappedComponent)})`;
   return hoistNonReactStatics(FormWrapper, WrappedComponent);

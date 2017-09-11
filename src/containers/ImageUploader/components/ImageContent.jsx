@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { InputFileField, TextField } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
+import { CommonFieldPropsShape } from '../../../shapes';
 
 class ImageContent extends Component {
   constructor(props) {
@@ -37,7 +38,7 @@ class ImageContent extends Component {
         <TextField
           label={t('imageForm.fields.title.label')}
           name="title"
-          bigText
+          title
           noBorder
           maxLength={300}
           placeholder={t('imageForm.fields.title.label')}
@@ -72,13 +73,7 @@ class ImageContent extends Component {
 }
 
 ImageContent.propTypes = {
-  commonFieldProps: PropTypes.shape({
-    schema: PropTypes.shape({
-      fields: PropTypes.object.isRequired,
-      isValid: PropTypes.bool.isRequired,
-    }),
-    submitted: PropTypes.bool.isRequired,
-  }),
+  commonFieldProps: CommonFieldPropsShape.isRequired,
   classes: PropTypes.func.isRequired,
   bindInput: PropTypes.func.isRequired,
   model: PropTypes.shape({

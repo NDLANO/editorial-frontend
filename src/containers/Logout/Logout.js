@@ -14,7 +14,7 @@ import LogoutSession from './LogoutSession';
 import LogoutProviders from './LogoutProviders';
 
 const Logout = ({ match }) =>
-  <OneColumn cssModifier="narrow">
+  <OneColumn cssModifier="clear">
     <Switch>
       <Route path={`${match.url}/federated`} component={LogoutFederated} />
       <Route path={`${match.url}/session`} component={LogoutSession} />

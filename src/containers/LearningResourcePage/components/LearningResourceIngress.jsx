@@ -16,7 +16,9 @@ import { Cross } from 'ndla-ui/icons';
 import {
   PlainTextField,
   RemainingCharacters,
+  classes as fieldClasses,
 } from '../../../components/Fields';
+import { CommonFieldPropsShape } from '../../../shapes';
 
 const classes = new BEMHelper({
   name: 'learning-resource-form',
@@ -44,8 +46,9 @@ const LearningResourceIngress = props => {
         label={t('learningResourceForm.fields.introduction.label')}
         placeholder={t('learningResourceForm.fields.introduction.label')}
         name="introduction"
+        className="article_introduction"
+        fieldClassName={fieldClasses(undefined, 'introduction').className}
         noBorder
-        bigText
         maxLength={300}
         {...commonFieldProps}>
         <RemainingCharacters
@@ -69,13 +72,7 @@ LearningResourceIngress.propTypes = {
   value: PropTypes.object,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  commonFieldProps: PropTypes.shape({
-    schema: PropTypes.shape({
-      fields: PropTypes.object.isRequired,
-      isValid: PropTypes.bool.isRequired,
-    }),
-    submitted: PropTypes.bool.isRequired,
-  }),
+  commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 
 export default injectT(LearningResourceIngress);

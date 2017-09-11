@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import SlateBlockPicker from './plugins/SlateBlockPicker';
 import RichTextEditor from './RichTextEditor';
+import { PluginShape } from '../../shapes';
 
 const classes = new BEMHelper({
   name: 'learning-resource-form',
@@ -101,6 +102,8 @@ RichBlockTextEditor.propTypes = {
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
+  submitted: PropTypes.bool.isRequired,
+  plugins: PropTypes.arrayOf(PluginShape).isRequired,
   ingress: PropTypes.shape({
     name: PropTypes.string.isRequired,
     value: PropTypes.object,

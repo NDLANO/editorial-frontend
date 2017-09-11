@@ -17,7 +17,13 @@ import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import converter from '../../../util/articleContentConverter';
-import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
+import {
+  parseEmbedTag,
+  createEmbedTag,
+  isUserProvidedEmbedDataValid,
+} from '../../../util/embedTagHelpers';
+import { findEmbedNodes } from '../../../util/slateHelpers';
+import { SchemaShape } from '../../../shapes';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
@@ -205,10 +211,7 @@ LearningResourceForm.propTypes = {
     id: PropTypes.string,
     title: PropTypes.string,
   }),
-  schema: PropTypes.shape({
-    fields: PropTypes.object.isRequired,
-    isValid: PropTypes.bool.isRequired,
-  }),
+  schema: SchemaShape,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
@@ -238,6 +241,21 @@ export default compose(
     },
     content: {
       required: true,
+      test: (value, model, setError) => {
+        const hasErrors = value.find(block => {
+          const embeds = findEmbedNodes(block.state.document).map(node =>
+            node.get('data').toJS(),
+          );
+          const notValidEmbeds = embeds.filter(
+            embed => !isUserProvidedEmbedDataValid(embed),
+          );
+          return notValidEmbeds.length > 0;
+        });
+
+        if (hasErrors) {
+          setError('learningResourceForm.validation.missingEmbedData');
+        }
+      },
     },
     metaDescription: {
       required: true,

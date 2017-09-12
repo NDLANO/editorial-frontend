@@ -17,7 +17,7 @@ import {
   classes as fieldClasses,
 } from '../../../components/Fields';
 import { RichTextField } from '../../../components/RichTextField';
-import createEmbedPlugin from '../../../components/SlateEditor/embedPlugin';
+import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
 import schema from '../../../components/SlateEditor/schema';

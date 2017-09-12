@@ -7,7 +7,17 @@
  */
 
 import React from 'react';
+import { Block } from 'slate';
 import SlateFigure from './SlateFigure';
+
+export const defaultEmbedBlock = data =>
+  Block.create({
+    data,
+    isVoid: true,
+    type: 'embed',
+  });
+
+export const getSchemaEmbed = node => node.get('data').toJS();
 
 export default function createEmbedPlugin(options = {}) {
   const schema = {

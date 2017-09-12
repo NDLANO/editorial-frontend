@@ -11,8 +11,8 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
 import SlateInputField from './SlateInputField';
-import ForbiddenOverlay from '../ForbiddenOverlay';
-import { EmbedShape } from '../../shapes';
+import ForbiddenOverlay from './ForbiddenOverlay';
+import { EmbedShape } from '../../../../shapes';
 
 const SlateVideo = ({
   embed,

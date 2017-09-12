@@ -10,8 +10,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
-import { isEmpty } from '../validators';
-import { Field, FocusLabel, FieldHelp } from '../Fields';
+import { isEmpty } from '../../../validators';
+import { Field, FocusLabel, FieldHelp } from '../../../Fields';
 
 const classes = new BEMHelper({
   name: 'editor',

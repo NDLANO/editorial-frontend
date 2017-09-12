@@ -9,9 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import * as visualElementApi from '../../containers/VisualElement/visualElementApi';
+import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 import SlateInputField from './SlateInputField';
-import { EmbedShape } from '../../shapes';
+import { EmbedShape } from '../../../../shapes';
 
 class SlateAudio extends React.Component {
   constructor() {
@@ -36,6 +36,7 @@ class SlateAudio extends React.Component {
         visualElementApi.onError(err);
       });
   }
+
   render() {
     const {
       t,
@@ -43,7 +44,6 @@ class SlateAudio extends React.Component {
       figureClass,
       attributes,
       submitted,
-      deletedOnSave,
       onFigureInputChange,
     } = this.props;
     const { audioSource, audioType } = this.state;
@@ -68,7 +68,6 @@ class SlateAudio extends React.Component {
           submitted={submitted}
           onChange={onFigureInputChange}
           placeholder={t('form.audio.caption.placeholder')}
-          deletedOnSave={deletedOnSave}
         />
       </div>
     );
@@ -82,7 +81,6 @@ SlateAudio.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  deletedOnSave: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
 

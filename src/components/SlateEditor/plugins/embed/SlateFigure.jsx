@@ -13,10 +13,10 @@ import { injectT } from 'ndla-i18n';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
-import EditorErrorMessage from './EditorErrorMessage';
-import DisplayOembed from '../DisplayEmbedTag/DisplayOembed';
-import ForbiddenOverlay from '../ForbiddenOverlay';
-import { getSchemaEmbed } from './schema';
+import EditorErrorMessage from '../../EditorErrorMessage';
+import DisplayOembed from '../../../DisplayEmbedTag/DisplayOembed';
+import ForbiddenOverlay from './ForbiddenOverlay';
+import { getSchemaEmbed } from '../../schema';
 
 const classes = new BEMHelper({
   name: 'editor',

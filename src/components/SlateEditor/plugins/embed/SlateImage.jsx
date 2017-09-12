@@ -11,9 +11,9 @@ import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import SlateInputField from './SlateInputField';
-import ForbiddenOverlay from '../ForbiddenOverlay';
-import ImageEditor from '../../containers/ImageEditor/ImageEditor';
-import { EmbedShape } from '../../shapes';
+import ForbiddenOverlay from './ForbiddenOverlay';
+import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
+import { EmbedShape } from '../../../../shapes';
 
 const getSrcSets = embed => {
   const src = `${window.config

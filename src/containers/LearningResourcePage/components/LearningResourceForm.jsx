@@ -230,13 +230,12 @@ export default compose(
       required: true,
     },
     introduction: {
-      required: true,
       maxLength: 300,
     },
     content: {
       required: true,
       test: (value, model, setError) => {
-        const hasErrors = value.find(block => {
+        const embedsHasErrors = value.find(block => {
           const embeds = findEmbedNodes(block.state.document).map(node =>
             node.get('data').toJS(),
           );
@@ -246,7 +245,7 @@ export default compose(
           return notValidEmbeds.length > 0;
         });
 
-        if (hasErrors) {
+        if (embedsHasErrors) {
           setError('learningResourceForm.validation.missingEmbedData');
         }
       },

@@ -46,9 +46,11 @@ export class MastheadSearchForm extends Component {
     );
     if (!isNDLAUrl) return;
 
-    this.setState({ query: '' });
     const splittedNdlaUrl = ndlaUrl.split('/');
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
+    if (!urlId.includes('urn:topic') && isNaN(urlId)) return;
+
+    this.setState({ query: '' });
     if (urlId.includes('urn:topic')) {
       fetchTopicArticle(urlId, locale).then(topicArticle => {
         const arr = topicArticle.contentUri.split(':');

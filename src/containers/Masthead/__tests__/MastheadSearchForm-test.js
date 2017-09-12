@@ -85,3 +85,31 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
     }, 100);
   });
 });
+
+test('MastheadSearchForm invalid id at the end of the url', () => {
+  const historyMock = {
+    push: sinon.spy(),
+  };
+
+  const component = renderer.create(
+    <MastheadSearchForm
+      show
+      query=""
+      searching={false}
+      onSearchQuerySubmit={noop}
+      t={() => ''}
+      locale="nb"
+      history={historyMock}
+    />,
+  );
+  const tree = component.toJSON();
+  const e = {
+    target: {
+      value:
+        'https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:168387',
+    },
+  };
+  tree.children[0].props.onChange(e);
+  expect(component.toJSON()).toMatchSnapshot();
+  expect(historyMock.push.calledOnce).toBe(false);
+});

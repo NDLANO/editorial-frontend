@@ -87,9 +87,8 @@ const phrases = {
     useAudio: 'Velg lyd',
     noResults: 'Ingen resultater funnet',
   },
-  forbiddenOverlay: {
-    deleteEmbedOnSave:
-      'ADVARSEL: Figur i innholdsblokk vil bli fjernet ved lagring',
+  noEmbedMessage: {
+    deleteOnSave: 'Element av type {type} vil bli fjernet ved lagring.',
   },
   topicArticleForm: {
     metadata: 'Metadata',

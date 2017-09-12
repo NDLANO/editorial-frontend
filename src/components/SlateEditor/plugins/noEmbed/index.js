@@ -6,12 +6,12 @@
  *
  */
 
-import ForbiddenOverlay from './ForbiddenOverlay';
+import NoEmbedMessage from './NoEmbedMessage';
 
 export default function createNoEmbedsPlugin() {
   const schema = {
     nodes: {
-      embed: ForbiddenOverlay,
+      embed: NoEmbedMessage,
     },
   };
 

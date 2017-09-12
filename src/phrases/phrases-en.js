@@ -85,9 +85,8 @@ const phrases = {
     useAudio: 'Chose audio',
     noResults: 'No audio files found',
   },
-  forbiddenOverlay: {
-    deleteEmbedOnSave:
-      'WARNING: Figure in content block will be removed on save',
+  noEmbedMessage: {
+    deleteOnSave: 'Element of type {type} will be deleted on save.',
   },
   topicArticleForm: {
     metadata: 'Metadata',

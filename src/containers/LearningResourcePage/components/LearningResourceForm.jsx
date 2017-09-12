@@ -133,7 +133,7 @@ class LearningResourceForm extends Component {
           language,
         },
       ],
-      articleType: 'standard',
+      articleType: 'topic-article',
       copyright: {
         license: licenses.find(license => license.license === model.license),
         origin: model.origin,

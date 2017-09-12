@@ -18,7 +18,8 @@
 
 .c-editor {
   position: relative;
-  padding: 3rem 9rem;
+  padding: 0 9rem;
+  margin: 0 -9rem;
 
   &__right-aside,
   &__fact-aside,

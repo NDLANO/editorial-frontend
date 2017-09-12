@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-ui/icons';
+import { NodeShape, EditorShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
   name: 'bodybox',
@@ -42,12 +43,8 @@ SlateBodyBox.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  node: PropTypes.shape({
-    get: PropTypes.func.isRequired,
-  }),
-  editor: PropTypes.shape({
-    onChange: PropTypes.func.isRequired,
-  }),
+  node: NodeShape,
+  editor: EditorShape,
 };
 
 export default SlateBodyBox;

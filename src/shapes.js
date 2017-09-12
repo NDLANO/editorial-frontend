@@ -76,3 +76,20 @@ export const CommonFieldPropsShape = PropTypes.shape({
 export const PluginShape = PropTypes.shape({
   schema: PropTypes.object.isRequired,
 });
+
+export const NodeShape = PropTypes.shape({
+  get: PropTypes.func.isRequired,
+  key: PropTypes.string.isRequired,
+});
+
+export const EditorShape = PropTypes.shape({
+  onChange: PropTypes.func.isRequired,
+  getState: PropTypes.func.isRequired,
+  props: PropTypes.shape({
+    submitted: PropTypes.bool.isRequired,
+    slateStore: PropTypes.shape({
+      getState: PropTypes.func.isRequired,
+      subscribe: PropTypes.func.isRequired,
+    }),
+  }),
+});

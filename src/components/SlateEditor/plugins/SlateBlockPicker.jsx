@@ -24,7 +24,8 @@ import {
   TextInBox,
 } from 'ndla-ui/icons';
 import { createEmptyState } from '../../../util/articleContentConverter';
-import { defaultAsideBlock, defaultBodyBoxBlock } from '../schema';
+import { defaultAsideBlock } from '../schema';
+import { defaultBodyBoxBlock } from './bodybox';
 import SlateEmbedPicker from './SlateEmbedPicker';
 
 const classes = new BEMHelper({

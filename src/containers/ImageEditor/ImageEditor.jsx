@@ -13,7 +13,7 @@ import { Button } from 'ndla-ui';
 import { FocalPoint, Crop } from 'ndla-ui/icons';
 import { injectT } from 'ndla-i18n';
 import { getSchemaEmbed } from '../../components/SlateEditor/schema';
-import { EmbedShape } from '../../shapes';
+import { EmbedShape, NodeShape, EditorShape } from '../../shapes';
 import ImageTransformEditor from './ImageTransformEditor';
 import ImageAlignButton from './ImageAlignButton';
 
@@ -180,12 +180,8 @@ class ImageEditor extends Component {
 ImageEditor.propTypes = {
   embed: EmbedShape.isRequired,
   toggleEditModus: PropTypes.func.isRequired,
-  node: PropTypes.shape({
-    get: PropTypes.func.isRequired,
-  }),
-  editor: PropTypes.shape({
-    getState: PropTypes.func.isRequired,
-  }),
+  node: NodeShape,
+  editor: EditorShape,
 };
 
 export default injectT(ImageEditor);

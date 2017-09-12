@@ -11,19 +11,12 @@ import React from 'react';
 import { Block, Placeholder } from 'slate';
 import SlateAside from './aside/SlateAside';
 import SlateLink from './SlateLink';
-import SlateBodyBox from './SlateBodyBox';
 
 export const defaultBlock = {
   type: 'paragraph',
   isVoid: false,
   data: {},
 };
-export const defaultBodyBoxBlock = () =>
-  Block.create({
-    isVoid: false,
-    type: 'bodybox',
-    nodes: Block.createList([defaultBlock]),
-  });
 
 export const defaultAsideBlock = type =>
   Block.create({
@@ -141,7 +134,6 @@ const defaultSchema = {
       <div {...props.attributes}>
         {props.children}
       </div>,
-    bodybox: SlateBodyBox,
   },
   marks: {
     bold: props =>

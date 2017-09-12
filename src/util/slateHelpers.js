@@ -65,6 +65,43 @@ const setAsideTag = data => ({
 });
 /* eslint-disable consistent-return, default-case */
 
+export const divRule = {
+  // div handling with text in box (bodybox)
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'div') return;
+    if (el.className === 'c-bodybox') {
+      return {
+        kind: 'block',
+        type: 'bodybox',
+        nodes: next(el.childNodes),
+      };
+    }
+    return {
+      kind: 'block',
+      type: 'div',
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(object, children) {
+    if (object.kind !== 'block') return;
+    if (object.type !== 'div' && object.type !== 'bodybox') return;
+    switch (object.type) {
+      case 'bodybox':
+        return (
+          <div className="c-bodybox">
+            {children}
+          </div>
+        );
+      default:
+        return (
+          <div>
+            {children}
+          </div>
+        );
+    }
+  },
+};
+
 const RULES = [
   {
     // empty text nodes
@@ -83,42 +120,7 @@ const RULES = [
       return <span />;
     },
   },
-  {
-    // Aside handling
-    deserialize(el, next) {
-      if (el.tagName.toLowerCase() !== 'div') return;
-      if (el.className === 'c-bodybox') {
-        return {
-          kind: 'block',
-          type: 'bodybox',
-          nodes: next(el.childNodes),
-        };
-      }
-      return {
-        kind: 'block',
-        type: 'div',
-        nodes: next(el.childNodes),
-      };
-    },
-    serialize(object, children) {
-      if (object.kind !== 'block') return;
-      if (object.type !== 'div' || !object.type !== 'bodybox') return;
-      switch (object.type) {
-        case 'bodybox':
-          return (
-            <div className="c-bodybox">
-              {children}
-            </div>
-          );
-        default:
-          return (
-            <div>
-              {children}
-            </div>
-          );
-      }
-    },
-  },
+  divRule,
   {
     // Aside handling
     deserialize(el, next) {

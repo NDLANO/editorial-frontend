@@ -50,7 +50,9 @@ export const getInitialModel = (article = {}) => {
     revision: article.revision,
     title: article.title || '',
     introduction: converter.toPlainSlateEditorState(article.introduction),
-    content: converter.toSlateEditorState(article.content, true),
+    content: converter.toSlateEditorState(article.content, true, {
+      footNotes: article.footNotes,
+    }),
     footNotes: article.footNotes,
     tags: article.tags || [],
     authors: parseCopyrightAuthors(article, 'Forfatter'),

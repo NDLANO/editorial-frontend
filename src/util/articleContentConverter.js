@@ -42,7 +42,11 @@ function extractSections(html) {
     .map(section => `${section}</section>`);
 }
 
-function convertHTMLToSlateEditorState(html, isBlocks = false) {
+function convertHTMLToSlateEditorState(
+  html,
+  isBlocks = false,
+  contentData = {},
+) {
   if (!isBlocks) {
     if (!html) {
       return createEmptyState();
@@ -61,7 +65,7 @@ function convertHTMLToSlateEditorState(html, isBlocks = false) {
     ];
   } else {
     const sections = extractSections(html);
-    const serializer = new Html({ rules: learningResourceRules });
+    const serializer = new Html({ rules: learningResourceRules(contentData) });
     contentState = sections.map((section, index) => ({
       state: serializer.deserialize(section.replace(/\s\s+/g, '')),
       index,

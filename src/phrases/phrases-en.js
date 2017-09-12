@@ -248,6 +248,10 @@ const phrases = {
       create: 'You are now creating a learning resource',
       update: 'You are now editing a learning resource',
     },
+    validation: {
+      missingEmbedData:
+        'One or more inlcuded video, image, or audio elements is missing caption or alternative text.',
+    },
     fields: {
       title: {
         label: 'Title',
@@ -259,23 +263,10 @@ const phrases = {
         title: 'Add visual element',
         label: 'Visual element',
       },
-      caption: {
-        label: 'Caption',
-        placeholder: 'Caption',
-      },
-      alt: {
-        label: 'Alt-text',
-        placeholder: 'Alt-text',
-      },
       content: {
         label: 'Content',
         placeholder: 'Write here...',
         figure: {
-          caption: {
-            brightcove: 'Video caption',
-            image: 'Image caption',
-          },
-          alt: 'Alt text',
           notSupported: 'Media type {mediaType} is not supported.',
         },
         link: {
@@ -333,6 +324,32 @@ const phrases = {
     createdOk: 'Created OK',
     remainingCharacters:
       'Max {maxLength, number} characters and you have {remaining, number} remaining.',
+    caption: {
+      label: 'Caption',
+      placeholder: 'Caption',
+    },
+    image: {
+      alt: {
+        label: 'Alt-text',
+        placeholder: 'Alt-text',
+      },
+      caption: {
+        label: 'Image caption',
+        placeholder: 'Image caption',
+      },
+    },
+    video: {
+      caption: {
+        label: 'Video caption',
+        placeholder: 'Video caption',
+      },
+    },
+    audio: {
+      caption: {
+        label: 'Audio caption',
+        placeholder: 'Audio caption',
+      },
+    },
   },
   validation: {
     isRequired: '{label} is required.',

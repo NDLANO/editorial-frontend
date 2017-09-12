@@ -8,7 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 import * as visualElementApi from '../../containers/VisualElement/visualElementApi';
+import SlateInputField from './SlateInputField';
 import { EmbedShape } from '../../shapes';
 
 class SlateAudio extends React.Component {
@@ -35,7 +37,15 @@ class SlateAudio extends React.Component {
       });
   }
   render() {
-    const { embed, figureClass, attributes } = this.props;
+    const {
+      t,
+      embed,
+      figureClass,
+      attributes,
+      submitted,
+      deletedOnSave,
+      onFigureInputChange,
+    } = this.props;
     const { audioSource, audioType } = this.state;
     return (
       <div {...attributes}>
@@ -49,6 +59,17 @@ class SlateAudio extends React.Component {
             : undefined}
           <track kind="captions" label={embed.caption} />
         </audio>
+        <SlateInputField
+          name="caption"
+          label={t('form.audio.caption.label')}
+          type="text"
+          required
+          value={embed.caption}
+          submitted={submitted}
+          onChange={onFigureInputChange}
+          placeholder={t('form.audio.caption.placeholder')}
+          deletedOnSave={deletedOnSave}
+        />
       </div>
     );
   }
@@ -57,16 +78,12 @@ class SlateAudio extends React.Component {
 SlateAudio.propTypes = {
   embed: EmbedShape.isRequired,
   figureClass: PropTypes.object.isRequired,
+  onFigureInputChange: PropTypes.func.isRequired,
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
   deletedOnSave: PropTypes.bool,
+  submitted: PropTypes.bool.isRequired,
 };
 
-SlateAudio.defaultProps = {
-  embedTag: {
-    caption: '',
-  },
-};
-
-export default SlateAudio;
+export default injectT(SlateAudio);

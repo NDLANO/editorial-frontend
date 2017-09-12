@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { Raw } from 'slate';
 import isObject from 'lodash/fp/isObject';
 import { reduceElementDataAttributes } from './embedTagHelpers';
 
@@ -32,6 +33,24 @@ const MARK_TAGS = {
   u: 'underlined',
   s: 'strikethrough',
   code: 'code',
+};
+
+export const findEmbedNodes = (node, embeds = []) => {
+  if (node.type === 'embed') {
+    embeds.push(node);
+  } else if (
+    node.kind === 'document' ||
+    (node.kind === 'block' &&
+      node.nodes.size > 0 &&
+      node.nodes.first().kind === 'block')
+  ) {
+    node.nodes.forEach(n => findEmbedNodes(n, embeds));
+  }
+  return embeds;
+};
+
+export const logState = state => {
+  console.log(JSON.stringify(Raw.serialize(state), null, 2)); // eslint-disable-line no-console
 };
 
 // TODO: get type of aside in here. Default should be rightAside since that is the only

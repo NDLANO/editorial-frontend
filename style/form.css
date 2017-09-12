@@ -49,6 +49,10 @@ input::placeholder {
     font-size: 1.5rem;
   }
 
+  &--no-margin-top {
+    margin-top: 0.5rem;
+  }
+
   &__help {
     display: block;
     font-size: 0.75rem;
@@ -65,11 +69,15 @@ input::placeholder {
   &__focus-label {
     color: var(--brand-color--tertiary);
     position: absolute;
-    height: 2rem;
-    left: -4rem;
-    width: 3.5em;
+    height: 1.5rem;
+    left: -7rem;
+    width: 6.5em;
     border-right: 1px solid;
     padding-right: 0.7rem;
+  }
+
+  &__focus-text {
+    float: right;
   }
 
   &__description--block {
@@ -86,57 +94,24 @@ input::placeholder {
     }
   }
 
-  &__focus-text {
-    float: right;
-    padding-top: 0.7rem;
-  }
-
-  &--bigText {
-    & input {
-      font-size: 2rem;
-    }
-  }
-
   &--title {
     & input {
       font-size: 2.11111rem;
-      font-family: 'SourceSansPro-Semibold', 'Source Sans Pro Semibold', 'Source Sans Pro';
+    }
+
+    .c-field__focus-label {
+      margin-top: 0.7rem;
+    }
+  }
+
+  &--introduction {
+    .c-field__focus-label {
+      margin-top: 0.2rem;
     }
   }
 
   &--right {
     text-align: right;
-  }
-
-  &__plain-text-editor {
-    & .public-DraftEditor-content {
-      border: 1px solid rgb(230, 230, 230);
-      min-height: 6em;
-      padding: 0.6em;
-    }
-
-    &--no-border {
-      & .public-DraftEditor-content {
-        border: none;
-        padding: 0;
-        margin: 0;
-        outline: none;
-      }
-    }
-
-    &--bigText {
-      font-family: 'SourceSansPro-Light', 'Source Sans Pro Light', 'Source Sans Pro';
-      font-weight: 200;
-      font-style: normal;
-      font-size: 1.56rem;
-
-      & .public-DraftEditor-content {
-        font-family: 'SourceSansPro-Light', 'Source Sans Pro Light', 'Source Sans Pro';
-        font-weight: 200;
-        font-style: normal;
-        font-size: 1.56rem;
-      }
-    }
   }
 
   &--no-border {

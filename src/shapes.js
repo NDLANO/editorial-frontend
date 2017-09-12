@@ -72,3 +72,7 @@ export const CommonFieldPropsShape = PropTypes.shape({
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
 });
+
+export const PluginShape = PropTypes.shape({
+  schema: PropTypes.object.isRequired,
+});

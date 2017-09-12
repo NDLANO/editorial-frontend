@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getSchemaEmbed } from './schema';
+import { NodeShape } from '../../shapes';
 
 const SlateLink = props => {
   const { attributes, node } = props;
@@ -26,9 +27,7 @@ SlateLink.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  node: PropTypes.shape({
-    get: PropTypes.func.isRequired,
-  }),
+  node: NodeShape,
 };
 
 export default SlateLink;

@@ -17,6 +17,7 @@ import EditorErrorMessage from './EditorErrorMessage';
 import DisplayOembed from '../DisplayEmbedTag/DisplayOembed';
 import ForbiddenOverlay from '../ForbiddenOverlay';
 import { getSchemaEmbed } from './schema';
+import { NodeShape, EditorShape } from '../../shapes';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -124,19 +125,8 @@ SlateFigure.propTypes = {
       hasEdgeIn: PropTypes.func.isRequired,
     }),
   }),
-  node: PropTypes.shape({
-    get: PropTypes.func.isRequired,
-  }),
-  editor: PropTypes.shape({
-    getState: PropTypes.func.isRequired,
-    props: PropTypes.shape({
-      submitted: PropTypes.bool.isRequired,
-      slateStore: PropTypes.shape({
-        getState: PropTypes.func.isRequired,
-        subscribe: PropTypes.func.isRequired,
-      }),
-    }),
-  }),
+  node: NodeShape,
+  editor: EditorShape,
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),

@@ -1,7 +1,25 @@
 
+.c-bodybox__delete-button,
+.c-editor__delete-aside-button {
+  color: red;
+  position: absolute;
+  top: 0.1rem;
+  right: 0.2rem;
+
+  &:hover,
+  &:focus {
+    color: color(red blackness(+ 20%));
+  }
+}
+
+.c-bodybox {
+  position: relative;
+}
+
 .c-editor {
   position: relative;
-  padding: 3rem 9rem;
+  padding: 0 9rem;
+  margin: 0 -9rem;
 
   &__right-aside,
   &__fact-aside,
@@ -19,18 +37,6 @@
     float: right;
     display: inline;
     background-color: white;
-  }
-
-  &__delete-aside-button {
-    color: red;
-    position: absolute;
-    top: 0.1rem;
-    right: 0.2rem;
-
-    &:hover,
-    &:focus {
-      color: color(red blackness(+ 20%));
-    }
   }
 
   &__block-type-container--hidden {

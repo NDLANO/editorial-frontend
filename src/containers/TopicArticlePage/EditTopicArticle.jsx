@@ -15,6 +15,7 @@ import TopicArticleForm, {
   getInitialModel,
 } from './components/TopicArticleForm';
 import { ArticleShape } from '../../shapes';
+import { toEditArticle } from '../../util/routeHelpers';
 
 class EditTopicArticle extends Component {
   constructor(props) {
@@ -39,9 +40,8 @@ class EditTopicArticle extends Component {
     }
 
     if (article.articleType !== 'topic-article') {
-      return <Redirect to="/forbidden" />;
+      return <Redirect to={toEditArticle(article.id, article.articleType)} />;
     }
-
     return (
       <TopicArticleForm
         initialModel={getInitialModel(article)}

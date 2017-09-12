@@ -41,3 +41,10 @@ export const createArticle = article =>
     method: 'POST',
     body: JSON.stringify(article),
   }).then(resolveJsonOrRejectWithError);
+
+const baseTaxonomyUrl = apiResourceUrl('/taxonomy/v1');
+
+export const fetchTopicArticle = (topicId, locale) =>
+  fetchWithAccessToken(
+    `${baseTaxonomyUrl}/topics/${topicId}/?language=${locale}`,
+  ).then(resolveJsonOrRejectWithError);

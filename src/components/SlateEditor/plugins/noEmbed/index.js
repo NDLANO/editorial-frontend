@@ -6,12 +6,12 @@
  *
  */
 
-import SlateFigure from './SlateFigure';
+import ForbiddenOverlay from './ForbiddenOverlay';
 
-export default function createEmbedPlugin() {
+export default function createNoEmbedsPlugin() {
   const schema = {
     nodes: {
-      embed: SlateFigure,
+      embed: ForbiddenOverlay,
     },
   };
 

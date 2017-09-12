@@ -61,3 +61,18 @@ export const MetaImageShape = PropTypes.shape({
   caption: PropTypes.string,
   alt: PropTypes.string,
 });
+
+export const SchemaShape = PropTypes.shape({
+  fields: PropTypes.object.isRequired,
+  isValid: PropTypes.bool.isRequired,
+});
+
+export const CommonFieldPropsShape = PropTypes.shape({
+  schema: SchemaShape,
+  submitted: PropTypes.bool.isRequired,
+  bindInput: PropTypes.func.isRequired,
+});
+
+export const PluginShape = PropTypes.shape({
+  schema: PropTypes.object.isRequired,
+});

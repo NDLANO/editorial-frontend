@@ -6,7 +6,11 @@
  *
  */
 
-import { parseEmbedTag, createEmbedTag } from '../embedTagHelpers';
+import {
+  parseEmbedTag,
+  createEmbedTag,
+  isUserProvidedEmbedDataValid,
+} from '../embedTagHelpers';
 
 test('parseEmbedTag parses image embed tag to object', () => {
   const obj = parseEmbedTag(
@@ -80,4 +84,61 @@ test('createEmbedTag creates brightcove embed tag from object', () => {
   });
 
   expect(tag).toMatchSnapshot();
+});
+
+test('isUserProvidedEmbedDataValid for image', () => {
+  expect(
+    isUserProvidedEmbedDataValid({
+      resource: 'image',
+      alt: 'Alternative',
+      caption: 'Intervju med Hallvard',
+    }),
+  ).toBe(true);
+
+  expect(
+    isUserProvidedEmbedDataValid({
+      resource: 'image',
+      alt: '',
+      caption: 'Intervju med Hallvard',
+    }),
+  ).toBe(false);
+
+  expect(
+    isUserProvidedEmbedDataValid({
+      resource: 'image',
+      alt: 'Alt',
+    }),
+  ).toBe(false);
+});
+
+test('isUserProvidedEmbedDataValid for brightcove', () => {
+  expect(
+    isUserProvidedEmbedDataValid({
+      resource: 'brightcove',
+      caption: 'Intervju med Hallvard',
+    }),
+  ).toBe(true);
+
+  expect(
+    isUserProvidedEmbedDataValid({
+      resource: 'brightcove',
+      caption: '',
+    }),
+  ).toBe(false);
+});
+
+test('isUserProvidedEmbedDataValid for audio', () => {
+  expect(
+    isUserProvidedEmbedDataValid({
+      resource: 'audio',
+      caption: 'Intervju med Hallvard',
+    }),
+  ).toBe(true);
+
+  expect(
+    isUserProvidedEmbedDataValid({
+      resource: 'audio',
+      caption: '',
+    }),
+  ).toBe(false);
 });

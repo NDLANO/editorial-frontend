@@ -22,7 +22,7 @@ const getValidationErrors = (schema, model, fields, t) =>
       const value = get(key, model);
       const rules = schema[key];
       const field = get(key, fields);
-      const isDirty = field ? field.isDirty : false;
+      const dirty = field ? field.dirty : false;
 
       if (rules.required && isEmpty(value)) {
         errors.push(label => t('validation.isRequired', { label }));
@@ -70,7 +70,7 @@ const getValidationErrors = (schema, model, fields, t) =>
         isValid: !errors.length && acc.isValid,
         fields: set(
           key,
-          { isValid: !errors.length, errors, isDirty },
+          { valid: !errors.length, errors, ...field, dirty },
           acc.fields,
         ),
       };

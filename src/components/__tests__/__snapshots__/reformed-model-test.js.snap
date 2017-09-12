@@ -1,0 +1,192 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reformed HOC handles onChange event correctly 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <input
+    name="title"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="Hombre"
+  />
+  <input
+    name="introduction"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value=""
+  />
+  <input
+    name="content"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="Olé, Olé, Olé"
+  />
+  <input
+    name="image.alt"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="Alternative image text"
+  />
+  <input
+    name="image.caption"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value=""
+  />
+</form>
+`;
+
+exports[`reformed HOC handles onChange event on nested property correctly 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <input
+    name="title"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="Olé"
+  />
+  <input
+    name="introduction"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value=""
+  />
+  <input
+    name="content"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="Olé, Olé, Olé"
+  />
+  <input
+    name="image.alt"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="Alternative image text"
+  />
+  <input
+    name="image.caption"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="El Grande"
+  />
+</form>
+`;
+
+exports[`reformed HOC handles setModel and setSubmitted 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <span>
+    Submitted!
+  </span>
+  <input
+    name="title"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value=""
+  />
+  <input
+    name="introduction"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value=""
+  />
+  <input
+    name="content"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value=""
+  />
+  <input
+    name="image.alt"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value=""
+  />
+  <input
+    name="image.caption"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value=""
+  />
+</form>
+`;
+
+exports[`reformed HOC renderers form component correctly 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <input
+    name="title"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="Olé"
+  />
+  <input
+    name="introduction"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value=""
+  />
+  <input
+    name="content"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="Olé, Olé, Olé"
+  />
+  <input
+    name="image.alt"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value="Alternative image text"
+  />
+  <input
+    name="image.caption"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    type="text"
+    value=""
+  />
+</form>
+`;

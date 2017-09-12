@@ -10,10 +10,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { State } from 'slate';
 import { injectT } from 'ndla-i18n';
-import { TextField, RichBlockTextField } from '../../../components/Fields';
+import { TextField } from '../../../components/Fields';
+import RichBlockTextField from '../../../components/RichBlockTextField';
 import Accordion from '../../../components/Accordion';
 import LearningResourceIngress from './LearningResourceIngress';
-import { learningResourceSchema } from '../../../components/SlateEditor/schema';
+import schema from '../../../components/SlateEditor/schema';
+import createEmbedPlugin from '../../../components/SlateEditor/embedPlugin';
+import { CommonFieldPropsShape } from '../../../shapes';
+
+const plugins = [createEmbedPlugin()];
 
 class LearningResourceContent extends Component {
   constructor(props) {
@@ -68,7 +73,7 @@ class LearningResourceContent extends Component {
         <TextField
           label={t('learningResourceForm.fields.title.label')}
           name="title"
-          bigText
+          title
           noBorder
           placeholder={t('learningResourceForm.fields.title.label')}
           {...commonFieldProps}
@@ -83,12 +88,13 @@ class LearningResourceContent extends Component {
           />
         </div>
         <RichBlockTextField
-          slateSchema={learningResourceSchema}
+          slateSchema={schema}
           label={t('learningResourceForm.fields.content.label')}
           placeholder={contentPlaceholder}
           name="content"
           ingress={ingress}
           ingressRef={this.ingressRef}
+          plugins={plugins}
           {...commonFieldProps}
         />
       </Accordion>
@@ -97,13 +103,7 @@ class LearningResourceContent extends Component {
 }
 
 LearningResourceContent.propTypes = {
-  commonFieldProps: PropTypes.shape({
-    schema: PropTypes.shape({
-      fields: PropTypes.object.isRequired,
-      isValid: PropTypes.bool.isRequired,
-    }),
-    submitted: PropTypes.bool.isRequired,
-  }),
+  commonFieldProps: CommonFieldPropsShape.isRequired,
   classes: PropTypes.func.isRequired,
   bindInput: PropTypes.func.isRequired,
 };

@@ -8,11 +8,18 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import RichTextEditor from '../components/SlateEditor/RichTextEditor';
-import { Field, FocusLabel, FieldErrorMessages, getField } from './Fields';
+import { uuid } from 'ndla-util';
+import RichBlockTextEditor from '../components/SlateEditor/RichBlockTextEditor';
+import {
+  Field,
+  FocusLabel,
+  FieldErrorMessages,
+  getField,
+  classes,
+} from './Fields';
 import { PluginShape } from '../shapes';
 
-export const RichTextField = ({
+export const RichBlockTextField = ({
   bindInput,
   name,
   label,
@@ -20,12 +27,13 @@ export const RichTextField = ({
   submitted,
   schema,
   slateSchema,
-  fieldClassName,
   ...rest
 }) => {
   const { value, onChange } = bindInput(name);
   return (
-    <Field noBorder={noBorder} className={fieldClassName}>
+    <Field
+      noBorder={noBorder}
+      className={classes('', 'position-static').className}>
       {!noBorder
         ? <label htmlFor={name}>
             {label}
@@ -34,32 +42,39 @@ export const RichTextField = ({
             {label}
           </label>}
       {noBorder &&
-        <FocusLabel name={name} hasFocus={() => value.isFocused} value={value}>
-          {label}
-        </FocusLabel>}
-      <RichTextEditor
+        value.map((val, i) =>
+          <FocusLabel
+            key={uuid()}
+            name={name}
+            hasFocus={() => val.state.isFocused}
+            value={val.state}>
+            {`${label} Blokk ${i + 1}`}
+          </FocusLabel>,
+        )}
+      <RichBlockTextEditor
         id={name}
         name={name}
         value={value}
         onChange={onChange}
         schema={slateSchema}
+        submitted={submitted}
         {...rest}
       />
-      <FieldErrorMessages
-        label={label}
-        field={getField(name, schema)}
-        submitted={submitted}
-      />
+      {submitted && // Only show if submitted
+        <FieldErrorMessages
+          label={label}
+          field={getField(name, schema)}
+          submitted={submitted}
+        />}
     </Field>
   );
 };
 
-RichTextField.propTypes = {
+RichBlockTextField.propTypes = {
   slateSchema: PropTypes.shape({}).isRequired,
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  fieldClassName: PropTypes.string,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),
@@ -67,3 +82,9 @@ RichTextField.propTypes = {
   submitted: PropTypes.bool.isRequired,
   plugins: PropTypes.arrayOf(PluginShape).isRequired,
 };
+
+RichBlockTextField.defaultProps = {
+  noBorder: false,
+};
+
+export default RichBlockTextField;

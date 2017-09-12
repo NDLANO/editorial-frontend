@@ -14,16 +14,21 @@ import {
   TextField,
   PlainTextField,
   RemainingCharacters,
+  classes as fieldClasses,
 } from '../../../components/Fields';
 import { RichTextField } from '../../../components/RichTextField';
+import createEmbedPlugin from '../../../components/SlateEditor/embedPlugin';
 import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
-import { topicArticleSchema } from '../../../components/SlateEditor/schema';
+import schema from '../../../components/SlateEditor/schema';
+import { CommonFieldPropsShape } from '../../../shapes';
 
 const classes = new BEMHelper({
   name: 'topic-article-content',
   prefix: 'c-',
 });
+
+const plugins = [createEmbedPlugin({ deleteOnSave: true })];
 
 class TopicArticleContent extends Component {
   constructor(props) {
@@ -54,7 +59,6 @@ class TopicArticleContent extends Component {
         <TextField
           label={t('topicArticleForm.fields.title.label')}
           name="title"
-          bigText
           title
           noBorder
           placeholder={t('topicArticleForm.fields.title.label')}
@@ -77,8 +81,9 @@ class TopicArticleContent extends Component {
           label={t('topicArticleForm.fields.introduction.label')}
           placeholder={t('topicArticleForm.fields.introduction.label')}
           name="introduction"
+          className="article_introduction"
+          fieldClassName={fieldClasses(undefined, 'introduction').className}
           noBorder
-          bigText
           maxLength={300}
           {...commonFieldProps}>
           <RemainingCharacters
@@ -98,7 +103,8 @@ class TopicArticleContent extends Component {
           label={t('topicArticleForm.fields.content.label')}
           placeholder={t('topicArticleForm.fields.content.placeholder')}
           name="content"
-          slateSchema={topicArticleSchema}
+          slateSchema={schema}
+          plugins={plugins}
           {...commonFieldProps}
         />
       </Accordion>
@@ -112,14 +118,7 @@ TopicArticleContent.propTypes = {
     title: PropTypes.string,
   }),
   bindInput: PropTypes.func.isRequired,
-  commonFieldProps: PropTypes.shape({
-    schema: PropTypes.shape({
-      fields: PropTypes.object.isRequired,
-      isValid: PropTypes.bool.isRequired,
-    }),
-    submitted: PropTypes.bool.isRequired,
-    bindInput: PropTypes.func.isRequired,
-  }),
+  commonFieldProps: CommonFieldPropsShape.isRequired,
   classes: PropTypes.func.isRequired,
 };
 

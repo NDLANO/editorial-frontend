@@ -5,11 +5,11 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js -p --bail",
     "clean": "rimraf ./htdocs/assets/*",
-    "lint": "yarn lint-css --silent && yarn lint-prettier --silent && yarn lint-es --silent",
+    "lint": "yarn lint-css && yarn lint-prettier && yarn lint-es",
     "lint-css": "stylelint style/**/*.css",
     "lint-es": "eslint --ext .js --ext .jsx src server",
     "lint-prettier": "node prettier.js lint",
-    "prebuild": "yarn run clean --silent",
+    "prebuild": "yarn run clean",
     "pretest": "yarn lint",
     "prettier": "node prettier.js write",
     "start": "cross-env NODE_ENV=development nodemon server --watch server",
@@ -24,8 +24,8 @@
     ]
   },
   "engines": {
-    "node": "~6.6.0",
-    "npm": "~3.10.3"
+    "node": "~8.4.0",
+    "npm": "~5.3.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

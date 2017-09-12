@@ -80,8 +80,12 @@
     padding: 1rem;
   }
 
-  &__figure--active {
-    border: 1px solid var(--brand-color--light);
+  &__figure {
+    border: 1px solid transparent;
+
+    &--active {
+      border: 1px solid var(--brand-color--light);
+    }
   }
 
   &__figure-input-field {

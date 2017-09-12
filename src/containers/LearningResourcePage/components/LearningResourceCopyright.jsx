@@ -13,6 +13,7 @@ import {
   MultiSelectField,
   SelectObjectField,
 } from '../../../components/Fields';
+import { CommonFieldPropsShape } from '../../../shapes';
 import Accordion from '../../../components/Accordion';
 
 class LearningResourceCopyright extends Component {
@@ -85,14 +86,7 @@ class LearningResourceCopyright extends Component {
 }
 
 LearningResourceCopyright.propTypes = {
-  commonFieldProps: PropTypes.shape({
-    schema: PropTypes.shape({
-      fields: PropTypes.object.isRequired,
-      isValid: PropTypes.bool.isRequired,
-    }),
-    submitted: PropTypes.bool.isRequired,
-    bindInput: PropTypes.func.isRequired,
-  }),
+  commonFieldProps: CommonFieldPropsShape.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

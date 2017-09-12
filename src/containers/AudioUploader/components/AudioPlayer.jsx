@@ -18,9 +18,9 @@ class AudioPlayer extends React.Component {
     }
   }
   render() {
-    const { audio, noBorder, bigText, filepath } = this.props;
+    const { audio, noBorder, filepath } = this.props;
     return (
-      <Field noBorder={noBorder} bigText={bigText}>
+      <Field noBorder={noBorder}>
         {
           // eslint-disable-next-line
           <audio
@@ -45,11 +45,9 @@ AudioPlayer.propTypes = {
   }),
   filepath: PropTypes.string,
   noBorder: PropTypes.bool,
-  bigText: PropTypes.bool,
 };
 
 AudioPlayer.defaultProps = {
-  bigText: false,
   noBorder: true,
 };
 

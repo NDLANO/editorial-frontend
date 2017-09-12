@@ -6,9 +6,9 @@
  *
  */
 
-import React from 'react';
 import { Block } from 'slate';
 import SlateFigure from './SlateFigure';
+import ForbiddenOverlay from './ForbiddenOverlay';
 
 export const defaultEmbedBlock = data =>
   Block.create({
@@ -19,11 +19,22 @@ export const defaultEmbedBlock = data =>
 
 export const getSchemaEmbed = node => node.get('data').toJS();
 
-export default function createEmbedPlugin(options = {}) {
+export function createNoEmbedsPlugin() {
   const schema = {
     nodes: {
-      embed: props =>
-        <SlateFigure deletedOnSave={options.deleteOnSave} {...props} />,
+      embed: ForbiddenOverlay,
+    },
+  };
+
+  return {
+    schema,
+  };
+}
+
+export default function createEmbedPlugin() {
+  const schema = {
+    nodes: {
+      embed: SlateFigure,
     },
   };
 

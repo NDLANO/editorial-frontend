@@ -17,7 +17,7 @@ import {
   classes as fieldClasses,
 } from '../../../components/Fields';
 import { RichTextField } from '../../../components/RichTextField';
-import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
+import { createNoEmbedsPlugin } from '../../../components/SlateEditor/plugins/embed';
 import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
 import schema from '../../../components/SlateEditor/schema';
@@ -28,7 +28,7 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const plugins = [createEmbedPlugin({ deleteOnSave: true })];
+const plugins = [createNoEmbedsPlugin()];
 
 class TopicArticleContent extends Component {
   constructor(props) {

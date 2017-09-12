@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
 import SlateInputField from './SlateInputField';
-import ForbiddenOverlay from './ForbiddenOverlay';
 import { EmbedShape } from '../../../../shapes';
 
 const SlateVideo = ({
@@ -19,7 +18,6 @@ const SlateVideo = ({
   figureClass,
   onFigureInputChange,
   attributes,
-  deletedOnSave,
   submitted,
   t,
 }) => {
@@ -42,10 +40,6 @@ const SlateVideo = ({
           alt={embed.alt}>
           <track kind="captions" label={embed.caption} />
         </video>
-        {deletedOnSave &&
-          <ForbiddenOverlay
-            text={t('topicArticleForm.fields.content.deleteEmbedOnSave')}
-          />}
       </figure>
       <SlateInputField
         name="caption"
@@ -56,7 +50,6 @@ const SlateVideo = ({
         submitted={submitted}
         onChange={onFigureInputChange}
         placeholder={t('form.video.caption.placeholder')}
-        deletedOnSave={deletedOnSave}
       />
     </div>
   );
@@ -69,7 +62,6 @@ SlateVideo.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  deletedOnSave: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
 

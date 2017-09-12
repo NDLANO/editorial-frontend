@@ -61,19 +61,7 @@ class SlateInputField extends React.Component {
   }
 
   render() {
-    const {
-      t,
-      label,
-      required,
-      submitted,
-      name,
-      value,
-      deletedOnSave,
-      ...rest
-    } = this.props;
-    if (deletedOnSave) {
-      return null;
-    }
+    const { t, label, required, submitted, name, value, ...rest } = this.props;
     return (
       <Field noBorder className="c-field--no-margin-top">
         <label className="u-hidden" htmlFor={name}>
@@ -103,7 +91,6 @@ class SlateInputField extends React.Component {
 }
 
 SlateInputField.propTypes = {
-  deletedOnSave: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
   className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
@@ -116,7 +103,6 @@ SlateInputField.propTypes = {
 SlateInputField.defaultProps = {
   value: '',
   required: true,
-  deletedOnSave: false,
 };
 
 export default injectT(SlateInputField);

@@ -87,6 +87,10 @@ const phrases = {
     useAudio: 'Velg lyd',
     noResults: 'Ingen resultater funnet',
   },
+  forbiddenOverlay: {
+    deleteEmbedOnSave:
+      'ADVARSEL: Figur i innholdsblokk vil bli fjernet ved lagring',
+  },
   topicArticleForm: {
     metadata: 'Metadata',
     content: 'Innhold',
@@ -132,8 +136,6 @@ const phrases = {
       content: {
         label: 'Innhold',
         placeholder: 'Innhold',
-        deleteEmbedOnSave:
-          'ADVARSEL: Figur i innholdsblokk vil bli fjernet ved lagring',
       },
       tags: {
         label: 'Nøkkelord',

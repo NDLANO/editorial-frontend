@@ -13,12 +13,13 @@ import BEMHelper from 'react-bem-helper';
 import ToolbarButton from './ToolbarButton';
 import SlateToolbarLink from './SlateToolbarLink';
 import SlateToolbarFootNote from './SlateToolbarFootNote';
+import { hasNodeOfType } from '../utils';
 
 const DEFAULT_NODE = 'paragraph';
 
 const suportedToolbarElements = {
-  marks: ['bold', 'italic', 'underlined', 'strikethrough'],
-  blocks: [
+  mark: ['bold', 'italic', 'underlined', 'strikethrough'],
+  block: [
     'quote',
     'numbered-list',
     'bulleted-list',
@@ -27,7 +28,7 @@ const suportedToolbarElements = {
     'heading-three',
     'list-item',
   ],
-  inlines: ['embed-inline', 'footnote'],
+  inline: ['embed-inline', 'footnote'],
 };
 
 export const toolbarClasses = new BEMHelper({
@@ -42,10 +43,8 @@ class SlateToolbar extends Component {
     this.onClickMark = this.onClickMark.bind(this);
     this.onClickBlock = this.onClickBlock.bind(this);
     this.onClickInline = this.onClickInline.bind(this);
+    this.onButtonClick = this.onButtonClick.bind(this);
     this.onOpen = this.onOpen.bind(this);
-    this.hasMark = this.hasMark.bind(this);
-    this.hasBlock = this.hasBlock.bind(this);
-    this.hasInlines = this.hasInlines.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
     this.onCloseDialog = this.onCloseDialog.bind(this);
@@ -75,8 +74,8 @@ class SlateToolbar extends Component {
     const { document } = state;
     if (type !== 'bulleted-list' && type !== 'numbered-list') {
       // Handle everything but list buttons.
-      const isActive = this.hasBlock(type);
-      const isList = this.hasBlock('list-item');
+      const isActive = hasNodeOfType(state, type);
+      const isList = hasNodeOfType(state, 'list-item');
 
       if (isList) {
         transform
@@ -88,7 +87,7 @@ class SlateToolbar extends Component {
       }
     } else {
       // Handle the extra wrapping required for list buttons.
-      const isList = this.hasBlock('list-item');
+      const isList = hasNodeOfType(state, 'list-item');
       const isType = state.blocks.some(
         block =>
           !!document.getClosest(block.key, parent => parent.type === type),
@@ -130,6 +129,12 @@ class SlateToolbar extends Component {
     }
   }
 
+  onButtonClick(e, kind, type) {
+    if (kind === 'mark') this.onClickMark(e, type);
+    if (kind === 'block') this.onClickBlock(e, type);
+    if (kind === 'inline') this.onClickInline(e, type);
+  }
+
   onOpen(portal) {
     this.setState({ menu: portal.firstChild });
   }
@@ -150,21 +155,6 @@ class SlateToolbar extends Component {
     const { name, onChange } = this.props;
     onChange({ target: { name, value: state } });
     this.updateMenu();
-  }
-
-  hasMark(type) {
-    const { state } = this.props;
-    return state.marks.some(mark => mark.type === type);
-  }
-
-  hasBlock(type) {
-    const { state } = this.props;
-    return state.blocks.some(node => node.type === type);
-  }
-
-  hasInlines(type) {
-    const { state } = this.props;
-    return state.inlines.some(node => node.type === type);
   }
 
   updateMenu() {
@@ -190,12 +180,25 @@ class SlateToolbar extends Component {
   render() {
     const { showContentlinkDialog, showFootNotesDialog } = this.state;
     const { state } = this.props;
+
+    const toolbarButtons = Object.keys(suportedToolbarElements).map(kind =>
+      suportedToolbarElements[kind].map(type =>
+        <ToolbarButton
+          key={type}
+          type={type}
+          kind={kind}
+          state={state}
+          handleHasType={hasNodeOfType}
+          handleOnClick={this.onButtonClick}
+        />,
+      ),
+    );
+
     return (
       <div>
         <SlateToolbarLink
           showDialog={showContentlinkDialog}
           closeDialog={this.onCloseDialog}
-          hasInlines={this.hasInlines}
           state={state}
           handleStateChange={this.handleStateChange}
         />
@@ -207,30 +210,7 @@ class SlateToolbar extends Component {
         />
         <Portal isOpened onOpen={this.onOpen}>
           <div {...toolbarClasses()}>
-            {suportedToolbarElements.marks.map(type =>
-              <ToolbarButton
-                key={type}
-                type={type}
-                handleHasType={this.hasMark}
-                handleOnClick={this.onClickMark}
-              />,
-            )}
-            {suportedToolbarElements.blocks.map(type =>
-              <ToolbarButton
-                key={type}
-                type={type}
-                handleHasType={this.hasBlock}
-                handleOnClick={this.onClickBlock}
-              />,
-            )}
-            {suportedToolbarElements.inlines.map(type =>
-              <ToolbarButton
-                key={type}
-                type={type}
-                handleHasType={this.hasInlines}
-                handleOnClick={this.onClickInline}
-              />,
-            )}
+            {toolbarButtons}
           </div>
         </Portal>
       </div>

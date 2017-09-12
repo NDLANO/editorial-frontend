@@ -13,6 +13,7 @@ import { injectT } from 'ndla-i18n';
 import { Cross } from 'ndla-ui/icons';
 import { Field } from '../../../Fields';
 import { toolbarClasses } from './SlateToolbar';
+import { hasNodeOfType } from '../utils';
 
 const EMBED_INLINE_TYPE = 'embed-inline';
 const LINK_TYPE = 'link';
@@ -125,9 +126,9 @@ class SlateToolbarLink extends React.Component {
   }
 
   removeUrl() {
-    const { hasInlines, state, handleStateChange } = this.props;
+    const { state, handleStateChange } = this.props;
     const transform = state.transform();
-    if (hasInlines(EMBED_INLINE_TYPE)) {
+    if (hasNodeOfType(state, EMBED_INLINE_TYPE, 'inline')) {
       const nextState = transform
         .removeNodeByKey(state.selection.startKey)
         .insertText(this.state.text)
@@ -231,7 +232,6 @@ class SlateToolbarLink extends React.Component {
 
 SlateToolbarLink.propTypes = {
   showDialog: PropTypes.bool.isRequired,
-  hasInlines: PropTypes.func.isRequired,
   closeDialog: PropTypes.func.isRequired,
   handleStateChange: PropTypes.func.isRequired,
   state: PropTypes.shape({

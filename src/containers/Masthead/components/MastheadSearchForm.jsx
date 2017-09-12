@@ -23,7 +23,7 @@ const classes = new BEMHelper({
   prefix: 'masthead-',
 });
 
-class MastheadSearchForm extends Component {
+export class MastheadSearchForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -86,13 +86,13 @@ class MastheadSearchForm extends Component {
 
 MastheadSearchForm.propTypes = {
   show: PropTypes.bool.isRequired,
+  locale: PropTypes.string.isRequired,
   query: PropTypes.string,
   searching: PropTypes.bool.isRequired,
   onSearchQuerySubmit: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
 MastheadSearchForm.defaultProps = {
@@ -104,6 +104,6 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default connect(mapStateToProps)(
-  withRouter(injectT(MastheadSearchForm)),
+export default withRouter(
+  connect(mapStateToProps)(injectT(MastheadSearchForm)),
 );

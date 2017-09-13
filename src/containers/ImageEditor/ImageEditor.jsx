@@ -97,7 +97,6 @@ class ImageEditor extends Component {
         ...defaultData.focalPoint,
       },
     });
-    // this.onDataChange(data);
   }
 
   onAlignChange(evt, alignment) {

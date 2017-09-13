@@ -75,6 +75,10 @@ class SlateToolbarFootNote extends Component {
       // TODO: Add new footnote
       console.log('Will add new to end of current selection!');
       console.log(startOffset, focusText, endOffset);
+      transform.collapseToEnd().insertText('#').extend(-1).wrapInline({
+        type: FOOTNOTE,
+        data: {},
+      });
     }
     const nextState = transform.apply();
     handleStateChange(nextState);

@@ -66,12 +66,19 @@ class SlateToolbarFootNote extends Component {
   }
   onSubmit() {
     const { state, handleStateChange } = this.props;
+    const transform = state.transform();
     if (this.state.nodeType === FOOTNOTE) {
+      // TODO: Edit existing content node
       console.log('Will save current!');
     } else {
       const { startOffset, endOffset, focusText } = state;
+      // TODO: Add new footnote
+      console.log('Will add new to end of current selection!');
       console.log(startOffset, focusText, endOffset);
     }
+    const nextState = transform.apply();
+    handleStateChange(nextState);
+    this.onCloseDialog();
   }
 
   findFootNote() {
@@ -83,6 +90,8 @@ class SlateToolbarFootNote extends Component {
     const { state } = this.props;
     return state.blocks.find(block => block.kind === 'block');
   }
+
+  // TODO: Remove footnote
 
   addFootNoteData() {
     const { state } = this.props;

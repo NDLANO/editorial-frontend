@@ -109,10 +109,6 @@ a.c-learning-resource-form__abort-button.c-button {
     & ul {
       margin-top: 1rem;
     }
-
-    &--no-padding {
-      padding: 0;
-    }
   }
 
   &__container:hover &__delete-block-button,

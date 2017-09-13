@@ -17,9 +17,11 @@ import LearningResourceIngress from './LearningResourceIngress';
 import schema from '../../../components/SlateEditor/schema';
 import createEmbedPlugin from '../../../components/SlateEditor/embedPlugin';
 import footNotePlugin from '../../../components/SlateEditor/plugins/footNotePlugin';
+import createBodyBox from '../../../components/SlateEditor/plugins/bodybox';
+
 import { CommonFieldPropsShape } from '../../../shapes';
 
-const plugins = [footNotePlugin(), createEmbedPlugin()];
+const plugins = [footNotePlugin(), createEmbedPlugin(), createBodyBox()];
 
 class LearningResourceContent extends Component {
   constructor(props) {

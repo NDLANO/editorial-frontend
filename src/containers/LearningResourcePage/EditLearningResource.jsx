@@ -15,6 +15,7 @@ import LearningResourceForm, {
   getInitialModel,
 } from './components/LearningResourceForm';
 import { ArticleShape } from '../../shapes';
+import { toEditArticle } from '../../util/routeHelpers';
 
 class EditLearningResource extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class EditLearningResource extends Component {
     }
 
     if (article.articleType !== 'standard') {
-      return <Redirect to="/forbidden" />;
+      return <Redirect to={toEditArticle(article.id, article.articleType)} />;
     }
 
     return (

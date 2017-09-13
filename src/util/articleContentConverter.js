@@ -82,7 +82,7 @@ function convertSlateEditorStatetoHTML(contentState, isBlocks = false) {
       .serialize(contentState)
       .replace(/<deleteme><\/deleteme>/g, '');
   }
-  serializer = new Html({ rules: learningResourceRules });
+  serializer = new Html({ rules: learningResourceRules() });
   const html = [];
   contentState.map(section =>
     html.push(

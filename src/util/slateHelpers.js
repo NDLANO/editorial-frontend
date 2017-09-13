@@ -332,8 +332,8 @@ function createRules(contentData = {}) {
       // Special case for links, to grab their href.
       deserialize(el, next) {
         if (el.tagName.toLowerCase() !== 'a') return;
-        const sup = el.childNodes[0];
-        if (sup && sup.tagName.toLowerCase() === 'sup') {
+        if (el.name && el.name.match(/ref_\d+_sup/)) {
+          const sup = el.childNodes[0];
           return {
             kind: 'inline',
             type: 'footnote',

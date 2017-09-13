@@ -94,8 +94,7 @@ class ImageEditor extends Component {
         'upper-left-y': crop.y,
         'lower-right-x': crop.x + crop.width,
         'lower-right-y': crop.y + crop.height,
-        'focal-x': undefined,
-        'focal-y': undefined,
+        ...defaultData.focalPoint,
       },
     });
     // this.onDataChange(data);

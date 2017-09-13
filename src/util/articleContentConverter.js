@@ -42,62 +42,50 @@ function extractSections(html) {
     .map(section => `${section}</section>`);
 }
 
-function convertHTMLToSlateEditorState(html, isBlocks = false) {
-  if (!isBlocks) {
-    if (!html) {
-      return createEmptyState();
-    }
-    const serializer = new Html({ rules: topicArticeRules });
-    return serializer.deserialize(html);
-  }
-
-  let contentState;
+export function learningResourceContentToEditorState(html) {
   if (!html) {
-    contentState = [
+    return [
       {
         state: createEmptyState(),
         index: 0,
       },
     ];
-  } else {
-    const sections = extractSections(html);
-    const serializer = new Html({ rules: learningResourceRules });
-    contentState = sections.map((section, index) => ({
-      state: serializer.deserialize(section.replace(/\s\s+/g, '')),
-      index,
-    }));
   }
-  return contentState;
+  const sections = extractSections(html);
+  const serializer = new Html({ rules: learningResourceRules });
+  return sections.map((section, index) => ({
+    state: serializer.deserialize(section.replace(/\s\s+/g, '')),
+    index,
+  }));
 }
 
-function convertSlateEditorStatetoHTML(contentState, isBlocks = false) {
-  let serializer;
-  if (!isBlocks) {
-    serializer = new Html({ rules: topicArticeRules });
-    return serializer
-      .serialize(contentState)
-      .replace(/<deleteme><\/deleteme>/g, '');
-  }
-  serializer = new Html({ rules: learningResourceRules });
+export function learningResourceContentToHTML(contentState) {
+  const serializer = new Html({ rules: learningResourceRules });
   const html = [];
   contentState.map(section => html.push(serializer.serialize(section.state)));
   return html.join('');
 }
 
-function convertTextToSlateEditorState(text, withDefaultPlainState = false) {
+export function topicArticleContentToEditorState(html) {
+  if (!html) {
+    return createEmptyState();
+  }
+  const serializer = new Html({ rules: topicArticeRules });
+  return serializer.deserialize(html);
+}
+
+export function topicArticleContentToHTML(state) {
+  const serializer = new Html({ rules: topicArticeRules });
+  return serializer.serialize(state).replace(/<deleteme><\/deleteme>/g, '');
+}
+
+export function plainTextToEditorState(text, withDefaultPlainState = false) {
   if (withDefaultPlainState) {
     return text ? Plain.deserialize(text) : Plain.deserialize('');
   }
   return text ? Plain.deserialize(text) : undefined;
 }
 
-function convertSlateEditorStateToText(editorState) {
+export function editorStateToPlainText(editorState) {
   return editorState ? Plain.serialize(editorState) : '';
 }
-
-export default {
-  slateToHtml: convertSlateEditorStatetoHTML,
-  toSlateEditorState: convertHTMLToSlateEditorState,
-  toPlainSlateEditorState: convertTextToSlateEditorState,
-  slateToText: convertSlateEditorStateToText,
-};

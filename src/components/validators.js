@@ -7,8 +7,12 @@
  */
 
 export const getLength = value => {
-  if (value && value.getCurrentContent) {
-    return value.getCurrentContent().getPlainText().length;
+  if (value === undefined) {
+    return 0;
+  }
+
+  if (value && value.document && value.selection) {
+    return value.document.text.length;
   }
   return value.length;
 };
@@ -18,15 +22,14 @@ export const isEmpty = value => {
     return true;
   } else if (Object.keys(value).length === 0 && value.constructor === Object) {
     return true;
-  } else if (value && value.isState && value.isEmpty()) {
-    // Slate check
-    return true;
+  } else if (value && value.document) {
+    return value.document.text.length === 0;
   }
   return false;
 };
 
-export const minLength = (value, length) => !value || getLength(value) < length;
-export const maxLength = (value, length) => !value || getLength(value) > length;
+export const minLength = (value, length) => getLength(value) < length;
+export const maxLength = (value, length) => getLength(value) > length;
 
 export const minItems = (value, number) =>
   !value || (Array.isArray(value) && value.length < number);

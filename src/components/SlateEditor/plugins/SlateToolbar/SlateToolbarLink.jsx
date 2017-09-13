@@ -140,6 +140,8 @@ class SlateToolbarLink extends React.Component {
 
   addData() {
     const { state } = this.props;
+    if (state.isBlurred || state.isEmpty) return;
+
     const nodeLink = this.findLink() || this.findBlock();
     if (nodeLink) {
       const { startOffset, endOffset, focusText } = state;

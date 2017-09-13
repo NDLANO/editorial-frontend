@@ -24,10 +24,6 @@
     color: white;
     background-color: black;
     padding: 0.5rem;
-  }
-
-  &__top-menu,
-  &__bottom-menu {
     display: flex;
     justify-content: space-between;
   }
@@ -50,7 +46,6 @@
 
   &__overlay {
     position: fixed;
-    background-color: var(--gray-2);
     width: 100%;
     height: 100%;
     top: 0;
@@ -61,5 +56,5 @@
 }
 
 .ReactCrop {
-  display: block;
+  margin-bottom: -6px;
 }

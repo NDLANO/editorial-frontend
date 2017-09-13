@@ -10,29 +10,37 @@ import PropTypes from 'prop-types';
 import ReactCrop from 'react-image-crop';
 import { EmbedShape } from '../../shapes';
 
-const ImageCropEdit = ({ embed, onCropChange }) => {
+const ImageCropEdit = ({ embed, onCropComplete, transformData }) => {
   const src = `${window.config
     .ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
 
   const embedHasCrop =
-    embed['upper-left-x'] &&
-    embed['upper-left-y'] &&
-    embed['lower-right-x'] &&
-    embed['lower-right-y'];
+    transformData['upper-left-x'] &&
+    transformData['upper-left-y'] &&
+    transformData['lower-right-x'] &&
+    transformData['lower-right-y'];
   const crop = embedHasCrop
     ? {
-        x: embed['upper-left-x'],
-        y: embed['upper-left-y'],
-        width: embed['lower-right-x'] - embed['upper-left-x'],
-        height: embed['lower-right-y'] - embed['upper-left-y'],
+        x: transformData['upper-left-x'],
+        y: transformData['upper-left-y'],
+        width: transformData['lower-right-x'] - transformData['upper-left-x'],
+        height: transformData['lower-right-y'] - transformData['upper-left-y'],
       }
     : undefined;
-  return <ReactCrop src={src} onChange={onCropChange} crop={crop} />;
+  return <ReactCrop src={src} onComplete={onCropComplete} crop={crop} />;
 };
 
 ImageCropEdit.propTypes = {
   embed: EmbedShape.isRequired,
-  onCropChange: PropTypes.func.isRequired,
+  onCropComplete: PropTypes.func.isRequired,
+  transformData: PropTypes.shape({
+    'upper-left-x': PropTypes.number,
+    'upper-left-y': PropTypes.number,
+    'lower-right-x': PropTypes.number,
+    'lower-right-y': PropTypes.number,
+    'focal-x': PropTypes.number,
+    'focal-y': PropTypes.number,
+  }),
 };
 
 export default ImageCropEdit;

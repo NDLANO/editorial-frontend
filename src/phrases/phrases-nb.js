@@ -197,6 +197,8 @@ const phrases = {
       crop: 'Fjern utsnitt',
       focalPoint: 'Fjern fokuspunkt',
     },
+    save: 'Lagre',
+    abort: 'Avbryt',
   },
   imageForm: {
     title: {

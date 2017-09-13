@@ -10,17 +10,21 @@ import PropTypes from 'prop-types';
 import { EmbedShape } from '../../shapes';
 import ImageFocalPointEdit from './ImageFocalPointEdit';
 import ImageCropEdit from './ImageCropEdit';
+import { getSrcSets } from '../../util/imageEditorUtil';
 
 const ImageTransformEditor = ({
   embed,
   editType,
   onFocalPointChange,
-  onCropChange,
+  onCropComplete,
+  transformData,
 }) => {
-  const focalPoint = { x: embed.focalX, y: embed.focalY };
-  const cropString = `cropStartX=${embed['upper-left-x']}&cropStartY=${embed[
-    'upper-left-y'
-  ]}&cropEndX=${embed['lower-right-x']}&cropEndY=${embed['lower-right-y']}`;
+  const cropString = `cropStartX=${transformData[
+    'upper-left-x'
+  ]}&cropStartY=${transformData['upper-left-y']}&cropEndX=${transformData[
+    'lower-right-x'
+  ]}&cropEndY=${transformData['lower-right-y']}`;
+
   const src = `${window.config
     .ndlaApiUrl}/image-api/raw/id/${embed.resource_id}?${cropString}`;
   switch (editType) {
@@ -28,17 +32,26 @@ const ImageTransformEditor = ({
       return (
         <ImageFocalPointEdit
           embed={embed}
-          focalPoint={focalPoint}
+          transformData={transformData}
           onFocalPointChange={onFocalPointChange}
           src={src}
         />
       );
     case 'crop':
-      return <ImageCropEdit embed={embed} onCropChange={onCropChange} />;
+      return (
+        <ImageCropEdit
+          embed={embed}
+          onCropComplete={onCropComplete}
+          transformData={transformData}
+        />
+      );
     default:
       return (
         <figure>
-          <img src={src} alt={embed.alt} />
+          <img
+            alt={embed.alt}
+            srcSet={getSrcSets(embed.resource_id, transformData)}
+          />
         </figure>
       );
   }
@@ -48,7 +61,15 @@ ImageTransformEditor.propTypes = {
   embed: EmbedShape.isRequired,
   editType: PropTypes.string,
   onFocalPointChange: PropTypes.func.isRequired,
-  onCropChange: PropTypes.func.isRequired,
+  onCropComplete: PropTypes.func.isRequired,
+  transformData: PropTypes.shape({
+    'upper-left-x': PropTypes.number,
+    'upper-left-y': PropTypes.number,
+    'lower-right-x': PropTypes.number,
+    'lower-right-y': PropTypes.number,
+    'focal-x': PropTypes.number,
+    'focal-y': PropTypes.number,
+  }),
 };
 
 export default ImageTransformEditor;

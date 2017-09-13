@@ -10,30 +10,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
+import defined from 'defined';
 import SlateInputField from './SlateInputField';
 import ForbiddenOverlay from '../ForbiddenOverlay';
 import ImageEditor from '../../containers/ImageEditor/ImageEditor';
 import { EmbedShape } from '../../shapes';
-
-const getSrcSets = embed => {
-  const src = `${window.config
-    .ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
-  const cropString = `cropStartX=${embed['upper-left-x']}&cropStartY=${embed[
-    'upper-left-y'
-  ]}&cropEndX=${embed['lower-right-x']}&cropEndY=${embed['lower-right-y']}`;
-  const focalString = `focalX=${embed['focal-x']}&focalY=${embed['focal-y']}`;
-  return [
-    `${src}?width=1440&${cropString}&${focalString} 1440w`,
-    `${src}?width=1120&${cropString}&${focalString} 1120w`,
-    `${src}?width=1000&${cropString}&${focalString} 1000w`,
-    `${src}?width=960&${cropString}&${focalString} 960w`,
-    `${src}?width=800&${cropString}&${focalString} 800w`,
-    `${src}?width=640&${cropString}&${focalString} 640w`,
-    `${src}?width=480&${cropString}&${focalString} 480w`,
-    `${src}?width=320&${cropString}&${focalString} 320w`,
-    `${src}?width=320&${cropString}&${focalString} 320w`,
-  ].join(', ');
-};
+import { getSrcSets } from '../../util/imageEditorUtil';
 
 class SlateImage extends React.Component {
   constructor() {
@@ -45,9 +27,11 @@ class SlateImage extends React.Component {
   }
 
   toggleEditModus() {
-    this.setState(prevState => ({
-      editModus: !prevState.editModus,
-    }));
+    if (!this.props.deletedOnSave) {
+      this.setState(prevState => ({
+        editModus: !prevState.editModus,
+      }));
+    }
   }
 
   render() {
@@ -62,6 +46,14 @@ class SlateImage extends React.Component {
     } = this.props;
     const src = `${window.config
       .ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
+    const transformData = {
+      'focal-x': defined(embed['focal-x'], ''),
+      'focal-y': defined(embed['focal-y'], ''),
+      'upper-left-x': defined(embed['upper-left-x'], ''),
+      'upper-left-y': defined(embed['upper-left-y'], ''),
+      'lower-right-x': defined(embed['lower-right-x'], ''),
+      'lower-right-y': defined(embed['lower-right-y'], ''),
+    };
     return (
       <div {...attributes}>
         {this.state.editModus
@@ -72,7 +64,11 @@ class SlateImage extends React.Component {
             />
           : <Button stripped onClick={this.toggleEditModus}>
               <figure {...figureClass}>
-                <img src={src} alt={embed.alt} srcSet={getSrcSets(embed)} />
+                <img
+                  src={src}
+                  alt={embed.alt}
+                  srcSet={getSrcSets(embed.resource_id, transformData)}
+                />
                 {deletedOnSave &&
                   <ForbiddenOverlay
                     text={t(

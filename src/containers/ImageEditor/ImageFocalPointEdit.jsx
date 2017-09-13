@@ -6,6 +6,7 @@ import {
   getElementOffset,
   getClientPos,
   getImageDimensions,
+  getSrcSets,
 } from '../../util/imageEditorUtil';
 import { EmbedShape } from '../../shapes';
 
@@ -49,13 +50,13 @@ class ImageFocalPointEdit extends React.Component {
     );
   }
   setXandY(target) {
-    const { embed } = this.props;
+    const { transformData } = this.props;
     const dimensions = getImageDimensions(target);
-    const x = embed['focal-x']
-      ? embed['focal-x'] / 100 * dimensions.current.width
+    const x = transformData['focal-x']
+      ? transformData['focal-x'] / 100 * dimensions.current.width
       : undefined;
-    const y = embed['focal-y']
-      ? embed['focal-y'] / 100 * dimensions.current.height
+    const y = transformData['focal-y']
+      ? transformData['focal-y'] / 100 * dimensions.current.height
       : undefined;
 
     this.setState({
@@ -66,8 +67,7 @@ class ImageFocalPointEdit extends React.Component {
   }
 
   render() {
-    const { embed, src } = this.props;
-
+    const { embed, transformData } = this.props;
     const style = !this.state.showMarker
       ? { display: 'none' }
       : {
@@ -87,7 +87,7 @@ class ImageFocalPointEdit extends React.Component {
                 this.focalImg = focalImg;
               }}
               onLoad={e => this.setXandY(e.target)}
-              src={src}
+              srcSet={getSrcSets(embed.resource_id, transformData)}
             />
           </Button>
           <div {...classes('focal-point-marker')} style={style} />
@@ -104,7 +104,14 @@ ImageFocalPointEdit.propTypes = {
     y: PropTypes.number,
   }),
   onFocalPointChange: PropTypes.func.isRequired,
-  src: PropTypes.string.isRequired,
+  transformData: PropTypes.shape({
+    'upper-left-x': PropTypes.number,
+    'upper-left-y': PropTypes.number,
+    'lower-right-x': PropTypes.number,
+    'lower-right-y': PropTypes.number,
+    'focal-x': PropTypes.number,
+    'focal-y': PropTypes.number,
+  }),
 };
 
 export default ImageFocalPointEdit;

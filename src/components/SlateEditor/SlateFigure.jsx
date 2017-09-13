@@ -75,7 +75,7 @@ class SlateFigure extends React.Component {
 
   render() {
     const figureClass = classes('figure', this.isSelected() ? 'active' : '');
-    const { node, deletedOnSave, attributes } = this.props;
+    const { node, deletedOnSave, attributes, editor } = this.props;
 
     const embed = getSchemaEmbed(node);
 
@@ -90,7 +90,7 @@ class SlateFigure extends React.Component {
 
     switch (embed.resource) {
       case 'image':
-        return <SlateImage {...props} />;
+        return <SlateImage node={node} editor={editor} {...props} />;
       case 'brightcove':
         return <SlateVideo {...props} />;
       case 'audio':

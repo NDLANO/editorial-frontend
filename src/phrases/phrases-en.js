@@ -190,6 +190,8 @@ const phrases = {
       crop: 'Remove crop',
       focalPoint: 'Remove focal point',
     },
+    save: 'Save',
+    abort: 'Abort',
   },
   imageForm: {
     metadata: 'Metadata',

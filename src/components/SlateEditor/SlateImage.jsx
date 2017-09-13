@@ -10,7 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
-import defined from 'defined';
 import SlateInputField from './SlateInputField';
 import ForbiddenOverlay from '../ForbiddenOverlay';
 import ImageEditor from '../../containers/ImageEditor/ImageEditor';
@@ -27,11 +26,9 @@ class SlateImage extends React.Component {
   }
 
   toggleEditModus() {
-    if (!this.props.deletedOnSave) {
-      this.setState(prevState => ({
-        editModus: !prevState.editModus,
-      }));
-    }
+    this.setState(prevState => ({
+      editModus: !prevState.editModus,
+    }));
   }
 
   render() {
@@ -47,12 +44,12 @@ class SlateImage extends React.Component {
     const src = `${window.config
       .ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
     const transformData = {
-      'focal-x': defined(embed['focal-x'], ''),
-      'focal-y': defined(embed['focal-y'], ''),
-      'upper-left-x': defined(embed['upper-left-x'], ''),
-      'upper-left-y': defined(embed['upper-left-y'], ''),
-      'lower-right-x': defined(embed['lower-right-x'], ''),
-      'lower-right-y': defined(embed['lower-right-y'], ''),
+      'focal-x': embed['focal-x'],
+      'focal-y': embed['focal-y'],
+      'upper-left-x': embed['upper-left-x'],
+      'upper-left-y': embed['upper-left-y'],
+      'lower-right-x': embed['lower-right-x'],
+      'lower-right-y': embed['lower-right-y'],
     };
     return (
       <div {...attributes}>

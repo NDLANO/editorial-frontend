@@ -25,6 +25,7 @@ import {
 } from 'ndla-ui/icons';
 import { createEmptyState } from '../../../util/articleContentConverter';
 import { defaultAsideBlock } from '../schema';
+import { defaultBodyBoxBlock } from './bodybox';
 import SlateEmbedPicker from './SlateEmbedPicker';
 
 const classes = new BEMHelper({
@@ -54,6 +55,7 @@ class SlateBlockPicker extends Component {
     this.focusInsideAside = this.focusInsideAside.bind(this);
     this.onStateChange = this.onStateChange.bind(this);
     this.onEmbedClose = this.onEmbedClose.bind(this);
+    this.onInsertBlock = this.onInsertBlock.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     if (!nextProps.editorState.state.isFocused && this.state.isOpen) {
@@ -75,8 +77,22 @@ class SlateBlockPicker extends Component {
     this.setState({ embedSelect: { isOpen: false, embedType: '' } });
   }
 
+  onInsertBlock(block) {
+    const { blocks, editorState } = this.props;
+    const newblocks = [].concat(blocks);
+    const currentState = blocks[editorState.index];
+    const nextState = currentState.state.transform().insertBlock(block).apply();
+
+    newblocks[editorState.index] = {
+      ...newblocks[editorState.index],
+      state: nextState,
+    };
+
+    this.onStateChange('content', newblocks);
+  }
+
   onElementAdd(type) {
-    const { blocks, ingress, ingressRef, editorState } = this.props;
+    const { blocks, ingress, ingressRef } = this.props;
     switch (type.type) {
       case 'block': {
         const newblocks = [].concat(blocks);
@@ -89,20 +105,12 @@ class SlateBlockPicker extends Component {
         this.onStateChange(ingress.name, Plain.deserialize(''));
         break;
       }
+      case 'bodybox': {
+        this.onInsertBlock(defaultBodyBoxBlock());
+        break;
+      }
       case 'aside': {
-        const newblocks = [].concat(blocks);
-        const currentState = blocks[editorState.index];
-        const nextState = currentState.state
-          .transform()
-          .insertBlock(defaultAsideBlock(type.kind))
-          .apply();
-
-        newblocks[editorState.index] = {
-          ...newblocks[editorState.index],
-          state: nextState,
-        };
-
-        this.onStateChange('content', newblocks);
+        this.onInsertBlock(defaultAsideBlock(type.kind));
         break;
       }
       case 'embed': {
@@ -150,7 +158,8 @@ class SlateBlockPicker extends Component {
       ) {
         return false;
       }
-      if (parent.get('type') === 'aside') return true;
+      if (parent.get('type') === 'aside' || parent.get('type') === 'bodybox')
+        return true;
       node = parent;
     }
   }
@@ -225,8 +234,7 @@ class SlateBlockPicker extends Component {
             <Button
               stripped
               {...classes('block-type-button')}
-              onMouseDown={() =>
-                this.onElementAdd({ type: 'aside', kind: 'textAside' })}>
+              onMouseDown={() => this.onElementAdd({ type: 'bodybox' })}>
               <TextInBox />
             </Button>
             <Button

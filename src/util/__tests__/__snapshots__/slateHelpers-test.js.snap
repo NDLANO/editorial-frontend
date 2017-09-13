@@ -1,5 +1,70 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`deserialize bodybox block 1`] = `
+Object {
+  "data": Object {},
+  "document": Object {
+    "data": Object {},
+    "key": "12",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "key": "11",
+        "nodes": Array [
+          Object {
+            "characters": Array [
+              Object {
+                "marks": Array [],
+                "text": "t",
+              },
+              Object {
+                "marks": Array [],
+                "text": "e",
+              },
+              Object {
+                "marks": Array [],
+                "text": "s",
+              },
+              Object {
+                "marks": Array [],
+                "text": "t",
+              },
+            ],
+            "key": "10",
+          },
+        ],
+        "type": "bodybox",
+      },
+    ],
+  },
+  "history": Object {
+    "redos": Array [],
+    "undos": Array [],
+  },
+  "isNative": false,
+  "selection": Object {
+    "anchorKey": "10",
+    "anchorOffset": 0,
+    "focusKey": "10",
+    "focusOffset": 0,
+    "isBackward": false,
+    "isFocused": false,
+    "marks": null,
+  },
+}
+`;
+
+exports[`serialize bodybox block 1`] = `
+<div
+  className="c-bodybox"
+>
+  <p>
+    test
+  </p>
+</div>
+`;
+
 exports[`serialize embed block 1`] = `
 <embed
   data-caption="test"

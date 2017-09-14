@@ -9,7 +9,6 @@
 import React from 'react';
 import { Raw } from 'slate';
 import isObject from 'lodash/fp/isObject';
-import isEmpty from 'lodash/fp/isEmpty';
 import { reduceElementDataAttributes } from './embedTagHelpers';
 
 const BLOCK_TAGS = {
@@ -70,20 +69,9 @@ const createFootNoteData = (el, contentData) => {
     .getNamedItem('name')
     .value.replace(/_sup/g, '');
 
-  let footnote;
-  if (!isEmpty(contentData.footNotes)) {
-    footnote = {
-      authors: contentData.footNotes[footNoteKey].authors,
-      edition: contentData.footNotes[footNoteKey].edition,
-      publisher: contentData.footNotes[footNoteKey].publisher,
-      title: contentData.footNotes[footNoteKey].title,
-      type: contentData.footNotes[footNoteKey].type,
-      year: contentData.footNotes[footNoteKey].year,
-    };
-  }
-
-  return footnote;
+  return contentData.footNotes[footNoteKey];
 };
+
 /* eslint-disable consistent-return, default-case */
 
 export const divRule = {
@@ -123,7 +111,7 @@ export const divRule = {
   },
 };
 
-function createRules(contentData = {}) {
+function createRules(contentData = {}, footNoteCounter) {
   const RULES = [
     {
       // empty text nodes
@@ -363,10 +351,9 @@ function createRules(contentData = {}) {
     {
       serialize(object, children) {
         if (object.kind !== 'inline') return;
-        const href = object.data.get('href').value;
-        const name = object.data.get('name').value;
         switch (object.type) {
           case 'link': {
+            const href = object.data.get('href').value;
             return (
               <a href={href}>
                 {children}
@@ -374,13 +361,16 @@ function createRules(contentData = {}) {
             );
           }
           case 'footnote': {
-            return (
-              <a href={href} name={name}>
+            const count = footNoteCounter.getNextCount();
+            const name = `ref_${count}_sup`;
+            const markup = (
+              <a href={`#{name}`} name={name}>
                 <sup>
-                  {name.replace(/\D/g, '')}
+                  {count}
                 </sup>
               </a>
             );
+            return markup;
           }
         }
       },
@@ -469,6 +459,8 @@ export const learningResourceEmbedRule = [
 ];
 
 export const topicArticeRules = topicArticeEmbedRule.concat(createRules());
-export function learningResourceRules(contentData) {
-  return learningResourceEmbedRule.concat(createRules(contentData));
+export function learningResourceRules(contentData, footNoteCounter) {
+  return learningResourceEmbedRule.concat(
+    createRules(contentData, footNoteCounter),
+  );
 }

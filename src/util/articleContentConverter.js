@@ -9,6 +9,15 @@
 import { Html, Raw, Plain } from 'slate';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
 
+function FootNoteCounter(initialCount = 0) {
+  this.count = initialCount;
+
+  FootNoteCounter.prototype.getNextCount = function getNextCount() {
+    this.count = this.count + 1;
+    return this.count;
+  };
+}
+
 export const createEmptyState = () =>
   Raw.deserialize(
     {
@@ -75,15 +84,19 @@ function convertHTMLToSlateEditorState(
 }
 
 function convertSlateEditorStatetoHTML(contentState, isBlocks = false) {
-  let serializer;
   if (!isBlocks) {
-    serializer = new Html({ rules: topicArticeRules });
+    const serializer = new Html({ rules: topicArticeRules });
     return serializer
       .serialize(contentState)
       .replace(/<deleteme><\/deleteme>/g, '');
   }
-  serializer = new Html({ rules: learningResourceRules() });
   const html = [];
+
+  // Use footNoteCounter hack until we have a better footnote api
+  const serializer = new Html({
+    rules: learningResourceRules({}, new FootNoteCounter()),
+  });
+
   contentState.map(section =>
     html.push(
       serializer

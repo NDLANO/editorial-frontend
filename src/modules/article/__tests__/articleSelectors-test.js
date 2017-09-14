@@ -18,22 +18,18 @@ const state = {
       2: {
         id: '2',
         created: '2014-12-24T10:44:06Z',
-        title: [
-          { title: 'Tester', language: 'nb' },
-          { title: 'Testing', language: 'en' },
-        ],
-        metaDescription: [
-          { metaDescription: 'Beskrivelse', language: 'nb' },
-          { metaDescription: 'Description', language: 'en' },
-        ],
+        title: { title: 'Tester', language: 'nb' },
+        metaDescription: { metaDescription: 'Beskrivelse', language: 'nb' },
       },
       3: {
         id: '3',
         created: '2014-11-24T10:44:06Z',
-        title: [
-          { title: 'Tester', language: 'nb' },
-          { title: 'Testing', language: 'en' },
-        ],
+        title: { title: 'Tester', language: 'nb' },
+      },
+      4: {
+        id: '3',
+        created: '2014-11-24T10:44:06Z',
+        title: { title: 'testing', language: 'en' },
       },
     },
   },
@@ -51,7 +47,7 @@ test('articleSelectors getArticle (nb locale)', () => {
 });
 
 test('articleSelectors getArticle (en locale)', () => {
-  const getArticleSelector = getArticle('1');
+  const getArticleSelector = getArticle('4');
   const stateWithEnLocale = { ...state, locale: 'en' };
   expect(getArticleSelector(stateWithEnLocale)).toMatchSnapshot();
 });

@@ -110,11 +110,11 @@ class LearningResourceForm extends Component {
       id: model.id,
       revision,
       title: model.title,
-      introduction:  converter.slateToText(model.introduction),
+      introduction: converter.slateToText(model.introduction),
       tags: model.tags,
       content: converter.slateToHtml(model.content, true),
       visualElement: createEmbedTag(model.metaImage),
-      metaDescription:  converter.slateToText(model.metaDescription),
+      metaDescription: converter.slateToText(model.metaDescription),
       articleType: 'standard',
       copyright: {
         license: licenses.find(license => license.license === model.license),

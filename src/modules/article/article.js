@@ -10,9 +10,7 @@ import { handleActions, createAction } from 'redux-actions';
 
 import { createSelector } from 'reselect';
 import { getLocale } from '../locale/locale';
-import {
-  convertFieldWithFallback
-} from '../../util/convertFieldWithFallback'
+import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import formatDate from '../../util/formatDate';
 
 export const fetchArticle = createAction('FETCH_ARTICLE');
@@ -89,9 +87,17 @@ export const getArticle = articleId =>
             ...article,
             title: convertFieldWithFallback(article, 'title', ''),
             introduction: convertFieldWithFallback(article, 'introduction', ''),
-            visualElement: convertFieldWithFallback(article, 'visualElement', {}),
+            visualElement: convertFieldWithFallback(
+              article,
+              'visualElement',
+              {},
+            ),
             content: convertFieldWithFallback(article, 'content', ''),
-            metaDescription: convertFieldWithFallback(article, 'metaDescription', ''),
+            metaDescription: convertFieldWithFallback(
+              article,
+              'metaDescription',
+              '',
+            ),
             tags: convertFieldWithFallback(article, 'tags', []),
             created: formatDate(article.created, locale),
             updated: formatDate(article.updated, locale),

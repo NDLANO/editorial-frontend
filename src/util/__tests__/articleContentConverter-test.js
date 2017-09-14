@@ -6,13 +6,16 @@
  *
  */
 
-import converter from '../articleContentConverter';
+import {
+  topicArticleContentToEditorState,
+  topicArticleContentToHTML,
+} from '../articleContentConverter';
 
 const contentHTML = `<section><h2>Lorem ipsum</h2></section>`;
 
-test('articleContentConverter convert to and from editorState', () => {
+test('articleContentConverter convert topic article content to and from editorState', () => {
   // Todo fix test to handle empty text nodes
-  const editorState = converter.toSlateEditorState(contentHTML);
-  const html = converter.slateToHtml(editorState);
+  const editorState = topicArticleContentToEditorState(contentHTML);
+  const html = topicArticleContentToHTML(editorState);
   expect(html).toMatchSnapshot();
 });

@@ -85,6 +85,9 @@ const phrases = {
     useAudio: 'Chose audio',
     noResults: 'No audio files found',
   },
+  noEmbedMessage: {
+    deleteOnSave: 'Element of type {type} will be deleted on save.',
+  },
   topicArticleForm: {
     metadata: 'Metadata',
     content: 'Content',
@@ -123,8 +126,6 @@ const phrases = {
       content: {
         label: 'Content',
         placeholder: 'Write here...',
-        deleteEmbedOnSave:
-          'WARNING: Figure in content block will be removed on save',
       },
       tags: {
         label: 'Tags',

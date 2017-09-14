@@ -16,7 +16,12 @@ import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
-import converter from '../../../util/articleContentConverter';
+import {
+  learningResourceContentToHTML,
+  learningResourceContentToEditorState,
+  editorStateToPlainText,
+  plainTextToEditorState,
+} from '../../../util/articleContentConverter';
 import {
   parseEmbedTag,
   createEmbedTag,
@@ -48,8 +53,8 @@ export const getInitialModel = (article = {}) => {
     id: article.id,
     revision: article.revision,
     title: article.title || '',
-    introduction: converter.toPlainSlateEditorState(article.introduction),
-    content: converter.toSlateEditorState(article.content, true),
+    introduction: plainTextToEditorState(article.introduction),
+    content: learningResourceContentToEditorState(article.content),
     tags: article.tags || [],
     authors: parseCopyrightAuthors(article, 'Forfatter'),
     licensees: parseCopyrightAuthors(article, 'Rettighetshaver'),
@@ -61,10 +66,7 @@ export const getInitialModel = (article = {}) => {
     license: article.copyright
       ? article.copyright.license.license
       : DEFAULT_LICENSE.license,
-    metaDescription: converter.toPlainSlateEditorState(
-      article.metaDescription,
-      true,
-    ),
+    metaDescription: plainTextToEditorState(article.metaDescription, true),
     metaImage,
   };
 };
@@ -110,12 +112,12 @@ class LearningResourceForm extends Component {
       id: model.id,
       revision,
       title: model.title,
-      introduction: converter.slateToText(model.introduction),
+      introduction: editorStateToPlainText(model.introduction),
       tags: model.tags,
-      content: converter.slateToHtml(model.content, true),
+      content: learningResourceContentToHTML(model.content, true),
       visualElement: createEmbedTag(model.metaImage),
-      metaDescription: converter.slateToText(model.metaDescription),
-      articleType: 'standard',
+      metaDescription: editorStateToPlainText(model.metaDescription),
+      articleType: 'topic-article',
       copyright: {
         license: licenses.find(license => license.license === model.license),
         origin: model.origin,

@@ -18,7 +18,12 @@ import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 
-import converter from '../../../util/articleContentConverter';
+import {
+  topicArticleContentToHTML,
+  topicArticleContentToEditorState,
+  editorStateToPlainText,
+  plainTextToEditorState,
+} from '../../../util/articleContentConverter';
 
 import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
 
@@ -39,8 +44,8 @@ export const getInitialModel = (article = {}) => {
     revision: article.revision,
     updated: article.updated,
     title: article.title || '',
-    introduction: converter.toPlainSlateEditorState(article.introduction, true),
-    content: converter.toSlateEditorState(article.content),
+    introduction: plainTextToEditorState(article.introduction, true),
+    content: topicArticleContentToEditorState(article.content),
     tags: article.tags || [],
     authors: article.copyright
       ? article.copyright.authors.map(author => author.name)
@@ -48,10 +53,7 @@ export const getInitialModel = (article = {}) => {
     copyright: article.copyright
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
-    metaDescription: converter.toPlainSlateEditorState(
-      article.metaDescription,
-      true,
-    ),
+    metaDescription: plainTextToEditorState(article.metaDescription, true),
     visualElement: visualElement || {},
   };
 };
@@ -86,11 +88,11 @@ class TopicArticleForm extends Component {
       id: model.id,
       revision,
       title: model.title,
-      introduction: converter.slateToText(model.introduction),
+      introduction: editorStateToPlainText(model.introduction),
       tags: model.tags,
-      content: converter.slateToHtml(model.content),
+      content: topicArticleContentToHTML(model.content),
       visualElement: createEmbedTag(model.visualElement),
-      metaDescription: converter.slateToText(model.metaDescription),
+      metaDescription: editorStateToPlainText(model.metaDescription),
       articleType: 'topic-article',
       copyright: {
         ...model.copyright,

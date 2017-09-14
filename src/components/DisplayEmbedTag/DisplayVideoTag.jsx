@@ -9,10 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { injectT } from 'ndla-i18n';
-import ForbiddenOverlay from '../ForbiddenOverlay';
 
-const DisplayVideoTag = ({ embedTag, className, deletedOnSave, t }) => {
+const DisplayVideoTag = ({ embedTag, className }) => {
   const src = `//players.brightcove.net/${window.config
     .brightCoveAccountId}/${window.config
     .brightcovePlayerId}_default/index.min.js`;
@@ -34,10 +32,6 @@ const DisplayVideoTag = ({ embedTag, className, deletedOnSave, t }) => {
       <figcaption>
         {embedTag.caption}
       </figcaption>
-      {deletedOnSave &&
-        <ForbiddenOverlay
-          text={t('topicArticleForm.fields.content.deleteEmbedOnSave')}
-        />}
     </figure>
   );
 };
@@ -49,7 +43,6 @@ DisplayVideoTag.propTypes = {
     caption: PropTypes.string,
   }).isRequired,
   className: PropTypes.string,
-  deletedOnSave: PropTypes.bool,
 };
 
-export default injectT(DisplayVideoTag);
+export default DisplayVideoTag;

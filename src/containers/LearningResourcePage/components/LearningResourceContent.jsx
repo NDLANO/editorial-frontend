@@ -15,10 +15,9 @@ import RichBlockTextField from '../../../components/RichBlockTextField';
 import Accordion from '../../../components/Accordion';
 import LearningResourceIngress from './LearningResourceIngress';
 import schema from '../../../components/SlateEditor/schema';
-import createEmbedPlugin from '../../../components/SlateEditor/embedPlugin';
 import footNotePlugin from '../../../components/SlateEditor/plugins/footNotePlugin';
+import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBox from '../../../components/SlateEditor/plugins/bodybox';
-
 import { CommonFieldPropsShape } from '../../../shapes';
 
 const plugins = [footNotePlugin(), createEmbedPlugin(), createBodyBox()];

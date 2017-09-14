@@ -6,14 +6,12 @@
  *
  */
 
-import React from 'react';
 import SlateFigure from './SlateFigure';
 
-export default function createEmbedPlugin(options = {}) {
+export default function createEmbedPlugin() {
   const schema = {
     nodes: {
-      embed: props =>
-        <SlateFigure deletedOnSave={options.deleteOnSave} {...props} />,
+      embed: SlateFigure,
     },
   };
 

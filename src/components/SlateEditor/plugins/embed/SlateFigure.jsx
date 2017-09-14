@@ -13,11 +13,10 @@ import { injectT } from 'ndla-i18n';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
-import EditorErrorMessage from './EditorErrorMessage';
-import DisplayOembed from '../DisplayEmbedTag/DisplayOembed';
-import ForbiddenOverlay from '../ForbiddenOverlay';
-import { getSchemaEmbed } from './schema';
-import { NodeShape, EditorShape } from '../../shapes';
+import EditorErrorMessage from '../../EditorErrorMessage';
+import DisplayOembed from '../../../DisplayEmbedTag/DisplayOembed';
+import { getSchemaEmbed } from '../../schema';
+import { NodeShape, EditorShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -76,7 +75,7 @@ class SlateFigure extends React.Component {
 
   render() {
     const figureClass = classes('figure', this.isSelected() ? 'active' : '');
-    const { node, deletedOnSave, attributes } = this.props;
+    const { node, attributes, editor } = this.props;
 
     const embed = getSchemaEmbed(node);
 
@@ -85,13 +84,12 @@ class SlateFigure extends React.Component {
       onFigureInputChange: this.onFigureInputChange,
       figureClass,
       attributes,
-      deletedOnSave,
       submitted: this.state.submitted,
     };
 
     switch (embed.resource) {
       case 'image':
-        return <SlateImage {...props} />;
+        return <SlateImage node={node} editor={editor} {...props} />;
       case 'brightcove':
         return <SlateVideo {...props} />;
       case 'audio':
@@ -105,14 +103,8 @@ class SlateFigure extends React.Component {
             msg={this.props.t(
               'learningResourceForm.fields.content.figure.notSupported',
               { mediaType: embed.resource },
-            )}>
-            {this.props.deletedOnSave &&
-              <ForbiddenOverlay
-                text={this.props.t(
-                  'topicArticleForm.fields.content.deleteEmbedOnSave',
-                )}
-              />}
-          </EditorErrorMessage>
+            )}
+          />
         );
     }
   }
@@ -130,7 +122,6 @@ SlateFigure.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  deletedOnSave: PropTypes.bool,
 };
 
 SlateFigure.defaultProps = {

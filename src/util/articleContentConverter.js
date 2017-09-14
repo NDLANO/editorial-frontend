@@ -51,76 +51,55 @@ function extractSections(html) {
     .map(section => `${section}</section>`);
 }
 
-function convertHTMLToSlateEditorState(
-  html,
-  isBlocks = false,
-  contentData = {},
-) {
-  if (!isBlocks) {
-    if (!html) {
-      return createEmptyState();
-    }
-    const serializer = new Html({ rules: topicArticeRules });
-    return serializer.deserialize(html);
-  }
-
-  let contentState;
+export function learningResourceContentToEditorState(html, contentData) {
   if (!html) {
-    contentState = [
+    return [
       {
         state: createEmptyState(),
         index: 0,
       },
     ];
-  } else {
-    const sections = extractSections(html);
-    const serializer = new Html({ rules: learningResourceRules(contentData) });
-    contentState = sections.map((section, index) => ({
-      state: serializer.deserialize(section.replace(/\s\s+/g, '')),
-      index,
-    }));
   }
-  return contentState;
+  const sections = extractSections(html);
+  const serializer = new Html({ rules: learningResourceRules(contentData) });
+
+  return sections.map((section, index) => ({
+    state: serializer.deserialize(section.replace(/\s\s+/g, '')),
+    index,
+  }));
 }
 
-function convertSlateEditorStatetoHTML(contentState, isBlocks = false) {
-  if (!isBlocks) {
-    const serializer = new Html({ rules: topicArticeRules });
-    return serializer
-      .serialize(contentState)
-      .replace(/<deleteme><\/deleteme>/g, '');
-  }
-  const html = [];
-
+export function learningResourceContentToHTML(contentState) {
   // Use footNoteCounter hack until we have a better footnote api
   const serializer = new Html({
     rules: learningResourceRules({}, new FootNoteCounter()),
   });
 
-  contentState.map(section =>
-    html.push(
-      serializer
-        .serialize(section.state)
-        .replace(/<deleteme><\/deleteme>/g, ''),
-    ),
-  );
-  return html.join('');
+  return contentState
+    .map(section => serializer.serialize(section.state))
+    .join('');
 }
 
-function convertTextToSlateEditorState(text, withDefaultPlainState = false) {
+export function topicArticleContentToEditorState(html) {
+  if (!html) {
+    return createEmptyState();
+  }
+  const serializer = new Html({ rules: topicArticeRules });
+  return serializer.deserialize(html);
+}
+
+export function topicArticleContentToHTML(state) {
+  const serializer = new Html({ rules: topicArticeRules });
+  return serializer.serialize(state).replace(/<deleteme><\/deleteme>/g, '');
+}
+
+export function plainTextToEditorState(text, withDefaultPlainState = false) {
   if (withDefaultPlainState) {
     return text ? Plain.deserialize(text) : Plain.deserialize('');
   }
   return text ? Plain.deserialize(text) : undefined;
 }
 
-function convertSlateEditorStateToText(editorState) {
+export function editorStateToPlainText(editorState) {
   return editorState ? Plain.serialize(editorState) : '';
 }
-
-export default {
-  slateToHtml: convertSlateEditorStatetoHTML,
-  toSlateEditorState: convertHTMLToSlateEditorState,
-  toPlainSlateEditorState: convertTextToSlateEditorState,
-  slateToText: convertSlateEditorStateToText,
-};

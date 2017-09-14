@@ -85,32 +85,18 @@ class TopicArticleForm extends Component {
     this.props.onUpdate({
       id: model.id,
       revision,
-      title: [{ title: model.title, language }],
-      introduction: [
-        {
-          introduction: converter.slateToText(model.introduction),
-          language,
-        },
-      ],
-      tags: [{ tags: model.tags, language }],
-      content: [{ content: converter.slateToHtml(model.content), language }],
-      visualElement: [
-        {
-          content: createEmbedTag(model.visualElement),
-          language,
-        },
-      ],
-      metaDescription: [
-        {
-          metaDescription: converter.slateToText(model.metaDescription),
-          language,
-        },
-      ],
+      title: model.title,
+      introduction: converter.slateToText(model.introduction),
+      tags: model.tags,
+      content: converter.slateToHtml(model.content),
+      visualElement: createEmbedTag(model.visualElement),
+      metaDescription: converter.slateToText(model.metaDescription),
       articleType: 'topic-article',
       copyright: {
         ...model.copyright,
         authors: model.authors.map(name => ({ type: 'Forfatter', name })),
       },
+      language,
     });
   }
 
@@ -169,7 +155,7 @@ class TopicArticleForm extends Component {
 
 TopicArticleForm.propTypes = {
   model: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     title: PropTypes.string,
   }),
   schema: SchemaShape,

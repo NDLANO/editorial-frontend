@@ -114,7 +114,7 @@ class TopicArticleContent extends Component {
 
 TopicArticleContent.propTypes = {
   model: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     title: PropTypes.string,
   }),
   bindInput: PropTypes.func.isRequired,

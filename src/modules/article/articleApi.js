@@ -12,11 +12,8 @@ import {
   fetchWithAccessToken,
 } from '../../util/apiHelpers';
 
-const baseUrl = apiResourceUrl('/article-api/v1/articles');
+const baseUrl = apiResourceUrl('/article-api/v2/articles');
 
-const learningPathBaseUrl = apiResourceUrl(
-  '/learningpath-api/v1/learningpaths',
-);
 export const fetchArticle = id =>
   fetchWithAccessToken(`${baseUrl}/${id}`).then(resolveJsonOrRejectWithError);
 
@@ -26,7 +23,7 @@ export const fetchTags = () =>
   );
 
 export const fetchLicenses = () =>
-  fetchWithAccessToken(`${learningPathBaseUrl}/licenses`).then(
+  fetchWithAccessToken(`${baseUrl}/licenses`).then(
     resolveJsonOrRejectWithError,
   );
 

@@ -105,40 +105,23 @@ class LearningResourceForm extends Component {
       type: 'Bidragsyter',
       name,
     }));
-    const content = {
-      content: converter.slateToHtml(model.content, true),
-      language,
-    };
+
     this.props.onUpdate({
       id: model.id,
       revision,
-      title: [{ title: model.title, language }],
-      introduction: [
-        {
-          introduction: converter.slateToText(model.introduction),
-          language,
-        },
-      ],
-      tags: [{ tags: model.tags, language }],
-      content: [content],
-      visualElement: [
-        {
-          content: createEmbedTag(model.metaImage),
-          language,
-        },
-      ],
-      metaDescription: [
-        {
-          metaDescription: converter.slateToText(model.metaDescription),
-          language,
-        },
-      ],
+      title: model.title,
+      introduction:  converter.slateToText(model.introduction),
+      tags: model.tags,
+      content: converter.slateToHtml(model.content, true),
+      visualElement: createEmbedTag(model.metaImage),
+      metaDescription:  converter.slateToText(model.metaDescription),
       articleType: 'standard',
       copyright: {
         license: licenses.find(license => license.license === model.license),
         origin: model.origin,
         authors: authors.concat(licensees).concat(contributors),
       },
+      language,
     });
   }
 
@@ -202,7 +185,7 @@ class LearningResourceForm extends Component {
 
 LearningResourceForm.propTypes = {
   model: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     title: PropTypes.string,
   }),
   schema: SchemaShape,

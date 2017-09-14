@@ -11,13 +11,8 @@ import { handleActions, createAction } from 'redux-actions';
 import { createSelector } from 'reselect';
 import { getLocale } from '../locale/locale';
 import {
-  titleI18N,
-  tagsI18N,
-  introductionI18N,
-  visualElementI18N,
-  metaDescriptionI18N,
-  contentI18N,
-} from '../../util/i18nFieldFinder';
+  convertFieldWithFallback
+} from '../../util/convertFieldWithFallback'
 import formatDate from '../../util/formatDate';
 
 export const fetchArticle = createAction('FETCH_ARTICLE');
@@ -92,12 +87,12 @@ export const getArticle = articleId =>
       article
         ? {
             ...article,
-            title: titleI18N(article, locale, true),
-            introduction: introductionI18N(article, locale, true),
-            visualElement: visualElementI18N(article, locale, true),
-            content: contentI18N(article, locale, true),
-            metaDescription: metaDescriptionI18N(article, locale, true),
-            tags: tagsI18N(article, locale, true),
+            title: convertFieldWithFallback(article, 'title', ''),
+            introduction: convertFieldWithFallback(article, 'introduction', ''),
+            visualElement: convertFieldWithFallback(article, 'visualElement', {}),
+            content: convertFieldWithFallback(article, 'content', ''),
+            metaDescription: convertFieldWithFallback(article, 'metaDescription', ''),
+            tags: convertFieldWithFallback(article, 'tags', []),
             created: formatDate(article.created, locale),
             updated: formatDate(article.updated, locale),
           }

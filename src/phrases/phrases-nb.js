@@ -87,6 +87,9 @@ const phrases = {
     useAudio: 'Velg lyd',
     noResults: 'Ingen resultater funnet',
   },
+  noEmbedMessage: {
+    deleteOnSave: 'Element av type {type} vil bli fjernet ved lagring.',
+  },
   topicArticleForm: {
     metadata: 'Metadata',
     content: 'Innhold',
@@ -132,8 +135,6 @@ const phrases = {
       content: {
         label: 'Innhold',
         placeholder: 'Innhold',
-        deleteEmbedOnSave:
-          'ADVARSEL: Figur i innholdsblokk vil bli fjernet ved lagring',
       },
       tags: {
         label: 'Nøkkelord',

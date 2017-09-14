@@ -11,10 +11,9 @@ import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import SlateInputField from './SlateInputField';
-import ForbiddenOverlay from '../ForbiddenOverlay';
-import ImageEditor from '../../containers/ImageEditor/ImageEditor';
-import { EmbedShape } from '../../shapes';
-import { getSrcSets } from '../../util/imageEditorUtil';
+import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
+import { EmbedShape } from '../../../../shapes';
+import { getSrcSets } from '../../../../util/imageEditorUtil';
 
 class SlateImage extends React.Component {
   constructor() {
@@ -37,7 +36,6 @@ class SlateImage extends React.Component {
       figureClass,
       attributes,
       onFigureInputChange,
-      deletedOnSave,
       submitted,
       t,
     } = this.props;
@@ -66,12 +64,6 @@ class SlateImage extends React.Component {
                   alt={embed.alt}
                   srcSet={getSrcSets(embed.resource_id, transformData)}
                 />
-                {deletedOnSave &&
-                  <ForbiddenOverlay
-                    text={t(
-                      'topicArticleForm.fields.content.deleteEmbedOnSave',
-                    )}
-                  />}
               </figure>
             </Button>}
         <SlateInputField
@@ -83,7 +75,6 @@ class SlateImage extends React.Component {
           onChange={onFigureInputChange}
           placeholder={t('form.image.caption.placeholder')}
           submitted={submitted}
-          deletedOnSave={deletedOnSave}
         />
         <SlateInputField
           name="alt"
@@ -94,7 +85,6 @@ class SlateImage extends React.Component {
           onChange={onFigureInputChange}
           placeholder={t('form.image.alt.placeholder')}
           submitted={submitted}
-          deletedOnSave={deletedOnSave}
         />
       </div>
     );
@@ -108,7 +98,6 @@ SlateImage.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  deletedOnSave: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
 };
 

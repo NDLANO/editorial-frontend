@@ -127,7 +127,7 @@ const phrases = {
         label: 'Content',
         placeholder: 'Write here...',
       },
-      footNotes: {
+      footnotes: {
         edition: 'Edition',
         publisher: 'Publisher',
       },

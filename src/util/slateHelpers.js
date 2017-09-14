@@ -62,12 +62,12 @@ const setAsideTag = data => ({
   'data-type': data.get('type') || '',
 });
 
-const createFootNoteData = (el, contentData) => {
-  const footNoteKey = el.attributes
+const createFootnoteData = (el, contentData) => {
+  const footnoteKey = el.attributes
     .getNamedItem('name')
     .value.replace(/_sup/g, '');
 
-  return contentData.footNotes[footNoteKey];
+  return contentData.footnotes[footnoteKey];
 };
 
 /* eslint-disable consistent-return, default-case */
@@ -109,7 +109,7 @@ export const divRule = {
   },
 };
 
-function createRules(contentData = {}, footNoteCounter) {
+function createRules(contentData = {}, footnoteCounter) {
   const RULES = [
     {
       // empty text nodes
@@ -330,7 +330,7 @@ function createRules(contentData = {}, footNoteCounter) {
               },
             ],
             data: {
-              ...createFootNoteData(el, contentData),
+              ...createFootnoteData(el, contentData),
             },
           };
         }
@@ -356,7 +356,7 @@ function createRules(contentData = {}, footNoteCounter) {
             );
           }
           case 'footnote': {
-            const count = footNoteCounter.getNextCount();
+            const count = footnoteCounter.getNextCount();
             const name = `ref_${count}_sup`;
             const markup = (
               <a href={`#{name}`} name={name}>
@@ -454,8 +454,8 @@ export const learningResourceEmbedRule = [
 ];
 
 export const topicArticeRules = topicArticeEmbedRule.concat(createRules());
-export function learningResourceRules(contentData, footNoteCounter) {
+export function learningResourceRules(contentData, footnoteCounter) {
   return learningResourceEmbedRule.concat(
-    createRules(contentData, footNoteCounter),
+    createRules(contentData, footnoteCounter),
   );
 }

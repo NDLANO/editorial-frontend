@@ -33,7 +33,7 @@ import { SchemaShape } from '../../../shapes';
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
 import LearningResourceCopyright from './LearningResourceCopyright';
-import LearningResourceFootNotes from './LearningResourceFootNotes';
+import LearningResourceFootnotes from './LearningResourceFootnotes';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -67,7 +67,7 @@ export const getInitialModel = (article = {}) => {
     title: article.title || '',
     introduction: plainTextToEditorState(article.introduction),
     content: learningResourceContentToEditorState(article.content, {
-      footNotes: article.footNotes,
+      footnotes: article.footNotes,
     }),
     tags: article.tags || [],
     authors: parseCopyrightAuthors(article, 'Forfatter'),
@@ -204,7 +204,7 @@ class LearningResourceForm extends Component {
           tags={tags}
         />
 
-        <LearningResourceFootNotes
+        <LearningResourceFootnotes
           t={t}
           footnotes={findFootnotes(model.content)}
         />

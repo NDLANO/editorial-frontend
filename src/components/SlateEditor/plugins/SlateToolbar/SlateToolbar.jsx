@@ -12,7 +12,7 @@ import Portal from 'react-portal';
 import BEMHelper from 'react-bem-helper';
 import ToolbarButton from './ToolbarButton';
 import SlateToolbarLink from './SlateToolbarLink';
-import SlateToolbarFootNote from './SlateToolbarFootNote';
+import SlateToolbarFootnote from './SlateToolbarFootnote';
 import { hasNodeOfType } from '../utils';
 
 const DEFAULT_NODE = 'paragraph';
@@ -50,7 +50,7 @@ class SlateToolbar extends Component {
     this.state = {
       state: this.props.state,
       showContentlinkDialog: false,
-      showFootNotesDialog: false,
+      showFootnotesDialog: false,
     };
   }
 
@@ -63,7 +63,7 @@ class SlateToolbar extends Component {
   }
 
   onCloseDialog() {
-    this.setState({ showContentlinkDialog: false, showFootNotesDialog: false });
+    this.setState({ showContentlinkDialog: false, showFootnotesDialog: false });
   }
 
   onClickBlock(e, type) {
@@ -124,7 +124,7 @@ class SlateToolbar extends Component {
     if (type === ('embed-inline' || 'link')) {
       this.setState({ showContentlinkDialog: true });
     } else if (type === 'footnote') {
-      this.setState({ showFootNotesDialog: true });
+      this.setState({ showFootnotesDialog: true });
     }
   }
 
@@ -177,7 +177,7 @@ class SlateToolbar extends Component {
   }
 
   render() {
-    const { showContentlinkDialog, showFootNotesDialog } = this.state;
+    const { showContentlinkDialog, showFootnotesDialog } = this.state;
     const { state } = this.props;
 
     const toolbarButtons = Object.keys(suportedToolbarElements).map(kind =>
@@ -201,8 +201,8 @@ class SlateToolbar extends Component {
           state={state}
           handleStateChange={this.handleStateChange}
         />
-        {showFootNotesDialog &&
-          <SlateToolbarFootNote
+        {showFootnotesDialog &&
+          <SlateToolbarFootnote
             closeDialog={this.onCloseDialog}
             state={state}
             handleStateChange={this.handleStateChange}

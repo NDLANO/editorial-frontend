@@ -16,16 +16,16 @@ import MultiSelect from '../../../MultiSelect';
 import { toolbarClasses } from './SlateToolbar';
 import reformed from '../../../reformed';
 
-export const getInitialModel = (footNote = {}) => ({
-  title: footNote.title || '',
-  year: footNote.year || '',
-  authors: footNote.authors || [],
-  edition: footNote.edition || '',
-  publisher: footNote.publisher || '',
-  type: footNote.type || '',
+export const getInitialModel = (footnote = {}) => ({
+  title: footnote.title || '',
+  year: footnote.year || '',
+  authors: footnote.authors || [],
+  edition: footnote.edition || '',
+  publisher: footnote.publisher || '',
+  type: footnote.type || '',
 });
 
-class FootNoteForm extends Component {
+class FootnoteForm extends Component {
   constructor() {
     super();
     this.handleSave = this.handleSave.bind(this);
@@ -42,44 +42,44 @@ class FootNoteForm extends Component {
       <div>
         <Field>
           <label htmlFor="title">
-            {t('learningResourceForm.fields.content.footNote.title')}
+            {t('learningResourceForm.fields.content.footnote.title')}
           </label>
           <input type="text" {...bindInput('title')} />
         </Field>
         <Field>
           <label htmlFor="year">
-            {t('learningResourceForm.fields.content.footNote.year')}
+            {t('learningResourceForm.fields.content.footnote.year')}
           </label>
           <input type="text" {...bindInput('year')} />
         </Field>
         <Field>
           <label htmlFor="authors">
-            {t('learningResourceForm.fields.content.footNote.authors.label')}
+            {t('learningResourceForm.fields.content.footnote.authors.label')}
           </label>
           <MultiSelect
             {...bindInput('authors')}
             messages={{
               createNew: t(
-                'learningResourceForm.fields.content.footNote.authors.createNew',
+                'learningResourceForm.fields.content.footnote.authors.createNew',
               ),
               emptyFilter: t(
-                'learningResourceForm.fields.content.footNote.authors.emptyFilter',
+                'learningResourceForm.fields.content.footnote.authors.emptyFilter',
               ),
               emptyList: t(
-                'learningResourceForm.fields.content.footNote.authors.emptyList',
+                'learningResourceForm.fields.content.footnote.authors.emptyList',
               ),
             }}
           />
         </Field>
         <Field>
           <label htmlFor="edition">
-            {t('learningResourceForm.fields.content.footNote.edition')}
+            {t('learningResourceForm.fields.content.footnote.edition')}
           </label>
           <input {...bindInput('edition')} type="text" />
         </Field>
         <Field>
           <label htmlFor="publisher">
-            {t('learningResourceForm.fields.content.footNote.publisher')}
+            {t('learningResourceForm.fields.content.footnote.publisher')}
           </label>
           <input type="text" {...bindInput('publisher')} />
         </Field>
@@ -88,15 +88,15 @@ class FootNoteForm extends Component {
             {isEdit
               ? <Button onClick={onRemove}>
                   {t(
-                    'learningResourceForm.fields.content.footNote.removeFootNote',
+                    'learningResourceForm.fields.content.footnote.removeFootnote',
                   )}
                 </Button>
               : ''}
             <Button outline onClick={onClose}>
-              {t('learningResourceForm.fields.content.footNote.abort')}
+              {t('learningResourceForm.fields.content.footnote.abort')}
             </Button>
             <Button onClick={this.handleSave}>
-              {t('learningResourceForm.fields.content.footNote.save')}
+              {t('learningResourceForm.fields.content.footnote.save')}
             </Button>
           </div>
         </Field>
@@ -105,7 +105,7 @@ class FootNoteForm extends Component {
   }
 }
 
-FootNoteForm.propTypes = {
+FootnoteForm.propTypes = {
   model: PropTypes.shape({
     title: PropTypes.string,
     year: PropTypes.string,
@@ -120,4 +120,4 @@ FootNoteForm.propTypes = {
   onRemove: PropTypes.func.isRequired,
 };
 
-export default compose(injectT, reformed)(FootNoteForm);
+export default compose(injectT, reformed)(FootnoteForm);

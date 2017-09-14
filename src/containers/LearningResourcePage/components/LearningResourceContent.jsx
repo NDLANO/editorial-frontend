@@ -15,12 +15,12 @@ import RichBlockTextField from '../../../components/RichBlockTextField';
 import Accordion from '../../../components/Accordion';
 import LearningResourceIngress from './LearningResourceIngress';
 import schema from '../../../components/SlateEditor/schema';
-import footNotePlugin from '../../../components/SlateEditor/plugins/footNotePlugin';
+import footnotePlugin from '../../../components/SlateEditor/plugins/footnotePlugin';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBox from '../../../components/SlateEditor/plugins/bodybox';
 import { CommonFieldPropsShape } from '../../../shapes';
 
-const plugins = [footNotePlugin(), createEmbedPlugin(), createBodyBox()];
+const plugins = [footnotePlugin(), createEmbedPlugin(), createBodyBox()];
 
 class LearningResourceContent extends Component {
   constructor(props) {

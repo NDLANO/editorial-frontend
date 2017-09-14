@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { uuid } from 'ndla-util';
-import { FootNoteShape } from '../../../shapes';
+import { FootnoteShape } from '../../../shapes';
 
 const classes = new BEMHelper({
   name: 'footnotes',
@@ -33,29 +33,29 @@ const Footnote = ({ footnote, id, t }) =>
         )}>{` ${footnote.title} (${footnote.year}), ${footnote.authors.join(
         ' ',
       )}, ${t(
-        'learningResourceForm.fields.footNotes.edition',
+        'learningResourceForm.fields.footnotes.edition',
       )}: ${footnote.edition}, ${t(
-        'learningResourceForm.fields.footNotes.publisher',
+        'learningResourceForm.fields.footnotes.publisher',
       )}: ${footnote.publisher}`}</cite>
     </span>
   </li>;
 
 Footnote.propTypes = {
   id: PropTypes.string.isRequired,
-  footnote: FootNoteShape.isRequired,
+  footnote: FootnoteShape.isRequired,
   editionTitle: PropTypes.string,
   publisherTitle: PropTypes.string,
 };
 
-const LearningResourceFootNotes = ({ footnotes, t }) =>
+const LearningResourceFootnotes = ({ footnotes, t }) =>
   <ol {...classes()}>
     {footnotes.map((footnote, i) =>
       <Footnote key={uuid()} id={i.toString()} t={t} footnote={footnote} />,
     )}
   </ol>;
 
-LearningResourceFootNotes.propTypes = {
+LearningResourceFootnotes.propTypes = {
   footnotes: PropTypes.array, // eslint-disable-line react/forbid-prop-types
 };
 
-export default LearningResourceFootNotes;
+export default LearningResourceFootnotes;

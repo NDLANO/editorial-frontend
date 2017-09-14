@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SlateFootNote = props => {
+const SlateFootnote = props => {
   const { attributes } = props;
   const { data } = props.node;
 
@@ -25,7 +25,7 @@ const SlateFootNote = props => {
   );
 };
 
-SlateFootNote.propTypes = {
+SlateFootnote.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
@@ -34,4 +34,4 @@ SlateFootNote.propTypes = {
   }),
 };
 
-export default SlateFootNote;
+export default SlateFootnote;

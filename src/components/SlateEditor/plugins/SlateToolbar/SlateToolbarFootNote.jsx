@@ -12,7 +12,7 @@ import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Cross } from 'ndla-ui/icons';
 import { hasNodeOfType } from '../utils';
-import FootNoteForm, { getInitialModel } from './FootNoteForm';
+import FootnoteForm, { getInitialModel } from './FootnoteForm';
 import { toolbarClasses } from './SlateToolbar';
 
 const FOOTNOTE = 'footnote';
@@ -22,12 +22,12 @@ const initialState = {
   nodeKey: undefined,
 };
 
-class SlateToolbarFootNote extends Component {
+class SlateToolbarFootnote extends Component {
   constructor() {
     super();
     this.state = initialState;
     this.onCloseDialog = this.onCloseDialog.bind(this);
-    this.addFootNoteData = this.addFootNoteData.bind(this);
+    this.addFootnoteData = this.addFootnoteData.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
   }
@@ -41,12 +41,12 @@ class SlateToolbarFootNote extends Component {
       editorState.inlines &&
       editorState.inlines.size > 0
     ) {
-      const footNoteNode = editorState.inlines.find(
+      const footnoteNode = editorState.inlines.find(
         inline => inline.type === FOOTNOTE,
       );
 
-      if (footNoteNode) {
-        this.addFootNoteData(footNoteNode);
+      if (footnoteNode) {
+        this.addFootnoteData(footnoteNode);
       }
     }
   }
@@ -82,12 +82,12 @@ class SlateToolbarFootNote extends Component {
     this.onCloseDialog();
   }
 
-  addFootNoteData(footNoteNode) {
-    const model = footNoteNode.data.toJS();
+  addFootnoteData(footnoteNode) {
+    const model = footnoteNode.data.toJS();
     this.setState({
       model,
-      nodeType: footNoteNode.type,
-      nodeKey: footNoteNode.key,
+      nodeType: footnoteNode.type,
+      nodeKey: footnoteNode.key,
     });
   }
 
@@ -107,12 +107,12 @@ class SlateToolbarFootNote extends Component {
           </Button>
           <h2>
             {t(
-              `learningResourceForm.fields.content.footNote.${isEdit
+              `learningResourceForm.fields.content.footnote.${isEdit
                 ? 'editTitle'
                 : 'addTitle'}`,
             )}
           </h2>
-          <FootNoteForm
+          <FootnoteForm
             initialModel={getInitialModel(model)}
             onClose={this.onCloseDialog}
             isEdit={isEdit}
@@ -125,10 +125,10 @@ class SlateToolbarFootNote extends Component {
   }
 }
 
-SlateToolbarFootNote.propTypes = {
+SlateToolbarFootnote.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   handleStateChange: PropTypes.func.isRequired,
   state: PropTypes.shape({}),
 };
 
-export default injectT(SlateToolbarFootNote);
+export default injectT(SlateToolbarFootnote);

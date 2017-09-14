@@ -6,13 +6,12 @@
  *
  */
 import React from 'react';
-import SlateFootNote from '../SlateFootNote';
+import SlateFootnote from '../SlateFootnote';
 
-// eslint-disable-next-line no-unused-vars
-export default function footNotePlugin(options = {}) {
+export default function footnotePlugin() {
   const schema = {
     nodes: {
-      footnote: props => <SlateFootNote {...props} />,
+      footnote: props => <SlateFootnote {...props} />,
     },
   };
   return {

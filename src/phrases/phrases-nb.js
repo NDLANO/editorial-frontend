@@ -288,7 +288,7 @@ const phrases = {
           addTitle: 'Legg til lenke',
           changeTitle: 'Endre lenke',
         },
-        footNote: {
+        footnote: {
           title: 'Tittel',
           year: 'År',
           authors: {
@@ -304,10 +304,10 @@ const phrases = {
           editTitle: 'Rediger fotnote',
           save: 'Lagre',
           abort: 'Avbryt',
-          removeFootNote: 'Fjern fotnote',
+          removeFootnote: 'Fjern fotnote',
         },
       },
-      footNotes: {
+      footnotes: {
         edition: 'Utgave',
         publisher: 'Utgiver',
       },

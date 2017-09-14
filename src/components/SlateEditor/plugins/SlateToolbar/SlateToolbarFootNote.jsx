@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Cross } from 'ndla-ui/icons';
+import { hasNodeOfType } from '../utils';
 import FootNoteForm, { getInitialModel } from './FootNoteForm';
 import { toolbarClasses } from './SlateToolbar';
 
@@ -28,14 +29,16 @@ class SlateToolbarFootNote extends Component {
     this.onCloseDialog = this.onCloseDialog.bind(this);
     this.addFootNoteData = this.addFootNoteData.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const editorState = nextProps.state;
+  componentWillMount() {
+    const editorState = this.props.state;
 
     if (
       !editorState.isBlurred &&
       !editorState.isEmpty &&
+      editorState.inlines &&
       editorState.inlines.size > 0
     ) {
       const footNoteNode = editorState.inlines.find(
@@ -51,6 +54,16 @@ class SlateToolbarFootNote extends Component {
   onCloseDialog() {
     this.setState(initialState);
     this.props.closeDialog();
+  }
+
+  handleRemove() {
+    const { state, handleStateChange } = this.props;
+    const transform = state.transform();
+    if (hasNodeOfType(state, FOOTNOTE, 'inline')) {
+      const nextState = transform.removeNodeByKey(this.state.nodeKey).apply();
+      handleStateChange(nextState);
+      this.onCloseDialog();
+    }
   }
 
   handleSave(data) {
@@ -80,14 +93,11 @@ class SlateToolbarFootNote extends Component {
 
   render() {
     const { model } = this.state;
-    const { showDialog, t } = this.props;
+    const { t } = this.props;
     const isEdit = model !== undefined;
 
-    if (!showDialog) {
-      return null;
-    }
     return (
-      <div {...toolbarClasses('link-overlay', showDialog ? 'open' : 'hidden')}>
+      <div {...toolbarClasses('link-overlay', 'open')}>
         <div {...toolbarClasses('link-dialog')}>
           <Button
             stripped
@@ -106,7 +116,7 @@ class SlateToolbarFootNote extends Component {
             initialModel={getInitialModel(model)}
             onClose={this.onCloseDialog}
             isEdit={isEdit}
-            onRemove={() => console.log('Not implemented')}
+            onRemove={this.handleRemove}
             onSave={this.handleSave}
           />
         </div>
@@ -116,7 +126,6 @@ class SlateToolbarFootNote extends Component {
 }
 
 SlateToolbarFootNote.propTypes = {
-  showDialog: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
   handleStateChange: PropTypes.func.isRequired,
   state: PropTypes.shape({}),

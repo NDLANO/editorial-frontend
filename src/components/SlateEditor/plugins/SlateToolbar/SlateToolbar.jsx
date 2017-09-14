@@ -202,12 +202,12 @@ class SlateToolbar extends Component {
           state={state}
           handleStateChange={this.handleStateChange}
         />
-        <SlateToolbarFootNote
-          showDialog={showFootNotesDialog}
-          closeDialog={this.onCloseDialog}
-          state={state}
-          handleStateChange={this.handleStateChange}
-        />
+        {showFootNotesDialog &&
+          <SlateToolbarFootNote
+            closeDialog={this.onCloseDialog}
+            state={state}
+            handleStateChange={this.handleStateChange}
+          />}
         <Portal isOpened onOpen={this.onOpen}>
           <div {...toolbarClasses()}>
             {toolbarButtons}

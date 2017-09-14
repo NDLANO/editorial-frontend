@@ -10,10 +10,13 @@ import React from 'react';
 import { fromJS } from 'immutable';
 import renderer from 'react-test-renderer';
 import { Raw, Html } from 'slate';
-import { stateWithTwoImageEmbeds } from './slateMockStates';
+import {
+  stateWithInlineFootnotesAndContentLinks,
+  stateWithTwoImageEmbeds,
+} from './slateMockStates';
 import {
   learningResourceEmbedRule,
-  findEmbedNodes,
+  findNodesByType,
   divRule,
 } from '../slateHelpers';
 
@@ -28,9 +31,16 @@ test('serialize embed block', () => {
   expect(renderer.create(tag).toJSON()).toMatchSnapshot();
 });
 
-test('findEmbedNodes in slate Document', () => {
+test('find embed nodes in slate document', () => {
   const document = Raw.deserialize(stateWithTwoImageEmbeds).document;
-  const embeds = findEmbedNodes(document);
+  const embeds = findNodesByType(document, 'embed');
+  expect(embeds.length).toBe(2);
+});
+
+test('find footnote nodes in slate document', () => {
+  const document = Raw.deserialize(stateWithInlineFootnotesAndContentLinks)
+    .document;
+  const embeds = findNodesByType(document, 'footnote');
   expect(embeds.length).toBe(2);
 });
 

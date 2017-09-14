@@ -22,7 +22,7 @@ import {
   createEmbedTag,
   isUserProvidedEmbedDataValid,
 } from '../../../util/embedTagHelpers';
-import { findEmbedNodes } from '../../../util/slateHelpers';
+import { findNodesByType } from '../../../util/slateHelpers';
 import { SchemaShape } from '../../../shapes';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
@@ -35,6 +35,17 @@ const DEFAULT_LICENSE = {
   license: 'by-sa',
   url: 'https://creativecommons.org/licenses/by-sa/2.0/',
 };
+
+const findFootnotes = content =>
+  content
+    .reduce(
+      (all, item) => [
+        ...all,
+        ...findNodesByType(item.state.document, 'footnote'),
+      ],
+      [],
+    )
+    .map(footnoteNode => footnoteNode.data.toJS());
 
 const parseCopyrightAuthors = (article, type) =>
   article.copyright
@@ -53,7 +64,6 @@ export const getInitialModel = (article = {}) => {
     content: converter.toSlateEditorState(article.content, true, {
       footNotes: article.footNotes,
     }),
-    footNotes: article.footNotes,
     tags: article.tags || [],
     authors: parseCopyrightAuthors(article, 'Forfatter'),
     licensees: parseCopyrightAuthors(article, 'Rettighetshaver'),
@@ -109,11 +119,21 @@ class LearningResourceForm extends Component {
       type: 'Bidragsyter',
       name,
     }));
+
+    const footnoteObject = findFootnotes(model.content).reduce(
+      (obj, footnote, i) => ({
+        ...obj,
+        [`ref_${i + 1}`]: footnote,
+      }),
+      {},
+    );
+
     const content = {
       content: converter.slateToHtml(model.content, true),
-      footNotes: model.footNotes,
+      footNotes: footnoteObject,
       language,
     };
+
     this.props.onUpdate({
       id: model.id,
       revision,
@@ -128,7 +148,7 @@ class LearningResourceForm extends Component {
       content: [content],
       visualElement: [
         {
-          content: createEmbedTag(model.metaImage),
+          visualElement: createEmbedTag(model.metaImage),
           language,
         },
       ],
@@ -181,9 +201,11 @@ class LearningResourceForm extends Component {
           bindInput={bindInput}
           tags={tags}
         />
-        {model.footNotes
-          ? <LearningResourceFootNotes t={t} footNotes={model.footNotes} />
-          : null}
+
+        <LearningResourceFootNotes
+          t={t}
+          footnotes={findFootnotes(model.content)}
+        />
         <LearningResourceCopyright
           commonFieldProps={commonFieldProps}
           licenses={licenses}
@@ -245,9 +267,10 @@ export default compose(
       required: true,
       test: (value, model, setError) => {
         const hasErrors = value.find(block => {
-          const embeds = findEmbedNodes(block.state.document).map(node =>
-            node.get('data').toJS(),
-          );
+          const embeds = findNodesByType(
+            block.state.document,
+            'embed',
+          ).map(node => node.get('data').toJS());
           const notValidEmbeds = embeds.filter(
             embed => !isUserProvidedEmbedDataValid(embed),
           );

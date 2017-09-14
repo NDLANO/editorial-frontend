@@ -110,3 +110,195 @@ export const stateWithTwoImageEmbeds = {
   },
   kind: 'state',
 };
+
+export const stateWithInlineFootnotesAndContentLinks = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        kind: 'block',
+        isVoid: false,
+        type: 'section',
+        nodes: [
+          {
+            data: {},
+            kind: 'block',
+            isVoid: false,
+            type: 'paragraph',
+            nodes: [
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    text:
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et ',
+                    marks: [],
+                  },
+                ],
+              },
+              {
+                data: {
+                  'content-id': '1031',
+                  resource: 'content-link',
+                  'link-text': 'dolore',
+                },
+                kind: 'inline',
+                isVoid: false,
+                type: 'embed-inline',
+                nodes: [
+                  {
+                    kind: 'text',
+                    ranges: [
+                      {
+                        kind: 'range',
+                        text: 'dolore',
+                        marks: [],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    text:
+                      ' magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                    marks: [],
+                  },
+                ],
+              },
+              {
+                data: {
+                  title: 'The Mythical Man-Month',
+                  year: '1975',
+                  authors: ['Frederick Brooks'],
+                  edition: '',
+                  publisher: 'Addison-Wesley',
+                  type: '',
+                },
+                kind: 'inline',
+                isVoid: false,
+                type: 'footnote',
+                nodes: [
+                  {
+                    kind: 'text',
+                    ranges: [
+                      {
+                        kind: 'range',
+                        text: '#',
+                        marks: [],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    text:
+                      ' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est ',
+                    marks: [],
+                  },
+                ],
+              },
+              {
+                data: {
+                  'content-id': '1031',
+                  resource: 'content-link',
+                  'link-text': 'laborum',
+                },
+                kind: 'inline',
+                isVoid: false,
+                type: 'embed-inline',
+                nodes: [
+                  {
+                    kind: 'text',
+                    ranges: [
+                      {
+                        kind: 'range',
+                        text: 'laborum',
+                        marks: [],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    text: '.',
+                    marks: [],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            data: {},
+            kind: 'block',
+            isVoid: false,
+            type: 'paragraph',
+            nodes: [
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    text:
+                      'Lorem ipsum dolor sit amet, consectetur a dipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                    marks: [],
+                  },
+                ],
+              },
+              {
+                data: {
+                  title: 'A brief history of time',
+                  year: '1988',
+                  authors: ['Stephen Hawking'],
+                  edition: '',
+                  publisher: 'Bantam Dell Publishing Group',
+                  type: '',
+                },
+                kind: 'inline',
+                isVoid: false,
+                type: 'footnote',
+                nodes: [
+                  {
+                    kind: 'text',
+                    ranges: [
+                      {
+                        kind: 'range',
+                        text: '#',
+                        marks: [],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    text: '',
+                    marks: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  kind: 'state',
+};

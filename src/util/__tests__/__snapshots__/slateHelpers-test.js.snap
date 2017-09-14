@@ -5,12 +5,12 @@ Object {
   "data": Object {},
   "document": Object {
     "data": Object {},
-    "key": "12",
+    "key": "30",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
-        "key": "11",
+        "key": "29",
         "nodes": Array [
           Object {
             "characters": Array [
@@ -31,7 +31,7 @@ Object {
                 "text": "t",
               },
             ],
-            "key": "10",
+            "key": "28",
           },
         ],
         "type": "bodybox",
@@ -44,9 +44,9 @@ Object {
   },
   "isNative": false,
   "selection": Object {
-    "anchorKey": "10",
+    "anchorKey": "28",
     "anchorOffset": 0,
-    "focusKey": "10",
+    "focusKey": "28",
     "focusOffset": 0,
     "isBackward": false,
     "isFocused": false,

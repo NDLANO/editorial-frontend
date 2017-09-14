@@ -35,18 +35,16 @@ const MARK_TAGS = {
   code: 'code',
 };
 
-export const findEmbedNodes = (node, embeds = []) => {
-  if (node.type === 'embed') {
-    embeds.push(node);
+export const findNodesByType = (node, type, nodes = []) => {
+  if (node.type === type) {
+    nodes.push(node);
   } else if (
     node.kind === 'document' ||
-    (node.kind === 'block' &&
-      node.nodes.size > 0 &&
-      node.nodes.first().kind === 'block')
+    (node.kind === 'block' && node.nodes.size > 0)
   ) {
-    node.nodes.forEach(n => findEmbedNodes(n, embeds));
+    node.nodes.forEach(n => findNodesByType(n, type, nodes));
   }
-  return embeds;
+  return nodes;
 };
 
 export const logState = state => {
@@ -321,20 +319,17 @@ function createRules(contentData = {}, footNoteCounter) {
       deserialize(el, next) {
         if (el.tagName.toLowerCase() !== 'a') return;
         if (el.name && el.name.match(/ref_\d+_sup/)) {
-          const sup = el.childNodes[0];
           return {
             kind: 'inline',
             type: 'footnote',
             nodes: [
               {
                 kind: 'text',
-                text: `[${sup.innerHTML}]`, // Needs [] to expand sele area in editor
+                text: '#',
                 isVoid: true,
               },
             ],
             data: {
-              href: el.attributes.getNamedItem('href'),
-              name: el.attributes.getNamedItem('name'),
               ...createFootNoteData(el, contentData),
             },
           };

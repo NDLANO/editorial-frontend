@@ -26,7 +26,6 @@ const suportedToolbarElements = {
     'heading-one',
     'heading-two',
     'heading-three',
-    'list-item',
   ],
   inline: ['embed-inline', 'footnote'],
 };

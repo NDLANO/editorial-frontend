@@ -9,8 +9,8 @@
 .c-footnotes {
   margin-top: -3.7em;
 
-  &__backlink > b > a {
-    text-decoration: none;
-    color: gray;
+  sup {
+    text-decoration: underline;
+    color: var(--brand-color);
   }
 }

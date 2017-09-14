@@ -17,28 +17,19 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const Footnote = ({ footnote, id, t }) =>
-  <li {...classes('item')} id={`${id}_cite`}>
-    <span>
-      <sup {...classes('backlink')}>
-        <b>
-          <a href={`#${id}_sup`}>[^]</a>
-        </b>
+const Footnote = ({ footnote, id, t }) => {
+  const authors = footnote.authors.join(' ');
+  const editonLabel = t('learningResourceForm.fields.footnotes.edition');
+  const publisherLabel = t('learningResourceForm.fields.footnotes.publisher');
+  return (
+    <li {...classes('item')} id={`${id}_cite`}>
+      <sup>
+        {id}
       </sup>
-    </span>
-    <span>
-      <cite
-        {...classes(
-          'cite',
-        )}>{` ${footnote.title} (${footnote.year}), ${footnote.authors.join(
-        ' ',
-      )}, ${t(
-        'learningResourceForm.fields.footnotes.edition',
-      )}: ${footnote.edition}, ${t(
-        'learningResourceForm.fields.footnotes.publisher',
-      )}: ${footnote.publisher}`}</cite>
-    </span>
-  </li>;
+      <cite>{` ${footnote.title} (${footnote.year}), ${authors}, ${editonLabel}: ${footnote.edition}, ${publisherLabel}: ${footnote.publisher}`}</cite>
+    </li>
+  );
+};
 
 Footnote.propTypes = {
   id: PropTypes.string.isRequired,
@@ -50,12 +41,12 @@ Footnote.propTypes = {
 const LearningResourceFootnotes = ({ footnotes, t }) =>
   <ol {...classes()}>
     {footnotes.map((footnote, i) =>
-      <Footnote key={uuid()} id={i.toString()} t={t} footnote={footnote} />,
+      <Footnote key={uuid()} id={`${i + 1}`} t={t} footnote={footnote} />,
     )}
   </ol>;
 
 LearningResourceFootnotes.propTypes = {
-  footnotes: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  footnotes: PropTypes.arrayOf(FootnoteShape),
 };
 
 export default LearningResourceFootnotes;

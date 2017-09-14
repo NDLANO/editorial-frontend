@@ -6,35 +6,37 @@
  *
  */
 
-import { handleActions } from 'redux-actions';
-import * as actions from './searchActions';
+import { handleActions, createAction } from 'redux-actions';
+
+export const search = createAction('SEARCH');
+export const searchError = createAction('SEARCH_ERROR');
+export const clearSearchResult = createAction('CLEAR_SEARCH_RESULT');
+export const setSearchResult = createAction('SET_SEARCH_RESULT');
 
 export const initalState = {
-  results: [],
-  totalCount: 1,
-  pageSize: 10,
+  totalResults: [],
   searching: false,
 };
 
 export default handleActions(
   {
-    [actions.search]: {
+    [search]: {
       next: state => ({ ...state, searching: true }),
       throw: state => state,
     },
-    [actions.setSearchResult]: {
+    [setSearchResult]: {
       next: (state, action) => ({
         ...state,
-        ...action.payload,
+        totalResults: action.payload,
         searching: false,
       }),
       throw: state => state,
     },
-    [actions.clearSearchResult]: {
+    [clearSearchResult]: {
       next: () => initalState,
       throw: state => state,
     },
-    [actions.searchError]: {
+    [searchError]: {
       next: state => ({ ...state, searching: false }),
       throw: state => state,
     },

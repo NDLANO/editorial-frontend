@@ -10,9 +10,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import SearchResult from './SearchResult';
-import { ArticleResultShape } from '../../../shapes';
+import { SearchResultShape } from '../../../shapes';
 
-const SearchList = ({ results, query, locale, t }) => {
+const SearchList = ({ results, query, t }) => {
   const noSearchHits = query.query && results.length === 0;
   return (
     <div className="search-results">
@@ -21,18 +21,25 @@ const SearchList = ({ results, query, locale, t }) => {
             {t('searchPage.noHits', { query: query.query })}
           </p>
         : results.map(result =>
-            <SearchResult key={result.id} locale={locale} article={result} />,
+            <div key={result.type}>
+              {result.results.map(item =>
+                <SearchResult
+                  key={item.id}
+                  resultType={result.type}
+                  item={item}
+                />,
+              )}
+            </div>,
           )}
     </div>
   );
 };
 
 SearchList.propTypes = {
-  results: PropTypes.arrayOf(ArticleResultShape).isRequired,
+  results: PropTypes.arrayOf(SearchResultShape).isRequired,
   query: PropTypes.shape({
     query: PropTypes.string,
   }),
-  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(SearchList);

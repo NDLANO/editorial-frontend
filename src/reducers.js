@@ -10,7 +10,7 @@ import { combineReducers } from 'redux';
 
 import locale from './modules/locale/locale';
 import messages from './containers/Messages/messagesReducer';
-import search from './containers/SearchPage/searchReducer';
+import search from './modules/search/search';
 import articles from './modules/article/article';
 import audios from './modules/audio/audio';
 import images from './modules/image/image';

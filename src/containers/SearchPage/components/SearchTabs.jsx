@@ -48,24 +48,36 @@ class SearchTabs extends Component {
       case 'topic-article':
         this.setState({ index: 2 });
         break;
+      case 3:
+        this.setState({ index: 3 });
+        break;
+      case 4:
+        this.setState({ index: 4 });
+        break;
       default:
         break;
     }
   }
 
   handleOnSelect(index, last) {
-    const { onSearchTypeChange } = this.props;
+    const { onSearchTypeChange, onArticleSearchTypeChange } = this.props;
     if (index !== last) {
       this.setState({ index });
       switch (index) {
         case 0:
-          onSearchTypeChange(undefined);
+          onSearchTypeChange(['images', 'audios', 'articles']);
           break;
         case 1:
-          onSearchTypeChange('standard');
+          onArticleSearchTypeChange('standard');
           break;
         case 2:
-          onSearchTypeChange('topic-article');
+          onArticleSearchTypeChange('topic-article');
+          break;
+        case 3:
+          onSearchTypeChange(['images']);
+          break;
+        case 4:
+          onSearchTypeChange(['audios']);
           break;
         default:
           break;
@@ -94,6 +106,14 @@ class SearchTabs extends Component {
             title: t('searchForm.articleType.topicArticle'),
             content: tabContent,
           },
+          {
+            title: t('searchForm.articleType.image'),
+            content: tabContent,
+          },
+          {
+            title: t('searchForm.articleType.audio'),
+            content: tabContent,
+          },
         ]}
       />
     );
@@ -104,6 +124,7 @@ SearchTabs.propTypes = {
   searchTypes: PropTypes.string,
   tabContent: PropTypes.node.isRequired,
   onSearchTypeChange: PropTypes.func.isRequired,
+  onArticleSearchTypeChange: PropTypes.func.isRequired,
 };
 
 export default injectT(SearchTabs);

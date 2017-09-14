@@ -9,7 +9,7 @@
 import { take, call, put, select } from 'redux-saga/effects';
 
 import { getLocale } from '../../modules/locale/locale';
-import * as actions from './searchActions';
+import * as actions from './search';
 import * as api from './searchApi';
 
 export function* search(queryString) {

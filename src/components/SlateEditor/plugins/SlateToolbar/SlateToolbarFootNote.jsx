@@ -16,9 +16,9 @@ import { toolbarClasses } from './SlateToolbar';
 
 const FOOTNOTE = 'footnote';
 const initialState = {
-  isEdit: false,
   model: undefined,
-  initialized: false,
+  nodeType: undefined,
+  nodeKey: undefined,
 };
 
 class SlateToolbarFootNote extends Component {
@@ -28,13 +28,23 @@ class SlateToolbarFootNote extends Component {
     this.onCloseDialog = this.onCloseDialog.bind(this);
     this.addFootNoteData = this.addFootNoteData.bind(this);
     this.handleSave = this.handleSave.bind(this);
-    this.findFootNote = this.findFootNote.bind(this);
-    this.findBlock = this.findBlock.bind(this);
   }
 
-  componentWillReceiveProps(nextProps, nextState) {
-    if (!nextState.initialized) {
-      this.addFootNoteData();
+  componentWillReceiveProps(nextProps) {
+    const editorState = nextProps.state;
+
+    if (
+      !editorState.isBlurred &&
+      !editorState.isEmpty &&
+      editorState.inlines.size > 0
+    ) {
+      const footNoteNode = editorState.inlines.find(
+        inline => inline.type === FOOTNOTE,
+      );
+
+      if (footNoteNode) {
+        this.addFootNoteData(footNoteNode);
+      }
     }
   }
 
@@ -44,12 +54,10 @@ class SlateToolbarFootNote extends Component {
   }
 
   handleSave(data) {
-    console.log('Handle save', data);
     const { state, handleStateChange } = this.props;
     const transform = state.transform();
     if (this.state.nodeType === FOOTNOTE) {
-      // TODO: Edit existing content node
-      console.log('Will save current!');
+      transform.setNodeByKey(this.state.nodeKey, { data });
     } else {
       transform.collapseToEnd().insertText('#').extend(-1).wrapInline({
         type: FOOTNOTE,
@@ -61,38 +69,19 @@ class SlateToolbarFootNote extends Component {
     this.onCloseDialog();
   }
 
-  findFootNote() {
-    const { state } = this.props;
-    return state.inlines.find(inline => inline.type === FOOTNOTE);
-  }
-
-  findBlock() {
-    const { state } = this.props;
-    return state.blocks.find(block => block.kind === 'block');
-  }
-
-  // TODO: Remove footnote
-
-  addFootNoteData() {
-    const { state } = this.props;
-    if (state.isBlurred || state.isEmpty) return;
-
-    const footNoteNode = this.findFootNote();
-    if (footNoteNode) {
-      const model = footNoteNode.data.toJS();
-      this.setState({
-        model,
-        isEdit: footNoteNode.type === FOOTNOTE,
-        initialized: true,
-        nodeType: footNoteNode.type,
-        nodeKey: footNoteNode.key,
-      });
-    }
+  addFootNoteData(footNoteNode) {
+    const model = footNoteNode.data.toJS();
+    this.setState({
+      model,
+      nodeType: footNoteNode.type,
+      nodeKey: footNoteNode.key,
+    });
   }
 
   render() {
-    const { isEdit, model } = this.state;
+    const { model } = this.state;
     const { showDialog, t } = this.props;
+    const isEdit = model !== undefined;
 
     if (!showDialog) {
       return null;

@@ -9,29 +9,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SlateFootnote = props => {
+const Footnote = props => {
   const { attributes } = props;
-  const { data } = props.node;
-
-  const href = data.get('href') ? data.get('href').value : null;
-  const name = data.get('name') ? data.get('name').value : null;
 
   return (
-    <a href={href} name={name} {...attributes}>
-      <sup id={name}>
+    <a {...attributes}>
+      <sup>
         {props.children}
       </sup>
     </a>
   );
 };
 
-SlateFootnote.propTypes = {
+Footnote.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  node: PropTypes.shape({
-    get: PropTypes.func.isRequired,
-  }),
 };
 
-export default SlateFootnote;
+export default function footnotePlugin() {
+  const schema = {
+    nodes: {
+      footnote: Footnote,
+    },
+  };
+  return {
+    schema,
+  };
+}

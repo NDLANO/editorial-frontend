@@ -86,14 +86,7 @@ test('serialize footnote', () => {
   const obj = {
     isVoid: false,
     kind: 'inline',
-    data: {
-      authors: ['Jony Ive'],
-      edition: '4',
-      publisher: 'Apple',
-      title: 'Apple Watch',
-      type: '',
-      year: '2015',
-    },
+    data: footnotes.ref_1,
     nodes: [
       {
         kind: 'text',

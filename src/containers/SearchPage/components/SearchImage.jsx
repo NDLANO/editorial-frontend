@@ -7,19 +7,27 @@
  */
 
 import React from 'react';
-import { ArticleResultShape } from '../../../shapes';
+import { Link } from 'react-router-dom';
+import { toEditImage } from '../../../util/routeHelpers';
+import { ImageResultShape } from '../../../shapes';
 import { searchClasses } from '../SearchPage';
 
 const SearchImage = ({ image }) =>
-  <div {...searchClasses()}>
-    <h1 {...searchClasses('title')}>
-      {image.title}
-    </h1>
-    <img src={image.previewUrl} alt={image.altText} />
+  <div {...searchClasses('result')}>
+    <div {...searchClasses('content')}>
+      <Link to={toEditImage(image.id)}>
+        <h1 {...searchClasses('title')}>
+          {image.title}
+        </h1>
+      </Link>
+    </div>
+    <div {...searchClasses('image')}>
+      <img src={image.previewUrl} alt={image.altText} />
+    </div>
   </div>;
 
 SearchImage.propTypes = {
-  image: ArticleResultShape.isRequired,
+  image: ImageResultShape.isRequired,
 };
 
 export default SearchImage;

@@ -15,14 +15,16 @@ import {
 } from '../../../shapes';
 import SearchArticle from './SearchArticle';
 import SearchImage from './SearchImage';
+import SearchAudio from './SearchAudio';
 
 const SearchResult = ({ item, resultType }) => {
-  console.log(item);
   switch (resultType) {
     case 'articles':
       return <SearchArticle article={item} />;
     case 'images':
       return <SearchImage image={item} />;
+    case 'audios':
+      return <SearchAudio audio={item} />;
     default:
       return <p>{`Something went wrong with ${resultType}`}</p>;
   }

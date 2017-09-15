@@ -7,42 +7,52 @@
  *
  */
 
-.search-form {
-  margin-top: 4rem;
-  width: 670px;
+.c-search-results {
+  margin-top: -156px;
+  padding: 1.5rem;
+  border: 1px solid var(--gray-8);
+  background-color: white;
 
-  &__query {
-    float: left;
-    margin: 0;
-    font-size: 1.2rem;
-    height: 3rem;
-    width: 85%;
-    outline: none;
+  &__result {
+    color: var(--brand-grey-dark);
+    min-height: 9.2rem;
+    border-bottom: 1px solid var(--gray-8);
+    display: flex;
+    padding-left: 12px;
   }
 
-  &__button {
-    width: 15%;
-    margin-left: -1px;
-    height: 3rem;
-
-    &:hover,
-    &:focus,
-    &:disabled {
-      transform: none;
-    }
+  &__result:last-child {
+    border-bottom: none;
   }
-}
-
-
-.c-search-result {
-  color: var(--brand-grey-dark);
-  min-height: 9.2rem;
-  border-bottom: 1px solid #b7cde2;
 
   &__link {
     &:any-link {
       color: var(--brand-color);
     }
+  }
+
+  &__content {
+    display: inline-block;
+    width: 70%;
+  }
+
+  &__image {
+    display: inline-block;
+    width: 30%;
+    max-width: 30%;
+    text-align: center;
+  }
+
+  &__image img {
+    max-height: 9.2rem;
+    margin: 1.3rem;
+    margin-right: 0;
+  }
+
+  &__image svg {
+    margin: 1.3rem;
+    width: 60px;
+    height: 60px;
   }
 
   &__title {
@@ -60,7 +70,6 @@
   }
 
   &__filters-select {
-    margin-right: 0.5em;
-    margin-top: 2rem;
+    margin-left: 0.5em;
   }
 }

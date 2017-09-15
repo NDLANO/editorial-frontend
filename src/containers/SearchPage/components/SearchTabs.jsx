@@ -22,8 +22,9 @@ class SearchTabs extends Component {
   }
 
   componentWillMount() {
-    const { searchTypes } = this.props;
-    this.setIndexTab(searchTypes);
+    const { searchTypes, articleType } = this.props;
+    const type = articleType || searchTypes;
+    this.setIndexTab(type);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -39,20 +40,17 @@ class SearchTabs extends Component {
 
   setIndexTab(searchTypes) {
     switch (searchTypes) {
-      case undefined:
+      case 'standard':
         this.setState({ index: 0 });
         break;
-      case 'standard':
+      case 'topic-article':
         this.setState({ index: 1 });
         break;
-      case 'topic-article':
+      case 'images':
         this.setState({ index: 2 });
         break;
-      case 3:
+      case 'audios':
         this.setState({ index: 3 });
-        break;
-      case 4:
-        this.setState({ index: 4 });
         break;
       default:
         break;
@@ -65,18 +63,15 @@ class SearchTabs extends Component {
       this.setState({ index });
       switch (index) {
         case 0:
-          onSearchTypeChange(['images', 'audios', 'articles']);
-          break;
-        case 1:
           onArticleSearchTypeChange('standard');
           break;
-        case 2:
+        case 1:
           onArticleSearchTypeChange('topic-article');
           break;
-        case 3:
+        case 2:
           onSearchTypeChange(['images']);
           break;
-        case 4:
+        case 3:
           onSearchTypeChange(['audios']);
           break;
         default:
@@ -94,10 +89,6 @@ class SearchTabs extends Component {
         selectedIndex={index}
         onSelect={this.handleOnSelect}
         tabs={[
-          {
-            title: t('searchForm.articleType.all'),
-            content: tabContent,
-          },
           {
             title: t('searchForm.articleType.learningResource'),
             content: tabContent,
@@ -121,7 +112,8 @@ class SearchTabs extends Component {
 }
 
 SearchTabs.propTypes = {
-  searchTypes: PropTypes.string,
+  searchTypes: PropTypes.string.isRequired,
+  articleType: PropTypes.string,
   tabContent: PropTypes.node.isRequired,
   onSearchTypeChange: PropTypes.func.isRequired,
   onArticleSearchTypeChange: PropTypes.func.isRequired,

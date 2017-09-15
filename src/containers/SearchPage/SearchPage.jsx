@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
-import { OneColumn, Pager } from 'ndla-ui';
+import { OneColumn, Pager, Hero } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
 import * as actions from '../../modules/search/search';
 import { SearchResultShape } from '../../shapes';
@@ -25,7 +25,7 @@ import SearchTabs from './components/SearchTabs';
 import { toSearch } from '../../util/routeHelpers';
 
 export const searchClasses = new BEMHelper({
-  name: 'search-result',
+  name: 'search-results',
   prefix: 'c-',
 });
 
@@ -80,25 +80,32 @@ class SearchPage extends Component {
     const searchList = (
       <SearchList query={query} locale={locale} results={results} />
     );
+
     return (
-      <OneColumn cssModifier="clear">
-        <SelectSearchSortOrder
-          sort={query.sort}
-          onSortOrderChange={this.onSortOrderChange}
-        />
-        <SearchTabs
-          searchTypes={query.articleTypes}
-          tabContent={searchList}
-          onSearchTypeChange={this.onSearchTypeChange}
-          onArticleSearchTypeChange={this.onArticleSearchTypeChange}
-        />
-        <Pager
-          page={query.page ? parseInt(query.page, 10) : 1}
-          lastPage={lastPage}
-          query={query}
-          pathname={toSearch()}
-        />
-      </OneColumn>
+      <div>
+        <Hero />
+        <OneColumn cssModifier="narrow">
+          <div {...searchClasses()}>
+            <SelectSearchSortOrder
+              sort={query.sort}
+              onSortOrderChange={this.onSortOrderChange}
+            />
+            <SearchTabs
+              searchTypes={query.types}
+              articleType={query.articleTypes}
+              tabContent={searchList}
+              onSearchTypeChange={this.onSearchTypeChange}
+              onArticleSearchTypeChange={this.onArticleSearchTypeChange}
+            />
+            <Pager
+              page={query.page ? parseInt(query.page, 10) : 1}
+              lastPage={lastPage}
+              query={query}
+              pathname={toSearch()}
+            />
+          </div>
+        </OneColumn>
+      </div>
     );
   }
 }

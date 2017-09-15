@@ -25,7 +25,8 @@ export const getLastPage = createSelector([getSearchFromState], search => {
     .map(t => t.totalCount)
     .reduce((a, b) => a + b, 0);
   const largestPageSize = search.totalResults
-    .map(t => t.totalCount)
+    .map(t => t.pageSize)
     .reduce((a, b) => Math.max(a, b), 1);
+
   return totalResultsCount ? Math.ceil(totalResultsCount / largestPageSize) : 1;
 });

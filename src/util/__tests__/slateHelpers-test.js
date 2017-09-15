@@ -14,11 +14,15 @@ import {
   stateWithInlineFootnotesAndContentLinks,
   stateWithTwoImageEmbeds,
 } from './slateMockStates';
+import footnotes from './mockFootnotes';
 import {
+  createFootnoteRule,
   learningResourceEmbedRule,
   findNodesByType,
   divRule,
+  toJSON,
 } from '../slateHelpers';
+import { FootnoteCounter } from '../articleContentConverter';
 
 test('serialize embed block', () => {
   const obj = {
@@ -56,8 +60,59 @@ test('serialize bodybox block', () => {
 
 test('deserialize bodybox block', () => {
   const serializer = new Html({ rules: [divRule] });
-  const deseralized = serializer.deserialize(
+  const deserialized = serializer.deserialize(
     '<div class="c-bodybox">test</div>',
   );
-  expect(deseralized).toMatchSnapshot();
+
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('deserialize footnote', () => {
+  const serializer = new Html({
+    rules: [createFootnoteRule(footnotes, new FootnoteCounter())],
+  });
+  const deserialized = serializer.deserialize(
+    `
+    <p>
+      Lorem.<a href="#ref_1_cite" name="ref_1_sup"><sup>1</sup></a>
+      Ipsum.<a href="#ref_2_cite" name="ref_2_sup"><sup>2</sup></a>
+    </p>
+    `,
+  );
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('serialize footnote', () => {
+  const obj = {
+    isVoid: false,
+    kind: 'inline',
+    data: {
+      authors: ['Jony Ive'],
+      edition: '4',
+      publisher: 'Apple',
+      title: 'Apple Watch',
+      type: '',
+      year: '2015',
+    },
+    nodes: [
+      {
+        kind: 'text',
+        ranges: [
+          {
+            kind: 'range',
+            marks: [],
+            text: '#',
+          },
+        ],
+      },
+    ],
+    type: 'footnote',
+  };
+  const serializer = createFootnoteRule(footnotes, new FootnoteCounter());
+  const footnote1 = serializer.serialize(obj);
+  expect(renderer.create(footnote1).toJSON()).toMatchSnapshot();
+
+  // test that counter increases ref number
+  const footnote2 = serializer.serialize(obj);
+  expect(renderer.create(footnote2).toJSON()).toMatchSnapshot();
 });

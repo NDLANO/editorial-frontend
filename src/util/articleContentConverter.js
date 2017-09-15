@@ -9,7 +9,7 @@
 import { Html, Raw, Plain } from 'slate';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
 
-function FootnoteCounter(initialCount = 0) {
+export function FootnoteCounter(initialCount = 0) {
   this.count = initialCount;
 
   FootnoteCounter.prototype.getNextCount = function getNextCount() {

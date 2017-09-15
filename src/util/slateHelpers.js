@@ -50,6 +50,7 @@ export const findNodesByType = (node, type, nodes = []) => {
 export const logState = state => {
   console.log(JSON.stringify(Raw.serialize(state), null, 2)); // eslint-disable-line no-console
 };
+export const toJSON = state => Raw.serialize(state);
 
 // TODO: get type of aside in here. Default should be rightAside since that is the only
 const getAsideTag = el => ({
@@ -61,14 +62,6 @@ const getAsideTag = el => ({
 const setAsideTag = data => ({
   'data-type': data.get('type') || '',
 });
-
-const createFootnoteData = (el, contentData) => {
-  const footnoteKey = el.attributes
-    .getNamedItem('name')
-    .value.replace(/_sup/g, '');
-
-  return contentData.footnotes[footnoteKey];
-};
 
 /* eslint-disable consistent-return, default-case */
 
@@ -107,6 +100,52 @@ export const divRule = {
         );
     }
   },
+};
+
+export const createFootnoteRule = (footnotesData, footnoteCounter) => {
+  const createFootnoteData = (el, data) => {
+    const footnoteKey = el.attributes
+      .getNamedItem('name')
+      .value.replace(/_sup/g, '');
+
+    return data[footnoteKey];
+  };
+
+  return {
+    deserialize(el) {
+      if (el.tagName.toLowerCase() !== 'a') return;
+      if (el.name && el.name.match(/ref_\d+_sup/)) {
+        return {
+          kind: 'inline',
+          type: 'footnote',
+          nodes: [
+            {
+              kind: 'text',
+              text: '#',
+              isVoid: true,
+            },
+          ],
+          data: {
+            ...createFootnoteData(el, footnotesData),
+          },
+        };
+      }
+    },
+    serialize(object) {
+      if (object.kind !== 'inline') return;
+      if (object.type !== 'footnote') return;
+      const count = footnoteCounter.getNextCount();
+      const name = `ref_${count}_sup`;
+      const markup = (
+        <a href={`#ref_${count}_cite`} name={name}>
+          <sup>
+            {count}
+          </sup>
+        </a>
+      );
+      return markup;
+    },
+  };
 };
 
 function createRules(contentData = {}, footnoteCounter) {
@@ -314,44 +353,7 @@ function createRules(contentData = {}, footnoteCounter) {
         }
       },
     },
-    {
-      deserialize(el) {
-        if (el.tagName.toLowerCase() !== 'a') return;
-        if (el.name && el.name.match(/ref_\d+_sup/)) {
-          return {
-            kind: 'inline',
-            type: 'footnote',
-            nodes: [
-              {
-                kind: 'text',
-                text: '#',
-                isVoid: true,
-              },
-            ],
-            data: {
-              ...createFootnoteData(el, contentData),
-            },
-          };
-        }
-      },
-    },
-
-    {
-      serialize(object) {
-        if (object.kind !== 'inline') return;
-        if (object.type !== 'footnote') return;
-        const count = footnoteCounter.getNextCount();
-        const name = `ref_${count}_sup`;
-        const markup = (
-          <a href={`#{name}`} name={name}>
-            <sup>
-              {count}
-            </sup>
-          </a>
-        );
-        return markup;
-      },
-    },
+    createFootnoteRule(contentData.footnotes, footnoteCounter),
     {
       deserialize(el, next) {
         if (el.tagName.toLowerCase() !== 'a') return;
@@ -363,8 +365,6 @@ function createRules(contentData = {}, footnoteCounter) {
           nodes: next(el.childNodes),
         };
       },
-    },
-    {
       serialize(object, children) {
         if (object.kind !== 'inline') return;
         if (object.type !== 'link') return;

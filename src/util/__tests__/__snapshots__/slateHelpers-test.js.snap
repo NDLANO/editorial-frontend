@@ -2,56 +2,139 @@
 
 exports[`deserialize bodybox block 1`] = `
 Object {
-  "data": Object {},
   "document": Object {
     "data": Object {},
-    "key": "30",
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
-        "key": "29",
+        "kind": "block",
         "nodes": Array [
           Object {
-            "characters": Array [
+            "kind": "text",
+            "ranges": Array [
               Object {
+                "kind": "range",
                 "marks": Array [],
-                "text": "t",
-              },
-              Object {
-                "marks": Array [],
-                "text": "e",
-              },
-              Object {
-                "marks": Array [],
-                "text": "s",
-              },
-              Object {
-                "marks": Array [],
-                "text": "t",
+                "text": "test",
               },
             ],
-            "key": "28",
           },
         ],
         "type": "bodybox",
       },
     ],
   },
-  "history": Object {
-    "redos": Array [],
-    "undos": Array [],
+  "kind": "state",
+}
+`;
+
+exports[`deserialize footnote 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "
+      Lorem.",
+              },
+            ],
+          },
+          Object {
+            "data": Object {
+              "authors": Array [
+                "Jony Ive",
+              ],
+              "edition": "4",
+              "publisher": "Apple",
+              "title": "Apple Watch",
+              "type": "",
+              "year": "2015",
+            },
+            "isVoid": false,
+            "kind": "inline",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "#",
+                  },
+                ],
+              },
+            ],
+            "type": "footnote",
+          },
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "
+      Ipsum.",
+              },
+            ],
+          },
+          Object {
+            "data": Object {
+              "authors": Array [
+                "Steve Jobs",
+              ],
+              "edition": "1",
+              "publisher": "Apple",
+              "title": "iPhone",
+              "type": "",
+              "year": "2007",
+            },
+            "isVoid": false,
+            "kind": "inline",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "#",
+                  },
+                ],
+              },
+            ],
+            "type": "footnote",
+          },
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "
+    
+    ",
+              },
+            ],
+          },
+        ],
+        "type": "paragraph",
+      },
+    ],
   },
-  "isNative": false,
-  "selection": Object {
-    "anchorKey": "28",
-    "anchorOffset": 0,
-    "focusKey": "28",
-    "focusOffset": 0,
-    "isBackward": false,
-    "isFocused": false,
-    "marks": null,
-  },
+  "kind": "state",
 }
 `;
 
@@ -69,4 +152,26 @@ exports[`serialize embed block 1`] = `
 <embed
   data-caption="test"
 />
+`;
+
+exports[`serialize footnote 1`] = `
+<a
+  href="#ref_1_cite"
+  name="ref_1_sup"
+>
+  <sup>
+    1
+  </sup>
+</a>
+`;
+
+exports[`serialize footnote 2`] = `
+<a
+  href="#ref_2_cite"
+  name="ref_2_sup"
+>
+  <sup>
+    2
+  </sup>
+</a>
 `;

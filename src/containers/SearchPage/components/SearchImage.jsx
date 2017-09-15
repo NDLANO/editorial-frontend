@@ -8,10 +8,11 @@
 
 import React from 'react';
 import { ArticleResultShape } from '../../../shapes';
+import { searchClasses } from '../SearchPage';
 
 const SearchImage = ({ image }) =>
-  <div className="search-result">
-    <h1 className="search-result__title">
+  <div {...searchClasses()}>
+    <h1 {...searchClasses('title')}>
       {image.title}
     </h1>
     <img src={image.previewUrl} alt={image.altText} />

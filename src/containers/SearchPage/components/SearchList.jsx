@@ -15,7 +15,7 @@ import { SearchResultShape } from '../../../shapes';
 const SearchList = ({ results, query, t }) => {
   const noSearchHits = query.query && results.length === 0;
   return (
-    <div className="search-results">
+    <div>
       {noSearchHits
         ? <p>
             {t('searchPage.noHits', { query: query.query })}

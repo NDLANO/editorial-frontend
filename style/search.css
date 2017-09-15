@@ -33,15 +33,8 @@
   }
 }
 
-.search-filters {
-  margin-top: 1rem;
 
-  &__select {
-    margin-right: 0.5em;
-  }
-}
-
-.search-result {
+.c-search-result {
   color: var(--brand-grey-dark);
   min-height: 9.2rem;
   border-bottom: 1px solid #b7cde2;
@@ -65,13 +58,9 @@
   &__description {
     margin: 0.2rem 0 1.2rem;
   }
-}
 
-.search-result-filter {
-  margin-top: 8rem;
-  width: 670px;
-
-  &__select {
+  &__filters-select {
     margin-right: 0.5em;
+    margin-top: 2rem;
   }
 }

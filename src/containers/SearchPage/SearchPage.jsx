@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { OneColumn, Pager } from 'ndla-ui';
-
+import BEMHelper from 'react-bem-helper';
 import * as actions from '../../modules/search/search';
 import { SearchResultShape } from '../../shapes';
 import {
@@ -23,6 +23,11 @@ import SelectSearchSortOrder from './components/SelectSearchSortOrder';
 import SearchList from './components/SearchList';
 import SearchTabs from './components/SearchTabs';
 import { toSearch } from '../../util/routeHelpers';
+
+export const searchClasses = new BEMHelper({
+  name: 'search-result',
+  prefix: 'c-',
+});
 
 class SearchPage extends Component {
   constructor() {
@@ -77,12 +82,10 @@ class SearchPage extends Component {
     );
     return (
       <OneColumn cssModifier="clear">
-        <div className="search-result-filter">
-          <SelectSearchSortOrder
-            sort={query.sort}
-            onSortOrderChange={this.onSortOrderChange}
-          />
-        </div>
+        <SelectSearchSortOrder
+          sort={query.sort}
+          onSortOrderChange={this.onSortOrderChange}
+        />
         <SearchTabs
           searchTypes={query.articleTypes}
           tabContent={searchList}

@@ -315,8 +315,7 @@ function createRules(contentData = {}, footnoteCounter) {
       },
     },
     {
-      // Special case for links, to grab their href.
-      deserialize(el, next) {
+      deserialize(el) {
         if (el.tagName.toLowerCase() !== 'a') return;
         if (el.name && el.name.match(/ref_\d+_sup/)) {
           return {
@@ -334,6 +333,29 @@ function createRules(contentData = {}, footnoteCounter) {
             },
           };
         }
+      },
+    },
+
+    {
+      serialize(object) {
+        if (object.kind !== 'inline') return;
+        if (object.type !== 'footnote') return;
+        const count = footnoteCounter.getNextCount();
+        const name = `ref_${count}_sup`;
+        const markup = (
+          <a href={`#{name}`} name={name}>
+            <sup>
+              {count}
+            </sup>
+          </a>
+        );
+        return markup;
+      },
+    },
+    {
+      deserialize(el, next) {
+        if (el.tagName.toLowerCase() !== 'a') return;
+        if (el.name || el.name.match(/ref_\d+_sup/)) return; // is footnote
         return {
           kind: 'inline',
           type: 'link',
@@ -342,47 +364,16 @@ function createRules(contentData = {}, footnoteCounter) {
         };
       },
     },
-
     {
       serialize(object, children) {
         if (object.kind !== 'inline') return;
-        switch (object.type) {
-          case 'link': {
-            const href = object.data.get('href').value;
-            return (
-              <a href={href}>
-                {children}
-              </a>
-            );
-          }
-          case 'footnote': {
-            const count = footnoteCounter.getNextCount();
-            const name = `ref_${count}_sup`;
-            const markup = (
-              <a href={`#{name}`} name={name}>
-                <sup>
-                  {count}
-                </sup>
-              </a>
-            );
-            return markup;
-          }
-        }
-      },
-    },
-
-    {
-      serialize(object, children) {
-        if (object.kind !== 'inline') return;
+        if (object.type !== 'link') return;
         const href = object.data.href;
-        switch (object.type) {
-          case 'link':
-            return (
-              <a href={href}>
-                {children}
-              </a>
-            );
-        }
+        return (
+          <a href={href}>
+            {children}
+          </a>
+        );
       },
     },
   ];

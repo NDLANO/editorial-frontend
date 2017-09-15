@@ -99,7 +99,12 @@ const RichTextEditor = class extends React.Component {
           />
           {children}
         </div>
-        <SlateToolbar state={value} onChange={onChange} name={name} />
+        <SlateToolbar
+          state={value}
+          onChange={onChange}
+          slateStore={this.state.slateStore}
+          name={name}
+        />
       </article>
     );
   }

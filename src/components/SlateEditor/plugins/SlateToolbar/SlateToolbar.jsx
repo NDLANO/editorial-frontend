@@ -12,7 +12,6 @@ import Portal from 'react-portal';
 import BEMHelper from 'react-bem-helper';
 import ToolbarButton from './ToolbarButton';
 import SlateToolbarLink from './SlateToolbarLink';
-import SlateToolbarFootnote from './SlateToolbarFootnote';
 import { hasNodeOfType } from '../utils';
 
 const DEFAULT_NODE = 'paragraph';
@@ -50,7 +49,6 @@ class SlateToolbar extends Component {
     this.state = {
       state: this.props.state,
       showContentlinkDialog: false,
-      showFootnotesDialog: false,
     };
   }
 
@@ -63,7 +61,7 @@ class SlateToolbar extends Component {
   }
 
   onCloseDialog() {
-    this.setState({ showContentlinkDialog: false, showFootnotesDialog: false });
+    this.setState({ showContentlinkDialog: false });
   }
 
   onClickBlock(e, type) {
@@ -121,10 +119,15 @@ class SlateToolbar extends Component {
 
   onClickInline(e, type) {
     e.preventDefault();
+    const { slateStore } = this.props;
+
     if (type === ('embed-inline' || 'link')) {
       this.setState({ showContentlinkDialog: true });
     } else if (type === 'footnote') {
-      this.setState({ showFootnotesDialog: true });
+      slateStore.dispatch({
+        type: 'SHOW_FOOTNOTE',
+        payload: true,
+      });
     }
   }
 
@@ -177,7 +180,7 @@ class SlateToolbar extends Component {
   }
 
   render() {
-    const { showContentlinkDialog, showFootnotesDialog } = this.state;
+    const { showContentlinkDialog } = this.state;
     const { state } = this.props;
 
     const toolbarButtons = Object.keys(suportedToolbarElements).map(kind =>
@@ -201,12 +204,6 @@ class SlateToolbar extends Component {
           state={state}
           handleStateChange={this.handleStateChange}
         />
-        {showFootnotesDialog &&
-          <SlateToolbarFootnote
-            closeDialog={this.onCloseDialog}
-            state={state}
-            handleStateChange={this.handleStateChange}
-          />}
         <Portal isOpened onOpen={this.onOpen}>
           <div {...toolbarClasses()}>
             {toolbarButtons}
@@ -221,6 +218,9 @@ SlateToolbar.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   state: PropTypes.shape({}).isRequired,
+  slateStore: PropTypes.shape({
+    dispatch: PropTypes.func.isRequired,
+  }),
 };
 
 export default SlateToolbar;

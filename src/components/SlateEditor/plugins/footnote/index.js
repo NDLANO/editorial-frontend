@@ -6,26 +6,7 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-
-const Footnote = props => {
-  const { attributes } = props;
-
-  return (
-    <a {...attributes}>
-      <sup>
-        {props.children}
-      </sup>
-    </a>
-  );
-};
-
-Footnote.propTypes = {
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
-};
+import Footnote from './Footnote';
 
 export default function footnotePlugin() {
   const schema = {

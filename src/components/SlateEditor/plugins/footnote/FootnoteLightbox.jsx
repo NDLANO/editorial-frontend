@@ -13,7 +13,7 @@ import { injectT } from 'ndla-i18n';
 import { Cross } from 'ndla-ui/icons';
 import { hasNodeOfType } from '../utils';
 import { toolbarClasses } from '../SlateToolbar/SlateToolbar';
-import FootnoteForm, { getInitialModel } from '../SlateToolbar/FootnoteForm';
+import FootnoteForm, { getInitialModel } from './FootnoteForm';
 import { NodeShape } from '../../../../shapes';
 
 const FOOTNOTE = 'footnote';
@@ -35,9 +35,7 @@ class SlateToolbarFootnote extends Component {
 
   componentWillMount() {
     const editorState = this.props.state;
-    if (this.props.node) {
-      this.addFootnoteData(this.props.node);
-    } else if (
+    if (
       !editorState.isBlurred &&
       !editorState.isEmpty &&
       editorState.inlines &&
@@ -50,6 +48,8 @@ class SlateToolbarFootnote extends Component {
       if (footnoteNode) {
         this.addFootnoteData(footnoteNode);
       }
+    } else if (this.props.node) {
+      this.addFootnoteData(this.props.node);
     }
   }
 

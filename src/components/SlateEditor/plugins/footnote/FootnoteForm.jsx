@@ -15,7 +15,7 @@ import { Field, FieldErrorMessages, getField } from '../../../Fields';
 import validateSchema from '../../../../components/validateSchema';
 import { SchemaShape, FootnoteShape } from '../../../../shapes';
 import MultiSelect from '../../../MultiSelect';
-import { toolbarClasses } from './SlateToolbar';
+import { toolbarClasses } from '../SlateToolbar/SlateToolbar'; // TODO: Remove depdency
 import reformed from '../../../reformed';
 
 export const getInitialModel = (footnote = {}) => ({

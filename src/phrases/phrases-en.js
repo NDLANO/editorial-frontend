@@ -360,6 +360,7 @@ const phrases = {
   },
   validation: {
     isRequired: '{label} is required.',
+    isNumeric: '{label} must contain digits.',
     maxLength:
       '{label} must not have more than {maxLength, number} characters.',
     minLength: '{length} must have at least {minLength, number} characters.',

@@ -377,6 +377,7 @@ const phrases = {
   },
   validation: {
     isRequired: '{label} er påkrevd.',
+    isNumeric: '{label} må inneholde tall.',
     maxLength: '{label} kan ikke ha mer enn {maxLength, number} tegn.',
     minLength: '{label} må ha minst {minLength, number} tegn.',
     minItems:

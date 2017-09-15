@@ -33,3 +33,6 @@ export const maxLength = (value, length) => getLength(value) > length;
 
 export const minItems = (value, number) =>
   !value || (Array.isArray(value) && value.length < number);
+
+//  https://stackoverflow.com/a/1830844
+export const isNumeric = value => !isNaN(parseFloat(value)) && isFinite(value);

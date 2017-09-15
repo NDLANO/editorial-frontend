@@ -11,7 +11,9 @@ import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { compose } from 'redux';
-import { Field } from '../../../Fields';
+import { Field, FieldErrorMessages, getField } from '../../../Fields';
+import validateSchema from '../../../../components/validateSchema';
+import { SchemaShape, FootnoteShape } from '../../../../shapes';
 import MultiSelect from '../../../MultiSelect';
 import { toolbarClasses } from './SlateToolbar';
 import reformed from '../../../reformed';
@@ -32,12 +34,24 @@ class FootnoteForm extends Component {
   }
 
   handleSave() {
-    const { onSave, model } = this.props;
+    const { onSave, model, schema, setSubmitted } = this.props;
+    if (!schema.isValid) {
+      setSubmitted(true);
+      return;
+    }
     onSave(model);
   }
 
   render() {
-    const { t, bindInput, isEdit, onRemove, onClose } = this.props;
+    const {
+      t,
+      schema,
+      submitted,
+      bindInput,
+      isEdit,
+      onRemove,
+      onClose,
+    } = this.props;
     return (
       <div>
         <Field>
@@ -45,12 +59,22 @@ class FootnoteForm extends Component {
             {t('learningResourceForm.fields.content.footnote.title')}
           </label>
           <input type="text" {...bindInput('title')} />
+          <FieldErrorMessages
+            label={t('learningResourceForm.fields.content.footnote.title')}
+            field={getField('title', schema)}
+            submitted={submitted}
+          />
         </Field>
         <Field>
           <label htmlFor="year">
             {t('learningResourceForm.fields.content.footnote.year')}
           </label>
           <input type="text" {...bindInput('year')} />
+          <FieldErrorMessages
+            label={t('learningResourceForm.fields.content.footnote.year')}
+            field={getField('year', schema)}
+            submitted={submitted}
+          />
         </Field>
         <Field>
           <label htmlFor="authors">
@@ -69,6 +93,13 @@ class FootnoteForm extends Component {
                 'learningResourceForm.fields.content.footnote.authors.emptyList',
               ),
             }}
+          />
+          <FieldErrorMessages
+            label={t(
+              'learningResourceForm.fields.content.footnote.authors.label',
+            )}
+            field={getField('authors', schema)}
+            submitted={submitted}
           />
         </Field>
         <Field>
@@ -106,13 +137,10 @@ class FootnoteForm extends Component {
 }
 
 FootnoteForm.propTypes = {
-  model: PropTypes.shape({
-    title: PropTypes.string,
-    year: PropTypes.string,
-    authors: PropTypes.array,
-    edition: PropTypes.string,
-    publisher: PropTypes.string,
-  }),
+  model: FootnoteShape.isRequired,
+  schema: SchemaShape,
+  setSubmitted: PropTypes.func.isRequired,
+  submitted: PropTypes.bool.isRequired,
   isEdit: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
@@ -120,4 +148,12 @@ FootnoteForm.propTypes = {
   onRemove: PropTypes.func.isRequired,
 };
 
-export default compose(injectT, reformed)(FootnoteForm);
+export default compose(
+  injectT,
+  reformed,
+  validateSchema({
+    title: { required: true },
+    year: { required: true, minLength: 4, maxLength: 4, numeric: true },
+    authors: { minItems: 1 },
+  }),
+)(FootnoteForm);

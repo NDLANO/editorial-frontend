@@ -68,6 +68,7 @@ export const FootnoteShape = PropTypes.shape({
   authors: PropTypes.array.isRequired,
   edition: PropTypes.string.isRequired,
   publisher: PropTypes.string.isRequired,
+  type: PropTypes.string,
 });
 
 export const SchemaShape = PropTypes.shape({

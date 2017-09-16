@@ -6,6 +6,8 @@
  *
  */
 
+import React from 'react';
+import FootnoteLightboxContainer from './FootnoteLightboxContainer';
 import Footnote from './Footnote';
 
 export default function footnotePlugin() {
@@ -16,5 +18,14 @@ export default function footnotePlugin() {
   };
   return {
     schema,
+    render: (props, state, editor) =>
+      <span>
+        <FootnoteLightboxContainer
+          state={state}
+          slateStore={editor.props.slateStore}
+          onChange={editor.onChange}
+        />
+        {props.children}
+      </span>,
   };
 }

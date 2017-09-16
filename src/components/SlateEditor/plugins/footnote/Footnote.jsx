@@ -9,15 +9,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import Portal from 'react-portal';
-import FootnoteLightbox from './FootnoteLightbox';
 import { EditorShape, NodeShape } from '../../../../shapes';
+
+// Todo: a -> button
+/* eslint jsx-a11y/no-static-element-interactions: 1 */
 
 class Footnote extends Component {
   constructor() {
     super();
     this.state = {};
-    this.toogleFootnoteLightbox = this.toogleFootnoteLightbox.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.onStoreChange = this.onStoreChange.bind(this);
   }
 
@@ -37,27 +38,19 @@ class Footnote extends Component {
     });
   }
 
-  toogleFootnoteLightbox(payload) {
-    const { editor: { props: { slateStore } } } = this.props;
+  handleClick() {
+    const { editor: { props: { slateStore } }, node } = this.props;
     slateStore.dispatch({
-      type: 'SHOW_FOOTNOTE',
-      payload,
+      type: 'SET_FOOTNOTE',
+      payload: node,
     });
   }
 
   render() {
-    const { editor, node, state, attributes, children } = this.props;
+    const { attributes, children } = this.props;
 
     return (
-      <a {...attributes} onClick={() => this.toogleFootnoteLightbox(true)}>
-        <Portal isOpened={this.state.showFootnoteDialog} onOpen={this.onOpen}>
-          <FootnoteLightbox
-            node={node}
-            handleStateChange={editor.onChange}
-            closeDialog={() => this.toogleFootnoteLightbox(false)}
-            state={state}
-          />
-        </Portal>
+      <a {...attributes} onClick={this.handleClick}>
         <sup>
           {children}
         </sup>

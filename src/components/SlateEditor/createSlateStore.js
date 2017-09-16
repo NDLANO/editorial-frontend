@@ -14,13 +14,13 @@ export default () =>
       if (action.type === 'SET_SUBMITTED') {
         return { ...state, submitted: action.payload };
       }
-      if (action.type === 'SHOW_FOOTNOTE') {
-        return { ...state, showFootnoteDialog: action.payload };
+      if (action.type === 'SET_FOOTNOTE') {
+        return { ...state, selectedFootnote: action.payload };
       }
       return state;
     },
     {
       submitted: false,
-      showFootnoteDialog: false,
+      selectedFootnote: undefined,
     },
   );

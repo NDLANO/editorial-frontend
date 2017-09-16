@@ -23,7 +23,7 @@ const initialState = {
   nodeKey: undefined,
 };
 
-class SlateToolbarFootnote extends Component {
+class FootnoteLightbox extends Component {
   constructor() {
     super();
     this.state = initialState;
@@ -34,22 +34,9 @@ class SlateToolbarFootnote extends Component {
   }
 
   componentWillMount() {
-    const editorState = this.props.state;
-    if (
-      !editorState.isBlurred &&
-      !editorState.isEmpty &&
-      editorState.inlines &&
-      editorState.inlines.size > 0
-    ) {
-      const footnoteNode = editorState.inlines.find(
-        inline => inline.type === FOOTNOTE,
-      );
-
-      if (footnoteNode) {
-        this.addFootnoteData(footnoteNode);
-      }
-    } else if (this.props.node) {
-      this.addFootnoteData(this.props.node);
+    const { node } = this.props;
+    if (node.data) {
+      this.addFootnoteData(node);
     }
   }
 
@@ -127,11 +114,11 @@ class SlateToolbarFootnote extends Component {
   }
 }
 
-SlateToolbarFootnote.propTypes = {
+FootnoteLightbox.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   handleStateChange: PropTypes.func.isRequired,
   state: PropTypes.shape({}),
   node: NodeShape,
 };
 
-export default injectT(SlateToolbarFootnote);
+export default injectT(FootnoteLightbox);

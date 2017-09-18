@@ -18,7 +18,7 @@ import {
   toSearch,
 } from '../../util/routeHelpers';
 
-const query = { articleTypes: 'topic-article', types: ['article'] };
+const query = { articleTypes: 'topic-article', types: ['articles'] };
 
 export const WelcomePage = ({ t }) =>
   <OneColumn cssModifier="clear">

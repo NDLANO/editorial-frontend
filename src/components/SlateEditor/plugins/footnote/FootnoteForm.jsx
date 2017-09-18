@@ -33,7 +33,8 @@ class FootnoteForm extends Component {
     this.handleSave = this.handleSave.bind(this);
   }
 
-  handleSave() {
+  handleSave(evt) {
+    evt.preventDefault();
     const { onSave, model, schema, setSubmitted } = this.props;
     if (!schema.isValid) {
       setSubmitted(true);
@@ -53,7 +54,7 @@ class FootnoteForm extends Component {
       onClose,
     } = this.props;
     return (
-      <div>
+      <form onSubmit={this.handleSave}>
         <Field>
           <label htmlFor="title">
             {t('learningResourceForm.fields.content.footnote.title')}
@@ -126,12 +127,12 @@ class FootnoteForm extends Component {
             <Button outline onClick={onClose}>
               {t('learningResourceForm.fields.content.footnote.abort')}
             </Button>
-            <Button onClick={this.handleSave}>
+            <Button submit>
               {t('learningResourceForm.fields.content.footnote.save')}
             </Button>
           </div>
         </Field>
-      </div>
+      </form>
     );
   }
 }

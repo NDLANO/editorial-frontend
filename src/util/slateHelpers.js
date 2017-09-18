@@ -208,30 +208,6 @@ function createRules(contentData = {}, footnoteCounter) {
                 {children}
               </section>
             );
-          case 'paragraph-left':
-            return (
-              <p style={{ textAlign: 'left' }}>
-                {children}
-              </p>
-            );
-          case 'paragraph-center':
-            return (
-              <p style={{ textAlign: 'center' }}>
-                {children}
-              </p>
-            );
-          case 'paragraph-right':
-            return (
-              <p style={{ textAlign: 'right' }}>
-                {children}
-              </p>
-            );
-          case 'paragraph-justify':
-            return (
-              <p style={{ textAlign: 'justify' }}>
-                {children}
-              </p>
-            );
           case 'paragraph':
             return (
               <p>

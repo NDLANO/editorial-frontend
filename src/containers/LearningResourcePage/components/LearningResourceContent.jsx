@@ -15,11 +15,12 @@ import RichBlockTextField from '../../../components/RichBlockTextField';
 import Accordion from '../../../components/Accordion';
 import LearningResourceIngress from './LearningResourceIngress';
 import schema from '../../../components/SlateEditor/schema';
+import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBox from '../../../components/SlateEditor/plugins/bodybox';
 import { CommonFieldPropsShape } from '../../../shapes';
 
-const plugins = [createEmbedPlugin(), createBodyBox()];
+const plugins = [footnotePlugin(), createEmbedPlugin(), createBodyBox()];
 
 class LearningResourceContent extends Component {
   constructor(props) {
@@ -46,7 +47,7 @@ class LearningResourceContent extends Component {
   }
 
   render() {
-    const { t, bindInput, commonFieldProps } = this.props;
+    const { t, bindInput, commonFieldProps, children } = this.props;
     const ingressBindInput = bindInput('introduction');
     const ingress = {
       ...ingressBindInput,
@@ -98,6 +99,7 @@ class LearningResourceContent extends Component {
           plugins={plugins}
           {...commonFieldProps}
         />
+        {children}
       </Accordion>
     );
   }

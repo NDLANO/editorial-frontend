@@ -27,18 +27,30 @@ import {
   createEmbedTag,
   isUserProvidedEmbedDataValid,
 } from '../../../util/embedTagHelpers';
-import { findEmbedNodes } from '../../../util/slateHelpers';
+import { findNodesByType } from '../../../util/slateHelpers';
 import { SchemaShape } from '../../../shapes';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
 import LearningResourceCopyright from './LearningResourceCopyright';
+import LearningResourceFootnotes from './LearningResourceFootnotes';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
   license: 'by-sa',
   url: 'https://creativecommons.org/licenses/by-sa/2.0/',
 };
+
+const findFootnotes = content =>
+  content
+    .reduce(
+      (all, item) => [
+        ...all,
+        ...findNodesByType(item.state.document, 'footnote'),
+      ],
+      [],
+    )
+    .map(footnoteNode => footnoteNode.data.toJS());
 
 const parseCopyrightAuthors = (article, type) =>
   article.copyright
@@ -54,7 +66,9 @@ export const getInitialModel = (article = {}) => {
     revision: article.revision,
     title: article.title || '',
     introduction: plainTextToEditorState(article.introduction),
-    content: learningResourceContentToEditorState(article.content),
+    content: learningResourceContentToEditorState(article.content, {
+      footnotes: article.footnotes,
+    }),
     tags: article.tags || [],
     authors: parseCopyrightAuthors(article, 'Forfatter'),
     licensees: parseCopyrightAuthors(article, 'Rettighetshaver'),
@@ -108,13 +122,24 @@ class LearningResourceForm extends Component {
       name,
     }));
 
+    const footnoteObject = findFootnotes(model.content).reduce(
+      (obj, footnote, i) => ({
+        ...obj,
+        [`ref_${i + 1}`]: footnote,
+      }),
+      {},
+    );
+
     this.props.onUpdate({
       id: model.id,
       revision,
       title: model.title,
       introduction: editorStateToPlainText(model.introduction),
       tags: model.tags,
-      content: learningResourceContentToHTML(model.content, true),
+      content: {
+        content: learningResourceContentToHTML(model.content, true),
+        footNotes: footnoteObject,
+      },
       visualElement: createEmbedTag(model.metaImage),
       metaDescription: editorStateToPlainText(model.metaDescription),
       articleType: 'standard',
@@ -159,8 +184,12 @@ class LearningResourceForm extends Component {
           classes={classes}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
-          tags={tags}
-        />
+          tags={tags}>
+          <LearningResourceFootnotes
+            t={t}
+            footnotes={findFootnotes(model.content)}
+          />
+        </LearningResourceContent>
         <LearningResourceCopyright
           commonFieldProps={commonFieldProps}
           licenses={licenses}
@@ -221,9 +250,10 @@ export default compose(
       required: true,
       test: (value, model, setError) => {
         const embedsHasErrors = value.find(block => {
-          const embeds = findEmbedNodes(block.state.document).map(node =>
-            node.get('data').toJS(),
-          );
+          const embeds = findNodesByType(
+            block.state.document,
+            'embed',
+          ).map(node => node.get('data').toJS());
           const notValidEmbeds = embeds.filter(
             embed => !isUserProvidedEmbedDataValid(embed),
           );

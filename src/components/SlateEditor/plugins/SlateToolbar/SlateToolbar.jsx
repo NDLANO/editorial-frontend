@@ -12,20 +12,22 @@ import Portal from 'react-portal';
 import BEMHelper from 'react-bem-helper';
 import ToolbarButton from './ToolbarButton';
 import SlateToolbarLink from './SlateToolbarLink';
+import { setFootnote } from '../../createSlateStore';
+import { hasNodeOfType } from '../utils';
 
 const DEFAULT_NODE = 'paragraph';
 
 const suportedToolbarElements = {
-  marks: ['bold', 'italic', 'underlined', 'strikethrough'],
-  blocks: [
+  mark: ['bold', 'italic', 'underlined', 'strikethrough'],
+  block: [
     'quote',
-    'link',
     'numbered-list',
     'bulleted-list',
     'heading-one',
     'heading-two',
     'heading-three',
   ],
+  inline: ['embed-inline', 'footnote'],
 };
 
 export const toolbarClasses = new BEMHelper({
@@ -39,13 +41,12 @@ class SlateToolbar extends Component {
     super(props);
     this.onClickMark = this.onClickMark.bind(this);
     this.onClickBlock = this.onClickBlock.bind(this);
+    this.onClickInline = this.onClickInline.bind(this);
+    this.onButtonClick = this.onButtonClick.bind(this);
     this.onOpen = this.onOpen.bind(this);
-    this.hasMark = this.hasMark.bind(this);
-    this.hasBlock = this.hasBlock.bind(this);
-    this.hasInlines = this.hasInlines.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
-    this.onCloseContentlinkDialog = this.onCloseContentlinkDialog.bind(this);
+    this.onCloseDialog = this.onCloseDialog.bind(this);
     this.state = {
       state: this.props.state,
       showContentlinkDialog: false,
@@ -60,14 +61,7 @@ class SlateToolbar extends Component {
     this.updateMenu();
   }
 
-  onClickMark(e, type) {
-    e.preventDefault();
-    const { state } = this.props;
-    const nextState = state.transform().toggleMark(type).apply();
-    this.handleStateChange(nextState);
-  }
-
-  onCloseContentlinkDialog() {
+  onCloseDialog() {
     this.setState({ showContentlinkDialog: false });
   }
 
@@ -76,12 +70,10 @@ class SlateToolbar extends Component {
     const { state } = this.props;
     const transform = state.transform();
     const { document } = state;
-    if (type === 'link') {
-      this.setState({ showContentlinkDialog: true });
-    } else if (type !== 'bulleted-list' && type !== 'numbered-list') {
+    if (type !== 'bulleted-list' && type !== 'numbered-list') {
       // Handle everything but list buttons.
-      const isActive = this.hasBlock(type);
-      const isList = this.hasBlock('list-item');
+      const isActive = hasNodeOfType(state, type);
+      const isList = hasNodeOfType(state, 'list-item');
 
       if (isList) {
         transform
@@ -93,7 +85,7 @@ class SlateToolbar extends Component {
       }
     } else {
       // Handle the extra wrapping required for list buttons.
-      const isList = this.hasBlock('list-item');
+      const isList = hasNodeOfType(state, 'list-item');
       const isType = state.blocks.some(
         block =>
           !!document.getClosest(block.key, parent => parent.type === type),
@@ -119,6 +111,37 @@ class SlateToolbar extends Component {
     this.handleStateChange(nextState);
   }
 
+  onClickMark(e, type) {
+    e.preventDefault();
+    const { state } = this.props;
+    const nextState = state.transform().toggleMark(type).apply();
+    this.handleStateChange(nextState);
+  }
+
+  onClickInline(e, type) {
+    e.preventDefault();
+    const { slateStore, state: editorState } = this.props;
+
+    if (type === ('embed-inline' || 'link')) {
+      this.setState({ showContentlinkDialog: true });
+    } else if (type === 'footnote') {
+      if (editorState.inlines && editorState.inlines.size > 0) {
+        const footnoteNode = editorState.inlines.find(
+          inline => inline.type === 'footnote',
+        );
+        slateStore.dispatch(setFootnote(footnoteNode));
+      } else {
+        slateStore.dispatch(setFootnote({ type: 'footnote' }));
+      }
+    }
+  }
+
+  onButtonClick(e, kind, type) {
+    if (kind === 'mark') this.onClickMark(e, type);
+    if (kind === 'block') this.onClickBlock(e, type);
+    if (kind === 'inline') this.onClickInline(e, type);
+  }
+
   onOpen(portal) {
     this.setState({ menu: portal.firstChild });
   }
@@ -139,21 +162,6 @@ class SlateToolbar extends Component {
     const { name, onChange } = this.props;
     onChange({ target: { name, value: state } });
     this.updateMenu();
-  }
-
-  hasMark(type) {
-    const { state } = this.props;
-    return state.marks.some(mark => mark.type === type);
-  }
-
-  hasBlock(type) {
-    const { state } = this.props;
-    return state.blocks.some(node => node.type === type);
-  }
-
-  hasInlines(type) {
-    const { state } = this.props;
-    return state.inlines.some(node => node.type === type);
   }
 
   updateMenu() {
@@ -177,34 +185,33 @@ class SlateToolbar extends Component {
   }
 
   render() {
+    const { showContentlinkDialog } = this.state;
     const { state } = this.props;
+
+    const toolbarButtons = Object.keys(suportedToolbarElements).map(kind =>
+      suportedToolbarElements[kind].map(type =>
+        <ToolbarButton
+          key={type}
+          type={type}
+          kind={kind}
+          state={state}
+          handleHasType={hasNodeOfType}
+          handleOnClick={this.onButtonClick}
+        />,
+      ),
+    );
+
     return (
       <div>
         <SlateToolbarLink
-          showDialog={this.state.showContentlinkDialog}
-          closeDialog={this.onCloseContentlinkDialog}
-          hasInlines={this.hasInlines}
+          showDialog={showContentlinkDialog}
+          closeDialog={this.onCloseDialog}
           state={state}
           handleStateChange={this.handleStateChange}
         />
         <Portal isOpened onOpen={this.onOpen}>
           <div {...toolbarClasses()}>
-            {suportedToolbarElements.marks.map(type =>
-              <ToolbarButton
-                key={type}
-                type={type}
-                handleHasType={this.hasMark}
-                handleOnClick={this.onClickMark}
-              />,
-            )}
-            {suportedToolbarElements.blocks.map(type =>
-              <ToolbarButton
-                key={type}
-                type={type}
-                handleHasType={this.hasBlock}
-                handleOnClick={this.onClickBlock}
-              />,
-            )}
+            {toolbarButtons}
           </div>
         </Portal>
       </div>
@@ -216,6 +223,9 @@ SlateToolbar.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   state: PropTypes.shape({}).isRequired,
+  slateStore: PropTypes.shape({
+    dispatch: PropTypes.func.isRequired,
+  }),
 };
 
 export default SlateToolbar;

@@ -7,7 +7,13 @@
  */
 
 import { Plain } from 'slate';
-import { isEmpty, minLength, maxLength, minItems } from '../validators';
+import {
+  isEmpty,
+  minLength,
+  maxLength,
+  minItems,
+  isNumeric,
+} from '../validators';
 
 test('validators/isEmpty returns true when empty', () => {
   expect(isEmpty(undefined)).toBe(true);
@@ -48,4 +54,20 @@ test('validators/minItems check number of items', () => {
   expect(minItems(['val1', 'val2', 'val3'], 3)).toBe(false);
   expect(minItems(['val1', 'val2'], 3)).toBe(true);
   expect(minItems(undefined, 3)).toBe(true);
+});
+
+test('validators/isNumeric check for numeric values', () => {
+  expect(isNumeric('-1')).toBe(true);
+  expect(isNumeric('-1.5')).toBe(true);
+  expect(isNumeric('0')).toBe(true);
+  expect(isNumeric('0.42')).toBe(true);
+  expect(isNumeric('.42')).toBe(true);
+  expect(isNumeric('99,999')).toBe(false);
+  expect(isNumeric('0x89f')).toBe(true); // Why!
+  expect(isNumeric('#abcdef')).toBe(false);
+  expect(isNumeric('1.2.3')).toBe(false);
+  expect(isNumeric('')).toBe(false);
+  expect(isNumeric('test')).toBe(false);
+  expect(isNumeric(undefined)).toBe(false);
+  expect(isNumeric(null)).toBe(false);
 });

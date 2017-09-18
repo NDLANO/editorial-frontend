@@ -290,6 +290,28 @@ const phrases = {
           addTitle: 'Legg til lenke',
           changeTitle: 'Endre lenke',
         },
+        footnote: {
+          title: 'Tittel',
+          year: 'År',
+          authors: {
+            label: 'Forfatter',
+            description: 'Obligatorisk med minst 1 forfatter.',
+            createNew: 'Opprett ny forfatter',
+            emptyFilter: ' ',
+            emptyList: ' ',
+          },
+          edition: 'Utgave',
+          publisher: 'Utgiver',
+          addTitle: 'Legg til fotnote',
+          editTitle: 'Rediger fotnote',
+          save: 'Lagre',
+          abort: 'Avbryt',
+          removeFootnote: 'Fjern fotnote',
+        },
+      },
+      footnotes: {
+        edition: 'Utgave',
+        publisher: 'Utgiver',
       },
       tags: {
         label: 'Nøkkelord',
@@ -357,6 +379,7 @@ const phrases = {
   },
   validation: {
     isRequired: '{label} er påkrevd.',
+    isNumeric: '{label} må inneholde tall.',
     maxLength: '{label} kan ikke ha mer enn {maxLength, number} tegn.',
     minLength: '{label} må ha minst {minLength, number} tegn.',
     minItems:

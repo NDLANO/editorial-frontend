@@ -6,23 +6,33 @@
  *
  */
 
-import createSlateStore from '../createSlateStore';
-
-const store = createSlateStore();
+import createSlateStore, {
+  setFootnote,
+  setSubmitted,
+} from '../createSlateStore';
 
 test('slateStore initalState', () => {
+  const store = createSlateStore();
   expect(store.getState()).toEqual({
     submitted: false,
   });
 });
 
 test('slateStore set submitted', () => {
-  store.dispatch({
-    type: 'SET_SUBMITTED',
-    payload: true,
-  });
+  const store = createSlateStore();
+  store.dispatch(setSubmitted(true));
 
   expect(store.getState()).toEqual({
     submitted: true,
+  });
+});
+
+test('slateStore set footnote', () => {
+  const store = createSlateStore();
+  store.dispatch(setFootnote({ type: 'footnote' }));
+
+  expect(store.getState()).toEqual({
+    submitted: false,
+    selectedFootnote: { type: 'footnote' },
   });
 });

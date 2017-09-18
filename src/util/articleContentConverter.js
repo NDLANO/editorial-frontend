@@ -9,6 +9,15 @@
 import { Html, Raw, Plain } from 'slate';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
 
+export function FootnoteCounter(initialCount = 0) {
+  this.count = initialCount;
+
+  FootnoteCounter.prototype.getNextCount = function getNextCount() {
+    this.count = this.count + 1;
+    return this.count;
+  };
+}
+
 export const createEmptyState = () =>
   Raw.deserialize(
     {
@@ -42,7 +51,7 @@ function extractSections(html) {
     .map(section => `${section}</section>`);
 }
 
-export function learningResourceContentToEditorState(html) {
+export function learningResourceContentToEditorState(html, contentData) {
   if (!html) {
     return [
       {
@@ -52,7 +61,8 @@ export function learningResourceContentToEditorState(html) {
     ];
   }
   const sections = extractSections(html);
-  const serializer = new Html({ rules: learningResourceRules });
+  const serializer = new Html({ rules: learningResourceRules(contentData) });
+
   return sections.map((section, index) => ({
     state: serializer.deserialize(section.replace(/\s\s+/g, '')),
     index,
@@ -60,10 +70,15 @@ export function learningResourceContentToEditorState(html) {
 }
 
 export function learningResourceContentToHTML(contentState) {
-  const serializer = new Html({ rules: learningResourceRules });
-  const html = [];
-  contentState.map(section => html.push(serializer.serialize(section.state)));
-  return html.join('');
+  // Use footnoteCounter hack until we have a better footnote api
+  const serializer = new Html({
+    rules: learningResourceRules({}, new FootnoteCounter()),
+  });
+
+  return contentState
+    .map(section => serializer.serialize(section.state))
+    .join('')
+    .replace(/<deleteme><\/deleteme>/g, '');
 }
 
 export function topicArticleContentToEditorState(html) {

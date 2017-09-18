@@ -14,13 +14,14 @@ import {
   Italic,
   ListCircle,
   ListNumbered,
-  Quote, // TODO: Change to Quote when Icon is available
+  Quote,
   Strikethrough,
   Underline,
   Link,
   Heading1,
   Heading2,
   Heading3,
+  Section,
 } from 'ndla-ui/icons';
 import { toolbarClasses } from './SlateToolbar';
 
@@ -30,17 +31,19 @@ const toolbarIcon = {
   strikethrough: <Strikethrough />,
   underlined: <Underline />,
   quote: <Quote />,
+  'embed-inline': <Link />,
   link: <Link />,
   'numbered-list': <ListNumbered />,
   'bulleted-list': <ListCircle />,
   'heading-one': <Heading1 />,
   'heading-two': <Heading2 />,
   'heading-three': <Heading3 />,
+  footnote: <Section />,
 };
 
-const ToolbarButton = ({ type, handleHasType, handleOnClick }) => {
-  const isActive = handleHasType(type);
-  const onMouseDown = e => handleOnClick(e, type);
+const ToolbarButton = ({ state, type, kind, handleHasType, handleOnClick }) => {
+  const isActive = handleHasType(state, type, kind);
+  const onMouseDown = e => handleOnClick(e, kind, type);
 
   return (
     <Button stripped onMouseDown={onMouseDown} data-active={isActive}>
@@ -53,6 +56,8 @@ const ToolbarButton = ({ type, handleHasType, handleOnClick }) => {
 
 ToolbarButton.propTypes = {
   type: PropTypes.string.isRequired,
+  kind: PropTypes.string.isRequired,
+  state: PropTypes.shape({}).isRequired,
   handleHasType: PropTypes.func.isRequired,
   handleOnClick: PropTypes.func.isRequired,
 };

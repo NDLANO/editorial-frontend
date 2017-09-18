@@ -129,6 +129,10 @@ const phrases = {
         label: 'Content',
         placeholder: 'Write here...',
       },
+      footnotes: {
+        edition: 'Edition',
+        publisher: 'Publisher',
+      },
       tags: {
         label: 'Tags',
         description: '3 tags is required.',
@@ -358,6 +362,7 @@ const phrases = {
   },
   validation: {
     isRequired: '{label} is required.',
+    isNumeric: '{label} must contain digits.',
     maxLength:
       '{label} must not have more than {maxLength, number} characters.',
     minLength: '{length} must have at least {minLength, number} characters.',

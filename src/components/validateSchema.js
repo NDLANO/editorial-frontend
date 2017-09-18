@@ -13,7 +13,13 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import set from 'lodash/fp/set';
 import get from 'lodash/fp/get';
 import { getComponentName } from 'ndla-util';
-import { isEmpty, minLength, minItems, maxLength } from './validators';
+import {
+  isEmpty,
+  minLength,
+  minItems,
+  maxLength,
+  isNumeric,
+} from './validators';
 
 const getValidationErrors = (schema, model, fields, t) =>
   Object.keys(schema).reduce(
@@ -26,6 +32,10 @@ const getValidationErrors = (schema, model, fields, t) =>
 
       if (rules.required && isEmpty(value)) {
         errors.push(label => t('validation.isRequired', { label }));
+      }
+
+      if (rules.numeric && !isNumeric(value)) {
+        errors.push(label => t('validation.isNumeric', { label }));
       }
 
       if (rules.minLength && minLength(value, rules.minLength)) {

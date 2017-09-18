@@ -27,6 +27,7 @@
 @import './toolbar.css';
 @import './image-editor.css';
 @import './vars.css';
+@import './footnotes.css';
 
 .c-hero {
   margin-bottom: 0;

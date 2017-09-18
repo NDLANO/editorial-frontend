@@ -149,7 +149,7 @@ const defaultSchema = {
         {props.children}
       </u>,
     strikethrough: props =>
-      <s>
+      <s {...props.attributes}>
         {props.children}
       </s>,
   },

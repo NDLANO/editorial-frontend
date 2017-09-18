@@ -13,7 +13,9 @@ import { injectT } from 'ndla-i18n';
 import { Cross } from 'ndla-ui/icons';
 import { Field } from '../../../Fields';
 import { toolbarClasses } from './SlateToolbar';
+import { hasNodeOfType } from '../utils';
 
+const EMBED_INLINE_TYPE = 'embed-inline';
 const LINK_TYPE = 'link';
 
 class SlateToolbarLink extends React.Component {
@@ -49,6 +51,9 @@ class SlateToolbarLink extends React.Component {
     const href = this.state.url;
     const text = this.state.text;
     const isNDLAUrl = /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
+
+    // TODO: A way to set either 'embed-inline' or 'link'
+
     if (isNDLAUrl && href && text) {
       const splittedHref = href.split('/');
       const id = splittedHref[splittedHref.length - 1];
@@ -57,7 +62,7 @@ class SlateToolbarLink extends React.Component {
           .insertText(text)
           .extend(0 - text.length)
           .setInline({
-            type: LINK_TYPE,
+            type: EMBED_INLINE_TYPE,
             data: {
               'content-id': id,
               resource: 'content-link',
@@ -70,7 +75,7 @@ class SlateToolbarLink extends React.Component {
           .insertText(text)
           .extend(0 - text.length)
           .wrapInline({
-            type: 'embed-inline',
+            type: EMBED_INLINE_TYPE,
             data: {
               'content-id': id,
               resource: 'content-link',
@@ -110,7 +115,9 @@ class SlateToolbarLink extends React.Component {
 
   findLink() {
     const { state } = this.props;
-    return state.inlines.find(inline => inline.type === 'link');
+    return state.inlines.find(
+      inline => inline.type === (EMBED_INLINE_TYPE || LINK_TYPE),
+    );
   }
 
   findBlock() {
@@ -119,9 +126,9 @@ class SlateToolbarLink extends React.Component {
   }
 
   removeUrl() {
-    const { hasInlines, state, handleStateChange } = this.props;
+    const { state, handleStateChange } = this.props;
     const transform = state.transform();
-    if (hasInlines(LINK_TYPE)) {
+    if (hasNodeOfType(state, EMBED_INLINE_TYPE, 'inline')) {
       const nextState = transform
         .removeNodeByKey(state.selection.startKey)
         .insertText(this.state.text)
@@ -133,27 +140,30 @@ class SlateToolbarLink extends React.Component {
 
   addData() {
     const { state } = this.props;
+    if (state.isBlurred || state.isEmpty) return;
+
     const nodeLink = this.findLink() || this.findBlock();
     if (nodeLink) {
       const { startOffset, endOffset, focusText } = state;
       const text =
-        nodeLink.type === LINK_TYPE
+        nodeLink.type === EMBED_INLINE_TYPE
           ? nodeLink.text
           : focusText.text.slice(startOffset, endOffset);
       this.setState({
         url:
-          nodeLink.type === LINK_TYPE
+          nodeLink.type === EMBED_INLINE_TYPE
             ? `${window.config.editorialFrontendDomain}/article/${nodeLink
                 .get('data')
                 .get('content-id')}`
             : '',
         text,
-        isEdit: nodeLink.type === LINK_TYPE,
+        isEdit: nodeLink.type === EMBED_INLINE_TYPE,
         initialized: true,
         nodeType: nodeLink.type,
         nodeKey: nodeLink.key,
       });
     }
+    // TODO: Handle normal external links by checking nodeLink.type === 'link'
   }
 
   render() {
@@ -203,7 +213,7 @@ class SlateToolbarLink extends React.Component {
           </Field>
           <Field right>
             <div {...toolbarClasses('link-actions')}>
-              {this.state.nodeType === 'link'
+              {this.state.nodeType === (EMBED_INLINE_TYPE || LINK_TYPE)
                 ? <Button onClick={this.removeUrl}>
                     {t('learningResourceForm.fields.content.link.removeUrl')}
                   </Button>
@@ -224,7 +234,6 @@ class SlateToolbarLink extends React.Component {
 
 SlateToolbarLink.propTypes = {
   showDialog: PropTypes.bool.isRequired,
-  hasInlines: PropTypes.func.isRequired,
   closeDialog: PropTypes.func.isRequired,
   handleStateChange: PropTypes.func.isRequired,
   state: PropTypes.shape({

@@ -93,6 +93,10 @@ export const getArticle = articleId =>
               {},
             ),
             content: convertFieldWithFallback(article, 'content', ''),
+            footnotes:
+              article.content && article.content.footNotes
+                ? article.content.footNotes
+                : undefined,
             metaDescription: convertFieldWithFallback(
               article,
               'metaDescription',

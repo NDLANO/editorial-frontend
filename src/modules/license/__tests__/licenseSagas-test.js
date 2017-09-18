@@ -15,7 +15,7 @@ import mockLicenses from './mockLicenses';
 
 test('licenseSagas fetch licenses if not already defined', () => {
   nock('http://ndla-api')
-    .get('/learningpath-api/v1/learningpaths/licenses')
+    .get('/article-api/v2/articles/licenses')
     .reply(200, mockLicenses);
 
   return expectSaga(sagas.watchFetchLicenses)
@@ -27,7 +27,7 @@ test('licenseSagas fetch licenses if not already defined', () => {
 
 test('licenseSagas do not fetch licenses if already fetched', () => {
   nock('http://ndla-api')
-    .get('/learningpath-api/v1/learningpaths/licenses')
+    .get('/article-api/v2/articles/licenses')
     .reply(200, mockLicenses);
 
   return expectSaga(sagas.watchFetchLicenses)

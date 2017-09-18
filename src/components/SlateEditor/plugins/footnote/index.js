@@ -22,6 +22,7 @@ export default function footnotePlugin() {
       <span>
         <FootnoteLightboxContainer
           state={state}
+          blur={editor.blur}
           slateStore={editor.props.slateStore}
           onChange={editor.onChange}
         />

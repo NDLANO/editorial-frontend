@@ -45,13 +45,14 @@ class Footnote extends Component {
   }
 
   render() {
-    const { onChange, state } = this.props;
+    const { onChange, state, blur } = this.props;
     const { node } = this.state;
 
     return (
       <Portal isOpened={this.state.node !== undefined}>
         <FootnoteLightbox
           node={node}
+          blur={blur}
           handleStateChange={onChange}
           closeDialog={() => this.handleClose(false)}
           state={state}
@@ -68,6 +69,7 @@ Footnote.propTypes = {
   }).isRequired,
   state: PropTypes.shape({}).isRequired,
   onChange: PropTypes.func.isRequired,
+  blur: PropTypes.func.isRequired,
 };
 
 export default injectT(Footnote);

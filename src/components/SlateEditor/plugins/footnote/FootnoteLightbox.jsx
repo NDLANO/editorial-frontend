@@ -40,6 +40,10 @@ class FootnoteLightbox extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.blur(); // blur on mounth to prevent accidental typing
+  }
+
   onCloseDialog() {
     this.setState(initialState);
     this.props.closeDialog();
@@ -117,8 +121,12 @@ class FootnoteLightbox extends Component {
 FootnoteLightbox.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   handleStateChange: PropTypes.func.isRequired,
+  blur: PropTypes.func.isRequired,
   state: PropTypes.shape({}),
-  node: NodeShape,
+  node: PropTypes.oneOfType([
+    NodeShape,
+    PropTypes.shape({ type: PropTypes.string.isRequired }),
+  ]),
 };
 
 export default injectT(FootnoteLightbox);

@@ -47,7 +47,7 @@ class LearningResourceContent extends Component {
   }
 
   render() {
-    const { t, bindInput, commonFieldProps } = this.props;
+    const { t, bindInput, commonFieldProps, children } = this.props;
     const ingressBindInput = bindInput('introduction');
     const ingress = {
       ...ingressBindInput,
@@ -99,6 +99,7 @@ class LearningResourceContent extends Component {
           plugins={plugins}
           {...commonFieldProps}
         />
+        {children}
       </Accordion>
     );
   }

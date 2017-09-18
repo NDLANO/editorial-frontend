@@ -184,13 +184,12 @@ class LearningResourceForm extends Component {
           classes={classes}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
-          tags={tags}
-        />
-
-        <LearningResourceFootnotes
-          t={t}
-          footnotes={findFootnotes(model.content)}
-        />
+          tags={tags}>
+          <LearningResourceFootnotes
+            t={t}
+            footnotes={findFootnotes(model.content)}
+          />
+        </LearningResourceContent>
         <LearningResourceCopyright
           commonFieldProps={commonFieldProps}
           licenses={licenses}

@@ -7,8 +7,6 @@
  */
 
 .c-footnotes {
-  margin-top: -3.7em;
-
   sup {
     text-decoration: underline;
     color: var(--brand-color);

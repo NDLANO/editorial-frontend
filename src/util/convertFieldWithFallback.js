@@ -7,8 +7,5 @@
  */
 
 export function convertFieldWithFallback(element, field, fallback) {
-  if (field === 'visualElement') {
-    return element[field] ? element[field].content : fallback;
-  }
   return element[field] ? element[field][field] : fallback;
 }

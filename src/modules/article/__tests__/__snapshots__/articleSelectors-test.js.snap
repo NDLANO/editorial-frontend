@@ -34,7 +34,7 @@ Object {
   "title": "Brainstorming",
   "updated": "12/01/2016",
   "updatedBy": "content-import-client",
-  "visualElement": undefined,
+  "visualElement": "<embed/>",
 }
 `;
 
@@ -72,6 +72,6 @@ Object {
   "title": "Idéskaping og mediedesign",
   "updated": "01.12.2016",
   "updatedBy": "content-import-client",
-  "visualElement": undefined,
+  "visualElement": "<embed/>",
 }
 `;

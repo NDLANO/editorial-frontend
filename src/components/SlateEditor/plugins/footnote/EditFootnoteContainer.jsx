@@ -10,10 +10,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import Portal from 'react-portal';
+import Lightbox from '../../../Lightbox';
 import { setFootnote } from '../../createSlateStore';
-import FootnoteLightbox from './FootnoteLightbox';
+import EditFootnote from './EditFootnote';
 
-class Footnote extends Component {
+class EditFootnoteContainer extends Component {
   constructor() {
     super();
     this.state = {
@@ -50,19 +51,21 @@ class Footnote extends Component {
 
     return (
       <Portal isOpened={this.state.node !== undefined}>
-        <FootnoteLightbox
-          node={node}
-          blur={blur}
-          handleStateChange={onChange}
-          closeDialog={() => this.handleClose(false)}
-          state={state}
-        />
+        <Lightbox display big onClose={this.handleClose}>
+          <EditFootnote
+            node={node}
+            blur={blur}
+            handleStateChange={onChange}
+            closeDialog={this.handleClose}
+            state={state}
+          />
+        </Lightbox>
       </Portal>
     );
   }
 }
 
-Footnote.propTypes = {
+EditFootnoteContainer.propTypes = {
   slateStore: PropTypes.shape({
     getState: PropTypes.func.isRequired,
     subscribe: PropTypes.func.isRequired,
@@ -72,4 +75,4 @@ Footnote.propTypes = {
   blur: PropTypes.func.isRequired,
 };
 
-export default injectT(Footnote);
+export default injectT(EditFootnoteContainer);

@@ -8,26 +8,19 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import { Cross } from 'ndla-ui/icons';
-import { hasNodeOfType } from '../utils';
-import { toolbarClasses } from '../SlateToolbar/SlateToolbar';
 import FootnoteForm, { getInitialModel } from './FootnoteForm';
 import { NodeShape } from '../../../../shapes';
 
 const FOOTNOTE = 'footnote';
-const initialState = {
-  model: undefined,
-  nodeType: undefined,
-  nodeKey: undefined,
-};
 
-class FootnoteLightbox extends Component {
+class EditFootnote extends Component {
   constructor() {
     super();
-    this.state = initialState;
-    this.onCloseDialog = this.onCloseDialog.bind(this);
+    this.state = {
+      model: undefined,
+      nodeKey: undefined,
+    };
     this.addFootnoteData = this.addFootnoteData.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
@@ -44,25 +37,22 @@ class FootnoteLightbox extends Component {
     this.props.blur(); // blur on mounth to prevent accidental typing
   }
 
-  onCloseDialog() {
-    this.setState(initialState);
-    this.props.closeDialog();
-  }
-
   handleRemove() {
-    const { state, handleStateChange } = this.props;
-    const transform = state.transform();
-    if (hasNodeOfType(state, FOOTNOTE, 'inline')) {
-      const nextState = transform.removeNodeByKey(this.state.nodeKey).apply();
+    const { state, handleStateChange, closeDialog } = this.props;
+    if (this.state.nodeKey) {
+      const nextState = state
+        .transform()
+        .removeNodeByKey(this.state.nodeKey)
+        .apply();
       handleStateChange(nextState);
-      this.onCloseDialog();
+      closeDialog();
     }
   }
 
   handleSave(data) {
-    const { state, handleStateChange } = this.props;
+    const { state, handleStateChange, closeDialog } = this.props;
     const transform = state.transform();
-    if (this.state.nodeType === FOOTNOTE) {
+    if (this.state.nodeKey) {
       transform.setNodeByKey(this.state.nodeKey, { data });
     } else {
       transform.collapseToEnd().insertText('#').extend(-1).wrapInline({
@@ -72,53 +62,44 @@ class FootnoteLightbox extends Component {
     }
     const nextState = transform.apply();
     handleStateChange(nextState);
-    this.onCloseDialog();
+    closeDialog();
   }
 
   addFootnoteData(footnoteNode) {
     const model = footnoteNode.data.toJS();
     this.setState({
       model,
-      nodeType: footnoteNode.type,
       nodeKey: footnoteNode.key,
     });
   }
 
   render() {
     const { model } = this.state;
-    const { t } = this.props;
+    const { t, closeDialog } = this.props;
     const isEdit = model !== undefined;
 
     return (
-      <div {...toolbarClasses('link-overlay', 'open')}>
-        <div {...toolbarClasses('link-dialog')}>
-          <Button
-            stripped
-            {...toolbarClasses('close-dialog')}
-            onClick={this.onCloseDialog}>
-            <Cross />
-          </Button>
-          <h2>
-            {t(
-              `learningResourceForm.fields.content.footnote.${isEdit
-                ? 'editTitle'
-                : 'addTitle'}`,
-            )}
-          </h2>
-          <FootnoteForm
-            initialModel={getInitialModel(model)}
-            onClose={this.onCloseDialog}
-            isEdit={isEdit}
-            onRemove={this.handleRemove}
-            onSave={this.handleSave}
-          />
-        </div>
+      <div>
+        <h2>
+          {t(
+            `learningResourceForm.fields.content.footnote.${isEdit
+              ? 'editTitle'
+              : 'addTitle'}`,
+          )}
+        </h2>
+        <FootnoteForm
+          initialModel={getInitialModel(model)}
+          onClose={closeDialog}
+          isEdit={isEdit}
+          onRemove={this.handleRemove}
+          onSave={this.handleSave}
+        />
       </div>
     );
   }
 }
 
-FootnoteLightbox.propTypes = {
+EditFootnote.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   handleStateChange: PropTypes.func.isRequired,
   blur: PropTypes.func.isRequired,
@@ -129,4 +110,4 @@ FootnoteLightbox.propTypes = {
   ]),
 };
 
-export default injectT(FootnoteLightbox);
+export default injectT(EditFootnote);

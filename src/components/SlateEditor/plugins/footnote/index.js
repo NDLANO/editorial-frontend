@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import FootnoteLightboxContainer from './FootnoteLightboxContainer';
+import EditFootnoteContainer from './EditFootnoteContainer';
 import Footnote from './Footnote';
 
 export default function footnotePlugin() {
@@ -20,7 +20,7 @@ export default function footnotePlugin() {
     schema,
     render: (props, state, editor) =>
       <span>
-        <FootnoteLightboxContainer
+        <EditFootnoteContainer
           state={state}
           blur={editor.blur}
           slateStore={editor.props.slateStore}

@@ -7,14 +7,14 @@
  */
 
 import { getArticle, getSaving } from '../article';
-import { topicArticle } from './mockArticles';
+import { topicArticleNB, topicArticleEN } from './mockArticles';
 
 const state = {
   locale: 'nb',
   articles: {
     isSaving: true,
     all: {
-      [topicArticle.id]: topicArticle,
+      [topicArticleNB.id]: topicArticleNB,
       2: {
         id: '2',
         created: '2014-12-24T10:44:06Z',
@@ -26,11 +26,7 @@ const state = {
         created: '2014-11-24T10:44:06Z',
         title: { title: 'Tester', language: 'nb' },
       },
-      4: {
-        id: '3',
-        created: '2014-11-24T10:44:06Z',
-        title: { title: 'testing', language: 'en' },
-      },
+      [topicArticleEN.id]: topicArticleEN,
     },
   },
 };
@@ -43,7 +39,7 @@ test('articleSelectors getArticle with id', () => {
 
 test('articleSelectors getArticle (nb locale)', () => {
   const getArticleSelector = getArticle(1);
-  expect(getArticleSelector).toMatchSnapshot();
+  expect(getArticleSelector(state)).toMatchSnapshot();
 });
 
 test('articleSelectors getArticle (en locale)', () => {

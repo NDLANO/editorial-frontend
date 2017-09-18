@@ -67,7 +67,7 @@ export const getInitialModel = (article = {}) => {
     title: article.title || '',
     introduction: plainTextToEditorState(article.introduction),
     content: learningResourceContentToEditorState(article.content, {
-      footnotes: article.footNotes,
+      footnotes: article.footnotes,
     }),
     tags: article.tags || [],
     authors: parseCopyrightAuthors(article, 'Forfatter'),

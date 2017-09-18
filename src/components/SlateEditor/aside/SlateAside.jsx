@@ -10,7 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SlateRightAside from './SlateRightAside';
 import SlateFactAside from './SlateFactAside';
-import SlateTextAside from './SlateTextAside';
 import { NodeShape, EditorShape } from '../../../shapes';
 
 const SlateAside = props => {
@@ -30,8 +29,6 @@ const SlateAside = props => {
       return <SlateRightAside onRemoveClick={onRemoveClick} {...props} />;
     case 'factAside':
       return <SlateFactAside onRemoveClick={onRemoveClick} {...props} />;
-    case 'textAside':
-      return <SlateTextAside onRemoveClick={onRemoveClick} {...props} />;
     default: {
       return <SlateFactAside onRemoveClick={onRemoveClick} {...props} />;
     }

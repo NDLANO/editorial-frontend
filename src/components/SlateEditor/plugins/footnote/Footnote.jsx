@@ -9,6 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { setFootnote } from '../../createSlateStore';
 import { EditorShape, NodeShape } from '../../../../shapes';
 
 // Todo: a -> button
@@ -40,10 +41,7 @@ class Footnote extends Component {
 
   handleClick() {
     const { editor: { props: { slateStore } }, node } = this.props;
-    slateStore.dispatch({
-      type: 'SET_FOOTNOTE',
-      payload: node,
-    });
+    slateStore.dispatch(setFootnote(node));
   }
 
   render() {

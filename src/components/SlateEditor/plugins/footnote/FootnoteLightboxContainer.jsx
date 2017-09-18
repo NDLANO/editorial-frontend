@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import Portal from 'react-portal';
+import { setFootnote } from '../../createSlateStore';
 import FootnoteLightbox from './FootnoteLightbox';
 
 class Footnote extends Component {
@@ -40,10 +41,7 @@ class Footnote extends Component {
 
   handleClose() {
     const { slateStore } = this.props;
-    slateStore.dispatch({
-      type: 'SET_FOOTNOTE',
-      payload: undefined,
-    });
+    slateStore.dispatch(setFootnote(undefined));
   }
 
   render() {

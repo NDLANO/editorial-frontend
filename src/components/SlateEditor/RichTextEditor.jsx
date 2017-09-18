@@ -12,7 +12,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate';
 import BEMHelper from 'react-bem-helper';
-import createSlateStore from './createSlateStore';
+import createSlateStore, { setSubmitted } from './createSlateStore';
 import SlateToolbar from './plugins/SlateToolbar/SlateToolbar';
 import { PluginShape } from '../../shapes';
 
@@ -39,10 +39,7 @@ const RichTextEditor = class extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { slateStore } = this.state;
     if (nextProps.submitted !== slateStore.getState().submitted) {
-      slateStore.dispatch({
-        type: 'SET_SUBMITTED',
-        payload: nextProps.submitted,
-      });
+      slateStore.dispatch(setSubmitted(nextProps.submitted));
     }
   }
 

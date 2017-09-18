@@ -6,7 +6,10 @@
  *
  */
 
-import createSlateStore from '../createSlateStore';
+import createSlateStore, {
+  setFootnote,
+  setSubmitted,
+} from '../createSlateStore';
 
 test('slateStore initalState', () => {
   const store = createSlateStore();
@@ -17,10 +20,7 @@ test('slateStore initalState', () => {
 
 test('slateStore set submitted', () => {
   const store = createSlateStore();
-  store.dispatch({
-    type: 'SET_SUBMITTED',
-    payload: true,
-  });
+  store.dispatch(setSubmitted(true));
 
   expect(store.getState()).toEqual({
     submitted: true,
@@ -29,10 +29,7 @@ test('slateStore set submitted', () => {
 
 test('slateStore set footnote', () => {
   const store = createSlateStore();
-  store.dispatch({
-    type: 'SET_FOOTNOTE',
-    payload: { type: 'footnote' },
-  });
+  store.dispatch(setFootnote({ type: 'footnote' }));
 
   expect(store.getState()).toEqual({
     submitted: false,

@@ -47,8 +47,9 @@ const RichTextEditor = class extends React.Component {
   }
 
   onKeyDown(e, data, state) {
-    if (!data.isMod) return;
+    console.log(data);
     let mark;
+    console.log(data);
     switch (data.key) {
       case 'b':
         mark = 'bold';
@@ -59,9 +60,19 @@ const RichTextEditor = class extends React.Component {
       case 'u':
         mark = 'underlined';
         break;
+      case 'backspace': {
+        const selection = state.selection;
+        if (
+          state.document.text.length === 0 &&
+          selection.isAtStartOf(state.document)
+        ) {
+          this.props.removeSection(this.props.index);
+        }
+        break;
+      }
       default:
     }
-    if (mark) {
+    if (mark && data.isMod) {
       this.toggleMark(e, state, mark);
     }
   }
@@ -113,6 +124,9 @@ RichTextEditor.propTypes = {
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
+  isBlock: PropTypes.bool,
+  index: PropTypes.number,
+  removeSection: PropTypes.func,
   plugins: PropTypes.arrayOf(PluginShape).isRequired,
 };
 

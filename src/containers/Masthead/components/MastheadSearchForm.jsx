@@ -63,7 +63,7 @@ export class MastheadSearchForm extends Component {
       this.state.query,
     );
     if (isNDLAUrl) {
-      this.handleUrlPaste(this.state.query)
+      this.handleUrlPaste(this.state.query);
     } else {
       this.props.onSearchQuerySubmit(this.state.query);
     }

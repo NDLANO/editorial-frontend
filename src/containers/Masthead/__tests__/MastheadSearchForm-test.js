@@ -32,17 +32,16 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
   );
   const tree = component.toJSON();
   const e = {
-    target: {
-      value:
-        'https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:168387/3333',
-    },
+    preventDefault: () => {},
   };
-  tree.children[0].props.onChange(e);
+  tree.props.onSubmit(e);
   expect(component.toJSON()).toMatchSnapshot();
-  expect(historyMock.push.calledOnce).toBe(true);
-  expect(historyMock.push.calledWith('/learning-resource/3333/edit')).toBe(
-    true,
-  );
+  setTimeout(() => {
+    expect(historyMock.push.calledOnce).toBe(true);
+    expect(historyMock.push.calledWith('/learning-resource/3333/edit')).toBe(
+      true,
+    );
+  }, 100);
 });
 
 test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end', () => {
@@ -57,7 +56,7 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
   const component = renderer.create(
     <MastheadSearchForm
       show
-      query=""
+      query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373"
       searching={false}
       locale="nb"
       onSearchQuerySubmit={noop}
@@ -67,13 +66,9 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
   );
   const tree = component.toJSON();
   const e = {
-    target: {
-      value:
-        'https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373',
-    },
+    preventDefault: () => {},
   };
-
-  tree.children[0].props.onChange(e);
+  tree.props.onSubmit(e);
   expect(component.toJSON()).toMatchSnapshot();
   return new Promise(resolve => {
     setTimeout(() => {
@@ -94,7 +89,7 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
   const component = renderer.create(
     <MastheadSearchForm
       show
-      query=""
+      query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
       searching={false}
       onSearchQuerySubmit={noop}
       t={() => ''}
@@ -104,12 +99,11 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
   );
   const tree = component.toJSON();
   const e = {
-    target: {
-      value:
-        'https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:168387',
-    },
+    preventDefault: () => {},
   };
-  tree.children[0].props.onChange(e);
+  tree.props.onSubmit(e);
   expect(component.toJSON()).toMatchSnapshot();
-  expect(historyMock.push.calledOnce).toBe(false);
+  setTimeout(() => {
+    expect(historyMock.push.calledOnce).toBe(false);
+  }, 100);
 });

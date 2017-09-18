@@ -59,8 +59,10 @@ class MastheadSearch extends Component {
     const { showSearchField, query } = this.state;
     const locationQuery = queryString.parse(location.search);
     let articleTypes;
-    if (locationQuery.types === 'articles') {
-      articleTypes = locationQuery.articleTypes ? locationQuery.articleTypes : 'topic-article';
+    if (locationQuery.types === 'articles' || !location.types) {
+      articleTypes = locationQuery.articleTypes
+        ? locationQuery.articleTypes
+        : 'topic-article';
     }
     return (
       <div className="masthead-search">

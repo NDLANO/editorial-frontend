@@ -34,16 +34,16 @@ class MastheadSearch extends Component {
       const query = queryString.parse(location.search);
       this.setState({
         query: query.query,
-        showSearchField: !!query.query || location.pathname === 'search',
+        showSearchField: !!query.query || location.pathname === '/search',
       });
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { location } = nextProps;
-    if (location.pathname && location.pathname !== 'search') {
+    if (location.pathname && location.pathname !== '/search') {
       this.setState({ showSearchField: false });
-    } else if (location.pathname && location.pathname === 'search') {
+    } else if (location.pathname && location.pathname === '/search') {
       this.setState({ showSearchField: true });
     }
   }

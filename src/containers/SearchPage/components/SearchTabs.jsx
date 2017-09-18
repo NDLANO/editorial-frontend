@@ -22,8 +22,9 @@ class SearchTabs extends Component {
   }
 
   componentWillMount() {
-    const { searchTypes } = this.props;
-    this.setIndexTab(searchTypes);
+    const { searchTypes, articleType } = this.props;
+    const type = articleType || searchTypes;
+    this.setIndexTab(type);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -39,14 +40,17 @@ class SearchTabs extends Component {
 
   setIndexTab(searchTypes) {
     switch (searchTypes) {
-      case undefined:
+      case 'standard':
         this.setState({ index: 0 });
         break;
-      case 'standard':
+      case 'topic-article':
         this.setState({ index: 1 });
         break;
-      case 'topic-article':
+      case 'images':
         this.setState({ index: 2 });
+        break;
+      case 'audios':
+        this.setState({ index: 3 });
         break;
       default:
         break;
@@ -54,18 +58,21 @@ class SearchTabs extends Component {
   }
 
   handleOnSelect(index, last) {
-    const { onSearchTypeChange } = this.props;
+    const { onSearchTypeChange, onArticleSearchTypeChange } = this.props;
     if (index !== last) {
       this.setState({ index });
       switch (index) {
         case 0:
-          onSearchTypeChange(undefined);
+          onArticleSearchTypeChange('standard');
           break;
         case 1:
-          onSearchTypeChange('standard');
+          onArticleSearchTypeChange('topic-article');
           break;
         case 2:
-          onSearchTypeChange('topic-article');
+          onSearchTypeChange(['images']);
+          break;
+        case 3:
+          onSearchTypeChange(['audios']);
           break;
         default:
           break;
@@ -83,15 +90,19 @@ class SearchTabs extends Component {
         onSelect={this.handleOnSelect}
         tabs={[
           {
-            title: t('searchForm.articleType.all'),
-            content: tabContent,
-          },
-          {
             title: t('searchForm.articleType.learningResource'),
             content: tabContent,
           },
           {
             title: t('searchForm.articleType.topicArticle'),
+            content: tabContent,
+          },
+          {
+            title: t('searchForm.articleType.image'),
+            content: tabContent,
+          },
+          {
+            title: t('searchForm.articleType.audio'),
             content: tabContent,
           },
         ]}
@@ -101,9 +112,11 @@ class SearchTabs extends Component {
 }
 
 SearchTabs.propTypes = {
-  searchTypes: PropTypes.string,
+  searchTypes: PropTypes.string.isRequired,
+  articleType: PropTypes.string,
   tabContent: PropTypes.node.isRequired,
   onSearchTypeChange: PropTypes.func.isRequired,
+  onArticleSearchTypeChange: PropTypes.func.isRequired,
 };
 
 export default injectT(SearchTabs);

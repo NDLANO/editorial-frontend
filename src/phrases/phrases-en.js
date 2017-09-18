@@ -49,6 +49,8 @@ const phrases = {
       standard: 'Standard',
       learningResource: 'Learning resource',
       topicArticle: 'Topic description',
+      image: 'Image',
+      audio: 'Audio',
     },
     order: {
       relevance: 'Relevance',

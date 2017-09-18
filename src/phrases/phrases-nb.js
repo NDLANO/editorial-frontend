@@ -50,6 +50,8 @@ const phrases = {
       standard: 'Standard',
       learningResource: 'Læringsressurs',
       topicArticle: 'Emnebeskrivelse',
+      image: 'Bilde',
+      audio: 'Lyd',
     },
     order: {
       relevance: 'Relevans',

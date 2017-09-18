@@ -8,29 +8,35 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { toEditArticle } from '../../../util/routeHelpers';
-import { titleI18N, introductionI18N } from '../../../util/i18nFieldFinder';
-import { ArticleResultShape } from '../../../shapes';
+import {
+  ArticleResultShape,
+  ImageResultShape,
+  AudioResultShape,
+} from '../../../shapes';
+import SearchArticle from './SearchArticle';
+import SearchImage from './SearchImage';
+import SearchAudio from './SearchAudio';
 
-const Search = ({ article, locale }) =>
-  <div className="search-result">
-    <Link
-      className="search-result__link"
-      to={toEditArticle(article.id, article.articleType)}>
-      <h1 className="search-result__title">
-        {titleI18N(article, locale, true)}
-      </h1>
-    </Link>
-
-    <p className="search-result__description">
-      {introductionI18N(article, locale, true)}
-    </p>
-  </div>;
-
-Search.propTypes = {
-  article: ArticleResultShape.isRequired,
-  locale: PropTypes.string.isRequired,
+const SearchResult = ({ item, resultType }) => {
+  switch (resultType) {
+    case 'articles':
+      return <SearchArticle article={item} />;
+    case 'images':
+      return <SearchImage image={item} />;
+    case 'audios':
+      return <SearchAudio audio={item} />;
+    default:
+      return <p>{`Something went wrong with ${resultType}`}</p>;
+  }
 };
 
-export default Search;
+SearchResult.propTypes = {
+  item: PropTypes.oneOfType([
+    ArticleResultShape,
+    ImageResultShape,
+    AudioResultShape,
+  ]),
+  resultType: PropTypes.string.isRequired,
+};
+
+export default SearchResult;

@@ -9,6 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { searchClasses } from '../SearchPage';
 
 class SelectSearchSortOrder extends Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class SelectSearchSortOrder extends Component {
     const { t } = this.props;
     return (
       <select
-        className="search-filters__select"
+        {...searchClasses('filters-select')}
         onChange={this.handleSortChange}
         value={this.state.sort}>
         <option value="-relevance">

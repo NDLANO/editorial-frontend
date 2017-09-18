@@ -1,14 +1,34 @@
 import PropTypes from 'prop-types';
 
+export const AudioResultShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+});
+
+export const ImageResultShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  altText: PropTypes.string,
+  metaUrl: PropTypes.string.isRequired,
+  previewUrl: PropTypes.string.isRequired,
+});
+
 export const ArticleResultShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  title: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      language: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
   articleType: PropTypes.string.isRequired,
+});
+
+export const SearchResultShape = PropTypes.shape({
+  results: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      ArticleResultShape,
+      AudioResultShape,
+      ImageResultShape,
+    ]),
+  ).isRequired,
+  totalCount: PropTypes.number.isRequired,
+  pageSize: PropTypes.number.isRequired,
 });
 
 export const MessageShape = PropTypes.shape({

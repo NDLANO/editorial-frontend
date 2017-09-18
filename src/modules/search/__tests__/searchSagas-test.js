@@ -10,11 +10,11 @@ import nock from 'nock';
 
 import { expectSaga } from 'redux-saga-test-plan';
 import * as sagas from '../searchSagas';
-import * as actions from '../searchActions';
+import * as actions from '../search';
 
 test('searchSagas search', () => {
   nock('http://ndla-api')
-    .get('/article-api/v1/articles/?query=testing&page=3&sort=alfa&language=nb')
+    .get('/search-api/v1/search/?query=testing&page=3&sort=alfa&language=nb')
     .reply(200, { results: [1, 2, 3] });
 
   return expectSaga(sagas.watchSearch)

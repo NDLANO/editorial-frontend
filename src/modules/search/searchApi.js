@@ -12,7 +12,7 @@ import {
   fetchAuthorized,
 } from '../../util/apiHelpers';
 
-const baseUrl = apiResourceUrl('/article-api/v1/articles');
+const baseUrl = apiResourceUrl('/search-api/v1/search');
 
 export const search = (queryString, locale) =>
   fetchAuthorized(`${baseUrl}/${queryString}&language=${locale}`).then(

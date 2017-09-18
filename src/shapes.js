@@ -32,7 +32,7 @@ export const CopyrightObjectShape = PropTypes.shape({
 });
 
 export const ArticleShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
 });
 

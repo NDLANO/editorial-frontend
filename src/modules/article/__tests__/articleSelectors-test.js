@@ -7,34 +7,26 @@
  */
 
 import { getArticle, getSaving } from '../article';
-import { topicArticle } from './mockArticles';
+import { topicArticleNB, topicArticleEN } from './mockArticles';
 
 const state = {
   locale: 'nb',
   articles: {
     isSaving: true,
     all: {
-      [topicArticle.id]: topicArticle,
+      [topicArticleNB.id]: topicArticleNB,
       2: {
         id: '2',
         created: '2014-12-24T10:44:06Z',
-        title: [
-          { title: 'Tester', language: 'nb' },
-          { title: 'Testing', language: 'en' },
-        ],
-        metaDescription: [
-          { metaDescription: 'Beskrivelse', language: 'nb' },
-          { metaDescription: 'Description', language: 'en' },
-        ],
+        title: { title: 'Tester', language: 'nb' },
+        metaDescription: { metaDescription: 'Beskrivelse', language: 'nb' },
       },
       3: {
         id: '3',
         created: '2014-11-24T10:44:06Z',
-        title: [
-          { title: 'Tester', language: 'nb' },
-          { title: 'Testing', language: 'en' },
-        ],
+        title: { title: 'Tester', language: 'nb' },
       },
+      [topicArticleEN.id]: topicArticleEN,
     },
   },
 };
@@ -47,11 +39,11 @@ test('articleSelectors getArticle with id', () => {
 
 test('articleSelectors getArticle (nb locale)', () => {
   const getArticleSelector = getArticle(1);
-  expect(getArticleSelector).toMatchSnapshot();
+  expect(getArticleSelector(state)).toMatchSnapshot();
 });
 
 test('articleSelectors getArticle (en locale)', () => {
-  const getArticleSelector = getArticle('1');
+  const getArticleSelector = getArticle('4');
   const stateWithEnLocale = { ...state, locale: 'en' };
   expect(getArticleSelector(stateWithEnLocale)).toMatchSnapshot();
 });

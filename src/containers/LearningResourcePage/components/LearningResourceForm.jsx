@@ -130,42 +130,25 @@ class LearningResourceForm extends Component {
       {},
     );
 
-    const content = {
-      content: learningResourceContentToHTML(model.content, true),
-      footNotes: footnoteObject,
-      language,
-    };
-
     this.props.onUpdate({
       id: model.id,
       revision,
-      title: [{ title: model.title, language }],
-      introduction: [
-        {
-          introduction: editorStateToPlainText(model.introduction),
-          language,
-        },
-      ],
-      tags: [{ tags: model.tags, language }],
-      content: [content],
-      visualElement: [
-        {
-          visualElement: createEmbedTag(model.metaImage),
-          language,
-        },
-      ],
-      metaDescription: [
-        {
-          metaDescription: editorStateToPlainText(model.metaDescription),
-          language,
-        },
-      ],
+      title: model.title,
+      introduction: editorStateToPlainText(model.introduction),
+      tags: model.tags,
+      content: {
+        content: learningResourceContentToHTML(model.content, true),
+        footNotes: footnoteObject,
+      },
+      visualElement: createEmbedTag(model.metaImage),
+      metaDescription: editorStateToPlainText(model.metaDescription),
       articleType: 'topic-article',
       copyright: {
         license: licenses.find(license => license.license === model.license),
         origin: model.origin,
         authors: authors.concat(licensees).concat(contributors),
       },
+      language,
     });
   }
 
@@ -234,7 +217,7 @@ class LearningResourceForm extends Component {
 
 LearningResourceForm.propTypes = {
   model: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     title: PropTypes.string,
   }),
   schema: SchemaShape,

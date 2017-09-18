@@ -204,6 +204,7 @@ const defaultSchema = {
         });
         return transform;
       },
+      render: '',
     },
   ],
 };

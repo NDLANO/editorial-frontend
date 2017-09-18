@@ -14,7 +14,7 @@ import { actions } from '../article';
 
 test('articleSagas watchFetchArticle fetch article if not in state', () => {
   nock('http://ndla-api')
-    .get('/article-api/v1/articles/123')
+    .get('/article-api/v2/articles/123')
     .reply(200, { id: 123, title: 'unit test' });
 
   return expectSaga(sagas.watchFetchArticle)
@@ -32,7 +32,7 @@ test('articleSagas watchFetchArticle do not refetch existing article ', () =>
 
 test('articleSagas watchUpdateArticle create new article', () => {
   nock('http://ndla-api')
-    .post('/article-api/v1/articles/')
+    .post('/article-api/v2/articles/')
     .reply(200, { id: '123', title: 'unit test' });
 
   return expectSaga(sagas.watchUpdateArticle)
@@ -50,7 +50,7 @@ test('articleSagas watchUpdateArticle create new article', () => {
 
 test('articleSagas watchUpdateArticle update article', () => {
   nock('http://ndla-api')
-    .patch('/article-api/v1/articles/123')
+    .patch('/article-api/v2/articles/123')
     .reply(200, { id: '123', title: 'unit test updated' });
 
   return expectSaga(sagas.watchUpdateArticle)

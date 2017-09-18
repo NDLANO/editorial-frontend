@@ -13,7 +13,7 @@ const article = {
   created: '2014-12-24T10:44:06Z',
   title: { title: 'Tester', language: 'nb' },
   metaDescription: { metaDescription: 'Beskrivelse', language: 'nb' },
-  visualElement: { content: '<embed />', language: 'nb' },
+  visualElement: { visualElement: '<embed />', language: 'nb' },
 };
 
 test('convertFieldWithFallback convert field title to string', () => {

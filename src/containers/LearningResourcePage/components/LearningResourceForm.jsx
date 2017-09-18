@@ -142,7 +142,7 @@ class LearningResourceForm extends Component {
       },
       visualElement: createEmbedTag(model.metaImage),
       metaDescription: editorStateToPlainText(model.metaDescription),
-      articleType: 'topic-article',
+      articleType: 'standard',
       copyright: {
         license: licenses.find(license => license.license === model.license),
         origin: model.origin,

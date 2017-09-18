@@ -29,13 +29,7 @@ test('reducers/search search', () => {
 
   expect(nextState).toEqual({
     searching: true,
-    totalResults: [
-      {
-        results: [],
-        totalCount: 1,
-        pageSize: 10,
-      },
-    ],
+    totalResults: [],
   });
 });
 
@@ -50,11 +44,10 @@ test('reducers/search handle set search result', () => {
     type: setSearchResult,
     payload: searchResult,
   });
-
-  expect(nextState.totalCount).toBe(32);
-  expect(nextState.results.length).toBe(2);
-  expect(nextState.page).toBe(3);
-  expect(nextState.pageSize).toBe(2);
+  expect(nextState.totalResults[0].totalCount).toBe(32);
+  expect(nextState.totalResults[0].results.length).toBe(2);
+  expect(nextState.totalResults[0].page).toBe(3);
+  expect(nextState.totalResults[0].pageSize).toBe(2);
   expect(nextState.searching).toBe(false);
 });
 

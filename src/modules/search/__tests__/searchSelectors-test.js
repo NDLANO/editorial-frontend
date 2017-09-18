@@ -17,6 +17,10 @@ const lastPageTestState = {
         totalCount: 3,
         pageSize: 3,
       },
+      {
+        totalCount: 30,
+        pageSize: 3,
+      },
     ],
   },
 };
@@ -30,9 +34,5 @@ test('searchSelectors getResults', () => {
 });
 
 test('searchSelectors getLastPage', () => {
-  expect(getLastPage(lastPageTestState)).toBe(1);
-  //  expect(getLastPage(lastPageTestState(1, 10))).toBe(1);
-  // expect(getLastPage(lastPageTestState(27, 10))).toBe(3);
-  // expect(getLastPage(lastPageTestState(234, 10))).toBe(24);
-  // expect(getLastPage(lastPageTestState(234, 100))).toBe(3);
+  expect(getLastPage(lastPageTestState)).toBe(11);
 });

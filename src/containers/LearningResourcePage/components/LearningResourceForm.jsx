@@ -136,10 +136,8 @@ class LearningResourceForm extends Component {
       title: model.title,
       introduction: editorStateToPlainText(model.introduction),
       tags: model.tags,
-      content: {
-        content: learningResourceContentToHTML(model.content, true),
-        footNotes: footnoteObject,
-      },
+      content: learningResourceContentToHTML(model.content, true),
+      footNotes: footnoteObject,
       visualElement: createEmbedTag(model.metaImage),
       metaDescription: editorStateToPlainText(model.metaDescription),
       articleType: 'standard',

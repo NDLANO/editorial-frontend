@@ -31,7 +31,6 @@ const MARK_TAGS = {
   strong: 'bold',
   em: 'italic',
   u: 'underlined',
-  s: 'strikethrough',
   code: 'code',
 };
 
@@ -313,12 +312,6 @@ function createRules(contentData = {}, footnoteCounter) {
               <u>
                 {children}
               </u>
-            );
-          case 'strikethrough':
-            return (
-              <s>
-                {children}
-              </s>
             );
           case 'superscripted':
             return (

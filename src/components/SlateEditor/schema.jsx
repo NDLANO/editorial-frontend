@@ -118,10 +118,6 @@ const defaultSchema = {
       <u {...props.attributes}>
         {props.children}
       </u>,
-    strikethrough: props =>
-      <s {...props.attributes}>
-        {props.children}
-      </s>,
   },
   rules: [
     // Rule to insert a paragraph block if the document is empty.

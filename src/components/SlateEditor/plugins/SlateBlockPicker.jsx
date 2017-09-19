@@ -178,8 +178,6 @@ class SlateBlockPicker extends Component {
       this.update();
     }
     return show;
-    // this.update();
-    // return true;
   }
 
   render() {

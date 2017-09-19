@@ -60,8 +60,8 @@ class LearningResourceContent extends Component {
       <span
         style={{
           position: 'absolute',
-          left: '9em',
-          top: '4em',
+          left: '0.75em',
+          top: '8em',
           opacity: '0.333',
         }}>
         {t('learningResourceForm.fields.content.placeholder')}

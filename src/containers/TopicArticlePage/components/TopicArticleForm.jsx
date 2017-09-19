@@ -117,7 +117,7 @@ class TopicArticleForm extends Component {
 
     return (
       <form onSubmit={this.handleSubmit} {...classes()}>
-        <div {...classes('title')}>
+        <div {...classes('header')}>
           {model.id
             ? t('topicArticleForm.title.update')
             : t('topicArticleForm.title.create')}

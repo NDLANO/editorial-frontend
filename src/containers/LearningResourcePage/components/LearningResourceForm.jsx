@@ -34,6 +34,7 @@ import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
 import LearningResourceCopyright from './LearningResourceCopyright';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
+import LearningResourceHeader from './LearningResourceHeader';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -85,7 +86,7 @@ export const getInitialModel = (article = {}) => {
   };
 };
 
-const classes = new BEMHelper({
+export const classes = new BEMHelper({
   name: 'learning-resource-form',
   prefix: 'c-',
 });
@@ -168,11 +169,7 @@ class LearningResourceForm extends Component {
 
     return (
       <form onSubmit={this.handleSubmit} {...classes()}>
-        <div {...classes('title')}>
-          {model.id
-            ? t('learningResourceForm.title.update')
-            : t('learningResourceForm.title.create')}
-        </div>
+        <LearningResourceHeader model={model} />
         <LearningResourceMetadata
           classes={classes}
           commonFieldProps={commonFieldProps}

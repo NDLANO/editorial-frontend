@@ -9,7 +9,6 @@
 
 import React from 'react';
 import { Block, Placeholder } from 'slate';
-import SlateAside from './aside/SlateAside';
 import SlateLink from './SlateLink';
 
 export const defaultBlock = {
@@ -47,7 +46,6 @@ const defaultSchema = {
           : null}
         {props.children}
       </section>,
-    aside: SlateAside,
     paragraph: props =>
       <p className="c-block__paragraph" {...props.attributes}>
         {props.children}
@@ -179,9 +177,12 @@ const defaultSchema = {
     // Rule to insert a paragraph below a node with type aside if that node is the last node
     // in the document
     {
-      match: node => node.kind === 'block' && node.type === 'section',
+      match: node =>
+        node.kind === 'block' &&
+        (node.type === 'section' || node.type === 'div'),
       validate: document => {
         const lastNode = document.nodes.last();
+        console.log(lastNode);
         return lastNode && lastNode.type === 'aside' ? true : null;
       },
       normalize: (transform, document) => {

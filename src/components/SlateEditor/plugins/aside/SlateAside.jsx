@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SlateRightAside from './SlateRightAside';
 import SlateFactAside from './SlateFactAside';
-import { NodeShape, EditorShape } from '../../../shapes';
+import { NodeShape, EditorShape } from '../../../../shapes';
 
 const SlateAside = props => {
   const { node, editor } = props;

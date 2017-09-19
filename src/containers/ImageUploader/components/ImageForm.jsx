@@ -106,9 +106,15 @@ class ImageForm extends Component {
     const commonFieldProps = { bindInput, schema, submitted };
 
     return (
-      <form onSubmit={event => this.handleSubmit(event)} {...classes()}>
+      <form
+        onSubmit={event => this.handleSubmit(event)}
+        {...classes(undefined, undefined, 'c-article')}>
         <div {...classes('title')}>
-          {model.id ? t('imageForm.title.update') : t('imageForm.title.create')}
+          <div className="u-4/6@desktop u-push-1/6@desktop">
+            {model.id
+              ? t('imageForm.title.update')
+              : t('imageForm.title.create')}
+          </div>
         </div>
         <ImageContent
           classes={classes}

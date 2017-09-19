@@ -10,7 +10,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
     onChange={[Function]}
     placeholder=""
     type="text"
-    value="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:168387"
+    value="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
   />
   <button
     className="c-button c-button--stripped masthead-search-form__button"

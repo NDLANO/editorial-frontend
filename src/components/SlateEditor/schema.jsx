@@ -183,7 +183,10 @@ const defaultSchema = {
       validate: document => {
         const lastNode = document.nodes.last();
         console.log(lastNode);
-        return lastNode && lastNode.type === 'aside' ? true : null;
+        return lastNode &&
+        (lastNode.type === 'aside' || lastNode.type === 'bodybox')
+          ? true
+          : null;
       },
       normalize: (transform, document) => {
         const block = Block.create(defaultBlock);

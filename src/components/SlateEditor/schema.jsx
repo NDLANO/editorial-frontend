@@ -182,7 +182,6 @@ const defaultSchema = {
         (node.type === 'section' || node.type === 'div'),
       validate: document => {
         const lastNode = document.nodes.last();
-        console.log(lastNode);
         return lastNode &&
         (lastNode.type === 'aside' || lastNode.type === 'bodybox')
           ? true

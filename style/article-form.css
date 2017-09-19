@@ -23,21 +23,15 @@ a.c-learning-resource-form__abort-button.c-button {
 .c-audio-form,
 .c-image-form,
 .c-learning-resource-form {
-  margin-top: calc(var(--spacing) * -6);
-  width: 970px;
-  padding: 0 9rem 3rem;
-  background: white;
-  color: var(--brand-grey-dark);
-  border: 1px solid var(--brand-grey--light);
+  @media (min-width: 37.5em) {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+  }
 
   &__title {
-    margin: 0 -9rem;
-    padding: 0.8rem 9rem;
+    padding: 0.6rem 0;
     background-color: var(--yellow-1);
-    font-size: 0.899rem;
-    font-family: 'SourceSansPro-Regular', 'Source Sans Pro';
-    font-weight: 400;
-    font-style: normal;
   }
 
   &__abort-button + &__save-button {
@@ -71,33 +65,13 @@ a.c-learning-resource-form__abort-button.c-button {
       border: 0;
     }
   }
-
-  @media (max-width: 970px) {
-    width: 770px;
-    padding: 0 5rem 3rem;
-
-    &__heading {
-      margin: 0 -5rem;
-      padding: 0.5rem 5rem;
-    }
-  }
-
-  @media (--medium-viewport) {
-    width: 100%;
-  }
-
-  @media (max-width: 37.5em) {
-    margin-top: 0;
-    padding: 0;
-    border: none;
-  }
 }
 
 .c-learning-resource-form {
   &__container {
-    margin: 0 -9rem;
-    padding: 3rem 9rem;
-    border: 1px solid white;
+    padding: 1rem 0;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
 
     &:hover,
     &:focus {

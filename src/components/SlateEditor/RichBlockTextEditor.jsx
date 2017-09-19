@@ -11,6 +11,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
+import Portal from 'react-portal';
 import SlateBlockPicker from './plugins/SlateBlockPicker';
 import RichTextEditor from './RichTextEditor';
 import { PluginShape } from '../../shapes';
@@ -73,16 +74,18 @@ class RichBlockTextEditor extends Component {
               {...rest}
               value={val.state}
             />
-            <SlateBlockPicker
-              name={name}
-              onChange={onChange}
-              blocks={value}
-              editorState={val}
-              index={index}
-              ingress={ingress}
-              ingressRef={ingressRef}
-              setFocus={this.setFocus}
-            />
+            <Portal isOpened>
+              <SlateBlockPicker
+                name={name}
+                onChange={onChange}
+                blocks={value}
+                editorState={val}
+                index={index}
+                ingress={ingress}
+                ingressRef={ingressRef}
+                setFocus={this.setFocus}
+              />
+            </Portal>
 
             {children}
           </div>,

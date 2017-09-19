@@ -141,7 +141,7 @@ class SlateBlockPicker extends Component {
     const nodeEl = findDOMNode(node); // eslint-disable-line
     const rect = nodeEl.getBoundingClientRect();
     menuEl.style.top = `${rect.top - bodyRect.top - 5}px`;
-    menuEl.style.left = `${rect.left - bodyRect.left - 100}px`;
+    menuEl.style.left = `${rect.left - 60}px`;
   }
 
   focusInsideAside() {
@@ -178,6 +178,8 @@ class SlateBlockPicker extends Component {
       this.update();
     }
     return show;
+    // this.update();
+    // return true;
   }
 
   render() {

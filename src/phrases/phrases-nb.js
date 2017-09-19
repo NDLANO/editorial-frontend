@@ -345,6 +345,9 @@ const phrases = {
       license: {
         label: 'Lisens',
       },
+      bodybox: 'Tekst i boks',
+      rightAside: 'Høyrespalte',
+      factAside: 'Faktaboks',
     },
   },
   form: {

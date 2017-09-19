@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
 import { Cross } from 'ndla-ui/icons';
 
@@ -18,10 +19,13 @@ const classes = new BEMHelper({
 });
 
 const SlateRightAside = props => {
-  const { children, onRemoveClick } = props;
+  const { children, onRemoveClick, t } = props;
 
   return (
     <aside {...classes('right-aside', '', 'c-aside expanded')}>
+      <div {...classes('aside-type')}>
+        {t('learningResourceForm.fields.rightAside')}
+      </div>
       <div className="c-aside__content">
         {children}
       </div>
@@ -42,4 +46,4 @@ SlateRightAside.propTypes = {
   onRemoveClick: PropTypes.func.isRequired,
 };
 
-export default SlateRightAside;
+export default injectT(SlateRightAside);

@@ -55,9 +55,15 @@ class MastheadSearch extends Component {
   }
 
   render() {
-    const { history, searching } = this.props;
+    const { history, searching, location } = this.props;
     const { showSearchField, query } = this.state;
-
+    const locationQuery = queryString.parse(location.search);
+    let articleTypes;
+    if (locationQuery.types === 'articles' || !location.types) {
+      articleTypes = locationQuery.articleTypes
+        ? locationQuery.articleTypes
+        : 'topic-article';
+    }
     return (
       <div className="masthead-search">
         <SiteNav>
@@ -88,6 +94,8 @@ class MastheadSearch extends Component {
                 query: searchQuery,
                 page: 1,
                 sort: '-relevance',
+                types: locationQuery.types ? locationQuery.types : 'articles',
+                articleTypes,
               }),
             )}
         />

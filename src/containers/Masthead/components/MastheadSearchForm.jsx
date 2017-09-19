@@ -36,15 +36,10 @@ export class MastheadSearchForm extends Component {
 
   handleQueryChange(evt) {
     this.setState({ query: evt.target.value });
-    this.handleUrlPaste(evt.target.value);
   }
 
   handleUrlPaste(ndlaUrl) {
     const { history, locale } = this.props;
-    const isNDLAUrl = /^https:\/(.*).ndla.no\/(article|subjects)\/\d*/.test(
-      ndlaUrl,
-    );
-    if (!isNDLAUrl) return;
 
     const splittedNdlaUrl = ndlaUrl.split('/');
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
@@ -64,7 +59,14 @@ export class MastheadSearchForm extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    this.props.onSearchQuerySubmit(this.state.query);
+    const isNDLAUrl = /^https:\/(.*).ndla.no\/(article|subjects)\/\d*/.test(
+      this.state.query,
+    );
+    if (isNDLAUrl) {
+      this.handleUrlPaste(this.state.query);
+    } else {
+      this.props.onSearchQuerySubmit(this.state.query);
+    }
   }
 
   render() {

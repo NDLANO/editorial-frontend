@@ -152,9 +152,9 @@ class SlateBlockPicker extends Component {
     while (true) {
       const parent = editorState.state.document.getParent(node.key);
       if (
+        !parent ||
         parent.get('type') === 'section' ||
-        parent.get('type') === 'document' ||
-        !parent
+        parent.get('type') === 'document'
       ) {
         return false;
       }

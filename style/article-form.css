@@ -86,6 +86,19 @@ a.c-learning-resource-form__abort-button.c-button {
     }
   }
 
+  &__remove-section-button {
+    display: none;
+  }
+
+  &__container:hover &__remove-section-button,
+  &__container:focus &__remove-section-button {
+    color: red;
+    display: block;
+    float: right;
+    margin-right: -10%;
+    margin-top: -20px;
+  }
+
   &__container:hover &__delete-block-button,
   &__container:focus &__delete-block-button {
     visibility: visible;

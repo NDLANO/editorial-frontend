@@ -23,7 +23,7 @@ const SlateRightAside = props => {
 
   return (
     <aside {...classes('right-aside', '', 'c-aside expanded')} {...attributes}>
-      <div {...classes('aside-type')}>
+      <div {...classes('aside-type')} contentEditable={false}>
         {t('learningResourceForm.fields.rightAside')}
       </div>
       <div className="c-aside__content">

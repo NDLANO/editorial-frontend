@@ -34,7 +34,7 @@ class SlateFactAside extends React.Component {
   }
 
   render() {
-    const { children, onRemoveClick, t } = this.props;
+    const { children, onRemoveClick, t, attributes } = this.props;
 
     return (
       <aside
@@ -42,7 +42,8 @@ class SlateFactAside extends React.Component {
           'fact-aside',
           '',
           this.state.expanded ? 'c-aside expanded' : 'c-aside',
-        )}>
+        )}
+        {...attributes}>
         <div {...classes('aside-type')}>
           {t('learningResourceForm.fields.factAside')}
         </div>

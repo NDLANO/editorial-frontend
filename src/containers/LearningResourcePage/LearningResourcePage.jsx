@@ -34,7 +34,11 @@ class LearningResourcePage extends Component {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <Hero />
+        <Hero>
+          <OneColumn>
+            <div className="c-hero__content" />
+          </OneColumn>
+        </Hero>
         <OneColumn cssModifier="narrow">
           <Switch>
             <Route

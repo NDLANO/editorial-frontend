@@ -31,7 +31,6 @@ const MARK_TAGS = {
   strong: 'bold',
   em: 'italic',
   u: 'underlined',
-  s: 'strikethrough',
   code: 'code',
 };
 
@@ -208,30 +207,6 @@ function createRules(contentData = {}, footnoteCounter) {
                 {children}
               </section>
             );
-          case 'paragraph-left':
-            return (
-              <p style={{ textAlign: 'left' }}>
-                {children}
-              </p>
-            );
-          case 'paragraph-center':
-            return (
-              <p style={{ textAlign: 'center' }}>
-                {children}
-              </p>
-            );
-          case 'paragraph-right':
-            return (
-              <p style={{ textAlign: 'right' }}>
-                {children}
-              </p>
-            );
-          case 'paragraph-justify':
-            return (
-              <p style={{ textAlign: 'justify' }}>
-                {children}
-              </p>
-            );
           case 'paragraph':
             return (
               <p>
@@ -337,12 +312,6 @@ function createRules(contentData = {}, footnoteCounter) {
               <u>
                 {children}
               </u>
-            );
-          case 'strikethrough':
-            return (
-              <s>
-                {children}
-              </s>
             );
           case 'superscripted':
             return (

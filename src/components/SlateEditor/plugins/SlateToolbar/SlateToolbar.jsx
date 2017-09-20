@@ -18,12 +18,11 @@ import { hasNodeOfType } from '../utils';
 const DEFAULT_NODE = 'paragraph';
 
 const suportedToolbarElements = {
-  mark: ['bold', 'italic', 'underlined', 'strikethrough'],
+  mark: ['bold', 'italic', 'underlined'],
   block: [
     'quote',
     'numbered-list',
     'bulleted-list',
-    'heading-one',
     'heading-two',
     'heading-three',
   ],

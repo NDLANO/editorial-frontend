@@ -23,7 +23,9 @@ const SlateAside = props => {
       .apply();
     editor.onChange(next);
   };
+
   const type = node.get('data').get('type');
+
   switch (type) {
     case 'rightAside':
       return <SlateRightAside onRemoveClick={onRemoveClick} {...props} />;

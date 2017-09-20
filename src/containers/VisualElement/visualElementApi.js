@@ -23,12 +23,12 @@ const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
   `/v1/accounts/${window.config.brightCoveAccountId}/videos`,
 );
 
-export const searchImages = (query, page, locale) =>
+export const searchImages = (query, page) =>
   fetchWithAccessToken(
     `${baseImageNdlaUrl}/?${queryString.stringify({
       query,
       page,
-    })}&page-size=16&language=${locale}`,
+    })}&page-size=16`,
   ).then(resolveJsonOrRejectWithError);
 export const searchAudios = query =>
   fetchWithAccessToken(

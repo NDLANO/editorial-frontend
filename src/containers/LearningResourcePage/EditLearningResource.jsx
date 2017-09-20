@@ -24,8 +24,8 @@ class EditLearningResource extends Component {
   }
 
   componentWillMount() {
-    const { articleId, fetchArticle } = this.props;
-    fetchArticle(articleId);
+    const { articleId, fetchArticle, locale } = this.props;
+    fetchArticle({id: articleId, language: locale});
   }
 
   updateArticle(article) {
@@ -34,7 +34,7 @@ class EditLearningResource extends Component {
   }
 
   render() {
-    const { locale, article, tags, isSaving, licenses } = this.props;
+    const { article, tags, isSaving, licenses, fetchArticle } = this.props;
     if (!article) {
       return null;
     }
@@ -49,9 +49,9 @@ class EditLearningResource extends Component {
         revision={article.revision}
         tags={tags}
         licenses={licenses}
-        locale={locale}
         isSaving={isSaving}
         onUpdate={this.updateArticle}
+        fetchArticle={fetchArticle}
       />
     );
   }

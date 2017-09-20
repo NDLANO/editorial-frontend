@@ -12,10 +12,11 @@ import * as api from './articleApi';
 import { toEditArticle } from '../../util/routeHelpers';
 import * as messageActions from '../../containers/Messages/messagesActions';
 
-export function* fetchArticle(id) {
+export function* fetchArticle(id, language = 'nb') {
   try {
-    const article = yield call(api.fetchArticle, id);
-    yield put(actions.setArticle(article));
+    const article = yield call(api.fetchArticle, id, language);
+    console.log(article, 'ARTICLE')
+    yield put(actions.setArticle({...article, language}));
   } catch (error) {
     // TODO: handle error
     console.error(error); //eslint-disable-line
@@ -24,11 +25,11 @@ export function* fetchArticle(id) {
 
 export function* watchFetchArticle() {
   while (true) {
-    const { payload: id } = yield take(actions.fetchArticle);
+    const { payload: {id, language} }= yield take(actions.fetchArticle);
     // console.log('called');
     const article = yield select(getArticle(id));
-    if (!article || article.id !== id) {
-      yield call(fetchArticle, id);
+    if (!article || article.id !== id || article.language !== language) {
+      yield call(fetchArticle, id, language);
     }
   }
 }

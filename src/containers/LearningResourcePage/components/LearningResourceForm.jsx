@@ -83,6 +83,8 @@ export const getInitialModel = (article = {}) => {
       : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorState(article.metaDescription, true),
     metaImage,
+    language: article.language,
+    supportedLanguages: article.supportedLanguages,
   };
 };
 
@@ -99,7 +101,9 @@ class LearningResourceForm extends Component {
   }
 
   onVariantClick(language) {
-    const { model } = this.props;
+    const { model, fetchArticle } = this.props;
+    console.log(language, 'model', model)
+    fetchArticle({id: model.id, language})
   }
 
   handleSubmit(evt) {
@@ -109,11 +113,9 @@ class LearningResourceForm extends Component {
       model,
       schema,
       revision,
-      locale: language,
       setSubmitted,
       licenses,
     } = this.props;
-    console.log(this.props);
     if (!schema.isValid) {
       setSubmitted(true);
       return;
@@ -153,7 +155,7 @@ class LearningResourceForm extends Component {
         origin: model.origin,
         authors: authors.concat(licensees).concat(contributors),
       },
-      language,
+      language: model.language,
     });
   }
 
@@ -167,7 +169,6 @@ class LearningResourceForm extends Component {
       tags,
       licenses,
       isSaving,
-      locale,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
@@ -179,7 +180,6 @@ class LearningResourceForm extends Component {
             <LearningResourceHeader
               model={model}
               onVariantClick={this.onVariantClick}
-              language={locale}
             />
         <LearningResourceMetadata
           classes={classes}
@@ -237,11 +237,11 @@ LearningResourceForm.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
   revision: PropTypes.number,
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  fetchArticle: PropTypes.func.isRequired,
 };
 
 export default compose(

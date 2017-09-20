@@ -8,7 +8,7 @@
 
   &:hover,
   &:focus {
-    color: red;
+    color: color(red blackness(+ 20%));
   }
 }
 

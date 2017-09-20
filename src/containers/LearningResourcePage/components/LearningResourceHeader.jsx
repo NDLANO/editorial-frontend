@@ -18,13 +18,16 @@ const LearningResourceHeader = props => {
   if (!model.id) {
     return (
       <div {...classes('header')}>
+        <div className="u-4/6@desktop u-push-1/6@desktop">
         {t('learningResourceForm.title.create')}
+      </div>
       </div>
     );
   }
 
   return (
     <div {...classes('header')}>
+      <div className="u-4/6@desktop u-push-1/6@desktop">
       <span>
         {t('learningResourceForm.title.create')}
       </span>
@@ -32,6 +35,7 @@ const LearningResourceHeader = props => {
         <LearningResourceLanguage />
       </span>
     </div>
+  </div>
   );
 };
 

@@ -23,27 +23,19 @@ a.c-learning-resource-form__abort-button.c-button {
 .c-audio-form,
 .c-image-form,
 .c-learning-resource-form {
-  margin-top: calc(var(--spacing) * -6);
-  width: 970px;
-  padding: 0 9rem 3rem;
-  background: white;
-  color: var(--brand-grey-dark);
-  border: 1px solid var(--brand-grey--light);
+  @media (min-width: 37.5em) {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+  }
 
   &__header {
-    margin: 0 -9rem;
-    padding: 0.8rem 9rem;
+    padding: 0.6rem 0;
     background-color: var(--yellow-1);
-    font-size: 0.899rem;
-    font-family: 'SourceSansPro-Regular', 'Source Sans Pro';
-    font-weight: 400;
-    font-style: normal;
-    text-align: center;
 
     & span + span {
       margin-left: 1rem;
     }
-
   }
 
   &__abort-button + &__save-button {
@@ -77,33 +69,31 @@ a.c-learning-resource-form__abort-button.c-button {
       border: 0;
     }
   }
+}
 
-  @media (max-width: 970px) {
-    width: 770px;
-    padding: 0 5rem 3rem;
-
-    &__heading {
-      margin: 0 -5rem;
-      padding: 0.5rem 5rem;
-    }
-  }
-
-  @media (--medium-viewport) {
-    width: 100%;
-  }
-
-  @media (max-width: 37.5em) {
-    margin-top: 0;
-    padding: 0;
-    border: none;
-  }
+:root {
+  /* c-learning-resource-form -> clrf */
+  --clrf__container--margin: 8em;
 }
 
 .c-learning-resource-form {
+  &__placeholder {
+    position: relative;
+    margin-left: calc(var(--clrf__container--margin) - 1em);
+    top: 2em;
+  }
+
   &__container {
-    margin: 0 -9rem;
-    padding: 3rem 9rem;
-    border: 1px solid white;
+    /* Hack to set focus to editor when clicking outside editor content area */
+    .c-editor {
+      margin: -1em calc(calc(var(--clrf__container--margin) - 1em) * -1);
+      padding: 1em calc(var(--clrf__container--margin) - 1em);
+    }
+
+    margin: 0 calc(var(--clrf__container--margin) * -1);
+    padding: 0.44em var(--clrf__container--margin) 0;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
 
     &:hover,
     &:focus {
@@ -126,8 +116,7 @@ a.c-learning-resource-form__abort-button.c-button {
     color: red;
     display: block;
     float: right;
-    margin-right: -10%;
-    margin-top: -20px;
+    margin-right: calc(calc(var(--clrf__container--margin) + 1em) * -1);
   }
 
   &__container:hover &__delete-block-button,
@@ -136,11 +125,10 @@ a.c-learning-resource-form__abort-button.c-button {
   }
 
   &__delete-block-button {
-    top: 0;
-    visibility: hidden;
-    position: absolute;
-    right: -4rem;
+    float: right;
     color: red;
+    margin-top: -6.5em;
+    margin-right: calc(calc(var(--clrf__container--margin) + 1em) * -1);
 
     &:hover,
     &:focus {

@@ -173,12 +173,14 @@ class LearningResourceForm extends Component {
     const commonFieldProps = { bindInput, schema, submitted };
 
     return (
-      <form onSubmit={this.handleSubmit} {...classes()}>
-        <LearningResourceHeader
-          model={model}
-          onVariantClick={this.onVariantClick}
-          language={locale}
-        />
+      <form
+        onSubmit={this.handleSubmit}
+        {...classes(undefined, undefined, 'c-article')}>
+            <LearningResourceHeader
+              model={model}
+              onVariantClick={this.onVariantClick}
+              language={locale}
+            />
         <LearningResourceMetadata
           classes={classes}
           commonFieldProps={commonFieldProps}

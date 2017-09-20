@@ -26,8 +26,10 @@
 
 .c-editor {
   position: relative;
-  padding: 0 9rem;
-  margin: 0 -9rem;
+
+  p {
+    font-family: var(--font-serif);
+  }
 
   &__right-aside,
   &__fact-aside,

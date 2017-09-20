@@ -112,6 +112,7 @@ input::placeholder {
 
   &--right {
     text-align: right;
+    margin-right: var(--spacing--small);
   }
 
   &--no-border {

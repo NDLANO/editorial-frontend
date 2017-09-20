@@ -25,7 +25,7 @@ class EditTopicArticle extends Component {
 
   componentWillMount() {
     const { articleId, fetchArticle } = this.props;
-    fetchArticle({id: articleId});
+    fetchArticle({ id: articleId });
   }
 
   updateArticle(article) {

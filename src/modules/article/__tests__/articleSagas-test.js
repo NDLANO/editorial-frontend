@@ -14,20 +14,20 @@ import { actions } from '../article';
 
 test('articleSagas watchFetchArticle fetch article if not in state', () => {
   nock('http://ndla-api')
-    .get('/article-api/v2/articles/123')
+    .get('/article-api/v2/articles/123&language=nb')
     .reply(200, { id: 123, title: 'unit test' });
 
   return expectSaga(sagas.watchFetchArticle)
     .withState({ articles: { all: {} } })
-    .put(actions.setArticle({ id: 123, title: 'unit test' }))
-    .dispatch(actions.fetchArticle(123))
+    .put(actions.setArticle({ id: 123, title: 'unit test', language: 'nb' }))
+    .dispatch(actions.fetchArticle({ id: 123, language: 'nb' }))
     .run({ silenceTimeout: true });
 });
 
 test('articleSagas watchFetchArticle do not refetch existing article ', () =>
   expectSaga(sagas.watchFetchArticle)
     .withState({ articles: { all: { 123: { id: '123' } } } })
-    .dispatch(actions.fetchArticle('123'))
+    .dispatch(actions.fetchArticle({ id: '123', language: 'nb' }))
     .run({ silenceTimeout: true }));
 
 test('articleSagas watchUpdateArticle create new article', () => {

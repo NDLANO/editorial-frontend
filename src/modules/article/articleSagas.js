@@ -15,8 +15,7 @@ import * as messageActions from '../../containers/Messages/messagesActions';
 export function* fetchArticle(id, language = 'nb') {
   try {
     const article = yield call(api.fetchArticle, id, language);
-    console.log(article, 'ARTICLE')
-    yield put(actions.setArticle({...article, language}));
+    yield put(actions.setArticle({ ...article, language }));
   } catch (error) {
     // TODO: handle error
     console.error(error); //eslint-disable-line
@@ -25,7 +24,7 @@ export function* fetchArticle(id, language = 'nb') {
 
 export function* watchFetchArticle() {
   while (true) {
-    const { payload: {id, language} }= yield take(actions.fetchArticle);
+    const { payload: { id, language } } = yield take(actions.fetchArticle);
     // console.log('called');
     const article = yield select(getArticle(id));
     if (!article || article.id !== id || article.language !== language) {

@@ -15,7 +15,9 @@ import {
 const baseUrl = apiResourceUrl('/article-api/v2/articles');
 
 export const fetchArticle = (id, language) =>
-  fetchWithAccessToken(`${baseUrl}/${id}?language=${language}`).then(resolveJsonOrRejectWithError);
+  fetchWithAccessToken(`${baseUrl}/${id}?language=${language}`).then(
+    resolveJsonOrRejectWithError,
+  );
 
 export const fetchTags = () =>
   fetchWithAccessToken(`${baseUrl}/tags/?size=7000`).then(

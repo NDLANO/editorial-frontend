@@ -102,20 +102,13 @@ class LearningResourceForm extends Component {
 
   onVariantClick(language) {
     const { model, fetchArticle } = this.props;
-    console.log(language, 'model', model)
-    fetchArticle({id: model.id, language})
+    fetchArticle({ id: model.id, language });
   }
 
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const {
-      model,
-      schema,
-      revision,
-      setSubmitted,
-      licenses,
-    } = this.props;
+    const { model, schema, revision, setSubmitted, licenses } = this.props;
     if (!schema.isValid) {
       setSubmitted(true);
       return;
@@ -172,15 +165,14 @@ class LearningResourceForm extends Component {
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
-
     return (
       <form
         onSubmit={this.handleSubmit}
         {...classes(undefined, undefined, 'c-article')}>
-            <LearningResourceHeader
-              model={model}
-              onVariantClick={this.onVariantClick}
-            />
+        <LearningResourceHeader
+          model={model}
+          onVariantClick={this.onVariantClick}
+        />
         <LearningResourceMetadata
           classes={classes}
           commonFieldProps={commonFieldProps}

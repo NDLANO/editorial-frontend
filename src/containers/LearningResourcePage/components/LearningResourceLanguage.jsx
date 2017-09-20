@@ -16,8 +16,6 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-
-
 export default class LearningResourceLanguage extends Component {
   constructor(props) {
     super(props);
@@ -30,14 +28,13 @@ export default class LearningResourceLanguage extends Component {
 
   onLanguageVariantClick(language) {
     this.onDisplayToggle();
-    console.log(language)
-    this.props.onVariantClick(language)
+    this.props.onVariantClick(language);
   }
 
   onDisplayToggle() {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       display: !prevState.display,
-    }))
+    }));
   }
 
   render() {
@@ -50,10 +47,13 @@ export default class LearningResourceLanguage extends Component {
         <ul {...classes('items', this.state.display ? 'show' : '')}>
           {supportedLanguages.map(language =>
             <li key={language.key} {...classes('item')}>
-              <Button stripped {...classes('link')} onClick={() => this.onLanguageVariantClick(language.key)}>
+              <Button
+                stripped
+                {...classes('link')}
+                onClick={() => this.onLanguageVariantClick(language.key)}>
                 {`${language.title}(${language.key})`}
               </Button>
-            </li>
+            </li>,
           )}
         </ul>
       </div>

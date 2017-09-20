@@ -25,7 +25,7 @@ class EditLearningResource extends Component {
 
   componentWillMount() {
     const { articleId, fetchArticle, locale } = this.props;
-    fetchArticle({id: articleId, language: locale});
+    fetchArticle({ id: articleId, language: locale });
   }
 
   updateArticle(article) {
@@ -42,7 +42,7 @@ class EditLearningResource extends Component {
     if (article.articleType !== 'standard') {
       return <Redirect to={toEditArticle(article.id, article.articleType)} />;
     }
-
+    console.log('articles', article);
     return (
       <LearningResourceForm
         initialModel={getInitialModel(article)}

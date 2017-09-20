@@ -32,6 +32,15 @@ const makeWrapper = WrappedComponent => {
       this.bindInputEvent = this.bindInputEvent.bind(this);
     }
 
+    componentWillReceiveProps(nextProps) {
+      if (
+        nextProps.initialModel.language &&
+        nextProps.initialModel.language !== this.state.model.language
+      ) {
+        this.setModel(nextProps.initialModel);
+      }
+    }
+
     setModel(model) {
       this.setState({ model });
       return model;

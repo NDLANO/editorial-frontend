@@ -19,14 +19,6 @@ const ImageTransformEditor = ({
   onCropComplete,
   transformData,
 }) => {
-  const cropString = `cropStartX=${transformData[
-    'upper-left-x'
-  ]}&cropStartY=${transformData['upper-left-y']}&cropEndX=${transformData[
-    'lower-right-x'
-  ]}&cropEndY=${transformData['lower-right-y']}`;
-
-  const src = `${window.config
-    .ndlaApiUrl}/image-api/raw/id/${embed.resource_id}?${cropString}`;
   switch (editType) {
     case 'focalPoint':
       return (
@@ -34,7 +26,6 @@ const ImageTransformEditor = ({
           embed={embed}
           transformData={transformData}
           onFocalPointChange={onFocalPointChange}
-          src={src}
         />
       );
     case 'crop':

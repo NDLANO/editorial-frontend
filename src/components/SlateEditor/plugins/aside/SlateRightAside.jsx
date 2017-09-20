@@ -19,10 +19,10 @@ const classes = new BEMHelper({
 });
 
 const SlateRightAside = props => {
-  const { children, onRemoveClick, t } = props;
+  const { children, onRemoveClick, t, attributes } = props;
 
   return (
-    <aside {...classes('right-aside', '', 'c-aside expanded')}>
+    <aside {...classes('right-aside', '', 'c-aside expanded')} {...attributes}>
       <div {...classes('aside-type')} contentEditable={false}>
         {t('learningResourceForm.fields.rightAside')}
       </div>

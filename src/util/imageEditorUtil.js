@@ -48,25 +48,50 @@ export function getImageDimensions(el) {
   };
 }
 
-export function getSrcSets(imageId, transformData) {
-  const src = `${window.config.ndlaApiUrl}/image-api/raw/id/${imageId}`;
-  const cropString = `cropStartX=${transformData[
+export function getCrop(transformData) {
+  if (
+    transformData['upper-left-x'] === undefined ||
+    transformData['upper-left-y'] === undefined ||
+    transformData['lower-right-x'] === undefined ||
+    transformData['lower-right-y'] === undefined
+  ) {
+    return undefined;
+  }
+  return `cropStartX=${transformData[
     'upper-left-x'
   ]}&cropStartY=${transformData['upper-left-y']}&cropEndX=${transformData[
     'lower-right-x'
   ]}&cropEndY=${transformData['lower-right-y']}`;
-  const focalString = `focalX=${transformData[
-    'focal-x'
-  ]}&focalY=${transformData['focal-y']}`;
+}
+
+export function getFocalPoint(transformData) {
+  if (
+    transformData['focal-x'] === undefined ||
+    transformData['focal-y'] === undefined
+  ) {
+    return undefined;
+  }
+  return `focalX=${transformData['focal-x']}&focalY=${transformData[
+    'focal-y'
+  ]}`;
+}
+
+export function getSrcSets(imageId, transformData) {
+  const src = `${window.config.ndlaApiUrl}/image-api/raw/id/${imageId}`;
+  const crop = getCrop(transformData);
+  const focalPoint = getFocalPoint(transformData);
+
+  const cropString = crop ? `&${crop}` : '';
+  const focalString = focalPoint ? `&${focalPoint}` : '';
   return [
-    `${src}?width=1440&${cropString}&${focalString} 1440w`,
-    `${src}?width=1120&${cropString}&${focalString} 1120w`,
-    `${src}?width=1000&${cropString}&${focalString} 1000w`,
-    `${src}?width=960&${cropString}&${focalString} 960w`,
-    `${src}?width=800&${cropString}&${focalString} 800w`,
-    `${src}?width=640&${cropString}&${focalString} 640w`,
-    `${src}?width=480&${cropString}&${focalString} 480w`,
-    `${src}?width=320&${cropString}&${focalString} 320w`,
-    `${src}?width=320&${cropString}&${focalString} 320w`,
+    `${src}?width=1440${cropString}${focalString} 1440w`,
+    `${src}?width=1120${cropString}${focalString} 1120w`,
+    `${src}?width=1000${cropString}${focalString} 1000w`,
+    `${src}?width=960${cropString}${focalString} 960w`,
+    `${src}?width=800${cropString}${focalString} 800w`,
+    `${src}?width=640${cropString}${focalString} 640w`,
+    `${src}?width=480${cropString}${focalString} 480w`,
+    `${src}?width=320${cropString}${focalString} 320w`,
+    `${src}?width=320${cropString}${focalString} 320w`,
   ].join(', ');
 }

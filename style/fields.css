@@ -21,17 +21,6 @@
       display: block;
       font-size: 0.8rem;
     }
-
-    &--video {
-      position: relative;
-      width: 100%;
-      min-height: 300px;
-
-      & > .video-js {
-        width: 100%;
-        min-height: 300px;
-      }
-    }
   }
 
   &__learning-resource-meta-image {

@@ -33,7 +33,7 @@ class SlateFactAside extends React.Component {
   }
 
   render() {
-    const { children, onRemoveClick } = this.props;
+    const { children, onRemoveClick, attributes } = this.props;
 
     return (
       <aside
@@ -41,7 +41,8 @@ class SlateFactAside extends React.Component {
           'fact-aside',
           '',
           this.state.expanded ? 'c-aside expanded' : 'c-aside',
-        )}>
+        )}
+        {...attributes}>
         <div className="c-aside__content">
           {children}
         </div>

@@ -7,7 +7,6 @@
  */
 
 @import '../node_modules/ndla-ui/lib/audioSearch.css';
-@import '../node_modules/ndla-ui/lib/editor.css';
 @import '../node_modules/ndla-ui/lib/imageSearch.css';
 @import '../node_modules/ndla-ui/lib/main.css';
 @import '../node_modules/ndla-ui/lib/videoSearch.css';
@@ -29,10 +28,6 @@
 @import './vars.css';
 @import './footnotes.css';
 
-.c-hero {
-  margin-bottom: 0;
-}
-
 .c-audio-search {
   width: 70%;
   margin: 0 auto;
@@ -42,11 +37,17 @@
   }
 }
 
-@media (--medium-viewport) {
-  .o-wrapper {
-    margin-left: 0;
-    margin-right: 0;
-  }
+/* Override ndla-ui styles */
+.c-article {
+  font-family: var(--font);
+}
+
+.article_introduction {
+  margin-top: var(--spacing--small);
+}
+
+.c-hero {
+  margin-bottom: 0;
 }
 
 a.c-button {

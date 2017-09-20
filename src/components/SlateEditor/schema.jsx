@@ -47,35 +47,7 @@ const defaultSchema = {
         {props.children}
       </section>,
     paragraph: props =>
-      <p className="c-block__paragraph" {...props.attributes}>
-        {props.children}
-      </p>,
-    'paragraph-left': props =>
-      <p
-        className="c-block__paragraph"
-        style={{ textAlign: 'left' }}
-        {...props.attributes}>
-        {props.children}
-      </p>,
-    'paragraph-center': props =>
-      <p
-        className="c-block__paragraph"
-        style={{ textAlign: 'center' }}
-        {...props.attributes}>
-        {props.children}
-      </p>,
-    'paragraph-right': props =>
-      <p
-        className="c-block__paragraph"
-        style={{ textAlign: 'right' }}
-        {...props.attributes}>
-        {props.children}
-      </p>,
-    'paragraph-justify': props =>
-      <p
-        className="c-block__paragraph"
-        style={{ textAlign: 'justify' }}
-        {...props.attributes}>
+      <p {...props.attributes}>
         {props.children}
       </p>,
     'bulleted-list': props =>
@@ -146,10 +118,6 @@ const defaultSchema = {
       <u {...props.attributes}>
         {props.children}
       </u>,
-    strikethrough: props =>
-      <s {...props.attributes}>
-        {props.children}
-      </s>,
   },
   rules: [
     // Rule to insert a paragraph block if the document is empty.

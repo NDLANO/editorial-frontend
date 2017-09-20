@@ -38,12 +38,18 @@ Footnote.propTypes = {
   publisherTitle: PropTypes.string,
 };
 
-const LearningResourceFootnotes = ({ footnotes, t }) =>
-  <ol {...classes()}>
-    {footnotes.map((footnote, i) =>
-      <Footnote key={uuid()} id={`${i + 1}`} t={t} footnote={footnote} />,
-    )}
-  </ol>;
+const LearningResourceFootnotes = ({ footnotes, t }) => {
+  if (footnotes.length > 0) {
+    return (
+      <ol {...classes()}>
+        {footnotes.map((footnote, i) =>
+          <Footnote key={uuid()} id={`${i + 1}`} t={t} footnote={footnote} />,
+        )}
+      </ol>
+    );
+  }
+  return null;
+};
 
 LearningResourceFootnotes.propTypes = {
   footnotes: PropTypes.arrayOf(FootnoteShape),

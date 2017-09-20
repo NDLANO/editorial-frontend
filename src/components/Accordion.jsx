@@ -35,17 +35,22 @@ const Accordion = ({
   };
 
   return (
-    <div {...classes('', modifiers, className)} {...rest}>
+    <div {...classes('', modifiers)} {...rest}>
       <Button
         {...classes('button', fill ? 'fill' : '')}
         stripped
         onClick={handleToggle}>
-        <span {...classes('header')}>
+        <span {...classes('title')}>
           {header}
         </span>
         <Arrow direction={`${hidden ? 'down' : 'up'}`} {...classes('arrow')} />
       </Button>
-      <div {...classes('', contentModifiers, className)}>
+      <div
+        {...classes(
+          'content',
+          contentModifiers,
+          'u-4/6@desktop u-push-1/6@desktop',
+        )}>
         {rest.children}
       </div>
     </div>

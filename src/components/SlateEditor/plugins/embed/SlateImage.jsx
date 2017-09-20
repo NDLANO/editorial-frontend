@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { Button } from 'ndla-ui';
+import { Button, Figure } from 'ndla-ui';
 import SlateInputField from './SlateInputField';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { EmbedShape } from '../../../../shapes';
@@ -50,7 +50,7 @@ class SlateImage extends React.Component {
       'lower-right-y': embed['lower-right-y'],
     };
     return (
-      <div {...attributes}>
+      <Figure {...attributes}>
         {this.state.editModus
           ? <ImageEditor
               embedTag={embed}
@@ -86,7 +86,7 @@ class SlateImage extends React.Component {
           placeholder={t('form.image.alt.placeholder')}
           submitted={submitted}
         />
-      </div>
+      </Figure>
     );
   }
 }

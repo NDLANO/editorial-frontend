@@ -80,7 +80,7 @@ a.c-learning-resource-form__abort-button.c-button {
   }
 
   &__container {
-    /* Hack to set focus to editor when clicking outside editor contetn area */
+    /* Hack to set focus to editor when clicking outside editor content area */
     .c-editor {
       margin: -1em calc(calc(var(--clrf__container--margin) - 1em) * -1);
       padding: 1em calc(var(--clrf__container--margin) - 1em);

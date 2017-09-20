@@ -128,17 +128,11 @@ class SlateBlockPicker extends Component {
     this.setState(prevState => ({ isOpen: !prevState.isOpen }));
   }
 
-  update() {
+  update(nodeEl) {
     if (!this.menuEl) return;
-    const { editorState } = this.props;
     const menuEl = this.menuEl;
     const bodyRect = document.body.getBoundingClientRect();
-    const node = editorState.state.document.getClosestBlock(
-      editorState.state.selection.startKey,
-    );
-
     menuEl.style.position = 'absolute';
-    const nodeEl = findDOMNode(node); // eslint-disable-line
     const rect = nodeEl.getBoundingClientRect();
     menuEl.style.top = `${rect.top - bodyRect.top - 5}px`;
     menuEl.style.left = `${rect.left - 60}px`;
@@ -169,13 +163,23 @@ class SlateBlockPicker extends Component {
     const node = editorState.state.document.getClosestBlock(
       editorState.state.selection.startKey,
     );
+
+    let nodeEl;
+    // Tmp fix for issue where dom is updated before findDOMNode call
+    try {
+      nodeEl = findDOMNode(node); // eslint-disable-line
+    } catch (e) {
+      return false;
+    }
+
     const show =
       node.text.length === 0 &&
       !this.focusInsideAside() &&
       allowedPickAreas.includes(node.type) &&
       editorState.state.isFocused;
+
     if (show) {
-      this.update();
+      this.update(nodeEl);
     }
     return show;
   }

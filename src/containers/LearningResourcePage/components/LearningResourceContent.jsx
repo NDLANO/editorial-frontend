@@ -19,6 +19,7 @@ import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBox from '../../../components/SlateEditor/plugins/bodybox';
 import createAside from '../../../components/SlateEditor/plugins/aside';
+import { classes } from './LearningResourceForm';
 import { CommonFieldPropsShape } from '../../../shapes';
 
 const plugins = [
@@ -64,10 +65,8 @@ class LearningResourceContent extends Component {
     };
     const contentPlaceholder = (
       <span
+        {...classes('placeholder')}
         style={{
-          position: 'absolute',
-          left: '0.75em',
-          top: '8em',
           opacity: '0.333',
         }}>
         {t('learningResourceForm.fields.content.placeholder')}

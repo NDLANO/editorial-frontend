@@ -85,7 +85,7 @@ export const getInitialModel = (article = {}) => {
   };
 };
 
-const classes = new BEMHelper({
+export const classes = new BEMHelper({
   name: 'learning-resource-form',
   prefix: 'c-',
 });

@@ -84,7 +84,7 @@ class RichBlockTextEditor extends Component {
         {value.map((val, index) =>
           <div
             key={`editor_${index}`} //eslint-disable-line
-            {...classes('container', 'no-padding')}
+            {...classes('container')}
             tabIndex={index}>
             {value.length > 1
               ? <Button

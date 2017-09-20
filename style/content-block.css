@@ -11,11 +11,12 @@
     color: red;
   }
 }
-.c-aside.expanded .c-aside__content>.c-bodybox {
+
+.c-aside.expanded .c-aside__content > .c-bodybox {
   margin-top: 1rem;
 }
 
-.c-aside.expanded .c-aside__content>div>.c-bodybox__delete-button {
+.c-aside.expanded .c-aside__content > div > .c-bodybox__delete-button {
   position: absolute;
 }
 

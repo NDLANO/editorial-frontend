@@ -19,7 +19,7 @@ const LearningResourceHeader = props => {
     return (
       <div {...classes('header')}>
         <div className="u-4/6@desktop u-push-1/6@desktop">
-        {t('learningResourceForm.title.create')}
+        {t('learningResourceForm.title.create', {title: 'Bokmål', key: 'nb'})}
       </div>
       </div>
     );
@@ -29,7 +29,7 @@ const LearningResourceHeader = props => {
     <div {...classes('header')}>
       <div className="u-4/6@desktop u-push-1/6@desktop">
       <span>
-        {t('learningResourceForm.title.create')}
+        {t('learningResourceForm.title.create', {title: 'Bokmål', key: 'nb'})}
       </span>
       <span>
         <LearningResourceLanguage />

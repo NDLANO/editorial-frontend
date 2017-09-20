@@ -60,6 +60,5 @@ export default class LearningResourceLanguage extends Component {
   }
 }
 LearningResourceLanguage.propTypes = {
-  onSelect: PropTypes.func.isRequired,
-  learningPath: PropTypes.object.isRequired,
+
 };

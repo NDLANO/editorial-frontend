@@ -95,6 +95,11 @@ class LearningResourceForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onVariantClick = this.onVariantClick.bind(this);
+  }
+
+  onVariantClick(language) {
+    const { model } = this.props;
   }
 
   handleSubmit(evt) {
@@ -108,6 +113,7 @@ class LearningResourceForm extends Component {
       setSubmitted,
       licenses,
     } = this.props;
+    console.log(this.props);
     if (!schema.isValid) {
       setSubmitted(true);
       return;
@@ -161,13 +167,18 @@ class LearningResourceForm extends Component {
       tags,
       licenses,
       isSaving,
+      locale,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
 
     return (
       <form onSubmit={this.handleSubmit} {...classes()}>
-        <LearningResourceHeader model={model} />
+        <LearningResourceHeader
+          model={model}
+          onVariantClick={this.onVariantClick}
+          language={locale}
+        />
         <LearningResourceMetadata
           classes={classes}
           commonFieldProps={commonFieldProps}

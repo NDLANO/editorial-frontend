@@ -9,8 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { Button } from 'ndla-ui';
 import { classes } from './LearningResourceForm';
+import LearningResourceLanguage from './LearningResourceLanguage';
 
 const LearningResourceHeader = props => {
   const { t, model } = props;
@@ -23,14 +23,13 @@ const LearningResourceHeader = props => {
     );
   }
 
-
   return (
     <div {...classes('header')}>
-      <span>{t('learningResourceForm.title.create')}</span>
       <span>
-        <Button stripped>
-          Lag variant +
-        </Button>
+        {t('learningResourceForm.title.create')}
+      </span>
+      <span>
+        <LearningResourceLanguage />
       </span>
     </div>
   );
@@ -40,6 +39,7 @@ LearningResourceHeader.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
   }),
+  onVariantClick: PropTypes.func.isRequired,
 };
 
 export default injectT(LearningResourceHeader);

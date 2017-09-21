@@ -14,7 +14,8 @@ import { actions } from '../article';
 
 test('articleSagas watchFetchArticle fetch article if not in state', () => {
   nock('http://ndla-api')
-    .get('/article-api/v2/articles/123&language=nb')
+    .get('/article-api/v2/articles/123')
+    .query({ language: 'nb' })
     .reply(200, { id: 123, title: 'unit test' });
 
   return expectSaga(sagas.watchFetchArticle)
@@ -26,7 +27,7 @@ test('articleSagas watchFetchArticle fetch article if not in state', () => {
 
 test('articleSagas watchFetchArticle do not refetch existing article ', () =>
   expectSaga(sagas.watchFetchArticle)
-    .withState({ articles: { all: { 123: { id: '123' } } } })
+    .withState({ articles: { all: { 123: { id: '123', language: 'nb' } } } })
     .dispatch(actions.fetchArticle({ id: '123', language: 'nb' }))
     .run({ silenceTimeout: true }));
 

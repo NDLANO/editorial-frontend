@@ -42,7 +42,6 @@ class EditLearningResource extends Component {
     if (article.articleType !== 'standard') {
       return <Redirect to={toEditArticle(article.id, article.articleType)} />;
     }
-    console.log('articles', article);
     return (
       <LearningResourceForm
         initialModel={getInitialModel(article)}

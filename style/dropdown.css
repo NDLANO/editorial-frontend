@@ -9,12 +9,13 @@
 .c-dropdown-menu {
   display: inline-block;
   position: relative;
+
   &__items {
     position: absolute;
     width: 150px;
     top: 30px;
     left: -3px;
-    box-shadow: 0 4px 7px rgba(0,0,0,.1), 0 0 2px rgba(0,0,0,.2);
+    box-shadow: 0 4px 7px rgba(0, 0, 0, 0.1), 0 0 2px rgba(0, 0, 0, 0.2);
     list-style: none;
     background-color: white;
     padding: 0;
@@ -27,7 +28,7 @@
     display: none;
   }
 
-  &__items:after {
+  &__items::after {
     position: absolute;
     left: 55%;
     top: -10px;
@@ -40,13 +41,14 @@
   }
 
   &__item {
-    padding: .6em 1em 0.8em 1em;
+    padding: 0.6em 1em 0.8em;
     margin: 0;
   }
 
   &__item:hover {
     background-color: var(--gray-11);
   }
+
   &__link {
     display: block;
     color: var(--gray-6);

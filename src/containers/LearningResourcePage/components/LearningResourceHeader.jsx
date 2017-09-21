@@ -20,7 +20,6 @@ const languages = [
 
 const LearningResourceHeader = props => {
   const { t, model, onVariantClick } = props;
-  console.log(model);
   const language = languages.find(lang => lang.key === model.language);
   const supportedLanguages = languages; // languages.filter((lang) => lang.key === model.language || model.supportedLanguages.includes(lang.key))
   if (!model.id) {

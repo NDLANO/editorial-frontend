@@ -268,6 +268,14 @@ const phrases = {
       missingEmbedData:
         'En eller flere inkluderte lyd, bilde, eller video elementer mangler beskrivende tekst eller alternativ tekst.',
     },
+    variant: {
+      create: 'Lag variant +',
+      languages: {
+        nb: 'Bokmål',
+        nn: 'Nynorsk',
+        en: 'Engelsk',
+      },
+    },
     fields: {
       title: {
         label: 'Tittel',

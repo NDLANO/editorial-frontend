@@ -10,13 +10,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
+import { injectT } from 'ndla-i18n';
 
 const classes = new BEMHelper({
   name: 'dropdown-menu',
   prefix: 'c-',
 });
 
-export default class LearningResourceLanguage extends Component {
+class LearningResourceLanguage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,9 +27,9 @@ export default class LearningResourceLanguage extends Component {
     this.onDisplayToggle = this.onDisplayToggle.bind(this);
   }
 
-  onLanguageVariantClick(language) {
+  onLanguageVariantClick(languageKey) {
     this.onDisplayToggle();
-    this.props.onVariantClick(language);
+    this.props.onVariantClick(languageKey);
   }
 
   onDisplayToggle() {
@@ -38,14 +39,14 @@ export default class LearningResourceLanguage extends Component {
   }
 
   render() {
-    const { supportedLanguages } = this.props;
+    const { languages, t } = this.props;
     return (
       <div {...classes()}>
         <Button stripped onClick={this.onDisplayToggle}>
-          Lag variant +
+          {t('learningResourceForm.variant.create')}
         </Button>
         <ul {...classes('items', this.state.display ? 'show' : '')}>
-          {supportedLanguages.map(language =>
+          {languages.map(language =>
             <li key={language.key} {...classes('item')}>
               <Button
                 stripped
@@ -61,6 +62,13 @@ export default class LearningResourceLanguage extends Component {
   }
 }
 LearningResourceLanguage.propTypes = {
-  supportedLanguages: PropTypes.array.isRequired,
+  languages: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   onVariantClick: PropTypes.func.isRequired,
 };
+
+export default injectT(LearningResourceLanguage);

@@ -78,33 +78,50 @@ export const getSaving = createSelector(
   articles => articles.isSaving,
 );
 
-export const getArticle = articleId =>
-  createSelector(
-    [getArticleById(articleId), getLocale],
-    (article, locale) =>
-      article
-        ? {
-            ...article,
-            title: convertFieldWithFallback(article, 'title', ''),
-            introduction: convertFieldWithFallback(article, 'introduction', ''),
-            visualElement: convertFieldWithFallback(
-              article,
-              'visualElement',
-              {},
-            ),
-            content: convertFieldWithFallback(article, 'content', ''),
-            footnotes:
-              article.content && article.content.footNotes
-                ? article.content.footNotes
-                : undefined,
-            metaDescription: convertFieldWithFallback(
-              article,
-              'metaDescription',
-              '',
-            ),
-            tags: convertFieldWithFallback(article, 'tags', []),
-            created: formatDate(article.created, locale),
-            updated: formatDate(article.updated, locale),
-          }
-        : undefined,
-  );
+export const getArticle = (articleId, useLanguage = false) =>
+  createSelector([getArticleById(articleId), getLocale], (article, locale) => {
+    const articleLanguage =
+      article && useLanguage ? article.language : undefined;
+    return article
+      ? {
+          ...article,
+          title: convertFieldWithFallback(
+            article,
+            'title',
+            '',
+            articleLanguage,
+          ),
+          introduction: convertFieldWithFallback(
+            article,
+            'introduction',
+            '',
+            articleLanguage,
+          ),
+          visualElement: convertFieldWithFallback(
+            article,
+            'visualElement',
+            {},
+            articleLanguage,
+          ),
+          content: convertFieldWithFallback(
+            article,
+            'content',
+            '',
+            articleLanguage,
+          ),
+          footnotes:
+            article.content && article.content.footNotes
+              ? article.content.footNotes
+              : undefined,
+          metaDescription: convertFieldWithFallback(
+            article,
+            'metaDescription',
+            '',
+            articleLanguage,
+          ),
+          tags: convertFieldWithFallback(article, 'tags', [], articleLanguage),
+          created: formatDate(article.created, locale),
+          updated: formatDate(article.updated, locale),
+        }
+      : undefined;
+  });

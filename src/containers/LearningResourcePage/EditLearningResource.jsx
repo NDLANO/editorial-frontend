@@ -34,7 +34,14 @@ class EditLearningResource extends Component {
   }
 
   render() {
-    const { article, tags, isSaving, licenses, fetchArticle } = this.props;
+    const {
+      article,
+      tags,
+      isSaving,
+      licenses,
+      fetchArticle,
+      setArticle,
+    } = this.props;
     if (!article) {
       return null;
     }
@@ -51,6 +58,7 @@ class EditLearningResource extends Component {
         isSaving={isSaving}
         onUpdate={this.updateArticle}
         fetchArticle={fetchArticle}
+        setArticle={setArticle}
       />
     );
   }
@@ -70,16 +78,18 @@ EditLearningResource.propTypes = {
   article: ArticleShape,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  setArticle: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
   fetchArticle: actions.fetchArticle,
   updateArticle: actions.updateArticle,
+  setArticle: actions.setArticle,
 };
 
 const makeMapStateToProps = (_, props) => {
   const { articleId } = props;
-  const getArticleSelector = getArticle(articleId);
+  const getArticleSelector = getArticle(articleId, true);
   return state => ({
     article: getArticleSelector(state),
   });

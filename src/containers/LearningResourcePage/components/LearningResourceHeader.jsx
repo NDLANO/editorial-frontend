@@ -12,16 +12,17 @@ import { injectT } from 'ndla-i18n';
 import { classes } from './LearningResourceForm';
 import LearningResourceLanguage from './LearningResourceLanguage';
 
-const languages = [
-  { key: 'nn', title: 'Nynorsk' },
-  { key: 'en', title: 'Engelsk' },
-  { key: 'nb', title: 'Bokmål' },
-];
-
 const LearningResourceHeader = props => {
   const { t, model, onVariantClick } = props;
+  const languages = [
+    { key: 'nn', title: t('learningResourceForm.variant.languages.nn') },
+    { key: 'en', title: t('learningResourceForm.variant.languages.en') },
+    { key: 'nb', title: t('learningResourceForm.variant.languages.nb') },
+  ];
   const language = languages.find(lang => lang.key === model.language);
-  const supportedLanguages = languages; // languages.filter((lang) => lang.key === model.language || model.supportedLanguages.includes(lang.key))
+  const supportedLanguages = languages.filter(
+    lang => lang.key !== model.language,
+  );
   if (!model.id) {
     return (
       <div {...classes('header')}>
@@ -36,12 +37,12 @@ const LearningResourceHeader = props => {
     <div {...classes('header')}>
       <div className="u-4/6@desktop u-push-1/6@desktop">
         <span>
-          {t('learningResourceForm.title.create', language)}
+          {t('learningResourceForm.title.update', language)}
         </span>
         <span>
           <LearningResourceLanguage
             language={language}
-            supportedLanguages={supportedLanguages}
+            languages={supportedLanguages}
             onVariantClick={onVariantClick}
           />
         </span>

@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Editor } from 'slate';
+import { Editor } from 'slate-react';
 
 const PlainTextEditor = ({ onChange, value, ...rest }) =>
   <Editor state={value} onChange={onChange} {...rest} />;

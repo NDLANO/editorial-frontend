@@ -81,7 +81,7 @@ class SlateBlockPicker extends Component {
     const { blocks, editorState } = this.props;
     const newblocks = [].concat(blocks);
     const currentState = blocks[editorState.index];
-    const nextState = currentState.state.transform().insertBlock(block).apply();
+    const nextState = currentState.state.change().insertBlock(block);
 
     newblocks[editorState.index] = {
       ...newblocks[editorState.index],

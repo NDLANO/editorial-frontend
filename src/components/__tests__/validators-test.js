@@ -6,7 +6,7 @@
  *
  */
 
-import { Plain } from 'slate';
+import Plain from 'slate-plain-serializer';
 import {
   isEmpty,
   minLength,

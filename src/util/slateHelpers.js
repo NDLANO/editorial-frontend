@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import { Document } from 'slate';
 import isObject from 'lodash/fp/isObject';
 import { reduceElementDataAttributes } from './embedTagHelpers';
 
@@ -46,7 +45,7 @@ export const findNodesByType = (node, type, nodes = []) => {
   return nodes;
 };
 
-export const toJSON = state => Document.toJSON(state);
+export const toJSON = state => state.toJSON();
 
 export const logState = state => {
   console.log(JSON.stringify(toJSON(state), null, 2)); // eslint-disable-line no-console

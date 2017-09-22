@@ -16,10 +16,7 @@ class SlateEmbedPicker extends React.Component {
     const blockToInsert = defaultEmbedBlock(embed);
     const newblocks = [].concat(blocks);
     const currentState = blocks[state.index];
-    const nextState = currentState.state
-      .transform()
-      .insertBlock(blockToInsert)
-      .apply();
+    const nextState = currentState.state.change().insertBlock(blockToInsert);
     newblocks[state.index] = {
       ...newblocks[state.index],
       state: nextState,

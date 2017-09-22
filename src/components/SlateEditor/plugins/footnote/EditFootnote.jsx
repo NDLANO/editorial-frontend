@@ -40,10 +40,7 @@ class EditFootnote extends Component {
   handleRemove() {
     const { state, handleStateChange, closeDialog } = this.props;
     if (this.state.nodeKey) {
-      const nextState = state
-        .transform()
-        .removeNodeByKey(this.state.nodeKey)
-        .apply();
+      const nextState = state.change().removeNodeByKey(this.state.nodeKey);
       handleStateChange(nextState);
       closeDialog();
     }
@@ -51,17 +48,17 @@ class EditFootnote extends Component {
 
   handleSave(data) {
     const { state, handleStateChange, closeDialog } = this.props;
-    const transform = state.transform();
+    const change = state.change();
     if (this.state.nodeKey) {
-      transform.setNodeByKey(this.state.nodeKey, { data });
+      handleStateChange(change.setNodeByKey(this.state.nodeKey, { data }));
     } else {
-      transform.collapseToEnd().insertText('#').extend(-1).wrapInline({
-        type: FOOTNOTE,
-        data,
-      });
+      handleStateChange(
+        change.collapseToEnd().insertText('#').extend(-1).wrapInline({
+          type: FOOTNOTE,
+          data,
+        }),
+      );
     }
-    const nextState = transform.apply();
-    handleStateChange(nextState);
     closeDialog();
   }
 

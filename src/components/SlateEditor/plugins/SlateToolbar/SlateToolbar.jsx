@@ -67,7 +67,7 @@ class SlateToolbar extends Component {
   onClickBlock(e, type) {
     e.preventDefault();
     const { state } = this.props;
-    const transform = state.transform();
+    const change = state.change();
     const { document } = state;
     if (type !== 'bulleted-list' && type !== 'numbered-list') {
       // Handle everything but list buttons.
@@ -75,12 +75,12 @@ class SlateToolbar extends Component {
       const isList = hasNodeOfType(state, 'list-item');
 
       if (isList) {
-        transform
+        change
           .setBlock(isActive ? DEFAULT_NODE : type)
           .unwrapBlock('bulleted-list')
           .unwrapBlock('numbered-list');
       } else {
-        transform.setBlock(isActive ? DEFAULT_NODE : type);
+        change.setBlock(isActive ? DEFAULT_NODE : type);
       }
     } else {
       // Handle the extra wrapping required for list buttons.
@@ -91,29 +91,27 @@ class SlateToolbar extends Component {
       );
 
       if (isList && isType) {
-        transform
+        change
           .setBlock(DEFAULT_NODE)
           .unwrapBlock('bulleted-list')
           .unwrapBlock('numbered-list');
       } else if (isList) {
-        transform
+        change
           .unwrapBlock(
             type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list',
           )
           .wrapBlock(type);
       } else {
-        transform.setBlock('list-item').wrapBlock(type);
+        change.setBlock('list-item').wrapBlock(type);
       }
     }
-
-    const nextState = transform.apply();
-    this.handleStateChange(nextState);
+    this.handleStateChange(change);
   }
 
   onClickMark(e, type) {
     e.preventDefault();
     const { state } = this.props;
-    const nextState = state.transform().toggleMark(type).apply();
+    const nextState = state.change().toggleMark(type);
     this.handleStateChange(nextState);
   }
 
@@ -157,9 +155,9 @@ class SlateToolbar extends Component {
     }));
   }
 
-  handleStateChange(state) {
+  handleStateChange(change) {
     const { name, onChange } = this.props;
-    onChange({ target: { name, value: state } });
+    onChange({ target: { name, value: change.state } });
     this.updateMenu();
   }
 

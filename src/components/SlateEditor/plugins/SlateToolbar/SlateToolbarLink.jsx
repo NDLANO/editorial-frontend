@@ -47,7 +47,7 @@ class SlateToolbarLink extends React.Component {
 
   onContentLinkSubmit() {
     const { state, handleStateChange } = this.props;
-    const transform = state.transform();
+    const change = state.change();
     const href = this.state.url;
     const text = this.state.text;
     const isNDLAUrl = /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
@@ -58,7 +58,7 @@ class SlateToolbarLink extends React.Component {
       const splittedHref = href.split('/');
       const id = splittedHref[splittedHref.length - 1];
       if (this.state.nodeType === 'embed-inline') {
-        transform
+        change
           .insertText(text)
           .extend(0 - text.length)
           .setInline({
@@ -71,7 +71,7 @@ class SlateToolbarLink extends React.Component {
           })
           .collapseToEnd();
       } else {
-        transform
+        change
           .insertText(text)
           .extend(0 - text.length)
           .wrapInline({
@@ -84,8 +84,7 @@ class SlateToolbarLink extends React.Component {
           })
           .collapseToEnd();
       }
-      const nextState = transform.apply();
-      handleStateChange(nextState);
+      handleStateChange(change);
       this.onCloseDialog();
     }
   }
@@ -127,12 +126,11 @@ class SlateToolbarLink extends React.Component {
 
   removeUrl() {
     const { state, handleStateChange } = this.props;
-    const transform = state.transform();
+    const change = state.change();
     if (hasNodeOfType(state, EMBED_INLINE_TYPE, 'inline')) {
-      const nextState = transform
+      const nextState = change
         .removeNodeByKey(state.selection.startKey)
-        .insertText(this.state.text)
-        .apply();
+        .insertText(this.state.text);
       handleStateChange(nextState);
       this.onCloseDialog();
     }

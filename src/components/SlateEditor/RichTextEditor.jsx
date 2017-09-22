@@ -10,7 +10,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Editor } from 'slate';
+import { Editor } from 'slate-react';
 import BEMHelper from 'react-bem-helper';
 import createSlateStore, { setSubmitted } from './createSlateStore';
 import SlateToolbar from './plugins/SlateToolbar/SlateToolbar';
@@ -75,7 +75,7 @@ const RichTextEditor = class extends React.Component {
   toggleMark(e, state, type) {
     const { name, onChange } = this.props;
     e.preventDefault();
-    const nextState = state.transform().toggleMark(type).apply();
+    const nextState = state.change().toggleMark(type);
     onChange({ target: { name, value: nextState } });
   }
 
@@ -99,7 +99,8 @@ const RichTextEditor = class extends React.Component {
             plugins={plugins}
             schema={schema}
             onKeyDown={this.onKeyDown}
-            onChange={state => onChange({ target: { name, value: state } })}
+            onChange={change =>
+              onChange({ target: { name, value: change.state } })}
             slateStore={this.state.slateStore}
             {...rest}
           />

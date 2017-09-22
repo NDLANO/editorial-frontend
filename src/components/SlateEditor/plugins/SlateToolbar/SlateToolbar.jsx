@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Portal from 'react-portal';
 import BEMHelper from 'react-bem-helper';
+import Types from 'slate-prop-types';
 import ToolbarButton from './ToolbarButton';
 import SlateToolbarLink from './SlateToolbarLink';
 import { setFootnote } from '../../createSlateStore';
@@ -219,7 +220,7 @@ class SlateToolbar extends Component {
 SlateToolbar.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  state: PropTypes.shape({}).isRequired,
+  state: Types.state.isRequired,
   slateStore: PropTypes.shape({
     dispatch: PropTypes.func.isRequired,
   }),

@@ -8,9 +8,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import Types from 'slate-prop-types';
 import SlateRightAside from './SlateRightAside';
 import SlateFactAside from './SlateFactAside';
-import { NodeShape, EditorShape } from '../../../../shapes';
+import { EditorShape } from '../../../../shapes';
 
 const SlateAside = props => {
   const { node, editor } = props;
@@ -37,7 +38,7 @@ SlateAside.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  node: NodeShape,
+  node: Types.node.isRequired,
   editor: EditorShape,
 };
 

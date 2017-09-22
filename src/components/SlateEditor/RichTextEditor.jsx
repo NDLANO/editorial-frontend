@@ -43,8 +43,9 @@ const RichTextEditor = class extends React.Component {
     }
   }
 
-  onKeyDown(e, data, state) {
+  onKeyDown(e, data, change) {
     let mark;
+    const state = change.state;
     switch (data.key) {
       case 'b':
         mark = 'bold';

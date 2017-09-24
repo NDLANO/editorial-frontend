@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import Types from 'slate-prop-types';
 
 export const AudioResultShape = PropTypes.shape({
   id: PropTypes.number.isRequired,

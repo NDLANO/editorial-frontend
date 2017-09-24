@@ -9,8 +9,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import Types from 'slate-prop-types';
 import { setFootnote } from '../../createSlateStore';
-import { EditorShape, NodeShape } from '../../../../shapes';
+import { EditorShape } from '../../../../shapes';
 
 // Todo: a -> button
 /* eslint jsx-a11y/no-static-element-interactions: 1 */
@@ -46,7 +47,6 @@ class Footnote extends Component {
 
   render() {
     const { attributes, children } = this.props;
-
     return (
       <a {...attributes} onClick={this.handleClick}>
         <sup>
@@ -62,8 +62,8 @@ Footnote.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   editor: EditorShape,
-  state: PropTypes.shape({}),
-  node: NodeShape,
+  state: Types.state.isRequired,
+  node: Types.node.isRequired,
 };
 
 export default injectT(Footnote);

@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Cross } from 'ndla-ui/icons';
+import Types from 'slate-prop-types';
 import { Field } from '../../../Fields';
 import { toolbarClasses } from './SlateToolbar';
 import { hasNodeOfType } from '../utils';
@@ -234,11 +235,7 @@ SlateToolbarLink.propTypes = {
   showDialog: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
   handleStateChange: PropTypes.func.isRequired,
-  state: PropTypes.shape({
-    document: PropTypes.shape({
-      getClosestInline: PropTypes.func.isRequired,
-    }),
-  }),
+  state: Types.state.isRequired,
 };
 
 export default injectT(SlateToolbarLink);

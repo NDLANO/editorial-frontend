@@ -9,8 +9,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import Types from 'slate-prop-types';
 import FootnoteForm, { getInitialModel } from './FootnoteForm';
-import { NodeShape } from '../../../../shapes';
 
 const FOOTNOTE = 'footnote';
 
@@ -100,9 +100,9 @@ EditFootnote.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   handleStateChange: PropTypes.func.isRequired,
   blur: PropTypes.func.isRequired,
-  state: PropTypes.shape({}),
+  state: Types.state.isRequired,
   node: PropTypes.oneOfType([
-    NodeShape,
+    Types.node,
     PropTypes.shape({ type: PropTypes.string.isRequired }),
   ]),
 };

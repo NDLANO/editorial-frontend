@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import Types from 'slate-prop-types';
 
 export const AudioResultShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
@@ -104,11 +105,6 @@ export const CommonFieldPropsShape = PropTypes.shape({
 
 export const PluginShape = PropTypes.shape({
   schema: PropTypes.object.isRequired,
-});
-
-export const NodeShape = PropTypes.shape({
-  get: PropTypes.func.isRequired,
-  key: PropTypes.string.isRequired,
 });
 
 export const EditorShape = PropTypes.shape({

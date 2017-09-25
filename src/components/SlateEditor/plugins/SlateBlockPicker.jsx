@@ -162,6 +162,11 @@ class SlateBlockPicker extends Component {
 
   showPicker() {
     const { editorState } = this.props;
+
+    if (!editorState.state.selection.startKey) {
+      return false;
+    }
+
     const node = editorState.state.document.getClosestBlock(
       editorState.state.selection.startKey,
     );

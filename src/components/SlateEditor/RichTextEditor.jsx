@@ -98,7 +98,6 @@ const RichTextEditor = class extends React.Component {
             {...classes(undefined, undefined, className)}
             state={value}
             schema={schema}
-            onKeyDown={this.onKeyDown}
             onChange={change =>
               onChange({ target: { name, value: change.state } })}
             slateStore={this.state.slateStore}

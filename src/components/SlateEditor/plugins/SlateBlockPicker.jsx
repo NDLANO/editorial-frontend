@@ -154,7 +154,11 @@ class SlateBlockPicker extends Component {
       ) {
         return false;
       }
-      if (parent.get('type') === 'aside' || parent.get('type') === 'bodybox' || parent.get('type') === 'quote')
+      if (
+        parent.get('type') === 'aside' ||
+        parent.get('type') === 'bodybox' ||
+        parent.get('type') === 'quote'
+      )
         return true;
       node = parent;
     }

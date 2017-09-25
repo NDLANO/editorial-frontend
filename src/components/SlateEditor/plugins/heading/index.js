@@ -1,86 +1,55 @@
-const onEnter     = require('./onEnter');
-const onTab       = require('./onTab');
-const onBackspace = require('./onBackspace');
-const makeSchema  = require('./makeSchema');
-
-const getCurrentBlockquote = require('./getCurrentBlockquote');
-const wrapInBlockquote = require('./changes/wrapInBlockquote');
-const unwrapBlockquote = require('./changes/unwrapBlockquote');
-
-const KEY_ENTER     = 'enter';
-const KEY_TAB       = 'tab';
-const KEY_BACKSPACE = 'backspace';
-
-
 /**
- * A Slate plugin to handle keyboard events in lists.
- * @param {Object} [opts] Options for the plugin
- * @param {String} [opts.type='blockquote'] The type for quote blocks
- * @param {String} [opts.type='paragraph'] The default type for blocks inside quotes
- * @return {Object}
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ *
  */
 
-function EditBlockquote(opts) {
-    opts             = opts || {};
-    opts.type        = opts.type || 'blockquote';
-    opts.typeDefault = opts.typeDefault || 'paragraph';
+import schema from './schema';
+import { onEnter, onBackspace } from './actions';
 
-    /**
-     * Is the selection in a blockquote
-     */
-    function isSelectionInBlockquote(state) {
-        return Boolean(getCurrentBlockquote(opts, state));
+const KEY_ENTER = 'enter';
+const KEY_BACKSPACE = 'backspace';
+
+export default function headingPlugin(opts = {}) {
+  const options = {
+    types: opts.types || [
+        'heading-one',
+        'heading-two',
+        'heading-three',
+        'heading-four',
+        'heading-five',
+        'heading-six',
+      ],
+    defaultType: opts.defaultType || 'paragraph',
+  };
+
+  function onKeyDown(e, data, change) {
+    // Build arguments list
+    const args = [e, data, change, options];
+    switch (data.key) {
+      case KEY_ENTER:
+        return onEnter(...args);
+      default:
+        return null;
     }
+  }
 
-    /**
-     * Bind a change to be only applied in list
-     */
-    function bindChange(fn) {
-        return function(change, ...args) {
-            const { state } = change;
-
-            if (!isSelectionInBlockquote(state)) {
-                return change;
-            }
-
-            return fn(...[opts, change].concat(args));
-        };
+  function onKeyUp(e, data, change) {
+    const args = [e, data, change, options];
+    switch (data.key) {
+      case KEY_BACKSPACE:
+        return onBackspace(...args);
+      default:
+        return null;
     }
+  }
 
-    /**
-     * User is pressing a key in the editor
-     */
-    function onKeyDown(e, data, change) {
-        // Build arguments list
-        const args = [e, data, change, opts];
-
-        switch (data.key) {
-          case KEY_ENTER:
-              return onEnter(...args);
-          case KEY_TAB:
-              return onTab(...args);
-          case KEY_BACKSPACE:
-            return onBackspace(...args);
-          default:
-            return change;
-        }
-    }
-
-    const schema = makeSchema(opts);
-
-    return {
-        onKeyDown,
-        schema,
-
-        utils: {
-            isSelectionInBlockquote
-        },
-
-        changes: {
-            wrapInBlockquote: wrapInBlockquote.bind(null, opts),
-            unwrapBlockquote: bindChange(unwrapBlockquote)
-        }
-    };
+  return {
+    onKeyDown,
+    onKeyUp,
+    schema,
+  };
 }
-
-module.exports = EditBlockquote;

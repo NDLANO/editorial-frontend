@@ -75,6 +75,9 @@ const phrases = {
     noResults: 'Ingen videor funnet.',
     addVideo: 'Bruk video',
     previewVideo: 'Forhåndsvis',
+    publishedDate: 'Publisert dato',
+    duration: 'Varighet',
+    interactioncount: 'Visninger',
   },
   h5pSearch: {
     fetchError:
@@ -99,6 +102,7 @@ const phrases = {
       image: 'Bildetittel',
       h5p: 'H5P tittel',
       brightcove: 'Videotittel',
+      youtube: 'Videotekst',
     },
     visualElementCopyright: 'Opphav',
     info: {
@@ -124,10 +128,13 @@ const phrases = {
           image: 'Bildetekst',
           video: 'Videotekst',
           brightcove: 'Videotekst',
+          youtube: 'Videotekst',
         },
         placeholder: {
           image: 'Bildetekst',
+          video: 'Videotekst',
           brightcove: 'Videotekst',
+          youtube: 'Videotekst',
         },
       },
       alt: {

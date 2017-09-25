@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
-const DisplayVideoTag = ({ embedTag, className }) => {
+const DisplayBrightcoveTag = ({ embedTag, className }) => {
   const src = `//players.brightcove.net/${window.config
     .brightCoveAccountId}/${window.config
     .brightcovePlayerId}_default/index.min.js`;
@@ -36,7 +36,7 @@ const DisplayVideoTag = ({ embedTag, className }) => {
   );
 };
 
-DisplayVideoTag.propTypes = {
+DisplayBrightcoveTag.propTypes = {
   embedTag: PropTypes.shape({
     resource: PropTypes.string.isRequired,
     videoid: PropTypes.string.isRequired,
@@ -45,4 +45,4 @@ DisplayVideoTag.propTypes = {
   className: PropTypes.string,
 };
 
-export default DisplayVideoTag;
+export default DisplayBrightcoveTag;

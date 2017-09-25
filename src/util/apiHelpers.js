@@ -23,6 +23,10 @@ export function brightcoveApiResourceUrl(path) {
   return window.config.brightcoveApiUrl + path;
 }
 
+export function googleSearchApiResourceUrl(path) {
+  return window.config.googleSearchApiUrl + path;
+}
+
 export function createErrorPayload(status, message, json) {
   return Object.assign(new Error(message), { status, json });
 }

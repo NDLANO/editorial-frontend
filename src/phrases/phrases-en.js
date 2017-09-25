@@ -74,6 +74,9 @@ const phrases = {
     noResults: 'No videos found',
     addVideo: 'Use video',
     previewVideo: 'Preview',
+    publishedDate: 'Published date',
+    duration: 'Duration',
+    interactioncount: 'Views',
   },
   h5pSearch: {
     fetchError: 'Sorry, an error occurd while loading the H5P client.',
@@ -95,7 +98,9 @@ const phrases = {
     content: 'Content',
     visualElementTitle: {
       image: 'Image title',
-      brightcove: 'Videotittel',
+      video: 'Video title',
+      brightcove: 'Video title',
+      youtube: 'Video title',
       h5p: 'H5P title',
     },
     visualElementCopyright: 'Origin',

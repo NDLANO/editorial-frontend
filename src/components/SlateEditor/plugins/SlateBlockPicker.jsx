@@ -54,7 +54,7 @@ class SlateBlockPicker extends Component {
     this.toggleIsOpen = this.toggleIsOpen.bind(this);
     this.onElementAdd = this.onElementAdd.bind(this);
     this.showPicker = this.showPicker.bind(this);
-    this.focusInsideAside = this.focusInsideAside.bind(this);
+    this.focusInsideIllegalArea = this.focusInsideIllegalArea.bind(this);
     this.onStateChange = this.onStateChange.bind(this);
     this.onEmbedClose = this.onEmbedClose.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
@@ -140,7 +140,7 @@ class SlateBlockPicker extends Component {
     menuEl.style.left = `${rect.left - 60}px`;
   }
 
-  focusInsideAside() {
+  focusInsideIllegalArea() {
     const { editorState } = this.props;
     let node = editorState.state.document.getClosestBlock(
       editorState.state.selection.startKey,
@@ -154,7 +154,7 @@ class SlateBlockPicker extends Component {
       ) {
         return false;
       }
-      if (parent.get('type') === 'aside' || parent.get('type') === 'bodybox')
+      if (parent.get('type') === 'aside' || parent.get('type') === 'bodybox' || parent.get('type') === 'quote')
         return true;
       node = parent;
     }
@@ -162,6 +162,11 @@ class SlateBlockPicker extends Component {
 
   showPicker() {
     const { editorState } = this.props;
+
+    if(!editorState.state.selection.startKey) {
+      return false;
+    }
+
     const node = editorState.state.document.getClosestBlock(
       editorState.state.selection.startKey,
     );
@@ -176,7 +181,7 @@ class SlateBlockPicker extends Component {
 
     const show =
       node.text.length === 0 &&
-      !this.focusInsideAside() &&
+      !this.focusInsideIllegalArea() &&
       allowedPickAreas.includes(node.type) &&
       editorState.state.isFocused;
 

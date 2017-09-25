@@ -119,6 +119,7 @@
     "reselect": "^3.0.0",
     "serialize-javascript": "^1.4.0",
     "slate": "^0.25.1",
+    "slate-edit-blockquote": "^0.4.0",
     "slate-html-serializer": "^0.1.9",
     "slate-plain-serializer": "^0.1.8",
     "slate-prop-types": "^0.1.8",

@@ -9,10 +9,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import { injectT } from 'ndla-i18n';
+import Types from 'slate-prop-types';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-ui/icons';
-import { NodeShape, EditorShape } from '../../../../shapes';
+import { EditorShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
   name: 'bodybox',
@@ -20,21 +20,14 @@ const classes = new BEMHelper({
 });
 
 const SlateBodyBox = props => {
-  const { node, editor, t } = props;
+  const { node, editor } = props;
 
   const onRemoveClick = () => {
-    const next = editor
-      .getState()
-      .transform()
-      .removeNodeByKey(node.key)
-      .apply();
+    const next = editor.getState().change().removeNodeByKey(node.key);
     editor.onChange(next);
   };
   return (
     <div {...props.attributes} {...classes()}>
-      <div {...classes('type')}>
-        {t('learningResourceForm.fields.bodybox')}
-      </div>
       {props.children}
       <Button stripped onClick={onRemoveClick} {...classes('delete-button')}>
         <Cross />
@@ -47,8 +40,8 @@ SlateBodyBox.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  node: NodeShape,
+  node: Types.node.isRequired,
   editor: EditorShape,
 };
 
-export default injectT(SlateBodyBox);
+export default SlateBodyBox;

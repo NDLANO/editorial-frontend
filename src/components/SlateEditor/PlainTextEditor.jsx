@@ -8,16 +8,15 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Editor } from 'slate';
+import { Editor } from 'slate-react';
+import Types from 'slate-prop-types';
 
 const PlainTextEditor = ({ onChange, value, ...rest }) =>
   <Editor state={value} onChange={onChange} {...rest} />;
 
 PlainTextEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.shape({
-    _immutable: PropTypes.object,
-  }).isRequired,
+  value: Types.state.isRequired,
 };
 
 export default PlainTextEditor;

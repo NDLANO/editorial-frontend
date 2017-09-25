@@ -329,9 +329,7 @@ const phrases = {
       license: {
         label: 'Lisens',
       },
-      bodybox: 'Text in box',
       rightAside: 'Right column',
-      factAside: 'Fact box',
     },
     description: {
       metaDescription: 'The description will be viewable in search.',

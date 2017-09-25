@@ -10,7 +10,6 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import express from 'express';
 import compression from 'compression';
-import robots from 'express-robots';
 
 import Auth0SilentCallback from './Auth0SilentCallback';
 import enableDevMiddleWare from './enableDevMiddleware';
@@ -30,7 +29,6 @@ if (process.env.NDLA_ENVIRONMENT === 'test') {
   enableBasicAuth(app);
 }
 
-app.use(robots({ UserAgent: '*', Disallow: '/' }));
 app.use(compression());
 app.use(
   express.static('htdocs', {
@@ -46,6 +44,11 @@ const renderHtmlString = (locale, userAgentString, state = {}) =>
       className={getConditionalClassnames(userAgentString)}
     />,
   );
+
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain');
+  res.send('User-agent: *\nDisallow: /');
+});
 
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 200, text: 'Health check ok' });

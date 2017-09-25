@@ -16,13 +16,13 @@ const KEY_BACKSPACE = 'backspace';
 export default function headingPlugin(opts = {}) {
   const options = {
     types: opts.types || [
-        'heading-one',
-        'heading-two',
-        'heading-three',
-        'heading-four',
-        'heading-five',
-        'heading-six',
-      ],
+      'heading-one',
+      'heading-two',
+      'heading-three',
+      'heading-four',
+      'heading-five',
+      'heading-six',
+    ],
     defaultType: opts.defaultType || 'paragraph',
   };
 

@@ -10,11 +10,11 @@
 import { setBlock, insertParagraph } from './changes';
 
 export function getCurrentHeading(options, state) {
-    if (!state.selection.startKey) return null;
-    const startBlock = state.startBlock;
-    return startBlock && options.types.includes(startBlock.type)
-      ? startBlock
-      : null;
+  if (!state.selection.startKey) return null;
+  const startBlock = state.startBlock;
+  return startBlock && options.types.includes(startBlock.type)
+    ? startBlock
+    : null;
 }
 
 export function onEnter(evt, data, change, options) {

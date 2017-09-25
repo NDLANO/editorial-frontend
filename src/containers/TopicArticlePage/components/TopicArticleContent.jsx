@@ -10,6 +10,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
+import EditBlockquote from 'slate-edit-blockquote';
+import EditList from 'slate-edit-list';
+import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import {
   TextField,
   PlainTextField,
@@ -28,7 +31,15 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const plugins = [createNoEmbedsPlugin()];
+const plugins = [
+  createNoEmbedsPlugin(),
+  headingPlugin(),
+  EditBlockquote({ type: 'quote' }),
+  EditList({
+    types: ['bulleted-list', 'numbered-list'],
+    typeItem: 'list-item',
+  }),
+];
 
 class TopicArticleContent extends Component {
   constructor(props) {

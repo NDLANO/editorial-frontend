@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import Portal from 'react-portal';
 import BEMHelper from 'react-bem-helper';
 import Types from 'slate-prop-types';
+import EditBlockquote from 'slate-edit-blockquote';
 import ToolbarButton from './ToolbarButton';
 import SlateToolbarLink from './SlateToolbarLink';
 import { setFootnote } from '../../createSlateStore';
@@ -34,6 +35,8 @@ export const toolbarClasses = new BEMHelper({
   name: 'toolbar',
   prefix: 'c-',
 });
+
+const blockquotePlugin = EditBlockquote({ type: 'quote' });
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 class SlateToolbar extends Component {
@@ -70,7 +73,9 @@ class SlateToolbar extends Component {
     const { state } = this.props;
     const change = state.change();
     const { document } = state;
-    if (type !== 'bulleted-list' && type !== 'numbered-list') {
+    if (type === 'quote') {
+      blockquotePlugin.changes.wrapInBlockquote(change);
+    } else if (type !== 'bulleted-list' && type !== 'numbered-list') {
       // Handle everything but list buttons.
       const isActive = hasNodeOfType(state, type);
       const isList = hasNodeOfType(state, 'list-item');

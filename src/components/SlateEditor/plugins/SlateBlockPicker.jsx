@@ -42,6 +42,14 @@ const allowedPickAreas = [
   'heading-three',
 ];
 
+const illegalAreas = [
+  'quote',
+  'list-item',
+  'numbered-list',
+  'aside',
+  'bodybox',
+];
+
 class SlateBlockPicker extends Component {
   constructor(props) {
     super(props);
@@ -154,12 +162,9 @@ class SlateBlockPicker extends Component {
       ) {
         return false;
       }
-      if (
-        parent.get('type') === 'aside' ||
-        parent.get('type') === 'bodybox' ||
-        parent.get('type') === 'quote'
-      )
+      if (illegalAreas.includes(parent.get('type'))) {
         return true;
+      }
       node = parent;
     }
   }

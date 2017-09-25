@@ -6324,6 +6324,10 @@ slate-edit-blockquote@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/slate-edit-blockquote/-/slate-edit-blockquote-0.4.0.tgz#bc7cecdbf633e4f9c11940c390a0dcc7d74ea0aa"
 
+slate-edit-list@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/slate-edit-list/-/slate-edit-list-0.8.0.tgz#3f8904fc9cb308d3c614efa5586953a6de6a4608"
+
 slate-html-serializer@^0.1.9:
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/slate-html-serializer/-/slate-html-serializer-0.1.9.tgz#2e15cba146fe9c151c93ca2c5170276220cc6c42"

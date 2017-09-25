@@ -77,24 +77,25 @@ export function parseHash(hash) {
 }
 
 export const authLogout = federated => {
-  const config = {
+  const options = {
     returnTo: `${locationOrigin}/`,
-    client_id: auth0ClientId,
+    clientID: auth0ClientId,
   };
 
   if (federated) {
     return auth.logout({
-      ...config,
+      ...options,
       federated, // N.B. federated is parsed  as a flag by auth0. So you are logged out federated even if it is false
     });
   }
-  return auth.logout({ config });
+
+  return auth.logout(options);
 };
 
 export function loginSocialMedia(type) {
   auth.authorize({
     connection: type,
-    client_id: auth0ClientId,
+    clientID: auth0ClientId,
   });
 }
 

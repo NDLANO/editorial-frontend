@@ -8,7 +8,8 @@
  */
 
 import React from 'react';
-import { Block, Placeholder } from 'slate';
+import { Block } from 'slate';
+import { Placeholder } from 'slate-react';
 import SlateLink from './SlateLink';
 
 export const defaultBlock = {

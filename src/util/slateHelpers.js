@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import { Raw } from 'slate';
 import isObject from 'lodash/fp/isObject';
 import { reduceElementDataAttributes } from './embedTagHelpers';
 
@@ -46,10 +45,11 @@ export const findNodesByType = (node, type, nodes = []) => {
   return nodes;
 };
 
+export const toJSON = state => state.toJSON();
+
 export const logState = state => {
-  console.log(JSON.stringify(Raw.serialize(state), null, 2)); // eslint-disable-line no-console
+  console.log(JSON.stringify(toJSON(state), null, 2)); // eslint-disable-line no-console
 };
-export const toJSON = state => Raw.serialize(state);
 
 // TODO: get type of aside in here. Default should be rightAside since that is the only
 const getAsideTag = el => ({

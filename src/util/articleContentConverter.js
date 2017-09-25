@@ -6,7 +6,10 @@
  *
  */
 
-import { Html, Raw, Plain } from 'slate';
+import { State } from 'slate';
+
+import Plain from 'slate-plain-serializer';
+import Html from 'slate-html-serializer';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
 
 export function FootnoteCounter(initialCount = 0) {
@@ -19,7 +22,7 @@ export function FootnoteCounter(initialCount = 0) {
 }
 
 export const createEmptyState = () =>
-  Raw.deserialize(
+  State.fromJSON(
     {
       nodes: [
         {

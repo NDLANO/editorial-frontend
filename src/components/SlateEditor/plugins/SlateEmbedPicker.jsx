@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Types from 'slate-prop-types';
 import Lightbox from '../../Lightbox';
 import VisualElementSearch from '../../../containers/VisualElement/VisualElementSearch';
 import { defaultEmbedBlock } from '../schema';
@@ -16,10 +17,7 @@ class SlateEmbedPicker extends React.Component {
     const blockToInsert = defaultEmbedBlock(embed);
     const newblocks = [].concat(blocks);
     const currentState = blocks[state.index];
-    const nextState = currentState.state
-      .transform()
-      .insertBlock(blockToInsert)
-      .apply();
+    const nextState = currentState.state.change().insertBlock(blockToInsert);
     newblocks[state.index] = {
       ...newblocks[state.index],
       state: nextState,
@@ -46,10 +44,15 @@ SlateEmbedPicker.propTypes = {
   onStateChange: PropTypes.func.isRequired,
   resource: PropTypes.string.isRequired,
   onEmbedClose: PropTypes.func.isRequired,
-  blocks: PropTypes.array.isRequired,
+  blocks: PropTypes.arrayOf(
+    PropTypes.shape({
+      index: PropTypes.number.isRequired,
+      state: Types.state.isRequired,
+    }),
+  ),
   state: PropTypes.shape({
     index: PropTypes.number.isRequired,
-    state: PropTypes.object.isRequired,
+    state: Types.state.isRequired,
   }),
 };
 

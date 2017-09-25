@@ -112,7 +112,6 @@ class TopicArticleForm extends Component {
       tags,
       isSaving,
     } = this.props;
-
     const commonFieldProps = { bindInput, schema, submitted };
 
     return (

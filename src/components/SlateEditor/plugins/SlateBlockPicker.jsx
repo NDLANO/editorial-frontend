@@ -163,7 +163,11 @@ class SlateBlockPicker extends Component {
   showPicker() {
     const { editorState } = this.props;
 
+<<<<<<< HEAD
     if(!editorState.state.selection.startKey) {
+=======
+    if (!editorState.state.selection.startKey) {
+>>>>>>> master
       return false;
     }
 

@@ -8,11 +8,16 @@
 
 import {
   resolveJsonOrRejectWithError,
-  fetchAuthorized,
+  fetchReAuthorized,
 } from '../../util/apiHelpers';
 
-export const fetchH5PiframeUrl = async () =>
-  fetchAuthorized(`${window.config.h5pApiUrl}/select`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer JWT-token` },
-  }).then(resolveJsonOrRejectWithError);
+export const fetchH5PiframeUrl = async () => {
+  const response = await fetchReAuthorized(
+    `${window.config.h5pApiUrl}/select`,
+    {
+      method: 'POST',
+      headers: { Authorization: `Bearer JWT-token` },
+    },
+  );
+  return resolveJsonOrRejectWithError(response);
+};

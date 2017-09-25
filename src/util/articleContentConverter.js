@@ -22,8 +22,8 @@ export function FootnoteCounter(initialCount = 0) {
 }
 
 export const createEmptyState = () =>
-  State.fromJSON(
-    {
+  State.fromJSON({
+    document: {
       nodes: [
         {
           kind: 'block',
@@ -35,7 +35,11 @@ export const createEmptyState = () =>
               nodes: [
                 {
                   kind: 'text',
-                  text: '',
+                  ranges: [
+                    {
+                      text: '',
+                    },
+                  ],
                 },
               ],
             },
@@ -43,8 +47,7 @@ export const createEmptyState = () =>
         },
       ],
     },
-    { terse: true },
-  );
+  });
 
 // TODO: Find a better way to extract each section into an array.
 function extractSections(html) {

@@ -103,7 +103,7 @@ const phrases = {
       image: 'Bildetittel',
       h5p: 'H5P tittel',
       brightcove: 'Videotittel',
-      external: 'Innholdsteks',
+      external: 'Innholdstekst',
     },
     visualElementCopyright: 'Opphav',
     info: {
@@ -129,13 +129,13 @@ const phrases = {
           image: 'Bildetekst',
           video: 'Videotekst',
           brightcove: 'Videotekst',
-          external: 'Innholdsteks',
+          external: 'Innholdstekst',
         },
         placeholder: {
           image: 'Bildetekst',
           video: 'Videotekst',
           brightcove: 'Videotekst',
-          external: 'Innholdsteks',
+          external: 'Innholdstekst',
         },
       },
       alt: {

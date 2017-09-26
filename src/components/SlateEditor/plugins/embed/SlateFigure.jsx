@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
+import Types from 'slate-prop-types';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
@@ -17,7 +18,7 @@ import SlateExternal from './SlateExternal';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayOembed from '../../../DisplayEmbedTag/DisplayOembed';
 import { getSchemaEmbed } from '../../schema';
-import { NodeShape, EditorShape } from '../../../../shapes';
+import { EditorShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -60,11 +61,7 @@ class SlateFigure extends React.Component {
     const properties = {
       data: { ...getSchemaEmbed(node), [name]: value },
     };
-    const next = editor
-      .getState()
-      .transform()
-      .setNodeByKey(node.key, properties)
-      .apply();
+    const next = editor.getState().change().setNodeByKey(node.key, properties);
     editor.onChange(next);
   }
 
@@ -114,12 +111,8 @@ class SlateFigure extends React.Component {
 
 SlateFigure.propTypes = {
   className: PropTypes.string,
-  state: PropTypes.shape({
-    selection: PropTypes.shape({
-      hasEdgeIn: PropTypes.func.isRequired,
-    }),
-  }),
-  node: NodeShape,
+  state: Types.state.isRequired,
+  node: Types.node.isRequired,
   editor: EditorShape,
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,

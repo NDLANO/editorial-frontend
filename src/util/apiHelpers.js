@@ -88,6 +88,11 @@ export const fetchWithAccessToken = (url, config = {}) => {
   });
 };
 
+export const fetchReAuthorized = async (url, config = {}) => {
+  const idToken = await renewAuth();
+  return fetch(url, { ...config, headers: headerWithToken(idToken) });
+};
+
 export const fetchAuthorized = (url, config = {}) => {
   if (!isIdTokenValid()) {
     return renewAuth().then(idToken =>

@@ -6,7 +6,10 @@
  *
  */
 
-import { Html, Raw, Plain } from 'slate';
+import { State } from 'slate';
+
+import Plain from 'slate-plain-serializer';
+import Html from 'slate-html-serializer';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
 
 export function FootnoteCounter(initialCount = 0) {
@@ -19,8 +22,8 @@ export function FootnoteCounter(initialCount = 0) {
 }
 
 export const createEmptyState = () =>
-  Raw.deserialize(
-    {
+  State.fromJSON({
+    document: {
       nodes: [
         {
           kind: 'block',
@@ -32,7 +35,11 @@ export const createEmptyState = () =>
               nodes: [
                 {
                   kind: 'text',
-                  text: '',
+                  ranges: [
+                    {
+                      text: '',
+                    },
+                  ],
                 },
               ],
             },
@@ -40,8 +47,7 @@ export const createEmptyState = () =>
         },
       ],
     },
-    { terse: true },
-  );
+  });
 
 // TODO: Find a better way to extract each section into an array.
 function extractSections(html) {

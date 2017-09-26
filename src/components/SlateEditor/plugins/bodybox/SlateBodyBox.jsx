@@ -9,9 +9,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
+import Types from 'slate-prop-types';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-ui/icons';
-import { NodeShape, EditorShape } from '../../../../shapes';
+import { EditorShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
   name: 'bodybox',
@@ -22,11 +23,7 @@ const SlateBodyBox = props => {
   const { node, editor } = props;
 
   const onRemoveClick = () => {
-    const next = editor
-      .getState()
-      .transform()
-      .removeNodeByKey(node.key)
-      .apply();
+    const next = editor.getState().change().removeNodeByKey(node.key);
     editor.onChange(next);
   };
   return (
@@ -43,7 +40,7 @@ SlateBodyBox.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  node: NodeShape,
+  node: Types.node.isRequired,
   editor: EditorShape,
 };
 

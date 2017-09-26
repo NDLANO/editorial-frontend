@@ -21,6 +21,7 @@ import {
   Heading3,
   Section,
 } from 'ndla-ui/icons';
+import Types from 'slate-prop-types';
 import { toolbarClasses } from './SlateToolbar';
 
 const toolbarIcon = {
@@ -40,7 +41,6 @@ const toolbarIcon = {
 const ToolbarButton = ({ state, type, kind, handleHasType, handleOnClick }) => {
   const isActive = handleHasType(state, type, kind);
   const onMouseDown = e => handleOnClick(e, kind, type);
-
   return (
     <Button stripped onMouseDown={onMouseDown} data-active={isActive}>
       <span {...toolbarClasses('icon', isActive ? 'active' : '')}>
@@ -53,7 +53,7 @@ const ToolbarButton = ({ state, type, kind, handleHasType, handleOnClick }) => {
 ToolbarButton.propTypes = {
   type: PropTypes.string.isRequired,
   kind: PropTypes.string.isRequired,
-  state: PropTypes.shape({}).isRequired,
+  state: Types.state.isRequired,
   handleHasType: PropTypes.func.isRequired,
   handleOnClick: PropTypes.func.isRequired,
 };

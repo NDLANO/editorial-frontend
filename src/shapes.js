@@ -106,11 +106,6 @@ export const PluginShape = PropTypes.shape({
   schema: PropTypes.object.isRequired,
 });
 
-export const NodeShape = PropTypes.shape({
-  get: PropTypes.func.isRequired,
-  key: PropTypes.string.isRequired,
-});
-
 export const EditorShape = PropTypes.shape({
   onChange: PropTypes.func.isRequired,
   getState: PropTypes.func.isRequired,

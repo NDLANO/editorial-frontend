@@ -7,7 +7,9 @@
  */
 
 import React, { Component } from 'react';
-import { Plain, findDOMNode } from 'slate';
+import { findDOMNode } from 'slate-react';
+import Plain from 'slate-plain-serializer';
+import Types from 'slate-prop-types';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
@@ -81,7 +83,7 @@ class SlateBlockPicker extends Component {
     const { blocks, editorState } = this.props;
     const newblocks = [].concat(blocks);
     const currentState = blocks[editorState.index];
-    const nextState = currentState.state.transform().insertBlock(block).apply();
+    const nextState = currentState.state.change().insertBlock(block);
 
     newblocks[editorState.index] = {
       ...newblocks[editorState.index],
@@ -160,6 +162,11 @@ class SlateBlockPicker extends Component {
 
   showPicker() {
     const { editorState } = this.props;
+
+    if (!editorState.state.selection.startKey) {
+      return false;
+    }
+
     const node = editorState.state.document.getClosestBlock(
       editorState.state.selection.startKey,
     );
@@ -277,7 +284,12 @@ class SlateBlockPicker extends Component {
 }
 
 SlateBlockPicker.propTypes = {
-  blocks: PropTypes.array.isRequired,
+  blocks: PropTypes.arrayOf(
+    PropTypes.shape({
+      index: PropTypes.number.isRequired,
+      state: Types.state.isRequired,
+    }),
+  ),
   onChange: PropTypes.func.isRequired,
   ingress: PropTypes.shape({
     name: PropTypes.string.isRequired,

@@ -8,20 +8,43 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { injectT } from 'ndla-i18n';
 import { Button, Figure } from 'ndla-ui';
+import { findDOMNode } from 'slate-react';
+import SlateTypes from 'slate-prop-types';
 import SlateInputField from './SlateInputField';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { EmbedShape } from '../../../../shapes';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 
 class SlateImage extends React.Component {
+  static handleFloatedImages(node, align) {
+    const nodeEl = findDOMNode(node); // eslint-disable-line
+    if (align === 'right' || align === 'left') {
+      nodeEl.parentNode.style.display = 'inline';
+    } else {
+      nodeEl.parentNode.style.display = 'inline-block';
+    }
+  }
+
   constructor() {
     super();
     this.state = {
       editModus: false,
     };
     this.toggleEditModus = this.toggleEditModus.bind(this);
+  }
+
+  componentDidMount() {
+    const { align } = this.props.embed;
+    SlateImage.handleFloatedImages(this.props.node, align);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.embed.align !== nextProps.embed.align) {
+      SlateImage.handleFloatedImages(nextProps.node, nextProps.embed.align);
+    }
   }
 
   toggleEditModus() {
@@ -49,8 +72,14 @@ class SlateImage extends React.Component {
       'lower-right-x': embed['lower-right-x'],
       'lower-right-y': embed['lower-right-y'],
     };
+
+    const figureClassNames = classnames('c-figure', {
+      'article_figure--float-right': embed.align === 'right',
+      'article_figure--float-left': embed.align === 'left',
+    });
+
     return (
-      <Figure {...attributes}>
+      <Figure {...attributes} className={figureClassNames}>
         {this.state.editModus
           ? <ImageEditor
               embedTag={embed}
@@ -92,6 +121,7 @@ class SlateImage extends React.Component {
 }
 
 SlateImage.propTypes = {
+  node: SlateTypes.node.isRequired,
   embed: EmbedShape.isRequired,
   figureClass: PropTypes.object.isRequired,
   onFigureInputChange: PropTypes.func.isRequired,

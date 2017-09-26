@@ -119,18 +119,16 @@ class SlateToolbar extends Component {
   onClickInline(e, type) {
     e.preventDefault();
     const { slateStore, state: editorState } = this.props;
+    console.log(type);
 
-    if (type === ('embed-inline' || 'link')) {
-      this.setState({ showContentlinkDialog: true });
-    } else if (type === 'footnote') {
-      if (editorState.inlines && editorState.inlines.size > 0) {
-        const footnoteNode = editorState.inlines.find(
-          inline => inline.type === 'footnote',
-        );
-        slateStore.dispatch(setFootnote(footnoteNode));
-      } else {
-        slateStore.dispatch(setFootnote({ type: 'footnote' }));
-      }
+    if (editorState.inlines && editorState.inlines.size > 0) {
+      const node = editorState.inlines.find(
+        inline => inline.type === 'footnote' || inline.type === 'embed-inline',
+      );
+      console.log(node);
+      slateStore.dispatch(setFootnote(node));
+    } else {
+      slateStore.dispatch(setFootnote({ type }));
     }
   }
 

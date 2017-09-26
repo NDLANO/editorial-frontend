@@ -19,7 +19,6 @@ import { EditorShape } from '../../../../shapes';
 class Footnote extends Component {
   constructor() {
     super();
-    this.state = {};
     this.handleClick = this.handleClick.bind(this);
     this.onStoreChange = this.onStoreChange.bind(this);
   }

@@ -40,7 +40,7 @@ class EditTopicArticle extends Component {
     }
 
     if (article.articleType !== 'topic-article') {
-      return <Redirect to={toEditArticle(article.id, article.articleType)} />;
+      return <Redirect to={toEditArticle(article.id, article.articleType, article.language)} />;
     }
     return (
       <TopicArticleForm

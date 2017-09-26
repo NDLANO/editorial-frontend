@@ -84,7 +84,6 @@ export const getInitialModel = (article = {}) => {
     metaDescription: plainTextToEditorState(article.metaDescription, true),
     metaImage,
     language: article.language,
-    supportedLanguages: article.supportedLanguages,
   };
 };
 
@@ -97,28 +96,17 @@ class LearningResourceForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.onVariantClick = this.onVariantClick.bind(this);
-    this.getCopyrightObject = this.getCopyrightObject.bind(this);
   }
 
-  onVariantClick(languageKey) {
-    const { model, fetchArticle, setArticle, revision } = this.props;
-    if (model.supportedLanguages.find(lang => lang === languageKey)) {
-      fetchArticle({ id: model.id, language: languageKey });
-    } else {
-      setArticle({
-        id: model.id,
-        language: languageKey,
-        copyright: this.getCopyrightObject(),
-        articleType: 'standard',
-        revision,
-        supportedLanguages: model.supportedLanguages,
-      });
+  handleSubmit(evt) {
+    evt.preventDefault();
+
+    const { model, schema, revision, setSubmitted, licenses } = this.props;
+    if (!schema.isValid) {
+      setSubmitted(true);
+      return;
     }
-  }
 
-  getCopyrightObject() {
-    const { model, licenses } = this.props;
     const authors = model.authors.map(name => ({ type: 'Forfatter', name }));
     const licensees = model.licensees.map(name => ({
       type: 'Rettighetshaver',
@@ -130,21 +118,11 @@ class LearningResourceForm extends Component {
       name,
     }));
 
-    return {
+    const copyright = {
       license: licenses.find(license => license.license === model.license),
       origin: model.origin,
       authors: authors.concat(licensees).concat(contributors),
     };
-  }
-
-  handleSubmit(evt) {
-    evt.preventDefault();
-
-    const { model, schema, revision, setSubmitted } = this.props;
-    if (!schema.isValid) {
-      setSubmitted(true);
-      return;
-    }
 
     const footnoteObject = findFootnotes(model.content).reduce(
       (obj, footnote, i) => ({
@@ -165,7 +143,7 @@ class LearningResourceForm extends Component {
       visualElement: createEmbedTag(model.metaImage),
       metaDescription: editorStateToPlainText(model.metaDescription),
       articleType: 'standard',
-      copyright: this.getCopyrightObject(),
+      copyright,
       language: model.language,
     });
   }
@@ -180,6 +158,7 @@ class LearningResourceForm extends Component {
       tags,
       licenses,
       isSaving,
+      onVariantClick,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
@@ -189,7 +168,7 @@ class LearningResourceForm extends Component {
         {...classes(undefined, undefined, 'c-article')}>
         <LearningResourceHeader
           model={model}
-          onVariantClick={this.onVariantClick}
+          onVariantClick={onVariantClick}
         />
         <LearningResourceMetadata
           classes={classes}
@@ -251,8 +230,7 @@ LearningResourceForm.propTypes = {
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  fetchArticle: PropTypes.func.isRequired,
-  setArticle: PropTypes.func.isRequired,
+  onVariantClick: PropTypes.func,
 };
 
 export default compose(

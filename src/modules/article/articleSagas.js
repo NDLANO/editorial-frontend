@@ -14,8 +14,20 @@ import * as messageActions from '../../containers/Messages/messagesActions';
 
 export function* fetchArticle(id, language = 'nb') {
   try {
-    const article = yield call(api.fetchArticle, id, language);
-    yield put(actions.setArticle({ ...article, language }));
+    const tempArticle = yield call(api.fetchArticle, id);
+    if (tempArticle.supportedLanguages.includes(language)) {
+      const article = yield call(api.fetchArticle, id, language);
+      yield put(actions.setArticle({ ...article, language }));
+
+    } else {
+      yield put(actions.setArticle({
+        id: tempArticle.id,
+        language,
+        copyright: tempArticle.copyright,
+        articleType: 'standard',
+        revision: tempArticle.revision,
+        supportedLanguages: tempArticle.supportedLanguages, }));
+    }
   } catch (error) {
     // TODO: handle error
     console.error(error); //eslint-disable-line
@@ -50,7 +62,7 @@ export function* createArticle(article, history) {
   try {
     const createdArticle = yield call(api.createArticle, article);
     yield put(actions.setArticle(createdArticle));
-    history.push(toEditArticle(createdArticle.id, createdArticle.articleType));
+    history.push(toEditArticle(createdArticle.id, createdArticle.articleType, article.language));
     yield put(actions.updateArticleSuccess());
     yield put(
       messageActions.addMessage({

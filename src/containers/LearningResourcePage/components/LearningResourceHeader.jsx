@@ -44,6 +44,7 @@ const LearningResourceHeader = props => {
             language={language}
             languages={supportedLanguages}
             onVariantClick={onVariantClick}
+            modelId={model.id}
           />
         </span>
       </div>
@@ -55,7 +56,7 @@ LearningResourceHeader.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
   }),
-  onVariantClick: PropTypes.func.isRequired,
+  onVariantClick: PropTypes.func,
 };
 
 export default injectT(LearningResourceHeader);

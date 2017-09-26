@@ -21,11 +21,28 @@ class EditLearningResource extends Component {
   constructor(props) {
     super(props);
     this.updateArticle = this.updateArticle.bind(this);
+    this.onVariantClick = this.onVariantClick.bind(this);
   }
 
   componentWillMount() {
-    const { articleId, fetchArticle, locale } = this.props;
-    fetchArticle({ id: articleId, language: locale });
+    const { articleId, fetchArticle, articleLanguage } = this.props;
+    fetchArticle({ id: articleId, language: articleLanguage });
+  }
+
+  onVariantClick(languageKey) {
+    const { article, fetchArticle, setArticle } = this.props;
+    if (article.supportedLanguages.find(lang => lang === languageKey)) {
+      fetchArticle({ id: article.id, language: languageKey })
+    } else {
+      setArticle({
+        id: article.id,
+        language: languageKey,
+        copyright: article.copyright,
+        articleType: 'standard',
+        revision: article.revision,
+        supportedLanguages: article.supportedLanguages,
+      });
+    }
   }
 
   updateArticle(article) {
@@ -39,15 +56,13 @@ class EditLearningResource extends Component {
       tags,
       isSaving,
       licenses,
-      fetchArticle,
-      setArticle,
     } = this.props;
     if (!article) {
       return null;
     }
 
     if (article.articleType !== 'standard') {
-      return <Redirect to={toEditArticle(article.id, article.articleType)} />;
+      return <Redirect to={toEditArticle(article.id, article.articleType, article.language)} />;
     }
     return (
       <LearningResourceForm
@@ -57,8 +72,7 @@ class EditLearningResource extends Component {
         licenses={licenses}
         isSaving={isSaving}
         onUpdate={this.updateArticle}
-        fetchArticle={fetchArticle}
-        setArticle={setArticle}
+        onVariantClick={this.onVariantClick}
       />
     );
   }
@@ -79,6 +93,7 @@ EditLearningResource.propTypes = {
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
   setArticle: PropTypes.func.isRequired,
+  articleLanguage: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = {

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
+import queryString from 'query-string';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -14,10 +14,12 @@ import {
 
 const baseUrl = apiResourceUrl('/article-api/v2/articles');
 
-export const fetchArticle = (id, language) =>
-  fetchWithAccessToken(`${baseUrl}/${id}?language=${language}`).then(
+export const fetchArticle = (id, language) => {
+  const query = queryString.stringify({ language });
+  return fetchWithAccessToken(`${baseUrl}/${id}?${query}`).then(
     resolveJsonOrRejectWithError,
   );
+};
 
 export const fetchTags = () =>
   fetchWithAccessToken(`${baseUrl}/tags/?size=7000`).then(

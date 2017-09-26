@@ -83,6 +83,8 @@ const phrases = {
   },
   displayOembed: {
     errorMessage: 'An error occurd when displaying oEmbed.',
+    notSupported:
+      'oEmbed of type {type} and provider {provider} is not supported.',
   },
   audioSearch: {
     searchPlaceholder: 'Search in audio files',
@@ -100,7 +102,7 @@ const phrases = {
       image: 'Image title',
       video: 'Video title',
       brightcove: 'Video title',
-      youtube: 'Video title',
+      external: 'Content title',
       h5p: 'H5P title',
     },
     visualElementCopyright: 'Origin',

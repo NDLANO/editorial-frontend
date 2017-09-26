@@ -82,20 +82,20 @@ const VisualElementSearch = ({
             onVideoSelect={(video, type) => {
               if (type === 'youtube') {
                 handleVisualElementChange({
+                  resource: 'external',
+                  url: video.link,
+                  caption: '',
+                });
+              } else {
+                handleVisualElementChange({
                   resource: type,
-                  videoid: video.videoid,
-                  caption: video.name,
+                  videoid: video.id,
+                  caption: '',
+                  account: window.config.brightCoveAccountId,
+                  player: window.config.brightcovePlayerId,
                   metaData: video,
                 });
               }
-              handleVisualElementChange({
-                resource: type,
-                videoid: video.id,
-                caption: '',
-                account: window.config.brightCoveAccountId,
-                player: window.config.brightcovePlayerId,
-                metaData: video,
-              });
             }}
             onError={api.onError}
           />

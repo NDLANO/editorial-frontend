@@ -85,6 +85,7 @@ const phrases = {
   },
   displayOembed: {
     errorMessage: 'En feil oppsto ved visning av oEmbed innhold.',
+    notSupported: 'oEmbed av type {type} og kilde {provider} er ikke støttet.',
   },
   audioSearch: {
     searchPlaceholder: 'Søk i lydfiler',
@@ -102,7 +103,7 @@ const phrases = {
       image: 'Bildetittel',
       h5p: 'H5P tittel',
       brightcove: 'Videotittel',
-      youtube: 'Videotekst',
+      external: 'Innholdsteks',
     },
     visualElementCopyright: 'Opphav',
     info: {
@@ -128,13 +129,13 @@ const phrases = {
           image: 'Bildetekst',
           video: 'Videotekst',
           brightcove: 'Videotekst',
-          youtube: 'Videotekst',
+          external: 'Innholdsteks',
         },
         placeholder: {
           image: 'Bildetekst',
           video: 'Videotekst',
           brightcove: 'Videotekst',
-          youtube: 'Videotekst',
+          external: 'Innholdsteks',
         },
       },
       alt: {

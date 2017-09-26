@@ -11,8 +11,9 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
 import SlateImage from './SlateImage';
-import { BrightcoveVideo, YouTubeVideo } from './video';
+import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
+import SlateExternal from './SlateExternal';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayOembed from '../../../DisplayEmbedTag/DisplayOembed';
 import { getSchemaEmbed } from '../../schema';
@@ -90,11 +91,11 @@ class SlateFigure extends React.Component {
       case 'image':
         return <SlateImage node={node} editor={editor} {...props} />;
       case 'brightcove':
-        return <BrightcoveVideo {...props} />;
-      case 'youtube':
-        return <YouTubeVideo {...props} />;
+        return <SlateVideo {...props} />;
       case 'audio':
         return <SlateAudio {...props} />;
+      case 'external':
+        return <SlateExternal {...props} />;
       case 'h5p':
         return <DisplayOembed url={embed.url} />;
       default:

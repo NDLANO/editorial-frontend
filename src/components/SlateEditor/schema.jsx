@@ -154,17 +154,6 @@ const defaultSchema = {
       },
       render: '',
     },
-    /* {
-      match: node =>{
-        console.log(node)
-        return node.kind === 'block' && node.type === 'quote'
-      },
-      validate: node => {
-        console.log(node);
-        return true;
-      },
-      normalize: (transform, node) => transform
-    }, */
   ],
 };
 

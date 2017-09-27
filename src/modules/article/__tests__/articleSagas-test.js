@@ -12,16 +12,46 @@ import { expectSaga } from 'redux-saga-test-plan';
 import * as sagas from '../articleSagas';
 import { actions } from '../article';
 
-test('articleSagas watchFetchArticle fetch article if not in state', () => {
+test('articleSagas watchFetchArticle fetch article if not in state and language is supported', () => {
+  nock('http://ndla-api')
+    .get('/article-api/v2/articles/123')
+    .reply(200, { id: 123, title: 'unit test', supportedLanguages: ['nb'] });
+
   nock('http://ndla-api')
     .get('/article-api/v2/articles/123')
     .query({ language: 'nb' })
-    .reply(200, { id: 123, title: 'unit test' });
+    .reply(200, { id: 123, title: 'unit testen' });
 
   return expectSaga(sagas.watchFetchArticle)
     .withState({ articles: { all: {} } })
-    .put(actions.setArticle({ id: 123, title: 'unit test', language: 'nb' }))
+    .put(actions.setArticle({ id: 123, title: 'unit testen', language: 'nb' }))
     .dispatch(actions.fetchArticle({ id: 123, language: 'nb' }))
+    .run({ silenceTimeout: true });
+});
+
+test('articleSagas watchFetchArticle fetch article if not in state and language is not supported', () => {
+  nock('http://ndla-api').get('/article-api/v2/articles/123').reply(200, {
+    id: 123,
+    title: 'unit test',
+    supportedLanguages: ['en'],
+    copyright: [],
+    revision: 3,
+    articleType: 'standard',
+  });
+
+  return expectSaga(sagas.watchFetchArticle)
+    .withState({ articles: { all: {} } })
+    .put(
+      actions.setArticle({
+        id: 123,
+        language: 'nb',
+        articleType: 'standard',
+        copyright: [],
+        revision: 3,
+        supportedLanguages: ['en'],
+      }),
+    )
+    .dispatch(actions.fetchArticle({ id: 123 }))
     .run({ silenceTimeout: true });
 });
 

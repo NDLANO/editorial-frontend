@@ -13,7 +13,7 @@ import { classes } from './LearningResourceForm';
 import LearningResourceLanguage from './LearningResourceLanguage';
 
 const LearningResourceHeader = props => {
-  const { t, model, onVariantClick } = props;
+  const { t, model } = props;
   const languages = [
     { key: 'nn', title: t('learningResourceForm.variant.languages.nn') },
     { key: 'en', title: t('learningResourceForm.variant.languages.en') },
@@ -43,7 +43,6 @@ const LearningResourceHeader = props => {
           <LearningResourceLanguage
             language={language}
             languages={supportedLanguages}
-            onVariantClick={onVariantClick}
             modelId={model.id}
           />
         </span>
@@ -56,7 +55,6 @@ LearningResourceHeader.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
   }),
-  onVariantClick: PropTypes.func,
 };
 
 export default injectT(LearningResourceHeader);

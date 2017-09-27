@@ -8,7 +8,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 import { actions, getArticle } from '../../modules/article/article';
 import LearningResourceForm, {
@@ -21,7 +21,6 @@ class EditLearningResource extends Component {
   constructor(props) {
     super(props);
     this.updateArticle = this.updateArticle.bind(this);
-    this.onVariantClick = this.onVariantClick.bind(this);
   }
 
   componentWillMount() {
@@ -29,19 +28,10 @@ class EditLearningResource extends Component {
     fetchArticle({ id: articleId, language: articleLanguage });
   }
 
-  onVariantClick(languageKey) {
-    const { article, fetchArticle, setArticle } = this.props;
-    if (article.supportedLanguages.find(lang => lang === languageKey)) {
-      fetchArticle({ id: article.id, language: languageKey })
-    } else {
-      setArticle({
-        id: article.id,
-        language: languageKey,
-        copyright: article.copyright,
-        articleType: 'standard',
-        revision: article.revision,
-        supportedLanguages: article.supportedLanguages,
-      });
+  componentWillReceiveProps(nextProps) {
+    const { articleId, fetchArticle, articleLanguage, article } = nextProps;
+    if (article && article.language !== articleLanguage) {
+      fetchArticle({ id: articleId, language: articleLanguage });
     }
   }
 
@@ -51,18 +41,16 @@ class EditLearningResource extends Component {
   }
 
   render() {
-    const {
-      article,
-      tags,
-      isSaving,
-      licenses,
-    } = this.props;
+    const { article, tags, isSaving, licenses } = this.props;
     if (!article) {
       return null;
     }
-
     if (article.articleType !== 'standard') {
-      return <Redirect to={toEditArticle(article.id, article.articleType, article.language)} />;
+      return (
+        <Redirect
+          to={toEditArticle(article.id, article.articleType, article.language)}
+        />
+      );
     }
     return (
       <LearningResourceForm
@@ -72,7 +60,6 @@ class EditLearningResource extends Component {
         licenses={licenses}
         isSaving={isSaving}
         onUpdate={this.updateArticle}
-        onVariantClick={this.onVariantClick}
       />
     );
   }
@@ -110,6 +97,6 @@ const makeMapStateToProps = (_, props) => {
   });
 };
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(
-  EditLearningResource,
+export default withRouter(
+  connect(makeMapStateToProps, mapDispatchToProps)(EditLearningResource),
 );

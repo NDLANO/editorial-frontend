@@ -16,9 +16,8 @@ const baseUrl = apiResourceUrl('/article-api/v2/articles');
 
 export const fetchArticle = (id, language) => {
   const query = queryString.stringify({ language });
-  return fetchWithAccessToken(`${baseUrl}/${id}?${query}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  const url = language ? `${baseUrl}/${id}?${query}` : `${baseUrl}/${id}`;
+  return fetchWithAccessToken(url).then(resolveJsonOrRejectWithError);
 };
 
 export const fetchTags = () =>

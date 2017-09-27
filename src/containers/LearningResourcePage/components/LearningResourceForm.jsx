@@ -158,7 +158,6 @@ class LearningResourceForm extends Component {
       tags,
       licenses,
       isSaving,
-      onVariantClick,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
@@ -166,10 +165,7 @@ class LearningResourceForm extends Component {
       <form
         onSubmit={this.handleSubmit}
         {...classes(undefined, undefined, 'c-article')}>
-        <LearningResourceHeader
-          model={model}
-          onVariantClick={onVariantClick}
-        />
+        <LearningResourceHeader model={model} />
         <LearningResourceMetadata
           classes={classes}
           commonFieldProps={commonFieldProps}
@@ -230,7 +226,6 @@ LearningResourceForm.propTypes = {
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  onVariantClick: PropTypes.func,
 };
 
 export default compose(

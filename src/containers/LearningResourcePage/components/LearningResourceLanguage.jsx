@@ -25,13 +25,7 @@ class LearningResourceLanguage extends Component {
     this.state = {
       display: false,
     };
-    this.onLanguageVariantClick = this.onLanguageVariantClick.bind(this);
     this.onDisplayToggle = this.onDisplayToggle.bind(this);
-  }
-
-  onLanguageVariantClick(languageKey) {
-    this.onDisplayToggle();
-    this.props.onVariantClick(languageKey);
   }
 
   onDisplayToggle() {
@@ -52,7 +46,8 @@ class LearningResourceLanguage extends Component {
             <li key={language.key} {...classes('item')}>
               <Link
                 to={toEditArticle(modelId, 'standard', language.key)}
-                {...classes('link')}>
+                {...classes('link')}
+                onClick={this.onDisplayToggle}>
                 {`${language.title}(${language.key})`}
               </Link>
             </li>,
@@ -70,7 +65,6 @@ LearningResourceLanguage.propTypes = {
     }),
   ).isRequired,
   modelId: PropTypes.number.isRequired,
-  onVariantClick: PropTypes.func,
 };
 
 export default injectT(LearningResourceLanguage);

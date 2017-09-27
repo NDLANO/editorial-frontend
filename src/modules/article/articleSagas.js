@@ -18,15 +18,17 @@ export function* fetchArticle(id, language = 'nb') {
     if (tempArticle.supportedLanguages.includes(language)) {
       const article = yield call(api.fetchArticle, id, language);
       yield put(actions.setArticle({ ...article, language }));
-
     } else {
-      yield put(actions.setArticle({
-        id: tempArticle.id,
-        language,
-        copyright: tempArticle.copyright,
-        articleType: 'standard',
-        revision: tempArticle.revision,
-        supportedLanguages: tempArticle.supportedLanguages, }));
+      yield put(
+        actions.setArticle({
+          id: tempArticle.id,
+          language,
+          copyright: tempArticle.copyright,
+          articleType: tempArticle.articleType,
+          revision: tempArticle.revision,
+          supportedLanguages: tempArticle.supportedLanguages,
+        }),
+      );
     }
   } catch (error) {
     // TODO: handle error
@@ -62,7 +64,13 @@ export function* createArticle(article, history) {
   try {
     const createdArticle = yield call(api.createArticle, article);
     yield put(actions.setArticle(createdArticle));
-    history.push(toEditArticle(createdArticle.id, createdArticle.articleType, article.language));
+    history.push(
+      toEditArticle(
+        createdArticle.id,
+        createdArticle.articleType,
+        article.language,
+      ),
+    );
     yield put(actions.updateArticleSuccess());
     yield put(
       messageActions.addMessage({

@@ -19,7 +19,7 @@ import reformed from '../../../reformed';
 
 export const getInitialModel = (link = {}) => ({
   text: link.text || '',
-  url: link.url || '',
+  href: link.href || '',
 });
 
 class LinkForm extends Component {
@@ -63,13 +63,13 @@ class LinkForm extends Component {
           />
         </Field>
         <Field>
-          <label htmlFor="url">
-            {t('learningResourceForm.fields.content.link.url')}
+          <label htmlFor="href">
+            {t('learningResourceForm.fields.content.link.href')}
           </label>
-          <input type="text" {...bindInput('url')} />
+          <input type="text" {...bindInput('href')} />
           <FieldErrorMessages
-            label={t('learningResourceForm.fields.content.link.url')}
-            field={getField('url', schema)}
+            label={t('learningResourceForm.fields.content.link.href')}
+            field={getField('href', schema)}
             submitted={submitted}
           />
         </Field>
@@ -77,7 +77,7 @@ class LinkForm extends Component {
           <div {...toolbarClasses('link-actions')}>
             {isEdit
               ? <Button onClick={onRemove}>
-                  {t('learningResourceForm.fields.content.link.removeUrl')}
+                  {t('learningResourceForm.fields.content.link.remove')}
                 </Button>
               : ''}
             <Button outline onClick={onClose}>
@@ -96,7 +96,7 @@ class LinkForm extends Component {
 LinkForm.propTypes = {
   model: PropTypes.shape({
     text: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
+    href: PropTypes.string.isRequired,
   }),
   schema: SchemaShape,
   setSubmitted: PropTypes.func.isRequired,
@@ -113,6 +113,6 @@ export default compose(
   reformed,
   validateSchema({
     text: { required: true },
-    url: { required: true },
+    href: { required: true },
   }),
 )(LinkForm);

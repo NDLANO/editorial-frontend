@@ -281,8 +281,8 @@ const phrases = {
           notSupported: 'Mediatype {mediaType} er ikke støttet.',
         },
         link: {
-          removeUrl: 'Fjern lenke',
-          url: 'Lenke',
+          remove: 'Fjern lenke',
+          href: 'Lenke',
           text: 'Tekst',
           addTitle: 'Legg til lenke',
           changeTitle: 'Endre lenke',

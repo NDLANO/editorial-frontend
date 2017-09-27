@@ -52,8 +52,7 @@ class EditLink extends React.Component {
 
   handleSave(model) {
     const { state, handleStateChange, closeDialog, node } = this.props;
-    const href = model.url;
-    const text = model.text;
+    const { href, text } = model;
     const isNDLAUrl = /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
     const data = isNDLAUrl ? createContentLinkData(href) : createLinkData(href);
 
@@ -93,12 +92,12 @@ class EditLink extends React.Component {
 
   addData(node) {
     const { startOffset, endOffset, focusText } = this.props.state;
-    const data = node.data.toJS();
+    const data = node.data ? node.data.toJS() : {};
     const text = node.text
       ? node.text
       : focusText.text.slice(startOffset, endOffset);
 
-    const url =
+    const href =
       data.resource === 'content-link'
         ? `${window.config.editorialFrontendDomain}/article/${data[
             'content-id'
@@ -107,7 +106,7 @@ class EditLink extends React.Component {
 
     this.setState({
       model: {
-        url,
+        href,
         text,
       },
     });

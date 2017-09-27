@@ -279,8 +279,8 @@ const phrases = {
           notSupported: 'Media type {mediaType} is not supported.',
         },
         link: {
-          removeUrl: 'Remove link',
-          url: 'Link',
+          remove: 'Remove link',
+          href: 'Link',
           text: 'Text',
           addTitle: 'Add link',
           changeTitle: 'Change link',

@@ -337,9 +337,20 @@ function createRules(contentData = {}, footnoteCounter) {
       serialize(object, children) {
         if (object.kind !== 'inline') return;
         if (object.type !== 'link') return;
-        const href = object.data.href;
+        const data = object.data.toJS();
+
+        if (data.resource === 'content-link') {
+          return (
+            <embed
+              data-resource={data.resource}
+              data-content-id={data['content-id']}
+              data-link-text={object.text}
+            />
+          );
+        }
+
         return (
-          <a href={href}>
+          <a href={data.href}>
             {children}
           </a>
         );
@@ -380,7 +391,7 @@ export const learningResourceEmbedRule = [
       if (embed.resource === 'content-link') {
         return {
           kind: 'inline',
-          type: 'embed-inline',
+          type: 'link',
           data: embed,
           nodes: [
             {
@@ -408,11 +419,6 @@ export const learningResourceEmbedRule = [
       const props = Object.keys(data)
         .filter(key => data[key] !== undefined && !isObject(data[key]))
         .reduce((acc, key) => ({ ...acc, [`data-${key}`]: data[key] }), {});
-
-      if (data.resource === 'content-link') {
-        // Set inline node text
-        props['data-link-text'] = object.text;
-      }
 
       return <embed {...props} />;
     },

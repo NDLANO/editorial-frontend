@@ -84,7 +84,6 @@ const VisualElementSearch = ({
                 handleVisualElementChange({
                   resource: 'external',
                   url: video.link,
-                  caption: '',
                 });
               } else {
                 handleVisualElementChange({

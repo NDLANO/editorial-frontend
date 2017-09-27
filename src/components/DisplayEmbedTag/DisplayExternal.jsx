@@ -36,28 +36,23 @@ export class DisplayExternal extends React.Component {
           src,
           type: data.type,
           provider: data.providerName,
-          loading: false,
         });
       } else {
-        this.setState({ error: true, loading: false });
+        this.setState({ error: true });
       }
     } catch (e) {
-      this.setState({ error: true, loading: false });
+      this.setState({ error: true });
       // throw new Error(e);
     }
   }
 
   render() {
-    const { title, src, error, type, provider, loading } = this.state;
+    const { title, src, error, type, provider } = this.state;
 
     if (error) {
       return (
         <EditorErrorMessage msg={this.props.t('displayOembed.errorMessage')} />
       );
-    }
-
-    if (loading) {
-      return <div />; // Spinner here!
     }
 
     if (type === 'video' && provider === 'YouTube') {

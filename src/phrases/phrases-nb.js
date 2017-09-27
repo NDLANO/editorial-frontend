@@ -127,13 +127,11 @@ const phrases = {
       caption: {
         label: {
           image: 'Bildetekst',
-          video: 'Videotekst',
           brightcove: 'Videotekst',
           external: 'Innholdstekst',
         },
         placeholder: {
           image: 'Bildetekst',
-          video: 'Videotekst',
           brightcove: 'Videotekst',
           external: 'Innholdstekst',
         },

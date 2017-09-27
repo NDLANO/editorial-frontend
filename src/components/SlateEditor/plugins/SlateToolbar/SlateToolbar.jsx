@@ -12,7 +12,7 @@ import Portal from 'react-portal';
 import BEMHelper from 'react-bem-helper';
 import Types from 'slate-prop-types';
 import ToolbarButton from './ToolbarButton';
-import { setFootnote } from '../../createSlateStore';
+import { setActiveNode } from '../../createSlateStore';
 import { hasNodeOfType } from '../utils';
 
 const DEFAULT_NODE = 'paragraph';
@@ -117,9 +117,9 @@ class SlateToolbar extends Component {
       const node = editorState.inlines.find(
         inline => inline.type === 'footnote' || inline.type === 'embed-inline',
       );
-      slateStore.dispatch(setFootnote(node));
+      slateStore.dispatch(setActiveNode(node));
     } else {
-      slateStore.dispatch(setFootnote({ type }));
+      slateStore.dispatch(setActiveNode({ type }));
     }
   }
 

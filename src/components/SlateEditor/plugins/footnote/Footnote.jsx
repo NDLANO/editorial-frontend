@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import Types from 'slate-prop-types';
-import { setFootnote } from '../../createSlateStore';
+import { setActiveNode } from '../../createSlateStore';
 import { EditorShape } from '../../../../shapes';
 
 // Todo: a -> button
@@ -41,7 +41,7 @@ class Footnote extends Component {
 
   handleClick() {
     const { editor: { props: { slateStore } }, node } = this.props;
-    slateStore.dispatch(setFootnote(node));
+    slateStore.dispatch(setActiveNode(node));
   }
 
   render() {

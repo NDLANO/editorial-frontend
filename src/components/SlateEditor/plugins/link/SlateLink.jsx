@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
-import { setFootnote } from '../../createSlateStore';
+import { setActiveNode } from '../../createSlateStore';
 import { EditorShape } from '../../../../shapes';
 
 const SlateLink = props => {
@@ -24,7 +24,7 @@ const SlateLink = props => {
     <a
       href={href}
       {...attributes}
-      onClick={() => slateStore.dispatch(setFootnote(node))}>
+      onClick={() => slateStore.dispatch(setActiveNode(node))}>
       {props.children}
     </a>
   );

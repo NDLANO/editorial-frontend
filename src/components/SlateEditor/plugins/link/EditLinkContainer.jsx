@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import Portal from 'react-portal';
 import Lightbox from '../../../Lightbox';
-import { setFootnote } from '../../createSlateStore';
+import { setActiveNode } from '../../createSlateStore';
 import EditLink from './EditLink';
 import { TYPE } from './';
 
@@ -36,7 +36,7 @@ class EditFootnoteContainer extends Component {
 
   onStoreChange() {
     const { slateStore } = this.props;
-    const node = slateStore.getState().selectedFootnote;
+    const node = slateStore.getState().activeNode;
     this.setState({
       node: node && node.type === TYPE ? node : undefined,
     });
@@ -44,7 +44,7 @@ class EditFootnoteContainer extends Component {
 
   handleClose() {
     const { slateStore } = this.props;
-    slateStore.dispatch(setFootnote(undefined));
+    slateStore.dispatch(setActiveNode(undefined));
   }
 
   render() {

@@ -113,6 +113,6 @@ export default compose(
   reformed,
   validateSchema({
     text: { required: true },
-    href: { required: true },
+    href: { required: true, url: true },
   }),
 )(LinkForm);

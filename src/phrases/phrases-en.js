@@ -361,6 +361,7 @@ const phrases = {
   validation: {
     isRequired: '{label} is required.',
     isNumeric: '{label} must contain digits.',
+    url: '{label} must contain a valid link.',
     maxLength:
       '{label} must not have more than {maxLength, number} characters.',
     minLength: '{length} must have at least {minLength, number} characters.',

@@ -350,7 +350,11 @@ function createRules(contentData = {}, footnoteCounter) {
         }
 
         return (
-          <a href={data.href}>
+          <a
+            href={data.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={object.text}>
             {children}
           </a>
         );

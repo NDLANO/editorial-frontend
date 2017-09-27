@@ -15,12 +15,11 @@ import { TYPE } from './';
 import connectLightbox from '../utils/connectLightbox';
 import LinkForm, { getInitialModel } from './LinkForm';
 
-const createContentLinkData = (id, text) => ({
+const createContentLinkData = id => ({
   type: TYPE,
   data: {
     'content-id': id,
     resource: 'content-link',
-    'link-text': text,
   },
 });
 
@@ -58,7 +57,7 @@ class EditLink extends React.Component {
             .moveToRangeOf(node)
             .extend(node.text.length)
             .insertText(text)
-            .setInline(createContentLinkData(id, text)),
+            .setInline(createContentLinkData(id)),
         );
       } else {
         // create new
@@ -67,7 +66,7 @@ class EditLink extends React.Component {
             .change()
             .insertText(text)
             .extend(0 - text.length)
-            .wrapInline(createContentLinkData(id, text))
+            .wrapInline(createContentLinkData(id))
             .collapseToEnd(),
         );
       }

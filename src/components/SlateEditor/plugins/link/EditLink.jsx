@@ -11,13 +11,12 @@ import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import Types from 'slate-prop-types';
+import { compose } from 'redux';
 import { Field } from '../../../Fields';
 import { toolbarClasses } from '../SlateToolbar/SlateToolbar'; // TODO: Remove depdency
 import { TYPE } from './';
 import { hasNodeOfType } from '../utils';
-
-const EMBED_INLINE_TYPE = 'embed-inline';
-const LINK_TYPE = 'link';
+import connectLightbox from '../utils/connectLightbox';
 
 const createContentLinkData = (id, text) => ({
   type: TYPE,
@@ -114,7 +113,7 @@ class EditLink extends React.Component {
   removeUrl() {
     const { state, handleStateChange } = this.props;
     const change = state.change();
-    if (hasNodeOfType(state, EMBED_INLINE_TYPE, 'inline')) {
+    if (hasNodeOfType(state, TYPE, 'inline')) {
       const nextState = change
         .removeNodeByKey(state.selection.startKey)
         .insertText(this.state.text);
@@ -182,7 +181,7 @@ class EditLink extends React.Component {
         </Field>
         <Field right>
           <div {...toolbarClasses('link-actions')}>
-            {this.state.nodeType === (EMBED_INLINE_TYPE || LINK_TYPE)
+            {this.state.nodeType === TYPE
               ? <Button onClick={this.removeUrl}>
                   {t('learningResourceForm.fields.content.link.removeUrl')}
                 </Button>
@@ -211,4 +210,4 @@ EditLink.propTypes = {
   ]),
 };
 
-export default injectT(EditLink);
+export default compose(connectLightbox(() => TYPE), injectT)(EditLink);

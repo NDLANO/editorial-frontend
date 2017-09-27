@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import EditLinkContainer from './EditLinkContainer';
+import EditLink from './EditLink';
 import SlateLink from './SlateLink';
 
 export const TYPE = 'embed-inline';
@@ -23,7 +23,7 @@ export default function linkPlugin() {
     schema,
     render: (props, state, editor) =>
       <span>
-        <EditLinkContainer
+        <EditLink
           state={state}
           blur={editor.blur}
           slateStore={editor.props.slateStore}

@@ -74,6 +74,7 @@ input::placeholder {
     width: 6.5em;
     border-right: 1px solid;
     padding-right: 0.7rem;
+    line-height: initial;
   }
 
   &__focus-text {

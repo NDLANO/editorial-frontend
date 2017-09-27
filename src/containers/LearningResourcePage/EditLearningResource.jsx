@@ -28,6 +28,12 @@ class EditLearningResource extends Component {
     fetchArticle(articleId);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.articleId !== nextProps.articleId) {
+      window.location.href = window.location.href;
+    }
+  }
+
   updateArticle(article) {
     const { updateArticle } = this.props;
     updateArticle({ article });

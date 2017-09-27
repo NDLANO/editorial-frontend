@@ -11,12 +11,13 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
 import Types from 'slate-prop-types';
+import { Figure } from 'ndla-ui';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
-import SlateExternal from './SlateExternal';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayOembed from '../../../DisplayEmbedTag/DisplayOembed';
+import DisplayExternal from '../../../DisplayEmbedTag/DisplayExternal';
 import { getSchemaEmbed } from '../../schema';
 import { EditorShape } from '../../../../shapes';
 
@@ -92,7 +93,11 @@ class SlateFigure extends React.Component {
       case 'audio':
         return <SlateAudio {...props} />;
       case 'external':
-        return <SlateExternal {...props} />;
+        return (
+          <Figure>
+            <DisplayExternal url={embed.url} />
+          </Figure>
+        );
       case 'h5p':
         return <DisplayOembed url={embed.url} />;
       default:

@@ -64,7 +64,7 @@ export class DisplayExternal extends React.Component {
       return (
         <iframe
           style={{
-            minHeight: '349px',
+            minHeight: '436px',
           }}
           ref={iframe => {
             this.iframe = iframe;

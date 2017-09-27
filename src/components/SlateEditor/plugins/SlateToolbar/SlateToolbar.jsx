@@ -14,6 +14,8 @@ import Types from 'slate-prop-types';
 import ToolbarButton from './ToolbarButton';
 import { setActiveNode } from '../../createSlateStore';
 import { hasNodeOfType } from '../utils';
+import { TYPE as footnote } from '../footnote/index';
+import { TYPE as link } from '../link';
 
 const DEFAULT_NODE = 'paragraph';
 
@@ -26,7 +28,7 @@ const suportedToolbarElements = {
     'heading-two',
     'heading-three',
   ],
-  inline: ['embed-inline', 'footnote'],
+  inline: [link, footnote],
 };
 
 export const toolbarClasses = new BEMHelper({
@@ -115,7 +117,7 @@ class SlateToolbar extends Component {
 
     if (editorState.inlines && editorState.inlines.size > 0) {
       const node = editorState.inlines.find(
-        inline => inline.type === 'footnote' || inline.type === 'embed-inline',
+        inline => inline.type === footnote || inline.type === link,
       );
       slateStore.dispatch(setActiveNode(node));
     } else {

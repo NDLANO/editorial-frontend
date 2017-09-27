@@ -12,6 +12,7 @@ import { injectT } from 'ndla-i18n';
 import Portal from 'react-portal';
 import Lightbox from '../../../Lightbox';
 import { setFootnote } from '../../createSlateStore';
+import EditLink from './EditLink';
 import { TYPE } from './';
 
 class EditFootnoteContainer extends Component {
@@ -51,9 +52,15 @@ class EditFootnoteContainer extends Component {
     const { node } = this.state;
 
     return (
-      <Portal isOpened={this.state.node !== undefined}>
+      <Portal isOpened={node !== undefined}>
         <Lightbox display big onClose={this.handleClose}>
-          Clicked
+          <EditLink
+            node={node}
+            closeDialog={this.handleClose}
+            state={state}
+            blur={blur}
+            handleStateChange={onChange}
+          />
         </Lightbox>
       </Portal>
     );

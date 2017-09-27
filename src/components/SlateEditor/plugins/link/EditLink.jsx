@@ -8,15 +8,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import Types from 'slate-prop-types';
 import { compose } from 'redux';
-import { Field } from '../../../Fields';
-import { toolbarClasses } from '../SlateToolbar/SlateToolbar'; // TODO: Remove depdency
 import { TYPE } from './';
-import { hasNodeOfType } from '../utils';
 import connectLightbox from '../utils/connectLightbox';
+import LinkForm, { getInitialModel } from './LinkForm';
 
 const createContentLinkData = (id, text) => ({
   type: TYPE,
@@ -31,19 +28,11 @@ class EditLink extends React.Component {
   constructor() {
     super();
     this.state = {
-      url: '',
-      text: '',
-      initialized: false,
-      urlError: false,
-      isEdit: false,
-      nodeType: undefined,
-      nodeKey: undefined,
+      model: undefined,
     };
     this.addData = this.addData.bind(this);
-    this.onContentLinkChange = this.onContentLinkChange.bind(this);
-    this.onContentLinkSubmit = this.onContentLinkSubmit.bind(this);
-    this.onCloseDialog = this.onCloseDialog.bind(this);
-    this.removeUrl = this.removeUrl.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
   }
 
   componentWillMount() {
@@ -51,18 +40,17 @@ class EditLink extends React.Component {
     this.addData(node);
   }
 
-  onContentLinkSubmit() {
-    const { state, handleStateChange, node } = this.props;
-    const href = this.state.url;
-    const text = this.state.text;
+  handleSave(model) {
+    const { state, handleStateChange, closeDialog, node } = this.props;
+    const href = model.url;
+    const text = model.text;
     const isNDLAUrl = /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
 
     // TODO: A way to set either 'embed-inline' or 'link'
-
     if (isNDLAUrl && href && text) {
       const splittedHref = href.split('/');
       const id = splittedHref[splittedHref.length - 1];
-      if (this.state.nodeKey) {
+      if (node.key) {
         // update/change
         handleStateChange(
           state
@@ -83,43 +71,18 @@ class EditLink extends React.Component {
             .collapseToEnd(),
         );
       }
-      this.onCloseDialog();
     }
+    closeDialog();
   }
 
-  onContentLinkChange(evt) {
-    const name = evt.target.name;
-    const value = evt.target.value;
-    const urlError =
-      name === 'url'
-        ? !/^https:\/(.*).ndla.no\/article\/\d*/.test(value)
-        : false;
-    this.setState({
-      [name]: value,
-      urlError,
-    });
-  }
-
-  onCloseDialog() {
-    this.setState({
-      text: '',
-      url: '',
-      isEdit: false,
-      initialized: false,
-    });
-    this.props.closeDialog();
-  }
-
-  removeUrl() {
-    const { state, handleStateChange } = this.props;
-    const change = state.change();
-    if (hasNodeOfType(state, TYPE, 'inline')) {
-      const nextState = change
-        .removeNodeByKey(state.selection.startKey)
-        .insertText(this.state.text);
-      handleStateChange(nextState);
-      this.onCloseDialog();
-    }
+  handleRemove() {
+    const { state, handleStateChange, closeDialog, node } = this.props;
+    const nextState = state
+      .change()
+      .removeNodeByKey(node.key)
+      .insertText(node.text);
+    handleStateChange(nextState);
+    closeDialog();
   }
 
   addData(node) {
@@ -127,22 +90,26 @@ class EditLink extends React.Component {
     const text = node.text
       ? node.text
       : focusText.text.slice(startOffset, endOffset);
+    const url = node.data
+      ? `${window.config.editorialFrontendDomain}/article/${node.data.get(
+          'content-id',
+        )}`
+      : '';
 
     this.setState({
-      url: node.data
-        ? `${window.config.editorialFrontendDomain}/article/${node.data.get(
-            'content-id',
-          )}`
-        : '',
-      text,
-      nodeType: node.type,
-      nodeKey: node.key,
+      model: {
+        url,
+        text,
+      },
     });
     // TODO: Handle normal external links by checking nodeLink.type === 'link'
   }
 
   render() {
-    const { t } = this.props;
+    const { t, closeDialog } = this.props;
+    const { model } = this.state;
+    const isEdit = model !== undefined;
+
     return (
       <div>
         <h3>
@@ -152,48 +119,13 @@ class EditLink extends React.Component {
               : 'addTitle'}`,
           )}
         </h3>
-        <Field>
-          <label htmlFor="text">
-            {t('learningResourceForm.fields.content.link.text')}
-          </label>
-          <input
-            name="text"
-            type="text"
-            value={this.state.text}
-            onChange={this.onContentLinkChange}
-          />
-        </Field>
-        <Field>
-          <label htmlFor="url">
-            {t('learningResourceForm.fields.content.link.url')}
-          </label>
-          <input
-            name="url"
-            type="text"
-            value={this.state.url}
-            onChange={this.onContentLinkChange}
-          />
-          {this.state.urlError
-            ? <span {...toolbarClasses('link-input', 'error')}>
-                {t('learningResourceForm.fields.content.link.urlError')}
-              </span>
-            : ''}
-        </Field>
-        <Field right>
-          <div {...toolbarClasses('link-actions')}>
-            {this.state.nodeType === TYPE
-              ? <Button onClick={this.removeUrl}>
-                  {t('learningResourceForm.fields.content.link.removeUrl')}
-                </Button>
-              : ''}
-            <Button outline onClick={this.onCloseDialog}>
-              {t('learningResourceForm.fields.content.link.abort')}
-            </Button>
-            <Button onClick={this.onContentLinkSubmit}>
-              {t('learningResourceForm.fields.content.link.save')}
-            </Button>
-          </div>
-        </Field>
+        <LinkForm
+          initialModel={getInitialModel(model)}
+          onClose={closeDialog}
+          isEdit={isEdit}
+          onRemove={this.handleRemove}
+          onSave={this.handleSave}
+        />
       </div>
     );
   }

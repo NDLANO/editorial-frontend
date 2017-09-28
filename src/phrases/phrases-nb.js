@@ -281,10 +281,7 @@ const phrases = {
           notSupported: 'Mediatype {mediaType} er ikke støttet.',
         },
         link: {
-          save: 'Lagre',
-          abort: 'Avbryt',
           removeUrl: 'Fjern lenke',
-          urlError: 'Lenke må komme fra ndla.no',
           url: 'Lenke',
           text: 'Tekst',
           addTitle: 'Legg til lenke',

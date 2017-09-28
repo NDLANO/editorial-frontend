@@ -10,7 +10,6 @@
 import React from 'react';
 import { Block } from 'slate';
 import { Placeholder } from 'slate-react';
-import SlateLink from './SlateLink';
 
 export const defaultBlock = {
   type: 'paragraph',
@@ -91,7 +90,6 @@ const defaultSchema = {
       <blockquote {...props.attributes}>
         {props.children}
       </blockquote>,
-    'embed-inline': SlateLink,
     link: props => {
       const { data } = props.node;
       const href = data.get('href');

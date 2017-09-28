@@ -181,7 +181,8 @@ const defaultSchema = {
     // in the document
     {
       match: node =>
-        node.kind === 'block' && (node.type === 'section' || node.type === 'div'),
+        node.kind === 'block' &&
+        (node.type === 'section' || node.type === 'div'),
       validate: document => {
         const lastNode = document.nodes.last();
         return lastNode &&

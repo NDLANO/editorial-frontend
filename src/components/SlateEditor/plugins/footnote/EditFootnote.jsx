@@ -10,9 +10,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import Types from 'slate-prop-types';
+import { compose } from 'redux';
 import FootnoteForm, { getInitialModel } from './FootnoteForm';
-
-const FOOTNOTE = 'footnote';
+import connectLightbox from '../utils/connectLightbox';
+import { TYPE } from './';
 
 class EditFootnote extends Component {
   constructor() {
@@ -54,7 +55,7 @@ class EditFootnote extends Component {
     } else {
       handleStateChange(
         change.collapseToEnd().insertText('#').extend(-1).wrapInline({
-          type: FOOTNOTE,
+          type: TYPE,
           data,
         }),
       );
@@ -107,4 +108,4 @@ EditFootnote.propTypes = {
   ]),
 };
 
-export default injectT(EditFootnote);
+export default compose(connectLightbox(() => TYPE), injectT)(EditFootnote);

@@ -10,6 +10,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
+import EditBlockquote from 'slate-edit-blockquote';
+import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import {
   TextField,
   PlainTextField,
@@ -21,6 +23,7 @@ import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbe
 import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
 import schema from '../../../components/SlateEditor/schema';
+import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import { CommonFieldPropsShape } from '../../../shapes';
 
 const classes = new BEMHelper({
@@ -28,7 +31,12 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const plugins = [createNoEmbedsPlugin()];
+const plugins = [
+  createNoEmbedsPlugin(),
+  createLinkPlugin(),
+  headingPlugin(),
+  EditBlockquote({ type: 'quote' }),
+];
 
 class TopicArticleContent extends Component {
   constructor(props) {

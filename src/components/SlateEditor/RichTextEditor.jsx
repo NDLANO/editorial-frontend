@@ -97,12 +97,11 @@ const RichTextEditor = class extends React.Component {
           <Editor
             {...classes(undefined, undefined, className)}
             state={value}
-            plugins={plugins}
             schema={schema}
-            onKeyDown={this.onKeyDown}
             onChange={change =>
               onChange({ target: { name, value: change.state } })}
             slateStore={this.state.slateStore}
+            plugins={plugins}
             {...rest}
           />
           {children}

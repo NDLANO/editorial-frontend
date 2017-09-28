@@ -35,6 +35,7 @@ import LearningResourceContent from './LearningResourceContent';
 import LearningResourceCopyright from './LearningResourceCopyright';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import LearningResourceHeader from './LearningResourceHeader';
+import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
 
 const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -47,7 +48,7 @@ const findFootnotes = content =>
     .reduce(
       (all, item) => [
         ...all,
-        ...findNodesByType(item.state.document, 'footnote'),
+        ...findNodesByType(item.state.document, footnoteType),
       ],
       [],
     )

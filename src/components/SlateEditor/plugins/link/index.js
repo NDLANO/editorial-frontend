@@ -7,22 +7,23 @@
  */
 
 import React from 'react';
-import EditFootnote from './EditFootnote';
-import Footnote from './Footnote';
+import EditLink from './EditLink';
+import SlateLink from './SlateLink';
 
-export const TYPE = 'footnote';
+export const TYPE = 'embed-inline';
 
-export default function footnotePlugin() {
+export default function linkPlugin() {
   const schema = {
     nodes: {
-      footnote: Footnote,
+      'embed-inline': SlateLink,
     },
   };
+
   return {
     schema,
     render: (props, state, editor) =>
       <span>
-        <EditFootnote
+        <EditLink
           state={state}
           blur={editor.blur}
           slateStore={editor.props.slateStore}

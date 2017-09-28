@@ -21,6 +21,7 @@ import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbe
 import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
 import schema from '../../../components/SlateEditor/schema';
+import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import { CommonFieldPropsShape } from '../../../shapes';
 
 const classes = new BEMHelper({
@@ -28,7 +29,7 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const plugins = [createNoEmbedsPlugin()];
+const plugins = [createNoEmbedsPlugin(), createLinkPlugin()];
 
 class TopicArticleContent extends Component {
   constructor(props) {

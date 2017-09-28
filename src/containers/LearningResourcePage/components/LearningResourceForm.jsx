@@ -67,9 +67,7 @@ export const getInitialModel = (article = {}) => {
     revision: article.revision,
     title: article.title || '',
     introduction: plainTextToEditorState(article.introduction),
-    content: learningResourceContentToEditorState(article.content, {
-      footnotes: article.footnotes,
-    }),
+    content: learningResourceContentToEditorState(article.content),
     tags: article.tags || [],
     authors: parseCopyrightAuthors(article, 'Forfatter'),
     licensees: parseCopyrightAuthors(article, 'Rettighetshaver'),
@@ -123,14 +121,6 @@ class LearningResourceForm extends Component {
       name,
     }));
 
-    const footnoteObject = findFootnotes(model.content).reduce(
-      (obj, footnote, i) => ({
-        ...obj,
-        [`ref_${i + 1}`]: footnote,
-      }),
-      {},
-    );
-
     this.props.onUpdate({
       id: model.id,
       revision,
@@ -138,7 +128,6 @@ class LearningResourceForm extends Component {
       introduction: editorStateToPlainText(model.introduction),
       tags: model.tags,
       content: learningResourceContentToHTML(model.content, true),
-      footNotes: footnoteObject,
       visualElement: createEmbedTag(model.metaImage),
       metaDescription: editorStateToPlainText(model.metaDescription),
       articleType: 'standard',

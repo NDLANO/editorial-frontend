@@ -12,15 +12,6 @@ import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
 
-export function FootnoteCounter(initialCount = 0) {
-  this.count = initialCount;
-
-  FootnoteCounter.prototype.getNextCount = function getNextCount() {
-    this.count = this.count + 1;
-    return this.count;
-  };
-}
-
 export const createEmptyState = () =>
   State.fromJSON({
     document: {
@@ -57,7 +48,7 @@ function extractSections(html) {
     .map(section => `${section}</section>`);
 }
 
-export function learningResourceContentToEditorState(html, contentData) {
+export function learningResourceContentToEditorState(html) {
   if (!html) {
     return [
       {
@@ -67,7 +58,7 @@ export function learningResourceContentToEditorState(html, contentData) {
     ];
   }
   const sections = extractSections(html);
-  const serializer = new Html({ rules: learningResourceRules(contentData) });
+  const serializer = new Html({ rules: learningResourceRules });
 
   return sections.map((section, index) => ({
     state: serializer.deserialize(section.replace(/\s\s+/g, '')),
@@ -78,7 +69,7 @@ export function learningResourceContentToEditorState(html, contentData) {
 export function learningResourceContentToHTML(contentState) {
   // Use footnoteCounter hack until we have a better footnote api
   const serializer = new Html({
-    rules: learningResourceRules({}, new FootnoteCounter()),
+    rules: learningResourceRules,
   });
 
   return contentState

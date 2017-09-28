@@ -118,11 +118,11 @@
     "redux-saga": "^0.15.6",
     "reselect": "^3.0.0",
     "serialize-javascript": "^1.4.0",
-    "slate": "^0.25.1",
-    "slate-html-serializer": "^0.1.9",
-    "slate-plain-serializer": "^0.1.8",
+    "slate": "^0.25.2",
+    "slate-html-serializer": "^0.1.11",
+    "slate-plain-serializer": "^0.1.9",
     "slate-prop-types": "^0.1.8",
-    "slate-react": "^0.1.8"
+    "slate-react": "^0.1.10"
   },
   "repository": {
     "type": "git",

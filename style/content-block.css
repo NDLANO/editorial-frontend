@@ -12,9 +12,6 @@
   }
 }
 
-.c-aside.expanded .c-aside__content > .c-bodybox {
-  margin-top: 1rem;
-}
 
 .c-aside.expanded .c-aside__content > div > .c-bodybox__delete-button {
   position: absolute;
@@ -23,7 +20,9 @@
 .c-bodybox {
   position: relative;
 }
-
+.c-editor__aside-type + .c-aside__content {
+  padding-top: 60px;
+}
 .c-editor {
   position: relative;
 

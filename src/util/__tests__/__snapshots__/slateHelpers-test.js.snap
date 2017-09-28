@@ -47,8 +47,7 @@ Object {
               Object {
                 "kind": "range",
                 "marks": Array [],
-                "text": "
-      Lorem.",
+                "text": "",
               },
             ],
           },
@@ -57,8 +56,9 @@ Object {
               "authors": Array [
                 "Jony Ive",
               ],
-              "edition": "4",
+              "edition": "2",
               "publisher": "Apple",
+              "resource": "footnote",
               "title": "Apple Watch",
               "type": "",
               "year": "2015",
@@ -86,7 +86,7 @@ Object {
                 "kind": "range",
                 "marks": Array [],
                 "text": "
-      Ipsum.",
+    ",
               },
             ],
           },
@@ -94,9 +94,11 @@ Object {
             "data": Object {
               "authors": Array [
                 "Steve Jobs",
+                "Jony Ive",
               ],
               "edition": "1",
               "publisher": "Apple",
+              "resource": "footnote",
               "title": "iPhone",
               "type": "",
               "year": "2007",
@@ -124,7 +126,6 @@ Object {
                 "kind": "range",
                 "marks": Array [],
                 "text": "
-    
     ",
               },
             ],
@@ -155,23 +156,12 @@ exports[`serialize embed block 1`] = `
 `;
 
 exports[`serialize footnote 1`] = `
-<a
-  href="#ref_1_cite"
-  name="ref_1_sup"
->
-  <sup>
-    1
-  </sup>
-</a>
-`;
-
-exports[`serialize footnote 2`] = `
-<a
-  href="#ref_2_cite"
-  name="ref_2_sup"
->
-  <sup>
-    2
-  </sup>
-</a>
+<embed
+  data-authors="Jony Ive"
+  data-edition="4"
+  data-publisher="Apple"
+  data-title="Apple Watch"
+  data-type="product"
+  data-year="2015"
+/>
 `;

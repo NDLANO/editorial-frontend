@@ -7,7 +7,7 @@
  */
 
 import createSlateStore, {
-  setFootnote,
+  setActiveNode,
   setSubmitted,
 } from '../createSlateStore';
 
@@ -29,10 +29,10 @@ test('slateStore set submitted', () => {
 
 test('slateStore set footnote', () => {
   const store = createSlateStore();
-  store.dispatch(setFootnote({ type: 'footnote' }));
+  store.dispatch(setActiveNode({ type: 'footnote' }));
 
   expect(store.getState()).toEqual({
     submitted: false,
-    selectedFootnote: { type: 'footnote' },
+    activeNode: { type: 'footnote' },
   });
 });

@@ -13,9 +13,10 @@ import BEMHelper from 'react-bem-helper';
 import Types from 'slate-prop-types';
 import EditBlockquote from 'slate-edit-blockquote';
 import ToolbarButton from './ToolbarButton';
-import SlateToolbarLink from './SlateToolbarLink';
-import { setFootnote } from '../../createSlateStore';
+import { setActiveNode } from '../../createSlateStore';
 import { hasNodeOfType } from '../utils';
+import { TYPE as footnote } from '../footnote/index';
+import { TYPE as link } from '../link';
 
 const DEFAULT_NODE = 'paragraph';
 
@@ -28,7 +29,7 @@ const suportedToolbarElements = {
     'heading-two',
     'heading-three',
   ],
-  inline: ['embed-inline', 'footnote'],
+  inline: [link, footnote],
 };
 
 export const toolbarClasses = new BEMHelper({
@@ -49,10 +50,8 @@ class SlateToolbar extends Component {
     this.onOpen = this.onOpen.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
-    this.onCloseDialog = this.onCloseDialog.bind(this);
     this.state = {
       state: this.props.state,
-      showContentlinkDialog: false,
     };
   }
 
@@ -62,10 +61,6 @@ class SlateToolbar extends Component {
 
   componentDidUpdate() {
     this.updateMenu();
-  }
-
-  onCloseDialog() {
-    this.setState({ showContentlinkDialog: false });
   }
 
   onClickBlock(e, type) {
@@ -125,17 +120,13 @@ class SlateToolbar extends Component {
     e.preventDefault();
     const { slateStore, state: editorState } = this.props;
 
-    if (type === ('embed-inline' || 'link')) {
-      this.setState({ showContentlinkDialog: true });
-    } else if (type === 'footnote') {
-      if (editorState.inlines && editorState.inlines.size > 0) {
-        const footnoteNode = editorState.inlines.find(
-          inline => inline.type === 'footnote',
-        );
-        slateStore.dispatch(setFootnote(footnoteNode));
-      } else {
-        slateStore.dispatch(setFootnote({ type: 'footnote' }));
-      }
+    if (editorState.inlines && editorState.inlines.size > 0) {
+      const node = editorState.inlines.find(
+        inline => inline.type === footnote || inline.type === link,
+      );
+      slateStore.dispatch(setActiveNode(node));
+    } else {
+      slateStore.dispatch(setActiveNode({ type }));
     }
   }
 
@@ -147,18 +138,6 @@ class SlateToolbar extends Component {
 
   onOpen(portal) {
     this.setState({ menu: portal.firstChild });
-  }
-
-  onContentLinkChange(evt) {
-    const name = evt.target.name;
-    const value = evt.target.value;
-
-    this.setState(prevState => ({
-      contentLink: {
-        ...prevState.contentLink,
-        [name]: value,
-      },
-    }));
   }
 
   handleStateChange(change) {
@@ -188,7 +167,6 @@ class SlateToolbar extends Component {
   }
 
   render() {
-    const { showContentlinkDialog } = this.state;
     const { state } = this.props;
 
     const toolbarButtons = Object.keys(suportedToolbarElements).map(kind =>
@@ -205,19 +183,11 @@ class SlateToolbar extends Component {
     );
 
     return (
-      <div>
-        <SlateToolbarLink
-          showDialog={showContentlinkDialog}
-          closeDialog={this.onCloseDialog}
-          state={state}
-          handleStateChange={this.handleStateChange}
-        />
-        <Portal isOpened onOpen={this.onOpen}>
-          <div {...toolbarClasses()}>
-            {toolbarButtons}
-          </div>
-        </Portal>
-      </div>
+      <Portal isOpened onOpen={this.onOpen}>
+        <div {...toolbarClasses()}>
+          {toolbarButtons}
+        </div>
+      </Portal>
     );
   }
 }

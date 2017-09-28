@@ -141,20 +141,20 @@ export const footnoteRule = {
 const RULES = [
   {
     // empty text nodes
-    // deserialize(el) {
-    //   if (el.nodeName.toLowerCase() !== '#text') return;
-    //   if (el.textContent.trim().length !== 0) return;
-    //   return {
-    //     kind: 'block',
-    //     type: 'emptyTextNode',
-    //     nodes: [],
-    //   };
-    // },
-    // serialize(object) {
-    //   if (object.kind !== 'block') return;
-    //   if (object.type !== 'emptyTextNode') return;
-    //   return <deleteme />;
-    // },
+    deserialize(el) {
+      if (el.nodeName.toLowerCase() !== '#text') return;
+      if (el.textContent.trim().length !== 0) return;
+      return {
+        kind: 'block',
+        type: 'emptyTextNode',
+        nodes: [],
+      };
+    },
+    serialize(object) {
+      if (object.kind !== 'block') return;
+      if (object.type !== 'emptyTextNode') return;
+      return <deleteme />;
+    },
   },
   divRule,
   {

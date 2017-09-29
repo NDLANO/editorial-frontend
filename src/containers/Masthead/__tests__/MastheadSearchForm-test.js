@@ -73,7 +73,7 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
   return new Promise(resolve => {
     setTimeout(() => {
       expect(historyMock.push.calledOnce).toBe(true);
-      expect(historyMock.push.calledWith('/topic-article/4232/edit/nb')).toBe(
+      expect(historyMock.push.calledWith('/topic-article/4232/edit')).toBe(
         true,
       );
       resolve();

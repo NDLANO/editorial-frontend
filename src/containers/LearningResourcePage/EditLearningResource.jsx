@@ -38,6 +38,12 @@ class EditLearningResource extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.articleId !== nextProps.articleId) {
+      window.location.href = window.location.href;
+    }
+  }
+
   updateArticle(article) {
     const { updateArticle } = this.props;
     updateArticle({ article });

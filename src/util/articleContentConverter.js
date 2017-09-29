@@ -13,15 +13,6 @@ import Html from 'slate-html-serializer';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
 import { defaultRules } from '../components/SlateEditor/schema';
 
-export function FootnoteCounter(initialCount = 0) {
-  this.count = initialCount;
-
-  FootnoteCounter.prototype.getNextCount = function getNextCount() {
-    this.count = this.count + 1;
-    return this.count;
-  };
-}
-
 export const createEmptyState = () =>
   State.fromJSON({
     document: {
@@ -58,7 +49,7 @@ function extractSections(html) {
     .map(section => `${section}</section>`);
 }
 
-export function learningResourceContentToEditorState(html, contentData) {
+export function learningResourceContentToEditorState(html) {
   if (!html) {
     return [
       {
@@ -68,7 +59,8 @@ export function learningResourceContentToEditorState(html, contentData) {
     ];
   }
   const sections = extractSections(html);
-  const serializer = new Html({ rules: learningResourceRules(contentData) });
+
+  const serializer = new Html({ rules: learningResourceRules });
   /**
    Map over each section and deserialize to get a new slate state. On this state, normalize with the schema rules and use the changed state. this
    implementation was needed because of v0.22.0 change (onBeforeChange was removed from componentWillReceiveProps in editor).
@@ -89,7 +81,7 @@ export function learningResourceContentToEditorState(html, contentData) {
 export function learningResourceContentToHTML(contentState) {
   // Use footnoteCounter hack until we have a better footnote api
   const serializer = new Html({
-    rules: learningResourceRules({}, new FootnoteCounter()),
+    rules: learningResourceRules,
   });
 
   return contentState

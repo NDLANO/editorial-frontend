@@ -13,7 +13,9 @@ export function toSearch(query) {
 }
 
 export function toEditArticle(articleId, articleType, locale) {
-  return `/${articleTypes[articleType]}/${articleId}/edit/${locale}`;
+  return articleType === 'standard'
+    ? `/${articleTypes[articleType]}/${articleId}/edit/${locale}`
+    : `/${articleTypes[articleType]}/${articleId}/edit`;
 }
 export function toCreateLearningResource() {
   return `/learning-resource/new`;

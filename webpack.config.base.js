@@ -7,7 +7,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 const entry = {
-  main: ['./src/index.jsx', './style/index.css', './style/images/placeholder.png'],
+  main: ['./src/index.jsx', './style/index.css', './style/placeholder.png', './style/ndla-favicon.png'],
 };
 
 module.exports = options => ({

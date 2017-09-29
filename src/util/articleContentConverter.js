@@ -6,11 +6,12 @@
  *
  */
 
-import { State } from 'slate';
+import { State, Schema } from 'slate';
 
 import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
+import { defaultRules } from '../components/SlateEditor/schema';
 
 export function FootnoteCounter(initialCount = 0) {
   this.count = initialCount;
@@ -68,11 +69,21 @@ export function learningResourceContentToEditorState(html, contentData) {
   }
   const sections = extractSections(html);
   const serializer = new Html({ rules: learningResourceRules(contentData) });
-
-  return sections.map((section, index) => ({
-    state: serializer.deserialize(section.replace(/\s\s+/g, '')),
-    index,
-  }));
+  /**
+   Map over each section and deserialize to get a new slate state. On this state, normalize with the schema rules and use the changed state. this
+   implementation was needed because of v0.22.0 change (onBeforeChange was removed from componentWillReceiveProps in editor).
+   https://github.com/ianstormtaylor/slate/issues/1111
+  */
+  return sections.map((section, index) => {
+    const state = serializer.deserialize(section.replace(/\s\s+/g, ''));
+    const change = state
+      .change()
+      .normalize(Schema.fromJSON({ rules: defaultRules }));
+    return {
+      state: change.state,
+      index,
+    };
+  });
 }
 
 export function learningResourceContentToHTML(contentState) {

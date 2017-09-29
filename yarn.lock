@@ -6335,6 +6335,13 @@ slate-html-serializer@^0.1.11:
     slate-dev-logger "^0.1.10"
     type-of "^2.0.1"
 
+slate-hyperscript@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/slate-hyperscript/-/slate-hyperscript-0.1.9.tgz#473d41300c9041cc507abbf790e6897f2428d6dd"
+  dependencies:
+    is-empty "^1.0.0"
+    is-plain-object "^2.0.4"
+
 slate-plain-serializer@^0.1.10, slate-plain-serializer@^0.1.9:
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/slate-plain-serializer/-/slate-plain-serializer-0.1.10.tgz#a0ae83430bb6fa9a0695d7210cbea4036441d7d6"

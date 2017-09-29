@@ -29,7 +29,6 @@ const toolbarIcon = {
   italic: <Italic />,
   underlined: <Underline />,
   quote: <Quote />,
-  'embed-inline': <Link />,
   link: <Link />,
   'numbered-list': <ListNumbered />,
   'bulleted-list': <ListCircle />,

@@ -15,11 +15,22 @@ import { TYPE } from './';
 import connectLightbox from '../utils/connectLightbox';
 import LinkForm, { getInitialModel } from './LinkForm';
 
-const createContentLinkData = id => ({
+const createContentLinkData = href => {
+  const splittedHref = href.split('/');
+  const id = splittedHref[splittedHref.length - 1];
+  return {
+    type: TYPE,
+    data: {
+      'content-id': id,
+      resource: 'content-link',
+    },
+  };
+};
+
+const createLinkData = href => ({
   type: TYPE,
   data: {
-    'content-id': id,
-    resource: 'content-link',
+    href,
   },
 });
 
@@ -41,35 +52,30 @@ class EditLink extends React.Component {
 
   handleSave(model) {
     const { state, handleStateChange, closeDialog, node } = this.props;
-    const href = model.url;
-    const text = model.text;
+    const { href, text } = model;
     const isNDLAUrl = /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
+    const data = isNDLAUrl ? createContentLinkData(href) : createLinkData(href);
 
-    // TODO: A way to set either 'embed-inline' or 'link'
-    if (isNDLAUrl && href && text) {
-      const splittedHref = href.split('/');
-      const id = splittedHref[splittedHref.length - 1];
-      if (node.key) {
-        // update/change
-        handleStateChange(
-          state
-            .change()
-            .moveToRangeOf(node)
-            .extend(node.text.length)
-            .insertText(text)
-            .setInline(createContentLinkData(id)),
-        );
-      } else {
-        // create new
-        handleStateChange(
-          state
-            .change()
-            .insertText(text)
-            .extend(0 - text.length)
-            .wrapInline(createContentLinkData(id))
-            .collapseToEnd(),
-        );
-      }
+    if (node.key) {
+      // update/change
+      handleStateChange(
+        state
+          .change()
+          .moveToRangeOf(node)
+          .extend(node.text.length)
+          .insertText(text)
+          .setInline(data),
+      );
+    } else {
+      // create new
+      handleStateChange(
+        state
+          .change()
+          .insertText(text)
+          .extend(0 - text.length)
+          .wrapInline(data)
+          .collapseToEnd(),
+      );
     }
     closeDialog();
   }
@@ -86,22 +92,24 @@ class EditLink extends React.Component {
 
   addData(node) {
     const { startOffset, endOffset, focusText } = this.props.state;
+    const data = node.data ? node.data.toJS() : {};
     const text = node.text
       ? node.text
       : focusText.text.slice(startOffset, endOffset);
-    const url = node.data
-      ? `${window.config.editorialFrontendDomain}/article/${node.data.get(
-          'content-id',
-        )}`
-      : '';
+
+    const href =
+      data.resource === 'content-link'
+        ? `${window.config.editorialFrontendDomain}/article/${data[
+            'content-id'
+          ]}`
+        : data.href;
 
     this.setState({
       model: {
-        url,
+        href,
         text,
       },
     });
-    // TODO: Handle normal external links by checking nodeLink.type === 'link'
   }
 
   render() {

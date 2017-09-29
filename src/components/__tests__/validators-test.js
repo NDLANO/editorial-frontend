@@ -13,6 +13,7 @@ import {
   maxLength,
   minItems,
   isNumeric,
+  isUrl,
 } from '../validators';
 
 test('validators/isEmpty returns true when empty', () => {
@@ -70,4 +71,17 @@ test('validators/isNumeric check for numeric values', () => {
   expect(isNumeric('test')).toBe(false);
   expect(isNumeric(undefined)).toBe(false);
   expect(isNumeric(null)).toBe(false);
+});
+
+test('validators/isUrl returns true if value is valid url', () => {
+  expect(isUrl('https://github.no/NDLANO')).toBe(true);
+  expect(isUrl('http://ndla.no/')).toBe(true);
+  expect(isUrl('https://www.example.com')).toBe(true);
+});
+
+test('validators/isUrl returns false if value is not valid url', () => {
+  expect(isUrl(undefined)).toBe(false);
+  expect(isUrl('')).toBe(false);
+  expect(isUrl('//ndla.no/')).toBe(false);
+  expect(isUrl('www.ndla.no/')).toBe(false);
 });

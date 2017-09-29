@@ -141,20 +141,20 @@ export const footnoteRule = {
 const RULES = [
   {
     // empty text nodes
-    deserialize(el) {
-      if (el.nodeName.toLowerCase() !== '#text') return;
-      if (el.textContent.trim().length !== 0) return;
-      return {
-        kind: 'block',
-        type: 'emptyTextNode',
-        nodes: [],
-      };
-    },
-    serialize(object) {
-      if (object.kind !== 'block') return;
-      if (object.type !== 'emptyTextNode') return;
-      return <deleteme />;
-    },
+    // deserialize(el) {
+    //   if (el.nodeName.toLowerCase() !== '#text') return;
+    //   if (el.textContent.trim().length !== 0) return;
+    //   return {
+    //     kind: 'block',
+    //     type: 'emptyTextNode',
+    //     nodes: [],
+    //   };
+    // },
+    // serialize(object) {
+    //   if (object.kind !== 'block') return;
+    //   if (object.type !== 'emptyTextNode') return;
+    //   return <deleteme />;
+    // },
   },
   divRule,
   {
@@ -316,7 +316,6 @@ const RULES = [
   {
     deserialize(el, next) {
       if (el.tagName.toLowerCase() !== 'a') return;
-      if (el.name || el.name.match(/ref_\d+_sup/)) return; // is footnote
       return {
         kind: 'inline',
         type: 'link',
@@ -327,9 +326,24 @@ const RULES = [
     serialize(object, children) {
       if (object.kind !== 'inline') return;
       if (object.type !== 'link') return;
-      const href = object.data.href;
+      const data = object.data.toJS();
+
+      if (data.resource === 'content-link') {
+        return (
+          <embed
+            data-resource={data.resource}
+            data-content-id={data['content-id']}
+            data-link-text={object.text}
+          />
+        );
+      }
+
       return (
-        <a href={href}>
+        <a
+          href={data.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={object.text}>
           {children}
         </a>
       );
@@ -368,7 +382,7 @@ export const learningResourceEmbedRule = [
       if (embed.resource === 'content-link') {
         return {
           kind: 'inline',
-          type: 'embed-inline',
+          type: 'link',
           data: embed,
           nodes: [
             {
@@ -394,11 +408,6 @@ export const learningResourceEmbedRule = [
 
       const data = object.data.toJS();
       const props = createEmbedProps(data);
-
-      if (data.resource === 'content-link') {
-        // Set inline node text
-        props['data-link-text'] = object.text;
-      }
 
       return <embed {...props} />;
     },

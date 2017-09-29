@@ -10,12 +10,12 @@ import React from 'react';
 import EditLink from './EditLink';
 import SlateLink from './SlateLink';
 
-export const TYPE = 'embed-inline';
+export const TYPE = 'link';
 
 export default function linkPlugin() {
   const schema = {
     nodes: {
-      'embed-inline': SlateLink,
+      [TYPE]: SlateLink,
     },
   };
 

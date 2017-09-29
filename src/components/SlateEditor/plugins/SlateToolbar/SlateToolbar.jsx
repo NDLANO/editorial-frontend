@@ -15,7 +15,7 @@ import EditBlockquote from 'slate-edit-blockquote';
 import ToolbarButton from './ToolbarButton';
 import { setActiveNode } from '../../createSlateStore';
 import { hasNodeOfType } from '../utils';
-import { TYPE as footnote } from '../footnote/index';
+import { TYPE as footnote } from '../footnote';
 import { TYPE as link } from '../link';
 
 const DEFAULT_NODE = 'paragraph';

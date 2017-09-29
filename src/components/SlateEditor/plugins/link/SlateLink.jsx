@@ -14,11 +14,12 @@ import { EditorShape } from '../../../../shapes';
 
 const SlateLink = props => {
   const { attributes, editor: { props: { slateStore } }, node } = props;
-  const embed = node.data.toJS();
+  const data = node.data.toJS();
 
-  const href = `${window.config.editorialFrontendDomain}/article/${embed[
-    'content-id'
-  ]}`;
+  const href =
+    data.resource === 'content-link'
+      ? `${window.config.editorialFrontendDomain}/article/${data['content-id']}`
+      : data.href;
 
   return (
     <a

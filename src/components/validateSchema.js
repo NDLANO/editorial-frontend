@@ -14,6 +14,7 @@ import set from 'lodash/fp/set';
 import get from 'lodash/fp/get';
 import { getComponentName } from 'ndla-util';
 import {
+  isUrl,
   isEmpty,
   minLength,
   minItems,
@@ -58,6 +59,10 @@ const getValidationErrors = (schema, model, fields, t) =>
             minItems: rules.minItems,
           }),
         );
+      }
+
+      if (rules.url && !isUrl(value)) {
+        errors.push(label => t('validation.url', { label }));
       }
 
       if (rules.test) {

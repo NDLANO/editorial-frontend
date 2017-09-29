@@ -300,8 +300,8 @@ const phrases = {
           notSupported: 'Mediatype {mediaType} er ikke støttet.',
         },
         link: {
-          removeUrl: 'Fjern lenke',
-          url: 'Lenke',
+          remove: 'Fjern lenke',
+          href: 'Lenke',
           text: 'Tekst',
           addTitle: 'Legg til lenke',
           changeTitle: 'Endre lenke',
@@ -399,6 +399,7 @@ const phrases = {
     isNumeric: '{label} må inneholde tall.',
     maxLength: '{label} kan ikke ha mer enn {maxLength, number} tegn.',
     minLength: '{label} må ha minst {minLength, number} tegn.',
+    url: '{label} må inneholde en gyldig lenke.',
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
   },

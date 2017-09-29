@@ -294,8 +294,8 @@ const phrases = {
           notSupported: 'Media type {mediaType} is not supported.',
         },
         link: {
-          removeUrl: 'Remove link',
-          url: 'Link',
+          remove: 'Remove link',
+          href: 'Link',
           text: 'Text',
           addTitle: 'Add link',
           changeTitle: 'Change link',
@@ -376,6 +376,7 @@ const phrases = {
   validation: {
     isRequired: '{label} is required.',
     isNumeric: '{label} must contain digits.',
+    url: '{label} must contain a valid link.',
     maxLength:
       '{label} must not have more than {maxLength, number} characters.',
     minLength: '{length} must have at least {minLength, number} characters.',

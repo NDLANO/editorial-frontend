@@ -7,8 +7,10 @@
  */
 
 import React from 'react';
-import isObject from 'lodash/fp/isObject';
-import { reduceElementDataAttributes } from './embedTagHelpers';
+import {
+  reduceElementDataAttributes,
+  createEmbedProps,
+} from './embedTagHelpers';
 
 const BLOCK_TAGS = {
   section: 'section',
@@ -101,228 +103,215 @@ export const divRule = {
   },
 };
 
-export const createFootnoteRule = (footnotesData, footnoteCounter) => {
-  const createFootnoteData = (el, data) => {
-    const footnoteKey = el.attributes
-      .getNamedItem('name')
-      .value.replace(/_sup/g, '');
+export const footnoteRule = {
+  deserialize(el) {
+    if (!el.tagName.toLowerCase().startsWith('embed')) return;
+    const embed = reduceElementDataAttributes(el);
+    if (embed.resource !== 'footnote') return;
 
-    return data[footnoteKey];
-  };
+    return {
+      kind: 'inline',
+      type: 'footnote',
+      nodes: [
+        {
+          kind: 'text',
+          text: '#',
+          isVoid: true,
+        },
+      ],
+      data: {
+        ...embed,
+        authors: embed.authors ? embed.authors.split(';') : [],
+      },
+    };
+  },
+  serialize(object) {
+    if (object.kind !== 'inline') return;
+    if (object.type !== 'footnote') return;
 
-  return {
-    deserialize(el) {
-      if (el.tagName.toLowerCase() !== 'a') return;
-      if (el.name && el.name.match(/ref_\d+_sup/)) {
-        return {
-          kind: 'inline',
-          type: 'footnote',
-          nodes: [
-            {
-              kind: 'text',
-              text: '#',
-              isVoid: true,
-            },
-          ],
-          data: {
-            ...createFootnoteData(el, footnotesData),
-          },
-        };
-      }
-    },
-    serialize(object) {
-      if (object.kind !== 'inline') return;
-      if (object.type !== 'footnote') return;
-      const count = footnoteCounter.getNextCount();
-      const name = `ref_${count}_sup`;
-      const markup = (
-        <a href={`#ref_${count}_cite`} name={name}>
-          <sup>
-            {count}
-          </sup>
-        </a>
-      );
-      return markup;
-    },
-  };
+    const data = object.data.toJS();
+    const props = createEmbedProps({
+      ...data,
+      authors: data.authors ? data.authors.join(';') : '',
+    });
+    return <embed {...props} />;
+  },
 };
 
-function createRules(contentData = {}, footnoteCounter) {
-  const RULES = [
-    {
-      // empty text nodes
-      // deserialize(el) {
-      //   if (el.nodeName.toLowerCase() !== '#text') return;
-      //   if (el.textContent.trim().length !== 0) return;
-      //   return {
-      //     kind: 'block',
-      //     type: 'emptyTextNode',
-      //     nodes: [],
-      //   };
-      // },
-      // serialize(object) {
-      //   if (object.kind !== 'block') return;
-      //   if (object.type !== 'emptyTextNode') return;
-      //   return <deleteme />;
-      // },
+const RULES = [
+  {
+    // empty text nodes
+    deserialize(el) {
+      if (el.nodeName.toLowerCase() !== '#text') return;
+      if (el.textContent.trim().length !== 0) return;
+      return {
+        kind: 'block',
+        type: 'emptyTextNode',
+        nodes: [],
+      };
     },
-    divRule,
-    {
-      // Aside handling
-      deserialize(el, next) {
-        if (el.tagName.toLowerCase() !== 'aside') return;
-        return {
-          kind: 'block',
-          type: 'aside',
-          nodes: next(el.childNodes),
-          data: getAsideTag(el),
-        };
-      },
-      serialize(object, children) {
-        if (object.kind !== 'block') return;
-        if (object.type !== 'aside') return;
-        return (
-          <aside {...setAsideTag(object.data)}>
-            {children}
-          </aside>
-        );
-      },
+    serialize(object) {
+      if (object.kind !== 'block') return;
+      if (object.type !== 'emptyTextNode') return;
+      return <deleteme />;
     },
-    {
-      deserialize(el, next) {
-        const block = BLOCK_TAGS[el.tagName.toLowerCase()];
-        if (!block) return;
-        return {
-          kind: 'block',
-          type: block,
-          nodes: next(el.childNodes),
-        };
-      },
-      serialize(object, children) {
-        if (object.kind !== 'block') return;
-        switch (object.type) {
-          case 'section':
-            return (
-              <section>
-                {children}
-              </section>
-            );
-          case 'paragraph':
-            return (
-              <p>
-                {children}
-              </p>
-            );
-          case 'bulleted-list':
-            return (
-              <ul>
-                {children}
-              </ul>
-            );
-          case 'heading-one':
-            return (
-              <h1>
-                {children}
-              </h1>
-            );
-          case 'heading-two':
-            return (
-              <h2>
-                {children}
-              </h2>
-            );
-          case 'heading-three':
-            return (
-              <h3>
-                {children}
-              </h3>
-            );
-          case 'heading-four':
-            return (
-              <h4>
-                {children}
-              </h4>
-            );
-          case 'heading-five':
-            return (
-              <h5>
-                {children}
-              </h5>
-            );
-          case 'heading-six':
-            return (
-              <h6>
-                {children}
-              </h6>
-            );
-          case 'list-item':
-            return (
-              <li>
-                {children}
-              </li>
-            );
-          case 'numbered-list':
-            return (
-              <ol>
-                {children}
-              </ol>
-            );
-          case 'quote':
-            return (
-              <blockquote>
-                {children}
-              </blockquote>
-            );
-          case 'div':
-            return (
-              <div>
-                {children}
-              </div>
-            );
-        }
-      },
+  },
+  divRule,
+  {
+    // Aside handling
+    deserialize(el, next) {
+      if (el.tagName.toLowerCase() !== 'aside') return;
+      return {
+        kind: 'block',
+        type: 'aside',
+        nodes: next(el.childNodes),
+        data: getAsideTag(el),
+      };
     },
-    {
-      deserialize(el, next) {
-        const mark = MARK_TAGS[el.tagName.toLowerCase()];
-        if (!mark) return;
-        return {
-          kind: 'mark',
-          type: mark,
-          nodes: next(el.childNodes),
-        };
-      },
-      serialize(object, children) {
-        if (object.kind !== 'mark') return;
-        switch (object.type) {
-          case 'bold':
-            return (
-              <strong>
-                {children}
-              </strong>
-            );
-          case 'italic':
-            return (
-              <em>
-                {children}
-              </em>
-            );
-          case 'underlined':
-            return (
-              <u>
-                {children}
-              </u>
-            );
-          case 'superscripted':
-            return (
-              <sup>
-                {children}
-              </sup>
-            );
-        }
-      },
+    serialize(object, children) {
+      if (object.kind !== 'block') return;
+      if (object.type !== 'aside') return;
+      return (
+        <aside {...setAsideTag(object.data)}>
+          {children}
+        </aside>
+      );
     },
-    createFootnoteRule(contentData.footnotes, footnoteCounter),
+  },
+  {
+    deserialize(el, next) {
+      const block = BLOCK_TAGS[el.tagName.toLowerCase()];
+      if (!block) return;
+      return {
+        kind: 'block',
+        type: block,
+        nodes: next(el.childNodes),
+      };
+    },
+    serialize(object, children) {
+      if (object.kind !== 'block') return;
+      switch (object.type) {
+        case 'section':
+          return (
+            <section>
+              {children}
+            </section>
+          );
+        case 'paragraph':
+          return (
+            <p>
+              {children}
+            </p>
+          );
+        case 'bulleted-list':
+          return (
+            <ul>
+              {children}
+            </ul>
+          );
+        case 'heading-one':
+          return (
+            <h1>
+              {children}
+            </h1>
+          );
+        case 'heading-two':
+          return (
+            <h2>
+              {children}
+            </h2>
+          );
+        case 'heading-three':
+          return (
+            <h3>
+              {children}
+            </h3>
+          );
+        case 'heading-four':
+          return (
+            <h4>
+              {children}
+            </h4>
+          );
+        case 'heading-five':
+          return (
+            <h5>
+              {children}
+            </h5>
+          );
+        case 'heading-six':
+          return (
+            <h6>
+              {children}
+            </h6>
+          );
+        case 'list-item':
+          return (
+            <li>
+              {children}
+            </li>
+          );
+        case 'numbered-list':
+          return (
+            <ol>
+              {children}
+            </ol>
+          );
+        case 'quote':
+          return (
+            <blockquote>
+              {children}
+            </blockquote>
+          );
+        case 'div':
+          return (
+            <div>
+              {children}
+            </div>
+          );
+      }
+    },
+  },
+  {
+    deserialize(el, next) {
+      const mark = MARK_TAGS[el.tagName.toLowerCase()];
+      if (!mark) return;
+      return {
+        kind: 'mark',
+        type: mark,
+        nodes: next(el.childNodes),
+      };
+    },
+    serialize(object, children) {
+      if (object.kind !== 'mark') return;
+      switch (object.type) {
+        case 'bold':
+          return (
+            <strong>
+              {children}
+            </strong>
+          );
+        case 'italic':
+          return (
+            <em>
+              {children}
+            </em>
+          );
+        case 'underlined':
+          return (
+            <u>
+              {children}
+            </u>
+          );
+        case 'superscripted':
+          return (
+            <sup>
+              {children}
+            </sup>
+          );
+      }
+    },
+  footnoteRule,
     {
       deserialize(el, next) {
         if (el.tagName.toLowerCase() !== 'a') return;
@@ -359,10 +348,8 @@ function createRules(contentData = {}, footnoteCounter) {
           </a>
         );
       },
-    },
-  ];
-  return RULES;
-}
+  },
+];
 
 const topicArticeEmbedRule = [
   {
@@ -420,18 +407,12 @@ export const learningResourceEmbedRule = [
       if (!object.type || !object.type.startsWith('embed')) return;
 
       const data = object.data.toJS();
-      const props = Object.keys(data)
-        .filter(key => data[key] !== undefined && !isObject(data[key]))
-        .reduce((acc, key) => ({ ...acc, [`data-${key}`]: data[key] }), {});
+      const props = createEmbedProps(data);
 
       return <embed {...props} />;
     },
   },
 ];
 
-export const topicArticeRules = topicArticeEmbedRule.concat(createRules());
-export function learningResourceRules(contentData, footnoteCounter) {
-  return learningResourceEmbedRule.concat(
-    createRules(contentData, footnoteCounter),
-  );
-}
+export const topicArticeRules = topicArticeEmbedRule.concat(RULES);
+export const learningResourceRules = RULES.concat(learningResourceEmbedRule);

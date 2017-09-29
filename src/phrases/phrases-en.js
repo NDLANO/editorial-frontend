@@ -74,12 +74,17 @@ const phrases = {
     noResults: 'No videos found',
     addVideo: 'Use video',
     previewVideo: 'Preview',
+    publishedDate: 'Published date',
+    duration: 'Duration',
+    interactioncount: 'Views',
   },
   h5pSearch: {
     fetchError: 'Sorry, an error occurd while loading the H5P client.',
   },
   displayOembed: {
     errorMessage: 'An error occurd when displaying oEmbed.',
+    notSupported:
+      'oEmbed of type {type} and provider {provider} is not supported.',
   },
   audioSearch: {
     searchPlaceholder: 'Search in audio files',
@@ -95,7 +100,9 @@ const phrases = {
     content: 'Content',
     visualElementTitle: {
       image: 'Image title',
-      brightcove: 'Videotittel',
+      video: 'Video title',
+      brightcove: 'Video title',
+      external: 'Content title',
       h5p: 'H5P title',
     },
     visualElementCopyright: 'Origin',
@@ -260,6 +267,14 @@ const phrases = {
     validation: {
       missingEmbedData:
         'One or more inlcuded video, image, or audio elements is missing caption or alternative text.',
+    },
+    variant: {
+      create: 'Create variant +',
+      languages: {
+        nb: 'Bokmål',
+        nn: 'Nynorsk',
+        en: 'English',
+      },
     },
     fields: {
       title: {

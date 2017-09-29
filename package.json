@@ -19,9 +19,7 @@
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": [
-      "./src/__tests__/_initTestEnv.js"
-    ]
+    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
   },
   "engines": {
     "node": ">=8.4.0",
@@ -96,7 +94,7 @@
     "ndla-tabs": "^0.3.5",
     "ndla-ui": "^0.8.0",
     "ndla-util": "^0.1.6",
-    "ndla-video-search": "^0.1.16",
+    "ndla-video-search": "^0.2.0",
     "prop-types": "^15.5.10",
     "query-string": "^5.0.0",
     "react": "^15.6.1",
@@ -119,11 +117,12 @@
     "redux-saga": "^0.15.6",
     "reselect": "^3.0.0",
     "serialize-javascript": "^1.4.0",
-    "slate": "^0.25.1",
-    "slate-html-serializer": "^0.1.9",
-    "slate-plain-serializer": "^0.1.8",
+    "slate": "^0.25.2",
+    "slate-edit-blockquote": "^0.4.0",
+    "slate-html-serializer": "^0.1.11",
+    "slate-plain-serializer": "^0.1.9",
     "slate-prop-types": "^0.1.8",
-    "slate-react": "^0.1.8"
+    "slate-react": "^0.1.10"
   },
   "repository": {
     "type": "git",

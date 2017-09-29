@@ -57,7 +57,7 @@ const VisualElementSearch = ({
           />
         </div>
       );
-    case 'brightcove': {
+    case 'video': {
       const videoTranslations = {
         searchPlaceholder: t('videoSearch.searchPlaceholder'),
         searchButtonTitle: t('videoSearch.searchButtonTitle'),
@@ -65,6 +65,9 @@ const VisualElementSearch = ({
         noResults: t('videoSearch.noResults'),
         addVideo: t('videoSearch.addVideo'),
         previewVideo: t('videoSearch.previewVideo'),
+        publishedDate: t('videoSearch.publishedDate'),
+        duration: t('videoSearch.duration'),
+        interactioncount: t('videoSearch.interactioncount'),
       };
       return (
         <div>
@@ -72,19 +75,27 @@ const VisualElementSearch = ({
             {titles[selectedResource]}
           </h2>
           <VideoSearch
-            fetchVideo={api.fetchBrightcoveVideo}
-            searchVideos={api.searchBrightcoveVideos}
+            enabledSources={['Brightcove', 'YouTube']}
+            searchVideos={(query, type) => api.searchVideos(query, type)}
             locale={locale}
             translations={videoTranslations}
-            onVideoSelect={video =>
-              handleVisualElementChange({
-                resource: selectedResource,
-                videoid: video.id,
-                caption: '',
-                account: window.config.brightCoveAccountId,
-                player: window.config.brightcovePlayerId,
-                metaData: video,
-              })}
+            onVideoSelect={(video, type) => {
+              if (type === 'youtube') {
+                handleVisualElementChange({
+                  resource: 'external',
+                  url: video.link,
+                });
+              } else {
+                handleVisualElementChange({
+                  resource: type,
+                  videoid: video.id,
+                  caption: '',
+                  account: window.config.brightCoveAccountId,
+                  player: window.config.brightcovePlayerId,
+                  metaData: video,
+                });
+              }
+            }}
             onError={api.onError}
           />
         </div>

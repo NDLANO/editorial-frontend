@@ -21,6 +21,7 @@ import reformed from '../../../reformed';
 export const getInitialModel = (footnote = {}) => ({
   title: footnote.title || '',
   year: footnote.year || '',
+  resource: footnote.resource || 'footnote',
   authors: footnote.authors || [],
   edition: footnote.edition || '',
   publisher: footnote.publisher || '',

@@ -42,6 +42,14 @@ const allowedPickAreas = [
   'heading-three',
 ];
 
+const illegalAreas = [
+  'quote',
+  'list-item',
+  'numbered-list',
+  'aside',
+  'bodybox',
+];
+
 class SlateBlockPicker extends Component {
   constructor(props) {
     super(props);
@@ -54,7 +62,7 @@ class SlateBlockPicker extends Component {
     this.toggleIsOpen = this.toggleIsOpen.bind(this);
     this.onElementAdd = this.onElementAdd.bind(this);
     this.showPicker = this.showPicker.bind(this);
-    this.focusInsideAside = this.focusInsideAside.bind(this);
+    this.focusInsideIllegalArea = this.focusInsideIllegalArea.bind(this);
     this.onStateChange = this.onStateChange.bind(this);
     this.onEmbedClose = this.onEmbedClose.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
@@ -140,7 +148,7 @@ class SlateBlockPicker extends Component {
     menuEl.style.left = `${rect.left - 60}px`;
   }
 
-  focusInsideAside() {
+  focusInsideIllegalArea() {
     const { editorState } = this.props;
     let node = editorState.state.document.getClosestBlock(
       editorState.state.selection.startKey,
@@ -154,8 +162,9 @@ class SlateBlockPicker extends Component {
       ) {
         return false;
       }
-      if (parent.get('type') === 'aside' || parent.get('type') === 'bodybox')
+      if (illegalAreas.includes(parent.get('type'))) {
         return true;
+      }
       node = parent;
     }
   }
@@ -181,7 +190,7 @@ class SlateBlockPicker extends Component {
 
     const show =
       node.text.length === 0 &&
-      !this.focusInsideAside() &&
+      !this.focusInsideIllegalArea() &&
       allowedPickAreas.includes(node.type) &&
       editorState.state.isFocused;
 
@@ -259,7 +268,7 @@ class SlateBlockPicker extends Component {
               stripped
               {...classes('block-type-button')}
               onMouseDown={() =>
-                this.onElementAdd({ type: 'embed', kind: 'brightcove' })}>
+                this.onElementAdd({ type: 'embed', kind: 'video' })}>
               <Video />
             </Button>
             <Button

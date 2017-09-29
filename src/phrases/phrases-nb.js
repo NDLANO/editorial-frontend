@@ -11,6 +11,11 @@ const phrases = {
     description:
       'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
   },
+  language: {
+    en: 'Engelsk',
+    nb: 'Bokmål',
+    nn: 'Nynorsk',
+  },
   welcomePage: {
     shortcuts: 'Snarveier',
     searchTopicArticles: 'Søk etter emnebeskrivelse',
@@ -75,6 +80,9 @@ const phrases = {
     noResults: 'Ingen videor funnet.',
     addVideo: 'Bruk video',
     previewVideo: 'Forhåndsvis',
+    publishedDate: 'Publisert dato',
+    duration: 'Varighet',
+    interactioncount: 'Visninger',
   },
   h5pSearch: {
     fetchError:
@@ -82,6 +90,7 @@ const phrases = {
   },
   displayOembed: {
     errorMessage: 'En feil oppsto ved visning av oEmbed innhold.',
+    notSupported: 'oEmbed av type {type} og kilde {provider} er ikke støttet.',
   },
   audioSearch: {
     searchPlaceholder: 'Søk i lydfiler',
@@ -99,6 +108,7 @@ const phrases = {
       image: 'Bildetittel',
       h5p: 'H5P tittel',
       brightcove: 'Videotittel',
+      external: 'Innholdstekst',
     },
     visualElementCopyright: 'Opphav',
     info: {
@@ -122,12 +132,13 @@ const phrases = {
       caption: {
         label: {
           image: 'Bildetekst',
-          video: 'Videotekst',
           brightcove: 'Videotekst',
+          external: 'Innholdstekst',
         },
         placeholder: {
           image: 'Bildetekst',
           brightcove: 'Videotekst',
+          external: 'Innholdstekst',
         },
       },
       alt: {
@@ -256,12 +267,20 @@ const phrases = {
     },
     metaImageCopyright: 'Opphav',
     title: {
-      create: 'Du oppretter nå en læringsressurs',
-      update: 'Du redigerer nå en læringsressurs',
+      create: 'Du oppretter nå en læringsressurs på {title}({key})',
+      update: 'Du redigerer nå en læringsressurs på {title}({key})',
     },
     validation: {
       missingEmbedData:
         'En eller flere inkluderte lyd, bilde, eller video elementer mangler beskrivende tekst eller alternativ tekst.',
+    },
+    variant: {
+      create: 'Lag variant +',
+      languages: {
+        nb: 'Bokmål',
+        nn: 'Nynorsk',
+        en: 'Engelsk',
+      },
     },
     fields: {
       title: {

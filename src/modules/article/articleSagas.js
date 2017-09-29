@@ -12,10 +12,24 @@ import * as api from './articleApi';
 import { toEditArticle } from '../../util/routeHelpers';
 import * as messageActions from '../../containers/Messages/messagesActions';
 
-export function* fetchArticle(id) {
+export function* fetchArticle(id, language = 'nb') {
   try {
-    const article = yield call(api.fetchArticle, id);
-    yield put(actions.setArticle(article));
+    const tempArticle = yield call(api.fetchArticle, id);
+    if (tempArticle.supportedLanguages.includes(language)) {
+      const article = yield call(api.fetchArticle, id, language);
+      yield put(actions.setArticle({ ...article, language }));
+    } else {
+      yield put(
+        actions.setArticle({
+          id: tempArticle.id,
+          language,
+          copyright: tempArticle.copyright,
+          articleType: tempArticle.articleType,
+          revision: tempArticle.revision,
+          supportedLanguages: tempArticle.supportedLanguages,
+        }),
+      );
+    }
   } catch (error) {
     // TODO: handle error
     console.error(error); //eslint-disable-line
@@ -24,11 +38,11 @@ export function* fetchArticle(id) {
 
 export function* watchFetchArticle() {
   while (true) {
-    const { payload: id } = yield take(actions.fetchArticle);
+    const { payload: { id, language } } = yield take(actions.fetchArticle);
     // console.log('called');
     const article = yield select(getArticle(id));
-    if (!article || article.id !== id) {
-      yield call(fetchArticle, id);
+    if (!article || article.id !== id || article.language !== language) {
+      yield call(fetchArticle, id, language);
     }
   }
 }
@@ -36,7 +50,9 @@ export function* watchFetchArticle() {
 export function* updateArticle(article) {
   try {
     const updatedArticle = yield call(api.updateArticle, article);
-    yield put(actions.setArticle(updatedArticle));
+    yield put(
+      actions.setArticle({ ...updatedArticle, language: article.language }),
+    ); // Quick hack to set article language on updated article. Maybe language should not be on model?
     yield put(actions.updateArticleSuccess());
     yield put(messageActions.addMessage({ translationKey: 'form.savedOk' }));
   } catch (error) {
@@ -50,7 +66,13 @@ export function* createArticle(article, history) {
   try {
     const createdArticle = yield call(api.createArticle, article);
     yield put(actions.setArticle(createdArticle));
-    history.push(toEditArticle(createdArticle.id, createdArticle.articleType));
+    history.push(
+      toEditArticle(
+        createdArticle.id,
+        createdArticle.articleType,
+        article.language,
+      ),
+    );
     yield put(actions.updateArticleSuccess());
     yield put(
       messageActions.addMessage({

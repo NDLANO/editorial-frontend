@@ -34,6 +34,7 @@ import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
 import LearningResourceCopyright from './LearningResourceCopyright';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
+import LearningResourceHeader from './LearningResourceHeader';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
 
 const DEFAULT_LICENSE = {
@@ -67,9 +68,7 @@ export const getInitialModel = (article = {}) => {
     revision: article.revision,
     title: article.title || '',
     introduction: plainTextToEditorState(article.introduction),
-    content: learningResourceContentToEditorState(article.content, {
-      footnotes: article.footnotes,
-    }),
+    content: learningResourceContentToEditorState(article.content),
     tags: article.tags || [],
     authors: parseCopyrightAuthors(article, 'Forfatter'),
     licensees: parseCopyrightAuthors(article, 'Rettighetshaver'),
@@ -83,6 +82,7 @@ export const getInitialModel = (article = {}) => {
       : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorState(article.metaDescription, true),
     metaImage,
+    language: article.language,
   };
 };
 
@@ -97,17 +97,20 @@ class LearningResourceForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { initialModel, setModel } = nextProps;
+    if (
+      initialModel.id !== this.props.initialModel.id ||
+      initialModel.language !== this.props.initialModel.language
+    ) {
+      setModel(initialModel);
+    }
+  }
+
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const {
-      model,
-      schema,
-      revision,
-      locale: language,
-      setSubmitted,
-      licenses,
-    } = this.props;
+    const { model, schema, revision, setSubmitted, licenses } = this.props;
     if (!schema.isValid) {
       setSubmitted(true);
       return;
@@ -118,18 +121,17 @@ class LearningResourceForm extends Component {
       type: 'Rettighetshaver',
       name,
     }));
+
     const contributors = model.contributors.map(name => ({
       type: 'Bidragsyter',
       name,
     }));
 
-    const footnoteObject = findFootnotes(model.content).reduce(
-      (obj, footnote, i) => ({
-        ...obj,
-        [`ref_${i + 1}`]: footnote,
-      }),
-      {},
-    );
+    const copyright = {
+      license: licenses.find(license => license.license === model.license),
+      origin: model.origin,
+      authors: authors.concat(licensees).concat(contributors),
+    };
 
     this.props.onUpdate({
       id: model.id,
@@ -138,16 +140,11 @@ class LearningResourceForm extends Component {
       introduction: editorStateToPlainText(model.introduction),
       tags: model.tags,
       content: learningResourceContentToHTML(model.content, true),
-      footNotes: footnoteObject,
       visualElement: createEmbedTag(model.metaImage),
       metaDescription: editorStateToPlainText(model.metaDescription),
       articleType: 'standard',
-      copyright: {
-        license: licenses.find(license => license.license === model.license),
-        origin: model.origin,
-        authors: authors.concat(licensees).concat(contributors),
-      },
-      language,
+      copyright,
+      language: model.language,
     });
   }
 
@@ -164,18 +161,11 @@ class LearningResourceForm extends Component {
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
-
     return (
       <form
         onSubmit={this.handleSubmit}
         {...classes(undefined, undefined, 'c-article')}>
-        <div {...classes('title')}>
-          <div className="u-4/6@desktop u-push-1/6@desktop">
-            {model.id
-              ? t('learningResourceForm.title.update')
-              : t('learningResourceForm.title.create')}
-          </div>
-        </div>
+        <LearningResourceHeader model={model} />
         <LearningResourceMetadata
           classes={classes}
           commonFieldProps={commonFieldProps}
@@ -221,6 +211,11 @@ LearningResourceForm.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
+    language: PropTypes.string,
+  }),
+  initialModel: PropTypes.shape({
+    id: PropTypes.number,
+    language: PropTypes.string,
   }),
   schema: SchemaShape,
   licenses: PropTypes.arrayOf(
@@ -232,7 +227,7 @@ LearningResourceForm.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
+  setModel: PropTypes.func.isRequired,
   revision: PropTypes.number,
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,

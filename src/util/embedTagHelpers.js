@@ -18,6 +18,11 @@ export const reduceElementDataAttributes = el => {
   );
   return obj;
 };
+export const createEmbedProps = obj =>
+  Object.keys(obj)
+    .filter(key => obj[key] !== undefined && !isObject(obj[key]))
+    .reduce((acc, key) => ({ ...acc, [`data-${key}`]: obj[key] }), {});
+
 export const parseEmbedTag = embedTag => {
   if (embedTag === '') {
     return undefined;

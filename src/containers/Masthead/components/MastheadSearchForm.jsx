@@ -50,10 +50,10 @@ export class MastheadSearchForm extends Component {
       fetchTopicArticle(urlId, locale).then(topicArticle => {
         const arr = topicArticle.contentUri.split(':');
         const id = arr[arr.length - 1];
-        history.push(toEditArticle(id, 'topic-article'));
+        history.push(toEditArticle(id, 'topic-article', locale));
       });
     } else {
-      history.push(toEditArticle(urlId, 'standard'));
+      history.push(toEditArticle(urlId, 'standard', locale));
     }
   }
 

@@ -11,6 +11,11 @@ const phrases = {
     description:
       'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
   },
+  language: {
+    en: 'Engelsk',
+    nb: 'Bokmål',
+    nn: 'Nynorsk',
+  },
   welcomePage: {
     shortcuts: 'Snarveier',
     searchTopicArticles: 'Søk etter emnebeskrivelse',
@@ -256,12 +261,20 @@ const phrases = {
     },
     metaImageCopyright: 'Opphav',
     title: {
-      create: 'Du oppretter nå en læringsressurs',
-      update: 'Du redigerer nå en læringsressurs',
+      create: 'Du oppretter nå en læringsressurs på {title}({key})',
+      update: 'Du redigerer nå en læringsressurs på {title}({key})',
     },
     validation: {
       missingEmbedData:
         'En eller flere inkluderte lyd, bilde, eller video elementer mangler beskrivende tekst eller alternativ tekst.',
+    },
+    variant: {
+      create: 'Lag variant +',
+      languages: {
+        nb: 'Bokmål',
+        nn: 'Nynorsk',
+        en: 'Engelsk',
+      },
     },
     fields: {
       title: {

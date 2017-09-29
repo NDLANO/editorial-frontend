@@ -29,9 +29,13 @@ a.c-learning-resource-form__abort-button.c-button {
     padding-top: 0;
   }
 
-  &__title {
+  &__header {
     padding: 0.6rem 0;
     background-color: var(--yellow-1);
+
+    & span + span {
+      margin-left: 1rem;
+    }
   }
 
   &__abort-button + &__save-button {

@@ -25,7 +25,7 @@ class EditTopicArticle extends Component {
 
   componentWillMount() {
     const { articleId, fetchArticle } = this.props;
-    fetchArticle(articleId);
+    fetchArticle({ id: articleId });
   }
 
   updateArticle(article) {
@@ -40,7 +40,11 @@ class EditTopicArticle extends Component {
     }
 
     if (article.articleType !== 'topic-article') {
-      return <Redirect to={toEditArticle(article.id, article.articleType)} />;
+      return (
+        <Redirect
+          to={toEditArticle(article.id, article.articleType, article.language)}
+        />
+      );
     }
     return (
       <TopicArticleForm

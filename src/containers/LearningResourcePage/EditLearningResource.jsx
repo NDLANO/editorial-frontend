@@ -55,7 +55,6 @@ class EditLearningResource extends Component {
         />
       );
     }
-    console.log(article);
     return (
       <LearningResourceForm
         initialModel={getInitialModel(article)}

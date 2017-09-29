@@ -33,10 +33,8 @@ const makeWrapper = WrappedComponent => {
     }
 
     componentWillReceiveProps(nextProps) {
-      if (
-        nextProps.initialModel.language &&
-        nextProps.initialModel.language !== this.state.model.language
-      ) {
+      if (nextProps.initialModel !== this.props.initialModel) {
+        // reset model on initialModel change
         this.setModel(nextProps.initialModel);
       }
     }

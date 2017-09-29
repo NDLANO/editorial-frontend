@@ -32,13 +32,6 @@ const makeWrapper = WrappedComponent => {
       this.bindInputEvent = this.bindInputEvent.bind(this);
     }
 
-    componentWillReceiveProps(nextProps) {
-      if (nextProps.initialModel !== this.props.initialModel) {
-        // reset model on initialModel change
-        this.setModel(nextProps.initialModel);
-      }
-    }
-
     setModel(model) {
       this.setState({ model });
       return model;

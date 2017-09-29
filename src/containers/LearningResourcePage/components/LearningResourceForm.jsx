@@ -97,6 +97,16 @@ class LearningResourceForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { initialModel, setModel } = nextProps;
+    if (
+      initialModel.id !== this.props.initialModel.id ||
+      initialModel.language !== this.props.initialModel.language
+    ) {
+      setModel(initialModel);
+    }
+  }
+
   handleSubmit(evt) {
     evt.preventDefault();
 
@@ -201,6 +211,11 @@ LearningResourceForm.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
+    language: PropTypes.string,
+  }),
+  initialModel: PropTypes.shape({
+    id: PropTypes.number,
+    language: PropTypes.string,
   }),
   schema: SchemaShape,
   licenses: PropTypes.arrayOf(
@@ -212,6 +227,7 @@ LearningResourceForm.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
+  setModel: PropTypes.func.isRequired,
   revision: PropTypes.number,
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,

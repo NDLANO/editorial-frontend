@@ -13,7 +13,7 @@ import Html from 'slate-html-serializer';
 import { learningResourceRules } from '../slateHelpers';
 
 const serializer = new Html({
-  rules: learningResourceRules({}),
+  rules: learningResourceRules,
 });
 
 test('deserialize a link and a content-link in an list', () => {

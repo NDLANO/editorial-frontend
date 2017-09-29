@@ -9,15 +9,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
-import { getSchemaEmbed } from './schema';
+import { setActiveNode } from '../../createSlateStore';
+import { EditorShape } from '../../../../shapes';
 
 const SlateLink = props => {
-  const { attributes, node } = props;
-  const embed = getSchemaEmbed(node);
+  const { attributes, editor: { props: { slateStore } }, node } = props;
+  const embed = node.data.toJS();
 
-  const href = `${window.config.editorialFrontendDomain}/article/${embed.id}`;
+  const href = `${window.config.editorialFrontendDomain}/article/${embed[
+    'content-id'
+  ]}`;
+
   return (
-    <a href={href} {...attributes}>
+    <a
+      href={href}
+      {...attributes}
+      onClick={() => slateStore.dispatch(setActiveNode(node))}>
       {props.children}
     </a>
   );
@@ -27,6 +34,7 @@ SlateLink.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
+  editor: EditorShape,
   node: Types.node.isRequired,
 };
 

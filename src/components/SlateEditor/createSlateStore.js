@@ -9,7 +9,7 @@
 import { createStore } from 'redux';
 import { createAction } from 'redux-actions';
 
-export const setFootnote = createAction('SET_FOOTNOTE');
+export const setActiveNode = createAction('SET_ACTIVE_NODE');
 export const setSubmitted = createAction('SET_SUBMITTED');
 
 export default () =>
@@ -18,13 +18,13 @@ export default () =>
       if (action.type === setSubmitted.toString()) {
         return { ...state, submitted: action.payload };
       }
-      if (action.type === setFootnote.toString()) {
-        return { ...state, selectedFootnote: action.payload };
+      if (action.type === setActiveNode.toString()) {
+        return { ...state, activeNode: action.payload };
       }
       return state;
     },
     {
       submitted: false,
-      selectedFootnote: undefined,
+      activeNode: undefined,
     },
   );

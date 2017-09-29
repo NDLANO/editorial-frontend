@@ -34,6 +34,7 @@ import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
 import LearningResourceCopyright from './LearningResourceCopyright';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
+import LearningResourceHeader from './LearningResourceHeader';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
 
 const DEFAULT_LICENSE = {
@@ -81,6 +82,7 @@ export const getInitialModel = (article = {}) => {
       : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorState(article.metaDescription, true),
     metaImage,
+    language: article.language,
   };
 };
 
@@ -98,14 +100,7 @@ class LearningResourceForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const {
-      model,
-      schema,
-      revision,
-      locale: language,
-      setSubmitted,
-      licenses,
-    } = this.props;
+    const { model, schema, revision, setSubmitted, licenses } = this.props;
     if (!schema.isValid) {
       setSubmitted(true);
       return;
@@ -116,10 +111,17 @@ class LearningResourceForm extends Component {
       type: 'Rettighetshaver',
       name,
     }));
+
     const contributors = model.contributors.map(name => ({
       type: 'Bidragsyter',
       name,
     }));
+
+    const copyright = {
+      license: licenses.find(license => license.license === model.license),
+      origin: model.origin,
+      authors: authors.concat(licensees).concat(contributors),
+    };
 
     this.props.onUpdate({
       id: model.id,
@@ -131,12 +133,8 @@ class LearningResourceForm extends Component {
       visualElement: createEmbedTag(model.metaImage),
       metaDescription: editorStateToPlainText(model.metaDescription),
       articleType: 'standard',
-      copyright: {
-        license: licenses.find(license => license.license === model.license),
-        origin: model.origin,
-        authors: authors.concat(licensees).concat(contributors),
-      },
-      language,
+      copyright,
+      language: model.language,
     });
   }
 
@@ -153,18 +151,11 @@ class LearningResourceForm extends Component {
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
-
     return (
       <form
         onSubmit={this.handleSubmit}
         {...classes(undefined, undefined, 'c-article')}>
-        <div {...classes('title')}>
-          <div className="u-4/6@desktop u-push-1/6@desktop">
-            {model.id
-              ? t('learningResourceForm.title.update')
-              : t('learningResourceForm.title.create')}
-          </div>
-        </div>
+        <LearningResourceHeader model={model} />
         <LearningResourceMetadata
           classes={classes}
           commonFieldProps={commonFieldProps}
@@ -221,7 +212,6 @@ LearningResourceForm.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
   revision: PropTypes.number,
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,

@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { State } from 'slate';
 import { injectT } from 'ndla-i18n';
+import EditBlockquote from 'slate-edit-blockquote';
 import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
 import Accordion from '../../../components/Accordion';
@@ -20,6 +21,8 @@ import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
 import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
+import headingPlugin from '../../../components/SlateEditor/plugins/heading';
+
 import { classes } from './LearningResourceForm';
 import { CommonFieldPropsShape } from '../../../shapes';
 
@@ -29,6 +32,8 @@ const plugins = [
   createBodyBoxPlugin(),
   createAsidePlugin(),
   createLinkPlugin(),
+  headingPlugin(),
+  EditBlockquote({ type: 'quote' }),
 ];
 
 class LearningResourceContent extends Component {

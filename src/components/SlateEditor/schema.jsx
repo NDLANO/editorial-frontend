@@ -34,6 +34,99 @@ export const defaultEmbedBlock = data =>
 
 export const getSchemaEmbed = node => node.get('data').toJS();
 
+export const defaultRules = [
+  // Rule to insert a paragraph below a aside/bodybox if that node is
+  // the last one in the aside.
+  {
+    match: node => node.kind === 'block' && node.type === 'aside',
+    validate: node => {
+      if (!node.nodes.size) {
+        return true;
+      }
+      const lastNode = node.nodes.last();
+      return lastNode &&
+      (lastNode.type === 'aside' || lastNode.type === 'bodybox')
+        ? true
+        : null;
+    },
+    normalize: (change, document) => {
+      const block = Block.create(defaultBlock);
+      return change.insertNodeByKey(document.key, document.nodes.size, block);
+    },
+  },
+  // Rule to insert a paragraph below a void node (the image) if that node is
+  // the last one in the aside/bodybox.
+  {
+    match: node =>
+      node.kind === 'block' &&
+      (node.type === 'aside' || node.type === 'bodybox'),
+    validate: node => {
+      const lastNode = node.nodes.last();
+      return lastNode && lastNode.type === 'embed' ? true : null;
+    },
+    normalize: (change, document) => {
+      const block = Block.create(defaultBlock);
+      return change.insertNodeByKey(document.key, document.nodes.size, block);
+    },
+  },
+  // Rule to insert a paragraph block if the document is empty.
+  {
+    match: node => node.kind === 'document',
+    validate: document => (document.nodes.size ? null : true),
+    normalize: (change, document) => {
+      const block = Block.create(defaultBlock);
+      return change.insertNodeByKey(document.key, 0, block);
+    },
+  },
+  // Rule to insert a paragraph below a void node (the image) if that node is
+  // the last one in the document.
+  {
+    match: node => node.kind === 'block',
+    validate: document => {
+      const lastNode = document.nodes.last();
+      return lastNode && lastNode.isVoid ? true : null;
+    },
+    normalize: (change, document) => {
+      const block = Block.create(defaultBlock);
+      return change.insertNodeByKey(document.key, document.nodes.size, block);
+    },
+  },
+  // Rule to insert a paragraph below a node with type aside if that node is the last node
+  // in the document
+  {
+    match: node =>
+      node.kind === 'block' && (node.type === 'section' || node.type === 'div'),
+    validate: document => {
+      const lastNode = document.nodes.last();
+      return lastNode &&
+      (lastNode.type === 'aside' || lastNode.type === 'bodybox')
+        ? true
+        : null;
+    },
+    normalize: (change, document) => {
+      const block = Block.create(defaultBlock);
+      return change.insertNodeByKey(document.key, document.nodes.size, block);
+    },
+  },
+  // Rule to remove all empty text nodes that exists in the document
+  {
+    match: node => node.kind === 'block',
+    validate: node => {
+      const invalidChildren = node.nodes.filter(
+        child => child.kind === 'block' && child.type === 'emptyTextNode',
+      );
+      return invalidChildren.size ? invalidChildren : null;
+    },
+    normalize: (change, node, invalidChildren) => {
+      invalidChildren.forEach(child => {
+        change.removeNodeByKey(child.key);
+      });
+      return change;
+    },
+    render: '',
+  },
+];
+
 /* eslint-disable react/prop-types */
 const defaultSchema = {
   nodes: {
@@ -54,30 +147,6 @@ const defaultSchema = {
       <ul className="c-block__bulleted-list" {...props.attributes}>
         {props.children}
       </ul>,
-    'heading-one': props =>
-      <h1 {...props.attributes}>
-        {props.children}
-      </h1>,
-    'heading-two': props =>
-      <h2 {...props.attributes}>
-        {props.children}
-      </h2>,
-    'heading-three': props =>
-      <h3 {...props.attributes}>
-        {props.children}
-      </h3>,
-    'heading-four': props =>
-      <h4 {...props.attributes}>
-        {props.children}
-      </h4>,
-    'heading-five': props =>
-      <h5 {...props.attributes}>
-        {props.children}
-      </h5>,
-    'heading-six': props =>
-      <h6 {...props.attributes}>
-        {props.children}
-      </h6>,
     'list-item': props =>
       <li className="c-block__list-item" {...props.attributes}>
         {props.children}
@@ -118,65 +187,7 @@ const defaultSchema = {
         {props.children}
       </u>,
   },
-  rules: [
-    // Rule to insert a paragraph block if the document is empty.
-    {
-      match: node => node.kind === 'document',
-      validate: document => (document.nodes.size ? null : true),
-      normalize: (transform, document) => {
-        const block = Block.create(defaultBlock);
-        transform.insertNodeByKey(document.key, 0, block);
-      },
-    },
-    // Rule to insert a paragraph below a void node (the image) if that node is
-    // the last one in the document.
-    {
-      match: node => node.kind === 'block',
-      validate: document => {
-        const lastNode = document.nodes.last();
-        return lastNode && lastNode.isVoid ? true : null;
-      },
-      normalize: (transform, document) => {
-        const block = Block.create(defaultBlock);
-        transform.insertNodeByKey(document.key, document.nodes.size, block);
-      },
-    },
-    // Rule to insert a paragraph below a node with type aside if that node is the last node
-    // in the document
-    {
-      match: node =>
-        node.kind === 'block' &&
-        (node.type === 'section' || node.type === 'div'),
-      validate: document => {
-        const lastNode = document.nodes.last();
-        return lastNode &&
-        (lastNode.type === 'aside' || lastNode.type === 'bodybox')
-          ? true
-          : null;
-      },
-      normalize: (transform, document) => {
-        const block = Block.create(defaultBlock);
-        transform.insertNodeByKey(document.key, document.nodes.size, block);
-      },
-    },
-    // Rule to remove all empty text nodes that exists in the document
-    {
-      match: node => node.kind === 'block',
-      validate: node => {
-        const invalidChildren = node.nodes.filter(
-          child => child.kind === 'block' && child.type === 'emptyTextNode',
-        );
-        return invalidChildren.size ? invalidChildren : null;
-      },
-      normalize: (transform, node, invalidChildren) => {
-        invalidChildren.forEach(child => {
-          transform.removeNodeByKey(child.key);
-        });
-        return transform;
-      },
-      render: '',
-    },
-  ],
+  rules: defaultRules,
 };
 
 export default defaultSchema;

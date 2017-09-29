@@ -38,7 +38,7 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
   expect(component.toJSON()).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push.calledOnce).toBe(true);
-    expect(historyMock.push.calledWith('/learning-resource/3333/edit')).toBe(
+    expect(historyMock.push.calledWith('/learning-resource/3333/edit/nb')).toBe(
       true,
     );
   }, 100);
@@ -73,7 +73,7 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
   return new Promise(resolve => {
     setTimeout(() => {
       expect(historyMock.push.calledOnce).toBe(true);
-      expect(historyMock.push.calledWith('/topic-article/4232/edit')).toBe(
+      expect(historyMock.push.calledWith('/topic-article/4232/edit/nb')).toBe(
         true,
       );
       resolve();

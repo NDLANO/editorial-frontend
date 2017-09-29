@@ -8,7 +8,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 import { actions, getArticle } from '../../modules/article/article';
 import LearningResourceForm, {
@@ -24,8 +24,18 @@ class EditLearningResource extends Component {
   }
 
   componentWillMount() {
-    const { articleId, fetchArticle } = this.props;
-    fetchArticle(articleId);
+    const { articleId, fetchArticle, articleLanguage } = this.props;
+    fetchArticle({ id: articleId, language: articleLanguage });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { articleId, fetchArticle, articleLanguage, article } = nextProps;
+    if (
+      (article && article.language !== articleLanguage) ||
+      articleId !== this.props.articleId
+    ) {
+      fetchArticle({ id: articleId, language: articleLanguage });
+    }
   }
 
   updateArticle(article) {
@@ -34,22 +44,24 @@ class EditLearningResource extends Component {
   }
 
   render() {
-    const { locale, article, tags, isSaving, licenses } = this.props;
+    const { article, tags, isSaving, licenses } = this.props;
     if (!article) {
       return null;
     }
-
     if (article.articleType !== 'standard') {
-      return <Redirect to={toEditArticle(article.id, article.articleType)} />;
+      return (
+        <Redirect
+          to={toEditArticle(article.id, article.articleType, article.language)}
+        />
+      );
     }
-
+    console.log(article);
     return (
       <LearningResourceForm
         initialModel={getInitialModel(article)}
         revision={article.revision}
         tags={tags}
         licenses={licenses}
-        locale={locale}
         isSaving={isSaving}
         onUpdate={this.updateArticle}
       />
@@ -71,21 +83,24 @@ EditLearningResource.propTypes = {
   article: ArticleShape,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  setArticle: PropTypes.func.isRequired,
+  articleLanguage: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = {
   fetchArticle: actions.fetchArticle,
   updateArticle: actions.updateArticle,
+  setArticle: actions.setArticle,
 };
 
-const makeMapStateToProps = (_, props) => {
+const mapStateToProps = (state, props) => {
   const { articleId } = props;
-  const getArticleSelector = getArticle(articleId);
-  return state => ({
+  const getArticleSelector = getArticle(articleId, true);
+  return {
     article: getArticleSelector(state),
-  });
+  };
 };
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(
-  EditLearningResource,
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(EditLearningResource),
 );

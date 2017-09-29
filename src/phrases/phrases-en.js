@@ -261,6 +261,14 @@ const phrases = {
       missingEmbedData:
         'One or more inlcuded video, image, or audio elements is missing caption or alternative text.',
     },
+    variant: {
+      create: 'Create variant +',
+      languages: {
+        nb: 'Bokmål',
+        nn: 'Nynorsk',
+        en: 'English',
+      },
+    },
     fields: {
       title: {
         label: 'Title',

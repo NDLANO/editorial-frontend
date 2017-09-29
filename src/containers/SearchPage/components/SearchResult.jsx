@@ -17,10 +17,10 @@ import SearchArticle from './SearchArticle';
 import SearchImage from './SearchImage';
 import SearchAudio from './SearchAudio';
 
-const SearchResult = ({ item, resultType }) => {
+const SearchResult = ({ item, locale, resultType }) => {
   switch (resultType) {
     case 'articles':
-      return <SearchArticle article={item} />;
+      return <SearchArticle article={item} locale={locale} />;
     case 'images':
       return <SearchImage image={item} />;
     case 'audios':
@@ -37,6 +37,7 @@ SearchResult.propTypes = {
     AudioResultShape,
   ]),
   resultType: PropTypes.string.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 export default SearchResult;

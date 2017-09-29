@@ -12,8 +12,8 @@ export function toSearch(query) {
   return '/search';
 }
 
-export function toEditArticle(articleId, articleType) {
-  return `/${articleTypes[articleType]}/${articleId}/edit`;
+export function toEditArticle(articleId, articleType, locale) {
+  return `/${articleTypes[articleType]}/${articleId}/edit/${locale}`;
 }
 export function toCreateLearningResource() {
   return `/learning-resource/new`;

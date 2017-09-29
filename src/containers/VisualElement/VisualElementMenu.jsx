@@ -52,7 +52,7 @@ class VisualElementMenu extends Component {
           <Button
             stripped
             {...classes('visual-element-type-button')}
-            onClick={() => this.handleSelect('brightcove')}>
+            onClick={() => this.handleSelect('video')}>
             <Video />
           </Button>
           <Button

@@ -268,7 +268,7 @@ class SlateBlockPicker extends Component {
               stripped
               {...classes('block-type-button')}
               onMouseDown={() =>
-                this.onElementAdd({ type: 'embed', kind: 'brightcove' })}>
+                this.onElementAdd({ type: 'embed', kind: 'video' })}>
               <Video />
             </Button>
             <Button

@@ -80,6 +80,9 @@ const phrases = {
     noResults: 'Ingen videor funnet.',
     addVideo: 'Bruk video',
     previewVideo: 'Forhåndsvis',
+    publishedDate: 'Publisert dato',
+    duration: 'Varighet',
+    interactioncount: 'Visninger',
   },
   h5pSearch: {
     fetchError:
@@ -87,6 +90,7 @@ const phrases = {
   },
   displayOembed: {
     errorMessage: 'En feil oppsto ved visning av oEmbed innhold.',
+    notSupported: 'oEmbed av type {type} og kilde {provider} er ikke støttet.',
   },
   audioSearch: {
     searchPlaceholder: 'Søk i lydfiler',
@@ -104,6 +108,7 @@ const phrases = {
       image: 'Bildetittel',
       h5p: 'H5P tittel',
       brightcove: 'Videotittel',
+      external: 'Innholdstekst',
     },
     visualElementCopyright: 'Opphav',
     info: {
@@ -127,12 +132,13 @@ const phrases = {
       caption: {
         label: {
           image: 'Bildetekst',
-          video: 'Videotekst',
           brightcove: 'Videotekst',
+          external: 'Innholdstekst',
         },
         placeholder: {
           image: 'Bildetekst',
           brightcove: 'Videotekst',
+          external: 'Innholdstekst',
         },
       },
       alt: {

@@ -8,6 +8,7 @@
 
 import defined from 'defined';
 import fetch from 'isomorphic-fetch';
+import queryString from 'query-string';
 import { expiresIn } from './jwtHelper';
 import { renewAuth, isIdTokenValid, getIdToken } from './authHelpers';
 
@@ -21,6 +22,14 @@ export function apiResourceUrl(path) {
 
 export function brightcoveApiResourceUrl(path) {
   return window.config.brightcoveApiUrl + path;
+}
+
+export function googleSearchApiResourceUrl(path) {
+  return window.config.googleSearchApiUrl + path;
+}
+
+export function oembedApiResourceUrl() {
+  return apiResourceUrl('/oembed-proxy/v1/oembed');
 }
 
 export function createErrorPayload(status, message, json) {
@@ -132,3 +141,11 @@ export const fetchOembed = async (url, options) => {
   const data = await fetchAuthorized(url, options);
   return resolveJsonOrRejectWithError(data);
 };
+
+export const setOembedUrl = query =>
+  `${apiResourceUrl('/oembed-proxy/v1/oembed')}?${queryString.stringify(
+    query,
+  )}`;
+
+export const fetchExternalOembed = (url, options) =>
+  fetchOembed(setOembedUrl({ url }), options);

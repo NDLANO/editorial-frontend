@@ -9,7 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DisplayImageTag from './DisplayImageTag';
-import DisplayVideoTag from './DisplayVideoTag';
+import DisplayBrightcoveTag from './DisplayBrightcoveTag';
+import DisplayExternal from './DisplayExternal';
 import DisplayOembed from './DisplayOembed';
 import { EmbedShape } from '../../shapes';
 
@@ -18,7 +19,9 @@ const DisplayEmbedTag = ({ embedTag, className }) => {
     case 'image':
       return <DisplayImageTag embedTag={embedTag} className={className} />;
     case 'brightcove':
-      return <DisplayVideoTag embedTag={embedTag} className={className} />;
+      return <DisplayBrightcoveTag embedTag={embedTag} className={className} />;
+    case 'external':
+      return <DisplayExternal url={embedTag.url} />;
     case 'h5p':
       return <DisplayOembed url={embedTag.url} />;
     default:

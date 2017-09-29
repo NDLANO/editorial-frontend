@@ -12,6 +12,7 @@ import {
   createErrorPayload,
   apiResourceUrl,
   brightcoveApiResourceUrl,
+  googleSearchApiResourceUrl,
   fetchWithAccessToken,
   fetchWithBrightCoveToken,
   resolveJsonOrRejectWithError,
@@ -22,6 +23,7 @@ const baseAudioNdlaUrl = apiResourceUrl('/audio-api/v1/audio');
 const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
   `/v1/accounts/${window.config.brightCoveAccountId}/videos`,
 );
+const baseGoogleSearchUrl = googleSearchApiResourceUrl('/customsearch/v1/');
 
 export const searchImages = (query, page) =>
   fetchWithAccessToken(
@@ -48,14 +50,25 @@ export const fetchImage = imageId =>
     resolveJsonOrRejectWithError,
   );
 
-export const searchBrightcoveVideos = (query, offset, limit) =>
+export const searchBrightcoveVideos = query =>
   fetchWithBrightCoveToken(
     `${baseBrightCoveUrlV3}/?${queryString.stringify({
-      q: query || '',
-      offset,
-      limit,
+      q: query.query || '',
+      offset: query.offset,
+      limit: query.limit,
     })}`,
   ).then(resolveJsonOrRejectWithError);
+
+export const searchGoogleCustomSearch = (query, filter) => {
+  const params = {
+    key: window.config.googleSearchApiKey,
+    cx: window.config.googleSearchEngineId,
+    q: `${query.query} ${filter}`,
+    start: query.start ? query.start : undefined,
+  };
+  const url = `${baseGoogleSearchUrl}?${queryString.stringify(params)}`;
+  return fetch(url).then(resolveJsonOrRejectWithError);
+};
 
 export const fetchBrightcoveVideo = videoId =>
   fetchWithAccessToken(`${baseBrightCoveUrlV3}/${videoId}`).then(
@@ -64,6 +77,13 @@ export const fetchBrightcoveVideo = videoId =>
 
 export const onError = err => {
   createErrorPayload(err.status, defined(err.message, err.statusText), err);
+};
+
+export const searchVideos = (query, type) => {
+  if (type === 'youtube') {
+    return searchGoogleCustomSearch(query, 'more:youtube');
+  }
+  return searchBrightcoveVideos(query);
 };
 
 export const fetchVisualElement = embedTag => {

@@ -65,6 +65,10 @@ module.exports = Object.assign(
     brightcovePlayerId: process.env.BRIGHTCOVE_PLAYER_ID || 'Ab1234',
     brightcoveApiUrl: 'https://cms.api.brightcove.com',
     h5pApiUrl: process.env.H5P_API_URL || h5pApiUrl(),
+    googleSearchApiUrl:
+      process.env.NDLA_GOOGLE_API_URL || 'https://www.googleapis.com',
+    googleSearchApiKey: process.env.NDLA_GOOGLE_API_KEY,
+    googleSearchEngineId: process.env.NDLA_GOOGLE_SEARCH_ENGINE_ID,
   },
   environment,
 );

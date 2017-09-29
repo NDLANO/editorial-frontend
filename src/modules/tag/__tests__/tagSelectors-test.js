@@ -18,17 +18,17 @@ const state = {
 };
 
 test('tagSelector getAllTags with chinese locale', () => {
-  expect(getAllTags(state).length).toBe(4);
+  expect(getAllTags(state, 'zh').length).toBe(4);
 });
 
 test('tagSelector getAllTags with newnorwegian locale', () => {
   const updatedState = { ...state, locale: 'nn' };
-  expect(getAllTags(updatedState).length).toBe(4);
+  expect(getAllTags(updatedState, 'nn').length).toBe(4);
 });
 
 test('tagSelector getAllTags with unknown locale', () => {
   const updatedState = { ...state, locale: 'nbsdjf' };
-  expect(getAllTags(updatedState).length).toBe(0);
+  expect(getAllTags(updatedState, 'nbsdjf').length).toBe(0);
 });
 
 test('tagSelector getHasFetched', () => {

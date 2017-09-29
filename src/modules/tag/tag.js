@@ -41,10 +41,16 @@ export default handleActions(
 
 const getTagsFromState = state => state.tags.all;
 
+const getLanuage = (state, language) => language;
+
 export const getAllTags = createSelector(
-  [getTagsFromState, getLocale],
-  (tags, locale) => {
-    const language = defined(tags.find(tag => tag.language === locale), {});
+  [getTagsFromState, getLocale, getLanuage],
+  (tags, locale, lang) => {
+    const language = defined(
+      tags.find(tag => (tag.language === lang ? lang : locale)),
+      {},
+    );
+    console.log(language)
     return defined(language.tags, []);
   },
 );

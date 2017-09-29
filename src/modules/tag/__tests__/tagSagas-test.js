@@ -12,7 +12,7 @@ import { expectSaga } from 'redux-saga-test-plan';
 import * as sagas from '../tagSagas';
 import * as actions from '../tag';
 
-test('tagSagas fetch tags if nor already defined', () => {
+test('tagSagas fetch tags if not already defined', () => {
   nock('http://ndla-api')
     .get('/article-api/v2/articles/tags/?size=7000')
     .reply(200, ['tag1', 'tag2', 'tag3']);

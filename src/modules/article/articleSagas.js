@@ -50,7 +50,9 @@ export function* watchFetchArticle() {
 export function* updateArticle(article) {
   try {
     const updatedArticle = yield call(api.updateArticle, article);
-    yield put(actions.setArticle(updatedArticle));
+    yield put(
+      actions.setArticle({ ...updatedArticle, language: article.language }),
+    ); // Quick hack to set article language on updated article. Maybe language should not be on model?
     yield put(actions.updateArticleSuccess());
     yield put(messageActions.addMessage({ translationKey: 'form.savedOk' }));
   } catch (error) {

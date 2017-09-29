@@ -86,11 +86,17 @@ test('articleSagas watchUpdateArticle update article', () => {
 
   return expectSaga(sagas.watchUpdateArticle)
     .withState({})
-    .put(actions.setArticle({ id: '123', title: 'unit test updated' }))
+    .put(
+      actions.setArticle({
+        id: '123',
+        title: 'unit test updated',
+        language: 'nb',
+      }),
+    )
     .put(actions.updateArticleSuccess())
     .dispatch(
       actions.updateArticle({
-        article: { id: '123', title: 'unit test' },
+        article: { id: '123', title: 'unit test', language: 'nb' },
       }),
     )
     .run({ silenceTimeout: true });

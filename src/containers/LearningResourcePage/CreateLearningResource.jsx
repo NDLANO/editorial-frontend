@@ -26,11 +26,11 @@ class CreateLearningResource extends Component {
   }
 
   render() {
-    const { tags, isSaving, licenses, fetchArticle } = this.props;
+    const { tags, locale, isSaving, licenses, fetchArticle } = this.props;
 
     return (
       <LearningResourceForm
-        initialModel={getInitialModel({})}
+        initialModel={getInitialModel({ language: locale })}
         tags={tags}
         licenses={licenses}
         isSaving={isSaving}

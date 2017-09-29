@@ -30,7 +30,7 @@ class CreateTopicArticle extends Component {
 
     return (
       <TopicArticleForm
-        initialModel={getInitialModel({})}
+        initialModel={getInitialModel()}
         tags={tags}
         locale={locale}
         isSaving={isSaving}

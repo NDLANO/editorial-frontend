@@ -49,6 +49,10 @@ export class DisplayExternal extends React.Component {
   render() {
     const { title, src, error, type, provider } = this.state;
 
+    if (!type && !provider) {
+      return null;
+    }
+
     if (error) {
       return (
         <EditorErrorMessage msg={this.props.t('displayOembed.errorMessage')} />

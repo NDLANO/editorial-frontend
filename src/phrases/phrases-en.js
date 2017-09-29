@@ -143,7 +143,7 @@ const phrases = {
       tags: {
         label: 'Tags',
         description: '3 tags is required.',
-        createNew: 'Create new tag',
+        createOption: 'Create new tag',
         emptyList: 'No tags available',
         emptyFilter: 'No matching tags found',
       },
@@ -153,7 +153,7 @@ const phrases = {
       },
       authors: {
         label: 'Author',
-        createNew: 'Add new author',
+        createOption: 'Add new author',
         emptyFilter: ' ',
         emptyList: ' ',
       },
@@ -180,14 +180,14 @@ const phrases = {
       tags: {
         label: 'Tags',
         description: '3 tags is required.',
-        createNew: 'Create new tag',
+        createOption: 'Create new tag',
         emptyList: 'No tags available',
         emptyFilter: 'No matching tags found',
       },
       authors: {
         label: 'Author',
         description: 'At least 1 author is required.',
-        createNew: 'Add new author',
+        createOption: 'Add new author',
         emptyFilter: ' ',
         emptyList: ' ',
       },
@@ -233,14 +233,14 @@ const phrases = {
       tags: {
         label: 'Tags',
         description: '3 tags is required.',
-        createNew: 'Create new tag',
+        createOption: 'Create new tag',
         emptyList: 'No tags available',
         emptyFilter: 'No matching tags found',
       },
       authors: {
         label: 'Author',
         description: 'At least 1 author is required.',
-        createNew: 'Add new author',
+        createOption: 'Add new author',
         emptyFilter: ' ',
         emptyList: ' ',
       },
@@ -304,7 +304,7 @@ const phrases = {
       tags: {
         label: 'Tags',
         description: '3 tags is required.',
-        createNew: 'Create new tag',
+        createOption: 'Create new tag',
         emptyList: 'No tags available',
         emptyFilter: 'No matching tags found',
       },
@@ -314,19 +314,19 @@ const phrases = {
       },
       contributors: {
         label: 'Contributor',
-        createNew: 'Add new contributor',
+        createOption: 'Add new contributor',
         emptyFilter: ' ',
         emptyList: ' ',
       },
       licensees: {
         label: 'Licensee',
-        createNew: 'Add new licensee',
+        createOption: 'Add new licensee',
         emptyFilter: ' ',
         emptyList: ' ',
       },
       authors: {
         label: 'Author',
-        createNew: 'Add new author',
+        createOption: 'Add new author',
         emptyFilter: ' ',
         emptyList: ' ',
       },

@@ -47,7 +47,7 @@ class ImageMetaData extends Component {
           label={t('imageForm.fields.tags.label')}
           description={t('imageForm.fields.tags.description')}
           messages={{
-            createNew: t('imageForm.fields.tags.createNew'),
+            createOption: t('imageForm.fields.tags.createOption'),
             emptyFilter: t('imageForm.fields.tags.emptyFilter'),
             emptyList: t('imageForm.fields.tags.emptyList'),
           }}
@@ -59,7 +59,7 @@ class ImageMetaData extends Component {
           label={t('imageForm.fields.authors.label')}
           description={t('imageForm.fields.authors.description')}
           messages={{
-            createNew: t('imageForm.fields.authors.createNew'),
+            createOption: t('imageForm.fields.authors.createOption'),
             emptyFilter: t('imageForm.fields.authors.emptyFilter'),
             emptyList: t('imageForm.fields.authors.emptyList'),
           }}

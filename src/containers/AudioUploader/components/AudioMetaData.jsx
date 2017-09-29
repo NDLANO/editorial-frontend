@@ -47,7 +47,7 @@ class AudioMetaData extends Component {
           label={t('audioForm.fields.tags.label')}
           description={t('audioForm.fields.tags.description')}
           messages={{
-            createNew: t('audioForm.fields.tags.createNew'),
+            createOption: t('audioForm.fields.tags.createOption'),
             emptyFilter: t('audioForm.fields.tags.emptyFilter'),
             emptyList: t('audioForm.fields.tags.emptyList'),
           }}
@@ -59,7 +59,7 @@ class AudioMetaData extends Component {
           label={t('audioForm.fields.authors.label')}
           description={t('audioForm.fields.authors.description')}
           messages={{
-            createNew: t('audioForm.fields.authors.createNew'),
+            createOption: t('audioForm.fields.authors.createOption'),
             emptyFilter: t('audioForm.fields.authors.emptyFilter'),
             emptyList: t('audioForm.fields.authors.emptyList'),
           }}

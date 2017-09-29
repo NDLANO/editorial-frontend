@@ -47,7 +47,7 @@ class TopicArticleMetadata extends Component {
           label={t('topicArticleForm.fields.tags.label')}
           description={t('topicArticleForm.fields.tags.description')}
           messages={{
-            createNew: t('topicArticleForm.fields.tags.createNew'),
+            createOption: t('topicArticleForm.fields.tags.createOption'),
             emptyFilter: t('topicArticleForm.fields.tags.emptyFilter'),
             emptyList: t('topicArticleForm.fields.tags.emptyList'),
           }}
@@ -70,7 +70,7 @@ class TopicArticleMetadata extends Component {
           name="authors"
           label={t('topicArticleForm.fields.authors.label')}
           messages={{
-            createNew: t('topicArticleForm.fields.authors.createNew'),
+            createOption: t('topicArticleForm.fields.authors.createOption'),
             emptyFilter: t('topicArticleForm.fields.authors.emptyFilter'),
             emptyList: t('topicArticleForm.fields.authors.emptyList'),
           }}

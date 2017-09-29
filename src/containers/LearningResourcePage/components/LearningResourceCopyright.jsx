@@ -44,7 +44,7 @@ class LearningResourceCopyright extends Component {
           name="authors"
           label={t('learningResourceForm.fields.authors.label')}
           messages={{
-            createNew: t('learningResourceForm.fields.authors.createNew'),
+            createOption: t('learningResourceForm.fields.authors.createOption'),
             emptyFilter: t('learningResourceForm.fields.authors.emptyFilter'),
             emptyList: t('learningResourceForm.fields.authors.emptyList'),
           }}
@@ -54,7 +54,9 @@ class LearningResourceCopyright extends Component {
           name="licensees"
           label={t('learningResourceForm.fields.licensees.label')}
           messages={{
-            createNew: t('learningResourceForm.fields.licensees.createNew'),
+            createOption: t(
+              'learningResourceForm.fields.licensees.createOption',
+            ),
             emptyFilter: t('learningResourceForm.fields.licensees.emptyFilter'),
             emptyList: t('learningResourceForm.fields.licensees.emptyList'),
           }}
@@ -64,7 +66,9 @@ class LearningResourceCopyright extends Component {
           name="contributors"
           label={t('learningResourceForm.fields.contributors.label')}
           messages={{
-            createNew: t('learningResourceForm.fields.contributors.createNew'),
+            createOption: t(
+              'learningResourceForm.fields.contributors.createOption',
+            ),
             emptyFilter: t(
               'learningResourceForm.fields.contributors.emptyFilter',
             ),

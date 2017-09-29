@@ -30,7 +30,10 @@ class EditLearningResource extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { articleId, fetchArticle, articleLanguage, article } = nextProps;
-    if (article && article.language !== articleLanguage) {
+    if (
+      (article && article.language !== articleLanguage) ||
+      articleId !== this.props.articleId
+    ) {
       fetchArticle({ id: articleId, language: articleLanguage });
     }
   }
@@ -89,14 +92,14 @@ const mapDispatchToProps = {
   setArticle: actions.setArticle,
 };
 
-const makeMapStateToProps = (_, props) => {
+const mapStateToProps = (state, props) => {
   const { articleId } = props;
   const getArticleSelector = getArticle(articleId, true);
-  return state => ({
+  return {
     article: getArticleSelector(state),
-  });
+  };
 };
 
 export default withRouter(
-  connect(makeMapStateToProps, mapDispatchToProps)(EditLearningResource),
+  connect(mapStateToProps, mapDispatchToProps)(EditLearningResource),
 );

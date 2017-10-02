@@ -12,7 +12,7 @@ import { Route } from 'react-router-dom';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 
-const Status = ({ code, children }) =>
+const Status = ({ code, children }) => (
   <Route
     render={({ staticContext }) => {
       const context = staticContext;
@@ -21,7 +21,8 @@ const Status = ({ code, children }) =>
       }
       return children;
     }}
-  />;
+  />
+);
 
 Status.propTypes = {
   code: PropTypes.number.isRequired,
@@ -32,9 +33,7 @@ function NotFound({ t }) {
     <Status code={404}>
       <OneColumn cssModifier="narrow">
         <div>
-          <h2>
-            404 - {t('notFound.description')}
-          </h2>
+          <h2>404 - {t('notFound.description')}</h2>
         </div>
       </OneColumn>
     </Status>

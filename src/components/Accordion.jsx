@@ -40,9 +40,7 @@ const Accordion = ({
         {...classes('button', fill ? 'fill' : '')}
         stripped
         onClick={handleToggle}>
-        <span {...classes('title')}>
-          {header}
-        </span>
+        <span {...classes('title')}>{header}</span>
         <Arrow direction={`${hidden ? 'down' : 'up'}`} {...classes('arrow')} />
       </Button>
       <div

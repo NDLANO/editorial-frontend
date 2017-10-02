@@ -10,20 +10,17 @@ import { Link } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
 import { toLogoutFederated, toLogoutSession } from '../../util/routeHelpers';
 
-const LogoutProviders = ({ t }) =>
+const LogoutProviders = ({ t }) => (
   <div className="c-logout-providers">
     <Link to={toLogoutSession()} className="c-button c-button--outline">
       {t('logoutProviders.localLogout')}
     </Link>
-    <p className="c-logout-providers__or">
-      {t('logoutProviders.or')}
-    </p>
+    <p className="c-logout-providers__or">{t('logoutProviders.or')}</p>
     <Link to={toLogoutFederated()} className="c-button c-button--outline">
       {t('logoutProviders.federatedLogout')}
     </Link>
-    <p>
-      {t('logoutProviders.description')}
-    </p>
-  </div>;
+    <p>{t('logoutProviders.description')}</p>
+  </div>
+);
 
 export default injectT(LogoutProviders);

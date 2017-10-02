@@ -20,10 +20,11 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-export const Field = ({ children, className, noBorder, title, right }) =>
+export const Field = ({ children, className, noBorder, title, right }) => (
   <div {...classes('', { 'no-border': noBorder, right, title }, className)}>
     {children}
-  </div>;
+  </div>
+);
 
 Field.propTypes = {
   noBorder: PropTypes.bool,
@@ -35,10 +36,9 @@ Field.defaultProps = {
   noBorder: false,
 };
 
-export const FieldHelp = ({ children, error, right }) =>
-  <span {...classes('help', { error, right })}>
-    {children}
-  </span>;
+export const FieldHelp = ({ children, error, right }) => (
+  <span {...classes('help', { error, right })}>{children}</span>
+);
 
 FieldHelp.propTypes = {
   error: PropTypes.bool,
@@ -57,11 +57,11 @@ export const FieldErrorMessages = ({ field, submitted, label }) => {
 
   return (
     <div>
-      {field.errors.map(error =>
+      {field.errors.map(error => (
         <FieldHelp key={uuid()} error>
           {error(label)}
-        </FieldHelp>,
-      )}
+        </FieldHelp>
+      ))}
     </div>
   );
 };
@@ -82,9 +82,7 @@ export const FocusLabel = ({ name, value, hasFocus, children }) => {
   }
   return (
     <div className="c-field__focus-label">
-      <span className="c-field__focus-text">
-        {children}
-      </span>
+      <span className="c-field__focus-text">{children}</span>
     </div>
   );
 };
@@ -98,10 +96,15 @@ FocusLabel.propTypes = {
   hasFocus: PropTypes.func.isRequired,
 };
 
-export const RemainingCharacters = ({ value, maxLength, getRemainingLabel }) =>
+export const RemainingCharacters = ({
+  value,
+  maxLength,
+  getRemainingLabel,
+}) => (
   <FieldHelp right>
     {getRemainingLabel(maxLength, maxLength - value.length)}
-  </FieldHelp>;
+  </FieldHelp>
+);
 
 RemainingCharacters.propTypes = {
   value: PropTypes.string.isRequired,
@@ -118,7 +121,7 @@ export const InputFileField = ({
   noBorder,
   title,
   ...rest
-}) =>
+}) => (
   <Field noBorder={noBorder} title={title}>
     <input
       id="file"
@@ -132,7 +135,8 @@ export const InputFileField = ({
       field={getField(name, schema)}
       submitted={submitted}
     />
-  </Field>;
+  </Field>
+);
 
 InputFileField.propTypes = {
   bindInput: PropTypes.func.isRequired,
@@ -159,22 +163,23 @@ export const TextField = ({
   noBorder,
   title,
   ...rest
-}) =>
+}) => (
   <Field noBorder={noBorder} title={title}>
-    {!noBorder
-      ? <label htmlFor={name}>
-          {label}
-        </label>
-      : <label className="u-hidden" htmlFor={name}>
-          {label}
-        </label>}
-    {noBorder &&
+    {!noBorder ? (
+      <label htmlFor={name}>{label}</label>
+    ) : (
+      <label className="u-hidden" htmlFor={name}>
+        {label}
+      </label>
+    )}
+    {noBorder && (
       <FocusLabel
         name={name}
         hasFocus={() => getField(name, schema).active}
         value={bindInput(name).value}>
         {label}
-      </FocusLabel>}
+      </FocusLabel>
+    )}
 
     <input
       id={name}
@@ -189,7 +194,8 @@ export const TextField = ({
       field={getField(name, schema)}
       submitted={submitted}
     />
-  </Field>;
+  </Field>
+);
 
 TextField.propTypes = {
   bindInput: PropTypes.func.isRequired,
@@ -214,9 +220,7 @@ export const FieldDescription = ({ obligatory, children }) => {
   );
   return (
     <span {...classes('description--block')}>
-      <p {...fieldDescriptionClasses}>
-        {children}
-      </p>
+      <p {...fieldDescriptionClasses}>{children}</p>
     </span>
   );
 };
@@ -238,15 +242,12 @@ export const TextAreaField = ({
   children,
   getMaxLengthRemaingLabel,
   ...rest
-}) =>
+}) => (
   <Field noBorder={noBorder}>
-    <label htmlFor={name}>
-      {label}
-    </label>
-    {description &&
-      <FieldDescription obligatory={obligatory}>
-        {description}
-      </FieldDescription>}
+    <label htmlFor={name}>{label}</label>
+    {description && (
+      <FieldDescription obligatory={obligatory}>{description}</FieldDescription>
+    )}
     <textarea
       id={name}
       className="form-control"
@@ -260,7 +261,8 @@ export const TextAreaField = ({
       submitted={submitted}
     />
     {children}
-  </Field>;
+  </Field>
+);
 
 TextAreaField.propTypes = {
   bindInput: PropTypes.func.isRequired,
@@ -293,24 +295,26 @@ export const PlainTextField = ({
   const { value, onChange } = bindInput(name);
   return (
     <Field noBorder={noBorder} className={fieldClassName}>
-      {!noBorder
-        ? <label htmlFor={name}>
-            {label}
-          </label>
-        : <label className="u-hidden" htmlFor={name}>
-            {label}
-          </label>}
-      {noBorder &&
+      {!noBorder ? (
+        <label htmlFor={name}>{label}</label>
+      ) : (
+        <label className="u-hidden" htmlFor={name}>
+          {label}
+        </label>
+      )}
+      {noBorder && (
         <FocusLabel
           name={name}
           hasFocus={() => value.selection.isFocused}
           value={value}>
           {label}
-        </FocusLabel>}
-      {description &&
+        </FocusLabel>
+      )}
+      {description && (
         <FieldDescription obligatory={obligatory}>
           {description}
-        </FieldDescription>}
+        </FieldDescription>
+      )}
       <PlainTextEditor
         id={name}
         onChange={val =>
@@ -353,22 +357,20 @@ export const MultiSelectField = ({
   submitted,
   schema,
   ...rest
-}) =>
+}) => (
   <Field>
-    <label htmlFor={name}>
-      {label}
-    </label>
-    {description &&
-      <FieldDescription obligatory={obligatory}>
-        {description}
-      </FieldDescription>}
+    <label htmlFor={name}>{label}</label>
+    {description && (
+      <FieldDescription obligatory={obligatory}>{description}</FieldDescription>
+    )}
     <MultiSelect {...bindInput(name)} {...rest} />
     <FieldErrorMessages
       label={label}
       field={getField(name, schema)}
       submitted={submitted}
     />
-  </Field>;
+  </Field>
+);
 
 MultiSelectField.propTypes = {
   bindInput: PropTypes.func.isRequired,
@@ -400,21 +402,20 @@ export const SelectObjectField = props => {
 
   return (
     <Field>
-      <label htmlFor={name}>
-        {label}
-      </label>
-      {description &&
+      <label htmlFor={name}>{label}</label>
+      {description && (
         <FieldDescription obligatory={obligatory}>
           {description}
-        </FieldDescription>}
+        </FieldDescription>
+      )}
       <select {...bindInput(name)} {...rest}>
-        {options.map(option =>
+        {options.map(option => (
           <option
             key={option[idKey] ? option[idKey] : uuid()}
             value={option[idKey]}>
             {option[labelKey]}
-          </option>,
-        )}
+          </option>
+        ))}
       </select>
       <FieldErrorMessages
         label={label}

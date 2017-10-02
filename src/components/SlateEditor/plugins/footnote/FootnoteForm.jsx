@@ -118,13 +118,15 @@ class FootnoteForm extends Component {
         </Field>
         <Field right>
           <div {...toolbarClasses('link-actions')}>
-            {isEdit
-              ? <Button onClick={onRemove}>
-                  {t(
-                    'learningResourceForm.fields.content.footnote.removeFootnote',
-                  )}
-                </Button>
-              : ''}
+            {isEdit ? (
+              <Button onClick={onRemove}>
+                {t(
+                  'learningResourceForm.fields.content.footnote.removeFootnote',
+                )}
+              </Button>
+            ) : (
+              ''
+            )}
             <Button outline onClick={onClose}>
               {t('learningResourceForm.fields.content.footnote.abort')}
             </Button>

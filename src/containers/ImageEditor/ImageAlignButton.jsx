@@ -22,7 +22,7 @@ const icon = {
   center: <AlignCenter />,
 };
 
-const ImageAlignButton = ({ currentAlign, alignType, onAlignChange }) =>
+const ImageAlignButton = ({ currentAlign, alignType, onAlignChange }) => (
   <Button
     {...classes(
       'align-image-button',
@@ -31,7 +31,8 @@ const ImageAlignButton = ({ currentAlign, alignType, onAlignChange }) =>
     stripped
     onClick={evt => onAlignChange(evt, alignType)}>
     {icon[alignType]}
-  </Button>;
+  </Button>
+);
 
 ImageAlignButton.propTypes = {
   currentAlign: PropTypes.string.isRequired,

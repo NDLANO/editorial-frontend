@@ -13,19 +13,18 @@ import { toEditAudio } from '../../../util/routeHelpers';
 import { AudioResultShape } from '../../../shapes';
 import { searchClasses } from '../SearchPage';
 
-const SearchAudio = ({ audio }) =>
+const SearchAudio = ({ audio }) => (
   <div {...searchClasses('result')}>
     <div {...searchClasses('content')}>
       <Link to={toEditAudio(audio.id)}>
-        <h1 {...searchClasses('title')}>
-          {audio.title}
-        </h1>
+        <h1 {...searchClasses('title')}>{audio.title}</h1>
       </Link>
     </div>
     <div {...searchClasses('image')}>
       <Audio />
     </div>
-  </div>;
+  </div>
+);
 
 SearchAudio.propTypes = {
   audio: AudioResultShape.isRequired,

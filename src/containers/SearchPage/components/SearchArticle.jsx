@@ -13,24 +13,21 @@ import { toEditArticle } from '../../../util/routeHelpers';
 import { ArticleResultShape } from '../../../shapes';
 import { searchClasses } from '../SearchPage';
 
-const SearchArticle = ({ article, locale }) =>
+const SearchArticle = ({ article, locale }) => (
   <div {...searchClasses('result')}>
     <div {...searchClasses('content')}>
       <Link
         {...searchClasses('link')}
         to={toEditArticle(article.id, article.articleType, locale)}>
-        <h1 {...searchClasses('title')}>
-          {article.title}
-        </h1>
+        <h1 {...searchClasses('title')}>{article.title}</h1>
       </Link>
-      <p {...searchClasses('description')}>
-        {article.introduction}
-      </p>
+      <p {...searchClasses('description')}>{article.introduction}</p>
     </div>
     <div {...searchClasses('image')}>
       <img src="/assets/placeholder.png" alt="" />
     </div>
-  </div>;
+  </div>
+);
 
 SearchArticle.propTypes = {
   article: ArticleResultShape.isRequired,

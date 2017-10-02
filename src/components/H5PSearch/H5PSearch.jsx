@@ -52,21 +52,22 @@ class H5PSearch extends Component {
     const { t } = this.props;
     return (
       <div>
-        {this.state.fetchFailed &&
+        {this.state.fetchFailed && (
           <ErrorMessage
             messages={{
               title: t('errorMessage.title'),
               description: t('h5pSearch.fetchError'),
             }}
-          />}
-        {this.state.url
-          ? <iframe
-              src={this.state.url}
-              title="H5P"
-              frameBorder="0"
-              height="900"
-            />
-          : null}
+          />
+        )}
+        {this.state.url ? (
+          <iframe
+            src={this.state.url}
+            title="H5P"
+            frameBorder="0"
+            height="900"
+          />
+        ) : null}
       </div>
     );
   }

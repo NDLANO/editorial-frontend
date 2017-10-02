@@ -42,7 +42,7 @@ class LearningResourceLanguage extends Component {
           {t('learningResourceForm.variant.create')}
         </Button>
         <ul {...classes('items', this.state.display ? 'show' : '')}>
-          {languages.map(language =>
+          {languages.map(language => (
             <li key={language.key} {...classes('item')}>
               <Link
                 to={toEditArticle(modelId, 'standard', language.key)}
@@ -50,8 +50,8 @@ class LearningResourceLanguage extends Component {
                 onClick={this.onDisplayToggle}>
                 {`${language.title}(${language.key})`}
               </Link>
-            </li>,
-          )}
+            </li>
+          ))}
         </ul>
       </div>
     );

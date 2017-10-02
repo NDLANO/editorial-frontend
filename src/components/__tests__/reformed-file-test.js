@@ -19,16 +19,10 @@ export const FileForm = props => {
   return (
     <form>
       <input type="file" {...bindInput('file', true)} />
-      {fileInfo
-        ? <span>
-            {`${fileInfo.name} ${fileInfo.type} ${fileInfo.size}`}
-          </span>
-        : null}
-      {filePath
-        ? <span>
-            {filePath}
-          </span>
-        : null}
+      {fileInfo ? (
+        <span>{`${fileInfo.name} ${fileInfo.type} ${fileInfo.size}`}</span>
+      ) : null}
+      {filePath ? <span>{filePath}</span> : null}
     </form>
   );
 };

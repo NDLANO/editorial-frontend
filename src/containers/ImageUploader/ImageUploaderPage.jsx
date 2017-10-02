@@ -39,18 +39,19 @@ class ImageUploaderPage extends Component {
           <Switch>
             <Route
               path={`${match.url}/new`}
-              render={() =>
+              render={() => (
                 <CreateImage
                   history={history}
                   locale={locale}
                   tags={tags}
                   licenses={licenses}
                   isSaving={isSaving}
-                />}
+                />
+              )}
             />
             <Route
               path={`${match.url}/:imageId/edit`}
-              render={props =>
+              render={props => (
                 <EditImage
                   imageId={props.match.params.imageId}
                   history={history}
@@ -58,7 +59,8 @@ class ImageUploaderPage extends Component {
                   tags={tags}
                   licenses={licenses}
                   isSaving={isSaving}
-                />}
+                />
+              )}
             />
             <Route component={NotFoundPage} />
           </Switch>

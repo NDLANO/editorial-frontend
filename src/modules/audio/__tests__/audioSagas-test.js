@@ -54,10 +54,12 @@ test('audioSagas watchFetchAudio do not refetch existing audio ', () =>
     .run({ silenceTimeout: true }));
 
 test('audioSagas watchUpdateAudio update audio', () => {
-  nock('http://ndla-api').put('/audio-api/v1/audio/123').reply(200, {
-    id: 123,
-    title: { title: 'unit test updated', language: 'en' },
-  });
+  nock('http://ndla-api')
+    .put('/audio-api/v1/audio/123')
+    .reply(200, {
+      id: 123,
+      title: { title: 'unit test updated', language: 'en' },
+    });
 
   return expectSaga(sagas.watchUpdateAudio)
     .withState({})

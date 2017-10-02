@@ -170,7 +170,7 @@ class SlateToolbar extends Component {
     const { state } = this.props;
 
     const toolbarButtons = Object.keys(suportedToolbarElements).map(kind =>
-      suportedToolbarElements[kind].map(type =>
+      suportedToolbarElements[kind].map(type => (
         <ToolbarButton
           key={type}
           type={type}
@@ -178,15 +178,13 @@ class SlateToolbar extends Component {
           state={state}
           handleHasType={hasNodeOfType}
           handleOnClick={this.onButtonClick}
-        />,
-      ),
+        />
+      )),
     );
 
     return (
       <Portal isOpened onOpen={this.onOpen}>
-        <div {...toolbarClasses()}>
-          {toolbarButtons}
-        </div>
+        <div {...toolbarClasses()}>{toolbarButtons}</div>
       </Portal>
     );
   }

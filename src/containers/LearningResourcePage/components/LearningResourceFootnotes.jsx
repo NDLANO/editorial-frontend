@@ -23,9 +23,7 @@ const Footnote = ({ footnote, id, t }) => {
   const publisherLabel = t('learningResourceForm.fields.footnotes.publisher');
   return (
     <li {...classes('item')} id={`${id}_cite`}>
-      <sup>
-        {id}
-      </sup>
+      <sup>{id}</sup>
       <cite>{` ${footnote.title} (${footnote.year}), ${authors}, ${editonLabel}: ${footnote.edition}, ${publisherLabel}: ${footnote.publisher}`}</cite>
     </li>
   );
@@ -42,9 +40,9 @@ const LearningResourceFootnotes = ({ footnotes, t }) => {
   if (footnotes.length > 0) {
     return (
       <ol {...classes()}>
-        {footnotes.map((footnote, i) =>
-          <Footnote key={uuid()} id={`${i + 1}`} t={t} footnote={footnote} />,
-        )}
+        {footnotes.map((footnote, i) => (
+          <Footnote key={uuid()} id={`${i + 1}`} t={t} footnote={footnote} />
+        ))}
       </ol>
     );
   }

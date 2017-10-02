@@ -19,7 +19,7 @@ const CreateAudio = ({
   updateAudio,
   history,
   isSaving,
-}) =>
+}) => (
   <AudioForm
     initialModel={getInitialModel()}
     tags={tags}
@@ -27,7 +27,8 @@ const CreateAudio = ({
     locale={locale}
     onUpdate={(audio, file) => updateAudio({ audio, file, history })}
     isSaving={isSaving}
-  />;
+  />
+);
 
 CreateAudio.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,

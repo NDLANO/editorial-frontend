@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
 
-const Status = ({ code, children }) =>
+const Status = ({ code, children }) => (
   <Route
     render={({ staticContext }) => {
       const context = staticContext;
@@ -21,21 +21,21 @@ const Status = ({ code, children }) =>
       }
       return children;
     }}
-  />;
+  />
+);
 
 Status.propTypes = {
   code: PropTypes.number.isRequired,
 };
 
-const Forbidden = ({ t }) =>
+const Forbidden = ({ t }) => (
   <Status code={403}>
     <OneColumn cssModifier="narrow">
       <div>
-        <h2>
-          403 - {t('forbiddenPage.description')}
-        </h2>
+        <h2>403 - {t('forbiddenPage.description')}</h2>
       </div>
     </OneColumn>
-  </Status>;
+  </Status>
+);
 
 export default compose(injectT)(Forbidden);

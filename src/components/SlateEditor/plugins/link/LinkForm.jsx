@@ -75,17 +75,17 @@ class LinkForm extends Component {
         </Field>
         <Field right>
           <div {...toolbarClasses('link-actions')}>
-            {isEdit
-              ? <Button onClick={onRemove}>
-                  {t('learningResourceForm.fields.content.link.remove')}
-                </Button>
-              : ''}
+            {isEdit ? (
+              <Button onClick={onRemove}>
+                {t('learningResourceForm.fields.content.link.remove')}
+              </Button>
+            ) : (
+              ''
+            )}
             <Button outline onClick={onClose}>
               {t('form.abort')}
             </Button>
-            <Button submit>
-              {t('form.save')}
-            </Button>
+            <Button submit>{t('form.save')}</Button>
           </div>
         </Field>
       </form>

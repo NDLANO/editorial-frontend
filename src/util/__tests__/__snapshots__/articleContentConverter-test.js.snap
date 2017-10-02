@@ -5,13 +5,15 @@ exports[`articleContentConverter convert learningresource content to and from ed
 exports[`articleContentConverter convert learningresource content with multiple sections to and from editorState 1`] = `"<section><h2>Section 1</h2></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>"`;
 
 exports[`articleContentConverter convert learningresource content with no rule applied 1`] = `
-Array [
-  Object {
-    "index": 0,
-    "state": Object {
-      "document": Object {
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
         "data": Object {},
-        "kind": "document",
+        "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
@@ -19,42 +21,37 @@ Array [
             "kind": "block",
             "nodes": Array [
               Object {
-                "data": Object {},
-                "isVoid": false,
-                "kind": "block",
-                "nodes": Array [
+                "kind": "text",
+                "ranges": Array [
                   Object {
-                    "kind": "text",
-                    "ranges": Array [
-                      Object {
-                        "kind": "range",
-                        "marks": Array [],
-                        "text": "Lorem ipsum",
-                      },
-                    ],
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Lorem ipsum",
                   },
                 ],
-                "type": "heading-two",
               },
             ],
-            "type": "section",
+            "type": "heading-two",
           },
         ],
+        "type": "section",
       },
-      "kind": "state",
-    },
+    ],
   },
-]
+  "kind": "state",
+}
 `;
 
 exports[`articleContentConverter convert learningresource content with rule applied 1`] = `
-Array [
-  Object {
-    "index": 0,
-    "state": Object {
-      "document": Object {
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
         "data": Object {},
-        "kind": "document",
+        "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
@@ -62,70 +59,63 @@ Array [
             "kind": "block",
             "nodes": Array [
               Object {
-                "data": Object {},
-                "isVoid": false,
-                "kind": "block",
-                "nodes": Array [
+                "kind": "text",
+                "ranges": Array [
                   Object {
-                    "kind": "text",
-                    "ranges": Array [
-                      Object {
-                        "kind": "range",
-                        "marks": Array [],
-                        "text": "Lorem ipsum",
-                      },
-                    ],
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Lorem ipsum",
                   },
                 ],
-                "type": "heading-two",
-              },
-              Object {
-                "data": Object {
-                  "date-resource-type": "image",
-                },
-                "isVoid": true,
-                "kind": "block",
-                "nodes": Array [
-                  Object {
-                    "kind": "text",
-                    "ranges": Array [
-                      Object {
-                        "kind": "range",
-                        "marks": Array [],
-                        "text": " ",
-                      },
-                    ],
-                  },
-                ],
-                "type": "embed",
-              },
-              Object {
-                "data": Object {},
-                "isVoid": false,
-                "kind": "block",
-                "nodes": Array [
-                  Object {
-                    "kind": "text",
-                    "ranges": Array [
-                      Object {
-                        "kind": "range",
-                        "marks": Array [],
-                        "text": "",
-                      },
-                    ],
-                  },
-                ],
-                "type": "paragraph",
               },
             ],
-            "type": "section",
+            "type": "heading-two",
+          },
+          Object {
+            "data": Object {
+              "date-resource-type": "image",
+            },
+            "isVoid": true,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": " ",
+                  },
+                ],
+              },
+            ],
+            "type": "embed",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
           },
         ],
+        "type": "section",
       },
-      "kind": "state",
-    },
+    ],
   },
-]
+  "kind": "state",
+}
 `;
 
 exports[`articleContentConverter convert topic article content to and from editorState 1`] = `"<section><h2>Lorem ipsum</h2></section>"`;

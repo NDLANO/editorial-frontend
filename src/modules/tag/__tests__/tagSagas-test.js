@@ -14,7 +14,7 @@ import * as actions from '../tag';
 
 test('tagSagas fetch tags if not already defined', () => {
   nock('http://ndla-api')
-    .get('/article-api/v2/articles/tags')
+    .get('/article-api/v2/articles/tags/')
     .query({ language: 'nb', size: 7000 })
     .reply(200, [{ language: 'nb', tags: ['tag1', 'tag2', 'tag3'] }]);
 
@@ -27,7 +27,7 @@ test('tagSagas fetch tags if not already defined', () => {
 
 test('tagSagas do not fetch tags if already fetched', () => {
   nock('http://ndla-api')
-    .get('/article-api/v2/articles/tags')
+    .get('/article-api/v2/articles/tags/')
     .query({ language: 'nb', size: 7000 })
     .reply(200, [{ language: 'nb', tags: ['tag1', 'tag2', 'tag3'] }]);
 

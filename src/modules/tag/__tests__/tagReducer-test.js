@@ -7,22 +7,25 @@
  */
 
 import reducer, { actions } from '../tag';
-import mockTags from './mockTags';
+import { nn } from './mockTags';
 
 test('reducers/tags initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
 
   expect(nextState).toEqual({
-    all: [],
-    hasFetched: false,
+    all: {},
   });
 });
 
 test('reducers/tags setTags', () => {
-  const nextState = reducer(undefined, actions.setTags(mockTags));
+  const nextState = reducer(undefined, actions.setTags(nn));
 
   expect(nextState).toEqual({
-    all: mockTags,
-    hasFetched: true,
+    all: {
+      nn: {
+        ...nn[0],
+        hasFetched: true,
+      },
+    },
   });
 });

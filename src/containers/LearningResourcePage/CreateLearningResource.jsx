@@ -8,7 +8,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { actions as tagActions, getAllTags } from '../../modules/tag/tag';
+import {
+  actions as tagActions,
+  getAllTagsByLanguage,
+} from '../../modules/tag/tag';
 import { actions } from '../../modules/article/article';
 import LearningResourceForm, {
   getInitialModel,
@@ -32,7 +35,6 @@ class CreateLearningResource extends Component {
 
   render() {
     const { tags, locale, isSaving, licenses, fetchArticle } = this.props;
-
     return (
       <LearningResourceForm
         initialModel={getInitialModel({ language: locale })}
@@ -70,9 +72,12 @@ const mapDispatchToProps = {
   fetchTags: tagActions.fetchTags,
 };
 
-const mapStateToProps = state => ({
-  tags: getAllTags(state),
-});
+const mapStateToProps = (state, ownProps) => {
+  const getAllTagsSelector = getAllTagsByLanguage(ownProps.locale);
+  return {
+    tags: getAllTagsSelector(state),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(
   CreateLearningResource,

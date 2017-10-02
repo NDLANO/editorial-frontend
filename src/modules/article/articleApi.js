@@ -22,7 +22,7 @@ export const fetchArticle = (id, language) => {
 
 export const fetchTags = language => {
   const query = queryString.stringify({ size: 7000, language });
-  return fetchWithAccessToken(`${baseUrl}/tags/?${query}`).then(
+  return fetchWithAccessToken(`${baseUrl}/tags?${query}`).then(
     resolveJsonOrRejectWithError,
   );
 };

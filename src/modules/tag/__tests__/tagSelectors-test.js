@@ -6,31 +6,40 @@
  *
  */
 
-import { getAllTags, getHasFetched } from '../tag';
-import mockTags from './mockTags';
+import { getAllTagsByLanguage, getHasFetched } from '../tag';
+import { nn, zh } from './mockTags';
 
 const state = {
   locale: 'zh',
   tags: {
-    hasFetched: true,
-    all: mockTags,
+    all: {
+      nn: {
+        ...nn[0],
+        hasFetched: true,
+      },
+      zh: {
+        ...zh[0],
+        hasFetched: true,
+      },
+    },
   },
 };
 
-test('tagSelector getAllTags with chinese locale', () => {
-  expect(getAllTags(state, 'zh').length).toBe(4);
+test('tagSelector getAllTagsByLanguage with chinese locale', () => {
+  const getAllTagsSelector = getAllTagsByLanguage('zh');
+  expect(getAllTagsSelector(state).length).toBe(4);
 });
 
-test('tagSelector getAllTags with newnorwegian locale', () => {
-  const updatedState = { ...state, locale: 'nn' };
-  expect(getAllTags(updatedState, 'nn').length).toBe(4);
+test('tagSelector getAllTagsByLanguage with newnorwegian locale', () => {
+  const getAllTagsSelector = getAllTagsByLanguage('nn');
+  expect(getAllTagsSelector(state).length).toBe(4);
 });
 
-test('tagSelector getAllTags with unknown locale', () => {
-  const updatedState = { ...state, locale: 'nbsdjf' };
-  expect(getAllTags(updatedState, 'nbsdjf').length).toBe(0);
+test('tagSelector getAllTagsByLanguage with unknown locale', () => {
+  const getAllTagsSelector = getAllTagsByLanguage('nbsdjf');
+  expect(getAllTagsSelector(state).length).toBe(0);
 });
 
 test('tagSelector getHasFetched', () => {
-  expect(getHasFetched(state)).toBe(true);
+  expect(getHasFetched(state, 'zh')).toBe(true);
 });

@@ -23,10 +23,9 @@ export function* fetchTags(language) {
 export function* watchFetchTags() {
   while (true) {
     const { payload } = yield take(actions.fetchTags);
-    const refetch = payload ? payload.refetch : undefined;
     const language = payload ? payload.language : undefined;
-    const hasFetched = yield select(getHasFetched);
-    if (!hasFetched || refetch) {
+    const hasFetched = yield select(getHasFetched, language);
+    if (!hasFetched) {
       yield call(fetchTags, language);
     }
   }

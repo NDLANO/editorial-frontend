@@ -16,7 +16,10 @@ import LearningResourceForm, {
 } from './components/LearningResourceForm';
 import { ArticleShape } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
-import { actions as tagActions, getAllTags } from '../../modules/tag/tag';
+import {
+  actions as tagActions,
+  getAllTagsByLanguage,
+} from '../../modules/tag/tag';
 
 class EditLearningResource extends Component {
   constructor(props) {
@@ -43,7 +46,7 @@ class EditLearningResource extends Component {
       articleId !== this.props.articleId
     ) {
       fetchArticle({ id: articleId, language: articleLanguage });
-      fetchTags({ refetch: true, language: articleLanguage });
+      fetchTags({ language: articleLanguage });
     }
   }
 
@@ -106,9 +109,10 @@ const mapDispatchToProps = {
 const mapStateToProps = (state, props) => {
   const { articleId, articleLanguage } = props;
   const getArticleSelector = getArticle(articleId, true);
+  const getAllTagsSelector = getAllTagsByLanguage(articleLanguage);
   return {
     article: getArticleSelector(state),
-    tags: getAllTags(state, articleLanguage),
+    tags: getAllTagsSelector(state),
   };
 };
 

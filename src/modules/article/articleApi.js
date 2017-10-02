@@ -21,7 +21,6 @@ export const fetchArticle = (id, language) => {
 };
 
 export const fetchTags = language => {
-  console.log('lang', language);
   const query = queryString.stringify({ size: 7000, language });
   return fetchWithAccessToken(`${baseUrl}/tags/?${query}`).then(
     resolveJsonOrRejectWithError,

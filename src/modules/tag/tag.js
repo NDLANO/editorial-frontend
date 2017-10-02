@@ -46,11 +46,8 @@ const getLanuage = (state, language) => language;
 export const getAllTags = createSelector(
   [getTagsFromState, getLocale, getLanuage],
   (tags, locale, lang) => {
-    const language = defined(
-      tags.find(tag => (tag.language === lang ? lang : locale)),
-      {},
-    );
-    console.log(language)
+    const l = lang || locale;
+    const language = defined(tags.find(tag => tag.language === l), {});
     return defined(language.tags, []);
   },
 );

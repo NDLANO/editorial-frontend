@@ -115,8 +115,11 @@ const phrases = {
       lastUpdated: 'Sist oppdatert: {updated}',
     },
     title: {
-      create: 'Du oppretter nå en emnebeskrivelse',
-      update: 'Du redigerer nå en emnebeskrivelse',
+      create: 'Du oppretter nå en emnebeskrivelse på {title}({key})',
+      update: 'Du redigerer nå en emnebeskrivelse på {title}({key})',
+    },
+    variant: {
+      create: 'Lag variant +',
     },
     fields: {
       title: {
@@ -276,11 +279,6 @@ const phrases = {
     },
     variant: {
       create: 'Lag variant +',
-      languages: {
-        nb: 'Bokmål',
-        nn: 'Nynorsk',
-        en: 'Engelsk',
-      },
     },
     fields: {
       title: {

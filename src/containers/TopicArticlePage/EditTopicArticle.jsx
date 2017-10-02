@@ -24,8 +24,18 @@ class EditTopicArticle extends Component {
   }
 
   componentWillMount() {
-    const { articleId, fetchArticle } = this.props;
-    fetchArticle({ id: articleId });
+    const { articleId, fetchArticle, articleLanguage } = this.props;
+    fetchArticle({ id: articleId, language: articleLanguage });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { articleId, fetchArticle, articleLanguage, article } = nextProps;
+    if (
+      (article && article.language !== articleLanguage) ||
+      articleId !== this.props.articleId
+    ) {
+      fetchArticle({ id: articleId, language: articleLanguage });
+    }
   }
 
   updateArticle(article) {
@@ -67,6 +77,7 @@ EditTopicArticle.propTypes = {
   article: ArticleShape,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  articleLanguage: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = {
@@ -74,14 +85,12 @@ const mapDispatchToProps = {
   updateArticle: actions.updateArticle,
 };
 
-const makeMapStateToProps = (_, props) => {
+const mapStateToProps = (state, props) => {
   const { articleId } = props;
-  const getArticleSelector = getArticle(articleId);
-  return state => ({
+  const getArticleSelector = getArticle(articleId, true);
+  return {
     article: getArticleSelector(state),
-  });
+  };
 };
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(
-  EditTopicArticle,
-);
+export default connect(mapStateToProps, mapDispatchToProps)(EditTopicArticle);

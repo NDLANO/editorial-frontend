@@ -113,6 +113,9 @@ const phrases = {
       create: 'You are now creating a topic description',
       update: 'You are now editing a topic description',
     },
+    variant: {
+      create: 'Create variant +',
+    },
     fields: {
       title: {
         label: 'Title',
@@ -270,11 +273,6 @@ const phrases = {
     },
     variant: {
       create: 'Create variant +',
-      languages: {
-        nb: 'Bokmål',
-        nn: 'Nynorsk',
-        en: 'English',
-      },
     },
     fields: {
       title: {

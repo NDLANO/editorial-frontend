@@ -262,6 +262,7 @@ const phrases = {
     authors: {
       label: 'Author',
       createNew: 'Add new author',
+      description: 'Required with at least one author.',
       emptyFilter: ' ',
       emptyList: ' ',
     },

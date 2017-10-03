@@ -267,7 +267,7 @@ const phrases = {
     authors: {
       label: 'Opphavsperson',
       createNew: 'Opprett ny opphavsperson',
-      description: 'Obligatorisk med minst 1 forfatter.',
+      description: 'Obligatorisk med minst 1 opphavsperson.',
       emptyFilter: ' ',
       emptyList: ' ',
     },

@@ -22,13 +22,7 @@ const DEFAULT_NODE = 'paragraph';
 
 const suportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
-  block: [
-    'quote',
-    'numbered-list',
-    'bulleted-list',
-    'heading-two',
-    'heading-three',
-  ],
+  block: ['quote', 'numbered-list', 'bulleted-list', 'heading-two'],
   inline: [link, footnote],
 };
 

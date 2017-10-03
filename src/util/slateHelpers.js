@@ -20,12 +20,12 @@ const BLOCK_TAGS = {
   ol: 'numbered-list',
   blockquote: 'quote',
   pre: 'code',
-  h1: 'heading-one',
+  h1: 'heading-two',
   h2: 'heading-two',
-  h3: 'heading-three',
-  h4: 'heading-four',
-  h5: 'heading-five',
-  h6: 'heading-six',
+  h3: 'heading-two',
+  h4: 'heading-two',
+  h5: 'heading-two',
+  h6: 'heading-two',
 };
 
 const MARK_TAGS = {

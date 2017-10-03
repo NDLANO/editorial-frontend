@@ -104,10 +104,9 @@ class SlateFigure extends React.Component {
         return (
           <EditorErrorMessage
             attributes={this.props.attributes}
-            msg={this.props.t(
-              'learningResourceForm.fields.content.figure.notSupported',
-              { mediaType: embed.resource },
-            )}
+            msg={this.props.t('form.content.figure.notSupported', {
+              mediaType: embed.resource,
+            })}
           />
         );
     }

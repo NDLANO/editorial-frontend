@@ -43,10 +43,11 @@ class TopicArticlePage extends Component {
                 />}
             />
             <Route
-              path={`${match.url}/:articleId/edit`}
+              path={`${match.url}/:articleId/edit/:articleLanguage`}
               render={props =>
                 <EditTopicArticle
                   articleId={props.match.params.articleId}
+                  articleLanguage={props.match.params.articleLanguage}
                   tags={tags}
                   locale={locale}
                   isSaving={isSaving}

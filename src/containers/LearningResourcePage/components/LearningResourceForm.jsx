@@ -34,7 +34,7 @@ import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
 import LearningResourceCopyright from './LearningResourceCopyright';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
-import LearningResourceHeader from './LearningResourceHeader';
+import ArticleHeader from '../../Article/ArticleHeader';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
 
 const DEFAULT_LICENSE = {
@@ -83,6 +83,7 @@ export const getInitialModel = (article = {}) => {
     metaDescription: plainTextToEditorState(article.metaDescription, true),
     metaImage,
     language: article.language,
+    articleType: 'standard',
   };
 };
 
@@ -165,7 +166,7 @@ class LearningResourceForm extends Component {
       <form
         onSubmit={this.handleSubmit}
         {...classes(undefined, undefined, 'c-article')}>
-        <LearningResourceHeader model={model} />
+        <ArticleHeader model={model} />
         <LearningResourceMetadata
           classes={classes}
           commonFieldProps={commonFieldProps}

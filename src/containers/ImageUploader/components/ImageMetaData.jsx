@@ -44,12 +44,12 @@ class ImageMetaData extends Component {
           obligatory
           name="tags"
           data={tags}
-          label={t('imageForm.fields.tags.label')}
-          description={t('imageForm.fields.tags.description')}
+          label={t('form.tags.label')}
+          description={t('form.tags.description')}
           messages={{
-            createNew: t('imageForm.fields.tags.createNew'),
-            emptyFilter: t('imageForm.fields.tags.emptyFilter'),
-            emptyList: t('imageForm.fields.tags.emptyList'),
+            createNew: t('form.tags.createNew'),
+            emptyFilter: t('form.tags.emptyFilter'),
+            emptyList: t('form.tags.emptyList'),
           }}
           {...commonFieldProps}
         />

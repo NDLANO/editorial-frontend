@@ -113,17 +113,10 @@ const phrases = {
       create: 'You are now creating a topic description',
       update: 'You are now editing a topic description',
     },
+    variant: {
+      create: 'Create variant +',
+    },
     fields: {
-      title: {
-        label: 'Title',
-      },
-      introduction: {
-        label: 'Introduction',
-      },
-      visualElement: {
-        title: 'Add visual element',
-        label: 'Visual element',
-      },
       caption: {
         label: 'Caption',
         placeholder: 'Caption',
@@ -132,20 +125,9 @@ const phrases = {
         label: 'Alt-text',
         placeholder: 'Alt-text',
       },
-      content: {
-        label: 'Content',
-        placeholder: 'Write here...',
-      },
       footnotes: {
         edition: 'Edition',
         publisher: 'Publisher',
-      },
-      tags: {
-        label: 'Tags',
-        description: '3 tags is required.',
-        createNew: 'Create new tag',
-        emptyList: 'No tags available',
-        emptyFilter: 'No matching tags found',
       },
       metaDescription: {
         label: 'Meta description',
@@ -171,18 +153,8 @@ const phrases = {
       update: 'You are now editing a audio file',
     },
     fields: {
-      title: {
-        label: 'Title',
-      },
       origin: {
         label: 'Origin',
-      },
-      tags: {
-        label: 'Tags',
-        description: '3 tags is required.',
-        createNew: 'Create new tag',
-        emptyList: 'No tags available',
-        emptyFilter: 'No matching tags found',
       },
       authors: {
         label: 'Author',
@@ -216,9 +188,6 @@ const phrases = {
       update: 'You are now editing an image',
     },
     fields: {
-      title: {
-        label: 'Title',
-      },
       alttext: {
         label: 'Alternative image text',
         placeholder: 'Alt-text',
@@ -229,13 +198,6 @@ const phrases = {
       },
       origin: {
         label: 'Origin',
-      },
-      tags: {
-        label: 'Tags',
-        description: '3 tags is required.',
-        createNew: 'Create new tag',
-        emptyList: 'No tags available',
-        emptyFilter: 'No matching tags found',
       },
       authors: {
         label: 'Author',
@@ -261,8 +223,8 @@ const phrases = {
     },
     visualElementCopyright: 'Origin',
     title: {
-      create: 'You are now creating a learning resource',
-      update: 'You are now editing a learning resource',
+      create: 'You are now creating a learning resource on {title}({key})',
+      update: 'You are now editing a learning resource on {title}({key})',
     },
     validation: {
       missingEmbedData:
@@ -270,44 +232,8 @@ const phrases = {
     },
     variant: {
       create: 'Create variant +',
-      languages: {
-        nb: 'Bokmål',
-        nn: 'Nynorsk',
-        en: 'English',
-      },
     },
     fields: {
-      title: {
-        label: 'Title',
-      },
-      introduction: {
-        label: 'Introduction',
-      },
-      visualElement: {
-        title: 'Add visual element',
-        label: 'Visual element',
-      },
-      content: {
-        label: 'Content',
-        placeholder: 'Write here...',
-        figure: {
-          notSupported: 'Media type {mediaType} is not supported.',
-        },
-        link: {
-          remove: 'Remove link',
-          href: 'Link',
-          text: 'Text',
-          addTitle: 'Add link',
-          changeTitle: 'Change link',
-        },
-      },
-      tags: {
-        label: 'Tags',
-        description: '3 tags is required.',
-        createNew: 'Create new tag',
-        emptyList: 'No tags available',
-        emptyFilter: 'No matching tags found',
-      },
       metaDescription: {
         label: 'Meta description',
         description: 'The description will be viewable in search.',
@@ -346,6 +272,55 @@ const phrases = {
     createdOk: 'Created OK',
     remainingCharacters:
       'Max {maxLength, number} characters and you have {remaining, number} remaining.',
+    title: {
+      label: 'Title',
+    },
+    introduction: {
+      label: 'Introduction',
+    },
+    visualElement: {
+      title: 'Add visual element',
+      label: 'Visual element',
+    },
+    content: {
+      label: 'Content',
+      placeholder: 'Write here...',
+      figure: {
+        notSupported: 'Media type {mediaType} is not supported.',
+      },
+      link: {
+        remove: 'Remove link',
+        href: 'Link',
+        text: 'Text',
+        addTitle: 'Add link',
+        changeTitle: 'Change link',
+      },
+      footnote: {
+        title: 'Title',
+        year: 'Year',
+        authors: {
+          label: 'Author',
+          description: 'Required with at least one author.',
+          createNew: 'Create new author',
+          emptyFilter: ' ',
+          emptyList: ' ',
+        },
+        edition: 'Edition',
+        publisher: 'Publisher',
+        addTitle: 'Add footnote',
+        editTitle: 'Edit footnote',
+        save: 'Save',
+        abort: 'Abort',
+        removeFootnote: 'Remove footnote',
+      },
+    },
+    tags: {
+      label: 'Tags',
+      description: '3 tags is required.',
+      createNew: 'Create new tag',
+      emptyList: 'No tags available',
+      emptyFilter: 'No matching tags found',
+    },
     caption: {
       label: 'Caption',
       placeholder: 'Caption',

@@ -53,22 +53,22 @@ class LinkForm extends Component {
       <form onSubmit={this.handleSave}>
         <Field>
           <label htmlFor="text">
-            {t('learningResourceForm.fields.content.link.text')}
+            {t('form.content.link.text')}
           </label>
           <input type="text" {...bindInput('text')} />
           <FieldErrorMessages
-            label={t('learningResourceForm.fields.content.link.text')}
+            label={t('form.content.link.text')}
             field={getField('text', schema)}
             submitted={submitted}
           />
         </Field>
         <Field>
           <label htmlFor="href">
-            {t('learningResourceForm.fields.content.link.href')}
+            {t('form.content.link.href')}
           </label>
           <input type="text" {...bindInput('href')} />
           <FieldErrorMessages
-            label={t('learningResourceForm.fields.content.link.href')}
+            label={t('form.content.link.href')}
             field={getField('href', schema)}
             submitted={submitted}
           />
@@ -77,7 +77,7 @@ class LinkForm extends Component {
           <div {...toolbarClasses('link-actions')}>
             {isEdit
               ? <Button onClick={onRemove}>
-                  {t('learningResourceForm.fields.content.link.remove')}
+                  {t('form.content.link.remove')}
                 </Button>
               : ''}
             <Button outline onClick={onClose}>

@@ -43,7 +43,7 @@ class TopicArticleVisualElement extends Component {
       <div>
         <div {...classes('add-visual-element-title')}>
           <span>
-            {t('topicArticleForm.fields.visualElement.title')}
+            {t('form.visualElement.title')}
             <div {...classes('add-visual-element-title', 'border')} />
           </span>
         </div>
@@ -54,7 +54,7 @@ class TopicArticleVisualElement extends Component {
             />
           : null}
         <VisualElementSelectField
-          label={t('topicArticleForm.fields.visualElement.label')}
+          label={t('form.visualElement.label')}
           schema={schema}
           submitted={submitted}
           visualElement={visualElement}

@@ -37,11 +37,11 @@ class AudioContent extends Component {
         header={t('audioForm.content')}
         hidden={this.state.hiddenContent}>
         <TextField
-          label={t('audioForm.fields.title.label')}
+          label={t('form.title.label')}
           name="title"
           title
           noBorder
-          placeholder={t('audioForm.fields.title.label')}
+          placeholder={t('form.title.label')}
           {...commonFieldProps}
         />
         <InputFileField

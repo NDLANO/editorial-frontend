@@ -12,14 +12,14 @@ import { Button } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
-import { toEditArticle } from '../../../util/routeHelpers';
+import { toEditArticle } from '../../util/routeHelpers';
 
 const classes = new BEMHelper({
   name: 'dropdown-menu',
   prefix: 'c-',
 });
 
-class LearningResourceLanguage extends Component {
+class ArticleLanguage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,7 +35,7 @@ class LearningResourceLanguage extends Component {
   }
 
   render() {
-    const { languages, modelId, t } = this.props;
+    const { languages, modelId, articleType, t } = this.props;
     return (
       <div {...classes()}>
         <Button stripped onClick={this.onDisplayToggle}>
@@ -45,7 +45,7 @@ class LearningResourceLanguage extends Component {
           {languages.map(language =>
             <li key={language.key} {...classes('item')}>
               <Link
-                to={toEditArticle(modelId, 'standard', language.key)}
+                to={toEditArticle(modelId, articleType, language.key)}
                 {...classes('link')}
                 onClick={this.onDisplayToggle}>
                 {`${language.title}(${language.key})`}
@@ -57,7 +57,7 @@ class LearningResourceLanguage extends Component {
     );
   }
 }
-LearningResourceLanguage.propTypes = {
+ArticleLanguage.propTypes = {
   languages: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
@@ -65,6 +65,7 @@ LearningResourceLanguage.propTypes = {
     }),
   ).isRequired,
   modelId: PropTypes.number.isRequired,
+  articleType: PropTypes.string.isRequired,
 };
 
-export default injectT(LearningResourceLanguage);
+export default injectT(ArticleLanguage);

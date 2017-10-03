@@ -44,12 +44,12 @@ class AudioMetaData extends Component {
           obligatory
           name="tags"
           data={tags}
-          label={t('audioForm.fields.tags.label')}
-          description={t('audioForm.fields.tags.description')}
+          label={t('form.tags.label')}
+          description={t('form.tags.description')}
           messages={{
-            createNew: t('audioForm.fields.tags.createNew'),
-            emptyFilter: t('audioForm.fields.tags.emptyFilter'),
-            emptyList: t('audioForm.fields.tags.emptyList'),
+            createNew: t('form.tags.createNew'),
+            emptyFilter: t('form.tags.emptyFilter'),
+            emptyList: t('form.tags.emptyList'),
           }}
           {...commonFieldProps}
         />

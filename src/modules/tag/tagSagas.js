@@ -10,9 +10,9 @@ import { take, call, put, select } from 'redux-saga/effects';
 import * as api from '../article/articleApi';
 import { actions, getHasFetched } from './tag';
 
-export function* fetchTags() {
+export function* fetchTags(language) {
   try {
-    const tags = yield call(api.fetchTags);
+    const tags = yield call(api.fetchTags, language);
     yield put(actions.setTags(tags));
   } catch (error) {
     // TODO: handle error
@@ -22,10 +22,11 @@ export function* fetchTags() {
 
 export function* watchFetchTags() {
   while (true) {
-    yield take(actions.fetchTags);
-    const hasFetched = yield select(getHasFetched);
+    const { payload } = yield take(actions.fetchTags);
+    const language = payload ? payload.language : undefined;
+    const hasFetched = yield select(getHasFetched, language);
     if (!hasFetched) {
-      yield call(fetchTags);
+      yield call(fetchTags, language);
     }
   }
 }

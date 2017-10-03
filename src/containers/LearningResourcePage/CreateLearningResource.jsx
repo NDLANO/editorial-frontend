@@ -8,7 +8,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import {
+  actions as tagActions,
+  getAllTagsByLanguage,
+} from '../../modules/tag/tag';
 import { actions } from '../../modules/article/article';
 import LearningResourceForm, {
   getInitialModel,
@@ -20,6 +23,11 @@ class CreateLearningResource extends Component {
     this.updateArticle = this.updateArticle.bind(this);
   }
 
+  componentWillMount() {
+    const { locale, fetchTags } = this.props;
+    fetchTags({ language: locale });
+  }
+
   updateArticle(article) {
     const { updateArticle, history } = this.props;
     updateArticle({ article, history });
@@ -27,7 +35,6 @@ class CreateLearningResource extends Component {
 
   render() {
     const { tags, locale, isSaving, licenses, fetchArticle } = this.props;
-
     return (
       <LearningResourceForm
         initialModel={getInitialModel({ language: locale })}
@@ -56,11 +63,22 @@ CreateLearningResource.propTypes = {
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
   fetchArticle: PropTypes.func.isRequired,
+  fetchTags: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
   fetchArticle: actions.fetchArticle,
   updateArticle: actions.updateArticle,
+  fetchTags: tagActions.fetchTags,
 };
 
-export default connect(undefined, mapDispatchToProps)(CreateLearningResource);
+const mapStateToProps = (state, ownProps) => {
+  const getAllTagsSelector = getAllTagsByLanguage(ownProps.locale);
+  return {
+    tags: getAllTagsSelector(state),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  CreateLearningResource,
+);

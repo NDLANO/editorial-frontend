@@ -16,6 +16,10 @@ import LearningResourceForm, {
 } from './components/LearningResourceForm';
 import { ArticleShape } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
+import {
+  actions as tagActions,
+  getAllTagsByLanguage,
+} from '../../modules/tag/tag';
 
 class EditLearningResource extends Component {
   constructor(props) {
@@ -24,17 +28,25 @@ class EditLearningResource extends Component {
   }
 
   componentWillMount() {
-    const { articleId, fetchArticle, articleLanguage } = this.props;
+    const { articleId, fetchArticle, articleLanguage, fetchTags } = this.props;
     fetchArticle({ id: articleId, language: articleLanguage });
+    fetchTags({ language: articleLanguage });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { articleId, fetchArticle, articleLanguage, article } = nextProps;
+    const {
+      articleId,
+      fetchArticle,
+      articleLanguage,
+      article,
+      fetchTags,
+    } = nextProps;
     if (
       (article && article.language !== articleLanguage) ||
       articleId !== this.props.articleId
     ) {
       fetchArticle({ id: articleId, language: articleLanguage });
+      fetchTags({ language: articleLanguage });
     }
   }
 
@@ -84,19 +96,23 @@ EditLearningResource.propTypes = {
   isSaving: PropTypes.bool.isRequired,
   setArticle: PropTypes.func.isRequired,
   articleLanguage: PropTypes.string.isRequired,
+  fetchTags: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
   fetchArticle: actions.fetchArticle,
   updateArticle: actions.updateArticle,
   setArticle: actions.setArticle,
+  fetchTags: tagActions.fetchTags,
 };
 
 const mapStateToProps = (state, props) => {
-  const { articleId } = props;
+  const { articleId, articleLanguage } = props;
   const getArticleSelector = getArticle(articleId, true);
+  const getAllTagsSelector = getAllTagsByLanguage(articleLanguage);
   return {
     article: getArticleSelector(state),
+    tags: getAllTagsSelector(state),
   };
 };
 

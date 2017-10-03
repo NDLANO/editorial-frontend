@@ -11,7 +11,10 @@ import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn, Hero } from 'ndla-ui';
 
-import { actions as tagActions, getAllTags } from '../../modules/tag/tag';
+import {
+  actions as tagActions,
+  getAllTagsByLanguage,
+} from '../../modules/tag/tag';
 import { getSaving } from '../../modules/article/article';
 import { getLocale } from '../../modules/locale/locale';
 import EditTopicArticle from './EditTopicArticle';
@@ -78,10 +81,14 @@ const mapDispatchToProps = {
   fetchTags: tagActions.fetchTags,
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-  tags: getAllTags(state),
-  isSaving: getSaving(state),
-});
+const mapStateToProps = state => {
+  const locale = getLocale(state);
+  const getAllTagsSelector = getAllTagsByLanguage(locale);
+  return {
+    locale,
+    tags: getAllTagsSelector(state),
+    isSaving: getSaving(state),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopicArticlePage);

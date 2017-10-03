@@ -57,7 +57,9 @@ class FootnoteForm extends Component {
     return (
       <form onSubmit={this.handleSave}>
         <Field>
-          <label htmlFor="title">{t('form.content.footnote.title')}</label>
+          <label htmlFor="title">
+            {t('form.content.footnote.title')}
+          </label>
           <input type="text" {...bindInput('title')} />
           <FieldErrorMessages
             label={t('form.content.footnote.title')}
@@ -66,7 +68,9 @@ class FootnoteForm extends Component {
           />
         </Field>
         <Field>
-          <label htmlFor="year">{t('form.content.footnote.year')}</label>
+          <label htmlFor="year">
+            {t('form.content.footnote.year')}
+          </label>
           <input type="text" {...bindInput('year')} />
           <FieldErrorMessages
             label={t('form.content.footnote.year')}
@@ -81,7 +85,7 @@ class FootnoteForm extends Component {
           <MultiSelect
             {...bindInput('authors')}
             messages={{
-              createNew: t('form.content.footnote.authors.createNew'),
+              createOption: t('form.content.footnote.authors.createOption'),
               emptyFilter: t('form.content.footnote.authors.emptyFilter'),
               emptyList: t('form.content.footnote.authors.emptyList'),
             }}
@@ -93,7 +97,9 @@ class FootnoteForm extends Component {
           />
         </Field>
         <Field>
-          <label htmlFor="edition">{t('form.content.footnote.edition')}</label>
+          <label htmlFor="edition">
+            {t('form.content.footnote.edition')}
+          </label>
           <input {...bindInput('edition')} type="text" />
         </Field>
         <Field>
@@ -104,17 +110,17 @@ class FootnoteForm extends Component {
         </Field>
         <Field right>
           <div {...toolbarClasses('link-actions')}>
-            {isEdit ? (
-              <Button onClick={onRemove}>
-                {t('form.content.footnote.removeFootnote')}
-              </Button>
-            ) : (
-              ''
-            )}
+            {isEdit
+              ? <Button onClick={onRemove}>
+                  {t('form.content.footnote.removeFootnote')}
+                </Button>
+              : ''}
             <Button outline onClick={onClose}>
               {t('form.abort')}
             </Button>
-            <Button submit>{t('form.save')}</Button>
+            <Button submit>
+              {t('form.save')}
+            </Button>
           </div>
         </Field>
       </form>

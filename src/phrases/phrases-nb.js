@@ -220,7 +220,7 @@ const phrases = {
         authors: {
           label: 'Forfatter',
           description: 'Obligatorisk med minst 1 forfatter.',
-          createNew: 'Opprett ny forfatter',
+          createOption: 'Opprett ny forfatter',
           emptyFilter: ' ',
           emptyList: ' ',
         },
@@ -234,7 +234,7 @@ const phrases = {
     tags: {
       label: 'Nøkkelord',
       description: 'Obligatorisk med 3 nøkkelord.',
-      createNew: 'Opprett nytt nøkkelord',
+      createOption: 'Opprett nytt nøkkelord',
       emptyFilter: 'Fant ingen passende nøkkelord',
       emptyList: 'Det er ingen tagger i denne listen',
     },
@@ -244,19 +244,19 @@ const phrases = {
     },
     contributors: {
       label: 'Bidragsyter',
-      createNew: 'Opprett ny bidragsyter',
+      createOption: 'Opprett ny bidragsyter',
       emptyFilter: ' ',
       emptyList: ' ',
     },
     licensees: {
       label: 'Rettighetshaver',
-      createNew: 'Opprett ny rettighetshaver',
+      createOption: 'Opprett ny rettighetshaver',
       emptyFilter: ' ',
       emptyList: ' ',
     },
     authors: {
       label: 'Opphavsperson',
-      createNew: 'Opprett ny opphavsperson',
+      createOption: 'Opprett ny opphavsperson',
       description: 'Obligatorisk med minst 1 opphavsperson.',
       emptyFilter: ' ',
       emptyList: ' ',

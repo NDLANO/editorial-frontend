@@ -12,24 +12,36 @@ import { expectSaga } from 'redux-saga-test-plan';
 import * as sagas from '../tagSagas';
 import * as actions from '../tag';
 
-test('tagSagas fetch tags if nor already defined', () => {
+test('tagSagas fetch tags if not already defined', () => {
   nock('http://ndla-api')
-    .get('/article-api/v2/articles/tags/?size=7000')
-    .reply(200, ['tag1', 'tag2', 'tag3']);
+    .get('/article-api/v2/articles/tags/')
+    .query({ language: 'nb', size: 7000 })
+    .reply(200, [{ language: 'nb', tags: ['tag1', 'tag2', 'tag3'] }]);
 
   return expectSaga(sagas.watchFetchTags)
-    .withState({ tags: { hasFetched: false } })
-    .put(actions.setTags(['tag1', 'tag2', 'tag3']))
-    .dispatch(actions.fetchTags())
+    .withState({ tags: { all: {} } })
+    .put(actions.setTags([{ language: 'nb', tags: ['tag1', 'tag2', 'tag3'] }]))
+    .dispatch(actions.fetchTags({ language: 'nb' }))
     .run({ silenceTimeout: true });
 });
 
 test('tagSagas do not fetch tags if already fetched', () => {
   nock('http://ndla-api')
-    .get('/article-api/v2/articles/tags/?size=7000')
-    .reply(200, ['tag1', 'tag2', 'tag3']);
+    .get('/article-api/v2/articles/tags/')
+    .query({ language: 'nb', size: 7000 })
+    .reply(200, [{ language: 'nb', tags: ['tag1', 'tag2', 'tag3'] }]);
 
   return expectSaga(sagas.watchFetchTags)
-    .withState({ tags: { hasFetched: true } })
+    .withState({
+      tags: {
+        all: {
+          nb: {
+            language: 'nb',
+            tags: ['tag1', 'tag2', 'tag3'],
+            hasFetched: true,
+          },
+        },
+      },
+    })
     .run({ silenceTimeout: true });
 });

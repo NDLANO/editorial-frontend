@@ -20,10 +20,12 @@ export const fetchArticle = (id, language) => {
   return fetchWithAccessToken(url).then(resolveJsonOrRejectWithError);
 };
 
-export const fetchTags = () =>
-  fetchWithAccessToken(`${baseUrl}/tags/?size=7000`).then(
+export const fetchTags = language => {
+  const query = queryString.stringify({ size: 7000, language });
+  return fetchWithAccessToken(`${baseUrl}/tags/?${query}`).then(
     resolveJsonOrRejectWithError,
   );
+};
 
 export const fetchLicenses = () =>
   fetchWithAccessToken(`${baseUrl}/licenses`).then(

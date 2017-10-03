@@ -37,14 +37,14 @@ class LearningResourceCopyright extends Component {
     return (
       <Accordion
         handleToggle={this.toggleContent}
-        header={t('learningResourceForm.copyrightSection')}
+        header={t('form.copyrightSection')}
         hidden={this.state.hiddenContent}
         fill>
         <MultiSelectField
           name="authors"
           label={t('form.authors.label')}
           messages={{
-            createNew: t('form.authors.createNew'),
+            createOption: t('form.authors.createOption'),
             emptyFilter: t('form.authors.emptyFilter'),
             emptyList: t('form.authors.emptyList'),
           }}
@@ -54,7 +54,7 @@ class LearningResourceCopyright extends Component {
           name="licensees"
           label={t('form.licensees.label')}
           messages={{
-            createNew: t('form.licensees.createNew'),
+            createOption: t('form.licensees.createOption'),
             emptyFilter: t('form.licensees.emptyFilter'),
             emptyList: t('form.licensees.emptyList'),
           }}
@@ -64,7 +64,7 @@ class LearningResourceCopyright extends Component {
           name="contributors"
           label={t('form.contributors.label')}
           messages={{
-            createNew: t('form.contributors.createNew'),
+            createOption: t('form.contributors.createOption'),
             emptyFilter: t('form.contributors.emptyFilter'),
             emptyList: t('form.contributors.emptyList'),
           }}

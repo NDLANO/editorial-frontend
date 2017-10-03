@@ -49,7 +49,7 @@ class LearningResourceMetadata extends Component {
           label={t('form.tags.label')}
           description={t('form.tags.description')}
           messages={{
-            createNew: t('form.tags.createNew'),
+            createOption: t('form.tags.createOption'),
             emptyFilter: t('form.tags.emptyFilter'),
             emptyList: t('form.tags.emptyList'),
           }}

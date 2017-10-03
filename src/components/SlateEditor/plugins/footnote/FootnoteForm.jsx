@@ -81,7 +81,7 @@ class FootnoteForm extends Component {
           <MultiSelect
             {...bindInput('authors')}
             messages={{
-              createNew: t('form.content.footnote.authors.createNew'),
+              createOption: t('form.content.footnote.authors.createOption'),
               emptyFilter: t('form.content.footnote.authors.emptyFilter'),
               emptyList: t('form.content.footnote.authors.emptyList'),
             }}

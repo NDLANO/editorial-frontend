@@ -16,22 +16,22 @@ const SearchList = ({ results, query, locale, t }) => {
   const noSearchHits = query.query && results.length === 0;
   return (
     <div>
-      {noSearchHits
-        ? <p>
-            {t('searchPage.noHits', { query: query.query })}
-          </p>
-        : results.map(result =>
-            <div key={result.type}>
-              {result.results.map(item =>
-                <SearchResult
-                  key={item.id}
-                  resultType={result.type}
-                  item={item}
-                  locale={locale}
-                />,
-              )}
-            </div>,
-          )}
+      {noSearchHits ? (
+        <p>{t('searchPage.noHits', { query: query.query })}</p>
+      ) : (
+        results.map(result => (
+          <div key={result.type}>
+            {result.results.map(item => (
+              <SearchResult
+                key={item.id}
+                resultType={result.type}
+                item={item}
+                locale={locale}
+              />
+            ))}
+          </div>
+        ))
+      )}
     </div>
   );
 };

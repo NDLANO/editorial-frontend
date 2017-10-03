@@ -81,19 +81,19 @@ class RichBlockTextEditor extends Component {
 
     return (
       <article>
-        {value.map((val, index) =>
+        {value.map((val, index) => (
           <div
             key={`editor_${index}`} //eslint-disable-line
             {...classes('container')}
             tabIndex={index}>
-            {value.length > 1
-              ? <Button
-                  stripped
-                  onClick={() => this.removeSection(index)}
-                  {...classes('remove-section-button')}>
-                  <Cross />
-                </Button>
-              : null}
+            {value.length > 1 ? (
+              <Button
+                stripped
+                onClick={() => this.removeSection(index)}
+                {...classes('remove-section-button')}>
+                <Cross />
+              </Button>
+            ) : null}
             <RichTextEditor
               name={name}
               schema={schema}
@@ -118,8 +118,8 @@ class RichBlockTextEditor extends Component {
             </Portal>
 
             {children}
-          </div>,
-        )}
+          </div>
+        ))}
       </article>
     );
   }

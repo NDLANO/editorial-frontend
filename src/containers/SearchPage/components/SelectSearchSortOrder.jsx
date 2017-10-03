@@ -33,12 +33,8 @@ class SelectSearchSortOrder extends Component {
         {...searchClasses('filters-select')}
         onChange={this.handleSortChange}
         value={this.state.sort}>
-        <option value="-relevance">
-          {t('searchForm.order.relevance')}
-        </option>
-        <option value="title">
-          {t('searchForm.order.title')}
-        </option>
+        <option value="-relevance">{t('searchForm.order.relevance')}</option>
+        <option value="title">{t('searchForm.order.title')}</option>
       </select>
     );
   }

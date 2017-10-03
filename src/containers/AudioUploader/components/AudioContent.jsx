@@ -49,8 +49,9 @@ class AudioContent extends Component {
           name="audioFile"
           {...commonFieldProps}
         />
-        {model.id &&
-          <AudioPlayer audio={audioInfo} filepath={model.filepath} />}
+        {model.id && (
+          <AudioPlayer audio={audioInfo} filepath={model.filepath} />
+        )}
       </Accordion>
     );
   }

@@ -41,9 +41,7 @@ const ArticleHeader = props => {
   return (
     <div {...classes('header')}>
       <div className="u-4/6@desktop u-push-1/6@desktop">
-        <span>
-          {t(`${types[model.articleType]}.title.update`, language)}
-        </span>
+        <span>{t(`${types[model.articleType]}.title.update`, language)}</span>
         <span>
           <ArticleLanguage
             language={language}

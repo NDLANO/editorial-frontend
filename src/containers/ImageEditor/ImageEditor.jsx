@@ -70,7 +70,10 @@ class ImageEditor extends Component {
     const properties = {
       data,
     };
-    const next = editor.getState().change().setNodeByKey(node.key, properties);
+    const next = editor
+      .getState()
+      .change()
+      .setNodeByKey(node.key, properties);
     editor.onChange(next);
   }
 
@@ -178,13 +181,15 @@ class ImageEditor extends Component {
             <Button stripped onClick={this.onSave}>
               {t('form.save')}
             </Button>
-            {this.state.editType
-              ? <Button
-                  onClick={evt => this.onRemoveData(evt, this.state.editType)}
-                  stripped>
-                  {t(`imageEditor.remove.${this.state.editType}`)}
-                </Button>
-              : ''}
+            {this.state.editType ? (
+              <Button
+                onClick={evt => this.onRemoveData(evt, this.state.editType)}
+                stripped>
+                {t(`imageEditor.remove.${this.state.editType}`)}
+              </Button>
+            ) : (
+              ''
+            )}
             <Button stripped onClick={this.onAbort}>
               {t('form.abort')}
             </Button>

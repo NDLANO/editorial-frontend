@@ -45,7 +45,7 @@ export const defaultRules = [
       }
       const lastNode = node.nodes.last();
       return lastNode &&
-      (lastNode.type === 'aside' || lastNode.type === 'bodybox')
+        (lastNode.type === 'aside' || lastNode.type === 'bodybox')
         ? true
         : null;
     },
@@ -99,7 +99,7 @@ export const defaultRules = [
     validate: document => {
       const lastNode = document.nodes.last();
       return lastNode &&
-      (lastNode.type === 'aside' || lastNode.type === 'bodybox')
+        (lastNode.type === 'aside' || lastNode.type === 'bodybox')
         ? true
         : null;
     },
@@ -130,53 +130,35 @@ export const defaultRules = [
 /* eslint-disable react/prop-types */
 const defaultSchema = {
   nodes: {
-    section: props =>
+    section: props => (
       <section {...props.attributes}>
-        {props.editor.props.placeholder
-          ? <Placeholder {...props}>
-              {props.editor.props.placeholder}
-            </Placeholder>
-          : null}
+        {props.editor.props.placeholder ? (
+          <Placeholder {...props}>{props.editor.props.placeholder}</Placeholder>
+        ) : null}
         {props.children}
-      </section>,
-    paragraph: props =>
-      <p {...props.attributes}>
-        {props.children}
-      </p>,
-    'bulleted-list': props =>
+      </section>
+    ),
+    paragraph: props => <p {...props.attributes}>{props.children}</p>,
+    'bulleted-list': props => (
       <ul className="c-block__bulleted-list" {...props.attributes}>
         {props.children}
-      </ul>,
-    'list-item': props =>
+      </ul>
+    ),
+    'list-item': props => (
       <li className="c-block__list-item" {...props.attributes}>
         {props.children}
-      </li>,
-    'numbered-list': props =>
-      <ol {...props.attributes}>
-        {props.children}
-      </ol>,
-    quote: props =>
-      <blockquote {...props.attributes}>
-        {props.children}
-      </blockquote>,
-    div: props =>
-      <div {...props.attributes}>
-        {props.children}
-      </div>,
+      </li>
+    ),
+    'numbered-list': props => <ol {...props.attributes}>{props.children}</ol>,
+    quote: props => (
+      <blockquote {...props.attributes}>{props.children}</blockquote>
+    ),
+    div: props => <div {...props.attributes}>{props.children}</div>,
   },
   marks: {
-    bold: props =>
-      <strong {...props.attributes}>
-        {props.children}
-      </strong>,
-    italic: props =>
-      <em {...props.attributes}>
-        {props.children}
-      </em>,
-    underlined: props =>
-      <u {...props.attributes}>
-        {props.children}
-      </u>,
+    bold: props => <strong {...props.attributes}>{props.children}</strong>,
+    italic: props => <em {...props.attributes}>{props.children}</em>,
+    underlined: props => <u {...props.attributes}>{props.children}</u>,
   },
   rules: defaultRules,
 };

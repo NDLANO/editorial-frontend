@@ -21,7 +21,7 @@ export default function linkPlugin() {
 
   return {
     schema,
-    render: (props, state, editor) =>
+    render: (props, state, editor) => (
       <span>
         <EditLink
           state={state}
@@ -30,6 +30,7 @@ export default function linkPlugin() {
           onChange={editor.onChange}
         />
         {props.children}
-      </span>,
+      </span>
+    ),
   };
 }

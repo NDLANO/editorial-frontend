@@ -62,7 +62,10 @@ class SlateFigure extends React.Component {
     const properties = {
       data: { ...getSchemaEmbed(node), [name]: value },
     };
-    const next = editor.getState().change().setNodeByKey(node.key, properties);
+    const next = editor
+      .getState()
+      .change()
+      .setNodeByKey(node.key, properties);
     editor.onChange(next);
   }
 

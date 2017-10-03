@@ -26,17 +26,18 @@ export const RichTextField = ({
   const { value, onChange } = bindInput(name);
   return (
     <Field noBorder={noBorder} className={fieldClassName}>
-      {!noBorder
-        ? <label htmlFor={name}>
-            {label}
-          </label>
-        : <label className="u-hidden" htmlFor={name}>
-            {label}
-          </label>}
-      {noBorder &&
+      {!noBorder ? (
+        <label htmlFor={name}>{label}</label>
+      ) : (
+        <label className="u-hidden" htmlFor={name}>
+          {label}
+        </label>
+      )}
+      {noBorder && (
         <FocusLabel name={name} hasFocus={() => value.isFocused} value={value}>
           {label}
-        </FocusLabel>}
+        </FocusLabel>
+      )}
       <RichTextEditor
         id={name}
         name={name}

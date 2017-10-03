@@ -17,34 +17,37 @@ import EditTopicArticle from './EditTopicArticle';
 import CreateTopicArticle from './CreateTopicArticle';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
-const TopicArticlePage = ({ locale, match, history, isSaving }) =>
+const TopicArticlePage = ({ locale, match, history, isSaving }) => (
   <div>
     <Hero alt />
     <OneColumn>
       <Switch>
         <Route
           path={`${match.url}/new`}
-          render={() =>
+          render={() => (
             <CreateTopicArticle
               history={history}
               locale={locale}
               isSaving={isSaving}
-            />}
+            />
+          )}
         />
         <Route
           path={`${match.url}/:articleId/edit/:articleLanguage`}
-          render={routeProps =>
+          render={routeProps => (
             <EditTopicArticle
               articleId={routeProps.match.params.articleId}
               articleLanguage={routeProps.match.params.articleLanguage}
               locale={locale}
               isSaving={isSaving}
-            />}
+            />
+          )}
         />
         <Route component={NotFoundPage} />
       </Switch>
     </OneColumn>
-  </div>;
+  </div>
+);
 
 TopicArticlePage.propTypes = {
   match: PropTypes.shape({

@@ -48,9 +48,7 @@ class Footnote extends Component {
     const { attributes, children } = this.props;
     return (
       <a {...attributes} onClick={this.handleClick}>
-        <sup>
-          {children}
-        </sup>
+        <sup>{children}</sup>
       </a>
     );
   }

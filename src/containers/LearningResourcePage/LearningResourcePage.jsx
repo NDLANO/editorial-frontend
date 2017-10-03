@@ -41,24 +41,26 @@ class LearningResourcePage extends Component {
           <Switch>
             <Route
               path={`${match.url}/new`}
-              render={() =>
+              render={() => (
                 <CreateLearningResource
                   history={history}
                   locale={locale}
                   licenses={licenses}
                   isSaving={isSaving}
-                />}
+                />
+              )}
             />
             <Route
               path={`${match.url}/:articleId/edit/:articleLanguage`}
-              render={props =>
+              render={props => (
                 <EditLearningResource
                   articleId={props.match.params.articleId}
                   articleLanguage={props.match.params.articleLanguage}
                   licenses={licenses}
                   locale={locale}
                   isSaving={isSaving}
-                />}
+                />
+              )}
             />
             <Route component={NotFoundPage} />
           </Switch>

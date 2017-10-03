@@ -27,15 +27,11 @@ const VisualElementInformation = ({ visualElement, locale, embedTag, t }) => {
           ? t(`topicArticleForm.visualElementTitle.${embedTag.resource}`)
           : ''}
       </span>
-      <span>
-        {element.title || ''}
-      </span>
+      <span>{element.title || ''}</span>
       <span {...classes('visual-element-information')}>
         {element.copyright ? t('topicArticleForm.visualElementCopyright') : ''}
       </span>
-      <span>
-        {element.copyright}
-      </span>
+      <span>{element.copyright}</span>
     </div>
   );
 };

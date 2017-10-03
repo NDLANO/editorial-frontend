@@ -121,7 +121,7 @@ RichTextEditor.propTypes = {
   schema: PropTypes.shape({}),
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  submitted: PropTypes.bool.isRequired,
+  submitted: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,

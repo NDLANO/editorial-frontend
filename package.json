@@ -52,7 +52,7 @@
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.6",
     "postcss-nested": "^2.1.2",
-    "prettier": "^1.5.3",
+    "prettier": "^1.7.4",
     "react-test-renderer": "^15.6.1",
     "redux-mock-store": "^1.2.2",
     "redux-saga-test-plan": "^3.1.0",

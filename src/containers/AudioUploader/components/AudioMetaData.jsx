@@ -38,7 +38,7 @@ class AudioMetaData extends Component {
       <Accordion
         fill
         handleToggle={this.toggleMetadata}
-        header={t('audioForm.metadata')}
+        header={t('form.metadataSection')}
         hidden={this.state.hiddenMetadata}>
         <MultiSelectField
           obligatory
@@ -56,23 +56,23 @@ class AudioMetaData extends Component {
         <MultiSelectField
           obligatory
           name="authors"
-          label={t('audioForm.fields.authors.label')}
-          description={t('audioForm.fields.authors.description')}
+          label={t('form.authors.label')}
+          description={t('form.authors.description')}
           messages={{
-            createNew: t('audioForm.fields.authors.createNew'),
-            emptyFilter: t('audioForm.fields.authors.emptyFilter'),
-            emptyList: t('audioForm.fields.authors.emptyList'),
+            createNew: t('form.authors.createNew'),
+            emptyFilter: t('form.authors.emptyFilter'),
+            emptyList: t('form.authors.emptyList'),
           }}
           {...commonFieldProps}
         />
         <TextField
-          label={t('audioForm.fields.origin.label')}
+          label={t('form.origin.label')}
           name="origin"
           {...commonFieldProps}
         />
         <SelectObjectField
           name="license"
-          label={t('audioForm.fields.license.label')}
+          label={t('form.license.label')}
           options={licenses}
           idKey="license"
           labelKey="description"

@@ -82,7 +82,7 @@ class LearningResourceContent extends Component {
     return (
       <Accordion
         handleToggle={this.toggleContent}
-        header={t('learningResourceForm.content')}
+        header={t('form.contentSection')}
         hidden={this.state.hiddenContent}>
         <TextField
           label={t('form.title.label')}

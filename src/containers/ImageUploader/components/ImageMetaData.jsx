@@ -38,7 +38,7 @@ class ImageMetaData extends Component {
       <Accordion
         fill
         handleToggle={this.toggleMetadata}
-        header={t('imageForm.metadata')}
+        header={t('imageForm.metadataSection')}
         hidden={this.state.hiddenMetadata}>
         <MultiSelectField
           obligatory
@@ -56,23 +56,23 @@ class ImageMetaData extends Component {
         <MultiSelectField
           obligatory
           name="authors"
-          label={t('imageForm.fields.authors.label')}
-          description={t('imageForm.fields.authors.description')}
+          label={t('form.authors.label')}
+          description={t('form.authors.description')}
           messages={{
-            createNew: t('imageForm.fields.authors.createNew'),
-            emptyFilter: t('imageForm.fields.authors.emptyFilter'),
-            emptyList: t('imageForm.fields.authors.emptyList'),
+            createNew: t('form.authors.createNew'),
+            emptyFilter: t('form.authors.emptyFilter'),
+            emptyList: t('form.authors.emptyList'),
           }}
           {...commonFieldProps}
         />
         <TextField
-          label={t('imageForm.fields.origin.label')}
+          label={t('form.origin.label')}
           name="origin"
           {...commonFieldProps}
         />
         <SelectObjectField
           name="license"
-          label={t('imageForm.fields.license.label')}
+          label={t('form.license.label')}
           options={licenses}
           idKey="license"
           labelKey="description"

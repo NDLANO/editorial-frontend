@@ -40,7 +40,7 @@ class LearningResourceMetadata extends Component {
       <Accordion
         fill
         handleToggle={this.toggleMetadata}
-        header={t('learningResourceForm.metadata')}
+        header={t('form.metadataSection')}
         hidden={this.state.hiddenMetadata}>
         <MultiSelectField
           obligatory
@@ -56,10 +56,8 @@ class LearningResourceMetadata extends Component {
           {...commonFieldProps}
         />
         <PlainTextField
-          label={t('learningResourceForm.fields.metaDescription.label')}
-          description={t(
-            'learningResourceForm.fields.metaDescription.description',
-          )}
+          label={t('form.metaDescription.label')}
+          description={t('form.metaDescription.description')}
           name="metaDescription"
           maxLength={150}
           {...commonFieldProps}>

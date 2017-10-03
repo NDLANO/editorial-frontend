@@ -33,7 +33,7 @@ class ImageContent extends Component {
     return (
       <Accordion
         handleToggle={this.toggleContent}
-        header={t('imageForm.content')}
+        header={t('form.contentSection')}
         hidden={this.state.hiddenContent}>
         <TextField
           label={t('form.title.label')}
@@ -52,16 +52,16 @@ class ImageContent extends Component {
         {model.imageFile &&
           <img src={model.filepath || model.imageFile} alt="" height="500" />}
         <TextField
-          placeholder={t(`imageForm.fields.caption.placeholder`)}
-          label={t(`imageForm.fields.caption.label`)}
+          placeholder={t(`form.image.caption.placeholder`)}
+          label={t(`form.image.caption.label`)}
           name="caption"
           noBorder
           maxLength={300}
           {...commonFieldProps}
         />
         <TextField
-          placeholder={t('imageForm.fields.alttext.placeholder')}
-          label={t('imageForm.fields.alttext.label')}
+          placeholder={t('form.image.alt.placeholder')}
+          label={t('form.image.alt.label')}
           name="alttext"
           noBorder
           maxLength={300}

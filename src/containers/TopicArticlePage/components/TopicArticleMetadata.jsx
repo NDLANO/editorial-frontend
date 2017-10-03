@@ -38,7 +38,7 @@ class TopicArticleMetadata extends Component {
       <Accordion
         fill
         handleToggle={this.toggleMetadata}
-        header={t('topicArticleForm.metadata')}
+        header={t('form.metadataSection')}
         hidden={this.state.hiddenMetadata}>
         <MultiSelectField
           obligatory
@@ -54,8 +54,8 @@ class TopicArticleMetadata extends Component {
           {...commonFieldProps}
         />
         <PlainTextField
-          label={t('topicArticleForm.fields.metaDescription.label')}
-          description={t('topicArticleForm.fields.metaDescription.description')}
+          label={t('form.metaDescription.label')}
+          description={t('form.metaDescription.description')}
           name="metaDescription"
           maxLength={150}
           {...commonFieldProps}>
@@ -68,11 +68,11 @@ class TopicArticleMetadata extends Component {
         </PlainTextField>
         <MultiSelectField
           name="authors"
-          label={t('topicArticleForm.fields.authors.label')}
+          label={t('form.authors.label')}
           messages={{
-            createNew: t('topicArticleForm.fields.authors.createNew'),
-            emptyFilter: t('topicArticleForm.fields.authors.emptyFilter'),
-            emptyList: t('topicArticleForm.fields.authors.emptyList'),
+            createNew: t('form.authors.createNew'),
+            emptyFilter: t('form.authors.emptyFilter'),
+            emptyList: t('form.authors.emptyList'),
           }}
           {...commonFieldProps}
         />

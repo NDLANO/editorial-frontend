@@ -39,7 +39,7 @@ class ArticleLanguage extends Component {
     return (
       <div {...classes()}>
         <Button stripped onClick={this.onDisplayToggle}>
-          {t('learningResourceForm.variant.create')}
+          {t('form.variant.create')}
         </Button>
         <ul {...classes('items', this.state.display ? 'show' : '')}>
           {languages.map(language =>

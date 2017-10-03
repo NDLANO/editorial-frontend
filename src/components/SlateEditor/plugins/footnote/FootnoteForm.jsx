@@ -116,10 +116,10 @@ class FootnoteForm extends Component {
                 </Button>
               : ''}
             <Button outline onClick={onClose}>
-              {t('form.content.footnote.abort')}
+              {t('form.abort')}
             </Button>
             <Button submit>
-              {t('form.content.footnote.save')}
+              {t('form.save')}
             </Button>
           </div>
         </Field>

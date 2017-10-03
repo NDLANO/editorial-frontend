@@ -34,7 +34,7 @@ class AudioContent extends Component {
     return (
       <Accordion
         handleToggle={this.toggleContent}
-        header={t('audioForm.content')}
+        header={t('form.contentSection')}
         hidden={this.state.hiddenContent}>
         <TextField
           label={t('form.title.label')}

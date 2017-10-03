@@ -176,7 +176,7 @@ class ImageEditor extends Component {
               <FocalPoint />
             </Button>
             <Button stripped onClick={this.onSave}>
-              {t('imageEditor.save')}
+              {t('form.save')}
             </Button>
             {this.state.editType
               ? <Button
@@ -186,7 +186,7 @@ class ImageEditor extends Component {
                 </Button>
               : ''}
             <Button stripped onClick={this.onAbort}>
-              {t('imageEditor.abort')}
+              {t('form.abort')}
             </Button>
             <Button stripped onClick={evt => this.onEditorTypeSet(evt, 'crop')}>
               <Crop />

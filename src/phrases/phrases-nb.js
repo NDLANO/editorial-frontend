@@ -122,16 +122,6 @@ const phrases = {
       create: 'Lag variant +',
     },
     fields: {
-      title: {
-        label: 'Tittel',
-      },
-      introduction: {
-        label: 'Ingress',
-      },
-      visualElement: {
-        title: 'Legg til visuelt element',
-        label: 'Visuelt element',
-      },
       caption: {
         label: {
           image: 'Bildetekst',
@@ -147,17 +137,6 @@ const phrases = {
       alt: {
         label: 'Alt-tekst',
         placeholder: 'Alt-tekst',
-      },
-      content: {
-        label: 'Innhold',
-        placeholder: 'Innhold',
-      },
-      tags: {
-        label: 'Nøkkelord',
-        description: 'Obligatorisk med 3 nøkkelord.',
-        createNew: 'Opprett nytt nøkkelord',
-        emptyFilter: 'Fant ingen passende nøkkelord',
-        emptyList: 'Det er ingen tagger i denne listen',
       },
       metaDescription: {
         label: 'Metabeskrivelse',
@@ -180,18 +159,8 @@ const phrases = {
     content: 'Innhold',
     copyrightAccordion: 'Lisens og bruker',
     fields: {
-      title: {
-        label: 'Tittel',
-      },
       origin: {
         label: 'Opphav',
-      },
-      tags: {
-        label: 'Nøkkelord',
-        description: 'Obligatorisk med 3 nøkkelord.',
-        createNew: 'Opprett nytt nøkkelord',
-        emptyFilter: 'Fant ingen passende nøkkelord',
-        emptyList: 'Det er ingen tagger i denne listen',
       },
       authors: {
         label: 'Opphavsperson',
@@ -225,9 +194,6 @@ const phrases = {
     content: 'Innhold',
     copyrightAccordion: 'Lisens og bruker',
     fields: {
-      title: {
-        label: 'Tittel',
-      },
       alttext: {
         label: 'Alternativ bilde tekst',
         placeholder: 'Alt-tekst',
@@ -238,13 +204,6 @@ const phrases = {
       },
       origin: {
         label: 'Opphav',
-      },
-      tags: {
-        label: 'Nøkkelord',
-        description: 'Obligatorisk med 3 nøkkelord.',
-        createNew: 'Opprett nytt nøkkelord',
-        emptyFilter: 'Fant ingen passende nøkkelord',
-        emptyList: 'Det er ingen tagger i denne listen',
       },
       authors: {
         label: 'Opphavsperson',
@@ -281,58 +240,13 @@ const phrases = {
       create: 'Lag variant +',
     },
     fields: {
-      title: {
-        label: 'Tittel',
-      },
-      introduction: {
-        label: 'Ingress',
-      },
       metaImage: {
         title: 'Metabilde',
         label: 'Metabilde',
       },
-      content: {
-        label: 'Innhold',
-        placeholder: 'Innhold',
-        figure: {
-          notSupported: 'Mediatype {mediaType} er ikke støttet.',
-        },
-        link: {
-          remove: 'Fjern lenke',
-          href: 'Lenke',
-          text: 'Tekst',
-          addTitle: 'Legg til lenke',
-          changeTitle: 'Endre lenke',
-        },
-        footnote: {
-          title: 'Tittel',
-          year: 'År',
-          authors: {
-            label: 'Forfatter',
-            description: 'Obligatorisk med minst 1 forfatter.',
-            createNew: 'Opprett ny forfatter',
-            emptyFilter: ' ',
-            emptyList: ' ',
-          },
-          edition: 'Utgave',
-          publisher: 'Utgiver',
-          addTitle: 'Legg til fotnote',
-          editTitle: 'Rediger fotnote',
-          save: 'Lagre',
-          abort: 'Avbryt',
-          removeFootnote: 'Fjern fotnote',
-        },
-      },
       footnotes: {
         edition: 'Utgave',
         publisher: 'Utgiver',
-      },
-      tags: {
-        label: 'Nøkkelord',
-        description: 'Obligatorisk med 3 nøkkelord.',
-        createNew: 'Opprett nytt nøkkelord',
-        emptyFilter: 'Fant ingen passende nøkkelord',
-        emptyList: 'Det er ingen tagger i denne listen',
       },
       metaDescription: {
         label: 'Metabeskrivelse',
@@ -369,6 +283,55 @@ const phrases = {
     createdOk: 'Opprettet OK',
     remainingCharacters:
       'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
+    title: {
+      label: 'Tittel',
+    },
+    introduction: {
+      label: 'Ingress',
+    },
+    visualElement: {
+      title: 'Legg til visuelt element',
+      label: 'Visuelt element',
+    },
+    content: {
+      label: 'Innhold',
+      placeholder: 'Innhold',
+      figure: {
+        notSupported: 'Mediatype {mediaType} er ikke støttet.',
+      },
+      link: {
+        remove: 'Fjern lenke',
+        href: 'Lenke',
+        text: 'Tekst',
+        addTitle: 'Legg til lenke',
+        changeTitle: 'Endre lenke',
+      },
+      footnote: {
+        title: 'Tittel',
+        year: 'År',
+        authors: {
+          label: 'Forfatter',
+          description: 'Obligatorisk med minst 1 forfatter.',
+          createNew: 'Opprett ny forfatter',
+          emptyFilter: ' ',
+          emptyList: ' ',
+        },
+        edition: 'Utgave',
+        publisher: 'Utgiver',
+        addTitle: 'Legg til fotnote',
+        editTitle: 'Rediger fotnote',
+        save: 'Lagre',
+        abort: 'Avbryt',
+        removeFootnote: 'Fjern fotnote',
+      },
+    },
+    tags: {
+      label: 'Nøkkelord',
+      description: 'Obligatorisk med 3 nøkkelord.',
+      createNew: 'Opprett nytt nøkkelord',
+      emptyFilter: 'Fant ingen passende nøkkelord',
+      emptyList: 'Det er ingen tagger i denne listen',
+    },
     image: {
       caption: {
         label: 'Bildetekst',

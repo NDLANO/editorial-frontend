@@ -44,12 +44,12 @@ class TopicArticleMetadata extends Component {
           obligatory
           name="tags"
           data={tags}
-          label={t('topicArticleForm.fields.tags.label')}
-          description={t('topicArticleForm.fields.tags.description')}
+          label={t('form.tags.label')}
+          description={t('form.tags.description')}
           messages={{
-            createNew: t('topicArticleForm.fields.tags.createNew'),
-            emptyFilter: t('topicArticleForm.fields.tags.emptyFilter'),
-            emptyList: t('topicArticleForm.fields.tags.emptyList'),
+            createNew: t('form.tags.createNew'),
+            emptyFilter: t('form.tags.emptyFilter'),
+            emptyList: t('form.tags.emptyList'),
           }}
           {...commonFieldProps}
         />

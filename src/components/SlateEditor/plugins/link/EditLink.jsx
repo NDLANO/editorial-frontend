@@ -121,7 +121,7 @@ class EditLink extends React.Component {
       <div>
         <h3>
           {t(
-            `learningResourceForm.fields.content.link.${this.state.isEdit
+            `form.content.link.${this.state.isEdit
               ? 'changeTitle'
               : 'addTitle'}`,
           )}

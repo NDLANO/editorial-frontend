@@ -58,61 +58,53 @@ class FootnoteForm extends Component {
       <form onSubmit={this.handleSave}>
         <Field>
           <label htmlFor="title">
-            {t('learningResourceForm.fields.content.footnote.title')}
+            {t('form.content.footnote.title')}
           </label>
           <input type="text" {...bindInput('title')} />
           <FieldErrorMessages
-            label={t('learningResourceForm.fields.content.footnote.title')}
+            label={t('form.content.footnote.title')}
             field={getField('title', schema)}
             submitted={submitted}
           />
         </Field>
         <Field>
           <label htmlFor="year">
-            {t('learningResourceForm.fields.content.footnote.year')}
+            {t('form.content.footnote.year')}
           </label>
           <input type="text" {...bindInput('year')} />
           <FieldErrorMessages
-            label={t('learningResourceForm.fields.content.footnote.year')}
+            label={t('form.content.footnote.year')}
             field={getField('year', schema)}
             submitted={submitted}
           />
         </Field>
         <Field>
           <label htmlFor="authors">
-            {t('learningResourceForm.fields.content.footnote.authors.label')}
+            {t('form.content.footnote.authors.label')}
           </label>
           <MultiSelect
             {...bindInput('authors')}
             messages={{
-              createNew: t(
-                'learningResourceForm.fields.content.footnote.authors.createNew',
-              ),
-              emptyFilter: t(
-                'learningResourceForm.fields.content.footnote.authors.emptyFilter',
-              ),
-              emptyList: t(
-                'learningResourceForm.fields.content.footnote.authors.emptyList',
-              ),
+              createNew: t('form.content.footnote.authors.createNew'),
+              emptyFilter: t('form.content.footnote.authors.emptyFilter'),
+              emptyList: t('form.content.footnote.authors.emptyList'),
             }}
           />
           <FieldErrorMessages
-            label={t(
-              'learningResourceForm.fields.content.footnote.authors.label',
-            )}
+            label={t('form.content.footnote.authors.label')}
             field={getField('authors', schema)}
             submitted={submitted}
           />
         </Field>
         <Field>
           <label htmlFor="edition">
-            {t('learningResourceForm.fields.content.footnote.edition')}
+            {t('form.content.footnote.edition')}
           </label>
           <input {...bindInput('edition')} type="text" />
         </Field>
         <Field>
           <label htmlFor="publisher">
-            {t('learningResourceForm.fields.content.footnote.publisher')}
+            {t('form.content.footnote.publisher')}
           </label>
           <input type="text" {...bindInput('publisher')} />
         </Field>
@@ -120,16 +112,14 @@ class FootnoteForm extends Component {
           <div {...toolbarClasses('link-actions')}>
             {isEdit
               ? <Button onClick={onRemove}>
-                  {t(
-                    'learningResourceForm.fields.content.footnote.removeFootnote',
-                  )}
+                  {t('form.content.footnote.removeFootnote')}
                 </Button>
               : ''}
             <Button outline onClick={onClose}>
-              {t('learningResourceForm.fields.content.footnote.abort')}
+              {t('form.content.footnote.abort')}
             </Button>
             <Button submit>
-              {t('learningResourceForm.fields.content.footnote.save')}
+              {t('form.content.footnote.save')}
             </Button>
           </div>
         </Field>

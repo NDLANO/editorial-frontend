@@ -110,7 +110,7 @@ const VisualElementSearch = ({
               ...h5p,
               metaData: {},
             })}
-          label={t('topicArticleForm.fields.visualElement.label')}
+          label={t('form.visualElement.label')}
         />
       );
     }

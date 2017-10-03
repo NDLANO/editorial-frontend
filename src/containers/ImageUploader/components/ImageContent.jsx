@@ -36,12 +36,12 @@ class ImageContent extends Component {
         header={t('imageForm.content')}
         hidden={this.state.hiddenContent}>
         <TextField
-          label={t('imageForm.fields.title.label')}
+          label={t('form.title.label')}
           name="title"
           title
           noBorder
           maxLength={300}
-          placeholder={t('imageForm.fields.title.label')}
+          placeholder={t('form.title.label')}
           {...commonFieldProps}
         />
         <InputFileField

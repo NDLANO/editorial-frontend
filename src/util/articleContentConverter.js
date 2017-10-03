@@ -67,7 +67,7 @@ export function learningResourceContentToEditorState(html) {
    https://github.com/ianstormtaylor/slate/issues/1111
   */
   return sections.map((section, index) => {
-    const state = serializer.deserialize(section.replace(/\s\s+/g, ''));
+    const state = serializer.deserialize(section);
     const change = state
       .change()
       .normalize(Schema.fromJSON({ rules: defaultRules }));

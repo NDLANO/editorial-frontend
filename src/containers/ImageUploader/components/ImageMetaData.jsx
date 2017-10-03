@@ -38,7 +38,7 @@ class ImageMetaData extends Component {
       <Accordion
         fill
         handleToggle={this.toggleMetadata}
-        header={t('imageForm.metadataSection')}
+        header={t('form.metadataSection')}
         hidden={this.state.hiddenMetadata}>
         <MultiSelectField
           obligatory

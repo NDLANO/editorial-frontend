@@ -16,6 +16,10 @@ import TopicArticleForm, {
 } from './components/TopicArticleForm';
 import { ArticleShape } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
+import {
+  actions as tagActions,
+  getAllTagsByLanguage,
+} from '../../modules/tag/tag';
 
 class EditTopicArticle extends Component {
   constructor(props) {
@@ -24,17 +28,25 @@ class EditTopicArticle extends Component {
   }
 
   componentWillMount() {
-    const { articleId, fetchArticle, articleLanguage } = this.props;
+    const { articleId, fetchArticle, articleLanguage, fetchTags } = this.props;
     fetchArticle({ id: articleId, language: articleLanguage });
+    fetchTags({ language: articleLanguage });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { articleId, fetchArticle, articleLanguage, article } = nextProps;
+    const {
+      articleId,
+      fetchArticle,
+      articleLanguage,
+      article,
+      fetchTags,
+    } = nextProps;
     if (
       (article && article.language !== articleLanguage) ||
       articleId !== this.props.articleId
     ) {
       fetchArticle({ id: articleId, language: articleLanguage });
+      fetchTags({ language: articleLanguage });
     }
   }
 
@@ -73,6 +85,7 @@ EditTopicArticle.propTypes = {
   articleId: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchArticle: PropTypes.func.isRequired,
+  fetchTags: PropTypes.func.isRequired,
   updateArticle: PropTypes.func.isRequired,
   article: ArticleShape,
   locale: PropTypes.string.isRequired,
@@ -83,13 +96,16 @@ EditTopicArticle.propTypes = {
 const mapDispatchToProps = {
   fetchArticle: actions.fetchArticle,
   updateArticle: actions.updateArticle,
+  fetchTags: tagActions.fetchTags,
 };
 
 const mapStateToProps = (state, props) => {
-  const { articleId } = props;
+  const { articleId, articleLanguage } = props;
   const getArticleSelector = getArticle(articleId, true);
+  const getAllTagsSelector = getAllTagsByLanguage(articleLanguage);
   return {
     article: getArticleSelector(state),
+    tags: getAllTagsSelector(state),
   };
 };
 

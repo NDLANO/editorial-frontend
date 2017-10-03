@@ -37,7 +37,7 @@ class LearningResourceCopyright extends Component {
     return (
       <Accordion
         handleToggle={this.toggleContent}
-        header={t('learningResourceForm.copyrightSection')}
+        header={t('form.copyrightSection')}
         hidden={this.state.hiddenContent}
         fill>
         <MultiSelectField

@@ -16,6 +16,10 @@ import TopicArticleForm, {
 } from './components/TopicArticleForm';
 import { ArticleShape } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
+import {
+  actions as tagActions,
+  getAllTagsByLanguage,
+} from '../../modules/tag/tag';
 
 class EditTopicArticle extends Component {
   constructor(props) {
@@ -24,8 +28,26 @@ class EditTopicArticle extends Component {
   }
 
   componentWillMount() {
-    const { articleId, fetchArticle } = this.props;
-    fetchArticle({ id: articleId });
+    const { articleId, fetchArticle, articleLanguage, fetchTags } = this.props;
+    fetchArticle({ id: articleId, language: articleLanguage });
+    fetchTags({ language: articleLanguage });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      articleId,
+      fetchArticle,
+      articleLanguage,
+      article,
+      fetchTags,
+    } = nextProps;
+    if (
+      (article && article.language !== articleLanguage) ||
+      articleId !== this.props.articleId
+    ) {
+      fetchArticle({ id: articleId, language: articleLanguage });
+      fetchTags({ language: articleLanguage });
+    }
   }
 
   updateArticle(article) {
@@ -63,25 +85,28 @@ EditTopicArticle.propTypes = {
   articleId: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchArticle: PropTypes.func.isRequired,
+  fetchTags: PropTypes.func.isRequired,
   updateArticle: PropTypes.func.isRequired,
   article: ArticleShape,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  articleLanguage: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = {
   fetchArticle: actions.fetchArticle,
   updateArticle: actions.updateArticle,
+  fetchTags: tagActions.fetchTags,
 };
 
-const makeMapStateToProps = (_, props) => {
-  const { articleId } = props;
-  const getArticleSelector = getArticle(articleId);
-  return state => ({
+const mapStateToProps = (state, props) => {
+  const { articleId, articleLanguage } = props;
+  const getArticleSelector = getArticle(articleId, true);
+  const getAllTagsSelector = getAllTagsByLanguage(articleLanguage);
+  return {
     article: getArticleSelector(state),
-  });
+    tags: getAllTagsSelector(state),
+  };
 };
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(
-  EditTopicArticle,
-);
+export default connect(mapStateToProps, mapDispatchToProps)(EditTopicArticle);

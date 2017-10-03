@@ -38,24 +38,24 @@ class TopicArticleMetadata extends Component {
       <Accordion
         fill
         handleToggle={this.toggleMetadata}
-        header={t('topicArticleForm.metadata')}
+        header={t('form.metadataSection')}
         hidden={this.state.hiddenMetadata}>
         <MultiSelectField
           obligatory
           name="tags"
           data={tags}
-          label={t('topicArticleForm.fields.tags.label')}
-          description={t('topicArticleForm.fields.tags.description')}
+          label={t('form.tags.label')}
+          description={t('form.tags.description')}
           messages={{
-            createOption: t('topicArticleForm.fields.tags.createOption'),
-            emptyFilter: t('topicArticleForm.fields.tags.emptyFilter'),
-            emptyList: t('topicArticleForm.fields.tags.emptyList'),
+            createNew: t('form.tags.createNew'),
+            emptyFilter: t('form.tags.emptyFilter'),
+            emptyList: t('form.tags.emptyList'),
           }}
           {...commonFieldProps}
         />
         <PlainTextField
-          label={t('topicArticleForm.fields.metaDescription.label')}
-          description={t('topicArticleForm.fields.metaDescription.description')}
+          label={t('form.metaDescription.label')}
+          description={t('form.metaDescription.description')}
           name="metaDescription"
           maxLength={150}
           {...commonFieldProps}>
@@ -68,11 +68,11 @@ class TopicArticleMetadata extends Component {
         </PlainTextField>
         <MultiSelectField
           name="authors"
-          label={t('topicArticleForm.fields.authors.label')}
+          label={t('form.authors.label')}
           messages={{
-            createOption: t('topicArticleForm.fields.authors.createOption'),
-            emptyFilter: t('topicArticleForm.fields.authors.emptyFilter'),
-            emptyList: t('topicArticleForm.fields.authors.emptyList'),
+            createNew: t('form.authors.createNew'),
+            emptyFilter: t('form.authors.emptyFilter'),
+            emptyList: t('form.authors.emptyList'),
           }}
           {...commonFieldProps}
         />

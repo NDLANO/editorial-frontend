@@ -43,8 +43,8 @@ const LearningResourceIngress = props => {
   return (
     <div {...classes('container')}>
       <PlainTextField
-        label={t('learningResourceForm.fields.introduction.label')}
-        placeholder={t('learningResourceForm.fields.introduction.label')}
+        label={t('form.introduction.label')}
+        placeholder={t('form.introduction.label')}
         name="introduction"
         className="article_introduction"
         fieldClassName={fieldClasses(undefined, 'introduction').className}

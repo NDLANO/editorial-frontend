@@ -72,8 +72,8 @@ const mapDispatchToProps = {
   fetchTags: tagActions.fetchTags,
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const getAllTagsSelector = getAllTagsByLanguage(ownProps.locale);
+const mapStateToProps = (state, props) => {
+  const getAllTagsSelector = getAllTagsByLanguage(props.locale);
   return {
     tags: getAllTagsSelector(state),
   };

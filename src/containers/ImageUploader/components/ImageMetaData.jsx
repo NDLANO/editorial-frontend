@@ -38,41 +38,41 @@ class ImageMetaData extends Component {
       <Accordion
         fill
         handleToggle={this.toggleMetadata}
-        header={t('imageForm.metadata')}
+        header={t('form.metadataSection')}
         hidden={this.state.hiddenMetadata}>
         <MultiSelectField
           obligatory
           name="tags"
           data={tags}
-          label={t('imageForm.fields.tags.label')}
-          description={t('imageForm.fields.tags.description')}
+          label={t('form.tags.label')}
+          description={t('form.tags.description')}
           messages={{
-            createOption: t('imageForm.fields.tags.createOption'),
-            emptyFilter: t('imageForm.fields.tags.emptyFilter'),
-            emptyList: t('imageForm.fields.tags.emptyList'),
+            createNew: t('form.tags.createNew'),
+            emptyFilter: t('form.tags.emptyFilter'),
+            emptyList: t('form.tags.emptyList'),
           }}
           {...commonFieldProps}
         />
         <MultiSelectField
           obligatory
           name="authors"
-          label={t('imageForm.fields.authors.label')}
-          description={t('imageForm.fields.authors.description')}
+          label={t('form.authors.label')}
+          description={t('form.authors.description')}
           messages={{
-            createOption: t('imageForm.fields.authors.createOption'),
-            emptyFilter: t('imageForm.fields.authors.emptyFilter'),
-            emptyList: t('imageForm.fields.authors.emptyList'),
+            createNew: t('form.authors.createNew'),
+            emptyFilter: t('form.authors.emptyFilter'),
+            emptyList: t('form.authors.emptyList'),
           }}
           {...commonFieldProps}
         />
         <TextField
-          label={t('imageForm.fields.origin.label')}
+          label={t('form.origin.label')}
           name="origin"
           {...commonFieldProps}
         />
         <SelectObjectField
           name="license"
-          label={t('imageForm.fields.license.label')}
+          label={t('form.license.label')}
           options={licenses}
           idKey="license"
           labelKey="description"

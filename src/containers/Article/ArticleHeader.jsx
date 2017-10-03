@@ -9,16 +9,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { classes } from './LearningResourceForm';
-import LearningResourceLanguage from './LearningResourceLanguage';
+import { classes } from '../LearningResourcePage/components/LearningResourceForm';
+import ArticleLanguage from './ArticleLanguage';
 
-const LearningResourceHeader = props => {
+const ArticleHeader = props => {
   const { t, model } = props;
   const languages = [
-    { key: 'nn', title: t('learningResourceForm.variant.languages.nn') },
-    { key: 'en', title: t('learningResourceForm.variant.languages.en') },
-    { key: 'nb', title: t('learningResourceForm.variant.languages.nb') },
+    { key: 'nn', title: t('language.nn') },
+    { key: 'en', title: t('language.en') },
+    { key: 'nb', title: t('language.nb') },
   ];
+
+  const types = {
+    standard: 'learningResourceForm',
+    'topic-article': 'topicArticleForm',
+  };
   const language = languages.find(lang => lang.key === model.language);
   const supportedLanguages = languages.filter(
     lang => lang.key !== model.language,
@@ -27,7 +32,7 @@ const LearningResourceHeader = props => {
     return (
       <div {...classes('header')}>
         <div className="u-4/6@desktop u-push-1/6@desktop">
-          {t('learningResourceForm.title.create', language)}
+          {t(`${types[model.articleType]}.title.create`, language)}
         </div>
       </div>
     );
@@ -36,12 +41,13 @@ const LearningResourceHeader = props => {
   return (
     <div {...classes('header')}>
       <div className="u-4/6@desktop u-push-1/6@desktop">
-        <span>{t('learningResourceForm.title.update', language)}</span>
+        <span>{t(`${types[model.articleType]}.title.update`, language)}</span>
         <span>
-          <LearningResourceLanguage
+          <ArticleLanguage
             language={language}
             languages={supportedLanguages}
             modelId={model.id}
+            articleType={model.articleType}
           />
         </span>
       </div>
@@ -49,10 +55,11 @@ const LearningResourceHeader = props => {
   );
 };
 
-LearningResourceHeader.propTypes = {
+ArticleHeader.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
   }),
+  articleType: PropTypes.string.isRequired,
 };
 
-export default injectT(LearningResourceHeader);
+export default injectT(ArticleHeader);

@@ -34,18 +34,18 @@ class AudioContent extends Component {
     return (
       <Accordion
         handleToggle={this.toggleContent}
-        header={t('audioForm.content')}
+        header={t('form.contentSection')}
         hidden={this.state.hiddenContent}>
         <TextField
-          label={t('audioForm.fields.title.label')}
+          label={t('form.title.label')}
           name="title"
           title
           noBorder
-          placeholder={t('audioForm.fields.title.label')}
+          placeholder={t('form.title.label')}
           {...commonFieldProps}
         />
         <InputFileField
-          label={t('audioForm.fields.audioFile.label')}
+          label={t('form.audio.file')}
           name="audioFile"
           {...commonFieldProps}
         />

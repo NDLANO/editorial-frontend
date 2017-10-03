@@ -96,8 +96,6 @@ const phrases = {
     deleteOnSave: 'Element of type {type} will be deleted on save.',
   },
   topicArticleForm: {
-    metadata: 'Metadata',
-    content: 'Content',
     visualElementTitle: {
       image: 'Image title',
       video: 'Video title',
@@ -114,89 +112,28 @@ const phrases = {
       update: 'You are now editing a topic description',
     },
     fields: {
-      title: {
-        label: 'Title',
-      },
-      introduction: {
-        label: 'Introduction',
-      },
-      visualElement: {
-        title: 'Add visual element',
-        label: 'Visual element',
-      },
       caption: {
-        label: 'Caption',
-        placeholder: 'Caption',
+        label: {
+          image: 'Video caption',
+          brightcove: 'Video caption',
+          external: 'Content caption',
+        },
+        placeholder: {
+          image: 'Image caption',
+          brightcove: 'Video caption',
+          external: 'Content caption',
+        },
       },
       alt: {
         label: 'Alt-text',
         placeholder: 'Alt-text',
       },
-      content: {
-        label: 'Content',
-        placeholder: 'Write here...',
-      },
-      footnotes: {
-        edition: 'Edition',
-        publisher: 'Publisher',
-      },
-      tags: {
-        label: 'Tags',
-        description: '3 tags is required.',
-        createOption: 'Create new tag',
-        emptyList: 'No tags available',
-        emptyFilter: 'No matching tags found',
-      },
-      metaDescription: {
-        label: 'Meta description',
-        description: 'The description will be viewable in search.',
-      },
-      authors: {
-        label: 'Author',
-        createOption: 'Add new author',
-        emptyFilter: ' ',
-        emptyList: ' ',
-      },
-    },
-    description: {
-      metaDescription: 'The description will be viewable in search.',
     },
   },
   audioForm: {
-    metadata: 'Metadata',
-    content: 'Content',
-    copyrightAccordion: 'License and authors',
     title: {
       create: 'You are now creating a audio file',
       update: 'You are now editing a audio file',
-    },
-    fields: {
-      title: {
-        label: 'Title',
-      },
-      origin: {
-        label: 'Origin',
-      },
-      tags: {
-        label: 'Tags',
-        description: '3 tags is required.',
-        createOption: 'Create new tag',
-        emptyList: 'No tags available',
-        emptyFilter: 'No matching tags found',
-      },
-      authors: {
-        label: 'Author',
-        description: 'At least 1 author is required.',
-        createOption: 'Add new author',
-        emptyFilter: ' ',
-        emptyList: ' ',
-      },
-      license: {
-        label: 'Lisens',
-      },
-      audioFile: {
-        label: 'Audiofile',
-      },
     },
   },
   imageEditor: {
@@ -204,153 +141,133 @@ const phrases = {
       crop: 'Remove crop',
       focalPoint: 'Remove focal point',
     },
-    save: 'Save',
-    abort: 'Abort',
   },
   imageForm: {
-    metadata: 'Metadata',
-    content: 'Content',
-    copyrightAccordion: 'License and authors',
     title: {
       create: 'You are now creating an image',
       update: 'You are now editing an image',
     },
-    fields: {
-      title: {
-        label: 'Title',
-      },
-      alttext: {
-        label: 'Alternative image text',
-        placeholder: 'Alt-text',
-      },
-      caption: {
-        label: 'Caption',
-        placeholder: 'Caption',
-      },
-      origin: {
-        label: 'Origin',
-      },
-      tags: {
-        label: 'Tags',
-        description: '3 tags is required.',
-        createOption: 'Create new tag',
-        emptyList: 'No tags available',
-        emptyFilter: 'No matching tags found',
-      },
-      authors: {
-        label: 'Author',
-        description: 'At least 1 author is required.',
-        createOption: 'Add new author',
-        emptyFilter: ' ',
-        emptyList: ' ',
-      },
-      license: {
-        label: 'Lisens',
-      },
-      imageFile: {
-        label: 'Image',
-      },
-    },
   },
   learningResourceForm: {
-    metadata: 'Metadata',
-    content: 'Content',
-    copyrightAccordion: 'License and authors',
     visualElementTitle: {
       image: 'Image title',
     },
     visualElementCopyright: 'Origin',
     title: {
-      create: 'You are now creating a learning resource',
-      update: 'You are now editing a learning resource',
+      create: 'You are now creating a learning resource on {title}({key})',
+      update: 'You are now editing a learning resource on {title}({key})',
     },
     validation: {
       missingEmbedData:
         'One or more inlcuded video, image, or audio elements is missing caption or alternative text.',
     },
-    variant: {
-      create: 'Create variant +',
-      languages: {
-        nb: 'Bokmål',
-        nn: 'Nynorsk',
-        en: 'English',
-      },
-    },
     fields: {
-      title: {
-        label: 'Title',
-      },
-      introduction: {
-        label: 'Introduction',
-      },
-      visualElement: {
-        title: 'Add visual element',
-        label: 'Visual element',
-      },
-      content: {
-        label: 'Content',
-        placeholder: 'Write here...',
-        figure: {
-          notSupported: 'Media type {mediaType} is not supported.',
-        },
-        link: {
-          remove: 'Remove link',
-          href: 'Link',
-          text: 'Text',
-          addTitle: 'Add link',
-          changeTitle: 'Change link',
-        },
-      },
-      tags: {
-        label: 'Tags',
-        description: '3 tags is required.',
-        createOption: 'Create new tag',
-        emptyList: 'No tags available',
-        emptyFilter: 'No matching tags found',
-      },
-      metaDescription: {
-        label: 'Meta description',
-        description: 'The description will be viewable in search.',
-      },
-      contributors: {
-        label: 'Contributor',
-        createOption: 'Add new contributor',
-        emptyFilter: ' ',
-        emptyList: ' ',
-      },
-      licensees: {
-        label: 'Licensee',
-        createOption: 'Add new licensee',
-        emptyFilter: ' ',
-        emptyList: ' ',
-      },
-      authors: {
-        label: 'Author',
-        createOption: 'Add new author',
-        emptyFilter: ' ',
-        emptyList: ' ',
-      },
-      license: {
-        label: 'Lisens',
-      },
       rightAside: 'Right column',
-    },
-    description: {
-      metaDescription: 'The description will be viewable in search.',
+      footnotes: {
+        metaImage: {
+          title: 'Meta image',
+          label: 'Meta image',
+        },
+        edition: 'Edition',
+        publisher: 'Publisher',
+      },
     },
   },
   form: {
+    metadataSection: 'Metadata',
+    contentSection: 'Content',
+    copyrightSection: 'License and authors',
     save: 'Save',
     abort: 'Abort',
     savedOk: 'Saved OK',
     createdOk: 'Created OK',
+    variant: {
+      create: 'Create variant +',
+    },
     remainingCharacters:
       'Max {maxLength, number} characters and you have {remaining, number} remaining.',
+    title: {
+      label: 'Title',
+    },
+    introduction: {
+      label: 'Introduction',
+    },
+    visualElement: {
+      title: 'Add visual element',
+      label: 'Visual element',
+    },
+    content: {
+      label: 'Content',
+      placeholder: 'Write here...',
+      figure: {
+        notSupported: 'Media type {mediaType} is not supported.',
+      },
+      link: {
+        remove: 'Remove link',
+        href: 'Link',
+        text: 'Text',
+        addTitle: 'Add link',
+        changeTitle: 'Change link',
+      },
+      footnote: {
+        title: 'Title',
+        year: 'Year',
+        authors: {
+          label: 'Author',
+          description: 'Required with at least one author.',
+          createNew: 'Create new author',
+          emptyFilter: ' ',
+          emptyList: ' ',
+        },
+        edition: 'Edition',
+        publisher: 'Publisher',
+        addTitle: 'Add footnote',
+        editTitle: 'Edit footnote',
+        removeFootnote: 'Remove footnote',
+      },
+    },
+    tags: {
+      label: 'Tags',
+      description: '3 tags is required.',
+      createNew: 'Create new tag',
+      emptyList: 'No tags available',
+      emptyFilter: 'No matching tags found',
+    },
+    metaDescription: {
+      label: 'Meta description',
+      description: 'The description will be viewable in search.',
+    },
+    contributors: {
+      label: 'Contributor',
+      createNew: 'Add new contributor',
+      emptyFilter: ' ',
+      emptyList: ' ',
+    },
+    licensees: {
+      label: 'Licensee',
+      createNew: 'Add new licensee',
+      emptyFilter: ' ',
+      emptyList: ' ',
+    },
+    authors: {
+      label: 'Author',
+      createNew: 'Add new author',
+      description: 'Required with at least one author.',
+      emptyFilter: ' ',
+      emptyList: ' ',
+    },
+    license: {
+      label: 'Lisens',
+    },
+    origin: {
+      label: 'Origin',
+    },
     caption: {
       label: 'Caption',
       placeholder: 'Caption',
     },
     image: {
+      file: 'Image',
       alt: {
         label: 'Alt-text',
         placeholder: 'Alt-text',
@@ -367,6 +284,7 @@ const phrases = {
       },
     },
     audio: {
+      file: 'Audio file',
       caption: {
         label: 'Audio caption',
         placeholder: 'Audio caption',

@@ -102,8 +102,6 @@ const phrases = {
     deleteOnSave: 'Element av type {type} vil bli fjernet ved lagring.',
   },
   topicArticleForm: {
-    metadata: 'Metadata',
-    content: 'Innhold',
     visualElementTitle: {
       image: 'Bildetittel',
       h5p: 'H5P tittel',
@@ -115,20 +113,10 @@ const phrases = {
       lastUpdated: 'Sist oppdatert: {updated}',
     },
     title: {
-      create: 'Du oppretter nå en emnebeskrivelse',
-      update: 'Du redigerer nå en emnebeskrivelse',
+      create: 'Du oppretter nå en emnebeskrivelse på {title}({key})',
+      update: 'Du redigerer nå en emnebeskrivelse på {title}({key})',
     },
     fields: {
-      title: {
-        label: 'Tittel',
-      },
-      introduction: {
-        label: 'Ingress',
-      },
-      visualElement: {
-        title: 'Legg til visuelt element',
-        label: 'Visuelt element',
-      },
       caption: {
         label: {
           image: 'Bildetekst',
@@ -145,27 +133,6 @@ const phrases = {
         label: 'Alt-tekst',
         placeholder: 'Alt-tekst',
       },
-      content: {
-        label: 'Innhold',
-        placeholder: 'Innhold',
-      },
-      tags: {
-        label: 'Nøkkelord',
-        description: 'Obligatorisk med 3 nøkkelord.',
-        createOption: 'Opprett nytt nøkkelord',
-        emptyFilter: 'Fant ingen passende nøkkelord',
-        emptyList: 'Det er ingen tagger i denne listen',
-      },
-      metaDescription: {
-        label: 'Metabeskrivelse',
-        description: 'Beskrivelsen blir synlig i søk.',
-      },
-      authors: {
-        label: 'Forfatter',
-        createOption: 'Opprett ny bidragsyter',
-        emptyFilter: ' ',
-        emptyList: ' ',
-      },
     },
   },
   audioForm: {
@@ -173,95 +140,20 @@ const phrases = {
       create: 'Du oppretter nå en lyd fil',
       update: 'Du redigerer nå en lyd fil',
     },
-    metadata: 'Metadata',
-    content: 'Innhold',
-    copyrightAccordion: 'Lisens og bruker',
-    fields: {
-      title: {
-        label: 'Tittel',
-      },
-      origin: {
-        label: 'Opphav',
-      },
-      tags: {
-        label: 'Nøkkelord',
-        description: 'Obligatorisk med 3 nøkkelord.',
-        createOption: 'Opprett nytt nøkkelord',
-        emptyFilter: 'Fant ingen passende nøkkelord',
-        emptyList: 'Det er ingen tagger i denne listen',
-      },
-      authors: {
-        label: 'Opphavsperson',
-        description: 'Obligatorisk med minst 1 opphavsperson.',
-        createOption: 'Opprett ny opphavsperson',
-        emptyFilter: ' ',
-        emptyList: ' ',
-      },
-      license: {
-        label: 'Lisens',
-      },
-      audioFile: {
-        label: 'Lydfil',
-      },
-    },
   },
   imageEditor: {
     remove: {
       crop: 'Fjern utsnitt',
       focalPoint: 'Fjern fokuspunkt',
     },
-    save: 'Lagre',
-    abort: 'Avbryt',
   },
   imageForm: {
     title: {
       create: 'Du oppretter nå et bilde',
       update: 'Du redigerer nå et bilde',
     },
-    metadata: 'Metadata',
-    content: 'Innhold',
-    copyrightAccordion: 'Lisens og bruker',
-    fields: {
-      title: {
-        label: 'Tittel',
-      },
-      alttext: {
-        label: 'Alternativ bilde tekst',
-        placeholder: 'Alt-tekst',
-      },
-      caption: {
-        label: 'Bilde tekst',
-        placeholder: 'Bilde tekst',
-      },
-      origin: {
-        label: 'Opphav',
-      },
-      tags: {
-        label: 'Nøkkelord',
-        description: 'Obligatorisk med 3 nøkkelord.',
-        createOption: 'Opprett nytt nøkkelord',
-        emptyFilter: 'Fant ingen passende nøkkelord',
-        emptyList: 'Det er ingen tagger i denne listen',
-      },
-      authors: {
-        label: 'Opphavsperson',
-        description: 'Obligatorisk med minst 1 opphavsperson.',
-        createOption: 'Opprett ny opphavsperson',
-        emptyFilter: ' ',
-        emptyList: ' ',
-      },
-      license: {
-        label: 'Lisens',
-      },
-      imageFile: {
-        label: 'Bilde',
-      },
-    },
   },
   learningResourceForm: {
-    metadata: 'Metadata',
-    content: 'Innhold',
-    copyrightAccordion: 'Lisens og bruker',
     metaImageTitle: {
       image: 'Bildetittel',
     },
@@ -274,104 +166,109 @@ const phrases = {
       missingEmbedData:
         'En eller flere inkluderte lyd, bilde, eller video elementer mangler beskrivende tekst eller alternativ tekst.',
     },
-    variant: {
-      create: 'Lag variant +',
-      languages: {
-        nb: 'Bokmål',
-        nn: 'Nynorsk',
-        en: 'Engelsk',
-      },
-    },
     fields: {
-      title: {
-        label: 'Tittel',
-      },
-      introduction: {
-        label: 'Ingress',
-      },
       metaImage: {
         title: 'Metabilde',
         label: 'Metabilde',
-      },
-      content: {
-        label: 'Innhold',
-        placeholder: 'Innhold',
-        figure: {
-          notSupported: 'Mediatype {mediaType} er ikke støttet.',
-        },
-        link: {
-          remove: 'Fjern lenke',
-          href: 'Lenke',
-          text: 'Tekst',
-          addTitle: 'Legg til lenke',
-          changeTitle: 'Endre lenke',
-        },
-        footnote: {
-          title: 'Tittel',
-          year: 'År',
-          authors: {
-            label: 'Forfatter',
-            description: 'Obligatorisk med minst 1 forfatter.',
-            createOption: 'Opprett ny forfatter',
-            emptyFilter: ' ',
-            emptyList: ' ',
-          },
-          edition: 'Utgave',
-          publisher: 'Utgiver',
-          addTitle: 'Legg til fotnote',
-          editTitle: 'Rediger fotnote',
-          save: 'Lagre',
-          abort: 'Avbryt',
-          removeFootnote: 'Fjern fotnote',
-        },
       },
       footnotes: {
         edition: 'Utgave',
         publisher: 'Utgiver',
       },
-      tags: {
-        label: 'Nøkkelord',
-        description: 'Obligatorisk med 3 nøkkelord.',
-        createOption: 'Opprett nytt nøkkelord',
-        emptyFilter: 'Fant ingen passende nøkkelord',
-        emptyList: 'Det er ingen tagger i denne listen',
-      },
-      metaDescription: {
-        label: 'Metabeskrivelse',
-        description: 'Beskrivelsen blir synlig i søk.',
-      },
-      contributors: {
-        label: 'Bidragsyter',
-        createOption: 'Opprett ny bidragsyter',
-        emptyFilter: ' ',
-        emptyList: ' ',
-      },
-      licensees: {
-        label: 'Rettighetshaver',
-        createOption: 'Opprett ny rettighetshaver',
-        emptyFilter: ' ',
-        emptyList: ' ',
-      },
-      authors: {
-        label: 'Opphavsperson',
-        createOption: 'Opprett ny opphavsperson',
-        emptyFilter: ' ',
-        emptyList: ' ',
-      },
-      license: {
-        label: 'Lisens',
-      },
       rightAside: 'Høyrespalte',
     },
   },
   form: {
+    metadataSection: 'Metadata',
+    contentSection: 'Innhold',
+    copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
     abort: 'Avbryt',
     savedOk: 'Lagret OK',
     createdOk: 'Opprettet OK',
+    variant: {
+      create: 'Lag variant +',
+    },
     remainingCharacters:
       'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
+    title: {
+      label: 'Tittel',
+    },
+    introduction: {
+      label: 'Ingress',
+    },
+    visualElement: {
+      title: 'Legg til visuelt element',
+      label: 'Visuelt element',
+    },
+    content: {
+      label: 'Innhold',
+      placeholder: 'Innhold',
+      figure: {
+        notSupported: 'Mediatype {mediaType} er ikke støttet.',
+      },
+      link: {
+        remove: 'Fjern lenke',
+        href: 'Lenke',
+        text: 'Tekst',
+        addTitle: 'Legg til lenke',
+        changeTitle: 'Endre lenke',
+      },
+      footnote: {
+        title: 'Tittel',
+        year: 'År',
+        authors: {
+          label: 'Forfatter',
+          description: 'Obligatorisk med minst 1 forfatter.',
+          createNew: 'Opprett ny forfatter',
+          emptyFilter: ' ',
+          emptyList: ' ',
+        },
+        edition: 'Utgave',
+        publisher: 'Utgiver',
+        addTitle: 'Legg til fotnote',
+        editTitle: 'Rediger fotnote',
+        removeFootnote: 'Fjern fotnote',
+      },
+    },
+    tags: {
+      label: 'Nøkkelord',
+      description: 'Obligatorisk med 3 nøkkelord.',
+      createNew: 'Opprett nytt nøkkelord',
+      emptyFilter: 'Fant ingen passende nøkkelord',
+      emptyList: 'Det er ingen tagger i denne listen',
+    },
+    metaDescription: {
+      label: 'Metabeskrivelse',
+      description: 'Beskrivelsen blir synlig i søk.',
+    },
+    contributors: {
+      label: 'Bidragsyter',
+      createNew: 'Opprett ny bidragsyter',
+      emptyFilter: ' ',
+      emptyList: ' ',
+    },
+    licensees: {
+      label: 'Rettighetshaver',
+      createNew: 'Opprett ny rettighetshaver',
+      emptyFilter: ' ',
+      emptyList: ' ',
+    },
+    authors: {
+      label: 'Opphavsperson',
+      createNew: 'Opprett ny opphavsperson',
+      description: 'Obligatorisk med minst 1 opphavsperson.',
+      emptyFilter: ' ',
+      emptyList: ' ',
+    },
+    license: {
+      label: 'Lisens',
+    },
+    origin: {
+      label: 'Opphav',
+    },
     image: {
+      file: 'Bilde',
       caption: {
         label: 'Bildetekst',
         placeholder: 'Bildetekst',
@@ -388,6 +285,7 @@ const phrases = {
       },
     },
     audio: {
+      file: 'Lydfil',
       caption: {
         label: 'Lydtekst',
         placeholder: 'Lydtekst',

@@ -38,41 +38,41 @@ class AudioMetaData extends Component {
       <Accordion
         fill
         handleToggle={this.toggleMetadata}
-        header={t('audioForm.metadata')}
+        header={t('form.metadataSection')}
         hidden={this.state.hiddenMetadata}>
         <MultiSelectField
           obligatory
           name="tags"
           data={tags}
-          label={t('audioForm.fields.tags.label')}
-          description={t('audioForm.fields.tags.description')}
+          label={t('form.tags.label')}
+          description={t('form.tags.description')}
           messages={{
-            createNew: t('audioForm.fields.tags.createNew'),
-            emptyFilter: t('audioForm.fields.tags.emptyFilter'),
-            emptyList: t('audioForm.fields.tags.emptyList'),
+            createNew: t('form.tags.createNew'),
+            emptyFilter: t('form.tags.emptyFilter'),
+            emptyList: t('form.tags.emptyList'),
           }}
           {...commonFieldProps}
         />
         <MultiSelectField
           obligatory
           name="authors"
-          label={t('audioForm.fields.authors.label')}
-          description={t('audioForm.fields.authors.description')}
+          label={t('form.authors.label')}
+          description={t('form.authors.description')}
           messages={{
-            createNew: t('audioForm.fields.authors.createNew'),
-            emptyFilter: t('audioForm.fields.authors.emptyFilter'),
-            emptyList: t('audioForm.fields.authors.emptyList'),
+            createNew: t('form.authors.createNew'),
+            emptyFilter: t('form.authors.emptyFilter'),
+            emptyList: t('form.authors.emptyList'),
           }}
           {...commonFieldProps}
         />
         <TextField
-          label={t('audioForm.fields.origin.label')}
+          label={t('form.origin.label')}
           name="origin"
           {...commonFieldProps}
         />
         <SelectObjectField
           name="license"
-          label={t('audioForm.fields.license.label')}
+          label={t('form.license.label')}
           options={licenses}
           idKey="license"
           labelKey="description"

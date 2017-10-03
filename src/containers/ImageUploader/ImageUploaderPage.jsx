@@ -11,7 +11,10 @@ import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn, Hero } from 'ndla-ui';
 
-import { actions as tagActions, getAllTags } from '../../modules/tag/tag';
+import {
+  actions as tagActions,
+  getAllTagsByLanguage,
+} from '../../modules/tag/tag';
 import {
   actions as licenseActions,
   getAllLicenses,
@@ -95,11 +98,15 @@ const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-  tags: getAllTags(state),
-  licenses: getAllLicenses(state),
-  isSaving: getSaving(state),
-});
+const mapStateToProps = state => {
+  const locale = getLocale(state);
+  const getAllTagsSelector = getAllTagsByLanguage(locale);
+  return {
+    locale,
+    tags: getAllTagsSelector(state),
+    licenses: getAllLicenses(state),
+    isSaving: getSaving(state),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImageUploaderPage);

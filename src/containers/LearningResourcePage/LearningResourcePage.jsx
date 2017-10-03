@@ -11,7 +11,6 @@ import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn, Hero } from 'ndla-ui';
 
-import { actions as tagActions, getAllTags } from '../../modules/tag/tag';
 import {
   actions as licenseActions,
   getAllLicenses,
@@ -24,13 +23,12 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 class LearningResourcePage extends Component {
   componentWillMount() {
-    const { fetchTags, fetchLicenses } = this.props;
-    fetchTags();
+    const { fetchLicenses } = this.props;
     fetchLicenses();
   }
 
   render() {
-    const { locale, tags, match, history, isSaving, licenses } = this.props;
+    const { locale, match, history, isSaving, licenses } = this.props;
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -47,7 +45,6 @@ class LearningResourcePage extends Component {
                 <CreateLearningResource
                   history={history}
                   locale={locale}
-                  tags={tags}
                   licenses={licenses}
                   isSaving={isSaving}
                 />
@@ -59,7 +56,6 @@ class LearningResourcePage extends Component {
                 <EditLearningResource
                   articleId={props.match.params.articleId}
                   articleLanguage={props.match.params.articleLanguage}
-                  tags={tags}
                   licenses={licenses}
                   locale={locale}
                   isSaving={isSaving}
@@ -81,27 +77,23 @@ LearningResourcePage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
       license: PropTypes.string,
     }),
   ).isRequired,
-  fetchTags: PropTypes.func.isRequired,
   fetchLicenses: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
 };
 
 const mapDispatchToProps = {
-  fetchTags: tagActions.fetchTags,
   fetchLicenses: licenseActions.fetchLicenses,
 };
 
 const mapStateToProps = state => ({
   locale: getLocale(state),
-  tags: getAllTags(state),
   licenses: getAllLicenses(state),
   isSaving: getSaving(state),
 });

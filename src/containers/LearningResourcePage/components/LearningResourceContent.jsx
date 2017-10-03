@@ -76,20 +76,20 @@ class LearningResourceContent extends Component {
         style={{
           opacity: '0.333',
         }}>
-        {t('learningResourceForm.fields.content.placeholder')}
+        {t('form.content.placeholder')}
       </span>
     );
     return (
       <Accordion
         handleToggle={this.toggleContent}
-        header={t('learningResourceForm.content')}
+        header={t('form.contentSection')}
         hidden={this.state.hiddenContent}>
         <TextField
-          label={t('learningResourceForm.fields.title.label')}
+          label={t('form.title.label')}
           name="title"
           title
           noBorder
-          placeholder={t('learningResourceForm.fields.title.label')}
+          placeholder={t('form.title.label')}
           {...commonFieldProps}
         />
         <div
@@ -103,7 +103,7 @@ class LearningResourceContent extends Component {
         </div>
         <RichBlockTextField
           slateSchema={schema}
-          label={t('learningResourceForm.fields.content.label')}
+          label={t('form.content.label')}
           placeholder={contentPlaceholder}
           name="content"
           ingress={ingress}

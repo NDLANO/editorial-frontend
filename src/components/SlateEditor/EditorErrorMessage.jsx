@@ -7,13 +7,12 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const EditorErrorMessage = ({ msg, attributes, children }) =>
+const EditorErrorMessage = ({ msg, attributes, children }) => (
   <div {...classes('error')} {...attributes}>
-    <span>
-      {msg}
-    </span>
+    <span>{msg}</span>
     {children}
-  </div>;
+  </div>
+);
 
 EditorErrorMessage.propTypes = {
   attributes: PropTypes.shape({

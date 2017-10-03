@@ -204,16 +204,18 @@ class SlateBlockPicker extends Component {
     const typeClassName = this.state.isOpen ? '' : 'hidden';
     return (
       <div>
-        {this.state.embedSelect.isOpen
-          ? <SlateEmbedPicker
-              state={editorState}
-              blocks={blocks}
-              resource={this.state.embedSelect.embedType}
-              isOpen={this.state.embedSelect.isOpen}
-              onEmbedClose={this.onEmbedClose}
-              onStateChange={this.onStateChange}
-            />
-          : ''}
+        {this.state.embedSelect.isOpen ? (
+          <SlateEmbedPicker
+            state={editorState}
+            blocks={blocks}
+            resource={this.state.embedSelect.embedType}
+            isOpen={this.state.embedSelect.isOpen}
+            onEmbedClose={this.onEmbedClose}
+            onStateChange={this.onStateChange}
+          />
+        ) : (
+          ''
+        )}
         <div
           {...classes(
             'block-type-container',
@@ -229,14 +231,16 @@ class SlateBlockPicker extends Component {
             {this.state.isOpen ? <Cross /> : <Plus />}
           </Button>
           <div {...classes('block-type', typeClassName)}>
-            {!ingress.value
-              ? <Button
-                  stripped
-                  {...classes('block-type-button')}
-                  onMouseDown={() => this.onElementAdd({ type: 'ingress' })}>
-                  <Ingress />
-                </Button>
-              : ''}
+            {!ingress.value ? (
+              <Button
+                stripped
+                {...classes('block-type-button')}
+                onMouseDown={() => this.onElementAdd({ type: 'ingress' })}>
+                <Ingress />
+              </Button>
+            ) : (
+              ''
+            )}
             <Button
               stripped
               {...classes('block-type-button')}

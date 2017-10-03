@@ -37,23 +37,25 @@ class TopicArticlePage extends Component {
           <Switch>
             <Route
               path={`${match.url}/new`}
-              render={() =>
+              render={() => (
                 <CreateTopicArticle
                   history={history}
                   locale={locale}
                   tags={tags}
                   isSaving={isSaving}
-                />}
+                />
+              )}
             />
             <Route
               path={`${match.url}/:articleId/edit`}
-              render={props =>
+              render={props => (
                 <EditTopicArticle
                   articleId={props.match.params.articleId}
                   tags={tags}
                   locale={locale}
                   isSaving={isSaving}
-                />}
+                />
+              )}
             />
             <Route component={NotFoundPage} />
           </Switch>

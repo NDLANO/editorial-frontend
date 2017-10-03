@@ -30,14 +30,16 @@ test('articleSagas watchFetchArticle fetch article if not in state and language 
 });
 
 test('articleSagas watchFetchArticle fetch article if not in state and language is not supported', () => {
-  nock('http://ndla-api').get('/article-api/v2/articles/123').reply(200, {
-    id: 123,
-    title: 'unit test',
-    supportedLanguages: ['en'],
-    copyright: [],
-    revision: 3,
-    articleType: 'standard',
-  });
+  nock('http://ndla-api')
+    .get('/article-api/v2/articles/123')
+    .reply(200, {
+      id: 123,
+      title: 'unit test',
+      supportedLanguages: ['en'],
+      copyright: [],
+      revision: 3,
+      articleType: 'standard',
+    });
 
   return expectSaga(sagas.watchFetchArticle)
     .withState({ articles: { all: {} } })

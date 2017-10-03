@@ -34,23 +34,23 @@ export const RichBlockTextField = ({
     <Field
       noBorder={noBorder}
       className={classes('', 'position-static').className}>
-      {!noBorder
-        ? <label htmlFor={name}>
-            {label}
-          </label>
-        : <label className="u-hidden" htmlFor={name}>
-            {label}
-          </label>}
+      {!noBorder ? (
+        <label htmlFor={name}>{label}</label>
+      ) : (
+        <label className="u-hidden" htmlFor={name}>
+          {label}
+        </label>
+      )}
       {noBorder &&
-        value.map((val, i) =>
+        value.map((val, i) => (
           <FocusLabel
             key={uuid()}
             name={name}
             hasFocus={() => val.state.isFocused}
             value={val.state}>
             {`${label} Blokk ${i + 1}`}
-          </FocusLabel>,
-        )}
+          </FocusLabel>
+        ))}
       <RichBlockTextEditor
         id={name}
         name={name}
@@ -60,12 +60,13 @@ export const RichBlockTextField = ({
         submitted={submitted}
         {...rest}
       />
-      {submitted && // Only show if submitted
+      {submitted && ( // Only show if submitted
         <FieldErrorMessages
           label={label}
           field={getField(name, schema)}
           submitted={submitted}
-        />}
+        />
+      )}
     </Field>
   );
 };

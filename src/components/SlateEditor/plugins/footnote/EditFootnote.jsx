@@ -54,10 +54,14 @@ class EditFootnote extends Component {
       handleStateChange(change.setNodeByKey(this.state.nodeKey, { data }));
     } else {
       handleStateChange(
-        change.collapseToEnd().insertText('#').extend(-1).wrapInline({
-          type: TYPE,
-          data,
-        }),
+        change
+          .collapseToEnd()
+          .insertText('#')
+          .extend(-1)
+          .wrapInline({
+            type: TYPE,
+            data,
+          }),
       );
     }
     closeDialog();

@@ -36,9 +36,7 @@ const LearningResourceHeader = props => {
   return (
     <div {...classes('header')}>
       <div className="u-4/6@desktop u-push-1/6@desktop">
-        <span>
-          {t('learningResourceForm.title.update', language)}
-        </span>
+        <span>{t('learningResourceForm.title.update', language)}</span>
         <span>
           <LearningResourceLanguage
             language={language}

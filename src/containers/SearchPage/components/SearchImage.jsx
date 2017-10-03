@@ -12,19 +12,18 @@ import { toEditImage } from '../../../util/routeHelpers';
 import { ImageResultShape } from '../../../shapes';
 import { searchClasses } from '../SearchPage';
 
-const SearchImage = ({ image }) =>
+const SearchImage = ({ image }) => (
   <div {...searchClasses('result')}>
     <div {...searchClasses('content')}>
       <Link to={toEditImage(image.id)}>
-        <h1 {...searchClasses('title')}>
-          {image.title}
-        </h1>
+        <h1 {...searchClasses('title')}>{image.title}</h1>
       </Link>
     </div>
     <div {...searchClasses('image')}>
       <img src={image.previewUrl} alt={image.altText} />
     </div>
-  </div>;
+  </div>
+);
 
 SearchImage.propTypes = {
   image: ImageResultShape.isRequired,

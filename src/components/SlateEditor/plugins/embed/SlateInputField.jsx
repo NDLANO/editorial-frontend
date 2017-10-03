@@ -24,9 +24,7 @@ const SlateInputLabel = ({ label, focus, value }) => {
   }
   return (
     <div {...classes('figure-focus-input-label')}>
-      <span {...classes('figure-focus-input-text')}>
-        {label}
-      </span>
+      <span {...classes('figure-focus-input-text')}>{label}</span>
     </div>
   );
 };
@@ -81,10 +79,9 @@ class SlateInputField extends React.Component {
         />
         {isEmpty(value) &&
           required &&
-          submitted &&
-          <FieldHelp error>
-            {t('validation.isRequired', { label })}
-          </FieldHelp>}
+          submitted && (
+            <FieldHelp error>{t('validation.isRequired', { label })}</FieldHelp>
+          )}
       </Field>
     );
   }

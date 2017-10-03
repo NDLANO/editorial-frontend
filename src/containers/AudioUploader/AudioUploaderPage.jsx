@@ -42,18 +42,19 @@ class AudioUploaderPage extends Component {
           <Switch>
             <Route
               path={`${match.url}/new`}
-              render={() =>
+              render={() => (
                 <CreateAudio
                   history={history}
                   locale={locale}
                   tags={tags}
                   licenses={licenses}
                   isSaving={isSaving}
-                />}
+                />
+              )}
             />
             <Route
               path={`${match.url}/:audioId/edit`}
-              render={props =>
+              render={props => (
                 <EditAudio
                   audioId={props.match.params.audioId}
                   history={history}
@@ -61,7 +62,8 @@ class AudioUploaderPage extends Component {
                   tags={tags}
                   licenses={licenses}
                   isSaving={isSaving}
-                />}
+                />
+              )}
             />
             <Route component={NotFoundPage} />
           </Switch>

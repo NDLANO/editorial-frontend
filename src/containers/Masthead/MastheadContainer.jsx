@@ -15,16 +15,10 @@ import { toLogin, toLogout } from '../../util/routeHelpers';
 const AuthSiteNavItem = ({ t, name, authenticated }) => {
   if (authenticated) {
     return (
-      <SiteNavItem to={toLogout()}>
-        {t('siteNav.logout', { name })}
-      </SiteNavItem>
+      <SiteNavItem to={toLogout()}>{t('siteNav.logout', { name })}</SiteNavItem>
     );
   }
-  return (
-    <SiteNavItem to={toLogin()}>
-      {t('siteNav.login')}
-    </SiteNavItem>
-  );
+  return <SiteNavItem to={toLogin()}>{t('siteNav.login')}</SiteNavItem>;
 };
 
 AuthSiteNavItem.propTypes = {
@@ -33,7 +27,7 @@ AuthSiteNavItem.propTypes = {
   name: PropTypes.string,
 };
 
-const MastheadContainer = ({ t, authenticated, userName }) =>
+const MastheadContainer = ({ t, authenticated, userName }) => (
   <Masthead>
     <MastheadItem left>
       <Logo to="/" altText="Nasjonal digital læringsarena" />
@@ -46,7 +40,8 @@ const MastheadContainer = ({ t, authenticated, userName }) =>
         </AuthSiteNavItem>
       </SiteNav>
     </MastheadItem>
-  </Masthead>;
+  </Masthead>
+);
 
 MastheadContainer.propTypes = {
   params: PropTypes.shape({

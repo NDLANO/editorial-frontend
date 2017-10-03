@@ -43,9 +43,7 @@ class SlateFactAside extends React.Component {
           this.state.expanded ? 'c-aside expanded' : 'c-aside',
         )}
         {...attributes}>
-        <div className="c-aside__content">
-          {children}
-        </div>
+        <div className="c-aside__content">{children}</div>
         <Button
           onClick={this.toggleExpanded}
           className="c-button c-aside__button"

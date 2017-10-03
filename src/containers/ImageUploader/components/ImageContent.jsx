@@ -49,8 +49,9 @@ class ImageContent extends Component {
           name="imageFile"
           {...commonFieldProps}
         />
-        {model.imageFile &&
-          <img src={model.filepath || model.imageFile} alt="" height="500" />}
+        {model.imageFile && (
+          <img src={model.filepath || model.imageFile} alt="" height="500" />
+        )}
         <TextField
           placeholder={t(`imageForm.fields.caption.placeholder`)}
           label={t(`imageForm.fields.caption.label`)}

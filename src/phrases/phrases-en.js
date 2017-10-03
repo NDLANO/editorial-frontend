@@ -135,11 +135,6 @@ const phrases = {
       create: 'You are now creating a audio file',
       update: 'You are now editing a audio file',
     },
-    fields: {
-      audioFile: {
-        label: 'Audiofile',
-      },
-    },
   },
   imageEditor: {
     remove: {
@@ -151,11 +146,6 @@ const phrases = {
     title: {
       create: 'You are now creating an image',
       update: 'You are now editing an image',
-    },
-    fields: {
-      imageFile: {
-        label: 'Image',
-      },
     },
   },
   learningResourceForm: {
@@ -277,6 +267,7 @@ const phrases = {
       placeholder: 'Caption',
     },
     image: {
+      file: 'Image',
       alt: {
         label: 'Alt-text',
         placeholder: 'Alt-text',
@@ -293,6 +284,7 @@ const phrases = {
       },
     },
     audio: {
+      file: 'Audio file',
       caption: {
         label: 'Audio caption',
         placeholder: 'Audio caption',

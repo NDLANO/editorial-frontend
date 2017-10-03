@@ -140,11 +140,6 @@ const phrases = {
       create: 'Du oppretter nå en lyd fil',
       update: 'Du redigerer nå en lyd fil',
     },
-    fields: {
-      audioFile: {
-        label: 'Lydfil',
-      },
-    },
   },
   imageEditor: {
     remove: {
@@ -156,11 +151,6 @@ const phrases = {
     title: {
       create: 'Du oppretter nå et bilde',
       update: 'Du redigerer nå et bilde',
-    },
-    fields: {
-      imageFile: {
-        label: 'Bilde',
-      },
     },
   },
   learningResourceForm: {
@@ -278,6 +268,7 @@ const phrases = {
       label: 'Opphav',
     },
     image: {
+      file: 'Bilde',
       caption: {
         label: 'Bildetekst',
         placeholder: 'Bildetekst',
@@ -294,6 +285,7 @@ const phrases = {
       },
     },
     audio: {
+      file: 'Lydfil',
       caption: {
         label: 'Lydtekst',
         placeholder: 'Lydtekst',

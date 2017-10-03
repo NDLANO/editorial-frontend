@@ -45,7 +45,7 @@ class AudioContent extends Component {
           {...commonFieldProps}
         />
         <InputFileField
-          label={t('audioForm.fields.audioFile.label')}
+          label={t('form.audio.file')}
           name="audioFile"
           {...commonFieldProps}
         />

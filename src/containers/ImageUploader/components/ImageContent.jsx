@@ -45,7 +45,7 @@ class ImageContent extends Component {
           {...commonFieldProps}
         />
         <InputFileField
-          label={t('imageForm.fields.imageFile.label')}
+          label={t('form.image.file')}
           name="imageFile"
           {...commonFieldProps}
         />

@@ -37,44 +37,42 @@ class LearningResourceCopyright extends Component {
     return (
       <Accordion
         handleToggle={this.toggleContent}
-        header={t('learningResourceForm.copyrightAccordion')}
+        header={t('learningResourceForm.copyrightSection')}
         hidden={this.state.hiddenContent}
         fill>
         <MultiSelectField
           name="authors"
-          label={t('learningResourceForm.fields.authors.label')}
+          label={t('form.authors.label')}
           messages={{
-            createNew: t('learningResourceForm.fields.authors.createNew'),
-            emptyFilter: t('learningResourceForm.fields.authors.emptyFilter'),
-            emptyList: t('learningResourceForm.fields.authors.emptyList'),
+            createNew: t('form.authors.createNew'),
+            emptyFilter: t('form.authors.emptyFilter'),
+            emptyList: t('form.authors.emptyList'),
           }}
           {...commonFieldProps}
         />
         <MultiSelectField
           name="licensees"
-          label={t('learningResourceForm.fields.licensees.label')}
+          label={t('form.licensees.label')}
           messages={{
-            createNew: t('learningResourceForm.fields.licensees.createNew'),
-            emptyFilter: t('learningResourceForm.fields.licensees.emptyFilter'),
-            emptyList: t('learningResourceForm.fields.licensees.emptyList'),
+            createNew: t('form.licensees.createNew'),
+            emptyFilter: t('form.licensees.emptyFilter'),
+            emptyList: t('form.licensees.emptyList'),
           }}
           {...commonFieldProps}
         />
         <MultiSelectField
           name="contributors"
-          label={t('learningResourceForm.fields.contributors.label')}
+          label={t('form.contributors.label')}
           messages={{
-            createNew: t('learningResourceForm.fields.contributors.createNew'),
-            emptyFilter: t(
-              'learningResourceForm.fields.contributors.emptyFilter',
-            ),
-            emptyList: t('learningResourceForm.fields.contributors.emptyList'),
+            createNew: t('form.contributors.createNew'),
+            emptyFilter: t('form.contributors.emptyFilter'),
+            emptyList: t('form.contributors.emptyList'),
           }}
           {...commonFieldProps}
         />
         <SelectObjectField
           name="license"
-          label={t('learningResourceForm.fields.license.label')}
+          label={t('form.license.label')}
           options={licenses}
           idKey="license"
           labelKey="description"

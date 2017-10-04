@@ -43,6 +43,7 @@ class EditLink extends React.Component {
     this.addData = this.addData.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.handleChangeAndClose = this.handleChangeAndClose.bind(this);
   }
 
   componentWillMount() {
@@ -51,24 +52,23 @@ class EditLink extends React.Component {
   }
 
   handleSave(model) {
-    const { state, handleStateChange, closeDialog, node } = this.props;
+    const { state, node } = this.props;
     const { href, text } = model;
     const isNDLAUrl = /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
     const data = isNDLAUrl ? createContentLinkData(href) : createLinkData(href);
 
     if (node.key) {
       // update/change
-      handleStateChange(
+      this.handleChangeAndClose(
         state
           .change()
           .moveToRangeOf(node)
-          .extend(node.text.length)
           .insertText(text)
           .setInline(data),
       );
     } else {
       // create new
-      handleStateChange(
+      this.handleChangeAndClose(
         state
           .change()
           .insertText(text)
@@ -77,16 +77,20 @@ class EditLink extends React.Component {
           .collapseToEnd(),
       );
     }
-    closeDialog();
   }
 
   handleRemove() {
-    const { state, handleStateChange, closeDialog, node } = this.props;
+    const { state, node } = this.props;
     const nextState = state
       .change()
       .removeNodeByKey(node.key)
       .insertText(node.text);
-    handleStateChange(nextState);
+    this.handleChangeAndClose(nextState);
+  }
+
+  handleChangeAndClose(change) {
+    const { handleStateChange, closeDialog } = this.props;
+    handleStateChange(change.focus()); // Always return focus to editor
     closeDialog();
   }
 
@@ -113,7 +117,7 @@ class EditLink extends React.Component {
   }
 
   render() {
-    const { t, closeDialog } = this.props;
+    const { t, state } = this.props;
     const { model } = this.state;
     const isEdit = model !== undefined;
 
@@ -128,7 +132,7 @@ class EditLink extends React.Component {
         </h3>
         <LinkForm
           initialModel={getInitialModel(model)}
-          onClose={closeDialog}
+          onClose={() => this.handleChangeAndClose(state.change())}
           isEdit={isEdit}
           onRemove={this.handleRemove}
           onSave={this.handleSave}

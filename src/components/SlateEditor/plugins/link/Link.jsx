@@ -15,6 +15,7 @@ import { injectT } from 'ndla-i18n';
 import { setActiveNode } from '../../createSlateStore';
 import isNodeInCurrentSelection from '../utils/isNodeInCurrentSelection';
 import { EditorShape } from '../../../../shapes';
+import { classes } from '../../RichTextEditor';
 
 class Link extends Component {
   // shouldNodeComponentUpdate does'nt allow consistent return
@@ -64,12 +65,12 @@ class Link extends Component {
     return (
       <span>
         <a
+          {...classes('link')}
           href={href}
           ref={linkRef => {
             this.linkRef = linkRef;
           }}
-          {...attributes}
-          onClick={this.handleLinkClick}>
+          {...attributes}>
           {this.props.children}
         </a>
         <Portal isOpened={isInline}>

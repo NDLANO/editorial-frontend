@@ -39,6 +39,11 @@
     font-family: var(--font-serif);
   }
 
+  &__link {
+    color: var(--brand-color);
+    cursor: text;
+  }
+
   &__right-aside,
   &__fact-aside,
   &__text-aside {

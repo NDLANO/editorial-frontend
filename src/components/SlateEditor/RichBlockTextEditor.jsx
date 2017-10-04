@@ -78,7 +78,6 @@ class RichBlockTextEditor extends Component {
       ingressRef,
       ...rest
     } = this.props;
-
     return (
       <article>
         {value.map((val, index) => (

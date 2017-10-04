@@ -11,37 +11,28 @@ import PropTypes from 'prop-types';
 import Portal from 'react-portal';
 import BEMHelper from 'react-bem-helper';
 import Types from 'slate-prop-types';
-import EditBlockquote from 'slate-edit-blockquote';
-import EditList from 'slate-edit-list';
 import ToolbarButton from './ToolbarButton';
 import { setActiveNode } from '../../createSlateStore';
 import { hasNodeOfType } from '../utils';
 import { TYPE as footnote } from '../footnote';
 import { TYPE as link } from '../link';
+import {
+  listTypes,
+  editListPlugin,
+  blockquotePlugin,
+} from '../externalPlugins';
 
 const DEFAULT_NODE = 'paragraph';
 
 const suportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
-  block: [
-    'quote',
-    'numbered-list',
-    'bulleted-list',
-    'heading-two',
-    'heading-three',
-  ],
+  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
   inline: [link, footnote],
 };
 
 export const toolbarClasses = new BEMHelper({
   name: 'toolbar',
   prefix: 'c-',
-});
-
-const blockquotePlugin = EditBlockquote({ type: 'quote' });
-const editListPlugin = EditList({
-  types: ['bulleted-list', 'numbered-list'],
-  typeItem: 'list-item',
 });
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -80,13 +71,13 @@ class SlateToolbar extends Component {
       } else {
         blockquotePlugin.changes.wrapInBlockquote(change);
       }
-    } else if (type === 'numbered-list' || type === 'bulleted-list') {
-      const isListActive = state.blocks.some(
+    } else if (listTypes.includes(type)) {
+      const isListTypeActive = state.blocks.some(
         block =>
           !!document.getClosest(block.key, parent => parent.type === type),
       );
       // Current list type is active
-      if (isListActive) {
+      if (isListTypeActive) {
         editListPlugin.changes.unwrapList(change);
         // Current selection is list, but not the same type
       } else if (editListPlugin.utils.isSelectionInList(state)) {

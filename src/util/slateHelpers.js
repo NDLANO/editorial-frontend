@@ -17,7 +17,6 @@ const BLOCK_TAGS = {
   p: 'paragraph',
   li: 'list-item',
   ul: 'bulleted-list',
-  ol: 'numbered-list',
   blockquote: 'quote',
   pre: 'code',
   h1: 'heading-one',
@@ -54,7 +53,7 @@ export const logState = state => {
 };
 
 // TODO: get type of aside in here. Default should be rightAside since that is the only
-const getAsideTag = el => ({
+const getDataType = el => ({
   type: el.attributes.getNamedItem('data-type')
     ? el.attributes.getNamedItem('data-type')
     : 'rightAside',
@@ -92,6 +91,36 @@ export const divRule = {
       default:
         return <div>{children}</div>;
     }
+  },
+};
+
+export const orderListRules = {
+  // div handling with text in box (bodybox)
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'ol') return;
+    const data = getDataType(el);
+    if (data.type.value === 'letters') {
+      return {
+        kind: 'block',
+        type: 'letter-list',
+        nodes: next(el.childNodes),
+        data,
+      };
+    }
+    return {
+      kind: 'block',
+      type: 'numbered-list',
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(object, children) {
+    if (object.kind !== 'block') return;
+    if (object.type !== 'numbered-list' || object.type !== 'letter-list')
+      return;
+    if (object.type === 'letter-list') {
+      return <ol data-type="letters">{children}</ol>;
+    }
+    return <ol>{children}</ol>;
   },
 };
 
@@ -149,6 +178,7 @@ const RULES = [
     // },
   },
   divRule,
+  orderListRules,
   {
     // Aside handling
     deserialize(el, next) {
@@ -157,7 +187,7 @@ const RULES = [
         kind: 'block',
         type: 'aside',
         nodes: next(el.childNodes),
-        data: getAsideTag(el),
+        data: getDataType(el),
       };
     },
     serialize(object, children) {
@@ -199,8 +229,6 @@ const RULES = [
           return <h6>{children}</h6>;
         case 'list-item':
           return <li>{children}</li>;
-        case 'numbered-list':
-          return <ol>{children}</ol>;
         case 'quote':
           return <blockquote>{children}</blockquote>;
         case 'div':

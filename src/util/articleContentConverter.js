@@ -6,12 +6,11 @@
  *
  */
 
-import { State, Schema } from 'slate';
+import { State } from 'slate';
 
 import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
-import { defaultRules } from '../components/SlateEditor/schema';
 
 export const createEmptyState = () =>
   State.fromJSON({
@@ -68,11 +67,9 @@ export function learningResourceContentToEditorState(html) {
   */
   return sections.map((section, index) => {
     const state = serializer.deserialize(section);
-    const change = state
-      .change()
-      .normalize(Schema.fromJSON({ rules: defaultRules }));
+    console.log(state);
     return {
-      state: change.state,
+      state,
       index,
     };
   });

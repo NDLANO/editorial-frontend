@@ -119,13 +119,13 @@
     "redux-saga": "^0.15.6",
     "reselect": "^3.0.0",
     "serialize-javascript": "^1.4.0",
-    "slate": "^0.25.2",
+    "slate": "^0.25.3",
     "slate-edit-blockquote": "^0.4.0",
     "slate-edit-list": "^0.8.0",
-    "slate-html-serializer": "^0.1.11",
-    "slate-plain-serializer": "^0.1.9",
-    "slate-prop-types": "^0.1.8",
-    "slate-react": "^0.1.10"
+    "slate-html-serializer": "^0.1.13",
+    "slate-plain-serializer": "^0.1.11",
+    "slate-prop-types": "^0.1.10",
+    "slate-react": "^0.2.1"
   },
   "repository": {
     "type": "git",

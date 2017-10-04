@@ -13,6 +13,7 @@ import Portal from 'react-portal';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { setActiveNode } from '../../createSlateStore';
+import isNodeInCurrentSelection from '../utils/isNodeInCurrentSelection';
 import { EditorShape } from '../../../../shapes';
 
 class Link extends Component {
@@ -49,10 +50,7 @@ class Link extends Component {
     } = this.props;
     const data = node.data.toJS();
 
-    const isInline =
-      editorState.inlines.find(
-        inline => inline.key === attributes['data-key'],
-      ) !== undefined;
+    const isInline = isNodeInCurrentSelection(editorState, node);
 
     const { top, left } = this.getMenuPosition();
 

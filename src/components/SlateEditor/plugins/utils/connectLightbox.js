@@ -44,18 +44,7 @@ const makeWrapper = getNodeType => WrappedComponent => {
     }
 
     handleClose() {
-      const { slateStore, blur, onChange, state } = this.props;
-      const node = this.state.node;
-
-      const properties = {
-        data: { ...node.data.toJS() },
-      };
-      // const nextState = state.change().blur();
-      const nextState = state.change().collapseToEnd();
-      state.change().setNodeByKey(node.key, properties);
-      console.log('close');
-      onChange(nextState);
-      // blur();
+      const { slateStore } = this.props;
       slateStore.dispatch(setActiveNode(undefined));
     }
 

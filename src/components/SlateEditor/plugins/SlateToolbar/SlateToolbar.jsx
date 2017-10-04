@@ -12,6 +12,7 @@ import Portal from 'react-portal';
 import BEMHelper from 'react-bem-helper';
 import Types from 'slate-prop-types';
 import EditBlockquote from 'slate-edit-blockquote';
+import EditList from 'slate-edit-list';
 import ToolbarButton from './ToolbarButton';
 import { setActiveNode } from '../../createSlateStore';
 import { hasNodeOfType } from '../utils';
@@ -38,6 +39,10 @@ export const toolbarClasses = new BEMHelper({
 });
 
 const blockquotePlugin = EditBlockquote({ type: 'quote' });
+const editListPlugin = EditList({
+  types: ['bulleted-list', 'numbered-list'],
+  typeItem: 'list-item',
+});
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 class SlateToolbar extends Component {
@@ -68,43 +73,31 @@ class SlateToolbar extends Component {
     const { state } = this.props;
     const change = state.change();
     const { document } = state;
+    const isActive = hasNodeOfType(state, type);
     if (type === 'quote') {
-      blockquotePlugin.changes.wrapInBlockquote(change);
-    } else if (type !== 'bulleted-list' && type !== 'numbered-list') {
-      // Handle everything but list buttons.
-      const isActive = hasNodeOfType(state, type);
-      const isList = hasNodeOfType(state, 'list-item');
-
-      if (isList) {
-        change
-          .setBlock(isActive ? DEFAULT_NODE : type)
-          .unwrapBlock('bulleted-list')
-          .unwrapBlock('numbered-list');
+      if (blockquotePlugin.utils.isSelectionInBlockquote(state)) {
+        blockquotePlugin.changes.unwrapBlockquote(change);
       } else {
-        change.setBlock(isActive ? DEFAULT_NODE : type);
+        blockquotePlugin.changes.wrapInBlockquote(change);
       }
-    } else {
-      // Handle the extra wrapping required for list buttons.
-      const isList = hasNodeOfType(state, 'list-item');
-      const isType = state.blocks.some(
+    } else if (type === 'numbered-list' || type === 'bulleted-list') {
+      const isListActive = state.blocks.some(
         block =>
           !!document.getClosest(block.key, parent => parent.type === type),
       );
-
-      if (isList && isType) {
-        change
-          .setBlock(DEFAULT_NODE)
-          .unwrapBlock('bulleted-list')
-          .unwrapBlock('numbered-list');
-      } else if (isList) {
-        change
-          .unwrapBlock(
-            type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list',
-          )
-          .wrapBlock(type);
+      // Current list type is active
+      if (isListActive) {
+        editListPlugin.changes.unwrapList(change);
+        // Current selection is list, but not the same type
+      } else if (editListPlugin.utils.isSelectionInList(state)) {
+        editListPlugin.changes.unwrapList(change);
+        editListPlugin.changes.wrapInList(change, type);
+        // No list found, wrap in list type
       } else {
-        change.setBlock('list-item').wrapBlock(type);
+        editListPlugin.changes.wrapInList(change, type);
       }
+    } else {
+      change.setBlock(isActive ? DEFAULT_NODE : type);
     }
     this.handleStateChange(change);
   }

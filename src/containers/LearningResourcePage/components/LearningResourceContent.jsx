@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { State } from 'slate';
 import { injectT } from 'ndla-i18n';
 import EditBlockquote from 'slate-edit-blockquote';
+import EditList from 'slate-edit-list';
 import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
 import Accordion from '../../../components/Accordion';
@@ -34,6 +35,10 @@ const plugins = [
   createLinkPlugin(),
   headingPlugin(),
   EditBlockquote({ type: 'quote' }),
+  EditList({
+    types: ['bulleted-list', 'numbered-list'],
+    typeItem: 'list-item',
+  }),
 ];
 
 class LearningResourceContent extends Component {

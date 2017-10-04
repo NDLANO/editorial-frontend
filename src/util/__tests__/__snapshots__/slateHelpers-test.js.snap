@@ -139,6 +139,126 @@ Object {
 }
 `;
 
+exports[`deserializing any heading becomes heading-two 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "heading 1",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "heading 2",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "heading 3",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "heading 4",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "heading 5",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "heading 6",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
 exports[`serialize bodybox block 1`] = `
 <div
   className="c-bodybox"

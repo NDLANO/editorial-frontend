@@ -121,6 +121,7 @@
     "serialize-javascript": "^1.4.0",
     "slate": "^0.25.2",
     "slate-edit-blockquote": "^0.4.0",
+    "slate-edit-list": "^0.8.0",
     "slate-html-serializer": "^0.1.11",
     "slate-plain-serializer": "^0.1.9",
     "slate-prop-types": "^0.1.8",

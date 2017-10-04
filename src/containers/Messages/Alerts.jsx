@@ -15,12 +15,11 @@ import { injectT } from 'ndla-i18n';
 import { clearMessage } from './messagesActions';
 import { MessageShape } from '../../shapes';
 
-export const Action = ({ title, onClick }) =>
+export const Action = ({ title, onClick }) => (
   <button onClick={onClick} className="un-button alert_action">
-    <span className="alert_action-text">
-      {title}
-    </span>
-  </button>;
+    <span className="alert_action-text">{title}</span>
+  </button>
+);
 
 Action.propTypes = {
   title: PropTypes.string.isRequired,
@@ -46,9 +45,9 @@ export const Alert = injectT(({ message, dispatch, t }) => {
         onClick={() => dispatch(clearMessage(message.id))}>
         X
       </Button>
-      {message.action
-        ? <Action title={message.action.title} onClick={onClick} />
-        : null}
+      {message.action ? (
+        <Action title={message.action.title} onClick={onClick} />
+      ) : null}
     </div>
   );
 });
@@ -74,9 +73,9 @@ export const Alerts = ({ dispatch, messages }) => {
 
   return (
     <div className={overlayClasses}>
-      {messages.map(message =>
-        <Alert key={message.id} dispatch={dispatch} message={message} />,
-      )}
+      {messages.map(message => (
+        <Alert key={message.id} dispatch={dispatch} message={message} />
+      ))}
     </div>
   );
 };

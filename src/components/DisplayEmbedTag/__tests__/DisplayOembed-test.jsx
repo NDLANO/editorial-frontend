@@ -39,11 +39,13 @@ test('getIframeSrcFromHtmlString returns null id src not found', () => {
 });
 
 test('DisplayOembed renderers correctly', () => {
-  nock('https://ndla.no').get('/oembed').reply(200, {
-    title: 'unit test',
-    type: 'rich',
-    html: '<iframe src="iframe.html">',
-  });
+  nock('https://ndla.no')
+    .get('/oembed')
+    .reply(200, {
+      title: 'unit test',
+      type: 'rich',
+      html: '<iframe src="iframe.html">',
+    });
 
   const component = renderer.create(
     <DisplayOembed url="https://ndla.no/oembed" t={() => ''} />,

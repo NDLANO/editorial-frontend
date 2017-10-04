@@ -19,7 +19,7 @@ const CreateImage = ({
   updateImage,
   history,
   isSaving,
-}) =>
+}) => (
   <ImageForm
     initialModel={getInitialModel()}
     tags={tags}
@@ -27,7 +27,8 @@ const CreateImage = ({
     locale={locale}
     onUpdate={(image, file) => updateImage({ image, file, history })}
     isSaving={isSaving}
-  />;
+  />
+);
 
 CreateImage.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,

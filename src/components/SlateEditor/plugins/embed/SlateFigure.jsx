@@ -62,7 +62,10 @@ class SlateFigure extends React.Component {
     const properties = {
       data: { ...getSchemaEmbed(node), [name]: value },
     };
-    const next = editor.getState().change().setNodeByKey(node.key, properties);
+    const next = editor
+      .getState()
+      .change()
+      .setNodeByKey(node.key, properties);
     editor.onChange(next);
   }
 
@@ -104,10 +107,9 @@ class SlateFigure extends React.Component {
         return (
           <EditorErrorMessage
             attributes={this.props.attributes}
-            msg={this.props.t(
-              'learningResourceForm.fields.content.figure.notSupported',
-              { mediaType: embed.resource },
-            )}
+            msg={this.props.t('form.content.figure.notSupported', {
+              mediaType: embed.resource,
+            })}
           />
         );
     }

@@ -54,9 +54,11 @@ class SlateAudio extends React.Component {
           autoPlay
           onPlay={!audioSource && this.loadAudio}
           {...figureClass}>
-          {audioSource
-            ? <source src={audioSource} type={audioType} />
-            : undefined}
+          {audioSource ? (
+            <source src={audioSource} type={audioType} />
+          ) : (
+            undefined
+          )}
           <track kind="captions" label={embed.caption} />
         </audio>
         <SlateInputField

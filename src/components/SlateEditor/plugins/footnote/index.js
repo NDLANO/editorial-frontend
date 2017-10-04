@@ -20,7 +20,7 @@ export default function footnotePlugin() {
   };
   return {
     schema,
-    render: (props, state, editor) =>
+    render: (props, state, editor) => (
       <span>
         <EditFootnote
           state={state}
@@ -29,6 +29,7 @@ export default function footnotePlugin() {
           onChange={editor.onChange}
         />
         {props.children}
-      </span>,
+      </span>
+    ),
   };
 }

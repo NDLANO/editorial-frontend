@@ -62,14 +62,14 @@ class TopicArticleContent extends Component {
     return (
       <Accordion
         handleToggle={this.toggleContent}
-        header={t('topicArticleForm.content')}
+        header={t('form.contentSection')}
         hidden={this.state.hiddenContent}>
         <TextField
-          label={t('topicArticleForm.fields.title.label')}
+          label={t('form.title.label')}
           name="title"
           title
           noBorder
-          placeholder={t('topicArticleForm.fields.title.label')}
+          placeholder={t('form.title.label')}
           {...commonFieldProps}
         />
         {/* TODO: Change to c-article-byline */}
@@ -86,8 +86,8 @@ class TopicArticleContent extends Component {
         </div>
 
         <PlainTextField
-          label={t('topicArticleForm.fields.introduction.label')}
-          placeholder={t('topicArticleForm.fields.introduction.label')}
+          label={t('form.introduction.label')}
+          placeholder={t('form.introduction.label')}
           name="introduction"
           className="article_introduction"
           fieldClassName={fieldClasses(undefined, 'introduction').className}
@@ -108,8 +108,8 @@ class TopicArticleContent extends Component {
         />
         <RichTextField
           noBorder
-          label={t('topicArticleForm.fields.content.label')}
-          placeholder={t('topicArticleForm.fields.content.placeholder')}
+          label={t('form.content.label')}
+          placeholder={t('form.content.placeholder')}
           name="content"
           slateSchema={schema}
           plugins={plugins}

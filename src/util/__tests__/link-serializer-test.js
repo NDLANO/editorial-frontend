@@ -21,14 +21,14 @@ test('deserialize a link and a content-link in an list', () => {
     '<ul><li> <embed data-content-id="504" data-link-text="Yrker i mediebransjen" data-resource="content-link"> </li><li> <a href="https://www.nrk.no/skole/?page=search&amp;q=Jobb%20i%20NRK" rel="noopener noreferrer" target="_blank" title="Yrker i NRK">Yrker i NRK</a> </li></ul>',
   );
 
-  expect(deserialized).toMatchSnapshot();
+  expect(deserialized.toJSON()).toMatchSnapshot();
 });
 test('deserialize link with spacing before link', () => {
   const deserialized = serializer.deserialize(
     '<p>Eller du kan bruke nettsidene <a href="http://www.nav.no/" rel="noopener noreferrer" target="_blank" title="nav.no">nav.no</a> . Her finnes informasjon om de ulike tjenestene.</p>',
   );
 
-  expect(deserialized).toMatchSnapshot();
+  expect(deserialized.toJSON()).toMatchSnapshot();
 });
 
 test('serialize list with a link and text', () => {

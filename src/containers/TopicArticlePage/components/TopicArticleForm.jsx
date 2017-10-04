@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
+import ArticleHeader from '../../Article/ArticleHeader';
 
 import {
   topicArticleContentToHTML,
@@ -55,6 +56,8 @@ export const getInitialModel = (article = {}) => {
       : { license: DEFAULT_LICENSE, origin: '' },
     metaDescription: plainTextToEditorState(article.metaDescription, true),
     visualElement: visualElement || {},
+    language: article.language,
+    articleType: 'topic-article',
   };
 };
 
@@ -67,6 +70,16 @@ class TopicArticleForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { initialModel, setModel } = nextProps;
+    if (
+      initialModel.id !== this.props.initialModel.id ||
+      initialModel.language !== this.props.initialModel.language
+    ) {
+      setModel(initialModel);
+    }
   }
 
   handleSubmit(evt) {
@@ -118,13 +131,7 @@ class TopicArticleForm extends Component {
       <form
         onSubmit={this.handleSubmit}
         {...classes(undefined, undefined, 'c-article')}>
-        <div {...classes('header')}>
-          <div className="u-4/6@desktop u-push-1/6@desktop">
-            {model.id
-              ? t('topicArticleForm.title.update')
-              : t('topicArticleForm.title.create')}
-          </div>
-        </div>
+        <ArticleHeader model={model} />
         <TopicArticleMetadata
           classes={classes}
           commonFieldProps={commonFieldProps}
@@ -163,6 +170,11 @@ TopicArticleForm.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
   }),
+  initialModel: PropTypes.shape({
+    id: PropTypes.number,
+    language: PropTypes.string,
+  }),
+  setModel: PropTypes.func.isRequired,
   schema: SchemaShape,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,

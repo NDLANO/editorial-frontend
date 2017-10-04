@@ -36,12 +36,12 @@ test('articleContentConverter convert learningresource content with rule applied
   const editorState = learningResourceContentToEditorState(
     learningResourceContent,
   );
-  expect(editorState).toMatchSnapshot();
+  expect(editorState[0].state.toJSON()).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content with no rule applied', () => {
   const editorState = learningResourceContentToEditorState(contentHTML);
-  expect(editorState).toMatchSnapshot();
+  expect(editorState[0].state.toJSON()).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content with multiple sections to and from editorState', () => {

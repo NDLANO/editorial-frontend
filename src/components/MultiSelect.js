@@ -63,7 +63,7 @@ MultiSelect.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.arrayOf(PropTypes.string).isRequired,
   messages: PropTypes.shape({
-    createNew: PropTypes.string.isRequired,
+    createOption: PropTypes.string.isRequired,
     emptyFilter: PropTypes.string.isRequired,
     emptyList: PropTypes.string.isRequired,
   }),

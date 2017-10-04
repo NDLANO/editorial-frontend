@@ -29,9 +29,7 @@ const DisplayBrightcoveTag = ({ embedTag, className }) => {
         alt={embedTag.alt}>
         <track kind="captions" label={embedTag.caption} />
       </video>
-      <figcaption>
-        {embedTag.caption}
-      </figcaption>
+      <figcaption>{embedTag.caption}</figcaption>
     </figure>
   );
 };

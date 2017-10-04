@@ -49,26 +49,28 @@ class LearningResourceVisualElement extends Component {
           selectedResource={this.state.showVisualElement ? 'image' : undefined}
           resetSelectedResource={this.hideVisualElement}
         />
-        {metaImageTag.resource
-          ? <div>
-              <TextField
-                placeholder={t(`form.image.caption.placeholder`)}
-                label={t(`form.image.caption.label`)}
-                name="metaImage.caption"
-                noBorder
-                maxLength={300}
-                {...commonFieldProps}
-              />
-              <TextField
-                placeholder={t('form.image.alt.placeholder')}
-                label={t('form.image.alt.label')}
-                name="metaImage.alt"
-                noBorder
-                maxLength={300}
-                {...commonFieldProps}
-              />
-            </div>
-          : <Button onClick={this.showVisualElement}>Velg bilde</Button>}
+        {metaImageTag.resource ? (
+          <div>
+            <TextField
+              placeholder={t(`form.image.caption.placeholder`)}
+              label={t(`form.image.caption.label`)}
+              name="metaImage.caption"
+              noBorder
+              maxLength={300}
+              {...commonFieldProps}
+            />
+            <TextField
+              placeholder={t('form.image.alt.placeholder')}
+              label={t('form.image.alt.label')}
+              name="metaImage.alt"
+              noBorder
+              maxLength={300}
+              {...commonFieldProps}
+            />
+          </div>
+        ) : (
+          <Button onClick={this.showVisualElement}>Velg bilde</Button>
+        )}
       </div>
     );
   }

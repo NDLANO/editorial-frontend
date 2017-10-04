@@ -43,18 +43,17 @@ class TopicArticleVisualElement extends Component {
       <div>
         <div {...classes('add-visual-element-title')}>
           <span>
-            {t('topicArticleForm.fields.visualElement.title')}
+            {t('form.visualElement.title')}
             <div {...classes('add-visual-element-title', 'border')} />
           </span>
         </div>
-        {!visualElement.resource
-          ? <VisualElementMenu
-              onSelect={resource =>
-                this.setState({ selectedResource: resource })}
-            />
-          : null}
+        {!visualElement.resource ? (
+          <VisualElementMenu
+            onSelect={resource => this.setState({ selectedResource: resource })}
+          />
+        ) : null}
         <VisualElementSelectField
-          label={t('topicArticleForm.fields.visualElement.label')}
+          label={t('form.visualElement.label')}
           schema={schema}
           submitted={submitted}
           visualElement={visualElement}
@@ -64,31 +63,34 @@ class TopicArticleVisualElement extends Component {
           {...bindInput('visualElement')}
           resetSelectedResource={this.resetSelectedResource}
         />
-        {visualElement.resource && visualElement.resource !== 'h5p'
-          ? <div>
+        {visualElement.resource && visualElement.resource !== 'h5p' ? (
+          <div>
+            <TextField
+              placeholder={t(
+                `topicArticleForm.fields.caption.placeholder.${visualElement.resource}`,
+              )}
+              label={t(
+                `topicArticleForm.fields.caption.label.${visualElement.resource}`,
+              )}
+              name="visualElement.caption"
+              {...commonFieldProps}
+              noBorder
+              maxLength={300}
+            />
+            {visualElement.resource === 'image' && (
               <TextField
-                placeholder={t(
-                  `topicArticleForm.fields.caption.placeholder.${visualElement.resource}`,
-                )}
-                label={t(
-                  `topicArticleForm.fields.caption.label.${visualElement.resource}`,
-                )}
-                name="visualElement.caption"
+                placeholder={t('topicArticleForm.fields.alt.placeholder')}
+                label={t('topicArticleForm.fields.alt.label')}
+                name="visualElement.alt"
                 {...commonFieldProps}
                 noBorder
                 maxLength={300}
               />
-              {visualElement.resource === 'image' &&
-                <TextField
-                  placeholder={t('topicArticleForm.fields.alt.placeholder')}
-                  label={t('topicArticleForm.fields.alt.label')}
-                  name="visualElement.alt"
-                  {...commonFieldProps}
-                  noBorder
-                  maxLength={300}
-                />}
-            </div>
-          : ''}
+            )}
+          </div>
+        ) : (
+          ''
+        )}
       </div>
     );
   }

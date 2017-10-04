@@ -88,17 +88,9 @@ export const divRule = {
     if (object.type !== 'div' && object.type !== 'bodybox') return;
     switch (object.type) {
       case 'bodybox':
-        return (
-          <div className="c-bodybox">
-            {children}
-          </div>
-        );
+        return <div className="c-bodybox">{children}</div>;
       default:
-        return (
-          <div>
-            {children}
-          </div>
-        );
+        return <div>{children}</div>;
     }
   },
 };
@@ -171,11 +163,7 @@ const RULES = [
     serialize(object, children) {
       if (object.kind !== 'block') return;
       if (object.type !== 'aside') return;
-      return (
-        <aside {...setAsideTag(object.data)}>
-          {children}
-        </aside>
-      );
+      return <aside {...setAsideTag(object.data)}>{children}</aside>;
     },
   },
   {
@@ -192,83 +180,31 @@ const RULES = [
       if (object.kind !== 'block') return;
       switch (object.type) {
         case 'section':
-          return (
-            <section>
-              {children}
-            </section>
-          );
+          return <section>{children}</section>;
         case 'paragraph':
-          return (
-            <p>
-              {children}
-            </p>
-          );
+          return <p>{children}</p>;
         case 'bulleted-list':
-          return (
-            <ul>
-              {children}
-            </ul>
-          );
+          return <ul>{children}</ul>;
         case 'heading-one':
-          return (
-            <h1>
-              {children}
-            </h1>
-          );
+          return <h1>{children}</h1>;
         case 'heading-two':
-          return (
-            <h2>
-              {children}
-            </h2>
-          );
+          return <h2>{children}</h2>;
         case 'heading-three':
-          return (
-            <h3>
-              {children}
-            </h3>
-          );
+          return <h3>{children}</h3>;
         case 'heading-four':
-          return (
-            <h4>
-              {children}
-            </h4>
-          );
+          return <h4>{children}</h4>;
         case 'heading-five':
-          return (
-            <h5>
-              {children}
-            </h5>
-          );
+          return <h5>{children}</h5>;
         case 'heading-six':
-          return (
-            <h6>
-              {children}
-            </h6>
-          );
+          return <h6>{children}</h6>;
         case 'list-item':
-          return (
-            <li>
-              {children}
-            </li>
-          );
+          return <li>{children}</li>;
         case 'numbered-list':
-          return (
-            <ol>
-              {children}
-            </ol>
-          );
+          return <ol>{children}</ol>;
         case 'quote':
-          return (
-            <blockquote>
-              {children}
-            </blockquote>
-          );
+          return <blockquote>{children}</blockquote>;
         case 'div':
-          return (
-            <div>
-              {children}
-            </div>
-          );
+          return <div>{children}</div>;
       }
     },
   },
@@ -286,29 +222,13 @@ const RULES = [
       if (object.kind !== 'mark') return;
       switch (object.type) {
         case 'bold':
-          return (
-            <strong>
-              {children}
-            </strong>
-          );
+          return <strong>{children}</strong>;
         case 'italic':
-          return (
-            <em>
-              {children}
-            </em>
-          );
+          return <em>{children}</em>;
         case 'underlined':
-          return (
-            <u>
-              {children}
-            </u>
-          );
+          return <u>{children}</u>;
         case 'superscripted':
-          return (
-            <sup>
-              {children}
-            </sup>
-          );
+          return <sup>{children}</sup>;
       }
     },
   },

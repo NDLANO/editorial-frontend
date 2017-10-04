@@ -67,22 +67,24 @@ class MastheadSearch extends Component {
     return (
       <div className="masthead-search">
         <SiteNav>
-          {!showSearchField &&
+          {!showSearchField && (
             <SiteNavItem onClick={this.handleSearchIconClick}>
               <div className="c-topic-menu__search">
                 <div className="c-topic-menu__search-icon">
                   <Search className="c-icon--medium" />
                 </div>
               </div>
-            </SiteNavItem>}
-          {showSearchField &&
+            </SiteNavItem>
+          )}
+          {showSearchField && (
             <SiteNavItem onClick={this.handleSearchIconClick}>
               <div className="c-topic-menu__search">
                 <div className="c-topic-menu__search-icon">
                   <Cross className="c-icon--medium" />
                 </div>
               </div>
-            </SiteNavItem>}
+            </SiteNavItem>
+          )}
         </SiteNav>
         <MastheadSearchForm
           query={query}

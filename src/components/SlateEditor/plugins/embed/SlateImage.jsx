@@ -80,21 +80,23 @@ class SlateImage extends React.Component {
 
     return (
       <Figure {...attributes} className={figureClassNames}>
-        {this.state.editModus
-          ? <ImageEditor
-              embedTag={embed}
-              toggleEditModus={this.toggleEditModus}
-              {...this.props}
-            />
-          : <Button stripped onClick={this.toggleEditModus}>
-              <figure {...figureClass}>
-                <img
-                  src={src}
-                  alt={embed.alt}
-                  srcSet={getSrcSets(embed.resource_id, transformData)}
-                />
-              </figure>
-            </Button>}
+        {this.state.editModus ? (
+          <ImageEditor
+            embedTag={embed}
+            toggleEditModus={this.toggleEditModus}
+            {...this.props}
+          />
+        ) : (
+          <Button stripped onClick={this.toggleEditModus}>
+            <figure {...figureClass}>
+              <img
+                src={src}
+                alt={embed.alt}
+                srcSet={getSrcSets(embed.resource_id, transformData)}
+              />
+            </figure>
+          </Button>
+        )}
         <SlateInputField
           name="caption"
           label={t('form.image.caption.label')}

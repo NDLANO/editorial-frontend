@@ -20,13 +20,11 @@ import {
 
 const query = { articleTypes: 'topic-article', types: ['articles'] };
 
-export const WelcomePage = ({ t }) =>
+export const WelcomePage = ({ t }) => (
   <OneColumn cssModifier="clear">
     <article>
       <section>
-        <h1>
-          {t('welcomePage.shortcuts')}
-        </h1>
+        <h1>{t('welcomePage.shortcuts')}</h1>
         <ul>
           <li>
             <Link to={`${toSearch(query)}`}>
@@ -56,7 +54,8 @@ export const WelcomePage = ({ t }) =>
         </ul>
       </section>
     </article>
-  </OneColumn>;
+  </OneColumn>
+);
 
 WelcomePage.propTypes = {};
 

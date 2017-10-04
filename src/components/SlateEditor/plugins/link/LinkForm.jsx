@@ -52,40 +52,36 @@ class LinkForm extends Component {
     return (
       <form onSubmit={this.handleSave}>
         <Field>
-          <label htmlFor="text">
-            {t('learningResourceForm.fields.content.link.text')}
-          </label>
+          <label htmlFor="text">{t('form.content.link.text')}</label>
           <input type="text" {...bindInput('text')} />
           <FieldErrorMessages
-            label={t('learningResourceForm.fields.content.link.text')}
+            label={t('form.content.link.text')}
             field={getField('text', schema)}
             submitted={submitted}
           />
         </Field>
         <Field>
-          <label htmlFor="href">
-            {t('learningResourceForm.fields.content.link.href')}
-          </label>
+          <label htmlFor="href">{t('form.content.link.href')}</label>
           <input type="text" {...bindInput('href')} />
           <FieldErrorMessages
-            label={t('learningResourceForm.fields.content.link.href')}
+            label={t('form.content.link.href')}
             field={getField('href', schema)}
             submitted={submitted}
           />
         </Field>
         <Field right>
           <div {...toolbarClasses('link-actions')}>
-            {isEdit
-              ? <Button onClick={onRemove}>
-                  {t('learningResourceForm.fields.content.link.remove')}
-                </Button>
-              : ''}
+            {isEdit ? (
+              <Button onClick={onRemove}>
+                {t('form.content.link.remove')}
+              </Button>
+            ) : (
+              ''
+            )}
             <Button outline onClick={onClose}>
               {t('form.abort')}
             </Button>
-            <Button submit>
-              {t('form.save')}
-            </Button>
+            <Button submit>{t('form.save')}</Button>
           </div>
         </Field>
       </form>

@@ -34,9 +34,7 @@ const VisualElementSearch = ({
     case 'image':
       return (
         <div>
-          <h2>
-            {titles[selectedResource]}
-          </h2>
+          <h2>{titles[selectedResource]}</h2>
           <ImageSearch
             fetchImage={api.fetchImage}
             searchImages={api.searchImages}
@@ -71,9 +69,7 @@ const VisualElementSearch = ({
       };
       return (
         <div>
-          <h2>
-            {titles[selectedResource]}
-          </h2>
+          <h2>{titles[selectedResource]}</h2>
           <VideoSearch
             enabledSources={['Brightcove', 'YouTube']}
             searchVideos={(query, type) => api.searchVideos(query, type)}
@@ -110,7 +106,7 @@ const VisualElementSearch = ({
               ...h5p,
               metaData: {},
             })}
-          label={t('topicArticleForm.fields.visualElement.label')}
+          label={t('form.visualElement.label')}
         />
       );
     }

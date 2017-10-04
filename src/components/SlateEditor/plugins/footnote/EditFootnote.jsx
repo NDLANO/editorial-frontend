@@ -54,10 +54,14 @@ class EditFootnote extends Component {
       handleStateChange(change.setNodeByKey(this.state.nodeKey, { data }));
     } else {
       handleStateChange(
-        change.collapseToEnd().insertText('#').extend(-1).wrapInline({
-          type: TYPE,
-          data,
-        }),
+        change
+          .collapseToEnd()
+          .insertText('#')
+          .extend(-1)
+          .wrapInline({
+            type: TYPE,
+            data,
+          }),
       );
     }
     closeDialog();
@@ -79,11 +83,7 @@ class EditFootnote extends Component {
     return (
       <div>
         <h2>
-          {t(
-            `learningResourceForm.fields.content.footnote.${isEdit
-              ? 'editTitle'
-              : 'addTitle'}`,
-          )}
+          {t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}
         </h2>
         <FootnoteForm
           initialModel={getInitialModel(model)}

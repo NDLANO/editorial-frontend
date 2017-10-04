@@ -39,7 +39,10 @@ export const toolbarClasses = new BEMHelper({
 });
 
 const blockquotePlugin = EditBlockquote({ type: 'quote' });
-const editListPlugin =   EditList({ types: ['bulleted-list', 'numbered-list'], typeItem: 'list-item'});
+const editListPlugin = EditList({
+  types: ['bulleted-list', 'numbered-list'],
+  typeItem: 'list-item',
+});
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 class SlateToolbar extends Component {
@@ -71,19 +74,25 @@ class SlateToolbar extends Component {
     const change = state.change();
     const { document } = state;
     const isActive = hasNodeOfType(state, type);
-    if(type === 'quote'){
-      blockquotePlugin.changes.wrapInBlockquote(change);
-    } else if(type === 'numbered-list' || type === 'bulleted-list') {
+    if (type === 'quote') {
+      if (blockquotePlugin.utils.isSelectionInBlockquote(state)) {
+        blockquotePlugin.changes.unwrapBlockquote(change);
+      } else {
+        blockquotePlugin.changes.wrapInBlockquote(change);
+      }
+    } else if (type === 'numbered-list' || type === 'bulleted-list') {
       const isListActive = state.blocks.some(
         block =>
           !!document.getClosest(block.key, parent => parent.type === type),
       );
-
+      // Current list type is active
       if (isListActive) {
-        editListPlugin.changes.unwrapList(change)
+        editListPlugin.changes.unwrapList(change);
+        // Current selection is list, but not the same type
       } else if (editListPlugin.utils.isSelectionInList(state)) {
         editListPlugin.changes.unwrapList(change);
         editListPlugin.changes.wrapInList(change, type);
+        // No list found, wrap in list type
       } else {
         editListPlugin.changes.wrapInList(change, type);
       }

@@ -6,35 +6,94 @@
  *
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
+import Portal from 'react-portal';
+import { Button } from 'ndla-ui';
 import { setActiveNode } from '../../createSlateStore';
 import { EditorShape } from '../../../../shapes';
 
-const SlateLink = props => {
-  const { attributes, editor: { props: { slateStore } }, node } = props;
-  const data = node.data.toJS();
+class SlateLink extends Component {
+  // shouldNodeComponentUpdate does'nt allow consistent return
+  // eslint-disable-next-line consistent-return
+  static shouldNodeComponentUpdate(previousProps, nextProps) {
+    const { state: previousEditorState } = previousProps;
+    const { state: nextEditorState } = nextProps;
+    // return true here to trigger a re-render
+    if (previousEditorState.inlines !== nextEditorState.inlines) return true;
+  }
 
-  const href =
-    data.resource === 'content-link'
-      ? `${window.config.editorialFrontendDomain}/article/${data['content-id']}`
-      : data.href;
+  getMenuPosition() {
+    if (this.linkRef) {
+      const rect = this.linkRef.getBoundingClientRect();
+      return {
+        top: rect.top + rect.height,
+        left: rect.left,
+      };
+    }
+    return {
+      top: 0,
+      left: 0,
+    };
+  }
 
-  return (
-    <a
-      href={href}
-      {...attributes}
-      onClick={() => slateStore.dispatch(setActiveNode(node))}>
-      {props.children}
-    </a>
-  );
-};
+  render() {
+    const {
+      attributes,
+      state: editorState,
+      editor: { props: { slateStore } },
+      node,
+    } = this.props;
+    const data = node.data.toJS();
+
+    const isInline =
+      editorState.inlines.find(
+        inline => inline.key === attributes['data-key'],
+      ) !== undefined;
+
+    const { top, left } = this.getMenuPosition();
+
+    const href =
+      data.resource === 'content-link'
+        ? `${window.config.editorialFrontendDomain}/article/${data[
+            'content-id'
+          ]}`
+        : data.href;
+
+    return (
+      <span>
+        <a
+          href={href}
+          ref={linkRef => {
+            this.linkRef = linkRef;
+          }}
+          {...attributes}
+          onClick={this.handleLinkClick}>
+          {this.props.children}
+        </a>
+        <Portal isOpened={isInline}>
+          <span
+            className="c-link-menu"
+            style={{ top: `${top}px`, left: `${left}px` }}>
+            <Button
+              stripped
+              onClick={() => slateStore.dispatch(setActiveNode(node))}>
+              Endre
+            </Button>{' '}
+            | Gå til <a href={href}> {href}</a>
+          </span>
+        </Portal>
+      </span>
+    );
+  }
+}
 
 SlateLink.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
+  state: Types.state.isRequired,
   editor: EditorShape,
   node: Types.node.isRequired,
 };

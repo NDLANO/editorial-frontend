@@ -11,10 +11,11 @@ import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import Portal from 'react-portal';
 import { Button } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import { setActiveNode } from '../../createSlateStore';
 import { EditorShape } from '../../../../shapes';
 
-class SlateLink extends Component {
+class Link extends Component {
   // shouldNodeComponentUpdate does'nt allow consistent return
   // eslint-disable-next-line consistent-return
   static shouldNodeComponentUpdate(previousProps, nextProps) {
@@ -40,6 +41,7 @@ class SlateLink extends Component {
 
   render() {
     const {
+      t,
       attributes,
       state: editorState,
       editor: { props: { slateStore } },
@@ -79,9 +81,9 @@ class SlateLink extends Component {
             <Button
               stripped
               onClick={() => slateStore.dispatch(setActiveNode(node))}>
-              Endre
+              {t('form.content.link.change')}
             </Button>{' '}
-            | Gå til <a href={href}> {href}</a>
+            | {t('form.content.link.goTo')} <a href={href}> {href}</a>
           </span>
         </Portal>
       </span>
@@ -89,7 +91,7 @@ class SlateLink extends Component {
   }
 }
 
-SlateLink.propTypes = {
+Link.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
@@ -98,4 +100,4 @@ SlateLink.propTypes = {
   node: Types.node.isRequired,
 };
 
-export default SlateLink;
+export default injectT(Link);

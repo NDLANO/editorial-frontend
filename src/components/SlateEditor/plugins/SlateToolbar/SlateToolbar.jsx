@@ -26,7 +26,7 @@ const DEFAULT_NODE = 'paragraph';
 
 const suportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
-  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
+  block: ['quote', ...listTypes, 'heading-two'],
   inline: [link, footnote],
 };
 

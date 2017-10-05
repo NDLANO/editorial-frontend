@@ -7,8 +7,8 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
+import { injectT } from 'ndla-i18n';
 
 import {
   PlainTextField,
@@ -49,8 +49,7 @@ const LearningResourceIngress = props => {
 };
 
 LearningResourceIngress.propTypes = {
-  t: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 
-export default LearningResourceIngress;
+export default injectT(LearningResourceIngress);

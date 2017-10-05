@@ -44,6 +44,7 @@
     "file-loader": "^1.1.4",
     "flux-standard-action": "^1.2.0",
     "jest": "^21.2.1",
+    "jsdom": "^11.3.0",
     "json-loader": "^0.5.7",
     "nock": "^9.0.14",
     "nodemon": "^1.11.0",

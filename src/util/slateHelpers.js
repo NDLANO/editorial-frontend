@@ -20,12 +20,12 @@ const BLOCK_TAGS = {
   ol: 'numbered-list',
   blockquote: 'quote',
   pre: 'code',
-  h1: 'heading-one',
+  h1: 'heading-two',
   h2: 'heading-two',
-  h3: 'heading-three',
-  h4: 'heading-four',
-  h5: 'heading-five',
-  h6: 'heading-six',
+  h3: 'heading-two',
+  h4: 'heading-two',
+  h5: 'heading-two',
+  h6: 'heading-two',
 };
 
 const MARK_TAGS = {
@@ -130,24 +130,50 @@ export const footnoteRule = {
   },
 };
 
-const RULES = [
-  {
-    // empty text nodes
-    // deserialize(el) {
-    //   if (el.nodeName.toLowerCase() !== '#text') return;
-    //   if (el.textContent.trim().length !== 0) return;
-    //   return {
-    //     kind: 'block',
-    //     type: 'emptyTextNode',
-    //     nodes: [],
-    //   };
-    // },
-    // serialize(object) {
-    //   if (object.kind !== 'block') return;
-    //   if (object.type !== 'emptyTextNode') return;
-    //   return <deleteme />;
-    // },
+export const blockRules = {
+  deserialize(el, next) {
+    const block = BLOCK_TAGS[el.tagName.toLowerCase()];
+    if (!block) return;
+    return {
+      kind: 'block',
+      type: block,
+      nodes: next(el.childNodes),
+    };
   },
+  serialize(object, children) {
+    if (object.kind !== 'block') return;
+    switch (object.type) {
+      case 'section':
+        return <section>{children}</section>;
+      case 'paragraph':
+        return <p>{children}</p>;
+      case 'bulleted-list':
+        return <ul>{children}</ul>;
+      case 'heading-one':
+        return <h1>{children}</h1>;
+      case 'heading-two':
+        return <h2>{children}</h2>;
+      case 'heading-three':
+        return <h3>{children}</h3>;
+      case 'heading-four':
+        return <h4>{children}</h4>;
+      case 'heading-five':
+        return <h5>{children}</h5>;
+      case 'heading-six':
+        return <h6>{children}</h6>;
+      case 'list-item':
+        return <li>{children}</li>;
+      case 'numbered-list':
+        return <ol>{children}</ol>;
+      case 'quote':
+        return <blockquote>{children}</blockquote>;
+      case 'div':
+        return <div>{children}</div>;
+    }
+  },
+};
+
+const RULES = [
   divRule,
   {
     // Aside handling
@@ -166,48 +192,7 @@ const RULES = [
       return <aside {...setAsideTag(object.data)}>{children}</aside>;
     },
   },
-  {
-    deserialize(el, next) {
-      const block = BLOCK_TAGS[el.tagName.toLowerCase()];
-      if (!block) return;
-      return {
-        kind: 'block',
-        type: block,
-        nodes: next(el.childNodes),
-      };
-    },
-    serialize(object, children) {
-      if (object.kind !== 'block') return;
-      switch (object.type) {
-        case 'section':
-          return <section>{children}</section>;
-        case 'paragraph':
-          return <p>{children}</p>;
-        case 'bulleted-list':
-          return <ul>{children}</ul>;
-        case 'heading-one':
-          return <h1>{children}</h1>;
-        case 'heading-two':
-          return <h2>{children}</h2>;
-        case 'heading-three':
-          return <h3>{children}</h3>;
-        case 'heading-four':
-          return <h4>{children}</h4>;
-        case 'heading-five':
-          return <h5>{children}</h5>;
-        case 'heading-six':
-          return <h6>{children}</h6>;
-        case 'list-item':
-          return <li>{children}</li>;
-        case 'numbered-list':
-          return <ol>{children}</ol>;
-        case 'quote':
-          return <blockquote>{children}</blockquote>;
-        case 'div':
-          return <div>{children}</div>;
-      }
-    },
-  },
+  blockRules,
   {
     deserialize(el, next) {
       const mark = MARK_TAGS[el.tagName.toLowerCase()];

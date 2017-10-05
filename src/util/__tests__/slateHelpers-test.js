@@ -9,6 +9,7 @@
 import React from 'react';
 import { fromJS } from 'immutable';
 import renderer from 'react-test-renderer';
+import jsdom from 'jsdom';
 import { State } from 'slate';
 import Html from 'slate-html-serializer';
 import {
@@ -22,6 +23,8 @@ import {
   divRule,
   toJSON,
 } from '../slateHelpers';
+
+const fragment = jsdom.JSDOM.fragment;
 
 test('serialize embed block', () => {
   const obj = {
@@ -58,7 +61,7 @@ test('serialize bodybox block', () => {
 });
 
 test('deserialize bodybox block', () => {
-  const serializer = new Html({ rules: [divRule] });
+  const serializer = new Html({ rules: [divRule], parseHtml: fragment });
   const deserialized = serializer.deserialize(
     '<div class="c-bodybox">test</div>',
   );
@@ -69,12 +72,10 @@ test('deserialize bodybox block', () => {
 test('deserialize footnote', () => {
   const serializer = new Html({
     rules: [footnoteRule],
+    parseHtml: fragment,
   });
   const deserialized = serializer.deserialize(
-    `
-    <embed data-title="Apple Watch" data-year="2015" data-resource="footnote" data-authors="Jony Ive" data-edition="2" data-publisher="Apple" data-type="">
-    <embed data-title="iPhone" data-year="2007" data-resource="footnote" data-authors="Steve Jobs;Jony Ive" data-edition="1" data-publisher="Apple" data-type="">
-    `,
+    `<embed data-title="Apple Watch" data-year="2015" data-resource="footnote" data-authors="Jony Ive" data-edition="2" data-publisher="Apple" data-type=""><embed data-title="iPhone" data-year="2007" data-resource="footnote" data-authors="Steve Jobs;Jony Ive" data-edition="1" data-publisher="Apple" data-type="">`,
   );
   expect(toJSON(deserialized)).toMatchSnapshot();
 });

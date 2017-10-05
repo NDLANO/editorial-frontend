@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 
 import {
@@ -48,6 +49,7 @@ const LearningResourceIngress = props => {
 };
 
 LearningResourceIngress.propTypes = {
+  t: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 

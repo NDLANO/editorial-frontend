@@ -59,7 +59,7 @@ ArticleHeader.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
   }),
-  articleType: PropTypes.string,
+  articleType: PropTypes.string.isRequired,
 };
 
 export default injectT(ArticleHeader);

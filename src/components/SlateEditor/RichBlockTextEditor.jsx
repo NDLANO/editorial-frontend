@@ -74,8 +74,6 @@ class RichBlockTextEditor extends Component {
       value,
       name,
       onChange,
-      ingress,
-      ingressRef,
       ...rest
     } = this.props;
 
@@ -111,8 +109,6 @@ class RichBlockTextEditor extends Component {
                 blocks={value}
                 editorState={val}
                 index={index}
-                ingress={ingress}
-                ingressRef={ingressRef}
                 setFocus={this.setFocus}
               />
             </Portal>
@@ -128,19 +124,12 @@ class RichBlockTextEditor extends Component {
 RichBlockTextEditor.propTypes = {
   schema: PropTypes.shape({}),
   onChange: PropTypes.func.isRequired,
-  ingressRef: PropTypes.shape({
-    scrollIntoView: PropTypes.func.isRequired,
-  }),
   name: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
   submitted: PropTypes.bool.isRequired,
   plugins: PropTypes.arrayOf(PluginShape).isRequired,
-  ingress: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    value: PropTypes.object,
-  }),
 };
 
 export default RichBlockTextEditor;

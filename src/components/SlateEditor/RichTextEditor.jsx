@@ -16,7 +16,7 @@ import createSlateStore, { setSubmitted } from './createSlateStore';
 import SlateToolbar from './plugins/SlateToolbar/SlateToolbar';
 import { PluginShape } from '../../shapes';
 
-const classes = new BEMHelper({
+export const classes = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
 });

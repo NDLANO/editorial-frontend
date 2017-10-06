@@ -8,14 +8,14 @@
 
 import React from 'react';
 import EditLink from './EditLink';
-import SlateLink from './SlateLink';
+import Link from './Link';
 
 export const TYPE = 'link';
 
 export default function linkPlugin() {
   const schema = {
     nodes: {
-      [TYPE]: SlateLink,
+      [TYPE]: Link,
     },
   };
 

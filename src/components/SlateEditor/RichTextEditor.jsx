@@ -121,7 +121,7 @@ RichTextEditor.propTypes = {
   schema: PropTypes.shape({}),
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  submitted: PropTypes.bool,
+  submitted: PropTypes.bool.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
@@ -129,10 +129,6 @@ RichTextEditor.propTypes = {
   index: PropTypes.number,
   removeSection: PropTypes.func,
   plugins: PropTypes.arrayOf(PluginShape).isRequired,
-};
-
-RichTextEditor.defaultProps = {
-  submitted: false,
 };
 
 export default RichTextEditor;

@@ -160,10 +160,8 @@ const defaultSchema = {
     ),
     div: props => <div {...props.attributes}>{props.children}</div>,
     table: props => <table {...props.attributes}>{props.children}</table>,
-    'table-heading-section': props => <thead {...props.attributes}>{props.children}</thead>,
-    'table-heading': props => <th {...props.attributes}>{props.children}</th>,
     'table-row': props => <tr {...props.attributes}>{props.children}</tr>,
-    'table-data': props => <td {...props.attributes}>{props.children}</td>,
+    'table-cell': props => <td {...props.attributes}>{props.children}</td>,
     'table-body': props => <tbody {...props.attributes}>{props.children}</tbody>,
   },
   marks: {

@@ -84,6 +84,9 @@
   }
 }
 
-.c-toolbar > * + * {
+.c-toolbar__container > * + * {
   margin-left: 1rem;
+}
+.table-dropdown {
+  position: absolute;
 }

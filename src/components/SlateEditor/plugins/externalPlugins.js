@@ -13,7 +13,7 @@ export const editListPlugin = EditList({
 const tableOptions = {
     typeTable: 'table',
     typeRow: 'table-row',
-    typeCell: 'table-data',
+    typeCell: 'table-cell',
     exitBlockType: 'paragraph'
 };
 

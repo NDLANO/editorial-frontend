@@ -8,7 +8,7 @@ const options = {
     // The type of row blocks
     typeRow: 'table-row',
     // The type of cell blocks
-    typeCell: 'table-data',
+    typeCell: 'table-cell',
     // The type of block inserted when exiting
     exitBlockType: 'paragraph'
 };

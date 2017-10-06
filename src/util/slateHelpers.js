@@ -27,9 +27,9 @@ const BLOCK_TAGS = {
   h6: 'heading-two',
   table: 'table',
   thead: 'table-heading-section',
-  th: 'table-heading',
+  th: 'table-cell',
   tr: 'table-row',
-  td: 'table-data',
+  td: 'table-cell',
   tbody: 'table-body'
 };
 

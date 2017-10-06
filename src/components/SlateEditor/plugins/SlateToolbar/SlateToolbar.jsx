@@ -22,6 +22,7 @@ import {
   blockquotePlugin,
   editTablePlugin,
 } from '../externalPlugins';
+import TableToolBar from './TableToolBar';
 
 const DEFAULT_NODE = 'paragraph';
 
@@ -171,7 +172,11 @@ class SlateToolbar extends Component {
 
     return (
       <Portal isOpened onOpen={this.onOpen}>
-        <div {...toolbarClasses()}>{toolbarButtons}</div>
+        <div {...toolbarClasses()}>
+          <div {...toolbarClasses('container')}>
+            {toolbarButtons}
+          </div>
+        </div>
       </Portal>
     );
   }

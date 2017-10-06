@@ -24,6 +24,9 @@ const makeWrapper = getNodeType => WrappedComponent => {
       this.nodeType = getNodeType();
       this.handleClose = this.handleClose.bind(this);
       this.onStoreChange = this.onStoreChange.bind(this);
+      this.closeAndReturnFocusToEditor = this.closeAndReturnFocusToEditor.bind(
+        this,
+      );
     }
 
     componentWillMount() {
@@ -43,6 +46,12 @@ const makeWrapper = getNodeType => WrappedComponent => {
       });
     }
 
+    closeAndReturnFocusToEditor() {
+      const { onChange, state } = this.props;
+      onChange(state.change().focus());
+      this.handleClose();
+    }
+
     handleClose() {
       const { slateStore } = this.props;
       slateStore.dispatch(setActiveNode(undefined));
@@ -54,7 +63,7 @@ const makeWrapper = getNodeType => WrappedComponent => {
 
       return (
         <Portal isOpened={node !== undefined}>
-          <Lightbox display big onClose={this.handleClose}>
+          <Lightbox display big onClose={this.closeAndReturnFocusToEditor}>
             <WrappedComponent
               node={node}
               closeDialog={this.handleClose}

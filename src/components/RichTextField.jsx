@@ -44,6 +44,7 @@ export const RichTextField = ({
         value={value}
         onChange={onChange}
         schema={slateSchema}
+        submitted={submitted}
         {...rest}
       />
       <FieldErrorMessages

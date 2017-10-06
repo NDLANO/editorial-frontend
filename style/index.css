@@ -28,6 +28,7 @@
 @import './image-editor.css';
 @import './vars.css';
 @import './footnotes.css';
+@import './link-menu.css';
 
 .c-audio-search {
   width: 70%;

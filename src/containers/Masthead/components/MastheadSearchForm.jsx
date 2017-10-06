@@ -15,7 +15,10 @@ import { injectT } from 'ndla-i18n';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { toEditArticle } from '../../../util/routeHelpers';
-import { fetchTopicArticle } from '../../../modules/article/articleApi';
+import {
+  fetchTopicArticle,
+  fetchNewArticleId,
+} from '../../../modules/article/articleApi';
 import { getLocale } from '../../../modules/locale/locale';
 
 const classes = new BEMHelper({
@@ -41,7 +44,9 @@ export class MastheadSearchForm extends Component {
   handleUrlPaste(ndlaUrl) {
     const { history, locale } = this.props;
 
-    const splittedNdlaUrl = ndlaUrl.split('/');
+    // Removes search queries before split
+    const splittedNdlaUrl = ndlaUrl.split(/\?/)[0].split('/');
+
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
     if (!urlId.includes('urn:topic') && isNaN(urlId)) return;
 
@@ -52,6 +57,17 @@ export class MastheadSearchForm extends Component {
         const id = arr[arr.length - 1];
         history.push(toEditArticle(id, 'topic-article', locale));
       });
+    } else if (
+      splittedNdlaUrl.includes('ndla.no') &&
+      splittedNdlaUrl.includes('node')
+    ) {
+      fetchNewArticleId(urlId)
+        .then(response => {
+          history.push(toEditArticle(response.id, 'standard', locale));
+        })
+        .catch(err => {
+          console.log('Not found', err);
+        });
     } else {
       history.push(toEditArticle(urlId, 'standard', locale));
     }
@@ -59,7 +75,7 @@ export class MastheadSearchForm extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    const isNDLAUrl = /^https:\/(.*).ndla.no\/(article|subjects)\/\d*/.test(
+    const isNDLAUrl = /^https:\/(.*).ndla.no\/(article|subjects|nb)\/(node|\d*)(\/|\d*)/.test(
       this.state.query,
     );
     if (isNDLAUrl) {

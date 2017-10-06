@@ -25,6 +25,12 @@ const BLOCK_TAGS = {
   h4: 'heading-two',
   h5: 'heading-two',
   h6: 'heading-two',
+  table: 'table',
+  thead: 'table-heading-section',
+  th: 'table-heading',
+  tr: 'table-row',
+  td: 'table-data',
+  tbody: 'table-body'
 };
 
 const MARK_TAGS = {

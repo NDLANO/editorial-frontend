@@ -123,6 +123,7 @@
     "slate": "^0.25.3",
     "slate-edit-blockquote": "^0.4.0",
     "slate-edit-list": "^0.8.0",
+    "slate-edit-table": "^0.11.0",
     "slate-html-serializer": "^0.1.13",
     "slate-plain-serializer": "^0.1.11",
     "slate-prop-types": "^0.1.10",

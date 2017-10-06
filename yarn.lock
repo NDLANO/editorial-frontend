@@ -6828,6 +6828,10 @@ slate-edit-list@^0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/slate-edit-list/-/slate-edit-list-0.8.0.tgz#3f8904fc9cb308d3c614efa5586953a6de6a4608"
 
+slate-edit-table@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/slate-edit-table/-/slate-edit-table-0.11.0.tgz#4ab175a02146ec1c45a4a2826eaa66b5db0d2266"
+
 slate-html-serializer@^0.1.13:
   version "0.1.13"
   resolved "https://registry.yarnpkg.com/slate-html-serializer/-/slate-html-serializer-0.1.13.tgz#82200c78807b4476baec5076ed6e7ea50876751f"

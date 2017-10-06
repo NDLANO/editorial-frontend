@@ -24,6 +24,7 @@ import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import {
   editListPlugin,
   blockquotePlugin,
+  editTablePlugin,
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 
 import { classes } from './LearningResourceForm';

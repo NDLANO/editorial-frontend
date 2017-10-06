@@ -20,13 +20,14 @@ import {
   listTypes,
   editListPlugin,
   blockquotePlugin,
+  editTablePlugin,
 } from '../externalPlugins';
 
 const DEFAULT_NODE = 'paragraph';
 
 const suportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
-  block: ['quote', ...listTypes, 'heading-two'],
+  block: ['quote', ...listTypes, 'table', 'heading-two'],
   inline: [link, footnote],
 };
 
@@ -87,6 +88,8 @@ class SlateToolbar extends Component {
       } else {
         editListPlugin.changes.wrapInList(change, type);
       }
+    } else if (type === 'table') {
+      editTablePlugin.changes.insertTable(change, 2, 2);
     } else {
       change.setBlock(isActive ? DEFAULT_NODE : type);
     }

@@ -20,6 +20,7 @@ import {
   Link,
   Heading2,
   Section,
+  Table,
 } from 'ndla-ui/icons';
 import Types from 'slate-prop-types';
 import { toolbarClasses } from './SlateToolbar';
@@ -34,6 +35,7 @@ const toolbarIcon = {
   'bulleted-list': <ListCircle />,
   'letter-list': <ListSquare />,
   'heading-two': <Heading2 />,
+  'table': <Table />,
   footnote: <Section />,
 };
 

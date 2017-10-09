@@ -23,7 +23,7 @@ test('reducers/tags setTags', () => {
   expect(nextState).toEqual({
     all: {
       nn: {
-        ...nn[0],
+        ...nn,
         hasFetched: true,
       },
     },

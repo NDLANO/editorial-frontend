@@ -159,10 +159,6 @@ const defaultSchema = {
       <blockquote {...props.attributes}>{props.children}</blockquote>
     ),
     div: props => <div {...props.attributes}>{props.children}</div>,
-    table: props => <table {...props.attributes}>{props.children}</table>,
-    'table-row': props => <tr {...props.attributes}>{props.children}</tr>,
-    'table-cell': props => <td {...props.attributes}>{props.children}</td>,
-    'table-body': props => <tbody {...props.attributes}>{props.children}</tbody>,
   },
   marks: {
     bold: props => <strong {...props.attributes}>{props.children}</strong>,

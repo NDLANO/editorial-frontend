@@ -10,7 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import { Button } from 'ndla-ui';
-import { toolbarClasses } from './SlateToolbar';
 
 const supportedTableOperations = [
   {type: 'row-remove', title: 'Fjern rad'},
@@ -20,16 +19,16 @@ const supportedTableOperations = [
   {type: 'column-add', title: 'Legg til kolonne'},
 ];
 
-const TableToolBar = ({ state }) => {
+const TableActions = ({ state, editor }) => {
   const handleOnClick = (e, type) => {
     e.preventDefault();
   }
-  
+
   return (
-    <div className="table-dropdown">
+    <div className="table-actions">
       {supportedTableOperations.map(operation =>
-        <Button stripped onMouseDown={(e) => handleOnClick(e, operation.type)}>
-          <span {...toolbarClasses('icon')}>
+        <Button key={operation.type} stripped onMouseDown={(e) => handleOnClick(e, operation.type)}>
+          <span>
             {operation.title}
           </span>
         </Button>
@@ -38,8 +37,8 @@ const TableToolBar = ({ state }) => {
   );
 };
 
-TableToolBar.propTypes = {
+TableActions.propTypes = {
   state: Types.state.isRequired,
 };
 
-export default TableToolBar;
+export default TableActions;

@@ -1,27 +1,26 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ *
+ */
 
-import EditTable from 'slate-edit-table';
-import insertTable from './changes/insertTable';
 
-const options = {
-    // The type of table blocks
-    typeTable: 'table',
-    // The type of row blocks
-    typeRow: 'table-row',
-    // The type of cell blocks
-    typeCell: 'table-cell',
-    // The type of block inserted when exiting
-    exitBlockType: 'paragraph'
-};
+ /**
+  * Copyright (c) 2016-present, NDLA.
+  *
+  * This source code is licensed under the GPLv3 license found in the
+  * LICENSE file in the root directory of this source tree.
+  *
+  *
+  */
 
+import schema from './schema';
 
 export default function createTablePlugin() {
-  const editTablePlugin = EditTable(options)
-
   return {
-    utils: editTablePlugin.utils,
-    changes: {
-      ...editTablePlugin.changes,
-      insertTable,
-    },
-  }
+    schema,
+  };
 }

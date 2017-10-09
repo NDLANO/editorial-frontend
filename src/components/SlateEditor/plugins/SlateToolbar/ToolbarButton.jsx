@@ -24,7 +24,6 @@ import {
 } from 'ndla-ui/icons';
 import Types from 'slate-prop-types';
 import { toolbarClasses } from './SlateToolbar';
-import TableToolBar from './TableToolBar';
 
 const toolbarIcon = {
   bold: <Bold />,
@@ -43,16 +42,12 @@ const toolbarIcon = {
 const ToolbarButton = ({ state, type, kind, handleHasType, handleOnClick }) => {
   const isActive = handleHasType(state, type, kind);
   const onMouseDown = e => handleOnClick(e, kind, type);
-  const extraDropDown = type === 'table' ? <TableToolBar state={state} /> : null;
   return (
-    <div>
       <Button stripped onMouseDown={onMouseDown} data-active={isActive}>
         <span {...toolbarClasses('icon', isActive ? 'active' : '')}>
           {toolbarIcon[type]}
         </span>
       </Button>
-      {extraDropDown}
-    </div>
   );
 };
 

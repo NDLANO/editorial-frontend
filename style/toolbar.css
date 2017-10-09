@@ -84,9 +84,13 @@
   }
 }
 
-.c-toolbar__container > * + * {
+.c-toolbar > * + * {
   margin-left: 1rem;
+  display: inline-block;
 }
 .table-dropdown {
   position: absolute;
+  background-color: white;
+  padding: 1rem;
+  border: 1px solid black;
 }

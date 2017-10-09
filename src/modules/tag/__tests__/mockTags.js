@@ -6,15 +6,11 @@
  *
  */
 
-export const nn = [
-  {
-    tags: ['teknologiutvikling', 'tekstil', 'telefonnummer', 'tempelridder'],
-    language: 'nn',
-  },
-];
-export const zh = [
-  {
-    tags: ['中国', '动词', '手机', '爱好'],
-    language: 'zh',
-  },
-];
+export const nn = {
+  tags: ['teknologiutvikling', 'tekstil', 'telefonnummer', 'tempelridder'],
+  language: 'nn',
+};
+export const zh = {
+  tags: ['中国', '动词', '手机', '爱好'],
+  language: 'zh',
+};

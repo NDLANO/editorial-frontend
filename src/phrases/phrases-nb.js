@@ -208,6 +208,8 @@ const phrases = {
         notSupported: 'Mediatype {mediaType} er ikke støttet.',
       },
       link: {
+        goTo: 'Gå til',
+        change: 'Endre',
         remove: 'Fjern lenke',
         href: 'Lenke',
         text: 'Tekst',

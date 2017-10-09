@@ -16,7 +16,7 @@ import createSlateStore, { setSubmitted } from './createSlateStore';
 import SlateToolbar from './plugins/SlateToolbar/SlateToolbar';
 import { PluginShape } from '../../shapes';
 
-const classes = new BEMHelper({
+export const classes = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
 });
@@ -34,6 +34,7 @@ const RichTextEditor = class extends React.Component {
     };
     this.toggleMark = this.toggleMark.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.onFocus = this.onFocus.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,6 +42,12 @@ const RichTextEditor = class extends React.Component {
     if (nextProps.submitted !== slateStore.getState().submitted) {
       slateStore.dispatch(setSubmitted(nextProps.submitted));
     }
+  }
+
+  onFocus(state) {
+    const { name, onChange } = this.props;
+    const nextChange = state.change().focus();
+    onChange({ target: { name, value: nextChange.state } });
   }
 
   onKeyDown(e, data, change) {
@@ -76,8 +83,8 @@ const RichTextEditor = class extends React.Component {
   toggleMark(e, state, type) {
     const { name, onChange } = this.props;
     e.preventDefault();
-    const nextState = state.change().toggleMark(type);
-    onChange({ target: { name, value: nextState } });
+    const nextChange = state.change().toggleMark(type);
+    onChange({ target: { name, value: nextChange.state } });
   }
 
   render() {
@@ -96,6 +103,8 @@ const RichTextEditor = class extends React.Component {
         <div>
           <Editor
             {...classes(undefined, undefined, className)}
+            onFocus={() => this.onFocus(value)}
+            onKeyDown={this.onKeyDown}
             state={value}
             schema={schema}
             onChange={change =>

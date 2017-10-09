@@ -14,11 +14,11 @@ const state = {
   tags: {
     all: {
       nn: {
-        ...nn[0],
+        ...nn,
         hasFetched: true,
       },
       zh: {
-        ...zh[0],
+        ...zh,
         hasFetched: true,
       },
     },

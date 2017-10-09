@@ -82,7 +82,7 @@ class SearchTabs extends Component {
 
   render() {
     const { index } = this.state;
-    const { t, tabContent } = this.props;
+    const { t, tabContent, searching } = this.props;
 
     return (
       <Tabs
@@ -92,18 +92,22 @@ class SearchTabs extends Component {
           {
             title: t('searchForm.articleType.learningResource'),
             content: tabContent,
+            disabled: searching,
           },
           {
             title: t('searchForm.articleType.topicArticle'),
             content: tabContent,
+            disabled: searching,
           },
           {
             title: t('searchForm.articleType.image'),
             content: tabContent,
+            disabled: searching,
           },
           {
             title: t('searchForm.articleType.audio'),
             content: tabContent,
+            disabled: searching,
           },
         ]}
       />
@@ -117,6 +121,7 @@ SearchTabs.propTypes = {
   tabContent: PropTypes.node.isRequired,
   onSearchTypeChange: PropTypes.func.isRequired,
   onArticleSearchTypeChange: PropTypes.func.isRequired,
+  searching: PropTypes.bool.isRequired,
 };
 
 export default injectT(SearchTabs);

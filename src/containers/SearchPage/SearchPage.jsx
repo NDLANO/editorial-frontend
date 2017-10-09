@@ -75,7 +75,7 @@ class SearchPage extends Component {
   }
 
   render() {
-    const { location, results, locale, lastPage } = this.props;
+    const { location, results, locale, lastPage, searching } = this.props;
     const query = queryString.parse(location.search);
     const searchList = (
       <SearchList query={query} locale={locale} results={results} />
@@ -96,6 +96,7 @@ class SearchPage extends Component {
               tabContent={searchList}
               onSearchTypeChange={this.onSearchTypeChange}
               onArticleSearchTypeChange={this.onArticleSearchTypeChange}
+              searching={searching}
             />
             <Pager
               page={query.page ? parseInt(query.page, 10) : 1}

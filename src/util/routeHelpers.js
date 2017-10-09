@@ -54,3 +54,7 @@ export function toCreateImage() {
 export function toEditImage(imageId) {
   return `/image-upload/${imageId}/edit`;
 }
+
+export function to404() {
+  return '/404';
+}

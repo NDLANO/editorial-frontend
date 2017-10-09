@@ -14,7 +14,7 @@ import { Search } from 'ndla-ui/icons';
 import { injectT } from 'ndla-i18n';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { toEditArticle } from '../../../util/routeHelpers';
+import { toEditArticle, to404 } from '../../../util/routeHelpers';
 import {
   fetchTopicArticle,
   fetchNewArticleId,
@@ -64,9 +64,9 @@ export class MastheadSearchForm extends Component {
       fetchNewArticleId(urlId)
         .then(response => {
           history.push(toEditArticle(response.id, 'standard', locale));
-        }) // TODO: How to handle 404
-        .catch(err => {
-          console.log('Article not found', err);
+        })
+        .catch(() => {
+          history.push(to404());
         });
     } else {
       history.push(toEditArticle(urlId, 'standard', locale));
@@ -75,7 +75,7 @@ export class MastheadSearchForm extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    const isNDLAUrl = /^https:\/(.*).ndla.no\/(article|subjects|nb)\/(node|\d*)(\/|\d*)/.test(
+    const isNDLAUrl = /^https:\/(.*).ndla.no\/(article|subjects|nb|nn|en)\/(node|\d*)(\/|\d*)/.test(
       this.state.query,
     );
     if (isNDLAUrl) {
@@ -87,6 +87,7 @@ export class MastheadSearchForm extends Component {
 
   render() {
     const { show, searching, t } = this.props;
+
     return (
       <form onSubmit={this.handleSubmit} {...classes(show ? '' : 'hidden')}>
         <input

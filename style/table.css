@@ -1,0 +1,22 @@
+.c-article table {
+  margin-top: 0;
+  & td {
+    border: 1px dotted black;
+  }
+}
+.c-table-actions {
+  margin-bottom: -1px;
+  &--hidden {
+    display: none;
+  }
+  &--show {
+    display: block;
+  }
+  &__button {
+    margin-right: 1rem;
+  }
+  &__button:hover,
+  &__button:focus{
+    border-bottom: 2px solid var(--brand-color);
+  }
+}

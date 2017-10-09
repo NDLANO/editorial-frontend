@@ -25,7 +25,7 @@ import {
   blockquotePlugin,
   editTablePlugin,
 } from '../../../components/SlateEditor/plugins/externalPlugins';
-import createTablePlugin from '../../../components/SlateEditor/plugins/table'
+import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 
 import { classes } from './LearningResourceForm';
 import { CommonFieldPropsShape } from '../../../shapes';

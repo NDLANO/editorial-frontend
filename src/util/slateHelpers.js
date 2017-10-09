@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { Block } from 'slate';
 import {
   reduceElementDataAttributes,
   createEmbedProps,
@@ -25,12 +26,13 @@ const BLOCK_TAGS = {
   h4: 'heading-two',
   h5: 'heading-two',
   h6: 'heading-two',
+};
+
+const TABLE_TAGS = {
   table: 'table',
-  thead: 'table-heading-section',
   th: 'table-cell',
   tr: 'table-row',
   td: 'table-cell',
-  tbody: 'table-body'
 };
 
 const MARK_TAGS = {
@@ -205,10 +207,42 @@ export const blockRules = {
     }
   },
 };
+const tableRules = {
+  deserialize(el, next) {
+    const tableTag = TABLE_TAGS[el.tagName.toLowerCase()];
+    if (!tableTag) return;
+    return {
+      kind: 'block',
+      type: tableTag,
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(object, children) {
+    if (object.kind !== 'block') return;
+    switch (object.type) {
+      case 'table': {
+        return (
+          <table>
+            <thead>{children.slice(0, 1)}</thead>
+            <tbody>{children.slice(1)}</tbody>
+          </table>
+        );
+      }
+      case 'table-row':
+        return <tr>{children}</tr>;
+      case 'table-cell':
+        if (object.data.get('isHeader')) {
+          return <th>{children}</th>;
+        }
+        return <td>{children}</td>;
+    }
+  },
+};
 
 const RULES = [
   divRule,
   orderListRules,
+  tableRules,
   {
     // Aside handling
     deserialize(el, next) {

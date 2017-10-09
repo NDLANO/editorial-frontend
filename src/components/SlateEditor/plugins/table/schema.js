@@ -16,15 +16,32 @@ const tableSchema = {
     table: SlateTable,
     'table-row': props => <tr {...props.attributes}>{props.children}</tr>,
     'table-cell': props => <td {...props.attributes}>{props.children}</td>,
-    'table-body': props => {
-      console.log("POOOOORPS, ", props);
-      return (
-        <tbody className="Test">
-        {props.children}
-        </tbody>
-      );
-    },
   },
+  rules: [
+    {
+      match: object => object.kind === 'block' && object.type === 'table',
+      validate: node => {
+        const firstNode = node.nodes.first();
+        if (firstNode.type === 'table-row') {
+          const isHeader = firstNode.nodes.reduce(
+            (a, b) => a.data.get('isHeader') && b.data.get('isHeader'),
+          );
+          if (isHeader) {
+            return null;
+          }
+        }
+        return firstNode && firstNode.nodes && firstNode.type === 'table-row'
+          ? firstNode.nodes
+          : null;
+      },
+      normalize: (change, node, invalidChildren) => {
+        invalidChildren.forEach(child => {
+          change.setNodeByKey(child.key, { data: { isHeader: true } });
+        });
+        return change;
+      },
+    },
+  ],
 };
 
 export default tableSchema;

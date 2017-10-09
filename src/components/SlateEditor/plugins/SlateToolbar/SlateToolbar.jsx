@@ -171,9 +171,7 @@ class SlateToolbar extends Component {
 
     return (
       <Portal isOpened onOpen={this.onOpen}>
-        <div {...toolbarClasses()}>
-          {toolbarButtons}
-        </div>
+        <div {...toolbarClasses()}>{toolbarButtons}</div>
       </Portal>
     );
   }

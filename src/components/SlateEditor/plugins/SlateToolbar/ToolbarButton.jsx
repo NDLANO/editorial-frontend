@@ -35,7 +35,7 @@ const toolbarIcon = {
   'bulleted-list': <ListCircle />,
   'letter-list': <ListSquare />,
   'heading-two': <Heading2 />,
-  'table': <Table />,
+  table: <Table />,
   footnote: <Section />,
 };
 
@@ -43,11 +43,11 @@ const ToolbarButton = ({ state, type, kind, handleHasType, handleOnClick }) => {
   const isActive = handleHasType(state, type, kind);
   const onMouseDown = e => handleOnClick(e, kind, type);
   return (
-      <Button stripped onMouseDown={onMouseDown} data-active={isActive}>
-        <span {...toolbarClasses('icon', isActive ? 'active' : '')}>
-          {toolbarIcon[type]}
-        </span>
-      </Button>
+    <Button stripped onMouseDown={onMouseDown} data-active={isActive}>
+      <span {...toolbarClasses('icon', isActive ? 'active' : '')}>
+        {toolbarIcon[type]}
+      </span>
+    </Button>
   );
 };
 

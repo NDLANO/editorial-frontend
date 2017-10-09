@@ -11,10 +11,10 @@ export const editListPlugin = EditList({
 });
 
 const tableOptions = {
-    typeTable: 'table',
-    typeRow: 'table-row',
-    typeCell: 'table-cell',
-    exitBlockType: 'paragraph'
+  typeTable: 'table',
+  typeRow: 'table-row',
+  typeCell: 'table-cell',
+  exitBlockType: 'paragraph',
 };
 
-export const editTablePlugin = EditTable(tableOptions)
+export const editTablePlugin = EditTable(tableOptions);

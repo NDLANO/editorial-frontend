@@ -64,9 +64,9 @@ export class MastheadSearchForm extends Component {
       fetchNewArticleId(urlId)
         .then(response => {
           history.push(toEditArticle(response.id, 'standard', locale));
-        })
+        }) // TODO: How to handle 404
         .catch(err => {
-          console.log('Not found', err);
+          console.log('Article not found', err);
         });
     } else {
       history.push(toEditArticle(urlId, 'standard', locale));

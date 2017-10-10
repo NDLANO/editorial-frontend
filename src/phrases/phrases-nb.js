@@ -232,6 +232,13 @@ const phrases = {
         editTitle: 'Rediger fotnote',
         removeFootnote: 'Fjern fotnote',
       },
+      table: {
+        'row-remove': 'Fjern rad',
+        'row-add': 'Legg til rad',
+        'column-add': 'Legg til kolonne',
+        'column-remove': 'Fjern kolonne',
+        'table-remove': 'Fjern tabell',
+      },
     },
     tags: {
       label: 'Nøkkelord',

@@ -227,6 +227,13 @@ const phrases = {
         editTitle: 'Edit footnote',
         removeFootnote: 'Remove footnote',
       },
+      table: {
+        'row-remove': 'Remove row',
+        'row-add': 'Add row',
+        'column-add': 'Add column',
+        'column-remove': 'Remove column',
+        'table-remove': 'Remove table',
+      },
     },
     tags: {
       label: 'Tags',

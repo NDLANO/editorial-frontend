@@ -1,0 +1,21 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.c-link-menu {
+  position: absolute;
+  padding: calc(var(--spacing--small) / 2);
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--brand-grey--light);
+
+  button {
+    color: var(--brand-color);
+    text-decoration: underline;
+  }
+}

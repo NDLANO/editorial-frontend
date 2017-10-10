@@ -28,9 +28,9 @@ export default handleActions(
       next: (state, action) => ({
         ...state,
         all: {
-          [action.payload[0].language]: {
+          [action.payload.language]: {
             hasFetched: true,
-            ...action.payload[0],
+            ...action.payload,
           },
         },
       }),

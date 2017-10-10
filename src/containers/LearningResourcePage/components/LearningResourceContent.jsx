@@ -8,7 +8,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { State } from 'slate';
 import { injectT } from 'ndla-i18n';
 import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
@@ -54,26 +53,9 @@ class LearningResourceContent extends Component {
       hiddenContent: !prevState.hiddenContent,
     }));
   }
-  removeIngress() {
-    const { bindInput } = this.props;
-    const ingress = bindInput('introduction');
-
-    ingress.onChange({
-      name: ingress.name,
-      value: undefined,
-    });
-  }
 
   render() {
-    const { t, bindInput, commonFieldProps, children } = this.props;
-    const ingressBindInput = bindInput('introduction');
-    const ingress = {
-      ...ingressBindInput,
-      value:
-        ingressBindInput.value instanceof State
-          ? ingressBindInput.value
-          : undefined,
-    };
+    const { t, commonFieldProps, children } = this.props;
     const contentPlaceholder = (
       <span
         {...classes('placeholder')}
@@ -97,22 +79,12 @@ class LearningResourceContent extends Component {
           placeholder={t('form.title.label')}
           {...commonFieldProps}
         />
-        <div
-          ref={ingressRef => {
-            this.ingressRef = ingressRef;
-          }}>
-          <LearningResourceIngress
-            commonFieldProps={commonFieldProps}
-            {...ingress}
-          />
-        </div>
+        <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
         <RichBlockTextField
           slateSchema={schema}
           label={t('form.content.label')}
           placeholder={contentPlaceholder}
           name="content"
-          ingress={ingress}
-          ingressRef={this.ingressRef}
           plugins={plugins}
           {...commonFieldProps}
         />
@@ -125,7 +97,6 @@ class LearningResourceContent extends Component {
 LearningResourceContent.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
   classes: PropTypes.func.isRequired,
-  bindInput: PropTypes.func.isRequired,
 };
 
 export default injectT(LearningResourceContent);

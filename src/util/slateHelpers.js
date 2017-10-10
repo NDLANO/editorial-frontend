@@ -123,7 +123,7 @@ export const orderListRules = {
   },
   serialize(object, children) {
     if (object.kind !== 'block') return;
-    if (object.type !== 'numbered-list' || object.type !== 'letter-list')
+    if (object.type !== 'numbered-list' && object.type !== 'letter-list')
       return;
     if (object.type === 'letter-list') {
       return <ol data-type="letters">{children}</ol>;

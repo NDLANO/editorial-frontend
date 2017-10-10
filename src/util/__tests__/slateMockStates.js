@@ -408,3 +408,77 @@ export const tableSlateState = {
   },
   kind: 'state',
 };
+
+export const listState = (type = 'numbered-list') => ({
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {
+          type: 'letters',
+        },
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    marks: [],
+                    text: 'Rad 1',
+                  },
+                ],
+              },
+            ],
+            type: 'list-item',
+          },
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    marks: [],
+                    text: 'Rad 2',
+                  },
+                ],
+              },
+            ],
+            type: 'list-item',
+          },
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    marks: [],
+                    text: 'Rad 3',
+                  },
+                ],
+              },
+            ],
+            type: 'list-item',
+          },
+        ],
+        type,
+      },
+    ],
+  },
+  kind: 'state',
+});

@@ -615,3 +615,9 @@ exports[`serialize footnote 1`] = `
   data-year="2015"
 />
 `;
+
+exports[`serializing bullet list 1`] = `"<ul><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ul>"`;
+
+exports[`serializing letter list 1`] = `"<ol data-type=\\"letters\\"><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ol>"`;
+
+exports[`serializing numbered list 1`] = `"<ol><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ol>"`;

@@ -16,6 +16,7 @@ import {
   stateWithInlineFootnotesAndContentLinks,
   stateWithTwoImageEmbeds,
   tableSlateState,
+  listState,
 } from './slateMockStates';
 import {
   footnoteRule,
@@ -149,6 +150,13 @@ test('deserializing bullet list', () => {
   expect(toJSON(deserialized)).toMatchSnapshot();
 });
 
+test('serializing bullet list', () => {
+  const serializer = new Html({ rules: [blockRules], parseHtml: fragment });
+  const state = State.fromJSON(listState('bulleted-list'));
+  const serialized = serializer.serialize(state);
+  expect(serialized).toMatchSnapshot();
+});
+
 test('deserializing numbered list', () => {
   const serializer = new Html({
     rules: [blockRules, orderListRules],
@@ -160,13 +168,33 @@ test('deserializing numbered list', () => {
   expect(toJSON(deserialized)).toMatchSnapshot();
 });
 
-test('deserializing alphabetical list', () => {
+test('serializing numbered list', () => {
   const serializer = new Html({
     rules: [blockRules, orderListRules],
+    parseHtml: fragment,
+  });
+  const state = State.fromJSON(listState('numbered-list'));
+  const serialized = serializer.serialize(state);
+  expect(serialized).toMatchSnapshot();
+});
+
+test('deserializing alphabetical list', () => {
+  const serializer = new Html({
+    rules: [orderListRules, blockRules],
     parseHtml: fragment,
   });
   const deserialized = serializer.deserialize(
     '<ol data-type="letters"><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ol>',
   );
   expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('serializing letter list', () => {
+  const serializer = new Html({
+    rules: [orderListRules, blockRules],
+    parseHtml: fragment,
+  });
+  const state = State.fromJSON(listState('letter-list'));
+  const serialized = serializer.serialize(state);
+  expect(serialized).toMatchSnapshot();
 });

@@ -10,6 +10,32 @@
 import React from 'react';
 import SlateTable from './SlateTable';
 
+export const firstRowRule = {
+  match: object => object.kind === 'block' && object.type === 'table',
+  validate: node => {
+    const firstNode = node.nodes.first();
+    if (firstNode.type === 'table-row') {
+      const isHeader = firstNode.nodes.every(
+        child => !!child.data.get('isHeader'),
+      );
+      if (isHeader) {
+        return null;
+      }
+    }
+    return firstNode && firstNode.nodes && firstNode.type === 'table-row'
+      ? firstNode.nodes
+      : null;
+  },
+  normalize: (change, node, invalidChildren) => {
+    invalidChildren.forEach(child => {
+      change.setNodeByKey(child.key, {
+        data: { ...child.data, isHeader: true },
+      });
+    });
+    return change;
+  },
+};
+
 /* eslint-disable react/prop-types */
 const tableSchema = {
   nodes: {
@@ -17,33 +43,7 @@ const tableSchema = {
     'table-row': props => <tr {...props.attributes}>{props.children}</tr>,
     'table-cell': props => <td {...props.attributes}>{props.children}</td>,
   },
-  rules: [
-    {
-      match: object => object.kind === 'block' && object.type === 'table',
-      validate: node => {
-        const firstNode = node.nodes.first();
-        if (firstNode.type === 'table-row') {
-          const isHeader = firstNode.nodes.every(
-            child => !!child.data.get('isHeader'),
-          );
-          if (isHeader) {
-            return null;
-          }
-        }
-        return firstNode && firstNode.nodes && firstNode.type === 'table-row'
-          ? firstNode.nodes
-          : null;
-      },
-      normalize: (change, node, invalidChildren) => {
-        invalidChildren.forEach(child => {
-          change.setNodeByKey(child.key, {
-            data: { ...child.data, isHeader: true },
-          });
-        });
-        return change;
-      },
-    },
-  ],
+  rules: [firstRowRule],
 };
 
 export default tableSchema;

@@ -123,7 +123,7 @@ test('deserializing any heading becomes heading-two', () => {
 
 const tableHTML =
   '<table><thead><tr><th>column 1</th><th>column 2</th></tr></thead><tbody><tr><td>column 1</td><td>column 2</td></tr></tbody></table>';
-  
+
 test('deserializing table', () => {
   const serializer = new Html({ rules: [tableRules], parseHtml: fragment });
   const deserialized = serializer.deserialize(tableHTML);

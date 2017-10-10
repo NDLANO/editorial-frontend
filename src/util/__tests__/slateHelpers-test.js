@@ -24,6 +24,7 @@ import {
   divRule,
   toJSON,
   blockRules,
+  orderListRules,
   tableRules,
 } from '../slateHelpers';
 
@@ -135,4 +136,37 @@ test('serializing table', () => {
   const state = State.fromJSON(tableSlateState);
   const serialized = serializer.serialize(state);
   expect(serialized).toMatch(tableHTML);
+});
+
+test('deserializing bullet list', () => {
+  const serializer = new Html({
+    rules: [blockRules],
+    parseHtml: fragment,
+  });
+  const deserialized = serializer.deserialize(
+    '<ul><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ul>',
+  );
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('deserializing numbered list', () => {
+  const serializer = new Html({
+    rules: [blockRules, orderListRules],
+    parseHtml: fragment,
+  });
+  const deserialized = serializer.deserialize(
+    '<ol><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ol>',
+  );
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('deserializing alphabetical list', () => {
+  const serializer = new Html({
+    rules: [blockRules, orderListRules],
+    parseHtml: fragment,
+  });
+  const deserialized = serializer.deserialize(
+    '<ol data-type="letters"><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ol>',
+  );
+  expect(toJSON(deserialized)).toMatchSnapshot();
 });

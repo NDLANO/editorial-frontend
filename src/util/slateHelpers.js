@@ -60,7 +60,7 @@ export const logState = state => {
 };
 
 // TODO: get type of aside in here. Default should be rightAside since that is the only
-const getDataType = el => ({
+const getAsideType = el => ({
   type: el.attributes.getNamedItem('data-type')
     ? el.attributes.getNamedItem('data-type')
     : 'rightAside',
@@ -105,8 +105,9 @@ export const orderListRules = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'ol') return;
-    const data = getDataType(el);
-    if (data.type.value === 'letters') {
+    const type = el.attributes.getNamedItem('data-type');
+    const data = { type: type ? type.value : '' };
+    if (data.type === 'letters') {
       return {
         kind: 'block',
         type: 'letter-list',
@@ -251,7 +252,7 @@ const RULES = [
         kind: 'block',
         type: 'aside',
         nodes: next(el.childNodes),
-        data: getDataType(el),
+        data: getAsideType(el),
       };
     },
     serialize(object, children) {

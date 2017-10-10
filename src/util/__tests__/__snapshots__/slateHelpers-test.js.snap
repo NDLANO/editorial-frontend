@@ -137,6 +137,82 @@ Object {
 }
 `;
 
+exports[`deserializing alphabetical list 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {
+          "type": "letters",
+        },
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 1",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 2",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 3",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+        ],
+        "type": "letter-list",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
 exports[`deserializing any heading becomes heading-two 1`] = `
 Object {
   "document": Object {
@@ -250,6 +326,154 @@ Object {
           },
         ],
         "type": "heading-two",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
+exports[`deserializing bullet list 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 1",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 2",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 3",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+        ],
+        "type": "bulleted-list",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
+exports[`deserializing numbered list 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 1",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 2",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 3",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+        ],
+        "type": "numbered-list",
       },
     ],
   },

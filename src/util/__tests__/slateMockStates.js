@@ -302,3 +302,109 @@ export const stateWithInlineFootnotesAndContentLinks = {
   },
   kind: 'state',
 };
+
+export const tableSlateState = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                data: { isHeader: true },
+                isVoid: false,
+                kind: 'block',
+                nodes: [
+                  {
+                    kind: 'text',
+                    ranges: [
+                      {
+                        kind: 'range',
+                        marks: [],
+                        text: 'column 1',
+                      },
+                    ],
+                  },
+                ],
+                type: 'table-cell',
+              },
+              {
+                data: { isHeader: true },
+                isVoid: false,
+                kind: 'block',
+                nodes: [
+                  {
+                    kind: 'text',
+                    ranges: [
+                      {
+                        kind: 'range',
+                        marks: [],
+                        text: 'column 2',
+                      },
+                    ],
+                  },
+                ],
+                type: 'table-cell',
+              },
+            ],
+            type: 'table-row',
+          },
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                data: {},
+                isVoid: false,
+                kind: 'block',
+                nodes: [
+                  {
+                    kind: 'text',
+                    ranges: [
+                      {
+                        kind: 'range',
+                        marks: [],
+                        text: 'column 1',
+                      },
+                    ],
+                  },
+                ],
+                type: 'table-cell',
+              },
+              {
+                data: {},
+                isVoid: false,
+                kind: 'block',
+                nodes: [
+                  {
+                    kind: 'text',
+                    ranges: [
+                      {
+                        kind: 'range',
+                        marks: [],
+                        text: 'column 2',
+                      },
+                    ],
+                  },
+                ],
+                type: 'table-cell',
+              },
+            ],
+            type: 'table-row',
+          },
+        ],
+        type: 'table',
+      },
+    ],
+  },
+  kind: 'state',
+};

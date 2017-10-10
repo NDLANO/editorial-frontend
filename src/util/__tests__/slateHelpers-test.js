@@ -15,6 +15,7 @@ import Html from 'slate-html-serializer';
 import {
   stateWithInlineFootnotesAndContentLinks,
   stateWithTwoImageEmbeds,
+  tableSlateState,
 } from './slateMockStates';
 import {
   footnoteRule,
@@ -23,6 +24,7 @@ import {
   divRule,
   toJSON,
   blockRules,
+  tableRules,
 } from '../slateHelpers';
 
 const fragment = jsdom.JSDOM.fragment;
@@ -117,4 +119,19 @@ test('deserializing any heading becomes heading-two', () => {
     '<h1>heading 1</h1><h2>heading 2</h2><h3>heading 3</h3><h4>heading 4</h4><h5>heading 5</h5><h6>heading 6</h6>',
   );
   expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+const tableHTML =
+  '<table><thead><tr><th>column 1</th><th>column 2</th></tr></thead><tbody><tr><td>column 1</td><td>column 2</td></tr></tbody></table>';
+test('deserializing table', () => {
+  const serializer = new Html({ rules: [tableRules], parseHtml: fragment });
+  const deserialized = serializer.deserialize(tableHTML);
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('serializing table', () => {
+  const serializer = new Html({ rules: [tableRules], parseHtml: fragment });
+  const state = State.fromJSON(tableSlateState);
+  const serialized = serializer.serialize(state);
+  expect(serialized).toMatch(tableHTML);
 });

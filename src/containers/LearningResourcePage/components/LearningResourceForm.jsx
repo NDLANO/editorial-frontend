@@ -133,9 +133,8 @@ class LearningResourceForm extends Component {
       origin: model.origin,
       authors: authors.concat(licensees).concat(contributors),
     };
-    const content = learningResourceContentToHTML(model.content, true);
-    console.log(content);
-    /* this.props.onUpdate({
+
+    this.props.onUpdate({
       id: model.id,
       revision,
       title: model.title,
@@ -147,7 +146,7 @@ class LearningResourceForm extends Component {
       articleType: 'standard',
       copyright,
       language: model.language,
-    }); */
+    });
   }
 
   render() {
@@ -270,9 +269,9 @@ export default compose(
       required: true,
       maxLength: 150,
     },
-    /* metaImage: {
+    metaImage: {
       required: true,
-    }, */
+    },
     'metaImage.alt': {
       required: true,
       onlyValidateIf: model =>

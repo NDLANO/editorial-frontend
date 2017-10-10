@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import { Block } from 'slate';
 import {
   reduceElementDataAttributes,
   createEmbedProps,
@@ -207,7 +206,8 @@ export const blockRules = {
     }
   },
 };
-const tableRules = {
+
+export const tableRules = {
   deserialize(el, next) {
     const tableTag = TABLE_TAGS[el.tagName.toLowerCase()];
     if (!tableTag) return;

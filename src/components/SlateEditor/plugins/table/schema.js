@@ -23,8 +23,8 @@ const tableSchema = {
       validate: node => {
         const firstNode = node.nodes.first();
         if (firstNode.type === 'table-row') {
-          const isHeader = firstNode.nodes.reduce(
-            (a, b) => a.data.get('isHeader') && b.data.get('isHeader'),
+          const isHeader = firstNode.nodes.every(
+            child => !!child.data.get('isHeader'),
           );
           if (isHeader) {
             return null;
@@ -36,7 +36,9 @@ const tableSchema = {
       },
       normalize: (change, node, invalidChildren) => {
         invalidChildren.forEach(child => {
-          change.setNodeByKey(child.key, { data: { isHeader: true } });
+          change.setNodeByKey(child.key, {
+            data: { ...child.data, isHeader: true },
+          });
         });
         return change;
       },

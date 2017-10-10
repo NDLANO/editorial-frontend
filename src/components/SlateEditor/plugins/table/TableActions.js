@@ -37,7 +37,7 @@ const supportedTableOperations = [
   {
     type: 'column-add',
     title: 'Legg til kolonne',
-    action: change => editTablePlugin.changes.insertColumn(change),
+    action: change => editTablePlugin.changes.insertColumn(change, 1),
   },
 ];
 
@@ -48,10 +48,13 @@ const classes = new BEMHelper({
 
 const TableActions = ({ state, editor }) => {
   const handleOnClick = (e, operation) => {
+    e.preventDefault();
     const change = state.change();
     editor.onChange(operation.action(change));
   };
-  const show = editTablePlugin.utils.isSelectionInTable(state);
+
+  const show =
+    editTablePlugin.utils.isSelectionInTable(state) && state.isFocused;
   return (
     <div {...classes('', show ? 'show' : 'hidden')}>
       {supportedTableOperations.map(operation => (

@@ -34,7 +34,6 @@ const RichTextEditor = class extends React.Component {
     };
     this.toggleMark = this.toggleMark.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
-    this.onFocus = this.onFocus.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {

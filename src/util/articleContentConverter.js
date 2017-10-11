@@ -6,12 +6,11 @@
  *
  */
 
-import { State, Schema } from 'slate';
+import { State } from 'slate';
 
 import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
-import { defaultRules } from '../components/SlateEditor/schema';
 
 export const createEmptyState = () =>
   State.fromJSON({
@@ -49,7 +48,10 @@ function extractSections(html) {
     .map(section => `${section}</section>`);
 }
 
-export function learningResourceContentToEditorState(html) {
+export function learningResourceContentToEditorState(
+  html,
+  fragment = undefined,
+) {
   if (!html) {
     return [
       {
@@ -60,7 +62,10 @@ export function learningResourceContentToEditorState(html) {
   }
   const sections = extractSections(html);
 
-  const serializer = new Html({ rules: learningResourceRules });
+  const serializer = new Html({
+    rules: learningResourceRules,
+    parseHtml: fragment,
+  });
   /**
    Map over each section and deserialize to get a new slate state. On this state, normalize with the schema rules and use the changed state. this
    implementation was needed because of v0.22.0 change (onBeforeChange was removed from componentWillReceiveProps in editor).
@@ -68,11 +73,8 @@ export function learningResourceContentToEditorState(html) {
   */
   return sections.map((section, index) => {
     const state = serializer.deserialize(section);
-    const change = state
-      .change()
-      .normalize(Schema.fromJSON({ rules: defaultRules }));
     return {
-      state: change.state,
+      state,
       index,
     };
   });
@@ -90,11 +92,11 @@ export function learningResourceContentToHTML(contentState) {
     .replace(/<deleteme><\/deleteme>/g, '');
 }
 
-export function topicArticleContentToEditorState(html) {
+export function topicArticleContentToEditorState(html, fragment = undefined) {
   if (!html) {
     return createEmptyState();
   }
-  const serializer = new Html({ rules: topicArticeRules });
+  const serializer = new Html({ rules: topicArticeRules, parseHtml: fragment });
   return serializer.deserialize(html);
 }
 

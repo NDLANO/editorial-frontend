@@ -9,7 +9,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import EditBlockquote from 'slate-edit-blockquote';
 import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
 import Accordion from '../../../components/Accordion';
@@ -21,6 +20,10 @@ import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox
 import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
+import {
+  editListPlugin,
+  blockquotePlugin,
+} from '../../../components/SlateEditor/plugins/externalPlugins';
 
 import { classes } from './LearningResourceForm';
 import { CommonFieldPropsShape } from '../../../shapes';
@@ -32,7 +35,8 @@ const plugins = [
   createAsidePlugin(),
   createLinkPlugin(),
   headingPlugin(),
-  EditBlockquote({ type: 'quote' }),
+  blockquotePlugin,
+  editListPlugin,
 ];
 
 class LearningResourceContent extends Component {
@@ -61,6 +65,7 @@ class LearningResourceContent extends Component {
         {t('form.content.placeholder')}
       </span>
     );
+
     return (
       <Accordion
         handleToggle={this.toggleContent}

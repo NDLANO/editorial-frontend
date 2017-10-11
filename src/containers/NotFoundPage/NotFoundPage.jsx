@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
-import { OneColumn } from 'ndla-ui';
+import { OneColumn, ErrorMessage } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 
 const Status = ({ code, children }) => (
@@ -28,16 +28,19 @@ Status.propTypes = {
   code: PropTypes.number.isRequired,
 };
 
-function NotFound({ t }) {
-  return (
-    <Status code={404}>
-      <OneColumn cssModifier="narrow">
-        <div>
-          <h2>404 - {t('notFound.description')}</h2>
-        </div>
-      </OneColumn>
-    </Status>
-  );
-}
+const NotFound = ({ t }) => (
+  <Status code={404}>
+    <OneColumn cssModifier="clear">
+      <ErrorMessage
+        messages={{
+          title: t('errorMessage.title'),
+          description: t('notFound.description'),
+          back: t('errorMessage.back'),
+          goToFrontPage: t('errorMessage.goToFrontPage'),
+        }}
+      />
+    </OneColumn>
+  </Status>
+);
 
 export default injectT(NotFound);

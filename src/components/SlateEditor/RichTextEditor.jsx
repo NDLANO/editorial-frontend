@@ -44,12 +44,6 @@ const RichTextEditor = class extends React.Component {
     }
   }
 
-  onFocus(state) {
-    const { name, onChange } = this.props;
-    const nextChange = state.change().focus();
-    onChange({ target: { name, value: nextChange.state } });
-  }
-
   onKeyDown(e, data, change) {
     let mark;
     const state = change.state;
@@ -103,7 +97,6 @@ const RichTextEditor = class extends React.Component {
         <div>
           <Editor
             {...classes(undefined, undefined, className)}
-            onFocus={() => this.onFocus(value)}
             onKeyDown={this.onKeyDown}
             state={value}
             schema={schema}

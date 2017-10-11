@@ -41,7 +41,7 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
     expect(historyMock.push.calledWith('/learning-resource/3333/edit/nb')).toBe(
       true,
     );
-  }, 100);
+  }, global.DEFAULT_TIMEOUT);
 });
 
 test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end', () => {
@@ -77,7 +77,7 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
         true,
       );
       resolve();
-    }, 100);
+    }, global.DEFAULT_TIMEOUT);
   });
 });
 
@@ -114,7 +114,7 @@ test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
         '/learning-resource/123/edit/nb',
       );
       resolve();
-    }, 100);
+    }, global.DEFAULT_TIMEOUT);
   });
 });
 
@@ -142,5 +142,5 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
   expect(component.toJSON()).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push.calledOnce).toBe(false);
-  }, 100);
+  }, global.DEFAULT_TIMEOUT);
 });

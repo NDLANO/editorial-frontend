@@ -98,8 +98,9 @@ export const orderListRules = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'ol') return;
-    const data = getDataType(el);
-    if (data.type.value === 'letters') {
+    const type = el.attributes.getNamedItem('data-type');
+    const data = { type: type ? type.value : '' };
+    if (data.type === 'letters') {
       return {
         kind: 'block',
         type: 'letter-list',
@@ -115,7 +116,7 @@ export const orderListRules = {
   },
   serialize(object, children) {
     if (object.kind !== 'block') return;
-    if (object.type !== 'numbered-list' || object.type !== 'letter-list')
+    if (object.type !== 'numbered-list' && object.type !== 'letter-list')
       return;
     if (object.type === 'letter-list') {
       return <ol data-type="letters">{children}</ol>;

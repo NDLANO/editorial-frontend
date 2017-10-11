@@ -15,7 +15,7 @@ import { Search, Cross } from 'ndla-ui/icons';
 import { withRouter } from 'react-router-dom';
 
 import MastheadSearchForm from './components/MastheadSearchForm';
-import { getSearching } from './mastheadSelectors';
+import { getSearching } from '../../modules/search/searchSelectors';
 import { toSearch } from '../../util/routeHelpers';
 
 class MastheadSearch extends Component {
@@ -64,6 +64,8 @@ class MastheadSearch extends Component {
         ? locationQuery.articleTypes
         : 'topic-article';
     }
+    console.log(searching);
+
     return (
       <div className="masthead-search">
         <SiteNav>

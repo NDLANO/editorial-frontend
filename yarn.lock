@@ -4328,7 +4328,7 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@~4.17.2:
+"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@~4.17.2:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -4618,11 +4618,11 @@ ndla-licenses@^0.0.11:
   dependencies:
     defined "1.0.0"
 
-ndla-tabs@^0.3.5:
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.3.6.tgz#a1b823578fd9dd4268a10072913158d9266713fa"
+ndla-tabs@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.4.1.tgz#2e75ace0ab45862ed3238e2a0f59378295f342b6"
   dependencies:
-    lodash "^4.17.2"
+    lodash "^4.17.4"
 
 ndla-ui@^0.8.0:
   version "0.8.0"

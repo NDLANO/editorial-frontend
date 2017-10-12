@@ -202,7 +202,7 @@ export default compose(
     },
     metaDescription: {
       required: true,
-      maxLength: 150,
+      maxLength: 155,
     },
     visualElement: {
       required: true,

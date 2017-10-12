@@ -57,7 +57,7 @@ export const isUserProvidedEmbedDataValid = embed => {
   } else if (embed.resource === 'brightcove') {
     return !isEmpty(embed.caption);
   } else if (embed.resource === 'audio') {
-    return !isEmpty(embed.caption);
+    return !isEmpty(embed.title);
   }
   return true;
 };

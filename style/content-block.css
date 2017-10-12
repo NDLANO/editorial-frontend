@@ -27,14 +27,6 @@
 .c-editor {
   position: relative;
 
-  div[data-slate-void] {
-    line-height: 0;
-  }
-
-  div[data-slate-void] + p {
-    margin-top: 0;
-  }
-
   p {
     font-family: var(--font-serif);
   }
@@ -107,14 +99,6 @@
     border: 1px solid red;
     color: red;
     padding: 1rem;
-  }
-
-  &__figure {
-    border: 1px solid transparent;
-
-    &--active {
-      border: 1px solid var(--brand-color--light);
-    }
   }
 
   &__figure-input-field {

@@ -13,30 +13,20 @@ import * as visualElementApi from '../../../../containers/VisualElement/visualEl
 import { EmbedShape } from '../../../../shapes';
 
 class SlateAudio extends React.Component {
-  constructor() {
-    super();
-    this.loadAudio = this.loadAudio.bind(this);
-    this.state = {
-      audioSource: '',
-      audioType: '',
-    };
+  constructor(props) {
+    super(props);
+    this.state = {};
   }
 
-  componentWillMount() {
-    this.loadAudio();
-  }
-
-  loadAudio() {
-    visualElementApi
-      .fetchAudio(this.props.embed.resource_id)
-      .then(audio => {
-        this.setState({
-          audio,
-        });
-      })
-      .catch(err => {
-        visualElementApi.onError(err);
-      });
+  async componentWillMount() {
+    try {
+      const audio = await visualElementApi.fetchAudio(
+        this.props.embed.resource_id,
+      );
+      this.setState({ audio });
+    } catch (error) {
+      visualElementApi.onError(error);
+    }
   }
 
   render() {

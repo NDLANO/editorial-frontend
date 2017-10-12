@@ -10,6 +10,11 @@ const phrases = {
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
+  language: {
+    en: 'English',
+    nb: 'Norwegian - Bokmål',
+    nn: 'Norwegian - Nynorsk',
+  },
   welcomePage: {
     shortcuts: 'Shortcuts',
     searchTopicArticles: 'Search for topic description',

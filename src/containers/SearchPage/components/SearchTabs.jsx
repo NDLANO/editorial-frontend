@@ -9,7 +9,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Tabs from 'ndla-tabs';
-import { injectT } from 'ndla-i18n';
 
 class SearchTabs extends Component {
   constructor(props) {
@@ -82,35 +81,10 @@ class SearchTabs extends Component {
 
   render() {
     const { index } = this.state;
-    const { t, tabContent, searching } = this.props;
+    const { tabs } = this.props;
 
     return (
-      <Tabs
-        selectedIndex={index}
-        onSelect={this.handleOnSelect}
-        tabs={[
-          {
-            title: t('searchForm.articleType.learningResource'),
-            content: tabContent,
-            disabled: searching,
-          },
-          {
-            title: t('searchForm.articleType.topicArticle'),
-            content: tabContent,
-            disabled: searching,
-          },
-          {
-            title: t('searchForm.articleType.image'),
-            content: tabContent,
-            disabled: searching,
-          },
-          {
-            title: t('searchForm.articleType.audio'),
-            content: tabContent,
-            disabled: searching,
-          },
-        ]}
-      />
+      <Tabs selectedIndex={index} onSelect={this.handleOnSelect} tabs={tabs} />
     );
   }
 }
@@ -118,10 +92,16 @@ class SearchTabs extends Component {
 SearchTabs.propTypes = {
   searchTypes: PropTypes.string.isRequired,
   articleType: PropTypes.string,
-  tabContent: PropTypes.node.isRequired,
+  tabs: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string,
+      content: PropTypes.node,
+      disabled: PropTypes.bool,
+    }),
+  ).isRequired,
   onSearchTypeChange: PropTypes.func.isRequired,
   onArticleSearchTypeChange: PropTypes.func.isRequired,
   searching: PropTypes.bool.isRequired,
 };
 
-export default injectT(SearchTabs);
+export default SearchTabs;

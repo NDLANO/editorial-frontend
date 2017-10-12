@@ -64,7 +64,6 @@ class MastheadSearch extends Component {
         ? locationQuery.articleTypes
         : 'topic-article';
     }
-    console.log(searching);
 
     return (
       <div className="masthead-search">

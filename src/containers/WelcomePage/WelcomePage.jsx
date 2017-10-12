@@ -18,7 +18,11 @@ import {
   toSearch,
 } from '../../util/routeHelpers';
 
-const query = { articleTypes: 'topic-article', types: ['articles'] };
+const topicArticleQuery = {
+  articleTypes: 'topic-article',
+  types: ['articles'],
+};
+const learningResourceQuery = { articleTypes: 'standard', types: ['articles'] };
 
 export const WelcomePage = ({ t }) => (
   <OneColumn cssModifier="clear">
@@ -27,18 +31,23 @@ export const WelcomePage = ({ t }) => (
         <h1>{t('welcomePage.shortcuts')}</h1>
         <ul>
           <li>
-            <Link to={`${toSearch(query)}`}>
-              {t('welcomePage.searchTopicArticles')}
+            <Link to={`${toSearch(learningResourceQuery)}`}>
+              {t('welcomePage.searchLearningResource')}
             </Link>
           </li>
           <li>
-            <Link to={`${toCreateTopicArticle()}`}>
-              {t('welcomePage.createTopicArticle')}
+            <Link to={`${toSearch(topicArticleQuery)}`}>
+              {t('welcomePage.searchTopicArticles')}
             </Link>
           </li>
           <li>
             <Link to={`${toCreateLearningResource()}`}>
               {t('welcomePage.createLearningResource')}
+            </Link>
+          </li>
+          <li>
+            <Link to={`${toCreateTopicArticle()}`}>
+              {t('welcomePage.createTopicArticle')}
             </Link>
           </li>
           <li>

@@ -14,6 +14,7 @@ const phrases = {
     shortcuts: 'Shortcuts',
     searchTopicArticles: 'Search for topic description',
     createTopicArticle: 'Create topic description',
+    searchLearningResource: 'Search learning resource',
     createLearningResource: 'Create learning resource',
     createAudioFile: 'Upload audiofile',
     createImage: 'Upload image',

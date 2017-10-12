@@ -304,7 +304,9 @@ const phrases = {
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
   },
   searchPage: {
-    noHits: 'Your search - {query} - did not match any articles. ',
+    articlesNoHits: 'Your search - {query} - did not match any articles.',
+    imagesNoHits: 'Your search - {query} - did not match any images.',
+    audiosNoHits: 'Your search - {query} - did not match any audio files.',
   },
   footer: {
     aboutNDLA: 'About NDLA',

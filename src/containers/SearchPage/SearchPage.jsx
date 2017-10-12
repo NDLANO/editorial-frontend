@@ -75,10 +75,15 @@ class SearchPage extends Component {
   }
 
   render() {
-    const { location, results, locale, lastPage } = this.props;
+    const { location, results, locale, lastPage, searching } = this.props;
     const query = queryString.parse(location.search);
     const searchList = (
-      <SearchList query={query} locale={locale} results={results} />
+      <SearchList
+        query={query}
+        locale={locale}
+        results={results}
+        searching={searching}
+      />
     );
 
     return (

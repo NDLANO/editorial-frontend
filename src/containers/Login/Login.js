@@ -14,12 +14,14 @@ import LoginSuccess from './LoginSuccess';
 import LoginProviders from './LoginProviders';
 
 export const Login = ({ match }) => (
-  <OneColumn cssModifier="narrow">
-    <Switch>
-      <Route path={`${match.url}/success`} component={LoginSuccess} />
-      <Route path={`${match.url}/failure`} component={LoginFailure} />
-      <Route component={LoginProviders} />
-    </Switch>
+  <OneColumn cssModifier="clear">
+    <div className="u-2/3@desktop u-push-1/3@desktop">
+      <Switch>
+        <Route path={`${match.url}/success`} component={LoginSuccess} />
+        <Route path={`${match.url}/failure`} component={LoginFailure} />
+        <Route component={LoginProviders} />
+      </Switch>
+    </div>
   </OneColumn>
 );
 

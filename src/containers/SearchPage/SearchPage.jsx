@@ -8,6 +8,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
+import { injectT } from 'ndla-i18n';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { OneColumn, Pager, Hero } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
@@ -74,16 +76,21 @@ class SearchPage extends Component {
   }
 
   render() {
-    const { location, results, locale, lastPage, searching } = this.props;
+    const {
+      t,
+      location,
+      results,
+      locale,
+      lastPage,
+      enabledSources,
+      searching,
+    } = this.props;
     const query = queryString.parse(location.search);
-    const searchList = (
-      <SearchList
-        query={query}
-        locale={locale}
-        results={results}
-        searching={searching}
-      />
-    );
+    const enabledTabs = enabledSources.map(source => ({
+      title: t(`searchForm.articleType.${source}`),
+      content: <SearchList query={query} locale={locale} results={results} />,
+      disabled: searching,
+    }));
 
     return (
       <div>
@@ -93,9 +100,10 @@ class SearchPage extends Component {
             <SearchTabs
               searchTypes={query.types}
               articleType={query.articleTypes}
-              tabContent={searchList}
+              tabs={enabledTabs}
               onSearchTypeChange={this.onSearchTypeChange}
               onArticleSearchTypeChange={this.onArticleSearchTypeChange}
+              searching={searching}
             />
             <Pager
               page={query.page ? parseInt(query.page, 10) : 1}
@@ -122,6 +130,11 @@ SearchPage.propTypes = {
   results: PropTypes.arrayOf(SearchResultShape).isRequired,
   searching: PropTypes.bool.isRequired,
   search: PropTypes.func.isRequired,
+  enabledSources: PropTypes.array,
+};
+
+SearchPage.defaultProps = {
+  enabledSources: ['learningResource', 'topicArticle', 'image', 'audio'],
 };
 
 const mapDispatchToProps = {
@@ -135,4 +148,6 @@ const mapStateToProps = state => ({
   searching: getSearching(state),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
+export default compose(connect(mapStateToProps, mapDispatchToProps), injectT)(
+  SearchPage,
+);

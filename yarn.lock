@@ -4740,12 +4740,11 @@ ndla-i18n@^0.1.0:
     intl-messageformat "^1.3.0"
     invariant "^2.2.2"
 
-ndla-image-search@^0.1.16:
-  version "0.1.18"
-  resolved "https://registry.yarnpkg.com/ndla-image-search/-/ndla-image-search-0.1.18.tgz#59dad4486852569933e4108066c238bce0f8a8ed"
+ndla-image-search@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/ndla-image-search/-/ndla-image-search-0.2.4.tgz#73e5a4371f1c67289b2b874f07811026f276e807"
   dependencies:
-    defined "1.0.0"
-    react-bem-helper "^1.2.0"
+    react-bem-helper "^1.4.1"
 
 ndla-licenses@^0.0.11:
   version "0.0.11"
@@ -6073,7 +6072,7 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-bem-helper@1.4.1, react-bem-helper@^1.2.0, react-bem-helper@^1.3.1:
+react-bem-helper@1.4.1, react-bem-helper@^1.2.0, react-bem-helper@^1.3.1, react-bem-helper@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/react-bem-helper/-/react-bem-helper-1.4.1.tgz#cb27aeadda020e9fe9d169bfaae1095c559f4cf5"
   dependencies:

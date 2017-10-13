@@ -11,7 +11,7 @@ import { injectT } from 'ndla-i18n';
 
 export const LoginFailure = ({ t }) => (
   <div>
-    <h2> {t('loginFailure.errorMessage')}</h2>
+    <h2>{t('loginFailure.errorMessage')}</h2>
     <p>
       <Link to="/login">{t('loginFailure.loginLink')}</Link>
     </p>

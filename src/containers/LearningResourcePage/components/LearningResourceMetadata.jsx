@@ -59,10 +59,10 @@ class LearningResourceMetadata extends Component {
           label={t('form.metaDescription.label')}
           description={t('form.metaDescription.description')}
           name="metaDescription"
-          maxLength={150}
+          maxLength={155}
           {...commonFieldProps}>
           <RemainingCharacters
-            maxLength={150}
+            maxLength={155}
             getRemainingLabel={(maxLength, remaining) =>
               t('form.remainingCharacters', { maxLength, remaining })}
             value={bindInput('metaDescription').value.document.text}

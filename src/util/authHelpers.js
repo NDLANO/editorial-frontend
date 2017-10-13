@@ -78,7 +78,7 @@ export function parseHash(hash) {
 
 export const authLogout = federated => {
   const options = {
-    returnTo: `${locationOrigin}/`,
+    returnTo: `${locationOrigin}`,
     clientID: auth0ClientId,
   };
 
@@ -112,6 +112,7 @@ export const renewAuth = () =>
           resolve(authResult.idToken);
         } else {
           createHistory().push('/logout/session'); // Push to logoutPath
+          window.location.reload(); // Need to reload to logout
           reject();
         }
       },

@@ -19,7 +19,6 @@ import {
   getSearching,
 } from '../../modules/search/searchSelectors';
 import { getLocale } from '../../modules/locale/locale';
-import SelectSearchSortOrder from './components/SelectSearchSortOrder';
 import SearchList from './components/SearchList';
 import SearchTabs from './components/SearchTabs';
 import { toSearch } from '../../util/routeHelpers';
@@ -91,10 +90,6 @@ class SearchPage extends Component {
         <Hero />
         <OneColumn cssModifier="narrow">
           <div {...searchClasses()}>
-            <SelectSearchSortOrder
-              sort={query.sort}
-              onSortOrderChange={this.onSortOrderChange}
-            />
             <SearchTabs
               searchTypes={query.types}
               articleType={query.articleTypes}

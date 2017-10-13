@@ -95,7 +95,6 @@ class MastheadSearch extends Component {
               toSearch({
                 query: searchQuery,
                 page: 1,
-                sort: '-relevance',
                 types: locationQuery.types ? locationQuery.types : 'articles',
                 articleTypes,
               }),

@@ -20,6 +20,7 @@ const phrases = {
     shortcuts: 'Snarveier',
     searchTopicArticles: 'Søk etter emnebeskrivelse',
     createTopicArticle: 'Opprett emnebeskrivelse',
+    searchLearningResource: 'Søk etter læringsressurs',
     createLearningResource: 'Opprett læringsressurs',
     createAudioFile: 'Last opp lydfil',
     createImage: 'Last opp bilde',

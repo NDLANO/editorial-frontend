@@ -45,6 +45,10 @@
     &--big {
       max-width: 870px;
     }
+
+    &--fullscreen {
+      max-width: 95%;
+    }
   }
 }
 

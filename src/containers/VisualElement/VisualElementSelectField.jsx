@@ -106,7 +106,11 @@ class VisualElementSelectField extends Component {
 
     if (selectedResource) {
       return (
-        <Lightbox display big onClose={this.onImageLightboxClose}>
+        <Lightbox
+          display
+          big
+          fullscreen={selectedResource === 'h5p'}
+          onClose={this.onImageLightboxClose}>
           <VisualElementSearch
             selectedResource={selectedResource}
             embedTag={value}

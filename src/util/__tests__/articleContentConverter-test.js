@@ -6,6 +6,7 @@
  *
  */
 
+import jsdom from 'jsdom';
 import {
   topicArticleContentToEditorState,
   topicArticleContentToHTML,
@@ -15,38 +16,38 @@ import {
 
 const contentHTML = `<section><h2>Lorem ipsum</h2></section>`;
 
-const learningResourceContent = `<section><h2>Lorem ipsum</h2><embed date-resource-type="image"/></section>`;
-
 const contentHTMLWithSections = `<section><h2>Section 1</h2></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>`;
+
+const fragment = jsdom.JSDOM.fragment;
 
 test('articleContentConverter convert topic article content to and from editorState', () => {
   // Todo fix test to handle empty text nodes
-  const editorState = topicArticleContentToEditorState(contentHTML);
+  const editorState = topicArticleContentToEditorState(contentHTML, fragment);
   const html = topicArticleContentToHTML(editorState);
   expect(html).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content to and from editorState', () => {
-  const editorState = learningResourceContentToEditorState(contentHTML);
+  const editorState = learningResourceContentToEditorState(
+    contentHTML,
+    fragment,
+  );
   const html = learningResourceContentToHTML(editorState);
   expect(html).toMatchSnapshot();
 });
 
-test('articleContentConverter convert learningresource content with rule applied', () => {
+test('articleContentConverter convert learningresource content', () => {
   const editorState = learningResourceContentToEditorState(
-    learningResourceContent,
+    contentHTML,
+    fragment,
   );
-  expect(editorState[0].state.toJSON()).toMatchSnapshot();
-});
-
-test('articleContentConverter convert learningresource content with no rule applied', () => {
-  const editorState = learningResourceContentToEditorState(contentHTML);
   expect(editorState[0].state.toJSON()).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content with multiple sections to and from editorState', () => {
   const editorState = learningResourceContentToEditorState(
     contentHTMLWithSections,
+    fragment,
   );
   const html = learningResourceContentToHTML(editorState);
   expect(html).toMatchSnapshot();

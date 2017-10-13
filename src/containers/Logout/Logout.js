@@ -15,11 +15,13 @@ import LogoutProviders from './LogoutProviders';
 
 const Logout = ({ match }) => (
   <OneColumn cssModifier="clear">
-    <Switch>
-      <Route path={`${match.url}/federated`} component={LogoutFederated} />
-      <Route path={`${match.url}/session`} component={LogoutSession} />
-      <Route component={LogoutProviders} />
-    </Switch>
+    <div className="u-2/3@desktop u-push-1/3@desktop">
+      <Switch>
+        <Route path={`${match.url}/federated`} component={LogoutFederated} />
+        <Route path={`${match.url}/session`} component={LogoutSession} />
+        <Route component={LogoutProviders} />
+      </Switch>
+    </div>
   </OneColumn>
 );
 

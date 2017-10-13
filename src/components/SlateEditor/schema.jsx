@@ -150,6 +150,11 @@ const defaultSchema = {
       </li>
     ),
     'numbered-list': props => <ol {...props.attributes}>{props.children}</ol>,
+    'letter-list': props => (
+      <ol className="ol-list--roman" {...props.attributes}>
+        {props.children}
+      </ol>
+    ),
     quote: props => (
       <blockquote {...props.attributes}>{props.children}</blockquote>
     ),

@@ -62,7 +62,7 @@ class MastheadSearch extends Component {
     if (locationQuery.types === 'articles' || !location.types) {
       articleTypes = locationQuery.articleTypes
         ? locationQuery.articleTypes
-        : 'topic-article';
+        : 'standard';
     }
 
     return (

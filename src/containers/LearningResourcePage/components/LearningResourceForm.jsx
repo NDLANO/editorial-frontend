@@ -267,7 +267,7 @@ export default compose(
     },
     metaDescription: {
       required: true,
-      maxLength: 150,
+      maxLength: 155,
     },
     metaImage: {
       required: true,

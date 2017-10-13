@@ -31,7 +31,7 @@ class Link extends Component {
     if (this.linkRef) {
       const rect = this.linkRef.getBoundingClientRect();
       return {
-        top: rect.top + rect.height,
+        top: window.scrollY + rect.top + rect.height,
         left: rect.left,
       };
     }

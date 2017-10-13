@@ -7,13 +7,19 @@
  */
 /** @jsx h */
 
+/**
+ * @jest-environment node
+ */
+
 import h from 'slate-hyperscript';
+import jsdom from 'jsdom';
 import renderer from 'react-test-renderer';
 import Html from 'slate-html-serializer';
 import { learningResourceRules } from '../slateHelpers';
 
 const serializer = new Html({
   rules: learningResourceRules,
+  parseHtml: jsdom.JSDOM.fragment,
 });
 
 test('deserialize a link and a content-link in an list', () => {
@@ -27,7 +33,6 @@ test('deserialize link with spacing before link', () => {
   const deserialized = serializer.deserialize(
     '<p>Eller du kan bruke nettsidene <a href="http://www.nav.no/" rel="noopener noreferrer" target="_blank" title="nav.no">nav.no</a> . Her finnes informasjon om de ulike tjenestene.</p>',
   );
-
   expect(deserialized.toJSON()).toMatchSnapshot();
 });
 

@@ -20,6 +20,7 @@ const phrases = {
     shortcuts: 'Snarveier',
     searchTopicArticles: 'Søk etter emnebeskrivelse',
     createTopicArticle: 'Opprett emnebeskrivelse',
+    searchLearningResource: 'Søk etter læringsressurs',
     createLearningResource: 'Opprett læringsressurs',
     createAudioFile: 'Last opp lydfil',
     createImage: 'Last opp bilde',
@@ -304,7 +305,9 @@ const phrases = {
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
   },
   searchPage: {
-    noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
+    articlesNoHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
+    imagesNoHits: 'Ingen bilder samsvarte med søket ditt på: {query}',
+    audiosNoHits: 'Ingen lydfiler samsvarte med søket ditt på: {query}',
   },
   footer: {
     aboutNDLA: 'Om NDLA',

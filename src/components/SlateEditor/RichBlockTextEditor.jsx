@@ -76,7 +76,6 @@ class RichBlockTextEditor extends Component {
       onChange,
       ...rest
     } = this.props;
-
     return (
       <article>
         {value.map((val, index) => (

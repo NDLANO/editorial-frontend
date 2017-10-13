@@ -14,6 +14,7 @@ import {
   Italic,
   ListCircle,
   ListNumbered,
+  ListSquare,
   Quote,
   Underline,
   Link,
@@ -31,6 +32,7 @@ const toolbarIcon = {
   link: <Link />,
   'numbered-list': <ListNumbered />,
   'bulleted-list': <ListCircle />,
+  'letter-list': <ListSquare />,
   'heading-two': <Heading2 />,
   footnote: <Section />,
 };

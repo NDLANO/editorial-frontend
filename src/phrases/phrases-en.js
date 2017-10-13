@@ -10,6 +10,11 @@ const phrases = {
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
+  language: {
+    en: 'English',
+    nb: 'Norwegian - Bokmål',
+    nn: 'Norwegian - Nynorsk',
+  },
   welcomePage: {
     shortcuts: 'Shortcuts',
     searchTopicArticles: 'Search for topic description',
@@ -304,7 +309,9 @@ const phrases = {
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
   },
   searchPage: {
-    noHits: 'Your search - {query} - did not match any articles. ',
+    articlesNoHits: 'Your search - {query} - did not match any articles.',
+    imagesNoHits: 'Your search - {query} - did not match any images.',
+    audiosNoHits: 'Your search - {query} - did not match any audio files.',
   },
   footer: {
     aboutNDLA: 'About NDLA',

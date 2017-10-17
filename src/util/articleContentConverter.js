@@ -26,7 +26,7 @@ export const createEmptyState = () =>
               nodes: [
                 {
                   kind: 'text',
-                  ranges: [
+                  leaves: [
                     {
                       text: '',
                     },

@@ -47,4 +47,8 @@ SearchList.propTypes = {
   searching: PropTypes.bool.isRequired,
 };
 
+SearchList.defaultProps = {
+  searching: true,
+};
+
 export default injectT(SearchList);

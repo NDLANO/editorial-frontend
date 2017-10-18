@@ -1,4 +1,4 @@
-FROM node:8.4.0-alpine
+FROM node:8-alpine
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/editorial-frontend

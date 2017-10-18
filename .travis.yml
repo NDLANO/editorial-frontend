@@ -11,10 +11,13 @@ script:
   - yarn test
   - yarn build
 
+after_script:
+  - yarn ndla-scripts now-travis
+
 cache:
   yarn: true
   directories:
-    - "node_modules"
+   - "node_modules"
 
 notifications:
   slack:
@@ -22,3 +25,6 @@ notifications:
     on_failure: always
     rooms:
       secure: HP0d1hQG2MCGvo4KF3YUdLxPjGei41UBgqMBhxVVPtyqm2twKOoH0ZaNz7HaMUZzGwLJ54O0I5ohWCM3E9nGBZFZj4fuqTTf9VQV1ig0B85DUKkT21ru2LxVqTDQQ2Md9sPIThZcviu3D11yD8tRnUl54/uV2/SH6mXw5BNimxipKLxKASQTroRxIsuAvNs72xEvKvE/ijNBlayXs9Vek9SuqTaTyS5WHvnO2hbtqrDYckqORmSVOa8TtMOeyz77ilOU7aqp+HrRgkB8xlyUOVmyod6EvU27IugunkwAAPQJLHNCoa/Dm3AFzj6ZMtyJet+e3/j2LPyN/92AcZMsz3IxFTxnZq0PhbpVSoVQbMVoIcFuV6c1kNTYEJY6B2dNhkBMvHGqq32z2XdX0EA4kJEihlMvI0jwsbYaBtcOXN/92HXqwM97LR2KKEseQGpbErM1aoWrzT0gWaU8IJ+RlPYzs016Nr33gE1Tmpk3UHh9jyBaWeIgbSxAVg1SWmI5B5iFnQm5tHiyJsH6+uGhJ08HniPqeIuKQpN5FEQ/ux8VpqMa+XqGLMauQdndDLz5DeAilTf8q4GH0HSv4I1UkwmIgpKeDBjmBe7H73rF1g+4uTkuxRd2irB/iEt+Infw+R0y55tRKsoP/b57ROGyZClzfpObbdwYNrvUPbQM91c=
+env:
+  global:
+    secure: Qv7QOQoAjPHUTKfNUs+Y7G3SCL18iV1Wu5kqKV6Sq/17lNsyTkeLPwbl2Ggryeby4hNR4DZlu31gUCGS7VkVMfUS27IoU7ODmzeY1k+d6g6cL2ZbIsS0m9cnWyvp+B82cq96RHWWxO07i7Fe58X+y//lY/w8UnTmEomj1ZgAoQAytfRXWquZXkVvVunp3j6xZfevG6LFzixUZtUz+XEVPqRlPQ1PdokSW0HAF+EyUriCKEHey3JbjMf8zaXsc14PpGZaY8uhDzO6OUisBsLkzbrRFStAKSrZdtXwlPHHVBHnARnqQBGE7XpQ7bEVVcJvYTuoAo8TwpakxHhVpyHbwscCb1VFTDCefe0qJYLr2upwy6G7tRKpzaBF66n1dHyPLtx2PerNmWBSXZH0MDwd0rQqb+t94vZxHdMR5cuXNPCBJOeL3x5Y/ruwlQh45x238d5BpbOM0TiVwkbb8w6v9EB9cyQByu5m1QuQKjqUpOT5CLussVQRhCVGCzcGURBjQ25eKvi0Y+f0xdxmLJ9+t2quUuSz1icw8UshyIw52eKF4rsoEimn//y27PqWs8Tkuxt6JDRPNPVf2c6qSkW1lmtjUDPNWXyU87cRQApuylkxh5NwxYkRXowxYLp0XsAfhjCraYP4jVHacUCwcOtKqN0872HXQOG8tJcTyJw6ZBI=

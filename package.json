@@ -14,6 +14,7 @@
     "prettier": "node prettier.js write",
     "start": "cross-env NODE_ENV=development nodemon server --watch server",
     "start-prod": "cross-env NODE_ENV=production node server",
+    "now-start": "cross-env NODE_ENV=production NOW=true node htdocs/server",
     "test": "cross-env NODE_ENV=unittest jest",
     "tdd": "cross-env NODE_ENV=unittest jest --watch"
   },
@@ -46,6 +47,7 @@
     "jest": "^21.2.1",
     "jsdom": "^11.3.0",
     "json-loader": "^0.5.7",
+    "ndla-scripts": "^0.1.0",
     "nock": "^9.0.14",
     "nodemon": "^1.11.0",
     "postcss-cssnext": "^3.0.2",

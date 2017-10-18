@@ -7,14 +7,11 @@
  */
 
 import React from 'react';
-import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
+import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { uuid } from 'ndla-util';
 
 import { Alerts, Alert, Action } from '../Alerts';
-
-configure({ adapter: new Adapter() });
 
 const noop = () => {};
 

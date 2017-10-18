@@ -4600,9 +4600,9 @@ ndla-i18n@^0.2.0:
     intl-messageformat "^2.1.0"
     invariant "^2.2.2"
 
-ndla-image-search@^0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/ndla-image-search/-/ndla-image-search-0.2.4.tgz#73e5a4371f1c67289b2b874f07811026f276e807"
+ndla-image-search@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/ndla-image-search/-/ndla-image-search-0.2.6.tgz#e1dc885ccb1678c4f63252e16caeafff44de037e"
   dependencies:
     react-bem-helper "^1.4.1"
 
@@ -4618,9 +4618,9 @@ ndla-tabs@^0.4.1:
   dependencies:
     lodash "^4.17.4"
 
-ndla-ui@^0.8.8:
-  version "0.8.8"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.8.8.tgz#85611e75ea5cbf32e9b0b622b5f9aae4cb3174ad"
+ndla-ui@^0.8.10:
+  version "0.8.10"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.8.10.tgz#12fcfaffcf11768fbb4de57712e6c196dfce180b"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"

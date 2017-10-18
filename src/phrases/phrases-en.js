@@ -72,6 +72,7 @@ const phrases = {
   imageSearch: {
     placeholder: 'Search images',
     buttonTitle: 'Search',
+    useImage: 'Use image',
   },
   videoSearch: {
     searchPlaceholder: 'Search videos',

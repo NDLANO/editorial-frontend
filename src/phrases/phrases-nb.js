@@ -73,6 +73,7 @@ const phrases = {
   imageSearch: {
     placeholder: 'Søk i bilder',
     buttonTitle: 'Søk',
+    useImage: 'Bruk bildet',
   },
   videoSearch: {
     searchPlaceholder: 'Søk i videoer',

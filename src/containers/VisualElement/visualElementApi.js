@@ -18,7 +18,7 @@ import {
   resolveJsonOrRejectWithError,
 } from '../../util/apiHelpers';
 
-const baseImageNdlaUrl = apiResourceUrl('/image-api/v1/images');
+const baseImageNdlaUrl = apiResourceUrl('/image-api/v2/images');
 const baseAudioNdlaUrl = apiResourceUrl('/audio-api/v1/audio');
 const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
   `/v1/accounts/${window.config.brightCoveAccountId}/videos`,

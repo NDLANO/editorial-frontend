@@ -9,12 +9,11 @@
     "lint-css": "stylelint style/**/*.css",
     "lint-es": "eslint --ext .js --ext .jsx src server",
     "lint-prettier": "node prettier.js lint",
-    "prebuild": "yarn run clean",
     "pretest": "yarn lint",
     "prettier": "node prettier.js write",
     "start": "cross-env NODE_ENV=development nodemon server --watch server",
     "start-prod": "cross-env NODE_ENV=production node server",
-    "now-start": "cross-env NODE_ENV=production NOW=true node htdocs/server",
+    "now-start": "cross-env NODE_ENV=production NOW=true node server",
     "test": "cross-env NODE_ENV=unittest jest",
     "tdd": "cross-env NODE_ENV=unittest jest --watch"
   },

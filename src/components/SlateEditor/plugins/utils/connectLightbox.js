@@ -8,9 +8,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Portal from 'react-portal';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { getComponentName } from 'ndla-util';
+import { Portal } from '../../../../components/Portal';
 import Lightbox from '../../../Lightbox';
 import { setActiveNode } from '../../createSlateStore';
 

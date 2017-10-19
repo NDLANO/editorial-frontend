@@ -11,9 +11,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import Portal from 'react-portal';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-ui/icons';
+import { Portal } from '../../components/Portal';
 import SlateBlockPicker from './plugins/SlateBlockPicker';
 import RichTextEditor from './RichTextEditor';
 import { PluginShape } from '../../shapes';

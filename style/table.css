@@ -1,13 +1,17 @@
 .c-article table {
   margin-top: 0;
 
-  & td {
-    border: 1px dotted black;
+  & tr:first-child td {
+    background-color: white;
+    border-bottom: 3px solid #deebf6;
+    text-transform: uppercase;
+    font-weight: 700;
   }
 }
 
 .c-table-actions {
   margin-bottom: -1px;
+  margin-left: 8.66667px;
 
   &--hidden {
     display: none;

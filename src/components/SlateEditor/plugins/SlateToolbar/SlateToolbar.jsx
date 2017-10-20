@@ -27,7 +27,7 @@ const DEFAULT_NODE = 'paragraph';
 
 const suportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
-  block: ['quote', ...listTypes, 'table', 'heading-two'],
+  block: ['quote', ...listTypes, 'heading-two'],
   inline: [link, footnote],
 };
 
@@ -88,8 +88,6 @@ class SlateToolbar extends Component {
       } else {
         editListPlugin.changes.wrapInList(change, type);
       }
-    } else if (type === 'table') {
-      editTablePlugin.changes.insertTable(change, 2, 2);
     } else {
       change.setBlock(isActive ? DEFAULT_NODE : type);
     }
@@ -137,7 +135,11 @@ class SlateToolbar extends Component {
     const { menu } = this.state;
     const { state } = this.props;
     if (!menu) return;
-    if (state.isBlurred || state.isEmpty) {
+    if (
+      state.isBlurred ||
+      state.isEmpty ||
+      editTablePlugin.utils.isSelectionInTable(state)
+    ) {
       menu.removeAttribute('style');
       return;
     }

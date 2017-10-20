@@ -7,6 +7,7 @@
  */
 
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import Types from 'slate-prop-types';
@@ -121,7 +122,9 @@ class SlateToolbar extends Component {
   }
 
   portalRef(menu) {
-    this.setState({ menu: menu.el.firstChild });
+    // ReactDOM.createPortal callback ref only seems to return a ReactPortal node instance
+    // eslint-disable-next-line react/no-find-dom-node
+    this.setState({ menu: findDOMNode(menu) });
   }
 
   handleStateChange(change) {
@@ -167,7 +170,7 @@ class SlateToolbar extends Component {
     );
 
     return (
-      <Portal isOpened portalRef={this.portalRef}>
+      <Portal isOpened ref={this.portalRef}>
         <div {...toolbarClasses()}>{toolbarButtons}</div>
       </Portal>
     );

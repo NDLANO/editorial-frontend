@@ -41,6 +41,7 @@ const VisualElementSearch = ({
             locale={locale}
             searchPlaceholder={t('imageSearch.placeholder')}
             searchButtonTitle={t('imageSearch.buttonTitle')}
+            useImageTitle={t('imageSearch.useImage')}
             onImageSelect={image =>
               handleVisualElementChange({
                 resource: selectedResource,

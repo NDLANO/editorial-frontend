@@ -29,7 +29,11 @@ class SlateEmbedPicker extends React.Component {
   render() {
     const { isOpen, resource, onEmbedClose } = this.props;
     return (
-      <Lightbox display={isOpen} big onClose={onEmbedClose}>
+      <Lightbox
+        display={isOpen}
+        fullscreen={resource === 'h5p'}
+        big
+        onClose={onEmbedClose}>
         <VisualElementSearch
           selectedResource={resource}
           handleVisualElementChange={this.onEmbedAdd}

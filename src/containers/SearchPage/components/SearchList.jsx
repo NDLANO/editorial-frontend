@@ -12,12 +12,14 @@ import { injectT } from 'ndla-i18n';
 import SearchResult from './SearchResult';
 import { SearchResultShape } from '../../../shapes';
 
-const SearchList = ({ results, query, locale, t }) => {
-  const noSearchHits = query.query && results.length === 0;
+const SearchList = ({ results, query, locale, t, searching }) => {
+  // TODO: Modify this when support for all results is ready
+  const noTypeResultsHits = results[0] ? results[0].results : [];
+  const noSearchHits = !searching && noTypeResultsHits.length === 0;
   return (
     <div>
       {noSearchHits ? (
-        <p>{t('searchPage.noHits', { query: query.query })}</p>
+        <p>{t(`searchPage.${query.types}NoHits`, { query: query.query })}</p>
       ) : (
         results.map(result => (
           <div key={result.type}>
@@ -42,6 +44,7 @@ SearchList.propTypes = {
     query: PropTypes.string,
   }),
   locale: PropTypes.string.isRequired,
+  searching: PropTypes.bool.isRequired,
 };
 
 export default injectT(SearchList);

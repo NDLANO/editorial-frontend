@@ -131,14 +131,6 @@ test('isUserProvidedEmbedDataValid for audio', () => {
   expect(
     isUserProvidedEmbedDataValid({
       resource: 'audio',
-      caption: 'Intervju med Hallvard',
     }),
   ).toBe(true);
-
-  expect(
-    isUserProvidedEmbedDataValid({
-      resource: 'audio',
-      caption: '',
-    }),
-  ).toBe(false);
 });

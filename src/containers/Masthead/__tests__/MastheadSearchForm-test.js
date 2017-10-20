@@ -41,7 +41,7 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
     expect(historyMock.push.calledWith('/learning-resource/3333/edit/nb')).toBe(
       true,
     );
-  }, 100);
+  }, global.DEFAULT_TIMEOUT);
 });
 
 test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end', () => {
@@ -77,7 +77,44 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
         true,
       );
       resolve();
-    }, 100);
+    }, global.DEFAULT_TIMEOUT);
+  });
+});
+
+test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
+  const historyMock = {
+    push: sinon.spy(),
+  };
+
+  nock('http://ndla-api')
+    .get('/article-api/v2/articles/external_id/4737')
+    .reply(200, { id: '123' });
+
+  const component = renderer.create(
+    <MastheadSearchForm
+      show
+      query="https://ndla.no/nb/node/4737?fag=36"
+      searching={false}
+      locale="nb"
+      onSearchQuerySubmit={noop}
+      t={() => ''}
+      history={historyMock}
+    />,
+  );
+  const tree = component.toJSON();
+  const e = {
+    preventDefault: () => {},
+  };
+  tree.props.onSubmit(e);
+  expect(component.toJSON()).toMatchSnapshot();
+  return new Promise(resolve => {
+    setTimeout(() => {
+      expect(historyMock.push.calledOnce).toBe(true);
+      expect(historyMock.push.getCall(0).args[0]).toBe(
+        '/learning-resource/123/edit/nb',
+      );
+      resolve();
+    }, global.DEFAULT_TIMEOUT);
   });
 });
 
@@ -105,5 +142,5 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
   expect(component.toJSON()).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push.calledOnce).toBe(false);
-  }, 100);
+  }, global.DEFAULT_TIMEOUT);
 });

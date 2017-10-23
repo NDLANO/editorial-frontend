@@ -13,9 +13,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "test",
               },
@@ -43,9 +43,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "",
               },
@@ -68,9 +68,9 @@ Object {
             "nodes": Array [
               Object {
                 "kind": "text",
-                "ranges": Array [
+                "leaves": Array [
                   Object {
-                    "kind": "range",
+                    "kind": "leaf",
                     "marks": Array [],
                     "text": "#",
                   },
@@ -81,9 +81,9 @@ Object {
           },
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "",
               },
@@ -107,9 +107,9 @@ Object {
             "nodes": Array [
               Object {
                 "kind": "text",
-                "ranges": Array [
+                "leaves": Array [
                   Object {
-                    "kind": "range",
+                    "kind": "leaf",
                     "marks": Array [],
                     "text": "#",
                   },
@@ -120,9 +120,9 @@ Object {
           },
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "",
               },
@@ -150,9 +150,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "heading 1",
               },
@@ -168,9 +168,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "heading 2",
               },
@@ -186,9 +186,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "heading 3",
               },
@@ -204,9 +204,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "heading 4",
               },
@@ -222,9 +222,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "heading 5",
               },
@@ -240,9 +240,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "heading 6",
               },

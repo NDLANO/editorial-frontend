@@ -100,9 +100,9 @@ test('serialize footnote', () => {
     nodes: [
       {
         kind: 'text',
-        leaves: [
+        ranges: [
           {
-            kind: 'leaf',
+            kind: 'range',
             marks: [],
             text: '#',
           },

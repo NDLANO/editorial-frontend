@@ -17,6 +17,10 @@ global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
   : 100;
 expectSaga.DEFAULT_TIMEOUT = global.DEFAULT_TIMEOUT;
 
+global.requestAnimationFrame = callback => {
+  setTimeout(callback, 0);
+};
+
 const localStorageMock = (function createLocalStorage() {
   let store = {};
   return {

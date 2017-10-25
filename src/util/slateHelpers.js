@@ -27,6 +27,13 @@ const BLOCK_TAGS = {
   h6: 'heading-two',
 };
 
+const TABLE_TAGS = {
+  table: 'table',
+  th: 'table-cell',
+  tr: 'table-row',
+  td: 'table-cell',
+};
+
 const MARK_TAGS = {
   strong: 'bold',
   em: 'italic',
@@ -53,7 +60,7 @@ export const logState = state => {
 };
 
 // TODO: get type of aside in here. Default should be rightAside since that is the only
-const getDataType = el => ({
+const getAsideType = el => ({
   type: el.attributes.getNamedItem('data-type')
     ? el.attributes.getNamedItem('data-type')
     : 'rightAside',
@@ -201,9 +208,42 @@ export const blockRules = {
   },
 };
 
+export const tableRules = {
+  deserialize(el, next) {
+    const tableTag = TABLE_TAGS[el.tagName.toLowerCase()];
+    if (!tableTag) return;
+    return {
+      kind: 'block',
+      type: tableTag,
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(object, children) {
+    if (object.kind !== 'block') return;
+    switch (object.type) {
+      case 'table': {
+        return (
+          <table>
+            <thead>{children.slice(0, 1)}</thead>
+            <tbody>{children.slice(1)}</tbody>
+          </table>
+        );
+      }
+      case 'table-row':
+        return <tr>{children}</tr>;
+      case 'table-cell':
+        if (object.data.get('isHeader')) {
+          return <th>{children}</th>;
+        }
+        return <td>{children}</td>;
+    }
+  },
+};
+
 const RULES = [
   divRule,
   orderListRules,
+  tableRules,
   {
     // Aside handling
     deserialize(el, next) {
@@ -212,7 +252,7 @@ const RULES = [
         kind: 'block',
         type: 'aside',
         nodes: next(el.childNodes),
-        data: getDataType(el),
+        data: getAsideType(el),
       };
     },
     serialize(object, children) {

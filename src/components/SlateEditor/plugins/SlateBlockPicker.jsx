@@ -22,11 +22,13 @@ import {
   Audio,
   FactBox,
   TextInBox,
+  Table,
 } from 'ndla-ui/icons';
 import { createEmptyState } from '../../../util/articleContentConverter';
 import { defaultAsideBlock } from '../schema';
 import { defaultBodyBoxBlock } from './bodybox';
 import SlateEmbedPicker from './SlateEmbedPicker';
+import { editTablePlugin } from './externalPlugins';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -64,6 +66,7 @@ class SlateBlockPicker extends Component {
     this.onStateChange = this.onStateChange.bind(this);
     this.onEmbedClose = this.onEmbedClose.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
+    this.onBlocksChange = this.onBlocksChange.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     if (!nextProps.editorState.state.isFocused && this.state.isOpen) {
@@ -85,21 +88,26 @@ class SlateBlockPicker extends Component {
     this.setState({ embedSelect: { isOpen: false, embedType: '' } });
   }
 
-  onInsertBlock(block) {
+  onBlocksChange(change) {
     const { blocks, editorState } = this.props;
     const newblocks = [].concat(blocks);
-    const currentState = blocks[editorState.index];
-    const nextChange = currentState.state.change().insertBlock(block);
     newblocks[editorState.index] = {
       ...newblocks[editorState.index],
-      state: nextChange.state,
+      state: change.state,
     };
 
     this.onStateChange('content', newblocks);
   }
 
+  onInsertBlock(block) {
+    const { blocks, editorState } = this.props;
+    const currentState = blocks[editorState.index];
+    const nextChange = currentState.state.change().insertBlock(block);
+    this.onBlocksChange(nextChange);
+  }
+
   onElementAdd(type) {
-    const { blocks } = this.props;
+    const { blocks, editorState } = this.props;
     switch (type.type) {
       case 'block': {
         const newblocks = [].concat(blocks);
@@ -109,6 +117,11 @@ class SlateBlockPicker extends Component {
       }
       case 'bodybox': {
         this.onInsertBlock(defaultBodyBoxBlock());
+        break;
+      }
+      case 'table': {
+        const change = blocks[editorState.index].state.change();
+        this.onBlocksChange(editTablePlugin.changes.insertTable(change, 2, 2));
         break;
       }
       case 'aside': {
@@ -236,6 +249,13 @@ class SlateBlockPicker extends Component {
               onMouseDown={() =>
                 this.onElementAdd({ type: 'aside', kind: 'factAside' })}>
               <FactBox />
+            </Button>
+            <Button
+              stripped
+              {...classes('block-type-button')}
+              onMouseDown={() =>
+                this.onElementAdd({ type: 'table', kind: 'table' })}>
+              <Table />
             </Button>
             <Button
               stripped

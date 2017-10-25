@@ -13,9 +13,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "leaves": Array [
+            "ranges": Array [
               Object {
-                "kind": "leaf",
+                "kind": "range",
                 "marks": Array [],
                 "text": "test",
               },
@@ -43,9 +43,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "leaves": Array [
+            "ranges": Array [
               Object {
-                "kind": "leaf",
+                "kind": "range",
                 "marks": Array [],
                 "text": "",
               },
@@ -68,9 +68,9 @@ Object {
             "nodes": Array [
               Object {
                 "kind": "text",
-                "leaves": Array [
+                "ranges": Array [
                   Object {
-                    "kind": "leaf",
+                    "kind": "range",
                     "marks": Array [],
                     "text": "#",
                   },
@@ -81,9 +81,9 @@ Object {
           },
           Object {
             "kind": "text",
-            "leaves": Array [
+            "ranges": Array [
               Object {
-                "kind": "leaf",
+                "kind": "range",
                 "marks": Array [],
                 "text": "",
               },
@@ -107,9 +107,9 @@ Object {
             "nodes": Array [
               Object {
                 "kind": "text",
-                "leaves": Array [
+                "ranges": Array [
                   Object {
-                    "kind": "leaf",
+                    "kind": "range",
                     "marks": Array [],
                     "text": "#",
                   },
@@ -120,9 +120,9 @@ Object {
           },
           Object {
             "kind": "text",
-            "leaves": Array [
+            "ranges": Array [
               Object {
-                "kind": "leaf",
+                "kind": "range",
                 "marks": Array [],
                 "text": "",
               },
@@ -130,6 +130,82 @@ Object {
           },
         ],
         "type": "paragraph",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
+exports[`deserializing alphabetical list 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {
+          "type": "letters",
+        },
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 1",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 2",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 3",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+        ],
+        "type": "letter-list",
       },
     ],
   },
@@ -150,9 +226,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "leaves": Array [
+            "ranges": Array [
               Object {
-                "kind": "leaf",
+                "kind": "range",
                 "marks": Array [],
                 "text": "heading 1",
               },
@@ -168,9 +244,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "leaves": Array [
+            "ranges": Array [
               Object {
-                "kind": "leaf",
+                "kind": "range",
                 "marks": Array [],
                 "text": "heading 2",
               },
@@ -186,9 +262,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "leaves": Array [
+            "ranges": Array [
               Object {
-                "kind": "leaf",
+                "kind": "range",
                 "marks": Array [],
                 "text": "heading 3",
               },
@@ -204,9 +280,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "leaves": Array [
+            "ranges": Array [
               Object {
-                "kind": "leaf",
+                "kind": "range",
                 "marks": Array [],
                 "text": "heading 4",
               },
@@ -222,9 +298,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "leaves": Array [
+            "ranges": Array [
               Object {
-                "kind": "leaf",
+                "kind": "range",
                 "marks": Array [],
                 "text": "heading 5",
               },
@@ -240,9 +316,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "leaves": Array [
+            "ranges": Array [
               Object {
-                "kind": "leaf",
+                "kind": "range",
                 "marks": Array [],
                 "text": "heading 6",
               },
@@ -250,6 +326,262 @@ Object {
           },
         ],
         "type": "heading-two",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
+exports[`deserializing bullet list 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 1",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 2",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 3",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+        ],
+        "type": "bulleted-list",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
+exports[`deserializing numbered list 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 1",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 2",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Rad 3",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+        ],
+        "type": "numbered-list",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
+exports[`deserializing table 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "ranges": Array [
+                      Object {
+                        "kind": "range",
+                        "marks": Array [],
+                        "text": "column 1",
+                      },
+                    ],
+                  },
+                ],
+                "type": "table-cell",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "ranges": Array [
+                      Object {
+                        "kind": "range",
+                        "marks": Array [],
+                        "text": "column 2",
+                      },
+                    ],
+                  },
+                ],
+                "type": "table-cell",
+              },
+            ],
+            "type": "table-row",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "ranges": Array [
+                      Object {
+                        "kind": "range",
+                        "marks": Array [],
+                        "text": "column 1",
+                      },
+                    ],
+                  },
+                ],
+                "type": "table-cell",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "ranges": Array [
+                      Object {
+                        "kind": "range",
+                        "marks": Array [],
+                        "text": "column 2",
+                      },
+                    ],
+                  },
+                ],
+                "type": "table-cell",
+              },
+            ],
+            "type": "table-row",
+          },
+        ],
+        "type": "table",
       },
     ],
   },
@@ -283,3 +615,9 @@ exports[`serialize footnote 1`] = `
   data-year="2015"
 />
 `;
+
+exports[`serializing bullet list 1`] = `"<ul><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ul>"`;
+
+exports[`serializing letter list 1`] = `"<ol data-type=\\"letters\\"><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ol>"`;
+
+exports[`serializing numbered list 1`] = `"<ol><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ol>"`;

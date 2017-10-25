@@ -21,6 +21,7 @@ import {
   listTypes,
   editListPlugin,
   blockquotePlugin,
+  editTablePlugin,
 } from '../externalPlugins';
 
 const DEFAULT_NODE = 'paragraph';
@@ -137,7 +138,11 @@ class SlateToolbar extends Component {
     const { menu } = this.state;
     const { state } = this.props;
     if (!menu) return;
-    if (state.isBlurred || state.isEmpty) {
+    if (
+      state.isBlurred ||
+      state.isEmpty ||
+      editTablePlugin.utils.isSelectionInTable(state)
+    ) {
       menu.removeAttribute('style');
       return;
     }

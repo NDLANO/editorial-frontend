@@ -25,7 +25,7 @@ export const stateWithTwoImageEmbeds = {
             nodes: [
               {
                 kind: 'text',
-                leaves: [{ kind: 'leaf', text: ' ', marks: [] }],
+                ranges: [{ kind: 'range', text: ' ', marks: [] }],
               },
             ],
           },
@@ -37,9 +37,9 @@ export const stateWithTwoImageEmbeds = {
             nodes: [
               {
                 kind: 'text',
-                leaves: [
+                ranges: [
                   {
-                    kind: 'leaf',
+                    kind: 'range',
                     text:
                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
                     marks: [],
@@ -88,7 +88,7 @@ export const stateWithTwoImageEmbeds = {
             nodes: [
               {
                 kind: 'text',
-                leaves: [{ kind: 'leaf', text: ' ', marks: [] }],
+                ranges: [{ kind: 'range', text: ' ', marks: [] }],
               },
             ],
           },
@@ -100,7 +100,7 @@ export const stateWithTwoImageEmbeds = {
             nodes: [
               {
                 kind: 'text',
-                leaves: [{ kind: 'leaf', text: '', marks: [] }],
+                ranges: [{ kind: 'range', text: '', marks: [] }],
               },
             ],
           },
@@ -130,9 +130,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
             nodes: [
               {
                 kind: 'text',
-                leaves: [
+                ranges: [
                   {
-                    kind: 'leaf',
+                    kind: 'range',
                     text:
                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et ',
                     marks: [],
@@ -151,9 +151,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
                 nodes: [
                   {
                     kind: 'text',
-                    leaves: [
+                    ranges: [
                       {
-                        kind: 'leaf',
+                        kind: 'range',
                         text: 'dolore',
                         marks: [],
                       },
@@ -163,9 +163,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
               },
               {
                 kind: 'text',
-                leaves: [
+                ranges: [
                   {
-                    kind: 'leaf',
+                    kind: 'range',
                     text:
                       ' magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                     marks: [],
@@ -187,9 +187,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
                 nodes: [
                   {
                     kind: 'text',
-                    leaves: [
+                    ranges: [
                       {
-                        kind: 'leaf',
+                        kind: 'range',
                         text: '#',
                         marks: [],
                       },
@@ -199,9 +199,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
               },
               {
                 kind: 'text',
-                leaves: [
+                ranges: [
                   {
-                    kind: 'leaf',
+                    kind: 'range',
                     text:
                       ' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est ',
                     marks: [],
@@ -220,9 +220,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
                 nodes: [
                   {
                     kind: 'text',
-                    leaves: [
+                    ranges: [
                       {
-                        kind: 'leaf',
+                        kind: 'range',
                         text: 'laborum',
                         marks: [],
                       },
@@ -232,9 +232,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
               },
               {
                 kind: 'text',
-                leaves: [
+                ranges: [
                   {
-                    kind: 'leaf',
+                    kind: 'range',
                     text: '.',
                     marks: [],
                   },
@@ -250,9 +250,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
             nodes: [
               {
                 kind: 'text',
-                leaves: [
+                ranges: [
                   {
-                    kind: 'leaf',
+                    kind: 'range',
                     text:
                       'Lorem ipsum dolor sit amet, consectetur a dipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                     marks: [],
@@ -274,9 +274,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
                 nodes: [
                   {
                     kind: 'text',
-                    leaves: [
+                    ranges: [
                       {
-                        kind: 'leaf',
+                        kind: 'range',
                         text: '#',
                         marks: [],
                       },
@@ -286,9 +286,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
               },
               {
                 kind: 'text',
-                leaves: [
+                ranges: [
                   {
-                    kind: 'leaf',
+                    kind: 'range',
                     text: '',
                     marks: [],
                   },
@@ -302,3 +302,183 @@ export const stateWithInlineFootnotesAndContentLinks = {
   },
   kind: 'state',
 };
+
+export const tableSlateState = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                data: { isHeader: true },
+                isVoid: false,
+                kind: 'block',
+                nodes: [
+                  {
+                    kind: 'text',
+                    ranges: [
+                      {
+                        kind: 'range',
+                        marks: [],
+                        text: 'column 1',
+                      },
+                    ],
+                  },
+                ],
+                type: 'table-cell',
+              },
+              {
+                data: { isHeader: true },
+                isVoid: false,
+                kind: 'block',
+                nodes: [
+                  {
+                    kind: 'text',
+                    ranges: [
+                      {
+                        kind: 'range',
+                        marks: [],
+                        text: 'column 2',
+                      },
+                    ],
+                  },
+                ],
+                type: 'table-cell',
+              },
+            ],
+            type: 'table-row',
+          },
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                data: {},
+                isVoid: false,
+                kind: 'block',
+                nodes: [
+                  {
+                    kind: 'text',
+                    ranges: [
+                      {
+                        kind: 'range',
+                        marks: [],
+                        text: 'column 1',
+                      },
+                    ],
+                  },
+                ],
+                type: 'table-cell',
+              },
+              {
+                data: {},
+                isVoid: false,
+                kind: 'block',
+                nodes: [
+                  {
+                    kind: 'text',
+                    ranges: [
+                      {
+                        kind: 'range',
+                        marks: [],
+                        text: 'column 2',
+                      },
+                    ],
+                  },
+                ],
+                type: 'table-cell',
+              },
+            ],
+            type: 'table-row',
+          },
+        ],
+        type: 'table',
+      },
+    ],
+  },
+  kind: 'state',
+};
+
+export const listState = (type = 'numbered-list') => ({
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {
+          type: 'letters',
+        },
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    marks: [],
+                    text: 'Rad 1',
+                  },
+                ],
+              },
+            ],
+            type: 'list-item',
+          },
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    marks: [],
+                    text: 'Rad 2',
+                  },
+                ],
+              },
+            ],
+            type: 'list-item',
+          },
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    marks: [],
+                    text: 'Rad 3',
+                  },
+                ],
+              },
+            ],
+            type: 'list-item',
+          },
+        ],
+        type,
+      },
+    ],
+  },
+  kind: 'state',
+});

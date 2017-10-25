@@ -23,7 +23,9 @@ import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import {
   editListPlugin,
   blockquotePlugin,
+  editTablePlugin,
 } from '../../../components/SlateEditor/plugins/externalPlugins';
+import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 
 import { classes } from './LearningResourceForm';
 import { CommonFieldPropsShape } from '../../../shapes';
@@ -37,6 +39,8 @@ const plugins = [
   headingPlugin(),
   blockquotePlugin,
   editListPlugin,
+  createTablePlugin(),
+  editTablePlugin,
 ];
 
 class LearningResourceContent extends Component {

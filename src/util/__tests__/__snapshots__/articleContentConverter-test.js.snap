@@ -18,9 +18,9 @@ Object {
             "nodes": Array [
               Object {
                 "kind": "text",
-                "leaves": Array [
+                "ranges": Array [
                   Object {
-                    "kind": "leaf",
+                    "kind": "range",
                     "marks": Array [],
                     "text": "Lorem ipsum",
                   },

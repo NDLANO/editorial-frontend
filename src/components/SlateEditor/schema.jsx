@@ -54,6 +54,20 @@ export const defaultRules = [
       return change.insertNodeByKey(document.key, document.nodes.size, block);
     },
   },
+  {
+    match: node => node.kind === 'block' && node.type === 'section',
+    validate: node => {
+      if (!node.nodes.size) {
+        return true;
+      }
+      const lastNode = node.nodes.last();
+      return lastNode && lastNode.type === 'table' ? true : null;
+    },
+    normalize: (change, document) => {
+      const block = Block.create(defaultBlock);
+      return change.insertNodeByKey(document.key, document.nodes.size, block);
+    },
+  },
   // Rule to insert a paragraph below a void node (the image) if that node is
   // the last one in the aside/bodybox.
   {

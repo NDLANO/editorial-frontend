@@ -8,6 +8,7 @@ export const blockquotePlugin = EditBlockquote({ type: 'quote' });
 export const editListPlugin = EditList({
   types: listTypes,
   typeItem: 'list-item',
+  typeDefault: 'list-text',
 });
 
 const tableOptions = {

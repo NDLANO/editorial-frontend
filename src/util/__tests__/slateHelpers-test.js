@@ -27,6 +27,7 @@ import {
   blockRules,
   orderListRules,
   tableRules,
+  listItemRule,
 } from '../slateHelpers';
 
 const fragment = jsdom.JSDOM.fragment;
@@ -197,4 +198,14 @@ test('serializing letter list', () => {
   const state = State.fromJSON(listState('letter-list'));
   const serialized = serializer.serialize(state);
   expect(serialized).toMatchSnapshot();
+});
+
+test('serialize list-item block', () => {
+  const obj = {
+    kind: 'block',
+    type: 'list-item',
+    text: 'List item',
+  };
+  const listItem = listItemRule.serialize(obj);
+  expect(renderer.create(listItem).toJSON()).toMatchSnapshot();
 });

@@ -14,8 +14,6 @@ import {
 
 const BLOCK_TAGS = {
   section: 'section',
-  p: 'paragraph',
-  li: 'list-item',
   ul: 'bulleted-list',
   blockquote: 'quote',
   pre: 'code',
@@ -25,6 +23,7 @@ const BLOCK_TAGS = {
   h4: 'heading-two',
   h5: 'heading-two',
   h6: 'heading-two',
+  li: 'list-item',
 };
 
 const TABLE_TAGS = {
@@ -98,6 +97,53 @@ export const divRule = {
       default:
         return <div>{children}</div>;
     }
+  },
+};
+
+export const paragraphRule = {
+  // div handling with text in box (bodybox)
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'p') return;
+    const parent = el.parentElement
+      ? el.parentElement.tagName.toLowerCase()
+      : '';
+    if (parent === 'li') {
+      return {
+        kind: 'block',
+        type: 'list-text',
+        nodes: next(el.childNodes),
+      };
+    }
+    return {
+      kind: 'block',
+      type: 'paragraph',
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(object, children) {
+    if (object.kind !== 'block') return;
+    if (object.type !== 'paragraph' && object.type !== 'list-text') return;
+    if (object.type === 'list-text') {
+      return <span>{children}</span>;
+    }
+    return <p>{children}</p>;
+  },
+};
+
+export const listItemRule = {
+  // div handling with text in box (bodybox)
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'li') return;
+    return {
+      kind: 'block',
+      type: 'list-item',
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(object) {
+    if (object.kind !== 'block') return;
+    if (object.type !== 'list-item') return;
+    return <li>{object.text}</li>;
   },
 };
 
@@ -244,6 +290,7 @@ const RULES = [
   divRule,
   orderListRules,
   tableRules,
+  paragraphRule,
   {
     // Aside handling
     deserialize(el, next) {

@@ -24,6 +24,7 @@ import {
   TextInBox,
   Table,
 } from 'ndla-ui/icons';
+import { Portal } from '../../../components/Portal';
 import { createEmptyState } from '../../../util/articleContentConverter';
 import { defaultAsideBlock } from '../schema';
 import { defaultBodyBoxBlock } from './bodybox';
@@ -190,6 +191,7 @@ class SlateBlockPicker extends Component {
     try {
       nodeEl = findDOMNode(node); // eslint-disable-line
     } catch (e) {
+      console.warn(e); // eslint-disable-line
       return false;
     }
 
@@ -209,7 +211,7 @@ class SlateBlockPicker extends Component {
     const { editorState, blocks } = this.props;
     const typeClassName = this.state.isOpen ? '' : 'hidden';
     return (
-      <div>
+      <Portal isOpened>
         {this.state.embedSelect.isOpen ? (
           <SlateEmbedPicker
             state={editorState}
@@ -293,7 +295,7 @@ class SlateBlockPicker extends Component {
             </Button>
           </div>
         </div>
-      </div>
+      </Portal>
     );
   }
 }

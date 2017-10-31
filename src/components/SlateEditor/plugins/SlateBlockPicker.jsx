@@ -75,6 +75,10 @@ class SlateBlockPicker extends Component {
     }
   }
 
+  componentDidUpdate() {
+    this.showPicker();
+  }
+
   onStateChange(name, value) {
     const { onChange } = this.props;
     onChange({
@@ -176,24 +180,23 @@ class SlateBlockPicker extends Component {
   }
 
   showPicker() {
+    const hiddenClassName = classes(
+      'block-type-container',
+      'hidden',
+    ).className.split(' ')[1];
+
     const { editorState } = this.props;
 
     if (!editorState.state.selection.startKey) {
-      return false;
+      this.menuEl.classList.add(hiddenClassName);
+      return;
     }
 
     const node = editorState.state.document.getClosestBlock(
       editorState.state.selection.startKey,
     );
 
-    let nodeEl;
-    // Tmp fix for issue where dom is updated before findDOMNode call
-    try {
-      nodeEl = findDOMNode(node); // eslint-disable-line
-    } catch (e) {
-      console.warn(e); // eslint-disable-line
-      return false;
-    }
+    const nodeEl = findDOMNode(node); // eslint-disable-line
 
     const show =
       node.text.length === 0 &&
@@ -202,9 +205,11 @@ class SlateBlockPicker extends Component {
       editorState.state.isFocused;
 
     if (show) {
+      this.menuEl.classList.remove(hiddenClassName);
       this.update(nodeEl);
+    } else {
+      this.menuEl.classList.add(hiddenClassName);
     }
-    return show;
   }
 
   render() {
@@ -225,10 +230,7 @@ class SlateBlockPicker extends Component {
           ''
         )}
         <div
-          {...classes(
-            'block-type-container',
-            !this.showPicker() ? 'hidden' : '',
-          )}
+          {...classes('block-type-container')}
           ref={menuEl => {
             this.menuEl = menuEl;
           }}>

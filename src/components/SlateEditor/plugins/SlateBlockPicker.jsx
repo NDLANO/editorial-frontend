@@ -24,6 +24,7 @@ import {
   TextInBox,
   Table,
 } from 'ndla-ui/icons';
+import { Portal } from '../../../components/Portal';
 import { createEmptyState } from '../../../util/articleContentConverter';
 import { defaultAsideBlock } from '../schema';
 import { defaultBodyBoxBlock } from './bodybox';
@@ -72,6 +73,10 @@ class SlateBlockPicker extends Component {
     if (!nextProps.editorState.state.isFocused && this.state.isOpen) {
       this.setState({ isOpen: false });
     }
+  }
+
+  componentDidUpdate() {
+    this.showPicker();
   }
 
   onStateChange(name, value) {
@@ -175,23 +180,23 @@ class SlateBlockPicker extends Component {
   }
 
   showPicker() {
+    const hiddenClassName = classes(
+      'block-type-container',
+      'hidden',
+    ).className.split(' ')[1];
+
     const { editorState } = this.props;
 
     if (!editorState.state.selection.startKey) {
-      return false;
+      this.menuEl.classList.add(hiddenClassName);
+      return;
     }
 
     const node = editorState.state.document.getClosestBlock(
       editorState.state.selection.startKey,
     );
 
-    let nodeEl;
-    // Tmp fix for issue where dom is updated before findDOMNode call
-    try {
-      nodeEl = findDOMNode(node); // eslint-disable-line
-    } catch (e) {
-      return false;
-    }
+    const nodeEl = findDOMNode(node); // eslint-disable-line
 
     const show =
       node.text.length === 0 &&
@@ -200,16 +205,18 @@ class SlateBlockPicker extends Component {
       editorState.state.isFocused;
 
     if (show) {
+      this.menuEl.classList.remove(hiddenClassName);
       this.update(nodeEl);
+    } else {
+      this.menuEl.classList.add(hiddenClassName);
     }
-    return show;
   }
 
   render() {
     const { editorState, blocks } = this.props;
     const typeClassName = this.state.isOpen ? '' : 'hidden';
     return (
-      <div>
+      <Portal isOpened>
         {this.state.embedSelect.isOpen ? (
           <SlateEmbedPicker
             state={editorState}
@@ -223,10 +230,7 @@ class SlateBlockPicker extends Component {
           ''
         )}
         <div
-          {...classes(
-            'block-type-container',
-            !this.showPicker() ? 'hidden' : '',
-          )}
+          {...classes('block-type-container')}
           ref={menuEl => {
             this.menuEl = menuEl;
           }}>
@@ -293,7 +297,7 @@ class SlateBlockPicker extends Component {
             </Button>
           </div>
         </div>
-      </div>
+      </Portal>
     );
   }
 }

@@ -11,7 +11,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import Portal from 'react-portal';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-ui/icons';
 import SlateBlockPicker from './plugins/SlateBlockPicker';
@@ -100,17 +99,14 @@ class RichBlockTextEditor extends Component {
               index={index}
               removeSection={this.removeSection}
             />
-            <Portal isOpened>
-              <SlateBlockPicker
-                name={name}
-                onChange={onChange}
-                blocks={value}
-                editorState={val}
-                index={index}
-                setFocus={this.setFocus}
-              />
-            </Portal>
-
+            <SlateBlockPicker
+              name={name}
+              onChange={onChange}
+              blocks={value}
+              editorState={val}
+              index={index}
+              setFocus={this.setFocus}
+            />
             {children}
           </div>
         ))}

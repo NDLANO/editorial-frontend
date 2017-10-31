@@ -9,9 +9,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
-import Portal from 'react-portal';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
+import { Portal } from '../../../../components/Portal';
 import { setActiveNode } from '../../createSlateStore';
 import isNodeInCurrentSelection from '../utils/isNodeInCurrentSelection';
 import { EditorShape } from '../../../../shapes';

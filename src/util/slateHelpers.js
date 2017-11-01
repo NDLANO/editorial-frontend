@@ -107,16 +107,12 @@ export const paragraphRule = {
     const parent = el.parentElement
       ? el.parentElement.tagName.toLowerCase()
       : '';
-    if (parent === 'li') {
-      return {
-        kind: 'block',
-        type: 'list-text',
-        nodes: next(el.childNodes),
-      };
-    }
+
+    const type = parent === 'li' ? 'list-text' : 'paragraph';
+
     return {
       kind: 'block',
-      type: 'paragraph',
+      type,
       nodes: next(el.childNodes),
     };
   },
@@ -124,7 +120,7 @@ export const paragraphRule = {
     if (object.kind !== 'block') return;
     if (object.type !== 'paragraph' && object.type !== 'list-text') return;
     if (object.type === 'list-text') {
-      return <span>{children}</span>;
+      return null;
     }
     return <p>{children}</p>;
   },
@@ -140,10 +136,10 @@ export const listItemRule = {
       nodes: next(el.childNodes),
     };
   },
-  serialize(object) {
+  serialize(object, children) {
     if (object.kind !== 'block') return;
     if (object.type !== 'list-item') return;
-    return <li>{object.text}</li>;
+    return <li>{children}</li>;
   },
 };
 

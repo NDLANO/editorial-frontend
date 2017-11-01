@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Masthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import MastHeadSearch from './MastheadSearch';
 import { toLogin, toLogout } from '../../util/routeHelpers';
 

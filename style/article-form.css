@@ -127,6 +127,7 @@ a.c-learning-resource-form__abort-button.c-button {
   &__delete-block-button {
     float: right;
     color: red;
+    margin-top: -6.5em;
     margin-right: calc(calc(var(--clrf__container--margin) + 1em) * -1);
 
     &:hover,

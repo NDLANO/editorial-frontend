@@ -42,12 +42,6 @@ const LearningResourceIngress = props => {
 
   return (
     <div {...classes('container')}>
-      <Button
-        stripped
-        onClick={removeIngress}
-        {...classes('delete-block-button')}>
-        <Cross />
-      </Button>
       <PlainTextField
         label={t('form.introduction.label')}
         placeholder={t('form.introduction.label')}
@@ -63,6 +57,12 @@ const LearningResourceIngress = props => {
             t('form.remainingCharacters', { maxLength, remaining })}
           value={value.document.text}
         />
+        <Button
+          stripped
+          onClick={removeIngress}
+          {...classes('delete-block-button')}>
+          <Cross />
+        </Button>
       </PlainTextField>
     </div>
   );

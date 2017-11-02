@@ -23,7 +23,6 @@ const BLOCK_TAGS = {
   h4: 'heading-two',
   h5: 'heading-two',
   h6: 'heading-two',
-  li: 'list-item',
 };
 
 const TABLE_TAGS = {
@@ -39,6 +38,8 @@ const MARK_TAGS = {
   u: 'underlined',
   code: 'code',
 };
+
+const ListText = ({children}) => children
 
 export const findNodesByType = (node, type, nodes = []) => {
   if (node.type === type) {
@@ -120,7 +121,7 @@ export const paragraphRule = {
     if (object.kind !== 'block') return;
     if (object.type !== 'paragraph' && object.type !== 'list-text') return;
     if (object.type === 'list-text') {
-      return null;
+      return <ListText>{children}</ListText>;
     }
     return <p>{children}</p>;
   },
@@ -240,8 +241,6 @@ export const blockRules = {
         return <h5>{children}</h5>;
       case 'heading-six':
         return <h6>{children}</h6>;
-      case 'list-item':
-        return <li>{children}</li>;
       case 'quote':
         return <blockquote>{children}</blockquote>;
       case 'div':
@@ -287,6 +286,7 @@ const RULES = [
   orderListRules,
   tableRules,
   paragraphRule,
+  listItemRule,
   {
     // Aside handling
     deserialize(el, next) {

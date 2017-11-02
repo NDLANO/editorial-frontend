@@ -427,14 +427,22 @@ export const listState = (type = 'numbered-list') => ({
             kind: 'block',
             nodes: [
               {
-                kind: 'text',
-                ranges: [
+                data: {},
+                isVoid: false,
+                kind: 'block',
+                nodes: [
                   {
-                    kind: 'range',
-                    marks: [],
-                    text: 'Rad 1',
+                    kind: 'text',
+                    ranges: [
+                      {
+                        kind: 'range',
+                        marks: [],
+                        text: 'Rad 1',
+                      },
+                    ],
                   },
                 ],
+                type: 'list-text',
               },
             ],
             type: 'list-item',
@@ -445,14 +453,22 @@ export const listState = (type = 'numbered-list') => ({
             kind: 'block',
             nodes: [
               {
-                kind: 'text',
-                ranges: [
+                data: {},
+                isVoid: false,
+                kind: 'block',
+                nodes: [
                   {
-                    kind: 'range',
-                    marks: [],
-                    text: 'Rad 2',
+                    kind: 'text',
+                    ranges: [
+                      {
+                        kind: 'range',
+                        marks: [],
+                        text: 'Rad 2',
+                      },
+                    ],
                   },
                 ],
+                type: 'list-text',
               },
             ],
             type: 'list-item',
@@ -463,14 +479,22 @@ export const listState = (type = 'numbered-list') => ({
             kind: 'block',
             nodes: [
               {
-                kind: 'text',
-                ranges: [
+                data: {},
+                isVoid: false,
+                kind: 'block',
+                nodes: [
                   {
-                    kind: 'range',
-                    marks: [],
-                    text: 'Rad 3',
+                    kind: 'text',
+                    ranges: [
+                      {
+                        kind: 'range',
+                        marks: [],
+                        text: 'Rad 3',
+                      },
+                    ],
                   },
                 ],
+                type: 'list-text',
               },
             ],
             type: 'list-item',

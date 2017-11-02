@@ -28,6 +28,7 @@ import {
   orderListRules,
   tableRules,
   listItemRule,
+  paragraphRule,
 } from '../slateHelpers';
 
 const fragment = jsdom.JSDOM.fragment;
@@ -142,7 +143,7 @@ test('serializing table', () => {
 
 test('deserializing bullet list', () => {
   const serializer = new Html({
-    rules: [blockRules],
+    rules: [blockRules, listItemRule, paragraphRule],
     parseHtml: fragment,
   });
   const deserialized = serializer.deserialize(
@@ -152,7 +153,10 @@ test('deserializing bullet list', () => {
 });
 
 test('serializing bullet list', () => {
-  const serializer = new Html({ rules: [blockRules], parseHtml: fragment });
+  const serializer = new Html({
+    rules: [blockRules, listItemRule, paragraphRule],
+    parseHtml: fragment,
+  });
   const state = State.fromJSON(listState('bulleted-list'));
   const serialized = serializer.serialize(state);
   expect(serialized).toMatchSnapshot();
@@ -160,7 +164,7 @@ test('serializing bullet list', () => {
 
 test('deserializing numbered list', () => {
   const serializer = new Html({
-    rules: [blockRules, orderListRules],
+    rules: [blockRules, orderListRules, listItemRule, paragraphRule],
     parseHtml: fragment,
   });
   const deserialized = serializer.deserialize(
@@ -171,7 +175,7 @@ test('deserializing numbered list', () => {
 
 test('serializing numbered list', () => {
   const serializer = new Html({
-    rules: [blockRules, orderListRules],
+    rules: [blockRules, orderListRules, listItemRule, paragraphRule],
     parseHtml: fragment,
   });
   const state = State.fromJSON(listState('numbered-list'));
@@ -181,7 +185,7 @@ test('serializing numbered list', () => {
 
 test('deserializing alphabetical list', () => {
   const serializer = new Html({
-    rules: [orderListRules, blockRules],
+    rules: [orderListRules, blockRules, listItemRule, paragraphRule],
     parseHtml: fragment,
   });
   const deserialized = serializer.deserialize(
@@ -192,20 +196,10 @@ test('deserializing alphabetical list', () => {
 
 test('serializing letter list', () => {
   const serializer = new Html({
-    rules: [orderListRules, blockRules],
+    rules: [orderListRules, blockRules, listItemRule, paragraphRule],
     parseHtml: fragment,
   });
   const state = State.fromJSON(listState('letter-list'));
   const serialized = serializer.serialize(state);
   expect(serialized).toMatchSnapshot();
-});
-
-test('serialize list-item block', () => {
-  const obj = {
-    kind: 'block',
-    type: 'list-item',
-    text: 'List item',
-  };
-  const listItem = listItemRule.serialize(obj);
-  expect(renderer.create(listItem).toJSON()).toMatchSnapshot();
 });

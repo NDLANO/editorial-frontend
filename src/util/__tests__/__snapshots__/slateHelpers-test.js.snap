@@ -616,12 +616,6 @@ exports[`serialize footnote 1`] = `
 />
 `;
 
-exports[`serialize list-item block 1`] = `
-<li>
-  List item
-</li>
-`;
-
 exports[`serializing bullet list 1`] = `"<ul><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ul>"`;
 
 exports[`serializing letter list 1`] = `"<ol data-type=\\"letters\\"><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ol>"`;

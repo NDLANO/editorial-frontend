@@ -18,7 +18,7 @@ class MultiSelect extends Component {
 
   render() {
     const { open } = this.state;
-    const { name, value, messages, onChange, data } = this.props;
+    const { name, value, filter, messages, onChange, data } = this.props;
 
     const handleChange = tags => {
       onChange({ target: { name, value: tags, type: 'tags' } });
@@ -44,7 +44,7 @@ class MultiSelect extends Component {
 
     return (
       <RWMultiselect
-        filter="contains"
+        filter={filter}
         open={open}
         messages={messages}
         value={value}
@@ -62,6 +62,7 @@ MultiSelect.propTypes = {
   data: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func.isRequired,
   value: PropTypes.arrayOf(PropTypes.string).isRequired,
+  filter: PropTypes.oneOf(['startsWith', 'endsWith', 'contains', false]),
   messages: PropTypes.shape({
     createOption: PropTypes.string.isRequired,
     emptyFilter: PropTypes.string.isRequired,
@@ -71,6 +72,7 @@ MultiSelect.propTypes = {
 };
 
 MultiSelect.defaultProps = {
+  filter: 'startsWith',
   data: [],
 };
 

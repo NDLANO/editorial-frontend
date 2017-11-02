@@ -67,7 +67,7 @@ export const getInitialModel = (article = {}) => {
     id: article.id,
     revision: article.revision,
     title: article.title || '',
-    introduction: plainTextToEditorState(article.introduction),
+    introduction: plainTextToEditorState(article.introduction, true),
     content: learningResourceContentToEditorState(article.content),
     tags: article.tags || [],
     authors: parseCopyrightAuthors(article, 'Forfatter'),
@@ -243,6 +243,7 @@ export default compose(
       required: true,
     },
     introduction: {
+      required: true,
       maxLength: 300,
     },
     content: {

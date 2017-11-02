@@ -7,11 +7,8 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
-import { Cross } from 'ndla-ui/icons';
 
 import {
   PlainTextField,
@@ -26,19 +23,8 @@ const classes = new BEMHelper({
 });
 
 const LearningResourceIngress = props => {
-  const { value, onChange, name, commonFieldProps, t } = props;
-  if (!value) {
-    return null;
-  }
-
-  const removeIngress = () => {
-    onChange({
-      target: {
-        name,
-        value: undefined,
-      },
-    });
-  };
+  const { t, commonFieldProps } = props;
+  const { bindInput } = commonFieldProps;
 
   return (
     <div {...classes('container')}>
@@ -55,23 +41,14 @@ const LearningResourceIngress = props => {
           maxLength={300}
           getRemainingLabel={(maxLength, remaining) =>
             t('form.remainingCharacters', { maxLength, remaining })}
-          value={value.document.text}
+          value={bindInput('introduction').value.document.text}
         />
-        <Button
-          stripped
-          onClick={removeIngress}
-          {...classes('delete-block-button')}>
-          <Cross />
-        </Button>
       </PlainTextField>
     </div>
   );
 };
 
 LearningResourceIngress.propTypes = {
-  value: PropTypes.shape({}),
-  onChange: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 

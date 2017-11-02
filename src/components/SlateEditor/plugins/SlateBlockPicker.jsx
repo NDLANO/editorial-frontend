@@ -8,7 +8,6 @@
 
 import React, { Component } from 'react';
 import { findDOMNode } from 'slate-react';
-import Plain from 'slate-plain-serializer';
 import Types from 'slate-prop-types';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
@@ -17,7 +16,6 @@ import {
   H5P,
   Cross,
   Plus,
-  Ingress,
   Paragraph,
   Camera,
   Video,
@@ -114,17 +112,12 @@ class SlateBlockPicker extends Component {
   }
 
   onElementAdd(type) {
-    const { blocks, editorState, ingress, ingressRef } = this.props;
+    const { blocks, editorState } = this.props;
     switch (type.type) {
       case 'block': {
         const newblocks = [].concat(blocks);
         newblocks.push({ state: createEmptyState(), index: blocks.length });
         this.onStateChange('content', newblocks);
-        break;
-      }
-      case 'ingress': {
-        ingressRef.scrollIntoView();
-        this.onStateChange(ingress.name, Plain.deserialize(''));
         break;
       }
       case 'bodybox': {
@@ -220,7 +213,7 @@ class SlateBlockPicker extends Component {
   }
 
   render() {
-    const { ingress, editorState, blocks } = this.props;
+    const { editorState, blocks } = this.props;
     const typeClassName = this.state.isOpen ? '' : 'hidden';
     return (
       <Portal isOpened>
@@ -248,16 +241,6 @@ class SlateBlockPicker extends Component {
             {this.state.isOpen ? <Cross /> : <Plus />}
           </Button>
           <div {...classes('block-type', typeClassName)}>
-            {!ingress.value ? (
-              <Button
-                stripped
-                {...classes('block-type-button')}
-                onMouseDown={() => this.onElementAdd({ type: 'ingress' })}>
-                <Ingress />
-              </Button>
-            ) : (
-              ''
-            )}
             <Button
               stripped
               {...classes('block-type-button')}
@@ -327,13 +310,6 @@ SlateBlockPicker.propTypes = {
     }),
   ),
   onChange: PropTypes.func.isRequired,
-  ingress: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    value: PropTypes.object,
-  }),
-  ingressRef: PropTypes.shape({
-    scrollIntoView: PropTypes.func.isRequired,
-  }),
   editorState: PropTypes.shape({
     index: PropTypes.number.isRequired,
     state: PropTypes.object.isRequired,

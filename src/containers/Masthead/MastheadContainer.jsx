@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Masthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
-import { Link } from 'react-router-dom';
 import MastHeadSearch from './MastheadSearch';
 import { toLogin, toLogout } from '../../util/routeHelpers';
 
@@ -31,9 +30,7 @@ AuthSiteNavItem.propTypes = {
 const MastheadContainer = ({ t, authenticated, userName }) => (
   <Masthead>
     <MastheadItem left>
-      <Link to="/">
-        <Logo to="/" altText="Nasjonal digital læringsarena" />
-      </Link>
+      <Logo to="/" altText="Nasjonal digital læringsarena" />
       <MastHeadSearch t={t} />
     </MastheadItem>
     <MastheadItem right>

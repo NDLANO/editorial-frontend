@@ -39,7 +39,7 @@ const MARK_TAGS = {
   code: 'code',
 };
 
-const ListText = ({children}) => children
+const ListText = ({ children }) => children;
 
 export const findNodesByType = (node, type, nodes = []) => {
   if (node.type === type) {

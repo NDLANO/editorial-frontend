@@ -407,6 +407,104 @@ Object {
 }
 `;
 
+exports[`deserializing list with paragraph inside li elements 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "ranges": Array [
+                      Object {
+                        "kind": "range",
+                        "marks": Array [],
+                        "text": "paragraph 1",
+                      },
+                    ],
+                  },
+                ],
+                "type": "list-text",
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "ranges": Array [
+                      Object {
+                        "kind": "range",
+                        "marks": Array [],
+                        "text": "paragraph 2",
+                      },
+                    ],
+                  },
+                ],
+                "type": "list-text",
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "ranges": Array [
+                      Object {
+                        "kind": "range",
+                        "marks": Array [],
+                        "text": "bold paragraph 3",
+                      },
+                    ],
+                  },
+                ],
+                "type": "list-text",
+              },
+            ],
+            "type": "list-item",
+          },
+        ],
+        "type": "bulleted-list",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
 exports[`deserializing numbered list 1`] = `
 Object {
   "document": Object {

@@ -203,3 +203,14 @@ test('serializing letter list', () => {
   const serialized = serializer.serialize(state);
   expect(serialized).toMatchSnapshot();
 });
+
+test('deserializing list with paragraph inside li elements', () => {
+  const serializer = new Html({
+    rules: [blockRules, orderListRules, listItemRule, paragraphRule],
+    parseHtml: fragment,
+  });
+  const listWithParagraphs =
+    '<ul><li><p>paragraph 1</p></li><li><p>paragraph 2</p></li><li><p><strong>bold paragraph 3</strong></p></li></ul>';
+  const deserialized = serializer.deserialize(listWithParagraphs);
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});

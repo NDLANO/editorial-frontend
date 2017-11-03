@@ -20,6 +20,7 @@ import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox
 import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
+import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
 import {
   editListPlugin,
   blockquotePlugin,
@@ -41,6 +42,7 @@ const plugins = [
   editListPlugin,
   createTablePlugin(),
   editTablePlugin,
+  pasteContentPlugin(),
 ];
 
 class LearningResourceContent extends Component {

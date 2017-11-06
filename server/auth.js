@@ -9,7 +9,6 @@
 import 'isomorphic-fetch';
 import btoa from 'btoa';
 
-
 const url = `https://ndla.eu.auth0.com/oauth/token`;
 const editorialFrontendClientId = process.env.NDLA_EDITORIAL_CLIENT_ID;
 const editorialFrontendClientSecret = process.env.NDLA_EDITORIAL_CLIENT_SECRET;

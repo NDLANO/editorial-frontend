@@ -20,7 +20,9 @@ export function* login(idToken, history) {
   try {
     const decoded = decodeToken(idToken);
     yield put(actions.setAuthenticated(true));
-    yield put(actions.setUserData({ name: decoded['https://ndla.no/user_name'] }));
+    yield put(
+      actions.setUserData({ name: decoded['https://ndla.no/user_name'] }),
+    );
     setIdTokenInLocalStorage(idToken);
     history.replace('/');
   } catch (error) {

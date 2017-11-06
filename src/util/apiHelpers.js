@@ -9,8 +9,13 @@
 import defined from 'defined';
 import fetch from 'isomorphic-fetch';
 import queryString from 'query-string';
-import { expiresIn } from './jwtHelper';
-import { renewAuth, isIdTokenValid, getIdToken } from './authHelpers';
+import {
+  renewAuth,
+  isIdTokenValid,
+  getIdToken,
+  fetchAccessToken,
+  setAccessTokenInLocalStorage,
+} from './authHelpers';
 
 export function headerWithToken(token) {
   return { Authorization: `Bearer ${token}` };

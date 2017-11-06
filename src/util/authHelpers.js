@@ -10,6 +10,7 @@ import 'isomorphic-fetch';
 import auth0 from 'auth0-js';
 import createHistory from 'history/createBrowserHistory';
 import { expiresIn } from './jwtHelper';
+import { resolveJsonOrRejectWithError } from './apiHelpers';
 
 export const auth0Domain = window.config.auth0Domain;
 export const auth0ClientId = window.config.auth0ClientID;
@@ -118,3 +119,14 @@ export const renewAuth = () =>
       },
     );
   });
+
+export const fetchAccessToken = () =>
+  fetch('/get_token').then(resolveJsonOrRejectWithError);
+
+export const setAccessTokenInLocalStorage = accessToken => {
+  localStorage.setItem('access_token', accessToken);
+  localStorage.setItem(
+    'access_token_expires_at',
+    expiresIn(accessToken) * 1000 + new Date().getTime(),
+  );
+};

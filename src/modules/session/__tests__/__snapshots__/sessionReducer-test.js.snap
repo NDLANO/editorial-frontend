@@ -11,7 +11,7 @@ exports[`reducers/session getSessionStateFromLocalStorage when id_token exists i
 Object {
   "authenticated": true,
   "user": Object {
-    "name": "John Doe",
+    "name": "Rune Storløpa",
   },
 }
 `;

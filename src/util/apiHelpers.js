@@ -61,17 +61,6 @@ export function resolveJsonOrRejectWithError(res) {
   });
 }
 
-export const fetchAccessToken = () =>
-  fetch('/get_token').then(resolveJsonOrRejectWithError);
-
-export const setAccessTokenInLocalStorage = accessToken => {
-  localStorage.setItem('access_token', accessToken);
-  localStorage.setItem(
-    'access_token_expires_at',
-    expiresIn(accessToken) * 1000 + new Date().getTime(),
-  );
-};
-
 export const fetchWithAccessToken = (url, config = {}) => {
   const accessToken = localStorage.getItem('access_token');
   const expiresAt = accessToken

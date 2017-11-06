@@ -46,8 +46,10 @@ class LinkForm extends Component {
       submitted,
       bindInput,
       isEdit,
+      isNewTab,
       onRemove,
       onClose,
+      onEnableNewTab,
     } = this.props;
     return (
       <form onSubmit={this.handleSave}>
@@ -68,6 +70,10 @@ class LinkForm extends Component {
             field={getField('href', schema)}
             submitted={submitted}
           />
+        </Field>
+        <Field>
+          <label htmlFor="checkbox">{t('form.content.link.newTab')}</label>
+          <input type="checkbox" checked={isNewTab} onChange={onEnableNewTab} />
         </Field>
         <Field right>
           <div {...toolbarClasses('link-actions')}>
@@ -98,10 +104,12 @@ LinkForm.propTypes = {
   setSubmitted: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
   isEdit: PropTypes.bool.isRequired,
+  isNewTab: PropTypes.bool,
   bindInput: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
+  onEnableNewTab: PropTypes.func.isRequired,
 };
 
 export default compose(

@@ -15,7 +15,12 @@ import { TYPE } from './';
 import connectLightbox from '../utils/connectLightbox';
 import LinkForm, { getInitialModel } from './LinkForm';
 
-const createContentLinkData = href => {
+const newTabAttributes = {
+  target: '_blank',
+  rel: 'noopener noreferrer',
+};
+
+const createContentLinkData = (href, targetRel = {}) => {
   const splittedHref = href.split('/');
   const id = splittedHref[splittedHref.length - 1];
   return {
@@ -23,14 +28,16 @@ const createContentLinkData = href => {
     data: {
       'content-id': id,
       resource: 'content-link',
+      ...targetRel,
     },
   };
 };
 
-const createLinkData = href => ({
+const createLinkData = (href, targetRel = {}) => ({
   type: TYPE,
   data: {
     href,
+    ...targetRel,
   },
 });
 
@@ -39,11 +46,13 @@ class EditLink extends React.Component {
     super();
     this.state = {
       model: undefined,
+      newTab: false,
     };
     this.addData = this.addData.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleChangeAndClose = this.handleChangeAndClose.bind(this);
+    this.handleNewTab = this.handleNewTab.bind(this);
   }
 
   componentWillMount() {
@@ -52,10 +61,14 @@ class EditLink extends React.Component {
   }
 
   handleSave(model) {
+    const { newTab } = this.state;
     const { state, node } = this.props;
     const { href, text } = model;
     const isNDLAUrl = /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
-    const data = isNDLAUrl ? createContentLinkData(href) : createLinkData(href);
+
+    const data = isNDLAUrl
+      ? createContentLinkData(href, newTab ? newTabAttributes : {})
+      : createLinkData(href, newTab ? newTabAttributes : {});
 
     if (node.key) {
       // update/change
@@ -94,6 +107,10 @@ class EditLink extends React.Component {
     closeDialog();
   }
 
+  handleNewTab() {
+    this.setState(prevState => ({ newTab: !prevState.newTab }));
+  }
+
   addData(node) {
     const { startOffset, endOffset, focusText } = this.props.state;
     const data = node.data ? node.data.toJS() : {};
@@ -113,12 +130,13 @@ class EditLink extends React.Component {
         href,
         text,
       },
+      newTab: data.target === '_blank',
     });
   }
 
   render() {
     const { t, state } = this.props;
-    const { model } = this.state;
+    const { model, newTab } = this.state;
     const isEdit = model !== undefined;
 
     return (
@@ -134,6 +152,8 @@ class EditLink extends React.Component {
           initialModel={getInitialModel(model)}
           onClose={() => this.handleChangeAndClose(state.change())}
           isEdit={isEdit}
+          isNewTab={newTab}
+          onEnableNewTab={this.handleNewTab}
           onRemove={this.handleRemove}
           onSave={this.handleSave}
         />

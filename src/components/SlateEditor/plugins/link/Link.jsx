@@ -82,7 +82,11 @@ class Link extends Component {
               onClick={() => slateStore.dispatch(setActiveNode(node))}>
               {t('form.content.link.change')}
             </Button>{' '}
-            | {t('form.content.link.goTo')} <a href={href}> {href}</a>
+            | {t('form.content.link.goTo')}{' '}
+            <a href={href} target="_blank" rel="noopener noreferrer">
+              {' '}
+              {href}
+            </a>
           </span>
         </Portal>
       </span>

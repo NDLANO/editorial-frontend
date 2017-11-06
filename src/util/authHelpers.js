@@ -59,9 +59,9 @@ export const isIdTokenValid = () => new Date().getTime() < getExpiresAt();
 const auth = new auth0.WebAuth({
   clientID: auth0ClientId || '',
   domain: auth0Domain || '',
-  responseType: 'token id_token',
+  responseType: 'token',
   redirectUri: `${locationOrigin}/login/success`,
-  scope: 'openid app_metadata name',
+  audience: 'ndla_system',
 });
 
 export function parseHash(hash) {

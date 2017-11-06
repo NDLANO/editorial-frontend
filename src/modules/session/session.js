@@ -32,7 +32,7 @@ export const getSessionStateFromLocalStorage = () => {
   const token = getIdToken();
   if (token) {
     return {
-      user: { name: decodeToken(token).name },
+      user: { name: decodeToken(token)['https://ndla.no/user_name'] },
       authenticated: true,
     };
   }

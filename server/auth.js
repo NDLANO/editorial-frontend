@@ -8,15 +8,11 @@
 
 import 'isomorphic-fetch';
 import btoa from 'btoa';
-import config from '../src/config';
 
-const NDLA_API_URL = config.ndlaApiUrl;
 
-const url = `${NDLA_API_URL}/auth/tokens`;
-const editorialFrontendClientId =
-  process.env.NDLA_EDITORIAL_CLIENT_ID || 'swagger-client';
-const editorialFrontendClientSecret =
-  process.env.NDLA_EDITORIAL_CLIENT_SECRET || 'swagger-public-client-secret';
+const url = `https://ndla.eu.auth0.com/oauth/token`;
+const editorialFrontendClientId = process.env.NDLA_EDITORIAL_CLIENT_ID;
+const editorialFrontendClientSecret = process.env.NDLA_EDITORIAL_CLIENT_SECRET;
 
 const b64EncodeUnicode = str =>
   btoa(
@@ -29,12 +25,15 @@ export const getToken = () =>
   fetch(url, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-      Authorization: `Basic ${b64EncodeUnicode(
-        `${editorialFrontendClientId}:${editorialFrontendClientSecret}`,
-      )}`,
+      'Content-Type': 'application/json',
     },
-    body: 'grant_type=client_credentials',
+    body: JSON.stringify({
+      grant_type: 'client_credentials',
+      client_id: `${editorialFrontendClientId}`,
+      client_secret: `${editorialFrontendClientSecret}`,
+      audience: 'ndla_system',
+    }),
+    json: true,
   }).then(res => res.json());
 
 export const getBrightcoveToken = () => {

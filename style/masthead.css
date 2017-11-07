@@ -50,12 +50,31 @@
   }
 
   &__button {
-    color: #20588f;
+    color: var(--brand-color);
 
     &:hover,
     &:focus,
     &:disabled {
       transform: none;
+    }
+  }
+
+  &__node-id-button {
+    height: 42px;
+    display: block;
+    background-color: var(--brand-color--light);
+    border-color: var(--brand-color--light);
+    margin-left: 1rem;
+    margin-top: 12px;
+
+    &--hidden {
+      display: none;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: var(--brand-color--light);
+      border-color: var(--brand-color--light);
     }
   }
 }

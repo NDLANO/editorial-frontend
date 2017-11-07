@@ -34,7 +34,7 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
   const e = {
     preventDefault: () => {},
   };
-  tree.props.onSubmit(e);
+  tree[0].props.onSubmit(e);
   expect(component.toJSON()).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push.calledOnce).toBe(true);
@@ -68,7 +68,7 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
   const e = {
     preventDefault: () => {},
   };
-  tree.props.onSubmit(e);
+  tree[0].props.onSubmit(e);
   expect(component.toJSON()).toMatchSnapshot();
   return new Promise(resolve => {
     setTimeout(() => {
@@ -105,7 +105,7 @@ test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
   const e = {
     preventDefault: () => {},
   };
-  tree.props.onSubmit(e);
+  tree[0].props.onSubmit(e);
   expect(component.toJSON()).toMatchSnapshot();
   return new Promise(resolve => {
     setTimeout(() => {
@@ -138,7 +138,7 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
   const e = {
     preventDefault: () => {},
   };
-  tree.props.onSubmit(e);
+  tree[0].props.onSubmit(e);
   expect(component.toJSON()).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push.calledOnce).toBe(false);

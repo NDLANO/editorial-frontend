@@ -9,12 +9,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
+import isInteger from 'lodash/isInteger';
 import { Button } from 'ndla-ui';
 import { Search } from 'ndla-ui/icons';
 import { injectT } from 'ndla-i18n';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
+
 import {
   fetchTopicArticle,
   fetchNewArticleId,
@@ -35,6 +37,7 @@ export class MastheadSearchForm extends Component {
     this.handleQueryChange = this.handleQueryChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUrlPaste = this.handleUrlPaste.bind(this);
+    this.handleNodeIdPaste = this.handleNodeIdPaste.bind(this);
   }
 
   handleQueryChange(evt) {
@@ -73,6 +76,16 @@ export class MastheadSearchForm extends Component {
     }
   }
 
+  handleNodeIdPaste(evt) {
+    evt.preventDefault();
+    const { history, locale } = this.props;
+    if (isInteger(this.state.query)) {
+      history.push(toEditArticle(this.state.query, 'standard', locale));
+    } else {
+      history.push(to404());
+    }
+  }
+
   handleSubmit(evt) {
     evt.preventDefault();
     const isNDLAUrl = /^https:\/(.*).ndla.no\/(article|subjects|nb|nn|en)\/(node|\d*)(\/|\d*)/.test(
@@ -88,7 +101,7 @@ export class MastheadSearchForm extends Component {
   render() {
     const { show, searching, t } = this.props;
 
-    return (
+    return [
       <form onSubmit={this.handleSubmit} {...classes(show ? '' : 'hidden')}>
         <input
           type="text"
@@ -100,8 +113,14 @@ export class MastheadSearchForm extends Component {
         <Button submit stripped loading={searching} {...classes('button')}>
           <Search className="c-icon--medium" />
         </Button>
-      </form>
-    );
+      </form>,
+      <Button
+        {...classes('node-id-button', show ? '' : 'hidden')}
+        onClick={this.handleNodeIdPaste}
+        disabled={!isInteger(this.state.query)}>
+        #
+      </Button>,
+    ];
   }
 }
 

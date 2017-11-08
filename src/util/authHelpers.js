@@ -13,7 +13,7 @@ import { expiresIn } from './jwtHelper';
 import { resolveJsonOrRejectWithError } from './apiHelpers';
 
 export const auth0Domain = window.config.auth0Domain;
-export const auth0ClientId = window.config.auth0ClientID;
+export const ndlaPersonalClientId = window.config.ndlaPersonalClientId;
 
 const locationOrigin = (() => {
   if (process.env.NODE_ENV === 'unittest') {
@@ -36,7 +36,7 @@ const locationOrigin = (() => {
 export { locationOrigin };
 
 const auth = new auth0.WebAuth({
-  clientID: auth0ClientId || '',
+  clientID: ndlaPersonalClientId || '',
   domain: auth0Domain || '',
   responseType: 'token',
   redirectUri: `${locationOrigin}/login/success`,
@@ -91,7 +91,7 @@ export const renewSystemAuth = () =>
 export function loginPersonalAccessToken(type) {
   auth.authorize({
     connection: type,
-    clientID: auth0ClientId,
+    clientID: ndlaPersonalClientId,
   });
 }
 
@@ -126,7 +126,7 @@ export const renewAuth = () => {
 export const personalAuthLogout = federated => {
   const options = {
     returnTo: `${locationOrigin}`,
-    clientID: auth0ClientId,
+    clientID: ndlaPersonalClientId,
   };
 
   if (federated) {

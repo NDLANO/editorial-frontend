@@ -243,7 +243,6 @@ export default compose(
       required: true,
     },
     introduction: {
-      required: true,
       maxLength: 300,
     },
     content: {

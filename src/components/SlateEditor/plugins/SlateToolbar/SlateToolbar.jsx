@@ -7,10 +7,11 @@
  */
 
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import Portal from 'react-portal';
 import BEMHelper from 'react-bem-helper';
 import Types from 'slate-prop-types';
+import { Portal } from '../../../../components/Portal';
 import ToolbarButton from './ToolbarButton';
 import { setActiveNode } from '../../createSlateStore';
 import { hasNodeOfType } from '../utils';
@@ -44,7 +45,7 @@ class SlateToolbar extends Component {
     this.onClickBlock = this.onClickBlock.bind(this);
     this.onClickInline = this.onClickInline.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
-    this.onOpen = this.onOpen.bind(this);
+    this.portalRef = this.portalRef.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
     this.state = {
@@ -121,8 +122,10 @@ class SlateToolbar extends Component {
     if (kind === 'inline') this.onClickInline(e, type);
   }
 
-  onOpen(portal) {
-    this.setState({ menu: portal.firstChild });
+  portalRef(menu) {
+    // ReactDOM.createPortal callback ref only seems to return a ReactPortal node instance
+    // eslint-disable-next-line react/no-find-dom-node
+    this.setState({ menu: findDOMNode(menu) });
   }
 
   handleStateChange(change) {
@@ -172,7 +175,7 @@ class SlateToolbar extends Component {
     );
 
     return (
-      <Portal isOpened onOpen={this.onOpen}>
+      <Portal isOpened ref={this.portalRef}>
         <div {...toolbarClasses()}>{toolbarButtons}</div>
       </Portal>
     );

@@ -312,8 +312,7 @@ const RULES = [
             data-resource={data.resource}
             data-content-id={data['content-id']}
             data-link-text={object.text}
-            data-target={data.target}
-            data-rel={data.rel}
+            data-open-in={data['open-in']}
           />
         );
       }

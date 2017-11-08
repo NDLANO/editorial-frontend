@@ -20,7 +20,7 @@ const newTabAttributes = {
   rel: 'noopener noreferrer',
 };
 
-const createContentLinkData = (href, targetRel = {}) => {
+const createContentLinkData = (href, targetRel) => {
   const splittedHref = href.split('/');
   const id = splittedHref[splittedHref.length - 1];
   return {
@@ -33,7 +33,7 @@ const createContentLinkData = (href, targetRel = {}) => {
   };
 };
 
-const createLinkData = (href, targetRel = {}) => ({
+const createLinkData = (href, targetRel) => ({
   type: TYPE,
   data: {
     href,
@@ -46,13 +46,13 @@ class EditLink extends React.Component {
     super();
     this.state = {
       model: undefined,
-      newTab: false,
+      newContext: false,
     };
     this.addData = this.addData.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleChangeAndClose = this.handleChangeAndClose.bind(this);
-    this.handleNewTab = this.handleNewTab.bind(this);
+    this.handleNewContext = this.handleNewContext.bind(this);
   }
 
   componentWillMount() {
@@ -61,14 +61,19 @@ class EditLink extends React.Component {
   }
 
   handleSave(model) {
-    const { newTab } = this.state;
+    const { newContext } = this.state;
     const { state, node } = this.props;
     const { href, text } = model;
     const isNDLAUrl = /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
 
     const data = isNDLAUrl
-      ? createContentLinkData(href, newTab ? newTabAttributes : {})
-      : createLinkData(href, newTab ? newTabAttributes : {});
+      ? createContentLinkData(
+          href,
+          newContext
+            ? { 'data-open-in': 'new-context' }
+            : { 'data-open-in': 'current-context' },
+        )
+      : createLinkData(href, newContext ? newTabAttributes : {});
 
     if (node.key) {
       // update/change
@@ -107,8 +112,8 @@ class EditLink extends React.Component {
     closeDialog();
   }
 
-  handleNewTab() {
-    this.setState(prevState => ({ newTab: !prevState.newTab }));
+  handleNewContext() {
+    this.setState(prevState => ({ newContext: !prevState.newContext }));
   }
 
   addData(node) {
@@ -130,13 +135,13 @@ class EditLink extends React.Component {
         href,
         text,
       },
-      newTab: data.target === '_blank',
+      newContext: data.target === '_blank' || data['open-in'] === 'new-context',
     });
   }
 
   render() {
     const { t, state } = this.props;
-    const { model, newTab } = this.state;
+    const { model, newContext } = this.state;
     const isEdit = model !== undefined;
 
     return (
@@ -152,8 +157,8 @@ class EditLink extends React.Component {
           initialModel={getInitialModel(model)}
           onClose={() => this.handleChangeAndClose(state.change())}
           isEdit={isEdit}
-          isNewTab={newTab}
-          onEnableNewTab={this.handleNewTab}
+          isNewContext={newContext}
+          onEnableNewContext={this.handleNewContext}
           onRemove={this.handleRemove}
           onSave={this.handleSave}
         />

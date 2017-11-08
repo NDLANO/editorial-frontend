@@ -13,4 +13,4 @@ export function expiresIn(token) {
   return decoded.exp - decoded.iat - 60; // Add 60 second buffer
 }
 
-export const decodeToken = idToken => decode(idToken);
+export const decodeToken = accessToken => decode(accessToken);

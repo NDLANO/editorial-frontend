@@ -9,17 +9,7 @@
 import defined from 'defined';
 import fetch from 'isomorphic-fetch';
 import queryString from 'query-string';
-import {
-  renewAuth,
-  isIdTokenValid,
-  getIdToken,
-  fetchAccessToken,
-  setAccessTokenInLocalStorage,
-} from './authHelpers';
-
-export function headerWithToken(token) {
-  return { Authorization: `Bearer ${token}` };
-}
+import { getAccessToken, isAccessTokenValid, renewAuth } from './authHelpers';
 
 export function apiResourceUrl(path) {
   return window.config.ndlaApiUrl + path;
@@ -31,10 +21,6 @@ export function brightcoveApiResourceUrl(path) {
 
 export function googleSearchApiResourceUrl(path) {
   return window.config.googleSearchApiUrl + path;
-}
-
-export function oembedApiResourceUrl() {
-  return apiResourceUrl('/oembed-proxy/v1/oembed');
 }
 
 export function createErrorPayload(status, message, json) {
@@ -61,41 +47,21 @@ export function resolveJsonOrRejectWithError(res) {
   });
 }
 
-export const fetchWithAccessToken = (url, config = {}) => {
-  const accessToken = localStorage.getItem('access_token');
-  const expiresAt = accessToken
-    ? JSON.parse(localStorage.getItem('access_token_expires_at'))
-    : 0;
-
-  if (new Date().getTime() > expiresAt) {
-    return fetchAccessToken().then(res => {
-      setAccessTokenInLocalStorage(res.access_token);
-      return fetch(url, {
-        ...config,
-        headers: { Authorization: `Bearer ${res.access_token}` },
-      });
-    });
+export const fetchWithAuthorization = async (url, config = {}, forceAuth) => {
+  if (forceAuth || !isAccessTokenValid()) {
+    await renewAuth();
   }
   return fetch(url, {
     ...config,
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${getAccessToken()}` },
   });
 };
 
-export const fetchReAuthorized = async (url, config = {}) => {
-  const idToken = await renewAuth();
-  return fetch(url, { ...config, headers: headerWithToken(idToken) });
-};
+export const fetchAuthorized = (url, config = {}) =>
+  fetchWithAuthorization(url, config, false);
 
-export const fetchAuthorized = (url, config = {}) => {
-  if (!isIdTokenValid()) {
-    return renewAuth().then(idToken =>
-      fetch(url, { ...config, headers: headerWithToken(idToken) }),
-    );
-  }
-  const idToken = getIdToken();
-  return fetch(url, { ...config, headers: headerWithToken(idToken) });
-};
+export const fetchReAuthorized = async (url, config = {}) =>
+  fetchWithAuthorization(url, config, true);
 
 export const fetchBrightcoveAccessToken = () =>
   fetch('/get_brightcove_token').then(resolveJsonOrRejectWithError);

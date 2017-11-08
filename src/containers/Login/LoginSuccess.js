@@ -17,7 +17,7 @@ export class LoginSuccess extends React.Component {
     const { loginSuccess, location: { hash }, history } = this.props;
     parseHash(hash).then(authResult => {
       if (authResult && authResult.accessToken) {
-        loginSuccess({ idToken: authResult.accessToken, history });
+        loginSuccess({ accessToken: authResult.accessToken, history });
       }
     });
   }

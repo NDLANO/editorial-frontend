@@ -9,7 +9,7 @@ import queryString from 'query-string';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
-  fetchWithAccessToken,
+  fetchAuthorized,
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/article-api/v2/articles');
@@ -17,34 +17,32 @@ const baseUrl = apiResourceUrl('/article-api/v2/articles');
 export const fetchArticle = (id, language) => {
   const query = queryString.stringify({ language });
   const url = language ? `${baseUrl}/${id}?${query}` : `${baseUrl}/${id}`;
-  return fetchWithAccessToken(url).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
 };
 
 export const fetchNewArticleId = id => {
   const url = `${baseUrl}/external_id/${id}`;
-  return fetchWithAccessToken(url).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
 };
 
 export const fetchTags = language => {
   const query = queryString.stringify({ size: 7000, language });
-  return fetchWithAccessToken(`${baseUrl}/tags/?${query}`).then(
+  return fetchAuthorized(`${baseUrl}/tags/?${query}`).then(
     resolveJsonOrRejectWithError,
   );
 };
 
 export const fetchLicenses = () =>
-  fetchWithAccessToken(`${baseUrl}/licenses`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchAuthorized(`${baseUrl}/licenses`).then(resolveJsonOrRejectWithError);
 
 export const updateArticle = article =>
-  fetchWithAccessToken(`${baseUrl}/${article.id}`, {
+  fetchAuthorized(`${baseUrl}/${article.id}`, {
     method: 'PATCH',
     body: JSON.stringify(article),
   }).then(resolveJsonOrRejectWithError);
 
 export const createArticle = article =>
-  fetchWithAccessToken(`${baseUrl}/`, {
+  fetchAuthorized(`${baseUrl}/`, {
     method: 'POST',
     body: JSON.stringify(article),
   }).then(resolveJsonOrRejectWithError);
@@ -52,6 +50,6 @@ export const createArticle = article =>
 const baseTaxonomyUrl = apiResourceUrl('/taxonomy/v1');
 
 export const fetchTopicArticle = (topicId, locale) =>
-  fetchWithAccessToken(
+  fetchAuthorized(
     `${baseTaxonomyUrl}/topics/${topicId}/?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);

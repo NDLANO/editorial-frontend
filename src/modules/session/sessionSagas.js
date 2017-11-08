@@ -11,19 +11,20 @@ import { actions } from './session';
 import { toLogin } from '../../util/routeHelpers';
 import { decodeToken } from '../../util/jwtHelper';
 import {
-  authLogout,
-  setIdTokenInLocalStorage,
-  clearIdTokenFromLocalStorage,
+  personalAuthLogout,
+  setAccessTokenInLocalStorage,
+  clearAccessTokenFromLocalStorage,
+  renewSystemAuth,
 } from '../../util/authHelpers';
 
-export function* login(idToken, history) {
+export function* login(accessToken, history) {
   try {
-    const decoded = decodeToken(idToken);
+    const decoded = decodeToken(accessToken);
     yield put(actions.setAuthenticated(true));
     yield put(
       actions.setUserData({ name: decoded['https://ndla.no/user_name'] }),
     );
-    setIdTokenInLocalStorage(idToken);
+    setAccessTokenInLocalStorage(accessToken, true);
     history.replace('/');
   } catch (error) {
     console.error(error); //eslint-disable-line
@@ -35,8 +36,9 @@ export function* logout(federated) {
   try {
     yield put(actions.setAuthenticated(false));
     yield put(actions.clearUserData());
-    authLogout(federated);
-    clearIdTokenFromLocalStorage();
+    yield call(personalAuthLogout, federated);
+    clearAccessTokenFromLocalStorage();
+    yield call(renewSystemAuth);
   } catch (error) {
     console.error(error); //eslint-disable-line
   }
@@ -44,8 +46,10 @@ export function* logout(federated) {
 
 export function* watchLoginSuccess() {
   while (true) {
-    const { payload: { idToken, history } } = yield take(actions.loginSuccess);
-    yield call(login, idToken, history);
+    const { payload: { accessToken, history } } = yield take(
+      actions.loginSuccess,
+    );
+    yield call(login, accessToken, history);
   }
 }
 

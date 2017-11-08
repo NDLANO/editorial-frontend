@@ -8,6 +8,7 @@
 
 import { expectSaga } from 'redux-saga-test-plan';
 import sinon from 'sinon';
+import nock from 'nock';
 
 import * as sagas from '../sessionSagas';
 import { actions } from '../session';
@@ -56,6 +57,10 @@ test('sessionSagas login success', () => {
 });
 
 test('sessionSagas logout', () => {
+  nock('http://ndla-frontend')
+    .get('/get_token')
+    .reply(200, { access_token: accessToken });
+
   const result = expectSaga(sagas.watchLogout)
     .withState({})
     .put(actions.clearUserData())
@@ -68,8 +73,8 @@ test('sessionSagas logout', () => {
     .run({ silenceTimeout: true });
 
   return result.then(() => {
-    expect(localStorage.getItem('access_token')).toBe(null);
-    expect(localStorage.getItem('access_token_expires_at')).toBe(null);
-    expect(localStorage.getItem('access_token_personal')).toBe(null);
+    expect(localStorage.getItem('access_token')).toBe(accessToken);
+    expect(localStorage.getItem('access_token_expires_at')).toBeTruthy();
+    expect(localStorage.getItem('access_token_personal')).toBe('false');
   });
 });

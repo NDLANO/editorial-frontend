@@ -81,7 +81,7 @@ export const isAccessTokenValid = () =>
   new Date().getTime() < getAccessTokenExpiresAt();
 
 export const fetchSystemAccessToken = () =>
-  fetch('/get_token').then(resolveJsonOrRejectWithError);
+  fetch(`${locationOrigin}/get_token`).then(resolveJsonOrRejectWithError);
 
 export const renewSystemAuth = () =>
   fetchSystemAccessToken().then(res => {

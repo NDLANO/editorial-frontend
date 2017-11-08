@@ -116,7 +116,7 @@ export const renewPersonalAuth = () =>
   });
 
 export const renewAuth = () => {
-  if (localStorage.getItem('access_token_personal')) {
+  if (localStorage.getItem('access_token_personal') === 'true') {
     renewPersonalAuth();
   } else {
     renewSystemAuth();

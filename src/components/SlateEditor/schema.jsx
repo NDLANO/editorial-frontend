@@ -158,6 +158,7 @@ const defaultSchema = {
         {props.children}
       </ul>
     ),
+    'list-text': props => <span {...props.attributes}>{props.children}</span>,
     'list-item': props => (
       <li className="c-block__list-item" {...props.attributes}>
         {props.children}

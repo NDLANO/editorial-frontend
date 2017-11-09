@@ -273,18 +273,8 @@ export default compose(
       required: true,
       maxLength: 155,
     },
-    metaImage: {
+    metaImageId: {
       required: true,
-    },
-    'metaImage.alt': {
-      required: true,
-      onlyValidateIf: model =>
-        model.metaImage && model.metaImage.resource === 'image',
-    },
-    'metaImage.caption': {
-      required: true,
-      onlyValidateIf: model =>
-        model.metaImage && model.metaImage.resource === 'image',
     },
     tags: {
       minItems: 3,

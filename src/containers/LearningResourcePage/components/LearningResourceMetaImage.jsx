@@ -34,7 +34,6 @@ class LearningResourceMetaImage extends Component {
   componentDidMount() {
     if (this.props.metaImageId) {
       api.fetchImage(this.props.metaImageId).then(image => {
-        console.log(image);
         this.setState({ image });
       });
     }

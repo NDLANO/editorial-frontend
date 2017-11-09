@@ -156,10 +156,11 @@ const phrases = {
     },
   },
   learningResourceForm: {
-    metaImageTitle: {
-      image: 'Bildetittel',
+    metaImage: {
+      title: 'Bildetittel',
+      copyright: 'Opphav',
+      change: 'Bytt metabilde',
     },
-    metaImageCopyright: 'Opphav',
     title: {
       create: 'Du oppretter nå en læringsressurs på {title}({key})',
       update: 'Du redigerer nå en læringsressurs på {title}({key})',
@@ -169,6 +170,7 @@ const phrases = {
         'En eller flere inkluderte lyd, bilde, eller video elementer mangler beskrivende tekst eller alternativ tekst.',
     },
     fields: {
+      rightAside: 'Høyrespalte',
       metaImage: {
         title: 'Metabilde',
         label: 'Metabilde',
@@ -177,7 +179,6 @@ const phrases = {
         edition: 'Utgave',
         publisher: 'Utgiver',
       },
-      rightAside: 'Høyrespalte',
     },
   },
   form: {

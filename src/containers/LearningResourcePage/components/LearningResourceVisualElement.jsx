@@ -33,7 +33,7 @@ class LearningResourceVisualElement extends Component {
   }
 
   render() {
-    const { t, bindInput, commonFieldProps, metaImageTag } = this.props;
+    const { t, bindInput, commonFieldProps, visualElementTag } = this.props;
     const { schema, submitted } = commonFieldProps;
     return (
       <div>
@@ -44,12 +44,12 @@ class LearningResourceVisualElement extends Component {
           label={t('learningResourceForm.fields.metaImage.label')}
           schema={schema}
           submitted={submitted}
-          embedTag={metaImageTag}
-          {...bindInput('metaImage')}
+          embedTag={visualElementTag}
+          {...bindInput('visualElement')}
           selectedResource={this.state.showVisualElement ? 'image' : undefined}
           resetSelectedResource={this.hideVisualElement}
         />
-        {metaImageTag.resource ? (
+        {visualElementTag.resource ? (
           <div>
             <TextField
               placeholder={t(`form.image.caption.placeholder`)}
@@ -79,7 +79,7 @@ class LearningResourceVisualElement extends Component {
 LearningResourceVisualElement.propTypes = {
   bindInput: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
-  metaImageTag: MetaImageShape,
+  visualElementTag: MetaImageShape,
 };
 
 export default injectT(LearningResourceVisualElement);

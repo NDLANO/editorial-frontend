@@ -16,7 +16,7 @@ import {
 } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 import { MetaImageShape, CommonFieldPropsShape } from '../../../shapes';
-import LearningResourceVisualElement from './LearningResourceVisualElement';
+import LearningResourceMetaImage from './LearningResourceMetaImage';
 
 class LearningResourceMetadata extends Component {
   constructor(props) {
@@ -68,10 +68,9 @@ class LearningResourceMetadata extends Component {
             value={bindInput('metaDescription').value.document.text}
           />
         </PlainTextField>
-        <LearningResourceVisualElement
-          metaImageTag={model.metaImage}
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
+        <LearningResourceMetaImage
+          metaImageId={model.metaImageId}
+          {...bindInput('metaImageId')}
         />
       </Accordion>
     );

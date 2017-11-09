@@ -11,6 +11,7 @@ import { State } from 'slate';
 import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
+import htmlCleaner from './htmlCleaner';
 
 export const createEmptyState = () =>
   State.fromJSON({
@@ -40,13 +41,6 @@ export const createEmptyState = () =>
     },
   });
 
-// TODO: Find a better way to extract each section into an array.
-function extractSections(html) {
-  return html
-    .split('</section>')
-    .filter(section => section.length > 0)
-    .map(section => `${section}</section>`);
-}
 
 export function learningResourceContentToEditorState(
   html,
@@ -60,7 +54,7 @@ export function learningResourceContentToEditorState(
       },
     ];
   }
-  const sections = extractSections(html);
+  const sections = htmlCleaner(html);
 
   const serializer = new Html({
     rules: learningResourceRules,

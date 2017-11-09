@@ -138,6 +138,7 @@ a.c-learning-resource-form__abort-button.c-button {
 
   &__meta-image {
     display: flex;
+
     img {
       width: 60%;
       margin-top: 10px;
@@ -148,7 +149,7 @@ a.c-learning-resource-form__abort-button.c-button {
     display: inline-block;
     width: 35%;
     margin-left: 5%;
-    
+
     strong {
       display: block;
     }

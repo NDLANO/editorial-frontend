@@ -64,7 +64,7 @@ export function learningResourceContentToEditorState(
    https://github.com/ianstormtaylor/slate/issues/1111
   */
   return sections.map((section, index) => {
-    const state = serializer.deserialize(section.replace(/(\r\n|\n|\r)/gm,""));
+    const state = serializer.deserialize(section);
     return {
       state,
       index,

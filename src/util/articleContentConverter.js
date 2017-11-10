@@ -41,7 +41,6 @@ export const createEmptyState = () =>
     },
   });
 
-
 export function learningResourceContentToEditorState(
   html,
   fragment = undefined,
@@ -55,7 +54,6 @@ export function learningResourceContentToEditorState(
     ];
   }
   const sections = htmlCleaner(html);
-
   const serializer = new Html({
     rules: learningResourceRules,
     parseHtml: fragment,
@@ -66,7 +64,7 @@ export function learningResourceContentToEditorState(
    https://github.com/ianstormtaylor/slate/issues/1111
   */
   return sections.map((section, index) => {
-    const state = serializer.deserialize(section);
+    const state = serializer.deserialize(section.replace(/(\r\n|\n|\r)/gm,""));
     return {
       state,
       index,

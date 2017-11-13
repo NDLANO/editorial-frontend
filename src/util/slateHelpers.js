@@ -14,8 +14,6 @@ import {
 
 const BLOCK_TAGS = {
   section: 'section',
-  p: 'paragraph',
-  li: 'list-item',
   ul: 'bulleted-list',
   blockquote: 'quote',
   pre: 'code',
@@ -40,6 +38,8 @@ const MARK_TAGS = {
   u: 'underlined',
   code: 'code',
 };
+
+const ListText = ({ children }) => children;
 
 export const findNodesByType = (node, type, nodes = []) => {
   if (node.type === type) {
@@ -98,6 +98,49 @@ export const divRule = {
       default:
         return <div>{children}</div>;
     }
+  },
+};
+
+export const paragraphRule = {
+  // div handling with text in box (bodybox)
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'p') return;
+    const parent = el.parentElement
+      ? el.parentElement.tagName.toLowerCase()
+      : '';
+
+    const type = parent === 'li' ? 'list-text' : 'paragraph';
+
+    return {
+      kind: 'block',
+      type,
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(object, children) {
+    if (object.kind !== 'block') return;
+    if (object.type !== 'paragraph' && object.type !== 'list-text') return;
+    if (object.type === 'list-text') {
+      return <ListText>{children}</ListText>;
+    }
+    return <p>{children}</p>;
+  },
+};
+
+export const listItemRule = {
+  // div handling with text in box (bodybox)
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'li') return;
+    return {
+      kind: 'block',
+      type: 'list-item',
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(object, children) {
+    if (object.kind !== 'block') return;
+    if (object.type !== 'list-item') return;
+    return <li>{children}</li>;
   },
 };
 
@@ -198,8 +241,6 @@ export const blockRules = {
         return <h5>{children}</h5>;
       case 'heading-six':
         return <h6>{children}</h6>;
-      case 'list-item':
-        return <li>{children}</li>;
       case 'quote':
         return <blockquote>{children}</blockquote>;
       case 'div':
@@ -244,6 +285,8 @@ const RULES = [
   divRule,
   orderListRules,
   tableRules,
+  paragraphRule,
+  listItemRule,
   {
     // Aside handling
     deserialize(el, next) {

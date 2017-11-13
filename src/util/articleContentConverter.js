@@ -11,7 +11,17 @@ import { State } from 'slate';
 import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
-import htmlCleaner from './htmlCleaner';
+
+export const sectionSplitter = html => {
+  const node = document.createElement('div');
+  node.insertAdjacentHTML('beforeend', html);
+  const sections = [];
+  for (let i = 0; i < node.children.length; i += 1) {
+    sections.push(node.children[i].outerHTML);
+  }
+  node.remove();
+  return sections;
+};
 
 export const createEmptyState = () =>
   State.fromJSON({
@@ -53,7 +63,7 @@ export function learningResourceContentToEditorState(
       },
     ];
   }
-  const sections = htmlCleaner(html);
+  const sections = sectionSplitter(html);
   const serializer = new Html({
     rules: learningResourceRules,
     parseHtml: fragment,

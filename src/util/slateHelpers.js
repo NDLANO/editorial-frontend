@@ -62,7 +62,7 @@ export const logState = state => {
 // TODO: get type of aside in here. Default should be rightAside since that is the only
 const getAsideType = el => ({
   type: el.attributes.getNamedItem('data-type')
-    ? el.attributes.getNamedItem('data-type')
+    ? el.attributes.getNamedItem('data-type').value
     : 'rightAside',
 });
 

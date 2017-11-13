@@ -70,8 +70,8 @@ class EditLink extends React.Component {
       ? createContentLinkData(
           href,
           newContext
-            ? { 'data-open-in': 'new-context' }
-            : { 'data-open-in': 'current-context' },
+            ? { 'open-in': 'new-context' }
+            : { 'open-in': 'current-context' },
         )
       : createLinkData(href, newContext ? newTabAttributes : {});
 

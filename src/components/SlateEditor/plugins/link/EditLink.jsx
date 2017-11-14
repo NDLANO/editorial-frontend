@@ -15,7 +15,12 @@ import { TYPE } from './';
 import connectLightbox from '../utils/connectLightbox';
 import LinkForm, { getInitialModel } from './LinkForm';
 
-const createContentLinkData = href => {
+const newTabAttributes = {
+  target: '_blank',
+  rel: 'noopener noreferrer',
+};
+
+const createContentLinkData = (href, targetRel) => {
   const splittedHref = href.split('/');
   const id = splittedHref[splittedHref.length - 1];
   return {
@@ -23,14 +28,16 @@ const createContentLinkData = href => {
     data: {
       'content-id': id,
       resource: 'content-link',
+      ...targetRel,
     },
   };
 };
 
-const createLinkData = href => ({
+const createLinkData = (href, targetRel) => ({
   type: TYPE,
   data: {
     href,
+    ...targetRel,
   },
 });
 
@@ -53,9 +60,17 @@ class EditLink extends React.Component {
 
   handleSave(model) {
     const { state, node } = this.props;
-    const { href, text } = model;
+    const { href, text, checkbox } = model;
     const isNDLAUrl = /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
-    const data = isNDLAUrl ? createContentLinkData(href) : createLinkData(href);
+
+    const data = isNDLAUrl
+      ? createContentLinkData(
+          href,
+          checkbox
+            ? { 'open-in': 'new-context' }
+            : { 'open-in': 'current-context' },
+        )
+      : createLinkData(href, checkbox ? newTabAttributes : {});
 
     if (node.key) {
       // update/change
@@ -108,10 +123,14 @@ class EditLink extends React.Component {
           ]}`
         : data.href;
 
+    const checkbox =
+      data.target === '_blank' || data['open-in'] === 'new-context';
+
     this.setState({
       model: {
         href,
         text,
+        checkbox,
       },
     });
   }

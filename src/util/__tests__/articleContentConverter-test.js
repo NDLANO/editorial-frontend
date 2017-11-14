@@ -12,6 +12,7 @@ import {
   topicArticleContentToHTML,
   learningResourceContentToEditorState,
   learningResourceContentToHTML,
+  sectionSplitter,
 } from '../articleContentConverter';
 
 const contentHTML = `<section><h2>Lorem ipsum</h2></section>`;
@@ -51,4 +52,18 @@ test('articleContentConverter convert learningresource content with multiple sec
   );
   const html = learningResourceContentToHTML(editorState);
   expect(html).toMatchSnapshot();
+});
+
+const doubleNestedSections =
+  '<section>Seksjon 1</section><section><p>test paragraf</p><section>Seksjon 2 nested</section></section>';
+
+const trippleNestedSections =
+  '<section>Seksjon 1</section><section><p>test paragraf</p><section><section>Seksjon 2 nested</section></section></section><section>Seksjon 3</section>';
+
+test('util/sectionSplitter splits doubleNestedSections into array', () => {
+  expect(sectionSplitter(doubleNestedSections)).toMatchSnapshot();
+});
+
+test('util/domOperations trippleNestedSections into array', () => {
+  expect(sectionSplitter(trippleNestedSections)).toMatchSnapshot();
 });

@@ -43,7 +43,13 @@ test('serialize list with a link and text', () => {
         <block type="bulleted-list">
           <block type="list-item">
             A string of <mark type="bold">bold</mark> in a{' '}
-            <inline type="link" data={{ href: 'http://slatejs.org' }}>
+            <inline
+              type="link"
+              data={{
+                href: 'http://slatejs.org',
+                rel: 'noopener noreferrer',
+                target: '_blank',
+              }}>
               Slate
             </inline>{' '}
             editor!

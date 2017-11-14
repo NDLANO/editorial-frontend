@@ -145,7 +145,7 @@ class LearningResourceForm extends Component {
       title: model.title,
       introduction: editorStateToPlainText(model.introduction),
       tags: model.tags,
-      content: learningResourceContentToHTML(model.content, true),
+      content: learningResourceContentToHTML(model.content),
       metaImageId: model.metaImageId,
       metaDescription: editorStateToPlainText(model.metaDescription),
       articleType: 'standard',

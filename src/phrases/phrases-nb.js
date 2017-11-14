@@ -216,6 +216,7 @@ const phrases = {
         change: 'Endre',
         remove: 'Fjern lenke',
         href: 'Lenke',
+        newTab: 'Åpne lenke i ny fane',
         text: 'Tekst',
         addTitle: 'Legg til lenke',
         changeTitle: 'Endre lenke',

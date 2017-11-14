@@ -14,8 +14,6 @@ import {
 
 const BLOCK_TAGS = {
   section: 'section',
-  p: 'paragraph',
-  li: 'list-item',
   ul: 'bulleted-list',
   blockquote: 'quote',
   pre: 'code',
@@ -25,6 +23,7 @@ const BLOCK_TAGS = {
   h4: 'heading-two',
   h5: 'heading-two',
   h6: 'heading-two',
+  br: 'br',
 };
 
 const TABLE_TAGS = {
@@ -40,6 +39,8 @@ const MARK_TAGS = {
   u: 'underlined',
   code: 'code',
 };
+
+const ListText = ({ children }) => children;
 
 export const findNodesByType = (node, type, nodes = []) => {
   if (node.type === type) {
@@ -71,7 +72,16 @@ const setAsideTag = data => ({
 });
 
 /* eslint-disable consistent-return, default-case */
-
+export const textRule = {
+  deserialize(el) {
+    if (
+      el.nodeName.toLowerCase() !== '#text' ||
+      el.parentNode.tagName.toLowerCase() !== 'section'
+    )
+      return;
+    return null;
+  },
+};
 export const divRule = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
@@ -98,6 +108,49 @@ export const divRule = {
       default:
         return <div>{children}</div>;
     }
+  },
+};
+
+export const paragraphRule = {
+  // div handling with text in box (bodybox)
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'p') return;
+    const parent = el.parentElement
+      ? el.parentElement.tagName.toLowerCase()
+      : '';
+
+    const type = parent === 'li' ? 'list-text' : 'paragraph';
+
+    return {
+      kind: 'block',
+      type,
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(object, children) {
+    if (object.kind !== 'block') return;
+    if (object.type !== 'paragraph' && object.type !== 'list-text') return;
+    if (object.type === 'list-text') {
+      return <ListText>{children}</ListText>;
+    }
+    return <p>{children}</p>;
+  },
+};
+
+export const listItemRule = {
+  // div handling with text in box (bodybox)
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'li') return;
+    return {
+      kind: 'block',
+      type: 'list-item',
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(object, children) {
+    if (object.kind !== 'block') return;
+    if (object.type !== 'list-item') return;
+    return <li>{children}</li>;
   },
 };
 
@@ -198,12 +251,12 @@ export const blockRules = {
         return <h5>{children}</h5>;
       case 'heading-six':
         return <h6>{children}</h6>;
-      case 'list-item':
-        return <li>{children}</li>;
       case 'quote':
         return <blockquote>{children}</blockquote>;
       case 'div':
         return <div>{children}</div>;
+      case 'br':
+        return <br />;
     }
   },
 };
@@ -242,8 +295,11 @@ export const tableRules = {
 
 const RULES = [
   divRule,
+  textRule,
   orderListRules,
   tableRules,
+  paragraphRule,
+  listItemRule,
   {
     // Aside handling
     deserialize(el, next) {
@@ -293,7 +349,11 @@ const RULES = [
       return {
         kind: 'inline',
         type: 'link',
-        data: { href: el.href ? el.href : '#' },
+        data: {
+          href: el.href ? el.href : '#',
+          target: el.target ? el.target : '',
+          rel: el.rel ? el.rel : '',
+        },
         nodes: next(el.childNodes),
       };
     },
@@ -308,6 +368,7 @@ const RULES = [
             data-resource={data.resource}
             data-content-id={data['content-id']}
             data-link-text={object.text}
+            data-open-in={data['open-in']}
           />
         );
       }
@@ -315,8 +376,8 @@ const RULES = [
       return (
         <a
           href={data.href}
-          target="_blank"
-          rel="noopener noreferrer"
+          target={data.target}
+          rel={data.rel}
           title={object.text}>
           {children}
         </a>

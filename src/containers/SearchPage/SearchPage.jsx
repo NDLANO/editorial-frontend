@@ -134,7 +134,7 @@ SearchPage.propTypes = {
 };
 
 SearchPage.defaultProps = {
-  enabledSources: ['learningResource', 'topicArticle', 'image', 'audio'],
+  enabledSources: ['all', 'learningResource', 'topicArticle', 'image', 'audio'],
 };
 
 const mapDispatchToProps = {

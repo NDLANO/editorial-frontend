@@ -7,6 +7,7 @@ exports[`reformed HOC merges and overrides input flags correctly 1`] = `
     dirty={false}
   />
   <input
+    checked={undefined}
     name="title"
     onBlur={[Function]}
     onChange={[Function]}
@@ -16,6 +17,7 @@ exports[`reformed HOC merges and overrides input flags correctly 1`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="content"
     onBlur={[Function]}
     onChange={[Function]}
@@ -25,6 +27,7 @@ exports[`reformed HOC merges and overrides input flags correctly 1`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="image.alt"
     onBlur={[Function]}
     onChange={[Function]}
@@ -34,6 +37,7 @@ exports[`reformed HOC merges and overrides input flags correctly 1`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="image.caption"
     onBlur={[Function]}
     onChange={[Function]}
@@ -51,6 +55,7 @@ exports[`reformed HOC merges and overrides input flags correctly 2`] = `
     dirty={true}
   />
   <input
+    checked={undefined}
     name="title"
     onBlur={[Function]}
     onChange={[Function]}
@@ -60,6 +65,7 @@ exports[`reformed HOC merges and overrides input flags correctly 2`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="content"
     onBlur={[Function]}
     onChange={[Function]}
@@ -69,6 +75,7 @@ exports[`reformed HOC merges and overrides input flags correctly 2`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="image.alt"
     onBlur={[Function]}
     onChange={[Function]}
@@ -78,6 +85,7 @@ exports[`reformed HOC merges and overrides input flags correctly 2`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="image.caption"
     onBlur={[Function]}
     onChange={[Function]}
@@ -96,6 +104,7 @@ exports[`reformed HOC merges and overrides input flags correctly 3`] = `
     touched={true}
   />
   <input
+    checked={undefined}
     name="title"
     onBlur={[Function]}
     onChange={[Function]}
@@ -105,6 +114,7 @@ exports[`reformed HOC merges and overrides input flags correctly 3`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="content"
     onBlur={[Function]}
     onChange={[Function]}
@@ -114,6 +124,7 @@ exports[`reformed HOC merges and overrides input flags correctly 3`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="image.alt"
     onBlur={[Function]}
     onChange={[Function]}
@@ -123,6 +134,7 @@ exports[`reformed HOC merges and overrides input flags correctly 3`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="image.caption"
     onBlur={[Function]}
     onChange={[Function]}
@@ -141,6 +153,7 @@ exports[`reformed HOC removes active flag and set touched flag on blur 1`] = `
     touched={true}
   />
   <input
+    checked={undefined}
     name="title"
     onBlur={[Function]}
     onChange={[Function]}
@@ -150,6 +163,7 @@ exports[`reformed HOC removes active flag and set touched flag on blur 1`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="content"
     onBlur={[Function]}
     onChange={[Function]}
@@ -159,6 +173,7 @@ exports[`reformed HOC removes active flag and set touched flag on blur 1`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="image.alt"
     onBlur={[Function]}
     onChange={[Function]}
@@ -172,6 +187,7 @@ exports[`reformed HOC removes active flag and set touched flag on blur 1`] = `
     touched={true}
   />
   <input
+    checked={undefined}
     name="image.caption"
     onBlur={[Function]}
     onChange={[Function]}
@@ -189,6 +205,7 @@ exports[`reformed HOC sets active flag on focus 1`] = `
     dirty={false}
   />
   <input
+    checked={undefined}
     name="title"
     onBlur={[Function]}
     onChange={[Function]}
@@ -198,6 +215,7 @@ exports[`reformed HOC sets active flag on focus 1`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="content"
     onBlur={[Function]}
     onChange={[Function]}
@@ -207,6 +225,7 @@ exports[`reformed HOC sets active flag on focus 1`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="image.alt"
     onBlur={[Function]}
     onChange={[Function]}
@@ -219,6 +238,7 @@ exports[`reformed HOC sets active flag on focus 1`] = `
     dirty={false}
   />
   <input
+    checked={undefined}
     name="image.caption"
     onBlur={[Function]}
     onChange={[Function]}
@@ -233,6 +253,7 @@ exports[`reformed HOC sets dirty flag in fields 1`] = `
 <form>
   <span />
   <input
+    checked={undefined}
     name="title"
     onBlur={[Function]}
     onChange={[Function]}
@@ -242,6 +263,7 @@ exports[`reformed HOC sets dirty flag in fields 1`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="content"
     onBlur={[Function]}
     onChange={[Function]}
@@ -251,6 +273,7 @@ exports[`reformed HOC sets dirty flag in fields 1`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="image.alt"
     onBlur={[Function]}
     onChange={[Function]}
@@ -260,6 +283,7 @@ exports[`reformed HOC sets dirty flag in fields 1`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="image.caption"
     onBlur={[Function]}
     onChange={[Function]}
@@ -276,6 +300,7 @@ exports[`reformed HOC sets dirty flag in fields 2`] = `
     dirty={true}
   />
   <input
+    checked={undefined}
     name="title"
     onBlur={[Function]}
     onChange={[Function]}
@@ -285,6 +310,7 @@ exports[`reformed HOC sets dirty flag in fields 2`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="content"
     onBlur={[Function]}
     onChange={[Function]}
@@ -294,6 +320,7 @@ exports[`reformed HOC sets dirty flag in fields 2`] = `
   />
   <span />
   <input
+    checked={undefined}
     name="image.alt"
     onBlur={[Function]}
     onChange={[Function]}
@@ -305,6 +332,7 @@ exports[`reformed HOC sets dirty flag in fields 2`] = `
     dirty={true}
   />
   <input
+    checked={undefined}
     name="image.caption"
     onBlur={[Function]}
     onChange={[Function]}

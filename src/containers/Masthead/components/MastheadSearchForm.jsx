@@ -9,7 +9,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import isInteger from 'lodash/isInteger';
 import { Button } from 'ndla-ui';
 import { Search } from 'ndla-ui/icons';
 import { injectT } from 'ndla-i18n';
@@ -37,7 +36,6 @@ export class MastheadSearchForm extends Component {
     this.handleQueryChange = this.handleQueryChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUrlPaste = this.handleUrlPaste.bind(this);
-    this.handleNodeIdPaste = this.handleNodeIdPaste.bind(this);
   }
 
   handleQueryChange(evt) {
@@ -76,23 +74,22 @@ export class MastheadSearchForm extends Component {
     }
   }
 
-  handleNodeIdPaste(evt) {
-    evt.preventDefault();
-    const { history, locale } = this.props;
-    if (isInteger(this.state.query)) {
-      history.push(toEditArticle(this.state.query, 'standard', locale));
-    } else {
-      history.push(to404());
-    }
-  }
-
   handleSubmit(evt) {
+    const { history, locale } = this.props;
     evt.preventDefault();
     const isNDLAUrl = /^https:\/(.*).ndla.no\/(article|subjects|nb|nn|en)\/(node|\d*)(\/|\d*)/.test(
       this.state.query,
     );
+    const isNodeId =
+      this.state.query.length > 2 &&
+      /#\d+/g.test(this.state.query) &&
+      !isNaN(this.state.query.substring(1));
     if (isNDLAUrl) {
       this.handleUrlPaste(this.state.query);
+    } else if (isNodeId) {
+      history.push(
+        toEditArticle(this.state.query.substring(1), 'standard', locale),
+      );
     } else {
       this.props.onSearchQuerySubmit(this.state.query);
     }
@@ -101,7 +98,7 @@ export class MastheadSearchForm extends Component {
   render() {
     const { show, searching, t } = this.props;
 
-    return [
+    return (
       <form onSubmit={this.handleSubmit} {...classes(show ? '' : 'hidden')}>
         <input
           type="text"
@@ -113,14 +110,8 @@ export class MastheadSearchForm extends Component {
         <Button submit stripped loading={searching} {...classes('button')}>
           <Search className="c-icon--medium" />
         </Button>
-      </form>,
-      <Button
-        {...classes('node-id-button', show ? '' : 'hidden')}
-        onClick={this.handleNodeIdPaste}
-        disabled={!isInteger(this.state.query)}>
-        #
-      </Button>,
-    ];
+      </form>
+    );
   }
 }
 

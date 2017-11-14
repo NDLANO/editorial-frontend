@@ -1,169 +1,161 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
-Array [
-  <form
-    className="masthead-search-form"
-    onSubmit={[Function]}
-  >
-    <input
-      className="masthead-search-form__query"
-      onChange={[Function]}
-      placeholder=""
-      type="text"
-      value="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
-    />
-    <button
-      className="c-button c-button--stripped masthead-search-form__button"
-      disabled={false}
-      type="submit"
-    >
-      <svg
-        className="c-icon c-icon--medium"
-        height="50"
-        viewBox="0 0 50 50"
-        width="50"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M 21 3 C 11.6 3 4 10.6 4 20 C 4 29.4 11.6 37 21 37 C 24.354126 37 27.461484 36.015541 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.680155 27.423093 38 23.878362 38 20 C 38 10.6 30.4 3 21 3 z M 21 7 C 28.2 7 34 12.8 34 20 C 34 27.2 28.2 33 21 33 C 13.8 33 8 27.2 8 20 C 8 12.8 13.8 7 21 7 z"
-        />
-      </svg>
-    </button>
-  </form>,
+<form
+  className="masthead-search-form"
+  onSubmit={[Function]}
+>
+  <input
+    className="masthead-search-form__query"
+    onChange={[Function]}
+    placeholder=""
+    type="text"
+    value="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
+  />
   <button
-    className="c-button masthead-search-form__node-id-button"
-    disabled={true}
-    onClick={[Function]}
-    type="button"
+    className="c-button c-button--stripped masthead-search-form__button"
+    disabled={false}
+    type="submit"
   >
-    #
-  </button>,
-]
+    <svg
+      className="c-icon c-icon--medium"
+      height="50"
+      viewBox="0 0 50 50"
+      width="50"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M 21 3 C 11.6 3 4 10.6 4 20 C 4 29.4 11.6 37 21 37 C 24.354126 37 27.461484 36.015541 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.680155 27.423093 38 23.878362 38 20 C 38 10.6 30.4 3 21 3 z M 21 7 C 28.2 7 34 12.8 34 20 C 34 27.2 28.2 33 21 33 C 13.8 33 8 27.2 8 20 C 8 12.8 13.8 7 21 7 z"
+      />
+    </svg>
+  </button>
+</form>
+`;
+
+exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
+<form
+  className="masthead-search-form"
+  onSubmit={[Function]}
+>
+  <input
+    className="masthead-search-form__query"
+    onChange={[Function]}
+    placeholder=""
+    type="text"
+    value="#4232"
+  />
+  <button
+    className="c-button c-button--stripped masthead-search-form__button"
+    disabled={false}
+    type="submit"
+  >
+    <svg
+      className="c-icon c-icon--medium"
+      height="50"
+      viewBox="0 0 50 50"
+      width="50"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M 21 3 C 11.6 3 4 10.6 4 20 C 4 29.4 11.6 37 21 37 C 24.354126 37 27.461484 36.015541 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.680155 27.423093 38 23.878362 38 20 C 38 10.6 30.4 3 21 3 z M 21 7 C 28.2 7 34 12.8 34 20 C 34 27.2 28.2 33 21 33 C 13.8 33 8 27.2 8 20 C 8 12.8 13.8 7 21 7 z"
+      />
+    </svg>
+  </button>
+</form>
 `;
 
 exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] = `
-Array [
-  <form
-    className="masthead-search-form"
-    onSubmit={[Function]}
-  >
-    <input
-      className="masthead-search-form__query"
-      onChange={[Function]}
-      placeholder=""
-      type="text"
-      value=""
-    />
-    <button
-      className="c-button c-button--stripped masthead-search-form__button"
-      disabled={false}
-      type="submit"
-    >
-      <svg
-        className="c-icon c-icon--medium"
-        height="50"
-        viewBox="0 0 50 50"
-        width="50"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M 21 3 C 11.6 3 4 10.6 4 20 C 4 29.4 11.6 37 21 37 C 24.354126 37 27.461484 36.015541 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.680155 27.423093 38 23.878362 38 20 C 38 10.6 30.4 3 21 3 z M 21 7 C 28.2 7 34 12.8 34 20 C 34 27.2 28.2 33 21 33 C 13.8 33 8 27.2 8 20 C 8 12.8 13.8 7 21 7 z"
-        />
-      </svg>
-    </button>
-  </form>,
+<form
+  className="masthead-search-form"
+  onSubmit={[Function]}
+>
+  <input
+    className="masthead-search-form__query"
+    onChange={[Function]}
+    placeholder=""
+    type="text"
+    value=""
+  />
   <button
-    className="c-button masthead-search-form__node-id-button"
-    disabled={true}
-    onClick={[Function]}
-    type="button"
+    className="c-button c-button--stripped masthead-search-form__button"
+    disabled={false}
+    type="submit"
   >
-    #
-  </button>,
-]
+    <svg
+      className="c-icon c-icon--medium"
+      height="50"
+      viewBox="0 0 50 50"
+      width="50"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M 21 3 C 11.6 3 4 10.6 4 20 C 4 29.4 11.6 37 21 37 C 24.354126 37 27.461484 36.015541 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.680155 27.423093 38 23.878362 38 20 C 38 10.6 30.4 3 21 3 z M 21 7 C 28.2 7 34 12.8 34 20 C 34 27.2 28.2 33 21 33 C 13.8 33 8 27.2 8 20 C 8 12.8 13.8 7 21 7 z"
+      />
+    </svg>
+  </button>
+</form>
 `;
 
 exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the end 1`] = `
-Array [
-  <form
-    className="masthead-search-form"
-    onSubmit={[Function]}
-  >
-    <input
-      className="masthead-search-form__query"
-      onChange={[Function]}
-      placeholder=""
-      type="text"
-      value=""
-    />
-    <button
-      className="c-button c-button--stripped masthead-search-form__button"
-      disabled={false}
-      type="submit"
-    >
-      <svg
-        className="c-icon c-icon--medium"
-        height="50"
-        viewBox="0 0 50 50"
-        width="50"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M 21 3 C 11.6 3 4 10.6 4 20 C 4 29.4 11.6 37 21 37 C 24.354126 37 27.461484 36.015541 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.680155 27.423093 38 23.878362 38 20 C 38 10.6 30.4 3 21 3 z M 21 7 C 28.2 7 34 12.8 34 20 C 34 27.2 28.2 33 21 33 C 13.8 33 8 27.2 8 20 C 8 12.8 13.8 7 21 7 z"
-        />
-      </svg>
-    </button>
-  </form>,
+<form
+  className="masthead-search-form"
+  onSubmit={[Function]}
+>
+  <input
+    className="masthead-search-form__query"
+    onChange={[Function]}
+    placeholder=""
+    type="text"
+    value=""
+  />
   <button
-    className="c-button masthead-search-form__node-id-button"
-    disabled={true}
-    onClick={[Function]}
-    type="button"
+    className="c-button c-button--stripped masthead-search-form__button"
+    disabled={false}
+    type="submit"
   >
-    #
-  </button>,
-]
+    <svg
+      className="c-icon c-icon--medium"
+      height="50"
+      viewBox="0 0 50 50"
+      width="50"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M 21 3 C 11.6 3 4 10.6 4 20 C 4 29.4 11.6 37 21 37 C 24.354126 37 27.461484 36.015541 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.680155 27.423093 38 23.878362 38 20 C 38 10.6 30.4 3 21 3 z M 21 7 C 28.2 7 34 12.8 34 20 C 34 27.2 28.2 33 21 33 C 13.8 33 8 27.2 8 20 C 8 12.8 13.8 7 21 7 z"
+      />
+    </svg>
+  </button>
+</form>
 `;
 
 exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
-Array [
-  <form
-    className="masthead-search-form"
-    onSubmit={[Function]}
-  >
-    <input
-      className="masthead-search-form__query"
-      onChange={[Function]}
-      placeholder=""
-      type="text"
-      value=""
-    />
-    <button
-      className="c-button c-button--stripped masthead-search-form__button"
-      disabled={false}
-      type="submit"
-    >
-      <svg
-        className="c-icon c-icon--medium"
-        height="50"
-        viewBox="0 0 50 50"
-        width="50"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M 21 3 C 11.6 3 4 10.6 4 20 C 4 29.4 11.6 37 21 37 C 24.354126 37 27.461484 36.015541 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.680155 27.423093 38 23.878362 38 20 C 38 10.6 30.4 3 21 3 z M 21 7 C 28.2 7 34 12.8 34 20 C 34 27.2 28.2 33 21 33 C 13.8 33 8 27.2 8 20 C 8 12.8 13.8 7 21 7 z"
-        />
-      </svg>
-    </button>
-  </form>,
+<form
+  className="masthead-search-form"
+  onSubmit={[Function]}
+>
+  <input
+    className="masthead-search-form__query"
+    onChange={[Function]}
+    placeholder=""
+    type="text"
+    value=""
+  />
   <button
-    className="c-button masthead-search-form__node-id-button"
-    disabled={true}
-    onClick={[Function]}
-    type="button"
+    className="c-button c-button--stripped masthead-search-form__button"
+    disabled={false}
+    type="submit"
   >
-    #
-  </button>,
-]
+    <svg
+      className="c-icon c-icon--medium"
+      height="50"
+      viewBox="0 0 50 50"
+      width="50"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M 21 3 C 11.6 3 4 10.6 4 20 C 4 29.4 11.6 37 21 37 C 24.354126 37 27.461484 36.015541 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.680155 27.423093 38 23.878362 38 20 C 38 10.6 30.4 3 21 3 z M 21 7 C 28.2 7 34 12.8 34 20 C 34 27.2 28.2 33 21 33 C 13.8 33 8 27.2 8 20 C 8 12.8 13.8 7 21 7 z"
+      />
+    </svg>
+  </button>
+</form>
 `;

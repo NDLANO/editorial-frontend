@@ -34,7 +34,7 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
   const e = {
     preventDefault: () => {},
   };
-  tree[0].props.onSubmit(e);
+  tree.props.onSubmit(e);
   expect(component.toJSON()).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push.calledOnce).toBe(true);
@@ -68,7 +68,7 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
   const e = {
     preventDefault: () => {},
   };
-  tree[0].props.onSubmit(e);
+  tree.props.onSubmit(e);
   expect(component.toJSON()).toMatchSnapshot();
   return new Promise(resolve => {
     setTimeout(() => {
@@ -105,7 +105,7 @@ test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
   const e = {
     preventDefault: () => {},
   };
-  tree[0].props.onSubmit(e);
+  tree.props.onSubmit(e);
   expect(component.toJSON()).toMatchSnapshot();
   return new Promise(resolve => {
     setTimeout(() => {
@@ -138,9 +138,42 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
   const e = {
     preventDefault: () => {},
   };
-  tree[0].props.onSubmit(e);
+  tree.props.onSubmit(e);
   expect(component.toJSON()).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push.calledOnce).toBe(false);
   }, global.DEFAULT_TIMEOUT);
+});
+
+test('MastheadSearchForm redirects on ndla node id pasted', () => {
+  const historyMock = {
+    push: sinon.spy(),
+  };
+
+  const component = renderer.create(
+    <MastheadSearchForm
+      show
+      query="#4232"
+      searching={false}
+      locale="nb"
+      onSearchQuerySubmit={noop}
+      t={() => ''}
+      history={historyMock}
+    />,
+  );
+  const tree = component.toJSON();
+  const e = {
+    preventDefault: () => {},
+  };
+  tree.props.onSubmit(e);
+  expect(component.toJSON()).toMatchSnapshot();
+  return new Promise(resolve => {
+    setTimeout(() => {
+      expect(historyMock.push.calledOnce).toBe(true);
+      expect(
+        historyMock.push.calledWith('/learning-resource/4232/edit/nb'),
+      ).toBe(true);
+      resolve();
+    }, global.DEFAULT_TIMEOUT);
+  });
 });

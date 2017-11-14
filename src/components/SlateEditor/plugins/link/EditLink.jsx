@@ -46,13 +46,11 @@ class EditLink extends React.Component {
     super();
     this.state = {
       model: undefined,
-      newContext: false,
     };
     this.addData = this.addData.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleChangeAndClose = this.handleChangeAndClose.bind(this);
-    this.handleNewContext = this.handleNewContext.bind(this);
   }
 
   componentWillMount() {
@@ -61,19 +59,18 @@ class EditLink extends React.Component {
   }
 
   handleSave(model) {
-    const { newContext } = this.state;
     const { state, node } = this.props;
-    const { href, text } = model;
+    const { href, text, checkbox } = model;
     const isNDLAUrl = /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
 
     const data = isNDLAUrl
       ? createContentLinkData(
           href,
-          newContext
+          checkbox
             ? { 'open-in': 'new-context' }
             : { 'open-in': 'current-context' },
         )
-      : createLinkData(href, newContext ? newTabAttributes : {});
+      : createLinkData(href, checkbox ? newTabAttributes : {});
 
     if (node.key) {
       // update/change
@@ -112,10 +109,6 @@ class EditLink extends React.Component {
     closeDialog();
   }
 
-  handleNewContext() {
-    this.setState(prevState => ({ newContext: !prevState.newContext }));
-  }
-
   addData(node) {
     const { startOffset, endOffset, focusText } = this.props.state;
     const data = node.data ? node.data.toJS() : {};
@@ -130,18 +123,21 @@ class EditLink extends React.Component {
           ]}`
         : data.href;
 
+    const checkbox =
+      data.target === '_blank' || data['open-in'] === 'new-context';
+
     this.setState({
       model: {
         href,
         text,
+        checkbox,
       },
-      newContext: data.target === '_blank' || data['open-in'] === 'new-context',
     });
   }
 
   render() {
     const { t, state } = this.props;
-    const { model, newContext } = this.state;
+    const { model } = this.state;
     const isEdit = model !== undefined;
 
     return (
@@ -157,8 +153,6 @@ class EditLink extends React.Component {
           initialModel={getInitialModel(model)}
           onClose={() => this.handleChangeAndClose(state.change())}
           isEdit={isEdit}
-          isNewContext={newContext}
-          onEnableNewContext={this.handleNewContext}
           onRemove={this.handleRemove}
           onSave={this.handleSave}
         />

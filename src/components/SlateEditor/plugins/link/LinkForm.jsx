@@ -20,6 +20,7 @@ import reformed from '../../../reformed';
 export const getInitialModel = (link = {}) => ({
   text: link.text || '',
   href: link.href || '',
+  checkbox: link.checkbox || false,
 });
 
 class LinkForm extends Component {
@@ -46,10 +47,8 @@ class LinkForm extends Component {
       submitted,
       bindInput,
       isEdit,
-      isNewContext,
       onRemove,
       onClose,
-      onEnableNewContext,
     } = this.props;
     return (
       <form onSubmit={this.handleSave}>
@@ -73,10 +72,11 @@ class LinkForm extends Component {
         </Field>
         <Field>
           <label htmlFor="checkbox">{t('form.content.link.newTab')}</label>
-          <input
-            type="checkbox"
-            checked={isNewContext}
-            onChange={onEnableNewContext}
+          <input type="checkbox" {...bindInput('checkbox')} />
+          <FieldErrorMessages
+            label={t('form.content.link.newTab')}
+            field={getField('checkbox', schema)}
+            submitted={submitted}
           />
         </Field>
         <Field right>
@@ -103,17 +103,16 @@ LinkForm.propTypes = {
   model: PropTypes.shape({
     text: PropTypes.string.isRequired,
     href: PropTypes.string.isRequired,
+    checkbox: PropTypes.bool.isRequired,
   }),
   schema: SchemaShape,
   setSubmitted: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
   isEdit: PropTypes.bool.isRequired,
-  isNewContext: PropTypes.bool,
   bindInput: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
-  onEnableNewContext: PropTypes.func.isRequired,
 };
 
 export default compose(

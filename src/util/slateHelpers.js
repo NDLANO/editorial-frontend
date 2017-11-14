@@ -23,6 +23,7 @@ const BLOCK_TAGS = {
   h4: 'heading-two',
   h5: 'heading-two',
   h6: 'heading-two',
+  br: 'br',
 };
 
 const TABLE_TAGS = {
@@ -71,7 +72,16 @@ const setAsideTag = data => ({
 });
 
 /* eslint-disable consistent-return, default-case */
-
+export const textRule = {
+  deserialize(el) {
+    if (
+      el.nodeName.toLowerCase() !== '#text' ||
+      el.parentNode.tagName.toLowerCase() !== 'section'
+    )
+      return;
+    return null;
+  },
+};
 export const divRule = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
@@ -214,6 +224,7 @@ export const blockRules = {
   deserialize(el, next) {
     const block = BLOCK_TAGS[el.tagName.toLowerCase()];
     if (!block) return;
+    console.log(block === 'section' ? el.childNodes : '');
     return {
       kind: 'block',
       type: block,
@@ -245,6 +256,8 @@ export const blockRules = {
         return <blockquote>{children}</blockquote>;
       case 'div':
         return <div>{children}</div>;
+      case 'br':
+        return <br />;
     }
   },
 };
@@ -283,6 +296,7 @@ export const tableRules = {
 
 const RULES = [
   divRule,
+  textRule,
   orderListRules,
   tableRules,
   paragraphRule,

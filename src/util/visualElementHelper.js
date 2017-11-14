@@ -1,10 +1,10 @@
-import { titlesI18N } from './i18nFieldFinder';
+import { convertFieldWithFallback } from './convertFieldWithFallback';
 
-export function getVisualElementInformation(element, type, locale) {
+export function getVisualElementInformation(element, type) {
   switch (type) {
     case 'image':
       return {
-        title: titlesI18N(element, locale, true),
+        title: convertFieldWithFallback(element, 'title', ''),
         copyright:
           element.copyright && element.copyright.authors
             ? element.copyright.authors.map(author => author.name).join(', ')

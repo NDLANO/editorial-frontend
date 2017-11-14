@@ -224,7 +224,6 @@ export const blockRules = {
   deserialize(el, next) {
     const block = BLOCK_TAGS[el.tagName.toLowerCase()];
     if (!block) return;
-    console.log(block === 'section' ? el.childNodes : '');
     return {
       kind: 'block',
       type: block,

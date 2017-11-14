@@ -111,6 +111,7 @@ const phrases = {
       h5p: 'H5P title',
     },
     visualElementCopyright: 'Origin',
+    removeVisualElement: 'Remove element',
     info: {
       lastUpdated: 'Last updated: {updated}',
     },
@@ -156,10 +157,11 @@ const phrases = {
     },
   },
   learningResourceForm: {
-    visualElementTitle: {
-      image: 'Image title',
+    metaImage: {
+      title: 'Image title',
+      copyright: 'Copyright',
+      change: 'Change meta image',
     },
-    visualElementCopyright: 'Origin',
     title: {
       create: 'You are now creating a learning resource on {title}({key})',
       update: 'You are now editing a learning resource on {title}({key})',
@@ -170,11 +172,11 @@ const phrases = {
     },
     fields: {
       rightAside: 'Right column',
+      metaImage: {
+        title: 'Meta image',
+        label: 'Meta image',
+      },
       footnotes: {
-        metaImage: {
-          title: 'Meta image',
-          label: 'Meta image',
-        },
         edition: 'Edition',
         publisher: 'Publisher',
       },

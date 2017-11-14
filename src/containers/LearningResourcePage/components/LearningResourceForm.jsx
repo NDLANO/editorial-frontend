@@ -22,11 +22,7 @@ import {
   editorStateToPlainText,
   plainTextToEditorState,
 } from '../../../util/articleContentConverter';
-import {
-  parseEmbedTag,
-  createEmbedTag,
-  isUserProvidedEmbedDataValid,
-} from '../../../util/embedTagHelpers';
+import { isUserProvidedEmbedDataValid } from '../../../util/embedTagHelpers';
 import { findNodesByType } from '../../../util/slateHelpers';
 import { SchemaShape } from '../../../shapes';
 
@@ -61,8 +57,17 @@ const parseCopyrightAuthors = (article, type) =>
         .map(author => author.name)
     : [];
 
+const parseImageUrl = url => {
+  if (!url) {
+    return '';
+  }
+  const splittedUrl = url.split('/');
+  return splittedUrl[splittedUrl.length - 1];
+};
+
 export const getInitialModel = (article = {}) => {
-  const metaImage = parseEmbedTag(article.visualElement) || {};
+  const metaImageId = parseImageUrl(article.metaImage);
+
   return {
     id: article.id,
     revision: article.revision,
@@ -81,7 +86,7 @@ export const getInitialModel = (article = {}) => {
       ? article.copyright.license.license
       : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorState(article.metaDescription, true),
-    metaImage,
+    metaImageId,
     language: article.language,
     articleType: 'standard',
   };
@@ -141,7 +146,7 @@ class LearningResourceForm extends Component {
       introduction: editorStateToPlainText(model.introduction),
       tags: model.tags,
       content: learningResourceContentToHTML(model.content),
-      visualElement: createEmbedTag(model.metaImage),
+      metaImageId: model.metaImageId,
       metaDescription: editorStateToPlainText(model.metaDescription),
       articleType: 'standard',
       copyright,
@@ -268,18 +273,8 @@ export default compose(
       required: true,
       maxLength: 155,
     },
-    metaImage: {
+    metaImageId: {
       required: true,
-    },
-    'metaImage.alt': {
-      required: true,
-      onlyValidateIf: model =>
-        model.metaImage && model.metaImage.resource === 'image',
-    },
-    'metaImage.caption': {
-      required: true,
-      onlyValidateIf: model =>
-        model.metaImage && model.metaImage.resource === 'image',
     },
     tags: {
       minItems: 3,

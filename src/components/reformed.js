@@ -83,26 +83,32 @@ const makeWrapper = WrappedComponent => {
       }
     }
 
-    bindInput(name, isFile = false) {
-      if (isFile) {
-        return {
-          name,
-          onChange: this.bindToChangeEvent,
-        };
-      }
-
-      const value = get(name, this.state.model, '');
-
-      const checked = name === 'checkbox' ? value : undefined;
-
-      return {
+    bindInput(name, type = false) {
+      const defaultProps = {
         name,
-        value,
-        checked,
         onChange: this.bindToChangeEvent,
         onBlur: this.bindInputEvent,
         onFocus: this.bindInputEvent,
       };
+
+      if (type === 'file') {
+        return {
+          type,
+          name,
+          onChange: this.bindToChangeEvent,
+        };
+      }
+      const value = get(name, this.state.model, '');
+
+      if (type === 'checkbox') {
+        return {
+          ...defaultProps,
+          type,
+          checked: value,
+        };
+      }
+
+      return { ...defaultProps, value };
     }
 
     render() {

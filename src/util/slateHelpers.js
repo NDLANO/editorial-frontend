@@ -350,7 +350,11 @@ const RULES = [
       return {
         kind: 'inline',
         type: 'link',
-        data: { href: el.href ? el.href : '#' },
+        data: {
+          href: el.href ? el.href : '#',
+          target: el.target ? el.target : '',
+          rel: el.rel ? el.rel : '',
+        },
         nodes: next(el.childNodes),
       };
     },
@@ -365,6 +369,7 @@ const RULES = [
             data-resource={data.resource}
             data-content-id={data['content-id']}
             data-link-text={object.text}
+            data-open-in={data['open-in']}
           />
         );
       }
@@ -372,8 +377,8 @@ const RULES = [
       return (
         <a
           href={data.href}
-          target="_blank"
-          rel="noopener noreferrer"
+          target={data.target}
+          rel={data.rel}
           title={object.text}>
           {children}
         </a>

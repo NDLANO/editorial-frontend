@@ -10,11 +10,7 @@
     margin-right: 1rem;
 
     &--left {
-      width: 70%;
-    }
-
-    &--right {
-      width: 30%;
+      max-width: 70%;
     }
 
     &--right span:not(&-information) {

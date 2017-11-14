@@ -111,6 +111,7 @@ const phrases = {
       h5p: 'H5P title',
     },
     visualElementCopyright: 'Origin',
+    removeVisualElement: 'Remove element',
     info: {
       lastUpdated: 'Last updated: {updated}',
     },

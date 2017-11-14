@@ -8,10 +8,12 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Button } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import Lightbox from '../../components/Lightbox';
 import DisplayEmbedTag from '../../components/DisplayEmbedTag/DisplayEmbedTag';
+import MetaInformation from '../../components/MetaInformation';
+import { getVisualElementInformation } from '../../util/visualElementHelper';
 import * as api from './visualElementApi';
 import {
   Field,
@@ -20,8 +22,6 @@ import {
   getField,
 } from '../../components/Fields';
 import VisualElementSearch from './VisualElementSearch';
-import VisualElementInformation from './VisualElementInformation';
-import { getLocale } from '../../modules/locale/locale';
 
 class VisualElementSelectField extends Component {
   constructor(props) {
@@ -77,11 +77,25 @@ class VisualElementSelectField extends Component {
       schema,
       submitted,
       value,
-      locale,
       selectedResource,
+      t,
     } = this.props;
 
     if (value.resource) {
+      const visualElementAction = (
+        <Button onClick={this.removeVisualElement}>
+          {t('topicArticleForm.removeVisualElement')}
+        </Button>
+      );
+      const metaTranslations = {
+        title: t(`topicArticleForm.visualElementTitle.${value.resource}`),
+        copyright: t('topicArticleForm.visualElementCopyright'),
+      };
+      const element = getVisualElementInformation(
+        value.metaData,
+        value.resource,
+      );
+
       return (
         <Field>
           <div {...classes('visual-element-container')}>
@@ -91,14 +105,11 @@ class VisualElementSelectField extends Component {
                 {...classes('visual-element', value.resource)}
               />
             </div>
-            <div {...classes('visual-element', 'right')}>
-              <VisualElementInformation
-                visualElement={value.metaData}
-                embedTag={value}
-                locale={locale}
-              />
-              <Button onClick={this.removeVisualElement}>Fjern element</Button>
-            </div>
+            <MetaInformation
+              {...element}
+              action={visualElementAction}
+              translations={metaTranslations}
+            />
           </div>
         </Field>
       );
@@ -146,11 +157,6 @@ VisualElementSelectField.propTypes = {
     metaData: PropTypes.object,
   }).isRequired,
   resetSelectedResource: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-});
-
-export default connect(mapStateToProps)(VisualElementSelectField);
+export default injectT(VisualElementSelectField);

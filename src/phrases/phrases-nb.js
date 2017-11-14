@@ -111,6 +111,7 @@ const phrases = {
       external: 'Innholdstekst',
     },
     visualElementCopyright: 'Opphav',
+    removeVisualElement: 'Fjern element',
     info: {
       lastUpdated: 'Sist oppdatert: {updated}',
     },

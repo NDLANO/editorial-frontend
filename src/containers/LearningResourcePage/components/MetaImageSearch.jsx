@@ -16,9 +16,9 @@ import { getLocale } from '../../../modules/locale/locale';
 import { classes } from '../../../components/Fields';
 import * as api from '../../VisualElement/visualElementApi';
 import Lightbox from '../../../components/Lightbox';
-import MetaImageInformation from './MetaImageInformation';
+import MetaImage from './MetaImage';
 
-class LearningResourceMetaImage extends Component {
+class MetaImageSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -67,6 +67,7 @@ class LearningResourceMetaImage extends Component {
 
   render() {
     const { t, locale } = this.props;
+    const { image } = this.state;
     return (
       <div>
         <h3 {...classes('learning-resource-meta-image')}>
@@ -83,14 +84,13 @@ class LearningResourceMetaImage extends Component {
             searchPlaceholder={t('imageSearch.placeholder')}
             searchButtonTitle={t('imageSearch.buttonTitle')}
             useImageTitle={t('imageSearch.useImage')}
-            onImageSelect={image => this.onImageChange(image)}
+            onImageSelect={img => this.onImageChange(img)}
             onError={api.onError}
           />
         </Lightbox>
-        {this.state.image ? (
-          <MetaImageInformation
-            image={this.state.image}
-            locale={locale}
+        {image ? (
+          <MetaImage
+            image={image}
             toggleImageSearchLightBox={this.toggleImageSearchLightBox}
           />
         ) : (
@@ -101,7 +101,7 @@ class LearningResourceMetaImage extends Component {
   }
 }
 
-LearningResourceMetaImage.propTypes = {
+MetaImageSearch.propTypes = {
   metaImageId: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
@@ -112,4 +112,4 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default connect(mapStateToProps)(injectT(LearningResourceMetaImage));
+export default connect(mapStateToProps)(injectT(MetaImageSearch));

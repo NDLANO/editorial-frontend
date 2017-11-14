@@ -5,7 +5,6 @@ exports[`reformed HOC handles onChange event correctly 1`] = `
   onSubmit={[Function]}
 >
   <input
-    checked={undefined}
     name="title"
     onBlur={[Function]}
     onChange={[Function]}
@@ -14,7 +13,6 @@ exports[`reformed HOC handles onChange event correctly 1`] = `
     value="Hombre"
   />
   <input
-    checked={undefined}
     name="introduction"
     onBlur={[Function]}
     onChange={[Function]}
@@ -23,7 +21,6 @@ exports[`reformed HOC handles onChange event correctly 1`] = `
     value=""
   />
   <input
-    checked={undefined}
     name="content"
     onBlur={[Function]}
     onChange={[Function]}
@@ -32,7 +29,6 @@ exports[`reformed HOC handles onChange event correctly 1`] = `
     value="Olé, Olé, Olé"
   />
   <input
-    checked={undefined}
     name="image.alt"
     onBlur={[Function]}
     onChange={[Function]}
@@ -41,7 +37,6 @@ exports[`reformed HOC handles onChange event correctly 1`] = `
     value="Alternative image text"
   />
   <input
-    checked={undefined}
     name="image.caption"
     onBlur={[Function]}
     onChange={[Function]}
@@ -57,7 +52,6 @@ exports[`reformed HOC handles onChange event on nested property correctly 1`] = 
   onSubmit={[Function]}
 >
   <input
-    checked={undefined}
     name="title"
     onBlur={[Function]}
     onChange={[Function]}
@@ -66,7 +60,6 @@ exports[`reformed HOC handles onChange event on nested property correctly 1`] = 
     value="Olé"
   />
   <input
-    checked={undefined}
     name="introduction"
     onBlur={[Function]}
     onChange={[Function]}
@@ -75,7 +68,6 @@ exports[`reformed HOC handles onChange event on nested property correctly 1`] = 
     value=""
   />
   <input
-    checked={undefined}
     name="content"
     onBlur={[Function]}
     onChange={[Function]}
@@ -84,7 +76,6 @@ exports[`reformed HOC handles onChange event on nested property correctly 1`] = 
     value="Olé, Olé, Olé"
   />
   <input
-    checked={undefined}
     name="image.alt"
     onBlur={[Function]}
     onChange={[Function]}
@@ -93,7 +84,6 @@ exports[`reformed HOC handles onChange event on nested property correctly 1`] = 
     value="Alternative image text"
   />
   <input
-    checked={undefined}
     name="image.caption"
     onBlur={[Function]}
     onChange={[Function]}
@@ -112,7 +102,6 @@ exports[`reformed HOC handles setModel and setSubmitted 1`] = `
     Submitted!
   </span>
   <input
-    checked={undefined}
     name="title"
     onBlur={[Function]}
     onChange={[Function]}
@@ -121,7 +110,6 @@ exports[`reformed HOC handles setModel and setSubmitted 1`] = `
     value=""
   />
   <input
-    checked={undefined}
     name="introduction"
     onBlur={[Function]}
     onChange={[Function]}
@@ -130,7 +118,6 @@ exports[`reformed HOC handles setModel and setSubmitted 1`] = `
     value=""
   />
   <input
-    checked={undefined}
     name="content"
     onBlur={[Function]}
     onChange={[Function]}
@@ -139,7 +126,6 @@ exports[`reformed HOC handles setModel and setSubmitted 1`] = `
     value=""
   />
   <input
-    checked={undefined}
     name="image.alt"
     onBlur={[Function]}
     onChange={[Function]}
@@ -148,7 +134,6 @@ exports[`reformed HOC handles setModel and setSubmitted 1`] = `
     value=""
   />
   <input
-    checked={undefined}
     name="image.caption"
     onBlur={[Function]}
     onChange={[Function]}
@@ -164,7 +149,6 @@ exports[`reformed HOC renderers form component correctly 1`] = `
   onSubmit={[Function]}
 >
   <input
-    checked={undefined}
     name="title"
     onBlur={[Function]}
     onChange={[Function]}
@@ -173,7 +157,6 @@ exports[`reformed HOC renderers form component correctly 1`] = `
     value="Olé"
   />
   <input
-    checked={undefined}
     name="introduction"
     onBlur={[Function]}
     onChange={[Function]}
@@ -182,7 +165,6 @@ exports[`reformed HOC renderers form component correctly 1`] = `
     value=""
   />
   <input
-    checked={undefined}
     name="content"
     onBlur={[Function]}
     onChange={[Function]}
@@ -191,7 +173,6 @@ exports[`reformed HOC renderers form component correctly 1`] = `
     value="Olé, Olé, Olé"
   />
   <input
-    checked={undefined}
     name="image.alt"
     onBlur={[Function]}
     onChange={[Function]}
@@ -200,7 +181,6 @@ exports[`reformed HOC renderers form component correctly 1`] = `
     value="Alternative image text"
   />
   <input
-    checked={undefined}
     name="image.caption"
     onBlur={[Function]}
     onChange={[Function]}

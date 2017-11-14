@@ -127,7 +127,7 @@ export const InputFileField = ({
       id="file"
       name={name}
       type="file"
-      {...bindInput(name, true)}
+      {...bindInput(name, 'file')}
       {...rest}
     />
     <FieldErrorMessages

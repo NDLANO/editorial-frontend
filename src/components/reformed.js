@@ -83,7 +83,7 @@ const makeWrapper = WrappedComponent => {
       }
     }
 
-    bindInput(name, type = false) {
+    bindInput(name, type = '') {
       const defaultProps = {
         name,
         onChange: this.bindToChangeEvent,

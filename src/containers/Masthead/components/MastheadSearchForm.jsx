@@ -75,23 +75,23 @@ export class MastheadSearchForm extends Component {
   }
 
   handleSubmit(evt) {
-    const { history, locale } = this.props;
     evt.preventDefault();
+
+    const { history, locale } = this.props;
+    const { query } = this.state;
+
     const isNDLAUrl = /^https:\/(.*).ndla.no\/(article|subjects|nb|nn|en)\/(node|\d*)(\/|\d*)/.test(
-      this.state.query,
+      query,
     );
     const isNodeId =
-      this.state.query.length > 2 &&
-      /#\d+/g.test(this.state.query) &&
-      !isNaN(this.state.query.substring(1));
+      query.length > 2 && /#\d+/g.test(query) && !isNaN(query.substring(1));
+
     if (isNDLAUrl) {
-      this.handleUrlPaste(this.state.query);
+      this.handleUrlPaste(query);
     } else if (isNodeId) {
-      history.push(
-        toEditArticle(this.state.query.substring(1), 'standard', locale),
-      );
+      history.push(toEditArticle(query.substring(1), 'standard', locale));
     } else {
-      this.props.onSearchQuerySubmit(this.state.query);
+      this.props.onSearchQuerySubmit(query);
     }
   }
 

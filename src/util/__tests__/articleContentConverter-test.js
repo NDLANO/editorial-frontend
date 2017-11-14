@@ -61,11 +61,9 @@ const trippleNestedSections =
   '<section>Seksjon 1</section><section><p>test paragraf</p><section><section>Seksjon 2 nested</section></section></section><section>Seksjon 3</section>';
 
 test('util/sectionSplitter splits doubleNestedSections into array', () => {
-  expect(typeof sectionSplitter).toBe('function');
   expect(sectionSplitter(doubleNestedSections)).toMatchSnapshot();
 });
 
-test('util/domOperations trippleNestedSections', () => {
-  expect(typeof sectionSplitter).toBe('function');
+test('util/domOperations trippleNestedSections into array', () => {
   expect(sectionSplitter(trippleNestedSections)).toMatchSnapshot();
 });

@@ -44,7 +44,7 @@ exports[`articleContentConverter convert learningresource content with multiple 
 
 exports[`articleContentConverter convert topic article content to and from editorState 1`] = `"<section><h2>Lorem ipsum</h2></section>"`;
 
-exports[`util/domOperations trippleNestedSections 1`] = `
+exports[`util/domOperations trippleNestedSections into array 1`] = `
 Array [
   "<section>Seksjon 1</section>",
   "<section><p>test paragraf</p><section><section>Seksjon 2 nested</section></section></section>",

@@ -251,14 +251,16 @@ class SlateBlockPicker extends Component {
               stripped
               {...classes('block-type-button')}
               onMouseDown={() =>
-                this.onElementAdd({ type: 'aside', kind: 'factAside' })}>
+                this.onElementAdd({ type: 'aside', kind: 'factAside' })
+              }>
               <FactBox />
             </Button>
             <Button
               stripped
               {...classes('block-type-button')}
               onMouseDown={() =>
-                this.onElementAdd({ type: 'table', kind: 'table' })}>
+                this.onElementAdd({ type: 'table', kind: 'table' })
+              }>
               <Table />
             </Button>
             <Button
@@ -271,28 +273,32 @@ class SlateBlockPicker extends Component {
               stripped
               {...classes('block-type-button')}
               onMouseDown={() =>
-                this.onElementAdd({ type: 'embed', kind: 'image' })}>
+                this.onElementAdd({ type: 'embed', kind: 'image' })
+              }>
               <Camera />
             </Button>
             <Button
               stripped
               {...classes('block-type-button')}
               onMouseDown={() =>
-                this.onElementAdd({ type: 'embed', kind: 'video' })}>
+                this.onElementAdd({ type: 'embed', kind: 'video' })
+              }>
               <Video />
             </Button>
             <Button
               stripped
               {...classes('block-type-button')}
               onMouseDown={() =>
-                this.onElementAdd({ type: 'embed', kind: 'audio' })}>
+                this.onElementAdd({ type: 'embed', kind: 'audio' })
+              }>
               <Audio />
             </Button>
             <Button
               stripped
               {...classes('block-type-button')}
               onMouseDown={() =>
-                this.onElementAdd({ type: 'embed', kind: 'h5p' })}>
+                this.onElementAdd({ type: 'embed', kind: 'h5p' })
+              }>
               <H5P />
             </Button>
           </div>

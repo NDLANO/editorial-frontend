@@ -10,8 +10,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const DisplayImageTag = ({ embedTag, className }) => {
-  const src = `${window.config
-    .ndlaApiUrl}/image-api/raw/id/${embedTag.resource_id}`;
+  const src = `${window.config.ndlaApiUrl}/image-api/raw/id/${
+    embedTag.resource_id
+  }`;
   return (
     <figure className={className}>
       <img src={src} alt={embedTag.alt} />

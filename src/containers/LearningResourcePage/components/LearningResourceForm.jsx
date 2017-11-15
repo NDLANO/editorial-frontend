@@ -254,10 +254,9 @@ export default compose(
       required: true,
       test: (value, model, setError) => {
         const embedsHasErrors = value.find(block => {
-          const embeds = findNodesByType(
-            block.state.document,
-            'embed',
-          ).map(node => node.get('data').toJS());
+          const embeds = findNodesByType(block.state.document, 'embed').map(
+            node => node.get('data').toJS(),
+          );
           const notValidEmbeds = embeds.filter(
             embed => !isUserProvidedEmbedDataValid(embed),
           );

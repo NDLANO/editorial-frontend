@@ -57,9 +57,9 @@ class Link extends Component {
 
     const href =
       data.resource === 'content-link'
-        ? `${window.config.editorialFrontendDomain}/article/${data[
-            'content-id'
-          ]}`
+        ? `${window.config.editorialFrontendDomain}/article/${
+            data['content-id']
+          }`
         : data.href;
 
     return (

@@ -320,7 +320,8 @@ export const PlainTextField = ({
         onChange={val =>
           onChange({
             target: { name, value: val.state, type: 'SlateEditorState' },
-          })}
+          })
+        }
         value={value}
         {...rest}
       />

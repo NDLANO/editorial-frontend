@@ -99,7 +99,8 @@ class MastheadSearch extends Component {
                 types: locationQuery.types ? locationQuery.types : 'articles',
                 articleTypes,
               }),
-            )}
+            )
+          }
         />
       </div>
     );

@@ -40,7 +40,8 @@ const LearningResourceIngress = props => {
         <RemainingCharacters
           maxLength={300}
           getRemainingLabel={(maxLength, remaining) =>
-            t('form.remainingCharacters', { maxLength, remaining })}
+            t('form.remainingCharacters', { maxLength, remaining })
+          }
           value={bindInput('introduction').value.document.text}
         />
       </PlainTextField>

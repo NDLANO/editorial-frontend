@@ -62,8 +62,9 @@ class SlateImage extends React.Component {
       submitted,
       t,
     } = this.props;
-    const src = `${window.config
-      .ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
+    const src = `${window.config.ndlaApiUrl}/image-api/raw/id/${
+      embed.resource_id
+    }`;
     const transformData = {
       'focal-x': embed['focal-x'],
       'focal-y': embed['focal-y'],

@@ -118,9 +118,9 @@ class EditLink extends React.Component {
 
     const href =
       data.resource === 'content-link'
-        ? `${window.config.editorialFrontendDomain}/article/${data[
-            'content-id'
-          ]}`
+        ? `${window.config.editorialFrontendDomain}/article/${
+            data['content-id']
+          }`
         : data.href;
 
     const checkbox =
@@ -144,9 +144,9 @@ class EditLink extends React.Component {
       <div>
         <h3>
           {t(
-            `form.content.link.${this.state.isEdit
-              ? 'changeTitle'
-              : 'addTitle'}`,
+            `form.content.link.${
+              this.state.isEdit ? 'changeTitle' : 'addTitle'
+            }`,
           )}
         </h3>
         <LinkForm

@@ -21,6 +21,9 @@ import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
+import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPicker';
+import { createEmptyState } from '../../../util/articleContentConverter';
+
 import {
   editListPlugin,
   blockquotePlugin,
@@ -52,12 +55,26 @@ class LearningResourceContent extends Component {
       hiddenContent: false,
     };
     this.toggleContent = this.toggleContent.bind(this);
+    this.addSection = this.addSection.bind(this);
   }
 
   toggleContent() {
     this.setState(prevState => ({
       hiddenContent: !prevState.hiddenContent,
     }));
+  }
+
+  addSection() {
+    const { commonFieldProps: { bindInput } } = this.props;
+    const { value, onChange } = bindInput('content');
+    const newblocks = [].concat(value);
+    newblocks.push({ state: createEmptyState(), index: value.length });
+    onChange({
+      target: {
+        name: 'content',
+        value: newblocks,
+      },
+    });
   }
 
   render() {
@@ -71,6 +88,8 @@ class LearningResourceContent extends Component {
         {t('form.content.placeholder')}
       </span>
     );
+
+    const extendedPlugins = [blockPickerPlugin(this.addSection), ...plugins];
 
     return (
       <Accordion
@@ -91,7 +110,7 @@ class LearningResourceContent extends Component {
           label={t('form.content.label')}
           placeholder={contentPlaceholder}
           name="content"
-          plugins={plugins}
+          plugins={extendedPlugins}
           {...commonFieldProps}
         />
         {children}

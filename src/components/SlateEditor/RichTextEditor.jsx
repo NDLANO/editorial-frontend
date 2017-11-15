@@ -11,10 +11,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
+import { isKeyHotkey } from 'is-hotkey';
 import BEMHelper from 'react-bem-helper';
 import createSlateStore, { setSubmitted } from './createSlateStore';
 import SlateToolbar from './plugins/SlateToolbar/SlateToolbar';
 import { PluginShape } from '../../shapes';
+
+const isBoldHotkey = isKeyHotkey('mod+b');
+const isItalicHotkey = isKeyHotkey('mod+i');
+const isUnderlinedHotkey = isKeyHotkey('mod+u');
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -43,32 +48,27 @@ const RichTextEditor = class extends React.Component {
     }
   }
 
-  onKeyDown(e, data, change) {
+  onKeyDown(e, change) {
     let mark;
     const state = change.state;
-    switch (data.key) {
-      case 'b':
-        mark = 'bold';
-        break;
-      case 'i':
-        mark = 'italic';
-        break;
-      case 'u':
-        mark = 'underlined';
-        break;
-      case 'backspace': {
-        const selection = state.selection;
-        if (
-          state.document.text.length === 0 &&
-          selection.isAtStartOf(state.document)
-        ) {
-          this.props.removeSection(this.props.index);
-        }
-        break;
+
+    if (isBoldHotkey(e)) {
+      mark = 'bold';
+    } else if (isItalicHotkey(e)) {
+      mark = 'italic';
+    } else if (isUnderlinedHotkey(e)) {
+      mark = 'underlined';
+    } else if (e.key === 'Backspace') {
+      const selection = state.selection;
+      if (
+        state.document.text.length === 0 &&
+        selection.isAtStartOf(state.document)
+      ) {
+        this.props.removeSection(this.props.index);
       }
-      default:
     }
-    if (mark && data.isMod) {
+
+    if (mark) {
       this.toggleMark(e, state, mark);
     }
   }

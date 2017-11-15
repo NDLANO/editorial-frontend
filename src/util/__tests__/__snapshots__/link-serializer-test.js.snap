@@ -18,9 +18,9 @@ Object {
             "nodes": Array [
               Object {
                 "kind": "text",
-                "ranges": Array [
+                "leaves": Array [
                   Object {
-                    "kind": "range",
+                    "kind": "leaf",
                     "marks": Array [],
                     "text": " ",
                   },
@@ -37,9 +37,9 @@ Object {
                 "nodes": Array [
                   Object {
                     "kind": "text",
-                    "ranges": Array [
+                    "leaves": Array [
                       Object {
-                        "kind": "range",
+                        "kind": "leaf",
                         "marks": Array [],
                         "text": "Yrker i mediebransjen",
                       },
@@ -50,9 +50,9 @@ Object {
               },
               Object {
                 "kind": "text",
-                "ranges": Array [
+                "leaves": Array [
                   Object {
-                    "kind": "range",
+                    "kind": "leaf",
                     "marks": Array [],
                     "text": " ",
                   },
@@ -68,9 +68,9 @@ Object {
             "nodes": Array [
               Object {
                 "kind": "text",
-                "ranges": Array [
+                "leaves": Array [
                   Object {
-                    "kind": "range",
+                    "kind": "leaf",
                     "marks": Array [],
                     "text": " ",
                   },
@@ -87,9 +87,9 @@ Object {
                 "nodes": Array [
                   Object {
                     "kind": "text",
-                    "ranges": Array [
+                    "leaves": Array [
                       Object {
-                        "kind": "range",
+                        "kind": "leaf",
                         "marks": Array [],
                         "text": "Yrker i NRK",
                       },
@@ -100,9 +100,9 @@ Object {
               },
               Object {
                 "kind": "text",
-                "ranges": Array [
+                "leaves": Array [
                   Object {
-                    "kind": "range",
+                    "kind": "leaf",
                     "marks": Array [],
                     "text": " ",
                   },
@@ -133,9 +133,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "Eller du kan bruke nettsidene ",
               },
@@ -152,9 +152,9 @@ Object {
             "nodes": Array [
               Object {
                 "kind": "text",
-                "ranges": Array [
+                "leaves": Array [
                   Object {
-                    "kind": "range",
+                    "kind": "leaf",
                     "marks": Array [],
                     "text": "nav.no",
                   },
@@ -165,9 +165,9 @@ Object {
           },
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": " . Her finnes informasjon om de ulike tjenestene.",
               },

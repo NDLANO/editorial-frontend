@@ -9,33 +9,32 @@
 
 import { setBlock, insertParagraph } from './changes';
 
-export function getCurrentHeading(options, state) {
-  if (!state.selection.startKey) return null;
-  const startBlock = state.startBlock;
+export function getCurrentHeading(options, value) {
+  if (!value.startKey) return null;
+  const startBlock = value.startBlock;
   return startBlock && options.types.includes(startBlock.type)
     ? startBlock
     : null;
 }
 
-export function onEnter(evt, data, change, options) {
-  const currentHeading = getCurrentHeading(options, change.state);
+export function onEnter(evt, value, options) {
+  const currentHeading = getCurrentHeading(options, value);
   if (!currentHeading) {
     return null;
   }
   evt.preventDefault();
-  return insertParagraph(options, change);
+  return insertParagraph(options, value);
 }
 
-export function onBackspace(evt, data, change, options) {
-  const { state } = change;
-  const { startOffset, isCollapsed } = state;
-  const currentHeading = getCurrentHeading(options, state);
+export function onBackspace(evt, value, options) {
+  const { startOffset, isCollapsed } = value;
+  const currentHeading = getCurrentHeading(options, value);
   if (!currentHeading || !isCollapsed) {
     return null;
   }
   if (startOffset === 0) {
     evt.preventDefault();
-    return setBlock(options, change);
+    return setBlock(options, value);
   }
   return null;
 }

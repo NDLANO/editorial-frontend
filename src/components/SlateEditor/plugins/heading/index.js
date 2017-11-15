@@ -10,8 +10,8 @@
 import schema from './schema';
 import { onEnter, onBackspace } from './actions';
 
-const KEY_ENTER = 'enter';
-const KEY_BACKSPACE = 'backspace';
+const KEY_ENTER = 'Enter';
+const KEY_BACKSPACE = 'Backspace';
 
 export default function headingPlugin(opts = {}) {
   const options = {
@@ -26,10 +26,11 @@ export default function headingPlugin(opts = {}) {
     defaultType: opts.defaultType || 'paragraph',
   };
 
-  function onKeyDown(e, data, change) {
+  function onKeyDown(e, change) {
     // Build arguments list
-    const args = [e, data, change, options];
-    switch (data.key) {
+    const { state } = change; // TODO: Change to 'value' for slate > 0.29
+    const args = [e, state, options];
+    switch (e.key) {
       case KEY_ENTER:
         return onEnter(...args);
       default:
@@ -37,9 +38,10 @@ export default function headingPlugin(opts = {}) {
     }
   }
 
-  function onKeyUp(e, data, change) {
-    const args = [e, data, change, options];
-    switch (data.key) {
+  function onKeyUp(e, change) {
+    const { state } = change; // TODO: Change to 'value' for slate > 0.29
+    const args = [e, state, options];
+    switch (e.key) {
       case KEY_BACKSPACE:
         return onBackspace(...args);
       default:

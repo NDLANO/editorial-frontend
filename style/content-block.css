@@ -36,16 +36,6 @@
     cursor: text;
   }
 
-  &__right-aside,
-  &__fact-aside,
-  &__text-aside {
-    & h1,
-    & h2,
-    & h3 {
-      border-bottom: 2px solid var(--brand-color);
-    }
-  }
-
   &__aside-type {
     background-color: var(--gray-2);
     color: white;

@@ -17,6 +17,11 @@ import {
   stateWithTwoImageEmbeds,
   tableSlateState,
   listState,
+  headingTwoState,
+  sectionState,
+  quoteState,
+  brState,
+  normalDivState,
 } from './slateMockStates';
 import {
   footnoteRule,
@@ -74,6 +79,26 @@ test('deserialize bodybox block', () => {
   );
 
   expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('deserializing a normal div block', () => {
+  const serializer = new Html({
+    rules: [divRule, paragraphRule],
+    parseHtml: fragment,
+  });
+  const div = '<div><p>A paragraph</p></div>';
+  const deserialized = serializer.deserialize(div);
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('serializing a normal div block', () => {
+  const serializer = new Html({
+    rules: [paragraphRule, divRule],
+    parseHtml: fragment,
+  });
+  const state = State.fromJSON(normalDivState);
+  const serialized = serializer.serialize(state);
+  expect(serialized).toMatchSnapshot();
 });
 
 test('deserialize footnote', () => {
@@ -214,3 +239,131 @@ test('deserializing list with paragraph inside li elements', () => {
   const deserialized = serializer.deserialize(listWithParagraphs);
   expect(toJSON(deserialized)).toMatchSnapshot();
 });
+
+// block rules
+
+test('deserializing a section', () => {
+  const serializer = new Html({
+    rules: [blockRules, paragraphRule],
+    parseHtml: fragment,
+  });
+  const section = '<section><p>Paragraph text</p></sectiob>';
+  const deserialized = serializer.deserialize(section);
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('serializing section', () => {
+  const serializer = new Html({
+    rules: [blockRules, paragraphRule],
+    parseHtml: fragment,
+  });
+  const state = State.fromJSON(sectionState);
+  const serialized = serializer.serialize(state);
+  expect(serialized).toMatchSnapshot();
+});
+
+test('deserializing any heading should result in heading-two', () => {
+  const serializer = new Html({
+    rules: [blockRules, paragraphRule],
+    parseHtml: fragment,
+  });
+  const h1 = '<h1>Heading 1</h1>';
+  const h2 = '<h2>Heading 2</h2>';
+  const h3 = '<h3>Heading 3</h3>';
+  const h4 = '<h4>Heading 4</h4>';
+  const h5 = '<h5>Heading 5</h5>';
+  const h6 = '<h6>Heading 6</h6>';
+
+  const deserializedH1 = serializer.deserialize(h1);
+  const deserializedH2 = serializer.deserialize(h2);
+  const deserializedH3 = serializer.deserialize(h3);
+  const deserializedH4 = serializer.deserialize(h4);
+  const deserializedH5 = serializer.deserialize(h5);
+  const deserializedH6 = serializer.deserialize(h6);
+
+  expect(toJSON(deserializedH1)).toMatchSnapshot();
+  expect(toJSON(deserializedH2)).toMatchSnapshot();
+  expect(toJSON(deserializedH3)).toMatchSnapshot();
+  expect(toJSON(deserializedH4)).toMatchSnapshot();
+  expect(toJSON(deserializedH5)).toMatchSnapshot();
+  expect(toJSON(deserializedH6)).toMatchSnapshot();
+});
+
+test('serializing heading-two', () => {
+  const serializer = new Html({
+    rules: [blockRules],
+    parseHtml: fragment,
+  });
+  const state = State.fromJSON(headingTwoState);
+  const serialized = serializer.serialize(state);
+  expect(serialized).toMatchSnapshot();
+});
+
+test('deserializing a quote', () => {
+  const serializer = new Html({
+    rules: [blockRules],
+    parseHtml: fragment,
+  });
+  const quote =
+    '<blockquote>This quote should be both smart and wise</blockquote>';
+  const deserialized = serializer.deserialize(quote);
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('serializing quote', () => {
+  const serializer = new Html({
+    rules: [blockRules],
+    parseHtml: fragment,
+  });
+  const state = State.fromJSON(quoteState);
+  const serialized = serializer.serialize(state);
+  expect(serialized).toMatchSnapshot();
+});
+
+test('deserializing a br', () => {
+  const serializer = new Html({
+    rules: [blockRules, paragraphRule],
+    parseHtml: fragment,
+  });
+  const br = '<br />';
+  const deserialized = serializer.deserialize(br);
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('serializing br', () => {
+  const serializer = new Html({
+    rules: [blockRules],
+    parseHtml: fragment,
+  });
+  const state = State.fromJSON(brState);
+  const serialized = serializer.serialize(state);
+  expect(serialized).toMatchSnapshot();
+});
+
+/**
+switch (object.type) {
+  case 'section':
+    return <section>{children}</section>;
+  case 'paragraph':
+    return <p>{children}</p>;
+  case 'bulleted-list':
+    return <ul>{children}</ul>;
+  case 'heading-one':
+    return <h1>{children}</h1>;
+  case 'heading-two':
+    return <h2>{children}</h2>;
+  case 'heading-three':
+    return <h3>{children}</h3>;
+  case 'heading-four':
+    return <h4>{children}</h4>;
+  case 'heading-five':
+    return <h5>{children}</h5>;
+  case 'heading-six':
+    return <h6>{children}</h6>;
+  case 'quote':
+    return <blockquote>{children}</blockquote>;
+  case 'div':
+    return <div>{children}</div>;
+  case 'br':
+    return <br />;
+} */

@@ -235,8 +235,6 @@ export const blockRules = {
     switch (object.type) {
       case 'section':
         return <section>{children}</section>;
-      case 'paragraph':
-        return <p>{children}</p>;
       case 'bulleted-list':
         return <ul>{children}</ul>;
       case 'heading-one':
@@ -253,8 +251,6 @@ export const blockRules = {
         return <h6>{children}</h6>;
       case 'quote':
         return <blockquote>{children}</blockquote>;
-      case 'div':
-        return <div>{children}</div>;
       case 'br':
         return <br />;
     }

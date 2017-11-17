@@ -137,6 +137,142 @@ Object {
 }
 `;
 
+exports[`deserializing a br 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "",
+              },
+            ],
+          },
+        ],
+        "type": "br",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
+exports[`deserializing a normal div block 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "A paragraph",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+        ],
+        "type": "div",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
+exports[`deserializing a quote 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "This quote should be both smart and wise",
+              },
+            ],
+          },
+        ],
+        "type": "quote",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
+exports[`deserializing a section 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Paragraph text",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+        ],
+        "type": "section",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
 exports[`deserializing alphabetical list 1`] = `
 Object {
   "document": Object {
@@ -321,6 +457,186 @@ Object {
                 "kind": "range",
                 "marks": Array [],
                 "text": "heading 6",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
+exports[`deserializing any heading should result in heading-two 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "Heading 1",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
+exports[`deserializing any heading should result in heading-two 2`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "Heading 2",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
+exports[`deserializing any heading should result in heading-two 3`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "Heading 3",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
+exports[`deserializing any heading should result in heading-two 4`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "Heading 4",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
+exports[`deserializing any heading should result in heading-two 5`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "Heading 5",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
+exports[`deserializing any heading should result in heading-two 6`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "ranges": Array [
+              Object {
+                "kind": "range",
+                "marks": Array [],
+                "text": "Heading 6",
               },
             ],
           },
@@ -714,8 +1030,18 @@ exports[`serialize footnote 1`] = `
 />
 `;
 
+exports[`serializing a normal div block 1`] = `"<div><p>A paragraph</p></div>"`;
+
+exports[`serializing br 1`] = `"<br/>"`;
+
 exports[`serializing bullet list 1`] = `"<ul><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ul>"`;
+
+exports[`serializing heading-two 1`] = `"<h2>heading 2</h2>"`;
 
 exports[`serializing letter list 1`] = `"<ol data-type=\\"letters\\"><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ol>"`;
 
 exports[`serializing numbered list 1`] = `"<ol><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ol>"`;
+
+exports[`serializing quote 1`] = `"<blockquote>This quote should be both smart and wise</blockquote>"`;
+
+exports[`serializing section 1`] = `"<section><p>Paragraph text</p></section>"`;

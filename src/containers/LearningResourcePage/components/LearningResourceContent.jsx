@@ -34,20 +34,6 @@ import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 import { classes } from './LearningResourceForm';
 import { CommonFieldPropsShape } from '../../../shapes';
 
-const plugins = [
-  footnotePlugin(),
-  createEmbedPlugin(),
-  createBodyBoxPlugin(),
-  createAsidePlugin(),
-  createLinkPlugin(),
-  headingPlugin(),
-  blockquotePlugin,
-  editListPlugin,
-  createTablePlugin(),
-  editTablePlugin,
-  pasteContentPlugin(),
-];
-
 class LearningResourceContent extends Component {
   constructor(props) {
     super(props);
@@ -56,6 +42,21 @@ class LearningResourceContent extends Component {
     };
     this.toggleContent = this.toggleContent.bind(this);
     this.addSection = this.addSection.bind(this);
+
+    this.plugins = [
+      footnotePlugin(),
+      createEmbedPlugin(),
+      createBodyBoxPlugin(),
+      createAsidePlugin(),
+      createLinkPlugin(),
+      headingPlugin(),
+      blockquotePlugin,
+      editListPlugin,
+      createTablePlugin(),
+      editTablePlugin,
+      pasteContentPlugin(),
+      blockPickerPlugin(this.addSection),
+    ];
   }
 
   toggleContent() {
@@ -89,8 +90,6 @@ class LearningResourceContent extends Component {
       </span>
     );
 
-    const extendedPlugins = [blockPickerPlugin(this.addSection), ...plugins];
-
     return (
       <Accordion
         handleToggle={this.toggleContent}
@@ -110,7 +109,7 @@ class LearningResourceContent extends Component {
           label={t('form.content.label')}
           placeholder={contentPlaceholder}
           name="content"
-          plugins={extendedPlugins}
+          plugins={this.plugins}
           {...commonFieldProps}
         />
         {children}

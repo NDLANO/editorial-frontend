@@ -34,7 +34,9 @@ import {
   tableRules,
   listItemRule,
   paragraphRule,
+  learningResourceRules,
 } from '../slateHelpers';
+import { standardArticleHTML, standardArticleState } from './slateMockArticle';
 
 const fragment = jsdom.JSDOM.fragment;
 
@@ -240,8 +242,6 @@ test('deserializing list with paragraph inside li elements', () => {
   expect(toJSON(deserialized)).toMatchSnapshot();
 });
 
-// block rules
-
 test('deserializing a section', () => {
   const serializer = new Html({
     rules: [blockRules, paragraphRule],
@@ -340,30 +340,21 @@ test('serializing br', () => {
   expect(serialized).toMatchSnapshot();
 });
 
-/**
-switch (object.type) {
-  case 'section':
-    return <section>{children}</section>;
-  case 'paragraph':
-    return <p>{children}</p>;
-  case 'bulleted-list':
-    return <ul>{children}</ul>;
-  case 'heading-one':
-    return <h1>{children}</h1>;
-  case 'heading-two':
-    return <h2>{children}</h2>;
-  case 'heading-three':
-    return <h3>{children}</h3>;
-  case 'heading-four':
-    return <h4>{children}</h4>;
-  case 'heading-five':
-    return <h5>{children}</h5>;
-  case 'heading-six':
-    return <h6>{children}</h6>;
-  case 'quote':
-    return <blockquote>{children}</blockquote>;
-  case 'div':
-    return <div>{children}</div>;
-  case 'br':
-    return <br />;
-} */
+test('deserialize standard article', () => {
+  const serializer = new Html({
+    rules: learningResourceRules,
+    parseHtml: fragment,
+  });
+  const deserialized = serializer.deserialize(standardArticleHTML);
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('serializing standard article', () => {
+  const serializer = new Html({
+    rules: learningResourceRules,
+    parseHtml: fragment,
+  });
+  const state = State.fromJSON(standardArticleState);
+  const serialized = serializer.serialize(state);
+  expect(serialized).toMatchSnapshot();
+});

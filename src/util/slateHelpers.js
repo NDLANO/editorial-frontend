@@ -76,9 +76,10 @@ export const textRule = {
   deserialize(el) {
     if (
       el.nodeName.toLowerCase() !== '#text' ||
-      el.parentNode.tagName.toLowerCase() !== 'section'
-    )
+      (el.parentNode && el.parentNode.tagName.toLowerCase() !== 'section')
+    ) {
       return;
+    }
     return null;
   },
 };

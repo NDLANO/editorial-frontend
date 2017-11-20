@@ -45,7 +45,9 @@ export const defaultRules = [
       }
       const lastNode = node.nodes.last();
       return lastNode &&
-        (lastNode.type === 'aside' || lastNode.type === 'bodybox')
+        (lastNode.type === 'aside' ||
+          lastNode.type === 'bodybox' ||
+          lastNode.type === 'details')
         ? true
         : null;
     },
@@ -73,7 +75,9 @@ export const defaultRules = [
   {
     match: node =>
       node.kind === 'block' &&
-      (node.type === 'aside' || node.type === 'bodybox'),
+      (node.type === 'aside' ||
+        node.type === 'bodybox' ||
+        node.type === 'details'),
     validate: node => {
       const lastNode = node.nodes.last();
       return lastNode && lastNode.type === 'embed' ? true : null;
@@ -113,7 +117,9 @@ export const defaultRules = [
     validate: document => {
       const lastNode = document.nodes.last();
       return lastNode &&
-        (lastNode.type === 'aside' || lastNode.type === 'bodybox')
+        (lastNode.type === 'aside' ||
+          lastNode.type === 'bodybox' ||
+          lastNode.type === 'details')
         ? true
         : null;
     },

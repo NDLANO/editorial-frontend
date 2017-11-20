@@ -1,6 +1,7 @@
 
 .c-bodybox__delete-button,
-.c-editor__delete-aside-button {
+.c-editor__delete-aside-button,
+.c-details__delete-button {
   position: absolute;
   top: 0.1rem;
   right: 0.2rem;
@@ -10,6 +11,10 @@
   &:focus {
     color: color(red blackness(+ 20%));
   }
+}
+
+details {
+  position: relative;
 }
 
 .c-aside.expanded .c-aside__content > div > .c-bodybox__delete-button {

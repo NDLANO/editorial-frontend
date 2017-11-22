@@ -16,6 +16,8 @@ const BLOCK_TAGS = {
   section: 'section',
   ul: 'bulleted-list',
   blockquote: 'quote',
+  details: 'details',
+  summary: 'summary',
   pre: 'code',
   h1: 'heading-two',
   h2: 'heading-two',
@@ -253,6 +255,10 @@ export const blockRules = {
         return <h6>{children}</h6>;
       case 'quote':
         return <blockquote>{children}</blockquote>;
+      case 'details':
+        return <details>{children}</details>;
+      case 'summary':
+        return <summary>{children}</summary>;
       case 'div':
         return <div>{children}</div>;
       case 'br':

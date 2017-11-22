@@ -409,6 +409,52 @@ export const tableSlateState = {
   kind: 'state',
 };
 
+export const detailsBoxState = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    marks: [],
+                    text: 'Summary text',
+                  },
+                ],
+              },
+            ],
+            type: 'summary',
+          },
+          {
+            kind: 'text',
+            ranges: [
+              {
+                kind: 'range',
+                marks: [],
+                text: 'Details text',
+              },
+            ],
+          },
+        ],
+        type: 'details',
+      },
+    ],
+  },
+  kind: 'state',
+};
+
 export const listState = (type = 'numbered-list') => ({
   document: {
     data: {},

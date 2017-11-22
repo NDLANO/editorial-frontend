@@ -23,6 +23,7 @@ import {
   FactBox,
   TextInBox,
   Table,
+  InsertTemplate,
 } from 'ndla-ui/icons';
 import { Portal } from '../../../../components/Portal';
 import { defaultAsideBlock } from '../../schema';
@@ -41,7 +42,7 @@ const actions = [
   { data: { type: 'aside', kind: 'factAside' }, icon: <FactBox /> },
   { data: { type: 'table', kind: 'table' }, icon: <Table /> },
   { data: { type: 'bodybox', kind: 'bodybox' }, icon: <TextInBox /> },
-  { data: { type: 'details', kind: 'details' }, icon: <TextInBox /> },
+  { data: { type: 'details', kind: 'details' }, icon: <InsertTemplate /> },
   { data: { type: 'embed', kind: 'image' }, icon: <Camera /> },
   { data: { type: 'embed', kind: 'video' }, icon: <Video /> },
   { data: { type: 'embed', kind: 'audio' }, icon: <Audio /> },

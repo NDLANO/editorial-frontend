@@ -552,3 +552,159 @@ export const listState = (type = 'numbered-list') => ({
   },
   kind: 'state',
 });
+
+export const headingTwoState = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            kind: 'text',
+            ranges: [
+              {
+                kind: 'range',
+                marks: [],
+                text: 'heading 2',
+              },
+            ],
+          },
+        ],
+        type: 'heading-two',
+      },
+    ],
+  },
+  kind: 'state',
+};
+
+export const sectionState = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    marks: [],
+                    text: 'Paragraph text',
+                  },
+                ],
+              },
+            ],
+            type: 'paragraph',
+          },
+        ],
+        type: 'section',
+      },
+    ],
+  },
+  kind: 'state',
+};
+
+export const quoteState = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            kind: 'text',
+            ranges: [
+              {
+                kind: 'range',
+                marks: [],
+                text: 'This quote should be both smart and wise',
+              },
+            ],
+          },
+        ],
+        type: 'quote',
+      },
+    ],
+  },
+  kind: 'state',
+};
+
+export const normalDivState = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    marks: [],
+                    text: 'A paragraph',
+                  },
+                ],
+              },
+            ],
+            type: 'paragraph',
+          },
+        ],
+        type: 'div',
+      },
+    ],
+  },
+  kind: 'state',
+};
+
+export const brState = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            kind: 'text',
+            ranges: [
+              {
+                kind: 'range',
+                marks: [],
+                text: '',
+              },
+            ],
+          },
+        ],
+        type: 'br',
+      },
+    ],
+  },
+  kind: 'state',
+};

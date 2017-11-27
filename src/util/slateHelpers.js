@@ -78,9 +78,10 @@ export const textRule = {
   deserialize(el) {
     if (
       el.nodeName.toLowerCase() !== '#text' ||
-      el.parentNode.tagName.toLowerCase() !== 'section'
-    )
+      (el.parentNode && el.parentNode.tagName.toLowerCase() !== 'section')
+    ) {
       return;
+    }
     return null;
   },
 };
@@ -237,8 +238,6 @@ export const blockRules = {
     switch (object.type) {
       case 'section':
         return <section>{children}</section>;
-      case 'paragraph':
-        return <p>{children}</p>;
       case 'bulleted-list':
         return <ul>{children}</ul>;
       case 'heading-one':
@@ -259,8 +258,6 @@ export const blockRules = {
         return <details>{children}</details>;
       case 'summary':
         return <summary>{children}</summary>;
-      case 'div':
-        return <div>{children}</div>;
       case 'br':
         return <br />;
     }

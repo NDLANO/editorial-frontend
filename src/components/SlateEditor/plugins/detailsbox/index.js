@@ -17,11 +17,6 @@ const detailsBlock = [
     isVoid: false,
     data: {},
   },
-  {
-    type: 'paragraph',
-    isVoid: false,
-    data: {},
-  },
 ];
 
 /* eslint-disable react/prop-types */

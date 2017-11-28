@@ -149,11 +149,14 @@ test('MastheadSearchForm redirects on ndla node id pasted', () => {
   const historyMock = {
     push: sinon.spy(),
   };
+  nock('http://ndla-api')
+    .get('/article-api/v2/articles/external_id/4737')
+    .reply(200, { id: '123' });
 
   const component = renderer.create(
     <MastheadSearchForm
       show
-      query="#4232"
+      query="#4737"
       searching={false}
       locale="nb"
       onSearchQuerySubmit={noop}
@@ -171,7 +174,7 @@ test('MastheadSearchForm redirects on ndla node id pasted', () => {
     setTimeout(() => {
       expect(historyMock.push.calledOnce).toBe(true);
       expect(
-        historyMock.push.calledWith('/learning-resource/4232/edit/nb'),
+        historyMock.push.calledWith('/learning-resource/123/edit/nb'),
       ).toBe(true);
       resolve();
     }, global.DEFAULT_TIMEOUT);

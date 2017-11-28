@@ -77,12 +77,6 @@ a.c-learning-resource-form__abort-button.c-button {
 }
 
 .c-learning-resource-form {
-  &__placeholder {
-    position: relative;
-    margin-left: calc(var(--clrf__container--margin) - 1em);
-    top: 2em;
-  }
-
   &__container {
     /* Hack to set focus to editor when clicking outside editor content area */
     .c-editor {

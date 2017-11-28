@@ -9,7 +9,6 @@
 
 import React from 'react';
 import { Block } from 'slate';
-import { Placeholder } from 'slate-react';
 
 export const defaultBlock = {
   type: 'paragraph',
@@ -33,6 +32,10 @@ export const defaultEmbedBlock = data =>
   });
 
 export const getSchemaEmbed = node => node.get('data').toJS();
+
+export const schema = {
+  document: {},
+};
 
 export const defaultRules = [
   // Rule to insert a paragraph below a aside/bodybox if that node is
@@ -142,46 +145,56 @@ export const defaultRules = [
 ];
 
 /* eslint-disable react/prop-types */
-const defaultSchema = {
-  nodes: {
-    section: props => (
-      <section {...props.attributes}>
-        {props.editor.props.placeholder ? (
-          <Placeholder {...props}>{props.editor.props.placeholder}</Placeholder>
-        ) : null}
-        {props.children}
-      </section>
-    ),
-    br: props => <br {...props.attributes} />,
-    paragraph: props => <p {...props.attributes}>{props.children}</p>,
-    'bulleted-list': props => (
-      <ul className="c-block__bulleted-list" {...props.attributes}>
-        {props.children}
-      </ul>
-    ),
-    'list-text': props => <span {...props.attributes}>{props.children}</span>,
-    'list-item': props => (
-      <li className="c-block__list-item" {...props.attributes}>
-        {props.children}
-      </li>
-    ),
-    'numbered-list': props => <ol {...props.attributes}>{props.children}</ol>,
-    'letter-list': props => (
-      <ol className="ol-list--roman" {...props.attributes}>
-        {props.children}
-      </ol>
-    ),
-    quote: props => (
-      <blockquote {...props.attributes}>{props.children}</blockquote>
-    ),
-    div: props => <div {...props.attributes}>{props.children}</div>,
-  },
-  marks: {
-    bold: props => <strong {...props.attributes}>{props.children}</strong>,
-    italic: props => <em {...props.attributes}>{props.children}</em>,
-    underlined: props => <u {...props.attributes}>{props.children}</u>,
-  },
-  rules: defaultRules,
+export const renderNode = props => {
+  const { attributes, children, node } = props;
+  switch (node.type) {
+    case 'section':
+      return <section {...attributes}>{children}</section>;
+    case 'br':
+      return <br {...attributes} />;
+    case 'paragraph':
+      return <p {...attributes}>{children}</p>;
+    case 'bulleted-list':
+      return (
+        <ul className="c-block__bulleted-list" {...attributes}>
+          {children}
+        </ul>
+      );
+    case 'list-text':
+      return <span {...attributes}>{children}</span>;
+    case 'list-item':
+      return (
+        <li className="c-block__list-item" {...attributes}>
+          {children}
+        </li>
+      );
+    case 'numbered-list':
+      return <ol {...attributes}>{children}</ol>;
+    case 'letter-list':
+      return (
+        <ol className="ol-list--roman" {...attributes}>
+          {children}
+        </ol>
+      );
+    case 'quote':
+      return <blockquote {...attributes}>{children}</blockquote>;
+    case 'div':
+      return <div {...attributes}>{children}</div>;
+    default:
+      return null;
+  }
 };
 
-export default defaultSchema;
+export const renderMark = props => {
+  const { attributes, children, mark } = props;
+  switch (mark.type) {
+    case 'bold':
+      return <strong {...attributes}>{children}</strong>;
+    case 'italic':
+      return <em {...attributes}>{children}</em>;
+    case 'underlined':
+      return <u {...attributes}>{children}</u>;
+    default:
+      return null;
+  }
+};

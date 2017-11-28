@@ -108,6 +108,6 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
 }
 `;

@@ -39,21 +39,21 @@ class EditFootnote extends Component {
   }
 
   handleRemove() {
-    const { state, handleStateChange, closeDialog } = this.props;
+    const { value, handleValueChange, closeDialog } = this.props;
     if (this.state.nodeKey) {
-      const nextState = state.change().removeNodeByKey(this.state.nodeKey);
-      handleStateChange(nextState);
+      const nextState = value.change().removeNodeByKey(this.state.nodeKey);
+      handleValueChange(nextState);
       closeDialog();
     }
   }
 
   handleSave(data) {
-    const { state, handleStateChange, closeDialog } = this.props;
-    const change = state.change();
+    const { value, handleValueChange, closeDialog } = this.props;
+    const change = value.change();
     if (this.state.nodeKey) {
-      handleStateChange(change.setNodeByKey(this.state.nodeKey, { data }));
+      handleValueChange(change.setNodeByKey(this.state.nodeKey, { data }));
     } else {
-      handleStateChange(
+      handleValueChange(
         change
           .collapseToEnd()
           .insertText('#')
@@ -99,9 +99,9 @@ class EditFootnote extends Component {
 
 EditFootnote.propTypes = {
   closeDialog: PropTypes.func.isRequired,
-  handleStateChange: PropTypes.func.isRequired,
+  handleValueChange: PropTypes.func.isRequired,
   blur: PropTypes.func.isRequired,
-  state: Types.state.isRequired,
+  value: Types.value.isRequired,
   node: PropTypes.oneOfType([
     Types.node,
     PropTypes.shape({ type: PropTypes.string.isRequired }),

@@ -26,7 +26,7 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
 }
 `;
 
@@ -133,7 +133,7 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
 }
 `;
 
@@ -209,7 +209,7 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
 }
 `;
 
@@ -329,7 +329,7 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
 }
 `;
 
@@ -403,7 +403,7 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
 }
 `;
 
@@ -501,7 +501,7 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
 }
 `;
 
@@ -575,7 +575,7 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
 }
 `;
 
@@ -683,7 +683,7 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
 }
 `;
 

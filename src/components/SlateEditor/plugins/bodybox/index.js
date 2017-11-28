@@ -6,6 +6,7 @@
  *
  */
 
+import React from 'react';
 import { Block } from 'slate';
 import SlateBodyBox from './SlateBodyBox';
 import { defaultBlock } from '../../schema';
@@ -19,12 +20,24 @@ export const defaultBodyBoxBlock = () =>
 
 export default function createBodyBox() {
   const schema = {
-    nodes: {
-      bodybox: SlateBodyBox,
+    document: {
+      nodes: [{ types: ['bodybox'] }],
     },
+  };
+
+  /* eslint-disable react/prop-types */
+  const renderNode = props => {
+    const { node } = props;
+    switch (node.type) {
+      case 'bodybox':
+        return <SlateBodyBox {...props} />;
+      default:
+        return null;
+    }
   };
 
   return {
     schema,
+    renderNode,
   };
 }

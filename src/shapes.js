@@ -109,7 +109,6 @@ export const PluginShape = PropTypes.shape({
 
 export const EditorShape = PropTypes.shape({
   onChange: PropTypes.func.isRequired,
-  getState: PropTypes.func.isRequired,
   props: PropTypes.shape({
     submitted: PropTypes.bool.isRequired,
     slateStore: PropTypes.shape({

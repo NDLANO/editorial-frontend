@@ -6,16 +6,14 @@
  *
  */
 
-import { Schema, State } from 'slate';
-import tableSchema from '../schema';
-import { tableSlateState } from '../../../../../util/__tests__/slateMockStates';
+import { Schema, Value } from 'slate';
+import { schema as tableSchema } from '../schema';
+import { tableSlateValue } from '../../../../../util/__tests__/slateMockValues';
 import { toJSON } from '../../../../../util/slateHelpers';
 
 test('normalize table', () => {
-  const state = State.fromJSON(tableSlateState);
+  const value = Value.fromJSON(tableSlateValue);
   const schema = Schema.fromJSON(tableSchema);
-  const change = state.change().normalize(schema);
-  // const serializer = new Html({ rules: [tableRules], parseHtml: fragment });
-  // const deserialized = serializer.deserialize(tableHTML);
-  expect(toJSON(change.state)).toMatchSnapshot();
+  const change = value.change().normalize(schema);
+  expect(toJSON(change.value)).toMatchSnapshot();
 });

@@ -13,12 +13,16 @@ import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
 import Accordion from '../../../components/Accordion';
 import LearningResourceIngress from './LearningResourceIngress';
-import schema from '../../../components/SlateEditor/schema';
-import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
+import {
+  renderNode,
+  schema,
+  renderMark,
+} from '../../../components/SlateEditor/schema';
+// import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
 import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
-import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
+// import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
 import {
@@ -32,11 +36,11 @@ import { classes } from './LearningResourceForm';
 import { CommonFieldPropsShape } from '../../../shapes';
 
 const plugins = [
-  footnotePlugin(),
+  // footnotePlugin(), // Currentrly broken
   createEmbedPlugin(),
   createBodyBoxPlugin(),
   createAsidePlugin(),
-  createLinkPlugin(),
+  // createLinkPlugin(), // Currentrly broken
   headingPlugin(),
   blockquotePlugin,
   editListPlugin,
@@ -88,6 +92,8 @@ class LearningResourceContent extends Component {
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
         <RichBlockTextField
           slateSchema={schema}
+          renderNode={renderNode}
+          renderMark={renderMark}
           label={t('form.content.label')}
           placeholder={contentPlaceholder}
           name="content"

@@ -17,16 +17,16 @@ export function getCurrentHeading(options, value) {
     : null;
 }
 
-export function onEnter(evt, value, options) {
+export function onEnter(evt, value, options, change) {
   const currentHeading = getCurrentHeading(options, value);
   if (!currentHeading) {
     return null;
   }
   evt.preventDefault();
-  return insertParagraph(options, value);
+  return insertParagraph(options, change);
 }
 
-export function onBackspace(evt, value, options) {
+export function onBackspace(evt, value, options, change) {
   const { startOffset, isCollapsed } = value;
   const currentHeading = getCurrentHeading(options, value);
   if (!currentHeading || !isCollapsed) {
@@ -34,7 +34,7 @@ export function onBackspace(evt, value, options) {
   }
   if (startOffset === 0) {
     evt.preventDefault();
-    return setBlock(options, value);
+    return setBlock(options, change);
   }
   return null;
 }

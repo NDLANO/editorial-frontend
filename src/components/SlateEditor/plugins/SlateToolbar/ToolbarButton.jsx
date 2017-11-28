@@ -37,8 +37,8 @@ const toolbarIcon = {
   footnote: <Section />,
 };
 
-const ToolbarButton = ({ state, type, kind, handleHasType, handleOnClick }) => {
-  const isActive = handleHasType(state, type, kind);
+const ToolbarButton = ({ value, type, kind, handleHasType, handleOnClick }) => {
+  const isActive = handleHasType(value, type, kind);
   const onMouseDown = e => handleOnClick(e, kind, type);
   return (
     <Button stripped onMouseDown={onMouseDown} data-active={isActive}>
@@ -52,7 +52,7 @@ const ToolbarButton = ({ state, type, kind, handleHasType, handleOnClick }) => {
 ToolbarButton.propTypes = {
   type: PropTypes.string.isRequired,
   kind: PropTypes.string.isRequired,
-  state: Types.state.isRequired,
+  value: Types.value.isRequired,
   handleHasType: PropTypes.func.isRequired,
   handleOnClick: PropTypes.func.isRequired,
 };

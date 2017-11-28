@@ -12,17 +12,17 @@ class SlateEmbedPicker extends React.Component {
   }
 
   onEmbedAdd(embed) {
-    const { blocks, state, onStateChange, onEmbedClose } = this.props;
+    const { blocks, value, onValueChange, onEmbedClose } = this.props;
 
     const blockToInsert = defaultEmbedBlock(embed);
     const newblocks = [].concat(blocks);
-    const currentState = blocks[state.index];
-    const change = currentState.state.change().insertBlock(blockToInsert);
-    newblocks[state.index] = {
-      ...newblocks[state.index],
-      state: change.state,
+    const currentValue = blocks[value.index];
+    const change = currentValue.value.change().insertBlock(blockToInsert);
+    newblocks[value.index] = {
+      ...newblocks[value.index],
+      value: change.value,
     };
-    onStateChange('content', newblocks);
+    onValueChange('content', newblocks);
     onEmbedClose();
   }
 
@@ -45,18 +45,18 @@ class SlateEmbedPicker extends React.Component {
 
 SlateEmbedPicker.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  onStateChange: PropTypes.func.isRequired,
+  onValueChange: PropTypes.func.isRequired,
   resource: PropTypes.string.isRequired,
   onEmbedClose: PropTypes.func.isRequired,
   blocks: PropTypes.arrayOf(
     PropTypes.shape({
       index: PropTypes.number.isRequired,
-      state: Types.state.isRequired,
+      value: Types.value.isRequired,
     }),
   ),
-  state: PropTypes.shape({
+  value: PropTypes.shape({
     index: PropTypes.number.isRequired,
-    state: Types.state.isRequired,
+    value: Types.value.isRequired,
   }),
 };
 

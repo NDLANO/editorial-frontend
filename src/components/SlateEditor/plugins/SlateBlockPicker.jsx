@@ -25,7 +25,7 @@ import {
   Table,
 } from 'ndla-ui/icons';
 import { Portal } from '../../../components/Portal';
-import { createEmptyState } from '../../../util/articleContentConverter';
+import { createEmptyValue } from '../../../util/articleContentConverter';
 import { defaultAsideBlock } from '../schema';
 import { defaultBodyBoxBlock } from './bodybox';
 import SlateEmbedPicker from './SlateEmbedPicker';
@@ -64,13 +64,13 @@ class SlateBlockPicker extends Component {
     this.onElementAdd = this.onElementAdd.bind(this);
     this.showPicker = this.showPicker.bind(this);
     this.focusInsideIllegalArea = this.focusInsideIllegalArea.bind(this);
-    this.onStateChange = this.onStateChange.bind(this);
+    this.onValueChange = this.onValueChange.bind(this);
     this.onEmbedClose = this.onEmbedClose.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
     this.onBlocksChange = this.onBlocksChange.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.editorState.state.isFocused && this.state.isOpen) {
+    if (!nextProps.editorValue.value.isFocused && this.state.isOpen) {
       this.setState({ isOpen: false });
     }
   }
@@ -79,7 +79,7 @@ class SlateBlockPicker extends Component {
     this.showPicker();
   }
 
-  onStateChange(name, value) {
+  onValueChange(name, value) {
     const { onChange } = this.props;
     onChange({
       target: {
@@ -94,30 +94,30 @@ class SlateBlockPicker extends Component {
   }
 
   onBlocksChange(change) {
-    const { blocks, editorState } = this.props;
+    const { blocks, editorValue } = this.props;
     const newblocks = [].concat(blocks);
-    newblocks[editorState.index] = {
-      ...newblocks[editorState.index],
-      state: change.state,
+    newblocks[editorValue.index] = {
+      ...newblocks[editorValue.index],
+      value: change.value,
     };
 
-    this.onStateChange('content', newblocks);
+    this.onValueChange('content', newblocks);
   }
 
   onInsertBlock(block) {
-    const { blocks, editorState } = this.props;
-    const currentState = blocks[editorState.index];
-    const nextChange = currentState.state.change().insertBlock(block);
+    const { blocks, editorValue } = this.props;
+    const currentValue = blocks[editorValue.index];
+    const nextChange = currentValue.value.change().insertBlock(block);
     this.onBlocksChange(nextChange);
   }
 
   onElementAdd(type) {
-    const { blocks, editorState } = this.props;
+    const { blocks, editorValue } = this.props;
     switch (type.type) {
       case 'block': {
         const newblocks = [].concat(blocks);
-        newblocks.push({ state: createEmptyState(), index: blocks.length });
-        this.onStateChange('content', newblocks);
+        newblocks.push({ value: createEmptyValue(), index: blocks.length });
+        this.onValueChange('content', newblocks);
         break;
       }
       case 'bodybox': {
@@ -125,7 +125,7 @@ class SlateBlockPicker extends Component {
         break;
       }
       case 'table': {
-        const change = blocks[editorState.index].state.change();
+        const change = blocks[editorValue.index].value.change();
         this.onBlocksChange(editTablePlugin.changes.insertTable(change, 2, 2));
         break;
       }
@@ -159,12 +159,12 @@ class SlateBlockPicker extends Component {
   }
 
   focusInsideIllegalArea() {
-    const { editorState } = this.props;
-    let node = editorState.state.document.getClosestBlock(
-      editorState.state.selection.startKey,
+    const { editorValue } = this.props;
+    let node = editorValue.value.document.getClosestBlock(
+      editorValue.value.selection.startKey,
     );
     while (true) {
-      const parent = editorState.state.document.getParent(node.key);
+      const parent = editorValue.value.document.getParent(node.key);
       if (
         !parent ||
         parent.get('type') === 'section' ||
@@ -185,15 +185,15 @@ class SlateBlockPicker extends Component {
       'hidden',
     ).className.split(' ')[1];
 
-    const { editorState } = this.props;
+    const { editorValue } = this.props;
 
-    if (!editorState.state.selection.startKey) {
+    if (!editorValue.value.selection.startKey) {
       this.menuEl.classList.add(hiddenClassName);
       return;
     }
 
-    const node = editorState.state.document.getClosestBlock(
-      editorState.state.selection.startKey,
+    const node = editorValue.value.document.getClosestBlock(
+      editorValue.value.selection.startKey,
     );
 
     const nodeEl = findDOMNode(node); // eslint-disable-line
@@ -202,7 +202,7 @@ class SlateBlockPicker extends Component {
       node.text.length === 0 &&
       !this.focusInsideIllegalArea() &&
       allowedPickAreas.includes(node.type) &&
-      editorState.state.isFocused;
+      editorValue.value.isFocused;
 
     if (show) {
       this.menuEl.classList.remove(hiddenClassName);
@@ -213,18 +213,18 @@ class SlateBlockPicker extends Component {
   }
 
   render() {
-    const { editorState, blocks } = this.props;
+    const { editorValue, blocks } = this.props;
     const typeClassName = this.state.isOpen ? '' : 'hidden';
     return (
       <Portal isOpened>
         {this.state.embedSelect.isOpen ? (
           <SlateEmbedPicker
-            state={editorState}
+            value={editorValue}
             blocks={blocks}
             resource={this.state.embedSelect.embedType}
             isOpen={this.state.embedSelect.isOpen}
             onEmbedClose={this.onEmbedClose}
-            onStateChange={this.onStateChange}
+            onValueChange={this.onValueChange}
           />
         ) : (
           ''
@@ -312,13 +312,13 @@ SlateBlockPicker.propTypes = {
   blocks: PropTypes.arrayOf(
     PropTypes.shape({
       index: PropTypes.number.isRequired,
-      state: Types.state.isRequired,
+      value: Types.value.isRequired,
     }),
   ),
   onChange: PropTypes.func.isRequired,
-  editorState: PropTypes.shape({
+  editorValue: PropTypes.shape({
     index: PropTypes.number.isRequired,
-    state: PropTypes.object.isRequired,
+    value: PropTypes.object.isRequired,
   }),
 };
 

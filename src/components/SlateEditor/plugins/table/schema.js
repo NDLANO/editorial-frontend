@@ -10,40 +10,53 @@
 import React from 'react';
 import SlateTable from './SlateTable';
 
-export const firstRowRule = {
-  match: object => object.kind === 'block' && object.type === 'table',
-  validate: node => {
-    const firstNode = node.nodes.first();
-    if (firstNode.type === 'table-row') {
-      const isHeader = firstNode.nodes.every(
-        child => !!child.data.get('isHeader'),
-      );
-      if (isHeader) {
-        return null;
-      }
+function validateNode(node) {
+  if (node.kind !== 'block') return null;
+  if (node.type !== 'table') return null;
+
+  const { nodes } = node;
+
+  if (nodes.first().type === 'table-row') {
+    const isHeader = nodes
+      .first()
+      .nodes.every(child => !!child.data.get('isHeader'));
+    if (isHeader) {
+      return null;
     }
-    return firstNode && firstNode.nodes && firstNode.type === 'table-row'
-      ? firstNode.nodes
-      : null;
-  },
-  normalize: (change, node, invalidChildren) => {
-    invalidChildren.forEach(child => {
+  }
+
+  return change => {
+    nodes.forEach(child => {
       change.setNodeByKey(child.key, {
         data: { ...child.data, isHeader: true },
       });
     });
-    return change;
+  };
+}
+
+const schema = {
+  document: {
+    nodes: [
+      { types: ['table'] },
+      { types: ['table-row'] },
+      { types: ['table-cell'] },
+    ],
   },
 };
 
 /* eslint-disable react/prop-types */
-const tableSchema = {
-  nodes: {
-    table: SlateTable,
-    'table-row': props => <tr {...props.attributes}>{props.children}</tr>,
-    'table-cell': props => <td {...props.attributes}>{props.children}</td>,
-  },
-  rules: [firstRowRule],
+const renderNode = props => {
+  const { attributes, children, node } = props;
+  switch (node.type) {
+    case 'table':
+      return <SlateTable {...props} />;
+    case 'table-row':
+      return <tr {...attributes}>{children}</tr>;
+    case 'table-cell':
+      return <td {...attributes}>{children}</td>;
+    default:
+      return null;
+  }
 };
 
-export default tableSchema;
+export { validateNode, schema, renderNode };

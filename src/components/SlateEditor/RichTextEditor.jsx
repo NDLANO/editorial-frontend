@@ -50,7 +50,7 @@ const RichTextEditor = class extends React.Component {
 
   onKeyDown(e, change) {
     let mark;
-    const state = change.state;
+    const value = change.value;
 
     if (isBoldHotkey(e)) {
       mark = 'bold';
@@ -59,25 +59,25 @@ const RichTextEditor = class extends React.Component {
     } else if (isUnderlinedHotkey(e)) {
       mark = 'underlined';
     } else if (e.key === 'Backspace') {
-      const selection = state.selection;
+      const selection = value.selection;
       if (
-        state.document.text.length === 0 &&
-        selection.isAtStartOf(state.document)
+        value.document.text.length === 0 &&
+        selection.isAtStartOf(value.document)
       ) {
         this.props.removeSection(this.props.index);
       }
     }
 
     if (mark) {
-      this.toggleMark(e, state, mark);
+      this.toggleMark(e, value, mark);
     }
   }
 
-  toggleMark(e, state, type) {
+  toggleMark(e, value, type) {
     const { name, onChange } = this.props;
     e.preventDefault();
-    const nextChange = state.change().toggleMark(type);
-    onChange({ target: { name, value: nextChange.state } });
+    const nextChange = value.change().toggleMark(type);
+    onChange({ target: { name, value: nextChange.value } });
   }
 
   render() {
@@ -97,10 +97,10 @@ const RichTextEditor = class extends React.Component {
           <Editor
             {...classes(undefined, undefined, className)}
             onKeyDown={this.onKeyDown}
-            state={value}
+            value={value}
             schema={schema}
             onChange={change =>
-              onChange({ target: { name, value: change.state } })
+              onChange({ target: { name, value: change.value } })
             }
             slateStore={this.state.slateStore}
             plugins={plugins}
@@ -109,7 +109,7 @@ const RichTextEditor = class extends React.Component {
           {children}
         </div>
         <SlateToolbar
-          state={value}
+          value={value}
           onChange={onChange}
           slateStore={this.state.slateStore}
           name={name}

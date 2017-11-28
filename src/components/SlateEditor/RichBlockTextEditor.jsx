@@ -30,19 +30,19 @@ class RichBlockTextEditor extends Component {
     this.removeSection = this.removeSection.bind(this);
   }
 
-  onChange(newState, index) {
+  onChange(indexValue, index) {
     const { name, onChange, value } = this.props;
     const newValue = [].concat(value);
-    newValue[index] = { state: newState, index };
-    const changedState = {
+    newValue[index] = { value: indexValue, index };
+    const changedValue = {
       target: {
         value: newValue,
         name,
-        type: 'SlateEditorState',
+        type: 'SlateEditorValue',
       },
     };
 
-    onChange(changedState);
+    onChange(changedValue);
   }
 
   onContentChange(e, index) {
@@ -54,14 +54,14 @@ class RichBlockTextEditor extends Component {
     if (value.length > 1) {
       const newValue = [].concat(value);
       newValue.splice(index, 1);
-      const changedState = {
+      const changedValue = {
         target: {
           value: newValue,
           name,
-          type: 'SlateEditorState',
+          type: 'SlateEditorValue',
         },
       };
-      onChange(changedState);
+      onChange(changedValue);
     }
   }
 
@@ -95,7 +95,7 @@ class RichBlockTextEditor extends Component {
               onChange={e => this.onContentChange(e, index)}
               isBlock
               {...rest}
-              value={val.state}
+              value={val.value}
               index={index}
               removeSection={this.removeSection}
             />
@@ -103,7 +103,7 @@ class RichBlockTextEditor extends Component {
               name={name}
               onChange={onChange}
               blocks={value}
-              editorState={val}
+              editorValue={val}
               index={index}
               setFocus={this.setFocus}
             />

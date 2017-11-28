@@ -10,14 +10,14 @@ import React from 'react';
 import { fromJS } from 'immutable';
 import renderer from 'react-test-renderer';
 import jsdom from 'jsdom';
-import { State } from 'slate';
+import { Value } from 'slate';
 import Html from 'slate-html-serializer';
 import {
-  stateWithInlineFootnotesAndContentLinks,
-  stateWithTwoImageEmbeds,
-  tableSlateState,
-  listState,
-} from './slateMockStates';
+  valueWithInlineFootnotesAndContentLinks,
+  valueWithTwoImageEmbeds,
+  tableSlateValue,
+  listValue,
+} from './slateMockValues';
 import {
   footnoteRule,
   learningResourceEmbedRule,
@@ -45,13 +45,13 @@ test('serialize embed block', () => {
 });
 
 test('find embed nodes in slate document', () => {
-  const document = State.fromJSON(stateWithTwoImageEmbeds).document;
+  const document = Value.fromJSON(valueWithTwoImageEmbeds).document;
   const embeds = findNodesByType(document, 'embed');
   expect(embeds.length).toBe(2);
 });
 
 test('find footnote nodes in slate document', () => {
-  const document = State.fromJSON(stateWithInlineFootnotesAndContentLinks)
+  const document = Value.fromJSON(valueWithInlineFootnotesAndContentLinks)
     .document;
   const embeds = findNodesByType(document, 'footnote');
   expect(embeds.length).toBe(2);
@@ -136,8 +136,8 @@ test('deserializing table', () => {
 
 test('serializing table', () => {
   const serializer = new Html({ rules: [tableRules], parseHtml: fragment });
-  const state = State.fromJSON(tableSlateState);
-  const serialized = serializer.serialize(state);
+  const value = Value.fromJSON(tableSlateValue);
+  const serialized = serializer.serialize(value);
   expect(serialized).toMatch(tableHTML);
 });
 
@@ -157,8 +157,8 @@ test('serializing bullet list', () => {
     rules: [blockRules, listItemRule, paragraphRule],
     parseHtml: fragment,
   });
-  const state = State.fromJSON(listState('bulleted-list'));
-  const serialized = serializer.serialize(state);
+  const value = Value.fromJSON(listValue('bulleted-list'));
+  const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });
 
@@ -178,8 +178,8 @@ test('serializing numbered list', () => {
     rules: [blockRules, orderListRules, listItemRule, paragraphRule],
     parseHtml: fragment,
   });
-  const state = State.fromJSON(listState('numbered-list'));
-  const serialized = serializer.serialize(state);
+  const value = Value.fromJSON(listValue('numbered-list'));
+  const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });
 
@@ -199,8 +199,8 @@ test('serializing letter list', () => {
     rules: [orderListRules, blockRules, listItemRule, paragraphRule],
     parseHtml: fragment,
   });
-  const state = State.fromJSON(listState('letter-list'));
-  const serialized = serializer.serialize(state);
+  const value = Value.fromJSON(listValue('letter-list'));
+  const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });
 

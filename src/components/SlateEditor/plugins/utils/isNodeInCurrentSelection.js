@@ -6,7 +6,7 @@
  *
  */
 
-const isNodeInCurrentSelection = (state, node) =>
-  state.inlines.find(inline => inline.key === node.key) !== undefined;
+const isNodeInCurrentSelection = (value, node) =>
+  value.inlines.find(inline => inline.key === node.key) !== undefined;
 
 export default isNodeInCurrentSelection;

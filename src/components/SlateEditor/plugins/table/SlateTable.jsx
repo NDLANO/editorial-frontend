@@ -8,15 +8,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Types from 'slate-prop-types';
 import TableActions from './TableActions';
 import { EditorShape } from '../../../../shapes';
 
 const SlateTable = props => {
-  const { state, editor, attributes } = props;
+  const { editor, attributes } = props;
   return (
     <div {...attributes}>
-      <TableActions state={state} editor={editor} />
+      <TableActions value={editor.value} editor={editor} />
       <table>
         <tbody>{props.children}</tbody>
       </table>
@@ -25,7 +24,6 @@ const SlateTable = props => {
 };
 
 SlateTable.propTypes = {
-  state: Types.state.isRequired,
   editor: EditorShape.isRequired,
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,

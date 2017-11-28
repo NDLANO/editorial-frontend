@@ -6,6 +6,7 @@
  *
  */
 
+import React from 'react';
 import { Block } from 'slate';
 import { defaultBlock } from '../../schema';
 import SlateAside from './SlateAside';
@@ -20,12 +21,24 @@ export const defaultAsideBlock = type =>
 
 export default function createAside() {
   const schema = {
-    nodes: {
-      aside: SlateAside,
+    document: {
+      nodes: [{ types: ['aside'] }],
     },
+  };
+
+  /* eslint-disable react/prop-types */
+  const renderNode = props => {
+    const { node } = props;
+    switch (node.type) {
+      case 'aside':
+        return <SlateAside {...props} />;
+      default:
+        return null;
+    }
   };
 
   return {
     schema,
+    renderNode,
   };
 }

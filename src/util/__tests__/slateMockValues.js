@@ -1,4 +1,4 @@
-export const stateWithTwoImageEmbeds = {
+export const valueWithTwoImageEmbeds = {
   document: {
     data: {},
     kind: 'document',
@@ -108,10 +108,10 @@ export const stateWithTwoImageEmbeds = {
       },
     ],
   },
-  kind: 'state',
+  kind: 'value',
 };
 
-export const stateWithInlineFootnotesAndContentLinks = {
+export const valueWithInlineFootnotesAndContentLinks = {
   document: {
     data: {},
     kind: 'document',
@@ -300,10 +300,10 @@ export const stateWithInlineFootnotesAndContentLinks = {
       },
     ],
   },
-  kind: 'state',
+  kind: 'value',
 };
 
-export const tableSlateState = {
+export const tableSlateValue = {
   document: {
     data: {},
     kind: 'document',
@@ -406,10 +406,10 @@ export const tableSlateState = {
       },
     ],
   },
-  kind: 'state',
+  kind: 'value',
 };
 
-export const listState = (type = 'numbered-list') => ({
+export const listValue = (type = 'numbered-list') => ({
   document: {
     data: {},
     kind: 'document',
@@ -504,5 +504,5 @@ export const listState = (type = 'numbered-list') => ({
       },
     ],
   },
-  kind: 'state',
+  kind: 'value',
 });

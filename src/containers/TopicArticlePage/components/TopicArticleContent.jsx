@@ -21,8 +21,8 @@ import { RichTextField } from '../../../components/RichTextField';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
-import schema from '../../../components/SlateEditor/schema';
-import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
+import { schema, renderNode } from '../../../components/SlateEditor/schema';
+// import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
 import {
   editListPlugin,
@@ -37,7 +37,7 @@ const classes = new BEMHelper({
 
 const plugins = [
   createNoEmbedsPlugin(),
-  createLinkPlugin(),
+  // createLinkPlugin(),
   headingPlugin(),
   blockquotePlugin,
   editListPlugin,
@@ -119,6 +119,7 @@ class TopicArticleContent extends Component {
           placeholder={t('form.content.placeholder')}
           name="content"
           slateSchema={schema}
+          renderNode={renderNode}
           plugins={plugins}
           {...commonFieldProps}
         />

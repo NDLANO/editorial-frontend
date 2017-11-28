@@ -7,7 +7,7 @@
  *
  */
 
-import schema from './schema';
+import { schema, renderNode } from './schema';
 import { onEnter, onBackspace } from './actions';
 
 const KEY_ENTER = 'Enter';
@@ -28,8 +28,8 @@ export default function headingPlugin(opts = {}) {
 
   function onKeyDown(e, change) {
     // Build arguments list
-    const { state } = change; // TODO: Change to 'value' for slate > 0.29
-    const args = [e, state, options];
+    const { value } = change;
+    const args = [e, value, options, change];
     switch (e.key) {
       case KEY_ENTER:
         return onEnter(...args);
@@ -39,8 +39,8 @@ export default function headingPlugin(opts = {}) {
   }
 
   function onKeyUp(e, change) {
-    const { state } = change; // TODO: Change to 'value' for slate > 0.29
-    const args = [e, state, options];
+    const { value } = change;
+    const args = [e, value, options, change];
     switch (e.key) {
       case KEY_BACKSPACE:
         return onBackspace(...args);
@@ -50,8 +50,9 @@ export default function headingPlugin(opts = {}) {
   }
 
   return {
+    schema,
     onKeyDown,
     onKeyUp,
-    schema,
+    renderNode,
   };
 }

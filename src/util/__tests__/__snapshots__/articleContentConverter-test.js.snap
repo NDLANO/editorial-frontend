@@ -34,15 +34,15 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
 }
 `;
 
-exports[`articleContentConverter convert learningresource content to and from editorState 1`] = `"<section><h2>Lorem ipsum</h2></section>"`;
+exports[`articleContentConverter convert learningresource content to and from editorValue 1`] = `"<section><h2>Lorem ipsum</h2></section>"`;
 
-exports[`articleContentConverter convert learningresource content with multiple sections to and from editorState 1`] = `"<section><h2>Section 1</h2></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>"`;
+exports[`articleContentConverter convert learningresource content with multiple sections to and from editorValue 1`] = `"<section><h2>Section 1</h2></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>"`;
 
-exports[`articleContentConverter convert topic article content to and from editorState 1`] = `"<section><h2>Lorem ipsum</h2></section>"`;
+exports[`articleContentConverter convert topic article content to and from editorValue 1`] = `"<section><h2>Lorem ipsum</h2></section>"`;
 
 exports[`util/domOperations trippleNestedSections into array 1`] = `
 Array [

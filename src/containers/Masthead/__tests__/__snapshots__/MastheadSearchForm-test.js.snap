@@ -42,7 +42,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
     onChange={[Function]}
     placeholder=""
     type="text"
-    value="#4232"
+    value="#4737"
   />
   <button
     className="c-button c-button--stripped masthead-search-form__button"

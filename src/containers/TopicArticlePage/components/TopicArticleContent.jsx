@@ -21,7 +21,11 @@ import { RichTextField } from '../../../components/RichTextField';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
-import { schema, renderNode } from '../../../components/SlateEditor/schema';
+import {
+  schema,
+  renderNode,
+  renderMark,
+} from '../../../components/SlateEditor/schema';
 // import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
 import {
@@ -120,6 +124,7 @@ class TopicArticleContent extends Component {
           name="content"
           slateSchema={schema}
           renderNode={renderNode}
+          renderMark={renderMark}
           plugins={plugins}
           {...commonFieldProps}
         />

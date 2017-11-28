@@ -25,6 +25,9 @@ import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
 // import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
+import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPicker';
+import { createEmptyValue } from '../../../util/articleContentConverter';
+
 import {
   editListPlugin,
   blockquotePlugin,
@@ -35,20 +38,6 @@ import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 import { classes } from './LearningResourceForm';
 import { CommonFieldPropsShape } from '../../../shapes';
 
-const plugins = [
-  // footnotePlugin(), // Currentrly broken
-  createEmbedPlugin(),
-  createBodyBoxPlugin(),
-  createAsidePlugin(),
-  // createLinkPlugin(), // Currentrly broken
-  headingPlugin(),
-  blockquotePlugin,
-  editListPlugin,
-  createTablePlugin(),
-  editTablePlugin,
-  pasteContentPlugin(),
-];
-
 class LearningResourceContent extends Component {
   constructor(props) {
     super(props);
@@ -56,12 +45,41 @@ class LearningResourceContent extends Component {
       hiddenContent: false,
     };
     this.toggleContent = this.toggleContent.bind(this);
+    this.addSection = this.addSection.bind(this);
+
+    this.plugins = [
+      // footnotePlugin(),
+      createEmbedPlugin(),
+      createBodyBoxPlugin(),
+      createAsidePlugin(),
+      // createLinkPlugin(),
+      headingPlugin(),
+      blockquotePlugin,
+      editListPlugin,
+      createTablePlugin(),
+      editTablePlugin,
+      pasteContentPlugin(),
+      blockPickerPlugin(this.addSection),
+    ];
   }
 
   toggleContent() {
     this.setState(prevState => ({
       hiddenContent: !prevState.hiddenContent,
     }));
+  }
+
+  addSection() {
+    const { commonFieldProps: { bindInput } } = this.props;
+    const { value, onChange } = bindInput('content');
+    const newblocks = [].concat(value);
+    newblocks.push({ state: createEmptyValue(), index: value.length });
+    onChange({
+      target: {
+        name: 'content',
+        value: newblocks,
+      },
+    });
   }
 
   render() {
@@ -97,7 +115,7 @@ class LearningResourceContent extends Component {
           label={t('form.content.label')}
           placeholder={contentPlaceholder}
           name="content"
-          plugins={plugins}
+          plugins={this.plugins}
           {...commonFieldProps}
         />
         {children}

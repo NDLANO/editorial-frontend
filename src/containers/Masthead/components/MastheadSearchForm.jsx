@@ -36,10 +36,22 @@ export class MastheadSearchForm extends Component {
     this.handleQueryChange = this.handleQueryChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUrlPaste = this.handleUrlPaste.bind(this);
+    this.handleNodeId = this.handleNodeId.bind(this);
   }
 
   handleQueryChange(evt) {
     this.setState({ query: evt.target.value });
+  }
+
+  handleNodeId(nodeId) {
+    const { history, locale } = this.props;
+    fetchNewArticleId(nodeId)
+      .then(response => {
+        history.push(toEditArticle(response.id, 'standard', locale));
+      })
+      .catch(() => {
+        history.push(to404());
+      });
   }
 
   handleUrlPaste(ndlaUrl) {
@@ -62,13 +74,7 @@ export class MastheadSearchForm extends Component {
       splittedNdlaUrl.includes('ndla.no') &&
       splittedNdlaUrl.includes('node')
     ) {
-      fetchNewArticleId(urlId)
-        .then(response => {
-          history.push(toEditArticle(response.id, 'standard', locale));
-        })
-        .catch(() => {
-          history.push(to404());
-        });
+      this.handleNodeId(urlId);
     } else {
       history.push(toEditArticle(urlId, 'standard', locale));
     }
@@ -76,10 +82,7 @@ export class MastheadSearchForm extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-
-    const { history, locale } = this.props;
     const { query } = this.state;
-
     const isNDLAUrl = /^https:\/(.*).ndla.no\/(article|subjects|nb|nn|en)\/(node|\d*)(\/|\d*)/.test(
       query,
     );
@@ -89,7 +92,7 @@ export class MastheadSearchForm extends Component {
     if (isNDLAUrl) {
       this.handleUrlPaste(query);
     } else if (isNodeId) {
-      history.push(toEditArticle(query.substring(1), 'standard', locale));
+      this.handleNodeId(query.substring(1));
     } else {
       this.props.onSearchQuerySubmit(query);
     }

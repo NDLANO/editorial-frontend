@@ -506,3 +506,159 @@ export const listValue = (type = 'numbered-list') => ({
   },
   kind: 'value',
 });
+
+export const headingTwoValue = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            kind: 'text',
+            leaves: [
+              {
+                kind: 'leaf',
+                marks: [],
+                text: 'heading 2',
+              },
+            ],
+          },
+        ],
+        type: 'heading-two',
+      },
+    ],
+  },
+  kind: 'value',
+};
+
+export const sectionValue = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                kind: 'text',
+                leaves: [
+                  {
+                    kind: 'leaf',
+                    marks: [],
+                    text: 'Paragraph text',
+                  },
+                ],
+              },
+            ],
+            type: 'paragraph',
+          },
+        ],
+        type: 'section',
+      },
+    ],
+  },
+  kind: 'value',
+};
+
+export const quoteValue = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            kind: 'text',
+            leaves: [
+              {
+                kind: 'leaf',
+                marks: [],
+                text: 'This quote should be both smart and wise',
+              },
+            ],
+          },
+        ],
+        type: 'quote',
+      },
+    ],
+  },
+  kind: 'value',
+};
+
+export const normalDivValue = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                kind: 'text',
+                leaves: [
+                  {
+                    kind: 'leaf',
+                    marks: [],
+                    text: 'A paragraph',
+                  },
+                ],
+              },
+            ],
+            type: 'paragraph',
+          },
+        ],
+        type: 'div',
+      },
+    ],
+  },
+  kind: 'value',
+};
+
+export const brValue = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            kind: 'text',
+            leaves: [
+              {
+                kind: 'leaf',
+                marks: [],
+                text: '',
+              },
+            ],
+          },
+        ],
+        type: 'br',
+      },
+    ],
+  },
+  kind: 'value',
+};

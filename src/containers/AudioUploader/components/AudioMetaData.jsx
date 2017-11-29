@@ -55,7 +55,7 @@ class AudioMetaData extends Component {
         />
         <MultiSelectField
           obligatory
-          name="authors"
+          name="creators"
           label={t('form.authors.label')}
           description={t('form.authors.description')}
           messages={{

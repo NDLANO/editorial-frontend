@@ -11,9 +11,16 @@ export const DEFAULT_LICENSE = {
   url: 'https://creativecommons.org/licenses/by-sa/2.0/',
 };
 
-export const parseCopyrightAuthors = (audio, type) =>
-  audio.copyright
-    ? audio.copyright.authors
-        .filter(author => author.type === type)
-        .map(author => author.name)
-    : [];
+export const parseCopyrightAuthors = (obj, type) => {
+  if (!obj.copyright) {
+    return [];
+  }
+  if (obj.copyright.authors) {
+    return obj.copyright.authors
+      .filter(author => author.type === type)
+      .map(author => author.name);
+  }
+  return obj.copyright.creators
+    .filter(author => author.type === type)
+    .map(author => author.name);
+};

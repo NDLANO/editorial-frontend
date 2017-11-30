@@ -21,19 +21,21 @@ export default function linkPlugin() {
 
   /* eslint-disable react/prop-types */
   const renderNode = props => {
-    const { node } = props;
+    const { node, editor, attributes, children } = props;
+    const { value } = editor.props;
+
     switch (node.type) {
       case 'link':
-        return <Link {...props} />;
+        return <Link {...{ attributes, value, editor, node, children }} />;
       default:
         return null;
     }
   };
 
-  const renderEditor = (editor, props) => (
+  const renderEditor = (props, editor) => (
     <span>
       <EditLink
-        value={editor.value}
+        value={props.value}
         blur={editor.blur}
         slateStore={editor.props.slateStore}
         onChange={editor.onChange}

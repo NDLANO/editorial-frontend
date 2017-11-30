@@ -22,7 +22,7 @@ import {
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
 import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
-// import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
+import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
 import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPicker';
@@ -52,7 +52,7 @@ class LearningResourceContent extends Component {
       createEmbedPlugin(),
       createBodyBoxPlugin(),
       createAsidePlugin(),
-      // createLinkPlugin(),
+      createLinkPlugin(),
       headingPlugin(),
       blockquotePlugin,
       editListPlugin,

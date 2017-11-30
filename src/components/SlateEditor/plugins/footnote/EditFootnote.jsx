@@ -29,13 +29,10 @@ class EditFootnote extends Component {
 
   componentWillMount() {
     const { node } = this.props;
+
     if (node.data) {
       this.addFootnoteData(node);
     }
-  }
-
-  componentDidMount() {
-    this.props.blur(); // blur on mounth to prevent accidental typing
   }
 
   handleRemove() {
@@ -100,7 +97,6 @@ class EditFootnote extends Component {
 EditFootnote.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   handleValueChange: PropTypes.func.isRequired,
-  blur: PropTypes.func.isRequired,
   value: Types.value.isRequired,
   node: PropTypes.oneOfType([
     Types.node,

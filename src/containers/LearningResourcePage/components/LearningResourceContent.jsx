@@ -18,7 +18,7 @@ import {
   schema,
   renderMark,
 } from '../../../components/SlateEditor/schema';
-// import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
+import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
 import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
@@ -48,7 +48,7 @@ class LearningResourceContent extends Component {
     this.addSection = this.addSection.bind(this);
 
     this.plugins = [
-      // footnotePlugin(),
+      footnotePlugin(),
       createEmbedPlugin(),
       createBodyBoxPlugin(),
       createAsidePlugin(),

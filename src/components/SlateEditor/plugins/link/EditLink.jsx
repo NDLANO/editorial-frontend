@@ -55,7 +55,10 @@ class EditLink extends React.Component {
 
   componentWillMount() {
     const { node } = this.props;
-    this.addData(node);
+
+    if (node.data) {
+      this.addData(node);
+    }
   }
 
   handleSave(model) {
@@ -142,13 +145,7 @@ class EditLink extends React.Component {
 
     return (
       <div>
-        <h3>
-          {t(
-            `form.content.link.${
-              this.state.isEdit ? 'changeTitle' : 'addTitle'
-            }`,
-          )}
-        </h3>
+        <h2>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</h2>
         <LinkForm
           initialModel={getInitialModel(model)}
           onClose={() => this.handleChangeAndClose(value.change())}
@@ -165,7 +162,6 @@ EditLink.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   handleValueChange: PropTypes.func.isRequired,
   value: Types.value.isRequired,
-  blur: PropTypes.func.isRequired,
   node: PropTypes.oneOfType([
     Types.node,
     PropTypes.shape({ type: PropTypes.string.isRequired }),

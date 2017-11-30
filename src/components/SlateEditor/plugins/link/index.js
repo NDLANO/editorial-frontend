@@ -15,7 +15,7 @@ export const TYPE = 'link';
 export default function linkPlugin() {
   const schema = {
     document: {
-      nodes: [{ types: 'link' }],
+      nodes: [{ types: TYPE }],
     },
   };
 
@@ -25,7 +25,7 @@ export default function linkPlugin() {
     const { value } = editor.props;
 
     switch (node.type) {
-      case 'link':
+      case TYPE:
         return <Link {...{ attributes, value, editor, node, children }} />;
       default:
         return null;

@@ -92,6 +92,12 @@ export const FootnoteShape = PropTypes.shape({
   type: PropTypes.string,
 });
 
+export const LinkShape = PropTypes.shape({
+  text: PropTypes.string.isRequired,
+  href: PropTypes.string.isRequired,
+  checkbox: PropTypes.bool.isRequired,
+});
+
 export const SchemaShape = PropTypes.shape({
   fields: PropTypes.object.isRequired,
   isValid: PropTypes.bool.isRequired,

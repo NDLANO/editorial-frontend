@@ -15,16 +15,18 @@ export const TYPE = 'footnote';
 export default function footnotePlugin() {
   const schema = {
     document: {
-      nodes: [{ types: ['footnote'] }],
+      nodes: [{ types: TYPE }],
     },
   };
 
   /* eslint-disable react/prop-types */
   const renderNode = props => {
-    const { node } = props;
+    const { node, editor, attributes, children } = props;
+    const { value } = editor.props;
+
     switch (node.type) {
-      case 'footnote':
-        return <Footnote {...props} />;
+      case TYPE:
+        return <Footnote {...{ attributes, value, editor, node, children }} />;
       default:
         return null;
     }
@@ -33,7 +35,7 @@ export default function footnotePlugin() {
   const renderEditor = (props, editor) => (
     <span>
       <EditFootnote
-        value={editor.value}
+        value={props.value}
         blur={editor.blur}
         slateStore={editor.props.slateStore}
         onChange={editor.onChange}
@@ -41,7 +43,6 @@ export default function footnotePlugin() {
       {props.children}
     </span>
   );
-
   return {
     schema,
     renderNode,

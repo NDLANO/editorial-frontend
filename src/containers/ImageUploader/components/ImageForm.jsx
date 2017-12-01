@@ -18,7 +18,7 @@ import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import {
   DEFAULT_LICENSE,
-  parseCopyrightAuthors,
+  parseCopyrightContributors,
 } from '../../../util/formHelper';
 
 import ImageMetaData from './ImageMetaData';
@@ -26,7 +26,7 @@ import ImageContent from './ImageContent';
 import { SchemaShape } from '../../../shapes';
 
 export const getInitialModel = (image = {}) => {
-  const authors = parseCopyrightAuthors(image, 'Forfatter');
+  const creators = parseCopyrightContributors(image, 'creators');
   return {
     id: image.id,
     revision: image.revision,
@@ -36,7 +36,7 @@ export const getInitialModel = (image = {}) => {
     caption: image.caption || '',
     imageFile: image.imageUrl,
     tags: image.tags || [],
-    authors,
+    creators,
     origin:
       image.copyright && image.copyright.origin ? image.copyright.origin : '',
     license:

@@ -62,7 +62,7 @@ class TopicArticleContent extends Component {
   render() {
     const { t, bindInput, commonFieldProps, model } = this.props;
 
-    const authors = model.authors;
+    const creators = model.creators;
     const updated = model.updated;
 
     return (
@@ -80,11 +80,11 @@ class TopicArticleContent extends Component {
         />
         {/* TODO: Change to c-article-byline */}
         <div {...classes('info')}>
-          {authors.map((author, i) => {
-            if (authors.length === i + 1 || authors.length === 1) {
-              return `${author}`;
+          {creators.map((creator, i) => {
+            if (creators.length === i + 1 || creators.length === 1) {
+              return `${creator}`;
             }
-            return `${author}, `;
+            return `${creator}, `;
           })}
           {updated
             ? ` - ${t('topicArticleForm.info.lastUpdated', { updated })}`

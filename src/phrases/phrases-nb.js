@@ -256,19 +256,19 @@ const phrases = {
       label: 'Metabeskrivelse',
       description: 'Beskrivelsen blir synlig i søk.',
     },
-    contributors: {
-      label: 'Bidragsyter',
-      createOption: 'Opprett ny bidragsyter',
-      emptyFilter: ' ',
-      emptyList: ' ',
-    },
-    licensees: {
+    rightsholders: {
       label: 'Rettighetshaver',
       createOption: 'Opprett ny rettighetshaver',
       emptyFilter: ' ',
       emptyList: ' ',
     },
-    authors: {
+    processors: {
+      label: 'Bearbeider',
+      createOption: 'Opprett ny bearbeider',
+      emptyFilter: ' ',
+      emptyList: ' ',
+    },
+    creators: {
       label: 'Opphavsperson',
       createOption: 'Opprett ny opphavsperson',
       description: 'Obligatorisk med minst 1 opphavsperson.',

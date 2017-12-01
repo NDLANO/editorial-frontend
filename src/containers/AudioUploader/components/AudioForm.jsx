@@ -18,7 +18,7 @@ import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import {
   DEFAULT_LICENSE,
-  parseCopyrightAuthors,
+  parseCopyrightContributors,
 } from '../../../util/formHelper';
 import { SchemaShape } from '../../../shapes';
 
@@ -26,7 +26,7 @@ import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 
 export const getInitialModel = (audio = {}) => {
-  const creators = parseCopyrightAuthors(audio, 'Writer');
+  const creators = parseCopyrightContributors(audio, 'creators');
   return {
     id: audio.id,
     revision: audio.revision,

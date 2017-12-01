@@ -11,16 +11,10 @@ export const DEFAULT_LICENSE = {
   url: 'https://creativecommons.org/licenses/by-sa/2.0/',
 };
 
-export const parseCopyrightAuthors = (obj, type) => {
+export const parseCopyrightContributors = (obj, contributorType) => {
   if (!obj.copyright) {
     return [];
   }
-  if (obj.copyright.authors) {
-    return obj.copyright.authors
-      .filter(author => author.type === type)
-      .map(author => author.name);
-  }
-  return obj.copyright.creators
-    .filter(author => author.type === type)
-    .map(author => author.name);
+  return obj.copyright[contributorType]
+    .map(contributor => contributor.name);
 };

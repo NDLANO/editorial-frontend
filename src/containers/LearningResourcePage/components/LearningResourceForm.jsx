@@ -50,11 +50,11 @@ const findFootnotes = content =>
     )
     .map(footnoteNode => footnoteNode.data.toJS());
 
-const parseCopyrightAuthors = (article, type) =>
+const parseCopyrightContributors = (article, contributorType, subType) =>
   article.copyright
-    ? article.copyright.authors
-        .filter(author => author.type === type)
-        .map(author => author.name)
+    ? article.copyright[contributorType]
+        .filter(contributor => contributor.type === subType)
+        .map(contributor => contributor.name)
     : [];
 
 const parseImageUrl = url => {
@@ -75,9 +75,9 @@ export const getInitialModel = (article = {}) => {
     introduction: plainTextToEditorState(article.introduction, true),
     content: learningResourceContentToEditorState(article.content),
     tags: article.tags || [],
-    authors: parseCopyrightAuthors(article, 'Forfatter'),
-    licensees: parseCopyrightAuthors(article, 'Rettighetshaver'),
-    contributors: parseCopyrightAuthors(article, 'Bidragsyter'),
+    creators: parseCopyrightContributors(article, 'creators', 'writer'),
+    processors: parseCopyrightContributors(article, 'processors', 'processor'),
+    rightsholders: parseCopyrightContributors(article, 'rightsholders', 'rightsholder'),
     origin:
       article.copyright && article.copyright.origin
         ? article.copyright.origin

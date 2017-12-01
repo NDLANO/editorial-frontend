@@ -86,7 +86,7 @@ class ImageForm extends Component {
       copyright: {
         license: licenses.find(license => license.license === model.license),
         origin: model.origin,
-        authors: model.authors.map(name => ({ type: 'Forfatter', name })),
+        creators: model.creators.map(name => ({ type: 'artist', name })),
       },
     };
     onUpdate(imageMetaData, model.imageFile);
@@ -184,7 +184,7 @@ export default compose(
     tags: {
       minItems: 3,
     },
-    authors: {
+    creators: {
       minItems: 1,
     },
     imageFile: {

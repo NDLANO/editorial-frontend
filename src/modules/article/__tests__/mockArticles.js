@@ -23,7 +23,7 @@ export const topicArticleEN = {
       url: 'https://creativecommons.org/licenses/by-sa/2.0/',
     },
     origin: '',
-    creator: [{ type: 'writer', name: 'Ragna Marie Tørdal' }],
+    creators: [{ type: 'writer', name: 'Ragna Marie Tørdal' }],
   },
   tags: {
     tags: ['storytelling', 'idea development', 'media design', 'instruments'],
@@ -59,7 +59,7 @@ export const topicArticleNB = {
       url: 'https://creativecommons.org/licenses/by-sa/2.0/',
     },
     origin: '',
-    authors: [{ type: 'Forfatter', name: 'Ragna Marie Tørdal' }],
+    creators: [{ type: 'writer', name: 'Ragna Marie Tørdal' }],
   },
   tags: {
     tags: ['fortelleteknikk', 'idéutvikling', 'mediedesign', 'virkemidler'],

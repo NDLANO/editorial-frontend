@@ -47,7 +47,7 @@ export const CopyrightObjectShape = PropTypes.shape({
   src: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   copyright: PropTypes.shape({
-    authors: PropTypes.array.isRequired,
+    creators: PropTypes.array.isRequired,
   }).isRequired,
 });
 

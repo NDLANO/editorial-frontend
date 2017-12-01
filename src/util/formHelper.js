@@ -15,6 +15,5 @@ export const parseCopyrightContributors = (obj, contributorType) => {
   if (!obj.copyright) {
     return [];
   }
-  return obj.copyright[contributorType]
-    .map(contributor => contributor.name);
+  return obj.copyright[contributorType].map(contributor => contributor.name);
 };

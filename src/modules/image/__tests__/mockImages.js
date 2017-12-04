@@ -25,7 +25,7 @@ export const image = {
       url: 'https://creativecommons.org/licenses/by-sa/2.0/',
     },
     origin: '',
-    authors: [{ type: 'Forfatter', name: 'Ragna Marie Tørdal' }],
+    creators: [{ type: 'artist', name: 'Ragna Marie Tørdal' }],
   },
   tags: {
     tags: ['fortelleteknikk', 'idéutvikling', 'mediedesign', 'virkemidler'],

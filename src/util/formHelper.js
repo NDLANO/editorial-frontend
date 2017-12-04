@@ -11,9 +11,9 @@ export const DEFAULT_LICENSE = {
   url: 'https://creativecommons.org/licenses/by-sa/2.0/',
 };
 
-export const parseCopyrightAuthors = (audio, type) =>
-  audio.copyright
-    ? audio.copyright.authors
-        .filter(author => author.type === type)
-        .map(author => author.name)
-    : [];
+export const parseCopyrightContributors = (obj, contributorType) => {
+  if (!obj.copyright) {
+    return [];
+  }
+  return obj.copyright[contributorType].map(contributor => contributor.name);
+};

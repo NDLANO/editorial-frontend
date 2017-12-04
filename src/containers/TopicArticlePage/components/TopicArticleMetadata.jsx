@@ -68,12 +68,12 @@ class TopicArticleMetadata extends Component {
           />
         </PlainTextField>
         <MultiSelectField
-          name="authors"
-          label={t('form.authors.label')}
+          name="creators"
+          label={t('form.creators.label')}
           messages={{
-            createOption: t('form.authors.createOption'),
-            emptyFilter: t('form.authors.emptyFilter'),
-            emptyList: t('form.authors.emptyList'),
+            createOption: t('form.creators.createOption'),
+            emptyFilter: t('form.creators.emptyFilter'),
+            emptyList: t('form.creators.emptyList'),
           }}
           {...commonFieldProps}
         />

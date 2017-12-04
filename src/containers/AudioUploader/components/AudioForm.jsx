@@ -18,7 +18,7 @@ import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import {
   DEFAULT_LICENSE,
-  parseCopyrightAuthors,
+  parseCopyrightContributors,
 } from '../../../util/formHelper';
 import { SchemaShape } from '../../../shapes';
 
@@ -26,7 +26,7 @@ import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 
 export const getInitialModel = (audio = {}) => {
-  const authors = parseCopyrightAuthors(audio, 'Forfatter');
+  const creators = parseCopyrightContributors(audio, 'creators');
   return {
     id: audio.id,
     revision: audio.revision,
@@ -35,7 +35,7 @@ export const getInitialModel = (audio = {}) => {
     audioFile: audio.audioFile,
     filepath: '',
     tags: audio.tags || [],
-    authors,
+    creators,
     origin:
       audio.copyright && audio.copyright.origin ? audio.copyright.origin : '',
     license:
@@ -83,7 +83,7 @@ class AudioForm extends Component {
       copyright: {
         license: licenses.find(license => license.license === model.license),
         origin: model.origin,
-        authors: model.authors.map(name => ({ type: 'Forfatter', name })),
+        creators: model.creators.map(name => ({ type: 'Writer', name })),
       },
     };
     onUpdate(audioMetaData, model.audioFile);
@@ -183,7 +183,7 @@ export default compose(
     tags: {
       minItems: 3,
     },
-    authors: {
+    creators: {
       minItems: 1,
     },
     audioFile: {

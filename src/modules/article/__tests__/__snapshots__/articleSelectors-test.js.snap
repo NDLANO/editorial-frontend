@@ -5,10 +5,10 @@ Object {
   "articleType": "topic-article",
   "content": "<section><p>Tim Berners Lees the World Wide Web is...</p></section>",
   "copyright": Object {
-    "authors": Array [
+    "creators": Array [
       Object {
         "name": "Ragna Marie Tørdal",
-        "type": "Forfatter",
+        "type": "writer",
       },
     ],
     "license": Object {
@@ -44,10 +44,10 @@ Object {
   "articleType": "topic-article",
   "content": "<section><p>Trykkpressen til Gutenberg og Tim Berners Lees the World Wide Web er begge...</p></section>",
   "copyright": Object {
-    "authors": Array [
+    "creators": Array [
       Object {
         "name": "Ragna Marie Tørdal",
-        "type": "Forfatter",
+        "type": "writer",
       },
     ],
     "license": Object {

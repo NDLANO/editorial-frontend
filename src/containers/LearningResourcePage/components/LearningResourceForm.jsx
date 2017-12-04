@@ -50,11 +50,11 @@ const findFootnotes = content =>
     )
     .map(footnoteNode => footnoteNode.data.toJS());
 
-const parseCopyrightAuthors = (article, type) =>
+const parseCopyrightContributors = (article, contributorType, subType) =>
   article.copyright
-    ? article.copyright.authors
-        .filter(author => author.type === type)
-        .map(author => author.name)
+    ? article.copyright[contributorType]
+        .filter(contributor => contributor.type === subType)
+        .map(contributor => contributor.name)
     : [];
 
 const parseImageUrl = url => {
@@ -75,9 +75,13 @@ export const getInitialModel = (article = {}) => {
     introduction: plainTextToEditorValue(article.introduction, true),
     content: learningResourceContentToEditorValue(article.content),
     tags: article.tags || [],
-    authors: parseCopyrightAuthors(article, 'Forfatter'),
-    licensees: parseCopyrightAuthors(article, 'Rettighetshaver'),
-    contributors: parseCopyrightAuthors(article, 'Bidragsyter'),
+    creators: parseCopyrightContributors(article, 'creators', 'writer'),
+    processors: parseCopyrightContributors(article, 'processors', 'processor'),
+    rightsholders: parseCopyrightContributors(
+      article,
+      'rightsholders',
+      'rightsholder',
+    ),
     origin:
       article.copyright && article.copyright.origin
         ? article.copyright.origin
@@ -122,21 +126,23 @@ class LearningResourceForm extends Component {
       return;
     }
 
-    const authors = model.authors.map(name => ({ type: 'Forfatter', name }));
-    const licensees = model.licensees.map(name => ({
-      type: 'Rettighetshaver',
+    const creators = model.creators.map(name => ({ type: 'writer', name }));
+    const processors = model.processors.map(name => ({
+      type: 'processor',
       name,
     }));
 
-    const contributors = model.contributors.map(name => ({
-      type: 'Bidragsyter',
+    const rightsholders = model.rightsholders.map(name => ({
+      type: 'rightsholder',
       name,
     }));
 
     const copyright = {
       license: licenses.find(license => license.license === model.license),
       origin: model.origin,
-      authors: authors.concat(licensees).concat(contributors),
+      creators,
+      processors,
+      rightsholders,
     };
 
     this.props.onUpdate({
@@ -278,7 +284,7 @@ export default compose(
     tags: {
       minItems: 3,
     },
-    authors: {
+    creators: {
       minItems: 1,
     },
   }),

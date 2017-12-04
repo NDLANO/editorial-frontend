@@ -6,8 +6,8 @@ export function getVisualElementInformation(element, type) {
       return {
         title: convertFieldWithFallback(element, 'title', ''),
         copyright:
-          element.copyright && element.copyright.authors
-            ? element.copyright.authors.map(author => author.name).join(', ')
+          element.copyright && element.copyright.creators
+            ? element.copyright.creators.map(creator => creator.name).join(', ')
             : undefined,
       };
     case 'brightcove': {

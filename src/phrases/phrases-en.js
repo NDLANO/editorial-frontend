@@ -256,22 +256,22 @@ const phrases = {
       label: 'Meta description',
       description: 'The description will be viewable in search.',
     },
-    contributors: {
-      label: 'Contributor',
-      createOption: 'Add new contributor',
+    rightsholders: {
+      label: 'Rightsholder',
+      createOption: 'Add new rightsholder',
       emptyFilter: ' ',
       emptyList: ' ',
     },
-    licensees: {
-      label: 'Licensee',
-      createOption: 'Add new licensee',
+    processors: {
+      label: 'Processor',
+      createOption: 'Add new processor',
       emptyFilter: ' ',
       emptyList: ' ',
     },
-    authors: {
-      label: 'Author',
-      createOption: 'Add new author',
-      description: 'Required with at least one author.',
+    creators: {
+      label: 'Creator',
+      createOption: 'Add new creator',
+      description: 'Required with at least one creator.',
       emptyFilter: ' ',
       emptyList: ' ',
     },

@@ -16,8 +16,8 @@ import MetaInformation from '../../../components/MetaInformation';
 
 const MetaImage = ({ image, toggleImageSearchLightBox, t }) => {
   const copyright =
-    image.copyright && image.copyright.authors
-      ? image.copyright.authors.map(author => author.name).join(', ')
+    image.copyright && image.copyright.creators
+      ? image.copyright.creators.map(creator => creator.name).join(', ')
       : undefined;
   const title = convertFieldWithFallback(image, 'title', '');
   const alt = convertFieldWithFallback(image, 'alttext', '');

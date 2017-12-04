@@ -55,13 +55,13 @@ class ImageMetaData extends Component {
         />
         <MultiSelectField
           obligatory
-          name="authors"
-          label={t('form.authors.label')}
-          description={t('form.authors.description')}
+          name="creators"
+          label={t('form.creators.label')}
+          description={t('form.creators.description')}
           messages={{
-            createOption: t('form.authors.createOption'),
-            emptyFilter: t('form.authors.emptyFilter'),
-            emptyList: t('form.authors.emptyList'),
+            createOption: t('form.creators.createOption'),
+            emptyFilter: t('form.creators.emptyFilter'),
+            emptyList: t('form.creators.emptyList'),
           }}
           {...commonFieldProps}
         />

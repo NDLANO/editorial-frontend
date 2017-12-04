@@ -4600,15 +4600,15 @@ ndla-i18n@^0.2.0:
     intl-messageformat "^2.1.0"
     invariant "^2.2.2"
 
-ndla-image-search@^0.2.7:
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/ndla-image-search/-/ndla-image-search-0.2.7.tgz#9288b659f438411df22cc8b22438a164ebb28b4f"
+ndla-image-search@^0.2.8:
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/ndla-image-search/-/ndla-image-search-0.2.8.tgz#956803c32773c3688f1b3928635d02ab7d89b04f"
   dependencies:
     react-bem-helper "^1.4.1"
 
 ndla-licenses@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.1.0.tgz#24f8d97e8dbb14ecbe9df485b414cd731a74cbd4"
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.1.4.tgz#864b7a4b54bc3ca41bb91a5aac85c2b5674430a6"
   dependencies:
     defined "1.0.0"
 

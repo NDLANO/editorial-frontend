@@ -16,6 +16,7 @@ import {
 } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 import { CommonFieldPropsShape } from '../../../shapes';
+import Contributors from '../../../components/Contributors/Contributors';
 
 class AudioMetaData extends Component {
   constructor(props) {
@@ -53,6 +54,14 @@ class AudioMetaData extends Component {
           }}
           {...commonFieldProps}
         />
+
+        <Contributors
+          name="creators"
+          label={t('form.authors.label')}
+          {...commonFieldProps.bindInput('creators')}
+          {...commonFieldProps}
+        />
+
         <MultiSelectField
           obligatory
           name="creators"

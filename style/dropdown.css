@@ -1,62 +1,47 @@
-/**
- * Copyright (c) 2016-present, NDLA.
- *
- * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
 
-.c-dropdown-menu {
-  display: inline-block;
+.c-dropdown {
+  width: 100%;
   position: relative;
 
-  &__items {
-    position: absolute;
-    width: 150px;
-    top: 35px;
-    left: -4px;
-    box-shadow: 0 4px 7px rgba(0, 0, 0, 0.1), 0 0 2px rgba(0, 0, 0, 0.2);
-    list-style: none;
-    background-color: white;
-    padding: 0;
-    margin: 0;
-    -webkit-margin-before: 0;
-    -webkit-margin-after: 0;
-    -webkit-margin-start: 0;
-    -webkit-margin-end: 0;
-    -webkit-padding-start: 0;
-    display: none;
+  & input {
+    padding: 0.5rem;
+    background: white;
+    position: relative;
+    background-clip: border-box;
+    border: 1px solid var(--brand-grey--light);
+    outline: 0;
+
+    &:focus {
+      border-color: var(--brand-color--light);
+    }
   }
 
-  &__items::after {
+  &__items {
+    margin-top: -0.1rem;
+    border: 1px solid rgba(34,36,38,0.15);
+    max-height: 10rem;
+    overflow-y: scroll;
     position: absolute;
-    left: 55%;
-    top: -10px;
-    width: 0;
-    height: 0;
-    content: '';
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 10px solid white;
+    z-index: 999;
+    background-color: white;
+    width: 100%;
+    padding: 0.3rem;
+    margin-bottom: 0;
+    border-top: 0;
   }
 
   &__item {
-    padding: 0.6em 1em 0.8em;
-    margin: 0;
+    padding: 0.3rem;
+    border: 1px solid white;
   }
 
-  &__item:hover {
-    background-color: var(--gray-11);
+  &__item--active {
+    border: 1px solid var(--brand-color--light);
   }
 
-  &__link {
-    display: block;
-    color: var(--gray-6);
-    text-decoration: none;
-    text-align: left;
-  }
-
-  &__items--show {
-    display: block;
+  &__action {
+    position: absolute;
+    right: 0.8rem;
+    top: 0.4rem;
   }
 }

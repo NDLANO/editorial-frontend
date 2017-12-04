@@ -13,24 +13,24 @@ import SlateTable from './SlateTable';
 function validateNode(node) {
   if (node.kind !== 'block') return null;
   if (node.type !== 'table') return null;
+  if (node.nodes.first().type !== 'table-row') return null;
 
   const { nodes } = node;
+  const firstNode = nodes.first();
+  const headerNodes = firstNode.nodes.filter(
+    child => !!child.data.get('isHeader'),
+  );
 
-  if (nodes.first().type === 'table-row') {
-    const isHeader = nodes
-      .first()
-      .nodes.every(child => !!child.data.get('isHeader'));
-    if (isHeader) {
-      return null;
-    }
+  if (headerNodes.size > 0) {
+    return null;
   }
 
   return change => {
-    nodes.forEach(child => {
+    firstNode.nodes.forEach(child =>
       change.setNodeByKey(child.key, {
         data: { ...child.data, isHeader: true },
-      });
-    });
+      }),
+    );
   };
 }
 
@@ -41,6 +41,17 @@ const schema = {
       { types: ['table-row'] },
       { types: ['table-cell'] },
     ],
+  },
+  blocks: {
+    table: {
+      nodes: [{ types: ['table-row'] }],
+      first: {
+        types: ['table-row'],
+      },
+    },
+    'table-row': {
+      isVoid: false,
+    },
   },
 };
 

@@ -25,6 +25,7 @@ import {
   schema,
   renderNode,
   renderMark,
+  validateNode,
 } from '../../../components/SlateEditor/schema';
 // import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
@@ -125,6 +126,7 @@ class TopicArticleContent extends Component {
           slateSchema={schema}
           renderNode={renderNode}
           renderMark={renderMark}
+          validateNode={validateNode}
           plugins={plugins}
           {...commonFieldProps}
         />

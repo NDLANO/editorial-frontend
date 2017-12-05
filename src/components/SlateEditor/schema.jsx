@@ -37,112 +37,48 @@ export const schema = {
   document: {},
 };
 
-export const defaultRules = [
-  // Rule to insert a paragraph below a aside/bodybox if that node is
-  // the last one in the aside.
-  {
-    match: node => node.kind === 'block' && node.type === 'aside',
-    validate: node => {
-      if (!node.nodes.size) {
-        return true;
+export function validateNode(node) {
+  // Document rules
+  if (node.kind === 'document') {
+    // Rule to insert a paragraph block if the document is empty.
+    if (!node.nodes.size) {
+      const block = Block.create(defaultBlock);
+      return change => change.insertNodeByKey(node.key, 0, block);
+    }
+  }
+
+  // Block rules
+  if (node.kind === 'block') {
+    // Type-specific rules
+    switch (node.type) {
+      // Rule to always add a paragrah node if end of a section
+      case 'section': {
+        const lastNode = node.nodes.last();
+        if (lastNode.type !== 'paragraph') {
+          const block = Block.create(defaultBlock);
+          return change =>
+            change.insertNodeByKey(node.key, node.nodes.size, block);
+        }
+        break;
       }
-      const lastNode = node.nodes.last();
-      return lastNode &&
-        (lastNode.type === 'aside' || lastNode.type === 'bodybox')
-        ? true
-        : null;
-    },
-    normalize: (change, document) => {
-      const block = Block.create(defaultBlock);
-      return change.insertNodeByKey(document.key, document.nodes.size, block);
-    },
-  },
-  {
-    match: node => node.kind === 'block' && node.type === 'section',
-    validate: node => {
-      if (!node.nodes.size) {
-        return true;
-      }
-      const lastNode = node.nodes.last();
-      return lastNode && lastNode.type === 'table' ? true : null;
-    },
-    normalize: (change, document) => {
-      const block = Block.create(defaultBlock);
-      return change.insertNodeByKey(document.key, document.nodes.size, block);
-    },
-  },
-  // Rule to insert a paragraph below a void node (the image) if that node is
-  // the last one in the aside/bodybox.
-  {
-    match: node =>
-      node.kind === 'block' &&
-      (node.type === 'aside' || node.type === 'bodybox'),
-    validate: node => {
-      const lastNode = node.nodes.last();
-      return lastNode && lastNode.type === 'embed' ? true : null;
-    },
-    normalize: (change, document) => {
-      const block = Block.create(defaultBlock);
-      return change.insertNodeByKey(document.key, document.nodes.size, block);
-    },
-  },
-  // Rule to insert a paragraph block if the document is empty.
-  {
-    match: node => node.kind === 'document',
-    validate: document => (document.nodes.size ? null : true),
-    normalize: (change, document) => {
-      const block = Block.create(defaultBlock);
-      return change.insertNodeByKey(document.key, 0, block);
-    },
-  },
-  // Rule to insert a paragraph below a void node (the image) if that node is
-  // the last one in the document.
-  {
-    match: node => node.kind === 'block',
-    validate: document => {
-      const lastNode = document.nodes.last();
-      return lastNode && lastNode.isVoid ? true : null;
-    },
-    normalize: (change, document) => {
-      const block = Block.create(defaultBlock);
-      return change.insertNodeByKey(document.key, document.nodes.size, block);
-    },
-  },
-  // Rule to insert a paragraph below a node with type aside if that node is the last node
-  // in the document
-  {
-    match: node =>
-      node.kind === 'block' && (node.type === 'section' || node.type === 'div'),
-    validate: document => {
-      const lastNode = document.nodes.last();
-      return lastNode &&
-        (lastNode.type === 'aside' || lastNode.type === 'bodybox')
-        ? true
-        : null;
-    },
-    normalize: (change, document) => {
-      const block = Block.create(defaultBlock);
-      return change.insertNodeByKey(document.key, document.nodes.size, block);
-    },
-  },
-  // Rule to remove all empty text nodes that exists in the document
-  {
-    match: node => node.kind === 'block',
-    validate: node => {
-      const invalidChildren = node.nodes.filter(
-        child => child.kind === 'block' && child.type === 'emptyTextNode',
-      );
-      return invalidChildren.size ? invalidChildren : null;
-    },
-    normalize: (change, node, invalidChildren) => {
-      invalidChildren.forEach(child => {
-        change.removeNodeByKey(child.key);
-      });
-      return change;
-    },
-    render: '',
-  },
-];
+      default:
+        break;
+    }
+
+    // Rule to remove all empty text nodes that exists in the document
+    const invalidChildren = node.nodes.filter(
+      child => child.kind === 'block' && child.type === 'emptyTextNode',
+    );
+    if (invalidChildren.size > 0) {
+      return change => {
+        invalidChildren.forEach(child => {
+          change.removeNodeByKey(child.key);
+        });
+      };
+    }
+  }
+  return null;
+}
 
 /* eslint-disable react/prop-types */
 export const renderNode = props => {

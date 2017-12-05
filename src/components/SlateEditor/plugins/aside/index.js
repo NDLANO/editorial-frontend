@@ -26,6 +26,18 @@ export default function createAside() {
     },
   };
 
+  // Rule to alwas insert a paragraph as the last node inside
+  function validateNode(node) {
+    if (node.kind !== 'block') return null;
+    if (node.type !== 'aside') return null;
+    if (node.nodes.last().type === 'paragraph') return null;
+
+    const block = Block.create(defaultBlock);
+    return change => {
+      change.insertNodeByKey(node.key, node.nodes.size, block);
+    };
+  }
+
   /* eslint-disable react/prop-types */
   const renderNode = props => {
     const { node } = props;
@@ -40,5 +52,6 @@ export default function createAside() {
   return {
     schema,
     renderNode,
+    validateNode,
   };
 }

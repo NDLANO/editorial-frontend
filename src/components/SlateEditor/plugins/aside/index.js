@@ -21,9 +21,7 @@ export const defaultAsideBlock = type =>
 
 export default function createAside() {
   const schema = {
-    document: {
-      nodes: [{ types: ['aside'] }],
-    },
+    document: {},
   };
 
   // Rule to always insert a paragraph as the last node inside if void type

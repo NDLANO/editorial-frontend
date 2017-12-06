@@ -34,7 +34,26 @@ export const defaultEmbedBlock = data =>
 export const getSchemaEmbed = node => node.get('data').toJS();
 
 export const schema = {
-  document: {},
+  document: {
+    // Schemas does not trigger change and causes issues!
+    /* last: { types: ['paragraph'] },
+    normalize: (change, reason, context) => {
+      switch (reason) {
+        case 'last_child_type_invalid': {
+          const block = Block.create(defaultBlock);
+          return change.insertNodeByKey(
+            context.node.key,
+            context.node.nodes.size,
+            block,
+          );
+        }
+        default: {
+          break;
+        }
+      }
+      return null;
+    }, */
+  },
 };
 
 export function validateNode(node) {

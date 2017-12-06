@@ -35,24 +35,7 @@ function validateNode(node) {
 }
 
 const schema = {
-  document: {
-    nodes: [
-      { types: ['table'] },
-      { types: ['table-row'] },
-      { types: ['table-cell'] },
-    ],
-  },
-  blocks: {
-    table: {
-      nodes: [{ types: ['table-row'] }],
-      first: {
-        types: ['table-row'],
-      },
-    },
-    'table-row': {
-      isVoid: false,
-    },
-  },
+  document: {},
 };
 
 /* eslint-disable react/prop-types */
@@ -70,4 +53,4 @@ const renderNode = props => {
   }
 };
 
-export { validateNode, schema, renderNode };
+export { schema, validateNode, renderNode };

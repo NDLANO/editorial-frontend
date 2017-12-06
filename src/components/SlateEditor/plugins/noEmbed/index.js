@@ -11,9 +11,7 @@ import NoEmbedMessage from './NoEmbedMessage';
 
 export default function createNoEmbedsPlugin() {
   const schema = {
-    document: {
-      nodes: [{ types: ['embed'] }],
-    },
+    document: {},
   };
 
   /* eslint-disable react/prop-types */

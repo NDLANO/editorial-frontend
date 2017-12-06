@@ -80,7 +80,7 @@ class EditLink extends React.Component {
       this.handleChangeAndClose(
         value
           .change()
-          .moveToLeafOf(node)
+          .moveToRangeOf(node)
           .insertText(text)
           .setInline(data),
       );

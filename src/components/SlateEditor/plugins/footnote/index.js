@@ -14,9 +14,7 @@ export const TYPE = 'footnote';
 
 export default function footnotePlugin() {
   const schema = {
-    document: {
-      nodes: [{ types: TYPE }],
-    },
+    document: {},
   };
 
   /* eslint-disable react/prop-types */

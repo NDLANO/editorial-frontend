@@ -20,9 +20,7 @@ export const defaultBodyBoxBlock = () =>
 
 export default function createBodyBox() {
   const schema = {
-    document: {
-      nodes: [{ types: ['bodybox'] }],
-    },
+    document: {},
   };
 
   // Rule to always insert a paragraph as the last node inside if void type

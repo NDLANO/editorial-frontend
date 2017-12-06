@@ -27,7 +27,7 @@ import {
   renderMark,
   validateNode,
 } from '../../../components/SlateEditor/schema';
-// import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
+import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
 import {
   editListPlugin,
@@ -42,7 +42,7 @@ const classes = new BEMHelper({
 
 const plugins = [
   createNoEmbedsPlugin(),
-  // createLinkPlugin(),
+  createLinkPlugin(),
   headingPlugin(),
   blockquotePlugin,
   editListPlugin,

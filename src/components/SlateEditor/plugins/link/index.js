@@ -14,9 +14,7 @@ export const TYPE = 'link';
 
 export default function linkPlugin() {
   const schema = {
-    document: {
-      nodes: [{ types: TYPE }],
-    },
+    document: {},
   };
 
   /* eslint-disable react/prop-types */

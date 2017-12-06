@@ -45,3 +45,6 @@ export const minItems = (value, number) =>
 
 //  https://stackoverflow.com/a/1830844
 export const isNumeric = value => !isNaN(parseFloat(value)) && isFinite(value);
+
+export const objectHasBothField = obj =>
+  Object.keys(obj).filter(key => isEmpty(obj[key])).length === 0;

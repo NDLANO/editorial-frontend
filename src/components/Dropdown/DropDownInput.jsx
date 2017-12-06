@@ -1,0 +1,19 @@
+/**
+* Copyright (c) 2016-present, NDLA.
+*
+* This source code is licensed under the GPLv3 license found in the
+* LICENSE file in the root directory of this source tree. *
+*/
+
+import React from 'react';
+import { downShiftPropTypes } from './DropDown';
+
+const DropDownInput = ({ getInputProps }) => (
+  <input name="dropdown-search" {...getInputProps({ placeholder: 'Type' })} />
+);
+
+DropDownInput.propTypes = {
+  ...downShiftPropTypes,
+};
+
+export default DropDownInput;

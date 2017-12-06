@@ -8,21 +8,51 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
-import DropDown from '../DropDown'
-
 import { Button } from 'ndla-ui';
-import { Arrow } from 'ndla-ui/icons';
-import { InputFileField } from '../Fields';
+import { Cross } from 'ndla-ui/icons';
+import DropDown from '../Dropdown/DropDown';
+import { classes } from '../Fields';
 
-const AddContributor = ({contributorName, contributorGroups}) => {
-  console.log("HEEY");
+const AddContributor = ({
+  name,
+  type,
+  contributorTypes,
+  handleContributorTypeChange,
+  handleContributorNameChange,
+  removeContributor,
+}) => {
+  const defaultSelectedItem = type
+    ? contributorTypes.find(contributorType => contributorType.type === type)
+    : '';
   return (
-    <div>
-      <input value={contributorName}/>
-      <DropDown items={contributorGroups}/>
+    <div {...classes('three-column')}>
+      <input onChange={handleContributorNameChange} value={name} />
+      <DropDown
+        items={contributorTypes}
+        onChange={handleContributorTypeChange}
+        textField="translation"
+        valueField="type"
+        defaultSelectedItem={defaultSelectedItem}
+      />
+      <Button stripped onClick={removeContributor}>
+        <Cross />
+      </Button>
     </div>
-  )
-}
+  );
+};
+
+AddContributor.propTypes = {
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  contributorTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleContributorNameChange: PropTypes.func.isRequired,
+  handleContributorTypeChange: PropTypes.func.isRequired,
+  removeContributor: PropTypes.func.isRequired,
+};
+
+AddContributor.defaultProps = {
+  placeholder: '',
+};
 
 export default AddContributor;

@@ -26,11 +26,11 @@ export default function createAside() {
     },
   };
 
-  // Rule to alwas insert a paragraph as the last node inside
+  // Rule to always insert a paragraph as the last node inside if void type
   function validateNode(node) {
     if (node.kind !== 'block') return null;
     if (node.type !== 'aside') return null;
-    if (node.nodes.last().type === 'paragraph') return null;
+    if (!node.nodes.last().isVoid) return null;
 
     const block = Block.create(defaultBlock);
     return change => {

@@ -4,11 +4,11 @@
   position: relative;
 
   & input {
-    padding: 0.5rem;
+    padding: 0.3rem;
     background: white;
     position: relative;
     background-clip: border-box;
-    border: 1px solid var(--brand-grey--light);
+    border: 1px solid #d4d4d4;
     outline: 0;
 
     &:focus {
@@ -18,20 +18,19 @@
 
   &__items {
     margin-top: -0.1rem;
-    border: 1px solid rgba(34,36,38,0.15);
+    border: 1px solid #d4d4d4;
     max-height: 10rem;
     overflow-y: scroll;
     position: absolute;
     z-index: 999;
     background-color: white;
     width: 100%;
-    padding: 0.3rem;
     margin-bottom: 0;
     border-top: 0;
   }
 
   &__item {
-    padding: 0.3rem;
+    padding: 0.2rem;
     border: 1px solid white;
   }
 
@@ -43,5 +42,11 @@
     position: absolute;
     right: 0.8rem;
     top: 0.4rem;
+    color: var(--brand-grey);
+
+    &:hover,
+    &:focus {
+      color: var(--brand-grey);
+    }
   }
 }

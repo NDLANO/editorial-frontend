@@ -69,7 +69,6 @@ details {
 
     &:focus,
     &:hover {
-      padding: 0.2rem 0.5rem;
       color: var(--gray-3);
       border: 1px solid var(--gray-3);
       border-radius: 25px;

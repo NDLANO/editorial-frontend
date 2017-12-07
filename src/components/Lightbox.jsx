@@ -10,7 +10,7 @@ import React from 'react';
 import { Button } from 'ndla-ui';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import { Cross } from 'ndla-ui/icons';
+import { Cross } from 'ndla-icons/action';
 
 const classes = new BEMHelper({
   name: 'lightbox',

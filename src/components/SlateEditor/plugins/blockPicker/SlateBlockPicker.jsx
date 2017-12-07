@@ -14,17 +14,17 @@ import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import {
   H5P,
-  Cross,
-  Plus,
   Paragraph,
   Camera,
   Video,
-  Audio,
   FactBox,
   TextInBox,
   Table,
-  InsertTemplate,
-} from 'ndla-ui/icons';
+  ExpandableBox,
+} from 'ndla-icons/editor';
+import { Cross, Plus } from 'ndla-icons/action';
+import { Audio } from 'ndla-icons/common';
+
 import { Portal } from '../../../../components/Portal';
 import { defaultAsideBlock } from '../../schema';
 import { defaultBodyBoxBlock } from './../bodybox';
@@ -42,7 +42,7 @@ const actions = [
   { data: { type: 'aside', kind: 'factAside' }, icon: <FactBox /> },
   { data: { type: 'table', kind: 'table' }, icon: <Table /> },
   { data: { type: 'bodybox', kind: 'bodybox' }, icon: <TextInBox /> },
-  { data: { type: 'details', kind: 'details' }, icon: <InsertTemplate /> },
+  { data: { type: 'details', kind: 'details' }, icon: <ExpandableBox /> },
   { data: { type: 'embed', kind: 'image' }, icon: <Camera /> },
   { data: { type: 'embed', kind: 'video' }, icon: <Video /> },
   { data: { type: 'embed', kind: 'audio' }, icon: <Audio /> },
@@ -210,7 +210,11 @@ class SlateBlockPicker extends Component {
             stripped
             {...classes('block-type-button')}
             onMouseDown={this.toggleIsOpen}>
-            {this.state.isOpen ? <Cross /> : <Plus />}
+            {this.state.isOpen ? (
+              <Cross className="c-icon--medium" />
+            ) : (
+              <Plus className="c-icon--medium" />
+            )}
           </Button>
           <div {...classes('block-type', typeClassName)}>
             {actions.map(action => (

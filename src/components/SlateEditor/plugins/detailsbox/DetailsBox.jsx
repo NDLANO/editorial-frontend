@@ -8,18 +8,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import Types from 'slate-prop-types';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
 import { EditorShape } from '../../../../shapes';
 
-const classes = new BEMHelper({
-  name: 'bodybox',
-  prefix: 'c-',
-});
-
-const SlateBodyBox = props => {
+const DetailsBox = props => {
   const { node, editor } = props;
 
   const onRemoveClick = () => {
@@ -29,17 +23,20 @@ const SlateBodyBox = props => {
       .removeNodeByKey(node.key);
     editor.onChange(next);
   };
+
   return (
-    <div {...props.attributes} {...classes()}>
+    <details {...props.attributes} open>
       {props.children}
-      <Button stripped onClick={onRemoveClick} {...classes('delete-button')}>
+      <Button
+        stripped
+        onClick={onRemoveClick}
+        className="c-details__delete-button">
         <Cross />
       </Button>
-    </div>
+    </details>
   );
 };
-
-SlateBodyBox.propTypes = {
+DetailsBox.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
@@ -47,4 +44,4 @@ SlateBodyBox.propTypes = {
   editor: EditorShape,
 };
 
-export default SlateBodyBox;
+export default DetailsBox;

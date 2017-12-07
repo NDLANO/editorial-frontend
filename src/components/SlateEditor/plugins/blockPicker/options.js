@@ -5,7 +5,14 @@ const defaultOptions = {
     'heading-two',
     'heading-three',
   ],
-  illegalAreas: ['quote', 'list-item', 'numbered-list', 'aside', 'bodybox'],
+  illegalAreas: [
+    'quote',
+    'list-item',
+    'numbered-list',
+    'aside',
+    'bodybox',
+    'details',
+  ],
 };
 
 const options = opts => ({

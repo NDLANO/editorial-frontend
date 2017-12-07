@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import Types from 'slate-prop-types';
 import { Button } from 'ndla-ui';
-import { Cross } from 'ndla-ui/icons';
+import { Cross } from 'ndla-icons/action';
 import { EditorShape } from '../../../../shapes';
 
 const classes = new BEMHelper({

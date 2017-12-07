@@ -91,7 +91,7 @@ const Contributors = props => {
         submitted={submitted}
       />
       <Button {...classes('circle-button')} stripped onClick={addContributor}>
-        <Plus className='c-icon--medium' />
+        <Plus className="c-icon--medium" />
       </Button>
     </Field>
   );

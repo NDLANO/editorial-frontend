@@ -20,22 +20,6 @@ export const dropDownClasses = new BEMHelper({
   prefix: 'c-',
 });
 
-export const downShiftPropTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  clearSelection: PropTypes.func.isRequired,
-  selectedItem: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-  ]),
-  openMenu: PropTypes.func.isRequired,
-  closeMenu: PropTypes.func.isRequired,
-  getItemProps: PropTypes.func.isRequired,
-  getInputProps: PropTypes.func.isRequired,
-  getLabelProps: PropTypes.func.isRequired,
-  inputValue: PropTypes.string.isRequired,
-};
-
 const DropDown = ({
   items,
   defaultSelectedItem,

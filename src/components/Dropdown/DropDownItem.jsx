@@ -7,7 +7,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { downShiftPropTypes, dropDownClasses } from './DropDown';
+import Downshift from 'downshift';
+import { dropDownClasses } from './DropDown';
 
 const DropDownItem = ({
   highlightedIndex,
@@ -32,7 +33,7 @@ const DropDownItem = ({
 };
 
 DropDownItem.propTypes = {
-  ...downShiftPropTypes,
+  ...Downshift.propTypes,
   item: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,

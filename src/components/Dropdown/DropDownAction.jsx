@@ -7,8 +7,9 @@
 
 import React from 'react';
 import { Button } from 'ndla-ui';
+import Downshift from 'downshift';
 import { Cross, ExpandLess, ExpandMore } from 'ndla-icons/action';
-import { downShiftPropTypes, dropDownClasses } from './DropDown';
+import { dropDownClasses } from './DropDown';
 
 const DropDownAction = ({
   clearSelection,
@@ -20,22 +21,27 @@ const DropDownAction = ({
   if (selectedItem) {
     return (
       <Button {...dropDownClasses('action')} onClick={clearSelection} stripped>
-        <Cross className='c-icon--medium'/>
+        <Cross className="c-icon--medium" />
       </Button>
     );
   }
+
   return (
     <Button
       {...dropDownClasses('action')}
       onClick={isOpen ? closeMenu : openMenu}
       stripped>
-      {isOpen ? <ExpandLess className='c-icon--medium' /> : <ExpandMore className='c-icon--medium' />}
+      {isOpen ? (
+        <ExpandLess className="c-icon--medium" />
+      ) : (
+        <ExpandMore className="c-icon--medium" />
+      )}
     </Button>
   );
 };
 
 DropDownAction.propTypes = {
-  ...downShiftPropTypes,
+  ...Downshift.propTypes,
 };
 
 export default DropDownAction;

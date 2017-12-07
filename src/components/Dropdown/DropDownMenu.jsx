@@ -7,8 +7,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import Downshift from 'downshift';
 import DropDownItem from './DropDownItem';
-import { downShiftPropTypes, dropDownClasses } from './DropDown';
+import { dropDownClasses } from './DropDown';
 import {
   valueFieldForItem,
   downShifhtSorter,
@@ -34,7 +35,7 @@ const DropDownMenu = props => {
 };
 
 DropDownMenu.propTypes = {
-  ...downShiftPropTypes,
+  ...Downshift.propTypes,
   items: PropTypes.arrayOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number]),
   ).isRequired,

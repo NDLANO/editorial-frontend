@@ -35,7 +35,7 @@ const AddContributor = ({
         defaultSelectedItem={defaultSelectedItem}
       />
       <Button stripped onClick={removeContributor}>
-        <Cross className='c-icon--medium'/>
+        <Cross className="c-icon--medium" />
       </Button>
     </div>
   );

@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
-import { Search } from 'ndla-ui/icons';
+import { Search } from 'ndla-icons/common';
 import { injectT } from 'ndla-i18n';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';

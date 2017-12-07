@@ -20,7 +20,7 @@ import {
   Link,
   Heading2,
   Section,
-} from 'ndla-ui/icons';
+} from 'ndla-icons/editor';
 import Types from 'slate-prop-types';
 import { toolbarClasses } from './SlateToolbar';
 

@@ -70,7 +70,6 @@ const requiredFieldIfItemsIsObjects = (props, propName, componentName) => {
     props.items.filter(item => !(item instanceof Object)).length === 0 &&
     !props[propName]
   ) {
-    console.log('HEY!', props);
     return new Error(
       `\`${propName}\` supplied to` +
         ` \`${componentName}\` must be defined if items consists of objects. Validation failed.`,

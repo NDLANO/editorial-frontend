@@ -110,9 +110,5 @@
       color: white;
       background-color: var(--gray-4);
     }
-
-    & > svg {
-      margin-top: -5px;
-    }
   }
 }

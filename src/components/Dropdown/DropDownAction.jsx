@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Button } from 'ndla-ui';
-import { Cross, Arrow } from 'ndla-ui/icons';
+import { Cross, ExpandLess, ExpandMore } from 'ndla-icons/action';
 import { downShiftPropTypes, dropDownClasses } from './DropDown';
 
 const DropDownAction = ({
@@ -20,17 +20,16 @@ const DropDownAction = ({
   if (selectedItem) {
     return (
       <Button {...dropDownClasses('action')} onClick={clearSelection} stripped>
-        <Cross />
+        <Cross className='c-icon--medium'/>
       </Button>
     );
   }
-  const direction = isOpen ? 'up' : 'down';
   return (
     <Button
       {...dropDownClasses('action')}
       onClick={isOpen ? closeMenu : openMenu}
       stripped>
-      <Arrow direction={direction} />
+      {isOpen ? <ExpandLess className='c-icon--medium' /> : <ExpandMore className='c-icon--medium' />}
     </Button>
   );
 };

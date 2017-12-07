@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button } from 'ndla-ui';
-import { Plus } from 'ndla-ui/icons';
+import { Plus } from 'ndla-icons/action';
 import { contributorGroups, contributorTypes } from 'ndla-licenses';
 import { Field, FieldErrorMessages, getField, classes } from '../Fields';
 import AddContributor from './AddContributor';
@@ -91,7 +91,7 @@ const Contributors = props => {
         submitted={submitted}
       />
       <Button {...classes('circle-button')} stripped onClick={addContributor}>
-        <Plus />
+        <Plus className='c-icon--medium' />
       </Button>
     </Field>
   );

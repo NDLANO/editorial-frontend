@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
-import { Cross } from 'ndla-ui/icons';
+import { Cross } from 'ndla-icons/action';
 import DropDown from '../Dropdown/DropDown';
 import { classes } from '../Fields';
 
@@ -35,7 +35,7 @@ const AddContributor = ({
         defaultSelectedItem={defaultSelectedItem}
       />
       <Button stripped onClick={removeContributor}>
-        <Cross />
+        <Cross className='c-icon--medium'/>
       </Button>
     </div>
   );

@@ -74,7 +74,7 @@ class LearningResourceContent extends Component {
     const { commonFieldProps: { bindInput } } = this.props;
     const { value, onChange } = bindInput('content');
     const newblocks = [].concat(value);
-    newblocks.push({ state: createEmptyValue(), index: value.length });
+    newblocks.push({ value: createEmptyValue(), index: value.length });
     onChange({
       target: {
         name: 'content',

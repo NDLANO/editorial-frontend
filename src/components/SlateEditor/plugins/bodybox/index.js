@@ -27,6 +27,7 @@ export default function createBodyBox() {
   function validateNode(node) {
     if (node.kind !== 'block') return null;
     if (node.type !== 'bodybox') return null;
+    if (!node.nodes.last().type) return null;
     if (!node.nodes.last().isVoid) return null;
 
     const block = Block.create(defaultBlock);

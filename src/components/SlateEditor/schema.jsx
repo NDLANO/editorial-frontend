@@ -36,7 +36,7 @@ export const getSchemaEmbed = node => node.get('data').toJS();
 export const schema = {
   document: {
     // Schemas does not trigger change and causes issues!
-    /* last: { types: ['paragraph'] },
+    /*     last: { types: ['paragraph'] },
     normalize: (change, reason, context) => {
       switch (reason) {
         case 'last_child_type_invalid': {
@@ -86,7 +86,9 @@ export function validateNode(node) {
 
     // Rule to remove all empty text nodes that exists in the document
     const invalidChildren = node.nodes.filter(
-      child => child.kind === 'block' && child.type === 'emptyTextNode',
+      child =>
+        child.kind === 'block' &&
+        (child.type === 'emptyTextNode' || !child.type),
     );
     if (invalidChildren.size > 0) {
       return change => {

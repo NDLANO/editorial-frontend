@@ -28,6 +28,7 @@ export default function createAside() {
   function validateNode(node) {
     if (node.kind !== 'block') return null;
     if (node.type !== 'aside') return null;
+    if (!node.nodes.last().type) return null;
     if (!node.nodes.last().isVoid) return null;
 
     const block = Block.create(defaultBlock);

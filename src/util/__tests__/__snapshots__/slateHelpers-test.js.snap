@@ -1987,6 +1987,62 @@ Object {
 }
 `;
 
+exports[`deserializing details box with summary element 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Summary text",
+                  },
+                ],
+              },
+            ],
+            "type": "summary",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "ranges": Array [
+                  Object {
+                    "kind": "range",
+                    "marks": Array [],
+                    "text": "Details text",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+        ],
+        "type": "details",
+      },
+    ],
+  },
+  "kind": "state",
+}
+`;
+
 exports[`deserializing list with paragraph inside li elements 1`] = `
 Object {
   "document": Object {
@@ -2299,6 +2355,8 @@ exports[`serializing a normal div block 1`] = `"<div><p>A paragraph</p></div>"`;
 exports[`serializing br 1`] = `"<br/>"`;
 
 exports[`serializing bullet list 1`] = `"<ul><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ul>"`;
+
+exports[`serializing details box with summary element 1`] = `"<details><summary>Summary text</summary></details>"`;
 
 exports[`serializing heading-two 1`] = `"<h2>heading 2</h2>"`;
 

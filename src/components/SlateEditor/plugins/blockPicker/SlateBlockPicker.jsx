@@ -23,10 +23,12 @@ import {
   FactBox,
   TextInBox,
   Table,
+  InsertTemplate,
 } from 'ndla-ui/icons';
 import { Portal } from '../../../../components/Portal';
 import { defaultAsideBlock } from '../../schema';
 import { defaultBodyBoxBlock } from './../bodybox';
+import { defaultDetailsBlock } from './../detailsbox';
 import SlateEmbedPicker from './SlateEmbedPicker';
 import { editTablePlugin } from './../externalPlugins';
 
@@ -40,6 +42,7 @@ const actions = [
   { data: { type: 'aside', kind: 'factAside' }, icon: <FactBox /> },
   { data: { type: 'table', kind: 'table' }, icon: <Table /> },
   { data: { type: 'bodybox', kind: 'bodybox' }, icon: <TextInBox /> },
+  { data: { type: 'details', kind: 'details' }, icon: <InsertTemplate /> },
   { data: { type: 'embed', kind: 'image' }, icon: <Camera /> },
   { data: { type: 'embed', kind: 'video' }, icon: <Video /> },
   { data: { type: 'embed', kind: 'audio' }, icon: <Audio /> },
@@ -92,6 +95,10 @@ class SlateBlockPicker extends Component {
       }
       case 'bodybox': {
         this.onInsertBlock(defaultBodyBoxBlock());
+        break;
+      }
+      case 'details': {
+        this.onInsertBlock(defaultDetailsBlock());
         break;
       }
       case 'table': {

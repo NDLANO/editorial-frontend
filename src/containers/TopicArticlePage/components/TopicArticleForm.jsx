@@ -194,18 +194,10 @@ export default compose(
       required: true,
     },
     introduction: {
-      required: true,
       maxLength: 300,
     },
-    content: {
-      required: true,
-    },
     metaDescription: {
-      required: true,
       maxLength: 155,
-    },
-    visualElement: {
-      required: true,
     },
     'visualElement.alt': {
       required: true,
@@ -218,12 +210,6 @@ export default compose(
         model.visualElement &&
         (model.visualElement.resource === 'image' ||
           model.visualElement.resource === 'brightcove'),
-    },
-    tags: {
-      minItems: 3,
-    },
-    creators: {
-      minItems: 1,
     },
   }),
 )(TopicArticleForm);

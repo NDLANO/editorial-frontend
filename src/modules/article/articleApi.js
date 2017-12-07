@@ -12,12 +12,14 @@ import {
   fetchWithAccessToken,
 } from '../../util/apiHelpers';
 
-const draftBaseUrl = apiResourceUrl('/draft-api/v2/drafts');
+const draftBaseUrl = apiResourceUrl('/draft-api/v1/drafts');
 const articleBaseUrl = apiResourceUrl('/article-api/v2/articles');
 
 export const fetchArticle = (id, language) => {
   const query = queryString.stringify({ language });
-  const url = language ? `${draftBaseUrl}/${id}?${query}` : `${draftBaseUrl}/${id}`;
+  const url = language
+    ? `${draftBaseUrl}/${id}?${query}`
+    : `${draftBaseUrl}/${id}`;
   return fetchWithAccessToken(url).then(resolveJsonOrRejectWithError);
 };
 

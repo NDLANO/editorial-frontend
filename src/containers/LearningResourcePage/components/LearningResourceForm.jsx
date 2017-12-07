@@ -276,17 +276,7 @@ export default compose(
       },
     },
     metaDescription: {
-      required: true,
       maxLength: 155,
-    },
-    metaImageId: {
-      required: true,
-    },
-    tags: {
-      minItems: 3,
-    },
-    creators: {
-      minItems: 1,
     },
   }),
 )(LearningResourceForm);

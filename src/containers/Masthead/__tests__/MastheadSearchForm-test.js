@@ -144,3 +144,39 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
     expect(historyMock.push.calledOnce).toBe(false);
   }, global.DEFAULT_TIMEOUT);
 });
+
+test('MastheadSearchForm redirects on ndla node id pasted', () => {
+  const historyMock = {
+    push: sinon.spy(),
+  };
+  nock('http://ndla-api')
+    .get('/article-api/v2/articles/external_id/4737')
+    .reply(200, { id: '123' });
+
+  const component = renderer.create(
+    <MastheadSearchForm
+      show
+      query="#4737"
+      searching={false}
+      locale="nb"
+      onSearchQuerySubmit={noop}
+      t={() => ''}
+      history={historyMock}
+    />,
+  );
+  const tree = component.toJSON();
+  const e = {
+    preventDefault: () => {},
+  };
+  tree.props.onSubmit(e);
+  expect(component.toJSON()).toMatchSnapshot();
+  return new Promise(resolve => {
+    setTimeout(() => {
+      expect(historyMock.push.calledOnce).toBe(true);
+      expect(
+        historyMock.push.calledWith('/learning-resource/123/edit/nb'),
+      ).toBe(true);
+      resolve();
+    }, global.DEFAULT_TIMEOUT);
+  });
+});

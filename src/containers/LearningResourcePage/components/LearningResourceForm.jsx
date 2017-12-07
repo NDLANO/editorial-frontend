@@ -22,11 +22,7 @@ import {
   editorStateToPlainText,
   plainTextToEditorState,
 } from '../../../util/articleContentConverter';
-import {
-  parseEmbedTag,
-  createEmbedTag,
-  isUserProvidedEmbedDataValid,
-} from '../../../util/embedTagHelpers';
+import { isUserProvidedEmbedDataValid } from '../../../util/embedTagHelpers';
 import { findNodesByType } from '../../../util/slateHelpers';
 import { SchemaShape } from '../../../shapes';
 
@@ -54,15 +50,24 @@ const findFootnotes = content =>
     )
     .map(footnoteNode => footnoteNode.data.toJS());
 
-const parseCopyrightAuthors = (article, type) =>
+const parseCopyrightContributors = (article, contributorType, subType) =>
   article.copyright
-    ? article.copyright.authors
-        .filter(author => author.type === type)
-        .map(author => author.name)
+    ? article.copyright[contributorType]
+        .filter(contributor => contributor.type === subType)
+        .map(contributor => contributor.name)
     : [];
 
+const parseImageUrl = url => {
+  if (!url) {
+    return '';
+  }
+  const splittedUrl = url.split('/');
+  return splittedUrl[splittedUrl.length - 1];
+};
+
 export const getInitialModel = (article = {}) => {
-  const metaImage = parseEmbedTag(article.visualElement) || {};
+  const metaImageId = parseImageUrl(article.metaImage);
+
   return {
     id: article.id,
     revision: article.revision,
@@ -70,9 +75,13 @@ export const getInitialModel = (article = {}) => {
     introduction: plainTextToEditorState(article.introduction, true),
     content: learningResourceContentToEditorState(article.content),
     tags: article.tags || [],
-    authors: parseCopyrightAuthors(article, 'Forfatter'),
-    licensees: parseCopyrightAuthors(article, 'Rettighetshaver'),
-    contributors: parseCopyrightAuthors(article, 'Bidragsyter'),
+    creators: parseCopyrightContributors(article, 'creators', 'writer'),
+    processors: parseCopyrightContributors(article, 'processors', 'processor'),
+    rightsholders: parseCopyrightContributors(
+      article,
+      'rightsholders',
+      'rightsholder',
+    ),
     origin:
       article.copyright && article.copyright.origin
         ? article.copyright.origin
@@ -81,7 +90,7 @@ export const getInitialModel = (article = {}) => {
       ? article.copyright.license.license
       : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorState(article.metaDescription, true),
-    metaImage,
+    metaImageId,
     language: article.language,
     articleType: 'standard',
   };
@@ -117,21 +126,23 @@ class LearningResourceForm extends Component {
       return;
     }
 
-    const authors = model.authors.map(name => ({ type: 'Forfatter', name }));
-    const licensees = model.licensees.map(name => ({
-      type: 'Rettighetshaver',
+    const creators = model.creators.map(name => ({ type: 'writer', name }));
+    const processors = model.processors.map(name => ({
+      type: 'processor',
       name,
     }));
 
-    const contributors = model.contributors.map(name => ({
-      type: 'Bidragsyter',
+    const rightsholders = model.rightsholders.map(name => ({
+      type: 'rightsholder',
       name,
     }));
 
     const copyright = {
       license: licenses.find(license => license.license === model.license),
       origin: model.origin,
-      authors: authors.concat(licensees).concat(contributors),
+      creators,
+      processors,
+      rightsholders,
     };
 
     this.props.onUpdate({
@@ -140,8 +151,8 @@ class LearningResourceForm extends Component {
       title: model.title,
       introduction: editorStateToPlainText(model.introduction),
       tags: model.tags,
-      content: learningResourceContentToHTML(model.content, true),
-      visualElement: createEmbedTag(model.metaImage),
+      content: learningResourceContentToHTML(model.content),
+      metaImageId: model.metaImageId,
       metaDescription: editorStateToPlainText(model.metaDescription),
       articleType: 'standard',
       copyright,
@@ -268,23 +279,13 @@ export default compose(
       required: true,
       maxLength: 155,
     },
-    metaImage: {
+    metaImageId: {
       required: true,
-    },
-    'metaImage.alt': {
-      required: true,
-      onlyValidateIf: model =>
-        model.metaImage && model.metaImage.resource === 'image',
-    },
-    'metaImage.caption': {
-      required: true,
-      onlyValidateIf: model =>
-        model.metaImage && model.metaImage.resource === 'image',
     },
     tags: {
       minItems: 3,
     },
-    authors: {
+    creators: {
       minItems: 1,
     },
   }),

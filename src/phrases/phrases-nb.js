@@ -111,6 +111,7 @@ const phrases = {
       external: 'Innholdstekst',
     },
     visualElementCopyright: 'Opphav',
+    removeVisualElement: 'Fjern element',
     info: {
       lastUpdated: 'Sist oppdatert: {updated}',
     },
@@ -156,10 +157,11 @@ const phrases = {
     },
   },
   learningResourceForm: {
-    metaImageTitle: {
-      image: 'Bildetittel',
+    metaImage: {
+      title: 'Bildetittel',
+      copyright: 'Opphav',
+      change: 'Bytt metabilde',
     },
-    metaImageCopyright: 'Opphav',
     title: {
       create: 'Du oppretter nå en læringsressurs på {title}({key})',
       update: 'Du redigerer nå en læringsressurs på {title}({key})',
@@ -169,6 +171,7 @@ const phrases = {
         'En eller flere inkluderte lyd, bilde, eller video elementer mangler beskrivende tekst eller alternativ tekst.',
     },
     fields: {
+      rightAside: 'Høyrespalte',
       metaImage: {
         title: 'Metabilde',
         label: 'Metabilde',
@@ -177,7 +180,6 @@ const phrases = {
         edition: 'Utgave',
         publisher: 'Utgiver',
       },
-      rightAside: 'Høyrespalte',
     },
   },
   form: {
@@ -214,6 +216,7 @@ const phrases = {
         change: 'Endre',
         remove: 'Fjern lenke',
         href: 'Lenke',
+        newTab: 'Åpne lenke i ny fane',
         text: 'Tekst',
         addTitle: 'Legg til lenke',
         changeTitle: 'Endre lenke',
@@ -253,19 +256,19 @@ const phrases = {
       label: 'Metabeskrivelse',
       description: 'Beskrivelsen blir synlig i søk.',
     },
-    contributors: {
-      label: 'Bidragsyter',
-      createOption: 'Opprett ny bidragsyter',
-      emptyFilter: ' ',
-      emptyList: ' ',
-    },
-    licensees: {
+    rightsholders: {
       label: 'Rettighetshaver',
       createOption: 'Opprett ny rettighetshaver',
       emptyFilter: ' ',
       emptyList: ' ',
     },
-    authors: {
+    processors: {
+      label: 'Bearbeider',
+      createOption: 'Opprett ny bearbeider',
+      emptyFilter: ' ',
+      emptyList: ' ',
+    },
+    creators: {
       label: 'Opphavsperson',
       createOption: 'Opprett ny opphavsperson',
       description: 'Obligatorisk med minst 1 opphavsperson.',

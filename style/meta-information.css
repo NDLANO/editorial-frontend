@@ -1,0 +1,12 @@
+.c-meta-information {
+  display: inline-block;
+  margin-left: var(--spacing);
+
+  & strong {
+    display: block;
+  }
+
+  & button {
+    display: block;
+  }
+}

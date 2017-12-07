@@ -111,6 +111,7 @@ const phrases = {
       h5p: 'H5P title',
     },
     visualElementCopyright: 'Origin',
+    removeVisualElement: 'Remove element',
     info: {
       lastUpdated: 'Last updated: {updated}',
     },
@@ -156,10 +157,11 @@ const phrases = {
     },
   },
   learningResourceForm: {
-    visualElementTitle: {
-      image: 'Image title',
+    metaImage: {
+      title: 'Image title',
+      copyright: 'Copyright',
+      change: 'Change meta image',
     },
-    visualElementCopyright: 'Origin',
     title: {
       create: 'You are now creating a learning resource on {title}({key})',
       update: 'You are now editing a learning resource on {title}({key})',
@@ -170,11 +172,11 @@ const phrases = {
     },
     fields: {
       rightAside: 'Right column',
+      metaImage: {
+        title: 'Meta image',
+        label: 'Meta image',
+      },
       footnotes: {
-        metaImage: {
-          title: 'Meta image',
-          label: 'Meta image',
-        },
         edition: 'Edition',
         publisher: 'Publisher',
       },
@@ -214,6 +216,7 @@ const phrases = {
         change: 'Change',
         remove: 'Remove link',
         href: 'Link',
+        newTab: 'Open link in new tab',
         text: 'Text',
         addTitle: 'Add link',
         changeTitle: 'Change link',
@@ -253,22 +256,22 @@ const phrases = {
       label: 'Meta description',
       description: 'The description will be viewable in search.',
     },
-    contributors: {
-      label: 'Contributor',
-      createOption: 'Add new contributor',
+    rightsholders: {
+      label: 'Rightsholder',
+      createOption: 'Add new rightsholder',
       emptyFilter: ' ',
       emptyList: ' ',
     },
-    licensees: {
-      label: 'Licensee',
-      createOption: 'Add new licensee',
+    processors: {
+      label: 'Processor',
+      createOption: 'Add new processor',
       emptyFilter: ' ',
       emptyList: ' ',
     },
-    authors: {
-      label: 'Author',
-      createOption: 'Add new author',
-      description: 'Required with at least one author.',
+    creators: {
+      label: 'Creator',
+      createOption: 'Add new creator',
+      description: 'Required with at least one creator.',
       emptyFilter: ' ',
       emptyList: ' ',
     },

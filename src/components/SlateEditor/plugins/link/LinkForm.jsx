@@ -20,6 +20,7 @@ import reformed from '../../../reformed';
 export const getInitialModel = (link = {}) => ({
   text: link.text || '',
   href: link.href || '',
+  checkbox: link.checkbox || false,
 });
 
 class LinkForm extends Component {
@@ -69,6 +70,15 @@ class LinkForm extends Component {
             submitted={submitted}
           />
         </Field>
+        <Field>
+          <label htmlFor="checkbox">{t('form.content.link.newTab')}</label>
+          <input type="checkbox" {...bindInput('checkbox', 'checkbox')} />
+          <FieldErrorMessages
+            label={t('form.content.link.newTab')}
+            field={getField('checkbox', schema)}
+            submitted={submitted}
+          />
+        </Field>
         <Field right>
           <div {...toolbarClasses('link-actions')}>
             {isEdit ? (
@@ -93,6 +103,7 @@ LinkForm.propTypes = {
   model: PropTypes.shape({
     text: PropTypes.string.isRequired,
     href: PropTypes.string.isRequired,
+    checkbox: PropTypes.bool.isRequired,
   }),
   schema: SchemaShape,
   setSubmitted: PropTypes.func.isRequired,

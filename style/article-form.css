@@ -135,6 +135,15 @@ a.c-learning-resource-form__abort-button.c-button {
       color: color(red blackness(+ 20%));
     }
   }
+
+  &__meta-image {
+    display: flex;
+
+    img {
+      max-width: 60%;
+      margin-top: 10px;
+    }
+  }
 }
 
 .c-topic-article-content {

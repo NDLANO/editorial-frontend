@@ -41,32 +41,32 @@ class LearningResourceCopyright extends Component {
         hidden={this.state.hiddenContent}
         fill>
         <MultiSelectField
-          name="authors"
-          label={t('form.authors.label')}
+          name="creators"
+          label={t('form.creators.label')}
           messages={{
-            createOption: t('form.authors.createOption'),
-            emptyFilter: t('form.authors.emptyFilter'),
-            emptyList: t('form.authors.emptyList'),
+            createOption: t('form.creators.createOption'),
+            emptyFilter: t('form.creators.emptyFilter'),
+            emptyList: t('form.creators.emptyList'),
           }}
           {...commonFieldProps}
         />
         <MultiSelectField
-          name="licensees"
-          label={t('form.licensees.label')}
+          name="processors"
+          label={t('form.processors.label')}
           messages={{
-            createOption: t('form.licensees.createOption'),
-            emptyFilter: t('form.licensees.emptyFilter'),
-            emptyList: t('form.licensees.emptyList'),
+            createOption: t('form.processors.createOption'),
+            emptyFilter: t('form.processors.emptyFilter'),
+            emptyList: t('form.processors.emptyList'),
           }}
           {...commonFieldProps}
         />
         <MultiSelectField
-          name="contributors"
-          label={t('form.contributors.label')}
+          name="rightsholders"
+          label={t('form.rightsholders.label')}
           messages={{
-            createOption: t('form.contributors.createOption'),
-            emptyFilter: t('form.contributors.emptyFilter'),
-            emptyList: t('form.contributors.emptyList'),
+            createOption: t('form.rightsholders.createOption'),
+            emptyFilter: t('form.rightsholders.emptyFilter'),
+            emptyList: t('form.rightsholders.emptyList'),
           }}
           {...commonFieldProps}
         />

@@ -15,6 +15,7 @@ import { injectT } from 'ndla-i18n';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
+
 import {
   fetchTopicArticle,
   fetchNewArticleId,
@@ -35,10 +36,22 @@ export class MastheadSearchForm extends Component {
     this.handleQueryChange = this.handleQueryChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUrlPaste = this.handleUrlPaste.bind(this);
+    this.handleNodeId = this.handleNodeId.bind(this);
   }
 
   handleQueryChange(evt) {
     this.setState({ query: evt.target.value });
+  }
+
+  handleNodeId(nodeId) {
+    const { history, locale } = this.props;
+    fetchNewArticleId(nodeId)
+      .then(response => {
+        history.push(toEditArticle(response.id, 'standard', locale));
+      })
+      .catch(() => {
+        history.push(to404());
+      });
   }
 
   handleUrlPaste(ndlaUrl) {
@@ -61,13 +74,7 @@ export class MastheadSearchForm extends Component {
       splittedNdlaUrl.includes('ndla.no') &&
       splittedNdlaUrl.includes('node')
     ) {
-      fetchNewArticleId(urlId)
-        .then(response => {
-          history.push(toEditArticle(response.id, 'standard', locale));
-        })
-        .catch(() => {
-          history.push(to404());
-        });
+      this.handleNodeId(urlId);
     } else {
       history.push(toEditArticle(urlId, 'standard', locale));
     }
@@ -75,13 +82,19 @@ export class MastheadSearchForm extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
+    const { query } = this.state;
     const isNDLAUrl = /^https:\/(.*).ndla.no\/(article|subjects|nb|nn|en)\/(node|\d*)(\/|\d*)/.test(
-      this.state.query,
+      query,
     );
+    const isNodeId =
+      query.length > 2 && /#\d+/g.test(query) && !isNaN(query.substring(1));
+
     if (isNDLAUrl) {
-      this.handleUrlPaste(this.state.query);
+      this.handleUrlPaste(query);
+    } else if (isNodeId) {
+      this.handleNodeId(query.substring(1));
     } else {
-      this.props.onSearchQuerySubmit(this.state.query);
+      this.props.onSearchQuerySubmit(query);
     }
   }
 

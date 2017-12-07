@@ -152,12 +152,14 @@ const defaultSchema = {
         {props.children}
       </section>
     ),
+    br: props => <br {...props.attributes} />,
     paragraph: props => <p {...props.attributes}>{props.children}</p>,
     'bulleted-list': props => (
       <ul className="c-block__bulleted-list" {...props.attributes}>
         {props.children}
       </ul>
     ),
+    'list-text': props => <span {...props.attributes}>{props.children}</span>,
     'list-item': props => (
       <li className="c-block__list-item" {...props.attributes}>
         {props.children}

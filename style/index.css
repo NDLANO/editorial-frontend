@@ -30,6 +30,7 @@
 @import './footnotes.css';
 @import './link-menu.css';
 @import './table.css';
+@import './meta-information.css';
 
 .c-audio-search {
   width: 70%;

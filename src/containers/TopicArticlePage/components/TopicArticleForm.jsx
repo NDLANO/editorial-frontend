@@ -48,8 +48,8 @@ export const getInitialModel = (article = {}) => {
     introduction: plainTextToEditorState(article.introduction, true),
     content: topicArticleContentToEditorState(article.content),
     tags: article.tags || [],
-    authors: article.copyright
-      ? article.copyright.authors.map(author => author.name)
+    creators: article.copyright
+      ? article.copyright.creators.map(creator => creator.name)
       : [],
     copyright: article.copyright
       ? article.copyright
@@ -109,7 +109,7 @@ class TopicArticleForm extends Component {
       articleType: 'topic-article',
       copyright: {
         ...model.copyright,
-        authors: model.authors.map(name => ({ type: 'Forfatter', name })),
+        creators: model.creators.map(name => ({ type: 'writer', name })),
       },
       language,
     });
@@ -222,7 +222,7 @@ export default compose(
     tags: {
       minItems: 3,
     },
-    authors: {
+    creators: {
       minItems: 1,
     },
   }),

@@ -14,11 +14,6 @@ import {
 
 const baseUrl = apiResourceUrl('/article-api/v2/articles');
 
-export const fetchNewArticleId = id => {
-  const url = `${baseUrl}/external_id/${id}`;
-  return fetchWithAccessToken(url).then(resolveJsonOrRejectWithError);
-};
-
 export const fetchTags = language => {
   const query = queryString.stringify({ size: 7000, language });
   return fetchWithAccessToken(`${baseUrl}/tags/?${query}`).then(

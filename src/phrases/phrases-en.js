@@ -185,6 +185,7 @@ const phrases = {
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Content',
+    workflowSection: 'Workflow',
     copyrightSection: 'License and authors',
     save: 'Save',
     abort: 'Abort',

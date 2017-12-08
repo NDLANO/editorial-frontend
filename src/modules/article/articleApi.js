@@ -12,49 +12,21 @@ import {
   fetchWithAccessToken,
 } from '../../util/apiHelpers';
 
-const draftBaseUrl = apiResourceUrl('/draft-api/v1/drafts');
-const articleBaseUrl = apiResourceUrl('/article-api/v2/articles');
-
-export const fetchArticle = (id, language) => {
-  const query = queryString.stringify({ language });
-  const url = language
-    ? `${draftBaseUrl}/${id}?${query}`
-    : `${draftBaseUrl}/${id}`;
-  return fetchWithAccessToken(url).then(resolveJsonOrRejectWithError);
-};
+const baseUrl = apiResourceUrl('/article-api/v2/articles');
 
 export const fetchNewArticleId = id => {
-  const url = `${draftBaseUrl}/external_id/${id}`;
+  const url = `${baseUrl}/external_id/${id}`;
   return fetchWithAccessToken(url).then(resolveJsonOrRejectWithError);
 };
 
 export const fetchTags = language => {
   const query = queryString.stringify({ size: 7000, language });
-  return fetchWithAccessToken(`${articleBaseUrl}/tags/?${query}`).then(
+  return fetchWithAccessToken(`${baseUrl}/tags/?${query}`).then(
     resolveJsonOrRejectWithError,
   );
 };
 
 export const fetchLicenses = () =>
-  fetchWithAccessToken(`${articleBaseUrl}/licenses`).then(
+  fetchWithAccessToken(`${baseUrl}/licenses`).then(
     resolveJsonOrRejectWithError,
   );
-
-export const updateArticle = article =>
-  fetchWithAccessToken(`${draftBaseUrl}/${article.id}`, {
-    method: 'PATCH',
-    body: JSON.stringify(article),
-  }).then(resolveJsonOrRejectWithError);
-
-export const createArticle = article =>
-  fetchWithAccessToken(`${draftBaseUrl}/`, {
-    method: 'POST',
-    body: JSON.stringify(article),
-  }).then(resolveJsonOrRejectWithError);
-
-const baseTaxonomyUrl = apiResourceUrl('/taxonomy/v1');
-
-export const fetchTopicArticle = (topicId, locale) =>
-  fetchWithAccessToken(
-    `${baseTaxonomyUrl}/topics/${topicId}/?language=${locale}`,
-  ).then(resolveJsonOrRejectWithError);

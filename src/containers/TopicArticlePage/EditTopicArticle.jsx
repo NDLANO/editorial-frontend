@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { actions, getArticle } from '../../modules/article/article';
+import { actions as draftActions, getDraft } from '../../modules/draft/draft';
 import TopicArticleForm, {
   getInitialModel,
 } from './components/TopicArticleForm';
@@ -24,19 +24,19 @@ import {
 class EditTopicArticle extends Component {
   constructor(props) {
     super(props);
-    this.updateArticle = this.updateArticle.bind(this);
+    this.updateDraft = this.updateDraft.bind(this);
   }
 
   componentWillMount() {
-    const { articleId, fetchArticle, articleLanguage, fetchTags } = this.props;
-    fetchArticle({ id: articleId, language: articleLanguage });
+    const { articleId, fetchDraft, articleLanguage, fetchTags } = this.props;
+    fetchDraft({ id: articleId, language: articleLanguage });
     fetchTags({ language: articleLanguage });
   }
 
   componentWillReceiveProps(nextProps) {
     const {
       articleId,
-      fetchArticle,
+      fetchDraft,
       articleLanguage,
       article,
       fetchTags,
@@ -45,14 +45,14 @@ class EditTopicArticle extends Component {
       (article && article.language !== articleLanguage) ||
       articleId !== this.props.articleId
     ) {
-      fetchArticle({ id: articleId, language: articleLanguage });
+      fetchDraft({ id: articleId, language: articleLanguage });
       fetchTags({ language: articleLanguage });
     }
   }
 
-  updateArticle(article) {
-    const { updateArticle } = this.props;
-    updateArticle({ article });
+  updateDraft(article) {
+    const { updateDraft } = this.props;
+    updateDraft({ draft: article });
   }
 
   render() {
@@ -75,7 +75,7 @@ class EditTopicArticle extends Component {
         tags={tags}
         locale={locale}
         isSaving={isSaving}
-        onUpdate={this.updateArticle}
+        onUpdate={this.updateDraft}
       />
     );
   }
@@ -84,9 +84,9 @@ class EditTopicArticle extends Component {
 EditTopicArticle.propTypes = {
   articleId: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  fetchArticle: PropTypes.func.isRequired,
+  fetchDraft: PropTypes.func.isRequired,
   fetchTags: PropTypes.func.isRequired,
-  updateArticle: PropTypes.func.isRequired,
+  updateDraft: PropTypes.func.isRequired,
   article: ArticleShape,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
@@ -94,14 +94,14 @@ EditTopicArticle.propTypes = {
 };
 
 const mapDispatchToProps = {
-  fetchArticle: actions.fetchArticle,
-  updateArticle: actions.updateArticle,
+  fetchDraft: draftActions.fetchDraft,
+  updateDraft: draftActions.updateDraft,
   fetchTags: tagActions.fetchTags,
 };
 
 const mapStateToProps = (state, props) => {
   const { articleId, articleLanguage } = props;
-  const getArticleSelector = getArticle(articleId, true);
+  const getArticleSelector = getDraft(articleId, true);
   const getAllTagsSelector = getAllTagsByLanguage(articleLanguage);
   return {
     article: getArticleSelector(state),

@@ -409,6 +409,52 @@ export const tableSlateValue = {
   kind: 'value',
 };
 
+export const detailsBoxValue = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                kind: 'text',
+                ranges: [
+                  {
+                    kind: 'range',
+                    marks: [],
+                    text: 'Summary text',
+                  },
+                ],
+              },
+            ],
+            type: 'summary',
+          },
+          {
+            kind: 'text',
+            ranges: [
+              {
+                kind: 'range',
+                marks: [],
+                text: 'Details text',
+              },
+            ],
+          },
+        ],
+        type: 'details',
+      },
+    ],
+  },
+  kind: 'value',
+};
+
 export const listValue = (type = 'numbered-list') => ({
   document: {
     data: {},

@@ -17,6 +17,7 @@ import {
   valueWithTwoImageEmbeds,
   tableSlateValue,
   listValue,
+  detailsBoxValue,
   headingTwoValue,
   sectionValue,
   quoteValue,
@@ -239,6 +240,27 @@ test('deserializing list with paragraph inside li elements', () => {
   const listWithParagraphs =
     '<ul><li><p>paragraph 1</p></li><li><p>paragraph 2</p></li><li><p><strong>bold paragraph 3</strong></p></li></ul>';
   const deserialized = serializer.deserialize(listWithParagraphs);
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('serializing details box with summary element', () => {
+  const serializer = new Html({
+    rules: [blockRules],
+    parseHtml: fragment,
+  });
+  const value = Value.fromJSON(detailsBoxValue);
+  const serialized = serializer.serialize(value);
+  expect(serialized).toMatchSnapshot();
+});
+
+test('deserializing details box with summary element', () => {
+  const serializer = new Html({
+    rules: [blockRules, paragraphRule],
+    parseHtml: fragment,
+  });
+  const detailsWithSummary =
+    '<details><summary>Summary text</summary><p>Details text</p></details>';
+  const deserialized = serializer.deserialize(detailsWithSummary);
   expect(toJSON(deserialized)).toMatchSnapshot();
 });
 

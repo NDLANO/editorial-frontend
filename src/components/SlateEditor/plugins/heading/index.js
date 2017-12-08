@@ -22,6 +22,7 @@ export default function headingPlugin(opts = {}) {
       'heading-four',
       'heading-five',
       'heading-six',
+      'summary',
     ],
     defaultType: opts.defaultType || 'paragraph',
   };

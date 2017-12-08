@@ -11,7 +11,8 @@ import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { SiteNav, SiteNavItem } from 'ndla-ui';
-import { Search, Cross } from 'ndla-ui/icons';
+import { Cross } from 'ndla-icons/action';
+import { Search } from 'ndla-icons/common';
 import { withRouter } from 'react-router-dom';
 
 import MastheadSearchForm from './components/MastheadSearchForm';

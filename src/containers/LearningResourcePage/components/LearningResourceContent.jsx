@@ -23,6 +23,7 @@ import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
 import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
+import createDetailsPlugin from '../../../components/SlateEditor/plugins/detailsbox';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
@@ -53,6 +54,7 @@ class LearningResourceContent extends Component {
       createEmbedPlugin(),
       createBodyBoxPlugin(),
       createAsidePlugin(),
+      createDetailsPlugin(),
       createLinkPlugin(),
       headingPlugin(),
       blockquotePlugin,

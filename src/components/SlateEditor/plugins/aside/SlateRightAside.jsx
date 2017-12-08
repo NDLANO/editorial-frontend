@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
-import { Cross } from 'ndla-ui/icons';
+import { Cross } from 'ndla-icons/action';
 
 const classes = new BEMHelper({
   name: 'editor',

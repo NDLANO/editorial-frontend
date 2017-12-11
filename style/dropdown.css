@@ -3,21 +3,8 @@
   width: 100%;
   position: relative;
 
-  & input {
-    padding: 0.3rem;
-    background: white;
-    position: relative;
-    background-clip: border-box;
-    border: 1px solid #d4d4d4;
-    outline: 0;
-
-    &:focus {
-      border-color: var(--brand-color--light);
-    }
-  }
-
   &__items {
-    margin-top: -0.1rem;
+    margin-top: -0.2rem;
     border: 1px solid #d4d4d4;
     max-height: 10rem;
     overflow-y: scroll;
@@ -31,11 +18,10 @@
 
   &__item {
     padding: 0.2rem;
-    border: 1px solid white;
   }
 
   &__item--active {
-    border: 1px solid var(--brand-color--light);
+    background-color: var(--brand-grey--light);
   }
 
   &__action {

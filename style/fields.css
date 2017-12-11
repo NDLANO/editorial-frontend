@@ -101,14 +101,14 @@
     height: 35px;
     border-radius: 50%;
     color: white;
-    background-color: var(--gray-2);
+    background-color: var(--brand-grey-dark);
     display: block;
     margin-top: var(--spacing--small);
 
     &:hover,
     &:focus {
       color: white;
-      background-color: var(--gray-4);
+      background-color: var(--brand-grey);
     }
   }
 }

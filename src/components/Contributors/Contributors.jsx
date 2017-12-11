@@ -21,12 +21,13 @@ const Contributors = props => {
     name,
     label,
     locale,
-    value,
-    onChange,
     schema,
     submitted,
     placeholder,
+    bindInput,
   } = props;
+  const { onChange, value } = bindInput(name);
+
   const onContributorChange = newContributors => {
     onChange({
       target: {
@@ -48,18 +49,11 @@ const Contributors = props => {
     onContributorChange(newContributors);
   };
 
-  const handleContributorTypeChange = (type, index) => {
-    const newContributors = [].concat(value);
-    newContributors[index] = { ...newContributors[index], type };
-    onContributorChange(newContributors);
-  };
-
-  const handleContributorNameChange = (evt, index) => {
-    evt.preventDefault();
+  const handleContributorChange = (evt, fieldName, index) => {
     const newContributors = [].concat(value);
     newContributors[index] = {
       ...newContributors[index],
-      name: evt.target.value,
+      [fieldName]: evt.target.value,
     };
     onContributorChange(newContributors);
   };
@@ -77,11 +71,11 @@ const Contributors = props => {
           {...contributor}
           index={index}
           contributorTypes={contributorTypeItems}
-          handleContributorTypeChange={c =>
-            handleContributorTypeChange(c ? c.type : '', index)}
-          handleContributorNameChange={e =>
-            handleContributorNameChange(e, index)}
-          removeContributor={e => removeContributor(e, index)}
+          handleContributorTypeChange={evt =>
+            handleContributorChange(evt, 'type', index)}
+          handleContributorNameChange={evt =>
+            handleContributorChange(evt, 'name', index)}
+          removeContributor={evt => removeContributor(evt, index)}
           placeholder={placeholder}
         />
       ))}
@@ -101,13 +95,7 @@ Contributors.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
-  value: PropTypes.arrayOf(
-    PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    }),
-  ),
-  onChange: PropTypes.func.isRequired,
+  bindInput: PropTypes.func.isRequired,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),

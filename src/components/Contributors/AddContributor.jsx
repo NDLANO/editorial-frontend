@@ -10,8 +10,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
-import DropDown from '../Dropdown/DropDown';
 import { classes } from '../Fields';
+import ObjectSelector from '../ObjectSelector';
 
 const AddContributor = ({
   name,
@@ -20,26 +20,23 @@ const AddContributor = ({
   handleContributorTypeChange,
   handleContributorNameChange,
   removeContributor,
-}) => {
-  const defaultSelectedItem = type
-    ? contributorTypes.find(contributorType => contributorType.type === type)
-    : '';
-  return (
-    <div {...classes('three-column')}>
-      <input onChange={handleContributorNameChange} value={name} />
-      <DropDown
-        items={contributorTypes}
-        onChange={handleContributorTypeChange}
-        textField="translation"
-        valueField="type"
-        defaultSelectedItem={defaultSelectedItem}
-      />
-      <Button stripped onClick={removeContributor}>
-        <Cross className="c-icon--medium" />
-      </Button>
-    </div>
-  );
-};
+}) => (
+  <div {...classes('three-column')}>
+    <input onChange={handleContributorNameChange} value={name} />
+    <ObjectSelector
+      options={contributorTypes}
+      value={type}
+      idKey="type"
+      labelKey="translation"
+      onChange={handleContributorTypeChange}
+      onBlur={handleContributorTypeChange}
+      emptyField
+    />
+    <Button stripped onClick={removeContributor}>
+      <Cross className="c-icon--medium" />
+    </Button>
+  </div>
+);
 
 AddContributor.propTypes = {
   name: PropTypes.string.isRequired,

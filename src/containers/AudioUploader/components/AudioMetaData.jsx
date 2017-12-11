@@ -70,19 +70,16 @@ class AudioMetaData extends Component {
         <Contributors
           name="creators"
           label={t('form.creators.label')}
-          {...commonFieldProps.bindInput('creators')}
           {...commonFieldProps}
         />
         <Contributors
           name="rightsholders"
           label={t('form.rightsholders.label')}
-          {...commonFieldProps.bindInput('rightsholders')}
           {...commonFieldProps}
         />
         <Contributors
           name="processors"
           label={t('form.processors.label')}
-          {...commonFieldProps.bindInput('processors')}
           {...commonFieldProps}
         />
       </Accordion>

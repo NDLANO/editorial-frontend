@@ -10,7 +10,7 @@
 import { setBlock, insertParagraph } from './changes';
 
 export function getCurrentHeading(options, value) {
-  if (!value.startKey) return null;
+  if (!value.selection.startKey) return null;
   const startBlock = value.startBlock;
   return startBlock && options.types.includes(startBlock.type)
     ? startBlock

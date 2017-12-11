@@ -18,7 +18,16 @@ class MultiSelect extends Component {
 
   render() {
     const { open } = this.state;
-    const { name, value, filter, messages, onChange, data } = this.props;
+    const {
+      name,
+      value,
+      filter,
+      messages,
+      onChange,
+      data,
+      disableCreate,
+      placeholder,
+    } = this.props;
 
     const handleChange = tags => {
       onChange({ target: { name, value: tags, type: 'tags' } });
@@ -49,10 +58,11 @@ class MultiSelect extends Component {
         messages={messages}
         value={value}
         onChange={handleChange}
-        onCreate={handleAdd}
+        onCreate={disableCreate ? undefined : handleAdd}
         onToggle={() => {}}
         onSearch={handleSearch}
         data={this.state.data}
+        placeholder={placeholder}
       />
     );
   }
@@ -69,11 +79,15 @@ MultiSelect.propTypes = {
     emptyList: PropTypes.string.isRequired,
   }),
   name: PropTypes.string.isRequired,
+  disableCreate: PropTypes.bool,
+  placeholder: PropTypes.string,
 };
 
 MultiSelect.defaultProps = {
   filter: 'startsWith',
   data: [],
+  disableCreate: false,
+  placeholder: '',
 };
 
 export default MultiSelect;

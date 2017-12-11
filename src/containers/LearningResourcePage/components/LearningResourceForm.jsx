@@ -26,9 +26,9 @@ import { isUserProvidedEmbedDataValid } from '../../../util/embedTagHelpers';
 import { findNodesByType } from '../../../util/slateHelpers';
 import { SchemaShape } from '../../../shapes';
 
-import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
-import LearningResourceCopyright from './LearningResourceCopyright';
+import LearningResourceMetadata from './LearningResourceMetadata';
+import LearningResourceAffiliation from './LearningResourceAffiliation';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import ArticleHeader from '../../Article/ArticleHeader';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
@@ -170,6 +170,9 @@ class LearningResourceForm extends Component {
       tags,
       licenses,
       isSaving,
+      resourceType,
+      topics,
+      filter,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
@@ -178,13 +181,6 @@ class LearningResourceForm extends Component {
         onSubmit={this.handleSubmit}
         {...classes(undefined, undefined, 'c-article')}>
         <ArticleHeader model={model} />
-        <LearningResourceMetadata
-          classes={classes}
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-          tags={tags}
-          model={model}
-        />
         <LearningResourceContent
           classes={classes}
           commonFieldProps={commonFieldProps}
@@ -195,7 +191,17 @@ class LearningResourceForm extends Component {
             footnotes={findFootnotes(model.content)}
           />
         </LearningResourceContent>
-        <LearningResourceCopyright
+        <LearningResourceMetadata
+          classes={classes}
+          commonFieldProps={commonFieldProps}
+          bindInput={bindInput}
+          tags={tags}
+          model={model}
+          resourceType={resourceType}
+          topics={topics}
+          filter={filter}
+        />
+        <LearningResourceAffiliation
           commonFieldProps={commonFieldProps}
           licenses={licenses}
         />
@@ -236,6 +242,9 @@ LearningResourceForm.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
+  resourceType: PropTypes.arrayOf(PropTypes.string).isRequired,
+  topics: PropTypes.arrayOf(PropTypes.string).isRequired,
+  filter: PropTypes.arrayOf(PropTypes.string).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,

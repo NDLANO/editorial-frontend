@@ -89,7 +89,7 @@ export function learningResourceContentToHTML(contentState) {
   });
 
   return contentState
-    .map(section => serializer.serialize(section.state))
+    .map(section => section.state.isEmpty ? '' : serializer.serialize(section.state))
     .join('')
     .replace(/<deleteme><\/deleteme>/g, '');
 }

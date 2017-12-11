@@ -38,3 +38,8 @@ export const fetchNewArticleId = id => {
   const url = `${baseUrl}/external_id/${id}`;
   return fetchWithAccessToken(url).then(resolveJsonOrRejectWithError);
 };
+
+export const validateDraft = id =>
+  fetchWithAccessToken(`${baseUrl}/${id}/validate`, {
+    method: 'PUT',
+  }).then(resolveJsonOrRejectWithError)

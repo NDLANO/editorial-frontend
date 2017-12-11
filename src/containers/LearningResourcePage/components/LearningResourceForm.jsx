@@ -29,6 +29,7 @@ import { SchemaShape } from '../../../shapes';
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
 import LearningResourceCopyright from './LearningResourceCopyright';
+import LearningResourceWorkflow from './LearningResourceWorkflow';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import ArticleHeader from '../../Article/ArticleHeader';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
@@ -144,6 +145,7 @@ class LearningResourceForm extends Component {
       processors,
       rightsholders,
     };
+    const content = learningResourceContentToHTML(model.content);
 
     this.props.onUpdate({
       id: model.id,
@@ -151,7 +153,7 @@ class LearningResourceForm extends Component {
       title: model.title,
       introduction: editorStateToPlainText(model.introduction),
       tags: model.tags,
-      content: learningResourceContentToHTML(model.content),
+      content: content && content.length > 0 ? content : undefined,
       metaImageId: model.metaImageId,
       metaDescription: editorStateToPlainText(model.metaDescription),
       articleType: 'standard',
@@ -199,6 +201,7 @@ class LearningResourceForm extends Component {
           commonFieldProps={commonFieldProps}
           licenses={licenses}
         />
+      <LearningResourceWorkflow model={model}/>
         <Field right>
           <Link
             to={'/'}

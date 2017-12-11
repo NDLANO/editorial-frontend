@@ -7,7 +7,6 @@
  */
 
 import { handleActions, createAction } from 'redux-actions';
-
 import { createSelector } from 'reselect';
 import { getLocale } from '../locale/locale';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';

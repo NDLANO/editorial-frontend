@@ -21,7 +21,12 @@ import { RichTextField } from '../../../components/RichTextField';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
-import schema from '../../../components/SlateEditor/schema';
+import {
+  schema,
+  renderNode,
+  renderMark,
+  validateNode,
+} from '../../../components/SlateEditor/schema';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
 import {
@@ -80,12 +85,7 @@ class TopicArticleContent extends Component {
         />
         {/* TODO: Change to c-article-byline */}
         <div {...classes('info')}>
-          {creators.map((creator, i) => {
-            if (creators.length === i + 1 || creators.length === 1) {
-              return `${creator}`;
-            }
-            return `${creator}, `;
-          })}
+          {creators.map(creator => creator.name).join(',')}
           {updated
             ? ` - ${t('topicArticleForm.info.lastUpdated', { updated })}`
             : ''}
@@ -103,7 +103,8 @@ class TopicArticleContent extends Component {
           <RemainingCharacters
             maxLength={300}
             getRemainingLabel={(maxLength, remaining) =>
-              t('form.remainingCharacters', { maxLength, remaining })}
+              t('form.remainingCharacters', { maxLength, remaining })
+            }
             value={bindInput('introduction').value.document.text}
           />
         </PlainTextField>
@@ -118,6 +119,9 @@ class TopicArticleContent extends Component {
           placeholder={t('form.content.placeholder')}
           name="content"
           slateSchema={schema}
+          renderNode={renderNode}
+          renderMark={renderMark}
+          validateNode={validateNode}
           plugins={plugins}
           {...commonFieldProps}
         />

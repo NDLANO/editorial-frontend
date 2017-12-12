@@ -51,7 +51,8 @@ const VisualElementSearch = ({
                 alt: alttextsI18N(image, locale, true),
                 caption: captionsI18N(image, locale, true),
                 metaData: image,
-              })}
+              })
+            }
             onError={api.onError}
           />
         </div>
@@ -106,7 +107,8 @@ const VisualElementSearch = ({
               resource: selectedResource,
               ...h5p,
               metaData: {},
-            })}
+            })
+          }
           label={t('form.visualElement.label')}
         />
       );
@@ -137,7 +139,8 @@ const VisualElementSearch = ({
               resource: selectedResource,
               resource_id: audio.id.toString(),
               metaData: audio,
-            })}
+            })
+          }
           onError={api.onError}
           queryObject={defaultQueryObject}
         />

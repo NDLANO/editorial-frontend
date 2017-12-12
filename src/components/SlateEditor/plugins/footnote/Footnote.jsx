@@ -59,7 +59,6 @@ Footnote.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   editor: EditorShape,
-  state: Types.state.isRequired,
   node: Types.node.isRequired,
 };
 

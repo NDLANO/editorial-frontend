@@ -62,16 +62,13 @@ class SlateFigure extends React.Component {
     const properties = {
       data: { ...getSchemaEmbed(node), [name]: value },
     };
-    const next = editor
-      .getState()
-      .change()
-      .setNodeByKey(node.key, properties);
+    const next = editor.value.change().setNodeByKey(node.key, properties);
     editor.onChange(next);
   }
 
   isSelected() {
-    const { node, state } = this.props;
-    const isSelected = state.selection.hasEdgeIn(node);
+    const { node, editor } = this.props;
+    const isSelected = editor.value.selection.hasEdgeIn(node);
     return isSelected;
   }
 
@@ -118,7 +115,6 @@ class SlateFigure extends React.Component {
 
 SlateFigure.propTypes = {
   className: PropTypes.string,
-  state: Types.state.isRequired,
   node: Types.node.isRequired,
   editor: EditorShape,
   attributes: PropTypes.shape({

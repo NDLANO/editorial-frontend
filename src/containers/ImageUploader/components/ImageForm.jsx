@@ -1,9 +1,9 @@
 /**
-* Copyright (c) 2016-present, NDLA.
-*
-* This source code is licensed under the GPLv3 license found in the
-* LICENSE file in the root directory of this source tree. *
-*/
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
 
 import React, { Component } from 'react';
 import { compose } from 'redux';
@@ -25,26 +25,25 @@ import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
 import { SchemaShape } from '../../../shapes';
 
-export const getInitialModel = (image = {}) => {
-  const creators = parseCopyrightContributors(image, 'creators');
-  return {
-    id: image.id,
-    revision: image.revision,
-    language: image.language,
-    title: image.title || '',
-    alttext: image.alttext || '',
-    caption: image.caption || '',
-    imageFile: image.imageUrl,
-    tags: image.tags || [],
-    creators,
-    origin:
-      image.copyright && image.copyright.origin ? image.copyright.origin : '',
-    license:
-      image.copyright && image.copyright.license
-        ? image.copyright.license.license
-        : DEFAULT_LICENSE.license,
-  };
-};
+export const getInitialModel = (image = {}) => ({
+  id: image.id,
+  revision: image.revision,
+  language: image.language,
+  title: image.title || '',
+  alttext: image.alttext || '',
+  caption: image.caption || '',
+  imageFile: image.imageUrl,
+  tags: image.tags || [],
+  creators: parseCopyrightContributors(image, 'creators'),
+  processors: parseCopyrightContributors(image, 'processors'),
+  rightsholders: parseCopyrightContributors(image, 'rightsholders'),
+  origin:
+    image.copyright && image.copyright.origin ? image.copyright.origin : '',
+  license:
+    image.copyright && image.copyright.license
+      ? image.copyright.license.license
+      : DEFAULT_LICENSE.license,
+});
 
 const classes = new BEMHelper({
   name: 'image-form',
@@ -86,7 +85,9 @@ class ImageForm extends Component {
       copyright: {
         license: licenses.find(license => license.license === model.license),
         origin: model.origin,
-        creators: model.creators.map(name => ({ type: 'artist', name })),
+        creators: model.creators,
+        processors: model.processors,
+        rightsholders: model.rightsholders,
       },
     };
     onUpdate(imageMetaData, model.imageFile);
@@ -186,6 +187,13 @@ export default compose(
     },
     creators: {
       minItems: 1,
+      allObjectFieldsRequired: true,
+    },
+    processors: {
+      allObjectFieldsRequired: true,
+    },
+    rightsholders: {
+      allObjectFieldsRequired: true,
     },
     imageFile: {
       required: true,

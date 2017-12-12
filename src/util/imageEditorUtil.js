@@ -57,11 +57,11 @@ export function getCrop(transformData) {
   ) {
     return undefined;
   }
-  return `cropStartX=${transformData[
-    'upper-left-x'
-  ]}&cropStartY=${transformData['upper-left-y']}&cropEndX=${transformData[
-    'lower-right-x'
-  ]}&cropEndY=${transformData['lower-right-y']}`;
+  return `cropStartX=${transformData['upper-left-x']}&cropStartY=${
+    transformData['upper-left-y']
+  }&cropEndX=${transformData['lower-right-x']}&cropEndY=${
+    transformData['lower-right-y']
+  }`;
 }
 
 export function getFocalPoint(transformData) {
@@ -71,9 +71,9 @@ export function getFocalPoint(transformData) {
   ) {
     return undefined;
   }
-  return `focalX=${transformData['focal-x']}&focalY=${transformData[
-    'focal-y'
-  ]}`;
+  return `focalX=${transformData['focal-x']}&focalY=${
+    transformData['focal-y']
+  }`;
 }
 
 export function getSrcSets(imageId, transformData) {

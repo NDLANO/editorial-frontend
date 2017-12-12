@@ -59,7 +59,8 @@ class TopicArticleVisualElement extends Component {
           visualElement={visualElement}
           selectedResource={this.state.selectedResource}
           onRemoveVisualElement={() =>
-            this.setState({ selectedResource: undefined })}
+            this.setState({ selectedResource: undefined })
+          }
           {...bindInput('visualElement')}
           resetSelectedResource={this.resetSelectedResource}
         />
@@ -67,10 +68,14 @@ class TopicArticleVisualElement extends Component {
           <div>
             <TextField
               placeholder={t(
-                `topicArticleForm.fields.caption.placeholder.${visualElement.resource}`,
+                `topicArticleForm.fields.caption.placeholder.${
+                  visualElement.resource
+                }`,
               )}
               label={t(
-                `topicArticleForm.fields.caption.label.${visualElement.resource}`,
+                `topicArticleForm.fields.caption.label.${
+                  visualElement.resource
+                }`,
               )}
               name="visualElement.caption"
               {...commonFieldProps}

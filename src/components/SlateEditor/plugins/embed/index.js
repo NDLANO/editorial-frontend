@@ -6,16 +6,27 @@
  *
  */
 
+import React from 'react';
 import SlateFigure from './SlateFigure';
 
 export default function createEmbedPlugin() {
   const schema = {
-    nodes: {
-      embed: SlateFigure,
-    },
+    document: {},
+  };
+
+  /* eslint-disable react/prop-types */
+  const renderNode = props => {
+    const { node } = props;
+    switch (node.type) {
+      case 'embed':
+        return <SlateFigure {...props} />;
+      default:
+        return null;
+    }
   };
 
   return {
     schema,
+    renderNode,
   };
 }

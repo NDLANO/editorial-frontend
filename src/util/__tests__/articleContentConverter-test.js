@@ -8,9 +8,9 @@
 
 import jsdom from 'jsdom';
 import {
-  topicArticleContentToEditorState,
+  topicArticleContentToEditorValue,
   topicArticleContentToHTML,
-  learningResourceContentToEditorState,
+  learningResourceContentToEditorValue,
   learningResourceContentToHTML,
   sectionSplitter,
 } from '../articleContentConverter';
@@ -21,36 +21,36 @@ const contentHTMLWithSections = `<section><h2>Section 1</h2></section><section><
 
 const fragment = jsdom.JSDOM.fragment;
 
-test('articleContentConverter convert topic article content to and from editorState', () => {
+test('articleContentConverter convert topic article content to and from editorValue', () => {
   // Todo fix test to handle empty text nodes
-  const editorState = topicArticleContentToEditorState(contentHTML, fragment);
-  const html = topicArticleContentToHTML(editorState);
+  const editorValue = topicArticleContentToEditorValue(contentHTML, fragment);
+  const html = topicArticleContentToHTML(editorValue);
   expect(html).toMatchSnapshot();
 });
 
-test('articleContentConverter convert learningresource content to and from editorState', () => {
-  const editorState = learningResourceContentToEditorState(
+test('articleContentConverter convert learningresource content to and from editorValue', () => {
+  const editorValue = learningResourceContentToEditorValue(
     contentHTML,
     fragment,
   );
-  const html = learningResourceContentToHTML(editorState);
+  const html = learningResourceContentToHTML(editorValue);
   expect(html).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content', () => {
-  const editorState = learningResourceContentToEditorState(
+  const editorValue = learningResourceContentToEditorValue(
     contentHTML,
     fragment,
   );
-  expect(editorState[0].state.toJSON()).toMatchSnapshot();
+  expect(editorValue[0].value.toJSON()).toMatchSnapshot();
 });
 
-test('articleContentConverter convert learningresource content with multiple sections to and from editorState', () => {
-  const editorState = learningResourceContentToEditorState(
+test('articleContentConverter convert learningresource content with multiple sections to and from editorValue', () => {
+  const editorValue = learningResourceContentToEditorValue(
     contentHTMLWithSections,
     fragment,
   );
-  const html = learningResourceContentToHTML(editorState);
+  const html = learningResourceContentToHTML(editorValue);
   expect(html).toMatchSnapshot();
 });
 

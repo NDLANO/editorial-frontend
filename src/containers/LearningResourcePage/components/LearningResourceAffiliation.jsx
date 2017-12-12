@@ -9,14 +9,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import {
-  MultiSelectField,
-  SelectObjectField,
-} from '../../../components/Fields';
+import { SelectObjectField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Accordion from '../../../components/Accordion';
+import Contributors from '../../../components/Contributors/Contributors';
 
-class LearningResourceAffiliation extends Component {
+class LearningResourceCopyright extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,60 +30,27 @@ class LearningResourceAffiliation extends Component {
   }
 
   render() {
-    const {
-      t,
-      commonFieldProps,
-      licenses,
-      resourceType,
-      topics,
-      filter,
-    } = this.props;
+    const { t, commonFieldProps, licenses } = this.props;
 
     return (
       <Accordion
         handleToggle={this.toggleContent}
-        header={t('form.affiliationtSection')}
-        hidden={this.state.hiddenContent}>
-        <MultiSelectField
-          obligatory
-          disableCreate
-          name="resourceType"
-          data={resourceType}
-          label={t('form.resourceType.label')}
-          description={t('form.resourceType.description')}
-          messages={{
-            createOption: t('form.resourceType.createOption'),
-            emptyFilter: t('form.resourceType.emptyFilter'),
-            emptyList: t('form.resourceType.emptyList'),
-          }}
+        header={t('form.copyrightSection')}
+        hidden={this.state.hiddenContent}
+        fill>
+        <Contributors
+          name="creators"
+          label={t('form.creators.label')}
           {...commonFieldProps}
         />
-        <MultiSelectField
-          obligatory
-          disableCreate
-          name="filter"
-          data={filter}
-          label={t('form.filter.label')}
-          description={t('form.filter.description')}
-          messages={{
-            createOption: t('form.filter.createOption'),
-            emptyFilter: t('form.filter.emptyFilter'),
-            emptyList: t('form.filter.emptyList'),
-          }}
+        <Contributors
+          name="rightsholders"
+          label={t('form.rightsholders.label')}
           {...commonFieldProps}
         />
-        <MultiSelectField
-          obligatory
-          disableCreate
-          name="topics"
-          data={topics}
-          label={t('form.topics.label')}
-          description={t('form.topics.description')}
-          messages={{
-            createOption: t('form.topics.createOption'),
-            emptyFilter: t('form.topics.emptyFilter'),
-            emptyList: t('form.topics.emptyList'),
-          }}
+        <Contributors
+          name="processors"
+          label={t('form.processors.label')}
           {...commonFieldProps}
         />
         <SelectObjectField
@@ -96,42 +61,12 @@ class LearningResourceAffiliation extends Component {
           labelKey="description"
           {...commonFieldProps}
         />
-        <MultiSelectField
-          name="creators"
-          label={t('form.creators.label')}
-          messages={{
-            createOption: t('form.creators.createOption'),
-            emptyFilter: t('form.creators.emptyFilter'),
-            emptyList: t('form.creators.emptyList'),
-          }}
-          {...commonFieldProps}
-        />
-        <MultiSelectField
-          name="processors"
-          label={t('form.processors.label')}
-          messages={{
-            createOption: t('form.processors.createOption'),
-            emptyFilter: t('form.processors.emptyFilter'),
-            emptyList: t('form.processors.emptyList'),
-          }}
-          {...commonFieldProps}
-        />
-        <MultiSelectField
-          name="rightsholders"
-          label={t('form.rightsholders.label')}
-          messages={{
-            createOption: t('form.rightsholders.createOption'),
-            emptyFilter: t('form.rightsholders.emptyFilter'),
-            emptyList: t('form.rightsholders.emptyList'),
-          }}
-          {...commonFieldProps}
-        />
       </Accordion>
     );
   }
 }
 
-LearningResourceAffiliation.propTypes = {
+LearningResourceCopyright.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
@@ -139,9 +74,6 @@ LearningResourceAffiliation.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  resourceType: PropTypes.arrayOf(PropTypes.string).isRequired,
-  topics: PropTypes.arrayOf(PropTypes.string).isRequired,
-  filter: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-export default injectT(LearningResourceAffiliation);
+export default injectT(LearningResourceCopyright);

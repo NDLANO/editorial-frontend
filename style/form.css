@@ -11,11 +11,12 @@ textarea {
   color: var(--brand-grey-dark);
   width: 100%;
   max-width: 100%;
-  padding: 0.25rem;
+  padding: 0.3rem;
   margin: 0 0 0.1rem;
   box-sizing: border-box;
   border: 1px solid #d4d4d4;
   font-size: 1rem;
+  border-radius: 3px;
 }
 
 select {

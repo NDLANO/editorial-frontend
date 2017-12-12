@@ -189,6 +189,8 @@ const phrases = {
     copyrightSection: 'License and authors',
     save: 'Save',
     abort: 'Abort',
+    validate: 'Validate',
+    publish: 'Publish',
     savedOk: 'Saved OK',
     createdOk: 'Created OK',
     variant: {
@@ -205,6 +207,15 @@ const phrases = {
     visualElement: {
       title: 'Add visual element',
       label: 'Visual element',
+    },
+    status: {
+      created: 'Created',
+      draft: 'Draft',
+      user_test: 'User test',
+      awaiting_quality_assurance: 'Quality assurance',
+      queued_for_publishing: 'Queued for publishing',
+      published: 'Published',
+      imported: 'Imported',
     },
     content: {
       label: 'Content',

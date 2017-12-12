@@ -7,19 +7,54 @@
  */
 
 import jsdom from 'jsdom';
+import { State } from 'slate';
 import {
   topicArticleContentToEditorState,
   topicArticleContentToHTML,
   learningResourceContentToEditorState,
   learningResourceContentToHTML,
   sectionSplitter,
+  isStateEmpty,
+  createEmptyState,
 } from '../articleContentConverter';
+import {
+  stateWithInlineFootnotesAndContentLinks,
+  brState,
+  normalDivState,
+  quoteState,
+  sectionState,
+  headingTwoState,
+  listState,
+  detailsBoxState,
+  tableSlateState,
+  stateWithTwoImageEmbeds,
+} from './slateMockStates';
 
 const contentHTML = `<section><h2>Lorem ipsum</h2></section>`;
 
 const contentHTMLWithSections = `<section><h2>Section 1</h2></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>`;
 
 const fragment = jsdom.JSDOM.fragment;
+
+test('articleContentConverter is state empty should be true if state is empty', () => {
+  const emptyState = createEmptyState();
+  expect(isStateEmpty(emptyState)).toBe(true);
+  expect(isStateEmpty(State.fromJSON(brState))).toBe(true);
+});
+
+test('articleContentConverter is state empty should be false if state is not empty', () => {
+  expect(
+    isStateEmpty(State.fromJSON(stateWithInlineFootnotesAndContentLinks)),
+  ).toBe(false);
+  expect(isStateEmpty(State.fromJSON(normalDivState))).toBe(false);
+  expect(isStateEmpty(State.fromJSON(quoteState))).toBe(false);
+  expect(isStateEmpty(State.fromJSON(sectionState))).toBe(false);
+  expect(isStateEmpty(State.fromJSON(headingTwoState))).toBe(false);
+  expect(isStateEmpty(State.fromJSON(listState()))).toBe(false);
+  expect(isStateEmpty(State.fromJSON(detailsBoxState))).toBe(false);
+  expect(isStateEmpty(State.fromJSON(tableSlateState))).toBe(false);
+  expect(isStateEmpty(State.fromJSON(stateWithTwoImageEmbeds))).toBe(false);
+});
 
 test('articleContentConverter convert topic article content to and from editorState', () => {
   // Todo fix test to handle empty text nodes

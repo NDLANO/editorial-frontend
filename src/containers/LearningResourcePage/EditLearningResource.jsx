@@ -29,7 +29,7 @@ class EditLearningResource extends Component {
 
   componentWillMount() {
     const { articleId, fetchDraft, articleLanguage, fetchTags } = this.props;
-    console.log(articleId)
+    console.log(articleId);
     fetchDraft({ id: articleId, language: articleLanguage });
     fetchTags({ language: articleLanguage });
   }
@@ -72,6 +72,7 @@ class EditLearningResource extends Component {
       <LearningResourceForm
         initialModel={getInitialModel(article)}
         revision={article.revision}
+        articleStatus={article.status}
         tags={tags}
         licenses={licenses}
         isSaving={isSaving}

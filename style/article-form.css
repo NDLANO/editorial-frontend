@@ -29,6 +29,12 @@ a.c-learning-resource-form__abort-button.c-button {
     padding-top: 0;
   }
 
+  &__title {
+    margin: var(--spacing) 0;
+    font-size: 1.5rem;
+    display: block;
+  }
+
   &__header {
     padding: 0.6rem 0;
     background-color: var(--yellow-1);
@@ -67,6 +73,50 @@ a.c-learning-resource-form__abort-button.c-button {
       background-color: var(--background-color--dark);
       transform: none;
       border: 0;
+    }
+  }
+
+  &__status-columns {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+
+    & > * {
+      background-color: var(--brand-grey--light);
+      display: inline-block;
+    }
+  }
+
+  &__status-1-column {
+    width: 24%;
+  }
+
+  &__status-2-column {
+    width: 49%;
+  }
+
+  &__status-1-column,
+  &__status-2-column {
+    padding: 0.2rem;
+    text-align: center;
+    margin: 0 1% 1% 0;
+
+    &--active {
+      background-color: var(--brand-color);
+      color: white;
+    }
+  }
+
+  &__actions {
+    margin-top: var(--spacing--large);
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+
+    & button {
+      border-radius: 0;
+      margin-right: 1%;
+      width: 24%;
     }
   }
 }

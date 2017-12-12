@@ -23,6 +23,17 @@ export const sectionSplitter = html => {
   return sections;
 };
 
+export const isStateEmpty = value => {
+  const { document } = value;
+  const { nodes } = document;
+  if (nodes.isEmpty()) {
+    return true;
+  } else if (nodes.first() && nodes.first().isEmpty) {
+    return true;
+  }
+  return false;
+};
+
 export const createEmptyState = () =>
   State.fromJSON({
     document: {
@@ -89,7 +100,10 @@ export function learningResourceContentToHTML(contentState) {
   });
 
   return contentState
-    .map(section => section.state.isEmpty ? '' : serializer.serialize(section.state))
+    .map(
+      section =>
+        isStateEmpty(section.state) ? '' : serializer.serialize(section.state),
+    )
     .join('')
     .replace(/<deleteme><\/deleteme>/g, '');
 }

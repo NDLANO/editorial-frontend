@@ -87,7 +87,7 @@ test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
   };
 
   nock('http://ndla-api')
-    .get('/article-api/v2/articles/external_id/4737')
+    .get('/draft-api/v1/drafts/external_id/4737')
     .reply(200, { id: '123' });
 
   const component = renderer.create(
@@ -150,7 +150,7 @@ test('MastheadSearchForm redirects on ndla node id pasted', () => {
     push: sinon.spy(),
   };
   nock('http://ndla-api')
-    .get('/article-api/v2/articles/external_id/4737')
+    .get('/draft-api/v1/drafts/external_id/4737')
     .reply(200, { id: '123' });
 
   const component = renderer.create(

@@ -81,6 +81,7 @@ export const getInitialModel = (article = {}) => {
     metaImageId,
     language: article.language,
     articleType: 'standard',
+    status: article.status || [],
   };
 };
 
@@ -115,7 +116,7 @@ class LearningResourceForm extends Component {
     }
 
     const content = learningResourceContentToHTML(model.content);
-
+    console.log('content', content, model.content);
     this.props.onUpdate({
       id: model.id,
       revision,
@@ -147,6 +148,7 @@ class LearningResourceForm extends Component {
       tags,
       licenses,
       isSaving,
+      articleStatus,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
@@ -176,7 +178,11 @@ class LearningResourceForm extends Component {
           commonFieldProps={commonFieldProps}
           licenses={licenses}
         />
-      <LearningResourceWorkflow model={model}/>
+        <LearningResourceWorkflow
+          articleStatus={articleStatus}
+          model={model}
+          saveDraft={this.handleSubmit}
+        />
         <Field right>
           <Link
             to={'/'}
@@ -222,6 +228,7 @@ LearningResourceForm.propTypes = {
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  articleStatus: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default compose(

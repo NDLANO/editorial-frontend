@@ -17,6 +17,7 @@ export const setDraft = createAction('SET_DRAFT');
 export const updateDraft = createAction('UPDATE_DRAFT');
 export const updateDraftSuccess = createAction('UPDATE_DRAFT_SUCCESS');
 export const updateDraftError = createAction('UPDATE_DRAFT_ERROR');
+export const publishDraft = createAction('PUBLISH_DRAFT');
 
 export const actions = {
   updateDraft,
@@ -24,6 +25,7 @@ export const actions = {
   setDraft,
   updateDraftSuccess,
   updateDraftError,
+  publishDraft,
 };
 
 const initalState = {
@@ -41,6 +43,13 @@ export default handleActions(
       throw: state => state,
     },
     [updateDraft]: {
+      next: state => ({
+        ...state,
+        isSaving: true,
+      }),
+      throw: state => state,
+    },
+    [publishDraft]: {
       next: state => ({
         ...state,
         isSaving: true,

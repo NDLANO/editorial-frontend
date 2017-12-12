@@ -16,9 +16,7 @@ const baseUrl = apiResourceUrl('/draft-api/v1/drafts');
 
 export const fetchDraft = (id, language) => {
   const query = queryString.stringify({ language });
-  const url = language
-    ? `${baseUrl}/${id}?${query}`
-    : `${baseUrl}/${id}`;
+  const url = language ? `${baseUrl}/${id}?${query}` : `${baseUrl}/${id}`;
   return fetchWithAccessToken(url).then(resolveJsonOrRejectWithError);
 };
 
@@ -42,4 +40,9 @@ export const fetchNewArticleId = id => {
 export const validateDraft = id =>
   fetchWithAccessToken(`${baseUrl}/${id}/validate`, {
     method: 'PUT',
-  }).then(resolveJsonOrRejectWithError)
+  }).then(resolveJsonOrRejectWithError);
+
+export const publishDraft = id =>
+  fetchWithAccessToken(`${baseUrl}/${id}/publish`, {
+    method: 'PUT',
+  }).then(resolveJsonOrRejectWithError);

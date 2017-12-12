@@ -91,4 +91,26 @@ export function* watchUpdateDraft() {
   }
 }
 
-export default [watchFetchDraft, watchUpdateDraft];
+export function* publishDraft(draft) {
+  try {
+    const updatedDraft = yield call(api.publishDraft, draft.id);
+    yield put(actions.setDraft({ ...updatedDraft, language: draft.language })); // Quick hack to set draft language on updated draft. Maybe language should not be on model?
+    yield put(actions.updateDraftSuccess());
+    yield put(messageActions.addMessage({ translationKey: 'form.savedOk' }));
+  } catch (error) {
+    yield put(actions.updateDraftError());
+    // TODO: handle error
+    yield put(messageActions.applicationError(error));
+  }
+}
+
+export function* watchPublishDraft() {
+  while (true) {
+    const { payload: { draft } } = yield take(actions.publishDraft);
+    if (draft.id) {
+      yield call(publishDraft, draft);
+    }
+  }
+}
+
+export default [watchPublishDraft, watchFetchDraft, watchUpdateDraft];

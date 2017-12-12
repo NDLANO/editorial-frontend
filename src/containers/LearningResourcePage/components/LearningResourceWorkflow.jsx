@@ -10,37 +10,51 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
+import { connect } from 'react-redux';
 import Accordion from '../../../components/Accordion';
-import {validateDraft} from '../../../modules/draft/draftApi';
-
+import { validateDraft } from '../../../modules/draft/draftApi';
+import { actions as draftActions } from '../../../modules/draft/draft';
+import { classes } from './LearningResourceForm';
+import * as messageActions from '../../Messages/messagesActions';
 
 const statuses = [
-  { key: 'CREATED', label:'Opprettet' },
-  { key: 'IMPORTED', label:'Fra spoling' },
-  { key: 'DRAFT', label:'Utkast' },
-  { key: 'QUEUED_FOR_PUBLISHING', label:'Kvalitetsikret/Til publisering' },
-  { key: 'PUBLISHED', label:'Publisert' },
-  { key: 'AWAITING_QUALITY_ASSURANCE', label: "Til kvalitetsikring"}
-]
+  { key: 'CREATED' },
+  { key: 'DRAFT' },
+  { key: 'USER_TEST' },
+  { key: 'AWAITING_QUALITY_ASSURANCE' },
+  {
+    key: 'QUEUED_FOR_PUBLISHING',
+    size: 2,
+  },
+  { key: 'PUBLISHED' },
+  { key: 'IMPORTED' },
+];
 
 // CREATED,IMPORTED,DRAFT,SKETCH,USER_TEST,QUALITY_ASSURED,AWAITING_QUALITY_ASSURANCE
-
 
 class LearningResourceWorkflow extends Component {
   constructor(props) {
     super(props);
     this.state = {
       hiddenWorkflow: true,
+      validationMessages: [],
     };
     this.toggleWorkflow = this.toggleWorkflow.bind(this);
     this.onValidateClick = this.onValidateClick.bind(this);
   }
 
   onValidateClick() {
-    const { model: {id}} = this.props;
-    console.log(id)
-    validateDraft(id).then((res) => {
-      console.log("res", res);
+    const { model: { id }, addMessage } = this.props;
+    validateDraft(id).catch(err => {
+      if (err.json.messages) {
+        addMessage({
+          message: err.json.messages
+            .map(message => `${message.field}: ${message.message}`)
+            .join(', '),
+          severity: 'danger',
+          timeToLive: 0,
+        });
+      }
     });
   }
 
@@ -50,22 +64,44 @@ class LearningResourceWorkflow extends Component {
     }));
   }
 
-
   render() {
-    const { t } = this.props;
+    const { t, model, publishDraft, saveDraft, articleStatus } = this.props;
     return (
       <Accordion
         fill
         handleToggle={this.toggleWorkflow}
         header={t('form.workflowSection')}
         hidden={this.state.hiddenWorkflow}>
-        <label>Status</label>
-        <div className="status">
-        <label>Handlinger</label>
-
-        <Button onClick={this.onValidateClick}>
-          Validate article
-        </Button>
+        <span {...classes('title')}>Status</span>
+        <div {...classes('status-columns')}>
+          {statuses.map(status => (
+            <span
+              key={status.key}
+              {...classes(
+                `status-${status.size || 1}-column`,
+                articleStatus.includes(status.key) ? 'active' : '',
+              )}>
+              {t(`form.status.${status.key.toLowerCase()}`)}
+            </span>
+          ))}
+        </div>
+        <div {...classes('actions')}>
+          {model.id ? (
+            <Button outline onClick={this.onValidateClick}>
+              {t('form.validate')}
+            </Button>
+          ) : (
+            ''
+          )}
+          {model.id ? (
+            <Button outline onClick={() => publishDraft({ draft: model })}>
+              {t('form.publish')}
+            </Button>
+          ) : (
+            ''
+          )}
+          <Button onClick={saveDraft}>{t('form.save')}</Button>
+        </div>
       </Accordion>
     );
   }
@@ -75,6 +111,21 @@ LearningResourceWorkflow.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
   }),
+  articleStatus: PropTypes.arrayOf(PropTypes.string),
+  addMessage: PropTypes.func.isRequired,
+  publishDraft: PropTypes.func.isRequired,
+  saveDraft: PropTypes.func.isRequired,
 };
 
-export default injectT(LearningResourceWorkflow);
+LearningResourceWorkflow.defaultProps = {
+  articleStatus: [],
+};
+
+const mapDispatchToProps = {
+  addMessage: messageActions.addMessage,
+  publishDraft: draftActions.publishDraft,
+};
+
+export default connect(undefined, mapDispatchToProps)(
+  injectT(LearningResourceWorkflow),
+);

@@ -13,7 +13,7 @@ export function toSearch(query) {
 }
 
 export function toEditArticle(articleId, articleType, locale) {
-  const url = articleTypes[articleType] || articleTypes.standard
+  const url = articleTypes[articleType] || articleTypes.standard;
   return `/${url}/${articleId}/edit/${locale}`;
 }
 export function toCreateLearningResource() {

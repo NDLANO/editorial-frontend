@@ -189,6 +189,8 @@ const phrases = {
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
     abort: 'Avbryt',
+    validate: 'Valider',
+    publish: 'Publiser',
     savedOk: 'Lagret OK',
     createdOk: 'Opprettet OK',
     variant: {
@@ -205,6 +207,15 @@ const phrases = {
     visualElement: {
       title: 'Legg til visuelt element',
       label: 'Visuelt element',
+    },
+    status: {
+      created: 'Opprettet',
+      draft: 'Utkast',
+      user_test: 'Brukertest',
+      awaiting_quality_assurance: 'Til kvalitetsikring',
+      queued_for_publishing: 'Kvalitetsikret/Til publisering',
+      published: 'Publisert',
+      imported: 'Fra spoling',
     },
     content: {
       label: 'Innhold',

@@ -114,24 +114,6 @@ class LearningResourceForm extends Component {
       return;
     }
 
-    const creators = model.creators.map(name => ({ type: 'writer', name }));
-    const processors = model.processors.map(name => ({
-      type: 'processor',
-      name,
-    }));
-
-    const rightsholders = model.rightsholders.map(name => ({
-      type: 'rightsholder',
-      name,
-    }));
-
-    const copyright = {
-      license: licenses.find(license => license.license === model.license),
-      origin: model.origin,
-      creators,
-      processors,
-      rightsholders,
-    };
     const content = learningResourceContentToHTML(model.content);
 
     this.props.onUpdate({

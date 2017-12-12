@@ -29,7 +29,6 @@ class EditLearningResource extends Component {
 
   componentWillMount() {
     const { articleId, fetchDraft, articleLanguage, fetchTags } = this.props;
-    console.log(articleId);
     fetchDraft({ id: articleId, language: articleLanguage });
     fetchTags({ language: articleLanguage });
   }

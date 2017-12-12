@@ -45,17 +45,24 @@ class LearningResourceWorkflow extends Component {
 
   onValidateClick() {
     const { model: { id }, addMessage } = this.props;
-    validateDraft(id).catch(err => {
-      if (err.json.messages) {
+    validateDraft(id)
+      .then(() => {
         addMessage({
-          message: err.json.messages
-            .map(message => `${message.field}: ${message.message}`)
-            .join(', '),
-          severity: 'danger',
-          timeToLive: 0,
+          translationKey: 'form.validationOk',
+          serverity: 'success',
         });
-      }
-    });
+      })
+      .catch(err => {
+        if (err && err.json.messages) {
+          addMessage({
+            message: err.json.messages
+              .map(message => `${message.field}: ${message.message}`)
+              .join(', '),
+            severity: 'danger',
+            timeToLive: 0,
+          });
+        }
+      });
   }
 
   toggleWorkflow() {

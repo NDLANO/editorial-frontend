@@ -192,6 +192,8 @@ const phrases = {
     validate: 'Validate',
     publish: 'Publish',
     savedOk: 'Saved OK',
+    publishedOk: 'Published OK',
+    validationOk: 'No validation errors found',
     createdOk: 'Created OK',
     variant: {
       create: 'Create variant +',

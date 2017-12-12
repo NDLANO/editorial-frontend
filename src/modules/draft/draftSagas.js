@@ -39,7 +39,6 @@ export function* fetchDraft(id, language = 'nb') {
 export function* watchFetchDraft() {
   while (true) {
     const { payload: { id, language } } = yield take(actions.fetchDraft);
-    // console.log('called');
     const draft = yield select(getDraft(id));
     if (!draft || draft.id !== id || draft.language !== language) {
       yield call(fetchDraft, id, language);
@@ -93,10 +92,14 @@ export function* watchUpdateDraft() {
 
 export function* publishDraft(draft) {
   try {
-    const updatedDraft = yield call(api.publishDraft, draft.id);
-    yield put(actions.setDraft({ ...updatedDraft, language: draft.language })); // Quick hack to set draft language on updated draft. Maybe language should not be on model?
+    const publishedDraft = yield call(api.publishDraft, draft.id);
+    const currentDraft = yield select(getDraft(draft.id));
+
+    yield put(actions.setDraft({ ...currentDraft, ...publishedDraft })); // Quick hack to set draft language on updated draft. Maybe language should not be on model?
     yield put(actions.updateDraftSuccess());
-    yield put(messageActions.addMessage({ translationKey: 'form.savedOk' }));
+    yield put(
+      messageActions.addMessage({ translationKey: 'form.publishedOk' }),
+    );
   } catch (error) {
     yield put(actions.updateDraftError());
     // TODO: handle error

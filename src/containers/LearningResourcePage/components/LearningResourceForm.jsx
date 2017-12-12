@@ -116,7 +116,6 @@ class LearningResourceForm extends Component {
     }
 
     const content = learningResourceContentToHTML(model.content);
-    console.log('content', content, model.content);
     this.props.onUpdate({
       id: model.id,
       revision,

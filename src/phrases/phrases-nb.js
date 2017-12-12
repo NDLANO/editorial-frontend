@@ -192,6 +192,8 @@ const phrases = {
     validate: 'Valider',
     publish: 'Publiser',
     savedOk: 'Lagret OK',
+    publishedOk: 'Publisert OK',
+    validationOk: 'Ingen validerings feil funnet',
     createdOk: 'Opprettet OK',
     variant: {
       create: 'Lag variant +',

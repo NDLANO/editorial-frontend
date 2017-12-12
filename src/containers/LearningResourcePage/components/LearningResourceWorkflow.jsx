@@ -60,7 +60,7 @@ class LearningResourceWorkflow extends Component {
         header={t('form.workflowSection')}
         hidden={this.state.hiddenWorkflow}>
         <label>Status</label>
-        <div className="status" />
+        <div className="status">
         <label>Handlinger</label>
 
         <Button onClick={this.onValidateClick}>

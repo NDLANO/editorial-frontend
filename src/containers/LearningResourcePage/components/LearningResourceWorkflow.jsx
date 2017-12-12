@@ -13,6 +13,19 @@ import { Button } from 'ndla-ui';
 import Accordion from '../../../components/Accordion';
 import {validateDraft} from '../../../modules/draft/draftApi';
 
+
+const statuses = [
+  { key: 'CREATED', label:'Opprettet' },
+  { key: 'IMPORTED', label:'Fra spoling' },
+  { key: 'DRAFT', label:'Utkast' },
+  { key: 'QUEUED_FOR_PUBLISHING', label:'Kvalitetsikret/Til publisering' },
+  { key: 'PUBLISHED', label:'Publisert' },
+  { key: 'AWAITING_QUALITY_ASSURANCE', label: "Til kvalitetsikring"}
+]
+
+// CREATED,IMPORTED,DRAFT,SKETCH,USER_TEST,QUALITY_ASSURED,AWAITING_QUALITY_ASSURANCE
+
+
 class LearningResourceWorkflow extends Component {
   constructor(props) {
     super(props);
@@ -46,6 +59,10 @@ class LearningResourceWorkflow extends Component {
         handleToggle={this.toggleWorkflow}
         header={t('form.workflowSection')}
         hidden={this.state.hiddenWorkflow}>
+        <label>Status</label>
+        <div className="status" />
+        <label>Handlinger</label>
+
         <Button onClick={this.onValidateClick}>
           Validate article
         </Button>

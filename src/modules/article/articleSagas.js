@@ -39,7 +39,6 @@ export function* fetchArticle(id, language = 'nb') {
 export function* watchFetchArticle() {
   while (true) {
     const { payload: { id, language } } = yield take(actions.fetchArticle);
-    // console.log('called');
     const article = yield select(getArticle(id));
     if (!article || article.id !== id || article.language !== language) {
       yield call(fetchArticle, id, language);

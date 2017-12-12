@@ -9,12 +9,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import {
-  MultiSelectField,
-  SelectObjectField,
-} from '../../../components/Fields';
+import { SelectObjectField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Accordion from '../../../components/Accordion';
+import Contributors from '../../../components/Contributors/Contributors';
 
 class LearningResourceCopyright extends Component {
   constructor(props) {
@@ -40,34 +38,19 @@ class LearningResourceCopyright extends Component {
         header={t('form.copyrightSection')}
         hidden={this.state.hiddenContent}
         fill>
-        <MultiSelectField
+        <Contributors
           name="creators"
           label={t('form.creators.label')}
-          messages={{
-            createOption: t('form.creators.createOption'),
-            emptyFilter: t('form.creators.emptyFilter'),
-            emptyList: t('form.creators.emptyList'),
-          }}
           {...commonFieldProps}
         />
-        <MultiSelectField
-          name="processors"
-          label={t('form.processors.label')}
-          messages={{
-            createOption: t('form.processors.createOption'),
-            emptyFilter: t('form.processors.emptyFilter'),
-            emptyList: t('form.processors.emptyList'),
-          }}
-          {...commonFieldProps}
-        />
-        <MultiSelectField
+        <Contributors
           name="rightsholders"
           label={t('form.rightsholders.label')}
-          messages={{
-            createOption: t('form.rightsholders.createOption'),
-            emptyFilter: t('form.rightsholders.emptyFilter'),
-            emptyList: t('form.rightsholders.emptyList'),
-          }}
+          {...commonFieldProps}
+        />
+        <Contributors
+          name="processors"
+          label={t('form.processors.label')}
           {...commonFieldProps}
         />
         <SelectObjectField

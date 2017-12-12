@@ -16,6 +16,7 @@ import {
 } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 import { CommonFieldPropsShape } from '../../../shapes';
+import Contributors from '../../../components/Contributors/Contributors';
 
 class TopicArticleMetadata extends Component {
   constructor(props) {
@@ -67,14 +68,19 @@ class TopicArticleMetadata extends Component {
             value={bindInput('metaDescription').value.document.text}
           />
         </PlainTextField>
-        <MultiSelectField
+        <Contributors
           name="creators"
           label={t('form.creators.label')}
-          messages={{
-            createOption: t('form.creators.createOption'),
-            emptyFilter: t('form.creators.emptyFilter'),
-            emptyList: t('form.creators.emptyList'),
-          }}
+          {...commonFieldProps}
+        />
+        <Contributors
+          name="rightsholders"
+          label={t('form.rightsholders.label')}
+          {...commonFieldProps}
+        />
+        <Contributors
+          name="processors"
+          label={t('form.processors.label')}
           {...commonFieldProps}
         />
       </Accordion>

@@ -85,12 +85,7 @@ class TopicArticleContent extends Component {
         />
         {/* TODO: Change to c-article-byline */}
         <div {...classes('info')}>
-          {creators.map((creator, i) => {
-            if (creators.length === i + 1 || creators.length === 1) {
-              return `${creator}`;
-            }
-            return `${creator}, `;
-          })}
+          {creators.map(creator => creator.name).join(',')}
           {updated
             ? ` - ${t('topicArticleForm.info.lastUpdated', { updated })}`
             : ''}

@@ -31,12 +31,10 @@ import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
 import TopicArticleMetadata from './TopicArticleMetadata';
 import TopicArticleContent from './TopicArticleContent';
 import { SchemaShape } from '../../../shapes';
-
-const DEFAULT_LICENSE = {
-  description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
-  license: 'by-sa',
-  url: 'https://creativecommons.org/licenses/by-sa/2.0/',
-};
+import {
+  DEFAULT_LICENSE,
+  parseCopyrightContributors,
+} from '../../../util/formHelper';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -48,9 +46,9 @@ export const getInitialModel = (article = {}) => {
     introduction: plainTextToEditorValue(article.introduction, true),
     content: topicArticleContentToEditorValue(article.content),
     tags: article.tags || [],
-    creators: article.copyright
-      ? article.copyright.creators.map(creator => creator.name)
-      : [],
+    creators: parseCopyrightContributors(article, 'creators'),
+    processors: parseCopyrightContributors(article, 'processors'),
+    rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     copyright: article.copyright
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
@@ -109,7 +107,9 @@ class TopicArticleForm extends Component {
       articleType: 'topic-article',
       copyright: {
         ...model.copyright,
-        creators: model.creators.map(name => ({ type: 'writer', name })),
+        creators: model.creators,
+        processors: model.processors,
+        rightsholders: model.rightsholders,
       },
       language,
     });
@@ -224,6 +224,13 @@ export default compose(
     },
     creators: {
       minItems: 1,
+      allObjectFieldsRequired: true,
+    },
+    processors: {
+      allObjectFieldsRequired: true,
+    },
+    rightsholders: {
+      allObjectFieldsRequired: true,
     },
   }),
 )(TopicArticleForm);

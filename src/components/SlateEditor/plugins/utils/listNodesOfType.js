@@ -6,8 +6,8 @@
  *
  */
 
-const listNodesOfType = (state, type) => {
-  const { document } = state;
+const listNodesOfType = (value, type) => {
+  const { document } = value;
 
   return document.filterDescendants(node => node.type === type);
 };

@@ -7,28 +7,28 @@
  */
 
 import jsdom from 'jsdom';
-import { State } from 'slate';
+import { Value } from 'slate';
 import {
-  topicArticleContentToEditorState,
+  topicArticleContentToEditorValue,
   topicArticleContentToHTML,
-  learningResourceContentToEditorState,
+  learningResourceContentToEditorValue,
   learningResourceContentToHTML,
   sectionSplitter,
-  isStateEmpty,
-  createEmptyState,
+  isValueEmpty,
+  createEmptyValue,
 } from '../articleContentConverter';
 import {
-  stateWithInlineFootnotesAndContentLinks,
-  brState,
-  normalDivState,
-  quoteState,
-  sectionState,
-  headingTwoState,
-  listState,
-  detailsBoxState,
-  tableSlateState,
-  stateWithTwoImageEmbeds,
-} from './slateMockStates';
+  valueWithInlineFootnotesAndContentLinks,
+  brValue,
+  normalDivValue,
+  quoteValue,
+  sectionValue,
+  headingTwoValue,
+  listValue,
+  detailsBoxValue,
+  tableSlateValue,
+  valueWithTwoImageEmbeds,
+} from './slateMockValues';
 
 const contentHTML = `<section><h2>Lorem ipsum</h2></section>`;
 
@@ -36,56 +36,56 @@ const contentHTMLWithSections = `<section><h2>Section 1</h2></section><section><
 
 const fragment = jsdom.JSDOM.fragment;
 
-test('articleContentConverter is state empty should be true if state is empty', () => {
-  const emptyState = createEmptyState();
-  expect(isStateEmpty(emptyState)).toBe(true);
-  expect(isStateEmpty(State.fromJSON(brState))).toBe(true);
+test('articleContentConverter is value empty should be true if value is empty', () => {
+  const emptyValue = createEmptyValue();
+  expect(isValueEmpty(emptyValue)).toBe(true);
+  expect(isValueEmpty(Value.fromJSON(brValue))).toBe(true);
 });
 
-test('articleContentConverter is state empty should be false if state is not empty', () => {
+test('articleContentConverter is value empty should be false if value is not empty', () => {
   expect(
-    isStateEmpty(State.fromJSON(stateWithInlineFootnotesAndContentLinks)),
+    isValueEmpty(Value.fromJSON(valueWithInlineFootnotesAndContentLinks)),
   ).toBe(false);
-  expect(isStateEmpty(State.fromJSON(normalDivState))).toBe(false);
-  expect(isStateEmpty(State.fromJSON(quoteState))).toBe(false);
-  expect(isStateEmpty(State.fromJSON(sectionState))).toBe(false);
-  expect(isStateEmpty(State.fromJSON(headingTwoState))).toBe(false);
-  expect(isStateEmpty(State.fromJSON(listState()))).toBe(false);
-  expect(isStateEmpty(State.fromJSON(detailsBoxState))).toBe(false);
-  expect(isStateEmpty(State.fromJSON(tableSlateState))).toBe(false);
-  expect(isStateEmpty(State.fromJSON(stateWithTwoImageEmbeds))).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(normalDivValue))).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(quoteValue))).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(sectionValue))).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(headingTwoValue))).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(listValue()))).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(detailsBoxValue))).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(tableSlateValue))).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(valueWithTwoImageEmbeds))).toBe(false);
 });
 
-test('articleContentConverter convert topic article content to and from editorState', () => {
+test('articleContentConverter convert topic article content to and from editorValue', () => {
   // Todo fix test to handle empty text nodes
-  const editorState = topicArticleContentToEditorState(contentHTML, fragment);
-  const html = topicArticleContentToHTML(editorState);
+  const editorValue = topicArticleContentToEditorValue(contentHTML, fragment);
+  const html = topicArticleContentToHTML(editorValue);
   expect(html).toMatchSnapshot();
 });
 
-test('articleContentConverter convert learningresource content to and from editorState', () => {
-  const editorState = learningResourceContentToEditorState(
+test('articleContentConverter convert learningresource content to and from editorValue', () => {
+  const editorValue = learningResourceContentToEditorValue(
     contentHTML,
     fragment,
   );
-  const html = learningResourceContentToHTML(editorState);
+  const html = learningResourceContentToHTML(editorValue);
   expect(html).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content', () => {
-  const editorState = learningResourceContentToEditorState(
+  const editorValue = learningResourceContentToEditorValue(
     contentHTML,
     fragment,
   );
-  expect(editorState[0].state.toJSON()).toMatchSnapshot();
+  expect(editorValue[0].value.toJSON()).toMatchSnapshot();
 });
 
-test('articleContentConverter convert learningresource content with multiple sections to and from editorState', () => {
-  const editorState = learningResourceContentToEditorState(
+test('articleContentConverter convert learningresource content with multiple sections to and from editorValue', () => {
+  const editorValue = learningResourceContentToEditorValue(
     contentHTMLWithSections,
     fragment,
   );
-  const html = learningResourceContentToHTML(editorState);
+  const html = learningResourceContentToHTML(editorValue);
   expect(html).toMatchSnapshot();
 });
 

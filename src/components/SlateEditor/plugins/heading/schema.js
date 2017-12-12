@@ -9,16 +9,27 @@
 
 import React from 'react';
 
+const schema = {};
+
 /* eslint-disable react/prop-types */
-const headingSchema = {
-  nodes: {
-    'heading-one': props => <h1 {...props.attributes}>{props.children}</h1>,
-    'heading-two': props => <h2 {...props.attributes}>{props.children}</h2>,
-    'heading-three': props => <h3 {...props.attributes}>{props.children}</h3>,
-    'heading-four': props => <h4 {...props.attributes}>{props.children}</h4>,
-    'heading-five': props => <h5 {...props.attributes}>{props.children}</h5>,
-    'heading-six': props => <h6 {...props.attributes}>{props.children}</h6>,
-  },
+const renderNode = props => {
+  const { node } = props;
+  switch (node.type) {
+    case 'heading-one':
+      return <h1 {...props.attributes}>{props.children}</h1>;
+    case 'heading-two':
+      return <h2 {...props.attributes}>{props.children}</h2>;
+    case 'heading-three':
+      return <h3 {...props.attributes}>{props.children}</h3>;
+    case 'heading-four':
+      return <h4 {...props.attributes}>{props.children}</h4>;
+    case 'heading-five':
+      return <h5 {...props.attributes}>{props.children}</h5>;
+    case 'heading-six':
+      return <h6 {...props.attributes}>{props.children}</h6>;
+    default:
+      return null;
+  }
 };
 
-export default headingSchema;
+export { schema, renderNode };

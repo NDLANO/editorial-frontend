@@ -21,9 +21,9 @@ import ArticleHeader from '../../Article/ArticleHeader';
 
 import {
   topicArticleContentToHTML,
-  topicArticleContentToEditorState,
-  editorStateToPlainText,
-  plainTextToEditorState,
+  topicArticleContentToEditorValue,
+  editorValueToPlainText,
+  plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
 
 import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
@@ -43,8 +43,8 @@ export const getInitialModel = (article = {}) => {
     revision: article.revision,
     updated: article.updated,
     title: article.title || '',
-    introduction: plainTextToEditorState(article.introduction, true),
-    content: topicArticleContentToEditorState(article.content),
+    introduction: plainTextToEditorValue(article.introduction, true),
+    content: topicArticleContentToEditorValue(article.content),
     tags: article.tags || [],
     creators: parseCopyrightContributors(article, 'creators'),
     processors: parseCopyrightContributors(article, 'processors'),
@@ -52,7 +52,7 @@ export const getInitialModel = (article = {}) => {
     copyright: article.copyright
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
-    metaDescription: plainTextToEditorState(article.metaDescription, true),
+    metaDescription: plainTextToEditorValue(article.metaDescription, true),
     visualElement: visualElement || {},
     language: article.language,
     articleType: 'topic-article',
@@ -99,11 +99,11 @@ class TopicArticleForm extends Component {
       id: model.id,
       revision,
       title: model.title,
-      introduction: editorStateToPlainText(model.introduction),
+      introduction: editorValueToPlainText(model.introduction),
       tags: model.tags,
       content: topicArticleContentToHTML(model.content),
       visualElement: createEmbedTag(model.visualElement),
-      metaDescription: editorStateToPlainText(model.metaDescription),
+      metaDescription: editorValueToPlainText(model.metaDescription),
       articleType: 'topic-article',
       copyright: {
         ...model.copyright,

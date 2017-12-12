@@ -67,7 +67,7 @@ class SlateBlockPicker extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.editorState.isFocused && this.state.isOpen) {
+    if (!nextProps.editorValue.isFocused && this.state.isOpen) {
       this.setState({ isOpen: false });
     }
   }
@@ -81,13 +81,13 @@ class SlateBlockPicker extends Component {
   }
 
   onInsertBlock(block) {
-    const { editorState, onChange } = this.props;
-    const nextChange = editorState.change().insertBlock(block);
+    const { editorValue, onChange } = this.props;
+    const nextChange = editorValue.change().insertBlock(block);
     onChange(nextChange);
   }
 
   onElementAdd(type) {
-    const { editorState, onChange, addSection } = this.props;
+    const { editorValue, onChange, addSection } = this.props;
     switch (type.type) {
       case 'block': {
         addSection();
@@ -102,7 +102,7 @@ class SlateBlockPicker extends Component {
         break;
       }
       case 'table': {
-        const change = editorState.change();
+        const change = editorValue.change();
         onChange(editTablePlugin.changes.insertTable(change, 2, 2));
         break;
       }
@@ -136,12 +136,12 @@ class SlateBlockPicker extends Component {
   }
 
   focusInsideIllegalArea() {
-    const { editorState, illegalAreas } = this.props;
-    let node = editorState.document.getClosestBlock(
-      editorState.selection.startKey,
+    const { editorValue, illegalAreas } = this.props;
+    let node = editorValue.document.getClosestBlock(
+      editorValue.selection.startKey,
     );
     while (true) {
-      const parent = editorState.document.getParent(node.key);
+      const parent = editorValue.document.getParent(node.key);
       if (
         !parent ||
         parent.get('type') === 'section' ||
@@ -162,14 +162,14 @@ class SlateBlockPicker extends Component {
       'hidden',
     ).className.split(' ')[1];
 
-    const { editorState, allowedPickAreas } = this.props;
-    if (!editorState.selection.startKey) {
+    const { editorValue, allowedPickAreas } = this.props;
+    if (!editorValue.selection.startKey) {
       this.menuEl.classList.add(hiddenClassName);
       return;
     }
 
-    const node = editorState.document.getClosestBlock(
-      editorState.selection.startKey,
+    const node = editorValue.document.getClosestBlock(
+      editorValue.selection.startKey,
     );
     const nodeEl = findDOMNode(node); // eslint-disable-line
 
@@ -177,7 +177,7 @@ class SlateBlockPicker extends Component {
       node.text.length === 0 &&
       !this.focusInsideIllegalArea() &&
       allowedPickAreas.includes(node.type) &&
-      editorState.isFocused;
+      editorValue.isFocused;
 
     if (show) {
       this.menuEl.classList.remove(hiddenClassName);
@@ -235,7 +235,7 @@ class SlateBlockPicker extends Component {
 
 SlateBlockPicker.propTypes = {
   onChange: PropTypes.func.isRequired,
-  editorState: Types.state.isRequired,
+  editorValue: Types.value.isRequired,
   addSection: PropTypes.func.isRequired,
   allowedPickAreas: PropTypes.arrayOf(PropTypes.string),
   illegalAreas: PropTypes.arrayOf(PropTypes.string),

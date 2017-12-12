@@ -46,10 +46,10 @@ class SlateToolbar extends Component {
     this.onClickInline = this.onClickInline.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
     this.portalRef = this.portalRef.bind(this);
-    this.handleStateChange = this.handleStateChange.bind(this);
+    this.handleValueChange = this.handleValueChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
     this.state = {
-      state: this.props.state,
+      value: this.props.value,
     };
   }
 
@@ -63,18 +63,18 @@ class SlateToolbar extends Component {
 
   onClickBlock(e, type) {
     e.preventDefault();
-    const { state } = this.props;
-    const change = state.change();
-    const { document } = state;
-    const isActive = hasNodeOfType(state, type);
+    const { value } = this.props;
+    const change = value.change();
+    const { document } = value;
+    const isActive = hasNodeOfType(value, type);
     if (type === 'quote') {
-      if (blockquotePlugin.utils.isSelectionInBlockquote(state)) {
+      if (blockquotePlugin.utils.isSelectionInBlockquote(value)) {
         blockquotePlugin.changes.unwrapBlockquote(change);
       } else {
         blockquotePlugin.changes.wrapInBlockquote(change);
       }
     } else if (listTypes.includes(type)) {
-      const isListTypeActive = state.blocks.some(
+      const isListTypeActive = value.blocks.some(
         block =>
           !!document.getClosest(block.key, parent => parent.type === type),
       );
@@ -82,7 +82,7 @@ class SlateToolbar extends Component {
       if (isListTypeActive) {
         editListPlugin.changes.unwrapList(change);
         // Current selection is list, but not the same type
-      } else if (editListPlugin.utils.isSelectionInList(state)) {
+      } else if (editListPlugin.utils.isSelectionInList(value)) {
         editListPlugin.changes.unwrapList(change);
         editListPlugin.changes.wrapInList(change, type);
         // No list found, wrap in list type
@@ -92,22 +92,22 @@ class SlateToolbar extends Component {
     } else {
       change.setBlock(isActive ? DEFAULT_NODE : type);
     }
-    this.handleStateChange(change);
+    this.handleValueChange(change);
   }
 
   onClickMark(e, type) {
     e.preventDefault();
-    const { state } = this.props;
-    const nextState = state.change().toggleMark(type);
-    this.handleStateChange(nextState);
+    const { value } = this.props;
+    const nextState = value.change().toggleMark(type);
+    this.handleValueChange(nextState);
   }
 
   onClickInline(e, type) {
     e.preventDefault();
-    const { slateStore, state: editorState } = this.props;
+    const { slateStore, value: editorValue } = this.props;
 
-    if (editorState.inlines && editorState.inlines.size > 0) {
-      const node = editorState.inlines.find(
+    if (editorValue.inlines && editorValue.inlines.size > 0) {
+      const node = editorValue.inlines.find(
         inline => inline.type === footnote || inline.type === link,
       );
       slateStore.dispatch(setActiveNode(node));
@@ -128,20 +128,20 @@ class SlateToolbar extends Component {
     this.setState({ menu: findDOMNode(menu) });
   }
 
-  handleStateChange(change) {
+  handleValueChange(change) {
     const { name, onChange } = this.props;
-    onChange({ target: { name, value: change.state } });
+    onChange({ target: { name, value: change.value } });
     this.updateMenu();
   }
 
   updateMenu() {
     const { menu } = this.state;
-    const { state } = this.props;
+    const { value } = this.props;
     if (!menu) return;
     if (
-      state.isBlurred ||
-      state.isEmpty ||
-      editTablePlugin.utils.isSelectionInTable(state)
+      value.isBlurred ||
+      value.isEmpty ||
+      editTablePlugin.utils.isSelectionInTable(value)
     ) {
       menu.removeAttribute('style');
       return;
@@ -159,7 +159,7 @@ class SlateToolbar extends Component {
   }
 
   render() {
-    const { state } = this.props;
+    const { value } = this.props;
 
     const toolbarButtons = Object.keys(suportedToolbarElements).map(kind =>
       suportedToolbarElements[kind].map(type => (
@@ -167,7 +167,7 @@ class SlateToolbar extends Component {
           key={type}
           type={type}
           kind={kind}
-          state={state}
+          value={value}
           handleHasType={hasNodeOfType}
           handleOnClick={this.onButtonClick}
         />
@@ -185,7 +185,7 @@ class SlateToolbar extends Component {
 SlateToolbar.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  state: Types.state.isRequired,
+  value: Types.value.isRequired,
   slateStore: PropTypes.shape({
     dispatch: PropTypes.func.isRequired,
   }),

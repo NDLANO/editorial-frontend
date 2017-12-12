@@ -11,18 +11,21 @@ import SlateBlockPicker from './SlateBlockPicker';
 import options from './options';
 
 export default function blockPickerPlugin(addSection, opts = {}) {
+  const schema = {};
+  const renderEditor = (props, editor) => (
+    <span>
+      <SlateBlockPicker
+        editorValue={editor.value}
+        onChange={editor.onChange}
+        addSection={addSection}
+        {...options(opts)}
+      />
+      {props.children}
+    </span>
+  );
+
   return {
-    schema: {},
-    render: (props, state, editor) => (
-      <span>
-        <SlateBlockPicker
-          editorState={state}
-          onChange={editor.onChange}
-          addSection={addSection}
-          {...options(opts)}
-        />
-        {props.children}
-      </span>
-    ),
+    schema,
+    renderEditor,
   };
 }

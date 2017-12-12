@@ -102,7 +102,8 @@ class MastheadSearch extends Component {
                   : ['articles', 'images', 'audios'].join(','),
                 articleTypes,
               }),
-            )}
+            )
+          }
         />
       </div>
     );

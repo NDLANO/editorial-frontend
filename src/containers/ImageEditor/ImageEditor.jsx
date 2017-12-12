@@ -70,10 +70,7 @@ class ImageEditor extends Component {
     const properties = {
       data,
     };
-    const next = editor
-      .getState()
-      .change()
-      .setNodeByKey(node.key, properties);
+    const next = editor.value.change().setNodeByKey(node.key, properties);
     editor.onChange(next);
   }
 

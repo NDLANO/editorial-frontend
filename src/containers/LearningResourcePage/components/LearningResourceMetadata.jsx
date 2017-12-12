@@ -64,7 +64,8 @@ class LearningResourceMetadata extends Component {
           <RemainingCharacters
             maxLength={155}
             getRemainingLabel={(maxLength, remaining) =>
-              t('form.remainingCharacters', { maxLength, remaining })}
+              t('form.remainingCharacters', { maxLength, remaining })
+            }
             value={bindInput('metaDescription').value.document.text}
           />
         </PlainTextField>

@@ -11,9 +11,9 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
 const DisplayBrightcoveTag = ({ embedTag, className }) => {
-  const src = `//players.brightcove.net/${window.config
-    .brightCoveAccountId}/${window.config
-    .brightcovePlayerId}_default/index.min.js`;
+  const src = `//players.brightcove.net/${window.config.brightCoveAccountId}/${
+    window.config.brightcovePlayerId
+  }_default/index.min.js`;
   return (
     <figure className={className}>
       <Helmet>

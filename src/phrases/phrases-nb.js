@@ -309,6 +309,7 @@ const phrases = {
   },
   validation: {
     isRequired: '{label} er påkrevd.',
+    bothFields: 'En {labelLowerCase} må inneholde alle felter.',
     isNumeric: '{label} må inneholde tall.',
     maxLength: '{label} kan ikke ha mer enn {maxLength, number} tegn.',
     minLength: '{label} må ha minst {minLength, number} tegn.',

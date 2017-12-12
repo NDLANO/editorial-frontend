@@ -33,12 +33,10 @@ import LearningResourceWorkflow from './LearningResourceWorkflow';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import ArticleHeader from '../../Article/ArticleHeader';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
-
-const DEFAULT_LICENSE = {
-  description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
-  license: 'by-sa',
-  url: 'https://creativecommons.org/licenses/by-sa/2.0/',
-};
+import {
+  DEFAULT_LICENSE,
+  parseCopyrightContributors,
+} from '../../../util/formHelper';
 
 const findFootnotes = content =>
   content
@@ -50,13 +48,6 @@ const findFootnotes = content =>
       [],
     )
     .map(footnoteNode => footnoteNode.data.toJS());
-
-const parseCopyrightContributors = (article, contributorType, subType) =>
-  article.copyright
-    ? article.copyright[contributorType]
-        .filter(contributor => contributor.type === subType)
-        .map(contributor => contributor.name)
-    : [];
 
 const parseImageUrl = url => {
   if (!url) {
@@ -76,13 +67,9 @@ export const getInitialModel = (article = {}) => {
     introduction: plainTextToEditorState(article.introduction, true),
     content: learningResourceContentToEditorState(article.content),
     tags: article.tags || [],
-    creators: parseCopyrightContributors(article, 'creators', 'writer'),
-    processors: parseCopyrightContributors(article, 'processors', 'processor'),
-    rightsholders: parseCopyrightContributors(
-      article,
-      'rightsholders',
-      'rightsholder',
-    ),
+    creators: parseCopyrightContributors(article, 'creators'),
+    processors: parseCopyrightContributors(article, 'processors'),
+    rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     origin:
       article.copyright && article.copyright.origin
         ? article.copyright.origin
@@ -157,7 +144,13 @@ class LearningResourceForm extends Component {
       metaImageId: model.metaImageId,
       metaDescription: editorStateToPlainText(model.metaDescription),
       articleType: 'standard',
-      copyright,
+      copyright: {
+        license: licenses.find(license => license.license === model.license),
+        origin: model.origin,
+        creators: model.creators,
+        processors: model.processors,
+        rightsholders: model.rightsholders,
+      },
       language: model.language,
     });
   }
@@ -280,6 +273,15 @@ export default compose(
     },
     metaDescription: {
       maxLength: 155,
+    },
+    creators: {
+      allObjectFieldsRequired: true,
+    },
+    processors: {
+      allObjectFieldsRequired: true,
+    },
+    rightsholders: {
+      allObjectFieldsRequired: true,
     },
   }),
 )(LearningResourceForm);

@@ -314,6 +314,7 @@ const phrases = {
   validation: {
     isRequired: '{label} is required.',
     isNumeric: '{label} must contain digits.',
+    bothFields: 'One {labelLowerCase} must contain all fields.',
     url: '{label} must contain a valid link.',
     maxLength:
       '{label} must not have more than {maxLength, number} characters.',

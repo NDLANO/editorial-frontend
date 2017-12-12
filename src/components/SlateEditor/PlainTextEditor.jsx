@@ -12,12 +12,12 @@ import { Editor } from 'slate-react';
 import Types from 'slate-prop-types';
 
 const PlainTextEditor = ({ onChange, value, ...rest }) => (
-  <Editor state={value} onChange={onChange} {...rest} />
+  <Editor value={value} onChange={onChange} {...rest} />
 );
 
 PlainTextEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: Types.state.isRequired,
+  value: Types.value.isRequired,
 };
 
 export default PlainTextEditor;

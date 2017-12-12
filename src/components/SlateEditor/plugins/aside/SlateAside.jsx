@@ -17,10 +17,7 @@ const SlateAside = props => {
   const { node, editor } = props;
 
   const onRemoveClick = () => {
-    const next = editor
-      .getState()
-      .change()
-      .removeNodeByKey(node.key);
+    const next = editor.value.change().removeNodeByKey(node.key);
     editor.onChange(next);
   };
 

@@ -14,23 +14,37 @@ export const TYPE = 'link';
 
 export default function linkPlugin() {
   const schema = {
-    nodes: {
-      [TYPE]: Link,
-    },
+    document: {},
   };
+
+  /* eslint-disable react/prop-types */
+  const renderNode = props => {
+    const { node, editor, attributes, children } = props;
+    const { value } = editor.props;
+
+    switch (node.type) {
+      case TYPE:
+        return <Link {...{ attributes, value, editor, node, children }} />;
+      default:
+        return null;
+    }
+  };
+
+  const renderEditor = (props, editor) => (
+    <span>
+      <EditLink
+        value={props.value}
+        blur={editor.blur}
+        slateStore={editor.props.slateStore}
+        onChange={editor.onChange}
+      />
+      {props.children}
+    </span>
+  );
 
   return {
     schema,
-    render: (props, state, editor) => (
-      <span>
-        <EditLink
-          state={state}
-          blur={editor.blur}
-          slateStore={editor.props.slateStore}
-          onChange={editor.onChange}
-        />
-        {props.children}
-      </span>
-    ),
+    renderNode,
+    renderEditor,
   };
 }

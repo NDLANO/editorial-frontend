@@ -18,9 +18,9 @@ import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import {
   learningResourceContentToHTML,
-  learningResourceContentToEditorState,
-  editorStateToPlainText,
-  plainTextToEditorState,
+  learningResourceContentToEditorValue,
+  editorValueToPlainText,
+  plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
 import { isUserProvidedEmbedDataValid } from '../../../util/embedTagHelpers';
 import { findNodesByType } from '../../../util/slateHelpers';
@@ -42,7 +42,7 @@ const findFootnotes = content =>
     .reduce(
       (all, item) => [
         ...all,
-        ...findNodesByType(item.state.document, footnoteType),
+        ...findNodesByType(item.value.document, footnoteType),
       ],
       [],
     )
@@ -63,8 +63,8 @@ export const getInitialModel = (article = {}) => {
     id: article.id,
     revision: article.revision,
     title: article.title || '',
-    introduction: plainTextToEditorState(article.introduction, true),
-    content: learningResourceContentToEditorState(article.content),
+    introduction: plainTextToEditorValue(article.introduction, true),
+    content: learningResourceContentToEditorValue(article.content),
     tags: article.tags || [],
     creators: parseCopyrightContributors(article, 'creators'),
     processors: parseCopyrightContributors(article, 'processors'),
@@ -76,7 +76,7 @@ export const getInitialModel = (article = {}) => {
     license: article.copyright
       ? article.copyright.license.license
       : DEFAULT_LICENSE.license,
-    metaDescription: plainTextToEditorState(article.metaDescription, true),
+    metaDescription: plainTextToEditorValue(article.metaDescription, true),
     metaImageId,
     language: article.language,
     articleType: 'standard',
@@ -117,11 +117,11 @@ class LearningResourceForm extends Component {
       id: model.id,
       revision,
       title: model.title,
-      introduction: editorStateToPlainText(model.introduction),
+      introduction: editorValueToPlainText(model.introduction),
       tags: model.tags,
       content: learningResourceContentToHTML(model.content),
       metaImageId: model.metaImageId,
-      metaDescription: editorStateToPlainText(model.metaDescription),
+      metaDescription: editorValueToPlainText(model.metaDescription),
       articleType: 'standard',
       copyright: {
         license: licenses.find(license => license.license === model.license),
@@ -234,10 +234,9 @@ export default compose(
       required: true,
       test: (value, model, setError) => {
         const embedsHasErrors = value.find(block => {
-          const embeds = findNodesByType(
-            block.state.document,
-            'embed',
-          ).map(node => node.get('data').toJS());
+          const embeds = findNodesByType(block.value.document, 'embed').map(
+            node => node.get('data').toJS(),
+          );
           const notValidEmbeds = embeds.filter(
             embed => !isUserProvidedEmbedDataValid(embed),
           );

@@ -72,9 +72,11 @@ const Contributors = props => {
           index={index}
           contributorTypes={contributorTypeItems}
           handleContributorTypeChange={evt =>
-            handleContributorChange(evt, 'type', index)}
+            handleContributorChange(evt, 'type', index)
+          }
           handleContributorNameChange={evt =>
-            handleContributorChange(evt, 'name', index)}
+            handleContributorChange(evt, 'name', index)
+          }
           removeContributor={evt => removeContributor(evt, index)}
           placeholder={placeholder}
         />

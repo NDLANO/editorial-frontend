@@ -9,16 +9,16 @@
 
 import { setBlock, insertParagraph } from './changes';
 
-export function getCurrentHeading(options, state) {
-  if (!state.selection.startKey) return null;
-  const startBlock = state.startBlock;
+export function getCurrentHeading(options, value) {
+  if (!value.selection.startKey) return null;
+  const startBlock = value.startBlock;
   return startBlock && options.types.includes(startBlock.type)
     ? startBlock
     : null;
 }
 
-export function onEnter(evt, data, change, options) {
-  const currentHeading = getCurrentHeading(options, change.state);
+export function onEnter(evt, value, options, change) {
+  const currentHeading = getCurrentHeading(options, value);
   if (!currentHeading) {
     return null;
   }
@@ -26,10 +26,9 @@ export function onEnter(evt, data, change, options) {
   return insertParagraph(options, change);
 }
 
-export function onBackspace(evt, data, change, options) {
-  const { state } = change;
-  const { startOffset, isCollapsed } = state;
-  const currentHeading = getCurrentHeading(options, state);
+export function onBackspace(evt, value, options, change) {
+  const { startOffset, isCollapsed } = value;
+  const currentHeading = getCurrentHeading(options, value);
   if (!currentHeading || !isCollapsed) {
     return null;
   }

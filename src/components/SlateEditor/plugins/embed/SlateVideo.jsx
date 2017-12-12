@@ -21,9 +21,9 @@ const SlateVideo = ({
   submitted,
   t,
 }) => {
-  const src = `//players.brightcove.net/${window.config
-    .brightCoveAccountId}/${window.config
-    .brightcovePlayerId}_default/index.min.js`;
+  const src = `//players.brightcove.net/${window.config.brightCoveAccountId}/${
+    window.config.brightcovePlayerId
+  }_default/index.min.js`;
   return (
     <Figure {...attributes}>
       <Helmet>

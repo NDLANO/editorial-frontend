@@ -75,6 +75,9 @@ export const getInitialModel = (article = {}) => {
     introduction: plainTextToEditorState(article.introduction, true),
     content: learningResourceContentToEditorState(article.content),
     tags: article.tags || [],
+    resourceType: [],
+    filter: [],
+    topics: [],
     creators: parseCopyrightContributors(article, 'creators', 'writer'),
     processors: parseCopyrightContributors(article, 'processors', 'processor'),
     rightsholders: parseCopyrightContributors(
@@ -151,6 +154,9 @@ class LearningResourceForm extends Component {
       title: model.title,
       introduction: editorStateToPlainText(model.introduction),
       tags: model.tags,
+      resourceType: model.resourceType,
+      filter: model.filter,
+      topics: model.topics,
       content: learningResourceContentToHTML(model.content),
       metaImageId: model.metaImageId,
       metaDescription: editorStateToPlainText(model.metaDescription),
@@ -171,8 +177,8 @@ class LearningResourceForm extends Component {
       licenses,
       isSaving,
       resourceType,
-      topics,
       filter,
+      topics,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
@@ -197,12 +203,12 @@ class LearningResourceForm extends Component {
           bindInput={bindInput}
           tags={tags}
           model={model}
-          resourceType={resourceType}
-          topics={topics}
-          filter={filter}
         />
         <LearningResourceAffiliation
           commonFieldProps={commonFieldProps}
+          resourceType={resourceType}
+          filter={filter}
+          topics={topics}
           licenses={licenses}
         />
         <Field right>
@@ -293,6 +299,15 @@ export default compose(
     },
     tags: {
       minItems: 3,
+    },
+    filter: {
+      minItems: 1,
+    },
+    resourceType: {
+      minItems: 1,
+    },
+    topics: {
+      minItems: 1,
     },
     creators: {
       minItems: 1,

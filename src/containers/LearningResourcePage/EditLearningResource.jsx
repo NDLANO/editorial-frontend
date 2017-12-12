@@ -56,7 +56,15 @@ class EditLearningResource extends Component {
   }
 
   render() {
-    const { article, tags, isSaving, licenses } = this.props;
+    const {
+      article,
+      tags,
+      isSaving,
+      resourceType,
+      filter,
+      topics,
+      licenses,
+    } = this.props;
     if (!article) {
       return null;
     }
@@ -72,6 +80,9 @@ class EditLearningResource extends Component {
         initialModel={getInitialModel(article)}
         revision={article.revision}
         tags={tags}
+        resourceType={resourceType}
+        filter={filter}
+        topics={topics}
         licenses={licenses}
         isSaving={isSaving}
         onUpdate={this.updateArticle}
@@ -83,6 +94,9 @@ class EditLearningResource extends Component {
 EditLearningResource.propTypes = {
   articleId: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  resourceType: PropTypes.arrayOf(PropTypes.string).isRequired,
+  filter: PropTypes.arrayOf(PropTypes.string).isRequired,
+  topics: PropTypes.arrayOf(PropTypes.string).isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

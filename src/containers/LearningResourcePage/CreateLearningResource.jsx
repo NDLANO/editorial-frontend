@@ -34,11 +34,23 @@ class CreateLearningResource extends Component {
   }
 
   render() {
-    const { tags, locale, isSaving, licenses, fetchArticle } = this.props;
+    const {
+      tags,
+      locale,
+      isSaving,
+      resourceType,
+      filter,
+      topics,
+      licenses,
+      fetchArticle,
+    } = this.props;
     return (
       <LearningResourceForm
         initialModel={getInitialModel({ language: locale })}
         tags={tags}
+        resourceType={resourceType}
+        filter={filter}
+        topics={topics}
         licenses={licenses}
         isSaving={isSaving}
         onUpdate={this.updateArticle}
@@ -50,6 +62,9 @@ class CreateLearningResource extends Component {
 
 CreateLearningResource.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  resourceType: PropTypes.arrayOf(PropTypes.string).isRequired,
+  filter: PropTypes.arrayOf(PropTypes.string).isRequired,
+  topics: PropTypes.arrayOf(PropTypes.string).isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

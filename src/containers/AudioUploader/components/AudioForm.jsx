@@ -25,25 +25,24 @@ import { SchemaShape } from '../../../shapes';
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 
-export const getInitialModel = (audio = {}) => {
-  const creators = parseCopyrightContributors(audio, 'creators');
-  return {
-    id: audio.id,
-    revision: audio.revision,
-    language: audio.language,
-    title: audio.title || '',
-    audioFile: audio.audioFile,
-    filepath: '',
-    tags: audio.tags || [],
-    creators,
-    origin:
-      audio.copyright && audio.copyright.origin ? audio.copyright.origin : '',
-    license:
-      audio.copyright && audio.copyright.license
-        ? audio.copyright.license.license
-        : DEFAULT_LICENSE.license,
-  };
-};
+export const getInitialModel = (audio = {}) => ({
+  id: audio.id,
+  revision: audio.revision,
+  language: audio.language,
+  title: audio.title || '',
+  audioFile: audio.audioFile,
+  filepath: '',
+  tags: audio.tags || [],
+  creators: parseCopyrightContributors(audio, 'creators'),
+  processors: parseCopyrightContributors(audio, 'processors'),
+  rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
+  origin:
+    audio.copyright && audio.copyright.origin ? audio.copyright.origin : '',
+  license:
+    audio.copyright && audio.copyright.license
+      ? audio.copyright.license.license
+      : DEFAULT_LICENSE.license,
+});
 
 const classes = new BEMHelper({
   name: 'audio-form',
@@ -83,7 +82,9 @@ class AudioForm extends Component {
       copyright: {
         license: licenses.find(license => license.license === model.license),
         origin: model.origin,
-        creators: model.creators.map(name => ({ type: 'Writer', name })),
+        creators: model.creators,
+        processors: model.processors,
+        rightsholders: model.rightsholders,
       },
     };
     onUpdate(audioMetaData, model.audioFile);
@@ -185,6 +186,13 @@ export default compose(
     },
     creators: {
       minItems: 1,
+      allObjectFieldsRequired: true,
+    },
+    processors: {
+      allObjectFieldsRequired: true,
+    },
+    rightsholders: {
+      allObjectFieldsRequired: true,
     },
     audioFile: {
       required: true,

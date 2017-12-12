@@ -185,7 +185,8 @@ const phrases = {
   form: {
     contentSection: 'Content',
     metadataSection: 'Metadata',
-    affiliationtSection: 'Affiliation',
+    taxonomytSection: 'Taxonomy',
+    copyrightSection: 'License and authors',
     save: 'Save',
     abort: 'Abort',
     savedOk: 'Saved OK',

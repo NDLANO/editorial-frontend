@@ -29,6 +29,7 @@ import { SchemaShape } from '../../../shapes';
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
 import LearningResourceCopyright from './LearningResourceCopyright';
+import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import ArticleHeader from '../../Article/ArticleHeader';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
@@ -175,6 +176,12 @@ class LearningResourceForm extends Component {
             footnotes={findFootnotes(model.content)}
           />
         </LearningResourceContent>
+        <LearningResourceTaxonomy
+          commonFieldProps={commonFieldProps}
+          resourceType={resourceType}
+          filter={filter}
+          topics={topics}
+        />
         <LearningResourceCopyright
           commonFieldProps={commonFieldProps}
           licenses={licenses}

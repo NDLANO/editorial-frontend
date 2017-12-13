@@ -2279,7 +2279,7 @@ exports[`serializing br 1`] = `"<br/>"`;
 
 exports[`serializing bullet list 1`] = `"<ul><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ul>"`;
 
-exports[`serializing details box with summary element 1`] = `"<details><summary></summary></details>"`;
+exports[`serializing details box with summary element 1`] = `"<details><summary>Summary text</summary></details>"`;
 
 exports[`serializing heading-two 1`] = `"<h2>heading 2</h2>"`;
 

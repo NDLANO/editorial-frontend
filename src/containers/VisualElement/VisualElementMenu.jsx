@@ -9,7 +9,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
-import { Cross, H5P, Camera, Plus, Video } from 'ndla-ui/icons';
+import { Cross, Plus } from 'ndla-icons/action';
+import { H5P, Camera, Video } from 'ndla-icons/editor';
 import { classes } from '../../components/Fields';
 
 class VisualElementMenu extends Component {

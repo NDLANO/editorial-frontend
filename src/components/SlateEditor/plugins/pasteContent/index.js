@@ -6,12 +6,15 @@
  *
  */
 
+import { getEventTransfer } from 'slate-react';
+
 const illegalListCharacters = /[\u2022\u00AC\u2663]/g;
 
 const tabCharacter = /\u0009/g;
 export default function pasteContentPlugin() {
-  function onPaste(evt, data, change) {
-    const str = data.text;
+  function onPaste(evt, change) {
+    const transfer = getEventTransfer(evt);
+    const str = transfer.text;
     if (str.match(illegalListCharacters)) {
       const newString = str
         .replace(illegalListCharacters, '')

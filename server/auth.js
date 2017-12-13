@@ -37,8 +37,9 @@ export const getToken = () =>
 
 export const getBrightcoveToken = () => {
   const bightCoveUrl = 'https://oauth.brightcove.com/v3/access_token';
-  const clientIdSecret = `${process.env.BRIGHTCOVE_API_CLIENT_ID}:${process.env
-    .BRIGHTCOVE_API_CLIENT_SECRET}`;
+  const clientIdSecret = `${process.env.BRIGHTCOVE_API_CLIENT_ID}:${
+    process.env.BRIGHTCOVE_API_CLIENT_SECRET
+  }`;
   return fetch(bightCoveUrl, {
     method: 'POST',
     headers: {

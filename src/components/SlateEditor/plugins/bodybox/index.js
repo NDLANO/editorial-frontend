@@ -6,6 +6,7 @@
  *
  */
 
+import React from 'react';
 import { Block } from 'slate';
 import SlateBodyBox from './SlateBodyBox';
 import { defaultBlock } from '../../schema';
@@ -19,12 +20,36 @@ export const defaultBodyBoxBlock = () =>
 
 export default function createBodyBox() {
   const schema = {
-    nodes: {
-      bodybox: SlateBodyBox,
-    },
+    document: {},
+  };
+
+  // Rule to always insert a paragraph as the last node inside if void type
+  function validateNode(node) {
+    if (node.kind !== 'block') return null;
+    if (node.type !== 'bodybox') return null;
+    if (!node.nodes.last().type) return null;
+    if (!node.nodes.last().isVoid) return null;
+
+    const block = Block.create(defaultBlock);
+    return change => {
+      change.insertNodeByKey(node.key, node.nodes.size, block);
+    };
+  }
+
+  /* eslint-disable react/prop-types */
+  const renderNode = props => {
+    const { node } = props;
+    switch (node.type) {
+      case 'bodybox':
+        return <SlateBodyBox {...props} />;
+      default:
+        return null;
+    }
   };
 
   return {
     schema,
+    renderNode,
+    validateNode,
   };
 }

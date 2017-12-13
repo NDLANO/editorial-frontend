@@ -14,6 +14,7 @@ import get from 'lodash/fp/get';
 import MultiSelect from './MultiSelect';
 import { isEmpty } from './validators';
 import PlainTextEditor from '../components/SlateEditor/PlainTextEditor';
+import ObjectSelector from './ObjectSelector';
 
 export const classes = new BEMHelper({
   name: 'field',
@@ -319,8 +320,9 @@ export const PlainTextField = ({
         id={name}
         onChange={val =>
           onChange({
-            target: { name, value: val.state, type: 'SlateEditorState' },
-          })}
+            target: { name, value: val.value, type: 'SlateEditorValue' },
+          })
+        }
         value={value}
         {...rest}
       />
@@ -387,19 +389,15 @@ MultiSelectField.propTypes = {
 
 export const SelectObjectField = props => {
   const {
-    bindInput,
     name,
-    idKey,
-    labelKey,
     obligatory,
     description,
     label,
     submitted,
     schema,
-    options,
+    bindInput,
     ...rest
   } = props;
-
   return (
     <Field>
       <label htmlFor={name}>{label}</label>
@@ -408,15 +406,7 @@ export const SelectObjectField = props => {
           {description}
         </FieldDescription>
       )}
-      <select {...bindInput(name)} {...rest}>
-        {options.map(option => (
-          <option
-            key={option[idKey] ? option[idKey] : uuid()}
-            value={option[idKey]}>
-            {option[labelKey]}
-          </option>
-        ))}
-      </select>
+      <ObjectSelector name={name} {...bindInput(name)} {...rest} />
       <FieldErrorMessages
         label={label}
         field={getField(name, schema)}

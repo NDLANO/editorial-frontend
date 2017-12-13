@@ -10,19 +10,20 @@ import React from 'react';
 import { fromJS } from 'immutable';
 import renderer from 'react-test-renderer';
 import jsdom from 'jsdom';
-import { State } from 'slate';
+import { Value } from 'slate';
 import Html from 'slate-html-serializer';
 import {
-  stateWithInlineFootnotesAndContentLinks,
-  stateWithTwoImageEmbeds,
-  tableSlateState,
-  listState,
-  headingTwoState,
-  sectionState,
-  quoteState,
-  brState,
-  normalDivState,
-} from './slateMockStates';
+  valueWithInlineFootnotesAndContentLinks,
+  valueWithTwoImageEmbeds,
+  tableSlateValue,
+  listValue,
+  detailsBoxValue,
+  headingTwoValue,
+  sectionValue,
+  quoteValue,
+  brValue,
+  normalDivValue,
+} from './slateMockValues';
 import {
   footnoteRule,
   learningResourceEmbedRule,
@@ -36,7 +37,7 @@ import {
   paragraphRule,
   learningResourceRules,
 } from '../slateHelpers';
-import { standardArticleHTML, standardArticleState } from './slateMockArticle';
+import { standardArticleHTML, standardArticleValue } from './slateMockArticle';
 
 const fragment = jsdom.JSDOM.fragment;
 
@@ -52,13 +53,13 @@ test('serialize embed block', () => {
 });
 
 test('find embed nodes in slate document', () => {
-  const document = State.fromJSON(stateWithTwoImageEmbeds).document;
+  const document = Value.fromJSON(valueWithTwoImageEmbeds).document;
   const embeds = findNodesByType(document, 'embed');
   expect(embeds.length).toBe(2);
 });
 
 test('find footnote nodes in slate document', () => {
-  const document = State.fromJSON(stateWithInlineFootnotesAndContentLinks)
+  const document = Value.fromJSON(valueWithInlineFootnotesAndContentLinks)
     .document;
   const embeds = findNodesByType(document, 'footnote');
   expect(embeds.length).toBe(2);
@@ -98,8 +99,8 @@ test('serializing a normal div block', () => {
     rules: [paragraphRule, divRule],
     parseHtml: fragment,
   });
-  const state = State.fromJSON(normalDivState);
-  const serialized = serializer.serialize(state);
+  const value = Value.fromJSON(normalDivValue);
+  const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });
 
@@ -129,9 +130,9 @@ test('serialize footnote', () => {
     nodes: [
       {
         kind: 'text',
-        ranges: [
+        leaves: [
           {
-            kind: 'range',
+            kind: 'leaf',
             marks: [],
             text: '#',
           },
@@ -163,8 +164,8 @@ test('deserializing table', () => {
 
 test('serializing table', () => {
   const serializer = new Html({ rules: [tableRules], parseHtml: fragment });
-  const state = State.fromJSON(tableSlateState);
-  const serialized = serializer.serialize(state);
+  const value = Value.fromJSON(tableSlateValue);
+  const serialized = serializer.serialize(value);
   expect(serialized).toMatch(tableHTML);
 });
 
@@ -184,8 +185,8 @@ test('serializing bullet list', () => {
     rules: [blockRules, listItemRule, paragraphRule],
     parseHtml: fragment,
   });
-  const state = State.fromJSON(listState('bulleted-list'));
-  const serialized = serializer.serialize(state);
+  const value = Value.fromJSON(listValue('bulleted-list'));
+  const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });
 
@@ -205,8 +206,8 @@ test('serializing numbered list', () => {
     rules: [blockRules, orderListRules, listItemRule, paragraphRule],
     parseHtml: fragment,
   });
-  const state = State.fromJSON(listState('numbered-list'));
-  const serialized = serializer.serialize(state);
+  const value = Value.fromJSON(listValue('numbered-list'));
+  const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });
 
@@ -226,8 +227,8 @@ test('serializing letter list', () => {
     rules: [orderListRules, blockRules, listItemRule, paragraphRule],
     parseHtml: fragment,
   });
-  const state = State.fromJSON(listState('letter-list'));
-  const serialized = serializer.serialize(state);
+  const value = Value.fromJSON(listValue('letter-list'));
+  const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });
 
@@ -239,6 +240,27 @@ test('deserializing list with paragraph inside li elements', () => {
   const listWithParagraphs =
     '<ul><li><p>paragraph 1</p></li><li><p>paragraph 2</p></li><li><p><strong>bold paragraph 3</strong></p></li></ul>';
   const deserialized = serializer.deserialize(listWithParagraphs);
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('serializing details box with summary element', () => {
+  const serializer = new Html({
+    rules: [blockRules],
+    parseHtml: fragment,
+  });
+  const value = Value.fromJSON(detailsBoxValue);
+  const serialized = serializer.serialize(value);
+  expect(serialized).toMatchSnapshot();
+});
+
+test('deserializing details box with summary element', () => {
+  const serializer = new Html({
+    rules: [blockRules, paragraphRule],
+    parseHtml: fragment,
+  });
+  const detailsWithSummary =
+    '<details><summary>Summary text</summary><p>Details text</p></details>';
+  const deserialized = serializer.deserialize(detailsWithSummary);
   expect(toJSON(deserialized)).toMatchSnapshot();
 });
 
@@ -257,8 +279,8 @@ test('serializing section', () => {
     rules: [blockRules, paragraphRule],
     parseHtml: fragment,
   });
-  const state = State.fromJSON(sectionState);
-  const serialized = serializer.serialize(state);
+  const value = Value.fromJSON(sectionValue);
+  const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });
 
@@ -294,8 +316,8 @@ test('serializing heading-two', () => {
     rules: [blockRules],
     parseHtml: fragment,
   });
-  const state = State.fromJSON(headingTwoState);
-  const serialized = serializer.serialize(state);
+  const value = Value.fromJSON(headingTwoValue);
+  const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });
 
@@ -315,8 +337,8 @@ test('serializing quote', () => {
     rules: [blockRules],
     parseHtml: fragment,
   });
-  const state = State.fromJSON(quoteState);
-  const serialized = serializer.serialize(state);
+  const value = Value.fromJSON(quoteValue);
+  const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });
 
@@ -335,8 +357,8 @@ test('serializing br', () => {
     rules: [blockRules],
     parseHtml: fragment,
   });
-  const state = State.fromJSON(brState);
-  const serialized = serializer.serialize(state);
+  const value = Value.fromJSON(brValue);
+  const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });
 
@@ -354,7 +376,7 @@ test('serializing standard article', () => {
     rules: learningResourceRules,
     parseHtml: fragment,
   });
-  const state = State.fromJSON(standardArticleState);
-  const serialized = serializer.serialize(state);
+  const value = Value.fromJSON(standardArticleValue);
+  const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });

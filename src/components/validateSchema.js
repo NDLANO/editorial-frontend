@@ -20,6 +20,7 @@ import {
   minItems,
   maxLength,
   isNumeric,
+  objectHasBothField,
 } from './validators';
 
 const getValidationErrors = (schema, model, fields, t) =>
@@ -33,6 +34,14 @@ const getValidationErrors = (schema, model, fields, t) =>
 
       if (rules.required && isEmpty(value)) {
         errors.push(label => t('validation.isRequired', { label }));
+      }
+
+      if (rules.allObjectFieldsRequired) {
+        if (value.filter(v => !objectHasBothField(v)).length > 0) {
+          errors.push(label =>
+            t('validation.bothFields', { labelLowerCase: label.toLowerCase() }),
+          );
+        }
       }
 
       if (rules.numeric && !isNumeric(value)) {

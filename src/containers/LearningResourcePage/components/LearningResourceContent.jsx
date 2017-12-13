@@ -13,16 +13,22 @@ import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
 import Accordion from '../../../components/Accordion';
 import LearningResourceIngress from './LearningResourceIngress';
-import schema from '../../../components/SlateEditor/schema';
+import {
+  renderNode,
+  schema,
+  renderMark,
+  validateNode,
+} from '../../../components/SlateEditor/schema';
 import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
 import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
+import createDetailsPlugin from '../../../components/SlateEditor/plugins/detailsbox';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
 import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPicker';
-import { createEmptyState } from '../../../util/articleContentConverter';
+import { createEmptyValue } from '../../../util/articleContentConverter';
 
 import {
   editListPlugin,
@@ -48,6 +54,7 @@ class LearningResourceContent extends Component {
       createEmbedPlugin(),
       createBodyBoxPlugin(),
       createAsidePlugin(),
+      createDetailsPlugin(),
       createLinkPlugin(),
       headingPlugin(),
       blockquotePlugin,
@@ -69,7 +76,7 @@ class LearningResourceContent extends Component {
     const { commonFieldProps: { bindInput } } = this.props;
     const { value, onChange } = bindInput('content');
     const newblocks = [].concat(value);
-    newblocks.push({ state: createEmptyState(), index: value.length });
+    newblocks.push({ value: createEmptyValue(), index: value.length });
     onChange({
       target: {
         name: 'content',
@@ -106,6 +113,9 @@ class LearningResourceContent extends Component {
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
         <RichBlockTextField
           slateSchema={schema}
+          renderNode={renderNode}
+          renderMark={renderMark}
+          validateNode={validateNode}
           label={t('form.content.label')}
           placeholder={contentPlaceholder}
           name="content"

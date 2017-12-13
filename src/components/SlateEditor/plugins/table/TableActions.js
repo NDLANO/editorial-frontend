@@ -27,11 +27,11 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const TableActions = ({ state, editor, t }) => {
+const TableActions = ({ value, editor, t }) => {
   const handleOnClick = (e, operation) => {
     e.preventDefault();
-    const change = state.change();
-    const position = editTablePlugin.utils.getPosition(state);
+    const change = value.change();
+    const position = editTablePlugin.utils.getPosition(value);
     switch (operation) {
       case 'row-remove': {
         if (position.getHeight() > 2) {
@@ -60,7 +60,7 @@ const TableActions = ({ state, editor, t }) => {
   };
 
   const show =
-    editTablePlugin.utils.isSelectionInTable(state) && state.isFocused;
+    editTablePlugin.utils.isSelectionInTable(value) && value.isFocused;
   return (
     <div {...classes('', show ? 'show' : 'hidden')}>
       {supportedTableOperations.map(operation => (
@@ -77,7 +77,7 @@ const TableActions = ({ state, editor, t }) => {
 };
 
 TableActions.propTypes = {
-  state: Types.state.isRequired,
+  value: Types.value.isRequired,
   editor: EditorShape.isRequired,
 };
 

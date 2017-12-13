@@ -11,16 +11,17 @@ textarea {
   color: var(--brand-grey-dark);
   width: 100%;
   max-width: 100%;
-  padding: 0.25rem;
+  padding: 0.3rem;
   margin: 0 0 0.1rem;
   box-sizing: border-box;
   border: 1px solid #d4d4d4;
   font-size: 1rem;
+  border-radius: 1px;
 }
 
 select {
   border: 1px solid var(--brand-grey-dark);
-  border-radius: 0;
+  border-radius: 1px;
   background: #fff;
   min-height: 1.5em;
   color: var(--brand-grey-dark);

@@ -71,4 +71,44 @@
     width: 70%;
     border-bottom: 2px solid var(--brand-color--light);
   }
+
+  &__three-column {
+    display: flex;
+    flex-flow: row;
+    margin-top: var(--spacing--small);
+
+    & > * {
+      display: inline-block;
+    }
+
+    & > *:nth-child(1) {
+      width: 60%;
+    }
+
+    & > *:nth-child(2) {
+      margin-left: 0.5rem;
+      width: 35%;
+    }
+
+    & > *:nth-child(3) {
+      margin-left: 0.5rem;
+      width: 5%;
+    }
+  }
+
+  &__circle-button {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    color: white;
+    background-color: var(--brand-grey-dark);
+    display: block;
+    margin-top: var(--spacing--small);
+
+    &:hover,
+    &:focus {
+      color: white;
+      background-color: var(--brand-grey);
+    }
+  }
 }

@@ -1,4 +1,4 @@
-export const stateWithTwoImageEmbeds = {
+export const valueWithTwoImageEmbeds = {
   document: {
     data: {},
     kind: 'document',
@@ -25,7 +25,7 @@ export const stateWithTwoImageEmbeds = {
             nodes: [
               {
                 kind: 'text',
-                ranges: [{ kind: 'range', text: ' ', marks: [] }],
+                leaves: [{ kind: 'leaf', text: ' ', marks: [] }],
               },
             ],
           },
@@ -37,9 +37,9 @@ export const stateWithTwoImageEmbeds = {
             nodes: [
               {
                 kind: 'text',
-                ranges: [
+                leaves: [
                   {
-                    kind: 'range',
+                    kind: 'leaf',
                     text:
                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
                     marks: [],
@@ -88,7 +88,7 @@ export const stateWithTwoImageEmbeds = {
             nodes: [
               {
                 kind: 'text',
-                ranges: [{ kind: 'range', text: ' ', marks: [] }],
+                leaves: [{ kind: 'leaf', text: ' ', marks: [] }],
               },
             ],
           },
@@ -100,7 +100,7 @@ export const stateWithTwoImageEmbeds = {
             nodes: [
               {
                 kind: 'text',
-                ranges: [{ kind: 'range', text: '', marks: [] }],
+                leaves: [{ kind: 'leaf', text: '', marks: [] }],
               },
             ],
           },
@@ -108,10 +108,10 @@ export const stateWithTwoImageEmbeds = {
       },
     ],
   },
-  kind: 'state',
+  kind: 'value',
 };
 
-export const stateWithInlineFootnotesAndContentLinks = {
+export const valueWithInlineFootnotesAndContentLinks = {
   document: {
     data: {},
     kind: 'document',
@@ -130,9 +130,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
             nodes: [
               {
                 kind: 'text',
-                ranges: [
+                leaves: [
                   {
-                    kind: 'range',
+                    kind: 'leaf',
                     text:
                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et ',
                     marks: [],
@@ -151,9 +151,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
                 nodes: [
                   {
                     kind: 'text',
-                    ranges: [
+                    leaves: [
                       {
-                        kind: 'range',
+                        kind: 'leaf',
                         text: 'dolore',
                         marks: [],
                       },
@@ -163,9 +163,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
               },
               {
                 kind: 'text',
-                ranges: [
+                leaves: [
                   {
-                    kind: 'range',
+                    kind: 'leaf',
                     text:
                       ' magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                     marks: [],
@@ -187,9 +187,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
                 nodes: [
                   {
                     kind: 'text',
-                    ranges: [
+                    leaves: [
                       {
-                        kind: 'range',
+                        kind: 'leaf',
                         text: '#',
                         marks: [],
                       },
@@ -199,9 +199,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
               },
               {
                 kind: 'text',
-                ranges: [
+                leaves: [
                   {
-                    kind: 'range',
+                    kind: 'leaf',
                     text:
                       ' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est ',
                     marks: [],
@@ -220,9 +220,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
                 nodes: [
                   {
                     kind: 'text',
-                    ranges: [
+                    leaves: [
                       {
-                        kind: 'range',
+                        kind: 'leaf',
                         text: 'laborum',
                         marks: [],
                       },
@@ -232,9 +232,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
               },
               {
                 kind: 'text',
-                ranges: [
+                leaves: [
                   {
-                    kind: 'range',
+                    kind: 'leaf',
                     text: '.',
                     marks: [],
                   },
@@ -250,9 +250,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
             nodes: [
               {
                 kind: 'text',
-                ranges: [
+                leaves: [
                   {
-                    kind: 'range',
+                    kind: 'leaf',
                     text:
                       'Lorem ipsum dolor sit amet, consectetur a dipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                     marks: [],
@@ -274,9 +274,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
                 nodes: [
                   {
                     kind: 'text',
-                    ranges: [
+                    leaves: [
                       {
-                        kind: 'range',
+                        kind: 'leaf',
                         text: '#',
                         marks: [],
                       },
@@ -286,9 +286,9 @@ export const stateWithInlineFootnotesAndContentLinks = {
               },
               {
                 kind: 'text',
-                ranges: [
+                leaves: [
                   {
-                    kind: 'range',
+                    kind: 'leaf',
                     text: '',
                     marks: [],
                   },
@@ -300,10 +300,10 @@ export const stateWithInlineFootnotesAndContentLinks = {
       },
     ],
   },
-  kind: 'state',
+  kind: 'value',
 };
 
-export const tableSlateState = {
+export const tableSlateValue = {
   document: {
     data: {},
     kind: 'document',
@@ -325,9 +325,9 @@ export const tableSlateState = {
                 nodes: [
                   {
                     kind: 'text',
-                    ranges: [
+                    leaves: [
                       {
-                        kind: 'range',
+                        kind: 'leaf',
                         marks: [],
                         text: 'column 1',
                       },
@@ -343,9 +343,9 @@ export const tableSlateState = {
                 nodes: [
                   {
                     kind: 'text',
-                    ranges: [
+                    leaves: [
                       {
-                        kind: 'range',
+                        kind: 'leaf',
                         marks: [],
                         text: 'column 2',
                       },
@@ -369,9 +369,9 @@ export const tableSlateState = {
                 nodes: [
                   {
                     kind: 'text',
-                    ranges: [
+                    leaves: [
                       {
-                        kind: 'range',
+                        kind: 'leaf',
                         marks: [],
                         text: 'column 1',
                       },
@@ -387,9 +387,9 @@ export const tableSlateState = {
                 nodes: [
                   {
                     kind: 'text',
-                    ranges: [
+                    leaves: [
                       {
-                        kind: 'range',
+                        kind: 'leaf',
                         marks: [],
                         text: 'column 2',
                       },
@@ -406,10 +406,56 @@ export const tableSlateState = {
       },
     ],
   },
-  kind: 'state',
+  kind: 'value',
 };
 
-export const listState = (type = 'numbered-list') => ({
+export const detailsBoxValue = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            data: {},
+            isVoid: false,
+            kind: 'block',
+            nodes: [
+              {
+                kind: 'text',
+                leaves: [
+                  {
+                    kind: 'range',
+                    marks: [],
+                    text: 'Summary text',
+                  },
+                ],
+              },
+            ],
+            type: 'summary',
+          },
+          {
+            kind: 'text',
+            leaves: [
+              {
+                kind: 'range',
+                marks: [],
+                text: 'Details text',
+              },
+            ],
+          },
+        ],
+        type: 'details',
+      },
+    ],
+  },
+  kind: 'value',
+};
+
+export const listValue = (type = 'numbered-list') => ({
   document: {
     data: {},
     kind: 'document',
@@ -433,9 +479,9 @@ export const listState = (type = 'numbered-list') => ({
                 nodes: [
                   {
                     kind: 'text',
-                    ranges: [
+                    leaves: [
                       {
-                        kind: 'range',
+                        kind: 'leaf',
                         marks: [],
                         text: 'Rad 1',
                       },
@@ -459,9 +505,9 @@ export const listState = (type = 'numbered-list') => ({
                 nodes: [
                   {
                     kind: 'text',
-                    ranges: [
+                    leaves: [
                       {
-                        kind: 'range',
+                        kind: 'leaf',
                         marks: [],
                         text: 'Rad 2',
                       },
@@ -485,9 +531,9 @@ export const listState = (type = 'numbered-list') => ({
                 nodes: [
                   {
                     kind: 'text',
-                    ranges: [
+                    leaves: [
                       {
-                        kind: 'range',
+                        kind: 'leaf',
                         marks: [],
                         text: 'Rad 3',
                       },
@@ -504,10 +550,10 @@ export const listState = (type = 'numbered-list') => ({
       },
     ],
   },
-  kind: 'state',
+  kind: 'value',
 });
 
-export const headingTwoState = {
+export const headingTwoValue = {
   document: {
     data: {},
     kind: 'document',
@@ -519,9 +565,9 @@ export const headingTwoState = {
         nodes: [
           {
             kind: 'text',
-            ranges: [
+            leaves: [
               {
-                kind: 'range',
+                kind: 'leaf',
                 marks: [],
                 text: 'heading 2',
               },
@@ -532,10 +578,10 @@ export const headingTwoState = {
       },
     ],
   },
-  kind: 'state',
+  kind: 'value',
 };
 
-export const sectionState = {
+export const sectionValue = {
   document: {
     data: {},
     kind: 'document',
@@ -552,9 +598,9 @@ export const sectionState = {
             nodes: [
               {
                 kind: 'text',
-                ranges: [
+                leaves: [
                   {
-                    kind: 'range',
+                    kind: 'leaf',
                     marks: [],
                     text: 'Paragraph text',
                   },
@@ -568,10 +614,10 @@ export const sectionState = {
       },
     ],
   },
-  kind: 'state',
+  kind: 'value',
 };
 
-export const quoteState = {
+export const quoteValue = {
   document: {
     data: {},
     kind: 'document',
@@ -583,9 +629,9 @@ export const quoteState = {
         nodes: [
           {
             kind: 'text',
-            ranges: [
+            leaves: [
               {
-                kind: 'range',
+                kind: 'leaf',
                 marks: [],
                 text: 'This quote should be both smart and wise',
               },
@@ -596,10 +642,10 @@ export const quoteState = {
       },
     ],
   },
-  kind: 'state',
+  kind: 'value',
 };
 
-export const normalDivState = {
+export const normalDivValue = {
   document: {
     data: {},
     kind: 'document',
@@ -616,9 +662,9 @@ export const normalDivState = {
             nodes: [
               {
                 kind: 'text',
-                ranges: [
+                leaves: [
                   {
-                    kind: 'range',
+                    kind: 'leaf',
                     marks: [],
                     text: 'A paragraph',
                   },
@@ -632,10 +678,10 @@ export const normalDivState = {
       },
     ],
   },
-  kind: 'state',
+  kind: 'value',
 };
 
-export const brState = {
+export const brValue = {
   document: {
     data: {},
     kind: 'document',
@@ -647,9 +693,9 @@ export const brState = {
         nodes: [
           {
             kind: 'text',
-            ranges: [
+            leaves: [
               {
-                kind: 'range',
+                kind: 'leaf',
                 marks: [],
                 text: '',
               },
@@ -660,5 +706,5 @@ export const brState = {
       },
     ],
   },
-  kind: 'state',
+  kind: 'value',
 };

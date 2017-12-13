@@ -6,7 +6,7 @@
  *
  */
 
-import { State } from 'slate';
+import { Value } from 'slate';
 
 import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
@@ -23,8 +23,29 @@ export const sectionSplitter = html => {
   return sections;
 };
 
-export const createEmptyState = () =>
-  State.fromJSON({
+export const isValueEmpty = value => {
+  const { document } = value;
+  const { nodes } = document;
+  if (nodes.isEmpty()) {
+    return true;
+  } else if (
+    nodes.first().type === 'section' &&
+    nodes.first().nodes.size === 1 &&
+    nodes.first().nodes.first().isEmpty
+  ) {
+    return true;
+  } else if (
+    nodes.size === 1 &&
+    nodes.first().type !== 'section' &&
+    nodes.first().isEmpty
+  ) {
+    return true;
+  }
+  return false;
+};
+
+export const createEmptyValue = () =>
+  Value.fromJSON({
     document: {
       nodes: [
         {
@@ -37,7 +58,7 @@ export const createEmptyState = () =>
               nodes: [
                 {
                   kind: 'text',
-                  ranges: [
+                  leaves: [
                     {
                       text: '',
                     },
@@ -51,14 +72,14 @@ export const createEmptyState = () =>
     },
   });
 
-export function learningResourceContentToEditorState(
+export function learningResourceContentToEditorValue(
   html,
   fragment = undefined,
 ) {
   if (!html) {
     return [
       {
-        state: createEmptyState(),
+        value: createEmptyValue(),
         index: 0,
       },
     ];
@@ -69,51 +90,57 @@ export function learningResourceContentToEditorState(
     parseHtml: fragment,
   });
   /**
-   Map over each section and deserialize to get a new slate state. On this state, normalize with the schema rules and use the changed state. this
+   Map over each section and deserialize to get a new slate value. On this value, normalize with the schema rules and use the changed value. this
    implementation was needed because of v0.22.0 change (onBeforeChange was removed from componentWillReceiveProps in editor).
    https://github.com/ianstormtaylor/slate/issues/1111
   */
   return sections.map((section, index) => {
-    const state = serializer.deserialize(section);
+    const value = serializer.deserialize(section);
     return {
-      state,
+      value,
       index,
     };
   });
 }
 
-export function learningResourceContentToHTML(contentState) {
+export function learningResourceContentToHTML(contentValue) {
   // Use footnoteCounter hack until we have a better footnote api
   const serializer = new Html({
     rules: learningResourceRules,
   });
 
-  return contentState
-    .map(section => serializer.serialize(section.state))
+  return contentValue
+    .map(
+      section =>
+        isValueEmpty(section.value) ? '' : serializer.serialize(section.value),
+    )
     .join('')
     .replace(/<deleteme><\/deleteme>/g, '');
 }
 
-export function topicArticleContentToEditorState(html, fragment = undefined) {
+export function topicArticleContentToEditorValue(html, fragment = undefined) {
   if (!html) {
-    return createEmptyState();
+    return createEmptyValue();
   }
   const serializer = new Html({ rules: topicArticeRules, parseHtml: fragment });
   return serializer.deserialize(html);
 }
 
-export function topicArticleContentToHTML(state) {
+export function topicArticleContentToHTML(value) {
   const serializer = new Html({ rules: topicArticeRules });
-  return serializer.serialize(state).replace(/<deleteme><\/deleteme>/g, '');
+
+  return isValueEmpty(value)
+    ? undefined
+    : serializer.serialize(value).replace(/<deleteme><\/deleteme>/g, '');
 }
 
-export function plainTextToEditorState(text, withDefaultPlainState = false) {
-  if (withDefaultPlainState) {
+export function plainTextToEditorValue(text, withDefaultPlainValue = false) {
+  if (withDefaultPlainValue) {
     return text ? Plain.deserialize(text) : Plain.deserialize('');
   }
   return text ? Plain.deserialize(text) : undefined;
 }
 
-export function editorStateToPlainText(editorState) {
-  return editorState ? Plain.serialize(editorState) : '';
+export function editorValueToPlainText(editorValue) {
+  return editorValue ? Plain.serialize(editorValue) : '';
 }

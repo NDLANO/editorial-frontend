@@ -6,12 +6,12 @@
  *
  */
 
-import { getArticle, getSaving } from '../article';
-import { topicArticleNB, topicArticleEN } from './mockArticles';
+import { getDraft, getSaving } from '../draft';
+import { topicArticleNB, topicArticleEN } from './mockDrafts';
 
 const state = {
   locale: 'nb',
-  articles: {
+  drafts: {
     isSaving: true,
     all: {
       [topicArticleNB.id]: topicArticleNB,
@@ -32,24 +32,24 @@ const state = {
 };
 
 test('articleSelectors getArticle with id', () => {
-  expect(getArticle(1)(state).id).toBe('1');
-  expect(getArticle(2)(state).id).toBe('2');
-  expect(getArticle(3)(state).id).toBe('3');
+  expect(getDraft(1)(state).id).toBe('1');
+  expect(getDraft(2)(state).id).toBe('2');
+  expect(getDraft(3)(state).id).toBe('3');
 });
 
 test('articleSelectors getArticle (nb locale)', () => {
-  const getArticleSelector = getArticle(1);
+  const getArticleSelector = getDraft(1);
   expect(getArticleSelector(state)).toMatchSnapshot();
 });
 
 test('articleSelectors getArticle (en locale)', () => {
-  const getArticleSelector = getArticle('4');
+  const getArticleSelector = getDraft('4');
   const stateWithEnLocale = { ...state, locale: 'en' };
   expect(getArticleSelector(stateWithEnLocale)).toMatchSnapshot();
 });
 
 test('articleSelectors getArticle returns undefined if article is not in state', () => {
-  const getArticleSelector = getArticle(1337);
+  const getArticleSelector = getDraft(1337);
   expect(getArticleSelector(state)).toEqual(undefined);
 });
 

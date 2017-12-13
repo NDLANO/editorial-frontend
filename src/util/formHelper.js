@@ -1,9 +1,9 @@
 /**
-* Copyright (c) 2016-present, NDLA.
-*
-* This source code is licensed under the GPLv3 license found in the
-* LICENSE file in the root directory of this source tree. *
-*/
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
 
 export const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
@@ -15,5 +15,18 @@ export const parseCopyrightContributors = (obj, contributorType) => {
   if (!obj.copyright) {
     return [];
   }
-  return obj.copyright[contributorType].map(contributor => contributor.name);
+  return obj.copyright[contributorType] || [];
 };
+
+export const articleStatuses = [
+  { key: 'CREATED' },
+  { key: 'DRAFT' },
+  { key: 'USER_TEST' },
+  { key: 'AWAITING_QUALITY_ASSURANCE' },
+  {
+    key: 'QUEUED_FOR_PUBLISHING',
+    columnSize: 2,
+  },
+  { key: 'PUBLISHED' },
+  { key: 'IMPORTED' },
+];

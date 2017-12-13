@@ -12,7 +12,7 @@ import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import defined from 'defined';
 import Types from 'slate-prop-types';
-import { FocalPoint, Crop } from 'ndla-ui/icons';
+import { Crop, FocalPoint } from 'ndla-icons/editor';
 import { injectT } from 'ndla-i18n';
 import { getSchemaEmbed } from '../../components/SlateEditor/schema';
 import { EmbedShape, EditorShape } from '../../shapes';
@@ -70,10 +70,7 @@ class ImageEditor extends Component {
     const properties = {
       data,
     };
-    const next = editor
-      .getState()
-      .change()
-      .setNodeByKey(node.key, properties);
+    const next = editor.value.change().setNodeByKey(node.key, properties);
     editor.onChange(next);
   }
 

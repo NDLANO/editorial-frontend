@@ -185,10 +185,15 @@ const phrases = {
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Content',
+    workflowSection: 'Workflow',
     copyrightSection: 'License and authors',
     save: 'Save',
     abort: 'Abort',
+    validate: 'Validate',
+    publish: 'Publish',
     savedOk: 'Saved OK',
+    publishedOk: 'Published OK',
+    validationOk: 'No validation errors found',
     createdOk: 'Created OK',
     variant: {
       create: 'Create variant +',
@@ -204,6 +209,15 @@ const phrases = {
     visualElement: {
       title: 'Add visual element',
       label: 'Visual element',
+    },
+    status: {
+      created: 'Created',
+      draft: 'Draft',
+      user_test: 'User test',
+      awaiting_quality_assurance: 'Quality assurance',
+      queued_for_publishing: 'Queued for publishing',
+      published: 'Published',
+      imported: 'Imported',
     },
     content: {
       label: 'Content',
@@ -313,6 +327,7 @@ const phrases = {
   validation: {
     isRequired: '{label} is required.',
     isNumeric: '{label} must contain digits.',
+    bothFields: 'One {labelLowerCase} must contain all fields.',
     url: '{label} must contain a valid link.',
     maxLength:
       '{label} must not have more than {maxLength, number} characters.',

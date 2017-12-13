@@ -18,9 +18,9 @@ import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import {
   learningResourceContentToHTML,
-  learningResourceContentToEditorState,
-  editorStateToPlainText,
-  plainTextToEditorState,
+  learningResourceContentToEditorValue,
+  editorValueToPlainText,
+  plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
 import { isUserProvidedEmbedDataValid } from '../../../util/embedTagHelpers';
 import { findNodesByType } from '../../../util/slateHelpers';
@@ -29,33 +29,25 @@ import { SchemaShape } from '../../../shapes';
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
 import LearningResourceCopyright from './LearningResourceCopyright';
+import LearningResourceWorkflow from './LearningResourceWorkflow';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import ArticleHeader from '../../Article/ArticleHeader';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
-
-const DEFAULT_LICENSE = {
-  description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
-  license: 'by-sa',
-  url: 'https://creativecommons.org/licenses/by-sa/2.0/',
-};
+import {
+  DEFAULT_LICENSE,
+  parseCopyrightContributors,
+} from '../../../util/formHelper';
 
 const findFootnotes = content =>
   content
     .reduce(
       (all, item) => [
         ...all,
-        ...findNodesByType(item.state.document, footnoteType),
+        ...findNodesByType(item.value.document, footnoteType),
       ],
       [],
     )
     .map(footnoteNode => footnoteNode.data.toJS());
-
-const parseCopyrightContributors = (article, contributorType, subType) =>
-  article.copyright
-    ? article.copyright[contributorType]
-        .filter(contributor => contributor.type === subType)
-        .map(contributor => contributor.name)
-    : [];
 
 const parseImageUrl = url => {
   if (!url) {
@@ -72,16 +64,12 @@ export const getInitialModel = (article = {}) => {
     id: article.id,
     revision: article.revision,
     title: article.title || '',
-    introduction: plainTextToEditorState(article.introduction, true),
-    content: learningResourceContentToEditorState(article.content),
+    introduction: plainTextToEditorValue(article.introduction, true),
+    content: learningResourceContentToEditorValue(article.content),
     tags: article.tags || [],
-    creators: parseCopyrightContributors(article, 'creators', 'writer'),
-    processors: parseCopyrightContributors(article, 'processors', 'processor'),
-    rightsholders: parseCopyrightContributors(
-      article,
-      'rightsholders',
-      'rightsholder',
-    ),
+    creators: parseCopyrightContributors(article, 'creators'),
+    processors: parseCopyrightContributors(article, 'processors'),
+    rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     origin:
       article.copyright && article.copyright.origin
         ? article.copyright.origin
@@ -89,10 +77,11 @@ export const getInitialModel = (article = {}) => {
     license: article.copyright
       ? article.copyright.license.license
       : DEFAULT_LICENSE.license,
-    metaDescription: plainTextToEditorState(article.metaDescription, true),
+    metaDescription: plainTextToEditorValue(article.metaDescription, true),
     metaImageId,
     language: article.language,
     articleType: 'standard',
+    status: article.status || [],
   };
 };
 
@@ -126,36 +115,26 @@ class LearningResourceForm extends Component {
       return;
     }
 
-    const creators = model.creators.map(name => ({ type: 'writer', name }));
-    const processors = model.processors.map(name => ({
-      type: 'processor',
-      name,
-    }));
-
-    const rightsholders = model.rightsholders.map(name => ({
-      type: 'rightsholder',
-      name,
-    }));
-
-    const copyright = {
-      license: licenses.find(license => license.license === model.license),
-      origin: model.origin,
-      creators,
-      processors,
-      rightsholders,
-    };
+    const content = learningResourceContentToHTML(model.content);
+    const emptyContent = model.id ? '' : undefined;
 
     this.props.onUpdate({
       id: model.id,
       revision,
       title: model.title,
-      introduction: editorStateToPlainText(model.introduction),
+      introduction: editorValueToPlainText(model.introduction),
       tags: model.tags,
-      content: learningResourceContentToHTML(model.content),
+      content: content && content.length > 0 ? content : emptyContent,
       metaImageId: model.metaImageId,
-      metaDescription: editorStateToPlainText(model.metaDescription),
+      metaDescription: editorValueToPlainText(model.metaDescription),
       articleType: 'standard',
-      copyright,
+      copyright: {
+        license: licenses.find(license => license.license === model.license),
+        origin: model.origin,
+        creators: model.creators,
+        processors: model.processors,
+        rightsholders: model.rightsholders,
+      },
       language: model.language,
     });
   }
@@ -170,6 +149,7 @@ class LearningResourceForm extends Component {
       tags,
       licenses,
       isSaving,
+      articleStatus,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
@@ -198,6 +178,11 @@ class LearningResourceForm extends Component {
         <LearningResourceCopyright
           commonFieldProps={commonFieldProps}
           licenses={licenses}
+        />
+        <LearningResourceWorkflow
+          articleStatus={articleStatus}
+          model={model}
+          saveDraft={this.handleSubmit}
         />
         <Field right>
           <Link
@@ -244,6 +229,7 @@ LearningResourceForm.propTypes = {
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  articleStatus: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default compose(
@@ -260,10 +246,9 @@ export default compose(
       required: true,
       test: (value, model, setError) => {
         const embedsHasErrors = value.find(block => {
-          const embeds = findNodesByType(
-            block.state.document,
-            'embed',
-          ).map(node => node.get('data').toJS());
+          const embeds = findNodesByType(block.value.document, 'embed').map(
+            node => node.get('data').toJS(),
+          );
           const notValidEmbeds = embeds.filter(
             embed => !isUserProvidedEmbedDataValid(embed),
           );
@@ -276,17 +261,16 @@ export default compose(
       },
     },
     metaDescription: {
-      required: true,
       maxLength: 155,
     },
-    metaImageId: {
-      required: true,
-    },
-    tags: {
-      minItems: 3,
-    },
     creators: {
-      minItems: 1,
+      allObjectFieldsRequired: true,
+    },
+    processors: {
+      allObjectFieldsRequired: true,
+    },
+    rightsholders: {
+      allObjectFieldsRequired: true,
     },
   }),
 )(LearningResourceForm);

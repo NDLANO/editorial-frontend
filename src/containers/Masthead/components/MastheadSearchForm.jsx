@@ -10,16 +10,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
-import { Search } from 'ndla-ui/icons';
+import { Search } from 'ndla-icons/common';
 import { injectT } from 'ndla-i18n';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
 
-import {
-  fetchTopicArticle,
-  fetchNewArticleId,
-} from '../../../modules/article/articleApi';
+import { fetchTopicArticle } from '../../../modules/taxonomy/taxonomyApi';
+
+import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { getLocale } from '../../../modules/locale/locale';
 
 const classes = new BEMHelper({

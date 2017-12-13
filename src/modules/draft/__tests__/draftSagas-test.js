@@ -1,0 +1,105 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import nock from 'nock';
+
+import { expectSaga } from 'redux-saga-test-plan';
+import * as sagas from '../draftSagas';
+import { actions } from '../draft';
+
+test('articleSagas watchFetchDraft fetch article if not in state and language is supported', () => {
+  nock('http://ndla-api')
+    .get('/draft-api/v1/drafts/123')
+    .reply(200, { id: 123, title: 'unit test', supportedLanguages: ['nb'] });
+
+  nock('http://ndla-api')
+    .get('/draft-api/v1/drafts/123')
+    .query({ language: 'nb' })
+    .reply(200, { id: 123, title: 'unit testen' });
+
+  return expectSaga(sagas.watchFetchDraft)
+    .withState({ drafts: { all: {} } })
+    .put(actions.setDraft({ id: 123, title: 'unit testen', language: 'nb' }))
+    .dispatch(actions.fetchDraft({ id: 123, language: 'nb' }))
+    .run({ silenceTimeout: true });
+});
+
+test('articleSagas watchFetchDraft fetch article if not in state and language is not supported', () => {
+  nock('http://ndla-api')
+    .get('/draft-api/v1/drafts/123')
+    .reply(200, {
+      id: 123,
+      title: 'unit test',
+      supportedLanguages: ['en'],
+      copyright: [],
+      revision: 3,
+      articleType: 'standard',
+    });
+
+  return expectSaga(sagas.watchFetchDraft)
+    .withState({ drafts: { all: {} } })
+    .put(
+      actions.setDraft({
+        id: 123,
+        language: 'nb',
+        articleType: 'standard',
+        copyright: [],
+        revision: 3,
+        supportedLanguages: ['en'],
+      }),
+    )
+    .dispatch(actions.fetchDraft({ id: 123 }))
+    .run({ silenceTimeout: true });
+});
+
+test('articleSagas watchFetchDraft do not refetch existing article ', () =>
+  expectSaga(sagas.watchFetchDraft)
+    .withState({ drafts: { all: { 123: { id: '123', language: 'nb' } } } })
+    .dispatch(actions.fetchDraft({ id: '123', language: 'nb' }))
+    .run({ silenceTimeout: true }));
+
+test('articleSagas watchUpdateDraft create new article', () => {
+  nock('http://ndla-api')
+    .post('/draft-api/v1/drafts/')
+    .reply(200, { id: '123', title: 'unit test' });
+
+  return expectSaga(sagas.watchUpdateDraft)
+    .withState({})
+    .put(actions.setDraft({ id: '123', title: 'unit test' }))
+    .put(actions.updateDraftSuccess())
+    .dispatch(
+      actions.updateDraft({
+        draft: { title: 'unit test' },
+        history: { push: () => {} },
+      }),
+    )
+    .run({ silenceTimeout: true });
+});
+
+test('articleSagas watchUpdateDraft update article', () => {
+  nock('http://ndla-api')
+    .patch('/draft-api/v1/drafts/123')
+    .reply(200, { id: '123', title: 'unit test updated' });
+
+  return expectSaga(sagas.watchUpdateDraft)
+    .withState({})
+    .put(
+      actions.setDraft({
+        id: '123',
+        title: 'unit test updated',
+        language: 'nb',
+      }),
+    )
+    .put(actions.updateDraftSuccess())
+    .dispatch(
+      actions.updateDraft({
+        draft: { id: '123', title: 'unit test', language: 'nb' },
+      }),
+    )
+    .run({ silenceTimeout: true });
+});

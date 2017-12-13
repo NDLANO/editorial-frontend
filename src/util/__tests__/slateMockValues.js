@@ -426,7 +426,7 @@ export const detailsBoxValue = {
             nodes: [
               {
                 kind: 'text',
-                ranges: [
+                leaves: [
                   {
                     kind: 'range',
                     marks: [],
@@ -439,7 +439,7 @@ export const detailsBoxValue = {
           },
           {
             kind: 'text',
-            ranges: [
+            leaves: [
               {
                 kind: 'range',
                 marks: [],

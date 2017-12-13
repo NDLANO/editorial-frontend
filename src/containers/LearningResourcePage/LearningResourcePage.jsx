@@ -15,7 +15,7 @@ import {
   actions as licenseActions,
   getAllLicenses,
 } from '../../modules/license/license';
-import { getSaving } from '../../modules/article/article';
+import { getSaving } from '../../modules/draft/draft';
 import { getLocale } from '../../modules/locale/locale';
 import EditLearningResource from './EditLearningResource';
 import CreateLearningResource from './CreateLearningResource';

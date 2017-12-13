@@ -185,10 +185,15 @@ const phrases = {
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Innhold',
+    workflowSection: 'Arbeidsflyt',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
     abort: 'Avbryt',
+    validate: 'Valider',
+    publish: 'Publiser',
     savedOk: 'Lagret OK',
+    publishedOk: 'Publisert OK',
+    validationOk: 'Ingen validerings feil funnet',
     createdOk: 'Opprettet OK',
     variant: {
       create: 'Lag variant +',
@@ -204,6 +209,15 @@ const phrases = {
     visualElement: {
       title: 'Legg til visuelt element',
       label: 'Visuelt element',
+    },
+    status: {
+      created: 'Opprettet',
+      draft: 'Utkast',
+      user_test: 'Brukertest',
+      awaiting_quality_assurance: 'Til kvalitetsikring',
+      queued_for_publishing: 'Kvalitetsikret/Til publisering',
+      published: 'Publisert',
+      imported: 'Fra spoling',
     },
     content: {
       label: 'Innhold',

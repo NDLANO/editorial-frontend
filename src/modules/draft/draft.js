@@ -7,26 +7,25 @@
  */
 
 import { handleActions, createAction } from 'redux-actions';
-
 import { createSelector } from 'reselect';
 import { getLocale } from '../locale/locale';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import formatDate from '../../util/formatDate';
 
-export const fetchArticle = createAction('FETCH_ARTICLE');
-export const fetchTopicArticle = createAction('FETCH_TOPIC_ARTICLE');
-export const setArticle = createAction('SET_ARTICLE');
-export const updateArticle = createAction('UPDATE_ARTICLE');
-export const updateArticleSuccess = createAction('UPDATE_ARTICLE_SUCCESS');
-export const updateArticleError = createAction('UPDATE_ARTICLE_ERROR');
+export const fetchDraft = createAction('FETCH_DRAFT');
+export const setDraft = createAction('SET_DRAFT');
+export const updateDraft = createAction('UPDATE_DRAFT');
+export const updateDraftSuccess = createAction('UPDATE_DRAFT_SUCCESS');
+export const updateDraftError = createAction('UPDATE_DRAFT_ERROR');
+export const publishDraft = createAction('PUBLISH_DRAFT');
 
 export const actions = {
-  updateArticle,
-  fetchArticle,
-  setArticle,
-  updateArticleSuccess,
-  updateArticleError,
-  fetchTopicArticle,
+  updateDraft,
+  fetchDraft,
+  setDraft,
+  updateDraftSuccess,
+  updateDraftError,
+  publishDraft,
 };
 
 const initalState = {
@@ -36,28 +35,35 @@ const initalState = {
 
 export default handleActions(
   {
-    [setArticle]: {
+    [setDraft]: {
       next: (state, action) => ({
         ...state,
         all: { ...state.all, [action.payload.id]: { ...action.payload } },
       }),
       throw: state => state,
     },
-    [updateArticle]: {
+    [updateDraft]: {
       next: state => ({
         ...state,
         isSaving: true,
       }),
       throw: state => state,
     },
-    [updateArticleSuccess]: {
+    [publishDraft]: {
+      next: state => ({
+        ...state,
+        isSaving: true,
+      }),
+      throw: state => state,
+    },
+    [updateDraftSuccess]: {
       next: state => ({
         ...state,
         isSaving: false,
       }),
       throw: state => state,
     },
-    [updateArticleError]: {
+    [updateDraftError]: {
       next: state => ({
         ...state,
         isSaving: false,
@@ -68,18 +74,18 @@ export default handleActions(
   initalState,
 );
 
-const getArticlesFromState = state => state.articles;
+const getDraftsFromState = state => state.drafts;
 
-export const getArticleById = articleId =>
-  createSelector([getArticlesFromState], articles => articles.all[articleId]);
+export const getDraftById = draftId =>
+  createSelector([getDraftsFromState], drafts => drafts.all[draftId]);
 
 export const getSaving = createSelector(
-  [getArticlesFromState],
-  articles => articles.isSaving,
+  [getDraftsFromState],
+  drafts => drafts.isSaving,
 );
 
-export const getArticle = (articleId, useLanguage = false) =>
-  createSelector([getArticleById(articleId), getLocale], (article, locale) => {
+export const getDraft = (articleId, useLanguage = false) =>
+  createSelector([getDraftById(articleId), getLocale], (article, locale) => {
     const articleLanguage =
       article && useLanguage ? article.language : undefined;
     return article

@@ -29,6 +29,7 @@ import { SchemaShape } from '../../../shapes';
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
 import LearningResourceCopyright from './LearningResourceCopyright';
+import LearningResourceWorkflow from './LearningResourceWorkflow';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import ArticleHeader from '../../Article/ArticleHeader';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
@@ -80,6 +81,7 @@ export const getInitialModel = (article = {}) => {
     metaImageId,
     language: article.language,
     articleType: 'standard',
+    status: article.status || [],
   };
 };
 
@@ -113,13 +115,16 @@ class LearningResourceForm extends Component {
       return;
     }
 
+    const content = learningResourceContentToHTML(model.content);
+    const emptyContent = model.id ? '' : undefined;
+
     this.props.onUpdate({
       id: model.id,
       revision,
       title: model.title,
       introduction: editorValueToPlainText(model.introduction),
       tags: model.tags,
-      content: learningResourceContentToHTML(model.content),
+      content: content && content.length > 0 ? content : emptyContent,
       metaImageId: model.metaImageId,
       metaDescription: editorValueToPlainText(model.metaDescription),
       articleType: 'standard',
@@ -144,6 +149,7 @@ class LearningResourceForm extends Component {
       tags,
       licenses,
       isSaving,
+      articleStatus,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
@@ -172,6 +178,11 @@ class LearningResourceForm extends Component {
         <LearningResourceCopyright
           commonFieldProps={commonFieldProps}
           licenses={licenses}
+        />
+        <LearningResourceWorkflow
+          articleStatus={articleStatus}
+          model={model}
+          saveDraft={this.handleSubmit}
         />
         <Field right>
           <Link
@@ -218,6 +229,7 @@ LearningResourceForm.propTypes = {
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  articleStatus: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default compose(
@@ -249,17 +261,9 @@ export default compose(
       },
     },
     metaDescription: {
-      required: true,
       maxLength: 155,
     },
-    metaImageId: {
-      required: true,
-    },
-    tags: {
-      minItems: 3,
-    },
     creators: {
-      minItems: 1,
       allObjectFieldsRequired: true,
     },
     processors: {

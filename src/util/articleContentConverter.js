@@ -37,7 +37,6 @@ export const isValueEmpty = value => {
   } else if (
     nodes.size === 1 &&
     nodes.first().type !== 'section' &&
-    nodes.first() &&
     nodes.first().isEmpty
   ) {
     return true;

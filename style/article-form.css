@@ -57,6 +57,7 @@ a.c-learning-resource-form__abort-button.c-button {
     display: inline-block;
     min-width: 6rem;
     border-width: 1px;
+    border-radius: 1px;
 
     &:hover:enabled,
     &:focus:enabled {
@@ -100,6 +101,7 @@ a.c-learning-resource-form__abort-button.c-button {
     padding: 0.2rem;
     text-align: center;
     margin: 0 1% 1% 0;
+    border-radius: 1px;
 
     &--active {
       background-color: var(--brand-color);
@@ -114,7 +116,7 @@ a.c-learning-resource-form__abort-button.c-button {
     justify-content: flex-start;
 
     & button {
-      border-radius: 0;
+      border-radius: 1px;
       margin-right: 1%;
       width: 24%;
     }

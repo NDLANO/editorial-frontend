@@ -129,7 +129,10 @@ export function topicArticleContentToEditorValue(html, fragment = undefined) {
 
 export function topicArticleContentToHTML(value) {
   const serializer = new Html({ rules: topicArticeRules });
-  return serializer.serialize(value).replace(/<deleteme><\/deleteme>/g, '');
+
+  return isValueEmpty(value)
+    ? undefined
+    : serializer.serialize(value).replace(/<deleteme><\/deleteme>/g, '');
 }
 
 export function plainTextToEditorValue(text, withDefaultPlainValue = false) {

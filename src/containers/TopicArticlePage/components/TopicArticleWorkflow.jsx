@@ -14,11 +14,11 @@ import { connect } from 'react-redux';
 import Accordion from '../../../components/Accordion';
 import { validateDraft } from '../../../modules/draft/draftApi';
 import { actions as draftActions } from '../../../modules/draft/draft';
-import { classes } from './LearningResourceForm';
+import { classes } from './TopicArticleForm';
 import * as messageActions from '../../Messages/messagesActions';
 import { articleStatuses } from '../../../util/formHelper';
 
-class LearningResourceWorkflow extends Component {
+class TopicArticleWorkflow extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -100,7 +100,7 @@ class LearningResourceWorkflow extends Component {
   }
 }
 
-LearningResourceWorkflow.propTypes = {
+TopicArticleWorkflow.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
   }),
@@ -110,7 +110,7 @@ LearningResourceWorkflow.propTypes = {
   saveDraft: PropTypes.func.isRequired,
 };
 
-LearningResourceWorkflow.defaultProps = {
+TopicArticleWorkflow.defaultProps = {
   articleStatus: [],
 };
 
@@ -120,5 +120,5 @@ const mapDispatchToProps = {
 };
 
 export default connect(undefined, mapDispatchToProps)(
-  injectT(LearningResourceWorkflow),
+  injectT(TopicArticleWorkflow),
 );

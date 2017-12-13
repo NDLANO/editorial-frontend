@@ -30,6 +30,7 @@ import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
 
 import TopicArticleMetadata from './TopicArticleMetadata';
 import TopicArticleContent from './TopicArticleContent';
+import TopicArticleWorkflow from './TopicArticleWorkflow';
 import { SchemaShape } from '../../../shapes';
 import {
   DEFAULT_LICENSE,
@@ -59,7 +60,7 @@ export const getInitialModel = (article = {}) => {
   };
 };
 
-const classes = new BEMHelper({
+export const classes = new BEMHelper({
   name: 'topic-article-form',
   prefix: 'c-',
 });
@@ -94,6 +95,9 @@ class TopicArticleForm extends Component {
       setSubmitted(true);
       return;
     }
+    const emptyField = model.id ? '' : undefined;
+    const visualElement = createEmbedTag(model.visualElement);
+    const content = topicArticleContentToHTML(model.content);
 
     this.props.onUpdate({
       id: model.id,
@@ -101,8 +105,8 @@ class TopicArticleForm extends Component {
       title: model.title,
       introduction: editorValueToPlainText(model.introduction),
       tags: model.tags,
-      content: topicArticleContentToHTML(model.content),
-      visualElement: createEmbedTag(model.visualElement),
+      content: content || emptyField,
+      visualElement: visualElement || emptyField,
       metaDescription: editorValueToPlainText(model.metaDescription),
       articleType: 'topic-article',
       copyright: {
@@ -124,6 +128,7 @@ class TopicArticleForm extends Component {
       submitted,
       tags,
       isSaving,
+      articleStatus,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
@@ -144,6 +149,11 @@ class TopicArticleForm extends Component {
           bindInput={bindInput}
           tags={tags}
           model={model}
+        />
+        <TopicArticleWorkflow
+          articleStatus={articleStatus}
+          model={model}
+          saveDraft={this.handleSubmit}
         />
         <Field right>
           <Link
@@ -184,6 +194,7 @@ TopicArticleForm.propTypes = {
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  articleStatus: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default compose(

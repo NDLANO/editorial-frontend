@@ -86,6 +86,10 @@ test('createEmbedTag creates brightcove embed tag from object', () => {
   expect(tag).toMatchSnapshot();
 });
 
+test('createEmbedTag returns undefined if the object contains no keys', () => {
+  expect(createEmbedTag({})).toBe(undefined);
+});
+
 test('isUserProvidedEmbedDataValid for image', () => {
   expect(
     isUserProvidedEmbedDataValid({

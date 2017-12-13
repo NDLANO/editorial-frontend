@@ -27,7 +27,6 @@ export const parseEmbedTag = embedTag => {
   if (embedTag === '') {
     return undefined;
   }
-
   const el = document.createElement('html');
   el.innerHTML = embedTag;
   const embedElements = el.getElementsByTagName('embed');
@@ -42,6 +41,9 @@ export const parseEmbedTag = embedTag => {
 };
 
 export const createEmbedTag = visualElement => {
+  if (Object.keys(visualElement).length === 0) {
+    return undefined;
+  }
   const embed = document.createElement('embed');
   Object.keys(visualElement)
     .filter(

@@ -72,6 +72,7 @@ class EditTopicArticle extends Component {
       <TopicArticleForm
         initialModel={getInitialModel(article)}
         revision={article.revision}
+        articleStatus={article.status}
         tags={tags}
         locale={locale}
         isSaving={isSaving}

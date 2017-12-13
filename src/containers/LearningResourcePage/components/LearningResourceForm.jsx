@@ -116,13 +116,15 @@ class LearningResourceForm extends Component {
     }
 
     const content = learningResourceContentToHTML(model.content);
+    const emptyContent = model.id ? '' : undefined;
+
     this.props.onUpdate({
       id: model.id,
       revision,
       title: model.title,
       introduction: editorValueToPlainText(model.introduction),
       tags: model.tags,
-      content: content && content.length > 0 ? content : undefined,
+      content: content && content.length > 0 ? content : emptyContent,
       metaImageId: model.metaImageId,
       metaDescription: editorValueToPlainText(model.metaDescription),
       articleType: 'standard',

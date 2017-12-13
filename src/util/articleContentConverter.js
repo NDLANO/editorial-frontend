@@ -28,7 +28,18 @@ export const isValueEmpty = value => {
   const { nodes } = document;
   if (nodes.isEmpty()) {
     return true;
-  } else if (nodes.first() && nodes.first().isEmpty) {
+  } else if (
+    nodes.first().type === 'section' &&
+    nodes.first().nodes.size === 1 &&
+    nodes.first().nodes.first().isEmpty
+  ) {
+    return true;
+  } else if (
+    nodes.size === 1 &&
+    nodes.first().type !== 'section' &&
+    nodes.first() &&
+    nodes.first().isEmpty
+  ) {
     return true;
   }
   return false;

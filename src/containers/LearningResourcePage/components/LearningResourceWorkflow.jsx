@@ -49,7 +49,7 @@ class LearningResourceWorkflow extends Component {
       .then(() => {
         addMessage({
           translationKey: 'form.validationOk',
-          serverity: 'success',
+          severity: 'success',
         });
       })
       .catch(err => {

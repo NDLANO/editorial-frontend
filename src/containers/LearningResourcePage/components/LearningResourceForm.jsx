@@ -67,6 +67,9 @@ export const getInitialModel = (article = {}) => {
     introduction: plainTextToEditorValue(article.introduction, true),
     content: learningResourceContentToEditorValue(article.content),
     tags: article.tags || [],
+    resourceTypes: [],
+    filter: [],
+    topics: [],
     creators: parseCopyrightContributors(article, 'creators'),
     processors: parseCopyrightContributors(article, 'processors'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
@@ -120,7 +123,7 @@ class LearningResourceForm extends Component {
       title: model.title,
       introduction: editorValueToPlainText(model.introduction),
       tags: model.tags,
-      resourceType: model.resourceType,
+      resourceTypes: model.resourceTypes,
       filter: model.filter,
       topics: model.topics,
       content: learningResourceContentToHTML(model.content),
@@ -148,7 +151,7 @@ class LearningResourceForm extends Component {
       tags,
       licenses,
       isSaving,
-      resourceType,
+      resourceTypes,
       filter,
       topics,
     } = this.props;
@@ -178,7 +181,7 @@ class LearningResourceForm extends Component {
         </LearningResourceContent>
         <LearningResourceTaxonomy
           commonFieldProps={commonFieldProps}
-          resourceType={resourceType}
+          resourceTypes={resourceTypes}
           filter={filter}
           topics={topics}
         />
@@ -223,7 +226,7 @@ LearningResourceForm.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  resourceType: PropTypes.arrayOf(PropTypes.string).isRequired,
+  resourceTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   topics: PropTypes.arrayOf(PropTypes.string).isRequired,
   filter: PropTypes.arrayOf(PropTypes.string).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -277,7 +280,7 @@ export default compose(
     filter: {
       minItems: 1,
     },
-    resourceType: {
+    resourceTypes: {
       minItems: 1,
     },
     topics: {

@@ -38,17 +38,18 @@ class CreateLearningResource extends Component {
       tags,
       locale,
       isSaving,
-      resourceType,
+      licenses,
+      resourceTypes,
       filter,
       topics,
-      licenses,
       fetchArticle,
     } = this.props;
+
     return (
       <LearningResourceForm
         initialModel={getInitialModel({ language: locale })}
         tags={tags}
-        resourceType={resourceType}
+        resourceTypes={resourceTypes}
         filter={filter}
         topics={topics}
         licenses={licenses}
@@ -62,15 +63,15 @@ class CreateLearningResource extends Component {
 
 CreateLearningResource.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  resourceType: PropTypes.arrayOf(PropTypes.string).isRequired,
-  filter: PropTypes.arrayOf(PropTypes.string).isRequired,
-  topics: PropTypes.arrayOf(PropTypes.string).isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
       license: PropTypes.string,
     }),
   ).isRequired,
+  resourceTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  topics: PropTypes.arrayOf(PropTypes.string).isRequired,
+  filter: PropTypes.arrayOf(PropTypes.string).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

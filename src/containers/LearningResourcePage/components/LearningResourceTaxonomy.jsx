@@ -13,7 +13,7 @@ import { MultiSelectField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Accordion from '../../../components/Accordion';
 
-class LearningResourceCopyright extends Component {
+class LearningResourceTaxonomy extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,24 +29,25 @@ class LearningResourceCopyright extends Component {
   }
 
   render() {
-    const { t, commonFieldProps, resourceType, filter, topics } = this.props;
+    const { t, commonFieldProps, resourceTypes, filter, topics } = this.props;
 
     return (
       <Accordion
         handleToggle={this.toggleContent}
         header={t('form.taxonomytSection')}
-        hidden={this.state.hiddenContent}>
+        hidden={this.state.hiddenContent}
+        fill>
         <MultiSelectField
           obligatory
           disableCreate
-          name="resourceType"
-          data={resourceType}
-          label={t('form.resourceType.label')}
-          description={t('form.resourceType.description')}
+          name="resourceTypes"
+          data={resourceTypes}
+          label={t('form.resourceTypes.label')}
+          description={t('form.resourceTypes.description')}
           messages={{
-            createOption: t('form.resourceType.createOption'),
-            emptyFilter: t('form.resourceType.emptyFilter'),
-            emptyList: t('form.resourceType.emptyList'),
+            createOption: t('form.resourceTypes.createOption'),
+            emptyFilter: t('form.resourceTypes.emptyFilter'),
+            emptyList: t('form.resourceTypes.emptyList'),
           }}
           {...commonFieldProps}
         />
@@ -83,11 +84,11 @@ class LearningResourceCopyright extends Component {
   }
 }
 
-LearningResourceCopyright.propTypes = {
+LearningResourceTaxonomy.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
-  resourceType: PropTypes.arrayOf(PropTypes.string).isRequired,
+  resourceTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   topics: PropTypes.arrayOf(PropTypes.string).isRequired,
   filter: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-export default injectT(LearningResourceCopyright);
+export default injectT(LearningResourceTaxonomy);

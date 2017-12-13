@@ -253,7 +253,7 @@ const phrases = {
       emptyFilter: 'Fant ingen passende nøkkelord',
       emptyList: 'Det er ingen tagger i denne listen',
     },
-    resourceType: {
+    resourceTypes: {
       label: 'Innholdstype og egenskaper',
       description: 'Obligatorisk med minst 1 innholdstype.',
       createOption: 'Opprett ny innholdstype',

@@ -253,7 +253,7 @@ const phrases = {
       emptyList: 'No tags available',
       emptyFilter: 'No matching tags found',
     },
-    resourceType: {
+    resourceTypes: {
       label: 'Resource type and properties',
       description: '1 property is required.',
       createOption: 'Create new property',

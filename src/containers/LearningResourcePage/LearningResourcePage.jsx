@@ -15,6 +15,7 @@ import {
   actions as licenseActions,
   getAllLicenses,
 } from '../../modules/license/license';
+import { fetchResourceTypes } from '../../modules/taxonomy';
 import { getSaving } from '../../modules/article/article';
 import { getLocale } from '../../modules/locale/locale';
 import EditLearningResource from './EditLearningResource';
@@ -22,13 +23,35 @@ import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 class LearningResourcePage extends Component {
-  componentWillMount() {
-    const { fetchLicenses } = this.props;
+  constructor(props) {
+    super(props);
+    this.state = { resourceTypes: [], filter: [], topics: [] };
+  }
+
+  async componentWillMount() {
+    const { fetchLicenses, locale } = this.props;
     fetchLicenses();
+
+    try {
+      const resourceTypes = await fetchResourceTypes(locale);
+      this.setState({ resourceTypes });
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 
   render() {
+    const { resourceTypes, filter, topics } = this.state;
     const { locale, match, history, isSaving, licenses } = this.props;
+
+    const defaultResourceProps = {
+      locale,
+      isSaving,
+      licenses,
+      resourceTypes,
+      filter,
+      topics,
+    };
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -43,10 +66,8 @@ class LearningResourcePage extends Component {
               path={`${match.url}/new`}
               render={() => (
                 <CreateLearningResource
+                  {...defaultResourceProps}
                   history={history}
-                  locale={locale}
-                  licenses={licenses}
-                  isSaving={isSaving}
                 />
               )}
             />
@@ -54,11 +75,9 @@ class LearningResourcePage extends Component {
               path={`${match.url}/:articleId/edit/:articleLanguage`}
               render={props => (
                 <EditLearningResource
+                  {...defaultResourceProps}
                   articleId={props.match.params.articleId}
                   articleLanguage={props.match.params.articleLanguage}
-                  licenses={licenses}
-                  locale={locale}
-                  isSaving={isSaving}
                 />
               )}
             />

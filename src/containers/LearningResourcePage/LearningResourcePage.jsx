@@ -22,6 +22,25 @@ import EditLearningResource from './EditLearningResource';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
+const flattenResourceTypes = data => {
+  const resourceTypes = [];
+  data.forEach(type => {
+    resourceTypes.push({
+      name: type.name,
+      id: type.id,
+    });
+    if (type.subtypes) {
+      type.subtypes.forEach(subtype =>
+        resourceTypes.push({
+          name: subtype.name,
+          id: subtype.id,
+        }),
+      );
+    }
+  });
+  return resourceTypes;
+};
+
 class LearningResourcePage extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +52,8 @@ class LearningResourcePage extends Component {
     fetchLicenses();
 
     try {
-      const resourceTypes = await fetchResourceTypes(locale);
+      const resourceTypesData = await fetchResourceTypes(locale);
+      const resourceTypes = flattenResourceTypes(resourceTypesData);
       this.setState({ resourceTypes });
     } catch (e) {
       throw new Error(e);

@@ -22,6 +22,4 @@ export const fetchTags = language => {
 };
 
 export const fetchLicenses = () =>
-  fetchAuthorized(`${baseUrl}/licenses`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchAuthorized(`${baseUrl}/licenses`).then(resolveJsonOrRejectWithError);

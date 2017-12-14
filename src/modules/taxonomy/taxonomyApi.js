@@ -9,12 +9,12 @@
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
-  fetchWithAccessToken,
+  fetchAuthorized,
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
 export const fetchTopicArticle = (topicId, locale) =>
-  fetchWithAccessToken(`${baseUrl}/topics/${topicId}/?language=${locale}`).then(
+  fetchAuthorized(`${baseUrl}/topics/${topicId}/?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );

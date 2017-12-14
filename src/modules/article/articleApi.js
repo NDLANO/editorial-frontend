@@ -9,19 +9,17 @@ import queryString from 'query-string';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
-  fetchWithAccessToken,
+  fetchAuthorized,
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/article-api/v2/articles');
 
 export const fetchTags = language => {
   const query = queryString.stringify({ size: 7000, language });
-  return fetchWithAccessToken(`${baseUrl}/tags/?${query}`).then(
+  return fetchAuthorized(`${baseUrl}/tags/?${query}`).then(
     resolveJsonOrRejectWithError,
   );
 };
 
 export const fetchLicenses = () =>
-  fetchWithAccessToken(`${baseUrl}/licenses`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchAuthorized(`${baseUrl}/licenses`).then(resolveJsonOrRejectWithError);

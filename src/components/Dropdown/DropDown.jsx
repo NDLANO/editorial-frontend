@@ -21,21 +21,31 @@ export const dropDownClasses = new BEMHelper({
 });
 
 const DropDown = ({
+  name,
   items,
+  placeholder,
   defaultSelectedItem,
   onChange,
   textField,
   valueField,
+  messages,
 }) => (
   <Downshift
-    onChange={onChange}
+    onChange={selectedItem =>
+      onChange({ target: { name, value: selectedItem } })
+    }
     itemToString={item => itemToString(item, textField)}
     defaultSelectedItem={defaultSelectedItem}
     render={downshiftProps => (
       <div {...dropDownClasses()}>
-        <DropDownInput {...downshiftProps} />
+        <DropDownInput
+          name={name}
+          placeholder={placeholder}
+          {...downshiftProps}
+        />
         <DropDownMenu
           items={items}
+          messages={messages}
           {...downshiftProps}
           textField={textField}
           valueField={valueField}
@@ -64,7 +74,13 @@ const requiredFieldIfItemsIsObjects = (props, propName, componentName) => {
   eslint-enable
 */
 DropDown.propTypes = {
+  name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  messages: PropTypes.shape({
+    emptyFilter: PropTypes.string.isRequired,
+    emptyList: PropTypes.string.isRequired,
+  }),
   items: PropTypes.arrayOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number]),
   ).isRequired,

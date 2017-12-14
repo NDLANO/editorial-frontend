@@ -60,7 +60,7 @@ class EditLearningResource extends Component {
       article,
       tags,
       isSaving,
-      resourceType,
+      resourceTypes,
       filter,
       topics,
       licenses,
@@ -81,7 +81,7 @@ class EditLearningResource extends Component {
         revision={article.revision}
         articleStatus={article.status}
         tags={tags}
-        resourceType={resourceType}
+        resourceTypes={resourceTypes}
         filter={filter}
         topics={topics}
         licenses={licenses}
@@ -95,9 +95,9 @@ class EditLearningResource extends Component {
 EditLearningResource.propTypes = {
   articleId: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  resourceType: PropTypes.arrayOf(PropTypes.string).isRequired,
-  filter: PropTypes.arrayOf(PropTypes.string).isRequired,
-  topics: PropTypes.arrayOf(PropTypes.string).isRequired,
+  resourceTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  topics: PropTypes.arrayOf(PropTypes.object).isRequired,
+  filter: PropTypes.arrayOf(PropTypes.object).isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

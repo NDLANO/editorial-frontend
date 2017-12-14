@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { MultiSelectField } from '../../../components/Fields';
+import { MultiSelectDropdown } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Accordion from '../../../components/Accordion';
 
@@ -37,43 +37,39 @@ class LearningResourceTaxonomy extends Component {
         header={t('form.taxonomytSection')}
         hidden={this.state.hiddenContent}
         fill>
-        <MultiSelectField
+        <MultiSelectDropdown
           obligatory
-          disableCreate
           name="resourceTypes"
-          data={resourceTypes}
+          textField="name"
+          valueField="id"
+          placeholder={t('form.resourceTypes.placeholder')}
           label={t('form.resourceTypes.label')}
-          description={t('form.resourceTypes.description')}
+          items={resourceTypes}
           messages={{
-            createOption: t('form.resourceTypes.createOption'),
             emptyFilter: t('form.resourceTypes.emptyFilter'),
             emptyList: t('form.resourceTypes.emptyList'),
           }}
           {...commonFieldProps}
         />
-        <MultiSelectField
+        <MultiSelectDropdown
           obligatory
-          disableCreate
           name="filter"
-          data={filter}
+          placeholder={t('form.filter.placeholder')}
+          items={filter}
           label={t('form.filter.label')}
-          description={t('form.filter.description')}
           messages={{
-            createOption: t('form.filter.createOption'),
             emptyFilter: t('form.filter.emptyFilter'),
             emptyList: t('form.filter.emptyList'),
           }}
           {...commonFieldProps}
         />
-        <MultiSelectField
+        <MultiSelectDropdown
           obligatory
-          disableCreate
           name="topics"
-          data={topics}
+          placeholder={t('form.topics.placeholder')}
+          items={topics}
           label={t('form.topics.label')}
-          description={t('form.topics.description')}
           messages={{
-            createOption: t('form.topics.createOption'),
             emptyFilter: t('form.topics.emptyFilter'),
             emptyList: t('form.topics.emptyList'),
           }}
@@ -86,9 +82,9 @@ class LearningResourceTaxonomy extends Component {
 
 LearningResourceTaxonomy.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
-  resourceTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  topics: PropTypes.arrayOf(PropTypes.string).isRequired,
-  filter: PropTypes.arrayOf(PropTypes.string).isRequired,
+  resourceTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  topics: PropTypes.arrayOf(PropTypes.object).isRequired,
+  filter: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default injectT(LearningResourceTaxonomy);

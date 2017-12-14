@@ -8,6 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
+import isEmpty from 'lodash/fp/isEmpty';
 import DropDownItem from './DropDownItem';
 import { dropDownClasses } from './DropDown';
 import {
@@ -16,20 +17,29 @@ import {
 } from '../../util/downShifhtHelpers';
 
 const DropDownMenu = props => {
-  const { isOpen, items, valueField, inputValue, textField } = props;
+  const { isOpen, items, messages, valueField, inputValue, textField } = props;
   const values = inputValue
     ? downShifhtSorter(items, inputValue, textField)
     : items;
   return !isOpen ? null : (
     <div {...dropDownClasses('items')}>
-      {values.map((item, index) => (
+      {!isEmpty(values) ? (
+        values.map((item, index) => (
+          <DropDownItem
+            key={valueFieldForItem(item, valueField)}
+            {...props}
+            item={item}
+            index={index}
+          />
+        ))
+      ) : (
         <DropDownItem
-          key={valueFieldForItem(item, valueField)}
+          key="notFound"
           {...props}
-          item={item}
-          index={index}
+          item={isEmpty(items) ? messages.emptyList : messages.emptyFilter}
+          index={1}
         />
-      ))}
+      )}
     </div>
   );
 };

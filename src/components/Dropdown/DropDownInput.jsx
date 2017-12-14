@@ -8,12 +8,16 @@
 import React from 'react';
 import Downshift from 'downshift';
 
-const DropDownInput = ({ getInputProps }) => (
-  <input name="dropdown-search" {...getInputProps({ placeholder: 'Type' })} />
+const DropDownInput = ({ getInputProps, name, placeholder }) => (
+  <input name={name} {...getInputProps({ placeholder })} />
 );
 
 DropDownInput.propTypes = {
   ...Downshift.propTypes,
+};
+
+DropDownInput.defaultProps = {
+  placeholder: 'Type',
 };
 
 export default DropDownInput;

@@ -12,6 +12,7 @@ import { uuid } from 'ndla-util';
 import BEMHelper from 'react-bem-helper';
 import get from 'lodash/fp/get';
 import MultiSelect from './MultiSelect';
+import DropDown from './Dropdown/DropDown';
 import { isEmpty } from './validators';
 import PlainTextEditor from '../components/SlateEditor/PlainTextEditor';
 import ObjectSelector from './ObjectSelector';
@@ -430,4 +431,41 @@ SelectObjectField.propTypes = {
   submitted: PropTypes.bool.isRequired,
   idKey: PropTypes.string.isRequired,
   labelKey: PropTypes.string.isRequired,
+};
+
+export const MultiSelectDropdown = ({
+  bindInput,
+  name,
+  obligatory,
+  description,
+  label,
+  submitted,
+  schema,
+  ...rest
+}) => (
+  <Field>
+    <label htmlFor={name}>{label}</label>
+    {description && (
+      <FieldDescription obligatory={obligatory}>{description}</FieldDescription>
+    )}
+    <DropDown name={name} {...bindInput(name)} {...rest} />
+    <FieldErrorMessages
+      label={label}
+      field={getField(name, schema)}
+      submitted={submitted}
+    />
+  </Field>
+);
+
+MultiSelectDropdown.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  obligatory: PropTypes.bool,
+  description: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  data: PropTypes.arrayOf(PropTypes.string),
+  submitted: PropTypes.bool.isRequired,
 };

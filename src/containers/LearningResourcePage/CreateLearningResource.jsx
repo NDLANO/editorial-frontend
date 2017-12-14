@@ -66,9 +66,9 @@ CreateLearningResource.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  resourceTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  topics: PropTypes.arrayOf(PropTypes.string).isRequired,
-  filter: PropTypes.arrayOf(PropTypes.string).isRequired,
+  resourceTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  topics: PropTypes.arrayOf(PropTypes.object).isRequired,
+  filter: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

@@ -183,13 +183,18 @@ const phrases = {
     },
   },
   form: {
-    contentSection: 'Content',
     metadataSection: 'Metadata',
+    contentSection: 'Content',
+    workflowSection: 'Workflow',
     taxonomytSection: 'Taxonomy',
     copyrightSection: 'License and authors',
     save: 'Save',
     abort: 'Abort',
+    validate: 'Validate',
+    publish: 'Publish',
     savedOk: 'Saved OK',
+    publishedOk: 'Published OK',
+    validationOk: 'No validation errors found',
     createdOk: 'Created OK',
     variant: {
       create: 'Create variant +',
@@ -205,6 +210,15 @@ const phrases = {
     visualElement: {
       title: 'Add visual element',
       label: 'Visual element',
+    },
+    status: {
+      created: 'Created',
+      draft: 'Draft',
+      user_test: 'User test',
+      awaiting_quality_assurance: 'Quality assurance',
+      queued_for_publishing: 'Queued for publishing',
+      published: 'Published',
+      imported: 'Imported',
     },
     content: {
       label: 'Content',

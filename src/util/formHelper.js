@@ -17,3 +17,16 @@ export const parseCopyrightContributors = (obj, contributorType) => {
   }
   return obj.copyright[contributorType] || [];
 };
+
+export const articleStatuses = [
+  { key: 'CREATED' },
+  { key: 'DRAFT' },
+  { key: 'USER_TEST' },
+  { key: 'AWAITING_QUALITY_ASSURANCE' },
+  {
+    key: 'QUEUED_FOR_PUBLISHING',
+    columnSize: 2,
+  },
+  { key: 'PUBLISHED' },
+  { key: 'IMPORTED' },
+];

@@ -23,6 +23,27 @@ export const sectionSplitter = html => {
   return sections;
 };
 
+export const isValueEmpty = value => {
+  const { document } = value;
+  const { nodes } = document;
+  if (nodes.isEmpty()) {
+    return true;
+  } else if (
+    nodes.first().type === 'section' &&
+    nodes.first().nodes.size === 1 &&
+    nodes.first().nodes.first().isEmpty
+  ) {
+    return true;
+  } else if (
+    nodes.size === 1 &&
+    nodes.first().type !== 'section' &&
+    nodes.first().isEmpty
+  ) {
+    return true;
+  }
+  return false;
+};
+
 export const createEmptyValue = () =>
   Value.fromJSON({
     document: {
@@ -89,7 +110,10 @@ export function learningResourceContentToHTML(contentValue) {
   });
 
   return contentValue
-    .map(section => serializer.serialize(section.value))
+    .map(
+      section =>
+        isValueEmpty(section.value) ? '' : serializer.serialize(section.value),
+    )
     .join('')
     .replace(/<deleteme><\/deleteme>/g, '');
 }
@@ -104,7 +128,10 @@ export function topicArticleContentToEditorValue(html, fragment = undefined) {
 
 export function topicArticleContentToHTML(value) {
   const serializer = new Html({ rules: topicArticeRules });
-  return serializer.serialize(value).replace(/<deleteme><\/deleteme>/g, '');
+
+  return isValueEmpty(value)
+    ? undefined
+    : serializer.serialize(value).replace(/<deleteme><\/deleteme>/g, '');
 }
 
 export function plainTextToEditorValue(text, withDefaultPlainValue = false) {

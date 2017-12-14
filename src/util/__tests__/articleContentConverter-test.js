@@ -7,19 +7,54 @@
  */
 
 import jsdom from 'jsdom';
+import { Value } from 'slate';
 import {
   topicArticleContentToEditorValue,
   topicArticleContentToHTML,
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
   sectionSplitter,
+  isValueEmpty,
+  createEmptyValue,
 } from '../articleContentConverter';
+import {
+  valueWithInlineFootnotesAndContentLinks,
+  brValue,
+  normalDivValue,
+  quoteValue,
+  sectionValue,
+  headingTwoValue,
+  listValue,
+  detailsBoxValue,
+  tableSlateValue,
+  valueWithTwoImageEmbeds,
+} from './slateMockValues';
 
 const contentHTML = `<section><h2>Lorem ipsum</h2></section>`;
 
 const contentHTMLWithSections = `<section><h2>Section 1</h2></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>`;
 
 const fragment = jsdom.JSDOM.fragment;
+
+test('articleContentConverter is value empty should be true if value is empty', () => {
+  const emptyValue = createEmptyValue();
+  expect(isValueEmpty(emptyValue)).toBe(true);
+  expect(isValueEmpty(Value.fromJSON(brValue))).toBe(true);
+});
+
+test('articleContentConverter is value empty should be false if value is not empty', () => {
+  expect(
+    isValueEmpty(Value.fromJSON(valueWithInlineFootnotesAndContentLinks)),
+  ).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(normalDivValue))).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(quoteValue))).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(sectionValue))).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(headingTwoValue))).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(listValue()))).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(detailsBoxValue))).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(tableSlateValue))).toBe(false);
+  expect(isValueEmpty(Value.fromJSON(valueWithTwoImageEmbeds))).toBe(false);
+});
 
 test('articleContentConverter convert topic article content to and from editorValue', () => {
   // Todo fix test to handle empty text nodes

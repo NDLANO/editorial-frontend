@@ -20,4 +20,10 @@ function fetchResourceTypes(locale) {
   );
 }
 
-export { fetchResourceTypes };
+function fetchTopicArticle(topicId, locale) {
+  return fetchAuthorized(
+    `${baseUrl}/topics/${topicId}/?language=${locale}`,
+  ).then(resolveJsonOrRejectWithError);
+}
+
+export { fetchResourceTypes, fetchTopicArticle };

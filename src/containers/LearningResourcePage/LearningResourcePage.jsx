@@ -16,30 +16,11 @@ import {
   getAllLicenses,
 } from '../../modules/license/license';
 import { fetchResourceTypes } from '../../modules/taxonomy';
-import { getSaving } from '../../modules/article/article';
+import { getSaving } from '../../modules/draft/draft';
 import { getLocale } from '../../modules/locale/locale';
 import EditLearningResource from './EditLearningResource';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-
-const flattenResourceTypes = data => {
-  const resourceTypes = [];
-  data.forEach(type => {
-    resourceTypes.push({
-      name: type.name,
-      id: type.id,
-    });
-    if (type.subtypes) {
-      type.subtypes.forEach(subtype =>
-        resourceTypes.push({
-          name: subtype.name,
-          id: subtype.id,
-        }),
-      );
-    }
-  });
-  return resourceTypes;
-};
 
 class LearningResourcePage extends Component {
   constructor(props) {
@@ -52,8 +33,7 @@ class LearningResourcePage extends Component {
     fetchLicenses();
 
     try {
-      const resourceTypesData = await fetchResourceTypes(locale);
-      const resourceTypes = flattenResourceTypes(resourceTypesData);
+      const resourceTypes = await fetchResourceTypes(locale);
       this.setState({ resourceTypes });
     } catch (e) {
       throw new Error(e);

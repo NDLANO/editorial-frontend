@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { actions } from '../../modules/article/article';
+import { actions as draftActions } from '../../modules/draft/draft';
 import TopicArticleForm, {
   getInitialModel,
 } from './components/TopicArticleForm';
@@ -21,7 +21,7 @@ import {
 class CreateTopicArticle extends Component {
   constructor(props) {
     super(props);
-    this.updateArticle = this.updateArticle.bind(this);
+    this.updateDraft = this.updateDraft.bind(this);
   }
 
   componentWillMount() {
@@ -29,9 +29,9 @@ class CreateTopicArticle extends Component {
     fetchTags({ language: locale });
   }
 
-  updateArticle(article) {
-    const { updateArticle, history } = this.props;
-    updateArticle({ article, history });
+  updateDraft(article) {
+    const { updateDraft, history } = this.props;
+    updateDraft({ draft: article, history });
   }
 
   render() {
@@ -43,7 +43,7 @@ class CreateTopicArticle extends Component {
         tags={tags}
         locale={locale}
         isSaving={isSaving}
-        onUpdate={this.updateArticle}
+        onUpdate={this.updateDraft}
       />
     );
   }
@@ -54,15 +54,14 @@ CreateTopicArticle.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  updateArticle: PropTypes.func.isRequired,
+  updateDraft: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
   fetchTags: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
-  fetchArticle: actions.fetchArticle,
-  updateArticle: actions.updateArticle,
+  updateDraft: draftActions.updateDraft,
   fetchTags: tagActions.fetchTags,
 };
 

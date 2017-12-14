@@ -16,10 +16,9 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
 
-import {
-  fetchTopicArticle,
-  fetchNewArticleId,
-} from '../../../modules/article/articleApi';
+import { fetchTopicArticle } from '../../../modules/taxonomy';
+
+import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { getLocale } from '../../../modules/locale/locale';
 
 const classes = new BEMHelper({

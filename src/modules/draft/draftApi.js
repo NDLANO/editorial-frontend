@@ -13,6 +13,7 @@ import {
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/draft-api/v1/drafts');
+const baseAgreementsUrl = apiResourceUrl('/draft-api/v1/agreements');
 
 export const fetchDraft = (id, language) => {
   const query = queryString.stringify({ language });
@@ -45,4 +46,21 @@ export const validateDraft = id =>
 export const publishDraft = id =>
   fetchAuthorized(`${baseUrl}/${id}/publish`, {
     method: 'PUT',
+  }).then(resolveJsonOrRejectWithError);
+
+export const fetchAgreement = id =>
+  fetchAuthorized(`${baseAgreementsUrl}/${id}`).then(
+    resolveJsonOrRejectWithError,
+  );
+
+export const updateAgreement = agreement =>
+  fetchAuthorized(`${baseAgreementsUrl}/${agreement.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(agreement),
+  }).then(resolveJsonOrRejectWithError);
+
+export const createAgreement = agreement =>
+  fetchAuthorized(`${baseAgreementsUrl}/`, {
+    method: 'POST',
+    body: JSON.stringify(agreement),
   }).then(resolveJsonOrRejectWithError);

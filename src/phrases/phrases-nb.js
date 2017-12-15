@@ -138,6 +138,22 @@ const phrases = {
       },
     },
   },
+  agreementForm: {
+    title: {
+      create: 'Avtale',
+      update: 'Avtale',
+    },
+    fields: {
+      title: {
+        label: 'Avtaletittel',
+        placeholder: 'Avtaletittel',
+      },
+      content: {
+        label: 'Avtalens innhold',
+        placeholder: 'Avtalens innhold',
+      },
+    },
+  },
   audioForm: {
     title: {
       create: 'Du oppretter nå en lyd fil',

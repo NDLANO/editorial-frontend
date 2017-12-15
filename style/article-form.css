@@ -9,6 +9,7 @@
 a.c-topic-article-form__abort-button.c-button,
 a.c-audio-form__abort-button.c-button,
 a.c-image-form__abort-button.c-button,
+a.c-agreement-form__abort-button.c-button,
 a.c-learning-resource-form__abort-button.c-button {
   display: inline-block;
 }
@@ -19,9 +20,36 @@ a.c-learning-resource-form__abort-button.c-button {
   }
 }
 
+.c-agreement-form {
+  background-color: var(--brand-grey--lightest);
+  padding-bottom: 3rem;
+
+  &__header {
+    font-size: 1.2rem;
+    background-color: var(--brand-color--secondary);
+    color: white;
+  }
+}
+
+.c-audio-form,
+.c-image-form {
+  &__header {
+    background-color: var(--brand-color--dark);
+    color: white;
+  }
+}
+
+.c-topic-article-form,
+.c-learning-resource-form {
+  &__header {
+    background-color: var(--yellow-1);
+  }
+}
+
 .c-topic-article-form,
 .c-audio-form,
 .c-image-form,
+.c-agreement-form,
 .c-learning-resource-form {
   @media (min-width: 37.5em) {
     padding-left: 0;
@@ -36,8 +64,16 @@ a.c-learning-resource-form__abort-button.c-button {
   }
 
   &__header {
-    padding: 0.6rem 0;
-    background-color: var(--yellow-1);
+    padding: 0.6rem;
+
+    svg {
+      height: 1.2rem;
+      width: 1.2rem;
+    }
+
+    svg + span {
+      margin-left: 1rem;
+    }
 
     & span + span {
       margin-left: 1rem;

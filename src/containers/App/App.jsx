@@ -30,6 +30,7 @@ import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
 import LearningResourcePage from '../LearningResourcePage/LearningResourcePage';
 import AudioUploaderPage from '../AudioUploader/AudioUploaderPage';
 import ImageUploaderPage from '../ImageUploader/ImageUploaderPage';
+import AgreementPage from '../AgreementPage/AgreementPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import ForbiddenPage from '../ForbiddenPage/ForbiddenPage';
 
@@ -67,6 +68,7 @@ export class App extends React.Component {
               path="/learning-resource"
               component={LearningResourcePage}
             />
+            <PrivateRoute path="/agreement" component={AgreementPage} />
             <PrivateRoute path="/audio-upload" component={AudioUploaderPage} />
             <PrivateRoute path="/image-upload" component={ImageUploaderPage} />
             <Route path="/forbidden" component={ForbiddenPage} />

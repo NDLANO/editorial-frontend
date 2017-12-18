@@ -20,10 +20,22 @@ function fetchResourceTypes(locale) {
   );
 }
 
+function fetchFilters(locale) {
+  return fetchAuthorized(`${baseUrl}/filters/?language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
+function fetchTopics(locale) {
+  return fetchAuthorized(`${baseUrl}/topics/?language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
 function fetchTopicArticle(topicId, locale) {
   return fetchAuthorized(
     `${baseUrl}/topics/${topicId}/?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
-export { fetchResourceTypes, fetchTopicArticle };
+export { fetchResourceTypes, fetchFilters, fetchTopics, fetchTopicArticle };

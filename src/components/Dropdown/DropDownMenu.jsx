@@ -13,13 +13,13 @@ import DropDownItem from './DropDownItem';
 import { dropDownClasses } from './DropDown';
 import {
   valueFieldForItem,
-  downShifhtSorter,
+  downShiftSorter,
 } from '../../util/downShifhtHelpers';
 
 const DropDownMenu = props => {
   const { isOpen, items, messages, valueField, inputValue, textField } = props;
   const values = inputValue
-    ? downShifhtSorter(items, inputValue, textField)
+    ? downShiftSorter(items, inputValue, textField)
     : items;
   return !isOpen ? null : (
     <div {...dropDownClasses('items')}>

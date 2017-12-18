@@ -29,7 +29,13 @@ class LearningResourceTaxonomy extends Component {
   }
 
   render() {
-    const { t, commonFieldProps, resourceTypes, filter, topics } = this.props;
+    const { t, commonFieldProps, resourceTypes, filters, topics } = this.props;
+
+    const defaultDropdownProps = {
+      obligatory: true,
+      textField: 'name',
+      valueField: 'id',
+    };
 
     return (
       <Accordion
@@ -38,10 +44,7 @@ class LearningResourceTaxonomy extends Component {
         hidden={this.state.hiddenContent}
         fill>
         <MultiSelectDropdown
-          obligatory
           name="resourceTypes"
-          textField="name"
-          valueField="id"
           placeholder={t('form.resourceTypes.placeholder')}
           label={t('form.resourceTypes.label')}
           items={resourceTypes}
@@ -49,22 +52,22 @@ class LearningResourceTaxonomy extends Component {
             emptyFilter: t('form.resourceTypes.emptyFilter'),
             emptyList: t('form.resourceTypes.emptyList'),
           }}
+          {...defaultDropdownProps}
           {...commonFieldProps}
         />
         <MultiSelectDropdown
-          obligatory
           name="filter"
           placeholder={t('form.filter.placeholder')}
-          items={filter}
+          items={filters}
           label={t('form.filter.label')}
           messages={{
             emptyFilter: t('form.filter.emptyFilter'),
             emptyList: t('form.filter.emptyList'),
           }}
+          {...defaultDropdownProps}
           {...commonFieldProps}
         />
         <MultiSelectDropdown
-          obligatory
           name="topics"
           placeholder={t('form.topics.placeholder')}
           items={topics}
@@ -73,6 +76,7 @@ class LearningResourceTaxonomy extends Component {
             emptyFilter: t('form.topics.emptyFilter'),
             emptyList: t('form.topics.emptyList'),
           }}
+          {...defaultDropdownProps}
           {...commonFieldProps}
         />
       </Accordion>
@@ -84,7 +88,7 @@ LearningResourceTaxonomy.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
   resourceTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   topics: PropTypes.arrayOf(PropTypes.object).isRequired,
-  filter: PropTypes.arrayOf(PropTypes.object).isRequired,
+  filters: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default injectT(LearningResourceTaxonomy);

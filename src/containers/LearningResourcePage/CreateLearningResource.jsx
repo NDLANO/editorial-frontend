@@ -39,7 +39,7 @@ class CreateLearningResource extends Component {
       locale,
       isSaving,
       resourceTypes,
-      filter,
+      filters,
       topics,
       licenses,
     } = this.props;
@@ -48,7 +48,7 @@ class CreateLearningResource extends Component {
         initialModel={getInitialModel({ language: locale })}
         tags={tags}
         resourceTypes={resourceTypes}
-        filter={filter}
+        filters={filters}
         topics={topics}
         licenses={licenses}
         isSaving={isSaving}
@@ -68,7 +68,7 @@ CreateLearningResource.propTypes = {
   ).isRequired,
   resourceTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   topics: PropTypes.arrayOf(PropTypes.object).isRequired,
-  filter: PropTypes.arrayOf(PropTypes.object).isRequired,
+  filters: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

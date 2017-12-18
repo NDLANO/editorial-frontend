@@ -15,7 +15,11 @@ import {
   actions as licenseActions,
   getAllLicenses,
 } from '../../modules/license/license';
-import { fetchResourceTypes } from '../../modules/taxonomy';
+import {
+  fetchResourceTypes,
+  fetchFilters,
+  fetchTopics,
+} from '../../modules/taxonomy';
 import { getSaving } from '../../modules/draft/draft';
 import { getLocale } from '../../modules/locale/locale';
 import EditLearningResource from './EditLearningResource';
@@ -34,14 +38,16 @@ class LearningResourcePage extends Component {
 
     try {
       const resourceTypes = await fetchResourceTypes(locale);
-      this.setState({ resourceTypes });
+      const filters = await fetchFilters(locale);
+      const topics = await fetchTopics(locale);
+      this.setState({ resourceTypes, filters, topics });
     } catch (e) {
       throw new Error(e);
     }
   }
 
   render() {
-    const { resourceTypes, filter, topics } = this.state;
+    const { resourceTypes, filters, topics } = this.state;
     const { locale, match, history, isSaving, licenses } = this.props;
 
     const defaultResourceProps = {
@@ -49,7 +55,7 @@ class LearningResourcePage extends Component {
       isSaving,
       licenses,
       resourceTypes,
-      filter,
+      filters,
       topics,
     };
 

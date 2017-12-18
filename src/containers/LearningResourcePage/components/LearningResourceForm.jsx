@@ -157,7 +157,7 @@ class LearningResourceForm extends Component {
       licenses,
       isSaving,
       resourceTypes,
-      filter,
+      filters,
       topics,
       articleStatus,
     } = this.props;
@@ -188,7 +188,7 @@ class LearningResourceForm extends Component {
         <LearningResourceTaxonomy
           commonFieldProps={commonFieldProps}
           resourceTypes={resourceTypes}
-          filter={filter}
+          filters={filters}
           topics={topics}
         />
         <LearningResourceCopyright
@@ -239,7 +239,7 @@ LearningResourceForm.propTypes = {
   ).isRequired,
   resourceTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   topics: PropTypes.arrayOf(PropTypes.object).isRequired,
-  filter: PropTypes.arrayOf(PropTypes.object).isRequired,
+  filters: PropTypes.arrayOf(PropTypes.object).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,

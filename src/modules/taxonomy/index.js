@@ -6,6 +6,11 @@
  *
  */
 
-import { fetchResourceTypes, fetchTopicArticle } from './taxonomyApi';
+import {
+  fetchResourceTypes,
+  fetchTopicArticle,
+  fetchFilters,
+  fetchTopics,
+} from './taxonomyApi';
 
-export { fetchResourceTypes, fetchTopicArticle };
+export { fetchResourceTypes, fetchFilters, fetchTopics, fetchTopicArticle };

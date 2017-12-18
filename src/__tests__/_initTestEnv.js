@@ -48,8 +48,3 @@ localStorage.setItem(
   'access_token_expires_at',
   new Date().getTime() + 24 * 60 * 60 * 1000,
 );
-localStorage.setItem('id_token', '12345678');
-localStorage.setItem(
-  'id_token_expires_at',
-  new Date().getTime() + 24 * 60 * 60 * 1000,
-);

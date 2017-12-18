@@ -9,7 +9,7 @@ import queryString from 'query-string';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
-  fetchWithAccessToken,
+  fetchAuthorized,
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/draft-api/v1/drafts');
@@ -17,32 +17,32 @@ const baseUrl = apiResourceUrl('/draft-api/v1/drafts');
 export const fetchDraft = (id, language) => {
   const query = queryString.stringify({ language });
   const url = language ? `${baseUrl}/${id}?${query}` : `${baseUrl}/${id}`;
-  return fetchWithAccessToken(url).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
 };
 
 export const updateDraft = draft =>
-  fetchWithAccessToken(`${baseUrl}/${draft.id}`, {
+  fetchAuthorized(`${baseUrl}/${draft.id}`, {
     method: 'PATCH',
     body: JSON.stringify(draft),
   }).then(resolveJsonOrRejectWithError);
 
 export const createDraft = draft =>
-  fetchWithAccessToken(`${baseUrl}/`, {
+  fetchAuthorized(`${baseUrl}/`, {
     method: 'POST',
     body: JSON.stringify(draft),
   }).then(resolveJsonOrRejectWithError);
 
 export const fetchNewArticleId = id => {
   const url = `${baseUrl}/external_id/${id}`;
-  return fetchWithAccessToken(url).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
 };
 
 export const validateDraft = id =>
-  fetchWithAccessToken(`${baseUrl}/${id}/validate`, {
+  fetchAuthorized(`${baseUrl}/${id}/validate`, {
     method: 'PUT',
   }).then(resolveJsonOrRejectWithError);
 
 export const publishDraft = id =>
-  fetchWithAccessToken(`${baseUrl}/${id}/publish`, {
+  fetchAuthorized(`${baseUrl}/${id}/publish`, {
     method: 'PUT',
   }).then(resolveJsonOrRejectWithError);

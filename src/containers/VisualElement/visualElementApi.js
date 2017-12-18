@@ -13,7 +13,7 @@ import {
   apiResourceUrl,
   brightcoveApiResourceUrl,
   googleSearchApiResourceUrl,
-  fetchWithAccessToken,
+  fetchAuthorized,
   fetchWithBrightCoveToken,
   resolveJsonOrRejectWithError,
 } from '../../util/apiHelpers';
@@ -26,14 +26,14 @@ const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
 const baseGoogleSearchUrl = googleSearchApiResourceUrl('/customsearch/v1/');
 
 export const searchImages = (query, page) =>
-  fetchWithAccessToken(
+  fetchAuthorized(
     `${baseImageNdlaUrl}/?${queryString.stringify({
       query,
       page,
     })}&page-size=16`,
   ).then(resolveJsonOrRejectWithError);
 export const searchAudios = query =>
-  fetchWithAccessToken(
+  fetchAuthorized(
     `${baseAudioNdlaUrl}/?${queryString.stringify({
       query: query.query,
       page: query.page,
@@ -41,12 +41,12 @@ export const searchAudios = query =>
   ).then(resolveJsonOrRejectWithError);
 
 export const fetchAudio = audioId =>
-  fetchWithAccessToken(`${baseAudioNdlaUrl}/${audioId}`).then(
+  fetchAuthorized(`${baseAudioNdlaUrl}/${audioId}`).then(
     resolveJsonOrRejectWithError,
   );
 
 export const fetchImage = imageId =>
-  fetchWithAccessToken(`${baseImageNdlaUrl}/${imageId}`).then(
+  fetchAuthorized(`${baseImageNdlaUrl}/${imageId}`).then(
     resolveJsonOrRejectWithError,
   );
 
@@ -71,7 +71,7 @@ export const searchGoogleCustomSearch = (query, filter) => {
 };
 
 export const fetchBrightcoveVideo = videoId =>
-  fetchWithAccessToken(`${baseBrightCoveUrlV3}/${videoId}`).then(
+  fetchAuthorized(`${baseBrightCoveUrlV3}/${videoId}`).then(
     resolveJsonOrRejectWithError,
   );
 

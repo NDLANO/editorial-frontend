@@ -38,6 +38,8 @@ export const getInitialModel = (agreement = {}) => ({
     agreement.copyright && agreement.copyright.license
       ? agreement.copyright.license.license
       : DEFAULT_LICENSE.license,
+  validFrom: agreement.copyright && agreement.copyright.validFrom ? agreement.copyright.validFrom : '',
+  validTo:  agreement.copyright && agreement.copyright.validTo ? agreement.copyright.validTo : '',
 });
 
 const classes = new BEMHelper({
@@ -71,6 +73,8 @@ class AgreementForm extends Component {
         creators: model.creators,
         processors: model.processors,
         rightsholders: model.rightsholders,
+        validFrom: model.validFrom,
+        validTo: model.validTo,
       },
     };
     onUpdate(agreementMetaData);

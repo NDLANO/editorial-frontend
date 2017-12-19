@@ -5,6 +5,7 @@ import {
   TextField,
   TextAreaField,
   SelectObjectField,
+  DateField,
 } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Contributors from '../../../components/Contributors/Contributors';
@@ -44,6 +45,11 @@ const AgreementFields = props => {
         name="content"
         placeholder={t('agreementForm.fields.content.placeholder')}
         rows="15"
+        {...commonFieldProps}
+      />
+      <DateField
+        name="validTo"
+        locale="nb"
         {...commonFieldProps}
       />
     </div>

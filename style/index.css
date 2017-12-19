@@ -6,6 +6,7 @@
  *
  */
 
+@import  '../node_modules/flatpickr/dist/flatpickr.min.css';
 @import '../node_modules/ndla-ui/lib/audioSearch.css';
 @import '../node_modules/ndla-ui/lib/imageSearch.css';
 @import '../node_modules/ndla-ui/lib/main.css';

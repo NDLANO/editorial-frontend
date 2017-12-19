@@ -25,17 +25,19 @@ const DropDown = ({
   items,
   placeholder,
   defaultSelectedItem,
-  onChange,
+  selectedItem,
+  onToggleMenu,
+  multiSelect,
   textField,
   valueField,
   messages,
+  ...rest
 }) => (
   <Downshift
-    onChange={selectedItem =>
-      onChange({ target: { name, value: selectedItem } })
-    }
+    {...rest}
     itemToString={item => itemToString(item, textField)}
     defaultSelectedItem={defaultSelectedItem}
+    selectedItem={multiSelect ? selectedItem : undefined}
     render={downshiftProps => (
       <div {...dropDownClasses()}>
         <DropDownInput
@@ -45,12 +47,17 @@ const DropDown = ({
         />
         <DropDownMenu
           items={items}
+          multiSelect={multiSelect}
           messages={messages}
           {...downshiftProps}
           textField={textField}
           valueField={valueField}
         />
-        <DropDownAction {...downshiftProps} />
+        <DropDownAction
+          onToggleMenu={onToggleMenu}
+          multiSelect={multiSelect}
+          {...downshiftProps}
+        />
       </div>
     )}
   />
@@ -91,6 +98,14 @@ DropDown.propTypes = {
     PropTypes.object,
     PropTypes.number,
   ]),
+  selectedItem: PropTypes.arrayOf(PropTypes.shape),
+  multiSelect: PropTypes.bool,
+  onToggleMenu: PropTypes.func,
+};
+
+DropDown.defaultProps = {
+  multiSelect: false,
+  onToggleMenu: undefined,
 };
 
 export default injectT(DropDown);

@@ -12,7 +12,7 @@ import { uuid } from 'ndla-util';
 import BEMHelper from 'react-bem-helper';
 import get from 'lodash/fp/get';
 import MultiSelect from './MultiSelect';
-import DropDown from './Dropdown/DropDown';
+import { MultiDropdown } from './Dropdown';
 import { isEmpty } from './validators';
 import PlainTextEditor from '../components/SlateEditor/PlainTextEditor';
 import ObjectSelector from './ObjectSelector';
@@ -448,7 +448,7 @@ export const MultiSelectDropdown = ({
     {description && (
       <FieldDescription obligatory={obligatory}>{description}</FieldDescription>
     )}
-    <DropDown name={name} {...bindInput(name)} {...rest} />
+    <MultiDropdown name={name} {...rest} />
     <FieldErrorMessages
       label={label}
       field={getField(name, schema)}

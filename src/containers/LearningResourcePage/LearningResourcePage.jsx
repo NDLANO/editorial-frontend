@@ -29,7 +29,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 class LearningResourcePage extends Component {
   constructor(props) {
     super(props);
-    this.state = { resourceTypes: [], filter: [], topics: [] };
+    this.state = { resourceTypes: [], filters: [], topics: [] };
   }
 
   async componentWillMount() {

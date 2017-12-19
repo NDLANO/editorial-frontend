@@ -27,7 +27,7 @@
   &__action {
     position: absolute;
     right: 0.8rem;
-    top: 0.4rem;
+    top: 0.25rem;
     color: var(--brand-grey);
 
     &:hover,

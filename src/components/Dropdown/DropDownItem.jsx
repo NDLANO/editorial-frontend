@@ -17,9 +17,12 @@ const DropDownItem = ({
   item,
   index,
   itemToString,
+  multiSelect,
 }) => {
   const isActive = highlightedIndex === index;
-  const isSelected = selectedItem === item;
+  const isSelected = multiSelect
+    ? selectedItem.indexOf(item) > -1
+    : selectedItem === item;
   const text = itemToString(item);
   return (
     <div
@@ -41,6 +44,11 @@ DropDownItem.propTypes = {
   ]).isRequired,
   index: PropTypes.number.isRequired,
   textField: PropTypes.string,
+  multiSelect: PropTypes.bool,
+};
+
+DropDownItem.defaultProps = {
+  multiSelect: false,
 };
 
 export default DropDownItem;

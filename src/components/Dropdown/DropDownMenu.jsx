@@ -17,10 +17,23 @@ import {
 } from '../../util/downShifhtHelpers';
 
 const DropDownMenu = props => {
-  const { isOpen, items, messages, valueField, inputValue, textField } = props;
-  const values = inputValue
-    ? downShiftSorter(items, inputValue, textField)
-    : items;
+  const {
+    isOpen,
+    multiSelect,
+    items,
+    messages,
+    valueField,
+    inputValue,
+    textField,
+  } = props;
+
+  let values;
+  if (multiSelect) {
+    values = items;
+  } else {
+    values = inputValue ? downShiftSorter(items, inputValue, textField) : items;
+  }
+
   return !isOpen ? null : (
     <div {...dropDownClasses('items')}>
       {!isEmpty(values) ? (
@@ -50,6 +63,11 @@ DropDownMenu.propTypes = {
     PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number]),
   ).isRequired,
   textField: PropTypes.string,
+  multiSelect: PropTypes.bool,
+};
+
+DropDownMenu.defaultProps = {
+  multiSelect: false,
 };
 
 export default DropDownMenu;

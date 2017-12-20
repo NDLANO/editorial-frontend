@@ -16,6 +16,7 @@ import BEMHelper from 'react-bem-helper';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
+import { getSessionStateFromLocalStorage } from '../../../modules/session/session';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
@@ -25,26 +26,34 @@ import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
 import { SchemaShape } from '../../../shapes';
 
-export const getInitialModel = (image = {}) => ({
-  id: image.id,
-  revision: image.revision,
-  language: image.language,
-  title: image.title || '',
-  alttext: image.alttext || '',
-  caption: image.caption || '',
-  imageFile: image.imageUrl,
-  tags: image.tags || [],
-  creators: parseCopyrightContributors(image, 'creators'),
-  processors: parseCopyrightContributors(image, 'processors'),
-  rightsholders: parseCopyrightContributors(image, 'rightsholders'),
-  origin:
-    image.copyright && image.copyright.origin ? image.copyright.origin : '',
-  license:
-    image.copyright && image.copyright.license
-      ? image.copyright.license.license
-      : DEFAULT_LICENSE.license,
-});
-
+export const getInitialModel = (image = {}) => {
+  const sessionData = getSessionStateFromLocalStorage();
+  const userName =
+    sessionData && sessionData.user && sessionData.user.name
+      ? sessionData.user.name
+      : undefined;
+  const creators = parseCopyrightContributors(image, 'creators');
+  return {
+    id: image.id,
+    revision: image.revision,
+    language: image.language,
+    title: image.title || '',
+    alttext: image.alttext || '',
+    caption: image.caption || '',
+    imageFile: image.imageUrl,
+    tags: image.tags || [],
+    creators:
+      creators.length > 0 ? creators : [{ name: userName, type: 'editorial' }],
+    processors: parseCopyrightContributors(image, 'processors'),
+    rightsholders: parseCopyrightContributors(image, 'rightsholders'),
+    origin:
+      image.copyright && image.copyright.origin ? image.copyright.origin : '',
+    license:
+      image.copyright && image.copyright.license
+        ? image.copyright.license.license
+        : DEFAULT_LICENSE.license,
+  };
+};
 const classes = new BEMHelper({
   name: 'image-form',
   prefix: 'c-',

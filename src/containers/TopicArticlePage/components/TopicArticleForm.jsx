@@ -18,7 +18,7 @@ import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import ArticleHeader from '../../Article/ArticleHeader';
-
+import { getSessionStateFromLocalStorage } from '../../../modules/session/session';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -39,6 +39,12 @@ import {
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
+  const sessionData = getSessionStateFromLocalStorage();
+  const userName =
+    sessionData && sessionData.user && sessionData.user.name
+      ? sessionData.user.name
+      : undefined;
+  const creators = parseCopyrightContributors(article, 'creators');
   return {
     id: article.id,
     revision: article.revision,
@@ -47,7 +53,8 @@ export const getInitialModel = (article = {}) => {
     introduction: plainTextToEditorValue(article.introduction, true),
     content: topicArticleContentToEditorValue(article.content),
     tags: article.tags || [],
-    creators: parseCopyrightContributors(article, 'creators'),
+    creators:
+      creators.length > 0 ? creators : [{ name: userName, type: 'editorial' }],
     processors: parseCopyrightContributors(article, 'processors'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     copyright: article.copyright

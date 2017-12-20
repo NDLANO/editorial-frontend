@@ -32,6 +32,7 @@ import LearningResourceCopyright from './LearningResourceCopyright';
 import LearningResourceWorkflow from './LearningResourceWorkflow';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import ArticleHeader from '../../Article/ArticleHeader';
+import { getSessionStateFromLocalStorage } from '../../../modules/session/session';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
 import {
   DEFAULT_LICENSE,
@@ -59,7 +60,12 @@ const parseImageUrl = url => {
 
 export const getInitialModel = (article = {}) => {
   const metaImageId = parseImageUrl(article.metaImage);
-
+  const sessionData = getSessionStateFromLocalStorage();
+  const userName =
+    sessionData && sessionData.user && sessionData.user.name
+      ? sessionData.user.name
+      : undefined;
+  const creators = parseCopyrightContributors(article, 'creators');
   return {
     id: article.id,
     revision: article.revision,
@@ -67,7 +73,8 @@ export const getInitialModel = (article = {}) => {
     introduction: plainTextToEditorValue(article.introduction, true),
     content: learningResourceContentToEditorValue(article.content),
     tags: article.tags || [],
-    creators: parseCopyrightContributors(article, 'creators'),
+    creators:
+      creators.length > 0 ? creators : [{ name: userName, type: 'editorial' }],
     processors: parseCopyrightContributors(article, 'processors'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     origin:

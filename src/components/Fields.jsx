@@ -433,7 +433,6 @@ SelectObjectField.propTypes = {
   labelKey: PropTypes.string.isRequired,
 };
 
-
 export const DateField = ({
   bindInput,
   name,
@@ -443,27 +442,13 @@ export const DateField = ({
   noBorder,
   ...rest
 }) => {
-  const { onChange, value } = bindInput(name)
+  const { onChange, value } = bindInput(name);
   return (
     <Field noBorder={noBorder}>
-      {!noBorder ? (
-        <label htmlFor={name}>{label}</label>
-      ) : (
-        <label className="u-hidden" htmlFor={name}>
-          {label}
-        </label>
-      )}
-      {noBorder && (
-        <FocusLabel
-          name={name}
-          hasFocus={() => getField(name, schema).active}
-          value={bindInput(name).value}>
-          {label}
-        </FocusLabel>
-      )}
       <DateTimeInput
         id={name}
         type="text"
+        {...classes('date-picker')}
         name={name}
         value={value}
         onChange={val =>
@@ -481,12 +466,12 @@ export const DateField = ({
       />
     </Field>
   );
-}
+};
 
 DateField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),

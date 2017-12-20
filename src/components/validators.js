@@ -37,6 +37,12 @@ export const isUrl = value => {
   return false;
 };
 
+export const validDateRange = (before, after) => {
+  const beforeDate = new Date(before);
+  const afterDate = new Date(after);
+  return beforeDate.getTime() <= afterDate.getTime();
+};
+
 export const minLength = (value, length) => getLength(value) < length;
 export const maxLength = (value, length) => getLength(value) > length;
 

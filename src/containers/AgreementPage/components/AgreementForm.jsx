@@ -38,8 +38,14 @@ export const getInitialModel = (agreement = {}) => ({
     agreement.copyright && agreement.copyright.license
       ? agreement.copyright.license.license
       : DEFAULT_LICENSE.license,
-  validFrom: agreement.copyright && agreement.copyright.validFrom ? agreement.copyright.validFrom : '',
-  validTo:  agreement.copyright && agreement.copyright.validTo ? agreement.copyright.validTo : '',
+  validFrom:
+    agreement.copyright && agreement.copyright.validFrom
+      ? agreement.copyright.validFrom
+      : '',
+  validTo:
+    agreement.copyright && agreement.copyright.validTo
+      ? agreement.copyright.validTo
+      : '',
 });
 
 const classes = new BEMHelper({
@@ -165,6 +171,14 @@ export default compose(
     },
     content: {
       required: true,
+    },
+    validFrom: {
+      dateBefore: true,
+      afterKey: 'validTo',
+    },
+    validTo: {
+      dateAfter: true,
+      beforeKey: 'validFrom',
     },
   }),
 )(AgreementForm);

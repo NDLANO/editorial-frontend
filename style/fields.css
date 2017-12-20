@@ -72,6 +72,33 @@
     border-bottom: 2px solid var(--brand-color--light);
   }
 
+  &__date-picker + svg {
+    margin-left: -1.5rem;
+    margin-top: -2px;
+    height: 25px;
+    width: 25px;
+  }
+
+  &__two-column {
+    display: flex;
+    flex-flow: row;
+    margin-top: var(--spacing--small);
+
+    & > .c-field {
+      display: inline-block;
+      margin-top: 0;
+    }
+
+    & > *:nth-child(1) {
+      width: 50%;
+    }
+
+    & > *:nth-child(2) {
+      margin-left: 0.5rem;
+      width: 50%;
+    }
+  }
+
   &__three-column {
     display: flex;
     flex-flow: row;

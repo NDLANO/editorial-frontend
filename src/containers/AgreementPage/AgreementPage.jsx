@@ -45,7 +45,7 @@ class AgreementPage extends React.Component {
       }
       await this.setState({ isSaving: false });
       await addMessage({
-        translationKey: agreement.id ? 'form.updatedOk' : 'form.createdOk',
+        translationKey: agreement.id ? 'form.savedOk' : 'form.createdOk',
       });
     } catch (err) {
       this.setState({ isSaving: false });

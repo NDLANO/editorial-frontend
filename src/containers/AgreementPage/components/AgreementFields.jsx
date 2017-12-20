@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { connect } from 'react-redux';
+import { getLocale } from '../../../modules/locale/locale';
 import {
+  classes as fieldsClasses,
   TextField,
   TextAreaField,
   SelectObjectField,
@@ -11,7 +14,7 @@ import { CommonFieldPropsShape } from '../../../shapes';
 import Contributors from '../../../components/Contributors/Contributors';
 
 const AgreementFields = props => {
-  const { t, commonFieldProps, licenses } = props;
+  const { t, commonFieldProps, licenses, locale } = props;
 
   return (
     <div>
@@ -47,25 +50,44 @@ const AgreementFields = props => {
         rows="15"
         {...commonFieldProps}
       />
-      <DateField
-        name="validTo"
-        locale="nb"
-        {...commonFieldProps}
-      />
+      <div {...fieldsClasses()}>
+        <label htmlFor="validFrom and validTo">
+          {t('form.validDate.label')}
+        </label>
+      </div>
+      <div {...fieldsClasses('two-column')}>
+        <DateField
+          name="validFrom"
+          locale={locale}
+          label={t('form.validDate.from.label')}
+          placeholder={t('form.validDate.from.placeholder')}
+          {...commonFieldProps}
+        />
+        <DateField
+          name="validTo"
+          locale={locale}
+          label={t('form.validDate.to.label')}
+          placeholder={t('form.validDate.to.placeholder')}
+          {...commonFieldProps}
+        />
+      </div>
     </div>
   );
 };
 
 AgreementFields.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
-  classes: PropTypes.func.isRequired,
-  bindInput: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
       license: PropTypes.string,
     }),
   ).isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
-export default injectT(AgreementFields);
+const mapStateToProps = state => ({
+  locale: getLocale(state),
+});
+
+export default injectT(connect(mapStateToProps)(AgreementFields));

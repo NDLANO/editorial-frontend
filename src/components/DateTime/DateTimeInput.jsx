@@ -1,24 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Flatpickr from 'flatpickr';
-import { no, en } from "flatpickr/dist/l10n"
-import NyNorsk from './NyNorsk'
+import { no, en } from 'flatpickr/dist/l10n';
+import { Calendar } from 'ndla-icons/editor';
+import NyNorsk from './NyNorsk';
 
-const FORMAT_PATTERN = 'd.m.y - H:i';
+const FORMAT_PATTERN = 'Y-m-d';
 
 const locales = {
   nb: no,
   en,
   nn: NyNorsk,
-}
+};
 
 class DateTimeInput extends React.Component {
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
     this.getOptions = this.getOptions.bind(this);
-    // this.setLocale = this.setLocale.bind(this);
-
   }
   componentDidMount() {
     const options = this.getOptions();
@@ -44,9 +43,9 @@ class DateTimeInput extends React.Component {
     // because the setting of options in componentWillReceiveProps would trigger
     // onChange
     if (value !== this.props.value) {
-      this.props.onChange(value, dateStr);
+      this.props.onChange(`${dateStr}T00:00:00Z`);
     }
-  };
+  }
 
   // Add our own onChange handler as a hook
   getOptions() {
@@ -55,7 +54,10 @@ class DateTimeInput extends React.Component {
       time_24hr: true,
       enableTime: false,
       dateFormat: FORMAT_PATTERN,
+      altInput: true,
       locale: locales[this.props.locale],
+      defaultHour: 0,
+      defaultMinute: 0,
     };
     // The hook handlers apparently needs be set as an array...?
     options.onChange = [this.onChange];
@@ -63,7 +65,6 @@ class DateTimeInput extends React.Component {
   }
 
   setValue(props) {
-    console.log(this.flatpickr)
     if ('value' in props) {
       // The second parameter here makes sure we don't trigger the onChange
       this.flatpickr.setDate(props.value, false);
@@ -76,13 +77,16 @@ class DateTimeInput extends React.Component {
     // Cheekily add the CSS needed to render Flatpickr
     // Have to update the css link everytime we upgrade Flatpickr though :/
     return (
-      <input
-        className={className ? `input ${className}` : 'input'}
-        {...props}
-        ref={node => {
-          this.node = node;
-        }}
-      />
+      <span>
+        <input
+          className={className || ''}
+          {...props}
+          ref={node => {
+            this.node = node;
+          }}
+        />
+        <Calendar />
+      </span>
     );
   }
 }
@@ -92,10 +96,7 @@ DateTimeInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
-};
-
-DateTimeInput.defaultProps = {
-  locale: 'nb',
+  className: PropTypes.string,
 };
 
 export default DateTimeInput;

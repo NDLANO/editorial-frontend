@@ -40,12 +40,12 @@ export const getInitialModel = (agreement = {}) => ({
       : DEFAULT_LICENSE.license,
   validFrom:
     agreement.copyright && agreement.copyright.validFrom
-      ? agreement.copyright.validFrom
-      : '',
+      ? new Date(agreement.copyright.validFrom)
+      : undefined,
   validTo:
     agreement.copyright && agreement.copyright.validTo
-      ? agreement.copyright.validTo
-      : '',
+      ? new Date(agreement.copyright.validTo)
+      : undefined,
 });
 
 const classes = new BEMHelper({

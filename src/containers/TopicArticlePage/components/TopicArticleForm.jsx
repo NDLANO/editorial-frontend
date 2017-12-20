@@ -210,6 +210,9 @@ export default compose(
     metaDescription: {
       maxLength: 155,
     },
+    visualElement: {
+      required: true,
+    },
     'visualElement.alt': {
       required: true,
       onlyValidateIf: model =>

@@ -164,39 +164,42 @@ export const TextField = ({
   noBorder,
   title,
   ...rest
-}) => (
-  <Field noBorder={noBorder} title={title}>
-    {!noBorder ? (
-      <label htmlFor={name}>{label}</label>
-    ) : (
-      <label className="u-hidden" htmlFor={name}>
-        {label}
-      </label>
-    )}
-    {noBorder && (
-      <FocusLabel
-        name={name}
-        hasFocus={() => getField(name, schema).active}
-        value={bindInput(name).value}>
-        {label}
-      </FocusLabel>
-    )}
+}) => {
+  const binded = bindInput(name);
+  return (
+    <Field noBorder={noBorder} title={title}>
+      {!noBorder ? (
+        <label htmlFor={name}>{label}</label>
+      ) : (
+        <label className="u-hidden" htmlFor={name}>
+          {label}
+        </label>
+      )}
+      {noBorder && (
+        <FocusLabel
+          name={name}
+          hasFocus={() => getField(name, schema).active}
+          value={bindInput(name).value}>
+          {label}
+        </FocusLabel>
+      )}
+      <input
+        id={name}
+        type="text"
+        className="form-control"
+        {...binded}
+        value={binded.value || ''}
+        {...rest}
+      />
 
-    <input
-      id={name}
-      type="text"
-      className="form-control"
-      {...bindInput(name)}
-      {...rest}
-    />
-
-    <FieldErrorMessages
-      label={label}
-      field={getField(name, schema)}
-      submitted={submitted}
-    />
-  </Field>
-);
+      <FieldErrorMessages
+        label={label}
+        field={getField(name, schema)}
+        submitted={submitted}
+      />
+    </Field>
+  );
+};
 
 TextField.propTypes = {
   bindInput: PropTypes.func.isRequired,

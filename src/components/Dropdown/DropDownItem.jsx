@@ -21,7 +21,7 @@ const DropDownItem = ({
 }) => {
   const isActive = highlightedIndex === index;
   const isSelected = multiSelect
-    ? selectedItem.indexOf(item) > -1
+    ? selectedItem.some(element => element.id === item.id)
     : selectedItem === item;
   const text = itemToString(item);
   return (

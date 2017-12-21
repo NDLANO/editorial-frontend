@@ -13,7 +13,7 @@ import { injectT } from 'ndla-i18n';
 import DropDownAction from './DropDownAction';
 import DropDownMenu from './DropDownMenu';
 import DropDownInput from './DropDownInput';
-import { itemToString } from '../../util/downShifhtHelpers';
+import { itemToString } from '../../util/downShiftHelpers';
 
 export const dropDownClasses = new BEMHelper({
   name: 'dropdown',
@@ -27,6 +27,10 @@ const DropDown = ({
   defaultSelectedItem,
   selectedItem,
   onToggleMenu,
+  onRemoveItem,
+  onWrapperClick,
+  inputWrapperRef,
+  inputProps,
   multiSelect,
   textField,
   valueField,
@@ -42,16 +46,21 @@ const DropDown = ({
       <div {...dropDownClasses()}>
         <DropDownInput
           name={name}
+          multiSelect={multiSelect}
           placeholder={placeholder}
+          onRemoveItem={onRemoveItem}
+          onWrapperClick={onWrapperClick}
+          inputWrapperRef={inputWrapperRef}
+          inputProps={inputProps}
           {...downshiftProps}
         />
         <DropDownMenu
           items={items}
-          multiSelect={multiSelect}
           messages={messages}
           {...downshiftProps}
           textField={textField}
           valueField={valueField}
+          multiSelect={multiSelect}
         />
         <DropDownAction
           onToggleMenu={onToggleMenu}
@@ -101,6 +110,10 @@ DropDown.propTypes = {
   selectedItem: PropTypes.arrayOf(PropTypes.shape),
   multiSelect: PropTypes.bool,
   onToggleMenu: PropTypes.func,
+  onRemoveItem: PropTypes.func,
+  onWrapperClick: PropTypes.func,
+  inputWrapperRef: PropTypes.func,
+  inputProps: PropTypes.shape({}),
 };
 
 DropDown.defaultProps = {

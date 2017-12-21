@@ -14,12 +14,66 @@ import { DropDown } from './';
 class MultiDropdown extends Component {
   constructor(props) {
     super(props);
-    this.state = { selectedItems: [], isOpen: false };
+    this.state = { inputValue: '', selectedItems: [], isOpen: false };
     this.handleChange = this.handleChange.bind(this);
     this.addSelectedItem = this.addSelectedItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.handleToggleMenu = this.handleToggleMenu.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
+    this.inputWrapperRef = this.inputWrapperRef.bind(this);
+    this.inputRef = this.inputRef.bind(this);
+    this.onInputKeyDown = this.onInputKeyDown.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onWrapperClick = this.onWrapperClick.bind(this);
+  }
+
+  onWrapperClick(e) {
+    if (this.inputWrapper === e.target || this.input === e.target) {
+      this.focusOnInput();
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  }
+
+  onInputKeyDown(event) {
+    const { inputValue } = this.state;
+    const currentValue = event.target.value;
+
+    /* switch (event.keyCode) {
+      case 8: // backspace
+        if (!currentValue) {
+          event.preventDefault();
+          this.popValue();
+        }
+        return;
+      case 46: // backspace
+        if (!this.state.inputValue && this.props.deleteRemoves) {
+          event.preventDefault();
+          this.popValue();
+  }
+        return;
+      default: return;
+    } */
+    // event.preventDefault();
+  }
+
+  onInputChange(e) {
+    this.setState({ inputValue: e.target.value });
+  }
+
+  focusOnInput() {
+    this.input.focus();
+    if (typeof this.input.getInput === 'function') {
+      this.input.getInput().focus();
+    }
+  }
+
+  inputRef(c) {
+    this.input = c;
+  }
+
+  inputWrapperRef(c) {
+    this.inputWrapper = c;
   }
 
   handleChange(selectedItem) {
@@ -30,21 +84,19 @@ class MultiDropdown extends Component {
     } else {
       this.addSelectedItem(selectedItem);
     }
-
-    // console.log(selectedItem);
     // onChange({ target: { name, value: selectedItem } });
   }
 
   addSelectedItem(item) {
-    this.setState(({ selectedItems }) => ({
-      selectedItems: [...selectedItems, item],
-    }));
+    const { selectedItems } = this.state;
+    this.setState({ selectedItems: [...selectedItems, item] });
   }
 
   removeItem(item) {
-    this.setState(({ selectedItems }) => ({
-      selectedItems: selectedItems.filter(i => i !== item),
-    }));
+    const copy = [...this.state.selectedItems];
+    copy.splice(copy.findIndex(element => element.id === item.id), 1);
+    copy.filter(val => val);
+    this.setState({ selectedItems: copy });
   }
 
   handleToggleMenu() {
@@ -53,13 +105,25 @@ class MultiDropdown extends Component {
 
   handleStateChange(changes) {
     const { isOpen, type } = changes;
+
     if (type === Downshift.stateChangeTypes.mouseUp) {
       this.setState({ isOpen });
+    }
+
+    if (type === Downshift.stateChangeTypes.keyDownEnter) {
+      this.setState({ inputValue: '' });
     }
   }
 
   render() {
-    const { selectedItems, isOpen } = this.state;
+    const { selectedItems, isOpen, inputValue } = this.state;
+
+    const inputProps = {
+      value: inputValue,
+      ref: this.inputRef,
+      onChange: this.onInputChange,
+      onKeyDown: this.onInputKeyDown,
+    };
 
     return (
       <DropDown
@@ -69,6 +133,9 @@ class MultiDropdown extends Component {
         selectedItem={selectedItems}
         onRemoveItem={this.removeItem}
         onStateChange={this.handleStateChange}
+        inputWrapperRef={this.inputWrapperRef}
+        onWrapperClick={this.onWrapperClick}
+        inputProps={inputProps}
         onToggleMenu={this.handleToggleMenu}
         {...this.props}
       />
@@ -77,7 +144,7 @@ class MultiDropdown extends Component {
 }
 
 MultiDropdown.propTypes = {
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func, // TODO: change to required
 };
 
 export default MultiDropdown;

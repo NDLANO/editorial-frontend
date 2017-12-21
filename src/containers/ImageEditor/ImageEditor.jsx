@@ -152,8 +152,8 @@ class ImageEditor extends Component {
     return (
       <div {...classes()}>
         <div {...classes('edit')}>
-          <div {...classes('top-menu')}>
-            <div {...classes('sub-top-menu')}>
+          <div>
+            <div {...classes('menu')}>
               {aligmnents.map(aligment => (
                 <ImageAlignButton
                   key={`align_${aligment}`}
@@ -164,7 +164,7 @@ class ImageEditor extends Component {
               ))}
             </div>
             {this.state.align === 'left' || this.state.align === 'right' ? (
-              <div {...classes('sub-top-menu')}>
+              <div {...classes('menu')}>
                 {sizes.map(size => (
                   <ImageSizeButton
                     key={`size_${size}`}
@@ -185,7 +185,7 @@ class ImageEditor extends Component {
             transformData={this.state.transformData}
             editType={this.state.editType}
           />
-          <div {...classes('bottom-menu')}>
+          <div {...classes('menu')}>
             <Button
               stripped
               onClick={evt => this.onEditorTypeSet(evt, 'focalPoint')}>

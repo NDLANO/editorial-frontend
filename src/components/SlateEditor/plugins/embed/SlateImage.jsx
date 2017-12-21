@@ -62,9 +62,11 @@ class SlateImage extends React.Component {
       submitted,
       t,
     } = this.props;
+
     const src = `${window.config.ndlaApiUrl}/image-api/raw/id/${
       embed.resource_id
     }`;
+
     const transformData = {
       'focal-x': embed['focal-x'],
       'focal-y': embed['focal-y'],
@@ -75,10 +77,14 @@ class SlateImage extends React.Component {
     };
 
     const figureClassNames = classnames('c-figure', {
-      'article_figure--float-right': embed.align === 'right',
-      'article_figure--float-left': embed.align === 'left',
+      [`u-float-${embed.size}-${embed.align}`]:
+        ['left', 'right'].includes(embed.align) &&
+        ['small', 'xsmall'].includes(embed.size),
+      [`u-float-${embed.align}`]:
+        ['left', 'right'].includes(embed.align) &&
+        !['small', 'xsmall'].includes(embed.size),
     });
-
+    console.log(embed);
     return (
       <Figure {...attributes} className={figureClassNames}>
         {this.state.editModus ? (

@@ -18,11 +18,16 @@ import { getSchemaEmbed } from '../../components/SlateEditor/schema';
 import { EmbedShape, EditorShape } from '../../shapes';
 import ImageTransformEditor from './ImageTransformEditor';
 import ImageAlignButton from './ImageAlignButton';
+import ImageSizeButton from './ImageSizeButton';
 
 export const classes = new BEMHelper({
   name: 'image-editor',
   prefix: 'c-',
 });
+
+const aligmnents = ['left', 'center', 'right'];
+
+const sizes = ['xsmall', 'small', 'fullwidth'];
 
 const defaultData = {
   focalPoint: {
@@ -54,10 +59,11 @@ class ImageEditor extends Component {
         'lower-right-y': embed['lower-right-y'],
       },
       align: defined(embed.align, ''),
+      size: defined(embed.size, ''),
     };
     this.onFocalPointChange = this.onFocalPointChange.bind(this);
     this.onDataChange = this.onDataChange.bind(this);
-    this.onAlignChange = this.onAlignChange.bind(this);
+    this.onFieldChange = this.onFieldChange.bind(this);
     this.onEditorTypeSet = this.onEditorTypeSet.bind(this);
     this.onSave = this.onSave.bind(this);
     this.onAbort = this.onAbort.bind(this);
@@ -96,11 +102,11 @@ class ImageEditor extends Component {
     });
   }
 
-  onAlignChange(evt, alignment) {
+  onFieldChange(evt, field, value) {
     evt.stopPropagation();
     this.setState({
       editType: undefined,
-      align: alignment,
+      [field]: value,
     });
   }
 
@@ -115,6 +121,7 @@ class ImageEditor extends Component {
       ...getSchemaEmbed(node),
       ...this.state.transformData,
       align: this.state.align,
+      size: this.state.size,
     };
     this.onDataChange(data);
     this.props.toggleEditModus();
@@ -146,21 +153,30 @@ class ImageEditor extends Component {
       <div {...classes()}>
         <div {...classes('edit')}>
           <div {...classes('top-menu')}>
-            <ImageAlignButton
-              alignType="left"
-              onAlignChange={this.onAlignChange}
-              currentAlign={this.state.align}
-            />
-            <ImageAlignButton
-              alignType="center"
-              onAlignChange={this.onAlignChange}
-              currentAlign={this.state.align}
-            />
-            <ImageAlignButton
-              alignType="right"
-              onAlignChange={this.onAlignChange}
-              currentAlign={this.state.align}
-            />
+            <div {...classes('sub-top-menu')}>
+              {aligmnents.map(aligment => (
+                <ImageAlignButton
+                  key={`align_${aligment}`}
+                  alignType={aligment}
+                  onFieldChange={this.onFieldChange}
+                  currentAlign={this.state.align}
+                />
+              ))}
+            </div>
+            {this.state.align === 'left' || this.state.align === 'right' ? (
+              <div {...classes('sub-top-menu')}>
+                {sizes.map(size => (
+                  <ImageSizeButton
+                    key={`size_${size}`}
+                    size={size}
+                    onFieldChange={this.onFieldChange}
+                    currentSize={this.state.size}
+                  />
+                ))}
+              </div>
+            ) : (
+              ''
+            )}
           </div>
           <ImageTransformEditor
             onFocalPointChange={this.onFocalPointChange}

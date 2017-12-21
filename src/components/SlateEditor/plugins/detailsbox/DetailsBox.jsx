@@ -18,7 +18,7 @@ const DetailsBox = props => {
 
   const onRemoveClick = () => {
     const next = editor
-      .getState()
+      .getValue()
       .change()
       .removeNodeByKey(node.key);
     editor.onChange(next);

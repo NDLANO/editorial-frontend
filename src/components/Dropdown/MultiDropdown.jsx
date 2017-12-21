@@ -24,6 +24,8 @@ class MultiDropdown extends Component {
     this.inputRef = this.inputRef.bind(this);
     this.onInputKeyDown = this.onInputKeyDown.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
+    this.onInputFocus = this.onInputFocus.bind(this);
+    this.onInputBlur = this.onInputBlur.bind(this);
     this.onWrapperClick = this.onWrapperClick.bind(this);
   }
 
@@ -61,10 +63,22 @@ class MultiDropdown extends Component {
     this.setState({ inputValue: e.target.value });
   }
 
+  onInputFocus(e) {
+    if (!this.state.isOpen) {
+      this.handleToggleMenu();
+    }
+  }
+  onInputBlur(e) {
+    if (this.state.isOpen) {
+      this.handleToggleMenu();
+    }
+  }
+
   focusOnInput() {
     this.input.focus();
     if (typeof this.input.getInput === 'function') {
       this.input.getInput().focus();
+      this.setState({ isOpen: true });
     }
   }
 
@@ -87,14 +101,15 @@ class MultiDropdown extends Component {
     // onChange({ target: { name, value: selectedItem } });
   }
 
-  addSelectedItem(item) {
-    const { selectedItems } = this.state;
-    this.setState({ selectedItems: [...selectedItems, item] });
+  addSelectedItem(selectedItem) {
+    this.setState({
+      selectedItems: [...this.state.selectedItems, selectedItem],
+    });
   }
 
-  removeItem(item) {
+  removeItem(selectedItem) {
     const copy = [...this.state.selectedItems];
-    copy.splice(copy.findIndex(element => element.id === item.id), 1);
+    copy.splice(copy.findIndex(element => element.id === selectedItem.id), 1);
     copy.filter(val => val);
     this.setState({ selectedItems: copy });
   }
@@ -123,6 +138,8 @@ class MultiDropdown extends Component {
       ref: this.inputRef,
       onChange: this.onInputChange,
       onKeyDown: this.onInputKeyDown,
+      onFocus: this.onInputFocus,
+      onBlur: this.onInputBlur,
     };
 
     return (

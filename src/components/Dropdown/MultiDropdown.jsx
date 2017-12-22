@@ -25,7 +25,6 @@ class MultiDropdown extends Component {
     this.onInputKeyDown = this.onInputKeyDown.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.onInputFocus = this.onInputFocus.bind(this);
-    this.onInputBlur = this.onInputBlur.bind(this);
     this.onWrapperClick = this.onWrapperClick.bind(this);
   }
 
@@ -65,11 +64,6 @@ class MultiDropdown extends Component {
 
   onInputFocus(e) {
     if (!this.state.isOpen) {
-      this.handleToggleMenu();
-    }
-  }
-  onInputBlur(e) {
-    if (this.state.isOpen) {
       this.handleToggleMenu();
     }
   }
@@ -139,7 +133,6 @@ class MultiDropdown extends Component {
       onChange: this.onInputChange,
       onKeyDown: this.onInputKeyDown,
       onFocus: this.onInputFocus,
-      onBlur: this.onInputBlur,
     };
 
     return (

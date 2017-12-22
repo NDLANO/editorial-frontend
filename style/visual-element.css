@@ -1,12 +1,18 @@
 
 .c-visual-element {
-  &__information {
-    display: block;
-    font-size: 1rem;
-  }
 
-  &__information + span {
-    margin-bottom: 1rem;
+  &__preview {
+    display: flex;
+    align-items: flex-start;
+
+    & > div {
+      display: inline-block;
+      max-width: 50%;
+    }
+
+    & figcaption {
+      min-height: 58px;
+    }
   }
 
   &__type-button {

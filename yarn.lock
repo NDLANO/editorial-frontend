@@ -4478,9 +4478,9 @@ ndla-util@^0.1.9:
   dependencies:
     defined "1.0.0"
 
-ndla-video-search@^0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/ndla-video-search/-/ndla-video-search-0.2.4.tgz#d2c8997dbc5c3bf45906b0b9d4cc40773b453665"
+ndla-video-search@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/ndla-video-search/-/ndla-video-search-0.2.5.tgz#992f8f2895f9a058bca0715da8da2a98b5685aa2"
   dependencies:
     react-bem-helper "^1.4.1"
 

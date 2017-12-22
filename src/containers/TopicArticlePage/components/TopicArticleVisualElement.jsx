@@ -13,6 +13,7 @@ import BEMHelper from 'react-bem-helper';
 import { TextField } from '../../../components/Fields';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 import VisualElementMenu from '../../VisualElement/VisualElementMenu';
+import VisualElementPreview from '../../VisualElement/VisualElementPreview';
 import { CommonFieldPropsShape } from '../../../shapes';
 
 export const visualElementClasses = new BEMHelper({
@@ -42,8 +43,8 @@ class TopicArticleVisualElement extends Component {
     const { t, bindInput, commonFieldProps } = this.props;
     const { schema, submitted } = commonFieldProps;
 
-    const { value: visualElement } = bindInput('visualElement');
-
+    const bindInputVisualElement = bindInput('visualElement');
+    const { value: visualElement } = bindInputVisualElement;
     return (
       <div>
         <div {...visualElementClasses('add-title')}>
@@ -57,16 +58,19 @@ class TopicArticleVisualElement extends Component {
             onSelect={resource => this.setState({ selectedResource: resource })}
           />
         ) : null}
-        <VisualElementSelectField
+        <VisualElementPreview
           label={t('form.visualElement.label')}
           schema={schema}
           submitted={submitted}
-          visualElement={visualElement}
-          selectedResource={this.state.selectedResource}
           onRemoveVisualElement={() =>
             this.setState({ selectedResource: undefined })
           }
-          {...bindInput('visualElement')}
+          resetSelectedResource={this.resetSelectedResource}
+          {...bindInputVisualElement}
+        />
+        <VisualElementSelectField
+          selectedResource={this.state.selectedResource}
+          {...bindInputVisualElement}
           resetSelectedResource={this.resetSelectedResource}
         />
         {visualElement.resource && visualElement.resource !== 'h5p' ? (
@@ -109,12 +113,12 @@ class TopicArticleVisualElement extends Component {
 TopicArticleVisualElement.propTypes = {
   bindInput: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
-  visualElement: PropTypes.shape({
+  /* visualElement: PropTypes.shape({
     caption: PropTypes.string,
     alt: PropTypes.string,
     id: PropTypes.string,
     resource: PropTypes.string,
-  }),
+  }), */
 };
 
 export default injectT(TopicArticleVisualElement);

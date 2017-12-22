@@ -17,13 +17,10 @@ const DetailsBox = props => {
   const { node, editor } = props;
 
   const onRemoveClick = () => {
-    const next = editor
-      .getValue()
-      .change()
-      .removeNodeByKey(node.key);
+    const next = editor.value.change().removeNodeByKey(node.key);
     editor.onChange(next);
   };
-
+  console.log(editor);
   return (
     <details {...props.attributes} open>
       {props.children}

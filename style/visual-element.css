@@ -1,0 +1,50 @@
+
+.c-visual-element {
+  &__information {
+    display: block;
+    font-size: 1rem;
+  }
+
+  &__information + span {
+    margin-bottom: 1rem;
+  }
+
+  &__type-button {
+    height: 40px;
+    width: 40px;
+    border: 1px solid var(--gray-3);
+    border-radius: 25px;
+    margin-right: 0.3rem;
+    color: var(--gray-3);
+
+    &:focus,
+    &:hover {
+      padding: 0.3rem 0.5rem;
+      color: var(--gray-3);
+      border: 1px solid var(--gray-3);
+      border-radius: 25px;
+    }
+  }
+
+  &__type {
+    display: inline-block;
+  }
+
+  &__type--hidden {
+    display: none;
+  }
+
+  &__add-title {
+    margin-bottom: 0.2rem;
+  }
+
+  &__add-title span {
+    display: inline-block;
+    color: var(--brand-color--light);
+  }
+
+  &__add-title--border {
+    width: 70%;
+    border-bottom: 2px solid var(--brand-color--light);
+  }
+}

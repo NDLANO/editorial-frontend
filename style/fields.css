@@ -1,75 +1,94 @@
 .c-field {
-  &__visual-element-container {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
+  margin-top: 2rem;
+  position: relative;
+
+  &--position-static {
+    position: static;
   }
 
-  &__visual-element {
-    display: inline-block;
-    margin-right: 1rem;
+  & label {
+    font-size: 1.5rem;
+  }
 
-    &--left {
-      max-width: 70%;
+  &--no-margin-top {
+    margin-top: 0.5rem;
+  }
+
+  &__help {
+    display: block;
+    font-size: 0.75rem;
+
+    &--error {
+      color: var(--mark-color);
     }
 
-    &--right span:not(&-information) {
-      display: block;
-      font-size: 0.8rem;
+    &--right {
+      text-align: right;
+    }
+  }
+
+  &__focus-label {
+    color: var(--brand-color--tertiary);
+    position: absolute;
+    height: 1.5rem;
+    left: -7rem;
+    width: 6.5em;
+    border-right: 1px solid;
+    padding-right: 0.7rem;
+    line-height: initial;
+  }
+
+  &__focus-text {
+    float: right;
+  }
+
+  &__description--block {
+    display: flex;
+  }
+
+  &__description {
+    margin: 0.2em 0;
+    font-size: 0.75em;
+
+    &--obligatory {
+      background-color: rgba(230, 132, 154, 1);
+      padding: 0.2em 0.6em;
+    }
+  }
+
+  &--title {
+    & input {
+      font-size: 2.11111rem;
+    }
+
+    .c-field__focus-label {
+      margin-top: 0.7rem;
+    }
+  }
+
+  &--introduction {
+    .c-field__focus-label {
+      margin-top: 0.2rem;
+    }
+  }
+
+  &--right {
+    text-align: right;
+    margin-right: var(--spacing--small);
+  }
+
+  &--no-border {
+    & input {
+      border: none;
+      padding: 0;
+      margin: 0;
+      outline: none;
     }
   }
 
   &__learning-resource-meta-image {
     font-size: 1.5rem;
     font-weight: normal;
-  }
-
-  &__visual-element-information {
-    display: block;
-    font-size: 1rem;
-  }
-
-  &__visual-element-information + span {
-    margin-bottom: 1rem;
-  }
-
-  &__visual-element-type-button {
-    height: 40px;
-    width: 40px;
-    border: 1px solid var(--gray-3);
-    border-radius: 25px;
-    margin-right: 0.3rem;
-    color: var(--gray-3);
-
-    &:focus,
-    &:hover {
-      padding: 0.3rem 0.5rem;
-      color: var(--gray-3);
-      border: 1px solid var(--gray-3);
-      border-radius: 25px;
-    }
-  }
-
-  &__visual-element-type {
-    display: inline-block;
-  }
-
-  &__visual-element-type--hidden {
-    display: none;
-  }
-
-  &__add-visual-element-title {
-    margin-bottom: 0.2rem;
-  }
-
-  &__add-visual-element-title span {
-    display: inline-block;
-    color: var(--brand-color--light);
-  }
-
-  &__add-visual-element-title--border {
-    width: 70%;
-    border-bottom: 2px solid var(--brand-color--light);
   }
 
   &__date-picker + svg {

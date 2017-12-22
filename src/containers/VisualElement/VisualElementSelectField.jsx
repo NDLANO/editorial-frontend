@@ -15,13 +15,9 @@ import DisplayEmbedTag from '../../components/DisplayEmbedTag/DisplayEmbedTag';
 import MetaInformation from '../../components/MetaInformation';
 import { getVisualElementInformation } from '../../util/visualElementHelper';
 import * as api from './visualElementApi';
-import {
-  Field,
-  FieldErrorMessages,
-  classes,
-  getField,
-} from '../../components/Fields';
+import { Field, FieldErrorMessages, getField } from '../../components/Fields';
 import VisualElementSearch from './VisualElementSearch';
+import { visualElementClasses } from '../TopicArticlePage/components/TopicArticleVisualElement';
 
 class VisualElementSelectField extends Component {
   constructor(props) {
@@ -98,11 +94,11 @@ class VisualElementSelectField extends Component {
 
       return (
         <Field>
-          <div {...classes('visual-element-container')}>
-            <div {...classes('visual-element', 'left')}>
+          <div {...visualElementClasses('container')}>
+            <div {...visualElementClasses('visual-element', 'left')}>
               <DisplayEmbedTag
                 embedTag={value}
-                {...classes('visual-element', value.resource)}
+                {...visualElementClasses('visual-element', value.resource)}
               />
             </div>
             <MetaInformation

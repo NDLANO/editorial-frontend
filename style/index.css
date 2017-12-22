@@ -33,6 +33,7 @@
 @import './link-menu.css';
 @import './table.css';
 @import './meta-information.css';
+@import './visual-element.css';
 
 .c-audio-search {
   width: 70%;

@@ -6,14 +6,6 @@
  *
  */
 
-a.c-topic-article-form__abort-button.c-button,
-a.c-audio-form__abort-button.c-button,
-a.c-image-form__abort-button.c-button,
-a.c-agreement-form__abort-button.c-button,
-a.c-learning-resource-form__abort-button.c-button {
-  display: inline-block;
-}
-
 .c-topic-article-form {
   & .c-editor__figure {
     position: relative;
@@ -80,37 +72,8 @@ a.c-learning-resource-form__abort-button.c-button {
     }
   }
 
-  &__abort-button + &__save-button {
-    margin-left: 2rem;
-  }
-
   &__abort-button {
     border-color: var(--brand-grey--light);
-  }
-
-  &__save-button,
-  &__abort-button {
-    display: inline-block;
-    min-width: 6rem;
-    border-width: 1px;
-    border-radius: 1px;
-
-    &:hover:enabled,
-    &:focus:enabled {
-      border-width: 1px;
-      transform: none;
-    }
-
-    &:active {
-      transform: none;
-    }
-
-    /* NB! Should use :enabled in ndla-ui button css instead */
-    &:disabled {
-      background-color: var(--background-color--dark);
-      transform: none;
-      border: 0;
-    }
   }
 
   &__status-columns {

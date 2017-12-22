@@ -36,15 +36,15 @@ class AgreementPage extends React.Component {
   async upsertAgreement(agreement) {
     const { history, applicationError, addMessage } = this.props;
     try {
-      await this.setState({ isSaving: true });
+      this.setState({ isSaving: true });
       if (agreement.id) {
         await api.updateAgreement(agreement);
       } else {
         const newAgreement = await api.createAgreement(agreement);
-        await history.push(toEditAgreement(newAgreement.id));
+        history.push(toEditAgreement(newAgreement.id));
       }
       await this.setState({ isSaving: false });
-      await addMessage({
+      addMessage({
         translationKey: agreement.id ? 'form.savedOk' : 'form.createdOk',
       });
     } catch (err) {

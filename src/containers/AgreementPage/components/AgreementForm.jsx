@@ -121,11 +121,11 @@ class AgreementForm extends Component {
         <Field right>
           <Link
             to={'/'}
-            {...classes('abort-button', '', 'c-button c-button--outline')}
+            className="c-button c-button--outline c-abort-button"
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <Button submit outline disabled={false} {...classes('save-button')}>
+          <Button submit outline disabled={false} className="c-save-button">
             {t('form.save')}
           </Button>
         </Field>

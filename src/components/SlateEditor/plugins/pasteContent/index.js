@@ -7,22 +7,29 @@
  */
 
 import { getEventTransfer } from 'slate-react';
-
-const illegalListCharacters = /[\u2022\u00AC\u2663]/g;
-
+import { defaultBlockWithText } from '../../schema';
+// const illegalListCharacters = /[\u2022\u00AC\u2663]/g;
+const printAbleASCII = /[\x20-\x7F]/g;
 const tabCharacter = /\u0009/g;
+
+const crCharacter = /\r/;
+
 export default function pasteContentPlugin() {
   function onPaste(evt, change) {
     const transfer = getEventTransfer(evt);
     const str = transfer.text;
-    if (str.match(illegalListCharacters)) {
-      const newString = str
-        .replace(illegalListCharacters, '')
-        .replace(tabCharacter, ' ');
-      change.insertText(newString);
-      return change;
-    }
-    return undefined;
+    const lines = str.split(crCharacter);
+    lines.map(line => {
+      if (line.match(printAbleASCII)) {
+        const newString = line
+          .replace(/[\x00-\x1F\x7F-\xFF]/u, '')
+          .replace(tabCharacter, ' ');
+        change.insertBlock(defaultBlockWithText(newString));
+        return change;
+      }
+      return undefined;
+    });
+    return change;
   }
   return {
     schema: {},

@@ -37,7 +37,7 @@ class EditAgreement extends Component {
     const { applicationError } = this.props;
     try {
       const fetchedAgreement = await api.fetchAgreement(agreementId);
-      await this.setState({ agreement: fetchedAgreement });
+      this.setState({ agreement: fetchedAgreement });
     } catch (err) {
       applicationError(err);
     }

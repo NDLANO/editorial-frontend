@@ -11,7 +11,7 @@ import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
+import { Copy } from 'ndla-icons/action';
 import BEMHelper from 'react-bem-helper';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
@@ -20,77 +20,70 @@ import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
 } from '../../../util/formHelper';
-
-import ImageMetaData from './ImageMetaData';
-import ImageContent from './ImageContent';
 import { SchemaShape } from '../../../shapes';
+import AgreementFields from './AgreementFields';
 
-export const getInitialModel = (image = {}) => ({
-  id: image.id,
-  revision: image.revision,
-  language: image.language,
-  title: image.title || '',
-  alttext: image.alttext || '',
-  caption: image.caption || '',
-  imageFile: image.imageUrl,
-  tags: image.tags || [],
-  creators: parseCopyrightContributors(image, 'creators'),
-  processors: parseCopyrightContributors(image, 'processors'),
-  rightsholders: parseCopyrightContributors(image, 'rightsholders'),
+export const getInitialModel = (agreement = {}) => ({
+  id: agreement.id,
+  title: agreement.title || '',
+  content: agreement.content || '',
+  creators: parseCopyrightContributors(agreement, 'creators'),
+  processors: parseCopyrightContributors(agreement, 'processors'),
+  rightsholders: parseCopyrightContributors(agreement, 'rightsholders'),
   origin:
-    image.copyright && image.copyright.origin ? image.copyright.origin : '',
+    agreement.copyright && agreement.copyright.origin
+      ? agreement.copyright.origin
+      : '',
   license:
-    image.copyright && image.copyright.license
-      ? image.copyright.license.license
+    agreement.copyright && agreement.copyright.license
+      ? agreement.copyright.license.license
       : DEFAULT_LICENSE.license,
+  validFrom:
+    agreement.copyright && agreement.copyright.validFrom
+      ? new Date(agreement.copyright.validFrom)
+      : undefined,
+  validTo:
+    agreement.copyright && agreement.copyright.validTo
+      ? new Date(agreement.copyright.validTo)
+      : undefined,
 });
 
 const classes = new BEMHelper({
-  name: 'image-form',
+  name: 'agreement-form',
   prefix: 'c-',
 });
 
-class ImageForm extends Component {
+class AgreementForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { title: '', tags: [], license: '', image: {} };
+    this.state = { title: '', license: '', agreement: {} };
   }
 
   handleSubmit(event) {
     event.preventDefault();
 
-    const {
-      model,
-      schema,
-      locale: language,
-      licenses,
-      setSubmitted,
-      onUpdate,
-      revision,
-    } = this.props;
+    const { model, schema, licenses, setSubmitted, onUpdate } = this.props;
 
     if (!schema.isValid) {
       setSubmitted(true);
       return;
     }
 
-    const imageMetaData = {
+    const agreementMetaData = {
       id: model.id,
-      revision,
       title: model.title,
-      alttext: model.alttext,
-      caption: model.caption,
-      language,
-      tags: model.tags,
+      content: model.content,
       copyright: {
         license: licenses.find(license => license.license === model.license),
         origin: model.origin,
         creators: model.creators,
         processors: model.processors,
         rightsholders: model.rightsholders,
+        validFrom: model.validFrom,
+        validTo: model.validTo,
       },
     };
-    onUpdate(imageMetaData, model.imageFile);
+    onUpdate(agreementMetaData);
   }
 
   render() {
@@ -100,37 +93,31 @@ class ImageForm extends Component {
       schema,
       model,
       submitted,
-      tags,
       licenses,
       isSaving,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
     return (
-      <form
-        onSubmit={event => this.handleSubmit(event)}
-        {...classes(undefined, undefined, 'c-article')}>
+      <form onSubmit={event => this.handleSubmit(event)} {...classes()}>
         <div {...classes('header')}>
-          <div className="u-4/6@desktop u-push-1/6@desktop">
-            {model.id
-              ? t('imageForm.title.update')
-              : t('imageForm.title.create')}
+          <div className="u-4/6@desktop">
+            <Copy />
+            <span>
+              {model.id
+                ? t('agreementForm.title.update')
+                : t('agreementForm.title.create')}
+            </span>
           </div>
         </div>
-        <ImageContent
-          classes={classes}
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-          tags={tags}
-          model={model}
-        />
-        <ImageMetaData
-          classes={classes}
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-          tags={tags}
-          licenses={licenses}
-        />
+        <div {...classes('content', '', 'u-4/6@desktop u-push-1/6@desktop')}>
+          <AgreementFields
+            classes={classes}
+            commonFieldProps={commonFieldProps}
+            licenses={licenses}
+            bindInput={bindInput}
+          />
+        </div>
         <Field right>
           <Link
             to={'/'}
@@ -147,9 +134,9 @@ class ImageForm extends Component {
   }
 }
 
-ImageForm.propTypes = {
+AgreementForm.propTypes = {
   model: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     title: PropTypes.string,
   }),
   schema: SchemaShape,
@@ -159,14 +146,11 @@ ImageForm.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired,
   setSubmitted: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  revision: PropTypes.number,
 };
 
 export default compose(
@@ -176,17 +160,7 @@ export default compose(
     title: {
       required: true,
     },
-    alttext: {
-      required: true,
-    },
-    caption: {
-      required: true,
-    },
-    tags: {
-      minItems: 3,
-    },
     creators: {
-      minItems: 1,
       allObjectFieldsRequired: true,
     },
     processors: {
@@ -195,8 +169,16 @@ export default compose(
     rightsholders: {
       allObjectFieldsRequired: true,
     },
-    imageFile: {
+    content: {
       required: true,
     },
+    validFrom: {
+      dateBefore: true,
+      afterKey: 'validTo',
+    },
+    validTo: {
+      dateAfter: true,
+      beforeKey: 'validFrom',
+    },
   }),
-)(ImageForm);
+)(AgreementForm);

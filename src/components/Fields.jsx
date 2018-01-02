@@ -15,6 +15,7 @@ import MultiSelect from './MultiSelect';
 import { MultiDropdown } from './Dropdown';
 import { isEmpty } from './validators';
 import PlainTextEditor from '../components/SlateEditor/PlainTextEditor';
+import DateTimeInput from '../components/DateTime/DateTimeInput';
 import ObjectSelector from './ObjectSelector';
 
 export const classes = new BEMHelper({
@@ -471,4 +472,54 @@ MultiSelectDropdown.propTypes = {
   }),
   data: PropTypes.arrayOf(PropTypes.string),
   submitted: PropTypes.bool.isRequired,
+};
+
+export const DateField = ({
+  bindInput,
+  name,
+  label,
+  submitted,
+  schema,
+  noBorder,
+  ...rest
+}) => {
+  const { onChange, value } = bindInput(name);
+  return (
+    <Field noBorder={noBorder}>
+      <DateTimeInput
+        id={name}
+        type="text"
+        {...classes('date-picker')}
+        name={name}
+        value={value}
+        onChange={val =>
+          onChange({
+            target: { name, value: val, type: 'DateTime' },
+          })
+        }
+        {...rest}
+      />
+
+      <FieldErrorMessages
+        label={label}
+        field={getField(name, schema)}
+        submitted={submitted}
+      />
+    </Field>
+  );
+};
+
+DateField.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  noBorder: PropTypes.bool,
+  submitted: PropTypes.bool.isRequired,
+};
+
+DateField.defaultProps = {
+  noBorder: false,
 };

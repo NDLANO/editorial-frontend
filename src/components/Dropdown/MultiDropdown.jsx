@@ -40,7 +40,7 @@ class MultiDropdown extends Component {
     const { inputValue } = this.state;
     const currentValue = event.target.value;
 
-    /* switch (event.keyCode) {
+    /*  switch (event.keyCode) {
       case 8: // backspace
         if (!currentValue) {
           event.preventDefault();

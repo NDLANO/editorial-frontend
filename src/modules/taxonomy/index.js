@@ -8,9 +8,16 @@
 
 import {
   fetchResourceTypes,
-  fetchTopicArticle,
   fetchFilters,
   fetchTopics,
+  fetchSubjects,
+  fetchTopicArticle,
 } from './taxonomyApi';
 
-export { fetchResourceTypes, fetchFilters, fetchTopics, fetchTopicArticle };
+export {
+  fetchResourceTypes,
+  fetchFilters,
+  fetchTopics,
+  fetchSubjects,
+  fetchTopicArticle,
+};

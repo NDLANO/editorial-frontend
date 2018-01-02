@@ -32,10 +32,22 @@ function fetchTopics(locale) {
   );
 }
 
+function fetchSubjects(locale) {
+  return fetchAuthorized(`${baseUrl}/subjects/?language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
 function fetchTopicArticle(topicId, locale) {
   return fetchAuthorized(
     `${baseUrl}/topics/${topicId}/?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
-export { fetchResourceTypes, fetchFilters, fetchTopics, fetchTopicArticle };
+export {
+  fetchResourceTypes,
+  fetchFilters,
+  fetchTopics,
+  fetchSubjects,
+  fetchTopicArticle,
+};

@@ -35,7 +35,7 @@ const DropDownInput = ({
           <DropdownTag
             key={`${name}-tag-${tag.id}`}
             onRemoveItem={onRemoveItem}
-            tag={tag}
+            {...{ tag, name }}
           />
         ))}
         <AutosizeInput

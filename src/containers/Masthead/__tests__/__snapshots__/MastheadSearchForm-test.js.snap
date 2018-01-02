@@ -19,7 +19,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   >
     <svg
       className="c-icon c-icon--medium"
-      data-license="CC-BY 4.0"
+      data-license="Apache License 2.0"
       data-source="Material Design"
       fill="currentColor"
       height="1em"
@@ -62,7 +62,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   >
     <svg
       className="c-icon c-icon--medium"
-      data-license="CC-BY 4.0"
+      data-license="Apache License 2.0"
       data-source="Material Design"
       fill="currentColor"
       height="1em"
@@ -105,7 +105,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   >
     <svg
       className="c-icon c-icon--medium"
-      data-license="CC-BY 4.0"
+      data-license="Apache License 2.0"
       data-source="Material Design"
       fill="currentColor"
       height="1em"
@@ -148,7 +148,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   >
     <svg
       className="c-icon c-icon--medium"
-      data-license="CC-BY 4.0"
+      data-license="Apache License 2.0"
       data-source="Material Design"
       fill="currentColor"
       height="1em"
@@ -191,7 +191,7 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   >
     <svg
       className="c-icon c-icon--medium"
-      data-license="CC-BY 4.0"
+      data-license="Apache License 2.0"
       data-source="Material Design"
       fill="currentColor"
       height="1em"

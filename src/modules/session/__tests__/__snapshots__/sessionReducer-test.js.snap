@@ -1,22 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers/session getSessionStateFromLocalStorage when id_token does not exists in local storage 1`] = `
+exports[`reducers/session getSessionStateFromLocalStorage when access_token does not exists in local storage 1`] = `
 Object {
   "authenticated": false,
   "user": Object {},
 }
 `;
 
-exports[`reducers/session getSessionStateFromLocalStorage when id_token exists in local storage 1`] = `
+exports[`reducers/session getSessionStateFromLocalStorage when access_token exists in local storage 1`] = `
 Object {
   "authenticated": true,
   "user": Object {
-    "name": "John Doe",
+    "name": "Rune Storløpa",
   },
 }
 `;
 
-exports[`reducers/session initialState when id_token exists in localstorage 1`] = `
+exports[`reducers/session initialState when access_token exists in localstorage 1`] = `
 Object {
   "authenticated": false,
   "user": Object {},

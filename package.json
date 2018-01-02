@@ -101,7 +101,7 @@
     "ndla-tabs": "^0.4.1",
     "ndla-ui": "^0.8.28",
     "ndla-util": "^0.1.9",
-    "ndla-video-search": "^0.2.4",
+    "ndla-video-search": "^0.2.5",
     "prop-types": "^15.6.0",
     "query-string": "^5.0.1",
     "react": "^16.2.0",

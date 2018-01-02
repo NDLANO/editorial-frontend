@@ -108,7 +108,7 @@ class AudioForm extends Component {
       <form
         onSubmit={event => this.handleSubmit(event)}
         {...classes(undefined, undefined, 'c-article')}>
-        <div className="c-learning-resource-form__header">
+        <div {...classes('header')}>
           <div className="u-4/6@desktop u-push-1/6@desktop">
             {model.id
               ? t('audioForm.title.update')
@@ -133,11 +133,11 @@ class AudioForm extends Component {
         <Field right>
           <Link
             to={'/'}
-            {...classes('abort-button', '', 'c-button c-button--outline')}
+            className="c-button c-button--outline c-abort-button"
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <Button submit outline disabled={false} {...classes('save-button')}>
+          <Button submit outline disabled={false} className="c-save-button">
             {t('form.save')}
           </Button>
         </Field>

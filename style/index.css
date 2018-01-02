@@ -6,6 +6,7 @@
  *
  */
 
+@import '../node_modules/flatpickr/dist/flatpickr.min.css';
 @import '../node_modules/ndla-ui/lib/audioSearch.css';
 @import '../node_modules/ndla-ui/lib/imageSearch.css';
 @import '../node_modules/ndla-ui/lib/main.css';
@@ -32,6 +33,7 @@
 @import './link-menu.css';
 @import './table.css';
 @import './meta-information.css';
+@import './visual-element.css';
 
 .c-audio-search {
   width: 70%;

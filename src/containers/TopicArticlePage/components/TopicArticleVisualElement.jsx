@@ -9,12 +9,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-
-import { TextField, classes } from '../../../components/Fields';
+import BEMHelper from 'react-bem-helper';
+import { TextField } from '../../../components/Fields';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 import VisualElementMenu from '../../VisualElement/VisualElementMenu';
 import VisualElementPreview from '../../VisualElement/VisualElementPreview';
 import { CommonFieldPropsShape } from '../../../shapes';
+
+export const visualElementClasses = new BEMHelper({
+  name: 'visual-element',
+  prefix: 'c-',
+});
 
 class TopicArticleVisualElement extends Component {
   constructor(props) {
@@ -42,10 +47,10 @@ class TopicArticleVisualElement extends Component {
     const { value: visualElement } = bindInputVisualElement;
     return (
       <div>
-        <div {...classes('add-visual-element-title')}>
+        <div {...visualElementClasses('add-title')}>
           <span>
             {t('form.visualElement.title')}
-            <div {...classes('add-visual-element-title', 'border')} />
+            <div {...visualElementClasses('add-title', 'border')} />
           </span>
         </div>
         {!visualElement.resource ? (

@@ -56,6 +56,14 @@ export function toEditImage(imageId) {
   return `/image-upload/${imageId}/edit`;
 }
 
+export function toCreateAgreement() {
+  return '/agreement/new';
+}
+
+export function toEditAgreement(agreementId) {
+  return `/agreement/${agreementId}/edit`;
+}
+
 export function to404() {
   return '/404';
 }

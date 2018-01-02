@@ -138,6 +138,22 @@ const phrases = {
       },
     },
   },
+  agreementForm: {
+    title: {
+      create: 'Avtale',
+      update: 'Avtale',
+    },
+    fields: {
+      title: {
+        label: 'Avtaletittel',
+        placeholder: 'Avtaletittel',
+      },
+      content: {
+        label: 'Avtalens innhold',
+        placeholder: 'Avtalens innhold',
+      },
+    },
+  },
   audioForm: {
     title: {
       create: 'Du oppretter nå en lyd fil',
@@ -218,6 +234,17 @@ const phrases = {
       queued_for_publishing: 'Kvalitetsikret/Til publisering',
       published: 'Publisert',
       imported: 'Fra spoling',
+    },
+    validDate: {
+      label: 'Gyldighet',
+      from: {
+        label: 'Gyldig fra',
+        placeholder: 'Fra og med dato',
+      },
+      to: {
+        label: 'Gyldig til',
+        placeholder: 'Til og med dato',
+      },
     },
     content: {
       label: 'Innhold',
@@ -327,6 +354,8 @@ const phrases = {
     maxLength: '{label} kan ikke ha mer enn {maxLength, number} tegn.',
     minLength: '{label} må ha minst {minLength, number} tegn.',
     url: '{label} må inneholde en gyldig lenke.',
+    dateBeforeInvalid: '{label} kan ikke være etter {afterLabel}.',
+    dateAfterInvalid: '{label} kan ikke være før {beforeLabel}.',
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
   },

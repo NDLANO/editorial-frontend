@@ -2646,6 +2646,10 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
+flatpickr@^4.1.4:
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-4.1.4.tgz#4b7244976a426976fd6bcca593efdda5cb7e910e"
+
 flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
@@ -4436,9 +4440,9 @@ ndla-i18n@^0.2.0:
     intl-messageformat "^2.1.0"
     invariant "^2.2.2"
 
-ndla-icons@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.1.4.tgz#8e381187cd94a2f04df5be65f16dedd412ab9a01"
+ndla-icons@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.1.7.tgz#78f6489264191d6a02ae61537f2df01fed4d0d5b"
 
 ndla-image-search@^0.2.9:
   version "0.2.9"

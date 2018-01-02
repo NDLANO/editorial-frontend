@@ -26,6 +26,7 @@ const DropDown = ({
   onChange,
   textField,
   valueField,
+  onInputChange,
 }) => (
   <Downshift
     onChange={onChange}
@@ -33,7 +34,7 @@ const DropDown = ({
     defaultSelectedItem={defaultSelectedItem}
     render={downshiftProps => (
       <div {...dropDownClasses()}>
-        <DropDownInput {...downshiftProps} />
+        <DropDownInput {...downshiftProps} onInputChange={onInputChange} />
         <DropDownMenu
           items={items}
           {...downshiftProps}
@@ -75,6 +76,7 @@ DropDown.propTypes = {
     PropTypes.object,
     PropTypes.number,
   ]),
+  onInputChange: PropTypes.func.isRequired,
 };
 
 export default injectT(DropDown);

@@ -79,6 +79,7 @@ export const getInitialModel = (article = {}) => {
       : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
     metaImageId,
+    agreementId: article.agreementId,
     language: article.language,
     articleType: 'standard',
     status: article.status || [],

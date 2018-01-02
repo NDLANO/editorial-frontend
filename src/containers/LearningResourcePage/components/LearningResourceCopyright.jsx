@@ -10,9 +10,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { SelectObjectField } from '../../../components/Fields';
+import { AsyncDropDown } from '../../../components/Dropdown';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Accordion from '../../../components/Accordion';
 import Contributors from '../../../components/Contributors/Contributors';
+import * as agreementApi from '../../VisualElement/visualElementApi';
 
 class LearningResourceCopyright extends Component {
   constructor(props) {
@@ -27,6 +29,10 @@ class LearningResourceCopyright extends Component {
     this.setState(prevState => ({
       hiddenContent: !prevState.hiddenContent,
     }));
+  }
+
+  searchAgreements() {
+
   }
 
   render() {
@@ -52,6 +58,11 @@ class LearningResourceCopyright extends Component {
           name="processors"
           label={t('form.processors.label')}
           {...commonFieldProps}
+        />
+        <AsyncDropDown
+          valueField='id'
+          textField="title"
+          {...commonFieldProps.bindInput('agreementId')}
         />
         <SelectObjectField
           name="license"

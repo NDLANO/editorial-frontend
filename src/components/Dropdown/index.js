@@ -1,7 +1,7 @@
 import DropDown from './DropDown';
-import AsyncDropDown from './AsyncDropDown';
+import AsyncDropdown from './asyncDropdown/AsyncDropdown';
 
 export {
   DropDown,
-  AsyncDropDown,
+  AsyncDropdown,
 };

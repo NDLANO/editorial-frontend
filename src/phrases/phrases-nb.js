@@ -297,6 +297,12 @@ const phrases = {
       label: 'Metabeskrivelse',
       description: 'Beskrivelsen blir synlig i søk.',
     },
+    agreement: {
+      label: 'Koble til avtale',
+      placeholder: 'Søk etter avtale',
+      emptyFilter: 'Fant ingen passende avtaler',
+      emptyList: 'Det er ingen avtaler i denne listen',
+    },
     rightsholders: {
       label: 'Rettighetshaver',
       createOption: 'Opprett ny rettighetshaver',

@@ -17,6 +17,11 @@
   }
 
   &__item {
+    cursor: pointer;
+  }
+
+  &__item,
+  &__empty {
     padding: 0.2rem;
   }
 

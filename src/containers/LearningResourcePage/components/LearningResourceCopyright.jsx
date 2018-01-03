@@ -9,14 +9,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { SelectObjectField } from '../../../components/Fields';
-import { AsyncDropDown } from '../../../components/Dropdown';
+import { SelectObjectField, AsyncDropdownField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Accordion from '../../../components/Accordion';
 import Contributors from '../../../components/Contributors/Contributors';
-import * as agreementApi from '../../VisualElement/visualElementApi';
+import * as draftApi from '../../../modules/draft/draftApi';
 
 class LearningResourceCopyright extends Component {
+
+  static async searchAgreements(query) {
+    const response = await draftApi.fetchAgreements(query);
+    return response.results;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -29,10 +34,6 @@ class LearningResourceCopyright extends Component {
     this.setState(prevState => ({
       hiddenContent: !prevState.hiddenContent,
     }));
-  }
-
-  searchAgreements() {
-
   }
 
   render() {
@@ -59,10 +60,18 @@ class LearningResourceCopyright extends Component {
           label={t('form.processors.label')}
           {...commonFieldProps}
         />
-        <AsyncDropDown
+      <AsyncDropdownField
           valueField='id'
+          name="agreementId"
           textField="title"
-          {...commonFieldProps.bindInput('agreementId')}
+          placeholder={t('form.agreement.placeholder')}
+          label={t('form.agreement.label')}
+          apiAction={LearningResourceCopyright.searchAgreements}
+          {...commonFieldProps}
+          messages={{
+            emptyFilter: t('form.agreement.emptyFilter'),
+            emptyList: t('form.agreement.emptyList'),
+          }}
         />
         <SelectObjectField
           name="license"

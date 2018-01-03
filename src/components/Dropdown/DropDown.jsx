@@ -10,10 +10,8 @@ import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
-import DropDownAction from './DropDownAction';
-import DropDownMenu from './DropDownMenu';
-import DropDownInput from './DropDownInput';
-import { itemToString } from '../../util/downShifhtHelpers';
+import { DropdownAction, DropdownMenu, DropdownInput } from './common';
+import { itemToString } from '../../util/downShiftHelpers';
 
 export const dropDownClasses = new BEMHelper({
   name: 'dropdown',
@@ -21,27 +19,50 @@ export const dropDownClasses = new BEMHelper({
 });
 
 const DropDown = ({
+  name,
   items,
   defaultSelectedItem,
-  onChange,
+  selectedItem,
+  onToggleMenu,
+  onRemoveItem,
+  onWrapperClick,
+  inputWrapperRef,
+  inputProps,
+  multiSelect,
   textField,
   valueField,
-  onInputChange,
+  messages,
+  ...rest
 }) => (
   <Downshift
-    onChange={onChange}
+    {...rest}
     itemToString={item => itemToString(item, textField)}
     defaultSelectedItem={defaultSelectedItem}
+    selectedItem={multiSelect ? selectedItem : undefined}
     render={downshiftProps => (
       <div {...dropDownClasses()}>
-        <DropDownInput {...downshiftProps} onInputChange={onInputChange} />
-        <DropDownMenu
+        <DropdownInput
+          name={name}
+          multiSelect={multiSelect}
+          onRemoveItem={onRemoveItem}
+          onWrapperClick={onWrapperClick}
+          inputWrapperRef={inputWrapperRef}
+          inputProps={inputProps}
+          {...downshiftProps}
+        />
+        <DropdownMenu
           items={items}
+          messages={messages}
           {...downshiftProps}
           textField={textField}
           valueField={valueField}
+          multiSelect={multiSelect}
         />
-        <DropDownAction {...downshiftProps} />
+        <DropdownAction
+          onToggleMenu={onToggleMenu}
+          multiSelect={multiSelect}
+          {...downshiftProps}
+        />
       </div>
     )}
   />
@@ -65,7 +86,13 @@ const requiredFieldIfItemsIsObjects = (props, propName, componentName) => {
   eslint-enable
 */
 DropDown.propTypes = {
+  name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  messages: PropTypes.shape({
+    emptyFilter: PropTypes.string.isRequired,
+    emptyList: PropTypes.string.isRequired,
+  }),
   items: PropTypes.arrayOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number]),
   ).isRequired,
@@ -76,7 +103,20 @@ DropDown.propTypes = {
     PropTypes.object,
     PropTypes.number,
   ]),
-  onInputChange: PropTypes.func.isRequired,
+  selectedItem: PropTypes.arrayOf(PropTypes.shape),
+  multiSelect: PropTypes.bool,
+  onToggleMenu: PropTypes.func,
+  onRemoveItem: PropTypes.func,
+  onWrapperClick: PropTypes.func,
+  inputWrapperRef: PropTypes.func,
+  inputProps: PropTypes.shape({
+
+  }),
+};
+
+DropDown.defaultProps = {
+  multiSelect: false,
+  onToggleMenu: undefined,
 };
 
 export default injectT(DropDown);

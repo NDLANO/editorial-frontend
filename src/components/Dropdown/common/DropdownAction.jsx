@@ -6,31 +6,36 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import Downshift from 'downshift';
 import { Cross, ExpandLess, ExpandMore } from 'ndla-icons/action';
-import { dropDownClasses } from './DropDown';
+import { dropDownClasses } from './dropDownClasses';
 
-const DropDownAction = ({
+const DropdownAction = ({
+  multiSelect,
+  onToggleMenu,
   clearSelection,
   isOpen,
   selectedItem,
   openMenu,
   closeMenu,
 }) => {
-  if (selectedItem) {
+  if (selectedItem && !multiSelect) {
     return (
       <Button {...dropDownClasses('action')} onClick={clearSelection} stripped>
         <Cross className="c-icon--medium" />
       </Button>
     );
   }
-
+  let onClick;
+  if (onToggleMenu) {
+    onClick = onToggleMenu;
+  } else {
+    onClick = isOpen ? closeMenu : openMenu;
+  }
   return (
-    <Button
-      {...dropDownClasses('action')}
-      onClick={isOpen ? closeMenu : openMenu}
-      stripped>
+    <Button {...dropDownClasses('action')} onClick={onClick} stripped>
       {isOpen ? (
         <ExpandLess className="c-icon--medium" />
       ) : (
@@ -40,8 +45,15 @@ const DropDownAction = ({
   );
 };
 
-DropDownAction.propTypes = {
+DropdownAction.propTypes = {
   ...Downshift.propTypes,
+  multiSelect: PropTypes.bool,
+  onToggleMenu: PropTypes.func,
 };
 
-export default DropDownAction;
+DropdownAction.defaultProps = {
+  multiSelect: false,
+  onToggleMenu: undefined,
+};
+
+export default DropdownAction;

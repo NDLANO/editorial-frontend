@@ -135,6 +135,7 @@ class LearningResourceForm extends Component {
         creators: model.creators,
         processors: model.processors,
         rightsholders: model.rightsholders,
+        agreementId: model.agreementId,
       },
       language: model.language,
     });

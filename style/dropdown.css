@@ -58,8 +58,8 @@
     background-color: var(--brand-grey-dark);
     color: white;
     line-height: 1rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
     margin: 0.1rem;
 
     &--highlighted {
@@ -67,8 +67,9 @@
     }
 
     & .c-button {
-      margin-left: 0.3rem;
+      margin-left: 0.1rem;
       margin-bottom: 0.1rem;
+
       &:hover,
       &:focus {
         color: white;
@@ -79,10 +80,17 @@
 }
 
 .c-tag {
-  width: 25px;
-  height: 25px;
-  line-height: 25px;
-  border-radius: 50%;
-  text-align: center;
-  background: black;
+  &__description {
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
+  }
+
+  &__item {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    border-radius: 50%;
+    text-align: center;
+    background: black;
+  }
 }

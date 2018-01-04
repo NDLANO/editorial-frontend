@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import AutosizeInput from 'react-input-autosize';
 import DropdownTag from './DropdownTag';
+import ToolTip from '../ToolTip';
 import { dropDownClasses } from './DropDown';
 
 const DropDownInput = ({
@@ -18,12 +19,15 @@ const DropDownInput = ({
   onWrapperClick,
   inputWrapperRef,
   inputProps,
+  tagProps,
   selectedItem,
   getInputProps,
   name,
   placeholder,
 }) => {
   if (multiSelect) {
+    const { handlePopupClick } = tagProps;
+
     return (
       // eslint-disable-next-line
       <div
@@ -31,13 +35,30 @@ const DropDownInput = ({
         onClick={onWrapperClick}
         {...dropDownClasses('multiselect')}
         tabIndex="-1">
-        {selectedItem.map(tag => (
-          <DropdownTag
-            key={`${name}-tag-${tag.id}`}
-            onRemoveItem={onRemoveItem}
-            {...{ tag, name }}
-          />
-        ))}
+        {selectedItem.map(
+          (tag, index) =>
+            name === 'resourceTypes' ? (
+              <ToolTip
+                key={`${name}-tooptip-${tag.id}`}
+                name={name}
+                onPopupClick={() => handlePopupClick(tag, name)}
+                noPopup={tag === tagProps.primaryResourceType}
+                messages={{ ariaLabel: 'tooltip' }}
+                content="Velg som primærkoblet emne">
+                <DropdownTag
+                  key={`${name}-tag-${tag.id}`}
+                  onRemoveItem={onRemoveItem}
+                  {...{ tag, name, index, ...tagProps }}
+                />
+              </ToolTip>
+            ) : (
+              <DropdownTag
+                key={`${name}-tag-${tag.id}`}
+                onRemoveItem={onRemoveItem}
+                {...{ tag, name, index, ...tagProps }}
+              />
+            ),
+        )}
         <AutosizeInput
           key={name}
           {...getInputProps({ name, placeholder, ...inputProps })}
@@ -64,6 +85,16 @@ DropDownInput.propTypes = {
   selectedItem: PropTypes.arrayOf(PropTypes.shape),
   name: PropTypes.string,
   placeholder: PropTypes.string,
+  inputProps: PropTypes.shape({
+    value: PropTypes.string,
+    ref: PropTypes.func,
+    onChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
+    onFocus: PropTypes.func,
+  }),
+  tagProps: PropTypes.shape({
+    primaryResourceType: PropTypes.shape({}),
+  }),
 };
 
 DropDownInput.defaultProps = {

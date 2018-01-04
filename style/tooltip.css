@@ -1,0 +1,66 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.c-tooltip {
+  display: inline;
+  outline: none;
+
+  &__button {
+    background: none;
+    border: none;
+    line-height: 1.3em;
+    padding: 0;
+    text-decoration: none;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+  }
+
+  &__popup {
+    display: none;
+    margin-top: 5px;
+    position: absolute;
+    width: 24%;
+    box-sizing: border-box;
+    z-index: 1;
+    background: var(--brand-grey--lightest);
+    line-height: 25px;
+    color: var(--brand-grey-dark);
+    border: 2px solid var(--brand-grey-dark);
+    border-radius: 0.2rem;
+    padding: 0.6rem;
+    opacity: 0;
+  }
+
+  &__popup--visible {
+    animation-name: fadeInTop;
+    animation-duration: 0.4s;
+    opacity: 1;
+    display: block;
+
+    &::after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      margin: auto;
+      margin-top: -10px;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid var(--brand-grey-dark);
+    }
+  }
+
+  &__content {
+    display: block;
+  }
+}

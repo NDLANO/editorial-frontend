@@ -452,7 +452,7 @@ export const MultiSelectDropdown = ({
     {description && (
       <FieldDescription obligatory={obligatory}>{description}</FieldDescription>
     )}
-    <MultiDropdown name={name} {...rest} />
+    <MultiDropdown name={name} id={name} {...rest} />
     <FieldErrorMessages
       label={label}
       field={getField(name, schema)}

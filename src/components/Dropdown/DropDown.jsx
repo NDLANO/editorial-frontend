@@ -31,6 +31,7 @@ const DropDown = ({
   onWrapperClick,
   inputWrapperRef,
   inputProps,
+  tagProps,
   multiSelect,
   textField,
   valueField,
@@ -52,6 +53,7 @@ const DropDown = ({
           onWrapperClick={onWrapperClick}
           inputWrapperRef={inputWrapperRef}
           inputProps={inputProps}
+          tagProps={tagProps}
           {...downshiftProps}
         />
         <DropDownMenu
@@ -113,7 +115,16 @@ DropDown.propTypes = {
   onRemoveItem: PropTypes.func,
   onWrapperClick: PropTypes.func,
   inputWrapperRef: PropTypes.func,
-  inputProps: PropTypes.shape({}),
+  inputProps: PropTypes.shape({
+    value: PropTypes.string,
+    ref: PropTypes.func,
+    onChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
+    onFocus: PropTypes.func,
+  }),
+  tagProps: PropTypes.shape({
+    primaryResourceType: PropTypes.shape({}),
+  }),
 };
 
 DropDown.defaultProps = {

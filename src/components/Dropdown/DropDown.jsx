@@ -9,7 +9,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import { injectT } from 'ndla-i18n';
-import { DropdownAction, DropdownMenu, DropdownInput, dropDownClasses } from './common';
+import {
+  DropdownAction,
+  DropdownMenu,
+  DropdownInput,
+  dropDownClasses,
+} from './common';
 import { itemToString } from '../../util/downShiftHelpers';
 
 const Dropdown = ({

@@ -14,6 +14,7 @@ import {
   minItems,
   isNumeric,
   isUrl,
+  validDateRange,
 } from '../validators';
 
 test('validators/isEmpty returns true when empty', () => {
@@ -55,6 +56,15 @@ test('validators/minItems check number of items', () => {
   expect(minItems(['val1', 'val2', 'val3'], 3)).toBe(false);
   expect(minItems(['val1', 'val2'], 3)).toBe(true);
   expect(minItems(undefined, 3)).toBe(true);
+});
+
+test('validators/validDateRange returns correct on dates before and after', () => {
+  const before = '2017-12-20T12:18:14Z';
+  const after = '2017-12-22T12:18:14Z';
+  expect(validDateRange(before, after)).toBe(true);
+  expect(validDateRange(after, before)).toBe(false);
+  expect(validDateRange(before, before)).toBe(true);
+  expect(validDateRange(after, after)).toBe(true);
 });
 
 test('validators/isNumeric check for numeric values', () => {

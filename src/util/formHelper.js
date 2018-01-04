@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
+import { getSessionStateFromLocalStorage } from '../modules/session/session';
+
 export const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
   license: 'by-sa',
@@ -16,6 +18,18 @@ export const parseCopyrightContributors = (obj, contributorType) => {
     return [];
   }
   return obj.copyright[contributorType] || [];
+};
+
+export const creatorsWithDefault = obj => {
+  const sessionData = getSessionStateFromLocalStorage();
+  const userName =
+    sessionData && sessionData.user && sessionData.user.name
+      ? sessionData.user.name
+      : undefined;
+  const creators = parseCopyrightContributors(obj, 'creators');
+  return creators.length > 0
+    ? creators
+    : [{ name: userName, type: 'editorial' }];
 };
 
 export const articleStatuses = [

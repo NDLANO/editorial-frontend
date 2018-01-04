@@ -13,21 +13,17 @@ import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
-
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import ArticleHeader from '../../Article/ArticleHeader';
-import { getSessionStateFromLocalStorage } from '../../../modules/session/session';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
   editorValueToPlainText,
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
-
 import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
-
 import TopicArticleMetadata from './TopicArticleMetadata';
 import TopicArticleContent from './TopicArticleContent';
 import TopicArticleWorkflow from './TopicArticleWorkflow';
@@ -35,16 +31,11 @@ import { SchemaShape } from '../../../shapes';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
+  creatorsWithDefault,
 } from '../../../util/formHelper';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
-  const sessionData = getSessionStateFromLocalStorage();
-  const userName =
-    sessionData && sessionData.user && sessionData.user.name
-      ? sessionData.user.name
-      : undefined;
-  const creators = parseCopyrightContributors(article, 'creators');
   return {
     id: article.id,
     revision: article.revision,
@@ -53,8 +44,7 @@ export const getInitialModel = (article = {}) => {
     introduction: plainTextToEditorValue(article.introduction, true),
     content: topicArticleContentToEditorValue(article.content),
     tags: article.tags || [],
-    creators:
-      creators.length > 0 ? creators : [{ name: userName, type: 'editorial' }],
+    creators: creatorsWithDefault(article),
     processors: parseCopyrightContributors(article, 'processors'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     copyright: article.copyright

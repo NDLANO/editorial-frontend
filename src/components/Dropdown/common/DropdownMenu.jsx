@@ -28,9 +28,10 @@ const DropdownMenu = props => {
     textField,
   } = props;
 
-  const values = inputValue && !asyncSelect
-    ? downShiftSorter(items, inputValue, textField)
-    : items;
+  const values =
+    inputValue && !asyncSelect
+      ? downShiftSorter(items, inputValue, textField)
+      : items;
 
   return !isOpen ? null : (
     <div {...dropDownClasses('items')}>

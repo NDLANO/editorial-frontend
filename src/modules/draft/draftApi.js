@@ -52,7 +52,7 @@ export const fetchAgreements = query =>
   fetchAuthorized(`${baseAgreementsUrl}?query=${query}`).then(
     resolveJsonOrRejectWithError,
   );
-  
+
 export const fetchAgreement = id =>
   fetchAuthorized(`${baseAgreementsUrl}/${id}`).then(
     resolveJsonOrRejectWithError,

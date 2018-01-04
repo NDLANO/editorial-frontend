@@ -9,14 +9,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { SelectObjectField, AsyncDropdownField } from '../../../components/Fields';
+import {
+  SelectObjectField,
+  AsyncDropdownField,
+} from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Accordion from '../../../components/Accordion';
 import Contributors from '../../../components/Contributors/Contributors';
 import * as draftApi from '../../../modules/draft/draftApi';
 
 class LearningResourceCopyright extends Component {
-
   static async searchAgreements(query) {
     const response = await draftApi.fetchAgreements(query);
     return response.results;
@@ -37,8 +39,7 @@ class LearningResourceCopyright extends Component {
   }
 
   render() {
-    const { t, commonFieldProps, licenses } = this.props;
-
+    const { t, commonFieldProps, licenses, agreement } = this.props;
     return (
       <Accordion
         handleToggle={this.toggleContent}
@@ -60,9 +61,10 @@ class LearningResourceCopyright extends Component {
           label={t('form.processors.label')}
           {...commonFieldProps}
         />
-      <AsyncDropdownField
-          valueField='id'
+        <AsyncDropdownField
+          valueField="id"
           name="agreementId"
+          selectedItem={agreement}
           textField="title"
           placeholder={t('form.agreement.placeholder')}
           label={t('form.agreement.label')}
@@ -94,6 +96,10 @@ LearningResourceCopyright.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
+  agreement: PropTypes.shape({
+    title: PropTypes.string,
+    id: PropTypes.number,
+  }),
 };
 
 export default injectT(LearningResourceCopyright);

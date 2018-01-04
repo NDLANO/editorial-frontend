@@ -8,14 +8,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
-import { DropdownMenu, DropdownInput, DropdownSearchAction, dropDownClasses } from '../common';
+import {
+  DropdownMenu,
+  DropdownInput,
+  DropdownSearchAction,
+  dropDownClasses,
+} from '../common';
 import { itemToString } from '../../../util/downShiftHelpers';
 
-
 class AsyncDropDown extends React.Component {
-  constructor(){
+  constructor() {
     super();
-    this.state = { items: [], isOpen: false, inputValue: '', selectedItem: undefined  };
+    this.state = {
+      items: [],
+      isOpen: false,
+      inputValue: '',
+      selectedItem: undefined,
+    };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -35,14 +44,13 @@ class AsyncDropDown extends React.Component {
   async handleSearch(query) {
     const { apiAction } = this.props;
     const items = await apiAction(query);
-    this.setState({items, inputValue: query, isOpen: true})
+    this.setState({ items, inputValue: query, isOpen: true });
   }
 
   handleChange(selectedItem) {
     this.handleToggleMenu();
     this.props.onChange(selectedItem);
   }
-
 
   handleToggleMenu() {
     this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
@@ -60,46 +68,46 @@ class AsyncDropDown extends React.Component {
     }
   }
 
-  render(){
+  render() {
     const {
       placeholder,
       textField,
       valueField,
       messages,
-      ...rest,
+      ...rest
     } = this.props;
+
     const { items } = this.state;
     const inputProps = {
       placeholder,
       onChange: this.handleInputChange,
-    }
+    };
 
     return (
       <Downshift
         {...rest}
         itemToString={item => itemToString(item, textField)}
-        selectedItem={undefined}
         onStateChange={this.handleStateChange}
         onChange={this.handleChange}
         isOpen={this.state.isOpen}
         render={downshiftProps => (
           <div {...dropDownClasses()}>
-            <DropdownInput
-              {...downshiftProps}
-              name={name}
-              inputProps={inputProps}
-            />
+            <DropdownInput {...downshiftProps} inputProps={inputProps} />
             <DropdownMenu
               {...downshiftProps}
               items={items}
               messages={messages}
               textField={textField}
               valueField={valueField}
+              asyncSelect
             />
-          <DropdownSearchAction onToggleMenu={this.handleToggleMenu} {...downshiftProps}/>
+            <DropdownSearchAction
+              onToggleMenu={this.handleToggleMenu}
+              {...downshiftProps}
+            />
           </div>
         )}
-        />
+      />
     );
   }
 }
@@ -114,11 +122,10 @@ AsyncDropDown.propTypes = {
     emptyFilter: PropTypes.string.isRequired,
     emptyList: PropTypes.string.isRequired,
   }),
-  name: PropTypes.string.isRequired,
 };
 
 AsyncDropDown.defaultPropTypes = {
   placeholder: '',
-}
+};
 
 export default AsyncDropDown;

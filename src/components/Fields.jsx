@@ -487,7 +487,6 @@ DateField.defaultProps = {
   noBorder: false,
 };
 
-
 export const AsyncDropdownField = ({
   bindInput,
   name,
@@ -504,7 +503,7 @@ export const AsyncDropdownField = ({
       <AsyncDropdown
         value={value}
         onChange={val =>
-          onChange({ target: { name, value: val ? val.id : undefined }})
+          onChange({ target: { name, value: val ? val.id : undefined } })
         }
         {...rest}
       />

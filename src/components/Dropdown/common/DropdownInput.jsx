@@ -12,7 +12,7 @@ import AutosizeInput from 'react-input-autosize';
 import DropdownTag from './DropdownTag';
 import { dropDownClasses } from './dropDownClasses';
 
-const DropdownInput = (props) => {
+const DropdownInput = props => {
   const {
     multiSelect,
     onRemoveItem,

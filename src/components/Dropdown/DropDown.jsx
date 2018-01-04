@@ -109,9 +109,7 @@ DropDown.propTypes = {
   onRemoveItem: PropTypes.func,
   onWrapperClick: PropTypes.func,
   inputWrapperRef: PropTypes.func,
-  inputProps: PropTypes.shape({
-
-  }),
+  inputProps: PropTypes.shape({}),
 };
 
 DropDown.defaultProps = {

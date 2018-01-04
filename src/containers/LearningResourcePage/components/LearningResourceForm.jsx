@@ -37,6 +37,7 @@ import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
 } from '../../../util/formHelper';
+import * as draftApi from '../../../modules/draft/draftApi';
 
 const findFootnotes = content =>
   content
@@ -59,7 +60,6 @@ const parseImageUrl = url => {
 
 export const getInitialModel = (article = {}) => {
   const metaImageId = parseImageUrl(article.metaImage);
-
   return {
     id: article.id,
     revision: article.revision,
@@ -79,7 +79,7 @@ export const getInitialModel = (article = {}) => {
       : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
     metaImageId,
-    agreementId: article.agreementId,
+    agreementId: article.copyright ? article.copyright.agreementId : undefined,
     language: article.language,
     articleType: 'standard',
     status: article.status || [],
@@ -95,6 +95,13 @@ class LearningResourceForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.fetchAgreement = this.fetchAgreement.bind(this);
+    this.state = { agreement: undefined };
+  }
+
+  componentWillMount() {
+    const { initialModel } = this.props;
+    this.fetchAgreement(initialModel.agreementId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -104,6 +111,14 @@ class LearningResourceForm extends Component {
       initialModel.language !== this.props.initialModel.language
     ) {
       setModel(initialModel);
+      this.fetchAgreement(initialModel.agreementId);
+    }
+  }
+
+  async fetchAgreement(id) {
+    if (id) {
+      const agreement = await draftApi.fetchAgreement(id);
+      this.setState({ agreement });
     }
   }
 
@@ -180,6 +195,7 @@ class LearningResourceForm extends Component {
         <LearningResourceCopyright
           commonFieldProps={commonFieldProps}
           licenses={licenses}
+          agreement={this.state.agreement}
         />
         <LearningResourceWorkflow
           articleStatus={articleStatus}

@@ -9,21 +9,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import {
-  SelectObjectField,
-  AsyncDropdownField,
-} from '../../../components/Fields';
+import { SelectObjectField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Accordion from '../../../components/Accordion';
 import Contributors from '../../../components/Contributors/Contributors';
-import * as draftApi from '../../../modules/draft/draftApi';
+import AgreementConnection from '../../Form/AgreementConnection';
 
 class LearningResourceCopyright extends Component {
-  static async searchAgreements(query) {
-    const response = await draftApi.fetchAgreements(query);
-    return response.results;
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -39,7 +31,7 @@ class LearningResourceCopyright extends Component {
   }
 
   render() {
-    const { t, commonFieldProps, licenses, agreement } = this.props;
+    const { t, commonFieldProps, licenses, model } = this.props;
     return (
       <Accordion
         handleToggle={this.toggleContent}
@@ -61,19 +53,9 @@ class LearningResourceCopyright extends Component {
           label={t('form.processors.label')}
           {...commonFieldProps}
         />
-        <AsyncDropdownField
-          valueField="id"
-          name="agreementId"
-          selectedItem={agreement}
-          textField="title"
-          placeholder={t('form.agreement.placeholder')}
-          label={t('form.agreement.label')}
-          apiAction={LearningResourceCopyright.searchAgreements}
-          {...commonFieldProps}
-          messages={{
-            emptyFilter: t('form.agreement.emptyFilter'),
-            emptyList: t('form.agreement.emptyList'),
-          }}
+        <AgreementConnection
+          commonFieldProps={commonFieldProps}
+          model={model}
         />
         <SelectObjectField
           name="license"
@@ -96,9 +78,8 @@ LearningResourceCopyright.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  agreement: PropTypes.shape({
-    title: PropTypes.string,
-    id: PropTypes.number,
+  model: PropTypes.shape({
+    agreementId: PropTypes.number,
   }),
 };
 

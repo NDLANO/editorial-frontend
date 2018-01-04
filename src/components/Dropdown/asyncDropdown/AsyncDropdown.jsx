@@ -23,7 +23,6 @@ class AsyncDropDown extends React.Component {
       items: [],
       isOpen: false,
       inputValue: '',
-      selectedItem: undefined,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -32,6 +31,7 @@ class AsyncDropDown extends React.Component {
     this.handleStateChange = this.handleStateChange.bind(this);
     this.handleToggleMenu = this.handleToggleMenu.bind(this);
   }
+
   componentWillMount() {
     this.handleSearch('');
   }
@@ -41,7 +41,7 @@ class AsyncDropDown extends React.Component {
     this.handleSearch(value);
   }
 
-  async handleSearch(query) {
+  async handleSearch(query = '') {
     const { apiAction } = this.props;
     const items = await apiAction(query);
     this.setState({ items, inputValue: query, isOpen: true });

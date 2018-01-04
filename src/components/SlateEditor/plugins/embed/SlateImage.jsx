@@ -84,7 +84,6 @@ class SlateImage extends React.Component {
         ['left', 'right'].includes(embed.align) &&
         !['small', 'xsmall'].includes(embed.size),
     });
-    console.log(embed);
     return (
       <Figure {...attributes} className={figureClassNames}>
         {this.state.editModus ? (

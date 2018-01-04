@@ -20,7 +20,7 @@ const DetailsBox = props => {
     const next = editor.value.change().removeNodeByKey(node.key);
     editor.onChange(next);
   };
-  console.log(editor);
+
   return (
     <details {...props.attributes} open>
       {props.children}

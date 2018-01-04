@@ -48,10 +48,7 @@ class SlateFactAside extends React.Component {
           onClick={this.toggleExpanded}
           className="c-button c-aside__button"
         />
-        <Button
-          stripped
-          onClick={onRemoveClick}
-          {...classes('delete-aside-button')}>
+        <Button stripped onClick={onRemoveClick} {...classes('delete-button')}>
           <Cross />
         </Button>
       </aside>

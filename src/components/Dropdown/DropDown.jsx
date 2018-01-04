@@ -8,17 +8,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
-import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
-import { DropdownAction, DropdownMenu, DropdownInput } from './common';
+import { DropdownAction, DropdownMenu, DropdownInput, dropDownClasses } from './common';
 import { itemToString } from '../../util/downShiftHelpers';
 
-export const dropDownClasses = new BEMHelper({
-  name: 'dropdown',
-  prefix: 'c-',
-});
-
-const DropDown = ({
+const Dropdown = ({
   name,
   items,
   defaultSelectedItem,
@@ -85,7 +79,7 @@ const requiredFieldIfItemsIsObjects = (props, propName, componentName) => {
 /*
   eslint-enable
 */
-DropDown.propTypes = {
+Dropdown.propTypes = {
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
@@ -112,9 +106,9 @@ DropDown.propTypes = {
   inputProps: PropTypes.shape({}),
 };
 
-DropDown.defaultProps = {
+Dropdown.defaultProps = {
   multiSelect: false,
   onToggleMenu: undefined,
 };
 
-export default injectT(DropDown);
+export default injectT(Dropdown);

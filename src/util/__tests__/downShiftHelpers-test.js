@@ -7,9 +7,9 @@
 
 import {
   itemToString,
-  downShifhtSorter,
+  downShiftSorter,
   valueFieldForItem,
-} from '../downShifhtHelpers';
+} from '../downShiftHelpers';
 
 test('util/downShifhtHelpers itemToString', () => {
   expect(itemToString({ name: 'Test Testesen' }, 'name')).toEqual(
@@ -17,15 +17,15 @@ test('util/downShifhtHelpers itemToString', () => {
   );
 });
 
-test('util/downShifhtHelpers itemToString undefined item', () => {
+test('util/downShiftHelpers itemToString undefined item', () => {
   expect(itemToString(undefined, 'name')).toEqual('');
 });
 
-test('util/downShifhtHelpers itemToString string item', () => {
+test('util/downShiftHelpers itemToString string item', () => {
   expect(itemToString('Testesen')).toEqual('Testesen');
 });
 
-test('util/downShifhtHelpers downShifhtSorter', () => {
+test('util/downShiftHelpers downShiftSorter', () => {
   const list = [
     { name: 'Norge' },
     { name: 'Norje' },
@@ -33,20 +33,20 @@ test('util/downShifhtHelpers downShifhtSorter', () => {
     { name: 'Sweden' },
   ];
 
-  expect(downShifhtSorter(list, 'Nor', 'name')).toEqual([
+  expect(downShiftSorter(list, 'Nor', 'name')).toEqual([
     { name: 'Norge' },
     { name: 'Norje' },
     { name: 'NORGE' },
   ]);
 
-  expect(downShifhtSorter(list, 'Norrge', 'name')).toEqual([]);
+  expect(downShiftSorter(list, 'Norrge', 'name')).toEqual([]);
 });
 
-test('util/downShifhtHelpers downShifhtSorter string items', () => {
+test('util/downShiftHelpers downShiftSorter string items', () => {
   const list = ['Norge', 'Norje', 'NORGE', 'Sweden'];
-  expect(downShifhtSorter(list, 'Nor')).toEqual(['Norge', 'Norje', 'NORGE']);
+  expect(downShiftSorter(list, 'Nor')).toEqual(['Norge', 'Norje', 'NORGE']);
 
-  expect(downShifhtSorter(list, 'Norrge')).toEqual([]);
+  expect(downShiftSorter(list, 'Norrge')).toEqual([]);
 });
 
 test('util/valueFieldForItem', () => {

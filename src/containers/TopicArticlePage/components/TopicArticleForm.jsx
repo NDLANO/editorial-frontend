@@ -50,6 +50,7 @@ export const getInitialModel = (article = {}) => {
     creators: parseCopyrightContributors(article, 'creators'),
     processors: parseCopyrightContributors(article, 'processors'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
+    agreementId: article.copyright ? article.copyright.agreementId : undefined,
     copyright: article.copyright
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
@@ -114,6 +115,7 @@ class TopicArticleForm extends Component {
         creators: model.creators,
         processors: model.processors,
         rightsholders: model.rightsholders,
+        agreementId: model.agreementId,
       },
       language,
     });
@@ -142,6 +144,7 @@ class TopicArticleForm extends Component {
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
           tags={tags}
+          model={model}
         />
         <TopicArticleContent
           classes={classes}

@@ -59,7 +59,6 @@ const parseImageUrl = url => {
 
 export const getInitialModel = (article = {}) => {
   const metaImageId = parseImageUrl(article.metaImage);
-
   return {
     id: article.id,
     revision: article.revision,
@@ -79,6 +78,7 @@ export const getInitialModel = (article = {}) => {
       : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
     metaImageId,
+    agreementId: article.copyright ? article.copyright.agreementId : undefined,
     language: article.language,
     articleType: 'standard',
     status: article.status || [],
@@ -134,6 +134,7 @@ class LearningResourceForm extends Component {
         creators: model.creators,
         processors: model.processors,
         rightsholders: model.rightsholders,
+        agreementId: model.agreementId,
       },
       language: model.language,
     });
@@ -176,6 +177,7 @@ class LearningResourceForm extends Component {
           />
         </LearningResourceContent>
         <LearningResourceCopyright
+          model={model}
           commonFieldProps={commonFieldProps}
           licenses={licenses}
         />

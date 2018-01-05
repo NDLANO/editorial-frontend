@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-export const downShifhtSorter = (list, val, textField) =>
+export const downShiftSorter = (list, val, textField) =>
   list.filter(
     item =>
       item instanceof Object

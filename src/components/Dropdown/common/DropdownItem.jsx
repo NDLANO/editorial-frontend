@@ -8,18 +8,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
-import { dropDownClasses } from './DropDown';
+import { dropDownClasses } from './dropDownClasses';
 
-const DropDownItem = ({
+const DropdownItem = ({
   highlightedIndex,
   getItemProps,
   selectedItem,
   item,
   index,
   itemToString,
+  multiSelect,
 }) => {
   const isActive = highlightedIndex === index;
-  const isSelected = selectedItem === item;
+  const isSelected = multiSelect
+    ? selectedItem.some(element => element.id === item.id)
+    : selectedItem === item;
   const text = itemToString(item);
   return (
     <div
@@ -32,7 +35,7 @@ const DropDownItem = ({
   );
 };
 
-DropDownItem.propTypes = {
+DropdownItem.propTypes = {
   ...Downshift.propTypes,
   item: PropTypes.oneOfType([
     PropTypes.string,
@@ -41,6 +44,11 @@ DropDownItem.propTypes = {
   ]).isRequired,
   index: PropTypes.number.isRequired,
   textField: PropTypes.string,
+  multiSelect: PropTypes.bool,
 };
 
-export default DropDownItem;
+DropdownItem.defaultProps = {
+  multiSelect: false,
+};
+
+export default DropdownItem;

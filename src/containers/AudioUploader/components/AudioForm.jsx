@@ -19,6 +19,7 @@ import { Field } from '../../../components/Fields';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
+  creatorsWithDefault,
 } from '../../../util/formHelper';
 import { SchemaShape } from '../../../shapes';
 
@@ -33,7 +34,7 @@ export const getInitialModel = (audio = {}) => ({
   audioFile: audio.audioFile,
   filepath: '',
   tags: audio.tags || [],
-  creators: parseCopyrightContributors(audio, 'creators'),
+  creators: creatorsWithDefault(audio),
   processors: parseCopyrightContributors(audio, 'processors'),
   rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
   origin:

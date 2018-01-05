@@ -50,7 +50,7 @@ export default function createDetails() {
     const { node } = props;
     switch (node.type) {
       case 'details':
-        return <DetailsBox {...props.attributes}>{props.children}</DetailsBox>;
+        return <DetailsBox {...props}>{props.children}</DetailsBox>;
       case 'summary':
         return <summary {...props.attributes}>{props.children}</summary>;
       default:

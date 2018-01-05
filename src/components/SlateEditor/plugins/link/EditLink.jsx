@@ -62,7 +62,6 @@ class EditLink extends React.Component {
     const { value, node } = this.props;
     const { href, text, checkbox } = model;
     const isNDLAUrl = /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
-    console.log(model);
     const data = isNDLAUrl
       ? createContentLinkData(
           href,

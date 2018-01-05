@@ -9,8 +9,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { Button } from 'ndla-ui';
+import { Cross } from 'ndla-icons/action';
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 import { EmbedShape } from '../../../../shapes';
+import { editorClasses } from './SlateFigure';
 
 class SlateAudio extends React.Component {
   constructor(props) {
@@ -30,11 +33,14 @@ class SlateAudio extends React.Component {
   }
 
   render() {
-    const { embed, figureClass, attributes } = this.props;
+    const { embed, figureClass, attributes, onRemoveClick } = this.props;
     const { audio } = this.state;
     return (
-      <figure className="article_audio" {...attributes}>
-        <audio controls {...figureClass}>
+      <figure {...figureClass} {...attributes}>
+        <Button onClick={onRemoveClick} stripped {...editorClasses('delete-button')}>
+          <Cross />
+        </Button>
+        <audio controls>
           {audio && audio.audioFile.url ? (
             <source src={audio.audioFile.url} type={audio.audioFile.mimeType} />
           ) : (
@@ -54,6 +60,7 @@ SlateAudio.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
+  onRemoveClick: PropTypes.func.isRequired,
 };
 
 export default injectT(SlateAudio);

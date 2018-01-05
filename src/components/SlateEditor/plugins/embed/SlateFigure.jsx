@@ -97,11 +97,11 @@ class SlateFigure extends React.Component {
     };
     switch (embed.resource) {
       case 'image':
-        return <SlateImage node={node} editor={editor} {...props} />;
+        return <SlateImage node={node} editor={editor} onRemoveClick={this.onRemoveClick} {...props} />;
       case 'brightcove':
         return <SlateVideo {...props} onRemoveClick={this.onRemoveClick} />;
       case 'audio':
-        return <SlateAudio {...props} />;
+        return <SlateAudio onRemoveClick={this.onRemoveClick} {...props} />;
       case 'external':
         return (
           <Figure>

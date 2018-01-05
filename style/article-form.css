@@ -6,12 +6,6 @@
  *
  */
 
-.c-topic-article-form {
-  & .c-editor__figure {
-    position: relative;
-  }
-}
-
 .c-agreement-form {
   background-color: var(--brand-grey--lightest);
   padding-bottom: 3rem;

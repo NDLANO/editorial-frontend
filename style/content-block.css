@@ -95,6 +95,10 @@ details {
     padding: 1rem;
   }
 
+  &__figure {
+    position: relative;
+  }
+
   &__figure-input-field {
     border: none;
 

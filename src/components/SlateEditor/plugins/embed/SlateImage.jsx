@@ -11,12 +11,14 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { injectT } from 'ndla-i18n';
 import { Button, Figure } from 'ndla-ui';
+import { Cross } from 'ndla-icons/action';
 import { findDOMNode } from 'slate-react';
 import SlateTypes from 'slate-prop-types';
 import SlateInputField from './SlateInputField';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { EmbedShape } from '../../../../shapes';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
+import { editorClasses } from './SlateFigure';
 
 class SlateImage extends React.Component {
   static handleFloatedImages(node, align) {
@@ -60,6 +62,7 @@ class SlateImage extends React.Component {
       attributes,
       onFigureInputChange,
       submitted,
+      onRemoveClick,
       t,
     } = this.props;
     const src = `${window.config.ndlaApiUrl}/image-api/raw/id/${
@@ -81,6 +84,9 @@ class SlateImage extends React.Component {
 
     return (
       <Figure {...attributes} className={figureClassNames}>
+        <Button onClick={onRemoveClick} stripped {...editorClasses('delete-button')}>
+          <Cross />
+        </Button>
         {this.state.editModus ? (
           <ImageEditor
             embedTag={embed}
@@ -132,6 +138,7 @@ SlateImage.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   submitted: PropTypes.bool.isRequired,
+  onRemoveClick: PropTypes.func.isRequired,
 };
 
 export default injectT(SlateImage);

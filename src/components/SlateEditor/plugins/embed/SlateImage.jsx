@@ -84,7 +84,10 @@ class SlateImage extends React.Component {
 
     return (
       <Figure {...attributes} className={figureClassNames}>
-        <Button onClick={onRemoveClick} stripped {...editorClasses('delete-button')}>
+        <Button
+          onClick={onRemoveClick}
+          stripped
+          {...editorClasses('delete-button')}>
           <Cross />
         </Button>
         {this.state.editModus ? (

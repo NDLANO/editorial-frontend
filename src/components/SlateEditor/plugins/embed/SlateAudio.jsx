@@ -37,7 +37,10 @@ class SlateAudio extends React.Component {
     const { audio } = this.state;
     return (
       <figure {...figureClass} {...attributes}>
-        <Button onClick={onRemoveClick} stripped {...editorClasses('delete-button')}>
+        <Button
+          onClick={onRemoveClick}
+          stripped
+          {...editorClasses('delete-button')}>
           <Cross />
         </Button>
         <audio controls>

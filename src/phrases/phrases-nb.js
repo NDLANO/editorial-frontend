@@ -24,6 +24,7 @@ const phrases = {
     createLearningResource: 'Opprett læringsressurs',
     createAudioFile: 'Last opp lydfil',
     createImage: 'Last opp bilde',
+    createAgreement: 'Opprett avtale',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',

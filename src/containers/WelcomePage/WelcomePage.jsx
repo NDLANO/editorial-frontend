@@ -16,6 +16,7 @@ import {
   toCreateAudioFile,
   toCreateImage,
   toSearch,
+  toCreateAgreement,
 } from '../../util/routeHelpers';
 
 const topicArticleQuery = {
@@ -58,6 +59,11 @@ export const WelcomePage = ({ t }) => (
           <li>
             <Link to={`${toCreateImage()}`}>
               {t('welcomePage.createImage')}
+            </Link>
+          </li>
+          <li>
+            <Link to={`${toCreateAgreement()}`}>
+              {t('welcomePage.createAgreement')}
             </Link>
           </li>
         </ul>

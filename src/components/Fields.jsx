@@ -12,11 +12,11 @@ import { uuid } from 'ndla-util';
 import BEMHelper from 'react-bem-helper';
 import get from 'lodash/fp/get';
 import MultiSelect from './MultiSelect';
-import { MultiDropdown } from './Dropdown';
 import { isEmpty } from './validators';
 import PlainTextEditor from '../components/SlateEditor/PlainTextEditor';
 import DateTimeInput from '../components/DateTime/DateTimeInput';
 import ObjectSelector from './ObjectSelector';
+import { AsyncDropdown, MultiDropdown } from './Dropdown';
 
 export const classes = new BEMHelper({
   name: 'field',
@@ -521,5 +521,49 @@ DateField.propTypes = {
 };
 
 DateField.defaultProps = {
+  noBorder: false,
+};
+
+export const AsyncDropdownField = ({
+  bindInput,
+  name,
+  label,
+  submitted,
+  schema,
+  noBorder,
+  ...rest
+}) => {
+  const { onChange, value } = bindInput(name);
+  return (
+    <Field noBorder={noBorder}>
+      <label htmlFor={name}>{label}</label>
+      <AsyncDropdown
+        value={value}
+        onChange={val =>
+          onChange({ target: { name, value: val ? val.id : undefined } })
+        }
+        {...rest}
+      />
+      <FieldErrorMessages
+        label={label}
+        field={getField(name, schema)}
+        submitted={submitted}
+      />
+    </Field>
+  );
+};
+
+AsyncDropdownField.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  noBorder: PropTypes.bool,
+  submitted: PropTypes.bool.isRequired,
+};
+
+AsyncDropdownField.defaultProps = {
   noBorder: false,
 };

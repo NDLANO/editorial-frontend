@@ -9,17 +9,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import isEmpty from 'lodash/fp/isEmpty';
-import DropDownItem from './DropDownItem';
-import { dropDownClasses } from './DropDown';
+import DropDownItem from './DropdownItem';
+import { dropDownClasses } from './dropDownClasses';
 import {
   valueFieldForItem,
   downShiftSorter,
-} from '../../util/downShiftHelpers';
+} from '../../../util/downShiftHelpers';
 
-const DropDownMenu = props => {
+const DropdownMenu = props => {
   const {
     isOpen,
     multiSelect,
+    asyncSelect,
     items,
     messages,
     valueField,
@@ -27,9 +28,10 @@ const DropDownMenu = props => {
     textField,
   } = props;
 
-  const values = inputValue
-    ? downShiftSorter(items, inputValue, textField)
-    : items;
+  const values =
+    inputValue && !asyncSelect
+      ? downShiftSorter(items, inputValue, textField)
+      : items;
 
   return !isOpen ? null : (
     <div {...dropDownClasses('items')}>
@@ -44,23 +46,22 @@ const DropDownMenu = props => {
           />
         ))
       ) : (
-        <DropDownItem
-          key="notFound"
-          {...props}
-          item={isEmpty(items) ? messages.emptyList : messages.emptyFilter}
-          index={1}
-        />
+        <div {...dropDownClasses('empty')}>
+          {isEmpty(items) ? messages.emptyList : messages.emptyFilter}
+        </div>
       )}
     </div>
   );
 };
 
-DropDownMenu.propTypes = {
+DropdownMenu.propTypes = {
   ...Downshift.propTypes,
+  multiSelect: PropTypes.bool,
+  asyncSelect: PropTypes.bool,
   items: PropTypes.arrayOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number]),
   ).isRequired,
   textField: PropTypes.string,
 };
 
-export default DropDownMenu;
+export default DropdownMenu;

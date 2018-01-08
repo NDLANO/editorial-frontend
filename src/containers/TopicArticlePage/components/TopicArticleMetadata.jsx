@@ -17,6 +17,7 @@ import {
 import Accordion from '../../../components/Accordion';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Contributors from '../../../components/Contributors/Contributors';
+import AgreementConnection from '../../Form/AgreementConnection';
 
 class TopicArticleMetadata extends Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class TopicArticleMetadata extends Component {
   }
 
   render() {
-    const { t, bindInput, commonFieldProps, tags } = this.props;
+    const { t, bindInput, commonFieldProps, tags, model } = this.props;
     return (
       <Accordion
         fill
@@ -83,6 +84,10 @@ class TopicArticleMetadata extends Component {
           label={t('form.processors.label')}
           {...commonFieldProps}
         />
+        <AgreementConnection
+          commonFieldProps={commonFieldProps}
+          model={model}
+        />
       </Accordion>
     );
   }
@@ -93,6 +98,9 @@ TopicArticleMetadata.propTypes = {
   bindInput: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
   classes: PropTypes.func.isRequired,
+  model: PropTypes.shape({
+    agreementId: PropTypes.number,
+  }),
 };
 
 export default injectT(TopicArticleMetadata);

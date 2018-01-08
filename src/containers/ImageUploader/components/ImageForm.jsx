@@ -19,6 +19,7 @@ import { Field } from '../../../components/Fields';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
+  creatorsWithDefault,
 } from '../../../util/formHelper';
 
 import ImageMetaData from './ImageMetaData';
@@ -34,7 +35,7 @@ export const getInitialModel = (image = {}) => ({
   caption: image.caption || '',
   imageFile: image.imageUrl,
   tags: image.tags || [],
-  creators: parseCopyrightContributors(image, 'creators'),
+  creators: creatorsWithDefault(image),
   processors: parseCopyrightContributors(image, 'processors'),
   rightsholders: parseCopyrightContributors(image, 'rightsholders'),
   origin:
@@ -44,7 +45,6 @@ export const getInitialModel = (image = {}) => ({
       ? image.copyright.license.license
       : DEFAULT_LICENSE.license,
 });
-
 const classes = new BEMHelper({
   name: 'image-form',
   prefix: 'c-',

@@ -8,9 +8,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
-import { dropDownClasses } from './DropDown';
+import { dropDownClasses } from './dropDownClasses';
 
-const DropDownItem = ({
+const DropdownItem = ({
   highlightedIndex,
   getItemProps,
   selectedItem,
@@ -35,7 +35,7 @@ const DropDownItem = ({
   );
 };
 
-DropDownItem.propTypes = {
+DropdownItem.propTypes = {
   ...Downshift.propTypes,
   item: PropTypes.oneOfType([
     PropTypes.string,
@@ -47,8 +47,8 @@ DropDownItem.propTypes = {
   multiSelect: PropTypes.bool,
 };
 
-DropDownItem.defaultProps = {
+DropdownItem.defaultProps = {
   multiSelect: false,
 };
 
-export default DropDownItem;
+export default DropdownItem;

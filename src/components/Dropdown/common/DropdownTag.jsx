@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
 import BEMHelper from 'react-bem-helper';
-import { dropDownClasses } from './DropDown';
+import { dropDownClasses } from './dropDownClasses';
 
 const classes = new BEMHelper({
   name: 'tag',

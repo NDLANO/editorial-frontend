@@ -10,9 +10,9 @@ import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import Downshift from 'downshift';
 import { Cross, ExpandLess, ExpandMore } from 'ndla-icons/action';
-import { dropDownClasses } from './DropDown';
+import { dropDownClasses } from './dropDownClasses';
 
-const DropDownAction = ({
+const DropdownAction = ({
   multiSelect,
   onToggleMenu,
   clearSelection,
@@ -28,14 +28,12 @@ const DropDownAction = ({
       </Button>
     );
   }
-
   let onClick;
   if (onToggleMenu) {
     onClick = onToggleMenu;
   } else {
     onClick = isOpen ? closeMenu : openMenu;
   }
-
   return (
     <Button {...dropDownClasses('action')} onClick={onClick} stripped>
       {isOpen ? (
@@ -47,15 +45,15 @@ const DropDownAction = ({
   );
 };
 
-DropDownAction.propTypes = {
+DropdownAction.propTypes = {
   ...Downshift.propTypes,
   multiSelect: PropTypes.bool,
   onToggleMenu: PropTypes.func,
 };
 
-DropDownAction.defaultProps = {
+DropdownAction.defaultProps = {
   multiSelect: false,
   onToggleMenu: undefined,
 };
 
-export default DropDownAction;
+export default DropdownAction;

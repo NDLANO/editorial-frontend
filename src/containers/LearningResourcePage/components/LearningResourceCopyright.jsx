@@ -13,6 +13,7 @@ import { SelectObjectField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Accordion from '../../../components/Accordion';
 import Contributors from '../../../components/Contributors/Contributors';
+import AgreementConnection from '../../Form/AgreementConnection';
 
 class LearningResourceCopyright extends Component {
   constructor(props) {
@@ -30,8 +31,7 @@ class LearningResourceCopyright extends Component {
   }
 
   render() {
-    const { t, commonFieldProps, licenses } = this.props;
-
+    const { t, commonFieldProps, licenses, model } = this.props;
     return (
       <Accordion
         handleToggle={this.toggleContent}
@@ -51,6 +51,10 @@ class LearningResourceCopyright extends Component {
           name="processors"
           label={t('form.processors.label')}
           {...commonFieldProps}
+        />
+        <AgreementConnection
+          commonFieldProps={commonFieldProps}
+          model={model}
         />
         <SelectObjectField
           name="license"
@@ -73,6 +77,9 @@ LearningResourceCopyright.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
+  model: PropTypes.shape({
+    agreementId: PropTypes.number,
+  }),
 };
 
 export default injectT(LearningResourceCopyright);

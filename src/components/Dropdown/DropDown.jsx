@@ -8,22 +8,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
-import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
-import DropDownAction from './DropDownAction';
-import DropDownMenu from './DropDownMenu';
-import DropDownInput from './DropDownInput';
+import {
+  DropdownAction,
+  DropdownMenu,
+  DropdownInput,
+  dropDownClasses,
+} from './common';
 import { itemToString } from '../../util/downShiftHelpers';
 
-export const dropDownClasses = new BEMHelper({
-  name: 'dropdown',
-  prefix: 'c-',
-});
-
-const DropDown = ({
+const Dropdown = ({
   name,
   items,
-  placeholder,
   defaultSelectedItem,
   selectedItem,
   onToggleMenu,
@@ -31,7 +27,6 @@ const DropDown = ({
   onWrapperClick,
   inputWrapperRef,
   inputProps,
-  tagProps,
   multiSelect,
   textField,
   valueField,
@@ -45,18 +40,16 @@ const DropDown = ({
     selectedItem={multiSelect ? selectedItem : undefined}
     render={downshiftProps => (
       <div {...dropDownClasses()}>
-        <DropDownInput
+        <DropdownInput
           name={name}
           multiSelect={multiSelect}
-          placeholder={placeholder}
           onRemoveItem={onRemoveItem}
           onWrapperClick={onWrapperClick}
           inputWrapperRef={inputWrapperRef}
           inputProps={inputProps}
-          tagProps={tagProps}
           {...downshiftProps}
         />
-        <DropDownMenu
+        <DropdownMenu
           items={items}
           messages={messages}
           {...downshiftProps}
@@ -64,7 +57,7 @@ const DropDown = ({
           valueField={valueField}
           multiSelect={multiSelect}
         />
-        <DropDownAction
+        <DropdownAction
           onToggleMenu={onToggleMenu}
           multiSelect={multiSelect}
           {...downshiftProps}
@@ -91,7 +84,7 @@ const requiredFieldIfItemsIsObjects = (props, propName, componentName) => {
 /*
   eslint-enable
 */
-DropDown.propTypes = {
+Dropdown.propTypes = {
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
@@ -115,21 +108,12 @@ DropDown.propTypes = {
   onRemoveItem: PropTypes.func,
   onWrapperClick: PropTypes.func,
   inputWrapperRef: PropTypes.func,
-  inputProps: PropTypes.shape({
-    value: PropTypes.string,
-    ref: PropTypes.func,
-    onChange: PropTypes.func,
-    onKeyDown: PropTypes.func,
-    onFocus: PropTypes.func,
-  }),
-  tagProps: PropTypes.shape({
-    primaryResourceType: PropTypes.shape({}),
-  }),
+  inputProps: PropTypes.shape({}),
 };
 
-DropDown.defaultProps = {
+Dropdown.defaultProps = {
   multiSelect: false,
   onToggleMenu: undefined,
 };
 
-export default injectT(DropDown);
+export default injectT(Dropdown);

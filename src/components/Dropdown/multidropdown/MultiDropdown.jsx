@@ -9,7 +9,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
-import { DropDown } from './';
+import {
+  DropdownMenu,
+  DropdownInput,
+  DropdownSearchAction,
+  dropDownClasses,
+} from '../common';
+import { itemToString } from '../../../util/downShiftHelpers';
 
 class MultiDropdown extends Component {
   constructor(props) {
@@ -160,6 +166,16 @@ class MultiDropdown extends Component {
 
   render() {
     const {
+      selectedItem,
+      placeholder,
+      textField,
+      valueField,
+      messages,
+      items,
+      ...rest
+    } = this.props;
+
+    const {
       selectedItems,
       isOpen,
       inputValue,
@@ -180,24 +196,55 @@ class MultiDropdown extends Component {
     };
 
     return (
-      <DropDown
-        multiSelect
-        onChange={this.handleChange}
+      <Downshift
+        {...rest}
+        itemToString={item => itemToString(item, textField)}
         selectedItem={selectedItems}
-        onRemoveItem={this.removeItem}
         onStateChange={this.handleStateChange}
-        inputWrapperRef={this.inputWrapperRef}
-        onWrapperClick={this.onWrapperClick}
-        onToggleMenu={this.handleToggleMenu}
-        {...this.props}
-        {...{ isOpen, inputProps, tagProps }}
+        onChange={this.handleChange}
+        isOpen={isOpen}
+        render={downshiftProps => (
+          <div {...dropDownClasses()}>
+            <DropdownInput
+              name={name}
+              multiSelect
+              tagProps={tagProps}
+              onRemoveItem={this.removeItem}
+              onWrapperClick={this.onWrapperClick}
+              inputWrapperRef={this.inputWrapperRef}
+              inputProps={inputProps}
+              {...downshiftProps}
+            />
+            <DropdownMenu
+              items={items}
+              {...downshiftProps}
+              messages={messages}
+              textField={textField}
+              valueField={valueField}
+              multiSelect
+            />
+            <DropdownSearchAction
+              multiSelect
+              onToggleMenu={this.handleToggleMenu}
+              {...downshiftProps}
+            />
+          </div>
+        )}
       />
     );
   }
 }
 
 MultiDropdown.propTypes = {
-  onChange: PropTypes.func, // TODO: change to required
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  textField: PropTypes.string,
+  valueField: PropTypes.string,
+  messages: PropTypes.shape({
+    emptyFilter: PropTypes.string.isRequired,
+    emptyList: PropTypes.string.isRequired,
+  }),
+  items: PropTypes.shape({}),
 };
 
 export default MultiDropdown;

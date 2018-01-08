@@ -10,21 +10,21 @@ import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import AutosizeInput from 'react-input-autosize';
 import DropdownTag from './DropdownTag';
-import ToolTip from '../ToolTip';
-import { dropDownClasses } from './DropDown';
+import ToolTip from '../../ToolTip';
+import { dropDownClasses } from './dropDownClasses';
 
-const DropDownInput = ({
-  multiSelect,
-  onRemoveItem,
-  onWrapperClick,
-  inputWrapperRef,
-  inputProps,
-  tagProps,
-  selectedItem,
-  getInputProps,
-  name,
-  placeholder,
-}) => {
+const DropdownInput = props => {
+  const {
+    multiSelect,
+    onRemoveItem,
+    onWrapperClick,
+    inputWrapperRef,
+    inputProps,
+    tagProps,
+    name,
+    getInputProps,
+    selectedItem,
+  } = props;
   if (multiSelect) {
     const { handlePopupClick } = tagProps;
 
@@ -60,9 +60,10 @@ const DropDownInput = ({
               />
             ),
         )}
+
         <AutosizeInput
           key={name}
-          {...getInputProps({ name, placeholder, ...inputProps })}
+          {...getInputProps({ name, ...inputProps })}
           placeholderIsMinWidth
           inputStyle={{
             border: 'none',
@@ -75,15 +76,17 @@ const DropDownInput = ({
       </div>
     );
   }
-  return <input {...getInputProps({ name, placeholder })} />;
+  return <input {...getInputProps({ name, ...inputProps })} />;
 };
-DropDownInput.propTypes = {
+
+DropdownInput.propTypes = {
   ...Downshift.propTypes,
   multiSelect: PropTypes.bool,
+  getInputProps: PropTypes.func,
   onRemoveItem: PropTypes.func,
   onWrapperClick: PropTypes.func,
   inputWrapperRef: PropTypes.func,
-  selectedItem: PropTypes.arrayOf(PropTypes.shape),
+  selectedItem: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   name: PropTypes.string,
   placeholder: PropTypes.string,
   inputProps: PropTypes.shape({
@@ -93,13 +96,11 @@ DropDownInput.propTypes = {
     onKeyDown: PropTypes.func,
     onFocus: PropTypes.func,
   }),
-  tagProps: PropTypes.shape({
-    primaryResourceType: PropTypes.shape({}),
-  }),
+  tagProps: PropTypes.shape({}),
 };
 
-DropDownInput.defaultProps = {
+DropdownInput.defaultProps = {
   placeholder: 'Type',
 };
 
-export default DropDownInput;
+export default DropdownInput;

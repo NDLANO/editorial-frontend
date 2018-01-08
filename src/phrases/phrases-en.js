@@ -23,6 +23,7 @@ const phrases = {
     createLearningResource: 'Create learning resource',
     createAudioFile: 'Upload audiofile',
     createImage: 'Upload image',
+    createAgreement: 'Create agreement',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',

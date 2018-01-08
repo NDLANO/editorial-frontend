@@ -24,6 +24,7 @@ const phrases = {
     createLearningResource: 'Opprett læringsressurs',
     createAudioFile: 'Last opp lydfil',
     createImage: 'Last opp bilde',
+    createAgreement: 'Opprett avtale',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -315,6 +316,12 @@ const phrases = {
     metaDescription: {
       label: 'Metabeskrivelse',
       description: 'Beskrivelsen blir synlig i søk.',
+    },
+    agreement: {
+      label: 'Koble til avtale',
+      placeholder: 'Søk etter avtale',
+      emptyFilter: 'Fant ingen passende avtaler',
+      emptyList: 'Det er ingen avtaler i denne listen',
     },
     rightsholders: {
       label: 'Rettighetshaver',

@@ -22,6 +22,24 @@ Object {
                   Object {
                     "kind": "leaf",
                     "marks": Array [],
+                    "text": "æøåÆØÅ",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
                     "text": "Paragraph text",
                   },
                 ],
@@ -60,7 +78,7 @@ Object {
                   Object {
                     "kind": "leaf",
                     "marks": Array [],
-                    "text": "a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, , ø, å",
+                    "text": "a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, æ, ø, å",
                   },
                 ],
               },
@@ -78,7 +96,7 @@ Object {
                   Object {
                     "kind": "leaf",
                     "marks": Array [],
-                    "text": "A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, , Ø, Å",
+                    "text": "A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, Æ, Ø, Å",
                   },
                 ],
               },

@@ -100,7 +100,6 @@ DropdownTag.propTypes = {
   tag: PropTypes.shape({}).isRequired,
   name: PropTypes.string.isRequired,
   primaryResourceType: PropTypes.shape({}).isRequired,
-  setPrimaryResourceType: PropTypes.func.isRequired,
   onRemoveItem: PropTypes.func,
 };
 

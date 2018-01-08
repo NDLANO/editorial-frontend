@@ -41,6 +41,7 @@ const DropDownInput = ({
               <ToolTip
                 key={`${name}-tooptip-${tag.id}`}
                 name={name}
+                direction="bottom"
                 onPopupClick={() => handlePopupClick(tag, name)}
                 noPopup={tag === tagProps.primaryResourceType}
                 messages={{ ariaLabel: 'tooltip' }}

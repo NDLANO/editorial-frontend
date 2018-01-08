@@ -39,7 +39,19 @@ class ToolTip extends Component {
 
   render() {
     const { showPopup } = this.state;
-    const { name, messages, content, children, noPopup } = this.props;
+    const {
+      direction,
+      name,
+      messages,
+      content,
+      children,
+      noPopup,
+    } = this.props;
+
+    const popupModifier = {
+      visible: showPopup,
+      [direction]: direction,
+    };
 
     return (
       <span {...classes('item')}>
@@ -57,7 +69,7 @@ class ToolTip extends Component {
           role="dialog"
           aria-labelledby={name}
           aria-describedby={name}
-          {...classes('popup', showPopup ? 'visible' : '')}>
+          {...classes('popup', popupModifier)}>
           <span {...classes('content')}>{content}</span>
         </span>
       </span>
@@ -66,6 +78,7 @@ class ToolTip extends Component {
 }
 
 ToolTip.propTypes = {
+  direction: PropTypes.string,
   name: PropTypes.string.isRequired,
   messages: PropTypes.shape({
     ariaLabel: PropTypes.string.isRequired,
@@ -73,6 +86,10 @@ ToolTip.propTypes = {
   noPopup: PropTypes.bool,
   onPopupClick: PropTypes.func,
   content: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+};
+
+ToolTip.defaultProps = {
+  direction: 'bottom',
 };
 
 export default ToolTip;

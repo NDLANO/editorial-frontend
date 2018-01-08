@@ -8,6 +8,7 @@
 
 .c-tooltip {
   display: inline;
+  position: relative;
   outline: none;
 
   &__button {
@@ -22,42 +23,78 @@
   }
 
   &__popup {
-    display: none;
-    margin-top: 5px;
-    position: absolute;
-    width: 24%;
-    box-sizing: border-box;
-    z-index: 1;
-    background: var(--brand-grey--lightest);
-    line-height: 25px;
+    background: var(--brand-grey--lighter);
     color: var(--brand-grey-dark);
     border: 2px solid var(--brand-grey-dark);
+    display: none;
+    box-sizing: border-box;
+    width: 24%;
     border-radius: 0.2rem;
     padding: 0.6rem;
+    z-index: 1;
+    line-height: 25px;
+    position: absolute;
     opacity: 0;
+
+    &::after {
+      background: var(--brand-grey--lighter);
+      border-left: 2px solid var(--brand-grey-dark);
+      border-top: 2px solid var(--brand-grey-dark);
+      content: "";
+      height: 15px;
+      position: absolute;
+      width: 15px;
+      z-index: -1;
+    }
+
+    &--top {
+      transform: translateY(-143%);
+
+      &::after {
+        margin-bottom: -8px;
+        bottom: 0;
+        left: 3.4rem;
+        transform: rotate(-135deg);
+      }
+    }
+
+    &--bottom {
+      transform: translateY(7%);
+
+      &::after {
+        margin-top: -8px;
+        top: 0;
+        left: 3.4rem;
+        transform: rotate(45deg);
+      }
+    }
+
+    &--right {
+      transform: translate(50%, -70%);
+
+      &::after {
+        left: -8px;
+        margin-top: -8px;
+        top: 50%;
+        transform: rotate(-45deg);
+      }
+    }
+
+    &--left {
+      transform: translate(-50%, -70%);
+
+      &::after {
+        right: -8px;
+        margin-top: -8px;
+        top: 50%;
+        transform: rotate(135deg);
+      }
+    }
   }
 
   &__popup--visible {
-    animation-name: fadeInTop;
-    animation-duration: 0.4s;
     opacity: 1;
     display: block;
-
-    &::after {
-      content: '';
-      display: inline-block;
-      position: absolute;
-      margin: auto;
-      margin-top: -10px;
-      top: 0;
-      left: 0;
-      right: 0;
-      width: 0;
-      height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-bottom: 10px solid var(--brand-grey-dark);
-    }
   }
 
   &__content {

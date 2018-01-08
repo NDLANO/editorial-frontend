@@ -83,6 +83,7 @@ export const getInitialModel = (article = {}) => {
     language: article.language,
     articleType: 'standard',
     status: article.status || [],
+    notes: article.notes || [],
   };
 };
 
@@ -137,6 +138,7 @@ class LearningResourceForm extends Component {
         rightsholders: model.rightsholders,
         agreementId: model.agreementId,
       },
+      notes: model.notes,
       language: model.language,
     });
   }
@@ -183,6 +185,7 @@ class LearningResourceForm extends Component {
           licenses={licenses}
         />
         <LearningResourceWorkflow
+          commonFieldProps={commonFieldProps}
           articleStatus={articleStatus}
           model={model}
           saveDraft={this.handleSubmit}

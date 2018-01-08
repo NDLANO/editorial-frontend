@@ -17,6 +17,8 @@ import { actions as draftActions } from '../../../modules/draft/draft';
 import { classes } from './LearningResourceForm';
 import * as messageActions from '../../Messages/messagesActions';
 import { articleStatuses } from '../../../util/formHelper';
+import AddNotes from '../../Form/AddNotes';
+import { CommonFieldPropsShape } from '../../../shapes';
 
 class LearningResourceWorkflow extends Component {
   constructor(props) {
@@ -58,13 +60,14 @@ class LearningResourceWorkflow extends Component {
   }
 
   render() {
-    const { t, model, publishDraft, saveDraft, articleStatus } = this.props;
+    const { t, model, publishDraft, saveDraft, articleStatus, commonFieldProps } = this.props;
     return (
       <Accordion
         fill
         handleToggle={this.toggleWorkflow}
         header={t('form.workflowSection')}
         hidden={this.state.hiddenWorkflow}>
+        <AddNotes name='notes' label='Legg til merknad' {...commonFieldProps}/>
         <span {...classes('title')}>Status</span>
         <div {...classes('status-columns')}>
           {articleStatuses.map(status => (
@@ -108,6 +111,7 @@ LearningResourceWorkflow.propTypes = {
   addMessage: PropTypes.func.isRequired,
   publishDraft: PropTypes.func.isRequired,
   saveDraft: PropTypes.func.isRequired,
+  commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 
 LearningResourceWorkflow.defaultProps = {

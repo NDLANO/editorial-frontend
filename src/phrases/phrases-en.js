@@ -239,6 +239,8 @@ const phrases = {
       },
       link: {
         goTo: 'Go to',
+        insert: 'Insert link',
+        update: 'Update link',
         change: 'Change',
         remove: 'Remove link',
         href: 'Link',

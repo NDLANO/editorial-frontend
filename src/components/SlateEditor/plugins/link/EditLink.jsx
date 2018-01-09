@@ -137,7 +137,7 @@ class EditLink extends React.Component {
   render() {
     const { t, value } = this.props;
     const { model } = this.state;
-    const isEdit = model !== undefined;
+    const isEdit = model !== undefined && model.href !== undefined;
 
     return (
       <div>

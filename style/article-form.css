@@ -6,7 +6,7 @@
  *
  */
 
-.c-topic-article-form {
+.c-form {
   & .c-editor__figure {
     position: relative;
   }
@@ -31,19 +31,16 @@
   }
 }
 
-.c-topic-article-form,
-.c-learning-resource-form {
+.c-form {
   &__header {
     background-color: var(--yellow-1);
   }
 }
 
 .c-form,
-.c-topic-article-form,
 .c-audio-form,
 .c-image-form,
-.c-agreement-form,
-.c-learning-resource-form {
+.c-agreement-form {
   @media (min-width: 37.5em) {
     padding-left: 0;
     padding-right: 0;
@@ -124,11 +121,11 @@
 }
 
 :root {
-  /* c-learning-resource-form -> clrf */
+  /* c-form -> clrf */
   --clrf__container--margin: 8em;
 }
 
-.c-learning-resource-form {
+.c-form {
   &__container {
     /* Hack to set focus to editor when clicking outside editor content area */
     .c-editor {

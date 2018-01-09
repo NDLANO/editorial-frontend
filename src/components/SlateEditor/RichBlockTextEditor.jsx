@@ -10,16 +10,11 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
 import RichTextEditor from './RichTextEditor';
 import { PluginShape } from '../../shapes';
-
-const classes = new BEMHelper({
-  name: 'learning-resource-form',
-  prefix: 'c-',
-});
+import { formClasses } from '../../containers/Form';
 
 class RichBlockTextEditor extends Component {
   constructor(props) {
@@ -79,12 +74,12 @@ class RichBlockTextEditor extends Component {
         {value.map((val, index) => (
           <div
             key={`editor_${index}`} //eslint-disable-line
-            {...classes('container')}>
+            {...formClasses('container')}>
             {value.length > 1 ? (
               <Button
                 stripped
                 onClick={() => this.removeSection(index)}
-                {...classes('remove-section-button')}>
+                {...formClasses('remove-section-button')}>
                 <Cross />
               </Button>
             ) : null}

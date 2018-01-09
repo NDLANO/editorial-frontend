@@ -14,10 +14,10 @@ import { connect } from 'react-redux';
 import Accordion from '../../components/Accordion';
 import { validateDraft } from '../../modules/draft/draftApi';
 import { actions as draftActions } from '../../modules/draft/draft';
-import formClasses from './formClasses';
 import * as messageActions from '../Messages/messagesActions';
 import { articleStatuses } from '../../util/formHelper';
-import AddNotes from './AddNotes';
+import { AddNotes, formClasses } from './';
+
 import { CommonFieldPropsShape } from '../../shapes';
 
 class FormWorkflow extends Component {
@@ -130,6 +130,4 @@ const mapDispatchToProps = {
   publishDraft: draftActions.publishDraft,
 };
 
-export default connect(undefined, mapDispatchToProps)(
-  injectT(FormWorkflow),
-);
+export default connect(undefined, mapDispatchToProps)(injectT(FormWorkflow));

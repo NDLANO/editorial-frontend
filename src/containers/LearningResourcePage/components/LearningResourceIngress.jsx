@@ -7,9 +7,8 @@
  */
 
 import React from 'react';
-import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
-
+import { formClasses } from '../../Form';
 import {
   PlainTextField,
   RemainingCharacters,
@@ -17,17 +16,12 @@ import {
 } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 
-const classes = new BEMHelper({
-  name: 'learning-resource-form',
-  prefix: 'c-',
-});
-
 const LearningResourceIngress = props => {
   const { t, commonFieldProps } = props;
   const { bindInput } = commonFieldProps;
 
   return (
-    <div {...classes('container')}>
+    <div {...formClasses('container')}>
       <PlainTextField
         label={t('form.introduction.label')}
         placeholder={t('form.introduction.label')}

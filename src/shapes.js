@@ -123,3 +123,10 @@ export const EditorShape = PropTypes.shape({
     }),
   }),
 });
+
+export const LicensesArrayOf = PropTypes.arrayOf(
+  PropTypes.shape({
+    description: PropTypes.string,
+    license: PropTypes.string,
+  }),
+).isRequired;

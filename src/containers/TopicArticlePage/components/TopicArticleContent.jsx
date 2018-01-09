@@ -137,7 +137,6 @@ TopicArticleContent.propTypes = {
   }),
   bindInput: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
-  classes: PropTypes.func.isRequired,
 };
 
 export default injectT(TopicArticleContent);

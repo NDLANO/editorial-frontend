@@ -14,7 +14,7 @@ import { actions as draftActions, getDraft } from '../../modules/draft/draft';
 import TopicArticleForm, {
   getInitialModel,
 } from './components/TopicArticleForm';
-import { ArticleShape } from '../../shapes';
+import { ArticleShape, LicensesArrayOf } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
 import {
   actions as tagActions,
@@ -92,6 +92,7 @@ EditTopicArticle.propTypes = {
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
   articleLanguage: PropTypes.string.isRequired,
+  licenses: LicensesArrayOf,
 };
 
 const mapDispatchToProps = {

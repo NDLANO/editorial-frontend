@@ -33,7 +33,6 @@ class MultiDropdown extends Component {
     this.handleStateChange = this.handleStateChange.bind(this);
     this.inputWrapperRef = this.inputWrapperRef.bind(this);
     this.inputRef = this.inputRef.bind(this);
-    this.onInputKeyDown = this.onInputKeyDown.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.onInputFocus = this.onInputFocus.bind(this);
     this.onWrapperClick = this.onWrapperClick.bind(this);
@@ -148,6 +147,7 @@ class MultiDropdown extends Component {
       textField,
       valueField,
       messages,
+      name,
       items,
       ...rest
     } = this.props;
@@ -215,6 +215,7 @@ class MultiDropdown extends Component {
 
 MultiDropdown.propTypes = {
   onChange: PropTypes.func,
+  name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   textField: PropTypes.string,
   valueField: PropTypes.string,

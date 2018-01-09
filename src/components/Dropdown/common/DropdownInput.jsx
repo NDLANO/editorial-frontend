@@ -27,7 +27,6 @@ const DropdownInput = props => {
   } = props;
   if (multiSelect) {
     const { handlePopupClick } = tagProps;
-
     return (
       // eslint-disable-next-line
       <div

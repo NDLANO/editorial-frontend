@@ -83,8 +83,8 @@ ToolTip.propTypes = {
   messages: PropTypes.shape({
     ariaLabel: PropTypes.string.isRequired,
   }),
-  noPopup: PropTypes.bool,
-  onPopupClick: PropTypes.func,
+  noPopup: PropTypes.bool.isRequired,
+  onPopupClick: PropTypes.func.isRequired,
   content: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
 };
 

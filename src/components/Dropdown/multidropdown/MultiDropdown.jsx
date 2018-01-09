@@ -12,7 +12,7 @@ import Downshift from 'downshift';
 import {
   DropdownMenu,
   DropdownInput,
-  DropdownSearchAction,
+  DropdownAction,
   dropDownClasses,
 } from '../common';
 import { itemToString } from '../../../util/downShiftHelpers';
@@ -49,33 +49,11 @@ class MultiDropdown extends Component {
     }
   }
 
-  onInputKeyDown(event) {
-    const { inputValue } = this.state;
-    const currentValue = event.target.value;
-
-    /*  switch (event.keyCode) {
-      case 8: // backspace
-        if (!currentValue) {
-          event.preventDefault();
-          this.popValue();
-        }
-        return;
-      case 46: // backspace
-        if (!this.state.inputValue && this.props.deleteRemoves) {
-          event.preventDefault();
-          this.popValue();
-  }
-        return;
-      default: return;
-    } */
-    // event.preventDefault();
-  }
-
   onInputChange(e) {
     this.setState({ inputValue: e.target.value });
   }
 
-  onInputFocus(e) {
+  onInputFocus() {
     if (!this.state.isOpen) {
       this.handleToggleMenu();
     }
@@ -166,7 +144,6 @@ class MultiDropdown extends Component {
 
   render() {
     const {
-      selectedItem,
       placeholder,
       textField,
       valueField,
@@ -188,6 +165,7 @@ class MultiDropdown extends Component {
       onChange: this.onInputChange,
       onKeyDown: this.onInputKeyDown,
       onFocus: this.onInputFocus,
+      placeholder,
     };
 
     const tagProps = {
@@ -223,7 +201,7 @@ class MultiDropdown extends Component {
               valueField={valueField}
               multiSelect
             />
-            <DropdownSearchAction
+            <DropdownAction
               multiSelect
               onToggleMenu={this.handleToggleMenu}
               {...downshiftProps}
@@ -236,7 +214,7 @@ class MultiDropdown extends Component {
 }
 
 MultiDropdown.propTypes = {
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   placeholder: PropTypes.string,
   textField: PropTypes.string,
   valueField: PropTypes.string,
@@ -244,7 +222,7 @@ MultiDropdown.propTypes = {
     emptyFilter: PropTypes.string.isRequired,
     emptyList: PropTypes.string.isRequired,
   }),
-  items: PropTypes.shape({}),
+  items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };
 
 export default MultiDropdown;

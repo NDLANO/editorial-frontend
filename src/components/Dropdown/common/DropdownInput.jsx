@@ -96,7 +96,9 @@ DropdownInput.propTypes = {
     onKeyDown: PropTypes.func,
     onFocus: PropTypes.func,
   }),
-  tagProps: PropTypes.shape({}),
+  tagProps: PropTypes.shape({
+    primaryResourceType: PropTypes.shape({}),
+  }),
 };
 
 DropdownInput.defaultProps = {

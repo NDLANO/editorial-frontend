@@ -12,14 +12,14 @@ import PropTypes from 'prop-types';
 import { Plus } from 'ndla-icons/action';
 import { classes } from './Fields';
 
-const CirclePlusButton = ({onClick}) => (
+const CirclePlusButton = ({ onClick }) => (
   <Button {...classes('circle-button')} stripped onClick={onClick}>
     <Plus className="c-icon--medium" />
   </Button>
-)
+);
 
 CirclePlusButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-}
+};
 
 export default CirclePlusButton;

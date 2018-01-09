@@ -60,14 +60,21 @@ class LearningResourceWorkflow extends Component {
   }
 
   render() {
-    const { t, model, publishDraft, saveDraft, articleStatus, commonFieldProps } = this.props;
+    const {
+      t,
+      model,
+      publishDraft,
+      saveDraft,
+      articleStatus,
+      commonFieldProps,
+    } = this.props;
     return (
       <Accordion
         fill
         handleToggle={this.toggleWorkflow}
         header={t('form.workflowSection')}
         hidden={this.state.hiddenWorkflow}>
-        <AddNotes name='notes' label='Legg til merknad' {...commonFieldProps}/>
+        <AddNotes name="notes" label="Legg til merknad" {...commonFieldProps} />
         <span {...classes('title')}>Status</span>
         <div {...classes('status-columns')}>
           {articleStatuses.map(status => (

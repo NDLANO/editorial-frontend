@@ -10,18 +10,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Plus, Cross } from 'ndla-icons/action';
-import { Field, FieldErrorMessages, getField, classes } from '../../components/Fields';
+import {
+  Field,
+  FieldErrorMessages,
+  getField,
+  classes,
+} from '../../components/Fields';
 import CirclePlusButton from '../../components/CirclePlusButton';
 
 const AddNotes = props => {
-  const {
-    name,
-    label,
-    schema,
-    submitted,
-    placeholder,
-    bindInput,
-  } = props;
+  const { name, label, schema, submitted, placeholder, bindInput } = props;
   const { onChange, value } = bindInput(name);
 
   const onNotesChange = newContributors => {
@@ -51,13 +49,18 @@ const AddNotes = props => {
     onNotesChange(newNotes);
   };
 
-
   return (
     <Field>
       <label htmlFor={name}>{label}</label>
       {value.map((note, index) => (
-        <div key={/* eslint-disable */ `notes_${index}` /* eslint-enable */} {...classes('d', 'flex')}>
-          <input value={note} placeholder={placeholder} onChange={e => handleNoteChange(e, index)} />
+        <div
+          key={/* eslint-disable */ `notes_${index}` /* eslint-enable */}
+          {...classes('removable')}>
+          <input
+            value={note}
+            placeholder={placeholder}
+            onChange={e => handleNoteChange(e, index)}
+          />
           <Button stripped onClick={e => removeNote(e, index)}>
             <Cross className="c-icon--medium" />
           </Button>

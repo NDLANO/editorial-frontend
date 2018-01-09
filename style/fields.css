@@ -118,22 +118,31 @@
     }
   }
 
-  &__three-column {
+  &__add-contributor {
     display: flex;
     flex-flow: row;
-    margin-top: var(--spacing--small);
 
     & > * {
       display: inline-block;
     }
 
     & > *:nth-child(1) {
-      width: 60%;
+      width: 65%;
     }
 
     & > *:nth-child(2) {
       margin-left: 0.5rem;
       width: 35%;
+    }
+  }
+
+  &__removable {
+    display: flex;
+    flex-flow: row;
+    margin-top: var(--spacing--small);
+
+    & > *:nth-child(1) {
+      width: 95%;
     }
 
     & > *:nth-child(3) {

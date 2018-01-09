@@ -6,15 +6,16 @@
  *
  */
 
-.c-form,
-.c-agreement-form {
+.c-form {
   &--gray-background {
     background-color: var(--brand-grey--lightest);
     padding-bottom: 3rem;
   }
+
   &__header {
     color: white;
   }
+
   &__header--article {
     background-color: var(--article-color);
   }
@@ -105,9 +106,11 @@
       width: 24%;
     }
   }
+
   & .c-editor__figure {
     position: relative;
   }
+
   &__container {
     /* Hack to set focus to editor when clicking outside editor content area */
     .c-editor {

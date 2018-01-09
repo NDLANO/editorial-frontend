@@ -30,7 +30,7 @@ const ArticleHeader = props => {
   );
   if (!model.id) {
     return (
-      <div {...formClasses('header')}>
+      <div {...formClasses('header', 'article')}>
         <div className="u-4/6@desktop u-push-1/6@desktop">
           {t(`${types[model.articleType]}.title.create`, language)}
         </div>
@@ -39,7 +39,7 @@ const ArticleHeader = props => {
   }
 
   return (
-    <div {...formClasses('header')}>
+    <div {...formClasses('header', 'article')}>
       <div className="u-4/6@desktop u-push-1/6@desktop">
         <span>{t(`${types[model.articleType]}.title.update`, language)}</span>
         <span>

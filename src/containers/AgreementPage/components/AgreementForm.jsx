@@ -49,7 +49,7 @@ export const getInitialModel = (agreement = {}) => ({
 });
 
 const classes = new BEMHelper({
-  name: 'agreement-form',
+  name: 'form',
   prefix: 'c-',
 });
 
@@ -99,8 +99,8 @@ class AgreementForm extends Component {
     const commonFieldProps = { bindInput, schema, submitted };
 
     return (
-      <form onSubmit={event => this.handleSubmit(event)} {...classes()}>
-        <div {...classes('header')}>
+      <form onSubmit={event => this.handleSubmit(event)} {...classes('', 'gray-background')}>
+        <div {...classes('header', 'other')}>
           <div className="u-4/6@desktop">
             <Copy />
             <span>

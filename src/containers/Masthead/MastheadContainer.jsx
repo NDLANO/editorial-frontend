@@ -8,38 +8,33 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Masthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
+import { Masthead, MastheadItem, Logo } from 'ndla-ui';
+import BEMHelper from 'react-bem-helper';
 import MastHeadSearch from './MastheadSearch';
-import { toLogin, toLogout } from '../../util/routeHelpers';
+import SessionContainer from './components/SessionContainer';
+import SubMasthead from './components/SubMasthead';
 
-const AuthSiteNavItem = ({ t, name, authenticated }) => {
-  if (authenticated) {
-    return (
-      <SiteNavItem to={toLogout()}>{t('siteNav.logout', { name })}</SiteNavItem>
-    );
-  }
-  return <SiteNavItem to={toLogin()}>{t('siteNav.login')}</SiteNavItem>;
-};
-
-AuthSiteNavItem.propTypes = {
-  t: PropTypes.func.isRequired,
-  authenticated: PropTypes.bool.isRequired,
-  name: PropTypes.string,
-};
+const classes = new BEMHelper({
+  name: 'masthead',
+  prefix: 'c-',
+});
 
 const MastheadContainer = ({ t, authenticated, userName }) => (
   <Masthead>
-    <MastheadItem left>
-      <Logo to="/" altText="Nasjonal digital læringsarena" />
-      <MastHeadSearch t={t} />
-    </MastheadItem>
-    <MastheadItem right>
-      <SiteNav>
-        <AuthSiteNavItem t={t} authenticated={authenticated} name={userName}>
-          {t('siteNav.search')}
-        </AuthSiteNavItem>
-      </SiteNav>
-    </MastheadItem>
+    <div {...classes('container')}>
+      <MastheadItem>
+        <SubMasthead t={t} />
+      </MastheadItem>
+      <MastheadItem>
+        <MastHeadSearch t={t} />
+      </MastheadItem>
+      <MastheadItem>
+        <SessionContainer userName={userName} authenticated={authenticated} />
+      </MastheadItem>
+      <MastheadItem>
+        <Logo to="/" altText="Nasjonal digital læringsarena" />
+      </MastheadItem>
+    </div>
   </Masthead>
 );
 

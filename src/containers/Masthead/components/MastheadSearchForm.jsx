@@ -98,10 +98,10 @@ export class MastheadSearchForm extends Component {
   }
 
   render() {
-    const { show, searching, t } = this.props;
+    const { searching, t } = this.props;
 
     return (
-      <form onSubmit={this.handleSubmit} {...classes(show ? '' : 'hidden')}>
+      <form onSubmit={this.handleSubmit} {...classes()}>
         <input
           type="text"
           {...classes('query')}
@@ -118,7 +118,6 @@ export class MastheadSearchForm extends Component {
 }
 
 MastheadSearchForm.propTypes = {
-  show: PropTypes.bool.isRequired,
   locale: PropTypes.string.isRequired,
   query: PropTypes.string,
   searching: PropTypes.bool.isRequired,
@@ -129,7 +128,6 @@ MastheadSearchForm.propTypes = {
 };
 
 MastheadSearchForm.defaultProps = {
-  show: false,
   query: '',
 };
 

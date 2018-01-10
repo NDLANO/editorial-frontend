@@ -17,6 +17,25 @@
   }
 }
 
+.c-masthead__container {
+  display: flex;
+  margin: 0 auto;
+  justify-content: flex-start;
+  text-align: center;
+
+  & > * {
+    margin-left: 1rem;
+    align-self: center;
+  }
+
+}
+
+.c-masthead {
+  background-color: var(--gray-12);
+  & > div {
+    padding-left: 0;
+  }
+}
 .masthead > div {
   padding: 18px -1px 52px 52px;
 }
@@ -25,18 +44,111 @@
   display: flex;
 }
 
+.masthead-session {
+  position: relative;
+  &__container {
+    position: absolute;
+    background-color: white;
+    z-index: 2;
+    text-align: left;
+    margin-left: -6rem;
+    margin-top: 1rem;
+    border: 1px solid var(--brand-grey);
+    border-radius: 1px;
+    padding: 1rem 2rem;
+    min-width: 15rem;
+    min-height: 10rem;
+
+    &--hidden {
+      display: none;
+    }
+  }
+
+  &__overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    background-color: white;
+    opacity: 0.8;
+  }
+
+  &__close-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.masthead-session__button,
+.masthead-sub__button {
+  color: var(--brand-grey);
+  border: 1px solid var(--brand-grey);
+  border-radius: 1px;
+  background-color: white;
+  padding: 0.2rem;
+  height: 42px;
+  &:hover,
+  &:focus {
+    background-color: white;
+    color: var(--brand-grey);
+    border: 1px solid var(--brand-grey);
+  }
+}
+
+.masthead-sub {
+  &__button {
+    color: var(--brand-color);
+    min-width: 4rem;
+    display: flex;
+    justify-content: space-between;
+    &:hover,
+    &:focus {
+      color: var(--brand-color);
+    }
+  }
+
+  &__icon--hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 300ms, opacity 200ms;
+  }
+
+  &__icon--show {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 200ms;
+  }
+  &__container {
+    height: 10rem;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    margin-top: 1rem;
+    background-color: var(--brand-color--secondary);
+  }
+  &__container--hidden {
+    display: none;
+  }
+  &__items {
+    margin: 0 auto;
+    display: flex;
+  }
+  &__item {
+    color: white;
+  }
+}
+
 .masthead-search-form {
-  margin-top: 12px;
   min-width: 670px;
   height: 42px;
   border-width: 1px;
   border-style: solid;
-  border-color: rgba(0, 90, 145, 1);
-  border-radius: 3px;
-
-  &__hidden {
-    display: none;
-  }
+  border-color: var(--brand-grey);
+  border-radius: 1px;
+  background-color: white;
 
   &__query {
     font-weight: 200;
@@ -50,7 +162,7 @@
   }
 
   &__button {
-    color: var(--brand-color);
+    color: var(--brand-grey);
 
     &:hover,
     &:focus,

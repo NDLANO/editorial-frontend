@@ -27,10 +27,7 @@ const SlateRightAside = props => {
         {t('learningResourceForm.fields.rightAside')}
       </div>
       <div className="c-aside__content">{children}</div>
-      <Button
-        stripped
-        onClick={onRemoveClick}
-        {...classes('delete-aside-button')}>
+      <Button stripped onClick={onRemoveClick} {...classes('delete-button')}>
         <Cross />
       </Button>
     </aside>

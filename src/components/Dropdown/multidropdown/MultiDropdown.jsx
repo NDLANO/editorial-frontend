@@ -229,6 +229,9 @@ MultiDropdown.propTypes = {
     emptyList: PropTypes.string.isRequired,
   }),
   items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  selectedItems: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  additionalResources: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  primaryTopic: PropTypes.shape({}),
 };
 
 export default MultiDropdown;

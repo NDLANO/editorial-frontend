@@ -5,7 +5,6 @@
 
   &__multiselect {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     outline: none;
     align-items: center;
@@ -97,5 +96,33 @@
     border-radius: 50%;
     text-align: center;
     background: black;
+  }
+
+  &__radio {
+    position: relative;
+    display: flex;
+    flex-flow: wrap;
+    font-size: 1rem !important;
+    outline: none;
+
+    &--description {
+      margin-bottom: 10px;
+      cursor: initial;
+    }
+
+    &--label {
+      min-height: 34px;
+      padding-left: 25px;
+      margin-bottom: 0;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    & input[type=radio] {
+      line-height: normal;
+      margin: 4px 0 0;
+      position: absolute;
+      margin-left: -25px;
+    }
   }
 }

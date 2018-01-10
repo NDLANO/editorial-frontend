@@ -36,13 +36,12 @@ const DropdownInput = props => {
         tabIndex="-1">
         {selectedItem.map(
           (tag, index) =>
-            name === 'resourceTypes' ? (
+            name === 'topics' ? (
               <ToolTip
                 key={`${name}-tooptip-${tag.id}`}
                 name={name}
-                direction="bottom"
                 onPopupClick={() => handlePopupClick(tag, name)}
-                noPopup={tag === tagProps.primaryResourceType}
+                noPopup={tag === tagProps.primaryTopic}
                 messages={{ ariaLabel: 'tooltip' }}
                 content="Velg som primærkoblet emne">
                 <DropdownTag
@@ -96,7 +95,8 @@ DropdownInput.propTypes = {
     onFocus: PropTypes.func,
   }),
   tagProps: PropTypes.shape({
-    primaryResourceType: PropTypes.shape({}),
+    handlePopupClick: PropTypes.func.isRequired,
+    primaryTopic: PropTypes.shape({}),
   }),
 };
 

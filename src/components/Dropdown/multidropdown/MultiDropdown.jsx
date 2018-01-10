@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import {
@@ -17,14 +17,15 @@ import {
 } from '../common';
 import { itemToString } from '../../../util/downShiftHelpers';
 
-class MultiDropdown extends Component {
+class MultiDropdown extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       inputValue: '',
       selectedItems: [],
+      addionalResources: [],
+      primaryTopic: {},
       isOpen: false,
-      primaryResourceType: {},
     };
     this.handleChange = this.handleChange.bind(this);
     this.addSelectedItem = this.addSelectedItem.bind(this);
@@ -36,7 +37,7 @@ class MultiDropdown extends Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.onInputFocus = this.onInputFocus.bind(this);
     this.onWrapperClick = this.onWrapperClick.bind(this);
-    this.setPrimaryResourceType = this.setPrimaryResourceType.bind(this);
+    this.setPrimaryTopic = this.setPrimaryTopic.bind(this);
     this.handlePopupClick = this.handlePopupClick.bind(this);
   }
 
@@ -58,13 +59,23 @@ class MultiDropdown extends Component {
     }
   }
 
-  setPrimaryResourceType(selectedItem) {
-    this.setState({ primaryResourceType: selectedItem });
+  setPrimaryTopic(selectedItem) {
+    this.setState({ primaryTopic: selectedItem });
   }
 
-  handlePopupClick(selectedItem, name) {
-    if (name === 'resourceTypes') {
-      this.setPrimaryResourceType(selectedItem);
+  handlePopupClick(selectedItem, name, itemProperty) {
+    const { addionalResources } = this.state;
+    if (name === 'topics') {
+      this.setPrimaryTopic(selectedItem);
+    }
+
+    if (name === 'filter') {
+      if (itemProperty === 'T' && !addionalResources.includes(selectedItem)) {
+        this.addSelectedItem(selectedItem, 'addionalResources', name);
+      }
+      if (itemProperty === 'K' && addionalResources.includes(selectedItem)) {
+        this.removeItem(selectedItem, 'addionalResources', name);
+      }
     }
   }
 
@@ -90,37 +101,36 @@ class MultiDropdown extends Component {
     const { id } = stateAndHelpers;
 
     if (selectedItems.includes(selectedItem)) {
-      this.removeItem(selectedItem, id);
+      this.removeItem(selectedItem, 'selectedItems', id);
     } else {
-      this.addSelectedItem(selectedItem, id);
+      this.addSelectedItem(selectedItem, 'selectedItems', id);
     }
     // onChange({ target: { name, value: selectedItem } });
   }
 
-  addSelectedItem(selectedItem, id) {
-    const { selectedItems } = this.state;
-    this.setState({
-      selectedItems: [...selectedItems, selectedItem],
-    });
+  addSelectedItem(selectedItem, items, id) {
+    this.setState(prevState => ({
+      [items]: [...prevState[items], selectedItem],
+    }));
 
-    if (id === 'resourceTypes') {
-      if (selectedItems.length === 0) {
-        this.setState({ primaryResourceType: selectedItem });
+    if (id === 'topics') {
+      if (this.state[items].length === 0) {
+        this.setState({ primaryTopic: selectedItem });
       }
     }
   }
 
-  removeItem(selectedItem, id) {
-    const { selectedItems, primaryResourceType } = this.state;
+  removeItem(selectedItem, items, id) {
+    const { primaryTopic } = this.state;
 
-    const copy = [...selectedItems];
+    const copy = [...this.state[items]];
     copy.splice(copy.findIndex(element => element.id === selectedItem.id), 1);
     copy.filter(val => val);
-    this.setState({ selectedItems: copy });
+    this.setState({ [items]: copy });
 
-    if (id === 'resourceTypes') {
-      if (selectedItem === primaryResourceType) {
-        this.setState({ primaryResourceType: copy.length > 0 ? copy[0] : {} });
+    if (id === 'topics') {
+      if (selectedItem === primaryTopic) {
+        this.setState({ primaryTopic: copy.length > 0 ? copy[0] : {} });
       }
     }
   }
@@ -152,12 +162,7 @@ class MultiDropdown extends Component {
       ...rest
     } = this.props;
 
-    const {
-      selectedItems,
-      isOpen,
-      inputValue,
-      primaryResourceType,
-    } = this.state;
+    const { selectedItems, isOpen, inputValue, primaryTopic } = this.state;
 
     const inputProps = {
       value: inputValue,
@@ -169,7 +174,7 @@ class MultiDropdown extends Component {
     };
 
     const tagProps = {
-      primaryResourceType,
+      primaryTopic,
       handlePopupClick: this.handlePopupClick,
     };
 

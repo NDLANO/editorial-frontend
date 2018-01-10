@@ -45,6 +45,7 @@ class ToolTip extends Component {
       messages,
       content,
       children,
+      onPopupClick,
       noPopup,
     } = this.props;
 
@@ -64,7 +65,7 @@ class ToolTip extends Component {
           {children}
         </div>
         <span
-          onClick={this.handlePopupClick}
+          onClick={onPopupClick ? this.handlePopupClick : this.togglePopup}
           aria-hidden="true"
           role="dialog"
           aria-labelledby={name}
@@ -83,13 +84,15 @@ ToolTip.propTypes = {
   messages: PropTypes.shape({
     ariaLabel: PropTypes.string.isRequired,
   }),
-  noPopup: PropTypes.bool.isRequired,
-  onPopupClick: PropTypes.func.isRequired,
+  noPopup: PropTypes.bool,
+  onPopupClick: PropTypes.func,
   content: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
 };
 
 ToolTip.defaultProps = {
   direction: 'bottom',
+  noPopup: false,
+  onPopupClick: undefined,
 };
 
 export default ToolTip;

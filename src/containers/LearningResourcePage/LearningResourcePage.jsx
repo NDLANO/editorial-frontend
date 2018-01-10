@@ -15,11 +15,6 @@ import {
   actions as licenseActions,
   getAllLicenses,
 } from '../../modules/license/license';
-import {
-  fetchResourceTypes,
-  fetchFilters,
-  fetchTopics,
-} from '../../modules/taxonomy';
 import { getSaving } from '../../modules/draft/draft';
 import { getLocale } from '../../modules/locale/locale';
 import EditLearningResource from './EditLearningResource';
@@ -27,40 +22,18 @@ import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 class LearningResourcePage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      taxonomy: {
-        resourceTypes: [],
-        filters: [],
-        topics: [],
-      },
-    };
-  }
-
   async componentWillMount() {
-    const { fetchLicenses, locale } = this.props;
+    const { fetchLicenses } = this.props;
     fetchLicenses();
-
-    try {
-      const resourceTypes = await fetchResourceTypes(locale);
-      const filters = await fetchFilters(locale);
-      const topics = await fetchTopics(locale);
-      this.setState({ taxonomy: { resourceTypes, filters, topics } });
-    } catch (e) {
-      throw new Error(e);
-    }
   }
 
   render() {
-    const { taxonomy } = this.state;
     const { locale, match, history, isSaving, licenses } = this.props;
 
     const defaultResourceProps = {
       locale,
       isSaving,
       licenses,
-      taxonomy,
     };
 
     return (

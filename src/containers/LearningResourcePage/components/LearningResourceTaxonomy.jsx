@@ -7,18 +7,42 @@
  */
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { MultiSelectDropdown } from '../../../components/Fields';
 import { CommonFieldPropsShape, TaxonomyShape } from '../../../shapes';
 import Accordion from '../../../components/Accordion';
+import {
+  fetchResourceTypes,
+  fetchFilters,
+  fetchTopics,
+} from '../../../modules/taxonomy';
 
 class LearningResourceTaxonomy extends Component {
   constructor(props) {
     super(props);
     this.state = {
       hiddenContent: true,
+      taxonomy: {
+        resourceTypes: [],
+        filters: [],
+        topics: [],
+      },
     };
     this.toggleContent = this.toggleContent.bind(this);
+  }
+
+  async componentWillMount() {
+    const { locale } = this.props;
+
+    try {
+      const resourceTypes = await fetchResourceTypes(locale);
+      const filters = await fetchFilters(locale);
+      const topics = await fetchTopics(locale);
+      this.setState({ taxonomy: { resourceTypes, filters, topics } });
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 
   toggleContent() {
@@ -28,7 +52,8 @@ class LearningResourceTaxonomy extends Component {
   }
 
   render() {
-    const { t, commonFieldProps, taxonomy } = this.props;
+    const { taxonomy } = this.state;
+    const { t, commonFieldProps, model } = this.props;
 
     const defaultDropdownProps = {
       obligatory: true,
@@ -46,6 +71,7 @@ class LearningResourceTaxonomy extends Component {
           name="resourceTypes"
           placeholder={t('form.resourceTypes.placeholder')}
           label={t('form.resourceTypes.label')}
+          selectedItems={model.resourceTypes}
           items={taxonomy.resourceTypes}
           messages={{
             emptyFilter: t('form.resourceTypes.emptyFilter'),
@@ -83,6 +109,11 @@ class LearningResourceTaxonomy extends Component {
 LearningResourceTaxonomy.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
   taxonomy: TaxonomyShape,
+  model: PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    language: PropTypes.string,
+  }),
 };
 
 export default injectT(LearningResourceTaxonomy);

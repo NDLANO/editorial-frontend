@@ -14,7 +14,7 @@ import { actions, getDraft } from '../../modules/draft/draft';
 import LearningResourceForm, {
   getInitialModel,
 } from './components/LearningResourceForm';
-import { ArticleShape, TaxonomyShape } from '../../shapes';
+import { ArticleShape } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
 import {
   actions as tagActions,
@@ -56,7 +56,7 @@ class EditLearningResource extends Component {
   }
 
   render() {
-    const { article, tags, isSaving, taxonomy, licenses } = this.props;
+    const { article, tags, isSaving, licenses, locale } = this.props;
     if (!article) {
       return null;
     }
@@ -73,10 +73,10 @@ class EditLearningResource extends Component {
         revision={article.revision}
         articleStatus={article.status}
         tags={tags}
-        taxonomy={taxonomy}
         licenses={licenses}
         isSaving={isSaving}
         onUpdate={this.updateDraft}
+        locale={locale}
       />
     );
   }
@@ -99,7 +99,6 @@ EditLearningResource.propTypes = {
   setDraft: PropTypes.func.isRequired,
   articleLanguage: PropTypes.string.isRequired,
   fetchTags: PropTypes.func.isRequired,
-  taxonomy: TaxonomyShape,
 };
 
 const mapDispatchToProps = {

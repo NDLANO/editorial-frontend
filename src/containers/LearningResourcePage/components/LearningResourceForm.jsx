@@ -24,7 +24,7 @@ import {
 } from '../../../util/articleContentConverter';
 import { isUserProvidedEmbedDataValid } from '../../../util/embedTagHelpers';
 import { findNodesByType } from '../../../util/slateHelpers';
-import { SchemaShape, TaxonomyShape } from '../../../shapes';
+import { SchemaShape } from '../../../shapes';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
@@ -163,7 +163,7 @@ class LearningResourceForm extends Component {
       tags,
       licenses,
       isSaving,
-      taxonomy,
+      locale,
       articleStatus,
     } = this.props;
 
@@ -192,8 +192,8 @@ class LearningResourceForm extends Component {
         </LearningResourceContent>
         <LearningResourceTaxonomy
           commonFieldProps={commonFieldProps}
+          locale={locale}
           model={model}
-          taxonomy={taxonomy}
         />
         <LearningResourceCopyright
           model={model}
@@ -238,12 +238,12 @@ LearningResourceForm.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  taxonomy: TaxonomyShape,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
   setModel: PropTypes.func.isRequired,
   revision: PropTypes.number,
+  locale: PropTypes.string,
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,

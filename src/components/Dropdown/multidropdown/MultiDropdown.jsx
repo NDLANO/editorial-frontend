@@ -22,9 +22,9 @@ class MultiDropdown extends PureComponent {
     super(props);
     this.state = {
       inputValue: '',
-      selectedItems: [],
-      addionalResources: [],
-      primaryTopic: {},
+      selectedItems: props.selectedItems || [],
+      additionalResources: props.additionalResources || [],
+      primaryTopic: props.additionalResources || {},
       isOpen: false,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -64,17 +64,17 @@ class MultiDropdown extends PureComponent {
   }
 
   handlePopupClick(selectedItem, name, itemProperty) {
-    const { addionalResources } = this.state;
+    const { additionalResources } = this.state;
     if (name === 'topics') {
       this.setPrimaryTopic(selectedItem);
     }
 
     if (name === 'filter') {
-      if (itemProperty === 'T' && !addionalResources.includes(selectedItem)) {
-        this.addSelectedItem(selectedItem, 'addionalResources', name);
+      if (itemProperty === 'T' && !additionalResources.includes(selectedItem)) {
+        this.addSelectedItem(selectedItem, 'additionalResources', name);
       }
-      if (itemProperty === 'K' && addionalResources.includes(selectedItem)) {
-        this.removeItem(selectedItem, 'addionalResources', name);
+      if (itemProperty === 'K' && additionalResources.includes(selectedItem)) {
+        this.removeItem(selectedItem, 'additionalResources', name);
       }
     }
   }

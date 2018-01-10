@@ -7,7 +7,7 @@
  */
 
 import { take, call, put, select } from 'redux-saga/effects';
-import * as api from '../article/articleApi';
+import * as api from '../draft/draftApi';
 import { actions, getHasFetched } from './license';
 
 export function* fetchLicenses() {

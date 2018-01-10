@@ -16,6 +16,7 @@ import { actions as draftActions } from '../../modules/draft/draft';
 import LearningResourceForm, {
   getInitialModel,
 } from './components/LearningResourceForm';
+import { TaxonomyShape } from '../../shapes';
 
 class CreateLearningResource extends Component {
   constructor(props) {
@@ -34,22 +35,12 @@ class CreateLearningResource extends Component {
   }
 
   render() {
-    const {
-      tags,
-      locale,
-      isSaving,
-      resourceTypes,
-      filters,
-      topics,
-      licenses,
-    } = this.props;
+    const { tags, locale, isSaving, taxonomy, licenses } = this.props;
     return (
       <LearningResourceForm
         initialModel={getInitialModel({ language: locale })}
         tags={tags}
-        resourceTypes={resourceTypes}
-        filters={filters}
-        topics={topics}
+        taxonomy={taxonomy}
         licenses={licenses}
         isSaving={isSaving}
         onUpdate={this.updateDraft}
@@ -66,9 +57,6 @@ CreateLearningResource.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  resourceTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  topics: PropTypes.arrayOf(PropTypes.object).isRequired,
-  filters: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
@@ -76,6 +64,7 @@ CreateLearningResource.propTypes = {
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
   fetchTags: PropTypes.func.isRequired,
+  taxonomy: TaxonomyShape,
 };
 
 const mapDispatchToProps = {

@@ -24,7 +24,7 @@ import {
 } from '../../../util/articleContentConverter';
 import { isUserProvidedEmbedDataValid } from '../../../util/embedTagHelpers';
 import { findNodesByType } from '../../../util/slateHelpers';
-import { SchemaShape } from '../../../shapes';
+import { SchemaShape, TaxonomyShape } from '../../../shapes';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
@@ -69,9 +69,11 @@ export const getInitialModel = (article = {}) => {
     introduction: plainTextToEditorValue(article.introduction, true),
     content: learningResourceContentToEditorValue(article.content),
     tags: article.tags || [],
-    resourceTypes: [],
-    filter: [],
-    topics: [],
+    taxonomy: {
+      resourceTypes: [],
+      filter: [],
+      topics: [],
+    },
     creators: creatorsWithDefault(article),
     processors: parseCopyrightContributors(article, 'processors'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
@@ -130,9 +132,11 @@ class LearningResourceForm extends Component {
       title: model.title,
       introduction: editorValueToPlainText(model.introduction),
       tags: model.tags,
-      resourceTypes: model.resourceTypes,
-      filter: model.filter,
-      topics: model.topics,
+      taxonomy: {
+        resourceTypes: model.resourceTypes,
+        filter: model.filter,
+        topics: model.topics,
+      },
       content: content && content.length > 0 ? content : emptyContent,
       metaImageId: model.metaImageId,
       metaDescription: editorValueToPlainText(model.metaDescription),
@@ -159,9 +163,7 @@ class LearningResourceForm extends Component {
       tags,
       licenses,
       isSaving,
-      resourceTypes,
-      filters,
-      topics,
+      taxonomy,
       articleStatus,
     } = this.props;
 
@@ -190,9 +192,8 @@ class LearningResourceForm extends Component {
         </LearningResourceContent>
         <LearningResourceTaxonomy
           commonFieldProps={commonFieldProps}
-          resourceTypes={resourceTypes}
-          filters={filters}
-          topics={topics}
+          model={model}
+          taxonomy={taxonomy}
         />
         <LearningResourceCopyright
           model={model}
@@ -237,9 +238,7 @@ LearningResourceForm.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  resourceTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  topics: PropTypes.arrayOf(PropTypes.object).isRequired,
-  filters: PropTypes.arrayOf(PropTypes.object).isRequired,
+  taxonomy: TaxonomyShape,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,

@@ -29,7 +29,13 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 class LearningResourcePage extends Component {
   constructor(props) {
     super(props);
-    this.state = { resourceTypes: [], filters: [], topics: [] };
+    this.state = {
+      taxonomy: {
+        resourceTypes: [],
+        filters: [],
+        topics: [],
+      },
+    };
   }
 
   async componentWillMount() {
@@ -40,23 +46,21 @@ class LearningResourcePage extends Component {
       const resourceTypes = await fetchResourceTypes(locale);
       const filters = await fetchFilters(locale);
       const topics = await fetchTopics(locale);
-      this.setState({ resourceTypes, filters, topics });
+      this.setState({ taxonomy: { resourceTypes, filters, topics } });
     } catch (e) {
       throw new Error(e);
     }
   }
 
   render() {
-    const { resourceTypes, filters, topics } = this.state;
+    const { taxonomy } = this.state;
     const { locale, match, history, isSaving, licenses } = this.props;
 
     const defaultResourceProps = {
       locale,
       isSaving,
       licenses,
-      resourceTypes,
-      filters,
-      topics,
+      taxonomy,
     };
 
     return (

@@ -7,10 +7,9 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { MultiSelectDropdown } from '../../../components/Fields';
-import { CommonFieldPropsShape } from '../../../shapes';
+import { CommonFieldPropsShape, TaxonomyShape } from '../../../shapes';
 import Accordion from '../../../components/Accordion';
 
 class LearningResourceTaxonomy extends Component {
@@ -29,7 +28,7 @@ class LearningResourceTaxonomy extends Component {
   }
 
   render() {
-    const { t, commonFieldProps, resourceTypes, filters, topics } = this.props;
+    const { t, commonFieldProps, taxonomy } = this.props;
 
     const defaultDropdownProps = {
       obligatory: true,
@@ -47,37 +46,34 @@ class LearningResourceTaxonomy extends Component {
           name="resourceTypes"
           placeholder={t('form.resourceTypes.placeholder')}
           label={t('form.resourceTypes.label')}
-          items={resourceTypes}
+          items={taxonomy.resourceTypes}
           messages={{
             emptyFilter: t('form.resourceTypes.emptyFilter'),
             emptyList: t('form.resourceTypes.emptyList'),
           }}
-          {...defaultDropdownProps}
-          {...commonFieldProps}
+          {...{ ...defaultDropdownProps, ...commonFieldProps }}
         />
         <MultiSelectDropdown
           name="filter"
           placeholder={t('form.filter.placeholder')}
-          items={filters}
+          items={taxonomy.filters}
           label={t('form.filter.label')}
           messages={{
             emptyFilter: t('form.filter.emptyFilter'),
             emptyList: t('form.filter.emptyList'),
           }}
-          {...defaultDropdownProps}
-          {...commonFieldProps}
+          {...{ ...defaultDropdownProps, ...commonFieldProps }}
         />
         <MultiSelectDropdown
           name="topics"
           placeholder={t('form.topics.placeholder')}
-          items={topics}
+          items={taxonomy.topics}
           label={t('form.topics.label')}
           messages={{
             emptyFilter: t('form.topics.emptyFilter'),
             emptyList: t('form.topics.emptyList'),
           }}
-          {...defaultDropdownProps}
-          {...commonFieldProps}
+          {...{ ...defaultDropdownProps, ...commonFieldProps }}
         />
       </Accordion>
     );
@@ -86,9 +82,7 @@ class LearningResourceTaxonomy extends Component {
 
 LearningResourceTaxonomy.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
-  resourceTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  topics: PropTypes.arrayOf(PropTypes.object).isRequired,
-  filters: PropTypes.arrayOf(PropTypes.object).isRequired,
+  taxonomy: TaxonomyShape,
 };
 
 export default injectT(LearningResourceTaxonomy);

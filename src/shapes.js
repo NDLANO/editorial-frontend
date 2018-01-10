@@ -123,3 +123,11 @@ export const EditorShape = PropTypes.shape({
     }),
   }),
 });
+
+export const TaxonomyShape = PropTypes.shape({
+  taxonomy: PropTypes.shape({
+    resourceTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    topics: PropTypes.arrayOf(PropTypes.object).isRequired,
+    filters: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }),
+});

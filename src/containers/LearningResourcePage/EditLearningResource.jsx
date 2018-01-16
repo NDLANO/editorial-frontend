@@ -56,7 +56,7 @@ class EditLearningResource extends Component {
   }
 
   render() {
-    const { article, tags, isSaving, licenses, locale } = this.props;
+    const { article, tags, isSaving, licenses } = this.props;
     if (!article) {
       return null;
     }
@@ -76,7 +76,6 @@ class EditLearningResource extends Component {
         licenses={licenses}
         isSaving={isSaving}
         onUpdate={this.updateDraft}
-        locale={locale}
       />
     );
   }

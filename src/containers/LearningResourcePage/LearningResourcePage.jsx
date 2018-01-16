@@ -22,7 +22,7 @@ import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 class LearningResourcePage extends Component {
-  async componentWillMount() {
+  componentWillMount() {
     const { fetchLicenses } = this.props;
     fetchLicenses();
   }

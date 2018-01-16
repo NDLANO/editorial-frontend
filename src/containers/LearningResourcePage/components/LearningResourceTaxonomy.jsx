@@ -16,6 +16,7 @@ import {
   fetchResourceTypes,
   fetchFilters,
   fetchTopics,
+  fetchRelevances,
 } from '../../../modules/taxonomy';
 
 class LearningResourceTaxonomy extends Component {
@@ -27,19 +28,23 @@ class LearningResourceTaxonomy extends Component {
         resourceTypes: [],
         filters: [],
         topics: [],
+        relevances: [],
       },
     };
     this.toggleContent = this.toggleContent.bind(this);
   }
 
   async componentWillMount() {
-    const { locale } = this.props;
+    const { model } = this.props;
 
     try {
-      const resourceTypes = await fetchResourceTypes(locale);
-      const filters = await fetchFilters(locale);
-      const topics = await fetchTopics(locale);
-      this.setState({ taxonomy: { resourceTypes, filters, topics } });
+      const resourceTypes = await fetchResourceTypes(model.language);
+      const filters = await fetchFilters(model.language);
+      const topics = await fetchTopics(model.language);
+      const relevances = await fetchRelevances(model.language);
+      this.setState({
+        taxonomy: { resourceTypes, filters, topics, relevances },
+      });
     } catch (e) {
       throw new Error(e);
     }
@@ -83,6 +88,7 @@ class LearningResourceTaxonomy extends Component {
           name="filter"
           placeholder={t('form.filter.placeholder')}
           items={taxonomy.filters}
+          tagProperties={taxonomy.relevances}
           label={t('form.filter.label')}
           messages={{
             emptyFilter: t('form.filter.emptyFilter'),

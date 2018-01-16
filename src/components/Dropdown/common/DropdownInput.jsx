@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import AutosizeInput from 'react-input-autosize';
-import DropdownTag from './DropdownTag';
+import { DropdownTag } from '../common';
 import ToolTip from '../../ToolTip';
 import { dropDownClasses } from './dropDownClasses';
 
@@ -40,8 +40,8 @@ const DropdownInput = props => {
               <ToolTip
                 key={`${name}-tooptip-${tag.id}`}
                 name={name}
-                onPopupClick={() => handlePopupClick(tag, name)}
-                noPopup={tag === tagProps.primaryTopic}
+                onPopupClick={() => handlePopupClick({ ...tag, primary: true })}
+                noPopup={tag.primary}
                 messages={{ ariaLabel: 'tooltip' }}
                 content="Velg som primærkoblet emne">
                 <DropdownTag
@@ -96,7 +96,6 @@ DropdownInput.propTypes = {
   }),
   tagProps: PropTypes.shape({
     handlePopupClick: PropTypes.func.isRequired,
-    primaryTopic: PropTypes.shape({}),
   }),
 };
 

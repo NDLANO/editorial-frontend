@@ -14,6 +14,7 @@ import {
   DropdownInput,
   DropdownAction,
   dropDownClasses,
+  RESOURCE_FILTER_CORE,
 } from '../common';
 import { itemToString } from '../../../util/downShiftHelpers';
 
@@ -23,8 +24,6 @@ class MultiDropdown extends PureComponent {
     this.state = {
       inputValue: '',
       selectedItems: props.selectedItems || [],
-      additionalResources: props.additionalResources || [],
-      primaryTopic: props.additionalResources || {},
       isOpen: false,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -37,7 +36,6 @@ class MultiDropdown extends PureComponent {
     this.onInputChange = this.onInputChange.bind(this);
     this.onInputFocus = this.onInputFocus.bind(this);
     this.onWrapperClick = this.onWrapperClick.bind(this);
-    this.setPrimaryTopic = this.setPrimaryTopic.bind(this);
     this.handlePopupClick = this.handlePopupClick.bind(this);
   }
 
@@ -59,24 +57,28 @@ class MultiDropdown extends PureComponent {
     }
   }
 
-  setPrimaryTopic(selectedItem) {
-    this.setState({ primaryTopic: selectedItem });
-  }
+  handlePopupClick(selectedItem) {
+    const { selectedItems } = this.state;
 
-  handlePopupClick(selectedItem, name, itemProperty) {
-    const { additionalResources } = this.state;
-    if (name === 'topics') {
-      this.setPrimaryTopic(selectedItem);
+    const copy = [...selectedItems];
+
+    // Unset current primary item
+    if ('primary' in selectedItem) {
+      const nonPrimary = copy.find(element => element.primary === true);
+      copy.splice(copy.findIndex(element => element.primary === true), 1, {
+        ...nonPrimary,
+        primary: false,
+      });
     }
 
-    if (name === 'filter') {
-      if (itemProperty === 'T' && !additionalResources.includes(selectedItem)) {
-        this.addSelectedItem(selectedItem, 'additionalResources', name);
-      }
-      if (itemProperty === 'K' && additionalResources.includes(selectedItem)) {
-        this.removeItem(selectedItem, 'additionalResources', name);
-      }
-    }
+    copy.splice(
+      copy.findIndex(element => element.id === selectedItem.id),
+      1,
+      selectedItem,
+    );
+    copy.filter(val => val);
+
+    this.setState({ selectedItems: copy });
   }
 
   focusOnInput() {
@@ -100,39 +102,55 @@ class MultiDropdown extends PureComponent {
     // const { onChange } = this.props;
     const { id } = stateAndHelpers;
 
-    if (selectedItems.includes(selectedItem)) {
-      this.removeItem(selectedItem, 'selectedItems', id);
+    if (selectedItems.length === 0) {
+      // Add if empty state first
+      this.addSelectedItem(selectedItem, id);
+    } else if (
+      selectedItems.filter(item => item.id === selectedItem.id).length > 0
+    ) {
+      this.removeItem(selectedItem);
     } else {
-      this.addSelectedItem(selectedItem, 'selectedItems', id);
+      this.addSelectedItem(selectedItem, id);
     }
-    // onChange({ target: { name, value: selectedItem } });
   }
 
-  addSelectedItem(selectedItem, items, id) {
+  addSelectedItem(selectedItem, id) {
+    let newItem;
+
+    // Initial tag attributes by type
+    if (id === 'topics') {
+      if (this.state.selectedItems.length === 0) {
+        newItem = { ...selectedItem, primary: true };
+      } else {
+        newItem = { ...selectedItem, primary: selectedItem.primary || false };
+      }
+    }
+    if (id === 'filter') {
+      newItem = {
+        ...selectedItem,
+        relevanceId: selectedItem.relevanceId || RESOURCE_FILTER_CORE.id,
+      };
+    }
     this.setState(prevState => ({
-      [items]: [...prevState[items], selectedItem],
+      selectedItems: [...prevState.selectedItems, newItem || selectedItem],
     }));
-
-    if (id === 'topics') {
-      if (this.state[items].length === 0) {
-        this.setState({ primaryTopic: selectedItem });
-      }
-    }
   }
 
-  removeItem(selectedItem, items, id) {
-    const { primaryTopic } = this.state;
+  removeItem(selectedItem) {
+    const { selectedItems } = this.state;
 
-    const copy = [...this.state[items]];
-    copy.splice(copy.findIndex(element => element.id === selectedItem.id), 1);
+    const item = selectedItems.find(element => element.id === selectedItem.id);
+    const copy = [...selectedItems];
+    copy.splice(copy.findIndex(element => element.id === item.id), 1);
     copy.filter(val => val);
-    this.setState({ [items]: copy });
 
-    if (id === 'topics') {
-      if (selectedItem === primaryTopic) {
-        this.setState({ primaryTopic: copy.length > 0 ? copy[0] : {} });
-      }
+    // Set first item in list as primary if a primary tag is removed
+    if ('primary' in item && item.primary && copy.length > 0) {
+      let newPrimaryItem = copy.shift();
+      newPrimaryItem = { ...newPrimaryItem, primary: true };
+      copy.unshift(newPrimaryItem);
     }
+    this.setState({ selectedItems: copy });
   }
 
   handleToggleMenu() {
@@ -159,10 +177,11 @@ class MultiDropdown extends PureComponent {
       messages,
       name,
       items,
+      tagProperties,
       ...rest
     } = this.props;
 
-    const { selectedItems, isOpen, inputValue, primaryTopic } = this.state;
+    const { selectedItems, isOpen, inputValue } = this.state;
 
     const inputProps = {
       value: inputValue,
@@ -174,7 +193,7 @@ class MultiDropdown extends PureComponent {
     };
 
     const tagProps = {
-      primaryTopic,
+      tagProperties,
       handlePopupClick: this.handlePopupClick,
     };
 
@@ -230,8 +249,7 @@ MultiDropdown.propTypes = {
   }),
   items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   selectedItems: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  additionalResources: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  primaryTopic: PropTypes.shape({}),
+  tagProperties: PropTypes.arrayOf(PropTypes.shape({})), // TODO: Add tag property shape(s)
 };
 
 export default MultiDropdown;

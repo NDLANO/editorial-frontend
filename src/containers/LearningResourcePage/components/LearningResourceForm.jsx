@@ -163,7 +163,6 @@ class LearningResourceForm extends Component {
       tags,
       licenses,
       isSaving,
-      locale,
       articleStatus,
     } = this.props;
 
@@ -192,7 +191,6 @@ class LearningResourceForm extends Component {
         </LearningResourceContent>
         <LearningResourceTaxonomy
           commonFieldProps={commonFieldProps}
-          locale={locale}
           model={model}
         />
         <LearningResourceCopyright
@@ -243,7 +241,6 @@ LearningResourceForm.propTypes = {
   bindInput: PropTypes.func.isRequired,
   setModel: PropTypes.func.isRequired,
   revision: PropTypes.number,
-  locale: PropTypes.string,
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,

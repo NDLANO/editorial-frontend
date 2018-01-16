@@ -14,6 +14,12 @@ import BEMHelper from 'react-bem-helper';
 import ToolTip from '../../ToolTip';
 import { dropDownClasses } from './dropDownClasses';
 
+const RESOURCE_FILTER_CORE = {
+  id: 'urn:relevance:core',
+  name: 'Kjernestoff',
+};
+const RESOURCE_TOPICS_PRIMARY = { name: 'Primærkobling' };
+
 const classes = new BEMHelper({
   name: 'tag',
   prefix: 'c-',
@@ -26,7 +32,7 @@ class DropdownTag extends Component {
     this.state = {
       tag: props.tag,
       isHighlighted: false,
-      tagProperty: '',
+      tagProperty: {},
     };
     this.onRemove = this.onRemove.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -35,10 +41,19 @@ class DropdownTag extends Component {
   }
 
   componentWillMount() {
-    const { name } = this.props;
+    const { name, tag } = this.props;
 
     if (name === 'filter') {
-      this.setState({ tagProperty: 'K' });
+      this.setState({
+        tagProperty: RESOURCE_FILTER_CORE,
+      }); // TODO: Create RESOURCE_FILTER constants for this
+    }
+    if (name === 'topics') {
+      if (tag.primary) {
+        this.setState({
+          tagProperty: RESOURCE_TOPICS_PRIMARY,
+        }); // TODO: Create RESOURCE_TOPICS constants for this
+      }
     }
   }
 
@@ -46,20 +61,21 @@ class DropdownTag extends Component {
     if (nextProps.tag !== this.props.tag) {
       this.setState({ tag: nextProps.tag });
     }
-    if (this.props.name) {
-      if (nextProps.primaryTopic !== this.props.primaryTopic) {
-        if (nextProps.primaryTopic === this.props.tag) {
-          this.setState({ isHighlighted: false });
-        }
+    if (nextProps.tag.primary !== this.props.tag.primary) {
+      if (nextProps.tag.primary) {
+        this.setState({
+          tagProperty: RESOURCE_TOPICS_PRIMARY,
+          isHighlighted: false,
+        });
       }
     }
   }
 
   onClick() {
     const { tag } = this.state;
-    const { name, primaryTopic } = this.props;
+    const { name } = this.props;
 
-    if (name === 'topics' && primaryTopic !== tag) {
+    if (name === 'topics' && !tag.primary) {
       this.toggleHighligth();
     }
   }
@@ -69,15 +85,26 @@ class DropdownTag extends Component {
     e.preventDefault();
     e.stopPropagation();
     if (onRemoveItem) {
-      onRemoveItem(tag, 'selectedItems', name);
+      onRemoveItem(tag, name);
     }
   }
 
   handleSetTagProperty(e) {
-    const { handlePopupClick } = this.props;
+    const { handlePopupClick, tagProperties } = this.props;
     const { value } = e.target;
-    this.setState({ tagProperty: value });
-    handlePopupClick(this.state.tag, 'filter', value);
+
+    let newTag;
+    tagProperties.forEach(item => {
+      if (item.id === value) {
+        this.setState({ tagProperty: item });
+        newTag = {
+          ...this.state.tag,
+          relevanceId: item.id,
+        };
+      }
+    });
+
+    handlePopupClick(newTag);
   }
 
   toggleHighligth() {
@@ -88,35 +115,44 @@ class DropdownTag extends Component {
 
   render() {
     const { tag, tagProperty, isHighlighted } = this.state;
-    const { name, primaryTopic } = this.props;
+    const { name, tagProperties } = this.props;
+
+    let tagRelevances;
+    if (tagProperties) {
+      tagRelevances = tagProperties.map(
+        property =>
+          property.name ? (
+            <label
+              key={property.id}
+              {...classes('radio', 'label')}
+              htmlFor={property.name.toLowerCase()}>
+              <input
+                type="radio"
+                value={property.id}
+                onChange={e => this.handleSetTagProperty(e)}
+                checked={tagProperty.id === property.id}
+              />
+              {property.name}
+            </label>
+          ) : (
+            ''
+          ),
+      );
+    }
+    const tagShortName = tagProperty.name
+      ? tagProperty.name.charAt(0).toUpperCase()
+      : '';
 
     const tagPropertyItem = (
       <div {...classes()}>
-        <strong>{primaryTopic === tag ? 'P' : tagProperty}</strong>
+        <strong>{tagShortName}</strong>
       </div>
     );
 
     const filterTooltipItem = (
       <div {...classes('radio')} tabIndex={-1} role="radiogroup">
         <div {...classes('radio', 'description')}>Velg relevans</div>
-        <label {...classes('radio', 'label')} htmlFor="kjernestoff">
-          <input
-            type="radio"
-            value="K"
-            onChange={e => this.handleSetTagProperty(e)}
-            checked={tagProperty === 'K'}
-          />
-          Kjernestoff
-        </label>
-        <label {...classes('radio', 'label')} htmlFor="kjernestoff">
-          <input
-            type="radio"
-            value="T"
-            onChange={e => this.handleSetTagProperty(e)}
-            checked={tagProperty === 'T'}
-          />
-          Tilleggsstoff
-        </label>
+        {tagRelevances}
       </div>
     );
 
@@ -131,7 +167,7 @@ class DropdownTag extends Component {
     );
 
     let tagItem;
-    if (primaryTopic === tag && name) {
+    if (tag.primary) {
       tagItem = tagPropertyItem;
     } else if (tagProperty && name === 'filter') {
       tagItem = filterItem;
@@ -153,11 +189,13 @@ class DropdownTag extends Component {
 }
 
 DropdownTag.propTypes = {
-  tag: PropTypes.shape({}).isRequired,
+  tag: PropTypes.shape({
+    primary: PropTypes.bool,
+  }).isRequired,
+  tagProperties: PropTypes.arrayOf(PropTypes.shape({})),
   name: PropTypes.string.isRequired,
-  primaryTopic: PropTypes.shape({}).isRequired,
   handlePopupClick: PropTypes.func,
   onRemoveItem: PropTypes.func,
 };
 
-export default DropdownTag;
+export { RESOURCE_FILTER_CORE, RESOURCE_TOPICS_PRIMARY, DropdownTag };

@@ -2,18 +2,18 @@
 
 exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 <form
-  className="masthead-search-form"
+  className="c-masthead-editorial__form"
   onSubmit={[Function]}
 >
   <input
-    className="masthead-search-form__query"
+    className="c-masthead-editorial__form-query"
     onChange={[Function]}
     placeholder=""
     type="text"
     value="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
   />
   <button
-    className="c-button c-button--stripped masthead-search-form__button"
+    className="c-button c-button--stripped c-masthead-editorial__form-button"
     disabled={false}
     type="submit"
   >
@@ -45,18 +45,18 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 
 exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 <form
-  className="masthead-search-form"
+  className="c-masthead-editorial__form"
   onSubmit={[Function]}
 >
   <input
-    className="masthead-search-form__query"
+    className="c-masthead-editorial__form-query"
     onChange={[Function]}
     placeholder=""
     type="text"
     value="#4737"
   />
   <button
-    className="c-button c-button--stripped masthead-search-form__button"
+    className="c-button c-button--stripped c-masthead-editorial__form-button"
     disabled={false}
     type="submit"
   >
@@ -88,18 +88,18 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 
 exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] = `
 <form
-  className="masthead-search-form"
+  className="c-masthead-editorial__form"
   onSubmit={[Function]}
 >
   <input
-    className="masthead-search-form__query"
+    className="c-masthead-editorial__form-query"
     onChange={[Function]}
     placeholder=""
     type="text"
     value=""
   />
   <button
-    className="c-button c-button--stripped masthead-search-form__button"
+    className="c-button c-button--stripped c-masthead-editorial__form-button"
     disabled={false}
     type="submit"
   >
@@ -131,18 +131,18 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
 
 exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the end 1`] = `
 <form
-  className="masthead-search-form"
+  className="c-masthead-editorial__form"
   onSubmit={[Function]}
 >
   <input
-    className="masthead-search-form__query"
+    className="c-masthead-editorial__form-query"
     onChange={[Function]}
     placeholder=""
     type="text"
     value=""
   />
   <button
-    className="c-button c-button--stripped masthead-search-form__button"
+    className="c-button c-button--stripped c-masthead-editorial__form-button"
     disabled={false}
     type="submit"
   >
@@ -174,18 +174,18 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
 
 exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
 <form
-  className="masthead-search-form"
+  className="c-masthead-editorial__form"
   onSubmit={[Function]}
 >
   <input
-    className="masthead-search-form__query"
+    className="c-masthead-editorial__form-query"
     onChange={[Function]}
     placeholder=""
     type="text"
     value=""
   />
   <button
-    className="c-button c-button--stripped masthead-search-form__button"
+    className="c-button c-button--stripped c-masthead-editorial__form-button"
     disabled={false}
     type="submit"
   >

@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { OneColumn, Hero } from 'ndla-ui';
+import { OneColumn } from 'ndla-ui';
 
 import { getSaving } from '../../modules/draft/draft';
 import { getLocale } from '../../modules/locale/locale';
@@ -30,37 +30,34 @@ class TopicArticlePage extends React.Component {
   render() {
     const { locale, match, history, isSaving, licenses } = this.props;
     return (
-      <div>
-        <Hero alt />
-        <OneColumn>
-          <Switch>
-            <Route
-              path={`${match.url}/new`}
-              render={() => (
-                <CreateTopicArticle
-                  history={history}
-                  locale={locale}
-                  isSaving={isSaving}
-                  licenses={licenses}
-                />
-              )}
-            />
-            <Route
-              path={`${match.url}/:articleId/edit/:articleLanguage`}
-              render={routeProps => (
-                <EditTopicArticle
-                  articleId={routeProps.match.params.articleId}
-                  articleLanguage={routeProps.match.params.articleLanguage}
-                  locale={locale}
-                  isSaving={isSaving}
-                  licenses={licenses}
-                />
-              )}
-            />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </OneColumn>
-      </div>
+      <OneColumn>
+        <Switch>
+          <Route
+            path={`${match.url}/new`}
+            render={() => (
+              <CreateTopicArticle
+                history={history}
+                locale={locale}
+                isSaving={isSaving}
+                licenses={licenses}
+              />
+            )}
+          />
+          <Route
+            path={`${match.url}/:articleId/edit/:articleLanguage`}
+            render={routeProps => (
+              <EditTopicArticle
+                articleId={routeProps.match.params.articleId}
+                articleLanguage={routeProps.match.params.articleLanguage}
+                locale={locale}
+                isSaving={isSaving}
+                licenses={licenses}
+              />
+            )}
+          />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </OneColumn>
     );
   }
 }

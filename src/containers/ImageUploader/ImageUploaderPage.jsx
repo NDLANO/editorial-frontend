@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { OneColumn, Hero } from 'ndla-ui';
+import { OneColumn } from 'ndla-ui';
 
 import {
   actions as tagActions,
@@ -36,39 +36,36 @@ class ImageUploaderPage extends Component {
     const { locale, tags, match, history, licenses, isSaving } = this.props;
 
     return (
-      <div>
-        <Hero />
-        <OneColumn cssModifier="narrow">
-          <Switch>
-            <Route
-              path={`${match.url}/new`}
-              render={() => (
-                <CreateImage
-                  history={history}
-                  locale={locale}
-                  tags={tags}
-                  licenses={licenses}
-                  isSaving={isSaving}
-                />
-              )}
-            />
-            <Route
-              path={`${match.url}/:imageId/edit`}
-              render={props => (
-                <EditImage
-                  imageId={props.match.params.imageId}
-                  history={history}
-                  locale={locale}
-                  tags={tags}
-                  licenses={licenses}
-                  isSaving={isSaving}
-                />
-              )}
-            />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </OneColumn>
-      </div>
+      <OneColumn cssModifier="narrow">
+        <Switch>
+          <Route
+            path={`${match.url}/new`}
+            render={() => (
+              <CreateImage
+                history={history}
+                locale={locale}
+                tags={tags}
+                licenses={licenses}
+                isSaving={isSaving}
+              />
+            )}
+          />
+          <Route
+            path={`${match.url}/:imageId/edit`}
+            render={props => (
+              <EditImage
+                imageId={props.match.params.imageId}
+                history={history}
+                locale={locale}
+                tags={tags}
+                licenses={licenses}
+                isSaving={isSaving}
+              />
+            )}
+          />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </OneColumn>
     );
   }
 }

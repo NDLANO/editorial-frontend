@@ -43,26 +43,23 @@ class MastheadSearch extends Component {
         ? locationQuery.articleTypes
         : 'standard';
     }
-
     return (
-      <div className="masthead-search">
-        <MastheadSearchForm
-          query={query}
-          searching={searching}
-          onSearchQuerySubmit={searchQuery =>
-            history.push(
-              toSearch({
-                query: searchQuery,
-                page: 1,
-                types: locationQuery.types
-                  ? locationQuery.types
-                  : ['articles', 'images', 'audios'].join(','),
-                articleTypes,
-              }),
-            )
-          }
-        />
-      </div>
+      <MastheadSearchForm
+        query={query}
+        searching={searching}
+        onSearchQuerySubmit={searchQuery =>
+          history.push(
+            toSearch({
+              query: searchQuery,
+              page: 1,
+              types: locationQuery.types
+                ? locationQuery.types
+                : ['articles', 'images', 'audios'].join(','),
+              articleTypes,
+            }),
+          )
+        }
+      />
     );
   }
 }

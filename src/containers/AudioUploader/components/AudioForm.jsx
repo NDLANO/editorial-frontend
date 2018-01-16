@@ -106,9 +106,7 @@ class AudioForm extends Component {
     const commonFieldProps = { bindInput, schema, submitted };
 
     return (
-      <form
-        onSubmit={event => this.handleSubmit(event)}
-        {...classes(undefined, undefined, 'c-article')}>
+      <form onSubmit={event => this.handleSubmit(event)} {...classes()}>
         <div {...classes('header', 'multimedia')}>
           <div className="u-4/6@desktop u-push-1/6@desktop">
             {model.id

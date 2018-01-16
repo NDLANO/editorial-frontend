@@ -26,6 +26,17 @@ const phrases = {
     createImage: 'Last opp bilde',
     createAgreement: 'Opprett avtale',
   },
+  typeMasthead: {
+    media: 'Media',
+    learningPath: 'Læringssti',
+    subjectMatter: 'Fagstoff',
+    detailSearch: 'Detaljsøk',
+    topicArticle: 'Emne',
+    learningResource: 'Fagstoff',
+    image: 'Bilde',
+    audio: 'Audio',
+    agreement: 'Avtale',
+  },
   logo: {
     altText: 'Nasjonal digital læringsarena',
   },

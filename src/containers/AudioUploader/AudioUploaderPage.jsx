@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { OneColumn, Hero } from 'ndla-ui';
+import { OneColumn } from 'ndla-ui';
 
 import {
   actions as tagActions,
@@ -36,39 +36,36 @@ class AudioUploaderPage extends Component {
     const { locale, tags, match, history, licenses, isSaving } = this.props;
 
     return (
-      <div>
-        <Hero />
-        <OneColumn cssModifier="narrow">
-          <Switch>
-            <Route
-              path={`${match.url}/new`}
-              render={() => (
-                <CreateAudio
-                  history={history}
-                  locale={locale}
-                  tags={tags}
-                  licenses={licenses}
-                  isSaving={isSaving}
-                />
-              )}
-            />
-            <Route
-              path={`${match.url}/:audioId/edit`}
-              render={props => (
-                <EditAudio
-                  audioId={props.match.params.audioId}
-                  history={history}
-                  locale={locale}
-                  tags={tags}
-                  licenses={licenses}
-                  isSaving={isSaving}
-                />
-              )}
-            />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </OneColumn>
-      </div>
+      <OneColumn cssModifier="narrow">
+        <Switch>
+          <Route
+            path={`${match.url}/new`}
+            render={() => (
+              <CreateAudio
+                history={history}
+                locale={locale}
+                tags={tags}
+                licenses={licenses}
+                isSaving={isSaving}
+              />
+            )}
+          />
+          <Route
+            path={`${match.url}/:audioId/edit`}
+            render={props => (
+              <EditAudio
+                audioId={props.match.params.audioId}
+                history={history}
+                locale={locale}
+                tags={tags}
+                licenses={licenses}
+                isSaving={isSaving}
+              />
+            )}
+          />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </OneColumn>
     );
   }
 }

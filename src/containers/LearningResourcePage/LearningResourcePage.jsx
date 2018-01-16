@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { OneColumn, Hero } from 'ndla-ui';
+import { OneColumn } from 'ndla-ui';
 
 import {
   actions as licenseActions,
@@ -33,11 +33,6 @@ class LearningResourcePage extends Component {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <Hero>
-          <OneColumn>
-            <div className="c-hero__content" />
-          </OneColumn>
-        </Hero>
         <OneColumn cssModifier="narrow">
           <Switch>
             <Route

@@ -34,6 +34,7 @@
 @import './table.css';
 @import './meta-information.css';
 @import './visual-element.css';
+@import './type-masthead.css';
 
 .c-audio-search {
   width: 70%;

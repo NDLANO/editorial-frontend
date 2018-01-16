@@ -8,7 +8,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import { User } from 'ndla-icons/common';
 import { Cross } from 'ndla-icons/action';
 import { Button } from 'ndla-ui';
@@ -19,11 +18,7 @@ import {
   toLogoutSession,
   toLogin,
 } from '../../../util/routeHelpers';
-
-const classes = new BEMHelper({
-  name: 'session',
-  prefix: 'masthead-',
-});
+import { editorialMastheadClasses } from '../MastheadContainer';
 
 const AuthSiteNavItem = ({ t, name, authenticated, onClick }) => {
   if (authenticated) {
@@ -74,10 +69,17 @@ export class SessionContainer extends Component {
     const { t, userName, authenticated } = this.props;
     return (
       <div>
-        <Button onClick={this.toggleOpen} stripped {...classes('button')}>
+        <Button
+          onClick={this.toggleOpen}
+          stripped
+          {...editorialMastheadClasses('open-button')}>
           <User className="c-icon--medium" />
         </Button>
-        <div {...classes('container', !this.state.open ? 'hidden' : '')}>
+        <div
+          {...editorialMastheadClasses(
+            'session-container',
+            !this.state.open ? 'hidden' : '',
+          )}>
           <AuthSiteNavItem
             t={t}
             name={userName}
@@ -87,7 +89,7 @@ export class SessionContainer extends Component {
           <Button
             onClick={this.toggleOpen}
             stripped
-            {...classes('close-button')}>
+            {...editorialMastheadClasses('close-button')}>
             <Cross className="c-icon--medium" />
           </Button>
         </div>
@@ -95,7 +97,7 @@ export class SessionContainer extends Component {
           <div
             role="presentation"
             onClick={this.toggleOpen}
-            {...classes('overlay')}
+            {...editorialMastheadClasses('session-overlay')}
           />
         ) : null}
       </div>

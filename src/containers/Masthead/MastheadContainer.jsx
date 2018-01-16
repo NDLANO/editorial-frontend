@@ -12,10 +12,15 @@ import { Masthead, MastheadItem, Logo } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
 import MastHeadSearch from './MastheadSearch';
 import SessionContainer from './components/SessionContainer';
-import SubMasthead from './components/SubMasthead';
+import TypeMasthead from './components/TypeMasthead';
 
 const classes = new BEMHelper({
   name: 'masthead',
+  prefix: 'c-',
+});
+
+export const editorialMastheadClasses = new BEMHelper({
+  name: 'masthead-editorial',
   prefix: 'c-',
 });
 
@@ -23,7 +28,7 @@ const MastheadContainer = ({ t, authenticated, userName }) => (
   <Masthead>
     <div {...classes('container')}>
       <MastheadItem>
-        <SubMasthead t={t} />
+        <TypeMasthead t={t} />
       </MastheadItem>
       <MastheadItem>
         <MastHeadSearch t={t} />

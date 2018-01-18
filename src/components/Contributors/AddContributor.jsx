@@ -21,17 +21,19 @@ const AddContributor = ({
   handleContributorNameChange,
   removeContributor,
 }) => (
-  <div {...classes('three-column')}>
-    <input onChange={handleContributorNameChange} value={name} />
-    <ObjectSelector
-      options={contributorTypes}
-      value={type}
-      idKey="type"
-      labelKey="translation"
-      onChange={handleContributorTypeChange}
-      onBlur={handleContributorTypeChange}
-      emptyField
-    />
+  <div {...classes('removable')}>
+    <div {...classes('add-contributor')}>
+      <input onChange={handleContributorNameChange} value={name} />
+      <ObjectSelector
+        options={contributorTypes}
+        value={type}
+        idKey="type"
+        labelKey="translation"
+        onChange={handleContributorTypeChange}
+        onBlur={handleContributorTypeChange}
+        emptyField
+      />
+    </div>
     <Button stripped onClick={removeContributor}>
       <Cross className="c-icon--medium" />
     </Button>

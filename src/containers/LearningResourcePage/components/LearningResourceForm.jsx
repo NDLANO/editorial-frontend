@@ -9,7 +9,6 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
@@ -24,12 +23,11 @@ import {
 } from '../../../util/articleContentConverter';
 import { isUserProvidedEmbedDataValid } from '../../../util/embedTagHelpers';
 import { findNodesByType } from '../../../util/slateHelpers';
-import { SchemaShape } from '../../../shapes';
+import { SchemaShape, LicensesArrayOf } from '../../../shapes';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
-import LearningResourceCopyright from './LearningResourceCopyright';
-import LearningResourceWorkflow from './LearningResourceWorkflow';
+import { FormWorkflow, FormCopyright, formClasses } from '../../Form';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import ArticleHeader from '../../Article/ArticleHeader';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
@@ -83,13 +81,9 @@ export const getInitialModel = (article = {}) => {
     language: article.language,
     articleType: 'standard',
     status: article.status || [],
+    notes: article.notes || [],
   };
 };
-
-export const classes = new BEMHelper({
-  name: 'learning-resource-form',
-  prefix: 'c-',
-});
 
 class LearningResourceForm extends Component {
   constructor(props) {
@@ -137,6 +131,7 @@ class LearningResourceForm extends Component {
         rightsholders: model.rightsholders,
         agreementId: model.agreementId,
       },
+      notes: model.notes,
       language: model.language,
     });
   }
@@ -158,17 +153,15 @@ class LearningResourceForm extends Component {
     return (
       <form
         onSubmit={this.handleSubmit}
-        {...classes(undefined, undefined, 'c-article')}>
+        {...formClasses(undefined, undefined, 'c-article')}>
         <ArticleHeader model={model} />
         <LearningResourceMetadata
-          classes={classes}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
           tags={tags}
           model={model}
         />
         <LearningResourceContent
-          classes={classes}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
           tags={tags}>
@@ -177,12 +170,13 @@ class LearningResourceForm extends Component {
             footnotes={findFootnotes(model.content)}
           />
         </LearningResourceContent>
-        <LearningResourceCopyright
+        <FormCopyright
           model={model}
           commonFieldProps={commonFieldProps}
           licenses={licenses}
         />
-        <LearningResourceWorkflow
+        <FormWorkflow
+          commonFieldProps={commonFieldProps}
           articleStatus={articleStatus}
           model={model}
           saveDraft={this.handleSubmit}
@@ -214,12 +208,7 @@ LearningResourceForm.propTypes = {
     language: PropTypes.string,
   }),
   schema: SchemaShape,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
+  licenses: LicensesArrayOf,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,

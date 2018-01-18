@@ -46,7 +46,7 @@ export const getInitialModel = (image = {}) => ({
       : DEFAULT_LICENSE.license,
 });
 const classes = new BEMHelper({
-  name: 'image-form',
+  name: 'form',
   prefix: 'c-',
 });
 
@@ -110,7 +110,7 @@ class ImageForm extends Component {
       <form
         onSubmit={event => this.handleSubmit(event)}
         {...classes(undefined, undefined, 'c-article')}>
-        <div {...classes('header')}>
+        <div {...classes('header', 'multimedia')}>
           <div className="u-4/6@desktop u-push-1/6@desktop">
             {model.id
               ? t('imageForm.title.update')

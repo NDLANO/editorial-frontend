@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
-import { classes } from './LearningResourceForm';
+import { formClasses } from '../../Form';
 import MetaInformation from '../../../components/MetaInformation';
 
 const MetaImage = ({ image, toggleImageSearchLightBox, t }) => {
@@ -31,7 +31,7 @@ const MetaImage = ({ image, toggleImageSearchLightBox, t }) => {
     copyright: t('learningResourceForm.metaImage.copyright'),
   };
   return (
-    <div {...classes('meta-image')}>
+    <div {...formClasses('meta-image')}>
       <img src={image.imageUrl} alt={alt} />
       <MetaInformation
         title={title}

@@ -11,14 +11,16 @@ import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import { connect } from 'react-redux';
-import Accordion from '../../../components/Accordion';
-import { validateDraft } from '../../../modules/draft/draftApi';
-import { actions as draftActions } from '../../../modules/draft/draft';
-import { classes } from './LearningResourceForm';
-import * as messageActions from '../../Messages/messagesActions';
-import { articleStatuses } from '../../../util/formHelper';
+import Accordion from '../../components/Accordion';
+import { validateDraft } from '../../modules/draft/draftApi';
+import { actions as draftActions } from '../../modules/draft/draft';
+import * as messageActions from '../Messages/messagesActions';
+import { articleStatuses } from '../../util/formHelper';
+import { AddNotes, formClasses } from './';
 
-class LearningResourceWorkflow extends Component {
+import { CommonFieldPropsShape } from '../../shapes';
+
+class FormWorkflow extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,19 +60,27 @@ class LearningResourceWorkflow extends Component {
   }
 
   render() {
-    const { t, model, publishDraft, saveDraft, articleStatus } = this.props;
+    const {
+      t,
+      model,
+      publishDraft,
+      saveDraft,
+      articleStatus,
+      commonFieldProps,
+    } = this.props;
     return (
       <Accordion
         fill
         handleToggle={this.toggleWorkflow}
         header={t('form.workflowSection')}
         hidden={this.state.hiddenWorkflow}>
-        <span {...classes('title')}>Status</span>
-        <div {...classes('status-columns')}>
+        <AddNotes name="notes" label="Legg til merknad" {...commonFieldProps} />
+        <span {...formClasses('title')}>Status</span>
+        <div {...formClasses('status-columns')}>
           {articleStatuses.map(status => (
             <span
               key={status.key}
-              {...classes(
+              {...formClasses(
                 `status-${status.columnSize || 1}-column`,
                 articleStatus.includes(status.key) ? 'active' : '',
               )}>
@@ -78,7 +88,7 @@ class LearningResourceWorkflow extends Component {
             </span>
           ))}
         </div>
-        <div {...classes('actions')}>
+        <div {...formClasses('actions')}>
           {model.id ? (
             <Button outline onClick={this.onValidateClick}>
               {t('form.validate')}
@@ -100,7 +110,7 @@ class LearningResourceWorkflow extends Component {
   }
 }
 
-LearningResourceWorkflow.propTypes = {
+FormWorkflow.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
   }),
@@ -108,9 +118,10 @@ LearningResourceWorkflow.propTypes = {
   addMessage: PropTypes.func.isRequired,
   publishDraft: PropTypes.func.isRequired,
   saveDraft: PropTypes.func.isRequired,
+  commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 
-LearningResourceWorkflow.defaultProps = {
+FormWorkflow.defaultProps = {
   articleStatus: [],
 };
 
@@ -119,6 +130,4 @@ const mapDispatchToProps = {
   publishDraft: draftActions.publishDraft,
 };
 
-export default connect(undefined, mapDispatchToProps)(
-  injectT(LearningResourceWorkflow),
-);
+export default connect(undefined, mapDispatchToProps)(injectT(FormWorkflow));

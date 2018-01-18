@@ -12,6 +12,7 @@ import {
   actions as tagActions,
   getAllTagsByLanguage,
 } from '../../modules/tag/tag';
+import { LicensesArrayOf } from '../../shapes';
 import { actions as draftActions } from '../../modules/draft/draft';
 import LearningResourceForm, {
   getInitialModel,
@@ -49,12 +50,7 @@ class CreateLearningResource extends Component {
 
 CreateLearningResource.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
+  licenses: LicensesArrayOf,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

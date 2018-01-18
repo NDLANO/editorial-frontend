@@ -119,6 +119,13 @@ export const EditorShape = PropTypes.shape({
   }),
 });
 
+export const LicensesArrayOf = PropTypes.arrayOf(
+  PropTypes.shape({
+    description: PropTypes.string,
+    license: PropTypes.string,
+  }),
+).isRequired;
+
 export const AudioShape = PropTypes.shape({
   id: PropTypes.number,
   title: PropTypes.shape({ title: PropTypes.string }),

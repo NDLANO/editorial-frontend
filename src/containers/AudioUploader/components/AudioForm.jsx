@@ -46,7 +46,7 @@ export const getInitialModel = (audio = {}) => ({
 });
 
 const classes = new BEMHelper({
-  name: 'audio-form',
+  name: 'form',
   prefix: 'c-',
 });
 
@@ -109,7 +109,7 @@ class AudioForm extends Component {
       <form
         onSubmit={event => this.handleSubmit(event)}
         {...classes(undefined, undefined, 'c-article')}>
-        <div {...classes('header')}>
+        <div {...classes('header', 'multimedia')}>
           <div className="u-4/6@desktop u-push-1/6@desktop">
             {model.id
               ? t('audioForm.title.update')

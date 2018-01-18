@@ -1,5 +1,5 @@
-
 .c-bodybox__delete-button,
+.c-relatedBox__delete-button,
 .c-editor__delete-button,
 .c-details__delete-button {
   position: absolute;
@@ -23,6 +23,17 @@ details {
 
 .c-bodybox {
   position: relative;
+}
+
+.c-relatedBox {
+  position: relative;
+  border: 1px solid #3892a7;
+  margin: -1em -7em;
+
+  h2 {
+    margin-top: 31px;
+    margin-left: 63px;
+  }
 }
 
 .c-editor__aside-type + .c-aside__content {

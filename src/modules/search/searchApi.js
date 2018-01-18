@@ -13,8 +13,14 @@ import {
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
+const articleUrl = apiResourceUrl('/article-api/v2/articles');
 
 export const search = (queryString, locale) =>
   fetchAuthorized(`${baseUrl}/${queryString}&language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );
+
+export const searchArticles = (queryString, locale) =>
+  fetchAuthorized(`${articleUrl}/${queryString}&language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );

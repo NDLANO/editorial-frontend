@@ -36,36 +36,38 @@ class AudioUploaderPage extends Component {
     const { locale, tags, match, history, licenses, isSaving } = this.props;
 
     return (
-      <OneColumn cssModifier="narrow">
-        <Switch>
-          <Route
-            path={`${match.url}/new`}
-            render={() => (
-              <CreateAudio
-                history={history}
-                locale={locale}
-                tags={tags}
-                licenses={licenses}
-                isSaving={isSaving}
-              />
-            )}
-          />
-          <Route
-            path={`${match.url}/:audioId/edit`}
-            render={props => (
-              <EditAudio
-                audioId={props.match.params.audioId}
-                history={history}
-                locale={locale}
-                tags={tags}
-                licenses={licenses}
-                isSaving={isSaving}
-              />
-            )}
-          />
-          <Route component={NotFoundPage} />
-        </Switch>
-      </OneColumn>
+      <div>
+        <OneColumn cssModifier="narrow">
+          <Switch>
+            <Route
+              path={`${match.url}/new`}
+              render={() => (
+                <CreateAudio
+                  history={history}
+                  locale={locale}
+                  tags={tags}
+                  licenses={licenses}
+                  isSaving={isSaving}
+                />
+              )}
+            />
+            <Route
+              path={`${match.url}/:audioId/edit`}
+              render={props => (
+                <EditAudio
+                  audioId={props.match.params.audioId}
+                  history={history}
+                  locale={locale}
+                  tags={tags}
+                  licenses={licenses}
+                  isSaving={isSaving}
+                />
+              )}
+            />
+            <Route component={NotFoundPage} />
+          </Switch>
+        </OneColumn>
+      </div>
     );
   }
 }

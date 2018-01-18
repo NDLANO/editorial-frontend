@@ -91,7 +91,11 @@ class LinkForm extends Component {
             <Button outline onClick={onClose}>
               {t('form.abort')}
             </Button>
-            <Button submit>{t('form.save')}</Button>
+            <Button submit>
+              {isEdit
+                ? t('form.content.link.update')
+                : t('form.content.link.insert')}
+            </Button>
           </div>
         </Field>
       </form>

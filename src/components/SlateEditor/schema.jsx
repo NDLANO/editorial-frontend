@@ -16,6 +16,25 @@ export const defaultBlock = {
   data: {},
 };
 
+export const defaultBlockWithText = text => ({
+  data: {},
+  isVoid: false,
+  kind: 'block',
+  nodes: [
+    {
+      kind: 'text',
+      leaves: [
+        {
+          kind: 'leaf',
+          marks: [],
+          text,
+        },
+      ],
+    },
+  ],
+  type: 'paragraph',
+});
+
 export const defaultAsideBlock = type =>
   Block.create({
     data: { type },

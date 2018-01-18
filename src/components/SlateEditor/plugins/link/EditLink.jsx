@@ -55,17 +55,13 @@ class EditLink extends React.Component {
 
   componentWillMount() {
     const { node } = this.props;
-
-    if (node.data) {
-      this.addData(node);
-    }
+    this.addData(node);
   }
 
   handleSave(model) {
     const { value, node } = this.props;
     const { href, text, checkbox } = model;
     const isNDLAUrl = /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
-
     const data = isNDLAUrl
       ? createContentLinkData(
           href,
@@ -141,7 +137,7 @@ class EditLink extends React.Component {
   render() {
     const { t, value } = this.props;
     const { model } = this.state;
-    const isEdit = model !== undefined;
+    const isEdit = model !== undefined && model.href !== undefined;
 
     return (
       <div>

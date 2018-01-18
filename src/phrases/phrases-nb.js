@@ -266,6 +266,8 @@ const phrases = {
       },
       link: {
         goTo: 'Gå til',
+        insert: 'Sett inn lenke',
+        update: 'Opddater lenke',
         change: 'Endre',
         remove: 'Fjern lenke',
         href: 'Lenke',

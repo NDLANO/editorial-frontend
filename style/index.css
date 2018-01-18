@@ -61,3 +61,7 @@ a.c-button {
   display: block;
   text-align: center;
 }
+
+.c-figure__byline .c-license-icons__list {
+  margin-top: 0;
+}

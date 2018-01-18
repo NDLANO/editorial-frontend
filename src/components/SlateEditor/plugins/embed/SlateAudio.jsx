@@ -9,11 +9,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { Button } from 'ndla-ui';
+import { Button, Figure } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 import { EmbedShape } from '../../../../shapes';
 import { editorClasses } from './SlateFigure';
+import AudioPlayerMounter from './AudioPlayerMounter';
 
 class SlateAudio extends React.Component {
   constructor(props) {
@@ -33,33 +34,24 @@ class SlateAudio extends React.Component {
   }
 
   render() {
-    const { embed, figureClass, attributes, onRemoveClick } = this.props;
-    const { audio } = this.state;
+    const { attributes, onRemoveClick } = this.props;
+    const { audio = {} } = this.state;
     return (
-      <figure {...figureClass} {...attributes}>
+      <Figure id={`${audio.id}`} {...attributes}>
         <Button
           onClick={onRemoveClick}
           stripped
           {...editorClasses('delete-button')}>
           <Cross />
         </Button>
-        <audio controls>
-          {audio && audio.audioFile.url ? (
-            <source src={audio.audioFile.url} type={audio.audioFile.mimeType} />
-          ) : (
-            undefined
-          )}
-          <track kind="captions" label={embed.title} />
-        </audio>
-        <figcaption>{audio && audio.title.title}</figcaption>
-      </figure>
+        {audio.id && <AudioPlayerMounter audio={audio} />}
+      </Figure>
     );
   }
 }
 
 SlateAudio.propTypes = {
   embed: EmbedShape.isRequired,
-  figureClass: PropTypes.object.isRequired,
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),

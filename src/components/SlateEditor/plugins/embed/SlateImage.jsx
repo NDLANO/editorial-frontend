@@ -88,7 +88,10 @@ class SlateImage extends React.Component {
         !['small', 'xsmall'].includes(embed.size),
     });
     return (
-      <Figure {...attributes} className={figureClassNames}>
+      <Figure
+        {...attributes}
+        id={embed.resource_id}
+        className={figureClassNames}>
         <Button
           onClick={onRemoveClick}
           stripped

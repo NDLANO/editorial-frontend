@@ -48,7 +48,7 @@
     "jest": "^21.2.1",
     "jsdom": "^11.3.0",
     "json-loader": "^0.5.7",
-    "ndla-scripts": "^0.1.0",
+    "ndla-scripts": "^0.2.0",
     "nock": "^9.1.0",
     "nodemon": "^1.12.1",
     "postcss-cssnext": "^3.0.2",

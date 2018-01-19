@@ -4541,9 +4541,9 @@ ndla-licenses@^0.1.6:
   dependencies:
     defined "1.0.0"
 
-ndla-scripts@^0.1.0:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/ndla-scripts/-/ndla-scripts-0.1.5.tgz#01e1641820bf6685f5b7b401052fa8fb2c492f98"
+ndla-scripts@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ndla-scripts/-/ndla-scripts-0.2.0.tgz#a2251840b4a0287b3a5452cd263bf582ded9d599"
   dependencies:
     await-url "^0.3.0"
     cross-spawn "^5.1.0"

@@ -20,16 +20,16 @@ export const parseCopyrightContributors = (obj, contributorType) => {
   return obj.copyright[contributorType] || [];
 };
 
-export const creatorsWithDefault = obj => {
+export const processorsWithDefault = obj => {
   const sessionData = getSessionStateFromLocalStorage();
   const userName =
     sessionData && sessionData.user && sessionData.user.name
       ? sessionData.user.name
       : undefined;
-  const creators = parseCopyrightContributors(obj, 'creators');
-  return creators.length > 0
-    ? creators
-    : [{ name: userName, type: 'editorial' }];
+  const processors = parseCopyrightContributors(obj, 'processors');
+  return processors.length > 0
+    ? processors
+    : [{ name: userName, type: 'processor' }];
 };
 
 export const articleStatuses = [

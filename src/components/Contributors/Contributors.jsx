@@ -9,12 +9,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button } from 'ndla-ui';
 import { Plus } from 'ndla-icons/action';
 import { contributorGroups, contributorTypes } from 'ndla-licenses';
-import { Field, FieldErrorMessages, getField, classes } from '../Fields';
+import { Field, FieldErrorMessages, getField } from '../Fields';
 import AddContributor from './AddContributor';
 import { getLocale } from '../../modules/locale/locale';
+import CirclePlusButton from '../CirclePlusButton';
 
 const Contributors = props => {
   const {
@@ -86,9 +86,9 @@ const Contributors = props => {
         field={getField(name, schema)}
         submitted={submitted}
       />
-      <Button {...classes('circle-button')} stripped onClick={addContributor}>
+      <CirclePlusButton onClick={addContributor}>
         <Plus className="c-icon--medium" />
-      </Button>
+      </CirclePlusButton>
     </Field>
   );
 };

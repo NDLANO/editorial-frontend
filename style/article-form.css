@@ -6,37 +6,29 @@
  *
  */
 
-.c-agreement-form {
-  background-color: var(--brand-grey--lightest);
-  padding-bottom: 3rem;
+.c-form {
+  &--gray-background {
+    background-color: var(--brand-grey--lightest);
+    padding-bottom: 3rem;
+  }
 
   &__header {
+    color: white;
+  }
+
+  &__header--article {
+    background-color: var(--article-color);
+  }
+
+  &__header--multimedia {
+    background-color: var(--brand-color--dark);
+  }
+
+  &__header--other {
     font-size: 1.2rem;
     background-color: var(--brand-color--secondary);
-    color: white;
   }
-}
 
-.c-audio-form,
-.c-image-form {
-  &__header {
-    background-color: var(--brand-color--dark);
-    color: white;
-  }
-}
-
-.c-topic-article-form,
-.c-learning-resource-form {
-  &__header {
-    background-color: var(--yellow-1);
-  }
-}
-
-.c-topic-article-form,
-.c-audio-form,
-.c-image-form,
-.c-agreement-form,
-.c-learning-resource-form {
   @media (min-width: 37.5em) {
     padding-left: 0;
     padding-right: 0;
@@ -114,14 +106,11 @@
       width: 24%;
     }
   }
-}
 
-:root {
-  /* c-learning-resource-form -> clrf */
-  --clrf__container--margin: 8em;
-}
+  & .c-editor__figure {
+    position: relative;
+  }
 
-.c-learning-resource-form {
   &__container {
     /* Hack to set focus to editor when clicking outside editor content area */
     .c-editor {
@@ -183,6 +172,11 @@
       margin-top: 10px;
     }
   }
+}
+
+:root {
+  /* c-form -> clrf */
+  --clrf__container--margin: 8em;
 }
 
 .c-topic-article-content {

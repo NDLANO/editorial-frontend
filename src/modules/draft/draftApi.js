@@ -15,6 +15,16 @@ import {
 const baseUrl = apiResourceUrl('/draft-api/v1/drafts');
 const baseAgreementsUrl = apiResourceUrl('/draft-api/v1/agreements');
 
+export const fetchTags = language => {
+  const query = queryString.stringify({ size: 7000, language });
+  return fetchAuthorized(`${baseUrl}/tags/?${query}`).then(
+    resolveJsonOrRejectWithError,
+  );
+};
+
+export const fetchLicenses = () =>
+  fetchAuthorized(`${baseUrl}/licenses`).then(resolveJsonOrRejectWithError);
+
 export const fetchDraft = (id, language) => {
   const query = queryString.stringify({ language });
   const url = language ? `${baseUrl}/${id}?${query}` : `${baseUrl}/${id}`;

@@ -82,7 +82,6 @@ LearningResourceMetadata.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   bindInput: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
-  classes: PropTypes.func.isRequired,
   model: PropTypes.shape({
     metaImage: MetaImageShape,
   }),

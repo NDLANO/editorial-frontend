@@ -14,7 +14,7 @@ import { actions, getDraft } from '../../modules/draft/draft';
 import LearningResourceForm, {
   getInitialModel,
 } from './components/LearningResourceForm';
-import { ArticleShape } from '../../shapes';
+import { ArticleShape, LicensesArrayOf } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
 import {
   actions as tagActions,
@@ -84,12 +84,7 @@ class EditLearningResource extends Component {
 EditLearningResource.propTypes = {
   articleId: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
+  licenses: LicensesArrayOf,
   fetchDraft: PropTypes.func.isRequired,
   updateDraft: PropTypes.func.isRequired,
   article: ArticleShape,

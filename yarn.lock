@@ -2660,9 +2660,9 @@ flux-standard-action@^2.0.0:
   dependencies:
     lodash "^4.0.0"
 
-focus-trap@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-2.3.1.tgz#f4fb86cfe6da38dc652b373e9f42ba476eab1c14"
+focus-trap@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-2.4.2.tgz#44ea1c55a9c22c2b6529dcebbde6390eb2ee4c88"
   dependencies:
     tabbable "^1.0.3"
 
@@ -3229,7 +3229,7 @@ interpret@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.4.tgz#820cdd588b868ffb191a809506d6c9c8f212b1b0"
 
-intl-format-cache@^2.0.5:
+intl-format-cache@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/intl-format-cache/-/intl-format-cache-2.1.0.tgz#04a369fecbfad6da6005bae1f14333332dcf9316"
 
@@ -3237,7 +3237,7 @@ intl-messageformat-parser@1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-1.4.0.tgz#b43d45a97468cadbe44331d74bb1e8dea44fc075"
 
-intl-messageformat@^2.1.0:
+intl-messageformat@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/intl-messageformat/-/intl-messageformat-2.2.0.tgz#345bcd46de630b7683330c2e52177ff5eab484fc"
   dependencies:
@@ -4417,32 +4417,35 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-ndla-article-scripts@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.1.5.tgz#4be544d4ec0bdc0a3097c5e54b8879b35ef932ce"
-
-ndla-audio-search@^0.1.18:
-  version "0.1.18"
-  resolved "https://registry.yarnpkg.com/ndla-audio-search/-/ndla-audio-search-0.1.18.tgz#e85b763327ec6f584c2c48d108cde1e3b4c30244"
-
-ndla-error-reporter@^0.1.14:
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.1.14.tgz#3f7385af8cd175a3f62f8df0d39b6b8d628160cf"
+ndla-article-scripts@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.2.1.tgz#aa7de6023bef4fc8a84dae9efb392fecf66707fa"
   dependencies:
-    raven-js "^3.9.2"
+    focus-trap "^2.4.2"
+    jump.js "^1.0.2"
 
-ndla-i18n@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/ndla-i18n/-/ndla-i18n-0.2.0.tgz#1e663e0675254a1918394b243191949560dc01a6"
+ndla-audio-search@^0.1.19:
+  version "0.1.19"
+  resolved "https://registry.yarnpkg.com/ndla-audio-search/-/ndla-audio-search-0.1.19.tgz#bdd34fdcc62c7bd4bd4537566187958943d2f29f"
+
+ndla-error-reporter@^0.1.16:
+  version "0.1.16"
+  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.1.16.tgz#0089cc2f86ecea163b54d8ecbf27d65ca1dceec6"
+  dependencies:
+    raven-js "^3.21.0"
+
+ndla-i18n@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/ndla-i18n/-/ndla-i18n-0.2.1.tgz#191a4968c1db22f39f4cbf0b37f639aab4e31b81"
   dependencies:
     hoist-non-react-statics "^2.3.0"
-    intl-format-cache "^2.0.5"
-    intl-messageformat "^2.1.0"
+    intl-format-cache "^2.1.0"
+    intl-messageformat "^2.2.0"
     invariant "^2.2.2"
 
-ndla-icons@^0.1.8:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.1.8.tgz#85c39b1680cb655e7345e767378a38b8dbc4d898"
+ndla-icons@^0.1.11:
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.1.11.tgz#7b5b11f8b224c4b68409e2dbecf8a94294c99fd1"
 
 ndla-image-search@^0.2.9:
   version "0.2.9"
@@ -4450,24 +4453,24 @@ ndla-image-search@^0.2.9:
   dependencies:
     react-bem-helper "^1.4.1"
 
-ndla-licenses@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.1.5.tgz#c385e17f6eb1a3f54d6a3877979e9bb3e575932d"
+ndla-licenses@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.1.6.tgz#0d0d6cf944ca03aba7a681ccabb5f3f6dce9b404"
   dependencies:
     defined "1.0.0"
 
-ndla-tabs@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.4.1.tgz#2e75ace0ab45862ed3238e2a0f59378295f342b6"
+ndla-tabs@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.4.2.tgz#2bb3c84c1ba054093280c95e03511a5568cdccbf"
   dependencies:
     lodash "^4.17.4"
 
-ndla-ui@^0.8.32:
-  version "0.8.32"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.8.32.tgz#8d4e1d5ea3fdfc26ccf84d96b65a3cbf6b65f9d9"
+ndla-ui@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.0.tgz#a42577b4c8ab791700c814adf41127313817ea4c"
   dependencies:
     classnames "2.2.5"
-    focus-trap "^2.3.1"
+    focus-trap "^2.4.2"
     jump.js "^1.0.2"
     react-bem-helper "1.4.1"
     react-prop-types "0.4.0"
@@ -4478,9 +4481,9 @@ ndla-util@^0.1.9:
   dependencies:
     defined "1.0.0"
 
-ndla-video-search@^0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/ndla-video-search/-/ndla-video-search-0.2.5.tgz#992f8f2895f9a058bca0715da8da2a98b5685aa2"
+ndla-video-search@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/ndla-video-search/-/ndla-video-search-0.2.6.tgz#239ae5a5d4d4d05ef166836e001a0d65acbcbf56"
   dependencies:
     react-bem-helper "^1.4.1"
 
@@ -5754,9 +5757,9 @@ range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
 
-raven-js@^3.9.2:
-  version "3.20.0"
-  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.20.0.tgz#b6f92f3db7f168ac32cd466fd5743f40fff4cffe"
+raven-js@^3.21.0:
+  version "3.22.1"
+  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.22.1.tgz#1117f00dfefaa427ef6e1a7d50bbb1fb998a24da"
 
 raw-body@2.3.2:
   version "2.3.2"

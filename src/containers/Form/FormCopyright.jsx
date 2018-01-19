@@ -9,13 +9,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { SelectObjectField } from '../../../components/Fields';
-import { CommonFieldPropsShape } from '../../../shapes';
-import Accordion from '../../../components/Accordion';
-import Contributors from '../../../components/Contributors/Contributors';
-import AgreementConnection from '../../Form/AgreementConnection';
+import { SelectObjectField } from '../../components/Fields';
+import { CommonFieldPropsShape } from '../../shapes';
+import Accordion from '../../components/Accordion';
+import Contributors from '../../components/Contributors/Contributors';
+import { AgreementConnection } from './';
 
-class LearningResourceCopyright extends Component {
+class FormCopyright extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,7 +69,7 @@ class LearningResourceCopyright extends Component {
   }
 }
 
-LearningResourceCopyright.propTypes = {
+FormCopyright.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
@@ -82,4 +82,4 @@ LearningResourceCopyright.propTypes = {
   }),
 };
 
-export default injectT(LearningResourceCopyright);
+export default injectT(FormCopyright);

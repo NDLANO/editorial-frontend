@@ -8,7 +8,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import { LicensesArrayOf } from '../../shapes';
 import { actions as draftActions } from '../../modules/draft/draft';
 import TopicArticleForm, {
   getInitialModel,
@@ -35,7 +35,7 @@ class CreateTopicArticle extends Component {
   }
 
   render() {
-    const { locale, tags, isSaving } = this.props;
+    const { locale, tags, isSaving, licenses } = this.props;
 
     return (
       <TopicArticleForm
@@ -44,6 +44,7 @@ class CreateTopicArticle extends Component {
         locale={locale}
         isSaving={isSaving}
         onUpdate={this.updateDraft}
+        licenses={licenses}
       />
     );
   }
@@ -58,6 +59,7 @@ CreateTopicArticle.propTypes = {
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
   fetchTags: PropTypes.func.isRequired,
+  licenses: LicensesArrayOf,
 };
 
 const mapDispatchToProps = {

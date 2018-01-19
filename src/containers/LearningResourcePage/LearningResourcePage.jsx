@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { OneColumn, Hero } from 'ndla-ui';
+import { OneColumn, SubjectHero } from 'ndla-ui';
 
 import {
   actions as licenseActions,
@@ -20,6 +20,7 @@ import { getLocale } from '../../modules/locale/locale';
 import EditLearningResource from './EditLearningResource';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { LicensesArrayOf } from '../../shapes';
 
 class LearningResourcePage extends Component {
   componentWillMount() {
@@ -38,11 +39,11 @@ class LearningResourcePage extends Component {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <Hero>
+        <SubjectHero>
           <OneColumn>
             <div className="c-hero__content" />
           </OneColumn>
-        </Hero>
+        </SubjectHero>
         <OneColumn cssModifier="narrow">
           <Switch>
             <Route
@@ -79,12 +80,7 @@ LearningResourcePage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
+  licenses: LicensesArrayOf,
   fetchLicenses: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,

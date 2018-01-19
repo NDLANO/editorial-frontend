@@ -13,13 +13,14 @@ import { injectT } from 'ndla-i18n';
 import { compose } from 'redux';
 import { Field, FieldErrorMessages, getField } from '../../../Fields';
 import validateSchema from '../../../../components/validateSchema';
-import { SchemaShape } from '../../../../shapes';
+import { SchemaShape, LinkShape } from '../../../../shapes';
 import { toolbarClasses } from '../SlateToolbar/SlateToolbar'; // TODO: Remove depdency
 import reformed from '../../../reformed';
 
 export const getInitialModel = (link = {}) => ({
   text: link.text || '',
   href: link.href || '',
+  checkbox: link.checkbox || false,
 });
 
 class LinkForm extends Component {
@@ -69,6 +70,15 @@ class LinkForm extends Component {
             submitted={submitted}
           />
         </Field>
+        <Field>
+          <label htmlFor="checkbox">{t('form.content.link.newTab')}</label>
+          <input type="checkbox" {...bindInput('checkbox', 'checkbox')} />
+          <FieldErrorMessages
+            label={t('form.content.link.newTab')}
+            field={getField('checkbox', schema)}
+            submitted={submitted}
+          />
+        </Field>
         <Field right>
           <div {...toolbarClasses('link-actions')}>
             {isEdit ? (
@@ -81,7 +91,11 @@ class LinkForm extends Component {
             <Button outline onClick={onClose}>
               {t('form.abort')}
             </Button>
-            <Button submit>{t('form.save')}</Button>
+            <Button submit>
+              {isEdit
+                ? t('form.content.link.update')
+                : t('form.content.link.insert')}
+            </Button>
           </div>
         </Field>
       </form>
@@ -90,10 +104,7 @@ class LinkForm extends Component {
 }
 
 LinkForm.propTypes = {
-  model: PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    href: PropTypes.string.isRequired,
-  }),
+  model: LinkShape.isRequired,
   schema: SchemaShape,
   setSubmitted: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,

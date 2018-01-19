@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`normalize table 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {
+                  "isHeader": true,
+                },
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "column 1",
+                      },
+                    ],
+                  },
+                ],
+                "type": "table-cell",
+              },
+              Object {
+                "data": Object {
+                  "isHeader": true,
+                },
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "column 2",
+                      },
+                    ],
+                  },
+                ],
+                "type": "table-cell",
+              },
+            ],
+            "type": "table-row",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "column 1",
+                      },
+                    ],
+                  },
+                ],
+                "type": "table-cell",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "column 2",
+                      },
+                    ],
+                  },
+                ],
+                "type": "table-cell",
+              },
+            ],
+            "type": "table-row",
+          },
+        ],
+        "type": "table",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;

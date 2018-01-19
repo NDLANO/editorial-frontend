@@ -6,81 +6,109 @@
  *
  */
 
-a.c-topic-article-form__abort-button.c-button,
-a.c-audio-form__abort-button.c-button,
-a.c-image-form__abort-button.c-button,
-a.c-learning-resource-form__abort-button.c-button {
-  display: inline-block;
-}
-
-.c-topic-article-form {
-  & .c-editor__figure {
-    position: relative;
+.c-form {
+  &--gray-background {
+    background-color: var(--brand-grey--lightest);
+    padding-bottom: 3rem;
   }
-}
 
-.c-topic-article-form,
-.c-audio-form,
-.c-image-form,
-.c-learning-resource-form {
+  &__header {
+    color: white;
+  }
+
+  &__header--article {
+    background-color: var(--article-color);
+  }
+
+  &__header--multimedia {
+    background-color: var(--brand-color--dark);
+  }
+
+  &__header--other {
+    font-size: 1.2rem;
+    background-color: var(--brand-color--secondary);
+  }
+
   @media (min-width: 37.5em) {
     padding-left: 0;
     padding-right: 0;
     padding-top: 0;
   }
 
+  &__title {
+    margin: var(--spacing) 0;
+    font-size: 1.5rem;
+    display: block;
+  }
+
   &__header {
-    padding: 0.6rem 0;
-    background-color: var(--yellow-1);
+    padding: 0.6rem;
+
+    svg {
+      height: 1.2rem;
+      width: 1.2rem;
+    }
+
+    svg + span {
+      margin-left: 1rem;
+    }
 
     & span + span {
       margin-left: 1rem;
     }
   }
 
-  &__abort-button + &__save-button {
-    margin-left: 2rem;
-  }
-
   &__abort-button {
     border-color: var(--brand-grey--light);
   }
 
-  &__save-button,
-  &__abort-button {
-    display: inline-block;
-    min-width: 6rem;
-    border-width: 1px;
+  &__status-columns {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
 
-    &:hover:enabled,
-    &:focus:enabled {
-      border-width: 1px;
-      transform: none;
-    }
-
-    &:active {
-      transform: none;
-    }
-
-    /* NB! Should use :enabled in ndla-ui button css instead */
-    &:disabled {
-      background-color: var(--background-color--dark);
-      transform: none;
-      border: 0;
+    & > * {
+      background-color: var(--brand-grey--light);
+      display: inline-block;
     }
   }
-}
 
-:root {
-  /* c-learning-resource-form -> clrf */
-  --clrf__container--margin: 8em;
-}
+  &__status-1-column {
+    width: 24%;
+  }
 
-.c-learning-resource-form {
-  &__placeholder {
+  &__status-2-column {
+    width: 49%;
+  }
+
+  &__status-1-column,
+  &__status-2-column {
+    padding: 0.2rem;
+    text-align: center;
+    margin: 0 1% 1% 0;
+    border-radius: 1px;
+
+    &--active {
+      background-color: var(--brand-color);
+      color: white;
+    }
+  }
+
+  &__actions {
+    margin-top: var(--spacing--large);
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+
+    & button {
+      border-radius: 1px;
+      margin-right: 1%;
+      width: 24%;
+    }
+  }
+
+  & .c-editor__figure {
     position: relative;
-    margin-left: calc(var(--clrf__container--margin) - 1em);
-    top: 2em;
   }
 
   &__container {
@@ -135,6 +163,20 @@ a.c-learning-resource-form__abort-button.c-button {
       color: color(red blackness(+ 20%));
     }
   }
+
+  &__meta-image {
+    display: flex;
+
+    img {
+      max-width: 60%;
+      margin-top: 10px;
+    }
+  }
+}
+
+:root {
+  /* c-form -> clrf */
+  --clrf__container--margin: 8em;
 }
 
 .c-topic-article-content {

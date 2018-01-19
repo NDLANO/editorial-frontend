@@ -9,8 +9,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
-import { Cross, H5P, Camera, Plus, Video } from 'ndla-ui/icons';
-import { classes } from '../../components/Fields';
+import { Cross, Plus } from 'ndla-icons/action';
+import { H5P, Camera, Video } from 'ndla-icons/editor';
+import { visualElementClasses } from '../TopicArticlePage/components/TopicArticleVisualElement';
 
 class VisualElementMenu extends Component {
   constructor(props) {
@@ -38,26 +39,26 @@ class VisualElementMenu extends Component {
       <div>
         <Button
           stripped
-          {...classes('visual-element-type-button')}
+          {...visualElementClasses('type-button')}
           onClick={this.toggleIsOpen}>
           {this.state.isOpen ? <Cross /> : <Plus />}
         </Button>
-        <div {...classes('visual-element-type', typeClassName)}>
+        <div {...visualElementClasses('type', typeClassName)}>
           <Button
             stripped
-            {...classes('visual-element-type-button')}
+            {...visualElementClasses('type-button')}
             onClick={() => this.handleSelect('image')}>
             <Camera />
           </Button>
           <Button
             stripped
-            {...classes('visual-element-type-button')}
+            {...visualElementClasses('type-button')}
             onClick={() => this.handleSelect('video')}>
             <Video />
           </Button>
           <Button
             stripped
-            {...classes('visual-element-type-button')}
+            {...visualElementClasses('type-button')}
             onClick={() => this.handleSelect('h5p')}>
             <H5P />
           </Button>

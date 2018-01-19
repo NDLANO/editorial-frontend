@@ -15,7 +15,12 @@ import { TYPE } from './';
 import connectLightbox from '../utils/connectLightbox';
 import LinkForm, { getInitialModel } from './LinkForm';
 
-const createContentLinkData = href => {
+const newTabAttributes = {
+  target: '_blank',
+  rel: 'noopener noreferrer',
+};
+
+const createContentLinkData = (href, targetRel) => {
   const splittedHref = href.split('/');
   const id = splittedHref[splittedHref.length - 1];
   return {
@@ -23,14 +28,16 @@ const createContentLinkData = href => {
     data: {
       'content-id': id,
       resource: 'content-link',
+      ...targetRel,
     },
   };
 };
 
-const createLinkData = href => ({
+const createLinkData = (href, targetRel) => ({
   type: TYPE,
   data: {
     href,
+    ...targetRel,
   },
 });
 
@@ -52,15 +59,22 @@ class EditLink extends React.Component {
   }
 
   handleSave(model) {
-    const { state, node } = this.props;
-    const { href, text } = model;
+    const { value, node } = this.props;
+    const { href, text, checkbox } = model;
     const isNDLAUrl = /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
-    const data = isNDLAUrl ? createContentLinkData(href) : createLinkData(href);
+    const data = isNDLAUrl
+      ? createContentLinkData(
+          href,
+          checkbox
+            ? { 'open-in': 'new-context' }
+            : { 'open-in': 'current-context' },
+        )
+      : createLinkData(href, checkbox ? newTabAttributes : {});
 
     if (node.key) {
       // update/change
       this.handleChangeAndClose(
-        state
+        value
           .change()
           .moveToRangeOf(node)
           .insertText(text)
@@ -69,7 +83,7 @@ class EditLink extends React.Component {
     } else {
       // create new
       this.handleChangeAndClose(
-        state
+        value
           .change()
           .insertText(text)
           .extend(0 - text.length)
@@ -80,22 +94,22 @@ class EditLink extends React.Component {
   }
 
   handleRemove() {
-    const { state, node } = this.props;
-    const nextState = state
+    const { value, node } = this.props;
+    const nextValue = value
       .change()
       .removeNodeByKey(node.key)
       .insertText(node.text);
-    this.handleChangeAndClose(nextState);
+    this.handleChangeAndClose(nextValue);
   }
 
   handleChangeAndClose(change) {
-    const { handleStateChange, closeDialog } = this.props;
-    handleStateChange(change.focus()); // Always return focus to editor
+    const { handleValueChange, closeDialog } = this.props;
+    handleValueChange(change.focus()); // Always return focus to editor
     closeDialog();
   }
 
   addData(node) {
-    const { startOffset, endOffset, focusText } = this.props.state;
+    const { startOffset, endOffset, focusText } = this.props.value;
     const data = node.data ? node.data.toJS() : {};
     const text = node.text
       ? node.text
@@ -103,36 +117,34 @@ class EditLink extends React.Component {
 
     const href =
       data.resource === 'content-link'
-        ? `${window.config.editorialFrontendDomain}/article/${data[
-            'content-id'
-          ]}`
+        ? `${window.config.editorialFrontendDomain}/article/${
+            data['content-id']
+          }`
         : data.href;
+
+    const checkbox =
+      data.target === '_blank' || data['open-in'] === 'new-context';
 
     this.setState({
       model: {
         href,
         text,
+        checkbox,
       },
     });
   }
 
   render() {
-    const { t, state } = this.props;
+    const { t, value } = this.props;
     const { model } = this.state;
-    const isEdit = model !== undefined;
+    const isEdit = model !== undefined && model.href !== undefined;
 
     return (
       <div>
-        <h3>
-          {t(
-            `form.content.link.${this.state.isEdit
-              ? 'changeTitle'
-              : 'addTitle'}`,
-          )}
-        </h3>
+        <h2>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</h2>
         <LinkForm
           initialModel={getInitialModel(model)}
-          onClose={() => this.handleChangeAndClose(state.change())}
+          onClose={() => this.handleChangeAndClose(value.change())}
           isEdit={isEdit}
           onRemove={this.handleRemove}
           onSave={this.handleSave}
@@ -144,9 +156,8 @@ class EditLink extends React.Component {
 
 EditLink.propTypes = {
   closeDialog: PropTypes.func.isRequired,
-  handleStateChange: PropTypes.func.isRequired,
-  state: Types.state.isRequired,
-  blur: PropTypes.func.isRequired,
+  handleValueChange: PropTypes.func.isRequired,
+  value: Types.value.isRequired,
   node: PropTypes.oneOfType([
     Types.node,
     PropTypes.shape({ type: PropTypes.string.isRequired }),

@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
-import { Cross } from 'ndla-ui/icons';
+import { Cross } from 'ndla-icons/action';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -48,10 +48,7 @@ class SlateFactAside extends React.Component {
           onClick={this.toggleExpanded}
           className="c-button c-aside__button"
         />
-        <Button
-          stripped
-          onClick={onRemoveClick}
-          {...classes('delete-aside-button')}>
+        <Button stripped onClick={onRemoveClick} {...classes('delete-button')}>
           <Cross />
         </Button>
       </aside>

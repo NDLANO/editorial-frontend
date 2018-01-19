@@ -17,7 +17,6 @@ COPY .babelrc webpack.config.base.js webpack.config.dev.js webpack.config.prod.j
 COPY src $APP_PATH/src
 COPY style $APP_PATH/style
 COPY server $APP_PATH/server
-
 # Build client code
 WORKDIR $APP_PATH
 RUN yarn run build

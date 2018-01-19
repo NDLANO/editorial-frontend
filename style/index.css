@@ -6,6 +6,7 @@
  *
  */
 
+@import '../node_modules/flatpickr/dist/flatpickr.min.css';
 @import '../node_modules/ndla-ui/lib/audioSearch.css';
 @import '../node_modules/ndla-ui/lib/imageSearch.css';
 @import '../node_modules/ndla-ui/lib/main.css';
@@ -16,6 +17,7 @@
 @import './article-form.css';
 @import './auth.css';
 @import './content-block.css';
+@import './dropdown-menu.css';
 @import './dropdown.css';
 @import './fields.css';
 @import './form.css';
@@ -29,6 +31,9 @@
 @import './vars.css';
 @import './footnotes.css';
 @import './link-menu.css';
+@import './table.css';
+@import './meta-information.css';
+@import './visual-element.css';
 
 .c-audio-search {
   width: 70%;
@@ -55,4 +60,8 @@
 a.c-button {
   display: block;
   text-align: center;
+}
+
+.c-figure__byline .c-license-icons__list {
+  margin-top: 0;
 }

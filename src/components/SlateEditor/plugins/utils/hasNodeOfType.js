@@ -6,7 +6,13 @@
  *
  */
 
-const hasNodeOfType = (state, type, kind = 'block') =>
-  state[`${kind}s`].some(node => node.type === type);
+import { editTablePlugin } from '../externalPlugins';
+
+const hasNodeOfType = (value, type, kind = 'block') => {
+  if (type === 'table') {
+    return editTablePlugin.utils.isSelectionInTable(value);
+  }
+  return value[`${kind}s`].some(node => node.type === type);
+};
 
 export default hasNodeOfType;

@@ -7,37 +7,37 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
 import Accordion from '../../../components/Accordion';
 import LearningResourceIngress from './LearningResourceIngress';
-import schema from '../../../components/SlateEditor/schema';
+import {
+  renderNode,
+  schema,
+  renderMark,
+  validateNode,
+} from '../../../components/SlateEditor/schema';
 import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
 import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
+import createDetailsPlugin from '../../../components/SlateEditor/plugins/detailsbox';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
+import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
+import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPicker';
+import { createEmptyValue } from '../../../util/articleContentConverter';
+
 import {
   editListPlugin,
   blockquotePlugin,
+  editTablePlugin,
 } from '../../../components/SlateEditor/plugins/externalPlugins';
+import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 
-import { classes } from './LearningResourceForm';
+import { formClasses } from '../../Form';
 import { CommonFieldPropsShape } from '../../../shapes';
-
-const plugins = [
-  footnotePlugin(),
-  createEmbedPlugin(),
-  createBodyBoxPlugin(),
-  createAsidePlugin(),
-  createLinkPlugin(),
-  headingPlugin(),
-  blockquotePlugin,
-  editListPlugin,
-];
 
 class LearningResourceContent extends Component {
   constructor(props) {
@@ -46,6 +46,23 @@ class LearningResourceContent extends Component {
       hiddenContent: false,
     };
     this.toggleContent = this.toggleContent.bind(this);
+    this.addSection = this.addSection.bind(this);
+
+    this.plugins = [
+      footnotePlugin(),
+      createEmbedPlugin(),
+      createBodyBoxPlugin(),
+      createAsidePlugin(),
+      createDetailsPlugin(),
+      createLinkPlugin(),
+      headingPlugin(),
+      blockquotePlugin,
+      editListPlugin,
+      createTablePlugin(),
+      editTablePlugin,
+      pasteContentPlugin(),
+      blockPickerPlugin(this.addSection),
+    ];
   }
 
   toggleContent() {
@@ -54,11 +71,24 @@ class LearningResourceContent extends Component {
     }));
   }
 
+  addSection() {
+    const { commonFieldProps: { bindInput } } = this.props;
+    const { value, onChange } = bindInput('content');
+    const newblocks = [].concat(value);
+    newblocks.push({ value: createEmptyValue(), index: value.length });
+    onChange({
+      target: {
+        name: 'content',
+        value: newblocks,
+      },
+    });
+  }
+
   render() {
     const { t, commonFieldProps, children } = this.props;
     const contentPlaceholder = (
       <span
-        {...classes('placeholder')}
+        {...formClasses('placeholder')}
         style={{
           opacity: '0.333',
         }}>
@@ -82,10 +112,13 @@ class LearningResourceContent extends Component {
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
         <RichBlockTextField
           slateSchema={schema}
+          renderNode={renderNode}
+          renderMark={renderMark}
+          validateNode={validateNode}
           label={t('form.content.label')}
           placeholder={contentPlaceholder}
           name="content"
-          plugins={plugins}
+          plugins={this.plugins}
           {...commonFieldProps}
         />
         {children}
@@ -96,7 +129,6 @@ class LearningResourceContent extends Component {
 
 LearningResourceContent.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
-  classes: PropTypes.func.isRequired,
 };
 
 export default injectT(LearningResourceContent);

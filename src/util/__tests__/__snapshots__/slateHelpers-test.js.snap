@@ -13,9 +13,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "test",
               },
@@ -26,7 +26,7 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
 }
 `;
 
@@ -43,86 +43,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
-                "marks": Array [],
-                "text": "",
-              },
-            ],
-          },
-          Object {
-            "data": Object {
-              "authors": Array [
-                "Jony Ive",
-              ],
-              "edition": "2",
-              "publisher": "Apple",
-              "resource": "footnote",
-              "title": "Apple Watch",
-              "type": "",
-              "year": "2015",
-            },
-            "isVoid": false,
-            "kind": "inline",
-            "nodes": Array [
-              Object {
-                "kind": "text",
-                "ranges": Array [
-                  Object {
-                    "kind": "range",
-                    "marks": Array [],
-                    "text": "#",
-                  },
-                ],
-              },
-            ],
-            "type": "footnote",
-          },
-          Object {
-            "kind": "text",
-            "ranges": Array [
-              Object {
-                "kind": "range",
-                "marks": Array [],
-                "text": "",
-              },
-            ],
-          },
-          Object {
-            "data": Object {
-              "authors": Array [
-                "Steve Jobs",
-                "Jony Ive",
-              ],
-              "edition": "1",
-              "publisher": "Apple",
-              "resource": "footnote",
-              "title": "iPhone",
-              "type": "",
-              "year": "2007",
-            },
-            "isVoid": false,
-            "kind": "inline",
-            "nodes": Array [
-              Object {
-                "kind": "text",
-                "ranges": Array [
-                  Object {
-                    "kind": "range",
-                    "marks": Array [],
-                    "text": "#",
-                  },
-                ],
-              },
-            ],
-            "type": "footnote",
-          },
-          Object {
-            "kind": "text",
-            "ranges": Array [
-              Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "",
               },
@@ -133,7 +56,1483 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
+}
+`;
+
+exports[`deserialize standard article 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Blokk 1 ",
+                  },
+                ],
+              },
+            ],
+            "type": "heading-two",
+          },
+        ],
+        "type": "section",
+      },
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "Bullet 1",
+                      },
+                    ],
+                  },
+                ],
+                "type": "list-item",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "Bullet 2",
+                      },
+                    ],
+                  },
+                ],
+                "type": "list-item",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "Bullet 3",
+                      },
+                    ],
+                  },
+                ],
+                "type": "list-item",
+              },
+            ],
+            "type": "bulleted-list",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "Bodybox",
+                      },
+                    ],
+                  },
+                ],
+                "type": "heading-two",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "Bodybox content",
+                      },
+                    ],
+                  },
+                ],
+                "type": "paragraph",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "data": Object {},
+                    "isVoid": false,
+                    "kind": "block",
+                    "nodes": Array [
+                      Object {
+                        "kind": "text",
+                        "leaves": Array [
+                          Object {
+                            "kind": "leaf",
+                            "marks": Array [],
+                            "text": "A bodybox quote",
+                          },
+                        ],
+                      },
+                    ],
+                    "type": "paragraph",
+                  },
+                ],
+                "type": "quote",
+              },
+            ],
+            "type": "bodybox",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "A wise quote",
+                      },
+                    ],
+                  },
+                ],
+                "type": "paragraph",
+              },
+            ],
+            "type": "quote",
+          },
+          Object {
+            "data": Object {
+              "type": "letters",
+            },
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "Alpha 1",
+                      },
+                    ],
+                  },
+                ],
+                "type": "list-item",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "Alpha 2",
+                      },
+                    ],
+                  },
+                ],
+                "type": "list-item",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "Alpha 3",
+                      },
+                    ],
+                  },
+                ],
+                "type": "list-item",
+              },
+            ],
+            "type": "letter-list",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {
+              "type": "factAside",
+            },
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "Fact box",
+                      },
+                    ],
+                  },
+                ],
+                "type": "heading-two",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "This should contain some facts!",
+                      },
+                    ],
+                  },
+                ],
+                "type": "paragraph",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet sit amet tortor quis sollicitudin. Donec lacinia, nisl a pharetra lacinia, eros nisi interdum neque, quis egestas lacus dolor et orci. Aenean ac pellentesque mauris. Vestibulum et imperdiet enim. Nam elementum massa non suscipit egestas. Proin malesuada vitae nulla ut vulputate. Cras eleifend orci est, eget rhoncus mi porttitor quis. Nunc sem mi, maximus sit amet ultricies id, varius congue arcu. Pellentesque eu lacus hendrerit, porta erat ut, pharetra urna.",
+                      },
+                    ],
+                  },
+                ],
+                "type": "paragraph",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "Proin vehicula odio id dui vehicula, id pellentesque mauris tincidunt. Aliquam eget porta leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent posuere ante a dapibus maximus. Nulla quis felis sit amet justo mollis suscipit ut non massa. Quisque et nulla ligula. Nam dictum pharetra dui ut tempus. Morbi rutrum urna eu sem euismod, vitae rutrum turpis bibendum. Etiam vulputate urna eget mauris dictum, quis cursus leo scelerisque. Nunc imperdiet elementum nunc in vehicula. Praesent ante purus, posuere vitae luctus sit amet, scelerisque et nibh. Aliquam vestibulum ligula at tristique varius. Proin fermentum nisi in ligula cursus, nec scelerisque felis interdum.",
+                      },
+                    ],
+                  },
+                ],
+                "type": "paragraph",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "Nunc velit dui, sagittis vel lectus eu, tempus porttitor risus. Duis tristique ipsum id massa consequat, non bibendum nisl dictum. Mauris non dignissim sapien. In congue massa libero, at malesuada risus aliquet et. Morbi tincidunt, nisi ac luctus vulputate, nibh nisl vulputate nisi, ac interdum ligula est a ex. Vestibulum at sapien eget odio vulputate varius quis non felis. Donec quis volutpat nisl, at tristique erat. Vestibulum tempor, urna eget hendrerit suscipit, lorem metus mollis nunc, a rhoncus metus lectus elementum justo. Donec id felis at orci varius interdum eu ut orci. Vestibulum quis tempus metus, sed accumsan arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+                      },
+                    ],
+                  },
+                ],
+                "type": "paragraph",
+              },
+            ],
+            "type": "aside",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "data": Object {},
+                    "isVoid": false,
+                    "kind": "block",
+                    "nodes": Array [
+                      Object {
+                        "kind": "text",
+                        "leaves": Array [
+                          Object {
+                            "kind": "leaf",
+                            "marks": Array [],
+                            "text": "Navn",
+                          },
+                        ],
+                      },
+                    ],
+                    "type": "table-cell",
+                  },
+                  Object {
+                    "data": Object {},
+                    "isVoid": false,
+                    "kind": "block",
+                    "nodes": Array [
+                      Object {
+                        "kind": "text",
+                        "leaves": Array [
+                          Object {
+                            "kind": "leaf",
+                            "marks": Array [],
+                            "text": "Alder",
+                          },
+                        ],
+                      },
+                    ],
+                    "type": "table-cell",
+                  },
+                  Object {
+                    "data": Object {},
+                    "isVoid": false,
+                    "kind": "block",
+                    "nodes": Array [
+                      Object {
+                        "kind": "text",
+                        "leaves": Array [
+                          Object {
+                            "kind": "leaf",
+                            "marks": Array [],
+                            "text": "Kommune",
+                          },
+                        ],
+                      },
+                    ],
+                    "type": "table-cell",
+                  },
+                  Object {
+                    "data": Object {},
+                    "isVoid": false,
+                    "kind": "block",
+                    "nodes": Array [
+                      Object {
+                        "kind": "text",
+                        "leaves": Array [
+                          Object {
+                            "kind": "leaf",
+                            "marks": Array [],
+                            "text": "Fylke",
+                          },
+                        ],
+                      },
+                    ],
+                    "type": "table-cell",
+                  },
+                ],
+                "type": "table-row",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "data": Object {},
+                    "isVoid": false,
+                    "kind": "block",
+                    "nodes": Array [
+                      Object {
+                        "kind": "text",
+                        "leaves": Array [
+                          Object {
+                            "kind": "leaf",
+                            "marks": Array [],
+                            "text": "Ola Nordmann",
+                          },
+                        ],
+                      },
+                    ],
+                    "type": "table-cell",
+                  },
+                  Object {
+                    "data": Object {},
+                    "isVoid": false,
+                    "kind": "block",
+                    "nodes": Array [
+                      Object {
+                        "kind": "text",
+                        "leaves": Array [
+                          Object {
+                            "kind": "leaf",
+                            "marks": Array [],
+                            "text": "46",
+                          },
+                        ],
+                      },
+                    ],
+                    "type": "table-cell",
+                  },
+                  Object {
+                    "data": Object {},
+                    "isVoid": false,
+                    "kind": "block",
+                    "nodes": Array [
+                      Object {
+                        "kind": "text",
+                        "leaves": Array [
+                          Object {
+                            "kind": "leaf",
+                            "marks": Array [],
+                            "text": "OSLO",
+                          },
+                        ],
+                      },
+                    ],
+                    "type": "table-cell",
+                  },
+                  Object {
+                    "data": Object {},
+                    "isVoid": false,
+                    "kind": "block",
+                    "nodes": Array [
+                      Object {
+                        "kind": "text",
+                        "leaves": Array [
+                          Object {
+                            "kind": "leaf",
+                            "marks": Array [],
+                            "text": "OSLO",
+                          },
+                        ],
+                      },
+                    ],
+                    "type": "table-cell",
+                  },
+                ],
+                "type": "table-row",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "data": Object {},
+                    "isVoid": false,
+                    "kind": "block",
+                    "nodes": Array [
+                      Object {
+                        "kind": "text",
+                        "leaves": Array [
+                          Object {
+                            "kind": "leaf",
+                            "marks": Array [],
+                            "text": "Kari Nordman",
+                          },
+                        ],
+                      },
+                    ],
+                    "type": "table-cell",
+                  },
+                  Object {
+                    "data": Object {},
+                    "isVoid": false,
+                    "kind": "block",
+                    "nodes": Array [
+                      Object {
+                        "kind": "text",
+                        "leaves": Array [
+                          Object {
+                            "kind": "leaf",
+                            "marks": Array [],
+                            "text": "44",
+                          },
+                        ],
+                      },
+                    ],
+                    "type": "table-cell",
+                  },
+                  Object {
+                    "data": Object {},
+                    "isVoid": false,
+                    "kind": "block",
+                    "nodes": Array [
+                      Object {
+                        "kind": "text",
+                        "leaves": Array [
+                          Object {
+                            "kind": "leaf",
+                            "marks": Array [],
+                            "text": "SKEDSMO",
+                          },
+                        ],
+                      },
+                    ],
+                    "type": "table-cell",
+                  },
+                  Object {
+                    "data": Object {},
+                    "isVoid": false,
+                    "kind": "block",
+                    "nodes": Array [
+                      Object {
+                        "kind": "text",
+                        "leaves": Array [
+                          Object {
+                            "kind": "leaf",
+                            "marks": Array [],
+                            "text": "OSLO",
+                          },
+                        ],
+                      },
+                    ],
+                    "type": "table-cell",
+                  },
+                ],
+                "type": "table-row",
+              },
+            ],
+            "type": "table",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {
+              "align": "",
+              "alt": "focalpoint",
+              "caption": "focalpoint",
+              "focal-x": "20.126776485788113",
+              "focal-y": "7.414585620197585",
+              "resource": "image",
+              "resource_id": "2",
+              "size": "fullbredde",
+              "url": "https://test.api.ndla.no/image-api/v2/images/2",
+            },
+            "isVoid": true,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": " ",
+                  },
+                ],
+              },
+            ],
+            "type": "embed",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {
+              "align": "",
+              "alt": "cropped",
+              "caption": "cropped",
+              "lower-right-x": "71.0625",
+              "lower-right-y": "56.90364583333333",
+              "resource": "image",
+              "resource_id": "3",
+              "size": "fullbredde",
+              "upper-left-x": "37.72916666666667",
+              "upper-left-y": "23.736979166666668",
+              "url": "https://test.api.ndla.no/image-api/v2/images/3",
+            },
+            "isVoid": true,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": " ",
+                  },
+                ],
+              },
+            ],
+            "type": "embed",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet sit amet tortor quis sollicitudin. Donec lacinia, nisl a pharetra lacinia, eros nisi interdum neque, quis egestas lacus dolor et orci. Aenean ac pellentesque mauris. Vestibulum et imperdiet enim. Nam elementum massa non suscipit egestas. Proin malesuada vitae nulla ut vulputate. Cras eleifend orci est, eget rhoncus mi porttitor quis. Nunc sem mi, maximus sit amet ultricies id, varius congue arcu. Pellentesque eu lacus hendrerit, porta erat ut, pharetra urna.",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Proin vehicula odio id dui vehicula, id pellentesque mauris tincidunt. Aliquam eget porta leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent posuere ante a dapibus maximus. Nulla quis felis sit amet justo mollis suscipit ut non massa. Quisque et nulla ligula. Nam dictum pharetra dui ut tempus. Morbi rutrum urna eu sem euismod, vitae rutrum turpis bibendum. Etiam vulputate urna eget mauris dictum, quis cursus leo scelerisque. Nunc imperdiet elementum nunc in vehicula. Praesent ante purus, posuere vitae luctus sit amet, scelerisque et nibh. Aliquam vestibulum ligula at tristique varius. Proin fermentum nisi in ligula cursus, nec scelerisque felis interdum.",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {
+              "align": "left",
+              "alt": "left align",
+              "caption": "left align",
+              "resource": "image",
+              "resource_id": "4",
+              "size": "fullbredde",
+              "url": "https://test.api.ndla.no/image-api/v2/images/4",
+            },
+            "isVoid": true,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": " ",
+                  },
+                ],
+              },
+            ],
+            "type": "embed",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Nunc velit dui, sagittis vel lectus eu, tempus porttitor risus. Duis tristique ipsum id massa consequat, non bibendum nisl dictum. Mauris non dignissim sapien. In congue massa libero, at malesuada risus aliquet et. Morbi tincidunt, nisi ac luctus vulputate, nibh nisl vulputate nisi, ac interdum ligula est a ex. Vestibulum at sapien eget odio vulputate varius quis non felis. Donec quis volutpat nisl, at tristique erat. Vestibulum tempor, urna eget hendrerit suscipit, lorem metus mollis nunc, a rhoncus metus lectus elementum justo. Donec id felis at orci varius interdum eu ut orci. Vestibulum quis tempus metus, sed accumsan arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Phasellus vitae metus vitae tellus imperdiet fringilla vel sit amet metus. Praesent tincidunt diam in laoreet maximus. Nulla ultricies dolor in nisi imperdiet lobortis. Nullam euismod, ex quis tempus maximus, nunc tortor dictum massa, non pulvinar turpis magna vestibulum tellus. Donec vehicula neque sed vehicula varius. Nam in cursus lectus, eget laoreet ex. Donec eleifend varius mi ac dapibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed at erat non arcu porta posuere sit amet ut nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam ornare massa id ipsum interdum pulvinar. Donec sed malesuada sem, non tempus ligula. In hac habitasse platea dictumst. Proin metus tortor, molestie id commodo ullamcorper, malesuada volutpat nisi.",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {
+              "align": "right",
+              "alt": "right align",
+              "caption": "right align",
+              "resource": "image",
+              "resource_id": "6",
+              "size": "fullbredde",
+              "url": "https://test.api.ndla.no/image-api/v2/images/6",
+            },
+            "isVoid": true,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": " ",
+                  },
+                ],
+              },
+            ],
+            "type": "embed",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "In hac habitasse platea dictumst. Curabitur vestibulum nisl leo, blandit vehicula purus cursus vel. Pellentesque ac mi dolor. Ut pretium arcu pharetra justo ultrices aliquam. Aliquam leo est, congue eget ultricies at, commodo a massa. In ultrices consectetur ante, sit amet vestibulum lorem volutpat sed. Fusce orci orci, pretium at aliquet eu, ornare sed lacus. Nunc ut odio velit. In velit mauris, fringilla sit amet mi ornare, dictum molestie ipsum. Donec eget justo accumsan, malesuada nisi id, commodo elit. Mauris congue lacus a scelerisque varius.",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {
+              "account": "4806596774001",
+              "caption": "video",
+              "player": "BkLm8fT",
+              "resource": "brightcove",
+              "videoid": "5389115230001",
+            },
+            "isVoid": true,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": " ",
+                  },
+                ],
+              },
+            ],
+            "type": "embed",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {
+              "resource": "audio",
+              "resource_id": "945",
+              "url": "https://test.api.ndla.no/audio-api/v1/audio/945",
+            },
+            "isVoid": true,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": " ",
+                  },
+                ],
+              },
+            ],
+            "type": "embed",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Hei på ",
+                  },
+                ],
+              },
+              Object {
+                "data": Object {
+                  "href": "https://ndla.no/",
+                  "rel": "",
+                  "target": "",
+                },
+                "isVoid": false,
+                "kind": "inline",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "deg",
+                      },
+                    ],
+                  },
+                ],
+                "type": "link",
+              },
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": " og ",
+                  },
+                ],
+              },
+              Object {
+                "data": Object {
+                  "href": "https://ndla.no/",
+                  "rel": "noopener noreferrer",
+                  "target": "_blank",
+                },
+                "isVoid": false,
+                "kind": "inline",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "meg",
+                      },
+                    ],
+                  },
+                ],
+                "type": "link",
+              },
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "NDLA ",
+                  },
+                ],
+              },
+              Object {
+                "data": Object {
+                  "href": "https://ndla.no/en/node/42",
+                  "rel": "noopener noreferrer",
+                  "target": "_blank",
+                },
+                "isVoid": false,
+                "kind": "inline",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "NODE ID",
+                      },
+                    ],
+                  },
+                ],
+                "type": "link",
+              },
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "ddd",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+        ],
+        "type": "section",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
+exports[`deserializing a br 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "leaves": Array [
+              Object {
+                "kind": "leaf",
+                "marks": Array [],
+                "text": "",
+              },
+            ],
+          },
+        ],
+        "type": "br",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
+exports[`deserializing a normal div block 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "A paragraph",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+        ],
+        "type": "div",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
+exports[`deserializing a quote 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "leaves": Array [
+              Object {
+                "kind": "leaf",
+                "marks": Array [],
+                "text": "This quote should be both smart and wise",
+              },
+            ],
+          },
+        ],
+        "type": "quote",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
+exports[`deserializing a section 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Paragraph text",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+        ],
+        "type": "section",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
+exports[`deserializing alphabetical list 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {
+          "type": "letters",
+        },
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Rad 1",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Rad 2",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Rad 3",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+        ],
+        "type": "letter-list",
+      },
+    ],
+  },
+  "kind": "value",
 }
 `;
 
@@ -150,9 +1549,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "heading 1",
               },
@@ -168,9 +1567,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "heading 2",
               },
@@ -186,9 +1585,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "heading 3",
               },
@@ -204,9 +1603,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "heading 4",
               },
@@ -222,9 +1621,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "heading 5",
               },
@@ -240,9 +1639,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "heading 6",
               },
@@ -253,7 +1652,597 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
+}
+`;
+
+exports[`deserializing any heading should result in heading-two 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "leaves": Array [
+              Object {
+                "kind": "leaf",
+                "marks": Array [],
+                "text": "Heading 1",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
+exports[`deserializing any heading should result in heading-two 2`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "leaves": Array [
+              Object {
+                "kind": "leaf",
+                "marks": Array [],
+                "text": "Heading 2",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
+exports[`deserializing any heading should result in heading-two 3`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "leaves": Array [
+              Object {
+                "kind": "leaf",
+                "marks": Array [],
+                "text": "Heading 3",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
+exports[`deserializing any heading should result in heading-two 4`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "leaves": Array [
+              Object {
+                "kind": "leaf",
+                "marks": Array [],
+                "text": "Heading 4",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
+exports[`deserializing any heading should result in heading-two 5`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "leaves": Array [
+              Object {
+                "kind": "leaf",
+                "marks": Array [],
+                "text": "Heading 5",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
+exports[`deserializing any heading should result in heading-two 6`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "leaves": Array [
+              Object {
+                "kind": "leaf",
+                "marks": Array [],
+                "text": "Heading 6",
+              },
+            ],
+          },
+        ],
+        "type": "heading-two",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
+exports[`deserializing bullet list 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Rad 1",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Rad 2",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Rad 3",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+        ],
+        "type": "bulleted-list",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
+exports[`deserializing details box with summary element 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Summary text",
+                  },
+                ],
+              },
+            ],
+            "type": "summary",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Details text",
+                  },
+                ],
+              },
+            ],
+            "type": "paragraph",
+          },
+        ],
+        "type": "details",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
+exports[`deserializing list with paragraph inside li elements 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "paragraph 1",
+                      },
+                    ],
+                  },
+                ],
+                "type": "list-text",
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "paragraph 2",
+                      },
+                    ],
+                  },
+                ],
+                "type": "list-text",
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "bold paragraph 3",
+                      },
+                    ],
+                  },
+                ],
+                "type": "list-text",
+              },
+            ],
+            "type": "list-item",
+          },
+        ],
+        "type": "bulleted-list",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
+exports[`deserializing numbered list 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Rad 1",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Rad 2",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Rad 3",
+                  },
+                ],
+              },
+            ],
+            "type": "list-item",
+          },
+        ],
+        "type": "numbered-list",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
+exports[`deserializing table 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "column 1",
+                      },
+                    ],
+                  },
+                ],
+                "type": "table-cell",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "column 2",
+                      },
+                    ],
+                  },
+                ],
+                "type": "table-cell",
+              },
+            ],
+            "type": "table-row",
+          },
+          Object {
+            "data": Object {},
+            "isVoid": false,
+            "kind": "block",
+            "nodes": Array [
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "column 1",
+                      },
+                    ],
+                  },
+                ],
+                "type": "table-cell",
+              },
+              Object {
+                "data": Object {},
+                "isVoid": false,
+                "kind": "block",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "column 2",
+                      },
+                    ],
+                  },
+                ],
+                "type": "table-cell",
+              },
+            ],
+            "type": "table-row",
+          },
+        ],
+        "type": "table",
+      },
+    ],
+  },
+  "kind": "value",
 }
 `;
 
@@ -283,3 +2272,23 @@ exports[`serialize footnote 1`] = `
   data-year="2015"
 />
 `;
+
+exports[`serializing a normal div block 1`] = `"<div><p>A paragraph</p></div>"`;
+
+exports[`serializing br 1`] = `"<br/>"`;
+
+exports[`serializing bullet list 1`] = `"<ul><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ul>"`;
+
+exports[`serializing details box with summary element 1`] = `"<details><summary>Summary text</summary></details>"`;
+
+exports[`serializing heading-two 1`] = `"<h2>heading 2</h2>"`;
+
+exports[`serializing letter list 1`] = `"<ol data-type=\\"letters\\"><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ol>"`;
+
+exports[`serializing numbered list 1`] = `"<ol><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ol>"`;
+
+exports[`serializing quote 1`] = `"<blockquote>This quote should be both smart and wise</blockquote>"`;
+
+exports[`serializing section 1`] = `"<section><p>Paragraph text</p></section>"`;
+
+exports[`serializing standard article 1`] = `"<section><h2>Blokk 1 </h2></section><section><p></p><ul><li>Bullet 1</li><li>Bullet 2</li><li>Bullet 3</li></ul><p></p><div class=\\"c-bodybox\\"><h2>Bodybox</h2><p>Bodybox content</p><blockquote><p>A bodybox quote</p></blockquote></div><blockquote><p>A wise quote</p></blockquote><ol data-type=\\"letters\\"><li>Alpha 1</li><li>Alpha 2</li><li>Alpha 3</li></ol><p></p><aside data-type=\\"factAside\\"><h2>Fact box</h2><p>This should contain some facts!</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet sit amet tortor quis sollicitudin. Donec lacinia, nisl a pharetra lacinia, eros nisi interdum neque, quis egestas lacus dolor et orci. Aenean ac pellentesque mauris. Vestibulum et imperdiet enim. Nam elementum massa non suscipit egestas. Proin malesuada vitae nulla ut vulputate. Cras eleifend orci est, eget rhoncus mi porttitor quis. Nunc sem mi, maximus sit amet ultricies id, varius congue arcu. Pellentesque eu lacus hendrerit, porta erat ut, pharetra urna.</p><p>Proin vehicula odio id dui vehicula, id pellentesque mauris tincidunt. Aliquam eget porta leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent posuere ante a dapibus maximus. Nulla quis felis sit amet justo mollis suscipit ut non massa. Quisque et nulla ligula. Nam dictum pharetra dui ut tempus. Morbi rutrum urna eu sem euismod, vitae rutrum turpis bibendum. Etiam vulputate urna eget mauris dictum, quis cursus leo scelerisque. Nunc imperdiet elementum nunc in vehicula. Praesent ante purus, posuere vitae luctus sit amet, scelerisque et nibh. Aliquam vestibulum ligula at tristique varius. Proin fermentum nisi in ligula cursus, nec scelerisque felis interdum.</p><p>Nunc velit dui, sagittis vel lectus eu, tempus porttitor risus. Duis tristique ipsum id massa consequat, non bibendum nisl dictum. Mauris non dignissim sapien. In congue massa libero, at malesuada risus aliquet et. Morbi tincidunt, nisi ac luctus vulputate, nibh nisl vulputate nisi, ac interdum ligula est a ex. Vestibulum at sapien eget odio vulputate varius quis non felis. Donec quis volutpat nisl, at tristique erat. Vestibulum tempor, urna eget hendrerit suscipit, lorem metus mollis nunc, a rhoncus metus lectus elementum justo. Donec id felis at orci varius interdum eu ut orci. Vestibulum quis tempus metus, sed accumsan arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p></aside><p></p><table><thead><tr><td>Navn</td><td>Alder</td><td>Kommune</td><td>Fylke</td></tr></thead><tbody><tr><td>Ola Nordmann</td><td>46</td><td>OSLO</td><td>OSLO</td></tr><tr><td>Kari Nordman</td><td>44</td><td>SKEDSMO</td><td>OSLO</td></tr></tbody></table><p></p><embed data-size=\\"fullbredde\\" data-align=\\"\\" data-caption=\\"focalpoint\\" data-alt=\\"focalpoint\\" data-resource_id=\\"2\\" data-resource=\\"image\\" data-url=\\"https://test.api.ndla.no/image-api/v2/images/2\\" data-focal-x=\\"20.126776485788113\\" data-focal-y=\\"7.414585620197585\\"/><p></p><embed data-size=\\"fullbredde\\" data-align=\\"\\" data-caption=\\"cropped\\" data-alt=\\"cropped\\" data-resource_id=\\"3\\" data-resource=\\"image\\" data-url=\\"https://test.api.ndla.no/image-api/v2/images/3\\" data-lower-right-x=\\"71.0625\\" data-lower-right-y=\\"56.90364583333333\\" data-upper-left-x=\\"37.72916666666667\\" data-upper-left-y=\\"23.736979166666668\\"/><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet sit amet tortor quis sollicitudin. Donec lacinia, nisl a pharetra lacinia, eros nisi interdum neque, quis egestas lacus dolor et orci. Aenean ac pellentesque mauris. Vestibulum et imperdiet enim. Nam elementum massa non suscipit egestas. Proin malesuada vitae nulla ut vulputate. Cras eleifend orci est, eget rhoncus mi porttitor quis. Nunc sem mi, maximus sit amet ultricies id, varius congue arcu. Pellentesque eu lacus hendrerit, porta erat ut, pharetra urna.</p><p>Proin vehicula odio id dui vehicula, id pellentesque mauris tincidunt. Aliquam eget porta leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent posuere ante a dapibus maximus. Nulla quis felis sit amet justo mollis suscipit ut non massa. Quisque et nulla ligula. Nam dictum pharetra dui ut tempus. Morbi rutrum urna eu sem euismod, vitae rutrum turpis bibendum. Etiam vulputate urna eget mauris dictum, quis cursus leo scelerisque. Nunc imperdiet elementum nunc in vehicula. Praesent ante purus, posuere vitae luctus sit amet, scelerisque et nibh. Aliquam vestibulum ligula at tristique varius. Proin fermentum nisi in ligula cursus, nec scelerisque felis interdum.</p><p></p><embed data-align=\\"left\\" data-alt=\\"left align\\" data-caption=\\"left align\\" data-resource=\\"image\\" data-resource_id=\\"4\\" data-size=\\"fullbredde\\" data-url=\\"https://test.api.ndla.no/image-api/v2/images/4\\"/><p>Nunc velit dui, sagittis vel lectus eu, tempus porttitor risus. Duis tristique ipsum id massa consequat, non bibendum nisl dictum. Mauris non dignissim sapien. In congue massa libero, at malesuada risus aliquet et. Morbi tincidunt, nisi ac luctus vulputate, nibh nisl vulputate nisi, ac interdum ligula est a ex. Vestibulum at sapien eget odio vulputate varius quis non felis. Donec quis volutpat nisl, at tristique erat. Vestibulum tempor, urna eget hendrerit suscipit, lorem metus mollis nunc, a rhoncus metus lectus elementum justo. Donec id felis at orci varius interdum eu ut orci. Vestibulum quis tempus metus, sed accumsan arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p><p>Phasellus vitae metus vitae tellus imperdiet fringilla vel sit amet metus. Praesent tincidunt diam in laoreet maximus. Nulla ultricies dolor in nisi imperdiet lobortis. Nullam euismod, ex quis tempus maximus, nunc tortor dictum massa, non pulvinar turpis magna vestibulum tellus. Donec vehicula neque sed vehicula varius. Nam in cursus lectus, eget laoreet ex. Donec eleifend varius mi ac dapibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed at erat non arcu porta posuere sit amet ut nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam ornare massa id ipsum interdum pulvinar. Donec sed malesuada sem, non tempus ligula. In hac habitasse platea dictumst. Proin metus tortor, molestie id commodo ullamcorper, malesuada volutpat nisi.</p><p></p><embed data-align=\\"right\\" data-alt=\\"right align\\" data-caption=\\"right align\\" data-resource=\\"image\\" data-resource_id=\\"6\\" data-size=\\"fullbredde\\" data-url=\\"https://test.api.ndla.no/image-api/v2/images/6\\"/><p>In hac habitasse platea dictumst. Curabitur vestibulum nisl leo, blandit vehicula purus cursus vel. Pellentesque ac mi dolor. Ut pretium arcu pharetra justo ultrices aliquam. Aliquam leo est, congue eget ultricies at, commodo a massa. In ultrices consectetur ante, sit amet vestibulum lorem volutpat sed. Fusce orci orci, pretium at aliquet eu, ornare sed lacus. Nunc ut odio velit. In velit mauris, fringilla sit amet mi ornare, dictum molestie ipsum. Donec eget justo accumsan, malesuada nisi id, commodo elit. Mauris congue lacus a scelerisque varius.</p><p></p><p></p><p></p><p></p><embed data-account=\\"4806596774001\\" data-caption=\\"video\\" data-player=\\"BkLm8fT\\" data-resource=\\"brightcove\\" data-videoid=\\"5389115230001\\"/><p></p><embed data-resource=\\"audio\\" data-resource_id=\\"945\\" data-url=\\"https://test.api.ndla.no/audio-api/v1/audio/945\\"/><p>Hei på <a href=\\"https://ndla.no/\\" target=\\"\\" rel=\\"\\" title=\\"deg\\">deg</a> og <a href=\\"https://ndla.no/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\" title=\\"meg\\">meg</a></p><p></p><p>NDLA <a href=\\"https://ndla.no/en/node/42\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\" title=\\"NODE ID\\">NODE ID</a></p><p>ddd</p></section>"`;

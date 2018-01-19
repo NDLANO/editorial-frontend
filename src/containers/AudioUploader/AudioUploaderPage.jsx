@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { OneColumn, Hero } from 'ndla-ui';
+import { OneColumn, SubjectHero } from 'ndla-ui';
 
 import {
   actions as tagActions,
@@ -37,7 +37,7 @@ class AudioUploaderPage extends Component {
 
     return (
       <div>
-        <Hero />
+        <SubjectHero />
         <OneColumn cssModifier="narrow">
           <Switch>
             <Route

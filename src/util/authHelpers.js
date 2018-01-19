@@ -10,9 +10,10 @@ import 'isomorphic-fetch';
 import auth0 from 'auth0-js';
 import createHistory from 'history/createBrowserHistory';
 import { expiresIn } from './jwtHelper';
+import { resolveJsonOrRejectWithError } from './apiHelpers';
 
 export const auth0Domain = window.config.auth0Domain;
-export const auth0ClientId = window.config.auth0ClientID;
+export const ndlaPersonalClientId = window.config.ndlaPersonalClientId;
 
 const locationOrigin = (() => {
   if (process.env.NODE_ENV === 'unittest') {
@@ -34,34 +35,12 @@ const locationOrigin = (() => {
 
 export { locationOrigin };
 
-export const setIdTokenInLocalStorage = idToken => {
-  localStorage.setItem('id_token', idToken);
-  localStorage.setItem(
-    'id_token_expires_at',
-    expiresIn(idToken) * 1000 + new Date().getTime(),
-  );
-};
-
-export const clearIdTokenFromLocalStorage = () => {
-  localStorage.removeItem('id_token');
-  localStorage.removeItem('id_token_expires_at');
-};
-
-export const getExpiresAt = () =>
-  localStorage.getItem('id_token_expires_at')
-    ? JSON.parse(localStorage.getItem('id_token_expires_at'))
-    : 0;
-
-export const getIdToken = () => localStorage.getItem('id_token');
-
-export const isIdTokenValid = () => new Date().getTime() < getExpiresAt();
-
 const auth = new auth0.WebAuth({
-  clientID: auth0ClientId || '',
+  clientID: ndlaPersonalClientId || '',
   domain: auth0Domain || '',
-  responseType: 'token id_token',
+  responseType: 'token',
   redirectUri: `${locationOrigin}/login/success`,
-  scope: 'openid app_metadata name',
+  audience: 'ndla_system',
 });
 
 export function parseHash(hash) {
@@ -76,10 +55,78 @@ export function parseHash(hash) {
   });
 }
 
-export const authLogout = federated => {
+export function setAccessTokenInLocalStorage(accessToken, personal) {
+  localStorage.setItem('access_token', accessToken);
+  localStorage.setItem(
+    'access_token_expires_at',
+    expiresIn(accessToken) * 1000 + new Date().getTime(),
+  );
+  localStorage.setItem('access_token_personal', personal);
+}
+
+export const clearAccessTokenFromLocalStorage = () => {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('access_token_expires_at');
+  localStorage.removeItem('access_token_personal');
+};
+
+export const getAccessTokenExpiresAt = () =>
+  localStorage.getItem('access_token_expires_at')
+    ? JSON.parse(localStorage.getItem('access_token_expires_at'))
+    : 0;
+
+export const getAccessToken = () => localStorage.getItem('access_token');
+
+export const isAccessTokenValid = () =>
+  new Date().getTime() < getAccessTokenExpiresAt();
+
+export const fetchSystemAccessToken = () =>
+  fetch(`${locationOrigin}/get_token`).then(resolveJsonOrRejectWithError);
+
+export const renewSystemAuth = () =>
+  fetchSystemAccessToken().then(res => {
+    setAccessTokenInLocalStorage(res.access_token, false);
+  });
+
+export function loginPersonalAccessToken(type) {
+  auth.authorize({
+    connection: type,
+    clientID: ndlaPersonalClientId,
+  });
+}
+
+export const renewPersonalAuth = () =>
+  new Promise((resolve, reject) => {
+    auth.renewAuth(
+      {
+        redirectUri: `${locationOrigin}/login/silent-callback`,
+        usePostMessage: true,
+      },
+      (err, authResult) => {
+        if (authResult && authResult.accessToken) {
+          setAccessTokenInLocalStorage(authResult.accessToken, true);
+          resolve(authResult.accessToken);
+        } else {
+          createHistory().push('/logout/session'); // Push to logoutPath
+          window.location.reload(); // Need to reload to logout
+          reject();
+        }
+      },
+    );
+  });
+
+export const renewAuth = () => {
+  if (localStorage.getItem('access_token_personal') === 'true') {
+    renewPersonalAuth();
+  } else {
+    renewSystemAuth();
+  }
+};
+
+export const personalAuthLogout = federated => {
   const options = {
     returnTo: `${locationOrigin}`,
-    clientID: auth0ClientId,
+    clientID: ndlaPersonalClientId,
   };
 
   if (federated) {
@@ -91,30 +138,3 @@ export const authLogout = federated => {
 
   return auth.logout(options);
 };
-
-export function loginSocialMedia(type) {
-  auth.authorize({
-    connection: type,
-    clientID: auth0ClientId,
-  });
-}
-
-export const renewAuth = () =>
-  new Promise((resolve, reject) => {
-    auth.renewAuth(
-      {
-        redirectUri: `${locationOrigin}/login/silent-callback`,
-        usePostMessage: true,
-      },
-      (err, authResult) => {
-        if (authResult && authResult.idToken) {
-          setIdTokenInLocalStorage(authResult.idToken);
-          resolve(authResult.idToken);
-        } else {
-          createHistory().push('/logout/session'); // Push to logoutPath
-          window.location.reload(); // Need to reload to logout
-          reject();
-        }
-      },
-    );
-  });

@@ -13,7 +13,8 @@ export function toSearch(query) {
 }
 
 export function toEditArticle(articleId, articleType, locale) {
-  return `/${articleTypes[articleType]}/${articleId}/edit/${locale}`;
+  const url = articleTypes[articleType] || articleTypes.standard;
+  return `/${url}/${articleId}/edit/${locale}`;
 }
 export function toCreateLearningResource() {
   return `/learning-resource/new`;
@@ -53,6 +54,14 @@ export function toCreateImage() {
 
 export function toEditImage(imageId) {
   return `/image-upload/${imageId}/edit`;
+}
+
+export function toCreateAgreement() {
+  return '/agreement/new';
+}
+
+export function toEditAgreement(agreementId) {
+  return `/agreement/${agreementId}/edit`;
 }
 
 export function to404() {

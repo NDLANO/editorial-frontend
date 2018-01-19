@@ -11,7 +11,8 @@ import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { SiteNav, SiteNavItem } from 'ndla-ui';
-import { Search, Cross } from 'ndla-ui/icons';
+import { Cross } from 'ndla-icons/action';
+import { Search } from 'ndla-icons/common';
 import { withRouter } from 'react-router-dom';
 
 import MastheadSearchForm from './components/MastheadSearchForm';
@@ -59,7 +60,7 @@ class MastheadSearch extends Component {
     const { showSearchField, query } = this.state;
     const locationQuery = queryString.parse(location.search);
     let articleTypes;
-    if (locationQuery.types === 'articles' || !location.types) {
+    if (locationQuery.types === 'articles') {
       articleTypes = locationQuery.articleTypes
         ? locationQuery.articleTypes
         : 'standard';
@@ -96,10 +97,13 @@ class MastheadSearch extends Component {
               toSearch({
                 query: searchQuery,
                 page: 1,
-                types: locationQuery.types ? locationQuery.types : 'articles',
+                types: locationQuery.types
+                  ? locationQuery.types
+                  : ['articles', 'images', 'audios'].join(','),
                 articleTypes,
               }),
-            )}
+            )
+          }
         />
       </div>
     );

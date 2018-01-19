@@ -16,7 +16,7 @@ import {
 } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 import { MetaImageShape, CommonFieldPropsShape } from '../../../shapes';
-import LearningResourceVisualElement from './LearningResourceVisualElement';
+import MetaImageSearch from './MetaImageSearch';
 
 class LearningResourceMetadata extends Component {
   constructor(props) {
@@ -64,14 +64,14 @@ class LearningResourceMetadata extends Component {
           <RemainingCharacters
             maxLength={155}
             getRemainingLabel={(maxLength, remaining) =>
-              t('form.remainingCharacters', { maxLength, remaining })}
+              t('form.remainingCharacters', { maxLength, remaining })
+            }
             value={bindInput('metaDescription').value.document.text}
           />
         </PlainTextField>
-        <LearningResourceVisualElement
-          metaImageTag={model.metaImage}
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
+        <MetaImageSearch
+          metaImageId={model.metaImageId}
+          {...bindInput('metaImageId')}
         />
       </Accordion>
     );
@@ -82,7 +82,6 @@ LearningResourceMetadata.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   bindInput: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
-  classes: PropTypes.func.isRequired,
   model: PropTypes.shape({
     metaImage: MetaImageShape,
   }),

@@ -23,6 +23,7 @@ const phrases = {
     createLearningResource: 'Create learning resource',
     createAudioFile: 'Upload audiofile',
     createImage: 'Upload image',
+    createAgreement: 'Create agreement',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -111,6 +112,7 @@ const phrases = {
       h5p: 'H5P title',
     },
     visualElementCopyright: 'Origin',
+    removeVisualElement: 'Remove element',
     info: {
       lastUpdated: 'Last updated: {updated}',
     },
@@ -156,10 +158,11 @@ const phrases = {
     },
   },
   learningResourceForm: {
-    visualElementTitle: {
-      image: 'Image title',
+    metaImage: {
+      title: 'Image title',
+      copyright: 'Copyright',
+      change: 'Change meta image',
     },
-    visualElementCopyright: 'Origin',
     title: {
       create: 'You are now creating a learning resource on {title}({key})',
       update: 'You are now editing a learning resource on {title}({key})',
@@ -170,11 +173,11 @@ const phrases = {
     },
     fields: {
       rightAside: 'Right column',
+      metaImage: {
+        title: 'Meta image',
+        label: 'Meta image',
+      },
       footnotes: {
-        metaImage: {
-          title: 'Meta image',
-          label: 'Meta image',
-        },
         edition: 'Edition',
         publisher: 'Publisher',
       },
@@ -183,10 +186,15 @@ const phrases = {
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Content',
+    workflowSection: 'Workflow',
     copyrightSection: 'License and authors',
     save: 'Save',
     abort: 'Abort',
+    validate: 'Validate',
+    publish: 'Publish',
     savedOk: 'Saved OK',
+    publishedOk: 'Published OK',
+    validationOk: 'No validation errors found',
     createdOk: 'Created OK',
     variant: {
       create: 'Create variant +',
@@ -203,6 +211,26 @@ const phrases = {
       title: 'Add visual element',
       label: 'Visual element',
     },
+    status: {
+      created: 'Created',
+      draft: 'Draft',
+      user_test: 'User test',
+      awaiting_quality_assurance: 'Quality assurance',
+      queued_for_publishing: 'Queued for publishing',
+      published: 'Published',
+      imported: 'Imported',
+    },
+    validDate: {
+      label: 'Valid date',
+      from: {
+        label: 'Valid from',
+        placeholder: 'From date',
+      },
+      to: {
+        label: 'Valid to',
+        placeholder: 'To date',
+      },
+    },
     content: {
       label: 'Content',
       placeholder: 'Write here...',
@@ -211,9 +239,12 @@ const phrases = {
       },
       link: {
         goTo: 'Go to',
+        insert: 'Insert link',
+        update: 'Update link',
         change: 'Change',
         remove: 'Remove link',
         href: 'Link',
+        newTab: 'Open link in new tab',
         text: 'Text',
         addTitle: 'Add link',
         changeTitle: 'Change link',
@@ -234,6 +265,13 @@ const phrases = {
         editTitle: 'Edit footnote',
         removeFootnote: 'Remove footnote',
       },
+      table: {
+        'row-remove': 'Remove row',
+        'row-add': 'Add row',
+        'column-add': 'Add column',
+        'column-remove': 'Remove column',
+        'table-remove': 'Remove table',
+      },
     },
     tags: {
       label: 'Tags',
@@ -246,22 +284,22 @@ const phrases = {
       label: 'Meta description',
       description: 'The description will be viewable in search.',
     },
-    contributors: {
-      label: 'Contributor',
-      createOption: 'Add new contributor',
+    rightsholders: {
+      label: 'Rightsholder',
+      createOption: 'Add new rightsholder',
       emptyFilter: ' ',
       emptyList: ' ',
     },
-    licensees: {
-      label: 'Licensee',
-      createOption: 'Add new licensee',
+    processors: {
+      label: 'Processor',
+      createOption: 'Add new processor',
       emptyFilter: ' ',
       emptyList: ' ',
     },
-    authors: {
-      label: 'Author',
-      createOption: 'Add new author',
-      description: 'Required with at least one author.',
+    creators: {
+      label: 'Creator',
+      createOption: 'Add new creator',
+      description: 'Required with at least one creator.',
       emptyFilter: ' ',
       emptyList: ' ',
     },
@@ -303,7 +341,10 @@ const phrases = {
   validation: {
     isRequired: '{label} is required.',
     isNumeric: '{label} must contain digits.',
+    bothFields: 'One {labelLowerCase} must contain all fields.',
     url: '{label} must contain a valid link.',
+    dateBeforeInvalid: '{label} can not be after {afterLabel}.',
+    dateAfterInvalid: '{label} can not be before {beforeLabel}.',
     maxLength:
       '{label} must not have more than {maxLength, number} characters.',
     minLength: '{length} must have at least {minLength, number} characters.',

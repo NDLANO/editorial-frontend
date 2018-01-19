@@ -14,6 +14,9 @@ import get from 'lodash/fp/get';
 import MultiSelect from './MultiSelect';
 import { isEmpty } from './validators';
 import PlainTextEditor from '../components/SlateEditor/PlainTextEditor';
+import DateTimeInput from '../components/DateTime/DateTimeInput';
+import ObjectSelector from './ObjectSelector';
+import { AsyncDropdown } from './Dropdown';
 
 export const classes = new BEMHelper({
   name: 'field',
@@ -127,7 +130,7 @@ export const InputFileField = ({
       id="file"
       name={name}
       type="file"
-      {...bindInput(name, true)}
+      {...bindInput(name, 'file')}
       {...rest}
     />
     <FieldErrorMessages
@@ -163,39 +166,42 @@ export const TextField = ({
   noBorder,
   title,
   ...rest
-}) => (
-  <Field noBorder={noBorder} title={title}>
-    {!noBorder ? (
-      <label htmlFor={name}>{label}</label>
-    ) : (
-      <label className="u-hidden" htmlFor={name}>
-        {label}
-      </label>
-    )}
-    {noBorder && (
-      <FocusLabel
-        name={name}
-        hasFocus={() => getField(name, schema).active}
-        value={bindInput(name).value}>
-        {label}
-      </FocusLabel>
-    )}
+}) => {
+  const binded = bindInput(name);
+  return (
+    <Field noBorder={noBorder} title={title}>
+      {!noBorder ? (
+        <label htmlFor={name}>{label}</label>
+      ) : (
+        <label className="u-hidden" htmlFor={name}>
+          {label}
+        </label>
+      )}
+      {noBorder && (
+        <FocusLabel
+          name={name}
+          hasFocus={() => getField(name, schema).active}
+          value={bindInput(name).value}>
+          {label}
+        </FocusLabel>
+      )}
+      <input
+        id={name}
+        type="text"
+        className="form-control"
+        {...binded}
+        value={binded.value || ''}
+        {...rest}
+      />
 
-    <input
-      id={name}
-      type="text"
-      className="form-control"
-      {...bindInput(name)}
-      {...rest}
-    />
-
-    <FieldErrorMessages
-      label={label}
-      field={getField(name, schema)}
-      submitted={submitted}
-    />
-  </Field>
-);
+      <FieldErrorMessages
+        label={label}
+        field={getField(name, schema)}
+        submitted={submitted}
+      />
+    </Field>
+  );
+};
 
 TextField.propTypes = {
   bindInput: PropTypes.func.isRequired,
@@ -319,8 +325,9 @@ export const PlainTextField = ({
         id={name}
         onChange={val =>
           onChange({
-            target: { name, value: val.state, type: 'SlateEditorState' },
-          })}
+            target: { name, value: val.value, type: 'SlateEditorValue' },
+          })
+        }
         value={value}
         {...rest}
       />
@@ -387,19 +394,15 @@ MultiSelectField.propTypes = {
 
 export const SelectObjectField = props => {
   const {
-    bindInput,
     name,
-    idKey,
-    labelKey,
     obligatory,
     description,
     label,
     submitted,
     schema,
-    options,
+    bindInput,
     ...rest
   } = props;
-
   return (
     <Field>
       <label htmlFor={name}>{label}</label>
@@ -408,15 +411,7 @@ export const SelectObjectField = props => {
           {description}
         </FieldDescription>
       )}
-      <select {...bindInput(name)} {...rest}>
-        {options.map(option => (
-          <option
-            key={option[idKey] ? option[idKey] : uuid()}
-            value={option[idKey]}>
-            {option[labelKey]}
-          </option>
-        ))}
-      </select>
+      <ObjectSelector name={name} {...bindInput(name)} {...rest} />
       <FieldErrorMessages
         label={label}
         field={getField(name, schema)}
@@ -440,4 +435,98 @@ SelectObjectField.propTypes = {
   submitted: PropTypes.bool.isRequired,
   idKey: PropTypes.string.isRequired,
   labelKey: PropTypes.string.isRequired,
+};
+
+export const DateField = ({
+  bindInput,
+  name,
+  label,
+  submitted,
+  schema,
+  noBorder,
+  ...rest
+}) => {
+  const { onChange, value } = bindInput(name);
+  return (
+    <Field noBorder={noBorder}>
+      <DateTimeInput
+        id={name}
+        type="text"
+        {...classes('date-picker')}
+        name={name}
+        value={value}
+        onChange={val =>
+          onChange({
+            target: { name, value: val, type: 'DateTime' },
+          })
+        }
+        {...rest}
+      />
+
+      <FieldErrorMessages
+        label={label}
+        field={getField(name, schema)}
+        submitted={submitted}
+      />
+    </Field>
+  );
+};
+
+DateField.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  noBorder: PropTypes.bool,
+  submitted: PropTypes.bool.isRequired,
+};
+
+DateField.defaultProps = {
+  noBorder: false,
+};
+
+export const AsyncDropdownField = ({
+  bindInput,
+  name,
+  label,
+  submitted,
+  schema,
+  noBorder,
+  ...rest
+}) => {
+  const { onChange, value } = bindInput(name);
+  return (
+    <Field noBorder={noBorder}>
+      <label htmlFor={name}>{label}</label>
+      <AsyncDropdown
+        value={value}
+        onChange={val =>
+          onChange({ target: { name, value: val ? val.id : undefined } })
+        }
+        {...rest}
+      />
+      <FieldErrorMessages
+        label={label}
+        field={getField(name, schema)}
+        submitted={submitted}
+      />
+    </Field>
+  );
+};
+
+AsyncDropdownField.propTypes = {
+  bindInput: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  schema: PropTypes.shape({
+    fields: PropTypes.object.isRequired,
+  }),
+  noBorder: PropTypes.bool,
+  submitted: PropTypes.bool.isRequired,
+};
+
+AsyncDropdownField.defaultProps = {
+  noBorder: false,
 };

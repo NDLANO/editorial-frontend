@@ -7,11 +7,11 @@
  *
  */
 
-import schema from './schema';
+import { schema, renderNode } from './schema';
 import { onEnter, onBackspace } from './actions';
 
-const KEY_ENTER = 'enter';
-const KEY_BACKSPACE = 'backspace';
+const KEY_ENTER = 'Enter';
+const KEY_BACKSPACE = 'Backspace';
 
 export default function headingPlugin(opts = {}) {
   const options = {
@@ -22,14 +22,16 @@ export default function headingPlugin(opts = {}) {
       'heading-four',
       'heading-five',
       'heading-six',
+      'summary',
     ],
     defaultType: opts.defaultType || 'paragraph',
   };
 
-  function onKeyDown(e, data, change) {
+  function onKeyDown(e, change) {
     // Build arguments list
-    const args = [e, data, change, options];
-    switch (data.key) {
+    const { value } = change;
+    const args = [e, value, options, change];
+    switch (e.key) {
       case KEY_ENTER:
         return onEnter(...args);
       default:
@@ -37,9 +39,10 @@ export default function headingPlugin(opts = {}) {
     }
   }
 
-  function onKeyUp(e, data, change) {
-    const args = [e, data, change, options];
-    switch (data.key) {
+  function onKeyUp(e, change) {
+    const { value } = change;
+    const args = [e, value, options, change];
+    switch (e.key) {
       case KEY_BACKSPACE:
         return onBackspace(...args);
       default:
@@ -48,8 +51,9 @@ export default function headingPlugin(opts = {}) {
   }
 
   return {
+    schema,
     onKeyDown,
     onKeyUp,
-    schema,
+    renderNode,
   };
 }

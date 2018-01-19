@@ -59,7 +59,7 @@ module.exports = Object.assign(
     logglyApiKey: process.env.LOGGLY_API_KEY,
     ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
     editorialFrontendDomain: editorialFrontendDomain(),
-    auth0ClientID: process.env.AUTH0_CLIENT_ID || '',
+    ndlaPersonalClientId: process.env.NDLA_PERSONAL_CLIENT_ID || '',
     auth0Domain: process.env.AUTH0_DOMAIN || '',
     brightCoveAccountId: process.env.BRIGHTCOVE_ACCOUNT_ID || '123456789',
     brightcovePlayerId: process.env.BRIGHTCOVE_PLAYER_ID || 'Ab1234',

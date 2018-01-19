@@ -46,8 +46,8 @@ export const RichBlockTextField = ({
           <FocusLabel
             key={uuid()}
             name={name}
-            hasFocus={() => val.state.isFocused}
-            value={val.state}>
+            hasFocus={() => val.value.isFocused}
+            value={val.value}>
             {`${label} Blokk ${i + 1}`}
           </FocusLabel>
         ))}

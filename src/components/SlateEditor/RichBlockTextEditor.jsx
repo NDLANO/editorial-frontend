@@ -10,18 +10,11 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
-import Portal from 'react-portal';
 import { Button } from 'ndla-ui';
-import { Cross } from 'ndla-ui/icons';
-import SlateBlockPicker from './plugins/SlateBlockPicker';
+import { Cross } from 'ndla-icons/action';
 import RichTextEditor from './RichTextEditor';
 import { PluginShape } from '../../shapes';
-
-const classes = new BEMHelper({
-  name: 'learning-resource-form',
-  prefix: 'c-',
-});
+import { formClasses } from '../../containers/Form';
 
 class RichBlockTextEditor extends Component {
   constructor(props) {
@@ -31,19 +24,19 @@ class RichBlockTextEditor extends Component {
     this.removeSection = this.removeSection.bind(this);
   }
 
-  onChange(newState, index) {
+  onChange(indexValue, index) {
     const { name, onChange, value } = this.props;
     const newValue = [].concat(value);
-    newValue[index] = { state: newState, index };
-    const changedState = {
+    newValue[index] = { value: indexValue, index };
+    const changedValue = {
       target: {
         value: newValue,
         name,
-        type: 'SlateEditorState',
+        type: 'SlateEditorValue',
       },
     };
 
-    onChange(changedState);
+    onChange(changedValue);
   }
 
   onContentChange(e, index) {
@@ -55,14 +48,14 @@ class RichBlockTextEditor extends Component {
     if (value.length > 1) {
       const newValue = [].concat(value);
       newValue.splice(index, 1);
-      const changedState = {
+      const changedValue = {
         target: {
           value: newValue,
           name,
-          type: 'SlateEditorState',
+          type: 'SlateEditorValue',
         },
       };
-      onChange(changedState);
+      onChange(changedValue);
     }
   }
 
@@ -81,12 +74,12 @@ class RichBlockTextEditor extends Component {
         {value.map((val, index) => (
           <div
             key={`editor_${index}`} //eslint-disable-line
-            {...classes('container')}>
+            {...formClasses('container')}>
             {value.length > 1 ? (
               <Button
                 stripped
                 onClick={() => this.removeSection(index)}
-                {...classes('remove-section-button')}>
+                {...formClasses('remove-section-button')}>
                 <Cross />
               </Button>
             ) : null}
@@ -96,21 +89,10 @@ class RichBlockTextEditor extends Component {
               onChange={e => this.onContentChange(e, index)}
               isBlock
               {...rest}
-              value={val.state}
+              value={val.value}
               index={index}
               removeSection={this.removeSection}
             />
-            <Portal isOpened>
-              <SlateBlockPicker
-                name={name}
-                onChange={onChange}
-                blocks={value}
-                editorState={val}
-                index={index}
-                setFocus={this.setFocus}
-              />
-            </Portal>
-
             {children}
           </div>
         ))}

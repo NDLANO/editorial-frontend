@@ -8,9 +8,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Portal from 'react-portal';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { getComponentName } from 'ndla-util';
+import { Portal } from '../../../../components/Portal';
 import Lightbox from '../../../Lightbox';
 import { setActiveNode } from '../../createSlateStore';
 
@@ -47,8 +47,8 @@ const makeWrapper = getNodeType => WrappedComponent => {
     }
 
     closeAndReturnFocusToEditor() {
-      const { onChange, state } = this.props;
-      onChange(state.change().focus());
+      const { onChange, value } = this.props;
+      onChange(value.change().focus());
       this.handleClose();
     }
 
@@ -58,7 +58,7 @@ const makeWrapper = getNodeType => WrappedComponent => {
     }
 
     render() {
-      const { onChange, state, blur } = this.props;
+      const { onChange, value, blur } = this.props;
       const { node } = this.state;
 
       return (
@@ -67,9 +67,9 @@ const makeWrapper = getNodeType => WrappedComponent => {
             <WrappedComponent
               node={node}
               closeDialog={this.handleClose}
-              state={state}
+              value={value}
               blur={blur}
-              handleStateChange={onChange}
+              handleValueChange={onChange}
             />
           </Lightbox>
         </Portal>
@@ -82,7 +82,7 @@ const makeWrapper = getNodeType => WrappedComponent => {
       getState: PropTypes.func.isRequired,
       subscribe: PropTypes.func.isRequired,
     }).isRequired,
-    state: PropTypes.shape({}).isRequired,
+    value: PropTypes.shape({}).isRequired,
     onChange: PropTypes.func.isRequired,
     blur: PropTypes.func.isRequired,
   };

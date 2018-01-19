@@ -1,9 +1,9 @@
 /**
-* Copyright (c) 2016-present, NDLA.
-*
-* This source code is licensed under the GPLv3 license found in the
-* LICENSE file in the root directory of this source tree. *
-*/
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
 
 import React, { Component } from 'react';
 import { compose } from 'redux';
@@ -18,35 +18,35 @@ import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import {
   DEFAULT_LICENSE,
-  parseCopyrightAuthors,
+  parseCopyrightContributors,
+  creatorsWithDefault,
 } from '../../../util/formHelper';
 import { SchemaShape } from '../../../shapes';
 
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 
-export const getInitialModel = (audio = {}) => {
-  const authors = parseCopyrightAuthors(audio, 'Forfatter');
-  return {
-    id: audio.id,
-    revision: audio.revision,
-    language: audio.language,
-    title: audio.title || '',
-    audioFile: audio.audioFile,
-    filepath: '',
-    tags: audio.tags || [],
-    authors,
-    origin:
-      audio.copyright && audio.copyright.origin ? audio.copyright.origin : '',
-    license:
-      audio.copyright && audio.copyright.license
-        ? audio.copyright.license.license
-        : DEFAULT_LICENSE.license,
-  };
-};
+export const getInitialModel = (audio = {}) => ({
+  id: audio.id,
+  revision: audio.revision,
+  language: audio.language,
+  title: audio.title || '',
+  audioFile: audio.audioFile,
+  filepath: '',
+  tags: audio.tags || [],
+  creators: creatorsWithDefault(audio),
+  processors: parseCopyrightContributors(audio, 'processors'),
+  rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
+  origin:
+    audio.copyright && audio.copyright.origin ? audio.copyright.origin : '',
+  license:
+    audio.copyright && audio.copyright.license
+      ? audio.copyright.license.license
+      : DEFAULT_LICENSE.license,
+});
 
 const classes = new BEMHelper({
-  name: 'audio-form',
+  name: 'form',
   prefix: 'c-',
 });
 
@@ -83,7 +83,9 @@ class AudioForm extends Component {
       copyright: {
         license: licenses.find(license => license.license === model.license),
         origin: model.origin,
-        authors: model.authors.map(name => ({ type: 'Forfatter', name })),
+        creators: model.creators,
+        processors: model.processors,
+        rightsholders: model.rightsholders,
       },
     };
     onUpdate(audioMetaData, model.audioFile);
@@ -107,7 +109,7 @@ class AudioForm extends Component {
       <form
         onSubmit={event => this.handleSubmit(event)}
         {...classes(undefined, undefined, 'c-article')}>
-        <div className="c-learning-resource-form__header">
+        <div {...classes('header', 'multimedia')}>
           <div className="u-4/6@desktop u-push-1/6@desktop">
             {model.id
               ? t('audioForm.title.update')
@@ -132,11 +134,11 @@ class AudioForm extends Component {
         <Field right>
           <Link
             to={'/'}
-            {...classes('abort-button', '', 'c-button c-button--outline')}
+            className="c-button c-button--outline c-abort-button"
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <Button submit outline disabled={false} {...classes('save-button')}>
+          <Button submit outline disabled={false} className="c-save-button">
             {t('form.save')}
           </Button>
         </Field>
@@ -183,8 +185,15 @@ export default compose(
     tags: {
       minItems: 3,
     },
-    authors: {
+    creators: {
       minItems: 1,
+      allObjectFieldsRequired: true,
+    },
+    processors: {
+      allObjectFieldsRequired: true,
+    },
+    rightsholders: {
+      allObjectFieldsRequired: true,
     },
     audioFile: {
       required: true,

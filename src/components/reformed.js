@@ -61,11 +61,13 @@ const makeWrapper = WrappedComponent => {
     }
 
     bindToChangeEvent(e) {
-      const { name, type, value } = e.target;
+      const { name, type, value, checked } = e.target;
       if (type === 'file') {
         const file = e.target.files[0];
         this.setProperty(name, file);
         this.setProperty('filepath', URL.createObjectURL(file));
+      } else if (type === 'checkbox') {
+        this.setProperty(name, checked);
       } else {
         this.setProperty(name, value);
       }
@@ -81,23 +83,32 @@ const makeWrapper = WrappedComponent => {
       }
     }
 
-    bindInput(name, isFile = false) {
-      if (isFile) {
-        return {
-          name,
-          onChange: this.bindToChangeEvent,
-        };
-      }
-
-      const value = get(name, this.state.model, '');
-
-      return {
+    bindInput(name, type = '') {
+      const defaultProps = {
         name,
-        value,
         onChange: this.bindToChangeEvent,
         onBlur: this.bindInputEvent,
         onFocus: this.bindInputEvent,
       };
+
+      if (type === 'file') {
+        return {
+          type,
+          name,
+          onChange: this.bindToChangeEvent,
+        };
+      }
+      const value = get(name, this.state.model, '');
+
+      if (type === 'checkbox') {
+        return {
+          ...defaultProps,
+          type,
+          checked: value,
+        };
+      }
+
+      return { ...defaultProps, value };
     }
 
     render() {

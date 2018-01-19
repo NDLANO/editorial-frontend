@@ -20,6 +20,8 @@ import {
   minItems,
   maxLength,
   isNumeric,
+  objectHasBothField,
+  validDateRange,
 } from './validators';
 
 const getValidationErrors = (schema, model, fields, t) =>
@@ -33,6 +35,40 @@ const getValidationErrors = (schema, model, fields, t) =>
 
       if (rules.required && isEmpty(value)) {
         errors.push(label => t('validation.isRequired', { label }));
+      }
+
+      if (rules.allObjectFieldsRequired) {
+        if (value.filter(v => !objectHasBothField(v)).length > 0) {
+          errors.push(label =>
+            t('validation.bothFields', { labelLowerCase: label.toLowerCase() }),
+          );
+        }
+      }
+
+      if (rules.dateBefore) {
+        const beforeDate = get(key, model);
+        const afterDate = get(rules.afterKey, model);
+        if (!validDateRange(beforeDate, afterDate)) {
+          errors.push(label =>
+            t('validation.dateBeforeInvalid', {
+              label,
+              afterLabel: t('form.validDate.to.label').toLowerCase(),
+            }),
+          );
+        }
+      }
+
+      if (rules.dateAfter) {
+        const beforeDate = get(rules.beforeKey, model);
+        const afterDate = get(key, model);
+        if (!validDateRange(beforeDate, afterDate)) {
+          errors.push(label =>
+            t('validation.dateAfterInvalid', {
+              label,
+              beforeLabel: t('form.validDate.from.label').toLowerCase(),
+            }),
+          );
+        }
       }
 
       if (rules.numeric && !isNumeric(value)) {

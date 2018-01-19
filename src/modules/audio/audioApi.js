@@ -9,24 +9,24 @@
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
-  fetchWithAccessToken,
+  fetchAuthorized,
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/audio-api/v1/audio');
 
 export const postAudio = formData =>
-  fetchWithAccessToken(`${baseUrl}`, {
+  fetchAuthorized(`${baseUrl}`, {
     method: 'POST',
     body: formData,
   }).then(resolveJsonOrRejectWithError);
 
 export const fetchAudio = (id, locale) =>
-  fetchWithAccessToken(`${baseUrl}/${id}?language=${locale}`).then(
+  fetchAuthorized(`${baseUrl}/${id}?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
 
 export const updateAudio = (id, formData) =>
-  fetchWithAccessToken(`${baseUrl}/${id}`, {
+  fetchAuthorized(`${baseUrl}/${id}`, {
     method: 'PUT',
     body: formData,
   }).then(resolveJsonOrRejectWithError);

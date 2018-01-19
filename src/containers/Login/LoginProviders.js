@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { injectT } from 'ndla-i18n';
-import { loginSocialMedia } from '../../util/authHelpers';
+import { loginPersonalAccessToken } from '../../util/authHelpers';
 
 export const LoginProviders = ({ t }) => (
   <div>
@@ -15,14 +15,14 @@ export const LoginProviders = ({ t }) => (
     <ul className="vertical-menu">
       <li className="vertical-menu_item">
         <button
-          onClick={() => loginSocialMedia('google-oauth2')}
+          onClick={() => loginPersonalAccessToken('google-oauth2')}
           className="login-button btn-google c-button">
           Google
         </button>
       </li>
       <li className="vertical-menu_item">
         <button
-          onClick={() => loginSocialMedia('facebook')}
+          onClick={() => loginPersonalAccessToken('facebook')}
           className="login-button btn-fb c-button">
           Facebook
         </button>

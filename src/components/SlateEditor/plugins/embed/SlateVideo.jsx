@@ -9,23 +9,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { Figure } from 'ndla-ui';
+import { Figure, Button } from 'ndla-ui';
+import { Cross } from 'ndla-icons/action';
 import { injectT } from 'ndla-i18n';
 import SlateInputField from './SlateInputField';
 import { EmbedShape } from '../../../../shapes';
+import { editorClasses } from './SlateFigure';
 
 const SlateVideo = ({
   embed,
   onFigureInputChange,
   attributes,
   submitted,
+  onRemoveClick,
   t,
 }) => {
-  const src = `//players.brightcove.net/${window.config
-    .brightCoveAccountId}/${window.config
-    .brightcovePlayerId}_default/index.min.js`;
+  const src = `//players.brightcove.net/${window.config.brightCoveAccountId}/${
+    window.config.brightcovePlayerId
+  }_default/index.min.js`;
   return (
     <Figure {...attributes}>
+      <Button
+        stripped
+        onClick={onRemoveClick}
+        {...editorClasses('delete-button')}>
+        <Cross />
+      </Button>
       <Helmet>
         <script src={src} type="text/javascript" />
       </Helmet>
@@ -77,6 +86,7 @@ SlateVideo.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   submitted: PropTypes.bool.isRequired,
+  onRemoveClick: PropTypes.func.isRequired,
 };
 
 export default injectT(SlateVideo);

@@ -21,8 +21,14 @@ import { RichTextField } from '../../../components/RichTextField';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
-import schema from '../../../components/SlateEditor/schema';
+import {
+  schema,
+  renderNode,
+  renderMark,
+  validateNode,
+} from '../../../components/SlateEditor/schema';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
+import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
 import {
   editListPlugin,
   blockquotePlugin,
@@ -40,6 +46,7 @@ const plugins = [
   headingPlugin(),
   blockquotePlugin,
   editListPlugin,
+  pasteContentPlugin(),
 ];
 
 class TopicArticleContent extends Component {
@@ -60,7 +67,7 @@ class TopicArticleContent extends Component {
   render() {
     const { t, bindInput, commonFieldProps, model } = this.props;
 
-    const authors = model.authors;
+    const creators = model.creators;
     const updated = model.updated;
 
     return (
@@ -78,12 +85,7 @@ class TopicArticleContent extends Component {
         />
         {/* TODO: Change to c-article-byline */}
         <div {...classes('info')}>
-          {authors.map((author, i) => {
-            if (authors.length === i + 1 || authors.length === 1) {
-              return `${author}`;
-            }
-            return `${author}, `;
-          })}
+          {creators.map(creator => creator.name).join(',')}
           {updated
             ? ` - ${t('topicArticleForm.info.lastUpdated', { updated })}`
             : ''}
@@ -101,7 +103,8 @@ class TopicArticleContent extends Component {
           <RemainingCharacters
             maxLength={300}
             getRemainingLabel={(maxLength, remaining) =>
-              t('form.remainingCharacters', { maxLength, remaining })}
+              t('form.remainingCharacters', { maxLength, remaining })
+            }
             value={bindInput('introduction').value.document.text}
           />
         </PlainTextField>
@@ -116,6 +119,9 @@ class TopicArticleContent extends Component {
           placeholder={t('form.content.placeholder')}
           name="content"
           slateSchema={schema}
+          renderNode={renderNode}
+          renderMark={renderMark}
+          validateNode={validateNode}
           plugins={plugins}
           {...commonFieldProps}
         />
@@ -131,7 +137,6 @@ TopicArticleContent.propTypes = {
   }),
   bindInput: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
-  classes: PropTypes.func.isRequired,
 };
 
 export default injectT(TopicArticleContent);

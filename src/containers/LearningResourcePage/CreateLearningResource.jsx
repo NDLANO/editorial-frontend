@@ -12,7 +12,8 @@ import {
   actions as tagActions,
   getAllTagsByLanguage,
 } from '../../modules/tag/tag';
-import { actions } from '../../modules/article/article';
+import { LicensesArrayOf } from '../../shapes';
+import { actions as draftActions } from '../../modules/draft/draft';
 import LearningResourceForm, {
   getInitialModel,
 } from './components/LearningResourceForm';
@@ -20,7 +21,7 @@ import LearningResourceForm, {
 class CreateLearningResource extends Component {
   constructor(props) {
     super(props);
-    this.updateArticle = this.updateArticle.bind(this);
+    this.updateDraft = this.updateDraft.bind(this);
   }
 
   componentWillMount() {
@@ -28,21 +29,20 @@ class CreateLearningResource extends Component {
     fetchTags({ language: locale });
   }
 
-  updateArticle(article) {
-    const { updateArticle, history } = this.props;
-    updateArticle({ article, history });
+  updateDraft(article) {
+    const { updateDraft, history } = this.props;
+    updateDraft({ draft: article, history });
   }
 
   render() {
-    const { tags, locale, isSaving, licenses, fetchArticle } = this.props;
+    const { tags, locale, isSaving, licenses } = this.props;
     return (
       <LearningResourceForm
         initialModel={getInitialModel({ language: locale })}
         tags={tags}
         licenses={licenses}
         isSaving={isSaving}
-        onUpdate={this.updateArticle}
-        fetchArticle={fetchArticle}
+        onUpdate={this.updateDraft}
       />
     );
   }
@@ -50,25 +50,18 @@ class CreateLearningResource extends Component {
 
 CreateLearningResource.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
+  licenses: LicensesArrayOf,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  updateArticle: PropTypes.func.isRequired,
+  updateDraft: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  fetchArticle: PropTypes.func.isRequired,
   fetchTags: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
-  fetchArticle: actions.fetchArticle,
-  updateArticle: actions.updateArticle,
+  updateDraft: draftActions.updateDraft,
   fetchTags: tagActions.fetchTags,
 };
 

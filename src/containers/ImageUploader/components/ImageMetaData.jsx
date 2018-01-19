@@ -16,6 +16,7 @@ import {
 } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 import { CommonFieldPropsShape } from '../../../shapes';
+import Contributors from '../../../components/Contributors/Contributors';
 
 class ImageMetaData extends Component {
   constructor(props) {
@@ -53,16 +54,12 @@ class ImageMetaData extends Component {
           }}
           {...commonFieldProps}
         />
-        <MultiSelectField
-          obligatory
-          name="authors"
-          label={t('form.authors.label')}
-          description={t('form.authors.description')}
-          messages={{
-            createOption: t('form.authors.createOption'),
-            emptyFilter: t('form.authors.emptyFilter'),
-            emptyList: t('form.authors.emptyList'),
-          }}
+        <SelectObjectField
+          name="license"
+          label={t('form.license.label')}
+          options={licenses}
+          idKey="license"
+          labelKey="description"
           {...commonFieldProps}
         />
         <TextField
@@ -70,12 +67,19 @@ class ImageMetaData extends Component {
           name="origin"
           {...commonFieldProps}
         />
-        <SelectObjectField
-          name="license"
-          label={t('form.license.label')}
-          options={licenses}
-          idKey="license"
-          labelKey="description"
+        <Contributors
+          name="creators"
+          label={t('form.creators.label')}
+          {...commonFieldProps}
+        />
+        <Contributors
+          name="rightsholders"
+          label={t('form.rightsholders.label')}
+          {...commonFieldProps}
+        />
+        <Contributors
+          name="processors"
+          label={t('form.processors.label')}
           {...commonFieldProps}
         />
       </Accordion>

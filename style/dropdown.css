@@ -1,62 +1,43 @@
-/**
- * Copyright (c) 2016-present, NDLA.
- *
- * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
 
-.c-dropdown-menu {
-  display: inline-block;
+.c-dropdown {
+  width: 100%;
   position: relative;
 
   &__items {
+    margin-top: -0.2rem;
+    border: 1px solid #d4d4d4;
+    max-height: 10rem;
+    overflow-y: scroll;
     position: absolute;
-    width: 150px;
-    top: 35px;
-    left: -4px;
-    box-shadow: 0 4px 7px rgba(0, 0, 0, 0.1), 0 0 2px rgba(0, 0, 0, 0.2);
-    list-style: none;
+    z-index: 999;
     background-color: white;
-    padding: 0;
-    margin: 0;
-    -webkit-margin-before: 0;
-    -webkit-margin-after: 0;
-    -webkit-margin-start: 0;
-    -webkit-margin-end: 0;
-    -webkit-padding-start: 0;
-    display: none;
-  }
-
-  &__items::after {
-    position: absolute;
-    left: 55%;
-    top: -10px;
-    width: 0;
-    height: 0;
-    content: '';
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 10px solid white;
+    width: 100%;
+    margin-bottom: 0;
+    border-top: 0;
   }
 
   &__item {
-    padding: 0.6em 1em 0.8em;
-    margin: 0;
+    cursor: pointer;
   }
 
-  &__item:hover {
-    background-color: var(--gray-11);
+  &__item,
+  &__empty {
+    padding: 0.2rem;
   }
 
-  &__link {
-    display: block;
-    color: var(--gray-6);
-    text-decoration: none;
-    text-align: left;
+  &__item--active {
+    background-color: var(--brand-grey--light);
   }
 
-  &__items--show {
-    display: block;
+  &__action {
+    position: absolute;
+    right: 0.8rem;
+    top: 0.4rem;
+    color: var(--brand-grey);
+
+    &:hover,
+    &:focus {
+      color: var(--brand-grey);
+    }
   }
 }

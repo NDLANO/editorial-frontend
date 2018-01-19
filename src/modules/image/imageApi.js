@@ -9,24 +9,24 @@
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
-  fetchWithAccessToken,
+  fetchAuthorized,
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/image-api/v2/images');
 
 export const postImage = formData =>
-  fetchWithAccessToken(`${baseUrl}`, {
+  fetchAuthorized(`${baseUrl}`, {
     method: 'POST',
     body: formData,
   }).then(resolveJsonOrRejectWithError);
 
 export const fetchImage = (id, locale) =>
-  fetchWithAccessToken(`${baseUrl}/${id}?language=${locale}`).then(
+  fetchAuthorized(`${baseUrl}/${id}?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
 
 export const updateImage = (id, formData) =>
-  fetchWithAccessToken(`${baseUrl}/${id}`, {
+  fetchAuthorized(`${baseUrl}/${id}`, {
     method: 'POST',
     body: formData,
   }).then(resolveJsonOrRejectWithError);

@@ -9,13 +9,31 @@
 
 import React from 'react';
 import { Block } from 'slate';
-import { Placeholder } from 'slate-react';
 
 export const defaultBlock = {
   type: 'paragraph',
   isVoid: false,
   data: {},
 };
+
+export const defaultBlockWithText = text => ({
+  data: {},
+  isVoid: false,
+  kind: 'block',
+  nodes: [
+    {
+      kind: 'text',
+      leaves: [
+        {
+          kind: 'leaf',
+          marks: [],
+          text,
+        },
+      ],
+    },
+  ],
+  type: 'paragraph',
+});
 
 export const defaultAsideBlock = type =>
   Block.create({
@@ -34,138 +52,106 @@ export const defaultEmbedBlock = data =>
 
 export const getSchemaEmbed = node => node.get('data').toJS();
 
-export const defaultRules = [
-  // Rule to insert a paragraph below a aside/bodybox if that node is
-  // the last one in the aside.
-  {
-    match: node => node.kind === 'block' && node.type === 'aside',
-    validate: node => {
-      if (!node.nodes.size) {
-        return true;
-      }
-      const lastNode = node.nodes.last();
-      return lastNode &&
-        (lastNode.type === 'aside' || lastNode.type === 'bodybox')
-        ? true
-        : null;
-    },
-    normalize: (change, document) => {
-      const block = Block.create(defaultBlock);
-      return change.insertNodeByKey(document.key, document.nodes.size, block);
-    },
-  },
-  // Rule to insert a paragraph below a void node (the image) if that node is
-  // the last one in the aside/bodybox.
-  {
-    match: node =>
-      node.kind === 'block' &&
-      (node.type === 'aside' || node.type === 'bodybox'),
-    validate: node => {
-      const lastNode = node.nodes.last();
-      return lastNode && lastNode.type === 'embed' ? true : null;
-    },
-    normalize: (change, document) => {
-      const block = Block.create(defaultBlock);
-      return change.insertNodeByKey(document.key, document.nodes.size, block);
-    },
-  },
-  // Rule to insert a paragraph block if the document is empty.
-  {
-    match: node => node.kind === 'document',
-    validate: document => (document.nodes.size ? null : true),
-    normalize: (change, document) => {
-      const block = Block.create(defaultBlock);
-      return change.insertNodeByKey(document.key, 0, block);
-    },
-  },
-  // Rule to insert a paragraph below a void node (the image) if that node is
-  // the last one in the document.
-  {
-    match: node => node.kind === 'block',
-    validate: document => {
-      const lastNode = document.nodes.last();
-      return lastNode && lastNode.isVoid ? true : null;
-    },
-    normalize: (change, document) => {
-      const block = Block.create(defaultBlock);
-      return change.insertNodeByKey(document.key, document.nodes.size, block);
-    },
-  },
-  // Rule to insert a paragraph below a node with type aside if that node is the last node
-  // in the document
-  {
-    match: node =>
-      node.kind === 'block' && (node.type === 'section' || node.type === 'div'),
-    validate: document => {
-      const lastNode = document.nodes.last();
-      return lastNode &&
-        (lastNode.type === 'aside' || lastNode.type === 'bodybox')
-        ? true
-        : null;
-    },
-    normalize: (change, document) => {
-      const block = Block.create(defaultBlock);
-      return change.insertNodeByKey(document.key, document.nodes.size, block);
-    },
-  },
-  // Rule to remove all empty text nodes that exists in the document
-  {
-    match: node => node.kind === 'block',
-    validate: node => {
-      const invalidChildren = node.nodes.filter(
-        child => child.kind === 'block' && child.type === 'emptyTextNode',
-      );
-      return invalidChildren.size ? invalidChildren : null;
-    },
-    normalize: (change, node, invalidChildren) => {
-      invalidChildren.forEach(child => {
-        change.removeNodeByKey(child.key);
-      });
-      return change;
-    },
-    render: '',
-  },
-];
-
-/* eslint-disable react/prop-types */
-const defaultSchema = {
-  nodes: {
-    section: props => (
-      <section {...props.attributes}>
-        {props.editor.props.placeholder ? (
-          <Placeholder {...props}>{props.editor.props.placeholder}</Placeholder>
-        ) : null}
-        {props.children}
-      </section>
-    ),
-    paragraph: props => <p {...props.attributes}>{props.children}</p>,
-    'bulleted-list': props => (
-      <ul className="c-block__bulleted-list" {...props.attributes}>
-        {props.children}
-      </ul>
-    ),
-    'list-item': props => (
-      <li className="c-block__list-item" {...props.attributes}>
-        {props.children}
-      </li>
-    ),
-    'numbered-list': props => <ol {...props.attributes}>{props.children}</ol>,
-    'letter-list': props => (
-      <ol className="ol-list--roman" {...props.attributes}>
-        {props.children}
-      </ol>
-    ),
-    quote: props => (
-      <blockquote {...props.attributes}>{props.children}</blockquote>
-    ),
-    div: props => <div {...props.attributes}>{props.children}</div>,
-  },
-  marks: {
-    bold: props => <strong {...props.attributes}>{props.children}</strong>,
-    italic: props => <em {...props.attributes}>{props.children}</em>,
-    underlined: props => <u {...props.attributes}>{props.children}</u>,
-  },
-  rules: defaultRules,
+export const schema = {
+  document: {},
 };
 
-export default defaultSchema;
+export function validateNode(node) {
+  // Document rules
+  if (node.kind === 'document') {
+    // Rule to insert a paragraph block if the document is empty.
+    if (!node.nodes.size) {
+      const block = Block.create(defaultBlock);
+      return change => change.insertNodeByKey(node.key, 0, block);
+    }
+  }
+
+  // Block rules
+  if (node.kind === 'block') {
+    // Type-specific rules
+    switch (node.type) {
+      // Rule to always add a paragrah node if end of a section
+      case 'section': {
+        const lastNode = node.nodes.last();
+        if (lastNode.type !== 'paragraph') {
+          const block = Block.create(defaultBlock);
+          return change =>
+            change.insertNodeByKey(node.key, node.nodes.size, block);
+        }
+        break;
+      }
+      default:
+        break;
+    }
+
+    // Rule to remove all empty text nodes that exists in the document
+    const invalidChildren = node.nodes.filter(
+      child =>
+        child.kind === 'block' &&
+        (child.type === 'emptyTextNode' || !child.type),
+    );
+    if (invalidChildren.size > 0) {
+      return change => {
+        invalidChildren.forEach(child => {
+          change.removeNodeByKey(child.key);
+        });
+      };
+    }
+  }
+  return null;
+}
+
+/* eslint-disable react/prop-types */
+export const renderNode = props => {
+  const { attributes, children, node } = props;
+  switch (node.type) {
+    case 'section':
+      return <section {...attributes}>{children}</section>;
+    case 'br':
+      return <br {...attributes} />;
+    case 'paragraph':
+      return <p {...attributes}>{children}</p>;
+    case 'bulleted-list':
+      return (
+        <ul className="c-block__bulleted-list" {...attributes}>
+          {children}
+        </ul>
+      );
+    case 'list-text':
+      return <span {...attributes}>{children}</span>;
+    case 'list-item':
+      return (
+        <li className="c-block__list-item" {...attributes}>
+          {children}
+        </li>
+      );
+    case 'numbered-list':
+      return <ol {...attributes}>{children}</ol>;
+    case 'letter-list':
+      return (
+        <ol className="ol-list--roman" {...attributes}>
+          {children}
+        </ol>
+      );
+    case 'quote':
+      return <blockquote {...attributes}>{children}</blockquote>;
+    case 'div':
+      return <div {...attributes}>{children}</div>;
+    default:
+      return null;
+  }
+};
+
+export const renderMark = props => {
+  const { attributes, children, mark } = props;
+  switch (mark.type) {
+    case 'bold':
+      return <strong {...attributes}>{children}</strong>;
+    case 'italic':
+      return <em {...attributes}>{children}</em>;
+    case 'underlined':
+      return <u {...attributes}>{children}</u>;
+    default:
+      return null;
+  }
+};

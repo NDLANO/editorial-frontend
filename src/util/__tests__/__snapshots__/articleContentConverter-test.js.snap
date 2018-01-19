@@ -18,9 +18,9 @@ Object {
             "nodes": Array [
               Object {
                 "kind": "text",
-                "ranges": Array [
+                "leaves": Array [
                   Object {
-                    "kind": "range",
+                    "kind": "leaf",
                     "marks": Array [],
                     "text": "Lorem ipsum",
                   },
@@ -34,12 +34,27 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
 }
 `;
 
-exports[`articleContentConverter convert learningresource content to and from editorState 1`] = `"<section><h2>Lorem ipsum</h2></section>"`;
+exports[`articleContentConverter convert learningresource content to and from editorValue 1`] = `"<section><h2>Lorem ipsum</h2></section>"`;
 
-exports[`articleContentConverter convert learningresource content with multiple sections to and from editorState 1`] = `"<section><h2>Section 1</h2></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>"`;
+exports[`articleContentConverter convert learningresource content with multiple sections to and from editorValue 1`] = `"<section><h2>Section 1</h2></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>"`;
 
-exports[`articleContentConverter convert topic article content to and from editorState 1`] = `"<section><h2>Lorem ipsum</h2></section>"`;
+exports[`articleContentConverter convert topic article content to and from editorValue 1`] = `"<section><h2>Lorem ipsum</h2></section>"`;
+
+exports[`util/domOperations trippleNestedSections into array 1`] = `
+Array [
+  "<section>Seksjon 1</section>",
+  "<section><p>test paragraf</p><section><section>Seksjon 2 nested</section></section></section>",
+  "<section>Seksjon 3</section>",
+]
+`;
+
+exports[`util/sectionSplitter splits doubleNestedSections into array 1`] = `
+Array [
+  "<section>Seksjon 1</section>",
+  "<section><p>test paragraf</p><section>Seksjon 2 nested</section></section>",
+]
+`;

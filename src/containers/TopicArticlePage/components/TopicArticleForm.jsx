@@ -9,34 +9,29 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
-
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import ArticleHeader from '../../Article/ArticleHeader';
-
 import {
   topicArticleContentToHTML,
-  topicArticleContentToEditorState,
-  editorStateToPlainText,
-  plainTextToEditorState,
+  topicArticleContentToEditorValue,
+  editorValueToPlainText,
+  plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
-
 import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
-
 import TopicArticleMetadata from './TopicArticleMetadata';
 import TopicArticleContent from './TopicArticleContent';
-import { SchemaShape } from '../../../shapes';
-
-const DEFAULT_LICENSE = {
-  description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
-  license: 'by-sa',
-  url: 'https://creativecommons.org/licenses/by-sa/2.0/',
-};
+import { SchemaShape, LicensesArrayOf } from '../../../shapes';
+import {
+  DEFAULT_LICENSE,
+  parseCopyrightContributors,
+  creatorsWithDefault,
+} from '../../../util/formHelper';
+import { FormWorkflow, FormCopyright, formClasses } from '../../Form';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -45,26 +40,23 @@ export const getInitialModel = (article = {}) => {
     revision: article.revision,
     updated: article.updated,
     title: article.title || '',
-    introduction: plainTextToEditorState(article.introduction, true),
-    content: topicArticleContentToEditorState(article.content),
+    introduction: plainTextToEditorValue(article.introduction, true),
+    content: topicArticleContentToEditorValue(article.content),
     tags: article.tags || [],
-    authors: article.copyright
-      ? article.copyright.authors.map(author => author.name)
-      : [],
+    creators: creatorsWithDefault(article),
+    processors: parseCopyrightContributors(article, 'processors'),
+    rightsholders: parseCopyrightContributors(article, 'rightsholders'),
+    agreementId: article.copyright ? article.copyright.agreementId : undefined,
     copyright: article.copyright
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
-    metaDescription: plainTextToEditorState(article.metaDescription, true),
+    metaDescription: plainTextToEditorValue(article.metaDescription, true),
+    notes: article.notes || [],
     visualElement: visualElement || {},
     language: article.language,
     articleType: 'topic-article',
   };
 };
-
-const classes = new BEMHelper({
-  name: 'topic-article-form',
-  prefix: 'c-',
-});
 
 class TopicArticleForm extends Component {
   constructor(props) {
@@ -96,21 +88,28 @@ class TopicArticleForm extends Component {
       setSubmitted(true);
       return;
     }
+    const emptyField = model.id ? '' : undefined;
+    const visualElement = createEmbedTag(model.visualElement);
+    const content = topicArticleContentToHTML(model.content);
 
     this.props.onUpdate({
       id: model.id,
       revision,
       title: model.title,
-      introduction: editorStateToPlainText(model.introduction),
+      introduction: editorValueToPlainText(model.introduction),
       tags: model.tags,
-      content: topicArticleContentToHTML(model.content),
-      visualElement: createEmbedTag(model.visualElement),
-      metaDescription: editorStateToPlainText(model.metaDescription),
+      content: content || emptyField,
+      visualElement: visualElement || emptyField,
+      metaDescription: editorValueToPlainText(model.metaDescription),
       articleType: 'topic-article',
       copyright: {
         ...model.copyright,
-        authors: model.authors.map(name => ({ type: 'Forfatter', name })),
+        creators: model.creators,
+        processors: model.processors,
+        rightsholders: model.rightsholders,
+        agreementId: model.agreementId,
       },
+      notes: model.notes,
       language,
     });
   }
@@ -124,39 +123,46 @@ class TopicArticleForm extends Component {
       submitted,
       tags,
       isSaving,
+      articleStatus,
+      licenses,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
     return (
       <form
         onSubmit={this.handleSubmit}
-        {...classes(undefined, undefined, 'c-article')}>
+        {...formClasses(undefined, undefined, 'c-article')}>
         <ArticleHeader model={model} />
         <TopicArticleMetadata
-          classes={classes}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
           tags={tags}
         />
         <TopicArticleContent
-          classes={classes}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
           tags={tags}
           model={model}
         />
+        <FormCopyright
+          model={model}
+          commonFieldProps={commonFieldProps}
+          licenses={licenses}
+        />
+        <FormWorkflow
+          commonFieldProps={commonFieldProps}
+          articleStatus={articleStatus}
+          model={model}
+          saveDraft={this.handleSubmit}
+        />
         <Field right>
           <Link
             to={'/'}
-            {...classes('abort-button', '', 'c-button c-button--outline')}
+            className="c-button c-button--outline c-abort-button"
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <Button
-            submit
-            outline
-            disabled={isSaving}
-            {...classes('save-button')}>
+          <Button submit outline disabled={isSaving} className="c-save-button">
             {t('form.save')}
           </Button>
         </Field>
@@ -184,6 +190,8 @@ TopicArticleForm.propTypes = {
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  articleStatus: PropTypes.arrayOf(PropTypes.string),
+  licenses: LicensesArrayOf,
 };
 
 export default compose(
@@ -194,14 +202,9 @@ export default compose(
       required: true,
     },
     introduction: {
-      required: true,
       maxLength: 300,
     },
-    content: {
-      required: true,
-    },
     metaDescription: {
-      required: true,
       maxLength: 155,
     },
     visualElement: {
@@ -219,11 +222,14 @@ export default compose(
         (model.visualElement.resource === 'image' ||
           model.visualElement.resource === 'brightcove'),
     },
-    tags: {
-      minItems: 3,
+    creators: {
+      allObjectFieldsRequired: true,
     },
-    authors: {
-      minItems: 1,
+    processors: {
+      allObjectFieldsRequired: true,
+    },
+    rightsholders: {
+      allObjectFieldsRequired: true,
     },
   }),
 )(TopicArticleForm);

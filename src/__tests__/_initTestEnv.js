@@ -17,6 +17,10 @@ global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
   : 100;
 expectSaga.DEFAULT_TIMEOUT = global.DEFAULT_TIMEOUT;
 
+global.requestAnimationFrame = callback => {
+  setTimeout(callback, 0);
+};
+
 const localStorageMock = (function createLocalStorage() {
   let store = {};
   return {
@@ -42,10 +46,5 @@ Object.defineProperty(window, 'localStorage', {
 localStorage.setItem('access_token', '123456789');
 localStorage.setItem(
   'access_token_expires_at',
-  new Date().getTime() + 24 * 60 * 60 * 1000,
-);
-localStorage.setItem('id_token', '12345678');
-localStorage.setItem(
-  'id_token_expires_at',
   new Date().getTime() + 24 * 60 * 60 * 1000,
 );

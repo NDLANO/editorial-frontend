@@ -24,6 +24,7 @@ const phrases = {
     createLearningResource: 'Opprett læringsressurs',
     createAudioFile: 'Last opp lydfil',
     createImage: 'Last opp bilde',
+    createAgreement: 'Opprett avtale',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -111,6 +112,7 @@ const phrases = {
       external: 'Innholdstekst',
     },
     visualElementCopyright: 'Opphav',
+    removeVisualElement: 'Fjern element',
     info: {
       lastUpdated: 'Sist oppdatert: {updated}',
     },
@@ -137,6 +139,22 @@ const phrases = {
       },
     },
   },
+  agreementForm: {
+    title: {
+      create: 'Avtale',
+      update: 'Avtale',
+    },
+    fields: {
+      title: {
+        label: 'Avtaletittel',
+        placeholder: 'Avtaletittel',
+      },
+      content: {
+        label: 'Avtalens innhold',
+        placeholder: 'Avtalens innhold',
+      },
+    },
+  },
   audioForm: {
     title: {
       create: 'Du oppretter nå en lyd fil',
@@ -156,10 +174,11 @@ const phrases = {
     },
   },
   learningResourceForm: {
-    metaImageTitle: {
-      image: 'Bildetittel',
+    metaImage: {
+      title: 'Bildetittel',
+      copyright: 'Opphav',
+      change: 'Bytt metabilde',
     },
-    metaImageCopyright: 'Opphav',
     title: {
       create: 'Du oppretter nå en læringsressurs på {title}({key})',
       update: 'Du redigerer nå en læringsressurs på {title}({key})',
@@ -169,6 +188,7 @@ const phrases = {
         'En eller flere inkluderte lyd, bilde, eller video elementer mangler beskrivende tekst eller alternativ tekst.',
     },
     fields: {
+      rightAside: 'Høyrespalte',
       metaImage: {
         title: 'Metabilde',
         label: 'Metabilde',
@@ -177,16 +197,20 @@ const phrases = {
         edition: 'Utgave',
         publisher: 'Utgiver',
       },
-      rightAside: 'Høyrespalte',
     },
   },
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Innhold',
+    workflowSection: 'Arbeidsflyt',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
     abort: 'Avbryt',
+    validate: 'Valider',
+    publish: 'Publiser',
     savedOk: 'Lagret OK',
+    publishedOk: 'Publisert OK',
+    validationOk: 'Ingen validerings feil funnet',
     createdOk: 'Opprettet OK',
     variant: {
       create: 'Lag variant +',
@@ -203,6 +227,26 @@ const phrases = {
       title: 'Legg til visuelt element',
       label: 'Visuelt element',
     },
+    status: {
+      created: 'Opprettet',
+      draft: 'Utkast',
+      user_test: 'Brukertest',
+      awaiting_quality_assurance: 'Til kvalitetsikring',
+      queued_for_publishing: 'Kvalitetsikret/Til publisering',
+      published: 'Publisert',
+      imported: 'Fra spoling',
+    },
+    validDate: {
+      label: 'Gyldighet',
+      from: {
+        label: 'Gyldig fra',
+        placeholder: 'Fra og med dato',
+      },
+      to: {
+        label: 'Gyldig til',
+        placeholder: 'Til og med dato',
+      },
+    },
     content: {
       label: 'Innhold',
       placeholder: 'Innhold',
@@ -211,9 +255,12 @@ const phrases = {
       },
       link: {
         goTo: 'Gå til',
+        insert: 'Sett inn lenke',
+        update: 'Opddater lenke',
         change: 'Endre',
         remove: 'Fjern lenke',
         href: 'Lenke',
+        newTab: 'Åpne lenke i ny fane',
         text: 'Tekst',
         addTitle: 'Legg til lenke',
         changeTitle: 'Endre lenke',
@@ -234,6 +281,13 @@ const phrases = {
         editTitle: 'Rediger fotnote',
         removeFootnote: 'Fjern fotnote',
       },
+      table: {
+        'row-remove': 'Fjern rad',
+        'row-add': 'Legg til rad',
+        'column-add': 'Legg til kolonne',
+        'column-remove': 'Fjern kolonne',
+        'table-remove': 'Fjern tabell',
+      },
     },
     tags: {
       label: 'Nøkkelord',
@@ -246,19 +300,25 @@ const phrases = {
       label: 'Metabeskrivelse',
       description: 'Beskrivelsen blir synlig i søk.',
     },
-    contributors: {
-      label: 'Bidragsyter',
-      createOption: 'Opprett ny bidragsyter',
-      emptyFilter: ' ',
-      emptyList: ' ',
+    agreement: {
+      label: 'Koble til avtale',
+      placeholder: 'Søk etter avtale',
+      emptyFilter: 'Fant ingen passende avtaler',
+      emptyList: 'Det er ingen avtaler i denne listen',
     },
-    licensees: {
+    rightsholders: {
       label: 'Rettighetshaver',
       createOption: 'Opprett ny rettighetshaver',
       emptyFilter: ' ',
       emptyList: ' ',
     },
-    authors: {
+    processors: {
+      label: 'Bearbeider',
+      createOption: 'Opprett ny bearbeider',
+      emptyFilter: ' ',
+      emptyList: ' ',
+    },
+    creators: {
       label: 'Opphavsperson',
       createOption: 'Opprett ny opphavsperson',
       description: 'Obligatorisk med minst 1 opphavsperson.',
@@ -298,10 +358,13 @@ const phrases = {
   },
   validation: {
     isRequired: '{label} er påkrevd.',
+    bothFields: 'En {labelLowerCase} må inneholde alle felter.',
     isNumeric: '{label} må inneholde tall.',
     maxLength: '{label} kan ikke ha mer enn {maxLength, number} tegn.',
     minLength: '{label} må ha minst {minLength, number} tegn.',
     url: '{label} må inneholde en gyldig lenke.',
+    dateBeforeInvalid: '{label} kan ikke være etter {afterLabel}.',
+    dateAfterInvalid: '{label} kan ikke være før {beforeLabel}.',
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
   },

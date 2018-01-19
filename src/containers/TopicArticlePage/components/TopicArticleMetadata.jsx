@@ -62,20 +62,11 @@ class TopicArticleMetadata extends Component {
           <RemainingCharacters
             maxLength={155}
             getRemainingLabel={(maxLength, remaining) =>
-              t('form.remainingCharacters', { maxLength, remaining })}
+              t('form.remainingCharacters', { maxLength, remaining })
+            }
             value={bindInput('metaDescription').value.document.text}
           />
         </PlainTextField>
-        <MultiSelectField
-          name="authors"
-          label={t('form.authors.label')}
-          messages={{
-            createOption: t('form.authors.createOption'),
-            emptyFilter: t('form.authors.emptyFilter'),
-            emptyList: t('form.authors.emptyList'),
-          }}
-          {...commonFieldProps}
-        />
       </Accordion>
     );
   }
@@ -85,7 +76,6 @@ TopicArticleMetadata.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   bindInput: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
-  classes: PropTypes.func.isRequired,
 };
 
 export default injectT(TopicArticleMetadata);

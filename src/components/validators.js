@@ -37,6 +37,12 @@ export const isUrl = value => {
   return false;
 };
 
+export const validDateRange = (before, after) => {
+  const beforeDate = new Date(before);
+  const afterDate = new Date(after);
+  return beforeDate.getTime() <= afterDate.getTime();
+};
+
 export const minLength = (value, length) => getLength(value) < length;
 export const maxLength = (value, length) => getLength(value) > length;
 
@@ -45,3 +51,6 @@ export const minItems = (value, number) =>
 
 //  https://stackoverflow.com/a/1830844
 export const isNumeric = value => !isNaN(parseFloat(value)) && isFinite(value);
+
+export const objectHasBothField = obj =>
+  Object.keys(obj).filter(key => isEmpty(obj[key])).length === 0;

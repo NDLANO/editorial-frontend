@@ -10,11 +10,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 
-import { actions, getArticle } from '../../modules/article/article';
+import { actions, getDraft } from '../../modules/draft/draft';
 import LearningResourceForm, {
   getInitialModel,
 } from './components/LearningResourceForm';
-import { ArticleShape } from '../../shapes';
+import { ArticleShape, LicensesArrayOf } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
 import {
   actions as tagActions,
@@ -24,19 +24,19 @@ import {
 class EditLearningResource extends Component {
   constructor(props) {
     super(props);
-    this.updateArticle = this.updateArticle.bind(this);
+    this.updateDraft = this.updateDraft.bind(this);
   }
 
   componentWillMount() {
-    const { articleId, fetchArticle, articleLanguage, fetchTags } = this.props;
-    fetchArticle({ id: articleId, language: articleLanguage });
+    const { articleId, fetchDraft, articleLanguage, fetchTags } = this.props;
+    fetchDraft({ id: articleId, language: articleLanguage });
     fetchTags({ language: articleLanguage });
   }
 
   componentWillReceiveProps(nextProps) {
     const {
       articleId,
-      fetchArticle,
+      fetchDraft,
       articleLanguage,
       article,
       fetchTags,
@@ -45,14 +45,14 @@ class EditLearningResource extends Component {
       (article && article.language !== articleLanguage) ||
       articleId !== this.props.articleId
     ) {
-      fetchArticle({ id: articleId, language: articleLanguage });
+      fetchDraft({ id: articleId, language: articleLanguage });
       fetchTags({ language: articleLanguage });
     }
   }
 
-  updateArticle(article) {
-    const { updateArticle } = this.props;
-    updateArticle({ article });
+  updateDraft(article) {
+    const { updateDraft } = this.props;
+    updateDraft({ draft: article });
   }
 
   render() {
@@ -71,10 +71,11 @@ class EditLearningResource extends Component {
       <LearningResourceForm
         initialModel={getInitialModel(article)}
         revision={article.revision}
+        articleStatus={article.status}
         tags={tags}
         licenses={licenses}
         isSaving={isSaving}
-        onUpdate={this.updateArticle}
+        onUpdate={this.updateDraft}
       />
     );
   }
@@ -83,32 +84,27 @@ class EditLearningResource extends Component {
 EditLearningResource.propTypes = {
   articleId: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
-  fetchArticle: PropTypes.func.isRequired,
-  updateArticle: PropTypes.func.isRequired,
+  licenses: LicensesArrayOf,
+  fetchDraft: PropTypes.func.isRequired,
+  updateDraft: PropTypes.func.isRequired,
   article: ArticleShape,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  setArticle: PropTypes.func.isRequired,
+  setDraft: PropTypes.func.isRequired,
   articleLanguage: PropTypes.string.isRequired,
   fetchTags: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
-  fetchArticle: actions.fetchArticle,
-  updateArticle: actions.updateArticle,
-  setArticle: actions.setArticle,
+  fetchDraft: actions.fetchDraft,
+  updateDraft: actions.updateDraft,
+  setDraft: actions.setDraft,
   fetchTags: tagActions.fetchTags,
 };
 
 const mapStateToProps = (state, props) => {
   const { articleId, articleLanguage } = props;
-  const getArticleSelector = getArticle(articleId, true);
+  const getArticleSelector = getDraft(articleId, true);
   const getAllTagsSelector = getAllTagsByLanguage(articleLanguage);
   return {
     article: getArticleSelector(state),

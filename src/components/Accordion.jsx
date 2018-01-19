@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 
 import { Button } from 'ndla-ui';
-import { Arrow } from 'ndla-ui/icons';
+import { ExpandLess, ExpandMore } from 'ndla-icons/action';
 
 const classes = new BEMHelper({
   name: 'accordion',
@@ -41,7 +41,11 @@ const Accordion = ({
         stripped
         onClick={handleToggle}>
         <span {...classes('title')}>{header}</span>
-        <Arrow direction={`${hidden ? 'down' : 'up'}`} {...classes('arrow')} />
+        {hidden ? (
+          <ExpandMore {...classes('arrow', '', 'c-icon--medium')} />
+        ) : (
+          <ExpandLess {...classes('arrow', '', 'c-icon--medium')} />
+        )}
       </Button>
       <div
         {...classes(

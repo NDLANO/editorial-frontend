@@ -39,17 +39,20 @@ class SearchTabs extends Component {
 
   setIndexTab(searchTypes) {
     switch (searchTypes) {
-      case 'standard':
+      case 'all':
         this.setState({ index: 0 });
         break;
-      case 'topic-article':
+      case 'standard':
         this.setState({ index: 1 });
         break;
-      case 'images':
+      case 'topic-article':
         this.setState({ index: 2 });
         break;
-      case 'audios':
+      case 'images':
         this.setState({ index: 3 });
+        break;
+      case 'audios':
+        this.setState({ index: 4 });
         break;
       default:
         break;
@@ -62,15 +65,18 @@ class SearchTabs extends Component {
       this.setState({ index });
       switch (index) {
         case 0:
-          onArticleSearchTypeChange('standard');
+          onSearchTypeChange(['articles', 'images', 'audios']);
           break;
         case 1:
-          onArticleSearchTypeChange('topic-article');
+          onArticleSearchTypeChange('standard');
           break;
         case 2:
-          onSearchTypeChange(['images']);
+          onArticleSearchTypeChange('topic-article');
           break;
         case 3:
+          onSearchTypeChange(['images']);
+          break;
+        case 4:
           onSearchTypeChange(['audios']);
           break;
         default:

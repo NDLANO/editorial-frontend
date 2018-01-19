@@ -21,7 +21,7 @@ import DisplayExternal from '../../../DisplayEmbedTag/DisplayExternal';
 import { getSchemaEmbed } from '../../schema';
 import { EditorShape } from '../../../../shapes';
 
-const classes = new BEMHelper({
+export const editorClasses = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
 });
@@ -35,6 +35,7 @@ class SlateFigure extends React.Component {
     this.isSelected = this.isSelected.bind(this);
     this.onFigureInputChange = this.onFigureInputChange.bind(this);
     this.onSubmittedChange = this.onSubmittedChange.bind(this);
+    this.onRemoveClick = this.onRemoveClick.bind(this);
   }
 
   componentWillMount() {
@@ -62,25 +63,31 @@ class SlateFigure extends React.Component {
     const properties = {
       data: { ...getSchemaEmbed(node), [name]: value },
     };
-    const next = editor
-      .getState()
-      .change()
-      .setNodeByKey(node.key, properties);
+    const next = editor.value.change().setNodeByKey(node.key, properties);
+    editor.onChange(next);
+  }
+
+  onRemoveClick(e) {
+    e.stopPropagation();
+    const { node, editor } = this.props;
+    const next = editor.value.change().removeNodeByKey(node.key);
     editor.onChange(next);
   }
 
   isSelected() {
-    const { node, state } = this.props;
-    const isSelected = state.selection.hasEdgeIn(node);
+    const { node, editor } = this.props;
+    const isSelected = editor.value.selection.hasEdgeIn(node);
     return isSelected;
   }
 
   render() {
-    const figureClass = classes('figure', this.isSelected() ? 'active' : '');
+    const figureClass = editorClasses(
+      'figure',
+      this.isSelected() ? 'active' : '',
+    );
     const { node, attributes, editor } = this.props;
 
     const embed = getSchemaEmbed(node);
-
     const props = {
       embed,
       onFigureInputChange: this.onFigureInputChange,
@@ -90,11 +97,18 @@ class SlateFigure extends React.Component {
     };
     switch (embed.resource) {
       case 'image':
-        return <SlateImage node={node} editor={editor} {...props} />;
+        return (
+          <SlateImage
+            node={node}
+            editor={editor}
+            onRemoveClick={this.onRemoveClick}
+            {...props}
+          />
+        );
       case 'brightcove':
-        return <SlateVideo {...props} />;
+        return <SlateVideo {...props} onRemoveClick={this.onRemoveClick} />;
       case 'audio':
-        return <SlateAudio {...props} />;
+        return <SlateAudio onRemoveClick={this.onRemoveClick} {...props} />;
       case 'external':
         return (
           <Figure>
@@ -118,7 +132,6 @@ class SlateFigure extends React.Component {
 
 SlateFigure.propTypes = {
   className: PropTypes.string,
-  state: Types.state.isRequired,
   node: Types.node.isRequired,
   editor: EditorShape,
   attributes: PropTypes.shape({

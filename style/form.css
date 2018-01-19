@@ -11,16 +11,17 @@ textarea {
   color: var(--brand-grey-dark);
   width: 100%;
   max-width: 100%;
-  padding: 0.25rem;
+  padding: 0.3rem;
   margin: 0 0 0.1rem;
   box-sizing: border-box;
   border: 1px solid #d4d4d4;
   font-size: 1rem;
+  border-radius: 1px;
 }
 
 select {
   border: 1px solid var(--brand-grey-dark);
-  border-radius: 0;
+  border-radius: 1px;
   background: #fff;
   min-height: 1.5em;
   color: var(--brand-grey-dark);
@@ -37,100 +38,34 @@ input::placeholder {
   color: rgb(153, 153, 153);
 }
 
-.c-field {
-  margin-top: 2rem;
-  position: relative;
-
-  &--position-static {
-    position: static;
+form {
+  & a.c-button {
+    display: inline-block;
   }
 
-  & label {
-    font-size: 1.5rem;
-  }
+  & .c-save-button,
+  & .c-abort-button {
+    display: inline-block;
+    min-width: 6rem;
+    border-width: 1px;
+    border-radius: 1px;
+    margin-left: 2rem;
 
-  &--no-margin-top {
-    margin-top: 0.5rem;
-  }
-
-  &__help {
-    display: block;
-    font-size: 0.75rem;
-
-    &--error {
-      color: var(--mark-color);
+    &:hover:enabled,
+    &:focus:enabled {
+      border-width: 1px;
+      transform: none;
     }
 
-    &--right {
-      text-align: right;
-    }
-  }
-
-  &__focus-label {
-    color: var(--brand-color--tertiary);
-    position: absolute;
-    height: 1.5rem;
-    left: -7rem;
-    width: 6.5em;
-    border-right: 1px solid;
-    padding-right: 0.7rem;
-    line-height: initial;
-  }
-
-  &__focus-text {
-    float: right;
-  }
-
-  &__description--block {
-    display: flex;
-  }
-
-  &__description {
-    margin: 0.2em 0;
-    font-size: 0.75em;
-
-    &--obligatory {
-      background-color: rgba(230, 132, 154, 1);
-      padding: 0.2em 0.6em;
-    }
-  }
-
-  &--title {
-    & input {
-      font-size: 2.11111rem;
+    &:active {
+      transform: none;
     }
 
-    .c-field__focus-label {
-      margin-top: 0.7rem;
-    }
-  }
-
-  &--introduction {
-    .c-field__focus-label {
-      margin-top: 0.2rem;
-    }
-  }
-
-  &--right {
-    text-align: right;
-    margin-right: var(--spacing--small);
-  }
-
-  &--no-border {
-    & input {
-      border: none;
-      padding: 0;
-      margin: 0;
-      outline: none;
-    }
-  }
-
-  &__add-visual-element {
-    border-color: var(--brand-color--tertiary);
-    color: var(--brand-grey-dark);
-
-    &:hover {
-      background-color: var(--brand-color--tertiary);
+    /* NB! Should use :enabled in ndla-ui button css instead */
+    &:disabled {
+      background-color: var(--background-color--dark);
+      transform: none;
+      border: 0;
     }
   }
 }

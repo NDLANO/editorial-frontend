@@ -18,43 +18,11 @@ Object {
             "nodes": Array [
               Object {
                 "kind": "text",
-                "ranges": Array [
+                "leaves": Array [
                   Object {
-                    "kind": "range",
+                    "kind": "leaf",
                     "marks": Array [],
-                    "text": " ",
-                  },
-                ],
-              },
-              Object {
-                "data": Object {
-                  "content-id": "504",
-                  "link-text": "Yrker i mediebransjen",
-                  "resource": "content-link",
-                },
-                "isVoid": false,
-                "kind": "inline",
-                "nodes": Array [
-                  Object {
-                    "kind": "text",
-                    "ranges": Array [
-                      Object {
-                        "kind": "range",
-                        "marks": Array [],
-                        "text": "Yrker i mediebransjen",
-                      },
-                    ],
-                  },
-                ],
-                "type": "link",
-              },
-              Object {
-                "kind": "text",
-                "ranges": Array [
-                  Object {
-                    "kind": "range",
-                    "marks": Array [],
-                    "text": " ",
+                    "text": "  ",
                   },
                 ],
               },
@@ -68,9 +36,9 @@ Object {
             "nodes": Array [
               Object {
                 "kind": "text",
-                "ranges": Array [
+                "leaves": Array [
                   Object {
-                    "kind": "range",
+                    "kind": "leaf",
                     "marks": Array [],
                     "text": " ",
                   },
@@ -79,15 +47,17 @@ Object {
               Object {
                 "data": Object {
                   "href": "https://www.nrk.no/skole/?page=search&q=Jobb%20i%20NRK",
+                  "rel": "noopener noreferrer",
+                  "target": "_blank",
                 },
                 "isVoid": false,
                 "kind": "inline",
                 "nodes": Array [
                   Object {
                     "kind": "text",
-                    "ranges": Array [
+                    "leaves": Array [
                       Object {
-                        "kind": "range",
+                        "kind": "leaf",
                         "marks": Array [],
                         "text": "Yrker i NRK",
                       },
@@ -98,9 +68,9 @@ Object {
               },
               Object {
                 "kind": "text",
-                "ranges": Array [
+                "leaves": Array [
                   Object {
-                    "kind": "range",
+                    "kind": "leaf",
                     "marks": Array [],
                     "text": " ",
                   },
@@ -114,7 +84,7 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
 }
 `;
 
@@ -131,9 +101,9 @@ Object {
         "nodes": Array [
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": "Eller du kan bruke nettsidene ",
               },
@@ -142,15 +112,17 @@ Object {
           Object {
             "data": Object {
               "href": "http://www.nav.no/",
+              "rel": "noopener noreferrer",
+              "target": "_blank",
             },
             "isVoid": false,
             "kind": "inline",
             "nodes": Array [
               Object {
                 "kind": "text",
-                "ranges": Array [
+                "leaves": Array [
                   Object {
-                    "kind": "range",
+                    "kind": "leaf",
                     "marks": Array [],
                     "text": "nav.no",
                   },
@@ -161,9 +133,9 @@ Object {
           },
           Object {
             "kind": "text",
-            "ranges": Array [
+            "leaves": Array [
               Object {
-                "kind": "range",
+                "kind": "leaf",
                 "marks": Array [],
                 "text": " . Her finnes informasjon om de ulike tjenestene.",
               },
@@ -174,7 +146,7 @@ Object {
       },
     ],
   },
-  "kind": "state",
+  "kind": "value",
 }
 `;
 

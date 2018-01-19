@@ -47,16 +47,11 @@ export const CopyrightObjectShape = PropTypes.shape({
   src: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   copyright: PropTypes.shape({
-    authors: PropTypes.array.isRequired,
+    creators: PropTypes.array.isRequired,
   }).isRequired,
 });
 
 export const ArticleShape = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-});
-
-export const AudioShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
 });
@@ -92,6 +87,12 @@ export const FootnoteShape = PropTypes.shape({
   type: PropTypes.string,
 });
 
+export const LinkShape = PropTypes.shape({
+  text: PropTypes.string.isRequired,
+  href: PropTypes.string.isRequired,
+  checkbox: PropTypes.bool.isRequired,
+});
+
 export const SchemaShape = PropTypes.shape({
   fields: PropTypes.object.isRequired,
   isValid: PropTypes.bool.isRequired,
@@ -109,12 +110,31 @@ export const PluginShape = PropTypes.shape({
 
 export const EditorShape = PropTypes.shape({
   onChange: PropTypes.func.isRequired,
-  getState: PropTypes.func.isRequired,
   props: PropTypes.shape({
     submitted: PropTypes.bool.isRequired,
     slateStore: PropTypes.shape({
       getState: PropTypes.func.isRequired,
       subscribe: PropTypes.func.isRequired,
     }),
+  }),
+});
+
+export const LicensesArrayOf = PropTypes.arrayOf(
+  PropTypes.shape({
+    description: PropTypes.string,
+    license: PropTypes.string,
+  }),
+).isRequired;
+
+export const AudioShape = PropTypes.shape({
+  id: PropTypes.number,
+  title: PropTypes.shape({ title: PropTypes.string }),
+  audioFile: PropTypes.shape({
+    mimeType: PropTypes.string,
+    url: PropTypes.string,
+  }),
+  copyright: PropTypes.shape({
+    creators: PropTypes.arrayOf(PropTypes.object),
+    license: PropTypes.shape({ license: PropTypes.string }),
   }),
 });

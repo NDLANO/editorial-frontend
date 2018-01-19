@@ -9,7 +9,6 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
@@ -18,61 +17,57 @@ import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import {
   learningResourceContentToHTML,
-  learningResourceContentToEditorState,
-  editorStateToPlainText,
-  plainTextToEditorState,
+  learningResourceContentToEditorValue,
+  editorValueToPlainText,
+  plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
-import {
-  parseEmbedTag,
-  createEmbedTag,
-  isUserProvidedEmbedDataValid,
-} from '../../../util/embedTagHelpers';
+import { isUserProvidedEmbedDataValid } from '../../../util/embedTagHelpers';
 import { findNodesByType } from '../../../util/slateHelpers';
-import { SchemaShape } from '../../../shapes';
+import { SchemaShape, LicensesArrayOf } from '../../../shapes';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
-import LearningResourceCopyright from './LearningResourceCopyright';
+import { FormWorkflow, FormCopyright, formClasses } from '../../Form';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import ArticleHeader from '../../Article/ArticleHeader';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
-
-const DEFAULT_LICENSE = {
-  description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
-  license: 'by-sa',
-  url: 'https://creativecommons.org/licenses/by-sa/2.0/',
-};
+import {
+  DEFAULT_LICENSE,
+  parseCopyrightContributors,
+  creatorsWithDefault,
+} from '../../../util/formHelper';
 
 const findFootnotes = content =>
   content
     .reduce(
       (all, item) => [
         ...all,
-        ...findNodesByType(item.state.document, footnoteType),
+        ...findNodesByType(item.value.document, footnoteType),
       ],
       [],
     )
     .map(footnoteNode => footnoteNode.data.toJS());
 
-const parseCopyrightAuthors = (article, type) =>
-  article.copyright
-    ? article.copyright.authors
-        .filter(author => author.type === type)
-        .map(author => author.name)
-    : [];
+const parseImageUrl = url => {
+  if (!url) {
+    return '';
+  }
+  const splittedUrl = url.split('/');
+  return splittedUrl[splittedUrl.length - 1];
+};
 
 export const getInitialModel = (article = {}) => {
-  const metaImage = parseEmbedTag(article.visualElement) || {};
+  const metaImageId = parseImageUrl(article.metaImage);
   return {
     id: article.id,
     revision: article.revision,
     title: article.title || '',
-    introduction: plainTextToEditorState(article.introduction, true),
-    content: learningResourceContentToEditorState(article.content),
+    introduction: plainTextToEditorValue(article.introduction, true),
+    content: learningResourceContentToEditorValue(article.content),
     tags: article.tags || [],
-    authors: parseCopyrightAuthors(article, 'Forfatter'),
-    licensees: parseCopyrightAuthors(article, 'Rettighetshaver'),
-    contributors: parseCopyrightAuthors(article, 'Bidragsyter'),
+    creators: creatorsWithDefault(article),
+    processors: parseCopyrightContributors(article, 'processors'),
+    rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     origin:
       article.copyright && article.copyright.origin
         ? article.copyright.origin
@@ -80,17 +75,15 @@ export const getInitialModel = (article = {}) => {
     license: article.copyright
       ? article.copyright.license.license
       : DEFAULT_LICENSE.license,
-    metaDescription: plainTextToEditorState(article.metaDescription, true),
-    metaImage,
+    metaDescription: plainTextToEditorValue(article.metaDescription, true),
+    metaImageId,
+    agreementId: article.copyright ? article.copyright.agreementId : undefined,
     language: article.language,
     articleType: 'standard',
+    status: article.status || [],
+    notes: article.notes || [],
   };
 };
-
-export const classes = new BEMHelper({
-  name: 'learning-resource-form',
-  prefix: 'c-',
-});
 
 class LearningResourceForm extends Component {
   constructor(props) {
@@ -117,34 +110,28 @@ class LearningResourceForm extends Component {
       return;
     }
 
-    const authors = model.authors.map(name => ({ type: 'Forfatter', name }));
-    const licensees = model.licensees.map(name => ({
-      type: 'Rettighetshaver',
-      name,
-    }));
-
-    const contributors = model.contributors.map(name => ({
-      type: 'Bidragsyter',
-      name,
-    }));
-
-    const copyright = {
-      license: licenses.find(license => license.license === model.license),
-      origin: model.origin,
-      authors: authors.concat(licensees).concat(contributors),
-    };
+    const content = learningResourceContentToHTML(model.content);
+    const emptyContent = model.id ? '' : undefined;
 
     this.props.onUpdate({
       id: model.id,
       revision,
       title: model.title,
-      introduction: editorStateToPlainText(model.introduction),
+      introduction: editorValueToPlainText(model.introduction),
       tags: model.tags,
-      content: learningResourceContentToHTML(model.content, true),
-      visualElement: createEmbedTag(model.metaImage),
-      metaDescription: editorStateToPlainText(model.metaDescription),
+      content: content && content.length > 0 ? content : emptyContent,
+      metaImageId: model.metaImageId,
+      metaDescription: editorValueToPlainText(model.metaDescription),
       articleType: 'standard',
-      copyright,
+      copyright: {
+        license: licenses.find(license => license.license === model.license),
+        origin: model.origin,
+        creators: model.creators,
+        processors: model.processors,
+        rightsholders: model.rightsholders,
+        agreementId: model.agreementId,
+      },
+      notes: model.notes,
       language: model.language,
     });
   }
@@ -159,23 +146,22 @@ class LearningResourceForm extends Component {
       tags,
       licenses,
       isSaving,
+      articleStatus,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
     return (
       <form
         onSubmit={this.handleSubmit}
-        {...classes(undefined, undefined, 'c-article')}>
+        {...formClasses(undefined, undefined, 'c-article')}>
         <ArticleHeader model={model} />
         <LearningResourceMetadata
-          classes={classes}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
           tags={tags}
           model={model}
         />
         <LearningResourceContent
-          classes={classes}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
           tags={tags}>
@@ -184,22 +170,25 @@ class LearningResourceForm extends Component {
             footnotes={findFootnotes(model.content)}
           />
         </LearningResourceContent>
-        <LearningResourceCopyright
+        <FormCopyright
+          model={model}
           commonFieldProps={commonFieldProps}
           licenses={licenses}
+        />
+        <FormWorkflow
+          commonFieldProps={commonFieldProps}
+          articleStatus={articleStatus}
+          model={model}
+          saveDraft={this.handleSubmit}
         />
         <Field right>
           <Link
             to={'/'}
-            {...classes('abort-button', '', 'c-button c-button--outline')}
+            className="c-button c-button--outline c-abort-button"
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <Button
-            submit
-            outline
-            disabled={isSaving}
-            {...classes('save-button')}>
+          <Button submit outline disabled={isSaving} className="c-save-button">
             {t('form.save')}
           </Button>
         </Field>
@@ -219,12 +208,7 @@ LearningResourceForm.propTypes = {
     language: PropTypes.string,
   }),
   schema: SchemaShape,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
+  licenses: LicensesArrayOf,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
@@ -233,6 +217,7 @@ LearningResourceForm.propTypes = {
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  articleStatus: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default compose(
@@ -243,17 +228,15 @@ export default compose(
       required: true,
     },
     introduction: {
-      required: true,
       maxLength: 300,
     },
     content: {
       required: true,
       test: (value, model, setError) => {
         const embedsHasErrors = value.find(block => {
-          const embeds = findNodesByType(
-            block.state.document,
-            'embed',
-          ).map(node => node.get('data').toJS());
+          const embeds = findNodesByType(block.value.document, 'embed').map(
+            node => node.get('data').toJS(),
+          );
           const notValidEmbeds = embeds.filter(
             embed => !isUserProvidedEmbedDataValid(embed),
           );
@@ -266,27 +249,16 @@ export default compose(
       },
     },
     metaDescription: {
-      required: true,
       maxLength: 155,
     },
-    metaImage: {
-      required: true,
+    creators: {
+      allObjectFieldsRequired: true,
     },
-    'metaImage.alt': {
-      required: true,
-      onlyValidateIf: model =>
-        model.metaImage && model.metaImage.resource === 'image',
+    processors: {
+      allObjectFieldsRequired: true,
     },
-    'metaImage.caption': {
-      required: true,
-      onlyValidateIf: model =>
-        model.metaImage && model.metaImage.resource === 'image',
-    },
-    tags: {
-      minItems: 3,
-    },
-    authors: {
-      minItems: 1,
+    rightsholders: {
+      allObjectFieldsRequired: true,
     },
   }),
 )(LearningResourceForm);

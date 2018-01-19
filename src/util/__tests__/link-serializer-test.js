@@ -37,13 +37,19 @@ test('deserialize link with spacing before link', () => {
 });
 
 test('serialize list with a link and text', () => {
-  const state = (
-    <state>
+  const value = (
+    <value>
       <document>
         <block type="bulleted-list">
           <block type="list-item">
             A string of <mark type="bold">bold</mark> in a{' '}
-            <inline type="link" data={{ href: 'http://slatejs.org' }}>
+            <inline
+              type="link"
+              data={{
+                href: 'http://slatejs.org',
+                rel: 'noopener noreferrer',
+                target: '_blank',
+              }}>
               Slate
             </inline>{' '}
             editor!
@@ -53,9 +59,9 @@ test('serialize list with a link and text', () => {
           </block>
         </block>
       </document>
-    </state>
+    </value>
   );
 
-  const list = serializer.serialize(state, { render: false });
+  const list = serializer.serialize(value, { render: false });
   expect(renderer.create(list.first()).toJSON()).toMatchSnapshot();
 });

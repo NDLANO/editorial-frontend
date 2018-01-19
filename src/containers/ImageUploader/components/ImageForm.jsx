@@ -1,9 +1,9 @@
 /**
-* Copyright (c) 2016-present, NDLA.
-*
-* This source code is licensed under the GPLv3 license found in the
-* LICENSE file in the root directory of this source tree. *
-*/
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
 
 import React, { Component } from 'react';
 import { compose } from 'redux';
@@ -18,36 +18,35 @@ import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import {
   DEFAULT_LICENSE,
-  parseCopyrightAuthors,
+  parseCopyrightContributors,
+  creatorsWithDefault,
 } from '../../../util/formHelper';
 
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
 import { SchemaShape } from '../../../shapes';
 
-export const getInitialModel = (image = {}) => {
-  const authors = parseCopyrightAuthors(image, 'Forfatter');
-  return {
-    id: image.id,
-    revision: image.revision,
-    language: image.language,
-    title: image.title || '',
-    alttext: image.alttext || '',
-    caption: image.caption || '',
-    imageFile: image.imageUrl,
-    tags: image.tags || [],
-    authors,
-    origin:
-      image.copyright && image.copyright.origin ? image.copyright.origin : '',
-    license:
-      image.copyright && image.copyright.license
-        ? image.copyright.license.license
-        : DEFAULT_LICENSE.license,
-  };
-};
-
+export const getInitialModel = (image = {}) => ({
+  id: image.id,
+  revision: image.revision,
+  language: image.language,
+  title: image.title || '',
+  alttext: image.alttext || '',
+  caption: image.caption || '',
+  imageFile: image.imageUrl,
+  tags: image.tags || [],
+  creators: creatorsWithDefault(image),
+  processors: parseCopyrightContributors(image, 'processors'),
+  rightsholders: parseCopyrightContributors(image, 'rightsholders'),
+  origin:
+    image.copyright && image.copyright.origin ? image.copyright.origin : '',
+  license:
+    image.copyright && image.copyright.license
+      ? image.copyright.license.license
+      : DEFAULT_LICENSE.license,
+});
 const classes = new BEMHelper({
-  name: 'image-form',
+  name: 'form',
   prefix: 'c-',
 });
 
@@ -86,7 +85,9 @@ class ImageForm extends Component {
       copyright: {
         license: licenses.find(license => license.license === model.license),
         origin: model.origin,
-        authors: model.authors.map(name => ({ type: 'Forfatter', name })),
+        creators: model.creators,
+        processors: model.processors,
+        rightsholders: model.rightsholders,
       },
     };
     onUpdate(imageMetaData, model.imageFile);
@@ -109,7 +110,7 @@ class ImageForm extends Component {
       <form
         onSubmit={event => this.handleSubmit(event)}
         {...classes(undefined, undefined, 'c-article')}>
-        <div className="c-learning-resource-form__header">
+        <div {...classes('header', 'multimedia')}>
           <div className="u-4/6@desktop u-push-1/6@desktop">
             {model.id
               ? t('imageForm.title.update')
@@ -133,11 +134,11 @@ class ImageForm extends Component {
         <Field right>
           <Link
             to={'/'}
-            {...classes('abort-button', '', 'c-button c-button--outline')}
+            className="c-button c-button--outline c-abort-button"
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <Button submit outline disabled={false} {...classes('save-button')}>
+          <Button submit outline disabled={false} className="c-save-button">
             {t('form.save')}
           </Button>
         </Field>
@@ -184,8 +185,15 @@ export default compose(
     tags: {
       minItems: 3,
     },
-    authors: {
+    creators: {
       minItems: 1,
+      allObjectFieldsRequired: true,
+    },
+    processors: {
+      allObjectFieldsRequired: true,
+    },
+    rightsholders: {
+      allObjectFieldsRequired: true,
     },
     imageFile: {
       required: true,

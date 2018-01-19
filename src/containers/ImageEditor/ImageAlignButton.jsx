@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
-import { AlignLeft, AlignCenter, AlignRight } from 'ndla-ui/icons';
+import { AlignLeft, AlignCenter, AlignRight } from 'ndla-icons/editor';
 
 export const classes = new BEMHelper({
   name: 'image-editor',
@@ -22,22 +22,29 @@ const icon = {
   center: <AlignCenter />,
 };
 
-const ImageAlignButton = ({ currentAlign, alignType, onAlignChange }) => (
-  <Button
-    {...classes(
-      'align-image-button',
-      currentAlign === alignType ? 'active' : '',
-    )}
-    stripped
-    onClick={evt => onAlignChange(evt, alignType)}>
-    {icon[alignType]}
-  </Button>
-);
-
+const ImageAlignButton = ({ currentAlign, alignType, onFieldChange }) => {
+  const onChange = evt => {
+    onFieldChange(evt, 'align', alignType);
+    if (alignType === 'center') {
+      onFieldChange(evt, 'size', 'fullwidth');
+    }
+  };
+  return (
+    <Button
+      {...classes(
+        'align-image-button',
+        currentAlign === alignType ? 'active' : '',
+      )}
+      stripped
+      onClick={onChange}>
+      {icon[alignType]}
+    </Button>
+  );
+};
 ImageAlignButton.propTypes = {
   currentAlign: PropTypes.string.isRequired,
   alignType: PropTypes.string.isRequired,
-  onAlignChange: PropTypes.func.isRequired,
+  onFieldChange: PropTypes.func.isRequired,
 };
 
 export default ImageAlignButton;

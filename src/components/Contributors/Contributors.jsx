@@ -25,6 +25,7 @@ const Contributors = props => {
     submitted,
     placeholder,
     bindInput,
+    disabled,
   } = props;
   const { onChange, value } = bindInput(name);
 
@@ -62,6 +63,7 @@ const Contributors = props => {
     type: item,
     translation: contributorTypes[locale][item],
   }));
+
   return (
     <Field>
       <label htmlFor={name}>{label}</label>
@@ -79,6 +81,7 @@ const Contributors = props => {
           }
           removeContributor={evt => removeContributor(evt, index)}
           placeholder={placeholder}
+          disabled={disabled}
         />
       ))}
       <FieldErrorMessages
@@ -86,7 +89,7 @@ const Contributors = props => {
         field={getField(name, schema)}
         submitted={submitted}
       />
-      <CirclePlusButton onClick={addContributor}>
+      <CirclePlusButton onClick={addContributor} disabled={disabled}>
         <Plus className="c-icon--medium" />
       </CirclePlusButton>
     </Field>
@@ -103,6 +106,7 @@ Contributors.propTypes = {
   }),
   submitted: PropTypes.bool.isRequired,
   placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

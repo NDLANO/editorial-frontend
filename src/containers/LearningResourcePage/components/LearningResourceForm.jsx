@@ -34,7 +34,7 @@ import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/fo
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
-  creatorsWithDefault,
+  processorsWithDefault,
 } from '../../../util/formHelper';
 
 const findFootnotes = content =>
@@ -65,8 +65,8 @@ export const getInitialModel = (article = {}) => {
     introduction: plainTextToEditorValue(article.introduction, true),
     content: learningResourceContentToEditorValue(article.content),
     tags: article.tags || [],
-    creators: creatorsWithDefault(article),
-    processors: parseCopyrightContributors(article, 'processors'),
+    creators: parseCopyrightContributors(article, 'creators'),
+    processors: processorsWithDefault(article),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     origin:
       article.copyright && article.copyright.origin

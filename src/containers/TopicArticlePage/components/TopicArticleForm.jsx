@@ -29,7 +29,7 @@ import { SchemaShape, LicensesArrayOf } from '../../../shapes';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
-  creatorsWithDefault,
+  processorsWithDefault,
 } from '../../../util/formHelper';
 import { FormWorkflow, FormCopyright, formClasses } from '../../Form';
 
@@ -43,8 +43,8 @@ export const getInitialModel = (article = {}) => {
     introduction: plainTextToEditorValue(article.introduction, true),
     content: topicArticleContentToEditorValue(article.content),
     tags: article.tags || [],
-    creators: creatorsWithDefault(article),
-    processors: parseCopyrightContributors(article, 'processors'),
+    creators: parseCopyrightContributors(article, 'creators'),
+    processors: processorsWithDefault(article),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
     copyright: article.copyright
@@ -206,7 +206,7 @@ export default compose(
       maxLength: 155,
     },
     visualElement: {
-      required: true,
+      required: false,
     },
     'visualElement.alt': {
       required: true,

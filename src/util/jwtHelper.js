@@ -14,3 +14,12 @@ export function expiresIn(token) {
 }
 
 export const decodeToken = accessToken => decode(accessToken);
+
+export const isValid = accessToken => {
+  try {
+    decode(accessToken);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};

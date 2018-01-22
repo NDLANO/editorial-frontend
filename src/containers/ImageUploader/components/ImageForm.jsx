@@ -20,7 +20,7 @@ import { Field } from '../../../components/Fields';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
-  creatorsWithDefault,
+  processorsWithDefault,
 } from '../../../util/formHelper';
 
 import ImageMetaData from './ImageMetaData';
@@ -36,8 +36,8 @@ export const getInitialModel = (image = {}) => ({
   caption: image.caption || '',
   imageFile: image.imageUrl,
   tags: image.tags || [],
-  creators: creatorsWithDefault(image),
-  processors: parseCopyrightContributors(image, 'processors'),
+  creators: parseCopyrightContributors(image, 'creators'),
+  processors: processorsWithDefault(image),
   rightsholders: parseCopyrightContributors(image, 'rightsholders'),
   origin:
     image.copyright && image.copyright.origin ? image.copyright.origin : '',

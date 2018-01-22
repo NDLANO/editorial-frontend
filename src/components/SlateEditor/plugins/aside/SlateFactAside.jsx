@@ -40,13 +40,13 @@ class SlateFactAside extends React.Component {
         {...classes(
           'fact-aside',
           '',
-          this.state.expanded ? 'c-aside expanded' : 'c-aside',
+          this.state.expanded ? 'c-factbox expanded' : 'c-factbox',
         )}
         {...attributes}>
-        <div className="c-aside__content">{children}</div>
+        <div className="c-factbox__content">{children}</div>
         <Button
           onClick={this.toggleExpanded}
-          className="c-button c-aside__button"
+          className="c-button c-factbox__button"
         />
         <Button stripped onClick={onRemoveClick} {...classes('delete-button')}>
           <Cross />

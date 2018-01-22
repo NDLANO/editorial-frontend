@@ -56,7 +56,7 @@ class EditTopicArticle extends Component {
   }
 
   render() {
-    const { locale, article, tags, isSaving } = this.props;
+    const { locale, article, tags, isSaving, licenses } = this.props;
     if (!article) {
       return null;
     }
@@ -74,6 +74,7 @@ class EditTopicArticle extends Component {
         revision={article.revision}
         articleStatus={article.status}
         tags={tags}
+        licenses={licenses}
         locale={locale}
         isSaving={isSaving}
         onUpdate={this.updateDraft}

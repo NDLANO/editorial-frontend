@@ -208,7 +208,7 @@ export default compose(
       maxLength: 155,
     },
     visualElement: {
-      required: true,
+      required: false,
     },
     'visualElement.alt': {
       required: true,

@@ -32,6 +32,7 @@ class FormCopyright extends Component {
 
   render() {
     const { t, commonFieldProps, licenses, model } = this.props;
+    const disabled = !!model.agreementId;
     return (
       <Accordion
         handleToggle={this.toggleContent}
@@ -40,11 +41,13 @@ class FormCopyright extends Component {
         <Contributors
           name="creators"
           label={t('form.creators.label')}
+          disabled={disabled}
           {...commonFieldProps}
         />
         <Contributors
           name="rightsholders"
           label={t('form.rightsholders.label')}
+          disabled={disabled}
           {...commonFieldProps}
         />
         <Contributors
@@ -62,6 +65,7 @@ class FormCopyright extends Component {
           options={licenses}
           idKey="license"
           labelKey="description"
+          disabled={disabled}
           {...commonFieldProps}
         />
       </Accordion>

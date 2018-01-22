@@ -160,6 +160,7 @@
     display: block;
     margin-top: var(--spacing--small);
 
+    &:disabled,
     &:hover,
     &:focus {
       color: white;

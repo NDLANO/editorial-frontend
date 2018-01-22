@@ -8,8 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { Camera } from 'ndla-icons/editor';
-import { Audio } from 'ndla-icons/common';
+import { SquareAudio, Camera } from 'ndla-icons/editor';
 import { injectT } from 'ndla-i18n';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
@@ -61,7 +60,7 @@ class MediaPage extends React.Component {
         title: t('typeMasthead.audio'),
         type: 'audio-upload',
         url: '/media/audio-upload/new',
-        icon: <Audio className="c-icon--large" />,
+        icon: <SquareAudio className="c-icon--large" />,
       },
     ];
 

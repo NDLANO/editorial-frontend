@@ -11,7 +11,7 @@ import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Copy } from 'ndla-icons/action';
+import { Agreement } from 'ndla-icons/editor';
 import BEMHelper from 'react-bem-helper';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
@@ -104,7 +104,7 @@ class AgreementForm extends Component {
         {...classes('', 'gray-background')}>
         <div {...classes('header', 'other')}>
           <div className="u-4/6@desktop">
-            <Copy />
+            <Agreement />
             <span>
               {model.id
                 ? t('agreementForm.title.update')

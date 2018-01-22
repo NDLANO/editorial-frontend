@@ -20,7 +20,7 @@
 .c-masthead__container {
   display: flex;
   margin: 0 auto;
-  justify-content: flex-start;
+  justify-content: space-between;
   text-align: center;
   padding-left: var(--spacing);
   padding-right: var(--spacing);

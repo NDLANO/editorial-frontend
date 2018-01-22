@@ -13,7 +13,14 @@ import { Plus, Minus } from 'ndla-icons/action';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withRouter, Link } from 'react-router-dom';
-import { Home, Search } from 'ndla-icons/common';
+import {
+  Learningpath,
+  DetailSearch,
+  Agreement,
+  Media,
+  SubjectMatter,
+  Taxonomy,
+} from 'ndla-icons/editor';
 import config from '../../../config';
 import {
   toCreateLearningResource,
@@ -72,7 +79,7 @@ export class TypeMasthead extends Component {
               to={toCreateLearningResource()}
               {...classes('item')}
               onClick={this.toggleOpen}>
-              <Home className="c-icon--large" />
+              <SubjectMatter className="c-icon--large" />
               <span>{t('typeMasthead.subjectMatter')}</span>
             </Link>
             <a
@@ -81,28 +88,32 @@ export class TypeMasthead extends Component {
               target="_blank"
               {...classes('item')}
               onClick={this.toggleOpen}>
-              <Home className="c-icon--large" />
+              <Learningpath className="c-icon--large" />
               <span>{t('typeMasthead.learningPath')}</span>
             </a>
             <Link
               to={toCreateImage()}
               {...classes('item')}
               onClick={this.toggleOpen}>
-              <Home className="c-icon--large" />
+              <Media className="c-icon--large" />
               <span>{t('typeMasthead.media')}</span>
             </Link>
             <Link
               to="/agreement/new"
               {...classes('item')}
               onClick={this.toggleOpen}>
-              <Home className="c-icon--large" />
+              <Agreement className="c-icon--large" />
               <span>{t('typeMasthead.agreement')}</span>
             </Link>
+            <Link to="#" {...classes('item')} onClick={this.toggleOpen}>
+              <Taxonomy className="c-icon--large" />
+              <span>{t('typeMasthead.structure')}</span>
+            </Link>
             <Link
-              to={toSearch()}
+              to={toSearch({ types: 'articles,images,audios' })}
               {...classes('item')}
               onClick={this.toggleOpen}>
-              <Search className="c-icon--large" />
+              <DetailSearch className="c-icon--large" />
               <span>{t('typeMasthead.detailSearch')}</span>
             </Link>
           </div>

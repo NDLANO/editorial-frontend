@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
-import { Home } from 'ndla-icons/common';
+import { TopicArticle, LearningResource, Concept } from 'ndla-icons/editor';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
@@ -54,13 +54,19 @@ class SubjectmatterPage extends React.Component {
         title: t('typeMasthead.learningResource'),
         type: 'learning-resource',
         url: '/subject-matter/learning-resource/new',
-        icon: <Home className="c-icon--large" />,
+        icon: <LearningResource className="c-icon--large" />,
       },
       {
         title: t('typeMasthead.topicArticle'),
         type: 'topic-article',
         url: '/subject-matter/topic-article/new',
-        icon: <Home className="c-icon--large" />,
+        icon: <TopicArticle className="c-icon--large" />,
+      },
+      {
+        title: t('typeMasthead.concept'),
+        type: 'concept',
+        url: '#',
+        icon: <Concept className="c-icon--large" />,
       },
     ];
 

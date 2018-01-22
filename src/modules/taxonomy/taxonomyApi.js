@@ -21,13 +21,16 @@ function fetchResourceTypes(locale) {
 }
 
 function fetchResource(id, locale) {
-  return fetchAuthorized(`${baseUrl}/resource/${id}?language=${locale}`).then(
+  return fetchAuthorized(`${baseUrl}/resources/${id}?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
 }
 
 function createResource(resource) {
-  return fetchAuthorized(`${baseUrl}/resource`, {
+  return fetchAuthorized(`${baseUrl}/resources`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
     method: 'POST',
     body: JSON.stringify(resource),
   }).then(resolveJsonOrRejectWithError);
@@ -35,6 +38,9 @@ function createResource(resource) {
 
 function updateResource(id, resource) {
   return fetchAuthorized(`${baseUrl}/resource-resourcetypes/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
     method: 'PUT',
     body: JSON.stringify(resource),
   }).then(resolveJsonOrRejectWithError);
@@ -42,12 +48,15 @@ function updateResource(id, resource) {
 
 function fetchResourceResourceType(id, locale) {
   return fetchAuthorized(
-    `${baseUrl}/resource-resourcetypes/${id}?language=${locale}`,
+    `${baseUrl}/resources/${id}/resource-types?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
 function createResourceResourceType(resourceType) {
   return fetchAuthorized(`${baseUrl}/resource-resourcetypes`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
     method: 'POST',
     body: JSON.stringify(resourceType),
   }).then(resolveJsonOrRejectWithError);
@@ -55,26 +64,35 @@ function createResourceResourceType(resourceType) {
 
 function updateResourceResourceType(id, resourceType) {
   return fetchAuthorized(`${baseUrl}/resource-resourcetypes/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
     method: 'PUT',
     body: JSON.stringify(resourceType),
   }).then(resolveJsonOrRejectWithError);
 }
 
-function fetchResourceFilters(id, locale) {
+function fetchResourceFilter(id, locale) {
   return fetchAuthorized(
-    `${baseUrl}/resource-filters/${id}?language=${locale}`,
+    `${baseUrl}/resources/${id}/filters?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
-function createResourceFilters(resourceType) {
+function createResourceFilter(resourceType) {
   return fetchAuthorized(`${baseUrl}/resource-filters`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
     method: 'POST',
     body: JSON.stringify(resourceType),
   }).then(resolveJsonOrRejectWithError);
 }
 
-function updateResourceFilters(id, resourceType) {
+function updateResourceFilter(id, resourceType) {
   return fetchAuthorized(`${baseUrl}/resource-filters/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
     method: 'PUT',
     body: JSON.stringify(resourceType),
   }).then(resolveJsonOrRejectWithError);
@@ -82,19 +100,25 @@ function updateResourceFilters(id, resourceType) {
 
 function fetchTopicResource(id, locale) {
   return fetchAuthorized(
-    `${baseUrl}/topic-resource/${id}?language=${locale}`,
+    `${baseUrl}/topic-resources/${id}?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
 function createTopicResource(resourceType) {
-  return fetchAuthorized(`${baseUrl}/topic-resource`, {
+  return fetchAuthorized(`${baseUrl}/topic-resources`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
     method: 'POST',
     body: JSON.stringify(resourceType),
   }).then(resolveJsonOrRejectWithError);
 }
 
 function updateTopicResource(id, resourceType) {
-  return fetchAuthorized(`${baseUrl}/topic-resource/${id}`, {
+  return fetchAuthorized(`${baseUrl}/topic-resources/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
     method: 'PUT',
     body: JSON.stringify(resourceType),
   }).then(resolveJsonOrRejectWithError);
@@ -118,10 +142,68 @@ function fetchTopicArticle(topicId, locale) {
   ).then(resolveJsonOrRejectWithError);
 }
 
-function fetchRelevances(topicId, locale) {
+function fetchRelevances(locale) {
   return fetchAuthorized(`${baseUrl}/relevances/?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
+}
+
+function queryResources(articleId, language) {
+  return fetchAuthorized(
+    `${baseUrl}/queries/resources/?contentURI=${encodeURIComponent(
+      `urn:article:${articleId}`,
+    )}&?language=${language}`,
+  ).then(resolveJsonOrRejectWithError);
+}
+
+/* Taxonomy actions */
+
+async function updateTaxonomy(taxonomy) {
+  try {
+    let resource = await queryResources(taxonomy.articleId, taxonomy.language);
+
+    if (resource.length === 0) {
+      const resourceId = await createResource({
+        contentUri: `urn:article:${taxonomy.articleId}`,
+        name: taxonomy.articleName,
+      });
+      resource = [{ id: resourceId }]; // Temporary until API changes to return representation
+    }
+
+    if (taxonomy.resourceTypes) {
+      taxonomy.resourceTypes.forEach(async item => {
+        const resourceTypesId = await createResourceResourceType({
+          resourceTypeId: item.id,
+          resourceId: resource[0].id,
+        });
+        console.log(resourceTypesId);
+      });
+    }
+
+    if (taxonomy.filter) {
+      taxonomy.filter.forEach(async item => {
+        const resourceFilterId = await createResourceFilter({
+          filterId: item.id,
+          resourceId: resource[0].id,
+          relevanceId: item.relevanceId,
+        });
+        console.log(resourceFilterId);
+      });
+    }
+
+    if (taxonomy.topics) {
+      taxonomy.topics.forEach(async item => {
+        const resourceTopicsId = await createTopicResource({
+          topicid: item.id,
+          primary: item.primary,
+          resourceid: resource[0].id,
+        });
+        console.log(resourceTopicsId);
+      });
+    }
+  } catch (e) {
+    throw new Error(e);
+  }
 }
 
 export {
@@ -132,9 +214,9 @@ export {
   fetchResourceResourceType,
   createResourceResourceType,
   updateResourceResourceType,
-  fetchResourceFilters,
-  createResourceFilters,
-  updateResourceFilters,
+  fetchResourceFilter,
+  createResourceFilter,
+  updateResourceFilter,
   fetchFilters,
   fetchTopics,
   fetchTopicArticle,
@@ -142,4 +224,6 @@ export {
   createTopicResource,
   updateTopicResource,
   fetchRelevances,
+  queryResources,
+  updateTaxonomy,
 };

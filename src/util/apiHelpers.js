@@ -30,7 +30,14 @@ export function createErrorPayload(status, message, json) {
 export function resolveJsonOrRejectWithError(res) {
   return new Promise((resolve, reject) => {
     if (res.ok) {
-      return res.status === 204 ? resolve() : resolve(res.json());
+      if (res.status === 204) {
+        return resolve();
+      }
+      // Temporary until API changes to return representation
+      if (res.status === 201 && res.headers.get('Location')) {
+        return res.headers.get('Location');
+      }
+      return resolve(res.json());
     }
     return res
       .json()
@@ -53,7 +60,12 @@ export const fetchWithAuthorization = async (url, config = {}, forceAuth) => {
   }
   return fetch(url, {
     ...config,
-    headers: { Authorization: `Bearer ${getAccessToken()}` },
+    headers: {
+      Authorization: `Bearer ${getAccessToken()}`,
+      'Content-Type': config.headers
+        ? config.headers['Content-Type']
+        : 'text/plain',
+    },
   });
 };
 

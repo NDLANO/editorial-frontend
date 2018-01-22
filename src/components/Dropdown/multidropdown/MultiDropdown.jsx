@@ -79,6 +79,7 @@ class MultiDropdown extends PureComponent {
     copy.filter(val => val);
 
     this.setState({ selectedItems: copy });
+    this.props.onChange(copy);
   }
 
   focusOnInput() {
@@ -115,6 +116,7 @@ class MultiDropdown extends PureComponent {
   }
 
   addSelectedItem(selectedItem, id) {
+    const { selectedItems } = this.state;
     let newItem;
 
     // Initial tag attributes by type
@@ -131,9 +133,10 @@ class MultiDropdown extends PureComponent {
         relevanceId: selectedItem.relevanceId || RESOURCE_FILTER_CORE.id,
       };
     }
-    this.setState(prevState => ({
-      selectedItems: [...prevState.selectedItems, newItem || selectedItem],
-    }));
+    this.setState({
+      selectedItems: [...selectedItems, newItem || selectedItem],
+    });
+    this.props.onChange([...selectedItems, newItem || selectedItem]);
   }
 
   removeItem(selectedItem) {
@@ -151,6 +154,7 @@ class MultiDropdown extends PureComponent {
       copy.unshift(newPrimaryItem);
     }
     this.setState({ selectedItems: copy });
+    this.props.onChange(copy);
   }
 
   handleToggleMenu() {

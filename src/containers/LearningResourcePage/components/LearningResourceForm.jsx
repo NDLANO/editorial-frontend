@@ -57,7 +57,10 @@ const parseImageUrl = url => {
   return splittedUrl[splittedUrl.length - 1];
 };
 
-export const getInitialModel = (article = {}) => {
+export const getInitialModel = (
+  article = {},
+  taxonomy = { resourceTypes: [], filter: [], topics: [] },
+) => {
   const metaImageId = parseImageUrl(article.metaImage);
 
   return {
@@ -67,11 +70,7 @@ export const getInitialModel = (article = {}) => {
     introduction: plainTextToEditorValue(article.introduction, true),
     content: learningResourceContentToEditorValue(article.content),
     tags: article.tags || [],
-    taxonomy: {
-      resourceTypes: [],
-      filter: [],
-      topics: [],
-    },
+    ...taxonomy,
     creators: creatorsWithDefault(article),
     processors: parseCopyrightContributors(article, 'processors'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
@@ -120,32 +119,40 @@ class LearningResourceForm extends Component {
     const content = learningResourceContentToHTML(model.content);
     const emptyContent = model.id ? '' : undefined;
 
-    this.props.onUpdate({
-      id: model.id,
-      revision,
-      title: model.title,
-      introduction: editorValueToPlainText(model.introduction),
-      tags: model.tags,
-      taxonomy: {
+    this.props.onUpdate(
+      {
+        id: model.id,
+        revision,
+        title: model.title,
+        introduction: editorValueToPlainText(model.introduction),
+        tags: model.tags,
         resourceTypes: model.resourceTypes,
         filter: model.filter,
         topics: model.topics,
+        content: content && content.length > 0 ? content : emptyContent,
+        metaImageId: model.metaImageId,
+        metaDescription: editorValueToPlainText(model.metaDescription),
+        articleType: 'standard',
+        copyright: {
+          license: licenses.find(license => license.license === model.license),
+          origin: model.origin,
+          creators: model.creators,
+          processors: model.processors,
+          rightsholders: model.rightsholders,
+          agreementId: model.agreementId,
+        },
+        notes: model.notes,
+        language: model.language,
       },
-      content: content && content.length > 0 ? content : emptyContent,
-      metaImageId: model.metaImageId,
-      metaDescription: editorValueToPlainText(model.metaDescription),
-      articleType: 'standard',
-      copyright: {
-        license: licenses.find(license => license.license === model.license),
-        origin: model.origin,
-        creators: model.creators,
-        processors: model.processors,
-        rightsholders: model.rightsholders,
-        agreementId: model.agreementId,
+      {
+        articleId: model.id,
+        articleName: model.title,
+        resourceTypes: model.resourceTypes,
+        filter: model.filter,
+        topics: model.topics,
+        language: model.language,
       },
-      notes: model.notes,
-      language: model.language,
-    });
+    );
   }
 
   render() {
@@ -182,10 +189,12 @@ class LearningResourceForm extends Component {
             footnotes={findFootnotes(model.content)}
           />
         </LearningResourceContent>
-        <LearningResourceTaxonomy
-          commonFieldProps={commonFieldProps}
-          model={model}
-        />
+        {model.id && (
+          <LearningResourceTaxonomy
+            commonFieldProps={commonFieldProps}
+            model={model}
+          />
+        )}
         <FormCopyright
           model={model}
           commonFieldProps={commonFieldProps}

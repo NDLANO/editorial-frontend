@@ -11,6 +11,12 @@ import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 
 import { actions, getDraft } from '../../modules/draft/draft';
+import {
+  queryResources,
+  fetchResourceResourceType,
+  fetchResourceFilter,
+  updateTaxonomy,
+} from '../../modules/taxonomy';
 import LearningResourceForm, {
   getInitialModel,
 } from './components/LearningResourceForm';
@@ -24,16 +30,19 @@ import {
 class EditLearningResource extends Component {
   constructor(props) {
     super(props);
+    this.state = { taxonomy: {} };
     this.updateDraft = this.updateDraft.bind(this);
+    this.fetchTaxonony = this.fetchTaxonony.bind(this);
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     const { articleId, fetchDraft, articleLanguage, fetchTags } = this.props;
+    await this.fetchTaxonony(articleId, articleLanguage);
     fetchDraft({ id: articleId, language: articleLanguage });
     fetchTags({ language: articleLanguage });
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     const {
       articleId,
       fetchDraft,
@@ -45,14 +54,38 @@ class EditLearningResource extends Component {
       (article && article.language !== articleLanguage) ||
       articleId !== this.props.articleId
     ) {
+      await this.fetchTaxonony(articleId, articleLanguage);
       fetchDraft({ id: articleId, language: articleLanguage });
       fetchTags({ language: articleLanguage });
     }
   }
 
-  updateDraft(article) {
+  async fetchTaxonony(articleId, articleLanguage) {
+    try {
+      const resource = await queryResources(articleId, articleLanguage);
+      console.log(resource);
+      if (resource) {
+        const resourceTypes = await fetchResourceResourceType(
+          resource[0].id,
+          articleLanguage,
+        );
+        const filter = await fetchResourceFilter(
+          resource[0].id,
+          articleLanguage,
+        );
+        this.setState({
+          taxonomy: { resourceTypes, filter },
+        });
+      }
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  updateDraft(article, taxonomy) {
     const { updateDraft } = this.props;
     updateDraft({ draft: article });
+    updateTaxonomy(taxonomy);
   }
 
   render() {
@@ -69,7 +102,7 @@ class EditLearningResource extends Component {
     }
     return (
       <LearningResourceForm
-        initialModel={getInitialModel(article)}
+        initialModel={getInitialModel(article, this.state.taxonomy)}
         revision={article.revision}
         articleStatus={article.status}
         tags={tags}

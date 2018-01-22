@@ -18,6 +18,7 @@ import {
   fetchTopics,
   fetchRelevances,
 } from '../../../modules/taxonomy';
+import flattenResourceTypes from '../../../util/taxonomyHelpers';
 
 class LearningResourceTaxonomy extends Component {
   constructor(props) {
@@ -43,7 +44,12 @@ class LearningResourceTaxonomy extends Component {
       const topics = await fetchTopics(model.language);
       const relevances = await fetchRelevances(model.language);
       this.setState({
-        taxonomy: { resourceTypes, filters, topics, relevances },
+        taxonomy: {
+          resourceTypes: flattenResourceTypes(resourceTypes),
+          filters,
+          topics,
+          relevances,
+        },
       });
     } catch (e) {
       throw new Error(e);

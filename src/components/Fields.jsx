@@ -446,21 +446,35 @@ export const MultiSelectDropdown = ({
   submitted,
   schema,
   ...rest
-}) => (
-  <Field>
-    <label htmlFor={name}>{label}</label>
-    {description && (
-      <FieldDescription obligatory={obligatory}>{description}</FieldDescription>
-    )}
-    <MultiDropdown name={name} id={name} {...rest} />
-    <FieldErrorMessages
-      label={label}
-      field={getField(name, schema)}
-      submitted={submitted}
-    />
-  </Field>
-);
-
+}) => {
+  const { onChange, value } = bindInput(name);
+  return (
+    <Field>
+      <label htmlFor={name}>{label}</label>
+      {description && (
+        <FieldDescription obligatory={obligatory}>
+          {description}
+        </FieldDescription>
+      )}
+      <MultiDropdown
+        name={name}
+        id={name}
+        selectedItems={value}
+        onChange={val =>
+          onChange({
+            target: { name, value: val },
+          })
+        }
+        {...rest}
+      />
+      <FieldErrorMessages
+        label={label}
+        field={getField(name, schema)}
+        submitted={submitted}
+      />
+    </Field>
+  );
+};
 MultiSelectDropdown.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,

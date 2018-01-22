@@ -14,9 +14,9 @@ import {
   fetchResourceResourceType,
   createResourceResourceType,
   updateResourceResourceType,
-  fetchResourceFilters,
-  createResourceFilters,
-  updateResourceFilters,
+  fetchResourceFilter,
+  createResourceFilter,
+  updateResourceFilter,
   fetchFilters,
   fetchTopics,
   fetchTopicArticle,
@@ -24,6 +24,8 @@ import {
   createTopicResource,
   updateTopicResource,
   fetchRelevances,
+  queryResources,
+  updateTaxonomy,
 } from './taxonomyApi';
 
 export {
@@ -34,9 +36,9 @@ export {
   fetchResourceResourceType,
   createResourceResourceType,
   updateResourceResourceType,
-  fetchResourceFilters,
-  createResourceFilters,
-  updateResourceFilters,
+  fetchResourceFilter,
+  createResourceFilter,
+  updateResourceFilter,
   fetchFilters,
   fetchTopics,
   fetchTopicArticle,
@@ -44,4 +46,6 @@ export {
   createTopicResource,
   updateTopicResource,
   fetchRelevances,
+  queryResources,
+  updateTaxonomy,
 };

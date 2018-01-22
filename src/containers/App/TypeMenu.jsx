@@ -18,6 +18,7 @@ const TypeMenu = ({ subtypes, activeSubtype, type }) => (
     <div {...classes('items')}>
       {subtypes.map(subtype => (
         <Link
+          key={`typemenu_${subtype.type}`}
           to={subtype.url}
           {...classes('item', subtype.type === activeSubtype ? 'active' : '')}>
           {subtype.icon}

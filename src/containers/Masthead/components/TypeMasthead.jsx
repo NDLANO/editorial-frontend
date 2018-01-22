@@ -13,7 +13,7 @@ import { Plus, Minus } from 'ndla-icons/action';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withRouter, Link } from 'react-router-dom';
-import { Home } from 'ndla-icons/common';
+import { Home, Search } from 'ndla-icons/common';
 import config from '../../../config';
 import {
   toCreateLearningResource,
@@ -102,7 +102,7 @@ export class TypeMasthead extends Component {
               to={toSearch()}
               {...classes('item')}
               onClick={this.toggleOpen}>
-              <Home className="c-icon--large" />
+              <Search className="c-icon--large" />
               <span>{t('typeMasthead.detailSearch')}</span>
             </Link>
           </div>

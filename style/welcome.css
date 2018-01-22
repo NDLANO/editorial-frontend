@@ -1,0 +1,21 @@
+.c-welcome {
+  &__header {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  &__header-image {
+    margin-top: -250px;
+  }
+
+  &__header-text {
+    color: white;
+    margin-left: var(--spacing--large);
+    font-size: 1.3rem;
+    display: inline;
+    position: absolute;
+  }
+}

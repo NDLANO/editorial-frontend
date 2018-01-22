@@ -8,67 +8,28 @@
 
 import React from 'react';
 import { OneColumn } from 'ndla-ui';
-import { Link } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
-import {
-  toCreateTopicArticle,
-  toCreateLearningResource,
-  toCreateAudioFile,
-  toCreateImage,
-  toSearch,
-  toCreateAgreement,
-} from '../../util/routeHelpers';
+import BEMHelper from 'react-bem-helper';
 
-const topicArticleQuery = {
-  articleTypes: 'topic-article',
-  types: ['articles'],
-};
-const learningResourceQuery = { articleTypes: 'standard', types: ['articles'] };
+
+import config from '../../config';
+
+export const classes = new BEMHelper({
+  name: 'welcome',
+  prefix: 'c-',
+});
+
+const assets = config.isProduction
+  ? require('../../../htdocs/assets/assets') // eslint-disable-line import/no-unresolved
+  : require('../../../server/developmentAssets');
 
 export const WelcomePage = ({ t }) => (
-  <OneColumn cssModifier="clear">
-    <article>
-      <section>
-        <h1>{t('welcomePage.shortcuts')}</h1>
-        <ul>
-          <li>
-            <Link to={`${toSearch(learningResourceQuery)}`}>
-              {t('welcomePage.searchLearningResource')}
-            </Link>
-          </li>
-          <li>
-            <Link to={`${toSearch(topicArticleQuery)}`}>
-              {t('welcomePage.searchTopicArticles')}
-            </Link>
-          </li>
-          <li>
-            <Link to={`${toCreateLearningResource()}`}>
-              {t('welcomePage.createLearningResource')}
-            </Link>
-          </li>
-          <li>
-            <Link to={`${toCreateTopicArticle()}`}>
-              {t('welcomePage.createTopicArticle')}
-            </Link>
-          </li>
-          <li>
-            <Link to={`${toCreateAudioFile()}`}>
-              {t('welcomePage.createAudioFile')}
-            </Link>
-          </li>
-          <li>
-            <Link to={`${toCreateImage()}`}>
-              {t('welcomePage.createImage')}
-            </Link>
-          </li>
-          <li>
-            <Link to={`${toCreateAgreement()}`}>
-              {t('welcomePage.createAgreement')}
-            </Link>
-          </li>
-        </ul>
-      </section>
-    </article>
+  <OneColumn>
+    <div {...classes('header')}>
+      <span{...classes('header-text')}>Retningslinjer</span>
+      <img {...classes('header-image')} src={`/assets/${assets['welcome-image.jpg']}`} alt="illustration"/>
+    </div>
+    
   </OneColumn>
 );
 

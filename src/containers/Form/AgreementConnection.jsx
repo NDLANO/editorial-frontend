@@ -22,6 +22,7 @@ class AgreementConnection extends Component {
   constructor(props) {
     super(props);
     this.fetchAgreement = this.fetchAgreement.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.state = { agreement: undefined };
   }
 
@@ -44,6 +45,28 @@ class AgreementConnection extends Component {
     }
   }
 
+  async handleChange(agreement) {
+    const { commonFieldProps } = this.props;
+    const { onChange } = commonFieldProps.bindInput('agreementId');
+    if (agreement && agreement.id) {
+      const fetchedAgreement = await draftApi.fetchAgreement(agreement.id);
+      const onChangeFields = [
+        { name: 'agreementId', value: fetchedAgreement.id },
+        { name: 'license', value: fetchedAgreement.copyright.license.license },
+        { name: 'creators', value: fetchedAgreement.copyright.creators },
+        {
+          name: 'rightsholders',
+          value: fetchedAgreement.copyright.rightsholders,
+        },
+      ];
+      onChangeFields.forEach(field =>
+        onChange({ target: { name: field.name, value: field.value } }),
+      );
+    } else {
+      onChange({ target: { name: 'agreementId', value: undefined } });
+    }
+  }
+
   render() {
     const { t, commonFieldProps } = this.props;
 
@@ -61,6 +84,7 @@ class AgreementConnection extends Component {
           emptyFilter: t('form.agreement.emptyFilter'),
           emptyList: t('form.agreement.emptyList'),
         }}
+        onChange={this.handleChange}
       />
     );
   }

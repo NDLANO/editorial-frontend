@@ -27,9 +27,8 @@ import { SchemaShape, LicensesArrayOf } from '../../../shapes';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
-import { FormWorkflow, FormCopyright, formClasses } from '../../Form';
+import { FormWorkflow, FormCopyright, FormHeader, formClasses } from '../../Form';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
-import ArticleHeader from '../../Article/ArticleHeader';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
 import {
   DEFAULT_LICENSE,
@@ -77,6 +76,7 @@ export const getInitialModel = (article = {}) => {
       : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
     metaImageId,
+    supportedLanguages: article.supportedLanguages || [],
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
     language: article.language,
     articleType: 'standard',
@@ -152,7 +152,7 @@ class LearningResourceForm extends Component {
     const commonFieldProps = { bindInput, schema, submitted };
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
-        <ArticleHeader model={model} />
+        <FormHeader model={model} type={model.articleType}/>
         <LearningResourceMetadata
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}

@@ -126,10 +126,7 @@ const phrases = {
     info: {
       lastUpdated: 'Sist oppdatert: {updated}',
     },
-    title: {
-      create: 'Du oppretter nå en emnebeskrivelse på {title}({key})',
-      update: 'Du redigerer nå en emnebeskrivelse på {title}({key})',
-    },
+    title: 'Emnebeskrivelse | {title} ({key})',
     fields: {
       caption: {
         label: {
@@ -189,10 +186,7 @@ const phrases = {
       copyright: 'Opphav',
       change: 'Bytt metabilde',
     },
-    title: {
-      create: 'Du oppretter nå en læringsressurs på {title}({key})',
-      update: 'Du redigerer nå en læringsressurs på {title}({key})',
-    },
+    title: 'Fagstoff | {title} ({key})',
     validation: {
       missingEmbedData:
         'En eller flere inkluderte lyd, bilde, eller video elementer mangler beskrivende tekst eller alternativ tekst.',
@@ -223,7 +217,7 @@ const phrases = {
     validationOk: 'Ingen validerings feil funnet',
     createdOk: 'Opprettet OK',
     variant: {
-      create: 'Lag variant +',
+      create: '+ Nytt språk',
     },
     remainingCharacters:
       'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',

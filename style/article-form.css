@@ -20,6 +20,13 @@
 
   &__header--article {
     background-color: var(--article-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & > div {
+      display: inline-block;
+    }
   }
 
   &__header--multimedia {
@@ -27,7 +34,6 @@
   }
 
   &__header--other {
-    font-size: 1.2rem;
     background-color: var(--brand-color--secondary);
   }
 
@@ -45,7 +51,7 @@
 
   &__header {
     padding: 0.6rem;
-
+    font-size: 1.1rem;
     svg {
       height: 1.2rem;
       width: 1.2rem;
@@ -55,8 +61,20 @@
       margin-left: 1rem;
     }
 
-    & span + span {
-      margin-left: 1rem;
+    & span > a, & button {
+      margin: 0 0.4rem;
+      color: white;
+      box-shadow: none;
+      &:hover,
+      &:focus {
+        box-shadow: none;
+        color: white;
+      }
+    }
+
+    & .c-dropdown-menu {
+      float: right;
+      margin-right: 1rem;
     }
   }
 

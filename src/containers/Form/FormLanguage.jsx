@@ -19,7 +19,7 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-class ArticleLanguage extends Component {
+class FormLanguage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,14 +35,15 @@ class ArticleLanguage extends Component {
   }
 
   render() {
-    const { languages, modelId, articleType, t } = this.props;
+    const { emptyLanguages, modelId, articleType, t } = this.props;
+    console.log(this.props);
     return (
       <div {...classes()}>
         <Button stripped onClick={this.onDisplayToggle}>
           {t('form.variant.create')}
         </Button>
         <ul {...classes('items', this.state.display ? 'show' : '')}>
-          {languages.map(language => (
+          {emptyLanguages.map(language => (
             <li key={language.key} {...classes('item')}>
               <Link
                 to={toEditArticle(modelId, articleType, language.key)}
@@ -57,8 +58,8 @@ class ArticleLanguage extends Component {
     );
   }
 }
-ArticleLanguage.propTypes = {
-  languages: PropTypes.arrayOf(
+FormLanguage.propTypes = {
+  emptyLanguages: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
@@ -68,4 +69,4 @@ ArticleLanguage.propTypes = {
   articleType: PropTypes.string.isRequired,
 };
 
-export default injectT(ArticleLanguage);
+export default injectT(FormLanguage);

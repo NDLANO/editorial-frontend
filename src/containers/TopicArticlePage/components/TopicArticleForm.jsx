@@ -15,7 +15,6 @@ import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
-import ArticleHeader from '../../Article/ArticleHeader';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -31,7 +30,7 @@ import {
   parseCopyrightContributors,
   processorsWithDefault,
 } from '../../../util/formHelper';
-import { FormWorkflow, FormCopyright, formClasses } from '../../Form';
+import { FormWorkflow, FormCopyright, FormHeader, formClasses } from '../../Form';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -54,6 +53,7 @@ export const getInitialModel = (article = {}) => {
     notes: article.notes || [],
     visualElement: visualElement || {},
     language: article.language,
+    supportedLanguages: article.supportedLanguages || [],
     articleType: 'topic-article',
   };
 };
@@ -130,7 +130,7 @@ class TopicArticleForm extends Component {
 
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
-        <ArticleHeader model={model} />
+        <FormHeader model={model} type={model.articleType}/>
         <TopicArticleMetadata
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}

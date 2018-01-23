@@ -202,7 +202,7 @@ class SlateBlockPicker extends Component {
           ''
         )}
         <div
-          {...classes('block-type-container')}
+          {...classes('block-type-container', 'hidden')}
           ref={menuEl => {
             this.menuEl = menuEl;
           }}>

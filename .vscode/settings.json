@@ -18,5 +18,7 @@
   "search.exclude": {
     "**/node_modules": true,
     "**/htdocs": true
-  }
+  },
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": true
 }

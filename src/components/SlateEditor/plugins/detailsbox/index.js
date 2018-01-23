@@ -38,7 +38,6 @@ export default function createDetails() {
     if (node.type !== 'details') return null;
     if (!node.nodes.last().type) return null;
     if (!node.nodes.last().isVoid) return null;
-
     const block = Block.create(defaultBlock);
     return change => {
       change.insertNodeByKey(node.key, node.nodes.size, block);

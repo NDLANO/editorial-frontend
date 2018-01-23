@@ -14,6 +14,11 @@ import ImageSearch from 'ndla-image-search';
 import VideoSearch from 'ndla-video-search';
 import AudioSearch from 'ndla-audio-search';
 
+import Lightbox from '../../components/Lightbox';
+import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { searchArticles } from '../../modules/search/searchApi';
+import { fetchArticleResource } from '../../modules/taxonomy/taxonomyApi';
+
 import { alttextsI18N, captionsI18N } from '../../util/i18nFieldFinder';
 import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
@@ -30,6 +35,12 @@ const VisualElementSearch = ({
   locale,
   t,
 }) => {
+  async function searchRelatedArticles(input) {
+    await new Promise(resolve => setTimeout(resolve, 50));
+    const query = `?type=articles&query=${input}`;
+    const response = await searchArticles(query, locale);
+    return response.results;
+  }
   switch (selectedResource) {
     case 'image':
       return (
@@ -144,6 +155,30 @@ const VisualElementSearch = ({
           onError={api.onError}
           queryObject={defaultQueryObject}
         />
+      );
+    }
+    case 'related-content': {
+      return (
+        <Lightbox display big onClose={this.closeAndReturnFocusToEditor}>
+          <AsyncDropdown
+            valueField="id"
+            name="relatedArticleSearch"
+            textField="title.title"
+            placeholder={'placeholder'}
+            label={'label'}
+            apiAction={searchRelatedArticles}
+            messages={{
+              emptyFilter: 'empty',
+              emptyList: 'empty list',
+            }}
+            onChange={selected =>
+              handleVisualElementChange({
+                resource: 'related-content',
+                relatedArticle: `${selected.id}`,
+              })
+            }
+          />
+        </Lightbox>
       );
     }
     default:

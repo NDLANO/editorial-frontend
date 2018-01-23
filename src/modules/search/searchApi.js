@@ -21,6 +21,6 @@ export const search = (queryString, locale) =>
   );
 
 export const searchArticles = (queryString, locale) =>
-  fetchAuthorized(`${articleUrl}/${queryString}&language=${locale}`).then(
+  fetchAuthorized(`${articleUrl}/${queryString}?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );

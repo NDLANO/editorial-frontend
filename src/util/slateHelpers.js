@@ -10,6 +10,7 @@ import React from 'react';
 import {
   reduceElementDataAttributes,
   createEmbedProps,
+  createRelatedProps,
 } from './embedTagHelpers';
 
 const BLOCK_TAGS = {
@@ -443,14 +444,15 @@ export const learningResourceEmbedRule = [
 
     serialize(object) {
       if (!object.type || !object.type.startsWith('embed')) return;
-
       const data = object.data.toJS();
-      const props = createEmbedProps(data);
+      const props =
+        object.kind === 'related-content'
+          ? createRelatedProps(data)
+          : createEmbedProps(data);
 
       return <embed {...props} />;
     },
   },
 ];
-
 export const topicArticeRules = topicArticeEmbedRule.concat(RULES);
 export const learningResourceRules = RULES.concat(learningResourceEmbedRule);

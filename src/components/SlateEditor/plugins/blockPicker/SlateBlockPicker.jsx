@@ -30,7 +30,6 @@ import { Portal } from '../../../../components/Portal';
 import { defaultAsideBlock } from '../../schema';
 import { defaultBodyBoxBlock } from './../bodybox';
 import { defaultDetailsBlock } from './../detailsbox';
-import { defaultRelatedBox } from './../relatedbox';
 import SlateEmbedPicker from './SlateEmbedPicker';
 import { editTablePlugin } from './../externalPlugins';
 
@@ -49,7 +48,10 @@ const actions = [
   { data: { type: 'embed', kind: 'video' }, icon: <Video /> },
   { data: { type: 'embed', kind: 'audio' }, icon: <Audio /> },
   { data: { type: 'embed', kind: 'h5p' }, icon: <H5P /> },
-  { data: { type: 'related', kind: 'related' }, icon: <RelatertArtikkel /> },
+  {
+    data: { type: 'embed', kind: 'related-content' },
+    icon: <RelatertArtikkel />,
+  },
 ];
 
 class SlateBlockPicker extends Component {
@@ -117,10 +119,6 @@ class SlateBlockPicker extends Component {
         this.setState({
           embedSelect: { isOpen: true, embedType: action.kind },
         });
-        break;
-      }
-      case 'related': {
-        this.onInsertBlock(defaultRelatedBox());
         break;
       }
       default:

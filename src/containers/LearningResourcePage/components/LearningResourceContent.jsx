@@ -24,7 +24,6 @@ import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
 import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
 import createDetailsPlugin from '../../../components/SlateEditor/plugins/detailsbox';
-import createRelatedPlugin from '../../../components/SlateEditor/plugins/relatedbox';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
@@ -56,7 +55,6 @@ class LearningResourceContent extends Component {
       createBodyBoxPlugin(),
       createAsidePlugin(),
       createDetailsPlugin(),
-      createRelatedPlugin(),
       createLinkPlugin(),
       headingPlugin(),
       blockquotePlugin,
@@ -76,6 +74,7 @@ class LearningResourceContent extends Component {
 
   addSection() {
     const { commonFieldProps: { bindInput } } = this.props;
+    console.log('adding section in blockPickerPlugin');
     const { value, onChange } = bindInput('content');
     const newblocks = [].concat(value);
     newblocks.push({ value: createEmptyValue(), index: value.length });

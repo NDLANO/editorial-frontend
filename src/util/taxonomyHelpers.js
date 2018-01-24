@@ -28,4 +28,33 @@ function flattenResourceTypes(data = []) {
   return resourceTypes;
 }
 
-export default flattenResourceTypes;
+function spliceItems(items, otherItems, itemId, otherItemId, updateProperty) {
+  const copy = [...items];
+  const updatedItems = [];
+  copy.forEach(item => {
+    const foundItem = otherItems.find(
+      itemType => itemType[otherItemId] === item[itemId],
+    );
+    if (foundItem) {
+      items.splice(
+        items.findIndex(itemType => itemType[itemId] === item[itemId]),
+        1,
+      );
+      otherItems.splice(
+        otherItems.findIndex(
+          itemType => itemType[otherItemId] === item[itemId],
+        ),
+        1,
+      );
+      if (updateProperty && foundItem.relevanceId !== item.relevanceId) {
+        updatedItems.push({
+          ...foundItem,
+          [updateProperty]: item[updateProperty],
+        });
+      }
+    }
+  });
+  return [[...items], [...otherItems], [...updatedItems]];
+}
+
+export { flattenResourceTypes, spliceItems };

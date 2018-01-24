@@ -100,7 +100,6 @@ class MultiDropdown extends PureComponent {
 
   handleChange(selectedItem, stateAndHelpers) {
     const { selectedItems } = this.state;
-    // const { onChange } = this.props;
     const { id } = stateAndHelpers;
 
     if (selectedItems.length === 0) {
@@ -119,7 +118,7 @@ class MultiDropdown extends PureComponent {
     const { selectedItems } = this.state;
     let newItem;
 
-    // Initial tag attributes by type
+    // Additional tag attributes by type
     if (id === 'topics') {
       if (this.state.selectedItems.length === 0) {
         newItem = { ...selectedItem, primary: true };

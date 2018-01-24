@@ -11,117 +11,26 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
+import {
+  createResource,
+  createDeleteResourceTypes,
+  createDeleteUpdateFilters,
+  createDeleteUpdateTopicResources,
+} from '.';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
+function fetchTopicArticle(topicId, locale) {
+  return fetchAuthorized(
+    `${baseUrl}/topics/${topicId}?language=${locale}`,
+  ).then(resolveJsonOrRejectWithError);
+}
+
+/* Option items */
 function fetchResourceTypes(locale) {
   return fetchAuthorized(`${baseUrl}/resource-types/?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
-}
-
-function fetchResource(id, locale) {
-  return fetchAuthorized(`${baseUrl}/resources/${id}?language=${locale}`).then(
-    resolveJsonOrRejectWithError,
-  );
-}
-
-function createResource(resource) {
-  return fetchAuthorized(`${baseUrl}/resources`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(resource),
-  }).then(resolveJsonOrRejectWithError);
-}
-
-function updateResource(id, resource) {
-  return fetchAuthorized(`${baseUrl}/resource-resourcetypes/${id}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'PUT',
-    body: JSON.stringify(resource),
-  }).then(resolveJsonOrRejectWithError);
-}
-
-function fetchResourceResourceType(id, locale) {
-  return fetchAuthorized(
-    `${baseUrl}/resources/${id}/resource-types?language=${locale}`,
-  ).then(resolveJsonOrRejectWithError);
-}
-
-function createResourceResourceType(resourceType) {
-  return fetchAuthorized(`${baseUrl}/resource-resourcetypes`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(resourceType),
-  }).then(resolveJsonOrRejectWithError);
-}
-
-function updateResourceResourceType(id, resourceType) {
-  return fetchAuthorized(`${baseUrl}/resource-resourcetypes/${id}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'PUT',
-    body: JSON.stringify(resourceType),
-  }).then(resolveJsonOrRejectWithError);
-}
-
-function fetchResourceFilter(id, locale) {
-  return fetchAuthorized(
-    `${baseUrl}/resources/${id}/filters?language=${locale}`,
-  ).then(resolveJsonOrRejectWithError);
-}
-
-function createResourceFilter(resourceType) {
-  return fetchAuthorized(`${baseUrl}/resource-filters`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(resourceType),
-  }).then(resolveJsonOrRejectWithError);
-}
-
-function updateResourceFilter(id, resourceType) {
-  return fetchAuthorized(`${baseUrl}/resource-filters/${id}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'PUT',
-    body: JSON.stringify(resourceType),
-  }).then(resolveJsonOrRejectWithError);
-}
-
-function fetchTopicResource(id, locale) {
-  return fetchAuthorized(
-    `${baseUrl}/topic-resources/${id}?language=${locale}`,
-  ).then(resolveJsonOrRejectWithError);
-}
-
-function createTopicResource(resourceType) {
-  return fetchAuthorized(`${baseUrl}/topic-resources`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(resourceType),
-  }).then(resolveJsonOrRejectWithError);
-}
-
-function updateTopicResource(id, resourceType) {
-  return fetchAuthorized(`${baseUrl}/topic-resources/${id}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'PUT',
-    body: JSON.stringify(resourceType),
-  }).then(resolveJsonOrRejectWithError);
 }
 
 function fetchFilters(locale) {
@@ -136,18 +45,13 @@ function fetchTopics(locale) {
   );
 }
 
-function fetchTopicArticle(topicId, locale) {
-  return fetchAuthorized(
-    `${baseUrl}/topics/${topicId}/?language=${locale}`,
-  ).then(resolveJsonOrRejectWithError);
-}
-
 function fetchRelevances(locale) {
   return fetchAuthorized(`${baseUrl}/relevances/?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
 }
 
+/* Queries */
 function queryResources(articleId, language) {
   return fetchAuthorized(
     `${baseUrl}/queries/resources/?contentURI=${encodeURIComponent(
@@ -157,7 +61,6 @@ function queryResources(articleId, language) {
 }
 
 /* Taxonomy actions */
-
 async function updateTaxonomy(taxonomy) {
   try {
     let resource = await queryResources(taxonomy.articleId, taxonomy.language);
@@ -167,40 +70,26 @@ async function updateTaxonomy(taxonomy) {
         contentUri: `urn:article:${taxonomy.articleId}`,
         name: taxonomy.articleName,
       });
-      resource = [{ id: resourceId }]; // Temporary until API changes to return representation
+      resource = [{ id: resourceId }];
     }
 
-    if (taxonomy.resourceTypes) {
-      taxonomy.resourceTypes.forEach(async item => {
-        const resourceTypesId = await createResourceResourceType({
-          resourceTypeId: item.id,
-          resourceId: resource[0].id,
-        });
-        console.log(resourceTypesId);
-      });
-    }
+    createDeleteResourceTypes(
+      resource[0].id,
+      [...taxonomy.resourceTypes],
+      taxonomy.language,
+    );
 
-    if (taxonomy.filter) {
-      taxonomy.filter.forEach(async item => {
-        const resourceFilterId = await createResourceFilter({
-          filterId: item.id,
-          resourceId: resource[0].id,
-          relevanceId: item.relevanceId,
-        });
-        console.log(resourceFilterId);
-      });
-    }
+    createDeleteUpdateFilters(
+      resource[0].id,
+      [...taxonomy.filter],
+      taxonomy.language,
+    );
 
-    if (taxonomy.topics) {
-      taxonomy.topics.forEach(async item => {
-        const resourceTopicsId = await createTopicResource({
-          topicid: item.id,
-          primary: item.primary,
-          resourceid: resource[0].id,
-        });
-        console.log(resourceTopicsId);
-      });
-    }
+    createDeleteUpdateTopicResources(
+      resource[0].id,
+      [...taxonomy.topics],
+      taxonomy.language,
+    );
   } catch (e) {
     throw new Error(e);
   }
@@ -208,21 +97,9 @@ async function updateTaxonomy(taxonomy) {
 
 export {
   fetchResourceTypes,
-  fetchResource,
-  createResource,
-  updateResource,
-  fetchResourceResourceType,
-  createResourceResourceType,
-  updateResourceResourceType,
-  fetchResourceFilter,
-  createResourceFilter,
-  updateResourceFilter,
   fetchFilters,
   fetchTopics,
   fetchTopicArticle,
-  fetchTopicResource,
-  createTopicResource,
-  updateTopicResource,
   fetchRelevances,
   queryResources,
   updateTaxonomy,

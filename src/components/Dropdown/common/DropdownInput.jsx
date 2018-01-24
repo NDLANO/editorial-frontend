@@ -36,7 +36,7 @@ const DropdownInput = props => {
         tabIndex="-1">
         {selectedItem.map(
           (tag, index) =>
-            name === 'topics' ? (
+            name === 'topic' ? (
               <ToolTip
                 key={`${name}-tooptip-${tag.id}`}
                 name={name}

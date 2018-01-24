@@ -5,46 +5,65 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
 import {
   fetchResourceTypes,
-  fetchResource,
-  createResource,
-  updateResource,
-  fetchResourceResourceType,
-  createResourceResourceType,
-  updateResourceResourceType,
-  fetchResourceFilter,
-  createResourceFilter,
-  updateResourceFilter,
   fetchFilters,
   fetchTopics,
   fetchTopicArticle,
-  fetchTopicResource,
-  createTopicResource,
-  updateTopicResource,
   fetchRelevances,
   queryResources,
   updateTaxonomy,
 } from './taxonomyApi';
+import {
+  fetchResource,
+  createResource,
+  fetchResourceResourceType,
+  fetchResourceFilter,
+  // fetchTopicResource,
+} from './resources';
+import {
+  createResourceResourceType,
+  deleteResourceResourceType,
+  createDeleteResourceTypes,
+} from './resourcetypes';
+import {
+  createResourceFilter,
+  updateResourceFilter,
+  deleteResourceFilter,
+  createDeleteUpdateFilters,
+} from './filter';
+import {
+  fetchAllTopicResource,
+  fetchSingleTopicResource,
+  createTopicResource,
+  updateTopicResource,
+  deleteTopicResource,
+  createDeleteUpdateTopicResources,
+} from './topicresouces';
 
 export {
   fetchResourceTypes,
   fetchResource,
   createResource,
-  updateResource,
   fetchResourceResourceType,
   createResourceResourceType,
-  updateResourceResourceType,
+  deleteResourceResourceType,
+  createDeleteResourceTypes,
   fetchResourceFilter,
   createResourceFilter,
   updateResourceFilter,
+  deleteResourceFilter,
+  createDeleteUpdateFilters,
+  fetchAllTopicResource,
+  fetchSingleTopicResource,
+  createTopicResource,
+  updateTopicResource,
+  deleteTopicResource,
+  createDeleteUpdateTopicResources,
   fetchFilters,
   fetchTopics,
   fetchTopicArticle,
-  fetchTopicResource,
-  createTopicResource,
-  updateTopicResource,
+  // fetchTopicResource,
   fetchRelevances,
   queryResources,
   updateTaxonomy,

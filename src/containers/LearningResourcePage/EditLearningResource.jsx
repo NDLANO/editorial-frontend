@@ -15,6 +15,8 @@ import {
   queryResources,
   fetchResourceResourceType,
   fetchResourceFilter,
+  fetchAllTopicResource,
+  fetchTopicArticle,
   updateTaxonomy,
 } from '../../modules/taxonomy';
 import LearningResourceForm, {
@@ -42,7 +44,7 @@ class EditLearningResource extends Component {
     fetchTags({ language: articleLanguage });
   }
 
-  async componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     const {
       articleId,
       fetchDraft,
@@ -54,7 +56,7 @@ class EditLearningResource extends Component {
       (article && article.language !== articleLanguage) ||
       articleId !== this.props.articleId
     ) {
-      await this.fetchTaxonony(articleId, articleLanguage);
+      this.fetchTaxonony(articleId, articleLanguage);
       fetchDraft({ id: articleId, language: articleLanguage });
       fetchTags({ language: articleLanguage });
     }
@@ -63,7 +65,6 @@ class EditLearningResource extends Component {
   async fetchTaxonony(articleId, articleLanguage) {
     try {
       const resource = await queryResources(articleId, articleLanguage);
-      console.log(resource);
       if (resource) {
         const resourceTypes = await fetchResourceResourceType(
           resource[0].id,
@@ -73,8 +74,24 @@ class EditLearningResource extends Component {
           resource[0].id,
           articleLanguage,
         );
+
+        // Temporary method until API is simplified
+        const allTopics = await fetchAllTopicResource(articleLanguage);
+        const topicResource = allTopics.filter(
+          item => item.resourceid === resource[0].id,
+        );
+
+        const topics = [];
+        topicResource.forEach(async item => {
+          const topicArticle = await fetchTopicArticle(
+            item.topicid,
+            articleLanguage,
+          );
+          topics.push({ ...topicArticle, primary: item.primary });
+        });
+
         this.setState({
-          taxonomy: { resourceTypes, filter },
+          taxonomy: { resourceTypes, filter, topics },
         });
       }
     } catch (e) {

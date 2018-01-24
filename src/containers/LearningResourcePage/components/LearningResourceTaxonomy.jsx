@@ -18,7 +18,7 @@ import {
   fetchTopics,
   fetchRelevances,
 } from '../../../modules/taxonomy';
-import flattenResourceTypes from '../../../util/taxonomyHelpers';
+import { flattenResourceTypes } from '../../../util/taxonomyHelpers';
 
 class LearningResourceTaxonomy extends Component {
   constructor(props) {

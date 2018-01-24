@@ -35,7 +35,7 @@ export function resolveJsonOrRejectWithError(res) {
       }
       // Temporary until API changes to return representation
       if (res.status === 201 && res.headers.get('Location')) {
-        return res.headers.get('Location');
+        return resolve(res.headers.get('Location'));
       }
       return resolve(res.json());
     }

@@ -18,6 +18,11 @@ const RESOURCE_FILTER_CORE = {
   id: 'urn:relevance:core',
   name: 'Kjernestoff',
 };
+const RESOURCE_FILTER_SUPPLEMENTARY = {
+  id: 'urn:relevance:supplementary',
+  name: 'Tilleggsstoff',
+};
+
 const RESOURCE_TOPICS_PRIMARY = { name: 'Primærkobling' };
 
 const classes = new BEMHelper({
@@ -44,15 +49,21 @@ class DropdownTag extends Component {
     const { name, tag } = this.props;
 
     if (name === 'filter') {
-      this.setState({
-        tagProperty: RESOURCE_FILTER_CORE,
-      }); // TODO: Create RESOURCE_FILTER constants for this
+      if (tag.relevanceId === RESOURCE_FILTER_CORE.id) {
+        this.setState({
+          tagProperty: RESOURCE_FILTER_CORE,
+        });
+      } else if (tag.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY.id) {
+        this.setState({
+          tagProperty: RESOURCE_FILTER_SUPPLEMENTARY,
+        });
+      }
     }
     if (name === 'topics') {
       if (tag.primary) {
         this.setState({
           tagProperty: RESOURCE_TOPICS_PRIMARY,
-        }); // TODO: Create RESOURCE_TOPICS constants for this
+        });
       }
     }
   }

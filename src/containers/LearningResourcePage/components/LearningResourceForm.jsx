@@ -70,7 +70,6 @@ export const getInitialModel = (
     introduction: plainTextToEditorValue(article.introduction, true),
     content: learningResourceContentToEditorValue(article.content),
     tags: article.tags || [],
-    ...taxonomy,
     creators: parseCopyrightContributors(article, 'creators'),
     processors: processorsWithDefault(article),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
@@ -88,6 +87,7 @@ export const getInitialModel = (
     articleType: 'standard',
     status: article.status || [],
     notes: article.notes || [],
+    ...taxonomy,
   };
 };
 

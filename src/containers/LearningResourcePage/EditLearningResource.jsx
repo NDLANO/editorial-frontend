@@ -44,7 +44,7 @@ class EditLearningResource extends Component {
     fetchTags({ language: articleLanguage });
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     const {
       articleId,
       fetchDraft,
@@ -56,7 +56,7 @@ class EditLearningResource extends Component {
       (article && article.language !== articleLanguage) ||
       articleId !== this.props.articleId
     ) {
-      this.fetchTaxonony(articleId, articleLanguage);
+      await this.fetchTaxonony(articleId, articleLanguage);
       fetchDraft({ id: articleId, language: articleLanguage });
       fetchTags({ language: articleLanguage });
     }

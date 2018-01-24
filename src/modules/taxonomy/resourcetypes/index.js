@@ -41,12 +41,7 @@ async function createDeleteResourceTypes(resourceId, resourceTypes, language) {
       resourceId,
       language,
     );
-    const newResourceTypes = spliceItems(
-      resourceTypes,
-      remoteResourceTypes,
-      'id',
-      'id',
-    );
+    const newResourceTypes = spliceItems(resourceTypes, remoteResourceTypes);
 
     newResourceTypes[0].forEach(item => {
       createResourceResourceType({

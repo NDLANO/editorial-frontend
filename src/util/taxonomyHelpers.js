@@ -28,7 +28,13 @@ function flattenResourceTypes(data = []) {
   return resourceTypes;
 }
 
-function spliceItems(items, otherItems, itemId, otherItemId, updateProperty) {
+function spliceItems(
+  items,
+  otherItems,
+  itemId = 'id',
+  otherItemId = 'id',
+  updateProperty,
+) {
   const copy = [...items];
   const updatedItems = [];
   copy.forEach(item => {

@@ -24,6 +24,7 @@ const DropdownInput = props => {
     name,
     getInputProps,
     selectedItem,
+    messages,
   } = props;
   if (multiSelect) {
     const { handlePopupClick } = tagProps;
@@ -36,25 +37,25 @@ const DropdownInput = props => {
         tabIndex="-1">
         {selectedItem.map(
           (tag, index) =>
-            name === 'topic' ? (
+            name === 'topics' ? (
               <ToolTip
                 key={`${name}-tooptip-${tag.id}`}
                 name={name}
                 onPopupClick={() => handlePopupClick({ ...tag, primary: true })}
                 noPopup={tag.primary}
                 messages={{ ariaLabel: 'tooltip' }}
-                content="Velg som primærkoblet emne">
+                content={messages.toolTipDescription}>
                 <DropdownTag
                   key={`${name}-tag-${tag.id}`}
                   onRemoveItem={onRemoveItem}
-                  {...{ tag, name, index, ...tagProps }}
+                  {...{ messages, tag, name, index, ...tagProps }}
                 />
               </ToolTip>
             ) : (
               <DropdownTag
                 key={`${name}-tag-${tag.id}`}
                 onRemoveItem={onRemoveItem}
-                {...{ tag, name, index, ...tagProps }}
+                {...{ messages, tag, name, index, ...tagProps }}
               />
             ),
         )}
@@ -97,6 +98,7 @@ DropdownInput.propTypes = {
   tagProps: PropTypes.shape({
     handlePopupClick: PropTypes.func.isRequired,
   }),
+  messages: PropTypes.shape({}),
 };
 
 DropdownInput.defaultProps = {

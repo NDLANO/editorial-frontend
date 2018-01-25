@@ -292,12 +292,14 @@ const phrases = {
       placeholder: 'Add filter',
       emptyList: 'No filters available',
       emptyFilter: 'No matching filters found',
+      setRelevance: 'Set relevance',
     },
     topics: {
       label: 'Topics',
       placeholder: 'Add topic',
       emptyList: 'No topics available',
       emptyFilter: 'No matching topics found',
+      setPrimaryTopic: 'Set as primary topic',
     },
     metaDescription: {
       label: 'Meta description',

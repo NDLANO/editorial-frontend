@@ -52,7 +52,10 @@ function spliceChangedItems(
         items.findIndex(itemType => itemType[itemId] === item[changedItemId]),
         1,
       );
-      if (updateProperty && foundItem.relevanceId !== item.relevanceId) {
+      if (
+        updateProperty &&
+        foundItem[updateProperty] !== item[updateProperty]
+      ) {
         updatedItems.push({
           ...foundItem,
           [updateProperty]: item[updateProperty],

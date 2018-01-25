@@ -213,6 +213,7 @@ class MultiDropdown extends PureComponent {
             <DropdownInput
               name={name}
               multiSelect
+              messages={messages}
               tagProps={tagProps}
               onRemoveItem={this.removeItem}
               onWrapperClick={this.onWrapperClick}

@@ -126,7 +126,7 @@ class DropdownTag extends Component {
 
   render() {
     const { tag, tagProperty, isHighlighted } = this.state;
-    const { name, tagProperties } = this.props;
+    const { messages, name, tagProperties } = this.props;
 
     let tagRelevances;
     if (tagProperties) {
@@ -162,7 +162,9 @@ class DropdownTag extends Component {
 
     const filterTooltipItem = (
       <div {...classes('radio')} tabIndex={-1} role="radiogroup">
-        <div {...classes('radio', 'description')}>Velg relevans</div>
+        <div {...classes('radio', 'description')}>
+          {messages.toolTipDescription}
+        </div>
         {tagRelevances}
       </div>
     );
@@ -207,6 +209,7 @@ DropdownTag.propTypes = {
   name: PropTypes.string.isRequired,
   handlePopupClick: PropTypes.func,
   onRemoveItem: PropTypes.func,
+  messages: PropTypes.shape({}),
 };
 
 export { RESOURCE_FILTER_CORE, RESOURCE_TOPICS_PRIMARY, DropdownTag };

@@ -308,12 +308,14 @@ const phrases = {
       placeholder: 'Legg til filter',
       emptyFilter: 'Fant ingen passende filter',
       emptyList: 'Det er ingen filter i denne listen',
+      setRelevance: 'Velg relevans',
     },
     topics: {
       label: 'Emnetilknytning',
       placeholder: 'Legg til emnetilknytning',
       emptyFilter: 'Fant ingen passende emnetilknytninger',
       emptyList: 'Det er ingen emnetilknytning i denne listen',
+      setPrimaryTopic: 'Velg som primærkoblet emne',
     },
     metaDescription: {
       label: 'Metabeskrivelse',

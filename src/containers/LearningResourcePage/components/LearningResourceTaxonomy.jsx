@@ -94,9 +94,11 @@ class LearningResourceTaxonomy extends Component {
           name="filter"
           placeholder={t('form.filter.placeholder')}
           items={taxonomy.filters}
+          selectedItems={model.filter}
           tagProperties={taxonomy.relevances}
           label={t('form.filter.label')}
           messages={{
+            toolTipDescription: t('form.filter.setRelevance'),
             emptyFilter: t('form.filter.emptyFilter'),
             emptyList: t('form.filter.emptyList'),
           }}
@@ -106,8 +108,10 @@ class LearningResourceTaxonomy extends Component {
           name="topics"
           placeholder={t('form.topics.placeholder')}
           items={taxonomy.topics}
+          selectedItems={model.topics}
           label={t('form.topics.label')}
           messages={{
+            toolTipDescription: t('form.topics.setPrimaryTopic'),
             emptyFilter: t('form.topics.emptyFilter'),
             emptyList: t('form.topics.emptyList'),
           }}
@@ -125,6 +129,9 @@ LearningResourceTaxonomy.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
     language: PropTypes.string,
+    resourceTypes: PropTypes.arrayOf(PropTypes.shape({})),
+    filter: PropTypes.arrayOf(PropTypes.shape({})),
+    topics: PropTypes.arrayOf(PropTypes.shape({})),
   }),
 };
 

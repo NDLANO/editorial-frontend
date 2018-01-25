@@ -56,11 +56,6 @@ export const ArticleShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
 });
 
-export const AudioShape = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-});
-
 export const ImageShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
@@ -121,5 +116,25 @@ export const EditorShape = PropTypes.shape({
       getState: PropTypes.func.isRequired,
       subscribe: PropTypes.func.isRequired,
     }),
+  }),
+});
+
+export const LicensesArrayOf = PropTypes.arrayOf(
+  PropTypes.shape({
+    description: PropTypes.string,
+    license: PropTypes.string,
+  }),
+).isRequired;
+
+export const AudioShape = PropTypes.shape({
+  id: PropTypes.number,
+  title: PropTypes.shape({ title: PropTypes.string }),
+  audioFile: PropTypes.shape({
+    mimeType: PropTypes.string,
+    url: PropTypes.string,
+  }),
+  copyright: PropTypes.shape({
+    creators: PropTypes.arrayOf(PropTypes.object),
+    license: PropTypes.shape({ license: PropTypes.string }),
   }),
 });

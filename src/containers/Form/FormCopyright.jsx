@@ -9,13 +9,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { SelectObjectField } from '../../../components/Fields';
-import { CommonFieldPropsShape } from '../../../shapes';
-import Accordion from '../../../components/Accordion';
-import Contributors from '../../../components/Contributors/Contributors';
-import AgreementConnection from '../../Form/AgreementConnection';
+import { SelectObjectField } from '../../components/Fields';
+import { CommonFieldPropsShape } from '../../shapes';
+import Accordion from '../../components/Accordion';
+import Contributors from '../../components/Contributors/Contributors';
+import { AgreementConnection } from './';
 
-class LearningResourceCopyright extends Component {
+class FormCopyright extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,6 +32,7 @@ class LearningResourceCopyright extends Component {
 
   render() {
     const { t, commonFieldProps, licenses, model } = this.props;
+    const disabled = !!model.agreementId;
     return (
       <Accordion
         handleToggle={this.toggleContent}
@@ -41,11 +42,13 @@ class LearningResourceCopyright extends Component {
         <Contributors
           name="creators"
           label={t('form.creators.label')}
+          disabled={disabled}
           {...commonFieldProps}
         />
         <Contributors
           name="rightsholders"
           label={t('form.rightsholders.label')}
+          disabled={disabled}
           {...commonFieldProps}
         />
         <Contributors
@@ -63,6 +66,7 @@ class LearningResourceCopyright extends Component {
           options={licenses}
           idKey="license"
           labelKey="description"
+          disabled={disabled}
           {...commonFieldProps}
         />
       </Accordion>
@@ -70,7 +74,7 @@ class LearningResourceCopyright extends Component {
   }
 }
 
-LearningResourceCopyright.propTypes = {
+FormCopyright.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
@@ -83,4 +87,4 @@ LearningResourceCopyright.propTypes = {
   }),
 };
 
-export default injectT(LearningResourceCopyright);
+export default injectT(FormCopyright);

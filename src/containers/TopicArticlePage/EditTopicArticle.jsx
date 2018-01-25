@@ -14,7 +14,7 @@ import { actions as draftActions, getDraft } from '../../modules/draft/draft';
 import TopicArticleForm, {
   getInitialModel,
 } from './components/TopicArticleForm';
-import { ArticleShape } from '../../shapes';
+import { ArticleShape, LicensesArrayOf } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
 import {
   actions as tagActions,
@@ -56,7 +56,7 @@ class EditTopicArticle extends Component {
   }
 
   render() {
-    const { locale, article, tags, isSaving } = this.props;
+    const { locale, article, tags, isSaving, licenses } = this.props;
     if (!article) {
       return null;
     }
@@ -74,6 +74,7 @@ class EditTopicArticle extends Component {
         revision={article.revision}
         articleStatus={article.status}
         tags={tags}
+        licenses={licenses}
         locale={locale}
         isSaving={isSaving}
         onUpdate={this.updateDraft}
@@ -92,6 +93,7 @@ EditTopicArticle.propTypes = {
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
   articleLanguage: PropTypes.string.isRequired,
+  licenses: LicensesArrayOf,
 };
 
 const mapDispatchToProps = {

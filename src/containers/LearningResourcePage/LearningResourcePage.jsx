@@ -20,6 +20,7 @@ import { getLocale } from '../../modules/locale/locale';
 import EditLearningResource from './EditLearningResource';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { LicensesArrayOf } from '../../shapes';
 
 class LearningResourcePage extends Component {
   componentWillMount() {
@@ -77,12 +78,7 @@ LearningResourcePage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
+  licenses: LicensesArrayOf,
   fetchLicenses: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,

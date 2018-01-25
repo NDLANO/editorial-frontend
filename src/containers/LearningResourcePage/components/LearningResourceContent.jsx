@@ -7,7 +7,6 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
@@ -37,7 +36,7 @@ import {
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 
-import { classes } from './LearningResourceForm';
+import { formClasses } from '../../Form';
 import { CommonFieldPropsShape } from '../../../shapes';
 
 class LearningResourceContent extends Component {
@@ -90,7 +89,7 @@ class LearningResourceContent extends Component {
     const { t, commonFieldProps, children } = this.props;
     const contentPlaceholder = (
       <span
-        {...classes('placeholder')}
+        {...formClasses('placeholder')}
         style={{
           opacity: '0.333',
         }}>
@@ -131,7 +130,6 @@ class LearningResourceContent extends Component {
 
 LearningResourceContent.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
-  classes: PropTypes.func.isRequired,
 };
 
 export default injectT(LearningResourceContent);

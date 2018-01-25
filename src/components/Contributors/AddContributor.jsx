@@ -20,19 +20,27 @@ const AddContributor = ({
   handleContributorTypeChange,
   handleContributorNameChange,
   removeContributor,
+  disabled,
 }) => (
-  <div {...classes('three-column')}>
-    <input onChange={handleContributorNameChange} value={name} />
-    <ObjectSelector
-      options={contributorTypes}
-      value={type}
-      idKey="type"
-      labelKey="translation"
-      onChange={handleContributorTypeChange}
-      onBlur={handleContributorTypeChange}
-      emptyField
-    />
-    <Button stripped onClick={removeContributor}>
+  <div {...classes('removable')}>
+    <div {...classes('add-contributor')}>
+      <input
+        onChange={handleContributorNameChange}
+        value={name}
+        disabled={disabled}
+      />
+      <ObjectSelector
+        options={contributorTypes}
+        value={type}
+        idKey="type"
+        labelKey="translation"
+        onChange={handleContributorTypeChange}
+        onBlur={handleContributorTypeChange}
+        disabled={disabled}
+        emptyField
+      />
+    </div>
+    <Button stripped onClick={removeContributor} disabled={disabled}>
       <Cross className="c-icon--medium" />
     </Button>
   </div>
@@ -46,6 +54,7 @@ AddContributor.propTypes = {
   handleContributorNameChange: PropTypes.func.isRequired,
   handleContributorTypeChange: PropTypes.func.isRequired,
   removeContributor: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
 AddContributor.defaultProps = {

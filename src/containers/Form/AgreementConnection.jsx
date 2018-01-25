@@ -8,10 +8,12 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
 import { AsyncDropdownField } from '../../components/Fields';
 import { SchemaShape } from '../../shapes';
 import * as draftApi from '../../modules/draft/draftApi';
+import { toEditAgreement } from '../../util/routeHelpers';
 
 class AgreementConnection extends Component {
   static async searchAgreements(query) {
@@ -22,6 +24,7 @@ class AgreementConnection extends Component {
   constructor(props) {
     super(props);
     this.fetchAgreement = this.fetchAgreement.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.state = { agreement: undefined };
   }
 
@@ -32,7 +35,10 @@ class AgreementConnection extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { model } = nextProps;
-    if (this.props.model.agreementId !== model.agreementId) {
+    if (
+      !model.agreementId &&
+      this.props.model.agreementId !== model.agreementId
+    ) {
       this.setState({ agreement: undefined });
     }
   }
@@ -44,11 +50,34 @@ class AgreementConnection extends Component {
     }
   }
 
+  async handleChange(agreement) {
+    const { commonFieldProps } = this.props;
+    const { onChange } = commonFieldProps.bindInput('agreementId');
+    if (agreement && agreement.id) {
+      const fetchedAgreement = await draftApi.fetchAgreement(agreement.id);
+      this.setState({ agreement: fetchedAgreement });
+      const onChangeFields = [
+        { name: 'agreementId', value: fetchedAgreement.id },
+        { name: 'license', value: fetchedAgreement.copyright.license.license },
+        { name: 'creators', value: fetchedAgreement.copyright.creators },
+        {
+          name: 'rightsholders',
+          value: fetchedAgreement.copyright.rightsholders,
+        },
+      ];
+      onChangeFields.forEach(field =>
+        onChange({ target: { name: field.name, value: field.value } }),
+      );
+    } else {
+      onChange({ target: { name: 'agreementId', value: undefined } });
+    }
+  }
+
   render() {
     const { t, commonFieldProps } = this.props;
-
-    return (
+    return [
       <AsyncDropdownField
+        key="agreement-connection-dropdown"
         valueField="id"
         name="agreementId"
         selectedItem={this.state.agreement}
@@ -61,8 +90,19 @@ class AgreementConnection extends Component {
           emptyFilter: t('form.agreement.emptyFilter'),
           emptyList: t('form.agreement.emptyList'),
         }}
-      />
-    );
+        onChange={this.handleChange}
+      />,
+      this.state.agreement && this.state.agreement.id ? (
+        <Link
+          key="agreement-connection-link"
+          target="_blank"
+          to={toEditAgreement(this.state.agreement.id)}>
+          {this.state.agreement.title}
+        </Link>
+      ) : (
+        undefined
+      ),
+    ];
   }
 }
 

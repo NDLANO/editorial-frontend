@@ -7,7 +7,7 @@
 
 import { handleActions, createAction } from 'redux-actions';
 import { getAccessToken } from '../../util/authHelpers';
-import { decodeToken } from '../../util/jwtHelper';
+import { decodeToken, isValid } from '../../util/jwtHelper';
 
 export const setAuthenticated = createAction('SET_AUTHENTICATED');
 export const setUserData = createAction('SET_USER_DATA');
@@ -30,7 +30,7 @@ const initialState = {
 
 export const getSessionStateFromLocalStorage = () => {
   const token = getAccessToken();
-  if (token) {
+  if (isValid(token)) {
     return {
       user: { name: decodeToken(token)['https://ndla.no/user_name'] },
       authenticated: true,

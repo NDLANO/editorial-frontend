@@ -9,12 +9,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button } from 'ndla-ui';
 import { Plus } from 'ndla-icons/action';
 import { contributorGroups, contributorTypes } from 'ndla-licenses';
-import { Field, FieldErrorMessages, getField, classes } from '../Fields';
+import { Field, FieldErrorMessages, getField } from '../Fields';
 import AddContributor from './AddContributor';
 import { getLocale } from '../../modules/locale/locale';
+import CirclePlusButton from '../CirclePlusButton';
 
 const Contributors = props => {
   const {
@@ -25,6 +25,7 @@ const Contributors = props => {
     submitted,
     placeholder,
     bindInput,
+    disabled,
   } = props;
   const { onChange, value } = bindInput(name);
 
@@ -62,6 +63,7 @@ const Contributors = props => {
     type: item,
     translation: contributorTypes[locale][item],
   }));
+
   return (
     <Field>
       <label htmlFor={name}>{label}</label>
@@ -79,6 +81,7 @@ const Contributors = props => {
           }
           removeContributor={evt => removeContributor(evt, index)}
           placeholder={placeholder}
+          disabled={disabled}
         />
       ))}
       <FieldErrorMessages
@@ -86,9 +89,9 @@ const Contributors = props => {
         field={getField(name, schema)}
         submitted={submitted}
       />
-      <Button {...classes('circle-button')} stripped onClick={addContributor}>
+      <CirclePlusButton onClick={addContributor} disabled={disabled}>
         <Plus className="c-icon--medium" />
-      </Button>
+      </CirclePlusButton>
     </Field>
   );
 };
@@ -103,6 +106,7 @@ Contributors.propTypes = {
   }),
   submitted: PropTypes.bool.isRequired,
   placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

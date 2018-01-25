@@ -41,7 +41,7 @@ const nodeProps = ids => ({
 class RelatedArticleBox extends React.Component {
   constructor() {
     super();
-    this.state = { items: [], editMode: false };
+    this.state = { items: [], editMode: true };
     this.removeArticle = this.removeArticle.bind(this);
     this.fetchRelated = this.fetchRelated.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);

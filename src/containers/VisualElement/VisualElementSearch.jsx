@@ -150,26 +150,8 @@ const VisualElementSearch = ({
       );
     }
     case 'related-content': {
-      return (
-        <AsyncDropdown
-          valueField="id"
-          name="relatedArticleSearch"
-          textField="title.title"
-          placeholder={'Søk på tittel'}
-          label={'label'}
-          apiAction={searchRelatedArticles}
-          messages={{
-            emptyFilter: 'empty',
-            emptyList: 'empty list',
-          }}
-          onChange={selected =>
-            handleVisualElementChange({
-              resource: 'related-content',
-              relatedArticle: `${selected.id}`,
-            })
-          }
-        />
-      );
+      handleVisualElementChange({ resource: 'related-content' });
+      return null;
     }
     default:
       return <p>{`Embedtag ${selectedResource} is not supported.`}</p>;

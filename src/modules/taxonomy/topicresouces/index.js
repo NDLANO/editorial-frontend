@@ -11,7 +11,7 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../../util/apiHelpers';
-import { spliceItems } from '../../../util/taxonomyHelpers';
+import { spliceChangedItems } from '../../../util/taxonomyHelpers';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
@@ -63,7 +63,7 @@ async function createDeleteUpdateTopicResources(resourceId, topics, language) {
       item => item.resourceid === resourceId,
     );
 
-    const newTopics = spliceItems(
+    const newTopics = spliceChangedItems(
       topics,
       topicResource,
       'id',

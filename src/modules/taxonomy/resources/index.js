@@ -45,7 +45,7 @@ function fetchResourceFilter(id, locale) {
 // TODO: Rewrite once adjusted/updated taxonomy-API is available
 /* function fetchTopicResource(id, locale) {
   return fetchAuthorized(
-    `${baseUrl}/resources/${id}?language=${locale}`,
+    `${baseUrl}/resources/${id}/topics?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 }
  */

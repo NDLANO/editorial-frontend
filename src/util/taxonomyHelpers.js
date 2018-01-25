@@ -28,28 +28,28 @@ function flattenResourceTypes(data = []) {
   return resourceTypes;
 }
 
-function spliceItems(
+function spliceChangedItems(
+  changedItems,
   items,
-  otherItems,
+  changedItemId = 'id',
   itemId = 'id',
-  otherItemId = 'id',
   updateProperty,
 ) {
-  const copy = [...items];
+  const copy = [...changedItems];
   const updatedItems = [];
   copy.forEach(item => {
-    const foundItem = otherItems.find(
-      itemType => itemType[otherItemId] === item[itemId],
+    const foundItem = items.find(
+      itemType => itemType[itemId] === item[changedItemId],
     );
     if (foundItem) {
-      items.splice(
-        items.findIndex(itemType => itemType[itemId] === item[itemId]),
+      changedItems.splice(
+        changedItems.findIndex(
+          itemType => itemType[changedItemId] === item[changedItemId],
+        ),
         1,
       );
-      otherItems.splice(
-        otherItems.findIndex(
-          itemType => itemType[otherItemId] === item[itemId],
-        ),
+      items.splice(
+        items.findIndex(itemType => itemType[itemId] === item[changedItemId]),
         1,
       );
       if (updateProperty && foundItem.relevanceId !== item.relevanceId) {
@@ -60,7 +60,7 @@ function spliceItems(
       }
     }
   });
-  return [[...items], [...otherItems], [...updatedItems]];
+  return [[...changedItems], [...items], [...updatedItems]];
 }
 
-export { flattenResourceTypes, spliceItems };
+export { flattenResourceTypes, spliceChangedItems };

@@ -11,7 +11,7 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../../util/apiHelpers';
-import { spliceItems } from '../../../util/taxonomyHelpers';
+import { spliceChangedItems } from '../../../util/taxonomyHelpers';
 import { fetchResourceFilter } from '..';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
@@ -48,7 +48,7 @@ function deleteResourceFilter(id) {
 async function createDeleteUpdateFilters(resourceId, filter, language) {
   try {
     const remoteFilter = await fetchResourceFilter(resourceId, language);
-    const newFilter = spliceItems(
+    const newFilter = spliceChangedItems(
       filter,
       remoteFilter,
       'id',

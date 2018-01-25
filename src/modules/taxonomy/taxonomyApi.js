@@ -65,7 +65,12 @@ async function updateTaxonomy(taxonomy) {
   try {
     let resource = await queryResources(taxonomy.articleId, taxonomy.language);
 
-    if (resource.length === 0) {
+    if (
+      resource.length === 0 &&
+      taxonomy.resourceTypes &&
+      taxonomy.filter &&
+      taxonomy.topics
+    ) {
       const resourceId = await createResource({
         contentUri: `urn:article:${taxonomy.articleId}`,
         name: taxonomy.articleName,
@@ -73,23 +78,25 @@ async function updateTaxonomy(taxonomy) {
       resource = [{ id: resourceId }];
     }
 
-    createDeleteResourceTypes(
-      resource[0].id,
-      [...taxonomy.resourceTypes],
-      taxonomy.language,
-    );
+    if (resource.length !== 0 && resource[0].id) {
+      createDeleteResourceTypes(
+        resource[0].id,
+        [...taxonomy.resourceTypes],
+        taxonomy.language,
+      );
 
-    createDeleteUpdateFilters(
-      resource[0].id,
-      [...taxonomy.filter],
-      taxonomy.language,
-    );
+      createDeleteUpdateFilters(
+        resource[0].id,
+        [...taxonomy.filter],
+        taxonomy.language,
+      );
 
-    createDeleteUpdateTopicResources(
-      resource[0].id,
-      [...taxonomy.topics],
-      taxonomy.language,
-    );
+      createDeleteUpdateTopicResources(
+        resource[0].id,
+        [...taxonomy.topics],
+        taxonomy.language,
+      );
+    }
   } catch (e) {
     throw new Error(e);
   }

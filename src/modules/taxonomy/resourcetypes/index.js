@@ -11,7 +11,7 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../../util/apiHelpers';
-import { spliceItems } from '../../../util/taxonomyHelpers';
+import { spliceChangedItems } from '../../../util/taxonomyHelpers';
 import { fetchResourceResourceType } from '..';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
@@ -41,7 +41,10 @@ async function createDeleteResourceTypes(resourceId, resourceTypes, language) {
       resourceId,
       language,
     );
-    const newResourceTypes = spliceItems(resourceTypes, remoteResourceTypes);
+    const newResourceTypes = spliceChangedItems(
+      resourceTypes,
+      remoteResourceTypes,
+    );
 
     newResourceTypes[0].forEach(item => {
       createResourceResourceType({

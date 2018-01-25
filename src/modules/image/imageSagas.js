@@ -52,7 +52,7 @@ export function* createImage(image, file, history) {
     const formData = yield call(createFormData, image, file);
     const createdImage = yield call(api.postImage, formData);
     yield put(actions.setImage(createdImage));
-    history.push(toEditImage(createdImage.id));
+    history.push(toEditImage(createdImage.id, image.language));
     yield put(actions.updateImageSuccess());
     yield put(
       messageActions.addMessage({

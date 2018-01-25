@@ -12,7 +12,6 @@ import { Button } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
-import { toEditArticle } from '../../util/routeHelpers';
 
 const classes = new BEMHelper({
   name: 'dropdown-menu',
@@ -35,8 +34,8 @@ class FormLanguage extends Component {
   }
 
   render() {
-    const { emptyLanguages, modelId, articleType, t } = this.props;
-    console.log(this.props);
+    const { emptyLanguages, editUrl, t } = this.props;
+
     return (
       <div {...classes()}>
         <Button stripped onClick={this.onDisplayToggle}>
@@ -46,7 +45,7 @@ class FormLanguage extends Component {
           {emptyLanguages.map(language => (
             <li key={language.key} {...classes('item')}>
               <Link
-                to={toEditArticle(modelId, articleType, language.key)}
+                to={editUrl(language.key)}
                 {...classes('link')}
                 onClick={this.onDisplayToggle}>
                 {`${language.title}(${language.key})`}
@@ -65,8 +64,7 @@ FormLanguage.propTypes = {
       title: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  modelId: PropTypes.number.isRequired,
-  articleType: PropTypes.string.isRequired,
+  editUrl: PropTypes.func.isRequired,
 };
 
 export default injectT(FormLanguage);

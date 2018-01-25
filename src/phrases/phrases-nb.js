@@ -163,10 +163,7 @@ const phrases = {
     },
   },
   audioForm: {
-    title: {
-      create: 'Du oppretter nå en lyd fil',
-      update: 'Du redigerer nå en lyd fil',
-    },
+    title: 'Lyd | {title} ({key})',
   },
   imageEditor: {
     remove: {
@@ -175,10 +172,7 @@ const phrases = {
     },
   },
   imageForm: {
-    title: {
-      create: 'Du oppretter nå et bilde',
-      update: 'Du redigerer nå et bilde',
-    },
+    title: 'Bilde | {title} ({key})',
   },
   learningResourceForm: {
     metaImage: {

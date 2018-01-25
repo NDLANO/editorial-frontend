@@ -15,8 +15,8 @@ import { ImageShape } from '../../shapes';
 
 class EditImage extends Component {
   componentWillMount() {
-    const { imageId: id, fetchImage, locale } = this.props;
-    fetchImage({ id, locale });
+    const { imageId: id, fetchImage, imageLanguage } = this.props;
+    fetchImage({ id, locale: imageLanguage });
   }
   render() {
     const {
@@ -64,6 +64,7 @@ EditImage.propTypes = {
   locale: PropTypes.string.isRequired,
   updateImage: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  imageLanguage: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = {

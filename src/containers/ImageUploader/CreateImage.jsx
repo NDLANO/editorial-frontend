@@ -21,7 +21,7 @@ const CreateImage = ({
   isSaving,
 }) => (
   <ImageForm
-    initialModel={getInitialModel()}
+    initialModel={getInitialModel({ language: locale })}
     tags={tags}
     licenses={licenses}
     locale={locale}

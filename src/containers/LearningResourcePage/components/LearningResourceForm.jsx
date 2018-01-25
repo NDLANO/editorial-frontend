@@ -27,7 +27,12 @@ import { SchemaShape, LicensesArrayOf } from '../../../shapes';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
-import { FormWorkflow, FormCopyright, FormHeader, formClasses } from '../../Form';
+import {
+  FormWorkflow,
+  FormCopyright,
+  FormHeader,
+  formClasses,
+} from '../../Form';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
 import {
@@ -35,6 +40,7 @@ import {
   parseCopyrightContributors,
   processorsWithDefault,
 } from '../../../util/formHelper';
+import { toEditArticle } from '../../../util/routeHelpers';
 
 const findFootnotes = content =>
   content
@@ -152,7 +158,11 @@ class LearningResourceForm extends Component {
     const commonFieldProps = { bindInput, schema, submitted };
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
-        <FormHeader model={model} type={model.articleType}/>
+        <FormHeader
+          model={model}
+          type={model.articleType}
+          editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
+        />
         <LearningResourceMetadata
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
@@ -205,12 +215,12 @@ LearningResourceForm.propTypes = {
     id: PropTypes.number,
     language: PropTypes.string,
   }),
+  setModel: PropTypes.func.isRequired,
   schema: SchemaShape,
   licenses: LicensesArrayOf,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
-  setModel: PropTypes.func.isRequired,
   revision: PropTypes.number,
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,

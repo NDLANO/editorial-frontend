@@ -30,7 +30,13 @@ import {
   parseCopyrightContributors,
   processorsWithDefault,
 } from '../../../util/formHelper';
-import { FormWorkflow, FormCopyright, FormHeader, formClasses } from '../../Form';
+import {
+  FormWorkflow,
+  FormCopyright,
+  FormHeader,
+  formClasses,
+} from '../../Form';
+import { toEditArticle } from '../../../util/routeHelpers';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -77,12 +83,7 @@ class TopicArticleForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const {
-      model,
-      schema,
-      revision,
-      setSubmitted,
-    } = this.props;
+    const { model, schema, revision, setSubmitted } = this.props;
     if (!schema.isValid) {
       setSubmitted(true);
       return;
@@ -129,7 +130,11 @@ class TopicArticleForm extends Component {
 
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
-        <FormHeader model={model} type={model.articleType}/>
+        <FormHeader
+          model={model}
+          type={model.articleType}
+          editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
+        />
         <TopicArticleMetadata
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}

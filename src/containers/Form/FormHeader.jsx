@@ -8,29 +8,44 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TopicArticle, LearningResource, Camera, SquareAudio } from 'ndla-icons/editor';
+import {
+  TopicArticle,
+  LearningResource,
+  Camera,
+  SquareAudio,
+} from 'ndla-icons/editor';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
 import { formClasses } from '../Form';
 import FormLanguage from './FormLanguage';
-import { toEditArticle } from '../../util/routeHelpers';
 
+const types = {
+  standard: {
+    form: 'learningResourceForm',
+    cssModifier: 'article',
+    icon: <LearningResource />,
+  },
+  'topic-article': {
+    form: 'topicArticleForm',
+    cssModifier: 'article',
+    icon: <TopicArticle />,
+  },
+  image: { form: 'imageForm', cssModifier: 'multimedia', icon: <Camera /> },
+  audio: {
+    form: 'audioForm',
+    cssModifier: 'multimedia',
+    icon: <SquareAudio />,
+  },
+};
 
 const FormHeader = props => {
-  const { t, model, type } = props;
+  const { t, model, type, editUrl } = props;
   const languages = [
     { key: 'nn', title: t('language.nn') },
     { key: 'en', title: t('language.en') },
     { key: 'nb', title: t('language.nb') },
   ];
-  const types = {
-    standard: {form: 'learningResourceForm', urlFunction: toEditArticle, icon: <LearningResource />},
-    'topic-article': {form: 'topicArticleForm', urlFunction: toEditArticle, icon: <TopicArticle /> },
-    'image': {form: 'imageForm', icon: <Camera />},
-    'audio': {form: 'audioForm', icon: <SquareAudio />},
-  };
-
-
+  console.log(model);
   const language = languages.find(lang => lang.key === model.language);
   const emptyLanguages = languages.filter(
     lang =>
@@ -40,26 +55,22 @@ const FormHeader = props => {
 
   if (!model.id) {
     return (
-      <div {...formClasses('header', 'article')}>
+      <div {...formClasses('header', types[type].cssModifier)}>
         <div>
           {types[type].icon}
-          <span>
-            {t(`${types[type].form}.title`, language)}
-          </span>
-          </div>
+          <span>{t(`${types[type].form}.title`, language)}</span>
+        </div>
       </div>
     );
   }
   return (
-    <div {...formClasses('header', 'article')}>
+    <div {...formClasses('header', types[type].cssModifier)}>
       <div>
         {types[type].icon}
         <span>{t(`${types[type].form}.title`, language)}</span>
         {model.supportedLanguages.map((lang, index) => (
           <span>
-            <Link to={toEditArticle(model.id, type, lang)}>
-              {lang.toUpperCase()}
-            </Link>
+            <Link to={editUrl(lang)}>{lang.toUpperCase()}</Link>
             {index === model.supportedLanguages.length - 1 ? '' : '|'}
           </span>
         ))}
@@ -70,6 +81,7 @@ const FormHeader = props => {
         supportedLanguages={model.supportedLanguages}
         modelId={model.id}
         articleType={type}
+        editUrl={editUrl}
       />
     </div>
   );
@@ -81,6 +93,7 @@ FormHeader.propTypes = {
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
   }),
   type: PropTypes.string.isRequired,
+  editUrl: PropTypes.func,
 };
 
 export default injectT(FormHeader);

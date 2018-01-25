@@ -14,19 +14,8 @@
     padding-bottom: 3rem;
   }
 
-  &__header {
-    color: white;
-  }
-
   &__header--article {
     background-color: var(--article-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    & > div {
-      display: inline-block;
-    }
   }
 
   &__header--multimedia {
@@ -52,6 +41,15 @@
   &__header {
     padding: 0.6rem;
     font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+
+    & > div {
+      display: inline-block;
+    }
+
     svg {
       height: 1.2rem;
       width: 1.2rem;

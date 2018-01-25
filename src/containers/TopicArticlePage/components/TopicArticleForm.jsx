@@ -81,7 +81,6 @@ class TopicArticleForm extends Component {
       model,
       schema,
       revision,
-      locale: language,
       setSubmitted,
     } = this.props;
     if (!schema.isValid) {
@@ -110,7 +109,7 @@ class TopicArticleForm extends Component {
         agreementId: model.agreementId,
       },
       notes: model.notes,
-      language,
+      language: model.language,
     });
   }
 

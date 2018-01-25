@@ -63,7 +63,6 @@ class AudioForm extends Component {
     const {
       model,
       schema,
-      locale: language,
       licenses,
       setSubmitted,
       onUpdate,
@@ -79,7 +78,7 @@ class AudioForm extends Component {
       id: model.id,
       revision,
       title: model.title,
-      language,
+      language: model.language,
       tags: model.tags,
       copyright: {
         license: licenses.find(license => license.license === model.license),

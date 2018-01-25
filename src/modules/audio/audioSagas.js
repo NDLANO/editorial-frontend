@@ -52,7 +52,7 @@ export function* createAudio(audio, file, history) {
     const formData = yield call(createFormData, audio, file);
     const createdAudio = yield call(api.postAudio, formData);
     yield put(actions.setAudio(createdAudio));
-    history.push(toEditAudio(createdAudio.id));
+    history.push(toEditAudio(createdAudio.id, audio.language));
     yield put(actions.updateAudioSuccess());
     yield put(
       messageActions.addMessage({

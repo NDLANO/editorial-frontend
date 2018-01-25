@@ -44,8 +44,8 @@ export function toCreateAudioFile() {
   return '/media/audio-upload/new';
 }
 
-export function toEditAudio(audioId) {
-  return `/media/audio-upload/${audioId}/edit`;
+export function toEditAudio(audioId, language) {
+  return `/media/audio-upload/${audioId}/edit/${language}`;
 }
 
 export function toCreateImage() {

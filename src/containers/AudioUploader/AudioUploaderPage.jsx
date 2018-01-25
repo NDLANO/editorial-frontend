@@ -52,10 +52,11 @@ class AudioUploaderPage extends Component {
               )}
             />
             <Route
-              path={`${match.url}/:audioId/edit`}
+              path={`${match.url}/:audioId/edit/:audioLanguage`}
               render={props => (
                 <EditAudio
                   audioId={props.match.params.audioId}
+                  audioLanguage={props.match.params.audioLanguage}
                   history={history}
                   locale={locale}
                   tags={tags}

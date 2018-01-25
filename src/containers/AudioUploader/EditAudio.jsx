@@ -15,8 +15,8 @@ import { AudioShape } from '../../shapes';
 
 class EditAudio extends Component {
   componentWillMount() {
-    const { audioId: id, fetchAudio, locale } = this.props;
-    fetchAudio({ id, locale });
+    const { audioId: id, fetchAudio, audioLanguage } = this.props;
+    fetchAudio({ id, locale: audioLanguage });
   }
   render() {
     const {
@@ -65,6 +65,7 @@ EditAudio.propTypes = {
   locale: PropTypes.string.isRequired,
   updateAudio: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  audioLanguage: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = {

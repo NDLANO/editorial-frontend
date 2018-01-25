@@ -10,7 +10,6 @@ import React from 'react';
 import {
   reduceElementDataAttributes,
   createEmbedProps,
-  createRelatedProps,
 } from './embedTagHelpers';
 
 const BLOCK_TAGS = {

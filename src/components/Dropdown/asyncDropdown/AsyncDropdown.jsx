@@ -120,6 +120,7 @@ AsyncDropDown.propTypes = {
   placeholder: PropTypes.string,
   textField: PropTypes.string,
   valueField: PropTypes.string,
+  onClick: PropTypes.func,
   messages: PropTypes.shape({
     emptyFilter: PropTypes.string.isRequired,
     emptyList: PropTypes.string.isRequired,

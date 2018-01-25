@@ -14,9 +14,6 @@ import ImageSearch from 'ndla-image-search';
 import VideoSearch from 'ndla-video-search';
 import AudioSearch from 'ndla-audio-search';
 
-import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { searchRelatedArticles } from '../../modules/search/searchApi';
-
 import { alttextsI18N, captionsI18N } from '../../util/i18nFieldFinder';
 import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';

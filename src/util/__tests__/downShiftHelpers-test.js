@@ -22,7 +22,9 @@ test('util/downShiftHelpers itemToString undefined item', () => {
 });
 
 test('util/downShiftHelpers itemToString string item', () => {
-  expect(itemToString('Testesen')).toEqual('Testesen');
+  expect(itemToString({ Testesen: 'Testesen' }, 'Testesen')).toEqual(
+    'Testesen',
+  );
 });
 
 test('util/downShiftHelpers downShiftSorter', () => {

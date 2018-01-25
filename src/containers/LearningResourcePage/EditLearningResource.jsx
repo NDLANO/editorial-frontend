@@ -33,7 +33,7 @@ import {
 class EditLearningResource extends Component {
   constructor(props) {
     super(props);
-    this.state = { taxonomy: {} };
+    this.state = { taxonomy: { resourceTypes: [], filter: [], topics: [] } };
     this.updateDraft = this.updateDraft.bind(this);
     this.fetchTaxonony = this.fetchTaxonony.bind(this);
   }
@@ -66,7 +66,7 @@ class EditLearningResource extends Component {
   async fetchTaxonony(articleId, articleLanguage) {
     try {
       const resource = await queryResources(articleId, articleLanguage);
-      if (resource) {
+      if (resource.length > 0) {
         const resourceTypes = await fetchResourceResourceType(
           resource[0].id,
           articleLanguage,

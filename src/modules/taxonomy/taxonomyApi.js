@@ -67,15 +67,17 @@ async function updateTaxonomy(taxonomy) {
 
     if (
       resource.length === 0 &&
-      taxonomy.resourceTypes &&
-      taxonomy.filter &&
-      taxonomy.topics
+      (taxonomy.resourceTypes.length > 0 ||
+        taxonomy.filter.length > 0 ||
+        taxonomy.topics.length > 0)
     ) {
       const resourceId = await createResource({
         contentUri: `urn:article:${taxonomy.articleId}`,
         name: taxonomy.articleName,
       });
-      resource = [{ id: resourceId }];
+
+      // Temporary regex until (if) object representation is returned instead
+      resource = [{ id: resourceId.replace(/(\/v1\/resources\/)/, '') }];
     }
 
     if (resource.length !== 0 && resource[0].id) {

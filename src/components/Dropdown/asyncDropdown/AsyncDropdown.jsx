@@ -74,6 +74,7 @@ class AsyncDropDown extends React.Component {
       textField,
       valueField,
       messages,
+      onClick,
       ...rest
     } = this.props;
 
@@ -81,6 +82,7 @@ class AsyncDropDown extends React.Component {
     const inputProps = {
       placeholder,
       onChange: this.handleInputChange,
+      onClick,
     };
 
     return (

@@ -29,6 +29,8 @@ details {
   position: relative;
   border: 1px solid #3892a7;
   margin: -1em -7em;
+  padding: 1em 3em;
+  z-index: 2;
 
   h2 {
     margin-top: 31px;
@@ -146,10 +148,6 @@ details {
     direction: ltr;
     margin-left: 3.2em;
   }
-}
-
-.c-relatedBox__add-related-button {
-  padding: 0 26px 26px;
 }
 
 .c-relatedBox__article {

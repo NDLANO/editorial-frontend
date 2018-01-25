@@ -20,5 +20,6 @@
     "**/htdocs": true
   },
   "editor.fontFamily": "Fira Code",
-  "editor.fontLigatures": true
+  "editor.fontLigatures": true,
+  "vscode_custom_css.imports": ["file:///Users/torgeir/Downloads/styles.css"]
 }

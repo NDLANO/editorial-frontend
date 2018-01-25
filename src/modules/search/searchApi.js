@@ -24,3 +24,10 @@ export const searchArticles = (queryString, locale) =>
   fetchAuthorized(`${articleUrl}/${queryString}?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
+
+export const searchRelatedArticles = async (input, locale) => {
+  await new Promise(resolve => setTimeout(resolve, 50));
+  const query = `?type=articles&query=${input}`;
+  const response = await searchArticles(query, locale);
+  return response.results;
+};

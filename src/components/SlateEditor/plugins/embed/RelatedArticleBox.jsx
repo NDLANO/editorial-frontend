@@ -13,15 +13,17 @@ import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import Types from 'slate-prop-types';
 import { Button, RelatedArticleList, RelatedArticle } from 'ndla-ui';
-import { Search } from 'ndla-icons/common';
 import { get } from 'lodash';
 import { Cross } from 'ndla-icons/action';
-import { searchArticles } from '../../../../modules/search/searchApi';
+import {
+  searchArticles,
+  searchRelatedArticles,
+} from '../../../../modules/search/searchApi';
 import { fetchArticleResource } from '../../../../modules/taxonomy/taxonomyApi';
+import AsyncDropdown from '../../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import Overlay from '../../../../components/Overlay';
 import { getLocale } from '../../../../modules/locale/locale';
 import { EditorShape } from '../../../../shapes';
-import { getSchemaEmbed } from '../../schema';
-import SlateEmbedPicker from '../blockPicker/SlateEmbedPicker';
 import { mapping } from '../utils/relatedArticleMapping';
 
 const classes = new BEMHelper({
@@ -39,44 +41,41 @@ const nodeProps = ids => ({
 class RelatedArticleBox extends React.Component {
   constructor() {
     super();
-    this.state = { items: [] };
+    this.state = { items: [], editMode: false };
     this.removeArticle = this.removeArticle.bind(this);
-    this.toggleOpen = this.toggleOpen.bind(this);
     this.fetchRelated = this.fetchRelated.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
+    this.updateNodeAttributes = this.updateNodeAttributes.bind(this);
   }
 
   componentDidMount() {
-    const { embed, node, editor } = this.props;
+    const { embed } = this.props;
     if (embed['article-ids']) {
       embed['article-ids'].split(',').map(it => this.fetchRelated(it));
     } else if (embed.relatedArticle) {
       this.fetchRelated(embed.relatedArticle);
 
       // then add id to article-ids
-      const next = editor.value
-        .change()
-        .setNodeByKey(node.key, nodeProps(embed.relatedArticle));
-      editor.onChange(next);
+      this.updateNodeAttributes(embed.relatedArticle);
     }
   }
 
-  onInsertBlock(b) {
-    const { editor, node } = this.props;
-    const newArticle = getSchemaEmbed(b).relatedArticle;
-    // get resource and add to state
-    this.fetchRelated(newArticle);
+  onInsertBlock(newArticle) {
+    if (!this.state.items.find(it => it.id === parseInt(newArticle, 10))) {
+      // get resource and add to state
+      this.fetchRelated(newArticle);
 
-    // update slate block attributes
-    const next = editor.value
-      .change()
-      .setNodeByKey(
-        node.key,
-        nodeProps(
-          `${this.state.items.map(it => it.id).join(',')},${newArticle}`,
-        ),
+      // update slate block attributes
+      const currentIds = this.state.items.map(it => it.id).join(',');
+      this.updateNodeAttributes(
+        `${currentIds}${currentIds ? ',' : ''}${newArticle}`,
       );
-    editor.onChange(next);
+    }
+  }
+
+  updateNodeAttributes(ids) {
+    const { editor, node } = this.props;
+    editor.change(change => change.setNodeByKey(node.key, nodeProps(ids)));
   }
 
   async fetchRelated(it) {
@@ -89,79 +88,105 @@ class RelatedArticleBox extends React.Component {
 
     this.setState(prevState => ({
       items: [...prevState.items, { ...article, resource }],
+      editMode: false,
     }));
   }
 
-  toggleOpen() {
-    this.setState(prevState => ({ openSelect: !prevState.openSelect }));
-  }
+  removeArticle(i, e) {
+    e.stopPropagation();
 
-  removeArticle(i) {
-    const { editor, node } = this.props;
     const newItems = this.state.items.filter((_, ind) => i !== ind);
-
     this.setState({ items: newItems });
 
     // remove from slate attribute
-    const newIds = newItems.map(it => it.id).join(',');
-    console.log(newIds);
-    const next = editor.value
-      .change()
-      .setNodeByKey(node.key, nodeProps(newIds));
-    editor.onChange(next);
+    this.updateNodeAttributes(newItems.map(it => it.id).join(','));
   }
 
   render() {
-    const { attributes } = this.props;
+    const { attributes, onRemoveClick, locale } = this.props;
+    const { editMode, items } = this.state;
     const resourceType = item =>
       item.resourceTypes
         ? item.resourceTypes.find(it => mapping(it.id))
         : { id: '' };
-    return (
-      <div {...attributes} {...classes()}>
-        {this.state.openSelect && (
-          <SlateEmbedPicker
-            isOpen={this.state.openSelect}
-            resource="related-content"
-            onEmbedClose={this.toggleOpen}
-            onInsertBlock={this.onInsertBlock}
-          />
-        )}
+    const relatedArticles = items.map(
+      (item, i) =>
+        !item.id ? (
+          'Invalid article'
+        ) : (
+          <div key={item.id} {...classes('article')}>
+            <RelatedArticle
+              {...mapping(resourceType(item).id)}
+              title={get(item, 'title.title')}
+              introduction={get(item, 'metaDescription.metaDescription')}
+              to={`/learning-resource/${item.id}/edit/${locale}`}
+            />
+            {editMode && (
+              <Button
+                stripped
+                onClick={e => this.removeArticle(i, e)}
+                {...classes('delete-button')}>
+                <Cross />
+              </Button>
+            )}
+          </div>
+        ),
+    );
+    return this.state.editMode ? (
+      <div>
+        <Overlay onExit={() => this.setState({ editMode: false })} />
+        <div {...classes()}>
+          <RelatedArticleList messages={{ title: 'Relaterte arikler' }}>
+            {relatedArticles}
+            <div {...classes('article')}>
+              <AsyncDropdown
+                valueField="id"
+                name="relatedArticleSearch"
+                textField="title.title"
+                placeholder={'Søk på tittel'}
+                label={'label'}
+                apiAction={async inp => {
+                  const res = await searchRelatedArticles(
+                    inp,
+                    this.props.locale,
+                  );
+                  return res.filter(
+                    it =>
+                      this.state.items.map(curr => curr.id).indexOf(it.id) ===
+                      -1,
+                  );
+                }}
+                onClick={e => e.stopPropagation()}
+                messages={{
+                  emptyFilter: 'empty',
+                  emptyList: 'empty list',
+                }}
+                onChange={selected =>
+                  selected && this.onInsertBlock(selected.id)
+                }
+              />
+            </div>
+          </RelatedArticleList>
+          <Button
+            stripped
+            onClick={onRemoveClick}
+            {...classes('delete-button')}>
+            <Cross />
+          </Button>
+        </div>
+      </div>
+    ) : (
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={e => {
+          e.stopPropagation();
+          this.setState({ editMode: true });
+        }}
+        {...attributes}>
         <RelatedArticleList messages={{ title: 'Relaterte arikler' }}>
-          {this.state.items.map(
-            (item, i) =>
-              !item.id ? (
-                'Invalid article'
-              ) : (
-                <div key={item.id} {...classes('article')}>
-                  <RelatedArticle
-                    {...mapping(resourceType(item).id)}
-                    title={get(item, 'title.title')}
-                    introduction={get(item, 'metaDescription.metaDescription')}
-                    to={`/article/${item.id}`}
-                  />
-                  <Button
-                    stripped
-                    onClick={() => this.removeArticle(i)}
-                    {...classes('delete-button')}>
-                    <Cross />
-                  </Button>
-                </div>
-              ),
-          )}
+          {relatedArticles}
         </RelatedArticleList>
-        <Button
-          stripped
-          onClick={this.toggleOpen}
-          {...classes('add-related-button')}>
-          <Search className="c-icon--large" />
-        </Button>
-        <Button
-          stripped
-          onClick={this.onRemoveClick}
-          {...classes('delete-button')}>
-          <Cross />
-        </Button>
       </div>
     );
   }
@@ -174,6 +199,7 @@ RelatedArticleBox.propTypes = {
   editor: EditorShape,
   node: Types.node.isRequired,
   locale: PropTypes.string.isRequired,
+  onRemoveClick: PropTypes.func,
   embed: PropTypes.shape({
     resource: PropTypes.string,
     'article-ids': PropTypes.string,

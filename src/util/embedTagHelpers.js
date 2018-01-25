@@ -24,8 +24,6 @@ export const createEmbedProps = obj =>
     .filter(key => obj[key] !== undefined && !isObject(obj[key]))
     .reduce((acc, key) => ({ ...acc, [`data-${key}`]: obj[key] }), {});
 
-export const createRelatedProps = obj => obj; // iterate over children node objects and add article ids attribute
-
 export const parseEmbedTag = embedTag => {
   if (embedTag === '') {
     return undefined;

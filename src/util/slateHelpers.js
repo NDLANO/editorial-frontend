@@ -445,10 +445,7 @@ export const learningResourceEmbedRule = [
     serialize(object) {
       if (!object.type || !object.type.startsWith('embed')) return;
       const data = object.data.toJS();
-      const props =
-        object.kind === 'related-content'
-          ? createRelatedProps(data)
-          : createEmbedProps(data);
+      const props = createEmbedProps(data);
 
       return <embed {...props} />;
     },

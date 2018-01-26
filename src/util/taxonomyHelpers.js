@@ -63,6 +63,7 @@ function spliceChangedItems(
       }
     }
   });
+  // [Create], [Delete], [Update]
   return [[...changedItems], [...items], [...updatedItems]];
 }
 

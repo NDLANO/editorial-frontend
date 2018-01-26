@@ -22,7 +22,7 @@ const baseUrl = apiResourceUrl('/taxonomy/v1');
 
 function fetchTopicArticle(topicId, locale) {
   return fetchAuthorized(
-    `${baseUrl}/topics/${topicId}?language=${locale}`,
+    `${baseUrl}/topics/${topicId}/?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 }
 

@@ -67,14 +67,10 @@ class EditLearningResource extends Component {
     try {
       const resource = await queryResources(articleId, articleLanguage);
       if (resource.length > 0) {
-        const resourceTypes = await fetchResourceResourceType(
-          resource[0].id,
-          articleLanguage,
-        );
-        const filter = await fetchResourceFilter(
-          resource[0].id,
-          articleLanguage,
-        );
+        const [resourceTypes, filter] = await Promise.all([
+          fetchResourceResourceType(resource[0].id, articleLanguage),
+          fetchResourceFilter(resource[0].id, articleLanguage),
+        ]);
 
         // Temporary method until API is simplified
         const allTopics = await fetchAllTopicResource(articleLanguage);

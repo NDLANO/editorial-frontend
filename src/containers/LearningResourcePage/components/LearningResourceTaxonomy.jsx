@@ -39,10 +39,12 @@ class LearningResourceTaxonomy extends Component {
     const { model } = this.props;
 
     try {
-      const resourceTypes = await fetchResourceTypes(model.language);
-      const filters = await fetchFilters(model.language);
-      const topics = await fetchTopics(model.language);
-      const relevances = await fetchRelevances(model.language);
+      const [resourceTypes, filters, topics, relevances] = await Promise.all([
+        fetchResourceTypes(model.language),
+        fetchFilters(model.language),
+        fetchTopics(model.language),
+        fetchRelevances(model.language),
+      ]);
       this.setState({
         taxonomy: {
           resourceTypes: flattenResourceTypes(resourceTypes),

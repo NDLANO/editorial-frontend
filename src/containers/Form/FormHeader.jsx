@@ -90,7 +90,7 @@ const FormHeader = props => {
 
 FormHeader.propTypes = {
   model: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
   }),
   type: PropTypes.string.isRequired,

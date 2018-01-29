@@ -158,11 +158,11 @@ class ImageForm extends Component {
 
 ImageForm.propTypes = {
   model: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     title: PropTypes.string,
   }),
   initialModel: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     language: PropTypes.string,
   }),
   setModel: PropTypes.func.isRequired,

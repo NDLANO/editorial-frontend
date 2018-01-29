@@ -87,11 +87,11 @@ export const getSaving = createSelector(
 export const getDraft = (articleId, useLanguage = false) =>
   createSelector([getDraftById(articleId), getLocale], (article, locale) => {
     const articleLanguage =
-      article && useLanguage ? article.language : undefined;
+      article && useLanguage && article.supportedLanguages && article.supportedLanguages.includes(article.language) ? article.language : undefined;
     return article
       ? {
           ...article,
-          title: convertFieldWithFallback(
+          title:  convertFieldWithFallback(
             article,
             'title',
             '',

@@ -74,21 +74,13 @@ export const getAudioById = audioId =>
 
 export const getAudio = (audioId, useLanguage = false) =>
   createSelector([getAudioById(audioId)], audio => {
-    const audioLanguage = audio && useLanguage ? audio.language : undefined;
-    const isSupportedLanguage =
-      audio && audio.supportedLanguages
-        ? audio.supportedLanguages.includes(audioLanguage)
-        : false;
+    const audioLanguage = audio && useLanguage && audio.supportedLanguages && audio.supportedLanguages.includes(audio.language) ? audio.language : undefined;
 
     return audio
       ? {
           ...audio,
-          title: isSupportedLanguage
-            ? convertFieldWithFallback(audio, 'title', '', audioLanguage)
-            : audio.title.title,
-          tags: isSupportedLanguage
-            ? convertFieldWithFallback(audio, 'tags', [], audioLanguage)
-            : audio.title.title,
+          title: convertFieldWithFallback(audio, 'title', '', audioLanguage),
+          tags: convertFieldWithFallback(audio, 'tags', [], audioLanguage),
         }
       : undefined;
   });

@@ -71,27 +71,15 @@ export const getImageById = imageId =>
 
 export const getImage = (imageId, useLanguage = false) =>
   createSelector([getImageById(imageId)], image => {
-    const imageLanguage = image && useLanguage ? image.language : undefined;
-
-    const isSupportedLanguage =
-      image && image.supportedLanguages
-        ? image.supportedLanguages.includes(imageLanguage)
-        : false;
+    const imageLanguage = image && useLanguage && image.supportedLanguages && image.supportedLanguages.includes(image.language) ? image.language : undefined;
     return image
       ? {
           ...image,
-          title: isSupportedLanguage
-            ? convertFieldWithFallback(image, 'title', '', imageLanguage)
-            : image.title.title,
-          tags: isSupportedLanguage
-            ? convertFieldWithFallback(image, 'tags', [], imageLanguage)
-            : image.title.tags,
-          alttext: isSupportedLanguage
-            ? convertFieldWithFallback(image, 'alttext', '', imageLanguage)
-            : image.title.alttext,
-          caption: isSupportedLanguage
-            ? convertFieldWithFallback(image, 'caption', '', imageLanguage)
-            : image.title.caption,
+          id: parseInt(image.id, 10),
+          title: convertFieldWithFallback(image, 'title', '', imageLanguage),
+          tags: convertFieldWithFallback(image, 'tags', [], imageLanguage),
+          alttext: convertFieldWithFallback(image, 'alttext', '', imageLanguage),
+          caption: convertFieldWithFallback(image, 'caption', '', imageLanguage),
         }
       : undefined;
   });

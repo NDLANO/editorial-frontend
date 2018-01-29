@@ -57,7 +57,7 @@ export const ArticleShape = PropTypes.shape({
 });
 
 export const ImageShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
 });
 

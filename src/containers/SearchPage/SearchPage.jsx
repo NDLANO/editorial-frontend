@@ -130,7 +130,7 @@ SearchPage.propTypes = {
   results: PropTypes.arrayOf(SearchResultShape).isRequired,
   searching: PropTypes.bool.isRequired,
   search: PropTypes.func.isRequired,
-  enabledSources: PropTypes.array,
+  enabledSources: PropTypes.arrayOf(PropTypes.string),
 };
 
 SearchPage.defaultProps = {

@@ -18,7 +18,7 @@ import TypeMenu from './TypeMenu';
 
 const DEFAULT_TYPE = 'learning-resource';
 
-class SubjectmatterPage extends React.Component {
+class SubjectMatterPage extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -93,7 +93,7 @@ class SubjectmatterPage extends React.Component {
   }
 }
 
-SubjectmatterPage.propTypes = {
+SubjectMatterPage.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,
   }).isRequired,
@@ -105,4 +105,4 @@ SubjectmatterPage.propTypes = {
   }).isRequired,
 };
 
-export default injectT(withRouter(SubjectmatterPage));
+export default injectT(withRouter(SubjectMatterPage));

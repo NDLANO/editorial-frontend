@@ -41,17 +41,13 @@ const types = {
 const FormHeader = props => {
   const { t, model, type, editUrl } = props;
   const languages = [
-    { key: 'nn', title: t('language.nn') },
-    { key: 'en', title: t('language.en') },
-    { key: 'nb', title: t('language.nb') },
+    { key: 'nn', title: t('language.nn'), include: true },
+    { key: 'en', title: t('language.en'), include: true },
+    { key: 'nb', title: t('language.nb'), include: true },
+    { key: 'unknown', title: t('language.unknown'), include: false },
+    { key: 'de', title: t('language.de'), include: false },
   ];
-  console.log(model);
   const language = languages.find(lang => lang.key === model.language);
-  const emptyLanguages = languages.filter(
-    lang =>
-      lang.key !== model.language &&
-      !model.supportedLanguages.includes(lang.key),
-  );
 
   if (!model.id) {
     return (
@@ -63,33 +59,38 @@ const FormHeader = props => {
       </div>
     );
   }
+
+  const emptyLanguages = languages.filter(
+    lang =>
+      lang.key !== model.language &&
+      !model.supportedLanguages.includes(lang.key) &&
+      lang.include,
+  );
+
+  const otherLanguages = model.supportedLanguages.filter(
+    lang => lang !== language.key,
+  );
+
   return (
     <div {...formClasses('header', types[type].cssModifier)}>
       <div>
         {types[type].icon}
         <span>{t(`${types[type].form}.title`, language)}</span>
-        {model.supportedLanguages.map((lang, index) => (
-          <span>
+        {otherLanguages.map((lang, index) => (
+          <span key={`types_${lang}`}>
             <Link to={editUrl(lang)}>{lang.toUpperCase()}</Link>
-            {index === model.supportedLanguages.length - 1 ? '' : '|'}
+            {index === otherLanguages.length - 1 ? '' : '|'}
           </span>
         ))}
       </div>
-      <FormLanguage
-        language={language}
-        emptyLanguages={emptyLanguages}
-        supportedLanguages={model.supportedLanguages}
-        modelId={model.id}
-        articleType={type}
-        editUrl={editUrl}
-      />
+      <FormLanguage emptyLanguages={emptyLanguages} editUrl={editUrl} />
     </div>
   );
 };
 
 FormHeader.propTypes = {
   model: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
   }),
   type: PropTypes.string.isRequired,

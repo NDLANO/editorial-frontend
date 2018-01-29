@@ -13,10 +13,10 @@ import * as messageActions from '../../containers/Messages/messagesActions';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditAudio } from '../../util/routeHelpers';
 
-export function* fetchAudio(id, locale) {
+export function* fetchAudio(id, language) {
   try {
-    const audio = yield call(api.fetchAudio, id, locale);
-    yield put(actions.setAudio(audio));
+    const audio = yield call(api.fetchAudio, id, language);
+    yield put(actions.setAudio({ ...audio, language }));
   } catch (error) {
     // TODO: handle error
     console.error(error); //eslint-disable-line
@@ -25,10 +25,10 @@ export function* fetchAudio(id, locale) {
 
 export function* watchFetchAudio() {
   while (true) {
-    const { payload: { id, locale } } = yield take(actions.fetchAudio);
+    const { payload: { id, language } } = yield take(actions.fetchAudio);
     const audio = yield select(getAudioById(id));
-    if (!audio || audio.id !== id) {
-      yield call(fetchAudio, id, locale);
+    if (!audio || audio.id !== id || audio.language !== language) {
+      yield call(fetchAudio, id, language);
     }
   }
 }
@@ -37,7 +37,7 @@ export function* updateAudio(audio, file) {
   try {
     const formData = yield call(createFormData, audio, file);
     const updatedAudio = yield call(api.updateAudio, audio.id, formData);
-    yield put(actions.setAudio(updatedAudio));
+    yield put(actions.setAudio({ ...updatedAudio, language: audio.language }));
     yield put(actions.updateAudioSuccess());
     yield put(messageActions.addMessage({ translationKey: 'form.savedOk' }));
   } catch (error) {
@@ -51,7 +51,7 @@ export function* createAudio(audio, file, history) {
   try {
     const formData = yield call(createFormData, audio, file);
     const createdAudio = yield call(api.postAudio, formData);
-    yield put(actions.setAudio(createdAudio));
+    yield put(actions.setAudio({ ...createdAudio, language: audio.language }));
     history.push(toEditAudio(createdAudio.id, audio.language));
     yield put(actions.updateAudioSuccess());
     yield put(

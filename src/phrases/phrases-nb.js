@@ -15,6 +15,8 @@ const phrases = {
     en: 'Engelsk',
     nb: 'Bokmål',
     nn: 'Nynorsk',
+    unknown: 'Ukjent',
+    de: 'Tysk',
   },
   welcomePage: {
     lastUsed: 'Sist brukt',

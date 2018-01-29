@@ -16,23 +16,16 @@ import { ImageShape } from '../../shapes';
 class EditImage extends Component {
   componentWillMount() {
     const { imageId: id, fetchImage, imageLanguage } = this.props;
-    console.log(imageLanguage)
-    fetchImage({ id, locale: imageLanguage });
+    fetchImage({ id, language: imageLanguage });
   }
   componentWillReceiveProps(nextProps) {
-    const {
-      imageId: id,
-      fetchImage,
-      imageLanguage,
-      image,
-    } = nextProps;
-    console.log(imageLanguage, image)
+    const { imageId: id, fetchImage, imageLanguage, image } = nextProps;
+
     if (
       (image && image.language !== imageLanguage) ||
       id !== this.props.imageId
     ) {
-      console.log("FETCH", imageLanguage, id)
-      fetchImage({ id, locale: imageLanguage });
+      fetchImage({ id, language: imageLanguage });
     }
   }
   render() {
@@ -49,6 +42,7 @@ class EditImage extends Component {
     if (!imageData) {
       return null;
     }
+
     return (
       <ImageForm
         initialModel={getInitialModel(imageData)}
@@ -89,12 +83,14 @@ const mapDispatchToProps = {
   updateImage: actions.updateImage,
 };
 
-const makeMapStateToProps = (_, props) => {
+const mapStateToProps = (state, props) => {
   const { imageId } = props;
   const getImageSelector = getImage(imageId, true);
-  return state => ({
+  return {
     image: getImageSelector(state),
-  });
+  };
 };
 
-export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(EditImage));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(EditImage),
+);

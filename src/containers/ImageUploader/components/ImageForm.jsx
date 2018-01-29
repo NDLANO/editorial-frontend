@@ -47,6 +47,7 @@ export const getInitialModel = (image = {}) => ({
       ? image.copyright.license.license
       : DEFAULT_LICENSE.license,
 });
+
 const classes = new BEMHelper({
   name: 'form',
   prefix: 'c-',
@@ -60,7 +61,6 @@ class ImageForm extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { initialModel, setModel } = nextProps;
-    console.log(initialModel.language, this.props.initialModel.language)
 
     if (
       initialModel.id !== this.props.initialModel.id ||
@@ -162,7 +162,7 @@ ImageForm.propTypes = {
     title: PropTypes.string,
   }),
   initialModel: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     language: PropTypes.string,
   }),
   setModel: PropTypes.func.isRequired,

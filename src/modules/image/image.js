@@ -9,7 +9,7 @@
 import { handleActions, createAction } from 'redux-actions';
 
 import { createSelector } from 'reselect';
-import { getLocale } from '../locale/locale';
+import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 
 export const fetchImage = createAction('FETCH_IMAGE');
 export const setImage = createAction('SET_IMAGE');
@@ -67,25 +67,34 @@ export default handleActions(
 const getImagesFromState = state => state.images;
 
 export const getImageById = imageId =>
-  createSelector(
-    [getImagesFromState],
-    images => images.all[imageId.toString()],
-  );
+  createSelector([getImagesFromState], images => images.all[imageId]);
 
-export const getImage = (imageId, useLanguage) =>
-  createSelector(
-    [getImageById(imageId), getLocale],
-    (image, language) => image
-        ? {
-            ...image,
-            title: image.title.title,
-            tags: image.tags.tags,
-            alttext: image.alttext.alttext,
-            caption: image.caption.caption,
-            language,
-          }
-        : undefined
-  );
+export const getImage = (imageId, useLanguage = false) =>
+  createSelector([getImageById(imageId)], image => {
+    const imageLanguage = image && useLanguage ? image.language : undefined;
+
+    const isSupportedLanguage =
+      image && image.supportedLanguages
+        ? image.supportedLanguages.includes(imageLanguage)
+        : false;
+    return image
+      ? {
+          ...image,
+          title: isSupportedLanguage
+            ? convertFieldWithFallback(image, 'title', '', imageLanguage)
+            : image.title.title,
+          tags: isSupportedLanguage
+            ? convertFieldWithFallback(image, 'tags', [], imageLanguage)
+            : image.title.tags,
+          alttext: isSupportedLanguage
+            ? convertFieldWithFallback(image, 'alttext', '', imageLanguage)
+            : image.title.alttext,
+          caption: isSupportedLanguage
+            ? convertFieldWithFallback(image, 'caption', '', imageLanguage)
+            : image.title.caption,
+        }
+      : undefined;
+  });
 
 export const getSaving = createSelector(
   [getImagesFromState],

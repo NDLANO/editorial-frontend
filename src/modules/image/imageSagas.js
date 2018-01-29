@@ -13,10 +13,10 @@ import * as messageActions from '../../containers/Messages/messagesActions';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditImage } from '../../util/routeHelpers';
 
-export function* fetchImage(id, locale) {
+export function* fetchImage(id, language) {
   try {
-    const image = yield call(api.fetchImage, id, locale);
-    yield put(actions.setImage(image));
+    const image = yield call(api.fetchImage, id, language);
+    yield put(actions.setImage({ ...image, language }));
   } catch (error) {
     // TODO: handle error
     console.error(error); //eslint-disable-line
@@ -25,10 +25,10 @@ export function* fetchImage(id, locale) {
 
 export function* watchFetchImage() {
   while (true) {
-    const { payload: { id, locale } } = yield take(actions.fetchImage);
+    const { payload: { id, language } } = yield take(actions.fetchImage);
     const image = yield select(getImageById(id));
-    if (!image || image.id !== id) {
-      yield call(fetchImage, id, locale);
+    if (!image || image.id !== id || image.language !== language) {
+      yield call(fetchImage, id, language);
     }
   }
 }
@@ -37,7 +37,7 @@ export function* updateImage(image, file) {
   try {
     const formData = yield call(createFormData, image, file);
     const updatedImage = yield call(api.updateImage, image.id, formData);
-    yield put(actions.setImage(updatedImage));
+    yield put(actions.setImage({ ...updatedImage, language: image.language }));
     yield put(actions.updateImageSuccess());
     yield put(messageActions.addMessage({ translationKey: 'form.savedOk' }));
   } catch (error) {
@@ -51,7 +51,7 @@ export function* createImage(image, file, history) {
   try {
     const formData = yield call(createFormData, image, file);
     const createdImage = yield call(api.postImage, formData);
-    yield put(actions.setImage(createdImage));
+    yield put(actions.setImage({ ...createdImage, language: image.language }));
     history.push(toEditImage(createdImage.id, image.language));
     yield put(actions.updateImageSuccess());
     yield put(

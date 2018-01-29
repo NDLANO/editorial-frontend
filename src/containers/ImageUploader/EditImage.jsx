@@ -8,7 +8,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import { withRouter } from 'react-router-dom';
 import ImageForm, { getInitialModel } from './components/ImageForm';
 import { actions, getImage } from '../../modules/image/image';
 import { ImageShape } from '../../shapes';
@@ -16,7 +16,24 @@ import { ImageShape } from '../../shapes';
 class EditImage extends Component {
   componentWillMount() {
     const { imageId: id, fetchImage, imageLanguage } = this.props;
+    console.log(imageLanguage)
     fetchImage({ id, locale: imageLanguage });
+  }
+  componentWillReceiveProps(nextProps) {
+    const {
+      imageId: id,
+      fetchImage,
+      imageLanguage,
+      image,
+    } = nextProps;
+    console.log(imageLanguage, image)
+    if (
+      (image && image.language !== imageLanguage) ||
+      id !== this.props.imageId
+    ) {
+      console.log("FETCH", imageLanguage, id)
+      fetchImage({ id, locale: imageLanguage });
+    }
   }
   render() {
     const {
@@ -74,10 +91,10 @@ const mapDispatchToProps = {
 
 const makeMapStateToProps = (_, props) => {
   const { imageId } = props;
-  const getImageSelector = getImage(imageId);
+  const getImageSelector = getImage(imageId, true);
   return state => ({
     image: getImageSelector(state),
   });
 };
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(EditImage);
+export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(EditImage));

@@ -59,10 +59,12 @@
       margin-left: 1rem;
     }
 
-    & span > a, & button {
+    & span > a,
+    & button {
       margin: 0 0.4rem;
       color: white;
       box-shadow: none;
+
       &:hover,
       &:focus {
         box-shadow: none;

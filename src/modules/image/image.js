@@ -72,11 +72,10 @@ export const getImageById = imageId =>
     images => images.all[imageId.toString()],
   );
 
-export const getImage = imageId =>
+export const getImage = (imageId, useLanguage) =>
   createSelector(
     [getImageById(imageId), getLocale],
-    (image, language) =>
-      image
+    (image, language) => image
         ? {
             ...image,
             title: image.title.title,
@@ -85,7 +84,7 @@ export const getImage = imageId =>
             caption: image.caption.caption,
             language,
           }
-        : undefined,
+        : undefined
   );
 
 export const getSaving = createSelector(

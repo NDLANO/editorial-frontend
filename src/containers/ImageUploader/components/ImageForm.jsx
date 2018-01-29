@@ -60,6 +60,8 @@ class ImageForm extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { initialModel, setModel } = nextProps;
+    console.log(initialModel.language, this.props.initialModel.language)
+
     if (
       initialModel.id !== this.props.initialModel.id ||
       initialModel.language !== this.props.initialModel.language

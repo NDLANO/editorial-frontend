@@ -42,7 +42,7 @@ class FormLanguage extends Component {
           {t('form.variant.create')}
         </Button>
         <ul {...classes('items', this.state.display ? 'show' : '')}>
-          {emptyLanguages.map(language => (
+          {emptyLanguages.length > 0 ? emptyLanguages.map(language => (
             <li key={language.key} {...classes('item')}>
               <Link
                 to={editUrl(language.key)}
@@ -51,7 +51,7 @@ class FormLanguage extends Component {
                 {`${language.title}(${language.key})`}
               </Link>
             </li>
-          ))}
+          )) : <li {...classes('item')}>Ingen flere språk</li>}
         </ul>
       </div>
     );

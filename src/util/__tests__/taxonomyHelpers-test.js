@@ -102,7 +102,7 @@ test('taxonomy/spliceChangedItems different item changes', () => {
     ],
   ]);
 
-  // Update Item
+  // Create Item
   const createNewItem = [
     {
       id: 'urn:filter:3ae5a086-8444-43c3-8fa4-db869e7292d2',

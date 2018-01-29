@@ -74,7 +74,13 @@ export const getAudioById = audioId =>
 
 export const getAudio = (audioId, useLanguage = false) =>
   createSelector([getAudioById(audioId)], audio => {
-    const audioLanguage = audio && useLanguage && audio.supportedLanguages && audio.supportedLanguages.includes(audio.language) ? audio.language : undefined;
+    const audioLanguage =
+      audio &&
+      useLanguage &&
+      audio.supportedLanguages &&
+      audio.supportedLanguages.includes(audio.language)
+        ? audio.language
+        : undefined;
 
     return audio
       ? {

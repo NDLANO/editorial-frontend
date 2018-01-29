@@ -48,7 +48,7 @@ export function* updateDraft(draft) {
 export function* createDraft(draft, history) {
   try {
     const createdDraft = yield call(api.createDraft, draft);
-    yield put(actions.setDraft({...createdDraft, language: draft.language}));
+    yield put(actions.setDraft({ ...createdDraft, language: draft.language }));
     history.push(
       toEditArticle(createdDraft.id, createdDraft.articleType, draft.language),
     );

@@ -43,6 +43,7 @@
   &__item {
     padding: 0.6em 1em 0.8em;
     margin: 0;
+    color: black;
   }
 
   &__item:hover {

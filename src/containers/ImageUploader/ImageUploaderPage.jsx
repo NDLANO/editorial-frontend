@@ -36,7 +36,7 @@ class ImageUploaderPage extends Component {
     const { locale, tags, match, history, licenses, isSaving } = this.props;
 
     return (
-      <OneColumn cssModifier="narrow">
+      <OneColumn>
         <Switch>
           <Route
             path={`${match.url}/new`}

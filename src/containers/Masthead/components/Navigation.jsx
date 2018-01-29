@@ -28,12 +28,12 @@ import {
   toSearch,
 } from '../../../util/routeHelpers';
 
-const classes = new BEMHelper({
-  name: 'type-masthead',
+export const classes = new BEMHelper({
+  name: 'navigation',
   prefix: 'c-',
 });
 
-export class TypeMasthead extends Component {
+export class Navigation extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -132,14 +132,14 @@ export class TypeMasthead extends Component {
   }
 }
 
-TypeMasthead.propTypes = {
+Navigation.propTypes = {
   userName: PropTypes.string,
   authenticated: PropTypes.bool.isRequired,
 };
 
-TypeMasthead.defaultProps = {
+Navigation.defaultProps = {
   authenticated: false,
   userName: '',
 };
 
-export default withRouter(injectT(TypeMasthead));
+export default withRouter(injectT(Navigation));

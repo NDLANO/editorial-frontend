@@ -33,7 +33,7 @@ class LearningResourcePage extends Component {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <OneColumn cssModifier="narrow">
+        <OneColumn>
           <Switch>
             <Route
               path={`${match.url}/new`}

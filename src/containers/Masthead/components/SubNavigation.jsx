@@ -1,19 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import { Link, withRouter } from 'react-router-dom';
-
-const classes = new BEMHelper({
-  name: 'type-masthead',
-  prefix: 'c-',
-});
+import { classes } from './Navigation';
 
 const colorType = {
   media: 'brand-color',
   'subject-matter': 'article-color',
 };
 
-const TypeMenu = ({ subtypes, activeSubtype, type }) => (
+const SubNavigation = ({ subtypes, activeSubtype, type }) => (
   <div {...classes('container', colorType[type])}>
     <div {...classes('items')}>
       {subtypes.map(subtype => (
@@ -29,7 +24,7 @@ const TypeMenu = ({ subtypes, activeSubtype, type }) => (
   </div>
 );
 
-TypeMenu.propTypes = {
+SubNavigation.propTypes = {
   subtypes: PropTypes.arrayOf(
     PropTypes.shape({
       url: PropTypes.string.isRequired,
@@ -42,4 +37,4 @@ TypeMenu.propTypes = {
   type: PropTypes.string.isRequired,
 };
 
-export default withRouter(TypeMenu);
+export default withRouter(SubNavigation);

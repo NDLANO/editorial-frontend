@@ -37,7 +37,7 @@ class AudioUploaderPage extends Component {
 
     return (
       <div>
-        <OneColumn cssModifier="narrow">
+        <OneColumn>
           <Switch>
             <Route
               path={`${match.url}/new`}

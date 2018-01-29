@@ -14,7 +14,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import AudioUploaderPage from '../AudioUploader/AudioUploaderPage';
 import ImageUploaderPage from '../ImageUploader/ImageUploaderPage';
-import TypeMenu from './TypeMenu';
+import SubNavigation from '../Masthead/components/SubNavigation';
 
 const DEFAULT_TYPE = 'image-upload';
 
@@ -66,7 +66,7 @@ class MediaPage extends React.Component {
 
     return (
       <div>
-        <TypeMenu
+        <SubNavigation
           type="media"
           subtypes={supportedTypes}
           activeSubtype={this.state.type}

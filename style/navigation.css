@@ -1,4 +1,4 @@
-.c-type-masthead {
+.c-navigation {
   &__open-button {
     color: var(--brand-color);
     min-width: 4rem;
@@ -31,7 +31,7 @@
     z-index: 2;
 
     &--absolute {
-      margin-top: 22px;
+      margin-top: 21px;
       position: absolute;
     }
   }
@@ -89,11 +89,11 @@
   }
 }
 
-.c-type-masthead__container {
+.c-navigation__container {
   &--brand-color-secondary {
     background-color: var(--brand-color--secondary);
 
-    & .c-type-masthead__item {
+    & .c-navigation__item {
       color: white;
 
       &:hover,
@@ -113,7 +113,7 @@
   &--article-color {
     background-color: white;
 
-    & .c-type-masthead__item {
+    & .c-navigation__item {
       color: var(--article-color);
 
       &:hover,
@@ -138,7 +138,7 @@
   &--brand-color {
     background-color: white;
 
-    & .c-type-masthead__item {
+    & .c-navigation__item {
       color: var(--brand-color);
 
       &:hover,

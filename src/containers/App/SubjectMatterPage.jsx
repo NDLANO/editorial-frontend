@@ -14,7 +14,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
 import LearningResourcePage from '../LearningResourcePage/LearningResourcePage';
-import TypeMenu from './TypeMenu';
+import SubNavigation from '../Masthead/components/SubNavigation';
 
 const DEFAULT_TYPE = 'learning-resource';
 
@@ -72,7 +72,7 @@ class SubjectMatterPage extends React.Component {
 
     return (
       <div>
-        <TypeMenu
+        <SubNavigation
           type="subject-matter"
           subtypes={supportedTypes}
           activeSubtype={this.state.type}

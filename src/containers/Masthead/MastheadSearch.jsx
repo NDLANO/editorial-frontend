@@ -101,7 +101,6 @@ class MastheadSearch extends Component {
                   ? locationQuery.types
                   : ['articles', 'images', 'audios'].join(','),
                 articleTypes,
-                language: 'all',
               }),
             )
           }

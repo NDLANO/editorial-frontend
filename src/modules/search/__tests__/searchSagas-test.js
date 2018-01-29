@@ -18,7 +18,8 @@ test('searchSagas search', () => {
     .reply(200, { results: [1, 2, 3] });
 
   return expectSaga(sagas.watchSearch)
+    .withState({ locale: 'nb' })
     .put(actions.setSearchResult({ results: [1, 2, 3] }))
-    .dispatch(actions.search('?query=testing&page=3&sort=alfa&language=nb'))
+    .dispatch(actions.search('?query=testing&page=3&sort=alfa'))
     .run({ silenceTimeout: true });
 });

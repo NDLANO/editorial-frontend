@@ -14,7 +14,7 @@ import {
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
 
-export const search = queryString =>
-  fetchAuthorized(`${baseUrl}/${queryString}`).then(
+export const search = (queryString, locale) =>
+  fetchAuthorized(`${baseUrl}/${queryString}&language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );

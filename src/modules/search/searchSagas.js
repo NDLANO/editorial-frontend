@@ -6,14 +6,16 @@
  *
  */
 
-import { take, call, put } from 'redux-saga/effects';
+import { take, call, put, select } from 'redux-saga/effects';
 
+import { getLocale } from '../../modules/locale/locale';
 import * as actions from './search';
 import * as api from './searchApi';
 
 export function* search(queryString) {
   try {
-    const searchResult = yield call(api.search, queryString);
+    const locale = yield select(getLocale);
+    const searchResult = yield call(api.search, queryString, locale);
     yield put(actions.setSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());

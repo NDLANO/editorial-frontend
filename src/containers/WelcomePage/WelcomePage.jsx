@@ -22,13 +22,8 @@ import {
 const topicArticleQuery = {
   articleTypes: 'topic-article',
   types: ['articles'],
-  language: 'all',
 };
-const learningResourceQuery = {
-  articleTypes: 'standard',
-  types: ['articles'],
-  language: 'all',
-};
+const learningResourceQuery = { articleTypes: 'standard', types: ['articles'] };
 
 export const WelcomePage = ({ t }) => (
   <OneColumn cssModifier="clear">

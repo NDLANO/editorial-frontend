@@ -16,82 +16,45 @@ import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
 import LearningResourcePage from '../LearningResourcePage/LearningResourcePage';
 import SubNavigation from '../Masthead/components/SubNavigation';
 
-const DEFAULT_TYPE = 'learning-resource';
+const SubjectMatterPage = ({ match, t }) => {
+  const supportedTypes = [
+    {
+      title: t('subNavigation.learningResource'),
+      type: 'learning-resource',
+      url: '/subject-matter/learning-resource/new',
+      icon: <LearningResource className="c-icon--large" />,
+    },
+    {
+      title: t('subNavigation.topicArticle'),
+      type: 'topic-article',
+      url: '/subject-matter/topic-article/new',
+      icon: <TopicArticle className="c-icon--large" />,
+    },
+    {
+      title: t('subNavigation.concept'),
+      type: 'concept',
+      url: '#',
+      icon: <Concept className="c-icon--large" />,
+    },
+  ];
 
-class SubjectMatterPage extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      type: DEFAULT_TYPE,
-    };
-  }
-  componentWillMount() {
-    const { location: { pathname } } = this.props;
-    const splittedPathname = pathname.split('/');
-    const type =
-      splittedPathname.length > 3 ? splittedPathname[2] : DEFAULT_TYPE;
-    this.setState({ type });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { location: { pathname } } = nextProps;
-    const splittedPathname = this.props.location.pathname.split('/');
-    const type =
-      splittedPathname.length > 3 ? splittedPathname[2] : DEFAULT_TYPE;
-
-    const nextSplittedPathname = pathname.split('/');
-    const nextType =
-      nextSplittedPathname.length > 3 ? nextSplittedPathname[2] : DEFAULT_TYPE;
-    if (type !== nextType) {
-      this.setState({ type: nextType });
-    }
-  }
-
-  render() {
-    const { match, t } = this.props;
-    const supportedTypes = [
-      {
-        title: t('typeMasthead.learningResource'),
-        type: 'learning-resource',
-        url: '/subject-matter/learning-resource/new',
-        icon: <LearningResource className="c-icon--large" />,
-      },
-      {
-        title: t('typeMasthead.topicArticle'),
-        type: 'topic-article',
-        url: '/subject-matter/topic-article/new',
-        icon: <TopicArticle className="c-icon--large" />,
-      },
-      {
-        title: t('typeMasthead.concept'),
-        type: 'concept',
-        url: '#',
-        icon: <Concept className="c-icon--large" />,
-      },
-    ];
-
-    return (
-      <div>
-        <SubNavigation
-          type="subject-matter"
-          subtypes={supportedTypes}
-          activeSubtype={this.state.type}
+  return (
+    <div>
+      <SubNavigation type="subject-matter" subtypes={supportedTypes} />
+      <Switch>
+        <PrivateRoute
+          path={`${match.url}/topic-article/`}
+          component={TopicArticlePage}
         />
-        <Switch>
-          <PrivateRoute
-            path={`${match.url}/topic-article/`}
-            component={TopicArticlePage}
-          />
-          <PrivateRoute
-            path={`${match.url}/learning-resource`}
-            component={LearningResourcePage}
-          />
-          <Route component={NotFoundPage} />
-        </Switch>
-      </div>
-    );
-  }
-}
+        <PrivateRoute
+          path={`${match.url}/learning-resource`}
+          component={LearningResourcePage}
+        />
+        <Route component={NotFoundPage} />
+      </Switch>
+    </div>
+  );
+};
 
 SubjectMatterPage.propTypes = {
   match: PropTypes.shape({

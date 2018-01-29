@@ -25,19 +25,20 @@ const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
 );
 const baseGoogleSearchUrl = googleSearchApiResourceUrl('/customsearch/v1/');
 
-export const searchImages = (query, page) =>
-  fetchAuthorized(
+export const searchImages = (query, page) => {
+  return fetchAuthorized(
     `${baseImageNdlaUrl}/?${queryString.stringify({
       query,
       page,
     })}&page-size=16`,
   ).then(resolveJsonOrRejectWithError);
+};
 export const searchAudios = query =>
   fetchAuthorized(
     `${baseAudioNdlaUrl}/?${queryString.stringify({
       query: query.query,
       page: query.page,
-    })}&page-size=16&language=${query.locale}`,
+    })}&page-size=16`,
   ).then(resolveJsonOrRejectWithError);
 
 export const fetchAudio = audioId =>

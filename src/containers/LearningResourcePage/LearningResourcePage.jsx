@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { OneColumn, SubjectHero } from 'ndla-ui';
+import { OneColumn } from 'ndla-ui';
 
 import {
   actions as licenseActions,
@@ -39,12 +39,7 @@ class LearningResourcePage extends Component {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <SubjectHero>
-          <OneColumn>
-            <div className="c-hero__content" />
-          </OneColumn>
-        </SubjectHero>
-        <OneColumn cssModifier="narrow">
+        <OneColumn>
           <Switch>
             <Route
               path={`${match.url}/new`}

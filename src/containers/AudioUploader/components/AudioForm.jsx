@@ -11,6 +11,7 @@ import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { SquareAudio } from 'ndla-icons/editor';
 
 import BEMHelper from 'react-bem-helper';
 import reformed from '../../../components/reformed';
@@ -106,14 +107,15 @@ class AudioForm extends Component {
     const commonFieldProps = { bindInput, schema, submitted };
 
     return (
-      <form
-        onSubmit={event => this.handleSubmit(event)}
-        {...classes(undefined, undefined, 'c-article')}>
+      <form onSubmit={event => this.handleSubmit(event)} {...classes()}>
         <div {...classes('header', 'multimedia')}>
-          <div className="u-4/6@desktop u-push-1/6@desktop">
-            {model.id
-              ? t('audioForm.title.update')
-              : t('audioForm.title.create')}
+          <div className="u-4/6@desktop">
+            <SquareAudio />
+            <span>
+              {model.id
+                ? t('audioForm.title.update')
+                : t('audioForm.title.create')}
+            </span>
           </div>
         </div>
         <AudioContent

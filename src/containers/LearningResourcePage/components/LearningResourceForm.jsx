@@ -167,9 +167,7 @@ class LearningResourceForm extends Component {
 
     const commonFieldProps = { bindInput, schema, submitted };
     return (
-      <form
-        onSubmit={this.handleSubmit}
-        {...formClasses(undefined, undefined, 'c-article')}>
+      <form onSubmit={this.handleSubmit} {...formClasses()}>
         <ArticleHeader model={model} />
         <LearningResourceMetadata
           commonFieldProps={commonFieldProps}

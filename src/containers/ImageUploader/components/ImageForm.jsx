@@ -11,6 +11,7 @@ import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { Camera } from 'ndla-icons/editor';
 
 import BEMHelper from 'react-bem-helper';
 import reformed from '../../../components/reformed';
@@ -107,14 +108,15 @@ class ImageForm extends Component {
     const commonFieldProps = { bindInput, schema, submitted };
 
     return (
-      <form
-        onSubmit={event => this.handleSubmit(event)}
-        {...classes(undefined, undefined, 'c-article')}>
+      <form onSubmit={event => this.handleSubmit(event)} {...classes()}>
         <div {...classes('header', 'multimedia')}>
-          <div className="u-4/6@desktop u-push-1/6@desktop">
-            {model.id
-              ? t('imageForm.title.update')
-              : t('imageForm.title.create')}
+          <div className="u-4/6@desktop">
+            <Camera />
+            <span>
+              {model.id
+                ? t('imageForm.title.update')
+                : t('imageForm.title.create')}
+            </span>
           </div>
         </div>
         <ImageContent

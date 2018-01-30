@@ -7,6 +7,8 @@
  */
 
 .c-form {
+  margin-top: var(--spacing);
+
   &--gray-background {
     background-color: var(--brand-grey--lightest);
     padding-bottom: 3rem;

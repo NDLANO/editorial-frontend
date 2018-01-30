@@ -8,7 +8,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { Search } from 'ndla-icons/common';
 import { injectT } from 'ndla-i18n';
@@ -20,11 +19,7 @@ import { fetchTopicArticle } from '../../../modules/taxonomy';
 
 import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { getLocale } from '../../../modules/locale/locale';
-
-const classes = new BEMHelper({
-  name: 'search-form',
-  prefix: 'masthead-',
-});
+import { editorialMastheadClasses } from '../MastheadContainer';
 
 export class MastheadSearchForm extends Component {
   constructor(props) {
@@ -98,18 +93,22 @@ export class MastheadSearchForm extends Component {
   }
 
   render() {
-    const { show, searching, t } = this.props;
+    const { searching, t } = this.props;
 
     return (
-      <form onSubmit={this.handleSubmit} {...classes(show ? '' : 'hidden')}>
+      <form onSubmit={this.handleSubmit} {...editorialMastheadClasses('form')}>
         <input
           type="text"
-          {...classes('query')}
+          {...editorialMastheadClasses('form-query')}
           onChange={this.handleQueryChange}
           value={this.state.query}
           placeholder={t('searchForm.placeholder')}
         />
-        <Button submit stripped loading={searching} {...classes('button')}>
+        <Button
+          submit
+          stripped
+          loading={searching}
+          {...editorialMastheadClasses('form-button')}>
           <Search className="c-icon--medium" />
         </Button>
       </form>
@@ -118,7 +117,6 @@ export class MastheadSearchForm extends Component {
 }
 
 MastheadSearchForm.propTypes = {
-  show: PropTypes.bool.isRequired,
   locale: PropTypes.string.isRequired,
   query: PropTypes.string,
   searching: PropTypes.bool.isRequired,
@@ -129,7 +127,6 @@ MastheadSearchForm.propTypes = {
 };
 
 MastheadSearchForm.defaultProps = {
-  show: false,
   query: '',
 };
 

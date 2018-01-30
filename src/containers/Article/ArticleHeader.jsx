@@ -8,9 +8,17 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { TopicArticle, LearningResource } from 'ndla-icons/editor';
 import { injectT } from 'ndla-i18n';
 import { formClasses } from '../Form';
 import ArticleLanguage from './ArticleLanguage';
+
+const ArticleIcon = ({ type }) =>
+  type === 'standard' ? <LearningResource /> : <TopicArticle />;
+
+ArticleIcon.propTypes = {
+  type: PropTypes.string.isRequired,
+};
 
 const ArticleHeader = props => {
   const { t, model } = props;
@@ -31,7 +39,9 @@ const ArticleHeader = props => {
   if (!model.id) {
     return (
       <div {...formClasses('header', 'article')}>
-        <div className="u-4/6@desktop u-push-1/6@desktop">
+        <div className="u-4/6@desktop">
+          <ArticleIcon type={model.articleType} />
+          <span />
           {t(`${types[model.articleType]}.title.create`, language)}
         </div>
       </div>
@@ -40,7 +50,8 @@ const ArticleHeader = props => {
 
   return (
     <div {...formClasses('header', 'article')}>
-      <div className="u-4/6@desktop u-push-1/6@desktop">
+      <div className="u-4/6@desktop">
+        <ArticleIcon type={model.articleType} />
         <span>{t(`${types[model.articleType]}.title.update`, language)}</span>
         <span>
           <ArticleLanguage

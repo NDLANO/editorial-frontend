@@ -14,14 +14,14 @@ export function toSearch(query) {
 
 export function toEditArticle(articleId, articleType, locale) {
   const url = articleTypes[articleType] || articleTypes.standard;
-  return `/${url}/${articleId}/edit/${locale}`;
+  return `/subject-matter/${url}/${articleId}/edit/${locale}`;
 }
 export function toCreateLearningResource() {
-  return `/learning-resource/new`;
+  return '/subject-matter/learning-resource/new';
 }
 
 export function toCreateTopicArticle() {
-  return '/topic-article/new';
+  return '/subject-matter/topic-article/new';
 }
 
 export function toLogin() {
@@ -41,19 +41,19 @@ export function toLogoutFederated() {
 }
 
 export function toCreateAudioFile() {
-  return '/audio-upload/new';
+  return '/media/audio-upload/new';
 }
 
 export function toEditAudio(audioId) {
-  return `/audio-upload/${audioId}/edit`;
+  return `/media/audio-upload/${audioId}/edit`;
 }
 
 export function toCreateImage() {
-  return '/image-upload/new';
+  return '/media/image-upload/new';
 }
 
 export function toEditImage(imageId) {
-  return `/image-upload/${imageId}/edit`;
+  return `/media/image-upload/${imageId}/edit`;
 }
 
 export function toCreateAgreement() {

@@ -29,7 +29,7 @@ import SearchPage from '../SearchPage/SearchPage';
 import AgreementPage from '../AgreementPage/AgreementPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import ForbiddenPage from '../ForbiddenPage/ForbiddenPage';
-import SubjectmatterPage from './SubjectmatterPage';
+import SubjectMatterPage from './SubjectMatterPage';
 import MediaPage from './MediaPage';
 
 export class App extends React.Component {
@@ -63,7 +63,7 @@ export class App extends React.Component {
             <PrivateRoute path="/search" component={SearchPage} />
             <PrivateRoute
               path="/subject-matter"
-              component={SubjectmatterPage}
+              component={SubjectMatterPage}
             />
             <PrivateRoute path="/media" component={MediaPage} />
             <PrivateRoute path="/agreement" component={AgreementPage} />

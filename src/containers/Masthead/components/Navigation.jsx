@@ -28,12 +28,12 @@ import {
   toSearch,
 } from '../../../util/routeHelpers';
 
-const classes = new BEMHelper({
-  name: 'type-masthead',
+export const classes = new BEMHelper({
+  name: 'navigation',
   prefix: 'c-',
 });
 
-export class TypeMasthead extends Component {
+export class Navigation extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -80,7 +80,7 @@ export class TypeMasthead extends Component {
               {...classes('item')}
               onClick={this.toggleOpen}>
               <SubjectMatter className="c-icon--large" />
-              <span>{t('typeMasthead.subjectMatter')}</span>
+              <span>{t('subNavigation.subjectMatter')}</span>
             </Link>
             <a
               tabIndex="0"
@@ -89,32 +89,32 @@ export class TypeMasthead extends Component {
               {...classes('item')}
               onClick={this.toggleOpen}>
               <Learningpath className="c-icon--large" />
-              <span>{t('typeMasthead.learningPath')}</span>
+              <span>{t('subNavigation.learningPath')}</span>
             </a>
             <Link
               to={toCreateImage()}
               {...classes('item')}
               onClick={this.toggleOpen}>
               <Media className="c-icon--large" />
-              <span>{t('typeMasthead.media')}</span>
+              <span>{t('subNavigation.media')}</span>
             </Link>
             <Link
               to="/agreement/new"
               {...classes('item')}
               onClick={this.toggleOpen}>
               <Agreement className="c-icon--large" />
-              <span>{t('typeMasthead.agreement')}</span>
+              <span>{t('subNavigation.agreement')}</span>
             </Link>
             <Link to="#" {...classes('item')} onClick={this.toggleOpen}>
               <Taxonomy className="c-icon--large" />
-              <span>{t('typeMasthead.structure')}</span>
+              <span>{t('subNavigation.structure')}</span>
             </Link>
             <Link
               to={toSearch({ types: 'articles,images,audios' })}
               {...classes('item')}
               onClick={this.toggleOpen}>
               <DetailSearch className="c-icon--large" />
-              <span>{t('typeMasthead.detailSearch')}</span>
+              <span>{t('subNavigation.detailSearch')}</span>
             </Link>
           </div>
         </div>
@@ -132,14 +132,14 @@ export class TypeMasthead extends Component {
   }
 }
 
-TypeMasthead.propTypes = {
+Navigation.propTypes = {
   userName: PropTypes.string,
   authenticated: PropTypes.bool.isRequired,
 };
 
-TypeMasthead.defaultProps = {
+Navigation.defaultProps = {
   authenticated: false,
   userName: '',
 };
 
-export default withRouter(injectT(TypeMasthead));
+export default withRouter(injectT(Navigation));

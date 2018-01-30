@@ -25,7 +25,7 @@ const phrases = {
     emptySavedSearch: 'Ingen lagrede søk',
     guidelines: 'Retningslinjer',
   },
-  typeMasthead: {
+  subNavigation: {
     media: 'Media',
     learningPath: 'Læringssti',
     subjectMatter: 'Fagstoff',

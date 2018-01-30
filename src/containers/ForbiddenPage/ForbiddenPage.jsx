@@ -30,7 +30,7 @@ Status.propTypes = {
 
 const Forbidden = ({ t }) => (
   <Status code={403}>
-    <OneColumn cssModifier="narrow">
+    <OneColumn>
       <div>
         <h2>403 - {t('forbiddenPage.description')}</h2>
       </div>

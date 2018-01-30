@@ -12,16 +12,11 @@ import { injectT } from 'ndla-i18n';
 import { SavedSearch, LastUsed } from 'ndla-icons/editor';
 import BEMHelper from 'react-bem-helper';
 import { RightArrow } from 'ndla-icons/action';
-import config from '../../config';
 
 export const classes = new BEMHelper({
   name: 'welcome',
   prefix: 'c-',
 });
-
-const assets = config.isProduction
-  ? require('../../../htdocs/assets/assets') // eslint-disable-line import/no-unresolved
-  : require('../../../server/developmentAssets');
 
 export const WelcomePage = ({ t }) => (
   <OneColumn>
@@ -32,7 +27,7 @@ export const WelcomePage = ({ t }) => (
       </a>
       <img
         {...classes('header-image')}
-        src={`/assets/${assets['welcome-image.jpg']}`}
+        src={`/assets/${window.assets['welcome-image.jpg']}`}
         alt="illustration"
       />
     </div>

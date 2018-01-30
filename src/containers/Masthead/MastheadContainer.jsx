@@ -10,9 +10,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Masthead, MastheadItem, Logo } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
-import MastHeadSearch from './MastheadSearch';
+import MastheadSearch from './MastheadSearch';
 import SessionContainer from './components/SessionContainer';
-import TypeMasthead from './components/TypeMasthead';
+import Navigation from './components/Navigation';
 
 const classes = new BEMHelper({
   name: 'masthead',
@@ -28,10 +28,10 @@ const MastheadContainer = ({ t, authenticated, userName }) => (
   <Masthead>
     <div {...classes('container')}>
       <MastheadItem>
-        <TypeMasthead t={t} />
+        <Navigation t={t} />
       </MastheadItem>
       <MastheadItem>
-        <MastHeadSearch t={t} />
+        <MastheadSearch t={t} />
       </MastheadItem>
       <MastheadItem>
         <SessionContainer userName={userName} authenticated={authenticated} />

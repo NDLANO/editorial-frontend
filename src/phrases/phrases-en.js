@@ -24,7 +24,7 @@ const phrases = {
     emptySavedSearch: 'No saved searches',
     guidelines: 'Guidelines',
   },
-  typeMasthead: {
+  subNavigation: {
     media: 'Media',
     learningPath: 'Learningpath',
     subjectMatter: 'Subject matter',

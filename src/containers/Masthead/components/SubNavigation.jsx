@@ -1,35 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
-import { Link, withRouter } from 'react-router-dom';
-
-const classes = new BEMHelper({
-  name: 'type-masthead',
-  prefix: 'c-',
-});
+import { withRouter, NavLink } from 'react-router-dom';
+import { classes } from './Navigation';
 
 const colorType = {
   media: 'brand-color',
   'subject-matter': 'article-color',
 };
 
-const TypeMenu = ({ subtypes, activeSubtype, type }) => (
+const SubNavigation = ({ subtypes, type }) => (
   <div {...classes('container', colorType[type])}>
     <div {...classes('items')}>
       {subtypes.map(subtype => (
-        <Link
+        <NavLink
           key={`typemenu_${subtype.type}`}
           to={subtype.url}
-          {...classes('item', subtype.type === activeSubtype ? 'active' : '')}>
+          {...classes('item')}
+          activeClassName="c-navigation__item--active">
           {subtype.icon}
           <span>{subtype.title}</span>
-        </Link>
+        </NavLink>
       ))}
     </div>
   </div>
 );
 
-TypeMenu.propTypes = {
+SubNavigation.propTypes = {
   subtypes: PropTypes.arrayOf(
     PropTypes.shape({
       url: PropTypes.string.isRequired,
@@ -38,8 +34,7 @@ TypeMenu.propTypes = {
       icon: PropTypes.node.isRequired,
     }),
   ),
-  activeSubtype: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
 };
 
-export default withRouter(TypeMenu);
+export default withRouter(SubNavigation);

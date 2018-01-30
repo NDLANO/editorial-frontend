@@ -21,7 +21,7 @@ import {
   TextInBox,
   Table,
   ExpandableBox,
-  RelatertArtikkel,
+  RelatedArticle,
 } from 'ndla-icons/editor';
 import { Cross, Plus } from 'ndla-icons/action';
 import { Audio } from 'ndla-icons/common';
@@ -50,7 +50,7 @@ const actions = [
   { data: { type: 'embed', kind: 'h5p' }, icon: <H5P /> },
   {
     data: { type: 'embed', kind: 'related-content' },
-    icon: <RelatertArtikkel />,
+    icon: <RelatedArticle />,
   },
 ];
 

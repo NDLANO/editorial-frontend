@@ -38,6 +38,17 @@ const editorialFrontendDomain = () => {
   }
 };
 
+const learningpathFrontendDomain = () => {
+  switch (process.env.NDLA_ENVIRONMENT) {
+    case 'local':
+      return 'http://localhost:30017';
+    case 'prod':
+      return 'https://beta.sti.ndla.no';
+    default:
+      return `https://learningpath-frontend.${ndlaEnvironment}.api.ndla.no`;
+  }
+};
+
 const h5pApiUrl = () => {
   switch (process.env.NDLA_ENVIRONMENT) {
     case 'local':
@@ -59,6 +70,7 @@ module.exports = Object.assign(
     logglyApiKey: process.env.LOGGLY_API_KEY,
     ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
     editorialFrontendDomain: editorialFrontendDomain(),
+    learningpathFrontendDomain: learningpathFrontendDomain(),
     ndlaPersonalClientId: process.env.NDLA_PERSONAL_CLIENT_ID || '',
     auth0Domain: process.env.AUTH0_DOMAIN || '',
     brightCoveAccountId: process.env.BRIGHTCOVE_ACCOUNT_ID || '123456789',

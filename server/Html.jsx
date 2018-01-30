@@ -61,6 +61,11 @@ const Html = props => {
             __html: `window.config = ${serialize(config)}`,
           }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.assets = ${serialize(assets)}`,
+          }}
+        />
         <script src={`/assets/${assets['main.js']}`} />
       </body>
     </html>

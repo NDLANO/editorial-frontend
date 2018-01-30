@@ -50,7 +50,7 @@ test('imageSelectors getSaving', () => {
 });
 
 test('articleSelectors getImage with id', () => {
-  expect(getImage(1)(state).id).toBe('1');
-  expect(getImage(2)(state).id).toBe('2');
-  expect(getImage(3)(state).id).toBe('3');
+  expect(getImage(1)(state).id).toBe(1);
+  expect(getImage(2)(state).id).toBe(2);
+  expect(getImage(3)(state).id).toBe(3);
 });

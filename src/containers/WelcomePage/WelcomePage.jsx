@@ -8,72 +8,45 @@
 
 import React from 'react';
 import { OneColumn } from 'ndla-ui';
-import { Link } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
-import {
-  toCreateTopicArticle,
-  toCreateLearningResource,
-  toCreateAudioFile,
-  toCreateImage,
-  toSearch,
-  toCreateAgreement,
-} from '../../util/routeHelpers';
+import { SavedSearch, LastUsed } from 'ndla-icons/editor';
+import BEMHelper from 'react-bem-helper';
+import { RightArrow } from 'ndla-icons/action';
 
-const topicArticleQuery = {
-  articleTypes: 'topic-article',
-  types: ['articles'],
-  language: 'all',
-};
-const learningResourceQuery = {
-  articleTypes: 'standard',
-  types: ['articles'],
-  language: 'all',
-};
+export const classes = new BEMHelper({
+  name: 'welcome',
+  prefix: 'c-',
+});
 
 export const WelcomePage = ({ t }) => (
-  <OneColumn cssModifier="clear">
-    <article>
-      <section>
-        <h1>{t('welcomePage.shortcuts')}</h1>
-        <ul>
-          <li>
-            <Link to={`${toSearch(learningResourceQuery)}`}>
-              {t('welcomePage.searchLearningResource')}
-            </Link>
-          </li>
-          <li>
-            <Link to={`${toSearch(topicArticleQuery)}`}>
-              {t('welcomePage.searchTopicArticles')}
-            </Link>
-          </li>
-          <li>
-            <Link to={`${toCreateLearningResource()}`}>
-              {t('welcomePage.createLearningResource')}
-            </Link>
-          </li>
-          <li>
-            <Link to={`${toCreateTopicArticle()}`}>
-              {t('welcomePage.createTopicArticle')}
-            </Link>
-          </li>
-          <li>
-            <Link to={`${toCreateAudioFile()}`}>
-              {t('welcomePage.createAudioFile')}
-            </Link>
-          </li>
-          <li>
-            <Link to={`${toCreateImage()}`}>
-              {t('welcomePage.createImage')}
-            </Link>
-          </li>
-          <li>
-            <Link to={`${toCreateAgreement()}`}>
-              {t('welcomePage.createAgreement')}
-            </Link>
-          </li>
-        </ul>
-      </section>
-    </article>
+  <OneColumn>
+    <div {...classes('header')}>
+      <a href="#guidelines" {...classes('header-link')}>
+        {t('welcomePage.guidelines')}
+        <RightArrow className="c-icon--large" />
+      </a>
+      <img
+        {...classes('header-image')}
+        src={`/assets/${window.assets['welcome-image.jpg']}`}
+        alt="illustration"
+      />
+    </div>
+    <div {...classes('two-column')}>
+      <div>
+        <div {...classes('column-header')}>
+          <LastUsed className="c-icon--medium" />
+          <span>{t('welcomePage.lastUsed')}</span>
+        </div>
+        <span>{t('welcomePage.emptyLastUsed')}</span>
+      </div>
+      <div>
+        <div {...classes('column-header')}>
+          <SavedSearch className="c-icon--medium" />
+          <span>{t('welcomePage.savedSearch')}</span>
+        </div>
+        <span>{t('welcomePage.emptySavedSearch')}</span>
+      </div>
+    </div>
   </OneColumn>
 );
 

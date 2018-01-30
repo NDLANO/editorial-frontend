@@ -26,13 +26,11 @@ import Logout from '../Logout/Logout';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import WelcomePage from '../WelcomePage/WelcomePage';
 import SearchPage from '../SearchPage/SearchPage';
-import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
-import LearningResourcePage from '../LearningResourcePage/LearningResourcePage';
-import AudioUploaderPage from '../AudioUploader/AudioUploaderPage';
-import ImageUploaderPage from '../ImageUploader/ImageUploaderPage';
 import AgreementPage from '../AgreementPage/AgreementPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import ForbiddenPage from '../ForbiddenPage/ForbiddenPage';
+import SubjectMatterPage from './SubjectMatterPage';
+import MediaPage from './MediaPage';
 
 export class App extends React.Component {
   getChildContext() {
@@ -63,14 +61,12 @@ export class App extends React.Component {
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
             <PrivateRoute path="/search" component={SearchPage} />
-            <PrivateRoute path="/topic-article/" component={TopicArticlePage} />
             <PrivateRoute
-              path="/learning-resource"
-              component={LearningResourcePage}
+              path="/subject-matter"
+              component={SubjectMatterPage}
             />
+            <PrivateRoute path="/media" component={MediaPage} />
             <PrivateRoute path="/agreement" component={AgreementPage} />
-            <PrivateRoute path="/audio-upload" component={AudioUploaderPage} />
-            <PrivateRoute path="/image-upload" component={ImageUploaderPage} />
             <Route path="/forbidden" component={ForbiddenPage} />
             <Route component={NotFoundPage} />
           </Switch>

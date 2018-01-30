@@ -1,0 +1,51 @@
+.c-welcome {
+  &__header {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  &__header-image {
+    margin-top: -250px;
+  }
+
+  &__header-link {
+    color: white;
+    margin-left: var(--spacing--large);
+    font-size: 1.3rem;
+    display: inline;
+    position: absolute;
+    box-shadow: none;
+    align-self: center;
+
+    &:focus,
+    &:hover {
+      box-shadow: inset 0 -3px white, inset 0 -1px white;
+    }
+  }
+
+  &__two-column {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    width: 80%;
+    margin-top: var(--spacing--large);
+
+    & > div {
+      flex: 1;
+    }
+  }
+
+  &__column-header {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+
+    & > span {
+      text-transform: uppercase;
+      margin-left: var(--spacing--small);
+    }
+  }
+}

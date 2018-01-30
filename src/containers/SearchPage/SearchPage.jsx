@@ -95,7 +95,7 @@ class SearchPage extends Component {
     return (
       <div>
         <Hero />
-        <OneColumn cssModifier="narrow">
+        <OneColumn>
           <div {...searchClasses()}>
             <SearchTabs
               searchTypes={query.types}

@@ -73,7 +73,6 @@ class LearningResourceContent extends Component {
 
   addSection() {
     const { commonFieldProps: { bindInput } } = this.props;
-    console.log('adding section in blockPickerPlugin');
     const { value, onChange } = bindInput('content');
     const newblocks = [].concat(value);
     newblocks.push({ value: createEmptyValue(), index: value.length });

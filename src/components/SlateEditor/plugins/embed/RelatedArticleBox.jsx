@@ -12,22 +12,17 @@ import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import Types from 'slate-prop-types';
-import { Button, RelatedArticleList, RelatedArticle } from 'ndla-ui';
-import { get } from 'lodash';
-import { Cross } from 'ndla-icons/action';
-import {
-  searchArticles,
-  searchRelatedArticles,
-} from '../../../../modules/search/searchApi';
+import { RelatedArticleList, RelatedArticle } from 'ndla-ui';
+import get from 'lodash/fp/get';
+import { searchArticles } from '../../../../modules/article/articleApi';
 import { fetchArticleResource } from '../../../../modules/taxonomy/taxonomyApi';
-import AsyncDropdown from '../../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import Overlay from '../../../../components/Overlay';
 import { getLocale } from '../../../../modules/locale/locale';
 import { EditorShape } from '../../../../shapes';
 import { mapping } from '../utils/relatedArticleMapping';
+import EditRelated from './EditRelated';
 
 const classes = new BEMHelper({
-  name: 'relatedBox',
+  name: 'related-box',
   prefix: 'c-',
 });
 
@@ -105,76 +100,25 @@ class RelatedArticleBox extends React.Component {
   render() {
     const { attributes, onRemoveClick, locale } = this.props;
     const { editMode, items } = this.state;
+
     const resourceType = item =>
       item.resourceTypes
         ? item.resourceTypes.find(it => mapping(it.id))
         : { id: '' };
-    const relatedArticles = items.map(
-      (item, i) =>
-        !item.id ? (
-          'Invalid article'
-        ) : (
-          <div key={item.id} {...classes('article')}>
-            <RelatedArticle
-              {...mapping(resourceType(item).id)}
-              title={get(item, 'title.title')}
-              introduction={get(item, 'metaDescription.metaDescription')}
-              to={`/learning-resource/${item.id}/edit/${locale}`}
-            />
-            {editMode && (
-              <Button
-                stripped
-                onClick={e => this.removeArticle(i, e)}
-                {...classes('delete-button')}>
-                <Cross />
-              </Button>
-            )}
-          </div>
-        ),
-    );
+
     return this.state.editMode ? (
-      <div>
-        <Overlay onExit={() => this.setState({ editMode: false })} />
-        <div {...classes()}>
-          <RelatedArticleList messages={{ title: 'Relaterte arikler' }}>
-            {relatedArticles}
-            <div {...classes('article')}>
-              <AsyncDropdown
-                valueField="id"
-                name="relatedArticleSearch"
-                textField="title.title"
-                placeholder={'Søk på tittel'}
-                label={'label'}
-                apiAction={async inp => {
-                  const res = await searchRelatedArticles(
-                    inp,
-                    this.props.locale,
-                  );
-                  return res.filter(
-                    it =>
-                      this.state.items.map(curr => curr.id).indexOf(it.id) ===
-                      -1,
-                  );
-                }}
-                onClick={e => e.stopPropagation()}
-                messages={{
-                  emptyFilter: 'empty',
-                  emptyList: 'empty list',
-                }}
-                onChange={selected =>
-                  selected && this.onInsertBlock(selected.id)
-                }
-              />
-            </div>
-          </RelatedArticleList>
-          <Button
-            stripped
-            onClick={onRemoveClick}
-            {...classes('delete-button')}>
-            <Cross />
-          </Button>
-        </div>
-      </div>
+      <EditRelated
+        {...{
+          onRemoveClick,
+          removeArticle: this.removeArticle,
+          resourceType,
+          items,
+          editMode,
+          locale,
+          onInsertBlock: this.onInsertBlock,
+          onExit: () => this.setState({ editMode: false }),
+        }}
+      />
     ) : (
       <div
         role="button"
@@ -185,7 +129,21 @@ class RelatedArticleBox extends React.Component {
         }}
         {...attributes}>
         <RelatedArticleList messages={{ title: 'Relaterte arikler' }}>
-          {relatedArticles}
+          {items.map(
+            item =>
+              !item.id ? (
+                'Invalid article'
+              ) : (
+                <div key={item.id} {...classes('article')}>
+                  <RelatedArticle
+                    {...mapping(resourceType(item).id)}
+                    title={get('title.title', item)}
+                    introduction={get('metaDescription.metaDescription', item)}
+                    to={`/learning-resource/${item.id}/edit/${locale}`}
+                  />
+                </div>
+              ),
+          )}
         </RelatedArticleList>
       </div>
     );

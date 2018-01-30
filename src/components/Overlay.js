@@ -9,13 +9,7 @@ const Overlay = ({ onExit }) => {
   });
 
   return (
-    <div onClick={onExit} role="button" tabIndex={0} {...overlayClasses('')}>
-      <div
-        ref={node => {
-          this.inner = node;
-        }}
-      />
-    </div>
+    <div onClick={onExit} role="button" tabIndex={0} {...overlayClasses('')} />
   );
 };
 

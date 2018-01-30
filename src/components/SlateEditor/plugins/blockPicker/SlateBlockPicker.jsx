@@ -91,9 +91,9 @@ class SlateBlockPicker extends Component {
     onChange(nextChange);
   }
 
-  onElementAdd(action) {
+  onElementAdd(block) {
     const { editorValue, onChange, addSection } = this.props;
-    switch (action.type) {
+    switch (block.type) {
       case 'block': {
         addSection();
         break;
@@ -112,12 +112,12 @@ class SlateBlockPicker extends Component {
         break;
       }
       case 'aside': {
-        this.onInsertBlock(defaultAsideBlock(action.kind));
+        this.onInsertBlock(defaultAsideBlock(block.kind));
         break;
       }
       case 'embed': {
         this.setState({
-          embedSelect: { isOpen: true, embedType: action.kind },
+          embedSelect: { isOpen: true, embedType: block.kind },
         });
         break;
       }

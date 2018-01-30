@@ -1,5 +1,5 @@
 .c-bodybox__delete-button,
-.c-relatedBox__delete-button,
+.c-related-box__delete-button,
 .c-editor__delete-button,
 .c-details__delete-button {
   position: absolute;
@@ -25,7 +25,7 @@ details {
   position: relative;
 }
 
-.c-relatedBox {
+.c-related-box {
   position: relative;
   border: 1px solid #3892a7;
   margin: -1em -7em;
@@ -150,7 +150,7 @@ details {
   }
 }
 
-.c-relatedBox__article {
+.c-related-box__article {
   position: relative;
   flex: 1 0 50%;
   max-width: 600px;

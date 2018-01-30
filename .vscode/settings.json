@@ -18,8 +18,5 @@
   "search.exclude": {
     "**/node_modules": true,
     "**/htdocs": true
-  },
-  "editor.fontFamily": "Fira Code",
-  "editor.fontLigatures": true,
-  "vscode_custom_css.imports": ["file:///Users/torgeir/Downloads/styles.css"]
+  }
 }

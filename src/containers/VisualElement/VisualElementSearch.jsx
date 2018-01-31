@@ -48,18 +48,8 @@ const VisualElementSearch = ({
                 resource_id: image.id,
                 size: 'fullbredde',
                 align: '',
-                alt: convertFieldWithFallback(
-                  image.alttext,
-                  'alttext',
-                  image.alttext.alttext,
-                  locale,
-                ),
-                caption: convertFieldWithFallback(
-                  image.caption,
-                  'caption',
-                  image.caption.caption,
-                  locale,
-                ),
+                alt: convertFieldWithFallback(image, 'alttext', ''),
+                caption: convertFieldWithFallback(image, 'caption', ''),
                 metaData: image,
               })
             }

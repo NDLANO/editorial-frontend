@@ -302,6 +302,8 @@ const phrases = {
       placeholder: 'Add filter',
       emptyList: 'No filters available',
       emptyFilter: 'No matching filters found',
+      core: 'Core',
+      supplementary: 'Supplementary',
       setRelevance: 'Set relevance',
     },
     topics: {
@@ -309,6 +311,7 @@ const phrases = {
       placeholder: 'Add topic',
       emptyList: 'No topics available',
       emptyFilter: 'No matching topics found',
+      primaryTopic: 'Primary topic',
       setPrimaryTopic: 'Set as primary topic',
     },
     metaDescription: {

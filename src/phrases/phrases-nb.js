@@ -318,6 +318,8 @@ const phrases = {
       placeholder: 'Legg til filter',
       emptyFilter: 'Fant ingen passende filter',
       emptyList: 'Det er ingen filter i denne listen',
+      core: 'Kjernestoff',
+      supplementary: 'Tilleggsstoff',
       setRelevance: 'Velg relevans',
     },
     topics: {
@@ -325,6 +327,7 @@ const phrases = {
       placeholder: 'Legg til emnetilknytning',
       emptyFilter: 'Fant ingen passende emnetilknytninger',
       emptyList: 'Det er ingen emnetilknytning i denne listen',
+      primaryTopic: 'Primærkobling',
       setPrimaryTopic: 'Velg som primærkoblet emne',
     },
     metaDescription: {

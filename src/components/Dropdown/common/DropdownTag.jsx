@@ -11,19 +11,14 @@ import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
 import BEMHelper from 'react-bem-helper';
+import { injectT } from 'ndla-i18n';
 import ToolTip from '../../ToolTip';
 import { dropDownClasses } from './dropDownClasses';
-
-const RESOURCE_FILTER_CORE = {
-  id: 'urn:relevance:core',
-  name: 'Kjernestoff',
-};
-const RESOURCE_FILTER_SUPPLEMENTARY = {
-  id: 'urn:relevance:supplementary',
-  name: 'Tilleggsstoff',
-};
-
-const RESOURCE_TOPICS_PRIMARY = { name: 'Primærkobling' };
+import {
+  RESOURCE_FILTER_CORE,
+  RESOURCE_FILTER_SUPPLEMENTARY,
+  RESOURCE_TOPICS_PRIMARY,
+} from '../../../constants';
 
 const classes = new BEMHelper({
   name: 'tag',
@@ -46,25 +41,39 @@ class DropdownTag extends Component {
   }
 
   componentWillMount() {
-    const { name, tag } = this.props;
+    const { t, name, tag } = this.props;
 
     if (name === 'filter') {
-      if (tag.relevanceId === RESOURCE_FILTER_CORE.id) {
-        this.setState({
-          tagProperty: RESOURCE_FILTER_CORE,
-        });
-      } else if (tag.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY.id) {
-        this.setState({
-          tagProperty: RESOURCE_FILTER_SUPPLEMENTARY,
-        });
+      switch (tag.relevanceId) {
+        case RESOURCE_FILTER_CORE.id:
+          this.setState({
+            tagProperty: {
+              ...RESOURCE_FILTER_CORE,
+              name: t(RESOURCE_FILTER_CORE.name),
+            },
+          });
+          break;
+        case RESOURCE_FILTER_SUPPLEMENTARY.id:
+          this.setState({
+            tagProperty: {
+              ...RESOURCE_FILTER_SUPPLEMENTARY,
+              name: t(RESOURCE_FILTER_SUPPLEMENTARY.name),
+            },
+          });
+          break;
+        default:
+          break;
       }
     }
     if (name === 'topics') {
-      if (tag.primary) {
-        this.setState({
-          tagProperty: RESOURCE_TOPICS_PRIMARY,
-        });
-      }
+      this.setState({
+        tagProperty: tag.primary
+          ? {
+              ...RESOURCE_TOPICS_PRIMARY,
+              name: t(RESOURCE_TOPICS_PRIMARY.name),
+            }
+          : {},
+      });
     }
   }
 
@@ -75,7 +84,10 @@ class DropdownTag extends Component {
     if (nextProps.tag.primary !== this.props.tag.primary) {
       if (nextProps.tag.primary) {
         this.setState({
-          tagProperty: RESOURCE_TOPICS_PRIMARY,
+          tagProperty: {
+            ...RESOURCE_TOPICS_PRIMARY,
+            name: this.props.t(RESOURCE_TOPICS_PRIMARY.name),
+          },
           isHighlighted: false,
         });
       }
@@ -212,4 +224,4 @@ DropdownTag.propTypes = {
   messages: PropTypes.shape({}),
 };
 
-export { RESOURCE_FILTER_CORE, RESOURCE_TOPICS_PRIMARY, DropdownTag };
+export default injectT(DropdownTag);

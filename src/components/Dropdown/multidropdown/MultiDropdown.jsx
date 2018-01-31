@@ -14,9 +14,9 @@ import {
   DropdownInput,
   DropdownAction,
   dropDownClasses,
-  RESOURCE_FILTER_CORE,
 } from '../common';
 import { itemToString } from '../../../util/downShiftHelpers';
+import { RESOURCE_FILTER_CORE } from '../../../constants';
 
 class MultiDropdown extends PureComponent {
   constructor(props) {

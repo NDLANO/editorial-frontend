@@ -78,14 +78,15 @@ class EditLearningResource extends Component {
           item => item.resourceid === resource[0].id,
         );
 
-        const topics = [];
-        topicResource.forEach(async item => {
-          const topicArticle = await fetchTopicArticle(
-            item.topicid,
-            articleLanguage,
-          );
-          topics.push({ ...topicArticle, primary: item.primary });
-        });
+        const topics = await Promise.all(
+          topicResource.map(async item => {
+            const topicArticle = await fetchTopicArticle(
+              item.topicid,
+              articleLanguage,
+            );
+            return { ...topicArticle, primary: item.primary };
+          }),
+        );
 
         this.setState({
           taxonomy: { resourceTypes, filter, topics },

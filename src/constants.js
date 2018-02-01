@@ -6,19 +6,14 @@
  *
  */
 
-const RESOURCE_FILTER_CORE = {
-  id: 'urn:relevance:core',
-  name: 'form.filter.core',
-};
-const RESOURCE_FILTER_SUPPLEMENTARY = {
-  id: 'urn:relevance:supplementary',
-  name: 'form.filter.supplementary',
-};
-
-const RESOURCE_TOPICS_PRIMARY = { name: 'form.topics.primaryTopic' };
-
-export {
-  RESOURCE_FILTER_CORE,
-  RESOURCE_FILTER_SUPPLEMENTARY,
-  RESOURCE_TOPICS_PRIMARY,
-};
+export const RESOURCE_TYPE_LEARNING_PATH = 'urn:resourcetype:learningPath';
+export const RESOURCE_TYPE_SUBJECT_MATERIAL =
+  'urn:resourcetype:subjectMaterial';
+export const RESOURCE_TYPE_TASKS_AND_ACTIVITIES =
+  'urn:resourcetype:tasksAndActivities';
+export const RESOURCE_TYPE_ASSESSMENT_RESOURCES =
+  'urn:resourcetype:reviewResource';
+export const RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES =
+  'urn:resourcetype:externalResource';
+export const RESOURCE_TYPE_SOURCE_MATERIAL = 'urn:resourcetype:SourceMaterial';
+export const RESOURCE_TYPE_CONCEPT = 'urn:resourcetype:concept';

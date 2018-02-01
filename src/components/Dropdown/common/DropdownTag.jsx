@@ -97,21 +97,14 @@ class DropdownTag extends Component {
   }
 
   handleSetTagProperty(e) {
-    const { handlePopupClick, tagProperties } = this.props;
+    const { handlePopupClick, tagProperties, tag } = this.props;
     const { value } = e.target;
 
-    let newTag;
-    tagProperties.forEach(item => {
-      if (item.id === value) {
-        this.setState({ tagProperty: item });
-        newTag = {
-          ...this.state.tag,
-          relevanceId: item.id,
-        };
-      }
-    });
-
-    handlePopupClick(newTag);
+    const item = tagProperties.find(it => it.id === value);
+    if (item) {
+      this.setState({ tagProperty: item });
+      handlePopupClick({ ...tag, relevanceId: item.id });
+    }
   }
 
   toggleHighligth() {

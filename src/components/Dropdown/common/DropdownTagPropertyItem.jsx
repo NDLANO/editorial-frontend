@@ -17,6 +17,7 @@ const DropdownTagPropertyItem = ({
 }) => (
   <label
     {...tagClasses('radio', 'label')}
+    id="tag-input-label"
     htmlFor={tagProperty.name.toLowerCase()}>
     <input
       type="radio"

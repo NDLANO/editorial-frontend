@@ -1,4 +1,3 @@
-
 .c-dropdown {
   width: 100%;
   position: relative;
@@ -57,7 +56,7 @@
     flex-direction: row;
     align-items: center;
     height: 1.9rem;
-    width: fit-content;
+    width: auto;
     border-radius: 0.1rem;
     background-color: var(--brand-grey-dark);
     color: white;
@@ -102,7 +101,6 @@
     position: relative;
     display: flex;
     flex-flow: wrap;
-    font-size: 1rem !important;
     outline: none;
 
     &--description {
@@ -118,11 +116,15 @@
       cursor: pointer;
     }
 
-    & input[type=radio] {
+    & input[type='radio'] {
       line-height: normal;
       margin: 4px 0 0;
       position: absolute;
       margin-left: -25px;
+    }
+
+    & label[id='tag-input-label'] {
+      font-size: 1rem;
     }
   }
 }

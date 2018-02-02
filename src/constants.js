@@ -17,3 +17,6 @@ export const RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES =
   'urn:resourcetype:externalResource';
 export const RESOURCE_TYPE_SOURCE_MATERIAL = 'urn:resourcetype:SourceMaterial';
 export const RESOURCE_TYPE_CONCEPT = 'urn:resourcetype:concept';
+
+// Filters
+export const RESOURCE_FILTER_CORE = 'urn:relevance:core';

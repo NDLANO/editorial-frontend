@@ -129,7 +129,7 @@ class MultiDropdown extends PureComponent {
     if (id === 'filter') {
       newItem = {
         ...selectedItem,
-        relevanceId: selectedItem.relevanceId || RESOURCE_FILTER_CORE.id,
+        relevanceId: selectedItem.relevanceId || RESOURCE_FILTER_CORE,
       };
     }
     this.setState({

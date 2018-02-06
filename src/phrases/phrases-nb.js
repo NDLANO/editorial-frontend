@@ -17,6 +17,7 @@ const phrases = {
     nn: 'Nynorsk',
     unknown: 'Ukjent',
     de: 'Tysk',
+    empty: 'Ingen flere språk',
   },
   welcomePage: {
     lastUsed: 'Sist brukt',

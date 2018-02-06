@@ -54,7 +54,7 @@ class FormLanguage extends Component {
               </li>
             ))
           ) : (
-            <li {...classes('item')}>Ingen flere språk</li>
+            <li {...classes('item')}>{t('language.empty')}</li>
           )}
         </ul>
       </div>

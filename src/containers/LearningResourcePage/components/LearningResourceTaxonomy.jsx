@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { MultiSelectDropdown } from '../../../components/Fields';
+import { TaxonomyFieldDropdown } from '../../../components/Fields';
 import { CommonFieldPropsShape, TaxonomyShape } from '../../../shapes';
 import Accordion from '../../../components/Accordion';
 import {
@@ -72,6 +72,7 @@ class LearningResourceTaxonomy extends Component {
       obligatory: true,
       textField: 'name',
       valueField: 'id',
+      ...commonFieldProps
     };
 
     return (
@@ -80,7 +81,7 @@ class LearningResourceTaxonomy extends Component {
         header={t('form.taxonomytSection')}
         hidden={this.state.hiddenContent}
         fill>
-        <MultiSelectDropdown
+        <TaxonomyFieldDropdown
           name="resourceTypes"
           placeholder={t('form.resourceTypes.placeholder')}
           label={t('form.resourceTypes.label')}
@@ -90,9 +91,9 @@ class LearningResourceTaxonomy extends Component {
             emptyFilter: t('form.resourceTypes.emptyFilter'),
             emptyList: t('form.resourceTypes.emptyList'),
           }}
-          {...{ ...defaultDropdownProps, ...commonFieldProps }}
+          {...defaultDropdownProps}
         />
-        <MultiSelectDropdown
+        <TaxonomyFieldDropdown
           name="filter"
           placeholder={t('form.filter.placeholder')}
           items={taxonomy.filters}
@@ -104,9 +105,9 @@ class LearningResourceTaxonomy extends Component {
             emptyFilter: t('form.filter.emptyFilter'),
             emptyList: t('form.filter.emptyList'),
           }}
-          {...{ ...defaultDropdownProps, ...commonFieldProps }}
+          {...defaultDropdownProps}
         />
-        <MultiSelectDropdown
+        <TaxonomyFieldDropdown
           name="topics"
           placeholder={t('form.topics.placeholder')}
           items={taxonomy.topics}
@@ -117,7 +118,7 @@ class LearningResourceTaxonomy extends Component {
             emptyFilter: t('form.topics.emptyFilter'),
             emptyList: t('form.topics.emptyList'),
           }}
-          {...{ ...defaultDropdownProps, ...commonFieldProps }}
+          {...defaultDropdownProps}
         />
       </Accordion>
     );

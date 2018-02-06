@@ -16,7 +16,7 @@ import { isEmpty } from './validators';
 import PlainTextEditor from '../components/SlateEditor/PlainTextEditor';
 import DateTimeInput from '../components/DateTime/DateTimeInput';
 import ObjectSelector from './ObjectSelector';
-import { AsyncDropdown, MultiDropdown } from './Dropdown';
+import { AsyncDropdown, TaxonomyDropdown } from './Dropdown';
 
 export const classes = new BEMHelper({
   name: 'field',
@@ -437,7 +437,7 @@ SelectObjectField.propTypes = {
   labelKey: PropTypes.string.isRequired,
 };
 
-export const MultiSelectDropdown = ({
+export const TaxonomyFieldDropdown = ({
   bindInput,
   name,
   obligatory,
@@ -456,7 +456,7 @@ export const MultiSelectDropdown = ({
           {description}
         </FieldDescription>
       )}
-      <MultiDropdown
+      <TaxonomyDropdown
         name={name}
         id={name}
         selectedItems={value}
@@ -475,7 +475,7 @@ export const MultiSelectDropdown = ({
     </Field>
   );
 };
-MultiSelectDropdown.propTypes = {
+TaxonomyFieldDropdown.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   obligatory: PropTypes.bool,

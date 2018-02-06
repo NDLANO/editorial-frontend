@@ -7,7 +7,7 @@ before_install:
 script:
 - yarn test
 - yarn build
-after_script:
+after_success:
 - travis_wait yarn ndla-scripts now-travis
 cache:
   yarn: true

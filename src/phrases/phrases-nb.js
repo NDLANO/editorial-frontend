@@ -213,7 +213,7 @@ const phrases = {
     metadataSection: 'Metadata',
     contentSection: 'Innhold',
     workflowSection: 'Arbeidsflyt',
-    taxonomytSection: 'Takstonomi',
+    taxonomytSection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
     abort: 'Avbryt',

@@ -9,12 +9,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
-import {
-  DropdownMenu,
-  DropdownInput,
-  DropdownAction,
-  dropDownClasses,
-} from '../common';
+import { DropdownMenu, DropdownAction, dropDownClasses } from '../common';
+import { TaxonomyDropdownInput } from './';
 import { itemToString } from '../../../util/downShiftHelpers';
 import { RESOURCE_FILTER_CORE } from '../../../constants';
 
@@ -210,9 +206,8 @@ class MultiDropdown extends PureComponent {
         isOpen={isOpen}
         render={downshiftProps => (
           <div {...dropDownClasses()}>
-            <DropdownInput
+            <TaxonomyDropdownInput
               name={name}
-              multiSelect
               messages={messages}
               tagProps={tagProps}
               onRemoveItem={this.removeItem}

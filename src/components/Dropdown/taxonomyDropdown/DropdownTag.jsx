@@ -10,16 +10,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
-import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
-import DropdownTagPropertyItem from './DropdownTagPropertyItem';
+import { DropdownTagPropertyItem, tagClasses } from './';
 import ToolTip from '../../ToolTip';
-import { dropDownClasses } from './dropDownClasses';
-
-export const tagClasses = new BEMHelper({
-  name: 'tag',
-  prefix: 'c-',
-});
+import { dropDownClasses } from '../common/dropDownClasses';
 
 class DropdownTag extends Component {
   constructor(props) {
@@ -38,15 +32,8 @@ class DropdownTag extends Component {
 
   componentWillMount() {
     const { t, name, tag } = this.props;
-
-    if (name === 'topics') {
-      this.setState({
-        tagProperty: tag.primary
-          ? {
-              name: t('form.topics.primaryTopic'),
-            }
-          : {},
-      });
+    if (name === 'topics' && tag.primary) {
+      this.setState({ tagProperty: { name: t('form.topics.primaryTopic') } });
     }
   }
 
@@ -56,32 +43,27 @@ class DropdownTag extends Component {
     if (nextProps.tag !== tag) {
       this.setState({ tag: nextProps.tag });
     }
-    if (nextProps.tagProperties !== tagProperties) {
-      if (name === 'filter') {
-        this.setState({
-          tagProperty: {
-            id: tag.relevanceId,
-            name: nextProps.tagProperties.find(
-              item => item.id === tag.relevanceId,
-            ).name,
-          },
-        });
-      }
+    if (nextProps.tagProperties !== tagProperties && name === 'filter') {
+      this.setState({
+        tagProperty: {
+          id: tag.relevanceId,
+          name: nextProps.tagProperties.find(
+            item => item.id === tag.relevanceId,
+          ).name,
+        },
+      });
     }
-    if (nextProps.tag.primary !== tag.primary) {
-      if (nextProps.tag.primary) {
-        this.setState({
-          tagProperty: { name: t('form.topics.primaryTopic') },
-          isHighlighted: false,
-        });
-      }
+    if (nextProps.tag.primary !== tag.primary && nextProps.tag.primary) {
+      this.setState({
+        tagProperty: { name: t('form.topics.primaryTopic') },
+        isHighlighted: false,
+      });
     }
   }
 
   onClick() {
     const { tag } = this.state;
     const { name } = this.props;
-
     if (name === 'topics' && !tag.primary) {
       this.toggleHighligth();
     }

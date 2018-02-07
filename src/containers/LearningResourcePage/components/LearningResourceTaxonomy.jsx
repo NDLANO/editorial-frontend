@@ -72,7 +72,7 @@ class LearningResourceTaxonomy extends Component {
       obligatory: true,
       textField: 'name',
       valueField: 'id',
-      ...commonFieldProps
+      ...commonFieldProps,
     };
 
     return (

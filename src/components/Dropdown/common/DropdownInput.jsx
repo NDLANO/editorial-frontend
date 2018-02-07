@@ -9,70 +9,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import AutosizeInput from 'react-input-autosize';
-import { DropdownTag } from '../common';
-import ToolTip from '../../ToolTip';
-import { dropDownClasses } from './dropDownClasses';
+
+const autosizeStyle = {
+  border: 'none',
+  outline: 'none',
+  cursor: 'inherit',
+  backgroundColor: 'transparent',
+  fontSize: '18px',
+};
 
 const DropdownInput = props => {
-  const {
-    multiSelect,
-    onRemoveItem,
-    onWrapperClick,
-    inputWrapperRef,
-    inputProps,
-    tagProps,
-    name,
-    getInputProps,
-    selectedItem,
-    messages,
-  } = props;
+  const { multiSelect, inputProps, name, getInputProps } = props;
   if (multiSelect) {
-    const { handlePopupClick } = tagProps;
     return (
-      // eslint-disable-next-line
-      <div
-        ref={inputWrapperRef}
-        onClick={onWrapperClick}
-        {...dropDownClasses('multiselect')}
-        tabIndex="-1">
-        {selectedItem.map(
-          (tag, index) =>
-            name === 'topics' ? (
-              <ToolTip
-                key={`${name}-tooptip-${tag.id}`}
-                name={name}
-                onPopupClick={() => handlePopupClick({ ...tag, primary: true })}
-                noPopup={tag.primary}
-                messages={{ ariaLabel: 'tooltip' }}
-                content={messages.toolTipDescription}>
-                <DropdownTag
-                  key={`${name}-tag-${tag.id}`}
-                  onRemoveItem={onRemoveItem}
-                  {...{ messages, tag, name, index, ...tagProps }}
-                />
-              </ToolTip>
-            ) : (
-              <DropdownTag
-                key={`${name}-tag-${tag.id}`}
-                onRemoveItem={onRemoveItem}
-                {...{ messages, tag, name, index, ...tagProps }}
-              />
-            ),
-        )}
-
-        <AutosizeInput
-          key={name}
-          {...getInputProps({ name, ...inputProps })}
-          placeholderIsMinWidth
-          inputStyle={{
-            border: 'none',
-            outline: 'none',
-            cursor: 'inherit',
-            backgroundColor: 'transparent',
-            fontSize: '18px',
-          }}
-        />
-      </div>
+      <AutosizeInput
+        key={name}
+        placeholderIsMinWidth
+        inputStyle={autosizeStyle}
+        {...getInputProps({ name, ...inputProps })}
+      />
     );
   }
   return <input {...getInputProps({ name, ...inputProps })} />;
@@ -82,12 +37,7 @@ DropdownInput.propTypes = {
   ...Downshift.propTypes,
   multiSelect: PropTypes.bool,
   getInputProps: PropTypes.func,
-  onRemoveItem: PropTypes.func,
-  onWrapperClick: PropTypes.func,
-  inputWrapperRef: PropTypes.func,
-  selectedItem: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   name: PropTypes.string,
-  placeholder: PropTypes.string,
   inputProps: PropTypes.shape({
     value: PropTypes.string,
     ref: PropTypes.func,
@@ -95,14 +45,6 @@ DropdownInput.propTypes = {
     onKeyDown: PropTypes.func,
     onFocus: PropTypes.func,
   }),
-  tagProps: PropTypes.shape({
-    handlePopupClick: PropTypes.func.isRequired,
-  }),
-  messages: PropTypes.shape({}),
-};
-
-DropdownInput.defaultProps = {
-  placeholder: 'Type',
 };
 
 export default DropdownInput;

@@ -27,6 +27,8 @@ details {
 
 .c-related-box {
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
   border: 1px solid #3892a7;
   padding: 1em 3em;
   z-index: 2;

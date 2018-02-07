@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import { Button, RelatedArticleList, RelatedArticle } from 'ndla-ui';
+import { Button, RelatedArticle } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
 import get from 'lodash/fp/get';
 import { searchRelatedArticles } from '../../../../modules/article/articleApi';
@@ -34,50 +34,49 @@ const EditRelated = ({
   <div>
     <Overlay onExit={onExit} />
     <div {...classes()}>
-      <RelatedArticleList messages={{ title: 'Relaterte arikler' }}>
-        {items.map(
-          (item, i) =>
-            !item.id ? (
-              'Invalid article'
-            ) : (
-              <div key={item.id} {...classes('article')}>
-                <RelatedArticle
-                  {...mapping(resourceType(item).id)}
-                  title={get('title.title', item)}
-                  introduction={get('metaDescription.metaDescription', item)}
-                  to={`/learning-resource/${item.id}/edit/${locale}`}
-                />
-                <Button
-                  stripped
-                  onClick={e => removeArticle(i, e)}
-                  {...classes('delete-button')}>
-                  <Cross />
-                </Button>
-              </div>
-            ),
-        )}
-        <div {...classes('article')}>
-          <AsyncDropdown
-            valueField="id"
-            name="relatedArticleSearch"
-            textField="title.title"
-            placeholder={'Søk på tittel'}
-            label={'label'}
-            apiAction={async inp => {
-              const res = await searchRelatedArticles(inp, locale);
-              return res.filter(
-                it => items.map(curr => curr.id).indexOf(it.id) === -1,
-              );
-            }}
-            onClick={e => e.stopPropagation()}
-            messages={{
-              emptyFilter: 'empty',
-              emptyList: 'empty list',
-            }}
-            onChange={selected => selected && onInsertBlock(selected.id)}
-          />
-        </div>
-      </RelatedArticleList>
+      {items.map(
+        (item, i) =>
+          !item.id ? (
+            'Invalid article'
+          ) : (
+            <div key={item.id} {...classes('article')}>
+              <RelatedArticle
+                {...mapping(resourceType(item).id)}
+                title={get('title.title', item)}
+                introduction={get('metaDescription.metaDescription', item)}
+                to={`/learning-resource/${item.id}/edit/${locale}`}
+              />
+              <Button
+                stripped
+                onClick={e => removeArticle(i, e)}
+                {...classes('delete-button')}>
+                <Cross />
+              </Button>
+            </div>
+          ),
+      )}
+      <div {...classes('article')}>
+        {' '}
+        <AsyncDropdown
+          valueField="id"
+          name="relatedArticleSearch"
+          textField="title.title"
+          placeholder={'Søk på tittel'}
+          label={'label'}
+          apiAction={async inp => {
+            const res = await searchRelatedArticles(inp, locale);
+            return res.filter(
+              it => items.map(curr => curr.id).indexOf(it.id) === -1,
+            );
+          }}
+          onClick={e => e.stopPropagation()}
+          messages={{
+            emptyFilter: 'empty',
+            emptyList: 'empty list',
+          }}
+          onChange={selected => selected && onInsertBlock(selected.id)}
+        />
+      </div>
       <Button stripped onClick={onRemoveClick} {...classes('delete-button')}>
         <Cross />
       </Button>

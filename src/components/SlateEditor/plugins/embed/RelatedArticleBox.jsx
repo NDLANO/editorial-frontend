@@ -8,11 +8,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import Types from 'slate-prop-types';
 import { RelatedArticleList, RelatedArticle } from 'ndla-ui';
+import { toggleRelatedArticles } from 'ndla-article-scripts';
 import get from 'lodash/fp/get';
 import { searchArticles } from '../../../../modules/article/articleApi';
 import { fetchArticleResource } from '../../../../modules/taxonomy/taxonomyApi';
@@ -20,11 +20,6 @@ import { getLocale } from '../../../../modules/locale/locale';
 import { EditorShape } from '../../../../shapes';
 import { mapping } from '../utils/relatedArticleMapping';
 import EditRelated from './EditRelated';
-
-const classes = new BEMHelper({
-  name: 'related-box',
-  prefix: 'c-',
-});
 
 const nodeProps = ids => ({
   data: {
@@ -47,11 +42,13 @@ class RelatedArticleBox extends React.Component {
     const { embed } = this.props;
     if (embed['article-ids']) {
       embed['article-ids'].split(',').map(it => this.fetchRelated(it));
-    } else if (embed.relatedArticle) {
-      this.fetchRelated(embed.relatedArticle);
+    }
+  }
 
-      // then add id to article-ids
-      this.updateNodeAttributes(embed.relatedArticle);
+  componentDidUpdate() {
+    // need to re-add eventhandler on button
+    if (!this.state.editMode && this.state.items.length > 2) {
+      toggleRelatedArticles();
     }
   }
 
@@ -98,7 +95,7 @@ class RelatedArticleBox extends React.Component {
   }
 
   render() {
-    const { attributes, onRemoveClick, locale } = this.props;
+    const { attributes, onRemoveClick, locale, t } = this.props;
     const { editMode, items } = this.state;
 
     const resourceType = item =>
@@ -128,20 +125,24 @@ class RelatedArticleBox extends React.Component {
           this.setState({ editMode: true });
         }}
         {...attributes}>
-        <RelatedArticleList messages={{ title: 'Relaterte arikler' }}>
+        <RelatedArticleList
+          messages={{
+            title: t('form.related.title'),
+            showMore: t('form.related.showMore'),
+            showLess: t('form.related.showLess'),
+          }}>
           {items.map(
             item =>
               !item.id ? (
                 'Invalid article'
               ) : (
-                <div key={item.id} {...classes('article')}>
-                  <RelatedArticle
-                    {...mapping(resourceType(item).id)}
-                    title={get('title.title', item)}
-                    introduction={get('metaDescription.metaDescription', item)}
-                    to={`/learning-resource/${item.id}/edit/${locale}`}
-                  />
-                </div>
+                <RelatedArticle
+                  {...mapping(resourceType(item).id)}
+                  title={get('title.title', item)}
+                  key={item.id}
+                  introduction={get('metaDescription.metaDescription', item)}
+                  to={`/learning-resource/${item.id}/edit/${locale}`}
+                />
               ),
           )}
         </RelatedArticleList>

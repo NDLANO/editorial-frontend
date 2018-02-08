@@ -19,11 +19,11 @@ test('audioSagas watchUpdateAudio create new audio', () => {
 
   return expectSaga(sagas.watchUpdateAudio)
     .withState({})
-    .put(actions.setAudio({ id: '123', title: 'unit test' }))
+    .put(actions.setAudio({ id: '123', title: 'unit test', language: 'nb' }))
     .put(actions.updateAudioSuccess())
     .dispatch(
       actions.updateAudio({
-        audio: { title: 'update title test' },
+        audio: { title: 'update title test', language: 'nb' },
         history: { push: () => {} },
       }),
     )
@@ -41,16 +41,17 @@ test('audioSagas watchFetchAudio fetch audio if not in state', () => {
       actions.setAudio({
         id: 123,
         title: { title: 'unit test', langauge: 'nb' },
+        language: 'nb',
       }),
     )
-    .dispatch(actions.fetchAudio({ id: 123, locale: 'nb' }))
+    .dispatch(actions.fetchAudio({ id: 123, language: 'nb' }))
     .run({ silenceTimeout: true });
 });
 
 test('audioSagas watchFetchAudio do not refetch existing audio ', () =>
   expectSaga(sagas.watchFetchAudio)
-    .withState({ audios: { all: { 123: { id: 123 } } } })
-    .dispatch(actions.fetchAudio({ id: 123, locale: 'nb' }))
+    .withState({ audios: { all: { 123: { id: 123, language: 'nb' } } } })
+    .dispatch(actions.fetchAudio({ id: 123, language: 'nb' }))
     .run({ silenceTimeout: true }));
 
 test('audioSagas watchUpdateAudio update audio', () => {
@@ -67,12 +68,17 @@ test('audioSagas watchUpdateAudio update audio', () => {
       actions.setAudio({
         id: 123,
         title: { title: 'unit test updated', language: 'en' },
+        language: 'en',
       }),
     )
     .put(actions.updateAudioSuccess())
     .dispatch(
       actions.updateAudio({
-        audio: { id: 123, title: { title: 'unit test', language: 'nb' } },
+        audio: {
+          id: 123,
+          title: { title: 'unit test', language: 'en' },
+          language: 'en',
+        },
       }),
     )
     .run({ silenceTimeout: true });

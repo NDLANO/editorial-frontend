@@ -12,24 +12,10 @@ import * as api from './draftApi';
 import { toEditArticle } from '../../util/routeHelpers';
 import * as messageActions from '../../containers/Messages/messagesActions';
 
-export function* fetchDraft(id, language = 'nb') {
+export function* fetchDraft(id, language) {
   try {
-    const tempDraft = yield call(api.fetchDraft, id);
-    if (tempDraft.supportedLanguages.includes(language)) {
-      const draft = yield call(api.fetchDraft, id, language);
-      yield put(actions.setDraft({ ...draft, language }));
-    } else {
-      yield put(
-        actions.setDraft({
-          id: tempDraft.id,
-          language,
-          copyright: tempDraft.copyright,
-          articleType: tempDraft.articleType,
-          revision: tempDraft.revision,
-          supportedLanguages: tempDraft.supportedLanguages,
-        }),
-      );
-    }
+    const draft = yield call(api.fetchDraft, id, language);
+    yield put(actions.setDraft({ ...draft, language }));
   } catch (error) {
     // TODO: handle error
     console.error(error); //eslint-disable-line
@@ -62,7 +48,7 @@ export function* updateDraft(draft) {
 export function* createDraft(draft, history) {
   try {
     const createdDraft = yield call(api.createDraft, draft);
-    yield put(actions.setDraft(createdDraft));
+    yield put(actions.setDraft({ ...createdDraft, language: draft.language }));
     history.push(
       toEditArticle(createdDraft.id, createdDraft.articleType, draft.language),
     );

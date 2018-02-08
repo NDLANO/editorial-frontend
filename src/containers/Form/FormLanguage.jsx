@@ -12,14 +12,13 @@ import { Button } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
-import { toEditArticle } from '../../util/routeHelpers';
 
 const classes = new BEMHelper({
   name: 'dropdown-menu',
   prefix: 'c-',
 });
 
-class ArticleLanguage extends Component {
+class FormLanguage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,37 +34,41 @@ class ArticleLanguage extends Component {
   }
 
   render() {
-    const { languages, modelId, articleType, t } = this.props;
+    const { emptyLanguages, editUrl, t } = this.props;
+
     return (
       <div {...classes()}>
         <Button stripped onClick={this.onDisplayToggle}>
           {t('form.variant.create')}
         </Button>
         <ul {...classes('items', this.state.display ? 'show' : '')}>
-          {languages.map(language => (
-            <li key={language.key} {...classes('item')}>
-              <Link
-                to={toEditArticle(modelId, articleType, language.key)}
-                {...classes('link')}
-                onClick={this.onDisplayToggle}>
-                {`${language.title}(${language.key})`}
-              </Link>
-            </li>
-          ))}
+          {emptyLanguages.length > 0 ? (
+            emptyLanguages.map(language => (
+              <li key={language.key} {...classes('item')}>
+                <Link
+                  to={editUrl(language.key)}
+                  {...classes('link')}
+                  onClick={this.onDisplayToggle}>
+                  {`${language.title}(${language.key})`}
+                </Link>
+              </li>
+            ))
+          ) : (
+            <li {...classes('item')}>{t('language.empty')}</li>
+          )}
         </ul>
       </div>
     );
   }
 }
-ArticleLanguage.propTypes = {
-  languages: PropTypes.arrayOf(
+FormLanguage.propTypes = {
+  emptyLanguages: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  modelId: PropTypes.number.isRequired,
-  articleType: PropTypes.string.isRequired,
+  editUrl: PropTypes.func.isRequired,
 };
 
-export default injectT(ArticleLanguage);
+export default injectT(FormLanguage);

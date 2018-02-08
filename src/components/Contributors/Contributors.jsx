@@ -61,7 +61,9 @@ const Contributors = props => {
 
   const contributorTypeItems = contributorGroups[name].map(item => ({
     type: item,
-    translation: contributorTypes[locale][item],
+    translation: contributorTypes[locale]
+      ? contributorTypes[locale][item]
+      : contributorTypes.nb[item],
   }));
 
   return (

@@ -44,16 +44,16 @@ export function toCreateAudioFile() {
   return '/media/audio-upload/new';
 }
 
-export function toEditAudio(audioId) {
-  return `/media/audio-upload/${audioId}/edit`;
+export function toEditAudio(audioId, language) {
+  return `/media/audio-upload/${audioId}/edit/${language}`;
 }
 
 export function toCreateImage() {
   return '/media/image-upload/new';
 }
 
-export function toEditImage(imageId) {
-  return `/media/image-upload/${imageId}/edit`;
+export function toEditImage(imageId, language) {
+  return `/media/image-upload/${imageId}/edit/${language}`;
 }
 
 export function toCreateAgreement() {

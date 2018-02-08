@@ -15,6 +15,9 @@ const phrases = {
     en: 'Engelsk',
     nb: 'Bokmål',
     nn: 'Nynorsk',
+    unknown: 'Ukjent',
+    de: 'Tysk',
+    empty: 'Ingen flere språk',
   },
   welcomePage: {
     lastUsed: 'Sist brukt',
@@ -126,10 +129,7 @@ const phrases = {
     info: {
       lastUpdated: 'Sist oppdatert: {updated}',
     },
-    title: {
-      create: 'Du oppretter nå en emnebeskrivelse på {title}({key})',
-      update: 'Du redigerer nå en emnebeskrivelse på {title}({key})',
-    },
+    title: 'Emnebeskrivelse | {title} ({key})',
     fields: {
       caption: {
         label: {
@@ -166,10 +166,7 @@ const phrases = {
     },
   },
   audioForm: {
-    title: {
-      create: 'Du oppretter nå en lyd fil',
-      update: 'Du redigerer nå en lyd fil',
-    },
+    title: 'Lyd | {title} ({key})',
   },
   imageEditor: {
     remove: {
@@ -178,10 +175,7 @@ const phrases = {
     },
   },
   imageForm: {
-    title: {
-      create: 'Du oppretter nå et bilde',
-      update: 'Du redigerer nå et bilde',
-    },
+    title: 'Bilde | {title} ({key})',
   },
   learningResourceForm: {
     metaImage: {
@@ -189,10 +183,7 @@ const phrases = {
       copyright: 'Opphav',
       change: 'Bytt metabilde',
     },
-    title: {
-      create: 'Du oppretter nå en læringsressurs på {title}({key})',
-      update: 'Du redigerer nå en læringsressurs på {title}({key})',
-    },
+    title: 'Fagstoff | {title} ({key})',
     validation: {
       missingEmbedData:
         'En eller flere inkluderte lyd, bilde, eller video elementer mangler beskrivende tekst eller alternativ tekst.',
@@ -224,7 +215,7 @@ const phrases = {
     validationOk: 'Ingen validerings feil funnet',
     createdOk: 'Opprettet OK',
     variant: {
-      create: 'Lag variant +',
+      create: '+ Nytt språk',
     },
     remainingCharacters:
       'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',

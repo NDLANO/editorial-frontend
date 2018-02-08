@@ -21,7 +21,10 @@ class DropdownTag extends Component {
     this.state = {
       tag: props.tag,
       isHighlighted: false,
-      tagProperty: props.name === 'filter' ? {id: "urn:relevance:core", name: props.t("form.filter.core")} : {},
+      tagProperty:
+        props.name === 'filter'
+          ? { id: 'urn:relevance:core', name: props.t('form.filter.core') }
+          : {},
     };
     this.onRemove = this.onRemove.bind(this);
     this.onClick = this.onClick.bind(this);

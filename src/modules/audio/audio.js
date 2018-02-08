@@ -9,7 +9,7 @@
 import { handleActions, createAction } from 'redux-actions';
 
 import { createSelector } from 'reselect';
-import { getLocale } from '../locale/locale';
+import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 
 export const fetchAudio = createAction('FETCH_AUDIO');
 export const setAudio = createAction('SET_AUDIO');
@@ -72,19 +72,24 @@ export const getAudioById = audioId =>
     audios => audios.all[audioId.toString()],
   );
 
-export const getAudio = audioId =>
-  createSelector(
-    [getAudioById(audioId), getLocale],
-    (audio, language) =>
-      audio
-        ? {
-            ...audio,
-            title: audio.title.title,
-            tags: audio.tags.tags,
-            language,
-          }
-        : undefined,
-  );
+export const getAudio = (audioId, useLanguage = false) =>
+  createSelector([getAudioById(audioId)], audio => {
+    const audioLanguage =
+      audio &&
+      useLanguage &&
+      audio.supportedLanguages &&
+      audio.supportedLanguages.includes(audio.language)
+        ? audio.language
+        : undefined;
+
+    return audio
+      ? {
+          ...audio,
+          title: convertFieldWithFallback(audio, 'title', '', audioLanguage),
+          tags: convertFieldWithFallback(audio, 'tags', [], audioLanguage),
+        }
+      : undefined;
+  });
 
 export const getSaving = createSelector(
   [getAudiosFromState],

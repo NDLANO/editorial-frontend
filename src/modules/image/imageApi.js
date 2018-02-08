@@ -20,8 +20,8 @@ export const postImage = formData =>
     body: formData,
   }).then(resolveJsonOrRejectWithError);
 
-export const fetchImage = (id, locale) =>
-  fetchAuthorized(`${baseUrl}/${id}?language=${locale}`).then(
+export const fetchImage = (id, language) =>
+  fetchAuthorized(`${baseUrl}/${id}?language=${language}`).then(
     resolveJsonOrRejectWithError,
   );
 

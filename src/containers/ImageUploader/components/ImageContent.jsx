@@ -78,7 +78,7 @@ ImageContent.propTypes = {
   classes: PropTypes.func.isRequired,
   bindInput: PropTypes.func.isRequired,
   model: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
   }),
 };
 

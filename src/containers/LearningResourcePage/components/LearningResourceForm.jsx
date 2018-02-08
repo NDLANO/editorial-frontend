@@ -27,16 +27,21 @@ import { SchemaShape, LicensesArrayOf } from '../../../shapes';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
-import { FormWorkflow, FormCopyright, formClasses } from '../../Form';
+import {
+  FormWorkflow,
+  FormCopyright,
+  FormHeader,
+  formClasses,
+} from '../../Form';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
-import LearningResourceTaxonomy from './LearningResourceTaxonomy';
-import ArticleHeader from '../../Article/ArticleHeader';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
+import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
   processorsWithDefault,
 } from '../../../util/formHelper';
+import { toEditArticle } from '../../../util/routeHelpers';
 
 const findFootnotes = content =>
   content
@@ -82,6 +87,7 @@ export const getInitialModel = (
       : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
     metaImageId,
+    supportedLanguages: article.supportedLanguages || [],
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
     language: article.language,
     articleType: 'standard',
@@ -168,7 +174,11 @@ class LearningResourceForm extends Component {
     const commonFieldProps = { bindInput, schema, submitted };
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
-        <ArticleHeader model={model} />
+        <FormHeader
+          model={model}
+          type={model.articleType}
+          editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
+        />
         <LearningResourceMetadata
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
@@ -227,12 +237,12 @@ LearningResourceForm.propTypes = {
     id: PropTypes.number,
     language: PropTypes.string,
   }),
+  setModel: PropTypes.func.isRequired,
   schema: SchemaShape,
   licenses: LicensesArrayOf,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
-  setModel: PropTypes.func.isRequired,
   revision: PropTypes.number,
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,

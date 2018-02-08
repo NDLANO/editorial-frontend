@@ -51,11 +51,12 @@ class ImageUploaderPage extends Component {
             )}
           />
           <Route
-            path={`${match.url}/:imageId/edit`}
+            path={`${match.url}/:imageId/edit/:imageLanguage`}
             render={props => (
               <EditImage
                 imageId={props.match.params.imageId}
                 history={history}
+                imageLanguage={props.match.params.imageLanguage}
                 locale={locale}
                 tags={tags}
                 licenses={licenses}

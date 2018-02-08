@@ -8,16 +8,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import { withRouter } from 'react-router-dom';
 import AudioForm, { getInitialModel } from './components/AudioForm';
 import { actions, getAudio } from '../../modules/audio/audio';
 import { AudioShape } from '../../shapes';
 
 class EditAudio extends Component {
   componentWillMount() {
-    const { audioId: id, fetchAudio, locale } = this.props;
-    fetchAudio({ id, locale });
+    const { audioId: id, fetchAudio, audioLanguage } = this.props;
+    fetchAudio({ id, language: audioLanguage });
   }
+
+  componentWillReceiveProps(nextProps) {
+    const { audioId: id, fetchAudio, audioLanguage, audio } = nextProps;
+
+    if (
+      (audio && audio.language !== audioLanguage) ||
+      id !== this.props.audioId
+    ) {
+      fetchAudio({ id, language: audioLanguage });
+    }
+  }
+
   render() {
     const {
       locale,
@@ -65,6 +77,7 @@ EditAudio.propTypes = {
   locale: PropTypes.string.isRequired,
   updateAudio: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  audioLanguage: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = {
@@ -72,12 +85,14 @@ const mapDispatchToProps = {
   updateAudio: actions.updateAudio,
 };
 
-const makeMapStateToProps = (_, props) => {
+const mapStateToProps = (state, props) => {
   const { audioId } = props;
-  const getAudioSelector = getAudio(audioId);
-  return state => ({
+  const getAudioSelector = getAudio(audioId, true);
+  return {
     audio: getAudioSelector(state),
-  });
+  };
 };
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(EditAudio);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(EditAudio),
+);

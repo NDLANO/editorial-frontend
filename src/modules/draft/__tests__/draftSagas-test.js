@@ -29,34 +29,6 @@ test('articleSagas watchFetchDraft fetch article if not in state and language is
     .run({ silenceTimeout: true });
 });
 
-test('articleSagas watchFetchDraft fetch article if not in state and language is not supported', () => {
-  nock('http://ndla-api')
-    .get('/draft-api/v1/drafts/123')
-    .reply(200, {
-      id: 123,
-      title: 'unit test',
-      supportedLanguages: ['en'],
-      copyright: [],
-      revision: 3,
-      articleType: 'standard',
-    });
-
-  return expectSaga(sagas.watchFetchDraft)
-    .withState({ drafts: { all: {} } })
-    .put(
-      actions.setDraft({
-        id: 123,
-        language: 'nb',
-        articleType: 'standard',
-        copyright: [],
-        revision: 3,
-        supportedLanguages: ['en'],
-      }),
-    )
-    .dispatch(actions.fetchDraft({ id: 123 }))
-    .run({ silenceTimeout: true });
-});
-
 test('articleSagas watchFetchDraft do not refetch existing article ', () =>
   expectSaga(sagas.watchFetchDraft)
     .withState({ drafts: { all: { 123: { id: '123', language: 'nb' } } } })
@@ -70,11 +42,11 @@ test('articleSagas watchUpdateDraft create new article', () => {
 
   return expectSaga(sagas.watchUpdateDraft)
     .withState({})
-    .put(actions.setDraft({ id: '123', title: 'unit test' }))
+    .put(actions.setDraft({ id: '123', title: 'unit test', language: 'nb' }))
     .put(actions.updateDraftSuccess())
     .dispatch(
       actions.updateDraft({
-        draft: { title: 'unit test' },
+        draft: { title: 'unit test', language: 'nb' },
         history: { push: () => {} },
       }),
     )

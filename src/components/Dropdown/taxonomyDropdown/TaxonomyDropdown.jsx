@@ -126,9 +126,9 @@ class TaxonomyDropdown extends PureComponent {
         ...selectedItem,
         relevanceId: selectedItem.relevanceId || RESOURCE_FILTER_CORE,
       };
-      console.log(newItem)
+      console.log(newItem);
     }
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       selectedItems: [...prevState.selectedItems, newItem || selectedItem],
     }));
     this.props.onChange([...selectedItems, newItem || selectedItem]);

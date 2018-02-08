@@ -40,9 +40,9 @@ class EditLearningResource extends Component {
 
   async componentWillMount() {
     const { articleId, fetchDraft, articleLanguage, fetchTags } = this.props;
-    await this.fetchTaxonony(articleId, articleLanguage);
     fetchDraft({ id: articleId, language: articleLanguage });
     fetchTags({ language: articleLanguage });
+    await this.fetchTaxonony(articleId, articleLanguage);
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -57,9 +57,9 @@ class EditLearningResource extends Component {
       (article && article.language !== articleLanguage) ||
       articleId !== this.props.articleId
     ) {
-      await this.fetchTaxonony(articleId, articleLanguage);
       fetchDraft({ id: articleId, language: articleLanguage });
       fetchTags({ language: articleLanguage });
+      await this.fetchTaxonony(articleId, articleLanguage);
     }
   }
 

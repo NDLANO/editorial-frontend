@@ -18,11 +18,10 @@ import { dropDownClasses } from '../common/dropDownClasses';
 class DropdownTag extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       tag: props.tag,
       isHighlighted: false,
-      tagProperty: {},
+      tagProperty: props.name === 'filter' ? {id: "urn:relevance:core", name: props.t("form.filter.core")} : {},
     };
     this.onRemove = this.onRemove.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -43,6 +42,7 @@ class DropdownTag extends Component {
     if (nextProps.tag !== tag) {
       this.setState({ tag: nextProps.tag });
     }
+    // if (name === 'filter') console.log("HEEERRRO", nextProps.tagProperties, tagProperties)
     if (nextProps.tagProperties !== tagProperties && name === 'filter') {
       this.setState({
         tagProperty: {
@@ -82,10 +82,10 @@ class DropdownTag extends Component {
     const { handlePopupClick, tagProperties, tag } = this.props;
     const { value } = e.target;
 
-    const item = tagProperties.find(it => it.id === value);
-    if (item) {
-      this.setState({ tagProperty: item });
-      handlePopupClick({ ...tag, relevanceId: item.id });
+    const tagProperty = tagProperties.find(tagProp => tagProp.id === value);
+    if (tagProperty) {
+      this.setState({ tagProperty });
+      handlePopupClick({ ...tag, relevanceId: tagProperty.id });
     }
   }
 
@@ -150,7 +150,8 @@ class DropdownTag extends Component {
     } else if (tagProperty && name === 'filter') {
       tagItem = filterItem;
     }
-
+    /* if (name === 'filter')
+      console.log(tagProperty, name, tagItem) */
     return (
       // eslint-disable-next-line
       <div

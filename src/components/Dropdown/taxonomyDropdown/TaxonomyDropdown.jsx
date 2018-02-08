@@ -14,7 +14,7 @@ import { TaxonomyDropdownInput } from './';
 import { itemToString } from '../../../util/downShiftHelpers';
 import { RESOURCE_FILTER_CORE } from '../../../constants';
 
-class MultiDropdown extends PureComponent {
+class TaxonomyDropdown extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,7 +55,6 @@ class MultiDropdown extends PureComponent {
 
   handlePopupClick(selectedItem) {
     const { selectedItems } = this.state;
-
     const copy = [...selectedItems];
 
     // Unset current primary item
@@ -127,10 +126,11 @@ class MultiDropdown extends PureComponent {
         ...selectedItem,
         relevanceId: selectedItem.relevanceId || RESOURCE_FILTER_CORE,
       };
+      console.log(newItem)
     }
-    this.setState({
-      selectedItems: [...selectedItems, newItem || selectedItem],
-    });
+    this.setState((prevState) => ({
+      selectedItems: [...prevState.selectedItems, newItem || selectedItem],
+    }));
     this.props.onChange([...selectedItems, newItem || selectedItem]);
   }
 
@@ -236,7 +236,7 @@ class MultiDropdown extends PureComponent {
   }
 }
 
-MultiDropdown.propTypes = {
+TaxonomyDropdown.propTypes = {
   onChange: PropTypes.func,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
@@ -251,4 +251,4 @@ MultiDropdown.propTypes = {
   tagProperties: PropTypes.arrayOf(PropTypes.shape({})), // TODO: Add tag property shape(s)
 };
 
-export default MultiDropdown;
+export default TaxonomyDropdown;

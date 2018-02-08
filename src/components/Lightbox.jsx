@@ -35,10 +35,11 @@ export default class Lightbox extends React.Component {
   }
 
   render() {
-    const { children, big, width, fullscreen } = this.props;
+    const { children, big, width, fullscreen, modal } = this.props;
     const modifiers = {
       big,
       fullscreen,
+      modal,
     };
 
     const style = width ? { maxWidth: width } : undefined;
@@ -64,6 +65,7 @@ Lightbox.propTypes = {
   display: PropTypes.bool,
   big: PropTypes.bool,
   fullscreen: PropTypes.bool,
+  modal: PropTypes.bool,
   width: PropTypes.string,
 };
 

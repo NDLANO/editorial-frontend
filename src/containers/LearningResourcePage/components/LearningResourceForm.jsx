@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
+import WarningModal from '../../../components/WarningModal';
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -94,7 +95,21 @@ export const getInitialModel = (article = {}) => {
 class LearningResourceForm extends Component {
   constructor(props) {
     super(props);
+    this.state = { openModal: false, discardChanges: false };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.isDirty = this.isDirty.bind(this);
+  }
+
+  componentDidMount() {
+    this.unblock = this.props.history.block(nextLocation => {
+      if (this.isDirty() && !this.state.discardChanges) {
+        this.setState({
+          openModal: true,
+          nextLocation,
+        });
+      }
+      return !this.isDirty() || this.state.discardChanges;
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -105,6 +120,15 @@ class LearningResourceForm extends Component {
     ) {
       setModel(initialModel);
     }
+  }
+
+  componentWillUnmount() {
+    this.unblock();
+  }
+
+  isDirty() {
+    const { fields } = this.props;
+    return Object.keys(fields).some(field => fields[field].dirty);
   }
 
   handleSubmit(evt) {
@@ -200,6 +224,27 @@ class LearningResourceForm extends Component {
             {t('form.save')}
           </Button>
         </Field>
+        {this.state.openModal && (
+          <WarningModal
+            text="Dokumentet er ikke lagret, ønsker du å lagre?"
+            onSave={e => {
+              this.handleSubmit(e);
+              if (schema.isValid) {
+                this.setState({ discardChanges: true }, () =>
+                  this.props.history.push(this.state.nextLocation.pathname),
+                );
+              } else {
+                this.setState({ openModal: false });
+              }
+            }}
+            onContinue={() => {
+              this.setState({ discardChanges: true }, () =>
+                this.props.history.push(this.state.nextLocation.pathname),
+              );
+            }}
+            onCancel={() => this.setState({ openModal: false })}
+          />
+        )}
       </form>
     );
   }
@@ -216,6 +261,7 @@ LearningResourceForm.propTypes = {
     language: PropTypes.string,
   }),
   setModel: PropTypes.func.isRequired,
+  fields: PropTypes.objectOf(PropTypes.object).isRequired,
   schema: SchemaShape,
   licenses: LicensesArrayOf,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,

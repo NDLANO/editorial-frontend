@@ -16,6 +16,7 @@ import { searchRelatedArticles } from '../../../../modules/article/articleApi';
 import AsyncDropdown from '../../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import Overlay from '../../../../components/Overlay';
 import { mapping } from '../utils/relatedArticleMapping';
+import { toEditArticle } from '../../../../util/routeHelpers';
 
 const classes = new BEMHelper({
   name: 'related-box',
@@ -44,7 +45,7 @@ const EditRelated = ({
                 {...mapping(resourceType(item).id)}
                 title={get('title.title', item)}
                 introduction={get('metaDescription.metaDescription', item)}
-                to={`/learning-resource/${item.id}/edit/${locale}`}
+                to={toEditArticle(item.id, 'standard', locale)}
               />
               <Button
                 stripped

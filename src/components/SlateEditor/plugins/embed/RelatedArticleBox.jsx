@@ -20,6 +20,7 @@ import { getLocale } from '../../../../modules/locale/locale';
 import { EditorShape } from '../../../../shapes';
 import { mapping } from '../utils/relatedArticleMapping';
 import EditRelated from './EditRelated';
+import { toEditArticle } from '../../../../util/routeHelpers';
 
 const nodeProps = ids => ({
   data: {
@@ -141,7 +142,7 @@ class RelatedArticleBox extends React.Component {
                   title={get('title.title', item)}
                   key={item.id}
                   introduction={get('metaDescription.metaDescription', item)}
-                  to={`/learning-resource/${item.id}/edit/${locale}`}
+                  to={toEditArticle(item.id, 'standard', 'locale')}
                 />
               ),
           )}

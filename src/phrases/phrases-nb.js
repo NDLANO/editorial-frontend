@@ -356,6 +356,11 @@ const phrases = {
         placeholder: 'Lydtekst',
       },
     },
+    related: {
+      title: 'Relaterte arikler',
+      showMore: 'Vis flere relaterte artikler',
+      showLess: 'Vis mindre',
+    },
   },
   validation: {
     isRequired: '{label} er påkrevd.',

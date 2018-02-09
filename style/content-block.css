@@ -1,5 +1,5 @@
-
 .c-bodybox__delete-button,
+.c-related-box__delete-button,
 .c-editor__delete-button,
 .c-details__delete-button {
   position: absolute;
@@ -23,6 +23,19 @@ details {
 
 .c-bodybox {
   position: relative;
+}
+
+.c-related-box {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid var(--article-color);
+  padding: var(--spacing) var(--spacing--large);
+  z-index: 2;
+
+  @media (--large-viewport) {
+    margin: -1em -7em;
+  }
 }
 
 .c-editor__aside-type + .c-aside__content {
@@ -135,4 +148,10 @@ details {
     direction: ltr;
     margin-left: 3.2em;
   }
+}
+
+.c-related-box__article {
+  position: relative;
+  flex: 1 0 50%;
+  max-width: 600px;
 }

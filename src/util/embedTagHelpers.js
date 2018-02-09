@@ -18,6 +18,7 @@ export const reduceElementDataAttributes = el => {
   );
   return obj;
 };
+
 export const createEmbedProps = obj =>
   Object.keys(obj)
     .filter(key => obj[key] !== undefined && !isObject(obj[key]))

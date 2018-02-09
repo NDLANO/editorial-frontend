@@ -391,6 +391,7 @@ const phrases = {
   warningModal: {
     notSaved: 'Document is not saved, do you want to continue?',
     continue: 'Continue',
+    delete: 'Delete',
   },
 };
 

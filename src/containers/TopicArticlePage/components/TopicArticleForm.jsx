@@ -35,6 +35,7 @@ import {
   FormCopyright,
   FormHeader,
   formClasses,
+  WarningModalWrapper,
 } from '../../Form';
 import { toEditArticle } from '../../../util/routeHelpers';
 
@@ -124,6 +125,7 @@ class TopicArticleForm extends Component {
       tags,
       isSaving,
       articleStatus,
+      fields,
       licenses,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
@@ -168,6 +170,14 @@ class TopicArticleForm extends Component {
             {t('form.save')}
           </Button>
         </Field>
+        <WarningModalWrapper
+          {...{
+            schema,
+            fields,
+            handleSubmit: this.handleSubmit,
+            text: t('warningModal.notSaved'),
+          }}
+        />
       </form>
     );
   }
@@ -184,6 +194,7 @@ TopicArticleForm.propTypes = {
   }),
   setModel: PropTypes.func.isRequired,
   schema: SchemaShape,
+  fields: PropTypes.objectOf(PropTypes.object).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,

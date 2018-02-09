@@ -156,7 +156,6 @@ class LearningResourceForm extends Component {
       isSaving,
       articleStatus,
       fields,
-      history,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
@@ -208,7 +207,6 @@ class LearningResourceForm extends Component {
           {...{
             schema,
             fields,
-            history,
             handleSubmit: this.handleSubmit,
             text: t('warningModal.notSaved'),
           }}
@@ -240,10 +238,6 @@ LearningResourceForm.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
   articleStatus: PropTypes.arrayOf(PropTypes.string),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-    block: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 export default compose(

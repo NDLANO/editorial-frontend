@@ -396,6 +396,7 @@ const phrases = {
   warningModal: {
     notSaved: 'Dokumentet er ikke lagret, ønsker du å lagre?',
     continue: 'Fortsett',
+    delete: 'Slett',
   },
 };
 

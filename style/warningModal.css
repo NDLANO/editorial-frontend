@@ -1,7 +1,7 @@
 .c-warning-modal {
   color: white;
   height: 100%;
-  padding-top: 1rem;
+  padding-top: var(--spacing);
 
   &__buttons {
     height: 100%;
@@ -10,10 +10,8 @@
     align-items: flex-end;
 
     & > button {
-      height: 38px;
-      width: 110px;
-      border-radius: 4px;
       background-color: white;
+      margin-left: 0;
     }
   }
 }

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import WarningModal from '../../components/WarningModal';
 import { SchemaShape } from '../../shapes';
 
@@ -74,4 +75,4 @@ WarningModalWrapper.propTypes = {
   text: PropTypes.string,
 };
 
-export default WarningModalWrapper;
+export default withRouter(WarningModalWrapper);

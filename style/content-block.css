@@ -29,17 +29,12 @@ details {
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  border: 1px solid #3892a7;
-  padding: 1em 3em;
+  border: 1px solid var(--article-color);
+  padding: var(--spacing) var(--spacing--large);
   z-index: 2;
 
   @media (--large-viewport) {
     margin: -1em -7em;
-  }
-
-  h2 {
-    margin-top: 31px;
-    margin-left: 63px;
   }
 }
 

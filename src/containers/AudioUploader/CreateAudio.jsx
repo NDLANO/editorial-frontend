@@ -21,7 +21,7 @@ const CreateAudio = ({
   isSaving,
 }) => (
   <AudioForm
-    initialModel={getInitialModel()}
+    initialModel={getInitialModel({ language: locale })}
     tags={tags}
     licenses={licenses}
     locale={locale}

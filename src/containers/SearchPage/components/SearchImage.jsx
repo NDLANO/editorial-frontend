@@ -7,15 +7,16 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { toEditImage } from '../../../util/routeHelpers';
 import { ImageResultShape } from '../../../shapes';
 import { searchClasses } from '../SearchPage';
 
-const SearchImage = ({ image }) => (
+const SearchImage = ({ image, locale }) => (
   <div {...searchClasses('result')}>
     <div {...searchClasses('content')}>
-      <Link to={toEditImage(image.id)}>
+      <Link to={toEditImage(image.id, locale)}>
         <h1 {...searchClasses('title')}>{image.title}</h1>
       </Link>
     </div>
@@ -27,6 +28,7 @@ const SearchImage = ({ image }) => (
 
 SearchImage.propTypes = {
   image: ImageResultShape.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 export default SearchImage;

@@ -19,11 +19,11 @@ test('imageSagas watchUpdateImage create new image', () => {
 
   return expectSaga(sagas.watchUpdateImage)
     .withState({})
-    .put(actions.setImage({ id: '123', title: 'unit test' }))
+    .put(actions.setImage({ id: '123', title: 'unit test', language: 'nb' }))
     .put(actions.updateImageSuccess())
     .dispatch(
       actions.updateImage({
-        image: { title: 'update title test' },
+        image: { title: 'update title test', language: 'nb' },
         history: { push: () => {} },
       }),
     )
@@ -32,23 +32,24 @@ test('imageSagas watchUpdateImage create new image', () => {
 
 test('imageSagas watchFetchImage fetch image if not in state', () => {
   nock('http://ndla-api')
-    .get('/image-api/v2/images/123?language=nb')
-    .reply(200, { id: 123, title: { title: 'unit test', langauge: 'nb' } });
+    .get('/image-api/v2/images/124?language=nb')
+    .reply(200, { id: 124, title: { title: 'unit test', langauge: 'nb' } });
 
   return expectSaga(sagas.watchFetchImage)
     .withState({ images: { all: {} } })
     .put(
       actions.setImage({
-        id: 123,
+        id: 124,
         title: { title: 'unit test', langauge: 'nb' },
+        language: 'nb',
       }),
     )
-    .dispatch(actions.fetchImage({ id: 123, locale: 'nb' }))
+    .dispatch(actions.fetchImage({ id: 124, language: 'nb' }))
     .run({ silenceTimeout: true });
 });
 
 test('imageSagas watchFetchImage do not refetch existing image ', () =>
   expectSaga(sagas.watchFetchImage)
-    .withState({ images: { all: { 123: { id: 123 } } } })
-    .dispatch(actions.fetchImage({ id: 123, locale: 'nb' }))
+    .withState({ images: { all: { 126: { id: 126, language: 'nb' } } } })
+    .dispatch(actions.fetchImage({ id: 126, language: 'nb' }))
     .run({ silenceTimeout: true }));

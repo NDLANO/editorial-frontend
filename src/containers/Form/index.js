@@ -11,6 +11,7 @@ import AgreementConnection from './AgreementConnection';
 import formClasses from './formClasses';
 import FormWorkflow from './FormWorkflow';
 import FormCopyright from './FormCopyright';
+import FormHeader from './FormHeader';
 
 export {
   AddNotes,
@@ -18,4 +19,5 @@ export {
   formClasses,
   FormWorkflow,
   FormCopyright,
+  FormHeader,
 };

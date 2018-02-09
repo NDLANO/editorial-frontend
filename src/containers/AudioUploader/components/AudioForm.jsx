@@ -11,8 +11,6 @@ import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { SquareAudio } from 'ndla-icons/editor';
-
 import BEMHelper from 'react-bem-helper';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
@@ -23,14 +21,16 @@ import {
   processorsWithDefault,
 } from '../../../util/formHelper';
 import { SchemaShape } from '../../../shapes';
-
+import { FormHeader } from '../../Form';
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
+import { toEditAudio } from '../../../util/routeHelpers';
 
 export const getInitialModel = (audio = {}) => ({
   id: audio.id,
   revision: audio.revision,
   language: audio.language,
+  supportedLanguages: audio.supportedLanguages || [],
   title: audio.title || '',
   audioFile: audio.audioFile,
   filepath: '',
@@ -57,13 +57,22 @@ class AudioForm extends Component {
     this.state = { title: '', tags: [], license: '', audio: {} };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { initialModel, setModel } = nextProps;
+    if (
+      initialModel.id !== this.props.initialModel.id ||
+      initialModel.language !== this.props.initialModel.language
+    ) {
+      setModel(initialModel);
+    }
+  }
+
   handleSubmit(event) {
     event.preventDefault();
 
     const {
       model,
       schema,
-      locale: language,
       licenses,
       setSubmitted,
       onUpdate,
@@ -79,7 +88,7 @@ class AudioForm extends Component {
       id: model.id,
       revision,
       title: model.title,
-      language,
+      language: model.language,
       tags: model.tags,
       copyright: {
         license: licenses.find(license => license.license === model.license),
@@ -108,16 +117,11 @@ class AudioForm extends Component {
 
     return (
       <form onSubmit={event => this.handleSubmit(event)} {...classes()}>
-        <div {...classes('header', 'multimedia')}>
-          <div className="u-4/6@desktop">
-            <SquareAudio />
-            <span>
-              {model.id
-                ? t('audioForm.title.update')
-                : t('audioForm.title.create')}
-            </span>
-          </div>
-        </div>
+        <FormHeader
+          model={model}
+          type="audio"
+          editUrl={lang => toEditAudio(model.id, lang)}
+        />
         <AudioContent
           classes={classes}
           commonFieldProps={commonFieldProps}
@@ -154,6 +158,11 @@ AudioForm.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
   }),
+  initialModel: PropTypes.shape({
+    id: PropTypes.number,
+    language: PropTypes.string,
+  }),
+  setModel: PropTypes.func.isRequired,
   schema: SchemaShape,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({

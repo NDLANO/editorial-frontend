@@ -2,6 +2,12 @@
   color: white;
   height: 100%;
   padding-top: var(--spacing);
+  font-size: 24px;
+
+  & > span {
+    display: flex;
+    align-items: center;
+  }
 
   &__buttons {
     height: 100%;
@@ -13,5 +19,11 @@
       background-color: white;
       margin-left: 0;
     }
+  }
+
+  &__icon {
+    width: 27px;
+    height: 27px;
+    margin-right: var(--spacing--small);
   }
 }

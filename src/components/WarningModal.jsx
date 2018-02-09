@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
+import { Warning } from 'ndla-icons/editor';
 import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
 import Lightbox from './Lightbox';
@@ -20,7 +21,10 @@ const WarningModal = ({
 }) => (
   <Lightbox modal onClose={onCancel}>
     <div {...classes()}>
-      <span>{text}</span>
+      <span>
+        <Warning {...classes('icon')} />
+        {text}
+      </span>
       <div {...classes('buttons')}>
         <Button
           outline

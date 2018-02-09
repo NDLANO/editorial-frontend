@@ -15,14 +15,19 @@ class WarningModalWrapper extends PureComponent {
 
   componentDidMount() {
     this.unblock = this.props.history.block(nextLocation => {
-      if (this.isDirty() && !this.state.discardChanges) {
+      const navigate = !this.isDirty() || this.state.discardChanges;
+      if (!navigate) {
         this.setState({
           openModal: true,
           nextLocation,
         });
+      } else {
+        window.onbeforeunload = null;
       }
-      return !this.isDirty() || this.state.discardChanges;
+      return navigate;
     });
+
+    window.onbeforeunload = () => !this.isDirty() || this.state.discardChanges;
   }
 
   componentWillUnmount() {

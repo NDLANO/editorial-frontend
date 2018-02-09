@@ -49,6 +49,7 @@
     &--fullscreen {
       max-width: 95%;
     }
+
     &--modal {
       background-color: var(--red-1);
       border-radius: 0;

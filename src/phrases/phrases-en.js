@@ -388,6 +388,10 @@ const phrases = {
   forbiddenPage: {
     description: 'You do not have access to this page',
   },
+  warningModal: {
+    notSaved: 'Document is not saved, do you want to continue?',
+    continue: 'Continue',
+  },
 };
 
 export default phrases;

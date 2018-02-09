@@ -393,6 +393,10 @@ const phrases = {
   forbiddenPage: {
     description: 'Du har ikke tilgang til denne siden',
   },
+  warningModal: {
+    notSaved: 'Dokumentet er ikke lagret, ønsker du å lagre?',
+    continue: 'Fortsett',
+  },
 };
 
 export default phrases;

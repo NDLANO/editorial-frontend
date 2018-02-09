@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
 import Lightbox from './Lightbox';
 
@@ -8,16 +9,16 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const WarningModal = ({ text, onCancel, onSave, onContinue }) => (
+const WarningModal = ({ text, onCancel, onSave, onContinue, t }) => (
   <Lightbox modal onClose={onCancel}>
     <div {...classes()}>
       <span>{text}</span>
       <div {...classes('buttons')}>
         <button type="button" onClick={onSave}>
-          Lagre
+          {t('form.save')}
         </button>
         <button type="button" onClick={onContinue}>
-          Fortsett
+          {t('warningModal.continue')}
         </button>
       </div>
     </div>
@@ -31,4 +32,4 @@ WarningModal.propTypes = {
   onContinue: PropTypes.func.isRequired,
 };
 
-export default WarningModal;
+export default injectT(WarningModal);

@@ -4499,9 +4499,9 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-ndla-article-scripts@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.2.1.tgz#aa7de6023bef4fc8a84dae9efb392fecf66707fa"
+ndla-article-scripts@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.3.1.tgz#ee5af0f6e9aa2c15f3332ee4c4bd562837a01867"
   dependencies:
     focus-trap "^2.4.2"
     jump.js "^1.0.2"
@@ -4525,9 +4525,9 @@ ndla-i18n@^0.2.1:
     intl-messageformat "^2.2.0"
     invariant "^2.2.2"
 
-ndla-icons@^0.1.14:
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.1.14.tgz#067938ba66e19f77a03cde91dda6aef2881f5fa2"
+ndla-icons@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.0.tgz#9db37ee93f8e36e530fa835baf3e5128433a59ba"
 
 ndla-image-search@^0.2.9:
   version "0.2.9"
@@ -4535,9 +4535,9 @@ ndla-image-search@^0.2.9:
   dependencies:
     react-bem-helper "^1.4.1"
 
-ndla-licenses@^0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.1.6.tgz#0d0d6cf944ca03aba7a681ccabb5f3f6dce9b404"
+ndla-licenses@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.1.7.tgz#49f73efdd6a90f2c4d70550f3d930dcd139e9c54"
   dependencies:
     defined "1.0.0"
 
@@ -4558,19 +4558,20 @@ ndla-tabs@^0.4.2:
   dependencies:
     lodash "^4.17.4"
 
-ndla-ui@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.0.tgz#a42577b4c8ab791700c814adf41127313817ea4c"
+ndla-ui@^0.10.7:
+  version "0.10.7"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.7.tgz#acc920e97548439837577909aa60d40021b3c20d"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.2"
     jump.js "^1.0.2"
+    lodash "^4.17.4"
     react-bem-helper "1.4.1"
     react-prop-types "0.4.0"
 
-ndla-util@^0.1.9:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.9.tgz#ca3ba0410177659649565e4f65605e543cb8a6bd"
+ndla-util@^0.1.10:
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.10.tgz#68536bb02de6e7e7748112d70ce597efa9ff7c39"
   dependencies:
     defined "1.0.0"
 
@@ -4755,11 +4756,7 @@ normalize-url@^2.0.1:
     query-string "^5.0.1"
     sort-keys "^2.0.0"
 
-now@^9.0.1:
-  version "9.2.7"
-  resolved "https://registry.yarnpkg.com/now/-/now-9.2.7.tgz#46e68cb606feb9c80d9d6b380fcddfaaa093c3a3"
-
-now@^9.2.7:
+now@^9.0.1, now@^9.2.7:
   version "9.2.7"
   resolved "https://registry.yarnpkg.com/now/-/now-9.2.7.tgz#46e68cb606feb9c80d9d6b380fcddfaaa093c3a3"
 

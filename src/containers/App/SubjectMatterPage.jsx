@@ -37,7 +37,7 @@ const SubjectMatterPage = ({ match, t }) => {
       icon: <Concept className="c-icon--large" />,
     },
   ];
-
+  console.log('HEY');
   return (
     <div>
       <SubNavigation type="subject-matter" subtypes={supportedTypes} />

@@ -14,6 +14,9 @@ const phrases = {
     en: 'English',
     nb: 'Norwegian - Bokmål',
     nn: 'Norwegian - Nynorsk',
+    unknown: 'Unknown',
+    de: 'German',
+    empty: 'No languages left',
   },
   welcomePage: {
     lastUsed: 'Last used',
@@ -346,6 +349,11 @@ const phrases = {
         label: 'Audio caption',
         placeholder: 'Audio caption',
       },
+    },
+    related: {
+      title: 'Related articles',
+      showMore: 'Show more related articles',
+      showLess: 'Show less',
     },
   },
   validation: {

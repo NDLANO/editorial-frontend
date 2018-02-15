@@ -74,6 +74,7 @@ class AsyncDropDown extends React.Component {
       textField,
       valueField,
       messages,
+      onClick,
       ...rest
     } = this.props;
 
@@ -81,6 +82,7 @@ class AsyncDropDown extends React.Component {
     const inputProps = {
       placeholder,
       onChange: this.handleInputChange,
+      onClick,
     };
 
     return (
@@ -118,6 +120,7 @@ AsyncDropDown.propTypes = {
   placeholder: PropTypes.string,
   textField: PropTypes.string,
   valueField: PropTypes.string,
+  onClick: PropTypes.func,
   messages: PropTypes.shape({
     emptyFilter: PropTypes.string.isRequired,
     emptyList: PropTypes.string.isRequired,

@@ -8,15 +8,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import { withRouter } from 'react-router-dom';
 import ImageForm, { getInitialModel } from './components/ImageForm';
 import { actions, getImage } from '../../modules/image/image';
 import { ImageShape } from '../../shapes';
 
 class EditImage extends Component {
   componentWillMount() {
-    const { imageId: id, fetchImage, locale } = this.props;
-    fetchImage({ id, locale });
+    const { imageId: id, fetchImage, imageLanguage } = this.props;
+    fetchImage({ id, language: imageLanguage });
+  }
+  componentWillReceiveProps(nextProps) {
+    const { imageId: id, fetchImage, imageLanguage, image } = nextProps;
+
+    if (
+      (image && image.language !== imageLanguage) ||
+      id !== this.props.imageId
+    ) {
+      fetchImage({ id, language: imageLanguage });
+    }
   }
   render() {
     const {
@@ -32,6 +42,7 @@ class EditImage extends Component {
     if (!imageData) {
       return null;
     }
+
     return (
       <ImageForm
         initialModel={getInitialModel(imageData)}
@@ -64,6 +75,7 @@ EditImage.propTypes = {
   locale: PropTypes.string.isRequired,
   updateImage: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  imageLanguage: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = {
@@ -71,12 +83,14 @@ const mapDispatchToProps = {
   updateImage: actions.updateImage,
 };
 
-const makeMapStateToProps = (_, props) => {
+const mapStateToProps = (state, props) => {
   const { imageId } = props;
-  const getImageSelector = getImage(imageId);
-  return state => ({
+  const getImageSelector = getImage(imageId, true);
+  return {
     image: getImageSelector(state),
-  });
+  };
 };
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(EditImage);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(EditImage),
+);

@@ -11,8 +11,6 @@ import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Camera } from 'ndla-icons/editor';
-
 import BEMHelper from 'react-bem-helper';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
@@ -26,11 +24,14 @@ import {
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
 import { SchemaShape } from '../../../shapes';
+import { FormHeader } from '../../Form';
+import { toEditImage } from '../../../util/routeHelpers';
 
 export const getInitialModel = (image = {}) => ({
   id: image.id,
   revision: image.revision,
   language: image.language,
+  supportedLanguages: image.supportedLanguages || [],
   title: image.title || '',
   alttext: image.alttext || '',
   caption: image.caption || '',
@@ -46,6 +47,7 @@ export const getInitialModel = (image = {}) => ({
       ? image.copyright.license.license
       : DEFAULT_LICENSE.license,
 });
+
 const classes = new BEMHelper({
   name: 'form',
   prefix: 'c-',
@@ -57,13 +59,23 @@ class ImageForm extends Component {
     this.state = { title: '', tags: [], license: '', image: {} };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { initialModel, setModel } = nextProps;
+
+    if (
+      initialModel.id !== this.props.initialModel.id ||
+      initialModel.language !== this.props.initialModel.language
+    ) {
+      setModel(initialModel);
+    }
+  }
+
   handleSubmit(event) {
     event.preventDefault();
 
     const {
       model,
       schema,
-      locale: language,
       licenses,
       setSubmitted,
       onUpdate,
@@ -81,7 +93,7 @@ class ImageForm extends Component {
       title: model.title,
       alttext: model.alttext,
       caption: model.caption,
-      language,
+      language: model.language,
       tags: model.tags,
       copyright: {
         license: licenses.find(license => license.license === model.license),
@@ -109,16 +121,11 @@ class ImageForm extends Component {
 
     return (
       <form onSubmit={event => this.handleSubmit(event)} {...classes()}>
-        <div {...classes('header', 'multimedia')}>
-          <div className="u-4/6@desktop">
-            <Camera />
-            <span>
-              {model.id
-                ? t('imageForm.title.update')
-                : t('imageForm.title.create')}
-            </span>
-          </div>
-        </div>
+        <FormHeader
+          model={model}
+          type="image"
+          editUrl={lang => toEditImage(model.id, lang)}
+        />
         <ImageContent
           classes={classes}
           commonFieldProps={commonFieldProps}
@@ -151,9 +158,14 @@ class ImageForm extends Component {
 
 ImageForm.propTypes = {
   model: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     title: PropTypes.string,
   }),
+  initialModel: PropTypes.shape({
+    id: PropTypes.number,
+    language: PropTypes.string,
+  }),
+  setModel: PropTypes.func.isRequired,
   schema: SchemaShape,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({

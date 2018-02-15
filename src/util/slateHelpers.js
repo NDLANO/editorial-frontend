@@ -443,7 +443,6 @@ export const learningResourceEmbedRule = [
 
     serialize(object) {
       if (!object.type || !object.type.startsWith('embed')) return;
-
       const data = object.data.toJS();
       const props = createEmbedProps(data);
 
@@ -451,6 +450,5 @@ export const learningResourceEmbedRule = [
     },
   },
 ];
-
 export const topicArticeRules = topicArticeEmbedRule.concat(RULES);
 export const learningResourceRules = RULES.concat(learningResourceEmbedRule);

@@ -21,6 +21,7 @@ import {
   TextInBox,
   Table,
   ExpandableBox,
+  RelatedArticle,
 } from 'ndla-icons/editor';
 import { Cross, Plus } from 'ndla-icons/action';
 import { Audio } from 'ndla-icons/common';
@@ -47,6 +48,10 @@ const actions = [
   { data: { type: 'embed', kind: 'video' }, icon: <Video /> },
   { data: { type: 'embed', kind: 'audio' }, icon: <Audio /> },
   { data: { type: 'embed', kind: 'h5p' }, icon: <H5P /> },
+  {
+    data: { type: 'embed', kind: 'related-content' },
+    icon: <RelatedArticle />,
+  },
 ];
 
 class SlateBlockPicker extends Component {
@@ -86,9 +91,9 @@ class SlateBlockPicker extends Component {
     onChange(nextChange);
   }
 
-  onElementAdd(type) {
+  onElementAdd(block) {
     const { editorValue, onChange, addSection } = this.props;
-    switch (type.type) {
+    switch (block.type) {
       case 'block': {
         addSection();
         break;
@@ -107,11 +112,13 @@ class SlateBlockPicker extends Component {
         break;
       }
       case 'aside': {
-        this.onInsertBlock(defaultAsideBlock(type.kind));
+        this.onInsertBlock(defaultAsideBlock(block.kind));
         break;
       }
       case 'embed': {
-        this.setState({ embedSelect: { isOpen: true, embedType: type.kind } });
+        this.setState({
+          embedSelect: { isOpen: true, embedType: block.kind },
+        });
         break;
       }
       default:

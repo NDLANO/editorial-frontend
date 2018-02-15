@@ -18,3 +18,8 @@ export const fetchTopicArticle = (topicId, locale) =>
   fetchAuthorized(`${baseUrl}/topics/${topicId}/?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
+
+export const fetchArticleResource = (articleId, language) =>
+  fetchAuthorized(
+    `${baseUrl}/queries/resources?contentURI=urn:article:${articleId}&language=${language}`,
+  ).then(resolveJsonOrRejectWithError);

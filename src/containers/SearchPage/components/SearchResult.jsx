@@ -22,9 +22,9 @@ const SearchResult = ({ item, locale, resultType }) => {
     case 'articles':
       return <SearchArticle article={item} locale={locale} />;
     case 'images':
-      return <SearchImage image={item} />;
+      return <SearchImage image={item} locale={locale} />;
     case 'audios':
-      return <SearchAudio audio={item} />;
+      return <SearchAudio audio={item} locale={locale} />;
     default:
       return <p>{`Something went wrong with ${resultType}`}</p>;
   }

@@ -18,12 +18,14 @@ const state = {
       2: {
         id: '2',
         title: { title: 'Testing', language: 'en' },
+        language: 'en',
         tags: {
           tags: [],
         },
       },
       3: {
         id: '3',
+        language: 'nb',
         title: { title: 'Tester', language: 'nb' },
         tags: {
           tags: [],
@@ -37,7 +39,7 @@ test('audioSelectors getSaving', () => {
   expect(getSaving(state)).toBe(true);
 });
 
-test('articleSelectors getAudio with id', () => {
+test('audioSelectors getAudio with id', () => {
   expect(getAudio(1)(state).id).toBe('1');
   expect(getAudio(2)(state).id).toBe('2');
   expect(getAudio(3)(state).id).toBe('3');

@@ -14,7 +14,7 @@ import ImageSearch from 'ndla-image-search';
 import VideoSearch from 'ndla-video-search';
 import AudioSearch from 'ndla-audio-search';
 
-import { alttextsI18N, captionsI18N } from '../../util/i18nFieldFinder';
+import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
 import H5PSearch from '../../components/H5PSearch';
@@ -48,8 +48,8 @@ const VisualElementSearch = ({
                 resource_id: image.id,
                 size: 'fullbredde',
                 align: '',
-                alt: alttextsI18N(image, locale, true) || '',
-                caption: captionsI18N(image, locale, true) || '',
+                alt: convertFieldWithFallback(image, 'alttext', ''),
+                caption: convertFieldWithFallback(image, 'caption', ''),
                 metaData: image,
               })
             }
@@ -145,6 +145,10 @@ const VisualElementSearch = ({
           queryObject={defaultQueryObject}
         />
       );
+    }
+    case 'related-content': {
+      handleVisualElementChange({ resource: 'related-content' });
+      return null;
     }
     default:
       return <p>{`Embedtag ${selectedResource} is not supported.`}</p>;

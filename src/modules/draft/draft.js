@@ -31,6 +31,7 @@ export const actions = {
 const initalState = {
   all: {},
   isSaving: false,
+  savedOk: false,
 };
 
 export default handleActions(
@@ -46,6 +47,7 @@ export default handleActions(
       next: state => ({
         ...state,
         isSaving: true,
+        savedOk: false,
       }),
       throw: state => state,
     },
@@ -60,6 +62,7 @@ export default handleActions(
       next: state => ({
         ...state,
         isSaving: false,
+        savedOk: true,
       }),
       throw: state => state,
     },

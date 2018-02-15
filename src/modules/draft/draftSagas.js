@@ -37,7 +37,6 @@ export function* updateDraft(draft) {
     const updatedDraft = yield call(api.updateDraft, draft);
     yield put(actions.setDraft({ ...updatedDraft, language: draft.language })); // Quick hack to set draft language on updated draft. Maybe language should not be on model?
     yield put(actions.updateDraftSuccess());
-    yield put(messageActions.addMessage({ translationKey: 'form.savedOk' }));
   } catch (error) {
     yield put(actions.updateDraftError());
     // TODO: handle error
@@ -53,11 +52,6 @@ export function* createDraft(draft, history) {
       toEditArticle(createdDraft.id, createdDraft.articleType, draft.language),
     );
     yield put(actions.updateDraftSuccess());
-    yield put(
-      messageActions.addMessage({
-        translationKey: 'form.createdOk',
-      }),
-    );
   } catch (error) {
     yield put(actions.updateDraftError());
     // TODO: handle error

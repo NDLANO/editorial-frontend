@@ -56,7 +56,7 @@ class EditLearningResource extends Component {
   }
 
   render() {
-    const { article, tags, isSaving, licenses } = this.props;
+    const { article, ...rest } = this.props;
     if (!article) {
       return null;
     }
@@ -72,9 +72,7 @@ class EditLearningResource extends Component {
         initialModel={getInitialModel(article)}
         revision={article.revision}
         articleStatus={article.status}
-        tags={tags}
-        licenses={licenses}
-        isSaving={isSaving}
+        {...rest}
         onUpdate={this.updateDraft}
       />
     );

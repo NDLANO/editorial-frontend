@@ -29,8 +29,8 @@ class LearningResourcePage extends Component {
   }
 
   render() {
-    const { locale, match, history, isSaving, licenses } = this.props;
-
+    const { locale, match, history, isSaving, licenses, savedOk } = this.props;
+    const sendDown = { isSaving, licenses, locale, savedOk };
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <OneColumn>
@@ -38,12 +38,7 @@ class LearningResourcePage extends Component {
             <Route
               path={`${match.url}/new`}
               render={() => (
-                <CreateLearningResource
-                  history={history}
-                  locale={locale}
-                  licenses={licenses}
-                  isSaving={isSaving}
-                />
+                <CreateLearningResource history={history} {...sendDown} />
               )}
             />
             <Route
@@ -52,9 +47,7 @@ class LearningResourcePage extends Component {
                 <EditLearningResource
                   articleId={props.match.params.articleId}
                   articleLanguage={props.match.params.articleLanguage}
-                  licenses={licenses}
-                  locale={locale}
-                  isSaving={isSaving}
+                  {...sendDown}
                 />
               )}
             />
@@ -77,6 +70,7 @@ LearningResourcePage.propTypes = {
   fetchLicenses: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  savedOk: PropTypes.bool.isRequired,
 };
 
 const mapDispatchToProps = {
@@ -87,6 +81,7 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
   licenses: getAllLicenses(state),
   isSaving: getSaving(state),
+  savedOk: state.drafts.savedOk,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(

@@ -20,6 +20,7 @@ Object {
 exports[`reducers/article sets isSaving to false on update success 1`] = `
 Object {
   "isSaving": false,
+  "savedOk": true,
 }
 `;
 
@@ -27,6 +28,7 @@ exports[`reducers/article sets isSaving to true on update 1`] = `
 Object {
   "all": Object {},
   "isSaving": true,
+  "savedOk": false,
 }
 `;
 
@@ -34,6 +36,7 @@ exports[`reducers/articles initalState 1`] = `
 Object {
   "all": Object {},
   "isSaving": false,
+  "savedOk": false,
 }
 `;
 
@@ -46,6 +49,7 @@ Object {
     },
   },
   "isSaving": false,
+  "savedOk": false,
 }
 `;
 
@@ -62,5 +66,6 @@ Object {
     },
   },
   "isSaving": false,
+  "savedOk": false,
 }
 `;

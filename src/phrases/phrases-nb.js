@@ -206,6 +206,8 @@ const phrases = {
     workflowSection: 'Arbeidsflyt',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
+    saving: 'Lagrer...',
+    saved: 'Lagret ',
     abort: 'Avbryt',
     validate: 'Valider',
     publish: 'Publiser',

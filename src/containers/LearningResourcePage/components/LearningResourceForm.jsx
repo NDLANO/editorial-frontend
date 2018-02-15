@@ -9,13 +9,12 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
-
+import Button from '../../../components/Button';
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -96,16 +95,21 @@ export const getInitialModel = (article = {}) => {
 class LearningResourceForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {};
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { initialModel, setModel } = nextProps;
+    const { initialModel, setModel, savedOk } = nextProps;
     if (
       initialModel.id !== this.props.initialModel.id ||
       initialModel.language !== this.props.initialModel.language
     ) {
       setModel(initialModel);
+    }
+    if (savedOk && this.props.isSaving) {
+      this.setState({ showSaved: true });
+      setTimeout(() => this.setState({ showSaved: false }), 5000);
     }
   }
 
@@ -199,7 +203,12 @@ class LearningResourceForm extends Component {
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <Button submit outline disabled={isSaving} className="c-save-button">
+          <Button
+            classes={formClasses}
+            submit
+            isSaving={isSaving}
+            t={t}
+            showSaved={this.state.showSaved}>
             {t('form.save')}
           </Button>
         </Field>
@@ -237,6 +246,7 @@ LearningResourceForm.propTypes = {
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  savedOk: PropTypes.bool.isRequired,
   articleStatus: PropTypes.arrayOf(PropTypes.string),
 };
 

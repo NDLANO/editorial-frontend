@@ -33,16 +33,18 @@ import {
 class EditLearningResource extends Component {
   constructor(props) {
     super(props);
-    this.state = { taxonomy: { resourceTypes: [], filter: [], topics: [] } };
-    this.updateDraft = this.updateDraft.bind(this);
+    this.state = {
+      taxonomy: { resourceTypes: [], filter: [], topics: [], loading: true },
+    };
+    this.updateLearningResource = this.updateLearningResource.bind(this);
     this.fetchTaxonony = this.fetchTaxonony.bind(this);
   }
 
   async componentWillMount() {
     const { articleId, fetchDraft, articleLanguage, fetchTags } = this.props;
+    this.fetchTaxonony(articleId, articleLanguage);
     fetchDraft({ id: articleId, language: articleLanguage });
     fetchTags({ language: articleLanguage });
-    await this.fetchTaxonony(articleId, articleLanguage);
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -89,7 +91,7 @@ class EditLearningResource extends Component {
         );
 
         this.setState({
-          taxonomy: { resourceTypes, filter, topics },
+          taxonomy: { resourceTypes, filter, topics, loading: false },
         });
       }
     } catch (e) {
@@ -97,7 +99,7 @@ class EditLearningResource extends Component {
     }
   }
 
-  updateDraft(article, taxonomy) {
+  updateLearningResource(article, taxonomy) {
     const { updateDraft } = this.props;
     updateDraft({ draft: article });
     updateTaxonomy(taxonomy);
@@ -118,12 +120,13 @@ class EditLearningResource extends Component {
     return (
       <LearningResourceForm
         initialModel={getInitialModel(article, this.state.taxonomy)}
+        taxonomy={this.state.taxonomy}
         revision={article.revision}
         articleStatus={article.status}
         tags={tags}
         licenses={licenses}
         isSaving={isSaving}
-        onUpdate={this.updateDraft}
+        onUpdate={this.updateLearningResource}
       />
     );
   }

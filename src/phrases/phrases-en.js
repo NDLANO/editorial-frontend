@@ -374,6 +374,11 @@ const phrases = {
         placeholder: 'Audio caption',
       },
     },
+    related: {
+      title: 'Related articles',
+      showMore: 'Show more related articles',
+      showLess: 'Show less',
+    },
   },
   validation: {
     isRequired: '{label} is required.',

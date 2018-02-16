@@ -104,10 +104,15 @@ class LearningResourceForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { initialModel, setModel } = nextProps;
+    const { initialModel, setModel, taxonomy } = nextProps;
+    const hasTaxonomyChanged =
+      taxonomy &&
+      this.props.taxonomy &&
+      taxonomy.loading !== this.props.taxonomy.loading;
     if (
       initialModel.id !== this.props.initialModel.id ||
-      initialModel.language !== this.props.initialModel.language
+      initialModel.language !== this.props.initialModel.language ||
+      hasTaxonomyChanged
     ) {
       setModel(initialModel);
     }
@@ -172,6 +177,7 @@ class LearningResourceForm extends Component {
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
+
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader
@@ -248,6 +254,12 @@ LearningResourceForm.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
   articleStatus: PropTypes.arrayOf(PropTypes.string),
+  taxonomy: PropTypes.shape({
+    resourceTypes: PropTypes.array,
+    filter: PropTypes.array,
+    topics: PropTypes.array,
+    loading: PropTypes.bool,
+  }),
 };
 
 export default compose(

@@ -45,7 +45,7 @@ class DropdownTag extends Component {
     if (nextProps.tag !== tag) {
       this.setState({ tag: nextProps.tag });
     }
-    // if (name === 'filter') console.log("HEEERRRO", nextProps.tagProperties, tagProperties)
+
     if (nextProps.tagProperties !== tagProperties && name === 'filter') {
       this.setState({
         tagProperty: {
@@ -153,8 +153,7 @@ class DropdownTag extends Component {
     } else if (tagProperty && name === 'filter') {
       tagItem = filterItem;
     }
-    /* if (name === 'filter')
-      console.log(tagProperty, name, tagItem) */
+
     return (
       // eslint-disable-next-line
       <div

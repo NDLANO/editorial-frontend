@@ -74,7 +74,6 @@ class LearningResourceTaxonomy extends Component {
       valueField: 'id',
       ...commonFieldProps,
     };
-
     return (
       <Accordion
         handleToggle={this.toggleContent}

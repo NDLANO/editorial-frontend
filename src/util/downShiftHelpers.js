@@ -4,6 +4,7 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
+import { get } from 'lodash';
 
 export const downShiftSorter = (list, val, textField) =>
   list.filter(
@@ -20,9 +21,4 @@ export const valueFieldForItem = (item, valueField) => {
   return item;
 };
 
-export const itemToString = (item, field) => {
-  if (!item) {
-    return '';
-  }
-  return item instanceof Object ? item[field] : item;
-};
+export const itemToString = (item, field) => (item ? get(item, field, '') : '');

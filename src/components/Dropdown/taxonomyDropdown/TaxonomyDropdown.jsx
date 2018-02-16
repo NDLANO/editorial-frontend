@@ -35,6 +35,15 @@ class TaxonomyDropdown extends PureComponent {
     this.handlePopupClick = this.handlePopupClick.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.selectedItems &&
+      this.state.selectedItems.length !== nextProps.selectedItems.length
+    ) {
+      this.setState({ selectedItems: nextProps.selectedItems });
+    }
+  }
+
   onWrapperClick(e) {
     if (this.inputWrapper === e.target || this.input === e.target) {
       this.focusOnInput();
@@ -126,7 +135,6 @@ class TaxonomyDropdown extends PureComponent {
         ...selectedItem,
         relevanceId: selectedItem.relevanceId || RESOURCE_FILTER_CORE,
       };
-      console.log(newItem);
     }
     this.setState(prevState => ({
       selectedItems: [...prevState.selectedItems, newItem || selectedItem],

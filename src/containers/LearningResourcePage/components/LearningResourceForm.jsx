@@ -95,21 +95,16 @@ export const getInitialModel = (article = {}) => {
 class LearningResourceForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { initialModel, setModel, savedOk } = nextProps;
+    const { initialModel, setModel } = nextProps;
     if (
       initialModel.id !== this.props.initialModel.id ||
       initialModel.language !== this.props.initialModel.language
     ) {
       setModel(initialModel);
-    }
-    if (savedOk && this.props.isSaving) {
-      this.setState({ showSaved: true });
-      setTimeout(() => this.setState({ showSaved: false }), 5000);
     }
   }
 
@@ -160,6 +155,7 @@ class LearningResourceForm extends Component {
       isSaving,
       articleStatus,
       fields,
+      savedOk,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
@@ -205,16 +201,16 @@ class LearningResourceForm extends Component {
           </Link>
           <Button
             classes={formClasses}
-            submit
             isSaving={isSaving}
             t={t}
-            showSaved={this.state.showSaved}>
+            showSaved={savedOk}>
             {t('form.save')}
           </Button>
         </Field>
         <WarningModalWrapper
           {...{
             schema,
+            savedOk,
             fields,
             handleSubmit: this.handleSubmit,
             text: t('warningModal.notSaved'),

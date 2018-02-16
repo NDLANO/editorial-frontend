@@ -15,7 +15,11 @@ const Button = ({ isSaving, showSaved, t, ...rest }) => {
     return 'save';
   };
   return (
-    <UiButton {...classes('', getModifier())} disabled={isSaving} {...rest}>
+    <UiButton
+      {...classes('', getModifier())}
+      disabled={isSaving || showSaved}
+      submit
+      {...rest}>
       <span>
         {t(`form.${getModifier()}`)}
         {showSaved && <Check />}

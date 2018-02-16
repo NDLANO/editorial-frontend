@@ -7,6 +7,7 @@
  */
 
 import { take, call, put, select } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 import { actions, getDraft } from './draft';
 import * as api from './draftApi';
 import { toEditArticle } from '../../util/routeHelpers';
@@ -37,6 +38,8 @@ export function* updateDraft(draft) {
     const updatedDraft = yield call(api.updateDraft, draft);
     yield put(actions.setDraft({ ...updatedDraft, language: draft.language })); // Quick hack to set draft language on updated draft. Maybe language should not be on model?
     yield put(actions.updateDraftSuccess());
+    yield delay(3000);
+    yield put(actions.removeShowSaved());
   } catch (error) {
     yield put(actions.updateDraftError());
     // TODO: handle error
@@ -48,10 +51,12 @@ export function* createDraft(draft, history) {
   try {
     const createdDraft = yield call(api.createDraft, draft);
     yield put(actions.setDraft({ ...createdDraft, language: draft.language }));
+    yield put(actions.updateDraftSuccess());
     history.push(
       toEditArticle(createdDraft.id, createdDraft.articleType, draft.language),
     );
-    yield put(actions.updateDraftSuccess());
+    yield delay(3000);
+    yield put(actions.removeShowSaved());
   } catch (error) {
     yield put(actions.updateDraftError());
     // TODO: handle error

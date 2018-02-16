@@ -62,31 +62,35 @@ form {
       transform: none;
     }
 
-    /* NB! Should use :enabled in ndla-ui button css instead
+    /* NB! Should use :enabled in ndla-ui button css instead */
     &:disabled {
-      background-color: var(--background-color--dark);
       transform: none;
-      border: 0;
-    } */
+      color: #fff;
+    }
   }
 
   & .c-save-button {
     & span {
       display: flex;
       justify-content: space-evenly;
-      align-items: center;
-      vertical-align: middle;
+
+      & svg {
+        width: 1.45rem;
+        height: 1.45rem;
+      }
     }
 
     &--saving,
-    &--saving:hover {
+    &--saving:hover,
+    &--saving:disabled {
       transition: all 0.5s ease;
       background-color: var(--green-2);
       border-color: var(--green-2);
     }
 
     &--saved,
-    &--saved:hover {
+    &--saved:hover,
+    &--saved:disabled {
       transition: all 0.5s ease;
       background-color: var(--green-1);
       border-color: var(--green-1);

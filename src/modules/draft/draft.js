@@ -18,6 +18,7 @@ export const updateDraft = createAction('UPDATE_DRAFT');
 export const updateDraftSuccess = createAction('UPDATE_DRAFT_SUCCESS');
 export const updateDraftError = createAction('UPDATE_DRAFT_ERROR');
 export const publishDraft = createAction('PUBLISH_DRAFT');
+export const removeShowSaved = createAction('REMOVE_SHOW_SAVED');
 
 export const actions = {
   updateDraft,
@@ -26,6 +27,7 @@ export const actions = {
   updateDraftSuccess,
   updateDraftError,
   publishDraft,
+  removeShowSaved,
 };
 
 const initalState = {
@@ -41,7 +43,6 @@ export default handleActions(
         ...state,
         all: { ...state.all, [action.payload.id]: { ...action.payload } },
       }),
-      throw: state => state,
     },
     [updateDraft]: {
       next: state => ({
@@ -49,14 +50,12 @@ export default handleActions(
         isSaving: true,
         savedOk: false,
       }),
-      throw: state => state,
     },
     [publishDraft]: {
       next: state => ({
         ...state,
         isSaving: true,
       }),
-      throw: state => state,
     },
     [updateDraftSuccess]: {
       next: state => ({
@@ -64,14 +63,18 @@ export default handleActions(
         isSaving: false,
         savedOk: true,
       }),
-      throw: state => state,
     },
     [updateDraftError]: {
       next: state => ({
         ...state,
         isSaving: false,
       }),
-      throw: state => state,
+    },
+    [removeShowSaved]: {
+      next: state => ({
+        ...state,
+        savedOk: false,
+      }),
     },
   },
   initalState,

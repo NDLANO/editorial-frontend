@@ -56,7 +56,7 @@ class EditTopicArticle extends Component {
   }
 
   render() {
-    const { locale, article, tags, isSaving, licenses } = this.props;
+    const { article, ...rest } = this.props;
     if (!article) {
       return null;
     }
@@ -73,11 +73,8 @@ class EditTopicArticle extends Component {
         initialModel={getInitialModel(article)}
         revision={article.revision}
         articleStatus={article.status}
-        tags={tags}
-        licenses={licenses}
-        locale={locale}
-        isSaving={isSaving}
         onUpdate={this.updateDraft}
+        {...rest}
       />
     );
   }
@@ -85,15 +82,11 @@ class EditTopicArticle extends Component {
 
 EditTopicArticle.propTypes = {
   articleId: PropTypes.string.isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchDraft: PropTypes.func.isRequired,
   fetchTags: PropTypes.func.isRequired,
   updateDraft: PropTypes.func.isRequired,
   article: ArticleShape,
-  locale: PropTypes.string.isRequired,
-  isSaving: PropTypes.bool.isRequired,
   articleLanguage: PropTypes.string.isRequired,
-  licenses: LicensesArrayOf,
 };
 
 const mapDispatchToProps = {

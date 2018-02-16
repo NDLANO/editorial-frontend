@@ -28,20 +28,13 @@ class TopicArticlePage extends React.Component {
   }
 
   render() {
-    const { locale, match, history, isSaving, licenses } = this.props;
+    const { match, history, ...rest } = this.props;
     return (
       <OneColumn>
         <Switch>
           <Route
             path={`${match.url}/new`}
-            render={() => (
-              <CreateTopicArticle
-                history={history}
-                locale={locale}
-                isSaving={isSaving}
-                licenses={licenses}
-              />
-            )}
+            render={() => <CreateTopicArticle history={history} {...rest} />}
           />
           <Route
             path={`${match.url}/:articleId/edit/:articleLanguage`}
@@ -49,9 +42,7 @@ class TopicArticlePage extends React.Component {
               <EditTopicArticle
                 articleId={routeProps.match.params.articleId}
                 articleLanguage={routeProps.match.params.articleLanguage}
-                locale={locale}
-                isSaving={isSaving}
-                licenses={licenses}
+                {...rest}
               />
             )}
           />
@@ -86,6 +77,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   locale: getLocale(state),
   isSaving: getSaving(state),
+  savedOk: state.drafts.savedOk,
   licenses: getAllLicenses(state),
 });
 

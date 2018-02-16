@@ -35,31 +35,26 @@ class CreateTopicArticle extends Component {
   }
 
   render() {
-    const { locale, tags, isSaving, licenses } = this.props;
+    const { locale, ...rest } = this.props;
 
     return (
       <TopicArticleForm
         initialModel={getInitialModel({ language: locale })}
-        tags={tags}
         locale={locale}
-        isSaving={isSaving}
         onUpdate={this.updateDraft}
-        licenses={licenses}
+        {...rest}
       />
     );
   }
 }
 
 CreateTopicArticle.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
   updateDraft: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
-  isSaving: PropTypes.bool.isRequired,
   fetchTags: PropTypes.func.isRequired,
-  licenses: LicensesArrayOf,
 };
 
 const mapDispatchToProps = {

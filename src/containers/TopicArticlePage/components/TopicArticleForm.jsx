@@ -9,12 +9,12 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
+import Button from '../../../components/Button';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -127,6 +127,7 @@ class TopicArticleForm extends Component {
       articleStatus,
       fields,
       licenses,
+      savedOk,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
@@ -166,13 +167,18 @@ class TopicArticleForm extends Component {
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <Button submit outline disabled={isSaving} className="c-save-button">
+          <Button
+            classes={formClasses}
+            isSaving={isSaving}
+            t={t}
+            showSaved={savedOk}>
             {t('form.save')}
           </Button>
         </Field>
         <WarningModalWrapper
           {...{
             schema,
+            savedOk,
             fields,
             handleSubmit: this.handleSubmit,
             text: t('warningModal.notSaved'),
@@ -198,11 +204,11 @@ TopicArticleForm.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
   revision: PropTypes.number,
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  savedOk: PropTypes.bool.isRequired,
   articleStatus: PropTypes.arrayOf(PropTypes.string),
   licenses: LicensesArrayOf,
 };

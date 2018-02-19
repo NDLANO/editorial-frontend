@@ -31,15 +31,7 @@ class EditAudio extends Component {
   }
 
   render() {
-    const {
-      locale,
-      tags,
-      licenses,
-      isSaving,
-      history,
-      audio: audioData,
-      updateAudio,
-    } = this.props;
+    const { history, audio: audioData, updateAudio, ...rest } = this.props;
 
     if (!audioData) {
       return null;
@@ -50,11 +42,8 @@ class EditAudio extends Component {
         initialModel={getInitialModel(audioData)}
         revision={audioData.revision}
         audioInfo={audioData.audioFile}
-        tags={tags}
-        licenses={licenses}
-        locale={locale}
         onUpdate={(audio, file) => updateAudio({ audio, file, history })}
-        isSaving={isSaving}
+        {...rest}
       />
     );
   }

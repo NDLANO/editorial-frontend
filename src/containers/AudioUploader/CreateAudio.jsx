@@ -12,21 +12,12 @@ import { connect } from 'react-redux';
 import AudioForm, { getInitialModel } from './components/AudioForm';
 import { actions } from '../../modules/audio/audio';
 
-const CreateAudio = ({
-  locale,
-  tags,
-  licenses,
-  updateAudio,
-  history,
-  isSaving,
-}) => (
+const CreateAudio = ({ locale, updateAudio, history, ...rest }) => (
   <AudioForm
     initialModel={getInitialModel({ language: locale })}
-    tags={tags}
-    licenses={licenses}
     locale={locale}
     onUpdate={(audio, file) => updateAudio({ audio, file, history })}
-    isSaving={isSaving}
+    {...rest}
   />
 );
 

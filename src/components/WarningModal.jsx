@@ -18,26 +18,29 @@ const WarningModal = ({
   onContinue,
   t,
   confirmDelete,
+  noButtons,
 }) => (
   <Lightbox modal onClose={onCancel}>
     <div {...classes()}>
-      <span>
+      <div>
         <Warning {...classes('icon')} />
         {text}
-      </span>
-      <div {...classes('buttons')}>
-        <Button
-          outline
-          onClick={confirmDelete ? onCancel : onSave}
-          className="c-save-button">
-          {confirmDelete ? t('form.abort') : t('form.save')}
-        </Button>
-        <Button outline onClick={onContinue} className="c-save-button">
-          {confirmDelete
-            ? t('warningModal.delete')
-            : t('warningModal.continue')}
-        </Button>
       </div>
+      {!noButtons && (
+        <div {...classes('buttons')}>
+          <Button
+            outline
+            onClick={confirmDelete ? onCancel : onSave}
+            className="c-save-button">
+            {confirmDelete ? t('form.abort') : t('form.save')}
+          </Button>
+          <Button outline onClick={onContinue} className="c-save-button">
+            {confirmDelete
+              ? t('warningModal.delete')
+              : t('warningModal.continue')}
+          </Button>
+        </div>
+      )}
     </div>
   </Lightbox>
 );
@@ -46,8 +49,9 @@ WarningModal.propTypes = {
   text: PropTypes.string.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func,
-  onContinue: PropTypes.func.isRequired,
+  onContinue: PropTypes.func,
   confirmDelete: PropTypes.bool,
+  noButtons: PropTypes.bool,
 };
 
 export default injectT(WarningModal);

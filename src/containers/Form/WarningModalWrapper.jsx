@@ -15,9 +15,9 @@ class WarningModalWrapper extends PureComponent {
 
   componentDidMount() {
     this.unblock = this.props.history.block(nextLocation => {
-      const navigate =
+      const canNavigate =
         !this.isDirty() || this.state.discardChanges || this.props.showSaved;
-      if (!navigate) {
+      if (!canNavigate) {
         this.setState({
           openModal: true,
           nextLocation,
@@ -25,7 +25,7 @@ class WarningModalWrapper extends PureComponent {
       } else {
         window.onbeforeunload = null;
       }
-      return navigate;
+      return canNavigate;
     });
 
     window.onbeforeunload = () => !this.isDirty() || this.state.discardChanges;

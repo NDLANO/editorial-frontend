@@ -55,6 +55,7 @@ class ImageForm extends Component {
   constructor(props) {
     super(props);
     this.state = { title: '', tags: [], license: '', image: {} };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -171,6 +172,7 @@ ImageForm.propTypes = {
     }),
   ).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  fields: PropTypes.objectOf(PropTypes.object).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,

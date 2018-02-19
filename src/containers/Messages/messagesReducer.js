@@ -77,5 +77,5 @@ export default handleActions(
       }),
     },
   },
-  { messages: [] },
+  { messages: [], showSaved: false },
 );

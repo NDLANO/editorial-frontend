@@ -21,7 +21,7 @@ import {
   processorsWithDefault,
 } from '../../../util/formHelper';
 import { SchemaShape } from '../../../shapes';
-import { FormHeader } from '../../Form';
+import { FormHeader, WarningModalWrapper } from '../../Form';
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 import { toEditAudio } from '../../../util/routeHelpers';
@@ -114,6 +114,7 @@ class AudioForm extends Component {
       isSaving,
       audioInfo,
       showSaved,
+      fields,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
@@ -148,6 +149,15 @@ class AudioForm extends Component {
           </Link>
           <SaveButton {...{ classes, isSaving, t, showSaved }} />
         </Field>
+        <WarningModalWrapper
+          {...{
+            schema,
+            showSaved,
+            fields,
+            handleSubmit: this.handleSubmit,
+            text: t('warningModal.notSaved'),
+          }}
+        />
       </form>
     );
   }
@@ -179,6 +189,7 @@ AudioForm.propTypes = {
   isSaving: PropTypes.bool.isRequired,
   showSaved: PropTypes.bool.isRequired,
   revision: PropTypes.number,
+  fields: PropTypes.objectOf(PropTypes.object).isRequired,
   audioInfo: PropTypes.shape({
     fileSize: PropTypes.number.isRequired,
     language: PropTypes.string.isRequired,

@@ -3,14 +3,11 @@
   height: 100%;
   padding-top: var(--spacing);
   font-size: 24px;
-
-  & > span {
-    display: flex;
-    align-items: center;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &__buttons {
-    height: 100%;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;

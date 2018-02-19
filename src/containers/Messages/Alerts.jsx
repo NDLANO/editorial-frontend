@@ -9,11 +9,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 
 import { clearMessage } from './messagesActions';
 import { MessageShape } from '../../shapes';
+import WarningModal from '../../components/WarningModal';
 
 export const Action = ({ title, onClick }) => (
   <button onClick={onClick} className="un-button alert_action">
@@ -27,28 +27,17 @@ Action.propTypes = {
 };
 
 export const Alert = injectT(({ message, dispatch, t }) => {
-  const onClick = () => {
-    message.action.onClick();
-    dispatch(clearMessage(message.id));
-  };
-
   const severity = message.severity ? message.severity : 'info';
 
   return (
-    <div className={`alert alert--${severity}`}>
-      <div className="alert_msg">
-        {message.translationKey ? t(message.translationKey) : message.message}
-      </div>
-      <Button
-        className="alert_dismiss"
-        stripped
-        onClick={() => dispatch(clearMessage(message.id))}>
-        X
-      </Button>
-      {message.action ? (
-        <Action title={message.action.title} onClick={onClick} />
-      ) : null}
-    </div>
+    <WarningModal
+      text={
+        message.translationKey ? t(message.translationKey) : message.message
+      }
+      onCancel={() => dispatch(clearMessage(message.id))}
+      noButtons
+      className={`alert alert--${severity}`}
+    />
   );
 });
 

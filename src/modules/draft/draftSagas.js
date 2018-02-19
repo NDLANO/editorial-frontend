@@ -50,10 +50,10 @@ export function* createDraft(draft, history) {
     const createdDraft = yield call(api.createDraft, draft);
     yield put(actions.setDraft({ ...createdDraft, language: draft.language }));
     yield put(actions.updateDraftSuccess());
+    yield put(messageActions.showSaved());
     history.push(
       toEditArticle(createdDraft.id, createdDraft.articleType, draft.language),
     );
-    yield put(messageActions.showSaved());
   } catch (error) {
     yield put(actions.updateDraftError());
     // TODO: handle error

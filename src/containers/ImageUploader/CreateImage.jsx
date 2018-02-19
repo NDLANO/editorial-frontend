@@ -12,38 +12,20 @@ import { connect } from 'react-redux';
 import ImageForm, { getInitialModel } from './components/ImageForm';
 import { actions } from '../../modules/image/image';
 
-const CreateImage = ({
-  locale,
-  tags,
-  licenses,
-  updateImage,
-  history,
-  isSaving,
-}) => (
+const CreateImage = ({ locale, updateImage, history, ...rest }) => (
   <ImageForm
     initialModel={getInitialModel({ language: locale })}
-    tags={tags}
-    licenses={licenses}
-    locale={locale}
     onUpdate={(image, file) => updateImage({ image, file, history })}
-    isSaving={isSaving}
+    {...rest}
   />
 );
 
 CreateImage.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
   locale: PropTypes.string.isRequired,
   updateImage: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool.isRequired,
 };
 
 const mapDispatchToProps = {

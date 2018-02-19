@@ -175,7 +175,6 @@ ImageForm.propTypes = {
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired,
   setSubmitted: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,

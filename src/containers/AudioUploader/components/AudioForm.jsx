@@ -183,7 +183,6 @@ AudioForm.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired,
   setSubmitted: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,

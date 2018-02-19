@@ -16,7 +16,7 @@ import { AudioShape } from '../../shapes';
 class EditAudio extends Component {
   componentWillMount() {
     const { audioId: id, fetchAudio, audioLanguage } = this.props;
-    fetchAudio({ id, language: audioLanguage });
+    if (id) fetchAudio({ id, language: audioLanguage });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,17 +31,19 @@ class EditAudio extends Component {
   }
 
   render() {
-    const { history, audio: audioData, updateAudio, ...rest } = this.props;
-
-    if (!audioData) {
-      return null;
-    }
+    const {
+      history,
+      audio: audioData,
+      updateAudio,
+      locale,
+      ...rest
+    } = this.props;
 
     return (
       <AudioForm
-        initialModel={getInitialModel(audioData)}
-        revision={audioData.revision}
-        audioInfo={audioData.audioFile}
+        initialModel={getInitialModel(audioData || { language: locale })}
+        revision={audioData && audioData.revision}
+        audioInfo={audioData && audioData.audioFile}
         onUpdate={(audio, file) => updateAudio({ audio, file, history })}
         {...rest}
       />

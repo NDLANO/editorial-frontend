@@ -21,7 +21,6 @@ import {
 } from '../../modules/license/license';
 import { getSaving } from '../../modules/audio/audio';
 import { getLocale } from '../../modules/locale/locale';
-import CreateAudio from './CreateAudio';
 import EditAudio from './EditAudio';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
@@ -41,7 +40,7 @@ class AudioUploaderPage extends Component {
           <Switch>
             <Route
               path={`${match.url}/new`}
-              render={() => <CreateAudio {...rest} />}
+              render={() => <EditAudio {...rest} />}
             />
             <Route
               path={`${match.url}/:audioId/edit/:audioLanguage`}

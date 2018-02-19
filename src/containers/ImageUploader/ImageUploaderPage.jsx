@@ -21,7 +21,6 @@ import {
 } from '../../modules/license/license';
 import { getSaving } from '../../modules/audio/audio';
 import { getLocale } from '../../modules/locale/locale';
-import CreateImage from './CreateImage';
 import EditImage from './EditImage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
@@ -40,7 +39,7 @@ class ImageUploaderPage extends Component {
         <Switch>
           <Route
             path={`${match.url}/new`}
-            render={() => <CreateImage {...rest} />}
+            render={() => <EditImage {...rest} />}
           />
           <Route
             path={`${match.url}/:imageId/edit/:imageLanguage`}

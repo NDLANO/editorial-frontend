@@ -29,15 +29,7 @@ class EditImage extends Component {
     }
   }
   render() {
-    const {
-      locale,
-      tags,
-      licenses,
-      isSaving,
-      history,
-      image: imageData,
-      updateImage,
-    } = this.props;
+    const { history, image: imageData, updateImage, ...rest } = this.props;
 
     if (!imageData) {
       return null;
@@ -48,11 +40,8 @@ class EditImage extends Component {
         initialModel={getInitialModel(imageData)}
         revision={imageData.revision}
         imageInfo={imageData.imageFile}
-        tags={tags}
-        licenses={licenses}
-        locale={locale}
         onUpdate={(image, file) => updateImage({ image, file, history })}
-        isSaving={isSaving}
+        {...rest}
       />
     );
   }

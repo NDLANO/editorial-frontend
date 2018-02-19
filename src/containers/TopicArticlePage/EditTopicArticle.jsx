@@ -14,7 +14,7 @@ import { actions as draftActions, getDraft } from '../../modules/draft/draft';
 import TopicArticleForm, {
   getInitialModel,
 } from './components/TopicArticleForm';
-import { ArticleShape, LicensesArrayOf } from '../../shapes';
+import { ArticleShape } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
 import {
   actions as tagActions,

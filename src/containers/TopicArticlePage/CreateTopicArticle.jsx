@@ -8,7 +8,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { LicensesArrayOf } from '../../shapes';
 import { actions as draftActions } from '../../modules/draft/draft';
 import TopicArticleForm, {
   getInitialModel,

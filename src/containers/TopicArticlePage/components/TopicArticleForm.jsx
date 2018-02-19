@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
-import Button from '../../../components/Button';
+import SaveButton from '../../../components/SaveButton';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -127,7 +127,7 @@ class TopicArticleForm extends Component {
       articleStatus,
       fields,
       licenses,
-      savedOk,
+      showSaved,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
@@ -167,18 +167,18 @@ class TopicArticleForm extends Component {
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <Button
+          <SaveButton
             classes={formClasses}
             isSaving={isSaving}
             t={t}
-            showSaved={savedOk}>
+            showSaved={showSaved}>
             {t('form.save')}
-          </Button>
+          </SaveButton>
         </Field>
         <WarningModalWrapper
           {...{
             schema,
-            savedOk,
+            showSaved,
             fields,
             handleSubmit: this.handleSubmit,
             text: t('warningModal.notSaved'),
@@ -208,7 +208,7 @@ TopicArticleForm.propTypes = {
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  savedOk: PropTypes.bool.isRequired,
+  showSaved: PropTypes.bool.isRequired,
   articleStatus: PropTypes.arrayOf(PropTypes.string),
   licenses: LicensesArrayOf,
 };

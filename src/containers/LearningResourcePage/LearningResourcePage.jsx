@@ -29,8 +29,15 @@ class LearningResourcePage extends Component {
   }
 
   render() {
-    const { locale, match, history, isSaving, licenses, savedOk } = this.props;
-    const sendDown = { isSaving, licenses, locale, savedOk };
+    const {
+      locale,
+      match,
+      history,
+      isSaving,
+      licenses,
+      showSaved,
+    } = this.props;
+    const sendDown = { isSaving, licenses, locale, showSaved };
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <OneColumn>
@@ -70,7 +77,7 @@ LearningResourcePage.propTypes = {
   fetchLicenses: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  savedOk: PropTypes.bool.isRequired,
+  showSaved: PropTypes.bool.isRequired,
 };
 
 const mapDispatchToProps = {
@@ -81,7 +88,7 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
   licenses: getAllLicenses(state),
   isSaving: getSaving(state),
-  savedOk: state.drafts.savedOk,
+  showSaved: state.messages.showSaved,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(

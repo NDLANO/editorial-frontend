@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
-import Button from '../../../components/Button';
+import SaveButton from '../../../components/SaveButton';
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -108,6 +108,12 @@ class LearningResourceForm extends Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.props.showSaved) {
+      // TODO send clearSaved unless going to editLearingResource
+    }
+  }
+
   handleSubmit(evt) {
     evt.preventDefault();
 
@@ -155,7 +161,7 @@ class LearningResourceForm extends Component {
       isSaving,
       articleStatus,
       fields,
-      savedOk,
+      showSaved,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
@@ -199,18 +205,17 @@ class LearningResourceForm extends Component {
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <Button
+          <SaveButton
             classes={formClasses}
             isSaving={isSaving}
             t={t}
-            showSaved={savedOk}>
-            {t('form.save')}
-          </Button>
+            showSaved={showSaved}
+          />
         </Field>
         <WarningModalWrapper
           {...{
             schema,
-            savedOk,
+            showSaved,
             fields,
             handleSubmit: this.handleSubmit,
             text: t('warningModal.notSaved'),
@@ -242,7 +247,7 @@ LearningResourceForm.propTypes = {
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  savedOk: PropTypes.bool.isRequired,
+  showSaved: PropTypes.bool.isRequired,
   articleStatus: PropTypes.arrayOf(PropTypes.string),
 };
 

@@ -16,7 +16,7 @@ class WarningModalWrapper extends PureComponent {
   componentDidMount() {
     this.unblock = this.props.history.block(nextLocation => {
       const navigate =
-        !this.isDirty() || this.state.discardChanges || this.props.savedOk;
+        !this.isDirty() || this.state.discardChanges || this.props.showSaved;
       if (!navigate) {
         this.setState({
           openModal: true,
@@ -79,7 +79,7 @@ WarningModalWrapper.propTypes = {
   }).isRequired,
   handleSubmit: PropTypes.func,
   text: PropTypes.string,
-  savedOk: PropTypes.bool,
+  showSaved: PropTypes.bool,
 };
 
 export default withRouter(WarningModalWrapper);

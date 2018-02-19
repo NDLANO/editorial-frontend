@@ -77,7 +77,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   locale: getLocale(state),
   isSaving: getSaving(state),
-  savedOk: state.drafts.savedOk,
+  showSaved: state.messages.showSaved,
   licenses: getAllLicenses(state),
 });
 

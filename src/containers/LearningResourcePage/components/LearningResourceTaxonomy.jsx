@@ -19,6 +19,8 @@ import {
   fetchRelevances,
 } from '../../../modules/taxonomy';
 import { flattenResourceTypes } from '../../../util/taxonomyHelpers';
+import Spinner from '../../../components/Spinner';
+import Overlay from '../../../components/Overlay';
 
 class LearningResourceTaxonomy extends Component {
   constructor(props) {
@@ -66,7 +68,7 @@ class LearningResourceTaxonomy extends Component {
 
   render() {
     const { taxonomy } = this.state;
-    const { t, commonFieldProps, model } = this.props;
+    const { t, commonFieldProps, model, taxonomyIsLoading } = this.props;
 
     const defaultDropdownProps = {
       obligatory: true,
@@ -80,6 +82,8 @@ class LearningResourceTaxonomy extends Component {
         header={t('form.taxonomytSection')}
         hidden={this.state.hiddenContent}
         fill>
+        {taxonomyIsLoading ? <Spinner cssModifier="absolute" /> : ''}
+        {taxonomyIsLoading ? <Overlay cssModifier="absolute" /> : ''}
         <TaxonomyFieldDropdown
           name="resourceTypes"
           placeholder={t('form.resourceTypes.placeholder')}
@@ -135,6 +139,7 @@ LearningResourceTaxonomy.propTypes = {
     filter: PropTypes.arrayOf(PropTypes.shape({})),
     topics: PropTypes.arrayOf(PropTypes.shape({})),
   }),
+  taxonomyIsLoading: PropTypes.bool,
 };
 
 export default injectT(LearningResourceTaxonomy);

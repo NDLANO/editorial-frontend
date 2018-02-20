@@ -1,0 +1,35 @@
+.c-spinner {
+  border: 0.4em solid var(--gray-10);
+  border-bottom-color: var(--brand-color--dark);
+  border-radius: 50%;
+  margin: 0 auto;
+  width: 3em;
+  height: 3em;
+  animation: spinner-spin 0.7s linear infinite;
+
+  &--fixed,
+  &--absolute {
+    top: 40%;
+    left: 50%;
+    right: 50%;
+    z-index: 999;
+  }
+}
+
+.c-spinner--fixed {
+  position: fixed;
+}
+
+.c-spinner--absolute {
+  position: absolute;
+}
+
+@keyframes spinner-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

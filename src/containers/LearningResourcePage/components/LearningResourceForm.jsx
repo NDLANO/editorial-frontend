@@ -174,6 +174,7 @@ class LearningResourceForm extends Component {
       licenses,
       isSaving,
       articleStatus,
+      taxonomyIsLoading,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
@@ -204,6 +205,7 @@ class LearningResourceForm extends Component {
           <LearningResourceTaxonomy
             commonFieldProps={commonFieldProps}
             model={model}
+            taxonomyIsLoading={taxonomyIsLoading}
           />
         )}
         <FormCopyright
@@ -260,6 +262,7 @@ LearningResourceForm.propTypes = {
     topics: PropTypes.array,
     loading: PropTypes.bool,
   }),
+  taxonomyIsLoading: PropTypes.bool,
 };
 
 export default compose(

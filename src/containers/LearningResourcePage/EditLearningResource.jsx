@@ -127,6 +127,7 @@ class EditLearningResource extends Component {
         licenses={licenses}
         isSaving={isSaving}
         onUpdate={this.updateLearningResource}
+        taxonomyIsLoading={this.state.taxonomy.loading}
       />
     );
   }

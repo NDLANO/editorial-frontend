@@ -146,6 +146,10 @@ const VisualElementSearch = ({
         />
       );
     }
+    case 'related-content': {
+      handleVisualElementChange({ resource: 'related-content' });
+      return null;
+    }
     default:
       return <p>{`Embedtag ${selectedResource} is not supported.`}</p>;
   }

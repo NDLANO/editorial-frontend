@@ -8,6 +8,15 @@ const colorType = {
   'subject-matter': 'article-color',
 };
 
+const isCurrentTab = (match, location, subtype) => {
+  const locations =
+    location && location.pathname ? location.pathname.split('/') : [];
+  if (locations.length > 3 && locations[2] === subtype.type) {
+    return true;
+  }
+  return !!match;
+};
+
 const SubNavigation = ({ subtypes, type }) => (
   <div {...classes('container', colorType[type])}>
     <div {...classes('items')}>
@@ -15,6 +24,7 @@ const SubNavigation = ({ subtypes, type }) => (
         <NavLink
           key={`typemenu_${subtype.type}`}
           to={subtype.url}
+          isActive={(match, location) => isCurrentTab(match, location, subtype)}
           {...classes('item')}
           activeClassName="c-navigation__item--active">
           {subtype.icon}

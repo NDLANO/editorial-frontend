@@ -61,7 +61,7 @@ export default class Lightbox extends React.Component {
 }
 
 Lightbox.propTypes = {
-  onClose: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
   display: PropTypes.bool,
   big: PropTypes.bool,
   fullscreen: PropTypes.bool,
@@ -73,5 +73,4 @@ Lightbox.defaultProps = {
   display: true,
   big: false,
   fullscreen: false,
-  onClose: () => {},
 };

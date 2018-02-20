@@ -37,6 +37,7 @@
 @import './navigation.css';
 @import './welcome.css';
 @import './warningModal.css';
+@import './overlay.css';
 
 .c-audio-search {
   width: 70%;

@@ -15,6 +15,7 @@ import { Figure } from 'ndla-ui';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
+import RelatedArticleBox from './RelatedArticleBox';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayOembed from '../../../DisplayEmbedTag/DisplayOembed';
 import DisplayExternal from '../../../DisplayEmbedTag/DisplayExternal';
@@ -117,6 +118,15 @@ class SlateFigure extends React.Component {
         );
       case 'h5p':
         return <DisplayOembed url={embed.url} />;
+      case 'related-content':
+        return (
+          <RelatedArticleBox
+            onRemoveClick={this.onRemoveClick}
+            editor={editor}
+            node={node}
+            {...props}
+          />
+        );
       default:
         return (
           <EditorErrorMessage

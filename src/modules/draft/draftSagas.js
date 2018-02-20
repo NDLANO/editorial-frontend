@@ -35,7 +35,7 @@ export function* watchFetchDraft() {
 export function* updateDraft(draft) {
   try {
     const updatedDraft = yield call(api.updateDraft, draft);
-    yield put(actions.setDraft({ ...updatedDraft, language: draft.language })); // Quick hack to set draft language on updated draft. Maybe language should not be on model?
+    yield put(actions.setDraft(updatedDraft));
     yield put(actions.updateDraftSuccess());
     yield put(messageActions.addMessage({ translationKey: 'form.savedOk' }));
   } catch (error) {
@@ -48,7 +48,7 @@ export function* updateDraft(draft) {
 export function* createDraft(draft, history) {
   try {
     const createdDraft = yield call(api.createDraft, draft);
-    yield put(actions.setDraft({ ...createdDraft, language: draft.language }));
+    yield put(actions.setDraft(createdDraft));
     history.push(
       toEditArticle(createdDraft.id, createdDraft.articleType, draft.language),
     );

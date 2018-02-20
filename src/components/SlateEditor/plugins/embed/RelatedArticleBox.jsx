@@ -142,7 +142,7 @@ class RelatedArticleBox extends React.Component {
                   title={get('title.title', item)}
                   key={item.id}
                   introduction={get('metaDescription.metaDescription', item)}
-                  to={toEditArticle(item.id, 'standard', 'locale')}
+                  to={toEditArticle(item.id, 'standard', locale)}
                 />
               ),
           )}

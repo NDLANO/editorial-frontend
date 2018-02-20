@@ -28,9 +28,8 @@ class EditTopicArticle extends Component {
   }
 
   componentWillMount() {
-    const { articleId, fetchDraft, articleLanguage, fetchTags } = this.props;
+    const { articleId, fetchDraft, articleLanguage } = this.props;
     fetchDraft({ id: articleId, language: articleLanguage });
-    fetchTags({ language: articleLanguage });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,11 +41,16 @@ class EditTopicArticle extends Component {
       fetchTags,
     } = nextProps;
     if (
-      (article && article.language !== articleLanguage) ||
+      this.props.articleLanguage !== articleLanguage ||
       articleId !== this.props.articleId
     ) {
       fetchDraft({ id: articleId, language: articleLanguage });
-      fetchTags({ language: articleLanguage });
+    }
+    if (
+      article &&
+      (!this.props.article || article.id !== this.props.article.id)
+    ) {
+      fetchTags({ language: article.language });
     }
   }
 
@@ -103,11 +107,14 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, props) => {
-  const { articleId, articleLanguage } = props;
+  const { articleId } = props;
   const getArticleSelector = getDraft(articleId, true);
-  const getAllTagsSelector = getAllTagsByLanguage(articleLanguage);
+  const article = getArticleSelector(state);
+  const getAllTagsSelector = getAllTagsByLanguage(
+    article ? article.language : '',
+  );
   return {
-    article: getArticleSelector(state),
+    article,
     tags: getAllTagsSelector(state),
   };
 };

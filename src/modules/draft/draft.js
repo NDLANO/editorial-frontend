@@ -84,55 +84,36 @@ export const getSaving = createSelector(
   drafts => drafts.isSaving,
 );
 
-export const getDraft = (articleId, useLanguage = false) =>
-  createSelector([getDraftById(articleId), getLocale], (article, locale) => {
-    const articleLanguage =
-      article &&
-      useLanguage &&
-      article.supportedLanguages &&
-      article.supportedLanguages.includes(article.language)
-        ? article.language
-        : undefined;
-    return article
-      ? {
-          ...article,
-          title: convertFieldWithFallback(
-            article,
-            'title',
-            '',
-            articleLanguage,
-          ),
-          introduction: convertFieldWithFallback(
-            article,
-            'introduction',
-            '',
-            articleLanguage,
-          ),
-          visualElement: convertFieldWithFallback(
-            article,
-            'visualElement',
-            {},
-            articleLanguage,
-          ),
-          content: convertFieldWithFallback(
-            article,
-            'content',
-            '',
-            articleLanguage,
-          ),
-          footnotes:
-            article.content && article.content.footNotes
-              ? article.content.footNotes
-              : undefined,
-          metaDescription: convertFieldWithFallback(
-            article,
-            'metaDescription',
-            '',
-            articleLanguage,
-          ),
-          tags: convertFieldWithFallback(article, 'tags', [], articleLanguage),
-          created: formatDate(article.created, locale),
-          updated: formatDate(article.updated, locale),
-        }
-      : undefined;
-  });
+export const getDraft = articleId =>
+  createSelector(
+    [getDraftById(articleId), getLocale],
+    (article, locale) =>
+      article
+        ? {
+            ...article,
+            title: convertFieldWithFallback(article, 'title', ''),
+            introduction: convertFieldWithFallback(article, 'introduction', ''),
+            visualElement: convertFieldWithFallback(
+              article,
+              'visualElement',
+              {},
+            ),
+            content: convertFieldWithFallback(article, 'content', ''),
+            footnotes:
+              article.content && article.content.footNotes
+                ? article.content.footNotes
+                : undefined,
+            metaDescription: convertFieldWithFallback(
+              article,
+              'metaDescription',
+              '',
+            ),
+            tags: convertFieldWithFallback(article, 'tags', []),
+            language: article.tags
+              ? article.tags.language
+              : article.content.language,
+            created: formatDate(article.created, locale),
+            updated: formatDate(article.updated, locale),
+          }
+        : undefined,
+  );

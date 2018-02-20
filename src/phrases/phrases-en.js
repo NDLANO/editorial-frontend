@@ -297,6 +297,12 @@ const phrases = {
       label: 'Meta description',
       description: 'The description will be viewable in search.',
     },
+    agreement: {
+      label: 'Connect to agreement',
+      placeholder: 'Search for agreement',
+      emptyFilter: 'No matching agreement found',
+      emptyList: 'No agreements in the list',
+    },
     rightsholders: {
       label: 'Rightsholder',
       createOption: 'Add new rightsholder',

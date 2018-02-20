@@ -19,7 +19,7 @@ test('articleSagas watchFetchDraft fetch article if not in state and language is
 
   nock('http://ndla-api')
     .get('/draft-api/v1/drafts/123')
-    .query({ language: 'nb' })
+    .query({ language: 'nb', fallback: true })
     .reply(200, { id: 123, title: 'unit testen' });
 
   return expectSaga(sagas.watchFetchDraft)

@@ -27,7 +27,9 @@ export const fetchLicenses = () =>
 
 export const fetchDraft = (id, language) => {
   const query = queryString.stringify({ language });
-  const url = language ? `${baseUrl}/${id}?${query}` : `${baseUrl}/${id}`;
+  const url = language
+    ? `${baseUrl}/${id}?${query}&fallback=true`
+    : `${baseUrl}/${id}`;
   return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
 };
 

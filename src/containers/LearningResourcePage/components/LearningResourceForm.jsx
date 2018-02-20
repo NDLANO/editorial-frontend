@@ -108,12 +108,6 @@ class LearningResourceForm extends Component {
     }
   }
 
-  componentWillUnmount() {
-    if (this.props.showSaved) {
-      // TODO send clearSaved unless going to editLearingResource
-    }
-  }
-
   handleSubmit(evt) {
     evt.preventDefault();
 

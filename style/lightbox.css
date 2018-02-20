@@ -55,7 +55,7 @@
       border-radius: 0;
       height: 210px;
       max-width: 620px;
-      padding-bottom: 1.5em;
+      padding-bottom: var(--spacing);
     }
   }
 }

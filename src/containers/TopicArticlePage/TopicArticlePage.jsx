@@ -13,6 +13,7 @@ import { OneColumn } from 'ndla-ui';
 
 import { getSaving } from '../../modules/draft/draft';
 import { getLocale } from '../../modules/locale/locale';
+import { getShowSaved } from '../../containers/Messages/messagesSelectors';
 import EditTopicArticle from './EditTopicArticle';
 import CreateTopicArticle from './CreateTopicArticle';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -77,7 +78,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   locale: getLocale(state),
   isSaving: getSaving(state),
-  showSaved: state.messages.showSaved,
+  showSaved: getShowSaved(state),
   licenses: getAllLicenses(state),
 });
 

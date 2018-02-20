@@ -83,7 +83,11 @@ class LearningResourceTaxonomy extends Component {
         hidden={this.state.hiddenContent}
         fill>
         {taxonomyIsLoading ? <Spinner cssModifier="absolute" /> : ''}
-        {taxonomyIsLoading ? <Overlay cssModifier="absolute" /> : ''}
+        {taxonomyIsLoading ? (
+          <Overlay cssModifiers={['absolute', 'white-opacity']} />
+        ) : (
+          ''
+        )}
         <TaxonomyFieldDropdown
           name="resourceTypes"
           placeholder={t('form.resourceTypes.placeholder')}

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 
-const Overlay = ({ onExit, cssModifier }) => {
+const Overlay = ({ onExit, cssModifiers }) => {
   const overlayClasses = new BEMHelper({
     name: 'overlay',
     prefix: 'c-',
@@ -13,18 +13,21 @@ const Overlay = ({ onExit, cssModifier }) => {
       onClick={onExit}
       role="button"
       tabIndex={0}
-      {...overlayClasses('', cssModifier)}
+      {...overlayClasses('', cssModifiers)}
     />
   );
 };
 
 Overlay.propTypes = {
   onExit: PropTypes.func.isRequired,
-  cssModifier: PropTypes.string,
+  cssModifiers: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
 };
 
 Overlay.defaultProps = {
-  cssModifier: '',
+  cssModifiers: '',
 };
 
 export default Overlay;

@@ -12,6 +12,9 @@
   position: absolute;
   width: 100%;
   height: 100%;
+}
+
+.c-overlay--white-opacity {
   opacity: 0.8;
   background-color: white;
 }

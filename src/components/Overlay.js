@@ -28,7 +28,7 @@ const Overlay = ({ onExit, cssModifiers }) =>
   );
 
 Overlay.propTypes = {
-  onExit: PropTypes.func.isRequired,
+  onExit: PropTypes.func,
   cssModifiers: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string),

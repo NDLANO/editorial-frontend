@@ -9,6 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import AutosizeInput from 'react-input-autosize';
+import { dropDownClasses } from './'
 
 const autosizeStyle = {
   border: 'none',
@@ -27,10 +28,11 @@ const DropdownInput = props => {
         placeholderIsMinWidth
         inputStyle={autosizeStyle}
         {...getInputProps({ name, ...inputProps })}
+        {...dropDownClasses('multiselect')}
       />
     );
   }
-  return <input {...getInputProps({ name, ...inputProps })} />;
+  return <input {...getInputProps({ name, ...inputProps })} {...dropDownClasses('single')}/>;
 };
 
 DropdownInput.propTypes = {

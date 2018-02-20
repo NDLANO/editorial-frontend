@@ -18,7 +18,11 @@
     flex: 1 1 auto;
     padding: 4px;
     border: 1px #c5c4c4 solid;
-    border-radius: 4px;
+    border-radius: 1px;
+  }
+
+  &__single {
+    padding: 0.522rem;
   }
 
   &__items {
@@ -35,12 +39,13 @@
   }
 
   &__item {
+    border-radius: 1px;
     cursor: pointer;
   }
 
   &__item,
   &__empty {
-    padding: 0.2rem;
+    padding: 0.522rem;
   }
 
   &__item--active {
@@ -65,7 +70,7 @@
     align-items: center;
     height: 1.9rem;
     width: auto;
-    border-radius: 0.1rem;
+    border-radius: 1px;
     background-color: var(--brand-grey-dark);
     color: white;
     line-height: 1rem;

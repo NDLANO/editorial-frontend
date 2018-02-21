@@ -61,7 +61,7 @@ function queryResources(articleId, language) {
 }
 
 /* Taxonomy actions */
-async function updateTaxonomy(taxonomy) {
+async function updateTaxonomy(taxonomy, allTopics) {
   try {
     let resource = await queryResources(taxonomy.articleId, taxonomy.language);
 
@@ -97,6 +97,7 @@ async function updateTaxonomy(taxonomy) {
         resource[0].id,
         [...taxonomy.topics],
         taxonomy.language,
+        allTopics,
       );
     }
   } catch (e) {

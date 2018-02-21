@@ -35,6 +35,7 @@ class EditLearningResource extends Component {
     super(props);
     this.state = {
       taxonomy: { resourceTypes: [], filter: [], topics: [], loading: true },
+      allTopics: [],
     };
     this.updateLearningResource = this.updateLearningResource.bind(this);
     this.fetchTaxonony = this.fetchTaxonony.bind(this);
@@ -77,7 +78,7 @@ class EditLearningResource extends Component {
         // Temporary method until API is simplified
         const allTopics = await fetchAllTopicResource(articleLanguage);
         const topicResource = allTopics.filter(
-          item => item.resourceid === resource[0].id,
+          item => item.resourceId === resource[0].id,
         );
 
         const topics = await Promise.all(
@@ -89,9 +90,13 @@ class EditLearningResource extends Component {
             return { ...topicArticle, primary: item.primary };
           }),
         );
-
         this.setState({
           taxonomy: { resourceTypes, filter, topics, loading: false },
+          allTopics,
+        });
+      } else {
+        this.setState({
+          taxonomy: { loading: false },
         });
       }
     } catch (e) {
@@ -102,7 +107,7 @@ class EditLearningResource extends Component {
   updateLearningResource(article, taxonomy) {
     const { updateDraft } = this.props;
     updateDraft({ draft: article });
-    updateTaxonomy(taxonomy);
+    updateTaxonomy(taxonomy, this.state.allTopics);
   }
 
   render() {

@@ -56,11 +56,15 @@ function deleteTopicResource(id) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-async function createDeleteUpdateTopicResources(resourceId, topics, language) {
+async function createDeleteUpdateTopicResources(
+  resourceId,
+  topics,
+  language,
+  allTopics,
+) {
   try {
-    const allTopics = await fetchAllTopicResource(language);
     const topicResource = allTopics.filter(
-      item => item.resourceid === resourceId,
+      item => item.resourceId === resourceId,
     );
 
     const newTopics = spliceChangedItems(
@@ -75,7 +79,7 @@ async function createDeleteUpdateTopicResources(resourceId, topics, language) {
       createTopicResource({
         topicid: item.id,
         primary: item.primary,
-        resourceid: resourceId, // Not consistent!
+        resourceId, // Not consistent!
       });
     });
     newTopics[1].forEach(item => {

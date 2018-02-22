@@ -229,12 +229,7 @@ class LearningResourceForm extends Component {
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <SaveButton
-            classes={formClasses}
-            isSaving={isSaving}
-            t={t}
-            showSaved={showSaved}
-          />
+          <SaveButton isSaving={isSaving} t={t} showSaved={showSaved} />
         </Field>
         <WarningModalWrapper
           {...{

@@ -12,7 +12,10 @@ import {
   fetchAuthorized,
 } from '../../../util/apiHelpers';
 import { spliceChangedItems } from '../../../util/taxonomyHelpers';
-import { fetchResourceResourceType } from '..';
+import {
+  fetchResourceResourceType,
+  resolveTaxonomyJsonOrRejectWithError,
+} from '..';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
@@ -23,7 +26,7 @@ function createResourceResourceType(resourceType) {
     },
     method: 'POST',
     body: JSON.stringify(resourceType),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(resolveTaxonomyJsonOrRejectWithError);
 }
 
 function deleteResourceResourceType(id) {

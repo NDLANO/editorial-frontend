@@ -11,6 +11,7 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../../util/apiHelpers';
+import { resolveTaxonomyJsonOrRejectWithError } from '..';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
@@ -27,7 +28,7 @@ function createResource(resource) {
     },
     method: 'POST',
     body: JSON.stringify(resource),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(resolveTaxonomyJsonOrRejectWithError);
 }
 
 function fetchResourceResourceType(id, locale) {

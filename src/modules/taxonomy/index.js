@@ -13,6 +13,7 @@ import {
   fetchRelevances,
   queryResources,
   updateTaxonomy,
+  resolveTaxonomyJsonOrRejectWithError,
 } from './taxonomyApi';
 import {
   fetchResource,
@@ -67,4 +68,5 @@ export {
   fetchRelevances,
   queryResources,
   updateTaxonomy,
+  resolveTaxonomyJsonOrRejectWithError,
 };

@@ -12,7 +12,7 @@ import {
   fetchAuthorized,
 } from '../../../util/apiHelpers';
 import { spliceChangedItems } from '../../../util/taxonomyHelpers';
-import { fetchResourceFilter } from '..';
+import { fetchResourceFilter, resolveTaxonomyJsonOrRejectWithError } from '..';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
@@ -23,7 +23,7 @@ function createResourceFilter(filter) {
     },
     method: 'POST',
     body: JSON.stringify(filter),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(resolveTaxonomyJsonOrRejectWithError);
 }
 
 function updateResourceFilter(id, filter) {

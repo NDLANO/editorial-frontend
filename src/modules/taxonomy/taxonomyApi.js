@@ -18,6 +18,9 @@ import {
   createDeleteUpdateTopicResources,
 } from '.';
 
+const resolveTaxonomyJsonOrRejectWithError = res =>
+  resolveJsonOrRejectWithError(res, true);
+
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
 function fetchTopicArticle(topicId, locale) {
@@ -64,22 +67,19 @@ function queryResources(articleId, language) {
 async function updateTaxonomy(taxonomy, allTopics) {
   try {
     let resource = await queryResources(taxonomy.articleId, taxonomy.language);
-
     if (
       resource.length === 0 &&
       (taxonomy.resourceTypes.length > 0 ||
         taxonomy.filter.length > 0 ||
         taxonomy.topics.length > 0)
     ) {
-      const resourceId = await createResource({
+      await createResource({
         contentUri: `urn:article:${taxonomy.articleId}`,
         name: taxonomy.articleName,
       });
-
-      // Temporary regex until (if) object representation is returned instead
-      resource = [{ id: resourceId.replace(/(\/v1\/resources\/)/, '') }];
+      resource = await queryResources(taxonomy.articleId, taxonomy.language);
+      // resource = [{ id: resourceId.replace(/(\/v1\/resources\/)/, '') }];
     }
-
     if (resource.length !== 0 && resource[0].id) {
       createDeleteResourceTypes(
         resource[0].id,
@@ -106,6 +106,7 @@ async function updateTaxonomy(taxonomy, allTopics) {
 }
 
 export {
+  resolveTaxonomyJsonOrRejectWithError,
   fetchResourceTypes,
   fetchFilters,
   fetchTopics,

@@ -27,15 +27,19 @@ export function createErrorPayload(status, message, json) {
   return Object.assign(new Error(message), { status, json });
 }
 
-export function resolveJsonOrRejectWithError(res) {
+export function resolveJsonOrRejectWithError(res, taxonomy = false) {
   return new Promise((resolve, reject) => {
     if (res.ok) {
       if (res.status === 204) {
         return resolve();
       }
       // Temporary until API changes to return representation
-      if (res.status === 201 && res.headers.get('Location')) {
-        return resolve(res.headers.get('Location'));
+      const location = res.headers.get('Location');
+      if (res.status === 201 && (location || taxonomy)) {
+        if (!location && taxonomy) {
+          resolve();
+        }
+        return resolve(location);
       }
       return resolve(res.json());
     }

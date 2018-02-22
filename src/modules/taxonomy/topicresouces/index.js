@@ -12,6 +12,7 @@ import {
   fetchAuthorized,
 } from '../../../util/apiHelpers';
 import { spliceChangedItems } from '../../../util/taxonomyHelpers';
+import { resolveTaxonomyJsonOrRejectWithError } from '..';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
@@ -34,7 +35,7 @@ function createTopicResource(topicResource) {
     },
     method: 'POST',
     body: JSON.stringify(topicResource),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(resolveTaxonomyJsonOrRejectWithError);
 }
 
 function updateTopicResource(id, topicResource) {

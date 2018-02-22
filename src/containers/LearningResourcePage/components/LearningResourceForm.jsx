@@ -67,7 +67,6 @@ export const getInitialModel = (
   taxonomy = { resourceTypes: [], filter: [], topics: [] },
 ) => {
   const metaImageId = parseImageUrl(article.metaImage);
-
   return {
     id: article.id,
     revision: article.revision,
@@ -93,7 +92,9 @@ export const getInitialModel = (
     articleType: 'standard',
     status: article.status || [],
     notes: article.notes || [],
-    ...taxonomy,
+    resourceTypes: taxonomy.resourceTypes || [],
+    filter: taxonomy.filter || [],
+    topics: taxonomy.topics || [],
   };
 };
 
@@ -129,7 +130,6 @@ class LearningResourceForm extends Component {
 
     const content = learningResourceContentToHTML(model.content);
     const emptyContent = model.id ? '' : undefined;
-
     this.props.onUpdate(
       {
         id: model.id,

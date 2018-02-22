@@ -42,11 +42,11 @@ class LearningResourcePage extends Component {
               )}
             />
             <Route
-              path={`${match.url}/:articleId/edit/:articleLanguage`}
+              path={`${match.url}/:articleId/edit/:selectedLanguage`}
               render={props => (
                 <EditLearningResource
                   articleId={props.match.params.articleId}
-                  articleLanguage={props.match.params.articleLanguage}
+                  selectedLanguage={props.match.params.selectedLanguage}
                   {...rest}
                 />
               )}

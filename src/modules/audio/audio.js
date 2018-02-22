@@ -69,7 +69,7 @@ const getAudiosFromState = state => state.audios;
 export const getAudioById = audioId =>
   createSelector(
     [getAudiosFromState],
-    audios => audios.all[audioId.toString()],
+    audios => (audioId ? audios.all[audioId.toString()] : undefined),
   );
 
 export const getAudio = (audioId, useLanguage = false) =>

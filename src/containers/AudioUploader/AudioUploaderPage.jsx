@@ -21,7 +21,7 @@ import {
 } from '../../modules/license/license';
 import { getSaving } from '../../modules/audio/audio';
 import { getLocale } from '../../modules/locale/locale';
-import CreateAudio from './CreateAudio';
+import { getShowSaved } from '../../containers/Messages/messagesSelectors';
 import EditAudio from './EditAudio';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
@@ -33,7 +33,7 @@ class AudioUploaderPage extends Component {
   }
 
   render() {
-    const { locale, tags, match, history, licenses, isSaving } = this.props;
+    const { match, ...rest } = this.props;
 
     return (
       <div>
@@ -41,15 +41,7 @@ class AudioUploaderPage extends Component {
           <Switch>
             <Route
               path={`${match.url}/new`}
-              render={() => (
-                <CreateAudio
-                  history={history}
-                  locale={locale}
-                  tags={tags}
-                  licenses={licenses}
-                  isSaving={isSaving}
-                />
-              )}
+              render={() => <EditAudio {...rest} />}
             />
             <Route
               path={`${match.url}/:audioId/edit/:audioLanguage`}
@@ -57,11 +49,7 @@ class AudioUploaderPage extends Component {
                 <EditAudio
                   audioId={props.match.params.audioId}
                   audioLanguage={props.match.params.audioLanguage}
-                  history={history}
-                  locale={locale}
-                  tags={tags}
-                  licenses={licenses}
-                  isSaving={isSaving}
+                  {...rest}
                 />
               )}
             />
@@ -106,6 +94,7 @@ const mapStateToProps = state => {
     tags: getAllTagsSelector(state),
     licenses: getAllLicenses(state),
     isSaving: getSaving(state),
+    showSaved: getShowSaved(state),
   };
 };
 

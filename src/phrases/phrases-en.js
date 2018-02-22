@@ -176,10 +176,7 @@ const phrases = {
       copyright: 'Copyright',
       change: 'Change meta image',
     },
-    title: {
-      create: 'You are now creating a learning resource on {title}({key})',
-      update: 'You are now editing a learning resource on {title}({key})',
-    },
+    title: 'Learning resource | {title} ({key})',
     validation: {
       missingEmbedData:
         'One or more inlcuded video, image, or audio elements is missing caption or alternative text.',
@@ -202,6 +199,8 @@ const phrases = {
     workflowSection: 'Workflow',
     copyrightSection: 'License and authors',
     save: 'Save',
+    saving: 'Saving...',
+    saved: 'Saved ',
     abort: 'Abort',
     validate: 'Validate',
     publish: 'Publish',
@@ -392,6 +391,11 @@ const phrases = {
   },
   forbiddenPage: {
     description: 'You do not have access to this page',
+  },
+  warningModal: {
+    notSaved: 'Document is not saved, do you want to continue?',
+    continue: 'Continue',
+    delete: 'Delete',
   },
 };
 

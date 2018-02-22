@@ -1,0 +1,26 @@
+.c-warning-modal {
+  color: white;
+  height: 100%;
+  padding-top: var(--spacing);
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    & > button {
+      background-color: white;
+      margin-left: 0;
+    }
+  }
+
+  &__icon {
+    width: 27px;
+    height: 27px;
+    margin-right: var(--spacing--small);
+  }
+}

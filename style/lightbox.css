@@ -49,6 +49,14 @@
     &--fullscreen {
       max-width: 95%;
     }
+
+    &--modal {
+      background-color: var(--red-1);
+      border-radius: 0;
+      height: 210px;
+      max-width: 620px;
+      padding-bottom: var(--spacing);
+    }
   }
 }
 

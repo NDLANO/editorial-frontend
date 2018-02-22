@@ -9,12 +9,12 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
+import SaveButton from '../../../components/SaveButton';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -35,6 +35,7 @@ import {
   FormCopyright,
   FormHeader,
   formClasses,
+  WarningModalWrapper,
 } from '../../Form';
 import { toEditArticle } from '../../../util/routeHelpers';
 
@@ -124,7 +125,9 @@ class TopicArticleForm extends Component {
       tags,
       isSaving,
       articleStatus,
+      fields,
       licenses,
+      showSaved,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
@@ -164,10 +167,23 @@ class TopicArticleForm extends Component {
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <Button submit outline disabled={isSaving} className="c-save-button">
+          <SaveButton
+            classes={formClasses}
+            isSaving={isSaving}
+            t={t}
+            showSaved={showSaved}>
             {t('form.save')}
-          </Button>
+          </SaveButton>
         </Field>
+        <WarningModalWrapper
+          {...{
+            schema,
+            showSaved,
+            fields,
+            handleSubmit: this.handleSubmit,
+            text: t('warningModal.notSaved'),
+          }}
+        />
       </form>
     );
   }
@@ -184,14 +200,15 @@ TopicArticleForm.propTypes = {
   }),
   setModel: PropTypes.func.isRequired,
   schema: SchemaShape,
+  fields: PropTypes.objectOf(PropTypes.object).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
   revision: PropTypes.number,
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  showSaved: PropTypes.bool.isRequired,
   articleStatus: PropTypes.arrayOf(PropTypes.string),
   licenses: LicensesArrayOf,
 };

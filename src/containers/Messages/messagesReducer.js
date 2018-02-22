@@ -8,10 +8,11 @@
 
 import { handleActions } from 'redux-actions';
 import { uuid } from 'ndla-util';
+import * as actions from './messagesActions';
 
 export default handleActions(
   {
-    ADD_MESSAGE: {
+    [actions.addMessage]: {
       next(state, action) {
         const message = {
           id: uuid(),
@@ -25,28 +26,28 @@ export default handleActions(
               : action.payload.timeToLive,
         };
 
-        return [...state, message];
-      },
-      throw(state) {
-        return state;
-      },
-    },
-
-    CLEAR_ALL_MESSAGES: {
-      next: () => [],
-      throw: state => state,
-    },
-
-    CLEAR_MESSAGE: {
-      next(state, action) {
-        return state.filter(m => m.id !== action.payload);
-      },
-      throw(state) {
-        return state;
+        return {
+          ...state,
+          messages: [...state.messages, message],
+        };
       },
     },
 
-    APPLICATION_ERROR: {
+    [actions.clearAllMessages]: {
+      next: state => ({
+        ...state,
+        messages: [],
+      }),
+    },
+
+    [actions.clearMessage]: {
+      next: (state, action) => ({
+        ...state,
+        messages: state.messages.filter(m => m.id !== action.payload),
+      }),
+    },
+
+    [actions.applicationError]: {
       throw(state, action) {
         if (action.payload.json && action.payload.json.messages) {
           const messages = action.payload.json.messages.map(m => ({
@@ -55,11 +56,26 @@ export default handleActions(
             severity: 'danger',
             timeToLive: 0,
           }));
-          return [...state, ...messages];
+          return {
+            ...state,
+            messages: [...state.messages, ...messages],
+          };
         }
         return state;
       },
     },
+    [actions.showSaved]: {
+      next: state => ({
+        ...state,
+        showSaved: true,
+      }),
+    },
+    [actions.clearSaved]: {
+      next: state => ({
+        ...state,
+        showSaved: false,
+      }),
+    },
   },
-  [],
+  { messages: [], showSaved: false },
 );

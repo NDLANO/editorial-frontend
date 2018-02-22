@@ -17,6 +17,7 @@ import {
 } from '../../modules/license/license';
 import { getSaving } from '../../modules/draft/draft';
 import { getLocale } from '../../modules/locale/locale';
+import { getShowSaved } from '../../containers/Messages/messagesSelectors';
 import EditLearningResource from './EditLearningResource';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -29,8 +30,7 @@ class LearningResourcePage extends Component {
   }
 
   render() {
-    const { locale, match, history, isSaving, licenses } = this.props;
-
+    const { match, history, ...rest } = this.props;
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <OneColumn>
@@ -38,12 +38,7 @@ class LearningResourcePage extends Component {
             <Route
               path={`${match.url}/new`}
               render={() => (
-                <CreateLearningResource
-                  history={history}
-                  locale={locale}
-                  licenses={licenses}
-                  isSaving={isSaving}
-                />
+                <CreateLearningResource history={history} {...rest} />
               )}
             />
             <Route
@@ -52,9 +47,7 @@ class LearningResourcePage extends Component {
                 <EditLearningResource
                   articleId={props.match.params.articleId}
                   articleLanguage={props.match.params.articleLanguage}
-                  licenses={licenses}
-                  locale={locale}
-                  isSaving={isSaving}
+                  {...rest}
                 />
               )}
             />
@@ -77,6 +70,7 @@ LearningResourcePage.propTypes = {
   fetchLicenses: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  showSaved: PropTypes.bool.isRequired,
 };
 
 const mapDispatchToProps = {
@@ -87,6 +81,7 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
   licenses: getAllLicenses(state),
   isSaving: getSaving(state),
+  showSaved: getShowSaved(state),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(

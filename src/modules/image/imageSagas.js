@@ -39,7 +39,7 @@ export function* updateImage(image, file) {
     const updatedImage = yield call(api.updateImage, image.id, formData);
     yield put(actions.setImage({ ...updatedImage, language: image.language }));
     yield put(actions.updateImageSuccess());
-    yield put(messageActions.addMessage({ translationKey: 'form.savedOk' }));
+    yield put(messageActions.showSaved());
   } catch (error) {
     yield put(actions.updateImageError());
     // TODO: handle error
@@ -52,13 +52,9 @@ export function* createImage(image, file, history) {
     const formData = yield call(createFormData, image, file);
     const createdImage = yield call(api.postImage, formData);
     yield put(actions.setImage({ ...createdImage, language: image.language }));
-    history.push(toEditImage(createdImage.id, image.language));
     yield put(actions.updateImageSuccess());
-    yield put(
-      messageActions.addMessage({
-        translationKey: 'form.createdOk',
-      }),
-    );
+    yield put(messageActions.showSaved());
+    history.push(toEditImage(createdImage.id, image.language));
   } catch (error) {
     yield put(actions.updateImageError());
     // TODO: handle error

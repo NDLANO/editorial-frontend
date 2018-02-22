@@ -40,35 +40,30 @@ export default handleActions(
         ...state,
         all: { ...state.all, [action.payload.id]: { ...action.payload } },
       }),
-      throw: state => state,
     },
     [updateDraft]: {
       next: state => ({
         ...state,
         isSaving: true,
       }),
-      throw: state => state,
     },
     [publishDraft]: {
       next: state => ({
         ...state,
         isSaving: true,
       }),
-      throw: state => state,
     },
     [updateDraftSuccess]: {
       next: state => ({
         ...state,
         isSaving: false,
       }),
-      throw: state => state,
     },
     [updateDraftError]: {
       next: state => ({
         ...state,
         isSaving: false,
       }),
-      throw: state => state,
     },
   },
   initalState,

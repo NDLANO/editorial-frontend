@@ -21,7 +21,6 @@ import {
 } from '../../modules/license/license';
 import { getSaving } from '../../modules/audio/audio';
 import { getLocale } from '../../modules/locale/locale';
-import CreateImage from './CreateImage';
 import EditImage from './EditImage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
@@ -33,34 +32,22 @@ class ImageUploaderPage extends Component {
   }
 
   render() {
-    const { locale, tags, match, history, licenses, isSaving } = this.props;
+    const { match, ...rest } = this.props;
 
     return (
       <OneColumn>
         <Switch>
           <Route
             path={`${match.url}/new`}
-            render={() => (
-              <CreateImage
-                history={history}
-                locale={locale}
-                tags={tags}
-                licenses={licenses}
-                isSaving={isSaving}
-              />
-            )}
+            render={() => <EditImage {...rest} />}
           />
           <Route
             path={`${match.url}/:imageId/edit/:imageLanguage`}
             render={props => (
               <EditImage
                 imageId={props.match.params.imageId}
-                history={history}
                 imageLanguage={props.match.params.imageLanguage}
-                locale={locale}
-                tags={tags}
-                licenses={licenses}
-                isSaving={isSaving}
+                {...rest}
               />
             )}
           />
@@ -104,6 +91,7 @@ const mapStateToProps = state => {
     tags: getAllTagsSelector(state),
     licenses: getAllLicenses(state),
     isSaving: getSaving(state),
+    showSaved: state.messages.showSaved,
   };
 };
 

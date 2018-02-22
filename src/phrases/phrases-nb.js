@@ -206,6 +206,8 @@ const phrases = {
     workflowSection: 'Arbeidsflyt',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
+    saving: 'Lagrer...',
+    saved: 'Lagret ',
     abort: 'Avbryt',
     validate: 'Valider',
     publish: 'Publiser',
@@ -397,6 +399,11 @@ const phrases = {
   },
   forbiddenPage: {
     description: 'Du har ikke tilgang til denne siden',
+  },
+  warningModal: {
+    notSaved: 'Dokumentet er ikke lagret, ønsker du å lagre?',
+    continue: 'Fortsett',
+    delete: 'Slett',
   },
 };
 

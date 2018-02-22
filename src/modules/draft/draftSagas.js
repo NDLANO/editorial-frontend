@@ -37,7 +37,7 @@ export function* updateDraft(draft) {
     const updatedDraft = yield call(api.updateDraft, draft);
     yield put(actions.setDraft(updatedDraft));
     yield put(actions.updateDraftSuccess());
-    yield put(messageActions.addMessage({ translationKey: 'form.savedOk' }));
+    yield put(messageActions.showSaved());
   } catch (error) {
     yield put(actions.updateDraftError());
     // TODO: handle error
@@ -49,14 +49,10 @@ export function* createDraft(draft, history) {
   try {
     const createdDraft = yield call(api.createDraft, draft);
     yield put(actions.setDraft(createdDraft));
+    yield put(actions.updateDraftSuccess());
+    yield put(messageActions.showSaved());
     history.push(
       toEditArticle(createdDraft.id, createdDraft.articleType, draft.language),
-    );
-    yield put(actions.updateDraftSuccess());
-    yield put(
-      messageActions.addMessage({
-        translationKey: 'form.createdOk',
-      }),
     );
   } catch (error) {
     yield put(actions.updateDraftError());

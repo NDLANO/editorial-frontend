@@ -16,7 +16,7 @@ import { ImageShape } from '../../shapes';
 class EditImage extends Component {
   componentWillMount() {
     const { imageId: id, fetchImage, imageLanguage } = this.props;
-    fetchImage({ id, language: imageLanguage });
+    if (id) fetchImage({ id, language: imageLanguage });
   }
   componentWillReceiveProps(nextProps) {
     const { imageId: id, fetchImage, imageLanguage, image } = nextProps;
@@ -30,29 +30,20 @@ class EditImage extends Component {
   }
   render() {
     const {
-      locale,
-      tags,
-      licenses,
-      isSaving,
       history,
       image: imageData,
       updateImage,
+      locale,
+      ...rest
     } = this.props;
-
-    if (!imageData) {
-      return null;
-    }
 
     return (
       <ImageForm
-        initialModel={getInitialModel(imageData)}
-        revision={imageData.revision}
-        imageInfo={imageData.imageFile}
-        tags={tags}
-        licenses={licenses}
-        locale={locale}
+        initialModel={getInitialModel(imageData || { language: locale })}
+        revision={imageData && imageData.revision}
+        imageInfo={imageData && imageData.imageFile}
         onUpdate={(image, file) => updateImage({ image, file, history })}
-        isSaving={isSaving}
+        {...rest}
       />
     );
   }

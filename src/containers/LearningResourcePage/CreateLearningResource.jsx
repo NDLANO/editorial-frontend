@@ -35,13 +35,12 @@ class CreateLearningResource extends Component {
   }
 
   render() {
-    const { tags, locale, isSaving, licenses } = this.props;
+    const { locale, ...rest } = this.props;
     return (
       <LearningResourceForm
+        history={history}
         initialModel={getInitialModel({ language: locale })}
-        tags={tags}
-        licenses={licenses}
-        isSaving={isSaving}
+        {...rest}
         onUpdate={this.updateDraft}
       />
     );

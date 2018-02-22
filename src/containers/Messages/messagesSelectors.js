@@ -12,5 +12,7 @@ const getMessagesFromState = state => state.messages;
 
 export const getMessages = createSelector(
   [getMessagesFromState],
-  messages => messages,
+  messages => messages.messages,
 );
+
+export const getShowSaved = state => state.messages.showSaved;

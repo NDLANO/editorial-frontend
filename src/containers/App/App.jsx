@@ -20,7 +20,6 @@ import Footer from './components/Footer';
 import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
 import Alerts from '../Messages/Alerts';
-import ScrollToTop from './ScrollToTop';
 import Login from '../Login/Login';
 import Logout from '../Logout/Logout';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
@@ -48,7 +47,6 @@ export class App extends React.Component {
           title="NDLA"
           meta={[{ name: 'description', content: t('meta.description') }]}
         />
-        <ScrollToTop />
         <Content>
           <Masthead
             t={t}

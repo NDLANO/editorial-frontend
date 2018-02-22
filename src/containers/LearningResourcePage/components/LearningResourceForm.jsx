@@ -9,12 +9,12 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
+import SaveButton from '../../../components/SaveButton';
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -32,6 +32,7 @@ import {
   FormCopyright,
   FormHeader,
   formClasses,
+  WarningModalWrapper,
 } from '../../Form';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
@@ -174,6 +175,8 @@ class LearningResourceForm extends Component {
       licenses,
       isSaving,
       articleStatus,
+      fields,
+      showSaved,
       taxonomyIsLoading,
     } = this.props;
 
@@ -226,10 +229,22 @@ class LearningResourceForm extends Component {
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <Button submit outline disabled={isSaving} className="c-save-button">
-            {t('form.save')}
-          </Button>
+          <SaveButton
+            classes={formClasses}
+            isSaving={isSaving}
+            t={t}
+            showSaved={showSaved}
+          />
         </Field>
+        <WarningModalWrapper
+          {...{
+            schema,
+            showSaved,
+            fields,
+            handleSubmit: this.handleSubmit,
+            text: t('warningModal.notSaved'),
+          }}
+        />
       </form>
     );
   }
@@ -246,6 +261,7 @@ LearningResourceForm.propTypes = {
     language: PropTypes.string,
   }),
   setModel: PropTypes.func.isRequired,
+  fields: PropTypes.objectOf(PropTypes.object).isRequired,
   schema: SchemaShape,
   licenses: LicensesArrayOf,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -255,6 +271,7 @@ LearningResourceForm.propTypes = {
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  showSaved: PropTypes.bool.isRequired,
   articleStatus: PropTypes.arrayOf(PropTypes.string),
   taxonomy: PropTypes.shape({
     resourceTypes: PropTypes.array,

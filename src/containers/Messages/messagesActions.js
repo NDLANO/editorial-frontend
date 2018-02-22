@@ -12,6 +12,8 @@ export const applicationError = createAction('APPLICATION_ERROR');
 export const addMessage = createAction('ADD_MESSAGE');
 export const clearAllMessages = createAction('CLEAR_ALL_MESSAGES');
 export const clearMessage = createAction('CLEAR_MESSAGE');
+export const showSaved = createAction('SHOW_SAVED');
+export const clearSaved = createAction('CLEAR_SAVED');
 
 export function timeoutMessage(message) {
   return dispatch =>

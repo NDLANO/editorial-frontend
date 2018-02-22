@@ -8,13 +8,12 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
-import { Button } from 'ndla-ui';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import BEMHelper from 'react-bem-helper';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
+import SaveButton from '../../../components/SaveButton';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
@@ -24,7 +23,11 @@ import {
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
 import { SchemaShape } from '../../../shapes';
-import { FormHeader } from '../../Form';
+import {
+  FormHeader,
+  formClasses as classes,
+  WarningModalWrapper,
+} from '../../Form';
 import { toEditImage } from '../../../util/routeHelpers';
 
 export const getInitialModel = (image = {}) => ({
@@ -48,15 +51,11 @@ export const getInitialModel = (image = {}) => ({
       : DEFAULT_LICENSE.license,
 });
 
-const classes = new BEMHelper({
-  name: 'form',
-  prefix: 'c-',
-});
-
 class ImageForm extends Component {
   constructor(props) {
     super(props);
     this.state = { title: '', tags: [], license: '', image: {} };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -116,30 +115,20 @@ class ImageForm extends Component {
       tags,
       licenses,
       isSaving,
+      fields,
+      showSaved,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
     return (
-      <form onSubmit={event => this.handleSubmit(event)} {...classes()}>
+      <form onSubmit={this.handleSubmit} {...classes()}>
         <FormHeader
           model={model}
           type="image"
           editUrl={lang => toEditImage(model.id, lang)}
         />
-        <ImageContent
-          classes={classes}
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-          tags={tags}
-          model={model}
-        />
-        <ImageMetaData
-          classes={classes}
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-          tags={tags}
-          licenses={licenses}
-        />
+        <ImageContent {...{ classes, commonFieldProps, tags, model }} />
+        <ImageMetaData {...{ classes, commonFieldProps, tags, licenses }} />
         <Field right>
           <Link
             to={'/'}
@@ -147,10 +136,19 @@ class ImageForm extends Component {
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <Button submit outline disabled={false} className="c-save-button">
+          <SaveButton {...{ classes, isSaving, t, showSaved }}>
             {t('form.save')}
-          </Button>
+          </SaveButton>
         </Field>
+        <WarningModalWrapper
+          {...{
+            schema,
+            showSaved,
+            fields,
+            handleSubmit: this.handleSubmit,
+            text: t('warningModal.notSaved'),
+          }}
+        />
       </form>
     );
   }
@@ -174,12 +172,13 @@ ImageForm.propTypes = {
     }),
   ).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  fields: PropTypes.objectOf(PropTypes.object).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired,
   setSubmitted: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  showSaved: PropTypes.bool.isRequired,
   revision: PropTypes.number,
 };
 

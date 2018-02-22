@@ -11,6 +11,7 @@ import AgreementConnection from './AgreementConnection';
 import formClasses from './formClasses';
 import FormWorkflow from './FormWorkflow';
 import FormCopyright from './FormCopyright';
+import WarningModalWrapper from './WarningModalWrapper';
 import FormHeader from './FormHeader';
 
 export {
@@ -20,4 +21,5 @@ export {
   FormWorkflow,
   FormCopyright,
   FormHeader,
+  WarningModalWrapper,
 };

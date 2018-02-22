@@ -26,8 +26,8 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 class ImageUploaderPage extends Component {
   componentWillMount() {
-    const { fetchTags, fetchLicenses } = this.props;
-    fetchTags();
+    const { fetchTags, fetchLicenses, locale } = this.props;
+    fetchTags({ language: locale });
     fetchLicenses();
   }
 

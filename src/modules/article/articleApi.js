@@ -14,9 +14,9 @@ import {
 
 const articleUrl = apiResourceUrl('/article-api/v2/articles');
 export const searchArticles = (queryString, locale) =>
-  fetchAuthorized(`${articleUrl}/${queryString}?language=${locale}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchAuthorized(
+    `${articleUrl}/${queryString}?language=${locale}&fallback=true`,
+  ).then(resolveJsonOrRejectWithError);
 
 export const searchRelatedArticles = async (input, locale) => {
   await new Promise(resolve => setTimeout(resolve, 50));

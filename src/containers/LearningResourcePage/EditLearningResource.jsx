@@ -28,25 +28,29 @@ class EditLearningResource extends Component {
   }
 
   componentWillMount() {
-    const { articleId, fetchDraft, articleLanguage, fetchTags } = this.props;
-    fetchDraft({ id: articleId, language: articleLanguage });
-    fetchTags({ language: articleLanguage });
+    const { articleId, fetchDraft, selectedLanguage } = this.props;
+    fetchDraft({ id: articleId, language: selectedLanguage });
   }
 
   componentWillReceiveProps(nextProps) {
     const {
       articleId,
       fetchDraft,
-      articleLanguage,
+      selectedLanguage,
       article,
       fetchTags,
     } = nextProps;
     if (
-      (article && article.language !== articleLanguage) ||
+      this.props.selectedLanguage !== selectedLanguage ||
       articleId !== this.props.articleId
     ) {
-      fetchDraft({ id: articleId, language: articleLanguage });
-      fetchTags({ language: articleLanguage });
+      fetchDraft({ id: articleId, language: selectedLanguage });
+    }
+    if (
+      article &&
+      (!this.props.article || article.id !== this.props.article.id)
+    ) {
+      fetchTags({ language: article.language });
     }
   }
 
@@ -89,7 +93,7 @@ EditLearningResource.propTypes = {
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
   setDraft: PropTypes.func.isRequired,
-  articleLanguage: PropTypes.string.isRequired,
+  selectedLanguage: PropTypes.string.isRequired,
   fetchTags: PropTypes.func.isRequired,
 };
 
@@ -101,11 +105,14 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, props) => {
-  const { articleId, articleLanguage } = props;
+  const { articleId } = props;
   const getArticleSelector = getDraft(articleId, true);
-  const getAllTagsSelector = getAllTagsByLanguage(articleLanguage);
+  const article = getArticleSelector(state);
+  const getAllTagsSelector = getAllTagsByLanguage(
+    article ? article.language : '',
+  );
   return {
-    article: getArticleSelector(state),
+    article,
     tags: getAllTagsSelector(state),
   };
 };

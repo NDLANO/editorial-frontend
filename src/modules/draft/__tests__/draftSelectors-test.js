@@ -20,11 +20,13 @@ const state = {
         created: '2014-12-24T10:44:06Z',
         title: { title: 'Tester', language: 'nb' },
         metaDescription: { metaDescription: 'Beskrivelse', language: 'nb' },
+        content: { language: 'nb' },
       },
       3: {
         id: '3',
         created: '2014-11-24T10:44:06Z',
         title: { title: 'Tester', language: 'nb' },
+        content: { language: 'nb' },
       },
       [topicArticleEN.id]: topicArticleEN,
     },

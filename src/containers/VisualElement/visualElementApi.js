@@ -37,7 +37,7 @@ export const searchAudios = query =>
     `${baseAudioNdlaUrl}/?${queryString.stringify({
       query: query.query,
       page: query.page,
-    })}&page-size=16&language=${query.locale}`,
+    })}&page-size=16`,
   ).then(resolveJsonOrRejectWithError);
 
 export const fetchAudio = audioId =>

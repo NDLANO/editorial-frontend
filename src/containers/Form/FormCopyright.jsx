@@ -37,8 +37,7 @@ class FormCopyright extends Component {
       <Accordion
         handleToggle={this.toggleContent}
         header={t('form.copyrightSection')}
-        hidden={this.state.hiddenContent}
-        fill>
+        hidden={this.state.hiddenContent}>
         <Contributors
           name="creators"
           label={t('form.creators.label')}

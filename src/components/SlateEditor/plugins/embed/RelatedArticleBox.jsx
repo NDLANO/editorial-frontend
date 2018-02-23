@@ -15,7 +15,7 @@ import { RelatedArticleList, RelatedArticle } from 'ndla-ui';
 import { toggleRelatedArticles } from 'ndla-article-scripts';
 import get from 'lodash/fp/get';
 import { searchArticles } from '../../../../modules/article/articleApi';
-import { fetchArticleResource } from '../../../../modules/taxonomy/taxonomyApi';
+import { queryResources } from '../../../../modules/taxonomy/taxonomyApi';
 import { getLocale } from '../../../../modules/locale/locale';
 import { EditorShape } from '../../../../shapes';
 import { mapping } from '../utils/relatedArticleMapping';
@@ -76,7 +76,7 @@ class RelatedArticleBox extends React.Component {
 
     const [article, resource] = await Promise.all([
       searchArticles(`${it}`, locale),
-      fetchArticleResource(it, locale),
+      queryResources(it, locale),
     ]);
 
     this.setState(prevState => ({

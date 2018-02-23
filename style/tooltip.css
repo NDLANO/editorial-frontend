@@ -1,0 +1,105 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.c-tooltip {
+  display: inline;
+  position: relative;
+  outline: none;
+
+  &__button {
+    background: none;
+    border: none;
+    line-height: 1.3em;
+    padding: 0;
+    text-decoration: none;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+  }
+
+  &__popup {
+    background: white;
+    color: var(--brand-grey-dark);
+    border: 1px solid var(--brand-grey-dark);
+    display: none;
+    box-sizing: border-box;
+    width: 24%;
+    border-radius: 0.2rem;
+    padding: 0.6rem;
+    z-index: 1;
+    line-height: 25px;
+    position: absolute;
+    opacity: 0;
+
+    &::after {
+      background: white;
+      border-left: 1px solid var(--brand-grey-dark);
+      border-top: 1px solid var(--brand-grey-dark);
+      content: "";
+      height: 15px;
+      position: absolute;
+      width: 15px;
+      z-index: -1;
+    }
+
+    &--top {
+      transform: translateY(-143%);
+
+      &::after {
+        margin-bottom: -8px;
+        bottom: 0;
+        left: 3.4rem;
+        transform: rotate(-135deg);
+      }
+    }
+
+    &--bottom {
+      transform: translate(-40%, 7%);
+
+      &::after {
+        margin-top: -8px;
+        top: 0;
+        left: 3.4rem;
+        transform: rotate(45deg);
+      }
+    }
+
+    &--right {
+      width: 26%;
+      transform: translate(21%, -57%);
+
+      &::after {
+        left: -8px;
+        margin-top: -8px;
+        top: 50%;
+        transform: rotate(-45deg);
+      }
+    }
+
+    &--left {
+      transform: translate(-50%, -70%);
+
+      &::after {
+        right: -8px;
+        margin-top: -8px;
+        top: 50%;
+        transform: rotate(135deg);
+      }
+    }
+  }
+
+  &__popup--visible {
+    opacity: 1;
+    display: block;
+  }
+
+  &__content {
+    display: block;
+    cursor: pointer;
+  }
+}

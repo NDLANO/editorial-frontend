@@ -1,4 +1,4 @@
-import Dropdown from './Dropdown';
 import AsyncDropdown from './asyncDropdown/AsyncDropdown';
+import TaxonomyDropdown from './taxonomyDropdown';
 
-export { Dropdown, AsyncDropdown };
+export { AsyncDropdown, TaxonomyDropdown };

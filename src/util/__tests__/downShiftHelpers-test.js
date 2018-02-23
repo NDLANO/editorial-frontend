@@ -11,7 +11,7 @@ import {
   valueFieldForItem,
 } from '../downShiftHelpers';
 
-test('util/downShifhtHelpers itemToString', () => {
+test('util/downShiftHelpers itemToString', () => {
   expect(itemToString({ name: 'Test Testesen' }, 'name')).toEqual(
     'Test Testesen',
   );

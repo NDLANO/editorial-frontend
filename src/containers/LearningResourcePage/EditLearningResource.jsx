@@ -2,7 +2,8 @@
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import React, { Component } from 'react';
@@ -11,6 +12,14 @@ import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 
 import { actions, getDraft } from '../../modules/draft/draft';
+import {
+  queryResources,
+  fetchResourceResourceType,
+  fetchResourceFilter,
+  fetchAllTopicResource,
+  fetchTopicArticle,
+  updateTaxonomy,
+} from '../../modules/taxonomy';
 import LearningResourceForm, {
   getInitialModel,
 } from './components/LearningResourceForm';
@@ -24,12 +33,18 @@ import {
 class EditLearningResource extends Component {
   constructor(props) {
     super(props);
-    this.updateDraft = this.updateDraft.bind(this);
+    this.state = {
+      taxonomy: { resourceTypes: [], filter: [], topics: [], loading: true },
+      allTopics: [],
+    };
+    this.updateLearningResource = this.updateLearningResource.bind(this);
+    this.fetchTaxonony = this.fetchTaxonony.bind(this);
   }
 
   componentWillMount() {
     const { articleId, fetchDraft, selectedLanguage } = this.props;
     fetchDraft({ id: articleId, language: selectedLanguage });
+    this.fetchTaxonony(articleId, selectedLanguage);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,11 +55,13 @@ class EditLearningResource extends Component {
       article,
       fetchTags,
     } = nextProps;
+
     if (
       this.props.selectedLanguage !== selectedLanguage ||
       articleId !== this.props.articleId
     ) {
       fetchDraft({ id: articleId, language: selectedLanguage });
+      this.fetchTaxonony(articleId, selectedLanguage);
     }
     if (
       article &&
@@ -54,9 +71,48 @@ class EditLearningResource extends Component {
     }
   }
 
-  updateDraft(article) {
+  async fetchTaxonony(articleId, articleLanguage) {
+    try {
+      const resource = await queryResources(articleId, articleLanguage);
+      if (resource.length > 0) {
+        const [resourceTypes, filter] = await Promise.all([
+          fetchResourceResourceType(resource[0].id, articleLanguage),
+          fetchResourceFilter(resource[0].id, articleLanguage),
+        ]);
+
+        // Temporary method until API is simplified
+        const allTopics = await fetchAllTopicResource(articleLanguage);
+        const topicResource = allTopics.filter(
+          item => item.resourceId === resource[0].id,
+        );
+
+        const topics = await Promise.all(
+          topicResource.map(async item => {
+            const topicArticle = await fetchTopicArticle(
+              item.topicid,
+              articleLanguage,
+            );
+            return { ...topicArticle, primary: item.primary };
+          }),
+        );
+        this.setState({
+          taxonomy: { resourceTypes, filter, topics, loading: false },
+          allTopics,
+        });
+      } else {
+        this.setState({
+          taxonomy: { loading: false },
+        });
+      }
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  updateLearningResource(article, taxonomy) {
     const { updateDraft } = this.props;
     updateDraft({ draft: article });
+    updateTaxonomy(taxonomy, this.state.allTopics);
   }
 
   render() {
@@ -73,11 +129,13 @@ class EditLearningResource extends Component {
     }
     return (
       <LearningResourceForm
-        initialModel={getInitialModel(article)}
+        initialModel={getInitialModel(article, this.state.taxonomy)}
+        taxonomy={this.state.taxonomy}
         revision={article.revision}
         articleStatus={article.status}
+        onUpdate={this.updateLearningResource}
+        taxonomyIsLoading={this.state.taxonomy.loading}
         {...rest}
-        onUpdate={this.updateDraft}
       />
     );
   }

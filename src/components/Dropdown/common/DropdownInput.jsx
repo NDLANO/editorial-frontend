@@ -9,66 +9,49 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import AutosizeInput from 'react-input-autosize';
-import DropdownTag from './DropdownTag';
-import { dropDownClasses } from './dropDownClasses';
+import { dropDownClasses } from './';
+
+const autosizeStyle = {
+  border: 'none',
+  outline: 'none',
+  cursor: 'inherit',
+  backgroundColor: 'transparent',
+  fontSize: '18px',
+};
 
 const DropdownInput = props => {
-  const {
-    multiSelect,
-    onRemoveItem,
-    onWrapperClick,
-    inputWrapperRef,
-    inputProps,
-    name,
-    getInputProps,
-    selectedItem,
-  } = props;
+  const { multiSelect, inputProps, name, getInputProps } = props;
   if (multiSelect) {
     return (
-      // eslint-disable-next-line
-      <div
-        ref={inputWrapperRef}
-        onClick={onWrapperClick}
+      <AutosizeInput
+        key={name}
+        placeholderIsMinWidth
+        inputStyle={autosizeStyle}
+        {...getInputProps({ name, ...inputProps })}
         {...dropDownClasses('multiselect')}
-        tabIndex="-1">
-        {selectedItem.map(tag => (
-          <DropdownTag
-            key={`${name}-tag-${tag.id}`}
-            onRemoveItem={onRemoveItem}
-            {...{ tag, name }}
-          />
-        ))}
-        <AutosizeInput
-          key={name}
-          {...getInputProps({ name, ...inputProps })}
-          placeholderIsMinWidth
-          inputStyle={{
-            border: 'none',
-            outline: 'none',
-            cursor: 'inherit',
-            backgroundColor: 'transparent',
-            fontSize: '18px',
-          }}
-        />
-      </div>
+      />
     );
   }
-  return <input {...getInputProps({ name, ...inputProps })} />;
+  return (
+    <input
+      {...getInputProps({ name, ...inputProps })}
+      {...dropDownClasses('single')}
+    />
+  );
 };
 
 DropdownInput.propTypes = {
   ...Downshift.propTypes,
   multiSelect: PropTypes.bool,
-  onRemoveItem: PropTypes.func,
-  onWrapperClick: PropTypes.func,
-  inputWrapperRef: PropTypes.func,
-  selectedItem: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  getInputProps: PropTypes.func,
   name: PropTypes.string,
-  placeholder: PropTypes.string,
-};
-
-DropdownInput.defaultProps = {
-  placeholder: 'Type',
+  inputProps: PropTypes.shape({
+    value: PropTypes.string,
+    ref: PropTypes.func,
+    onChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
+    onFocus: PropTypes.func,
+  }),
 };
 
 export default DropdownInput;

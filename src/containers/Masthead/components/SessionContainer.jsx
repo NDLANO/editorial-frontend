@@ -19,6 +19,7 @@ import {
   toLogin,
 } from '../../../util/routeHelpers';
 import { editorialMastheadClasses } from '../MastheadContainer';
+import Overlay from '../../../components/Overlay';
 
 const AuthSiteNavItem = ({ t, name, authenticated, onClick }) => {
   if (authenticated) {
@@ -94,11 +95,7 @@ export class SessionContainer extends Component {
           </Button>
         </div>
         {this.state.open ? (
-          <div
-            role="presentation"
-            onClick={this.toggleOpen}
-            {...editorialMastheadClasses('session-overlay')}
-          />
+          <Overlay onExit={this.toggleOpen} cssModifiers="white-opacity" />
         ) : null}
       </div>
     );

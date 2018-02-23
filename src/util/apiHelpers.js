@@ -27,10 +27,21 @@ export function createErrorPayload(status, message, json) {
   return Object.assign(new Error(message), { status, json });
 }
 
-export function resolveJsonOrRejectWithError(res) {
+export function resolveJsonOrRejectWithError(res, taxonomy = false) {
   return new Promise((resolve, reject) => {
     if (res.ok) {
-      return res.status === 204 ? resolve() : resolve(res.json());
+      if (res.status === 204) {
+        return resolve();
+      }
+      // Temporary until API changes to return representation
+      const location = res.headers.get('Location');
+      if (res.status === 201 && (location || taxonomy)) {
+        if (!location && taxonomy) {
+          resolve();
+        }
+        return resolve(location);
+      }
+      return resolve(res.json());
     }
     return res
       .json()
@@ -53,7 +64,12 @@ export const fetchWithAuthorization = async (url, config = {}, forceAuth) => {
   }
   return fetch(url, {
     ...config,
-    headers: { Authorization: `Bearer ${getAccessToken()}` },
+    headers: {
+      Authorization: `Bearer ${getAccessToken()}`,
+      'Content-Type': config.headers
+        ? config.headers['Content-Type']
+        : 'text/plain',
+    },
   });
 };
 

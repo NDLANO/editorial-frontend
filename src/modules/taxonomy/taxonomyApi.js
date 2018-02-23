@@ -11,15 +11,107 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
+import {
+  createResource,
+  createDeleteResourceTypes,
+  createDeleteUpdateFilters,
+  createDeleteUpdateTopicResources,
+} from '.';
+
+const resolveTaxonomyJsonOrRejectWithError = res =>
+  resolveJsonOrRejectWithError(res, true);
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-export const fetchTopicArticle = (topicId, locale) =>
-  fetchAuthorized(`${baseUrl}/topics/${topicId}/?language=${locale}`).then(
+function fetchTopicArticle(topicId, locale) {
+  return fetchAuthorized(
+    `${baseUrl}/topics/${topicId}/?language=${locale}`,
+  ).then(resolveJsonOrRejectWithError);
+}
+
+/* Option items */
+function fetchResourceTypes(locale) {
+  return fetchAuthorized(`${baseUrl}/resource-types/?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
+}
 
-export const fetchArticleResource = (articleId, language) =>
-  fetchAuthorized(
-    `${baseUrl}/queries/resources?contentURI=urn:article:${articleId}&language=${language}`,
+function fetchFilters(locale) {
+  return fetchAuthorized(`${baseUrl}/filters/?language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
+function fetchTopics(locale) {
+  return fetchAuthorized(`${baseUrl}/topics/?language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
+function fetchRelevances(locale) {
+  return fetchAuthorized(`${baseUrl}/relevances/?language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
+/* Queries */
+function queryResources(articleId, language) {
+  return fetchAuthorized(
+    `${baseUrl}/queries/resources/?contentURI=${encodeURIComponent(
+      `urn:article:${articleId}`,
+    )}&?language=${language}`,
   ).then(resolveJsonOrRejectWithError);
+}
+
+/* Taxonomy actions */
+async function updateTaxonomy(taxonomy, allTopics) {
+  try {
+    let resource = await queryResources(taxonomy.articleId, taxonomy.language);
+    if (
+      resource.length === 0 &&
+      (taxonomy.resourceTypes.length > 0 ||
+        taxonomy.filter.length > 0 ||
+        taxonomy.topics.length > 0)
+    ) {
+      await createResource({
+        contentUri: `urn:article:${taxonomy.articleId}`,
+        name: taxonomy.articleName,
+      });
+      resource = await queryResources(taxonomy.articleId, taxonomy.language);
+      // resource = [{ id: resourceId.replace(/(\/v1\/resources\/)/, '') }];
+    }
+    if (resource.length !== 0 && resource[0].id) {
+      createDeleteResourceTypes(
+        resource[0].id,
+        [...taxonomy.resourceTypes],
+        taxonomy.language,
+      );
+
+      createDeleteUpdateFilters(
+        resource[0].id,
+        [...taxonomy.filter],
+        taxonomy.language,
+      );
+
+      createDeleteUpdateTopicResources(
+        resource[0].id,
+        [...taxonomy.topics],
+        taxonomy.language,
+        allTopics,
+      );
+    }
+  } catch (e) {
+    throw new Error(e);
+  }
+}
+
+export {
+  resolveTaxonomyJsonOrRejectWithError,
+  fetchResourceTypes,
+  fetchFilters,
+  fetchTopics,
+  fetchTopicArticle,
+  fetchRelevances,
+  queryResources,
+  updateTaxonomy,
+};

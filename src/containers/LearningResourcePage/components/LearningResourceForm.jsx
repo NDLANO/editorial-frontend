@@ -36,6 +36,7 @@ import {
 } from '../../Form';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
+import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
@@ -62,7 +63,10 @@ const parseImageUrl = url => {
   return splittedUrl[splittedUrl.length - 1];
 };
 
-export const getInitialModel = (article = {}) => {
+export const getInitialModel = (
+  article = {},
+  taxonomy = { resourceTypes: [], filter: [], topics: [] },
+) => {
   const metaImageId = parseImageUrl(article.metaImage);
   return {
     id: article.id,
@@ -89,6 +93,9 @@ export const getInitialModel = (article = {}) => {
     articleType: 'standard',
     status: article.status || [],
     notes: article.notes || [],
+    resourceTypes: taxonomy.resourceTypes || [],
+    filter: taxonomy.filter || [],
+    topics: taxonomy.topics || [],
   };
 };
 
@@ -99,10 +106,15 @@ class LearningResourceForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { initialModel, setModel } = nextProps;
+    const { initialModel, setModel, taxonomy } = nextProps;
+    const hasTaxonomyChanged =
+      taxonomy &&
+      this.props.taxonomy &&
+      taxonomy.loading !== this.props.taxonomy.loading;
     if (
       initialModel.id !== this.props.initialModel.id ||
-      initialModel.language !== this.props.initialModel.language
+      initialModel.language !== this.props.initialModel.language ||
+      hasTaxonomyChanged
     ) {
       setModel(initialModel);
     }
@@ -119,28 +131,37 @@ class LearningResourceForm extends Component {
 
     const content = learningResourceContentToHTML(model.content);
     const emptyContent = model.id ? '' : undefined;
-
-    this.props.onUpdate({
-      id: model.id,
-      revision,
-      title: model.title,
-      introduction: editorValueToPlainText(model.introduction),
-      tags: model.tags,
-      content: content && content.length > 0 ? content : emptyContent,
-      metaImageId: model.metaImageId,
-      metaDescription: editorValueToPlainText(model.metaDescription),
-      articleType: 'standard',
-      copyright: {
-        license: licenses.find(license => license.license === model.license),
-        origin: model.origin,
-        creators: model.creators,
-        processors: model.processors,
-        rightsholders: model.rightsholders,
-        agreementId: model.agreementId,
+    this.props.onUpdate(
+      {
+        id: model.id,
+        revision,
+        title: model.title,
+        introduction: editorValueToPlainText(model.introduction),
+        tags: model.tags,
+        content: content && content.length > 0 ? content : emptyContent,
+        metaImageId: model.metaImageId,
+        metaDescription: editorValueToPlainText(model.metaDescription),
+        articleType: 'standard',
+        copyright: {
+          license: licenses.find(license => license.license === model.license),
+          origin: model.origin,
+          creators: model.creators,
+          processors: model.processors,
+          rightsholders: model.rightsholders,
+          agreementId: model.agreementId,
+        },
+        notes: model.notes,
+        language: model.language,
       },
-      notes: model.notes,
-      language: model.language,
-    });
+      {
+        articleId: model.id,
+        articleName: model.title,
+        resourceTypes: model.resourceTypes,
+        filter: model.filter,
+        topics: model.topics,
+        language: model.language,
+      },
+    );
   }
 
   render() {
@@ -156,9 +177,11 @@ class LearningResourceForm extends Component {
       articleStatus,
       fields,
       showSaved,
+      taxonomyIsLoading,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
+
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader
@@ -180,6 +203,13 @@ class LearningResourceForm extends Component {
             footnotes={findFootnotes(model.content)}
           />
         </LearningResourceContent>
+        {model.id && (
+          <LearningResourceTaxonomy
+            commonFieldProps={commonFieldProps}
+            model={model}
+            taxonomyIsLoading={taxonomyIsLoading}
+          />
+        )}
         <FormCopyright
           model={model}
           commonFieldProps={commonFieldProps}
@@ -198,12 +228,7 @@ class LearningResourceForm extends Component {
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <SaveButton
-            classes={formClasses}
-            isSaving={isSaving}
-            t={t}
-            showSaved={showSaved}
-          />
+          <SaveButton isSaving={isSaving} t={t} showSaved={showSaved} />
         </Field>
         <WarningModalWrapper
           {...{
@@ -242,6 +267,13 @@ LearningResourceForm.propTypes = {
   isSaving: PropTypes.bool.isRequired,
   showSaved: PropTypes.bool.isRequired,
   articleStatus: PropTypes.arrayOf(PropTypes.string),
+  taxonomy: PropTypes.shape({
+    resourceTypes: PropTypes.array,
+    filter: PropTypes.array,
+    topics: PropTypes.array,
+    loading: PropTypes.bool,
+  }),
+  taxonomyIsLoading: PropTypes.bool,
 };
 
 export default compose(

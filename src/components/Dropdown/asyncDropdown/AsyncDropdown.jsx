@@ -47,9 +47,15 @@ class AsyncDropDown extends React.Component {
     this.setState({ items, inputValue: query, isOpen: true });
   }
 
-  handleChange(selectedItem) {
-    this.handleToggleMenu();
-    this.props.onChange(selectedItem);
+  handleChange(selectedItem, e, b) {
+    console.log('YOYOYO', e, b);
+    if (!selectedItem) {
+      this.props.onChange(undefined);
+      this.setState({ inputValue: '', isOpen: false });
+    } else {
+      this.handleToggleMenu();
+      this.props.onChange(selectedItem);
+    }
   }
 
   handleToggleMenu() {
@@ -77,12 +83,13 @@ class AsyncDropDown extends React.Component {
       onClick,
       ...rest
     } = this.props;
-
+    console.log('HOLA', this.props);
     const { items } = this.state;
     const inputProps = {
       placeholder,
       onChange: this.handleInputChange,
       onClick,
+      value: this.state.inputValue,
     };
 
     return (
@@ -92,23 +99,26 @@ class AsyncDropDown extends React.Component {
         onStateChange={this.handleStateChange}
         onChange={this.handleChange}
         isOpen={this.state.isOpen}
-        render={downshiftProps => (
-          <div {...dropDownClasses()}>
-            <DropdownInput {...downshiftProps} inputProps={inputProps} />
-            <DropdownMenu
-              {...downshiftProps}
-              items={items}
-              messages={messages}
-              textField={textField}
-              valueField={valueField}
-              asyncSelect
-            />
-            <DropdownSearchAction
-              onToggleMenu={this.handleToggleMenu}
-              {...downshiftProps}
-            />
-          </div>
-        )}
+        render={downshiftProps => {
+          console.log(downshiftProps);
+          return (
+            <div {...dropDownClasses()}>
+              <DropdownInput {...downshiftProps} inputProps={inputProps} />
+              <DropdownMenu
+                {...downshiftProps}
+                items={items}
+                messages={messages}
+                textField={textField}
+                valueField={valueField}
+                asyncSelect
+              />
+              <DropdownSearchAction
+                {...downshiftProps}
+                onToggleMenu={this.handleToggleMenu}
+              />
+            </div>
+          );
+        }}
       />
     );
   }

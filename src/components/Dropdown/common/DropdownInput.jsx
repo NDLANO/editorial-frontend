@@ -32,12 +32,9 @@ const DropdownInput = props => {
       />
     );
   }
-  return (
-    <input
-      {...getInputProps({ name, ...inputProps })}
-      {...dropDownClasses('single')}
-    />
-  );
+  const testPRop = getInputProps({ name, ...inputProps });
+  // console.log(inputProps, testPRop.value)
+  return <input {...testPRop} {...dropDownClasses('single')} />;
 };
 
 DropdownInput.propTypes = {

@@ -552,7 +552,6 @@ export const AsyncDropdownField = ({
     <Field noBorder={noBorder}>
       <label htmlFor={name}>{label}</label>
       <AsyncDropdown
-        value={value}
         onChange={val =>
           onChange({ target: { name, value: val ? val.id : undefined } })
         }

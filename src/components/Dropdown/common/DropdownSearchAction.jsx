@@ -20,7 +20,6 @@ const DropdownSearchAction = ({
   getButtonProps,
   selectedItem,
 }) => {
-  console.log('action', selectedItem);
   if (selectedItem && !multiSelect) {
     return (
       <Button

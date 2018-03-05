@@ -8,6 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
+import debounce from 'lodash/debounce';
 import {
   DropdownMenu,
   DropdownInput,
@@ -23,6 +24,7 @@ class AsyncDropDown extends React.Component {
       items: [],
       isOpen: false,
       inputValue: '',
+      selectedItem: null,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -32,8 +34,10 @@ class AsyncDropDown extends React.Component {
     this.handleToggleMenu = this.handleToggleMenu.bind(this);
   }
 
-  componentWillMount() {
-    this.handleSearch('');
+  async componentWillMount() {
+    const { apiAction } = this.props;
+    const items = await apiAction('');
+    this.setState({ items });
   }
 
   async handleInputChange(evt) {
@@ -41,15 +45,25 @@ class AsyncDropDown extends React.Component {
     this.handleSearch(value);
   }
 
-  async handleSearch(query = '') {
+  handleSearch(query = '') {
     const { apiAction } = this.props;
-    const items = await apiAction(query);
-    this.setState({ items, inputValue: query, isOpen: true });
+
+    this.setState({ inputValue: query, isOpen: true });
+    debounce(async () => {
+      const items = await apiAction(query);
+      this.setState({ items });
+    }, 500)();
   }
 
   handleChange(selectedItem) {
-    this.handleToggleMenu();
-    this.props.onChange(selectedItem);
+    if (!selectedItem) {
+      this.props.onChange(undefined);
+      this.setState({ inputValue: '', selectedItem: null });
+    } else {
+      this.handleToggleMenu();
+      this.setState({ selectedItem, inputValue: selectedItem.title });
+      this.props.onChange(selectedItem);
+    }
   }
 
   handleToggleMenu() {
@@ -83,6 +97,7 @@ class AsyncDropDown extends React.Component {
       placeholder,
       onChange: this.handleInputChange,
       onClick,
+      value: this.state.inputValue,
     };
 
     return (
@@ -92,6 +107,7 @@ class AsyncDropDown extends React.Component {
         onStateChange={this.handleStateChange}
         onChange={this.handleChange}
         isOpen={this.state.isOpen}
+        selectedItem={this.state.selectedItem}
         render={downshiftProps => (
           <div {...dropDownClasses()}>
             <DropdownInput {...downshiftProps} inputProps={inputProps} />
@@ -104,8 +120,8 @@ class AsyncDropDown extends React.Component {
               asyncSelect
             />
             <DropdownSearchAction
-              onToggleMenu={this.handleToggleMenu}
               {...downshiftProps}
+              onToggleMenu={this.handleToggleMenu}
             />
           </div>
         )}

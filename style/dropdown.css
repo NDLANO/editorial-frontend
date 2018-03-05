@@ -60,6 +60,7 @@
 
     &:hover,
     &:focus {
+      outline: none;
       color: var(--brand-grey);
     }
   }

@@ -28,7 +28,10 @@ class WarningModalWrapper extends PureComponent {
       return canNavigate;
     });
 
-    window.onbeforeunload = () => !this.isDirty() || this.state.discardChanges;
+    if (window && window.config.isProduction) {
+      window.onbeforeunload = () =>
+        !this.isDirty() || this.state.discardChanges;
+    }
   }
 
   componentWillUnmount() {

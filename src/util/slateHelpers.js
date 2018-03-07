@@ -159,11 +159,15 @@ export const listItemRule = {
 export const unorderListRules = {
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'ul') return;
-    if (el.className === 'o-list--two-columns') {
+    const type = el.attributes.getNamedItem('data-type');
+    const data = { type: type ? type.value : '' };
+
+    if (data.type === 'two-column') {
       return {
         kind: 'block',
         type: 'two-column-list',
         nodes: next(el.childNodes),
+        data,
       };
     }
 
@@ -180,7 +184,7 @@ export const unorderListRules = {
     }
 
     if (object.type === 'two-column-list') {
-      return <ul className="o-list--two-columns">{children}</ul>;
+      return <ul data-type="two-column">{children}</ul>;
     }
     return <ul>{children}</ul>;
   },

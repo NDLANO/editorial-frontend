@@ -32,6 +32,7 @@ import {
   toJSON,
   blockRules,
   orderListRules,
+  unorderListRules,
   tableRules,
   listItemRule,
   paragraphRule,
@@ -171,7 +172,7 @@ test('serializing table', () => {
 
 test('deserializing bullet list', () => {
   const serializer = new Html({
-    rules: [blockRules, listItemRule, paragraphRule],
+    rules: [blockRules, unorderListRules, listItemRule, paragraphRule],
     parseHtml: fragment,
   });
   const deserialized = serializer.deserialize(
@@ -182,10 +183,31 @@ test('deserializing bullet list', () => {
 
 test('serializing bullet list', () => {
   const serializer = new Html({
-    rules: [blockRules, listItemRule, paragraphRule],
+    rules: [blockRules, unorderListRules, listItemRule, paragraphRule],
     parseHtml: fragment,
   });
   const value = Value.fromJSON(listValue('bulleted-list'));
+  const serialized = serializer.serialize(value);
+  expect(serialized).toMatchSnapshot();
+});
+
+test('deserializing two column list', () => {
+  const serializer = new Html({
+    rules: [blockRules, unorderListRules, listItemRule, paragraphRule],
+    parseHtml: fragment,
+  });
+  const deserialized = serializer.deserialize(
+    '<ul class="o-list--two-columns"><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ul>',
+  );
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('serializing two column list', () => {
+  const serializer = new Html({
+    rules: [blockRules, unorderListRules, listItemRule, paragraphRule],
+    parseHtml: fragment,
+  });
+  const value = Value.fromJSON(listValue('two-column-list'));
   const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });
@@ -234,7 +256,13 @@ test('serializing letter list', () => {
 
 test('deserializing list with paragraph inside li elements', () => {
   const serializer = new Html({
-    rules: [blockRules, orderListRules, listItemRule, paragraphRule],
+    rules: [
+      blockRules,
+      unorderListRules,
+      orderListRules,
+      listItemRule,
+      paragraphRule,
+    ],
     parseHtml: fragment,
   });
   const listWithParagraphs =

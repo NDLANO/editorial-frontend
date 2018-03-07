@@ -163,3 +163,10 @@ details {
   flex: 1 0 50%;
   max-width: 600px;
 }
+
+.o-list--two-columns {
+  & p {
+    margin: 0;
+    display: inline-block;
+  }
+}

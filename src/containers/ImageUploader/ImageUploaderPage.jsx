@@ -20,6 +20,7 @@ import {
   getAllLicenses,
 } from '../../modules/license/license';
 import { getSaving } from '../../modules/audio/audio';
+import { getShowSaved } from '../../containers/Messages/messagesSelectors';
 import { getLocale } from '../../modules/locale/locale';
 import EditImage from './EditImage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -91,7 +92,7 @@ const mapStateToProps = state => {
     tags: getAllTagsSelector(state),
     licenses: getAllLicenses(state),
     isSaving: getSaving(state),
-    showSaved: state.messages.showSaved,
+    showSaved: getShowSaved(state),
   };
 };
 

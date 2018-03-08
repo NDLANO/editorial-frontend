@@ -14,7 +14,6 @@ import {
 
 const BLOCK_TAGS = {
   section: 'section',
-  ul: 'bulleted-list',
   blockquote: 'quote',
   details: 'details',
   summary: 'summary',
@@ -154,6 +153,40 @@ export const listItemRule = {
     if (object.kind !== 'block') return;
     if (object.type !== 'list-item') return;
     return <li>{children}</li>;
+  },
+};
+
+export const unorderListRules = {
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'ul') return;
+    const type = el.attributes.getNamedItem('data-type');
+    const data = { type: type ? type.value : '' };
+
+    if (data.type === 'two-column') {
+      return {
+        kind: 'block',
+        type: 'two-column-list',
+        nodes: next(el.childNodes),
+        data,
+      };
+    }
+
+    return {
+      kind: 'block',
+      type: 'bulleted-list',
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(object, children) {
+    if (object.kind !== 'block') return;
+    if (object.type !== 'two-column-list' && object.type !== 'bulleted-list') {
+      return;
+    }
+
+    if (object.type === 'two-column-list') {
+      return <ul data-type="two-column">{children}</ul>;
+    }
+    return <ul>{children}</ul>;
   },
 };
 
@@ -300,6 +333,7 @@ const RULES = [
   divRule,
   textRule,
   orderListRules,
+  unorderListRules,
   tableRules,
   paragraphRule,
   listItemRule,

@@ -4537,9 +4537,9 @@ ndla-i18n@^0.2.1:
     intl-messageformat "^2.2.0"
     invariant "^2.2.2"
 
-ndla-icons@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.2.tgz#dee3e56a9f267d14a290cbe1e2d183ae85d7ac1b"
+ndla-icons@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.5.tgz#e9b2cd78540cc1f6fffd7c6574c11e2f2ff9ae9d"
 
 ndla-image-search@^0.2.9:
   version "0.2.9"

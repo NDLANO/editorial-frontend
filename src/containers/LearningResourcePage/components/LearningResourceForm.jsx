@@ -55,11 +55,12 @@ const findFootnotes = content =>
     )
     .map(footnoteNode => footnoteNode.data.toJS());
 
-const parseImageUrl = url => {
-  if (!url) {
+const parseImageUrl = metaImage => {
+  if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
     return '';
   }
-  const splittedUrl = url.split('/');
+
+  const splittedUrl = metaImage.url.split('/');
   return splittedUrl[splittedUrl.length - 1];
 };
 

@@ -10,7 +10,11 @@ import { Value } from 'slate';
 
 import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
-import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
+import {
+  topicArticeRules,
+  learningResourceRules,
+  textWrapper,
+} from '../util/slateHelpers';
 
 export const sectionSplitter = html => {
   const node = document.createElement('div');
@@ -84,11 +88,18 @@ export function learningResourceContentToEditorValue(
       },
     ];
   }
-  const sections = sectionSplitter(html);
   const serializer = new Html({
     rules: learningResourceRules,
     parseHtml: fragment,
   });
+
+  /*   Check the html for invalid text nodes,
+  see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
+  const parser = textWrapper(new Html());
+  serializer.parseHtml = parser;
+
+  const sections = sectionSplitter(html);
+
   /**
    Map over each section and deserialize to get a new slate value. On this value, normalize with the schema rules and use the changed value. this
    implementation was needed because of v0.22.0 change (onBeforeChange was removed from componentWillReceiveProps in editor).

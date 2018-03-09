@@ -59,7 +59,8 @@ const parseImageUrl = url => {
   if (!url) {
     return '';
   }
-  const splittedUrl = url.split('/');
+  const splittedUrl =
+    typeof url === 'object' ? url.url.split('/') : url.split('/');
   return splittedUrl[splittedUrl.length - 1];
 };
 
@@ -181,7 +182,6 @@ class LearningResourceForm extends Component {
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
-
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader

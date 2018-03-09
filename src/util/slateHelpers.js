@@ -235,6 +235,7 @@ export const footnoteRule = {
           kind: 'text',
           text: '#',
           isVoid: true,
+          leaves: [],
         },
       ],
       data: {

@@ -30,6 +30,42 @@ Object {
 }
 `;
 
+exports[`deserialize em mark that contains embed footnote 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "leaves": Array [
+              Object {
+                "kind": "leaf",
+                "marks": Array [
+                  Object {
+                    "data": Object {},
+                    "kind": "mark",
+                    "type": "italic",
+                  },
+                ],
+                "text": "NDLA ",
+              },
+            ],
+          },
+        ],
+        "type": "paragraph",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
 exports[`deserialize footnote 1`] = `
 Object {
   "document": Object {

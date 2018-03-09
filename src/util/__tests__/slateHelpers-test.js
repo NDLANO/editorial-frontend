@@ -408,3 +408,15 @@ test('serializing standard article', () => {
   const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });
+
+test('deserialize em mark that contains embed footnote', () => {
+  const serializer = new Html({
+    rules: learningResourceRules,
+    parseHtml: fragment,
+  });
+  const deserialized = serializer.deserialize(
+    '<em>NDLA<embed data-authors="Peter, Christian" data-edition="" data-publisher="Knowit" data-resource="footnote" data-title="Javascript." data-type="Programming" data-year="2018"> </em>',
+  );
+
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});

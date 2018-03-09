@@ -69,7 +69,6 @@ export const getInitialModel = (
   taxonomy = { resourceTypes: [], filter: [], topics: [] },
 ) => {
   const metaImageId = parseImageUrl(article.metaImage);
-  console.log('METAIMAGE', metaImageId);
   return {
     id: article.id,
     revision: article.revision,

@@ -32,7 +32,6 @@ export const textWrapper = serializer => inputHtml => {
       needWrapping.push(...textOrInlineChildren);
     }
   }
-  console.log(needWrapping);
 
   needWrapping.forEach(tn => {
     const wrapped = document.createElement('div');

@@ -12,7 +12,7 @@ import {
   createEmbedProps,
 } from './embedTagHelpers';
 
-const BLOCK_TAGS = {
+export const BLOCK_TAGS = {
   section: 'section',
   ul: 'bulleted-list',
   blockquote: 'quote',
@@ -77,6 +77,7 @@ const setAsideTag = data => ({
 export const textRule = {
   deserialize(el) {
     if (
+      !el.nodeName ||
       el.nodeName.toLowerCase() !== '#text' ||
       (el.parentNode && el.parentNode.tagName.toLowerCase() !== 'section')
     ) {
@@ -453,44 +454,3 @@ export const learningResourceEmbedRule = [
 ];
 export const topicArticeRules = topicArticeEmbedRule.concat(RULES);
 export const learningResourceRules = RULES.concat(learningResourceEmbedRule);
-
-export const textWrapper = serializer => inputHtml => {
-  const DefaultParse = serializer.parseHtml;
-  const tree = DefaultParse.apply(serializer, [inputHtml]);
-  // ensure that no DIVs, SECTIONs or ASIDEs contain both element children and text node children. This is
-  // not allowed by Slate's core schema: blocks must contain inlines and text OR blocks.
-  // https://docs.slatejs.org/guides/data-model#documents-and-nodes
-  const BLOCKS_TO_CHECK = ['aside', 'div', 'section'];
-  const ALL_BLOCKS = Object.keys(BLOCK_TAGS)
-    .concat(BLOCKS_TO_CHECK)
-    .concat(['embed', 'p']);
-
-  const treeWalker = document.createTreeWalker(tree, NodeFilter.SHOW_ELEMENT, {
-    acceptNode: node =>
-      BLOCKS_TO_CHECK.includes(node.nodeName.toLowerCase())
-        ? NodeFilter.FILTER_ACCEPT
-        : NodeFilter.FILTER_SKIP,
-  });
-
-  const needWrapping = [];
-  while (treeWalker.nextNode()) {
-    const div = treeWalker.currentNode;
-    const hasBlockChild = Array.from(div.childNodes).find(n =>
-      ALL_BLOCKS.includes(n.nodeName.toLowerCase()),
-    );
-    if (hasBlockChild) {
-      const textOrInlineChildren = Array.from(div.childNodes).filter(
-        n => !ALL_BLOCKS.includes(n.nodeName.toLowerCase()),
-      );
-      needWrapping.push(...textOrInlineChildren);
-    }
-  }
-
-  needWrapping.forEach(tn => {
-    const wrapped = document.createElement('div');
-    tn.parentNode.replaceChild(wrapped, tn);
-    wrapped.appendChild(tn);
-  });
-
-  return tree;
-};

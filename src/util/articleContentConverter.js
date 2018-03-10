@@ -10,11 +10,8 @@ import { Value } from 'slate';
 
 import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
-import {
-  topicArticeRules,
-  learningResourceRules,
-  textWrapper,
-} from '../util/slateHelpers';
+import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
+import { textWrapper } from '../util/invalidTextWrapper';
 
 export const sectionSplitter = html => {
   const node = document.createElement('div');

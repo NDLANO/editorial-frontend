@@ -196,13 +196,7 @@ class SlateToolbar extends Component {
 
     return (
       <Portal isOpened ref={this.portalRef}>
-        <div
-          ref={node => {
-            this.menuRef = node;
-          }}
-          {...toolbarClasses()}>
-          {toolbarButtons}
-        </div>
+        <div {...toolbarClasses()}>{toolbarButtons}</div>
       </Portal>
     );
   }

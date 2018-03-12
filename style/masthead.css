@@ -38,6 +38,10 @@
 
 .c-masthead {
   background-color: var(--gray-12);
+
+  &__placeholder {
+    min-height: 0;
+  }
 }
 
 .masthead > div {

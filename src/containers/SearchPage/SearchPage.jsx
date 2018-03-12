@@ -94,7 +94,7 @@ class SearchPage extends Component {
 
     return (
       <div>
-        <Hero />
+        <Hero contentType="subject" />
         <OneColumn>
           <div {...searchClasses()}>
             <SearchTabs

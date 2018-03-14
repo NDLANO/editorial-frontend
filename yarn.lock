@@ -2704,9 +2704,9 @@ flux-standard-action@^2.0.0:
   dependencies:
     lodash "^4.0.0"
 
-focus-trap@^2.4.2:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-2.4.2.tgz#44ea1c55a9c22c2b6529dcebbde6390eb2ee4c88"
+focus-trap@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-2.4.3.tgz#95edc23e77829b7772cb2486d61fd6371ce112f9"
   dependencies:
     tabbable "^1.0.3"
 
@@ -4521,16 +4521,16 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-ndla-article-scripts@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.3.1.tgz#ee5af0f6e9aa2c15f3332ee4c4bd562837a01867"
+ndla-article-scripts@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.3.3.tgz#f382fefffec86499891f5b83687a38f29b35f8b0"
   dependencies:
-    focus-trap "^2.4.2"
+    focus-trap "^2.4.3"
     jump.js "^1.0.2"
 
-ndla-audio-search@^0.1.19:
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/ndla-audio-search/-/ndla-audio-search-0.1.19.tgz#bdd34fdcc62c7bd4bd4537566187958943d2f29f"
+ndla-audio-search@^0.1.20:
+  version "0.1.20"
+  resolved "https://registry.yarnpkg.com/ndla-audio-search/-/ndla-audio-search-0.1.20.tgz#aa1dace2cf67b0108ac5a444e4263d3ec77c439e"
 
 ndla-error-reporter@^0.1.16:
   version "0.1.16"
@@ -4547,9 +4547,9 @@ ndla-i18n@^0.2.1:
     intl-messageformat "^2.2.0"
     invariant "^2.2.2"
 
-ndla-icons@^0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.5.tgz#e9b2cd78540cc1f6fffd7c6574c11e2f2ff9ae9d"
+ndla-icons@^0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.7.tgz#745eaf4c0a00a501fcf94e8c12ea843eb4c0a5a4"
 
 ndla-image-search@^0.2.9:
   version "0.2.9"
@@ -4580,14 +4580,14 @@ ndla-tabs@^0.4.2:
   dependencies:
     lodash "^4.17.4"
 
-ndla-ui@^0.10.9:
-  version "0.10.9"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.9.tgz#fa340482c2662ca4abd745a67cc8a11e0ca44a9c"
+ndla-ui@^0.10.17:
+  version "0.10.17"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.17.tgz#0ee625490a7ba53296f31f19aa3177207180b85c"
   dependencies:
     classnames "2.2.5"
-    focus-trap "^2.4.2"
+    focus-trap "^2.4.3"
     jump.js "^1.0.2"
-    lodash "^4.17.4"
+    lodash "^4.17.5"
     react-bem-helper "1.4.1"
     react-prop-types "0.4.0"
     react-transition-group "^2.2.1"

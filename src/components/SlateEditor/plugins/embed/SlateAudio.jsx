@@ -9,17 +9,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { Button, Figure } from 'ndla-ui';
-import { Cross } from 'ndla-icons/action';
+import { Figure } from 'ndla-ui';
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 import { EmbedShape } from '../../../../shapes';
-import { editorClasses } from './SlateFigure';
+
+import EditAudio from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
 
 class SlateAudio extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.toggleEdit = this.toggleEdit.bind(this);
   }
 
   async componentWillMount() {
@@ -33,19 +34,39 @@ class SlateAudio extends React.Component {
     }
   }
 
+  toggleEdit(e) {
+    e.stopPropagation();
+    this.setState(prevState => ({ editMode: !prevState.editMode }));
+  }
+
   render() {
-    const { attributes, onRemoveClick } = this.props;
+    const { attributes, onFigureInputChange, embed, ...rest } = this.props;
     const { audio = {} } = this.state;
-    return (
+    const player = (
       <Figure id={`${audio.id}`} {...attributes}>
-        <Button
-          onClick={onRemoveClick}
-          stripped
-          {...editorClasses('delete-button')}>
-          <Cross />
-        </Button>
-        {audio.id && <AudioPlayerMounter audio={audio} />}
+        {audio.id && (
+          <AudioPlayerMounter
+            audio={audio}
+            speech={embed.audioType === 'speech'}
+          />
+        )}
       </Figure>
+    );
+    return this.state.editMode ? (
+      <EditAudio
+        onExit={() => this.setState({ editMode: false })}
+        audioType={embed.audioType || 'sound'}
+        onChange={onFigureInputChange}
+        {...rest}>
+        {player}
+      </EditAudio>
+    ) : (
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => this.setState({ editMode: true })}>
+        {player}
+      </div>
     );
   }
 }
@@ -56,6 +77,7 @@ SlateAudio.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   onRemoveClick: PropTypes.func.isRequired,
+  onFigureInputChange: PropTypes.func.isRequired,
 };
 
 export default injectT(SlateAudio);

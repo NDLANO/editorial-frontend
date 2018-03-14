@@ -378,6 +378,8 @@ const phrases = {
         label: 'Audio caption',
         placeholder: 'Audio caption',
       },
+      sound: 'Audio',
+      speech: 'Speech',
     },
     related: {
       title: 'Related articles',

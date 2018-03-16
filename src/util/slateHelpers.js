@@ -14,7 +14,6 @@ import {
 
 export const BLOCK_TAGS = {
   section: 'section',
-  ul: 'bulleted-list',
   blockquote: 'quote',
   details: 'details',
   summary: 'summary',
@@ -159,6 +158,40 @@ export const listItemRule = {
   },
 };
 
+export const unorderListRules = {
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'ul') return;
+    const type = el.attributes.getNamedItem('data-type');
+    const data = { type: type ? type.value : '' };
+
+    if (data.type === 'two-column') {
+      return {
+        kind: 'block',
+        type: 'two-column-list',
+        nodes: next(el.childNodes),
+        data,
+      };
+    }
+
+    return {
+      kind: 'block',
+      type: 'bulleted-list',
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(object, children) {
+    if (object.kind !== 'block') return;
+    if (object.type !== 'two-column-list' && object.type !== 'bulleted-list') {
+      return;
+    }
+
+    if (object.type === 'two-column-list') {
+      return <ul data-type="two-column">{children}</ul>;
+    }
+    return <ul>{children}</ul>;
+  },
+};
+
 export const orderListRules = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
@@ -204,6 +237,7 @@ export const footnoteRule = {
           kind: 'text',
           text: '#',
           isVoid: true,
+          leaves: [],
         },
       ],
       data: {
@@ -302,6 +336,7 @@ const RULES = [
   divRule,
   textRule,
   orderListRules,
+  unorderListRules,
   tableRules,
   paragraphRule,
   listItemRule,

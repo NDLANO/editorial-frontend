@@ -182,7 +182,6 @@ class LearningResourceForm extends Component {
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
-
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader

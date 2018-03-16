@@ -12,7 +12,7 @@ import {
   createEmbedProps,
 } from './embedTagHelpers';
 
-const BLOCK_TAGS = {
+export const BLOCK_TAGS = {
   section: 'section',
   blockquote: 'quote',
   details: 'details',
@@ -76,6 +76,7 @@ const setAsideTag = data => ({
 export const textRule = {
   deserialize(el) {
     if (
+      !el.nodeName ||
       el.nodeName.toLowerCase() !== '#text' ||
       (el.parentNode && el.parentNode.tagName.toLowerCase() !== 'section')
     ) {
@@ -95,10 +96,11 @@ export const divRule = {
         nodes: next(el.childNodes),
       };
     }
+    const childs = next(el.childNodes);
     return {
       kind: 'block',
       type: 'div',
-      nodes: next(el.childNodes),
+      nodes: childs,
     };
   },
   serialize(object, children) {

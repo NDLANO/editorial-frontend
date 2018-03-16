@@ -160,7 +160,6 @@ class SlateToolbar extends Component {
 
   render() {
     const { value } = this.props;
-
     const toolbarButtons = Object.keys(suportedToolbarElements).map(kind =>
       suportedToolbarElements[kind].map(type => (
         <ToolbarButton

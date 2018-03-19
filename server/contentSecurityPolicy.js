@@ -18,8 +18,7 @@ const connectSrc = (() => {
     'https://*.zendesk.com',
   ];
   if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.RAZZLE_LOCAL_ARTICLE_CONVERTER
+    process.env.NODE_ENV === 'development'
   ) {
     return [
       ...defaultConnectSrc,

@@ -14,7 +14,7 @@ import Types from 'slate-prop-types';
 import { Portal } from '../../../../components/Portal';
 import ToolbarButton from './ToolbarButton';
 import { setActiveNode } from '../../createSlateStore';
-import { hasNodeOfType, checkSelctionForType } from '../utils';
+import { hasNodeOfType, checkSelectionForType } from '../utils';
 import { TYPE as footnote } from '../footnote';
 import { TYPE as link } from '../link';
 import {
@@ -70,7 +70,7 @@ class SlateToolbar extends Component {
       const nodeKey = value.document.getClosestBlock(value.selection.startKey)
         .key;
       this.setState({
-        isInsideAside: checkSelctionForType('aside', value, nodeKey),
+        isInsideAside: checkSelectionForType('aside', value, nodeKey),
       });
     }
   }

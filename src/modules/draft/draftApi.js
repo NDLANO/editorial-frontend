@@ -23,7 +23,7 @@ export const fetchTags = language => {
 };
 
 export const fetchLicenses = () =>
-  fetchAuthorized(`${baseUrl}/licenses`).then(resolveJsonOrRejectWithError);
+  fetchAuthorized(`${baseUrl}/licenses/`).then(resolveJsonOrRejectWithError);
 
 export const fetchDraft = (id, language) => {
   const query = queryString.stringify({ language });

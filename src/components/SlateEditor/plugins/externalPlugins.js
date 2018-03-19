@@ -2,7 +2,12 @@ import EditBlockquote from 'slate-edit-blockquote';
 import EditList from 'slate-edit-list';
 import EditTable from 'slate-edit-table';
 
-export const listTypes = ['numbered-list', 'bulleted-list', 'letter-list'];
+export const listTypes = [
+  'numbered-list',
+  'bulleted-list',
+  'letter-list',
+  'two-column-list',
+];
 
 export const blockquotePlugin = EditBlockquote({ type: 'quote' });
 export const editListPlugin = EditList({

@@ -293,14 +293,14 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
 
-auth0-js@^8.11.2:
-  version "8.11.2"
-  resolved "https://registry.yarnpkg.com/auth0-js/-/auth0-js-8.11.2.tgz#e86c402a7f0d787f7b38a2067aab3577adb6788e"
+auth0-js@^9.3.2:
+  version "9.3.2"
+  resolved "https://registry.yarnpkg.com/auth0-js/-/auth0-js-9.3.2.tgz#e6c6a783803e5976296466d314f866b73e597c0f"
   dependencies:
     base64-js "^1.2.0"
-    idtoken-verifier "^1.1.0"
+    idtoken-verifier "^1.1.1"
     qs "^6.4.0"
-    superagent "^3.3.1"
+    superagent "^3.8.2"
     url-join "^1.1.0"
     winchan "^0.2.0"
 
@@ -1608,6 +1608,16 @@ cross-spawn@^5.0.1, cross-spawn@^5.1.0:
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
   dependencies:
     lru-cache "^4.0.1"
+    shebang-command "^1.2.0"
+    which "^1.2.9"
+
+cross-spawn@^6.0.4:
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"
+  dependencies:
+    nice-try "^1.0.4"
+    path-key "^2.0.1"
+    semver "^5.5.0"
     shebang-command "^1.2.0"
     which "^1.2.9"
 
@@ -3212,14 +3222,14 @@ icss-utils@^2.1.0:
   dependencies:
     postcss "^6.0.1"
 
-idtoken-verifier@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/idtoken-verifier/-/idtoken-verifier-1.1.0.tgz#1add30125aa3e5e5859d152b356a908a8e2eb5a0"
+idtoken-verifier@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/idtoken-verifier/-/idtoken-verifier-1.1.1.tgz#bc6eb46e6a153bb2058aed1cac2c27ac6751b5e5"
   dependencies:
     base64-js "^1.2.0"
     crypto-js "^3.1.9-1"
     jsbn "^0.1.0"
-    superagent "^3.3.1"
+    superagent "^3.8.2"
     url-join "^1.1.0"
 
 ieee754@^1.1.4:
@@ -4559,14 +4569,14 @@ ndla-licenses@^0.1.7:
   dependencies:
     defined "1.0.0"
 
-ndla-scripts@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/ndla-scripts/-/ndla-scripts-0.2.0.tgz#a2251840b4a0287b3a5452cd263bf582ded9d599"
+ndla-scripts@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/ndla-scripts/-/ndla-scripts-0.3.0.tgz#5f0808eaf38fdb8bb8b484819a21c7162b70eaa3"
   dependencies:
     await-url "^0.3.0"
-    cross-spawn "^5.1.0"
+    cross-spawn "^6.0.4"
     normalize-url "^2.0.1"
-    now "^9.0.1"
+    now "^9.3.3"
     octonode "^0.9.1"
     url-regex "^4.1.1"
 
@@ -4611,6 +4621,10 @@ nearley@^2.7.10:
 negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
+
+nice-try@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.4.tgz#d93962f6c52f2c1558c0fbda6d512819f1efe1c4"
 
 nise@^1.2.0:
   version "1.2.0"
@@ -4775,9 +4789,9 @@ normalize-url@^2.0.1:
     query-string "^5.0.1"
     sort-keys "^2.0.0"
 
-now@^9.0.1, now@^9.2.7:
-  version "9.2.7"
-  resolved "https://registry.yarnpkg.com/now/-/now-9.2.7.tgz#46e68cb606feb9c80d9d6b380fcddfaaa093c3a3"
+now@^9.3.3:
+  version "9.3.3"
+  resolved "https://registry.yarnpkg.com/now/-/now-9.3.3.tgz#356184b822c429c0efc725a23b69aad1b9257dbb"
 
 npm-run-path@^2.0.0:
   version "2.0.2"
@@ -5053,7 +5067,7 @@ path-is-inside@^1.0.1, path-is-inside@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/path-is-inside/-/path-is-inside-1.0.2.tgz#365417dede44430d1c11af61027facf074bdfc53"
 
-path-key@^2.0.0:
+path-key@^2.0.0, path-key@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/path-key/-/path-key-2.0.1.tgz#411cadb574c5a140d3a4b1910d40d80cc9f40b40"
 
@@ -6536,7 +6550,7 @@ semver-diff@^2.0.0:
   dependencies:
     semver "^5.0.3"
 
-"semver@2 || 3 || 4 || 5":
+"semver@2 || 3 || 4 || 5", semver@^5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.0.tgz#dc4bbc7a6ca9d916dee5d43516f0092b58f7b8ab"
 
@@ -7012,9 +7026,9 @@ sugarss@^1.0.0:
   dependencies:
     postcss "^6.0.14"
 
-superagent@^3.3.1:
-  version "3.8.1"
-  resolved "https://registry.yarnpkg.com/superagent/-/superagent-3.8.1.tgz#2571fd921f3fcdba43ac68c3b35c91951532701f"
+superagent@^3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/superagent/-/superagent-3.8.2.tgz#e4a11b9d047f7d3efeb3bbe536d9ec0021d16403"
   dependencies:
     component-emitter "^1.2.0"
     cookiejar "^2.1.0"

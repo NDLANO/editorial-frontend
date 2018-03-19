@@ -20,6 +20,7 @@ import {
   Underline,
   Link,
   Heading2,
+  Heading1,
   Section,
 } from 'ndla-icons/editor';
 import Types from 'slate-prop-types';
@@ -36,6 +37,7 @@ const toolbarIcon = {
   'two-column-list': <ListTwoColumns />,
   'letter-list': <ListSquare />,
   'heading-two': <Heading2 />,
+  'heading-one': <Heading1 />,
   footnote: <Section />,
 };
 

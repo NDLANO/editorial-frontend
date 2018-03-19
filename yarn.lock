@@ -2710,6 +2710,12 @@ focus-trap@^2.4.2:
   dependencies:
     tabbable "^1.0.3"
 
+focus-trap@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-2.4.3.tgz#95edc23e77829b7772cb2486d61fd6371ce112f9"
+  dependencies:
+    tabbable "^1.0.3"
+
 for-in@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
@@ -4547,9 +4553,9 @@ ndla-i18n@^0.2.1:
     intl-messageformat "^2.2.0"
     invariant "^2.2.2"
 
-ndla-icons@^0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.5.tgz#e9b2cd78540cc1f6fffd7c6574c11e2f2ff9ae9d"
+ndla-icons@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.6.tgz#43a0e05fe677046d80fcc43c231d1035a2ffac94"
 
 ndla-image-search@^0.2.9:
   version "0.2.9"
@@ -4580,14 +4586,14 @@ ndla-tabs@^0.4.2:
   dependencies:
     lodash "^4.17.4"
 
-ndla-ui@^0.10.9:
-  version "0.10.9"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.9.tgz#fa340482c2662ca4abd745a67cc8a11e0ca44a9c"
+ndla-ui@^0.10.15:
+  version "0.10.15"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.15.tgz#4c31e3e06d77f19bec37043a9b2545eb8ccb3c02"
   dependencies:
     classnames "2.2.5"
-    focus-trap "^2.4.2"
+    focus-trap "^2.4.3"
     jump.js "^1.0.2"
-    lodash "^4.17.4"
+    lodash "^4.17.5"
     react-bem-helper "1.4.1"
     react-prop-types "0.4.0"
     react-transition-group "^2.2.1"

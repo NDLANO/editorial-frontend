@@ -14,7 +14,7 @@ import Types from 'slate-prop-types';
 import { Portal } from '../../../../components/Portal';
 import ToolbarButton from './ToolbarButton';
 import { setActiveNode } from '../../createSlateStore';
-import { hasNodeOfType } from '../utils';
+import { hasNodeOfType, checkSelectionForType } from '../utils';
 import { TYPE as footnote } from '../footnote';
 import { TYPE as link } from '../link';
 import {
@@ -26,9 +26,15 @@ import {
 
 const DEFAULT_NODE = 'paragraph';
 
-const suportedToolbarElements = {
+const supportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
   block: ['quote', ...listTypes, 'heading-two'],
+  inline: [link, footnote],
+};
+
+const supportedToolbarElementsAside = {
+  mark: ['bold', 'italic', 'underlined'],
+  block: ['quote', ...listTypes, 'heading-one'],
   inline: [link, footnote],
 };
 
@@ -55,6 +61,18 @@ class SlateToolbar extends Component {
 
   componentDidMount() {
     this.updateMenu();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { value } = nextProps;
+
+    if (value.selection.startKey !== this.props.value.selection.startKey) {
+      const nodeKey = value.document.getClosestBlock(value.selection.startKey)
+        .key;
+      this.setState({
+        isInsideAside: checkSelectionForType('aside', value, nodeKey),
+      });
+    }
   }
 
   componentDidUpdate() {
@@ -160,8 +178,11 @@ class SlateToolbar extends Component {
 
   render() {
     const { value } = this.props;
-    const toolbarButtons = Object.keys(suportedToolbarElements).map(kind =>
-      suportedToolbarElements[kind].map(type => (
+    const toolbarElements = this.state.isInsideAside
+      ? supportedToolbarElementsAside
+      : supportedToolbarElements;
+    const toolbarButtons = Object.keys(toolbarElements).map(kind =>
+      toolbarElements[kind].map(type => (
         <ToolbarButton
           key={type}
           type={type}

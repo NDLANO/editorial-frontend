@@ -34,7 +34,7 @@ export const textWrapper = serializer => inputHtml => {
   }
 
   needWrapping.forEach(tn => {
-    const wrapped = document.createElement('div');
+    const wrapped = document.createElement('p');
     tn.parentNode.replaceChild(wrapped, tn);
     wrapped.appendChild(tn);
   });

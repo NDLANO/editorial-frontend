@@ -64,7 +64,9 @@ class AsyncDropDown extends React.Component {
       this.handleToggleMenu();
       this.setState({
         selectedItem,
-        inputValue: itemToString(selectedItem, textField),
+        inputValue: textField
+          ? itemToString(selectedItem, textField)
+          : selectedItem.title,
       });
       onChange(selectedItem);
     }

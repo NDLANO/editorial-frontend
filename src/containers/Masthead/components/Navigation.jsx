@@ -105,7 +105,7 @@ export class Navigation extends Component {
               <Agreement className="c-icon--large" />
               <span>{t('subNavigation.agreement')}</span>
             </Link>
-            <Link to="#" {...classes('item')} onClick={this.toggleOpen}>
+            <Link to="/struktur" {...classes('item')} onClick={this.toggleOpen}>
               <Taxonomy className="c-icon--large" />
               <span>{t('subNavigation.structure')}</span>
             </Link>

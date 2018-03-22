@@ -20,33 +20,58 @@ const classes = new BEMHelper({
 
 const Accordion = ({
   fill,
+  taksonomi,
   header,
   hidden,
   handleToggle,
   className,
+  addButton,
   ...rest
 }) => {
   const modifiers = {
     fill,
+    taksonomi,
   };
+
   const contentModifiers = {
     hidden,
     visible: !hidden,
   };
 
+  const title = <span {...classes('title', modifiers)}>{header}</span>;
+  const arrow = hidden ? (
+    <ExpandMore {...classes('arrow', modifiers, 'c-icon--medium')} />
+  ) : (
+    <ExpandLess {...classes('arrow', modifiers, 'c-icon--medium')} />
+  );
+
   return (
     <div {...classes('', modifiers)} {...rest}>
-      <Button
-        {...classes('button', fill ? 'fill' : '')}
-        stripped
-        onClick={handleToggle}>
-        <span {...classes('title')}>{header}</span>
-        {hidden ? (
-          <ExpandMore {...classes('arrow', '', 'c-icon--medium')} />
-        ) : (
-          <ExpandLess {...classes('arrow', '', 'c-icon--medium')} />
-        )}
-      </Button>
+      {addButton ? (
+        <div {...classes('buttonLine', modifiers)}>
+          <Button
+            {...classes('button', modifiers)}
+            stripped
+            onClick={handleToggle}>
+            {title}
+          </Button>
+          {addButton}
+          <Button
+            {...classes('button', { ...modifiers, arrow: true })}
+            stripped
+            onClick={handleToggle}>
+            {arrow}
+          </Button>
+        </div>
+      ) : (
+        <Button
+          {...classes('buttonLine', modifiers)}
+          stripped
+          onClick={handleToggle}>
+          {title}
+          {arrow}
+        </Button>
+      )}
       <div
         {...classes(
           'content',
@@ -60,14 +85,16 @@ const Accordion = ({
 };
 
 Accordion.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
+  addButton: PropTypes.node,
   className: PropTypes.string,
   disabled: PropTypes.bool,
-
   fill: PropTypes.bool,
-  header: PropTypes.string,
-  hidden: PropTypes.bool,
-  handleToggle: PropTypes.func,
+  taksonomi: PropTypes.bool,
+  header: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  hidden: PropTypes.bool.isRequired,
+  handleToggle: PropTypes.func.isRequired,
+  addButtonAction: PropTypes.func,
 };
 
 export default Accordion;

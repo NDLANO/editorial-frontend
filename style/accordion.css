@@ -7,12 +7,11 @@
  */
 
 .c-accordion {
-  &--fill {
-    border-bottom: 1px solid var(--gray-11);
-  }
-
-  &__button {
-    color: var(--brand-grey-dark);
+  &__buttonLine {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     padding: 0.6rem 0;
 
@@ -26,6 +25,30 @@
 
     &--fill:focus {
       background-color: var(--gray-11);
+    }
+
+    &--taksonomi,
+    &--taksonomi:hover {
+      padding: 0;
+      color: white;
+      height: 50px;
+      background-color: rgba(83, 99, 129, 1);
+      border: none;
+    }
+  }
+
+  &--fill {
+    border-bottom: 1px solid var(--gray-11);
+  }
+
+  &__button {
+    color: var(--brand-grey-dark);
+    width: 100%;
+    height: 100%;
+    text-align: left;
+
+    &--arrow {
+      width: 50px;
     }
   }
 
@@ -45,18 +68,25 @@
   }
 
   &__title {
-    float: left;
     padding-left: 1.3rem;
     font-size: 0.899rem;
     text-transform: uppercase;
     color: var(--gray-5);
     margin-right: 0.2rem;
+
+    &--taksonomi {
+      color: white;
+      font-size: 1.25rem;
+    }
   }
 
   &__arrow {
-    float: right;
     margin-top: 0.3rem;
     margin-right: 0.5rem;
     color: var(--gray-5);
+
+    &--taksonomi {
+      color: white;
+    }
   }
 }

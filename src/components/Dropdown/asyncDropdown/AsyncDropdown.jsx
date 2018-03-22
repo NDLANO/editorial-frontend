@@ -35,9 +35,18 @@ class AsyncDropDown extends React.Component {
   }
 
   async componentWillMount() {
+    this.isMountedOrMounting = true;
     const { apiAction } = this.props;
     const items = await apiAction('');
-    this.setState({ items });
+    if (this.isMountedOrMounting) {
+      this.setState({ items });
+    }
+  }
+  componentDidMount() {
+    this.isMountedOrMounting = true;
+  }
+  componentWillUnmount() {
+    this.isMountedOrMounting = false;
   }
 
   async handleInputChange(evt) {

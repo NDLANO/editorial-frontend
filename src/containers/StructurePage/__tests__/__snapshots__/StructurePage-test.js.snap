@@ -1,0 +1,251 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Adds posts new subject when writing and pressing enter 1`] = `
+<div
+  class="o-wrapper undefined"
+>
+  <div
+    class="c-accordion c-accordion--taksonomi"
+  >
+    <div
+      class="c-accordion__buttonLine c-accordion__buttonLine--taksonomi"
+    >
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--taksonomi"
+        >
+          <svg
+            class="c-icon c-icon--medium"
+            data-license="CC-BY 4.0"
+            data-source="Knowit"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            style="vertical-align: middle;"
+            viewBox="0 0 60 44"
+            width="1em"
+          >
+            <g>
+              <path
+                d="M58,29H53V24a2.9,2.9,0,0,0-3-3H31.5V15H36a2,2,0,0,0,2-2V2a2,2,0,0,0-2-2H24a2,2,0,0,0-2,2V13a2,2,0,0,0,2,2h5.5v6H10a2.9,2.9,0,0,0-3,3v5H2a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H14a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H9V24a.9.9,0,0,1,1-1H29.5v6H24a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H36a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H31.5V23H50a.9.9,0,0,1,1,1v5H46a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H58a2,2,0,0,0,2-2V31A2,2,0,0,0,58,29ZM24,2H36V13H24ZM14,42H2V31H14ZM36,31V42H24V31H36ZM58,42H46V31H58Z"
+              />
+            </g>
+          </svg>
+            Rediger struktur
+        </span>
+      </button>
+      <div
+        class="c-addButton__editMode"
+      >
+        <input
+          data-testid="addSubjectInputField"
+          type="text"
+          value="Elefant"
+        />
+        <button
+          class="c-button c-button--stripped"
+          type="button"
+        >
+          <svg
+            class="c-icon"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
+          >
+            <g>
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+              <path
+                d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi c-accordion__button--arrow"
+        type="button"
+      >
+        <svg
+          class="c-icon c-accordion__arrow c-accordion__arrow--taksonomi c-icon--medium"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--visible u-4/6@desktop u-push-1/6@desktop"
+    />
+  </div>
+</div>
+`;
+
+exports[`renders list of subjects, with active in url 1`] = `
+<div
+  class="o-wrapper undefined"
+>
+  <div
+    class="c-accordion c-accordion--taksonomi"
+  >
+    <div
+      class="c-accordion__buttonLine c-accordion__buttonLine--taksonomi"
+    >
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--taksonomi"
+        >
+          <svg
+            class="c-icon c-icon--medium"
+            data-license="CC-BY 4.0"
+            data-source="Knowit"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            style="vertical-align: middle;"
+            viewBox="0 0 60 44"
+            width="1em"
+          >
+            <g>
+              <path
+                d="M58,29H53V24a2.9,2.9,0,0,0-3-3H31.5V15H36a2,2,0,0,0,2-2V2a2,2,0,0,0-2-2H24a2,2,0,0,0-2,2V13a2,2,0,0,0,2,2h5.5v6H10a2.9,2.9,0,0,0-3,3v5H2a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H14a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H9V24a.9.9,0,0,1,1-1H29.5v6H24a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H36a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H31.5V23H50a.9.9,0,0,1,1,1v5H46a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H58a2,2,0,0,0,2-2V31A2,2,0,0,0,58,29ZM24,2H36V13H24ZM14,42H2V31H14ZM36,31V42H24V31H36ZM58,42H46V31H58Z"
+              />
+            </g>
+          </svg>
+            Rediger struktur
+        </span>
+      </button>
+      <button
+        class="c-button c-button--stripped c-addButton"
+        data-testid="AddSubjectButton"
+        type="button"
+      >
+        + Legg til nytt fag
+      </button>
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi c-accordion__button--arrow"
+        type="button"
+      >
+        <svg
+          class="c-icon c-accordion__arrow c-accordion__arrow--taksonomi c-icon--medium"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--visible u-4/6@desktop u-push-1/6@desktop"
+    />
+  </div>
+</div>
+`;
+
+exports[`renders list of subjects, with active in url 2`] = `
+<div
+  class="o-wrapper undefined"
+>
+  <div
+    class="c-accordion c-accordion--taksonomi"
+  >
+    <div
+      class="c-accordion__buttonLine c-accordion__buttonLine--taksonomi"
+    >
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--taksonomi"
+        >
+          <svg
+            class="c-icon c-icon--medium"
+            data-license="CC-BY 4.0"
+            data-source="Knowit"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            style="vertical-align: middle;"
+            viewBox="0 0 60 44"
+            width="1em"
+          >
+            <g>
+              <path
+                d="M58,29H53V24a2.9,2.9,0,0,0-3-3H31.5V15H36a2,2,0,0,0,2-2V2a2,2,0,0,0-2-2H24a2,2,0,0,0-2,2V13a2,2,0,0,0,2,2h5.5v6H10a2.9,2.9,0,0,0-3,3v5H2a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H14a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H9V24a.9.9,0,0,1,1-1H29.5v6H24a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H36a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H31.5V23H50a.9.9,0,0,1,1,1v5H46a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H58a2,2,0,0,0,2-2V31A2,2,0,0,0,58,29ZM24,2H36V13H24ZM14,42H2V31H14ZM36,31V42H24V31H36ZM58,42H46V31H58Z"
+              />
+            </g>
+          </svg>
+            Rediger struktur
+        </span>
+      </button>
+      <button
+        class="c-button c-button--stripped c-addButton"
+        data-testid="AddSubjectButton"
+        type="button"
+      >
+        + Legg til nytt fag
+      </button>
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi c-accordion__button--arrow"
+        type="button"
+      >
+        <svg
+          class="c-icon c-accordion__arrow c-accordion__arrow--taksonomi c-icon--medium"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--visible u-4/6@desktop u-push-1/6@desktop"
+    />
+  </div>
+</div>
+`;

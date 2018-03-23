@@ -55,7 +55,7 @@ export class MastheadSearchForm extends Component {
     const splittedNdlaUrl = ndlaUrl.split(/\?/)[0].split('/');
 
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
-    if (!urlId.includes('urn:topic') && isNaN(urlId)) return;
+    if (!urlId.includes('urn:topic') && Number.isNaN(parseFloat(urlId))) return;
 
     this.setState({ query: '' });
     if (urlId.includes('urn:topic')) {
@@ -81,7 +81,9 @@ export class MastheadSearchForm extends Component {
       query,
     );
     const isNodeId =
-      query.length > 2 && /#\d+/g.test(query) && !isNaN(query.substring(1));
+      query.length > 2 &&
+      /#\d+/g.test(query) &&
+      !Number.isNaN(parseFloat(query.substring(1)));
 
     if (isNDLAUrl) {
       this.handleUrlPaste(query);

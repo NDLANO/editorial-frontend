@@ -67,8 +67,7 @@ class TopicArticleContent extends Component {
   render() {
     const { t, bindInput, commonFieldProps, model } = this.props;
 
-    const creators = model.creators;
-    const updated = model.updated;
+    const { creators, updated } = model;
 
     return (
       <Accordion

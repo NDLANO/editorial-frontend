@@ -12,14 +12,14 @@ import createHistory from 'history/createBrowserHistory';
 import { expiresIn } from './jwtHelper';
 import { resolveJsonOrRejectWithError } from './apiHelpers';
 
-export const auth0Domain = window.config.auth0Domain;
-export const ndlaPersonalClientId = window.config.ndlaPersonalClientId;
+export const { auth0Domain, ndlaPersonalClientId } = window.config;
 
 const locationOrigin = (() => {
   if (process.env.NODE_ENV === 'unittest') {
     return 'http://ndla-frontend';
   }
 
+  /* eslint-disable no-restricted-globals */
   if (typeof location.origin === 'undefined') {
     location.origin = [
       location.protocol,
@@ -32,6 +32,7 @@ const locationOrigin = (() => {
 
   return location.origin;
 })();
+/* eslint-enable no-restricted-globals */
 
 export { locationOrigin };
 

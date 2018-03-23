@@ -19,8 +19,7 @@ const Overlay = ({ onExit, cssModifiers }) =>
   onExit ? (
     <div
       onClick={onExit}
-      role="button"
-      tabIndex={0}
+      aria-hidden="true"
       {...overlayClasses('', cssModifiers)}
     />
   ) : (

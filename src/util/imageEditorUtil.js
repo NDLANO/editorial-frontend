@@ -21,6 +21,7 @@ export function getClientPos(e) {
   let pageX;
   let pageY;
 
+  /* eslint-disable prefer-destructuring */
   if (e.touches) {
     pageX = e.touches[0].pageX;
     pageY = e.touches[0].pageY;
@@ -28,6 +29,7 @@ export function getClientPos(e) {
     pageX = e.pageX;
     pageY = e.pageY;
   }
+  /* eslint-enable prefer-destructuring */
 
   return {
     x: pageX,

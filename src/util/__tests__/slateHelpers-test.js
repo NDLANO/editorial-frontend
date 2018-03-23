@@ -40,7 +40,7 @@ import {
 } from '../slateHelpers';
 import { standardArticleHTML, standardArticleValue } from './slateMockArticle';
 
-const fragment = jsdom.JSDOM.fragment;
+const { fragment } = jsdom.JSDOM;
 
 test('serialize embed block', () => {
   const obj = {
@@ -54,14 +54,13 @@ test('serialize embed block', () => {
 });
 
 test('find embed nodes in slate document', () => {
-  const document = Value.fromJSON(valueWithTwoImageEmbeds).document;
+  const { document } = Value.fromJSON(valueWithTwoImageEmbeds);
   const embeds = findNodesByType(document, 'embed');
   expect(embeds.length).toBe(2);
 });
 
 test('find footnote nodes in slate document', () => {
-  const document = Value.fromJSON(valueWithInlineFootnotesAndContentLinks)
-    .document;
+  const { document } = Value.fromJSON(valueWithInlineFootnotesAndContentLinks);
   const embeds = findNodesByType(document, 'footnote');
   expect(embeds.length).toBe(2);
 });

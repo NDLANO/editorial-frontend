@@ -27,7 +27,6 @@ export class DisplayExternal extends React.Component {
 
   async componentWillMount() {
     try {
-      this.setState({ loading: true });
       const data = await fetchExternalOembed(this.props.url);
       const src = getIframeSrcFromHtmlString(data.html);
       if (src) {

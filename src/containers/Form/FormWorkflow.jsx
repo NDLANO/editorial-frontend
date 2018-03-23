@@ -25,7 +25,6 @@ class FormWorkflow extends Component {
     super(props);
     this.state = {
       hiddenWorkflow: true,
-      validationMessages: [],
     };
     this.toggleWorkflow = this.toggleWorkflow.bind(this);
     this.onValidateClick = this.onValidateClick.bind(this);

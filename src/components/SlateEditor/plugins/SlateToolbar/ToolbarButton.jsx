@@ -31,7 +31,7 @@ const toolbarIcon = {
   italic: <Italic />,
   underlined: <Underline />,
   quote: <Quote />,
-  link: <Link />,
+  link: <Link />, // eslint-disable-line
   'numbered-list': <ListNumbered />,
   'bulleted-list': <ListCircle />,
   'two-column-list': <ListTwoColumns />,

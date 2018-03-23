@@ -9,6 +9,7 @@
 import { getEventTransfer } from 'slate-react';
 import { defaultBlockWithText } from '../../schema';
 
+/* eslint-disable no-control-regex */
 const printAbleLetters = /[\x20-\x7F]/g;
 const tabCharacter = /\u0009/g;
 const norwegianLetters = /[\xC6\xE6\xF8\xD8\xE5\xC5]/g; // æÆøØåÅ
@@ -25,6 +26,7 @@ export const replacer = (str, change) => {
     }
   });
 };
+/* eslint-enable no-control-regex */
 
 export default function pasteContentPlugin() {
   function onPaste(evt, change) {

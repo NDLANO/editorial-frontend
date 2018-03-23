@@ -41,7 +41,7 @@ class AsyncDropDown extends React.Component {
   }
 
   async handleInputChange(evt) {
-    const value = evt.target.value;
+    const { value } = evt.target;
     this.handleSearch(value);
   }
 

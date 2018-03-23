@@ -34,7 +34,10 @@ class Footnote extends Component {
 
   onStoreChange() {
     const { editor: { props: { slateStore } } } = this.props;
+
     this.setState({
+      // This state value seems not to be in use, not sure if we should remove it.
+      /* eslint-disable-next-line react/no-unused-state */
       showFootnoteDialog: slateStore.getState().showFootnoteDialog,
     });
   }
@@ -47,7 +50,12 @@ class Footnote extends Component {
   render() {
     const { attributes, children } = this.props;
     return (
-      <a {...attributes} onClick={this.handleClick}>
+      <a
+        {...attributes}
+        role="link"
+        tabIndex={0}
+        onKeyPress={this.handleClick}
+        onClick={this.handleClick}>
         <sup>{children}</sup>
       </a>
     );

@@ -125,6 +125,10 @@ class RelatedArticleBox extends React.Component {
           e.stopPropagation();
           this.setState({ editMode: true });
         }}
+        onKeyPress={e => {
+          e.stopPropagation();
+          this.setState({ editMode: true });
+        }}
         {...attributes}>
         <RelatedArticleList
           messages={{

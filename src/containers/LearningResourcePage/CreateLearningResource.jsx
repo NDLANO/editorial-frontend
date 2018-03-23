@@ -38,7 +38,7 @@ class CreateLearningResource extends Component {
     const { locale, ...rest } = this.props;
     return (
       <LearningResourceForm
-        history={history}
+        history={history} /* eslint-disable-line */
         initialModel={getInitialModel({ language: locale })}
         {...rest}
         onUpdate={this.updateDraft}

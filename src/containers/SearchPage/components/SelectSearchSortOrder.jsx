@@ -41,7 +41,7 @@ class SelectSearchSortOrder extends Component {
 }
 
 SelectSearchSortOrder.propTypes = {
-  sort: PropTypes.string.isRequired,
+  sort: PropTypes.string,
   onSortOrderChange: PropTypes.func.isRequired,
 };
 

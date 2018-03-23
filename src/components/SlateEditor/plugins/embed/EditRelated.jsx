@@ -62,8 +62,8 @@ const EditRelated = ({
           valueField="id"
           name="relatedArticleSearch"
           textField="title.title"
-          placeholder={'Søk på tittel'}
-          label={'label'}
+          placeholder="Søk på tittel"
+          label="label"
           apiAction={async inp => {
             const res = await searchRelatedArticles(inp, locale);
             return res.filter(

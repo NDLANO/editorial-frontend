@@ -54,7 +54,6 @@ export const getInitialModel = (image = {}) => ({
 class ImageForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { title: '', tags: [], license: '', image: {} };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -131,7 +130,7 @@ class ImageForm extends Component {
         <ImageMetaData {...{ classes, commonFieldProps, tags, licenses }} />
         <Field right>
           <Link
-            to={'/'}
+            to="/"
             className="c-button c-button--outline c-abort-button"
             disabled={isSaving}>
             {t('form.abort')}

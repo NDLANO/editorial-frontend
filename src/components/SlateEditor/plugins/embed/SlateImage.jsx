@@ -143,7 +143,7 @@ class SlateImage extends React.Component {
 SlateImage.propTypes = {
   node: SlateTypes.node.isRequired,
   embed: EmbedShape.isRequired,
-  figureClass: PropTypes.object.isRequired,
+  figureClass: PropTypes.shape({}).isRequired,
   onFigureInputChange: PropTypes.func.isRequired,
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,

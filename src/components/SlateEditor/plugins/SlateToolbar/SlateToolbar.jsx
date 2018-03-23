@@ -43,7 +43,6 @@ export const toolbarClasses = new BEMHelper({
   prefix: 'c-',
 });
 
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 class SlateToolbar extends Component {
   constructor(props) {
     super(props);
@@ -54,7 +53,9 @@ class SlateToolbar extends Component {
     this.portalRef = this.portalRef.bind(this);
     this.handleValueChange = this.handleValueChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
+
     this.state = {
+      /* eslint-disable-next-line react/no-unused-state */
       value: this.props.value,
     };
   }

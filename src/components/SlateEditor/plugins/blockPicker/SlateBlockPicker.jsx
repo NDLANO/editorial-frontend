@@ -133,8 +133,8 @@ class SlateBlockPicker extends Component {
   }
 
   update(nodeEl) {
-    if (!this.menuEl) return;
-    const menuEl = this.menuEl;
+    const { menuEl } = this;
+    if (!menuEl) return;
     const bodyRect = document.body.getBoundingClientRect();
     menuEl.style.position = 'absolute';
     const rect = nodeEl.getBoundingClientRect();

@@ -20,7 +20,7 @@ test('renders list of subjects, with active in url', async () => {
 
   const component = renderer.create(
     <MemoryRouter>
-      <StructurePage match={{ params: { subject: 'subject:11' } }} />
+      <StructurePage match={{ params: { subject: 'urn:subject:11' } }} />
     </MemoryRouter>,
   );
   expect(component.toJSON()).toMatchSnapshot();
@@ -44,7 +44,7 @@ it('Adds posts new subject when writing and pressing enter', async () => {
     });
   const component = renderer.create(
     <MemoryRouter>
-      <StructurePage match={{ params: { subject: 'subject:11' } }} />
+      <StructurePage match={{ params: { subject: 'urn:subject:11' } }} />
     </MemoryRouter>,
   );
   const instance = component.root.findByType(StructurePage).instance;

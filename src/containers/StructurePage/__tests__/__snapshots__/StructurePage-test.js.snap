@@ -534,7 +534,7 @@ exports[`renders list of subjects, with active in url 2`] = `
           </g>
         </svg>
         <span
-          className="c-folder__title"
+          className="c-folder__title c-folder__title--active"
         >
           Bygg- og anleggsteknikk
         </span>

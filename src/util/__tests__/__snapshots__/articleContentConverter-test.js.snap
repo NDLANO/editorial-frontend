@@ -4,37 +4,37 @@ exports[`articleContentConverter convert learningresource content 1`] = `
 Object {
   "document": Object {
     "data": Object {},
-    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
-        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
-            "kind": "block",
             "nodes": Array [
               Object {
-                "kind": "text",
                 "leaves": Array [
                   Object {
-                    "kind": "leaf",
                     "marks": Array [],
+                    "object": "leaf",
                     "text": "Lorem ipsum",
                   },
                 ],
+                "object": "text",
               },
             ],
+            "object": "block",
             "type": "heading-two",
           },
         ],
+        "object": "block",
         "type": "section",
       },
     ],
+    "object": "document",
   },
-  "kind": "value",
+  "object": "value",
 }
 `;
 

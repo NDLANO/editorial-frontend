@@ -4,55 +4,55 @@ exports[`onPaste replacer norwegian letters 1`] = `
 Object {
   "document": Object {
     "data": Object {},
-    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
-        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
-            "kind": "block",
             "nodes": Array [
               Object {
-                "kind": "text",
                 "leaves": Array [
                   Object {
-                    "kind": "leaf",
                     "marks": Array [],
+                    "object": "leaf",
                     "text": "æøåÆØÅ",
                   },
                 ],
+                "object": "text",
               },
             ],
+            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
-            "kind": "block",
             "nodes": Array [
               Object {
-                "kind": "text",
                 "leaves": Array [
                   Object {
-                    "kind": "leaf",
                     "marks": Array [],
+                    "object": "leaf",
                     "text": "Paragraph text",
                   },
                 ],
+                "object": "text",
               },
             ],
+            "object": "block",
             "type": "paragraph",
           },
         ],
+        "object": "block",
         "type": "section",
       },
     ],
+    "object": "document",
   },
-  "kind": "value",
+  "object": "value",
 }
 `;
 
@@ -60,73 +60,73 @@ exports[`onPaste replacer with all characters 1`] = `
 Object {
   "document": Object {
     "data": Object {},
-    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
-        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
-            "kind": "block",
             "nodes": Array [
               Object {
-                "kind": "text",
                 "leaves": Array [
                   Object {
-                    "kind": "leaf",
                     "marks": Array [],
+                    "object": "leaf",
                     "text": "a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, æ, ø, å",
                   },
                 ],
+                "object": "text",
               },
             ],
+            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
-            "kind": "block",
             "nodes": Array [
               Object {
-                "kind": "text",
                 "leaves": Array [
                   Object {
-                    "kind": "leaf",
                     "marks": Array [],
+                    "object": "leaf",
                     "text": "A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, Æ, Ø, Å",
                   },
                 ],
+                "object": "text",
               },
             ],
+            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
-            "kind": "block",
             "nodes": Array [
               Object {
-                "kind": "text",
                 "leaves": Array [
                   Object {
-                    "kind": "leaf",
                     "marks": Array [],
+                    "object": "leaf",
                     "text": "Paragraph text",
                   },
                 ],
+                "object": "text",
               },
             ],
+            "object": "block",
             "type": "paragraph",
           },
         ],
+        "object": "block",
         "type": "section",
       },
     ],
+    "object": "document",
   },
-  "kind": "value",
+  "object": "value",
 }
 `;
 
@@ -134,91 +134,91 @@ exports[`onPaste replacer with cr character 1`] = `
 Object {
   "document": Object {
     "data": Object {},
-    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
-        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
-            "kind": "block",
             "nodes": Array [
               Object {
-                "kind": "text",
                 "leaves": Array [
                   Object {
-                    "kind": "leaf",
                     "marks": Array [],
+                    "object": "leaf",
                     "text": "This is a text string that contains cr's",
                   },
                 ],
+                "object": "text",
               },
             ],
+            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
-            "kind": "block",
             "nodes": Array [
               Object {
-                "kind": "text",
                 "leaves": Array [
                   Object {
-                    "kind": "leaf",
                     "marks": Array [],
+                    "object": "leaf",
                     "text": "A new line",
                   },
                 ],
+                "object": "text",
               },
             ],
+            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
-            "kind": "block",
             "nodes": Array [
               Object {
-                "kind": "text",
                 "leaves": Array [
                   Object {
-                    "kind": "leaf",
                     "marks": Array [],
+                    "object": "leaf",
                     "text": "Another new line",
                   },
                 ],
+                "object": "text",
               },
             ],
+            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
-            "kind": "block",
             "nodes": Array [
               Object {
-                "kind": "text",
                 "leaves": Array [
                   Object {
-                    "kind": "leaf",
                     "marks": Array [],
+                    "object": "leaf",
                     "text": "Paragraph text",
                   },
                 ],
+                "object": "text",
               },
             ],
+            "object": "block",
             "type": "paragraph",
           },
         ],
+        "object": "block",
         "type": "section",
       },
     ],
+    "object": "document",
   },
-  "kind": "value",
+  "object": "value",
 }
 `;
 
@@ -226,36 +226,36 @@ exports[`onPaste replacer with illegal characters 1`] = `
 Object {
   "document": Object {
     "data": Object {},
-    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
-        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
-            "kind": "block",
             "nodes": Array [
               Object {
-                "kind": "text",
                 "leaves": Array [
                   Object {
-                    "kind": "leaf",
                     "marks": Array [],
+                    "object": "leaf",
                     "text": "Paragraph text",
                   },
                 ],
+                "object": "text",
               },
             ],
+            "object": "block",
             "type": "paragraph",
           },
         ],
+        "object": "block",
         "type": "section",
       },
     ],
+    "object": "document",
   },
-  "kind": "value",
+  "object": "value",
 }
 `;

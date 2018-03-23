@@ -41,9 +41,15 @@ const toolbarIcon = {
   footnote: <Section />,
 };
 
-const ToolbarButton = ({ value, type, kind, handleHasType, handleOnClick }) => {
-  const isActive = handleHasType(value, type, kind);
-  const onMouseDown = e => handleOnClick(e, kind, type);
+const ToolbarButton = ({
+  value,
+  type,
+  object,
+  handleHasType,
+  handleOnClick,
+}) => {
+  const isActive = handleHasType(value, type, object);
+  const onMouseDown = e => handleOnClick(e, object, type);
   return (
     <Button stripped onMouseDown={onMouseDown} data-active={isActive}>
       <span {...toolbarClasses('icon', isActive ? 'active' : '')}>
@@ -55,7 +61,7 @@ const ToolbarButton = ({ value, type, kind, handleHasType, handleOnClick }) => {
 
 ToolbarButton.propTypes = {
   type: PropTypes.string.isRequired,
-  kind: PropTypes.string.isRequired,
+  object: PropTypes.string.isRequired,
   value: Types.value.isRequired,
   handleHasType: PropTypes.func.isRequired,
   handleOnClick: PropTypes.func.isRequired,

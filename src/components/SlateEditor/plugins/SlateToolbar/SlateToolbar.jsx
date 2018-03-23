@@ -135,10 +135,10 @@ class SlateToolbar extends Component {
     }
   }
 
-  onButtonClick(e, kind, type) {
-    if (kind === 'mark') this.onClickMark(e, type);
-    if (kind === 'block') this.onClickBlock(e, type);
-    if (kind === 'inline') this.onClickInline(e, type);
+  onButtonClick(e, object, type) {
+    if (object === 'mark') this.onClickMark(e, type);
+    if (object === 'block') this.onClickBlock(e, type);
+    if (object === 'inline') this.onClickInline(e, type);
   }
 
   portalRef(menu) {
@@ -182,12 +182,12 @@ class SlateToolbar extends Component {
     const toolbarElements = this.state.isInsideAside
       ? supportedToolbarElementsAside
       : supportedToolbarElements;
-    const toolbarButtons = Object.keys(toolbarElements).map(kind =>
-      toolbarElements[kind].map(type => (
+    const toolbarButtons = Object.keys(toolbarElements).map(object =>
+      toolbarElements[object].map(type => (
         <ToolbarButton
           key={type}
           type={type}
-          kind={kind}
+          object={object}
           value={value}
           handleHasType={hasNodeOfType}
           handleOnClick={this.onButtonClick}

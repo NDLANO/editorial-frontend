@@ -427,7 +427,7 @@ const phrases = {
     continue: 'Continue',
     delete: 'Delete',
   },
-  taksonomi: {
+  taxonomy: {
     editStructure: '  Edit structure',
     addSubject: '+ Add new subject',
   },

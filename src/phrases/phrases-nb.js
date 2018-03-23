@@ -429,7 +429,7 @@ const phrases = {
     continue: 'Fortsett',
     delete: 'Slett',
   },
-  taksonomi: {
+  taxonomy: {
     editStructure: '  Rediger struktur',
     addSubject: '+ Legg til nytt fag',
   },

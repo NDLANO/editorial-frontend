@@ -27,12 +27,12 @@
       background-color: var(--gray-11);
     }
 
-    &--taksonomi,
-    &--taksonomi:hover {
+    &--taxonomy,
+    &--taxonomy:hover {
       padding: 0;
       color: white;
       height: 50px;
-      background-color: rgba(83, 99, 129, 1);
+      background: var(--taxonomy-color);
       border: none;
     }
   }
@@ -47,7 +47,8 @@
     height: 100%;
     text-align: left;
 
-    &--arrow {
+    &--arrowButton {
+      min-width: 50px;
       width: 50px;
     }
   }
@@ -66,7 +67,7 @@
       display: none;
     }
 
-    &--taksonomi {
+    &--taxonomy {
       margin-left: var(--spacing);
     }
   }
@@ -78,19 +79,22 @@
     color: var(--gray-5);
     margin-right: 0.2rem;
 
-    &--taksonomi {
+    &--taxonomy {
       color: white;
       font-size: 1.25rem;
+      text-transform: none;
+      display: flex;
+      align-items: center;
+
+      & > svg {
+        margin-right: 10px;
+      }
     }
   }
 
   &__arrow {
-    margin-top: 0.3rem;
-    margin-right: 0.5rem;
-    color: var(--gray-5);
-
-    &--taksonomi {
-      color: white;
-    }
+    color: var(--gray-7);
+    width: 45px;
+    height: 45px;
   }
 }

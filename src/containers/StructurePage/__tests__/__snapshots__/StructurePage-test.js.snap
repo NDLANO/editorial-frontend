@@ -5,19 +5,19 @@ exports[`renders list of subjects, with active in url 1`] = `
   className="o-wrapper undefined"
 >
   <div
-    className="c-accordion c-accordion--taksonomi"
+    className="c-accordion c-accordion--taxonomy"
   >
     <div
-      className="c-accordion__buttonLine c-accordion__buttonLine--taksonomi"
+      className="c-accordion__buttonLine c-accordion__buttonLine--taxonomy"
     >
       <button
-        className="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi"
+        className="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy"
         disabled={false}
         onClick={[Function]}
         type="button"
       >
         <span
-          className="c-accordion__title c-accordion__title--taksonomi"
+          className="c-accordion__title c-accordion__title--taxonomy"
         >
           <svg
             className="c-icon c-icon--medium"
@@ -54,13 +54,13 @@ exports[`renders list of subjects, with active in url 1`] = `
         injected
       </button>
       <button
-        className="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi c-accordion__button--arrow"
+        className="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy c-accordion__button--arrowButton"
         disabled={false}
         onClick={[Function]}
         type="button"
       >
         <svg
-          className="c-icon c-accordion__arrow c-accordion__arrow--taksonomi c-icon--medium"
+          className="c-icon c-accordion__arrow c-accordion__arrow--taxonomy"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
@@ -84,7 +84,7 @@ exports[`renders list of subjects, with active in url 1`] = `
       </button>
     </div>
     <div
-      className="c-accordion__content c-accordion__content--visible c-accordion__content--taksonomi"
+      className="c-accordion__content c-accordion__content--visible c-accordion__content--taxonomy"
     />
   </div>
 </div>
@@ -95,19 +95,19 @@ exports[`renders list of subjects, with active in url 2`] = `
   className="o-wrapper undefined"
 >
   <div
-    className="c-accordion c-accordion--taksonomi"
+    className="c-accordion c-accordion--taxonomy"
   >
     <div
-      className="c-accordion__buttonLine c-accordion__buttonLine--taksonomi"
+      className="c-accordion__buttonLine c-accordion__buttonLine--taxonomy"
     >
       <button
-        className="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi"
+        className="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy"
         disabled={false}
         onClick={[Function]}
         type="button"
       >
         <span
-          className="c-accordion__title c-accordion__title--taksonomi"
+          className="c-accordion__title c-accordion__title--taxonomy"
         >
           <svg
             className="c-icon c-icon--medium"
@@ -144,13 +144,13 @@ exports[`renders list of subjects, with active in url 2`] = `
         injected
       </button>
       <button
-        className="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi c-accordion__button--arrow"
+        className="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy c-accordion__button--arrowButton"
         disabled={false}
         onClick={[Function]}
         type="button"
       >
         <svg
-          className="c-icon c-accordion__arrow c-accordion__arrow--taksonomi c-icon--medium"
+          className="c-icon c-accordion__arrow c-accordion__arrow--taxonomy"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
@@ -174,11 +174,11 @@ exports[`renders list of subjects, with active in url 2`] = `
       </button>
     </div>
     <div
-      className="c-accordion__content c-accordion__content--visible c-accordion__content--taksonomi"
+      className="c-accordion__content c-accordion__content--visible c-accordion__content--taxonomy"
     >
       <a
         className="c-folder"
-        href="/struktur/urn:subject:1"
+        href="/structure/urn:subject:1"
         onClick={[Function]}
       >
         <svg
@@ -211,7 +211,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:2"
+        href="/structure/urn:subject:2"
         onClick={[Function]}
       >
         <svg
@@ -244,7 +244,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:3"
+        href="/structure/urn:subject:3"
         onClick={[Function]}
       >
         <svg
@@ -277,7 +277,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:4"
+        href="/structure/urn:subject:4"
         onClick={[Function]}
       >
         <svg
@@ -310,7 +310,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:5"
+        href="/structure/urn:subject:5"
         onClick={[Function]}
       >
         <svg
@@ -343,7 +343,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:6"
+        href="/structure/urn:subject:6"
         onClick={[Function]}
       >
         <svg
@@ -376,7 +376,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:7"
+        href="/structure/urn:subject:7"
         onClick={[Function]}
       >
         <svg
@@ -409,7 +409,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:8"
+        href="/structure/urn:subject:8"
         onClick={[Function]}
       >
         <svg
@@ -442,7 +442,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:9"
+        href="/structure/urn:subject:9"
         onClick={[Function]}
       >
         <svg
@@ -475,7 +475,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:10"
+        href="/structure/urn:subject:10"
         onClick={[Function]}
       >
         <svg
@@ -508,7 +508,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:11"
+        href="/structure/urn:subject:11"
         onClick={[Function]}
       >
         <svg
@@ -541,7 +541,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:12"
+        href="/structure/urn:subject:12"
         onClick={[Function]}
       >
         <svg
@@ -574,7 +574,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:13"
+        href="/structure/urn:subject:13"
         onClick={[Function]}
       >
         <svg
@@ -607,7 +607,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:14"
+        href="/structure/urn:subject:14"
         onClick={[Function]}
       >
         <svg
@@ -640,7 +640,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:15"
+        href="/structure/urn:subject:15"
         onClick={[Function]}
       >
         <svg
@@ -673,7 +673,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:16"
+        href="/structure/urn:subject:16"
         onClick={[Function]}
       >
         <svg
@@ -706,7 +706,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:17"
+        href="/structure/urn:subject:17"
         onClick={[Function]}
       >
         <svg
@@ -739,7 +739,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:18"
+        href="/structure/urn:subject:18"
         onClick={[Function]}
       >
         <svg
@@ -772,7 +772,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </a>
       <a
         className="c-folder"
-        href="/struktur/urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
+        href="/structure/urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
         onClick={[Function]}
       >
         <svg

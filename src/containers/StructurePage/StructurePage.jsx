@@ -71,13 +71,13 @@ export class StructurePage extends React.PureComponent {
           header={
             <React.Fragment>
               <Taxonomy className="c-icon--medium" />
-              {t('taksonomi.editStructure')}
+              {t('taxonomy.editStructure')}
             </React.Fragment>
           }
-          taksonomi
+          taxonomy
           addButton={
             <InlineAddButton
-              title={t('taksonomi.addSubject')}
+              title={t('taxonomy.addSubject')}
               action={this.addSubject}
             />
           }
@@ -88,7 +88,7 @@ export class StructurePage extends React.PureComponent {
               key={it.id}
               title={it.name}
               active={it.id === params.subject}
-              path={`/struktur/${it.id}`}
+              path={`/structure/${it.id}`}
             />
           ))}
         </Accordion>

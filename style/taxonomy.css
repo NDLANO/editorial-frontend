@@ -20,6 +20,8 @@
   margin-left: auto;
   padding: 0 var(--spacing--small);
   white-space: nowrap;
+  font-size: 1.1rem;
+  background-color: var(--lighter-color);
 
   &:hover {
     color: white;

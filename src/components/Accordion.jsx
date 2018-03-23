@@ -20,7 +20,7 @@ const classes = new BEMHelper({
 
 const Accordion = ({
   fill,
-  taksonomi,
+  taxonomy,
   header,
   hidden,
   handleToggle,
@@ -30,20 +30,20 @@ const Accordion = ({
 }) => {
   const modifiers = {
     fill,
-    taksonomi,
+    taxonomy,
   };
 
   const contentModifiers = {
     hidden,
     visible: !hidden,
-    taksonomi,
+    taxonomy,
   };
 
   const title = <span {...classes('title', modifiers)}>{header}</span>;
   const arrow = hidden ? (
-    <ExpandMore {...classes('arrow', modifiers, 'c-icon--medium')} />
+    <ExpandMore {...classes('arrow', modifiers)} />
   ) : (
-    <ExpandLess {...classes('arrow', modifiers, 'c-icon--medium')} />
+    <ExpandLess {...classes('arrow', modifiers)} />
   );
 
   return (
@@ -58,7 +58,7 @@ const Accordion = ({
           </Button>
           {addButton}
           <Button
-            {...classes('button', { ...modifiers, arrow: true })}
+            {...classes('button', { ...modifiers, arrowButton: true })}
             stripped
             onClick={handleToggle}>
             {arrow}
@@ -77,7 +77,7 @@ const Accordion = ({
         {...classes(
           'content',
           contentModifiers,
-          taksonomi ? '' : 'u-4/6@desktop u-push-1/6@desktop',
+          taxonomy ? '' : 'u-4/6@desktop u-push-1/6@desktop',
         )}>
         {rest.children}
       </div>
@@ -91,7 +91,7 @@ Accordion.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   fill: PropTypes.bool,
-  taksonomi: PropTypes.bool,
+  taxonomy: PropTypes.bool,
   header: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   hidden: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,

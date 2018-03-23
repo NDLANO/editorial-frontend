@@ -45,8 +45,7 @@ class InlineAddButton extends React.PureComponent {
       this.setState({ editMode: false });
     }
     if (e.key === 'Enter') {
-      this.props.action(this.state.inputValue);
-      this.setState({ editMode: false });
+      this.handleClick(e);
     }
   }
 

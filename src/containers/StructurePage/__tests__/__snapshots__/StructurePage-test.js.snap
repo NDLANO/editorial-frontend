@@ -1,132 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Adds posts new subject when writing and pressing enter 1`] = `
-<div
-  class="o-wrapper undefined"
->
-  <div
-    class="c-accordion c-accordion--taksonomi"
-  >
-    <div
-      class="c-accordion__buttonLine c-accordion__buttonLine--taksonomi"
-    >
-      <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi"
-        type="button"
-      >
-        <span
-          class="c-accordion__title c-accordion__title--taksonomi"
-        >
-          <svg
-            class="c-icon c-icon--medium"
-            data-license="CC-BY 4.0"
-            data-source="Knowit"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 60 44"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M58,29H53V24a2.9,2.9,0,0,0-3-3H31.5V15H36a2,2,0,0,0,2-2V2a2,2,0,0,0-2-2H24a2,2,0,0,0-2,2V13a2,2,0,0,0,2,2h5.5v6H10a2.9,2.9,0,0,0-3,3v5H2a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H14a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H9V24a.9.9,0,0,1,1-1H29.5v6H24a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H36a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H31.5V23H50a.9.9,0,0,1,1,1v5H46a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H58a2,2,0,0,0,2-2V31A2,2,0,0,0,58,29ZM24,2H36V13H24ZM14,42H2V31H14ZM36,31V42H24V31H36ZM58,42H46V31H58Z"
-              />
-            </g>
-          </svg>
-            Rediger struktur
-        </span>
-      </button>
-      <div
-        class="c-addButton__editMode"
-      >
-        <input
-          data-testid="addSubjectInputField"
-          type="text"
-          value="Elefant"
-        />
-        <button
-          class="c-button c-button--stripped"
-          type="button"
-        >
-          <svg
-            class="c-icon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
-              />
-            </g>
-          </svg>
-        </button>
-      </div>
-      <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi c-accordion__button--arrow"
-        type="button"
-      >
-        <svg
-          class="c-icon c-accordion__arrow c-accordion__arrow--taksonomi c-icon--medium"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
-        >
-          <g>
-            <path
-              d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
-            />
-          </g>
-        </svg>
-      </button>
-    </div>
-    <div
-      class="c-accordion__content c-accordion__content--visible u-4/6@desktop u-push-1/6@desktop"
-    />
-  </div>
-</div>
-`;
-
 exports[`renders list of subjects, with active in url 1`] = `
 <div
-  class="o-wrapper undefined"
+  className="o-wrapper undefined"
 >
   <div
-    class="c-accordion c-accordion--taksonomi"
+    className="c-accordion c-accordion--taksonomi"
   >
     <div
-      class="c-accordion__buttonLine c-accordion__buttonLine--taksonomi"
+      className="c-accordion__buttonLine c-accordion__buttonLine--taksonomi"
     >
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi"
+        className="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi"
+        disabled={false}
+        onClick={[Function]}
         type="button"
       >
         <span
-          class="c-accordion__title c-accordion__title--taksonomi"
+          className="c-accordion__title c-accordion__title--taksonomi"
         >
           <svg
-            class="c-icon c-icon--medium"
+            className="c-icon c-icon--medium"
             data-license="CC-BY 4.0"
             data-source="Knowit"
             fill="currentColor"
             height="1em"
             preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
+            style={
+              Object {
+                "color": undefined,
+                "verticalAlign": "middle",
+              }
+            }
             viewBox="0 0 60 44"
             width="1em"
           >
@@ -140,24 +45,33 @@ exports[`renders list of subjects, with active in url 1`] = `
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-addButton"
+        className="c-button c-button--stripped c-addButton"
         data-testid="AddSubjectButton"
+        disabled={false}
+        onClick={[Function]}
         type="button"
       >
         + Legg til nytt fag
       </button>
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi c-accordion__button--arrow"
+        className="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi c-accordion__button--arrow"
+        disabled={false}
+        onClick={[Function]}
         type="button"
       >
         <svg
-          class="c-icon c-accordion__arrow c-accordion__arrow--taksonomi c-icon--medium"
+          className="c-icon c-accordion__arrow c-accordion__arrow--taksonomi c-icon--medium"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
           height="1em"
           preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
+          style={
+            Object {
+              "color": undefined,
+              "verticalAlign": "middle",
+            }
+          }
           viewBox="0 0 24 24"
           width="1em"
         >
@@ -170,7 +84,7 @@ exports[`renders list of subjects, with active in url 1`] = `
       </button>
     </div>
     <div
-      class="c-accordion__content c-accordion__content--visible u-4/6@desktop u-push-1/6@desktop"
+      className="c-accordion__content c-accordion__content--visible u-4/6@desktop u-push-1/6@desktop"
     />
   </div>
 </div>
@@ -178,29 +92,36 @@ exports[`renders list of subjects, with active in url 1`] = `
 
 exports[`renders list of subjects, with active in url 2`] = `
 <div
-  class="o-wrapper undefined"
+  className="o-wrapper undefined"
 >
   <div
-    class="c-accordion c-accordion--taksonomi"
+    className="c-accordion c-accordion--taksonomi"
   >
     <div
-      class="c-accordion__buttonLine c-accordion__buttonLine--taksonomi"
+      className="c-accordion__buttonLine c-accordion__buttonLine--taksonomi"
     >
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi"
+        className="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi"
+        disabled={false}
+        onClick={[Function]}
         type="button"
       >
         <span
-          class="c-accordion__title c-accordion__title--taksonomi"
+          className="c-accordion__title c-accordion__title--taksonomi"
         >
           <svg
-            class="c-icon c-icon--medium"
+            className="c-icon c-icon--medium"
             data-license="CC-BY 4.0"
             data-source="Knowit"
             fill="currentColor"
             height="1em"
             preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
+            style={
+              Object {
+                "color": undefined,
+                "verticalAlign": "middle",
+              }
+            }
             viewBox="0 0 60 44"
             width="1em"
           >
@@ -214,24 +135,33 @@ exports[`renders list of subjects, with active in url 2`] = `
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-addButton"
+        className="c-button c-button--stripped c-addButton"
         data-testid="AddSubjectButton"
+        disabled={false}
+        onClick={[Function]}
         type="button"
       >
         + Legg til nytt fag
       </button>
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi c-accordion__button--arrow"
+        className="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi c-accordion__button--arrow"
+        disabled={false}
+        onClick={[Function]}
         type="button"
       >
         <svg
-          class="c-icon c-accordion__arrow c-accordion__arrow--taksonomi c-icon--medium"
+          className="c-icon c-accordion__arrow c-accordion__arrow--taksonomi c-icon--medium"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
           height="1em"
           preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
+          style={
+            Object {
+              "color": undefined,
+              "verticalAlign": "middle",
+            }
+          }
           viewBox="0 0 24 24"
           width="1em"
         >
@@ -244,8 +174,636 @@ exports[`renders list of subjects, with active in url 2`] = `
       </button>
     </div>
     <div
-      class="c-accordion__content c-accordion__content--visible u-4/6@desktop u-push-1/6@desktop"
-    />
+      className="c-accordion__content c-accordion__content--visible u-4/6@desktop u-push-1/6@desktop"
+    >
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:1"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Medieuttrykk og mediesamfunnet
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:2"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Kinesisk
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:3"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Samfunnsfag
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:4"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Vg 2 Helsearbeiderfag
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:5"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Testfag
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:6"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Brønnteknikk
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:7"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Markedsføring og ledelse 1
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:8"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Tysk
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:9"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Historie vg2 og vg3
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:10"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Matematikk fellesfag
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:11"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Bygg- og anleggsteknikk
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:12"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Service og samferdsel vg1
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:13"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Naturbruk vg 1
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:14"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Medie- og informasjonskunnskap
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:15"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Sørsamisk vg1 og vg2
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:16"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Elektrofag vg1
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:17"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Engelskspråklig litteratur og kultur
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:18"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Kommunikasjon og kultur 1, 2, 3
+        </span>
+      </a>
+      <a
+        className="c-folder"
+        href="/struktur/urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
+        onClick={[Function]}
+      >
+        <svg
+          className="c-icon"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": "#70A5DA",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 14 11"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+            />
+          </g>
+        </svg>
+        <span
+          className="c-folder__title"
+        >
+          Matte 101
+        </span>
+      </a>
+    </div>
   </div>
 </div>
 `;

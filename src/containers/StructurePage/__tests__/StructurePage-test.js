@@ -8,10 +8,9 @@
 
 import nock from 'nock';
 import React from 'react';
-import { render, flushPromises, Simulate } from 'react-testing-library';
+import renderer from 'react-test-renderer';
 import { MemoryRouter } from 'react-router-dom';
 import StructurePage from '../StructurePage';
-/* import FolderItem from '../components/FolderItem'; */
 import { subjectsMock } from '../../../util/__tests__/taxonomyMocks';
 
 test('renders list of subjects, with active in url', async () => {
@@ -19,43 +18,43 @@ test('renders list of subjects, with active in url', async () => {
     .get('/taxonomy/v1/subjects')
     .reply(200, subjectsMock);
 
-  const { container } = render(
+  const component = renderer.create(
     <MemoryRouter>
       <StructurePage match={{ params: { subject: 'subject:11' } }} />
     </MemoryRouter>,
   );
-  expect(container.firstChild).toMatchSnapshot();
-  await flushPromises();
-  render(
-    <MemoryRouter>
-      <StructurePage match={{ params: { subject: 'subject:11' } }} />
-    </MemoryRouter>,
-    { container },
-  );
-  expect(container.firstChild).toMatchSnapshot();
+  expect(component.toJSON()).toMatchSnapshot();
+  return new Promise(resolve => {
+    setTimeout(() => {
+      expect(component.toJSON()).toMatchSnapshot();
+      resolve();
+    }, global.DEFAULT_TIMEOUT);
+  });
 });
+
 it('Adds posts new subject when writing and pressing enter', async () => {
   nock('http://ndla-api')
     .get('/taxonomy/v1/subjects')
     .reply(200, subjectsMock);
-
-  const postSubjectCall = nock('http://ndla-api')
+  nock('http://ndla-api')
     .post('/taxonomy/v1/subjects', { name: 'Elefant' })
-    .reply(201);
-
-  const { getByTestId, container } = render(
+    .reply(201, '', {
+      Location: 'newPath',
+      'Content-Type': 'text/plain; charset=UTF-8',
+    });
+  const component = renderer.create(
     <MemoryRouter>
       <StructurePage match={{ params: { subject: 'subject:11' } }} />
     </MemoryRouter>,
   );
-  Simulate.click(getByTestId('AddSubjectButton'));
+  const instance = component.root.findByType(StructurePage).instance;
+  expect(instance.state.editStructureHidden).toBe(false);
+  await instance.addSubject('Elefant');
 
-  const input = getByTestId('addSubjectInputField');
-  input.value = 'Elefant';
-  Simulate.change(input);
-  expect(container.firstChild).toMatchSnapshot();
-
-  Simulate.keyDown(input, { key: 'Enter', keyCode: 13, which: 13 });
-  await flushPromises();
-  expect(postSubjectCall.isDone());
+  expect(
+    instance.state.subjects.filter(
+      it => it.path === 'newPath' && it.name === 'Elefant',
+    ).length,
+  ).toBe(1);
+  expect(nock.isDone());
 });

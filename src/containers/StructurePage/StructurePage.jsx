@@ -34,7 +34,6 @@ class StructurePage extends React.PureComponent {
 
   async getAllSubjects() {
     const subjects = await fetchSubjects();
-    console.log(subjects);
     this.setState({ subjects });
   }
 
@@ -47,8 +46,9 @@ class StructurePage extends React.PureComponent {
   async addSubject(name) {
     this.setState({ loadingSubjects: true });
     const newPath = await addSubject({ name });
+
     this.setState({ loadingSubjects: false });
-    if (newPath) {
+    if (typeof newPath === 'string') {
       this.setState(prevState => ({
         subjects: [
           ...prevState.subjects,

@@ -10,7 +10,7 @@ import nock from 'nock';
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { MemoryRouter } from 'react-router-dom';
-import StructurePage from '../StructurePage';
+import { StructurePage } from '../StructurePage';
 import { subjectsMock } from '../../../util/__tests__/taxonomyMocks';
 
 test('renders list of subjects, with active in url', async () => {
@@ -20,7 +20,10 @@ test('renders list of subjects, with active in url', async () => {
 
   const component = renderer.create(
     <MemoryRouter>
-      <StructurePage match={{ params: { subject: 'urn:subject:11' } }} />
+      <StructurePage
+        t={() => 'injected'}
+        match={{ params: { subject: 'urn:subject:11' } }}
+      />
     </MemoryRouter>,
   );
   expect(component.toJSON()).toMatchSnapshot();
@@ -44,7 +47,10 @@ it('Adds posts new subject when writing and pressing enter', async () => {
     });
   const component = renderer.create(
     <MemoryRouter>
-      <StructurePage match={{ params: { subject: 'urn:subject:11' } }} />
+      <StructurePage
+        t={() => ''}
+        match={{ params: { subject: 'urn:subject:11' } }}
+      />
     </MemoryRouter>,
   );
   const instance = component.root.findByType(StructurePage).instance;

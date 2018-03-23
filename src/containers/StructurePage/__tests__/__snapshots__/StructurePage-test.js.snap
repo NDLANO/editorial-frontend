@@ -41,7 +41,7 @@ exports[`renders list of subjects, with active in url 1`] = `
               />
             </g>
           </svg>
-            Rediger struktur
+          injected
         </span>
       </button>
       <button
@@ -51,7 +51,7 @@ exports[`renders list of subjects, with active in url 1`] = `
         onClick={[Function]}
         type="button"
       >
-        + Legg til nytt fag
+        injected
       </button>
       <button
         className="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi c-accordion__button--arrow"
@@ -131,7 +131,7 @@ exports[`renders list of subjects, with active in url 2`] = `
               />
             </g>
           </svg>
-            Rediger struktur
+          injected
         </span>
       </button>
       <button
@@ -141,7 +141,7 @@ exports[`renders list of subjects, with active in url 2`] = `
         onClick={[Function]}
         type="button"
       >
-        + Legg til nytt fag
+        injected
       </button>
       <button
         className="c-button c-button--stripped c-accordion__button c-accordion__button--taksonomi c-accordion__button--arrow"

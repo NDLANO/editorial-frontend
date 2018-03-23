@@ -427,6 +427,10 @@ const phrases = {
     continue: 'Continue',
     delete: 'Delete',
   },
+  taksonomi: {
+    editStructure: '  Edit structure',
+    addSubject: '+ Add new subject',
+  },
 };
 
 export default phrases;

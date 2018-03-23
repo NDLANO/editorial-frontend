@@ -9,13 +9,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { OneColumn } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import { Taxonomy } from 'ndla-icons/editor';
 import FolderItem from './components/FolderItem';
 import InlineAddButton from './components/InlineAddButton';
 import Accordion from '../../components/Accordion';
 import { fetchSubjects, addSubject } from '../../modules/taxonomy/taxonomyApi';
 
-class StructurePage extends React.PureComponent {
+export class StructurePage extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -63,20 +64,20 @@ class StructurePage extends React.PureComponent {
   }
 
   render() {
-    const { match: { params } } = this.props;
+    const { match: { params }, t } = this.props;
     return (
       <OneColumn>
         <Accordion
           header={
             <React.Fragment>
               <Taxonomy className="c-icon--medium" />
-              {'  Rediger struktur'}
+              {t('taksonomi.editStructure')}
             </React.Fragment>
           }
           taksonomi
           addButton={
             <InlineAddButton
-              title="+ Legg til nytt fag"
+              title={t('taksonomi.addSubject')}
               action={this.addSubject}
             />
           }
@@ -104,4 +105,4 @@ StructurePage.propTypes = {
   }).isRequired,
 };
 
-export default StructurePage;
+export default injectT(StructurePage);

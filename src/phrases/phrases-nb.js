@@ -429,6 +429,10 @@ const phrases = {
     continue: 'Fortsett',
     delete: 'Slett',
   },
+  taksonomi: {
+    editStructure: '  Rediger struktur',
+    addSubject: '+ Legg til nytt fag',
+  },
 };
 
 export default phrases;

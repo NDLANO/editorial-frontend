@@ -84,7 +84,7 @@ exports[`renders list of subjects, with active in url 1`] = `
       </button>
     </div>
     <div
-      className="c-accordion__content c-accordion__content--visible u-4/6@desktop u-push-1/6@desktop"
+      className="c-accordion__content c-accordion__content--visible c-accordion__content--taksonomi"
     />
   </div>
 </div>
@@ -174,7 +174,7 @@ exports[`renders list of subjects, with active in url 2`] = `
       </button>
     </div>
     <div
-      className="c-accordion__content c-accordion__content--visible u-4/6@desktop u-push-1/6@desktop"
+      className="c-accordion__content c-accordion__content--visible c-accordion__content--taksonomi"
     >
       <a
         className="c-folder"

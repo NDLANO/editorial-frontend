@@ -65,13 +65,19 @@ class AsyncDropDown extends React.Component {
   }
 
   handleChange(selectedItem) {
+    const { onChange, textField } = this.props;
     if (!selectedItem) {
-      this.props.onChange(undefined);
+      onChange(undefined);
       this.setState({ inputValue: '', selectedItem: null });
     } else {
       this.handleToggleMenu();
-      this.setState({ selectedItem, inputValue: selectedItem.title });
-      this.props.onChange(selectedItem);
+      this.setState({
+        selectedItem,
+        inputValue: textField
+          ? itemToString(selectedItem, textField)
+          : selectedItem.title,
+      });
+      onChange(selectedItem);
     }
   }
 

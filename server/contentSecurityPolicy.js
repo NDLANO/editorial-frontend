@@ -17,9 +17,7 @@ const connectSrc = (() => {
     'https://hlsak-a.akamaihd.net',
     'https://*.zendesk.com',
   ];
-  if (
-    process.env.NODE_ENV === 'development'
-  ) {
+  if (process.env.NODE_ENV === 'development') {
     return [
       ...defaultConnectSrc,
       'http://localhost:3001',

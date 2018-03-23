@@ -36,6 +36,7 @@ const Accordion = ({
   const contentModifiers = {
     hidden,
     visible: !hidden,
+    taksonomi,
   };
 
   const title = <span {...classes('title', modifiers)}>{header}</span>;
@@ -76,7 +77,7 @@ const Accordion = ({
         {...classes(
           'content',
           contentModifiers,
-          'u-4/6@desktop u-push-1/6@desktop',
+          taksonomi ? '' : 'u-4/6@desktop u-push-1/6@desktop',
         )}>
         {rest.children}
       </div>

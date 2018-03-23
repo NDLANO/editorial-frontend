@@ -65,6 +65,10 @@
     &--hidden {
       display: none;
     }
+
+    &--taksonomi {
+      margin-left: var(--spacing);
+    }
   }
 
   &__title {

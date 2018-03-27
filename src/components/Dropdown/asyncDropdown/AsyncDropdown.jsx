@@ -35,9 +35,18 @@ class AsyncDropDown extends React.Component {
   }
 
   async componentWillMount() {
+    this.isMountedOrMounting = true;
     const { apiAction } = this.props;
     const items = await apiAction('');
-    this.setState({ items });
+    if (this.isMountedOrMounting) {
+      this.setState({ items });
+    }
+  }
+  componentDidMount() {
+    this.isMountedOrMounting = true;
+  }
+  componentWillUnmount() {
+    this.isMountedOrMounting = false;
   }
 
   async handleInputChange(evt) {
@@ -56,13 +65,19 @@ class AsyncDropDown extends React.Component {
   }
 
   handleChange(selectedItem) {
+    const { onChange, textField } = this.props;
     if (!selectedItem) {
-      this.props.onChange(undefined);
+      onChange(undefined);
       this.setState({ inputValue: '', selectedItem: null });
     } else {
       this.handleToggleMenu();
-      this.setState({ selectedItem, inputValue: selectedItem.title });
-      this.props.onChange(selectedItem);
+      this.setState({
+        selectedItem,
+        inputValue: textField
+          ? itemToString(selectedItem, textField)
+          : selectedItem.title,
+      });
+      onChange(selectedItem);
     }
   }
 

@@ -61,14 +61,17 @@ const EditRelated = ({
         <AsyncDropdown
           valueField="id"
           name="relatedArticleSearch"
-          textField="title.title"
+          textField="title"
           placeholder={'Søk på tittel'}
           label={'label'}
           apiAction={async inp => {
             const res = await searchRelatedArticles(inp, locale);
-            return res.filter(
-              it => items.map(curr => curr.id).indexOf(it.id) === -1,
-            );
+            return res
+              .map(curr => ({
+                id: curr.id,
+                title: curr.title ? curr.title.title : '',
+              }))
+              .filter(it => !!it.id);
           }}
           onClick={e => e.stopPropagation()}
           messages={{

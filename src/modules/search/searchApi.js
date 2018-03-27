@@ -6,6 +6,7 @@
  *
  */
 
+import queryString from 'query-string';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -14,7 +15,11 @@ import {
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
 
-export const search = queryString =>
-  fetchAuthorized(`${baseUrl}/${queryString}`).then(
-    resolveJsonOrRejectWithError,
-  );
+export const search = query => {
+  if (query) {
+    return fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then(
+      resolveJsonOrRejectWithError,
+    );
+  }
+  return fetchAuthorized(`${baseUrl}/`).then(resolveJsonOrRejectWithError);
+};

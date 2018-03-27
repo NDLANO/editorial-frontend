@@ -11,9 +11,9 @@ import { take, call, put } from 'redux-saga/effects';
 import * as actions from './search';
 import * as api from './searchApi';
 
-export function* search(queryString) {
+export function* search(query) {
   try {
-    const searchResult = yield call(api.search, queryString);
+    const searchResult = yield call(api.search, query);
     yield put(actions.setSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());
@@ -24,8 +24,8 @@ export function* search(queryString) {
 
 export function* watchSearch() {
   while (true) {
-    const { payload: queryString } = yield take(actions.search);
-    yield call(search, queryString);
+    const { payload: query } = yield take(actions.search);
+    yield call(search, query);
   }
 }
 

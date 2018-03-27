@@ -6,7 +6,10 @@
  *
  */
 
-.c-accordion {
+.c-accordion,
+.c-search-accordion {
+  margin-top: var(--spacing--small);
+
   &--fill {
     border-bottom: 1px solid var(--gray-11);
   }
@@ -15,17 +18,16 @@
     color: var(--brand-grey-dark);
     width: 100%;
     padding: 0.6rem 0;
+    display: flex;
+    justify-content: space-between;
 
     &--fill {
       background-color: var(--gray-11);
-    }
 
-    &--fill:hover {
-      background-color: var(--gray-11);
-    }
-
-    &--fill:focus {
-      background-color: var(--gray-11);
+      &:hover,
+      &:focus {
+        background-color: var(--gray-11);
+      }
     }
   }
 
@@ -45,18 +47,55 @@
   }
 
   &__title {
-    float: left;
     padding-left: 1.3rem;
     font-size: 0.899rem;
     text-transform: uppercase;
-    color: var(--gray-5);
-    margin-right: 0.2rem;
   }
 
   &__arrow {
-    float: right;
-    margin-top: 0.3rem;
-    margin-right: 0.5rem;
+    margin-right: 1rem;
+  }
+
+  &__arrow,
+  &__title {
+    align-self: center;
     color: var(--gray-5);
+  }
+}
+
+.c-search-accordion {
+  color: white;
+  &__button {
+    background-color: var(--brand-color);
+    padding: 0.2rem 0;
+
+    &:hover,
+    &:focus {
+      background-color: var(--brand-color);
+    }
+  }
+
+  &__content {
+    margin: 0;
+    margin-top: var(--spacing--small);
+    padding: 0;
+  }
+
+  &__title,
+  &__arrow {
+    color: white;
+    align-self: center;
+  }
+
+  &__title {
+    text-transform: none;
+    font-size: 1rem;
+    font-weight: lighter;
+  }
+
+  &__arrow {
+    margin: 0;
+    height: 40px;
+    width: 40px;
   }
 }

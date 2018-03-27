@@ -9,27 +9,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Audio } from 'ndla-icons/common';
-import { toEditAudio } from '../../../util/routeHelpers';
-import { AudioResultShape } from '../../../shapes';
-import { searchClasses } from '../SearchPage';
+import { toEditImage } from '../../../../util/routeHelpers';
+import { ImageResultShape } from '../../../../shapes';
+import { searchClasses } from '../../SearchContentPage';
 
-const SearchAudio = ({ audio, locale }) => (
+const SearchImage = ({ image, locale }) => (
   <div {...searchClasses('result')}>
     <div {...searchClasses('content')}>
-      <Link to={toEditAudio(audio.id, locale)}>
-        <h1 {...searchClasses('title')}>{audio.title}</h1>
+      <Link to={toEditImage(image.id, locale)}>
+        <h1 {...searchClasses('title')}>{image.title}</h1>
       </Link>
     </div>
     <div {...searchClasses('image')}>
-      <Audio />
+      <img src={image.previewUrl} alt={image.altText} />
     </div>
   </div>
 );
 
-SearchAudio.propTypes = {
-  audio: AudioResultShape.isRequired,
+SearchImage.propTypes = {
+  image: ImageResultShape.isRequired,
   locale: PropTypes.string.isRequired,
 };
 
-export default SearchAudio;
+export default SearchImage;

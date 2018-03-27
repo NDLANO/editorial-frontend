@@ -9,9 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { toEditArticle } from '../../../util/routeHelpers';
-import { ArticleResultShape } from '../../../shapes';
-import { searchClasses } from '../SearchPage';
+import { toEditArticle } from '../../../../util/routeHelpers';
+import { ArticleResultShape } from '../../../../shapes';
+import { searchClasses } from '../../SearchContentPage';
 
 const SearchArticle = ({ article, locale }) => (
   <div {...searchClasses('result')}>

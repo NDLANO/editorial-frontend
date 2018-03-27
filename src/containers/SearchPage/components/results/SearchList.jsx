@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import SearchResult from './SearchResult';
-import { SearchResultShape } from '../../../shapes';
+import { SearchResultShape } from '../../../../shapes';
 
 const SearchList = ({ results, query, locale, t, searching }) => {
   // TODO: Modify this when support for all results is ready

@@ -20,6 +20,7 @@ const ObjectSelector = props => {
     onBlur,
     value,
     emptyField,
+    placeholder,
     ...rest
   } = props;
 
@@ -30,7 +31,7 @@ const ObjectSelector = props => {
       value={value}
       disabled={disabled}
       {...rest}>
-      {emptyField ? <option value="" /> : ''}
+      {emptyField ? <option value="">{placeholder}</option> : ''}
       {options.map(option => (
         <option
           key={option[idKey] ? option[idKey] : uuid()}
@@ -52,12 +53,14 @@ ObjectSelector.propTypes = {
   disabled: PropTypes.bool,
   className: PropTypes.string,
   emptyField: PropTypes.bool,
+  placeholder: PropTypes.string,
 };
 
 ObjectSelector.defaultProps = {
   disabled: false,
   emptyField: false,
   className: '',
+  placeholder: '',
 };
 
 export default ObjectSelector;

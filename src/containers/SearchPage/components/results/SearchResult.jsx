@@ -12,7 +12,7 @@ import {
   ArticleResultShape,
   ImageResultShape,
   AudioResultShape,
-} from '../../../shapes';
+} from '../../../../shapes';
 import SearchArticle from './SearchArticle';
 import SearchImage from './SearchImage';
 import SearchAudio from './SearchAudio';

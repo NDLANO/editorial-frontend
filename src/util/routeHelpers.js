@@ -5,11 +5,12 @@ const articleTypes = {
   standard: 'learning-resource',
 };
 
-export function toSearch(query) {
+export function toSearch(query, type = 'content') {
+  console.log(query);
   if (query) {
-    return `/search?${queryString.stringify(query)}`;
+    return `/search/${type}?${queryString.stringify(query)}`;
   }
-  return '/search';
+  return `/search/${type}`;
 }
 
 export function toEditArticle(articleId, articleType, locale) {

@@ -40,6 +40,7 @@
 @import './overlay.css';
 @import './tooltip.css';
 @import './spinner.css';
+@import './taxonomy.css';
 
 .c-audio-search {
   width: 70%;

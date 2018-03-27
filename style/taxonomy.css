@@ -1,0 +1,54 @@
+.c-folder {
+  display: flex;
+  align-items: center;
+  margin: var(--spacing--small);
+  box-shadow: none;
+
+  &__title {
+    font-size: 0.9rem;
+    padding-left: 5px;
+    color: var(--primary-color);
+
+    &--active {
+      font-weight: bold;
+    }
+  }
+}
+
+.c-addButton {
+  height: 100%;
+  margin-left: auto;
+  padding: 0 var(--spacing--small);
+  white-space: nowrap;
+  font-size: 1.1rem;
+  background-color: var(--lighter-color);
+
+  &:hover {
+    color: white;
+  }
+
+  &__editMode {
+    display: flex;
+    height: 100%;
+    margin-left: auto;
+    position: absolute;
+    right: 0;
+
+    & > input {
+      margin: 5px;
+    }
+
+    & > button,
+    & > button:hover {
+      background-color: var(--gray-2);
+      color: white;
+      min-width: 50px;
+      height: 50px;
+    }
+
+    & svg {
+      height: 38px;
+      width: 38px;
+    }
+  }
+}

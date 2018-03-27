@@ -14,7 +14,11 @@ import { Taxonomy } from 'ndla-icons/editor';
 import FolderItem from './components/FolderItem';
 import InlineAddButton from './components/InlineAddButton';
 import Accordion from '../../components/Accordion';
-import { fetchSubjects, addSubject } from '../../modules/taxonomy/taxonomyApi';
+import {
+  fetchSubjects,
+  fetchSubjectTopics,
+  addSubject,
+} from '../../modules/taxonomy/taxonomyApi';
 
 export class StructurePage extends React.PureComponent {
   constructor(props) {
@@ -26,16 +30,48 @@ export class StructurePage extends React.PureComponent {
     };
     this.toggleState = this.toggleState.bind(this);
     this.getAllSubjects = this.getAllSubjects.bind(this);
+    this.getSubjectTopics = this.getSubjectTopics.bind(this);
     this.addSubject = this.addSubject.bind(this);
   }
 
   componentDidMount() {
     this.getAllSubjects();
+    if (this.props.match.params.subject) {
+      this.getSubjectTopics(this.props.match.params.subject);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const id = `urn:${nextProps.match.params.subject}`;
+    const currentSub = this.state.subjects.find(it => it.id === id);
+    if (id && currentSub && !currentSub.topics) {
+      this.getSubjectTopics(id);
+    }
   }
 
   async getAllSubjects() {
     const subjects = await fetchSubjects();
     this.setState({ subjects });
+  }
+
+  async getSubjectTopics(id) {
+    const allTopics = await fetchSubjectTopics(id);
+    const topics = allTopics.filter(it => it.parent === id);
+
+    this.setState(prevState => ({
+      subjects: prevState.subjects.map(
+        subject =>
+          subject.id !== id
+            ? subject
+            : {
+                ...subject,
+                topics: topics.map(topic => ({
+                  ...topic,
+                  topics: allTopics.filter(it => it.parent === topic.id),
+                })),
+              },
+      ),
+    }));
   }
 
   toggleState(item) {
@@ -85,10 +121,10 @@ export class StructurePage extends React.PureComponent {
           hidden={this.state.editStructureHidden}>
           {this.state.subjects.map(it => (
             <FolderItem
+              {...it}
               key={it.id}
-              title={it.name}
-              active={it.id === params.subject}
-              path={`/structure/${it.id}`}
+              active={it.id.replace('urn:', '') === params.subject}
+              params={params}
             />
           ))}
         </Accordion>

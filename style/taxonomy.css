@@ -1,8 +1,13 @@
 .c-folder {
-  display: flex;
-  align-items: center;
-  margin: var(--spacing--small);
-  box-shadow: none;
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    margin: var(--spacing--small);
+  }
+
+  &__link {
+    box-shadow: none;
+  }
 
   &__title {
     font-size: 0.9rem;
@@ -12,6 +17,11 @@
     &--active {
       font-weight: bold;
     }
+  }
+
+  &__subFolders {
+    margin-left: var(--spacing);
+    padding-left: var(--spacing--small);
   }
 }
 
@@ -50,5 +60,56 @@
       height: 38px;
       width: 38px;
     }
+  }
+}
+
+.c-settingsMenu {
+  margin-left: var(--spacing--small);
+  position: relative;
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 23px;
+    width: 23px;
+    border-radius: 50%;
+    border: 1px solid;
+    line-height: normal;
+
+    &:hover,
+    &:focus {
+      background-color: var(--gray-2);
+      color: var(--gray-11);
+    }
+
+    &--open {
+      background-color: var(--gray-2);
+      color: var(--gray-11);
+    }
+  }
+
+  &__openMenu {
+    position: absolute;
+    top: -7px;
+    left: -5px;
+    padding: 5px;
+    min-width: 250px;
+    background-color: var(--gray-11);
+    box-shadow: 0 0 4px 0 rgba(78, 78, 78, 0.5);
+
+    & .header {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__menuItem {
+    display: flex;
+  }
+
+  &__closeButton {
+    color: var(--gray-7);
+    margin-left: auto;
   }
 }

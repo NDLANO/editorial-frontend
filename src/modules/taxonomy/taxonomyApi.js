@@ -60,6 +60,12 @@ function fetchSubjects() {
   );
 }
 
+function fetchSubjectTopics(subject) {
+  return fetchAuthorized(
+    `${baseUrl}/subjects/${subject}/topics?recursive=true`,
+  ).then(resolveJsonOrRejectWithError);
+}
+
 function addSubject(body) {
   return fetchAuthorized(`${baseUrl}/subjects`, {
     method: 'POST',
@@ -129,5 +135,6 @@ export {
   queryResources,
   updateTaxonomy,
   fetchSubjects,
+  fetchSubjectTopics,
   addSubject,
 };

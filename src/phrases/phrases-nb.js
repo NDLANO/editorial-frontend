@@ -432,6 +432,8 @@ const phrases = {
   taxonomy: {
     editStructure: '  Rediger struktur',
     addSubject: '+ Legg til nytt fag',
+    subjectSettings: 'Faginstillinger',
+    changeName: 'Endre navn',
   },
 };
 

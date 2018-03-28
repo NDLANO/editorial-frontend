@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Settings } from 'ndla-icons/editor';
@@ -10,33 +10,31 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-class SettingsMenu extends Component {
-  constructor() {
-    super();
-    this.state = {
-      open: false,
-    };
-    this.toggleOpen = this.toggleOpen.bind(this);
-  }
+const SettingsMenu = ({ toggleState, id, toggles, ...rest }) => {
+  const toggleId = `settings-${id}`;
+  return (
+    <div {...classes('')}>
+      <Button
+        {...classes('iconButton')}
+        onClick={() => toggleState(toggleId)}
+        stripped>
+        <Settings />
+      </Button>
+      {toggles[toggleId] && (
+        <SettingsMenuDropdown
+          onClose={() => toggleState(toggleId)}
+          classes={classes}
+          {...{ id, ...rest }}
+        />
+      )}
+    </div>
+  );
+};
 
-  toggleOpen() {
-    this.setState(prevState => ({ open: !prevState.open }));
-  }
-
-  render() {
-    return (
-      <div {...classes('')}>
-        <Button {...classes('button')} onClick={this.toggleOpen} stripped>
-          <Settings />
-        </Button>
-        {this.state.open && (
-          <SettingsMenuDropdown onClose={this.toggleOpen} classes={classes} />
-        )}
-      </div>
-    );
-  }
-}
-
-SettingsMenu.propTypes = {};
+SettingsMenu.propTypes = {
+  toggleState: PropTypes.func,
+  id: PropTypes.string,
+  toggles: PropTypes.objectOf(PropTypes.string),
+};
 
 export default SettingsMenu;

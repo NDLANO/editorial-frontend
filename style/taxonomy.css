@@ -67,7 +67,7 @@
   margin-left: var(--spacing--small);
   position: relative;
 
-  &__button {
+  &__iconButton {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,6 +76,7 @@
     border-radius: 50%;
     border: 1px solid;
     line-height: normal;
+    margin-right: 5px;
 
     &:hover,
     &:focus {
@@ -87,12 +88,29 @@
       background-color: var(--gray-2);
       color: var(--gray-11);
     }
+
+    &--item {
+      height: 18px;
+      width: 18px;
+      min-width: 18px;
+    }
+  }
+
+  &__saveButton {
+    height: 24px;
+    width: 24px;
+    min-width: 24px;
+    background-color: var(--gray-2);
+    color: var(--gray-11);
+    padding: 0;
+    line-height: normal;
   }
 
   &__openMenu {
     position: absolute;
     top: -7px;
     left: -5px;
+    z-index: 2;
     padding: 5px;
     min-width: 250px;
     background-color: var(--gray-11);
@@ -106,6 +124,13 @@
 
   &__menuItem {
     display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    & input {
+      margin: 5px;
+      max-height: 26px;
+    }
   }
 
   &__closeButton {

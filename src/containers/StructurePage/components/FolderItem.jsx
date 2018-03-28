@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { string, bool, arrayOf, object } from 'prop-types';
+import { string, bool, arrayOf, object, shape } from 'prop-types';
 import { Folder } from 'ndla-icons/editor';
 import { Link } from 'react-router-dom';
 import BEMHelper from 'react-bem-helper';
@@ -20,7 +20,7 @@ const classes = new BEMHelper({
 
 class FolderItem extends React.PureComponent {
   render() {
-    const { name, path, active, topics = [], params } = this.props;
+    const { name, path, active, topics = [], params, id, ...rest } = this.props;
     return (
       <React.Fragment>
         <div {...classes('wrapper')}>
@@ -30,7 +30,7 @@ class FolderItem extends React.PureComponent {
             <Folder color={'#70A5DA'} />
             <span {...classes('title', active && 'active')}>{name}</span>
           </Link>
-          {active && <SettingsMenu />}
+          {active && <SettingsMenu id={id} name={name} {...rest} />}
         </div>
         <div {...classes('subFolders')}>
           {active &&
@@ -38,12 +38,12 @@ class FolderItem extends React.PureComponent {
               <FolderItem
                 {...topic}
                 key={topic.id}
-                path={topic.path}
                 active={
                   params.topic1 === topic.id.replace('urn:', '') ||
                   params.topic2 === topic.id.replace('urn:', '')
                 }
                 params={params}
+                {...rest}
               />
             ))}
         </div>
@@ -57,6 +57,12 @@ FolderItem.propTypes = {
   path: string.isRequired,
   active: bool,
   topics: arrayOf(object),
+  params: shape({
+    topic1: string,
+    topic2: string,
+    subject: string,
+  }),
+  id: string,
 };
 
 export default FolderItem;

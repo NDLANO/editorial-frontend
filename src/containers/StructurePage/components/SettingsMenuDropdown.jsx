@@ -3,24 +3,33 @@ import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Settings } from 'ndla-icons/editor';
 import { Cross, Pencil } from 'ndla-icons/action';
-import { injectT } from 'ndla-i18n';
 
 import InlineEditField from './InlineEditField';
 
-const SettingsMenuDropdown = ({ classes, onClose, t }) => {
+const SettingsMenuDropdown = ({
+  classes,
+  onClose,
+  t,
+  onChangeSubjectName,
+  id,
+  name,
+}) => {
+  const type = id.includes('subject') ? 'subject' : 'topic';
   return (
     <div {...classes('openMenu')}>
       <div className={'header'}>
-        <div {...classes('button', 'open')}>
+        <div {...classes('iconButton', 'open')}>
           <Settings />
         </div>
-        <span>{t('taxonomy.subjectSettings')}</span>
+        <span>{t(`taxonomy.${type}Settings`)}</span>
         <Button stripped {...classes('closeButton')} onClick={onClose}>
           <Cross />
         </Button>
       </div>
       <InlineEditField
         classes={classes}
+        currentVal={name}
+        onSubmit={e => onChangeSubjectName(id, e)}
         title={t('taxonomy.changeName')}
         icon={<Pencil />}
       />
@@ -28,6 +37,13 @@ const SettingsMenuDropdown = ({ classes, onClose, t }) => {
   );
 };
 
-SettingsMenuDropdown.propTypes = {};
+SettingsMenuDropdown.propTypes = {
+  classes: PropTypes.func,
+  onClose: PropTypes.func,
+  t: PropTypes.func,
+  onChangeSubjectName: PropTypes.func,
+  id: PropTypes.string,
+  name: PropTypes.string,
+};
 
-export default injectT(SettingsMenuDropdown);
+export default SettingsMenuDropdown;

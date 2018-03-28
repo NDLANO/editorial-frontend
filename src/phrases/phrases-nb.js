@@ -433,6 +433,7 @@ const phrases = {
     editStructure: '  Rediger struktur',
     addSubject: '+ Legg til nytt fag',
     subjectSettings: 'Faginstillinger',
+    topicSettings: 'Emneinstillinger',
     changeName: 'Endre navn',
   },
 };

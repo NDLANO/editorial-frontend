@@ -18,7 +18,8 @@ import {
   fetchSubjects,
   fetchSubjectTopics,
   addSubject,
-} from '../../modules/taxonomy/taxonomyApi';
+  updateSubjectName,
+} from '../../modules/taxonomy';
 
 export class StructurePage extends React.PureComponent {
   constructor(props) {
@@ -26,18 +27,21 @@ export class StructurePage extends React.PureComponent {
     this.state = {
       editStructureHidden: false,
       subjects: [],
+      toggles: {},
       loadingSubjects: false,
     };
     this.toggleState = this.toggleState.bind(this);
     this.getAllSubjects = this.getAllSubjects.bind(this);
     this.getSubjectTopics = this.getSubjectTopics.bind(this);
     this.addSubject = this.addSubject.bind(this);
+    this.onChangeSubjectName = this.onChangeSubjectName.bind(this);
   }
 
   componentDidMount() {
+    const id = `urn:${this.props.match.params.subject}`;
     this.getAllSubjects();
-    if (this.props.match.params.subject) {
-      this.getSubjectTopics(this.props.match.params.subject);
+    if (id) {
+      this.getSubjectTopics(id);
     }
   }
 
@@ -49,6 +53,25 @@ export class StructurePage extends React.PureComponent {
     }
   }
 
+  async onChangeSubjectName(id, name) {
+    const ok = await updateSubjectName(id, name);
+
+    if (ok) {
+      this.setState(prevState => ({
+        subjects: prevState.subjects.map(it => {
+          if (it.id === id) {
+            return {
+              ...it,
+              name,
+            };
+          }
+          return it;
+        }),
+        toggles: {},
+      }));
+    }
+  }
+
   async getAllSubjects() {
     const subjects = await fetchSubjects();
     this.setState({ subjects });
@@ -56,7 +79,11 @@ export class StructurePage extends React.PureComponent {
 
   async getSubjectTopics(id) {
     const allTopics = await fetchSubjectTopics(id);
-    const topics = allTopics.filter(it => it.parent === id);
+    const mainTopics = allTopics.filter(it => it.parent === id);
+    const groupedTopics = mainTopics.map(topic => ({
+      ...topic,
+      topics: allTopics.filter(it => it.parent === topic.id),
+    }));
 
     this.setState(prevState => ({
       subjects: prevState.subjects.map(
@@ -65,10 +92,7 @@ export class StructurePage extends React.PureComponent {
             ? subject
             : {
                 ...subject,
-                topics: topics.map(topic => ({
-                  ...topic,
-                  topics: allTopics.filter(it => it.parent === topic.id),
-                })),
+                topics: groupedTopics,
               },
       ),
     }));
@@ -76,7 +100,9 @@ export class StructurePage extends React.PureComponent {
 
   toggleState(item) {
     this.setState(prevState => ({
-      [item]: !prevState[item],
+      toggles: {
+        [item]: !prevState.toggles[item],
+      },
     }));
   }
 
@@ -123,8 +149,12 @@ export class StructurePage extends React.PureComponent {
             <FolderItem
               {...it}
               key={it.id}
+              toggleState={this.toggleState}
+              toggles={this.state.toggles}
               active={it.id.replace('urn:', '') === params.subject}
               params={params}
+              t={t}
+              onChangeSubjectName={this.onChangeSubjectName}
             />
           ))}
         </Accordion>

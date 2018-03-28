@@ -42,6 +42,13 @@ import {
   createDeleteUpdateTopicResources,
 } from './topicresouces';
 
+import {
+  fetchSubjects,
+  fetchSubjectTopics,
+  addSubject,
+  updateSubjectName,
+} from './subjects';
+
 export {
   fetchResourceTypes,
   fetchResource,
@@ -69,4 +76,8 @@ export {
   queryResources,
   updateTaxonomy,
   resolveTaxonomyJsonOrRejectWithError,
+  fetchSubjects,
+  fetchSubjectTopics,
+  addSubject,
+  updateSubjectName,
 };

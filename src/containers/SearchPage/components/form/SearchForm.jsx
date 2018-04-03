@@ -9,20 +9,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import SearchContentForm from './SearchContentForm';
-import SearchMediaForm from './SearchMediaForm';
+import SearchContentForm, {
+  getInitialModel as getInitialContentModel,
+} from './SearchContentForm';
+import SearchMediaForm, {
+  getInitialModel as getInitialMediaModel,
+} from './SearchMediaForm';
 
 export const searchFormClasses = new BEMHelper({
   name: 'search-form',
   prefix: 'c-',
 });
 
-const SearchForm = ({ type, ...rest }) => {
+const SearchForm = ({ type, query, ...rest }) => {
+  console.log('tt', query);
   switch (type) {
     case 'content':
-      return <SearchContentForm {...rest} />;
+      return (
+        <SearchContentForm
+          initialModel={getInitialContentModel(query)}
+          {...rest}
+        />
+      );
     case 'media':
-      return <SearchMediaForm {...rest} />;
+      return (
+        <SearchMediaForm initialModel={getInitialMediaModel(query)} {...rest} />
+      );
     default:
       return <p>{`This type: ${type} is not supported`}</p>;
   }

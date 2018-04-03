@@ -14,19 +14,26 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import SubNavigation from '../Masthead/components/SubNavigation';
 import SearchContentPage from '../SearchPage/SearchContentPage';
+import { toSearch } from '../../util/routeHelpers';
 
 const SearchPage = ({ match, t }) => {
   const supportedTypes = [
     {
-      title: t('subNavigation.image'),
+      title: t('subNavigation.searchContent'),
       type: 'content',
-      url: '/search/content',
+      url: toSearch(
+        { types: 'articles', page: '1', sort: '-relevance' },
+        'content',
+      ),
       icon: <SearchContent className="c-icon--large" />,
     },
     {
-      title: t('subNavigation.audio'),
+      title: t('subNavigation.searchMedia'),
       type: 'media',
-      url: '/search/media',
+      url: toSearch(
+        { types: 'images,audios', page: '1', sort: '-relevance' },
+        'media',
+      ),
       icon: <SearchMedia className="c-icon--large" />,
     },
   ];

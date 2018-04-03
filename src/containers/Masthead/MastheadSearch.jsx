@@ -37,12 +37,6 @@ class MastheadSearch extends Component {
     const { history, searching, location } = this.props;
     const { query } = this.state;
     const locationQuery = queryString.parse(location.search);
-    let articleTypes;
-    if (locationQuery.types === 'articles') {
-      articleTypes = locationQuery.articleTypes
-        ? locationQuery.articleTypes
-        : 'standard';
-    }
     return (
       <MastheadSearchForm
         query={query}
@@ -52,10 +46,8 @@ class MastheadSearch extends Component {
             toSearch({
               query: searchQuery,
               page: 1,
-              types: locationQuery.types
-                ? locationQuery.types
-                : ['articles', 'images', 'audios'].join(','),
-              articleTypes,
+              sort: '-relevance',
+              types: locationQuery.types ? locationQuery.types : 'articles',
               language: 'all',
             }),
           )

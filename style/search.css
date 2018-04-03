@@ -12,10 +12,9 @@
 
   &__result {
     color: var(--brand-grey-dark);
-    min-height: 9.2rem;
-    border-bottom: 1px solid var(--gray-8);
     display: flex;
-    padding-left: 12px;
+    justify-content: row;
+
   }
 
   &__result:last-child {
@@ -30,20 +29,28 @@
 
   &__content {
     display: inline-block;
-    width: 70%;
+    width: 90%;
+    align-self: center;
+    padding-left: 1.3rem;
+
   }
 
   &__image {
     display: inline-block;
-    width: 30%;
-    max-width: 30%;
+    width: 10%;
+    align-self: center;
+    max-width: 10%;
     text-align: center;
+  }
+  &__description {
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   &__image img {
     max-height: 9.2rem;
-    margin: 1.3rem;
-    margin-right: 0;
   }
 
   &__image svg {
@@ -66,8 +73,29 @@
     margin: 0.2rem 0 1.2rem;
   }
 
+  &__sort-container {
+    width: 100%;
+    margin-top: var(--spacing);
+    padding: var(--spacing--small);
+    background-color: var(--gray-10);
+    border: 1px solid var(--gray-8);
+  }
+
+  &__sort-label {
+    color: black;
+    text-transform: uppercase;
+    margin-right: var(--spacing--small);
+  }
   &__filters-select {
     margin-left: 0.5em;
+  }
+
+  & input {
+    border-radius: 4px;
+  }
+
+  & select {
+    border-radius: 4px;
   }
 }
 
@@ -90,6 +118,10 @@
     &--25-width {
       width: 25%;
     }
+
+    &:last-child {
+      padding-right: 0;
+    }
   }
 
   &__field button {
@@ -111,13 +143,7 @@
     }
   }
 
-  & input {
-    border-radius: 4px;
-  }
-
   & select {
     width: 100%;
-    border-radius: 4px;
   }
-
 }

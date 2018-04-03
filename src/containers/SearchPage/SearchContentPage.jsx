@@ -24,6 +24,7 @@ import {
 import { getLocale } from '../../modules/locale/locale';
 import SearchList from './components/results/SearchList';
 import SearchForm from './components/form/SearchForm';
+import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 
 export const searchClasses = new BEMHelper({
@@ -59,6 +60,7 @@ class SearchContentPage extends Component {
   }
 
   onQueryPush(newQuery) {
+    console.log(newQuery);
     const { history } = this.props;
     const oldQuery = queryString.parse(location.search);
     history.push(toSearch({ ...oldQuery, ...newQuery }));
@@ -85,9 +87,9 @@ class SearchContentPage extends Component {
   }
 
   render() {
-    const { location, results, locale, lastPage, search } = this.props;
+    const { location, results, locale, lastPage } = this.props;
     const query = queryString.parse(location.search);
-
+    console.log('QUERy:', query);
     return (
       <div>
         <OneColumn>
@@ -96,7 +98,13 @@ class SearchContentPage extends Component {
             header="Søk etter innhold"
             hidden={this.state.hiddenContent}>
             <div {...searchClasses()}>
-              <SearchForm type="content" search={search} />
+              <SearchForm
+                type="content"
+                search={this.onQueryPush}
+                query={query}
+                location={location}
+              />
+              <SearchSort onSortOrderChange={this.onSortOrderChange} />
               <SearchList query={query} locale={locale} results={results} />
               <Pager
                 page={query.page ? parseInt(query.page, 10) : 1}

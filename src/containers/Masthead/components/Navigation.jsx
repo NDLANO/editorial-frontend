@@ -110,7 +110,10 @@ export class Navigation extends Component {
               <span>{t('subNavigation.structure')}</span>
             </Link>
             <Link
-              to={toSearch({ types: 'articles' }, 'content')}
+              to={toSearch(
+                { types: 'articles', page: '1', sort: '-relevance' },
+                'content',
+              )}
               {...classes('item')}
               onClick={this.toggleOpen}>
               <DetailSearch className="c-icon--large" />

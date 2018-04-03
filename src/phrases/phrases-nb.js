@@ -38,6 +38,8 @@ const phrases = {
     agreement: 'Avtale',
     structure: 'Struktur',
     concept: 'Begrep',
+    searchContent: 'Søk innhold',
+    searchMedia: 'Søk media',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',

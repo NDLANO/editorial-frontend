@@ -37,6 +37,8 @@ const phrases = {
     agreement: 'Agreement',
     structure: 'Structure',
     concept: 'Concept',
+    searchContent: 'Search content',
+    searchMedia: 'Search media',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',

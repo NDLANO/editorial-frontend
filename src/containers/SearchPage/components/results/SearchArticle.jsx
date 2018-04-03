@@ -9,22 +9,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { Document } from 'ndla-icons/common';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import { ArticleResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContentPage';
 
 const SearchArticle = ({ article, locale }) => (
   <div {...searchClasses('result')}>
+    <div {...searchClasses('image')}>
+      <img src="/assets/placeholder.png" alt="" />
+    </div>
     <div {...searchClasses('content')}>
       <Link
         {...searchClasses('link')}
         to={toEditArticle(article.id, article.articleType, locale)}>
-        <h1 {...searchClasses('title')}>{article.title}</h1>
+        <h2 {...searchClasses('title')}>
+          <Document />
+          {article.title}
+        </h2>
       </Link>
       <p {...searchClasses('description')}>{article.introduction}</p>
-    </div>
-    <div {...searchClasses('image')}>
-      <img src="/assets/placeholder.png" alt="" />
     </div>
   </div>
 );

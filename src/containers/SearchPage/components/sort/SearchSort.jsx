@@ -9,9 +9,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { searchClasses } from '../SearchPage';
+import { searchClasses } from '../../SearchContentPage';
 
-class SelectSearchSortOrder extends Component {
+class SearchSort extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,24 +29,26 @@ class SelectSearchSortOrder extends Component {
   render() {
     const { t } = this.props;
     return (
-      <select
-        {...searchClasses('filters-select')}
-        onChange={this.handleSortChange}
-        value={this.state.sort}>
-        <option value="-relevance">{t('searchForm.order.relevance')}</option>
-        <option value="title">{t('searchForm.order.title')}</option>
-      </select>
+      <div {...searchClasses('sort-container')}>
+        <span {...searchClasses('sort-label')}>Sortering</span>
+        <select
+          {...searchClasses('filters-select')}
+          onChange={this.handleSortChange}
+          value={this.state.sort}>
+          <option value="-relevance">{t('searchForm.order.relevance')}</option>
+        </select>
+      </div>
     );
   }
 }
 
-SelectSearchSortOrder.propTypes = {
+SearchSort.propTypes = {
   sort: PropTypes.string.isRequired,
   onSortOrderChange: PropTypes.func.isRequired,
 };
 
-SelectSearchSortOrder.defaultProps = {
+SearchSort.defaultProps = {
   sort: '-relevance',
 };
 
-export default injectT(SelectSearchSortOrder);
+export default injectT(SearchSort);

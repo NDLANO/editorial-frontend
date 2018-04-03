@@ -23,7 +23,7 @@ import { SchemaShape, LicensesArrayOf } from '../../../../shapes';
 import { searchFormClasses } from './SearchForm';
 
 export const getInitialModel = (query = {}) => ({
-  title: query.title || '',
+  title: query.query || '',
   language: query.language || '',
 });
 
@@ -40,6 +40,13 @@ class SearchContentForm extends Component {
     this.emptySearch = this.emptySearch.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { initialModel, setModel, location } = nextProps;
+    if (this.props.location.search !== location.search) {
+      setModel(initialModel);
+    }
+  }
+
   handleSearch(evt) {
     evt.preventDefault();
 
@@ -51,6 +58,7 @@ class SearchContentForm extends Component {
     search({
       query: model.title,
       language: model.language,
+      types: 'articles',
     });
   }
 
@@ -60,7 +68,7 @@ class SearchContentForm extends Component {
   }
 
   render() {
-    const { t, bindInput, schema, submitted, isSaving } = this.props;
+    const { t, bindInput, schema, submitted } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
     return (
@@ -82,10 +90,10 @@ class SearchContentForm extends Component {
           {...commonFieldProps}
         />
         <Field {...searchFormClasses('field', '25-width')}>
-          <Button onClick={this.emptySearch} outline disabled={isSaving}>
+          <Button onClick={this.emptySearch} outline>
             Tøm
           </Button>
-          <Button>Søk</Button>
+          <Button submit>{t('searchForm.btn')}</Button>
         </Field>
       </form>
     );
@@ -100,6 +108,7 @@ SearchContentForm.propTypes = {
   }),
   initialModel: PropTypes.shape({
     id: PropTypes.number,
+    title: PropTypes.string,
     language: PropTypes.string,
   }),
   setModel: PropTypes.func.isRequired,
@@ -109,11 +118,11 @@ SearchContentForm.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
-  revision: PropTypes.number,
   setSubmitted: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool.isRequired,
-  showSaved: PropTypes.bool.isRequired,
+  search: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string,
+  }),
 };
 
 export default compose(injectT, reformed, validateSchema({}))(

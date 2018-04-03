@@ -8,7 +8,6 @@
 
 .c-accordion,
 .c-search-accordion {
-  margin-top: var(--spacing--small);
 
   &--fill {
     border-bottom: 1px solid var(--gray-11);
@@ -65,6 +64,7 @@
 
 .c-search-accordion {
   color: white;
+  
   &__button {
     background-color: var(--brand-color);
     padding: 0.2rem 0;

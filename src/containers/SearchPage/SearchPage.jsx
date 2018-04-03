@@ -54,10 +54,8 @@ class SearchPage extends Component {
   }
 
   onQueryPush(newQuery) {
-    const { history } = this.props;
-    const oldQuery = queryString.parse(
-      location.search /* eslint-disable-line */,
-    );
+    const { history, location } = this.props;
+    const oldQuery = queryString.parse(location.search);
     history.push(toSearch({ ...oldQuery, ...newQuery }));
   }
 
@@ -143,12 +141,9 @@ const mapDispatchToProps = {
   search: actions.search,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   locale: getLocale(state),
-  results: getResults(
-    state,
-    queryString.parse(location.search).types /* eslint-disable-line */,
-  ),
+  results: getResults(state, queryString.parse(ownProps.location.search).types),
   lastPage: getLastPage(state),
   searching: getSearching(state),
 });

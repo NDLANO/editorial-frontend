@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
 import { Button, RelatedArticle } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
@@ -31,6 +32,7 @@ const EditRelated = ({
   locale,
   onInsertBlock,
   onExit,
+  t,
 }) => (
   <div>
     <Overlay onExit={onExit} />
@@ -38,7 +40,7 @@ const EditRelated = ({
       {items.map(
         (item, i) =>
           !item.id ? (
-            'Invalid article'
+            t('orm.content.relatedArticle.invalidArticle')
           ) : (
             <div key={item.id} {...classes('article')}>
               <RelatedArticle
@@ -62,7 +64,7 @@ const EditRelated = ({
           valueField="id"
           name="relatedArticleSearch"
           textField="title"
-          placeholder="Søk på tittel"
+          placeholder={t('form.content.relatedArticle.placeholder')}
           label="label"
           apiAction={async inp => {
             const res = await searchRelatedArticles(inp, locale);
@@ -75,8 +77,8 @@ const EditRelated = ({
           }}
           onClick={e => e.stopPropagation()}
           messages={{
-            emptyFilter: 'empty',
-            emptyList: 'empty list',
+            emptyFilter: t('form.content.relatedArticle.emptyFilter'),
+            emptyList: t('form.content.relatedArticle.emptyList'),
           }}
           onChange={selected => selected && onInsertBlock(selected.id)}
         />
@@ -98,4 +100,4 @@ EditRelated.propTypes = {
   locale: PropTypes.string,
 };
 
-export default EditRelated;
+export default injectT(EditRelated);

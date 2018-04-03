@@ -71,7 +71,7 @@ const Contributors = props => {
       <label htmlFor={name}>{label}</label>
       {value.map((contributor, index) => (
         <AddContributor
-          key={`contributor_${index}`} //eslint-disable-line
+          key={`contributor_${index}`} // eslint-disable-line react/no-array-index-key
           {...contributor}
           index={index}
           contributorTypes={contributorTypeItems}

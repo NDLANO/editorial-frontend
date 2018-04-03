@@ -36,7 +36,7 @@ class Footnote extends Component {
     const { editor: { props: { slateStore } } } = this.props;
 
     this.setState({
-      // This state value seems not to be in use, not sure if we should remove it.
+      // Needed for slate store, can not be removed.
       /* eslint-disable-next-line react/no-unused-state */
       showFootnoteDialog: slateStore.getState().showFootnoteDialog,
     });

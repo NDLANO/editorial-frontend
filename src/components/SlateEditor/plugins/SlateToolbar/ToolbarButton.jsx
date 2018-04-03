@@ -26,12 +26,15 @@ import {
 import Types from 'slate-prop-types';
 import { toolbarClasses } from './SlateToolbar';
 
+// ndla-ui icon for Link type in toolbar has the same name as a link/anchor element component.
+// Thus triggering a false positive, that we have to disable.
+/* eslint-disable jsx-a11y/anchor-is-valid */
 const toolbarIcon = {
   bold: <Bold />,
   italic: <Italic />,
   underlined: <Underline />,
   quote: <Quote />,
-  link: <Link />, // eslint-disable-line
+  link: <Link />,
   'numbered-list': <ListNumbered />,
   'bulleted-list': <ListCircle />,
   'two-column-list': <ListTwoColumns />,
@@ -40,6 +43,7 @@ const toolbarIcon = {
   'heading-one': <Heading1 />,
   footnote: <Section />,
 };
+/* eslint-enable jsx-a11y/anchor-is-valid */
 
 const ToolbarButton = ({
   value,

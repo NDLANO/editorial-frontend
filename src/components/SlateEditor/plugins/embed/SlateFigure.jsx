@@ -57,8 +57,7 @@ class SlateFigure extends React.Component {
 
   onFigureInputChange(e) {
     e.preventDefault();
-    const { value } = e.target;
-    const { name } = e.target;
+    const { value, name } = e.target;
     const { node, editor } = this.props;
 
     const properties = {

@@ -19,20 +19,18 @@ const locationOrigin = (() => {
     return 'http://ndla-frontend';
   }
 
-  /* eslint-disable no-restricted-globals */
-  if (typeof location.origin === 'undefined') {
-    location.origin = [
-      location.protocol,
+  if (typeof window.location.origin === 'undefined') {
+    window.location.origin = [
+      window.location.protocol,
       '//',
-      location.host,
+      window.location.host,
       ':',
-      location.port,
+      window.location.port,
     ].join('');
   }
 
-  return location.origin;
+  return window.location.origin;
 })();
-/* eslint-enable no-restricted-globals */
 
 export { locationOrigin };
 

@@ -129,7 +129,7 @@ const makeWrapper = WrappedComponent => {
   }
 
   FormWrapper.propTypes = {
-    initialModel: PropTypes.object, //eslint-disable-line
+    initialModel: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   };
   FormWrapper.displayName = `Reformed(${getComponentName(WrappedComponent)})`;
   return hoistNonReactStatics(FormWrapper, WrappedComponent);

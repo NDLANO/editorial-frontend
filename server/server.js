@@ -55,7 +55,7 @@ app.get('/health', (req, res) => {
 });
 
 app.get('/login/silent-callback', (req, res) => {
-  res.send('<!doctype html>\n' + Auth0SilentCallback); // eslint-disable-line
+  res.send('<!doctype html>\n' + Auth0SilentCallback); // eslint-disable-line prefer-template
 });
 
 app.get('/get_token', (req, res) => {

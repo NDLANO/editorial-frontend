@@ -16,7 +16,7 @@ export function* fetchLicenses() {
     yield put(actions.setLicenses(licenses));
   } catch (error) {
     // TODO: handle error
-    console.error(error); //eslint-disable-line
+    console.error(error); // eslint-disable-line no-console
   }
 }
 

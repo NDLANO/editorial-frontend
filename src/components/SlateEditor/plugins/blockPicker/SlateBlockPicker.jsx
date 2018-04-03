@@ -178,7 +178,7 @@ class SlateBlockPicker extends Component {
     const node = editorValue.document.getClosestBlock(
       editorValue.selection.startKey,
     );
-    const nodeEl = findDOMNode(node); // eslint-disable-line
+    const nodeEl = findDOMNode(node); // eslint-disable-line react/no-find-dom-node
 
     const show =
       node.text.length === 0 &&

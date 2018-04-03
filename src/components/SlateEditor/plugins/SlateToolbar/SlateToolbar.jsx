@@ -55,6 +55,7 @@ class SlateToolbar extends Component {
     this.updateMenu = this.updateMenu.bind(this);
 
     this.state = {
+      // Slate-component requires state to work, but is controlled by parent component
       /* eslint-disable-next-line react/no-unused-state */
       value: this.props.value,
     };

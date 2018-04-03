@@ -27,7 +27,7 @@ export function* login(accessToken, history) {
     setAccessTokenInLocalStorage(accessToken, true);
     history.replace('/');
   } catch (error) {
-    console.error(error); //eslint-disable-line
+    console.error(error); // eslint-disable-line no-console
     history.replace(`${toLogin()}/failure`);
   }
 }
@@ -40,7 +40,7 @@ export function* logout(federated) {
     clearAccessTokenFromLocalStorage();
     yield call(renewSystemAuth);
   } catch (error) {
-    console.error(error); //eslint-disable-line
+    console.error(error); // eslint-disable-line no-console
   }
 }
 

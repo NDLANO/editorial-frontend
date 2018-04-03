@@ -22,7 +22,7 @@ import { editorClasses } from './SlateFigure';
 
 class SlateImage extends React.Component {
   static handleFloatedImages(node, align) {
-    const nodeEl = findDOMNode(node); // eslint-disable-line
+    const nodeEl = findDOMNode(node); // eslint-disable-line react/no-find-dom-node
     if (align === 'right' || align === 'left') {
       nodeEl.parentNode.style.display = 'inline';
     } else {
@@ -143,7 +143,7 @@ class SlateImage extends React.Component {
 SlateImage.propTypes = {
   node: SlateTypes.node.isRequired,
   embed: EmbedShape.isRequired,
-  figureClass: PropTypes.shape({}).isRequired,
+  figureClass: PropTypes.shape({ className: PropTypes.string }).isRequired,
   onFigureInputChange: PropTypes.func.isRequired,
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,

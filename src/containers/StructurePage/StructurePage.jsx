@@ -55,7 +55,6 @@ export class StructurePage extends React.PureComponent {
 
   async onChangeSubjectName(id, name) {
     const ok = await updateSubjectName(id, name);
-
     if (ok) {
       this.setState(prevState => ({
         subjects: prevState.subjects.map(it => {

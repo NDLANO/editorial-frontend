@@ -68,11 +68,11 @@ it('updates name in state when changeName is called', async () => {
     .put('/taxonomy/v1/subjects/urn:subject:12', { name: 'Lalaland' })
     .reply(204, '');
   const component = wrapper();
-  const instance = component.root.findByType(StructurePage).instance;
-  await instance.onChangeSubjectName('urn:subject:12', 'Lalaland');
+
   return new Promise(resolve => {
-    setTimeout(() => {
-      console.log(instance.state.subjects);
+    setTimeout(async () => {
+      const instance = component.root.findByType(StructurePage).instance;
+      await instance.onChangeSubjectName('urn:subject:12', 'Lalaland');
       expect(
         instance.state.subjects.filter(
           it => it.id === 'urn:subject:12' && it.name === 'Lalaland',

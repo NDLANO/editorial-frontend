@@ -26,13 +26,15 @@ const SettingsMenuDropdown = ({
           <Cross />
         </Button>
       </div>
-      <InlineEditField
-        classes={classes}
-        currentVal={name}
-        onSubmit={e => onChangeSubjectName(id, e)}
-        title={t('taxonomy.changeName')}
-        icon={<Pencil />}
-      />
+      {type === 'subject' && (
+        <InlineEditField
+          classes={classes}
+          currentVal={name}
+          onSubmit={e => onChangeSubjectName(id, e)}
+          title={t('taxonomy.changeName')}
+          icon={<Pencil />}
+        />
+      )}
     </div>
   );
 };

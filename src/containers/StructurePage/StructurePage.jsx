@@ -38,10 +38,10 @@ export class StructurePage extends React.PureComponent {
   }
 
   componentDidMount() {
-    const id = `urn:${this.props.match.params.subject}`;
     this.getAllSubjects();
+    const id = this.props.match.params.subject;
     if (id) {
-      this.getSubjectTopics(id);
+      this.getSubjectTopics(`urn:${id}`);
     }
   }
 

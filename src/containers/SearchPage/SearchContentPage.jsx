@@ -60,8 +60,7 @@ class SearchContentPage extends Component {
   }
 
   onQueryPush(newQuery) {
-    console.log(newQuery);
-    const { history } = this.props;
+    const { history, location } = this.props;
     const oldQuery = queryString.parse(location.search);
     history.push(toSearch({ ...oldQuery, ...newQuery }));
   }
@@ -89,7 +88,6 @@ class SearchContentPage extends Component {
   render() {
     const { location, results, locale, lastPage } = this.props;
     const query = queryString.parse(location.search);
-    console.log('QUERy:', query);
     return (
       <div>
         <OneColumn>
@@ -143,9 +141,9 @@ const mapDispatchToProps = {
   search: actions.search,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   locale: getLocale(state),
-  results: getResults(state, queryString.parse(location.search).types),
+  results: getResults(state, queryString.parse(ownProps.location.search).types),
   lastPage: getLastPage(state),
   searching: getSearching(state),
 });

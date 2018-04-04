@@ -11,22 +11,40 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
-import { Link } from 'react-router-dom';
 import reformed from '../../../../components/reformed';
 import validateSchema from '../../../../components/validateSchema';
-import { Field, TextField } from '../../../../components/Fields';
-import { SchemaShape, LicensesArrayOf } from '../../../../shapes';
+import {
+  Field,
+  TextField,
+  SelectObjectField,
+} from '../../../../components/Fields';
+import { SchemaShape } from '../../../../shapes';
 
-import { formClasses } from '../../../Form';
+import { searchFormClasses } from './SearchForm';
 
 export const getInitialModel = (query = {}) => ({
-  title: query.title || '',
+  title: query.query || '',
+  language: query.language || '',
 });
+
+const languages = [
+  { key: 'nb', title: 'Norsk' },
+  { key: 'nn', title: 'Nynorsk' },
+  { key: 'en', title: 'Engelsk' },
+];
 
 class SearchMediaForm extends Component {
   constructor(props) {
     super(props);
     this.handleSearch = this.handleSearch.bind(this);
+    this.emptySearch = this.emptySearch.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { initialModel, setModel, location } = nextProps;
+    if (this.props.location.search !== location.search) {
+      setModel(initialModel);
+    }
   }
 
   handleSearch(evt) {
@@ -37,38 +55,45 @@ class SearchMediaForm extends Component {
       setSubmitted(true);
       return;
     }
-
     search({
-      title: model.title,
+      query: model.title,
+      language: model.language,
+      types: 'images,audios',
     });
   }
 
+  emptySearch() {
+    const { setModel } = this.props;
+    setModel({ query: '', language: '' });
+  }
+
   render() {
-    const {
-      t,
-      bindInput,
-      schema,
-      model,
-      submitted,
-      tags,
-      isSaving,
-      showSaved,
-    } = this.props;
+    const { t, bindInput, schema, submitted } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
     return (
-      <form onSubmit={this.handleSearch} {...formClasses()}>
-        <Field right>
-          <Link
-            to={'/'}
-            className="c-button c-button--outline c-abort-button"
-            disabled={isSaving}>
-            {t('form.abort')}
-          </Link>
-          <TextField name="title" placeholder="Tittel" {...commonFieldProps} />
-          <Button isSaving={isSaving} t={t} showSaved={showSaved}>
-            Søk
+      <form onSubmit={this.handleSearch} {...searchFormClasses()}>
+        <TextField
+          name="title"
+          fieldClassName={searchFormClasses('field', '50-width').className}
+          placeholder="Tittel"
+          {...commonFieldProps}
+        />
+        <SelectObjectField
+          name="language"
+          options={languages}
+          idKey="key"
+          labelKey="title"
+          emptyField
+          placeholder="Språk"
+          fieldClassName={searchFormClasses('field', '25-width').className}
+          {...commonFieldProps}
+        />
+        <Field {...searchFormClasses('field', '25-width')}>
+          <Button onClick={this.emptySearch} outline>
+            Tøm
           </Button>
+          <Button submit>{t('searchForm.btn')}</Button>
         </Field>
       </form>
     );
@@ -83,20 +108,19 @@ SearchMediaForm.propTypes = {
   }),
   initialModel: PropTypes.shape({
     id: PropTypes.number,
+    title: PropTypes.string,
     language: PropTypes.string,
   }),
   setModel: PropTypes.func.isRequired,
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
   schema: SchemaShape,
-  licenses: LicensesArrayOf,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
-  revision: PropTypes.number,
   setSubmitted: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool.isRequired,
-  showSaved: PropTypes.bool.isRequired,
+  search: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string,
+  }),
 };
 
 export default compose(injectT, reformed, validateSchema({}))(SearchMediaForm);

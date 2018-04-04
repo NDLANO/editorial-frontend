@@ -72,8 +72,6 @@
     &--brand-color {
       background-color: white;
 
-
-
       & .c-navigation__item {
         color: var(--brand-color);
 

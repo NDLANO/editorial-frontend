@@ -7,7 +7,6 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Plus, Minus } from 'ndla-icons/action';
 import { Button } from 'ndla-ui';
@@ -137,14 +136,5 @@ export class Navigation extends Component {
     );
   }
 }
-
-Navigation.propTypes = {
-  userName: PropTypes.string,
-  authenticated: PropTypes.bool.isRequired,
-};
-
-Navigation.defaultProps = {
-  userName: '',
-};
 
 export default withRouter(injectT(Navigation));

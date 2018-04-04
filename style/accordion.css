@@ -15,8 +15,6 @@
     align-items: center;
     width: 100%;
     padding: 0.6rem 0;
-    display: flex;
-    justify-content: space-between;
 
     &--fill {
       background-color: var(--gray-11);
@@ -36,10 +34,6 @@
       background: var(--taxonomy-color);
       border: none;
     }
-  }
-
-  &--fill {
-    border-bottom: 1px solid var(--gray-11);
   }
 
   &__button {
@@ -99,11 +93,6 @@
     width: 45px;
     height: 45px;
   }
-
-  &--fill &__arrow,
-  &--fill &__title {
-    color: var(--gray-5);
-  }
 }
 
 .c-search-accordion {
@@ -111,7 +100,7 @@
 
   &__button-line {
     background-color: var(--brand-color);
-    
+
     &:hover,
     &:focus {
       background-color: var(--brand-color);
@@ -140,5 +129,16 @@
     margin: 0;
     height: 40px;
     width: 40px;
+  }
+}
+
+.c-accordion {
+  &--fill {
+    border-bottom: 1px solid var(--gray-11);
+  }
+
+  &--fill &__arrow,
+  &--fill &__title {
+    color: var(--gray-5);
   }
 }

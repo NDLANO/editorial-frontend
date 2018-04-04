@@ -18,7 +18,7 @@ import {
   TextField,
   SelectObjectField,
 } from '../../../../components/Fields';
-import { SchemaShape, LicensesArrayOf } from '../../../../shapes';
+import { SchemaShape } from '../../../../shapes';
 
 import { searchFormClasses } from './SearchForm';
 
@@ -64,7 +64,7 @@ class SearchContentForm extends Component {
 
   emptySearch() {
     const { setModel } = this.props;
-    setModel({ title: '', language: '' });
+    setModel({ query: '', language: '' });
   }
 
   render() {
@@ -114,8 +114,6 @@ SearchContentForm.propTypes = {
   setModel: PropTypes.func.isRequired,
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
   schema: SchemaShape,
-  licenses: LicensesArrayOf,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
   bindInput: PropTypes.func.isRequired,
   setSubmitted: PropTypes.func.isRequired,

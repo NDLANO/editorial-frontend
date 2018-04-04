@@ -63,6 +63,9 @@
     font-size: 1.2rem;
     margin: 1.3rem 0 0.3rem;
     font-weight: 600;
+    & svg {
+      margin-right: 0.2rem;
+    }
   }
 
   & a {

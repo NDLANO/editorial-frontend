@@ -44,7 +44,7 @@ SearchList.propTypes = {
     query: PropTypes.string,
   }),
   locale: PropTypes.string.isRequired,
-  searching: PropTypes.bool.isRequired,
+  searching: PropTypes.bool,
 };
 
 SearchList.defaultProps = {

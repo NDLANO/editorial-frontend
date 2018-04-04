@@ -10,7 +10,7 @@ export const checkSelctionForType = (type, value, nodeKey) => {
   if (parent.get('type') === type) {
     return true;
   }
-  const key = parent.key;
+  const { key } = parent;
   return checkSelctionForType(type, value, key);
 };
 

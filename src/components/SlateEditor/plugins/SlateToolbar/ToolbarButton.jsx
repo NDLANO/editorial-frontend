@@ -26,6 +26,9 @@ import {
 import Types from 'slate-prop-types';
 import { toolbarClasses } from './SlateToolbar';
 
+// ndla-ui icon for Link type in toolbar has the same name as a link/anchor element component.
+// Thus triggering a false positive, that we have to disable.
+/* eslint-disable jsx-a11y/anchor-is-valid */
 const toolbarIcon = {
   bold: <Bold />,
   italic: <Italic />,
@@ -40,10 +43,17 @@ const toolbarIcon = {
   'heading-one': <Heading1 />,
   footnote: <Section />,
 };
+/* eslint-enable jsx-a11y/anchor-is-valid */
 
-const ToolbarButton = ({ value, type, kind, handleHasType, handleOnClick }) => {
-  const isActive = handleHasType(value, type, kind);
-  const onMouseDown = e => handleOnClick(e, kind, type);
+const ToolbarButton = ({
+  value,
+  type,
+  object,
+  handleHasType,
+  handleOnClick,
+}) => {
+  const isActive = handleHasType(value, type, object);
+  const onMouseDown = e => handleOnClick(e, object, type);
   return (
     <Button stripped onMouseDown={onMouseDown} data-active={isActive}>
       <span {...toolbarClasses('icon', isActive ? 'active' : '')}>
@@ -55,7 +65,7 @@ const ToolbarButton = ({ value, type, kind, handleHasType, handleOnClick }) => {
 
 ToolbarButton.propTypes = {
   type: PropTypes.string.isRequired,
-  kind: PropTypes.string.isRequired,
+  object: PropTypes.string.isRequired,
   value: Types.value.isRequired,
   handleHasType: PropTypes.func.isRequired,
   handleOnClick: PropTypes.func.isRequired,

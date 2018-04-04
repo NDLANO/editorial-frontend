@@ -11,7 +11,7 @@ import React from 'react';
 import SlateTable from './SlateTable';
 
 function validateNode(node) {
-  if (node.kind !== 'block') return null;
+  if (node.object !== 'block') return null;
   if (node.type !== 'table') return null;
   if (node.nodes.first().type !== 'table-row') return null;
 

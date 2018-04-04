@@ -10,7 +10,7 @@ import nb from './phrases/phrases-nb';
 import en from './phrases/phrases-en';
 
 function* entries(obj) {
-  // eslint-disable-next-line
+  // eslint-disable-next-line no-restricted-syntax
   for (const key of Object.keys(obj)) {
     yield [key, obj[key]];
   }
@@ -23,7 +23,7 @@ export const formatNestedMessages = (
 ) => {
   const messages = formattedMessages;
 
-  // eslint-disable-next-line
+  // eslint-disable-next-line no-restricted-syntax
   for (const [key, value] of entries(phrases)) {
     if ({}.hasOwnProperty.call(phrases, key)) {
       const keyWithPrefix = prefix ? `${prefix}.${key}` : key;

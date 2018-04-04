@@ -11,7 +11,7 @@ import { setBlock, insertParagraph } from './changes';
 
 export function getCurrentHeading(options, value) {
   if (!value.selection.startKey) return null;
-  const startBlock = value.startBlock;
+  const { startBlock } = value;
   return startBlock && options.types.includes(startBlock.type)
     ? startBlock
     : null;

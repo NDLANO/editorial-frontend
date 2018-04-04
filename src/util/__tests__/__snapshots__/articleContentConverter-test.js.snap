@@ -4,35 +4,43 @@ exports[`articleContentConverter convert learningresource content 1`] = `
 Object {
   "document": Object {
     "data": Object {},
-    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
-        "kind": "block",
         "nodes": Array [
           Object {
-            "kind": "text",
-            "leaves": Array [
+            "data": Object {},
+            "isVoid": false,
+            "nodes": Array [
               Object {
-                "kind": "leaf",
-                "marks": Array [],
-                "text": "",
+                "leaves": Array [
+                  Object {
+                    "marks": Array [],
+                    "object": "leaf",
+                    "text": "Lorem ipsum",
+                  },
+                ],
+                "object": "text",
               },
             ],
+            "object": "block",
+            "type": "heading-two",
           },
         ],
+        "object": "block",
         "type": "section",
       },
     ],
+    "object": "document",
   },
-  "kind": "value",
+  "object": "value",
 }
 `;
 
-exports[`articleContentConverter convert learningresource content to and from editorValue 1`] = `""`;
+exports[`articleContentConverter convert learningresource content to and from editorValue 1`] = `"<section><h2>Lorem ipsum</h2></section>"`;
 
-exports[`articleContentConverter convert learningresource content with multiple sections to and from editorValue 1`] = `""`;
+exports[`articleContentConverter convert learningresource content with multiple sections to and from editorValue 1`] = `"<section><h2>Section 1</h2></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>"`;
 
 exports[`articleContentConverter convert topic article content to and from editorValue 1`] = `"<section><h2>Lorem ipsum</h2></section>"`;
 

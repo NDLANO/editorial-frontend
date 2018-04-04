@@ -22,7 +22,6 @@ export class StructurePage extends React.PureComponent {
     this.state = {
       editStructureHidden: false,
       subjects: [],
-      loadingSubjects: false,
     };
     this.toggleState = this.toggleState.bind(this);
     this.getAllSubjects = this.getAllSubjects.bind(this);
@@ -45,10 +44,8 @@ export class StructurePage extends React.PureComponent {
   }
 
   async addSubject(name) {
-    this.setState({ loadingSubjects: true });
     const newPath = await addSubject({ name });
 
-    this.setState({ loadingSubjects: false });
     if (typeof newPath === 'string') {
       this.setState(prevState => ({
         subjects: [

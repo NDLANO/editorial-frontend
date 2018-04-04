@@ -53,7 +53,7 @@ it('Adds posts new subject when writing and pressing enter', async () => {
       />
     </MemoryRouter>,
   );
-  const instance = component.root.findByType(StructurePage).instance;
+  const { instance } = component.root.findByType(StructurePage);
   expect(instance.state.editStructureHidden).toBe(false);
   await instance.addSubject('Elefant');
 

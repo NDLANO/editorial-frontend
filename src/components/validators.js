@@ -50,7 +50,7 @@ export const minItems = (value, number) =>
   !value || (Array.isArray(value) && value.length < number);
 
 //  https://stackoverflow.com/a/1830844
-export const isNumeric = value => !isNaN(parseFloat(value)) && isFinite(value);
+export const isNumeric = value => !Number.isNaN(value - parseFloat(value));
 
 export const objectHasBothField = obj =>
   Object.keys(obj).filter(key => isEmpty(obj[key])).length === 0;

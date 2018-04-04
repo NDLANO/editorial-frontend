@@ -1,11 +1,11 @@
 export const valueWithTwoImageEmbeds = {
   document: {
     data: {},
-    kind: 'document',
+    object: 'document',
     nodes: [
       {
         data: {},
-        kind: 'block',
+        object: 'block',
         isVoid: false,
         type: 'section',
         nodes: [
@@ -19,27 +19,27 @@ export const valueWithTwoImageEmbeds = {
               caption: '',
               url: 'https://test.api.ndla.no/image-api/v2/images/3',
             },
-            kind: 'block',
+            object: 'block',
             isVoid: true,
             type: 'embed',
             nodes: [
               {
-                kind: 'text',
-                leaves: [{ kind: 'leaf', text: ' ', marks: [] }],
+                object: 'text',
+                leaves: [{ object: 'leaf', text: ' ', marks: [] }],
               },
             ],
           },
           {
             data: {},
-            kind: 'block',
+            object: 'block',
             isVoid: false,
             type: 'paragraph',
             nodes: [
               {
-                kind: 'text',
+                object: 'text',
                 leaves: [
                   {
-                    kind: 'leaf',
+                    object: 'leaf',
                     text:
                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
                     marks: [],
@@ -82,25 +82,25 @@ export const valueWithTwoImageEmbeds = {
                 ],
               },
             },
-            kind: 'block',
+            object: 'block',
             isVoid: true,
             type: 'embed',
             nodes: [
               {
-                kind: 'text',
-                leaves: [{ kind: 'leaf', text: ' ', marks: [] }],
+                object: 'text',
+                leaves: [{ object: 'leaf', text: ' ', marks: [] }],
               },
             ],
           },
           {
             data: {},
-            kind: 'block',
+            object: 'block',
             isVoid: false,
             type: 'paragraph',
             nodes: [
               {
-                kind: 'text',
-                leaves: [{ kind: 'leaf', text: '', marks: [] }],
+                object: 'text',
+                leaves: [{ object: 'leaf', text: '', marks: [] }],
               },
             ],
           },
@@ -108,31 +108,31 @@ export const valueWithTwoImageEmbeds = {
       },
     ],
   },
-  kind: 'value',
+  object: 'value',
 };
 
 export const valueWithInlineFootnotesAndContentLinks = {
   document: {
     data: {},
-    kind: 'document',
+    object: 'document',
     nodes: [
       {
         data: {},
-        kind: 'block',
+        object: 'block',
         isVoid: false,
         type: 'section',
         nodes: [
           {
             data: {},
-            kind: 'block',
+            object: 'block',
             isVoid: false,
             type: 'paragraph',
             nodes: [
               {
-                kind: 'text',
+                object: 'text',
                 leaves: [
                   {
-                    kind: 'leaf',
+                    object: 'leaf',
                     text:
                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et ',
                     marks: [],
@@ -145,15 +145,15 @@ export const valueWithInlineFootnotesAndContentLinks = {
                   resource: 'content-link',
                   'link-text': 'dolore',
                 },
-                kind: 'inline',
+                object: 'inline',
                 isVoid: false,
                 type: 'embed-inline',
                 nodes: [
                   {
-                    kind: 'text',
+                    object: 'text',
                     leaves: [
                       {
-                        kind: 'leaf',
+                        object: 'leaf',
                         text: 'dolore',
                         marks: [],
                       },
@@ -162,10 +162,10 @@ export const valueWithInlineFootnotesAndContentLinks = {
                 ],
               },
               {
-                kind: 'text',
+                object: 'text',
                 leaves: [
                   {
-                    kind: 'leaf',
+                    object: 'leaf',
                     text:
                       ' magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                     marks: [],
@@ -181,15 +181,15 @@ export const valueWithInlineFootnotesAndContentLinks = {
                   publisher: 'Addison-Wesley',
                   type: '',
                 },
-                kind: 'inline',
+                object: 'inline',
                 isVoid: false,
                 type: 'footnote',
                 nodes: [
                   {
-                    kind: 'text',
+                    object: 'text',
                     leaves: [
                       {
-                        kind: 'leaf',
+                        object: 'leaf',
                         text: '#',
                         marks: [],
                       },
@@ -198,10 +198,10 @@ export const valueWithInlineFootnotesAndContentLinks = {
                 ],
               },
               {
-                kind: 'text',
+                object: 'text',
                 leaves: [
                   {
-                    kind: 'leaf',
+                    object: 'leaf',
                     text:
                       ' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est ',
                     marks: [],
@@ -214,15 +214,15 @@ export const valueWithInlineFootnotesAndContentLinks = {
                   resource: 'content-link',
                   'link-text': 'laborum',
                 },
-                kind: 'inline',
+                object: 'inline',
                 isVoid: false,
                 type: 'embed-inline',
                 nodes: [
                   {
-                    kind: 'text',
+                    object: 'text',
                     leaves: [
                       {
-                        kind: 'leaf',
+                        object: 'leaf',
                         text: 'laborum',
                         marks: [],
                       },
@@ -231,10 +231,10 @@ export const valueWithInlineFootnotesAndContentLinks = {
                 ],
               },
               {
-                kind: 'text',
+                object: 'text',
                 leaves: [
                   {
-                    kind: 'leaf',
+                    object: 'leaf',
                     text: '.',
                     marks: [],
                   },
@@ -244,15 +244,15 @@ export const valueWithInlineFootnotesAndContentLinks = {
           },
           {
             data: {},
-            kind: 'block',
+            object: 'block',
             isVoid: false,
             type: 'paragraph',
             nodes: [
               {
-                kind: 'text',
+                object: 'text',
                 leaves: [
                   {
-                    kind: 'leaf',
+                    object: 'leaf',
                     text:
                       'Lorem ipsum dolor sit amet, consectetur a dipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                     marks: [],
@@ -268,15 +268,15 @@ export const valueWithInlineFootnotesAndContentLinks = {
                   publisher: 'Bantam Dell Publishing Group',
                   type: '',
                 },
-                kind: 'inline',
+                object: 'inline',
                 isVoid: false,
                 type: 'footnote',
                 nodes: [
                   {
-                    kind: 'text',
+                    object: 'text',
                     leaves: [
                       {
-                        kind: 'leaf',
+                        object: 'leaf',
                         text: '#',
                         marks: [],
                       },
@@ -285,10 +285,10 @@ export const valueWithInlineFootnotesAndContentLinks = {
                 ],
               },
               {
-                kind: 'text',
+                object: 'text',
                 leaves: [
                   {
-                    kind: 'leaf',
+                    object: 'leaf',
                     text: '',
                     marks: [],
                   },
@@ -300,34 +300,34 @@ export const valueWithInlineFootnotesAndContentLinks = {
       },
     ],
   },
-  kind: 'value',
+  object: 'value',
 };
 
 export const tableSlateValue = {
   document: {
     data: {},
-    kind: 'document',
+    object: 'document',
     nodes: [
       {
         data: {},
         isVoid: false,
-        kind: 'block',
+        object: 'block',
         nodes: [
           {
             data: {},
             isVoid: false,
-            kind: 'block',
+            object: 'block',
             nodes: [
               {
                 data: { isHeader: true },
                 isVoid: false,
-                kind: 'block',
+                object: 'block',
                 nodes: [
                   {
-                    kind: 'text',
+                    object: 'text',
                     leaves: [
                       {
-                        kind: 'leaf',
+                        object: 'leaf',
                         marks: [],
                         text: 'column 1',
                       },
@@ -339,13 +339,13 @@ export const tableSlateValue = {
               {
                 data: { isHeader: true },
                 isVoid: false,
-                kind: 'block',
+                object: 'block',
                 nodes: [
                   {
-                    kind: 'text',
+                    object: 'text',
                     leaves: [
                       {
-                        kind: 'leaf',
+                        object: 'leaf',
                         marks: [],
                         text: 'column 2',
                       },
@@ -360,18 +360,18 @@ export const tableSlateValue = {
           {
             data: {},
             isVoid: false,
-            kind: 'block',
+            object: 'block',
             nodes: [
               {
                 data: {},
                 isVoid: false,
-                kind: 'block',
+                object: 'block',
                 nodes: [
                   {
-                    kind: 'text',
+                    object: 'text',
                     leaves: [
                       {
-                        kind: 'leaf',
+                        object: 'leaf',
                         marks: [],
                         text: 'column 1',
                       },
@@ -383,13 +383,13 @@ export const tableSlateValue = {
               {
                 data: {},
                 isVoid: false,
-                kind: 'block',
+                object: 'block',
                 nodes: [
                   {
-                    kind: 'text',
+                    object: 'text',
                     leaves: [
                       {
-                        kind: 'leaf',
+                        object: 'leaf',
                         marks: [],
                         text: 'column 2',
                       },
@@ -406,29 +406,29 @@ export const tableSlateValue = {
       },
     ],
   },
-  kind: 'value',
+  object: 'value',
 };
 
 export const detailsBoxValue = {
   document: {
     data: {},
-    kind: 'document',
+    object: 'document',
     nodes: [
       {
         data: {},
         isVoid: false,
-        kind: 'block',
+        object: 'block',
         nodes: [
           {
             data: {},
             isVoid: false,
-            kind: 'block',
+            object: 'block',
             nodes: [
               {
-                kind: 'text',
+                object: 'text',
                 leaves: [
                   {
-                    kind: 'range',
+                    object: 'range',
                     marks: [],
                     text: 'Summary text',
                   },
@@ -438,10 +438,10 @@ export const detailsBoxValue = {
             type: 'summary',
           },
           {
-            kind: 'text',
+            object: 'text',
             leaves: [
               {
-                kind: 'range',
+                object: 'range',
                 marks: [],
                 text: 'Details text',
               },
@@ -452,36 +452,36 @@ export const detailsBoxValue = {
       },
     ],
   },
-  kind: 'value',
+  object: 'value',
 };
 
 export const listValue = (type = 'numbered-list') => ({
   document: {
     data: {},
-    kind: 'document',
+    object: 'document',
     nodes: [
       {
         data: {
           type: 'letters',
         },
         isVoid: false,
-        kind: 'block',
+        object: 'block',
         nodes: [
           {
             data: {},
             isVoid: false,
-            kind: 'block',
+            object: 'block',
             nodes: [
               {
                 data: {},
                 isVoid: false,
-                kind: 'block',
+                object: 'block',
                 nodes: [
                   {
-                    kind: 'text',
+                    object: 'text',
                     leaves: [
                       {
-                        kind: 'leaf',
+                        object: 'leaf',
                         marks: [],
                         text: 'Rad 1',
                       },
@@ -496,18 +496,18 @@ export const listValue = (type = 'numbered-list') => ({
           {
             data: {},
             isVoid: false,
-            kind: 'block',
+            object: 'block',
             nodes: [
               {
                 data: {},
                 isVoid: false,
-                kind: 'block',
+                object: 'block',
                 nodes: [
                   {
-                    kind: 'text',
+                    object: 'text',
                     leaves: [
                       {
-                        kind: 'leaf',
+                        object: 'leaf',
                         marks: [],
                         text: 'Rad 2',
                       },
@@ -522,18 +522,18 @@ export const listValue = (type = 'numbered-list') => ({
           {
             data: {},
             isVoid: false,
-            kind: 'block',
+            object: 'block',
             nodes: [
               {
                 data: {},
                 isVoid: false,
-                kind: 'block',
+                object: 'block',
                 nodes: [
                   {
-                    kind: 'text',
+                    object: 'text',
                     leaves: [
                       {
-                        kind: 'leaf',
+                        object: 'leaf',
                         marks: [],
                         text: 'Rad 3',
                       },
@@ -550,24 +550,24 @@ export const listValue = (type = 'numbered-list') => ({
       },
     ],
   },
-  kind: 'value',
+  object: 'value',
 });
 
 export const headingTwoValue = {
   document: {
     data: {},
-    kind: 'document',
+    object: 'document',
     nodes: [
       {
         data: {},
         isVoid: false,
-        kind: 'block',
+        object: 'block',
         nodes: [
           {
-            kind: 'text',
+            object: 'text',
             leaves: [
               {
-                kind: 'leaf',
+                object: 'leaf',
                 marks: [],
                 text: 'heading 2',
               },
@@ -578,29 +578,29 @@ export const headingTwoValue = {
       },
     ],
   },
-  kind: 'value',
+  object: 'value',
 };
 
 export const sectionValue = {
   document: {
     data: {},
-    kind: 'document',
+    object: 'document',
     nodes: [
       {
         data: {},
         isVoid: false,
-        kind: 'block',
+        object: 'block',
         nodes: [
           {
             data: {},
             isVoid: false,
-            kind: 'block',
+            object: 'block',
             nodes: [
               {
-                kind: 'text',
+                object: 'text',
                 leaves: [
                   {
-                    kind: 'leaf',
+                    object: 'leaf',
                     marks: [],
                     text: 'Paragraph text',
                   },
@@ -614,24 +614,24 @@ export const sectionValue = {
       },
     ],
   },
-  kind: 'value',
+  object: 'value',
 };
 
 export const quoteValue = {
   document: {
     data: {},
-    kind: 'document',
+    object: 'document',
     nodes: [
       {
         data: {},
         isVoid: false,
-        kind: 'block',
+        object: 'block',
         nodes: [
           {
-            kind: 'text',
+            object: 'text',
             leaves: [
               {
-                kind: 'leaf',
+                object: 'leaf',
                 marks: [],
                 text: 'This quote should be both smart and wise',
               },
@@ -642,29 +642,29 @@ export const quoteValue = {
       },
     ],
   },
-  kind: 'value',
+  object: 'value',
 };
 
 export const normalDivValue = {
   document: {
     data: {},
-    kind: 'document',
+    object: 'document',
     nodes: [
       {
         data: {},
         isVoid: false,
-        kind: 'block',
+        object: 'block',
         nodes: [
           {
             data: {},
             isVoid: false,
-            kind: 'block',
+            object: 'block',
             nodes: [
               {
-                kind: 'text',
+                object: 'text',
                 leaves: [
                   {
-                    kind: 'leaf',
+                    object: 'leaf',
                     marks: [],
                     text: 'A paragraph',
                   },
@@ -678,24 +678,24 @@ export const normalDivValue = {
       },
     ],
   },
-  kind: 'value',
+  object: 'value',
 };
 
 export const brValue = {
   document: {
     data: {},
-    kind: 'document',
+    object: 'document',
     nodes: [
       {
         data: {},
         isVoid: false,
-        kind: 'block',
+        object: 'block',
         nodes: [
           {
-            kind: 'text',
+            object: 'text',
             leaves: [
               {
-                kind: 'leaf',
+                object: 'leaf',
                 marks: [],
                 text: '',
               },
@@ -706,5 +706,5 @@ export const brValue = {
       },
     ],
   },
-  kind: 'value',
+  object: 'value',
 };

@@ -54,11 +54,6 @@ const classes = new BEMHelper({
 });
 
 class AgreementForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { title: '', license: '', agreement: {} };
-  }
-
   handleSubmit(event) {
     event.preventDefault();
 
@@ -122,7 +117,7 @@ class AgreementForm extends Component {
         </div>
         <Field right>
           <Link
-            to={'/'}
+            to="/"
             className="c-button c-button--outline c-abort-button"
             disabled={isSaving}>
             {t('form.abort')}

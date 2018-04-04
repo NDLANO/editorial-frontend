@@ -8,6 +8,35 @@
 
 .c-accordion,
 .c-search-accordion {
+  &__button-line {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0.6rem 0;
+    display: flex;
+    justify-content: space-between;
+
+    &--fill {
+      background-color: var(--gray-11);
+      color: black;
+
+      &:hover,
+      &:focus {
+        background-color: var(--gray-11);
+      }
+    }
+
+    &--taxonomy,
+    &--taxonomy:hover {
+      padding: 0;
+      color: white;
+      height: 50px;
+      background: var(--taxonomy-color);
+      border: none;
+    }
+  }
 
   &--fill {
     border-bottom: 1px solid var(--gray-11);
@@ -16,17 +45,12 @@
   &__button {
     color: var(--brand-grey-dark);
     width: 100%;
-    padding: 0.6rem 0;
-    display: flex;
-    justify-content: space-between;
+    height: 100%;
+    text-align: left;
 
-    &--fill {
-      background-color: var(--gray-11);
-
-      &:hover,
-      &:focus {
-        background-color: var(--gray-11);
-      }
+    &--arrowButton {
+      min-width: 50px;
+      width: 50px;
     }
   }
 
@@ -43,32 +67,51 @@
     &--hidden {
       display: none;
     }
+
+    &--taxonomy {
+      margin-left: var(--spacing);
+    }
   }
 
   &__title {
     padding-left: 1.3rem;
     font-size: 0.899rem;
     text-transform: uppercase;
+    color: var(--gray-5);
+    align-self: center;
+    margin-right: 0.2rem;
+
+    &--taxonomy {
+      color: white;
+      font-size: 1.25rem;
+      text-transform: none;
+      display: flex;
+      align-items: center;
+
+      & > svg {
+        margin-right: 10px;
+      }
+    }
   }
 
   &__arrow {
-    margin-right: 1rem;
+    color: var(--gray-5);
+    width: 45px;
+    height: 45px;
   }
 
-  &__arrow,
-  &__title {
-    align-self: center;
+  &--fill &__arrow,
+  &--fill &__title {
     color: var(--gray-5);
   }
 }
 
 .c-search-accordion {
   color: white;
-  
-  &__button {
-    background-color: var(--brand-color);
-    padding: 0.2rem 0;
 
+  &__button-line {
+    background-color: var(--brand-color);
+    
     &:hover,
     &:focus {
       background-color: var(--brand-color);

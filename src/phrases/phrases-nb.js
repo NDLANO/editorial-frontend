@@ -259,6 +259,12 @@ const phrases = {
       figure: {
         notSupported: 'Mediatype {mediaType} er ikke støttet.',
       },
+      relatedArticle: {
+        placeholder: 'Søk på tittel',
+        emptyFilter: 'Ingen relaterte artikler funnet',
+        emptyList: 'Det er ingen relaterte artikler i denne listen',
+        invalidArticle: 'Ugyldig artikkel',
+      },
       link: {
         goTo: 'Gå til',
         insert: 'Sett inn lenke',
@@ -430,6 +436,10 @@ const phrases = {
     notSaved: 'Dokumentet er ikke lagret, ønsker du å lagre?',
     continue: 'Fortsett',
     delete: 'Slett',
+  },
+  taxonomy: {
+    editStructure: '  Rediger struktur',
+    addSubject: '+ Legg til nytt fag',
   },
 };
 

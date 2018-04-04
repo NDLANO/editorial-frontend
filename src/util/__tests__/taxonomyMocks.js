@@ -313,3 +313,115 @@ export const flattenedResourceTypes = [
   },
   { id: 'urn:resourcetype:concept', name: 'Begrep' },
 ];
+
+export const subjectsMock = [
+  {
+    id: 'urn:subject:1',
+    contentUri: null,
+    name: 'Medieuttrykk og mediesamfunnet',
+    path: '/subject:1',
+  },
+  {
+    id: 'urn:subject:2',
+    contentUri: null,
+    name: 'Kinesisk',
+    path: '/subject:2',
+  },
+  {
+    id: 'urn:subject:3',
+    contentUri: null,
+    name: 'Samfunnsfag',
+    path: '/subject:3',
+  },
+  {
+    id: 'urn:subject:4',
+    contentUri: null,
+    name: 'Vg 2 Helsearbeiderfag',
+    path: '/subject:4',
+  },
+  {
+    id: 'urn:subject:5',
+    contentUri: null,
+    name: 'Testfag',
+    path: '/subject:5',
+  },
+  {
+    id: 'urn:subject:6',
+    contentUri: null,
+    name: 'Brønnteknikk',
+    path: '/subject:6',
+  },
+  {
+    id: 'urn:subject:7',
+    contentUri: null,
+    name: 'Markedsføring og ledelse 1',
+    path: '/subject:7',
+  },
+  { id: 'urn:subject:8', contentUri: null, name: 'Tysk', path: '/subject:8' },
+  {
+    id: 'urn:subject:9',
+    contentUri: null,
+    name: 'Historie vg2 og vg3',
+    path: '/subject:9',
+  },
+  {
+    id: 'urn:subject:10',
+    contentUri: null,
+    name: 'Matematikk fellesfag',
+    path: '/subject:10',
+  },
+  {
+    id: 'urn:subject:11',
+    contentUri: null,
+    name: 'Bygg- og anleggsteknikk',
+    path: '/subject:11',
+  },
+  {
+    id: 'urn:subject:12',
+    contentUri: null,
+    name: 'Service og samferdsel vg1',
+    path: '/subject:12',
+  },
+  {
+    id: 'urn:subject:13',
+    contentUri: null,
+    name: 'Naturbruk vg 1',
+    path: '/subject:13',
+  },
+  {
+    id: 'urn:subject:14',
+    contentUri: null,
+    name: 'Medie- og informasjonskunnskap',
+    path: '/subject:14',
+  },
+  {
+    id: 'urn:subject:15',
+    contentUri: null,
+    name: 'Sørsamisk vg1 og vg2',
+    path: '/subject:15',
+  },
+  {
+    id: 'urn:subject:16',
+    contentUri: null,
+    name: 'Elektrofag vg1',
+    path: '/subject:16',
+  },
+  {
+    id: 'urn:subject:17',
+    contentUri: null,
+    name: 'Engelskspråklig litteratur og kultur',
+    path: '/subject:17',
+  },
+  {
+    id: 'urn:subject:18',
+    contentUri: null,
+    name: 'Kommunikasjon og kultur 1, 2, 3',
+    path: '/subject:18',
+  },
+  {
+    id: 'urn:subject:218c9882-5f4f-484d-848b-119fb97d7766',
+    contentUri: null,
+    name: 'Matte 101',
+    path: null,
+  },
+];

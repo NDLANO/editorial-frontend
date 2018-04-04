@@ -34,7 +34,7 @@ const contentHTML = `<section><h2>Lorem ipsum</h2></section>`;
 
 const contentHTMLWithSections = `<section><h2>Section 1</h2></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>`;
 
-const fragment = jsdom.JSDOM.fragment;
+const { fragment } = jsdom.JSDOM;
 
 test('articleContentConverter is value empty should be true if value is empty', () => {
   const emptyValue = createEmptyValue();

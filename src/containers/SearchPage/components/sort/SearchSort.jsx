@@ -43,7 +43,7 @@ class SearchSort extends Component {
 }
 
 SearchSort.propTypes = {
-  sort: PropTypes.string.isRequired,
+  sort: PropTypes.string,
   onSortOrderChange: PropTypes.func.isRequired,
 };
 

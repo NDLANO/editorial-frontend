@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
+/* global history */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -30,15 +32,15 @@ class CreateLearningResource extends Component {
   }
 
   updateDraft(article) {
-    const { updateDraft, history } = this.props;
-    updateDraft({ draft: article, history });
+    const { updateDraft } = this.props;
+    updateDraft({ draft: article, history: this.props.history });
   }
 
   render() {
     const { locale, ...rest } = this.props;
     return (
       <LearningResourceForm
-        history={history}
+        history={this.props.history}
         initialModel={getInitialModel({ language: locale })}
         {...rest}
         onUpdate={this.updateDraft}

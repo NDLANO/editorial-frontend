@@ -60,6 +60,7 @@ class ToolTip extends Component {
           role="button"
           tabIndex={0}
           aria-label={messages.ariaLabel}
+          onKeyPress={noPopup ? undefined : this.togglePopup}
           onClick={noPopup ? undefined : this.togglePopup}
           {...classes('button')}>
           {children}

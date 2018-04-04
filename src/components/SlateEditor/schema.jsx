@@ -19,13 +19,13 @@ export const defaultBlock = {
 export const defaultBlockWithText = text => ({
   data: {},
   isVoid: false,
-  kind: 'block',
+  object: 'block',
   nodes: [
     {
-      kind: 'text',
+      object: 'text',
       leaves: [
         {
-          kind: 'leaf',
+          object: 'leaf',
           marks: [],
           text,
         },
@@ -58,7 +58,7 @@ export const schema = {
 
 export function validateNode(node) {
   // Document rules
-  if (node.kind === 'document') {
+  if (node.object === 'document') {
     // Rule to insert a paragraph block if the document is empty.
     if (!node.nodes.size) {
       const block = Block.create(defaultBlock);
@@ -67,7 +67,7 @@ export function validateNode(node) {
   }
 
   // Block rules
-  if (node.kind === 'block') {
+  if (node.object === 'block') {
     // Type-specific rules
     switch (node.type) {
       // Rule to always add a paragrah node if end of a section
@@ -87,7 +87,7 @@ export function validateNode(node) {
     // Rule to remove all empty text nodes that exists in the document
     const invalidChildren = node.nodes.filter(
       child =>
-        child.kind === 'block' &&
+        child.object === 'block' &&
         (child.type === 'emptyTextNode' || !child.type),
     );
     if (invalidChildren.size > 0) {

@@ -35,10 +35,6 @@ SlateInputLabel.propTypes = {
   value: PropTypes.string.isRequired,
 };
 
-SlateInputLabel.defaultProps = {
-  focus: false,
-};
-
 class SlateInputField extends React.Component {
   constructor() {
     super();
@@ -95,11 +91,6 @@ SlateInputField.propTypes = {
   label: PropTypes.string.isRequired,
   required: PropTypes.bool.isRequired,
   submitted: PropTypes.bool.isRequired,
-};
-
-SlateInputField.defaultProps = {
-  value: '',
-  required: true,
 };
 
 export default injectT(SlateInputField);

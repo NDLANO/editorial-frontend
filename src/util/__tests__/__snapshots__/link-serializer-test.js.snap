@@ -4,45 +4,42 @@ exports[`deserialize a link and a content-link in an list 1`] = `
 Object {
   "document": Object {
     "data": Object {},
-    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
-        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
-            "kind": "block",
             "nodes": Array [
               Object {
-                "kind": "text",
                 "leaves": Array [
                   Object {
-                    "kind": "leaf",
                     "marks": Array [],
+                    "object": "leaf",
                     "text": "  ",
                   },
                 ],
+                "object": "text",
               },
             ],
+            "object": "block",
             "type": "list-item",
           },
           Object {
             "data": Object {},
             "isVoid": false,
-            "kind": "block",
             "nodes": Array [
               Object {
-                "kind": "text",
                 "leaves": Array [
                   Object {
-                    "kind": "leaf",
                     "marks": Array [],
+                    "object": "leaf",
                     "text": " ",
                   },
                 ],
+                "object": "text",
               },
               Object {
                 "data": Object {
@@ -51,40 +48,43 @@ Object {
                   "target": "_blank",
                 },
                 "isVoid": false,
-                "kind": "inline",
                 "nodes": Array [
                   Object {
-                    "kind": "text",
                     "leaves": Array [
                       Object {
-                        "kind": "leaf",
                         "marks": Array [],
+                        "object": "leaf",
                         "text": "Yrker i NRK",
                       },
                     ],
+                    "object": "text",
                   },
                 ],
+                "object": "inline",
                 "type": "link",
               },
               Object {
-                "kind": "text",
                 "leaves": Array [
                   Object {
-                    "kind": "leaf",
                     "marks": Array [],
+                    "object": "leaf",
                     "text": " ",
                   },
                 ],
+                "object": "text",
               },
             ],
+            "object": "block",
             "type": "list-item",
           },
         ],
+        "object": "block",
         "type": "bulleted-list",
       },
     ],
+    "object": "document",
   },
-  "kind": "value",
+  "object": "value",
 }
 `;
 
@@ -92,22 +92,20 @@ exports[`deserialize link with spacing before link 1`] = `
 Object {
   "document": Object {
     "data": Object {},
-    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
-        "kind": "block",
         "nodes": Array [
           Object {
-            "kind": "text",
             "leaves": Array [
               Object {
-                "kind": "leaf",
                 "marks": Array [],
+                "object": "leaf",
                 "text": "Eller du kan bruke nettsidene ",
               },
             ],
+            "object": "text",
           },
           Object {
             "data": Object {
@@ -116,37 +114,39 @@ Object {
               "target": "_blank",
             },
             "isVoid": false,
-            "kind": "inline",
             "nodes": Array [
               Object {
-                "kind": "text",
                 "leaves": Array [
                   Object {
-                    "kind": "leaf",
                     "marks": Array [],
+                    "object": "leaf",
                     "text": "nav.no",
                   },
                 ],
+                "object": "text",
               },
             ],
+            "object": "inline",
             "type": "link",
           },
           Object {
-            "kind": "text",
             "leaves": Array [
               Object {
-                "kind": "leaf",
                 "marks": Array [],
+                "object": "leaf",
                 "text": " . Her finnes informasjon om de ulike tjenestene.",
               },
             ],
+            "object": "text",
           },
         ],
+        "object": "block",
         "type": "paragraph",
       },
     ],
+    "object": "document",
   },
-  "kind": "value",
+  "object": "value",
 }
 `;
 

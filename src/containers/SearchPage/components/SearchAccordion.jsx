@@ -33,7 +33,7 @@ const SearchAccordion = ({
 
   return (
     <div {...classes('')} {...rest}>
-      <Button {...classes('button')} stripped onClick={handleToggle}>
+      <Button {...classes('button-line')} stripped onClick={handleToggle}>
         <span {...classes('title')}>
           <Search className="c-icon--medium" />
           {header}

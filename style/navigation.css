@@ -7,6 +7,32 @@
  */
 
 .c-navigation {
+  &__item {
+    align-self: center;
+    display: block;
+    text-align: center;
+    margin-right: 3rem;
+    box-shadow: none;
+    width: 7.5rem;
+    font-size: 14px;
+
+    &:hover,
+    &:focus {
+      box-shadow: none;
+    }
+
+    & > * {
+      margin: 0 auto;
+      display: block;
+    }
+
+    & > span {
+      padding: 0.3rem 1.2rem;
+      text-transform: uppercase;
+      margin-top: 1rem;
+    }
+  }
+
   &__open-button {
     color: var(--brand-color);
     min-width: 4rem;
@@ -42,7 +68,87 @@
       margin-top: 21px;
       position: absolute;
     }
+
+    &--brand-color {
+      background-color: white;
+
+
+
+      & .c-navigation__item {
+        color: var(--brand-color);
+
+        & > span {
+          border: 2px solid var(--brand-color);
+        }
+
+        &--active span {
+          background-color: var(--brand-color);
+          color: white;
+        }
+
+        &:hover,
+        &:focus {
+          & > span {
+            background-color: var(--brand-color);
+            color: white;
+          }
+        }
+      }
+    }
+
+    /* https://github.com/stylelint/stylelint/issues/2489 */
+
+    /* Possibly false-positives */
+
+    /* stylelint-disable no-descending-specificity */
+
+    &--brand-color-secondary {
+      background-color: var(--brand-color--secondary);
+
+      & .c-navigation__item {
+        color: white;
+
+        & > span {
+          border: 2px solid white;
+        }
+
+        &:hover,
+        &:focus {
+          & > span {
+            background-color: white;
+            color: var(--brand-color--secondary);
+          }
+        }
+      }
+    }
+
+    &--article-color {
+      background-color: white;
+
+      & .c-navigation__item {
+        color: var(--article-color);
+
+        &:hover,
+        &:focus {
+          & > span {
+            background-color: var(--article-color);
+            color: white;
+          }
+        }
+
+        & > span {
+          border: 2px solid var(--article-color);
+        }
+
+        &--active span {
+          background-color: var(--article-color);
+          color: white;
+        }
+      }
+    }
   }
+
+  /* stylelint-enable no-descending-specificity */
 
   &__container--hidden {
     display: none;
@@ -60,32 +166,6 @@
     padding-right: var(--spacing);
   }
 
-  &__item {
-    align-self: center;
-    display: block;
-    text-align: center;
-    margin-right: 3rem;
-    box-shadow: none;
-    width: 7.5rem;
-    font-size: 14px;
-
-    &:hover,
-    &:focus {
-      box-shadow: none;
-    }
-
-    & > * {
-      margin: 0 auto;
-      display: block;
-    }
-
-    & > span {
-      padding: 0.3rem 1.2rem;
-      text-transform: uppercase;
-      margin-top: 1rem;
-    }
-  }
-
   &__overlay {
     position: fixed;
     top: 0;
@@ -94,77 +174,5 @@
     height: 100%;
     z-index: 1;
     opacity: 0;
-  }
-}
-
-.c-navigation__container {
-  &--brand-color-secondary {
-    background-color: var(--brand-color--secondary);
-
-    & .c-navigation__item {
-      color: white;
-
-      &:hover,
-      &:focus {
-        & > span {
-          background-color: white;
-          color: var(--brand-color--secondary);
-        }
-      }
-
-      & > span {
-        border: 2px solid white;
-      }
-    }
-  }
-
-  &--article-color {
-    background-color: white;
-
-    & .c-navigation__item {
-      color: var(--article-color);
-
-      &:hover,
-      &:focus {
-        & > span {
-          background-color: var(--article-color);
-          color: white;
-        }
-      }
-
-      & > span {
-        border: 2px solid var(--article-color);
-      }
-
-      &--active span {
-        background-color: var(--article-color);
-        color: white;
-      }
-    }
-  }
-
-  &--brand-color {
-    background-color: white;
-
-    & .c-navigation__item {
-      color: var(--brand-color);
-
-      &:hover,
-      &:focus {
-        & > span {
-          background-color: var(--brand-color);
-          color: white;
-        }
-      }
-
-      & > span {
-        border: 2px solid var(--brand-color);
-      }
-
-      &--active span {
-        background-color: var(--brand-color);
-        color: white;
-      }
-    }
   }
 }

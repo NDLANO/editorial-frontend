@@ -18,21 +18,18 @@ export function getElementOffset(el) {
 }
 
 export function getClientPos(e) {
-  let pageX;
-  let pageY;
+  let x;
+  let y;
 
   if (e.touches) {
-    pageX = e.touches[0].pageX;
-    pageY = e.touches[0].pageY;
+    x = e.touches[0].pageX;
+    y = e.touches[0].pageY;
   } else {
-    pageX = e.pageX;
-    pageY = e.pageY;
+    x = e.pageX;
+    y = e.pageY;
   }
 
-  return {
-    x: pageX,
-    y: pageY,
-  };
+  return { x, y };
 }
 
 export function getImageDimensions(el) {

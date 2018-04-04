@@ -435,6 +435,10 @@ const phrases = {
     continue: 'Fortsett',
     delete: 'Slett',
   },
+  taxonomy: {
+    editStructure: '  Rediger struktur',
+    addSubject: '+ Legg til nytt fag',
+  },
 };
 
 export default phrases;

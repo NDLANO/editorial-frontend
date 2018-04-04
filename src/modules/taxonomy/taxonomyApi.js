@@ -54,6 +54,20 @@ function fetchRelevances(locale) {
   );
 }
 
+function fetchSubjects() {
+  return fetchAuthorized(`${baseUrl}/subjects`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
+function addSubject(body) {
+  return fetchAuthorized(`${baseUrl}/subjects`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify(body),
+  }).then(resolveJsonOrRejectWithError);
+}
+
 /* Queries */
 function queryResources(articleId, language) {
   return fetchAuthorized(
@@ -114,4 +128,6 @@ export {
   fetchRelevances,
   queryResources,
   updateTaxonomy,
+  fetchSubjects,
+  addSubject,
 };

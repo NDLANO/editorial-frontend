@@ -19,7 +19,7 @@ const classes = new BEMHelper({
 
 const FolderItem = ({ title, path, active }) => (
   <Link to={path} {...classes('')}>
-    <Folder color={'#70A5DA'} />
+    <Folder color="#70A5DA" />
     <span {...classes('title', active && 'active')}>{title}</span>
   </Link>
 );

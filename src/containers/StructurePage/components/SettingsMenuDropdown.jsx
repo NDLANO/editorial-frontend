@@ -1,8 +1,18 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Settings } from 'ndla-icons/editor';
-import { Cross, Pencil } from 'ndla-icons/action';
+import { Cross, Pencil, Plus } from 'ndla-icons/action';
+import { fetchTopics } from '../../../modules/taxonomy';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 
 import InlineEditField from './InlineEditField';
 
@@ -11,6 +21,8 @@ const SettingsMenuDropdown = ({
   onClose,
   t,
   onChangeSubjectName,
+  onAddSubjectTopic,
+  onAddExistingTopic,
   id,
   name,
 }) => {
@@ -35,6 +47,34 @@ const SettingsMenuDropdown = ({
           icon={<Pencil />}
         />
       )}
+      {type === 'subject' && (
+        <InlineEditField
+          classes={classes}
+          currentVal=""
+          onSubmit={e => onAddSubjectTopic(id, e)}
+          title={t('taxonomy.addTopic')}
+          icon={<Plus />}
+        />
+      )}
+      {type === 'subject' && (
+        <AsyncDropdown
+          valueField="id"
+          name="relatedArticleSearch"
+          textField="name"
+          placeholder={'Søk på tittel'}
+          label={'label'}
+          apiAction={async inp => {
+            const res = await fetchTopics('nb');
+            return res.filter(topic => topic.name.includes(inp));
+          }}
+          onClick={e => e.stopPropagation()}
+          messages={{
+            emptyFilter: 'empty',
+            emptyList: 'empty list',
+          }}
+          onChange={selected => selected && onAddExistingTopic(selected.id)}
+        />
+      )}
     </div>
   );
 };
@@ -44,6 +84,8 @@ SettingsMenuDropdown.propTypes = {
   onClose: PropTypes.func,
   t: PropTypes.func,
   onChangeSubjectName: PropTypes.func,
+  onAddSubjectTopic: PropTypes.func,
+  onAddExistingTopic: PropTypes.func,
   id: PropTypes.string,
   name: PropTypes.string,
 };

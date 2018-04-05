@@ -32,6 +32,11 @@
   position: absolute;
 }
 
+.c-spinner--small {
+  width: 1em;
+  height: 1em;
+}
+
 @keyframes spinner-spin {
   0% {
     transform: rotate(0deg);

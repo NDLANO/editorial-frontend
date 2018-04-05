@@ -11,12 +11,9 @@ import PropTypes from 'prop-types';
 import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import Helmet from 'react-helmet';
+import config from '../config';
 
-import config from '../src/config';
-
-const assets = config.isProduction
-  ? require('../htdocs/assets/assets') // eslint-disable-line import/no-unresolved
-  : require('./developmentAssets');
+const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); // eslint-disable-line import/no-dynamic-require
 
 const Html = props => {
   const { lang, className, component, state } = props;
@@ -32,20 +29,16 @@ const Html = props => {
         {head.title.toComponent()}
         {head.meta.toComponent()}
         {head.script.toComponent()}
-        {config.isProduction ? (
-          <link
-            rel="stylesheet"
-            type="text/css"
-            href={`/assets/${assets['main.css']}`}
-          />
-        ) : null}
+        {assets.css && (
+          <link rel="stylesheet" type="text/css" href={assets.css} />
+        )}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300italic,400,600,700|Signika:400,600,300,700"
         />
         <link
           rel="shortcut icon"
-          href={`/assets/${assets['ndla-favicon.png']}`}
+          href={`/ndla-favicon.ico}`}
           type="image/x-icon"
         />
       </head>
@@ -66,7 +59,12 @@ const Html = props => {
             __html: `window.assets = ${serialize(assets)}`,
           }}
         />
-        <script src={`/assets/${assets['main.js']}`} />
+        <script
+          type="text/javascript"
+          src={assets.client.js}
+          defer
+          crossOrigin={(process.env.NODE_ENV !== 'production').toString()}
+        />
       </body>
     </html>
   );

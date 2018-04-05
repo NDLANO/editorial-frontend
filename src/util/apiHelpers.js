@@ -6,6 +6,8 @@
  *
  */
 
+/* eslint-disable no-shadow */
+
 import defined from 'defined';
 import fetch from 'isomorphic-fetch';
 import queryString from 'query-string';

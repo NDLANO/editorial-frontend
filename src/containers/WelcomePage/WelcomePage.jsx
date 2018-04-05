@@ -9,7 +9,7 @@
 import React from 'react';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import { SavedSearch, LastUsed } from 'ndla-icons/editor';
+import { SearchFolder, LastUsed } from 'ndla-icons/editor';
 import BEMHelper from 'react-bem-helper';
 import { RightArrow } from 'ndla-icons/action';
 
@@ -27,7 +27,7 @@ export const WelcomePage = ({ t }) => (
       </a>
       <img
         {...classes('header-image')}
-        src={`/assets/${window.assets['welcome-image.jpg']}`}
+        src={`/welcome-image.jpg`}
         alt="illustration"
       />
     </div>
@@ -41,7 +41,7 @@ export const WelcomePage = ({ t }) => (
       </div>
       <div>
         <div {...classes('column-header')}>
-          <SavedSearch className="c-icon--medium" />
+          <SearchFolder className="c-icon--medium" />
           <span>{t('welcomePage.savedSearch')}</span>
         </div>
         <span>{t('welcomePage.emptySavedSearch')}</span>

@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Settings } from 'ndla-icons/editor';
 import BEMHelper from 'react-bem-helper';
@@ -19,34 +18,36 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const SettingsMenu = ({ toggleState, id, toggles, ...rest }) => {
-  const toggleId = `settings-${id}`;
-  return (
-    <div {...classes('')}>
-      <Button
-        {...classes('iconButton')}
-        onClick={() => toggleState(toggleId)}
-        stripped>
-        <Settings />
-      </Button>
-      {toggles[toggleId] && (
-        <React.Fragment>
-          <Overlay onExit={() => toggleState(toggleId)} />
-          <SettingsMenuDropdown
-            onClose={() => toggleState(toggleId)}
-            classes={classes}
-            {...{ id, ...rest }}
-          />
-        </React.Fragment>
-      )}
-    </div>
-  );
-};
+class SettingsMenu extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      open: false,
+    };
+  }
 
-SettingsMenu.propTypes = {
-  toggleState: PropTypes.func,
-  id: PropTypes.string,
-  toggles: PropTypes.objectOf(PropTypes.bool),
-};
+  render() {
+    return (
+      <div {...classes('')}>
+        <Button
+          {...classes('iconButton')}
+          onClick={() => this.setState({ open: true })}
+          stripped>
+          <Settings />
+        </Button>
+        {this.state.open && (
+          <React.Fragment>
+            <Overlay onExit={() => this.setState({ open: false })} />
+            <SettingsMenuDropdown
+              onClose={() => this.setState({ open: false })}
+              classes={classes}
+              {...this.props}
+            />
+          </React.Fragment>
+        )}
+      </div>
+    );
+  }
+}
 
 export default SettingsMenu;

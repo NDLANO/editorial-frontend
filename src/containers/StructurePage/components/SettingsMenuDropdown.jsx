@@ -31,6 +31,7 @@ const SettingsMenuDropdown = ({
           classes={classes}
           currentVal={name}
           onSubmit={e => onChangeSubjectName(id, e)}
+          onClose={onClose}
           title={t('taxonomy.changeName')}
           icon={<Pencil />}
         />

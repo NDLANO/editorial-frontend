@@ -22,7 +22,6 @@ import {
   updateSubjectName,
   addSubjectTopic,
 } from '../../modules/taxonomy';
-import Overlay from '../../components/Overlay';
 
 export class StructurePage extends React.PureComponent {
   constructor(props) {
@@ -30,10 +29,8 @@ export class StructurePage extends React.PureComponent {
     this.state = {
       editStructureHidden: false,
       subjects: [],
-      toggles: {},
-      loading: false,
+      topics: {},
     };
-    this.toggleState = this.toggleState.bind(this);
     this.getAllSubjects = this.getAllSubjects.bind(this);
     this.getSubjectTopics = this.getSubjectTopics.bind(this);
     this.addSubject = this.addSubject.bind(this);
@@ -52,68 +49,31 @@ export class StructurePage extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     const id = `urn:${nextProps.match.params.subject}`;
     const currentSub = this.state.subjects.find(it => it.id === id);
-    if (id && currentSub && !currentSub.topics) {
+    if (id && currentSub && !this.state.topics[id]) {
       this.getSubjectTopics(id);
     }
   }
 
   async onChangeSubjectName(subjectId, name) {
-    this.setState({ loading: true });
     try {
       const ok = await updateSubjectName(subjectId, name);
-      if (ok) {
-        this.setState(prevState => ({
-          loading: false,
-          toggles: {},
-          subjects: prevState.subjects.map(subject => {
-            if (subject.id === subjectId) {
-              return {
-                ...subject,
-                name,
-              };
-            }
-            return subject;
-          }),
-        }));
-      }
+      this.getAllSubjects();
+      return ok;
     } catch (e) {
-      return new Promise((resolve, reject) => {
-        reject();
-      });
+      return e;
     }
-    return new Promise(resolve => resolve());
   }
 
-  async onAddSubjectTopic(id, name) {
-    this.setState({ loading: true });
+  async onAddSubjectTopic(subjectid, name) {
     const newPath = await addTopic({ name });
     const newId = newPath.replace('/v1/topics/', '');
     const ok = await addSubjectTopic({
-      subjectid: id,
+      subjectid,
       topicid: newId,
       primary: true,
     });
     if (ok) {
-      this.setState(prevState => ({
-        loading: false,
-        toggles: {},
-        subjects: prevState.subjects.map(
-          subject =>
-            subject.id !== id
-              ? subject
-              : {
-                  ...subject,
-                  topics: [
-                    ...subject.topics,
-                    {
-                      name,
-                      path: `/${id}/${newId}`,
-                      id: newId,
-                    },
-                  ],
-                },
-        ),
-      }));
+      this.getSubjectTopics(subjectid);
     }
   }
 
@@ -122,51 +82,29 @@ export class StructurePage extends React.PureComponent {
     this.setState({ subjects });
   }
 
-  async getSubjectTopics(id) {
-    const allTopics = await fetchSubjectTopics(id);
-    const mainTopics = allTopics.filter(it => it.parent === id);
+  async getSubjectTopics(subjectid) {
+    const allTopics = await fetchSubjectTopics(subjectid);
+    const mainTopics = allTopics.filter(it => it.parent === subjectid);
     const groupedTopics = mainTopics.map(topic => ({
       ...topic,
       topics: allTopics.filter(it => it.parent === topic.id),
     }));
 
     this.setState(prevState => ({
-      subjects: prevState.subjects.map(
-        subject =>
-          subject.id !== id
-            ? subject
-            : {
-                ...subject,
-                topics: groupedTopics,
-              },
-      ),
-    }));
-  }
-
-  toggleState(item) {
-    this.setState(prevState => ({
-      toggles: {
-        [item]: !prevState.toggles[item],
+      topics: {
+        ...prevState.topics,
+        [subjectid]: groupedTopics,
       },
     }));
   }
 
   async addSubject(name) {
-    this.setState({ loading: true });
-    const newPath = await addSubject({ name });
-
-    if (typeof newPath === 'string') {
-      this.setState(prevState => ({
-        loading: false,
-        subjects: [
-          ...prevState.subjects,
-          {
-            name,
-            path: newPath,
-            id: newPath.replace('/v1/subjects/', ''),
-          },
-        ],
-      }));
+    try {
+      const newPath = await addSubject({ name });
+      if (newPath) this.getAllSubjects();
+      return newPath;
+    } catch (e) {
+      return e;
     }
   }
 
@@ -174,12 +112,12 @@ export class StructurePage extends React.PureComponent {
     const { match: { params }, t } = this.props;
     return (
       <OneColumn>
-        {this.state.loading && (
-          <React.Fragment>
-            <Overlay cssModifiers={['white-opacity']} />
-          </React.Fragment>
-        )}
         <Accordion
+          handleToggle={() =>
+            this.setState(prevState => ({
+              editStructureHidden: !prevState.editStructureHidden,
+            }))
+          }
           header={
             <React.Fragment>
               <Taxonomy className="c-icon--medium" />
@@ -193,14 +131,12 @@ export class StructurePage extends React.PureComponent {
               action={this.addSubject}
             />
           }
-          handleToggle={() => this.toggleState('editStructureHidden')}
           hidden={this.state.editStructureHidden}>
           {this.state.subjects.map(it => (
             <FolderItem
               {...it}
               key={it.id}
-              toggleState={this.toggleState}
-              toggles={this.state.toggles}
+              topics={this.state.topics[it.id]}
               active={it.id.replace('urn:', '') === params.subject}
               params={params}
               t={t}

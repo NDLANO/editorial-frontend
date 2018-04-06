@@ -55,11 +55,6 @@ it('Adds posts new subject when writing and pressing enter', async () => {
   const instance = component.root.findByType(StructurePage).instance;
   expect(instance.state.editStructureHidden).toBe(false);
   await instance.addSubject('Elefant');
-  expect(
-    instance.state.subjects.filter(
-      it => it.path === 'newPath' && it.name === 'Elefant',
-    ).length,
-  ).toBe(1);
   expect(nock.isDone());
 });
 
@@ -67,29 +62,12 @@ it('updates name in state when changeName is called', async () => {
   nock('http://ndla-api')
     .put('/taxonomy/v1/subjects/urn:subject:12', { name: 'Lalaland' })
     .reply(204, '');
+  nock('http://ndla-api')
+    .get('/taxonomy/v1/subjects')
+    .reply(200, subjectsMock);
   const component = wrapper();
 
-  return new Promise(resolve => {
-    setTimeout(async () => {
-      const instance = component.root.findByType(StructurePage).instance;
-      await instance.onChangeSubjectName('urn:subject:12', 'Lalaland');
-      expect(
-        instance.state.subjects.filter(
-          it => it.id === 'urn:subject:12' && it.name === 'Lalaland',
-        ).length,
-      ).toBe(1);
-      resolve();
-    }, global.DEFAULT_TIMEOUT);
-  });
-});
-
-it('toggles state toggles correctly', () => {
-  const component = wrapper();
   const instance = component.root.findByType(StructurePage).instance;
-  instance.toggleState('test');
-  expect(instance.state.toggles.test).toBeDefined();
-  instance.toggleState('test');
-  expect(instance.state.toggles.test).toBe(false);
-  instance.toggleState('test2');
-  expect(instance.state.toggles.test).toBe(undefined);
+  await instance.onChangeSubjectName('urn:subject:12', 'Lalaland');
+  expect(nock.isDone());
 });

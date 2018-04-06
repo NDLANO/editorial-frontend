@@ -61,6 +61,13 @@
       width: 38px;
     }
   }
+
+  &__errorMessage {
+    color: var(--red-1);
+    position: absolute;
+    right: 55px;
+    top: 50px;
+  }
 }
 
 .c-settingsMenu {
@@ -136,7 +143,6 @@
 
   &__errorMessage {
     color: var(--red-1);
-    font-style: italic;
     text-align: center;
   }
 

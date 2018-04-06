@@ -18,6 +18,7 @@ class InlineEditField extends PureComponent {
     super();
     this.state = {
       editMode: false,
+      loading: false,
       errorMessage: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,6 +29,7 @@ class InlineEditField extends PureComponent {
     this.setState({ loading: true });
     try {
       await this.props.onSubmit(this.state.input);
+      this.props.onClose();
       this.setState({ loading: false });
     } catch (e) {
       this.setState({ errorMessage: 'En feil oppsto', loading: false });
@@ -96,6 +98,7 @@ InlineEditField.propTypes = {
   onSubmit: PropTypes.func,
   currentVal: PropTypes.string,
   classes: PropTypes.func,
+  onClose: PropTypes.func,
 };
 
 export default InlineEditField;

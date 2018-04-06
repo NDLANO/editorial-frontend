@@ -29,7 +29,7 @@ import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 
 export const searchClasses = new BEMHelper({
-  name: 'search-results',
+  name: 'search',
   prefix: 'c-',
 });
 

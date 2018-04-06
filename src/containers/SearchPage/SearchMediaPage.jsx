@@ -9,6 +9,6 @@
 import React from 'react';
 import SearchPage from './SearchPage';
 
-const SearchContentPage = props => <SearchPage type="content" {...props} />;
+const SearchMediaPage = props => <SearchPage type="media" {...props} />;
 
-export default SearchContentPage;
+export default SearchMediaPage;

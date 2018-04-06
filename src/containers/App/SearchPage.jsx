@@ -14,6 +14,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import SubNavigation from '../Masthead/components/SubNavigation';
 import SearchContentPage from '../SearchPage/SearchContentPage';
+import SearchMediaPage from '../SearchPage/SearchMediaPage';
 import { toSearch } from '../../util/routeHelpers';
 
 const SearchPage = ({ match, t }) => {
@@ -22,7 +23,7 @@ const SearchPage = ({ match, t }) => {
       title: t('subNavigation.searchContent'),
       type: 'content',
       url: toSearch(
-        { types: 'articles', page: '1', sort: '-relevance' },
+        { types: 'articles', page: '1', sort: '-relevance', 'page-size': 10 },
         'content',
       ),
       icon: <SearchContent className="c-icon--large" />,
@@ -31,7 +32,12 @@ const SearchPage = ({ match, t }) => {
       title: t('subNavigation.searchMedia'),
       type: 'media',
       url: toSearch(
-        { types: 'images,audios', page: '1', sort: '-relevance' },
+        {
+          types: 'images,audios',
+          page: '1',
+          sort: '-relevance',
+          'page-size': 10,
+        },
         'media',
       ),
       icon: <SearchMedia className="c-icon--large" />,
@@ -46,10 +52,7 @@ const SearchPage = ({ match, t }) => {
           path={`${match.url}/content`}
           component={SearchContentPage}
         />
-        <PrivateRoute
-          path={`${match.url}/media`}
-          component={SearchContentPage}
-        />
+        <PrivateRoute path={`${match.url}/media`} component={SearchMediaPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

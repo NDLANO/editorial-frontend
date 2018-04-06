@@ -6,7 +6,6 @@ const articleTypes = {
 };
 
 export function toSearch(query, type = 'content') {
-  console.log(query);
   if (query) {
     return `/search/${type}?${queryString.stringify(query)}`;
   }

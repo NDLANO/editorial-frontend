@@ -113,7 +113,12 @@ export class Navigation extends Component {
             </Link>
             <Link
               to={toSearch(
-                { types: 'articles', page: '1', sort: '-relevance' },
+                {
+                  types: 'articles',
+                  page: '1',
+                  sort: '-relevance',
+                  'page-size': 10,
+                },
                 'content',
               )}
               {...classes('item')}

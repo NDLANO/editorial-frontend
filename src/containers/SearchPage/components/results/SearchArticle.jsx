@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { Document } from 'ndla-icons/common';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import { ArticleResultShape } from '../../../../shapes';
-import { searchClasses } from '../../SearchContentPage';
+import { searchClasses } from '../../SearchPage';
 
 const SearchArticle = ({ article, locale }) => (
   <div {...searchClasses('result')}>

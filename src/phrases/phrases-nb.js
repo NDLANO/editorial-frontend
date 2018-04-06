@@ -26,6 +26,21 @@ const phrases = {
     emptySavedSearch: 'Ingen lagrede søk',
     guidelines: 'Retningslinjer',
   },
+  searchPage: {
+    header: {
+      content: 'Søk etter innhold',
+      media: 'Søk etter media',
+    },
+    searchButton: 'Søk',
+    emptyButton: 'Tøm',
+    title: 'Tittel',
+    language: 'Språk',
+    articlesNoHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
+    imagesNoHits: 'Ingen bilder samsvarte med søket ditt på: {query}',
+    audiosNoHits: 'Ingen lydfiler samsvarte med søket ditt på: {query}',
+    pageSize: '{pageSize} treff per side',
+    totalCount: 'Antall resultater',
+  },
   subNavigation: {
     media: 'Media',
     learningPath: 'Læringssti',
@@ -407,11 +422,6 @@ const phrases = {
     dateAfterInvalid: '{label} kan ikke være før {beforeLabel}.',
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
-  },
-  searchPage: {
-    articlesNoHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
-    imagesNoHits: 'Ingen bilder samsvarte med søket ditt på: {query}',
-    audiosNoHits: 'Ingen lydfiler samsvarte med søket ditt på: {query}',
   },
   footer: {
     aboutNDLA: 'Om NDLA',

@@ -14,11 +14,22 @@ import * as actions from '../search';
 
 test('searchSagas search', () => {
   nock('http://ndla-api')
-    .get('/search-api/v1/search/?query=testing&page=3&sort=alfa&language=nb')
+    .get(
+      '/search-api/v1/search/?language=nb&page=3&page-size=10&query=testing&sort=alfa&types=articles',
+    )
     .reply(200, { results: [1, 2, 3] });
 
   return expectSaga(sagas.watchSearch)
     .put(actions.setSearchResult({ results: [1, 2, 3] }))
-    .dispatch(actions.search('?query=testing&page=3&sort=alfa&language=nb'))
+    .dispatch(
+      actions.search({
+        query: 'testing',
+        page: 3,
+        sort: 'alfa',
+        language: 'nb',
+        types: 'articles',
+        'page-size': 10,
+      }),
+    )
     .run({ silenceTimeout: true });
 });

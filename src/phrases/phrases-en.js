@@ -25,6 +25,21 @@ const phrases = {
     emptySavedSearch: 'No saved searches',
     guidelines: 'Guidelines',
   },
+  searchPage: {
+    header: {
+      content: 'Search for content',
+      media: 'Search for media',
+    },
+    searchButton: 'Search',
+    emptyButton: 'Empty',
+    title: 'Title',
+    language: 'Language',
+    articlesNoHits: 'Your search - {query} - did not match any articles.',
+    imagesNoHits: 'Your search - {query} - did not match any images.',
+    audiosNoHits: 'Your search - {query} - did not match any audio files.',
+    pageSize: '{pageSize} hits per page',
+    totalCount: 'Total results',
+  },
   subNavigation: {
     media: 'Media',
     learningPath: 'Learningpath',
@@ -399,11 +414,6 @@ const phrases = {
     minLength: '{length} must have at least {minLength, number} characters.',
     minItems:
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
-  },
-  searchPage: {
-    articlesNoHits: 'Your search - {query} - did not match any articles.',
-    imagesNoHits: 'Your search - {query} - did not match any images.',
-    audiosNoHits: 'Your search - {query} - did not match any audio files.',
   },
   footer: {
     aboutNDLA: 'About NDLA',

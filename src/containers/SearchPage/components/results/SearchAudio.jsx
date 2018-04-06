@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { Audio } from 'ndla-icons/common';
 import { toEditAudio } from '../../../../util/routeHelpers';
 import { AudioResultShape } from '../../../../shapes';
-import { searchClasses } from '../../SearchContentPage';
+import { searchClasses } from '../../SearchPage';
 
 const SearchAudio = ({ audio, locale }) => (
   <div {...searchClasses('result')}>

@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { searchClasses } from '../../SearchContentPage';
+import { searchClasses } from '../../SearchPage';
 
 class SearchSort extends Component {
   constructor(props) {

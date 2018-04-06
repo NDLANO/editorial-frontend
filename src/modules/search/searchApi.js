@@ -17,9 +17,17 @@ const baseUrl = apiResourceUrl('/search-api/v1/search');
 
 export const search = query => {
   if (query) {
-    return fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then(
-      resolveJsonOrRejectWithError,
-    );
+    const types = query.types ? query.types.split(',') : [];
+    const realPageSize =
+      types.length > 1
+        ? Math.ceil(query['page-size'] / types.length)
+        : query['page-size'];
+    return fetchAuthorized(
+      `${baseUrl}/?${queryString.stringify({
+        ...query,
+        'page-size': realPageSize,
+      })}`,
+    ).then(resolveJsonOrRejectWithError);
   }
   return fetchAuthorized(`${baseUrl}/`).then(resolveJsonOrRejectWithError);
 };

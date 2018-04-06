@@ -34,6 +34,7 @@ const SettingsMenuDropdown = ({
           onClose={onClose}
           title={t('taxonomy.changeName')}
           icon={<Pencil />}
+          t={t}
         />
       )}
     </div>

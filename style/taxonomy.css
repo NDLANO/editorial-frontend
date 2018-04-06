@@ -103,7 +103,8 @@
     }
   }
 
-  &__saveButton {
+  &__saveButton,
+  &__saveButton:disabled {
     height: 24px;
     width: 24px;
     min-width: 24px;

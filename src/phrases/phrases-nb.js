@@ -436,6 +436,7 @@ const phrases = {
     topicSettings: 'Emneinstillinger',
     changeName: 'Endre navn',
     addTopic: 'Legg til nytt emne',
+    errorMessage: 'En feil oppsto',
   },
 };
 

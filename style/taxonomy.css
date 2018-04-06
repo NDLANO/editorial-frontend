@@ -11,7 +11,7 @@
 
   &__title {
     font-size: 0.9rem;
-    padding-left: 5px;
+    padding-left: calc(var(--spacing--small) / 2);
     color: var(--primary-color);
 
     &--active {
@@ -45,7 +45,7 @@
     right: 0;
 
     & > input {
-      margin: 5px;
+      margin: calc(var(--spacing--small) / 2);
     }
 
     & > button,
@@ -60,6 +60,13 @@
       height: 38px;
       width: 38px;
     }
+  }
+
+  &__errorMessage {
+    color: var(--red-1);
+    position: absolute;
+    right: 55px;
+    top: 50px;
   }
 }
 
@@ -76,7 +83,7 @@
     border-radius: 50%;
     border: 1px solid;
     line-height: normal;
-    margin-right: 5px;
+    margin-right: calc(var(--spacing--small) / 2);
 
     &:hover,
     &:focus {
@@ -103,15 +110,15 @@
     background-color: var(--gray-2);
     color: var(--gray-11);
     padding: 0;
-    line-height: normal;
+    line-height: 16.9px;
   }
 
   &__openMenu {
     position: absolute;
     top: -7px;
-    left: -5px;
+    left: calc(var(--spacing--small) * -1 / 2);
     z-index: 2;
-    padding: 5px;
+    padding: calc(var(--spacing--small) / 2);
     min-width: 250px;
     background-color: var(--gray-11);
     box-shadow: 0 0 4px 0 rgba(78, 78, 78, 0.5);
@@ -128,9 +135,15 @@
     justify-content: space-around;
 
     & input {
-      margin: 5px;
-      max-height: 26px;
+      margin: calc(var(--spacing--small) / 2);
+      max-height: var(--spacing);
+      width: auto;
     }
+  }
+
+  &__errorMessage {
+    color: var(--red-1);
+    text-align: center;
   }
 
   &__closeButton {

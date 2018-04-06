@@ -435,6 +435,7 @@ const phrases = {
     subjectSettings: 'Faginstillinger',
     topicSettings: 'Emneinstillinger',
     changeName: 'Endre navn',
+    addTopic: 'Legg til nytt emne',
   },
 };
 

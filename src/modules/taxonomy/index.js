@@ -8,7 +8,6 @@
 import {
   fetchResourceTypes,
   fetchFilters,
-  fetchTopics,
   fetchTopicArticle,
   fetchRelevances,
   queryResources,
@@ -47,7 +46,10 @@ import {
   fetchSubjectTopics,
   addSubject,
   updateSubjectName,
+  addSubjectTopic,
 } from './subjects';
+
+import { addTopic, fetchTopics } from './topics/';
 
 export {
   fetchResourceTypes,
@@ -70,6 +72,7 @@ export {
   createDeleteUpdateTopicResources,
   fetchFilters,
   fetchTopics,
+  addTopic,
   fetchTopicArticle,
   // fetchTopicResource,
   fetchRelevances,
@@ -80,4 +83,5 @@ export {
   fetchSubjectTopics,
   addSubject,
   updateSubjectName,
+  addSubjectTopic,
 };

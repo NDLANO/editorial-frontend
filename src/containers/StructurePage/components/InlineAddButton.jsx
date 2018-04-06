@@ -12,6 +12,8 @@ import { Button } from 'ndla-ui';
 import { Done } from 'ndla-icons/editor';
 import BEMHelper from 'react-bem-helper';
 
+import Spinner from '../../../components/Spinner';
+
 const classes = new BEMHelper({
   name: 'addButton',
   prefix: 'c-',
@@ -22,17 +24,27 @@ class InlineAddButton extends React.PureComponent {
     super(props);
     this.state = {
       editMode: false,
+      loading: false,
       inputValue: '',
+      errorMessage: '',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
-  handleClick(e) {
+  async handleClick(e) {
     e.stopPropagation();
-    this.props.action(this.state.inputValue);
-    this.setState({ editMode: false });
+    this.setState({ loading: true, errorMessage: '' });
+    try {
+      await this.props.action(this.state.inputValue);
+      this.setState({ editMode: false, loading: false });
+    } catch (error) {
+      this.setState({
+        errorMessage: 'Beklager, noe gikk galt',
+        loading: false,
+      });
+    }
   }
 
   handleInputChange(e) {
@@ -53,21 +65,26 @@ class InlineAddButton extends React.PureComponent {
     const { title } = this.props;
 
     return this.state.editMode ? (
-      <div {...classes('editMode')}>
-        <input
-          type="text"
-          autoFocus //  eslint-disable-line
-          /* allow autofocus when it happens when clicking a dialog and not at page load
+      <React.Fragment>
+        <div {...classes('editMode')}>
+          <input
+            type="text"
+            autoFocus //  eslint-disable-line
+            /* allow autofocus when it happens when clicking a dialog and not at page load
            ref: https://w3c.github.io/html/sec-forms.html#autofocusing-a-form-control-the-autofocus-attribute */
-          data-testid="addSubjectInputField"
-          value={this.state.inputValue}
-          onChange={this.handleInputChange}
-          onKeyDown={this.handleKeyPress}
-        />
-        <Button stripped onClick={this.handleClick}>
-          <Done />
-        </Button>
-      </div>
+            data-testid="addSubjectInputField"
+            value={this.state.inputValue}
+            onChange={this.handleInputChange}
+            onKeyDown={this.handleKeyPress}
+          />
+          <Button stripped onClick={this.handleClick}>
+            {this.state.loading ? <Spinner cssModifier="small" /> : <Done />}
+          </Button>
+        </div>
+        {this.state.errorMessage && (
+          <span {...classes('errorMessage')}>{this.state.errorMessage}</span>
+        )}
+      </React.Fragment>
     ) : (
       <Button
         stripped

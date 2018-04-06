@@ -34,6 +34,14 @@ function addSubject(body) {
   }).then(resolveJsonOrRejectWithError);
 }
 
+function addSubjectTopic(body) {
+  return fetchAuthorized(`${baseUrl}/subject-topics`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify(body),
+  }).then(resolveJsonOrRejectWithError);
+}
+
 function updateSubjectName(id, name) {
   return fetchAuthorized(`${baseUrl}/subjects/${id}`, {
     method: 'PUT',
@@ -42,4 +50,10 @@ function updateSubjectName(id, name) {
   }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
-export { fetchSubjects, fetchSubjectTopics, addSubject, updateSubjectName };
+export {
+  fetchSubjects,
+  fetchSubjectTopics,
+  addSubject,
+  updateSubjectName,
+  addSubjectTopic,
+};

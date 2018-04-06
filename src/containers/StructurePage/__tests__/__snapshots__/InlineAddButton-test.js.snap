@@ -49,11 +49,21 @@ exports[`Goes to edit mode, handles input and calls action prop 2`] = `
 `;
 
 exports[`Goes to edit mode, handles input and calls action prop 3`] = `
-<button
-  class="c-button c-button--stripped c-addButton"
-  data-testid="AddSubjectButton"
-  type="button"
+<div
+  class="c-addButton__editMode"
 >
-  Test
-</button>
+  <input
+    data-testid="addSubjectInputField"
+    type="text"
+    value="Elefant"
+  />
+  <button
+    class="c-button c-button--stripped"
+    type="button"
+  >
+    <div
+      class="c-spinner c-spinner--small"
+    />
+  </button>
+</div>
 `;

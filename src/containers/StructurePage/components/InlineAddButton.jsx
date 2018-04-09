@@ -25,7 +25,6 @@ class InlineAddButton extends React.PureComponent {
     this.state = {
       status: 'initial',
       inputValue: '',
-      errorMessage: '',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -40,7 +39,6 @@ class InlineAddButton extends React.PureComponent {
       this.setState({ status: 'success' });
     } catch (error) {
       this.setState({
-        errorMessage: this.props.t('taxonomy.errorMessage'),
         status: 'error',
       });
     }
@@ -62,7 +60,7 @@ class InlineAddButton extends React.PureComponent {
 
   render() {
     const { title } = this.props;
-    const { status, inputValue, errorMessage } = this.state;
+    const { status, inputValue } = this.state;
 
     return status === 'edit' || status === 'loading' || status === 'error' ? (
       <React.Fragment>
@@ -84,8 +82,10 @@ class InlineAddButton extends React.PureComponent {
             {status === 'loading' ? <Spinner cssModifier="small" /> : <Done />}
           </Button>
         </div>
-        {errorMessage && (
-          <span {...classes('errorMessage')}>{errorMessage}</span>
+        {status === 'error' && (
+          <span {...classes('errorMessage')}>
+            {this.props.t('taxonomy.errorMessage')}
+          </span>
         )}
       </React.Fragment>
     ) : (

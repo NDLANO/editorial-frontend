@@ -120,7 +120,7 @@
     "slate-html-serializer": "^0.4.13",
     "slate-plain-serializer": "^0.4.13",
     "slate-prop-types": "^0.4.13",
-    "slate-react": "^0.10.20",
+    "slate-react": "^0.9.1",
     "source-map-support": "^0.5.3"
   },
   "repository": {

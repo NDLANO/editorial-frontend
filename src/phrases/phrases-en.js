@@ -429,7 +429,9 @@ const phrases = {
   },
   taxonomy: {
     editStructure: '  Edit structure',
-    addSubject: '+ Add new subject',
+    addSubject: 'Add new subject',
+    addExistingTopic: 'Add existing topic',
+    emptyFilter: 'No hits',
   },
 };
 

@@ -10,11 +10,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Settings } from 'ndla-icons/editor';
-import { Cross, Pencil, Plus } from 'ndla-icons/action';
 import { fetchTopics } from '../../../modules/taxonomy';
-import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { Cross, Pencil, Plus } from 'ndla-icons/action';
 
 import InlineEditField from './InlineEditField';
+import InlineDropdown from './InlineDropdown';
 
 const SettingsMenuDropdown = ({
   classes,
@@ -52,28 +52,21 @@ const SettingsMenuDropdown = ({
         <InlineEditField
           classes={classes}
           currentVal=""
+          onClose={onClose}
           onSubmit={e => onAddSubjectTopic(id, e)}
           title={t('taxonomy.addTopic')}
           icon={<Plus />}
         />
       )}
       {type === 'subject' && (
-        <AsyncDropdown
-          valueField="id"
-          name="relatedArticleSearch"
-          textField="name"
-          placeholder={'Søk på tittel'}
-          label={'label'}
-          apiAction={async inp => {
-            const res = await fetchTopics('nb');
-            return res.filter(topic => topic.name.includes(inp));
-          }}
-          onClick={e => e.stopPropagation()}
-          messages={{
-            emptyFilter: 'empty',
-            emptyList: 'empty list',
-          }}
-          onChange={selected => selected && onAddExistingTopic(selected.id)}
+        <InlineDropdown
+          fetchItems={() => fetchTopics('nb')}
+          classes={classes}
+          onClose={onClose}
+          onSubmit={e => onAddExistingTopic(id, e)}
+          title={t('taxonomy.addExistingTopic')}
+          icon={<Plus />}
+          t={t}
         />
       )}
     </div>

@@ -139,6 +139,10 @@
       max-height: var(--spacing);
       width: auto;
     }
+
+    & .c-dropdown__action {
+      display: flex;
+    }
   }
 
   &__errorMessage {

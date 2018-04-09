@@ -23,6 +23,7 @@
 
   &__single {
     padding: 0.522rem;
+    padding-right: 35px;
   }
 
   &__items {

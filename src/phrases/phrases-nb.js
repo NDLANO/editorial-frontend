@@ -431,11 +431,13 @@ const phrases = {
   },
   taxonomy: {
     editStructure: '  Rediger struktur',
-    addSubject: '+ Legg til nytt fag',
+    addSubject: 'Legg til nytt fag',
+    addExistingTopic: 'Legg til eksisterende fag',
     subjectSettings: 'Faginstillinger',
     topicSettings: 'Emneinstillinger',
     changeName: 'Endre navn',
     addTopic: 'Legg til nytt emne',
+    emptyFilter: 'Ingen treff',
   },
 };
 

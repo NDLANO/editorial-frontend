@@ -545,8 +545,8 @@ aws-sign2@~0.7.0:
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
 
 aws4@^1.2.1, aws4@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.7.0.tgz#d4d0e9b9dbfca77bf08eeb0a8a471550fe39e289"
 
 axobject-query@^0.1.0:
   version "0.1.0"
@@ -797,12 +797,13 @@ babel-plugin-dynamic-import-node@1.0.1:
     babel-types "^6.23.0"
 
 babel-plugin-istanbul@^4.0.0:
-  version "4.1.5"
-  resolved "https://registry.yarnpkg.com/babel-plugin-istanbul/-/babel-plugin-istanbul-4.1.5.tgz#6760cdd977f411d3e175bb064f2bc327d99b2b6e"
+  version "4.1.6"
+  resolved "https://registry.yarnpkg.com/babel-plugin-istanbul/-/babel-plugin-istanbul-4.1.6.tgz#36c59b2192efce81c5b378321b74175add1c9a45"
   dependencies:
+    babel-plugin-syntax-object-rest-spread "^6.13.0"
     find-up "^2.1.0"
-    istanbul-lib-instrument "^1.7.5"
-    test-exclude "^4.1.1"
+    istanbul-lib-instrument "^1.10.1"
+    test-exclude "^4.2.1"
 
 babel-plugin-jest-hoist@^20.0.3:
   version "20.0.3"
@@ -832,7 +833,7 @@ babel-plugin-syntax-jsx@^6.3.13, babel-plugin-syntax-jsx@^6.8.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-jsx/-/babel-plugin-syntax-jsx-6.18.0.tgz#0af32a9a6e13ca7a3fd5069e62d7b0f58d0d8946"
 
-babel-plugin-syntax-object-rest-spread@^6.8.0:
+babel-plugin-syntax-object-rest-spread@^6.13.0, babel-plugin-syntax-object-rest-spread@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz#fd6536f2bce13836ffa3a5458c4903a597bb3bf5"
 
@@ -1379,16 +1380,14 @@ braces@^1.8.2:
     repeat-element "^1.1.2"
 
 braces@^2.3.0, braces@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/braces/-/braces-2.3.1.tgz#7086c913b4e5a08dbe37ac0ee6a2500c4ba691bb"
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/braces/-/braces-2.3.2.tgz#5979fd3f14cd531565e5fa2df1abfff1dfaee729"
   dependencies:
     arr-flatten "^1.1.0"
     array-unique "^0.3.2"
-    define-property "^1.0.0"
     extend-shallow "^2.0.1"
     fill-range "^4.0.0"
     isobject "^3.0.1"
-    kind-of "^6.0.2"
     repeat-element "^1.1.2"
     snapdragon "^0.8.1"
     snapdragon-node "^2.0.1"
@@ -2062,8 +2061,8 @@ core-js@^1.0.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
 
 core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0:
-  version "2.5.4"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.4.tgz#f2c8bf181f2a80b92f360121429ce63a2f0aeae0"
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.5.tgz#b14dde936c640c0579a6b50cabcc132dd6127e3b"
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -2621,9 +2620,9 @@ dotenv@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
 
-downshift@^1.31.2:
-  version "1.31.3"
-  resolved "https://registry.yarnpkg.com/downshift/-/downshift-1.31.3.tgz#09743d904de8cd18d6f22d2075c943b898aa0ef0"
+downshift@^1.30.2:
+  version "1.31.4"
+  resolved "https://registry.yarnpkg.com/downshift/-/downshift-1.31.4.tgz#72ab0b8ac4c5801221ed098f97817c70899c9d16"
 
 dtrace-provider@~0.8:
   version "0.8.6"
@@ -3066,7 +3065,7 @@ eslint@4.5.0:
     table "^4.0.1"
     text-table "~0.2.0"
 
-eslint@^4.19.1:
+eslint@^4.19.0:
   version "4.19.1"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.19.1.tgz#32d1d653e1d90408854bfb296f076ec7e186a300"
   dependencies:
@@ -3531,8 +3530,8 @@ flat-cache@^1.2.1:
     write "^0.2.1"
 
 flatpickr@^4.4.3:
-  version "4.4.3"
-  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-4.4.3.tgz#53ba7b06523f73ee69175b3ed808c7fc0f245c4f"
+  version "4.4.4"
+  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-4.4.4.tgz#fdeb083ca3d580eecb822a4080f67b06f0294fc7"
 
 flatten@^1.0.2:
   version "1.0.2"
@@ -4233,9 +4232,15 @@ https-browserify@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
 
-iconv-lite@0.4.19, iconv-lite@^0.4.17, iconv-lite@~0.4.13:
+iconv-lite@0.4.19:
   version "0.4.19"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
+
+iconv-lite@^0.4.17, iconv-lite@~0.4.13:
+  version "0.4.21"
+  resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.21.tgz#c47f8733d02171189ebc4a400f3218d348094798"
+  dependencies:
+    safer-buffer "^2.1.0"
 
 icss-replace-symbols@^1.1.0:
   version "1.1.0"
@@ -4809,7 +4814,7 @@ istanbul-lib-hook@^1.2.0:
   dependencies:
     append-transform "^0.4.0"
 
-istanbul-lib-instrument@^1.10.1, istanbul-lib-instrument@^1.4.2, istanbul-lib-instrument@^1.7.5:
+istanbul-lib-instrument@^1.10.1, istanbul-lib-instrument@^1.4.2:
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/istanbul-lib-instrument/-/istanbul-lib-instrument-1.10.1.tgz#724b4b6caceba8692d3f1f9d0727e279c401af7b"
   dependencies:
@@ -5289,8 +5294,8 @@ lcid@^1.0.0:
     invert-kv "^1.0.0"
 
 left-pad@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/left-pad/-/left-pad-1.2.0.tgz#d30a73c6b8201d8f7d8e7956ba9616087a68e0ee"
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/left-pad/-/left-pad-1.3.0.tgz#5b8a3a7765dfe001261dde915589e782f8c94d1e"
 
 leven@^2.1.0:
   version "2.1.0"
@@ -5524,6 +5529,10 @@ lodash.templatesettings@^4.0.0:
   dependencies:
     lodash._reinterpolate "~3.0.0"
 
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+
 lodash.toplainobject@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash.toplainobject/-/lodash.toplainobject-3.0.0.tgz#28790ad942d293d78aa663a07ecf7f52ca04198d"
@@ -5535,7 +5544,7 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-lodash@^4.0.0, lodash@^4.1.1, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0:
+lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0:
   version "4.17.5"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
@@ -6983,7 +6992,7 @@ postcss-load-plugins@^2.3.0:
     cosmiconfig "^2.1.1"
     object-assign "^4.1.0"
 
-postcss-loader@^2.0.6, postcss-loader@^2.1.3:
+postcss-loader@^2.0.6, postcss-loader@^2.1.2:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-2.1.3.tgz#eb210da734e475a244f76ccd61f9860f5bb3ee09"
   dependencies:
@@ -8243,8 +8252,8 @@ resolve@1.1.7:
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
 
 resolve@^1.1.7, resolve@^1.3.2, resolve@^1.5.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.6.0.tgz#0fbd21278b27b4004481c395349e7aba60a9ff5c"
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.7.0.tgz#2bdf5374811207285df0df652b78f118ab8f3c5e"
   dependencies:
     path-parse "^1.0.5"
 
@@ -8334,6 +8343,10 @@ safe-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/safe-regex/-/safe-regex-1.1.0.tgz#40a3669f3b077d1e943d44629e157dd48023bf2e"
   dependencies:
     ret "~0.1.10"
+
+safer-buffer@^2.1.0:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
 
 samsam@1.3.0:
   version "1.3.0"
@@ -8531,58 +8544,58 @@ slash@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/slash/-/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
 
-slate-base64-serializer@^0.2.24:
+slate-base64-serializer@^0.2.18:
   version "0.2.29"
   resolved "https://registry.yarnpkg.com/slate-base64-serializer/-/slate-base64-serializer-0.2.29.tgz#eaf4c92296a52510023ac36dd39a34a6b7a5df00"
   dependencies:
     isomorphic-base64 "^1.0.2"
 
-slate-dev-logger@^0.1.39:
+slate-dev-logger@^0.1.36, slate-dev-logger@^0.1.39:
   version "0.1.39"
   resolved "https://registry.yarnpkg.com/slate-dev-logger/-/slate-dev-logger-0.1.39.tgz#744a69b85034244713e6de51483af5713c345af4"
 
-slate-edit-blockquote@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/slate-edit-blockquote/-/slate-edit-blockquote-0.6.0.tgz#be23b4174c4e633c6f4ee94d7dc762adedb4ec98"
+slate-edit-blockquote@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/slate-edit-blockquote/-/slate-edit-blockquote-0.5.0.tgz#637c3f46dd0c483810be22d782940c4f9ef1f79b"
 
-slate-edit-list@^0.11.2:
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/slate-edit-list/-/slate-edit-list-0.11.2.tgz#c67b961d98435f9f7747d20b870cbc51d25af7a8"
+slate-edit-list@^0.10.1:
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/slate-edit-list/-/slate-edit-list-0.10.3.tgz#10f0b78c0bc9fd29e22d274d4f559bb1e00d8930"
 
-slate-edit-table@^0.14.3:
-  version "0.14.3"
-  resolved "https://registry.yarnpkg.com/slate-edit-table/-/slate-edit-table-0.14.3.tgz#54769bc060531ba4a6e1d8df9a0e16216b0102fc"
+slate-edit-table@^0.13.1:
+  version "0.13.3"
+  resolved "https://registry.yarnpkg.com/slate-edit-table/-/slate-edit-table-0.13.3.tgz#3ef051b5fa5048df97ead371a56784b42590adcf"
 
-slate-html-serializer@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/slate-html-serializer/-/slate-html-serializer-0.6.1.tgz#ad9d22e13590efe3f2aabbdb95782f043bba1002"
+slate-html-serializer@^0.4.13:
+  version "0.4.16"
+  resolved "https://registry.yarnpkg.com/slate-html-serializer/-/slate-html-serializer-0.4.16.tgz#7a3d032a55649fa62bdf62b1de9db38c667f117b"
   dependencies:
-    slate-dev-logger "^0.1.39"
+    slate-dev-logger "^0.1.36"
     type-of "^2.0.1"
 
-slate-hyperscript@^0.5.10:
-  version "0.5.10"
-  resolved "https://registry.yarnpkg.com/slate-hyperscript/-/slate-hyperscript-0.5.10.tgz#1b06086a9b51d4c9bb47258f6a8c7610a2f53d31"
+slate-hyperscript@^0.4.13:
+  version "0.4.16"
+  resolved "https://registry.yarnpkg.com/slate-hyperscript/-/slate-hyperscript-0.4.16.tgz#b11084acabf51671301386397d3549bda0c05fbb"
   dependencies:
     is-empty "^1.0.0"
     is-plain-object "^2.0.4"
-    slate-dev-logger "^0.1.39"
+    slate-dev-logger "^0.1.36"
 
-slate-plain-serializer@^0.5.10, slate-plain-serializer@^0.5.5:
-  version "0.5.10"
-  resolved "https://registry.yarnpkg.com/slate-plain-serializer/-/slate-plain-serializer-0.5.10.tgz#0a430824485f3dd4c7bf5bcae1bae37f13741c5c"
+slate-plain-serializer@^0.4.13, slate-plain-serializer@^0.4.16:
+  version "0.4.16"
+  resolved "https://registry.yarnpkg.com/slate-plain-serializer/-/slate-plain-serializer-0.4.16.tgz#eff277b58943e130905114c7da431ab307cb4c1e"
   dependencies:
-    slate-dev-logger "^0.1.39"
+    slate-dev-logger "^0.1.36"
 
-slate-prop-types@^0.4.22, slate-prop-types@^0.4.27:
+slate-prop-types@^0.4.13, slate-prop-types@^0.4.16:
   version "0.4.27"
   resolved "https://registry.yarnpkg.com/slate-prop-types/-/slate-prop-types-0.4.27.tgz#9b3c13f0a1a1b034f8e66095a28bd537af03ba95"
   dependencies:
     slate-dev-logger "^0.1.39"
 
-slate-react@^0.11.6:
-  version "0.11.6"
-  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.11.6.tgz#f1c3bc832b7ad45a317bb589a17f62915323daf0"
+slate-react@^0.10.20:
+  version "0.10.23"
+  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.10.23.tgz#f1e58af4c58d98ace68080b181a24b850683b8e1"
   dependencies:
     debug "^2.3.2"
     get-window "^1.1.1"
@@ -8590,23 +8603,19 @@ slate-react@^0.11.6:
     is-in-browser "^1.1.3"
     is-window "^1.0.2"
     keycode "^2.1.2"
-    lodash "^4.1.1"
+    lodash.throttle "^4.1.1"
     prop-types "^15.5.8"
     react-immutable-proptypes "^2.1.0"
     react-portal "^3.1.0"
     selection-is-backward "^1.0.0"
-    slate-base64-serializer "^0.2.24"
-    slate-dev-logger "^0.1.39"
-    slate-plain-serializer "^0.5.5"
-    slate-prop-types "^0.4.22"
+    slate-base64-serializer "^0.2.18"
+    slate-dev-logger "^0.1.36"
+    slate-plain-serializer "^0.4.16"
+    slate-prop-types "^0.4.16"
 
-slate-schema-violations@^0.1.3:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/slate-schema-violations/-/slate-schema-violations-0.1.8.tgz#b6bfbcc4defaa4971a96bf2d324c5b67fb4a4e20"
-
-slate@^0.32.5:
-  version "0.32.5"
-  resolved "https://registry.yarnpkg.com/slate/-/slate-0.32.5.tgz#5386c75dec1e5b87648189c9fbb4294cec623ff0"
+slate@^0.31.5:
+  version "0.31.8"
+  resolved "https://registry.yarnpkg.com/slate/-/slate-0.31.8.tgz#d93fd397bcceb2b5eb2e1cbafa20643044230d63"
   dependencies:
     debug "^2.3.2"
     direction "^0.1.5"
@@ -8614,8 +8623,7 @@ slate@^0.32.5:
     is-empty "^1.0.0"
     is-plain-object "^2.0.4"
     lodash "^4.17.4"
-    slate-dev-logger "^0.1.39"
-    slate-schema-violations "^0.1.3"
+    slate-dev-logger "^0.1.36"
     type-of "^2.0.1"
 
 slice-ansi@1.0.0:
@@ -9152,7 +9160,7 @@ tar@^2.2.1:
     fstream "^1.0.2"
     inherits "2"
 
-test-exclude@^4.1.1:
+test-exclude@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/test-exclude/-/test-exclude-4.2.1.tgz#dfa222f03480bca69207ca728b37d74b45f724fa"
   dependencies:

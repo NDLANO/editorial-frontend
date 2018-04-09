@@ -50,15 +50,15 @@ export const createEmptyValue = () =>
     document: {
       nodes: [
         {
-          object: 'block',
+          kind: 'block',
           type: 'section',
           nodes: [
             {
-              object: 'block',
+              kind: 'block',
               type: 'paragraph',
               nodes: [
                 {
-                  object: 'text',
+                  kind: 'text',
                   leaves: [
                     {
                       text: '',

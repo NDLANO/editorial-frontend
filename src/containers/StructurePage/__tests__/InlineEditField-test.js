@@ -15,7 +15,7 @@ it('Goes to edit mode, handles submit', async () => {
   const actionFunc = sinon.spy();
   const { getByTestId, container } = render(
     <InlineEditField
-      title={'Test'}
+      title="Test"
       classes={() => {}}
       t={() => {}}
       onSubmit={actionFunc}
@@ -37,7 +37,7 @@ it('Goes to edit mode, handles submit and shows error', async () => {
   const actionFunc = () => Promise.reject();
   const { getByTestId } = render(
     <InlineEditField
-      title={'Test'}
+      title="Test"
       classes={() => {}}
       t={() => 'Errormelding'}
       onSubmit={actionFunc}

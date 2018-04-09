@@ -52,7 +52,7 @@ it('Adds posts new subject when writing and pressing enter', async () => {
       'Content-Type': 'text/plain; charset=UTF-8',
     });
   const component = wrapper();
-  const instance = component.root.findByType(StructurePage).instance;
+  const { instance } = component.root.findByType(StructurePage);
   expect(instance.state.editStructureHidden).toBe(false);
   await instance.addSubject('Elefant');
   expect(nock.isDone());
@@ -67,7 +67,7 @@ it('updates name in state when changeName is called', async () => {
     .reply(200, subjectsMock);
   const component = wrapper();
 
-  const instance = component.root.findByType(StructurePage).instance;
+  const { instance } = component.root.findByType(StructurePage);
   await instance.onChangeSubjectName('urn:subject:12', 'Lalaland');
   expect(nock.isDone());
 });

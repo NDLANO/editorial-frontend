@@ -53,14 +53,14 @@ exports[`Goes to edit mode, handles input and calls action prop 3`] = `
   class="c-addButton__editMode"
 >
   <input
-    data-testid="addSubjectInputField"
     type="text"
+    data-testid="addSubjectInputField"
     value="Elefant"
   />
   <button
     class="c-button c-button--stripped"
-    disabled=""
     type="button"
+    disabled=""
   >
     <div
       class="c-spinner c-spinner--small"

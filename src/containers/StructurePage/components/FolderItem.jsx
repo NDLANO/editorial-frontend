@@ -27,7 +27,7 @@ class FolderItem extends React.PureComponent {
           <Link
             to={active ? '/structure' : `/structure${path}`}
             {...classes('link')}>
-            <Folder color={'#70A5DA'} />
+            <Folder color="#70A5DA" />
             <span {...classes('title', active && 'active')}>{name}</span>
           </Link>
           {active && <SettingsMenu id={id} name={name} {...rest} />}

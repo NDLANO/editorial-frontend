@@ -33,7 +33,7 @@ class InlineAddButton extends React.PureComponent {
 
   async handleClick(e) {
     e.stopPropagation();
-    this.setState({ status: 'loading', errorMessage: '' });
+    this.setState({ status: 'loading' });
     try {
       await this.props.action(this.state.inputValue);
       this.setState({ status: 'success' });

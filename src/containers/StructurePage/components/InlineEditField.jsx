@@ -70,7 +70,7 @@ class InlineEditField extends PureComponent {
             {status === 'loading' ? (
               <Spinner cssModifier="small" />
             ) : (
-              <Done className={'c-icon--small'} />
+              <Done className="c-icon--small" />
             )}
           </Button>
         </div>

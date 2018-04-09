@@ -17,7 +17,7 @@ const SettingsMenuDropdown = ({
   const type = id.includes('subject') ? 'subject' : 'topic';
   return (
     <div {...classes('openMenu')}>
-      <div className={'header'}>
+      <div className="header">
         <div {...classes('iconButton', 'open')}>
           <Settings />
         </div>

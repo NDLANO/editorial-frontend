@@ -5642,9 +5642,9 @@ ndla-i18n@^0.2.2:
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-ndla-icons@^0.2.10:
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.10.tgz#28162e597f7093fddcd3c98543dc50455bc0734a"
+ndla-icons@^0.2.13:
+  version "0.2.13"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.13.tgz#48a21048083542e54635d99c40b44727b5d3e4c5"
 
 ndla-image-search@^0.2.10:
   version "0.2.10"
@@ -7333,9 +7333,9 @@ react-test-renderer@^16.3.1:
     prop-types "^15.6.0"
     react-is "^16.3.1"
 
-react-testing-library@^1.4.0:
-  version "1.9.4"
-  resolved "https://registry.yarnpkg.com/react-testing-library/-/react-testing-library-1.9.4.tgz#12871a1f2bd94d0a701afde4c04675d2e11d9aea"
+react-testing-library@^1.9.5:
+  version "1.9.5"
+  resolved "https://registry.yarnpkg.com/react-testing-library/-/react-testing-library-1.9.5.tgz#8126d6ab979542dffa316bee3dbed1212355400b"
   dependencies:
     wait-for-expect "0.4.0"
 

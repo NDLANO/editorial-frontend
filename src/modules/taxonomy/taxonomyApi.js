@@ -42,30 +42,10 @@ function fetchFilters(locale) {
   );
 }
 
-function fetchTopics(locale) {
-  return fetchAuthorized(`${baseUrl}/topics/?language=${locale}`).then(
-    resolveJsonOrRejectWithError,
-  );
-}
-
 function fetchRelevances(locale) {
   return fetchAuthorized(`${baseUrl}/relevances/?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
-}
-
-function fetchSubjects() {
-  return fetchAuthorized(`${baseUrl}/subjects`).then(
-    resolveJsonOrRejectWithError,
-  );
-}
-
-function addSubject(body) {
-  return fetchAuthorized(`${baseUrl}/subjects`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    body: JSON.stringify(body),
-  }).then(resolveJsonOrRejectWithError);
 }
 
 /* Queries */
@@ -123,11 +103,8 @@ export {
   resolveTaxonomyJsonOrRejectWithError,
   fetchResourceTypes,
   fetchFilters,
-  fetchTopics,
   fetchTopicArticle,
   fetchRelevances,
   queryResources,
   updateTaxonomy,
-  fetchSubjects,
-  addSubject,
 };

@@ -12,6 +12,7 @@ import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
 import { textWrapper } from '../util/invalidTextWrapper';
+import { convertFromHTML } from './convertFromHTML';
 
 export const sectionSplitter = html => {
   const node = document.createElement('div');
@@ -103,7 +104,12 @@ export function learningResourceContentToEditorValue(
    https://github.com/ianstormtaylor/slate/issues/1111
   */
   return sections.map((section, index) => {
-    const value = serializer.deserialize(section);
+    /*   Slate's default sanitization just obliterates block nodes that contain both
+    inline+text children and block children.
+    see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
+    const json = serializer.deserialize(section, { toJSON: true });
+    const value = convertFromHTML(json);
+
     return {
       value,
       index,
@@ -131,7 +137,13 @@ export function topicArticleContentToEditorValue(html, fragment = undefined) {
     return createEmptyValue();
   }
   const serializer = new Html({ rules: topicArticeRules, parseHtml: fragment });
-  return serializer.deserialize(html);
+
+  /*   Slate's default sanitization just obliterates block nodes that contain both
+  inline+text children and block children.
+  see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
+  const json = serializer.deserialize(html, { toJSON: true });
+  const value = convertFromHTML(json);
+  return value;
 }
 
 export function topicArticleContentToHTML(value) {

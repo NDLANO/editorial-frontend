@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Goes to edit mode, handles submit 1`] = `
+<button
+  class="c-button c-button--stripped"
+  data-testid="inlineEditFieldButton"
+  type="button"
+>
+  <div />
+  Test
+</button>
+`;

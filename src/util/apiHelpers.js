@@ -33,7 +33,7 @@ export function resolveJsonOrRejectWithError(res, taxonomy = false) {
   return new Promise((resolve, reject) => {
     if (res.ok) {
       if (res.status === 204) {
-        return resolve();
+        return taxonomy ? resolve(true) : resolve();
       }
       // Temporary until API changes to return representation
       const location = res.headers.get('Location');

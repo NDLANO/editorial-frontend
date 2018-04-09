@@ -438,6 +438,11 @@ const phrases = {
   taxonomy: {
     editStructure: '  Rediger struktur',
     addSubject: '+ Legg til nytt fag',
+    subjectSettings: 'Faginstillinger',
+    topicSettings: 'Emneinstillinger',
+    changeName: 'Endre navn',
+    addTopic: 'Legg til nytt emne',
+    errorMessage: 'En feil oppsto',
   },
 };
 

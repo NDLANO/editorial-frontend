@@ -430,6 +430,11 @@ const phrases = {
   taxonomy: {
     editStructure: '  Edit structure',
     addSubject: '+ Add new subject',
+    subjectSettings: 'Subject settings',
+    topicSettings: 'Topic settings',
+    changeName: 'Change name',
+    addTopic: 'Add topic',
+    errorMessage: 'An error occurred',
   },
 };
 

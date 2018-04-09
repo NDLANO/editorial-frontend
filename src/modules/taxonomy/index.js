@@ -8,7 +8,6 @@
 import {
   fetchResourceTypes,
   fetchFilters,
-  fetchTopics,
   fetchTopicArticle,
   fetchRelevances,
   queryResources,
@@ -42,6 +41,16 @@ import {
   createDeleteUpdateTopicResources,
 } from './topicresouces';
 
+import {
+  fetchSubjects,
+  fetchSubjectTopics,
+  addSubject,
+  updateSubjectName,
+  addSubjectTopic,
+} from './subjects';
+
+import { addTopic, fetchTopics } from './topics/';
+
 export {
   fetchResourceTypes,
   fetchResource,
@@ -63,10 +72,16 @@ export {
   createDeleteUpdateTopicResources,
   fetchFilters,
   fetchTopics,
+  addTopic,
   fetchTopicArticle,
   // fetchTopicResource,
   fetchRelevances,
   queryResources,
   updateTaxonomy,
   resolveTaxonomyJsonOrRejectWithError,
+  fetchSubjects,
+  fetchSubjectTopics,
+  addSubject,
+  updateSubjectName,
+  addSubjectTopic,
 };

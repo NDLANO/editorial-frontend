@@ -94,7 +94,11 @@ export const fetchVisualElement = embedTag => {
       return fetchBrightcoveVideo(embedTag.videoid);
     default:
       return new Promise((resolve, reject) => {
-        reject(`No embedtag with resource type ${embedTag.resource} exists`);
+        reject(
+          new Error(
+            `No embedtag with resource type ${embedTag.resource} exists`,
+          ),
+        );
       });
   }
 };

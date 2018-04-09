@@ -432,6 +432,11 @@ const phrases = {
     addSubject: 'Add new subject',
     addExistingTopic: 'Add existing topic',
     emptyFilter: 'No hits',
+    errorMessage: 'An error occurred',
+    addTopic: 'Add topic',
+    changeName: 'Change name',
+    topicSettings: 'Topic settings',
+    subjectSettings: 'Subject settings',
   },
 };
 

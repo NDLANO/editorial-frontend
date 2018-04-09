@@ -141,7 +141,6 @@ Navigation.propTypes = {
 };
 
 Navigation.defaultProps = {
-  authenticated: false,
   userName: '',
 };
 

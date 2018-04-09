@@ -17,8 +17,7 @@ class InlineEditField extends PureComponent {
   constructor() {
     super();
     this.state = {
-      editMode: false,
-      loading: false,
+      status: 'initial',
       errorMessage: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,19 +25,22 @@ class InlineEditField extends PureComponent {
   }
 
   async handleSubmit() {
-    this.setState({ loading: true });
+    this.setState({ status: 'loading' });
     try {
       await this.props.onSubmit(this.state.input);
       this.props.onClose();
-      this.setState({ loading: false });
+      this.setState({ status: 'success' });
     } catch (e) {
-      this.setState({ errorMessage: 'En feil oppsto', loading: false });
+      this.setState({
+        errorMessage: this.props.t('taxonomy.errorMessage'),
+        status: 'error',
+      });
     }
   }
 
   handleKeyPress(e) {
     if (e.key === 'Escape') {
-      this.setState({ editMode: false });
+      this.setState({ status: 'initial' });
     }
     if (e.key === 'Enter') {
       this.handleSubmit();
@@ -47,9 +49,9 @@ class InlineEditField extends PureComponent {
 
   render() {
     const { title, icon, currentVal, classes } = this.props;
-    const { editMode, input } = this.state;
+    const { status, input, errorMessage } = this.state;
     const value = input === undefined ? currentVal : input;
-    return editMode ? (
+    return status === 'edit' || status === 'error' || status === 'loading' ? (
       <React.Fragment>
         <div {...classes('menuItem')}>
           <div {...classes('iconButton', 'open item')}>{icon}</div>
@@ -63,19 +65,20 @@ class InlineEditField extends PureComponent {
           <Button
             {...classes('saveButton')}
             data-testid="inlineEditSaveButton"
+            disabled={status === 'loading'}
             onClick={this.handleSubmit}>
-            {this.state.loading ? (
+            {status === 'loading' ? (
               <Spinner cssModifier="small" />
             ) : (
               <Done className={'c-icon--small'} />
             )}
           </Button>
         </div>
-        {this.state.errorMessage && (
+        {errorMessage && (
           <div
             data-testid="inlineEditErrorMessage"
             {...classes('errorMessage')}>
-            {this.state.errorMessage}
+            {errorMessage}
           </div>
         )}
       </React.Fragment>
@@ -84,7 +87,7 @@ class InlineEditField extends PureComponent {
         {...classes('menuItem')}
         stripped
         data-testid="inlineEditFieldButton"
-        onClick={() => this.setState({ editMode: true })}>
+        onClick={() => this.setState({ status: 'edit' })}>
         <div {...classes('iconButton', 'item')}>{icon}</div>
         {title}
       </Button>

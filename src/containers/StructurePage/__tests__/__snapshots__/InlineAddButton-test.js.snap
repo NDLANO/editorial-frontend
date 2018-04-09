@@ -59,6 +59,7 @@ exports[`Goes to edit mode, handles input and calls action prop 3`] = `
   />
   <button
     class="c-button c-button--stripped"
+    disabled=""
     type="button"
   >
     <div

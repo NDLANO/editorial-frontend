@@ -10,7 +10,7 @@ const errorReporter = store => next => action => {
   if (action.error) {
     const err = action.payload;
     if (err.status) {
-      const json = err.json;
+      const { json } = err;
       // eslint-disable-next-line no-console
       console.error(
         `${err.status} ${err.message}: ${json.code} ${json.description}. %o`,

@@ -14,7 +14,7 @@ import InlineAddButton from '../components/InlineAddButton';
 it('Goes to edit mode, handles input and calls action prop', async () => {
   const actionFunc = sinon.spy();
   const { getByTestId, container } = render(
-    <InlineAddButton title={'Test'} action={actionFunc} />,
+    <InlineAddButton title="Test" action={actionFunc} />,
   );
   expect(container.firstChild).toMatchSnapshot();
 

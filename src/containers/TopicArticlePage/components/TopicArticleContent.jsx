@@ -65,10 +65,12 @@ class TopicArticleContent extends Component {
   }
 
   render() {
-    const { t, bindInput, commonFieldProps, model } = this.props;
-
-    const creators = model.creators;
-    const updated = model.updated;
+    const {
+      t,
+      bindInput,
+      commonFieldProps,
+      model: { creators, updated, visualElement },
+    } = this.props;
 
     return (
       <Accordion
@@ -109,7 +111,7 @@ class TopicArticleContent extends Component {
           />
         </PlainTextField>
         <TopicArticleVisualElement
-          visualElement={model.visualElement}
+          visualElement={visualElement}
           commonFieldProps={commonFieldProps}
           bindInput={bindInput}
         />

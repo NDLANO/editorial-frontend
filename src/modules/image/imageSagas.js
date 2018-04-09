@@ -19,7 +19,7 @@ export function* fetchImage(id, language) {
     yield put(actions.setImage({ ...image, language }));
   } catch (error) {
     // TODO: handle error
-    console.error(error); //eslint-disable-line
+    console.error(error); // eslint-disable-line no-console
   }
 }
 

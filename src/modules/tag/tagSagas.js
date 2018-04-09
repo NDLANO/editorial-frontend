@@ -16,7 +16,7 @@ export function* fetchTags(language) {
     yield put(actions.setTags(tags));
   } catch (error) {
     // TODO: handle error
-    console.error(error); //eslint-disable-line
+    console.error(error); // eslint-disable-line no-console
   }
 }
 

@@ -54,7 +54,6 @@ const classes = new BEMHelper({
 class AudioForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { title: '', tags: [], license: '', audio: {} };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -142,7 +141,7 @@ class AudioForm extends Component {
         />
         <Field right>
           <Link
-            to={'/'}
+            to="/"
             className="c-button c-button--outline c-abort-button"
             disabled={isSaving}>
             {t('form.abort')}

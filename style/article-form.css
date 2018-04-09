@@ -38,6 +38,19 @@
     display: block;
   }
 
+  &__actions {
+    margin-top: var(--spacing--large);
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+
+    & button {
+      border-radius: 1px;
+      margin-right: 1%;
+      width: 24%;
+    }
+  }
+
   &__header {
     padding: 0.6rem;
     font-size: 1.1rem;
@@ -114,19 +127,6 @@
     }
   }
 
-  &__actions {
-    margin-top: var(--spacing--large);
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-
-    & button {
-      border-radius: 1px;
-      margin-right: 1%;
-      width: 24%;
-    }
-  }
-
   & .c-editor__figure {
     position: relative;
   }
@@ -167,11 +167,6 @@
     margin-right: calc(calc(var(--clrf__container--margin) + 1em) * -1);
   }
 
-  &__container:hover &__delete-block-button,
-  &__container:focus &__delete-block-button {
-    visibility: visible;
-  }
-
   &__delete-block-button {
     float: right;
     color: red;
@@ -180,8 +175,13 @@
 
     &:hover,
     &:focus {
-      color: color(red blackness(+ 20%));
+      color: color(red blackness(+20%));
     }
+  }
+
+  &__container:hover &__delete-block-button,
+  &__container:focus &__delete-block-button {
+    visibility: visible;
   }
 
   &__meta-image {

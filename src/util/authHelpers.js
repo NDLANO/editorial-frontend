@@ -76,7 +76,8 @@ export const getAccessTokenExpiresAt = () =>
 
 export const getAccessToken = () => localStorage.getItem('access_token');
 
-export const isAccessTokenValid = () => new Date().getTime() < getAccessTokenExpiresAt() - 10000 // 10000ms is 10 seconds
+export const isAccessTokenValid = () =>
+  new Date().getTime() < getAccessTokenExpiresAt() - 10000; // 10000ms is 10 seconds
 
 export const fetchSystemAccessToken = () =>
   fetch(`${locationOrigin}/get_token`).then(resolveJsonOrRejectWithError);

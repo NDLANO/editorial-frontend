@@ -145,8 +145,8 @@ const validateSchema = schema => WrappedComponent => {
   };
 
   validated.propTypes = {
-    model: PropTypes.object, //eslint-disable-line
-    fields: PropTypes.object, //eslint-disable-line
+    model: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+    fields: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   };
   validated.displayName = `ValidateSchema(${getComponentName(
     WrappedComponent,

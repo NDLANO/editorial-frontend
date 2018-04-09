@@ -32,10 +32,11 @@ const TaxonomyDropdownInput = props => {
     selectedItem,
     messages,
   } = props;
+
   return (
     <div
       ref={inputWrapperRef}
-      role="button"
+      aria-hidden="true"
       onClick={onWrapperClick}
       {...dropDownClasses('multiselect')}
       tabIndex="-1">

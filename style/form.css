@@ -43,32 +43,6 @@ form {
     display: inline-block;
   }
 
-  & .c-save-button,
-  & .c-abort-button {
-    transition: all 0.5s ease;
-    display: inline-block;
-    min-width: 6rem;
-    border-width: 1px;
-    border-radius: 1px;
-    margin-left: 2rem;
-
-    &:hover:enabled,
-    &:focus:enabled {
-      border-width: 1px;
-      transform: none;
-    }
-
-    &:active {
-      transform: none;
-    }
-
-    /* NB! Should use :enabled in ndla-ui button css instead */
-    &:disabled {
-      transform: none;
-      color: #fff;
-    }
-  }
-
   & .c-save-button {
     & span {
       display: flex;
@@ -94,6 +68,32 @@ form {
       transition: all 0.5s ease;
       background-color: var(--green-1);
       border-color: var(--green-1);
+    }
+  }
+
+  & .c-save-button,
+  & .c-abort-button {
+    transition: all 0.5s ease;
+    display: inline-block;
+    min-width: 6rem;
+    border-width: 1px;
+    border-radius: 1px;
+    margin-left: 2rem;
+
+    &:active {
+      transform: none;
+    }
+
+    /* NB! Should use :enabled in ndla-ui button css instead */
+    &:disabled {
+      transform: none;
+      color: #fff;
+    }
+
+    &:hover:enabled,
+    &:focus:enabled {
+      border-width: 1px;
+      transform: none;
     }
   }
 }

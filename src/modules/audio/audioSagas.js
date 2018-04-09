@@ -19,7 +19,7 @@ export function* fetchAudio(id, language) {
     yield put(actions.setAudio({ ...audio, language }));
   } catch (error) {
     // TODO: handle error
-    console.error(error); //eslint-disable-line
+    console.error(error); // eslint-disable-line no-console
   }
 }
 

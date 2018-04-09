@@ -162,7 +162,7 @@ class TopicArticleForm extends Component {
         />
         <Field right>
           <Link
-            to={'/'}
+            to="/"
             className="c-button c-button--outline c-abort-button"
             disabled={isSaving}>
             {t('form.abort')}

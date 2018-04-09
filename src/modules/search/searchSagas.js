@@ -18,7 +18,7 @@ export function* search(queryString) {
   } catch (error) {
     yield put(actions.searchError());
     // TODO: handle error
-    console.error(error); //eslint-disable-line
+    console.error(error); // eslint-disable-line no-console
   }
 }
 

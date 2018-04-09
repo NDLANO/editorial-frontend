@@ -22,7 +22,7 @@ class AudioPlayer extends React.Component {
     return (
       <Field noBorder={noBorder}>
         {
-          // eslint-disable-next-line
+          // eslint-disable-next-line jsx-a11y/media-has-caption
           <audio
             controls
             ref={audioPlayer => {

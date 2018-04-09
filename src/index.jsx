@@ -19,7 +19,7 @@ import configureStore from './configureStore';
 import { getSessionStateFromLocalStorage } from './modules/session/session';
 import App from './containers/App/App';
 
-const initialState = window.initialState;
+const { initialState } = window;
 const localeString = initialState.locale;
 const locale = getLocaleObject(localeString);
 

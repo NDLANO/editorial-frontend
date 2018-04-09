@@ -25,8 +25,6 @@ class MetaImageSearch extends Component {
       showImageSearch: false,
       image: undefined,
     };
-    this.hideVisualElement = this.hideVisualElement.bind(this);
-    this.showVisualElement = this.showVisualElement.bind(this);
     this.onImageChange = this.onImageChange.bind(this);
     this.toggleImageSearchLightBox = this.toggleImageSearchLightBox.bind(this);
   }
@@ -49,14 +47,6 @@ class MetaImageSearch extends Component {
         value: image.id,
       },
     });
-  }
-
-  showVisualElement() {
-    this.setState({ showVisualElement: true });
-  }
-
-  hideVisualElement() {
-    this.setState({ showVisualElement: false });
   }
 
   toggleImageSearchLightBox() {

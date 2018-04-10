@@ -32,7 +32,7 @@ class AudioPlayerMounter extends Component {
           <FigureCaption
             id={`${id}`}
             caption={title}
-            reuseLabel={''}
+            reuseLabel=""
             licenseRights={license.rights}
             authors={creators}
           />

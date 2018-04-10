@@ -64,6 +64,7 @@ class SlateAudio extends React.Component {
       <div
         role="button"
         tabIndex={0}
+        onKeyPress={() => this.setState({ editMode: true })}
         onClick={() => this.setState({ editMode: true })}>
         {player}
       </div>

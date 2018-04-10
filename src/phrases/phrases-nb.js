@@ -387,6 +387,8 @@ const phrases = {
         label: 'Lydtekst',
         placeholder: 'Lydtekst',
       },
+      sound: 'Lyd',
+      speech: 'Tale',
     },
     related: {
       title: 'Relaterte arikler',

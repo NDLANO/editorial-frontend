@@ -11,25 +11,10 @@ import PropTypes from 'prop-types';
 import { uuid } from 'ndla-util';
 
 const ObjectSelector = props => {
-  const {
-    options,
-    labelKey,
-    idKey,
-    disabled,
-    onChange,
-    onBlur,
-    value,
-    emptyField,
-    ...rest
-  } = props;
+  const { options, labelKey, idKey, emptyField, ...rest } = props;
 
   return (
-    <select
-      onBlur={onBlur}
-      onChange={onChange}
-      value={value}
-      disabled={disabled}
-      {...rest}>
+    <select {...rest}>
       {emptyField ? <option value="" /> : ''}
       {options.map(option => (
         <option
@@ -46,7 +31,7 @@ ObjectSelector.propTypes = {
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
   labelKey: PropTypes.string.isRequired,
   idKey: PropTypes.string.isRequired,
   disabled: PropTypes.bool,

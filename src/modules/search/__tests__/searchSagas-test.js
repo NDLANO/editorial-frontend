@@ -14,7 +14,9 @@ import * as actions from '../search';
 
 test('searchSagas search', () => {
   nock('http://ndla-api')
-    .get('/search-api/v1/search/?query=testing&page=3&sort=alfa&language=nb')
+    .get(
+      '/search-api/v1/search/draft/?query=testing&page=3&sort=alfa&language=nb',
+    )
     .reply(200, { results: [1, 2, 3] });
 
   return expectSaga(sagas.watchSearch)

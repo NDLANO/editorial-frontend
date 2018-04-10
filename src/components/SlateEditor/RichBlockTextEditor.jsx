@@ -73,7 +73,7 @@ class RichBlockTextEditor extends Component {
       <article>
         {value.map((val, index) => (
           <div
-            key={`editor_${index}`} //eslint-disable-line
+            key={`editor_${index}`} // eslint-disable-line react/no-array-index-key
             {...formClasses('container')}>
             {value.length > 1 ? (
               <Button

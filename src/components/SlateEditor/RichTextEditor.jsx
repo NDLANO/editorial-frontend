@@ -50,7 +50,7 @@ const RichTextEditor = class extends React.Component {
 
   onKeyDown(e, change) {
     let mark;
-    const value = change.value;
+    const { value } = change;
 
     if (isBoldHotkey(e)) {
       mark = 'bold';
@@ -59,7 +59,7 @@ const RichTextEditor = class extends React.Component {
     } else if (isUnderlinedHotkey(e)) {
       mark = 'underlined';
     } else if (e.key === 'Backspace') {
-      const selection = value.selection;
+      const { selection } = value;
       if (
         value.document.text.length === 0 &&
         selection.isAtStartOf(value.document)

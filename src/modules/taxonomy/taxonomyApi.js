@@ -42,12 +42,6 @@ function fetchFilters(locale) {
   );
 }
 
-function fetchTopics(locale) {
-  return fetchAuthorized(`${baseUrl}/topics/?language=${locale}`).then(
-    resolveJsonOrRejectWithError,
-  );
-}
-
 function fetchRelevances(locale) {
   return fetchAuthorized(`${baseUrl}/relevances/?language=${locale}`).then(
     resolveJsonOrRejectWithError,
@@ -109,7 +103,6 @@ export {
   resolveTaxonomyJsonOrRejectWithError,
   fetchResourceTypes,
   fetchFilters,
-  fetchTopics,
   fetchTopicArticle,
   fetchRelevances,
   queryResources,

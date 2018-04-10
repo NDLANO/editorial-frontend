@@ -12,25 +12,24 @@ import createHistory from 'history/createBrowserHistory';
 import { expiresIn } from './jwtHelper';
 import { resolveJsonOrRejectWithError } from './apiHelpers';
 
-export const auth0Domain = window.config.auth0Domain;
-export const ndlaPersonalClientId = window.config.ndlaPersonalClientId;
+export const { auth0Domain, ndlaPersonalClientId } = window.config;
 
 const locationOrigin = (() => {
   if (process.env.NODE_ENV === 'unittest') {
     return 'http://ndla-frontend';
   }
 
-  if (typeof location.origin === 'undefined') {
-    location.origin = [
-      location.protocol,
+  if (typeof window.location.origin === 'undefined') {
+    window.location.origin = [
+      window.location.protocol,
       '//',
-      location.host,
+      window.location.host,
       ':',
-      location.port,
+      window.location.port,
     ].join('');
   }
 
-  return location.origin;
+  return window.location.origin;
 })();
 
 export { locationOrigin };
@@ -78,7 +77,7 @@ export const getAccessTokenExpiresAt = () =>
 export const getAccessToken = () => localStorage.getItem('access_token');
 
 export const isAccessTokenValid = () =>
-  new Date().getTime() < getAccessTokenExpiresAt();
+  new Date().getTime() < getAccessTokenExpiresAt() - 10000; // 10000ms is 10 seconds
 
 export const fetchSystemAccessToken = () =>
   fetch(`${locationOrigin}/get_token`).then(resolveJsonOrRejectWithError);

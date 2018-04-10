@@ -40,11 +40,11 @@ import {
 } from '../slateHelpers';
 import { standardArticleHTML, standardArticleValue } from './slateMockArticle';
 
-const fragment = jsdom.JSDOM.fragment;
+const { fragment } = jsdom.JSDOM;
 
 test('serialize embed block', () => {
   const obj = {
-    kind: 'block',
+    object: 'block',
     type: 'embed',
     data: fromJS({ caption: 'test' }),
   };
@@ -54,21 +54,20 @@ test('serialize embed block', () => {
 });
 
 test('find embed nodes in slate document', () => {
-  const document = Value.fromJSON(valueWithTwoImageEmbeds).document;
+  const { document } = Value.fromJSON(valueWithTwoImageEmbeds);
   const embeds = findNodesByType(document, 'embed');
   expect(embeds.length).toBe(2);
 });
 
 test('find footnote nodes in slate document', () => {
-  const document = Value.fromJSON(valueWithInlineFootnotesAndContentLinks)
-    .document;
+  const { document } = Value.fromJSON(valueWithInlineFootnotesAndContentLinks);
   const embeds = findNodesByType(document, 'footnote');
   expect(embeds.length).toBe(2);
 });
 
 test('serialize bodybox block', () => {
   const obj = {
-    kind: 'block',
+    object: 'block',
     type: 'bodybox',
   };
   const children = <p>test</p>;
@@ -119,7 +118,7 @@ test('deserialize footnote', () => {
 test('serialize footnote', () => {
   const obj = {
     isVoid: false,
-    kind: 'inline',
+    object: 'inline',
     data: fromJS({
       title: 'Apple Watch',
       type: 'product',
@@ -130,10 +129,10 @@ test('serialize footnote', () => {
     }),
     nodes: [
       {
-        kind: 'text',
+        object: 'text',
         leaves: [
           {
-            kind: 'leaf',
+            object: 'leaf',
             marks: [],
             text: '#',
           },

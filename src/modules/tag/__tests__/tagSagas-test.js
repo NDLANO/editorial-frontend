@@ -43,5 +43,6 @@ test('tagSagas do not fetch tags if already fetched', () => {
         },
       },
     })
+    .dispatch(actions.fetchTags({ language: 'nb' }))
     .run({ silenceTimeout: true });
 });

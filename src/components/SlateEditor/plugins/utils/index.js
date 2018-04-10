@@ -9,5 +9,11 @@
 import isTypeinSelection from './isTypeinSelection';
 import listNodesOfType from './listNodesOfType';
 import hasNodeOfType from './hasNodeOfType';
+import checkSelectionForType from './checkSelectionForType';
 
-export { isTypeinSelection, listNodesOfType, hasNodeOfType };
+export {
+  isTypeinSelection,
+  listNodesOfType,
+  hasNodeOfType,
+  checkSelectionForType,
+};

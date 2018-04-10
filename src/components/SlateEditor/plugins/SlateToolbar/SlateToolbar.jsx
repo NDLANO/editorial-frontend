@@ -14,7 +14,7 @@ import Types from 'slate-prop-types';
 import { Portal } from '../../../../components/Portal';
 import ToolbarButton from './ToolbarButton';
 import { setActiveNode } from '../../createSlateStore';
-import { hasNodeOfType } from '../utils';
+import { hasNodeOfType, checkSelectionForType } from '../utils';
 import { TYPE as footnote } from '../footnote';
 import { TYPE as link } from '../link';
 import {
@@ -26,9 +26,15 @@ import {
 
 const DEFAULT_NODE = 'paragraph';
 
-const suportedToolbarElements = {
+const supportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
   block: ['quote', ...listTypes, 'heading-two'],
+  inline: [link, footnote],
+};
+
+const supportedToolbarElementsAside = {
+  mark: ['bold', 'italic', 'underlined'],
+  block: ['quote', ...listTypes, 'heading-one'],
   inline: [link, footnote],
 };
 
@@ -37,7 +43,6 @@ export const toolbarClasses = new BEMHelper({
   prefix: 'c-',
 });
 
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 class SlateToolbar extends Component {
   constructor(props) {
     super(props);
@@ -48,13 +53,28 @@ class SlateToolbar extends Component {
     this.portalRef = this.portalRef.bind(this);
     this.handleValueChange = this.handleValueChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
+
     this.state = {
+      // Slate-component requires state to work, but is controlled by parent component
+      /* eslint-disable-next-line react/no-unused-state */
       value: this.props.value,
     };
   }
 
   componentDidMount() {
     this.updateMenu();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { value } = nextProps;
+
+    if (value.selection.startKey !== this.props.value.selection.startKey) {
+      const nodeKey = value.document.getClosestBlock(value.selection.startKey)
+        .key;
+      this.setState({
+        isInsideAside: checkSelectionForType('aside', value, nodeKey),
+      });
+    }
   }
 
   componentDidUpdate() {
@@ -116,10 +136,10 @@ class SlateToolbar extends Component {
     }
   }
 
-  onButtonClick(e, kind, type) {
-    if (kind === 'mark') this.onClickMark(e, type);
-    if (kind === 'block') this.onClickBlock(e, type);
-    if (kind === 'inline') this.onClickInline(e, type);
+  onButtonClick(e, object, type) {
+    if (object === 'mark') this.onClickMark(e, type);
+    if (object === 'block') this.onClickBlock(e, type);
+    if (object === 'inline') this.onClickInline(e, type);
   }
 
   portalRef(menu) {
@@ -160,13 +180,15 @@ class SlateToolbar extends Component {
 
   render() {
     const { value } = this.props;
-
-    const toolbarButtons = Object.keys(suportedToolbarElements).map(kind =>
-      suportedToolbarElements[kind].map(type => (
+    const toolbarElements = this.state.isInsideAside
+      ? supportedToolbarElementsAside
+      : supportedToolbarElements;
+    const toolbarButtons = Object.keys(toolbarElements).map(object =>
+      toolbarElements[object].map(type => (
         <ToolbarButton
           key={type}
           type={type}
-          kind={kind}
+          object={object}
           value={value}
           handleHasType={hasNodeOfType}
           handleOnClick={this.onButtonClick}

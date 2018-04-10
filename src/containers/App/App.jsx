@@ -30,6 +30,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import ForbiddenPage from '../ForbiddenPage/ForbiddenPage';
 import SubjectMatterPage from './SubjectMatterPage';
 import MediaPage from './MediaPage';
+import StructurePage from '../StructurePage/StructurePage';
 
 export class App extends React.Component {
   getChildContext() {
@@ -65,6 +66,10 @@ export class App extends React.Component {
             />
             <PrivateRoute path="/media" component={MediaPage} />
             <PrivateRoute path="/agreement" component={AgreementPage} />
+            <PrivateRoute
+              path="/structure/:subject?/:topic1?/:topic2?"
+              component={StructurePage}
+            />
             <Route path="/forbidden" component={ForbiddenPage} />
             <Route component={NotFoundPage} />
           </Switch>

@@ -1,0 +1,154 @@
+.c-folder {
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    margin: var(--spacing--small);
+  }
+
+  &__link {
+    box-shadow: none;
+  }
+
+  &__title {
+    font-size: 0.9rem;
+    padding-left: calc(var(--spacing--small) / 2);
+    color: var(--primary-color);
+
+    &--active {
+      font-weight: bold;
+    }
+  }
+
+  &__subFolders {
+    margin-left: var(--spacing);
+    padding-left: var(--spacing--small);
+  }
+}
+
+.c-addButton {
+  height: 100%;
+  margin-left: auto;
+  padding: 0 var(--spacing--small);
+  white-space: nowrap;
+  font-size: 1.1rem;
+  background-color: var(--lighter-color);
+
+  &:hover {
+    color: white;
+  }
+
+  &__editMode {
+    display: flex;
+    height: 100%;
+    margin-left: auto;
+    position: absolute;
+    right: 0;
+
+    & > input {
+      margin: calc(var(--spacing--small) / 2);
+    }
+
+    & > button,
+    & > button:hover {
+      background-color: var(--gray-2);
+      color: white;
+      min-width: 50px;
+      height: 50px;
+    }
+
+    & svg {
+      height: 38px;
+      width: 38px;
+    }
+  }
+
+  &__errorMessage {
+    color: var(--red-1);
+    position: absolute;
+    right: 55px;
+    top: 50px;
+  }
+}
+
+.c-settingsMenu {
+  margin-left: var(--spacing--small);
+  position: relative;
+
+  &__iconButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 23px;
+    width: 23px;
+    border-radius: 50%;
+    border: 1px solid;
+    line-height: normal;
+    margin-right: calc(var(--spacing--small) / 2);
+
+    &:hover,
+    &:focus {
+      background-color: var(--gray-2);
+      color: var(--gray-11);
+    }
+
+    &--open {
+      background-color: var(--gray-2);
+      color: var(--gray-11);
+    }
+
+    &--item {
+      height: 18px;
+      width: 18px;
+      min-width: 18px;
+    }
+  }
+
+  &__saveButton,
+  &__saveButton:disabled {
+    height: 24px;
+    width: 24px;
+    min-width: 24px;
+    background-color: var(--gray-2);
+    color: var(--gray-11);
+    padding: 0;
+    line-height: 16.9px;
+  }
+
+  &__openMenu {
+    position: absolute;
+    top: -7px;
+    left: calc(var(--spacing--small) * -1 / 2);
+    z-index: 2;
+    padding: calc(var(--spacing--small) / 2);
+    min-width: 250px;
+    background-color: var(--gray-11);
+    box-shadow: 0 0 4px 0 rgba(78, 78, 78, 0.5);
+
+    & .header {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__menuItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    & input {
+      margin: calc(var(--spacing--small) / 2);
+      max-height: var(--spacing);
+      width: auto;
+    }
+  }
+
+  &__errorMessage {
+    color: var(--red-1);
+    text-align: center;
+  }
+
+  &__closeButton {
+    color: var(--gray-7);
+    margin-left: auto;
+  }
+}

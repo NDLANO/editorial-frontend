@@ -43,7 +43,7 @@ export const FieldForm = props => {
 };
 
 FieldForm.propTypes = {
-  fields: PropTypes.object, //eslint-disable-line
+  fields: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   bindInput: PropTypes.func.isRequired,
 };
 

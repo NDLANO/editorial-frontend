@@ -71,7 +71,6 @@ test('sessionSagas logout', () => {
       }),
     )
     .run({ silenceTimeout: true });
-
   return result.then(() => {
     expect(localStorage.getItem('access_token')).toBe(accessToken);
     expect(localStorage.getItem('access_token_expires_at')).toBeTruthy();

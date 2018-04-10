@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
 import { Button, RelatedArticle } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
@@ -31,6 +32,7 @@ const EditRelated = ({
   locale,
   onInsertBlock,
   onExit,
+  t,
 }) => (
   <div>
     <Overlay onExit={onExit} />
@@ -38,7 +40,7 @@ const EditRelated = ({
       {items.map(
         (item, i) =>
           !item.id ? (
-            'Invalid article'
+            t('orm.content.relatedArticle.invalidArticle')
           ) : (
             <div key={item.id} {...classes('article')}>
               <RelatedArticle
@@ -61,19 +63,22 @@ const EditRelated = ({
         <AsyncDropdown
           valueField="id"
           name="relatedArticleSearch"
-          textField="title.title"
-          placeholder={'Søk på tittel'}
-          label={'label'}
+          textField="title"
+          placeholder={t('form.content.relatedArticle.placeholder')}
+          label="label"
           apiAction={async inp => {
             const res = await searchRelatedArticles(inp, locale);
-            return res.filter(
-              it => items.map(curr => curr.id).indexOf(it.id) === -1,
-            );
+            return res
+              .map(curr => ({
+                id: curr.id,
+                title: curr.title ? curr.title.title : '',
+              }))
+              .filter(it => !!it.id);
           }}
           onClick={e => e.stopPropagation()}
           messages={{
-            emptyFilter: 'empty',
-            emptyList: 'empty list',
+            emptyFilter: t('form.content.relatedArticle.emptyFilter'),
+            emptyList: t('form.content.relatedArticle.emptyList'),
           }}
           onChange={selected => selected && onInsertBlock(selected.id)}
         />
@@ -95,4 +100,4 @@ EditRelated.propTypes = {
   locale: PropTypes.string,
 };
 
-export default EditRelated;
+export default injectT(EditRelated);

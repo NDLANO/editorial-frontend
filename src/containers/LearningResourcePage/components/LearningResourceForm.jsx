@@ -182,7 +182,6 @@ class LearningResourceForm extends Component {
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
-
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader
@@ -224,7 +223,7 @@ class LearningResourceForm extends Component {
         />
         <Field right>
           <Link
-            to={'/'}
+            to="/"
             className="c-button c-button--outline c-abort-button"
             disabled={isSaving}>
             {t('form.abort')}

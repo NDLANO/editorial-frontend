@@ -155,9 +155,11 @@ class DropdownTag extends Component {
     }
 
     return (
-      // eslint-disable-next-line
       <div
+        role="button"
+        tabIndex="0"
         onClick={this.onClick}
+        onKeyPress={this.onClick}
         {...dropDownClasses('tag', isHighlighted ? 'highlighted' : '')}>
         <div {...tagClasses('description')}>{tag.name}</div>
         {tagItem && <div {...tagClasses('item')}>{tagItem}</div>}

@@ -18,7 +18,7 @@ export function* fetchDraft(id, language) {
     yield put(actions.setDraft({ ...draft, language }));
   } catch (error) {
     // TODO: handle error
-    console.error(error); //eslint-disable-line
+    console.error(error); // eslint-disable-line no-console
   }
 }
 

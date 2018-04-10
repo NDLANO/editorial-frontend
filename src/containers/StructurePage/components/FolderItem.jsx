@@ -54,7 +54,7 @@ class FolderItem extends React.PureComponent {
 
 FolderItem.propTypes = {
   name: string.isRequired,
-  path: string.isRequired,
+  path: string,
   active: bool,
   topics: arrayOf(object),
   params: shape({

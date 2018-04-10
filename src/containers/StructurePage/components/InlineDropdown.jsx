@@ -23,12 +23,11 @@ import {
 
 import Spinner from '../../../components/Spinner';
 
-class InlineEditField extends PureComponent {
+class InlineDropdown extends PureComponent {
   constructor() {
     super();
     this.state = {
       status: 'initial',
-      items: [],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -72,9 +71,9 @@ class InlineEditField extends PureComponent {
   }
 
   render() {
-    const { title, icon, classes, t } = this.props;
+    const { icon, classes, t } = this.props;
     const { selected, items, status } = this.state;
-    return status === 'edit' || status === 'error' || status === 'loading' ? (
+    return (
       <React.Fragment>
         <div {...classes('menuItem')}>
           <div {...classes('iconButton', 'open item')}>{icon}</div>
@@ -86,13 +85,16 @@ class InlineEditField extends PureComponent {
               <div {...dropDownClasses()}>
                 <DropdownInput {...downshiftProps} />
                 <DropdownMenu
-                  items={items.search(downshiftProps.inputValue)}
+                  items={items ? items.search(downshiftProps.inputValue) : []}
                   {...downshiftProps}
-                  textField={'name'}
-                  valueField={'id'}
+                  textField="name"
+                  valueField="id"
                   fuzzy
                   dontShowOnEmptyFilter
-                  messages={{ emptyFilter: t('taxonomy.emptyFilter') }}
+                  messages={{
+                    emptyFilter: t('taxonomy.emptyFilter'),
+                    emptyList: t('taxonomy.emptyFilter'),
+                  }}
                 />
                 {selected ? (
                   <Button
@@ -116,7 +118,7 @@ class InlineEditField extends PureComponent {
             {status === 'loading' ? (
               <Spinner cssModifier="small" />
             ) : (
-              <Done className={'c-icon--small'} />
+              <Done className="c-icon--small" />
             )}
           </Button>
         </div>
@@ -128,21 +130,11 @@ class InlineEditField extends PureComponent {
           </div>
         )}
       </React.Fragment>
-    ) : (
-      <Button
-        {...classes('menuItem')}
-        stripped
-        data-testid="inlineEditFieldButton"
-        onClick={() => this.setState({ status: 'edit' })}>
-        <div {...classes('iconButton', 'item')}>{icon}</div>
-        {title}
-      </Button>
     );
   }
 }
 
-InlineEditField.propTypes = {
-  title: PropTypes.string,
+InlineDropdown.propTypes = {
   icon: PropTypes.node,
   onSubmit: PropTypes.func,
   currentVal: PropTypes.string,
@@ -151,4 +143,4 @@ InlineEditField.propTypes = {
   fetchItems: PropTypes.func,
 };
 
-export default InlineEditField;
+export default InlineDropdown;

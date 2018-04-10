@@ -10,22 +10,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Settings } from 'ndla-icons/editor';
-import { fetchTopics } from '../../../modules/taxonomy';
-import { Cross, Pencil, Plus } from 'ndla-icons/action';
+import { Cross } from 'ndla-icons/action';
+import SubjectSettingsItems from './SubjectSettingsItems';
+import TopicSettingItems from './TopicSettingItems';
 
-import InlineEditField from './InlineEditField';
-import InlineDropdown from './InlineDropdown';
-
-const SettingsMenuDropdown = ({
-  classes,
-  onClose,
-  t,
-  onChangeSubjectName,
-  onAddSubjectTopic,
-  onAddExistingTopic,
-  id,
-  name,
-}) => {
+const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
   const type = id.includes('subject') ? 'subject' : 'topic';
   return (
     <div {...classes('openMenu')}>
@@ -38,37 +27,16 @@ const SettingsMenuDropdown = ({
           <Cross />
         </Button>
       </div>
-      {type === 'subject' && (
-        <InlineEditField
+      {type === 'subject' ? (
+        <SubjectSettingsItems
           classes={classes}
-          currentVal={name}
-          onSubmit={e => onChangeSubjectName(id, e)}
           onClose={onClose}
-          title={t('taxonomy.changeName')}
-          icon={<Pencil />}
           t={t}
+          id={id}
+          {...rest}
         />
-      )}
-      {type === 'subject' && (
-        <InlineEditField
-          classes={classes}
-          currentVal=""
-          onClose={onClose}
-          onSubmit={e => onAddSubjectTopic(id, e)}
-          title={t('taxonomy.addTopic')}
-          icon={<Plus />}
-        />
-      )}
-      {type === 'subject' && (
-        <InlineDropdown
-          fetchItems={() => fetchTopics('nb')}
-          classes={classes}
-          onClose={onClose}
-          onSubmit={e => onAddExistingTopic(id, e)}
-          title={t('taxonomy.addExistingTopic')}
-          icon={<Plus />}
-          t={t}
-        />
+      ) : (
+        <TopicSettingItems />
       )}
     </div>
   );

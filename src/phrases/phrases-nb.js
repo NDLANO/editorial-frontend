@@ -445,6 +445,9 @@ const phrases = {
     addTopic: 'Legg til nytt emne',
     errorMessage: 'En feil oppsto',
     emptyFilter: 'Ingen treff',
+    editFilter: 'Rediger filter',
+    addFilter: 'Nytt filter',
+    confirmDelete: 'Er du sikker på at du vil slette filteret?',
   },
 };
 

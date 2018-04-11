@@ -10,7 +10,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import { Taxonomy } from 'ndla-icons/editor';
+import { Button } from 'ndla-ui';
+import { Taxonomy, Link } from 'ndla-icons/editor';
+import { jsPlumb } from 'jsplumb';
+
 import FolderItem from './components/FolderItem';
 import InlineAddButton from './components/InlineAddButton';
 import Accordion from '../../components/Accordion';
@@ -22,6 +25,7 @@ import {
   updateSubjectName,
   addSubjectTopic,
 } from '../../modules/taxonomy';
+import RoundIcon from './components/RoundIcon';
 
 export class StructurePage extends React.PureComponent {
   constructor(props) {
@@ -31,11 +35,15 @@ export class StructurePage extends React.PureComponent {
       subjects: [],
       topics: {},
     };
+    this.starButton = React.createRef();
+    this.linkButton = React.createRef();
     this.getAllSubjects = this.getAllSubjects.bind(this);
     this.getSubjectTopics = this.getSubjectTopics.bind(this);
     this.addSubject = this.addSubject.bind(this);
     this.onChangeSubjectName = this.onChangeSubjectName.bind(this);
     this.onAddSubjectTopic = this.onAddSubjectTopic.bind(this);
+    this.showLink = this.showLink.bind(this);
+    this.refFunc = this.refFunc.bind(this);
   }
 
   componentDidMount() {
@@ -79,6 +87,9 @@ export class StructurePage extends React.PureComponent {
 
   async getAllSubjects() {
     const subjects = await fetchSubjects();
+    subjects.forEach(subject => {
+      this[subject.id] = React.createRef();
+    });
     this.setState({ subjects });
   }
 
@@ -90,6 +101,9 @@ export class StructurePage extends React.PureComponent {
       topics: allTopics.filter(it => it.parent === topic.id),
     }));
 
+    allTopics.forEach(topic => {
+      this[topic.id] = React.createRef();
+    });
     this.setState(prevState => ({
       topics: {
         ...prevState.topics,
@@ -106,6 +120,38 @@ export class StructurePage extends React.PureComponent {
     } catch (e) {
       return e;
     }
+  }
+
+  showLink(id) {
+    const target = this.state.subjects[0].id;
+    if (this.state.connection) {
+      jsPlumb.deleteConnection(this.state.connection);
+      this.setState({ connection: undefined });
+    } else {
+      const connection = jsPlumb.connect({
+        source: this[id],
+        target: this[target],
+        endpoint: 'Blank',
+        connector: ['Flowchart', { stub: 50 }],
+        paintStyle: { strokeWidth: 1, stroke: '#000000', dashstyle: '4 2' },
+        anchors: ['Left', 'Left'],
+        overlays: [
+          [
+            'Custom',
+            { create: component => this.starButton.current, location: 70 },
+          ],
+          [
+            'Custom',
+            { create: component => this.linkButton.current, location: -30 },
+          ],
+        ],
+      });
+      this.setState({ connection });
+    }
+  }
+
+  refFunc(element, id) {
+    this[id] = element;
   }
 
   render() {
@@ -135,6 +181,7 @@ export class StructurePage extends React.PureComponent {
           {this.state.subjects.map(it => (
             <FolderItem
               {...it}
+              refFunc={this.refFunc}
               key={it.id}
               topics={this.state.topics[it.id]}
               active={it.id.replace('urn:', '') === params.subject}
@@ -142,9 +189,20 @@ export class StructurePage extends React.PureComponent {
               t={t}
               onChangeSubjectName={this.onChangeSubjectName}
               onAddSubjectTopic={this.onAddSubjectTopic}
+              showLink={this.showLink}
             />
           ))}
         </Accordion>
+        <div ref={this.starButton}>
+          <Button stripped>
+            <RoundIcon icon={<Link />} />
+          </Button>
+        </div>
+        <div ref={this.linkButton}>
+          <Button stripped>
+            <RoundIcon icon={<Link />} />
+          </Button>
+        </div>
       </OneColumn>
     );
   }

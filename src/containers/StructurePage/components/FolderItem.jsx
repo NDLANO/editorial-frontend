@@ -7,11 +7,13 @@
  */
 
 import React from 'react';
-import { string, bool, arrayOf, object, shape } from 'prop-types';
-import { Folder } from 'ndla-icons/editor';
-import { Link } from 'react-router-dom';
+import { string, bool, arrayOf, object, shape, func } from 'prop-types';
+import { Button } from 'ndla-ui';
+import { Folder, Link } from 'ndla-icons/editor';
+import { Link as RouterLink } from 'react-router-dom';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';
+import RoundIcon from './RoundIcon';
 
 const classes = new BEMHelper({
   name: 'folder',
@@ -20,17 +22,34 @@ const classes = new BEMHelper({
 
 class FolderItem extends React.PureComponent {
   render() {
-    const { name, path, active, topics = [], params, id, ...rest } = this.props;
+    const {
+      name,
+      path,
+      active,
+      topics = [],
+      params,
+      id,
+      refFunc,
+      showLink,
+      ...rest
+    } = this.props;
+    const type = id.includes('subject') ? 'subject' : 'topic';
     return (
       <React.Fragment>
-        <div {...classes('wrapper')}>
-          <Link
+        <div ref={element => refFunc(element, id)} {...classes('wrapper')}>
+          <RouterLink
             to={active ? '/structure' : `/structure${path}`}
             {...classes('link')}>
             <Folder color="#70A5DA" />
             <span {...classes('title', active && 'active')}>{name}</span>
-          </Link>
-          {active && <SettingsMenu id={id} name={name} {...rest} />}
+          </RouterLink>
+          {active &&
+            type === 'topic' && (
+              <Button stripped onClick={() => showLink(id)}>
+                <RoundIcon icon={<Link />} />
+              </Button>
+            )}
+          {active && <SettingsMenu id={id} name={name} type={type} {...rest} />}
         </div>
         <div {...classes('subFolders')}>
           {active &&
@@ -43,6 +62,8 @@ class FolderItem extends React.PureComponent {
                   params.topic2 === topic.id.replace('urn:', '')
                 }
                 params={params}
+                showLink={showLink}
+                refFunc={refFunc}
                 {...rest}
               />
             ))}
@@ -63,6 +84,8 @@ FolderItem.propTypes = {
     subject: string,
   }),
   id: string,
+  refFunc: func,
+  showLink: func,
 };
 
 export default FolderItem;

@@ -10,7 +10,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Done } from 'ndla-icons/editor';
-
+import RoundIcon from './RoundIcon';
 import Spinner from '../../../components/Spinner';
 
 class InlineEditField extends PureComponent {
@@ -54,7 +54,7 @@ class InlineEditField extends PureComponent {
     return status === 'edit' || status === 'error' || status === 'loading' ? (
       <React.Fragment>
         <div {...classes('menuItem')}>
-          <div {...classes('iconButton', 'open item')}>{icon}</div>
+          <RoundIcon open small icon={icon} />
           <input
             type="text"
             value={value}

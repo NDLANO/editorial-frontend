@@ -6,7 +6,10 @@
   }
 
   &__link {
+    display: flex;
+    align-items: center;
     box-shadow: none;
+    margin-right: calc(var(--spacing--small) / 2);
   }
 
   &__title {
@@ -71,37 +74,8 @@
 }
 
 .c-settingsMenu {
-  margin-left: var(--spacing--small);
   position: relative;
-
-  &__iconButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 23px;
-    width: 23px;
-    border-radius: 50%;
-    border: 1px solid;
-    line-height: normal;
-    margin-right: calc(var(--spacing--small) / 2);
-
-    &:hover,
-    &:focus {
-      background-color: var(--gray-2);
-      color: var(--gray-11);
-    }
-
-    &--open {
-      background-color: var(--gray-2);
-      color: var(--gray-11);
-    }
-
-    &--item {
-      height: 18px;
-      width: 18px;
-      min-width: 18px;
-    }
-  }
+  display: flex;
 
   &__saveButton,
   &__saveButton:disabled {
@@ -117,7 +91,6 @@
   &__openMenu {
     position: absolute;
     top: -7px;
-    left: calc(var(--spacing--small) * -1 / 2);
     z-index: 2;
     padding: calc(var(--spacing--small) / 2);
     min-width: 250px;
@@ -150,5 +123,38 @@
   &__closeButton {
     color: var(--gray-7);
     margin-left: auto;
+  }
+}
+
+.c-roundIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 23px;
+  width: 23px;
+  border-radius: 50%;
+  border: 1px solid;
+  line-height: normal;
+  background-color: white;
+
+  &:hover,
+  &:focus {
+    background-color: var(--gray-2);
+    color: var(--gray-11);
+  }
+
+  &--open {
+    background-color: var(--gray-2);
+    color: var(--gray-11);
+  }
+
+  &--small {
+    height: 18px;
+    width: 18px;
+    min-width: 18px;
+  }
+
+  &--margin {
+    margin-left: calc(var(--spacing--small) / 2);
   }
 }

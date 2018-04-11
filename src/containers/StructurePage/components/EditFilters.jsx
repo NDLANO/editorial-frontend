@@ -9,8 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
-import { Pencil, Plus } from 'ndla-icons/action';
-import { DeleteForever } from 'ndla-icons/editor';
+import { Plus } from 'ndla-icons/action';
 import InlineEditField from './InlineEditField';
 import {
   fetchSubjectFilters,
@@ -19,6 +18,7 @@ import {
   deleteFilter,
 } from '../../../modules/taxonomy';
 import WarningModal from '../../../components/WarningModal';
+import EditFilterList from './EditFilterList';
 
 class EditFilters extends React.Component {
   constructor() {
@@ -31,6 +31,7 @@ class EditFilters extends React.Component {
     this.getFilters = this.getFilters.bind(this);
     this.showDeleteWarning = this.showDeleteWarning.bind(this);
     this.deleteFilter = this.deleteFilter.bind(this);
+    this.editFilter = this.editFilter.bind(this);
   }
 
   componentDidMount() {
@@ -46,10 +47,8 @@ class EditFilters extends React.Component {
     try {
       await createSubjectFilter(this.props.id, name);
       this.getFilters();
-      return true;
     } catch (e) {
       this.setState({ error: e.message });
-      return false;
     }
   }
 
@@ -57,10 +56,8 @@ class EditFilters extends React.Component {
     try {
       await editSubjectFilter(id, this.props.id, name);
       this.getFilters();
-      return true;
     } catch (e) {
       this.setState({ error: e.message });
-      return false;
     }
   }
 
@@ -84,39 +81,14 @@ class EditFilters extends React.Component {
 
     return (
       <div {...classes('editFilters')}>
-        {filters.map(
-          filter =>
-            editMode === filter.name ? (
-              <InlineEditField
-                key={filter.id}
-                classes={classes}
-                messages={{ errorMessage: t('taxonomy.errorMessage') }}
-                currentVal={filter.name}
-                onClose={() => this.setState({ editMode: '' })}
-                onSubmit={e => this.editFilter(filter.id, e)}
-              />
-            ) : (
-              <div key={filter.id} {...classes('filterItem')}>
-                {filter.name}
-                <div style={{ display: 'flex' }}>
-                  <Button
-                    stripped
-                    data-testid={`editFilter${filter.id}`}
-                    onClick={() => this.setState({ editMode: filter.name })}
-                    {...classes('iconButton', 'item')}>
-                    {<Pencil />}
-                  </Button>
-                  <Button
-                    stripped
-                    data-testid={`deleteFilter${filter.id}`}
-                    onClick={() => this.showDeleteWarning(filter.id)}
-                    {...classes('iconButton', 'item')}>
-                    {<DeleteForever />}
-                  </Button>
-                </div>
-              </div>
-            ),
-        )}
+        <EditFilterList
+          filters={filters}
+          editMode={editMode}
+          classes={classes}
+          setEditState={name => this.setState({ editMode: name })}
+          showDeleteWarning={this.showDeleteWarning}
+          editFilter={this.editFilter}
+        />
         {editMode === 'addFilter' ? (
           <InlineEditField
             classes={classes}

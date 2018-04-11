@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import { Settings } from 'ndla-icons/editor';
 import { Cross } from 'ndla-icons/action';
@@ -31,7 +32,6 @@ const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
         <SubjectSettingsItems
           classes={classes}
           onClose={onClose}
-          t={t}
           id={id}
           {...rest}
         />
@@ -45,7 +45,6 @@ const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
 SettingsMenuDropdown.propTypes = {
   classes: PropTypes.func,
   onClose: PropTypes.func,
-  t: PropTypes.func,
   onChangeSubjectName: PropTypes.func,
   onAddSubjectTopic: PropTypes.func,
   onAddExistingTopic: PropTypes.func,
@@ -53,4 +52,4 @@ SettingsMenuDropdown.propTypes = {
   name: PropTypes.string,
 };
 
-export default SettingsMenuDropdown;
+export default injectT(SettingsMenuDropdown);

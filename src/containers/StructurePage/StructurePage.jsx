@@ -150,7 +150,6 @@ export class StructurePage extends React.PureComponent {
               topics={this.state.topics[it.id]}
               active={it.id.replace('urn:', '') === params.subject}
               params={params}
-              t={t}
               onChangeSubjectName={this.onChangeSubjectName}
               onAddSubjectTopic={this.onAddSubjectTopic}
               onAddExistingTopic={this.onAddExistingTopic}

@@ -9,6 +9,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import { Done } from 'ndla-icons/editor';
 import Downshift from 'downshift';
 import Fuse from 'fuse.js';
@@ -64,8 +65,7 @@ class InlineDropdown extends PureComponent {
   handleKeyPress(e) {
     if (e.key === 'Escape') {
       this.setState({ status: 'initial' });
-    }
-    if (e.key === 'Enter') {
+    } else if (e.key === 'Enter') {
       this.handleSubmit();
     }
   }
@@ -143,4 +143,4 @@ InlineDropdown.propTypes = {
   fetchItems: PropTypes.func,
 };
 
-export default InlineDropdown;
+export default injectT(InlineDropdown);

@@ -9,6 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Pencil, Plus } from 'ndla-icons/action';
+import { injectT } from 'ndla-i18n';
 import { Filter } from 'ndla-icons/editor';
 import { Button } from 'ndla-ui';
 import { fetchTopics } from '../../../modules/taxonomy';
@@ -45,7 +46,6 @@ class SubjectSettingsItems extends Component {
             messages={{ errorMessage: t('taxonomy.errorMessage') }}
             onSubmit={e => onChangeSubjectName(id, e)}
             onClose={onClose}
-            t={t}
             icon={<Pencil />}
           />
         ) : (
@@ -86,7 +86,6 @@ class SubjectSettingsItems extends Component {
             onClose={onClose}
             onSubmit={e => onAddExistingTopic(id, e)}
             icon={<Plus />}
-            t={t}
           />
         ) : (
           <Button
@@ -135,4 +134,4 @@ SubjectSettingsItems.propTypes = {
   t: PropTypes.func,
 };
 
-export default SubjectSettingsItems;
+export default injectT(SubjectSettingsItems);

@@ -1,0 +1,64 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Button } from 'ndla-ui';
+import { Pencil } from 'ndla-icons/action';
+import { injectT } from 'ndla-i18n';
+import { DeleteForever } from 'ndla-icons/editor';
+import InlineEditField from './InlineEditField';
+
+const EditFilterList = ({
+  filters,
+  editMode,
+  classes,
+  t,
+  setEditState,
+  showDeleteWarning,
+  editFilter,
+}) => (
+  <React.Fragment>
+    {filters.map(
+      filter =>
+        editMode === filter.id ? (
+          <InlineEditField
+            key={filter.id}
+            classes={classes}
+            messages={{ errorMessage: t('taxonomy.errorMessage') }}
+            currentVal={filter.name}
+            onClose={() => setEditState('')}
+            onSubmit={e => editFilter(filter.id, e)}
+          />
+        ) : (
+          <div key={filter.id} {...classes('filterItem')}>
+            {filter.name}
+            <div style={{ display: 'flex' }}>
+              <Button
+                stripped
+                data-testid={`editFilter${filter.id}`}
+                onClick={() => setEditState(filter.id)}
+                {...classes('iconButton', 'item')}>
+                {<Pencil />}
+              </Button>
+              <Button
+                stripped
+                data-testid={`deleteFilter${filter.id}`}
+                onClick={() => showDeleteWarning(filter.id)}
+                {...classes('iconButton', 'item')}>
+                {<DeleteForever />}
+              </Button>
+            </div>
+          </div>
+        ),
+    )}
+  </React.Fragment>
+);
+
+EditFilterList.propTypes = {
+  filters: PropTypes.arrayOf(PropTypes.object),
+  editMode: PropTypes.string,
+  classes: PropTypes.func,
+  setEditState: PropTypes.func,
+  showDeleteWarning: PropTypes.func,
+  editFilter: PropTypes.func,
+};
+
+export default injectT(EditFilterList);

@@ -19,6 +19,12 @@ import {
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
+function fetchAllResourceTypes(locale) {
+  return fetchAuthorized(`${baseUrl}/resource-types/?language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
 function createResourceResourceType(resourceType) {
   return fetchAuthorized(`${baseUrl}/resource-resourcetypes`, {
     headers: {
@@ -65,6 +71,7 @@ async function createDeleteResourceTypes(resourceId, resourceTypes, language) {
 }
 
 export {
+  fetchAllResourceTypes,
   createResourceResourceType,
   deleteResourceResourceType,
   createDeleteResourceTypes,

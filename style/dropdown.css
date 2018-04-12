@@ -23,6 +23,7 @@
 
   &__single {
     padding: 0.522rem;
+    padding-right: var(--spacing--medium);
   }
 
   &__items {
@@ -55,7 +56,7 @@
   &__action {
     position: absolute;
     right: 0.8rem;
-    top: 0.5rem;
+    top: 0.1rem;
     color: var(--brand-grey);
 
     &:hover,

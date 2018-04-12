@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import ResourceShape from '../../../shapes';
+import { ResourceShape } from '../../../shapes';
 
 const classes = new BEMHelper({
   name: 'topic-resource',

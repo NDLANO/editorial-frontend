@@ -44,6 +44,10 @@ details {
   @media (--large-viewport) {
     margin: -1em -7em;
   }
+
+  & figure {
+    position: static !important;
+  }
 }
 
 .c-editor__aside-type + .c-aside__content {

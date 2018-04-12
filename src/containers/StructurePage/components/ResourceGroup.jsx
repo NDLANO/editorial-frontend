@@ -9,7 +9,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import ResourceTypeShape from '../../../shapes';
+import { ResourceTypeShape } from '../../../shapes';
 import Accordion from '../../../components/Accordion';
 import ResourceItem from './ResourceItem';
 

@@ -78,38 +78,46 @@ const scriptSrc = (() => {
   return defaultScriptSrc;
 })();
 
+const frameSrc = (() => {
+  const defaultFrameSrc = [
+    '*.nrk.no',
+    'nrk.no',
+    'https://www.tv2skole.no/',
+    'https://www.scribd.com/',
+    'https://www.youtube.com',
+    'ndla.no',
+    'https://*.ndlah5p.com',
+    'https://h5p.org',
+    '*.ndla.no',
+    '*.slideshare.net',
+    'slideshare.net',
+    '*.vimeo.com',
+    'vimeo.com',
+    '*.ndla.filmiundervisning.no',
+    'ndla.filmiundervisning.no',
+    '*.prezi.com',
+    'prezi.com',
+    '*.commoncraft.com',
+    'commoncraft.com',
+    '*.embed.kahoot.it',
+    '*.brightcove.net',
+    'embed.kahoot.it',
+    'fast.wistia.com',
+    'https://khanacademy.org/',
+    '*.khanacademy.org/',
+    'https://*.auth0.com',
+  ];
+  if (process.env.NODE_ENV === 'development') {
+    return [...defaultFrameSrc, 'http://localhost:3000'];
+  }
+  return defaultFrameSrc;
+})();
+
 export default {
   directives: {
     defaultSrc: ["'self'", 'blob:'],
     scriptSrc,
-    frameSrc: [
-      '*.nrk.no',
-      'nrk.no',
-      'https://www.tv2skole.no/',
-      'https://www.scribd.com/',
-      'https://www.youtube.com',
-      'ndla.no',
-      'https://*.ndlah5p.com',
-      'https://h5p.org',
-      '*.ndla.no',
-      '*.slideshare.net',
-      'slideshare.net',
-      '*.vimeo.com',
-      'vimeo.com',
-      '*.ndla.filmiundervisning.no',
-      'ndla.filmiundervisning.no',
-      '*.prezi.com',
-      'prezi.com',
-      '*.commoncraft.com',
-      'commoncraft.com',
-      '*.embed.kahoot.it',
-      '*.brightcove.net',
-      'embed.kahoot.it',
-      'fast.wistia.com',
-      'https://khanacademy.org/',
-      '*.khanacademy.org/',
-      'https://*.auth0.com',
-    ],
+    frameSrc,
     styleSrc: [
       "'self'",
       "'unsafe-inline'",

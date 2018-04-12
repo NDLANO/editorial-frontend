@@ -50,7 +50,7 @@ export class StructurePage extends React.PureComponent {
     this.addSubject = this.addSubject.bind(this);
     this.onChangeSubjectName = this.onChangeSubjectName.bind(this);
     this.onAddSubjectTopic = this.onAddSubjectTopic.bind(this);
-    this.getTopicResources = this.getTopicResources.bind(this);
+    this.onAddExistingTopic = this.onAddExistingTopic.bind(this);
   }
 
   async componentDidMount() {
@@ -89,6 +89,16 @@ export class StructurePage extends React.PureComponent {
       return ok;
     } catch (e) {
       return e;
+    }
+  }
+
+  async onAddExistingTopic(subjectid, topicid) {
+    const ok = await addSubjectTopic({
+      subjectid,
+      topicid,
+    });
+    if (ok) {
+      this.getSubjectTopics(subjectid);
     }
   }
 
@@ -192,9 +202,9 @@ export class StructurePage extends React.PureComponent {
               topics={this.state.topics[it.id]}
               active={it.id.replace('urn:', '') === params.subject}
               params={params}
-              t={t}
               onChangeSubjectName={this.onChangeSubjectName}
               onAddSubjectTopic={this.onAddSubjectTopic}
+              onAddExistingTopic={this.onAddExistingTopic}
             />
           ))}
         </Accordion>

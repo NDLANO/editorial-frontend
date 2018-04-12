@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { initAudioPlayers } from 'ndla-article-scripts';
 import { AudioPlayer, FigureCaption } from 'ndla-ui';
 import { getLicenseByAbbreviation } from 'ndla-licenses';
@@ -18,16 +19,24 @@ class AudioPlayerMounter extends Component {
     } = this.props.audio;
     const locale = 'nb';
     const license = getLicenseByAbbreviation(licenseAbbreviation, locale);
+
     return (
       <div>
-        <AudioPlayer type={mimeType} src={url} title={title} />
-        <FigureCaption
-          id={`${id}`}
-          caption={title}
-          reuseLabel=""
-          licenseRights={license.rights}
-          authors={creators}
+        <AudioPlayer
+          type={mimeType}
+          src={url}
+          title={title}
+          speech={this.props.speech}
         />
+        {!this.props.speech && (
+          <FigureCaption
+            id={`${id}`}
+            caption={title}
+            reuseLabel=""
+            licenseRights={license.rights}
+            authors={creators}
+          />
+        )}
       </div>
     );
   }
@@ -35,6 +44,7 @@ class AudioPlayerMounter extends Component {
 
 AudioPlayerMounter.propTypes = {
   audio: AudioShape,
+  speech: PropTypes.bool,
 };
 
 export default AudioPlayerMounter;

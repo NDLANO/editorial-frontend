@@ -263,7 +263,7 @@ ansi-styles@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-2.2.1.tgz#b432dd3358b634cf75e1e4664368240533c1ddbe"
 
-ansi-styles@^3.0.0, ansi-styles@^3.2.1:
+ansi-styles@^3.0.0, ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-3.2.1.tgz#41fbb20243e50b12be0f04b8dedbf07520ce841d"
   dependencies:
@@ -2568,6 +2568,14 @@ dom-serializer@0, dom-serializer@~0.1.0:
     domelementtype "~1.1.1"
     entities "~1.1.1"
 
+dom-testing-library@^1.0.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/dom-testing-library/-/dom-testing-library-1.3.0.tgz#2056b901bfa442a53d85d20d54cc0a56f35105d6"
+  dependencies:
+    jest-matcher-utils "^22.4.3"
+    mutationobserver-shim "^0.3.2"
+    wait-for-expect "^0.4.0"
+
 domain-browser@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
@@ -3687,6 +3695,10 @@ function.prototype.name@^1.0.3:
 functional-red-black-tree@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
+
+fuse.js@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-3.2.0.tgz#f0448e8069855bf2a3e683cdc1d320e7e2a07ef4"
 
 gauge@~2.7.3:
   version "2.7.4"
@@ -4950,6 +4962,10 @@ jest-environment-node@^20.0.3:
     jest-mock "^20.0.3"
     jest-util "^20.0.3"
 
+jest-get-type@^22.4.3:
+  version "22.4.3"
+  resolved "https://registry.yarnpkg.com/jest-get-type/-/jest-get-type-22.4.3.tgz#e3a8504d8479342dd4420236b322869f18900ce4"
+
 jest-haste-map@^20.0.4:
   version "20.0.5"
   resolved "https://registry.yarnpkg.com/jest-haste-map/-/jest-haste-map-20.0.5.tgz#abad74efb1a005974a7b6517e11010709cab9112"
@@ -4981,6 +4997,14 @@ jest-matcher-utils@^20.0.3:
   dependencies:
     chalk "^1.1.3"
     pretty-format "^20.0.3"
+
+jest-matcher-utils@^22.4.3:
+  version "22.4.3"
+  resolved "https://registry.yarnpkg.com/jest-matcher-utils/-/jest-matcher-utils-22.4.3.tgz#4632fe428ebc73ebc194d3c7b65d37b161f710ff"
+  dependencies:
+    chalk "^2.0.1"
+    jest-get-type "^22.4.3"
+    pretty-format "^22.4.3"
 
 jest-matchers@^20.0.3:
   version "20.0.3"
@@ -5890,6 +5914,10 @@ multicast-dns@^6.0.1:
     dns-packet "^1.3.1"
     thunky "^1.0.2"
 
+mutationobserver-shim@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/mutationobserver-shim/-/mutationobserver-shim-0.3.2.tgz#f4d5dae7a4971a2207914fb5a90ebd514b65acca"
+
 mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
@@ -5958,8 +5986,8 @@ ndla-i18n@^0.2.2:
     invariant "^2.2.3"
 
 ndla-icons@^0.2.13:
-  version "0.2.13"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.13.tgz#48a21048083542e54635d99c40b44727b5d3e4c5"
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.14.tgz#9975692a0dcc3f8a4a47ac2cba71d20d87b909d5"
 
 ndla-image-search@^0.2.10:
   version "0.2.10"
@@ -7305,6 +7333,13 @@ pretty-format@^20.0.3:
     ansi-regex "^2.1.1"
     ansi-styles "^3.0.0"
 
+pretty-format@^22.4.3:
+  version "22.4.3"
+  resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-22.4.3.tgz#f873d780839a9c02e9664c8a082e9ee79eaac16f"
+  dependencies:
+    ansi-regex "^3.0.0"
+    ansi-styles "^3.2.0"
+
 private@^0.1.6, private@^0.1.7:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/private/-/private-0.1.8.tgz#2381edb3689f7a53d653190060fcf822d2f368ff"
@@ -7794,10 +7829,11 @@ react-test-renderer@^16.0.0-0, react-test-renderer@^16.3.1:
     prop-types "^15.6.0"
     react-is "^16.3.1"
 
-react-testing-library@^1.9.5:
-  version "1.9.5"
-  resolved "https://registry.yarnpkg.com/react-testing-library/-/react-testing-library-1.9.5.tgz#8126d6ab979542dffa316bee3dbed1212355400b"
+react-testing-library@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-testing-library/-/react-testing-library-2.0.0.tgz#6c6ee82c00a6c6afa7f86ab688064b4eed9f6e4e"
   dependencies:
+    dom-testing-library "^1.0.0"
     wait-for-expect "0.4.0"
 
 react-transition-group@^2.2.1:
@@ -8540,7 +8576,7 @@ slash@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/slash/-/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
 
-slate-base64-serializer@^0.2.1:
+slate-base64-serializer@^0.2.24:
   version "0.2.29"
   resolved "https://registry.yarnpkg.com/slate-base64-serializer/-/slate-base64-serializer-0.2.29.tgz#eaf4c92296a52510023ac36dd39a34a6b7a5df00"
   dependencies:
@@ -8577,25 +8613,19 @@ slate-hyperscript@^0.4.13:
     is-plain-object "^2.0.4"
     slate-dev-logger "^0.1.36"
 
-slate-plain-serializer@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/slate-plain-serializer/-/slate-plain-serializer-0.3.1.tgz#fd3201c4d133b521b62696c35cc0ef5f92ff174e"
-  dependencies:
-    slate-dev-logger "^0.1.25"
-
 slate-plain-serializer@^0.4.13:
   version "0.4.16"
   resolved "https://registry.yarnpkg.com/slate-plain-serializer/-/slate-plain-serializer-0.4.16.tgz#eff277b58943e130905114c7da431ab307cb4c1e"
   dependencies:
     slate-dev-logger "^0.1.36"
 
-slate-prop-types@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/slate-prop-types/-/slate-prop-types-0.3.1.tgz#27c62318ead2b90261b5933092ae4694db69e22e"
+slate-plain-serializer@^0.5.5:
+  version "0.5.10"
+  resolved "https://registry.yarnpkg.com/slate-plain-serializer/-/slate-plain-serializer-0.5.10.tgz#0a430824485f3dd4c7bf5bcae1bae37f13741c5c"
   dependencies:
-    slate-dev-logger "^0.1.25"
+    slate-dev-logger "^0.1.39"
 
-slate-prop-types@^0.4.13:
+slate-prop-types@^0.4.13, slate-prop-types@^0.4.22:
   version "0.4.27"
   resolved "https://registry.yarnpkg.com/slate-prop-types/-/slate-prop-types-0.4.27.tgz#9b3c13f0a1a1b034f8e66095a28bd537af03ba95"
   dependencies:
@@ -9681,7 +9711,7 @@ w3c-hr-time@^1.0.1:
   dependencies:
     browser-process-hrtime "^0.1.2"
 
-wait-for-expect@0.4.0:
+wait-for-expect@0.4.0, wait-for-expect@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/wait-for-expect/-/wait-for-expect-0.4.0.tgz#341c96ab89d6102a0169a9be6cd0de354de92c17"
 

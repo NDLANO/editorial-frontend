@@ -76,9 +76,38 @@ async function createDeleteUpdateFilters(resourceId, filter, language) {
   }
 }
 
+function createSubjectFilter(id, name) {
+  return fetchAuthorized(`${baseUrl}/filters`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify({ subjectId: id, name }),
+  }).then(resolveTaxonomyJsonOrRejectWithError);
+}
+
+function editSubjectFilter(filterId, subjectId, name) {
+  return fetchAuthorized(`${baseUrl}/filters/${filterId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'PUT',
+    body: JSON.stringify({ subjectId, name }),
+  }).then(resolveTaxonomyJsonOrRejectWithError);
+}
+
+function deleteFilter(id) {
+  return fetchAuthorized(`${baseUrl}/filters/${id}`, {
+    method: 'DELETE',
+  }).then(resolveJsonOrRejectWithError);
+}
+
 export {
   createResourceFilter,
   updateResourceFilter,
   deleteResourceFilter,
   createDeleteUpdateFilters,
+  createSubjectFilter,
+  editSubjectFilter,
+  deleteFilter,
 };

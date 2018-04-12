@@ -1,0 +1,131 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Button } from 'ndla-ui';
+import { Plus } from 'ndla-icons/action';
+import InlineEditField from './InlineEditField';
+import {
+  fetchSubjectFilters,
+  createSubjectFilter,
+  editSubjectFilter,
+  deleteFilter,
+} from '../../../modules/taxonomy';
+import WarningModal from '../../../components/WarningModal';
+import EditFilterList from './EditFilterList';
+
+class EditFilters extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      editMode: '',
+      filters: [],
+    };
+    this.addFilter = this.addFilter.bind(this);
+    this.getFilters = this.getFilters.bind(this);
+    this.showDeleteWarning = this.showDeleteWarning.bind(this);
+    this.deleteFilter = this.deleteFilter.bind(this);
+    this.editFilter = this.editFilter.bind(this);
+  }
+
+  componentDidMount() {
+    this.getFilters();
+  }
+
+  async getFilters() {
+    const filters = await fetchSubjectFilters(this.props.id);
+    this.setState({ filters, error: '' });
+  }
+
+  async addFilter(name) {
+    try {
+      await createSubjectFilter(this.props.id, name);
+      this.getFilters();
+    } catch (e) {
+      this.setState({ error: e.message });
+    }
+  }
+
+  async editFilter(id, name) {
+    try {
+      await editSubjectFilter(id, this.props.id, name);
+      this.getFilters();
+    } catch (e) {
+      this.setState({ error: e.message });
+    }
+  }
+
+  showDeleteWarning(filterId) {
+    this.setState({ showDelete: filterId });
+  }
+
+  async deleteFilter() {
+    try {
+      await deleteFilter(this.state.showDelete);
+      this.getFilters();
+    } catch (e) {
+      this.setState({ error: e });
+    }
+    this.setState({ showDelete: false });
+  }
+
+  render() {
+    const { classes, t } = this.props;
+    const { editMode, filters, showDelete } = this.state;
+
+    return (
+      <div {...classes('editFilters')}>
+        <EditFilterList
+          filters={filters}
+          editMode={editMode}
+          classes={classes}
+          setEditState={name => this.setState({ editMode: name })}
+          showDeleteWarning={this.showDeleteWarning}
+          editFilter={this.editFilter}
+        />
+        {editMode === 'addFilter' ? (
+          <InlineEditField
+            classes={classes}
+            currentVal=""
+            messages={{ errorMessage: t('taxonomy.errorMessage') }}
+            dataTestid="addFilterInput"
+            onClose={() => this.setState({ editMode: '' })}
+            onSubmit={this.addFilter}
+          />
+        ) : (
+          <Button
+            stripped
+            {...classes('addFilter')}
+            data-testid="addFilterButton"
+            onClick={() => this.setState({ editMode: 'addFilter' })}>
+            <Plus />
+            {t('taxonomy.addFilter')}
+          </Button>
+        )}
+        <div {...classes('errorMessage')}>{this.state.error}</div>
+        {showDelete && (
+          <WarningModal
+            confirmDelete
+            text={t('taxonomy.confirmDelete')}
+            onContinue={this.deleteFilter}
+            onCancel={() => this.setState({ showDelete: '' })}
+          />
+        )}
+      </div>
+    );
+  }
+}
+
+EditFilters.propTypes = {
+  id: PropTypes.string,
+  t: PropTypes.func,
+  classes: PropTypes.func,
+};
+
+export default EditFilters;

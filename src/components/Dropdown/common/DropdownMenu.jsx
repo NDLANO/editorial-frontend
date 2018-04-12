@@ -22,18 +22,19 @@ const DropdownMenu = props => {
     multiSelect,
     asyncSelect,
     items,
-    messages,
+    messages = {},
     valueField,
     inputValue,
     textField,
+    dontShowOnEmptyFilter,
+    fuzzy,
   } = props;
-
   const values =
-    inputValue && !asyncSelect
+    inputValue && !asyncSelect && !fuzzy
       ? downShiftSorter(items, inputValue, textField)
       : items;
 
-  return !isOpen ? null : (
+  return !isOpen || (dontShowOnEmptyFilter && !inputValue) ? null : (
     <div {...dropDownClasses('items')}>
       {!isEmpty(values) ? (
         values.map((item, index) => (
@@ -62,6 +63,10 @@ DropdownMenu.propTypes = {
     PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number]),
   ).isRequired,
   textField: PropTypes.string,
+  messages: PropTypes.shape({
+    emptyList: PropTypes.string,
+    emptyFilter: PropTypes.string,
+  }),
 };
 
 export default DropdownMenu;

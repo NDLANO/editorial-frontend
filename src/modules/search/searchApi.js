@@ -12,9 +12,9 @@ import {
   fetchAuthorized,
 } from '../../util/apiHelpers';
 
-const baseUrl = apiResourceUrl('/search-api/v1/search');
+const baseUrl = apiResourceUrl('/search-api/v1/search/draft/');
 
 export const search = queryString =>
-  fetchAuthorized(`${baseUrl}/${queryString}`).then(
+  fetchAuthorized(`${baseUrl}${queryString}`).then(
     resolveJsonOrRejectWithError,
   );

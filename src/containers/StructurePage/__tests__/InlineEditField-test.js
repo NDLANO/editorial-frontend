@@ -23,7 +23,6 @@ it('Goes to edit mode, handles submit', async () => {
   );
   expect(container.firstChild).toMatchSnapshot();
 
-  Simulate.click(getByTestId('inlineEditFieldButton'));
   const input = getByTestId('inlineEditInput');
   input.value = 'Elefant';
   Simulate.change(input);
@@ -44,7 +43,6 @@ it('Goes to edit mode, handles submit and shows error', async () => {
     />,
   );
 
-  Simulate.click(getByTestId('inlineEditFieldButton'));
   const input = getByTestId('inlineEditInput');
   input.value = 'Elefant';
   Simulate.change(input);

@@ -14,6 +14,7 @@ import ImageSearch from 'ndla-image-search';
 import VideoSearch from 'ndla-video-search';
 import AudioSearch from 'ndla-audio-search';
 
+import config from '../../config';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
@@ -88,8 +89,8 @@ const VisualElementSearch = ({
                   resource: type,
                   videoid: video.id,
                   caption: '',
-                  account: window.config.brightCoveAccountId,
-                  player: window.config.brightcovePlayerId,
+                  account: config.brightCoveAccountId,
+                  player: config.brightcovePlayerId,
                   metaData: video,
                 });
               }

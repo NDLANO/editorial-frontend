@@ -8,6 +8,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import config from '../../config';
 import WarningModal from '../../components/WarningModal';
 import { SchemaShape } from '../../shapes';
 
@@ -35,7 +36,7 @@ class WarningModalWrapper extends PureComponent {
       return canNavigate;
     });
 
-    if (window && window.config.isNdlaProdEnvironment) {
+    if (config.isNdlaProdEnvironment) {
       window.onbeforeunload = () =>
         !this.isDirty() || this.state.discardChanges;
     }

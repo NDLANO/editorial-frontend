@@ -9,10 +9,11 @@
 import 'isomorphic-fetch';
 import auth0 from 'auth0-js';
 import createHistory from 'history/createBrowserHistory';
+import config from '../config';
 import { expiresIn } from './jwtHelper';
 import { resolveJsonOrRejectWithError } from './apiHelpers';
 
-export const { auth0Domain, ndlaPersonalClientId } = window.config;
+export const { auth0Domain, ndlaPersonalClientId } = config;
 
 const locationOrigin = (() => {
   if (process.env.NODE_ENV === 'unittest') {

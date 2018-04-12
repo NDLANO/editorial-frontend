@@ -21,6 +21,7 @@ import {
   SubjectMatter,
   Taxonomy,
 } from 'ndla-icons/editor';
+import config from '../../../config';
 import {
   toCreateLearningResource,
   toCreateImage,
@@ -83,7 +84,7 @@ export class Navigation extends Component {
             </Link>
             <a
               tabIndex="0"
-              href={window.config.learningpathFrontendDomain}
+              href={config.learningpathFrontendDomain}
               target="_blank"
               {...classes('item')}
               onClick={this.toggleOpen}>

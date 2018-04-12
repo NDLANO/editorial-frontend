@@ -106,7 +106,7 @@ class ImageEditor extends Component {
     evt.stopPropagation();
     this.setState({
       editType: undefined,
-      [field]: value, // eslint-disable-line
+      [field]: value,
     });
   }
 

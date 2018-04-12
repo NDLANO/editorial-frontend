@@ -11,18 +11,19 @@
 import defined from 'defined';
 import fetch from 'isomorphic-fetch';
 import queryString from 'query-string';
+import config from '../config';
 import { getAccessToken, isAccessTokenValid, renewAuth } from './authHelpers';
 
 export function apiResourceUrl(path) {
-  return window.config.ndlaApiUrl + path;
+  return config.ndlaApiUrl + path;
 }
 
 export function brightcoveApiResourceUrl(path) {
-  return window.config.brightcoveApiUrl + path;
+  return config.brightcoveApiUrl + path;
 }
 
 export function googleSearchApiResourceUrl(path) {
-  return window.config.googleSearchApiUrl + path;
+  return config.googleSearchApiUrl + path;
 }
 
 export function createErrorPayload(status, message, json) {

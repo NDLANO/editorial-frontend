@@ -8,12 +8,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactCrop from 'react-image-crop';
+import config from '../../config';
 import { EmbedShape } from '../../shapes';
 
 const ImageCropEdit = ({ embed, onCropComplete, transformData }) => {
-  const src = `${window.config.ndlaApiUrl}/image-api/raw/id/${
-    embed.resource_id
-  }`;
+  const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
 
   const embedHasCrop =
     transformData['upper-left-x'] &&

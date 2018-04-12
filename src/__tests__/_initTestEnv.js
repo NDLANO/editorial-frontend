@@ -15,11 +15,6 @@ import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 /* eslint-enable */
-
-window.config = {
-  ndlaApiUrl: 'http://ndla-api',
-};
-
 global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
   ? parseInt(process.env.DEFAULT_TIMEOUT, 10)
   : 100;

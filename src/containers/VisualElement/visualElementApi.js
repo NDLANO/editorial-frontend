@@ -8,6 +8,7 @@
 
 import queryString from 'query-string';
 import defined from 'defined';
+import config from '../../config';
 import {
   createErrorPayload,
   apiResourceUrl,
@@ -21,7 +22,7 @@ import {
 const baseImageNdlaUrl = apiResourceUrl('/image-api/v2/images');
 const baseAudioNdlaUrl = apiResourceUrl('/audio-api/v1/audio');
 const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
-  `/v1/accounts/${window.config.brightCoveAccountId}/videos`,
+  `/v1/accounts/${config.brightCoveAccountId}/videos`,
 );
 const baseGoogleSearchUrl = googleSearchApiResourceUrl('/customsearch/v1/');
 
@@ -61,8 +62,8 @@ export const searchBrightcoveVideos = query =>
 
 export const searchGoogleCustomSearch = (query, filter) => {
   const params = {
-    key: window.config.googleSearchApiKey,
-    cx: window.config.googleSearchEngineId,
+    key: config.googleSearchApiKey,
+    cx: config.googleSearchEngineId,
     q: `${query.query} ${filter}`,
     start: query.start ? query.start : undefined,
   };

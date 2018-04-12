@@ -87,7 +87,10 @@ const config = {
 };
 
 export function getUniversalConfig() {
-  return process.env.NODE_ENV === 'unittest' ? config : window.config;
+  return process.env.BUILD_TARGET === 'server' ||
+    process.env.NODE_ENV === 'unittest'
+    ? config
+    : window.config;
 }
 
-export default config;
+export default getUniversalConfig();

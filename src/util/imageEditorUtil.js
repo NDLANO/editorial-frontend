@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import config from '../config';
 
 export function getElementOffset(el) {
   const rect = el.getBoundingClientRect();
@@ -74,7 +75,7 @@ export function getFocalPoint(transformData) {
 }
 
 export function getSrcSets(imageId, transformData) {
-  const src = `${window.config.ndlaApiUrl}/image-api/raw/id/${imageId}`;
+  const src = `${config.ndlaApiUrl}/image-api/raw/id/${imageId}`;
   const crop = getCrop(transformData);
   const focalPoint = getFocalPoint(transformData);
 

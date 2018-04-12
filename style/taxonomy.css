@@ -76,6 +76,7 @@
 .c-settingsMenu {
   position: relative;
   display: flex;
+  font-size: 0.9em;
 
   &__saveButton,
   &__saveButton:disabled {
@@ -106,10 +107,10 @@
   &__menuItem {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    margin: calc(var(--spacing--small) / 2);
 
     & input {
-      margin: calc(var(--spacing--small) / 2);
+      margin-right: calc(var(--spacing--small) / 2);
       max-height: var(--spacing);
       width: auto;
     }
@@ -123,6 +124,21 @@
   &__closeButton {
     color: var(--gray-7);
     margin-left: auto;
+  }
+
+  &__editFilters {
+    background-color: white;
+    padding: calc(var(--spacing--small) / 2);
+  }
+
+  &__filterItem {
+    display: flex;
+    justify-content: space-between;
+    margin: calc(var(--spacing--small) / 2);
+  }
+
+  &__addFilter {
+    text-decoration: underline;
   }
 }
 

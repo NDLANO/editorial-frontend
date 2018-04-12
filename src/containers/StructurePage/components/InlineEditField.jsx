@@ -18,7 +18,6 @@ class InlineEditField extends PureComponent {
     super();
     this.state = {
       status: 'initial',
-      errorMessage: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -28,11 +27,10 @@ class InlineEditField extends PureComponent {
     this.setState({ status: 'loading' });
     try {
       await this.props.onSubmit(this.state.input);
-      this.props.onClose();
       this.setState({ status: 'success' });
+      this.props.onClose();
     } catch (e) {
       this.setState({
-        errorMessage: this.props.t('taxonomy.errorMessage'),
         status: 'error',
       });
     }
@@ -48,17 +46,23 @@ class InlineEditField extends PureComponent {
   }
 
   render() {
-    const { title, icon, currentVal, classes } = this.props;
-    const { status, input, errorMessage } = this.state;
+    const {
+      currentVal = '',
+      classes,
+      icon,
+      messages = {},
+      dataTestid = 'inlineEditInput',
+    } = this.props;
+    const { status, input } = this.state;
     const value = input === undefined ? currentVal : input;
-    return status === 'edit' || status === 'error' || status === 'loading' ? (
+    return (
       <React.Fragment>
         <div {...classes('menuItem')}>
           <RoundIcon open small icon={icon} />
           <input
             type="text"
             value={value}
-            data-testid="inlineEditInput"
+            data-testid={dataTestid}
             onChange={e => this.setState({ input: e.target.value })}
             onKeyDown={this.handleKeyPress}
           />
@@ -74,34 +78,28 @@ class InlineEditField extends PureComponent {
             )}
           </Button>
         </div>
-        {errorMessage && (
+        {status === 'error' && (
           <div
             data-testid="inlineEditErrorMessage"
             {...classes('errorMessage')}>
-            {errorMessage}
+            {messages.errorMessage}
           </div>
         )}
       </React.Fragment>
-    ) : (
-      <Button
-        {...classes('menuItem')}
-        stripped
-        data-testid="inlineEditFieldButton"
-        onClick={() => this.setState({ status: 'edit' })}>
-        <div {...classes('iconButton', 'item')}>{icon}</div>
-        {title}
-      </Button>
     );
   }
 }
 
 InlineEditField.propTypes = {
-  title: PropTypes.string,
-  icon: PropTypes.node,
   onSubmit: PropTypes.func,
+  icon: PropTypes.node,
   currentVal: PropTypes.string,
   classes: PropTypes.func,
   onClose: PropTypes.func,
+  dataTestid: PropTypes.string,
+  messages: PropTypes.shape({
+    errorMessage: PropTypes.string,
+  }),
 };
 
 export default InlineEditField;

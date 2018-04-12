@@ -431,7 +431,14 @@ const phrases = {
   },
   taxonomy: {
     editStructure: '  Edit structure',
-    addSubject: '+ Add new subject',
+    addSubject: 'Add new subject',
+    addExistingTopic: 'Add existing topic',
+    editFilter: 'Edit filter',
+    emptyFilter: 'No hits',
+    errorMessage: 'An error occurred',
+    addTopic: 'Add topic',
+    changeName: 'Change name',
+    topicSettings: 'Topic settings',
     subjectSettings: 'Subject settings',
     topicSettings: 'Topic settings',
     changeName: 'Change name',
@@ -439,6 +446,8 @@ const phrases = {
     errorMessage: 'An error occurred',
     linkSettings: 'Link',
     setPrimary: 'Set as primary link',
+    addFilter: 'Add filter',
+    confirmDelete: 'Are you sure you want to delete the filter?',
   },
 };
 

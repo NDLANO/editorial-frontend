@@ -46,6 +46,7 @@ export class StructurePage extends React.PureComponent {
     this.refFunc = this.refFunc.bind(this);
     this.connectLinkItems = this.connectLinkItems.bind(this);
     this.deleteConnections = this.deleteConnections.bind(this);
+    this.onAddExistingTopic = this.onAddExistingTopic.bind(this);
   }
 
   componentDidMount() {
@@ -74,6 +75,16 @@ export class StructurePage extends React.PureComponent {
       return ok;
     } catch (e) {
       return e;
+    }
+  }
+
+  async onAddExistingTopic(subjectid, topicid) {
+    const ok = await addSubjectTopic({
+      subjectid,
+      topicid,
+    });
+    if (ok) {
+      this.getSubjectTopics(subjectid);
     }
   }
 
@@ -208,10 +219,10 @@ export class StructurePage extends React.PureComponent {
               topics={this.state.topics[it.id]}
               active={it.id.replace('urn:', '') === params.subject}
               params={params}
-              t={t}
               onChangeSubjectName={this.onChangeSubjectName}
               onAddSubjectTopic={this.onAddSubjectTopic}
               showLink={this.showLink}
+              onAddExistingTopic={this.onAddExistingTopic}
             />
           ))}
         </Accordion>

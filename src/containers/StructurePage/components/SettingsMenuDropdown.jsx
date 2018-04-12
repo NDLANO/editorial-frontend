@@ -1,19 +1,21 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import { Settings } from 'ndla-icons/editor';
-import { Cross, Pencil } from 'ndla-icons/action';
+import { Cross } from 'ndla-icons/action';
+import SubjectSettingsItems from './SubjectSettingsItems';
+import TopicSettingItems from './TopicSettingItems';
 
-import InlineEditField from './InlineEditField';
-
-const SettingsMenuDropdown = ({
-  classes,
-  onClose,
-  t,
-  onChangeSubjectName,
-  id,
-  name,
-}) => {
+const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
   const type = id.includes('subject') ? 'subject' : 'topic';
   return (
     <div {...classes('openMenu')}>
@@ -26,16 +28,15 @@ const SettingsMenuDropdown = ({
           <Cross />
         </Button>
       </div>
-      {type === 'subject' && (
-        <InlineEditField
+      {type === 'subject' ? (
+        <SubjectSettingsItems
           classes={classes}
-          currentVal={name}
-          onSubmit={e => onChangeSubjectName(id, e)}
           onClose={onClose}
-          title={t('taxonomy.changeName')}
-          icon={<Pencil />}
-          t={t}
+          id={id}
+          {...rest}
         />
+      ) : (
+        <TopicSettingItems />
       )}
     </div>
   );
@@ -44,10 +45,11 @@ const SettingsMenuDropdown = ({
 SettingsMenuDropdown.propTypes = {
   classes: PropTypes.func,
   onClose: PropTypes.func,
-  t: PropTypes.func,
   onChangeSubjectName: PropTypes.func,
+  onAddSubjectTopic: PropTypes.func,
+  onAddExistingTopic: PropTypes.func,
   id: PropTypes.string,
   name: PropTypes.string,
 };
 
-export default SettingsMenuDropdown;
+export default injectT(SettingsMenuDropdown);

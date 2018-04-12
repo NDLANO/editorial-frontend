@@ -50,10 +50,17 @@ function updateSubjectName(id, name) {
   }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
+function fetchSubjectFilters(id) {
+  return fetchAuthorized(`${baseUrl}/subjects/${id}/filters`).then(res =>
+    resolveJsonOrRejectWithError(res),
+  );
+}
+
 export {
   fetchSubjects,
   fetchSubjectTopics,
   addSubject,
   updateSubjectName,
   addSubjectTopic,
+  fetchSubjectFilters,
 };

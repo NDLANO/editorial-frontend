@@ -439,12 +439,17 @@ const phrases = {
   },
   taxonomy: {
     editStructure: '  Rediger struktur',
-    addSubject: '+ Legg til nytt fag',
+    addSubject: 'Legg til nytt fag',
+    addExistingTopic: 'Legg til eksisterende emne',
     subjectSettings: 'Faginstillinger',
     topicSettings: 'Emneinstillinger',
     changeName: 'Endre navn',
     addTopic: 'Legg til nytt emne',
     errorMessage: 'En feil oppsto',
+    emptyFilter: 'Ingen treff',
+    editFilter: 'Rediger filter',
+    addFilter: 'Nytt filter',
+    confirmDelete: 'Er du sikker på at du vil slette filteret?',
   },
 };
 

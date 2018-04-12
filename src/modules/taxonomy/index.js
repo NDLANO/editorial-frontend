@@ -30,7 +30,10 @@ import {
   createResourceFilter,
   updateResourceFilter,
   deleteResourceFilter,
+  createSubjectFilter,
   createDeleteUpdateFilters,
+  editSubjectFilter,
+  deleteFilter,
 } from './filter';
 import {
   fetchAllTopicResource,
@@ -46,6 +49,7 @@ import {
   fetchSubjectTopics,
   addSubject,
   updateSubjectName,
+  fetchSubjectFilters,
   addSubjectTopic,
 } from './subjects';
 
@@ -84,4 +88,8 @@ export {
   addSubject,
   updateSubjectName,
   addSubjectTopic,
+  createSubjectFilter,
+  fetchSubjectFilters,
+  editSubjectFilter,
+  deleteFilter,
 };

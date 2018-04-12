@@ -445,6 +445,8 @@ const phrases = {
     changeName: 'Endre navn',
     addTopic: 'Legg til nytt emne',
     errorMessage: 'En feil oppsto',
+    linkSettings: 'Link',
+    setPrimary: 'Sett til primærkobling',
   },
 };
 

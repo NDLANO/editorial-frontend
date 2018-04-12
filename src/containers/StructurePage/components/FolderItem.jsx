@@ -9,10 +9,11 @@
 import React from 'react';
 import { string, bool, arrayOf, object, shape, func } from 'prop-types';
 import { Button } from 'ndla-ui';
-import { Folder, Link } from 'ndla-icons/editor';
+import { Folder, Link as LinkIcon } from 'ndla-icons/editor';
 import { Link as RouterLink } from 'react-router-dom';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';
+import EditLinkButton from './EditLinkButton';
 import RoundIcon from './RoundIcon';
 
 const classes = new BEMHelper({
@@ -46,7 +47,7 @@ class FolderItem extends React.PureComponent {
           {active &&
             type === 'topic' && (
               <Button stripped onClick={() => showLink(id)}>
-                <RoundIcon icon={<Link />} />
+                <RoundIcon icon={<LinkIcon />} />
               </Button>
             )}
           {active && <SettingsMenu id={id} name={name} type={type} {...rest} />}
@@ -68,6 +69,7 @@ class FolderItem extends React.PureComponent {
               />
             ))}
         </div>
+        <EditLinkButton refFunc={refFunc} id={id} />
       </React.Fragment>
     );
   }

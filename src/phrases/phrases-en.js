@@ -437,6 +437,8 @@ const phrases = {
     changeName: 'Change name',
     addTopic: 'Add topic',
     errorMessage: 'An error occurred',
+    linkSettings: 'Link',
+    setPrimary: 'Set as primary link',
   },
 };
 

@@ -8,10 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { OneColumn } from 'ndla-ui';
+import { OneColumn, Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import { Button } from 'ndla-ui';
-import { Taxonomy, Link } from 'ndla-icons/editor';
+import { Taxonomy, Star } from 'ndla-icons/editor';
 import { jsPlumb } from 'jsplumb';
 
 import FolderItem from './components/FolderItem';
@@ -34,6 +33,7 @@ export class StructurePage extends React.PureComponent {
       editStructureHidden: false,
       subjects: [],
       topics: {},
+      connections: [],
     };
     this.starButton = React.createRef();
     this.linkButton = React.createRef();
@@ -44,6 +44,8 @@ export class StructurePage extends React.PureComponent {
     this.onAddSubjectTopic = this.onAddSubjectTopic.bind(this);
     this.showLink = this.showLink.bind(this);
     this.refFunc = this.refFunc.bind(this);
+    this.connectLinkItems = this.connectLinkItems.bind(this);
+    this.deleteConnections = this.deleteConnections.bind(this);
   }
 
   componentDidMount() {
@@ -55,10 +57,13 @@ export class StructurePage extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const id = `urn:${nextProps.match.params.subject}`;
-    const currentSub = this.state.subjects.find(it => it.id === id);
-    if (id && currentSub && !this.state.topics[id]) {
-      this.getSubjectTopics(id);
+    if (nextProps.location.pathname !== this.props.location.pathname) {
+      this.deleteConnections();
+      const id = `urn:${nextProps.match.params.subject}`;
+      const currentSub = this.state.subjects.find(it => it.id === id);
+      if (id && currentSub && !this.state.topics[id]) {
+        this.getSubjectTopics(id);
+      }
     }
   }
 
@@ -122,37 +127,54 @@ export class StructurePage extends React.PureComponent {
     }
   }
 
+  connectLinkItems(source, target) {
+    const instance = jsPlumb.getInstance();
+    return instance.connect({
+      source: this[source],
+      target: this[target],
+      endpoint: 'Blank',
+      connector: ['Flowchart', { stub: 50 }],
+      paintStyle: { strokeWidth: 1, stroke: '#000000', dashstyle: '4 2' },
+      anchors: ['Left', 'Left'],
+      overlays: [
+        [
+          'Custom',
+          { create: component => this.starButton.current, location: 70 },
+        ],
+        [
+          'Custom',
+          { create: component => this[`linkButton-${target}`], location: -30 },
+        ],
+      ],
+    });
+  }
+
+  deleteConnections() {
+    this.state.connections.forEach(conn => {
+      jsPlumb.deleteConnection(conn);
+    });
+    this.setState({ connections: [] });
+  }
+
   showLink(id) {
     const target = this.state.subjects[0].id;
-    if (this.state.connection) {
-      jsPlumb.deleteConnection(this.state.connection);
-      this.setState({ connection: undefined });
+    const target2 = this.state.subjects[this.state.subjects.length - 1].id;
+    if (this.state.connections.length > 0) {
+      this.deleteConnections();
     } else {
-      const connection = jsPlumb.connect({
-        source: this[id],
-        target: this[target],
-        endpoint: 'Blank',
-        connector: ['Flowchart', { stub: 50 }],
-        paintStyle: { strokeWidth: 1, stroke: '#000000', dashstyle: '4 2' },
-        anchors: ['Left', 'Left'],
-        overlays: [
-          [
-            'Custom',
-            { create: component => this.starButton.current, location: 70 },
-          ],
-          [
-            'Custom',
-            { create: component => this.linkButton.current, location: -30 },
-          ],
-        ],
-      });
-      this.setState({ connection });
+      this.starButton.current.style.display = 'block';
+      this[`linkButton-${target}`].style.display = 'block';
+      this[`linkButton-${target2}`].style.display = 'block';
+      const connection1 = this.connectLinkItems(id, target);
+      const connection2 = this.connectLinkItems(id, target2);
+      this.setState({ connections: [connection1, connection2] });
     }
   }
 
   refFunc(element, id) {
     this[id] = element;
   }
+  e;
 
   render() {
     const { match: { params }, t } = this.props;
@@ -193,15 +215,8 @@ export class StructurePage extends React.PureComponent {
             />
           ))}
         </Accordion>
-        <div ref={this.starButton}>
-          <Button stripped>
-            <RoundIcon icon={<Link />} />
-          </Button>
-        </div>
-        <div ref={this.linkButton}>
-          <Button stripped>
-            <RoundIcon icon={<Link />} />
-          </Button>
+        <div style={{ display: 'none' }} ref={this.starButton}>
+          <RoundIcon icon={<Star />} />
         </div>
       </OneColumn>
     );
@@ -214,6 +229,9 @@ StructurePage.propTypes = {
       subject: PropTypes.string,
     }).isRequired,
   }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
 };
 
 export default injectT(StructurePage);

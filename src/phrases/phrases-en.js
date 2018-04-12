@@ -440,6 +440,8 @@ const phrases = {
     changeName: 'Change name',
     topicSettings: 'Topic settings',
     subjectSettings: 'Subject settings',
+    linkSettings: 'Link',
+    setPrimary: 'Set as primary link',
     addFilter: 'Add filter',
     confirmDelete: 'Are you sure you want to delete the filter?',
   },

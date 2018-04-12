@@ -450,6 +450,8 @@ const phrases = {
     editFilter: 'Rediger filter',
     addFilter: 'Nytt filter',
     confirmDelete: 'Er du sikker på at du vil slette filteret?',
+    linkSettings: 'Link',
+    setPrimary: 'Sett til primærkobling',
   },
 };
 

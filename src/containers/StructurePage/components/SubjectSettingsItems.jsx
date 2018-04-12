@@ -16,6 +16,7 @@ import { fetchTopics } from '../../../modules/taxonomy';
 import InlineEditField from './InlineEditField';
 import InlineDropdown from './InlineDropdown';
 import EditFilters from './EditFilters';
+import RoundIcon from './RoundIcon';
 
 class SubjectSettingsItems extends Component {
   constructor() {
@@ -53,9 +54,7 @@ class SubjectSettingsItems extends Component {
             {...classes('menuItem')}
             stripped
             onClick={() => this.setState({ editMode: 'changeName' })}>
-            <div {...classes('iconButton', 'item')}>
-              <Pencil />
-            </div>
+            <RoundIcon small icon={<Pencil />} />
             {t('taxonomy.changeName')}
           </Button>
         )}
@@ -73,9 +72,7 @@ class SubjectSettingsItems extends Component {
             {...classes('menuItem')}
             stripped
             onClick={() => this.setState({ editMode: 'addTopic' })}>
-            <div {...classes('iconButton', 'item')}>
-              <Plus />
-            </div>
+            <RoundIcon small icon={<Plus />} />
             {t('taxonomy.addTopic')}
           </Button>
         )}
@@ -92,9 +89,7 @@ class SubjectSettingsItems extends Component {
             {...classes('menuItem')}
             stripped
             onClick={() => this.setState({ editMode: 'addExistingTopic' })}>
-            <div {...classes('iconButton', 'item')}>
-              <Plus />
-            </div>
+            <RoundIcon small icon={<Plus />} />
             {t('taxonomy.addExistingTopic')}
           </Button>
         )}
@@ -106,13 +101,7 @@ class SubjectSettingsItems extends Component {
               editMode: prevState.editMode === 'editFilter' ? '' : 'editFilter',
             }))
           }>
-          <div
-            {...classes(
-              'iconButton',
-              `item ${editMode === 'editFilter' ? 'open' : ''}`,
-            )}>
-            <Filter />
-          </div>
+          <RoundIcon small open={editMode === 'editFilter'} icon={<Filter />} />
           {t('taxonomy.editFilter')}
         </Button>
         {editMode === 'editFilter' && (

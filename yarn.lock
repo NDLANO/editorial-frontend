@@ -5034,6 +5034,10 @@ jsonify@~0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/jsonify/-/jsonify-0.0.0.tgz#2c74b6ee41d93ca51b7b5aaee8f503631d252a73"
 
+jsplumb@^2.6.9:
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/jsplumb/-/jsplumb-2.6.9.tgz#4219cebf62dd5a477994418d2d8bf6ee0956753c"
+
 jsprim@^1.2.2:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/jsprim/-/jsprim-1.4.1.tgz#313e66bc1e5cc06e438bc1b7499c2e5c56acb6a2"
@@ -5658,9 +5662,9 @@ ndla-i18n@^0.2.2:
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-ndla-icons@^0.2.13:
-  version "0.2.14"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.14.tgz#9975692a0dcc3f8a4a47ac2cba71d20d87b909d5"
+ndla-icons@^0.2.15:
+  version "0.2.15"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.15.tgz#73307be3053c0a357f1ea68c61421b9e6eb20b86"
 
 ndla-image-search@^0.2.10:
   version "0.2.10"

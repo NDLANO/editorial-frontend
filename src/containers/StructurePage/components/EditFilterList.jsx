@@ -4,6 +4,7 @@ import { Button } from 'ndla-ui';
 import { Pencil } from 'ndla-icons/action';
 import { injectT } from 'ndla-i18n';
 import { DeleteForever } from 'ndla-icons/editor';
+import RoundIcon from './RoundIcon';
 import InlineEditField from './InlineEditField';
 
 const EditFilterList = ({
@@ -34,16 +35,14 @@ const EditFilterList = ({
               <Button
                 stripped
                 data-testid={`editFilter${filter.id}`}
-                onClick={() => setEditState(filter.id)}
-                {...classes('iconButton', 'item')}>
-                {<Pencil />}
+                onClick={() => setEditState(filter.id)}>
+                <RoundIcon small icon={<Pencil />} />
               </Button>
               <Button
                 stripped
                 data-testid={`deleteFilter${filter.id}`}
-                onClick={() => showDeleteWarning(filter.id)}
-                {...classes('iconButton', 'item')}>
-                {<DeleteForever />}
+                onClick={() => showDeleteWarning(filter.id)}>
+                <RoundIcon small icon={<DeleteForever />} />
               </Button>
             </div>
           </div>

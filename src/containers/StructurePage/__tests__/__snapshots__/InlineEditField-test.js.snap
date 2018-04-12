@@ -2,6 +2,9 @@
 
 exports[`Goes to edit mode, handles submit 1`] = `
 <div>
+  <div
+    class="c-roundIcon c-roundIcon--open c-roundIcon--small"
+  />
   <input
     data-testid="inlineEditInput"
     type="text"

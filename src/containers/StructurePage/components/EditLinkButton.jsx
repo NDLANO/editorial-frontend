@@ -7,6 +7,7 @@ import BEMHelper from 'react-bem-helper';
 import { Cross, Pencil } from 'ndla-icons/action';
 import Overlay from '../../../components/Overlay';
 import RoundIcon from './RoundIcon';
+import WarningModal from '../../../components/WarningModal';
 
 const classes = new BEMHelper({
   name: 'settingsMenu',
@@ -22,43 +23,58 @@ class EditLinkButton extends Component {
   }
 
   render() {
-    const { refFunc, id, t } = this.props;
+    const { refFunc, id, t, setPrimary } = this.props;
     return (
-      <div
-        style={{ display: 'none' }}
-        ref={el => refFunc(el, `linkButton-${id}`)}>
-        <Button stripped onClick={() => this.setState({ open: true })}>
-          <RoundIcon icon={<LinkIcon />} />
-        </Button>
+      <React.Fragment>
         {this.state.open && (
-          <React.Fragment>
-            <Overlay onExit={() => this.setState({ open: false })} />
-            <div {...classes('openMenu')}>
-              <div className="header">
-                <RoundIcon icon={<LinkIcon />} open />
-                <span>{t(`taxonomy.linkSettings`)}</span>
+          <Overlay onExit={() => this.setState({ open: false })} />
+        )}
+        {this.state.showWarning && (
+          <WarningModal
+            text={t('taxonomy.confirmSetPrimary')}
+            onCancel={() => this.setState({ showWarning: false })}
+            onContinue={() => setPrimary(id)}
+          />
+        )}
+        <div
+          style={{ display: 'none' }}
+          ref={el => refFunc(el, `linkButton-${id}`)}>
+          <Button stripped onClick={() => this.setState({ open: true })}>
+            <RoundIcon icon={<LinkIcon />} />
+          </Button>
+          {this.state.open && (
+            <React.Fragment>
+              <div {...classes('openMenu')}>
+                <div className="header">
+                  <RoundIcon icon={<LinkIcon />} open />
+                  <span>{t(`taxonomy.linkSettings`)}</span>
+                  <Button
+                    stripped
+                    {...classes('closeButton')}
+                    onClick={() => this.setState({ open: false })}>
+                    <Cross />
+                  </Button>
+                </div>
                 <Button
                   stripped
-                  {...classes('closeButton')}
-                  onClick={() => this.setState({ open: false })}>
-                  <Cross />
+                  {...classes('menuItem')}
+                  onClick={() => this.setState({ showWarning: true })}>
+                  <RoundIcon small icon={<Pencil />} />
+                  {t('taxonomy.setPrimary')}
                 </Button>
               </div>
-              <Button
-                stripped
-                {...classes('menuItem')}
-                onClick={() => this.setState({ showWarning: true })}>
-                <RoundIcon icon={<Pencil />} />
-                {t('taxonomy.setPrimary')}
-              </Button>
-            </div>
-          </React.Fragment>
-        )}
-      </div>
+            </React.Fragment>
+          )}
+        </div>
+      </React.Fragment>
     );
   }
 }
 
-EditLinkButton.propTypes = {};
+EditLinkButton.propTypes = {
+  refFunc: PropTypes.func,
+  id: PropTypes.string,
+  setPrimary: PropTypes.func,
+};
 
 export default injectT(EditLinkButton);

@@ -32,6 +32,7 @@ class FolderItem extends React.PureComponent {
       id,
       refFunc,
       showLink,
+      linkViewOpen,
       ...rest
     } = this.props;
     const type = id.includes('subject') ? 'subject' : 'topic';
@@ -65,11 +66,12 @@ class FolderItem extends React.PureComponent {
                 params={params}
                 showLink={showLink}
                 refFunc={refFunc}
+                linkViewOpen={linkViewOpen}
                 {...rest}
               />
             ))}
         </div>
-        <EditLinkButton refFunc={refFunc} id={id} />
+        <EditLinkButton refFunc={refFunc} id={id} setPrimary={() => {}} />
       </React.Fragment>
     );
   }
@@ -88,6 +90,7 @@ FolderItem.propTypes = {
   id: string,
   refFunc: func,
   showLink: func,
+  linkViewOpen: bool,
 };
 
 export default FolderItem;

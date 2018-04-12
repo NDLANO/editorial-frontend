@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { OneColumn, Button } from 'ndla-ui';
+import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Taxonomy, Star } from 'ndla-icons/editor';
 import { jsPlumb } from 'jsplumb';
@@ -36,7 +36,7 @@ export class StructurePage extends React.PureComponent {
       connections: [],
     };
     this.starButton = React.createRef();
-    this.linkButton = React.createRef();
+    this.plumbContainer = React.createRef();
     this.getAllSubjects = this.getAllSubjects.bind(this);
     this.getSubjectTopics = this.getSubjectTopics.bind(this);
     this.addSubject = this.addSubject.bind(this);
@@ -139,7 +139,9 @@ export class StructurePage extends React.PureComponent {
   }
 
   connectLinkItems(source, target) {
-    const instance = jsPlumb.getInstance();
+    const instance = jsPlumb.getInstance({
+      Container: this.plumbContainer.current,
+    });
     return instance.connect({
       source: this[source],
       target: this[target],
@@ -148,13 +150,10 @@ export class StructurePage extends React.PureComponent {
       paintStyle: { strokeWidth: 1, stroke: '#000000', dashstyle: '4 2' },
       anchors: ['Left', 'Left'],
       overlays: [
+        ['Custom', { create: () => this.starButton.current, location: 70 }],
         [
           'Custom',
-          { create: component => this.starButton.current, location: 70 },
-        ],
-        [
-          'Custom',
-          { create: component => this[`linkButton-${target}`], location: -30 },
+          { create: () => this[`linkButton-${target}`], location: -30 },
         ],
       ],
     });
@@ -211,20 +210,23 @@ export class StructurePage extends React.PureComponent {
             />
           }
           hidden={this.state.editStructureHidden}>
-          {this.state.subjects.map(it => (
-            <FolderItem
-              {...it}
-              refFunc={this.refFunc}
-              key={it.id}
-              topics={this.state.topics[it.id]}
-              active={it.id.replace('urn:', '') === params.subject}
-              params={params}
-              onChangeSubjectName={this.onChangeSubjectName}
-              onAddSubjectTopic={this.onAddSubjectTopic}
-              showLink={this.showLink}
-              onAddExistingTopic={this.onAddExistingTopic}
-            />
-          ))}
+          <div ref={this.plumbContainer}>
+            {this.state.subjects.map(it => (
+              <FolderItem
+                {...it}
+                refFunc={this.refFunc}
+                key={it.id}
+                topics={this.state.topics[it.id]}
+                active={it.id.replace('urn:', '') === params.subject}
+                params={params}
+                onChangeSubjectName={this.onChangeSubjectName}
+                onAddSubjectTopic={this.onAddSubjectTopic}
+                showLink={this.showLink}
+                onAddExistingTopic={this.onAddExistingTopic}
+                linkViewOpen={this.state.connections.length > 0}
+              />
+            ))}
+          </div>
         </Accordion>
         <div style={{ display: 'none' }} ref={this.starButton}>
           <RoundIcon icon={<Star />} />

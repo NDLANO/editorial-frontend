@@ -76,7 +76,7 @@
 .c-settingsMenu {
   position: relative;
   display: flex;
-  font-size: 0.9em;
+  font-size: 0.9rem;
 
   &__saveButton,
   &__saveButton:disabled {
@@ -97,6 +97,7 @@
     min-width: 250px;
     background-color: var(--gray-11);
     box-shadow: 0 0 4px 0 rgba(78, 78, 78, 0.5);
+    font-size: 0.9rem;
 
     & .header {
       display: flex;
@@ -162,12 +163,14 @@
   &--open {
     background-color: var(--gray-2);
     color: var(--gray-11);
+    margin-right: calc(var(--spacing--small) / 2);
   }
 
   &--small {
     height: 18px;
     width: 18px;
     min-width: 18px;
+    margin-right: calc(var(--spacing--small) / 2);
   }
 
   &--margin {

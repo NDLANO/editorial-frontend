@@ -12,10 +12,15 @@ import defined from 'defined';
 import fetch from 'isomorphic-fetch';
 import queryString from 'query-string';
 import config from '../config';
-import { getAccessToken, isAccessTokenValid, renewAuth } from './authHelpers';
+import {
+  apiBaseUrl,
+  getAccessToken,
+  isAccessTokenValid,
+  renewAuth,
+} from './authHelpers';
 
 export function apiResourceUrl(path) {
-  return config.ndlaApiUrl + path;
+  return apiBaseUrl + path;
 }
 
 export function brightcoveApiResourceUrl(path) {
@@ -97,8 +102,8 @@ export const setBrightcoveAccessTokenInLocalStorage = brightcoveAccessToken => {
 };
 
 export const fetchWithBrightCoveToken = (url, config = {}) => {
-  const birghtcoveAccessToken = localStorage.getItem('brightcove_access_token');
-  const expiresAt = birghtcoveAccessToken
+  const brightcoveAccessToken = localStorage.getItem('brightcove_access_token');
+  const expiresAt = brightcoveAccessToken
     ? JSON.parse(localStorage.getItem('brightcove_access_token_expires_at'))
     : 0;
   if (new Date().getTime() > expiresAt || !expiresAt) {
@@ -112,7 +117,7 @@ export const fetchWithBrightCoveToken = (url, config = {}) => {
   }
   return fetch(url, {
     ...config,
-    headers: { Authorization: `Bearer ${birghtcoveAccessToken}` },
+    headers: { Authorization: `Bearer ${brightcoveAccessToken}` },
   });
 };
 

@@ -31,7 +31,7 @@ const Resource = ({ icon, resource }) => (
 
 Resource.propTypes = {
   icon: PropTypes.node.isRequired,
-  resource: PropTypes.shape(ResourceShape),
+  resource: ResourceShape,
 };
 
 const ResourceItem = ({ icon, resources }) => (

@@ -1,0 +1,91 @@
+.c-settingsMenu {
+  position: relative;
+  display: flex;
+  font-size: 0.9rem;
+
+  &__saveButton,
+  &__saveButton:disabled {
+    height: 24px;
+    width: 24px;
+    min-width: 24px;
+    background-color: var(--gray-2);
+    color: var(--gray-11);
+    padding: 0;
+    line-height: 16.9px;
+  }
+
+  &__openMenu {
+    position: absolute;
+    top: -7px;
+    z-index: 2;
+    padding: calc(var(--spacing--small) / 2);
+    min-width: 250px;
+    background-color: var(--gray-11);
+    box-shadow: 0 0 4px 0 rgba(78, 78, 78, 0.5);
+    font-size: 0.9rem;
+
+    & .header {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__menuItem {
+    display: flex;
+    align-items: center;
+    margin: calc(var(--spacing--small) / 2);
+
+    & input {
+      margin-right: calc(var(--spacing--small) / 2);
+      max-height: var(--spacing);
+      width: auto;
+    }
+  }
+
+  &__errorMessage {
+    color: var(--red-1);
+    text-align: center;
+  }
+
+  &__closeButton {
+    color: var(--gray-7);
+    margin-left: auto;
+  }
+
+  &__editFilters {
+    background-color: white;
+    padding: calc(var(--spacing--small) / 2);
+  }
+
+  &__filterItem {
+    display: flex;
+    justify-content: space-between;
+    margin: calc(var(--spacing--small) / 2);
+  }
+
+  &__addFilter {
+    text-decoration: underline;
+  }
+}
+
+.c-connectFilter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__item {
+    display: flex;
+    margin: calc(var(--spacing--small) / 2);
+    align-items: center;
+  }
+
+  &__checkbox {
+    width: auto;
+  }
+
+  &__label {
+    white-space: nowrap;
+    margin: 0 calc(var(--spacing--small) / 2);
+    color: var(--gray-5);
+  }
+}

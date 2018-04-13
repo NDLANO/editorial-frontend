@@ -160,11 +160,7 @@ class TopicSettingItems extends React.PureComponent {
           {t('taxonomy.connectFilters')}
         </Button>
         {editMode === 'connectFilters' && (
-          <ConnectFilters
-            classes={classes}
-            topicFilters={this.props.filters}
-            path={path}
-          />
+          <ConnectFilters classes={classes} path={path} id={id} />
         )}
         <Button
           {...classes('menuItem')}

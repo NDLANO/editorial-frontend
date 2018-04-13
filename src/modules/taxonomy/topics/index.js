@@ -20,6 +20,12 @@ function fetchTopics(locale) {
   );
 }
 
+function fetchTopicFilters(id) {
+  return fetchAuthorized(`${baseUrl}/topics/${id}/filters`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
 function addTopic(body) {
   return fetchAuthorized(`${baseUrl}/topics`, {
     method: 'POST',
@@ -56,6 +62,14 @@ function deleteSubTopicConnection(id) {
   }).then(resolveJsonOrRejectWithError);
 }
 
+function addFilterToTopic({ filterId, relevanceId, topicId }) {
+  return fetchAuthorized(`${baseUrl}/topic-filters`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({ filterId, relevanceId, topicId }),
+  }).then(resolveJsonOrRejectWithError);
+}
+
 export {
   fetchTopics,
   addTopic,
@@ -63,4 +77,6 @@ export {
   addTopicToTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,
+  fetchTopicFilters,
+  addFilterToTopic,
 };

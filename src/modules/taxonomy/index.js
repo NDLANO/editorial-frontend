@@ -56,10 +56,12 @@ import {
 import {
   addTopic,
   fetchTopics,
+  fetchTopicFilters,
   updateTopicName,
   addTopicToTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,
+  addFilterToTopic,
 } from './topics/';
 
 export {
@@ -103,4 +105,6 @@ export {
   addTopicToTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,
+  fetchTopicFilters,
+  addFilterToTopic,
 };

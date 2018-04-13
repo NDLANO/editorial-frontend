@@ -41,6 +41,8 @@
 @import './tooltip.css';
 @import './spinner.css';
 @import './taxonomy.css';
+@import './toggleSwitch.css';
+@import './settingsMenu.css';
 
 .c-audio-search {
   width: 70%;

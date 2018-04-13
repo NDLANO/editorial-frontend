@@ -111,8 +111,8 @@ export class StructurePage extends React.PureComponent {
 
   async getSubjectTopics(subjectid) {
     const allTopics = await fetchSubjectTopics(subjectid);
-    const insertSubTopic = (topics, subTopic) => {
-      return topics.map(topic => {
+    const insertSubTopic = (topics, subTopic) =>
+      topics.map(topic => {
         if (topic.id === subTopic.parent) {
           return {
             ...topic,
@@ -126,12 +126,10 @@ export class StructurePage extends React.PureComponent {
         }
         return topic;
       });
-    };
 
     const groupedTopics = allTopics.reduce((acc, curr) => {
       const mainTopic = curr.parent.includes('subject');
       if (mainTopic) return acc;
-      console.log(acc);
       return insertSubTopic(acc.filter(topic => topic.id !== curr.id), curr);
     }, allTopics);
 

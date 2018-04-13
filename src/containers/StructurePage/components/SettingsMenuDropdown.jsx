@@ -35,7 +35,12 @@ const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
           {...rest}
         />
       ) : (
-        <TopicSettingItems />
+        <TopicSettingItems
+          classes={classes}
+          onClose={onClose}
+          id={id}
+          {...rest}
+        />
       )}
     </div>
   );

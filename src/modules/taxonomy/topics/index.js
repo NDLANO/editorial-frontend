@@ -28,4 +28,39 @@ function addTopic(body) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-export { fetchTopics, addTopic };
+function updateTopicName(id, name) {
+  return fetchAuthorized(`${baseUrl}/topics/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({ name }),
+  }).then(res => resolveJsonOrRejectWithError(res, true));
+}
+
+function addTopicToTopic(body) {
+  return fetchAuthorized(`${baseUrl}/topic-subtopics`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify(body),
+  }).then(resolveJsonOrRejectWithError);
+}
+
+function deleteTopicConnection(id) {
+  return fetchAuthorized(`${baseUrl}/subject-topics/${id}`, {
+    method: 'DELETE',
+  }).then(resolveJsonOrRejectWithError);
+}
+
+function deleteSubTopicConnection(id) {
+  return fetchAuthorized(`${baseUrl}/topic-subtopics/${id}`, {
+    method: 'DELETE',
+  }).then(resolveJsonOrRejectWithError);
+}
+
+export {
+  fetchTopics,
+  addTopic,
+  updateTopicName,
+  addTopicToTopic,
+  deleteTopicConnection,
+  deleteSubTopicConnection,
+};

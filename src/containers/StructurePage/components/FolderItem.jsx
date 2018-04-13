@@ -51,7 +51,15 @@ class FolderItem extends React.PureComponent {
                 <RoundIcon icon={<LinkIcon />} />
               </Button>
             )}
-          {active && <SettingsMenu id={id} name={name} type={type} {...rest} />}
+          {active && (
+            <SettingsMenu
+              id={id}
+              name={name}
+              type={type}
+              path={path}
+              {...rest}
+            />
+          )}
         </div>
         <div {...classes('subFolders')}>
           {active &&

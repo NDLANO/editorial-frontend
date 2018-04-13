@@ -53,7 +53,14 @@ import {
   addSubjectTopic,
 } from './subjects';
 
-import { addTopic, fetchTopics } from './topics/';
+import {
+  addTopic,
+  fetchTopics,
+  updateTopicName,
+  addTopicToTopic,
+  deleteTopicConnection,
+  deleteSubTopicConnection,
+} from './topics/';
 
 export {
   fetchResourceTypes,
@@ -92,4 +99,8 @@ export {
   fetchSubjectFilters,
   editSubjectFilter,
   deleteFilter,
+  updateTopicName,
+  addTopicToTopic,
+  deleteTopicConnection,
+  deleteSubTopicConnection,
 };

@@ -111,15 +111,30 @@ export class StructurePage extends React.PureComponent {
 
   async getSubjectTopics(subjectid) {
     const allTopics = await fetchSubjectTopics(subjectid);
-    const mainTopics = allTopics.filter(it => it.parent === subjectid);
-    const groupedTopics = mainTopics.map(topic => ({
-      ...topic,
-      topics: allTopics.filter(it => it.parent === topic.id),
-    }));
+    const insertSubTopic = (topics, subTopic) => {
+      return topics.map(topic => {
+        if (topic.id === subTopic.parent) {
+          return {
+            ...topic,
+            topics: [...(topic.topics || []), subTopic],
+          };
+        } else if (topic.topics) {
+          return {
+            ...topic,
+            topics: insertSubTopic(topic.topics, subTopic),
+          };
+        }
+        return topic;
+      });
+    };
 
-    allTopics.forEach(topic => {
-      this[topic.id] = React.createRef();
-    });
+    const groupedTopics = allTopics.reduce((acc, curr) => {
+      const mainTopic = curr.parent.includes('subject');
+      if (mainTopic) return acc;
+      console.log(acc);
+      return insertSubTopic(acc.filter(topic => topic.id !== curr.id), curr);
+    }, allTopics);
+
     this.setState(prevState => ({
       topics: {
         ...prevState.topics,
@@ -184,7 +199,6 @@ export class StructurePage extends React.PureComponent {
   refFunc(element, id) {
     this[id] = element;
   }
-  e;
 
   render() {
     const { match: { params }, t } = this.props;
@@ -223,6 +237,7 @@ export class StructurePage extends React.PureComponent {
                 onAddSubjectTopic={this.onAddSubjectTopic}
                 showLink={this.showLink}
                 onAddExistingTopic={this.onAddExistingTopic}
+                refreshTopics={() => this.getSubjectTopics(it.id)}
                 linkViewOpen={this.state.connections.length > 0}
               />
             ))}

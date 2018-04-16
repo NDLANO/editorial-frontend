@@ -70,6 +70,20 @@ function addFilterToTopic({ filterId, relevanceId, topicId }) {
   }).then(resolveJsonOrRejectWithError);
 }
 
+function updateTopicFilter({ connectionId, relevanceId }) {
+  return fetchAuthorized(`${baseUrl}/topic-filters/${connectionId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({ relevanceId }),
+  }).then(res => resolveJsonOrRejectWithError(res, true));
+}
+
+function deleteTopicFilter({ connectionId }) {
+  return fetchAuthorized(`${baseUrl}/topic-filters/${connectionId}`, {
+    method: 'DELETE',
+  }).then(res => resolveJsonOrRejectWithError(res, true));
+}
+
 export {
   fetchTopics,
   addTopic,
@@ -79,4 +93,6 @@ export {
   deleteSubTopicConnection,
   fetchTopicFilters,
   addFilterToTopic,
+  updateTopicFilter,
+  deleteTopicFilter,
 };

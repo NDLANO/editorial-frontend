@@ -62,6 +62,8 @@ import {
   deleteTopicConnection,
   deleteSubTopicConnection,
   addFilterToTopic,
+  updateTopicFilter,
+  deleteTopicFilter,
 } from './topics/';
 
 export {
@@ -107,4 +109,6 @@ export {
   deleteSubTopicConnection,
   fetchTopicFilters,
   addFilterToTopic,
+  updateTopicFilter,
+  deleteTopicFilter,
 };

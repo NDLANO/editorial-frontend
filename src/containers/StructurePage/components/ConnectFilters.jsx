@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
@@ -6,9 +14,12 @@ import {
   fetchSubjectFilters,
   fetchTopicFilters,
   addFilterToTopic,
+  updateTopicFilter,
+  deleteTopicFilter,
 } from '../../../modules/taxonomy';
 import ConnectFilterItem from './ConnectFilterItem';
 import Spinner from '../../../components/Spinner';
+import Overlay from '../../../components/Overlay';
 
 class ConnectFilters extends Component {
   constructor() {
@@ -29,27 +40,44 @@ class ConnectFilters extends Component {
 
   async onSubmit() {
     const { id } = this.props;
-    const { subjectFilters, inputs } = this.state;
+    const { subjectFilters, topicFilters, inputs } = this.state;
     this.setState({ loading: true });
     await Promise.all([
       ...subjectFilters.filter(filter => !!inputs[filter.id]).map(filter => {
-        if (inputs[filter.id].active) {
-          addFilterToTopic({
+        const { active, relevance } = inputs[filter.id];
+        const currentFilter = topicFilters.find(it => it.id === filter.id);
+        if (active && !currentFilter) {
+          // add filter to topic
+          return addFilterToTopic({
             filterId: filter.id,
             topicId: id,
-            relevanceId: inputs[filter.id].relevance,
+            relevanceId: relevance || 'urn:relevance:core',
           });
-        } else if (inputs[filter.id].relevance) {
+        } else if (active && relevance !== currentFilter.relevanceId) {
           // update topic-filter with relevance
-          console.log('update', filter.id);
-        } else {
+          return updateTopicFilter({
+            connectionId: currentFilter.connectionId,
+            relevanceId: relevance,
+          });
+        } else if (!active && currentFilter) {
           // delete topic-filter
-          console.log('delete', filter.id);
+          return deleteTopicFilter({
+            connectionId: currentFilter.connectionId,
+          });
         }
+        return undefined;
       }),
     ]);
     const refreshedTopics = await fetchTopicFilters(this.props.id);
-    this.setState({ loading: false, topicFilters: refreshedTopics });
+    const inputVals = refreshedTopics.reduce((acc, curr) => {
+      acc[curr.id] = { active: true, relevance: curr.relevanceId };
+      return acc;
+    }, {});
+    this.setState({
+      loading: false,
+      topicFilters: refreshedTopics,
+      inputs: inputVals,
+    });
   }
 
   async getFilters() {
@@ -57,14 +85,24 @@ class ConnectFilters extends Component {
       fetchSubjectFilters(`urn:${this.props.path.split('/')[1]}`),
       fetchTopicFilters(this.props.id),
     ]);
-    this.setState({ subjectFilters, topicFilters, error: '' });
+    const inputs = topicFilters.reduce((acc, curr) => {
+      acc[curr.id] = { active: true, relevance: curr.relevanceId };
+      return acc;
+    }, {});
+    this.setState({ subjectFilters, topicFilters, inputs, error: '' });
   }
 
   render() {
     const { classes, t } = this.props;
-    const { subjectFilters, topicFilters, inputs, error, loading } = this.state;
+    const { subjectFilters, inputs, error, loading } = this.state;
     return (
       <form onSubmit={this.onSubmit} {...classes('editFilters')}>
+        {loading ? <Spinner cssModifier="absolute" /> : ''}
+        {loading ? (
+          <Overlay cssModifiers={['absolute', 'white-opacity', 'zIndex']} />
+        ) : (
+          ''
+        )}
         {subjectFilters.map(filter => (
           <ConnectFilterItem
             {...filter}
@@ -81,11 +119,14 @@ class ConnectFilters extends Component {
               })
             }
             key={filter.id}
-            active={topicFilters.find(it => it.id === filter.id)}
           />
         ))}
-        <Button onClick={this.onSubmit}>
-          {loading ? <Spinner /> : t('form.save')}
+        <Button
+          stripped
+          {...classes('borderButton')}
+          data-testid="submitConnectFilters"
+          onClick={this.onSubmit}>
+          {t('form.save')}
         </Button>
         {error && (
           <div
@@ -100,9 +141,9 @@ class ConnectFilters extends Component {
 }
 
 ConnectFilters.propTypes = {
-  classes: PropTypes.func,
-  id: PropTypes.string,
-  path: PropTypes.string,
+  classes: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
 };
 
 export default injectT(ConnectFilters);

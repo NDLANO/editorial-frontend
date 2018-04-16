@@ -1036,7 +1036,7 @@ exports[`renders list of subjects, with active in url 2`] = `
         >
           <a
             className="c-folder__link"
-            href="/structure"
+            href="/structure/subject:11"
             onClick={[Function]}
           >
             <svg

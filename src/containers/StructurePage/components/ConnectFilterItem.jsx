@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
@@ -8,17 +16,10 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const ConnectFilterItem = ({
-  id,
-  name,
-  active,
-  relevanceId,
-  inputValues,
-  onChange,
-}) => {
+const ConnectFilterItem = ({ id, name, inputValues, onChange }) => {
   const relevance =
     inputValues.relevance === undefined
-      ? relevanceId === 'urn:relevance:core'
+      ? true
       : inputValues.relevance === 'urn:relevance:core';
   return (
     <div {...classes('')}>
@@ -27,12 +28,10 @@ const ConnectFilterItem = ({
           {...classes('checkbox')}
           type="checkbox"
           name={`${id}-active`}
-          checked={
-            inputValues.active === undefined ? active : inputValues.active
-          }
-          onClick={() => onChange({ active: !inputValues.active })}
+          checked={inputValues.active || false}
+          onChange={() => onChange({ active: !inputValues.active })}
         />
-        <div {...classes('label')}>{name}</div>
+        {name}
       </label>
       <ToggleSwitch
         onClick={() =>
@@ -42,7 +41,8 @@ const ConnectFilterItem = ({
               : 'urn:relevance:core',
           })
         }
-        on={!relevance}
+        on={relevance}
+        testId={`${id}-relevance`}
       />
     </div>
   );

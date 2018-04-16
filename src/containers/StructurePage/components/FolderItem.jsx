@@ -40,7 +40,14 @@ class FolderItem extends React.PureComponent {
       <React.Fragment>
         <div ref={element => refFunc(element, id)} {...classes('wrapper')}>
           <RouterLink
-            to={active ? '/structure' : `/structure${path}`}
+            to={
+              active
+                ? `/structure${path
+                    .split('/')
+                    .splice(0, path.length - 2)
+                    .join('/')}`
+                : `/structure${path}`
+            }
             {...classes('link')}>
             <Folder color="#70A5DA" />
             <span {...classes('title', active && 'active')}>{name}</span>

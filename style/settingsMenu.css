@@ -14,6 +14,14 @@
     line-height: 16.9px;
   }
 
+  &__borderButton,
+  &__borderButton:hover,
+  &__borderButton:focus {
+    border: 1px solid var(--gray-1);
+    border-radius: 3px;
+    width: 100px;
+  }
+
   &__openMenu {
     position: absolute;
     top: -7px;
@@ -55,6 +63,7 @@
   &__editFilters {
     background-color: white;
     padding: calc(var(--spacing--small) / 2);
+    position: relative;
   }
 
   &__filterItem {
@@ -77,15 +86,11 @@
     display: flex;
     margin: calc(var(--spacing--small) / 2);
     align-items: center;
+    color: var(--gray-5);
   }
 
   &__checkbox {
     width: auto;
-  }
-
-  &__label {
-    white-space: nowrap;
-    margin: 0 calc(var(--spacing--small) / 2);
-    color: var(--gray-5);
+    margin-right: calc(var(--spacing--small) / 2);
   }
 }

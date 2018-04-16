@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "description": "System for producing content for NDLA",
   "scripts": {
-    "build":
-      "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js -p --bail",
+    "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js -p --bail",
     "clean": "rimraf ./htdocs/assets/*",
     "lint": "yarn lint-css && yarn lint-prettier && yarn lint-es",
     "lint-css": "stylelint style/**/*.css",
@@ -20,7 +19,9 @@
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
+    "setupFiles": [
+      "./src/__tests__/_initTestEnv.js"
+    ]
   },
   "engines": {
     "node": ">=8.4.0",

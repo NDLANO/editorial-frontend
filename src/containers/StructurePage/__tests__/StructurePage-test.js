@@ -8,6 +8,7 @@
 
 import nock from 'nock';
 import React from 'react';
+import IntlProvider from 'ndla-i18n';
 import renderer from 'react-test-renderer';
 import { MemoryRouter } from 'react-router-dom';
 import { StructurePage } from '../StructurePage';
@@ -17,10 +18,12 @@ const activeSubject = 'subject:11';
 const wrapper = () =>
   renderer.create(
     <MemoryRouter>
-      <StructurePage
-        t={() => 'injected'}
-        match={{ params: { subject: activeSubject } }}
-      />
+      <IntlProvider locale="nb" messages={{}}>
+        <StructurePage
+          t={() => 'injected'}
+          match={{ params: { subject: activeSubject } }}
+        />
+      </IntlProvider>
     </MemoryRouter>,
   );
 beforeEach(() => {

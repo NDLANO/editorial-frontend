@@ -197,6 +197,7 @@ TopicSettingItems.propTypes = {
   t: PropTypes.func,
   onDeleteTopic: PropTypes.func,
   refreshTopics: PropTypes.func,
+  path: PropTypes.string,
 };
 
 export default injectT(TopicSettingItems);

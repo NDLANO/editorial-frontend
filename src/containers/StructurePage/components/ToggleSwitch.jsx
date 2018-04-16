@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 
 const classes = new BEMHelper({
@@ -6,11 +7,22 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const ToggleSwitch = ({ on, onClick }) => (
+const ToggleSwitch = ({ on, onClick, testId }) => (
   <label {...classes('')}>
-    <input name="relavance" checked={on} onClick={onClick} type="checkbox" />
+    <input
+      data-testid={testId}
+      checked={on}
+      onChange={onClick}
+      type="checkbox"
+    />
     <span {...classes('slider')} />
   </label>
 );
+
+ToggleSwitch.propTypes = {
+  on: PropTypes.bool,
+  onClick: PropTypes.func,
+  testId: PropTypes.string,
+};
 
 export default ToggleSwitch;

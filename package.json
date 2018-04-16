@@ -20,9 +20,7 @@
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": [
-      "./src/__tests__/_initTestEnv.js"
-    ]
+    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
   },
   "engines": {
     "node": ">=8.4.0",
@@ -95,7 +93,7 @@
     "ndla-video-search": "^0.2.7",
     "prop-types": "^15.6.1",
     "query-string": "^5.1.1",
-    "razzle": "^0.8.14",
+    "razzle": "^2.0.0-y.0",
     "react": "^16.3.1",
     "react-bem-helper": "^1.4.1",
     "react-collapse": "^4.0.3",

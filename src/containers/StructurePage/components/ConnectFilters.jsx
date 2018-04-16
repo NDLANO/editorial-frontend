@@ -126,13 +126,7 @@ class ConnectFilters extends Component {
           onClick={this.onSubmit}>
           {t('form.save')}
         </Button>
-        {error && (
-          <div
-            data-testid="inlineEditErrorMessage"
-            {...classes('errorMessage')}>
-            {error}
-          </div>
-        )}
+        {error && <div {...classes('errorMessage')}>{error}</div>}
       </form>
     );
   }

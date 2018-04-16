@@ -2,8 +2,6 @@
 
 exports[`calls add filter, update filter, and delete filter 1`] = `
 <form>
-  
-  
   <div
     class="c-connectFilter"
   >
@@ -117,8 +115,6 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
 
 exports[`maps out filters 1`] = `
 <form>
-  
-  
   <div
     class="c-connectFilter"
   >

@@ -13,21 +13,24 @@ import {
   fetchAuthorized,
 } from '../../util/apiHelpers';
 
-const baseUrl = apiResourceUrl('/search-api/v1/search');
+const baseUrl = apiResourceUrl('/search-api/v1/search/draft');
 
-export const search = query => {
+export const search = async query => {
+  let response;
   if (query) {
     const types = query.types ? query.types.split(',') : [];
     const realPageSize =
       types.length > 1
         ? Math.ceil(query['page-size'] / types.length)
         : query['page-size'];
-    return fetchAuthorized(
+    response = await fetchAuthorized(
       `${baseUrl}/?${queryString.stringify({
         ...query,
         'page-size': realPageSize,
       })}`,
-    ).then(resolveJsonOrRejectWithError);
+    );
+    return resolveJsonOrRejectWithError(response);
   }
-  return fetchAuthorized(`${baseUrl}/`).then(resolveJsonOrRejectWithError);
+  response = await fetchAuthorized(`${baseUrl}/`);
+  return resolveJsonOrRejectWithError(response);
 };

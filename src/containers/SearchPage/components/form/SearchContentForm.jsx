@@ -27,10 +27,10 @@ export const getInitialModel = (query = {}) => ({
   language: query.language || '',
 });
 
-const languages = [
-  { key: 'nb', title: 'Norsk' },
-  { key: 'nn', title: 'Nynorsk' },
-  { key: 'en', title: 'Engelsk' },
+const languages = t => [
+  { key: 'nb', title: t('language.nb') },
+  { key: 'nn', title: t('language.nn') },
+  { key: 'en', title: t('language.en') },
 ];
 
 class SearchContentForm extends Component {
@@ -76,22 +76,22 @@ class SearchContentForm extends Component {
         <TextField
           name="title"
           fieldClassName={searchFormClasses('field', '50-width').className}
-          placeholder="Tittel"
+          placeholder={t('searchForm.types.title')}
           {...commonFieldProps}
         />
         <SelectObjectField
           name="language"
-          options={languages}
+          options={languages(t)}
           idKey="key"
           labelKey="title"
           emptyField
-          placeholder="Språk"
+          placeholder={t('searchForm.types.language')}
           fieldClassName={searchFormClasses('field', '25-width').className}
           {...commonFieldProps}
         />
         <Field {...searchFormClasses('field', '25-width')}>
           <Button onClick={this.emptySearch} outline>
-            Tøm
+            {t('searchForm.empty')}
           </Button>
           <Button submit>{t('searchForm.btn')}</Button>
         </Field>

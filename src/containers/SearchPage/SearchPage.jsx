@@ -82,28 +82,26 @@ class SearchPage extends Component {
             handleToggle={this.toggleContent}
             header={t(`searchPage.header.${type}`)}
             hidden={this.state.hiddenContent}>
-            <div {...searchClasses()}>
-              <SearchForm
-                type={type}
-                search={this.onQueryPush}
-                query={query}
-                location={location}
-              />
-              <SearchSort onSortOrderChange={this.onSortOrderChange} />
-              <SearchListOptions
-                query={query}
-                results={results}
-                search={this.onQueryPush}
-              />
-              <SearchList query={query} locale={locale} results={results} />
-              <Pager
-                page={query.page ? parseInt(query.page, 10) : 1}
-                lastPage={lastPage}
-                query={query}
-                pathname={toSearch()}
-              />
-            </div>
+            <SearchForm
+              type={type}
+              search={this.onQueryPush}
+              query={query}
+              location={location}
+            />
           </SearchAccordion>
+          <SearchSort onSortOrderChange={this.onSortOrderChange} />
+          <SearchListOptions
+            query={query}
+            results={results}
+            search={this.onQueryPush}
+          />
+          <SearchList query={query} locale={locale} results={results} />
+          <Pager
+            page={query.page ? parseInt(query.page, 10) : 1}
+            lastPage={lastPage}
+            query={query}
+            pathname={toSearch()}
+          />
         </OneColumn>
       </div>
     );

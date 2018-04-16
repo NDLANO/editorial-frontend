@@ -70,7 +70,7 @@ export const FieldErrorMessages = ({ field, submitted, label }) => {
 };
 
 FieldErrorMessages.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   field: PropTypes.shape({
     dirty: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
@@ -207,7 +207,7 @@ export const TextField = ({
 TextField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   fieldClassName: PropTypes.string,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
@@ -437,7 +437,7 @@ SelectObjectField.propTypes = {
   obligatory: PropTypes.bool,
   description: PropTypes.string,
   fieldClassName: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),

@@ -81,7 +81,12 @@ const phrases = {
   },
   searchForm: {
     placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
+    types: {
+      title: 'Tittel',
+      language: 'Språk',
+    },
     btn: 'Søk',
+    empty: 'Tøm',
     articleType: {
       all: 'Alle',
       standard: 'Standard',

@@ -80,7 +80,12 @@ const phrases = {
   },
   searchForm: {
     placeholder: 'Search articles',
+    types: {
+      title: 'Title',
+      language: 'Language',
+    },
     btn: 'Search',
+    empty: 'Empty',
     articleType: {
       all: 'All',
       standard: 'Standard',

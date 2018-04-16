@@ -13,19 +13,28 @@ import { MemoryRouter } from 'react-router-dom';
 import { StructurePage } from '../StructurePage';
 import { subjectsMock } from '../../../util/__tests__/taxonomyMocks';
 
-test('renders list of subjects, with active in url', async () => {
+const activeSubject = 'subject:11';
+const wrapper = () =>
+  renderer.create(
+    <MemoryRouter>
+      <StructurePage
+        t={() => 'injected'}
+        match={{ params: { subject: activeSubject } }}
+      />
+    </MemoryRouter>,
+  );
+beforeEach(() => {
   nock('http://ndla-api')
     .get('/taxonomy/v1/subjects')
     .reply(200, subjectsMock);
 
-  const component = renderer.create(
-    <MemoryRouter>
-      <StructurePage
-        t={() => 'injected'}
-        match={{ params: { subject: 'urn:subject:11' } }}
-      />
-    </MemoryRouter>,
-  );
+  nock('http://ndla-api')
+    .get(`/taxonomy/v1/subjects/urn:${activeSubject}/topics?recursive=true`)
+    .reply(200, []);
+});
+
+test('renders list of subjects, with active in url', async () => {
+  const component = wrapper();
   expect(component.toJSON()).toMatchSnapshot();
   return new Promise(resolve => {
     setTimeout(() => {
@@ -37,30 +46,28 @@ test('renders list of subjects, with active in url', async () => {
 
 it('Adds posts new subject when writing and pressing enter', async () => {
   nock('http://ndla-api')
-    .get('/taxonomy/v1/subjects')
-    .reply(200, subjectsMock);
-  nock('http://ndla-api')
     .post('/taxonomy/v1/subjects', { name: 'Elefant' })
     .reply(201, '', {
       Location: 'newPath',
       'Content-Type': 'text/plain; charset=UTF-8',
     });
-  const component = renderer.create(
-    <MemoryRouter>
-      <StructurePage
-        t={() => ''}
-        match={{ params: { subject: 'urn:subject:11' } }}
-      />
-    </MemoryRouter>,
-  );
+  const component = wrapper();
   const { instance } = component.root.findByType(StructurePage);
   expect(instance.state.editStructureHidden).toBe(false);
   await instance.addSubject('Elefant');
+  expect(nock.isDone());
+});
 
-  expect(
-    instance.state.subjects.filter(
-      it => it.path === 'newPath' && it.name === 'Elefant',
-    ).length,
-  ).toBe(1);
+it('updates name in state when changeName is called', async () => {
+  nock('http://ndla-api')
+    .put('/taxonomy/v1/subjects/urn:subject:12', { name: 'Lalaland' })
+    .reply(204, '');
+  nock('http://ndla-api')
+    .get('/taxonomy/v1/subjects')
+    .reply(200, subjectsMock);
+  const component = wrapper();
+
+  const { instance } = component.root.findByType(StructurePage);
+  await instance.onChangeSubjectName('urn:subject:12', 'Lalaland');
   expect(nock.isDone());
 });

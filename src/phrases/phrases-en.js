@@ -395,6 +395,8 @@ const phrases = {
         label: 'Audio caption',
         placeholder: 'Audio caption',
       },
+      sound: 'Audio',
+      speech: 'Speech',
     },
     related: {
       title: 'Related articles',
@@ -441,7 +443,17 @@ const phrases = {
   },
   taxonomy: {
     editStructure: '  Edit structure',
-    addSubject: '+ Add new subject',
+    addSubject: 'Add new subject',
+    addExistingTopic: 'Add existing topic',
+    editFilter: 'Edit filter',
+    emptyFilter: 'No hits',
+    errorMessage: 'An error occurred',
+    addTopic: 'Add topic',
+    changeName: 'Change name',
+    topicSettings: 'Topic settings',
+    subjectSettings: 'Subject settings',
+    addFilter: 'Add filter',
+    confirmDelete: 'Are you sure you want to delete the filter?',
   },
 };
 

@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Goes to edit mode, handles submit 1`] = `
+<div>
+  <input
+    data-testid="inlineEditInput"
+    type="text"
+    value=""
+  />
+  <button
+    class="c-button"
+    data-testid="inlineEditSaveButton"
+    type="button"
+  >
+    <svg
+      class="c-icon c-icon--small"
+      data-license="Apache License 2.0"
+      data-source="Material Design"
+      fill="currentColor"
+      height="1em"
+      preserveAspectRatio="xMidYMid meet"
+      style="vertical-align: middle;"
+      viewBox="0 0 24 24"
+      width="1em"
+    >
+      <g>
+        <path
+          d="M0 0h24v24H0z"
+          fill="none"
+        />
+        <path
+          d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+        />
+      </g>
+    </svg>
+  </button>
+</div>
+`;

@@ -53,7 +53,8 @@ class FolderItem extends React.PureComponent {
             <span {...classes('title', active && 'active')}>{name}</span>
           </RouterLink>
           {active &&
-            type === 'topic' && (
+            type === 'topic' &&
+            false && (
               <Button stripped onClick={() => showLink(id)}>
                 <RoundIcon icon={<LinkIcon />} />
               </Button>

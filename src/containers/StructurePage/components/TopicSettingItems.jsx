@@ -18,6 +18,7 @@ import {
   deleteSubTopicConnection,
 } from '../../../modules/taxonomy';
 import Spinner from '../../../components/Spinner';
+import Overlay from '../../../components/Overlay';
 
 class TopicSettingItems extends React.PureComponent {
   constructor() {
@@ -86,7 +87,7 @@ class TopicSettingItems extends React.PureComponent {
 
   render() {
     const { classes, id, name, onClose, t, path } = this.props;
-    const { editMode } = this.state;
+    const { editMode, loading } = this.state;
 
     return (
       <React.Fragment>
@@ -167,11 +168,7 @@ class TopicSettingItems extends React.PureComponent {
           stripped
           onClick={() => this.setState({ editMode: 'delete' })}>
           <RoundIcon small icon={<DeleteForever />} />
-          {this.state.loading ? (
-            <Spinner cssModifier="small" />
-          ) : (
-            t('warningModal.delete')
-          )}
+          {t('warningModal.delete')}
         </Button>
         {editMode === 'delete' && (
           <WarningModal
@@ -180,6 +177,10 @@ class TopicSettingItems extends React.PureComponent {
             onCancel={() => this.setState({ editMode: '' })}
             text={t('taxonomy.confirmDeleteTopic')}
           />
+        )}
+        {loading && <Spinner cssModifier="absolute" />}
+        {loading && (
+          <Overlay cssModifiers={['absolute', 'white-opacity', 'zIndex']} />
         )}
       </React.Fragment>
     );

@@ -97,11 +97,9 @@ class ConnectFilters extends Component {
     const { subjectFilters, inputs, error, loading } = this.state;
     return (
       <form onSubmit={this.onSubmit} {...classes('editFilters')}>
-        {loading ? <Spinner cssModifier="absolute" /> : ''}
-        {loading ? (
+        {loading && <Spinner cssModifier="absolute" />}
+        {loading && (
           <Overlay cssModifiers={['absolute', 'white-opacity', 'zIndex']} />
-        ) : (
-          ''
         )}
         {subjectFilters.map(filter => (
           <ConnectFilterItem

@@ -11,23 +11,16 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { injectT } from 'ndla-i18n';
-import { OneColumn, ContentTypeBadge } from 'ndla-ui';
+import { OneColumn } from 'ndla-ui';
 import { Taxonomy } from 'ndla-icons/editor';
 import { getLocale } from '../../modules/locale/locale';
+import StructureResources from './StructureResources';
 import FolderItem from './components/FolderItem';
-import ResourceGroup from './components/ResourceGroup';
-import {
-  RESOURCE_FILTER_CORE,
-  RESOURCE_FILTER_SUPPLEMENTARY,
-} from '../../constants';
-import { groupSortResourceTypesFromTopicResources } from '../../util/taxonomyHelpers';
 import InlineAddButton from './components/InlineAddButton';
 import Accordion from '../../components/Accordion';
 import {
   fetchSubjects,
   fetchSubjectTopics,
-  fetchAllResourceTypes,
-  fetchTopicResources,
   addSubject,
   addTopic,
   updateSubjectName,
@@ -39,13 +32,10 @@ export class StructurePage extends React.PureComponent {
     super(props);
     this.state = {
       editStructureHidden: false,
-      resourceTypes: [],
-      topicResources: [],
       subjects: [],
       topics: {},
     };
     this.getAllSubjects = this.getAllSubjects.bind(this);
-    this.getAllResourceTypes = this.getAllResourceTypes.bind(this);
     this.getSubjectTopics = this.getSubjectTopics.bind(this);
     this.addSubject = this.addSubject.bind(this);
     this.onChangeSubjectName = this.onChangeSubjectName.bind(this);
@@ -55,30 +45,17 @@ export class StructurePage extends React.PureComponent {
 
   async componentDidMount() {
     this.getAllSubjects();
-    await this.getAllResourceTypes();
     const id = this.props.match.params.subject;
-    const topicId =
-      this.props.match.params.topic2 || this.props.match.params.topic1;
     if (id) {
       this.getSubjectTopics(`urn:${id}`);
-    }
-    if (topicId) {
-      this.getTopicResources(`urn:${topicId}`);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const id = `urn:${nextProps.match.params.subject}`;
-    const topicId =
-      nextProps.match.params.topic2 || nextProps.match.params.topic1;
     const currentSub = this.state.subjects.find(it => it.id === id);
     if (id && currentSub && !this.state.topics[id]) {
       this.getSubjectTopics(id);
-    }
-    if (topicId) {
-      this.getTopicResources(`urn:${topicId}`);
-    } else {
-      this.setState({ topicResources: [] });
     }
   }
 
@@ -119,10 +96,6 @@ export class StructurePage extends React.PureComponent {
     const subjects = await fetchSubjects();
     this.setState({ subjects });
   }
-  async getAllResourceTypes() {
-    const resourceTypes = await fetchAllResourceTypes(this.props.locale);
-    this.setState({ resourceTypes });
-  }
 
   async getSubjectTopics(subjectid) {
     const allTopics = await fetchSubjectTopics(subjectid);
@@ -140,26 +113,6 @@ export class StructurePage extends React.PureComponent {
     }));
   }
 
-  async getTopicResources(topicId) {
-    const { locale } = this.props;
-    const { resourceTypes } = this.state;
-
-    const [
-      coreTopicResources = [],
-      supplementaryTopicResources = [],
-    ] = await Promise.all([
-      fetchTopicResources(topicId, locale, RESOURCE_FILTER_CORE),
-      fetchTopicResources(topicId, locale, RESOURCE_FILTER_SUPPLEMENTARY),
-    ]);
-
-    const topicResources = groupSortResourceTypesFromTopicResources(
-      resourceTypes,
-      coreTopicResources,
-      supplementaryTopicResources,
-    );
-    this.setState({ topicResources });
-  }
-
   async addSubject(name) {
     try {
       const newPath = await addSubject({ name });
@@ -171,7 +124,7 @@ export class StructurePage extends React.PureComponent {
   }
 
   render() {
-    const { match: { params }, t } = this.props;
+    const { match: { params }, t, locale } = this.props;
 
     return (
       <OneColumn>
@@ -208,15 +161,7 @@ export class StructurePage extends React.PureComponent {
             />
           ))}
         </Accordion>
-        {this.state.topicResources.map(topicResource => (
-          <ResourceGroup
-            key={topicResource.id}
-            icon={
-              <ContentTypeBadge background type={topicResource.contentType} />
-            }
-            {...{ topicResource }}
-          />
-        ))}
+        <StructureResources {...{ locale, params }} />
       </OneColumn>
     );
   }

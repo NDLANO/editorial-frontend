@@ -17,7 +17,7 @@ import { searchClasses } from '../../SearchPage';
 const SearchArticle = ({ article, locale }) => (
   <div {...searchClasses('result')}>
     <div {...searchClasses('image')}>
-      <img src="/assets/placeholder.png" alt="" />
+      <img src="/placeholder.png" alt="" />
     </div>
     <div {...searchClasses('content')}>
       <Link

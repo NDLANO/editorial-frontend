@@ -27,7 +27,7 @@ export const WelcomePage = ({ t }) => (
       </a>
       <img
         {...classes('header-image')}
-        src={`/assets/${window.assets['welcome-image.jpg']}`}
+        src="/welcome-image.jpg"
         alt="illustration"
       />
     </div>

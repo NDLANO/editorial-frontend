@@ -31,6 +31,7 @@ import ForbiddenPage from '../ForbiddenPage/ForbiddenPage';
 import SubjectMatterPage from './SubjectMatterPage';
 import MediaPage from './MediaPage';
 import StructurePage from '../StructurePage/StructurePage';
+import '../../style/index.css';
 
 export class App extends React.Component {
   getChildContext() {

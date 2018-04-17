@@ -4,29 +4,29 @@ exports[`deserialize bodybox block 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "test",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "bodybox",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -34,35 +34,35 @@ exports[`deserialize em mark that contains embed footnote 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [
                   Object {
                     "data": Object {},
-                    "object": "mark",
+                    "kind": "mark",
                     "type": "italic",
                   },
                 ],
-                "object": "leaf",
                 "text": "NDLA ",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "paragraph",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -70,29 +70,29 @@ exports[`deserialize footnote 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "paragraph",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -100,229 +100,231 @@ exports[`deserialize standard article 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Blokk 1 ",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "heading-two",
           },
         ],
-        "object": "block",
         "type": "section",
       },
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "Bullet 1",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "list-item",
               },
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "Bullet 2",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "list-item",
               },
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "Bullet 3",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "list-item",
               },
             ],
-            "object": "block",
             "type": "bulleted-list",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "Bodybox",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "heading-two",
               },
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "Bodybox content",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "paragraph",
               },
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
                     "data": Object {},
                     "isVoid": false,
+                    "kind": "block",
                     "nodes": Array [
                       Object {
+                        "kind": "text",
                         "leaves": Array [
                           Object {
+                            "kind": "leaf",
                             "marks": Array [],
-                            "object": "leaf",
                             "text": "A bodybox quote",
                           },
                         ],
-                        "object": "text",
                       },
                     ],
-                    "object": "block",
                     "type": "paragraph",
                   },
                 ],
-                "object": "block",
                 "type": "quote",
               },
             ],
-            "object": "block",
             "type": "bodybox",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "A wise quote",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "paragraph",
               },
             ],
-            "object": "block",
             "type": "quote",
           },
           Object {
@@ -330,81 +332,81 @@ Object {
               "type": "letters",
             },
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "Alpha 1",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "list-item",
               },
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "Alpha 2",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "list-item",
               },
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "Alpha 3",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "list-item",
               },
             ],
-            "object": "block",
             "type": "letter-list",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
@@ -412,383 +414,383 @@ Object {
               "type": "factAside",
             },
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "Fact box",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "heading-two",
               },
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "This should contain some facts!",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "paragraph",
               },
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet sit amet tortor quis sollicitudin. Donec lacinia, nisl a pharetra lacinia, eros nisi interdum neque, quis egestas lacus dolor et orci. Aenean ac pellentesque mauris. Vestibulum et imperdiet enim. Nam elementum massa non suscipit egestas. Proin malesuada vitae nulla ut vulputate. Cras eleifend orci est, eget rhoncus mi porttitor quis. Nunc sem mi, maximus sit amet ultricies id, varius congue arcu. Pellentesque eu lacus hendrerit, porta erat ut, pharetra urna.",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "paragraph",
               },
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "Proin vehicula odio id dui vehicula, id pellentesque mauris tincidunt. Aliquam eget porta leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent posuere ante a dapibus maximus. Nulla quis felis sit amet justo mollis suscipit ut non massa. Quisque et nulla ligula. Nam dictum pharetra dui ut tempus. Morbi rutrum urna eu sem euismod, vitae rutrum turpis bibendum. Etiam vulputate urna eget mauris dictum, quis cursus leo scelerisque. Nunc imperdiet elementum nunc in vehicula. Praesent ante purus, posuere vitae luctus sit amet, scelerisque et nibh. Aliquam vestibulum ligula at tristique varius. Proin fermentum nisi in ligula cursus, nec scelerisque felis interdum.",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "paragraph",
               },
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "Nunc velit dui, sagittis vel lectus eu, tempus porttitor risus. Duis tristique ipsum id massa consequat, non bibendum nisl dictum. Mauris non dignissim sapien. In congue massa libero, at malesuada risus aliquet et. Morbi tincidunt, nisi ac luctus vulputate, nibh nisl vulputate nisi, ac interdum ligula est a ex. Vestibulum at sapien eget odio vulputate varius quis non felis. Donec quis volutpat nisl, at tristique erat. Vestibulum tempor, urna eget hendrerit suscipit, lorem metus mollis nunc, a rhoncus metus lectus elementum justo. Donec id felis at orci varius interdum eu ut orci. Vestibulum quis tempus metus, sed accumsan arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "paragraph",
               },
             ],
-            "object": "block",
             "type": "aside",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
                     "data": Object {},
                     "isVoid": false,
+                    "kind": "block",
                     "nodes": Array [
                       Object {
+                        "kind": "text",
                         "leaves": Array [
                           Object {
+                            "kind": "leaf",
                             "marks": Array [],
-                            "object": "leaf",
                             "text": "Navn",
                           },
                         ],
-                        "object": "text",
                       },
                     ],
-                    "object": "block",
                     "type": "table-cell",
                   },
                   Object {
                     "data": Object {},
                     "isVoid": false,
+                    "kind": "block",
                     "nodes": Array [
                       Object {
+                        "kind": "text",
                         "leaves": Array [
                           Object {
+                            "kind": "leaf",
                             "marks": Array [],
-                            "object": "leaf",
                             "text": "Alder",
                           },
                         ],
-                        "object": "text",
                       },
                     ],
-                    "object": "block",
                     "type": "table-cell",
                   },
                   Object {
                     "data": Object {},
                     "isVoid": false,
+                    "kind": "block",
                     "nodes": Array [
                       Object {
+                        "kind": "text",
                         "leaves": Array [
                           Object {
+                            "kind": "leaf",
                             "marks": Array [],
-                            "object": "leaf",
                             "text": "Kommune",
                           },
                         ],
-                        "object": "text",
                       },
                     ],
-                    "object": "block",
                     "type": "table-cell",
                   },
                   Object {
                     "data": Object {},
                     "isVoid": false,
+                    "kind": "block",
                     "nodes": Array [
                       Object {
+                        "kind": "text",
                         "leaves": Array [
                           Object {
+                            "kind": "leaf",
                             "marks": Array [],
-                            "object": "leaf",
                             "text": "Fylke",
                           },
                         ],
-                        "object": "text",
                       },
                     ],
-                    "object": "block",
                     "type": "table-cell",
                   },
                 ],
-                "object": "block",
                 "type": "table-row",
               },
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
                     "data": Object {},
                     "isVoid": false,
+                    "kind": "block",
                     "nodes": Array [
                       Object {
+                        "kind": "text",
                         "leaves": Array [
                           Object {
+                            "kind": "leaf",
                             "marks": Array [],
-                            "object": "leaf",
                             "text": "Ola Nordmann",
                           },
                         ],
-                        "object": "text",
                       },
                     ],
-                    "object": "block",
                     "type": "table-cell",
                   },
                   Object {
                     "data": Object {},
                     "isVoid": false,
+                    "kind": "block",
                     "nodes": Array [
                       Object {
+                        "kind": "text",
                         "leaves": Array [
                           Object {
+                            "kind": "leaf",
                             "marks": Array [],
-                            "object": "leaf",
                             "text": "46",
                           },
                         ],
-                        "object": "text",
                       },
                     ],
-                    "object": "block",
                     "type": "table-cell",
                   },
                   Object {
                     "data": Object {},
                     "isVoid": false,
+                    "kind": "block",
                     "nodes": Array [
                       Object {
+                        "kind": "text",
                         "leaves": Array [
                           Object {
+                            "kind": "leaf",
                             "marks": Array [],
-                            "object": "leaf",
                             "text": "OSLO",
                           },
                         ],
-                        "object": "text",
                       },
                     ],
-                    "object": "block",
                     "type": "table-cell",
                   },
                   Object {
                     "data": Object {},
                     "isVoid": false,
+                    "kind": "block",
                     "nodes": Array [
                       Object {
+                        "kind": "text",
                         "leaves": Array [
                           Object {
+                            "kind": "leaf",
                             "marks": Array [],
-                            "object": "leaf",
                             "text": "OSLO",
                           },
                         ],
-                        "object": "text",
                       },
                     ],
-                    "object": "block",
                     "type": "table-cell",
                   },
                 ],
-                "object": "block",
                 "type": "table-row",
               },
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
                     "data": Object {},
                     "isVoid": false,
+                    "kind": "block",
                     "nodes": Array [
                       Object {
+                        "kind": "text",
                         "leaves": Array [
                           Object {
+                            "kind": "leaf",
                             "marks": Array [],
-                            "object": "leaf",
                             "text": "Kari Nordman",
                           },
                         ],
-                        "object": "text",
                       },
                     ],
-                    "object": "block",
                     "type": "table-cell",
                   },
                   Object {
                     "data": Object {},
                     "isVoid": false,
+                    "kind": "block",
                     "nodes": Array [
                       Object {
+                        "kind": "text",
                         "leaves": Array [
                           Object {
+                            "kind": "leaf",
                             "marks": Array [],
-                            "object": "leaf",
                             "text": "44",
                           },
                         ],
-                        "object": "text",
                       },
                     ],
-                    "object": "block",
                     "type": "table-cell",
                   },
                   Object {
                     "data": Object {},
                     "isVoid": false,
+                    "kind": "block",
                     "nodes": Array [
                       Object {
+                        "kind": "text",
                         "leaves": Array [
                           Object {
+                            "kind": "leaf",
                             "marks": Array [],
-                            "object": "leaf",
                             "text": "SKEDSMO",
                           },
                         ],
-                        "object": "text",
                       },
                     ],
-                    "object": "block",
                     "type": "table-cell",
                   },
                   Object {
                     "data": Object {},
                     "isVoid": false,
+                    "kind": "block",
                     "nodes": Array [
                       Object {
+                        "kind": "text",
                         "leaves": Array [
                           Object {
+                            "kind": "leaf",
                             "marks": Array [],
-                            "object": "leaf",
                             "text": "OSLO",
                           },
                         ],
-                        "object": "text",
                       },
                     ],
-                    "object": "block",
                     "type": "table-cell",
                   },
                 ],
-                "object": "block",
                 "type": "table-row",
               },
             ],
-            "object": "block",
             "type": "table",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
@@ -804,37 +806,37 @@ Object {
               "url": "https://test.api.ndla.no/image-api/v2/images/2",
             },
             "isVoid": true,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": " ",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "embed",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
@@ -852,73 +854,73 @@ Object {
               "url": "https://test.api.ndla.no/image-api/v2/images/3",
             },
             "isVoid": true,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": " ",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "embed",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet sit amet tortor quis sollicitudin. Donec lacinia, nisl a pharetra lacinia, eros nisi interdum neque, quis egestas lacus dolor et orci. Aenean ac pellentesque mauris. Vestibulum et imperdiet enim. Nam elementum massa non suscipit egestas. Proin malesuada vitae nulla ut vulputate. Cras eleifend orci est, eget rhoncus mi porttitor quis. Nunc sem mi, maximus sit amet ultricies id, varius congue arcu. Pellentesque eu lacus hendrerit, porta erat ut, pharetra urna.",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Proin vehicula odio id dui vehicula, id pellentesque mauris tincidunt. Aliquam eget porta leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent posuere ante a dapibus maximus. Nulla quis felis sit amet justo mollis suscipit ut non massa. Quisque et nulla ligula. Nam dictum pharetra dui ut tempus. Morbi rutrum urna eu sem euismod, vitae rutrum turpis bibendum. Etiam vulputate urna eget mauris dictum, quis cursus leo scelerisque. Nunc imperdiet elementum nunc in vehicula. Praesent ante purus, posuere vitae luctus sit amet, scelerisque et nibh. Aliquam vestibulum ligula at tristique varius. Proin fermentum nisi in ligula cursus, nec scelerisque felis interdum.",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
@@ -932,73 +934,73 @@ Object {
               "url": "https://test.api.ndla.no/image-api/v2/images/4",
             },
             "isVoid": true,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": " ",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "embed",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Nunc velit dui, sagittis vel lectus eu, tempus porttitor risus. Duis tristique ipsum id massa consequat, non bibendum nisl dictum. Mauris non dignissim sapien. In congue massa libero, at malesuada risus aliquet et. Morbi tincidunt, nisi ac luctus vulputate, nibh nisl vulputate nisi, ac interdum ligula est a ex. Vestibulum at sapien eget odio vulputate varius quis non felis. Donec quis volutpat nisl, at tristique erat. Vestibulum tempor, urna eget hendrerit suscipit, lorem metus mollis nunc, a rhoncus metus lectus elementum justo. Donec id felis at orci varius interdum eu ut orci. Vestibulum quis tempus metus, sed accumsan arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Phasellus vitae metus vitae tellus imperdiet fringilla vel sit amet metus. Praesent tincidunt diam in laoreet maximus. Nulla ultricies dolor in nisi imperdiet lobortis. Nullam euismod, ex quis tempus maximus, nunc tortor dictum massa, non pulvinar turpis magna vestibulum tellus. Donec vehicula neque sed vehicula varius. Nam in cursus lectus, eget laoreet ex. Donec eleifend varius mi ac dapibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed at erat non arcu porta posuere sit amet ut nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam ornare massa id ipsum interdum pulvinar. Donec sed malesuada sem, non tempus ligula. In hac habitasse platea dictumst. Proin metus tortor, molestie id commodo ullamcorper, malesuada volutpat nisi.",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
@@ -1012,109 +1014,109 @@ Object {
               "url": "https://test.api.ndla.no/image-api/v2/images/6",
             },
             "isVoid": true,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": " ",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "embed",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "In hac habitasse platea dictumst. Curabitur vestibulum nisl leo, blandit vehicula purus cursus vel. Pellentesque ac mi dolor. Ut pretium arcu pharetra justo ultrices aliquam. Aliquam leo est, congue eget ultricies at, commodo a massa. In ultrices consectetur ante, sit amet vestibulum lorem volutpat sed. Fusce orci orci, pretium at aliquet eu, ornare sed lacus. Nunc ut odio velit. In velit mauris, fringilla sit amet mi ornare, dictum molestie ipsum. Donec eget justo accumsan, malesuada nisi id, commodo elit. Mauris congue lacus a scelerisque varius.",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
@@ -1126,37 +1128,37 @@ Object {
               "videoid": "5389115230001",
             },
             "isVoid": true,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": " ",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "embed",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
@@ -1166,34 +1168,35 @@ Object {
               "url": "https://test.api.ndla.no/audio-api/v1/audio/945",
             },
             "isVoid": true,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": " ",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "embed",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Hei på ",
                   },
                 ],
-                "object": "text",
               },
               Object {
                 "data": Object {
@@ -1202,30 +1205,30 @@ Object {
                   "target": "",
                 },
                 "isVoid": false,
+                "kind": "inline",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "deg",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "inline",
                 "type": "link",
               },
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": " og ",
                   },
                 ],
-                "object": "text",
               },
               Object {
                 "data": Object {
@@ -1234,66 +1237,66 @@ Object {
                   "target": "_blank",
                 },
                 "isVoid": false,
+                "kind": "inline",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "meg",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "inline",
                 "type": "link",
               },
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "NDLA ",
                   },
                 ],
-                "object": "text",
               },
               Object {
                 "data": Object {
@@ -1302,61 +1305,58 @@ Object {
                   "target": "_blank",
                 },
                 "isVoid": false,
+                "kind": "inline",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "NODE ID",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "inline",
                 "type": "link",
               },
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "ddd",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
         ],
-        "object": "block",
         "type": "section",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -1364,29 +1364,29 @@ exports[`deserializing a br 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "br",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -1394,37 +1394,37 @@ exports[`deserializing a normal div block 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "A paragraph",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
         ],
-        "object": "block",
         "type": "div",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -1432,29 +1432,29 @@ exports[`deserializing a quote 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "This quote should be both smart and wise",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "quote",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -1462,37 +1462,37 @@ exports[`deserializing a section 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Paragraph text",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
         ],
-        "object": "block",
         "type": "section",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -1500,75 +1500,75 @@ exports[`deserializing alphabetical list 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {
           "type": "letters",
         },
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Rad 1",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "list-item",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Rad 2",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "list-item",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Rad 3",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "list-item",
           },
         ],
-        "object": "block",
         "type": "letter-list",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -1576,119 +1576,119 @@ exports[`deserializing any heading becomes heading-two 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "heading 1",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "heading-two",
       },
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "heading 2",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "heading-two",
       },
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "heading 3",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "heading-two",
       },
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "heading 4",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "heading-two",
       },
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "heading 5",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "heading-two",
       },
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "heading 6",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "heading-two",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -1696,29 +1696,29 @@ exports[`deserializing any heading should result in heading-two 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "Heading 1",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "heading-two",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -1726,29 +1726,29 @@ exports[`deserializing any heading should result in heading-two 2`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "Heading 2",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "heading-two",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -1756,29 +1756,29 @@ exports[`deserializing any heading should result in heading-two 3`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "Heading 3",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "heading-two",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -1786,29 +1786,29 @@ exports[`deserializing any heading should result in heading-two 4`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "Heading 4",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "heading-two",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -1816,29 +1816,29 @@ exports[`deserializing any heading should result in heading-two 5`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "Heading 5",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "heading-two",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -1846,29 +1846,29 @@ exports[`deserializing any heading should result in heading-two 6`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
+            "kind": "text",
             "leaves": Array [
               Object {
+                "kind": "leaf",
                 "marks": Array [],
-                "object": "leaf",
                 "text": "Heading 6",
               },
             ],
-            "object": "text",
           },
         ],
-        "object": "block",
         "type": "heading-two",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -1876,73 +1876,73 @@ exports[`deserializing bullet list 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Rad 1",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "list-item",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Rad 2",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "list-item",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Rad 3",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "list-item",
           },
         ],
-        "object": "block",
         "type": "bulleted-list",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -1950,55 +1950,55 @@ exports[`deserializing details box with summary element 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Summary text",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "summary",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Details text",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "paragraph",
           },
         ],
-        "object": "block",
         "type": "details",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -2006,97 +2006,97 @@ exports[`deserializing list with paragraph inside li elements 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "paragraph 1",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "list-text",
               },
             ],
-            "object": "block",
             "type": "list-item",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "paragraph 2",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "list-text",
               },
             ],
-            "object": "block",
             "type": "list-item",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "bold paragraph 3",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "list-text",
               },
             ],
-            "object": "block",
             "type": "list-item",
           },
         ],
-        "object": "block",
         "type": "bulleted-list",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -2104,73 +2104,73 @@ exports[`deserializing numbered list 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Rad 1",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "list-item",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Rad 2",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "list-item",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Rad 3",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "list-item",
           },
         ],
-        "object": "block",
         "type": "numbered-list",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -2178,107 +2178,107 @@ exports[`deserializing table 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "column 1",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "table-cell",
               },
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "column 2",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "table-cell",
               },
             ],
-            "object": "block",
             "type": "table-row",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "column 1",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "table-cell",
               },
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "column 2",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "table-cell",
               },
             ],
-            "object": "block",
             "type": "table-row",
           },
         ],
-        "object": "block",
         "type": "table",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 
@@ -2286,73 +2286,73 @@ exports[`deserializing two column list 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Rad 1",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "list-item",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Rad 2",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "list-item",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
+                "kind": "text",
                 "leaves": Array [
                   Object {
+                    "kind": "leaf",
                     "marks": Array [],
-                    "object": "leaf",
                     "text": "Rad 3",
                   },
                 ],
-                "object": "text",
               },
             ],
-            "object": "block",
             "type": "list-item",
           },
         ],
-        "object": "block",
         "type": "bulleted-list",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;
 

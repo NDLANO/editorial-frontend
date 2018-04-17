@@ -73,7 +73,12 @@ const scriptSrc = (() => {
     'https://*.auth0.com',
   ];
   if (process.env.NODE_ENV === 'development') {
-    return [...defaultScriptSrc, 'http://localhost:3001'];
+    return [
+      ...defaultScriptSrc,
+      'http://localhost:3001',
+      'ws://localhost:3001',
+      'http://localhost:3000',
+    ];
   }
   return defaultScriptSrc;
 })();
@@ -108,7 +113,12 @@ const frameSrc = (() => {
     'https://*.auth0.com',
   ];
   if (process.env.NODE_ENV === 'development') {
-    return [...defaultFrameSrc, 'http://localhost:3000'];
+    return [
+      ...defaultFrameSrc,
+      'http://localhost:3001',
+      'ws://localhost:3001',
+      'http://localhost:3000',
+    ];
   }
   return defaultFrameSrc;
 })();

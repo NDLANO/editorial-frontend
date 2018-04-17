@@ -3,10 +3,9 @@ const spawn = require('child_process').spawnSync;
 const chalk = require('chalk');
 
 function runCommand(cmd, args, cwd = __dirname) {
-  const displayArgs = args.length > 25
-    ? `${args.slice(0, 25)}...`
-    : args.join(' ');
-  console.log(chalk.dim(`$ cwd ${cwd}\n$ ${cmd} ${displayArgs}\n`));  // eslint-disable-line no-console
+  const displayArgs =
+    args.length > 25 ? `${args.slice(0, 25)}...` : args.join(' ');
+  console.log(chalk.dim(`$ cwd ${cwd}\n$ ${cmd} ${displayArgs}\n`)); // eslint-disable-line no-console
   const result = spawn(cmd, args, {
     cwd,
     shell: true,
@@ -36,7 +35,7 @@ const args = Object.keys(options)
   .map(key => `--${key}=${options[key]}`)
   .concat(
     `--${shouldWrite ? 'write' : 'l'}`,
-    '"{src,server}/**/*(*.js|*.jsx)"'
+    '"src/**/*(*.js|*.jsx)"'
   );
 
 try {

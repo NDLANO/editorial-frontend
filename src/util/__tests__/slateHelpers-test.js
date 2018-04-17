@@ -44,7 +44,7 @@ const { fragment } = jsdom.JSDOM;
 
 test('serialize embed block', () => {
   const obj = {
-    object: 'block',
+    kind: 'block',
     type: 'embed',
     data: fromJS({ caption: 'test' }),
   };
@@ -67,7 +67,7 @@ test('find footnote nodes in slate document', () => {
 
 test('serialize bodybox block', () => {
   const obj = {
-    object: 'block',
+    kind: 'block',
     type: 'bodybox',
   };
   const children = <p>test</p>;
@@ -118,7 +118,7 @@ test('deserialize footnote', () => {
 test('serialize footnote', () => {
   const obj = {
     isVoid: false,
-    object: 'inline',
+    kind: 'inline',
     data: fromJS({
       title: 'Apple Watch',
       type: 'product',
@@ -129,10 +129,10 @@ test('serialize footnote', () => {
     }),
     nodes: [
       {
-        object: 'text',
+        kind: 'text',
         leaves: [
           {
-            object: 'leaf',
+            kind: 'leaf',
             marks: [],
             text: '#',
           },

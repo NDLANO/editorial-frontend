@@ -17,4 +17,4 @@ app.get('*', (req, res) => {
   res.redirect(301, `https://${hostname}${req.url}`);
 });
 
-module.exports = app;
+export default app;

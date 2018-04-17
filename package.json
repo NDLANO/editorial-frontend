@@ -20,7 +20,9 @@
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
+    "setupFiles": [
+      "./src/__tests__/_initTestEnv.js"
+    ]
   },
   "engines": {
     "node": ">=8.4.0",
@@ -86,7 +88,7 @@
     "ndla-icons": "^0.2.13",
     "ndla-image-search": "^0.2.10",
     "ndla-licenses": "^0.1.8",
-    "ndla-scripts": "^0.3.0",
+    "ndla-scripts": "^0.4.0",
     "ndla-tabs": "^0.4.3",
     "ndla-ui": "^0.11.1",
     "ndla-util": "^0.1.11",

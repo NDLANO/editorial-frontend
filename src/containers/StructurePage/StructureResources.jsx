@@ -94,7 +94,6 @@ export class StructureResources extends React.PureComponent {
 StructureResources.propTypes = {
   locale: PropTypes.string,
   params: PropTypes.shape({
-    subject: PropTypes.string,
     topic1: PropTypes.string,
     topic2: PropTypes.string,
   }).isRequired,

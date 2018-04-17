@@ -1,6 +1,14 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
+
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import config from '../../config';
 import WarningModal from '../../components/WarningModal';
 import { SchemaShape } from '../../shapes';
 
@@ -28,7 +36,7 @@ class WarningModalWrapper extends PureComponent {
       return canNavigate;
     });
 
-    if (window && window.config.isProduction) {
+    if (config.isNdlaProdEnvironment) {
       window.onbeforeunload = () =>
         !this.isDirty() || this.state.discardChanges;
     }

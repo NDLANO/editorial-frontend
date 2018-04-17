@@ -8,10 +8,15 @@
 
 import 'isomorphic-fetch';
 import btoa from 'btoa';
+import { getEnvironmentVariabel } from '../config';
 
 const url = `https://ndla.eu.auth0.com/oauth/token`;
-const editorialFrontendClientId = process.env.NDLA_EDITORIAL_CLIENT_ID;
-const editorialFrontendClientSecret = process.env.NDLA_EDITORIAL_CLIENT_SECRET;
+const editorialFrontendClientId = getEnvironmentVariabel(
+  'NDLA_EDITORIAL_CLIENT_ID',
+);
+const editorialFrontendClientSecret = getEnvironmentVariabel(
+  'NDLA_EDITORIAL_CLIENT_SECRET',
+);
 
 const b64EncodeUnicode = str =>
   btoa(
@@ -37,9 +42,9 @@ export const getToken = () =>
 
 export const getBrightcoveToken = () => {
   const bightCoveUrl = 'https://oauth.brightcove.com/v3/access_token';
-  const clientIdSecret = `${process.env.BRIGHTCOVE_API_CLIENT_ID}:${
-    process.env.BRIGHTCOVE_API_CLIENT_SECRET
-  }`;
+  const clientIdSecret = `${getEnvironmentVariabel(
+    'BRIGHTCOVE_API_CLIENT_ID',
+  )}:${getEnvironmentVariabel('BRIGHTCOVE_API_CLIENT_SECRET')}`;
   return fetch(bightCoveUrl, {
     method: 'POST',
     headers: {

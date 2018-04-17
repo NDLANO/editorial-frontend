@@ -4,33 +4,36 @@ exports[`normalize table 1`] = `
 Object {
   "document": Object {
     "data": Object {},
+    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {},
         "isVoid": false,
+        "kind": "block",
         "nodes": Array [
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
                 "data": Object {
                   "isHeader": true,
                 },
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "column 1",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "table-cell",
               },
               Object {
@@ -38,76 +41,73 @@ Object {
                   "isHeader": true,
                 },
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "column 2",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "table-cell",
               },
             ],
-            "object": "block",
             "type": "table-row",
           },
           Object {
             "data": Object {},
             "isVoid": false,
+            "kind": "block",
             "nodes": Array [
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "column 1",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "table-cell",
               },
               Object {
                 "data": Object {},
                 "isVoid": false,
+                "kind": "block",
                 "nodes": Array [
                   Object {
+                    "kind": "text",
                     "leaves": Array [
                       Object {
+                        "kind": "leaf",
                         "marks": Array [],
-                        "object": "leaf",
                         "text": "column 2",
                       },
                     ],
-                    "object": "text",
                   },
                 ],
-                "object": "block",
                 "type": "table-cell",
               },
             ],
-            "object": "block",
             "type": "table-row",
           },
         ],
-        "object": "block",
         "type": "table",
       },
     ],
-    "object": "document",
   },
-  "object": "value",
+  "kind": "value",
 }
 `;

@@ -24,7 +24,7 @@ const SearchArticle = ({ article, locale }) => (
       <p {...searchClasses('description')}>{article.introduction}</p>
     </div>
     <div {...searchClasses('image')}>
-      <img src="/assets/placeholder.png" alt="" />
+      <img src="/placeholder.png" alt="" />
     </div>
   </div>
 );

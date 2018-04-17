@@ -14,6 +14,7 @@ import { Button, Figure } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
 import { findDOMNode } from 'slate-react';
 import SlateTypes from 'slate-prop-types';
+import config from '../../../../config';
 import SlateInputField from './SlateInputField';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { EmbedShape } from '../../../../shapes';
@@ -66,9 +67,7 @@ class SlateImage extends React.Component {
       t,
     } = this.props;
 
-    const src = `${window.config.ndlaApiUrl}/image-api/raw/id/${
-      embed.resource_id
-    }`;
+    const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
 
     const transformData = {
       'focal-x': embed['focal-x'],

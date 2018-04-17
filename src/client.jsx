@@ -6,7 +6,6 @@
  *
  */
 
-import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -14,6 +13,7 @@ import { BrowserRouter } from 'react-router-dom';
 import IntlProvider from 'ndla-i18n';
 import ErrorReporter from 'ndla-error-reporter';
 
+import config from './config';
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
 import { getSessionStateFromLocalStorage } from './modules/session/session';
@@ -31,11 +31,8 @@ const store = configureStore({
   session: getSessionStateFromLocalStorage(),
 });
 
-const {
-  logglyApiKey,
-  logEnvironment: environment,
-  componentName,
-} = window.config;
+const { logglyApiKey, logEnvironment: environment, componentName } = config;
+
 window.errorReporter = ErrorReporter.getInstance({
   store,
   logglyApiKey,

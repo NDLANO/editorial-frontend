@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import Types from 'slate-prop-types';
 import { compose } from 'redux';
+import config from '../../../../config';
 import { TYPE } from './';
 import connectLightbox from '../utils/connectLightbox';
 import LinkForm, { getInitialModel } from './LinkForm';
@@ -117,9 +118,7 @@ class EditLink extends React.Component {
 
     const href =
       data.resource === 'content-link'
-        ? `${window.config.editorialFrontendDomain}/article/${
-            data['content-id']
-          }`
+        ? `${config.editorialFrontendDomain}/article/${data['content-id']}`
         : data.href;
 
     const checkbox =

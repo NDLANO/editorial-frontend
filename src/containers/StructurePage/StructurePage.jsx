@@ -43,7 +43,7 @@ export class StructurePage extends React.PureComponent {
     this.onAddExistingTopic = this.onAddExistingTopic.bind(this);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.getAllSubjects();
     const id = this.props.match.params.subject;
     if (id) {

@@ -1,37 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders list of subjects, with active in url 1`] = `
+exports[`fetches and renders a list of subjects and topics based on pathname 1`] = `
 <div
-  className="o-wrapper undefined"
+  class="o-wrapper undefined"
 >
   <div
-    className="c-accordion c-accordion--taxonomy"
+    class="c-accordion c-accordion--taxonomy"
   >
     <div
-      className="c-accordion__buttonLine c-accordion__buttonLine--taxonomy"
+      class="c-accordion__buttonLine c-accordion__buttonLine--taxonomy"
     >
       <button
-        className="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy"
-        disabled={false}
-        onClick={[Function]}
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy"
         type="button"
       >
         <span
-          className="c-accordion__title c-accordion__title--taxonomy"
+          class="c-accordion__title c-accordion__title--taxonomy"
         >
           <svg
-            className="c-icon c-icon--medium"
+            class="c-icon c-icon--medium"
             data-license="CC-BY 4.0"
             data-source="Knowit"
             fill="currentColor"
             height="1em"
             preserveAspectRatio="xMidYMid meet"
-            style={
-              Object {
-                "color": undefined,
-                "verticalAlign": "middle",
-              }
-            }
+            style="vertical-align: middle;"
             viewBox="0 0 60 44"
             width="1em"
           >
@@ -45,33 +38,24 @@ exports[`renders list of subjects, with active in url 1`] = `
         </span>
       </button>
       <button
-        className="c-button c-button--stripped c-addButton"
+        class="c-button c-button--stripped c-addButton"
         data-testid="AddSubjectButton"
-        disabled={false}
-        onClick={[Function]}
         type="button"
       >
         injected
       </button>
       <button
-        className="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy c-accordion__button--arrowButton"
-        disabled={false}
-        onClick={[Function]}
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy c-accordion__button--arrowButton"
         type="button"
       >
         <svg
-          className="c-icon c-accordion__arrow c-accordion__arrow--taxonomy"
+          class="c-icon c-accordion__arrow c-accordion__arrow--taxonomy"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
           height="1em"
           preserveAspectRatio="xMidYMid meet"
-          style={
-            Object {
-              "color": undefined,
-              "verticalAlign": "middle",
-            }
-          }
+          style="vertical-align: middle;"
           viewBox="0 0 24 24"
           width="1em"
         >
@@ -84,164 +68,24 @@ exports[`renders list of subjects, with active in url 1`] = `
       </button>
     </div>
     <div
-      className="c-accordion__content c-accordion__content--visible c-accordion__content--taxonomy"
-    >
-      <div />
-    </div>
-  </div>
-  <div
-    style={
-      Object {
-        "display": "none",
-      }
-    }
-  >
-    <div
-      className="c-roundIcon"
-    >
-      <svg
-        className="c-icon"
-        data-license="Apache License 2.0"
-        data-source="Material Design"
-        fill="currentColor"
-        height="1em"
-        preserveAspectRatio="xMidYMid meet"
-        style={
-          Object {
-            "color": undefined,
-            "verticalAlign": "middle",
-          }
-        }
-        viewBox="0 0 24 24"
-        width="1em"
-      >
-        <g>
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-          <path
-            d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-          />
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-        </g>
-      </svg>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`renders list of subjects, with active in url 2`] = `
-<div
-  className="o-wrapper undefined"
->
-  <div
-    className="c-accordion c-accordion--taxonomy"
-  >
-    <div
-      className="c-accordion__buttonLine c-accordion__buttonLine--taxonomy"
-    >
-      <button
-        className="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy"
-        disabled={false}
-        onClick={[Function]}
-        type="button"
-      >
-        <span
-          className="c-accordion__title c-accordion__title--taxonomy"
-        >
-          <svg
-            className="c-icon c-icon--medium"
-            data-license="CC-BY 4.0"
-            data-source="Knowit"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style={
-              Object {
-                "color": undefined,
-                "verticalAlign": "middle",
-              }
-            }
-            viewBox="0 0 60 44"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M58,29H53V24a2.9,2.9,0,0,0-3-3H31.5V15H36a2,2,0,0,0,2-2V2a2,2,0,0,0-2-2H24a2,2,0,0,0-2,2V13a2,2,0,0,0,2,2h5.5v6H10a2.9,2.9,0,0,0-3,3v5H2a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H14a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H9V24a.9.9,0,0,1,1-1H29.5v6H24a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H36a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H31.5V23H50a.9.9,0,0,1,1,1v5H46a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H58a2,2,0,0,0,2-2V31A2,2,0,0,0,58,29ZM24,2H36V13H24ZM14,42H2V31H14ZM36,31V42H24V31H36ZM58,42H46V31H58Z"
-              />
-            </g>
-          </svg>
-          injected
-        </span>
-      </button>
-      <button
-        className="c-button c-button--stripped c-addButton"
-        data-testid="AddSubjectButton"
-        disabled={false}
-        onClick={[Function]}
-        type="button"
-      >
-        injected
-      </button>
-      <button
-        className="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy c-accordion__button--arrowButton"
-        disabled={false}
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          className="c-icon c-accordion__arrow c-accordion__arrow--taxonomy"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
-          style={
-            Object {
-              "color": undefined,
-              "verticalAlign": "middle",
-            }
-          }
-          viewBox="0 0 24 24"
-          width="1em"
-        >
-          <g>
-            <path
-              d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
-            />
-          </g>
-        </svg>
-      </button>
-    </div>
-    <div
-      className="c-accordion__content c-accordion__content--visible c-accordion__content--taxonomy"
+      class="c-accordion__content c-accordion__content--visible c-accordion__content--taxonomy"
     >
       <div>
         <div
-          className="c-folder__wrapper"
+          class="c-folder__wrapper"
         >
           <a
-            className="c-folder__link"
+            class="c-folder__link c-folder__link--active"
             href="/structure/subject:1"
-            onClick={[Function]}
           >
             <svg
-              className="c-icon"
+              class="c-icon c-folder__folderIcon"
               data-license="CC-BY 4.0"
               data-source="Knowit"
               fill="currentColor"
               height="1em"
               preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
               viewBox="0 0 14 11"
               width="1em"
             >
@@ -251,847 +95,26 @@ exports[`renders list of subjects, with active in url 2`] = `
                 />
               </g>
             </svg>
-            <span
-              className="c-folder__title"
-            >
-              Medieuttrykk og mediesamfunnet
-            </span>
-          </a>
-        </div>
-        <div
-          className="c-folder__subFolders"
-        />
-        <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-        >
-          <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
-            type="button"
-          >
-            <div
-              className="c-roundIcon"
-            >
-              <svg
-                className="c-icon"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                  />
-                </g>
-              </svg>
-            </div>
-          </button>
-        </div>
-        <div
-          className="c-folder__wrapper"
-        >
-          <a
-            className="c-folder__link"
-            href="/structure/subject:2"
-            onClick={[Function]}
-          >
-            <svg
-              className="c-icon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            <span
-              className="c-folder__title"
-            >
-              Kinesisk
-            </span>
-          </a>
-        </div>
-        <div
-          className="c-folder__subFolders"
-        />
-        <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-        >
-          <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
-            type="button"
-          >
-            <div
-              className="c-roundIcon"
-            >
-              <svg
-                className="c-icon"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                  />
-                </g>
-              </svg>
-            </div>
-          </button>
-        </div>
-        <div
-          className="c-folder__wrapper"
-        >
-          <a
-            className="c-folder__link"
-            href="/structure/subject:3"
-            onClick={[Function]}
-          >
-            <svg
-              className="c-icon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            <span
-              className="c-folder__title"
-            >
-              Samfunnsfag
-            </span>
-          </a>
-        </div>
-        <div
-          className="c-folder__subFolders"
-        />
-        <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-        >
-          <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
-            type="button"
-          >
-            <div
-              className="c-roundIcon"
-            >
-              <svg
-                className="c-icon"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                  />
-                </g>
-              </svg>
-            </div>
-          </button>
-        </div>
-        <div
-          className="c-folder__wrapper"
-        >
-          <a
-            className="c-folder__link"
-            href="/structure/subject:4"
-            onClick={[Function]}
-          >
-            <svg
-              className="c-icon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            <span
-              className="c-folder__title"
-            >
-              Vg 2 Helsearbeiderfag
-            </span>
-          </a>
-        </div>
-        <div
-          className="c-folder__subFolders"
-        />
-        <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-        >
-          <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
-            type="button"
-          >
-            <div
-              className="c-roundIcon"
-            >
-              <svg
-                className="c-icon"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                  />
-                </g>
-              </svg>
-            </div>
-          </button>
-        </div>
-        <div
-          className="c-folder__wrapper"
-        >
-          <a
-            className="c-folder__link"
-            href="/structure/subject:5"
-            onClick={[Function]}
-          >
-            <svg
-              className="c-icon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            <span
-              className="c-folder__title"
-            >
-              Testfag
-            </span>
-          </a>
-        </div>
-        <div
-          className="c-folder__subFolders"
-        />
-        <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-        >
-          <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
-            type="button"
-          >
-            <div
-              className="c-roundIcon"
-            >
-              <svg
-                className="c-icon"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                  />
-                </g>
-              </svg>
-            </div>
-          </button>
-        </div>
-        <div
-          className="c-folder__wrapper"
-        >
-          <a
-            className="c-folder__link"
-            href="/structure/subject:6"
-            onClick={[Function]}
-          >
-            <svg
-              className="c-icon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            <span
-              className="c-folder__title"
-            >
-              Brønnteknikk
-            </span>
-          </a>
-        </div>
-        <div
-          className="c-folder__subFolders"
-        />
-        <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-        >
-          <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
-            type="button"
-          >
-            <div
-              className="c-roundIcon"
-            >
-              <svg
-                className="c-icon"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                  />
-                </g>
-              </svg>
-            </div>
-          </button>
-        </div>
-        <div
-          className="c-folder__wrapper"
-        >
-          <a
-            className="c-folder__link"
-            href="/structure/subject:7"
-            onClick={[Function]}
-          >
-            <svg
-              className="c-icon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            <span
-              className="c-folder__title"
-            >
-              Markedsføring og ledelse 1
-            </span>
-          </a>
-        </div>
-        <div
-          className="c-folder__subFolders"
-        />
-        <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-        >
-          <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
-            type="button"
-          >
-            <div
-              className="c-roundIcon"
-            >
-              <svg
-                className="c-icon"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                  />
-                </g>
-              </svg>
-            </div>
-          </button>
-        </div>
-        <div
-          className="c-folder__wrapper"
-        >
-          <a
-            className="c-folder__link"
-            href="/structure/subject:8"
-            onClick={[Function]}
-          >
-            <svg
-              className="c-icon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            <span
-              className="c-folder__title"
-            >
-              Tysk
-            </span>
-          </a>
-        </div>
-        <div
-          className="c-folder__subFolders"
-        />
-        <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-        >
-          <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
-            type="button"
-          >
-            <div
-              className="c-roundIcon"
-            >
-              <svg
-                className="c-icon"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                  />
-                </g>
-              </svg>
-            </div>
-          </button>
-        </div>
-        <div
-          className="c-folder__wrapper"
-        >
-          <a
-            className="c-folder__link"
-            href="/structure/subject:9"
-            onClick={[Function]}
-          >
-            <svg
-              className="c-icon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            <span
-              className="c-folder__title"
-            >
-              Historie vg2 og vg3
-            </span>
-          </a>
-        </div>
-        <div
-          className="c-folder__subFolders"
-        />
-        <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-        >
-          <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
-            type="button"
-          >
-            <div
-              className="c-roundIcon"
-            >
-              <svg
-                className="c-icon"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                  />
-                </g>
-              </svg>
-            </div>
-          </button>
-        </div>
-        <div
-          className="c-folder__wrapper"
-        >
-          <a
-            className="c-folder__link"
-            href="/structure/subject:10"
-            onClick={[Function]}
-          >
-            <svg
-              className="c-icon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            <span
-              className="c-folder__title"
-            >
-              Matematikk fellesfag
-            </span>
-          </a>
-        </div>
-        <div
-          className="c-folder__subFolders"
-        />
-        <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-        >
-          <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
-            type="button"
-          >
-            <div
-              className="c-roundIcon"
-            >
-              <svg
-                className="c-icon"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                  />
-                </g>
-              </svg>
-            </div>
-          </button>
-        </div>
-        <div
-          className="c-folder__wrapper"
-        >
-          <a
-            className="c-folder__link"
-            href="/structure/subject:11"
-            onClick={[Function]}
-          >
-            <svg
-              className="c-icon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            <span
-              className="c-folder__title c-folder__title--active"
-            >
-              Bygg- og anleggsteknikk
-            </span>
+            Medieuttrykk og mediesamfunnet
           </a>
           <div
-            className="c-settingsMenu"
+            class="c-settingsMenu"
           >
             <button
-              className="c-button c-button--stripped"
-              disabled={false}
-              onClick={[Function]}
+              class="c-button c-button--stripped"
               type="button"
             >
               <div
-                className="c-roundIcon c-roundIcon--margin"
+                class="c-roundIcon c-roundIcon--margin"
               >
                 <svg
-                  className="c-icon"
+                  class="c-icon"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
                   fill="currentColor"
                   height="1em"
                   preserveAspectRatio="xMidYMid meet"
-                  style={
-                    Object {
-                      "color": undefined,
-                      "verticalAlign": "middle",
-                    }
-                  }
+                  style="vertical-align: middle;"
                   viewBox="0 0 24 24"
                   width="1em"
                 >
@@ -1110,37 +133,756 @@ exports[`renders list of subjects, with active in url 2`] = `
           </div>
         </div>
         <div
-          className="c-folder__subFolders"
-        />
+          class="c-folder__subFolders"
+        >
+          <div
+            class="c-folder__wrapper"
+          >
+            <a
+              class="c-folder__link"
+              href="/structure/subject:1/topic:1:186401"
+            >
+              <svg
+                class="c-icon c-folder__folderIcon"
+                data-license="CC-BY 4.0"
+                data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                  />
+                </g>
+              </svg>
+              Brukertips og årsplaner
+            </a>
+          </div>
+          <div
+            class="c-folder__subFolders"
+          />
+          <div
+            style="display: none;"
+          >
+            <button
+              class="c-button c-button--stripped"
+              type="button"
+            >
+              <div
+                class="c-roundIcon"
+              >
+                <svg
+                  class="c-icon"
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                    />
+                  </g>
+                </svg>
+              </div>
+            </button>
+          </div>
+          <div
+            class="c-folder__wrapper"
+          >
+            <a
+              class="c-folder__link"
+              href="/structure/subject:1/topic:1:172416"
+            >
+              <svg
+                class="c-icon c-folder__folderIcon"
+                data-license="CC-BY 4.0"
+                data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                  />
+                </g>
+              </svg>
+              Idéskaping og mediedesign
+            </a>
+          </div>
+          <div
+            class="c-folder__subFolders"
+          />
+          <div
+            style="display: none;"
+          >
+            <button
+              class="c-button c-button--stripped"
+              type="button"
+            >
+              <div
+                class="c-roundIcon"
+              >
+                <svg
+                  class="c-icon"
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                    />
+                  </g>
+                </svg>
+              </div>
+            </button>
+          </div>
+          <div
+            class="c-folder__wrapper"
+          >
+            <a
+              class="c-folder__link"
+              href="/structure/subject:1/topic:1:186460"
+            >
+              <svg
+                class="c-icon c-folder__folderIcon"
+                data-license="CC-BY 4.0"
+                data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                  />
+                </g>
+              </svg>
+              Medieproduksjon
+            </a>
+          </div>
+          <div
+            class="c-folder__subFolders"
+          />
+          <div
+            style="display: none;"
+          >
+            <button
+              class="c-button c-button--stripped"
+              type="button"
+            >
+              <div
+                class="c-roundIcon"
+              >
+                <svg
+                  class="c-icon"
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                    />
+                  </g>
+                </svg>
+              </div>
+            </button>
+          </div>
+          <div
+            class="c-folder__wrapper"
+          >
+            <a
+              class="c-folder__link c-folder__link--active"
+              href="/structure/subject:1/topic:1:186479"
+            >
+              <svg
+                class="c-icon c-folder__folderIcon"
+                data-license="CC-BY 4.0"
+                data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                  />
+                </g>
+              </svg>
+              Mediekommunikasjon
+            </a>
+            <div
+              class="c-settingsMenu"
+            >
+              <button
+                class="c-button c-button--stripped"
+                type="button"
+              >
+                <div
+                  class="c-roundIcon c-roundIcon--margin"
+                >
+                  <svg
+                    class="c-icon"
+                    data-license="Apache License 2.0"
+                    data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
+                    style="vertical-align: middle;"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                  >
+                    <g>
+                      <path
+                        d="M0 0h24v24H0z"
+                        fill="none"
+                      />
+                      <path
+                        d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"
+                      />
+                    </g>
+                  </svg>
+                </div>
+              </button>
+            </div>
+          </div>
+          <div
+            class="c-folder__subFolders"
+          >
+            <div
+              class="c-folder__wrapper"
+            >
+              <a
+                class="c-folder__link"
+                href="/structure/subject:1/topic:1:186479/topic:1:186487"
+              >
+                <svg
+                  class="c-icon c-folder__folderIcon"
+                  data-license="CC-BY 4.0"
+                  data-source="Knowit"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle; color: rgb(112, 165, 218);"
+                  viewBox="0 0 14 11"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                    />
+                  </g>
+                </svg>
+                Mediekommunikasjon
+              </a>
+            </div>
+            <div
+              class="c-folder__subFolders"
+            />
+            <div
+              style="display: none;"
+            >
+              <button
+                class="c-button c-button--stripped"
+                type="button"
+              >
+                <div
+                  class="c-roundIcon"
+                >
+                  <svg
+                    class="c-icon"
+                    data-license="Apache License 2.0"
+                    data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
+                    style="vertical-align: middle;"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                  >
+                    <g>
+                      <path
+                        d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                      />
+                    </g>
+                  </svg>
+                </div>
+              </button>
+            </div>
+            <div
+              class="c-folder__wrapper"
+            >
+              <a
+                class="c-folder__link c-folder__link--active"
+                href="/structure/subject:1/topic:1:186479/topic:1:172650"
+              >
+                <svg
+                  class="c-icon c-folder__folderIcon"
+                  data-license="CC-BY 4.0"
+                  data-source="Knowit"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle; color: rgb(112, 165, 218);"
+                  viewBox="0 0 14 11"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                    />
+                  </g>
+                </svg>
+                Fortelleteknikker og virkemidler
+              </a>
+              <div
+                class="c-settingsMenu"
+              >
+                <button
+                  class="c-button c-button--stripped"
+                  type="button"
+                >
+                  <div
+                    class="c-roundIcon c-roundIcon--margin"
+                  >
+                    <svg
+                      class="c-icon"
+                      data-license="Apache License 2.0"
+                      data-source="Material Design"
+                      fill="currentColor"
+                      height="1em"
+                      preserveAspectRatio="xMidYMid meet"
+                      style="vertical-align: middle;"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                    >
+                      <g>
+                        <path
+                          d="M0 0h24v24H0z"
+                          fill="none"
+                        />
+                        <path
+                          d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"
+                        />
+                      </g>
+                    </svg>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div
+              class="c-folder__subFolders"
+            />
+            <div
+              style="display: none;"
+            >
+              <button
+                class="c-button c-button--stripped"
+                type="button"
+              >
+                <div
+                  class="c-roundIcon"
+                >
+                  <svg
+                    class="c-icon"
+                    data-license="Apache License 2.0"
+                    data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
+                    style="vertical-align: middle;"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                  >
+                    <g>
+                      <path
+                        d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                      />
+                    </g>
+                  </svg>
+                </div>
+              </button>
+            </div>
+            <div
+              class="c-folder__wrapper"
+            >
+              <a
+                class="c-folder__link"
+                href="/structure/subject:1/topic:1:186479/topic:1:185606"
+              >
+                <svg
+                  class="c-icon c-folder__folderIcon"
+                  data-license="CC-BY 4.0"
+                  data-source="Knowit"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle; color: rgb(112, 165, 218);"
+                  viewBox="0 0 14 11"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                    />
+                  </g>
+                </svg>
+                Medieanalyse
+              </a>
+            </div>
+            <div
+              class="c-folder__subFolders"
+            />
+            <div
+              style="display: none;"
+            >
+              <button
+                class="c-button c-button--stripped"
+                type="button"
+              >
+                <div
+                  class="c-roundIcon"
+                >
+                  <svg
+                    class="c-icon"
+                    data-license="Apache License 2.0"
+                    data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
+                    style="vertical-align: middle;"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                  >
+                    <g>
+                      <path
+                        d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                      />
+                    </g>
+                  </svg>
+                </div>
+              </button>
+            </div>
+          </div>
+          <div
+            style="display: none;"
+          >
+            <button
+              class="c-button c-button--stripped"
+              type="button"
+            >
+              <div
+                class="c-roundIcon"
+              >
+                <svg
+                  class="c-icon"
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                    />
+                  </g>
+                </svg>
+              </div>
+            </button>
+          </div>
+          <div
+            class="c-folder__wrapper"
+          >
+            <a
+              class="c-folder__link"
+              href="/structure/subject:1/topic:1:171906"
+            >
+              <svg
+                class="c-icon c-folder__folderIcon"
+                data-license="CC-BY 4.0"
+                data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                  />
+                </g>
+              </svg>
+              Mediebransjen – yrker, regelverk og retorikk
+            </a>
+          </div>
+          <div
+            class="c-folder__subFolders"
+          />
+          <div
+            style="display: none;"
+          >
+            <button
+              class="c-button c-button--stripped"
+              type="button"
+            >
+              <div
+                class="c-roundIcon"
+              >
+                <svg
+                  class="c-icon"
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                    />
+                  </g>
+                </svg>
+              </div>
+            </button>
+          </div>
+          <div
+            class="c-folder__wrapper"
+          >
+            <a
+              class="c-folder__link"
+              href="/structure/subject:1/topic:1:172361"
+            >
+              <svg
+                class="c-icon c-folder__folderIcon"
+                data-license="CC-BY 4.0"
+                data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                  />
+                </g>
+              </svg>
+              Individet og mediene
+            </a>
+          </div>
+          <div
+            class="c-folder__subFolders"
+          />
+          <div
+            style="display: none;"
+          >
+            <button
+              class="c-button c-button--stripped"
+              type="button"
+            >
+              <div
+                class="c-roundIcon"
+              >
+                <svg
+                  class="c-icon"
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                    />
+                  </g>
+                </svg>
+              </div>
+            </button>
+          </div>
+          <div
+            class="c-folder__wrapper"
+          >
+            <a
+              class="c-folder__link"
+              href="/structure/subject:1/topic:1:172362"
+            >
+              <svg
+                class="c-icon c-folder__folderIcon"
+                data-license="CC-BY 4.0"
+                data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                  />
+                </g>
+              </svg>
+              Mediene i samfunnet
+            </a>
+          </div>
+          <div
+            class="c-folder__subFolders"
+          />
+          <div
+            style="display: none;"
+          >
+            <button
+              class="c-button c-button--stripped"
+              type="button"
+            >
+              <div
+                class="c-roundIcon"
+              >
+                <svg
+                  class="c-icon"
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                    />
+                  </g>
+                </svg>
+              </div>
+            </button>
+          </div>
+          <div
+            class="c-folder__wrapper"
+          >
+            <a
+              class="c-folder__link"
+              href="/structure/subject:1/topic:1:172568"
+            >
+              <svg
+                class="c-icon c-folder__folderIcon"
+                data-license="CC-BY 4.0"
+                data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                  />
+                </g>
+              </svg>
+              Tverrfaglige arbeidsoppdrag
+            </a>
+          </div>
+          <div
+            class="c-folder__subFolders"
+          />
+          <div
+            style="display: none;"
+          >
+            <button
+              class="c-button c-button--stripped"
+              type="button"
+            >
+              <div
+                class="c-roundIcon"
+              >
+                <svg
+                  class="c-icon"
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                    />
+                  </g>
+                </svg>
+              </div>
+            </button>
+          </div>
+        </div>
         <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
+          style="display: none;"
         >
           <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
+            class="c-button c-button--stripped"
             type="button"
           >
             <div
-              className="c-roundIcon"
+              class="c-roundIcon"
             >
               <svg
-                className="c-icon"
+                class="c-icon"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
                 height="1em"
                 preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
+                style="vertical-align: middle;"
                 viewBox="0 0 24 24"
                 width="1em"
               >
@@ -1154,26 +896,620 @@ exports[`renders list of subjects, with active in url 2`] = `
           </button>
         </div>
         <div
-          className="c-folder__wrapper"
+          class="c-folder__wrapper"
         >
           <a
-            className="c-folder__link"
+            class="c-folder__link"
+            href="/structure/subject:2"
+          >
+            <svg
+              class="c-icon c-folder__folderIcon"
+              data-license="CC-BY 4.0"
+              data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                />
+              </g>
+            </svg>
+            Kinesisk
+          </a>
+        </div>
+        <div
+          class="c-folder__subFolders"
+        />
+        <div
+          style="display: none;"
+        >
+          <button
+            class="c-button c-button--stripped"
+            type="button"
+          >
+            <div
+              class="c-roundIcon"
+            >
+              <svg
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                  />
+                </g>
+              </svg>
+            </div>
+          </button>
+        </div>
+        <div
+          class="c-folder__wrapper"
+        >
+          <a
+            class="c-folder__link"
+            href="/structure/subject:3"
+          >
+            <svg
+              class="c-icon c-folder__folderIcon"
+              data-license="CC-BY 4.0"
+              data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                />
+              </g>
+            </svg>
+            Samfunnsfag
+          </a>
+        </div>
+        <div
+          class="c-folder__subFolders"
+        />
+        <div
+          style="display: none;"
+        >
+          <button
+            class="c-button c-button--stripped"
+            type="button"
+          >
+            <div
+              class="c-roundIcon"
+            >
+              <svg
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                  />
+                </g>
+              </svg>
+            </div>
+          </button>
+        </div>
+        <div
+          class="c-folder__wrapper"
+        >
+          <a
+            class="c-folder__link"
+            href="/structure/subject:4"
+          >
+            <svg
+              class="c-icon c-folder__folderIcon"
+              data-license="CC-BY 4.0"
+              data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                />
+              </g>
+            </svg>
+            Vg 2 Helsearbeiderfag
+          </a>
+        </div>
+        <div
+          class="c-folder__subFolders"
+        />
+        <div
+          style="display: none;"
+        >
+          <button
+            class="c-button c-button--stripped"
+            type="button"
+          >
+            <div
+              class="c-roundIcon"
+            >
+              <svg
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                  />
+                </g>
+              </svg>
+            </div>
+          </button>
+        </div>
+        <div
+          class="c-folder__wrapper"
+        >
+          <a
+            class="c-folder__link"
+            href="/structure/subject:5"
+          >
+            <svg
+              class="c-icon c-folder__folderIcon"
+              data-license="CC-BY 4.0"
+              data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                />
+              </g>
+            </svg>
+            Testfag
+          </a>
+        </div>
+        <div
+          class="c-folder__subFolders"
+        />
+        <div
+          style="display: none;"
+        >
+          <button
+            class="c-button c-button--stripped"
+            type="button"
+          >
+            <div
+              class="c-roundIcon"
+            >
+              <svg
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                  />
+                </g>
+              </svg>
+            </div>
+          </button>
+        </div>
+        <div
+          class="c-folder__wrapper"
+        >
+          <a
+            class="c-folder__link"
+            href="/structure/subject:6"
+          >
+            <svg
+              class="c-icon c-folder__folderIcon"
+              data-license="CC-BY 4.0"
+              data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                />
+              </g>
+            </svg>
+            Brønnteknikk
+          </a>
+        </div>
+        <div
+          class="c-folder__subFolders"
+        />
+        <div
+          style="display: none;"
+        >
+          <button
+            class="c-button c-button--stripped"
+            type="button"
+          >
+            <div
+              class="c-roundIcon"
+            >
+              <svg
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                  />
+                </g>
+              </svg>
+            </div>
+          </button>
+        </div>
+        <div
+          class="c-folder__wrapper"
+        >
+          <a
+            class="c-folder__link"
+            href="/structure/subject:7"
+          >
+            <svg
+              class="c-icon c-folder__folderIcon"
+              data-license="CC-BY 4.0"
+              data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                />
+              </g>
+            </svg>
+            Markedsføring og ledelse 1
+          </a>
+        </div>
+        <div
+          class="c-folder__subFolders"
+        />
+        <div
+          style="display: none;"
+        >
+          <button
+            class="c-button c-button--stripped"
+            type="button"
+          >
+            <div
+              class="c-roundIcon"
+            >
+              <svg
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                  />
+                </g>
+              </svg>
+            </div>
+          </button>
+        </div>
+        <div
+          class="c-folder__wrapper"
+        >
+          <a
+            class="c-folder__link"
+            href="/structure/subject:8"
+          >
+            <svg
+              class="c-icon c-folder__folderIcon"
+              data-license="CC-BY 4.0"
+              data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                />
+              </g>
+            </svg>
+            Tysk
+          </a>
+        </div>
+        <div
+          class="c-folder__subFolders"
+        />
+        <div
+          style="display: none;"
+        >
+          <button
+            class="c-button c-button--stripped"
+            type="button"
+          >
+            <div
+              class="c-roundIcon"
+            >
+              <svg
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                  />
+                </g>
+              </svg>
+            </div>
+          </button>
+        </div>
+        <div
+          class="c-folder__wrapper"
+        >
+          <a
+            class="c-folder__link"
+            href="/structure/subject:9"
+          >
+            <svg
+              class="c-icon c-folder__folderIcon"
+              data-license="CC-BY 4.0"
+              data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                />
+              </g>
+            </svg>
+            Historie vg2 og vg3
+          </a>
+        </div>
+        <div
+          class="c-folder__subFolders"
+        />
+        <div
+          style="display: none;"
+        >
+          <button
+            class="c-button c-button--stripped"
+            type="button"
+          >
+            <div
+              class="c-roundIcon"
+            >
+              <svg
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                  />
+                </g>
+              </svg>
+            </div>
+          </button>
+        </div>
+        <div
+          class="c-folder__wrapper"
+        >
+          <a
+            class="c-folder__link"
+            href="/structure/subject:10"
+          >
+            <svg
+              class="c-icon c-folder__folderIcon"
+              data-license="CC-BY 4.0"
+              data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                />
+              </g>
+            </svg>
+            Matematikk fellesfag
+          </a>
+        </div>
+        <div
+          class="c-folder__subFolders"
+        />
+        <div
+          style="display: none;"
+        >
+          <button
+            class="c-button c-button--stripped"
+            type="button"
+          >
+            <div
+              class="c-roundIcon"
+            >
+              <svg
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                  />
+                </g>
+              </svg>
+            </div>
+          </button>
+        </div>
+        <div
+          class="c-folder__wrapper"
+        >
+          <a
+            class="c-folder__link"
+            href="/structure/subject:11"
+          >
+            <svg
+              class="c-icon c-folder__folderIcon"
+              data-license="CC-BY 4.0"
+              data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
+                />
+              </g>
+            </svg>
+            Bygg- og anleggsteknikk
+          </a>
+        </div>
+        <div
+          class="c-folder__subFolders"
+        />
+        <div
+          style="display: none;"
+        >
+          <button
+            class="c-button c-button--stripped"
+            type="button"
+          >
+            <div
+              class="c-roundIcon"
+            >
+              <svg
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                  />
+                </g>
+              </svg>
+            </div>
+          </button>
+        </div>
+        <div
+          class="c-folder__wrapper"
+        >
+          <a
+            class="c-folder__link"
             href="/structure/subject:12"
-            onClick={[Function]}
           >
             <svg
-              className="c-icon"
+              class="c-icon c-folder__folderIcon"
               data-license="CC-BY 4.0"
               data-source="Knowit"
               fill="currentColor"
               height="1em"
               preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
               viewBox="0 0 14 11"
               width="1em"
             >
@@ -1183,45 +1519,30 @@ exports[`renders list of subjects, with active in url 2`] = `
                 />
               </g>
             </svg>
-            <span
-              className="c-folder__title"
-            >
-              Service og samferdsel vg1
-            </span>
+            Service og samferdsel vg1
           </a>
         </div>
         <div
-          className="c-folder__subFolders"
+          class="c-folder__subFolders"
         />
         <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
+          style="display: none;"
         >
           <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
+            class="c-button c-button--stripped"
             type="button"
           >
             <div
-              className="c-roundIcon"
+              class="c-roundIcon"
             >
               <svg
-                className="c-icon"
+                class="c-icon"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
                 height="1em"
                 preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
+                style="vertical-align: middle;"
                 viewBox="0 0 24 24"
                 width="1em"
               >
@@ -1235,26 +1556,20 @@ exports[`renders list of subjects, with active in url 2`] = `
           </button>
         </div>
         <div
-          className="c-folder__wrapper"
+          class="c-folder__wrapper"
         >
           <a
-            className="c-folder__link"
+            class="c-folder__link"
             href="/structure/subject:13"
-            onClick={[Function]}
           >
             <svg
-              className="c-icon"
+              class="c-icon c-folder__folderIcon"
               data-license="CC-BY 4.0"
               data-source="Knowit"
               fill="currentColor"
               height="1em"
               preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
               viewBox="0 0 14 11"
               width="1em"
             >
@@ -1264,45 +1579,30 @@ exports[`renders list of subjects, with active in url 2`] = `
                 />
               </g>
             </svg>
-            <span
-              className="c-folder__title"
-            >
-              Naturbruk vg 1
-            </span>
+            Naturbruk vg 1
           </a>
         </div>
         <div
-          className="c-folder__subFolders"
+          class="c-folder__subFolders"
         />
         <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
+          style="display: none;"
         >
           <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
+            class="c-button c-button--stripped"
             type="button"
           >
             <div
-              className="c-roundIcon"
+              class="c-roundIcon"
             >
               <svg
-                className="c-icon"
+                class="c-icon"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
                 height="1em"
                 preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
+                style="vertical-align: middle;"
                 viewBox="0 0 24 24"
                 width="1em"
               >
@@ -1316,26 +1616,20 @@ exports[`renders list of subjects, with active in url 2`] = `
           </button>
         </div>
         <div
-          className="c-folder__wrapper"
+          class="c-folder__wrapper"
         >
           <a
-            className="c-folder__link"
+            class="c-folder__link"
             href="/structure/subject:14"
-            onClick={[Function]}
           >
             <svg
-              className="c-icon"
+              class="c-icon c-folder__folderIcon"
               data-license="CC-BY 4.0"
               data-source="Knowit"
               fill="currentColor"
               height="1em"
               preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
               viewBox="0 0 14 11"
               width="1em"
             >
@@ -1345,45 +1639,30 @@ exports[`renders list of subjects, with active in url 2`] = `
                 />
               </g>
             </svg>
-            <span
-              className="c-folder__title"
-            >
-              Medie- og informasjonskunnskap
-            </span>
+            Medie- og informasjonskunnskap
           </a>
         </div>
         <div
-          className="c-folder__subFolders"
+          class="c-folder__subFolders"
         />
         <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
+          style="display: none;"
         >
           <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
+            class="c-button c-button--stripped"
             type="button"
           >
             <div
-              className="c-roundIcon"
+              class="c-roundIcon"
             >
               <svg
-                className="c-icon"
+                class="c-icon"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
                 height="1em"
                 preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
+                style="vertical-align: middle;"
                 viewBox="0 0 24 24"
                 width="1em"
               >
@@ -1397,26 +1676,20 @@ exports[`renders list of subjects, with active in url 2`] = `
           </button>
         </div>
         <div
-          className="c-folder__wrapper"
+          class="c-folder__wrapper"
         >
           <a
-            className="c-folder__link"
+            class="c-folder__link"
             href="/structure/subject:15"
-            onClick={[Function]}
           >
             <svg
-              className="c-icon"
+              class="c-icon c-folder__folderIcon"
               data-license="CC-BY 4.0"
               data-source="Knowit"
               fill="currentColor"
               height="1em"
               preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
               viewBox="0 0 14 11"
               width="1em"
             >
@@ -1426,45 +1699,30 @@ exports[`renders list of subjects, with active in url 2`] = `
                 />
               </g>
             </svg>
-            <span
-              className="c-folder__title"
-            >
-              Sørsamisk vg1 og vg2
-            </span>
+            Sørsamisk vg1 og vg2
           </a>
         </div>
         <div
-          className="c-folder__subFolders"
+          class="c-folder__subFolders"
         />
         <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
+          style="display: none;"
         >
           <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
+            class="c-button c-button--stripped"
             type="button"
           >
             <div
-              className="c-roundIcon"
+              class="c-roundIcon"
             >
               <svg
-                className="c-icon"
+                class="c-icon"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
                 height="1em"
                 preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
+                style="vertical-align: middle;"
                 viewBox="0 0 24 24"
                 width="1em"
               >
@@ -1478,26 +1736,20 @@ exports[`renders list of subjects, with active in url 2`] = `
           </button>
         </div>
         <div
-          className="c-folder__wrapper"
+          class="c-folder__wrapper"
         >
           <a
-            className="c-folder__link"
+            class="c-folder__link"
             href="/structure/subject:16"
-            onClick={[Function]}
           >
             <svg
-              className="c-icon"
+              class="c-icon c-folder__folderIcon"
               data-license="CC-BY 4.0"
               data-source="Knowit"
               fill="currentColor"
               height="1em"
               preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
               viewBox="0 0 14 11"
               width="1em"
             >
@@ -1507,45 +1759,30 @@ exports[`renders list of subjects, with active in url 2`] = `
                 />
               </g>
             </svg>
-            <span
-              className="c-folder__title"
-            >
-              Elektrofag vg1
-            </span>
+            Elektrofag vg1
           </a>
         </div>
         <div
-          className="c-folder__subFolders"
+          class="c-folder__subFolders"
         />
         <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
+          style="display: none;"
         >
           <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
+            class="c-button c-button--stripped"
             type="button"
           >
             <div
-              className="c-roundIcon"
+              class="c-roundIcon"
             >
               <svg
-                className="c-icon"
+                class="c-icon"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
                 height="1em"
                 preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
+                style="vertical-align: middle;"
                 viewBox="0 0 24 24"
                 width="1em"
               >
@@ -1559,26 +1796,20 @@ exports[`renders list of subjects, with active in url 2`] = `
           </button>
         </div>
         <div
-          className="c-folder__wrapper"
+          class="c-folder__wrapper"
         >
           <a
-            className="c-folder__link"
+            class="c-folder__link"
             href="/structure/subject:17"
-            onClick={[Function]}
           >
             <svg
-              className="c-icon"
+              class="c-icon c-folder__folderIcon"
               data-license="CC-BY 4.0"
               data-source="Knowit"
               fill="currentColor"
               height="1em"
               preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
               viewBox="0 0 14 11"
               width="1em"
             >
@@ -1588,45 +1819,30 @@ exports[`renders list of subjects, with active in url 2`] = `
                 />
               </g>
             </svg>
-            <span
-              className="c-folder__title"
-            >
-              Engelskspråklig litteratur og kultur
-            </span>
+            Engelskspråklig litteratur og kultur
           </a>
         </div>
         <div
-          className="c-folder__subFolders"
+          class="c-folder__subFolders"
         />
         <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
+          style="display: none;"
         >
           <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
+            class="c-button c-button--stripped"
             type="button"
           >
             <div
-              className="c-roundIcon"
+              class="c-roundIcon"
             >
               <svg
-                className="c-icon"
+                class="c-icon"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
                 height="1em"
                 preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
+                style="vertical-align: middle;"
                 viewBox="0 0 24 24"
                 width="1em"
               >
@@ -1640,26 +1856,20 @@ exports[`renders list of subjects, with active in url 2`] = `
           </button>
         </div>
         <div
-          className="c-folder__wrapper"
+          class="c-folder__wrapper"
         >
           <a
-            className="c-folder__link"
+            class="c-folder__link"
             href="/structure/subject:18"
-            onClick={[Function]}
           >
             <svg
-              className="c-icon"
+              class="c-icon c-folder__folderIcon"
               data-license="CC-BY 4.0"
               data-source="Knowit"
               fill="currentColor"
               height="1em"
               preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
               viewBox="0 0 14 11"
               width="1em"
             >
@@ -1669,45 +1879,30 @@ exports[`renders list of subjects, with active in url 2`] = `
                 />
               </g>
             </svg>
-            <span
-              className="c-folder__title"
-            >
-              Kommunikasjon og kultur 1, 2, 3
-            </span>
+            Kommunikasjon og kultur 1, 2, 3
           </a>
         </div>
         <div
-          className="c-folder__subFolders"
+          class="c-folder__subFolders"
         />
         <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
+          style="display: none;"
         >
           <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
+            class="c-button c-button--stripped"
             type="button"
           >
             <div
-              className="c-roundIcon"
+              class="c-roundIcon"
             >
               <svg
-                className="c-icon"
+                class="c-icon"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
                 height="1em"
                 preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
+                style="vertical-align: middle;"
                 viewBox="0 0 24 24"
                 width="1em"
               >
@@ -1721,26 +1916,20 @@ exports[`renders list of subjects, with active in url 2`] = `
           </button>
         </div>
         <div
-          className="c-folder__wrapper"
+          class="c-folder__wrapper"
         >
           <a
-            className="c-folder__link"
+            class="c-folder__link"
             href="/structurenull"
-            onClick={[Function]}
           >
             <svg
-              className="c-icon"
+              class="c-icon c-folder__folderIcon"
               data-license="CC-BY 4.0"
               data-source="Knowit"
               fill="currentColor"
               height="1em"
               preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": "#70A5DA",
-                  "verticalAlign": "middle",
-                }
-              }
+              style="vertical-align: middle; color: rgb(112, 165, 218);"
               viewBox="0 0 14 11"
               width="1em"
             >
@@ -1750,45 +1939,30 @@ exports[`renders list of subjects, with active in url 2`] = `
                 />
               </g>
             </svg>
-            <span
-              className="c-folder__title"
-            >
-              Matte 101
-            </span>
+            Matte 101
           </a>
         </div>
         <div
-          className="c-folder__subFolders"
+          class="c-folder__subFolders"
         />
         <div
-          style={
-            Object {
-              "display": "none",
-            }
-          }
+          style="display: none;"
         >
           <button
-            className="c-button c-button--stripped"
-            disabled={false}
-            onClick={[Function]}
+            class="c-button c-button--stripped"
             type="button"
           >
             <div
-              className="c-roundIcon"
+              class="c-roundIcon"
             >
               <svg
-                className="c-icon"
+                class="c-icon"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
                 height="1em"
                 preserveAspectRatio="xMidYMid meet"
-                style={
-                  Object {
-                    "color": undefined,
-                    "verticalAlign": "middle",
-                  }
-                }
+                style="vertical-align: middle;"
                 viewBox="0 0 24 24"
                 width="1em"
               >
@@ -1805,28 +1979,19 @@ exports[`renders list of subjects, with active in url 2`] = `
     </div>
   </div>
   <div
-    style={
-      Object {
-        "display": "none",
-      }
-    }
+    style="display: none;"
   >
     <div
-      className="c-roundIcon"
+      class="c-roundIcon"
     >
       <svg
-        className="c-icon"
+        class="c-icon"
         data-license="Apache License 2.0"
         data-source="Material Design"
         fill="currentColor"
         height="1em"
         preserveAspectRatio="xMidYMid meet"
-        style={
-          Object {
-            "color": undefined,
-            "verticalAlign": "middle",
-          }
-        }
+        style="vertical-align: middle;"
         viewBox="0 0 24 24"
         width="1em"
       >

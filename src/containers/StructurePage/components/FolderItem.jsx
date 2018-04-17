@@ -48,9 +48,9 @@ class FolderItem extends React.PureComponent {
                     .join('/')}`
                 : `/structure${path}`
             }
-            {...classes('link')}>
-            <Folder color="#70A5DA" />
-            <span {...classes('title', active && 'active')}>{name}</span>
+            {...classes('link', active && 'active')}>
+            <Folder {...classes('folderIcon')} color="#70A5DA" />
+            {name}
           </RouterLink>
           {active &&
             type === 'topic' &&

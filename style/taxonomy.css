@@ -10,16 +10,16 @@
     align-items: center;
     box-shadow: none;
     margin-right: calc(var(--spacing--small) / 2);
-  }
-
-  &__title {
-    font-size: 0.9rem;
-    padding-left: calc(var(--spacing--small) / 2);
     color: var(--primary-color);
+    font-size: 0.9rem;
 
     &--active {
       font-weight: bold;
     }
+  }
+
+  &__folderIcon {
+    margin-right: calc(var(--spacing--small) / 2);
   }
 
   &__subFolders {

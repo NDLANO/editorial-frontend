@@ -10,41 +10,54 @@ import nock from 'nock';
 import React from 'react';
 import IntlProvider from 'ndla-i18n';
 import renderer from 'react-test-renderer';
+import { render, wait } from 'react-testing-library';
 import { MemoryRouter } from 'react-router-dom';
 import { StructurePage } from '../StructurePage';
-import { subjectsMock } from '../../../util/__tests__/taxonomyMocks';
+import {
+  subjectsMock,
+  subjectTopicsMock,
+} from '../../../util/__tests__/taxonomyMocks';
 
-const activeSubject = 'subject:11';
 const wrapper = () =>
   renderer.create(
     <MemoryRouter>
       <IntlProvider locale="nb" messages={{}}>
-        <StructurePage
-          t={() => 'injected'}
-          match={{ params: { subject: activeSubject } }}
-        />
+        <StructurePage t={() => 'injected'} match={{ params: {} }} />
       </IntlProvider>
     </MemoryRouter>,
   );
+
 beforeEach(() => {
   nock('http://ndla-api')
     .get('/taxonomy/v1/subjects')
     .reply(200, subjectsMock);
-
-  nock('http://ndla-api')
-    .get(`/taxonomy/v1/subjects/urn:${activeSubject}/topics?recursive=true`)
-    .reply(200, []);
 });
 
-test('renders list of subjects, with active in url', async () => {
-  const component = wrapper();
-  expect(component.toJSON()).toMatchSnapshot();
-  return new Promise(resolve => {
-    setTimeout(() => {
-      expect(component.toJSON()).toMatchSnapshot();
-      resolve();
-    }, global.DEFAULT_TIMEOUT);
-  });
+test('fetches and renders a list of subjects and topics based on pathname', async () => {
+  nock('http://ndla-api')
+    .get(`/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?recursive=true`)
+    .reply(200, subjectTopicsMock);
+  const { container, getByText } = render(
+    <MemoryRouter>
+      <IntlProvider locale="nb" messages={{}}>
+        <StructurePage
+          t={() => 'injected'}
+          match={{
+            params: {
+              subject: 'subject:1',
+              topic1: 'topic:1:186479',
+              topic2: 'topic:1:172650',
+            },
+          }}
+        />
+      </IntlProvider>
+    </MemoryRouter>,
+  );
+  await wait();
+  await wait(() => getByText('Fortelleteknikker og virkemidler'));
+  expect(container.firstChild).toMatchSnapshot();
+
+  expect(nock.isDone());
 });
 
 it('Adds posts new subject when writing and pressing enter', async () => {

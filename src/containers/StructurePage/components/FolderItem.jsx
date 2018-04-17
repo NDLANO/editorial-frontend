@@ -38,7 +38,10 @@ class FolderItem extends React.PureComponent {
     const type = id.includes('subject') ? 'subject' : 'topic';
     return (
       <React.Fragment>
-        <div ref={element => refFunc(element, id)} {...classes('wrapper')}>
+        <div
+          ref={element => refFunc(element, id)}
+          id={id}
+          {...classes('wrapper')}>
           <RouterLink
             to={active ? '/structure' : `/structure${path}`}
             {...classes('link')}>

@@ -141,21 +141,22 @@ export class StructurePage extends React.PureComponent {
   connectLinkItems(source, target) {
     const instance = jsPlumb.getInstance({
       Container: this.plumbContainer.current,
-    });
-    return instance.connect({
-      source: this[source],
-      target: this[target],
-      endpoint: 'Blank',
-      connector: ['Flowchart', { stub: 50 }],
-      paintStyle: { strokeWidth: 1, stroke: '#000000', dashstyle: '4 2' },
-      anchors: ['Left', 'Left'],
-      overlays: [
+      Endpoint: 'Blank',
+      Connector: ['Flowchart', { stub: 50 }],
+      PaintStyle: { strokeWidth: 1, stroke: '#000000', dashstyle: '4 2' },
+      Anchors: ['Left', 'Left'],
+      Overlays: [
         ['Custom', { create: () => this.starButton.current, location: 70 }],
         [
           'Custom',
           { create: () => this[`linkButton-${target}`], location: -30 },
         ],
       ],
+    });
+
+    return instance.connect({
+      source: this[source],
+      target: this[target],
     });
   }
 
@@ -173,11 +174,12 @@ export class StructurePage extends React.PureComponent {
       this.deleteConnections();
     } else {
       this.starButton.current.style.display = 'block';
-      this[`linkButton-${target}`].style.display = 'block';
-      this[`linkButton-${target2}`].style.display = 'block';
+
       const connection1 = this.connectLinkItems(id, target);
       const connection2 = this.connectLinkItems(id, target2);
       this.setState({ connections: [connection1, connection2] });
+      this[`linkButton-${target}`].style.display = 'block';
+      this[`linkButton-${target2}`].style.display = 'block';
     }
   }
 

@@ -172,8 +172,6 @@ StructurePage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       subject: PropTypes.string,
-      topic1: PropTypes.string,
-      topic2: PropTypes.string,
     }).isRequired,
   }).isRequired,
 };

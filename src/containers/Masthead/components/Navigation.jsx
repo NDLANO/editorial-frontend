@@ -131,6 +131,7 @@ export class Navigation extends Component {
         {this.state.open ? (
           <div
             role="presentation"
+            onKeyPress={this.toggleOpen}
             onClick={this.toggleOpen}
             {...classes('overlay')}
           />

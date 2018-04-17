@@ -6,22 +6,19 @@
  *
  */
 
+import './raf-polyfill';
+
+/* eslint-disable */
+
 import { expectSaga } from 'redux-saga-test-plan';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-window.config = {
-  ndlaApiUrl: 'http://ndla-api',
-};
-
+/* eslint-enable */
 global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
   ? parseInt(process.env.DEFAULT_TIMEOUT, 10)
   : 100;
 expectSaga.DEFAULT_TIMEOUT = global.DEFAULT_TIMEOUT;
-
-global.requestAnimationFrame = callback => {
-  setTimeout(callback, 0);
-};
 
 configure({ adapter: new Adapter() });
 

@@ -9,10 +9,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
+import config from '../../config';
 
 const DisplayBrightcoveTag = ({ embedTag, className }) => {
-  const src = `//players.brightcove.net/${window.config.brightCoveAccountId}/${
-    window.config.brightcovePlayerId
+  const src = `//players.brightcove.net/${config.brightCoveAccountId}/${
+    config.brightcovePlayerId
   }_default/index.min.js`;
   return (
     <figure className={className}>
@@ -21,8 +22,8 @@ const DisplayBrightcoveTag = ({ embedTag, className }) => {
       </Helmet>
       <video
         data-video-id={embedTag.videoid}
-        data-account={window.config.brightCoveAccountId}
-        data-player={window.config.brightcovePlayerId}
+        data-account={config.brightCoveAccountId}
+        data-player={config.brightcovePlayerId}
         data-embed="default"
         className="video-js"
         controls

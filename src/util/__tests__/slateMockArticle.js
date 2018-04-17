@@ -3,23 +3,23 @@ export const standardArticleHTML = `<section><h2>Blokk 1 </h2></section><section
 export const standardArticleValue = {
   document: {
     data: {},
-    object: 'document',
+    kind: 'document',
     nodes: [
       {
         data: {},
         isVoid: false,
-        object: 'block',
+        kind: 'block',
         nodes: [
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: 'Blokk 1 ',
                   },
@@ -34,18 +34,18 @@ export const standardArticleValue = {
       {
         data: {},
         isVoid: false,
-        object: 'block',
+        kind: 'block',
         nodes: [
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -57,18 +57,18 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text: 'Bullet 1',
                       },
@@ -80,13 +80,13 @@ export const standardArticleValue = {
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text: 'Bullet 2',
                       },
@@ -98,13 +98,13 @@ export const standardArticleValue = {
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text: 'Bullet 3',
                       },
@@ -119,13 +119,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -137,18 +137,18 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text: 'Bodybox',
                       },
@@ -160,13 +160,13 @@ export const standardArticleValue = {
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text: 'Bodybox content',
                       },
@@ -178,18 +178,18 @@ export const standardArticleValue = {
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
                     data: {},
                     isVoid: false,
-                    object: 'block',
+                    kind: 'block',
                     nodes: [
                       {
-                        object: 'text',
+                        kind: 'text',
                         leaves: [
                           {
-                            object: 'leaf',
+                            kind: 'leaf',
                             marks: [],
                             text: 'A bodybox quote',
                           },
@@ -207,18 +207,18 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text: 'A wise quote',
                       },
@@ -235,18 +235,18 @@ export const standardArticleValue = {
               type: 'letters',
             },
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text: 'Alpha 1',
                       },
@@ -258,13 +258,13 @@ export const standardArticleValue = {
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text: 'Alpha 2',
                       },
@@ -276,13 +276,13 @@ export const standardArticleValue = {
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text: 'Alpha 3',
                       },
@@ -297,13 +297,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -317,18 +317,18 @@ export const standardArticleValue = {
               type: 'factAside',
             },
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text: 'Fact box',
                       },
@@ -340,13 +340,13 @@ export const standardArticleValue = {
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text: 'This should contain some facts!',
                       },
@@ -358,13 +358,13 @@ export const standardArticleValue = {
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text:
                           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet sit amet tortor quis sollicitudin. Donec lacinia, nisl a pharetra lacinia, eros nisi interdum neque, quis egestas lacus dolor et orci. Aenean ac pellentesque mauris. Vestibulum et imperdiet enim. Nam elementum massa non suscipit egestas. Proin malesuada vitae nulla ut vulputate. Cras eleifend orci est, eget rhoncus mi porttitor quis. Nunc sem mi, maximus sit amet ultricies id, varius congue arcu. Pellentesque eu lacus hendrerit, porta erat ut, pharetra urna.',
@@ -377,13 +377,13 @@ export const standardArticleValue = {
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text:
                           'Proin vehicula odio id dui vehicula, id pellentesque mauris tincidunt. Aliquam eget porta leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent posuere ante a dapibus maximus. Nulla quis felis sit amet justo mollis suscipit ut non massa. Quisque et nulla ligula. Nam dictum pharetra dui ut tempus. Morbi rutrum urna eu sem euismod, vitae rutrum turpis bibendum. Etiam vulputate urna eget mauris dictum, quis cursus leo scelerisque. Nunc imperdiet elementum nunc in vehicula. Praesent ante purus, posuere vitae luctus sit amet, scelerisque et nibh. Aliquam vestibulum ligula at tristique varius. Proin fermentum nisi in ligula cursus, nec scelerisque felis interdum.',
@@ -396,13 +396,13 @@ export const standardArticleValue = {
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text:
                           'Nunc velit dui, sagittis vel lectus eu, tempus porttitor risus. Duis tristique ipsum id massa consequat, non bibendum nisl dictum. Mauris non dignissim sapien. In congue massa libero, at malesuada risus aliquet et. Morbi tincidunt, nisi ac luctus vulputate, nibh nisl vulputate nisi, ac interdum ligula est a ex. Vestibulum at sapien eget odio vulputate varius quis non felis. Donec quis volutpat nisl, at tristique erat. Vestibulum tempor, urna eget hendrerit suscipit, lorem metus mollis nunc, a rhoncus metus lectus elementum justo. Donec id felis at orci varius interdum eu ut orci. Vestibulum quis tempus metus, sed accumsan arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
@@ -418,13 +418,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -436,23 +436,23 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
                     data: {},
                     isVoid: false,
-                    object: 'block',
+                    kind: 'block',
                     nodes: [
                       {
-                        object: 'text',
+                        kind: 'text',
                         leaves: [
                           {
-                            object: 'leaf',
+                            kind: 'leaf',
                             marks: [],
                             text: 'Navn',
                           },
@@ -464,13 +464,13 @@ export const standardArticleValue = {
                   {
                     data: {},
                     isVoid: false,
-                    object: 'block',
+                    kind: 'block',
                     nodes: [
                       {
-                        object: 'text',
+                        kind: 'text',
                         leaves: [
                           {
-                            object: 'leaf',
+                            kind: 'leaf',
                             marks: [],
                             text: 'Alder',
                           },
@@ -482,13 +482,13 @@ export const standardArticleValue = {
                   {
                     data: {},
                     isVoid: false,
-                    object: 'block',
+                    kind: 'block',
                     nodes: [
                       {
-                        object: 'text',
+                        kind: 'text',
                         leaves: [
                           {
-                            object: 'leaf',
+                            kind: 'leaf',
                             marks: [],
                             text: 'Kommune',
                           },
@@ -500,13 +500,13 @@ export const standardArticleValue = {
                   {
                     data: {},
                     isVoid: false,
-                    object: 'block',
+                    kind: 'block',
                     nodes: [
                       {
-                        object: 'text',
+                        kind: 'text',
                         leaves: [
                           {
-                            object: 'leaf',
+                            kind: 'leaf',
                             marks: [],
                             text: 'Fylke',
                           },
@@ -521,18 +521,18 @@ export const standardArticleValue = {
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
                     data: {},
                     isVoid: false,
-                    object: 'block',
+                    kind: 'block',
                     nodes: [
                       {
-                        object: 'text',
+                        kind: 'text',
                         leaves: [
                           {
-                            object: 'leaf',
+                            kind: 'leaf',
                             marks: [],
                             text: 'Ola Nordmann',
                           },
@@ -544,13 +544,13 @@ export const standardArticleValue = {
                   {
                     data: {},
                     isVoid: false,
-                    object: 'block',
+                    kind: 'block',
                     nodes: [
                       {
-                        object: 'text',
+                        kind: 'text',
                         leaves: [
                           {
-                            object: 'leaf',
+                            kind: 'leaf',
                             marks: [],
                             text: '46',
                           },
@@ -562,13 +562,13 @@ export const standardArticleValue = {
                   {
                     data: {},
                     isVoid: false,
-                    object: 'block',
+                    kind: 'block',
                     nodes: [
                       {
-                        object: 'text',
+                        kind: 'text',
                         leaves: [
                           {
-                            object: 'leaf',
+                            kind: 'leaf',
                             marks: [],
                             text: 'OSLO',
                           },
@@ -580,13 +580,13 @@ export const standardArticleValue = {
                   {
                     data: {},
                     isVoid: false,
-                    object: 'block',
+                    kind: 'block',
                     nodes: [
                       {
-                        object: 'text',
+                        kind: 'text',
                         leaves: [
                           {
-                            object: 'leaf',
+                            kind: 'leaf',
                             marks: [],
                             text: 'OSLO',
                           },
@@ -601,18 +601,18 @@ export const standardArticleValue = {
               {
                 data: {},
                 isVoid: false,
-                object: 'block',
+                kind: 'block',
                 nodes: [
                   {
                     data: {},
                     isVoid: false,
-                    object: 'block',
+                    kind: 'block',
                     nodes: [
                       {
-                        object: 'text',
+                        kind: 'text',
                         leaves: [
                           {
-                            object: 'leaf',
+                            kind: 'leaf',
                             marks: [],
                             text: 'Kari Nordman',
                           },
@@ -624,13 +624,13 @@ export const standardArticleValue = {
                   {
                     data: {},
                     isVoid: false,
-                    object: 'block',
+                    kind: 'block',
                     nodes: [
                       {
-                        object: 'text',
+                        kind: 'text',
                         leaves: [
                           {
-                            object: 'leaf',
+                            kind: 'leaf',
                             marks: [],
                             text: '44',
                           },
@@ -642,13 +642,13 @@ export const standardArticleValue = {
                   {
                     data: {},
                     isVoid: false,
-                    object: 'block',
+                    kind: 'block',
                     nodes: [
                       {
-                        object: 'text',
+                        kind: 'text',
                         leaves: [
                           {
-                            object: 'leaf',
+                            kind: 'leaf',
                             marks: [],
                             text: 'SKEDSMO',
                           },
@@ -660,13 +660,13 @@ export const standardArticleValue = {
                   {
                     data: {},
                     isVoid: false,
-                    object: 'block',
+                    kind: 'block',
                     nodes: [
                       {
-                        object: 'text',
+                        kind: 'text',
                         leaves: [
                           {
-                            object: 'leaf',
+                            kind: 'leaf',
                             marks: [],
                             text: 'OSLO',
                           },
@@ -684,13 +684,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -712,13 +712,13 @@ export const standardArticleValue = {
               url: 'https://test.api.ndla.no/image-api/v2/images/2',
             },
             isVoid: true,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: ' ',
                   },
@@ -730,13 +730,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -760,13 +760,13 @@ export const standardArticleValue = {
               url: 'https://test.api.ndla.no/image-api/v2/images/3',
             },
             isVoid: true,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: ' ',
                   },
@@ -778,13 +778,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text:
                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet sit amet tortor quis sollicitudin. Donec lacinia, nisl a pharetra lacinia, eros nisi interdum neque, quis egestas lacus dolor et orci. Aenean ac pellentesque mauris. Vestibulum et imperdiet enim. Nam elementum massa non suscipit egestas. Proin malesuada vitae nulla ut vulputate. Cras eleifend orci est, eget rhoncus mi porttitor quis. Nunc sem mi, maximus sit amet ultricies id, varius congue arcu. Pellentesque eu lacus hendrerit, porta erat ut, pharetra urna.',
@@ -797,13 +797,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text:
                       'Proin vehicula odio id dui vehicula, id pellentesque mauris tincidunt. Aliquam eget porta leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent posuere ante a dapibus maximus. Nulla quis felis sit amet justo mollis suscipit ut non massa. Quisque et nulla ligula. Nam dictum pharetra dui ut tempus. Morbi rutrum urna eu sem euismod, vitae rutrum turpis bibendum. Etiam vulputate urna eget mauris dictum, quis cursus leo scelerisque. Nunc imperdiet elementum nunc in vehicula. Praesent ante purus, posuere vitae luctus sit amet, scelerisque et nibh. Aliquam vestibulum ligula at tristique varius. Proin fermentum nisi in ligula cursus, nec scelerisque felis interdum.',
@@ -816,13 +816,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -842,13 +842,13 @@ export const standardArticleValue = {
               url: 'https://test.api.ndla.no/image-api/v2/images/4',
             },
             isVoid: true,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: ' ',
                   },
@@ -860,13 +860,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text:
                       'Nunc velit dui, sagittis vel lectus eu, tempus porttitor risus. Duis tristique ipsum id massa consequat, non bibendum nisl dictum. Mauris non dignissim sapien. In congue massa libero, at malesuada risus aliquet et. Morbi tincidunt, nisi ac luctus vulputate, nibh nisl vulputate nisi, ac interdum ligula est a ex. Vestibulum at sapien eget odio vulputate varius quis non felis. Donec quis volutpat nisl, at tristique erat. Vestibulum tempor, urna eget hendrerit suscipit, lorem metus mollis nunc, a rhoncus metus lectus elementum justo. Donec id felis at orci varius interdum eu ut orci. Vestibulum quis tempus metus, sed accumsan arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
@@ -879,13 +879,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text:
                       'Phasellus vitae metus vitae tellus imperdiet fringilla vel sit amet metus. Praesent tincidunt diam in laoreet maximus. Nulla ultricies dolor in nisi imperdiet lobortis. Nullam euismod, ex quis tempus maximus, nunc tortor dictum massa, non pulvinar turpis magna vestibulum tellus. Donec vehicula neque sed vehicula varius. Nam in cursus lectus, eget laoreet ex. Donec eleifend varius mi ac dapibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed at erat non arcu porta posuere sit amet ut nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam ornare massa id ipsum interdum pulvinar. Donec sed malesuada sem, non tempus ligula. In hac habitasse platea dictumst. Proin metus tortor, molestie id commodo ullamcorper, malesuada volutpat nisi.',
@@ -898,13 +898,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -924,13 +924,13 @@ export const standardArticleValue = {
               url: 'https://test.api.ndla.no/image-api/v2/images/6',
             },
             isVoid: true,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: ' ',
                   },
@@ -942,13 +942,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text:
                       'In hac habitasse platea dictumst. Curabitur vestibulum nisl leo, blandit vehicula purus cursus vel. Pellentesque ac mi dolor. Ut pretium arcu pharetra justo ultrices aliquam. Aliquam leo est, congue eget ultricies at, commodo a massa. In ultrices consectetur ante, sit amet vestibulum lorem volutpat sed. Fusce orci orci, pretium at aliquet eu, ornare sed lacus. Nunc ut odio velit. In velit mauris, fringilla sit amet mi ornare, dictum molestie ipsum. Donec eget justo accumsan, malesuada nisi id, commodo elit. Mauris congue lacus a scelerisque varius.',
@@ -961,13 +961,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -979,13 +979,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -997,13 +997,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -1015,13 +1015,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -1039,13 +1039,13 @@ export const standardArticleValue = {
               videoid: '5389115230001',
             },
             isVoid: true,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: ' ',
                   },
@@ -1057,13 +1057,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -1079,13 +1079,13 @@ export const standardArticleValue = {
               url: 'https://test.api.ndla.no/audio-api/v1/audio/945',
             },
             isVoid: true,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: ' ',
                   },
@@ -1097,13 +1097,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: 'Hei på ',
                   },
@@ -1116,13 +1116,13 @@ export const standardArticleValue = {
                   target: '',
                 },
                 isVoid: false,
-                object: 'inline',
+                kind: 'inline',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text: 'deg',
                       },
@@ -1132,10 +1132,10 @@ export const standardArticleValue = {
                 type: 'link',
               },
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: ' og ',
                   },
@@ -1148,13 +1148,13 @@ export const standardArticleValue = {
                   target: '_blank',
                 },
                 isVoid: false,
-                object: 'inline',
+                kind: 'inline',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text: 'meg',
                       },
@@ -1164,10 +1164,10 @@ export const standardArticleValue = {
                 type: 'link',
               },
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -1179,13 +1179,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -1197,13 +1197,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: 'NDLA ',
                   },
@@ -1216,13 +1216,13 @@ export const standardArticleValue = {
                   target: '_blank',
                 },
                 isVoid: false,
-                object: 'inline',
+                kind: 'inline',
                 nodes: [
                   {
-                    object: 'text',
+                    kind: 'text',
                     leaves: [
                       {
-                        object: 'leaf',
+                        kind: 'leaf',
                         marks: [],
                         text: 'NODE ID',
                       },
@@ -1232,10 +1232,10 @@ export const standardArticleValue = {
                 type: 'link',
               },
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: '',
                   },
@@ -1247,13 +1247,13 @@ export const standardArticleValue = {
           {
             data: {},
             isVoid: false,
-            object: 'block',
+            kind: 'block',
             nodes: [
               {
-                object: 'text',
+                kind: 'text',
                 leaves: [
                   {
-                    object: 'leaf',
+                    kind: 'leaf',
                     marks: [],
                     text: 'ddd',
                   },
@@ -1267,5 +1267,5 @@ export const standardArticleValue = {
       },
     ],
   },
-  object: 'value',
+  kind: 'value',
 };

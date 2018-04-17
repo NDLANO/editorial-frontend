@@ -14,21 +14,16 @@ import helmet from 'helmet';
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE } from 'http-status';
 import bodyParser from 'body-parser';
 import Auth0SilentCallback from './Auth0SilentCallback';
-import enableDevMiddleWare from './enableDevMiddleware';
 import enableBasicAuth from './enableBasicAuth';
 import getConditionalClassnames from './getConditionalClassnames';
-import { getLocaleObject } from '../src/i18n';
+import { getLocaleObject } from '../i18n';
 import Html from './Html';
 import { getToken, getBrightcoveToken } from './auth';
 import contentSecurityPolicy from './contentSecurityPolicy';
-import errorLogger from '../src/util/logger';
+import errorLogger from '../util/logger';
 
 const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
-
-if (process.env.NODE_ENV === 'development') {
-  enableDevMiddleWare(app);
-}
 
 if (process.env.NDLA_ENVIRONMENT === 'test') {
   enableBasicAuth(app);
@@ -36,7 +31,7 @@ if (process.env.NDLA_ENVIRONMENT === 'test') {
 
 app.use(compression());
 app.use(
-  express.static('htdocs', {
+  express.static(process.env.RAZZLE_PUBLIC_DIR, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
   }),
 );
@@ -83,7 +78,7 @@ app.get('/health', (req, res) => {
 });
 
 app.get('/login/silent-callback', (req, res) => {
-  res.send('<!doctype html>\n' + Auth0SilentCallback); // eslint-disable-line prefer-template
+  res.send('<!doctype html>\n' + Auth0SilentCallback); // eslint-disable-line
 });
 
 app.get('/get_token', (req, res) => {
@@ -127,4 +122,4 @@ app.get('*', (req, res) => {
   res.send(`<!doctype html>\n${htmlString}`);
 });
 
-module.exports = app;
+export default app;

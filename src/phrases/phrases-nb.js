@@ -102,7 +102,7 @@ const phrases = {
     sort: {
       id: 'Id',
       relevance: 'Relevans',
-      title: 'Alfabetisk',
+      title: 'Tittel',
       lastUpdated: 'Sist oppdatert',
     },
   },

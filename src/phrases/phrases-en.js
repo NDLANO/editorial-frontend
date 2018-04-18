@@ -101,7 +101,7 @@ const phrases = {
     sort: {
       id: 'Id',
       relevance: 'Relevance',
-      title: 'Alphabetical',
+      title: 'Title',
       lastUpdated: 'Last updated',
     },
   },

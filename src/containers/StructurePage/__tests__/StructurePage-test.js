@@ -11,7 +11,10 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { MemoryRouter } from 'react-router-dom';
 import { StructurePage } from '../StructurePage';
-import { subjectsMock } from '../../../util/__tests__/taxonomyMocks';
+import {
+  subjectsMock,
+  resourceTypesMock,
+} from '../../../util/__tests__/taxonomyMocks';
 
 const activeSubject = 'subject:11';
 const wrapper = () =>
@@ -19,11 +22,17 @@ const wrapper = () =>
     <MemoryRouter>
       <StructurePage
         t={() => 'injected'}
+        locale="nb"
         match={{ params: { subject: activeSubject } }}
       />
     </MemoryRouter>,
   );
+
 beforeEach(() => {
+  nock('http://ndla-api')
+    .get('/taxonomy/v1/resource-types/?language=nb')
+    .reply(200, resourceTypesMock);
+
   nock('http://ndla-api')
     .get('/taxonomy/v1/subjects')
     .reply(200, subjectsMock);

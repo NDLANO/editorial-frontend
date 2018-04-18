@@ -60,7 +60,7 @@ function deleteTopicResource(id) {
 async function createDeleteUpdateTopicResources(
   resourceId,
   topics,
-  language,
+  locale,
   allTopics,
 ) {
   try {

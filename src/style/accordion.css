@@ -35,6 +35,15 @@
       background: var(--taxonomy-color);
       border: none;
     }
+
+    &--resourceGroup,
+    &--resourceGroup:hover {
+      padding: 0;
+      color: white;
+      height: 50px;
+      background: linear-gradient(180deg, white, var(--gray-10));
+      border: 1px solid var(--gray-10);
+    }
   }
 
   &--fill {
@@ -70,6 +79,10 @@
     &--taxonomy {
       margin-left: var(--spacing);
     }
+
+    &--resourceGroup {
+      margin-bottom: -1.8em;
+    }
   }
 
   &__title {
@@ -90,11 +103,29 @@
         margin-right: 10px;
       }
     }
+
+    &--resourceGroup {
+      color: var(--gray-4);
+      font-size: 1.25rem;
+      text-transform: none;
+      display: flex;
+      align-items: center;
+
+      & > svg {
+        margin-right: 10px;
+        color: var(--gray-4);
+      }
+    }
   }
 
   &__arrow {
     color: var(--gray-7);
     width: 45px;
     height: 45px;
+
+    &--resourceGroup {
+      color: var(--gray-6);
+      margin-right: 4px;
+    }
   }
 }

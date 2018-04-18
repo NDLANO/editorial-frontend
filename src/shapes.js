@@ -127,6 +127,19 @@ export const TaxonomyShape = PropTypes.shape({
   }),
 });
 
+export const ResourceShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  contentUri: PropTypes.string,
+  path: PropTypes.string.isRequired,
+});
+
+export const ResourceTypeShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  resources: PropTypes.arrayOf(ResourceShape),
+});
+
 export const LicensesArrayOf = PropTypes.arrayOf(
   PropTypes.shape({
     description: PropTypes.string,

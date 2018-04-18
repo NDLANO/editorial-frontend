@@ -94,9 +94,15 @@ const phrases = {
       image: 'Image',
       audio: 'Audio',
     },
-    order: {
+    order: 'Rekkefølge',
+    ascending: 'Ascending',
+    descending: 'Descending',
+    sorting: 'Sorting',
+    sort: {
+      id: 'Id',
       relevance: 'Relevance',
       title: 'Alphabetical',
+      lastUpdated: 'Last updated',
     },
   },
   subjectsPage: {

@@ -7,8 +7,10 @@
  */
 
 import React from 'react';
-import SearchPage from './SearchPage';
+import SearchContainer from './SearchContainer';
 
-const SearchContentPage = props => <SearchPage type="content" {...props} />;
+const SearchContentPage = props => (
+  <SearchContainer type="content" {...props} />
+);
 
 export default SearchContentPage;

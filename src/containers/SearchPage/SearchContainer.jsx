@@ -33,7 +33,7 @@ export const searchClasses = new BEMHelper({
   prefix: 'c-',
 });
 
-class SearchPage extends Component {
+class SearchContainer extends Component {
   constructor() {
     super();
     this.state = { hiddenContent: false };
@@ -89,7 +89,10 @@ class SearchPage extends Component {
               location={location}
             />
           </SearchAccordion>
-          <SearchSort onSortOrderChange={this.onSortOrderChange} />
+          <SearchSort
+            location={location}
+            onSortOrderChange={this.onSortOrderChange}
+          />
           <SearchListOptions
             query={query}
             results={results}
@@ -108,7 +111,7 @@ class SearchPage extends Component {
   }
 }
 
-SearchPage.propTypes = {
+SearchContainer.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string,
   }).isRequired,
@@ -120,12 +123,7 @@ SearchPage.propTypes = {
   results: PropTypes.arrayOf(SearchResultShape).isRequired,
   searching: PropTypes.bool.isRequired,
   search: PropTypes.func.isRequired,
-  enabledSources: PropTypes.arrayOf(PropTypes.string),
   type: PropTypes.string.isRequired,
-};
-
-SearchPage.defaultProps = {
-  enabledSources: ['all', 'learningResource', 'topicArticle', 'image', 'audio'],
 };
 
 const mapDispatchToProps = {
@@ -140,5 +138,5 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 export default compose(connect(mapStateToProps, mapDispatchToProps), injectT)(
-  SearchPage,
+  SearchContainer,
 );

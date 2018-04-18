@@ -7,8 +7,8 @@
  */
 
 import React from 'react';
-import SearchPage from './SearchPage';
+import SearchContainer from './SearchContainer';
 
-const SearchMediaPage = props => <SearchPage type="media" {...props} />;
+const SearchMediaPage = props => <SearchContainer type="media" {...props} />;
 
 export default SearchMediaPage;

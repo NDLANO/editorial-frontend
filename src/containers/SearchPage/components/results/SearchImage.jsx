@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { toEditImage } from '../../../../util/routeHelpers';
 import { ImageResultShape } from '../../../../shapes';
-import { searchClasses } from '../../SearchPage';
+import { searchClasses } from '../../SearchContainer';
 
 const SearchImage = ({ image, locale }) => (
   <div {...searchClasses('result')}>

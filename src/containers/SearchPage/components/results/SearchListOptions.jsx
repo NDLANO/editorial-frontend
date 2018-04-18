@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { SearchResultShape } from '../../../../shapes';
-import { searchClasses } from '../../SearchPage';
+import { searchClasses } from '../../SearchContainer';
 
 const pageSizeOptions = [4, 6, 8, 10, 12, 14, 16, 18, 20];
 

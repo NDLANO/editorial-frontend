@@ -95,9 +95,15 @@ const phrases = {
       image: 'Bilde',
       audio: 'Lyd',
     },
-    order: {
+    order: 'Rekkefølge',
+    ascending: 'Stigende',
+    descending: 'Fallende',
+    sorting: 'Sortering',
+    sort: {
+      id: 'Id',
       relevance: 'Relevans',
       title: 'Alfabetisk',
+      lastUpdated: 'Sist oppdatert',
     },
   },
   subjectsPage: {

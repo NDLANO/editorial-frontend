@@ -20,6 +20,7 @@ import {
 import ConnectFilterItem from './ConnectFilterItem';
 import Spinner from '../../../components/Spinner';
 import Overlay from '../../../components/Overlay';
+import { RESOURCE_FILTER_CORE } from '../../../constants';
 
 class ConnectFilters extends Component {
   constructor() {
@@ -51,7 +52,7 @@ class ConnectFilters extends Component {
           return addFilterToTopic({
             filterId: filter.id,
             topicId: id,
-            relevanceId: relevance || 'urn:relevance:core',
+            relevanceId: relevance || RESOURCE_FILTER_CORE,
           });
         } else if (active && relevance !== currentFilter.relevanceId) {
           // update topic-filter with relevance

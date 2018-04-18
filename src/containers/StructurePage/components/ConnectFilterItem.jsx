@@ -10,6 +10,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import ToggleSwitch from './ToggleSwitch';
+import {
+  RESOURCE_FILTER_CORE,
+  RESOURCE_FILTER_SUPPLEMENTARY,
+} from '../../../constants';
 
 const classes = new BEMHelper({
   name: 'connectFilter',
@@ -20,7 +24,7 @@ const ConnectFilterItem = ({ id, name, inputValues, onChange }) => {
   const relevance =
     inputValues.relevance === undefined
       ? true
-      : inputValues.relevance === 'urn:relevance:core';
+      : inputValues.relevance === RESOURCE_FILTER_CORE;
   return (
     <div {...classes('')}>
       <label {...classes('item')}>
@@ -37,8 +41,8 @@ const ConnectFilterItem = ({ id, name, inputValues, onChange }) => {
         onClick={() =>
           onChange({
             relevance: relevance
-              ? 'urn:relevance:supplementary'
-              : 'urn:relevance:core',
+              ? RESOURCE_FILTER_SUPPLEMENTARY
+              : RESOURCE_FILTER_CORE,
           })
         }
         on={relevance}

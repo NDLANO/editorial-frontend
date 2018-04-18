@@ -20,3 +20,4 @@ export const RESOURCE_TYPE_CONCEPT = 'urn:resourcetype:concept';
 
 // Filters
 export const RESOURCE_FILTER_CORE = 'urn:relevance:core';
+export const RESOURCE_FILTER_SUPPLEMENTARY = 'urn:relevance:supplementary';

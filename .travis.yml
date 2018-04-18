@@ -8,7 +8,7 @@ script:
 - yarn test
 - yarn build
 after_success:
-- travis_wait yarn ndla-scripts now-travis
+- travis_wait yarn ndla-scripts now-travis --npm
 cache:
   yarn: true
   directories:

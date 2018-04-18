@@ -6,6 +6,13 @@
  *
  */
 
+import defined from 'defined';
+import {
+  RESOURCE_FILTER_CORE,
+  RESOURCE_FILTER_SUPPLEMENTARY,
+} from '../constants';
+import getContentTypeFromResourceTypes from './getContentTypeFromResourceTypes';
+
 function flattenResourceTypes(data = []) {
   const resourceTypes = [];
   data.forEach(type => {
@@ -67,4 +74,81 @@ function spliceChangedItems(
   return [[...changedItems], [...items], [...updatedItems]];
 }
 
-export { flattenResourceTypes, spliceChangedItems };
+function groupRelevanceResourceTypes(
+  coreResourceTypes,
+  supplementaryResourceTypes,
+) {
+  return [
+    ...coreResourceTypes.map(resource => ({
+      ...resource,
+      relevance: RESOURCE_FILTER_CORE,
+    })),
+    ...supplementaryResourceTypes.map(resource => ({
+      ...resource,
+      relevance: RESOURCE_FILTER_SUPPLEMENTARY,
+    })),
+  ];
+}
+
+// Same structuring used from ndla-frontend
+function getResourcesGroupedByResourceTypes(resourcesByTopic) {
+  return resourcesByTopic.reduce((obj, resource) => {
+    const resourceTypesWithResources = resource.resourceTypes.map(type => {
+      const existing = defined(obj[type.id], []);
+      return { ...type, resources: [...existing, resource] };
+    });
+    const reduced = resourceTypesWithResources.reduce(
+      (acc, type) => ({ ...acc, [type.id]: type.resources }),
+      {},
+    );
+    return { ...obj, ...reduced };
+  }, {});
+}
+
+// Same structuring used from ndla-frontend
+function getTopicResourcesByType(resourceTypes, groupedResourceListItem) {
+  return resourceTypes
+    .map(type => {
+      const resources = defined(groupedResourceListItem[type.id], []);
+      return { ...type, resources };
+    })
+    .filter(type => type.resources.length > 0);
+}
+
+function topicResourcesByTypeWithMetaData(resorceTypesByTopic) {
+  return resorceTypesByTopic.map(type => ({
+    ...type,
+    contentType: getContentTypeFromResourceTypes([type]).contentType,
+  }));
+}
+
+function groupSortResourceTypesFromTopicResources(
+  resourceTypes,
+  coreTopicResources,
+  supplementaryTopicResources,
+) {
+  const groupedResourceTypes = groupRelevanceResourceTypes(
+    coreTopicResources,
+    supplementaryTopicResources,
+  );
+
+  const sortedResourceTypes = getResourcesGroupedByResourceTypes(
+    groupedResourceTypes,
+  );
+
+  const resorceTypesByTopic = getTopicResourcesByType(
+    resourceTypes,
+    sortedResourceTypes,
+  );
+
+  return topicResourcesByTypeWithMetaData(resorceTypesByTopic);
+}
+
+export {
+  flattenResourceTypes,
+  spliceChangedItems,
+  getResourcesGroupedByResourceTypes,
+  getTopicResourcesByType,
+  topicResourcesByTypeWithMetaData,
+  groupSortResourceTypesFromTopicResources,
+};

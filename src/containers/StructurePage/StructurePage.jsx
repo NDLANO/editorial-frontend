@@ -8,9 +8,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { OneColumn } from 'ndla-ui';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { injectT } from 'ndla-i18n';
+import { OneColumn } from 'ndla-ui';
 import { Taxonomy } from 'ndla-icons/editor';
+import { getLocale } from '../../modules/locale/locale';
+import StructureResources from './StructureResources';
 import FolderItem from './components/FolderItem';
 import InlineAddButton from './components/InlineAddButton';
 import Accordion from '../../components/Accordion';
@@ -120,7 +124,8 @@ export class StructurePage extends React.PureComponent {
   }
 
   render() {
-    const { match: { params }, t } = this.props;
+    const { match: { params }, t, locale } = this.props;
+
     return (
       <OneColumn>
         <Accordion
@@ -156,12 +161,14 @@ export class StructurePage extends React.PureComponent {
             />
           ))}
         </Accordion>
+        <StructureResources {...{ locale, params }} />
       </OneColumn>
     );
   }
 }
 
 StructurePage.propTypes = {
+  locale: PropTypes.string,
   match: PropTypes.shape({
     params: PropTypes.shape({
       subject: PropTypes.string,
@@ -169,4 +176,8 @@ StructurePage.propTypes = {
   }).isRequired,
 };
 
-export default injectT(StructurePage);
+const mapStateToProps = state => ({
+  locale: getLocale(state),
+});
+
+export default compose(injectT, connect(mapStateToProps, null))(StructurePage);

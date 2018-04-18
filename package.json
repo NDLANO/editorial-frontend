@@ -14,7 +14,8 @@
     "prettier": "node prettier.js write",
     "start": "razzle start",
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
-    "now-start": "cross-env NODE_ENV=production NOW=true node server",
+    "now-start":
+      "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
     "test": "cross-env BABEL_ENV=test NODE_ENV=unittest jest",
     "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch"
   },
@@ -86,7 +87,7 @@
     "ndla-icons": "^0.2.13",
     "ndla-image-search": "^0.2.10",
     "ndla-licenses": "^0.1.8",
-    "ndla-scripts": "^0.3.0",
+    "ndla-scripts": "^0.4.0",
     "ndla-tabs": "^0.4.3",
     "ndla-ui": "^0.11.1",
     "ndla-util": "^0.1.11",

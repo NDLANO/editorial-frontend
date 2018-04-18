@@ -20,6 +20,12 @@ function fetchTopics(locale) {
   );
 }
 
+function fetchTopicResources(topicId, locale, relevance) {
+  return fetchAuthorized(
+    `${baseUrl}/topics/${topicId}/resources/?language=${locale}&relevance=${relevance}`,
+  ).then(resolveJsonOrRejectWithError);
+}
+
 function addTopic(body) {
   return fetchAuthorized(`${baseUrl}/topics`, {
     method: 'POST',
@@ -28,4 +34,4 @@ function addTopic(body) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-export { fetchTopics, addTopic };
+export { fetchTopics, fetchTopicResources, addTopic };

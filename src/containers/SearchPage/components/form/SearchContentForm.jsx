@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
@@ -19,12 +19,13 @@ import {
   SelectObjectField,
 } from '../../../../components/Fields';
 import { SchemaShape } from '../../../../shapes';
+import SearchTag from './SearchTag';
 
 import { searchFormClasses } from './SearchForm';
 
 export const getInitialModel = (query = {}) => ({
   title: query.query || '',
-  language: query.language || '',
+  language: query.language || 'all',
 });
 
 const languages = t => [
@@ -57,7 +58,7 @@ class SearchContentForm extends Component {
     }
     search({
       query: model.title,
-      language: model.language,
+      language: model.language || 'all',
       types: 'articles',
     });
   }
@@ -72,30 +73,35 @@ class SearchContentForm extends Component {
 
     const commonFieldProps = { bindInput, schema, submitted };
     return (
-      <form onSubmit={this.handleSearch} {...searchFormClasses()}>
-        <TextField
-          name="title"
-          fieldClassName={searchFormClasses('field', '50-width').className}
-          placeholder={t('searchForm.types.title')}
-          {...commonFieldProps}
-        />
-        <SelectObjectField
-          name="language"
-          options={languages(t)}
-          idKey="key"
-          labelKey="title"
-          emptyField
-          placeholder={t('searchForm.types.language')}
-          fieldClassName={searchFormClasses('field', '25-width').className}
-          {...commonFieldProps}
-        />
-        <Field {...searchFormClasses('field', '25-width')}>
-          <Button onClick={this.emptySearch} outline>
-            {t('searchForm.empty')}
-          </Button>
-          <Button submit>{t('searchForm.btn')}</Button>
-        </Field>
-      </form>
+      <Fragment>
+        <form onSubmit={this.handleSearch} {...searchFormClasses()}>
+          <TextField
+            name="title"
+            fieldClassName={searchFormClasses('field', '50-width').className}
+            placeholder={t('searchForm.types.title')}
+            {...commonFieldProps}
+          />
+          <SelectObjectField
+            name="language"
+            options={languages(t)}
+            idKey="key"
+            labelKey="title"
+            emptyField
+            placeholder={t('searchForm.types.language')}
+            fieldClassName={searchFormClasses('field', '25-width').className}
+            {...commonFieldProps}
+          />
+          <Field {...searchFormClasses('field', '25-width')}>
+            <Button onClick={this.emptySearch} outline>
+              {t('searchForm.empty')}
+            </Button>
+            <Button submit>{t('searchForm.btn')}</Button>
+          </Field>
+        </form>
+        <div>
+          <SearchTag tag={{ name: 'Test' }} />
+        </div>
+      </Fragment>
     );
   }
 }

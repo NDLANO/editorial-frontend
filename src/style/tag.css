@@ -71,4 +71,10 @@
       font-size: 1rem;
     }
   }
+
+  &--search {
+    color: var(--gray-3);
+    margin-right: var(--spacing--small);
+    background-color: var(--gray-9);
+  }
 }

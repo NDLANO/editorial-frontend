@@ -25,7 +25,7 @@ import { searchFormClasses } from './SearchForm';
 
 export const getInitialModel = (query = {}) => ({
   title: query.query || '',
-  language: query.language || 'all',
+  language: query.language || '',
 });
 
 const languages = t => [
@@ -58,7 +58,7 @@ class SearchContentForm extends Component {
     }
     search({
       query: model.title,
-      language: model.language || 'all',
+      language: model.language || '',
       types: 'articles',
     });
   }
@@ -69,7 +69,7 @@ class SearchContentForm extends Component {
   }
 
   render() {
-    const { t, bindInput, schema, submitted } = this.props;
+    const { t, bindInput, schema, submitted, model } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
     return (
@@ -97,10 +97,15 @@ class SearchContentForm extends Component {
             </Button>
             <Button submit>{t('searchForm.btn')}</Button>
           </Field>
+          <div {...searchFormClasses('tagline')}>
+            {model.title && (
+              <SearchTag tag={{ id: 'title', name: model.title }} />
+            )}
+            {model.language && (
+              <SearchTag tag={{ id: model.language, name: model.language }} />
+            )}
+          </div>
         </form>
-        <div>
-          <SearchTag tag={{ name: 'Test' }} />
-        </div>
       </Fragment>
     );
   }

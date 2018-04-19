@@ -159,4 +159,10 @@
   & select {
     width: 100%;
   }
+
+  &__tagline {
+    display: flex;
+    flex-flow: row;
+    padding: var(--spacing--small) 0;
+  }
 }

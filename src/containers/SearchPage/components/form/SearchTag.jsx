@@ -20,9 +20,6 @@ const tagClasses = new BEMHelper({
 class SearchTag extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tag: props.tag,
-    };
     this.onRemove = this.onRemove.bind(this);
   }
 
@@ -36,10 +33,10 @@ class SearchTag extends Component {
   }
 
   render() {
-    const { tag } = this.state;
+    const { tag } = this.props;
 
     return (
-      <div {...tagClasses()}>
+      <div className="c-tag c-tag--search">
         <div {...tagClasses('description')}>{tag.name}</div>
         <Button onClick={this.onRemove} stripped>
           <Cross className="c-icon--small" />

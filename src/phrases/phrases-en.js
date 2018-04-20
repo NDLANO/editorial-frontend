@@ -81,8 +81,10 @@ const phrases = {
   searchForm: {
     placeholder: 'Search articles',
     types: {
-      title: 'Title',
+      query: 'Search for content',
       language: 'Language',
+      subjects: 'Search for subject',
+      resourceTypes: 'Search for resource types',
     },
     btn: 'Search',
     empty: 'Empty',

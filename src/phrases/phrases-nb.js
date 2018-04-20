@@ -82,8 +82,10 @@ const phrases = {
   searchForm: {
     placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
     types: {
-      title: 'Tittel',
+      query: 'Søk på innhold',
       language: 'Språk',
+      subjects: 'Søk på fag',
+      resourceTypes: 'Søk på innholdstype',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -339,6 +341,13 @@ const phrases = {
       placeholder: 'Legg til egenskap',
       emptyFilter: 'Ingen egenskaper funnet',
       emptyList: 'Det er ingen egenskaper i denne listen',
+    },
+    subjects: {
+      label: 'Emne',
+      searchPlaceholder: 'Søk etter emne',
+      placeholder: 'Legg til emne',
+      emptyFilter: 'Ingen emner funnet',
+      emptyList: 'Det er ingen emner i denne listen',
     },
     filter: {
       label: 'Filter',

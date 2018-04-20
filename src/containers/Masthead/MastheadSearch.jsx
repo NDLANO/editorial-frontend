@@ -48,7 +48,7 @@ class MastheadSearch extends Component {
               page: 1,
               sort: '-relevance',
               types: locationQuery.types ? locationQuery.types : 'articles',
-              language: 'all',
+              language: '',
               'page-size': 10,
             }),
           )

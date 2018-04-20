@@ -93,7 +93,7 @@ export class StructurePage extends React.PureComponent {
   }
 
   async getAllSubjects() {
-    const subjects = await fetchSubjects();
+    const subjects = await fetchSubjects(this.props.locale);
     this.setState({ subjects });
   }
 

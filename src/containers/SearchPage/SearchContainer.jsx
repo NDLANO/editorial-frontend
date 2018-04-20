@@ -87,6 +87,7 @@ class SearchContainer extends Component {
               search={this.onQueryPush}
               query={query}
               location={location}
+              locale={locale}
             />
           </SearchAccordion>
           <SearchSort

@@ -74,7 +74,7 @@
 
   &__sort-container {
     width: 100%;
-    margin-top: var(--spacing);
+    margin-top: calc(var(--spacing) / 2);
     padding: var(--spacing--small);
     background-color: var(--gray-10);
     border: 1px solid var(--gray-8);
@@ -122,7 +122,7 @@
 
   &__field {
     align-self: center;
-    padding-right: 0.4rem;
+    padding: 0 0.4rem 0.6rem 0.4rem;
 
     &--50-width {
       width: 50%;

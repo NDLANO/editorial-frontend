@@ -1,4 +1,3 @@
-
 /**
  * Copyright (c) 2017-present, NDLA.
  *
@@ -7,18 +6,13 @@
  *
  */
 
-.c-search-results {
-  margin-top: -156px;
-  padding: 1.5rem;
-  border: 1px solid var(--gray-8);
+.c-search {
   background-color: white;
 
   &__result {
     color: var(--brand-grey-dark);
-    min-height: 9.2rem;
-    border-bottom: 1px solid var(--gray-8);
     display: flex;
-    padding-left: 12px;
+    justify-content: row;
   }
 
   &__result:last-child {
@@ -33,20 +27,29 @@
 
   &__content {
     display: inline-block;
-    width: 70%;
+    width: 90%;
+    align-self: center;
+    padding-left: 1.3rem;
   }
 
   &__image {
     display: inline-block;
-    width: 30%;
-    max-width: 30%;
+    width: 10%;
+    align-self: center;
+    max-width: 10%;
     text-align: center;
+  }
+
+  &__description {
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin: 0.2rem 0 1.2rem;
   }
 
   &__image img {
     max-height: 9.2rem;
-    margin: 1.3rem;
-    margin-right: 0;
   }
 
   &__image svg {
@@ -59,17 +62,107 @@
     font-size: 1.2rem;
     margin: 1.3rem 0 0.3rem;
     font-weight: 600;
+
+    & svg {
+      margin-right: 0.2rem;
+    }
   }
 
   & a {
     text-decoration: none;
   }
 
-  &__description {
-    margin: 0.2rem 0 1.2rem;
+  &__sort-container {
+    width: 100%;
+    margin-top: calc(var(--spacing) / 2);
+    padding: var(--spacing--small);
+    background-color: var(--gray-10);
+    border: 1px solid var(--gray-8);
+  }
+
+  &__sort-label {
+    color: black;
+    text-transform: uppercase;
+    margin-left: var(--spacing--small);
+    margin-right: var(--spacing--small);
   }
 
   &__filters-select {
     margin-left: 0.5em;
+  }
+
+  & input {
+    border-radius: 4px;
+  }
+
+  & select {
+    border-radius: 4px;
+  }
+
+  &__options-container {
+    color: black;
+    margin: var(--spacing) 0;
+  }
+
+  &__option span {
+    display: block;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+  }
+}
+
+.c-search-form {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+
+  & .c-field {
+    margin: 0;
+  }
+
+  &__field {
+    align-self: center;
+    padding: 0 0.4rem 0.6rem 0.4rem;
+
+    &--50-width {
+      width: 50%;
+    }
+
+    &--25-width {
+      width: 25%;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+
+  &__field button {
+    width: 49%;
+    min-height: 1.5rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    text-transform: uppercase;
+    border-width: 1px;
+    font-weight: lighter;
+
+    & + button {
+      margin-left: 2%;
+    }
+
+    &:hover,
+    &:focus {
+      border-width: 1px;
+    }
+  }
+
+  & select {
+    width: 100%;
+  }
+
+  &__tagline {
+    display: flex;
+    flex-flow: wrap;
+    padding: var(--spacing--small) 0;
   }
 }

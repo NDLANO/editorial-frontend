@@ -50,18 +50,26 @@ class WarningModalWrapper extends PureComponent {
     const { schema, history, handleSubmit } = this.props;
     handleSubmit(e);
     if (schema.isValid) {
-      this.setState({ discardChanges: true }, () =>
-        history.push(this.state.nextLocation.pathname),
-      );
+      this.setState({ discardChanges: true }, () => {
+        const nextLocation =
+          this.state.nextLocation.pathname +
+          this.state.nextLocation.hash +
+          this.state.nextLocation.search;
+        return history.push(nextLocation);
+      });
     } else {
       this.setState({ openModal: false });
     }
   }
 
   onContinue() {
-    this.setState({ discardChanges: true }, () =>
-      this.props.history.push(this.state.nextLocation.pathname),
-    );
+    this.setState({ discardChanges: true }, () => {
+      const nextLocation =
+        this.state.nextLocation.pathname +
+        this.state.nextLocation.hash +
+        this.state.nextLocation.search;
+      return this.props.history.push(nextLocation);
+    });
   }
 
   isDirty() {

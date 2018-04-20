@@ -10,9 +10,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Audio } from 'ndla-icons/common';
-import { toEditAudio } from '../../../util/routeHelpers';
-import { AudioResultShape } from '../../../shapes';
-import { searchClasses } from '../SearchPage';
+import { toEditAudio } from '../../../../util/routeHelpers';
+import { AudioResultShape } from '../../../../shapes';
+import { searchClasses } from '../../SearchContainer';
 
 const SearchAudio = ({ audio, locale }) => (
   <div {...searchClasses('result')}>

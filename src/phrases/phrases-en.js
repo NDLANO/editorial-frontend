@@ -25,6 +25,21 @@ const phrases = {
     emptySavedSearch: 'No saved searches',
     guidelines: 'Guidelines',
   },
+  searchPage: {
+    header: {
+      content: 'Search for content',
+      media: 'Search for media',
+    },
+    searchButton: 'Search',
+    emptyButton: 'Empty',
+    title: 'Title',
+    language: 'Language',
+    articlesNoHits: 'Your search - {query} - did not match any articles.',
+    imagesNoHits: 'Your search - {query} - did not match any images.',
+    audiosNoHits: 'Your search - {query} - did not match any audio files.',
+    pageSize: '{pageSize} hits per page',
+    totalCount: 'Total results',
+  },
   subNavigation: {
     media: 'Media',
     learningPath: 'Learningpath',
@@ -37,6 +52,8 @@ const phrases = {
     agreement: 'Agreement',
     structure: 'Structure',
     concept: 'Concept',
+    searchContent: 'Search content',
+    searchMedia: 'Search media',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -63,7 +80,14 @@ const phrases = {
   },
   searchForm: {
     placeholder: 'Search articles',
+    types: {
+      query: 'Search for content',
+      language: 'Select Language',
+      subjects: 'Select subject',
+      resourceTypes: 'Select Resource type',
+    },
     btn: 'Search',
+    empty: 'Empty',
     articleType: {
       all: 'All',
       standard: 'Standard',
@@ -72,9 +96,15 @@ const phrases = {
       image: 'Image',
       audio: 'Audio',
     },
-    order: {
+    order: 'Rekkefølge',
+    ascending: 'Ascending',
+    descending: 'Descending',
+    sorting: 'Sorting',
+    sort: {
+      id: 'Id',
       relevance: 'Relevance',
-      title: 'Alphabetical',
+      title: 'Title',
+      lastUpdated: 'Last updated',
     },
   },
   subjectsPage: {
@@ -399,11 +429,6 @@ const phrases = {
     minLength: '{length} must have at least {minLength, number} characters.',
     minItems:
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
-  },
-  searchPage: {
-    articlesNoHits: 'Your search - {query} - did not match any articles.',
-    imagesNoHits: 'Your search - {query} - did not match any images.',
-    audiosNoHits: 'Your search - {query} - did not match any audio files.',
   },
   footer: {
     aboutNDLA: 'About NDLA',

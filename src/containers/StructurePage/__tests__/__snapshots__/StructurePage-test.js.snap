@@ -8,7 +8,7 @@ exports[`renders list of subjects, with active in url 1`] = `
     className="c-accordion c-accordion--taxonomy"
   >
     <div
-      className="c-accordion__buttonLine c-accordion__buttonLine--taxonomy"
+      className="c-accordion__button-line c-accordion__button-line--taxonomy"
     >
       <button
         className="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy"
@@ -98,7 +98,7 @@ exports[`renders list of subjects, with active in url 2`] = `
     className="c-accordion c-accordion--taxonomy"
   >
     <div
-      className="c-accordion__buttonLine c-accordion__buttonLine--taxonomy"
+      className="c-accordion__button-line c-accordion__button-line--taxonomy"
     >
       <button
         className="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy"

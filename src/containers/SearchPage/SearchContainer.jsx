@@ -11,8 +11,9 @@ import queryString from 'query-string';
 import { injectT } from 'ndla-i18n';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { OneColumn, Pager, Hero } from 'ndla-ui';
+import { OneColumn, Pager } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
+import SearchAccordion from './components/SearchAccordion';
 import * as actions from '../../modules/search/search';
 import { SearchResultShape } from '../../shapes';
 import {
@@ -21,35 +22,39 @@ import {
   getSearching,
 } from '../../modules/search/searchSelectors';
 import { getLocale } from '../../modules/locale/locale';
-import SearchList from './components/SearchList';
-import SearchTabs from './components/SearchTabs';
+import SearchList from './components/results/SearchList';
+import SearchListOptions from './components/results/SearchListOptions';
+import SearchForm from './components/form/SearchForm';
+import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 
 export const searchClasses = new BEMHelper({
-  name: 'search-results',
+  name: 'search',
   prefix: 'c-',
 });
 
-class SearchPage extends Component {
+class SearchContainer extends Component {
   constructor() {
     super();
-    this.onSearchTypeChange = this.onSearchTypeChange.bind(this);
-    this.onArticleSearchTypeChange = this.onArticleSearchTypeChange.bind(this);
+    this.state = { hiddenContent: false };
     this.onSortOrderChange = this.onSortOrderChange.bind(this);
     this.onQueryPush = this.onQueryPush.bind(this);
+    this.toggleContent = this.toggleContent.bind(this);
   }
 
   componentWillMount() {
     const { location, search } = this.props;
     if (location.search) {
-      search(location.search);
+      const query = queryString.parse(location.search);
+      search(query);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { location, search } = nextProps;
     if (location.search && location.search !== this.props.location.search) {
-      search(location.search);
+      const query = queryString.parse(location.search);
+      search(query);
     }
   }
 
@@ -59,66 +64,55 @@ class SearchPage extends Component {
     history.push(toSearch({ ...oldQuery, ...newQuery }));
   }
 
-  onSearchTypeChange(types) {
-    this.onQueryPush({
-      page: 1,
-      articleTypes: undefined,
-      types: types.join(','),
-    });
-  }
-
   onSortOrderChange(sort) {
     this.onQueryPush({ sort, page: 1 });
   }
 
-  onArticleSearchTypeChange(articleTypes) {
-    this.onQueryPush({ page: 1, types: 'articles', articleTypes });
+  toggleContent() {
+    this.setState(prevState => ({ hiddenContent: !prevState.hiddenContent }));
   }
 
   render() {
-    const {
-      t,
-      location,
-      results,
-      locale,
-      lastPage,
-      enabledSources,
-      searching,
-    } = this.props;
+    const { location, results, locale, lastPage, type, t } = this.props;
     const query = queryString.parse(location.search);
-    const enabledTabs = enabledSources.map(source => ({
-      title: t(`searchForm.articleType.${source}`),
-      content: <SearchList query={query} locale={locale} results={results} />,
-      disabled: searching,
-    }));
-
     return (
       <div>
-        <Hero contentType="subject" />
         <OneColumn>
-          <div {...searchClasses()}>
-            <SearchTabs
-              searchTypes={query.types}
-              articleType={query.articleTypes}
-              tabs={enabledTabs}
-              onSearchTypeChange={this.onSearchTypeChange}
-              onArticleSearchTypeChange={this.onArticleSearchTypeChange}
-              searching={searching}
-            />
-            <Pager
-              page={query.page ? parseInt(query.page, 10) : 1}
-              lastPage={lastPage}
+          <SearchAccordion
+            handleToggle={this.toggleContent}
+            header={t(`searchPage.header.${type}`)}
+            hidden={this.state.hiddenContent}>
+            <SearchForm
+              type={type}
+              search={this.onQueryPush}
               query={query}
-              pathname={toSearch()}
+              location={location}
+              locale={locale}
             />
-          </div>
+          </SearchAccordion>
+          <SearchSort
+            location={location}
+            onSortOrderChange={this.onSortOrderChange}
+          />
+          <SearchListOptions
+            query={query}
+            results={results}
+            search={this.onQueryPush}
+          />
+          <SearchList query={query} locale={locale} results={results} />
+          <Pager
+            page={query.page ? parseInt(query.page, 10) : 1}
+            lastPage={lastPage}
+            query={query}
+            pathname={toSearch()}
+          />
         </OneColumn>
       </div>
     );
   }
 }
 
-SearchPage.propTypes = {
+SearchContainer.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string,
   }).isRequired,
@@ -130,11 +124,7 @@ SearchPage.propTypes = {
   results: PropTypes.arrayOf(SearchResultShape).isRequired,
   searching: PropTypes.bool.isRequired,
   search: PropTypes.func.isRequired,
-  enabledSources: PropTypes.arrayOf(PropTypes.string),
-};
-
-SearchPage.defaultProps = {
-  enabledSources: ['all', 'learningResource', 'topicArticle', 'image', 'audio'],
+  type: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = {
@@ -149,5 +139,5 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 export default compose(connect(mapStateToProps, mapDispatchToProps), injectT)(
-  SearchPage,
+  SearchContainer,
 );

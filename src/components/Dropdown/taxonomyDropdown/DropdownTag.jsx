@@ -13,7 +13,6 @@ import { Cross } from 'ndla-icons/action';
 import { injectT } from 'ndla-i18n';
 import { DropdownTagPropertyItem, tagClasses } from './';
 import ToolTip from '../../ToolTip';
-import { dropDownClasses } from '../common/dropDownClasses';
 
 class DropdownTag extends Component {
   constructor(props) {
@@ -122,11 +121,7 @@ class DropdownTag extends Component {
       ? tagProperty.name.charAt(0).toUpperCase()
       : '';
 
-    const tagPropertyItem = (
-      <div {...tagClasses()}>
-        <strong>{tagShortName}</strong>
-      </div>
-    );
+    const tagPropertyItem = <strong>{tagShortName}</strong>;
 
     const filterTooltipItem = (
       <div {...tagClasses('radio')} tabIndex={-1} role="radiogroup">
@@ -160,7 +155,7 @@ class DropdownTag extends Component {
         tabIndex="0"
         onClick={this.onClick}
         onKeyPress={this.onClick}
-        {...dropDownClasses('tag', isHighlighted ? 'highlighted' : '')}>
+        {...tagClasses('', isHighlighted ? 'highlighted' : '')}>
         <div {...tagClasses('description')}>{tag.name}</div>
         {tagItem && <div {...tagClasses('item')}>{tagItem}</div>}
         <Button onClick={this.onRemove} stripped>

@@ -8,6 +8,7 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 import SearchTag from './SearchTag';
 import { ResourceTypeShape } from '../../../../shapes';
 
@@ -79,4 +80,4 @@ SearchTagGroup.propTypes = {
   }),
 };
 
-export default SearchTagGroup;
+export default injectT(SearchTagGroup);

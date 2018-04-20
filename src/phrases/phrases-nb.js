@@ -83,9 +83,15 @@ const phrases = {
     placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
     types: {
       query: 'Søk på innhold',
+      language: 'Velg Språk',
+      subjects: 'Velg fag',
+      resourceTypes: 'Velg innholdstype',
+    },
+    tagType: {
+      query: 'Innhold',
+      subjects: 'Emne',
       language: 'Språk',
-      subjects: 'Søk på fag',
-      resourceTypes: 'Søk på innholdstype',
+      resourceTypes: 'Innholdstype',
     },
     btn: 'Søk',
     empty: 'Tøm',

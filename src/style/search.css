@@ -162,7 +162,7 @@
 
   &__tagline {
     display: flex;
-    flex-flow: row;
+    flex-flow: wrap;
     padding: var(--spacing--small) 0;
   }
 }

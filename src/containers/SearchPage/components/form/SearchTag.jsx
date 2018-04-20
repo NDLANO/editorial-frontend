@@ -8,6 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
@@ -33,15 +34,16 @@ class SearchTag extends Component {
   }
 
   render() {
-    const { tag } = this.props;
+    const { tag, t } = this.props;
 
     return (
-      <div className="c-tag c-tag--search">
-        <div {...tagClasses('description')}>{tag.name}</div>
+      <dl className="c-tag c-tag--search">
+        <dt {...tagClasses('label')}>{t(`searchForm.tagType.${tag.type}`)}:</dt>
+        <dd {...tagClasses('description')}>{tag.name}</dd>
         <Button onClick={this.onRemove} stripped>
           <Cross className="c-icon--small" />
         </Button>
-      </div>
+      </dl>
     );
   }
 }
@@ -53,4 +55,4 @@ SearchTag.propTypes = {
   onRemoveItem: PropTypes.func,
 };
 
-export default SearchTag;
+export default injectT(SearchTag);

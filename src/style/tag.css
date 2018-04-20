@@ -27,6 +27,12 @@
     }
   }
 
+  &__label {
+    font-weight: 800;
+    font-size: 0.8em;
+    color: black;
+  }
+
   &__description {
     margin-left: 0.3rem;
     margin-right: 0.3rem;

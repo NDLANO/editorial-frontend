@@ -82,9 +82,9 @@ const phrases = {
     placeholder: 'Search articles',
     types: {
       query: 'Search for content',
-      language: 'Language',
-      subjects: 'Search for subject',
-      resourceTypes: 'Search for resource types',
+      language: 'Select Language',
+      subjects: 'Select subject',
+      resourceTypes: 'Select Resource type',
     },
     btn: 'Search',
     empty: 'Empty',

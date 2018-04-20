@@ -158,7 +158,6 @@ class SearchContentForm extends Component {
             <SearchTagGroup
               onRemoveItem={this.removeTagItem}
               {...{
-                t,
                 subjects,
                 resourceTypes,
                 model,
@@ -177,15 +176,15 @@ SearchContentForm.propTypes = {
     id: PropTypes.number,
     query: PropTypes.string,
     language: PropTypes.string,
-    // subjects: PropTypes.arrayOf(PropTypes.shape({})),
-    // resourceTypes: PropTypes.arrayOf(PropTypes.shape({})),
+    subjects: PropTypes.string,
+    resourceTypes: PropTypes.string,
   }),
   initialModel: PropTypes.shape({
     id: PropTypes.number,
     query: PropTypes.string,
     language: PropTypes.string,
-    // subjects: PropTypes.arrayOf(PropTypes.shape({})),
-    // resourceTypes: PropTypes.arrayOf(PropTypes.shape({})),
+    subjects: PropTypes.string,
+    resourceTypes: PropTypes.string,
   }),
   setModel: PropTypes.func.isRequired,
   fields: PropTypes.objectOf(PropTypes.object).isRequired,

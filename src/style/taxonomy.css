@@ -31,7 +31,12 @@
   padding: 0 var(--spacing--small);
   white-space: nowrap;
   font-size: 1.1rem;
-  background-color: var(--lighter-color);
+  background: linear-gradient(
+    180deg,
+    var(--lighter-color),
+    var(--taxonomy-color) 50%,
+    var(--lighter-color) 100%
+  );
 
   &:hover {
     color: white;

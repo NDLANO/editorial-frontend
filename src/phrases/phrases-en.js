@@ -201,6 +201,7 @@ const phrases = {
     copyrightSection: 'License and authors',
     save: 'Save',
     saving: 'Saving...',
+    choose: 'Choose',
     saved: 'Saved ',
     abort: 'Abort',
     validate: 'Validate',
@@ -442,6 +443,8 @@ const phrases = {
     subjectSettings: 'Subject settings',
     addFilter: 'Add filter',
     confirmDelete: 'Are you sure you want to delete the filter?',
+    addResource: 'Add resource',
+    searchResource: 'Search for resource',
   },
 };
 

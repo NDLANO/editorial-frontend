@@ -67,3 +67,9 @@ export function toEditAgreement(agreementId) {
 export function to404() {
   return '/404';
 }
+
+export function getResourceIdFromPath(path) {
+  const lastPath = path.split('/').pop();
+  const id = lastPath.startsWith('resource') ? `urn:${lastPath}` : lastPath;
+  return id.includes('resource') ? id : '';
+}

@@ -8,34 +8,74 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
+import { Plus } from 'ndla-icons/action';
+import BEMHelper from 'react-bem-helper';
 import { ResourceTypeShape } from '../../../shapes';
 import Accordion from '../../../components/Accordion';
 import ResourceItem from './ResourceItem';
+import AddResourceModal from './AddResourceModal';
 
+const classes = new BEMHelper({
+  name: 'topic-resource',
+  prefix: 'c-',
+});
 class ResourceGroup extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       displayResource: false,
+      showAddModal: false,
     };
   }
 
   render() {
-    const { icon, topicResource } = this.props;
+    const {
+      icon,
+      resource,
+      topicResource,
+      t,
+      params,
+      refreshResources,
+    } = this.props;
 
     return (
-      <Accordion
-        handleToggle={() =>
-          this.setState(prevState => ({
-            displayResource: !prevState.displayResource,
-          }))
-        }
-        resourceGroup
-        header={topicResource.name}
-        hidden={this.state.displayResource}>
-        <ResourceItem resources={topicResource.resources} {...{ icon }} />
-      </Accordion>
+      <React.Fragment>
+        <Accordion
+          addButton={
+            <Button
+              {...classes('addButton')}
+              stripped
+              onClick={() => this.setState({ showAddModal: true })}>
+              {<Plus />}
+              {t('taxonomy.addResource')}
+            </Button>
+          }
+          handleToggle={() =>
+            this.setState(prevState => ({
+              displayResource: !prevState.displayResource,
+            }))
+          }
+          resourceGroup
+          header={resource.name}
+          hidden={topicResource.resources ? this.state.displayResource : true}>
+          {topicResource.resources && (
+            <ResourceItem
+              resources={topicResource.resources}
+              {...{ icon, classes }}
+            />
+          )}
+        </Accordion>
+        {this.state.showAddModal && (
+          <AddResourceModal
+            type={resource.id}
+            topicId={params.topic2 || params.topic1}
+            refreshResources={refreshResources}
+            onClose={() => this.setState({ showAddModal: false })}
+          />
+        )}
+      </React.Fragment>
     );
   }
 }

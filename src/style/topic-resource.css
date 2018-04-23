@@ -30,4 +30,16 @@
   &__icon {
     padding-right: var(--spacing--small);
   }
+
+  &__addButton,
+  &__addButton:hover {
+    white-space: nowrap;
+    color: var(--gray-3);
+    font-size: 1.2rem;
+    border-left: 1px solid #eaeaea;
+    border-right: 1px solid #eaeaea;
+    background: linear-gradient(180deg, white, #e9eff2 50%, #e9eff2 100%);
+    padding: 0 var(--spacing--small);
+    height: 100%;
+  }
 }

@@ -42,6 +42,7 @@
 @import './tooltip.css';
 @import './spinner.css';
 @import './taxonomy.css';
+@import './articlePreview.css';
 
 .c-audio-search {
   width: 70%;

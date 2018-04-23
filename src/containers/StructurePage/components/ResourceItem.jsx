@@ -8,15 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import { ResourceShape } from '../../../shapes';
 
-const classes = new BEMHelper({
-  name: 'topic-resource',
-  prefix: 'c-',
-});
-
-const Resource = ({ icon, resource }) => (
+const Resource = ({ icon, resource, classes }) => (
   <li {...classes('item')}>
     <div {...classes('text o-flag o-flag--top')}>
       <div key="img" {...classes('icon o-flag__img')}>
@@ -34,10 +28,10 @@ Resource.propTypes = {
   resource: ResourceShape,
 };
 
-const ResourceItem = ({ icon, resources }) => (
+const ResourceItem = ({ icon, resources, classes }) => (
   <ul {...classes('list')}>
     {resources.map(resource => (
-      <Resource key={resource.id} {...{ icon, resource }} />
+      <Resource key={resource.id} {...{ icon, resource, classes }} />
     ))}
   </ul>
 );
@@ -45,6 +39,7 @@ const ResourceItem = ({ icon, resources }) => (
 ResourceItem.propTypes = {
   icon: PropTypes.node.isRequired,
   resources: PropTypes.arrayOf(ResourceShape),
+  classes: PropTypes.func,
 };
 
 export default ResourceItem;

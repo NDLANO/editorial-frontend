@@ -161,7 +161,9 @@ export class StructurePage extends React.PureComponent {
             />
           ))}
         </Accordion>
-        <StructureResources {...{ locale, params }} />
+        {(params.topic1 || params.topic2) && (
+          <StructureResources {...{ locale, params }} />
+        )}
       </OneColumn>
     );
   }

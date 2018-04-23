@@ -207,6 +207,7 @@ const phrases = {
     taxonomytSection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
+    choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagret ',
     abort: 'Avbryt',
@@ -450,6 +451,8 @@ const phrases = {
     editFilter: 'Rediger filter',
     addFilter: 'Nytt filter',
     confirmDelete: 'Er du sikker på at du vil slette filteret?',
+    addResource: 'Legg til ressurs',
+    searchResource: 'Søk etter ressurs',
   },
 };
 

@@ -34,19 +34,12 @@ export class StructureResources extends React.PureComponent {
 
   async componentDidMount() {
     await this.getAllResourceTypes();
-    const topicId = this.props.params.topic2 || this.props.params.topic1;
-    if (topicId) {
-      this.getTopicResources(`urn:${topicId}`);
-    }
+
+    this.getTopicResources();
   }
 
   componentWillReceiveProps(nextProps) {
-    const topicId = nextProps.params.topic2 || nextProps.params.topic1;
-    if (topicId) {
-      this.getTopicResources(`urn:${topicId}`);
-    } else {
-      this.setState({ topicResources: [] });
-    }
+    if (nextProps.params !== this.props.params) this.getTopicResources();
   }
 
   async getAllResourceTypes() {
@@ -54,38 +47,52 @@ export class StructureResources extends React.PureComponent {
     this.setState({ resourceTypes });
   }
 
-  async getTopicResources(topicId) {
-    const { locale } = this.props;
-    const { resourceTypes } = this.state;
+  async getTopicResources() {
+    const topicId = this.props.params.topic2 || this.props.params.topic1;
+    if (topicId) {
+      const { locale } = this.props;
+      const { resourceTypes } = this.state;
+      const fullId = `urn:${topicId}`;
+      const [
+        coreTopicResources = [],
+        supplementaryTopicResources = [],
+      ] = await Promise.all([
+        fetchTopicResources(fullId, locale, RESOURCE_FILTER_CORE),
+        fetchTopicResources(fullId, locale, RESOURCE_FILTER_SUPPLEMENTARY),
+      ]);
 
-    const [
-      coreTopicResources = [],
-      supplementaryTopicResources = [],
-    ] = await Promise.all([
-      fetchTopicResources(topicId, locale, RESOURCE_FILTER_CORE),
-      fetchTopicResources(topicId, locale, RESOURCE_FILTER_SUPPLEMENTARY),
-    ]);
-
-    const topicResources = groupSortResourceTypesFromTopicResources(
-      resourceTypes,
-      coreTopicResources,
-      supplementaryTopicResources,
-    );
-    this.setState({ topicResources });
+      const topicResources = groupSortResourceTypesFromTopicResources(
+        resourceTypes,
+        coreTopicResources,
+        supplementaryTopicResources,
+      );
+      this.setState({ topicResources });
+    } else {
+      this.setState({ topicResources: [] });
+    }
   }
 
   render() {
     return (
       <Fragment>
-        {this.state.topicResources.map(topicResource => (
-          <ResourceGroup
-            key={topicResource.id}
-            icon={
-              <ContentTypeBadge background type={topicResource.contentType} />
-            }
-            {...{ topicResource }}
-          />
-        ))}
+        {this.state.resourceTypes.map(resource => {
+          const topicResource =
+            this.state.topicResources.find(it => it.id === resource.id) || {};
+          return (
+            <ResourceGroup
+              key={resource.id}
+              icon={
+                <ContentTypeBadge background type={topicResource.contentType} />
+              }
+              {...{
+                resource,
+                topicResource,
+                params: this.props.params,
+                refreshResources: this.getTopicResources,
+              }}
+            />
+          );
+        })}
       </Fragment>
     );
   }

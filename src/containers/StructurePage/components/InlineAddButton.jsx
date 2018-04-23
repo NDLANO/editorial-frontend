@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Done } from 'ndla-icons/editor';
+import { Plus } from 'ndla-icons/action';
 import BEMHelper from 'react-bem-helper';
 
 import Spinner from '../../../components/Spinner';
@@ -96,6 +97,7 @@ class InlineAddButton extends React.PureComponent {
           this.setState({ status: 'edit' });
         }}
         {...classes('')}>
+        {<Plus />}
         {title}
       </Button>
     );

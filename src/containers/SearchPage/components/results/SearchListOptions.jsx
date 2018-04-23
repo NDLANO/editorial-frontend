@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { SearchResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
 
 const pageSizeOptions = [4, 6, 8, 10, 12, 14, 16, 18, 20];
@@ -28,15 +27,13 @@ class SearchListOptions extends React.Component {
   }
 
   render() {
-    const { results, t } = this.props;
-    const totalResultCount = results
-      .map(result => result.totalCount)
-      .reduce((resultA, resultB) => resultA + resultB, 0);
+    const { totalCount, t } = this.props;
+
     return (
       <div {...searchClasses('options-container')}>
         <div {...searchClasses('option')}>
           <span>
-            {t('searchPage.totalCount')}: <b>{totalResultCount}</b>
+            {t('searchPage.totalCount')}: <b>{totalCount}</b>
           </span>
           <select
             onChange={this.handlePageSizeChange}
@@ -54,7 +51,7 @@ class SearchListOptions extends React.Component {
 }
 
 SearchListOptions.propTypes = {
-  results: PropTypes.arrayOf(SearchResultShape).isRequired,
+  totalCount: PropTypes.number,
   query: PropTypes.shape({
     pageSize: PropTypes.number,
   }),

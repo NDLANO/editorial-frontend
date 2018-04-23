@@ -15,7 +15,7 @@ import * as actions from '../search';
 test('searchSagas search', () => {
   nock('http://ndla-api')
     .get(
-      '/search-api/v1/search/draft/?language=nb&page=3&page-size=10&query=testing&sort=alfa&types=articles',
+      '/search-api/v1/search/editorial/?language=nb&page=3&page-size=10&query=testing&sort=-relevance',
     )
     .reply(200, { results: [1, 2, 3] });
 
@@ -25,9 +25,8 @@ test('searchSagas search', () => {
       actions.search({
         query: 'testing',
         page: 3,
-        sort: 'alfa',
+        sort: '-relevance',
         language: 'nb',
-        types: 'articles',
         'page-size': 10,
       }),
     )

@@ -13,30 +13,30 @@ import {
   ImageResultShape,
   AudioResultShape,
 } from '../../../../shapes';
-import SearchArticle from './SearchArticle';
+import SearchContent from './SearchContent';
 import SearchImage from './SearchImage';
 import SearchAudio from './SearchAudio';
 
-const SearchResult = ({ item, locale, resultType }) => {
-  switch (resultType) {
-    case 'articles':
-      return <SearchArticle article={item} locale={locale} />;
+const SearchResult = ({ result, locale, type }) => {
+  switch (type) {
+    case 'content':
+      return <SearchContent content={result} locale={locale} />;
     case 'images':
-      return <SearchImage image={item} locale={locale} />;
+      return <SearchImage image={result} locale={locale} />;
     case 'audios':
-      return <SearchAudio audio={item} locale={locale} />;
+      return <SearchAudio audio={result} locale={locale} />;
     default:
-      return <p>{`Something went wrong with ${resultType}`}</p>;
+      return <p>{`Something went wrong with ${type}`}</p>;
   }
 };
 
 SearchResult.propTypes = {
-  item: PropTypes.oneOfType([
+  result: PropTypes.oneOfType([
     ArticleResultShape,
     ImageResultShape,
     AudioResultShape,
   ]),
-  resultType: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
 };
 

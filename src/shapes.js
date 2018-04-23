@@ -20,15 +20,9 @@ export const ArticleResultShape = PropTypes.shape({
 });
 
 export const SearchResultShape = PropTypes.shape({
-  results: PropTypes.arrayOf(
-    PropTypes.oneOfType([
-      ArticleResultShape,
-      AudioResultShape,
-      ImageResultShape,
-    ]),
-  ).isRequired,
-  totalCount: PropTypes.number.isRequired,
-  pageSize: PropTypes.number.isRequired,
+  results: PropTypes.arrayOf(PropTypes.shape({})),
+  totalCount: PropTypes.number,
+  pageSize: PropTypes.number,
 });
 
 export const MessageShape = PropTypes.shape({

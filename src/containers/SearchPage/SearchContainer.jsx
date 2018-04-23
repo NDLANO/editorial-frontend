@@ -61,7 +61,18 @@ class SearchContainer extends Component {
   onQueryPush(newQuery) {
     const { history, location } = this.props;
     const oldQuery = queryString.parse(location.search);
-    history.push(toSearch({ ...oldQuery, ...newQuery }));
+
+    const searchQuery = {
+      ...oldQuery,
+      ...newQuery,
+    };
+
+    // Remove unused/empty query params
+    Object.keys(searchQuery).forEach(
+      key => searchQuery[key] === '' && delete searchQuery[key],
+    );
+
+    history.push(toSearch({ ...searchQuery }));
   }
 
   onSortOrderChange(sort) {
@@ -73,7 +84,15 @@ class SearchContainer extends Component {
   }
 
   render() {
-    const { location, results, locale, lastPage, type, t } = this.props;
+    const {
+      location,
+      searching,
+      results,
+      locale,
+      lastPage,
+      type,
+      t,
+    } = this.props;
     const query = queryString.parse(location.search);
     return (
       <div>
@@ -89,17 +108,23 @@ class SearchContainer extends Component {
               location={location}
               locale={locale}
             />
+            <SearchSort
+              location={location}
+              onSortOrderChange={this.onSortOrderChange}
+            />
+            <SearchListOptions
+              query={query}
+              totalCount={results.totalCount}
+              search={this.onQueryPush}
+            />
           </SearchAccordion>
-          <SearchSort
-            location={location}
-            onSortOrderChange={this.onSortOrderChange}
+          <SearchList
+            query={query.query}
+            locale={locale}
+            results={results.results || []}
+            searching={searching}
+            type={type}
           />
-          <SearchListOptions
-            query={query}
-            results={results}
-            search={this.onQueryPush}
-          />
-          <SearchList query={query} locale={locale} results={results} />
           <Pager
             page={query.page ? parseInt(query.page, 10) : 1}
             lastPage={lastPage}
@@ -121,7 +146,7 @@ SearchContainer.propTypes = {
   }).isRequired,
   locale: PropTypes.string.isRequired,
   lastPage: PropTypes.number.isRequired,
-  results: PropTypes.arrayOf(SearchResultShape).isRequired,
+  results: SearchResultShape.isRequired,
   searching: PropTypes.bool.isRequired,
   search: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,

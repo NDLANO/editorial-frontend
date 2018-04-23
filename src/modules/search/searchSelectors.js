@@ -12,7 +12,7 @@ const getSearchFromState = state => state.search;
 
 export const getResults = createSelector(
   [getSearchFromState],
-  search => search.totalResults,
+  search => search.results,
 );
 
 export const getSearching = createSelector(
@@ -21,12 +21,7 @@ export const getSearching = createSelector(
 );
 
 export const getLastPage = createSelector([getSearchFromState], search => {
-  const totalResultsCount = search.totalResults
-    .map(t => t.totalCount)
-    .reduce((a, b) => a + b, 0);
-  const largestPageSize = search.totalResults
-    .map(t => t.pageSize)
-    .reduce((a, b) => Math.max(a, b), 1);
-
+  const totalResultsCount = search.results.totalCount;
+  const largestPageSize = search.results.pageSize;
   return totalResultsCount ? Math.ceil(totalResultsCount / largestPageSize) : 1;
 });

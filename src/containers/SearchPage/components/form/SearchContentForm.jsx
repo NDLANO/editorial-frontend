@@ -31,8 +31,8 @@ import { searchFormClasses } from './SearchForm';
 export const getInitialModel = (query = {}) => ({
   query: query.query || '',
   language: query.language || '',
-  subjects: query.subjects,
-  resourceTypes: query['resource-types'],
+  subjects: query.subjects || '',
+  resourceTypes: query['resource-types'] || '',
 });
 
 const languages = t => [
@@ -78,7 +78,9 @@ class SearchContentForm extends Component {
   }
 
   handleSearch(evt) {
-    evt.preventDefault();
+    if (evt) {
+      evt.preventDefault();
+    }
 
     const { model, schema, setSubmitted, search } = this.props;
     if (!schema.isValid) {
@@ -88,9 +90,8 @@ class SearchContentForm extends Component {
     search({
       query: model.query,
       language: model.language || '',
-      subjects: model.subjects,
-      'resource-types': model.resourceTypes,
-      types: 'articles', // To be removed
+      subjects: model.subjects || '',
+      'resource-types': model.resourceTypes || '',
     });
   }
 
@@ -101,7 +102,13 @@ class SearchContentForm extends Component {
 
   emptySearch() {
     const { setModel } = this.props;
-    setModel({ query: '', language: '', subjects: '', resourceTypes: '' });
+    setModel({
+      query: '',
+      language: '',
+      subjects: '',
+      resourceTypes: '',
+    });
+    this.handleSearch();
   }
 
   render() {

@@ -12,16 +12,10 @@ import search from './_mockSearchResult';
 const lastPageTestState = {
   search: {
     searching: false,
-    totalResults: [
-      {
-        totalCount: 3,
-        pageSize: 3,
-      },
-      {
-        totalCount: 30,
-        pageSize: 3,
-      },
-    ],
+    results: {
+      totalCount: 30,
+      pageSize: 3,
+    },
   },
 };
 
@@ -34,5 +28,5 @@ test('searchSelectors getResults', () => {
 });
 
 test('searchSelectors getLastPage', () => {
-  expect(getLastPage(lastPageTestState)).toBe(11);
+  expect(getLastPage(lastPageTestState)).toBe(10);
 });

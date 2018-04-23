@@ -34,9 +34,8 @@ class MastheadSearch extends Component {
   }
 
   render() {
-    const { history, searching, location } = this.props;
+    const { history, searching } = this.props;
     const { query } = this.state;
-    const locationQuery = queryString.parse(location.search);
     return (
       <MastheadSearchForm
         query={query}
@@ -47,8 +46,6 @@ class MastheadSearch extends Component {
               query: searchQuery,
               page: 1,
               sort: '-relevance',
-              types: locationQuery.types ? locationQuery.types : 'articles',
-              language: '',
               'page-size': 10,
             }),
           )

@@ -486,7 +486,12 @@ const phrases = {
     emptyFilter: 'Ingen treff',
     editFilter: 'Rediger filter',
     addFilter: 'Nytt filter',
+    connectFilters: 'Koble til filter',
     confirmDelete: 'Er du sikker på at du vil slette filteret?',
+    confirmDeleteTopic:
+      'Vil du slette dette emnet fra mappen? Dette påvirker ikke plasseringen andre steder',
+    linkSettings: 'Link',
+    setPrimary: 'Sett til primærkobling',
   },
 };
 

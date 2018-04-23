@@ -1,9 +1,18 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Pencil } from 'ndla-icons/action';
 import { injectT } from 'ndla-i18n';
 import { DeleteForever } from 'ndla-icons/editor';
+import RoundIcon from './RoundIcon';
 import InlineEditField from './InlineEditField';
 
 const EditFilterList = ({
@@ -34,16 +43,14 @@ const EditFilterList = ({
               <Button
                 stripped
                 data-testid={`editFilter${filter.id}`}
-                onClick={() => setEditState(filter.id)}
-                {...classes('iconButton', 'item')}>
-                {<Pencil />}
+                onClick={() => setEditState(filter.id)}>
+                <RoundIcon small icon={<Pencil />} />
               </Button>
               <Button
                 stripped
                 data-testid={`deleteFilter${filter.id}`}
-                onClick={() => showDeleteWarning(filter.id)}
-                {...classes('iconButton', 'item')}>
-                {<DeleteForever />}
+                onClick={() => showDeleteWarning(filter.id)}>
+                <RoundIcon small icon={<DeleteForever />} />
               </Button>
             </div>
           </div>

@@ -12,58 +12,66 @@ exports[`calls add filter 1`] = `
         data-testid="editFilterurn:filter:f85f8f24-9e00-4267-82f5-ffd0dd3c53fa"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
       <button
         class="c-button c-button--stripped"
         data-testid="deleteFilterurn:filter:f85f8f24-9e00-4267-82f5-ffd0dd3c53fa"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M0 0h24v24H0V0z"
+                fill="none"
+              />
+              <path
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
     </div>
   </div>
@@ -77,58 +85,66 @@ exports[`calls add filter 1`] = `
         data-testid="editFilterurn:filter:0a0dc7e0-911f-4674-801a-580b3e8fa09a"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
       <button
         class="c-button c-button--stripped"
         data-testid="deleteFilterurn:filter:0a0dc7e0-911f-4674-801a-580b3e8fa09a"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M0 0h24v24H0V0z"
+                fill="none"
+              />
+              <path
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
     </div>
   </div>
@@ -142,58 +158,66 @@ exports[`calls add filter 1`] = `
         data-testid="editFilterurn:filter:e8aa33b2-f5b7-4dee-84f6-4b594127b4c5"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
       <button
         class="c-button c-button--stripped"
         data-testid="deleteFilterurn:filter:e8aa33b2-f5b7-4dee-84f6-4b594127b4c5"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M0 0h24v24H0V0z"
+                fill="none"
+              />
+              <path
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
     </div>
   </div>
@@ -207,58 +231,66 @@ exports[`calls add filter 1`] = `
         data-testid="editFilterurn:filter:3ae5a086-8444-43c3-8fa4-db869e7292d2"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
       <button
         class="c-button c-button--stripped"
         data-testid="deleteFilterurn:filter:3ae5a086-8444-43c3-8fa4-db869e7292d2"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M0 0h24v24H0V0z"
+                fill="none"
+              />
+              <path
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
     </div>
   </div>
@@ -272,58 +304,66 @@ exports[`calls add filter 1`] = `
         data-testid="editFilterurn:filter:9e522d29-edf0-4949-bb94-a2089c79e437"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
       <button
         class="c-button c-button--stripped"
         data-testid="deleteFilterurn:filter:9e522d29-edf0-4949-bb94-a2089c79e437"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M0 0h24v24H0V0z"
+                fill="none"
+              />
+              <path
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
     </div>
   </div>
@@ -337,58 +377,66 @@ exports[`calls add filter 1`] = `
         data-testid="editFiltertest"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
       <button
         class="c-button c-button--stripped"
         data-testid="deleteFiltertest"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M0 0h24v24H0V0z"
+                fill="none"
+              />
+              <path
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
     </div>
   </div>
@@ -436,58 +484,66 @@ exports[`maps out filters 1`] = `
         data-testid="editFilterurn:filter:f85f8f24-9e00-4267-82f5-ffd0dd3c53fa"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
       <button
         class="c-button c-button--stripped"
         data-testid="deleteFilterurn:filter:f85f8f24-9e00-4267-82f5-ffd0dd3c53fa"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M0 0h24v24H0V0z"
+                fill="none"
+              />
+              <path
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
     </div>
   </div>
@@ -501,58 +557,66 @@ exports[`maps out filters 1`] = `
         data-testid="editFilterurn:filter:0a0dc7e0-911f-4674-801a-580b3e8fa09a"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
       <button
         class="c-button c-button--stripped"
         data-testid="deleteFilterurn:filter:0a0dc7e0-911f-4674-801a-580b3e8fa09a"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M0 0h24v24H0V0z"
+                fill="none"
+              />
+              <path
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
     </div>
   </div>
@@ -566,58 +630,66 @@ exports[`maps out filters 1`] = `
         data-testid="editFilterurn:filter:e8aa33b2-f5b7-4dee-84f6-4b594127b4c5"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
       <button
         class="c-button c-button--stripped"
         data-testid="deleteFilterurn:filter:e8aa33b2-f5b7-4dee-84f6-4b594127b4c5"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M0 0h24v24H0V0z"
+                fill="none"
+              />
+              <path
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
     </div>
   </div>
@@ -631,58 +703,66 @@ exports[`maps out filters 1`] = `
         data-testid="editFilterurn:filter:3ae5a086-8444-43c3-8fa4-db869e7292d2"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
       <button
         class="c-button c-button--stripped"
         data-testid="deleteFilterurn:filter:3ae5a086-8444-43c3-8fa4-db869e7292d2"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M0 0h24v24H0V0z"
+                fill="none"
+              />
+              <path
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
     </div>
   </div>
@@ -696,58 +776,66 @@ exports[`maps out filters 1`] = `
         data-testid="editFilterurn:filter:9e522d29-edf0-4949-bb94-a2089c79e437"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
       <button
         class="c-button c-button--stripped"
         data-testid="deleteFilterurn:filter:9e522d29-edf0-4949-bb94-a2089c79e437"
         type="button"
       >
-        <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
-          class="c-icon"
-          viewBox="0 0 24 24"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          style="vertical-align: middle;"
+        <div
+          class="c-roundIcon c-roundIcon--small"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M0 0h24v24H0V0z"
+                fill="none"
+              />
+              <path
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </div>
       </button>
     </div>
   </div>

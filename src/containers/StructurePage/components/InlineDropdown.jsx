@@ -21,6 +21,7 @@ import {
   DropdownInput,
   dropDownClasses,
 } from '../../../components/Dropdown/common';
+import RoundIcon from './RoundIcon';
 
 import Spinner from '../../../components/Spinner';
 
@@ -76,7 +77,7 @@ class InlineDropdown extends PureComponent {
     return (
       <React.Fragment>
         <div {...classes('menuItem')}>
-          <div {...classes('iconButton', 'open item')}>{icon}</div>
+          <RoundIcon open small icon={icon} />
           <Downshift
             selectedItem={selected}
             itemToString={item => itemToString(item, 'name')}

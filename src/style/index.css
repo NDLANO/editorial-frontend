@@ -42,6 +42,8 @@
 @import './tooltip.css';
 @import './spinner.css';
 @import './taxonomy.css';
+@import './toggleSwitch.css';
+@import './settingsMenu.css';
 @import './articlePreview.css';
 
 .c-audio-search {

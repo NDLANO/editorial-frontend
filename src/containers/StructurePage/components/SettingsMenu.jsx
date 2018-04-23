@@ -12,6 +12,7 @@ import { Settings } from 'ndla-icons/editor';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenuDropdown from './SettingsMenuDropdown';
 import Overlay from '../../../components/Overlay';
+import RoundIcon from './RoundIcon';
 
 const classes = new BEMHelper({
   name: 'settingsMenu',
@@ -29,11 +30,8 @@ class SettingsMenu extends React.Component {
   render() {
     return (
       <div {...classes('')}>
-        <Button
-          {...classes('iconButton')}
-          onClick={() => this.setState({ open: true })}
-          stripped>
-          <Settings />
+        <Button onClick={() => this.setState({ open: true })} stripped>
+          <RoundIcon icon={<Settings />} margin />
         </Button>
         {this.state.open && (
           <React.Fragment>

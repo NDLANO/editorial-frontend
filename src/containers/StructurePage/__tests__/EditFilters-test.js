@@ -8,6 +8,7 @@
 
 import React from 'react';
 import nock from 'nock';
+import IntlProvider from 'ndla-i18n';
 import { render, Simulate, wait } from 'react-testing-library';
 import EditFilters from '../components/EditFilters';
 
@@ -31,7 +32,11 @@ beforeEach(() => {
     .reply(200, filterMock);
 });
 const wrapper = () =>
-  render(<EditFilters id="test" classes={() => {}} t={() => 'Errormelding'} />);
+  render(
+    <IntlProvider locale="nb" messages={{}}>
+      <EditFilters id="test" classes={() => {}} t={() => 'Errormelding'} />
+    </IntlProvider>,
+  );
 
 it('maps out filters', async () => {
   const { container } = wrapper();

@@ -14,15 +14,14 @@ import { Settings } from 'ndla-icons/editor';
 import { Cross } from 'ndla-icons/action';
 import SubjectSettingsItems from './SubjectSettingsItems';
 import TopicSettingItems from './TopicSettingItems';
+import RoundIcon from './RoundIcon';
 
 const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
   const type = id.includes('subject') ? 'subject' : 'topic';
   return (
     <div {...classes('openMenu')}>
       <div className="header">
-        <div {...classes('iconButton', 'open')}>
-          <Settings />
-        </div>
+        <RoundIcon icon={<Settings />} open />
         <span>{t(`taxonomy.${type}Settings`)}</span>
         <Button stripped {...classes('closeButton')} onClick={onClose}>
           <Cross />
@@ -36,7 +35,12 @@ const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
           {...rest}
         />
       ) : (
-        <TopicSettingItems />
+        <TopicSettingItems
+          classes={classes}
+          onClose={onClose}
+          id={id}
+          {...rest}
+        />
       )}
     </div>
   );
@@ -50,6 +54,7 @@ SettingsMenuDropdown.propTypes = {
   onAddExistingTopic: PropTypes.func,
   id: PropTypes.string,
   name: PropTypes.string,
+  type: PropTypes.string,
 };
 
 export default injectT(SettingsMenuDropdown);

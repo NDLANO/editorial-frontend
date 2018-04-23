@@ -440,8 +440,13 @@ const phrases = {
     changeName: 'Change name',
     topicSettings: 'Topic settings',
     subjectSettings: 'Subject settings',
+    linkSettings: 'Link',
+    setPrimary: 'Set as primary link',
     addFilter: 'Add filter',
+    connectFilters: 'Connect filters',
     confirmDelete: 'Are you sure you want to delete the filter?',
+    confirmDeleteTopic:
+      'Are you sure you want to delete the topic from the folder? This does not affect the topic location elsewhere',
   },
 };
 

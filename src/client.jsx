@@ -40,7 +40,7 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName,
 });
 
-ReactDOM.render(
+ReactDOM.hydrate(
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
       <BrowserRouter basename={basename}>
@@ -50,3 +50,18 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root'),
 );
+
+if (module.hot) {
+  module.hot.accept('./containers/App/App', () => {
+    ReactDOM.hydrate(
+      <Provider store={store}>
+        <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
+          <BrowserRouter basename={basename}>
+            <App />
+          </BrowserRouter>
+        </IntlProvider>
+      </Provider>,
+      document.getElementById('root'),
+    );
+  });
+}

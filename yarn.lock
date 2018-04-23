@@ -7513,7 +7513,7 @@ razzle-dev-utils@^2.0.0-y.0:
     sockjs-client "1.1.4"
     strip-ansi "4.0.0"
 
-razzle@^2.0.0-y.0:
+razzle@^2.0.0-alpha.11:
   version "2.0.0-y.0"
   resolved "https://registry.yarnpkg.com/razzle/-/razzle-2.0.0-y.0.tgz#e9336ea719f86d5c40e5632a2ff93a0130b776b8"
   dependencies:

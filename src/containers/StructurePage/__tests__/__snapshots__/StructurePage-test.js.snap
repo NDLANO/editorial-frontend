@@ -51,6 +51,32 @@ exports[`renders list of subjects, with active in url 1`] = `
         onClick={[Function]}
         type="button"
       >
+        <svg
+          className="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": undefined,
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
         injected
       </button>
       <button
@@ -141,6 +167,32 @@ exports[`renders list of subjects, with active in url 2`] = `
         onClick={[Function]}
         type="button"
       >
+        <svg
+          className="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style={
+            Object {
+              "color": undefined,
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
         injected
       </button>
       <button

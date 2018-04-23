@@ -26,6 +26,7 @@ const Resource = ({ icon, resource, classes }) => (
 Resource.propTypes = {
   icon: PropTypes.node.isRequired,
   resource: ResourceShape,
+  classes: PropTypes.func,
 };
 
 const ResourceItem = ({ icon, resources, classes }) => (

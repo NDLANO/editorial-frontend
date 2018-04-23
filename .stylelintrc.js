@@ -1,5 +1,6 @@
 module.exports = {
   extends: 'stylelint-config-standard',
   rules: {
-  }
+    'declaration-colon-newline-after': null,
+  },
 };

@@ -83,6 +83,15 @@ class ResourceGroup extends PureComponent {
 ResourceGroup.propTypes = {
   icon: PropTypes.node.isRequired,
   topicResource: ResourceTypeShape,
+  resource: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  }),
+  params: PropTypes.shape({
+    topic1: PropTypes.string,
+    topic2: PropTypes.string,
+  }),
+  refreshResources: PropTypes.func,
 };
 
 export default injectT(ResourceGroup);

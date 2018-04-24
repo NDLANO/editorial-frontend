@@ -40,28 +40,20 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName,
 });
 
-ReactDOM.render(
+const app = (
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
       <BrowserRouter basename={basename}>
         <App />
       </BrowserRouter>
     </IntlProvider>
-  </Provider>,
-  document.getElementById('root'),
+  </Provider>
 );
+
+ReactDOM.render(app, document.getElementById('root'));
 
 if (module.hot) {
   module.hot.accept('./containers/App/App', () => {
-    ReactDOM.render(
-      <Provider store={store}>
-        <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-          <BrowserRouter basename={basename}>
-            <App />
-          </BrowserRouter>
-        </IntlProvider>
-      </Provider>,
-      document.getElementById('root'),
-    );
+    ReactDOM.render(app, document.getElementById('root'));
   });
 }

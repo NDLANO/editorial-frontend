@@ -119,3 +119,12 @@
     margin-left: calc(var(--spacing--small) / 2);
   }
 }
+
+.c-errorMessage {
+  color: var(--error-color);
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  border-left: 2px solid red;
+  margin: 10px 0;
+}

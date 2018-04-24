@@ -450,6 +450,9 @@ const phrases = {
     searchResource: 'Search for resource',
     confirmDeleteTopic:
       'Are you sure you want to delete the topic from the folder? This does not affect the topic location elsewhere',
+    or: 'Eller',
+    urlPlaceholder: 'Lim inn lenke fra ndla.no',
+    wrongType: 'Note! This is a different resource type: ',
   },
 };
 

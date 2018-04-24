@@ -40,7 +40,7 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName,
 });
 
-ReactDOM.hydrate(
+ReactDOM.render(
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
       <BrowserRouter basename={basename}>

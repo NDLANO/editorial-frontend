@@ -1,5 +1,18 @@
 import PropTypes from 'prop-types';
 
+export const ResourceShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  contentUri: PropTypes.string,
+  path: PropTypes.string.isRequired,
+});
+
+export const ResourceTypeShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  resources: PropTypes.arrayOf(ResourceShape),
+});
+
 export const AudioResultShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
@@ -13,6 +26,19 @@ export const ImageResultShape = PropTypes.shape({
   previewUrl: PropTypes.string.isRequired,
 });
 
+export const ContentResultShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.shape({ title: PropTypes.string }).isRequired,
+  metaDescription: PropTypes.shape({ metaDescription: PropTypes.string }),
+  metaImage: PropTypes.string,
+  contexts: PropTypes.arrayOf(
+    PropTypes.shape({
+      learningResourceType: PropTypes.string,
+      resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+    }),
+  ),
+});
+
 export const ArticleResultShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
@@ -20,7 +46,13 @@ export const ArticleResultShape = PropTypes.shape({
 });
 
 export const SearchResultShape = PropTypes.shape({
-  results: PropTypes.arrayOf(PropTypes.shape({})),
+  results: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      ContentResultShape,
+      ImageResultShape,
+      AudioResultShape,
+    ]),
+  ),
   totalCount: PropTypes.number,
   pageSize: PropTypes.number,
 });
@@ -119,19 +151,6 @@ export const TaxonomyShape = PropTypes.shape({
     topics: PropTypes.arrayOf(PropTypes.object).isRequired,
     filters: PropTypes.arrayOf(PropTypes.object).isRequired,
   }),
-});
-
-export const ResourceShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  contentUri: PropTypes.string,
-  path: PropTypes.string.isRequired,
-});
-
-export const ResourceTypeShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  resources: PropTypes.arrayOf(ResourceShape),
 });
 
 export const LicensesArrayOf = PropTypes.arrayOf(

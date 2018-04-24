@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  ArticleResultShape,
+  ContentResultShape,
   ImageResultShape,
   AudioResultShape,
 } from '../../../../shapes';
@@ -32,7 +32,7 @@ const SearchResult = ({ result, locale, type }) => {
 
 SearchResult.propTypes = {
   result: PropTypes.oneOfType([
-    ArticleResultShape,
+    ContentResultShape,
     ImageResultShape,
     AudioResultShape,
   ]),

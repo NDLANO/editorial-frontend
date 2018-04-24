@@ -93,6 +93,7 @@ class SearchContainer extends Component {
       type,
       t,
     } = this.props;
+
     const query = queryString.parse(location.search);
     return (
       <div>

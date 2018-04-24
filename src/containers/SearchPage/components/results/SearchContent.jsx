@@ -10,30 +10,39 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { ContentTypeBadge } from 'ndla-ui';
+import { ContentResultShape } from '../../../../shapes';
 import getContentTypeFromResourceTypes from '../../../../util/getContentTypeFromResourceTypes';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import { searchClasses } from '../../SearchContainer';
 
 const SearchContent = ({ content, locale }) => {
-  const resourceType = getContentTypeFromResourceTypes(
-    content.contexts[0].resourceTypes,
-  );
+  const { contexts } = content;
+
+  let resourceType;
+  if (contexts.length > 0 && contexts[0].resourceTypes.length > 0) {
+    resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
+  }
 
   return (
     <div {...searchClasses('result')}>
       <div {...searchClasses('image')}>
-        <img src={content.metaImage} alt="" />
+        <img src={content.metaImage || '/placeholder.png'} alt="" />
       </div>
       <div {...searchClasses('content')}>
         <Link
           {...searchClasses('link')}
           to={toEditArticle(
             content.id,
-            content.contexts[0].learningResourceType,
+            contexts.length > 0 && contexts[0].learningResourceType
+              ? contexts[0].learningResourceType
+              : 'standard',
             locale,
           )}>
           <h2 {...searchClasses('title')}>
-            <ContentTypeBadge background type={resourceType.contentType} />{' '}
+            {resourceType &&
+              resourceType.contentType && (
+                <ContentTypeBadge background type={resourceType.contentType} />
+              )}{' '}
             {content.title.title}
           </h2>
         </Link>
@@ -41,11 +50,15 @@ const SearchContent = ({ content, locale }) => {
           {content.metaDescription.metaDescription}
         </p>
         <div {...searchClasses('breadcrumbs')}>
-          {content.contexts[0].breadcrumbs.map(breadcrumb => (
-            <p key={breadcrumb} {...searchClasses('breadcrumb')}>
-              {breadcrumb}
-            </p>
-          ))}
+          {contexts.length > 0 && contexts[0].breadcrumbs ? (
+            contexts[0].breadcrumbs.map(breadcrumb => (
+              <p key={breadcrumb} {...searchClasses('breadcrumb')}>
+                {breadcrumb}
+              </p>
+            ))
+          ) : (
+            <p {...searchClasses('breadcrumb')} />
+          )}
         </div>
       </div>
     </div>
@@ -53,7 +66,7 @@ const SearchContent = ({ content, locale }) => {
 };
 
 SearchContent.propTypes = {
-  content: PropTypes.shape({}),
+  content: ContentResultShape,
   locale: PropTypes.string.isRequired,
 };
 

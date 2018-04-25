@@ -7,21 +7,16 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import queryString from 'query-string';
 import { injectT } from 'ndla-i18n';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { OneColumn, Pager } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
-import SearchAccordion from './components/SearchAccordion';
-import * as actions from '../../modules/search/search';
-import { SearchResultShape } from '../../shapes';
-import {
-  getResults,
-  getLastPage,
-  getSearching,
-} from '../../modules/search/searchSelectors';
 import { getLocale } from '../../modules/locale/locale';
+import { getSearching } from '../../modules/search/searchSelectors';
+import SearchAccordion from './components/SearchAccordion';
+import { SearchResultShape } from '../../shapes';
 import SearchList from './components/results/SearchList';
 import SearchListOptions from './components/results/SearchListOptions';
 import SearchForm from './components/form/SearchForm';
@@ -58,8 +53,12 @@ class SearchContainer extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.clearSearch();
+  }
+
   onQueryPush(newQuery) {
-    const { history, location } = this.props;
+    const { history, location, type } = this.props;
     const oldQuery = queryString.parse(location.search);
 
     const searchQuery = {
@@ -72,7 +71,7 @@ class SearchContainer extends Component {
       key => searchQuery[key] === '' && delete searchQuery[key],
     );
 
-    history.push(toSearch({ ...searchQuery }));
+    history.push(toSearch({ ...searchQuery }, type));
   }
 
   onSortOrderChange(sort) {
@@ -90,9 +89,13 @@ class SearchContainer extends Component {
       results,
       locale,
       lastPage,
+      totalCount,
       type,
       t,
     } = this.props;
+
+    // Set correct result object type
+    const searchResults = type === 'content' ? results.results || [] : results;
 
     const query = queryString.parse(location.search);
     return (
@@ -109,20 +112,23 @@ class SearchContainer extends Component {
               location={location}
               locale={locale}
             />
-            <SearchSort
-              location={location}
-              onSortOrderChange={this.onSortOrderChange}
-            />
+            {type === 'content' && (
+              <SearchSort
+                location={location}
+                onSortOrderChange={this.onSortOrderChange}
+              />
+            )}
             <SearchListOptions
+              type={type}
               query={query}
-              totalCount={results.totalCount}
+              totalCount={totalCount}
               search={this.onQueryPush}
             />
           </SearchAccordion>
           <SearchList
             query={query.query}
             locale={locale}
-            results={results.results || []}
+            results={searchResults}
             searching={searching}
             type={type}
           />
@@ -130,7 +136,7 @@ class SearchContainer extends Component {
             page={query.page ? parseInt(query.page, 10) : 1}
             lastPage={lastPage}
             query={query}
-            pathname={toSearch()}
+            pathname={toSearch(null, type)}
           />
         </OneColumn>
       </div>
@@ -147,23 +153,22 @@ SearchContainer.propTypes = {
   }).isRequired,
   locale: PropTypes.string.isRequired,
   lastPage: PropTypes.number.isRequired,
-  results: SearchResultShape.isRequired,
+  results: PropTypes.oneOfType([
+    SearchResultShape,
+    PropTypes.arrayOf(PropTypes.shape({})),
+  ]),
+  totalCount: PropTypes.number,
   searching: PropTypes.bool.isRequired,
   search: PropTypes.func.isRequired,
+  clearSearch: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
 };
 
-const mapDispatchToProps = {
-  search: actions.search,
-};
-
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   locale: getLocale(state),
-  results: getResults(state, queryString.parse(ownProps.location.search).types),
-  lastPage: getLastPage(state),
   searching: getSearching(state),
 });
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), injectT)(
+export default compose(connect(mapStateToProps, null), injectT)(
   SearchContainer,
 );

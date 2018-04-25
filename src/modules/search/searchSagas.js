@@ -29,4 +29,22 @@ export function* watchSearch() {
   }
 }
 
-export default [watchSearch];
+export function* searchDraft(query) {
+  try {
+    const searchResult = yield call(api.searchDraft, query);
+    yield put(actions.setSearchResult(searchResult));
+  } catch (error) {
+    yield put(actions.searchError());
+    // TODO: handle error
+    console.error(error); // eslint-disable-line no-console
+  }
+}
+
+export function* watchSearchDraft() {
+  while (true) {
+    const { payload: query } = yield take(actions.searchDraft);
+    yield call(searchDraft, query);
+  }
+}
+
+export default [watchSearch, watchSearchDraft];

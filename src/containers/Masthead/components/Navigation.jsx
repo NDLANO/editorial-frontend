@@ -114,7 +114,6 @@ export class Navigation extends Component {
             <Link
               to={toSearch(
                 {
-                  types: 'articles',
                   page: '1',
                   sort: '-relevance',
                   'page-size': 10,

@@ -13,14 +13,23 @@ export const searchError = createAction('SEARCH_ERROR');
 export const clearSearchResult = createAction('CLEAR_SEARCH_RESULT');
 export const setSearchResult = createAction('SET_SEARCH_RESULT');
 
+export const searchDraft = createAction('SEARCH_DRAFT');
+export const searchDraftError = createAction('SEARCH_DRAFT_ERROR');
+export const clearSearchDraftResult = createAction('CLEAR_SEARCH_DRAFT_RESULT');
+export const setSearchDraftResult = createAction('SET_SEARCH_DRAFT_RESULT');
+
 export const initalState = {
-  results: {},
+  results: [],
   searching: false,
 };
 
 export default handleActions(
   {
     [search]: {
+      next: state => ({ ...state, searching: true }),
+      throw: state => state,
+    },
+    [searchDraft]: {
       next: state => ({ ...state, searching: true }),
       throw: state => state,
     },

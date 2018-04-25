@@ -23,7 +23,7 @@ class SearchListOptions extends React.Component {
 
   handlePageSizeChange(evt) {
     this.setState({ pageSize: evt.target.value });
-    this.props.search({ 'page-size': evt.target.value });
+    this.props.search({ 'page-size': evt.target.value }, this.props.type);
   }
 
   render() {
@@ -52,6 +52,7 @@ class SearchListOptions extends React.Component {
 
 SearchListOptions.propTypes = {
   totalCount: PropTypes.number,
+  type: PropTypes.string.isRequired,
   query: PropTypes.shape({
     pageSize: PropTypes.number,
   }),

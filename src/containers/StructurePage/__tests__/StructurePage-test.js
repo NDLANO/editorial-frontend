@@ -23,7 +23,11 @@ const wrapper = () =>
   renderer.create(
     <MemoryRouter>
       <IntlProvider locale="nb" messages={{}}>
-        <StructurePage t={() => 'injected'} match={{ params: {} }} />
+        <StructurePage
+          locale="nb"
+          t={() => 'injected'}
+          match={{ params: {} }}
+        />
       </IntlProvider>
     </MemoryRouter>,
   );
@@ -46,6 +50,7 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
     <MemoryRouter>
       <IntlProvider locale="nb" messages={{}}>
         <StructurePage
+          locale="nb"
           t={() => 'injected'}
           match={{
             params: {

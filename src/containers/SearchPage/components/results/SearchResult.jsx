@@ -21,10 +21,15 @@ const SearchResult = ({ result, locale, type }) => {
   switch (type) {
     case 'content':
       return <SearchContent content={result} locale={locale} />;
-    case 'images':
-      return <SearchImage image={result} locale={locale} />;
-    case 'audios':
-      return <SearchAudio audio={result} locale={locale} />;
+    case 'media':
+      switch (result.type) {
+        case 'images':
+          return <SearchImage image={result} locale={locale} />;
+        case 'audios':
+          return <SearchAudio audio={result} locale={locale} />;
+        default:
+          return <p>{`Something went wrong with ${result.type}`}</p>;
+      }
     default:
       return <p>{`Something went wrong with ${type}`}</p>;
   }

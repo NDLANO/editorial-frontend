@@ -7,8 +7,31 @@
  */
 
 import React from 'react';
+import queryString from 'query-string';
+import { connect } from 'react-redux';
+import * as actions from '../../modules/search/search';
+import {
+  getDraftResults,
+  getDraftLastPage,
+  getDraftTotalResultsCount,
+} from '../../modules/search/searchSelectors';
+
 import SearchContainer from './SearchContainer';
 
 const SearchMediaPage = props => <SearchContainer type="media" {...props} />;
 
-export default SearchMediaPage;
+const mapStateToProps = (state, ownProps) => ({
+  results: getDraftResults(
+    state,
+    queryString.parse(ownProps.location.search).types,
+  ),
+  totalCount: getDraftTotalResultsCount(state),
+  lastPage: getDraftLastPage(state),
+});
+
+const mapDispatchToProps = {
+  search: actions.searchDraft,
+  clearSearch: actions.clearSearchResult,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchMediaPage);

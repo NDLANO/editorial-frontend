@@ -8,17 +8,18 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
 import { Audio } from 'ndla-icons/common';
 import { toEditAudio } from '../../../../util/routeHelpers';
 import { AudioResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
 
-const SearchAudio = ({ audio, locale }) => (
+const SearchAudio = ({ audio, locale, t }) => (
   <div {...searchClasses('result')}>
     <div {...searchClasses('content')}>
       <Link to={toEditAudio(audio.id, locale)}>
-        <h1 {...searchClasses('title')}>{audio.title}</h1>
+        <h1 {...searchClasses('title')}>{audio.title || t('No title')}</h1>
       </Link>
     </div>
     <div {...searchClasses('image')}>
@@ -28,8 +29,9 @@ const SearchAudio = ({ audio, locale }) => (
 );
 
 SearchAudio.propTypes = {
+  t: PropTypes.func.isRequired,
   audio: AudioResultShape.isRequired,
   locale: PropTypes.string.isRequired,
 };
 
-export default SearchAudio;
+export default injectT(SearchAudio);

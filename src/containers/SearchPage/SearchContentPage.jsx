@@ -7,10 +7,30 @@
  */
 
 import React from 'react';
+import queryString from 'query-string';
+import { connect } from 'react-redux';
+import * as actions from '../../modules/search/search';
+import {
+  getResults,
+  getLastPage,
+  getTotalResultsCount,
+} from '../../modules/search/searchSelectors';
+
 import SearchContainer from './SearchContainer';
 
 const SearchContentPage = props => (
   <SearchContainer type="content" {...props} />
 );
 
-export default SearchContentPage;
+const mapStateToProps = (state, ownProps) => ({
+  results: getResults(state, queryString.parse(ownProps.location.search)),
+  lastPage: getLastPage(state),
+  totalCount: getTotalResultsCount(state),
+});
+
+const mapDispatchToProps = {
+  search: actions.search,
+  clearSearch: actions.clearSearchResult,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchContentPage);

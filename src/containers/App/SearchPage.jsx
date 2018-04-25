@@ -23,7 +23,7 @@ const SearchPage = ({ match, t }) => {
       title: t('subNavigation.searchContent'),
       type: 'content',
       url: toSearch(
-        { types: 'articles', page: '1', sort: '-relevance', 'page-size': 10 },
+        { page: '1', sort: '-relevance', 'page-size': 10 },
         'content',
       ),
       icon: <SearchContent className="c-icon--large" />,

@@ -89,7 +89,7 @@ const Accordion = ({
 };
 
 Accordion.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   addButton: PropTypes.node,
   className: PropTypes.string,
   disabled: PropTypes.bool,

@@ -33,7 +33,7 @@ const ArticlePreview = ({ article, locale }) => (
 
 ArticlePreview.propTypes = {
   article: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     articleType: PropTypes.string,
     metaDescription: PropTypes.string,
     title: PropTypes.string,

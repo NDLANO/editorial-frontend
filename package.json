@@ -14,14 +14,15 @@
     "prettier": "node prettier.js write",
     "start": "razzle start",
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
-    "now-start":
-      "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
+    "now-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
     "test": "cross-env BABEL_ENV=test NODE_ENV=unittest jest",
     "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch"
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
+    "setupFiles": [
+      "./src/__tests__/_initTestEnv.js"
+    ]
   },
   "engines": {
     "node": ">=8.4.0",
@@ -47,7 +48,7 @@
     "prettier": "^1.11.1",
     "razzle-config-utils": "^0.1.0",
     "react-test-renderer": "^16.3.1",
-    "react-testing-library": "^2.0.0",
+    "react-testing-library": "^2.1.1",
     "redux-mock-store": "^1.5.1",
     "redux-saga-test-plan": "^3.6.0",
     "rimraf": "^2.6.2",

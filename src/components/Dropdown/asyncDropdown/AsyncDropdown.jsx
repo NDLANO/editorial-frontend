@@ -117,7 +117,6 @@ class AsyncDropDown extends React.Component {
       onClick,
       value: this.state.inputValue,
     };
-
     return (
       <Downshift
         {...rest}

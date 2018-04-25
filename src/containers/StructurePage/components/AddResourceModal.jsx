@@ -20,6 +20,7 @@ class AddResourceModal extends Component {
     this.state = {
       selected: {},
       article: {},
+      pastedUrl: '',
     };
     this.onSelect = this.onSelect.bind(this);
     this.addSelected = this.addSelected.bind(this);
@@ -113,6 +114,7 @@ class AddResourceModal extends Component {
         onClose={onClose}>
         <input
           type="text"
+          data-testid="addResourceUrlInput"
           value={pastedUrl}
           onChange={this.onPaste}
           placeholder={t('taxonomy.urlPlaceholder')}
@@ -144,8 +146,8 @@ class AddResourceModal extends Component {
                 }));
               }}
               messages={{
-                emptyFilter: t('form.content.relatedArticle.emptyFilter'),
-                emptyList: t('form.content.relatedArticle.emptyList'),
+                emptyFilter: '',
+                emptyList: t('taxonomy.noResources'),
               }}
               onChange={this.onSelect}
               alwaysOpen

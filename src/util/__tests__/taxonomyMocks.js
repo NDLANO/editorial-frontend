@@ -838,3 +838,130 @@ export const subjectTopicsMock = [
     filters: [],
   },
 ];
+
+export const resourcesByType = [
+  {
+    totalCount: 180,
+    resourceType: 'urn:resourcetype:reviewResource',
+    page: 1,
+    pageSize: 10,
+    language: 'all',
+    results: [
+      {
+        id: 356,
+        title: { title: 'Hva kan du om geologiske prosesser?', language: 'nb' },
+        url: 'https://test.api.ndla.no/article-api/v2/articles/356',
+        paths: [
+          '/subject:3ec240b2-0afe-4b8a-afff-37a44793c0bd/topic:f2e0c7ab-8696-42df-8b51-66cf608dda5a/resource:1:175733',
+          '/subject:6/topic:1:182849/topic:1:175043/resource:1:175733',
+        ],
+      },
+      {
+        id: 361,
+        title: { title: 'Hva kan du om petroleumsgeologi?', language: 'nb' },
+        url: 'https://test.api.ndla.no/article-api/v2/articles/361',
+        paths: ['/subject:6/topic:1:182849/topic:1:175043/resource:1:176386'],
+      },
+      {
+        id: 371,
+        title: {
+          title: 'Hva kan du om olje og gass på den norske sokkelen?',
+          language: 'nb',
+        },
+        url: 'https://test.api.ndla.no/article-api/v2/articles/371',
+        paths: ['/subject:6/topic:1:182849/topic:1:175043/resource:1:176280'],
+      },
+      {
+        id: 378,
+        title: {
+          title: 'Hva kan du om letemetoder og datainnsamling?',
+          language: 'nb',
+        },
+        url: 'https://test.api.ndla.no/article-api/v2/articles/378',
+        paths: ['/subject:6/topic:1:182849/topic:1:173739/resource:1:173569'],
+      },
+      {
+        id: 392,
+        title: {
+          title: 'Hva kan du om installasjoner for boring og vedlikehold?',
+          language: 'nb',
+        },
+        url: 'https://test.api.ndla.no/article-api/v2/articles/392',
+        paths: ['/subject:6/topic:1:182849/topic:1:157358/resource:1:153094'],
+      },
+      {
+        id: 401,
+        title: {
+          title: 'Hva kan du om installasjoner for produksjon?',
+          language: 'nb',
+        },
+        url: 'https://test.api.ndla.no/article-api/v2/articles/401',
+        paths: ['/subject:6/topic:1:182849/topic:1:157358/resource:1:153092'],
+      },
+      {
+        id: 416,
+        title: { title: 'Sammendrag om rørhåndtering', language: 'nb' },
+        url: 'https://test.api.ndla.no/article-api/v2/articles/416',
+        paths: ['/subject:6/topic:1:182849/topic:1:147173/resource:1:157968'],
+      },
+      {
+        id: 425,
+        title: { title: 'Hva kan du om slamsystemet?', language: 'nb' },
+        url: 'https://test.api.ndla.no/article-api/v2/articles/425',
+        paths: [
+          '/subject:d6edb38e-89ab-475e-81f5-5f29862ccbc7/topic:2bdec210-491f-4ca9-af29-647946d550d5/topic:19832f14-4a2b-47f5-9cfe-f1a18cd14e09/resource:1:148134',
+          '/subject:6/topic:1:182849/topic:1:147173/resource:1:148134',
+        ],
+      },
+      {
+        id: 431,
+        title: { title: 'Hva kan du om sementeringsutstyret?', language: 'nb' },
+        url: 'https://test.api.ndla.no/article-api/v2/articles/431',
+        paths: ['/subject:6/topic:1:182849/topic:1:147173/resource:1:163802'],
+      },
+      {
+        id: 438,
+        title: {
+          title: 'Hva kan du om stigerørsystemet?',
+          language: 'unknown',
+        },
+        url: 'https://test.api.ndla.no/article-api/v2/articles/438',
+        paths: ['/subject:6/topic:1:182849/topic:1:147173/resource:1:137518'],
+      },
+    ],
+  },
+];
+
+export const articleMock = {
+  id: 356,
+  oldNdlaUrl: '//red.ndla.no/node/175733',
+  revision: 3,
+  title: { title: 'Hva kan du om geologiske prosesser?', language: 'nb' },
+  content: {
+    content:
+      '<section><embed data-resource="external" data-url="https://h5p-test.ndla.no/resource/494bf7ee-6eb6-439c-bed5-2ce03e5cd802"><embed data-resource="external" data-url="https://h5p-test.ndla.no/resource/bfa48872-5141-4c96-a200-7bcb9fed3cae"></section>',
+    language: 'nb',
+  },
+  copyright: {
+    license: {
+      license: 'by-sa',
+      description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
+      url: 'https://creativecommons.org/licenses/by-sa/2.0/',
+    },
+    origin: '',
+    creators: [{ type: 'Writer', name: 'Linda Vasshus Lidal' }],
+    processors: [],
+    rightsholders: [{ type: 'Supplier', name: 'Cerpus AS' }],
+  },
+  tags: {
+    tags: ['avsetning', 'erosjon', 'geologi', 'platetektonikk', 'transport'],
+    language: 'nb',
+  },
+  requiredLibraries: [],
+  metaDescription: { metaDescription: '', language: 'nb' },
+  created: '2018-01-24T09:21:26Z',
+  updated: '2018-01-24T09:21:26Z',
+  updatedBy: 'r0gHb9Xg3li4yyXv0QSGQczV3bviakrT',
+  articleType: 'standard',
+  supportedLanguages: ['nb'],
+};

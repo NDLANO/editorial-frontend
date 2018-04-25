@@ -453,6 +453,7 @@ const phrases = {
     or: 'Eller',
     urlPlaceholder: 'Lim inn lenke fra ndla.no',
     wrongType: 'Note! This is a different resource type: ',
+    noResources: 'No resources found',
   },
 };
 

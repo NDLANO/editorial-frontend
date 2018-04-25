@@ -461,6 +461,7 @@ const phrases = {
     or: 'Eller',
     urlPlaceholder: 'Lim inn lenke fra ndla.no',
     wrongType: 'Obs! Denne ressursen er en annen type',
+    noResources: 'Ingen ressurser funnet',
   },
 };
 

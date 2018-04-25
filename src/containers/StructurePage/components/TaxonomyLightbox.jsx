@@ -56,7 +56,11 @@ class TaxonomyLightbox extends React.Component {
           <div {...classes('content')}>
             {children}
             {onSelect && (
-              <Button stripped {...classes('selectButton')} onClick={onSelect}>
+              <Button
+                data-testid="taxonomyLightboxButton"
+                stripped
+                {...classes('selectButton')}
+                onClick={onSelect}>
                 {loading ? <Spinner cssModifier="small" /> : t('form.choose')}
               </Button>
             )}

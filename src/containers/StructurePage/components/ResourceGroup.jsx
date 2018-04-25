@@ -12,7 +12,7 @@ import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Plus } from 'ndla-icons/action';
 import BEMHelper from 'react-bem-helper';
-import { ResourceTypeShape } from '../../../shapes';
+
 import Accordion from '../../../components/Accordion';
 import ResourceItem from './ResourceItem';
 import AddResourceModal from './AddResourceModal';
@@ -82,7 +82,9 @@ class ResourceGroup extends PureComponent {
 
 ResourceGroup.propTypes = {
   icon: PropTypes.node.isRequired,
-  topicResource: ResourceTypeShape,
+  topicResource: PropTypes.shape({
+    resources: PropTypes.array,
+  }),
   resource: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

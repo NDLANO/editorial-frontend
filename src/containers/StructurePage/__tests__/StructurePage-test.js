@@ -8,7 +8,7 @@
 
 import nock from 'nock';
 import React from 'react';
-import IntlProvider from 'ndla-i18n';
+
 import renderer from 'react-test-renderer';
 import { render, wait } from 'react-testing-library';
 import { MemoryRouter } from 'react-router-dom';
@@ -18,13 +18,18 @@ import {
   resourceTypesMock,
   subjectTopicsMock,
 } from '../../../util/__tests__/taxonomyMocks';
+import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 
 const wrapper = () =>
   renderer.create(
     <MemoryRouter>
-      <IntlProvider locale="nb" messages={{}}>
-        <StructurePage t={() => 'injected'} match={{ params: {} }} />
-      </IntlProvider>
+      <IntlWrapper>
+        <StructurePage
+          locale="nb"
+          t={() => 'injected'}
+          match={{ params: {} }}
+        />
+      </IntlWrapper>
     </MemoryRouter>,
   );
 
@@ -42,11 +47,25 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
   nock('http://ndla-api')
     .get(`/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?recursive=true`)
     .reply(200, subjectTopicsMock);
+  nock('http://ndla-api')
+    .get(
+      '/taxonomy/v1/topics/urn:topic:1:172650/resources/?language=nb&relevance=urn:relevance:core',
+    )
+    .reply(200, []);
+  nock('http://ndla-api')
+    .get(`/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?recursive=true`)
+    .reply(200, subjectTopicsMock);
+  nock('http://ndla-api')
+    .get(
+      '/taxonomy/v1/topics/urn:topic:1:172650/resources/?language=nb&relevance=urn:relevance:supplementary',
+    )
+    .reply(200, []);
   const { container, getByText } = render(
     <MemoryRouter>
-      <IntlProvider locale="nb" messages={{}}>
+      <IntlWrapper>
         <StructurePage
           t={() => 'injected'}
+          locale="nb"
           match={{
             params: {
               subject: 'subject:1',
@@ -55,7 +74,7 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
             },
           }}
         />
-      </IntlProvider>
+      </IntlWrapper>
     </MemoryRouter>,
   );
   await wait();
@@ -72,6 +91,9 @@ it('Adds posts new subject when writing and pressing enter', async () => {
       Location: 'newPath',
       'Content-Type': 'text/plain; charset=UTF-8',
     });
+  nock('http://ndla-api')
+    .get('/taxonomy/v1/subjects')
+    .reply(200, subjectsMock);
   const component = wrapper();
   const { instance } = component.root.findByType(StructurePage);
   expect(instance.state.editStructureHidden).toBe(false);

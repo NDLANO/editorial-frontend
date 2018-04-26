@@ -112,6 +112,7 @@ const phrases = {
       title: 'Tittel',
       lastUpdated: 'Sist oppdatert',
     },
+    resultError: 'Noe gikk feil med innlasting av type: {type}',
   },
   subjectsPage: {
     subjects: 'Fag',
@@ -123,6 +124,7 @@ const phrases = {
     placeholder: 'Søk i bilder',
     buttonTitle: 'Søk',
     useImage: 'Bruk bildet',
+    noTitle: 'Ingen tittel',
   },
   videoSearch: {
     searchPlaceholder: 'Søk i videoer',
@@ -148,6 +150,7 @@ const phrases = {
     searchButtonTitle: 'Søk',
     useAudio: 'Velg lyd',
     noResults: 'Ingen resultater funnet',
+    noTitle: 'Ingen tittel',
   },
   noEmbedMessage: {
     deleteOnSave: 'Element av type {type} vil bli fjernet ved lagring.',

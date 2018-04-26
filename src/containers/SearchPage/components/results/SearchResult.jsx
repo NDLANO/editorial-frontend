@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 import {
   ContentResultShape,
   ImageResultShape,
@@ -17,7 +18,7 @@ import SearchContent from './SearchContent';
 import SearchImage from './SearchImage';
 import SearchAudio from './SearchAudio';
 
-const SearchResult = ({ result, locale, type }) => {
+const SearchResult = ({ result, locale, type, t }) => {
   switch (type) {
     case 'content':
       return <SearchContent content={result} locale={locale} />;
@@ -28,14 +29,15 @@ const SearchResult = ({ result, locale, type }) => {
         case 'audios':
           return <SearchAudio audio={result} locale={locale} />;
         default:
-          return <p>{`Something went wrong with ${result.type}`}</p>;
+          return <p>{t('searchForm.resultError', { type: result.type })}</p>;
       }
     default:
-      return <p>{`Something went wrong with ${type}`}</p>;
+      return <p>{t('searchForm.resultError', { type })}</p>;
   }
 };
 
 SearchResult.propTypes = {
+  t: PropTypes.func.isRequired,
   result: PropTypes.oneOfType([
     ContentResultShape,
     ImageResultShape,
@@ -45,4 +47,4 @@ SearchResult.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default SearchResult;
+export default injectT(SearchResult);

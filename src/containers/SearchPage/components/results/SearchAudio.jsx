@@ -19,7 +19,9 @@ const SearchAudio = ({ audio, locale, t }) => (
   <div {...searchClasses('result')}>
     <div {...searchClasses('content')}>
       <Link to={toEditAudio(audio.id, locale)}>
-        <h1 {...searchClasses('title')}>{audio.title || t('No title')}</h1>
+        <h1 {...searchClasses('title')}>
+          {audio.title || t('audioSearch.noTitle')}
+        </h1>
       </Link>
     </div>
     <div {...searchClasses('image')}>

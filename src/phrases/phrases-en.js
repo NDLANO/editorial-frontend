@@ -105,6 +105,7 @@ const phrases = {
       title: 'Title',
       lastUpdated: 'Last updated',
     },
+    resultError: 'Something went wrong with type: {type}',
   },
   subjectsPage: {
     subjects: 'Subjects',
@@ -116,6 +117,7 @@ const phrases = {
     placeholder: 'Search images',
     buttonTitle: 'Search',
     useImage: 'Use image',
+    noTitle: 'No title',
   },
   videoSearch: {
     searchPlaceholder: 'Search videos',
@@ -141,6 +143,7 @@ const phrases = {
     searchButtonTitle: 'Search',
     useAudio: 'Chose audio',
     noResults: 'No audio files found',
+    noTitle: 'No title',
   },
   noEmbedMessage: {
     deleteOnSave: 'Element of type {type} will be deleted on save.',

@@ -9,15 +9,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { injectT } from 'ndla-i18n';
 import { toEditImage } from '../../../../util/routeHelpers';
 import { ImageResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
 
-const SearchImage = ({ image, locale }) => (
+const SearchImage = ({ image, locale, t }) => (
   <div {...searchClasses('result')}>
     <div {...searchClasses('content')}>
       <Link to={toEditImage(image.id, locale)}>
-        <h1 {...searchClasses('title')}>{image.title}</h1>
+        <h1 {...searchClasses('title')}>
+          {image.title || t('imageSearch.noTitle')}
+        </h1>
       </Link>
     </div>
     <div {...searchClasses('image')}>
@@ -27,8 +30,9 @@ const SearchImage = ({ image, locale }) => (
 );
 
 SearchImage.propTypes = {
+  t: PropTypes.func.isRequired,
   image: ImageResultShape.isRequired,
   locale: PropTypes.string.isRequired,
 };
 
-export default SearchImage;
+export default injectT(SearchImage);

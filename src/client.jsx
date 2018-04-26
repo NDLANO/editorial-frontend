@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { render, hydrate } from 'react-dom';
+import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import IntlProvider from 'ndla-i18n';
@@ -51,9 +51,3 @@ const app = (
 );
 
 render(app, document.getElementById('root'));
-
-if (module.hot) {
-  module.hot.accept('./containers/App/App', () => {
-    hydrate(app, document.getElementById('root'));
-  });
-}

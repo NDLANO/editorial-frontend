@@ -53,10 +53,6 @@ class SearchContainer extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.props.clearSearch();
-  }
-
   onQueryPush(newQuery) {
     const { history, location, type } = this.props;
     const oldQuery = queryString.parse(location.search);
@@ -94,9 +90,6 @@ class SearchContainer extends Component {
       t,
     } = this.props;
 
-    // Set correct result object type
-    const searchResults = type === 'content' ? results.results || [] : results;
-
     const query = queryString.parse(location.search);
     return (
       <div>
@@ -128,7 +121,7 @@ class SearchContainer extends Component {
           <SearchList
             query={query.query}
             locale={locale}
-            results={searchResults}
+            results={results.results}
             searching={searching}
             type={type}
           />
@@ -153,10 +146,7 @@ SearchContainer.propTypes = {
   }).isRequired,
   locale: PropTypes.string.isRequired,
   lastPage: PropTypes.number.isRequired,
-  results: PropTypes.oneOfType([
-    SearchResultShape,
-    PropTypes.arrayOf(PropTypes.shape({})),
-  ]),
+  results: SearchResultShape,
   totalCount: PropTypes.number,
   searching: PropTypes.bool.isRequired,
   search: PropTypes.func.isRequired,

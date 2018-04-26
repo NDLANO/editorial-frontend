@@ -19,7 +19,7 @@ test('reducers/search initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
 
   expect(nextState).toEqual({
-    results: {},
+    results: { results: [] },
     searching: false,
   });
 });
@@ -29,7 +29,7 @@ test('reducers/search search', () => {
 
   expect(nextState).toEqual({
     searching: true,
-    results: {},
+    results: { results: [] },
   });
 });
 

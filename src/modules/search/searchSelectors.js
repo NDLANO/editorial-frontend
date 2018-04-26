@@ -35,30 +35,41 @@ export const getLastPage = createSelector(
   },
 );
 
-export const getDraftResults = createSelector([getSearchFromState], search => {
-  const results = [];
-  search.results.forEach(allResult =>
-    results.push(
-      ...allResult.results.map(result => ({ ...result, type: allResult.type })),
-    ),
-  );
-  return results;
-});
-
 export const getDraftTotalResultsCount = createSelector(
   [getSearchFromState],
   searchDraft =>
-    searchDraft.results.map(t => t.totalCount).reduce((a, b) => a + b, 0),
+    searchDraft.results.results
+      .map(t => t.totalCount)
+      .reduce((a, b) => a + b, 0),
 );
 
 export const getDraftLastPage = createSelector(
   [getSearchFromState, getDraftTotalResultsCount],
   (search, totalResultsCount) => {
-    const largestPageSize = search.results
+    const largestPageSize = search.results.results
       .map(t => t.pageSize)
       .reduce((a, b) => Math.max(a, b), 1);
     return totalResultsCount
       ? Math.ceil(totalResultsCount / largestPageSize)
       : 1;
+  },
+);
+
+export const getDraftResults = createSelector(
+  [getSearchFromState, getDraftTotalResultsCount],
+  (search, totalCount) => {
+    const results = {
+      results: [],
+      totalCount,
+    };
+    search.results.results.forEach(allResult =>
+      results.results.push(
+        ...allResult.results.map(result => ({
+          ...result,
+          type: allResult.type,
+        })),
+      ),
+    );
+    return results;
   },
 );

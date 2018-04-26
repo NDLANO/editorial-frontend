@@ -32,7 +32,7 @@ export function* watchSearch() {
 export function* searchDraft(query) {
   try {
     const searchResult = yield call(api.searchDraft, query);
-    yield put(actions.setSearchResult(searchResult));
+    yield put(actions.setSearchResult({ results: searchResult }));
   } catch (error) {
     yield put(actions.searchError());
     // TODO: handle error

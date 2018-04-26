@@ -18,7 +18,7 @@ const classes = new BEMHelper({
 });
 
 const ArticlePreview = ({ article, locale }) => (
-  <div {...classes('')}>
+  <div data-testid="articlePreview" {...classes('')}>
     <div {...classes('image')}>
       <img src={article.imageUrl || '/placeholder.png'} alt="" />
     </div>

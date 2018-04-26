@@ -454,6 +454,10 @@ const phrases = {
     urlPlaceholder: 'Lim inn lenke fra ndla.no',
     wrongType: 'Note! This is a different resource type: ',
     noResources: 'No resources found',
+    resource: {
+      confirmDelete:
+        'Do you want to delete the resource from this folder? This will not affect the placement other places',
+    },
   },
 };
 

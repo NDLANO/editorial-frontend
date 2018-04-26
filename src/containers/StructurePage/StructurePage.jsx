@@ -83,66 +83,82 @@ export class StructurePage extends React.PureComponent {
   }
 
   async onAddExistingTopic(subjectid, topicid) {
-    const ok = await addSubjectTopic({
-      subjectid,
-      topicid,
-    });
-    if (ok) {
-      this.getSubjectTopics(subjectid);
+    try {
+      const ok = await addSubjectTopic({
+        subjectid,
+        topicid,
+      });
+      if (ok) {
+        this.getSubjectTopics(subjectid);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
   async onAddSubjectTopic(subjectid, name) {
-    const newPath = await addTopic({ name });
-    const newId = newPath.replace('/v1/topics/', '');
-    const ok = await addSubjectTopic({
-      subjectid,
-      topicid: newId,
-      primary: true,
-    });
-    if (ok) {
-      this.getSubjectTopics(subjectid);
+    try {
+      const newPath = await addTopic({ name });
+      const newId = newPath.replace('/v1/topics/', '');
+      const ok = await addSubjectTopic({
+        subjectid,
+        topicid: newId,
+        primary: true,
+      });
+      if (ok) {
+        this.getSubjectTopics(subjectid);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
   async getAllSubjects() {
-    const subjects = await fetchSubjects();
-    subjects.forEach(subject => {
-      this[subject.id] = React.createRef();
-    });
-    this.setState({ subjects });
+    try {
+      const subjects = await fetchSubjects();
+      subjects.forEach(subject => {
+        this[subject.id] = React.createRef();
+      });
+      this.setState({ subjects });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getSubjectTopics(subjectid) {
-    const allTopics = await fetchSubjectTopics(subjectid);
-    const insertSubTopic = (topics, subTopic) =>
-      topics.map(topic => {
-        if (topic.id === subTopic.parent) {
-          return {
-            ...topic,
-            topics: [...(topic.topics || []), subTopic],
-          };
-        } else if (topic.topics) {
-          return {
-            ...topic,
-            topics: insertSubTopic(topic.topics, subTopic),
-          };
-        }
-        return topic;
-      });
+    try {
+      const allTopics = await fetchSubjectTopics(subjectid);
+      const insertSubTopic = (topics, subTopic) =>
+        topics.map(topic => {
+          if (topic.id === subTopic.parent) {
+            return {
+              ...topic,
+              topics: [...(topic.topics || []), subTopic],
+            };
+          } else if (topic.topics) {
+            return {
+              ...topic,
+              topics: insertSubTopic(topic.topics, subTopic),
+            };
+          }
+          return topic;
+        });
 
-    const groupedTopics = allTopics.reduce((acc, curr) => {
-      const mainTopic = curr.parent.includes('subject');
-      if (mainTopic) return acc;
-      return insertSubTopic(acc.filter(topic => topic.id !== curr.id), curr);
-    }, allTopics);
+      const groupedTopics = allTopics.reduce((acc, curr) => {
+        const mainTopic = curr.parent.includes('subject');
+        if (mainTopic) return acc;
+        return insertSubTopic(acc.filter(topic => topic.id !== curr.id), curr);
+      }, allTopics);
 
-    this.setState(prevState => ({
-      topics: {
-        ...prevState.topics,
-        [subjectid]: groupedTopics,
-      },
-    }));
+      this.setState(prevState => ({
+        topics: {
+          ...prevState.topics,
+          [subjectid]: groupedTopics,
+        },
+      }));
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async addSubject(name) {
@@ -203,8 +219,8 @@ export class StructurePage extends React.PureComponent {
   }
 
   render() {
-    const { match: { params }, t, locale } = this.props;
-
+    const { match, t, locale } = this.props;
+    const { params } = match;
     return (
       <OneColumn>
         <Accordion
@@ -235,7 +251,7 @@ export class StructurePage extends React.PureComponent {
                 key={it.id}
                 topics={this.state.topics[it.id]}
                 active={it.id.replace('urn:', '') === params.subject}
-                params={params}
+                match={match}
                 onChangeSubjectName={this.onChangeSubjectName}
                 onAddSubjectTopic={this.onAddSubjectTopic}
                 showLink={this.showLink}
@@ -246,7 +262,7 @@ export class StructurePage extends React.PureComponent {
             ))}
           </div>
         </Accordion>
-        {(params.topic1 || params.topic2) && (
+        {(params.topic1 || params.topic2 || params.topic3) && (
           <StructureResources {...{ locale, params }} />
         )}
         <div style={{ display: 'none' }} ref={this.starButton}>

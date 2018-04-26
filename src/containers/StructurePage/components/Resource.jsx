@@ -8,9 +8,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { RemoveCircle } from 'ndla-icons/action';
+import { Button } from 'ndla-ui';
 import { ResourceShape } from '../../../shapes';
 
-const Resource = ({ icon, resource, classes }) => (
+const Resource = ({ icon, resource, classes, onDelete }) => (
   <li {...classes('item')}>
     <div {...classes('text o-flag o-flag--top')}>
       <div key="img" {...classes('icon o-flag__img')}>
@@ -19,6 +21,9 @@ const Resource = ({ icon, resource, classes }) => (
       <div key="body" {...classes('body o-flag__body')}>
         <h1 {...classes('title')}>{resource.name}</h1>
       </div>
+      <Button onClick={onDelete} stripped>
+        <RemoveCircle {...classes('deleteIcon')} />
+      </Button>
     </div>
   </li>
 );
@@ -27,20 +32,7 @@ Resource.propTypes = {
   icon: PropTypes.node.isRequired,
   resource: ResourceShape,
   classes: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
-const ResourceItem = ({ icon, resources, classes }) => (
-  <ul {...classes('list')}>
-    {resources.map(resource => (
-      <Resource key={resource.id} {...{ icon, resource, classes }} />
-    ))}
-  </ul>
-);
-
-ResourceItem.propTypes = {
-  icon: PropTypes.node.isRequired,
-  resources: PropTypes.arrayOf(ResourceShape),
-  classes: PropTypes.func,
-};
-
-export default ResourceItem;
+export default Resource;

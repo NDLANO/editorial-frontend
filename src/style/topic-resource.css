@@ -27,6 +27,11 @@
     font-weight: 500;
   }
 
+  &__deleteIcon {
+    width: 24px;
+    height: 24px;
+  }
+
   &__icon {
     padding-right: var(--spacing--small);
   }

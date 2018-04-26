@@ -14,7 +14,7 @@ import { Plus } from 'ndla-icons/action';
 import BEMHelper from 'react-bem-helper';
 
 import Accordion from '../../../components/Accordion';
-import ResourceItem from './ResourceItem';
+import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
 
 const classes = new BEMHelper({
@@ -61,16 +61,16 @@ class ResourceGroup extends PureComponent {
           header={resource.name}
           hidden={topicResource.resources ? this.state.displayResource : true}>
           {topicResource.resources && (
-            <ResourceItem
+            <ResourceItems
               resources={topicResource.resources}
-              {...{ icon, classes }}
+              {...{ icon, classes, refreshResources }}
             />
           )}
         </Accordion>
         {this.state.showAddModal && (
           <AddResourceModal
             type={resource.id}
-            topicId={params.topic2 || params.topic1}
+            topicId={params.topic3 || params.topic2 || params.topic1}
             refreshResources={refreshResources}
             onClose={() => this.setState({ showAddModal: false })}
           />

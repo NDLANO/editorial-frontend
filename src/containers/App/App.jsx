@@ -68,7 +68,7 @@ export class App extends React.Component {
             <PrivateRoute path="/media" component={MediaPage} />
             <PrivateRoute path="/agreement" component={AgreementPage} />
             <PrivateRoute
-              path="/structure/:subject?/:topic1?/:topic2?"
+              path="/structure/:subject?/:topic1?/:topic2?/:topic3?"
               component={StructurePage}
             />
             <Route path="/forbidden" component={ForbiddenPage} />

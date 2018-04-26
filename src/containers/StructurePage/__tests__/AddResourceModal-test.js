@@ -72,19 +72,15 @@ test('Can select a resource from the list and it adds it to topic', async () => 
     )
     .reply(201);
   const { container, getByText, getByTestId } = wrapper();
-  await wait();
-  await wait();
+  await wait(() => getByText(resourcesByType[0].results[0].title.title));
 
   expect(container.firstChild).toMatchSnapshot();
   Simulate.click(getByText(resourcesByType[0].results[0].title.title));
-  await wait();
-  await wait();
+  await wait(() => getByTestId('articlePreview'));
 
   expect(container.firstChild).toMatchSnapshot();
   Simulate.click(getByTestId('taxonomyLightboxButton'));
   await wait();
-  await wait();
-  expect(container.firstChild).toMatchSnapshot();
   expect(nock.isDone());
 });
 
@@ -113,12 +109,11 @@ test('Can paste a valid url and add it to topic', async () => {
   const input = getByTestId('addResourceUrlInput');
   input.value = ndlaUrl;
   Simulate.change(input);
-  await wait();
-  await wait();
+
+  await wait(() => getByTestId('articlePreview'));
   expect(container.firstChild).toMatchSnapshot();
   Simulate.click(getByTestId('taxonomyLightboxButton'));
   await wait();
-  await wait();
-  expect(container.firstChild).toMatchSnapshot();
+
   expect(nock.isDone());
 });

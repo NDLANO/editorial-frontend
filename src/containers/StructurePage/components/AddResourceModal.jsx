@@ -94,6 +94,7 @@ class AddResourceModal extends Component {
         });
         refreshResources();
         this.setState({ loading: false });
+
         onClose();
       } catch (e) {
         console.log(e);
@@ -137,13 +138,18 @@ class AddResourceModal extends Component {
               placeholder={t('form.content.relatedArticle.placeholder')}
               label="label"
               apiAction={async inp => {
-                const res = await groupSearch(inp, type);
-                const result = res.length > 0 ? res.pop().results : [];
-                return result.map(curr => ({
-                  ...curr,
-                  id: curr.paths.pop(),
-                  title: curr.title ? curr.title.title : '',
-                }));
+                try {
+                  const res = await groupSearch(inp, type);
+                  const result = res.length > 0 ? res.pop().results : [];
+                  return result.map(curr => ({
+                    ...curr,
+                    id: curr.paths.pop(),
+                    title: curr.title ? curr.title.title : '',
+                  }));
+                } catch (err) {
+                  console.log(err);
+                }
+                return [];
               }}
               messages={{
                 emptyFilter: '',

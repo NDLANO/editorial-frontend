@@ -33,46 +33,63 @@ export class StructureResources extends React.PureComponent {
   }
 
   async componentDidMount() {
-    await this.getAllResourceTypes();
-
-    this.getTopicResources();
+    try {
+      const { params: { topic1, topic2, topic3 } } = this.props;
+      await this.getAllResourceTypes();
+      const topicId = topic3 || topic2 || topic1;
+      this.getTopicResources(topicId);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.params !== this.props.params) this.getTopicResources();
+    const { params: { topic1, topic2, topic3 } } = nextProps;
+    if (nextProps.params !== this.props.params) {
+      const topicId = topic3 || topic2 || topic1;
+      this.getTopicResources(topicId);
+    }
   }
 
   async getAllResourceTypes() {
-    const resourceTypes = await fetchAllResourceTypes(this.props.locale);
-    this.setState({ resourceTypes });
+    try {
+      const resourceTypes = await fetchAllResourceTypes(this.props.locale);
+      this.setState({ resourceTypes });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  async getTopicResources() {
-    const topicId = this.props.params.topic2 || this.props.params.topic1;
+  async getTopicResources(topicId) {
     if (topicId) {
       const { locale } = this.props;
       const { resourceTypes } = this.state;
       const fullId = `urn:${topicId}`;
-      const [
-        coreTopicResources = [],
-        supplementaryTopicResources = [],
-      ] = await Promise.all([
-        fetchTopicResources(fullId, locale, RESOURCE_FILTER_CORE),
-        fetchTopicResources(fullId, locale, RESOURCE_FILTER_SUPPLEMENTARY),
-      ]);
+      try {
+        const [
+          coreTopicResources = [],
+          supplementaryTopicResources = [],
+        ] = await Promise.all([
+          fetchTopicResources(fullId, locale, RESOURCE_FILTER_CORE),
+          fetchTopicResources(fullId, locale, RESOURCE_FILTER_SUPPLEMENTARY),
+        ]);
 
-      const topicResources = groupSortResourceTypesFromTopicResources(
-        resourceTypes,
-        coreTopicResources,
-        supplementaryTopicResources,
-      );
-      this.setState({ topicResources });
+        const topicResources = groupSortResourceTypesFromTopicResources(
+          resourceTypes,
+          coreTopicResources,
+          supplementaryTopicResources,
+        );
+        this.setState({ topicResources });
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       this.setState({ topicResources: [] });
     }
   }
 
   render() {
+    const { params: { topic1, topic2, topic3 } } = this.props;
     return (
       <Fragment>
         {this.state.resourceTypes.map(resource => {
@@ -88,7 +105,8 @@ export class StructureResources extends React.PureComponent {
                 resource,
                 topicResource,
                 params: this.props.params,
-                refreshResources: this.getTopicResources,
+                refreshResources: () =>
+                  this.getTopicResources(topic3 || topic2 || topic1),
               }}
             />
           );

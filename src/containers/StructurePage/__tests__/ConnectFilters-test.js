@@ -87,8 +87,7 @@ it('calls add filter, update filter, and delete filter', async () => {
     .reply(200, topicFilterMock);
 
   const { getByTestId, getByLabelText, container } = wrapper();
-  await wait();
-  await wait();
+  await wait(() => getByLabelText(filterMock[0].name));
   Simulate.click(getByLabelText(filterMock[0].name));
   Simulate.click(getByLabelText(filterMock[1].name));
   Simulate.click(getByTestId(`${filterMock[3].id}-relevance`));

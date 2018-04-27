@@ -19,7 +19,7 @@ test('reducers/search initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
 
   expect(nextState).toEqual({
-    results: { results: [] },
+    totalResults: { results: [] },
     searching: false,
   });
 });
@@ -29,7 +29,7 @@ test('reducers/search search', () => {
 
   expect(nextState).toEqual({
     searching: true,
-    results: { results: [] },
+    totalResults: { results: [] },
   });
 });
 
@@ -44,11 +44,13 @@ test('reducers/search handle set search result', () => {
     type: setSearchResult,
     payload: searchResult,
   });
-  expect(nextState.results[0].totalCount).toBe(32);
-  expect(nextState.results[0].results.length).toBe(2);
-  expect(nextState.results[0].page).toBe(3);
-  expect(nextState.results[0].pageSize).toBe(2);
-  expect(nextState.results[0].language).toBe('all');
+  console.log(nextState);
+
+  expect(nextState.totalResults[0].totalCount).toBe(32);
+  expect(nextState.totalResults[0].results.length).toBe(2);
+  expect(nextState.totalResults[0].page).toBe(3);
+  expect(nextState.totalResults[0].pageSize).toBe(2);
+  expect(nextState.totalResults[0].language).toBe('all');
   expect(nextState.searching).toBe(false);
 });
 

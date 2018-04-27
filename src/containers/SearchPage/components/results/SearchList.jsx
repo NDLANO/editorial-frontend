@@ -6,30 +6,29 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import SearchResult from './SearchResult';
+import Spinner from '../../../../components/Spinner';
 import { SearchResultShape } from '../../../../shapes';
 
 const SearchList = ({ results, query, type, locale, t, searching }) => {
-  if (searching) return null;
+  if (searching) return <Spinner />;
+  if (results.length === 0)
+    return <p>{t(`searchPage.${type}NoHits`, { query })}</p>;
 
   return (
-    <div>
-      {results.length === 0 ? (
-        <p>{t(`searchPage.${type}NoHits`, { query })}</p>
-      ) : (
-        results.map(result => (
-          <SearchResult
-            key={result.id}
-            result={result}
-            type={type}
-            locale={locale}
-          />
-        ))
-      )}
-    </div>
+    <Fragment>
+      {results.map(result => (
+        <SearchResult
+          key={result.id}
+          result={result}
+          type={type}
+          locale={locale}
+        />
+      ))}
+    </Fragment>
   );
 };
 

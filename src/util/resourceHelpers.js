@@ -16,6 +16,7 @@
 
 import { constants } from 'ndla-ui';
 import config from '../config';
+import { toEditArticle } from './routeHelpers';
 
 import {
   RESOURCE_TYPE_LEARNING_PATH,
@@ -52,6 +53,13 @@ const mapping = {
   },
 };
 
+export const getResourceLanguages = t => [
+  { id: 'nb', name: t('language.nb') },
+  { id: 'nn', name: t('language.nn') },
+  { id: 'en', name: t('language.en') },
+  { id: 'de', name: t('language.de') },
+];
+
 export const getContentTypeFromResourceTypes = resourceTypes => {
   const resourceType = resourceTypes.find(type => mapping[type.id]);
   if (resourceType) {
@@ -63,7 +71,7 @@ export const getContentTypeFromResourceTypes = resourceTypes => {
 const isLearningPathResourceType = contentType =>
   contentType === contentTypes.LEARNING_PATH;
 
-export const resourceToLinkProps = (content, contentType) => {
+export const resourceToLinkProps = (content, contentType, locale) => {
   if (isLearningPathResourceType(contentType)) {
     return {
       href: `${config.learningpathFrontendDomain}/learningpaths/${
@@ -73,5 +81,13 @@ export const resourceToLinkProps = (content, contentType) => {
       rel: 'noopener noreferrer',
     };
   }
-  return null;
+  return {
+    to: toEditArticle(
+      content.id,
+      content.contexts.length > 0 && content.contexts[0].learningResourceType
+        ? content.contexts[0].learningResourceType
+        : 'standard',
+      locale,
+    ),
+  };
 };

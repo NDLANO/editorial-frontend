@@ -81,7 +81,8 @@ const phrases = {
   searchForm: {
     placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
     types: {
-      query: 'Søk på innhold',
+      contentQuery: 'Søk på Innhold',
+      mediaQuery: 'Søk på Media',
       language: 'Velg Språk',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innholdstype',
@@ -103,8 +104,8 @@ const phrases = {
       audio: 'Lyd',
     },
     order: 'Rekkefølge',
-    ascending: 'Stigende',
-    descending: 'Fallende',
+    asc: 'Stigende',
+    desc: 'Fallende',
     sorting: 'Sortering',
     sort: {
       id: 'Id',

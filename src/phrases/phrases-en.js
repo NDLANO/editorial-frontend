@@ -80,7 +80,8 @@ const phrases = {
   searchForm: {
     placeholder: 'Search articles',
     types: {
-      query: 'Search for content',
+      contentQuery: 'Search for Content',
+      mediaQuery: 'Search for Media',
       language: 'Select Language',
       subjects: 'Select subject',
       resourceTypes: 'Select Resource type',
@@ -96,8 +97,8 @@ const phrases = {
       audio: 'Audio',
     },
     order: 'Rekkefølge',
-    ascending: 'Ascending',
-    descending: 'Descending',
+    asc: 'Ascending',
+    desc: 'Descending',
     sorting: 'Sorting',
     sort: {
       id: 'Id',

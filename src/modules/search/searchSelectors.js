@@ -12,7 +12,7 @@ const getSearchFromState = state => state.search;
 
 export const getResults = createSelector(
   [getSearchFromState],
-  search => search.results,
+  search => search.totalResults,
 );
 
 export const getSearching = createSelector(
@@ -22,13 +22,13 @@ export const getSearching = createSelector(
 
 export const getTotalResultsCount = createSelector(
   [getSearchFromState],
-  search => search.results.totalCount,
+  search => search.totalResults.totalCount,
 );
 
 export const getLastPage = createSelector(
   [getSearchFromState, getTotalResultsCount],
   (search, totalResultsCount) => {
-    const largestPageSize = search.results.pageSize;
+    const largestPageSize = search.totalResults.pageSize;
     return totalResultsCount
       ? Math.ceil(totalResultsCount / largestPageSize)
       : 1;
@@ -38,7 +38,7 @@ export const getLastPage = createSelector(
 export const getDraftTotalResultsCount = createSelector(
   [getSearchFromState],
   searchDraft =>
-    searchDraft.results.results
+    searchDraft.totalResults.results
       .map(t => t.totalCount)
       .reduce((a, b) => a + b, 0),
 );
@@ -46,7 +46,7 @@ export const getDraftTotalResultsCount = createSelector(
 export const getDraftLastPage = createSelector(
   [getSearchFromState, getDraftTotalResultsCount],
   (search, totalResultsCount) => {
-    const largestPageSize = search.results.results
+    const largestPageSize = search.totalResults.results
       .map(t => t.pageSize)
       .reduce((a, b) => Math.max(a, b), 1);
     return totalResultsCount
@@ -58,18 +58,18 @@ export const getDraftLastPage = createSelector(
 export const getDraftResults = createSelector(
   [getSearchFromState, getDraftTotalResultsCount],
   (search, totalCount) => {
-    const results = {
+    const totalResults = {
       results: [],
       totalCount,
     };
-    search.results.results.forEach(allResult =>
-      results.results.push(
+    search.totalResults.results.forEach(allResult =>
+      totalResults.results.push(
         ...allResult.results.map(result => ({
           ...result,
           type: allResult.type,
         })),
       ),
     );
-    return results;
+    return totalResults;
   },
 );

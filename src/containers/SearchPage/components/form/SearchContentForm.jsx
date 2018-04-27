@@ -16,6 +16,7 @@ import {
   fetchResourceTypes,
 } from '../../../../modules/taxonomy';
 import { flattenResourceTypes } from '../../../../util/taxonomyHelpers';
+import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import reformed from '../../../../components/reformed';
 import validateSchema from '../../../../components/validateSchema';
 import {
@@ -34,12 +35,6 @@ export const getInitialModel = (query = {}) => ({
   subjects: query.subjects || '',
   resourceTypes: query['resource-types'] || '',
 });
-
-const languages = t => [
-  { id: 'nb', name: t('language.nb') },
-  { id: 'nn', name: t('language.nn') },
-  { id: 'en', name: t('language.en') },
-];
 
 class SearchContentForm extends Component {
   constructor(props) {
@@ -122,7 +117,7 @@ class SearchContentForm extends Component {
           <TextField
             name="query"
             fieldClassName={searchFormClasses('field', '50-width').className}
-            placeholder={t('searchForm.types.query')}
+            placeholder={t('searchForm.types.contentQuery')}
             {...commonFieldProps}
           />
           <SelectObjectField
@@ -147,7 +142,7 @@ class SearchContentForm extends Component {
           />
           <SelectObjectField
             name="language"
-            options={languages(t)}
+            options={getResourceLanguages(t)}
             idKey="id"
             labelKey="name"
             emptyField
@@ -164,12 +159,10 @@ class SearchContentForm extends Component {
           <div {...searchFormClasses('tagline')}>
             <SearchTagGroup
               onRemoveItem={this.removeTagItem}
-              {...{
-                subjects,
-                resourceTypes,
-                model,
-                languages,
-              }}
+              languages={getResourceLanguages}
+              subjects={subjects}
+              model={model}
+              resourceTypes={resourceTypes}
             />
           </div>
         </form>

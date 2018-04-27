@@ -10,7 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { ContentTypeBadge } from 'ndla-ui';
-import { toEditArticle } from '../../../../util/routeHelpers';
 import { ContentResultShape } from '../../../../shapes';
 import {
   getContentTypeFromResourceTypes,
@@ -46,21 +45,12 @@ const SearchContent = ({ content, locale }) => {
         <img src={content.metaImage || '/placeholder.png'} alt="" />
       </div>
       <div {...searchClasses('content')}>
-        {linkProps ? (
+        {linkProps && linkProps.href ? (
           <a {...searchClasses('link')} {...linkProps}>
             {contentTitle}
           </a>
         ) : (
-          <Link
-            {...searchClasses('link')}
-            to={toEditArticle(
-              content.id,
-              content.contexts.length > 0 &&
-              content.contexts[0].learningResourceType
-                ? content.contexts[0].learningResourceType
-                : 'standard',
-              locale,
-            )}>
+          <Link {...searchClasses('link')} to={linkProps.to}>
             {contentTitle}
           </Link>
         )}

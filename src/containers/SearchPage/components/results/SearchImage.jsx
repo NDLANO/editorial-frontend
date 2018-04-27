@@ -30,7 +30,6 @@ const SearchImage = ({ image, locale, t }) => (
 );
 
 SearchImage.propTypes = {
-  t: PropTypes.func.isRequired,
   image: ImageResultShape.isRequired,
   locale: PropTypes.string.isRequired,
 };

@@ -31,7 +31,6 @@ const SearchAudio = ({ audio, locale, t }) => (
 );
 
 SearchAudio.propTypes = {
-  t: PropTypes.func.isRequired,
   audio: AudioResultShape.isRequired,
   locale: PropTypes.string.isRequired,
 };

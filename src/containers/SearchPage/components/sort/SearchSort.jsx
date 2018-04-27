@@ -55,6 +55,9 @@ class SearchSort extends Component {
 
   render() {
     const { t } = this.props;
+    const sortOptions = ['id', 'relevance', 'title', 'lastUpdated'];
+    const orderOptions = ['desc', 'asc'];
+
     return (
       <div {...searchClasses('sort-container')}>
         <span {...searchClasses('sort-label')}>{t('searchForm.sorting')}</span>
@@ -62,20 +65,18 @@ class SearchSort extends Component {
           {...searchClasses('filters-select')}
           onChange={this.handleSortChange}
           value={this.state.sort}>
-          <option value="id">{t('searchForm.sort.id')}</option>
-          <option value="relevance">{t('searchForm.sort.relevance')}</option>
-          <option value="title">{t('searchForm.sort.title')}</option>
-          <option value="lastUpdated">
-            {t('searchForm.sort.lastUpdated')}
-          </option>
+          {sortOptions.map(option => (
+            <option value={option}>{t(`searchForm.sort.${option}`)}</option>
+          ))}
         </select>
         <span {...searchClasses('sort-label')}>{t('searchForm.order')}</span>
         <select
           {...searchClasses('filters-select')}
           onChange={this.handleOrderChange}
           value={this.state.order}>
-          <option value="desc">{t('searchForm.descending')}</option>
-          <option value="asc">{t('searchForm.ascending')}</option>
+          {orderOptions.map(option => (
+            <option value={option}>{t(`searchForm.${option}`)}</option>
+          ))}
         </select>
       </div>
     );

@@ -15,7 +15,7 @@ export const clearSearchResult = createAction('CLEAR_SEARCH_RESULT');
 export const setSearchResult = createAction('SET_SEARCH_RESULT');
 
 export const initalState = {
-  results: { results: [] },
+  totalResults: { results: [] },
   searching: false,
 };
 
@@ -32,7 +32,7 @@ export default handleActions(
     [setSearchResult]: {
       next: (state, action) => ({
         ...state,
-        results: action.payload,
+        totalResults: action.payload,
         searching: false,
       }),
       throw: state => state,

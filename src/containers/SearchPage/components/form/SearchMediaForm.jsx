@@ -11,6 +11,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
+import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import reformed from '../../../../components/reformed';
 import validateSchema from '../../../../components/validateSchema';
 import {
@@ -26,12 +27,6 @@ export const getInitialModel = (query = {}) => ({
   title: query.query || '',
   language: query.language || '',
 });
-
-const languages = [
-  { key: 'nb', title: 'Norsk' },
-  { key: 'nn', title: 'Nynorsk' },
-  { key: 'en', title: 'Engelsk' },
-];
 
 class SearchMediaForm extends Component {
   constructor(props) {
@@ -76,22 +71,22 @@ class SearchMediaForm extends Component {
         <TextField
           name="title"
           fieldClassName={searchFormClasses('field', '50-width').className}
-          placeholder="Tittel"
+          placeholder={t('searchForm.types.mediaQuery')}
           {...commonFieldProps}
         />
         <SelectObjectField
           name="language"
-          options={languages}
-          idKey="key"
-          labelKey="title"
+          options={getResourceLanguages(t)}
+          idKey="id"
+          labelKey="name"
           emptyField
-          placeholder="Språk"
+          placeholder={t('searchForm.types.language')}
           fieldClassName={searchFormClasses('field', '25-width').className}
           {...commonFieldProps}
         />
         <Field {...searchFormClasses('field', '25-width')}>
           <Button onClick={this.emptySearch} outline>
-            Tøm
+            {t('searchForm.empty')}
           </Button>
           <Button submit>{t('searchForm.btn')}</Button>
         </Field>

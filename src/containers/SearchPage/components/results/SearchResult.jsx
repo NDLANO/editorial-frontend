@@ -37,7 +37,6 @@ const SearchResult = ({ result, locale, type, t }) => {
 };
 
 SearchResult.propTypes = {
-  t: PropTypes.func.isRequired,
   result: PropTypes.oneOfType([
     ContentResultShape,
     ImageResultShape,

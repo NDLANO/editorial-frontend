@@ -44,7 +44,7 @@
 @import './taxonomy.css';
 @import './toggleSwitch.css';
 @import './settingsMenu.css';
-@import './articlePreview.css';
+@import './article-preview.css';
 
 .c-audio-search {
   width: 70%;

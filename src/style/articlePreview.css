@@ -21,7 +21,7 @@
 
   &__image {
     text-align: center;
-    margin-right: 0.5rem;
+    margin-right: var(--spacing--small);
     flex: 1 1 auto;
     max-width: 180px;
 
@@ -30,7 +30,7 @@
     }
 
     & svg {
-      margin: 1.3rem;
+      margin: var(--spacing--medium);
       width: 60px;
       height: 60px;
     }
@@ -40,6 +40,7 @@
     margin: 0;
     font-size: 1rem;
     font-weight: 600;
+    line-height: 1.8;
     color: var(--gray-2);
   }
 

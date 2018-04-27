@@ -16,7 +16,7 @@ import Overlay from '../../../components/Overlay';
 import Spinner from '../../../components/Spinner';
 
 const classes = new BEMHelper({
-  name: 'taxonomyLightbox',
+  name: 'taxonomy-lightbox',
   prefix: 'c-',
 });
 

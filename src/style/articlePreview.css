@@ -6,8 +6,8 @@
  *
  */
 
-.c-articlePreview {
-  padding: 0.5rem;
+.c-article-preview {
+  padding: var(--spacing--small);
   border: 1px solid var(--gray-8);
   background-color: white;
   width: 100%;

@@ -20,7 +20,7 @@ import { searchClasses } from '../../SearchContainer';
 const SearchContent = ({ content, locale }) => {
   const { contexts } = content;
 
-  let resourceType;
+  let resourceType = {};
   if (contexts.length > 0 && contexts[0].resourceTypes.length > 0) {
     resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
   }
@@ -34,10 +34,11 @@ const SearchContent = ({ content, locale }) => {
     </h2>
   );
 
-  let linkProps;
-  if (resourceType) {
-    linkProps = resourceToLinkProps(content, resourceType.contentType, locale);
-  }
+  const linkProps = resourceToLinkProps(
+    content,
+    resourceType.contentType,
+    locale,
+  );
 
   return (
     <div {...searchClasses('result')}>

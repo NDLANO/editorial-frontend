@@ -84,6 +84,7 @@ const config = {
   ),
   googleSearchApiKey: getEnvironmentVariabel('NDLA_GOOGLE_API_KEY'),
   googleSearchEngineId: getEnvironmentVariabel('NDLA_GOOGLE_SEARCH_ENGINE_ID'),
+  taxonomyEnabled: ndlaEnvironment === 'test' || ndlaEnvironment === 'local',
 };
 
 export function getUniversalConfig() {

@@ -13,7 +13,7 @@ import Helmet from 'react-helmet';
 import { Content, PageContainer } from 'ndla-ui';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
-
+import config from '../../config';
 import { MessageShape } from '../../shapes';
 import Masthead from '../Masthead';
 import Footer from './components/Footer';
@@ -67,10 +67,12 @@ export class App extends React.Component {
             />
             <PrivateRoute path="/media" component={MediaPage} />
             <PrivateRoute path="/agreement" component={AgreementPage} />
-            <PrivateRoute
-              path="/structure/:subject?/:topic1?/:topic2?"
-              component={StructurePage}
-            />
+            {config.taxonomyEnabled && (
+              <PrivateRoute
+                path="/structure/:subject?/:topic1?/:topic2?"
+                component={StructurePage}
+              />
+            )}
             <Route path="/forbidden" component={ForbiddenPage} />
             <Route component={NotFoundPage} />
           </Switch>

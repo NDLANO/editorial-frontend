@@ -104,13 +104,15 @@ export class Navigation extends Component {
               <Agreement className="c-icon--large" />
               <span>{t('subNavigation.agreement')}</span>
             </Link>
-            <Link
-              to="/structure"
-              {...classes('item')}
-              onClick={this.toggleOpen}>
-              <Taxonomy className="c-icon--large" />
-              <span>{t('subNavigation.structure')}</span>
-            </Link>
+            {config.taxonomyEnabled && (
+              <Link
+                to="/structure"
+                {...classes('item')}
+                onClick={this.toggleOpen}>
+                <Taxonomy className="c-icon--large" />
+                <span>{t('subNavigation.structure')}</span>
+              </Link>
+            )}
             <Link
               to={toSearch(
                 {

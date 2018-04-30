@@ -8,10 +8,10 @@
 
 export default [
   {
-    type: 'article',
     totalCount: 32,
     page: 3,
     pageSize: 2,
+    language: 'all',
     results: [
       {
         id: '121',

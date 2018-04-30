@@ -47,7 +47,6 @@ const AuthSiteNavItem = ({ t, name, authenticated, onClick }) => {
 };
 
 AuthSiteNavItem.propTypes = {
-  t: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
   name: PropTypes.string,
   onClick: PropTypes.func.isRequired,

@@ -24,7 +24,7 @@ import Login from '../Login/Login';
 import Logout from '../Logout/Logout';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import WelcomePage from '../WelcomePage/WelcomePage';
-import SearchPage from '../SearchPage/SearchPage';
+import SearchPage from './SearchPage';
 import AgreementPage from '../AgreementPage/AgreementPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import ForbiddenPage from '../ForbiddenPage/ForbiddenPage';

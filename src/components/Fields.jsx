@@ -70,7 +70,7 @@ export const FieldErrorMessages = ({ field, submitted, label }) => {
 };
 
 FieldErrorMessages.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   field: PropTypes.shape({
     dirty: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
@@ -165,11 +165,12 @@ export const TextField = ({
   schema,
   noBorder,
   title,
+  fieldClassName,
   ...rest
 }) => {
   const binded = bindInput(name);
   return (
-    <Field noBorder={noBorder} title={title}>
+    <Field noBorder={noBorder} title={title} className={fieldClassName}>
       {!noBorder ? (
         <label htmlFor={name}>{label}</label>
       ) : (
@@ -206,7 +207,8 @@ export const TextField = ({
 TextField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  fieldClassName: PropTypes.string,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),
@@ -217,6 +219,7 @@ TextField.propTypes = {
 
 TextField.defaultProps = {
   noBorder: false,
+  fieldClassName: '',
 };
 
 export const FieldDescription = ({ obligatory, children }) => {
@@ -400,25 +403,32 @@ export const SelectObjectField = props => {
     label,
     submitted,
     schema,
+    fieldClassName,
     bindInput,
     ...rest
   } = props;
   return (
-    <Field>
-      <label htmlFor={name}>{label}</label>
+    <Field className={fieldClassName}>
+      {label ? <label htmlFor={name}>{label}</label> : null}
       {description && (
         <FieldDescription obligatory={obligatory}>
           {description}
         </FieldDescription>
       )}
       <ObjectSelector name={name} {...bindInput(name)} {...rest} />
-      <FieldErrorMessages
-        label={label}
-        field={getField(name, schema)}
-        submitted={submitted}
-      />
+      {label ? (
+        <FieldErrorMessages
+          label={label}
+          field={getField(name, schema)}
+          submitted={submitted}
+        />
+      ) : null}
     </Field>
   );
+};
+
+SelectObjectField.defaultProps = {
+  fieldClassName: '',
 };
 
 SelectObjectField.propTypes = {
@@ -426,7 +436,8 @@ SelectObjectField.propTypes = {
   name: PropTypes.string.isRequired,
   obligatory: PropTypes.bool,
   description: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  fieldClassName: PropTypes.string,
+  label: PropTypes.string,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),

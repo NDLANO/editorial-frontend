@@ -26,6 +26,20 @@ const phrases = {
     emptySavedSearch: 'Ingen lagrede søk',
     guidelines: 'Retningslinjer',
   },
+  searchPage: {
+    header: {
+      content: 'Søk etter innhold',
+      media: 'Søk etter media',
+    },
+    searchButton: 'Søk',
+    emptyButton: 'Tøm',
+    title: 'Tittel',
+    language: 'Språk',
+    contentNoHits: 'Ingen innhold samsvarte med søket ditt på: {query}',
+    mediaNoHits: 'Ingen media samsvarte med søket ditt på: {query}',
+    pageSize: '{pageSize} treff per side',
+    totalCount: 'Antall resultater',
+  },
   subNavigation: {
     media: 'Media',
     learningPath: 'Læringssti',
@@ -38,6 +52,8 @@ const phrases = {
     agreement: 'Avtale',
     structure: 'Struktur',
     concept: 'Begrep',
+    searchContent: 'Søk innhold',
+    searchMedia: 'Søk media',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -64,7 +80,21 @@ const phrases = {
   },
   searchForm: {
     placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
+    types: {
+      contentQuery: 'Søk på Innhold',
+      mediaQuery: 'Søk på Media',
+      language: 'Velg Språk',
+      subjects: 'Velg fag',
+      resourceTypes: 'Velg innholdstype',
+    },
+    tagType: {
+      query: 'Innhold',
+      subjects: 'Emne',
+      language: 'Språk',
+      resourceTypes: 'Innholdstype',
+    },
     btn: 'Søk',
+    empty: 'Tøm',
     articleType: {
       all: 'Alle',
       standard: 'Standard',
@@ -73,10 +103,17 @@ const phrases = {
       image: 'Bilde',
       audio: 'Lyd',
     },
-    order: {
+    order: 'Rekkefølge',
+    asc: 'Stigende',
+    desc: 'Fallende',
+    sorting: 'Sortering',
+    sort: {
+      id: 'Id',
       relevance: 'Relevans',
-      title: 'Alfabetisk',
+      title: 'Tittel',
+      lastUpdated: 'Sist oppdatert',
     },
+    resultError: 'Noe gikk feil med innlasting av type: {type}',
   },
   subjectsPage: {
     subjects: 'Fag',
@@ -88,6 +125,7 @@ const phrases = {
     placeholder: 'Søk i bilder',
     buttonTitle: 'Søk',
     useImage: 'Bruk bildet',
+    noTitle: 'Ingen tittel',
   },
   videoSearch: {
     searchPlaceholder: 'Søk i videoer',
@@ -113,6 +151,7 @@ const phrases = {
     searchButtonTitle: 'Søk',
     useAudio: 'Velg lyd',
     noResults: 'Ingen resultater funnet',
+    noTitle: 'Ingen tittel',
   },
   noEmbedMessage: {
     deleteOnSave: 'Element av type {type} vil bli fjernet ved lagring.',
@@ -312,6 +351,13 @@ const phrases = {
       emptyFilter: 'Ingen egenskaper funnet',
       emptyList: 'Det er ingen egenskaper i denne listen',
     },
+    subjects: {
+      label: 'Emne',
+      searchPlaceholder: 'Søk etter emne',
+      placeholder: 'Legg til emne',
+      emptyFilter: 'Ingen emner funnet',
+      emptyList: 'Det er ingen emner i denne listen',
+    },
     filter: {
       label: 'Filter',
       placeholder: 'Legg til filter',
@@ -407,11 +453,6 @@ const phrases = {
     dateAfterInvalid: '{label} kan ikke være før {beforeLabel}.',
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
-  },
-  searchPage: {
-    articlesNoHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
-    imagesNoHits: 'Ingen bilder samsvarte med søket ditt på: {query}',
-    audiosNoHits: 'Ingen lydfiler samsvarte med søket ditt på: {query}',
   },
   footer: {
     aboutNDLA: 'Om NDLA',

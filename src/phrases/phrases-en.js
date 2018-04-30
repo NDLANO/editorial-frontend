@@ -25,6 +25,20 @@ const phrases = {
     emptySavedSearch: 'No saved searches',
     guidelines: 'Guidelines',
   },
+  searchPage: {
+    header: {
+      content: 'Search for content',
+      media: 'Search for media',
+    },
+    searchButton: 'Search',
+    emptyButton: 'Empty',
+    title: 'Title',
+    language: 'Language',
+    contentNoHits: 'Your search - {query} - did not match any content.',
+    mediaNoHits: 'Your search - {query} - did not match any media.',
+    pageSize: '{pageSize} hits per page',
+    totalCount: 'Total results',
+  },
   subNavigation: {
     media: 'Media',
     learningPath: 'Learningpath',
@@ -37,6 +51,8 @@ const phrases = {
     agreement: 'Agreement',
     structure: 'Structure',
     concept: 'Concept',
+    searchContent: 'Search content',
+    searchMedia: 'Search media',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -63,7 +79,15 @@ const phrases = {
   },
   searchForm: {
     placeholder: 'Search articles',
+    types: {
+      contentQuery: 'Search for Content',
+      mediaQuery: 'Search for Media',
+      language: 'Select Language',
+      subjects: 'Select subject',
+      resourceTypes: 'Select Resource type',
+    },
     btn: 'Search',
+    empty: 'Empty',
     articleType: {
       all: 'All',
       standard: 'Standard',
@@ -72,10 +96,17 @@ const phrases = {
       image: 'Image',
       audio: 'Audio',
     },
-    order: {
+    order: 'Rekkefølge',
+    asc: 'Ascending',
+    desc: 'Descending',
+    sorting: 'Sorting',
+    sort: {
+      id: 'Id',
       relevance: 'Relevance',
-      title: 'Alphabetical',
+      title: 'Title',
+      lastUpdated: 'Last updated',
     },
+    resultError: 'Something went wrong with type: {type}',
   },
   subjectsPage: {
     subjects: 'Subjects',
@@ -87,6 +118,7 @@ const phrases = {
     placeholder: 'Search images',
     buttonTitle: 'Search',
     useImage: 'Use image',
+    noTitle: 'No title',
   },
   videoSearch: {
     searchPlaceholder: 'Search videos',
@@ -112,6 +144,7 @@ const phrases = {
     searchButtonTitle: 'Search',
     useAudio: 'Chose audio',
     noResults: 'No audio files found',
+    noTitle: 'No title',
   },
   noEmbedMessage: {
     deleteOnSave: 'Element of type {type} will be deleted on save.',
@@ -399,11 +432,6 @@ const phrases = {
     minLength: '{length} must have at least {minLength, number} characters.',
     minItems:
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
-  },
-  searchPage: {
-    articlesNoHits: 'Your search - {query} - did not match any articles.',
-    imagesNoHits: 'Your search - {query} - did not match any images.',
-    audiosNoHits: 'Your search - {query} - did not match any audio files.',
   },
   footer: {
     aboutNDLA: 'About NDLA',

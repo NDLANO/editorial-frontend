@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Footer } from 'ndla-ui';
 import SelectLocale from '../../SelectLocale/SelectLocale';
 
@@ -33,9 +32,5 @@ const FooterWrapper = ({ t }) => (
     <Footer.Text>{t('footer.footerInfo')}</Footer.Text>
   </Footer>
 );
-
-FooterWrapper.propTypes = {
-  t: PropTypes.func.isRequired,
-};
 
 export default FooterWrapper;

@@ -44,7 +44,6 @@ test('reducers/search handle set search result', () => {
     type: setSearchResult,
     payload: searchResult,
   });
-  console.log(nextState);
 
   expect(nextState.totalResults[0].totalCount).toBe(32);
   expect(nextState.totalResults[0].results.length).toBe(2);

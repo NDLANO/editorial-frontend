@@ -90,7 +90,7 @@ class SearchContainer extends Component {
       t,
     } = this.props;
 
-    const query = queryString.parse(location.search);
+    const searchObject = queryString.parse(location.search);
     return (
       <div>
         <OneColumn>
@@ -101,7 +101,7 @@ class SearchContainer extends Component {
             <SearchForm
               type={type}
               search={this.onQueryPush}
-              query={query}
+              searchObject={searchObject}
               location={location}
               locale={locale}
             />
@@ -113,22 +113,22 @@ class SearchContainer extends Component {
             )}
             <SearchListOptions
               type={type}
-              query={query}
+              query={searchObject}
               totalCount={totalCount}
               search={this.onQueryPush}
             />
           </SearchAccordion>
           <SearchList
-            query={query.query}
+            query={searchObject.query}
             locale={locale}
             results={results.results}
             searching={searching}
             type={type}
           />
           <Pager
-            page={query.page ? parseInt(query.page, 10) : 1}
+            page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
             lastPage={lastPage}
-            query={query}
+            query={searchObject}
             pathname={toSearch(null, type)}
           />
         </OneColumn>

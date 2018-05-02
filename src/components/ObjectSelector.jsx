@@ -23,7 +23,6 @@ const ObjectSelector = props => {
     placeholder,
     ...rest
   } = props;
-
   return (
     <select
       onBlur={onBlur}

@@ -12,67 +12,66 @@ import { injectT } from 'ndla-i18n';
 import SearchTag from './SearchTag';
 import { ResourceTypeShape } from '../../../../shapes';
 
+const findTagName = (array, value, arrayKey = undefined) => {
+  if (!array || array.length === 0) {
+    return undefined;
+  }
+  const result = array.find(
+    arrayElement =>
+      (arrayKey ? arrayElement[arrayKey] : arrayElement) === value,
+  );
+  return result && result.name ? result.name : undefined;
+};
+
 const SearchTagGroup = ({
   subjects,
   resourceTypes,
-  model,
+  searchObject,
   languages,
   t,
   onRemoveItem,
-}) => (
-  <Fragment>
-    {model.query && (
-      <SearchTag
-        onRemoveItem={onRemoveItem}
-        tag={{ type: 'query', id: model.query, name: model.query }}
-      />
-    )}
-    {model.language && (
-      <SearchTag
-        onRemoveItem={onRemoveItem}
-        tag={{
-          type: 'language',
-          id: model.language,
-          name: languages(t).find(language => language.id === model.language)
-            .name,
-        }}
-      />
-    )}
-    {model.subjects &&
-      subjects.length > 0 && (
-        <SearchTag
-          onRemoveItem={onRemoveItem}
-          tag={{
-            type: 'subjects',
-            id: model.subjects,
-            name: subjects.find(subject => subject.id === model.subjects).name,
-          }}
-        />
-      )}
-    {model.resourceTypes &&
-      resourceTypes.length > 0 && (
-        <SearchTag
-          onRemoveItem={onRemoveItem}
-          tag={{
-            type: 'resourceTypes',
-            id: model.resourceTypes,
-            name: resourceTypes.find(
-              resourceType => resourceType.id === model.resourceTypes,
-            ).name,
-          }}
-        />
-      )}
-    )
-  </Fragment>
-);
+}) => {
+  const tagTypes = [
+    { type: 'query', id: searchObject.query, name: searchObject.query },
+    {
+      type: 'language',
+      id: searchObject.language,
+      name: findTagName(languages(t), searchObject.language),
+    },
+    {
+      type: 'subjects',
+      id: searchObject.subjects,
+      name: findTagName(subjects, searchObject.subjects, 'id'),
+    },
+    {
+      type: 'resourceTypes',
+      id: searchObject.resourceTypes,
+      name: findTagName(resourceTypes, searchObject.resourceTypes, 'id'),
+    },
+  ];
+
+  return (
+    <Fragment>
+      {tagTypes.map(tag => {
+        if (!tag.name) return null;
+        return (
+          <SearchTag
+            key={`searchtag_${tag.type}`}
+            onRemoveItem={onRemoveItem}
+            tag={tag}
+          />
+        );
+      })}
+    </Fragment>
+  );
+};
 
 SearchTagGroup.propTypes = {
   onRemoveItem: PropTypes.func.isRequired,
   subjects: PropTypes.arrayOf(PropTypes.shape({})),
   resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   languages: PropTypes.func,
-  model: PropTypes.shape({
-    id: PropTypes.number,
+  searchObject: PropTypes.shape({
     query: PropTypes.string,
     language: PropTypes.string,
     subjects: PropTypes.string,

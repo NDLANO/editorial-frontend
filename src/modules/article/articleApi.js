@@ -13,6 +13,7 @@ import {
 } from '../../util/apiHelpers';
 
 const articleUrl = apiResourceUrl('/article-api/v2/articles');
+
 export const searchArticles = (queryString, locale) =>
   fetchAuthorized(
     `${articleUrl}/${queryString}?language=${locale}&fallback=true`,
@@ -24,3 +25,6 @@ export const searchRelatedArticles = async (input, locale) => {
   const response = await searchArticles(query, locale);
   return response.results;
 };
+
+export const getArticle = id =>
+  fetchAuthorized(`${articleUrl}/${id}`).then(resolveJsonOrRejectWithError);

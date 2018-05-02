@@ -28,6 +28,7 @@ const DropdownMenu = props => {
     textField,
     dontShowOnEmptyFilter,
     fuzzy,
+    resourceMenu,
   } = props;
   const values =
     inputValue && !asyncSelect && !fuzzy
@@ -35,7 +36,7 @@ const DropdownMenu = props => {
       : items;
 
   return !isOpen || (dontShowOnEmptyFilter && !inputValue) ? null : (
-    <div {...dropDownClasses('items')}>
+    <div {...dropDownClasses('items', resourceMenu ? 'resourceMenu' : '')}>
       {!isEmpty(values) ? (
         values.map((item, index) => (
           <DropDownItem

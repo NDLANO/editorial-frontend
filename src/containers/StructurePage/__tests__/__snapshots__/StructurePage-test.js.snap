@@ -42,6 +42,27 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         data-testid="AddSubjectButton"
         type="button"
       >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
         injected
       </button>
       <button
@@ -1977,6 +1998,496 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
       </div>
     </div>
+  </div>
+  <div
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+    >
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
+          Fagstoff
+        </span>
+      </button>
+      <button
+        class="c-button c-button--stripped c-topic-resource__add-button"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Legg til ressurs
+      </button>
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--hidden c-accordion__content--resourceGroup"
+    />
+  </div>
+  <div
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+    >
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
+          Oppgaver og aktiviteter
+        </span>
+      </button>
+      <button
+        class="c-button c-button--stripped c-topic-resource__add-button"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Legg til ressurs
+      </button>
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--hidden c-accordion__content--resourceGroup"
+    />
+  </div>
+  <div
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+    >
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
+          Vurderingsressurs
+        </span>
+      </button>
+      <button
+        class="c-button c-button--stripped c-topic-resource__add-button"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Legg til ressurs
+      </button>
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--hidden c-accordion__content--resourceGroup"
+    />
+  </div>
+  <div
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+    >
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
+          Læringssti
+        </span>
+      </button>
+      <button
+        class="c-button c-button--stripped c-topic-resource__add-button"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Legg til ressurs
+      </button>
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--hidden c-accordion__content--resourceGroup"
+    />
+  </div>
+  <div
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+    >
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
+          Kildemateriale
+        </span>
+      </button>
+      <button
+        class="c-button c-button--stripped c-topic-resource__add-button"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Legg til ressurs
+      </button>
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--hidden c-accordion__content--resourceGroup"
+    />
+  </div>
+  <div
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+    >
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
+          Ekstern læringsressurs
+        </span>
+      </button>
+      <button
+        class="c-button c-button--stripped c-topic-resource__add-button"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Legg til ressurs
+      </button>
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--hidden c-accordion__content--resourceGroup"
+    />
+  </div>
+  <div
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+    >
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
+          Begrep
+        </span>
+      </button>
+      <button
+        class="c-button c-button--stripped c-topic-resource__add-button"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Legg til ressurs
+      </button>
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--hidden c-accordion__content--resourceGroup"
+    />
   </div>
   <div
     style="display: none;"

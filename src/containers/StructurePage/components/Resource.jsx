@@ -8,43 +8,32 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
+import { RemoveCircle } from 'ndla-icons/action';
+import { Button, ContentTypeBadge } from 'ndla-ui';
 import { ResourceShape } from '../../../shapes';
+import { classes } from './ResourceGroup';
 
-const classes = new BEMHelper({
-  name: 'topic-resource',
-  prefix: 'c-',
-});
-
-const Resource = ({ icon, resource }) => (
+const Resource = ({ contentType, resource, onDelete }) => (
   <li {...classes('item')}>
     <div {...classes('text o-flag o-flag--top')}>
       <div key="img" {...classes('icon o-flag__img')}>
-        {icon}
+        <ContentTypeBadge background type={contentType} />
       </div>
       <div key="body" {...classes('body o-flag__body')}>
         <h1 {...classes('title')}>{resource.name}</h1>
       </div>
+      <Button onClick={onDelete} stripped>
+        <RemoveCircle {...classes('deleteIcon')} />
+      </Button>
     </div>
   </li>
 );
 
 Resource.propTypes = {
-  icon: PropTypes.node.isRequired,
+  contentType: PropTypes.string.isRequired,
   resource: ResourceShape,
+  classes: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
-const ResourceItem = ({ icon, resources }) => (
-  <ul {...classes('list')}>
-    {resources.map(resource => (
-      <Resource key={resource.id} {...{ icon, resource }} />
-    ))}
-  </ul>
-);
-
-ResourceItem.propTypes = {
-  icon: PropTypes.node.isRequired,
-  resources: PropTypes.arrayOf(ResourceShape),
-};
-
-export default ResourceItem;
+export default Resource;

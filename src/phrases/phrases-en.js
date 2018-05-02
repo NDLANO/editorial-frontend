@@ -234,6 +234,7 @@ const phrases = {
     copyrightSection: 'License and authors',
     save: 'Save',
     saving: 'Saving...',
+    choose: 'Choose',
     saved: 'Saved ',
     abort: 'Abort',
     validate: 'Validate',
@@ -445,6 +446,7 @@ const phrases = {
     description: 'Sorry, an error occurd.',
     back: 'Back',
     goToFrontPage: 'Go to frontpage',
+    invalidUrl: 'Invalid url',
   },
   notFound: {
     description: 'The page cannot be found',
@@ -473,8 +475,18 @@ const phrases = {
     addFilter: 'Add filter',
     connectFilters: 'Connect filters',
     confirmDelete: 'Are you sure you want to delete the filter?',
+    addResource: 'Add resource',
+    searchResource: 'Search for resource',
     confirmDeleteTopic:
       'Are you sure you want to delete the topic from the folder? This does not affect the topic location elsewhere',
+    or: 'Eller',
+    urlPlaceholder: 'Lim inn lenke fra ndla.no',
+    wrongType: 'Note! This is a different resource type: ',
+    noResources: 'No resources found',
+    resource: {
+      confirmDelete:
+        'Do you want to delete the resource from this folder? This will not affect the placement other places',
+    },
   },
 };
 

@@ -1,0 +1,55 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.c-article-preview {
+  padding: var(--spacing--small);
+  border: 1px solid var(--gray-8);
+  background-color: white;
+  width: 100%;
+  height: 150px;
+  display: flex;
+
+  &__content {
+    flex: 2 4 auto;
+    overflow: hidden;
+  }
+
+  &__image {
+    text-align: center;
+    margin-right: var(--spacing--small);
+    flex: 1 1 auto;
+    max-width: 180px;
+
+    & img {
+      max-height: 100%;
+    }
+
+    & svg {
+      margin: var(--spacing--medium);
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.8;
+    color: var(--gray-2);
+  }
+
+  & a {
+    text-decoration: none;
+  }
+
+  &__description {
+    font-size: 0.8rem;
+    margin: 0;
+  }
+}

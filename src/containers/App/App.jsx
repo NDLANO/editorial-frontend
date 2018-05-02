@@ -69,7 +69,7 @@ export class App extends React.Component {
             <PrivateRoute path="/agreement" component={AgreementPage} />
             {config.taxonomyEnabled && (
               <PrivateRoute
-                path="/structure/:subject?/:topic1?/:topic2?"
+                path="/structure/:subject?/:topic1?/:topic2?/:topic3?"
                 component={StructurePage}
               />
             )}

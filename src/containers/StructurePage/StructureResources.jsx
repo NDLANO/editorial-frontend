@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { ContentTypeBadge } from 'ndla-ui';
+
 import ResourceGroup from './components/ResourceGroup';
 import {
   RESOURCE_FILTER_CORE,
@@ -33,59 +33,82 @@ export class StructureResources extends React.PureComponent {
   }
 
   async componentDidMount() {
-    await this.getAllResourceTypes();
-    const topicId = this.props.params.topic2 || this.props.params.topic1;
-    if (topicId) {
-      this.getTopicResources(`urn:${topicId}`);
+    try {
+      const { params: { topic1, topic2, topic3 } } = this.props;
+      await this.getAllResourceTypes();
+      const topicId = topic3 || topic2 || topic1;
+      this.getTopicResources(topicId);
+    } catch (error) {
+      console.log(error);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const topicId = nextProps.params.topic2 || nextProps.params.topic1;
+    const { params: { topic1, topic2, topic3 } } = nextProps;
+    if (nextProps.params !== this.props.params) {
+      const topicId = topic3 || topic2 || topic1;
+      this.getTopicResources(topicId);
+    }
+  }
+
+  async getAllResourceTypes() {
+    try {
+      const resourceTypes = await fetchAllResourceTypes(this.props.locale);
+      this.setState({ resourceTypes });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getTopicResources(topicId) {
     if (topicId) {
-      this.getTopicResources(`urn:${topicId}`);
+      const { locale } = this.props;
+      const { resourceTypes } = this.state;
+      const fullId = `urn:${topicId}`;
+      try {
+        const [
+          coreTopicResources = [],
+          supplementaryTopicResources = [],
+        ] = await Promise.all([
+          fetchTopicResources(fullId, locale, RESOURCE_FILTER_CORE),
+          fetchTopicResources(fullId, locale, RESOURCE_FILTER_SUPPLEMENTARY),
+        ]);
+
+        const topicResources = groupSortResourceTypesFromTopicResources(
+          resourceTypes,
+          coreTopicResources,
+          supplementaryTopicResources,
+        );
+        this.setState({ topicResources });
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       this.setState({ topicResources: [] });
     }
   }
 
-  async getAllResourceTypes() {
-    const resourceTypes = await fetchAllResourceTypes(this.props.locale);
-    this.setState({ resourceTypes });
-  }
-
-  async getTopicResources(topicId) {
-    const { locale } = this.props;
-    const { resourceTypes } = this.state;
-
-    const [
-      coreTopicResources = [],
-      supplementaryTopicResources = [],
-    ] = await Promise.all([
-      fetchTopicResources(topicId, locale, RESOURCE_FILTER_CORE),
-      fetchTopicResources(topicId, locale, RESOURCE_FILTER_SUPPLEMENTARY),
-    ]);
-
-    const topicResources = groupSortResourceTypesFromTopicResources(
-      resourceTypes,
-      coreTopicResources,
-      supplementaryTopicResources,
-    );
-    this.setState({ topicResources });
-  }
-
   render() {
+    const { params: { topic1, topic2, topic3 } } = this.props;
     return (
       <Fragment>
-        {this.state.topicResources.map(topicResource => (
-          <ResourceGroup
-            key={topicResource.id}
-            icon={
-              <ContentTypeBadge background type={topicResource.contentType} />
-            }
-            {...{ topicResource }}
-          />
-        ))}
+        {this.state.resourceTypes.map(resourceType => {
+          const topicResource =
+            this.state.topicResources.find(
+              resource => resource.id === resourceType.id,
+            ) || {};
+          return (
+            <ResourceGroup
+              key={resourceType.id}
+              resource={resourceType}
+              topicResource={topicResource}
+              params={this.props.params}
+              refreshResources={() =>
+                this.getTopicResources(topic3 || topic2 || topic1)
+              }
+            />
+          );
+        })}
       </Fragment>
     );
   }

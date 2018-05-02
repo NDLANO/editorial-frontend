@@ -244,19 +244,19 @@ export class StructurePage extends React.PureComponent {
           }
           hidden={this.state.editStructureHidden}>
           <div ref={this.plumbContainer}>
-            {this.state.subjects.map(it => (
+            {this.state.subjects.map(subject => (
               <FolderItem
-                {...it}
+                {...subject}
                 refFunc={this.refFunc}
-                key={it.id}
-                topics={this.state.topics[it.id]}
-                active={it.id.replace('urn:', '') === params.subject}
+                key={subject.id}
+                topics={this.state.topics[subject.id]}
+                active={subject.id.replace('urn:', '') === params.subject}
                 match={match}
                 onChangeSubjectName={this.onChangeSubjectName}
                 onAddSubjectTopic={this.onAddSubjectTopic}
                 showLink={this.showLink}
                 onAddExistingTopic={this.onAddExistingTopic}
-                refreshTopics={() => this.getSubjectTopics(it.id)}
+                refreshTopics={() => this.getSubjectTopics(subject.id)}
                 linkViewOpen={this.state.connections.length > 0}
               />
             ))}

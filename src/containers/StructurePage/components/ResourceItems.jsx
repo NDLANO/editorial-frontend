@@ -13,6 +13,7 @@ import { ResourceShape } from '../../../shapes';
 import Resource from './Resource';
 import { deleteTopicResource } from '../../../modules/taxonomy';
 import WarningModal from '../../../components/WarningModal';
+import { classes } from './ResourceGroup';
 
 class ResourceItems extends React.PureComponent {
   constructor() {
@@ -32,19 +33,15 @@ class ResourceItems extends React.PureComponent {
   }
 
   render() {
-    const { icon, resources, classes, t } = this.props;
+    const { contentType, resources, t } = this.props;
     return (
       <ul {...classes('list')}>
         {resources.map(resource => (
           <Resource
             key={resource.id}
-            {...{
-              icon,
-              resource,
-              classes,
-              onDelete: () =>
-                this.setState({ deleteId: resource.connectionId }),
-            }}
+            contentType={contentType}
+            resource={resource}
+            onDelete={() => this.setState({ deleteId: resource.connectionId })}
           />
         ))}
         {this.state.deleteId && (
@@ -61,7 +58,7 @@ class ResourceItems extends React.PureComponent {
 }
 
 ResourceItems.propTypes = {
-  icon: PropTypes.node.isRequired,
+  contentType: PropTypes.string.isRequired,
   resources: PropTypes.arrayOf(ResourceShape),
   classes: PropTypes.func,
   refreshResources: PropTypes.func,

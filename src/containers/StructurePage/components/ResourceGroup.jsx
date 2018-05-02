@@ -17,7 +17,7 @@ import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
 
-const classes = new BEMHelper({
+export const classes = new BEMHelper({
   name: 'topic-resource',
   prefix: 'c-',
 });
@@ -31,14 +31,7 @@ class ResourceGroup extends PureComponent {
   }
 
   render() {
-    const {
-      icon,
-      resource,
-      topicResource,
-      t,
-      params,
-      refreshResources,
-    } = this.props;
+    const { resource, topicResource, t, params, refreshResources } = this.props;
 
     return (
       <React.Fragment>
@@ -63,7 +56,8 @@ class ResourceGroup extends PureComponent {
           {topicResource.resources && (
             <ResourceItems
               resources={topicResource.resources}
-              {...{ icon, classes, refreshResources }}
+              contentType={topicResource.contentType}
+              refreshResources={refreshResources}
             />
           )}
         </Accordion>
@@ -81,7 +75,6 @@ class ResourceGroup extends PureComponent {
 }
 
 ResourceGroup.propTypes = {
-  icon: PropTypes.node.isRequired,
   topicResource: PropTypes.shape({
     resources: PropTypes.array,
   }),

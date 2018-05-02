@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { ContentTypeBadge } from 'ndla-ui';
+
 import ResourceGroup from './components/ResourceGroup';
 import {
   RESOURCE_FILTER_CORE,
@@ -92,22 +92,20 @@ export class StructureResources extends React.PureComponent {
     const { params: { topic1, topic2, topic3 } } = this.props;
     return (
       <Fragment>
-        {this.state.resourceTypes.map(resource => {
+        {this.state.resourceTypes.map(resourceType => {
           const topicResource =
-            this.state.topicResources.find(it => it.id === resource.id) || {};
+            this.state.topicResources.find(
+              resource => resource.id === resourceType.id,
+            ) || {};
           return (
             <ResourceGroup
-              key={resource.id}
-              icon={
-                <ContentTypeBadge background type={topicResource.contentType} />
+              key={resourceType.id}
+              resource={resourceType}
+              topicResource={topicResource}
+              params={this.props.params}
+              refreshResources={() =>
+                this.getTopicResources(topic3 || topic2 || topic1)
               }
-              {...{
-                resource,
-                topicResource,
-                params: this.props.params,
-                refreshResources: () =>
-                  this.getTopicResources(topic3 || topic2 || topic1),
-              }}
             />
           );
         })}

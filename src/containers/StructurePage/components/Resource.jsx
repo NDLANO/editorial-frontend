@@ -9,14 +9,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { RemoveCircle } from 'ndla-icons/action';
-import { Button } from 'ndla-ui';
+import { Button, ContentTypeBadge } from 'ndla-ui';
 import { ResourceShape } from '../../../shapes';
+import { classes } from './ResourceGroup';
 
-const Resource = ({ icon, resource, classes, onDelete }) => (
+const Resource = ({ contentType, resource, onDelete }) => (
   <li {...classes('item')}>
     <div {...classes('text o-flag o-flag--top')}>
       <div key="img" {...classes('icon o-flag__img')}>
-        {icon}
+        <ContentTypeBadge background type={contentType} />
       </div>
       <div key="body" {...classes('body o-flag__body')}>
         <h1 {...classes('title')}>{resource.name}</h1>
@@ -29,7 +30,7 @@ const Resource = ({ icon, resource, classes, onDelete }) => (
 );
 
 Resource.propTypes = {
-  icon: PropTypes.node.isRequired,
+  contentType: PropTypes.string.isRequired,
   resource: ResourceShape,
   classes: PropTypes.func,
   onDelete: PropTypes.func,

@@ -52,7 +52,7 @@ const Accordion = ({
   return (
     <div {...classes('', modifiers)} {...rest}>
       {addButton ? (
-        <div {...classes('buttonLine', modifiers)}>
+        <div {...classes('button-line', modifiers)}>
           <Button
             {...classes('button', modifiers)}
             stripped
@@ -69,7 +69,7 @@ const Accordion = ({
         </div>
       ) : (
         <Button
-          {...classes('buttonLine', modifiers)}
+          {...classes('button-line', modifiers)}
           stripped
           onClick={handleToggle}>
           {title}

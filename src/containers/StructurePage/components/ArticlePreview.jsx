@@ -13,7 +13,7 @@ import BEMHelper from 'react-bem-helper';
 import { toEditArticle } from '../../../util/routeHelpers';
 
 const classes = new BEMHelper({
-  name: 'articlePreview',
+  name: 'article-preview',
   prefix: 'c-',
 });
 

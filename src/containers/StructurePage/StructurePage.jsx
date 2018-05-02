@@ -115,13 +115,13 @@ export class StructurePage extends React.PureComponent {
 
   async getAllSubjects() {
     try {
-      const subjects = await fetchSubjects();
+      const subjects = await fetchSubjects(this.props.locale);
       subjects.forEach(subject => {
         this[subject.id] = React.createRef();
       });
       this.setState({ subjects });
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   }
 

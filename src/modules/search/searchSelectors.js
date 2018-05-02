@@ -20,13 +20,56 @@ export const getSearching = createSelector(
   search => search.searching,
 );
 
-export const getLastPage = createSelector([getSearchFromState], search => {
-  const totalResultsCount = search.totalResults
-    .map(t => t.totalCount)
-    .reduce((a, b) => a + b, 0);
-  const largestPageSize = search.totalResults
-    .map(t => t.pageSize)
-    .reduce((a, b) => Math.max(a, b), 1);
+export const getTotalResultsCount = createSelector(
+  [getSearchFromState],
+  search => search.totalResults.totalCount,
+);
 
-  return totalResultsCount ? Math.ceil(totalResultsCount / largestPageSize) : 1;
-});
+export const getLastPage = createSelector(
+  [getSearchFromState, getTotalResultsCount],
+  (search, totalResultsCount) => {
+    const largestPageSize = search.totalResults.pageSize;
+    return totalResultsCount
+      ? Math.ceil(totalResultsCount / largestPageSize)
+      : 1;
+  },
+);
+
+export const getDraftTotalResultsCount = createSelector(
+  [getSearchFromState],
+  searchDraft =>
+    searchDraft.totalResults.results
+      .map(t => t.totalCount)
+      .reduce((a, b) => a + b, 0),
+);
+
+export const getDraftLastPage = createSelector(
+  [getSearchFromState, getDraftTotalResultsCount],
+  (search, totalResultsCount) => {
+    const largestPageSize = search.totalResults.results
+      .map(t => t.pageSize)
+      .reduce((a, b) => Math.max(a, b), 1);
+    return totalResultsCount
+      ? Math.ceil(totalResultsCount / largestPageSize)
+      : 1;
+  },
+);
+
+export const getDraftResults = createSelector(
+  [getSearchFromState, getDraftTotalResultsCount],
+  (search, totalCount) => {
+    const totalResults = {
+      results: [],
+      totalCount,
+    };
+    search.totalResults.results.forEach(allResult =>
+      totalResults.results.push(
+        ...allResult.results.map(result => ({
+          ...result,
+          type: allResult.type,
+        })),
+      ),
+    );
+    return totalResults;
+  },
+);

@@ -97,7 +97,7 @@ class InlineAddButton extends React.PureComponent {
           this.setState({ status: 'edit' });
         }}
         {...classes('')}>
-        {<Plus />}
+        <Plus />
         {title}
       </Button>
     );

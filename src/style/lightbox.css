@@ -74,7 +74,7 @@
   }
 }
 
-.c-taxonomyLightbox {
+.c-taxonomy-lightbox {
   position: fixed;
   top: 0;
   left: 0;
@@ -121,16 +121,21 @@
     justify-content: space-between;
     align-items: center;
     font-size: 1.2rem;
-    padding-left: 10px;
+    padding-left: var(--spacing--small);
     height: 50px;
     color: var(--gray-11);
   }
 
-  &__selectButton,
-  &__selectButton:hover {
+  &__select-button,
+  &__select-button:hover {
     border-radius: 5px;
     background-color: white;
     padding: 3px var(--spacing--large);
-    margin-top: 2rem;
+    margin-top: var(--spacing);
+  }
+
+  &__or {
+    color: 'white';
+    align-self: 'center';
   }
 }

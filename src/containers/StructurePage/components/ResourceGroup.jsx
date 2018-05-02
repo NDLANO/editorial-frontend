@@ -28,6 +28,18 @@ class ResourceGroup extends PureComponent {
       displayResource: false,
       showAddModal: false,
     };
+    this.handleToggle = this.handleToggle.bind(this);
+    this.toggleAddModal = this.toggleAddModal.bind(this);
+  }
+
+  handleToggle() {
+    this.setState(prevState => ({
+      displayResource: !prevState.displayResource,
+    }));
+  }
+
+  toggleAddModal() {
+    this.setState(prevState => ({ showAddModal: !prevState.showAddModal }));
   }
 
   render() {
@@ -38,18 +50,14 @@ class ResourceGroup extends PureComponent {
         <Accordion
           addButton={
             <Button
-              {...classes('addButton')}
+              {...classes('add-button')}
               stripped
-              onClick={() => this.setState({ showAddModal: true })}>
-              {<Plus />}
+              onClick={this.toggleAddModal}>
+              <Plus />
               {t('taxonomy.addResource')}
             </Button>
           }
-          handleToggle={() =>
-            this.setState(prevState => ({
-              displayResource: !prevState.displayResource,
-            }))
-          }
+          handleToggle={this.handleToggle}
           resourceGroup
           header={resource.name}
           hidden={topicResource.resources ? this.state.displayResource : true}>
@@ -66,7 +74,7 @@ class ResourceGroup extends PureComponent {
             type={resource.id}
             topicId={params.topic3 || params.topic2 || params.topic1}
             refreshResources={refreshResources}
-            onClose={() => this.setState({ showAddModal: false })}
+            onClose={this.toggleAddModal}
           />
         )}
       </React.Fragment>

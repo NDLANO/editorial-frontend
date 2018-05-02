@@ -32,6 +32,7 @@
 @import './footnotes.css';
 @import './link-menu.css';
 @import './table.css';
+@import './tag.css';
 @import './topic-resource.css';
 @import './meta-information.css';
 @import './visual-element.css';
@@ -44,7 +45,7 @@
 @import './taxonomy.css';
 @import './toggleSwitch.css';
 @import './settingsMenu.css';
-@import './articlePreview.css';
+@import './article-preview.css';
 
 .c-audio-search {
   width: 70%;

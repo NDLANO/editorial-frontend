@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 /**
  * Copyright (c) 2017-present, NDLA.
  *
@@ -7,6 +15,8 @@
  */
 
 import { constants } from 'ndla-ui';
+import config from '../config';
+import { toEditArticle } from './routeHelpers';
 
 import {
   RESOURCE_TYPE_LEARNING_PATH,
@@ -43,10 +53,41 @@ const mapping = {
   },
 };
 
-export default resourceTypes => {
+export const getResourceLanguages = t => [
+  { id: 'nb', name: t('language.nb') },
+  { id: 'nn', name: t('language.nn') },
+  { id: 'en', name: t('language.en') },
+  { id: 'de', name: t('language.de') },
+];
+
+export const getContentTypeFromResourceTypes = resourceTypes => {
   const resourceType = resourceTypes.find(type => mapping[type.id]);
   if (resourceType) {
     return mapping[resourceType.id];
   }
   return mapping.default;
+};
+
+const isLearningPathResourceType = contentType =>
+  contentType === contentTypes.LEARNING_PATH;
+
+export const resourceToLinkProps = (content, contentType, locale) => {
+  if (isLearningPathResourceType(contentType)) {
+    return {
+      href: `${config.learningpathFrontendDomain}/learningpaths/${
+        content.id
+      }/first-step`,
+      target: '_blank',
+      rel: 'noopener noreferrer',
+    };
+  }
+  return {
+    to: toEditArticle(
+      content.id,
+      content.contexts.length > 0 && content.contexts[0].learningResourceType
+        ? content.contexts[0].learningResourceType
+        : 'standard',
+      locale,
+    ),
+  };
 };

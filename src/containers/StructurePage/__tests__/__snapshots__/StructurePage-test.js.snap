@@ -8,7 +8,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--taxonomy"
   >
     <div
-      class="c-accordion__buttonLine c-accordion__buttonLine--taxonomy"
+      class="c-accordion__button-line c-accordion__button-line--taxonomy"
     >
       <button
         class="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy"
@@ -2003,7 +2003,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="c-accordion__buttonLine c-accordion__buttonLine--resourceGroup"
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
     >
       <button
         class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
@@ -2016,7 +2016,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-topic-resource__addButton"
+        class="c-button c-button--stripped c-topic-resource__add-button"
         type="button"
       >
         <svg
@@ -2073,7 +2073,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="c-accordion__buttonLine c-accordion__buttonLine--resourceGroup"
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
     >
       <button
         class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
@@ -2086,7 +2086,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-topic-resource__addButton"
+        class="c-button c-button--stripped c-topic-resource__add-button"
         type="button"
       >
         <svg
@@ -2143,7 +2143,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="c-accordion__buttonLine c-accordion__buttonLine--resourceGroup"
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
     >
       <button
         class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
@@ -2156,7 +2156,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-topic-resource__addButton"
+        class="c-button c-button--stripped c-topic-resource__add-button"
         type="button"
       >
         <svg
@@ -2213,7 +2213,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="c-accordion__buttonLine c-accordion__buttonLine--resourceGroup"
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
     >
       <button
         class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
@@ -2226,7 +2226,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-topic-resource__addButton"
+        class="c-button c-button--stripped c-topic-resource__add-button"
         type="button"
       >
         <svg
@@ -2283,7 +2283,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="c-accordion__buttonLine c-accordion__buttonLine--resourceGroup"
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
     >
       <button
         class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
@@ -2296,7 +2296,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-topic-resource__addButton"
+        class="c-button c-button--stripped c-topic-resource__add-button"
         type="button"
       >
         <svg
@@ -2353,7 +2353,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="c-accordion__buttonLine c-accordion__buttonLine--resourceGroup"
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
     >
       <button
         class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
@@ -2366,7 +2366,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-topic-resource__addButton"
+        class="c-button c-button--stripped c-topic-resource__add-button"
         type="button"
       >
         <svg
@@ -2423,7 +2423,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="c-accordion__buttonLine c-accordion__buttonLine--resourceGroup"
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
     >
       <button
         class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
@@ -2436,7 +2436,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-topic-resource__addButton"
+        class="c-button c-button--stripped c-topic-resource__add-button"
         type="button"
       >
         <svg

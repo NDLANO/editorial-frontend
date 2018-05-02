@@ -2,21 +2,21 @@
 
 exports[`Can paste a valid url and add it to topic 1`] = `
 <div
-  class="c-taxonomyLightbox"
+  class="c-taxonomy-lightbox"
 >
   <div
     aria-hidden="true"
     class="c-overlay"
   />
   <div
-    class="c-taxonomyLightbox__wrapper"
+    class="c-taxonomy-lightbox__wrapper"
   >
     <div
-      class="c-taxonomyLightbox__header"
+      class="c-taxonomy-lightbox__header"
     >
       Søk etter ressurs
       <button
-        class="c-button c-button--stripped c-taxonomyLightbox__close"
+        class="c-button c-button--stripped c-taxonomy-lightbox__close"
         type="button"
       >
         <svg
@@ -43,7 +43,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
       </button>
     </div>
     <div
-      class="c-taxonomyLightbox__content"
+      class="c-taxonomy-lightbox__content"
     >
       <input
         type="text"
@@ -57,11 +57,10 @@ exports[`Can paste a valid url and add it to topic 1`] = `
         Obs! Denne ressursen er en annen type urn:resourcetype:tasksAndActivities
       </span>
       <div
-        data-testid="articlePreview"
-        class="c-articlePreview"
+        class="c-article-preview"
       >
         <div
-          class="c-articlePreview__image"
+          class="c-article-preview__image"
         >
           <img
             src="/placeholder.png"
@@ -69,24 +68,24 @@ exports[`Can paste a valid url and add it to topic 1`] = `
           />
         </div>
         <div
-          class="c-articlePreview__content"
+          class="c-article-preview__content"
         >
           <a
             href="/subject-matter/learning-resource/356/edit/undefined"
           >
             <h1
-              class="c-articlePreview__title"
+              class="c-article-preview__title"
             >
               Hva kan du om geologiske prosesser?
             </h1>
           </a>
           <p
-            class="c-articlePreview__description"
+            class="c-article-preview__description"
           />
         </div>
       </div>
       <button
-        class="c-button c-button--stripped c-taxonomyLightbox__selectButton"
+        class="c-button c-button--stripped c-taxonomy-lightbox__select-button"
         data-testid="taxonomyLightboxButton"
         type="button"
       >
@@ -97,23 +96,23 @@ exports[`Can paste a valid url and add it to topic 1`] = `
 </div>
 `;
 
-exports[`Can select a resource from the list and it adds it to topic 1`] = `
+exports[`Can paste a valid url and add it to topic 2`] = `
 <div
-  class="c-taxonomyLightbox"
+  class="c-taxonomy-lightbox"
 >
   <div
     aria-hidden="true"
     class="c-overlay"
   />
   <div
-    class="c-taxonomyLightbox__wrapper"
+    class="c-taxonomy-lightbox__wrapper"
   >
     <div
-      class="c-taxonomyLightbox__header"
+      class="c-taxonomy-lightbox__header"
     >
       Søk etter ressurs
       <button
-        class="c-button c-button--stripped c-taxonomyLightbox__close"
+        class="c-button c-button--stripped c-taxonomy-lightbox__close"
         type="button"
       >
         <svg
@@ -140,7 +139,103 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
       </button>
     </div>
     <div
-      class="c-taxonomyLightbox__content"
+      class="c-taxonomy-lightbox__content"
+    >
+      <input
+        type="text"
+        data-testid="addResourceUrlInput"
+        placeholder="Lim inn lenke fra ndla.no"
+        value="https://beta.ndla.no/subjects/subject:3/topic:1:179373/topic:1:170165/resource:1:168388/"
+      />
+      <span
+        class="c-errorMessage"
+      >
+        Obs! Denne ressursen er en annen type urn:resourcetype:tasksAndActivities
+      </span>
+      <div
+        class="c-article-preview"
+      >
+        <div
+          class="c-article-preview__image"
+        >
+          <img
+            src="/placeholder.png"
+            alt=""
+          />
+        </div>
+        <div
+          class="c-article-preview__content"
+        >
+          <a
+            href="/subject-matter/learning-resource/356/edit/undefined"
+          >
+            <h1
+              class="c-article-preview__title"
+            >
+              Hva kan du om geologiske prosesser?
+            </h1>
+          </a>
+          <p
+            class="c-article-preview__description"
+          />
+        </div>
+      </div>
+      <button
+        class="c-button c-button--stripped c-taxonomy-lightbox__select-button"
+        data-testid="taxonomyLightboxButton"
+        type="button"
+      >
+        Velg
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Can select a resource from the list and it adds it to topic 1`] = `
+<div
+  class="c-taxonomy-lightbox"
+>
+  <div
+    aria-hidden="true"
+    class="c-overlay"
+  />
+  <div
+    class="c-taxonomy-lightbox__wrapper"
+  >
+    <div
+      class="c-taxonomy-lightbox__header"
+    >
+      Søk etter ressurs
+      <button
+        class="c-button c-button--stripped c-taxonomy-lightbox__close"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-taxonomy-lightbox__content"
     >
       <input
         type="text"
@@ -149,7 +244,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         value=""
       />
       <span
-        style="color: white;"
+        class="c-taxonomy-lightbox__or"
       >
         Eller
       </span>
@@ -259,7 +354,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         </button>
       </div>
       <button
-        class="c-button c-button--stripped c-taxonomyLightbox__selectButton"
+        class="c-button c-button--stripped c-taxonomy-lightbox__select-button"
         data-testid="taxonomyLightboxButton"
         type="button"
       >
@@ -272,21 +367,21 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
 
 exports[`Can select a resource from the list and it adds it to topic 2`] = `
 <div
-  class="c-taxonomyLightbox"
+  class="c-taxonomy-lightbox"
 >
   <div
     aria-hidden="true"
     class="c-overlay"
   />
   <div
-    class="c-taxonomyLightbox__wrapper"
+    class="c-taxonomy-lightbox__wrapper"
   >
     <div
-      class="c-taxonomyLightbox__header"
+      class="c-taxonomy-lightbox__header"
     >
       Søk etter ressurs
       <button
-        class="c-button c-button--stripped c-taxonomyLightbox__close"
+        class="c-button c-button--stripped c-taxonomy-lightbox__close"
         type="button"
       >
         <svg
@@ -313,7 +408,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
       </button>
     </div>
     <div
-      class="c-taxonomyLightbox__content"
+      class="c-taxonomy-lightbox__content"
     >
       <input
         type="text"
@@ -322,7 +417,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
         value=""
       />
       <span
-        style="color: white;"
+        class="c-taxonomy-lightbox__or"
       >
         Eller
       </span>
@@ -438,11 +533,10 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
         </button>
       </div>
       <div
-        data-testid="articlePreview"
-        class="c-articlePreview"
+        class="c-article-preview"
       >
         <div
-          class="c-articlePreview__image"
+          class="c-article-preview__image"
         >
           <img
             src="/placeholder.png"
@@ -450,24 +544,231 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
           />
         </div>
         <div
-          class="c-articlePreview__content"
+          class="c-article-preview__content"
         >
           <a
             href="/subject-matter/learning-resource/356/edit/undefined"
           >
             <h1
-              class="c-articlePreview__title"
+              class="c-article-preview__title"
             >
               Hva kan du om geologiske prosesser?
             </h1>
           </a>
           <p
-            class="c-articlePreview__description"
+            class="c-article-preview__description"
           />
         </div>
       </div>
       <button
-        class="c-button c-button--stripped c-taxonomyLightbox__selectButton"
+        class="c-button c-button--stripped c-taxonomy-lightbox__select-button"
+        data-testid="taxonomyLightboxButton"
+        type="button"
+      >
+        Velg
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Can select a resource from the list and it adds it to topic 3`] = `
+<div
+  class="c-taxonomy-lightbox"
+>
+  <div
+    aria-hidden="true"
+    class="c-overlay"
+  />
+  <div
+    class="c-taxonomy-lightbox__wrapper"
+  >
+    <div
+      class="c-taxonomy-lightbox__header"
+    >
+      Søk etter ressurs
+      <button
+        class="c-button c-button--stripped c-taxonomy-lightbox__close"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-taxonomy-lightbox__content"
+    >
+      <input
+        type="text"
+        data-testid="addResourceUrlInput"
+        placeholder="Lim inn lenke fra ndla.no"
+        value=""
+      />
+      <span
+        class="c-taxonomy-lightbox__or"
+      >
+        Eller
+      </span>
+      <div
+        class="c-dropdown"
+      >
+        <input
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded="true"
+          autocomplete="off"
+          placeholder="Søk på tittel"
+          id="downshift-0-input"
+          class="c-dropdown__single"
+          value="Hva kan du om geologiske prosesser?"
+        />
+        <div
+          class="c-dropdown__items c-dropdown__items--resourceMenu"
+        >
+          <div
+            class="c-dropdown__item"
+            id="downshift-0-item-0"
+          >
+            <strong>
+              Hva kan du om geologiske prosesser?
+            </strong>
+          </div>
+          <div
+            class="c-dropdown__item"
+            id="downshift-0-item-1"
+          >
+            Hva kan du om petroleumsgeologi?
+          </div>
+          <div
+            class="c-dropdown__item"
+            id="downshift-0-item-2"
+          >
+            Hva kan du om olje og gass på den norske sokkelen?
+          </div>
+          <div
+            class="c-dropdown__item"
+            id="downshift-0-item-3"
+          >
+            Hva kan du om letemetoder og datainnsamling?
+          </div>
+          <div
+            class="c-dropdown__item"
+            id="downshift-0-item-4"
+          >
+            Hva kan du om installasjoner for boring og vedlikehold?
+          </div>
+          <div
+            class="c-dropdown__item"
+            id="downshift-0-item-5"
+          >
+            Hva kan du om installasjoner for produksjon?
+          </div>
+          <div
+            class="c-dropdown__item"
+            id="downshift-0-item-6"
+          >
+            Sammendrag om rørhåndtering
+          </div>
+          <div
+            class="c-dropdown__item"
+            id="downshift-0-item-7"
+          >
+            Hva kan du om slamsystemet?
+          </div>
+          <div
+            class="c-dropdown__item"
+            id="downshift-0-item-8"
+          >
+            Hva kan du om sementeringsutstyret?
+          </div>
+          <div
+            class="c-dropdown__item"
+            id="downshift-0-item-9"
+          >
+            Hva kan du om stigerørsystemet?
+          </div>
+        </div>
+        <button
+          class="c-button c-button--stripped c-dropdown__action"
+          type="button"
+          role="button"
+          aria-label="close menu"
+          aria-expanded="true"
+          aria-haspopup="true"
+          data-toggle="true"
+        >
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon c-icon--medium"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <div
+        class="c-article-preview"
+      >
+        <div
+          class="c-article-preview__image"
+        >
+          <img
+            src="/placeholder.png"
+            alt=""
+          />
+        </div>
+        <div
+          class="c-article-preview__content"
+        >
+          <a
+            href="/subject-matter/learning-resource/356/edit/undefined"
+          >
+            <h1
+              class="c-article-preview__title"
+            >
+              Hva kan du om geologiske prosesser?
+            </h1>
+          </a>
+          <p
+            class="c-article-preview__description"
+          />
+        </div>
+      </div>
+      <button
+        class="c-button c-button--stripped c-taxonomy-lightbox__select-button"
         data-testid="taxonomyLightboxButton"
         type="button"
       >

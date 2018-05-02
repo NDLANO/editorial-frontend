@@ -15,8 +15,8 @@ import { injectT } from 'ndla-i18n';
 import Overlay from '../../../components/Overlay';
 import Spinner from '../../../components/Spinner';
 
-const classes = new BEMHelper({
-  name: 'taxonomyLightbox',
+export const classes = new BEMHelper({
+  name: 'taxonomy-lightbox',
   prefix: 'c-',
 });
 
@@ -59,7 +59,7 @@ class TaxonomyLightbox extends React.Component {
               <Button
                 data-testid="taxonomyLightboxButton"
                 stripped
-                {...classes('selectButton')}
+                {...classes('select-button')}
                 onClick={onSelect}>
                 {loading ? <Spinner cssModifier="small" /> : t('form.choose')}
               </Button>

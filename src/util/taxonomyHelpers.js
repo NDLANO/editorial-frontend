@@ -11,7 +11,7 @@ import {
   RESOURCE_FILTER_CORE,
   RESOURCE_FILTER_SUPPLEMENTARY,
 } from '../constants';
-import getContentTypeFromResourceTypes from './getContentTypeFromResourceTypes';
+import { getContentTypeFromResourceTypes } from './resourceHelpers';
 
 function flattenResourceTypes(data = []) {
   const resourceTypes = [];

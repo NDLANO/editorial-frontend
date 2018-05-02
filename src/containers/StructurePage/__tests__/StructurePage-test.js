@@ -45,7 +45,7 @@ beforeEach(() => {
     .reply(200, resourceTypesMock);
 
   nock('http://ndla-api')
-    .get('/taxonomy/v1/subjects')
+    .get('/taxonomy/v1/subjects/?language=nb')
     .reply(200, subjectsMock);
 });
 

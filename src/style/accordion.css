@@ -6,8 +6,9 @@
  *
  */
 
-.c-accordion {
-  &__buttonLine {
+.c-accordion,
+.c-search-accordion {
+  &__button-line {
     display: flex;
     position: relative;
     justify-content: space-between;
@@ -17,14 +18,12 @@
 
     &--fill {
       background-color: var(--gray-11);
-    }
+      color: black;
 
-    &--fill:hover {
-      background-color: var(--gray-11);
-    }
-
-    &--fill:focus {
-      background-color: var(--gray-11);
+      &:hover,
+      &:focus {
+        background-color: var(--gray-11);
+      }
     }
 
     &--taxonomy,
@@ -44,10 +43,6 @@
       background: linear-gradient(180deg, white, var(--gray-10));
       border: 1px solid var(--gray-10);
     }
-  }
-
-  &--fill {
-    border-bottom: 1px solid var(--gray-11);
   }
 
   &__button {
@@ -90,6 +85,7 @@
     font-size: 0.899rem;
     text-transform: uppercase;
     color: var(--gray-5);
+    align-self: center;
     margin-right: 0.2rem;
 
     &--taxonomy {
@@ -119,7 +115,7 @@
   }
 
   &__arrow {
-    color: var(--gray-7);
+    color: var(--gray-5);
     width: 45px;
     height: 45px;
 
@@ -127,5 +123,53 @@
       color: var(--gray-6);
       margin-right: 4px;
     }
+  }
+}
+
+.c-search-accordion {
+  color: white;
+
+  &__button-line {
+    background-color: var(--brand-color);
+
+    &:hover,
+    &:focus {
+      background-color: var(--brand-color);
+    }
+  }
+
+  &__content {
+    margin: 0;
+    margin-top: var(--spacing--small);
+    padding: 0;
+  }
+
+  &__title,
+  &__arrow {
+    color: white;
+    align-self: center;
+  }
+
+  &__title {
+    text-transform: none;
+    font-size: 1rem;
+    font-weight: lighter;
+  }
+
+  &__arrow {
+    margin: 0;
+    height: 40px;
+    width: 40px;
+  }
+}
+
+.c-accordion {
+  &--fill {
+    border-bottom: 1px solid var(--gray-11);
+  }
+
+  &--fill &__arrow,
+  &--fill &__title {
+    color: var(--gray-5);
   }
 }

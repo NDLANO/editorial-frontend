@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import IntlProvider from 'ndla-i18n';
@@ -40,13 +40,14 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName,
 });
 
-ReactDOM.render(
+const app = (
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
       <BrowserRouter basename={basename}>
         <App />
       </BrowserRouter>
     </IntlProvider>
-  </Provider>,
-  document.getElementById('root'),
+  </Provider>
 );
+
+render(app, document.getElementById('root'));

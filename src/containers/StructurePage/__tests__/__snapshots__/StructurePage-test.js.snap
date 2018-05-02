@@ -8,7 +8,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--taxonomy"
   >
     <div
-      class="c-accordion__buttonLine c-accordion__buttonLine--taxonomy"
+      class="c-accordion__button-line c-accordion__button-line--taxonomy"
     >
       <button
         class="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy"

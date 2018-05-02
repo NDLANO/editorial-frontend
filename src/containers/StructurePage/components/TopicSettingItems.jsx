@@ -37,7 +37,7 @@ class TopicSettingItems extends React.PureComponent {
       await updateTopicName(id, newName);
       this.props.refreshTopics();
     } catch (e) {
-      console.log(e);
+      throw new Error(e);
     }
   }
 
@@ -52,7 +52,7 @@ class TopicSettingItems extends React.PureComponent {
       });
       this.props.refreshTopics();
     } catch (e) {
-      console.log(e);
+      throw new Error(e);
     }
   }
 
@@ -64,7 +64,7 @@ class TopicSettingItems extends React.PureComponent {
       });
       this.props.refreshTopics();
     } catch (e) {
-      console.log(e);
+      throw new Error(e);
     }
   }
 
@@ -81,7 +81,7 @@ class TopicSettingItems extends React.PureComponent {
       this.props.refreshTopics();
       this.setState({ loading: false });
     } catch (e) {
-      console.log(e);
+      throw new Error(e);
     }
   }
 

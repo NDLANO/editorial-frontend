@@ -48,7 +48,6 @@ MastheadContainer.propTypes = {
     subjectId: PropTypes.string,
     topicId: PropTypes.string,
   }).isRequired,
-  t: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
   userName: PropTypes.string,
 };

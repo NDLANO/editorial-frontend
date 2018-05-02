@@ -11,11 +11,27 @@ import PropTypes from 'prop-types';
 import { uuid } from 'ndla-util';
 
 const ObjectSelector = props => {
-  const { options, labelKey, idKey, emptyField, ...rest } = props;
+  const {
+    options,
+    labelKey,
+    idKey,
+    disabled,
+    onChange,
+    onBlur,
+    value,
+    emptyField,
+    placeholder,
+    ...rest
+  } = props;
 
   return (
-    <select {...rest}>
-      {emptyField ? <option value="" /> : ''}
+    <select
+      onBlur={onBlur}
+      onChange={onChange}
+      value={value}
+      disabled={disabled}
+      {...rest}>
+      {emptyField ? <option value="">{placeholder}</option> : ''}
       {options.map(option => (
         <option
           key={option[idKey] ? option[idKey] : uuid()}
@@ -31,18 +47,20 @@ ObjectSelector.propTypes = {
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func,
+  onBlur: PropTypes.func.isRequired,
   labelKey: PropTypes.string.isRequired,
   idKey: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   className: PropTypes.string,
   emptyField: PropTypes.bool,
+  placeholder: PropTypes.string,
 };
 
 ObjectSelector.defaultProps = {
   disabled: false,
   emptyField: false,
   className: '',
+  placeholder: '',
 };
 
 export default ObjectSelector;

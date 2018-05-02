@@ -8,7 +8,7 @@
 
 .c-topic-resource {
   &__list {
-    margin-top: var(--spacing--medium) / 3;
+    margin-top: 0.5em;
   }
 
   &__item {
@@ -19,7 +19,7 @@
   &__text {
     display: flex;
     padding: 10px;
-    margin-bottom: var(--spacing--small) / 2;
+    margin-bottom: 6.5px;
     box-shadow: none;
   }
 
@@ -28,7 +28,7 @@
   }
 
   &__icon {
-    padding-right: var(--spacing--small);
+    padding-right: 15px;
   }
 
   &__addButton,

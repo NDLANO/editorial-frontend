@@ -467,6 +467,7 @@ const phrases = {
     description: 'Vi beklager, men en feil oppsto.',
     back: 'Tilbake',
     goToFrontPage: 'Gå til forsiden',
+    invalidUrl: 'Ugyldig url',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',

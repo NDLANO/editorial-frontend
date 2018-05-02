@@ -446,6 +446,7 @@ const phrases = {
     description: 'Sorry, an error occurd.',
     back: 'Back',
     goToFrontPage: 'Go to frontpage',
+    invalidUrl: 'Invalid url',
   },
   notFound: {
     description: 'The page cannot be found',

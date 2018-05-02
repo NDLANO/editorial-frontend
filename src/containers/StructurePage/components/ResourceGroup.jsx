@@ -57,7 +57,7 @@ class ResourceGroup extends PureComponent {
         <Accordion
           addButton={
             <Button
-              {...classes('addButton')}
+              {...classes('add-button')}
               stripped
               onClick={this.toggleAddModal}>
               <Plus />

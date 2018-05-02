@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import TaxonomyLightbox from './TaxonomyLightbox';
+import TaxonomyLightbox, { classes } from './TaxonomyLightbox';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { groupSearch } from '../../../modules/search/searchApi';
 import {
@@ -26,6 +26,7 @@ class AddResourceModal extends Component {
     this.addSelected = this.addSelected.bind(this);
     this.onPaste = this.onPaste.bind(this);
     this.articleToState = this.articleToState.bind(this);
+    this.onInputSearch = this.onInputSearch.bind(this);
   }
 
   onSelect(selected) {
@@ -40,6 +41,7 @@ class AddResourceModal extends Component {
 
   async onPaste(e) {
     const val = e.target.value;
+    const { type, t } = this.props;
     const resourceId = getResourceIdFromPath(val);
 
     if (resourceId) {
@@ -49,11 +51,9 @@ class AddResourceModal extends Component {
           fetchResourceResourceType(resourceId),
         ]);
         this.articleToState(resource.contentUri.split(':').pop());
-        const type = resourceType.length > 0 && resourceType[0].id;
+        const pastedType = resourceType.length > 0 && resourceType[0].id;
         const error =
-          type === this.props.type
-            ? ''
-            : `${this.props.t('taxonomy.wrongType')} ${type}`;
+          pastedType === type ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
         this.setState({ selected: { id: val }, pastedUrl: val, error });
       } catch (error) {
         console.log(error);
@@ -61,9 +61,19 @@ class AddResourceModal extends Component {
     } else if (!val) {
       this.setState({ error: '', pastedUrl: val });
     } else {
-      this.setState({ error: 'Invalid url', pastedUrl: val });
+      this.setState({ error: t('errorMessage.invalidUrl'), pastedUrl: val });
     }
   }
+
+  onInputSearch = async input => {
+    const res = await groupSearch(input, this.props.type);
+    const result = res.length > 0 ? res.pop().results : [];
+    return result.map(current => ({
+      ...current,
+      id: current.paths.pop(),
+      title: current.title ? current.title.title : '',
+    }));
+  };
 
   async articleToState(articleId) {
     const {
@@ -103,7 +113,7 @@ class AddResourceModal extends Component {
   }
 
   render() {
-    const { onClose, type, t } = this.props;
+    const { onClose, t } = this.props;
     const { selected, article, loading, pastedUrl, error } = this.state;
 
     return (
@@ -123,28 +133,14 @@ class AddResourceModal extends Component {
 
         {!pastedUrl && (
           <React.Fragment>
-            <span
-              style={{
-                color: 'white',
-                alignSelf: 'center',
-              }}>
-              {t('taxonomy.or')}
-            </span>
+            <span {...classes('or')}>{t('taxonomy.or')}</span>
             <AsyncDropdown
               valueField="id"
               name="resourceSearch"
               textField="title"
               placeholder={t('form.content.relatedArticle.placeholder')}
               label="label"
-              apiAction={async inp => {
-                const res = await groupSearch(inp, type);
-                const result = res.length > 0 ? res.pop().results : [];
-                return result.map(curr => ({
-                  ...curr,
-                  id: curr.paths.pop(),
-                  title: curr.title ? curr.title.title : '',
-                }));
-              }}
+              apiAction={this.onInputSearch}
               messages={{
                 emptyFilter: '',
                 emptyList: t('taxonomy.noResources'),

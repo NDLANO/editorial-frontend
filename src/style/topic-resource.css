@@ -31,8 +31,8 @@
     padding-right: 15px;
   }
 
-  &__addButton,
-  &__addButton:hover {
+  &__add-button,
+  &__add-button:hover {
     white-space: nowrap;
     color: var(--gray-3);
     font-size: 1.2rem;

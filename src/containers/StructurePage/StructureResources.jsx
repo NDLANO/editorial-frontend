@@ -84,12 +84,10 @@ export class StructureResources extends React.PureComponent {
               icon={
                 <ContentTypeBadge background type={topicResource.contentType} />
               }
-              {...{
-                resource,
-                topicResource,
-                params: this.props.params,
-                refreshResources: this.getTopicResources,
-              }}
+              resource={resource}
+              topicResource={topicResource}
+              params={this.props.params}
+              refreshResources={this.getTopicResources}
             />
           );
         })}

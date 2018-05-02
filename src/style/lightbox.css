@@ -126,11 +126,16 @@
     color: var(--gray-11);
   }
 
-  &__selectButton,
-  &__selectButton:hover {
+  &__select-button,
+  &__select-button:hover {
     border-radius: 5px;
     background-color: white;
     padding: 3px var(--spacing--large);
     margin-top: var(--spacing);
+  }
+
+  &__or {
+    color: 'white';
+    align-self: 'center';
   }
 }

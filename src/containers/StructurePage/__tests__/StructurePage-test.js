@@ -66,7 +66,6 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
         <StructurePage
           locale="nb"
           t={() => 'injected'}
-          locale="nb"
           match={{
             params: {
               subject: 'subject:1',
@@ -100,8 +99,7 @@ it('Adds posts new subject when writing and pressing enter', async () => {
   nock('http://ndla-api')
     .get('/taxonomy/v1/subjects')
     .reply(200, subjectsMock);
-  const component = wrapper();
-  const { instance } = component.root.findByType(StructurePage);
+
   expect(instance.state.editStructureHidden).toBe(false);
   await instance.addSubject('Elefant');
   await wait();

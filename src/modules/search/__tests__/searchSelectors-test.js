@@ -17,7 +17,12 @@ import { contentResults, mediaResults } from './_mockSearchResult';
 const lastPageTestState = {
   search: {
     searching: false,
-    totalResults: {
+    totalSearchResults: {
+      totalCount: 30,
+      pageSize: 3,
+      results: [],
+    },
+    totalMediaResults: {
       totalCount: 30,
       pageSize: 3,
       results: [],
@@ -28,7 +33,7 @@ const lastPageTestState = {
 const lastPageTestMediaState = {
   search: {
     searching: false,
-    totalResults: {
+    totalDraftResults: {
       results: [
         {
           totalCount: 3,
@@ -45,7 +50,7 @@ const lastPageTestMediaState = {
 
 test('searchSelectors getResults', () => {
   const state = {
-    search: { totalResults: contentResults },
+    search: { totalSearchResults: contentResults },
   };
   expect(getResults(state)).toMatchSnapshot();
 });
@@ -56,7 +61,7 @@ test('searchSelectors getLastPage', () => {
 
 test('searchSelectors getDraftResults', () => {
   const state = {
-    search: { totalResults: { results: mediaResults } },
+    search: { totalDraftResults: { results: mediaResults } },
   };
 
   expect(getDraftResults(state)).toMatchSnapshot();

@@ -15,6 +15,10 @@
     justify-content: row;
   }
 
+  &__results {
+    position: relative;
+  }
+
   &__result:last-child {
     border-bottom: none;
   }
@@ -120,6 +124,24 @@
     display: block;
     margin-bottom: 2px;
     text-transform: uppercase;
+  }
+
+  &__transition-enter {
+    opacity: 0.01;
+
+    &-active {
+      opacity: 1;
+      transition: opacity 500ms ease-in;
+    }
+  }
+
+  &__transition-leave {
+    opacity: 1;
+
+    &-active {
+      opacity: 0.01;
+      transition: opacity 300ms ease-in;
+    }
   }
 }
 

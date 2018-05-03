@@ -6,20 +6,25 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import SearchResult from './SearchResult';
 import Spinner from '../../../../components/Spinner';
 import { SearchResultShape } from '../../../../shapes';
+import { searchClasses } from '../../SearchContainer';
 
-const SearchList = ({ results, query, type, locale, t, searching }) => {
-  if (searching) return <Spinner />;
-  if (results.length === 0)
-    return <p>{t(`searchPage.${type}NoHits`, { query })}</p>;
-
-  return (
-    <Fragment>
+const SearchList = ({ results, query, type, locale, t, searching }) => (
+  <div {...searchClasses('results')}>
+    {searching && <Spinner cssModifier="absolute" />}
+    <ReactCSSTransitionGroup
+      transitionName={searchClasses('transition').className}
+      transitionEnterTimeout={500}
+      transitionLeaveTimeout={0}>
+      {results.length === 0 ? (
+        <p>{t(`searchPage.${type}NoHits`, { query })}</p>
+      ) : null}
       {results.map(result => (
         <SearchResult
           key={result.id}
@@ -28,9 +33,9 @@ const SearchList = ({ results, query, type, locale, t, searching }) => {
           locale={locale}
         />
       ))}
-    </Fragment>
-  );
-};
+    </ReactCSSTransitionGroup>
+  </div>
+);
 
 SearchList.propTypes = {
   results: PropTypes.arrayOf(SearchResultShape).isRequired,

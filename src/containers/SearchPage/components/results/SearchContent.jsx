@@ -21,7 +21,12 @@ const SearchContent = ({ content, locale }) => {
   const { contexts } = content;
 
   let resourceType = {};
-  if (contexts.length > 0 && contexts[0].resourceTypes.length > 0) {
+  if (
+    contexts &&
+    contexts.length > 0 &&
+    contexts[0].resourceTypes &&
+    contexts[0].resourceTypes.length > 0
+  ) {
     resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
   }
   const contentTitle = (

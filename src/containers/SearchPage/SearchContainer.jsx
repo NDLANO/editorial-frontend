@@ -40,26 +40,26 @@ class SearchContainer extends Component {
   componentWillMount() {
     const { location, search } = this.props;
     if (location.search) {
-      const query = queryString.parse(location.search);
-      search(query);
+      const searchObject = queryString.parse(location.search);
+      search(searchObject);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { location, search } = nextProps;
     if (location.search && location.search !== this.props.location.search) {
-      const query = queryString.parse(location.search);
-      search(query);
+      const searchObject = queryString.parse(location.search);
+      search(searchObject);
     }
   }
 
-  onQueryPush(newQuery) {
+  onQueryPush(newSearchObject) {
     const { history, location, type } = this.props;
-    const oldQuery = queryString.parse(location.search);
+    const oldSearchObject = queryString.parse(location.search);
 
     const searchQuery = {
-      ...oldQuery,
-      ...newQuery,
+      ...oldSearchObject,
+      ...newSearchObject,
     };
 
     // Remove unused/empty query params
@@ -113,7 +113,7 @@ class SearchContainer extends Component {
             )}
             <SearchListOptions
               type={type}
-              query={searchObject}
+              searchObject={searchObject}
               totalCount={totalCount}
               search={this.onQueryPush}
             />
@@ -129,7 +129,7 @@ class SearchContainer extends Component {
             page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
             lastPage={lastPage}
             query={searchObject}
-            pathname={toSearch(null, type)}
+            pathname={toSearch(undefined, type)}
           />
         </OneColumn>
       </div>

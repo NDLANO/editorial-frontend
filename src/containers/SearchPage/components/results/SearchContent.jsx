@@ -22,6 +22,7 @@ const SearchContent = ({ content, locale }) => {
 
   let resourceType = {};
   if (
+    contexts &&
     contexts.length > 0 &&
     contexts[0].resourceTypes &&
     contexts[0].resourceTypes.length > 0

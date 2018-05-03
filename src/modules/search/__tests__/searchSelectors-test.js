@@ -12,7 +12,7 @@ import search from './_mockSearchResult';
 const lastPageTestState = {
   search: {
     searching: false,
-    totalResults: {
+    totalSearchResults: {
       totalCount: 30,
       pageSize: 3,
     },

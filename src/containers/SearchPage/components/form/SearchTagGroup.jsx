@@ -36,7 +36,7 @@ const SearchTagGroup = ({
     {
       type: 'language',
       id: searchObject.language,
-      name: findTagName(languages(t), searchObject.language),
+      name: findTagName(languages(t), searchObject.language, 'id'),
     },
     {
       type: 'subjects',

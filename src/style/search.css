@@ -128,20 +128,16 @@
 
   &__transition-enter {
     opacity: 0.01;
-  }
 
-  &__transition-enter {
     &-active {
       opacity: 1;
       transition: opacity 500ms ease-in;
     }
   }
 
-  &__transition-transition-leave {
-    opacity: 1;
-  }
-
   &__transition-leave {
+    opacity: 1;
+
     &-active {
       opacity: 0.01;
       transition: opacity 300ms ease-in;

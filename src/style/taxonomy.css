@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 .c-folder {
   &__wrapper {
     display: flex;
@@ -34,7 +42,11 @@
   padding: 0 var(--spacing--small);
   white-space: nowrap;
   font-size: 1.1rem;
-  background-color: var(--lighter-color);
+  background: linear-gradient(
+    var(--lighter-color),
+    var(--taxonomy-color) 50%,
+    var(--lighter-color) 100%
+  );
 
   &:hover {
     color: white;
@@ -106,4 +118,13 @@
   &--margin {
     margin-left: calc(var(--spacing--small) / 2);
   }
+}
+
+.c-errorMessage {
+  color: var(--error-color);
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  border-left: 2px solid red;
+  margin: 10px 0;
 }

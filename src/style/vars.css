@@ -28,6 +28,7 @@
   --article-color: #5090a4;
   --taxonomy-color: rgba(86, 103, 132, 1);
   --lighter-color: rgba(226, 226, 226, 0.1);
+  --error-color: rgba(209, 55, 46, 0.7);
 
   @custom-media --xlarge-viewport (min-width: 1200px);
   @custom-media --large-viewport (min-width: 800px);

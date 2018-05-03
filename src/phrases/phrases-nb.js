@@ -246,6 +246,7 @@ const phrases = {
     taxonomytSection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
+    choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagret ',
     abort: 'Avbryt',
@@ -466,6 +467,7 @@ const phrases = {
     description: 'Vi beklager, men en feil oppsto.',
     back: 'Tilbake',
     goToFrontPage: 'Gå til forsiden',
+    invalidUrl: 'Ugyldig url',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',
@@ -496,6 +498,16 @@ const phrases = {
       'Vil du slette dette emnet fra mappen? Dette påvirker ikke plasseringen andre steder',
     linkSettings: 'Link',
     setPrimary: 'Sett til primærkobling',
+    addResource: 'Legg til ressurs',
+    searchResource: 'Søk etter ressurs',
+    or: 'Eller',
+    urlPlaceholder: 'Lim inn lenke fra ndla.no',
+    wrongType: 'Obs! Denne ressursen er en annen type',
+    noResources: 'Ingen ressurser funnet',
+    resource: {
+      confirmDelete:
+        'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
+    },
   },
 };
 

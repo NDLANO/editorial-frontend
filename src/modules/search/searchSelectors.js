@@ -37,8 +37,8 @@ export const getLastPage = createSelector(
 
 export const getDraftTotalResultsCount = createSelector(
   [getSearchFromState],
-  searchDraft =>
-    searchDraft.totalDraftResults.results
+  search =>
+    search.totalDraftResults.results
       .map(t => t.totalCount)
       .reduce((a, b) => a + b, 0),
 );

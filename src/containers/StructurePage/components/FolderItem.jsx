@@ -21,87 +21,83 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-class FolderItem extends React.PureComponent {
-  render() {
-    const {
-      name,
-      path,
-      active,
-      topics = [],
-      params,
-      id,
-      refFunc,
-      showLink,
-      linkViewOpen,
-      ...rest
-    } = this.props;
-    const type = id.includes('subject') ? 'subject' : 'topic';
-    return (
-      <React.Fragment>
-        <div ref={element => refFunc(element, id)} {...classes('wrapper')}>
-          <RouterLink
-            to={
-              active
-                ? `/structure${path
-                    .split('/')
-                    .splice(0, path.length - 2)
-                    .join('/')}`
-                : `/structure${path}`
-            }
-            {...classes('link', active && 'active')}>
-            <Folder {...classes('folderIcon')} color="#70A5DA" />
-            {name}
-          </RouterLink>
-          {active &&
-            type === 'topic' &&
-            false && (
-              <Button stripped onClick={() => showLink(id)}>
-                <RoundIcon icon={<LinkIcon />} />
-              </Button>
-            )}
-          {active && (
-            <SettingsMenu
-              id={id}
-              name={name}
-              type={type}
-              path={path}
+const FolderItem = ({
+  name,
+  path,
+  active,
+  topics = [],
+  match,
+  id,
+  refFunc,
+  showLink,
+  linkViewOpen,
+  ...rest
+}) => {
+  const { url, params } = match;
+  const type = id.includes('subject') ? 'subject' : 'topic';
+
+  return (
+    <React.Fragment>
+      <div ref={element => refFunc(element, id)} {...classes('wrapper')}>
+        <RouterLink
+          to={
+            active && path.length === url.replace('/structure', '').length
+              ? `${url
+                  .split('/')
+                  .splice(0, url.split('/').length - 1)
+                  .join('/')}`
+              : `/structure${path}`
+          }
+          {...classes('link', active && 'active')}>
+          <Folder {...classes('folderIcon')} color="#70A5DA" />
+          {name}
+        </RouterLink>
+        {active &&
+          type === 'topic' &&
+          false && (
+            <Button stripped onClick={() => showLink(id)}>
+              <RoundIcon icon={<LinkIcon />} />
+            </Button>
+          )}
+        {active && (
+          <SettingsMenu id={id} name={name} type={type} path={path} {...rest} />
+        )}
+      </div>
+      <div {...classes('subFolders')}>
+        {active &&
+          topics.map(topic => (
+            <FolderItem
+              {...topic}
+              key={topic.id}
+              active={
+                params.topic1 === topic.id.replace('urn:', '') ||
+                params.topic2 === topic.id.replace('urn:', '') ||
+                params.topic3 === topic.id.replace('urn:', '')
+              }
+              match={match}
+              showLink={showLink}
+              refFunc={refFunc}
+              linkViewOpen={linkViewOpen}
               {...rest}
             />
-          )}
-        </div>
-        <div {...classes('subFolders')}>
-          {active &&
-            topics.map(topic => (
-              <FolderItem
-                {...topic}
-                key={topic.id}
-                active={
-                  params.topic1 === topic.id.replace('urn:', '') ||
-                  params.topic2 === topic.id.replace('urn:', '')
-                }
-                params={params}
-                showLink={showLink}
-                refFunc={refFunc}
-                linkViewOpen={linkViewOpen}
-                {...rest}
-              />
-            ))}
-        </div>
-        <EditLinkButton refFunc={refFunc} id={id} setPrimary={() => {}} />
-      </React.Fragment>
-    );
-  }
-}
+          ))}
+      </div>
+      <EditLinkButton refFunc={refFunc} id={id} setPrimary={() => {}} />
+    </React.Fragment>
+  );
+};
 
 FolderItem.propTypes = {
   name: string.isRequired,
   path: string,
   active: bool,
   topics: arrayOf(object),
-  params: shape({
-    topic1: string,
-    topic2: string,
-    subject: string,
+  match: shape({
+    params: shape({
+      topic1: string,
+      topic2: string,
+      subject: string,
+    }),
   }),
   id: string,
   refFunc: func,

@@ -8,41 +8,93 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import { ResourceTypeShape } from '../../../shapes';
-import Accordion from '../../../components/Accordion';
-import ResourceItem from './ResourceItem';
+import { Plus } from 'ndla-icons/action';
+import BEMHelper from 'react-bem-helper';
 
+import Accordion from '../../../components/Accordion';
+import ResourceItems from './ResourceItems';
+import AddResourceModal from './AddResourceModal';
+
+export const classes = new BEMHelper({
+  name: 'topic-resource',
+  prefix: 'c-',
+});
 class ResourceGroup extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       displayResource: false,
+      showAddModal: false,
     };
+    this.handleToggle = this.handleToggle.bind(this);
+    this.toggleAddModal = this.toggleAddModal.bind(this);
+  }
+
+  handleToggle() {
+    this.setState(prevState => ({
+      displayResource: !prevState.displayResource,
+    }));
+  }
+
+  toggleAddModal() {
+    this.setState(prevState => ({ showAddModal: !prevState.showAddModal }));
   }
 
   render() {
-    const { icon, topicResource } = this.props;
+    const { resource, topicResource, t, params, refreshResources } = this.props;
 
     return (
-      <Accordion
-        handleToggle={() =>
-          this.setState(prevState => ({
-            displayResource: !prevState.displayResource,
-          }))
-        }
-        resourceGroup
-        header={topicResource.name}
-        hidden={this.state.displayResource}>
-        <ResourceItem resources={topicResource.resources} {...{ icon }} />
-      </Accordion>
+      <React.Fragment>
+        <Accordion
+          addButton={
+            <Button
+              {...classes('add-button')}
+              stripped
+              onClick={this.toggleAddModal}>
+              <Plus />
+              {t('taxonomy.addResource')}
+            </Button>
+          }
+          handleToggle={this.handleToggle}
+          resourceGroup
+          header={resource.name}
+          hidden={topicResource.resources ? this.state.displayResource : true}>
+          {topicResource.resources && (
+            <ResourceItems
+              resources={topicResource.resources}
+              contentType={topicResource.contentType}
+              refreshResources={refreshResources}
+            />
+          )}
+        </Accordion>
+        {this.state.showAddModal && (
+          <AddResourceModal
+            type={resource.id}
+            topicId={params.topic3 || params.topic2 || params.topic1}
+            refreshResources={refreshResources}
+            onClose={this.toggleAddModal}
+          />
+        )}
+      </React.Fragment>
     );
   }
 }
 
 ResourceGroup.propTypes = {
-  icon: PropTypes.node.isRequired,
-  topicResource: ResourceTypeShape,
+  topicResource: PropTypes.shape({
+    resources: PropTypes.array,
+  }),
+  resource: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  }),
+  params: PropTypes.shape({
+    topic1: PropTypes.string,
+    topic2: PropTypes.string,
+  }),
+  refreshResources: PropTypes.func,
 };
 
 export default injectT(ResourceGroup);

@@ -14,6 +14,7 @@ import {
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
+const groupUrl = apiResourceUrl('/search-api/v1/search/group/');
 
 export const search = async query => {
   const response = await fetchAuthorized(
@@ -41,3 +42,8 @@ export const searchDraft = async query => {
   response = await fetchAuthorized(`${baseUrl}/draft/`);
   return resolveJsonOrRejectWithError(response);
 };
+
+export const groupSearch = (query, type) =>
+  fetchAuthorized(`${groupUrl}?query=${query}&resource-types=${type}`).then(
+    resolveJsonOrRejectWithError,
+  );

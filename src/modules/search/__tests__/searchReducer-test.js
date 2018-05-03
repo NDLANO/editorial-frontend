@@ -11,9 +11,10 @@ import reducer, {
   search,
   searchError,
   setSearchResult,
+  setDraftSearchResult,
   clearSearchResult,
 } from '../search';
-import searchResult from './_mockSearchResult';
+import { contentResults, mediaResults } from './_mockSearchResult';
 
 test('reducers/search initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
@@ -44,19 +45,41 @@ test('reducers/search searchError', () => {
 test('reducers/search handle set search result', () => {
   const nextState = reducer(initalState, {
     type: setSearchResult,
-    payload: searchResult,
+    payload: contentResults,
   });
 
-  expect(nextState.totalSearchResults[0].totalCount).toBe(32);
-  expect(nextState.totalSearchResults[0].results.length).toBe(2);
-  expect(nextState.totalSearchResults[0].page).toBe(3);
-  expect(nextState.totalSearchResults[0].pageSize).toBe(2);
-  expect(nextState.totalSearchResults[0].language).toBe('all');
+  expect(nextState.totalSearchResults.totalCount).toBe(40);
+  expect(nextState.totalSearchResults.results.length).toBe(2);
+  expect(nextState.totalSearchResults.page).toBe(1);
+  expect(nextState.totalSearchResults.pageSize).toBe(10);
+  expect(nextState.totalSearchResults.language).toBe('all');
+  expect(nextState.searching).toBe(false);
+});
+
+test('reducers/search handle set searchDraft result', () => {
+  const nextState = reducer(initalState, {
+    type: setDraftSearchResult,
+    payload: mediaResults,
+  });
+
+  expect(nextState.totalDraftResults[0].totalCount).toBe(32);
+  expect(nextState.totalDraftResults[0].results.length).toBe(2);
+  expect(nextState.totalDraftResults[0].page).toBe(3);
+  expect(nextState.totalDraftResults[0].pageSize).toBe(2);
+  expect(nextState.totalDraftResults[0].language).toBe('all');
   expect(nextState.searching).toBe(false);
 });
 
 test('reducers/search handle clear search result', () => {
-  const nextState = reducer(searchResult, {
+  const nextState = reducer(contentResults, {
+    type: clearSearchResult,
+  });
+
+  expect(nextState).toEqual(initalState);
+});
+
+test('reducers/search handle clear searchDraft result', () => {
+  const nextState = reducer(mediaResults, {
     type: clearSearchResult,
   });
 

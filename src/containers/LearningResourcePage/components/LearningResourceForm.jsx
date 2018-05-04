@@ -67,6 +67,7 @@ const parseImageUrl = metaImage => {
 export const getInitialModel = (
   article = {},
   taxonomy = { resourceTypes: [], filter: [], topics: [] },
+  language,
 ) => {
   const metaImageId = parseImageUrl(article.metaImage);
   return {
@@ -90,7 +91,7 @@ export const getInitialModel = (
     metaImageId,
     supportedLanguages: article.supportedLanguages || [],
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
-    language: article.language,
+    language: language || article.language,
     articleType: 'standard',
     status: article.status || [],
     notes: article.notes || [],
@@ -179,6 +180,7 @@ class LearningResourceForm extends Component {
       fields,
       showSaved,
       taxonomyIsLoading,
+      selectedLanguage,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
@@ -187,6 +189,7 @@ class LearningResourceForm extends Component {
         <FormHeader
           model={model}
           type={model.articleType}
+          selectedLanguage={selectedLanguage}
           editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
         />
         <LearningResourceMetadata
@@ -274,6 +277,7 @@ LearningResourceForm.propTypes = {
     loading: PropTypes.bool,
   }),
   taxonomyIsLoading: PropTypes.bool,
+  selectedLanguage: PropTypes.string,
 };
 
 export default compose(

@@ -11,13 +11,13 @@ import { string, bool, arrayOf, object, shape, func } from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Folder, Link as LinkIcon } from 'ndla-icons/editor';
 import { Link as RouterLink } from 'react-router-dom';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';
 import EditLinkButton from './EditLinkButton';
 import RoundIcon from './RoundIcon';
 import { removeLastItemFromUrl } from '../../../util/routeHelpers';
 import { reorder } from '../../../util/taxonomyHelpers';
+import MakeDndList from '../../../components/MakeDndList';
 
 const classes = new BEMHelper({
   name: 'folder',
@@ -89,6 +89,7 @@ class FolderItem extends React.PureComponent {
     };
     const type = id.includes('subject') ? 'subject' : 'topic';
     const isMainActive = active && path === url.replace('/structure', '');
+    if (active) console.log(`Item ${path} is main active: ${isMainActive}`);
     return (
       <React.Fragment>
         <div
@@ -124,62 +125,21 @@ class FolderItem extends React.PureComponent {
           )}
         </div>
         <div {...classes('subFolders')}>
-          {isMainActive ? (
-            <DragDropContext onDragEnd={this.onDragEnd}>
-              <Droppable droppableId="droppable">
-                {(provided, snapshot) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...classes(
-                      'drop-zone',
-                      snapshot.isDraggingOver ? 'dragging' : '',
-                    )}>
-                    {topics.map((topic, index) => (
-                      <Draggable
-                        key={topic.id}
-                        draggableId={topic.id}
-                        index={index}>
-                        {(provided, snapshot) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}>
-                            <FolderItem
-                              {...topic}
-                              isDragging={snapshot.isDragging}
-                              key={topic.id}
-                              active={
-                                params.topic1 ===
-                                  topic.id.replace('urn:', '') ||
-                                params.topic2 ===
-                                  topic.id.replace('urn:', '') ||
-                                params.topic3 === topic.id.replace('urn:', '')
-                              }
-                              {...sendAllTheWayDown}
-                            />
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-          ) : (
-            active &&
-            topics.map(topic => (
-              <FolderItem
-                {...topic}
-                key={topic.id}
-                active={
-                  params.topic1 === topic.id.replace('urn:', '') ||
-                  params.topic2 === topic.id.replace('urn:', '') ||
-                  params.topic3 === topic.id.replace('urn:', '')
-                }
-                {...sendAllTheWayDown}
-              />
-            ))
+          {active && (
+            <MakeDndList onDragEnd={this.onDragEnd} disableDnd={!isMainActive}>
+              {topics.map(topic => (
+                <FolderItem
+                  {...topic}
+                  key={topic.id}
+                  active={
+                    params.topic1 === topic.id.replace('urn:', '') ||
+                    params.topic2 === topic.id.replace('urn:', '') ||
+                    params.topic3 === topic.id.replace('urn:', '')
+                  }
+                  {...sendAllTheWayDown}
+                />
+              ))}
+            </MakeDndList>
           )}
         </div>
         <EditLinkButton refFunc={refFunc} id={id} setPrimary={() => {}} />

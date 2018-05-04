@@ -17,15 +17,15 @@ import { searchClasses } from '../../SearchContainer';
 
 const SearchAudio = ({ audio, locale, t }) => (
   <div {...searchClasses('result')}>
+    <div {...searchClasses('image')}>
+      <Audio />
+    </div>
     <div {...searchClasses('content')}>
       <Link to={toEditAudio(audio.id, locale)}>
         <h1 {...searchClasses('title')}>
           {audio.title || t('audioSearch.noTitle')}
         </h1>
       </Link>
-    </div>
-    <div {...searchClasses('image')}>
-      <Audio />
     </div>
   </div>
 );

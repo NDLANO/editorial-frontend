@@ -89,6 +89,7 @@ class SearchContentForm extends Component {
       subjects,
       query,
       language,
+      page: 1,
     });
   }
 

@@ -180,7 +180,6 @@ class LearningResourceForm extends Component {
       fields,
       showSaved,
       taxonomyIsLoading,
-      selectedLanguage,
     } = this.props;
 
     const commonFieldProps = { bindInput, schema, submitted };
@@ -189,7 +188,6 @@ class LearningResourceForm extends Component {
         <FormHeader
           model={model}
           type={model.articleType}
-          selectedLanguage={selectedLanguage}
           editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
         />
         <LearningResourceMetadata

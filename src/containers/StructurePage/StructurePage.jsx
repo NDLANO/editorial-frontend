@@ -104,6 +104,7 @@ export class StructurePage extends React.PureComponent {
         subjectid,
         topicid: newId,
         primary: true,
+        rank: this.state.topics[subjectid].length + 1,
       });
       if (ok) {
         this.getSubjectTopics(subjectid);

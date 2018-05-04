@@ -11,6 +11,10 @@
     display: flex;
     align-items: center;
     margin: var(--spacing--small);
+
+    &--dragging {
+      margin: 0;
+    }
   }
 
   &__link {
@@ -127,4 +131,12 @@
   background-color: white;
   border-left: 2px solid red;
   margin: 10px 0;
+}
+
+.c-dnd-list {
+  &__drop-zone {
+    &--dragging {
+      background-color: var(--gray-8);
+    }
+  }
 }

@@ -47,7 +47,7 @@ class SearchMediaForm extends Component {
       evt.preventDefault();
     }
     const { search } = this.props;
-    search(this.state.search);
+    search({ ...this.state.search, page: 1 });
   }
 
   emptySearch(evt) {

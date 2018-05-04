@@ -12,6 +12,7 @@ import { Button } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
+import Overlay from '../../components/Overlay';
 
 const classes = new BEMHelper({
   name: 'dropdown-menu',
@@ -35,13 +36,14 @@ class FormLanguage extends Component {
 
   render() {
     const { emptyLanguages, editUrl, t } = this.props;
-
+    const { display } = this.state;
     return (
       <div {...classes()}>
         <Button stripped onClick={this.onDisplayToggle}>
           {t('form.variant.create')}
         </Button>
-        <ul {...classes('items', this.state.display ? 'show' : '')}>
+        {display && <Overlay onExit={this.onDisplayToggle} />}
+        <ul {...classes('items', display ? 'show' : '')}>
           {emptyLanguages.length > 0 ? (
             emptyLanguages.map(language => (
               <li key={language.key} {...classes('item')}>

@@ -7,7 +7,6 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
@@ -17,47 +16,52 @@ import {
 } from '../../../../modules/taxonomy';
 import { flattenResourceTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
-import reformed from '../../../../components/reformed';
-import validateSchema from '../../../../components/validateSchema';
-import {
-  Field,
-  TextField,
-  SelectObjectField,
-} from '../../../../components/Fields';
-import { SchemaShape } from '../../../../shapes';
+import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
 
 import { searchFormClasses } from './SearchForm';
 
-export const getInitialModel = (query = {}) => ({
-  query: query.query || '',
-  language: query.language || '',
-  subjects: query.subjects || '',
-  resourceTypes: query['resource-types'] || '',
-});
+const emptySearchState = {
+  query: '',
+  language: '',
+  subjects: '',
+  resourceTypes: '',
+};
 
 class SearchContentForm extends Component {
   constructor(props) {
     super(props);
+    const { searchObject } = props;
     this.state = {
-      subjects: [],
-      resourceTypes: [],
+      dropDown: {
+        subjects: [],
+        resourceTypes: [],
+      },
+      search: {
+        subjects: searchObject.subjects || '',
+        resourceTypes: searchObject['resource-types'] || '',
+        query: searchObject.query || '',
+        language: searchObject.language || '',
+      },
     };
     this.getTaxonomyData = this.getTaxonomyData.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.removeTagItem = this.removeTagItem.bind(this);
     this.emptySearch = this.emptySearch.bind(this);
+    this.onFieldChange = this.onFieldChange.bind(this);
   }
 
   componentDidMount() {
     this.getTaxonomyData();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { initialModel, setModel, location } = nextProps;
-    if (this.props.location.search !== location.search) {
-      setModel(initialModel);
-    }
+  onFieldChange(evt) {
+    const { name, value } = evt.target;
+
+    this.setState(
+      prevState => ({ search: { ...prevState.search, [name]: value } }),
+      this.handleSearch,
+    );
   }
 
   async getTaxonomyData() {
@@ -67,8 +71,10 @@ class SearchContentForm extends Component {
       fetchSubjects(locale),
     ]);
     this.setState({
-      subjects,
-      resourceTypes: flattenResourceTypes(resourceTypes),
+      dropDown: {
+        subjects,
+        resourceTypes: flattenResourceTypes(resourceTypes),
+      },
     });
   }
 
@@ -76,92 +82,89 @@ class SearchContentForm extends Component {
     if (evt) {
       evt.preventDefault();
     }
-
-    const { model, schema, setSubmitted, search } = this.props;
-    if (!schema.isValid) {
-      setSubmitted(true);
-      return;
-    }
+    const { search: { resourceTypes, subjects, query, language } } = this.state;
+    const { search } = this.props;
     search({
-      query: model.query,
-      language: model.language || '',
-      subjects: model.subjects || '',
-      'resource-types': model.resourceTypes || '',
+      'resource-types': resourceTypes,
+      subjects,
+      query,
+      language,
+      page: 1,
     });
   }
 
   removeTagItem(tag) {
-    const { setModel, model } = this.props;
-    setModel({ ...model, [tag.type]: '' });
+    this.setState(
+      prevState => ({ search: { ...prevState.search, [tag.type]: '' } }),
+      this.handleSearch,
+    );
   }
 
   emptySearch() {
-    const { setModel } = this.props;
-    setModel({
-      query: '',
-      language: '',
-      subjects: '',
-      resourceTypes: '',
-    });
-    this.handleSearch();
+    this.setState({ search: emptySearchState }, this.handleSearch);
   }
 
   render() {
-    const { subjects, resourceTypes } = this.state;
-    const { t, bindInput, schema, submitted, model } = this.props;
+    const { dropDown: { subjects, resourceTypes } } = this.state;
+    const { t } = this.props;
 
-    const commonFieldProps = { bindInput, schema, submitted };
+    const selectFields = [
+      { name: 'subjects', label: 'subjects', width: 50, options: subjects },
+      {
+        name: 'resourceTypes',
+        label: 'resourceTypes',
+        width: 50,
+        options: resourceTypes,
+      },
+      {
+        name: 'language',
+        label: 'language',
+        width: 25,
+        options: getResourceLanguages(t),
+      },
+    ];
+
     return (
       <Fragment>
         <form onSubmit={this.handleSearch} {...searchFormClasses()}>
-          <TextField
-            name="query"
-            fieldClassName={searchFormClasses('field', '50-width').className}
-            placeholder={t('searchForm.types.contentQuery')}
-            {...commonFieldProps}
-          />
-          <SelectObjectField
-            name="subjects"
-            options={subjects}
-            idKey="id"
-            labelKey="name"
-            emptyField
-            placeholder={t('searchForm.types.subjects')}
-            fieldClassName={searchFormClasses('field', '50-width').className}
-            {...commonFieldProps}
-          />
-          <SelectObjectField
-            name="resourceTypes"
-            options={resourceTypes}
-            idKey="id"
-            labelKey="name"
-            emptyField
-            placeholder={t('searchForm.types.resourceTypes')}
-            fieldClassName={searchFormClasses('field', '50-width').className}
-            {...commonFieldProps}
-          />
-          <SelectObjectField
-            name="language"
-            options={getResourceLanguages(t)}
-            idKey="id"
-            labelKey="name"
-            emptyField
-            placeholder={t('searchForm.types.language')}
-            fieldClassName={searchFormClasses('field', '25-width').className}
-            {...commonFieldProps}
-          />
-          <Field {...searchFormClasses('field', '25-width')}>
+          <div {...searchFormClasses('field', '50-width')}>
+            <input
+              name="query"
+              value={this.state.search.query}
+              placeholder={t('searchForm.types.contentQuery')}
+              onChange={this.onFieldChange}
+            />
+          </div>
+
+          {selectFields.map(selectField => (
+            <div
+              key={`searchfield_${selectField.name}`}
+              {...searchFormClasses('field', `${selectField.width}-width`)}>
+              <ObjectSelector
+                name={selectField.name}
+                options={selectField.options}
+                idKey="id"
+                value={this.state.search[selectField.name]}
+                labelKey="name"
+                emptyField
+                placeholder={t(`searchForm.types.${selectField.label}`)}
+                onChange={this.onFieldChange}
+                onBlur={this.onFieldChange}
+              />
+            </div>
+          ))}
+          <div {...searchFormClasses('field', '25-width')}>
             <Button onClick={this.emptySearch} outline>
               {t('searchForm.empty')}
             </Button>
             <Button submit>{t('searchForm.btn')}</Button>
-          </Field>
+          </div>
           <div {...searchFormClasses('tagline')}>
             <SearchTagGroup
               onRemoveItem={this.removeTagItem}
               languages={getResourceLanguages}
               subjects={subjects}
-              model={model}
+              searchObject={this.state.search}
               resourceTypes={resourceTypes}
             />
           </div>
@@ -172,32 +175,16 @@ class SearchContentForm extends Component {
 }
 
 SearchContentForm.propTypes = {
-  model: PropTypes.shape({
-    id: PropTypes.number,
-    query: PropTypes.string,
-    language: PropTypes.string,
-    subjects: PropTypes.string,
-    resourceTypes: PropTypes.string,
-  }),
-  initialModel: PropTypes.shape({
-    id: PropTypes.number,
-    query: PropTypes.string,
-    language: PropTypes.string,
-    subjects: PropTypes.string,
-    resourceTypes: PropTypes.string,
-  }),
-  setModel: PropTypes.func.isRequired,
-  fields: PropTypes.objectOf(PropTypes.object).isRequired,
-  schema: SchemaShape,
-  submitted: PropTypes.bool.isRequired,
-  bindInput: PropTypes.func.isRequired,
-  setSubmitted: PropTypes.func.isRequired,
   search: PropTypes.func.isRequired,
   location: PropTypes.shape({
     search: PropTypes.string,
   }),
+  searchObject: PropTypes.shape({
+    query: PropTypes.string,
+    subjects: PropTypes.string,
+    language: PropTypes.string,
+    'resource-types': PropTypes.string,
+  }),
 };
 
-export default compose(injectT, reformed, validateSchema({}))(
-  SearchContentForm,
-);
+export default injectT(SearchContentForm);

@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import './h5pResizer';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
-import { fetchOembed } from '../../util/apiHelpers';
+import { fetchExternalOembed } from '../../util/apiHelpers';
 
 export const getIframeSrcFromHtmlString = html => {
   const el = document.createElement('html');
@@ -28,7 +28,7 @@ export class DisplayOembed extends React.Component {
 
   async componentWillMount() {
     try {
-      const data = await fetchOembed(this.props.url);
+      const data = await fetchExternalOembed(this.props.url);
       const src = getIframeSrcFromHtmlString(data.html);
       if (src) {
         this.setState({ title: data.title, src });
@@ -36,8 +36,8 @@ export class DisplayOembed extends React.Component {
         this.setState({ error: true });
       }
     } catch (e) {
+      console.error(e);
       this.setState({ error: true });
-      // throw new Error(e);
     }
   }
 

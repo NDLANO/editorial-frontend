@@ -98,6 +98,7 @@
     "query-string": "^5.1.1",
     "razzle": "^2.0.0-alpha.12",
     "react": "^16.3.1",
+    "react-addons-css-transition-group": "^15.6.2",
     "react-bem-helper": "^1.4.1",
     "react-collapse": "^4.0.3",
     "react-dom": "^16.3.1",

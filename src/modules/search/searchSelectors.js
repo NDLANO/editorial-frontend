@@ -12,7 +12,7 @@ const getSearchFromState = state => state.search;
 
 export const getResults = createSelector(
   [getSearchFromState],
-  search => search.totalResults,
+  search => search.totalSearchResults,
 );
 
 export const getSearching = createSelector(
@@ -22,13 +22,13 @@ export const getSearching = createSelector(
 
 export const getTotalResultsCount = createSelector(
   [getSearchFromState],
-  search => search.totalResults.totalCount,
+  search => search.totalSearchResults.totalCount,
 );
 
 export const getLastPage = createSelector(
   [getSearchFromState, getTotalResultsCount],
   (search, totalResultsCount) => {
-    const largestPageSize = search.totalResults.pageSize;
+    const largestPageSize = search.totalSearchResults.pageSize;
     return totalResultsCount
       ? Math.ceil(totalResultsCount / largestPageSize)
       : 1;
@@ -37,8 +37,8 @@ export const getLastPage = createSelector(
 
 export const getDraftTotalResultsCount = createSelector(
   [getSearchFromState],
-  searchDraft =>
-    searchDraft.totalResults.results
+  search =>
+    search.totalDraftResults.results
       .map(t => t.totalCount)
       .reduce((a, b) => a + b, 0),
 );
@@ -46,7 +46,7 @@ export const getDraftTotalResultsCount = createSelector(
 export const getDraftLastPage = createSelector(
   [getSearchFromState, getDraftTotalResultsCount],
   (search, totalResultsCount) => {
-    const largestPageSize = search.totalResults.results
+    const largestPageSize = search.totalDraftResults.results
       .map(t => t.pageSize)
       .reduce((a, b) => Math.max(a, b), 1);
     return totalResultsCount
@@ -62,14 +62,15 @@ export const getDraftResults = createSelector(
       results: [],
       totalCount,
     };
-    search.totalResults.results.forEach(allResult =>
-      totalResults.results.push(
-        ...allResult.results.map(result => ({
+    search.totalDraftResults.results.forEach(allResult => {
+      const results = allResult.results || [];
+      return totalResults.results.push(
+        ...results.map(result => ({
           ...result,
           type: allResult.type,
         })),
-      ),
-    );
+      );
+    });
     return totalResults;
   },
 );

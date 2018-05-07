@@ -16,14 +16,17 @@ const pageSizeOptions = [4, 6, 8, 10, 12, 14, 16, 18, 20];
 class SearchListOptions extends React.Component {
   constructor(props) {
     super(props);
-    const { query } = props;
-    this.state = { pageSize: query['page-size'] || 10 };
+    const { searchObject } = props;
+    this.state = { pageSize: searchObject['page-size'] || 10 };
     this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
   }
 
   handlePageSizeChange(evt) {
     this.setState({ pageSize: evt.target.value });
-    this.props.search({ 'page-size': evt.target.value }, this.props.type);
+    this.props.search(
+      { 'page-size': evt.target.value, page: 1 },
+      this.props.type,
+    );
   }
 
   render() {
@@ -53,14 +56,14 @@ class SearchListOptions extends React.Component {
 SearchListOptions.propTypes = {
   totalCount: PropTypes.number,
   type: PropTypes.string.isRequired,
-  query: PropTypes.shape({
+  searchObject: PropTypes.shape({
     pageSize: PropTypes.number,
   }),
   search: PropTypes.func.isRequired,
 };
 
 SearchListOptions.defaultProps = {
-  query: {
+  searchObject: {
     pageSize: 10,
   },
 };

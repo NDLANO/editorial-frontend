@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { withRouter, NavLink } from 'react-router-dom';
-import * as actions from '../../../modules/search/search';
 import { classes } from './Navigation';
 
 const colorType = {
@@ -20,29 +17,7 @@ const isCurrentTab = (match, location, subtype) => {
   return false;
 };
 
-const clearSearchOnSwitch = async (
-  e,
-  clearSearch,
-  history,
-  sameTab,
-  subtype,
-) => {
-  e.stopPropagation();
-  e.preventDefault();
-  if (!sameTab) {
-    await clearSearch();
-    history.push(subtype.url);
-  }
-};
-
-const SubNavigation = ({
-  subtypes,
-  type,
-  clearSearch,
-  history,
-  match,
-  location,
-}) => (
+const SubNavigation = ({ subtypes, type, match, location }) => (
   <div {...classes('container', colorType[type])}>
     <div {...classes('items')}>
       {subtypes.map(subtype => (
@@ -51,24 +26,6 @@ const SubNavigation = ({
           id={subtype.type}
           to={subtype.url}
           isActive={() => isCurrentTab(match, location, subtype)}
-          onClick={e =>
-            clearSearchOnSwitch(
-              e,
-              clearSearch,
-              history,
-              isCurrentTab(match, location, subtype),
-              subtype,
-            )
-          }
-          onKeyPress={e =>
-            clearSearchOnSwitch(
-              e,
-              clearSearch,
-              history,
-              isCurrentTab(match, location, subtype),
-              subtype,
-            )
-          }
           {...classes('item')}
           activeClassName="c-navigation__item--active">
           {subtype.icon}
@@ -95,16 +52,6 @@ SubNavigation.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  clearSearch: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = {
-  clearSearch: actions.clearSearchResult,
-};
-
-export default compose(connect(null, mapDispatchToProps), withRouter)(
-  SubNavigation,
-);
+export default withRouter(SubNavigation);

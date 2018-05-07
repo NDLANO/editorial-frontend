@@ -25,8 +25,8 @@ export const fetchImage = (id, language) =>
     resolveJsonOrRejectWithError,
   );
 
-export const updateImage = (id, formData) =>
-  fetchAuthorized(`${baseUrl}/${id}`, {
-    method: 'POST',
-    body: formData,
+export const updateImage = imageMetadata =>
+  fetchAuthorized(`${baseUrl}/${imageMetadata.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(imageMetadata),
   }).then(resolveJsonOrRejectWithError);

@@ -21,6 +21,7 @@ const makeWrapper = WrappedComponent => {
       super(props, ctx);
       this.state = {
         submitted: false,
+        initialModel: props.initialModel || {},
         model: props.initialModel || {},
         fields: {},
       };
@@ -30,8 +31,8 @@ const makeWrapper = WrappedComponent => {
       this.bindInput = this.bindInput.bind(this);
       this.setInputFlags = this.setInputFlags.bind(this);
       this.setSubmitted = this.setSubmitted.bind(this);
-      this.checkIfDirty = this.checkIfDirty.bind(this);
       this.bindInputEvent = this.bindInputEvent.bind(this);
+      this.checkIfDirty = this.checkIfDirty.bind(this);
     }
 
     setModel(model) {
@@ -66,16 +67,8 @@ const makeWrapper = WrappedComponent => {
     }
 
     checkIfDirty(name, value) {
-      if (isEqual(this.state.model[name], value)) return false;
-
-      // Compare slate object field
-      if (value.document) {
-        if (
-          isEqual(value.document.nodes, this.state.model[name].document.nodes)
-        )
-          return false;
-      }
-      return true;
+      const { initialModel: model } = this.state;
+      return !isEqual(model[name], value);
     }
 
     bindToChangeEvent(e) {

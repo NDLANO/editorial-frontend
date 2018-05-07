@@ -9,13 +9,18 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import config from '../../config';
+import {
+  topicArticleContentToHTML,
+  learningResourceContentToHTML,
+  editorValueToPlainText,
+} from '../../util/articleContentConverter';
 import WarningModal from '../../components/WarningModal';
 import { SchemaShape } from '../../shapes';
 
 class WarningModalWrapper extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { openModal: false, discardChanges: false };
+    this.state = { openModal: false, discardChanges: false, dirtyFields: [] };
     this.isDirty = this.isDirty.bind(this);
     this.onSave = this.onSave.bind(this);
     this.onContinue = this.onContinue.bind(this);
@@ -24,11 +29,14 @@ class WarningModalWrapper extends PureComponent {
   componentDidMount() {
     this.unblock = this.props.history.block(nextLocation => {
       const canNavigate =
-        !this.isDirty() || this.state.discardChanges || this.props.showSaved;
+        !this.isDirty().length > 0 ||
+        this.state.discardChanges ||
+        this.props.showSaved;
       if (!canNavigate) {
         this.setState({
           openModal: true,
           nextLocation,
+          dirtyFields: this.isDirty(),
         });
       } else {
         window.onbeforeunload = null;
@@ -38,7 +46,7 @@ class WarningModalWrapper extends PureComponent {
 
     if (config.isNdlaProdEnvironment) {
       window.onbeforeunload = () =>
-        !this.isDirty() || this.state.discardChanges;
+        !this.isDirty().length > 0 || this.state.discardChanges;
     }
   }
 
@@ -73,14 +81,52 @@ class WarningModalWrapper extends PureComponent {
   }
 
   isDirty() {
-    const { fields } = this.props;
-    return Object.keys(fields).some(field => fields[field].dirty);
+    const { fields, initialModel, model } = this.props;
+
+    // Serialize specific slate object fields to check if really changed
+    const dirtyFields = [];
+    Object.keys(fields)
+      .filter(field => fields[field].dirty)
+      .forEach(field => {
+        switch (field) {
+          case 'content':
+            if (initialModel.articleType === 'standard') {
+              if (
+                learningResourceContentToHTML(initialModel[field]) !==
+                learningResourceContentToHTML(model[field])
+              )
+                dirtyFields.push(field);
+            }
+            if (initialModel.articleType === 'topic-article') {
+              if (
+                topicArticleContentToHTML(initialModel[field]) !==
+                topicArticleContentToHTML(model[field])
+              )
+                dirtyFields.push(field);
+            }
+
+            break;
+          case 'introduction' || 'metaDescription':
+            if (
+              editorValueToPlainText(initialModel[field]) !==
+              editorValueToPlainText(model[field])
+            )
+              dirtyFields.push(field);
+            break;
+          default:
+            dirtyFields.push(field);
+            break;
+        }
+      });
+
+    return dirtyFields;
   }
 
   render() {
     return this.state.openModal ? (
       <WarningModal
         text={this.props.text}
+        dirtyFields={this.state.dirtyFields}
         onSave={this.onSave}
         onContinue={this.onContinue}
         onCancel={() => this.setState({ openModal: false })}
@@ -90,6 +136,15 @@ class WarningModalWrapper extends PureComponent {
 }
 
 WarningModalWrapper.propTypes = {
+  model: PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    language: PropTypes.string,
+  }),
+  initialModel: PropTypes.shape({
+    id: PropTypes.number,
+    language: PropTypes.string,
+  }),
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
   schema: SchemaShape,
   history: PropTypes.shape({

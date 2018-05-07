@@ -106,6 +106,7 @@ class AudioForm extends Component {
       t,
       bindInput,
       schema,
+      initialModel,
       model,
       submitted,
       tags,
@@ -151,6 +152,8 @@ class AudioForm extends Component {
         <WarningModalWrapper
           {...{
             schema,
+            initialModel,
+            model,
             showSaved,
             fields,
             handleSubmit: this.handleSubmit,

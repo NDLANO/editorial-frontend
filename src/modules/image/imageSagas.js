@@ -33,10 +33,9 @@ export function* watchFetchImage() {
   }
 }
 
-export function* updateImage(image, file) {
+export function* updateImage(image) {
   try {
-    const formData = yield call(createFormData, image, file);
-    const updatedImage = yield call(api.updateImage, image.id, formData);
+    const updatedImage = yield call(api.updateImage, image);
     yield put(actions.setImage({ ...updatedImage, language: image.language }));
     yield put(actions.updateImageSuccess());
     yield put(messageActions.showSaved());
@@ -68,7 +67,7 @@ export function* watchUpdateImage() {
       actions.updateImage,
     );
     if (image.id) {
-      yield call(updateImage, image, file);
+      yield call(updateImage, image);
     } else {
       yield call(createImage, image, file, history);
     }

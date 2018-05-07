@@ -1,6 +1,7 @@
 import React from 'react';
 import { bool } from 'prop-types';
 import { Button } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
 import { Check } from 'ndla-icons/editor';
 
@@ -33,4 +34,4 @@ SaveButton.propTypes = {
   showSaved: bool,
 };
 
-export default SaveButton;
+export default injectT(SaveButton);

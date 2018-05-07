@@ -170,19 +170,16 @@ class TopicArticleForm extends Component {
           <SaveButton
             classes={formClasses}
             isSaving={isSaving}
-            t={t}
             showSaved={showSaved}>
             {t('form.save')}
           </SaveButton>
         </Field>
         <WarningModalWrapper
-          {...{
-            schema,
-            showSaved,
-            fields,
-            handleSubmit: this.handleSubmit,
-            text: t('warningModal.notSaved'),
-          }}
+          schema={schema}
+          showSaved={showSaved}
+          fields={fields}
+          handleSubmit={this.handleSubmit}
+          text={t('warningModal.notSaved')}
         />
       </form>
     );

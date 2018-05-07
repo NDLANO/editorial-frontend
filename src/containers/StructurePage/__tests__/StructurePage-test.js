@@ -34,6 +34,9 @@ const wrapper = () =>
               topic2: 'topic:1:172650',
             },
           }}
+          location={{
+            search: '',
+          }}
         />
       </IntlWrapper>
     </MemoryRouter>,

@@ -96,7 +96,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link c-folder__link--active"
+            class="c-folder__link c-folder__link--active c-folder__link--false"
             href="/structure/subject:1"
           >
             <svg
@@ -152,6 +152,9 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               </div>
             </button>
           </div>
+          <div
+            class="c-filter-view__wrapper"
+          />
         </div>
         <div
           class="c-folder__subFolders"
@@ -160,7 +163,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             class="c-folder__wrapper"
           >
             <a
-              class="c-folder__link"
+              class="c-folder__link c-folder__link--false c-folder__link--false"
               href="/structure/subject:1/topic:1:186401"
             >
               <svg
@@ -220,7 +223,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             class="c-folder__wrapper"
           >
             <a
-              class="c-folder__link"
+              class="c-folder__link c-folder__link--false c-folder__link--false"
               href="/structure/subject:1/topic:1:172416"
             >
               <svg
@@ -280,7 +283,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             class="c-folder__wrapper"
           >
             <a
-              class="c-folder__link"
+              class="c-folder__link c-folder__link--false c-folder__link--false"
               href="/structure/subject:1/topic:1:186460"
             >
               <svg
@@ -340,7 +343,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             class="c-folder__wrapper"
           >
             <a
-              class="c-folder__link c-folder__link--active"
+              class="c-folder__link c-folder__link--active c-folder__link--false"
               href="/structure/subject:1/topic:1:186479"
             >
               <svg
@@ -404,7 +407,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-folder__wrapper"
             >
               <a
-                class="c-folder__link"
+                class="c-folder__link c-folder__link--false c-folder__link--false"
                 href="/structure/subject:1/topic:1:186479/topic:1:186487"
               >
                 <svg
@@ -464,7 +467,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-folder__wrapper"
             >
               <a
-                class="c-folder__link c-folder__link--active"
+                class="c-folder__link c-folder__link--active c-folder__link--false"
                 href="/structure/subject:1/topic:1:186479/topic:1:172650"
               >
                 <svg
@@ -558,7 +561,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-folder__wrapper"
             >
               <a
-                class="c-folder__link"
+                class="c-folder__link c-folder__link--false c-folder__link--false"
                 href="/structure/subject:1/topic:1:186479/topic:1:185606"
               >
                 <svg
@@ -649,7 +652,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             class="c-folder__wrapper"
           >
             <a
-              class="c-folder__link"
+              class="c-folder__link c-folder__link--false c-folder__link--false"
               href="/structure/subject:1/topic:1:171906"
             >
               <svg
@@ -709,7 +712,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             class="c-folder__wrapper"
           >
             <a
-              class="c-folder__link"
+              class="c-folder__link c-folder__link--false c-folder__link--false"
               href="/structure/subject:1/topic:1:172361"
             >
               <svg
@@ -769,7 +772,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             class="c-folder__wrapper"
           >
             <a
-              class="c-folder__link"
+              class="c-folder__link c-folder__link--false c-folder__link--false"
               href="/structure/subject:1/topic:1:172362"
             >
               <svg
@@ -829,7 +832,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             class="c-folder__wrapper"
           >
             <a
-              class="c-folder__link"
+              class="c-folder__link c-folder__link--false c-folder__link--false"
               href="/structure/subject:1/topic:1:172568"
             >
               <svg
@@ -920,7 +923,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:2"
           >
             <svg
@@ -980,7 +983,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:3"
           >
             <svg
@@ -1040,7 +1043,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:4"
           >
             <svg
@@ -1100,7 +1103,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:5"
           >
             <svg
@@ -1160,7 +1163,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:6"
           >
             <svg
@@ -1220,7 +1223,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:7"
           >
             <svg
@@ -1280,7 +1283,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:8"
           >
             <svg
@@ -1340,7 +1343,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:9"
           >
             <svg
@@ -1400,7 +1403,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:10"
           >
             <svg
@@ -1460,7 +1463,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:11"
           >
             <svg
@@ -1520,7 +1523,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:12"
           >
             <svg
@@ -1580,7 +1583,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:13"
           >
             <svg
@@ -1640,7 +1643,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:14"
           >
             <svg
@@ -1700,7 +1703,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:15"
           >
             <svg
@@ -1760,7 +1763,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:16"
           >
             <svg
@@ -1820,7 +1823,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:17"
           >
             <svg
@@ -1880,7 +1883,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structure/subject:18"
           >
             <svg
@@ -1940,7 +1943,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__wrapper"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--false c-folder__link--grayedOut"
             href="/structurenull"
           >
             <svg

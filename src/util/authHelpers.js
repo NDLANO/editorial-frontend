@@ -144,12 +144,11 @@ export const renewPersonalAuth = () =>
     );
   });
 
-export const renewAuth = () => {
+export const renewAuth = async () => {
   if (localStorage.getItem('access_token_personal') === 'true') {
-    renewPersonalAuth();
-  } else {
-    renewSystemAuth();
+    return renewPersonalAuth();
   }
+  return renewSystemAuth();
 };
 
 export const personalAuthLogout = federated => {

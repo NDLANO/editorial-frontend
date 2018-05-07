@@ -67,6 +67,7 @@ const parseImageUrl = metaImage => {
 export const getInitialModel = (
   article = {},
   taxonomy = { resourceTypes: [], filter: [], topics: [] },
+  language,
 ) => {
   const metaImageId = parseImageUrl(article.metaImage);
   return {
@@ -90,7 +91,7 @@ export const getInitialModel = (
     metaImageId,
     supportedLanguages: article.supportedLanguages || [],
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
-    language: article.language,
+    language: language || article.language,
     articleType: 'standard',
     status: article.status || [],
     notes: article.notes || [],
@@ -274,6 +275,7 @@ LearningResourceForm.propTypes = {
     loading: PropTypes.bool,
   }),
   taxonomyIsLoading: PropTypes.bool,
+  selectedLanguage: PropTypes.string,
 };
 
 export default compose(

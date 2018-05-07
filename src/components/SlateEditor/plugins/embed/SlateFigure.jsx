@@ -110,6 +110,9 @@ class SlateFigure extends React.Component {
       case 'audio':
         return <SlateAudio onRemoveClick={this.onRemoveClick} {...props} />;
       case 'external':
+        if (embed.url.indexOf('h5p') > -1) {
+          return <DisplayOembed url={embed.url} />;
+        }
         return (
           <Figure>
             <DisplayExternal url={embed.url} />

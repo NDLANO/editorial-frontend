@@ -23,7 +23,10 @@ class SearchListOptions extends React.Component {
 
   handlePageSizeChange(evt) {
     this.setState({ pageSize: evt.target.value });
-    this.props.search({ 'page-size': evt.target.value }, this.props.type);
+    this.props.search(
+      { 'page-size': evt.target.value, page: 1 },
+      this.props.type,
+    );
   }
 
   render() {

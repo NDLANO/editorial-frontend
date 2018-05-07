@@ -16,15 +16,15 @@ import { searchClasses } from '../../SearchContainer';
 
 const SearchImage = ({ image, locale, t }) => (
   <div {...searchClasses('result')}>
+    <div {...searchClasses('image')}>
+      <img src={image.previewUrl} alt={image.altText} />
+    </div>
     <div {...searchClasses('content')}>
       <Link to={toEditImage(image.id, locale)}>
         <h1 {...searchClasses('title')}>
           {image.title || t('imageSearch.noTitle')}
         </h1>
       </Link>
-    </div>
-    <div {...searchClasses('image')}>
-      <img src={image.previewUrl} alt={image.altText} />
     </div>
   </div>
 );

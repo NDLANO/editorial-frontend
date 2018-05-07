@@ -157,6 +157,7 @@ export default {
       'https://ssl.gstatic.com',
       'https://www.gstatic.com',
       ' data:',
+      'blob:',
     ],
     mediaSrc: [
       "'self'",

@@ -23,8 +23,9 @@ class EditAudio extends Component {
     const { audioId: id, fetchAudio, audioLanguage, audio } = nextProps;
 
     if (
-      (audio && audio.language !== audioLanguage) ||
-      id !== this.props.audioId
+      id &&
+      audioLanguage &&
+      ((audio && audio.language !== audioLanguage) || id !== this.props.audioId)
     ) {
       fetchAudio({ id, language: audioLanguage });
     }
@@ -52,7 +53,7 @@ class EditAudio extends Component {
 }
 
 EditAudio.propTypes = {
-  audioId: PropTypes.string.isRequired,
+  audioId: PropTypes.string,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchAudio: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
@@ -68,7 +69,7 @@ EditAudio.propTypes = {
   locale: PropTypes.string.isRequired,
   updateAudio: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  audioLanguage: PropTypes.string.isRequired,
+  audioLanguage: PropTypes.string,
 };
 
 const mapDispatchToProps = {

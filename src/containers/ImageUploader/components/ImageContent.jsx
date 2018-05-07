@@ -44,11 +44,13 @@ class ImageContent extends Component {
           placeholder={t('form.title.label')}
           {...commonFieldProps}
         />
-        <InputFileField
-          label={t('form.image.file')}
-          name="imageFile"
-          {...commonFieldProps}
-        />
+        {!model.id ? (
+          <InputFileField
+            label={t('form.image.file')}
+            name="imageFile"
+            {...commonFieldProps}
+          />
+        ) : null}
         {model.imageFile && (
           <img src={model.filepath || model.imageFile} alt="" height="500" />
         )}

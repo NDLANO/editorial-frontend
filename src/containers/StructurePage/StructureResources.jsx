@@ -9,6 +9,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { Button } from 'ndla-ui';
+import { Plus } from 'ndla-icons/action';
 import Accordion from '../../components/Accordion';
 
 import ResourceGroup from './components/ResourceGroup';
@@ -105,13 +107,22 @@ export class StructureResources extends React.PureComponent {
   }
 
   render() {
-    const { params: { topic1, topic2, topic3 } } = this.props;
+    const { params: { topic1, topic2, topic3 }, t } = this.props;
     return (
       <Fragment>
         <Accordion
           resourceGroup
           header="Emnebeskrivelse"
           hidden={!this.state.displayTopicDescription}
+          addButton={
+            <Button
+              className="c-topic-resource__add-button"
+              stripped
+              onClick={this.toggleAddModal}>
+              <Plus />
+              {t('taxonomy.addTopicDescription')}
+            </Button>
+          }
           handleToggle={() =>
             this.setState(prevState => ({
               displayTopicDescription: !prevState.displayTopicDescription,

@@ -162,14 +162,26 @@ export class StructurePage extends React.PureComponent {
     }
   }
 
-  async addSubject(name) {
-    try {
-      const newPath = await addSubject({ name });
-      if (newPath) this.getAllSubjects();
-      return newPath;
-    } catch (e) {
-      return e;
+  getContentUri() {
+    const {
+      match: { params: { subject, topic1, topic2, topic3 } },
+    } = this.props;
+    if (topic1) {
+      const sub = this.state.topics[`urn:${subject}`];
+      let topic = sub ? sub.find(top => top.id === `urn:${topic1}`) : {};
+      if (topic2) {
+        topic = topic.topics
+          ? topic.topics.find(top => top.id === `urn:${topic2}`)
+          : {};
+        if (topic3) {
+          topic = topic.topics
+            ? topic.topics.find(top => top.id === `urn:${topic3}`)
+            : {};
+        }
+      }
+      return topic.contentUri;
     }
+    return '';
   }
 
   connectLinkItems(source, target) {
@@ -219,26 +231,14 @@ export class StructurePage extends React.PureComponent {
     this[id] = element;
   }
 
-  getContentUri() {
-    const {
-      match: { params: { subject, topic1, topic2, topic3 } },
-    } = this.props;
-    if (topic1) {
-      const sub = this.state.topics[`urn:${subject}`];
-      let topic = sub ? sub.find(top => top.id === `urn:${topic1}`) : {};
-      if (topic2) {
-        topic = topic.topics
-          ? topic.topics.find(top => top.id === `urn:${topic2}`)
-          : {};
-        if (topic3) {
-          topic = topic.topics
-            ? topic.topics.find(top => top.id === `urn:${topic3}`)
-            : {};
-        }
-      }
-      return topic.contentUri;
+  async addSubject(name) {
+    try {
+      const newPath = await addSubject({ name });
+      if (newPath) this.getAllSubjects();
+      return newPath;
+    } catch (e) {
+      return e;
     }
-    return '';
   }
 
   render() {

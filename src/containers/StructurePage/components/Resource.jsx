@@ -10,29 +10,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { RemoveCircle } from 'ndla-icons/action';
 import { Button, ContentTypeBadge } from 'ndla-ui';
-import { ResourceShape } from '../../../shapes';
 import { classes } from './ResourceGroup';
 
-const Resource = ({ contentType, resource, onDelete }) => (
+const Resource = ({ contentType, name, onDelete }) => (
   <li {...classes('item')}>
     <div {...classes('text o-flag o-flag--top')}>
-      <div key="img" {...classes('icon o-flag__img')}>
-        <ContentTypeBadge background type={contentType} />
-      </div>
+      {contentType && (
+        <div key="img" {...classes('icon o-flag__img')}>
+          <ContentTypeBadge background type={contentType} />
+        </div>
+      )}
       <div key="body" {...classes('body o-flag__body')}>
-        <h1 {...classes('title')}>{resource.name}</h1>
+        <h1 {...classes('title')}>{name}</h1>
       </div>
-      <Button onClick={onDelete} stripped>
-        <RemoveCircle {...classes('deleteIcon')} />
-      </Button>
+      {onDelete && (
+        <Button onClick={onDelete} stripped>
+          <RemoveCircle {...classes('deleteIcon')} />
+        </Button>
+      )}
     </div>
   </li>
 );
 
 Resource.propTypes = {
   contentType: PropTypes.string.isRequired,
-  resource: ResourceShape,
-  classes: PropTypes.func,
+  name: PropTypes.string,
   onDelete: PropTypes.func,
 };
 

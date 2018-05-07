@@ -40,7 +40,7 @@ class ResourceItems extends React.PureComponent {
           <Resource
             key={resource.id}
             contentType={contentType}
-            resource={resource}
+            name={resource.name}
             onDelete={() => this.setState({ deleteId: resource.connectionId })}
           />
         ))}

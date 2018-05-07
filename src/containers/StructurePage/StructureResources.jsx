@@ -9,6 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import Accordion from '../../components/Accordion';
 
 import ResourceGroup from './components/ResourceGroup';
 import {
@@ -20,6 +21,8 @@ import {
   fetchAllResourceTypes,
   fetchTopicResources,
 } from '../../modules/taxonomy';
+import { getArticle } from '../../modules/article/articleApi';
+import Resource from './components/Resource';
 
 export class StructureResources extends React.PureComponent {
   constructor(props) {
@@ -27,28 +30,41 @@ export class StructureResources extends React.PureComponent {
     this.state = {
       resourceTypes: [],
       topicResources: [],
+      displayTopicDescription: true,
     };
     this.getAllResourceTypes = this.getAllResourceTypes.bind(this);
     this.getTopicResources = this.getTopicResources.bind(this);
+    this.getArticle = this.getArticle.bind(this);
   }
 
   async componentDidMount() {
     try {
-      const { params: { topic1, topic2, topic3 } } = this.props;
+      const { params: { topic1, topic2, topic3 }, contentUri } = this.props;
       await this.getAllResourceTypes();
       const topicId = topic3 || topic2 || topic1;
       this.getTopicResources(topicId);
+      if (contentUri) {
+        this.getArticle(contentUri);
+      }
     } catch (error) {
       console.log(error);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { params: { topic1, topic2, topic3 } } = nextProps;
+    const { contentUri, params: { topic1, topic2, topic3 } } = nextProps;
     if (nextProps.params !== this.props.params) {
       const topicId = topic3 || topic2 || topic1;
       this.getTopicResources(topicId);
     }
+    if (contentUri !== this.props.contentUri) {
+      this.getArticle(contentUri);
+    }
+  }
+
+  async getArticle(contentUri) {
+    const article = await getArticle(contentUri.replace('urn:article:', ''));
+    this.setState({ topicDescription: article.title && article.title.title });
   }
 
   async getAllResourceTypes() {
@@ -92,6 +108,30 @@ export class StructureResources extends React.PureComponent {
     const { params: { topic1, topic2, topic3 } } = this.props;
     return (
       <Fragment>
+        <Accordion
+          resourceGroup
+          header="Emnebeskrivelse"
+          hidden={!this.state.displayTopicDescription}
+          handleToggle={() =>
+            this.setState(prevState => ({
+              displayTopicDescription: !prevState.displayTopicDescription,
+            }))
+          }>
+          {this.state.topicDescription && (
+            <Resource
+              contentType="subject"
+              name={this.state.topicDescription}
+            />
+          )}
+        </Accordion>
+        {/* this.state.showAddModal && (
+          <AddResourceModal
+            type={resource.id}
+            topicId={params.topic3 || params.topic2 || params.topic1}
+            refreshResources={refreshResources}
+            onClose={this.toggleAddModal}
+          />
+        ) */}
         {this.state.resourceTypes.map(resourceType => {
           const topicResource =
             this.state.topicResources.find(
@@ -120,6 +160,7 @@ StructureResources.propTypes = {
     topic1: PropTypes.string,
     topic2: PropTypes.string,
   }).isRequired,
+  contentUri: PropTypes.string,
 };
 
 export default injectT(StructureResources);

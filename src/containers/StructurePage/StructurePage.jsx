@@ -51,6 +51,7 @@ export class StructurePage extends React.PureComponent {
     this.connectLinkItems = this.connectLinkItems.bind(this);
     this.deleteConnections = this.deleteConnections.bind(this);
     this.onAddExistingTopic = this.onAddExistingTopic.bind(this);
+    this.getContentUri = this.getContentUri.bind(this);
   }
 
   componentDidMount() {
@@ -218,9 +219,34 @@ export class StructurePage extends React.PureComponent {
     this[id] = element;
   }
 
+  getContentUri() {
+    const {
+      match: { params: { subject, topic1, topic2, topic3 } },
+    } = this.props;
+    if (topic1) {
+      const sub = this.state.topics[`urn:${subject}`];
+      let topic = sub ? sub.find(top => top.id === `urn:${topic1}`) : {};
+      if (topic2) {
+        topic = topic.topics
+          ? topic.topics.find(top => top.id === `urn:${topic2}`)
+          : {};
+        if (topic3) {
+          topic = topic.topics
+            ? topic.topics.find(top => top.id === `urn:${topic3}`)
+            : {};
+        }
+      }
+      return topic.contentUri;
+    }
+    return '';
+  }
+
   render() {
     const { match, t, locale } = this.props;
     const { params } = match;
+    const topicId = params.topic3 || params.topic2 || params.topic1;
+    const contentUri = this.getContentUri();
+
     return (
       <OneColumn>
         <Accordion
@@ -262,8 +288,8 @@ export class StructurePage extends React.PureComponent {
             ))}
           </div>
         </Accordion>
-        {(params.topic1 || params.topic2 || params.topic3) && (
-          <StructureResources {...{ locale, params }} />
+        {topicId && (
+          <StructureResources {...{ locale, params }} contentUri={contentUri} />
         )}
         <div style={{ display: 'none' }} ref={this.starButton}>
           <RoundIcon icon={<Star />} />

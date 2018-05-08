@@ -266,6 +266,13 @@ export class StructurePage extends React.PureComponent {
 
   render() {
     const { match, t, locale } = this.props;
+    const {
+      activeFilters,
+      topics,
+      filters,
+      connections,
+      subjects,
+    } = this.state;
     const { params } = match;
     return (
       <OneColumn>
@@ -290,12 +297,12 @@ export class StructurePage extends React.PureComponent {
           }
           hidden={this.state.editStructureHidden}>
           <div ref={this.plumbContainer}>
-            {this.state.subjects.map(subject => (
+            {subjects.map(subject => (
               <FolderItem
                 {...subject}
                 refFunc={this.refFunc}
                 key={subject.id}
-                topics={this.state.topics[subject.id]}
+                topics={topics[subject.id]}
                 active={subject.id.replace('urn:', '') === params.subject}
                 match={match}
                 onChangeSubjectName={this.onChangeSubjectName}
@@ -303,17 +310,17 @@ export class StructurePage extends React.PureComponent {
                 showLink={this.showLink}
                 onAddExistingTopic={this.onAddExistingTopic}
                 refreshTopics={() => this.getSubjectTopics(subject.id)}
-                linkViewOpen={this.state.connections.length > 0}
+                linkViewOpen={connections.length > 0}
                 getFilters={this.getFilters}
-                filters={this.state.filters}
-                activeFilters={this.state.activeFilters}
+                filters={filters}
+                activeFilters={activeFilters}
                 toggleFilter={this.toggleFilter}
               />
             ))}
           </div>
         </Accordion>
         {(params.topic1 || params.topic2 || params.topic3) && (
-          <StructureResources {...{ locale, params }} />
+          <StructureResources {...{ locale, params, activeFilters }} />
         )}
         <div style={{ display: 'none' }} ref={this.starButton}>
           <RoundIcon icon={<Star />} />

@@ -12,6 +12,12 @@
   width: 37px;
   height: 22px;
 
+  &--large {
+    margin: 0 var(--spacing);
+    height: 26px;
+    width: 40px;
+  }
+
   & input {
     display: none;
   }
@@ -28,6 +34,11 @@
     border: 0.63px solid #a9a9a9;
     transition: 0.4s;
     border-radius: 10px;
+
+    &--large {
+      height: 26px;
+      border-radius: 13px;
+    }
   }
 
   &__slider::before {
@@ -44,6 +55,11 @@
     transition: 0.4s;
     border-radius: 50%;
     font-size: 0.8rem;
+  }
+
+  &__slider--large::before {
+    height: 26px;
+    width: 26px;
   }
 
   & > input:checked + &__slider::before {

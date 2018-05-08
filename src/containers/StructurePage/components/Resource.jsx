@@ -12,8 +12,16 @@ import { RemoveCircle } from 'ndla-icons/action';
 import { Button, ContentTypeBadge } from 'ndla-ui';
 import { ResourceShape } from '../../../shapes';
 import { classes } from './ResourceGroup';
+import ToggleSwitch from './ToggleSwitch';
+import { RESOURCE_FILTER_CORE } from '../../../constants';
 
-const Resource = ({ contentType, resource, onDelete }) => (
+const Resource = ({
+  contentType,
+  resource,
+  onDelete,
+  toggleRelevance,
+  relevance,
+}) => (
   <li {...classes('item')}>
     <div {...classes('text o-flag o-flag--top')}>
       <div key="img" {...classes('icon o-flag__img')}>
@@ -22,6 +30,13 @@ const Resource = ({ contentType, resource, onDelete }) => (
       <div key="body" {...classes('body o-flag__body')}>
         <h1 {...classes('title')}>{resource.name}</h1>
       </div>
+      {toggleRelevance && (
+        <ToggleSwitch
+          on={relevance === RESOURCE_FILTER_CORE}
+          onClick={toggleRelevance}
+          large
+        />
+      )}
       <Button onClick={onDelete} stripped>
         <RemoveCircle {...classes('deleteIcon')} />
       </Button>

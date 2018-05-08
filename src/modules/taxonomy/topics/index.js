@@ -26,9 +26,9 @@ function fetchTopicFilters(id) {
   );
 }
 
-function fetchTopicResources(topicId, locale, relevance) {
+function fetchTopicResources(topicId, locale, relevance, filters) {
   return fetchAuthorized(
-    `${baseUrl}/topics/${topicId}/resources/?language=${locale}&relevance=${relevance}`,
+    `${baseUrl}/topics/${topicId}/resources/?language=${locale}&relevance=${relevance}&filter=${filters}`,
   ).then(resolveJsonOrRejectWithError);
 }
 

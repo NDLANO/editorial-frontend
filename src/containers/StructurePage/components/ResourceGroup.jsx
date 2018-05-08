@@ -43,7 +43,15 @@ class ResourceGroup extends PureComponent {
   }
 
   render() {
-    const { resource, topicResource, t, params, refreshResources } = this.props;
+    const {
+      resource,
+      topicResource,
+      t,
+      params,
+      refreshResources,
+      activeFilter,
+      locale,
+    } = this.props;
 
     return (
       <React.Fragment>
@@ -66,6 +74,8 @@ class ResourceGroup extends PureComponent {
               resources={topicResource.resources}
               contentType={topicResource.contentType}
               refreshResources={refreshResources}
+              activeFilter={activeFilter}
+              locale={locale}
             />
           )}
         </Accordion>
@@ -95,6 +105,7 @@ ResourceGroup.propTypes = {
     topic2: PropTypes.string,
   }),
   refreshResources: PropTypes.func,
+  activeFilter: PropTypes.string,
 };
 
 export default injectT(ResourceGroup);

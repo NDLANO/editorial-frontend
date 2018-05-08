@@ -15,15 +15,15 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const ToggleSwitch = ({ on, onClick, testId }) => (
-  <label {...classes('')}>
+const ToggleSwitch = ({ on, onClick, testId, large }) => (
+  <label {...classes('', large && 'large')}>
     <input
       data-testid={testId}
       checked={on}
       onChange={onClick}
       type="checkbox"
     />
-    <span {...classes('slider')} />
+    <span {...classes('slider', large && 'large')} />
   </label>
 );
 

@@ -43,6 +43,16 @@ function fetchResourceFilter(id, locale) {
   ).then(resolveJsonOrRejectWithError);
 }
 
+function updateResourceRelevance(resourceFilterId, relevance) {
+  return fetchAuthorized(`${baseUrl}/resource-filters/${resourceFilterId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'PUT',
+    body: JSON.stringify({ relevanceId: relevance }),
+  }).then(resolveTaxonomyJsonOrRejectWithError);
+}
+
 // TODO: Rewrite once adjusted/updated taxonomy-API is available
 /* function fetchTopicResource(id, locale) {
   return fetchAuthorized(
@@ -55,5 +65,6 @@ export {
   createResource,
   fetchResourceResourceType,
   fetchResourceFilter,
+  updateResourceRelevance,
   // fetchTopicResource,
 };

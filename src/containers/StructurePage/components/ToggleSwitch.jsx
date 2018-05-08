@@ -31,6 +31,7 @@ ToggleSwitch.propTypes = {
   on: PropTypes.bool,
   onClick: PropTypes.func,
   testId: PropTypes.string,
+  large: PropTypes.bool,
 };
 
 export default ToggleSwitch;

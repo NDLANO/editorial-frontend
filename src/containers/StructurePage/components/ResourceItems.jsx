@@ -48,10 +48,12 @@ class ResourceItems extends React.PureComponent {
         ? RESOURCE_FILTER_SUPPLEMENTARY
         : RESOURCE_FILTER_CORE;
     const resourceFilters = await fetchResourceFilter(resourceId, locale);
-    const ok = await updateResourceRelevance(
-      resourceFilters.find(filter => filter.id === activeFilter).connectionId,
-      newRelevance,
+    const fetchedFilter = resourceFilters.find(
+      filter => filter.id === activeFilter,
     );
+    const ok = fetchedFilter
+      ? await updateResourceRelevance(fetchedFilter.connectionId, newRelevance)
+      : false;
 
     if (ok) refreshResources();
   }

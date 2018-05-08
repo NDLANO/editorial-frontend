@@ -106,6 +106,7 @@ ResourceGroup.propTypes = {
   }),
   refreshResources: PropTypes.func,
   activeFilter: PropTypes.string,
+  locale: PropTypes.string,
 };
 
 export default injectT(ResourceGroup);

@@ -35,6 +35,7 @@ const Resource = ({
           on={relevance === RESOURCE_FILTER_CORE}
           onClick={toggleRelevance}
           large
+          testId={`toggleRelevance-${resource.id}`}
         />
       )}
       <Button onClick={onDelete} stripped>
@@ -49,6 +50,8 @@ Resource.propTypes = {
   resource: ResourceShape,
   classes: PropTypes.func,
   onDelete: PropTypes.func,
+  toggleRelevance: PropTypes.func,
+  relevance: PropTypes.string,
 };
 
 export default Resource;

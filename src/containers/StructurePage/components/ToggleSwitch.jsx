@@ -16,14 +16,14 @@ const classes = new BEMHelper({
 });
 
 const ToggleSwitch = ({ on, onClick, testId, large }) => (
-  <label {...classes('', large && 'large')}>
+  <label {...classes('', large ? 'large' : '')}>
     <input
       data-testid={testId}
       checked={on}
       onChange={onClick}
       type="checkbox"
     />
-    <span {...classes('slider', large && 'large')} />
+    <span {...classes('slider', large ? 'large' : '')} />
   </label>
 );
 

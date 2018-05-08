@@ -54,7 +54,7 @@ const FolderItem = ({
           }
           {...classes(
             'link',
-            `${active && 'active'} ${grayedOut && 'grayedOut'}`,
+            `${active ? 'active' : ''} ${grayedOut ? 'grayedOut' : ''}`,
           )}>
           <Folder {...classes('folderIcon')} color="#70A5DA" />
           {name}

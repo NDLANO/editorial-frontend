@@ -8,10 +8,6 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
-import { Button } from 'ndla-ui';
-import { Plus } from 'ndla-icons/action';
-import Accordion from '../../components/Accordion';
 
 import ResourceGroup from './components/ResourceGroup';
 import {
@@ -24,8 +20,8 @@ import {
   fetchTopicResources,
 } from '../../modules/taxonomy';
 import { getArticle } from '../../modules/article/articleApi';
-import Resource from './components/Resource';
-import AddArticleModal from './components/AddArticleModal';
+
+import TopicDescription from './components/TopicDescription';
 
 export class StructureResources extends React.PureComponent {
   constructor(props) {
@@ -33,13 +29,10 @@ export class StructureResources extends React.PureComponent {
     this.state = {
       resourceTypes: [],
       topicResources: [],
-      displayTopicDescription: true,
-      showAddModal: false,
     };
     this.getAllResourceTypes = this.getAllResourceTypes.bind(this);
     this.getTopicResources = this.getTopicResources.bind(this);
     this.getArticle = this.getArticle.bind(this);
-    this.toggleAddModal = this.toggleAddModal.bind(this);
   }
 
   async componentDidMount() {
@@ -112,60 +105,23 @@ export class StructureResources extends React.PureComponent {
     }
   }
 
-  toggleAddModal() {
-    this.setState(prevState => ({
-      showAddModal: !prevState.showAddModal,
-    }));
-  }
-
   render() {
     const {
       params: { topic1, topic2, topic3 },
-      t,
       locale,
       currentTopic,
       refreshTopics,
     } = this.props;
+    const { topicDescription, resourceTypes, topicResources } = this.state;
     return (
       <Fragment>
-        <Accordion
-          resourceGroup
-          header="Emnebeskrivelse"
-          hidden={!this.state.displayTopicDescription}
-          addButton={
-            <Button
-              className="c-topic-resource__add-button"
-              stripped
-              onClick={this.toggleAddModal}>
-              <Plus />
-              {t('taxonomy.addTopicDescription')}
-            </Button>
-          }
-          handleToggle={() =>
-            this.setState(prevState => ({
-              displayTopicDescription: !prevState.displayTopicDescription,
-            }))
-          }>
-          {this.state.topicDescription && (
-            <Resource
-              contentType="subject"
-              name={this.state.topicDescription}
-            />
-          )}
-        </Accordion>
-        {this.state.showAddModal && (
-          <AddArticleModal
-            toggleAddModal={this.toggleAddModal}
-            locale={locale}
-            refreshTopics={refreshTopics}
-            currentTopic={currentTopic}
-          />
-        )}
-        {this.state.resourceTypes.map(resourceType => {
+        <TopicDescription
+          {...{ topicDescription, locale, refreshTopics, currentTopic }}
+        />
+        {resourceTypes.map(resourceType => {
           const topicResource =
-            this.state.topicResources.find(
-              resource => resource.id === resourceType.id,
-            ) || {};
+            topicResources.find(resource => resource.id === resourceType.id) ||
+            {};
           return (
             <ResourceGroup
               key={resourceType.id}
@@ -196,4 +152,4 @@ StructureResources.propTypes = {
   refreshTopics: PropTypes.func,
 };
 
-export default injectT(StructureResources);
+export default StructureResources;

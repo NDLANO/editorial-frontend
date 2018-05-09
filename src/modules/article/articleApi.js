@@ -14,9 +14,11 @@ import {
 
 const articleUrl = apiResourceUrl('/article-api/v2/articles');
 
-export const searchArticles = (queryString, locale) =>
+export const searchArticles = (queryString, locale, type) =>
   fetchAuthorized(
-    `${articleUrl}/${queryString}?language=${locale}&fallback=true`,
+    `${articleUrl}/${queryString}?language=${locale}&fallback=true${
+      type ? `&content-type=${type}` : ''
+    }`,
   ).then(resolveJsonOrRejectWithError);
 
 export const searchRelatedArticles = async (input, locale) => {

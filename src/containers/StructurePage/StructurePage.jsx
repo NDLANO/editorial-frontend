@@ -51,7 +51,7 @@ export class StructurePage extends React.PureComponent {
     this.connectLinkItems = this.connectLinkItems.bind(this);
     this.deleteConnections = this.deleteConnections.bind(this);
     this.onAddExistingTopic = this.onAddExistingTopic.bind(this);
-    this.getContentUri = this.getContentUri.bind(this);
+    this.getCurrentTopic = this.getCurrentTopic.bind(this);
   }
 
   componentDidMount() {
@@ -162,7 +162,7 @@ export class StructurePage extends React.PureComponent {
     }
   }
 
-  getContentUri() {
+  getCurrentTopic() {
     const {
       match: { params: { subject, topic1, topic2, topic3 } },
     } = this.props;
@@ -179,9 +179,9 @@ export class StructurePage extends React.PureComponent {
             : {};
         }
       }
-      return topic.contentUri;
+      return topic || {};
     }
-    return '';
+    return {};
   }
 
   connectLinkItems(source, target) {
@@ -244,8 +244,9 @@ export class StructurePage extends React.PureComponent {
   render() {
     const { match, t, locale } = this.props;
     const { params } = match;
+    const { topics, subjects, editStructureHidden, connections } = this.state;
     const topicId = params.topic3 || params.topic2 || params.topic1;
-    const contentUri = this.getContentUri();
+    const currentTopic = this.getCurrentTopic();
 
     return (
       <OneColumn>
@@ -268,14 +269,14 @@ export class StructurePage extends React.PureComponent {
               action={this.addSubject}
             />
           }
-          hidden={this.state.editStructureHidden}>
+          hidden={editStructureHidden}>
           <div ref={this.plumbContainer}>
-            {this.state.subjects.map(subject => (
+            {subjects.map(subject => (
               <FolderItem
                 {...subject}
                 refFunc={this.refFunc}
                 key={subject.id}
-                topics={this.state.topics[subject.id]}
+                topics={topics[subject.id]}
                 active={subject.id.replace('urn:', '') === params.subject}
                 match={match}
                 onChangeSubjectName={this.onChangeSubjectName}
@@ -283,13 +284,16 @@ export class StructurePage extends React.PureComponent {
                 showLink={this.showLink}
                 onAddExistingTopic={this.onAddExistingTopic}
                 refreshTopics={() => this.getSubjectTopics(subject.id)}
-                linkViewOpen={this.state.connections.length > 0}
+                linkViewOpen={connections.length > 0}
               />
             ))}
           </div>
         </Accordion>
         {topicId && (
-          <StructureResources {...{ locale, params }} contentUri={contentUri} />
+          <StructureResources
+            {...{ locale, params, currentTopic }}
+            refreshTopics={() => this.getSubjectTopics(`urn:${params.subject}`)}
+          />
         )}
         <div style={{ display: 'none' }} ref={this.starButton}>
           <RoundIcon icon={<Star />} />

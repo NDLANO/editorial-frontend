@@ -22,9 +22,12 @@ import { groupSortResourceTypesFromTopicResources } from '../../util/taxonomyHel
 import {
   fetchAllResourceTypes,
   fetchTopicResources,
+  updateTopic,
 } from '../../modules/taxonomy';
-import { getArticle } from '../../modules/article/articleApi';
+import { getArticle, searchArticles } from '../../modules/article/articleApi';
 import Resource from './components/Resource';
+import TaxonomyLightbox from './components/TaxonomyLightbox';
+import { AsyncDropdown } from '../../components/Dropdown';
 
 export class StructureResources extends React.PureComponent {
   constructor(props) {
@@ -33,20 +36,24 @@ export class StructureResources extends React.PureComponent {
       resourceTypes: [],
       topicResources: [],
       displayTopicDescription: true,
+      showAddModal: false,
     };
     this.getAllResourceTypes = this.getAllResourceTypes.bind(this);
     this.getTopicResources = this.getTopicResources.bind(this);
     this.getArticle = this.getArticle.bind(this);
+    this.toggleAddModal = this.toggleAddModal.bind(this);
+    this.onArticleSearch = this.onArticleSearch.bind(this);
+    this.onSelect = this.onSelect.bind(this);
   }
 
   async componentDidMount() {
     try {
-      const { params: { topic1, topic2, topic3 }, contentUri } = this.props;
+      const { params: { topic1, topic2, topic3 }, currentTopic } = this.props;
       await this.getAllResourceTypes();
       const topicId = topic3 || topic2 || topic1;
       this.getTopicResources(topicId);
-      if (contentUri) {
-        this.getArticle(contentUri);
+      if (currentTopic.contentUri) {
+        this.getArticle(currentTopic.contentUri);
       }
     } catch (error) {
       console.log(error);
@@ -54,13 +61,38 @@ export class StructureResources extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { contentUri, params: { topic1, topic2, topic3 } } = nextProps;
+    const { currentTopic, params: { topic1, topic2, topic3 } } = nextProps;
     if (nextProps.params !== this.props.params) {
       const topicId = topic3 || topic2 || topic1;
       this.getTopicResources(topicId);
     }
-    if (contentUri !== this.props.contentUri) {
-      this.getArticle(contentUri);
+    if (
+      currentTopic.contentUri &&
+      currentTopic.contentUri !== this.props.currentTopic.contentUri
+    ) {
+      this.getArticle(currentTopic.contentUri);
+    }
+  }
+
+  async onArticleSearch(input) {
+    const response = await searchArticles(
+      input,
+      this.props.locale,
+      'topic-article',
+    );
+    return response.results;
+  }
+
+  async onSelect(article) {
+    const { currentTopic, refreshTopics } = this.props;
+    const ok = await updateTopic({
+      id: currentTopic.id,
+      name: currentTopic.name,
+      contentUri: `urn:article:${article.id}`,
+    });
+    if (ok) {
+      refreshTopics();
+      this.setState({ showAddModal: false });
     }
   }
 
@@ -106,6 +138,12 @@ export class StructureResources extends React.PureComponent {
     }
   }
 
+  toggleAddModal() {
+    this.setState(prevState => ({
+      showAddModal: !prevState.showAddModal,
+    }));
+  }
+
   render() {
     const { params: { topic1, topic2, topic3 }, t } = this.props;
     return (
@@ -135,14 +173,26 @@ export class StructureResources extends React.PureComponent {
             />
           )}
         </Accordion>
-        {/* this.state.showAddModal && (
-          <AddResourceModal
-            type={resource.id}
-            topicId={params.topic3 || params.topic2 || params.topic1}
-            refreshResources={refreshResources}
-            onClose={this.toggleAddModal}
-          />
-        ) */}
+        {this.state.showAddModal && (
+          <TaxonomyLightbox
+            title={t('taxonomy.searchArticle')}
+            onClose={this.toggleAddModal}>
+            <AsyncDropdown
+              valueField="id"
+              name="resourceSearch"
+              textField="title.title"
+              placeholder={t('form.content.relatedArticle.placeholder')}
+              label="label"
+              apiAction={this.onArticleSearch}
+              messages={{
+                emptyFilter: '',
+                emptyList: t('taxonomy.noResources'),
+              }}
+              onChange={this.onSelect}
+              alwaysOpen
+            />
+          </TaxonomyLightbox>
+        )}
         {this.state.resourceTypes.map(resourceType => {
           const topicResource =
             this.state.topicResources.find(
@@ -166,12 +216,15 @@ export class StructureResources extends React.PureComponent {
 }
 
 StructureResources.propTypes = {
-  locale: PropTypes.string,
+  locale: PropTypes.string.isRequired,
   params: PropTypes.shape({
     topic1: PropTypes.string,
     topic2: PropTypes.string,
   }).isRequired,
-  contentUri: PropTypes.string,
+  currentTopic: PropTypes.shape({
+    id: PropTypes.string,
+    contentUri: PropTypes.string,
+  }).isRequired,
 };
 
 export default injectT(StructureResources);

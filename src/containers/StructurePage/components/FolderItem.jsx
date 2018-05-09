@@ -67,6 +67,7 @@ const FolderItem = ({
         {active &&
           topics.map(topic => (
             <FolderItem
+              {...rest}
               {...topic}
               key={topic.id}
               active={
@@ -78,7 +79,6 @@ const FolderItem = ({
               showLink={showLink}
               refFunc={refFunc}
               linkViewOpen={linkViewOpen}
-              {...rest}
             />
           ))}
       </div>

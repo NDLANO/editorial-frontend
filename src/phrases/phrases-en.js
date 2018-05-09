@@ -477,6 +477,7 @@ const phrases = {
     confirmDelete: 'Are you sure you want to delete the filter?',
     addResource: 'Add resource',
     searchResource: 'Search for resource',
+    searchArticle: 'Search for topic article',
     confirmDeleteTopic:
       'Are you sure you want to delete the topic from the folder? This does not affect the topic location elsewhere',
     or: 'Eller',

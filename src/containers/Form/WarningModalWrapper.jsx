@@ -9,11 +9,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import config from '../../config';
-import {
-  topicArticleContentToHTML,
-  learningResourceContentToHTML,
-  editorValueToPlainText,
-} from '../../util/articleContentConverter';
+import { isEditorValueFieldsEqual } from '../../util/articleContentConverter';
 import WarningModal from '../../components/WarningModal';
 import { SchemaShape } from '../../shapes';
 
@@ -83,42 +79,24 @@ class WarningModalWrapper extends PureComponent {
   isDirty() {
     const { fields, initialModel, model } = this.props;
 
-    // Serialize specific slate object fields to check if really changed
+    // Checking specific slate object fields if they really have changed
+    const slateFields = ['introduction', 'metadescription', 'content'];
     const dirtyFields = [];
     Object.keys(fields)
       .filter(field => fields[field].dirty)
-      .forEach(field => {
-        switch (field) {
-          case 'content':
-            if (initialModel.articleType === 'standard') {
-              if (
-                learningResourceContentToHTML(initialModel[field]) !==
-                learningResourceContentToHTML(model[field])
-              )
-                dirtyFields.push(field);
-            }
-            if (initialModel.articleType === 'topic-article') {
-              if (
-                topicArticleContentToHTML(initialModel[field]) !==
-                topicArticleContentToHTML(model[field])
-              )
-                dirtyFields.push(field);
-            }
-
-            break;
-          case 'introduction' || 'metaDescription':
-            if (
-              editorValueToPlainText(initialModel[field]) !==
-              editorValueToPlainText(model[field])
+      .forEach(dirtyField => {
+        if (slateFields.includes(dirtyField)) {
+          if (
+            !isEditorValueFieldsEqual(
+              initialModel[dirtyField],
+              model[dirtyField],
             )
-              dirtyFields.push(field);
-            break;
-          default:
-            dirtyFields.push(field);
-            break;
+          )
+            dirtyFields.push(dirtyField);
+        } else {
+          dirtyFields.push(dirtyField);
         }
       });
-
     return dirtyFields;
   }
 

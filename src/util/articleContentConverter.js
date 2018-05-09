@@ -10,6 +10,7 @@ import { Value } from 'slate';
 
 import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
+import isEqual from 'lodash/fp/isEqual';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
 import { textWrapper } from '../util/invalidTextWrapper';
 import { convertFromHTML } from './convertFromHTML';
@@ -163,4 +164,20 @@ export function plainTextToEditorValue(text, withDefaultPlainValue = false) {
 
 export function editorValueToPlainText(editorValue) {
   return editorValue ? Plain.serialize(editorValue) : '';
+}
+
+export function isEditorValueFieldsEqual(field1, field2) {
+  if (field1 && field1.document) {
+    return field2 && field2.document
+      ? isEqual(field1.toJSON(), field2.toJSON())
+      : false;
+  }
+  // For content with multiple sections
+  const items = field1.map(
+    (section, index) =>
+      field2[index] && field2[index].value && field2[index].value.document
+        ? isEqual(section.value.toJSON(), field2[index].value.toJSON())
+        : false,
+  );
+  return !items.some(isDirty => !isDirty);
 }

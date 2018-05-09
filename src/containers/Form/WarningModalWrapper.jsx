@@ -9,7 +9,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import config from '../../config';
-import { isEditorValueFieldsEqual } from '../../util/articleContentConverter';
+import { isEqualEditorValue } from '../../util/articleContentConverter';
 import WarningModal from '../../components/WarningModal';
 import { SchemaShape } from '../../shapes';
 
@@ -86,12 +86,7 @@ class WarningModalWrapper extends PureComponent {
       .filter(field => fields[field].dirty)
       .forEach(dirtyField => {
         if (slateFields.includes(dirtyField)) {
-          if (
-            !isEditorValueFieldsEqual(
-              initialModel[dirtyField],
-              model[dirtyField],
-            )
-          )
+          if (!isEqualEditorValue(initialModel[dirtyField], model[dirtyField]))
             dirtyFields.push(dirtyField);
         } else {
           dirtyFields.push(dirtyField);

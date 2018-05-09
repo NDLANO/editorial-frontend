@@ -16,6 +16,7 @@ import {
   sectionSplitter,
   isValueEmpty,
   createEmptyValue,
+  isEqualEditorValue,
 } from '../articleContentConverter';
 import {
   valueWithInlineFootnotesAndContentLinks,
@@ -101,4 +102,20 @@ test('util/sectionSplitter splits doubleNestedSections into array', () => {
 
 test('util/domOperations trippleNestedSections into array', () => {
   expect(sectionSplitter(trippleNestedSections)).toMatchSnapshot();
+});
+
+test('articleContentConverter convert learningresource contents that are equal/not equal with isEqualEditorValue', () => {
+  const editorValue1 = learningResourceContentToEditorValue(
+    contentHTML,
+    fragment,
+  );
+  const editorValue2 = learningResourceContentToEditorValue(
+    contentHTMLWithSections,
+    fragment,
+  );
+
+  expect(isEqualEditorValue(editorValue1, editorValue1)).toBe(true);
+  expect(isEqualEditorValue(editorValue2, editorValue2)).toBe(true);
+  expect(isEqualEditorValue(editorValue1, editorValue2)).toBe(false);
+  expect(isEqualEditorValue(editorValue2, editorValue1)).toBe(false);
 });

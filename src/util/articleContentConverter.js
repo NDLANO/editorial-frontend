@@ -166,18 +166,19 @@ export function editorValueToPlainText(editorValue) {
   return editorValue ? Plain.serialize(editorValue) : '';
 }
 
-export function isEditorValueFieldsEqual(field1, field2) {
-  if (field1 && field1.document) {
-    return field2 && field2.document
-      ? isEqual(field1.toJSON(), field2.toJSON())
+export function isEqualEditorValue(value1, value2) {
+  if (value1 && value1.document) {
+    return value2 && value2.document
+      ? isEqual(value1.toJSON(), value2.toJSON())
       : false;
   }
   // For content with multiple sections
-  const items = field1.map(
-    (section, index) =>
-      field2[index] && field2[index].value && field2[index].value.document
-        ? isEqual(section.value.toJSON(), field2[index].value.toJSON())
-        : false,
-  );
-  return !items.some(isDirty => !isDirty);
+  return !value1
+    .map(
+      (section, index) =>
+        value2[index] && value2[index].value && value2[index].value.document
+          ? isEqual(section.value.toJSON(), value2[index].value.toJSON())
+          : false,
+    )
+    .some(isDirty => !isDirty);
 }

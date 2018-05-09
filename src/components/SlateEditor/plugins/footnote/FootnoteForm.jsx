@@ -114,7 +114,9 @@ class FootnoteForm extends Component {
             <Button outline onClick={onClose}>
               {t('form.abort')}
             </Button>
-            <Button type="button" onClick={this.handleSave}>{t('form.save')}</Button>
+            <Button type="button" onClick={this.handleSave}>
+              {t('form.save')}
+            </Button>
           </div>
         </Field>
       </form>

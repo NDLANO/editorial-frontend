@@ -69,8 +69,9 @@ class ResourceItems extends React.PureComponent {
             resource={resource}
             onDelete={() => this.setState({ deleteId: resource.connectionId })}
             toggleRelevance={
-              activeFilter &&
-              (() => this.toggleRelevance(resource.id, resource.relevance))
+              activeFilter
+                ? () => this.toggleRelevance(resource.id, resource.relevance)
+                : undefined
             }
             relevance={resource.relevance}
           />

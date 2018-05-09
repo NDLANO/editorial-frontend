@@ -17,6 +17,7 @@ const baseUrl = apiResourceUrl('/image-api/v2/images');
 export const postImage = formData =>
   fetchAuthorized(`${baseUrl}`, {
     method: 'POST',
+    headers: { 'Content-Type': undefined },
     body: formData,
   }).then(resolveJsonOrRejectWithError);
 

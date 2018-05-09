@@ -70,13 +70,17 @@ export const fetchWithAuthorization = async (url, config = {}, forceAuth) => {
   if (forceAuth || !isAccessTokenValid()) {
     await renewAuth();
   }
+
+  const contentType = config.headers
+    ? config.headers['Content-Type']
+    : 'text/plain';
+  const extraHeaders = contentType ? { 'Content-Type': contentType } : {};
+
   return fetch(url, {
     ...config,
     headers: {
+      ...extraHeaders,
       Authorization: `Bearer ${getAccessToken()}`,
-      'Content-Type': config.headers
-        ? config.headers['Content-Type']
-        : 'text/plain',
     },
   });
 };

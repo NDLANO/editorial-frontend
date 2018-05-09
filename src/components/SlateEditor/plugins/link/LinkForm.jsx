@@ -51,7 +51,7 @@ class LinkForm extends Component {
       onClose,
     } = this.props;
     return (
-      <form onSubmit={this.handleSave}>
+      <form>
         <Field>
           <label htmlFor="text">{t('form.content.link.text')}</label>
           <input type="text" {...bindInput('text')} />
@@ -91,7 +91,7 @@ class LinkForm extends Component {
             <Button outline onClick={onClose}>
               {t('form.abort')}
             </Button>
-            <Button submit>
+            <Button type="button" onClick={this.handleSave}>
               {isEdit
                 ? t('form.content.link.update')
                 : t('form.content.link.insert')}

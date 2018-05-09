@@ -55,7 +55,7 @@ class FootnoteForm extends Component {
       onClose,
     } = this.props;
     return (
-      <form onSubmit={this.handleSave}>
+      <form>
         <Field>
           <label htmlFor="title">{t('form.content.footnote.title')}</label>
           <input type="text" {...bindInput('title')} />
@@ -114,7 +114,7 @@ class FootnoteForm extends Component {
             <Button outline onClick={onClose}>
               {t('form.abort')}
             </Button>
-            <Button submit>{t('form.save')}</Button>
+            <Button type="button" onClick={this.handleSave}>{t('form.save')}</Button>
           </div>
         </Field>
       </form>

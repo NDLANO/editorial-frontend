@@ -8,6 +8,7 @@
 
 import { Component } from 'react';
 import { createPortal } from 'react-dom';
+import { uuid } from 'ndla-util';
 
 class PortalContainer extends Component {
   componentWillUnmount() {
@@ -20,7 +21,7 @@ class PortalContainer extends Component {
   render() {
     if (!this.el) {
       this.el = document.createElement('div');
-      this.el.id = 'portal-root';
+      this.el.id = `portal-root-${uuid()}`;
       document.body.appendChild(this.el);
     }
     return createPortal(this.props.children, this.el);

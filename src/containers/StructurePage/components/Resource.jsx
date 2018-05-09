@@ -13,23 +13,21 @@ import { Button, ContentTypeBadge } from 'ndla-ui';
 import { classes } from './ResourceGroup';
 
 const Resource = ({ contentType, name, onDelete }) => (
-  <li {...classes('item')}>
-    <div {...classes('text o-flag o-flag--top')}>
-      {contentType && (
-        <div key="img" {...classes('icon o-flag__img')}>
-          <ContentTypeBadge background type={contentType} />
-        </div>
-      )}
-      <div key="body" {...classes('body o-flag__body')}>
-        <h1 {...classes('title')}>{name}</h1>
+  <div {...classes('text o-flag o-flag--top')}>
+    {contentType && (
+      <div key="img" {...classes('icon o-flag__img')}>
+        <ContentTypeBadge background type={contentType} />
       </div>
-      {onDelete && (
-        <Button onClick={onDelete} stripped>
-          <RemoveCircle {...classes('deleteIcon')} />
-        </Button>
-      )}
+    )}
+    <div key="body" {...classes('body o-flag__body')}>
+      <h1 {...classes('title')}>{name}</h1>
     </div>
-  </li>
+    {onDelete && (
+      <Button onClick={onDelete} stripped>
+        <RemoveCircle {...classes('deleteIcon')} />
+      </Button>
+    )}
+  </div>
 );
 
 Resource.propTypes = {

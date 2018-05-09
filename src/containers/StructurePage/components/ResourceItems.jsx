@@ -36,14 +36,18 @@ class ResourceItems extends React.PureComponent {
     const { contentType, resources, t } = this.props;
     return (
       <ul {...classes('list')}>
-        {resources.map(resource => (
-          <Resource
-            key={resource.id}
-            contentType={contentType}
-            name={resource.name}
-            onDelete={() => this.setState({ deleteId: resource.connectionId })}
-          />
-        ))}
+        <li {...classes('item')}>
+          {resources.map(resource => (
+            <Resource
+              key={resource.id}
+              contentType={contentType}
+              name={resource.name}
+              onDelete={() =>
+                this.setState({ deleteId: resource.connectionId })
+              }
+            />
+          ))}
+        </li>
         {this.state.deleteId && (
           <WarningModal
             confirmDelete

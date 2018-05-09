@@ -14,17 +14,18 @@ import {
 
 const articleUrl = apiResourceUrl('/article-api/v2/articles');
 
-export const searchArticles = (queryString, locale, type) =>
+export const searchArticles = (queryString, locale) =>
   fetchAuthorized(
-    `${articleUrl}/${queryString}?language=${locale}&fallback=true${
-      type ? `&content-type=${type}` : ''
-    }`,
+    `${articleUrl}/${queryString}&language=${locale}&fallback=true`,
   ).then(resolveJsonOrRejectWithError);
 
-export const searchRelatedArticles = async (input, locale) => {
+export const searchRelatedArticles = async (input, locale, contentType) => {
   await new Promise(resolve => setTimeout(resolve, 50));
-  const query = `?type=articles&query=${input}`;
+  const query = `?type=articles&query=${input}${
+    contentType ? `&content-type=${contentType}` : ''
+  }`;
   const response = await searchArticles(query, locale);
+
   return response.results;
 };
 

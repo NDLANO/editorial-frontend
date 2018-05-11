@@ -36,9 +36,6 @@ const topicFilterMock = [
 
 beforeEach(() => {
   nock('http://ndla-api')
-    .get('/taxonomy/v1/subjects/urn:subjectId/filters')
-    .reply(200, filterMock);
-  nock('http://ndla-api')
     .get('/taxonomy/v1/topics/topicId/filters')
     .reply(200, topicFilterMock);
 });
@@ -49,6 +46,7 @@ const wrapper = () =>
         id="topicId"
         path="/subjectId/topicId"
         classes={() => {}}
+        subjectFilters={filterMock}
       />
     </IntlWrapper>,
   );

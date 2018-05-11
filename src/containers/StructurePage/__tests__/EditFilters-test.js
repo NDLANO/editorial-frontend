@@ -26,15 +26,16 @@ const filterMock = [
   { id: 'urn:filter:9e522d29-edf0-4949-bb94-a2089c79e437', name: 'SF VG3' },
 ];
 
-beforeEach(() => {
-  nock('http://ndla-api')
-    .get('/taxonomy/v1/subjects/test/filters')
-    .reply(200, filterMock);
-});
 const wrapper = () =>
   render(
     <IntlProvider locale="nb" messages={{}}>
-      <EditFilters id="test" classes={() => {}} t={() => 'Errormelding'} />
+      <EditFilters
+        id="test"
+        classes={() => {}}
+        t={() => 'Errormelding'}
+        filters={filterMock}
+        getFilters={() => {}}
+      />
     </IntlProvider>,
   );
 

@@ -1,0 +1,590 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Can toggle relevance when one filter is chosen 1`] = `
+<ul
+  class="c-topic-resource__list"
+>
+  <li
+    class="c-topic-resource__item"
+  >
+    <div
+      class="c-topic-resource__text o-flag o-flag--top"
+    >
+      <div
+        class="c-topic-resource__icon o-flag__img"
+      >
+        <div
+          class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
+        >
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <title>
+                Emne
+              </title>
+              <defs />
+              <g
+                id="Page-1"
+                stroke="none"
+                fill="none"
+                stroke-width="1"
+                fill-rule="evenodd"
+              >
+                <g
+                  id="emne"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
+                    id="bookmark_border---material"
+                  />
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div
+        class="c-topic-resource__body o-flag__body"
+      >
+        <h1
+          class="c-topic-resource__title"
+        >
+          Kontrast og balanse i grafisk design
+        </h1>
+      </div>
+      <label
+        class="c-toggleSwitch c-toggleSwitch--large"
+      >
+        <input
+          data-testid="toggleRelevance-urn:resource:1:159742"
+          type="checkbox"
+        />
+        <span
+          class="c-toggleSwitch__slider c-toggleSwitch__slider--large"
+        />
+      </label>
+      <button
+        class="c-button c-button--stripped"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon c-topic-resource__deleteIcon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+            <path
+              d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+  </li>
+  <li
+    class="c-topic-resource__item"
+  >
+    <div
+      class="c-topic-resource__text o-flag o-flag--top"
+    >
+      <div
+        class="c-topic-resource__icon o-flag__img"
+      >
+        <div
+          class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
+        >
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <title>
+                Emne
+              </title>
+              <defs />
+              <g
+                id="Page-1"
+                stroke="none"
+                fill="none"
+                stroke-width="1"
+                fill-rule="evenodd"
+              >
+                <g
+                  id="emne"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
+                    id="bookmark_border---material"
+                  />
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div
+        class="c-topic-resource__body o-flag__body"
+      >
+        <h1
+          class="c-topic-resource__title"
+        >
+          Hvorfor bruker vi mediene?
+        </h1>
+      </div>
+      <label
+        class="c-toggleSwitch c-toggleSwitch--large"
+      >
+        <input
+          data-testid="toggleRelevance-urn:resource:1:166022"
+          type="checkbox"
+        />
+        <span
+          class="c-toggleSwitch__slider c-toggleSwitch__slider--large"
+        />
+      </label>
+      <button
+        class="c-button c-button--stripped"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon c-topic-resource__deleteIcon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+            <path
+              d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+  </li>
+  <li
+    class="c-topic-resource__item"
+  >
+    <div
+      class="c-topic-resource__text o-flag o-flag--top"
+    >
+      <div
+        class="c-topic-resource__icon o-flag__img"
+      >
+        <div
+          class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
+        >
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <title>
+                Emne
+              </title>
+              <defs />
+              <g
+                id="Page-1"
+                stroke="none"
+                fill="none"
+                stroke-width="1"
+                fill-rule="evenodd"
+              >
+                <g
+                  id="emne"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
+                    id="bookmark_border---material"
+                  />
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div
+        class="c-topic-resource__body o-flag__body"
+      >
+        <h1
+          class="c-topic-resource__title"
+        >
+          Medieundersøkelser og mediebruk
+        </h1>
+      </div>
+      <label
+        class="c-toggleSwitch c-toggleSwitch--large"
+      >
+        <input
+          data-testid="toggleRelevance-urn:resource:1:167859"
+          type="checkbox"
+        />
+        <span
+          class="c-toggleSwitch__slider c-toggleSwitch__slider--large"
+        />
+      </label>
+      <button
+        class="c-button c-button--stripped"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon c-topic-resource__deleteIcon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+            <path
+              d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+  </li>
+  <li
+    class="c-topic-resource__item"
+  >
+    <div
+      class="c-topic-resource__text o-flag o-flag--top"
+    >
+      <div
+        class="c-topic-resource__icon o-flag__img"
+      >
+        <div
+          class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
+        >
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <title>
+                Emne
+              </title>
+              <defs />
+              <g
+                id="Page-1"
+                stroke="none"
+                fill="none"
+                stroke-width="1"
+                fill-rule="evenodd"
+              >
+                <g
+                  id="emne"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
+                    id="bookmark_border---material"
+                  />
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div
+        class="c-topic-resource__body o-flag__body"
+      >
+        <h1
+          class="c-topic-resource__title"
+        >
+          Mediebruk og statistikk
+        </h1>
+      </div>
+      <label
+        class="c-toggleSwitch c-toggleSwitch--large"
+      >
+        <input
+          data-testid="toggleRelevance-urn:resource:1:169735"
+          type="checkbox"
+        />
+        <span
+          class="c-toggleSwitch__slider c-toggleSwitch__slider--large"
+        />
+      </label>
+      <button
+        class="c-button c-button--stripped"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon c-topic-resource__deleteIcon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+            <path
+              d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+  </li>
+  <li
+    class="c-topic-resource__item"
+  >
+    <div
+      class="c-topic-resource__text o-flag o-flag--top"
+    >
+      <div
+        class="c-topic-resource__icon o-flag__img"
+      >
+        <div
+          class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
+        >
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <title>
+                Emne
+              </title>
+              <defs />
+              <g
+                id="Page-1"
+                stroke="none"
+                fill="none"
+                stroke-width="1"
+                fill-rule="evenodd"
+              >
+                <g
+                  id="emne"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
+                    id="bookmark_border---material"
+                  />
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div
+        class="c-topic-resource__body o-flag__body"
+      >
+        <h1
+          class="c-topic-resource__title"
+        >
+          Identitet og mediebruk
+        </h1>
+      </div>
+      <label
+        class="c-toggleSwitch c-toggleSwitch--large"
+      >
+        <input
+          data-testid="toggleRelevance-urn:resource:1:178253"
+          type="checkbox"
+        />
+        <span
+          class="c-toggleSwitch__slider c-toggleSwitch__slider--large"
+        />
+      </label>
+      <button
+        class="c-button c-button--stripped"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon c-topic-resource__deleteIcon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+            <path
+              d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+  </li>
+  <li
+    class="c-topic-resource__item"
+  >
+    <div
+      class="c-topic-resource__text o-flag o-flag--top"
+    >
+      <div
+        class="c-topic-resource__icon o-flag__img"
+      >
+        <div
+          class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
+        >
+          <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
+            class="c-icon"
+            viewBox="0 0 24 24"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            style="vertical-align: middle;"
+          >
+            <g>
+              <title>
+                Emne
+              </title>
+              <defs />
+              <g
+                id="Page-1"
+                stroke="none"
+                fill="none"
+                stroke-width="1"
+                fill-rule="evenodd"
+              >
+                <g
+                  id="emne"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
+                    id="bookmark_border---material"
+                  />
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div
+        class="c-topic-resource__body o-flag__body"
+      >
+        <h1
+          class="c-topic-resource__title"
+        >
+          Mediepåvirkning
+        </h1>
+      </div>
+      <label
+        class="c-toggleSwitch c-toggleSwitch--large"
+      >
+        <input
+          data-testid="toggleRelevance-urn:resource:1:183249"
+          type="checkbox"
+        />
+        <span
+          class="c-toggleSwitch__slider c-toggleSwitch__slider--large"
+        />
+      </label>
+      <button
+        class="c-button c-button--stripped"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon c-topic-resource__deleteIcon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+            <path
+              d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+  </li>
+</ul>
+`;

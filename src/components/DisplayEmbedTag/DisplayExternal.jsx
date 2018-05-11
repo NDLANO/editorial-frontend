@@ -9,6 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { Button } from 'ndla-ui';
+import { Cross } from 'ndla-icons/action';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 
@@ -46,6 +48,7 @@ export class DisplayExternal extends React.Component {
   }
 
   render() {
+    const { editorClasses, onRemoveClick } = this.props;
     const { title, src, error, type, provider } = this.state;
 
     if (!type && !provider) {
@@ -54,37 +57,55 @@ export class DisplayExternal extends React.Component {
 
     if (error) {
       return (
-        <EditorErrorMessage msg={this.props.t('displayOembed.errorMessage')} />
-      );
-    }
-
-    if (type === 'video' && provider === 'YouTube') {
-      return (
-        <iframe
-          style={{
-            minHeight: '436px',
-          }}
-          ref={iframe => {
-            this.iframe = iframe;
-          }}
-          src={src}
-          title={title}
-          frameBorder="0"
-          allowFullScreen
-        />
+        <React.Fragment>
+          <Button
+            stripped
+            onClick={onRemoveClick}
+            {...editorClasses('delete-button')}>
+            <Cross />
+          </Button>
+          <EditorErrorMessage
+            msg={this.props.t('displayOembed.errorMessage')}
+          />
+        </React.Fragment>
       );
     }
 
     return (
-      <EditorErrorMessage
-        msg={this.props.t('displayOembed.notSupported', { type, provider })}
-      />
+      <React.Fragment>
+        <Button
+          stripped
+          onClick={onRemoveClick}
+          {...editorClasses('delete-button')}>
+          <Cross />
+        </Button>
+        {type === 'video' && provider === 'YouTube' ? (
+          <iframe
+            style={{
+              minHeight: '436px',
+            }}
+            ref={iframe => {
+              this.iframe = iframe;
+            }}
+            src={src}
+            title={title}
+            frameBorder="0"
+            allowFullScreen
+          />
+        ) : (
+          <EditorErrorMessage
+            msg={this.props.t('displayOembed.notSupported', { type, provider })}
+          />
+        )}
+      </React.Fragment>
     );
   }
 }
 
 DisplayExternal.propTypes = {
   url: PropTypes.string.isRequired,
+  editorClasses: PropTypes.func,
+  onRemoveClick: PropTypes.func,
 };
 
 export default injectT(DisplayExternal);

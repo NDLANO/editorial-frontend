@@ -20,6 +20,7 @@ import {
   fetchAllResourceTypes,
   fetchTopicResources,
 } from '../../modules/taxonomy';
+import handleError from '../../util/handleError';
 
 export class StructureResources extends React.PureComponent {
   constructor(props) {
@@ -39,7 +40,7 @@ export class StructureResources extends React.PureComponent {
       const topicId = topic3 || topic2 || topic1;
       this.getTopicResources(topicId);
     } catch (error) {
-      console.log(error);
+      handleError(error);
     }
   }
 
@@ -59,7 +60,7 @@ export class StructureResources extends React.PureComponent {
       const resourceTypes = await fetchAllResourceTypes(this.props.locale);
       this.setState({ resourceTypes });
     } catch (error) {
-      console.log(error);
+      handleError(error);
     }
   }
 
@@ -94,7 +95,7 @@ export class StructureResources extends React.PureComponent {
         );
         this.setState({ topicResources });
       } catch (error) {
-        console.log(error);
+        handleError(error);
       }
     } else {
       this.setState({ topicResources: [] });

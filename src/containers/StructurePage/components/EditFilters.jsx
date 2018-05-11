@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Plus } from 'ndla-icons/action';
+import handleError from '../../../util/handleError';
 import InlineEditField from './InlineEditField';
 import {
   createSubjectFilter,
@@ -37,6 +38,7 @@ class EditFilters extends React.Component {
       await createSubjectFilter(this.props.id, name);
       this.props.getFilters();
     } catch (e) {
+      handleError(e);
       this.setState({ error: e.message });
     }
   }
@@ -46,6 +48,7 @@ class EditFilters extends React.Component {
       await editSubjectFilter(id, this.props.id, name);
       this.getFilters();
     } catch (e) {
+      handleError(e);
       this.setState({ error: e.message });
     }
   }
@@ -59,6 +62,7 @@ class EditFilters extends React.Component {
       await deleteFilter(this.state.showDelete);
       this.props.getFilters();
     } catch (e) {
+      handleError(e);
       this.setState({ error: e.message });
     }
     this.setState({ showDelete: false });

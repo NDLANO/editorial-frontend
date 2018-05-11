@@ -8,6 +8,7 @@ import InlineEditField from './InlineEditField';
 import InlineDropdown from './InlineDropdown';
 import ConnectFilters from './ConnectFilters';
 import RoundIcon from './RoundIcon';
+import handleError from '../../../util/handleError';
 import WarningModal from '../../../components/WarningModal';
 import {
   fetchTopics,
@@ -33,44 +34,32 @@ class TopicSettingItems extends React.PureComponent {
   }
 
   async onChangeTopicName(id, newName) {
-    try {
-      await updateTopicName(id, newName);
-      this.props.refreshTopics();
-    } catch (e) {
-      throw new Error(e);
-    }
+    await updateTopicName(id, newName);
+    this.props.refreshTopics();
   }
 
   async onAddSubTopic(currentTopicId, name) {
-    try {
-      const newPath = await addTopic({ name });
-      const newId = newPath.replace('/v1/topics/', '');
-      await addTopicToTopic({
-        subtopicid: newId,
-        topicid: currentTopicId,
-        primary: true,
-      });
-      this.props.refreshTopics();
-    } catch (e) {
-      throw new Error(e);
-    }
+    const newPath = await addTopic({ name });
+    const newId = newPath.replace('/v1/topics/', '');
+    await addTopicToTopic({
+      subtopicid: newId,
+      topicid: currentTopicId,
+      primary: true,
+    });
+    this.props.refreshTopics();
   }
 
   async onAddExistingSubTopic(currentTopicId, subTopicId) {
-    try {
-      await addTopicToTopic({
-        subtopicid: subTopicId,
-        topicid: currentTopicId,
-      });
-      this.props.refreshTopics();
-    } catch (e) {
-      throw new Error(e);
-    }
+    await addTopicToTopic({
+      subtopicid: subTopicId,
+      topicid: currentTopicId,
+    });
+    this.props.refreshTopics();
   }
 
   async onDeleteTopic() {
-    this.setState({ editMode: '', loading: true });
-    const { parent, connectionId } = this.props;
+    this.setState({ editMode: '', loading: true, error: '' });
+    const { parent, connectionId, t } = this.props;
     const subTopic = parent.includes('topic');
     try {
       if (subTopic) {
@@ -81,13 +70,17 @@ class TopicSettingItems extends React.PureComponent {
       this.props.refreshTopics();
       this.setState({ loading: false });
     } catch (e) {
-      throw new Error(e);
+      this.setState({
+        loading: false,
+        error: `${t('taxonomy.errorMessage')}: ${e.message}`,
+      });
+      handleError(e);
     }
   }
 
   render() {
     const { classes, id, name, onClose, t, path, filters } = this.props;
-    const { editMode, loading } = this.state;
+    const { editMode, loading, error } = this.state;
 
     return (
       <React.Fragment>
@@ -187,6 +180,13 @@ class TopicSettingItems extends React.PureComponent {
         {loading && (
           <Overlay cssModifiers={['absolute', 'white-opacity', 'zIndex']} />
         )}
+        {error && (
+          <div
+            data-testid="inlineEditErrorMessage"
+            {...classes('errorMessage')}>
+            {error}
+          </div>
+        )}
       </React.Fragment>
     );
   }
@@ -204,7 +204,7 @@ TopicSettingItems.propTypes = {
   onDeleteTopic: PropTypes.func,
   refreshTopics: PropTypes.func,
   path: PropTypes.string,
-  filters: PropTypes.array,
+  filters: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default injectT(TopicSettingItems);

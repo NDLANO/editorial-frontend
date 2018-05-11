@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import './h5pResizer';
+import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 
@@ -36,7 +37,7 @@ export class DisplayOembed extends React.Component {
         this.setState({ error: true });
       }
     } catch (e) {
-      console.error(e);
+      handleError(e);
       this.setState({ error: true });
     }
   }

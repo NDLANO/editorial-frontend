@@ -8,9 +8,9 @@
 
 import React from 'react';
 import nock from 'nock';
-import IntlProvider from 'ndla-i18n';
 import { render, Simulate, wait } from 'react-testing-library';
 import EditFilters from '../components/EditFilters';
+import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 
 const filterMock = [
   { id: 'urn:filter:f85f8f24-9e00-4267-82f5-ffd0dd3c53fa', name: 'SF VG1' },
@@ -28,7 +28,7 @@ const filterMock = [
 
 const wrapper = () =>
   render(
-    <IntlProvider locale="nb" messages={{}}>
+    <IntlWrapper>
       <EditFilters
         id="test"
         classes={() => {}}
@@ -36,7 +36,7 @@ const wrapper = () =>
         filters={filterMock}
         getFilters={() => {}}
       />
-    </IntlProvider>,
+    </IntlWrapper>,
   );
 
 it('maps out filters', async () => {

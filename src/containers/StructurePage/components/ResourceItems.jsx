@@ -20,6 +20,7 @@ class ResourceItems extends React.PureComponent {
     super();
     this.state = {};
     this.onDelete = this.onDelete.bind(this);
+    this.toggleDelete = this.toggleDelete.bind(this);
   }
 
   async onDelete(id) {
@@ -32,6 +33,10 @@ class ResourceItems extends React.PureComponent {
     }
   }
 
+  toggleDelete(id) {
+    this.setState({ deleteId: id });
+  }
+
   render() {
     const { contentType, resources, t } = this.props;
     return (
@@ -42,9 +47,7 @@ class ResourceItems extends React.PureComponent {
               key={resource.id}
               contentType={contentType}
               name={resource.name}
-              onDelete={() =>
-                this.setState({ deleteId: resource.connectionId })
-              }
+              onDelete={() => this.toggleDelete(resource.connectionId)}
             />
           ))}
         </li>
@@ -53,7 +56,7 @@ class ResourceItems extends React.PureComponent {
             confirmDelete
             text={t('taxonomy.resource.confirmDelete')}
             onContinue={() => this.onDelete(this.state.deleteId)}
-            onCancel={() => this.setState({ deleteId: '' })}
+            onCancel={() => this.toggleDelete('')}
           />
         )}
       </ul>

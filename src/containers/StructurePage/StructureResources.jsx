@@ -116,7 +116,10 @@ export class StructureResources extends React.PureComponent {
     return (
       <Fragment>
         <TopicDescription
-          {...{ topicDescription, locale, refreshTopics, currentTopic }}
+          topicDescription={topicDescription}
+          locale={locale}
+          refreshTopics={refreshTopics}
+          currentTopic={currentTopic}
         />
         {resourceTypes.map(resourceType => {
           const topicResource =

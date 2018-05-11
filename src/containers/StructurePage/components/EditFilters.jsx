@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import { Plus } from 'ndla-icons/action';
 import InlineEditField from './InlineEditField';
 import {
@@ -118,4 +119,4 @@ EditFilters.propTypes = {
   getFilters: PropTypes.func,
 };
 
-export default EditFilters;
+export default injectT(EditFilters);

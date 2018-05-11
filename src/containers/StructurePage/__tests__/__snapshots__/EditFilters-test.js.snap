@@ -393,7 +393,7 @@ exports[`calls add filter 1`] = `
         />
       </g>
     </svg>
-    Errormelding
+    taxonomy.addFilter
   </button>
   <div />
 </div>
@@ -792,7 +792,7 @@ exports[`maps out filters 1`] = `
         />
       </g>
     </svg>
-    Errormelding
+    taxonomy.addFilter
   </button>
   <div />
 </div>

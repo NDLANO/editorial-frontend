@@ -109,7 +109,6 @@ class SubjectSettingsItems extends Component {
         {editMode === 'editFilter' && (
           <EditFilters
             classes={classes}
-            t={t}
             id={id}
             getFilters={getFilters}
             filters={filters}

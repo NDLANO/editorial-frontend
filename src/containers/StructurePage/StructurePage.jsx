@@ -320,7 +320,11 @@ export class StructurePage extends React.PureComponent {
           </div>
         </Accordion>
         {(params.topic1 || params.topic2 || params.topic3) && (
-          <StructureResources {...{ locale, params, activeFilters }} />
+          <StructureResources
+            locale={locale}
+            params={params}
+            activeFilters={activeFilters}
+          />
         )}
         <div style={{ display: 'none' }} ref={this.starButton}>
           <RoundIcon icon={<Star />} />

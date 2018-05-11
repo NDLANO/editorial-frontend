@@ -72,12 +72,21 @@ export class StructurePage extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { location: { pathname, search }, match: { params } } = nextProps;
+    const {
+      location: { pathname, search },
+      match: { params },
+      history,
+    } = nextProps;
     if (pathname !== this.props.location.pathname) {
       this.deleteConnections();
       const { subject } = params;
       if (subject) {
         this.getFilters(`urn:${subject}`);
+      }
+      if (!subject || subject !== this.props.match.params.subject) {
+        history.push({
+          search: '',
+        });
       }
       const currentSub = this.state.subjects.find(
         sub => sub.id === `urn:${subject}`,

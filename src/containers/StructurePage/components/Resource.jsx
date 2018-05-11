@@ -14,7 +14,14 @@ import { classes } from './ResourceGroup';
 import ToggleSwitch from './ToggleSwitch';
 import { RESOURCE_FILTER_CORE } from '../../../constants';
 
-const Resource = ({ contentType, name, toggleRelevance, onDelete }) => (
+const Resource = ({
+  contentType,
+  name,
+  toggleRelevance,
+  onDelete,
+  relevance,
+  id,
+}) => (
   <div {...classes('text o-flag o-flag--top')}>
     {contentType && (
       <div key="img" {...classes('icon o-flag__img')}>
@@ -24,14 +31,14 @@ const Resource = ({ contentType, name, toggleRelevance, onDelete }) => (
     <div key="body" {...classes('body o-flag__body')}>
       <h1 {...classes('title')}>{name}</h1>
     </div>
-          {toggleRelevance && (
-        <ToggleSwitch
-          on={relevance === RESOURCE_FILTER_CORE}
-          onClick={toggleRelevance}
-          large
-          testId={`toggleRelevance-${id}`}
-        />
-      )}
+    {toggleRelevance && (
+      <ToggleSwitch
+        on={relevance === RESOURCE_FILTER_CORE}
+        onClick={toggleRelevance}
+        large
+        testId={`toggleRelevance-${id}`}
+      />
+    )}
 
     {onDelete && (
       <Button onClick={onDelete} stripped>
@@ -47,6 +54,7 @@ Resource.propTypes = {
   onDelete: PropTypes.func,
   toggleRelevance: PropTypes.func,
   relevance: PropTypes.string,
+  id: PropTypes.string,
 };
 
 export default Resource;

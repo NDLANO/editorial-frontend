@@ -68,23 +68,22 @@ class ResourceItems extends React.PureComponent {
     return (
       <ul {...classes('list')}>
         {resources.map(resource => (
-        <li {...classes('item')}>
-          <Resource
-            key={resource.id}
-            contentType={contentType}
-            resource={resource}
-            onDelete={() => this.toggleDelete(resource.connectionId)}
-            toggleRelevance={
-              activeFilter
-                ? () => this.toggleRelevance(resource.id, resource.relevance)
-                : undefined
-            }
-            relevance={resource.relevance}
-          />
+          <li key={resource.id} {...classes('item')}>
+            <Resource
+              contentType={contentType}
+              name={resource.name}
+              id={resource.id}
+              onDelete={() => this.toggleDelete(resource.connectionId)}
+              toggleRelevance={
+                activeFilter
+                  ? () => this.toggleRelevance(resource.id, resource.relevance)
+                  : undefined
+              }
+              relevance={resource.relevance}
+            />
           </li>
         ))}
-              
-        
+
         {this.state.deleteId && (
           <WarningModal
             confirmDelete

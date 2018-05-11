@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import {
-  fetchSubjectFilters,
   fetchTopicFilters,
   addFilterToTopic,
   updateTopicFilter,
@@ -26,7 +25,6 @@ class ConnectFilters extends Component {
   constructor() {
     super();
     this.state = {
-      subjectFilters: [],
       topicFilters: [],
       inputs: {},
       loading: false,
@@ -40,8 +38,8 @@ class ConnectFilters extends Component {
   }
 
   async onSubmit() {
-    const { id } = this.props;
-    const { subjectFilters, topicFilters, inputs } = this.state;
+    const { subjectFilters, id } = this.props;
+    const { topicFilters, inputs } = this.state;
     this.setState({ loading: true });
     await Promise.all([
       ...subjectFilters.filter(filter => !!inputs[filter.id]).map(filter => {
@@ -82,20 +80,17 @@ class ConnectFilters extends Component {
   }
 
   async getFilters() {
-    const [subjectFilters, topicFilters] = await Promise.all([
-      fetchSubjectFilters(`urn:${this.props.path.split('/')[1]}`),
-      fetchTopicFilters(this.props.id),
-    ]);
+    const topicFilters = await fetchTopicFilters(this.props.id);
     const inputs = topicFilters.reduce((acc, curr) => {
       acc[curr.id] = { active: true, relevance: curr.relevanceId };
       return acc;
     }, {});
-    this.setState({ subjectFilters, topicFilters, inputs, error: '' });
+    this.setState({ topicFilters, inputs, error: '' });
   }
 
   render() {
-    const { classes, t } = this.props;
-    const { subjectFilters, inputs, error, loading } = this.state;
+    const { subjectFilters, classes, t } = this.props;
+    const { inputs, error, loading } = this.state;
     return (
       <form onSubmit={this.onSubmit} {...classes('editFilters')}>
         {loading && <Spinner cssModifier="absolute" />}
@@ -137,6 +132,7 @@ ConnectFilters.propTypes = {
   classes: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
+  subjectFilters: PropTypes.array,
 };
 
 export default injectT(ConnectFilters);

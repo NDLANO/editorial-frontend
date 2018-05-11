@@ -135,7 +135,7 @@ class ImageForm extends Component {
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <SaveButton {...{ classes, isSaving, t, showSaved }}>
+          <SaveButton isSaving={isSaving} showSaved={showSaved}>
             {t('form.save')}
           </SaveButton>
         </Field>

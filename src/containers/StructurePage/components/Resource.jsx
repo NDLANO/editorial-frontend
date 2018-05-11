@@ -11,8 +11,10 @@ import PropTypes from 'prop-types';
 import { RemoveCircle } from 'ndla-icons/action';
 import { Button, ContentTypeBadge } from 'ndla-ui';
 import { classes } from './ResourceGroup';
+import ToggleSwitch from './ToggleSwitch';
+import { RESOURCE_FILTER_CORE } from '../../../constants';
 
-const Resource = ({ contentType, name, onDelete }) => (
+const Resource = ({ contentType, name, toggleRelevance, onDelete }) => (
   <div {...classes('text o-flag o-flag--top')}>
     {contentType && (
       <div key="img" {...classes('icon o-flag__img')}>
@@ -22,6 +24,15 @@ const Resource = ({ contentType, name, onDelete }) => (
     <div key="body" {...classes('body o-flag__body')}>
       <h1 {...classes('title')}>{name}</h1>
     </div>
+          {toggleRelevance && (
+        <ToggleSwitch
+          on={relevance === RESOURCE_FILTER_CORE}
+          onClick={toggleRelevance}
+          large
+          testId={`toggleRelevance-${id}`}
+        />
+      )}
+
     {onDelete && (
       <Button onClick={onDelete} stripped>
         <RemoveCircle {...classes('deleteIcon')} />
@@ -34,6 +45,8 @@ Resource.propTypes = {
   contentType: PropTypes.string.isRequired,
   name: PropTypes.string,
   onDelete: PropTypes.func,
+  toggleRelevance: PropTypes.func,
+  relevance: PropTypes.string,
 };
 
 export default Resource;

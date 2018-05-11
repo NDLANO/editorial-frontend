@@ -27,7 +27,7 @@ export const BLOCK_TAGS = {
   br: 'br',
 };
 
-const TABLE_TAGS = {
+export const TABLE_TAGS = {
   table: 'table',
   th: 'table-cell',
   tr: 'table-row',
@@ -72,10 +72,18 @@ const setAsideTag = data => ({
   'data-type': data.get('type') || '',
 });
 
+const illegalTextUnderBlocks = ['ol', 'ul'];
+
 /* eslint-disable consistent-return, default-case */
 export const textRule = {
   deserialize(el) {
     if (
+      el.nodeName.toLowerCase() === '#text' &&
+      el.parentNode &&
+      illegalTextUnderBlocks.includes(el.parentNode.tagName.toLowerCase())
+    ) {
+      return null;
+    } else if (
       !el.nodeName ||
       el.nodeName.toLowerCase() !== '#text' ||
       (el.parentNode && el.parentNode.tagName.toLowerCase() !== 'section')

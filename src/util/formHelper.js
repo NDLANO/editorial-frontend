@@ -29,7 +29,7 @@ export const processorsWithDefault = obj => {
   const processors = parseCopyrightContributors(obj, 'processors');
   return processors.length > 0
     ? processors
-    : [{ name: userName, type: 'processor' }];
+    : [{ name: userName, type: 'Processor' }];
 };
 
 export const articleStatuses = [

@@ -149,6 +149,7 @@
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
+  margin: 0 -0.4rem;
 
   & .c-field {
     margin: 0;
@@ -156,7 +157,7 @@
 
   &__field {
     align-self: center;
-    padding: 0 0.4rem 0.6rem 0.4rem;
+    padding: 0 0.4rem 0.5rem 0.4rem;
 
     &--50-width {
       width: 50%;
@@ -164,10 +165,6 @@
 
     &--25-width {
       width: 25%;
-    }
-
-    &:last-child {
-      padding-right: 0;
     }
   }
 
@@ -192,6 +189,8 @@
 
   & select {
     width: 100%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 
   &__tagline {

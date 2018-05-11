@@ -19,10 +19,14 @@
     box-shadow: none;
     margin-right: calc(var(--spacing--small) / 2);
     color: var(--primary-color);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 
     &--active {
       font-weight: bold;
+    }
+
+    &--grayedOut {
+      opacity: 0.5;
     }
   }
 
@@ -127,4 +131,22 @@
   background-color: white;
   border-left: 2px solid red;
   margin: 10px 0;
+}
+
+.c-filter-view {
+  &__wrapper {
+    display: flex;
+    font-size: 0.9rem;
+  }
+
+  &__item {
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+  }
+
+  &__checkbox {
+    width: auto;
+    margin: 0 calc(var(--spacing--small) / 2) 0 var(--spacing--small);
+  }
 }

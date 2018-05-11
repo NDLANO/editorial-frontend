@@ -24,6 +24,7 @@ const makeWrapper = WrappedComponent => {
         fields: {},
       };
       this.setModel = this.setModel.bind(this);
+      this.setModelField = this.setModelField.bind(this);
       this.setProperty = this.setProperty.bind(this);
       this.bindToChangeEvent = this.bindToChangeEvent.bind(this);
       this.bindInput = this.bindInput.bind(this);
@@ -35,6 +36,12 @@ const makeWrapper = WrappedComponent => {
     setModel(model) {
       this.setState({ model });
       return model;
+    }
+
+    setModelField(field, value) {
+      this.setState(prevState => ({
+        model: { ...prevState.model, [field]: value },
+      }));
     }
 
     setSubmitted(submitted) {
@@ -122,6 +129,7 @@ const makeWrapper = WrappedComponent => {
         setProperty: this.setProperty,
         setSubmitted: this.setSubmitted,
         setModel: this.setModel,
+        setModelField: this.setModelField,
       };
 
       return React.createElement(WrappedComponent, nextProps);

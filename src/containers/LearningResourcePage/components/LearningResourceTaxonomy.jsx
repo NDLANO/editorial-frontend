@@ -47,11 +47,15 @@ class LearningResourceTaxonomy extends Component {
         fetchTopics(model.language),
         fetchRelevances(model.language),
       ]);
+
+      // Filter out items with no name (is required)
       this.setState({
         taxonomy: {
-          resourceTypes: flattenResourceTypes(resourceTypes),
-          filters,
-          topics,
+          resourceTypes: flattenResourceTypes(resourceTypes).filter(
+            resourceType => resourceType.name,
+          ),
+          filters: filters.filter(filter => filter.name),
+          topics: topics.filter(topic => topic.name),
           relevances,
         },
       });

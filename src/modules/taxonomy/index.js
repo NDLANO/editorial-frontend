@@ -19,6 +19,7 @@ import {
   createResource,
   fetchResourceResourceType,
   fetchResourceFilter,
+  updateResourceRelevance,
   // fetchTopicResource,
 } from './resources';
 import {
@@ -115,4 +116,5 @@ export {
   addFilterToTopic,
   updateTopicFilter,
   deleteTopicFilter,
+  updateResourceRelevance,
 };

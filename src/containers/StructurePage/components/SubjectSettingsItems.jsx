@@ -35,6 +35,8 @@ class SubjectSettingsItems extends Component {
       name,
       onClose,
       t,
+      getFilters,
+      filters,
     } = this.props;
     const { editMode } = this.state;
 
@@ -105,7 +107,12 @@ class SubjectSettingsItems extends Component {
           {t('taxonomy.editFilter')}
         </Button>
         {editMode === 'editFilter' && (
-          <EditFilters classes={classes} t={t} id={id} />
+          <EditFilters
+            classes={classes}
+            id={id}
+            getFilters={getFilters}
+            filters={filters}
+          />
         )}
       </React.Fragment>
     );
@@ -121,6 +128,8 @@ SubjectSettingsItems.propTypes = {
   name: PropTypes.string,
   onClose: PropTypes.func,
   t: PropTypes.func,
+  getFilters: PropTypes.func,
+  filters: PropTypes.array,
 };
 
 export default injectT(SubjectSettingsItems);

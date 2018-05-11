@@ -16,6 +16,9 @@ const connectSrc = (() => {
     'https://bcsecure01-a.akamaihd.net',
     'https://hlsak-a.akamaihd.net',
     'https://*.zendesk.com',
+    'https://*.boltdns.net',
+    'https://www.googleapis.com/customsearch/',
+    'https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -34,6 +37,7 @@ const scriptSrc = (() => {
     "'self'",
     "'unsafe-inline'",
     " 'unsafe-eval'",
+    'blob:',
     'https://*.ndlah5p.com',
     'https://h5p.org',
     'https://*.ndla.no',
@@ -149,9 +153,11 @@ export default {
       'https://httpsak-a.akamaihd.net',
       'https://*.boltdns.net',
       'https://www.nrk.no/',
+      'https://i.ytimg.com/',
       'https://ssl.gstatic.com',
       'https://www.gstatic.com',
       ' data:',
+      'blob:',
     ],
     mediaSrc: [
       "'self'",

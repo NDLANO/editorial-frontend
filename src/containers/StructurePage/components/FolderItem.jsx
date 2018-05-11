@@ -15,6 +15,7 @@ import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';
 import EditLinkButton from './EditLinkButton';
 import RoundIcon from './RoundIcon';
+import FilterView from './FilterView';
 
 const classes = new BEMHelper({
   name: 'folder',
@@ -31,10 +32,13 @@ const FolderItem = ({
   refFunc,
   showLink,
   linkViewOpen,
+  activeFilters,
+  toggleFilter,
   ...rest
 }) => {
   const { url, params } = match;
   const type = id.includes('subject') ? 'subject' : 'topic';
+  const grayedOut = !active && params.subject && type === 'subject';
 
   return (
     <React.Fragment>
@@ -48,7 +52,10 @@ const FolderItem = ({
                   .join('/')}`
               : `/structure${path}`
           }
-          {...classes('link', active && 'active')}>
+          {...classes(
+            'link',
+            `${active ? 'active' : ''} ${grayedOut ? 'grayedOut' : ''}`,
+          )}>
           <Folder {...classes('folderIcon')} color="#70A5DA" />
           {name}
         </RouterLink>
@@ -62,6 +69,14 @@ const FolderItem = ({
         {active && (
           <SettingsMenu id={id} name={name} type={type} path={path} {...rest} />
         )}
+        {active &&
+          type === 'subject' && (
+            <FilterView
+              filters={rest.filters}
+              activeFilters={activeFilters}
+              toggleFilter={toggleFilter}
+            />
+          )}
       </div>
       <div {...classes('subFolders')}>
         {active &&
@@ -103,6 +118,8 @@ FolderItem.propTypes = {
   refFunc: func,
   showLink: func,
   linkViewOpen: bool,
+  activeFilters: arrayOf(string),
+  toggleFilter: func,
 };
 
 export default FolderItem;

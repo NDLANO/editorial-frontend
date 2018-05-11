@@ -11,15 +11,24 @@ import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { ResourceShape } from '../../../shapes';
 import Resource from './Resource';
-import { deleteTopicResource } from '../../../modules/taxonomy';
+import {
+  deleteTopicResource,
+  fetchResourceFilter,
+  updateResourceRelevance,
+} from '../../../modules/taxonomy';
 import WarningModal from '../../../components/WarningModal';
 import { classes } from './ResourceGroup';
+import {
+  RESOURCE_FILTER_CORE,
+  RESOURCE_FILTER_SUPPLEMENTARY,
+} from '../../../constants';
 
 class ResourceItems extends React.PureComponent {
   constructor() {
     super();
     this.state = {};
     this.onDelete = this.onDelete.bind(this);
+    this.toggleRelevance = this.toggleRelevance.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
   }
 
@@ -33,24 +42,49 @@ class ResourceItems extends React.PureComponent {
     }
   }
 
+  async toggleRelevance(resourceId, relevance) {
+    const { activeFilter, locale, refreshResources } = this.props;
+    const newRelevance =
+      relevance === RESOURCE_FILTER_CORE
+        ? RESOURCE_FILTER_SUPPLEMENTARY
+        : RESOURCE_FILTER_CORE;
+    const resourceFilters = await fetchResourceFilter(resourceId, locale);
+    const fetchedFilter = resourceFilters.find(
+      filter => filter.id === activeFilter,
+    );
+    const ok = fetchedFilter
+      ? await updateResourceRelevance(fetchedFilter.connectionId, newRelevance)
+      : false;
+
+    if (ok) refreshResources();
+  }
+
   toggleDelete(id) {
     this.setState({ deleteId: id });
   }
 
   render() {
-    const { contentType, resources, t } = this.props;
+    const { contentType, resources, t, activeFilter } = this.props;
     return (
       <ul {...classes('list')}>
+        {resources.map(resource => (
         <li {...classes('item')}>
-          {resources.map(resource => (
-            <Resource
-              key={resource.id}
-              contentType={contentType}
-              name={resource.name}
-              onDelete={() => this.toggleDelete(resource.connectionId)}
-            />
-          ))}
-        </li>
+          <Resource
+            key={resource.id}
+            contentType={contentType}
+            resource={resource}
+            onDelete={() => this.toggleDelete(resource.connectionId)}
+            toggleRelevance={
+              activeFilter
+                ? () => this.toggleRelevance(resource.id, resource.relevance)
+                : undefined
+            }
+            relevance={resource.relevance}
+          />
+          </li>
+        ))}
+              
+        
         {this.state.deleteId && (
           <WarningModal
             confirmDelete
@@ -69,6 +103,7 @@ ResourceItems.propTypes = {
   resources: PropTypes.arrayOf(ResourceShape),
   classes: PropTypes.func,
   refreshResources: PropTypes.func,
+  activeFilter: PropTypes.string,
 };
 
 export default injectT(ResourceItems);

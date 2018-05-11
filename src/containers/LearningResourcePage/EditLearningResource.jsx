@@ -116,7 +116,7 @@ class EditLearningResource extends Component {
   }
 
   render() {
-    const { article, ...rest } = this.props;
+    const { article, selectedLanguage, ...rest } = this.props;
     if (!article) {
       return null;
     }
@@ -129,7 +129,11 @@ class EditLearningResource extends Component {
     }
     return (
       <LearningResourceForm
-        initialModel={getInitialModel(article, this.state.taxonomy)}
+        initialModel={getInitialModel(
+          article,
+          this.state.taxonomy,
+          selectedLanguage,
+        )}
         taxonomy={this.state.taxonomy}
         revision={article.revision}
         articleStatus={article.status}

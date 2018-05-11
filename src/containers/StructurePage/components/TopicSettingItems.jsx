@@ -90,7 +90,7 @@ class TopicSettingItems extends React.PureComponent {
   }
 
   render() {
-    const { classes, id, name, onClose, t, path } = this.props;
+    const { classes, id, name, onClose, t, path, filters } = this.props;
     const { editMode, loading } = this.state;
 
     return (
@@ -165,7 +165,12 @@ class TopicSettingItems extends React.PureComponent {
           {t('taxonomy.connectFilters')}
         </Button>
         {editMode === 'connectFilters' && (
-          <ConnectFilters classes={classes} path={path} id={id} />
+          <ConnectFilters
+            classes={classes}
+            path={path}
+            id={id}
+            subjectFilters={filters}
+          />
         )}
         <Button
           {...classes('menuItem')}
@@ -203,6 +208,7 @@ TopicSettingItems.propTypes = {
   onDeleteTopic: PropTypes.func,
   refreshTopics: PropTypes.func,
   path: PropTypes.string,
+  filters: PropTypes.array,
   contentUri: PropTypes.string,
 };
 

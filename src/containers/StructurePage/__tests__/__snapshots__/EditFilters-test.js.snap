@@ -367,79 +367,6 @@ exports[`calls add filter 1`] = `
       </button>
     </div>
   </div>
-  <div>
-    Nytt filter
-    <div
-      style="display: flex;"
-    >
-      <button
-        class="c-button c-button--stripped"
-        data-testid="editFiltertest"
-        type="button"
-      >
-        <div
-          class="c-roundIcon c-roundIcon--small"
-        >
-          <svg
-            fill="currentColor"
-            preserveAspectRatio="xMidYMid meet"
-            height="1em"
-            width="1em"
-            class="c-icon"
-            viewBox="0 0 24 24"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            style="vertical-align: middle;"
-          >
-            <g>
-              <path
-                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
-          </svg>
-        </div>
-      </button>
-      <button
-        class="c-button c-button--stripped"
-        data-testid="deleteFiltertest"
-        type="button"
-      >
-        <div
-          class="c-roundIcon c-roundIcon--small"
-        >
-          <svg
-            fill="currentColor"
-            preserveAspectRatio="xMidYMid meet"
-            height="1em"
-            width="1em"
-            class="c-icon"
-            viewBox="0 0 24 24"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            style="vertical-align: middle;"
-          >
-            <g>
-              <path
-                d="M0 0h24v24H0V0z"
-                fill="none"
-              />
-              <path
-                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
-          </svg>
-        </div>
-      </button>
-    </div>
-  </div>
   <button
     class="c-button c-button--stripped"
     data-testid="addFilterButton"
@@ -466,7 +393,7 @@ exports[`calls add filter 1`] = `
         />
       </g>
     </svg>
-    Errormelding
+    taxonomy.addFilter
   </button>
   <div />
 </div>
@@ -865,7 +792,7 @@ exports[`maps out filters 1`] = `
         />
       </g>
     </svg>
-    Errormelding
+    taxonomy.addFilter
   </button>
   <div />
 </div>

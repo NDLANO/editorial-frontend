@@ -16,6 +16,9 @@ import AddContributor from './AddContributor';
 import { getLocale } from '../../modules/locale/locale';
 import CirclePlusButton from '../CirclePlusButton';
 
+const capitalizeFirstLetter = string =>
+  string.charAt(0).toUpperCase() + string.slice(1);
+
 const Contributors = props => {
   const {
     name,
@@ -60,7 +63,7 @@ const Contributors = props => {
   };
 
   const contributorTypeItems = contributorGroups[name].map(item => ({
-    type: item,
+    type: capitalizeFirstLetter(item),
     translation: contributorTypes[locale]
       ? contributorTypes[locale][item]
       : contributorTypes.nb[item],

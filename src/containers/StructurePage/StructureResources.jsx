@@ -50,10 +50,17 @@ export class StructureResources extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentTopic, params: { topic1, topic2, topic3 } } = nextProps;
-    if (nextProps.params !== this.props.params) {
+    const {
+      currentTopic,
+      params: { topic1, topic2, topic3 },
+      activeFilters,
+    } = nextProps;
+    if (
+      nextProps.params !== this.props.params ||
+      activeFilters !== this.props.activeFilters
+    ) {
       const topicId = topic3 || topic2 || topic1;
-      this.getTopicResources(topicId);
+      this.getTopicResources(topicId, activeFilters);
     }
     if (
       currentTopic.contentUri &&
@@ -77,7 +84,7 @@ export class StructureResources extends React.PureComponent {
     }
   }
 
-  async getTopicResources(topicId) {
+  async getTopicResources(topicId, activeFilters = this.props.activeFilters) {
     if (topicId) {
       const { locale } = this.props;
       const { resourceTypes } = this.state;
@@ -87,8 +94,18 @@ export class StructureResources extends React.PureComponent {
           coreTopicResources = [],
           supplementaryTopicResources = [],
         ] = await Promise.all([
-          fetchTopicResources(fullId, locale, RESOURCE_FILTER_CORE),
-          fetchTopicResources(fullId, locale, RESOURCE_FILTER_SUPPLEMENTARY),
+          fetchTopicResources(
+            fullId,
+            locale,
+            RESOURCE_FILTER_CORE,
+            activeFilters.join(','),
+          ),
+          fetchTopicResources(
+            fullId,
+            locale,
+            RESOURCE_FILTER_SUPPLEMENTARY,
+            activeFilters.join(','),
+          ),
         ]);
 
         const topicResources = groupSortResourceTypesFromTopicResources(
@@ -108,10 +125,12 @@ export class StructureResources extends React.PureComponent {
   render() {
     const {
       params: { topic1, topic2, topic3 },
+      activeFilters,
       locale,
-      currentTopic,
       refreshTopics,
+      currentTopic,
     } = this.props;
+
     const { topicDescription, resourceTypes, topicResources } = this.state;
     return (
       <Fragment>
@@ -134,6 +153,8 @@ export class StructureResources extends React.PureComponent {
               refreshResources={() =>
                 this.getTopicResources(topic3 || topic2 || topic1)
               }
+              activeFilter={activeFilters.length === 1 ? activeFilters[0] : ''}
+              locale={locale}
             />
           );
         })}
@@ -153,6 +174,7 @@ StructureResources.propTypes = {
     contentUri: PropTypes.string,
   }).isRequired,
   refreshTopics: PropTypes.func,
+  activeFilters: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default StructureResources;

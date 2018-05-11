@@ -13,6 +13,7 @@ import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import { fetchExternalOembed } from '../../util/apiHelpers';
+import { editorClasses } from '../../components/SlateEditor/plugins/embed/SlateFigure';
 
 export const getIframeSrcFromHtmlString = html => {
   const el = document.createElement('html');
@@ -48,7 +49,7 @@ export class DisplayExternal extends React.Component {
   }
 
   render() {
-    const { editorClasses, onRemoveClick } = this.props;
+    const { onRemoveClick } = this.props;
     const { title, src, error, type, provider } = this.state;
 
     if (!type && !provider) {
@@ -104,7 +105,6 @@ export class DisplayExternal extends React.Component {
 
 DisplayExternal.propTypes = {
   url: PropTypes.string.isRequired,
-  editorClasses: PropTypes.func,
   onRemoveClick: PropTypes.func,
 };
 

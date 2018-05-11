@@ -112,17 +112,12 @@ class SlateFigure extends React.Component {
       case 'external':
         if (embed.url.indexOf('h5p') > -1) {
           return (
-            <DisplayOembed
-              editorClasses={editorClasses}
-              onRemoveClick={this.onRemoveClick}
-              url={embed.url}
-            />
+            <DisplayOembed onRemoveClick={this.onRemoveClick} url={embed.url} />
           );
         }
         return (
           <Figure>
             <DisplayExternal
-              editorClasses={editorClasses}
               onRemoveClick={this.onRemoveClick}
               url={embed.url}
             />
@@ -130,11 +125,7 @@ class SlateFigure extends React.Component {
         );
       case 'h5p':
         return (
-          <DisplayOembed
-            editorClasses={editorClasses}
-            onRemoveClick={this.onRemoveClick}
-            url={embed.url}
-          />
+          <DisplayOembed onRemoveClick={this.onRemoveClick} url={embed.url} />
         );
       case 'related-content':
         return (

@@ -9,9 +9,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { Button } from 'ndla-ui';
+import { Cross } from 'ndla-icons/action';
 import './h5pResizer';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import { fetchExternalOembed } from '../../util/apiHelpers';
+import { editorClasses } from '../../components/SlateEditor/plugins/embed/SlateFigure';
 
 export const getIframeSrcFromHtmlString = html => {
   const el = document.createElement('html');
@@ -42,29 +45,39 @@ export class DisplayOembed extends React.Component {
   }
 
   render() {
+    const { onRemoveClick } = this.props;
     const { title, src, error } = this.state;
 
-    if (error) {
-      return (
-        <EditorErrorMessage msg={this.props.t('displayOembed.errorMessage')} />
-      );
-    }
-
     return (
-      <iframe
-        ref={iframe => {
-          this.iframe = iframe;
-        }}
-        src={src}
-        title={title}
-        frameBorder="0"
-      />
+      <React.Fragment>
+        <Button
+          stripped
+          onClick={onRemoveClick}
+          {...editorClasses('delete-button')}>
+          <Cross />
+        </Button>
+        {error ? (
+          <EditorErrorMessage
+            msg={this.props.t('displayOembed.errorMessage')}
+          />
+        ) : (
+          <iframe
+            ref={iframe => {
+              this.iframe = iframe;
+            }}
+            src={src}
+            title={title}
+            frameBorder="0"
+          />
+        )}
+      </React.Fragment>
     );
   }
 }
 
 DisplayOembed.propTypes = {
   url: PropTypes.string.isRequired,
+  onRemoveClick: PropTypes.func,
 };
 
 export default injectT(DisplayOembed);

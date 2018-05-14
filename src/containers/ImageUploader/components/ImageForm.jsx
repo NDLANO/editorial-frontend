@@ -110,6 +110,7 @@ class ImageForm extends Component {
       bindInput,
       schema,
       model,
+      initialModel,
       submitted,
       tags,
       licenses,
@@ -142,6 +143,8 @@ class ImageForm extends Component {
         <WarningModalWrapper
           {...{
             schema,
+            model,
+            initialModel,
             showSaved,
             fields,
             handleSubmit: this.handleSubmit,

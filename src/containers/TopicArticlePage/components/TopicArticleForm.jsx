@@ -120,6 +120,7 @@ class TopicArticleForm extends Component {
       t,
       bindInput,
       schema,
+      initialModel,
       model,
       submitted,
       tags,
@@ -175,6 +176,8 @@ class TopicArticleForm extends Component {
           </SaveButton>
         </Field>
         <WarningModalWrapper
+          initialModel={initialModel}
+          model={model}
           schema={schema}
           showSaved={showSaved}
           fields={fields}

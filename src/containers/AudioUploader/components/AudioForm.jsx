@@ -106,6 +106,7 @@ class AudioForm extends Component {
       t,
       bindInput,
       schema,
+      initialModel,
       model,
       submitted,
       tags,
@@ -149,6 +150,8 @@ class AudioForm extends Component {
           <SaveButton isSaving={isSaving} showSaved={showSaved} />
         </Field>
         <WarningModalWrapper
+          initialModel={initialModel}
+          model={model}
           schema={schema}
           showSaved={showSaved}
           fields={fields}

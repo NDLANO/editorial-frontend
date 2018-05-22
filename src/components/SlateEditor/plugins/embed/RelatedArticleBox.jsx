@@ -21,6 +21,7 @@ import { EditorShape } from '../../../../shapes';
 import { mapping } from '../utils/relatedArticleMapping';
 import EditRelated from './EditRelated';
 import { toEditArticle } from '../../../../util/routeHelpers';
+import handleError from '../../../../util/handleError';
 
 const nodeProps = ids => ({
   data: {
@@ -71,18 +72,22 @@ class RelatedArticleBox extends React.Component {
     editor.change(change => change.setNodeByKey(node.key, nodeProps(ids)));
   }
 
-  async fetchRelated(it) {
+  async fetchRelated(id) {
     const { locale } = this.props;
 
-    const [article, resource] = await Promise.all([
-      searchArticles(`${it}`, locale),
-      queryResources(it, locale),
-    ]);
-
-    this.setState(prevState => ({
-      items: [...prevState.items, { ...article, resource }],
-      editMode: false,
-    }));
+    try {
+      const [article, resource] = await Promise.all([
+        searchArticles(`${id}`, locale),
+        queryResources(id, locale),
+      ]);
+      if (article)
+        this.setState(prevState => ({
+          items: [...prevState.items, { ...article, resource }],
+          editMode: false,
+        }));
+    } catch (error) {
+      handleError(error);
+    }
   }
 
   removeArticle(i, e) {

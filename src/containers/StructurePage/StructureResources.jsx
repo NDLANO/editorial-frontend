@@ -72,8 +72,12 @@ export class StructureResources extends React.PureComponent {
   }
 
   async getArticle(contentUri) {
-    const article = await getArticle(contentUri.replace('urn:article:', ''));
-    this.setState({ topicDescription: article.title && article.title.title });
+    try {
+      const article = await getArticle(contentUri.replace('urn:article:', ''));
+      this.setState({ topicDescription: article.title && article.title.title });
+    } catch (error) {
+      handleError(error);
+    }
   }
 
   async getAllResourceTypes() {

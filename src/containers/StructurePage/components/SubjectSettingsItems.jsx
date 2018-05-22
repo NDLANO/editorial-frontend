@@ -129,7 +129,7 @@ SubjectSettingsItems.propTypes = {
   onClose: PropTypes.func,
   t: PropTypes.func,
   getFilters: PropTypes.func,
-  filters: PropTypes.array,
+  filters: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default injectT(SubjectSettingsItems);

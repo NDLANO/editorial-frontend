@@ -12,6 +12,7 @@ import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
 import './h5pResizer';
+import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { editorClasses } from '../../components/SlateEditor/plugins/embed/SlateFigure';
@@ -39,7 +40,7 @@ export class DisplayOembed extends React.Component {
         this.setState({ error: true });
       }
     } catch (e) {
-      console.error(e);
+      handleError(e);
       this.setState({ error: true });
     }
   }

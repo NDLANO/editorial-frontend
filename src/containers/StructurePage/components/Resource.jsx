@@ -22,27 +22,25 @@ const Resource = ({
   toggleRelevance,
   relevance,
 }) => (
-  <li {...classes('item')}>
-    <div {...classes('text o-flag o-flag--top')}>
-      <div key="img" {...classes('icon o-flag__img')}>
-        <ContentTypeBadge background type={contentType} />
-      </div>
-      <div key="body" {...classes('body o-flag__body')}>
-        <h1 {...classes('title')}>{resource.name}</h1>
-      </div>
-      {toggleRelevance && (
-        <ToggleSwitch
-          on={relevance === RESOURCE_FILTER_CORE}
-          onClick={toggleRelevance}
-          large
-          testId={`toggleRelevance-${resource.id}`}
-        />
-      )}
-      <Button onClick={onDelete} stripped>
-        <RemoveCircle {...classes('deleteIcon')} />
-      </Button>
+  <div {...classes('text o-flag o-flag--top')}>
+    <div key="img" {...classes('icon o-flag__img')}>
+      <ContentTypeBadge background type={contentType} />
     </div>
-  </li>
+    <div key="body" {...classes('body o-flag__body')}>
+      <h1 {...classes('title')}>{resource.name}</h1>
+    </div>
+    {toggleRelevance && (
+      <ToggleSwitch
+        on={relevance === RESOURCE_FILTER_CORE}
+        onClick={toggleRelevance}
+        large
+        testId={`toggleRelevance-${resource.id}`}
+      />
+    )}
+    <Button onClick={onDelete} stripped>
+      <RemoveCircle {...classes('deleteIcon')} />
+    </Button>
+  </div>
 );
 
 Resource.propTypes = {

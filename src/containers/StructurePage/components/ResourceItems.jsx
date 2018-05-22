@@ -16,6 +16,7 @@ import {
   fetchResourceFilter,
   updateResourceRelevance,
 } from '../../../modules/taxonomy';
+import handleError from '../../../util/handleError';
 import WarningModal from '../../../components/WarningModal';
 import { classes } from './ResourceGroup';
 import {
@@ -36,8 +37,11 @@ class ResourceItems extends React.PureComponent {
       this.setState({ deleteId: '' });
       await deleteTopicResource(id);
       this.props.refreshResources();
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      handleError(e);
+      this.setState({
+        error: `${this.props.t('taxonomy.errorMessage')}: ${e.message}`,
+      });
     }
   }
 
@@ -63,19 +67,29 @@ class ResourceItems extends React.PureComponent {
     return (
       <ul {...classes('list')}>
         {resources.map(resource => (
-          <Resource
-            key={resource.id}
-            contentType={contentType}
-            resource={resource}
-            onDelete={() => this.setState({ deleteId: resource.connectionId })}
-            toggleRelevance={
-              activeFilter
-                ? () => this.toggleRelevance(resource.id, resource.relevance)
-                : undefined
-            }
-            relevance={resource.relevance}
-          />
+          <li key={resource.id} {...classes('item')}>
+            <Resource
+              contentType={contentType}
+              resource={resource}
+              onDelete={() =>
+                this.setState({ deleteId: resource.connectionId })
+              }
+              toggleRelevance={
+                activeFilter
+                  ? () => this.toggleRelevance(resource.id, resource.relevance)
+                  : undefined
+              }
+              relevance={resource.relevance}
+            />
+          </li>
         ))}
+        {this.state.error && (
+          <div
+            data-testid="inlineEditErrorMessage"
+            {...classes('errorMessage')}>
+            {this.state.error}
+          </div>
+        )}
         {this.state.deleteId && (
           <WarningModal
             confirmDelete

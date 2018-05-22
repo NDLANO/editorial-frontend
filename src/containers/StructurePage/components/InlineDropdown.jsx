@@ -15,6 +15,7 @@ import Downshift from 'downshift';
 import Fuse from 'fuse.js';
 import { Cross } from 'ndla-icons/action';
 import { Search } from 'ndla-icons/common';
+import handleError from '../../../util/handleError';
 import { itemToString } from '../../../util/downShiftHelpers';
 import {
   DropdownMenu,
@@ -58,6 +59,7 @@ class InlineDropdown extends PureComponent {
         this.props.onClose();
         this.setState({ status: 'success' });
       } catch (e) {
+        handleError(e);
         this.setState({ status: 'error' });
       }
     }

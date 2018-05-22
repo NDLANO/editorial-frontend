@@ -174,6 +174,7 @@ class LearningResourceForm extends Component {
       t,
       bindInput,
       schema,
+      initialModel,
       model,
       submitted,
       tags,
@@ -239,6 +240,8 @@ class LearningResourceForm extends Component {
             schema,
             showSaved,
             fields,
+            model,
+            initialModel,
             handleSubmit: this.handleSubmit,
             text: t('warningModal.notSaved'),
           }}

@@ -16,6 +16,7 @@ import { OneColumn } from 'ndla-ui';
 import { Taxonomy, Star } from 'ndla-icons/editor';
 import { jsPlumb } from 'jsplumb';
 
+import handleError from '../../util/handleError';
 import { getLocale } from '../../modules/locale/locale';
 import StructureResources from './StructureResources';
 import FolderItem from './components/FolderItem';
@@ -104,43 +105,31 @@ export class StructurePage extends React.PureComponent {
   }
 
   async onChangeSubjectName(subjectId, name) {
-    try {
-      const ok = await updateSubjectName(subjectId, name);
-      this.getAllSubjects();
-      return ok;
-    } catch (e) {
-      return e;
-    }
+    const ok = await updateSubjectName(subjectId, name);
+    this.getAllSubjects();
+    return ok;
   }
 
   async onAddExistingTopic(subjectid, topicid) {
-    try {
-      const ok = await addSubjectTopic({
-        subjectid,
-        topicid,
-      });
-      if (ok) {
-        this.getSubjectTopics(subjectid);
-      }
-    } catch (error) {
-      console.log(error);
+    const ok = await addSubjectTopic({
+      subjectid,
+      topicid,
+    });
+    if (ok) {
+      this.getSubjectTopics(subjectid);
     }
   }
 
   async onAddSubjectTopic(subjectid, name) {
-    try {
-      const newPath = await addTopic({ name });
-      const newId = newPath.replace('/v1/topics/', '');
-      const ok = await addSubjectTopic({
-        subjectid,
-        topicid: newId,
-        primary: true,
-      });
-      if (ok) {
-        this.getSubjectTopics(subjectid);
-      }
-    } catch (error) {
-      console.log(error);
+    const newPath = await addTopic({ name });
+    const newId = newPath.replace('/v1/topics/', '');
+    const ok = await addSubjectTopic({
+      subjectid,
+      topicid: newId,
+      primary: true,
+    });
+    if (ok) {
+      this.getSubjectTopics(subjectid);
     }
   }
 
@@ -152,7 +141,7 @@ export class StructurePage extends React.PureComponent {
       });
       this.setState({ subjects });
     } catch (e) {
-      console.log(e);
+      handleError(e);
     }
   }
 
@@ -187,8 +176,8 @@ export class StructurePage extends React.PureComponent {
           [subjectid]: groupedTopics,
         },
       }));
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      handleError(e);
     }
   }
 
@@ -219,18 +208,14 @@ export class StructurePage extends React.PureComponent {
       const filters = await fetchSubjectFilters(subjectId);
       this.setState({ filters });
     } catch (e) {
-      console.log(e);
+      handleError(e);
     }
   }
 
   async addSubject(name) {
-    try {
-      const newPath = await addSubject({ name });
-      if (newPath) this.getAllSubjects();
-      return newPath;
-    } catch (e) {
-      return e;
-    }
+    const newPath = await addSubject({ name });
+    if (newPath) this.getAllSubjects();
+    return newPath;
   }
 
   connectLinkItems(source, target) {

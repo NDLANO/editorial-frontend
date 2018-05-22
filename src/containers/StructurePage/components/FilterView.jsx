@@ -41,7 +41,7 @@ const FilterView = ({ filters, activeFilters, toggleFilter }) => (
 
 FilterView.propTypes = {
   filters: PropTypes.arrayOf(PropTypes.object),
-  activeFilters: PropTypes.array,
+  activeFilters: PropTypes.arrayOf(PropTypes.string),
   toggleFilter: PropTypes.func,
 };
 

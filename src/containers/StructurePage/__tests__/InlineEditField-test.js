@@ -17,6 +17,7 @@ it('Goes to edit mode, handles submit', async () => {
     <InlineEditField
       title="Test"
       classes={() => {}}
+      onClose={() => {}}
       t={() => {}}
       onSubmit={actionFunc}
     />,

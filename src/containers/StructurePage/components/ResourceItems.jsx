@@ -16,6 +16,7 @@ import {
   fetchResourceFilter,
   updateResourceRelevance,
 } from '../../../modules/taxonomy';
+import handleError from '../../../util/handleError';
 import WarningModal from '../../../components/WarningModal';
 import { classes } from './ResourceGroup';
 import {
@@ -37,8 +38,11 @@ class ResourceItems extends React.PureComponent {
       this.setState({ deleteId: '' });
       await deleteTopicResource(id);
       this.props.refreshResources();
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      handleError(e);
+      this.setState({
+        error: `${this.props.t('taxonomy.errorMessage')}: ${e.message}`,
+      });
     }
   }
 
@@ -83,7 +87,13 @@ class ResourceItems extends React.PureComponent {
             />
           </li>
         ))}
-
+        {this.state.error && (
+          <div
+            data-testid="inlineEditErrorMessage"
+            {...classes('errorMessage')}>
+            {this.state.error}
+          </div>
+        )}
         {this.state.deleteId && (
           <WarningModal
             confirmDelete

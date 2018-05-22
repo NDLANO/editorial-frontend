@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import get from 'lodash/fp/get';
 import set from 'lodash/fp/set';
+import isEqual from 'lodash/fp/isEqual';
 import { getComponentName } from 'ndla-util';
 
 const makeWrapper = WrappedComponent => {
@@ -20,6 +21,7 @@ const makeWrapper = WrappedComponent => {
       super(props, ctx);
       this.state = {
         submitted: false,
+        initialModel: props.initialModel || {},
         model: props.initialModel || {},
         fields: {},
       };
@@ -31,6 +33,7 @@ const makeWrapper = WrappedComponent => {
       this.setInputFlags = this.setInputFlags.bind(this);
       this.setSubmitted = this.setSubmitted.bind(this);
       this.bindInputEvent = this.bindInputEvent.bind(this);
+      this.checkIfDirty = this.checkIfDirty.bind(this);
     }
 
     setModel(model) {
@@ -65,6 +68,14 @@ const makeWrapper = WrappedComponent => {
       this.setState(prevstate => ({
         model: set(name, value, prevstate.model),
       }));
+      this.setInputFlags(name, {
+        dirty: this.checkIfDirty(name, value),
+      });
+    }
+
+    checkIfDirty(name, value) {
+      const { initialModel: model } = this.state;
+      return !isEqual(model[name], value);
     }
 
     bindToChangeEvent(e) {
@@ -78,7 +89,6 @@ const makeWrapper = WrappedComponent => {
       } else {
         this.setProperty(name, value);
       }
-      this.setInputFlags(name, { dirty: true });
     }
 
     bindInputEvent(e) {

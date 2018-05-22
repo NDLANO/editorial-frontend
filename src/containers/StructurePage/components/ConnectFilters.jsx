@@ -132,7 +132,11 @@ ConnectFilters.propTypes = {
   classes: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
-  subjectFilters: PropTypes.array,
+  subjectFilters: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  ),
 };
 
 export default injectT(ConnectFilters);

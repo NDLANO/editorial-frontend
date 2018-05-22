@@ -212,7 +212,7 @@ TopicSettingItems.propTypes = {
   onDeleteTopic: PropTypes.func,
   refreshTopics: PropTypes.func,
   path: PropTypes.string,
-  filters: PropTypes.array,
+  filters: PropTypes.arrayOf(PropTypes.object),
   contentUri: PropTypes.string,
 };
 

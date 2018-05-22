@@ -5,6 +5,7 @@ import { updateTopic } from '../../../modules/taxonomy';
 import TaxonomyLightbox from './TaxonomyLightbox';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { searchRelatedArticles } from '../../../modules/article/articleApi';
+import handleError from '../../../util/handleError';
 
 class AddArticleModal extends Component {
   constructor() {
@@ -21,7 +22,7 @@ class AddArticleModal extends Component {
       );
       return results;
     } catch (e) {
-      console.log(e);
+      handleError(e);
     }
     return [];
   }
@@ -39,7 +40,7 @@ class AddArticleModal extends Component {
         toggleAddModal();
       }
     } catch (e) {
-      console.log(e);
+      handleError(e);
     }
   }
 

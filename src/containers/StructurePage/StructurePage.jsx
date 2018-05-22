@@ -58,6 +58,7 @@ export class StructurePage extends React.PureComponent {
     this.connectLinkItems = this.connectLinkItems.bind(this);
     this.deleteConnections = this.deleteConnections.bind(this);
     this.onAddExistingTopic = this.onAddExistingTopic.bind(this);
+    this.getCurrentTopic = this.getCurrentTopic.bind(this);
     this.getFilters = this.getFilters.bind(this);
     this.toggleFilter = this.toggleFilter.bind(this);
   }
@@ -72,12 +73,21 @@ export class StructurePage extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { location: { pathname, search }, match: { params } } = nextProps;
+    const {
+      location: { pathname, search },
+      match: { params },
+      history,
+    } = nextProps;
     if (pathname !== this.props.location.pathname) {
       this.deleteConnections();
       const { subject } = params;
       if (subject) {
         this.getFilters(`urn:${subject}`);
+      }
+      if (!subject || subject !== this.props.match.params.subject) {
+        history.push({
+          search: '',
+        });
       }
       const currentSub = this.state.subjects.find(
         sub => sub.id === `urn:${subject}`,
@@ -171,6 +181,28 @@ export class StructurePage extends React.PureComponent {
     }
   }
 
+  getCurrentTopic() {
+    const {
+      match: { params: { subject, topic1, topic2, topic3 } },
+    } = this.props;
+    if (topic1) {
+      const sub = this.state.topics[`urn:${subject}`];
+      let topic = sub ? sub.find(top => top.id === `urn:${topic1}`) : {};
+      if (topic2) {
+        topic = topic.topics
+          ? topic.topics.find(top => top.id === `urn:${topic2}`)
+          : {};
+        if (topic3) {
+          topic = topic.topics
+            ? topic.topics.find(top => top.id === `urn:${topic3}`)
+            : {};
+        }
+      }
+      return topic || {};
+    }
+    return {};
+  }
+
   async getFilters(subjectId = `urn:${this.props.match.params.subject}`) {
     try {
       const filters = await fetchSubjectFilters(subjectId);
@@ -257,8 +289,12 @@ export class StructurePage extends React.PureComponent {
       filters,
       connections,
       subjects,
+      editStructureHidden,
     } = this.state;
     const { params } = match;
+    const topicId = params.topic3 || params.topic2 || params.topic1;
+    const currentTopic = this.getCurrentTopic();
+
     return (
       <OneColumn>
         <Accordion
@@ -280,7 +316,7 @@ export class StructurePage extends React.PureComponent {
               action={this.addSubject}
             />
           }
-          hidden={this.state.editStructureHidden}>
+          hidden={editStructureHidden}>
           <div ref={this.plumbContainer}>
             {subjects.map(subject => (
               <FolderItem
@@ -304,11 +340,13 @@ export class StructurePage extends React.PureComponent {
             ))}
           </div>
         </Accordion>
-        {(params.topic1 || params.topic2 || params.topic3) && (
+        {topicId && (
           <StructureResources
             locale={locale}
             params={params}
             activeFilters={activeFilters}
+            currentTopic={currentTopic}
+            refreshTopics={() => this.getSubjectTopics(`urn:${params.subject}`)}
           />
         )}
         <div style={{ display: 'none' }} ref={this.starButton}>

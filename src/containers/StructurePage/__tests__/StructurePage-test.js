@@ -72,6 +72,9 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
       '/taxonomy/v1/topics/urn:topic:1:172650/resources/?language=nb&relevance=urn:relevance:supplementary&filter=',
     )
     .reply(200, []);
+  nock('http://ndla-api')
+    .get('/article-api/v2/articles/3592')
+    .reply(200, {});
   const { container, getByText } = wrapper();
 
   await wait(() => getByText('Fortelleteknikker og virkemidler'));

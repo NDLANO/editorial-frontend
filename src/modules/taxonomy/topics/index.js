@@ -40,11 +40,11 @@ function addTopic(body) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-function updateTopicName(id, name) {
+function updateTopic({ id, ...params }) {
   return fetchAuthorized(`${baseUrl}/topics/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ ...params }),
   }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
@@ -93,7 +93,7 @@ function deleteTopicFilter({ connectionId }) {
 export {
   fetchTopics,
   addTopic,
-  updateTopicName,
+  updateTopic,
   addTopicToTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,

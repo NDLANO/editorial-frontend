@@ -500,10 +500,12 @@ const phrases = {
     setPrimary: 'Sett til primærkobling',
     addResource: 'Legg til ressurs',
     searchResource: 'Søk etter ressurs',
+    searchArticle: 'Søk etter emneartikkel',
     or: 'Eller',
     urlPlaceholder: 'Lim inn lenke fra ndla.no',
     wrongType: 'Obs! Denne ressursen er en annen type',
     noResources: 'Ingen ressurser funnet',
+    addTopicDescription: 'Endre emnebeskrivelse',
     resource: {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',

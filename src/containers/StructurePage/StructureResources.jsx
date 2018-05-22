@@ -8,7 +8,6 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
 
 import ResourceGroup from './components/ResourceGroup';
 import {
@@ -21,6 +20,9 @@ import {
   fetchTopicResources,
 } from '../../modules/taxonomy';
 import handleError from '../../util/handleError';
+import { getArticle } from '../../modules/article/articleApi';
+
+import TopicDescription from './components/TopicDescription';
 
 export class StructureResources extends React.PureComponent {
   constructor(props) {
@@ -31,27 +33,50 @@ export class StructureResources extends React.PureComponent {
     };
     this.getAllResourceTypes = this.getAllResourceTypes.bind(this);
     this.getTopicResources = this.getTopicResources.bind(this);
+    this.getArticle = this.getArticle.bind(this);
   }
 
   async componentDidMount() {
     try {
-      const { params: { topic1, topic2, topic3 } } = this.props;
+      const { params: { topic1, topic2, topic3 }, currentTopic } = this.props;
       await this.getAllResourceTypes();
       const topicId = topic3 || topic2 || topic1;
       this.getTopicResources(topicId);
+      if (currentTopic.contentUri) {
+        this.getArticle(currentTopic.contentUri);
+      }
     } catch (error) {
       handleError(error);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { params: { topic1, topic2, topic3 }, activeFilters } = nextProps;
+    const {
+      currentTopic,
+      params: { topic1, topic2, topic3 },
+      activeFilters,
+    } = nextProps;
     if (
       nextProps.params !== this.props.params ||
       activeFilters !== this.props.activeFilters
     ) {
       const topicId = topic3 || topic2 || topic1;
       this.getTopicResources(topicId, activeFilters);
+    }
+    if (
+      currentTopic.contentUri &&
+      currentTopic.contentUri !== this.props.currentTopic.contentUri
+    ) {
+      this.getArticle(currentTopic.contentUri);
+    }
+  }
+
+  async getArticle(contentUri) {
+    try {
+      const article = await getArticle(contentUri.replace('urn:article:', ''));
+      this.setState({ topicDescription: article.title && article.title.title });
+    } catch (error) {
+      handleError(error);
     }
   }
 
@@ -107,15 +132,23 @@ export class StructureResources extends React.PureComponent {
       params: { topic1, topic2, topic3 },
       activeFilters,
       locale,
+      refreshTopics,
+      currentTopic,
     } = this.props;
 
+    const { topicDescription, resourceTypes, topicResources } = this.state;
     return (
       <Fragment>
-        {this.state.resourceTypes.map(resourceType => {
+        <TopicDescription
+          topicDescription={topicDescription}
+          locale={locale}
+          refreshTopics={refreshTopics}
+          currentTopic={currentTopic}
+        />
+        {resourceTypes.map(resourceType => {
           const topicResource =
-            this.state.topicResources.find(
-              resource => resource.id === resourceType.id,
-            ) || {};
+            topicResources.find(resource => resource.id === resourceType.id) ||
+            {};
           return (
             <ResourceGroup
               key={resourceType.id}
@@ -125,7 +158,7 @@ export class StructureResources extends React.PureComponent {
               refreshResources={() =>
                 this.getTopicResources(topic3 || topic2 || topic1)
               }
-              activeFilter={activeFilters.length === 1 && activeFilters[0]}
+              activeFilter={activeFilters.length === 1 ? activeFilters[0] : ''}
               locale={locale}
             />
           );
@@ -136,12 +169,17 @@ export class StructureResources extends React.PureComponent {
 }
 
 StructureResources.propTypes = {
-  locale: PropTypes.string,
+  locale: PropTypes.string.isRequired,
   params: PropTypes.shape({
     topic1: PropTypes.string,
     topic2: PropTypes.string,
   }).isRequired,
+  currentTopic: PropTypes.shape({
+    id: PropTypes.string,
+    contentUri: PropTypes.string,
+  }).isRequired,
+  refreshTopics: PropTypes.func,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default injectT(StructureResources);
+export default StructureResources;

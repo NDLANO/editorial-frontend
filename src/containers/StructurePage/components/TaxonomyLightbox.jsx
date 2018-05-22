@@ -20,67 +20,44 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-class TaxonomyLightbox extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { display: props.display };
-    this.onCloseButtonClick = this.onCloseButtonClick.bind(this);
-  }
-
-  componentWillReceiveProps(props) {
-    const { display } = props;
-    this.setState({ display });
-  }
-
-  onCloseButtonClick(evt) {
-    this.setState({ display: false }, () => this.props.onClose());
-    evt.preventDefault();
-  }
-
-  render() {
-    const { children, title, onSelect, t, loading } = this.props;
-
-    return this.state.display ? (
-      <div {...classes()}>
-        <Overlay onExit={this.onCloseButtonClick} />
-        <div {...classes('wrapper')}>
-          <div {...classes('header')}>
-            {title}
-            <Button
-              {...classes('close')}
-              stripped
-              onClick={this.onCloseButtonClick}>
-              <Cross />
-            </Button>
-          </div>
-          <div {...classes('content')}>
-            {children}
-            {onSelect && (
-              <Button
-                data-testid="taxonomyLightboxButton"
-                stripped
-                {...classes('select-button')}
-                onClick={onSelect}>
-                {loading ? <Spinner cssModifier="small" /> : t('form.choose')}
-              </Button>
-            )}
-          </div>
-        </div>
+const TaxonomyLightbox = ({
+  children,
+  title,
+  onSelect,
+  t,
+  loading,
+  onClose,
+}) => (
+  <div {...classes()}>
+    <Overlay onExit={onClose} />
+    <div {...classes('wrapper')}>
+      <div {...classes('header')}>
+        {title}
+        <Button {...classes('close')} stripped onClick={onClose}>
+          <Cross />
+        </Button>
       </div>
-    ) : null;
-  }
-}
+      <div {...classes('content')}>
+        {children}
+        {onSelect && (
+          <Button
+            data-testid="taxonomyLightboxButton"
+            stripped
+            {...classes('select-button')}
+            onClick={onSelect}>
+            {loading ? <Spinner cssModifier="small" /> : t('form.choose')}
+          </Button>
+        )}
+      </div>
+    </div>
+  </div>
+);
 
 TaxonomyLightbox.propTypes = {
   onClose: PropTypes.func.isRequired,
-  display: PropTypes.bool,
   loading: PropTypes.bool,
   title: PropTypes.string,
   onSelect: PropTypes.func,
-};
-
-TaxonomyLightbox.defaultProps = {
-  display: true,
 };
 
 export default injectT(TaxonomyLightbox);

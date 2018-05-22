@@ -2015,6 +2015,76 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         <span
           class="c-accordion__title c-accordion__title--resourceGroup"
         >
+          Emnebeskrivelse
+        </span>
+      </button>
+      <button
+        class="c-button c-button--stripped c-topic-resource__add-button"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Endre emnebeskrivelse
+      </button>
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          style="vertical-align: middle;"
+        >
+          <g>
+            <path
+              d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--visible c-accordion__content--resourceGroup"
+    />
+  </div>
+  <div
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+    >
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
           Fagstoff
         </span>
       </button>

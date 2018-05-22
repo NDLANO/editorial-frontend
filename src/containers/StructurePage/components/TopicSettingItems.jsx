@@ -13,7 +13,7 @@ import WarningModal from '../../../components/WarningModal';
 import {
   fetchTopics,
   addTopic,
-  updateTopicName,
+  updateTopic,
   addTopicToTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,
@@ -34,8 +34,16 @@ class TopicSettingItems extends React.PureComponent {
   }
 
   async onChangeTopicName(id, newName) {
-    await updateTopicName(id, newName);
-    this.props.refreshTopics();
+    try {
+      await updateTopic({
+        id,
+        name: newName,
+        contentUri: this.props.contentUri,
+      });
+      this.props.refreshTopics();
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 
   async onAddSubTopic(currentTopicId, name) {
@@ -205,6 +213,7 @@ TopicSettingItems.propTypes = {
   refreshTopics: PropTypes.func,
   path: PropTypes.string,
   filters: PropTypes.arrayOf(PropTypes.object),
+  contentUri: PropTypes.string,
 };
 
 export default injectT(TopicSettingItems);

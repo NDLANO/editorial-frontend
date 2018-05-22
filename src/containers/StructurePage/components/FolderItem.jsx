@@ -39,19 +39,20 @@ const FolderItem = ({
   const { url, params } = match;
   const type = id.includes('subject') ? 'subject' : 'topic';
   const grayedOut = !active && params.subject && type === 'subject';
-
+  const { search } = window.location;
+  const toLink =
+    active && path.length === url.replace('/structure', '').length
+      ? url
+          .split('/')
+          .splice(0, url.split('/').length - 1)
+          .join('/')
+          .concat(search)
+      : `/structure${path}${search}`;
   return (
     <React.Fragment>
       <div ref={element => refFunc(element, id)} {...classes('wrapper')}>
         <RouterLink
-          to={
-            active && path.length === url.replace('/structure', '').length
-              ? `${url
-                  .split('/')
-                  .splice(0, url.split('/').length - 1)
-                  .join('/')}`
-              : `/structure${path}`
-          }
+          to={toLink}
           {...classes(
             'link',
             `${active ? 'active' : ''} ${grayedOut ? 'grayedOut' : ''}`,
@@ -82,6 +83,7 @@ const FolderItem = ({
         {active &&
           topics.map(topic => (
             <FolderItem
+              {...rest}
               {...topic}
               key={topic.id}
               active={
@@ -93,7 +95,6 @@ const FolderItem = ({
               showLink={showLink}
               refFunc={refFunc}
               linkViewOpen={linkViewOpen}
-              {...rest}
             />
           ))}
       </div>

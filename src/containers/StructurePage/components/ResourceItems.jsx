@@ -30,6 +30,7 @@ class ResourceItems extends React.PureComponent {
     this.state = {};
     this.onDelete = this.onDelete.bind(this);
     this.toggleRelevance = this.toggleRelevance.bind(this);
+    this.toggleDelete = this.toggleDelete.bind(this);
   }
 
   async onDelete(id) {
@@ -62,6 +63,10 @@ class ResourceItems extends React.PureComponent {
     if (ok) refreshResources();
   }
 
+  toggleDelete(id) {
+    this.setState({ deleteId: id });
+  }
+
   render() {
     const { contentType, resources, t, activeFilter } = this.props;
     return (
@@ -70,10 +75,9 @@ class ResourceItems extends React.PureComponent {
           <li key={resource.id} {...classes('item')}>
             <Resource
               contentType={contentType}
-              resource={resource}
-              onDelete={() =>
-                this.setState({ deleteId: resource.connectionId })
-              }
+              name={resource.name}
+              id={resource.id}
+              onDelete={() => this.toggleDelete(resource.connectionId)}
               toggleRelevance={
                 activeFilter
                   ? () => this.toggleRelevance(resource.id, resource.relevance)
@@ -95,7 +99,7 @@ class ResourceItems extends React.PureComponent {
             confirmDelete
             text={t('taxonomy.resource.confirmDelete')}
             onContinue={() => this.onDelete(this.state.deleteId)}
-            onCancel={() => this.setState({ deleteId: '' })}
+            onCancel={() => this.toggleDelete('')}
           />
         )}
       </ul>

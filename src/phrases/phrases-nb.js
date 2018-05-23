@@ -270,6 +270,9 @@ const phrases = {
     visualElement: {
       title: 'Legg til visuelt element',
       label: 'Visuelt element',
+      video: 'Videosøk',
+      image: 'Bildesøk',
+      h5p: 'H5P Søk',
     },
     status: {
       created: 'Opprettet',

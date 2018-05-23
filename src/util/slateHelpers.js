@@ -97,10 +97,19 @@ export const divRule = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'div') return;
+    console.log(el.dataset);
     if (el.className === 'c-bodybox') {
       return {
         kind: 'block',
         type: 'bodybox',
+        nodes: next(el.childNodes),
+      };
+    } else if (el.dataset.type === 'related-content') {
+      console.log(reduceElementDataAttributes(el));
+      return {
+        kind: 'block',
+        type: 'related',
+        data: reduceElementDataAttributes(el),
         nodes: next(el.childNodes),
       };
     }
@@ -439,6 +448,8 @@ const topicArticeEmbedRule = [
     // Embeds handling
     deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
+
+      if (el.dateset['data-resource'] === 'related-content') return;
       return {
         kind: 'block',
         type: 'embed',
@@ -461,7 +472,9 @@ export const learningResourceEmbedRule = [
   {
     deserialize(el) {
       if (!el.tagName.toLowerCase().startsWith('embed')) return;
+
       const embed = reduceElementDataAttributes(el);
+      if (el.dataset['data-resource'] === 'related-content') return;
       if (embed.resource === 'content-link') {
         return {
           kind: 'inline',

@@ -11,17 +11,15 @@ import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import Types from 'slate-prop-types';
-import { RelatedArticleList, RelatedArticle } from 'ndla-ui';
+import { RelatedArticleList } from 'ndla-ui';
 import { toggleRelatedArticles } from 'ndla-article-scripts';
-import get from 'lodash/fp/get';
 import { searchArticles } from '../../../../modules/article/articleApi';
 import { queryResources } from '../../../../modules/taxonomy/taxonomyApi';
 import { getLocale } from '../../../../modules/locale/locale';
 import { EditorShape } from '../../../../shapes';
-import { mapping } from '../utils/relatedArticleMapping';
 import EditRelated from './EditRelated';
-import { toEditArticle } from '../../../../util/routeHelpers';
 import handleError from '../../../../util/handleError';
+import RelatedArticle from './RelatedArticle';
 
 const nodeProps = ids => ({
   data: {
@@ -41,9 +39,16 @@ class RelatedArticleBox extends React.Component {
   }
 
   componentDidMount() {
-    const { embed } = this.props;
-    if (embed['article-ids']) {
-      embed['article-ids'].split(',').map(it => this.fetchRelated(it));
+    const { node } = this.props;
+
+    if (node.nodes) {
+      node.nodes.forEach(it => {
+        if (it.data.get('article-id'))
+          this.fetchRelated(it.data.get('article-id'));
+        if (it.data.get('title')) {
+          this.fetchExternal(it.data);
+        }
+      });
     }
   }
 
@@ -77,7 +82,7 @@ class RelatedArticleBox extends React.Component {
 
     try {
       const [article, resource] = await Promise.all([
-        searchArticles(`${id}`, locale),
+        searchArticles(id, locale),
         queryResources(id, locale),
       ]);
       if (article)
@@ -88,6 +93,21 @@ class RelatedArticleBox extends React.Component {
     } catch (error) {
       handleError(error);
     }
+  }
+
+  async fetchExternal(dataSet) {
+    // await get description meta data
+    this.setState(prevState => ({
+      items: [
+        ...prevState.items,
+        {
+          id: 'external-learning-resources',
+          url: dataSet.get('url'),
+          title: dataSet.get('title'),
+          description: '',
+        },
+      ],
+    }));
   }
 
   removeArticle(i, e) {
@@ -104,17 +124,11 @@ class RelatedArticleBox extends React.Component {
     const { attributes, onRemoveClick, locale, t } = this.props;
     const { editMode, items } = this.state;
 
-    const resourceType = item =>
-      item.resourceTypes
-        ? item.resourceTypes.find(it => mapping(it.id))
-        : { id: '' };
-
     return this.state.editMode ? (
       <EditRelated
         {...{
           onRemoveClick,
           removeArticle: this.removeArticle,
-          resourceType,
           items,
           editMode,
           locale,
@@ -146,13 +160,7 @@ class RelatedArticleBox extends React.Component {
               !item.id ? (
                 'Invalid article'
               ) : (
-                <RelatedArticle
-                  {...mapping(resourceType(item).id)}
-                  title={get('title.title', item)}
-                  key={item.id}
-                  introduction={get('metaDescription.metaDescription', item)}
-                  to={toEditArticle(item.id, 'standard', locale)}
-                />
+                <RelatedArticle key={item.id} locale={locale} item={item} />
               ),
           )}
         </RelatedArticleList>

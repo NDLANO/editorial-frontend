@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import SlateFigure from './SlateFigure';
+import RelatedArticleBox from './RelatedArticleBox';
 
 export default function createEmbedPlugin() {
   const schema = {
@@ -16,17 +16,11 @@ export default function createEmbedPlugin() {
 
   /* eslint-disable react/prop-types */
   const renderNode = props => {
-    const { node, editor } = props;
-    console.log(props);
-    const onRemoveClick = e => {
-      e.stopPropagation();
-      const next = editor.value.change().removeNodeByKey(node.key);
-      editor.onChange(next);
-    };
+    const { node } = props;
 
     switch (node.type) {
-      case 'embed':
-        return <SlateFigure onRemoveClick={onRemoveClick} {...props} />;
+      case 'related':
+        return <RelatedArticleBox {...props} />;
       default:
         return null;
     }

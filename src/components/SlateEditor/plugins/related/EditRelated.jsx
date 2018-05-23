@@ -10,14 +10,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
-import { Button, RelatedArticle } from 'ndla-ui';
+import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
-import get from 'lodash/fp/get';
 import { searchRelatedArticles } from '../../../../modules/article/articleApi';
 import AsyncDropdown from '../../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import Overlay from '../../../../components/Overlay';
-import { mapping } from '../utils/relatedArticleMapping';
-import { toEditArticle } from '../../../../util/routeHelpers';
+import RelatedArticle from './RelatedArticle';
 
 const classes = new BEMHelper({
   name: 'related-box',
@@ -28,7 +26,6 @@ const EditRelated = ({
   onRemoveClick,
   removeArticle,
   items,
-  resourceType,
   locale,
   onInsertBlock,
   onExit,
@@ -43,12 +40,7 @@ const EditRelated = ({
             t('orm.content.relatedArticle.invalidArticle')
           ) : (
             <div key={item.id} {...classes('article')}>
-              <RelatedArticle
-                {...mapping(resourceType(item).id)}
-                title={get('title.title', item)}
-                introduction={get('metaDescription.metaDescription', item)}
-                to={toEditArticle(item.id, 'standard', locale)}
-              />
+              <RelatedArticle locale={locale} item={item} />
               <Button
                 stripped
                 onClick={e => removeArticle(i, e)}
@@ -95,7 +87,6 @@ EditRelated.propTypes = {
   removeArticle: PropTypes.func,
   onExit: PropTypes.func,
   items: PropTypes.arrayOf(PropTypes.object),
-  resourceType: PropTypes.func,
   onInsertBlock: PropTypes.func,
   locale: PropTypes.string,
 };

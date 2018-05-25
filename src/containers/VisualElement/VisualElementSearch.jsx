@@ -108,7 +108,7 @@ const VisualElementSearch = ({
           <H5PSearch
             onSelect={h5p =>
               handleVisualElementChange({
-                resource: selectedResource,
+                resource: 'external',
                 ...h5p,
                 metaData: {},
               })

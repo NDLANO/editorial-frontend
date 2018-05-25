@@ -55,7 +55,11 @@ export class DisplayExternal extends Component {
     const { title, src, error, type, provider } = this.state;
 
     // TODO: When we need to support more, move this to helper function
-    const isH5p = url.indexOf('h5p') > -1;
+    // Checks for h5p in domain name from URL
+    const isH5p =
+      url
+        .match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n]+)/im)[1]
+        .indexOf('h5p') > -1;
     const isYouTube = type === 'video' && provider === 'YouTube';
 
     const externalIframe =

@@ -88,7 +88,7 @@ class SlateFigure extends React.Component {
     const { node, attributes, editor, locale } = this.props;
 
     const embed = getSchemaEmbed(node);
-    console.log(embed)
+
     const props = {
       embed,
       onFigureInputChange: this.onFigureInputChange,

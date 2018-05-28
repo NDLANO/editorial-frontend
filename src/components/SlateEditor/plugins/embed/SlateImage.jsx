@@ -87,14 +87,18 @@ class SlateImage extends React.Component {
         !['small', 'xsmall'].includes(embed.size),
     });
 
-
     return (
       <Figure
         {...attributes}
         id={embed.resource_id}
         className={figureClassNames}>
-        <FigureButtons locale={locale} onRemoveClick={onRemoveClick} embed={embed} figureType="image"/>
-         {this.state.editModus ? (
+        <FigureButtons
+          locale={locale}
+          onRemoveClick={onRemoveClick}
+          embed={embed}
+          figureType="image"
+        />
+        {this.state.editModus ? (
           <ImageEditor
             embedTag={embed}
             toggleEditModus={this.toggleEditModus}

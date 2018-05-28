@@ -243,6 +243,10 @@ const phrases = {
     publishedOk: 'Published OK',
     validationOk: 'No validation errors found',
     createdOk: 'Created OK',
+    addNewImage: 'Add new image',
+    addNewAudio: 'Add new audio',
+    editImage: 'Edit image',
+    editAudio: 'Edit audio',
     variant: {
       create: 'Create variant +',
     },

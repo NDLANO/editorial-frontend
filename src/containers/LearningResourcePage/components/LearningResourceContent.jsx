@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getLocale } from '../../../modules/locale/locale';
 import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
@@ -51,7 +52,6 @@ class LearningResourceContent extends Component {
     const { locale } = props;
     this.toggleContent = this.toggleContent.bind(this);
     this.addSection = this.addSection.bind(this);
-    console.log(props);
     this.plugins = [
       footnotePlugin(),
       createEmbedPlugin(locale),
@@ -114,6 +114,14 @@ class LearningResourceContent extends Component {
           {...commonFieldProps}
         />
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
+        <div {...formClasses('add-media-links')}>
+          <Link to="/media/audio-upload/new" target="_blank">
+            {t('form.addNewAudio')}
+          </Link>
+          <Link to="/media/image-upload/new" target="_blank">
+            {t('form.addNewImage')}
+          </Link>
+        </div>
         <RichBlockTextField
           slateSchema={schema}
           renderNode={renderNode}
@@ -135,7 +143,6 @@ LearningResourceContent.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
   locale: PropTypes.string.isRequired,
 };
-
 
 const mapStateToProps = state => ({
   locale: getLocale(state),

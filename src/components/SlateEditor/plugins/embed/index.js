@@ -19,7 +19,7 @@ export default function createEmbedPlugin(locale) {
     const { node } = props;
     switch (node.type) {
       case 'embed':
-        return <SlateFigure {...props} locale={locale}/>;
+        return <SlateFigure {...props} locale={locale} />;
       default:
         return null;
     }

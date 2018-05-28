@@ -10,34 +10,57 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Button } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import { Cross, Pencil, Plus } from 'ndla-icons/action';
 import { editorClasses } from './SlateFigure';
 import { EmbedShape } from '../../../../shapes';
 
+const FigureButtons = ({ onRemoveClick, embed, locale, figureType, t }) => {
+  const url = {
+    audio: {
+      path: '/media/audio-upload',
+      newTitle: t('form.addNewAudio'),
+      editTitle: t('form.editAudio'),
+    },
+    image: {
+      path: '/media/image-upload',
+      newTitle: t('form.addNewImage'),
+      editTitle: t('form.editImage'),
+    },
+  };
 
-const url = {
-  audio: '/media/audio-upload',
-  image: '/media/image-upload',
-}
-
-const FigureButtons = ({onRemoveClick, embed, locale, figureType}) => {
-  const isNotCentered = embed.align === 'left' || embed.align === 'right' || embed.size === 'small' || embed.align === 'xsmall'
+  const isNotCentered =
+    embed.align === 'left' ||
+    embed.align === 'right' ||
+    embed.size === 'small' ||
+    embed.align === 'xsmall';
   return (
-    <div {...editorClasses('figure-buttons', isNotCentered ? 'right-adjusted' : '')}>
+    <div
+      {...editorClasses(
+        'figure-buttons',
+        isNotCentered ? 'right-adjusted' : '',
+      )}>
       <Button
         {...editorClasses('button', 'red')}
         onClick={onRemoveClick}
         stripped>
         <Cross />
       </Button>
-      <Link to={`${url[figureType]}/new`} target="_blank">
+      <Link
+        to={`${url[figureType].path}/new`}
+        target="_blank"
+        title={url[figureType].newTitle}>
         <Plus />
       </Link>
-      <Link to={`${url[figureType]}/${embed.resource_id}/edit/${locale}`} target="_blank" {...editorClasses('button', 'green')}>
+      <Link
+        to={`${url[figureType].path}/${embed.resource_id}/edit/${locale}`}
+        target="_blank"
+        {...editorClasses('button', 'green')}
+        title={url[figureType].editTitle}>
         <Pencil />
       </Link>
     </div>
-  )
+  );
 };
 
 FigureButtons.propTypes = {
@@ -47,4 +70,4 @@ FigureButtons.propTypes = {
   figureType: PropTypes.string.isRequired,
 };
 
-export default FigureButtons;
+export default injectT(FigureButtons);

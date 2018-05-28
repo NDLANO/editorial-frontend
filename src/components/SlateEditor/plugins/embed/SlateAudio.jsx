@@ -19,7 +19,7 @@ import AudioPlayerMounter from './AudioPlayerMounter';
 class SlateAudio extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { audio: {} };
     this.toggleEdit = this.toggleEdit.bind(this);
   }
 
@@ -28,7 +28,7 @@ class SlateAudio extends React.Component {
       const audio = await visualElementApi.fetchAudio(
         this.props.embed.resource_id,
       );
-      this.setState({ audio });
+      this.setState({ audio: { ...audio, title: audio.title.title } });
     } catch (error) {
       visualElementApi.onError(error);
     }
@@ -42,17 +42,16 @@ class SlateAudio extends React.Component {
   render() {
     const { attributes, onFigureInputChange, embed, ...rest } = this.props;
     const { audio = {} } = this.state;
-    console.log(audio)
-    const player = (
+
+    const player = audio.id && (
       <Figure id={`${audio.id}`} {...attributes}>
-        {audio.id && (
-          <AudioPlayerMounter
-            audio={audio}
-            speech={embed.audioType === 'speech'}
-          />
-        )}
+        <AudioPlayerMounter
+          audio={audio}
+          speech={embed.audioType === 'speech'}
+        />
       </Figure>
     );
+
     return this.state.editMode ? (
       <EditAudio
         onExit={() => this.setState({ editMode: false })}

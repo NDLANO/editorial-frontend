@@ -42,7 +42,12 @@ const EditAudio = ({
           },
         ]}
       />
-    <FigureButtons locale={locale} onRemoveClick={onRemoveClick} embed={embed} figureType="audio"/>
+      <FigureButtons
+        locale={locale}
+        onRemoveClick={onRemoveClick}
+        embed={embed}
+        figureType="audio"
+      />
       {children}
     </div>
   </div>

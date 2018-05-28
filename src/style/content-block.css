@@ -24,6 +24,7 @@
 .c-editor__button {
   &--red {
     color: red;
+
     &:hover,
     &:focus {
       color: color(red blackness(+ 20%));
@@ -32,6 +33,7 @@
 
   &--green {
     color: var(--green-1);
+
     &:hover,
     &:focus {
       color: color(var(--green-1) blackness(+ 10%));

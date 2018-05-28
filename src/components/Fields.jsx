@@ -514,7 +514,6 @@ export const DateField = ({
       <DateTimeInput
         id={name}
         type="text"
-        {...classes('date-picker')}
         name={name}
         value={value}
         onChange={val =>
@@ -522,6 +521,7 @@ export const DateField = ({
             target: { name, value: val, type: 'DateTime' },
           })
         }
+        {...classes('date-picker')}
         {...rest}
       />
 
@@ -543,6 +543,7 @@ DateField.propTypes = {
   }),
   noBorder: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 DateField.defaultProps = {

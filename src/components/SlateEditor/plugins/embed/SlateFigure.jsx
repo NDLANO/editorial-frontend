@@ -106,15 +106,10 @@ class SlateFigure extends React.Component {
           />
         );
       case 'brightcove':
-        return <SlateVideo {...props} onRemoveClick={this.onRemoveClick} />;
+        return <SlateVideo onRemoveClick={this.onRemoveClick} {...props} />;
       case 'audio':
         return <SlateAudio onRemoveClick={this.onRemoveClick} {...props} />;
       case 'external':
-        if (embed.url.indexOf('h5p') > -1) {
-          return (
-            <DisplayOembed onRemoveClick={this.onRemoveClick} url={embed.url} />
-          );
-        }
         return (
           <Figure>
             <DisplayExternal

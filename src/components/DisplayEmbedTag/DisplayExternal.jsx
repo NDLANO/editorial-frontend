@@ -6,11 +6,13 @@
  *
  */
 
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
+import './h5pResizer';
+import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { editorClasses } from '../../components/SlateEditor/plugins/embed/SlateFigure';
@@ -22,7 +24,7 @@ export const getIframeSrcFromHtmlString = html => {
   return iframe.getAttribute('src');
 };
 
-export class DisplayExternal extends React.Component {
+export class DisplayExternal extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -43,22 +45,46 @@ export class DisplayExternal extends React.Component {
         this.setState({ error: true });
       }
     } catch (e) {
+      handleError(e);
       this.setState({ error: true });
-      // throw new Error(e);
     }
   }
 
   render() {
-    const { onRemoveClick } = this.props;
+    const { onRemoveClick, url } = this.props;
     const { title, src, error, type, provider } = this.state;
 
-    if (!type && !provider) {
-      return null;
-    }
+    // TODO: When we need to support more, move this to helper function
+    // Checks for h5p in domain name from URL
+    const isH5p =
+      url
+        .match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n]+)/im)[1]
+        .indexOf('h5p') > -1;
+    const isYouTube = type === 'video' && provider === 'YouTube';
+
+    const externalIframe =
+      !isYouTube && !isH5p ? null : (
+        <iframe
+          style={
+            isYouTube
+              ? {
+                  minHeight: '436px',
+                }
+              : undefined
+          }
+          ref={iframe => {
+            this.iframe = iframe;
+          }}
+          src={src}
+          title={title}
+          allowFullScreen={isYouTube || undefined}
+          frameBorder="0"
+        />
+      );
 
     if (error) {
       return (
-        <React.Fragment>
+        <Fragment>
           <Button
             stripped
             onClick={onRemoveClick}
@@ -68,37 +94,24 @@ export class DisplayExternal extends React.Component {
           <EditorErrorMessage
             msg={this.props.t('displayOembed.errorMessage')}
           />
-        </React.Fragment>
+        </Fragment>
       );
     }
 
     return (
-      <React.Fragment>
+      <Fragment>
         <Button
           stripped
           onClick={onRemoveClick}
           {...editorClasses('delete-button')}>
           <Cross />
         </Button>
-        {type === 'video' && provider === 'YouTube' ? (
-          <iframe
-            style={{
-              minHeight: '436px',
-            }}
-            ref={iframe => {
-              this.iframe = iframe;
-            }}
-            src={src}
-            title={title}
-            frameBorder="0"
-            allowFullScreen
-          />
-        ) : (
+        {externalIframe || (
           <EditorErrorMessage
             msg={this.props.t('displayOembed.notSupported', { type, provider })}
           />
         )}
-      </React.Fragment>
+      </Fragment>
     );
   }
 }

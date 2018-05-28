@@ -17,7 +17,6 @@ export default function createEmbedPlugin() {
   /* eslint-disable react/prop-types */
   const renderNode = props => {
     const { node, editor } = props;
-    console.log(props);
     const onRemoveClick = e => {
       e.stopPropagation();
       const next = editor.value.change().removeNodeByKey(node.key);

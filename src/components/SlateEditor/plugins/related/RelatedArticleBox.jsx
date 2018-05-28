@@ -20,11 +20,12 @@ import { EditorShape } from '../../../../shapes';
 import EditRelated from './EditRelated';
 import handleError from '../../../../util/handleError';
 import RelatedArticle from './RelatedArticle';
+import { defaultEmbedBlock } from '../../schema';
 
-const nodeProps = ids => ({
+const nodeProps = id => ({
   data: {
     resource: 'related-content',
-    'article-ids': ids,
+    'article-id': id,
   },
 });
 
@@ -35,7 +36,8 @@ class RelatedArticleBox extends React.Component {
     this.removeArticle = this.removeArticle.bind(this);
     this.fetchRelated = this.fetchRelated.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
-    this.updateNodeAttributes = this.updateNodeAttributes.bind(this);
+    this.addEmbedNode = this.addEmbedNode.bind(this);
+    this.removeEmbedNode = this.removeEmbedNode.bind(this);
   }
 
   componentDidMount() {
@@ -44,9 +46,9 @@ class RelatedArticleBox extends React.Component {
     if (node.nodes) {
       node.nodes.forEach(it => {
         if (it.data.get('article-id'))
-          this.fetchRelated(it.data.get('article-id'));
+          this.fetchRelated(it.data.get('article-id'), it.key);
         if (it.data.get('title')) {
-          this.fetchExternal(it.data);
+          this.fetchExternal(it.data, it.key);
         }
       });
     }
@@ -65,19 +67,26 @@ class RelatedArticleBox extends React.Component {
       this.fetchRelated(newArticle);
 
       // update slate block attributes
-      const currentIds = this.state.items.map(it => it.id).join(',');
-      this.updateNodeAttributes(
-        `${currentIds}${currentIds ? ',' : ''}${newArticle}`,
-      );
+      this.addEmbedNode(newArticle);
     }
   }
 
-  updateNodeAttributes(ids) {
+  addEmbedNode(id) {
     const { editor, node } = this.props;
-    editor.change(change => change.setNodeByKey(node.key, nodeProps(ids)));
+    const insertEmbed = defaultEmbedBlock();
+    editor.change(change =>
+      change
+        .insertNodeByKey(node.key, this.state.items.length, insertEmbed)
+        .setNodeByKey(insertEmbed.key, nodeProps(id)),
+    );
   }
 
-  async fetchRelated(id) {
+  removeEmbedNode(i) {
+    const { editor } = this.props;
+    editor.change(change => change.removeNodeByKey(this.state.items[i].key));
+  }
+
+  async fetchRelated(id, key) {
     const { locale } = this.props;
 
     try {
@@ -87,7 +96,7 @@ class RelatedArticleBox extends React.Component {
       ]);
       if (article)
         this.setState(prevState => ({
-          items: [...prevState.items, { ...article, resource }],
+          items: [...prevState.items, { ...article, resource, key }],
           editMode: false,
         }));
     } catch (error) {
@@ -95,7 +104,7 @@ class RelatedArticleBox extends React.Component {
     }
   }
 
-  async fetchExternal(dataSet) {
+  async fetchExternal(dataSet, key) {
     // await get description meta data
     this.setState(prevState => ({
       items: [
@@ -105,6 +114,7 @@ class RelatedArticleBox extends React.Component {
           url: dataSet.get('url'),
           title: dataSet.get('title'),
           description: '',
+          key,
         },
       ],
     }));
@@ -117,7 +127,7 @@ class RelatedArticleBox extends React.Component {
     this.setState({ items: newItems });
 
     // remove from slate attribute
-    this.updateNodeAttributes(newItems.map(it => it.id).join(','));
+    this.removeEmbedNode(i);
   }
 
   render() {

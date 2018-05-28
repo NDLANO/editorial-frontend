@@ -97,7 +97,7 @@ export const divRule = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'div') return;
-    console.log(el.dataset);
+
     if (el.className === 'c-bodybox') {
       return {
         kind: 'block',
@@ -105,11 +105,9 @@ export const divRule = {
         nodes: next(el.childNodes),
       };
     } else if (el.dataset.type === 'related-content') {
-      console.log(reduceElementDataAttributes(el));
       return {
         kind: 'block',
         type: 'related',
-        data: reduceElementDataAttributes(el),
         nodes: next(el.childNodes),
       };
     }
@@ -349,6 +347,15 @@ export const tableRules = {
   },
 };
 
+const relatedRule = {
+  serialize(object, children) {
+    if (object.type === 'related') {
+      console.log(object);
+      return <div data-type="related-content">{children}</div>;
+    }
+  },
+};
+
 const RULES = [
   divRule,
   textRule,
@@ -357,6 +364,7 @@ const RULES = [
   tableRules,
   paragraphRule,
   listItemRule,
+  relatedRule,
   {
     // Aside handling
     deserialize(el, next) {
@@ -508,5 +516,6 @@ export const learningResourceEmbedRule = [
     },
   },
 ];
+
 export const topicArticeRules = topicArticeEmbedRule.concat(RULES);
 export const learningResourceRules = RULES.concat(learningResourceEmbedRule);

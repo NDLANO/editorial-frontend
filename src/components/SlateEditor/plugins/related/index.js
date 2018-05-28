@@ -9,7 +9,7 @@
 import React from 'react';
 import RelatedArticleBox from './RelatedArticleBox';
 
-export default function createEmbedPlugin() {
+export default () => {
   const schema = {
     document: {},
   };
@@ -17,7 +17,7 @@ export default function createEmbedPlugin() {
   /* eslint-disable react/prop-types */
   const renderNode = props => {
     const { node } = props;
-
+    console.log(node);
     switch (node.type) {
       case 'related':
         return <RelatedArticleBox {...props} />;
@@ -30,4 +30,4 @@ export default function createEmbedPlugin() {
     schema,
     renderNode,
   };
-}
+};

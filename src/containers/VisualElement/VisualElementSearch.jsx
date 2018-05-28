@@ -20,10 +20,11 @@ import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
 import H5PSearch from '../../components/H5PSearch';
 
-const titles = {
-  video: 'Videosøk',
-  image: 'Bildesøk',
-};
+const titles = t => ({
+  video: t('form.visualElement.video'),
+  image: t('form.visualElement.image'),
+  h5p: t('form.visualElement.h5p'),
+});
 
 const VisualElementSearch = ({
   selectedResource,
@@ -35,7 +36,7 @@ const VisualElementSearch = ({
     case 'image':
       return (
         <div>
-          <h2>{titles[selectedResource]}</h2>
+          <h2>{titles(t)[selectedResource]}</h2>
           <ImageSearch
             fetchImage={api.fetchImage}
             searchImages={api.searchImages}
@@ -72,7 +73,7 @@ const VisualElementSearch = ({
       };
       return (
         <div>
-          <h2>{titles[selectedResource]}</h2>
+          <h2>{titles(t)[selectedResource]}</h2>
           <VideoSearch
             enabledSources={['Brightcove', 'YouTube']}
             searchVideos={(query, type) => api.searchVideos(query, type)}
@@ -102,16 +103,19 @@ const VisualElementSearch = ({
     }
     case 'h5p': {
       return (
-        <H5PSearch
-          onSelect={h5p =>
-            handleVisualElementChange({
-              resource: selectedResource,
-              ...h5p,
-              metaData: {},
-            })
-          }
-          label={t('form.visualElement.label')}
-        />
+        <div>
+          <h2>{titles(t)[selectedResource]}</h2>
+          <H5PSearch
+            onSelect={h5p =>
+              handleVisualElementChange({
+                resource: 'external',
+                ...h5p,
+                metaData: {},
+              })
+            }
+            label={t('form.visualElement.label')}
+          />
+        </div>
       );
     }
     case 'audio': {

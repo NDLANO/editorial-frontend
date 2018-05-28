@@ -257,6 +257,9 @@ const phrases = {
     visualElement: {
       title: 'Add visual element',
       label: 'Visual element',
+      video: 'Video search',
+      image: 'Image search',
+      h5p: 'H5P search',
     },
     status: {
       created: 'Created',

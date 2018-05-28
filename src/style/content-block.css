@@ -21,6 +21,48 @@
   }
 }
 
+.c-editor__button {
+  &--red {
+    color: red;
+    &:hover,
+    &:focus {
+      color: color(red blackness(+ 20%));
+    }
+  }
+
+  &--green {
+    color: var(--green-1);
+    &:hover,
+    &:focus {
+      color: color(var(--green-1) blackness(+ 10%));
+    }
+  }
+}
+
+.c-editor__figure-buttons {
+  position: absolute;
+  top: 0.1rem;
+  right: 0.2rem;
+  display: flex;
+  flex-flow: column;
+
+  &--right-adjusted {
+    right: -1rem;
+    top: -0.4rem;
+  }
+
+  & > a {
+    text-decoration: none;
+    line-height: 1.625;
+    box-shadow: none;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+}
+
 details {
   position: relative;
 }

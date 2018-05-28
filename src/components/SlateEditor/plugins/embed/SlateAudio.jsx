@@ -42,6 +42,7 @@ class SlateAudio extends React.Component {
   render() {
     const { attributes, onFigureInputChange, embed, ...rest } = this.props;
     const { audio = {} } = this.state;
+    console.log(audio)
     const player = (
       <Figure id={`${audio.id}`} {...attributes}>
         {audio.id && (
@@ -57,6 +58,7 @@ class SlateAudio extends React.Component {
         onExit={() => this.setState({ editMode: false })}
         audioType={embed.audioType || 'sound'}
         onChange={onFigureInputChange}
+        embed={embed}
         {...rest}>
         {player}
       </EditAudio>

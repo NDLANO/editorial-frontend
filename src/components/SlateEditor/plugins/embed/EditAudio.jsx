@@ -1,11 +1,10 @@
 import React from 'react';
 import { func, string } from 'prop-types';
-import { Button } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
-import { Cross } from 'ndla-icons/action';
 import ObjectSelector from '../../../ObjectSelector';
-import { editorClasses } from './SlateFigure';
 import Overlay from '../../../../components/Overlay';
+import FigureButtons from './FigureButtons';
+import { EmbedShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
   name: 'related-box',
@@ -17,6 +16,8 @@ const EditAudio = ({
   onChange,
   audioType,
   onRemoveClick,
+  locale,
+  embed,
   t,
   children,
 }) => (
@@ -41,12 +42,7 @@ const EditAudio = ({
           },
         ]}
       />
-      <Button
-        onClick={onRemoveClick}
-        stripped
-        {...editorClasses('delete-button')}>
-        <Cross />
-      </Button>
+    <FigureButtons locale={locale} onRemoveClick={onRemoveClick} embed={embed} figureType="audio"/>
       {children}
     </div>
   </div>
@@ -57,6 +53,8 @@ EditAudio.propTypes = {
   onChange: func,
   audioType: string,
   onRemoveClick: func,
+  locale: string,
+  embed: EmbedShape.isRequired,
 };
 
 export default EditAudio;

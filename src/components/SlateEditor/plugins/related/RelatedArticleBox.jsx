@@ -20,14 +20,7 @@ import { EditorShape } from '../../../../shapes';
 import EditRelated from './EditRelated';
 import handleError from '../../../../util/handleError';
 import RelatedArticle from './RelatedArticle';
-import { defaultEmbedBlock } from '../../schema';
-
-const nodeProps = id => ({
-  data: {
-    resource: 'related-content',
-    'article-id': id,
-  },
-});
+import { ARTICLE_EXTERNAL } from '../../../../constants';
 
 class RelatedArticleBox extends React.Component {
   constructor() {
@@ -35,25 +28,18 @@ class RelatedArticleBox extends React.Component {
     this.state = { items: [], editMode: true };
     this.removeArticle = this.removeArticle.bind(this);
     this.fetchRelated = this.fetchRelated.bind(this);
+    this.fetchExternal = this.fetchExternal.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
-    this.addEmbedNode = this.addEmbedNode.bind(this);
-    this.removeEmbedNode = this.removeEmbedNode.bind(this);
-    this.onInsertExternal = this.onInsertExternal.bind(this);
+    this.updateEmbedNode = this.updateEmbedNode.bind(this);
   }
 
   componentDidMount() {
-    const { node } = this.props;
-
-    if (node.nodes) {
-      node.nodes.forEach(it => {
-        if (it.data.get('article-id'))
-          this.fetchRelated(it.data.get('article-id'), it.key);
-        if (it.data.get('title')) {
-          this.fetchExternal({
-            title: it.data.get('title'),
-            url: it.data.get('url'),
-            key: it.key,
-          });
+    const { node: { data } } = this.props;
+    if (data.get('nodes')) {
+      data.get('nodes').forEach(({ articleId, title, url }) => {
+        if (articleId) this.fetchRelated(articleId);
+        if (title) {
+          this.fetchExternal(url, title);
         }
       });
     }
@@ -70,45 +56,28 @@ class RelatedArticleBox extends React.Component {
     if (!this.state.items.find(it => it.id === parseInt(newArticle, 10))) {
       // get resource and add to state
       this.fetchRelated(newArticle);
-
-      // update slate block attributes
-      this.addEmbedNode(newArticle);
     }
   }
 
-  onInsertExternal(url, title) {
+  updateEmbedNode() {
     const { editor, node } = this.props;
-    const insertEmbed = defaultEmbedBlock();
+    const { items } = this.state;
+    console.log(items);
     editor.change(change =>
-      change
-        .insertNodeByKey(node.key, this.state.items.length, insertEmbed)
-        .setNodeByKey(insertEmbed.key, {
-          data: {
-            resource: 'related-content',
-            title,
-            url,
-          },
-        }),
-    );
-    this.fetchExternal({ title, url, key: insertEmbed.key });
-  }
-
-  addEmbedNode(id) {
-    const { editor, node } = this.props;
-    const insertEmbed = defaultEmbedBlock();
-    editor.change(change =>
-      change
-        .insertNodeByKey(node.key, this.state.items.length, insertEmbed)
-        .setNodeByKey(insertEmbed.key, nodeProps(id)),
+      change.setNodeByKey(node.key, {
+        data: {
+          nodes: items.map(
+            item =>
+              item.id === ARTICLE_EXTERNAL
+                ? { url: item.url, title: item.title }
+                : { resource: 'related-content', ['article-id']: item.id }, // eslint-disable-line
+          ),
+        },
+      }),
     );
   }
 
-  removeEmbedNode(i) {
-    const { editor } = this.props;
-    editor.change(change => change.removeNodeByKey(this.state.items[i].key));
-  }
-
-  async fetchRelated(id, key) {
+  async fetchRelated(id) {
     const { locale } = this.props;
 
     try {
@@ -117,40 +86,42 @@ class RelatedArticleBox extends React.Component {
         queryResources(id, locale),
       ]);
       if (article)
-        this.setState(prevState => ({
-          items: [...prevState.items, { ...article, resource, key }],
-          editMode: false,
-        }));
+        this.setState(
+          prevState => ({
+            items: [...prevState.items, { ...article, resource }],
+            editMode: false,
+          }),
+          this.updateEmbedNode,
+        );
     } catch (error) {
       handleError(error);
     }
   }
 
-  async fetchExternal({ url, title, key }) {
+  async fetchExternal(url, title) {
     // await get description meta data
-    this.setState(prevState => ({
-      items: [
-        ...prevState.items,
-        {
-          id: 'external-learning-resources',
-          url,
-          title,
-          description: '',
-          key,
-        },
-      ],
-      editMode: false,
-    }));
+    this.setState(
+      prevState => ({
+        items: [
+          ...prevState.items,
+          {
+            id: ARTICLE_EXTERNAL,
+            url,
+            title,
+            description: '',
+          },
+        ],
+        editMode: false,
+      }),
+      this.updateEmbedNode,
+    );
   }
 
   removeArticle(i, e) {
     e.stopPropagation();
 
     const newItems = this.state.items.filter((_, ind) => i !== ind);
-    this.setState({ items: newItems });
-
-    // remove from slate attribute
-    this.removeEmbedNode(i);
+    this.setState({ items: newItems }, this.updateEmbedNode);
   }
 
   render() {
@@ -165,7 +136,7 @@ class RelatedArticleBox extends React.Component {
           locale,
           ...attributes,
         }}
-        insertExternal={this.onInsertExternal}
+        insertExternal={this.fetchExternal}
         onInsertBlock={this.onInsertBlock}
         onExit={() => this.setState({ editMode: false })}
         removeArticle={this.removeArticle}

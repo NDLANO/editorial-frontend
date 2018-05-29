@@ -21,17 +21,22 @@ export const reduceElementDataAttributes = el => {
 
 export const reduceChildElements = el => {
   const childs = [];
-  console.log(el.childNodes);
 
   el.childNodes.forEach(node => {
-    console.log(node);
-    childs.push({
-      title: node.dataset.title,
-      url: node.dataset.url,
-    });
+    if (node.dataset.url) {
+      childs.push({
+        title: node.dataset.title,
+        url: node.dataset.url,
+      });
+    } else {
+      childs.push({
+        articleId: node.dataset.articleId,
+        resource: 'related-content',
+      });
+    }
   });
-  console.log(childs);
-  return childs;
+
+  return { nodes: childs };
 };
 
 export const createEmbedProps = obj =>

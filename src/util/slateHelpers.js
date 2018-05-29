@@ -10,6 +10,7 @@ import React from 'react';
 import {
   reduceElementDataAttributes,
   createEmbedProps,
+  reduceChildElements,
 } from './embedTagHelpers';
 
 export const BLOCK_TAGS = {
@@ -108,7 +109,8 @@ export const divRule = {
       return {
         kind: 'block',
         type: 'related',
-        nodes: next(el.childNodes),
+        isVoid: true,
+        data: reduceChildElements(el),
       };
     }
     const childs = next(el.childNodes);
@@ -348,10 +350,16 @@ export const tableRules = {
 };
 
 const relatedRule = {
-  serialize(object, children) {
+  serialize(object) {
     if (object.type === 'related') {
-      console.log(object);
-      return <div data-type="related-content">{children}</div>;
+      return (
+        <div data-type="related-content">
+          {object.data.get('nodes') &&
+            object.data
+              .get('nodes')
+              .map(it => <embed {...createEmbedProps(it)} />)}
+        </div>
+      );
     }
   },
 };
@@ -457,7 +465,9 @@ const topicArticeEmbedRule = [
     deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
 
-      if (el.dateset['data-resource'] === 'related-content') return;
+      if (el.dateset['data-resource'] === 'related-content') {
+        return;
+      }
       return {
         kind: 'block',
         type: 'embed',

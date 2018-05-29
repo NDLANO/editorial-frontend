@@ -33,26 +33,11 @@ class EditRelated extends React.PureComponent {
       title: '',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   handleInputChange(e) {
     e.preventDefault();
-    console.log('onChange', e.target.value);
     this.setState({ [e.target.id]: e.target.value });
-  }
-
-  handleKeyPress(e) {
-    if (e) {
-      e.preventDefault();
-      console.log('onKeyPress', e.target.value);
-      if (e.key === 'Escape') {
-        this.setState({ showAddExternal: false });
-      }
-      if (e.key === 'Enter') {
-        this.props.insertExternal(this.state.url, this.state.title);
-      } else this.setState({ [e.target.id]: e.target.value });
-    }
   }
 
   render() {

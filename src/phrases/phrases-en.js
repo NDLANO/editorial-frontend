@@ -284,6 +284,14 @@ const phrases = {
       figure: {
         notSupported: 'Media type {mediaType} is not supported.',
       },
+      relatedArticle: {
+        placeholder: 'Search for title',
+        urlPlaceholder: 'Url',
+        titlePlaceholder: 'Title',
+        emptyFilter: 'No related articles found',
+        emptyList: 'There are no related articles in this list',
+        invalidArticle: 'Invalid article',
+      },
       link: {
         goTo: 'Go to',
         insert: 'Insert link',

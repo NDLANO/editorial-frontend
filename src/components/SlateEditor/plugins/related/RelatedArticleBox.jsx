@@ -38,6 +38,7 @@ class RelatedArticleBox extends React.Component {
     this.onInsertBlock = this.onInsertBlock.bind(this);
     this.addEmbedNode = this.addEmbedNode.bind(this);
     this.removeEmbedNode = this.removeEmbedNode.bind(this);
+    this.onInsertExternal = this.onInsertExternal.bind(this);
   }
 
   componentDidMount() {
@@ -48,7 +49,11 @@ class RelatedArticleBox extends React.Component {
         if (it.data.get('article-id'))
           this.fetchRelated(it.data.get('article-id'), it.key);
         if (it.data.get('title')) {
-          this.fetchExternal(it.data, it.key);
+          this.fetchExternal({
+            title: it.data.get('title'),
+            url: it.data.get('url'),
+            key: it.key,
+          });
         }
       });
     }
@@ -69,6 +74,23 @@ class RelatedArticleBox extends React.Component {
       // update slate block attributes
       this.addEmbedNode(newArticle);
     }
+  }
+
+  onInsertExternal(url, title) {
+    const { editor, node } = this.props;
+    const insertEmbed = defaultEmbedBlock();
+    editor.change(change =>
+      change
+        .insertNodeByKey(node.key, this.state.items.length, insertEmbed)
+        .setNodeByKey(insertEmbed.key, {
+          data: {
+            resource: 'related-content',
+            title,
+            url,
+          },
+        }),
+    );
+    this.fetchExternal({ title, url, key: insertEmbed.key });
   }
 
   addEmbedNode(id) {
@@ -104,19 +126,20 @@ class RelatedArticleBox extends React.Component {
     }
   }
 
-  async fetchExternal(dataSet, key) {
+  async fetchExternal({ url, title, key }) {
     // await get description meta data
     this.setState(prevState => ({
       items: [
         ...prevState.items,
         {
           id: 'external-learning-resources',
-          url: dataSet.get('url'),
-          title: dataSet.get('title'),
+          url,
+          title,
           description: '',
           key,
         },
       ],
+      editMode: false,
     }));
   }
 
@@ -134,17 +157,18 @@ class RelatedArticleBox extends React.Component {
     const { attributes, onRemoveClick, locale, t } = this.props;
     const { editMode, items } = this.state;
 
-    return this.state.editMode ? (
+    return editMode ? (
       <EditRelated
         {...{
           onRemoveClick,
-          removeArticle: this.removeArticle,
           items,
-          editMode,
           locale,
-          onInsertBlock: this.onInsertBlock,
-          onExit: () => this.setState({ editMode: false }),
+          ...attributes,
         }}
+        insertExternal={this.onInsertExternal}
+        onInsertBlock={this.onInsertBlock}
+        onExit={() => this.setState({ editMode: false })}
+        removeArticle={this.removeArticle}
       />
     ) : (
       <div

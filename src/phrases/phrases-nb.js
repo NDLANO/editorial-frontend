@@ -299,6 +299,8 @@ const phrases = {
       },
       relatedArticle: {
         placeholder: 'Søk på tittel',
+        urlPlaceholder: 'Url',
+        titlePlaceholder: 'Tittel',
         emptyFilter: 'Ingen relaterte artikler funnet',
         emptyList: 'Det er ingen relaterte artikler i denne listen',
         invalidArticle: 'Ugyldig artikkel',

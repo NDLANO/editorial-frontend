@@ -14,7 +14,11 @@ import IntlWrapper from '../../../../../util/__tests__/IntlWrapper';
 const wrapper = () =>
   render(
     <IntlWrapper>
-      <RelatedArticleBox t={() => 'injected'} node={{}} />
+      <RelatedArticleBox
+        t={() => 'injected'}
+        editor={{ change: () => {} }}
+        node={{}}
+      />
     </IntlWrapper>,
   );
 
@@ -23,6 +27,7 @@ test('it goes in and out of edit mode', async () => {
 
   Simulate.click(getByTestId('relatedWrapper'));
   Simulate.click(getByTestId('showAddExternal'));
+  expect(container.firstChild).toMatchSnapshot();
 
   const input = getByTestId('addExternalUrlInput');
   const inputTitle = getByTestId('addExternalTitleInput');

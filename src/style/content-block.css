@@ -39,7 +39,7 @@ details {
   flex-wrap: wrap;
   border: 1px solid var(--article-color);
   padding: var(--spacing) var(--spacing--large);
-  z-index: 2;
+  z-index: 1;
 
   @media (--large-viewport) {
     margin: -1em -7em;

@@ -8,7 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { uuid } from 'ndla-util';
 import { injectT } from 'ndla-i18n';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Types from 'slate-prop-types';
 import { RelatedArticleList } from 'ndla-ui';
@@ -22,10 +24,18 @@ import handleError from '../../../../util/handleError';
 import RelatedArticle from './RelatedArticle';
 import { ARTICLE_EXTERNAL } from '../../../../constants';
 
-class RelatedArticleBox extends React.Component {
+const mapRelatedArticle = (article, resource) => ({
+  ...article,
+  resource,
+  id: `${article.id}`,
+  title:
+    article.title && article.title.title ? article.title.title : article.title,
+});
+
+export class RelatedArticleBox extends React.Component {
   constructor() {
     super();
-    this.state = { items: [], editMode: true };
+    this.state = { items: [], editMode: false };
     this.removeArticle = this.removeArticle.bind(this);
     this.fetchRelated = this.fetchRelated.bind(this);
     this.fetchExternal = this.fetchExternal.bind(this);
@@ -35,7 +45,7 @@ class RelatedArticleBox extends React.Component {
 
   componentDidMount() {
     const { node: { data } } = this.props;
-    if (data.get('nodes')) {
+    if (data && data.get('nodes')) {
       data.get('nodes').forEach(({ articleId, title, url }) => {
         if (articleId) this.fetchRelated(articleId);
         if (title) {
@@ -62,7 +72,7 @@ class RelatedArticleBox extends React.Component {
   updateEmbedNode() {
     const { editor, node } = this.props;
     const { items } = this.state;
-    console.log(items);
+
     editor.change(change =>
       change.setNodeByKey(node.key, {
         data: {
@@ -88,7 +98,7 @@ class RelatedArticleBox extends React.Component {
       if (article)
         this.setState(
           prevState => ({
-            items: [...prevState.items, { ...article, resource }],
+            items: [...prevState.items, mapRelatedArticle(article, resource)],
             editMode: false,
           }),
           this.updateEmbedNode,
@@ -145,6 +155,7 @@ class RelatedArticleBox extends React.Component {
       <div
         role="button"
         tabIndex={0}
+        data-testid="relatedWrapper"
         onClick={e => {
           e.stopPropagation();
           this.setState({ editMode: true });
@@ -165,7 +176,7 @@ class RelatedArticleBox extends React.Component {
               !item.id ? (
                 'Invalid article'
               ) : (
-                <RelatedArticle key={item.id} locale={locale} item={item} />
+                <RelatedArticle key={uuid()} locale={locale} item={item} />
               ),
           )}
         </RelatedArticleList>
@@ -193,4 +204,6 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default injectT(connect(mapStateToProps)(RelatedArticleBox));
+export default compose(injectT, connect(mapStateToProps, null))(
+  RelatedArticleBox,
+);

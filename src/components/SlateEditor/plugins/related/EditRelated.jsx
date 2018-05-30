@@ -16,8 +16,7 @@ import { searchRelatedArticles } from '../../../../modules/article/articleApi';
 import AsyncDropdown from '../../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import Overlay from '../../../../components/Overlay';
 import RelatedArticle from './RelatedArticle';
-import { Portal } from '../../../../components/Portal';
-import LightBox from '../../../../components/Lightbox';
+import TaxonomyLightbox from '../../../../components/TaxonomyLightbox';
 
 const classes = new BEMHelper({
   name: 'related-box',
@@ -33,11 +32,29 @@ class EditRelated extends React.PureComponent {
       title: '',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.toggleAddExternal = this.toggleAddExternal.bind(this);
+    this.searchForArticles = this.searchForArticles.bind(this);
   }
 
   handleInputChange(e) {
     e.preventDefault();
     this.setState({ [e.target.id]: e.target.value });
+  }
+
+  toggleAddExternal() {
+    this.setState(prevState => ({
+      showAddExternal: !prevState.showAddExternal,
+    }));
+  }
+
+  async searchForArticles(inp) {
+    const res = await searchRelatedArticles(inp, this.props.locale);
+    return res
+      .map(curr => ({
+        id: curr.id,
+        title: curr.title ? curr.title.title : '',
+      }))
+      .filter(it => !!it.id);
   }
 
   render() {
@@ -81,15 +98,7 @@ class EditRelated extends React.PureComponent {
               textField="title"
               placeholder={t('form.content.relatedArticle.placeholder')}
               label="label"
-              apiAction={async inp => {
-                const res = await searchRelatedArticles(inp, locale);
-                return res
-                  .map(curr => ({
-                    id: curr.id,
-                    title: curr.title ? curr.title.title : '',
-                  }))
-                  .filter(it => !!it.id);
-              }}
+              apiAction={this.searchForArticles}
               onClick={e => e.stopPropagation()}
               messages={{
                 emptyFilter: t('form.content.relatedArticle.emptyFilter'),
@@ -98,8 +107,10 @@ class EditRelated extends React.PureComponent {
               onChange={selected => selected && onInsertBlock(selected.id)}
             />
             <div>{t('taxonomy.or')}</div>
-            <Button onClick={() => this.setState({ showAddExternal: true })}>
-              Legg til ekstern artikkel
+            <Button
+              data-testid="showAddExternal"
+              onClick={this.toggleAddExternal}>
+              {t('form.content.relatedArticle.addExternal')}
             </Button>
           </div>
           <Button
@@ -109,26 +120,31 @@ class EditRelated extends React.PureComponent {
             <Cross />
           </Button>
         </div>
-        <Portal isOpened={this.state.showAddExternal}>
-          <LightBox onClose={onExit}>
+        {this.state.showAddExternal && (
+          <TaxonomyLightbox
+            onSelect={() => insertExternal(url, title)}
+            title={t('form.content.relatedArticle.searchExternal')}
+            onClose={this.toggleAddExternal}>
             <input
               type="text"
               id="url"
-              data-testid="addResourceUrlInput"
+              data-testid="addExternalUrlInput"
               onChange={this.handleInputChange}
+              onClick={e => e.stopPropagation()}
               value={url}
               placeholder={t('form.content.relatedArticle.urlPlaceholder')}
             />
             <input
               type="text"
               id="title"
+              data-testid="addExternalTitleInput"
               value={title}
               onChange={this.handleInputChange}
+              onClick={e => e.stopPropagation()}
               placeholder={t('form.content.relatedArticle.titlePlaceholder')}
             />
-            <Button onClick={() => insertExternal(url, title)}>Legg til</Button>
-          </LightBox>
-        </Portal>
+          </TaxonomyLightbox>
+        )}
       </div>
     );
   }

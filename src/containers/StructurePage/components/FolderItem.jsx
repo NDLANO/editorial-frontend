@@ -14,7 +14,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';
 import EditLinkButton from './EditLinkButton';
-import RoundIcon from './RoundIcon';
+import RoundIcon from '../../../components/RoundIcon';
 import FilterView from './FilterView';
 
 const classes = new BEMHelper({

@@ -16,11 +16,17 @@ export default () => {
 
   /* eslint-disable react/prop-types */
   const renderNode = props => {
-    const { node } = props;
-    console.log(node);
+    const { node, editor } = props;
+
+    const onRemoveClick = e => {
+      e.stopPropagation();
+      const next = editor.value.change().removeNodeByKey(node.key);
+      editor.onChange(next);
+    };
+
     switch (node.type) {
       case 'related':
-        return <RelatedArticleBox {...props} />;
+        return <RelatedArticleBox onRemoveClick={onRemoveClick} {...props} />;
       default:
         return null;
     }

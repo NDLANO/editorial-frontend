@@ -13,7 +13,7 @@ class AudioPlayerMounter extends Component {
   render() {
     const {
       id,
-      title: { title },
+      title,
       audioFile: { mimeType, url },
       copyright: { creators, license: { license: licenseAbbreviation } },
     } = this.props.audio;

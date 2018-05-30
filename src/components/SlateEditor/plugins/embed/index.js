@@ -9,7 +9,7 @@
 import React from 'react';
 import SlateFigure from './SlateFigure';
 
-export default function createEmbedPlugin() {
+export default function createEmbedPlugin(locale) {
   const schema = {
     document: {},
   };
@@ -19,7 +19,7 @@ export default function createEmbedPlugin() {
     const { node } = props;
     switch (node.type) {
       case 'embed':
-        return <SlateFigure {...props} />;
+        return <SlateFigure {...props} locale={locale} />;
       default:
         return null;
     }

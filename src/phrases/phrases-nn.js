@@ -256,6 +256,10 @@ const phrases = {
     publishedOk: 'Publisert OK',
     validationOk: 'Ingen validerings feil funnet',
     createdOk: 'Opprettet OK',
+    addNewImage: 'Legg til nytt bilde',
+    addNewAudio: 'Legg til ny lyd',
+    editImage: 'Endre bilde',
+    editAudio: 'Endre lyd',
     variant: {
       create: '+ Nytt språk',
     },

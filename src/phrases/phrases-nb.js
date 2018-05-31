@@ -303,6 +303,7 @@ const phrases = {
       placeholder: 'Innhold',
       figure: {
         notSupported: 'Mediatype {mediaType} er ikke støttet.',
+        confirmDelete: 'Er du sikker på at du vil slette denne figuren?',
       },
       relatedArticle: {
         placeholder: 'Søk på tittel',

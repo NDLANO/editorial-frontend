@@ -19,19 +19,21 @@ import WarningModal from '../../../../components/WarningModal';
 export class FigureButtons extends React.Component {
   constructor() {
     super();
-    this.state = { isDeleteAction: false };
+    this.state = { showDeleteConfirmation: false };
     this.toggleDelete = this.toggleDelete.bind(this);
     this.onDeleteConfirm = this.onDeleteConfirm.bind(this);
   }
 
   onDeleteConfirm(e) {
     const { onRemoveClick } = this.props;
-    this.setState({ isDeleteAction: false });
+    this.setState({ showDeleteConfirmation: false });
     onRemoveClick(e);
   }
 
   toggleDelete() {
-    this.setState(prevState => ({ isDeleteAction: !prevState.isDeleteAction }));
+    this.setState(prevState => ({
+      showDeleteConfirmation: !prevState.showDeleteConfirmation,
+    }));
   }
 
   render() {
@@ -79,7 +81,7 @@ export class FigureButtons extends React.Component {
           title={url[figureType].editTitle}>
           <Pencil />
         </Link>
-        {this.state.isDeleteAction && (
+        {this.state.showDeleteConfirmation && (
           <WarningModal
             confirmDelete
             text={t('form.content.figure.confirmDelete')}

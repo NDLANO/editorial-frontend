@@ -56,7 +56,7 @@ export const createEmbedTag = visualElement => {
 
 export const isUserProvidedEmbedDataValid = embed => {
   if (embed.resource === 'image') {
-    return !isEmpty(embed.alt) && !isEmpty(embed.caption);
+    return !isEmpty(embed.alt);
   } else if (embed.resource === 'brightcove') {
     return !isEmpty(embed.caption);
   } else if (embed.resource === 'audio') {

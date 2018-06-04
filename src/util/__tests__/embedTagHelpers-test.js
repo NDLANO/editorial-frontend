@@ -112,7 +112,7 @@ test('isUserProvidedEmbedDataValid for image', () => {
       resource: 'image',
       alt: 'Alt',
     }),
-  ).toBe(false);
+  ).toBe(true);
 });
 
 test('isUserProvidedEmbedDataValid for brightcove', () => {

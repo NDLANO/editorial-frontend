@@ -290,6 +290,7 @@ const phrases = {
       placeholder: 'Write here...',
       figure: {
         notSupported: 'Media type {mediaType} is not supported.',
+        confirmDelete: 'Are you sure that you will delete this figure?',
       },
       link: {
         goTo: 'Go to',

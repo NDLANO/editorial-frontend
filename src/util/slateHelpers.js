@@ -357,7 +357,7 @@ const relatedRule = {
           {object.data.get('nodes') &&
             object.data
               .get('nodes')
-              .map(it => <embed {...createEmbedProps(it)} />)}
+              .map(node => <embed {...createEmbedProps(node)} />)}
         </div>
       );
     }

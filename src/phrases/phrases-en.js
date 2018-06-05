@@ -288,6 +288,7 @@ const phrases = {
         placeholder: 'Search for title',
         urlPlaceholder: 'Url',
         titlePlaceholder: 'Title',
+        urlLocation: 'Webpage at {domain}',
         emptyFilter: 'No related articles found',
         emptyList: 'There are no related articles in this list',
         invalidArticle: 'Invalid article',

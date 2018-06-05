@@ -48,13 +48,13 @@ class EditRelated extends React.PureComponent {
   }
 
   async searchForArticles(inp) {
-    const res = await searchRelatedArticles(inp, this.props.locale);
-    return res
-      .map(curr => ({
-        id: curr.id,
-        title: curr.title ? curr.title.title : '',
+    const articles = await searchRelatedArticles(inp, this.props.locale);
+    return articles
+      .map(article => ({
+        id: article.id,
+        title: article.title ? article.title.title : '',
       }))
-      .filter(it => !!it.id);
+      .filter(article => !!article.id);
   }
 
   render() {
@@ -70,28 +70,29 @@ class EditRelated extends React.PureComponent {
       ...rest
     } = this.props;
     const { title, url } = this.state;
+    const relatedArticles = items.map(
+      (item, i) =>
+        !item.id ? (
+          t('form.content.relatedArticle.invalidArticle')
+        ) : (
+          <div key={item.id} {...classes('article')}>
+            <RelatedArticle locale={locale} item={item} />
+            <Button
+              stripped
+              onClick={e => removeArticle(i, e)}
+              {...classes('delete-button')}>
+              <Cross />
+            </Button>
+          </div>
+        ),
+    );
+
     return (
       <div>
         <Overlay onExit={onExit} />
         <div {...classes()} {...rest}>
-          {items.map(
-            (item, i) =>
-              !item.id ? (
-                t('orm.content.relatedArticle.invalidArticle')
-              ) : (
-                <div key={item.id} {...classes('article')}>
-                  <RelatedArticle locale={locale} item={item} />
-                  <Button
-                    stripped
-                    onClick={e => removeArticle(i, e)}
-                    {...classes('delete-button')}>
-                    <Cross />
-                  </Button>
-                </div>
-              ),
-          )}
+          {relatedArticles}
           <div {...classes('article')}>
-            {' '}
             <AsyncDropdown
               valueField="id"
               name="relatedArticleSearch"

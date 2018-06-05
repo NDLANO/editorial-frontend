@@ -300,6 +300,7 @@ const phrases = {
       relatedArticle: {
         placeholder: 'Søk på tittel',
         urlPlaceholder: 'http://www.example.com',
+        urlLocation: 'Nettside hos {domain}',
         titlePlaceholder: 'Tittel',
         emptyFilter: 'Ingen relaterte artikler funnet',
         emptyList: 'Det er ingen relaterte artikler i denne listen',

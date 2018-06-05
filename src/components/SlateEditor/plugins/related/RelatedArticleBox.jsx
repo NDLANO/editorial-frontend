@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import Types from 'slate-prop-types';
 import { RelatedArticleList } from 'ndla-ui';
 import { toggleRelatedArticles } from 'ndla-article-scripts';
+import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { searchArticles } from '../../../../modules/article/articleApi';
 import { queryResources } from '../../../../modules/taxonomy/taxonomyApi';
 import { getLocale } from '../../../../modules/locale/locale';
@@ -28,8 +29,7 @@ const mapRelatedArticle = (article, resource) => ({
   ...article,
   resource,
   id: `${article.id}`,
-  title:
-    article.title && article.title.title ? article.title.title : article.title,
+  title: convertFieldWithFallback(article, 'title', article.title),
 });
 
 export class RelatedArticleBox extends React.Component {
@@ -174,7 +174,7 @@ export class RelatedArticleBox extends React.Component {
           {items.map(
             item =>
               !item.id ? (
-                'Invalid article'
+                t('form.content.relatedArticle.invalidArticle')
               ) : (
                 <RelatedArticle key={uuid()} locale={locale} item={item} />
               ),

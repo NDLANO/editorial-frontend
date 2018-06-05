@@ -5951,9 +5951,9 @@ ndla-i18n@^0.2.2:
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-ndla-icons@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.3.1.tgz#ac67812369bffc28bf3c1b28ac19fcb261ed655d"
+ndla-icons@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.3.5.tgz#7d989a8b3c74e60da0785239e8ad0a026e6ae142"
 
 ndla-image-search@^0.2.10:
   version "0.2.10"
@@ -5979,9 +5979,9 @@ ndla-scripts@^0.4.0:
     octonode "^0.9.2"
     url-regex "^4.1.1"
 
-ndla-tabs@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.4.3.tgz#536cff6c1eee3c40cd596d1a467e9b6cdf10a6b1"
+ndla-tabs@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.4.4.tgz#fb4cdbc0bcc0c696abc3cc836f89c5a50764aa7d"
   dependencies:
     lodash "^4.17.5"
 

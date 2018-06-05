@@ -49,3 +49,16 @@ localStorage.setItem(
   'access_token_expires_at',
   new Date().getTime() + 24 * 60 * 60 * 1000,
 );
+
+/* eslint-disable */
+
+// fix: `matchMedia` not present, legacy browsers require a polyfill
+global.matchMedia =
+  global.matchMedia ||
+  function() {
+    return {
+      matches: false,
+      addListener() {},
+      removeListener() {},
+    };
+  };

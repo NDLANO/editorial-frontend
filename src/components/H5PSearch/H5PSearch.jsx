@@ -56,6 +56,10 @@ class H5PSearch extends Component {
       <div>
         {this.state.fetchFailed && (
           <ErrorMessage
+            illustration={{
+              url: '/Oops.gif',
+              altText: t('errorMessage.title'),
+            }}
             messages={{
               title: t('errorMessage.title'),
               description: t('h5pSearch.fetchError'),

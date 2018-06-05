@@ -27,6 +27,9 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Subject
+            </title>
             <g>
               <title>
                 Emne
@@ -88,6 +91,9 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           data-source="Material Design"
           style="vertical-align: middle;"
         >
+          <title>
+            RemoveCircle
+          </title>
           <g>
             <path
               d="M0 0h24v24H0z"
@@ -124,6 +130,9 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Subject
+            </title>
             <g>
               <title>
                 Emne
@@ -185,6 +194,9 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           data-source="Material Design"
           style="vertical-align: middle;"
         >
+          <title>
+            RemoveCircle
+          </title>
           <g>
             <path
               d="M0 0h24v24H0z"
@@ -221,6 +233,9 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Subject
+            </title>
             <g>
               <title>
                 Emne
@@ -282,6 +297,9 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           data-source="Material Design"
           style="vertical-align: middle;"
         >
+          <title>
+            RemoveCircle
+          </title>
           <g>
             <path
               d="M0 0h24v24H0z"
@@ -318,6 +336,9 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Subject
+            </title>
             <g>
               <title>
                 Emne
@@ -379,6 +400,9 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           data-source="Material Design"
           style="vertical-align: middle;"
         >
+          <title>
+            RemoveCircle
+          </title>
           <g>
             <path
               d="M0 0h24v24H0z"
@@ -415,6 +439,9 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Subject
+            </title>
             <g>
               <title>
                 Emne
@@ -476,6 +503,9 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           data-source="Material Design"
           style="vertical-align: middle;"
         >
+          <title>
+            RemoveCircle
+          </title>
           <g>
             <path
               d="M0 0h24v24H0z"
@@ -512,6 +542,9 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Subject
+            </title>
             <g>
               <title>
                 Emne
@@ -573,6 +606,9 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           data-source="Material Design"
           style="vertical-align: middle;"
         >
+          <title>
+            RemoveCircle
+          </title>
           <g>
             <path
               d="M0 0h24v24H0z"

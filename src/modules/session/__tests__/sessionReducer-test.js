@@ -13,6 +13,7 @@ const accessToken =
 
 test('reducers/session getSessionStateFromLocalStorage when access_token exists in local storage', () => {
   localStorage.setItem('access_token', accessToken);
+  localStorage.setItem('access_token_personal', 'true');
   const nextState = getSessionStateFromLocalStorage();
 
   expect(nextState).toMatchSnapshot();

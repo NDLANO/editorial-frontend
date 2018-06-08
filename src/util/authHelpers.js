@@ -99,6 +99,9 @@ export const clearAccessTokenFromLocalStorage = () => {
   localStorage.removeItem('access_token_personal');
 };
 
+export const getAccessTokenPersonal = () =>
+  localStorage.getItem('access_token_personal') === 'true';
+
 export const getAccessTokenExpiresAt = () =>
   localStorage.getItem('access_token_expires_at')
     ? JSON.parse(localStorage.getItem('access_token_expires_at'))

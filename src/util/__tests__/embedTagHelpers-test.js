@@ -5,12 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
+import jsdom from 'jsdom';
+import Html from 'slate-html-serializer';
 import {
   parseEmbedTag,
   createEmbedTag,
   isUserProvidedEmbedDataValid,
 } from '../embedTagHelpers';
+import { divRule, toJSON } from '../slateHelpers';
+
+const { fragment } = jsdom.JSDOM;
 
 test('parseEmbedTag parses image embed tag to object', () => {
   const obj = parseEmbedTag(
@@ -137,4 +141,13 @@ test('isUserProvidedEmbedDataValid for audio', () => {
       resource: 'audio',
     }),
   ).toBe(true);
+});
+
+test('deserializing related-content works', () => {
+  const serializer = new Html({ rules: [divRule], parseHtml: fragment });
+  const deserialized = serializer.deserialize(
+    '<div data-resource="related-content"><embed data-url="www.vg.no" data-title="Forsiden vg" /><embed data-articleId=54 /></div>',
+  );
+
+  expect(toJSON(deserialized)).toMatchSnapshot();
 });

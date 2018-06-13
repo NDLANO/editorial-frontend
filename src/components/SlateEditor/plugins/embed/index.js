@@ -25,7 +25,13 @@ export default function createEmbedPlugin(locale) {
 
     switch (node.type) {
       case 'embed':
-        return <SlateFigure onRemoveClick={onRemoveClick} {...props} locale={locale} />;
+        return (
+          <SlateFigure
+            onRemoveClick={onRemoveClick}
+            {...props}
+            locale={locale}
+          />
+        );
       default:
         return null;
     }

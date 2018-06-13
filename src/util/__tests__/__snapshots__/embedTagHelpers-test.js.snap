@@ -6,6 +6,36 @@ exports[`createEmbedTag creates h5p embed tag from object 1`] = `"<embed data-re
 
 exports[`createEmbedTag creates image embed tag from object 1`] = `"<embed data-align=\\"\\" data-alt=\\"Guinness sign\\" data-caption=\\"Guinness is good for you\\" data-resource=\\"image\\" data-resource_id=\\"42159\\" data-size=\\"fullbredde\\" data-url=\\"https://api.ndla.no/image-api/v2/images/42159\\">"`;
 
+exports[`deserialize bodybox block 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "leaves": Array [
+              Object {
+                "kind": "leaf",
+                "marks": Array [],
+                "text": "",
+              },
+            ],
+          },
+        ],
+        "type": "div",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
 exports[`parseEmbedTag parses brightcove embed tag to object 1`] = `
 Object {
   "account": "4806596774001",

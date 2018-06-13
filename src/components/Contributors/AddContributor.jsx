@@ -47,7 +47,7 @@ const AddContributor = ({
 );
 
 AddContributor.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   contributorTypes: PropTypes.arrayOf(PropTypes.object).isRequired,

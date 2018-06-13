@@ -43,9 +43,11 @@ class H5PSearch extends Component {
     if (event.data.type !== 'h5p') {
       return;
     }
-    onSelect({
-      url: event.data.oembed_url,
-    });
+
+    // Currently, we need to strip oembed part of H5P-url to support NDLA proxy oembed service
+    const { oembed_url: oembedUrl } = event.data;
+    const url = oembedUrl.match(/url=([^&]*)/)[0].replace('url=', '');
+    onSelect({ url });
   }
 
   render() {
@@ -54,6 +56,10 @@ class H5PSearch extends Component {
       <div>
         {this.state.fetchFailed && (
           <ErrorMessage
+            illustration={{
+              url: '/Oops.gif',
+              altText: t('errorMessage.title'),
+            }}
             messages={{
               title: t('errorMessage.title'),
               description: t('h5pSearch.fetchError'),

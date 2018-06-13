@@ -26,6 +26,9 @@ exports[`calls add filter 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Pencil
+            </title>
             <g>
               <path
                 d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
@@ -57,6 +60,9 @@ exports[`calls add filter 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              DeleteForever
+            </title>
             <g>
               <path
                 d="M0 0h24v24H0V0z"
@@ -99,6 +105,9 @@ exports[`calls add filter 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Pencil
+            </title>
             <g>
               <path
                 d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
@@ -130,6 +139,9 @@ exports[`calls add filter 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              DeleteForever
+            </title>
             <g>
               <path
                 d="M0 0h24v24H0V0z"
@@ -172,6 +184,9 @@ exports[`calls add filter 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Pencil
+            </title>
             <g>
               <path
                 d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
@@ -203,6 +218,9 @@ exports[`calls add filter 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              DeleteForever
+            </title>
             <g>
               <path
                 d="M0 0h24v24H0V0z"
@@ -245,6 +263,9 @@ exports[`calls add filter 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Pencil
+            </title>
             <g>
               <path
                 d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
@@ -276,6 +297,9 @@ exports[`calls add filter 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              DeleteForever
+            </title>
             <g>
               <path
                 d="M0 0h24v24H0V0z"
@@ -318,6 +342,9 @@ exports[`calls add filter 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Pencil
+            </title>
             <g>
               <path
                 d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
@@ -349,6 +376,9 @@ exports[`calls add filter 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              DeleteForever
+            </title>
             <g>
               <path
                 d="M0 0h24v24H0V0z"
@@ -383,6 +413,9 @@ exports[`calls add filter 1`] = `
       data-source="Material Design"
       style="vertical-align: middle;"
     >
+      <title>
+        Plus
+      </title>
       <g>
         <path
           d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
@@ -425,6 +458,9 @@ exports[`maps out filters 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Pencil
+            </title>
             <g>
               <path
                 d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
@@ -456,6 +492,9 @@ exports[`maps out filters 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              DeleteForever
+            </title>
             <g>
               <path
                 d="M0 0h24v24H0V0z"
@@ -498,6 +537,9 @@ exports[`maps out filters 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Pencil
+            </title>
             <g>
               <path
                 d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
@@ -529,6 +571,9 @@ exports[`maps out filters 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              DeleteForever
+            </title>
             <g>
               <path
                 d="M0 0h24v24H0V0z"
@@ -571,6 +616,9 @@ exports[`maps out filters 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Pencil
+            </title>
             <g>
               <path
                 d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
@@ -602,6 +650,9 @@ exports[`maps out filters 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              DeleteForever
+            </title>
             <g>
               <path
                 d="M0 0h24v24H0V0z"
@@ -644,6 +695,9 @@ exports[`maps out filters 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Pencil
+            </title>
             <g>
               <path
                 d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
@@ -675,6 +729,9 @@ exports[`maps out filters 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              DeleteForever
+            </title>
             <g>
               <path
                 d="M0 0h24v24H0V0z"
@@ -717,6 +774,9 @@ exports[`maps out filters 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              Pencil
+            </title>
             <g>
               <path
                 d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
@@ -748,6 +808,9 @@ exports[`maps out filters 1`] = `
             data-source="Material Design"
             style="vertical-align: middle;"
           >
+            <title>
+              DeleteForever
+            </title>
             <g>
               <path
                 d="M0 0h24v24H0V0z"
@@ -782,6 +845,9 @@ exports[`maps out filters 1`] = `
       data-source="Material Design"
       style="vertical-align: middle;"
     >
+      <title>
+        Plus
+      </title>
       <g>
         <path
           d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"

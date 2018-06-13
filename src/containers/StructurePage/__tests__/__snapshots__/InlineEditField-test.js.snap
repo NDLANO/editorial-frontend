@@ -26,6 +26,9 @@ exports[`Goes to edit mode, handles submit 1`] = `
       data-source="Material Design"
       style="vertical-align: middle;"
     >
+      <title>
+        Done
+      </title>
       <g>
         <path
           d="M0 0h24v24H0z"

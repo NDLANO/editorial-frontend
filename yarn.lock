@@ -197,7 +197,7 @@ ajv@^4.9.1:
     co "^4.6.0"
     json-stable-stringify "^1.0.1"
 
-ajv@^5.0.0, ajv@^5.1.0, ajv@^5.2.0, ajv@^5.2.3, ajv@^5.3.0:
+ajv@^5.0.0, ajv@^5.1.0, ajv@^5.2.3, ajv@^5.3.0:
   version "5.5.2"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.5.2.tgz#73b5eeca3fab653e3d3f9422b341ad42205dc965"
   dependencies:
@@ -460,7 +460,7 @@ async@^1.4.0, async@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
 
-async@^2.1.4, async@^2.3.0, async@^2.4.1:
+async@^2.1.4, async@^2.4.1:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.0.tgz#61a29abb6fcc026fea77e56d1c6ec53a795951f4"
   dependencies:
@@ -1154,9 +1154,9 @@ babel-preset-jest@^20.0.3:
   dependencies:
     babel-plugin-jest-hoist "^20.0.3"
 
-babel-preset-razzle@^2.0.0-alpha.12:
-  version "2.0.0-alpha.12"
-  resolved "https://registry.yarnpkg.com/babel-preset-razzle/-/babel-preset-razzle-2.0.0-alpha.12.tgz#acb14d169775633a52f4899a75d3ca31032e5e70"
+babel-preset-razzle@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/babel-preset-razzle/-/babel-preset-razzle-2.0.0.tgz#ee7a97f0d94a134b96379d3729de63a4de6abd86"
   dependencies:
     babel-plugin-dynamic-import-node "1.0.1"
     babel-plugin-syntax-dynamic-import "6.18.0"
@@ -2561,7 +2561,7 @@ doctrine@1.5.0:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-doctrine@^2.0.0, doctrine@^2.0.2, doctrine@^2.1.0:
+doctrine@^2.0.2, doctrine@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.1.0.tgz#5cd01fc101621b42c4cd7f5d1a66243716d3f39d"
   dependencies:
@@ -2974,49 +2974,7 @@ eslint-visitor-keys@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#3f3180fb2e291017716acb4c9d6d5b5c34a6a81d"
 
-eslint@4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.5.0.tgz#bb75d3b8bde97fb5e13efcd539744677feb019c3"
-  dependencies:
-    ajv "^5.2.0"
-    babel-code-frame "^6.22.0"
-    chalk "^2.1.0"
-    concat-stream "^1.6.0"
-    cross-spawn "^5.1.0"
-    debug "^2.6.8"
-    doctrine "^2.0.0"
-    eslint-scope "^3.7.1"
-    espree "^3.5.0"
-    esquery "^1.0.0"
-    estraverse "^4.2.0"
-    esutils "^2.0.2"
-    file-entry-cache "^2.0.0"
-    functional-red-black-tree "^1.0.1"
-    glob "^7.1.2"
-    globals "^9.17.0"
-    ignore "^3.3.3"
-    imurmurhash "^0.1.4"
-    inquirer "^3.0.6"
-    is-resolvable "^1.0.0"
-    js-yaml "^3.9.1"
-    json-stable-stringify "^1.0.1"
-    levn "^0.3.0"
-    lodash "^4.17.4"
-    minimatch "^3.0.2"
-    mkdirp "^0.5.1"
-    natural-compare "^1.4.0"
-    optionator "^0.8.2"
-    path-is-inside "^1.0.2"
-    pluralize "^4.0.0"
-    progress "^2.0.0"
-    require-uncached "^1.0.3"
-    semver "^5.3.0"
-    strip-ansi "^4.0.0"
-    strip-json-comments "~2.0.1"
-    table "^4.0.1"
-    text-table "~0.2.0"
-
-eslint@^4.19.0:
+eslint@4.19.1, eslint@^4.19.0:
   version "4.19.1"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.19.1.tgz#32d1d653e1d90408854bfb296f076ec7e186a300"
   dependencies:
@@ -3059,7 +3017,7 @@ eslint@^4.19.0:
     table "4.0.2"
     text-table "~0.2.0"
 
-espree@^3.5.0, espree@^3.5.4:
+espree@^3.5.4:
   version "3.5.4"
   resolved "https://registry.yarnpkg.com/espree/-/espree-3.5.4.tgz#b0f447187c8a8bed944b815a660bddf5deb5d1a7"
   dependencies:
@@ -3752,7 +3710,7 @@ globals@^11.0.1, globals@^11.1.0:
   version "11.4.0"
   resolved "https://registry.yarnpkg.com/globals/-/globals-11.4.0.tgz#b85c793349561c16076a3c13549238a27945f1bc"
 
-globals@^9.17.0, globals@^9.18.0:
+globals@^9.18.0:
   version "9.18.0"
   resolved "https://registry.yarnpkg.com/globals/-/globals-9.18.0.tgz#aa3896b3e69b487f17e31ed2143d69a8e30c2d8a"
 
@@ -5951,9 +5909,9 @@ ndla-i18n@^0.2.2:
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-ndla-icons@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.3.2.tgz#c81d59e003593d6fcef516a01f52e0f7960fcb7c"
+ndla-icons@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.3.5.tgz#7d989a8b3c74e60da0785239e8ad0a026e6ae142"
 
 ndla-image-search@^0.2.10:
   version "0.2.10"
@@ -5979,15 +5937,15 @@ ndla-scripts@^0.4.0:
     octonode "^0.9.2"
     url-regex "^4.1.1"
 
-ndla-tabs@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.4.3.tgz#536cff6c1eee3c40cd596d1a467e9b6cdf10a6b1"
+ndla-tabs@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.4.4.tgz#fb4cdbc0bcc0c696abc3cc836f89c5a50764aa7d"
   dependencies:
     lodash "^4.17.5"
 
-ndla-ui@^0.12.7:
-  version "0.12.7"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.12.7.tgz#c509af640653786afc2ac584340186450069769a"
+ndla-ui@^0.12.10:
+  version "0.12.10"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.12.10.tgz#0489a1aa9b3e0fa6c655f7d27ac9ab5bcde0b1e4"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
@@ -6662,10 +6620,6 @@ pleeease-filters@^4.0.0:
   dependencies:
     onecolor "^3.0.4"
     postcss "^6.0.1"
-
-pluralize@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-4.0.0.tgz#59b708c1c0190a2f692f1c7618c446b052fd1762"
 
 pluralize@^7.0.0:
   version "7.0.0"
@@ -7539,18 +7493,18 @@ razzle-config-utils@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/razzle-config-utils/-/razzle-config-utils-0.1.0.tgz#cc91039dd94d7041b97f4b3381e0fdd3d44b56df"
 
-razzle-dev-utils@^2.0.0-alpha.12:
-  version "2.0.0-alpha.12"
-  resolved "https://registry.yarnpkg.com/razzle-dev-utils/-/razzle-dev-utils-2.0.0-alpha.12.tgz#e2cff1cc6825a10eca0370e91e518d0e2369f63d"
+razzle-dev-utils@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/razzle-dev-utils/-/razzle-dev-utils-2.0.0.tgz#e13eb306fd730719c183a80855316440a7a8ea0d"
   dependencies:
     chalk "1.1.3"
     react-dev-utils "4.1.0"
     sockjs-client "1.1.4"
-    strip-ansi "4.0.0"
+    strip-ansi "3.0.1"
 
-razzle@^2.0.0-alpha.12:
-  version "2.0.0-alpha.12"
-  resolved "https://registry.yarnpkg.com/razzle/-/razzle-2.0.0-alpha.12.tgz#de72f0c5b3108ecae9fe82918ada3c85bdcf4237"
+razzle@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/razzle/-/razzle-2.0.3.tgz#a50a28b80cddc47019c6b1200ac9d269d8e98eec"
   dependencies:
     assets-webpack-plugin "3.5.1"
     autoprefixer "7.1.1"
@@ -7558,12 +7512,12 @@ razzle@^2.0.0-alpha.12:
     babel-eslint "7.2.3"
     babel-jest "20.0.3"
     babel-loader "7.1.1"
-    babel-preset-razzle "^2.0.0-alpha.12"
+    babel-preset-razzle "^2.0.0"
     chalk "1.1.3"
     consola "^1.2.0"
     css-loader "0.28.11"
     dotenv "4.0.0"
-    eslint "4.5.0"
+    eslint "4.19.1"
     eslint-config-react-app "^2.1.0"
     eslint-loader "^2.0.0"
     eslint-plugin-flowtype "^2.35.0"
@@ -7579,12 +7533,12 @@ razzle@^2.0.0-alpha.12:
     postcss-loader "^2.1.3"
     promise "^8.0.1"
     raf "^3.4.0"
-    razzle-dev-utils "^2.0.0-alpha.12"
+    razzle-dev-utils "^2.0.0"
     react-dev-utils "^4.0.0"
     react-error-overlay "^2.0.0"
+    source-map-support "^0.5.6"
     start-server-webpack-plugin "2.2.5"
     style-loader "0.20.3"
-    thread-loader "1.1.5"
     uglifyjs-webpack-plugin "1.2.4"
     url-loader "^1.0.1"
     webpack "^4.6.0"
@@ -8813,6 +8767,13 @@ source-map-support@^0.5.3:
   dependencies:
     source-map "^0.6.0"
 
+source-map-support@^0.5.6:
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.6.tgz#4435cee46b1aab62b8e8610ce60f788091c51c13"
+  dependencies:
+    buffer-from "^1.0.0"
+    source-map "^0.6.0"
+
 source-map-url@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/source-map-url/-/source-map-url-0.4.0.tgz#3e935d7ddd73631b97659956d55128e87b5084a3"
@@ -9037,7 +8998,7 @@ strip-ansi@3.0.1, strip-ansi@^3.0.0, strip-ansi@^3.0.1:
   dependencies:
     ansi-regex "^2.0.0"
 
-strip-ansi@4.0.0, strip-ansi@^4.0.0:
+strip-ansi@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-4.0.0.tgz#a8479022eb1ac368a871389b635262c505ee368f"
   dependencies:
@@ -9267,14 +9228,6 @@ text-encoding@^0.6.4:
 text-table@0.2.0, text-table@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
-
-thread-loader@1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/thread-loader/-/thread-loader-1.1.5.tgz#7f9d6701f773734fff1832586779021ab8571917"
-  dependencies:
-    async "^2.3.0"
-    loader-runner "^2.3.0"
-    loader-utils "^1.1.0"
 
 throat@^3.0.0:
   version "3.2.0"

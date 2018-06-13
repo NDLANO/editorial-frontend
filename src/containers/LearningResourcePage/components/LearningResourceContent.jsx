@@ -7,7 +7,11 @@
  */
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getLocale } from '../../../modules/locale/locale';
 import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
 import Accordion from '../../../components/Accordion';
@@ -46,12 +50,12 @@ class LearningResourceContent extends Component {
     this.state = {
       hiddenContent: false,
     };
+    const { locale } = props;
     this.toggleContent = this.toggleContent.bind(this);
     this.addSection = this.addSection.bind(this);
-
     this.plugins = [
       footnotePlugin(),
-      createEmbedPlugin(),
+      createEmbedPlugin(locale),
       createBodyBoxPlugin(),
       createAsidePlugin(),
       createDetailsPlugin(),
@@ -112,6 +116,14 @@ class LearningResourceContent extends Component {
           {...commonFieldProps}
         />
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
+        <div {...formClasses('add-media-links')}>
+          <Link to="/media/audio-upload/new" target="_blank">
+            {t('form.addNewAudio')}
+          </Link>
+          <Link to="/media/image-upload/new" target="_blank">
+            {t('form.addNewImage')}
+          </Link>
+        </div>
         <RichBlockTextField
           slateSchema={schema}
           renderNode={renderNode}
@@ -131,6 +143,11 @@ class LearningResourceContent extends Component {
 
 LearningResourceContent.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
-export default injectT(LearningResourceContent);
+const mapStateToProps = state => ({
+  locale: getLocale(state),
+});
+
+export default connect(mapStateToProps)(injectT(LearningResourceContent));

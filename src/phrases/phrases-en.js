@@ -243,6 +243,10 @@ const phrases = {
     publishedOk: 'Published OK',
     validationOk: 'No validation errors found',
     createdOk: 'Created OK',
+    addNewImage: 'Add new image',
+    addNewAudio: 'Add new audio',
+    editImage: 'Edit image',
+    editAudio: 'Edit audio',
     variant: {
       create: 'Create variant +',
     },
@@ -257,6 +261,9 @@ const phrases = {
     visualElement: {
       title: 'Add visual element',
       label: 'Visual element',
+      video: 'Video search',
+      image: 'Image search',
+      h5p: 'H5P search',
     },
     status: {
       created: 'Created',
@@ -283,6 +290,7 @@ const phrases = {
       placeholder: 'Write here...',
       figure: {
         notSupported: 'Media type {mediaType} is not supported.',
+        confirmDelete: 'Are you sure that you will delete this figure?',
       },
       relatedArticle: {
         placeholder: 'Search for title',

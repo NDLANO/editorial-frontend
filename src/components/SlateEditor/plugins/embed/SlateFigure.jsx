@@ -84,15 +84,17 @@ class SlateFigure extends React.Component {
       'figure',
       this.isSelected() ? 'active' : '',
     );
-    const { node, attributes, editor } = this.props;
+    const { node, attributes, editor, locale } = this.props;
 
     const embed = getSchemaEmbed(node);
+
     const props = {
       embed,
       onFigureInputChange: this.onFigureInputChange,
       figureClass,
       attributes,
       submitted: this.state.submitted,
+      locale,
     };
     switch (embed.resource) {
       case 'image':
@@ -105,15 +107,10 @@ class SlateFigure extends React.Component {
           />
         );
       case 'brightcove':
-        return <SlateVideo {...props} onRemoveClick={this.onRemoveClick} />;
+        return <SlateVideo onRemoveClick={this.onRemoveClick} {...props} />;
       case 'audio':
         return <SlateAudio onRemoveClick={this.onRemoveClick} {...props} />;
       case 'external':
-        if (embed.url.indexOf('h5p') > -1) {
-          return (
-            <DisplayOembed onRemoveClick={this.onRemoveClick} url={embed.url} />
-          );
-        }
         return (
           <Figure>
             <DisplayExternal
@@ -146,6 +143,7 @@ SlateFigure.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
+  locale: PropTypes.string.isRequired,
 };
 
 SlateFigure.defaultProps = {

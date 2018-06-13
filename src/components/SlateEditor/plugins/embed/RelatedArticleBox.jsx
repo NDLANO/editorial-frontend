@@ -37,12 +37,15 @@ class RelatedArticleBox extends React.Component {
     this.fetchRelated = this.fetchRelated.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
     this.updateNodeAttributes = this.updateNodeAttributes.bind(this);
+    this.openEditMode = this.openEditMode.bind(this);
   }
 
   componentDidMount() {
     const { embed } = this.props;
     if (embed['article-ids']) {
-      embed['article-ids'].split(',').map(it => this.fetchRelated(it));
+      embed['article-ids']
+        .split(',')
+        .map(articleId => this.fetchRelated(articleId));
     }
   }
 
@@ -71,12 +74,11 @@ class RelatedArticleBox extends React.Component {
     editor.change(change => change.setNodeByKey(node.key, nodeProps(ids)));
   }
 
-  async fetchRelated(it) {
+  async fetchRelated(id) {
     const { locale } = this.props;
-
     const [article, resource] = await Promise.all([
-      searchArticles(`${it}`, locale),
-      queryResources(it, locale),
+      searchArticles(id, locale),
+      queryResources(id, locale),
     ]);
 
     this.setState(prevState => ({
@@ -95,40 +97,40 @@ class RelatedArticleBox extends React.Component {
     this.updateNodeAttributes(newItems.map(it => it.id).join(','));
   }
 
+  openEditMode(e) {
+    e.stopPropagation();
+    this.setState({ editMode: true });
+  }
+
   render() {
     const { attributes, onRemoveClick, locale, t } = this.props;
     const { editMode, items } = this.state;
 
     const resourceType = item =>
       item.resourceTypes
-        ? item.resourceTypes.find(it => mapping(it.id))
+        ? item.resourceTypes.find(resType => mapping(resType.id))
         : { id: '' };
 
-    return this.state.editMode ? (
-      <EditRelated
-        {...{
-          onRemoveClick,
-          removeArticle: this.removeArticle,
-          resourceType,
-          items,
-          editMode,
-          locale,
-          onInsertBlock: this.onInsertBlock,
-          onExit: () => this.setState({ editMode: false }),
-        }}
-      />
-    ) : (
+    if (editMode) {
+      return (
+        <EditRelated
+          onRemoveClick={onRemoveClick}
+          removeArticle={this.removeArticle}
+          resourceType={resourceType}
+          items={items}
+          editMode={editMode}
+          locale={locale}
+          onInsertBlock={this.onInsertBlock}
+          onExit={() => this.setState({ editMode: false })}
+        />
+      );
+    }
+    return (
       <div
         role="button"
         tabIndex={0}
-        onClick={e => {
-          e.stopPropagation();
-          this.setState({ editMode: true });
-        }}
-        onKeyPress={e => {
-          e.stopPropagation();
-          this.setState({ editMode: true });
-        }}
+        onClick={this.openEditMode}
+        onKeyPress={this.openEditMode}
         {...attributes}>
         <RelatedArticleList
           messages={{

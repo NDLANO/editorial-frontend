@@ -33,62 +33,72 @@ const EditRelated = ({
   onInsertBlock,
   onExit,
   t,
-}) => (
-  <div>
-    <Overlay onExit={onExit} />
-    <div {...classes()}>
-      {items.map(
-        (item, i) =>
-          !item.id ? (
-            t('orm.content.relatedArticle.invalidArticle')
-          ) : (
-            <div key={item.id} {...classes('article')}>
-              <RelatedArticle
-                {...mapping(resourceType(item).id)}
-                title={get('title.title', item)}
-                introduction={get('metaDescription.metaDescription', item)}
-                to={toEditArticle(item.id, 'standard', locale)}
-              />
-              <Button
-                stripped
-                onClick={e => removeArticle(i, e)}
-                {...classes('delete-button')}>
-                <Cross />
-              </Button>
-            </div>
-          ),
-      )}
-      <div {...classes('article')}>
-        {' '}
-        <AsyncDropdown
-          valueField="id"
-          name="relatedArticleSearch"
-          textField="title"
-          placeholder={t('form.content.relatedArticle.placeholder')}
-          label="label"
-          apiAction={async inp => {
-            const res = await searchRelatedArticles(inp, locale);
-            return res
-              .map(curr => ({
-                id: curr.id,
-                title: curr.title ? curr.title.title : '',
-              }))
-              .filter(it => !!it.id);
-          }}
-          onClick={e => e.stopPropagation()}
-          messages={{
-            emptyFilter: t('form.content.relatedArticle.emptyFilter'),
-            emptyList: t('form.content.relatedArticle.emptyList'),
-          }}
-          onChange={selected => selected && onInsertBlock(selected.id)}
-        />
+}) => {
+  const apiAction = async input => {
+    const articles = await searchRelatedArticles(input, locale);
+    return articles
+      .map(article => ({
+        id: article.id,
+        title: article.title ? article.title.title : '',
+      }))
+      .filter(
+        article =>
+          !!article.id &&
+          !items.map(relatedArticle => relatedArticle.id).includes(article.id),
+      );
+  };
+  return (
+    <div>
+      <Overlay onExit={onExit} />
+      <div {...classes()}>
+        {items.map(
+          (relatedArticle, index) =>
+            !relatedArticle.id ? (
+              t('form.content.relatedArticle.invalidArticle')
+            ) : (
+              <div key={relatedArticle.id} {...classes('article')}>
+                <RelatedArticle
+                  {...mapping(resourceType(relatedArticle).id)}
+                  title={get('title.title', relatedArticle)}
+                  introduction={get(
+                    'metaDescription.metaDescription',
+                    relatedArticle,
+                  )}
+                  to={toEditArticle(relatedArticle.id, 'standard', locale)}
+                />
+                <Button
+                  stripped
+                  onClick={evt => removeArticle(index, evt)}
+                  {...classes('delete-button')}>
+                  <Cross />
+                </Button>
+              </div>
+            ),
+        )}
+        <div {...classes('article')}>
+          {' '}
+          <AsyncDropdown
+            valueField="id"
+            name="relatedArticleSearch"
+            textField="title"
+            placeholder={t('form.content.relatedArticle.placeholder')}
+            label="label"
+            apiAction={apiAction}
+            onClick={e => e.stopPropagation()}
+            messages={{
+              emptyFilter: t('form.content.relatedArticle.emptyFilter'),
+              emptyList: t('form.content.relatedArticle.emptyList'),
+            }}
+            onChange={selected => selected && onInsertBlock(selected.id)}
+          />
+        </div>
+        <Button stripped onClick={onRemoveClick} {...classes('delete-button')}>
+          <Cross />
+        </Button>
       </div>
-      <Button stripped onClick={onRemoveClick} {...classes('delete-button')}>
-        <Cross />
-      </Button>
     </div>
-  </div>
-);
+  );
+};
 
 EditRelated.propTypes = {
   onRemoveClick: PropTypes.func,

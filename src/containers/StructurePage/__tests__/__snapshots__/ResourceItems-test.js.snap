@@ -78,7 +78,6 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
       </label>
       <button
         class="c-button c-button--stripped"
-        type="button"
       >
         <svg
           fill="currentColor"
@@ -181,7 +180,6 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
       </label>
       <button
         class="c-button c-button--stripped"
-        type="button"
       >
         <svg
           fill="currentColor"
@@ -284,7 +282,6 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
       </label>
       <button
         class="c-button c-button--stripped"
-        type="button"
       >
         <svg
           fill="currentColor"
@@ -387,7 +384,6 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
       </label>
       <button
         class="c-button c-button--stripped"
-        type="button"
       >
         <svg
           fill="currentColor"
@@ -490,7 +486,6 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
       </label>
       <button
         class="c-button c-button--stripped"
-        type="button"
       >
         <svg
           fill="currentColor"
@@ -593,7 +588,6 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
       </label>
       <button
         class="c-button c-button--stripped"
-        type="button"
       >
         <svg
           fill="currentColor"

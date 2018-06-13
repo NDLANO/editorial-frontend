@@ -13,7 +13,6 @@ exports[`Goes to edit mode, handles submit 1`] = `
   <button
     class="c-button"
     data-testid="inlineEditSaveButton"
-    type="button"
   >
     <svg
       fill="currentColor"

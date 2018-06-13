@@ -105,7 +105,6 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   <button
     class="c-button c-button--stripped"
     data-testid="submitConnectFilters"
-    type="button"
   >
     Lagre
   </button>
@@ -217,7 +216,6 @@ exports[`maps out filters 1`] = `
   <button
     class="c-button c-button--stripped"
     data-testid="submitConnectFilters"
-    type="button"
   >
     Lagre
   </button>

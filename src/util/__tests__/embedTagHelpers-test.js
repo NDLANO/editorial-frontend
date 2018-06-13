@@ -146,7 +146,7 @@ test('isUserProvidedEmbedDataValid for audio', () => {
 test('deserializing related-content works', () => {
   const serializer = new Html({ rules: [divRule], parseHtml: fragment });
   const deserialized = serializer.deserialize(
-    '<div data-resource="related-content"><embed data-url="www.vg.no" data-title="Forsiden vg" /><embed data-articleId=54 /></div>',
+    '<div data-type="related-content"><embed data-url="www.vg.no" data-title="Forsiden vg" /><embed data-articleId="54" /></div>',
   );
 
   expect(toJSON(deserialized)).toMatchSnapshot();

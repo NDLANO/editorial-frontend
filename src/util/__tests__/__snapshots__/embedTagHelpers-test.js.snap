@@ -6,15 +6,26 @@ exports[`createEmbedTag creates h5p embed tag from object 1`] = `"<embed data-re
 
 exports[`createEmbedTag creates image embed tag from object 1`] = `"<embed data-align=\\"\\" data-alt=\\"Guinness sign\\" data-caption=\\"Guinness is good for you\\" data-resource=\\"image\\" data-resource_id=\\"42159\\" data-size=\\"fullbredde\\" data-url=\\"https://api.ndla.no/image-api/v2/images/42159\\">"`;
 
-exports[`deserialize bodybox block 1`] = `
+exports[`deserializing related-content works 1`] = `
 Object {
   "document": Object {
     "data": Object {},
     "kind": "document",
     "nodes": Array [
       Object {
-        "data": Object {},
-        "isVoid": false,
+        "data": Object {
+          "nodes": Array [
+            Object {
+              "title": "Forsiden vg",
+              "url": "www.vg.no",
+            },
+            Object {
+              "articleId": undefined,
+              "resource": "related-content",
+            },
+          ],
+        },
+        "isVoid": true,
         "kind": "block",
         "nodes": Array [
           Object {
@@ -23,12 +34,12 @@ Object {
               Object {
                 "kind": "leaf",
                 "marks": Array [],
-                "text": "",
+                "text": " ",
               },
             ],
           },
         ],
-        "type": "div",
+        "type": "related",
       },
     ],
   },

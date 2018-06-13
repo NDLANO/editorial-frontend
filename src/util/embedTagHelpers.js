@@ -21,7 +21,6 @@ export const reduceElementDataAttributes = el => {
 
 export const reduceChildElements = el => {
   const childs = [];
-
   el.childNodes.forEach(node => {
     if (node.dataset.url) {
       childs.push({

@@ -17,7 +17,6 @@ exports[`Can paste a valid url and add it to topic 1`] = `
       Søk etter ressurs
       <button
         class="c-button c-button--stripped c-taxonomy-lightbox__close"
-        type="button"
       >
         <svg
           fill="currentColor"
@@ -91,7 +90,6 @@ exports[`Can paste a valid url and add it to topic 1`] = `
       <button
         class="c-button c-button--stripped c-taxonomy-lightbox__select-button"
         data-testid="taxonomyLightboxButton"
-        type="button"
       >
         Velg
       </button>
@@ -117,7 +115,6 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
       Søk etter ressurs
       <button
         class="c-button c-button--stripped c-taxonomy-lightbox__close"
-        type="button"
       >
         <svg
           fill="currentColor"
@@ -270,7 +267,6 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
       <button
         class="c-button c-button--stripped c-taxonomy-lightbox__select-button"
         data-testid="taxonomyLightboxButton"
-        type="button"
       >
         Velg
       </button>
@@ -296,7 +292,6 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
       Søk etter ressurs
       <button
         class="c-button c-button--stripped c-taxonomy-lightbox__close"
-        type="button"
       >
         <svg
           fill="currentColor"
@@ -484,7 +479,6 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
       <button
         class="c-button c-button--stripped c-taxonomy-lightbox__select-button"
         data-testid="taxonomyLightboxButton"
-        type="button"
       >
         Velg
       </button>

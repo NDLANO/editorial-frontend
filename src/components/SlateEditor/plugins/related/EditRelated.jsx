@@ -71,12 +71,12 @@ class EditRelated extends React.PureComponent {
     } = this.props;
     const { title, url } = this.state;
     const relatedArticles = items.map(
-      (item, i) =>
-        !item.id ? (
+      (relatedArticle, i) =>
+        !relatedArticle.id ? (
           t('form.content.relatedArticle.invalidArticle')
         ) : (
-          <div key={item.id} {...classes('article')}>
-            <RelatedArticle locale={locale} item={item} />
+          <div key={relatedArticle.id} {...classes('article')}>
+            <RelatedArticle locale={locale} item={relatedArticle} />
             <Button
               stripped
               onClick={e => removeArticle(i, e)}

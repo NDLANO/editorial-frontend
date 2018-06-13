@@ -41,6 +41,7 @@ export class RelatedArticleBox extends React.Component {
     this.fetchExternal = this.fetchExternal.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
     this.updateEmbedNode = this.updateEmbedNode.bind(this);
+    this.openEditMode = this.openEditMode.bind(this);
   }
 
   componentDidMount() {
@@ -134,6 +135,11 @@ export class RelatedArticleBox extends React.Component {
     this.setState({ items: newItems }, this.updateEmbedNode);
   }
 
+  openEditMode(e) {
+    e.stopPropagation();
+    this.setState({ editMode: true });
+  }
+
   render() {
     const { attributes, onRemoveClick, locale, t } = this.props;
     const { editMode, items } = this.state;
@@ -156,14 +162,8 @@ export class RelatedArticleBox extends React.Component {
         role="button"
         tabIndex={0}
         data-testid="relatedWrapper"
-        onClick={e => {
-          e.stopPropagation();
-          this.setState({ editMode: true });
-        }}
-        onKeyPress={e => {
-          e.stopPropagation();
-          this.setState({ editMode: true });
-        }}
+        onClick={this.openEditMode}
+        onKeyPress={this.openEditMode}
         {...attributes}>
         <RelatedArticleList
           messages={{

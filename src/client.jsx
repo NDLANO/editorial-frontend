@@ -8,7 +8,6 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import { uuid } from 'ndla-util';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import IntlProvider from 'ndla-i18n';
@@ -41,20 +40,22 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName,
 });
 
-const renderApp = Component =>
+const renderApp = () =>
   render(
-    <Provider key={uuid()} store={store}>
+    <Provider store={store}>
       <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
         <BrowserRouter basename={basename}>
-          <Component />
+          <App />
         </BrowserRouter>
       </IntlProvider>
     </Provider>,
     document.getElementById('root'),
   );
 
-renderApp(App);
+renderApp();
 
 if (module.hot) {
-  module.hot.accept();
+  module.hot.accept('./containers/App/App', () => {
+    renderApp();
+  });
 }

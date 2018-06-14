@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import DisplayImageTag from './DisplayImageTag';
 import DisplayBrightcoveTag from './DisplayBrightcoveTag';
 import DisplayExternal from './DisplayExternal';
-import DisplayOembed from './DisplayOembed';
 import { EmbedShape } from '../../shapes';
 
 const DisplayEmbedTag = ({ embedTag, className }) => {
@@ -22,8 +21,6 @@ const DisplayEmbedTag = ({ embedTag, className }) => {
       return <DisplayBrightcoveTag embedTag={embedTag} className={className} />;
     case 'external':
       return <DisplayExternal url={embedTag.url} />;
-    case 'h5p':
-      return <DisplayOembed url={embedTag.url} />;
     default:
       return <p>{`Mediatype ${embedTag.resource} is not supported yet.`}</p>;
   }

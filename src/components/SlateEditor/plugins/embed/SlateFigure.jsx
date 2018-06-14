@@ -17,7 +17,6 @@ import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
 import RelatedArticleBox from './RelatedArticleBox';
 import EditorErrorMessage from '../../EditorErrorMessage';
-import DisplayOembed from '../../../DisplayEmbedTag/DisplayOembed';
 import DisplayExternal from '../../../DisplayEmbedTag/DisplayExternal';
 import { getSchemaEmbed } from '../../schema';
 import { EditorShape } from '../../../../shapes';
@@ -119,10 +118,6 @@ class SlateFigure extends React.Component {
               url={embed.url}
             />
           </Figure>
-        );
-      case 'h5p':
-        return (
-          <DisplayOembed onRemoveClick={this.onRemoveClick} url={embed.url} />
         );
       case 'related-content':
         return (

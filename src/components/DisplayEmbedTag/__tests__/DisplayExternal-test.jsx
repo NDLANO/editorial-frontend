@@ -9,7 +9,10 @@
 import nock from 'nock';
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { DisplayOembed, getIframeSrcFromHtmlString } from '../DisplayOembed';
+import {
+  DisplayExternal,
+  getIframeSrcFromHtmlString,
+} from '../DisplayExternal';
 
 test('getIframeSrcFromHtmlString returns src attribute', () => {
   const src = getIframeSrcFromHtmlString(
@@ -48,7 +51,7 @@ test('DisplayOembed renderers correctly', () => {
     });
 
   const component = renderer.create(
-    <DisplayOembed url="https://ndla.no/oembed" t={() => ''} />,
+    <DisplayExternal url="https://ndla.no/oembed" t={() => ''} />,
   );
 
   expect(component.toJSON()).toMatchSnapshot();
@@ -70,7 +73,10 @@ test('DisplayOembed display error on fetch fail', () => {
 
   try {
     component = renderer.create(
-      <DisplayOembed url="https://ndla.no/oembed" t={() => 'Error message'} />,
+      <DisplayExternal
+        url="https://ndla.no/oembed"
+        t={() => 'Error message'}
+      />,
     );
   } catch (e) {
     // Should fail noop

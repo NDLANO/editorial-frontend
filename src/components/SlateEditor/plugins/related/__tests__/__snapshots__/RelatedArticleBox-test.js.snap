@@ -62,12 +62,14 @@ exports[`it goes in and out of edit mode 1`] = `
       <button
         class="c-button"
         data-testid="showAddExternal"
+        type="button"
       >
         Legg til ekstern artikkel
       </button>
     </div>
     <button
       class="c-button c-button--stripped c-related-box__delete-button"
+      type="button"
     >
       <svg
         fill="currentColor"
@@ -111,6 +113,7 @@ exports[`it goes in and out of edit mode 1`] = `
         Skriv inn url og tittel på ekstern artikkel
         <button
           class="c-button c-button--stripped c-taxonomy-lightbox__close"
+          type="button"
         >
           <svg
             fill="currentColor"
@@ -158,6 +161,7 @@ exports[`it goes in and out of edit mode 1`] = `
         <button
           class="c-button c-button--stripped c-taxonomy-lightbox__select-button"
           data-testid="taxonomyLightboxButton"
+          type="button"
         >
           Velg
         </button>

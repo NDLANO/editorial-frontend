@@ -4,6 +4,7 @@ exports[`Goes to edit mode, handles input and calls action prop 1`] = `
 <button
   class="c-button c-button--stripped c-addButton"
   data-testid="AddSubjectButton"
+  type="button"
 >
   <svg
     fill="currentColor"
@@ -44,6 +45,7 @@ exports[`Goes to edit mode, handles input and calls action prop 2`] = `
   />
   <button
     class="c-button c-button--stripped"
+    type="button"
   >
     <svg
       fill="currentColor"
@@ -84,6 +86,7 @@ exports[`Goes to edit mode, handles input and calls action prop 3`] = `
   />
   <button
     class="c-button c-button--stripped"
+    type="button"
     disabled=""
   >
     <div

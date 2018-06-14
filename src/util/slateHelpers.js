@@ -243,9 +243,14 @@ export const footnoteRule = {
       nodes: [
         {
           kind: 'text',
-          text: '#',
           isVoid: true,
-          leaves: [],
+          leaves: [
+            {
+              kind: 'leaf',
+              text: '#',
+              marks: [],
+            },
+          ],
         },
       ],
       data: {

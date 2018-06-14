@@ -7,44 +7,44 @@ Array [
     disabled={false}
     onClick={undefined}
     type="button"
->
+  >
     <svg
-        className="c-icon"
-        data-license="Apache License 2.0"
-        data-source="Material Design"
-        fill="currentColor"
-        height="1em"
-        preserveAspectRatio="xMidYMid meet"
-        style={
-            Object {
-                "color": undefined,
-                "verticalAlign": "middle",
-              }
+      className="c-icon"
+      data-license="Apache License 2.0"
+      data-source="Material Design"
+      fill="currentColor"
+      height="1em"
+      preserveAspectRatio="xMidYMid meet"
+      style={
+        Object {
+          "color": undefined,
+          "verticalAlign": "middle",
         }
-        viewBox="0 0 24 24"
-        width="1em"
+      }
+      viewBox="0 0 24 24"
+      width="1em"
     >
-        <title>
-            Cross
-        </title>
-        <g>
-            <path
-                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-            />
-            <path
-                d="M0 0h24v24H0z"
-                fill="none"
-            />
-        </g>
+      <title>
+        Cross
+      </title>
+      <g>
+        <path
+          d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+        />
+        <path
+          d="M0 0h24v24H0z"
+          fill="none"
+        />
+      </g>
     </svg>
-</button>,
+  </button>,
   <div
     className="c-editor__error"
->
+  >
     <span>
-        Error message
+      Error message
     </span>
-</div>,
+  </div>,
 ]
 `;
 
@@ -55,42 +55,42 @@ Array [
     disabled={false}
     onClick={undefined}
     type="button"
->
+  >
     <svg
-        className="c-icon"
-        data-license="Apache License 2.0"
-        data-source="Material Design"
-        fill="currentColor"
-        height="1em"
-        preserveAspectRatio="xMidYMid meet"
-        style={
-            Object {
-                "color": undefined,
-                "verticalAlign": "middle",
-              }
+      className="c-icon"
+      data-license="Apache License 2.0"
+      data-source="Material Design"
+      fill="currentColor"
+      height="1em"
+      preserveAspectRatio="xMidYMid meet"
+      style={
+        Object {
+          "color": undefined,
+          "verticalAlign": "middle",
         }
-        viewBox="0 0 24 24"
-        width="1em"
+      }
+      viewBox="0 0 24 24"
+      width="1em"
     >
-        <title>
-            Cross
-        </title>
-        <g>
-            <path
-                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-            />
-            <path
-                d="M0 0h24v24H0z"
-                fill="none"
-            />
-        </g>
+      <title>
+        Cross
+      </title>
+      <g>
+        <path
+          d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+        />
+        <path
+          d="M0 0h24v24H0z"
+          fill="none"
+        />
+      </g>
     </svg>
-</button>,
+  </button>,
   <iframe
     frameBorder="0"
     src={undefined}
     title={undefined}
-/>,
+  />,
 ]
 `;
 
@@ -101,41 +101,41 @@ Array [
     disabled={false}
     onClick={undefined}
     type="button"
->
+  >
     <svg
-        className="c-icon"
-        data-license="Apache License 2.0"
-        data-source="Material Design"
-        fill="currentColor"
-        height="1em"
-        preserveAspectRatio="xMidYMid meet"
-        style={
-            Object {
-                "color": undefined,
-                "verticalAlign": "middle",
-              }
+      className="c-icon"
+      data-license="Apache License 2.0"
+      data-source="Material Design"
+      fill="currentColor"
+      height="1em"
+      preserveAspectRatio="xMidYMid meet"
+      style={
+        Object {
+          "color": undefined,
+          "verticalAlign": "middle",
         }
-        viewBox="0 0 24 24"
-        width="1em"
+      }
+      viewBox="0 0 24 24"
+      width="1em"
     >
-        <title>
-            Cross
-        </title>
-        <g>
-            <path
-                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-            />
-            <path
-                d="M0 0h24v24H0z"
-                fill="none"
-            />
-        </g>
+      <title>
+        Cross
+      </title>
+      <g>
+        <path
+          d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+        />
+        <path
+          d="M0 0h24v24H0z"
+          fill="none"
+        />
+      </g>
     </svg>
-</button>,
+  </button>,
   <iframe
     frameBorder="0"
     src="iframe.html"
     title="unit test"
-/>,
+  />,
 ]
 `;

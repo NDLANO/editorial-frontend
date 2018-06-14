@@ -20,15 +20,15 @@ exports[`Can paste a valid url and add it to topic 1`] = `
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
           <title>
             Cross
@@ -49,9 +49,9 @@ exports[`Can paste a valid url and add it to topic 1`] = `
       class="c-taxonomy-lightbox__content"
     >
       <input
-        type="text"
         data-testid="addResourceUrlInput"
         placeholder="Lim inn lenke fra ndla.no"
+        type="text"
         value="https://beta.ndla.no/subjects/subject:3/topic:1:179373/topic:1:170165/resource:1:168388/"
       />
       <span
@@ -60,15 +60,15 @@ exports[`Can paste a valid url and add it to topic 1`] = `
         Obs! Denne ressursen er en annen type urn:resourcetype:tasksAndActivities
       </span>
       <div
-        data-testid="articlePreview"
         class="c-article-preview"
+        data-testid="articlePreview"
       >
         <div
           class="c-article-preview__image"
         >
           <img
-            src="/placeholder.png"
             alt=""
+            src="/placeholder.png"
           />
         </div>
         <div
@@ -120,15 +120,15 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
           <title>
             Cross
@@ -149,9 +149,9 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
       class="c-taxonomy-lightbox__content"
     >
       <input
-        type="text"
         data-testid="addResourceUrlInput"
         placeholder="Lim inn lenke fra ndla.no"
+        type="text"
         value=""
       />
       <span
@@ -163,13 +163,13 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         class="c-dropdown"
       >
         <input
-          role="combobox"
           aria-autocomplete="list"
           aria-expanded="true"
           autocomplete="off"
-          placeholder="Søk på tittel"
-          id="downshift-0-input"
           class="c-dropdown__single"
+          id="downshift-0-input"
+          placeholder="Søk på tittel"
+          role="combobox"
           value=""
         />
         <div
@@ -237,24 +237,24 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
           </div>
         </div>
         <button
-          class="c-button c-button--stripped c-dropdown__action"
-          type="button"
-          role="button"
-          aria-label="close menu"
           aria-expanded="true"
           aria-haspopup="true"
+          aria-label="close menu"
+          class="c-button c-button--stripped c-dropdown__action"
           data-toggle="true"
+          role="button"
+          type="button"
         >
           <svg
-            fill="currentColor"
-            preserveAspectRatio="xMidYMid meet"
-            height="1em"
-            width="1em"
             class="c-icon c-icon--medium"
-            viewBox="0 0 48 48"
             data-license="Apache License 2.0"
             data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
             style="vertical-align: middle;"
+            viewBox="0 0 48 48"
+            width="1em"
           >
             <title>
               Search
@@ -299,15 +299,15 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
           <title>
             Cross
@@ -328,9 +328,9 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
       class="c-taxonomy-lightbox__content"
     >
       <input
-        type="text"
         data-testid="addResourceUrlInput"
         placeholder="Lim inn lenke fra ndla.no"
+        type="text"
         value=""
       />
       <span
@@ -342,13 +342,13 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
         class="c-dropdown"
       >
         <input
-          role="combobox"
           aria-autocomplete="list"
           aria-expanded="true"
           autocomplete="off"
-          placeholder="Søk på tittel"
-          id="downshift-0-input"
           class="c-dropdown__single"
+          id="downshift-0-input"
+          placeholder="Søk på tittel"
+          role="combobox"
           value="Hva kan du om geologiske prosesser?"
         />
         <div
@@ -418,24 +418,24 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
           </div>
         </div>
         <button
-          class="c-button c-button--stripped c-dropdown__action"
-          type="button"
-          role="button"
-          aria-label="close menu"
           aria-expanded="true"
           aria-haspopup="true"
+          aria-label="close menu"
+          class="c-button c-button--stripped c-dropdown__action"
           data-toggle="true"
+          role="button"
+          type="button"
         >
           <svg
-            fill="currentColor"
-            preserveAspectRatio="xMidYMid meet"
-            height="1em"
-            width="1em"
             class="c-icon c-icon--medium"
-            viewBox="0 0 24 24"
             data-license="Apache License 2.0"
             data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
             style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
           >
             <title>
               Cross
@@ -453,15 +453,15 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
         </button>
       </div>
       <div
-        data-testid="articlePreview"
         class="c-article-preview"
+        data-testid="articlePreview"
       >
         <div
           class="c-article-preview__image"
         >
           <img
-            src="/placeholder.png"
             alt=""
+            src="/placeholder.png"
           />
         </div>
         <div

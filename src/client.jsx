@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { render } from 'react-dom';
+import { uuid } from 'ndla-util';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import IntlProvider from 'ndla-i18n';
@@ -42,7 +43,7 @@ window.errorReporter = ErrorReporter.getInstance({
 
 const renderApp = Component =>
   render(
-    <Provider store={store}>
+    <Provider key={uuid()} store={store}>
       <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
         <BrowserRouter basename={basename}>
           <Component />

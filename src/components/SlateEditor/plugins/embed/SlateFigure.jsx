@@ -115,6 +115,8 @@ class SlateFigure extends React.Component {
           <Figure>
             <DisplayExternal
               onRemoveClick={this.onRemoveClick}
+              editor={editor}
+              node={node}
               url={embed.url}
             />
           </Figure>

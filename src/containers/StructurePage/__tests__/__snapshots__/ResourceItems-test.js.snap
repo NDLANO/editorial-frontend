@@ -17,15 +17,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
         >
           <svg
-            fill="currentColor"
-            preserveAspectRatio="xMidYMid meet"
-            height="1em"
-            width="1em"
             class="c-icon"
-            viewBox="0 0 24 24"
             data-license="Apache License 2.0"
             data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
             style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
           >
             <title>
               Subject
@@ -36,15 +36,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
               </title>
               <defs />
               <g
+                fill="none"
+                fill-rule="evenodd"
                 id="Page-1"
                 stroke="none"
-                fill="none"
                 stroke-width="1"
-                fill-rule="evenodd"
               >
                 <g
-                  id="emne"
                   fill="currentColor"
+                  id="emne"
                 >
                   <path
                     d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
@@ -81,15 +81,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon c-topic-resource__deleteIcon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
           <title>
             RemoveCircle
@@ -120,15 +120,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
         >
           <svg
-            fill="currentColor"
-            preserveAspectRatio="xMidYMid meet"
-            height="1em"
-            width="1em"
             class="c-icon"
-            viewBox="0 0 24 24"
             data-license="Apache License 2.0"
             data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
             style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
           >
             <title>
               Subject
@@ -139,15 +139,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
               </title>
               <defs />
               <g
+                fill="none"
+                fill-rule="evenodd"
                 id="Page-1"
                 stroke="none"
-                fill="none"
                 stroke-width="1"
-                fill-rule="evenodd"
               >
                 <g
-                  id="emne"
                   fill="currentColor"
+                  id="emne"
                 >
                   <path
                     d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
@@ -184,15 +184,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon c-topic-resource__deleteIcon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
           <title>
             RemoveCircle
@@ -223,15 +223,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
         >
           <svg
-            fill="currentColor"
-            preserveAspectRatio="xMidYMid meet"
-            height="1em"
-            width="1em"
             class="c-icon"
-            viewBox="0 0 24 24"
             data-license="Apache License 2.0"
             data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
             style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
           >
             <title>
               Subject
@@ -242,15 +242,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
               </title>
               <defs />
               <g
+                fill="none"
+                fill-rule="evenodd"
                 id="Page-1"
                 stroke="none"
-                fill="none"
                 stroke-width="1"
-                fill-rule="evenodd"
               >
                 <g
-                  id="emne"
                   fill="currentColor"
+                  id="emne"
                 >
                   <path
                     d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
@@ -287,15 +287,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon c-topic-resource__deleteIcon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
           <title>
             RemoveCircle
@@ -326,15 +326,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
         >
           <svg
-            fill="currentColor"
-            preserveAspectRatio="xMidYMid meet"
-            height="1em"
-            width="1em"
             class="c-icon"
-            viewBox="0 0 24 24"
             data-license="Apache License 2.0"
             data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
             style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
           >
             <title>
               Subject
@@ -345,15 +345,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
               </title>
               <defs />
               <g
+                fill="none"
+                fill-rule="evenodd"
                 id="Page-1"
                 stroke="none"
-                fill="none"
                 stroke-width="1"
-                fill-rule="evenodd"
               >
                 <g
-                  id="emne"
                   fill="currentColor"
+                  id="emne"
                 >
                   <path
                     d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
@@ -390,15 +390,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon c-topic-resource__deleteIcon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
           <title>
             RemoveCircle
@@ -429,15 +429,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
         >
           <svg
-            fill="currentColor"
-            preserveAspectRatio="xMidYMid meet"
-            height="1em"
-            width="1em"
             class="c-icon"
-            viewBox="0 0 24 24"
             data-license="Apache License 2.0"
             data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
             style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
           >
             <title>
               Subject
@@ -448,15 +448,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
               </title>
               <defs />
               <g
+                fill="none"
+                fill-rule="evenodd"
                 id="Page-1"
                 stroke="none"
-                fill="none"
                 stroke-width="1"
-                fill-rule="evenodd"
               >
                 <g
-                  id="emne"
                   fill="currentColor"
+                  id="emne"
                 >
                   <path
                     d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
@@ -493,15 +493,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon c-topic-resource__deleteIcon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
           <title>
             RemoveCircle
@@ -532,15 +532,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
         >
           <svg
-            fill="currentColor"
-            preserveAspectRatio="xMidYMid meet"
-            height="1em"
-            width="1em"
             class="c-icon"
-            viewBox="0 0 24 24"
             data-license="Apache License 2.0"
             data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
             style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
           >
             <title>
               Subject
@@ -551,15 +551,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
               </title>
               <defs />
               <g
+                fill="none"
+                fill-rule="evenodd"
                 id="Page-1"
                 stroke="none"
-                fill="none"
                 stroke-width="1"
-                fill-rule="evenodd"
               >
                 <g
-                  id="emne"
                   fill="currentColor"
+                  id="emne"
                 >
                   <path
                     d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
@@ -596,15 +596,15 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon c-topic-resource__deleteIcon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
           <title>
             RemoveCircle

@@ -18,15 +18,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-accordion__title c-accordion__title--taxonomy"
         >
           <svg
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            height="1em"
+            width="1em"
             class="c-icon c-icon--medium"
+            viewBox="0 0 60 44"
             data-license="CC-BY 4.0"
             data-source="Knowit"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
             style="vertical-align: middle;"
-            viewBox="0 0 60 44"
-            width="1em"
           >
             <title>
               Taxonomy
@@ -46,15 +46,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             Plus
@@ -76,15 +76,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--taxonomy"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             ExpandLess
@@ -109,15 +109,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:1"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -141,15 +141,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 class="c-roundIcon c-roundIcon--margin"
               >
                 <svg
+                  fill="currentColor"
+                  preserveAspectRatio="xMidYMid meet"
+                  height="1em"
+                  width="1em"
                   class="c-icon"
+                  viewBox="0 0 24 24"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
                 >
                   <title>
                     Settings
@@ -182,15 +182,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               href="/structure/subject:1/topic:1:186401"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon c-folder__folderIcon"
+                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
               >
                 <title>
                   Folder
@@ -218,15 +218,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 class="c-roundIcon"
               >
                 <svg
+                  fill="currentColor"
+                  preserveAspectRatio="xMidYMid meet"
+                  height="1em"
+                  width="1em"
                   class="c-icon"
+                  viewBox="0 0 24 24"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
                 >
                   <title>
                     Link
@@ -248,15 +248,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               href="/structure/subject:1/topic:1:172416"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon c-folder__folderIcon"
+                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
               >
                 <title>
                   Folder
@@ -284,15 +284,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 class="c-roundIcon"
               >
                 <svg
+                  fill="currentColor"
+                  preserveAspectRatio="xMidYMid meet"
+                  height="1em"
+                  width="1em"
                   class="c-icon"
+                  viewBox="0 0 24 24"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
                 >
                   <title>
                     Link
@@ -314,15 +314,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               href="/structure/subject:1/topic:1:186460"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon c-folder__folderIcon"
+                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
               >
                 <title>
                   Folder
@@ -350,15 +350,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 class="c-roundIcon"
               >
                 <svg
+                  fill="currentColor"
+                  preserveAspectRatio="xMidYMid meet"
+                  height="1em"
+                  width="1em"
                   class="c-icon"
+                  viewBox="0 0 24 24"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
                 >
                   <title>
                     Link
@@ -380,15 +380,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               href="/structure/subject:1/topic:1:186479"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon c-folder__folderIcon"
+                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
               >
                 <title>
                   Folder
@@ -412,15 +412,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   class="c-roundIcon c-roundIcon--margin"
                 >
                   <svg
+                    fill="currentColor"
+                    preserveAspectRatio="xMidYMid meet"
+                    height="1em"
+                    width="1em"
                     class="c-icon"
+                    viewBox="0 0 24 24"
                     data-license="Apache License 2.0"
                     data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
                     style="vertical-align: middle;"
-                    viewBox="0 0 24 24"
-                    width="1em"
                   >
                     <title>
                       Settings
@@ -450,15 +450,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 href="/structure/subject:1/topic:1:186479/topic:1:186487"
               >
                 <svg
+                  fill="currentColor"
+                  preserveAspectRatio="xMidYMid meet"
+                  height="1em"
+                  width="1em"
                   class="c-icon c-folder__folderIcon"
+                  viewBox="0 0 14 11"
                   data-license="CC-BY 4.0"
                   data-source="Knowit"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle; color: rgb(112, 165, 218);"
-                  viewBox="0 0 14 11"
-                  width="1em"
                 >
                   <title>
                     Folder
@@ -486,15 +486,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   class="c-roundIcon"
                 >
                   <svg
+                    fill="currentColor"
+                    preserveAspectRatio="xMidYMid meet"
+                    height="1em"
+                    width="1em"
                     class="c-icon"
+                    viewBox="0 0 24 24"
                     data-license="Apache License 2.0"
                     data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
                     style="vertical-align: middle;"
-                    viewBox="0 0 24 24"
-                    width="1em"
                   >
                     <title>
                       Link
@@ -516,15 +516,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 href="/structure/subject:1/topic:1:186479/topic:1:172650"
               >
                 <svg
+                  fill="currentColor"
+                  preserveAspectRatio="xMidYMid meet"
+                  height="1em"
+                  width="1em"
                   class="c-icon c-folder__folderIcon"
+                  viewBox="0 0 14 11"
                   data-license="CC-BY 4.0"
                   data-source="Knowit"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle; color: rgb(112, 165, 218);"
-                  viewBox="0 0 14 11"
-                  width="1em"
                 >
                   <title>
                     Folder
@@ -548,15 +548,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     class="c-roundIcon c-roundIcon--margin"
                   >
                     <svg
+                      fill="currentColor"
+                      preserveAspectRatio="xMidYMid meet"
+                      height="1em"
+                      width="1em"
                       class="c-icon"
+                      viewBox="0 0 24 24"
                       data-license="Apache License 2.0"
                       data-source="Material Design"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
                       style="vertical-align: middle;"
-                      viewBox="0 0 24 24"
-                      width="1em"
                     >
                       <title>
                         Settings
@@ -589,15 +589,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   class="c-roundIcon"
                 >
                   <svg
+                    fill="currentColor"
+                    preserveAspectRatio="xMidYMid meet"
+                    height="1em"
+                    width="1em"
                     class="c-icon"
+                    viewBox="0 0 24 24"
                     data-license="Apache License 2.0"
                     data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
                     style="vertical-align: middle;"
-                    viewBox="0 0 24 24"
-                    width="1em"
                   >
                     <title>
                       Link
@@ -619,15 +619,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 href="/structure/subject:1/topic:1:186479/topic:1:185606"
               >
                 <svg
+                  fill="currentColor"
+                  preserveAspectRatio="xMidYMid meet"
+                  height="1em"
+                  width="1em"
                   class="c-icon c-folder__folderIcon"
+                  viewBox="0 0 14 11"
                   data-license="CC-BY 4.0"
                   data-source="Knowit"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle; color: rgb(112, 165, 218);"
-                  viewBox="0 0 14 11"
-                  width="1em"
                 >
                   <title>
                     Folder
@@ -655,15 +655,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   class="c-roundIcon"
                 >
                   <svg
+                    fill="currentColor"
+                    preserveAspectRatio="xMidYMid meet"
+                    height="1em"
+                    width="1em"
                     class="c-icon"
+                    viewBox="0 0 24 24"
                     data-license="Apache License 2.0"
                     data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
                     style="vertical-align: middle;"
-                    viewBox="0 0 24 24"
-                    width="1em"
                   >
                     <title>
                       Link
@@ -689,15 +689,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 class="c-roundIcon"
               >
                 <svg
+                  fill="currentColor"
+                  preserveAspectRatio="xMidYMid meet"
+                  height="1em"
+                  width="1em"
                   class="c-icon"
+                  viewBox="0 0 24 24"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
                 >
                   <title>
                     Link
@@ -719,15 +719,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               href="/structure/subject:1/topic:1:171906"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon c-folder__folderIcon"
+                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
               >
                 <title>
                   Folder
@@ -755,15 +755,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 class="c-roundIcon"
               >
                 <svg
+                  fill="currentColor"
+                  preserveAspectRatio="xMidYMid meet"
+                  height="1em"
+                  width="1em"
                   class="c-icon"
+                  viewBox="0 0 24 24"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
                 >
                   <title>
                     Link
@@ -785,15 +785,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               href="/structure/subject:1/topic:1:172361"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon c-folder__folderIcon"
+                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
               >
                 <title>
                   Folder
@@ -821,15 +821,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 class="c-roundIcon"
               >
                 <svg
+                  fill="currentColor"
+                  preserveAspectRatio="xMidYMid meet"
+                  height="1em"
+                  width="1em"
                   class="c-icon"
+                  viewBox="0 0 24 24"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
                 >
                   <title>
                     Link
@@ -851,15 +851,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               href="/structure/subject:1/topic:1:172362"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon c-folder__folderIcon"
+                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
               >
                 <title>
                   Folder
@@ -887,15 +887,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 class="c-roundIcon"
               >
                 <svg
+                  fill="currentColor"
+                  preserveAspectRatio="xMidYMid meet"
+                  height="1em"
+                  width="1em"
                   class="c-icon"
+                  viewBox="0 0 24 24"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
                 >
                   <title>
                     Link
@@ -917,15 +917,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               href="/structure/subject:1/topic:1:172568"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon c-folder__folderIcon"
+                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
               >
                 <title>
                   Folder
@@ -953,15 +953,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 class="c-roundIcon"
               >
                 <svg
+                  fill="currentColor"
+                  preserveAspectRatio="xMidYMid meet"
+                  height="1em"
+                  width="1em"
                   class="c-icon"
+                  viewBox="0 0 24 24"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
                 >
                   <title>
                     Link
@@ -987,15 +987,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -1017,15 +1017,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:2"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -1053,15 +1053,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -1083,15 +1083,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:3"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -1119,15 +1119,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -1149,15 +1149,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:4"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -1185,15 +1185,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -1215,15 +1215,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:5"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -1251,15 +1251,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -1281,15 +1281,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:6"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -1317,15 +1317,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -1347,15 +1347,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:7"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -1383,15 +1383,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -1413,15 +1413,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:8"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -1449,15 +1449,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -1479,15 +1479,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:9"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -1515,15 +1515,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -1545,15 +1545,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:10"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -1581,15 +1581,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -1611,15 +1611,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:11"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -1647,15 +1647,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -1677,15 +1677,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:12"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -1713,15 +1713,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -1743,15 +1743,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:13"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -1779,15 +1779,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -1809,15 +1809,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:14"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -1845,15 +1845,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -1875,15 +1875,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:15"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -1911,15 +1911,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -1941,15 +1941,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:16"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -1977,15 +1977,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -2007,15 +2007,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:17"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -2043,15 +2043,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -2073,15 +2073,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structure/subject:18"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -2109,15 +2109,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -2139,15 +2139,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             href="/structurenull"
           >
             <svg
+              fill="currentColor"
+              preserveAspectRatio="xMidYMid meet"
+              height="1em"
+              width="1em"
               class="c-icon c-folder__folderIcon"
+              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
             >
               <title>
                 Folder
@@ -2175,15 +2175,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                height="1em"
+                width="1em"
                 class="c-icon"
+                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
               >
                 <title>
                   Link
@@ -2221,15 +2221,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             Plus
@@ -2251,15 +2251,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             ExpandLess
@@ -2297,15 +2297,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             Plus
@@ -2327,15 +2327,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             ExpandMore
@@ -2373,15 +2373,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             Plus
@@ -2403,15 +2403,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             ExpandMore
@@ -2449,15 +2449,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             Plus
@@ -2479,15 +2479,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             ExpandMore
@@ -2525,15 +2525,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             Plus
@@ -2555,15 +2555,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             ExpandMore
@@ -2601,15 +2601,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             Plus
@@ -2631,15 +2631,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             ExpandMore
@@ -2677,15 +2677,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             Plus
@@ -2707,15 +2707,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             ExpandMore
@@ -2753,15 +2753,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             Plus
@@ -2783,15 +2783,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
+          fill="currentColor"
+          preserveAspectRatio="xMidYMid meet"
+          height="1em"
+          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
         >
           <title>
             ExpandMore
@@ -2815,15 +2815,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
       class="c-roundIcon"
     >
       <svg
+        fill="currentColor"
+        preserveAspectRatio="xMidYMid meet"
+        height="1em"
+        width="1em"
         class="c-icon"
+        viewBox="0 0 24 24"
         data-license="Apache License 2.0"
         data-source="Material Design"
-        fill="currentColor"
-        height="1em"
-        preserveAspectRatio="xMidYMid meet"
         style="vertical-align: middle;"
-        viewBox="0 0 24 24"
-        width="1em"
       >
         <title>
           Star

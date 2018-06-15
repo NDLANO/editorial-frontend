@@ -39,13 +39,13 @@ export class DisplayExternal extends Component {
     this.getPropsFromEmbed = this.getPropsFromEmbed.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getPropsFromEmbed(this.props.url);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.url !== this.props.url) {
-      this.getPropsFromEmbed(nextProps.url);
+  componentDidUpdate(prevProps) {
+    if (prevProps.url !== this.props.url) {
+      this.getPropsFromEmbed(this.props.url);
     }
   }
 
@@ -59,6 +59,7 @@ export class DisplayExternal extends Component {
         },
       });
       editor.onChange(next);
+
       this.toggleEditH5p();
     }
   }
@@ -84,7 +85,10 @@ export class DisplayExternal extends Component {
   }
 
   toggleEditH5p() {
-    this.setState(prevState => ({ editH5pMode: !prevState.editH5pMode }));
+    if (this.props.changeVisualElement) {
+      this.props.changeVisualElement('h5p');
+    } else
+      this.setState(prevState => ({ editH5pMode: !prevState.editH5pMode }));
   }
 
   render() {
@@ -174,8 +178,9 @@ export class DisplayExternal extends Component {
 DisplayExternal.propTypes = {
   url: PropTypes.string.isRequired,
   onRemoveClick: PropTypes.func,
+  changeVisualElement: PropTypes.func,
   editor: EditorShape,
-  node: Types.node.isRequired,
+  node: Types.node,
 };
 
 export default injectT(DisplayExternal);

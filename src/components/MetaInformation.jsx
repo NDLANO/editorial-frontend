@@ -14,20 +14,18 @@ const classes = new BEMHelper({
   name: 'meta-information',
   prefix: 'c-',
 });
-const MetaInformation = ({ title, copyright, action, translations }) => (
+const MetaInformation = ({ title, copyright, translations }) => (
   <div {...classes()}>
     <strong>{title ? translations.title : ''}</strong>
     <span>{title}</span>
     <strong>{copyright ? translations.copyright : ''}</strong>
     <span>{copyright}</span>
-    {action}
   </div>
 );
 
 MetaInformation.propTypes = {
   title: PropTypes.string,
   copyright: PropTypes.string,
-  action: PropTypes.node,
   translations: PropTypes.shape({
     title: PropTypes.string.isRequired,
     copyright: PropTypes.string.isRequired,

@@ -111,7 +111,7 @@ ResourceItems.propTypes = {
   contentType: PropTypes.string.isRequired,
   resources: PropTypes.arrayOf(ResourceShape),
   classes: PropTypes.func,
-  refreshResources: PropTypes.func,
+  refreshResources: PropTypes.func.isRequired,
   activeFilter: PropTypes.string,
 };
 

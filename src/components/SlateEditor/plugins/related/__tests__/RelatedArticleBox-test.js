@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import nock from 'nock';
 import { render, Simulate, wait } from 'react-testing-library';
 import { RelatedArticleBox } from '../RelatedArticleBox';
 import IntlWrapper from '../../../../../util/__tests__/IntlWrapper';
@@ -16,13 +17,19 @@ const wrapper = () =>
     <IntlWrapper>
       <RelatedArticleBox
         t={() => 'injected'}
-        editor={{ change: () => {} }}
+        editor={{ onChange: () => {}, change: () => {} }}
+        locale="nb"
         node={{}}
       />
     </IntlWrapper>,
   );
 
 test('it goes in and out of edit mode', async () => {
+  nock('http://ndla-api')
+    .get(
+      '/article-api/v2/articles/?language=undefined&fallback=true&type=articles&query=',
+    )
+    .reply(200, {});
   const { getByTestId, container } = wrapper();
 
   Simulate.click(getByTestId('relatedWrapper'));

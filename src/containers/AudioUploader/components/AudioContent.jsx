@@ -44,14 +44,14 @@ class AudioContent extends Component {
           placeholder={t('form.title.label')}
           {...commonFieldProps}
         />
-        <TextField
+        {/* <TextField
           placeholder={t(`form.audio.caption.placeholder`)}
           label={t(`form.audio.caption.label`)}
           name="caption"
           noBorder
           maxLength={300}
           {...commonFieldProps}
-        />
+        /> */}
         <InputFileField
           label={t('form.audio.file')}
           name="audioFile"

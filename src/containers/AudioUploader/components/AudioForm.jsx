@@ -32,7 +32,7 @@ export const getInitialModel = (audio = {}) => ({
   language: audio.language,
   supportedLanguages: audio.supportedLanguages || [],
   title: audio.title || '',
-  caption: audio.caption || '',
+  /* caption: audio.caption || '', */
   audioFile: audio.audioFile,
   filepath: '',
   tags: audio.tags || [],
@@ -89,7 +89,7 @@ class AudioForm extends Component {
       id: model.id,
       revision,
       title: model.title,
-      caption: model.caption,
+      /* caption: model.caption, */
       language: model.language,
       tags: model.tags,
       copyright: {
@@ -206,9 +206,9 @@ export default compose(
     title: {
       required: true,
     },
-    caption: {
+    /*     caption: {
       required: true,
-    },
+    }, */
     tags: {
       minItems: 3,
     },

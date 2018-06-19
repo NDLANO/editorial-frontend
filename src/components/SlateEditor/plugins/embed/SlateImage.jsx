@@ -120,7 +120,6 @@ class SlateImage extends React.Component {
           label={t('form.image.caption.label')}
           type="text"
           value={embed.caption}
-          required
           onChange={onFigureInputChange}
           placeholder={t('form.image.caption.placeholder')}
           submitted={submitted}

@@ -40,14 +40,22 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName,
 });
 
-const app = (
-  <Provider store={store}>
-    <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-      <BrowserRouter basename={basename}>
-        <App />
-      </BrowserRouter>
-    </IntlProvider>
-  </Provider>
-);
+const renderApp = () =>
+  render(
+    <Provider store={store}>
+      <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
+        <BrowserRouter basename={basename}>
+          <App />
+        </BrowserRouter>
+      </IntlProvider>
+    </Provider>,
+    document.getElementById('root'),
+  );
 
-render(app, document.getElementById('root'));
+renderApp();
+
+if (module.hot) {
+  module.hot.accept('./containers/App/App', () => {
+    renderApp();
+  });
+}

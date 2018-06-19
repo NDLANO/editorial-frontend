@@ -53,7 +53,57 @@ Object {
                     "type": "italic",
                   },
                 ],
-                "text": "NDLA ",
+                "text": "NDLA",
+              },
+            ],
+          },
+          Object {
+            "data": Object {
+              "authors": Array [
+                "Peter, Christian",
+              ],
+              "edition": "",
+              "publisher": "Knowit",
+              "resource": "footnote",
+              "title": "Javascript.",
+              "type": "Programming",
+              "year": "2018",
+            },
+            "isVoid": false,
+            "kind": "inline",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [
+                      Object {
+                        "data": Object {},
+                        "kind": "mark",
+                        "type": "italic",
+                      },
+                    ],
+                    "text": "#",
+                  },
+                ],
+              },
+            ],
+            "type": "footnote",
+          },
+          Object {
+            "kind": "text",
+            "leaves": Array [
+              Object {
+                "kind": "leaf",
+                "marks": Array [
+                  Object {
+                    "data": Object {},
+                    "kind": "mark",
+                    "type": "italic",
+                  },
+                ],
+                "text": " ",
               },
             ],
           },
@@ -77,6 +127,83 @@ Object {
         "isVoid": false,
         "kind": "block",
         "nodes": Array [
+          Object {
+            "kind": "text",
+            "leaves": Array [
+              Object {
+                "kind": "leaf",
+                "marks": Array [],
+                "text": "",
+              },
+            ],
+          },
+          Object {
+            "data": Object {
+              "authors": Array [
+                "Jony Ive",
+              ],
+              "edition": "2",
+              "publisher": "Apple",
+              "resource": "footnote",
+              "title": "Apple Watch",
+              "type": "",
+              "year": "2015",
+            },
+            "isVoid": false,
+            "kind": "inline",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "#",
+                  },
+                ],
+              },
+            ],
+            "type": "footnote",
+          },
+          Object {
+            "kind": "text",
+            "leaves": Array [
+              Object {
+                "kind": "leaf",
+                "marks": Array [],
+                "text": "",
+              },
+            ],
+          },
+          Object {
+            "data": Object {
+              "authors": Array [
+                "Steve Jobs",
+                "Jony Ive",
+              ],
+              "edition": "1",
+              "publisher": "Apple",
+              "resource": "footnote",
+              "title": "iPhone",
+              "type": "",
+              "year": "2007",
+            },
+            "isVoid": false,
+            "kind": "inline",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "#",
+                  },
+                ],
+              },
+            ],
+            "type": "footnote",
+          },
           Object {
             "kind": "text",
             "leaves": Array [

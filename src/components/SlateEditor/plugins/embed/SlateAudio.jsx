@@ -28,7 +28,13 @@ class SlateAudio extends React.Component {
       const audio = await visualElementApi.fetchAudio(
         this.props.embed.resource_id,
       );
-      this.setState({ audio: { ...audio, title: audio.title.title } });
+      this.setState({
+        audio: {
+          ...audio,
+          title: audio.title.title,
+          caption: this.props.embed.caption,
+        },
+      });
     } catch (error) {
       visualElementApi.onError(error);
     }

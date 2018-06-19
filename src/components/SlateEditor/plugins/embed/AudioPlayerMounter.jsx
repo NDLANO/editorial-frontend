@@ -14,6 +14,7 @@ class AudioPlayerMounter extends Component {
     const {
       id,
       title,
+      caption,
       audioFile: { mimeType, url },
       copyright: { creators, license: { license: licenseAbbreviation } },
     } = this.props.audio;
@@ -31,7 +32,7 @@ class AudioPlayerMounter extends Component {
         {!this.props.speech && (
           <FigureCaption
             id={`${id}`}
-            caption={title}
+            caption={caption}
             reuseLabel=""
             licenseRights={license.rights}
             authors={creators}

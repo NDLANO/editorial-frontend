@@ -27,7 +27,7 @@ import { Cross, Plus } from 'ndla-icons/action';
 import { Audio } from 'ndla-icons/common';
 
 import { Portal } from '../../../../components/Portal';
-import { defaultAsideBlock } from '../../schema';
+import { defaultAsideBlock, defaultRelatedBlock } from '../../schema';
 import { defaultBodyBoxBlock } from './../bodybox';
 import { defaultDetailsBlock } from './../detailsbox';
 import SlateEmbedPicker from './SlateEmbedPicker';
@@ -49,7 +49,7 @@ const actions = [
   { data: { type: 'embed', kind: 'audio' }, icon: <Audio /> },
   { data: { type: 'embed', kind: 'h5p' }, icon: <H5P /> },
   {
-    data: { type: 'embed', kind: 'related-content' },
+    data: { type: 'related', kind: 'related' },
     icon: <RelatedArticle />,
   },
 ];
@@ -119,6 +119,10 @@ class SlateBlockPicker extends Component {
         this.setState({
           embedSelect: { isOpen: true, embedType: block.kind },
         });
+        break;
+      }
+      case 'related': {
+        this.onInsertBlock(defaultRelatedBlock());
         break;
       }
       default:

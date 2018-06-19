@@ -23,6 +23,7 @@ const wrapper = () =>
         resources={[...supplementaryResourcesMock, ...coreResourcesMock]}
         contentType="subject"
         activeFilter="filter"
+        refreshResources={() => {}}
       />
     </IntlWrapper>,
   );

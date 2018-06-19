@@ -292,6 +292,17 @@ const phrases = {
         notSupported: 'Media type {mediaType} is not supported.',
         confirmDelete: 'Are you sure that you will delete this figure?',
       },
+      relatedArticle: {
+        placeholder: 'Search for title',
+        urlPlaceholder: 'Url',
+        titlePlaceholder: 'Title',
+        urlLocation: 'Webpage at {domain}',
+        emptyFilter: 'No related articles found',
+        emptyList: 'There are no related articles in this list',
+        invalidArticle: 'Invalid article',
+        addExternal: 'Add external article',
+        searchExternal: 'Write the url and title of the external article',
+      },
       link: {
         goTo: 'Go to',
         insert: 'Insert link',

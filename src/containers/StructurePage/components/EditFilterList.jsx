@@ -12,7 +12,7 @@ import { Button } from 'ndla-ui';
 import { Pencil } from 'ndla-icons/action';
 import { injectT } from 'ndla-i18n';
 import { DeleteForever } from 'ndla-icons/editor';
-import RoundIcon from './RoundIcon';
+import RoundIcon from '../../../components/RoundIcon';
 import InlineEditField from './InlineEditField';
 
 const EditFilterList = ({

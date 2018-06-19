@@ -14,7 +14,7 @@ import { Link as LinkIcon } from 'ndla-icons/editor';
 import BEMHelper from 'react-bem-helper';
 import { Cross, Pencil } from 'ndla-icons/action';
 import Overlay from '../../../components/Overlay';
-import RoundIcon from './RoundIcon';
+import RoundIcon from '../../../components/RoundIcon';
 import WarningModal from '../../../components/WarningModal';
 
 const classes = new BEMHelper({

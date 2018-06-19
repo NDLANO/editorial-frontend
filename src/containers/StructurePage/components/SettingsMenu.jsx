@@ -12,7 +12,7 @@ import { Settings } from 'ndla-icons/editor';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenuDropdown from './SettingsMenuDropdown';
 import Overlay from '../../../components/Overlay';
-import RoundIcon from './RoundIcon';
+import RoundIcon from '../../../components/RoundIcon';
 
 const classes = new BEMHelper({
   name: 'settingsMenu',

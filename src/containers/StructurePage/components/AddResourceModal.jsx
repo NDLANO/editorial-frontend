@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import handleError from '../../../util/handleError';
-import TaxonomyLightbox, { classes } from './TaxonomyLightbox';
+import TaxonomyLightbox, {
+  classes,
+} from '../../../components/TaxonomyLightbox';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { groupSearch } from '../../../modules/search/searchApi';
 import {

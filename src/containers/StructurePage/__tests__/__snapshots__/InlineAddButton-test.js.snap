@@ -7,15 +7,15 @@ exports[`Goes to edit mode, handles input and calls action prop 1`] = `
   type="button"
 >
   <svg
+    fill="currentColor"
+    preserveAspectRatio="xMidYMid meet"
+    height="1em"
+    width="1em"
     class="c-icon"
+    viewBox="0 0 24 24"
     data-license="Apache License 2.0"
     data-source="Material Design"
-    fill="currentColor"
-    height="1em"
-    preserveAspectRatio="xMidYMid meet"
     style="vertical-align: middle;"
-    viewBox="0 0 24 24"
-    width="1em"
   >
     <title>
       Plus
@@ -39,8 +39,8 @@ exports[`Goes to edit mode, handles input and calls action prop 2`] = `
   class="c-addButton__editMode"
 >
   <input
-    data-testid="addSubjectInputField"
     type="text"
+    data-testid="addSubjectInputField"
     value="Elefant"
   />
   <button
@@ -48,15 +48,15 @@ exports[`Goes to edit mode, handles input and calls action prop 2`] = `
     type="button"
   >
     <svg
+      fill="currentColor"
+      preserveAspectRatio="xMidYMid meet"
+      height="1em"
+      width="1em"
       class="c-icon"
+      viewBox="0 0 24 24"
       data-license="Apache License 2.0"
       data-source="Material Design"
-      fill="currentColor"
-      height="1em"
-      preserveAspectRatio="xMidYMid meet"
       style="vertical-align: middle;"
-      viewBox="0 0 24 24"
-      width="1em"
     >
       <title>
         Done
@@ -80,14 +80,14 @@ exports[`Goes to edit mode, handles input and calls action prop 3`] = `
   class="c-addButton__editMode"
 >
   <input
-    data-testid="addSubjectInputField"
     type="text"
+    data-testid="addSubjectInputField"
     value="Elefant"
   />
   <button
     class="c-button c-button--stripped"
-    disabled=""
     type="button"
+    disabled=""
   >
     <div
       class="c-spinner c-spinner--small"

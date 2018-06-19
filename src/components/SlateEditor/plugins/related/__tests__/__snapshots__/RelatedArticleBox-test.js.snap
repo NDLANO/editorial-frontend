@@ -16,34 +16,34 @@ exports[`it goes in and out of edit mode 1`] = `
         class="c-dropdown"
       >
         <input
-          role="combobox"
           aria-autocomplete="list"
           aria-expanded="false"
           autocomplete="off"
-          placeholder="Søk på tittel"
-          id="downshift-0-input"
           class="c-dropdown__single"
+          id="downshift-0-input"
+          placeholder="Søk på tittel"
+          role="combobox"
           value=""
         />
         <button
-          class="c-button c-button--stripped c-dropdown__action"
-          type="button"
-          role="button"
-          aria-label="open menu"
           aria-expanded="false"
           aria-haspopup="true"
+          aria-label="open menu"
+          class="c-button c-button--stripped c-dropdown__action"
           data-toggle="true"
+          role="button"
+          type="button"
         >
           <svg
-            fill="currentColor"
-            preserveAspectRatio="xMidYMid meet"
-            height="1em"
-            width="1em"
             class="c-icon c-icon--medium"
-            viewBox="0 0 48 48"
             data-license="Apache License 2.0"
             data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
             style="vertical-align: middle;"
+            viewBox="0 0 48 48"
+            width="1em"
           >
             <title>
               Search
@@ -72,15 +72,15 @@ exports[`it goes in and out of edit mode 1`] = `
       type="button"
     >
       <svg
-        fill="currentColor"
-        preserveAspectRatio="xMidYMid meet"
-        height="1em"
-        width="1em"
         class="c-icon"
-        viewBox="0 0 24 24"
         data-license="Apache License 2.0"
         data-source="Material Design"
+        fill="currentColor"
+        height="1em"
+        preserveAspectRatio="xMidYMid meet"
         style="vertical-align: middle;"
+        viewBox="0 0 24 24"
+        width="1em"
       >
         <title>
           Cross
@@ -116,15 +116,15 @@ exports[`it goes in and out of edit mode 1`] = `
           type="button"
         >
           <svg
-            fill="currentColor"
-            preserveAspectRatio="xMidYMid meet"
-            height="1em"
-            width="1em"
             class="c-icon"
-            viewBox="0 0 24 24"
             data-license="Apache License 2.0"
             data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
             style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
           >
             <title>
               Cross
@@ -145,17 +145,17 @@ exports[`it goes in and out of edit mode 1`] = `
         class="c-taxonomy-lightbox__content"
       >
         <input
-          type="text"
-          id="url"
           data-testid="addExternalUrlInput"
+          id="url"
           placeholder="http://www.example.com"
+          type="text"
           value=""
         />
         <input
-          type="text"
-          id="title"
           data-testid="addExternalTitleInput"
+          id="title"
           placeholder="Tittel"
+          type="text"
           value=""
         />
         <button
@@ -173,9 +173,9 @@ exports[`it goes in and out of edit mode 1`] = `
 
 exports[`it goes in and out of edit mode 2`] = `
 <div
+  data-testid="relatedWrapper"
   role="button"
   tabindex="0"
-  data-testid="relatedWrapper"
 >
   <section
     class="c-related-articles"
@@ -198,15 +198,15 @@ exports[`it goes in and out of edit mode 2`] = `
             class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon"
-              viewBox="0 0 24 24"
               data-license="Apache License 2.0"
               data-source="Material Design"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle;"
+              viewBox="0 0 24 24"
+              width="1em"
             >
               <title>
                 ExternalLearningResource
@@ -216,11 +216,11 @@ exports[`it goes in and out of edit mode 2`] = `
                   Eksterne ressurser
                 </title>
                 <g
+                  fill="none"
+                  fill-rule="evenodd"
                   id="Page-1"
                   stroke="none"
-                  fill="none"
                   stroke-width="1"
-                  fill-rule="evenodd"
                 >
                   <g
                     id="delte-ressurser"
@@ -246,10 +246,10 @@ exports[`it goes in and out of edit mode 2`] = `
             class="c-related-articles__link-wrapper"
           >
             <a
-              href="www.vg.no"
               class="c-related-articles__link"
-              target="_blank"
+              href="www.vg.no"
               rel="noopener noreferrer"
+              target="_blank"
             />
           </span>
         </h1>

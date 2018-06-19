@@ -85,8 +85,9 @@ export class DisplayExternal extends Component {
   }
 
   toggleEditH5p() {
-    if (this.props.changeVisualElement) {
-      this.props.changeVisualElement('h5p');
+    const { changeVisualElement } = this.props;
+    if (changeVisualElement) {
+      changeVisualElement('h5p');
     } else
       this.setState(prevState => ({ editH5pMode: !prevState.editH5pMode }));
   }

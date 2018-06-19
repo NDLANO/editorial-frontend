@@ -43,11 +43,17 @@ export const defaultAsideBlock = type =>
     nodes: Block.createList([defaultBlock]),
   });
 
-export const defaultEmbedBlock = data =>
+export const defaultEmbedBlock = () =>
   Block.create({
-    data,
     isVoid: true,
     type: 'embed',
+  });
+
+export const defaultRelatedBlock = () =>
+  Block.create({
+    isVoid: true,
+    kind: 'block',
+    type: 'related',
   });
 
 export const getSchemaEmbed = node => node.get('data').toJS();

@@ -21,3 +21,5 @@ export const RESOURCE_TYPE_CONCEPT = 'urn:resourcetype:concept'; // Not yet adde
 // Filters
 export const RESOURCE_FILTER_CORE = 'urn:relevance:core';
 export const RESOURCE_FILTER_SUPPLEMENTARY = 'urn:relevance:supplementary';
+
+export const ARTICLE_EXTERNAL = 'external-learning-resources';

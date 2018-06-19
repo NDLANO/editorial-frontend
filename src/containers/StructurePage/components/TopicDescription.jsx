@@ -35,7 +35,7 @@ class TopicDescription extends Component {
       <React.Fragment>
         <Accordion
           resourceGroup
-          header="Emnebeskrivelse"
+          header={t('searchForm.articleType.topicArticle')}
           hidden={!this.state.displayTopicDescription}
           addButton={
             <Button

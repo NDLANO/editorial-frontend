@@ -20,7 +20,7 @@ export const BLOCK_TAGS = {
   pre: 'code',
   h1: 'heading-two',
   h2: 'heading-two',
-  h3: 'heading-two',
+  h3: 'heading-three',
   h4: 'heading-two',
   h5: 'heading-two',
   h6: 'heading-two',

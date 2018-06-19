@@ -7,7 +7,7 @@ import { Button } from 'ndla-ui';
 import InlineEditField from './InlineEditField';
 import InlineDropdown from './InlineDropdown';
 import ConnectFilters from './ConnectFilters';
-import RoundIcon from './RoundIcon';
+import RoundIcon from '../../../components/RoundIcon';
 import handleError from '../../../util/handleError';
 import WarningModal from '../../../components/WarningModal';
 import {

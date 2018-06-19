@@ -12,8 +12,8 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Cross } from 'ndla-icons/action';
 import { injectT } from 'ndla-i18n';
-import Overlay from '../../../components/Overlay';
-import Spinner from '../../../components/Spinner';
+import Overlay from './Overlay';
+import Spinner from './Spinner';
 
 export const classes = new BEMHelper({
   name: 'taxonomy-lightbox',

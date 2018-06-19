@@ -10,6 +10,7 @@ import React from 'react';
 import {
   reduceElementDataAttributes,
   createEmbedProps,
+  reduceChildElements,
 } from './embedTagHelpers';
 
 export const BLOCK_TAGS = {
@@ -97,11 +98,19 @@ export const divRule = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'div') return;
+
     if (el.className === 'c-bodybox') {
       return {
         kind: 'block',
         type: 'bodybox',
         nodes: next(el.childNodes),
+      };
+    } else if (el.dataset.type === 'related-content') {
+      return {
+        kind: 'block',
+        type: 'related',
+        isVoid: true,
+        data: reduceChildElements(el),
       };
     }
     const childs = next(el.childNodes);
@@ -345,6 +354,21 @@ export const tableRules = {
   },
 };
 
+const relatedRule = {
+  serialize(object) {
+    if (object.type === 'related') {
+      return (
+        <div data-type="related-content">
+          {object.data.get('nodes') &&
+            object.data
+              .get('nodes')
+              .map(node => <embed {...createEmbedProps(node)} />)}
+        </div>
+      );
+    }
+  },
+};
+
 const RULES = [
   divRule,
   textRule,
@@ -353,6 +377,7 @@ const RULES = [
   tableRules,
   paragraphRule,
   listItemRule,
+  relatedRule,
   {
     // Aside handling
     deserialize(el, next) {
@@ -444,6 +469,10 @@ const topicArticeEmbedRule = [
     // Embeds handling
     deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
+
+      if (el.dateset['data-resource'] === 'related-content') {
+        return;
+      }
       return {
         kind: 'block',
         type: 'embed',
@@ -466,7 +495,9 @@ export const learningResourceEmbedRule = [
   {
     deserialize(el) {
       if (!el.tagName.toLowerCase().startsWith('embed')) return;
+
       const embed = reduceElementDataAttributes(el);
+      if (el.dataset['data-resource'] === 'related-content') return;
       if (embed.resource === 'content-link') {
         return {
           kind: 'inline',
@@ -500,5 +531,6 @@ export const learningResourceEmbedRule = [
     },
   },
 ];
+
 export const topicArticeRules = topicArticeEmbedRule.concat(RULES);
 export const learningResourceRules = RULES.concat(learningResourceEmbedRule);

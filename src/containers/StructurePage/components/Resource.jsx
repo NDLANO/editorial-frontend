@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { RemoveCircle } from 'ndla-icons/action';
 import { Button, ContentTypeBadge } from 'ndla-ui';
 import { classes } from './ResourceGroup';
-import ToggleSwitch from './ToggleSwitch';
+import ToggleSwitch from '../../../components/ToggleSwitch';
 import { RESOURCE_FILTER_CORE } from '../../../constants';
 
 const Resource = ({

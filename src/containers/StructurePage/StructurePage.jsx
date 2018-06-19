@@ -31,7 +31,7 @@ import {
   fetchSubjectFilters,
   addSubjectTopic,
 } from '../../modules/taxonomy';
-import RoundIcon from './components/RoundIcon';
+import RoundIcon from '../../components/RoundIcon';
 
 export class StructurePage extends React.PureComponent {
   constructor(props) {

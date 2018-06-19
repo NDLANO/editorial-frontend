@@ -16,7 +16,7 @@ import { fetchTopics } from '../../../modules/taxonomy';
 import InlineEditField from './InlineEditField';
 import InlineDropdown from './InlineDropdown';
 import EditFilters from './EditFilters';
-import RoundIcon from './RoundIcon';
+import RoundIcon from '../../../components/RoundIcon';
 
 class SubjectSettingsItems extends Component {
   constructor() {

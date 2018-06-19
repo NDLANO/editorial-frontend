@@ -22,8 +22,7 @@ import {
   DropdownInput,
   dropDownClasses,
 } from '../../../components/Dropdown/common';
-import RoundIcon from './RoundIcon';
-
+import RoundIcon from '../../../components/RoundIcon';
 import Spinner from '../../../components/Spinner';
 
 class InlineDropdown extends PureComponent {

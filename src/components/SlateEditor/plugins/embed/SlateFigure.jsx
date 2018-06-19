@@ -15,6 +15,7 @@ import { Figure } from 'ndla-ui';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
+import RelatedArticleBox from '../related';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbedTag/DisplayExternal';
 import { getSchemaEmbed } from '../../schema';

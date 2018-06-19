@@ -11,19 +11,27 @@ import PropTypes from 'prop-types';
 import DisplayImageTag from './DisplayImageTag';
 import DisplayBrightcoveTag from './DisplayBrightcoveTag';
 import DisplayExternal from './DisplayExternal';
-import DisplayOembed from './DisplayOembed';
 import { EmbedShape } from '../../shapes';
 
-const DisplayEmbedTag = ({ embedTag, className }) => {
+const DisplayEmbedTag = ({
+  embedTag,
+  changeVisualElement,
+  onRemoveClick,
+  className,
+}) => {
   switch (embedTag.resource) {
     case 'image':
       return <DisplayImageTag embedTag={embedTag} className={className} />;
     case 'brightcove':
       return <DisplayBrightcoveTag embedTag={embedTag} className={className} />;
     case 'external':
-      return <DisplayExternal url={embedTag.url} />;
-    case 'h5p':
-      return <DisplayOembed url={embedTag.url} />;
+      return (
+        <DisplayExternal
+          changeVisualElement={changeVisualElement}
+          onRemoveClick={onRemoveClick}
+          url={embedTag.url}
+        />
+      );
     default:
       return <p>{`Mediatype ${embedTag.resource} is not supported yet.`}</p>;
   }
@@ -32,6 +40,7 @@ const DisplayEmbedTag = ({ embedTag, className }) => {
 DisplayEmbedTag.propTypes = {
   embedTag: EmbedShape.isRequired,
   className: PropTypes.string,
+  changeVisualElement: PropTypes.func,
 };
 
 DisplayEmbedTag.defaultProps = {

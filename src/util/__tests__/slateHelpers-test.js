@@ -145,7 +145,7 @@ test('serialize footnote', () => {
   expect(renderer.create(footnote).toJSON()).toMatchSnapshot();
 });
 
-test('deserializing any heading becomes heading-two', () => {
+test('deserializing any heading becomes heading-two except heading-three', () => {
   const serializer = new Html({ rules: [blockRules], parseHtml: fragment });
   const deserialized = serializer.deserialize(
     '<h1>heading 1</h1><h2>heading 2</h2><h3>heading 3</h3><h4>heading 4</h4><h5>heading 5</h5><h6>heading 6</h6>',
@@ -311,7 +311,7 @@ test('serializing section', () => {
   expect(serialized).toMatchSnapshot();
 });
 
-test('deserializing any heading should result in heading-two', () => {
+test('deserializing any heading should result in heading-two except heading-three', () => {
   const serializer = new Html({
     rules: [blockRules, paragraphRule],
     parseHtml: fragment,

@@ -7,7 +7,7 @@ import FigureButtons from './FigureButtons';
 import { EmbedShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
-  name: 'related-box',
+  name: 'audio-box',
   prefix: 'c-',
 });
 

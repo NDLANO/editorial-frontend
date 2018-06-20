@@ -427,6 +427,10 @@ const phrases = {
     },
     audio: {
       file: 'Audio file',
+      title: {
+        label: 'Audio title',
+        placeholder: 'Audio title',
+      },
       caption: {
         label: 'Audio caption',
         placeholder: 'Audio caption',

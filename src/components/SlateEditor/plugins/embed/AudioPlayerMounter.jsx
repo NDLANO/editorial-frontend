@@ -32,6 +32,7 @@ class AudioPlayerMounter extends Component {
         {!this.props.speech && (
           <FigureCaption
             id={`${id}`}
+            figureId={`figure-${id}`}
             caption={caption}
             reuseLabel=""
             licenseRights={license.rights}
@@ -45,6 +46,8 @@ class AudioPlayerMounter extends Component {
 
 AudioPlayerMounter.propTypes = {
   audio: AudioShape,
+  title: PropTypes.string,
+  caption: PropTypes.string,
   speech: PropTypes.bool,
 };
 

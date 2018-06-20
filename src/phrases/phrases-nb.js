@@ -443,6 +443,10 @@ const phrases = {
     },
     audio: {
       file: 'Lydfil',
+      title: {
+        label: 'Lydtittel',
+        placeholder: 'Lydtittel',
+      },
       caption: {
         label: 'Lydtekst',
         placeholder: 'Lydtekst',

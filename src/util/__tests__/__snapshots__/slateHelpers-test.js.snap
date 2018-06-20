@@ -1699,7 +1699,7 @@ Object {
 }
 `;
 
-exports[`deserializing any heading becomes heading-two 1`] = `
+exports[`deserializing any heading becomes heading-two except heading-three 1`] = `
 Object {
   "document": Object {
     "data": Object {},
@@ -1757,7 +1757,7 @@ Object {
             ],
           },
         ],
-        "type": "heading-two",
+        "type": "heading-three",
       },
       Object {
         "data": Object {},
@@ -1819,7 +1819,7 @@ Object {
 }
 `;
 
-exports[`deserializing any heading should result in heading-two 1`] = `
+exports[`deserializing any heading should result in heading-two except heading-three 1`] = `
 Object {
   "document": Object {
     "data": Object {},
@@ -1849,7 +1849,7 @@ Object {
 }
 `;
 
-exports[`deserializing any heading should result in heading-two 2`] = `
+exports[`deserializing any heading should result in heading-two except heading-three 2`] = `
 Object {
   "document": Object {
     "data": Object {},
@@ -1879,7 +1879,7 @@ Object {
 }
 `;
 
-exports[`deserializing any heading should result in heading-two 3`] = `
+exports[`deserializing any heading should result in heading-two except heading-three 3`] = `
 Object {
   "document": Object {
     "data": Object {},
@@ -1901,7 +1901,7 @@ Object {
             ],
           },
         ],
-        "type": "heading-two",
+        "type": "heading-three",
       },
     ],
   },
@@ -1909,7 +1909,7 @@ Object {
 }
 `;
 
-exports[`deserializing any heading should result in heading-two 4`] = `
+exports[`deserializing any heading should result in heading-two except heading-three 4`] = `
 Object {
   "document": Object {
     "data": Object {},
@@ -1939,7 +1939,7 @@ Object {
 }
 `;
 
-exports[`deserializing any heading should result in heading-two 5`] = `
+exports[`deserializing any heading should result in heading-two except heading-three 5`] = `
 Object {
   "document": Object {
     "data": Object {},
@@ -1969,7 +1969,7 @@ Object {
 }
 `;
 
-exports[`deserializing any heading should result in heading-two 6`] = `
+exports[`deserializing any heading should result in heading-two except heading-three 6`] = `
 Object {
   "document": Object {
     "data": Object {},

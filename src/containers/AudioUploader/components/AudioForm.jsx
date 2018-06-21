@@ -88,7 +88,6 @@ class AudioForm extends Component {
       id: model.id,
       revision,
       title: model.title,
-      /* caption: model.caption, */
       language: model.language,
       tags: model.tags,
       copyright: {

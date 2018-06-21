@@ -20,21 +20,20 @@ import AudioPlayerMounter from './AudioPlayerMounter';
 class SlateAudio extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { audio: {} };
+    this.state = { editMode: false, audio: {} };
     this.toggleEdit = this.toggleEdit.bind(this);
     this.onAudioFigureInputChange = this.onAudioFigureInputChange.bind(this);
   }
 
   async componentWillMount() {
+    const { caption, resource_id: resourceId } = this.props.embed;
     try {
-      const audio = await visualElementApi.fetchAudio(
-        this.props.embed.resource_id,
-      );
+      const audio = await visualElementApi.fetchAudio(resourceId);
       this.setState({
         audio: {
           ...audio,
-          title: audio.title.title,
-          caption: this.props.embed.caption,
+          caption,
+          title: audio.title.title || '',
         },
       });
     } catch (error) {
@@ -78,11 +77,10 @@ class SlateAudio extends React.Component {
       <Figure id={`${audio.id}`} {...attributes}>
         {this.state.editMode ? (
           <EditAudio
-            onExit={() => this.setState({ editMode: false })}
+            onExit={this.toggleEdit}
             audioType={embed.audioType || 'sound'}
             onChange={onFigureInputChange}
             embed={embed}
-            t={t}
             {...rest}>
             {player}
           </EditAudio>
@@ -91,8 +89,8 @@ class SlateAudio extends React.Component {
             role="button"
             style={{ cursor: 'pointer' }}
             tabIndex={0}
-            onKeyPress={() => this.setState({ editMode: true })}
-            onClick={() => this.setState({ editMode: true })}>
+            onKeyPress={this.toggleEdit}
+            onClick={this.toggleEdit}>
             {player}
           </div>
         )}
@@ -100,7 +98,6 @@ class SlateAudio extends React.Component {
           name="caption"
           label={t('form.audio.caption.label')}
           type="text"
-          required
           value={embed.caption}
           onChange={this.onAudioFigureInputChange}
           placeholder={t('form.audio.caption.placeholder')}

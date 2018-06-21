@@ -32,7 +32,6 @@ export const getInitialModel = (audio = {}) => ({
   language: audio.language,
   supportedLanguages: audio.supportedLanguages || [],
   title: audio.title || '',
-  /* caption: audio.caption || '', */
   audioFile: audio.audioFile,
   filepath: '',
   tags: audio.tags || [],
@@ -206,9 +205,6 @@ export default compose(
     title: {
       required: true,
     },
-    /*     caption: {
-      required: true,
-    }, */
     tags: {
       minItems: 3,
     },

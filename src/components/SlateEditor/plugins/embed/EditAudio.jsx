@@ -1,6 +1,7 @@
 import React from 'react';
 import { func, string } from 'prop-types';
 import BEMHelper from 'react-bem-helper';
+import { injectT } from 'ndla-i18n';
 import ObjectSelector from '../../../ObjectSelector';
 import Overlay from '../../../../components/Overlay';
 import FigureButtons from './FigureButtons';
@@ -27,6 +28,7 @@ const EditAudio = ({
       <ObjectSelector
         onClick={e => e.stopPropagation()}
         onChange={onChange}
+        onBlur={onChange}
         name="audioType"
         labelKey="label"
         idKey="id"
@@ -62,4 +64,4 @@ EditAudio.propTypes = {
   embed: EmbedShape.isRequired,
 };
 
-export default EditAudio;
+export default injectT(EditAudio);

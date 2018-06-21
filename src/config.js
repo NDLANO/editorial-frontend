@@ -51,10 +51,10 @@ const h5pApiUrl = () => {
   switch (ndlaEnvironment) {
     case 'local':
       return 'https://h5p-test.ndla.no';
-    case 'prod':
-      return 'https://h5p.ndla.no';
-    default:
+    case 'test':
       return 'https://h5p-test.ndla.no';
+    default:
+      return 'https://h5p.ndla.no';
   }
 };
 

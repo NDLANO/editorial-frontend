@@ -10,12 +10,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Figure } from 'ndla-ui';
+import BEMHelper from 'react-bem-helper';
 import SlateInputField from './SlateInputField';
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 import { EmbedShape } from '../../../../shapes';
 
 import EditAudio from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
+
+const classes = new BEMHelper({
+  name: 'audio-box',
+  prefix: 'c-',
+});
 
 class SlateAudio extends React.Component {
   constructor(props) {
@@ -76,14 +82,25 @@ class SlateAudio extends React.Component {
     return (
       <Figure id={`${audio.id}`} {...attributes}>
         {this.state.editMode ? (
-          <EditAudio
-            onExit={this.toggleEdit}
-            audioType={embed.audioType || 'sound'}
-            onChange={onFigureInputChange}
-            embed={embed}
-            {...rest}>
-            {player}
-          </EditAudio>
+          <div {...classes()}>
+            <EditAudio
+              onExit={this.toggleEdit}
+              audioType={embed.audioType || 'sound'}
+              onChange={onFigureInputChange}
+              embed={embed}
+              {...rest}>
+              {player}
+            </EditAudio>
+            <SlateInputField
+              name="caption"
+              label={t('form.audio.caption.label')}
+              type="text"
+              value={embed.caption}
+              onChange={this.onAudioFigureInputChange}
+              placeholder={t('form.audio.caption.placeholder')}
+              submitted={submitted}
+            />
+          </div>
         ) : (
           <div
             role="button"
@@ -94,15 +111,6 @@ class SlateAudio extends React.Component {
             {player}
           </div>
         )}
-        <SlateInputField
-          name="caption"
-          label={t('form.audio.caption.label')}
-          type="text"
-          value={embed.caption}
-          onChange={this.onAudioFigureInputChange}
-          placeholder={t('form.audio.caption.placeholder')}
-          submitted={submitted}
-        />
       </Figure>
     );
   }

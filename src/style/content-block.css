@@ -227,6 +227,6 @@ details {
 .c-audio-box {
   position: relative;
   border: 1px solid var(--article-color);
-  padding: var(--spacing) var(--spacing--large);
+  padding: var(--spacing) calc(var(--spacing--large) * 2);
   z-index: 1;
 }

@@ -22,8 +22,9 @@ class EditImage extends Component {
     const { imageId: id, fetchImage, imageLanguage, image } = nextProps;
 
     if (
-      (image && image.language !== imageLanguage) ||
-      id !== this.props.imageId
+      id &&
+      imageLanguage &&
+      ((image && image.language !== imageLanguage) || id !== this.props.imageId)
     ) {
       fetchImage({ id, language: imageLanguage });
     }
@@ -50,7 +51,7 @@ class EditImage extends Component {
 }
 
 EditImage.propTypes = {
-  imageId: PropTypes.string.isRequired,
+  imageId: PropTypes.string,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchImage: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
@@ -66,7 +67,7 @@ EditImage.propTypes = {
   locale: PropTypes.string.isRequired,
   updateImage: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  imageLanguage: PropTypes.string.isRequired,
+  imageLanguage: PropTypes.string,
 };
 
 const mapDispatchToProps = {

@@ -25,6 +25,20 @@ const phrases = {
     emptySavedSearch: 'No saved searches',
     guidelines: 'Guidelines',
   },
+  searchPage: {
+    header: {
+      content: 'Search for content',
+      media: 'Search for media',
+    },
+    searchButton: 'Search',
+    emptyButton: 'Empty',
+    title: 'Title',
+    language: 'Language',
+    contentNoHits: 'Your search - {query} - did not match any content.',
+    mediaNoHits: 'Your search - {query} - did not match any media.',
+    pageSize: '{pageSize} hits per page',
+    totalCount: 'Total results',
+  },
   subNavigation: {
     media: 'Media',
     learningPath: 'Learningpath',
@@ -37,6 +51,8 @@ const phrases = {
     agreement: 'Agreement',
     structure: 'Structure',
     concept: 'Concept',
+    searchContent: 'Search content',
+    searchMedia: 'Search media',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -63,7 +79,15 @@ const phrases = {
   },
   searchForm: {
     placeholder: 'Search articles',
+    types: {
+      contentQuery: 'Search for Content',
+      mediaQuery: 'Search for Media',
+      language: 'Select Language',
+      subjects: 'Select subject',
+      resourceTypes: 'Select Resource type',
+    },
     btn: 'Search',
+    empty: 'Empty',
     articleType: {
       all: 'All',
       standard: 'Standard',
@@ -72,10 +96,17 @@ const phrases = {
       image: 'Image',
       audio: 'Audio',
     },
-    order: {
+    order: 'Rekkefølge',
+    asc: 'Ascending',
+    desc: 'Descending',
+    sorting: 'Sorting',
+    sort: {
+      id: 'Id',
       relevance: 'Relevance',
-      title: 'Alphabetical',
+      title: 'Title',
+      lastUpdated: 'Last updated',
     },
+    resultError: 'Something went wrong with type: {type}',
   },
   subjectsPage: {
     subjects: 'Subjects',
@@ -87,6 +118,7 @@ const phrases = {
     placeholder: 'Search images',
     buttonTitle: 'Search',
     useImage: 'Use image',
+    noTitle: 'No title',
   },
   videoSearch: {
     searchPlaceholder: 'Search videos',
@@ -112,6 +144,7 @@ const phrases = {
     searchButtonTitle: 'Search',
     useAudio: 'Chose audio',
     noResults: 'No audio files found',
+    noTitle: 'No title',
   },
   noEmbedMessage: {
     deleteOnSave: 'Element of type {type} will be deleted on save.',
@@ -193,6 +226,21 @@ const phrases = {
       },
     },
   },
+  editorToolbar: {
+    bold: 'Bold',
+    italic: 'Italic',
+    underlined: 'Underlined',
+    quote: 'Quote',
+    link: 'Link',
+    numberedList: 'Numbered list',
+    bulletedList: 'Bulleted list',
+    twoColumnList: 'Two-column list',
+    letterList: 'Letter list',
+    headingOne: 'Heading 1',
+    headingTwo: 'Heading 2',
+    headingThree: 'Heading 3',
+    footnote: 'Footnote',
+  },
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Content',
@@ -201,6 +249,7 @@ const phrases = {
     copyrightSection: 'License and authors',
     save: 'Save',
     saving: 'Saving...',
+    choose: 'Choose',
     saved: 'Saved ',
     abort: 'Abort',
     validate: 'Validate',
@@ -209,6 +258,10 @@ const phrases = {
     publishedOk: 'Published OK',
     validationOk: 'No validation errors found',
     createdOk: 'Created OK',
+    addNewImage: 'Add new image',
+    addNewAudio: 'Add new audio',
+    editImage: 'Edit image',
+    editAudio: 'Edit audio',
     variant: {
       create: 'Create variant +',
     },
@@ -223,6 +276,9 @@ const phrases = {
     visualElement: {
       title: 'Add visual element',
       label: 'Visual element',
+      video: 'Video search',
+      image: 'Image search',
+      h5p: 'H5P search',
     },
     status: {
       created: 'Created',
@@ -249,6 +305,18 @@ const phrases = {
       placeholder: 'Write here...',
       figure: {
         notSupported: 'Media type {mediaType} is not supported.',
+        confirmDelete: 'Are you sure that you will delete this figure?',
+      },
+      relatedArticle: {
+        placeholder: 'Search for title',
+        urlPlaceholder: 'Url',
+        titlePlaceholder: 'Title',
+        urlLocation: 'Webpage at {domain}',
+        emptyFilter: 'No related articles found',
+        emptyList: 'There are no related articles in this list',
+        invalidArticle: 'Invalid article',
+        addExternal: 'Add external article',
+        searchExternal: 'Write the url and title of the external article',
       },
       link: {
         goTo: 'Go to',
@@ -400,11 +468,6 @@ const phrases = {
     minItems:
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
   },
-  searchPage: {
-    articlesNoHits: 'Your search - {query} - did not match any articles.',
-    imagesNoHits: 'Your search - {query} - did not match any images.',
-    audiosNoHits: 'Your search - {query} - did not match any audio files.',
-  },
   footer: {
     aboutNDLA: 'About NDLA',
     selectLanguage: 'Choose language (språk): ',
@@ -417,6 +480,7 @@ const phrases = {
     description: 'Sorry, an error occurd.',
     back: 'Back',
     goToFrontPage: 'Go to frontpage',
+    invalidUrl: 'Invalid url',
   },
   notFound: {
     description: 'The page cannot be found',
@@ -443,7 +507,22 @@ const phrases = {
     linkSettings: 'Link',
     setPrimary: 'Set as primary link',
     addFilter: 'Add filter',
+    connectFilters: 'Connect filters',
     confirmDelete: 'Are you sure you want to delete the filter?',
+    addResource: 'Add resource',
+    searchResource: 'Search for resource',
+    searchArticle: 'Search for topic article',
+    confirmDeleteTopic:
+      'Are you sure you want to delete the topic from the folder? This does not affect the topic location elsewhere',
+    or: 'Eller',
+    urlPlaceholder: 'Lim inn lenke fra ndla.no',
+    wrongType: 'Note! This is a different resource type: ',
+    noResources: 'No resources found',
+    addTopicDescription: 'Change topic description',
+    resource: {
+      confirmDelete:
+        'Do you want to delete the resource from this folder? This will not affect the placement other places',
+    },
   },
 };
 

@@ -15,9 +15,8 @@ import { Figure } from 'ndla-ui';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
-import RelatedArticleBox from './RelatedArticleBox';
+import RelatedArticleBox from '../related';
 import EditorErrorMessage from '../../EditorErrorMessage';
-import DisplayOembed from '../../../DisplayEmbedTag/DisplayOembed';
 import DisplayExternal from '../../../DisplayEmbedTag/DisplayExternal';
 import { getSchemaEmbed } from '../../schema';
 import { EditorShape } from '../../../../shapes';
@@ -85,15 +84,17 @@ class SlateFigure extends React.Component {
       'figure',
       this.isSelected() ? 'active' : '',
     );
-    const { node, attributes, editor } = this.props;
+    const { node, attributes, editor, locale } = this.props;
 
     const embed = getSchemaEmbed(node);
+
     const props = {
       embed,
       onFigureInputChange: this.onFigureInputChange,
       figureClass,
       attributes,
       submitted: this.state.submitted,
+      locale,
     };
     switch (embed.resource) {
       case 'image':
@@ -106,17 +107,20 @@ class SlateFigure extends React.Component {
           />
         );
       case 'brightcove':
-        return <SlateVideo {...props} onRemoveClick={this.onRemoveClick} />;
+        return <SlateVideo onRemoveClick={this.onRemoveClick} {...props} />;
       case 'audio':
         return <SlateAudio onRemoveClick={this.onRemoveClick} {...props} />;
       case 'external':
         return (
           <Figure>
-            <DisplayExternal url={embed.url} />
+            <DisplayExternal
+              onRemoveClick={this.onRemoveClick}
+              editor={editor}
+              node={node}
+              url={embed.url}
+            />
           </Figure>
         );
-      case 'h5p':
-        return <DisplayOembed url={embed.url} />;
       case 'related-content':
         return (
           <RelatedArticleBox
@@ -146,6 +150,7 @@ SlateFigure.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
+  locale: PropTypes.string.isRequired,
 };
 
 SlateFigure.defaultProps = {

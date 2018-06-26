@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import {
   Bold,
@@ -19,6 +20,7 @@ import {
   Quote,
   Underline,
   Link,
+  Heading3,
   Heading2,
   Heading1,
   Section,
@@ -29,35 +31,39 @@ import { toolbarClasses } from './SlateToolbar';
 // ndla-ui icon for Link type in toolbar has the same name as a link/anchor element component.
 // Thus triggering a false positive, that we have to disable.
 /* eslint-disable jsx-a11y/anchor-is-valid */
-const toolbarIcon = {
-  bold: <Bold />,
-  italic: <Italic />,
-  underlined: <Underline />,
-  quote: <Quote />,
-  link: <Link />,
-  'numbered-list': <ListNumbered />,
-  'bulleted-list': <ListCircle />,
-  'two-column-list': <ListTwoColumns />,
-  'letter-list': <ListSquare />,
-  'heading-two': <Heading2 />,
-  'heading-one': <Heading1 />,
-  footnote: <Section />,
-};
+const toolbarIcon = t => ({
+  bold: <Bold title={t('editorToolbar.bold')} />,
+  italic: <Italic title={t('editorToolbar.italic')} />,
+  underlined: <Underline title={t('editorToolbar.underlined')} />,
+  quote: <Quote title={t('editorToolbar.quote')} />,
+  link: <Link title={t('editorToolbar.link')} />,
+  'numbered-list': <ListNumbered title={t('editorToolbar.numberedList')} />,
+  'bulleted-list': <ListCircle title={t('editorToolbar.bulletedList')} />,
+  'two-column-list': (
+    <ListTwoColumns title={t('editorToolbar.twoColumnList')} />
+  ),
+  'letter-list': <ListSquare title={t('editorToolbar.letterList')} />,
+  'heading-one': <Heading1 title={t('editorToolbar.headingOne')} />,
+  'heading-two': <Heading2 title={t('editorToolbar.headingTwo')} />,
+  'heading-three': <Heading3 title={t('editorToolbar.headingThree')} />,
+  footnote: <Section title={t('editorToolbar.footnote')} />,
+});
 /* eslint-enable jsx-a11y/anchor-is-valid */
 
 const ToolbarButton = ({
   value,
   type,
-  object,
+  kind,
   handleHasType,
   handleOnClick,
+  t,
 }) => {
-  const isActive = handleHasType(value, type, object);
-  const onMouseDown = e => handleOnClick(e, object, type);
+  const isActive = handleHasType(value, type, kind);
+  const onMouseDown = e => handleOnClick(e, kind, type);
   return (
     <Button stripped onMouseDown={onMouseDown} data-active={isActive}>
       <span {...toolbarClasses('icon', isActive ? 'active' : '')}>
-        {toolbarIcon[type]}
+        {toolbarIcon(t)[type]}
       </span>
     </Button>
   );
@@ -65,10 +71,10 @@ const ToolbarButton = ({
 
 ToolbarButton.propTypes = {
   type: PropTypes.string.isRequired,
-  object: PropTypes.string.isRequired,
+  kind: PropTypes.string.isRequired,
   value: Types.value.isRequired,
   handleHasType: PropTypes.func.isRequired,
   handleOnClick: PropTypes.func.isRequired,
 };
 
-export default ToolbarButton;
+export default injectT(ToolbarButton);

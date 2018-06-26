@@ -4,7 +4,13 @@ yarn-error.log
 .DS_Store
 *.iml
 /.idea
-/htdocs/assets/
+/build/
 /coverage/
+/htdocs/
 
-\.vscode/settings\.json
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

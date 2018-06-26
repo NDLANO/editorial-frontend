@@ -8,66 +8,77 @@
 
 import nock from 'nock';
 import React from 'react';
-import renderer from 'react-test-renderer';
+
+import { render, wait } from 'react-testing-library';
 import { MemoryRouter } from 'react-router-dom';
 import { StructurePage } from '../StructurePage';
-import { subjectsMock } from '../../../util/__tests__/taxonomyMocks';
+import {
+  subjectsMock,
+  resourceTypesMock,
+  subjectTopicsMock,
+} from '../../../util/__tests__/taxonomyMocks';
+import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 
-const activeSubject = 'subject:11';
 const wrapper = () =>
-  renderer.create(
+  render(
     <MemoryRouter>
-      <StructurePage
-        t={() => 'injected'}
-        match={{ params: { subject: activeSubject } }}
-      />
+      <IntlWrapper>
+        <StructurePage
+          t={() => 'injected'}
+          locale="nb"
+          match={{
+            url: '',
+            params: {
+              subject: 'subject:1',
+              topic1: 'topic:1:186479',
+              topic2: 'topic:1:172650',
+            },
+          }}
+          location={{
+            search: '',
+          }}
+        />
+      </IntlWrapper>
     </MemoryRouter>,
   );
+
 beforeEach(() => {
   nock('http://ndla-api')
-    .get('/taxonomy/v1/subjects')
-    .reply(200, subjectsMock);
+    .get('/taxonomy/v1/resource-types/?language=nb')
+    .reply(200, resourceTypesMock);
 
   nock('http://ndla-api')
-    .get(`/taxonomy/v1/subjects/urn:${activeSubject}/topics?recursive=true`)
+    .get('/taxonomy/v1/subjects/?language=nb')
+    .reply(200, subjectsMock);
+});
+
+test('fetches and renders a list of subjects and topics based on pathname', async () => {
+  nock('http://ndla-api')
+    .get(`/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?recursive=true`)
+    .reply(200, subjectTopicsMock);
+  nock('http://ndla-api')
+    .get(`/taxonomy/v1/subjects/${subjectsMock[0].id}/filters`)
     .reply(200, []);
-});
-
-test('renders list of subjects, with active in url', async () => {
-  const component = wrapper();
-  expect(component.toJSON()).toMatchSnapshot();
-  return new Promise(resolve => {
-    setTimeout(() => {
-      expect(component.toJSON()).toMatchSnapshot();
-      resolve();
-    }, global.DEFAULT_TIMEOUT);
-  });
-});
-
-it('Adds posts new subject when writing and pressing enter', async () => {
   nock('http://ndla-api')
-    .post('/taxonomy/v1/subjects', { name: 'Elefant' })
-    .reply(201, '', {
-      Location: 'newPath',
-      'Content-Type': 'text/plain; charset=UTF-8',
-    });
-  const component = wrapper();
-  const { instance } = component.root.findByType(StructurePage);
-  expect(instance.state.editStructureHidden).toBe(false);
-  await instance.addSubject('Elefant');
-  expect(nock.isDone());
-});
-
-it('updates name in state when changeName is called', async () => {
+    .get(
+      '/taxonomy/v1/topics/urn:topic:1:172650/resources/?language=nb&relevance=urn:relevance:core&filter=',
+    )
+    .reply(200, []);
   nock('http://ndla-api')
-    .put('/taxonomy/v1/subjects/urn:subject:12', { name: 'Lalaland' })
-    .reply(204, '');
+    .get(`/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?recursive=true`)
+    .reply(200, subjectTopicsMock);
   nock('http://ndla-api')
-    .get('/taxonomy/v1/subjects')
-    .reply(200, subjectsMock);
-  const component = wrapper();
+    .get(
+      '/taxonomy/v1/topics/urn:topic:1:172650/resources/?language=nb&relevance=urn:relevance:supplementary&filter=',
+    )
+    .reply(200, []);
+  nock('http://ndla-api')
+    .get('/article-api/v2/articles/3592')
+    .reply(200, {});
+  const { container, getByText } = wrapper();
 
-  const { instance } = component.root.findByType(StructurePage);
-  await instance.onChangeSubjectName('urn:subject:12', 'Lalaland');
+  await wait(() => getByText('Fortelleteknikker og virkemidler'));
+  expect(container.firstChild).toMatchSnapshot();
+
   expect(nock.isDone());
 });

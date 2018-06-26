@@ -1,13 +1,22 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
+
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import config from '../../config';
+import { isEqualEditorValue } from '../../util/articleContentConverter';
 import WarningModal from '../../components/WarningModal';
 import { SchemaShape } from '../../shapes';
 
 class WarningModalWrapper extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { openModal: false, discardChanges: false };
+    this.state = { openModal: false, discardChanges: false, dirtyFields: [] };
     this.isDirty = this.isDirty.bind(this);
     this.onSave = this.onSave.bind(this);
     this.onContinue = this.onContinue.bind(this);
@@ -16,11 +25,14 @@ class WarningModalWrapper extends PureComponent {
   componentDidMount() {
     this.unblock = this.props.history.block(nextLocation => {
       const canNavigate =
-        !this.isDirty() || this.state.discardChanges || this.props.showSaved;
+        !this.isDirty().length > 0 ||
+        this.state.discardChanges ||
+        this.props.showSaved;
       if (!canNavigate) {
         this.setState({
           openModal: true,
           nextLocation,
+          dirtyFields: this.isDirty(),
         });
       } else {
         window.onbeforeunload = null;
@@ -28,9 +40,9 @@ class WarningModalWrapper extends PureComponent {
       return canNavigate;
     });
 
-    if (window && window.config.isProduction) {
+    if (config.isNdlaProdEnvironment) {
       window.onbeforeunload = () =>
-        !this.isDirty() || this.state.discardChanges;
+        !this.isDirty().length > 0 || this.state.discardChanges;
     }
   }
 
@@ -42,29 +54,52 @@ class WarningModalWrapper extends PureComponent {
     const { schema, history, handleSubmit } = this.props;
     handleSubmit(e);
     if (schema.isValid) {
-      this.setState({ discardChanges: true }, () =>
-        history.push(this.state.nextLocation.pathname),
-      );
+      this.setState({ discardChanges: true }, () => {
+        const nextLocation =
+          this.state.nextLocation.pathname +
+          this.state.nextLocation.hash +
+          this.state.nextLocation.search;
+        return history.push(nextLocation);
+      });
     } else {
       this.setState({ openModal: false });
     }
   }
 
   onContinue() {
-    this.setState({ discardChanges: true }, () =>
-      this.props.history.push(this.state.nextLocation.pathname),
-    );
+    this.setState({ discardChanges: true }, () => {
+      const nextLocation =
+        this.state.nextLocation.pathname +
+        this.state.nextLocation.hash +
+        this.state.nextLocation.search;
+      return this.props.history.push(nextLocation);
+    });
   }
 
   isDirty() {
-    const { fields } = this.props;
-    return Object.keys(fields).some(field => fields[field].dirty);
+    const { fields, initialModel, model } = this.props;
+
+    // Checking specific slate object fields if they really have changed
+    const slateFields = ['introduction', 'metadescription', 'content'];
+    const dirtyFields = [];
+    Object.keys(fields)
+      .filter(field => fields[field].dirty)
+      .forEach(dirtyField => {
+        if (slateFields.includes(dirtyField)) {
+          if (!isEqualEditorValue(initialModel[dirtyField], model[dirtyField]))
+            dirtyFields.push(dirtyField);
+        } else {
+          dirtyFields.push(dirtyField);
+        }
+      });
+    return dirtyFields;
   }
 
   render() {
     return this.state.openModal ? (
       <WarningModal
         text={this.props.text}
+        dirtyFields={this.state.dirtyFields}
         onSave={this.onSave}
         onContinue={this.onContinue}
         onCancel={() => this.setState({ openModal: false })}
@@ -74,6 +109,15 @@ class WarningModalWrapper extends PureComponent {
 }
 
 WarningModalWrapper.propTypes = {
+  model: PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    language: PropTypes.string,
+  }),
+  initialModel: PropTypes.shape({
+    id: PropTypes.number,
+    language: PropTypes.string,
+  }),
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
   schema: SchemaShape,
   history: PropTypes.shape({

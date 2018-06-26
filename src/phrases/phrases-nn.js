@@ -1,0 +1,539 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+const phrases = {
+  meta: {
+    description:
+      'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
+  },
+  language: {
+    en: 'Engelsk',
+    nb: 'Bokmål',
+    nn: 'Nynorsk',
+    unknown: 'Ukjent',
+    de: 'Tysk',
+    empty: 'Ingen flere språk',
+  },
+  welcomePage: {
+    lastUsed: 'Sist brukt',
+    emptyLastUsed: 'Ingen sist brukte',
+    savedSearch: 'Lagrede søk',
+    emptySavedSearch: 'Ingen lagrede søk',
+    guidelines: 'Retningslinjer',
+  },
+  searchPage: {
+    header: {
+      content: 'Søk etter innhold',
+      media: 'Søk etter media',
+    },
+    searchButton: 'Søk',
+    emptyButton: 'Tøm',
+    title: 'Tittel',
+    language: 'Språk',
+    contentNoHits: 'Ingen innhold samsvarte med søket ditt på: {query}',
+    mediaNoHits: 'Ingen media samsvarte med søket ditt på: {query}',
+    pageSize: '{pageSize} treff per side',
+    totalCount: 'Antall resultater',
+  },
+  subNavigation: {
+    media: 'Media',
+    learningPath: 'Læringssti',
+    subjectMatter: 'Fagstoff',
+    detailSearch: 'Detaljsøk',
+    topicArticle: 'Emne',
+    learningResource: 'Fagstoff',
+    image: 'Bilde',
+    audio: 'Lyd',
+    agreement: 'Avtale',
+    structure: 'Struktur',
+    concept: 'Begrep',
+    searchContent: 'Søk innhold',
+    searchMedia: 'Søk media',
+  },
+  logo: {
+    altText: 'Nasjonal digital læringsarena',
+  },
+  siteNav: {
+    chooseSubject: 'Velg fag',
+    search: 'Søk',
+    login: 'Logg inn',
+    logout: 'Logg ut [{name}]',
+  },
+  loginFailure: {
+    errorMessage: 'Beklager. Innlogging feilet.',
+    loginLink: 'Klikk for å prøve igjen.',
+  },
+  loginProviders: {
+    description: 'Logg inn i produksjonssystem med',
+  },
+  logoutProviders: {
+    localLogout: 'Logg ut av produksjonssystem',
+    or: 'eller',
+    federatedLogout: 'Logg ut av alle tjenester',
+    description:
+      'N.B. Alle tjenester inkluderer autentiseringstjenesten (Google eller Facebook).',
+  },
+  searchForm: {
+    placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
+    types: {
+      contentQuery: 'Søk på Innhold',
+      mediaQuery: 'Søk på Media',
+      language: 'Velg Språk',
+      subjects: 'Velg fag',
+      resourceTypes: 'Velg innholdstype',
+    },
+    tagType: {
+      query: 'Innhold',
+      subjects: 'Emne',
+      language: 'Språk',
+      resourceTypes: 'Innholdstype',
+    },
+    btn: 'Søk',
+    empty: 'Tøm',
+    articleType: {
+      all: 'Alle',
+      standard: 'Standard',
+      learningResource: 'Læringsressurs',
+      topicArticle: 'Emnebeskrivelse',
+      image: 'Bilde',
+      audio: 'Lyd',
+    },
+    order: 'Rekkefølge',
+    asc: 'Stigende',
+    desc: 'Fallende',
+    sorting: 'Sortering',
+    sort: {
+      id: 'Id',
+      relevance: 'Relevans',
+      title: 'Tittel',
+      lastUpdated: 'Sist oppdatert',
+    },
+    resultError: 'Noe gikk feil med innlasting av type: {type}',
+  },
+  subjectsPage: {
+    subjects: 'Fag',
+  },
+  subjectPage: {
+    topics: 'Emner',
+  },
+  imageSearch: {
+    placeholder: 'Søk i bilder',
+    buttonTitle: 'Søk',
+    useImage: 'Bruk bildet',
+    noTitle: 'Ingen tittel',
+  },
+  videoSearch: {
+    searchPlaceholder: 'Søk i videoer',
+    searchButtonTitle: 'Søk',
+    loadMoreVideos: 'Last flere videor',
+    noResults: 'Ingen videor funnet.',
+    addVideo: 'Bruk video',
+    previewVideo: 'Forhåndsvis',
+    publishedDate: 'Publisert dato',
+    duration: 'Varighet',
+    interactioncount: 'Visninger',
+  },
+  h5pSearch: {
+    fetchError:
+      'Vi beklager, men en feil oppsto under lasting av H5P klienten.',
+  },
+  displayOembed: {
+    errorMessage: 'En feil oppsto ved visning av oEmbed innhold.',
+    notSupported: 'oEmbed av type {type} og kilde {provider} er ikke støttet.',
+  },
+  audioSearch: {
+    searchPlaceholder: 'Søk i lydfiler',
+    searchButtonTitle: 'Søk',
+    useAudio: 'Velg lyd',
+    noResults: 'Ingen resultater funnet',
+    noTitle: 'Ingen tittel',
+  },
+  noEmbedMessage: {
+    deleteOnSave: 'Element av type {type} vil bli fjernet ved lagring.',
+  },
+  topicArticleForm: {
+    visualElementTitle: {
+      image: 'Bildetittel',
+      h5p: 'H5P tittel',
+      brightcove: 'Videotittel',
+      external: 'Innholdstekst',
+    },
+    visualElementCopyright: 'Opphav',
+    removeVisualElement: 'Fjern element',
+    info: {
+      lastUpdated: 'Sist oppdatert: {updated}',
+    },
+    title: 'Emnebeskrivelse | {title} ({key})',
+    fields: {
+      caption: {
+        label: {
+          image: 'Bildetekst',
+          brightcove: 'Videotekst',
+          external: 'Innholdstekst',
+        },
+        placeholder: {
+          image: 'Bildetekst',
+          brightcove: 'Videotekst',
+          external: 'Innholdstekst',
+        },
+      },
+      alt: {
+        label: 'Alt-tekst',
+        placeholder: 'Alt-tekst',
+      },
+    },
+  },
+  agreementForm: {
+    title: {
+      create: 'Avtale',
+      update: 'Avtale',
+    },
+    fields: {
+      title: {
+        label: 'Avtaletittel',
+        placeholder: 'Avtaletittel',
+      },
+      content: {
+        label: 'Avtalens innhold',
+        placeholder: 'Avtalens innhold',
+      },
+    },
+  },
+  audioForm: {
+    title: 'Lyd | {title} ({key})',
+  },
+  imageEditor: {
+    remove: {
+      crop: 'Fjern utsnitt',
+      focalPoint: 'Fjern fokuspunkt',
+    },
+  },
+  imageForm: {
+    title: 'Bilde | {title} ({key})',
+  },
+  learningResourceForm: {
+    metaImage: {
+      title: 'Bildetittel',
+      copyright: 'Opphav',
+      change: 'Bytt metabilde',
+    },
+    title: 'Fagstoff | {title} ({key})',
+    validation: {
+      missingEmbedData:
+        'En eller flere inkluderte lyd, bilde, eller video elementer mangler beskrivende tekst eller alternativ tekst.',
+    },
+    fields: {
+      rightAside: 'Høyrespalte',
+      metaImage: {
+        title: 'Metabilde',
+        label: 'Metabilde',
+      },
+      footnotes: {
+        edition: 'Utgave',
+        publisher: 'Utgiver',
+      },
+    },
+  },
+  editorToolbar: {
+    bold: 'Fet',
+    italic: 'Kursiv',
+    underlined: 'Understreket',
+    quote: 'Sitat',
+    link: 'Lenke',
+    numberedList: 'Nummerert liste',
+    bulletedList: 'Punktliste',
+    twoColumnList: 'To-kolonners liste',
+    letterList: 'Bokstavliste',
+    headingOne: 'Overskrift 1',
+    headingTwo: 'Overskrift 2',
+    headingThree: 'Overskrift 3',
+    footnote: 'Fotnote',
+  },
+  form: {
+    metadataSection: 'Metadata',
+    contentSection: 'Innhold',
+    workflowSection: 'Arbeidsflyt',
+    taxonomytSection: 'Taksonomi',
+    copyrightSection: 'Lisens og bruker',
+    save: 'Lagre',
+    choose: 'Velg',
+    saving: 'Lagrer...',
+    saved: 'Lagret ',
+    abort: 'Avbryt',
+    validate: 'Valider',
+    publish: 'Publiser',
+    savedOk: 'Lagret OK',
+    publishedOk: 'Publisert OK',
+    validationOk: 'Ingen validerings feil funnet',
+    createdOk: 'Opprettet OK',
+    addNewImage: 'Legg til nytt bilde',
+    addNewAudio: 'Legg til ny lyd',
+    editImage: 'Endre bilde',
+    editAudio: 'Endre lyd',
+    variant: {
+      create: '+ Nytt språk',
+    },
+    remainingCharacters:
+      'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
+    title: {
+      label: 'Tittel',
+    },
+    introduction: {
+      label: 'Ingress',
+    },
+    visualElement: {
+      title: 'Legg til visuelt element',
+      label: 'Visuelt element',
+      video: 'Videosøk',
+      image: 'Bildesøk',
+      h5p: 'H5P Søk',
+    },
+    status: {
+      created: 'Opprettet',
+      draft: 'Utkast',
+      user_test: 'Brukertest',
+      awaiting_quality_assurance: 'Til kvalitetsikring',
+      queued_for_publishing: 'Kvalitetsikret/Til publisering',
+      published: 'Publisert',
+      imported: 'Fra spoling',
+    },
+    validDate: {
+      label: 'Gyldighet',
+      from: {
+        label: 'Gyldig fra',
+        placeholder: 'Fra og med dato',
+      },
+      to: {
+        label: 'Gyldig til',
+        placeholder: 'Til og med dato',
+      },
+    },
+    content: {
+      label: 'Innhold',
+      placeholder: 'Innhold',
+      figure: {
+        notSupported: 'Mediatype {mediaType} er ikke støttet.',
+        confirmDelete: 'Er du sikker på at du vil slette denne figuren?',
+      },
+      relatedArticle: {
+        placeholder: 'Søk på tittel',
+        emptyFilter: 'Ingen relaterte artikler funnet',
+        emptyList: 'Det er ingen relaterte artikler i denne listen',
+        invalidArticle: 'Ugyldig artikkel',
+      },
+      link: {
+        goTo: 'Gå til',
+        insert: 'Sett inn lenke',
+        update: 'Opddater lenke',
+        change: 'Endre',
+        remove: 'Fjern lenke',
+        href: 'Lenke',
+        newTab: 'Åpne lenke i ny fane',
+        text: 'Tekst',
+        addTitle: 'Legg til lenke',
+        changeTitle: 'Endre lenke',
+      },
+      footnote: {
+        title: 'Tittel',
+        year: 'År',
+        authors: {
+          label: 'Forfatter',
+          description: 'Obligatorisk med minst 1 forfatter.',
+          createOption: 'Opprett ny forfatter',
+          emptyFilter: ' ',
+          emptyList: ' ',
+        },
+        edition: 'Utgave',
+        publisher: 'Utgiver',
+        addTitle: 'Legg til fotnote',
+        editTitle: 'Rediger fotnote',
+        removeFootnote: 'Fjern fotnote',
+      },
+      table: {
+        'row-remove': 'Fjern rad',
+        'row-add': 'Legg til rad',
+        'column-add': 'Legg til kolonne',
+        'column-remove': 'Fjern kolonne',
+        'table-remove': 'Fjern tabell',
+      },
+    },
+    tags: {
+      label: 'Nøkkelord',
+      description: 'Obligatorisk med 3 nøkkelord.',
+      createOption: 'Opprett nytt nøkkelord',
+      emptyFilter: 'Fant ingen passende nøkkelord',
+      emptyList: 'Det er ingen tagger i denne listen',
+    },
+    resourceTypes: {
+      label: 'Innholdstype og egenskaper',
+      placeholder: 'Legg til egenskap',
+      emptyFilter: 'Ingen egenskaper funnet',
+      emptyList: 'Det er ingen egenskaper i denne listen',
+    },
+    subjects: {
+      label: 'Emne',
+      searchPlaceholder: 'Søk etter emne',
+      placeholder: 'Legg til emne',
+      emptyFilter: 'Ingen emner funnet',
+      emptyList: 'Det er ingen emner i denne listen',
+    },
+    filter: {
+      label: 'Filter',
+      placeholder: 'Legg til filter',
+      emptyFilter: 'Fant ingen passende filter',
+      emptyList: 'Det er ingen filter i denne listen',
+      core: 'Kjernestoff',
+      supplementary: 'Tilleggsstoff',
+      setRelevance: 'Velg relevans',
+    },
+    topics: {
+      label: 'Emnetilknytning',
+      placeholder: 'Legg til emnetilknytning',
+      emptyFilter: 'Fant ingen passende emnetilknytninger',
+      emptyList: 'Det er ingen emnetilknytning i denne listen',
+      primaryTopic: 'Primærkobling',
+      setPrimaryTopic: 'Velg som primærkoblet emne',
+    },
+    metaDescription: {
+      label: 'Metabeskrivelse',
+      description: 'Beskrivelsen blir synlig i søk.',
+    },
+    agreement: {
+      label: 'Koble til avtale',
+      placeholder: 'Søk etter avtale',
+      emptyFilter: 'Fant ingen passende avtaler',
+      emptyList: 'Det er ingen avtaler i denne listen',
+    },
+    rightsholders: {
+      label: 'Rettighetshaver',
+      createOption: 'Opprett ny rettighetshaver',
+      emptyFilter: ' ',
+      emptyList: ' ',
+    },
+    processors: {
+      label: 'Bearbeider',
+      createOption: 'Opprett ny bearbeider',
+      emptyFilter: ' ',
+      emptyList: ' ',
+    },
+    creators: {
+      label: 'Opphavsperson',
+      createOption: 'Opprett ny opphavsperson',
+      description: 'Obligatorisk med minst 1 opphavsperson.',
+      emptyFilter: ' ',
+      emptyList: ' ',
+    },
+    license: {
+      label: 'Lisens',
+    },
+    origin: {
+      label: 'Opphav',
+    },
+    image: {
+      file: 'Bilde',
+      caption: {
+        label: 'Bildetekst',
+        placeholder: 'Bildetekst',
+      },
+      alt: {
+        label: 'Alt-tekst',
+        placeholder: 'Alt-tekst',
+      },
+    },
+    video: {
+      caption: {
+        label: 'Videotekst',
+        placeholder: 'Videotekst',
+      },
+    },
+    audio: {
+      file: 'Lydfil',
+      caption: {
+        label: 'Lydtekst',
+        placeholder: 'Lydtekst',
+      },
+      sound: 'Lyd',
+      speech: 'Tale',
+    },
+    related: {
+      title: 'Relaterte arikler',
+      showMore: 'Vis flere relaterte artikler',
+      showLess: 'Vis mindre',
+    },
+  },
+  validation: {
+    isRequired: '{label} er påkrevd.',
+    bothFields: 'En {labelLowerCase} må inneholde alle felter.',
+    isNumeric: '{label} må inneholde tall.',
+    maxLength: '{label} kan ikke ha mer enn {maxLength, number} tegn.',
+    minLength: '{label} må ha minst {minLength, number} tegn.',
+    url: '{label} må inneholde en gyldig lenke.',
+    dateBeforeInvalid: '{label} kan ikke være etter {afterLabel}.',
+    dateAfterInvalid: '{label} kan ikke være før {beforeLabel}.',
+    minItems:
+      '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
+  },
+  footer: {
+    aboutNDLA: 'Om NDLA',
+    selectLanguage: 'Velg språk (language): ',
+    footerInfo: 'Nettstedet er utarbeidet av NDLA som åpen kildekode.',
+    footerEditiorInChief: 'Ansvarlig redaktør: ',
+    footerManagingEditor: 'Utgaveansvarlig: ',
+  },
+  errorMessage: {
+    title: 'Oops, noe gikk galt',
+    description: 'Vi beklager, men en feil oppsto.',
+    back: 'Tilbake',
+    goToFrontPage: 'Gå til forsiden',
+    invalidUrl: 'Ugyldig url',
+  },
+  notFound: {
+    description: 'Denne siden finnes ikke.',
+  },
+  forbiddenPage: {
+    description: 'Du har ikke tilgang til denne siden',
+  },
+  warningModal: {
+    notSaved: 'Dokumentet er ikke lagret, ønsker du å lagre?',
+    continue: 'Fortsett',
+    delete: 'Slett',
+  },
+  taxonomy: {
+    editStructure: '  Rediger struktur',
+    addSubject: 'Legg til nytt fag',
+    addExistingTopic: 'Legg til eksisterende emne',
+    subjectSettings: 'Faginstillinger',
+    topicSettings: 'Emneinstillinger',
+    changeName: 'Endre navn',
+    addTopic: 'Legg til nytt emne',
+    errorMessage: 'En feil oppsto',
+    emptyFilter: 'Ingen treff',
+    editFilter: 'Rediger filter',
+    addFilter: 'Nytt filter',
+    connectFilters: 'Koble til filter',
+    confirmDelete: 'Er du sikker på at du vil slette filteret?',
+    confirmDeleteTopic:
+      'Vil du slette dette emnet fra mappen? Dette påvirker ikke plasseringen andre steder',
+    linkSettings: 'Link',
+    setPrimary: 'Sett til primærkobling',
+    addResource: 'Legg til ressurs',
+    searchResource: 'Søk etter ressurs',
+    searchArticle: 'Søk etter emneartikkel',
+    or: 'Eller',
+    urlPlaceholder: 'Lim inn lenke fra ndla.no',
+    wrongType: 'Obs! Denne ressursen er en annen type',
+    noResources: 'Ingen ressurser funnet',
+    addTopicDescription: 'Endre emnebeskrivelse',
+    resource: {
+      confirmDelete:
+        'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
+    },
+  },
+};
+
+export default phrases;

@@ -12,6 +12,7 @@ import Helmet from 'react-helmet';
 import { Figure, Button } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
 import { injectT } from 'ndla-i18n';
+import config from '../../../../config';
 import SlateInputField from './SlateInputField';
 import { EmbedShape } from '../../../../shapes';
 import { editorClasses } from './SlateFigure';
@@ -24,8 +25,8 @@ const SlateVideo = ({
   onRemoveClick,
   t,
 }) => {
-  const src = `//players.brightcove.net/${window.config.brightCoveAccountId}/${
-    window.config.brightcovePlayerId
+  const src = `//players.brightcove.net/${config.brightCoveAccountId}/${
+    config.brightcovePlayerId
   }_default/index.min.js`;
   return (
     <Figure {...attributes}>

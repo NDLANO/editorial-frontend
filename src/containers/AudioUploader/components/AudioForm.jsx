@@ -106,6 +106,7 @@ class AudioForm extends Component {
       t,
       bindInput,
       schema,
+      initialModel,
       model,
       submitted,
       tags,
@@ -146,16 +147,16 @@ class AudioForm extends Component {
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <SaveButton {...{ classes, isSaving, t, showSaved }} />
+          <SaveButton isSaving={isSaving} showSaved={showSaved} />
         </Field>
         <WarningModalWrapper
-          {...{
-            schema,
-            showSaved,
-            fields,
-            handleSubmit: this.handleSubmit,
-            text: t('warningModal.notSaved'),
-          }}
+          initialModel={initialModel}
+          model={model}
+          schema={schema}
+          showSaved={showSaved}
+          fields={fields}
+          handleSubmit={this.handleSubmit}
+          text={t('warningModal.notSaved')}
         />
       </form>
     );

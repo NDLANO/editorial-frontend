@@ -1,0 +1,225 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.c-bodybox__delete-button,
+.c-related-box__delete-button,
+.c-editor__delete-button,
+.c-details__delete-button {
+  position: absolute;
+  top: 0.1rem;
+  right: 0.2rem;
+  color: red;
+
+  &:hover,
+  &:focus {
+    color: color(red blackness(+20%));
+  }
+}
+
+.c-editor__button {
+  &--red {
+    color: red;
+
+    &:hover,
+    &:focus {
+      color: color(red blackness(+ 20%));
+    }
+  }
+
+  &--green {
+    color: var(--green-1);
+
+    &:hover,
+    &:focus {
+      color: color(var(--green-1) blackness(+ 10%));
+    }
+  }
+}
+
+.c-editor__figure-buttons {
+  position: absolute;
+  top: 0.1rem;
+  right: 0.2rem;
+  display: flex;
+  flex-flow: column;
+
+  &--right-adjusted {
+    right: -1rem;
+    top: -0.4rem;
+  }
+
+  & > a {
+    text-decoration: none;
+    line-height: 1.625;
+    box-shadow: none;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+}
+
+details {
+  position: relative;
+}
+
+.c-aside.expanded .c-aside__content > div > .c-bodybox__delete-button {
+  position: absolute;
+}
+
+.c-bodybox {
+  position: relative;
+}
+
+.c-related-box {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid var(--article-color);
+  padding: var(--spacing) var(--spacing--large);
+  z-index: 1;
+
+  @media (--large-viewport) {
+    margin: -1em -7em;
+  }
+
+  & figure {
+    position: static !important;
+  }
+
+  &__or {
+    color: white;
+    align-self: center;
+  }
+}
+
+.c-editor__aside-type + .c-aside__content {
+  padding-top: 60px;
+}
+
+.c-editor {
+  position: relative;
+
+  p {
+    font-family: var(--font-serif);
+  }
+
+  &__link {
+    color: var(--brand-color);
+    cursor: text;
+  }
+
+  &__aside-type {
+    background-color: var(--gray-2);
+    color: white;
+    position: absolute;
+    width: 100%;
+    padding: 0.2rem;
+  }
+
+  &__block-type-container--hidden {
+    display: none;
+  }
+
+  &__block-type-button {
+    height: 40px;
+    width: 40px;
+    border: 1px solid var(--gray-3);
+    border-radius: 25px;
+    margin-bottom: 0.1rem;
+    color: var(--gray-3);
+    background-color: white;
+    display: inline-block;
+    margin-right: 0.2rem;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.1s, visibility 0s linear 0.1s;
+
+    &:focus,
+    &:hover {
+      color: var(--gray-3);
+      border: 1px solid var(--gray-3);
+      border-radius: 25px;
+      background-color: white;
+    }
+
+    &--green {
+      border-color: var(--green-1);
+      color: var(--green-1);
+    }
+  }
+
+  &__block-type {
+    display: inline-block;
+  }
+
+  &__block-type--hidden {
+    display: none;
+  }
+
+  &__error {
+    border: 1px solid red;
+    color: red;
+    padding: 1rem;
+  }
+
+  &__figure {
+    position: relative;
+  }
+
+  &__figure-input-field {
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__figure-focus-input-label {
+    color: black;
+    position: absolute;
+    height: 25px;
+    left: -4.2rem;
+    width: 4rem;
+    border-right: 1px solid;
+    padding-right: 0.7rem;
+  }
+
+  &__figure-focus-input-text {
+    float: right;
+    font-size: 0.9rem;
+  }
+}
+
+.c-block {
+  &__bulleted-list {
+    margin: 16px 0;
+    padding: 0;
+  }
+
+  &__list-item {
+    line-height: 1.7em;
+    margin-bottom: 13px;
+    direction: ltr;
+    margin-left: 3.2em;
+  }
+}
+
+.c-related-box__article {
+  position: relative;
+  flex: 1 0 50%;
+  max-width: 600px;
+}
+
+.o-list--two-columns {
+  & p {
+    margin: 0;
+    display: inline-block;
+  }
+}

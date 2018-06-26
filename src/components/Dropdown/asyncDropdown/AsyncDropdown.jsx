@@ -42,6 +42,7 @@ class AsyncDropDown extends React.Component {
       this.setState({ items });
     }
   }
+
   componentDidMount() {
     this.isMountedOrMounting = true;
   }
@@ -82,7 +83,8 @@ class AsyncDropDown extends React.Component {
   }
 
   handleToggleMenu() {
-    this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
+    if (!this.props.alwaysOpen)
+      this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
   }
 
   handleStateChange(changes) {
@@ -104,6 +106,7 @@ class AsyncDropDown extends React.Component {
       valueField,
       messages,
       onClick,
+      alwaysOpen,
       ...rest
     } = this.props;
 
@@ -114,14 +117,13 @@ class AsyncDropDown extends React.Component {
       onClick,
       value: this.state.inputValue,
     };
-
     return (
       <Downshift
         {...rest}
         itemToString={item => itemToString(item, textField)}
         onStateChange={this.handleStateChange}
         onChange={this.handleChange}
-        isOpen={this.state.isOpen}
+        isOpen={this.state.isOpen || alwaysOpen}
         selectedItem={this.state.selectedItem}
         render={downshiftProps => (
           <div {...dropDownClasses()}>
@@ -133,6 +135,7 @@ class AsyncDropDown extends React.Component {
               textField={textField}
               valueField={valueField}
               asyncSelect
+              resourceMenu
             />
             <DropdownSearchAction
               {...downshiftProps}
@@ -156,6 +159,7 @@ AsyncDropDown.propTypes = {
     emptyFilter: PropTypes.string.isRequired,
     emptyList: PropTypes.string.isRequired,
   }),
+  alwaysOpen: PropTypes.bool,
 };
 
 AsyncDropDown.defaultPropTypes = {

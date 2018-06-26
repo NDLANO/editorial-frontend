@@ -44,7 +44,7 @@ const { fragment } = jsdom.JSDOM;
 
 test('serialize embed block', () => {
   const obj = {
-    object: 'block',
+    kind: 'block',
     type: 'embed',
     data: fromJS({ caption: 'test' }),
   };
@@ -67,7 +67,7 @@ test('find footnote nodes in slate document', () => {
 
 test('serialize bodybox block', () => {
   const obj = {
-    object: 'block',
+    kind: 'block',
     type: 'bodybox',
   };
   const children = <p>test</p>;
@@ -118,7 +118,7 @@ test('deserialize footnote', () => {
 test('serialize footnote', () => {
   const obj = {
     isVoid: false,
-    object: 'inline',
+    kind: 'inline',
     data: fromJS({
       title: 'Apple Watch',
       type: 'product',
@@ -129,10 +129,10 @@ test('serialize footnote', () => {
     }),
     nodes: [
       {
-        object: 'text',
+        kind: 'text',
         leaves: [
           {
-            object: 'leaf',
+            kind: 'leaf',
             marks: [],
             text: '#',
           },
@@ -145,7 +145,7 @@ test('serialize footnote', () => {
   expect(renderer.create(footnote).toJSON()).toMatchSnapshot();
 });
 
-test('deserializing any heading becomes heading-two', () => {
+test('deserializing any heading becomes heading-two except heading-three', () => {
   const serializer = new Html({ rules: [blockRules], parseHtml: fragment });
   const deserialized = serializer.deserialize(
     '<h1>heading 1</h1><h2>heading 2</h2><h3>heading 3</h3><h4>heading 4</h4><h5>heading 5</h5><h6>heading 6</h6>',
@@ -311,7 +311,7 @@ test('serializing section', () => {
   expect(serialized).toMatchSnapshot();
 });
 
-test('deserializing any heading should result in heading-two', () => {
+test('deserializing any heading should result in heading-two except heading-three', () => {
   const serializer = new Html({
     rules: [blockRules, paragraphRule],
     parseHtml: fragment,

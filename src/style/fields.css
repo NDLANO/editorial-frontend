@@ -1,0 +1,183 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.c-field {
+  margin-top: 2rem;
+  position: relative;
+
+  &--position-static {
+    position: static;
+  }
+
+  & > select {
+    width: 100%;
+    display: block;
+  }
+
+  & label {
+    font-size: 1.5rem;
+  }
+
+  &--no-margin-top {
+    margin-top: 0.5rem;
+  }
+
+  &__help {
+    display: block;
+    font-size: 0.75rem;
+
+    &--error {
+      color: var(--mark-color);
+    }
+
+    &--right {
+      text-align: right;
+    }
+  }
+
+  &__focus-label {
+    color: var(--brand-color--tertiary);
+    position: absolute;
+    height: 1.5rem;
+    left: -7rem;
+    width: 6.5em;
+    border-right: 1px solid;
+    padding-right: 0.7rem;
+    line-height: initial;
+  }
+
+  &__focus-text {
+    float: right;
+  }
+
+  &__description--block {
+    display: flex;
+  }
+
+  &__description {
+    margin: 0.2em 0;
+    font-size: 0.75em;
+
+    &--obligatory {
+      background-color: rgba(230, 132, 154, 1);
+      padding: 0.2em 0.6em;
+    }
+  }
+
+  &--title {
+    & input {
+      font-size: 2.11111rem;
+    }
+
+    .c-field__focus-label {
+      margin-top: 0.7rem;
+    }
+  }
+
+  &--introduction {
+    .c-field__focus-label {
+      margin-top: 0.2rem;
+    }
+  }
+
+  &--right {
+    text-align: right;
+    margin-right: var(--spacing--small);
+  }
+
+  &--no-border {
+    & input {
+      border: none;
+      padding: 0;
+      margin: 0;
+      outline: none;
+    }
+  }
+
+  &__learning-resource-meta-image {
+    font-size: 1.5rem;
+    font-weight: normal;
+  }
+
+  &__date-picker + svg {
+    margin-left: -1.5rem;
+    margin-top: -2px;
+    height: 25px;
+    width: 25px;
+  }
+
+  &__add-contributor {
+    display: flex;
+    flex-flow: row;
+
+    & > * {
+      display: inline-block;
+    }
+
+    & > *:nth-child(1) {
+      width: 65%;
+    }
+
+    & > *:nth-child(2) {
+      margin-left: 0.5rem;
+      width: 35%;
+    }
+  }
+
+  &__two-column {
+    display: flex;
+    flex-flow: row;
+    margin-top: var(--spacing--small);
+
+    & > .c-field {
+      display: inline-block;
+      margin-top: 0;
+    }
+
+    & > *:nth-child(1) {
+      width: 50%;
+    }
+
+    & > *:nth-child(2) {
+      margin-left: 0.5rem;
+      width: 50%;
+    }
+  }
+
+  &__removable {
+    display: flex;
+    flex-flow: row;
+    margin-top: var(--spacing--small);
+
+    & > *:nth-child(1) {
+      width: 95%;
+    }
+
+    & > *:nth-child(3) {
+      margin-left: 0.5rem;
+      width: 5%;
+    }
+  }
+
+  &__circle-button {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    color: white;
+    background-color: var(--brand-grey-dark);
+    display: block;
+    margin-top: var(--spacing--small);
+
+    &:disabled,
+    &:hover,
+    &:focus {
+      color: white;
+      background-color: var(--brand-grey);
+    }
+  }
+}

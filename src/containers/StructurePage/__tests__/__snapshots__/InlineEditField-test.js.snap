@@ -26,6 +26,9 @@ exports[`Goes to edit mode, handles submit 1`] = `
       viewBox="0 0 24 24"
       width="1em"
     >
+      <title>
+        Done
+      </title>
       <g>
         <path
           d="M0 0h24v24H0z"

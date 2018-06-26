@@ -7,7 +7,6 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Plus, Minus } from 'ndla-icons/action';
 import { Button } from 'ndla-ui';
@@ -105,15 +104,24 @@ export class Navigation extends Component {
               <Agreement className="c-icon--large" />
               <span>{t('subNavigation.agreement')}</span>
             </Link>
+            {config.taxonomyEnabled && (
+              <Link
+                to="/structure"
+                {...classes('item')}
+                onClick={this.toggleOpen}>
+                <Taxonomy className="c-icon--large" />
+                <span>{t('subNavigation.structure')}</span>
+              </Link>
+            )}
             <Link
-              to="/structure"
-              {...classes('item')}
-              onClick={this.toggleOpen}>
-              <Taxonomy className="c-icon--large" />
-              <span>{t('subNavigation.structure')}</span>
-            </Link>
-            <Link
-              to={toSearch({ types: 'articles,images,audios' })}
+              to={toSearch(
+                {
+                  page: '1',
+                  sort: '-relevance',
+                  'page-size': 10,
+                },
+                'content',
+              )}
               {...classes('item')}
               onClick={this.toggleOpen}>
               <DetailSearch className="c-icon--large" />
@@ -124,6 +132,7 @@ export class Navigation extends Component {
         {this.state.open ? (
           <div
             role="presentation"
+            onKeyPress={this.toggleOpen}
             onClick={this.toggleOpen}
             {...classes('overlay')}
           />
@@ -134,14 +143,5 @@ export class Navigation extends Component {
     );
   }
 }
-
-Navigation.propTypes = {
-  userName: PropTypes.string,
-  authenticated: PropTypes.bool.isRequired,
-};
-
-Navigation.defaultProps = {
-  userName: '',
-};
 
 export default withRouter(injectT(Navigation));

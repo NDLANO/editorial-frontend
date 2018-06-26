@@ -6,18 +6,16 @@
  *
  */
 
-const environment = {
-  development: {
-    isProduction: false,
-  },
-  production: {
-    isProduction: true,
-  },
-}[process.env.NODE_ENV || 'development'];
+export const getEnvironmentVariabel = (key, fallback = undefined) => {
+  const env = 'env';
+  const variabel = process[env][key]; // Hack to prevent DefinePlugin replacing process.env
+  return variabel || fallback;
+};
 
-const ndlaEnvironment = process.env.NDLA_ENVIRONMENT || 'test';
+const ndlaEnvironment = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'test');
+
 const apiDomain = () => {
-  switch (process.env.NDLA_ENVIRONMENT) {
+  switch (ndlaEnvironment) {
     case 'local':
       return 'http://proxy.ndla-local';
     case 'prod':
@@ -28,7 +26,7 @@ const apiDomain = () => {
 };
 
 const editorialFrontendDomain = () => {
-  switch (process.env.NDLA_ENVIRONMENT) {
+  switch (ndlaEnvironment) {
     case 'local':
       return 'http://localhost:30017';
     case 'prod':
@@ -39,7 +37,7 @@ const editorialFrontendDomain = () => {
 };
 
 const learningpathFrontendDomain = () => {
-  switch (process.env.NDLA_ENVIRONMENT) {
+  switch (ndlaEnvironment) {
     case 'local':
       return 'http://localhost:30017';
     case 'prod':
@@ -50,37 +48,50 @@ const learningpathFrontendDomain = () => {
 };
 
 const h5pApiUrl = () => {
-  switch (process.env.NDLA_ENVIRONMENT) {
+  switch (ndlaEnvironment) {
     case 'local':
       return 'https://h5p-test.ndla.no';
-    case 'prod':
-      return 'https://h5p.ndla.no';
-    default:
+    case 'test':
       return 'https://h5p-test.ndla.no';
+    default:
+      return 'https://h5p.ndla.no';
   }
 };
 
-module.exports = Object.assign(
-  {
-    componentName: process.env.npm_package_name,
-    host: process.env.EDITORIAL_FRONTEND_HOST || 'localhost',
-    port: process.env.EDITORIAL_FRONTEND_PORT || '3000',
-    redirectPort: process.env.NDLA_REDIRECT_PORT || '3001',
-    logEnvironment: process.env.NDLA_ENVIRONMENT || 'local',
-    logglyApiKey: process.env.LOGGLY_API_KEY,
-    ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
-    editorialFrontendDomain: editorialFrontendDomain(),
-    learningpathFrontendDomain: learningpathFrontendDomain(),
-    ndlaPersonalClientId: process.env.NDLA_PERSONAL_CLIENT_ID || '',
-    auth0Domain: process.env.AUTH0_DOMAIN || '',
-    brightCoveAccountId: process.env.BRIGHTCOVE_ACCOUNT_ID || '123456789',
-    brightcovePlayerId: process.env.BRIGHTCOVE_PLAYER_ID || 'Ab1234',
-    brightcoveApiUrl: 'https://cms.api.brightcove.com',
-    h5pApiUrl: process.env.H5P_API_URL || h5pApiUrl(),
-    googleSearchApiUrl:
-      process.env.NDLA_GOOGLE_API_URL || 'https://www.googleapis.com',
-    googleSearchApiKey: process.env.NDLA_GOOGLE_API_KEY,
-    googleSearchEngineId: process.env.NDLA_GOOGLE_SEARCH_ENGINE_ID,
-  },
-  environment,
-);
+const config = {
+  componentName: getEnvironmentVariabel('npm_package_name'),
+  host: getEnvironmentVariabel('EDITORIAL_FRONTEND_HOST', 'localhost'),
+  port: getEnvironmentVariabel('EDITORIAL_FRONTEND_PORT', '3000'),
+  redirectPort: getEnvironmentVariabel('NDLA_REDIRECT_PORT', '3001'),
+  logEnvironment: getEnvironmentVariabel('NDLA_ENVIRONMENT', 'local'),
+  logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
+  isNdlaProdEnvironment: ndlaEnvironment === 'prod',
+  ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', apiDomain()),
+  editorialFrontendDomain: editorialFrontendDomain(),
+  learningpathFrontendDomain: learningpathFrontendDomain(),
+  ndlaPersonalClientId: getEnvironmentVariabel('NDLA_PERSONAL_CLIENT_ID', ''),
+  auth0Domain: getEnvironmentVariabel('AUTH0_DOMAIN', ''),
+  brightCoveAccountId: getEnvironmentVariabel(
+    'BRIGHTCOVE_ACCOUNT_ID',
+    '123456789',
+  ),
+  brightcovePlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ID', 'Ab1234'),
+  brightcoveApiUrl: 'https://cms.api.brightcove.com',
+  h5pApiUrl: getEnvironmentVariabel('H5P_API_URL', h5pApiUrl()),
+  googleSearchApiUrl: getEnvironmentVariabel(
+    'NDLA_GOOGLE_API_URL',
+    'https://www.googleapis.com',
+  ),
+  googleSearchApiKey: getEnvironmentVariabel('NDLA_GOOGLE_API_KEY'),
+  googleSearchEngineId: getEnvironmentVariabel('NDLA_GOOGLE_SEARCH_ENGINE_ID'),
+  taxonomyEnabled: ndlaEnvironment === 'test' || ndlaEnvironment === 'local',
+};
+
+export function getUniversalConfig() {
+  return process.env.BUILD_TARGET === 'server' ||
+    process.env.NODE_ENV === 'unittest'
+    ? config
+    : window.config;
+}
+
+export default getUniversalConfig();

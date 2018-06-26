@@ -7,16 +7,24 @@
  */
 
 import 'isomorphic-fetch';
+import defined from 'defined';
 import auth0 from 'auth0-js';
 import createHistory from 'history/createBrowserHistory';
+import config from '../config';
 import { expiresIn } from './jwtHelper';
 import { resolveJsonOrRejectWithError } from './apiHelpers';
 
-export const { auth0Domain, ndlaPersonalClientId } = window.config;
+const NDLA_API_URL = config.ndlaApiUrl;
+const AUTH0_DOMAIN = config.auth0Domain;
+const NDLA_PERSONAL_CLIENT_ID = config.ndlaPersonalClientId;
 
 const locationOrigin = (() => {
   if (process.env.NODE_ENV === 'unittest') {
     return 'http://ndla-frontend';
+  }
+
+  if (process.env.BUILD_TARGET === 'server') {
+    return '';
   }
 
   if (typeof window.location.origin === 'undefined') {
@@ -32,7 +40,29 @@ const locationOrigin = (() => {
   return window.location.origin;
 })();
 
-export { locationOrigin };
+export const auth0Domain = (() => {
+  if (process.env.NODE_ENV === 'unittest') {
+    return 'http://auth-ndla';
+  }
+  return AUTH0_DOMAIN;
+})();
+
+export const ndlaPersonalClientId = (() => {
+  if (process.env.NODE_ENV === 'unittest') {
+    return '123456789';
+  }
+  return NDLA_PERSONAL_CLIENT_ID;
+})();
+
+const apiBaseUrl = (() => {
+  if (process.env.NODE_ENV === 'unittest') {
+    return 'http://ndla-api';
+  }
+
+  return defined(NDLA_API_URL, locationOrigin);
+})();
+
+export { locationOrigin, apiBaseUrl };
 
 const auth = new auth0.WebAuth({
   clientID: ndlaPersonalClientId || '',
@@ -68,6 +98,9 @@ export const clearAccessTokenFromLocalStorage = () => {
   localStorage.removeItem('access_token_expires_at');
   localStorage.removeItem('access_token_personal');
 };
+
+export const getAccessTokenPersonal = () =>
+  localStorage.getItem('access_token_personal') === 'true';
 
 export const getAccessTokenExpiresAt = () =>
   localStorage.getItem('access_token_expires_at')
@@ -114,12 +147,11 @@ export const renewPersonalAuth = () =>
     );
   });
 
-export const renewAuth = () => {
+export const renewAuth = async () => {
   if (localStorage.getItem('access_token_personal') === 'true') {
-    renewPersonalAuth();
-  } else {
-    renewSystemAuth();
+    return renewPersonalAuth();
   }
+  return renewSystemAuth();
 };
 
 export const personalAuthLogout = federated => {

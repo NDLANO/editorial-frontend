@@ -10,6 +10,7 @@ import React from 'react';
 import nock from 'nock';
 import { render, Simulate, wait } from 'react-testing-library';
 import EditFilters from '../components/EditFilters';
+import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 
 const filterMock = [
   { id: 'urn:filter:f85f8f24-9e00-4267-82f5-ffd0dd3c53fa', name: 'SF VG1' },
@@ -25,13 +26,18 @@ const filterMock = [
   { id: 'urn:filter:9e522d29-edf0-4949-bb94-a2089c79e437', name: 'SF VG3' },
 ];
 
-beforeEach(() => {
-  nock('http://ndla-api')
-    .get('/taxonomy/v1/subjects/test/filters')
-    .reply(200, filterMock);
-});
 const wrapper = () =>
-  render(<EditFilters id="test" classes={() => {}} t={() => 'Errormelding'} />);
+  render(
+    <IntlWrapper>
+      <EditFilters
+        id="test"
+        classes={() => {}}
+        t={() => 'Errormelding'}
+        filters={filterMock}
+        getFilters={() => {}}
+      />
+    </IntlWrapper>,
+  );
 
 it('maps out filters', async () => {
   const { container } = wrapper();

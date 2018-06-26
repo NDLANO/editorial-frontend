@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
+import config from '../../../../config';
 import { Portal } from '../../../../components/Portal';
 import { setActiveNode } from '../../createSlateStore';
 import isNodeInCurrentSelection from '../utils/isNodeInCurrentSelection';
@@ -57,9 +58,7 @@ class Link extends Component {
 
     const href =
       data.resource === 'content-link'
-        ? `${window.config.editorialFrontendDomain}/article/${
-            data['content-id']
-          }`
+        ? `${config.editorialFrontendDomain}/article/${data['content-id']}`
         : data.href;
 
     return (

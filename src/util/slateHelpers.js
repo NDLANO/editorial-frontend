@@ -10,6 +10,7 @@ import React from 'react';
 import {
   reduceElementDataAttributes,
   createEmbedProps,
+  reduceChildElements,
 } from './embedTagHelpers';
 
 export const BLOCK_TAGS = {
@@ -20,14 +21,14 @@ export const BLOCK_TAGS = {
   pre: 'code',
   h1: 'heading-two',
   h2: 'heading-two',
-  h3: 'heading-two',
+  h3: 'heading-three',
   h4: 'heading-two',
   h5: 'heading-two',
   h6: 'heading-two',
   br: 'br',
 };
 
-const TABLE_TAGS = {
+export const TABLE_TAGS = {
   table: 'table',
   th: 'table-cell',
   tr: 'table-row',
@@ -47,8 +48,8 @@ export const findNodesByType = (node, type, nodes = []) => {
   if (node.type === type) {
     nodes.push(node);
   } else if (
-    node.object === 'document' ||
-    (node.object === 'block' && node.nodes.size > 0)
+    node.kind === 'document' ||
+    (node.kind === 'block' && node.nodes.size > 0)
   ) {
     node.nodes.forEach(n => findNodesByType(n, type, nodes));
   }
@@ -72,10 +73,18 @@ const setAsideTag = data => ({
   'data-type': data.get('type') || '',
 });
 
+const illegalTextUnderBlocks = ['ol', 'ul'];
+
 /* eslint-disable consistent-return, default-case */
 export const textRule = {
   deserialize(el) {
     if (
+      el.nodeName.toLowerCase() === '#text' &&
+      el.parentNode &&
+      illegalTextUnderBlocks.includes(el.parentNode.tagName.toLowerCase())
+    ) {
+      return null;
+    } else if (
       !el.nodeName ||
       el.nodeName.toLowerCase() !== '#text' ||
       (el.parentNode && el.parentNode.tagName.toLowerCase() !== 'section')
@@ -89,22 +98,30 @@ export const divRule = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'div') return;
+
     if (el.className === 'c-bodybox') {
       return {
-        object: 'block',
+        kind: 'block',
         type: 'bodybox',
         nodes: next(el.childNodes),
+      };
+    } else if (el.dataset.type === 'related-content') {
+      return {
+        kind: 'block',
+        type: 'related',
+        isVoid: true,
+        data: reduceChildElements(el),
       };
     }
     const childs = next(el.childNodes);
     return {
-      object: 'block',
+      kind: 'block',
       type: 'div',
       nodes: childs,
     };
   },
   serialize(object, children) {
-    if (object.object !== 'block') return;
+    if (object.kind !== 'block') return;
     if (object.type !== 'div' && object.type !== 'bodybox') return;
     switch (object.type) {
       case 'bodybox':
@@ -126,13 +143,13 @@ export const paragraphRule = {
     const type = parent === 'li' ? 'list-text' : 'paragraph';
 
     return {
-      object: 'block',
+      kind: 'block',
       type,
       nodes: next(el.childNodes),
     };
   },
   serialize(object, children) {
-    if (object.object !== 'block') return;
+    if (object.kind !== 'block') return;
     if (object.type !== 'paragraph' && object.type !== 'list-text') return;
     if (object.type === 'list-text') {
       return <ListText>{children}</ListText>;
@@ -146,13 +163,13 @@ export const listItemRule = {
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'li') return;
     return {
-      object: 'block',
+      kind: 'block',
       type: 'list-item',
       nodes: next(el.childNodes),
     };
   },
   serialize(object, children) {
-    if (object.object !== 'block') return;
+    if (object.kind !== 'block') return;
     if (object.type !== 'list-item') return;
     return <li>{children}</li>;
   },
@@ -166,7 +183,7 @@ export const unorderListRules = {
 
     if (data.type === 'two-column') {
       return {
-        object: 'block',
+        kind: 'block',
         type: 'two-column-list',
         nodes: next(el.childNodes),
         data,
@@ -174,13 +191,13 @@ export const unorderListRules = {
     }
 
     return {
-      object: 'block',
+      kind: 'block',
       type: 'bulleted-list',
       nodes: next(el.childNodes),
     };
   },
   serialize(object, children) {
-    if (object.object !== 'block') return;
+    if (object.kind !== 'block') return;
     if (object.type !== 'two-column-list' && object.type !== 'bulleted-list') {
       return;
     }
@@ -200,20 +217,20 @@ export const orderListRules = {
     const data = { type: type ? type.value : '' };
     if (data.type === 'letters') {
       return {
-        object: 'block',
+        kind: 'block',
         type: 'letter-list',
         nodes: next(el.childNodes),
         data,
       };
     }
     return {
-      object: 'block',
+      kind: 'block',
       type: 'numbered-list',
       nodes: next(el.childNodes),
     };
   },
   serialize(object, children) {
-    if (object.object !== 'block') return;
+    if (object.kind !== 'block') return;
     if (object.type !== 'numbered-list' && object.type !== 'letter-list')
       return;
     if (object.type === 'letter-list') {
@@ -230,14 +247,19 @@ export const footnoteRule = {
     if (embed.resource !== 'footnote') return;
 
     return {
-      object: 'inline',
+      kind: 'inline',
       type: 'footnote',
       nodes: [
         {
-          object: 'text',
-          text: '#',
+          kind: 'text',
           isVoid: true,
-          leaves: [],
+          leaves: [
+            {
+              kind: 'leaf',
+              text: '#',
+              marks: [],
+            },
+          ],
         },
       ],
       data: {
@@ -247,7 +269,7 @@ export const footnoteRule = {
     };
   },
   serialize(object) {
-    if (object.object !== 'inline') return;
+    if (object.kind !== 'inline') return;
     if (object.type !== 'footnote') return;
 
     const data = object.data.toJS();
@@ -264,13 +286,13 @@ export const blockRules = {
     const block = BLOCK_TAGS[el.tagName.toLowerCase()];
     if (!block) return;
     return {
-      object: 'block',
+      kind: 'block',
       type: block,
       nodes: next(el.childNodes),
     };
   },
   serialize(object, children) {
-    if (object.object !== 'block') return;
+    if (object.kind !== 'block') return;
     switch (object.type) {
       case 'section':
         return <section>{children}</section>;
@@ -305,13 +327,13 @@ export const tableRules = {
     const tableTag = TABLE_TAGS[el.tagName.toLowerCase()];
     if (!tableTag) return;
     return {
-      object: 'block',
+      kind: 'block',
       type: tableTag,
       nodes: next(el.childNodes),
     };
   },
   serialize(object, children) {
-    if (object.object !== 'block') return;
+    if (object.kind !== 'block') return;
     switch (object.type) {
       case 'table': {
         return (
@@ -332,6 +354,21 @@ export const tableRules = {
   },
 };
 
+const relatedRule = {
+  serialize(object) {
+    if (object.type === 'related') {
+      return (
+        <div data-type="related-content">
+          {object.data.get('nodes') &&
+            object.data
+              .get('nodes')
+              .map(node => <embed {...createEmbedProps(node)} />)}
+        </div>
+      );
+    }
+  },
+};
+
 const RULES = [
   divRule,
   textRule,
@@ -340,19 +377,20 @@ const RULES = [
   tableRules,
   paragraphRule,
   listItemRule,
+  relatedRule,
   {
     // Aside handling
     deserialize(el, next) {
       if (el.tagName.toLowerCase() !== 'aside') return;
       return {
-        object: 'block',
+        kind: 'block',
         type: 'aside',
         nodes: next(el.childNodes),
         data: getAsideType(el),
       };
     },
     serialize(object, children) {
-      if (object.object !== 'block') return;
+      if (object.kind !== 'block') return;
       if (object.type !== 'aside') return;
       return <aside {...setAsideTag(object.data)}>{children}</aside>;
     },
@@ -363,13 +401,13 @@ const RULES = [
       const mark = MARK_TAGS[el.tagName.toLowerCase()];
       if (!mark) return;
       return {
-        object: 'mark',
+        kind: 'mark',
         type: mark,
         nodes: next(el.childNodes),
       };
     },
     serialize(object, children) {
-      if (object.object !== 'mark') return;
+      if (object.kind !== 'mark') return;
       switch (object.type) {
         case 'bold':
           return <strong>{children}</strong>;
@@ -387,7 +425,7 @@ const RULES = [
     deserialize(el, next) {
       if (el.tagName.toLowerCase() !== 'a') return;
       return {
-        object: 'inline',
+        kind: 'inline',
         type: 'link',
         data: {
           href: el.href ? el.href : '#',
@@ -398,7 +436,7 @@ const RULES = [
       };
     },
     serialize(object, children) {
-      if (object.object !== 'inline') return;
+      if (object.kind !== 'inline') return;
       if (object.type !== 'link') return;
       const data = object.data.toJS();
 
@@ -431,15 +469,19 @@ const topicArticeEmbedRule = [
     // Embeds handling
     deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
+
+      if (el.dateset['data-resource'] === 'related-content') {
+        return;
+      }
       return {
-        object: 'block',
+        kind: 'block',
         type: 'embed',
         data: reduceElementDataAttributes(el),
         isVoid: true,
       };
     },
     serialize(object) {
-      if (object.object !== 'block') return;
+      if (object.kind !== 'block') return;
       if (object.type !== 'embed') return;
       switch (object.type) {
         case 'embed':
@@ -453,15 +495,17 @@ export const learningResourceEmbedRule = [
   {
     deserialize(el) {
       if (!el.tagName.toLowerCase().startsWith('embed')) return;
+
       const embed = reduceElementDataAttributes(el);
+      if (el.dataset['data-resource'] === 'related-content') return;
       if (embed.resource === 'content-link') {
         return {
-          object: 'inline',
+          kind: 'inline',
           type: 'link',
           data: embed,
           nodes: [
             {
-              object: 'text',
+              kind: 'text',
               text: embed['link-text']
                 ? embed['link-text']
                 : 'Ukjent link tekst',
@@ -471,7 +515,7 @@ export const learningResourceEmbedRule = [
         };
       }
       return {
-        object: 'block',
+        kind: 'block',
         type: 'embed',
         data: embed,
         isVoid: true,
@@ -487,5 +531,6 @@ export const learningResourceEmbedRule = [
     },
   },
 ];
+
 export const topicArticeRules = topicArticeEmbedRule.concat(RULES);
 export const learningResourceRules = RULES.concat(learningResourceEmbedRule);

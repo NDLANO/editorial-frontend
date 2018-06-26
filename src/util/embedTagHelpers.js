@@ -19,6 +19,25 @@ export const reduceElementDataAttributes = el => {
   return obj;
 };
 
+export const reduceChildElements = el => {
+  const childs = [];
+  el.childNodes.forEach(node => {
+    if (node.dataset.url) {
+      childs.push({
+        title: node.dataset.title,
+        url: node.dataset.url,
+      });
+    } else {
+      childs.push({
+        articleId: node.dataset.articleId,
+        resource: 'related-content',
+      });
+    }
+  });
+
+  return { nodes: childs };
+};
+
 export const createEmbedProps = obj =>
   Object.keys(obj)
     .filter(key => obj[key] !== undefined && !isObject(obj[key]))
@@ -56,7 +75,7 @@ export const createEmbedTag = visualElement => {
 
 export const isUserProvidedEmbedDataValid = embed => {
   if (embed.resource === 'image') {
-    return !isEmpty(embed.alt) && !isEmpty(embed.caption);
+    return !isEmpty(embed.alt);
   } else if (embed.resource === 'brightcove') {
     return !isEmpty(embed.caption);
   } else if (embed.resource === 'audio') {

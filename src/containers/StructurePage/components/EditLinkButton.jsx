@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
@@ -6,7 +14,7 @@ import { Link as LinkIcon } from 'ndla-icons/editor';
 import BEMHelper from 'react-bem-helper';
 import { Cross, Pencil } from 'ndla-icons/action';
 import Overlay from '../../../components/Overlay';
-import RoundIcon from './RoundIcon';
+import RoundIcon from '../../../components/RoundIcon';
 import WarningModal from '../../../components/WarningModal';
 
 const classes = new BEMHelper({

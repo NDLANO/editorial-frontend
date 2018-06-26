@@ -1,0 +1,215 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.c-form {
+  margin-top: var(--spacing);
+
+  &--gray-background {
+    background-color: var(--brand-grey--lightest);
+    padding-bottom: 3rem;
+  }
+
+  &__add-media-links {
+    & > a {
+      margin-right: 1rem;
+    }
+  }
+
+  &__header--article {
+    background-color: var(--article-color);
+  }
+
+  &__header--multimedia {
+    background-color: var(--brand-color--dark);
+  }
+
+  &__header--other {
+    background-color: var(--brand-color--secondary);
+  }
+
+  @media (min-width: 37.5em) {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+  }
+
+  &__title {
+    margin: var(--spacing) 0;
+    font-size: 1.5rem;
+    display: block;
+  }
+
+  &__actions {
+    margin-top: var(--spacing--large);
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+
+    & button {
+      border-radius: 1px;
+      margin-right: 1%;
+      width: 24%;
+    }
+  }
+
+  &__header {
+    padding: 0.6rem;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+
+    & > div {
+      display: inline-block;
+    }
+
+    svg {
+      height: 1.2rem;
+      width: 1.2rem;
+    }
+
+    svg + span {
+      margin-left: 1rem;
+    }
+
+    & span > a,
+    & button {
+      margin: 0 0.4rem;
+      color: white;
+      box-shadow: none;
+
+      &:hover,
+      &:focus {
+        box-shadow: none;
+        color: white;
+      }
+    }
+
+    & .c-dropdown-menu {
+      float: right;
+      margin-right: 1rem;
+    }
+  }
+
+  &__abort-button {
+    border-color: var(--brand-grey--light);
+  }
+
+  &__status-columns {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+
+    & > * {
+      background-color: var(--brand-grey--light);
+      display: inline-block;
+    }
+  }
+
+  &__status-1-column {
+    width: 24%;
+  }
+
+  &__status-2-column {
+    width: 49%;
+  }
+
+  &__status-1-column,
+  &__status-2-column {
+    padding: 0.2rem;
+    text-align: center;
+    margin: 0 1% 1% 0;
+    border-radius: 1px;
+
+    &--active {
+      background-color: var(--brand-color);
+      color: white;
+    }
+  }
+
+  & .c-editor__figure {
+    position: relative;
+  }
+
+  &__container {
+    /* Hack to set focus to editor when clicking outside editor content area */
+    .c-editor {
+      margin: -1em calc(calc(var(--clrf__container--margin) - 1em) * -1);
+      padding: 1em calc(var(--clrf__container--margin) - 1em);
+    }
+
+    margin: 0 calc(var(--clrf__container--margin) * -1);
+    padding: 0.44em var(--clrf__container--margin) 0;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+
+    &:hover,
+    &:focus {
+      border-top: 1px solid var(--brand-grey--light);
+      border-bottom: 1px solid var(--brand-grey--light);
+    }
+
+    & ol,
+    & ul {
+      margin-top: 1rem;
+    }
+  }
+
+  &__remove-section-button {
+    display: none;
+  }
+
+  &__container:hover &__remove-section-button,
+  &__container:focus &__remove-section-button {
+    color: red;
+    display: block;
+    float: right;
+    margin-right: calc(calc(var(--clrf__container--margin) + 1em) * -1);
+  }
+
+  &__delete-block-button {
+    float: right;
+    color: red;
+    margin-top: -6.5em;
+    margin-right: calc(calc(var(--clrf__container--margin) + 1em) * -1);
+
+    &:hover,
+    &:focus {
+      color: color(red blackness(+20%));
+    }
+  }
+
+  &__container:hover &__delete-block-button,
+  &__container:focus &__delete-block-button {
+    visibility: visible;
+  }
+
+  &__meta-image {
+    display: flex;
+
+    img {
+      align-self: flex-start;
+      max-width: 60%;
+      margin-top: 10px;
+    }
+  }
+}
+
+:root {
+  /* c-form -> clrf */
+  --clrf__container--margin: 8em;
+}
+
+.c-topic-article-content {
+  &__info {
+    padding-top: 0.5rem;
+    margin-bottom: -1rem;
+    color: var(--gray-6);
+  }
+}

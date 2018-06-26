@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import get from 'lodash/fp/get';
 import set from 'lodash/fp/set';
+import isEqual from 'lodash/fp/isEqual';
 import { getComponentName } from 'ndla-util';
 
 const makeWrapper = WrappedComponent => {
@@ -20,21 +21,30 @@ const makeWrapper = WrappedComponent => {
       super(props, ctx);
       this.state = {
         submitted: false,
+        initialModel: props.initialModel || {},
         model: props.initialModel || {},
         fields: {},
       };
       this.setModel = this.setModel.bind(this);
+      this.setModelField = this.setModelField.bind(this);
       this.setProperty = this.setProperty.bind(this);
       this.bindToChangeEvent = this.bindToChangeEvent.bind(this);
       this.bindInput = this.bindInput.bind(this);
       this.setInputFlags = this.setInputFlags.bind(this);
       this.setSubmitted = this.setSubmitted.bind(this);
       this.bindInputEvent = this.bindInputEvent.bind(this);
+      this.checkIfDirty = this.checkIfDirty.bind(this);
     }
 
     setModel(model) {
       this.setState({ model });
       return model;
+    }
+
+    setModelField(field, value) {
+      this.setState(prevState => ({
+        model: { ...prevState.model, [field]: value },
+      }));
     }
 
     setSubmitted(submitted) {
@@ -58,6 +68,14 @@ const makeWrapper = WrappedComponent => {
       this.setState(prevstate => ({
         model: set(name, value, prevstate.model),
       }));
+      this.setInputFlags(name, {
+        dirty: this.checkIfDirty(name, value),
+      });
+    }
+
+    checkIfDirty(name, value) {
+      const { initialModel: model } = this.state;
+      return !isEqual(model[name], value);
     }
 
     bindToChangeEvent(e) {
@@ -71,7 +89,6 @@ const makeWrapper = WrappedComponent => {
       } else {
         this.setProperty(name, value);
       }
-      this.setInputFlags(name, { dirty: true });
     }
 
     bindInputEvent(e) {
@@ -122,6 +139,7 @@ const makeWrapper = WrappedComponent => {
         setProperty: this.setProperty,
         setSubmitted: this.setSubmitted,
         setModel: this.setModel,
+        setModelField: this.setModelField,
       };
 
       return React.createElement(WrappedComponent, nextProps);

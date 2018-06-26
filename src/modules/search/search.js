@@ -9,12 +9,15 @@
 import { handleActions, createAction } from 'redux-actions';
 
 export const search = createAction('SEARCH');
+export const searchDraft = createAction('SEARCH_DRAFT');
 export const searchError = createAction('SEARCH_ERROR');
 export const clearSearchResult = createAction('CLEAR_SEARCH_RESULT');
 export const setSearchResult = createAction('SET_SEARCH_RESULT');
+export const setDraftSearchResult = createAction('SET_DRAFT_SEARCH_RESULT');
 
 export const initalState = {
-  totalResults: [],
+  totalSearchResults: { results: [] },
+  totalDraftResults: { results: [] },
   searching: false,
 };
 
@@ -24,10 +27,22 @@ export default handleActions(
       next: state => ({ ...state, searching: true }),
       throw: state => state,
     },
+    [searchDraft]: {
+      next: state => ({ ...state, searching: true }),
+      throw: state => state,
+    },
     [setSearchResult]: {
       next: (state, action) => ({
         ...state,
-        totalResults: action.payload,
+        totalSearchResults: action.payload,
+        searching: false,
+      }),
+      throw: state => state,
+    },
+    [setDraftSearchResult]: {
+      next: (state, action) => ({
+        ...state,
+        totalDraftResults: action.payload,
         searching: false,
       }),
       throw: state => state,

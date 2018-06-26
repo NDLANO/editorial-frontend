@@ -20,6 +20,18 @@ function fetchTopics(locale) {
   );
 }
 
+function fetchTopicFilters(id) {
+  return fetchAuthorized(`${baseUrl}/topics/${id}/filters`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
+function fetchTopicResources(topicId, locale, relevance, filters) {
+  return fetchAuthorized(
+    `${baseUrl}/topics/${topicId}/resources/?language=${locale}&relevance=${relevance}&filter=${filters}`,
+  ).then(resolveJsonOrRejectWithError);
+}
+
 function addTopic(body) {
   return fetchAuthorized(`${baseUrl}/topics`, {
     method: 'POST',
@@ -28,4 +40,66 @@ function addTopic(body) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-export { fetchTopics, addTopic };
+function updateTopic({ id, ...params }) {
+  return fetchAuthorized(`${baseUrl}/topics/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({ ...params }),
+  }).then(res => resolveJsonOrRejectWithError(res, true));
+}
+
+function addTopicToTopic(body) {
+  return fetchAuthorized(`${baseUrl}/topic-subtopics`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify(body),
+  }).then(resolveJsonOrRejectWithError);
+}
+
+function deleteTopicConnection(id) {
+  return fetchAuthorized(`${baseUrl}/subject-topics/${id}`, {
+    method: 'DELETE',
+  }).then(resolveJsonOrRejectWithError);
+}
+
+function deleteSubTopicConnection(id) {
+  return fetchAuthorized(`${baseUrl}/topic-subtopics/${id}`, {
+    method: 'DELETE',
+  }).then(resolveJsonOrRejectWithError);
+}
+
+function addFilterToTopic({ filterId, relevanceId, topicId }) {
+  return fetchAuthorized(`${baseUrl}/topic-filters`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({ filterId, relevanceId, topicId }),
+  }).then(resolveJsonOrRejectWithError);
+}
+
+function updateTopicFilter({ connectionId, relevanceId }) {
+  return fetchAuthorized(`${baseUrl}/topic-filters/${connectionId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({ relevanceId }),
+  }).then(res => resolveJsonOrRejectWithError(res, true));
+}
+
+function deleteTopicFilter({ connectionId }) {
+  return fetchAuthorized(`${baseUrl}/topic-filters/${connectionId}`, {
+    method: 'DELETE',
+  }).then(res => resolveJsonOrRejectWithError(res, true));
+}
+
+export {
+  fetchTopics,
+  addTopic,
+  updateTopic,
+  addTopicToTopic,
+  deleteTopicConnection,
+  deleteSubTopicConnection,
+  fetchTopicFilters,
+  addFilterToTopic,
+  updateTopicFilter,
+  deleteTopicFilter,
+  fetchTopicResources,
+};

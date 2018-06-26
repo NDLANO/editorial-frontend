@@ -16,7 +16,7 @@ import { fetchTopics } from '../../../modules/taxonomy';
 import InlineEditField from './InlineEditField';
 import InlineDropdown from './InlineDropdown';
 import EditFilters from './EditFilters';
-import RoundIcon from './RoundIcon';
+import RoundIcon from '../../../components/RoundIcon';
 
 class SubjectSettingsItems extends Component {
   constructor() {
@@ -35,6 +35,8 @@ class SubjectSettingsItems extends Component {
       name,
       onClose,
       t,
+      getFilters,
+      filters,
     } = this.props;
     const { editMode } = this.state;
 
@@ -105,7 +107,12 @@ class SubjectSettingsItems extends Component {
           {t('taxonomy.editFilter')}
         </Button>
         {editMode === 'editFilter' && (
-          <EditFilters classes={classes} t={t} id={id} />
+          <EditFilters
+            classes={classes}
+            id={id}
+            getFilters={getFilters}
+            filters={filters}
+          />
         )}
       </React.Fragment>
     );
@@ -121,6 +128,8 @@ SubjectSettingsItems.propTypes = {
   name: PropTypes.string,
   onClose: PropTypes.func,
   t: PropTypes.func,
+  getFilters: PropTypes.func,
+  filters: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default injectT(SubjectSettingsItems);

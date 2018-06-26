@@ -5,11 +5,11 @@ const articleTypes = {
   standard: 'learning-resource',
 };
 
-export function toSearch(query) {
+export function toSearch(query, type = 'content') {
   if (query) {
-    return `/search?${queryString.stringify(query)}`;
+    return `/search/${type}?${queryString.stringify(query)}`;
   }
-  return '/search';
+  return `/search/${type}`;
 }
 
 export function toEditArticle(articleId, articleType, locale) {
@@ -66,4 +66,14 @@ export function toEditAgreement(agreementId) {
 
 export function to404() {
   return '/404';
+}
+
+export function getResourceIdFromPath(path) {
+  if (typeof path !== 'string') return undefined;
+  let lastPath = path;
+  if (path[path.length - 1] === '/') lastPath = path.slice(0, -1);
+  lastPath = lastPath.split('/').pop();
+  if (!lastPath) return undefined;
+  const id = lastPath.startsWith('resource') ? `urn:${lastPath}` : lastPath;
+  return id.includes('resource') ? id : '';
 }

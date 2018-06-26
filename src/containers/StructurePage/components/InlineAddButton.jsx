@@ -10,8 +10,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Done } from 'ndla-icons/editor';
+import { Plus } from 'ndla-icons/action';
 import BEMHelper from 'react-bem-helper';
-
+import handleError from '../../../util/handleError';
 import Spinner from '../../../components/Spinner';
 
 const classes = new BEMHelper({
@@ -38,6 +39,7 @@ class InlineAddButton extends React.PureComponent {
       await this.props.action(this.state.inputValue);
       this.setState({ status: 'success' });
     } catch (error) {
+      handleError(error);
       this.setState({
         status: 'error',
       });
@@ -96,6 +98,7 @@ class InlineAddButton extends React.PureComponent {
           this.setState({ status: 'edit' });
         }}
         {...classes('')}>
+        <Plus />
         {title}
       </Button>
     );

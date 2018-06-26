@@ -110,6 +110,7 @@ class ImageForm extends Component {
       bindInput,
       schema,
       model,
+      initialModel,
       submitted,
       tags,
       licenses,
@@ -135,13 +136,15 @@ class ImageForm extends Component {
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <SaveButton {...{ classes, isSaving, t, showSaved }}>
+          <SaveButton isSaving={isSaving} showSaved={showSaved}>
             {t('form.save')}
           </SaveButton>
         </Field>
         <WarningModalWrapper
           {...{
             schema,
+            model,
+            initialModel,
             showSaved,
             fields,
             handleSubmit: this.handleSubmit,

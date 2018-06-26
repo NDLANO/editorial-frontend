@@ -14,7 +14,7 @@ import { Settings } from 'ndla-icons/editor';
 import { Cross } from 'ndla-icons/action';
 import SubjectSettingsItems from './SubjectSettingsItems';
 import TopicSettingItems from './TopicSettingItems';
-import RoundIcon from './RoundIcon';
+import RoundIcon from '../../../components/RoundIcon';
 
 const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
   const type = id.includes('subject') ? 'subject' : 'topic';
@@ -35,7 +35,12 @@ const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
           {...rest}
         />
       ) : (
-        <TopicSettingItems />
+        <TopicSettingItems
+          classes={classes}
+          onClose={onClose}
+          id={id}
+          {...rest}
+        />
       )}
     </div>
   );

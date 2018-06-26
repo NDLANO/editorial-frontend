@@ -9,17 +9,29 @@
 import React from 'react';
 import SlateFigure from './SlateFigure';
 
-export default function createEmbedPlugin() {
+export default function createEmbedPlugin(locale) {
   const schema = {
     document: {},
   };
 
   /* eslint-disable react/prop-types */
   const renderNode = props => {
-    const { node } = props;
+    const { node, editor } = props;
+    const onRemoveClick = e => {
+      e.stopPropagation();
+      const next = editor.value.change().removeNodeByKey(node.key);
+      editor.onChange(next);
+    };
+
     switch (node.type) {
       case 'embed':
-        return <SlateFigure {...props} />;
+        return (
+          <SlateFigure
+            onRemoveClick={onRemoveClick}
+            {...props}
+            locale={locale}
+          />
+        );
       default:
         return null;
     }

@@ -10,8 +10,10 @@ import { Value } from 'slate';
 
 import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
+import isEqual from 'lodash/fp/isEqual';
 import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
 import { textWrapper } from '../util/invalidTextWrapper';
+import { convertFromHTML } from './convertFromHTML';
 
 export const sectionSplitter = html => {
   const node = document.createElement('div');
@@ -50,15 +52,15 @@ export const createEmptyValue = () =>
     document: {
       nodes: [
         {
-          object: 'block',
+          kind: 'block',
           type: 'section',
           nodes: [
             {
-              object: 'block',
+              kind: 'block',
               type: 'paragraph',
               nodes: [
                 {
-                  object: 'text',
+                  kind: 'text',
                   leaves: [
                     {
                       text: '',
@@ -103,7 +105,12 @@ export function learningResourceContentToEditorValue(
    https://github.com/ianstormtaylor/slate/issues/1111
   */
   return sections.map((section, index) => {
-    const value = serializer.deserialize(section);
+    /*   Slate's default sanitization just obliterates block nodes that contain both
+    inline+text children and block children.
+    see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
+    const json = serializer.deserialize(section, { toJSON: true });
+    const value = convertFromHTML(json);
+
     return {
       value,
       index,
@@ -131,7 +138,13 @@ export function topicArticleContentToEditorValue(html, fragment = undefined) {
     return createEmptyValue();
   }
   const serializer = new Html({ rules: topicArticeRules, parseHtml: fragment });
-  return serializer.deserialize(html);
+
+  /*   Slate's default sanitization just obliterates block nodes that contain both
+  inline+text children and block children.
+  see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
+  const json = serializer.deserialize(html, { toJSON: true });
+  const value = convertFromHTML(json);
+  return value;
 }
 
 export function topicArticleContentToHTML(value) {
@@ -151,4 +164,21 @@ export function plainTextToEditorValue(text, withDefaultPlainValue = false) {
 
 export function editorValueToPlainText(editorValue) {
   return editorValue ? Plain.serialize(editorValue) : '';
+}
+
+export function isEqualEditorValue(value1, value2) {
+  if (value1 && value1.document) {
+    return value2 && value2.document
+      ? isEqual(value1.toJSON(), value2.toJSON())
+      : false;
+  }
+  // For content with multiple sections
+  return !value1
+    .map(
+      (section, index) =>
+        value2[index] && value2[index].value && value2[index].value.document
+          ? isEqual(section.value.toJSON(), value2[index].value.toJSON())
+          : false,
+    )
+    .some(isDirty => !isDirty);
 }

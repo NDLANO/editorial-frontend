@@ -16,7 +16,10 @@ export const RESOURCE_TYPE_ASSESSMENT_RESOURCES =
 export const RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES =
   'urn:resourcetype:externalResource';
 export const RESOURCE_TYPE_SOURCE_MATERIAL = 'urn:resourcetype:SourceMaterial';
-export const RESOURCE_TYPE_CONCEPT = 'urn:resourcetype:concept';
+export const RESOURCE_TYPE_CONCEPT = 'urn:resourcetype:concept'; // Not yet added to ndla-ui
 
 // Filters
 export const RESOURCE_FILTER_CORE = 'urn:relevance:core';
+export const RESOURCE_FILTER_SUPPLEMENTARY = 'urn:relevance:supplementary';
+
+export const ARTICLE_EXTERNAL = 'external-learning-resources';

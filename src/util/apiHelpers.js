@@ -6,21 +6,29 @@
  *
  */
 
+/* eslint-disable no-shadow */
+
 import defined from 'defined';
 import fetch from 'isomorphic-fetch';
 import queryString from 'query-string';
-import { getAccessToken, isAccessTokenValid, renewAuth } from './authHelpers';
+import config from '../config';
+import {
+  apiBaseUrl,
+  getAccessToken,
+  isAccessTokenValid,
+  renewAuth,
+} from './authHelpers';
 
 export function apiResourceUrl(path) {
-  return window.config.ndlaApiUrl + path;
+  return apiBaseUrl + path;
 }
 
 export function brightcoveApiResourceUrl(path) {
-  return window.config.brightcoveApiUrl + path;
+  return config.brightcoveApiUrl + path;
 }
 
 export function googleSearchApiResourceUrl(path) {
-  return window.config.googleSearchApiUrl + path;
+  return config.googleSearchApiUrl + path;
 }
 
 export function createErrorPayload(status, message, json) {
@@ -62,13 +70,17 @@ export const fetchWithAuthorization = async (url, config = {}, forceAuth) => {
   if (forceAuth || !isAccessTokenValid()) {
     await renewAuth();
   }
+
+  const contentType = config.headers
+    ? config.headers['Content-Type']
+    : 'text/plain';
+  const extraHeaders = contentType ? { 'Content-Type': contentType } : {};
+
   return fetch(url, {
     ...config,
     headers: {
+      ...extraHeaders,
       Authorization: `Bearer ${getAccessToken()}`,
-      'Content-Type': config.headers
-        ? config.headers['Content-Type']
-        : 'text/plain',
     },
   });
 };
@@ -94,8 +106,8 @@ export const setBrightcoveAccessTokenInLocalStorage = brightcoveAccessToken => {
 };
 
 export const fetchWithBrightCoveToken = (url, config = {}) => {
-  const birghtcoveAccessToken = localStorage.getItem('brightcove_access_token');
-  const expiresAt = birghtcoveAccessToken
+  const brightcoveAccessToken = localStorage.getItem('brightcove_access_token');
+  const expiresAt = brightcoveAccessToken
     ? JSON.parse(localStorage.getItem('brightcove_access_token_expires_at'))
     : 0;
   if (new Date().getTime() > expiresAt || !expiresAt) {
@@ -109,7 +121,7 @@ export const fetchWithBrightCoveToken = (url, config = {}) => {
   }
   return fetch(url, {
     ...config,
-    headers: { Authorization: `Bearer ${birghtcoveAccessToken}` },
+    headers: { Authorization: `Bearer ${brightcoveAccessToken}` },
   });
 };
 

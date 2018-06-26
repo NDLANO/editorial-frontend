@@ -20,9 +20,11 @@ import {
 } from '../../../util/routeHelpers';
 import { editorialMastheadClasses } from '../MastheadContainer';
 import Overlay from '../../../components/Overlay';
+import { getAccessTokenPersonal } from '../../../util/authHelpers';
 
 const AuthSiteNavItem = ({ t, name, authenticated, onClick }) => {
-  if (authenticated) {
+  const isAccessTokenPersonal = getAccessTokenPersonal();
+  if (authenticated && isAccessTokenPersonal) {
     return [
       <p key="sitenav_username">{name}</p>,
       <p key="sitenav_logout">
@@ -47,7 +49,6 @@ const AuthSiteNavItem = ({ t, name, authenticated, onClick }) => {
 };
 
 AuthSiteNavItem.propTypes = {
-  t: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
   name: PropTypes.string,
   onClick: PropTypes.func.isRequired,

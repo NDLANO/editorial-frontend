@@ -37,7 +37,7 @@ const MastheadContainer = ({ t, authenticated, userName }) => (
         <SessionContainer userName={userName} authenticated={authenticated} />
       </MastheadItem>
       <MastheadItem>
-        <Logo to="/" altText="Nasjonal digital læringsarena" />
+        <Logo to="/" label="Nasjonal digital læringsarena" />
       </MastheadItem>
     </div>
   </Masthead>
@@ -48,7 +48,6 @@ MastheadContainer.propTypes = {
     subjectId: PropTypes.string,
     topicId: PropTypes.string,
   }).isRequired,
-  t: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
   userName: PropTypes.string,
 };

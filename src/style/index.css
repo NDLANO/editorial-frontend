@@ -1,0 +1,79 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+@import '../../node_modules/flatpickr/dist/flatpickr.min.css';
+@import '../../node_modules/ndla-ui/lib/audioSearch.css';
+@import '../../node_modules/ndla-ui/lib/imageSearch.css';
+@import '../../node_modules/ndla-ui/lib/main.css';
+@import '../../node_modules/ndla-ui/lib/videoSearch.css';
+@import '../../node_modules/react-image-crop/dist/ReactCrop.css';
+@import './accordion.css';
+@import './alert.css';
+@import './article-form.css';
+@import './auth.css';
+@import './content-block.css';
+@import './dropdown-menu.css';
+@import './dropdown.css';
+@import './fields.css';
+@import './form.css';
+@import './imageSearch.css';
+@import './lightbox.css';
+@import './masthead.css';
+@import './multiselect.css';
+@import './search.css';
+@import './toolbar.css';
+@import './image-editor.css';
+@import './vars.css';
+@import './footnotes.css';
+@import './link-menu.css';
+@import './table.css';
+@import './tag.css';
+@import './topic-resource.css';
+@import './meta-information.css';
+@import './visual-element.css';
+@import './navigation.css';
+@import './welcome.css';
+@import './warningModal.css';
+@import './overlay.css';
+@import './tooltip.css';
+@import './spinner.css';
+@import './taxonomy.css';
+@import './toggleSwitch.css';
+@import './settingsMenu.css';
+@import './article-preview.css';
+
+.c-audio-search {
+  width: 70%;
+  margin: 0 auto;
+
+  &__form-query {
+    width: 87%;
+  }
+}
+
+/* Override ndla-ui styles */
+.c-article {
+  font-family: var(--font);
+}
+
+.article_introduction {
+  margin-top: var(--spacing--small);
+}
+
+.c-hero {
+  margin-bottom: 0;
+}
+
+a.c-button {
+  display: block;
+  text-align: center;
+}
+
+.c-figure__byline .c-license-icons__list {
+  margin-top: 0;
+}

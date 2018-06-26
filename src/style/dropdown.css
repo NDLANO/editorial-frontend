@@ -1,0 +1,74 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.c-dropdown {
+  width: 100%;
+  position: relative;
+
+  &__multiselect {
+    display: flex;
+    flex-wrap: wrap;
+    outline: none;
+    align-items: center;
+    flex: 1 1 auto;
+    padding: 4px;
+    border: 1px #c5c4c4 solid;
+    border-radius: 1px;
+  }
+
+  &__single {
+    padding: 0.522rem;
+    padding-right: var(--spacing--medium);
+  }
+
+  &__items {
+    margin-top: -0.2rem;
+    border: 1px solid #d4d4d4;
+    max-height: 10rem;
+    overflow-y: scroll;
+    position: absolute;
+    z-index: 999;
+    background-color: white;
+    width: 100%;
+    margin-bottom: 0;
+    border-top: 0;
+
+    &--resourceMenu {
+      max-height: inherit;
+      position: static;
+      margin-top: 0;
+    }
+  }
+
+  &__item {
+    border-radius: 1px;
+    cursor: pointer;
+  }
+
+  &__item,
+  &__empty {
+    padding: 0.522rem;
+  }
+
+  &__item--active {
+    background-color: var(--brand-grey--light);
+  }
+
+  &__action {
+    position: absolute;
+    right: 0.8rem;
+    top: 0.1rem;
+    color: var(--brand-grey);
+
+    &:hover,
+    &:focus {
+      outline: none;
+      color: var(--brand-grey);
+    }
+  }
+}

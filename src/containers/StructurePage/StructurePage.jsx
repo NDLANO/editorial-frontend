@@ -8,11 +8,17 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { OneColumn } from 'ndla-ui';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import queryString from 'query-string';
 import { injectT } from 'ndla-i18n';
+import { OneColumn } from 'ndla-ui';
 import { Taxonomy, Star } from 'ndla-icons/editor';
 import { jsPlumb } from 'jsplumb';
 
+import handleError from '../../util/handleError';
+import { getLocale } from '../../modules/locale/locale';
+import StructureResources from './StructureResources';
 import FolderItem from './components/FolderItem';
 import InlineAddButton from './components/InlineAddButton';
 import Accordion from '../../components/Accordion';
@@ -22,17 +28,22 @@ import {
   addSubject,
   addTopic,
   updateSubjectName,
+  fetchSubjectFilters,
   addSubjectTopic,
 } from '../../modules/taxonomy';
-import RoundIcon from './components/RoundIcon';
+import RoundIcon from '../../components/RoundIcon';
 
 export class StructurePage extends React.PureComponent {
   constructor(props) {
     super(props);
+    const activeFilters =
+      queryString.parse(props.location.search).filters || '';
     this.state = {
       editStructureHidden: false,
       subjects: [],
       topics: {},
+      filters: [],
+      activeFilters: activeFilters.split(','),
       connections: [],
     };
     this.starButton = React.createRef();
@@ -47,35 +58,56 @@ export class StructurePage extends React.PureComponent {
     this.connectLinkItems = this.connectLinkItems.bind(this);
     this.deleteConnections = this.deleteConnections.bind(this);
     this.onAddExistingTopic = this.onAddExistingTopic.bind(this);
+    this.getCurrentTopic = this.getCurrentTopic.bind(this);
+    this.getFilters = this.getFilters.bind(this);
+    this.toggleFilter = this.toggleFilter.bind(this);
   }
 
   componentDidMount() {
     this.getAllSubjects();
-    const id = this.props.match.params.subject;
-    if (id) {
-      this.getSubjectTopics(`urn:${id}`);
+    const { subject } = this.props.match.params;
+    if (subject) {
+      this.getSubjectTopics(`urn:${subject}`);
+      this.getFilters(`urn:${subject}`);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.location.pathname !== this.props.location.pathname) {
+    const {
+      location: { pathname, search },
+      match: { params },
+      history,
+    } = nextProps;
+    if (pathname !== this.props.location.pathname) {
       this.deleteConnections();
-      const id = `urn:${nextProps.match.params.subject}`;
-      const currentSub = this.state.subjects.find(it => it.id === id);
-      if (id && currentSub && !this.state.topics[id]) {
-        this.getSubjectTopics(id);
+      const { subject } = params;
+      if (subject) {
+        this.getFilters(`urn:${subject}`);
       }
+      if (!subject || subject !== this.props.match.params.subject) {
+        history.push({
+          search: '',
+        });
+      }
+      const currentSub = this.state.subjects.find(
+        sub => sub.id === `urn:${subject}`,
+      );
+      if (currentSub && !this.state.topics[`urn:${subject}`]) {
+        this.getSubjectTopics(`urn:${subject}`);
+      }
+    }
+    if (search !== this.props.location.search) {
+      const { filters } = queryString.parse(search);
+      this.setState({
+        activeFilters: filters ? filters.split(',') : [],
+      });
     }
   }
 
   async onChangeSubjectName(subjectId, name) {
-    try {
-      const ok = await updateSubjectName(subjectId, name);
-      this.getAllSubjects();
-      return ok;
-    } catch (e) {
-      return e;
-    }
+    const ok = await updateSubjectName(subjectId, name);
+    this.getAllSubjects();
+    return ok;
   }
 
   async onAddExistingTopic(subjectid, topicid) {
@@ -102,40 +134,88 @@ export class StructurePage extends React.PureComponent {
   }
 
   async getAllSubjects() {
-    const subjects = await fetchSubjects();
-    subjects.forEach(subject => {
-      this[subject.id] = React.createRef();
-    });
-    this.setState({ subjects });
+    try {
+      const subjects = await fetchSubjects(this.props.locale);
+      subjects.forEach(subject => {
+        this[subject.id] = React.createRef();
+      });
+      this.setState({ subjects });
+    } catch (e) {
+      handleError(e);
+    }
   }
 
   async getSubjectTopics(subjectid) {
-    const allTopics = await fetchSubjectTopics(subjectid);
-    const mainTopics = allTopics.filter(it => it.parent === subjectid);
-    const groupedTopics = mainTopics.map(topic => ({
-      ...topic,
-      topics: allTopics.filter(it => it.parent === topic.id),
-    }));
+    try {
+      const allTopics = await fetchSubjectTopics(subjectid);
+      const insertSubTopic = (topics, subTopic) =>
+        topics.map(topic => {
+          if (topic.id === subTopic.parent) {
+            return {
+              ...topic,
+              topics: [...(topic.topics || []), subTopic],
+            };
+          } else if (topic.topics) {
+            return {
+              ...topic,
+              topics: insertSubTopic(topic.topics, subTopic),
+            };
+          }
+          return topic;
+        });
 
-    allTopics.forEach(topic => {
-      this[topic.id] = React.createRef();
-    });
-    this.setState(prevState => ({
-      topics: {
-        ...prevState.topics,
-        [subjectid]: groupedTopics,
-      },
-    }));
+      const groupedTopics = allTopics.reduce((acc, curr) => {
+        const mainTopic = curr.parent.includes('subject');
+        if (mainTopic) return acc;
+        return insertSubTopic(acc.filter(topic => topic.id !== curr.id), curr);
+      }, allTopics);
+
+      this.setState(prevState => ({
+        topics: {
+          ...prevState.topics,
+          [subjectid]: groupedTopics,
+        },
+      }));
+    } catch (e) {
+      handleError(e);
+    }
+  }
+
+  getCurrentTopic() {
+    const {
+      match: { params: { subject, topic1, topic2, topic3 } },
+    } = this.props;
+    if (topic1) {
+      const sub = this.state.topics[`urn:${subject}`];
+      let topic = sub ? sub.find(top => top.id === `urn:${topic1}`) : {};
+      if (topic2) {
+        topic = topic.topics
+          ? topic.topics.find(top => top.id === `urn:${topic2}`)
+          : {};
+        if (topic3) {
+          topic = topic.topics
+            ? topic.topics.find(top => top.id === `urn:${topic3}`)
+            : {};
+        }
+      }
+      return topic || {};
+    }
+    return {};
+  }
+
+  async getFilters(subjectId = `urn:${this.props.match.params.subject}`) {
+    try {
+      const filters = await fetchSubjectFilters(subjectId);
+      this.setState({ filters });
+    } catch (e) {
+      handleError(e);
+    }
   }
 
   async addSubject(name) {
-    try {
-      const newPath = await addSubject({ name });
-      if (newPath) this.getAllSubjects();
-      return newPath;
-    } catch (e) {
-      return e;
-    }
+    const newPath = await addSubject({ name });
+    if (newPath) this.getAllSubjects();
+    return newPath;
   }
 
   connectLinkItems(source, target) {
@@ -186,10 +266,37 @@ export class StructurePage extends React.PureComponent {
   refFunc(element, id) {
     this[id] = element;
   }
-  e;
+
+  toggleFilter(filterId) {
+    const { activeFilters } = this.state;
+    const { history } = this.props;
+    if (activeFilters.find(id => id === filterId)) {
+      history.push({
+        search: `?filters=${activeFilters
+          .filter(id => id !== filterId)
+          .join(',')}`,
+      });
+    } else {
+      history.push({
+        search: `?filters=${[...activeFilters, filterId].join(',')}`,
+      });
+    }
+  }
 
   render() {
-    const { match: { params }, t } = this.props;
+    const { match, t, locale } = this.props;
+    const {
+      activeFilters,
+      topics,
+      filters,
+      connections,
+      subjects,
+      editStructureHidden,
+    } = this.state;
+    const { params } = match;
+    const topicId = params.topic3 || params.topic2 || params.topic1;
+    const currentTopic = this.getCurrentTopic();
+
     return (
       <OneColumn>
         <Accordion
@@ -211,25 +318,39 @@ export class StructurePage extends React.PureComponent {
               action={this.addSubject}
             />
           }
-          hidden={this.state.editStructureHidden}>
+          hidden={editStructureHidden}>
           <div ref={this.plumbContainer}>
-            {this.state.subjects.map(it => (
+            {subjects.map(subject => (
               <FolderItem
-                {...it}
+                {...subject}
                 refFunc={this.refFunc}
-                key={it.id}
-                topics={this.state.topics[it.id]}
-                active={it.id.replace('urn:', '') === params.subject}
-                params={params}
+                key={subject.id}
+                topics={topics[subject.id]}
+                active={subject.id.replace('urn:', '') === params.subject}
+                match={match}
                 onChangeSubjectName={this.onChangeSubjectName}
                 onAddSubjectTopic={this.onAddSubjectTopic}
                 showLink={this.showLink}
                 onAddExistingTopic={this.onAddExistingTopic}
-                linkViewOpen={this.state.connections.length > 0}
+                refreshTopics={() => this.getSubjectTopics(subject.id)}
+                linkViewOpen={connections.length > 0}
+                getFilters={this.getFilters}
+                filters={filters}
+                activeFilters={activeFilters}
+                toggleFilter={this.toggleFilter}
               />
             ))}
           </div>
         </Accordion>
+        {topicId && (
+          <StructureResources
+            locale={locale}
+            params={params}
+            activeFilters={activeFilters}
+            currentTopic={currentTopic}
+            refreshTopics={() => this.getSubjectTopics(`urn:${params.subject}`)}
+          />
+        )}
         <div style={{ display: 'none' }} ref={this.starButton}>
           <RoundIcon icon={<Star />} />
         </div>
@@ -239,6 +360,7 @@ export class StructurePage extends React.PureComponent {
 }
 
 StructurePage.propTypes = {
+  locale: PropTypes.string,
   match: PropTypes.shape({
     params: PropTypes.shape({
       subject: PropTypes.string,
@@ -246,7 +368,15 @@ StructurePage.propTypes = {
   }).isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string,
+    search: PropTypes.string,
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func,
   }),
 };
 
-export default injectT(StructurePage);
+const mapStateToProps = state => ({
+  locale: getLocale(state),
+});
+
+export default compose(injectT, connect(mapStateToProps, null))(StructurePage);

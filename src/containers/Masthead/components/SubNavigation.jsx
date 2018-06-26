@@ -11,20 +11,21 @@ const colorType = {
 const isCurrentTab = (match, location, subtype) => {
   const locations =
     location && location.pathname ? location.pathname.split('/') : [];
-  if (locations.length > 3 && locations[2] === subtype.type) {
+  if (locations.length > 2 && locations[2] === subtype.type) {
     return true;
   }
-  return !!match;
+  return false;
 };
 
-const SubNavigation = ({ subtypes, type }) => (
+const SubNavigation = ({ subtypes, type, match, location }) => (
   <div {...classes('container', colorType[type])}>
     <div {...classes('items')}>
       {subtypes.map(subtype => (
         <NavLink
           key={`typemenu_${subtype.type}`}
+          id={subtype.type}
           to={subtype.url}
-          isActive={(match, location) => isCurrentTab(match, location, subtype)}
+          isActive={() => isCurrentTab(match, location, subtype)}
           {...classes('item')}
           activeClassName="c-navigation__item--active">
           {subtype.icon}
@@ -45,6 +46,12 @@ SubNavigation.propTypes = {
     }),
   ),
   type: PropTypes.string.isRequired,
+  match: PropTypes.shape({
+    url: PropTypes.string.isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }),
 };
 
 export default withRouter(SubNavigation);

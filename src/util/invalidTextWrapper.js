@@ -1,4 +1,12 @@
-import { BLOCK_TAGS } from './slateHelpers';
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { BLOCK_TAGS, TABLE_TAGS } from './slateHelpers';
 
 export const textWrapper = serializer => inputHtml => {
   const DefaultParse = serializer.parseHtml;
@@ -7,10 +15,11 @@ export const textWrapper = serializer => inputHtml => {
   // ensure that no DIVs, SECTIONs or ASIDEs contain both element children and text node children. This is
   // not allowed by Slate's core schema: blocks must contain inlines and text OR blocks.
   // https://docs.slatejs.org/guides/data-model#documents-and-nodes
-  const BLOCKS_TO_CHECK = ['aside', 'div', 'section', 'em'];
+  const BLOCKS_TO_CHECK = ['aside', 'div', 'em', 'section'];
   const ALL_BLOCKS = Object.keys(BLOCK_TAGS)
     .concat(BLOCKS_TO_CHECK)
-    .concat(['embed', 'p']);
+    .concat(Object.keys(TABLE_TAGS))
+    .concat(['embed', 'p', 'ol', 'li', 'ul']);
 
   const treeWalker = document.createTreeWalker(tree, NodeFilter.SHOW_ELEMENT, {
     acceptNode: node =>

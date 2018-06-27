@@ -8,9 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
 import { Figure } from 'ndla-ui';
-import SlateInputField from './SlateInputField';
+
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 import { EmbedShape } from '../../../../shapes';
 
@@ -64,8 +63,8 @@ class SlateAudio extends React.Component {
       onFigureInputChange,
       submitted,
       embed,
-      t,
-      ...rest
+      onRemoveClick,
+      locale,
     } = this.props;
     const { audio } = this.state;
 
@@ -80,18 +79,12 @@ class SlateAudio extends React.Component {
             onExit={this.toggleEdit}
             audioType={embed.audioType || 'sound'}
             onChange={onFigureInputChange}
+            onAudioFigureInputChange={this.onAudioFigureInputChange}
+            locale={locale}
+            onRemoveClick={onRemoveClick}
             embed={embed}
-            {...rest}>
+            submitted={submitted}>
             {player}
-            <SlateInputField
-              name="caption"
-              label={t('form.audio.caption.label')}
-              type="text"
-              value={embed.caption}
-              onChange={this.onAudioFigureInputChange}
-              placeholder={t('form.audio.caption.placeholder')}
-              submitted={submitted}
-            />
           </EditAudio>
         ) : (
           <div
@@ -116,6 +109,7 @@ SlateAudio.propTypes = {
   onRemoveClick: PropTypes.func.isRequired,
   onFigureInputChange: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
+  locale: PropTypes.string,
 };
 
-export default injectT(SlateAudio);
+export default SlateAudio;

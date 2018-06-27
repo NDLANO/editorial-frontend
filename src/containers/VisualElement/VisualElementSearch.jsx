@@ -141,8 +141,11 @@ const VisualElementSearch = ({
           searchAudios={api.searchAudios}
           onAudioSelect={audio =>
             handleVisualElementChange({
+              caption: '', // Caption not supported by audio-api
               resource: selectedResource,
               resource_id: audio.id.toString(),
+              type: 'standard',
+              url: audio.url,
               metaData: audio,
             })
           }

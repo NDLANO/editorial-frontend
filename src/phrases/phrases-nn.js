@@ -329,7 +329,7 @@ const phrases = {
       link: {
         goTo: 'Gå til',
         insert: 'Sett inn lenke',
-        update: 'Opddater lenke',
+        update: 'Oppdater lenke',
         change: 'Endre',
         remove: 'Fjern lenke',
         href: 'Lenke',
@@ -461,7 +461,7 @@ const phrases = {
       speech: 'Tale',
     },
     related: {
-      title: 'Relaterte arikler',
+      title: 'Relaterte artikler',
       showMore: 'Vis flere relaterte artikler',
       showLess: 'Vis mindre',
     },

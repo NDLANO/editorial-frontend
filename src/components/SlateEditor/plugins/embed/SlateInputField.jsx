@@ -89,8 +89,12 @@ SlateInputField.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  required: PropTypes.bool.isRequired,
+  required: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
+};
+
+SlateInputField.defaultProps = {
+  required: false,
 };
 
 export default injectT(SlateInputField);

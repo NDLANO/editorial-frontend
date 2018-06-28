@@ -8,8 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
 import { Figure } from 'ndla-ui';
+
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 import { EmbedShape } from '../../../../shapes';
 
@@ -19,19 +19,37 @@ import AudioPlayerMounter from './AudioPlayerMounter';
 class SlateAudio extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { audio: {} };
+    this.state = { editMode: false, audio: {} };
     this.toggleEdit = this.toggleEdit.bind(this);
+    this.onAudioFigureInputChange = this.onAudioFigureInputChange.bind(this);
   }
 
   async componentWillMount() {
+    const { caption, resource_id: resourceId } = this.props.embed;
     try {
-      const audio = await visualElementApi.fetchAudio(
-        this.props.embed.resource_id,
-      );
-      this.setState({ audio: { ...audio, title: audio.title.title } });
+      const audio = await visualElementApi.fetchAudio(resourceId);
+      this.setState({
+        audio: {
+          ...audio,
+          caption,
+          title: audio.title.title || '',
+        },
+      });
     } catch (error) {
       visualElementApi.onError(error);
     }
+  }
+
+  onAudioFigureInputChange(e) {
+    const { value, name } = e.target;
+
+    this.setState(prevState => ({
+      audio: {
+        ...prevState.audio,
+        [name]: value,
+      },
+    }));
+    this.props.onFigureInputChange(e);
   }
 
   toggleEdit(e) {
@@ -40,35 +58,45 @@ class SlateAudio extends React.Component {
   }
 
   render() {
-    const { attributes, onFigureInputChange, embed, ...rest } = this.props;
-    const { audio = {} } = this.state;
+    const {
+      attributes,
+      onFigureInputChange,
+      submitted,
+      embed,
+      onRemoveClick,
+      locale,
+    } = this.props;
+    const { audio } = this.state;
 
     const player = audio.id && (
-      <Figure id={`${audio.id}`} {...attributes}>
-        <AudioPlayerMounter
-          audio={audio}
-          speech={embed.audioType === 'speech'}
-        />
-      </Figure>
+      <AudioPlayerMounter audio={audio} speech={embed.audioType === 'speech'} />
     );
 
-    return this.state.editMode ? (
-      <EditAudio
-        onExit={() => this.setState({ editMode: false })}
-        audioType={embed.audioType || 'sound'}
-        onChange={onFigureInputChange}
-        embed={embed}
-        {...rest}>
-        {player}
-      </EditAudio>
-    ) : (
-      <div
-        role="button"
-        tabIndex={0}
-        onKeyPress={() => this.setState({ editMode: true })}
-        onClick={() => this.setState({ editMode: true })}>
-        {player}
-      </div>
+    return (
+      <Figure id={`${audio.id}`} {...attributes}>
+        {this.state.editMode ? (
+          <EditAudio
+            onExit={this.toggleEdit}
+            audioType={embed.audioType || 'sound'}
+            onChange={onFigureInputChange}
+            onAudioFigureInputChange={this.onAudioFigureInputChange}
+            locale={locale}
+            onRemoveClick={onRemoveClick}
+            embed={embed}
+            submitted={submitted}>
+            {player}
+          </EditAudio>
+        ) : (
+          <div
+            role="button"
+            style={{ cursor: 'pointer' }}
+            tabIndex={0}
+            onKeyPress={this.toggleEdit}
+            onClick={this.toggleEdit}>
+            {player}
+          </div>
+        )}
+      </Figure>
     );
   }
 }
@@ -80,6 +108,8 @@ SlateAudio.propTypes = {
   }),
   onRemoveClick: PropTypes.func.isRequired,
   onFigureInputChange: PropTypes.func.isRequired,
+  submitted: PropTypes.bool.isRequired,
+  locale: PropTypes.string,
 };
 
-export default injectT(SlateAudio);
+export default SlateAudio;

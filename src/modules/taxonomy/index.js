@@ -67,6 +67,7 @@ import {
   updateTopicFilter,
   deleteTopicFilter,
   fetchTopicResources,
+  fetchTopicConnections,
 } from './topics/';
 
 export {
@@ -116,5 +117,6 @@ export {
   addFilterToTopic,
   updateTopicFilter,
   deleteTopicFilter,
+  fetchTopicConnections,
   updateResourceRelevance,
 };

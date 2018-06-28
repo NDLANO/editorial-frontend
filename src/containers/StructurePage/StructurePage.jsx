@@ -30,7 +30,9 @@ import {
   updateSubjectName,
   fetchSubjectFilters,
   addSubjectTopic,
+  fetchTopicConnections,
 } from '../../modules/taxonomy';
+import { groupTopics } from '../../util/taxonomyHelpers';
 import RoundIcon from '../../components/RoundIcon';
 
 export class StructurePage extends React.PureComponent {
@@ -148,27 +150,7 @@ export class StructurePage extends React.PureComponent {
   async getSubjectTopics(subjectid) {
     try {
       const allTopics = await fetchSubjectTopics(subjectid);
-      const insertSubTopic = (topics, subTopic) =>
-        topics.map(topic => {
-          if (topic.id === subTopic.parent) {
-            return {
-              ...topic,
-              topics: [...(topic.topics || []), subTopic],
-            };
-          } else if (topic.topics) {
-            return {
-              ...topic,
-              topics: insertSubTopic(topic.topics, subTopic),
-            };
-          }
-          return topic;
-        });
-
-      const groupedTopics = allTopics.reduce((acc, curr) => {
-        const mainTopic = curr.parent.includes('subject');
-        if (mainTopic) return acc;
-        return insertSubTopic(acc.filter(topic => topic.id !== curr.id), curr);
-      }, allTopics);
+      const groupedTopics = groupTopics(allTopics);
 
       this.setState(prevState => ({
         topics: {
@@ -233,7 +215,7 @@ export class StructurePage extends React.PureComponent {
         ],
       ],
     });
-
+    this[`linkButton-${target}`].style.display = 'block';
     return instance.connect({
       source: this[source],
       target: this[target],
@@ -242,24 +224,24 @@ export class StructurePage extends React.PureComponent {
 
   deleteConnections() {
     this.state.connections.forEach(conn => {
+      console.log(conn);
       jsPlumb.deleteConnection(conn);
     });
     this.setState({ connections: [] });
   }
 
-  showLink(id) {
-    const target = this.state.subjects[0].id;
-    const target2 = this.state.subjects[this.state.subjects.length - 1].id;
+  async showLink(id, parent) {
     if (this.state.connections.length > 0) {
       this.deleteConnections();
     } else {
+      const connectionArray = await fetchTopicConnections(id);
+      const connections = connectionArray
+        .filter(connection => connection.targetId !== parent)
+        .map(connection => this.connectLinkItems(id, connection.targetId));
+      console.log(connectionArray);
+      console.log(connections);
+      this.setState({ connections });
       this.starButton.current.style.display = 'block';
-
-      const connection1 = this.connectLinkItems(id, target);
-      const connection2 = this.connectLinkItems(id, target2);
-      this.setState({ connections: [connection1, connection2] });
-      this[`linkButton-${target}`].style.display = 'block';
-      this[`linkButton-${target2}`].style.display = 'block';
     }
   }
 

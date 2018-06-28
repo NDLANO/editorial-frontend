@@ -90,6 +90,12 @@ function deleteTopicFilter({ connectionId }) {
   }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
+function fetchTopicConnections(id) {
+  return fetchAuthorized(`${baseUrl}/topics/${id}/connections`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
 export {
   fetchTopics,
   addTopic,
@@ -102,4 +108,5 @@ export {
   updateTopicFilter,
   deleteTopicFilter,
   fetchTopicResources,
+  fetchTopicConnections,
 };

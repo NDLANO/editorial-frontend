@@ -50,7 +50,10 @@ const FolderItem = ({
       : `/structure${path}${search}`;
   return (
     <React.Fragment>
-      <div ref={element => refFunc(element, id)} {...classes('wrapper')}>
+      <div
+        ref={element => (element ? refFunc(element, id) : undefined)}
+        id={id}
+        {...classes('wrapper')}>
         <RouterLink
           to={toLink}
           {...classes(
@@ -61,9 +64,8 @@ const FolderItem = ({
           {name}
         </RouterLink>
         {active &&
-          type === 'topic' &&
-          false && (
-            <Button stripped onClick={() => showLink(id)}>
+          type === 'topic' && (
+            <Button stripped onClick={() => showLink(id, rest.parent)}>
               <RoundIcon icon={<LinkIcon />} />
             </Button>
           )}

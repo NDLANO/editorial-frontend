@@ -46,7 +46,7 @@ class EditLinkButton extends Component {
         )}
         <div
           style={{ display: 'none' }}
-          ref={el => refFunc(el, `linkButton-${id}`)}>
+          ref={el => (el ? refFunc(el, `linkButton-${id}`) : undefined)}>
           <Button stripped onClick={() => this.setState({ open: true })}>
             <RoundIcon icon={<LinkIcon />} />
           </Button>

@@ -34,7 +34,6 @@ const FolderItem = ({
   linkViewOpen,
   activeFilters,
   toggleFilter,
-  connectionId,
   rank,
   setPrimary,
   ...rest
@@ -105,7 +104,9 @@ const FolderItem = ({
       <EditLinkButton
         refFunc={refFunc}
         id={uniqueId}
-        setPrimary={() => setPrimary({ connectionId, targetId: id, rank })}
+        setPrimary={() =>
+          setPrimary({ connectionId: rest.connectionId, targetId: id, rank })
+        }
       />
     </React.Fragment>
   );
@@ -129,7 +130,6 @@ FolderItem.propTypes = {
   linkViewOpen: bool,
   activeFilters: arrayOf(string),
   toggleFilter: func,
-  connectionId: string,
   rank: number,
   setPrimary: func,
 };

@@ -1,0 +1,78 @@
+import { jsPlumb } from 'jsplumb';
+
+export const connectLinkItems = (
+  source,
+  connectionArray,
+  parent,
+  container,
+) => {
+  const filteredConnections = connectionArray.filter(
+    connection =>
+      connection.targetId !== parent && connection.type !== 'subtopic',
+  );
+  if (filteredConnections.length === 0)
+    return { connections: [], filteredConnections };
+  const connectionTargets = filteredConnections.map(conn => {
+    if (conn.type === 'parent-topic') {
+      return { ...conn, targetId: `urn:${conn.paths[0].split('/')[1]}` };
+    }
+    return conn;
+  });
+  const instance = jsPlumb.getInstance({
+    Container: 'plumbContainer',
+    Endpoint: 'Blank',
+    Connector: ['Flowchart', { stub: 50 }],
+    PaintStyle: { strokeWidth: 1, stroke: '#000000', dashstyle: '4 2' },
+    Anchors: ['Left', 'Left'],
+    deleteEndpointsOnDetach: false,
+    Overlays: [
+      [
+        'Custom',
+        {
+          create: component => {
+            if (!component.source) return container.starButton.current;
+            const { isPrimary } = connectionArray.find(
+              connection => connection.targetId === parent,
+            );
+            console.log(container[`linkButton-${source}`]);
+            return isPrimary
+              ? container.starButton.current
+              : container[`linkButton-${source}`];
+          },
+          location: 70,
+          id: 'sourceOverlay',
+        },
+      ],
+    ],
+  });
+
+  return {
+    filteredConnections,
+    connections: connectionTargets.map(({ targetId, isPrimary }) => {
+      const connected = instance.connect({
+        source,
+        target: targetId,
+        overlays: [
+          [
+            'Custom',
+            {
+              create: component => {
+                console.log(container[`linkButton-${targetId}`]);
+                if (!component.target)
+                  return container[`linkButton-${targetId}`];
+                return isPrimary
+                  ? container.starButton.current
+                  : container[`linkButton-${targetId}`];
+              },
+              location: -30,
+              id: `targetOverlay`,
+            },
+          ],
+        ],
+      });
+      connected.showOverlay('sourceOverlay');
+      connected.showOverlay(`targetOverlay`);
+      return connected;
+    }),
+  };
+};

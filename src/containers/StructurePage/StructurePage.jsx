@@ -15,13 +15,14 @@ import { injectT } from 'ndla-i18n';
 import { OneColumn } from 'ndla-ui';
 import { Taxonomy, Star } from 'ndla-icons/editor';
 import { jsPlumb } from 'jsplumb';
-
+import { connectLinkItems } from '../../util/jsPlumbHelpers';
 import handleError from '../../util/handleError';
 import { getLocale } from '../../modules/locale/locale';
 import StructureResources from './StructureResources';
 import FolderItem from './components/FolderItem';
 import InlineAddButton from './components/InlineAddButton';
 import Accordion from '../../components/Accordion';
+import { Portal } from '../../components/Portal';
 import {
   fetchSubjects,
   fetchSubjectTopics,
@@ -31,6 +32,8 @@ import {
   fetchSubjectFilters,
   addSubjectTopic,
   fetchTopicConnections,
+  updateTopicSubtopic,
+  updateSubjectTopic,
 } from '../../modules/taxonomy';
 import { groupTopics } from '../../util/taxonomyHelpers';
 import RoundIcon from '../../components/RoundIcon';
@@ -46,10 +49,10 @@ export class StructurePage extends React.PureComponent {
       topics: {},
       filters: [],
       activeFilters: activeFilters.split(','),
-      connections: [],
+      jsPlumbConnections: [],
+      filteredConnections: [],
     };
     this.starButton = React.createRef();
-    this.plumbContainer = React.createRef();
     this.getAllSubjects = this.getAllSubjects.bind(this);
     this.getSubjectTopics = this.getSubjectTopics.bind(this);
     this.addSubject = this.addSubject.bind(this);
@@ -57,12 +60,12 @@ export class StructurePage extends React.PureComponent {
     this.onAddSubjectTopic = this.onAddSubjectTopic.bind(this);
     this.showLink = this.showLink.bind(this);
     this.refFunc = this.refFunc.bind(this);
-    this.connectLinkItems = this.connectLinkItems.bind(this);
     this.deleteConnections = this.deleteConnections.bind(this);
     this.onAddExistingTopic = this.onAddExistingTopic.bind(this);
     this.getCurrentTopic = this.getCurrentTopic.bind(this);
     this.getFilters = this.getFilters.bind(this);
     this.toggleFilter = this.toggleFilter.bind(this);
+    this.setPrimary = this.setPrimary.bind(this);
   }
 
   componentDidMount() {
@@ -138,9 +141,6 @@ export class StructurePage extends React.PureComponent {
   async getAllSubjects() {
     try {
       const subjects = await fetchSubjects(this.props.locale);
-      subjects.forEach(subject => {
-        this[subject.id] = React.createRef();
-      });
       this.setState({ subjects });
     } catch (e) {
       handleError(e);
@@ -194,54 +194,51 @@ export class StructurePage extends React.PureComponent {
     }
   }
 
+  async setPrimary({ connectionId, ...rest }) {
+    if (connectionId.contains('topic-subtopic')) {
+      const ok = await updateTopicSubtopic(connectionId, {
+        primary: true,
+        ...rest,
+      });
+      if (ok) this.deleteConnections();
+    } else {
+      const ok = await updateSubjectTopic(connectionId, {
+        primary: true,
+        ...rest,
+      });
+      if (ok) this.deleteConnections();
+    }
+  }
+
   async addSubject(name) {
     const newPath = await addSubject({ name });
     if (newPath) this.getAllSubjects();
     return newPath;
   }
 
-  connectLinkItems(source, target) {
-    const instance = jsPlumb.getInstance({
-      Container: this.plumbContainer.current,
-      Endpoint: 'Blank',
-      Connector: ['Flowchart', { stub: 50 }],
-      PaintStyle: { strokeWidth: 1, stroke: '#000000', dashstyle: '4 2' },
-      Anchors: ['Left', 'Left'],
-      Overlays: [
-        ['Custom', { create: () => this.starButton.current, location: 70 }],
-        [
-          'Custom',
-          { create: () => this[`linkButton-${target}`], location: -30 },
-        ],
-      ],
-    });
-    this[`linkButton-${target}`].style.display = 'block';
-    return instance.connect({
-      source: this[source],
-      target: this[target],
-    });
-  }
-
   deleteConnections() {
-    this.state.connections.forEach(conn => {
-      console.log(conn);
+    this.state.jsPlumbConnections.forEach(conn => {
       jsPlumb.deleteConnection(conn);
     });
-    this.setState({ connections: [] });
+    this.setState({ jsPlumbConnections: [], filteredConnections: [] });
   }
 
   async showLink(id, parent) {
-    if (this.state.connections.length > 0) {
+    if (this.state.jsPlumbConnections.length > 0) {
       this.deleteConnections();
     } else {
       const connectionArray = await fetchTopicConnections(id);
-      const connections = connectionArray
-        .filter(connection => connection.targetId !== parent)
-        .map(connection => this.connectLinkItems(id, connection.targetId));
+
+      const uniqueId = parent ? `${parent}${id}` : id;
+      const { connections, filteredConnections } = connectLinkItems(
+        uniqueId,
+        connectionArray,
+        parent,
+        this,
+      );
       console.log(connectionArray);
       console.log(connections);
-      this.setState({ connections });
-      this.starButton.current.style.display = 'block';
+      this.setState({ jsPlumbConnections: connections, filteredConnections });
     }
   }
 
@@ -271,7 +268,7 @@ export class StructurePage extends React.PureComponent {
       activeFilters,
       topics,
       filters,
-      connections,
+      jsPlumbConnections,
       subjects,
       editStructureHidden,
     } = this.state;
@@ -301,7 +298,7 @@ export class StructurePage extends React.PureComponent {
             />
           }
           hidden={editStructureHidden}>
-          <div ref={this.plumbContainer}>
+          <div id="plumbContainer">
             {subjects.map(subject => (
               <FolderItem
                 {...subject}
@@ -315,11 +312,12 @@ export class StructurePage extends React.PureComponent {
                 showLink={this.showLink}
                 onAddExistingTopic={this.onAddExistingTopic}
                 refreshTopics={() => this.getSubjectTopics(subject.id)}
-                linkViewOpen={connections.length > 0}
+                linkViewOpen={jsPlumbConnections.length > 0}
                 getFilters={this.getFilters}
                 filters={filters}
                 activeFilters={activeFilters}
                 toggleFilter={this.toggleFilter}
+                setPrimary={this.setPrimary}
               />
             ))}
           </div>
@@ -333,9 +331,15 @@ export class StructurePage extends React.PureComponent {
             refreshTopics={() => this.getSubjectTopics(`urn:${params.subject}`)}
           />
         )}
-        <div style={{ display: 'none' }} ref={this.starButton}>
-          <RoundIcon icon={<Star />} />
-        </div>
+        <Portal isOpened>
+          <div
+            style={{
+              display: jsPlumbConnections.length > 0 ? 'block' : 'none',
+            }}
+            ref={this.starButton}>
+            <RoundIcon icon={<Star />} />
+          </div>
+        </Portal>
       </OneColumn>
     );
   }

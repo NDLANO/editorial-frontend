@@ -53,6 +53,7 @@ import {
   updateSubjectName,
   fetchSubjectFilters,
   addSubjectTopic,
+  updateSubjectTopic,
 } from './subjects';
 
 import {
@@ -68,6 +69,7 @@ import {
   deleteTopicFilter,
   fetchTopicResources,
   fetchTopicConnections,
+  updateTopicSubtopic,
 } from './topics/';
 
 export {
@@ -119,4 +121,6 @@ export {
   deleteTopicFilter,
   fetchTopicConnections,
   updateResourceRelevance,
+  updateTopicSubtopic,
+  updateSubjectTopic,
 };

@@ -34,12 +34,16 @@ const FolderItem = ({
   linkViewOpen,
   activeFilters,
   toggleFilter,
+  connectionId,
+  rank,
+  setPrimary,
   ...rest
 }) => {
   const { url, params } = match;
   const type = id.includes('subject') ? 'subject' : 'topic';
   const grayedOut = !active && params.subject && type === 'subject';
   const { search } = window.location;
+  const uniqueId = type === 'topic' ? `${rest.parent}${id}` : id;
   const toLink =
     active && path.length === url.replace('/structure', '').length
       ? url
@@ -50,10 +54,7 @@ const FolderItem = ({
       : `/structure${path}${search}`;
   return (
     <React.Fragment>
-      <div
-        ref={element => (element ? refFunc(element, id) : undefined)}
-        id={id}
-        {...classes('wrapper')}>
+      <div id={uniqueId} {...classes('wrapper')}>
         <RouterLink
           to={toLink}
           {...classes(
@@ -63,10 +64,10 @@ const FolderItem = ({
           <Folder {...classes('folderIcon')} color="#70A5DA" />
           {name}
         </RouterLink>
-        {active &&
-          type === 'topic' && (
+        {type === 'topic' &&
+          url.replace('/structure', '') === path && (
             <Button stripped onClick={() => showLink(id, rest.parent)}>
-              <RoundIcon icon={<LinkIcon />} />
+              <RoundIcon open={linkViewOpen} icon={<LinkIcon />} />
             </Button>
           )}
         {active && (
@@ -97,10 +98,15 @@ const FolderItem = ({
               showLink={showLink}
               refFunc={refFunc}
               linkViewOpen={linkViewOpen}
+              setPrimary={setPrimary}
             />
           ))}
       </div>
-      <EditLinkButton refFunc={refFunc} id={id} setPrimary={() => {}} />
+      <EditLinkButton
+        refFunc={refFunc}
+        id={uniqueId}
+        setPrimary={() => setPrimary({ connectionId, id, rank })}
+      />
     </React.Fragment>
   );
 };
@@ -123,6 +129,7 @@ FolderItem.propTypes = {
   linkViewOpen: bool,
   activeFilters: arrayOf(string),
   toggleFilter: func,
+  connectionId: string,
 };
 
 export default FolderItem;

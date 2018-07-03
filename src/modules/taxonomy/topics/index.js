@@ -56,6 +56,14 @@ function addTopicToTopic(body) {
   }).then(resolveJsonOrRejectWithError);
 }
 
+function updateTopicSubtopic(connectionId, body) {
+  return fetchAuthorized(`${baseUrl}/topic-subtopics/${connectionId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify(body),
+  }).then(res => resolveJsonOrRejectWithError(res, true));
+}
+
 function deleteTopicConnection(id) {
   return fetchAuthorized(`${baseUrl}/subject-topics/${id}`, {
     method: 'DELETE',
@@ -109,4 +117,5 @@ export {
   deleteTopicFilter,
   fetchTopicResources,
   fetchTopicConnections,
+  updateTopicSubtopic,
 };

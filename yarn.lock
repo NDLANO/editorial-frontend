@@ -5263,9 +5263,9 @@ jsonify@~0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/jsonify/-/jsonify-0.0.0.tgz#2c74b6ee41d93ca51b7b5aaee8f503631d252a73"
 
-jsplumb@^2.6.9:
-  version "2.6.9"
-  resolved "https://registry.yarnpkg.com/jsplumb/-/jsplumb-2.6.9.tgz#4219cebf62dd5a477994418d2d8bf6ee0956753c"
+jsplumb@^2.7.9:
+  version "2.7.9"
+  resolved "https://registry.yarnpkg.com/jsplumb/-/jsplumb-2.7.9.tgz#8a419ca1bb0e8342eaf8eafcf0beeb1d0a7c8766"
 
 jsprim@^1.2.2:
   version "1.4.1"

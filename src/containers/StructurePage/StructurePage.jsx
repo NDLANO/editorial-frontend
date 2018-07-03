@@ -50,7 +50,7 @@ export class StructurePage extends React.PureComponent {
       filters: [],
       activeFilters: activeFilters.split(','),
       jsPlumbConnections: [],
-      filteredConnections: [],
+      activeConnections: [],
     };
     this.starButton = React.createRef();
     this.getAllSubjects = this.getAllSubjects.bind(this);
@@ -194,12 +194,10 @@ export class StructurePage extends React.PureComponent {
     }
   }
 
-  async setPrimary(folderItem) {
-    const connection = folderItem.targetId.includes('subject')
-      ? this.state.filteredConnections.find(conn =>
-          conn.paths[0].includes(folderItem.targetId.replace('urn:', '')),
-        )
-      : folderItem;
+  async setPrimary(subjectId) {
+    const connection = this.state.activeConnections.find(conn =>
+      conn.paths.some(path => path.includes(subjectId.replace('urn:', ''))),
+    );
 
     if (connection.connectionId.includes('topic-subtopic')) {
       const ok = await updateTopicSubtopic(connection.connectionId, {
@@ -226,7 +224,7 @@ export class StructurePage extends React.PureComponent {
     this.state.jsPlumbConnections.forEach(conn => {
       jsPlumb.deleteConnection(conn);
     });
-    this.setState({ jsPlumbConnections: [], filteredConnections: [] });
+    this.setState({ jsPlumbConnections: [], activeConnections: [] });
   }
 
   async showLink(id, parent) {
@@ -236,15 +234,17 @@ export class StructurePage extends React.PureComponent {
       const connectionArray = await fetchTopicConnections(id);
 
       const uniqueId = parent ? `${parent}${id}` : id;
-      const { connections, filteredConnections } = connectLinkItems(
+      const connections = connectLinkItems(
         uniqueId,
         connectionArray,
         parent,
+        this.props.match.params.subject,
         this,
       );
-      console.log(connectionArray);
-      console.log(connections);
-      this.setState({ jsPlumbConnections: connections, filteredConnections });
+      this.setState({
+        jsPlumbConnections: connections,
+        activeConnections: connectionArray,
+      });
     }
   }
 

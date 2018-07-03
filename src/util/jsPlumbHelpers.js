@@ -4,14 +4,14 @@ export const connectLinkItems = (
   source,
   connectionArray,
   parent,
+  subject,
   container,
 ) => {
   const filteredConnections = connectionArray.filter(
     connection =>
       connection.targetId !== parent && connection.type !== 'subtopic',
   );
-  if (filteredConnections.length === 0)
-    return { connections: [], filteredConnections };
+  if (filteredConnections.length === 0) return [];
   const connectionTargets = filteredConnections.map(conn => {
     if (conn.type === 'parent-topic') {
       return { ...conn, targetId: `urn:${conn.paths[0].split('/')[1]}` };
@@ -36,7 +36,7 @@ export const connectLinkItems = (
             );
             return isPrimary
               ? container.starButton.current
-              : container[`linkButton-${source}`];
+              : container[`linkButton-urn:${subject}`];
           },
           location: 70,
           id: 'sourceOverlay',
@@ -45,32 +45,28 @@ export const connectLinkItems = (
     ],
   });
 
-  return {
-    filteredConnections,
-    connections: connectionTargets.map(({ targetId, isPrimary }) => {
-      const connected = instance.connect({
-        source,
-        target: targetId,
-        overlays: [
-          [
-            'Custom',
-            {
-              create: component => {
-                if (!component.target)
-                  return container[`linkButton-${targetId}`];
-                return isPrimary
-                  ? container.starButton.current
-                  : container[`linkButton-${targetId}`];
-              },
-              location: -30,
-              id: `targetOverlay`,
+  return connectionTargets.map(({ targetId, isPrimary }) => {
+    const connected = instance.connect({
+      source,
+      target: targetId,
+      overlays: [
+        [
+          'Custom',
+          {
+            create: component => {
+              if (!component.target) return container[`linkButton-${targetId}`];
+              return isPrimary
+                ? container.starButton.current
+                : container[`linkButton-${targetId}`];
             },
-          ],
+            location: -30,
+            id: `targetOverlay`,
+          },
         ],
-      });
-      connected.showOverlay('sourceOverlay');
-      connected.showOverlay(`targetOverlay`);
-      return connected;
-    }),
-  };
+      ],
+    });
+    connected.showOverlay('sourceOverlay');
+    connected.showOverlay(`targetOverlay`);
+    return connected;
+  });
 };

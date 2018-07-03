@@ -61,6 +61,7 @@ class TopicSettingItems extends React.PureComponent {
     await addTopicToTopic({
       subtopicid: subTopicId,
       topicid: currentTopicId,
+      primary: false,
     });
     this.props.refreshTopics();
   }

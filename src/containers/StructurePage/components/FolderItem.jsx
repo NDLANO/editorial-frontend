@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { string, bool, arrayOf, object, shape, func } from 'prop-types';
+import { string, bool, arrayOf, object, shape, func, number } from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Folder, Link as LinkIcon } from 'ndla-icons/editor';
 import { Link as RouterLink } from 'react-router-dom';
@@ -105,7 +105,7 @@ const FolderItem = ({
       <EditLinkButton
         refFunc={refFunc}
         id={uniqueId}
-        setPrimary={() => setPrimary({ connectionId, id, rank })}
+        setPrimary={() => setPrimary({ connectionId, targetId: id, rank })}
       />
     </React.Fragment>
   );
@@ -130,6 +130,8 @@ FolderItem.propTypes = {
   activeFilters: arrayOf(string),
   toggleFilter: func,
   connectionId: string,
+  rank: number,
+  setPrimary: func,
 };
 
 export default FolderItem;

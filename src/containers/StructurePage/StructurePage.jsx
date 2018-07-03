@@ -194,17 +194,23 @@ export class StructurePage extends React.PureComponent {
     }
   }
 
-  async setPrimary({ connectionId, ...rest }) {
-    if (connectionId.contains('topic-subtopic')) {
-      const ok = await updateTopicSubtopic(connectionId, {
+  async setPrimary(folderItem) {
+    const connection = folderItem.targetId.includes('subject')
+      ? this.state.filteredConnections.find(conn =>
+          conn.paths[0].includes(folderItem.targetId.replace('urn:', '')),
+        )
+      : folderItem;
+
+    if (connection.connectionId.includes('topic-subtopic')) {
+      const ok = await updateTopicSubtopic(connection.connectionId, {
+        id: connection.targetId,
         primary: true,
-        ...rest,
       });
       if (ok) this.deleteConnections();
     } else {
-      const ok = await updateSubjectTopic(connectionId, {
+      const ok = await updateSubjectTopic(connection.connectionId, {
+        id: connection.targetId,
         primary: true,
-        ...rest,
       });
       if (ok) this.deleteConnections();
     }

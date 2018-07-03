@@ -44,14 +44,16 @@ class EditLinkButton extends Component {
             <WarningModal
               text={t('taxonomy.confirmSetPrimary')}
               onCancel={() => this.setState({ showWarning: false })}
-              onContinue={setPrimary}
+              onContinue={() => {
+                this.setState({ showWarning: false });
+                setPrimary();
+              }}
             />
           </Portal>
         )}
         <Button
           stripped
           onClick={() => {
-            console.log(id);
             this.setState({ open: true });
           }}>
           <RoundIcon icon={<LinkIcon />} />

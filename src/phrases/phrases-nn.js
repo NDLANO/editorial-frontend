@@ -529,6 +529,7 @@ const phrases = {
     wrongType: 'Obs! Denne ressursen er en annen type',
     noResources: 'Ingen ressurser funnet',
     addTopicDescription: 'Endre emnebeskrivelse',
+    confirmSetPrimary: 'Vil du gjer dette til hovudplassering?',
     resource: {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',

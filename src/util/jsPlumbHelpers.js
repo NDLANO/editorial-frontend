@@ -34,7 +34,6 @@ export const connectLinkItems = (
             const { isPrimary } = connectionArray.find(
               connection => connection.targetId === parent,
             );
-            console.log(container[`linkButton-${source}`]);
             return isPrimary
               ? container.starButton.current
               : container[`linkButton-${source}`];
@@ -57,7 +56,6 @@ export const connectLinkItems = (
             'Custom',
             {
               create: component => {
-                console.log(container[`linkButton-${targetId}`]);
                 if (!component.target)
                   return container[`linkButton-${targetId}`];
                 return isPrimary

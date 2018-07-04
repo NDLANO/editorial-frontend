@@ -12,7 +12,7 @@ import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Link as LinkIcon } from 'ndla-icons/editor';
 import BEMHelper from 'react-bem-helper';
-import { Cross, Pencil } from 'ndla-icons/action';
+import { Cross, Pencil, Minus } from 'ndla-icons/action';
 import Overlay from '../../../components/Overlay';
 import RoundIcon from '../../../components/RoundIcon';
 import WarningModal from '../../../components/WarningModal';
@@ -32,21 +32,34 @@ class EditLinkButton extends Component {
   }
 
   render() {
-    const { refFunc, id, t, setPrimary } = this.props;
+    const { refFunc, id, t, setPrimary, deleteTopicLink } = this.props;
     const linkId = `linkButton-${id}`;
     return (
       <div
         style={{ display: 'none' }}
         id={linkId}
         ref={el => refFunc(el, linkId)}>
-        {this.state.showWarning && (
+        {this.state.setPrimaryWarning && (
           <Portal isOpened>
             <WarningModal
               text={t('taxonomy.confirmSetPrimary')}
-              onCancel={() => this.setState({ showWarning: false })}
+              onCancel={() => this.setState({ setPrimaryWarning: false })}
               onContinue={() => {
-                this.setState({ showWarning: false });
+                this.setState({ setPrimaryWarning: false, open: false });
                 setPrimary();
+              }}
+            />
+          </Portal>
+        )}
+        {this.state.deleteLinkWarning && (
+          <Portal isOpened>
+            <WarningModal
+              text={t('taxonomy.confirmDeleteTopic')}
+              onCancel={() => this.setState({ deleteLinkWarning: false })}
+              confirmDelete
+              onContinue={() => {
+                this.setState({ deleteLinkWarning: false, open: false });
+                deleteTopicLink(id);
               }}
             />
           </Portal>
@@ -75,9 +88,16 @@ class EditLinkButton extends Component {
               <Button
                 stripped
                 {...classes('menuItem')}
-                onClick={() => this.setState({ showWarning: true })}>
+                onClick={() => this.setState({ setPrimaryWarning: true })}>
                 <RoundIcon small icon={<Pencil />} />
                 {t('taxonomy.setPrimary')}
+              </Button>
+              <Button
+                stripped
+                {...classes('menuItem')}
+                onClick={() => this.setState({ deleteLinkWarning: true })}>
+                <RoundIcon small icon={<Minus />} />
+                {t('taxonomy.removeLink')}
               </Button>
             </div>
           </React.Fragment>
@@ -91,6 +111,7 @@ EditLinkButton.propTypes = {
   refFunc: PropTypes.func,
   id: PropTypes.string,
   setPrimary: PropTypes.func,
+  deleteTopicLink: PropTypes.func,
 };
 
 export default injectT(EditLinkButton);

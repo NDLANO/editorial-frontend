@@ -34,6 +34,8 @@ import {
   fetchTopicConnections,
   updateTopicSubtopic,
   updateSubjectTopic,
+  deleteTopicConnection,
+  deleteSubTopicConnection,
 } from '../../modules/taxonomy';
 import { groupTopics } from '../../util/taxonomyHelpers';
 import RoundIcon from '../../components/RoundIcon';
@@ -64,6 +66,7 @@ export class StructurePage extends React.PureComponent {
     this.toggleFilter = this.toggleFilter.bind(this);
     this.setPrimary = this.setPrimary.bind(this);
     this.getActiveFiltersFromUrl = this.getActiveFiltersFromUrl.bind(this);
+    this.deleteTopicLink = this.deleteTopicLink.bind(this);
   }
 
   componentDidMount() {
@@ -221,6 +224,24 @@ export class StructurePage extends React.PureComponent {
     this.setState({ jsPlumbConnections: [], activeConnections: [] });
   }
 
+  async deleteTopicLink(subjectId) {
+    const { activeConnections } = this.state;
+    const connectionToDelete = activeConnections.find(conn =>
+      conn.paths.some(path => path.includes(subjectId.replace('urn:', ''))),
+    );
+    const { connectionId } = connectionToDelete;
+    try {
+      if (connectionId.includes('topic-subtopic')) {
+        await deleteSubTopicConnection(connectionId);
+      } else {
+        await deleteTopicConnection(connectionId);
+      }
+      this.getSubjectTopics(subjectId);
+    } catch (e) {
+      handleError(e);
+    }
+  }
+
   async showLink(id, parent) {
     if (this.state.jsPlumbConnections.length > 0) {
       this.deleteConnections();
@@ -318,6 +339,7 @@ export class StructurePage extends React.PureComponent {
                 activeFilters={activeFilters}
                 toggleFilter={this.toggleFilter}
                 setPrimary={this.setPrimary}
+                deleteTopicLink={this.deleteTopicLink}
               />
             ))}
           </div>

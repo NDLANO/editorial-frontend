@@ -534,6 +534,7 @@ const phrases = {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
     },
+    removeLink: 'Fjern link',
   },
 };
 

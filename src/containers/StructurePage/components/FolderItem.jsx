@@ -35,6 +35,7 @@ const FolderItem = ({
   activeFilters,
   toggleFilter,
   setPrimary,
+  deleteTopicLink,
   ...rest
 }) => {
   const { url, params } = match;
@@ -105,6 +106,7 @@ const FolderItem = ({
           refFunc={refFunc}
           id={id}
           setPrimary={() => setPrimary(id)}
+          deleteTopicLink={deleteTopicLink}
         />
       )}
     </React.Fragment>
@@ -130,6 +132,7 @@ FolderItem.propTypes = {
   activeFilters: arrayOf(string),
   toggleFilter: func,
   setPrimary: func,
+  deleteTopicLink: func,
 };
 
 export default FolderItem;

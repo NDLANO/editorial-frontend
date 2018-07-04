@@ -61,6 +61,7 @@ class TopicSettingItems extends React.PureComponent {
     await addTopicToTopic({
       subtopicid: subTopicId,
       topicid: currentTopicId,
+      primary: false,
     });
     this.props.refreshTopics();
   }
@@ -131,6 +132,7 @@ class TopicSettingItems extends React.PureComponent {
         {editMode === 'addExistingTopic' ? (
           <InlineDropdown
             fetchItems={() => fetchTopics('nb')}
+            filter={path.split('/')[1]}
             classes={classes}
             onClose={onClose}
             onSubmit={e => this.onAddExistingSubTopic(id, e)}

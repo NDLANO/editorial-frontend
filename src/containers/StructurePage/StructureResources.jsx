@@ -25,6 +25,15 @@ import { getArticle } from '../../modules/article/articleApi';
 import TopicDescription from './components/TopicDescription';
 
 export class StructureResources extends React.PureComponent {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!nextProps.currentTopic.contentUri && prevState.topicDescription) {
+      return {
+        topicDescription: undefined,
+      };
+    }
+    return null;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -38,10 +47,11 @@ export class StructureResources extends React.PureComponent {
 
   async componentDidMount() {
     try {
-      const { params: { topic1, topic2, topic3 }, currentTopic } = this.props;
+      const { currentTopic } = this.props;
       await this.getAllResourceTypes();
-      const topicId = topic3 || topic2 || topic1;
-      this.getTopicResources(topicId);
+      if (currentTopic.id) {
+        this.getTopicResources(currentTopic.id);
+      }
       if (currentTopic.contentUri) {
         this.getArticle(currentTopic.contentUri);
       }
@@ -50,24 +60,15 @@ export class StructureResources extends React.PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {
-      currentTopic,
-      params: { topic1, topic2, topic3 },
-      activeFilters,
-    } = nextProps;
-    if (
-      nextProps.params !== this.props.params ||
-      activeFilters !== this.props.activeFilters
-    ) {
-      const topicId = topic3 || topic2 || topic1;
-      this.getTopicResources(topicId, activeFilters);
-    }
-    if (
-      currentTopic.contentUri &&
-      currentTopic.contentUri !== this.props.currentTopic.contentUri
-    ) {
-      this.getArticle(currentTopic.contentUri);
+  componentDidUpdate(prevProps) {
+    const { currentTopic: { id, contentUri }, activeFilters } = this.props;
+    if (id !== prevProps.currentTopic.id) {
+      this.getTopicResources(id, activeFilters);
+      if (contentUri && contentUri !== prevProps.currentTopic.contentUri) {
+        this.getArticle(contentUri);
+      }
+    } else if (activeFilters !== prevProps.activeFilters) {
+      this.getTopicResources(id, activeFilters);
     }
   }
 
@@ -93,20 +94,19 @@ export class StructureResources extends React.PureComponent {
     if (topicId) {
       const { locale } = this.props;
       const { resourceTypes } = this.state;
-      const fullId = `urn:${topicId}`;
       try {
         const [
           coreTopicResources = [],
           supplementaryTopicResources = [],
         ] = await Promise.all([
           fetchTopicResources(
-            fullId,
+            topicId,
             locale,
             RESOURCE_FILTER_CORE,
             activeFilters.join(','),
           ),
           fetchTopicResources(
-            fullId,
+            topicId,
             locale,
             RESOURCE_FILTER_SUPPLEMENTARY,
             activeFilters.join(','),
@@ -128,15 +128,9 @@ export class StructureResources extends React.PureComponent {
   }
 
   render() {
-    const {
-      params: { topic1, topic2, topic3 },
-      activeFilters,
-      locale,
-      refreshTopics,
-      currentTopic,
-    } = this.props;
-
+    const { activeFilters, locale, refreshTopics, currentTopic } = this.props;
     const { topicDescription, resourceTypes, topicResources } = this.state;
+
     return (
       <Fragment>
         <TopicDescription
@@ -155,9 +149,7 @@ export class StructureResources extends React.PureComponent {
               resource={resourceType}
               topicResource={topicResource}
               params={this.props.params}
-              refreshResources={() =>
-                this.getTopicResources(topic3 || topic2 || topic1)
-              }
+              refreshResources={() => this.getTopicResources(currentTopic.id)}
               activeFilter={activeFilters.length === 1 ? activeFilters[0] : ''}
               locale={locale}
             />

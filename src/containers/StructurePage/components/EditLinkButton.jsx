@@ -73,7 +73,9 @@ class EditLinkButton extends Component {
         </Button>
         {this.state.open && (
           <React.Fragment>
-            <Overlay onExit={() => this.setState({ open: false })} />
+            <Portal isOpened>
+              <Overlay onExit={() => this.setState({ open: false })} />
+            </Portal>
             <div {...classes('openMenu')}>
               <div className="header">
                 <RoundIcon icon={<LinkIcon />} open />

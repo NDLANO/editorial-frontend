@@ -83,23 +83,34 @@ const FolderItem = ({
       </div>
       <div {...classes('subFolders')}>
         {active &&
-          topics.map(topic => (
-            <FolderItem
-              {...rest}
-              {...topic}
-              key={topic.id}
-              active={
-                params.topic1 === topic.id.replace('urn:', '') ||
-                params.topic2 === topic.id.replace('urn:', '') ||
-                params.topic3 === topic.id.replace('urn:', '')
-              }
-              match={match}
-              showLink={showLink}
-              refFunc={refFunc}
-              linkViewOpen={linkViewOpen}
-              setPrimary={setPrimary}
-            />
-          ))}
+          topics.map(topic => {
+            if (
+              activeFilters.length === 0 ||
+              activeFilters.some(activeFilter =>
+                topic.filters.some(filter => filter.id === activeFilter),
+              )
+            ) {
+              return (
+                <FolderItem
+                  {...rest}
+                  {...topic}
+                  key={topic.id}
+                  active={
+                    params.topic1 === topic.id.replace('urn:', '') ||
+                    params.topic2 === topic.id.replace('urn:', '') ||
+                    params.topic3 === topic.id.replace('urn:', '')
+                  }
+                  match={match}
+                  showLink={showLink}
+                  refFunc={refFunc}
+                  linkViewOpen={linkViewOpen}
+                  setPrimary={setPrimary}
+                  activeFilters={activeFilters}
+                />
+              );
+            }
+            return undefined;
+          })}
       </div>
       {type === 'subject' && (
         <EditLinkButton

@@ -26,9 +26,9 @@ Filter.propTypes = {
   active: PropTypes.string,
 };
 
-const FilterView = ({ filters, activeFilters, toggleFilter }) => (
+const FilterView = ({ subjectFilters, activeFilters, toggleFilter }) => (
   <div {...classes('wrapper')}>
-    {filters.map(filter => (
+    {subjectFilters.map(filter => (
       <Filter
         {...filter}
         key={filter.id}
@@ -40,7 +40,7 @@ const FilterView = ({ filters, activeFilters, toggleFilter }) => (
 );
 
 FilterView.propTypes = {
-  filters: PropTypes.arrayOf(PropTypes.object),
+  subjectFilters: PropTypes.arrayOf(PropTypes.object),
   activeFilters: PropTypes.arrayOf(PropTypes.string),
   toggleFilter: PropTypes.func,
 };

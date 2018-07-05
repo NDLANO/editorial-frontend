@@ -75,7 +75,7 @@ const FolderItem = ({
         {active &&
           type === 'subject' && (
             <FilterView
-              filters={rest.filters}
+              subjectFilters={rest.subjectFilters}
               activeFilters={activeFilters}
               toggleFilter={toggleFilter}
             />

@@ -36,7 +36,7 @@ class SubjectSettingsItems extends Component {
       onClose,
       t,
       getFilters,
-      filters,
+      subjectFilters,
     } = this.props;
     const { editMode } = this.state;
 
@@ -111,7 +111,7 @@ class SubjectSettingsItems extends Component {
             classes={classes}
             id={id}
             getFilters={getFilters}
-            filters={filters}
+            filters={subjectFilters}
           />
         )}
       </React.Fragment>
@@ -129,7 +129,7 @@ SubjectSettingsItems.propTypes = {
   onClose: PropTypes.func,
   t: PropTypes.func,
   getFilters: PropTypes.func,
-  filters: PropTypes.arrayOf(PropTypes.object),
+  subjectFilters: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default injectT(SubjectSettingsItems);

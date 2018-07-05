@@ -88,7 +88,17 @@ class TopicSettingItems extends React.PureComponent {
   }
 
   render() {
-    const { classes, id, name, onClose, t, path, filters } = this.props;
+    const {
+      classes,
+      id,
+      name,
+      onClose,
+      t,
+      path,
+      subjectFilters,
+      refreshTopics,
+      filters,
+    } = this.props;
     const { editMode, loading, error } = this.state;
 
     return (
@@ -168,7 +178,9 @@ class TopicSettingItems extends React.PureComponent {
             classes={classes}
             path={path}
             id={id}
-            subjectFilters={filters}
+            subjectFilters={subjectFilters}
+            refreshTopics={refreshTopics}
+            topicFilters={filters}
           />
         )}
         <Button
@@ -214,7 +226,8 @@ TopicSettingItems.propTypes = {
   onDeleteTopic: PropTypes.func,
   refreshTopics: PropTypes.func,
   path: PropTypes.string,
-  filters: PropTypes.arrayOf(PropTypes.object),
+  filters: PropTypes.arrayOf(PropTypes.object).isRequired,
+  subjectFilters: PropTypes.arrayOf(PropTypes.object),
   contentUri: PropTypes.string,
 };
 

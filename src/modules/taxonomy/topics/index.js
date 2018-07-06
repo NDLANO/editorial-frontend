@@ -56,6 +56,14 @@ function addTopicToTopic(body) {
   }).then(resolveJsonOrRejectWithError);
 }
 
+function updateTopicSubtopic(connectionId, body) {
+  return fetchAuthorized(`${baseUrl}/topic-subtopics/${connectionId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify(body),
+  }).then(res => resolveJsonOrRejectWithError(res, true));
+}
+
 function deleteTopicConnection(id) {
   return fetchAuthorized(`${baseUrl}/subject-topics/${id}`, {
     method: 'DELETE',
@@ -90,6 +98,12 @@ function deleteTopicFilter({ connectionId }) {
   }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
+function fetchTopicConnections(id) {
+  return fetchAuthorized(`${baseUrl}/topics/${id}/connections`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
 export {
   fetchTopics,
   addTopic,
@@ -102,4 +116,6 @@ export {
   updateTopicFilter,
   deleteTopicFilter,
   fetchTopicResources,
+  fetchTopicConnections,
+  updateTopicSubtopic,
 };

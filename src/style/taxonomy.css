@@ -109,7 +109,6 @@
   &--open {
     background-color: var(--gray-2);
     color: var(--gray-11);
-    margin-right: calc(var(--spacing--small) / 2);
   }
 
   &--small {
@@ -149,4 +148,9 @@
     width: auto;
     margin: 0 calc(var(--spacing--small) / 2) 0 var(--spacing--small);
   }
+}
+
+#plumbContainer {
+  position: relative;
+  z-index: 1;
 }

@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
+import isEqual from 'lodash/fp/isEqual';
 import {
   fetchTopicFilters,
   addFilterToTopic,
@@ -20,72 +21,80 @@ import ConnectFilterItem from './ConnectFilterItem';
 import Spinner from '../../../components/Spinner';
 import Overlay from '../../../components/Overlay';
 import { RESOURCE_FILTER_CORE } from '../../../constants';
+import handleError from '../../../util/handleError';
 
 class ConnectFilters extends Component {
   constructor() {
     super();
     this.state = {
-      topicFilters: [],
       inputs: {},
       loading: false,
     };
-    this.getFilters = this.getFilters.bind(this);
+    this.getInputsFromProps = this.getInputsFromProps.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount() {
-    this.getFilters();
+    this.getInputsFromProps();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!isEqual(prevProps.topicFilters, this.props.topicFilters))
+      this.getInputsFromProps();
   }
 
   async onSubmit() {
     const { subjectFilters, id } = this.props;
-    const { topicFilters, inputs } = this.state;
-    this.setState({ loading: true });
-    await Promise.all([
-      ...subjectFilters.filter(filter => !!inputs[filter.id]).map(filter => {
-        const { active, relevance } = inputs[filter.id];
-        const currentFilter = topicFilters.find(it => it.id === filter.id);
-        if (active && !currentFilter) {
-          // add filter to topic
-          return addFilterToTopic({
-            filterId: filter.id,
-            topicId: id,
-            relevanceId: relevance || RESOURCE_FILTER_CORE,
-          });
-        } else if (active && relevance !== currentFilter.relevanceId) {
-          // update topic-filter with relevance
-          return updateTopicFilter({
-            connectionId: currentFilter.connectionId,
-            relevanceId: relevance,
-          });
-        } else if (!active && currentFilter) {
-          // delete topic-filter
-          return deleteTopicFilter({
-            connectionId: currentFilter.connectionId,
-          });
-        }
-        return undefined;
-      }),
-    ]);
-    const refreshedTopics = await fetchTopicFilters(this.props.id);
-    const inputVals = refreshedTopics.reduce((acc, curr) => {
-      acc[curr.id] = { active: true, relevance: curr.relevanceId };
-      return acc;
-    }, {});
-    this.setState({
-      loading: false,
-      topicFilters: refreshedTopics,
-      inputs: inputVals,
-    });
+    const { inputs } = this.state;
+    this.setState({ loading: true, error: '' });
+    try {
+      const topicFiltersWithConnectionId = await fetchTopicFilters(
+        this.props.id,
+      );
+      await Promise.all([
+        ...subjectFilters.filter(filter => !!inputs[filter.id]).map(filter => {
+          const { active, relevance } = inputs[filter.id];
+          const currentFilter = topicFiltersWithConnectionId.find(
+            it => it.id === filter.id,
+          );
+          if (active && !currentFilter) {
+            // add filter to topic
+            return addFilterToTopic({
+              filterId: filter.id,
+              topicId: id,
+              relevanceId: relevance || RESOURCE_FILTER_CORE,
+            });
+          } else if (active && relevance !== currentFilter.relevanceId) {
+            // update topic-filter with relevance
+            return updateTopicFilter({
+              connectionId: currentFilter.connectionId,
+              relevanceId: relevance,
+            });
+          } else if (!active && currentFilter) {
+            // delete topic-filter
+            return deleteTopicFilter({
+              connectionId: currentFilter.connectionId,
+            });
+          }
+          return undefined;
+        }),
+      ]);
+      this.props.refreshTopics();
+      this.setState({
+        loading: false,
+      });
+    } catch (e) {
+      handleError(e);
+      this.setState({ error: e.message });
+    }
   }
 
-  async getFilters() {
-    const topicFilters = await fetchTopicFilters(this.props.id);
-    const inputs = topicFilters.reduce((acc, curr) => {
+  getInputsFromProps() {
+    const inputVals = this.props.topicFilters.reduce((acc, curr) => {
       acc[curr.id] = { active: true, relevance: curr.relevanceId };
       return acc;
     }, {});
-    this.setState({ topicFilters, inputs, error: '' });
+    this.setState({ inputs: inputVals });
   }
 
   render() {
@@ -137,6 +146,12 @@ ConnectFilters.propTypes = {
       id: PropTypes.string,
     }),
   ),
+  topicFilters: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  ),
+  refreshTopics: PropTypes.func,
 };
 
 export default injectT(ConnectFilters);

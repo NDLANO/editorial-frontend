@@ -34,11 +34,6 @@ const topicFilterMock = [
   },
 ];
 
-beforeEach(() => {
-  nock('http://ndla-api')
-    .get('/taxonomy/v1/topics/topicId/filters')
-    .reply(200, topicFilterMock);
-});
 const wrapper = () =>
   render(
     <IntlWrapper>
@@ -46,7 +41,9 @@ const wrapper = () =>
         id="topicId"
         path="/subjectId/topicId"
         classes={() => {}}
+        refreshTopics={() => {}}
         subjectFilters={filterMock}
+        topicFilters={topicFilterMock}
       />
     </IntlWrapper>,
   );
@@ -59,6 +56,9 @@ it('maps out filters', async () => {
 });
 
 it('calls add filter, update filter, and delete filter', async () => {
+  nock('http://ndla-api')
+    .get('/taxonomy/v1/topics/topicId/filters')
+    .reply(200, topicFilterMock);
   nock('http://ndla-api')
     .post(
       '/taxonomy/v1/topic-filters',

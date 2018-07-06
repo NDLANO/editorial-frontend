@@ -335,7 +335,7 @@ export class StructurePage extends React.PureComponent {
                 refreshTopics={() => this.getSubjectTopics(subject.id)}
                 linkViewOpen={jsPlumbConnections.length > 0}
                 getFilters={this.getFilters}
-                filters={filters}
+                subjectFilters={filters}
                 activeFilters={activeFilters}
                 toggleFilter={this.toggleFilter}
                 setPrimary={this.setPrimary}

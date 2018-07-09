@@ -40,7 +40,6 @@ import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
-  processorsWithDefault,
 } from '../../../util/formHelper';
 import { toEditArticle } from '../../../util/routeHelpers';
 
@@ -78,7 +77,7 @@ export const getInitialModel = (
     content: learningResourceContentToEditorValue(article.content),
     tags: article.tags || [],
     creators: parseCopyrightContributors(article, 'creators'),
-    processors: processorsWithDefault(article),
+    processors: parseCopyrightContributors(article, 'processors'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     origin:
       article.copyright && article.copyright.origin

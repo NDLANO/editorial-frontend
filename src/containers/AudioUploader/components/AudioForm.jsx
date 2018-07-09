@@ -18,7 +18,6 @@ import SaveButton from '../../../components/SaveButton';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
-  processorsWithDefault,
 } from '../../../util/formHelper';
 import { SchemaShape } from '../../../shapes';
 import { FormHeader, WarningModalWrapper } from '../../Form';
@@ -36,7 +35,7 @@ export const getInitialModel = (audio = {}) => ({
   filepath: '',
   tags: audio.tags || [],
   creators: parseCopyrightContributors(audio, 'creators'),
-  processors: processorsWithDefault(audio),
+  processors: parseCopyrightContributors(audio, 'processors'),
   rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
   origin:
     audio.copyright && audio.copyright.origin ? audio.copyright.origin : '',

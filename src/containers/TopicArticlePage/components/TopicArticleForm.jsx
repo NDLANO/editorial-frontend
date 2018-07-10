@@ -28,7 +28,6 @@ import { SchemaShape, LicensesArrayOf } from '../../../shapes';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
-  processorsWithDefault,
 } from '../../../util/formHelper';
 import {
   FormWorkflow,
@@ -50,7 +49,7 @@ export const getInitialModel = (article = {}) => {
     content: topicArticleContentToEditorValue(article.content),
     tags: article.tags || [],
     creators: parseCopyrightContributors(article, 'creators'),
-    processors: processorsWithDefault(article),
+    processors: parseCopyrightContributors(article, 'creators'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
     copyright: article.copyright

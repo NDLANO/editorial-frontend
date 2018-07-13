@@ -458,6 +458,9 @@ const phrases = {
       showMore: 'Show more related articles',
       showLess: 'Show less',
     },
+    file: {
+      title: 'Files',
+    },
   },
   validation: {
     isRequired: '{label} is required.',

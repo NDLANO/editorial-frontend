@@ -31,6 +31,7 @@ import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPicker';
 import relatedPlugin from '../../../components/SlateEditor/plugins/related';
+import filePlugin from '../../../components/SlateEditor/plugins/file';
 import { createEmptyValue } from '../../../util/articleContentConverter';
 
 import {
@@ -65,6 +66,7 @@ class LearningResourceContent extends Component {
       createTablePlugin(),
       editTablePlugin,
       relatedPlugin(),
+      filePlugin(),
       blockPickerPlugin(this.addSection),
     ];
   }

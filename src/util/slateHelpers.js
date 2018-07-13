@@ -95,9 +95,10 @@ export const textRule = {
   },
 };
 export const divRule = {
-  // div handling with text in box (bodybox)
+  // div handling with text in box (bodybox), related content and file embeds
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'div') return;
+    const { type } = el.dataset;
 
     if (el.className === 'c-bodybox') {
       return {
@@ -105,12 +106,19 @@ export const divRule = {
         type: 'bodybox',
         nodes: next(el.childNodes),
       };
-    } else if (el.dataset.type === 'related-content') {
+    } else if (type === 'related-content') {
       return {
         kind: 'block',
         type: 'related',
         isVoid: true,
-        data: reduceChildElements(el),
+        data: reduceChildElements(el, type),
+      };
+    } else if (type === 'file') {
+      return {
+        kind: 'block',
+        type: 'file',
+        isVoid: true,
+        data: reduceChildElements(el, type),
       };
     }
     const childs = next(el.childNodes);

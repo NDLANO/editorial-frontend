@@ -19,19 +19,29 @@ export const reduceElementDataAttributes = el => {
   return obj;
 };
 
-export const reduceChildElements = el => {
+export const reduceChildElements = (el, type) => {
   const childs = [];
   el.childNodes.forEach(node => {
-    if (node.dataset.url) {
+    if (type === 'file') {
       childs.push({
         title: node.dataset.title,
+        type: node.dataset.type,
         url: node.dataset.url,
       });
+    } else if (type === 'related-content') {
+      if (node.dataset.url) {
+        childs.push({
+          title: node.dataset.title,
+          url: node.dataset.url,
+        });
+      } else {
+        childs.push({
+          articleId: node.dataset.articleId,
+          resource: 'related-content',
+        });
+      }
     } else {
-      childs.push({
-        articleId: node.dataset.articleId,
-        resource: 'related-content',
-      });
+      childs.push({ ...node.dataset });
     }
   });
 

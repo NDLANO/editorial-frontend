@@ -469,6 +469,9 @@ const phrases = {
       showMore: 'Vis flere relaterte artikler',
       showLess: 'Vis mindre',
     },
+    file: {
+      title: 'Filer',
+    },
   },
   validation: {
     isRequired: '{label} er påkrevd.',

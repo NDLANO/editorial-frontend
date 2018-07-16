@@ -6020,12 +6020,13 @@ ncp@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
 
-ndla-article-scripts@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.3.3.tgz#f382fefffec86499891f5b83687a38f29b35f8b0"
+ndla-article-scripts@^0.3.10:
+  version "0.3.10"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.3.10.tgz#324f65562371d23e2c2f6f440adff5b07c920a5f"
   dependencies:
     focus-trap "^2.4.3"
     jump.js "^1.0.2"
+    lodash "^4.17.5"
 
 ndla-audio-search@^0.1.20:
   version "0.1.20"
@@ -6046,9 +6047,9 @@ ndla-i18n@^0.2.2:
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-ndla-icons@^0.3.5:
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.3.5.tgz#7d989a8b3c74e60da0785239e8ad0a026e6ae142"
+ndla-icons@^0.3.10:
+  version "0.3.10"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.3.10.tgz#2bbff56be1ef875c6cfefc67b1c32d13960728b8"
 
 ndla-image-search@^0.2.10:
   version "0.2.10"
@@ -6080,9 +6081,9 @@ ndla-tabs@^0.4.4:
   dependencies:
     lodash "^4.17.5"
 
-ndla-ui@^0.12.17:
-  version "0.12.17"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.12.17.tgz#24f99e68781efb215b1bdb4e4cb173273fb9fcde"
+ndla-ui@^0.12.31:
+  version "0.12.31"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.12.31.tgz#a193baae3b2744e42901e4f068eb3fabfe08db1d"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
@@ -6094,9 +6095,9 @@ ndla-ui@^0.12.17:
     react-slick "^0.19.0"
     react-transition-group "^2.2.1"
 
-ndla-util@^0.1.11:
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.11.tgz#aed9c78841658c4bd844831485947524c81d598f"
+ndla-util@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.2.1.tgz#3d30b09ee5c89ad9f0da1709378d9be1d5a839ea"
   dependencies:
     defined "1.0.0"
 

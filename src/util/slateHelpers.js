@@ -141,11 +141,11 @@ export const paragraphRule = {
       : '';
 
     const type = parent === 'li' ? 'list-text' : 'paragraph';
-
+    const nodes = next(el.childNodes);
     return {
       kind: 'block',
       type,
-      nodes: next(el.childNodes),
+      nodes,
     };
   },
   serialize(object, children) {
@@ -469,7 +469,7 @@ const topicArticeEmbedRule = [
     // Embeds handling
     deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
-
+      console.log(el.dataset);
       if (el.dateset['data-resource'] === 'related-content') {
         return;
       }
@@ -495,9 +495,9 @@ export const learningResourceEmbedRule = [
   {
     deserialize(el) {
       if (!el.tagName.toLowerCase().startsWith('embed')) return;
-
       const embed = reduceElementDataAttributes(el);
-      if (el.dataset['data-resource'] === 'related-content') return;
+
+      if (el.dataset.resource === 'related-content') return;
       if (embed.resource === 'content-link') {
         return {
           kind: 'inline',
@@ -506,14 +506,43 @@ export const learningResourceEmbedRule = [
           nodes: [
             {
               kind: 'text',
-              text: embed['link-text']
-                ? embed['link-text']
-                : 'Ukjent link tekst',
+              isVoid: true,
+              leaves: [
+                {
+                  kind: 'leaf',
+                  text: embed['link-text']
+                    ? embed['link-text']
+                    : 'Ukjent link tekst',
+                  marks: [],
+                },
+              ],
             },
           ],
-          isVoid: false,
         };
       }
+      if (embed.resource === 'concept') {
+        return {
+          kind: 'inline',
+          type: 'concept',
+          data: embed,
+          nodes: [
+            {
+              kind: 'text',
+              isVoid: true,
+              leaves: [
+                {
+                  kind: 'leaf',
+                  text: embed['link-text']
+                    ? embed['link-text']
+                    : 'Ukjent link tekst',
+                  marks: [],
+                },
+              ],
+            },
+          ],
+        };
+      }
+
       return {
         kind: 'block',
         type: 'embed',
@@ -523,11 +552,15 @@ export const learningResourceEmbedRule = [
     },
 
     serialize(object) {
-      if (!object.type || !object.type.startsWith('embed')) return;
-      const data = object.data.toJS();
-      const props = createEmbedProps(data);
+      if (
+        (object.type && object.type.startsWith('embed')) ||
+        object.type === 'concept'
+      ) {
+        const data = object.data.toJS();
+        const props = createEmbedProps(data);
 
-      return <embed {...props} />;
+        return <embed {...props} />;
+      }
     },
   },
 ];

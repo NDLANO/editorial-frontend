@@ -13,6 +13,7 @@ import {
 } from '../../util/apiHelpers';
 
 const articleUrl = apiResourceUrl('/article-api/v2/articles');
+const conceptUrl = apiResourceUrl('/article-api/v1/concepts');
 
 export const searchArticles = (id, locale, queryString = '') =>
   fetchAuthorized(
@@ -31,3 +32,11 @@ export const searchRelatedArticles = async (input, locale, contentType) => {
 
 export const getArticle = id =>
   fetchAuthorized(`${articleUrl}/${id}`).then(resolveJsonOrRejectWithError);
+
+export const fetchConcept = async (conceptId, language) => {
+  const response = await fetchAuthorized(
+    `${conceptUrl}/${conceptId}?language=${language}`,
+  );
+  const concept = await resolveJsonOrRejectWithError(response);
+  return concept;
+};

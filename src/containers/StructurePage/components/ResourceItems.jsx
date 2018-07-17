@@ -15,8 +15,10 @@ import {
   deleteTopicResource,
   fetchResourceFilter,
   updateResourceRelevance,
+  updateTopicResource,
 } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
+import MakeDndList from '../../../components/MakeDndList';
 import WarningModal from '../../../components/WarningModal';
 import { classes } from './ResourceGroup';
 import {
@@ -31,6 +33,7 @@ class ResourceItems extends React.PureComponent {
     this.onDelete = this.onDelete.bind(this);
     this.toggleRelevance = this.toggleRelevance.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
   }
 
   async onDelete(id) {
@@ -43,6 +46,21 @@ class ResourceItems extends React.PureComponent {
       this.setState({
         error: `${this.props.t('taxonomy.errorMessage')}: ${e.message}`,
       });
+    }
+  }
+
+  async onDragEnd({ destination, source }) {
+    if (!destination) return;
+    try {
+      const { connectionId, isPrimary } = this.props.resources[source.index];
+      const { rank } = this.props.resources[destination.index];
+      await updateTopicResource(connectionId, {
+        rank,
+        primary: isPrimary,
+      });
+      this.props.refreshResources();
+    } catch (e) {
+      handleError(e.message);
     }
   }
 
@@ -71,22 +89,25 @@ class ResourceItems extends React.PureComponent {
     const { contentType, resources, t, activeFilter } = this.props;
     return (
       <ul {...classes('list')}>
-        {resources.map(resource => (
-          <li key={resource.id} {...classes('item')}>
-            <Resource
-              contentType={contentType}
-              name={resource.name}
-              id={resource.id}
-              onDelete={() => this.toggleDelete(resource.connectionId)}
-              toggleRelevance={
-                activeFilter
-                  ? () => this.toggleRelevance(resource.id, resource.relevance)
-                  : undefined
-              }
-              relevance={resource.relevance}
-            />
-          </li>
-        ))}
+        <MakeDndList onDragEnd={this.onDragEnd}>
+          {resources.map(resource => (
+            <li key={resource.id} id={resource.id} {...classes('item')}>
+              <Resource
+                contentType={contentType}
+                name={resource.name}
+                id={resource.id}
+                onDelete={() => this.toggleDelete(resource.connectionId)}
+                toggleRelevance={
+                  activeFilter
+                    ? () =>
+                        this.toggleRelevance(resource.id, resource.relevance)
+                    : undefined
+                }
+                relevance={resource.relevance}
+              />
+            </li>
+          ))}
+        </MakeDndList>
         {this.state.error && (
           <div
             data-testid="inlineEditErrorMessage"

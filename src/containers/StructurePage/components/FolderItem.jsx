@@ -16,6 +16,7 @@ import SettingsMenu from './SettingsMenu';
 import EditLinkButton from './EditLinkButton';
 import RoundIcon from '../../../components/RoundIcon';
 import FilterView from './FilterView';
+import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
 import {
   updateTopicSubtopic,
@@ -39,19 +40,24 @@ class FolderItem extends React.PureComponent {
     if (!destination) {
       return;
     }
-    const { connectionId, isPrimary } = this.props.topics[source.index];
-    if (connectionId.includes('topic-subtopic')) {
-      const ok = await updateTopicSubtopic(connectionId, {
-        rank: destination.index,
-        primary: isPrimary,
-      });
-      if (ok) this.props.refreshTopics();
-    } else {
-      const ok = await updateSubjectTopic(connectionId, {
-        rank: destination.index,
-        primary: isPrimary,
-      });
-      if (ok) this.props.refreshTopics();
+    try {
+      const { connectionId, isPrimary } = this.props.topics[source.index];
+      const { rank } = this.props.topics[destination.index];
+      if (connectionId.includes('topic-subtopic')) {
+        const ok = await updateTopicSubtopic(connectionId, {
+          rank,
+          primary: isPrimary,
+        });
+        if (ok) this.props.refreshTopics();
+      } else {
+        const ok = await updateSubjectTopic(connectionId, {
+          rank,
+          primary: isPrimary,
+        });
+        if (ok) this.props.refreshTopics();
+      }
+    } catch (e) {
+      handleError(e.message);
     }
   }
 

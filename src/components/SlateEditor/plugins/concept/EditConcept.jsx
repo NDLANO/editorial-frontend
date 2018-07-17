@@ -29,15 +29,18 @@ class EditConcept extends React.PureComponent {
     this.setState({ concept, linkText: node.data.get('link-text') });
   }
 
+  /*  eslint-disable */
   openEditConcept(e) {
     e.preventDefault();
-  }
+  } /* eslint-enable */
 
   render() {
-    const { t } = this.props;
     const { concept, linkText } = this.state;
     return (
-      <button {...classes('link')} onClick={this.openEditConcept}>
+      <button
+        {...classes('link')}
+        onClick={this.openEditConcept}
+        id={concept.id}>
         {linkText}
       </button>
     );

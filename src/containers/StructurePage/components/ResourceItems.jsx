@@ -91,21 +91,19 @@ class ResourceItems extends React.PureComponent {
       <ul {...classes('list')}>
         <MakeDndList onDragEnd={this.onDragEnd}>
           {resources.map(resource => (
-            <li key={resource.id} id={resource.id} {...classes('item')}>
-              <Resource
-                contentType={contentType}
-                name={resource.name}
-                id={resource.id}
-                onDelete={() => this.toggleDelete(resource.connectionId)}
-                toggleRelevance={
-                  activeFilter
-                    ? () =>
-                        this.toggleRelevance(resource.id, resource.relevance)
-                    : undefined
-                }
-                relevance={resource.relevance}
-              />
-            </li>
+            <Resource
+              contentType={contentType}
+              name={resource.name}
+              id={resource.id}
+              key={resource.id}
+              onDelete={() => this.toggleDelete(resource.connectionId)}
+              toggleRelevance={
+                activeFilter
+                  ? () => this.toggleRelevance(resource.id, resource.relevance)
+                  : undefined
+              }
+              relevance={resource.relevance}
+            />
           ))}
         </MakeDndList>
         {this.state.error && (

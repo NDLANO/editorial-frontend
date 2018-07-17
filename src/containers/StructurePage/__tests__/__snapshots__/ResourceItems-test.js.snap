@@ -17,7 +17,6 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
     >
       <li
         class="c-topic-resource__item"
-        id="urn:resource:1:159742"
       >
         <div
           class="c-topic-resource__text o-flag o-flag--top"
@@ -130,7 +129,6 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
     >
       <li
         class="c-topic-resource__item"
-        id="urn:resource:1:166022"
       >
         <div
           class="c-topic-resource__text o-flag o-flag--top"
@@ -243,7 +241,6 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
     >
       <li
         class="c-topic-resource__item"
-        id="urn:resource:1:167859"
       >
         <div
           class="c-topic-resource__text o-flag o-flag--top"
@@ -356,7 +353,6 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
     >
       <li
         class="c-topic-resource__item"
-        id="urn:resource:1:169735"
       >
         <div
           class="c-topic-resource__text o-flag o-flag--top"
@@ -469,7 +465,6 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
     >
       <li
         class="c-topic-resource__item"
-        id="urn:resource:1:178253"
       >
         <div
           class="c-topic-resource__text o-flag o-flag--top"
@@ -582,7 +577,6 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
     >
       <li
         class="c-topic-resource__item"
-        id="urn:resource:1:183249"
       >
         <div
           class="c-topic-resource__text o-flag o-flag--top"

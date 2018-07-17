@@ -24,6 +24,7 @@ export const reduceChildElements = (el, type) => {
   el.childNodes.forEach(node => {
     if (type === 'file') {
       childs.push({
+        resource: 'file',
         title: node.dataset.title,
         type: node.dataset.type,
         url: node.dataset.url,

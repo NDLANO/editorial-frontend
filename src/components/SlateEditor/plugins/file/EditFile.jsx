@@ -10,7 +10,7 @@ import { Portal } from '../../../../components/Portal';
 
 const classes = BEMHelper('c-file-list');
 
-class EditFiles extends Component {
+class EditFile extends Component {
   componentDidMount() {
     const { placeholderEl, embedEl } = this;
 
@@ -55,12 +55,13 @@ class EditFiles extends Component {
               <ul {...classes('files')}>
                 {files.map(file => [
                   <File
-                    key={`file-${file.title}`}
+                    key={`file-${file.id}-${file.title}`}
                     file={file}
                     id="file-embed"
                   />,
                   <SlateInputField
-                    name="caption"
+                    id={file.id}
+                    name="title"
                     label={t('form.file.title.label')}
                     type="text"
                     value={file.title}
@@ -78,7 +79,7 @@ class EditFiles extends Component {
   }
 }
 
-EditFiles.propTypes = {
+EditFile.propTypes = {
   heading: PropTypes.string.isRequired,
   files: PropTypes.arrayOf(
     PropTypes.shape({
@@ -94,8 +95,7 @@ EditFiles.propTypes = {
   ).isRequired,
   onExit: PropTypes.func.isRequired,
   onFileListInputChange: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
 };
 
-export default injectT(EditFiles);
+export default injectT(EditFile);

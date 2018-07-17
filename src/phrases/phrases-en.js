@@ -459,7 +459,12 @@ const phrases = {
       showLess: 'Show less',
     },
     file: {
-      title: 'Files',
+      label: 'Files',
+      download: 'Download:',
+      title: {
+        label: 'File title',
+        placeholder: 'File title',
+      },
     },
   },
   validation: {

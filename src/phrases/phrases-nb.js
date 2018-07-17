@@ -475,7 +475,12 @@ const phrases = {
       showLess: 'Vis mindre',
     },
     file: {
-      title: 'Filer',
+      label: 'Filer',
+      download: 'Last ned:',
+      title: {
+        label: 'Filtittel',
+        placeholder: 'Filtittel',
+      },
     },
   },
   validation: {

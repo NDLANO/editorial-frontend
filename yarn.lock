@@ -6081,9 +6081,9 @@ ndla-tabs@^0.5.0:
   dependencies:
     lodash "^4.17.5"
 
-ndla-ui@^0.12.28:
-  version "0.12.28"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.12.28.tgz#85599df23e413434e3a56c12fc1cff92500b0b67"
+ndla-ui@^0.12.31:
+  version "0.12.31"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.12.31.tgz#a193baae3b2744e42901e4f068eb3fabfe08db1d"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"

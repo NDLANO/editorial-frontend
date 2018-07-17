@@ -130,10 +130,24 @@ export const divRule = {
   },
   serialize(object, children) {
     if (object.kind !== 'block') return;
-    if (object.type !== 'div' && object.type !== 'bodybox') return;
+    if (
+      object.type !== 'div' &&
+      object.type !== 'bodybox' &&
+      object.type !== 'file'
+    )
+      return;
     switch (object.type) {
       case 'bodybox':
         return <div className="c-bodybox">{children}</div>;
+      case 'file':
+        return (
+          <div data-type="file">
+            {object.data.get('nodes') &&
+              object.data
+                .get('nodes')
+                .map(node => <embed {...createEmbedProps(node)} />)}
+          </div>
+        );
       default:
         return <div>{children}</div>;
     }

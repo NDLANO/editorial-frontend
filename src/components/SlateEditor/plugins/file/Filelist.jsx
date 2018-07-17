@@ -11,35 +11,61 @@ import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import { FileList } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import EditFiles from './EditFiles';
+import { EditorShape } from '../../../../shapes';
+import { getSchemaEmbed } from '../../schema';
+import EditFile from './EditFile';
 
 class Filelist extends React.Component {
   constructor(props) {
     super(props);
-    const { node: { data } } = props;
+    const { node, t } = props;
+    const { nodes } = getSchemaEmbed(node);
 
-    const files =
-      data &&
-      data.get('nodes') &&
-      data.get('nodes').map(({ title, type, url }) => ({
-        title,
-        formats: [{ url, fileType: type }],
-      }));
+    const files = nodes.map(({ title, type, url }, id) => ({
+      id,
+      title,
+      formats: [
+        { url, fileType: type, tooltip: `${t`form.file.download`} ${title}` },
+      ],
+    }));
 
     this.state = { files, editMode: false };
     this.toggleEdit = this.toggleEdit.bind(this);
+    this.onFileInputChange = this.onFileInputChange.bind(this);
   }
 
   onFileInputChange(e) {
-    const { value, name } = e.target;
+    const { id, value, name } = e.target;
+    const { t, node, editor } = this.props;
 
-    this.setState(prevState => ({
-      audio: {
-        ...prevState.audio,
-        [name]: value,
+    const { files } = this.state;
+    files[id][name] = value;
+
+    // Update correct tooltip value in state as well
+    if (name === 'title') {
+      files[id].formats = files[id].formats.map(format => ({
+        ...format,
+        tooltip: `${t`form.file.download`} ${value}`,
+      }));
+    }
+
+    this.setState({ files });
+
+    const { nodes } = getSchemaEmbed(node);
+    const properties = {
+      data: {
+        nodes: nodes.map(nodeItem => ({
+          ...nodeItem,
+          // URL as unique identifier for file embed until proper key/id is added
+          [name]: files.filter(file => file.formats[0].url === nodeItem.url)[0][
+            name
+          ],
+        })),
       },
-    }));
-    this.props.onFigureInputChange(e);
+    };
+
+    const next = editor.value.change().setNodeByKey(node.key, properties);
+    editor.onChange(next);
   }
 
   toggleEdit(e) {
@@ -49,17 +75,17 @@ class Filelist extends React.Component {
 
   render() {
     const { files } = this.state;
-    const { t, submitted } = this.props;
+    const { t } = this.props;
 
     return (
       <Fragment>
         {this.state.editMode ? (
-          <EditFiles
-            heading={t`form.file.title`}
+          <EditFile
+            heading={t`form.file.label`}
             files={files}
             onExit={this.toggleEdit}
             onFileListInputChange={this.onFileInputChange}
-            submitted={submitted}
+            submitted={false}
           />
         ) : (
           <div
@@ -71,7 +97,7 @@ class Filelist extends React.Component {
             {files &&
               files.length > 0 && (
                 <FileList
-                  heading={t`form.file.title`}
+                  heading={t`form.file.label`}
                   id="file-embed"
                   files={files}
                 />
@@ -84,10 +110,8 @@ class Filelist extends React.Component {
 }
 
 Filelist.propTypes = {
+  editor: EditorShape,
   node: Types.node.isRequired,
-  onRemoveClick: PropTypes.func.isRequired,
-  onFigureInputChange: PropTypes.func.isRequired,
-  submitted: PropTypes.bool.isRequired,
   locale: PropTypes.string,
 };
 

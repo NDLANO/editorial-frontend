@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import SlateConcept from './SlateConcept';
+import EditConcept from './EditConcept';
 
 export const TYPE = 'concept';
 
@@ -23,7 +23,7 @@ export default function linkPlugin() {
 
     switch (node.type) {
       case TYPE:
-        return <SlateConcept {...{ attributes, value, editor, node }} />;
+        return <EditConcept {...{ attributes, value, editor, node }} />;
       default:
         return null;
     }

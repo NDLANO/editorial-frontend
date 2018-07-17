@@ -10,7 +10,7 @@
   &__wrapper {
     display: flex;
     align-items: center;
-    margin: var(--spacing--small);
+    padding: calc(var(--spacing--small) / 2) 0;
 
     &--dragging {
       margin: 0;

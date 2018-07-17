@@ -99,6 +99,9 @@ export const clearAccessTokenFromLocalStorage = () => {
   localStorage.removeItem('access_token_personal');
 };
 
+export const getAccessTokenPersonal = () =>
+  localStorage.getItem('access_token_personal') === 'true';
+
 export const getAccessTokenExpiresAt = () =>
   localStorage.getItem('access_token_expires_at')
     ? JSON.parse(localStorage.getItem('access_token_expires_at'))
@@ -144,12 +147,11 @@ export const renewPersonalAuth = () =>
     );
   });
 
-export const renewAuth = () => {
+export const renewAuth = async () => {
   if (localStorage.getItem('access_token_personal') === 'true') {
-    renewPersonalAuth();
-  } else {
-    renewSystemAuth();
+    return renewPersonalAuth();
   }
+  return renewSystemAuth();
 };
 
 export const personalAuthLogout = federated => {

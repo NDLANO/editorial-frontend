@@ -9,10 +9,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import { Plus } from 'ndla-icons/action';
+import handleError from '../../../util/handleError';
 import InlineEditField from './InlineEditField';
 import {
-  fetchSubjectFilters,
   createSubjectFilter,
   editSubjectFilter,
   deleteFilter,
@@ -25,29 +26,19 @@ class EditFilters extends React.Component {
     super();
     this.state = {
       editMode: '',
-      filters: [],
     };
     this.addFilter = this.addFilter.bind(this);
-    this.getFilters = this.getFilters.bind(this);
     this.showDeleteWarning = this.showDeleteWarning.bind(this);
     this.deleteFilter = this.deleteFilter.bind(this);
     this.editFilter = this.editFilter.bind(this);
   }
 
-  componentDidMount() {
-    this.getFilters();
-  }
-
-  async getFilters() {
-    const filters = await fetchSubjectFilters(this.props.id);
-    this.setState({ filters, error: '' });
-  }
-
   async addFilter(name) {
     try {
       await createSubjectFilter(this.props.id, name);
-      this.getFilters();
+      this.props.getFilters();
     } catch (e) {
+      handleError(e);
       this.setState({ error: e.message });
     }
   }
@@ -57,6 +48,7 @@ class EditFilters extends React.Component {
       await editSubjectFilter(id, this.props.id, name);
       this.getFilters();
     } catch (e) {
+      handleError(e);
       this.setState({ error: e.message });
     }
   }
@@ -68,16 +60,17 @@ class EditFilters extends React.Component {
   async deleteFilter() {
     try {
       await deleteFilter(this.state.showDelete);
-      this.getFilters();
+      this.props.getFilters();
     } catch (e) {
-      this.setState({ error: e });
+      handleError(e);
+      this.setState({ error: e.message });
     }
     this.setState({ showDelete: false });
   }
 
   render() {
-    const { classes, t } = this.props;
-    const { editMode, filters, showDelete } = this.state;
+    const { classes, t, filters } = this.props;
+    const { editMode, showDelete } = this.state;
 
     return (
       <div {...classes('editFilters')}>
@@ -126,6 +119,8 @@ EditFilters.propTypes = {
   id: PropTypes.string,
   t: PropTypes.func,
   classes: PropTypes.func,
+  filters: PropTypes.arrayOf(PropTypes.object),
+  getFilters: PropTypes.func,
 };
 
-export default EditFilters;
+export default injectT(EditFilters);

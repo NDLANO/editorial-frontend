@@ -10,8 +10,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
+import isEqual from 'lodash/fp/isEqual';
 import {
-  fetchSubjectFilters,
   fetchTopicFilters,
   addFilterToTopic,
   updateTopicFilter,
@@ -21,81 +21,85 @@ import ConnectFilterItem from './ConnectFilterItem';
 import Spinner from '../../../components/Spinner';
 import Overlay from '../../../components/Overlay';
 import { RESOURCE_FILTER_CORE } from '../../../constants';
+import handleError from '../../../util/handleError';
 
 class ConnectFilters extends Component {
   constructor() {
     super();
     this.state = {
-      subjectFilters: [],
-      topicFilters: [],
       inputs: {},
       loading: false,
     };
-    this.getFilters = this.getFilters.bind(this);
+    this.getInputsFromProps = this.getInputsFromProps.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount() {
-    this.getFilters();
+    this.getInputsFromProps();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!isEqual(prevProps.topicFilters, this.props.topicFilters))
+      this.getInputsFromProps();
   }
 
   async onSubmit() {
-    const { id } = this.props;
-    const { subjectFilters, topicFilters, inputs } = this.state;
-    this.setState({ loading: true });
-    await Promise.all([
-      ...subjectFilters.filter(filter => !!inputs[filter.id]).map(filter => {
-        const { active, relevance } = inputs[filter.id];
-        const currentFilter = topicFilters.find(it => it.id === filter.id);
-        if (active && !currentFilter) {
-          // add filter to topic
-          return addFilterToTopic({
-            filterId: filter.id,
-            topicId: id,
-            relevanceId: relevance || RESOURCE_FILTER_CORE,
-          });
-        } else if (active && relevance !== currentFilter.relevanceId) {
-          // update topic-filter with relevance
-          return updateTopicFilter({
-            connectionId: currentFilter.connectionId,
-            relevanceId: relevance,
-          });
-        } else if (!active && currentFilter) {
-          // delete topic-filter
-          return deleteTopicFilter({
-            connectionId: currentFilter.connectionId,
-          });
-        }
-        return undefined;
-      }),
-    ]);
-    const refreshedTopics = await fetchTopicFilters(this.props.id);
-    const inputVals = refreshedTopics.reduce((acc, curr) => {
-      acc[curr.id] = { active: true, relevance: curr.relevanceId };
-      return acc;
-    }, {});
-    this.setState({
-      loading: false,
-      topicFilters: refreshedTopics,
-      inputs: inputVals,
-    });
+    const { subjectFilters, id } = this.props;
+    const { inputs } = this.state;
+    this.setState({ loading: true, error: '' });
+    try {
+      const topicFiltersWithConnectionId = await fetchTopicFilters(
+        this.props.id,
+      );
+      await Promise.all([
+        ...subjectFilters.filter(filter => !!inputs[filter.id]).map(filter => {
+          const { active, relevance } = inputs[filter.id];
+          const currentFilter = topicFiltersWithConnectionId.find(
+            it => it.id === filter.id,
+          );
+          if (active && !currentFilter) {
+            // add filter to topic
+            return addFilterToTopic({
+              filterId: filter.id,
+              topicId: id,
+              relevanceId: relevance || RESOURCE_FILTER_CORE,
+            });
+          } else if (active && relevance !== currentFilter.relevanceId) {
+            // update topic-filter with relevance
+            return updateTopicFilter({
+              connectionId: currentFilter.connectionId,
+              relevanceId: relevance,
+            });
+          } else if (!active && currentFilter) {
+            // delete topic-filter
+            return deleteTopicFilter({
+              connectionId: currentFilter.connectionId,
+            });
+          }
+          return undefined;
+        }),
+      ]);
+      this.props.refreshTopics();
+      this.setState({
+        loading: false,
+      });
+    } catch (e) {
+      handleError(e);
+      this.setState({ error: e.message });
+    }
   }
 
-  async getFilters() {
-    const [subjectFilters, topicFilters] = await Promise.all([
-      fetchSubjectFilters(`urn:${this.props.path.split('/')[1]}`),
-      fetchTopicFilters(this.props.id),
-    ]);
-    const inputs = topicFilters.reduce((acc, curr) => {
+  getInputsFromProps() {
+    const inputVals = this.props.topicFilters.reduce((acc, curr) => {
       acc[curr.id] = { active: true, relevance: curr.relevanceId };
       return acc;
     }, {});
-    this.setState({ subjectFilters, topicFilters, inputs, error: '' });
+    this.setState({ inputs: inputVals });
   }
 
   render() {
-    const { classes, t } = this.props;
-    const { subjectFilters, inputs, error, loading } = this.state;
+    const { subjectFilters, classes, t } = this.props;
+    const { inputs, error, loading } = this.state;
     return (
       <form onSubmit={this.onSubmit} {...classes('editFilters')}>
         {loading && <Spinner cssModifier="absolute" />}
@@ -137,6 +141,17 @@ ConnectFilters.propTypes = {
   classes: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
+  subjectFilters: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  ),
+  topicFilters: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  ),
+  refreshTopics: PropTypes.func,
 };
 
 export default injectT(ConnectFilters);

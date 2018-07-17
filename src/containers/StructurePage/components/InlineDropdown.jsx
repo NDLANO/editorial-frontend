@@ -15,14 +15,14 @@ import Downshift from 'downshift';
 import Fuse from 'fuse.js';
 import { Cross } from 'ndla-icons/action';
 import { Search } from 'ndla-icons/common';
+import handleError from '../../../util/handleError';
 import { itemToString } from '../../../util/downShiftHelpers';
 import {
   DropdownMenu,
   DropdownInput,
   dropDownClasses,
 } from '../../../components/Dropdown/common';
-import RoundIcon from './RoundIcon';
-
+import RoundIcon from '../../../components/RoundIcon';
 import Spinner from '../../../components/Spinner';
 
 class InlineDropdown extends PureComponent {
@@ -33,10 +33,16 @@ class InlineDropdown extends PureComponent {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.setResultItems = this.setResultItems.bind(this);
   }
 
-  async componentDidMount() {
-    const res = await this.props.fetchItems();
+  componentDidMount() {
+    this.setResultItems();
+  }
+
+  async setResultItems() {
+    const { fetchItems, filter } = this.props;
+    const res = await fetchItems();
     const options = {
       shouldSort: true,
       threshold: 0.2,
@@ -47,7 +53,12 @@ class InlineDropdown extends PureComponent {
       minMatchCharLength: 1,
       keys: ['name'],
     };
-    this.setState({ items: new Fuse(res, options) }); // eslint-disable-line
+    this.setState({
+      items: new Fuse(
+        filter ? res.filter(it => !it.path.includes(filter)) : res,
+        options,
+      ),
+    });
   }
 
   async handleSubmit() {
@@ -58,6 +69,7 @@ class InlineDropdown extends PureComponent {
         this.props.onClose();
         this.setState({ status: 'success' });
       } catch (e) {
+        handleError(e);
         this.setState({ status: 'error' });
       }
     }

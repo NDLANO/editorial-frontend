@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Flatpickr from 'flatpickr';
-import { no, en } from 'flatpickr/dist/l10n';
 import { Calendar } from 'ndla-icons/editor';
+import { Norwegian } from 'flatpickr/dist/l10n/no';
+import { english } from 'flatpickr/dist/l10n/default';
+
 import NyNorsk from './NyNorsk';
 
 const FORMAT_PATTERN = 'Y-m-d';
 
 const locales = {
-  nb: no,
-  en,
+  nb: Norwegian,
+  en: english,
   nn: NyNorsk,
 };
 
@@ -52,7 +54,6 @@ class DateTimeInput extends React.Component {
       altInput: true,
       locale: locales[this.props.locale],
     };
-
     options.onChange = [this.onChange];
     return options;
   }

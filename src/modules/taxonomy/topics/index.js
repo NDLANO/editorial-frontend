@@ -26,9 +26,9 @@ function fetchTopicFilters(id) {
   );
 }
 
-function fetchTopicResources(topicId, locale, relevance) {
+function fetchTopicResources(topicId, locale, relevance, filters) {
   return fetchAuthorized(
-    `${baseUrl}/topics/${topicId}/resources/?language=${locale}&relevance=${relevance}`,
+    `${baseUrl}/topics/${topicId}/resources/?language=${locale}&relevance=${relevance}&filter=${filters}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
@@ -40,11 +40,11 @@ function addTopic(body) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-function updateTopicName(id, name) {
+function updateTopic({ id, ...params }) {
   return fetchAuthorized(`${baseUrl}/topics/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ ...params }),
   }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
@@ -54,6 +54,14 @@ function addTopicToTopic(body) {
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
   }).then(resolveJsonOrRejectWithError);
+}
+
+function updateTopicSubtopic(connectionId, body) {
+  return fetchAuthorized(`${baseUrl}/topic-subtopics/${connectionId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify(body),
+  }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
 function deleteTopicConnection(id) {
@@ -90,10 +98,16 @@ function deleteTopicFilter({ connectionId }) {
   }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
+function fetchTopicConnections(id) {
+  return fetchAuthorized(`${baseUrl}/topics/${id}/connections`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
 export {
   fetchTopics,
   addTopic,
-  updateTopicName,
+  updateTopic,
   addTopicToTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,
@@ -102,4 +116,6 @@ export {
   updateTopicFilter,
   deleteTopicFilter,
   fetchTopicResources,
+  fetchTopicConnections,
+  updateTopicSubtopic,
 };

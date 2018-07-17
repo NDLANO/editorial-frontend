@@ -6,8 +6,8 @@ exports[`Goes to edit mode, handles submit 1`] = `
     class="c-roundIcon c-roundIcon--open c-roundIcon--small"
   />
   <input
-    type="text"
     data-testid="inlineEditInput"
+    type="text"
     value=""
   />
   <button
@@ -16,16 +16,19 @@ exports[`Goes to edit mode, handles submit 1`] = `
     type="button"
   >
     <svg
-      fill="currentColor"
-      preserveAspectRatio="xMidYMid meet"
-      height="1em"
-      width="1em"
       class="c-icon c-icon--small"
-      viewBox="0 0 24 24"
       data-license="Apache License 2.0"
       data-source="Material Design"
+      fill="currentColor"
+      height="1em"
+      preserveAspectRatio="xMidYMid meet"
       style="vertical-align: middle;"
+      viewBox="0 0 24 24"
+      width="1em"
     >
+      <title>
+        Done
+      </title>
       <g>
         <path
           d="M0 0h24v24H0z"

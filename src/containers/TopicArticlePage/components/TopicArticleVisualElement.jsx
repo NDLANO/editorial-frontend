@@ -54,17 +54,13 @@ class TopicArticleVisualElement extends Component {
           </span>
         </div>
         {!visualElement.resource ? (
-          <VisualElementMenu
-            onSelect={resource => this.setState({ selectedResource: resource })}
-          />
+          <VisualElementMenu onSelect={this.handleSelectResource} />
         ) : null}
         <VisualElementPreview
           label={t('form.visualElement.label')}
           schema={schema}
           submitted={submitted}
-          onRemoveVisualElement={() =>
-            this.setState({ selectedResource: undefined })
-          }
+          changeVisualElement={this.handleSelectResource}
           resetSelectedResource={this.resetSelectedResource}
           {...bindInputVisualElement}
         />

@@ -10,6 +10,7 @@ import React from 'react';
 import {
   reduceElementDataAttributes,
   createEmbedProps,
+  reduceChildElements,
 } from './embedTagHelpers';
 
 export const BLOCK_TAGS = {
@@ -20,14 +21,14 @@ export const BLOCK_TAGS = {
   pre: 'code',
   h1: 'heading-two',
   h2: 'heading-two',
-  h3: 'heading-two',
+  h3: 'heading-three',
   h4: 'heading-two',
   h5: 'heading-two',
   h6: 'heading-two',
   br: 'br',
 };
 
-const TABLE_TAGS = {
+export const TABLE_TAGS = {
   table: 'table',
   th: 'table-cell',
   tr: 'table-row',
@@ -72,10 +73,18 @@ const setAsideTag = data => ({
   'data-type': data.get('type') || '',
 });
 
+const illegalTextUnderBlocks = ['ol', 'ul'];
+
 /* eslint-disable consistent-return, default-case */
 export const textRule = {
   deserialize(el) {
     if (
+      el.nodeName.toLowerCase() === '#text' &&
+      el.parentNode &&
+      illegalTextUnderBlocks.includes(el.parentNode.tagName.toLowerCase())
+    ) {
+      return null;
+    } else if (
       !el.nodeName ||
       el.nodeName.toLowerCase() !== '#text' ||
       (el.parentNode && el.parentNode.tagName.toLowerCase() !== 'section')
@@ -89,11 +98,19 @@ export const divRule = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'div') return;
+
     if (el.className === 'c-bodybox') {
       return {
         kind: 'block',
         type: 'bodybox',
         nodes: next(el.childNodes),
+      };
+    } else if (el.dataset.type === 'related-content') {
+      return {
+        kind: 'block',
+        type: 'related',
+        isVoid: true,
+        data: reduceChildElements(el),
       };
     }
     const childs = next(el.childNodes);
@@ -235,9 +252,14 @@ export const footnoteRule = {
       nodes: [
         {
           kind: 'text',
-          text: '#',
           isVoid: true,
-          leaves: [],
+          leaves: [
+            {
+              kind: 'leaf',
+              text: '#',
+              marks: [],
+            },
+          ],
         },
       ],
       data: {
@@ -332,6 +354,21 @@ export const tableRules = {
   },
 };
 
+const relatedRule = {
+  serialize(object) {
+    if (object.type === 'related') {
+      return (
+        <div data-type="related-content">
+          {object.data.get('nodes') &&
+            object.data
+              .get('nodes')
+              .map(node => <embed {...createEmbedProps(node)} />)}
+        </div>
+      );
+    }
+  },
+};
+
 const RULES = [
   divRule,
   textRule,
@@ -340,6 +377,7 @@ const RULES = [
   tableRules,
   paragraphRule,
   listItemRule,
+  relatedRule,
   {
     // Aside handling
     deserialize(el, next) {
@@ -431,6 +469,10 @@ const topicArticeEmbedRule = [
     // Embeds handling
     deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
+
+      if (el.dateset['data-resource'] === 'related-content') {
+        return;
+      }
       return {
         kind: 'block',
         type: 'embed',
@@ -453,7 +495,9 @@ export const learningResourceEmbedRule = [
   {
     deserialize(el) {
       if (!el.tagName.toLowerCase().startsWith('embed')) return;
+
       const embed = reduceElementDataAttributes(el);
+      if (el.dataset['data-resource'] === 'related-content') return;
       if (embed.resource === 'content-link') {
         return {
           kind: 'inline',
@@ -487,5 +531,6 @@ export const learningResourceEmbedRule = [
     },
   },
 ];
+
 export const topicArticeRules = topicArticeEmbedRule.concat(RULES);
 export const learningResourceRules = RULES.concat(learningResourceEmbedRule);

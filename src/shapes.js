@@ -162,7 +162,7 @@ export const LicensesArrayOf = PropTypes.arrayOf(
 
 export const AudioShape = PropTypes.shape({
   id: PropTypes.number,
-  title: PropTypes.shape({ title: PropTypes.string }),
+  title: PropTypes.string,
   audioFile: PropTypes.shape({
     mimeType: PropTypes.string,
     url: PropTypes.string,

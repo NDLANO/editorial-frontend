@@ -28,7 +28,6 @@ import {
   validateNode,
 } from '../../../components/SlateEditor/schema';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
-import pasteContentPlugin from '../../../components/SlateEditor/plugins/pasteContent';
 import {
   editListPlugin,
   blockquotePlugin,
@@ -46,7 +45,6 @@ const plugins = [
   headingPlugin(),
   blockquotePlugin,
   editListPlugin,
-  pasteContentPlugin(),
 ];
 
 class TopicArticleContent extends Component {

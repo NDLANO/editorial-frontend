@@ -144,13 +144,29 @@ function groupSortResourceTypesFromTopicResources(
   return topicResourcesByTypeWithMetaData(resorceTypesByTopic);
 }
 
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+function insertSubTopic(topics, subTopic) {
+  return topics.map(topic => {
+    if (topic.id === subTopic.parent) {
+      return {
+        ...topic,
+        topics: [...(topic.topics || []), subTopic],
+      };
+    } else if (topic.topics) {
+      return {
+        ...topic,
+        topics: insertSubTopic(topic.topics, subTopic),
+      };
+    }
+    return topic;
+  });
+}
 
-  return result;
-};
+const groupTopics = allTopics =>
+  allTopics.reduce((acc, curr) => {
+    const mainTopic = curr.parent.includes('subject');
+    if (mainTopic) return acc;
+    return insertSubTopic(acc.filter(topic => topic.id !== curr.id), curr);
+  }, allTopics);
 
 export {
   flattenResourceTypes,
@@ -159,5 +175,5 @@ export {
   getTopicResourcesByType,
   topicResourcesByTypeWithMetaData,
   groupSortResourceTypesFromTopicResources,
-  reorder,
+  groupTopics,
 };

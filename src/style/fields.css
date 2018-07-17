@@ -14,6 +14,11 @@
     position: static;
   }
 
+  & > select {
+    width: 100%;
+    display: block;
+  }
+
   & label {
     font-size: 1.5rem;
   }

@@ -40,7 +40,7 @@
       background: white;
       border-left: 1px solid var(--brand-grey-dark);
       border-top: 1px solid var(--brand-grey-dark);
-      content: "";
+      content: '';
       height: 15px;
       position: absolute;
       width: 15px;
@@ -96,6 +96,7 @@
   &__popup--visible {
     opacity: 1;
     display: block;
+    z-index: 1000;
   }
 
   &__content {

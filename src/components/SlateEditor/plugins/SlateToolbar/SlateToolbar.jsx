@@ -21,14 +21,13 @@ import {
   listTypes,
   editListPlugin,
   blockquotePlugin,
-  editTablePlugin,
 } from '../externalPlugins';
 
 const DEFAULT_NODE = 'paragraph';
 
 const supportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
-  block: ['quote', ...listTypes, 'heading-two'],
+  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
   inline: [link, footnote],
 };
 
@@ -158,11 +157,7 @@ class SlateToolbar extends Component {
     const { menu } = this.state;
     const { value } = this.props;
     if (!menu) return;
-    if (
-      value.isBlurred ||
-      value.isEmpty ||
-      editTablePlugin.utils.isSelectionInTable(value)
-    ) {
+    if (value.isBlurred || value.isEmpty) {
       menu.removeAttribute('style');
       return;
     }

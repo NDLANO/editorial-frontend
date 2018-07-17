@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import TaxonomyLightbox, { classes } from './TaxonomyLightbox';
+import handleError from '../../../util/handleError';
+import TaxonomyLightbox, {
+  classes,
+} from '../../../components/TaxonomyLightbox';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { groupSearch } from '../../../modules/search/searchApi';
 import {
@@ -56,7 +59,8 @@ class AddResourceModal extends Component {
           pastedType === type ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
         this.setState({ selected: { id: val }, pastedUrl: val, error });
       } catch (error) {
-        console.log(error);
+        handleError(error);
+        this.setState({ error: error.message });
       }
     } else if (!val) {
       this.setState({ error: '', pastedUrl: val });
@@ -75,7 +79,8 @@ class AddResourceModal extends Component {
         title: current.title ? current.title.title : '',
       }));
     } catch (e) {
-      console.log(e);
+      handleError(e);
+      this.setState({ error: e.message });
       return [];
     }
   };
@@ -112,7 +117,7 @@ class AddResourceModal extends Component {
 
         onClose();
       } catch (e) {
-        console.log(e);
+        handleError(e);
         this.setState({ loading: false, error: e.message });
       }
     }

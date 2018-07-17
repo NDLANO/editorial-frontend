@@ -10,7 +10,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Done } from 'ndla-icons/editor';
-import RoundIcon from './RoundIcon';
+import RoundIcon from '../../../components/RoundIcon';
+import handleError from '../../../util/handleError';
 import Spinner from '../../../components/Spinner';
 
 class InlineEditField extends PureComponent {
@@ -30,6 +31,7 @@ class InlineEditField extends PureComponent {
       this.setState({ status: 'success' });
       this.props.onClose();
     } catch (e) {
+      handleError(e);
       this.setState({
         status: 'error',
       });

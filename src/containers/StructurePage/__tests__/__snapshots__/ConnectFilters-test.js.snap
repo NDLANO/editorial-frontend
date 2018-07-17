@@ -10,8 +10,8 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
     >
       <input
         class="c-connectFilter__checkbox"
-        type="checkbox"
         name="urn:filter:f102710e-973e-4999-9daf-f1536d41188a-active"
+        type="checkbox"
       />
       blabla
     </label>
@@ -35,8 +35,8 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
     >
       <input
         class="c-connectFilter__checkbox"
-        type="checkbox"
         name="urn:filter:fc0a6fc5-4ed3-4aec-ade7-381ac51c446e-active"
+        type="checkbox"
       />
       blabla hei
     </label>
@@ -60,8 +60,8 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
     >
       <input
         class="c-connectFilter__checkbox"
-        type="checkbox"
         name="urn:filter:fd6893b9-c02a-4016-b64e-1b6533ff9ba2-active"
+        type="checkbox"
       />
       blabla
     </label>
@@ -85,8 +85,8 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
     >
       <input
         class="c-connectFilter__checkbox"
-        type="checkbox"
         name="urn:filter:a583772c-4c71-401c-807d-6cb676dcf523-active"
+        type="checkbox"
       />
       Test test
     </label>
@@ -109,6 +109,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   >
     Lagre
   </button>
+  
 </form>
 `;
 
@@ -122,8 +123,8 @@ exports[`maps out filters 1`] = `
     >
       <input
         class="c-connectFilter__checkbox"
-        type="checkbox"
         name="urn:filter:f102710e-973e-4999-9daf-f1536d41188a-active"
+        type="checkbox"
       />
       blabla
     </label>
@@ -147,8 +148,8 @@ exports[`maps out filters 1`] = `
     >
       <input
         class="c-connectFilter__checkbox"
-        type="checkbox"
         name="urn:filter:fc0a6fc5-4ed3-4aec-ade7-381ac51c446e-active"
+        type="checkbox"
       />
       blabla hei
     </label>
@@ -172,8 +173,8 @@ exports[`maps out filters 1`] = `
     >
       <input
         class="c-connectFilter__checkbox"
-        type="checkbox"
         name="urn:filter:fd6893b9-c02a-4016-b64e-1b6533ff9ba2-active"
+        type="checkbox"
       />
       blabla
     </label>
@@ -197,8 +198,8 @@ exports[`maps out filters 1`] = `
     >
       <input
         class="c-connectFilter__checkbox"
-        type="checkbox"
         name="urn:filter:a583772c-4c71-401c-807d-6cb676dcf523-active"
+        type="checkbox"
       />
       Test test
     </label>

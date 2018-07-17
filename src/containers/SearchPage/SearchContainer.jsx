@@ -40,26 +40,26 @@ class SearchContainer extends Component {
   componentWillMount() {
     const { location, search } = this.props;
     if (location.search) {
-      const query = queryString.parse(location.search);
-      search(query);
+      const searchObject = queryString.parse(location.search);
+      search(searchObject);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { location, search } = nextProps;
     if (location.search && location.search !== this.props.location.search) {
-      const query = queryString.parse(location.search);
-      search(query);
+      const searchObject = queryString.parse(location.search);
+      search(searchObject);
     }
   }
 
-  onQueryPush(newQuery) {
+  onQueryPush(newSearchObject) {
     const { history, location, type } = this.props;
-    const oldQuery = queryString.parse(location.search);
+    const oldSearchObject = queryString.parse(location.search);
 
     const searchQuery = {
-      ...oldQuery,
-      ...newQuery,
+      ...oldSearchObject,
+      ...newSearchObject,
     };
 
     // Remove unused/empty query params
@@ -90,7 +90,7 @@ class SearchContainer extends Component {
       t,
     } = this.props;
 
-    const query = queryString.parse(location.search);
+    const searchObject = queryString.parse(location.search);
     return (
       <div>
         <OneColumn>
@@ -101,7 +101,7 @@ class SearchContainer extends Component {
             <SearchForm
               type={type}
               search={this.onQueryPush}
-              query={query}
+              searchObject={searchObject}
               location={location}
               locale={locale}
             />
@@ -113,23 +113,23 @@ class SearchContainer extends Component {
             )}
             <SearchListOptions
               type={type}
-              query={query}
+              searchObject={searchObject}
               totalCount={totalCount}
               search={this.onQueryPush}
             />
           </SearchAccordion>
           <SearchList
-            query={query.query}
+            query={searchObject.query}
             locale={locale}
             results={results.results}
             searching={searching}
             type={type}
           />
           <Pager
-            page={query.page ? parseInt(query.page, 10) : 1}
+            page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
             lastPage={lastPage}
-            query={query}
-            pathname={toSearch(null, type)}
+            query={searchObject}
+            pathname={toSearch(undefined, type)}
           />
         </OneColumn>
       </div>

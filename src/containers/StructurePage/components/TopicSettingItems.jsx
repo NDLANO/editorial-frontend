@@ -7,12 +7,13 @@ import { Button } from 'ndla-ui';
 import InlineEditField from './InlineEditField';
 import InlineDropdown from './InlineDropdown';
 import ConnectFilters from './ConnectFilters';
-import RoundIcon from './RoundIcon';
+import RoundIcon from '../../../components/RoundIcon';
+import handleError from '../../../util/handleError';
 import WarningModal from '../../../components/WarningModal';
 import {
   fetchTopics,
   addTopic,
-  updateTopicName,
+  updateTopic,
   addTopicToTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,
@@ -34,7 +35,11 @@ class TopicSettingItems extends React.PureComponent {
 
   async onChangeTopicName(id, newName) {
     try {
-      await updateTopicName(id, newName);
+      await updateTopic({
+        id,
+        name: newName,
+        contentUri: this.props.contentUri,
+      });
       this.props.refreshTopics();
     } catch (e) {
       throw new Error(e);
@@ -42,37 +47,30 @@ class TopicSettingItems extends React.PureComponent {
   }
 
   async onAddSubTopic(currentTopicId, name) {
-    try {
-      const newPath = await addTopic({ name });
-      const newId = newPath.replace('/v1/topics/', '');
-      await addTopicToTopic({
-        subtopicid: newId,
-        topicid: currentTopicId,
-        primary: true,
-        rank: this.props.numberOfSubtopics + 1,
-      });
-      this.props.refreshTopics();
-    } catch (e) {
-      throw new Error(e);
-    }
+    const newPath = await addTopic({ name });
+    const newId = newPath.replace('/v1/topics/', '');
+    await addTopicToTopic({
+      subtopicid: newId,
+      topicid: currentTopicId,
+      primary: true,
+      rank: this.props.numberOfSubtopics + 1,
+    });
+    this.props.refreshTopics();
   }
 
   async onAddExistingSubTopic(currentTopicId, subTopicId) {
-    try {
-      await addTopicToTopic({
-        subtopicid: subTopicId,
-        topicid: currentTopicId,
-        rank: this.props.numberOfSubtopics + 1,
-      });
-      this.props.refreshTopics();
-    } catch (e) {
-      throw new Error(e);
-    }
+    await addTopicToTopic({
+      subtopicid: subTopicId,
+      topicid: currentTopicId,
+      primary: false,
+      rank: this.props.numberOfSubtopics + 1,
+    });
+    this.props.refreshTopics();
   }
 
   async onDeleteTopic() {
-    this.setState({ editMode: '', loading: true });
-    const { parent, connectionId } = this.props;
+    this.setState({ editMode: '', loading: true, error: '' });
+    const { parent, connectionId, t } = this.props;
     const subTopic = parent.includes('topic');
     try {
       if (subTopic) {
@@ -83,13 +81,27 @@ class TopicSettingItems extends React.PureComponent {
       this.props.refreshTopics();
       this.setState({ loading: false });
     } catch (e) {
-      throw new Error(e);
+      this.setState({
+        loading: false,
+        error: `${t('taxonomy.errorMessage')}: ${e.message}`,
+      });
+      handleError(e);
     }
   }
 
   render() {
-    const { classes, id, name, onClose, t, path } = this.props;
-    const { editMode, loading } = this.state;
+    const {
+      classes,
+      id,
+      name,
+      onClose,
+      t,
+      path,
+      subjectFilters,
+      refreshTopics,
+      filters,
+    } = this.props;
+    const { editMode, loading, error } = this.state;
 
     return (
       <React.Fragment>
@@ -132,6 +144,7 @@ class TopicSettingItems extends React.PureComponent {
         {editMode === 'addExistingTopic' ? (
           <InlineDropdown
             fetchItems={() => fetchTopics('nb')}
+            filter={path.split('/')[1]}
             classes={classes}
             onClose={onClose}
             onSubmit={e => this.onAddExistingSubTopic(id, e)}
@@ -163,7 +176,14 @@ class TopicSettingItems extends React.PureComponent {
           {t('taxonomy.connectFilters')}
         </Button>
         {editMode === 'connectFilters' && (
-          <ConnectFilters classes={classes} path={path} id={id} />
+          <ConnectFilters
+            classes={classes}
+            path={path}
+            id={id}
+            subjectFilters={subjectFilters}
+            refreshTopics={refreshTopics}
+            topicFilters={filters}
+          />
         )}
         <Button
           {...classes('menuItem')}
@@ -184,6 +204,13 @@ class TopicSettingItems extends React.PureComponent {
         {loading && (
           <Overlay cssModifiers={['absolute', 'white-opacity', 'zIndex']} />
         )}
+        {error && (
+          <div
+            data-testid="inlineEditErrorMessage"
+            {...classes('errorMessage')}>
+            {error}
+          </div>
+        )}
       </React.Fragment>
     );
   }
@@ -200,8 +227,9 @@ TopicSettingItems.propTypes = {
   t: PropTypes.func,
   refreshTopics: PropTypes.func,
   path: PropTypes.string,
-  parent: PropTypes.string,
-  connectionId: PropTypes.string,
+  filters: PropTypes.arrayOf(PropTypes.object).isRequired,
+  subjectFilters: PropTypes.arrayOf(PropTypes.object),
+  contentUri: PropTypes.string,
   numberOfSubtopics: PropTypes.number,
 };
 

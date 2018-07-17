@@ -34,6 +34,9 @@ const wrapper = () =>
               topic2: 'topic:1:172650',
             },
           }}
+          location={{
+            search: '',
+          }}
         />
       </IntlWrapper>
     </MemoryRouter>,
@@ -54,8 +57,11 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
     .get(`/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?recursive=true`)
     .reply(200, subjectTopicsMock);
   nock('http://ndla-api')
+    .get(`/taxonomy/v1/subjects/${subjectsMock[0].id}/filters`)
+    .reply(200, []);
+  nock('http://ndla-api')
     .get(
-      '/taxonomy/v1/topics/urn:topic:1:172650/resources/?language=nb&relevance=urn:relevance:core',
+      '/taxonomy/v1/topics/urn:topic:1:172650/resources/?language=nb&relevance=urn:relevance:core&filter=',
     )
     .reply(200, []);
   nock('http://ndla-api')
@@ -63,9 +69,12 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
     .reply(200, subjectTopicsMock);
   nock('http://ndla-api')
     .get(
-      '/taxonomy/v1/topics/urn:topic:1:172650/resources/?language=nb&relevance=urn:relevance:supplementary',
+      '/taxonomy/v1/topics/urn:topic:1:172650/resources/?language=nb&relevance=urn:relevance:supplementary&filter=',
     )
     .reply(200, []);
+  nock('http://ndla-api')
+    .get('/article-api/v2/articles/3592')
+    .reply(200, {});
   const { container, getByText } = wrapper();
 
   await wait(() => getByText('Fortelleteknikker og virkemidler'));

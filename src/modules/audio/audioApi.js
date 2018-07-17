@@ -17,6 +17,7 @@ const baseUrl = apiResourceUrl('/audio-api/v1/audio');
 export const postAudio = formData =>
   fetchAuthorized(`${baseUrl}`, {
     method: 'POST',
+    headers: { 'Content-Type': undefined },
     body: formData,
   }).then(resolveJsonOrRejectWithError);
 
@@ -28,5 +29,6 @@ export const fetchAudio = (id, locale) =>
 export const updateAudio = (id, formData) =>
   fetchAuthorized(`${baseUrl}/${id}`, {
     method: 'PUT',
+    headers: { 'Content-Type': undefined },
     body: formData,
   }).then(resolveJsonOrRejectWithError);

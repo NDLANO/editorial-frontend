@@ -37,7 +37,7 @@ const MastheadContainer = ({ t, authenticated, userName }) => (
         <SessionContainer userName={userName} authenticated={authenticated} />
       </MastheadItem>
       <MastheadItem>
-        <Logo to="/" altText="Nasjonal digital læringsarena" />
+        <Logo to="/" label="Nasjonal digital læringsarena" />
       </MastheadItem>
     </div>
   </Masthead>

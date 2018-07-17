@@ -8,7 +8,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import DisplayEmbedTag from '../../components/DisplayEmbedTag/DisplayEmbedTag';
 import MetaInformation from '../../components/MetaInformation';
@@ -17,7 +16,7 @@ import * as api from './visualElementApi';
 import { Field } from '../../components/Fields';
 import { visualElementClasses } from '../TopicArticlePage/components/TopicArticleVisualElement';
 
-class VisualElementSelectField extends Component {
+class VisualElementPreview extends Component {
   constructor(props) {
     super(props);
     this.removeVisualElement = this.removeVisualElement.bind(this);
@@ -46,16 +45,11 @@ class VisualElementSelectField extends Component {
   }
 
   render() {
-    const { value, t } = this.props;
+    const { value, t, changeVisualElement } = this.props;
     if (!value.resource) {
       return null;
     }
 
-    const visualElementAction = (
-      <Button onClick={this.removeVisualElement}>
-        {t('topicArticleForm.removeVisualElement')}
-      </Button>
-    );
     const metaTranslations = {
       title: t(`topicArticleForm.visualElementTitle.${value.resource}`),
       copyright: t('topicArticleForm.visualElementCopyright'),
@@ -67,21 +61,19 @@ class VisualElementSelectField extends Component {
           <div>
             <DisplayEmbedTag
               embedTag={value}
+              changeVisualElement={changeVisualElement}
+              onRemoveClick={this.removeVisualElement}
               {...visualElementClasses(value.resource)}
             />
           </div>
-          <MetaInformation
-            {...element}
-            action={visualElementAction}
-            translations={metaTranslations}
-          />
+          <MetaInformation {...element} translations={metaTranslations} />
         </div>
       </Field>
     );
   }
 }
 
-VisualElementSelectField.propTypes = {
+VisualElementPreview.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
@@ -94,6 +86,7 @@ VisualElementSelectField.propTypes = {
     metaData: PropTypes.object,
   }).isRequired,
   resetSelectedResource: PropTypes.func.isRequired,
+  changeVisualElement: PropTypes.func.isRequired,
 };
 
-export default injectT(VisualElementSelectField);
+export default injectT(VisualElementPreview);

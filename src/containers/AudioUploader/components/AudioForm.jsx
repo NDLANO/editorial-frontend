@@ -18,7 +18,6 @@ import SaveButton from '../../../components/SaveButton';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
-  processorsWithDefault,
 } from '../../../util/formHelper';
 import { SchemaShape } from '../../../shapes';
 import { FormHeader, WarningModalWrapper } from '../../Form';
@@ -36,7 +35,7 @@ export const getInitialModel = (audio = {}) => ({
   filepath: '',
   tags: audio.tags || [],
   creators: parseCopyrightContributors(audio, 'creators'),
-  processors: processorsWithDefault(audio),
+  processors: parseCopyrightContributors(audio, 'processors'),
   rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
   origin:
     audio.copyright && audio.copyright.origin ? audio.copyright.origin : '',
@@ -106,6 +105,7 @@ class AudioForm extends Component {
       t,
       bindInput,
       schema,
+      initialModel,
       model,
       submitted,
       tags,
@@ -146,16 +146,16 @@ class AudioForm extends Component {
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <SaveButton {...{ classes, isSaving, t, showSaved }} />
+          <SaveButton isSaving={isSaving} showSaved={showSaved} />
         </Field>
         <WarningModalWrapper
-          {...{
-            schema,
-            showSaved,
-            fields,
-            handleSubmit: this.handleSubmit,
-            text: t('warningModal.notSaved'),
-          }}
+          initialModel={initialModel}
+          model={model}
+          schema={schema}
+          showSaved={showSaved}
+          fields={fields}
+          handleSubmit={this.handleSubmit}
+          text={t('warningModal.notSaved')}
         />
       </form>
     );

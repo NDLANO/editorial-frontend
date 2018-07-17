@@ -66,7 +66,9 @@ class SearchSort extends Component {
           onChange={this.handleSortChange}
           value={this.state.sort}>
           {sortOptions.map(option => (
-            <option value={option}>{t(`searchForm.sort.${option}`)}</option>
+            <option key={`sortoptions_${option}`} value={option}>
+              {t(`searchForm.sort.${option}`)}
+            </option>
           ))}
         </select>
         <span {...searchClasses('sort-label')}>{t('searchForm.order')}</span>
@@ -75,7 +77,9 @@ class SearchSort extends Component {
           onChange={this.handleOrderChange}
           value={this.state.order}>
           {orderOptions.map(option => (
-            <option value={option}>{t(`searchForm.${option}`)}</option>
+            <option key={`orderoptions_${option}`} value={option}>
+              {t(`searchForm.${option}`)}
+            </option>
           ))}
         </select>
       </div>

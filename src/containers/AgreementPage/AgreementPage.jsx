@@ -29,10 +29,12 @@ class AgreementPage extends React.Component {
     this.state = { isSaving: false };
     this.upsertAgreement = this.upsertAgreement.bind(this);
   }
-  componentWillMount() {
+
+  componentDidMount() {
     const { fetchLicenses } = this.props;
     fetchLicenses();
   }
+
   async upsertAgreement(agreement) {
     const { history, applicationError, addMessage } = this.props;
     try {
@@ -43,7 +45,7 @@ class AgreementPage extends React.Component {
         const newAgreement = await api.createAgreement(agreement);
         history.push(toEditAgreement(newAgreement.id));
       }
-      await this.setState({ isSaving: false });
+      this.setState({ isSaving: false });
       addMessage({
         translationKey: agreement.id ? 'form.savedOk' : 'form.createdOk',
       });

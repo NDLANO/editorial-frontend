@@ -25,6 +25,17 @@ export const mapping = resource => {
         modifier: 'tasks-and-activities',
       };
     }
+    case 'external-learning-resources': {
+      return {
+        icon: (
+          <ContentTypeBadge
+            background
+            type={constants.contentTypes.EXTERNAL_LEARNING_RESOURCES}
+          />
+        ),
+        modifier: 'external-learning-resources',
+      };
+    }
     default: {
       return {
         icon: (

@@ -18,16 +18,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-accordion__title c-accordion__title--taxonomy"
         >
           <svg
-            fill="currentColor"
-            preserveAspectRatio="xMidYMid meet"
-            height="1em"
-            width="1em"
             class="c-icon c-icon--medium"
-            viewBox="0 0 60 44"
             data-license="CC-BY 4.0"
             data-source="Knowit"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
             style="vertical-align: middle;"
+            viewBox="0 0 60 44"
+            width="1em"
           >
+            <title>
+              Taxonomy
+            </title>
             <g>
               <path
                 d="M58,29H53V24a2.9,2.9,0,0,0-3-3H31.5V15H36a2,2,0,0,0,2-2V2a2,2,0,0,0-2-2H24a2,2,0,0,0-2,2V13a2,2,0,0,0,2,2h5.5v6H10a2.9,2.9,0,0,0-3,3v5H2a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H14a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H9V24a.9.9,0,0,1,1-1H29.5v6H24a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H36a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H31.5V23H50a.9.9,0,0,1,1,1v5H46a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H58a2,2,0,0,0,2-2V31A2,2,0,0,0,58,29ZM24,2H36V13H24ZM14,42H2V31H14ZM36,31V42H24V31H36ZM58,42H46V31H58Z"
@@ -43,16 +46,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            Plus
+          </title>
           <g>
             <path
               d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
@@ -70,16 +76,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--taxonomy"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            ExpandLess
+          </title>
           <g>
             <path
               d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
@@ -91,25 +100,31 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     <div
       class="c-accordion__content c-accordion__content--visible c-accordion__content--taxonomy"
     >
-      <div>
+      <div
+        id="plumbContainer"
+      >
         <div
           class="c-folder__wrapper"
+          id="urn:subject:1"
         >
           <a
             class="c-folder__link c-folder__link--active"
             href="/structure/subject:1"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -129,16 +144,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 class="c-roundIcon c-roundIcon--margin"
               >
                 <svg
-                  fill="currentColor"
-                  preserveAspectRatio="xMidYMid meet"
-                  height="1em"
-                  width="1em"
                   class="c-icon"
-                  viewBox="0 0 24 24"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
                 >
+                  <title>
+                    Settings
+                  </title>
                   <g>
                     <path
                       d="M0 0h24v24H0z"
@@ -152,28 +170,35 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               </div>
             </button>
           </div>
+          <div
+            class="c-filter-view__wrapper"
+          />
         </div>
         <div
           class="c-folder__subFolders"
         >
           <div
             class="c-folder__wrapper"
+            id="urn:subject:1urn:topic:1:186401"
           >
             <a
               class="c-folder__link"
               href="/structure/subject:1/topic:1:186401"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon c-folder__folderIcon"
-                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
               >
+                <title>
+                  Folder
+                </title>
                 <g>
                   <path
                     d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -187,53 +212,27 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             class="c-folder__subFolders"
           />
           <div
-            style="display: none;"
-          >
-            <button
-              class="c-button c-button--stripped"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  fill="currentColor"
-                  preserveAspectRatio="xMidYMid meet"
-                  height="1em"
-                  width="1em"
-                  class="c-icon"
-                  viewBox="0 0 24 24"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  style="vertical-align: middle;"
-                >
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-          <div
             class="c-folder__wrapper"
+            id="urn:subject:1urn:topic:1:172416"
           >
             <a
               class="c-folder__link"
               href="/structure/subject:1/topic:1:172416"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon c-folder__folderIcon"
-                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
               >
+                <title>
+                  Folder
+                </title>
                 <g>
                   <path
                     d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -247,53 +246,27 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             class="c-folder__subFolders"
           />
           <div
-            style="display: none;"
-          >
-            <button
-              class="c-button c-button--stripped"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  fill="currentColor"
-                  preserveAspectRatio="xMidYMid meet"
-                  height="1em"
-                  width="1em"
-                  class="c-icon"
-                  viewBox="0 0 24 24"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  style="vertical-align: middle;"
-                >
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-          <div
             class="c-folder__wrapper"
+            id="urn:subject:1urn:topic:1:186460"
           >
             <a
               class="c-folder__link"
               href="/structure/subject:1/topic:1:186460"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon c-folder__folderIcon"
-                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
               >
+                <title>
+                  Folder
+                </title>
                 <g>
                   <path
                     d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -307,53 +280,27 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             class="c-folder__subFolders"
           />
           <div
-            style="display: none;"
-          >
-            <button
-              class="c-button c-button--stripped"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  fill="currentColor"
-                  preserveAspectRatio="xMidYMid meet"
-                  height="1em"
-                  width="1em"
-                  class="c-icon"
-                  viewBox="0 0 24 24"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  style="vertical-align: middle;"
-                >
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-          <div
             class="c-folder__wrapper"
+            id="urn:subject:1urn:topic:1:186479"
           >
             <a
               class="c-folder__link c-folder__link--active"
               href="/structure/subject:1/topic:1:186479"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon c-folder__folderIcon"
-                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
               >
+                <title>
+                  Folder
+                </title>
                 <g>
                   <path
                     d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -373,16 +320,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   class="c-roundIcon c-roundIcon--margin"
                 >
                   <svg
-                    fill="currentColor"
-                    preserveAspectRatio="xMidYMid meet"
-                    height="1em"
-                    width="1em"
                     class="c-icon"
-                    viewBox="0 0 24 24"
                     data-license="Apache License 2.0"
                     data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
                     style="vertical-align: middle;"
+                    viewBox="0 0 24 24"
+                    width="1em"
                   >
+                    <title>
+                      Settings
+                    </title>
                     <g>
                       <path
                         d="M0 0h24v24H0z"
@@ -402,22 +352,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           >
             <div
               class="c-folder__wrapper"
+              id="urn:topic:1:186479urn:topic:1:186487"
             >
               <a
                 class="c-folder__link"
                 href="/structure/subject:1/topic:1:186479/topic:1:186487"
               >
                 <svg
-                  fill="currentColor"
-                  preserveAspectRatio="xMidYMid meet"
-                  height="1em"
-                  width="1em"
                   class="c-icon c-folder__folderIcon"
-                  viewBox="0 0 14 11"
                   data-license="CC-BY 4.0"
                   data-source="Knowit"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle; color: rgb(112, 165, 218);"
+                  viewBox="0 0 14 11"
+                  width="1em"
                 >
+                  <title>
+                    Folder
+                  </title>
                   <g>
                     <path
                       d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -431,53 +385,27 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-folder__subFolders"
             />
             <div
-              style="display: none;"
-            >
-              <button
-                class="c-button c-button--stripped"
-                type="button"
-              >
-                <div
-                  class="c-roundIcon"
-                >
-                  <svg
-                    fill="currentColor"
-                    preserveAspectRatio="xMidYMid meet"
-                    height="1em"
-                    width="1em"
-                    class="c-icon"
-                    viewBox="0 0 24 24"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    style="vertical-align: middle;"
-                  >
-                    <g>
-                      <path
-                        d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                      />
-                    </g>
-                  </svg>
-                </div>
-              </button>
-            </div>
-            <div
               class="c-folder__wrapper"
+              id="urn:topic:1:186479urn:topic:1:172650"
             >
               <a
                 class="c-folder__link c-folder__link--active"
                 href="/structure/subject:1/topic:1:186479/topic:1:172650"
               >
                 <svg
-                  fill="currentColor"
-                  preserveAspectRatio="xMidYMid meet"
-                  height="1em"
-                  width="1em"
                   class="c-icon c-folder__folderIcon"
-                  viewBox="0 0 14 11"
                   data-license="CC-BY 4.0"
                   data-source="Knowit"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle; color: rgb(112, 165, 218);"
+                  viewBox="0 0 14 11"
+                  width="1em"
                 >
+                  <title>
+                    Folder
+                  </title>
                   <g>
                     <path
                       d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -497,16 +425,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     class="c-roundIcon c-roundIcon--margin"
                   >
                     <svg
-                      fill="currentColor"
-                      preserveAspectRatio="xMidYMid meet"
-                      height="1em"
-                      width="1em"
                       class="c-icon"
-                      viewBox="0 0 24 24"
                       data-license="Apache License 2.0"
                       data-source="Material Design"
+                      fill="currentColor"
+                      height="1em"
+                      preserveAspectRatio="xMidYMid meet"
                       style="vertical-align: middle;"
+                      viewBox="0 0 24 24"
+                      width="1em"
                     >
+                      <title>
+                        Settings
+                      </title>
                       <g>
                         <path
                           d="M0 0h24v24H0z"
@@ -525,53 +456,27 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-folder__subFolders"
             />
             <div
-              style="display: none;"
-            >
-              <button
-                class="c-button c-button--stripped"
-                type="button"
-              >
-                <div
-                  class="c-roundIcon"
-                >
-                  <svg
-                    fill="currentColor"
-                    preserveAspectRatio="xMidYMid meet"
-                    height="1em"
-                    width="1em"
-                    class="c-icon"
-                    viewBox="0 0 24 24"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    style="vertical-align: middle;"
-                  >
-                    <g>
-                      <path
-                        d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                      />
-                    </g>
-                  </svg>
-                </div>
-              </button>
-            </div>
-            <div
               class="c-folder__wrapper"
+              id="urn:topic:1:186479urn:topic:1:185606"
             >
               <a
                 class="c-folder__link"
                 href="/structure/subject:1/topic:1:186479/topic:1:185606"
               >
                 <svg
-                  fill="currentColor"
-                  preserveAspectRatio="xMidYMid meet"
-                  height="1em"
-                  width="1em"
                   class="c-icon c-folder__folderIcon"
-                  viewBox="0 0 14 11"
                   data-license="CC-BY 4.0"
                   data-source="Knowit"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
                   style="vertical-align: middle; color: rgb(112, 165, 218);"
+                  viewBox="0 0 14 11"
+                  width="1em"
                 >
+                  <title>
+                    Folder
+                  </title>
                   <g>
                     <path
                       d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -584,85 +489,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             <div
               class="c-folder__subFolders"
             />
-            <div
-              style="display: none;"
-            >
-              <button
-                class="c-button c-button--stripped"
-                type="button"
-              >
-                <div
-                  class="c-roundIcon"
-                >
-                  <svg
-                    fill="currentColor"
-                    preserveAspectRatio="xMidYMid meet"
-                    height="1em"
-                    width="1em"
-                    class="c-icon"
-                    viewBox="0 0 24 24"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    style="vertical-align: middle;"
-                  >
-                    <g>
-                      <path
-                        d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                      />
-                    </g>
-                  </svg>
-                </div>
-              </button>
-            </div>
-          </div>
-          <div
-            style="display: none;"
-          >
-            <button
-              class="c-button c-button--stripped"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  fill="currentColor"
-                  preserveAspectRatio="xMidYMid meet"
-                  height="1em"
-                  width="1em"
-                  class="c-icon"
-                  viewBox="0 0 24 24"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  style="vertical-align: middle;"
-                >
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
           </div>
           <div
             class="c-folder__wrapper"
+            id="urn:subject:1urn:topic:1:171906"
           >
             <a
               class="c-folder__link"
               href="/structure/subject:1/topic:1:171906"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon c-folder__folderIcon"
-                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
               >
+                <title>
+                  Folder
+                </title>
                 <g>
                   <path
                     d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -676,53 +525,27 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             class="c-folder__subFolders"
           />
           <div
-            style="display: none;"
-          >
-            <button
-              class="c-button c-button--stripped"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  fill="currentColor"
-                  preserveAspectRatio="xMidYMid meet"
-                  height="1em"
-                  width="1em"
-                  class="c-icon"
-                  viewBox="0 0 24 24"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  style="vertical-align: middle;"
-                >
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-          <div
             class="c-folder__wrapper"
+            id="urn:subject:1urn:topic:1:172361"
           >
             <a
               class="c-folder__link"
               href="/structure/subject:1/topic:1:172361"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon c-folder__folderIcon"
-                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
               >
+                <title>
+                  Folder
+                </title>
                 <g>
                   <path
                     d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -736,53 +559,27 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             class="c-folder__subFolders"
           />
           <div
-            style="display: none;"
-          >
-            <button
-              class="c-button c-button--stripped"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  fill="currentColor"
-                  preserveAspectRatio="xMidYMid meet"
-                  height="1em"
-                  width="1em"
-                  class="c-icon"
-                  viewBox="0 0 24 24"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  style="vertical-align: middle;"
-                >
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-          <div
             class="c-folder__wrapper"
+            id="urn:subject:1urn:topic:1:172362"
           >
             <a
               class="c-folder__link"
               href="/structure/subject:1/topic:1:172362"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon c-folder__folderIcon"
-                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
               >
+                <title>
+                  Folder
+                </title>
                 <g>
                   <path
                     d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -796,53 +593,27 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             class="c-folder__subFolders"
           />
           <div
-            style="display: none;"
-          >
-            <button
-              class="c-button c-button--stripped"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  fill="currentColor"
-                  preserveAspectRatio="xMidYMid meet"
-                  height="1em"
-                  width="1em"
-                  class="c-icon"
-                  viewBox="0 0 24 24"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  style="vertical-align: middle;"
-                >
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-          <div
             class="c-folder__wrapper"
+            id="urn:subject:1urn:topic:1:172568"
           >
             <a
               class="c-folder__link"
               href="/structure/subject:1/topic:1:172568"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon c-folder__folderIcon"
-                viewBox="0 0 14 11"
                 data-license="CC-BY 4.0"
                 data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle; color: rgb(112, 165, 218);"
+                viewBox="0 0 14 11"
+                width="1em"
               >
+                <title>
+                  Folder
+                </title>
                 <g>
                   <path
                     d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -855,38 +626,9 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           <div
             class="c-folder__subFolders"
           />
-          <div
-            style="display: none;"
-          >
-            <button
-              class="c-button c-button--stripped"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  fill="currentColor"
-                  preserveAspectRatio="xMidYMid meet"
-                  height="1em"
-                  width="1em"
-                  class="c-icon"
-                  viewBox="0 0 24 24"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  style="vertical-align: middle;"
-                >
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
         </div>
         <div
+          id="linkButton-urn:subject:1"
           style="display: none;"
         >
           <button
@@ -897,16 +639,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -918,22 +663,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:2"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:2"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -947,6 +696,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:2"
           style="display: none;"
         >
           <button
@@ -957,16 +707,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -978,22 +731,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:3"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:3"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1007,6 +764,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:3"
           style="display: none;"
         >
           <button
@@ -1017,16 +775,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1038,22 +799,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:4"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:4"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1067,6 +832,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:4"
           style="display: none;"
         >
           <button
@@ -1077,16 +843,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1098,22 +867,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:5"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:5"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1127,6 +900,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:5"
           style="display: none;"
         >
           <button
@@ -1137,16 +911,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1158,22 +935,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:6"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:6"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1187,6 +968,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:6"
           style="display: none;"
         >
           <button
@@ -1197,16 +979,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1218,22 +1003,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:7"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:7"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1247,6 +1036,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:7"
           style="display: none;"
         >
           <button
@@ -1257,16 +1047,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1278,22 +1071,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:8"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:8"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1307,6 +1104,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:8"
           style="display: none;"
         >
           <button
@@ -1317,16 +1115,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1338,22 +1139,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:9"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:9"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1367,6 +1172,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:9"
           style="display: none;"
         >
           <button
@@ -1377,16 +1183,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1398,22 +1207,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:10"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:10"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1427,6 +1240,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:10"
           style="display: none;"
         >
           <button
@@ -1437,16 +1251,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1458,22 +1275,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:11"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:11"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1487,6 +1308,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:11"
           style="display: none;"
         >
           <button
@@ -1497,16 +1319,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1518,22 +1343,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:12"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:12"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1547,6 +1376,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:12"
           style="display: none;"
         >
           <button
@@ -1557,16 +1387,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1578,22 +1411,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:13"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:13"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1607,6 +1444,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:13"
           style="display: none;"
         >
           <button
@@ -1617,16 +1455,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1638,22 +1479,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:14"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:14"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1667,6 +1512,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:14"
           style="display: none;"
         >
           <button
@@ -1677,16 +1523,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1698,22 +1547,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:15"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:15"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1727,6 +1580,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:15"
           style="display: none;"
         >
           <button
@@ -1737,16 +1591,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1758,22 +1615,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:16"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:16"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1787,6 +1648,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:16"
           style="display: none;"
         >
           <button
@@ -1797,16 +1659,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1818,22 +1683,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:17"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:17"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1847,6 +1716,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:17"
           style="display: none;"
         >
           <button
@@ -1857,16 +1727,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1878,22 +1751,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:18"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structure/subject:18"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1907,6 +1784,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:18"
           style="display: none;"
         >
           <button
@@ -1917,16 +1795,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -1938,22 +1819,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          id="urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
         >
           <a
-            class="c-folder__link"
+            class="c-folder__link c-folder__link--grayedOut"
             href="/structurenull"
           >
             <svg
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              height="1em"
-              width="1em"
               class="c-icon c-folder__folderIcon"
-              viewBox="0 0 14 11"
               data-license="CC-BY 4.0"
               data-source="Knowit"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
               style="vertical-align: middle; color: rgb(112, 165, 218);"
+              viewBox="0 0 14 11"
+              width="1em"
             >
+              <title>
+                Folder
+              </title>
               <g>
                 <path
                   d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
@@ -1967,6 +1852,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="c-folder__subFolders"
         />
         <div
+          id="linkButton-urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
           style="display: none;"
         >
           <button
@@ -1977,16 +1863,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-roundIcon"
             >
               <svg
-                fill="currentColor"
-                preserveAspectRatio="xMidYMid meet"
-                height="1em"
-                width="1em"
                 class="c-icon"
-                viewBox="0 0 24 24"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
                 style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
               >
+                <title>
+                  Link
+                </title>
                 <g>
                   <path
                     d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
@@ -2012,6 +1901,82 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         <span
           class="c-accordion__title c-accordion__title--resourceGroup"
         >
+          Emnebeskrivelse
+        </span>
+      </button>
+      <button
+        class="c-button c-button--stripped c-topic-resource__add-button"
+        type="button"
+      >
+        <svg
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            Plus
+          </title>
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Endre emnebeskrivelse
+      </button>
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        type="button"
+      >
+        <svg
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            ExpandLess
+          </title>
+          <g>
+            <path
+              d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--visible c-accordion__content--resourceGroup"
+    />
+  </div>
+  <div
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+    >
+      <button
+        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
           Fagstoff
         </span>
       </button>
@@ -2020,16 +1985,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            Plus
+          </title>
           <g>
             <path
               d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
@@ -2047,16 +2015,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            ExpandMore
+          </title>
           <g>
             <path
               d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
@@ -2090,16 +2061,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            Plus
+          </title>
           <g>
             <path
               d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
@@ -2117,16 +2091,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            ExpandMore
+          </title>
           <g>
             <path
               d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
@@ -2160,16 +2137,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            Plus
+          </title>
           <g>
             <path
               d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
@@ -2187,16 +2167,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            ExpandMore
+          </title>
           <g>
             <path
               d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
@@ -2230,16 +2213,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            Plus
+          </title>
           <g>
             <path
               d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
@@ -2257,16 +2243,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            ExpandMore
+          </title>
           <g>
             <path
               d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
@@ -2300,16 +2289,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            Plus
+          </title>
           <g>
             <path
               d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
@@ -2327,16 +2319,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            ExpandMore
+          </title>
           <g>
             <path
               d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
@@ -2370,16 +2365,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            Plus
+          </title>
           <g>
             <path
               d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
@@ -2397,16 +2395,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            ExpandMore
+          </title>
           <g>
             <path
               d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
@@ -2440,16 +2441,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            Plus
+          </title>
           <g>
             <path
               d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
@@ -2467,16 +2471,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         type="button"
       >
         <svg
-          fill="currentColor"
-          preserveAspectRatio="xMidYMid meet"
-          height="1em"
-          width="1em"
           class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
-          viewBox="0 0 24 24"
           data-license="Apache License 2.0"
           data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
+          <title>
+            ExpandMore
+          </title>
           <g>
             <path
               d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
@@ -2488,39 +2495,6 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     <div
       class="c-accordion__content c-accordion__content--hidden c-accordion__content--resourceGroup"
     />
-  </div>
-  <div
-    style="display: none;"
-  >
-    <div
-      class="c-roundIcon"
-    >
-      <svg
-        fill="currentColor"
-        preserveAspectRatio="xMidYMid meet"
-        height="1em"
-        width="1em"
-        class="c-icon"
-        viewBox="0 0 24 24"
-        data-license="Apache License 2.0"
-        data-source="Material Design"
-        style="vertical-align: middle;"
-      >
-        <g>
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-          <path
-            d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-          />
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-        </g>
-      </svg>
-    </div>
   </div>
 </div>
 `;

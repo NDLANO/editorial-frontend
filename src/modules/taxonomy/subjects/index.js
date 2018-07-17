@@ -50,6 +50,14 @@ function updateSubjectName(id, name) {
   }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
+function updateSubjectTopic(connectionId, body) {
+  return fetchAuthorized(`${baseUrl}/subject-topics/${connectionId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify(body),
+  }).then(res => resolveJsonOrRejectWithError(res, true));
+}
+
 function fetchSubjectFilters(id) {
   return fetchAuthorized(`${baseUrl}/subjects/${id}/filters`).then(res =>
     resolveJsonOrRejectWithError(res),
@@ -63,4 +71,5 @@ export {
   updateSubjectName,
   addSubjectTopic,
   fetchSubjectFilters,
+  updateSubjectTopic,
 };

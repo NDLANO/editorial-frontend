@@ -226,6 +226,21 @@ const phrases = {
       },
     },
   },
+  editorToolbar: {
+    bold: 'Bold',
+    italic: 'Italic',
+    underlined: 'Underlined',
+    quote: 'Quote',
+    link: 'Link',
+    numberedList: 'Numbered list',
+    bulletedList: 'Bulleted list',
+    twoColumnList: 'Two-column list',
+    letterList: 'Letter list',
+    headingOne: 'Heading 1',
+    headingTwo: 'Heading 2',
+    headingThree: 'Heading 3',
+    footnote: 'Footnote',
+  },
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Content',
@@ -243,6 +258,10 @@ const phrases = {
     publishedOk: 'Published OK',
     validationOk: 'No validation errors found',
     createdOk: 'Created OK',
+    addNewImage: 'Add new image',
+    addNewAudio: 'Add new audio',
+    editImage: 'Edit image',
+    editAudio: 'Edit audio',
     variant: {
       create: 'Create variant +',
     },
@@ -257,6 +276,9 @@ const phrases = {
     visualElement: {
       title: 'Add visual element',
       label: 'Visual element',
+      video: 'Video search',
+      image: 'Image search',
+      h5p: 'H5P search',
     },
     status: {
       created: 'Created',
@@ -283,6 +305,18 @@ const phrases = {
       placeholder: 'Write here...',
       figure: {
         notSupported: 'Media type {mediaType} is not supported.',
+        confirmDelete: 'Are you sure that you will delete this figure?',
+      },
+      relatedArticle: {
+        placeholder: 'Search for title',
+        urlPlaceholder: 'Url',
+        titlePlaceholder: 'Title',
+        urlLocation: 'Webpage at {domain}',
+        emptyFilter: 'No related articles found',
+        emptyList: 'There are no related articles in this list',
+        invalidArticle: 'Invalid article',
+        addExternal: 'Add external article',
+        searchExternal: 'Write the url and title of the external article',
       },
       link: {
         goTo: 'Go to',
@@ -408,6 +442,10 @@ const phrases = {
     },
     audio: {
       file: 'Audio file',
+      title: {
+        label: 'Audio title',
+        placeholder: 'Audio title',
+      },
       caption: {
         label: 'Audio caption',
         placeholder: 'Audio caption',
@@ -477,12 +515,16 @@ const phrases = {
     confirmDelete: 'Are you sure you want to delete the filter?',
     addResource: 'Add resource',
     searchResource: 'Search for resource',
+    searchArticle: 'Search for topic article',
     confirmDeleteTopic:
       'Are you sure you want to delete the topic from the folder? This does not affect the topic location elsewhere',
     or: 'Eller',
     urlPlaceholder: 'Lim inn lenke fra ndla.no',
     wrongType: 'Note! This is a different resource type: ',
     noResources: 'No resources found',
+    addTopicDescription: 'Change topic description',
+    confirmSetPrimary: 'Do you want to make this the main location?',
+    removeLink: 'Remove link',
     resource: {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',

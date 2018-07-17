@@ -17,6 +17,7 @@ it('Goes to edit mode, handles submit', async () => {
     <InlineEditField
       title="Test"
       classes={() => {}}
+      onClose={() => {}}
       t={() => {}}
       onSubmit={actionFunc}
     />,
@@ -33,7 +34,7 @@ it('Goes to edit mode, handles submit', async () => {
 });
 
 it('Goes to edit mode, handles submit and shows error', async () => {
-  const actionFunc = () => Promise.reject();
+  const actionFunc = () => Promise.reject(new Error('Test error'));
   const { getByTestId } = render(
     <InlineEditField
       title="Test"

@@ -239,6 +239,21 @@ const phrases = {
       },
     },
   },
+  editorToolbar: {
+    bold: 'Fet',
+    italic: 'Kursiv',
+    underlined: 'Understreket',
+    quote: 'Sitat',
+    link: 'Lenke',
+    numberedList: 'Nummerert liste',
+    bulletedList: 'Punktliste',
+    twoColumnList: 'To-kolonners liste',
+    letterList: 'Bokstavliste',
+    headingOne: 'Overskrift 1',
+    headingTwo: 'Overskrift 2',
+    headingThree: 'Overskrift 3',
+    footnote: 'Fotnote',
+  },
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Innhold',
@@ -256,6 +271,10 @@ const phrases = {
     publishedOk: 'Publisert OK',
     validationOk: 'Ingen validerings feil funnet',
     createdOk: 'Opprettet OK',
+    addNewImage: 'Legg til nytt bilde',
+    addNewAudio: 'Legg til ny lyd',
+    editImage: 'Endre bilde',
+    editAudio: 'Endre lyd',
     variant: {
       create: '+ Nytt språk',
     },
@@ -270,6 +289,9 @@ const phrases = {
     visualElement: {
       title: 'Legg til visuelt element',
       label: 'Visuelt element',
+      video: 'Videosøk',
+      image: 'Bildesøk',
+      h5p: 'H5P Søk',
     },
     status: {
       created: 'Opprettet',
@@ -296,17 +318,23 @@ const phrases = {
       placeholder: 'Innhold',
       figure: {
         notSupported: 'Mediatype {mediaType} er ikke støttet.',
+        confirmDelete: 'Er du sikker på at du vil slette denne figuren?',
       },
       relatedArticle: {
         placeholder: 'Søk på tittel',
+        urlPlaceholder: 'http://www.example.com',
+        urlLocation: 'Nettside hos {domain}',
+        titlePlaceholder: 'Tittel',
         emptyFilter: 'Ingen relaterte artikler funnet',
         emptyList: 'Det er ingen relaterte artikler i denne listen',
         invalidArticle: 'Ugyldig artikkel',
+        addExternal: 'Legg til ekstern artikkel',
+        searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
       },
       link: {
         goTo: 'Gå til',
         insert: 'Sett inn lenke',
-        update: 'Opddater lenke',
+        update: 'Oppdater lenke',
         change: 'Endre',
         remove: 'Fjern lenke',
         href: 'Lenke',
@@ -430,6 +458,10 @@ const phrases = {
     },
     audio: {
       file: 'Lydfil',
+      title: {
+        label: 'Lydtittel',
+        placeholder: 'Lydtittel',
+      },
       caption: {
         label: 'Lydtekst',
         placeholder: 'Lydtekst',
@@ -438,7 +470,7 @@ const phrases = {
       speech: 'Tale',
     },
     related: {
-      title: 'Relaterte arikler',
+      title: 'Relaterte artikler',
       showMore: 'Vis flere relaterte artikler',
       showLess: 'Vis mindre',
     },
@@ -500,14 +532,18 @@ const phrases = {
     setPrimary: 'Sett til primærkobling',
     addResource: 'Legg til ressurs',
     searchResource: 'Søk etter ressurs',
+    searchArticle: 'Søk etter emneartikkel',
     or: 'Eller',
     urlPlaceholder: 'Lim inn lenke fra ndla.no',
     wrongType: 'Obs! Denne ressursen er en annen type',
     noResources: 'Ingen ressurser funnet',
+    addTopicDescription: 'Endre emnebeskrivelse',
+    confirmSetPrimary: 'Vil du gjøre dette til hovedplassering?',
     resource: {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
     },
+    removeLink: 'Fjern link',
   },
 };
 

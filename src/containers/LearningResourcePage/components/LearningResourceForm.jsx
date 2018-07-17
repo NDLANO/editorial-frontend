@@ -40,7 +40,6 @@ import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
-  processorsWithDefault,
 } from '../../../util/formHelper';
 import { toEditArticle } from '../../../util/routeHelpers';
 
@@ -67,6 +66,7 @@ const parseImageUrl = metaImage => {
 export const getInitialModel = (
   article = {},
   taxonomy = { resourceTypes: [], filter: [], topics: [] },
+  language,
 ) => {
   const metaImageId = parseImageUrl(article.metaImage);
   return {
@@ -77,7 +77,7 @@ export const getInitialModel = (
     content: learningResourceContentToEditorValue(article.content),
     tags: article.tags || [],
     creators: parseCopyrightContributors(article, 'creators'),
-    processors: processorsWithDefault(article),
+    processors: parseCopyrightContributors(article, 'processors'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     origin:
       article.copyright && article.copyright.origin
@@ -90,7 +90,7 @@ export const getInitialModel = (
     metaImageId,
     supportedLanguages: article.supportedLanguages || [],
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
-    language: article.language,
+    language: language || article.language,
     articleType: 'standard',
     status: article.status || [],
     notes: article.notes || [],
@@ -107,15 +107,18 @@ class LearningResourceForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { initialModel, setModel, taxonomy } = nextProps;
+    const { initialModel, setModel, setModelField, taxonomy } = nextProps;
     const hasTaxonomyChanged =
       taxonomy &&
       this.props.taxonomy &&
       taxonomy.loading !== this.props.taxonomy.loading;
-    if (
+
+    if (hasTaxonomyChanged) {
+      const fields = ['resourceTypes', 'filter', 'topics'];
+      fields.map(field => setModelField(field, initialModel[field]));
+    } else if (
       initialModel.id !== this.props.initialModel.id ||
-      initialModel.language !== this.props.initialModel.language ||
-      hasTaxonomyChanged
+      initialModel.language !== this.props.initialModel.language
     ) {
       setModel(initialModel);
     }
@@ -170,6 +173,7 @@ class LearningResourceForm extends Component {
       t,
       bindInput,
       schema,
+      initialModel,
       model,
       submitted,
       tags,
@@ -228,13 +232,15 @@ class LearningResourceForm extends Component {
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <SaveButton isSaving={isSaving} t={t} showSaved={showSaved} />
+          <SaveButton isSaving={isSaving} showSaved={showSaved} />
         </Field>
         <WarningModalWrapper
           {...{
             schema,
             showSaved,
             fields,
+            model,
+            initialModel,
             handleSubmit: this.handleSubmit,
             text: t('warningModal.notSaved'),
           }}
@@ -255,6 +261,7 @@ LearningResourceForm.propTypes = {
     language: PropTypes.string,
   }),
   setModel: PropTypes.func.isRequired,
+  setModelField: PropTypes.func.isRequired,
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
   schema: SchemaShape,
   licenses: LicensesArrayOf,
@@ -274,6 +281,7 @@ LearningResourceForm.propTypes = {
     loading: PropTypes.bool,
   }),
   taxonomyIsLoading: PropTypes.bool,
+  selectedLanguage: PropTypes.string,
 };
 
 export default compose(

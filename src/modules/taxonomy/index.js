@@ -19,6 +19,7 @@ import {
   createResource,
   fetchResourceResourceType,
   fetchResourceFilter,
+  updateResourceRelevance,
   // fetchTopicResource,
 } from './resources';
 import {
@@ -52,13 +53,14 @@ import {
   updateSubjectName,
   fetchSubjectFilters,
   addSubjectTopic,
+  updateSubjectTopic,
 } from './subjects';
 
 import {
   addTopic,
   fetchTopics,
   fetchTopicFilters,
-  updateTopicName,
+  updateTopic,
   addTopicToTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,
@@ -66,6 +68,8 @@ import {
   updateTopicFilter,
   deleteTopicFilter,
   fetchTopicResources,
+  fetchTopicConnections,
+  updateTopicSubtopic,
 } from './topics/';
 
 export {
@@ -107,7 +111,7 @@ export {
   fetchSubjectFilters,
   editSubjectFilter,
   deleteFilter,
-  updateTopicName,
+  updateTopic,
   addTopicToTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,
@@ -115,4 +119,8 @@ export {
   addFilterToTopic,
   updateTopicFilter,
   deleteTopicFilter,
+  fetchTopicConnections,
+  updateResourceRelevance,
+  updateTopicSubtopic,
+  updateSubjectTopic,
 };

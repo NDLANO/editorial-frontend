@@ -9,26 +9,17 @@ import React from 'react';
 import { injectT } from 'ndla-i18n';
 import { loginPersonalAccessToken } from '../../util/authHelpers';
 
-export const LoginProviders = ({ t }) => (
-  <div>
-    <h3>{t('loginProviders.description')}</h3>
-    <ul className="vertical-menu">
-      <li className="vertical-menu_item">
-        <button
-          onClick={() => loginPersonalAccessToken('google-oauth2')}
-          className="login-button btn-google c-button">
-          Google
-        </button>
-      </li>
-      <li className="vertical-menu_item">
-        <button
-          onClick={() => loginPersonalAccessToken('facebook')}
-          className="login-button btn-fb c-button">
-          Facebook
-        </button>
-      </li>
-    </ul>
-  </div>
-);
+export const LoginProviders = ({ t }) => [
+  <h3 key="login-providers_title">{t('loginProviders.description')}</h3>,
+  <ul key="login-providers_list" className="vertical-menu">
+    <li className="vertical-menu_item">
+      <button
+        onClick={() => loginPersonalAccessToken('google-oauth2')}
+        className="login-button btn-google c-button">
+        Google
+      </button>
+    </li>
+  </ul>,
+];
 
 export default injectT(LoginProviders);

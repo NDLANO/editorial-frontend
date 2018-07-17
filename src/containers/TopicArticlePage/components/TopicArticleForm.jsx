@@ -28,7 +28,6 @@ import { SchemaShape, LicensesArrayOf } from '../../../shapes';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
-  processorsWithDefault,
 } from '../../../util/formHelper';
 import {
   FormWorkflow,
@@ -50,7 +49,7 @@ export const getInitialModel = (article = {}) => {
     content: topicArticleContentToEditorValue(article.content),
     tags: article.tags || [],
     creators: parseCopyrightContributors(article, 'creators'),
-    processors: processorsWithDefault(article),
+    processors: parseCopyrightContributors(article, 'creators'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
     copyright: article.copyright
@@ -120,6 +119,7 @@ class TopicArticleForm extends Component {
       t,
       bindInput,
       schema,
+      initialModel,
       model,
       submitted,
       tags,
@@ -170,19 +170,18 @@ class TopicArticleForm extends Component {
           <SaveButton
             classes={formClasses}
             isSaving={isSaving}
-            t={t}
             showSaved={showSaved}>
             {t('form.save')}
           </SaveButton>
         </Field>
         <WarningModalWrapper
-          {...{
-            schema,
-            showSaved,
-            fields,
-            handleSubmit: this.handleSubmit,
-            text: t('warningModal.notSaved'),
-          }}
+          initialModel={initialModel}
+          model={model}
+          schema={schema}
+          showSaved={showSaved}
+          fields={fields}
+          handleSubmit={this.handleSubmit}
+          text={t('warningModal.notSaved')}
         />
       </form>
     );

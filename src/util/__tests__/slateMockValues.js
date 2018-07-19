@@ -708,3 +708,61 @@ export const brValue = {
   },
   kind: 'value',
 };
+
+export const spanWithAttributesValue = {
+  document: {
+    data: {},
+    kind: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        kind: 'block',
+        nodes: [
+          {
+            kind: 'text',
+            leaves: [
+              {
+                kind: 'leaf',
+                marks: [],
+                text: '',
+              },
+            ],
+          },
+          {
+            data: {
+              lang: 'en',
+            },
+            isVoid: false,
+            kind: 'inline',
+            nodes: [
+              {
+                kind: 'text',
+                leaves: [
+                  {
+                    kind: 'leaf',
+                    marks: [],
+                    text: 'Hyper Text Markup Language',
+                  },
+                ],
+              },
+            ],
+            type: 'span',
+          },
+          {
+            kind: 'text',
+            leaves: [
+              {
+                kind: 'leaf',
+                marks: [],
+                text: '',
+              },
+            ],
+          },
+        ],
+        type: 'paragraph',
+      },
+    ],
+  },
+  kind: 'value',
+};

@@ -96,7 +96,10 @@ class InlineDropdown extends PureComponent {
             onChange={selectedItem => this.setState({ selected: selectedItem })}
             render={downshiftProps => (
               <div {...dropDownClasses()}>
-                <DropdownInput {...downshiftProps} />
+                <DropdownInput
+                  testid="inlineDropdownInput"
+                  {...downshiftProps}
+                />
                 <DropdownMenu
                   items={items ? items.search(downshiftProps.inputValue) : []}
                   {...downshiftProps}

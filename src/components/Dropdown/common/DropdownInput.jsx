@@ -20,7 +20,7 @@ const autosizeStyle = {
 };
 
 const DropdownInput = props => {
-  const { multiSelect, inputProps, name, getInputProps } = props;
+  const { multiSelect, inputProps, name, getInputProps, testid } = props;
   if (multiSelect) {
     return (
       <AutosizeInput
@@ -36,6 +36,7 @@ const DropdownInput = props => {
     <input
       {...getInputProps({ name, ...inputProps })}
       {...dropDownClasses('single')}
+      data-testid={testid}
     />
   );
 };

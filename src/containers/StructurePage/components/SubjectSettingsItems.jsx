@@ -55,6 +55,7 @@ class SubjectSettingsItems extends Component {
           <Button
             {...classes('menuItem')}
             stripped
+            data-testid="changeSubjectNameButton"
             onClick={() => this.setState({ editMode: 'changeName' })}>
             <RoundIcon small icon={<Pencil />} />
             {t('taxonomy.changeName')}
@@ -73,6 +74,7 @@ class SubjectSettingsItems extends Component {
           <Button
             {...classes('menuItem')}
             stripped
+            data-testid="addSubjectTopicButon"
             onClick={() => this.setState({ editMode: 'addTopic' })}>
             <RoundIcon small icon={<Plus />} />
             {t('taxonomy.addTopic')}
@@ -90,6 +92,7 @@ class SubjectSettingsItems extends Component {
           <Button
             {...classes('menuItem')}
             stripped
+            data-testid="addExistingSubjectTopicButton"
             onClick={() => this.setState({ editMode: 'addExistingTopic' })}>
             <RoundIcon small icon={<Plus />} />
             {t('taxonomy.addExistingTopic')}
@@ -98,6 +101,7 @@ class SubjectSettingsItems extends Component {
         <Button
           {...classes('menuItem')}
           stripped
+          data-testid="editSubjectFiltersButton"
           onClick={() =>
             this.setState(prevState => ({
               editMode: prevState.editMode === 'editFilter' ? '' : 'editFilter',

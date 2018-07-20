@@ -14,15 +14,15 @@
     "prettier": "node prettier.js write",
     "start": "razzle start",
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
-    "now-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
+    "now-start":
+      "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
     "test": "cross-env BABEL_ENV=test NODE_ENV=unittest jest",
-    "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch"
+    "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch",
+    "cy": "cypress open"
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": [
-      "./src/__tests__/_initTestEnv.js"
-    ]
+    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
   },
   "engines": {
     "node": ">=8.4.0",
@@ -31,6 +31,7 @@
   "devDependencies": {
     "chalk": "^2.3.2",
     "cross-env": "^5.1.4",
+    "cypress": "^3.0.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.0",

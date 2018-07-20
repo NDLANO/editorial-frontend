@@ -1,0 +1,10 @@
+{
+  "env": {
+    "NDLA_EDITORIAL_CLIENT_ID": "qHQgjgu77MAIyhUvujiNfX40X51SXZr3",
+    "NDLA_EDITORIAL_CLIENT_SECRET":
+      "3Bw816QCEmTmbUJ8pJIGXKMxrjSuQOv4e5XptJJaZSYcIvB4poA4p8UrlnkrAccg"
+  },
+  "baseUrl": "http://localhost:3000",
+  "chromeWebSecurity": false,
+  "video": false
+}

@@ -48,7 +48,10 @@ class EditConcept extends React.PureComponent {
 }
 
 EditConcept.propTypes = {
-  t: PropTypes.func,
+  node: PropTypes.shape({
+    data: PropTypes.any,
+  }),
+  locale: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

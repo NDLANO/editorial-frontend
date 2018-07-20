@@ -469,7 +469,6 @@ const topicArticeEmbedRule = [
     // Embeds handling
     deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
-      console.log(el.dataset);
       if (el.dateset['data-resource'] === 'related-content') {
         return;
       }
@@ -534,7 +533,7 @@ export const learningResourceEmbedRule = [
                   kind: 'leaf',
                   text: embed['link-text']
                     ? embed['link-text']
-                    : 'Ukjent link tekst',
+                    : 'Ukjent begrepstekst',
                   marks: [],
                 },
               ],

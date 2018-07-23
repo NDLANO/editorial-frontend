@@ -25,7 +25,7 @@ class Filelist extends React.Component {
       id,
       title,
       formats: [
-        { url, fileType: type, tooltip: `${t`form.file.download`} ${title}` },
+        { url, fileType: type, tooltip: `${t(`form.file.download`)} ${title}` },
       ],
     }));
 
@@ -45,7 +45,7 @@ class Filelist extends React.Component {
     if (name === 'title') {
       files[id].formats = files[id].formats.map(format => ({
         ...format,
-        tooltip: `${t`form.file.download`} ${value}`,
+        tooltip: `${t(`form.file.download`)} ${value}`,
       }));
     }
 
@@ -81,7 +81,7 @@ class Filelist extends React.Component {
       <Fragment>
         {this.state.editMode ? (
           <EditFile
-            heading={t`form.file.label`}
+            heading={t(`form.file.label`)}
             files={files}
             onExit={this.toggleEdit}
             onFileListInputChange={this.onFileInputChange}
@@ -97,7 +97,7 @@ class Filelist extends React.Component {
             {files &&
               files.length > 0 && (
                 <FileList
-                  heading={t`form.file.label`}
+                  heading={t(`form.file.label`)}
                   id="file-embed"
                   files={files}
                 />

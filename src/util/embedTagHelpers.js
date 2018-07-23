@@ -42,7 +42,7 @@ export const reduceChildElements = (el, type) => {
         });
       }
     } else {
-      childs.push({ ...node.dataset });
+      childs.push(node.dataset);
     }
   });
 

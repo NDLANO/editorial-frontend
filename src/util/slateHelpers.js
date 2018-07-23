@@ -345,9 +345,7 @@ export const inlineRules = {
   serialize(object, children) {
     if (object.kind !== 'inline') return;
     const data = object.data.toJS();
-    const props = createProps({
-      ...data,
-    });
+    const props = createProps(data);
     switch (object.type) {
       case 'span':
         return <span {...props}>{children}</span>;

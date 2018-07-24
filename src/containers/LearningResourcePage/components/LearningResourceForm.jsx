@@ -88,6 +88,7 @@ export const getInitialModel = (
       : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
     metaImageId,
+    metaImageAlt: '',
     supportedLanguages: article.supportedLanguages || [],
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
     language: language || article.language,
@@ -143,7 +144,10 @@ class LearningResourceForm extends Component {
         introduction: editorValueToPlainText(model.introduction),
         tags: model.tags,
         content: content && content.length > 0 ? content : emptyContent,
-        metaImageId: model.metaImageId,
+        metaImage: {
+          id: model.metaImageId,
+          alt: model.metaImageAlt,
+        },
         metaDescription: editorValueToPlainText(model.metaDescription),
         articleType: 'standard',
         copyright: {
@@ -293,6 +297,10 @@ export default compose(
     },
     introduction: {
       maxLength: 300,
+    },
+    metaImageAlt: {
+      required: true,
+      onlyValidateIf: model => model.metaImageId,
     },
     content: {
       required: true,

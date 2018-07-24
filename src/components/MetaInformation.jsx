@@ -14,12 +14,13 @@ const classes = new BEMHelper({
   name: 'meta-information',
   prefix: 'c-',
 });
-const MetaInformation = ({ title, copyright, translations }) => (
+const MetaInformation = ({ title, copyright, translations, action }) => (
   <div {...classes()}>
     <strong>{title ? translations.title : ''}</strong>
     <span>{title}</span>
     <strong>{copyright ? translations.copyright : ''}</strong>
     <span>{copyright}</span>
+    {action || null}
   </div>
 );
 
@@ -30,6 +31,7 @@ MetaInformation.propTypes = {
     title: PropTypes.string.isRequired,
     copyright: PropTypes.string.isRequired,
   }),
+  action: PropTypes.node,
 };
 
 export default MetaInformation;

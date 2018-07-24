@@ -5,7 +5,6 @@ Array [
   <button
     className="c-button c-button--stripped c-editor__delete-button"
     disabled={false}
-    onClick={undefined}
     type="button"
   >
     <svg
@@ -56,7 +55,6 @@ Array [
     <button
       className="c-button c-button--stripped c-editor__button c-editor__button--red"
       disabled={false}
-      onClick={undefined}
       type="button"
     >
       <svg
@@ -108,7 +106,6 @@ Array [
     <button
       className="c-button c-button--stripped c-editor__button c-editor__button--red"
       disabled={false}
-      onClick={undefined}
       type="button"
     >
       <svg

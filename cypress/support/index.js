@@ -25,7 +25,7 @@ const visitOptions = {
   },
 };
 
-beforeEach(() => {
+export const beforeEachHelper = (visitUrl) => {
   const options = {
     method: 'POST',
     url: 'https://ndla.eu.auth0.com/oauth/token',
@@ -47,6 +47,6 @@ beforeEach(() => {
       localStorage.setItem('access_token_personal', true);
     })
     .then(() => {
-      cy.visit('/structure', visitOptions);
+      cy.visit(visitUrl, visitOptions);
     });
-});
+};

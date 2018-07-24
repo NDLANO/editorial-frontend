@@ -6,34 +6,14 @@
  *
  */
 
+import { beforeEachHelper } from '../../support';
+
+beforeEach(() => {
+  beforeEachHelper('/structure');
+});
+
 describe('Subject editing', () => {
-  /*   it('should have a list of clickable subjects loaded', () => {
-    cy.get('#plumbContainer > div > a').each($el => {
-      cy.wrap($el).click();
-      cy.location().should(loc => {
-        expect(loc.pathname).to.include('subject');
-      });
-    });
-  });
 
-  it('adds a new subject', () => {
-    cy.server();
-    cy.route('POST', '/taxonomy/v1/subjects', {
-      headers: { Location: 'newPath' },
-    });
-    cy.get('[data-testid=AddSubjectButton]').click();
-    cy.get('[data-testid=addSubjectInputField]').type('Testfag{enter}');
-    cy.get('[data-testid=AddSubjectButton]');
-  });
- */
-
-  const taxonomyResponse = {
-    headers: {
-      Location: 'newPath',
-      'content-type': 'text/plain; charset=UTF-8',
-    },
-    response: '',
-  };
   it('should have a settings menu where everything works', () => {
     cy.server();
     cy

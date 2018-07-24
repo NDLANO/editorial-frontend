@@ -74,12 +74,12 @@ class Filelist extends React.Component {
   }
 
   render() {
-    const { files } = this.state;
+    const { files, editMode } = this.state;
     const { t } = this.props;
 
     return (
       <Fragment>
-        {this.state.editMode ? (
+        {editMode ? (
           <EditFile
             heading={t(`form.file.label`)}
             files={files}
@@ -90,7 +90,7 @@ class Filelist extends React.Component {
         ) : (
           <div
             role="button"
-            style={{ cursor: 'pointer' }}
+            className="c-placeholder-editmode"
             tabIndex={0}
             onKeyPress={this.toggleEdit}
             onClick={this.toggleEdit}>

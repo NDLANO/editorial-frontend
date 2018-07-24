@@ -67,6 +67,9 @@
     }
 
     & input[type='radio'] {
+      /* Radio input type needs to be re-designed/added at ndla-ui level to support consistent cross-browser compatibility */
+      -webkit-appearance: radio !important;
+      -moz-appearance: radio !important;
       line-height: normal;
       margin: 4px 0 0;
       position: absolute;

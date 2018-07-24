@@ -211,8 +211,8 @@ class TaxonomyDropdown extends PureComponent {
         selectedItem={selectedItems}
         onStateChange={this.handleStateChange}
         onChange={this.handleChange}
-        isOpen={isOpen}
-        render={downshiftProps => (
+        isOpen={isOpen}>
+        {downshiftProps => (
           <div {...dropDownClasses()}>
             <TaxonomyDropdownInput
               name={name}
@@ -239,7 +239,7 @@ class TaxonomyDropdown extends PureComponent {
             />
           </div>
         )}
-      />
+      </Downshift>
     );
   }
 }

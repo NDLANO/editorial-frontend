@@ -124,8 +124,8 @@ class AsyncDropDown extends React.Component {
         onStateChange={this.handleStateChange}
         onChange={this.handleChange}
         isOpen={this.state.isOpen || alwaysOpen}
-        selectedItem={this.state.selectedItem}
-        render={downshiftProps => (
+        selectedItem={this.state.selectedItem}>
+        {downshiftProps => (
           <div {...dropDownClasses()}>
             <DropdownInput {...downshiftProps} inputProps={inputProps} />
             <DropdownMenu
@@ -143,7 +143,7 @@ class AsyncDropDown extends React.Component {
             />
           </div>
         )}
-      />
+      </Downshift>
     );
   }
 }

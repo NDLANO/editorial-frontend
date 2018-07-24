@@ -7,9 +7,11 @@
  */
 
 import React from 'react';
-import { render, Simulate, wait } from 'react-testing-library';
+import { render, fireEvent, wait, cleanup } from 'react-testing-library';
 import sinon from 'sinon';
 import InlineEditField from '../components/InlineEditField';
+
+afterEach(cleanup);
 
 it('Goes to edit mode, handles submit', async () => {
   const actionFunc = sinon.spy();
@@ -26,9 +28,9 @@ it('Goes to edit mode, handles submit', async () => {
 
   const input = getByTestId('inlineEditInput');
   input.value = 'Elefant';
-  Simulate.change(input);
+  fireEvent.change(input);
 
-  Simulate.keyDown(input, { key: 'Enter', keyCode: 13, which: 13 });
+  fireEvent.keyDown(input, { key: 'Enter', keyCode: 13, which: 13 });
   await wait();
   expect(actionFunc.calledWith('Elefant')).toBe(true);
 });
@@ -46,8 +48,8 @@ it('Goes to edit mode, handles submit and shows error', async () => {
 
   const input = getByTestId('inlineEditInput');
   input.value = 'Elefant';
-  Simulate.change(input);
+  fireEvent.change(input);
 
-  Simulate.click(getByTestId('inlineEditSaveButton'));
+  fireEvent.click(getByTestId('inlineEditSaveButton'));
   await wait(() => getByTestId('inlineEditErrorMessage'));
 });

@@ -160,84 +160,108 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         Eller
       </span>
       <div
+        aria-expanded="true"
+        aria-haspopup="listbox"
+        aria-labelledby="downshift-0-label"
+        aria-owns="downshift-0-menu"
         class="c-dropdown"
+        role="combobox"
       >
         <input
           aria-autocomplete="list"
-          aria-expanded="true"
-          autocomplete="off"
+          aria-controls="downshift-0-menu"
+          aria-labelledby="downshift-0-label"
+          autocomplete="nope"
           class="c-dropdown__single"
           id="downshift-0-input"
           placeholder="Søk på tittel"
-          role="combobox"
           value=""
         />
         <div
           class="c-dropdown__items c-dropdown__items--resourceMenu"
         >
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-0"
+            role="option"
           >
             Hva kan du om geologiske prosesser?
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-1"
+            role="option"
           >
             Hva kan du om petroleumsgeologi?
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-2"
+            role="option"
           >
             Hva kan du om olje og gass på den norske sokkelen?
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-3"
+            role="option"
           >
             Hva kan du om letemetoder og datainnsamling?
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-4"
+            role="option"
           >
             Hva kan du om installasjoner for boring og vedlikehold?
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-5"
+            role="option"
           >
             Hva kan du om installasjoner for produksjon?
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-6"
+            role="option"
           >
             Sammendrag om rørhåndtering
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-7"
+            role="option"
           >
             Hva kan du om slamsystemet?
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-8"
+            role="option"
           >
             Hva kan du om sementeringsutstyret?
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-9"
+            role="option"
           >
             Hva kan du om stigerørsystemet?
           </div>
         </div>
         <button
-          aria-expanded="true"
           aria-haspopup="true"
           aria-label="close menu"
           class="c-button c-button--stripped c-dropdown__action"
@@ -339,86 +363,110 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
         Eller
       </span>
       <div
+        aria-expanded="true"
+        aria-haspopup="listbox"
+        aria-labelledby="downshift-0-label"
+        aria-owns="downshift-0-menu"
         class="c-dropdown"
+        role="combobox"
       >
         <input
           aria-autocomplete="list"
-          aria-expanded="true"
-          autocomplete="off"
+          aria-controls="downshift-0-menu"
+          aria-labelledby="downshift-0-label"
+          autocomplete="nope"
           class="c-dropdown__single"
           id="downshift-0-input"
           placeholder="Søk på tittel"
-          role="combobox"
           value="Hva kan du om geologiske prosesser?"
         />
         <div
           class="c-dropdown__items c-dropdown__items--resourceMenu"
         >
           <div
+            aria-selected="true"
             class="c-dropdown__item"
             id="downshift-0-item-0"
+            role="option"
           >
             <strong>
               Hva kan du om geologiske prosesser?
             </strong>
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-1"
+            role="option"
           >
             Hva kan du om petroleumsgeologi?
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-2"
+            role="option"
           >
             Hva kan du om olje og gass på den norske sokkelen?
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-3"
+            role="option"
           >
             Hva kan du om letemetoder og datainnsamling?
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-4"
+            role="option"
           >
             Hva kan du om installasjoner for boring og vedlikehold?
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-5"
+            role="option"
           >
             Hva kan du om installasjoner for produksjon?
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-6"
+            role="option"
           >
             Sammendrag om rørhåndtering
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-7"
+            role="option"
           >
             Hva kan du om slamsystemet?
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-8"
+            role="option"
           >
             Hva kan du om sementeringsutstyret?
           </div>
           <div
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-9"
+            role="option"
           >
             Hva kan du om stigerørsystemet?
           </div>
         </div>
         <button
-          aria-expanded="true"
           aria-haspopup="true"
           aria-label="close menu"
           class="c-button c-button--stripped c-dropdown__action"

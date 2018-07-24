@@ -9,7 +9,7 @@
 import nock from 'nock';
 import React from 'react';
 
-import { render, wait } from 'react-testing-library';
+import { render, wait, cleanup } from 'react-testing-library';
 import { MemoryRouter } from 'react-router-dom';
 import { StructurePage } from '../StructurePage';
 import {
@@ -18,6 +18,8 @@ import {
   subjectTopicsMock,
 } from '../../../util/__tests__/taxonomyMocks';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
+
+afterEach(cleanup);
 
 const wrapper = () =>
   render(

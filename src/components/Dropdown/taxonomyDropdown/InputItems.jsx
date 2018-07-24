@@ -17,7 +17,7 @@ const InputItems = props => {
     (tag, index) =>
       name === 'topics' ? (
         <ToolTip
-          key={`${name}-tooptip-${tag.id}`}
+          key={`${name}-tooltip-${tag.id}`}
           name={name}
           onPopupClick={() => handlePopupClick({ ...tag, primary: true })}
           noPopup={tag.primary}

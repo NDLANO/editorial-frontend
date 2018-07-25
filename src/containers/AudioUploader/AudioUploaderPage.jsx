@@ -98,4 +98,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AudioUploaderPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AudioUploaderPage);

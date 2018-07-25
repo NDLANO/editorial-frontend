@@ -61,7 +61,10 @@ export class StructureResources extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { currentTopic: { id, contentUri }, activeFilters } = this.props;
+    const {
+      currentTopic: { id, contentUri },
+      activeFilters,
+    } = this.props;
     if (id !== prevProps.currentTopic.id) {
       this.getTopicResources(id, activeFilters);
       if (contentUri && contentUri !== prevProps.currentTopic.contentUri) {

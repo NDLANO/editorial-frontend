@@ -121,4 +121,7 @@ const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AgreementPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AgreementPage);

@@ -82,4 +82,7 @@ const mapStateToProps = state => ({
   licenses: getAllLicenses(state),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopicArticlePage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(TopicArticlePage);

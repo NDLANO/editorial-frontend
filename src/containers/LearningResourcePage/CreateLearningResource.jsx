@@ -73,6 +73,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  CreateLearningResource,
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CreateLearningResource);

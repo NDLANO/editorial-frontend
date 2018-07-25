@@ -84,5 +84,8 @@ const mapStateToProps = (state, props) => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(EditImage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(EditImage),
 );

@@ -96,4 +96,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ImageUploaderPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ImageUploaderPage);

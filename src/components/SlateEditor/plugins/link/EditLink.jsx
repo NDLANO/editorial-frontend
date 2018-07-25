@@ -163,4 +163,7 @@ EditLink.propTypes = {
   ]),
 };
 
-export default compose(connectLightbox(() => TYPE), injectT)(EditLink);
+export default compose(
+  connectLightbox(() => TYPE),
+  injectT,
+)(EditLink);

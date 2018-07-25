@@ -47,7 +47,9 @@ class Link extends Component {
       t,
       attributes,
       value: EditorValue,
-      editor: { props: { slateStore } },
+      editor: {
+        props: { slateStore },
+      },
       node,
     } = this.props;
     const data = node.data.toJS();

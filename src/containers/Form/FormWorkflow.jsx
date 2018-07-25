@@ -31,7 +31,10 @@ class FormWorkflow extends Component {
   }
 
   onValidateClick() {
-    const { model: { id }, addMessage } = this.props;
+    const {
+      model: { id },
+      addMessage,
+    } = this.props;
     validateDraft(id)
       .then(() => {
         addMessage({
@@ -129,4 +132,7 @@ const mapDispatchToProps = {
   publishDraft: draftActions.publishDraft,
 };
 
-export default connect(undefined, mapDispatchToProps)(injectT(FormWorkflow));
+export default connect(
+  undefined,
+  mapDispatchToProps,
+)(injectT(FormWorkflow));

@@ -53,10 +53,10 @@ class ImageFocalPointEdit extends React.Component {
     const { transformData } = this.props;
     const dimensions = getImageDimensions(target);
     const x = transformData['focal-x']
-      ? transformData['focal-x'] / 100 * dimensions.current.width
+      ? (transformData['focal-x'] / 100) * dimensions.current.width
       : undefined;
     const y = transformData['focal-y']
-      ? transformData['focal-y'] / 100 * dimensions.current.height
+      ? (transformData['focal-y'] / 100) * dimensions.current.height
       : undefined;
 
     this.setState({

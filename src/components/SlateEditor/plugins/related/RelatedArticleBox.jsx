@@ -45,7 +45,9 @@ export class RelatedArticleBox extends React.Component {
   }
 
   componentDidMount() {
-    const { node: { data } } = this.props;
+    const {
+      node: { data },
+    } = this.props;
     if (data && data.get('nodes')) {
       data.get('nodes').forEach(({ articleId, title, url }) => {
         if (articleId) this.fetchRelated(articleId);
@@ -204,6 +206,10 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default compose(injectT, connect(mapStateToProps, null))(
-  RelatedArticleBox,
-);
+export default compose(
+  injectT,
+  connect(
+    mapStateToProps,
+    null,
+  ),
+)(RelatedArticleBox);

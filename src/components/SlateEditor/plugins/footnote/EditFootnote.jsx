@@ -104,4 +104,7 @@ EditFootnote.propTypes = {
   ]),
 };
 
-export default compose(connectLightbox(() => TYPE), injectT)(EditFootnote);
+export default compose(
+  connectLightbox(() => TYPE),
+  injectT,
+)(EditFootnote);

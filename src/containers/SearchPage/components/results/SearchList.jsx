@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import SearchResult from './SearchResult';
@@ -18,22 +18,24 @@ import { searchClasses } from '../../SearchContainer';
 const SearchList = ({ results, query, type, locale, t, searching }) => (
   <div {...searchClasses('results')}>
     {searching && <Spinner cssModifier="absolute" />}
-    <ReactCSSTransitionGroup
-      transitionName={searchClasses('transition').className}
-      transitionEnterTimeout={500}
-      transitionLeaveTimeout={0}>
-      {results.length === 0 ? (
-        <p>{t(`searchPage.${type}NoHits`, { query })}</p>
-      ) : null}
+    {results.length === 0 ? (
+      <p>{t(`searchPage.${type}NoHits`, { query })}</p>
+    ) : null}
+    <TransitionGroup>
       {results.map(result => (
-        <SearchResult
-          key={result.id}
-          result={result}
-          type={type}
-          locale={locale}
-        />
+        <CSSTransition
+          key={`transition-${result.id}`}
+          classNames={searchClasses('transition').className}
+          timeout={{ enter: 500, exit: 0 }}>
+          <SearchResult
+            key={result.id}
+            result={result}
+            type={type}
+            locale={locale}
+          />
+        </CSSTransition>
       ))}
-    </ReactCSSTransitionGroup>
+    </TransitionGroup>
   </div>
 );
 

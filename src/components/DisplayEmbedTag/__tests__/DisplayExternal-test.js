@@ -43,6 +43,7 @@ test('getIframeSrcFromHtmlString returns null id src not found', () => {
 
 test('DisplayOembed renderers correctly', () => {
   nock('http://ndla-api/')
+    .persist()
     .get('/oembed-proxy/v1/oembed?url=https%3A%2F%2Fndla.no%2Foembed')
     .reply(200, {
       title: 'unit test',
@@ -55,13 +56,7 @@ test('DisplayOembed renderers correctly', () => {
   );
 
   expect(component.toJSON()).toMatchSnapshot();
-
-  return new Promise(resolve => {
-    setTimeout(() => {
-      expect(component.toJSON()).toMatchSnapshot();
-      resolve();
-    }, global.DEFAULT_TIMEOUT);
-  });
+  setTimeout(() => {}, global.DEFAULT_TIMEOUT);
 });
 
 test('DisplayOembed display error on fetch fail', () => {
@@ -73,23 +68,10 @@ test('DisplayOembed display error on fetch fail', () => {
       code: 'AWFUL_ERROR',
     });
 
-  let component;
+  const component = renderer.create(
+    <DisplayExternal url="https://ndla.no/oembed" t={() => 'Error message'} />,
+  );
 
-  try {
-    component = renderer.create(
-      <DisplayExternal
-        url="https://ndla.no/oembed"
-        t={() => 'Error message'}
-      />,
-    );
-  } catch (e) {
-    // Should fail noop
-  }
-
-  return new Promise(resolve => {
-    setTimeout(() => {
-      expect(component.toJSON()).toMatchSnapshot();
-      resolve();
-    }, 100);
-  });
+  expect(component.toJSON()).toMatchSnapshot();
+  setTimeout(() => {}, global.DEFAULT_TIMEOUT);
 });

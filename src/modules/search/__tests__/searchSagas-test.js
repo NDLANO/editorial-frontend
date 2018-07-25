@@ -12,14 +12,15 @@ import { expectSaga } from 'redux-saga-test-plan';
 import * as sagas from '../searchSagas';
 import * as actions from '../search';
 
-test('searchSagas search', () => {
-  nock('http://ndla-api')
-    .get(
-      '/search-api/v1/search/editorial/?language=nb&page=3&page-size=10&query=testing&sort=-relevance',
-    )
-    .reply(200, { results: [1, 2, 3] });
-
-  return expectSaga(sagas.watchSearch)
+test('searchSagas search', () =>
+  expectSaga(
+    sagas.watchSearch,
+    nock('http://ndla-api')
+      .get(
+        '/search-api/v1/search/editorial/?language=nb&page=3&page-size=10&query=testing&sort=-relevance',
+      )
+      .reply(200, { results: [1, 2, 3] }),
+  )
     .put(actions.setSearchResult({ results: [1, 2, 3] }))
     .dispatch(
       actions.search({
@@ -30,5 +31,4 @@ test('searchSagas search', () => {
         'page-size': 10,
       }),
     )
-    .run({ silenceTimeout: true });
-});
+    .silentRun());

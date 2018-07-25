@@ -46,7 +46,7 @@ test('sessionSagas login success', () => {
         accessToken,
       }),
     )
-    .run({ silenceTimeout: true });
+    .silentRun();
 
   return result.then(() => {
     expect(replace.calledOnce).toBe(true);
@@ -57,11 +57,12 @@ test('sessionSagas login success', () => {
 });
 
 test('sessionSagas logout', () => {
-  nock('http://ndla-frontend')
-    .get('/get_token')
-    .reply(200, { access_token: accessToken });
-
-  const result = expectSaga(sagas.watchLogout)
+  const result = expectSaga(
+    sagas.watchLogout,
+    nock('http://ndla-frontend')
+      .get('/get_token')
+      .reply(200, { access_token: accessToken }),
+  )
     .withState({})
     .put(actions.clearUserData())
     .put(actions.setAuthenticated(false))
@@ -70,7 +71,7 @@ test('sessionSagas logout', () => {
         federated: true,
       }),
     )
-    .run({ silenceTimeout: true });
+    .silentRun();
   return result.then(() => {
     expect(localStorage.getItem('access_token')).toBe(accessToken);
     expect(localStorage.getItem('access_token_expires_at')).toBeTruthy();

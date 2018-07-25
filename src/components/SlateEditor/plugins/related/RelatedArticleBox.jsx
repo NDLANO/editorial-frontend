@@ -192,7 +192,7 @@ RelatedArticleBox.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   editor: EditorShape,
-  node: Types.node.isRequired,
+  node: PropTypes.oneOfType([Types.node, PropTypes.shape({})]).isRequired,
   locale: PropTypes.string.isRequired,
   onRemoveClick: PropTypes.func,
   embed: PropTypes.shape({

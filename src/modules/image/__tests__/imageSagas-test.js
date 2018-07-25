@@ -12,12 +12,13 @@ import { expectSaga } from 'redux-saga-test-plan';
 import * as sagas from '../imageSagas';
 import { actions } from '../image';
 
-test('imageSagas watchUpdateImage create new image', () => {
-  nock('http://ndla-api')
-    .post('/image-api/v2/images')
-    .reply(200, { id: '123', title: 'unit test' });
-
-  return expectSaga(sagas.watchUpdateImage)
+test('imageSagas watchUpdateImage create new image', () =>
+  expectSaga(
+    sagas.watchUpdateImage,
+    nock('http://ndla-api')
+      .post('/image-api/v2/images')
+      .reply(200, { id: '123', title: 'unit test' }),
+  )
     .withState({})
     .put(actions.setImage({ id: '123', title: 'unit test', language: 'nb' }))
     .put(actions.updateImageSuccess())
@@ -27,15 +28,15 @@ test('imageSagas watchUpdateImage create new image', () => {
         history: { push: () => {} },
       }),
     )
-    .run({ silenceTimeout: true });
-});
+    .silentRun());
 
-test('imageSagas watchFetchImage fetch image if not in state', () => {
-  nock('http://ndla-api')
-    .get('/image-api/v2/images/124?language=nb')
-    .reply(200, { id: 124, title: { title: 'unit test', langauge: 'nb' } });
-
-  return expectSaga(sagas.watchFetchImage)
+test('imageSagas watchFetchImage fetch image if not in state', () =>
+  expectSaga(
+    sagas.watchFetchImage,
+    nock('http://ndla-api')
+      .get('/image-api/v2/images/124?language=nb')
+      .reply(200, { id: 124, title: { title: 'unit test', langauge: 'nb' } }),
+  )
     .withState({ images: { all: {} } })
     .put(
       actions.setImage({
@@ -45,11 +46,10 @@ test('imageSagas watchFetchImage fetch image if not in state', () => {
       }),
     )
     .dispatch(actions.fetchImage({ id: 124, language: 'nb' }))
-    .run({ silenceTimeout: true });
-});
+    .silentRun());
 
 test('imageSagas watchFetchImage do not refetch existing image ', () =>
   expectSaga(sagas.watchFetchImage)
     .withState({ images: { all: { 126: { id: 126, language: 'nb' } } } })
     .dispatch(actions.fetchImage({ id: 126, language: 'nb' }))
-    .run({ silenceTimeout: true }));
+    .silentRun());

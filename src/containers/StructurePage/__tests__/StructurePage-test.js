@@ -46,6 +46,7 @@ const wrapper = () =>
 
 beforeEach(() => {
   nock('http://ndla-api')
+    .persist()
     .get('/taxonomy/v1/resource-types/?language=nb')
     .reply(200, resourceTypesMock);
 
@@ -56,25 +57,30 @@ beforeEach(() => {
 
 test('fetches and renders a list of subjects and topics based on pathname', async () => {
   nock('http://ndla-api')
+    .persist()
     .get(`/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?recursive=true`)
     .reply(200, subjectTopicsMock);
   nock('http://ndla-api')
     .get(`/taxonomy/v1/subjects/${subjectsMock[0].id}/filters`)
     .reply(200, []);
   nock('http://ndla-api')
+    .persist()
     .get(
       '/taxonomy/v1/topics/urn:topic:1:172650/resources/?language=nb&relevance=urn:relevance:core&filter=',
     )
     .reply(200, []);
   nock('http://ndla-api')
+    .persist()
     .get(`/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?recursive=true`)
     .reply(200, subjectTopicsMock);
   nock('http://ndla-api')
+    .persist()
     .get(
       '/taxonomy/v1/topics/urn:topic:1:172650/resources/?language=nb&relevance=urn:relevance:supplementary&filter=',
     )
     .reply(200, []);
   nock('http://ndla-api')
+    .persist()
     .get('/article-api/v2/articles/3592')
     .reply(200, {});
   const { container, getByText } = wrapper();
@@ -83,4 +89,5 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
   expect(container.firstChild).toMatchSnapshot();
 
   expect(nock.isDone());
+  nock.cleanAll();
 });

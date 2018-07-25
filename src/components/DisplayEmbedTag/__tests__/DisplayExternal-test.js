@@ -66,8 +66,12 @@ test('DisplayOembed renderers correctly', () => {
 
 test('DisplayOembed display error on fetch fail', () => {
   nock('http://ndla-api/')
+    .persist()
     .get('/oembed-proxy/v1/oembed?url=https%3A%2F%2Fndla.no%2Foembed')
-    .replyWithError('something awful happened');
+    .replyWithError({
+      message: 'something awful happened',
+      code: 'AWFUL_ERROR',
+    });
 
   let component;
 

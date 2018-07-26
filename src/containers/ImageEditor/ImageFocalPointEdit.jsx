@@ -49,6 +49,7 @@ class ImageFocalPointEdit extends React.Component {
       },
     );
   }
+
   setXandY(target) {
     const { transformData } = this.props;
     const dimensions = getImageDimensions(target);

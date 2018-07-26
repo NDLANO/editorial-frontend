@@ -131,9 +131,10 @@ export class RelatedArticleBox extends React.Component {
   }
 
   removeArticle(i, e) {
+    const { items } = this.state;
     e.stopPropagation();
 
-    const newItems = this.state.items.filter((_, ind) => i !== ind);
+    const newItems = items.filter((_, ind) => i !== ind);
     this.setState({ items: newItems }, this.updateEmbedNode);
   }
 

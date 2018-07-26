@@ -13,8 +13,8 @@ import BEMHelper from 'react-bem-helper';
 import get from 'lodash/fp/get';
 import MultiSelect from './MultiSelect';
 import { isEmpty } from './validators';
-import PlainTextEditor from '../components/SlateEditor/PlainTextEditor';
-import DateTimeInput from '../components/DateTime/DateTimeInput';
+import PlainTextEditor from './SlateEditor/PlainTextEditor';
+import DateTimeInput from './DateTime/DateTimeInput';
 import ObjectSelector from './ObjectSelector';
 import { AsyncDropdown, TaxonomyDropdown } from './Dropdown';
 

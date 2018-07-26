@@ -13,6 +13,7 @@ class AddArticleModal extends Component {
     this.onArticleSearch = this.onArticleSearch.bind(this);
     this.onSelect = this.onSelect.bind(this);
   }
+
   async onArticleSearch(input) {
     try {
       const results = await searchRelatedArticles(

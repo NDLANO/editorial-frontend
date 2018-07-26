@@ -12,7 +12,7 @@ import Types from 'slate-prop-types';
 import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import config from '../../../../config';
-import { Portal } from '../../../../components/Portal';
+import { Portal } from '../../../Portal';
 import { setActiveNode } from '../../createSlateStore';
 import isNodeInCurrentSelection from '../utils/isNodeInCurrentSelection';
 import { EditorShape } from '../../../../shapes';

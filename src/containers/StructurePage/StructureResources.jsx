@@ -25,15 +25,6 @@ import { getArticle } from '../../modules/article/articleApi';
 import TopicDescription from './components/TopicDescription';
 
 export class StructureResources extends React.PureComponent {
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (!nextProps.currentTopic.contentUri && prevState.topicDescription) {
-      return {
-        topicDescription: undefined,
-      };
-    }
-    return null;
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -73,6 +64,15 @@ export class StructureResources extends React.PureComponent {
     } else if (activeFilters !== prevProps.activeFilters) {
       this.getTopicResources(id, activeFilters);
     }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!nextProps.currentTopic.contentUri && prevState.topicDescription) {
+      return {
+        topicDescription: undefined,
+      };
+    }
+    return null;
   }
 
   async getArticle(contentUri) {

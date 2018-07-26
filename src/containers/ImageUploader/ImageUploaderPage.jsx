@@ -20,7 +20,7 @@ import {
   getAllLicenses,
 } from '../../modules/license/license';
 import { getSaving } from '../../modules/audio/audio';
-import { getShowSaved } from '../../containers/Messages/messagesSelectors';
+import { getShowSaved } from '../Messages/messagesSelectors';
 import { getLocale } from '../../modules/locale/locale';
 import EditImage from './EditImage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';

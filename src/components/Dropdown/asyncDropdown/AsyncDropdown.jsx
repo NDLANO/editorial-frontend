@@ -46,6 +46,7 @@ class AsyncDropDown extends React.Component {
   componentDidMount() {
     this.isMountedOrMounting = true;
   }
+
   componentWillUnmount() {
     this.isMountedOrMounting = false;
   }

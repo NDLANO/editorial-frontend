@@ -17,7 +17,7 @@ import {
 } from '../../modules/license/license';
 import { getSaving } from '../../modules/draft/draft';
 import { getLocale } from '../../modules/locale/locale';
-import { getShowSaved } from '../../containers/Messages/messagesSelectors';
+import { getShowSaved } from '../Messages/messagesSelectors';
 import EditLearningResource from './EditLearningResource';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';

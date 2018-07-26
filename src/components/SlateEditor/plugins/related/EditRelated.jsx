@@ -13,10 +13,10 @@ import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
 import { searchRelatedArticles } from '../../../../modules/article/articleApi';
-import AsyncDropdown from '../../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import Overlay from '../../../../components/Overlay';
+import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
+import Overlay from '../../../Overlay';
 import RelatedArticle from './RelatedArticle';
-import TaxonomyLightbox from '../../../../components/TaxonomyLightbox';
+import TaxonomyLightbox from '../../../TaxonomyLightbox';
 
 const classes = new BEMHelper({
   name: 'related-box',

@@ -10,7 +10,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import { DropdownMenu, DropdownAction, dropDownClasses } from '../common';
-import { TaxonomyDropdownInput } from './';
+import { TaxonomyDropdownInput } from '.';
 import { itemToString } from '../../../util/downShiftHelpers';
 import { RESOURCE_FILTER_CORE } from '../../../constants';
 

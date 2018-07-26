@@ -16,7 +16,7 @@ import { validateDraft } from '../../modules/draft/draftApi';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as messageActions from '../Messages/messagesActions';
 import { articleStatuses } from '../../util/formHelper';
-import { AddNotes, formClasses } from './';
+import { AddNotes, formClasses } from '.';
 
 import { CommonFieldPropsShape } from '../../shapes';
 

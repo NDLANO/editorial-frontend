@@ -7,7 +7,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DropdownTag } from './';
+import { DropdownTag } from '.';
 import ToolTip from '../../ToolTip';
 
 const InputItems = props => {

@@ -13,7 +13,7 @@ import Types from 'slate-prop-types';
 import { compose } from 'redux';
 import FootnoteForm, { getInitialModel } from './FootnoteForm';
 import connectLightbox from '../utils/connectLightbox';
-import { TYPE } from './';
+import { TYPE } from '.';
 
 class EditFootnote extends Component {
   constructor() {

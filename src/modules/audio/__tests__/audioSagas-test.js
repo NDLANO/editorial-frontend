@@ -16,6 +16,7 @@ test('audioSagas watchUpdateAudio create new audio', () =>
   expectSaga(
     sagas.watchUpdateAudio,
     nock('http://ndla-api')
+      .persist()
       .post('/audio-api/v1/audio')
       .reply(200, { id: '123', title: 'unit test' }),
   )
@@ -34,6 +35,7 @@ test('audioSagas watchFetchAudio fetch audio if not in state', () =>
   expectSaga(
     sagas.watchFetchAudio,
     nock('http://ndla-api')
+      .persist()
       .get('/audio-api/v1/audio/123?language=nb')
       .reply(200, { id: 123, title: { title: 'unit test', langauge: 'nb' } }),
   )
@@ -58,6 +60,7 @@ test('audioSagas watchUpdateAudio update audio', () =>
   expectSaga(
     sagas.watchUpdateAudio,
     nock('http://ndla-api')
+      .persist()
       .put('/audio-api/v1/audio/123')
       .reply(200, {
         id: 123,
@@ -83,3 +86,5 @@ test('audioSagas watchUpdateAudio update audio', () =>
       }),
     )
     .silentRun());
+
+nock.cleanAll();

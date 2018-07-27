@@ -60,6 +60,7 @@ test('sessionSagas logout', () => {
   const result = expectSaga(
     sagas.watchLogout,
     nock('http://ndla-frontend')
+      .persist()
       .get('/get_token')
       .reply(200, { access_token: accessToken }),
   )
@@ -78,3 +79,5 @@ test('sessionSagas logout', () => {
     expect(localStorage.getItem('access_token_personal')).toBe('false');
   });
 });
+
+nock.cleanAll();

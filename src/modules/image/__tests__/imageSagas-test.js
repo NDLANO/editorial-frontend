@@ -16,6 +16,7 @@ test('imageSagas watchUpdateImage create new image', () =>
   expectSaga(
     sagas.watchUpdateImage,
     nock('http://ndla-api')
+      .persist()
       .post('/image-api/v2/images')
       .reply(200, { id: '123', title: 'unit test' }),
   )
@@ -34,6 +35,7 @@ test('imageSagas watchFetchImage fetch image if not in state', () =>
   expectSaga(
     sagas.watchFetchImage,
     nock('http://ndla-api')
+      .persist()
       .get('/image-api/v2/images/124?language=nb')
       .reply(200, { id: 124, title: { title: 'unit test', langauge: 'nb' } }),
   )
@@ -53,3 +55,5 @@ test('imageSagas watchFetchImage do not refetch existing image ', () =>
     .withState({ images: { all: { 126: { id: 126, language: 'nb' } } } })
     .dispatch(actions.fetchImage({ id: 126, language: 'nb' }))
     .silentRun());
+
+nock.cleanAll();

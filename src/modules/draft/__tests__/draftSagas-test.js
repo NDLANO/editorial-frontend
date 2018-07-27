@@ -16,6 +16,7 @@ test('articleSagas watchFetchDraft fetch article if not in state and language is
   expectSaga(
     sagas.watchFetchDraft,
     nock('http://ndla-api')
+      .persist()
       .get('/draft-api/v1/drafts/123')
       .reply(200, {
         id: 123,
@@ -25,6 +26,7 @@ test('articleSagas watchFetchDraft fetch article if not in state and language is
       }),
 
     nock('http://ndla-api')
+      .persist()
       .get('/draft-api/v1/drafts/123')
       .query({ language: 'nb', fallback: true })
       .reply(200, {
@@ -73,6 +75,7 @@ test('articleSagas watchUpdateDraft create new article', () =>
   expectSaga(
     sagas.watchUpdateDraft,
     nock('http://ndla-api')
+      .persist()
       .post('/draft-api/v1/drafts/')
       .reply(200, {
         id: '123',
@@ -107,6 +110,7 @@ test('articleSagas watchUpdateDraft update article', () =>
   expectSaga(
     sagas.watchUpdateDraft,
     nock('http://ndla-api')
+      .persist()
       .patch('/draft-api/v1/drafts/123')
       .reply(200, {
         id: '123',
@@ -136,3 +140,5 @@ test('articleSagas watchUpdateDraft update article', () =>
       }),
     )
     .silentRun());
+
+nock.cleanAll();

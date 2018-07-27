@@ -16,6 +16,7 @@ test('searchSagas search', () =>
   expectSaga(
     sagas.watchSearch,
     nock('http://ndla-api')
+      .persist()
       .get(
         '/search-api/v1/search/editorial/?language=nb&page=3&page-size=10&query=testing&sort=-relevance',
       )
@@ -32,3 +33,5 @@ test('searchSagas search', () =>
       }),
     )
     .silentRun());
+
+nock.cleanAll();

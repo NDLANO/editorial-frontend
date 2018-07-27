@@ -17,6 +17,7 @@ test('licenseSagas fetch licenses if not already defined', () =>
   expectSaga(
     sagas.watchFetchLicenses,
     nock('http://ndla-api')
+      .persist()
       .get('/draft-api/v1/drafts/licenses/')
       .reply(200, mockLicenses),
   )
@@ -29,8 +30,11 @@ test('licenseSagas do not fetch licenses if already fetched', () =>
   expectSaga(
     sagas.watchFetchLicenses,
     nock('http://ndla-api')
+      .persist()
       .get('/draft-api/v1/drafts/licenses/')
       .reply(200, mockLicenses),
   )
     .withState({ licenses: { hasFetched: true } })
     .silentRun());
+
+nock.cleanAll();

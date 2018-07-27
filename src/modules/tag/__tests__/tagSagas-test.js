@@ -16,6 +16,7 @@ test('tagSagas fetch tags if not already defined', () =>
   expectSaga(
     sagas.watchFetchTags,
     nock('http://ndla-api')
+      .persist()
       .get('/draft-api/v1/drafts/tags/')
       .query({ language: 'nb', size: 7000 })
       .reply(200, [{ language: 'nb', tags: ['tag1', 'tag2', 'tag3'] }]),
@@ -29,6 +30,7 @@ test('tagSagas do not fetch tags if already fetched', () =>
   expectSaga(
     sagas.watchFetchTags,
     nock('http://ndla-api')
+      .persist()
       .get('/draft-api/v1/drafts/tags/')
       .query({ language: 'nb', size: 7000 })
       .reply(200, [{ language: 'nb', tags: ['tag1', 'tag2', 'tag3'] }]),
@@ -46,3 +48,5 @@ test('tagSagas do not fetch tags if already fetched', () =>
     })
     .dispatch(actions.fetchTags({ language: 'nb' }))
     .silentRun());
+
+nock.cleanAll();

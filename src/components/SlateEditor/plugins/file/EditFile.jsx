@@ -45,7 +45,7 @@ class EditFile extends Component {
             this.placeholderEl = placeholderEl;
           }}
         />
-        <Portal isOpened key="audioPortal">
+        <Portal isOpened key="filePortal">
           <div
             ref={embedEl => {
               this.embedEl = embedEl;

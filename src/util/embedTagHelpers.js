@@ -28,6 +28,7 @@ export const reduceChildElements = (el, type) => {
         title: node.dataset.title,
         type: node.dataset.type,
         url: node.dataset.url,
+        path: node.dataset.path,
       });
     } else if (type === 'related-content') {
       if (node.dataset.url) {

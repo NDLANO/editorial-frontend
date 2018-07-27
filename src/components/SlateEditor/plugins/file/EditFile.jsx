@@ -61,7 +61,6 @@ class EditFile extends Component {
                   />,
                   <SlateInputField
                     id={file.id}
-                    key={`fileTitle-${file.id}-${file.title}`}
                     name="title"
                     label={t('form.file.title.label')}
                     type="text"

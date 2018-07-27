@@ -11,6 +11,7 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
+import config from '../../config';
 
 const articleUrl = apiResourceUrl('/article-api/v2/articles');
 
@@ -31,3 +32,18 @@ export const searchRelatedArticles = async (input, locale, contentType) => {
 
 export const getArticle = id =>
   fetchAuthorized(`${articleUrl}/${id}`).then(resolveJsonOrRejectWithError);
+
+export const getPreviewArticle = async (article, locale) => {
+  const host = config.localConverter ? 'http://localhost:3100/' : '';
+  const response = await fetchAuthorized(
+    `${host}article-converter/json/${locale}/transform-article`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify({ article }),
+    },
+  );
+  return resolveJsonOrRejectWithError(response);
+};

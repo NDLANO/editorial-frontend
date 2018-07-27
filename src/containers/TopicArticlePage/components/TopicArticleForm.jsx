@@ -37,6 +37,7 @@ import {
   WarningModalWrapper,
 } from '../../Form';
 import { toEditArticle } from '../../../util/routeHelpers';
+import PreviewDraftLightbox from '../../../components/PreviewDraft/PreviewDraftLightbox';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -68,6 +69,7 @@ class TopicArticleForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.getArticle = this.getArticle.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -80,21 +82,14 @@ class TopicArticleForm extends Component {
     }
   }
 
-  handleSubmit(evt) {
-    evt.preventDefault();
-
-    const { model, schema, revision, setSubmitted } = this.props;
-    if (!schema.isValid) {
-      setSubmitted(true);
-      return;
-    }
+  getArticle() {
+    const { model } = this.props;
     const emptyField = model.id ? '' : undefined;
     const visualElement = createEmbedTag(model.visualElement);
     const content = topicArticleContentToHTML(model.content);
 
-    this.props.onUpdate({
+    return {
       id: model.id,
-      revision,
       title: model.title,
       introduction: editorValueToPlainText(model.introduction),
       tags: model.tags,
@@ -111,6 +106,20 @@ class TopicArticleForm extends Component {
       },
       notes: model.notes,
       language: model.language,
+    };
+  }
+  handleSubmit(evt) {
+    evt.preventDefault();
+
+    const { schema, revision, setSubmitted, onUpdate } = this.props;
+    if (!schema.isValid) {
+      setSubmitted(true);
+      return;
+    }
+
+    onUpdate({
+      ...this.getArticle(),
+      revision,
     });
   }
 
@@ -161,6 +170,10 @@ class TopicArticleForm extends Component {
           saveDraft={this.handleSubmit}
         />
         <Field right>
+          <PreviewDraftLightbox
+            label={t('subNavigation.learningResource')}
+            getArticle={this.getArticle}
+          />
           <Link
             to="/"
             className="c-button c-button--outline c-abort-button"
@@ -168,7 +181,7 @@ class TopicArticleForm extends Component {
             {t('form.abort')}
           </Link>
           <SaveButton
-            classes={formClasses}
+            {...formClasses}
             isSaving={isSaving}
             showSaved={showSaved}>
             {t('form.save')}

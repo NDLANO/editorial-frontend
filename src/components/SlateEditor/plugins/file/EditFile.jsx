@@ -60,6 +60,7 @@ class EditFile extends Component {
                     id="file-embed"
                   />,
                   <SlateInputField
+                    key={`fileTitle-${file.id}`}
                     id={file.id}
                     name="title"
                     label={t('form.file.title.label')}

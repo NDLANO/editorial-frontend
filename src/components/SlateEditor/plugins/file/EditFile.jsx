@@ -55,12 +55,12 @@ class EditFile extends Component {
               <ul {...classes('files')}>
                 {files.map(file => [
                   <File
-                    key={`file-${file.id}-${file.title}`}
+                    key={`file-${file.id}-${file.formats[0].url}`}
                     file={file}
                     id="file-embed"
                   />,
                   <SlateInputField
-                    key={`fileTitle-${file.id}`}
+                    key={`fileTitle-${file.formats[0].url}`}
                     id={file.id}
                     name="title"
                     label={t('form.file.title.label')}

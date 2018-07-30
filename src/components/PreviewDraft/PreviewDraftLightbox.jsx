@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { Button } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { getPreviewArticle } from '../../modules/article/articleApi';
@@ -32,7 +33,8 @@ const transformArticle = article => ({
     metaDescription: article.metaDescription,
   },
 });
-export default class PreviewDraftLightbox extends React.Component {
+
+class PreviewDraftLightbox extends React.Component {
   constructor(props) {
     super(props);
     this.state = { previewArticle: undefined };
@@ -56,11 +58,11 @@ export default class PreviewDraftLightbox extends React.Component {
 
   render() {
     const { previewArticle, showPreview } = this.state;
-    const { label, contentType } = this.props;
+    const { label, contentType, t } = this.props;
     if (!showPreview) {
       return (
         <Button {...classes('button')} onClick={this.openPreview}>
-          Forhåndsvis
+          {t('form.preview')}
         </Button>
       );
     }
@@ -77,6 +79,8 @@ export default class PreviewDraftLightbox extends React.Component {
     );
   }
 }
+
+export default injectT(PreviewDraftLightbox);
 
 PreviewDraftLightbox.propTypes = {
   getArticle: PropTypes.func.isRequired,

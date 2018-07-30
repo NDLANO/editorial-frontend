@@ -339,6 +339,7 @@ const phrases = {
     choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagret ',
+    preview: 'Forhåndsvis',
     abort: 'Avbryt',
     validate: 'Valider',
     publish: 'Publiser',

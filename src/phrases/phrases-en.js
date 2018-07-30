@@ -329,6 +329,7 @@ const phrases = {
     saving: 'Saving...',
     choose: 'Choose',
     saved: 'Saved ',
+    preview: 'Preview',
     abort: 'Abort',
     validate: 'Validate',
     publish: 'Publish',

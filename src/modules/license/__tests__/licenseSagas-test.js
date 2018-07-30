@@ -13,28 +13,24 @@ import * as sagas from '../licenseSagas';
 import * as actions from '../license';
 import mockLicenses from './mockLicenses';
 
-test('licenseSagas fetch licenses if not already defined', () =>
-  expectSaga(
-    sagas.watchFetchLicenses,
-    nock('http://ndla-api')
-      .persist()
-      .get('/draft-api/v1/drafts/licenses/')
-      .reply(200, mockLicenses),
-  )
+test('licenseSagas fetch licenses if not already defined', () => {
+  nock('http://ndla-api')
+    .get('/draft-api/v1/drafts/licenses/')
+    .reply(200, mockLicenses);
+
+  return expectSaga(sagas.watchFetchLicenses)
     .withState({ licenses: { hasFetched: false } })
     .put(actions.setLicenses(mockLicenses))
     .dispatch(actions.fetchLicenses())
-    .silentRun());
+    .run({ silenceTimeout: true });
+});
 
-test('licenseSagas do not fetch licenses if already fetched', () =>
-  expectSaga(
-    sagas.watchFetchLicenses,
-    nock('http://ndla-api')
-      .persist()
-      .get('/draft-api/v1/drafts/licenses/')
-      .reply(200, mockLicenses),
-  )
+test('licenseSagas do not fetch licenses if already fetched', () => {
+  nock('http://ndla-api')
+    .get('/draft-api/v1/drafts/licenses/')
+    .reply(200, mockLicenses);
+
+  return expectSaga(sagas.watchFetchLicenses)
     .withState({ licenses: { hasFetched: true } })
-    .silentRun());
-
-nock.cleanAll();
+    .run({ silenceTimeout: true });
+});

@@ -12,14 +12,12 @@ import { expectSaga } from 'redux-saga-test-plan';
 import * as sagas from '../audioSagas';
 import { actions } from '../audio';
 
-test('audioSagas watchUpdateAudio create new audio', () =>
-  expectSaga(
-    sagas.watchUpdateAudio,
-    nock('http://ndla-api')
-      .persist()
-      .post('/audio-api/v1/audio')
-      .reply(200, { id: '123', title: 'unit test' }),
-  )
+test('audioSagas watchUpdateAudio create new audio', () => {
+  nock('http://ndla-api')
+    .post('/audio-api/v1/audio')
+    .reply(200, { id: '123', title: 'unit test' });
+
+  return expectSaga(sagas.watchUpdateAudio)
     .withState({})
     .put(actions.setAudio({ id: '123', title: 'unit test', language: 'nb' }))
     .put(actions.updateAudioSuccess())
@@ -29,16 +27,15 @@ test('audioSagas watchUpdateAudio create new audio', () =>
         history: { push: () => {} },
       }),
     )
-    .silentRun());
+    .run({ silenceTimeout: true });
+});
 
-test('audioSagas watchFetchAudio fetch audio if not in state', () =>
-  expectSaga(
-    sagas.watchFetchAudio,
-    nock('http://ndla-api')
-      .persist()
-      .get('/audio-api/v1/audio/123?language=nb')
-      .reply(200, { id: 123, title: { title: 'unit test', langauge: 'nb' } }),
-  )
+test('audioSagas watchFetchAudio fetch audio if not in state', () => {
+  nock('http://ndla-api')
+    .get('/audio-api/v1/audio/123?language=nb')
+    .reply(200, { id: 123, title: { title: 'unit test', langauge: 'nb' } });
+
+  return expectSaga(sagas.watchFetchAudio)
     .withState({ audios: { all: {} } })
     .put(
       actions.setAudio({
@@ -48,25 +45,24 @@ test('audioSagas watchFetchAudio fetch audio if not in state', () =>
       }),
     )
     .dispatch(actions.fetchAudio({ id: 123, language: 'nb' }))
-    .silentRun());
+    .run({ silenceTimeout: true });
+});
 
 test('audioSagas watchFetchAudio do not refetch existing audio ', () =>
   expectSaga(sagas.watchFetchAudio)
     .withState({ audios: { all: { 123: { id: 123, language: 'nb' } } } })
     .dispatch(actions.fetchAudio({ id: 123, language: 'nb' }))
-    .silentRun());
+    .run({ silenceTimeout: true }));
 
-test('audioSagas watchUpdateAudio update audio', () =>
-  expectSaga(
-    sagas.watchUpdateAudio,
-    nock('http://ndla-api')
-      .persist()
-      .put('/audio-api/v1/audio/123')
-      .reply(200, {
-        id: 123,
-        title: { title: 'unit test updated', language: 'en' },
-      }),
-  )
+test('audioSagas watchUpdateAudio update audio', () => {
+  nock('http://ndla-api')
+    .put('/audio-api/v1/audio/123')
+    .reply(200, {
+      id: 123,
+      title: { title: 'unit test updated', language: 'en' },
+    });
+
+  return expectSaga(sagas.watchUpdateAudio)
     .withState({})
     .put(
       actions.setAudio({
@@ -85,6 +81,5 @@ test('audioSagas watchUpdateAudio update audio', () =>
         },
       }),
     )
-    .silentRun());
-
-nock.cleanAll();
+    .run({ silenceTimeout: true });
+});

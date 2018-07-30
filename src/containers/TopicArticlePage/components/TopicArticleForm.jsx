@@ -108,6 +108,7 @@ class TopicArticleForm extends Component {
       language: model.language,
     };
   }
+
   handleSubmit(evt) {
     evt.preventDefault();
 

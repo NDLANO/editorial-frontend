@@ -153,6 +153,7 @@ class LearningResourceForm extends Component {
       updated: model.updated,
     };
   }
+
   handleSubmit(evt) {
     evt.preventDefault();
 

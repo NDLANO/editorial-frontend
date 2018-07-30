@@ -34,9 +34,11 @@ export const getArticle = id =>
   fetchAuthorized(`${articleUrl}/${id}`).then(resolveJsonOrRejectWithError);
 
 export const getPreviewArticle = async (article, locale) => {
-  const host = config.localConverter ? 'http://localhost:3100/' : '';
+  const articleConverterUrl = config.localConverter
+    ? 'http://localhost:3100/article-converter'
+    : apiResourceUrl('/article-converter');
   const response = await fetchAuthorized(
-    `${host}article-converter/json/${locale}/transform-article`,
+    `${articleConverterUrl}/json/${locale}/transform-article`,
     {
       headers: {
         'Content-Type': 'application/json',

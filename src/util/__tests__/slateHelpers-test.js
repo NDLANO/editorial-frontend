@@ -23,6 +23,7 @@ import {
   quoteValue,
   brValue,
   normalDivValue,
+  spanWithAttributesValue,
 } from './slateMockValues';
 import {
   footnoteRule,
@@ -31,6 +32,7 @@ import {
   divRule,
   toJSON,
   blockRules,
+  inlineRules,
   orderListRules,
   unorderListRules,
   tableRules,
@@ -100,6 +102,27 @@ test('serializing a normal div block', () => {
     parseHtml: fragment,
   });
   const value = Value.fromJSON(normalDivValue);
+  const serialized = serializer.serialize(value);
+  expect(serialized).toMatchSnapshot();
+});
+
+test('deserializing a span with attributes', () => {
+  const serializer = new Html({
+    rules: [inlineRules],
+    parseHtml: fragment,
+  });
+  const span = '<span lang="en">Hyper Text Markup Language</span>';
+  const deserialized = serializer.deserialize(span);
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('serializing a span with attributes', () => {
+  const serializer = new Html({
+    rules: [paragraphRule, inlineRules],
+    parseHtml: fragment,
+  });
+
+  const value = Value.fromJSON(spanWithAttributesValue);
   const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });

@@ -143,21 +143,22 @@ export class RelatedArticleBox extends React.Component {
   render() {
     const { attributes, onRemoveClick, locale, t } = this.props;
     const { editMode, items } = this.state;
+    if (editMode) {
+      return (
+        <EditRelated
+          onRemoveClick={onRemoveClick}
+          items={items}
+          locale={locale}
+          insertExternal={this.fetchExternal}
+          onInsertBlock={this.onInsertBlock}
+          onExit={() => this.setState({ editMode: false })}
+          removeArticle={this.removeArticle}
+          {...attributes}
+        />
+      );
+    }
 
-    return editMode ? (
-      <EditRelated
-        {...{
-          onRemoveClick,
-          items,
-          locale,
-          ...attributes,
-        }}
-        insertExternal={this.fetchExternal}
-        onInsertBlock={this.onInsertBlock}
-        onExit={() => this.setState({ editMode: false })}
-        removeArticle={this.removeArticle}
-      />
-    ) : (
+    return (
       <div
         role="button"
         tabIndex={0}

@@ -19,11 +19,11 @@ class EditFile extends Component {
     const placeholderRect = placeholderEl.getBoundingClientRect();
 
     // Placing embed within placeholder div on mount
-    placeholderEl.style.height = `${embedRect.height + 50}px`;
+    placeholderEl.style.height = `${embedRect.height + 40}px`;
     embedEl.style.position = 'absolute';
     embedEl.style.top = `${placeholderRect.top - bodyRect.top - 30}px`;
-    embedEl.style.left = `${placeholderRect.left + 5}px`;
-    embedEl.style.width = `${placeholderRect.width - 35}px`;
+    embedEl.style.left = `${placeholderRect.left + 60}px`;
+    embedEl.style.width = `${placeholderRect.width - 140}px`;
   }
 
   render() {
@@ -66,6 +66,7 @@ class EditFile extends Component {
                     label={t('form.file.title.label')}
                     type="text"
                     value={file.title}
+                    className="c-field--no-margin-top--padding-bottom"
                     onChange={onFileListInputChange}
                     placeholder={t('form.file.title.placeholder')}
                     submitted={submitted}

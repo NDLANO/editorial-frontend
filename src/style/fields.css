@@ -25,7 +25,13 @@
 
   &--no-margin-top {
     margin-top: 0.5rem;
+
+    &--padding-bottom {
+      margin-top: 0.5rem;
+      padding-bottom: 1.5rem;
+    }
   }
+
 
   &__help {
     display: block;

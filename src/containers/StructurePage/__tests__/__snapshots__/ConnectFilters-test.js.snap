@@ -3,6 +3,12 @@
 exports[`calls add filter, update filter, and delete filter 1`] = `
 <form>
   <div
+    class="c-spinner c-spinner--absolute"
+  />
+  <div
+    class="c-overlay c-overlay--absolute c-overlay--white-opacity c-overlay--zIndex"
+  />
+  <div
     class="c-connectFilter"
   >
     <label
@@ -109,6 +115,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   >
     Lagre
   </button>
+  
 </form>
 `;
 

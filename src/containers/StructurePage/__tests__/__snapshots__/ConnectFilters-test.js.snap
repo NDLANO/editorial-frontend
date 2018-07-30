@@ -109,7 +109,6 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   >
     Lagre
   </button>
-
 </form>
 `;
 

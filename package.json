@@ -16,7 +16,7 @@
     "start-with-local-converter": "LOCAL_CONVERTER=true razzle start",
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
-    "test": "cross-env BABEL_ENV=test NODE_ENV=unittest jest",
+    "test": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --maxWorkers=4",
     "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch"
   },
   "engines": {

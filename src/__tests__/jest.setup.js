@@ -17,11 +17,6 @@ jest.setTimeout = process.env.JEST_TIMEOUT
   : 30000;
 
 /* eslint-disable */
-/* https://github.com/facebook/jest/issues/3788 */
-jasmine.DEFAULT_TIMEOUT_INTERVAL = process.env.JEST_TIMEOUT
-  ? parseInt(process.env.JEST_TIMEOUT, 10)
-  : 30000;
-
 expectSaga.DEFAULT_TIMEOUT = global.DEFAULT_TIMEOUT;
 
 // fix: `matchMedia` not present, legacy browsers require a polyfill

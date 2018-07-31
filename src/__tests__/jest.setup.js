@@ -18,9 +18,9 @@ const jestTimeout = process.env.JEST_TIMEOUT
 
 jest.setTimeout(jestTimeout);
 
-/* eslint-disable */
 expectSaga.DEFAULT_TIMEOUT = global.DEFAULT_TIMEOUT;
 
+/* eslint-disable */
 // fix: `matchMedia` not present, legacy browsers require a polyfill
 global.matchMedia =
   global.matchMedia ||

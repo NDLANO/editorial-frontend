@@ -24,7 +24,11 @@ class Footnote extends Component {
   }
 
   componentWillMount() {
-    const { editor: { props: { slateStore } } } = this.props;
+    const {
+      editor: {
+        props: { slateStore },
+      },
+    } = this.props;
     this.unsubscribe = slateStore.subscribe(this.onStoreChange);
   }
 
@@ -33,7 +37,11 @@ class Footnote extends Component {
   }
 
   onStoreChange() {
-    const { editor: { props: { slateStore } } } = this.props;
+    const {
+      editor: {
+        props: { slateStore },
+      },
+    } = this.props;
 
     this.setState({
       // Needed for slate store, can not be removed.
@@ -43,7 +51,12 @@ class Footnote extends Component {
   }
 
   handleClick() {
-    const { editor: { props: { slateStore } }, node } = this.props;
+    const {
+      editor: {
+        props: { slateStore },
+      },
+      node,
+    } = this.props;
     slateStore.dispatch(setActiveNode(node));
   }
 

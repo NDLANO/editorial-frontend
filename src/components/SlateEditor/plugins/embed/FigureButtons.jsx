@@ -14,7 +14,7 @@ import { injectT } from 'ndla-i18n';
 import { Cross, Pencil, Plus } from 'ndla-icons/action';
 import { editorClasses } from './SlateFigure';
 import { EmbedShape } from '../../../../shapes';
-import WarningModal from '../../../../components/WarningModal';
+import WarningModal from '../../../WarningModal';
 
 export class FigureButtons extends React.Component {
   constructor() {

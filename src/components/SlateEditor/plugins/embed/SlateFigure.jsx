@@ -39,7 +39,11 @@ class SlateFigure extends React.Component {
   }
 
   componentWillMount() {
-    const { editor: { props: { slateStore } } } = this.props;
+    const {
+      editor: {
+        props: { slateStore },
+      },
+    } = this.props;
     this.unsubscribe = slateStore.subscribe(this.onSubmittedChange);
   }
 
@@ -48,7 +52,11 @@ class SlateFigure extends React.Component {
   }
 
   onSubmittedChange() {
-    const { editor: { props: { slateStore } } } = this.props;
+    const {
+      editor: {
+        props: { slateStore },
+      },
+    } = this.props;
     this.setState({
       submitted: slateStore.getState().submitted,
     });

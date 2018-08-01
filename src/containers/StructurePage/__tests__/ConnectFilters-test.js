@@ -8,9 +8,11 @@
 
 import React from 'react';
 import nock from 'nock';
-import { render, Simulate, wait } from 'react-testing-library';
+import { render, fireEvent, cleanup, wait } from 'react-testing-library';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 import ConnectFilters from '../components/ConnectFilters';
+
+afterEach(cleanup);
 
 const filterMock = [
   { id: 'urn:filter:f102710e-973e-4999-9daf-f1536d41188a', name: 'blabla' },
@@ -86,10 +88,10 @@ it('calls add filter, update filter, and delete filter', async () => {
 
   const { getByTestId, getByLabelText, container } = wrapper();
   await wait(() => getByLabelText(filterMock[0].name));
-  Simulate.click(getByLabelText(filterMock[0].name));
-  Simulate.click(getByLabelText(filterMock[1].name));
-  Simulate.click(getByTestId(`${filterMock[3].id}-relevance`));
-  Simulate.click(getByTestId('submitConnectFilters'));
+  fireEvent.click(getByLabelText(filterMock[0].name));
+  fireEvent.click(getByLabelText(filterMock[1].name));
+  fireEvent.click(getByTestId(`${filterMock[3].id}-relevance`));
+  fireEvent.click(getByTestId('submitConnectFilters'));
   await wait();
   await wait();
   expect(nock.isDone());

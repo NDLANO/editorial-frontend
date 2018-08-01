@@ -11,8 +11,8 @@ import { Value } from 'slate';
 import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
 import isEqual from 'lodash/fp/isEqual';
-import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
-import { textWrapper } from '../util/invalidTextWrapper';
+import { topicArticeRules, learningResourceRules } from './slateHelpers';
+import { textWrapper } from './invalidTextWrapper';
 import { convertFromHTML } from './convertFromHTML';
 
 export const sectionSplitter = html => {
@@ -31,13 +31,15 @@ export const isValueEmpty = value => {
   const { nodes } = document;
   if (nodes.isEmpty()) {
     return true;
-  } else if (
+  }
+  if (
     nodes.first().type === 'section' &&
     nodes.first().nodes.size === 1 &&
     nodes.first().nodes.first().isEmpty
   ) {
     return true;
-  } else if (
+  }
+  if (
     nodes.size === 1 &&
     nodes.first().type !== 'section' &&
     nodes.first().isEmpty

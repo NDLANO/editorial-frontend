@@ -45,7 +45,9 @@ export class RelatedArticleBox extends React.Component {
   }
 
   componentDidMount() {
-    const { node: { data } } = this.props;
+    const {
+      node: { data },
+    } = this.props;
     if (data && data.get('nodes')) {
       data.get('nodes').forEach(({ articleId, title, url }) => {
         if (articleId) this.fetchRelated(articleId);
@@ -129,9 +131,10 @@ export class RelatedArticleBox extends React.Component {
   }
 
   removeArticle(i, e) {
+    const { items } = this.state;
     e.stopPropagation();
 
-    const newItems = this.state.items.filter((_, ind) => i !== ind);
+    const newItems = items.filter((_, ind) => i !== ind);
     this.setState({ items: newItems }, this.updateEmbedNode);
   }
 
@@ -190,7 +193,7 @@ RelatedArticleBox.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   editor: EditorShape,
-  node: Types.node.isRequired,
+  node: PropTypes.oneOfType([Types.node, PropTypes.shape({})]).isRequired,
   locale: PropTypes.string.isRequired,
   onRemoveClick: PropTypes.func,
   embed: PropTypes.shape({
@@ -204,6 +207,10 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default compose(injectT, connect(mapStateToProps, null))(
-  RelatedArticleBox,
-);
+export default compose(
+  injectT,
+  connect(
+    mapStateToProps,
+    null,
+  ),
+)(RelatedArticleBox);

@@ -151,7 +151,8 @@ function insertSubTopic(topics, subTopic) {
         ...topic,
         topics: [...(topic.topics || []), subTopic],
       };
-    } else if (topic.topics) {
+    }
+    if (topic.topics) {
       return {
         ...topic,
         topics: insertSubTopic(topic.topics, subTopic),

@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import RichTextEditor from '../components/SlateEditor/RichTextEditor';
+import RichTextEditor from './SlateEditor/RichTextEditor';
 import { Field, FocusLabel, FieldErrorMessages, getField } from './Fields';
 import { PluginShape } from '../shapes';
 

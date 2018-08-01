@@ -11,7 +11,7 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import Types from 'slate-prop-types';
-import { Portal } from '../../../../components/Portal';
+import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
 import { setActiveNode } from '../../createSlateStore';
 import { hasNodeOfType, checkSelectionForType } from '../utils';

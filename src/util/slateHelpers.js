@@ -90,7 +90,8 @@ export const textRule = {
       illegalTextUnderBlocks.includes(el.parentNode.tagName.toLowerCase())
     ) {
       return null;
-    } else if (
+    }
+    if (
       !el.nodeName ||
       el.nodeName.toLowerCase() !== '#text' ||
       (el.parentNode && el.parentNode.tagName.toLowerCase() !== 'section')
@@ -112,14 +113,16 @@ export const divRule = {
         type: 'bodybox',
         nodes: next(el.childNodes),
       };
-    } else if (type === 'related-content') {
+    }
+    if (type === 'related-content') {
       return {
         kind: 'block',
         type: 'related',
         isVoid: true,
         data: reduceChildElements(el, type),
       };
-    } else if (type === 'file') {
+    }
+    if (type === 'file') {
       return {
         kind: 'block',
         type: 'file',

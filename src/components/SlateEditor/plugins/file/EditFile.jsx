@@ -5,8 +5,8 @@ import { injectT } from 'ndla-i18n';
 import { File } from 'ndla-ui';
 
 import SlateInputField from '../embed/SlateInputField';
-import Overlay from '../../../../components/Overlay';
-import { Portal } from '../../../../components/Portal';
+import Overlay from '../../../Overlay';
+import { Portal } from '../../../Portal';
 
 const classes = BEMHelper('c-file-list');
 

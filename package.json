@@ -8,7 +8,7 @@
     "clean": "rimraf ./build",
     "lint": "yarn lint-css && yarn lint-prettier && yarn lint-es",
     "lint-css": "stylelint src/style/**/*.css",
-    "lint-es": "eslint --cache --ext .js --ext .jsx src",
+    "lint-es": "eslint --cache --cache-location '.eslintcache/' --ext .js --ext .jsx src",
     "lint-prettier": "node prettier.js lint",
     "pretest": "yarn lint",
     "prettier": "node prettier.js write",

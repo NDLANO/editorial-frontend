@@ -14,7 +14,11 @@ import { parseHash } from '../../util/authHelpers';
 
 export class LoginSuccess extends React.Component {
   componentWillMount() {
-    const { loginSuccess, location: { hash }, history } = this.props;
+    const {
+      loginSuccess,
+      location: { hash },
+      history,
+    } = this.props;
     parseHash(hash).then(authResult => {
       if (authResult && authResult.accessToken) {
         loginSuccess({ accessToken: authResult.accessToken, history });
@@ -38,4 +42,7 @@ LoginSuccess.propTypes = {
 const mapDispatchToProps = {
   loginSuccess: actions.loginSuccess,
 };
-export default connect(undefined, mapDispatchToProps)(LoginSuccess);
+export default connect(
+  undefined,
+  mapDispatchToProps,
+)(LoginSuccess);

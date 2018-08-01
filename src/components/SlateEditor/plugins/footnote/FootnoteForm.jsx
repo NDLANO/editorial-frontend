@@ -12,7 +12,7 @@ import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { compose } from 'redux';
 import { Field, FieldErrorMessages, getField } from '../../../Fields';
-import validateSchema from '../../../../components/validateSchema';
+import validateSchema from '../../../validateSchema';
 import { SchemaShape, FootnoteShape } from '../../../../shapes';
 import MultiSelect from '../../../MultiSelect';
 import { toolbarClasses } from '../SlateToolbar/SlateToolbar'; // TODO: Remove depdency

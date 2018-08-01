@@ -16,7 +16,10 @@ class AudioPlayerMounter extends Component {
       title,
       caption,
       audioFile: { mimeType, url },
-      copyright: { creators, license: { license: licenseAbbreviation } },
+      copyright: {
+        creators,
+        license: { license: licenseAbbreviation },
+      },
     } = this.props.audio;
     const locale = 'nb';
     const license = getLicenseByAbbreviation(licenseAbbreviation, locale);

@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { uuid } from 'ndla-util';
-import RichBlockTextEditor from '../components/SlateEditor/RichBlockTextEditor';
+import RichBlockTextEditor from './SlateEditor/RichBlockTextEditor';
 import {
   Field,
   FocusLabel,

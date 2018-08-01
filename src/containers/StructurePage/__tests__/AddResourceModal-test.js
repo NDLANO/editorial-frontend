@@ -8,7 +8,7 @@
 
 import React from 'react';
 import nock from 'nock';
-import { render, Simulate, wait } from 'react-testing-library';
+import { render, fireEvent, cleanup, wait } from 'react-testing-library';
 import { MemoryRouter } from 'react-router-dom';
 import AddResourceModal from '../components/AddResourceModal';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
@@ -16,6 +16,8 @@ import {
   resourcesByType,
   articleMock,
 } from '../../../util/__tests__/taxonomyMocks';
+
+afterEach(cleanup);
 
 const resourceType = 'urn:resourcetype:reviewResource';
 const ndlaUrl =
@@ -75,11 +77,11 @@ test('Can select a resource from the list and it adds it to topic', async () => 
   await wait(() => getByText(resourcesByType[0].results[0].title.title));
 
   expect(container.firstChild).toMatchSnapshot();
-  Simulate.click(getByText(resourcesByType[0].results[0].title.title));
+  fireEvent.click(getByText(resourcesByType[0].results[0].title.title));
   await wait(() => getByTestId('articlePreview'));
 
   expect(container.firstChild).toMatchSnapshot();
-  Simulate.click(getByTestId('taxonomyLightboxButton'));
+  fireEvent.click(getByTestId('taxonomyLightboxButton'));
   await wait();
   expect(nock.isDone());
 });
@@ -108,11 +110,11 @@ test('Can paste a valid url and add it to topic', async () => {
   const { container, getByTestId } = wrapper();
   const input = getByTestId('addResourceUrlInput');
   input.value = ndlaUrl;
-  Simulate.change(input);
+  fireEvent.change(input);
 
   await wait(() => getByTestId('articlePreview'));
   expect(container.firstChild).toMatchSnapshot();
-  Simulate.click(getByTestId('taxonomyLightboxButton'));
+  fireEvent.click(getByTestId('taxonomyLightboxButton'));
   await wait();
 
   expect(nock.isDone());

@@ -21,6 +21,7 @@ class DateTimeInput extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.getOptions = this.getOptions.bind(this);
   }
+
   componentDidMount() {
     const options = this.getOptions();
     this.flatpickr = new Flatpickr(this.node, options);

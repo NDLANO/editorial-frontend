@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import AutosizeInput from 'react-input-autosize';
 import { dropDownClasses } from '../common/dropDownClasses';
-import { InputItems } from './';
+import { InputItems } from '.';
 
 const autosizeStyle = {
   border: 'none',

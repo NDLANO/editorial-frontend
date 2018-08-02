@@ -82,7 +82,9 @@ class SearchContentForm extends Component {
     if (evt) {
       evt.preventDefault();
     }
-    const { search: { resourceTypes, subjects, query, language } } = this.state;
+    const {
+      search: { resourceTypes, subjects, query, language },
+    } = this.state;
     const { search } = this.props;
     search({
       'resource-types': resourceTypes,
@@ -105,7 +107,9 @@ class SearchContentForm extends Component {
   }
 
   render() {
-    const { dropDown: { subjects, resourceTypes } } = this.state;
+    const {
+      dropDown: { subjects, resourceTypes },
+    } = this.state;
     const { t } = this.props;
 
     const selectFields = [

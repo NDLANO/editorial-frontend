@@ -17,7 +17,6 @@ import SaveButton from '../../../components/SaveButton';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
-  processorsWithDefault,
 } from '../../../util/formHelper';
 
 import ImageMetaData from './ImageMetaData';
@@ -41,7 +40,7 @@ export const getInitialModel = (image = {}) => ({
   imageFile: image.imageUrl,
   tags: image.tags || [],
   creators: parseCopyrightContributors(image, 'creators'),
-  processors: processorsWithDefault(image),
+  processors: parseCopyrightContributors(image, 'processors'),
   rightsholders: parseCopyrightContributors(image, 'rightsholders'),
   origin:
     image.copyright && image.copyright.origin ? image.copyright.origin : '',

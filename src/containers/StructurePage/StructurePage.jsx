@@ -15,13 +15,14 @@ import { injectT } from 'ndla-i18n';
 import { OneColumn } from 'ndla-ui';
 import { Taxonomy, Star } from 'ndla-icons/editor';
 import { jsPlumb } from 'jsplumb';
-
+import { connectLinkItems } from '../../util/jsPlumbHelpers';
 import handleError from '../../util/handleError';
 import { getLocale } from '../../modules/locale/locale';
 import StructureResources from './StructureResources';
 import FolderItem from './components/FolderItem';
 import InlineAddButton from './components/InlineAddButton';
 import Accordion from '../../components/Accordion';
+import { Portal } from '../../components/Portal';
 import {
   fetchSubjects,
   fetchSubjectTopics,
@@ -30,24 +31,27 @@ import {
   updateSubjectName,
   fetchSubjectFilters,
   addSubjectTopic,
+  fetchTopicConnections,
+  updateTopicSubtopic,
+  updateSubjectTopic,
+  deleteTopicConnection,
+  deleteSubTopicConnection,
 } from '../../modules/taxonomy';
+import { groupTopics } from '../../util/taxonomyHelpers';
 import RoundIcon from '../../components/RoundIcon';
 
 export class StructurePage extends React.PureComponent {
   constructor(props) {
     super(props);
-    const activeFilters =
-      queryString.parse(props.location.search).filters || '';
     this.state = {
       editStructureHidden: false,
       subjects: [],
       topics: {},
       filters: [],
-      activeFilters: activeFilters.split(','),
-      connections: [],
+      jsPlumbConnections: [],
+      activeConnections: [],
     };
     this.starButton = React.createRef();
-    this.plumbContainer = React.createRef();
     this.getAllSubjects = this.getAllSubjects.bind(this);
     this.getSubjectTopics = this.getSubjectTopics.bind(this);
     this.addSubject = this.addSubject.bind(this);
@@ -55,12 +59,14 @@ export class StructurePage extends React.PureComponent {
     this.onAddSubjectTopic = this.onAddSubjectTopic.bind(this);
     this.showLink = this.showLink.bind(this);
     this.refFunc = this.refFunc.bind(this);
-    this.connectLinkItems = this.connectLinkItems.bind(this);
     this.deleteConnections = this.deleteConnections.bind(this);
     this.onAddExistingTopic = this.onAddExistingTopic.bind(this);
     this.getCurrentTopic = this.getCurrentTopic.bind(this);
     this.getFilters = this.getFilters.bind(this);
     this.toggleFilter = this.toggleFilter.bind(this);
+    this.setPrimary = this.setPrimary.bind(this);
+    this.getActiveFiltersFromUrl = this.getActiveFiltersFromUrl.bind(this);
+    this.deleteTopicLink = this.deleteTopicLink.bind(this);
   }
 
   componentDidMount() {
@@ -72,19 +78,19 @@ export class StructurePage extends React.PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const {
-      location: { pathname, search },
+      location: { pathname },
       match: { params },
       history,
-    } = nextProps;
-    if (pathname !== this.props.location.pathname) {
+    } = this.props;
+    if (pathname !== prevProps.location.pathname) {
       this.deleteConnections();
       const { subject } = params;
       if (subject) {
         this.getFilters(`urn:${subject}`);
       }
-      if (!subject || subject !== this.props.match.params.subject) {
+      if (!subject || subject !== prevProps.match.params.subject) {
         history.push({
           search: '',
         });
@@ -95,12 +101,6 @@ export class StructurePage extends React.PureComponent {
       if (currentSub && !this.state.topics[`urn:${subject}`]) {
         this.getSubjectTopics(`urn:${subject}`);
       }
-    }
-    if (search !== this.props.location.search) {
-      const { filters } = queryString.parse(search);
-      this.setState({
-        activeFilters: filters ? filters.split(',') : [],
-      });
     }
   }
 
@@ -133,12 +133,17 @@ export class StructurePage extends React.PureComponent {
     }
   }
 
+  getActiveFiltersFromUrl() {
+    const {
+      location: { search },
+    } = this.props;
+    const { filters } = queryString.parse(search);
+    return filters ? filters.split(',') : [];
+  }
+
   async getAllSubjects() {
     try {
       const subjects = await fetchSubjects(this.props.locale);
-      subjects.forEach(subject => {
-        this[subject.id] = React.createRef();
-      });
       this.setState({ subjects });
     } catch (e) {
       handleError(e);
@@ -148,27 +153,7 @@ export class StructurePage extends React.PureComponent {
   async getSubjectTopics(subjectid) {
     try {
       const allTopics = await fetchSubjectTopics(subjectid);
-      const insertSubTopic = (topics, subTopic) =>
-        topics.map(topic => {
-          if (topic.id === subTopic.parent) {
-            return {
-              ...topic,
-              topics: [...(topic.topics || []), subTopic],
-            };
-          } else if (topic.topics) {
-            return {
-              ...topic,
-              topics: insertSubTopic(topic.topics, subTopic),
-            };
-          }
-          return topic;
-        });
-
-      const groupedTopics = allTopics.reduce((acc, curr) => {
-        const mainTopic = curr.parent.includes('subject');
-        if (mainTopic) return acc;
-        return insertSubTopic(acc.filter(topic => topic.id !== curr.id), curr);
-      }, allTopics);
+      const groupedTopics = groupTopics(allTopics);
 
       this.setState(prevState => ({
         topics: {
@@ -183,7 +168,9 @@ export class StructurePage extends React.PureComponent {
 
   getCurrentTopic() {
     const {
-      match: { params: { subject, topic1, topic2, topic3 } },
+      match: {
+        params: { subject, topic1, topic2, topic3 },
+      },
     } = this.props;
     if (topic1) {
       const sub = this.state.topics[`urn:${subject}`];
@@ -212,52 +199,75 @@ export class StructurePage extends React.PureComponent {
     }
   }
 
+  async setPrimary(subjectId) {
+    const connection = this.state.activeConnections.find(conn =>
+      conn.paths.some(path => path.includes(subjectId.replace('urn:', ''))),
+    );
+
+    if (connection.connectionId.includes('topic-subtopic')) {
+      const ok = await updateTopicSubtopic(connection.connectionId, {
+        id: connection.targetId,
+        primary: true,
+      });
+      if (ok) this.deleteConnections();
+    } else {
+      const ok = await updateSubjectTopic(connection.connectionId, {
+        id: connection.targetId,
+        primary: true,
+      });
+      if (ok) this.deleteConnections();
+    }
+  }
+
   async addSubject(name) {
     const newPath = await addSubject({ name });
     if (newPath) this.getAllSubjects();
     return newPath;
   }
 
-  connectLinkItems(source, target) {
-    const instance = jsPlumb.getInstance({
-      Container: this.plumbContainer.current,
-    });
-    return instance.connect({
-      source: this[source],
-      target: this[target],
-      endpoint: 'Blank',
-      connector: ['Flowchart', { stub: 50 }],
-      paintStyle: { strokeWidth: 1, stroke: '#000000', dashstyle: '4 2' },
-      anchors: ['Left', 'Left'],
-      overlays: [
-        ['Custom', { create: () => this.starButton.current, location: 70 }],
-        [
-          'Custom',
-          { create: () => this[`linkButton-${target}`], location: -30 },
-        ],
-      ],
-    });
-  }
-
   deleteConnections() {
-    this.state.connections.forEach(conn => {
+    this.state.jsPlumbConnections.forEach(conn => {
       jsPlumb.deleteConnection(conn);
     });
-    this.setState({ connections: [] });
+    this.setState({ jsPlumbConnections: [], activeConnections: [] });
   }
 
-  showLink(id) {
-    const target = this.state.subjects[0].id;
-    const target2 = this.state.subjects[this.state.subjects.length - 1].id;
-    if (this.state.connections.length > 0) {
+  async deleteTopicLink(subjectId) {
+    const { activeConnections } = this.state;
+    const connectionToDelete = activeConnections.find(conn =>
+      conn.paths.some(path => path.includes(subjectId.replace('urn:', ''))),
+    );
+    const { connectionId } = connectionToDelete;
+    try {
+      if (connectionId.includes('topic-subtopic')) {
+        await deleteSubTopicConnection(connectionId);
+      } else {
+        await deleteTopicConnection(connectionId);
+      }
+      this.getSubjectTopics(subjectId);
+    } catch (e) {
+      handleError(e);
+    }
+  }
+
+  async showLink(id, parent) {
+    if (this.state.jsPlumbConnections.length > 0) {
       this.deleteConnections();
     } else {
-      this.starButton.current.style.display = 'block';
-      this[`linkButton-${target}`].style.display = 'block';
-      this[`linkButton-${target2}`].style.display = 'block';
-      const connection1 = this.connectLinkItems(id, target);
-      const connection2 = this.connectLinkItems(id, target2);
-      this.setState({ connections: [connection1, connection2] });
+      const connectionArray = await fetchTopicConnections(id);
+
+      const uniqueId = parent ? `${parent}${id}` : id;
+      const connections = connectLinkItems(
+        uniqueId,
+        connectionArray,
+        parent,
+        this.props.match.params.subject,
+        this,
+      );
+      this.setState({
+        jsPlumbConnections: connections,
+        activeConnections: connectionArray,
+      });
     }
   }
 
@@ -266,7 +276,7 @@ export class StructurePage extends React.PureComponent {
   }
 
   toggleFilter(filterId) {
-    const { activeFilters } = this.state;
+    const activeFilters = this.getActiveFiltersFromUrl();
     const { history } = this.props;
     if (activeFilters.find(id => id === filterId)) {
       history.push({
@@ -284,13 +294,13 @@ export class StructurePage extends React.PureComponent {
   render() {
     const { match, t, locale } = this.props;
     const {
-      activeFilters,
       topics,
       filters,
-      connections,
+      jsPlumbConnections,
       subjects,
       editStructureHidden,
     } = this.state;
+    const activeFilters = this.getActiveFiltersFromUrl();
     const { params } = match;
     const topicId = params.topic3 || params.topic2 || params.topic1;
     const currentTopic = this.getCurrentTopic();
@@ -317,7 +327,7 @@ export class StructurePage extends React.PureComponent {
             />
           }
           hidden={editStructureHidden}>
-          <div ref={this.plumbContainer}>
+          <div id="plumbContainer">
             {subjects.map(subject => (
               <FolderItem
                 {...subject}
@@ -331,11 +341,13 @@ export class StructurePage extends React.PureComponent {
                 showLink={this.showLink}
                 onAddExistingTopic={this.onAddExistingTopic}
                 refreshTopics={() => this.getSubjectTopics(subject.id)}
-                linkViewOpen={connections.length > 0}
+                linkViewOpen={jsPlumbConnections.length > 0}
                 getFilters={this.getFilters}
-                filters={filters}
+                subjectFilters={filters}
                 activeFilters={activeFilters}
                 toggleFilter={this.toggleFilter}
+                setPrimary={this.setPrimary}
+                deleteTopicLink={this.deleteTopicLink}
               />
             ))}
           </div>
@@ -349,9 +361,15 @@ export class StructurePage extends React.PureComponent {
             refreshTopics={() => this.getSubjectTopics(`urn:${params.subject}`)}
           />
         )}
-        <div style={{ display: 'none' }} ref={this.starButton}>
-          <RoundIcon icon={<Star />} />
-        </div>
+        <Portal isOpened>
+          <div
+            style={{
+              display: jsPlumbConnections.length > 0 ? 'block' : 'none',
+            }}
+            ref={this.starButton}>
+            <RoundIcon icon={<Star />} />
+          </div>
+        </Portal>
       </OneColumn>
     );
   }
@@ -377,4 +395,10 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default compose(injectT, connect(mapStateToProps, null))(StructurePage);
+export default compose(
+  injectT,
+  connect(
+    mapStateToProps,
+    null,
+  ),
+)(StructurePage);

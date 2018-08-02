@@ -78,7 +78,9 @@ class LearningResourceContent extends Component {
   }
 
   addSection() {
-    const { commonFieldProps: { bindInput } } = this.props;
+    const {
+      commonFieldProps: { bindInput },
+    } = this.props;
     const { value, onChange } = bindInput('content');
     const newblocks = [].concat(value);
     newblocks.push({ value: createEmptyValue(), index: value.length });

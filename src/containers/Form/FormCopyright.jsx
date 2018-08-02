@@ -13,7 +13,7 @@ import { SelectObjectField } from '../../components/Fields';
 import { CommonFieldPropsShape } from '../../shapes';
 import Accordion from '../../components/Accordion';
 import Contributors from '../../components/Contributors/Contributors';
-import { AgreementConnection } from './';
+import { AgreementConnection } from '.';
 
 class FormCopyright extends Component {
   constructor(props) {

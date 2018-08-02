@@ -33,10 +33,16 @@ class InlineDropdown extends PureComponent {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.setResultItems = this.setResultItems.bind(this);
   }
 
-  async componentDidMount() {
-    const res = await this.props.fetchItems();
+  componentDidMount() {
+    this.setResultItems();
+  }
+
+  async setResultItems() {
+    const { fetchItems, filter } = this.props;
+    const res = await fetchItems();
     const options = {
       shouldSort: true,
       threshold: 0.2,
@@ -47,7 +53,12 @@ class InlineDropdown extends PureComponent {
       minMatchCharLength: 1,
       keys: ['name'],
     };
-    this.setState({ items: new Fuse(res, options) }); // eslint-disable-line
+    this.setState({
+      items: new Fuse(
+        filter ? res.filter(it => !it.path.includes(filter)) : res,
+        options,
+      ),
+    });
   }
 
   async handleSubmit() {

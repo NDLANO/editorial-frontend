@@ -41,7 +41,12 @@ export class App extends React.Component {
   }
 
   render() {
-    const { dispatch, messages, t, match: { params } } = this.props;
+    const {
+      dispatch,
+      messages,
+      t,
+      match: { params },
+    } = this.props;
 
     return (
       <PageContainer>

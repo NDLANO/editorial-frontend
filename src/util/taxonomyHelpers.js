@@ -144,6 +144,31 @@ function groupSortResourceTypesFromTopicResources(
   return topicResourcesByTypeWithMetaData(resorceTypesByTopic);
 }
 
+function insertSubTopic(topics, subTopic) {
+  return topics.map(topic => {
+    if (topic.id === subTopic.parent) {
+      return {
+        ...topic,
+        topics: [...(topic.topics || []), subTopic],
+      };
+    }
+    if (topic.topics) {
+      return {
+        ...topic,
+        topics: insertSubTopic(topic.topics, subTopic),
+      };
+    }
+    return topic;
+  });
+}
+
+const groupTopics = allTopics =>
+  allTopics.reduce((acc, curr) => {
+    const mainTopic = curr.parent.includes('subject');
+    if (mainTopic) return acc;
+    return insertSubTopic(acc.filter(topic => topic.id !== curr.id), curr);
+  }, allTopics);
+
 export {
   flattenResourceTypes,
   spliceChangedItems,
@@ -151,4 +176,5 @@ export {
   getTopicResourcesByType,
   topicResourcesByTypeWithMetaData,
   groupSortResourceTypesFromTopicResources,
+  groupTopics,
 };

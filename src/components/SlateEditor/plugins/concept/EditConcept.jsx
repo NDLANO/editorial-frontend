@@ -38,6 +38,7 @@ class EditConcept extends React.PureComponent {
     const { concept, linkText } = this.state;
     return (
       <button
+        type="button"
         {...classes('link')}
         onClick={this.openEditConcept}
         id={concept.id}>

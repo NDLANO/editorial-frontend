@@ -6,8 +6,15 @@
  *
  */
 
+import jsdom from 'jsdom';
 import { BLOCK_TAGS, TABLE_TAGS } from './slateHelpers';
 
+
+const dom = new jsdom.JSDOM(`<!DOCTYPE html><html></html>`);
+
+const doc = typeof document !== 'undefined' ? document : dom.window.document
+
+const nodefilter = typeof NodeFilter !== 'undefined' ? NodeFilter : dom.window.NodeFilter
 export const textWrapper = serializer => inputHtml => {
   const DefaultParse = serializer.parseHtml;
   const tree = DefaultParse.apply(serializer, [inputHtml]);
@@ -21,11 +28,11 @@ export const textWrapper = serializer => inputHtml => {
     .concat(Object.keys(TABLE_TAGS))
     .concat(['embed', 'p', 'ol', 'li', 'ul']);
 
-  const treeWalker = document.createTreeWalker(tree, NodeFilter.SHOW_ELEMENT, {
+  const treeWalker = doc.createTreeWalker(tree, nodefilter.SHOW_ELEMENT, {
     acceptNode: node =>
       node.nodeName && BLOCKS_TO_CHECK.includes(node.nodeName.toLowerCase())
-        ? NodeFilter.FILTER_ACCEPT
-        : NodeFilter.FILTER_SKIP,
+        ? nodefilter.FILTER_ACCEPT
+        : nodefilter.FILTER_SKIP,
   });
 
   const needWrapping = [];
@@ -43,7 +50,7 @@ export const textWrapper = serializer => inputHtml => {
   }
 
   needWrapping.forEach(tn => {
-    const wrapped = document.createElement('p');
+    const wrapped = doc.createElement('p');
     tn.parentNode.replaceChild(wrapped, tn);
     wrapped.appendChild(tn);
   });

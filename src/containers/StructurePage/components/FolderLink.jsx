@@ -4,19 +4,17 @@ import { Folder } from 'ndla-icons/editor';
 import { Link as RouterLink } from 'react-router-dom';
 import { classes } from './FolderItem';
 
-const FolderLink = ({ toLink, name, active, grayedOut }) => {
-  return (
-    <RouterLink
-      to={toLink}
-      {...classes(
-        'link',
-        `${active ? 'active' : ''} ${grayedOut ? 'grayedOut' : ''}`,
-      )}>
-      <Folder {...classes('folderIcon')} color="#70A5DA" />
-      {name}
-    </RouterLink>
-  );
-};
+const FolderLink = ({ toLink, name, active, grayedOut }) => (
+  <RouterLink
+    to={toLink}
+    {...classes(
+      'link',
+      `${active ? 'active' : ''} ${grayedOut ? 'grayedOut' : ''}`,
+    )}>
+    <Folder {...classes('folderIcon')} color="#70A5DA" />
+    {name}
+  </RouterLink>
+);
 
 FolderLink.propTypes = {
   toLink: PropTypes.string,

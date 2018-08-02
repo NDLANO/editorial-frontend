@@ -21,7 +21,7 @@ import FolderLink from './FolderLink';
 import {
   updateTopicSubtopic,
   updateSubjectTopic,
-} from '../../../modules/taxonomy/';
+} from '../../../modules/taxonomy';
 import { removeLastItemFromUrl } from '../../../util/routeHelpers';
 
 export const classes = new BEMHelper({

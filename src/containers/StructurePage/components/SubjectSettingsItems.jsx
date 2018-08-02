@@ -25,6 +25,7 @@ class SubjectSettingsItems extends Component {
       editMode: '',
     };
   }
+
   render() {
     const {
       classes,

@@ -1623,6 +1623,66 @@ Object {
 }
 `;
 
+exports[`deserializing a span with attributes 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "kind": "document",
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "kind": "block",
+        "nodes": Array [
+          Object {
+            "kind": "text",
+            "leaves": Array [
+              Object {
+                "kind": "leaf",
+                "marks": Array [],
+                "text": "",
+              },
+            ],
+          },
+          Object {
+            "data": Object {
+              "lang": "en",
+            },
+            "isVoid": false,
+            "kind": "inline",
+            "nodes": Array [
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": "Hyper Text Markup Language",
+                  },
+                ],
+              },
+            ],
+            "type": "span",
+          },
+          Object {
+            "kind": "text",
+            "leaves": Array [
+              Object {
+                "kind": "leaf",
+                "marks": Array [],
+                "text": "",
+              },
+            ],
+          },
+        ],
+        "type": "paragraph",
+      },
+    ],
+  },
+  "kind": "value",
+}
+`;
+
 exports[`deserializing alphabetical list 1`] = `
 Object {
   "document": Object {
@@ -2511,6 +2571,8 @@ exports[`serialize footnote 1`] = `
 `;
 
 exports[`serializing a normal div block 1`] = `"<div><p>A paragraph</p></div>"`;
+
+exports[`serializing a span with attributes 1`] = `"<p><span lang=\\"en\\">Hyper Text Markup Language</span></p>"`;
 
 exports[`serializing br 1`] = `"<br/>"`;
 

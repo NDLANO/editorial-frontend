@@ -33,4 +33,7 @@ const mapDispatchToProps = {
   clearSearch: actions.clearSearchResult,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchContentPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchContentPage);

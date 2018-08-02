@@ -16,7 +16,7 @@ import { validateDraft } from '../../modules/draft/draftApi';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as messageActions from '../Messages/messagesActions';
 import { articleStatuses } from '../../util/formHelper';
-import { AddNotes, formClasses } from './';
+import { AddNotes, formClasses } from '.';
 
 import { CommonFieldPropsShape } from '../../shapes';
 
@@ -31,7 +31,10 @@ class FormWorkflow extends Component {
   }
 
   onValidateClick() {
-    const { model: { id }, addMessage } = this.props;
+    const {
+      model: { id },
+      addMessage,
+    } = this.props;
     validateDraft(id)
       .then(() => {
         addMessage({
@@ -129,4 +132,7 @@ const mapDispatchToProps = {
   publishDraft: draftActions.publishDraft,
 };
 
-export default connect(undefined, mapDispatchToProps)(injectT(FormWorkflow));
+export default connect(
+  undefined,
+  mapDispatchToProps,
+)(injectT(FormWorkflow));

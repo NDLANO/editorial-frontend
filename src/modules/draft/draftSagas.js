@@ -24,7 +24,9 @@ export function* fetchDraft(id, language) {
 
 export function* watchFetchDraft() {
   while (true) {
-    const { payload: { id, language } } = yield take(actions.fetchDraft);
+    const {
+      payload: { id, language },
+    } = yield take(actions.fetchDraft);
     const draft = yield select(getDraft(id));
     if (!draft || draft.id !== id || draft.language !== language) {
       yield call(fetchDraft, id, language);
@@ -63,7 +65,9 @@ export function* createDraft(draft, history) {
 
 export function* watchUpdateDraft() {
   while (true) {
-    const { payload: { draft, history } } = yield take(actions.updateDraft);
+    const {
+      payload: { draft, history },
+    } = yield take(actions.updateDraft);
     if (draft.id) {
       yield call(updateDraft, draft);
     } else {
@@ -91,7 +95,9 @@ export function* publishDraft(draft) {
 
 export function* watchPublishDraft() {
   while (true) {
-    const { payload: { draft } } = yield take(actions.publishDraft);
+    const {
+      payload: { draft },
+    } = yield take(actions.publishDraft);
     if (draft.id) {
       yield call(publishDraft, draft);
     }

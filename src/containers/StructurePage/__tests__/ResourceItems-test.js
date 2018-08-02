@@ -8,13 +8,15 @@
 
 import React from 'react';
 import nock from 'nock';
-import { render, Simulate, wait } from 'react-testing-library';
+import { render, fireEvent, cleanup, wait } from 'react-testing-library';
 import ResourceItems from '../components/ResourceItems';
 import {
   supplementaryResourcesMock,
   coreResourcesMock,
 } from '../../../util/__tests__/taxonomyMocks';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
+
+afterEach(cleanup);
 
 const wrapper = () =>
   render(
@@ -44,7 +46,7 @@ test('Can toggle relevance when one filter is chosen', async () => {
 
   const { container, getByTestId } = wrapper();
   expect(container.firstChild).toMatchSnapshot();
-  Simulate.change(getByTestId(`toggleRelevance-${clickId}`));
+  fireEvent.change(getByTestId(`toggleRelevance-${clickId}`));
   await wait();
   expect(nock.isDone());
 });

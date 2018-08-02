@@ -150,6 +150,8 @@ export const renderNode = props => {
       return <blockquote {...attributes}>{children}</blockquote>;
     case 'div':
       return <div {...attributes}>{children}</div>;
+    case 'span':
+      return <span {...attributes}>{children}</span>;
     default:
       return null;
   }

@@ -67,4 +67,7 @@ const mapStateToProps = (state, props) => {
     tags: getAllTagsSelector(state),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(CreateTopicArticle);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CreateTopicArticle);

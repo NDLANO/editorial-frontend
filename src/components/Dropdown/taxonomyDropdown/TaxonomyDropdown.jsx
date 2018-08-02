@@ -10,7 +10,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import { DropdownMenu, DropdownAction, dropDownClasses } from '../common';
-import { TaxonomyDropdownInput } from './';
+import { TaxonomyDropdownInput } from '.';
 import { itemToString } from '../../../util/downShiftHelpers';
 import { RESOURCE_FILTER_CORE } from '../../../constants';
 
@@ -211,8 +211,8 @@ class TaxonomyDropdown extends PureComponent {
         selectedItem={selectedItems}
         onStateChange={this.handleStateChange}
         onChange={this.handleChange}
-        isOpen={isOpen}
-        render={downshiftProps => (
+        isOpen={isOpen}>
+        {downshiftProps => (
           <div {...dropDownClasses()}>
             <TaxonomyDropdownInput
               name={name}
@@ -239,7 +239,7 @@ class TaxonomyDropdown extends PureComponent {
             />
           </div>
         )}
-      />
+      </Downshift>
     );
   }
 }

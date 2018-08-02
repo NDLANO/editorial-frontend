@@ -7,9 +7,11 @@
  */
 
 import React from 'react';
+import isEmpty from 'lodash/fp/isEmpty';
 import {
   reduceElementDataAttributes,
   createEmbedProps,
+  createProps,
   reduceChildElements,
 } from './embedTagHelpers';
 
@@ -26,6 +28,10 @@ export const BLOCK_TAGS = {
   h5: 'heading-two',
   h6: 'heading-two',
   br: 'br',
+};
+
+export const INLINE_TAGS = {
+  span: 'span',
 };
 
 export const TABLE_TAGS = {
@@ -84,7 +90,8 @@ export const textRule = {
       illegalTextUnderBlocks.includes(el.parentNode.tagName.toLowerCase())
     ) {
       return null;
-    } else if (
+    }
+    if (
       !el.nodeName ||
       el.nodeName.toLowerCase() !== '#text' ||
       (el.parentNode && el.parentNode.tagName.toLowerCase() !== 'section')
@@ -105,7 +112,8 @@ export const divRule = {
         type: 'bodybox',
         nodes: next(el.childNodes),
       };
-    } else if (el.dataset.type === 'related-content') {
+    }
+    if (el.dataset.type === 'related-content') {
       return {
         kind: 'block',
         type: 'related',
@@ -322,6 +330,31 @@ export const blockRules = {
   },
 };
 
+export const inlineRules = {
+  deserialize(el, next) {
+    const inline = INLINE_TAGS[el.tagName.toLowerCase()];
+    const attributes = reduceElementDataAttributes(el);
+
+    if (!inline) return;
+    if (inline === 'span' && isEmpty(attributes)) return; // Keep only spans with attributes
+    return {
+      kind: 'inline',
+      type: inline,
+      data: attributes,
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(object, children) {
+    if (object.kind !== 'inline') return;
+    const data = object.data.toJS();
+    const props = createProps(data);
+    switch (object.type) {
+      case 'span':
+        return <span {...props}>{children}</span>;
+    }
+  },
+};
+
 export const tableRules = {
   deserialize(el, next) {
     const tableTag = TABLE_TAGS[el.tagName.toLowerCase()];
@@ -396,6 +429,7 @@ const RULES = [
     },
   },
   blockRules,
+  inlineRules,
   {
     deserialize(el, next) {
       const mark = MARK_TAGS[el.tagName.toLowerCase()];

@@ -77,3 +77,9 @@ export function getResourceIdFromPath(path) {
   const id = lastPath.startsWith('resource') ? `urn:${lastPath}` : lastPath;
   return id.includes('resource') ? id : '';
 }
+
+export const removeLastItemFromUrl = url =>
+  url
+    .split('/')
+    .splice(0, url.split('/').length - 1)
+    .join('/');

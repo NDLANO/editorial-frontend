@@ -53,6 +53,7 @@ class TopicSettingItems extends React.PureComponent {
       subtopicid: newId,
       topicid: currentTopicId,
       primary: true,
+      rank: this.props.numberOfSubtopics + 1,
     });
     this.props.refreshTopics();
   }
@@ -62,6 +63,7 @@ class TopicSettingItems extends React.PureComponent {
       subtopicid: subTopicId,
       topicid: currentTopicId,
       primary: false,
+      rank: this.props.numberOfSubtopics + 1,
     });
     this.props.refreshTopics();
   }
@@ -223,12 +225,12 @@ TopicSettingItems.propTypes = {
   name: PropTypes.string,
   onClose: PropTypes.func,
   t: PropTypes.func,
-  onDeleteTopic: PropTypes.func,
   refreshTopics: PropTypes.func,
   path: PropTypes.string,
   filters: PropTypes.arrayOf(PropTypes.object).isRequired,
   subjectFilters: PropTypes.arrayOf(PropTypes.object),
   contentUri: PropTypes.string,
+  numberOfSubtopics: PropTypes.number,
 };
 
 export default injectT(TopicSettingItems);

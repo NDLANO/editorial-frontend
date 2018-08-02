@@ -10,7 +10,11 @@
   &__wrapper {
     display: flex;
     align-items: center;
-    margin: var(--spacing--small);
+    padding: calc(var(--spacing--small) / 2) 0;
+
+    &--dragging {
+      margin: 0;
+    }
   }
 
   &__link {
@@ -153,4 +157,12 @@
 #plumbContainer {
   position: relative;
   z-index: 1;
+}
+
+.c-dnd-list {
+  &__drop-zone {
+    &--dragging {
+      background-color: var(--gray-8);
+    }
+  }
 }

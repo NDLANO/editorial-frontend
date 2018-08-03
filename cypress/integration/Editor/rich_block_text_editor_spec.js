@@ -15,9 +15,20 @@ beforeEach(() => {
 describe('Learning resource editing', () => {
   it('should be able to create a new learning resource', () => {
     cy.server();
-    cy.get('[data-cy=learning-resource-title]').type('This is a test title.');
-    const slateEditor = cy.get('[data-cy=slate-editor] div').first();
+    cy.fixture('saveLearningResource').as('saveResponse');
+    cy.route({
+      method: 'POST',
+      url: `/draft-api/v1/drafts/`,
+      status: 201,
+      response: '@saveResponse',
+    }).as('savedLR');
 
-    slateEditor.focus().type('This is a test title. {enter}{rightarrow}', {release: false});
+    cy.get('[data-cy=learning-resource-title]').type('This is a test title.');
+    cy.get('[data-cy=slate-editor] div')
+      .first()
+      .focus()
+      .type('This is a test title. {enter}{rightarrow}', { release: false });
+    cy.get('[data-testid=saveLearningResourceButton').click();
+    cy.url().should('contain', 'subject-matter/learning-resource/9337/edit/nb');
   });
 });

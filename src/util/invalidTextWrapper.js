@@ -9,12 +9,12 @@
 import jsdom from 'jsdom';
 import { BLOCK_TAGS, TABLE_TAGS } from './slateHelpers';
 
-
 const dom = new jsdom.JSDOM(`<!DOCTYPE html><html></html>`);
 
-const doc = typeof document !== 'undefined' ? document : dom.window.document
+const doc = typeof document !== 'undefined' ? document : dom.window.document;
 
-const nodefilter = typeof NodeFilter !== 'undefined' ? NodeFilter : dom.window.NodeFilter
+const nodefilter =
+  typeof NodeFilter !== 'undefined' ? NodeFilter : dom.window.NodeFilter;
 export const textWrapper = serializer => inputHtml => {
   const DefaultParse = serializer.parseHtml;
   const tree = DefaultParse.apply(serializer, [inputHtml]);

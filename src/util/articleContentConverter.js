@@ -15,12 +15,9 @@ import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
 import { textWrapper } from '../util/invalidTextWrapper';
 import { convertFromHTML } from './convertFromHTML';
 
-
-
 const dom = new jsdom.JSDOM(`<!DOCTYPE html><html></html>`);
 
-const doc = typeof document !== 'undefined' ? document : dom.window.document
-
+const doc = typeof document !== 'undefined' ? document : dom.window.document;
 
 export const sectionSplitter = html => {
   const node = doc.createElement('div');
@@ -101,7 +98,7 @@ export function learningResourceContentToEditorValue(
 
   /*   Check the html for invalid text nodes,
   see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
-  const parser = textWrapper(new Html({parseHtml: fragment}));
+  const parser = textWrapper(new Html({ parseHtml: fragment }));
   serializer.parseHtml = parser;
 
   const sections = sectionSplitter(html);
@@ -115,7 +112,10 @@ export function learningResourceContentToEditorValue(
     /*   Slate's default sanitization just obliterates block nodes that contain both
     inline+text children and block children.
     see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
-    const json = serializer.deserialize(section, { toJSON: true, parseHtml: fragment });
+    const json = serializer.deserialize(section, {
+      toJSON: true,
+      parseHtml: fragment,
+    });
     const value = convertFromHTML(json);
 
     return {

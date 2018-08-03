@@ -28,25 +28,27 @@ const { fragment } = jsdom.JSDOM;
   });
 } */
 
-let errorCounter = 0;
+const errors = [];
 
-function fetchSystemAccessToken() {
-  return fetch(`https://ndla.eu.auth0.com/oauth/token`, {
+let token = '';
+
+async function fetchSystemAccessToken() {
+  token = await fetch(`https://ndla.eu.auth0.com/oauth/token`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         grant_type: 'client_credentials',
-        client_id: ``,
-        client_secret: ``,
+        client_id: process.env.NDLA_TEST_CLIENT_ID,
+        client_secret: process.env.NDLA_TEST_CLIENT_SECRET,
         audience: 'ndla_system',
       }),
       json: true,
     }).then(resolveJsonOrRejectWithError)
 }
 
-async function fetchArticles(query, token) {
+async function fetchArticles(query) {
    const result = await fetch(`${url}?${queryString.stringify(query)}`, {
       headers: {
         Authorization: `Bearer ${token.access_token}`,
@@ -55,12 +57,21 @@ async function fetchArticles(query, token) {
     return result;
 }
 
-async function fetchArticle(id, token) {
-   const result = await fetch(`${url}${id}`, {
+async function fetchArticle(id) {
+
+    let result;
+    result = await fetch(`${url}${id}`, {
       headers: {
         Authorization: `Bearer ${token.access_token}`,
       },
-    }).then(resolveJsonOrRejectWithError).catch((err) => console.log(`${chalk.red(`ID: ${id} is failing`)}`, err));
+    }).then(resolveJsonOrRejectWithError).catch(async (err) => {
+      if (err.status === 401) {
+        await fetchSystemAccessToken();
+        result = await fetchArticle(id);
+      } else {
+        console.log(`${chalk.red(`ID: ${id} is failing`)}`, err);
+      }
+    });
     return result;
 }
 
@@ -68,7 +79,13 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function fetchAllArticles(token){
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index+= 1) {
+    await callback(array[index], index, array) //eslint-disable-line
+  }
+}
+
+async function fetchAllArticles(){
   const query = {
     page: 1,
     'page-size': 100,
@@ -83,7 +100,7 @@ async function fetchAllArticles(token){
     requests.push(fetchArticles({'page-size': 100, page: counter}, token));
     await sleep(1000); // eslint-disable-line
     counter += 1;
-    console.log(`🔍 ${chalk.green(`Fetching page ${counter} with page size 100`)}`)
+    console.log(`🔍  ${chalk.green(`Fetching page ${counter} with page size 100`)}`)
     if (counter === 10) break;
   }
   const allResults = await Promise.all(requests.map(r => r))
@@ -96,36 +113,34 @@ async function fetchAllArticles(token){
 }
 
 
-async function testArticle(id, token) {
+async function testArticle(id) {
   await sleep(1000); // eslint-disable-line
   const article = await fetchArticle(id, token);
   try {
     if (article) {
       const converted = learningResourceContentToEditorValue(article.content.content, fragment);
       learningResourceContentToHTML(converted);
-      console.log(`${chalk.green(`ID: ${id} was sucessfully converted to slate and back`)}`);
+      console.log(`${chalk.green(`Id ${id} was sucessfully converted to slate and back. The article id is: ${article.id}`)}`);
     }
   } catch (err) {
-    errorCounter += 1;
-    console.log(`${chalk.red(`ID: ${id} is failing`)}`, err);
+    errors.push({error: err, id})
+    console.log(`${chalk.red(`Article with id ${id} is failing`)}`, err);
   }
 }
 
  async function run() {
-   console.log(process.argv)
-  const token = await fetchSystemAccessToken();
-  const readFromFile = process.argv[2] !== '-read';
+   console.log(process.env)
+  await fetchSystemAccessToken();
+  const readFromFile = process.argv[2] !== '-write';
   if (!readFromFile) {
-    const articleIds = await fetchAllArticles(token);
-    await Promise.all(articleIds.forEach(id => {
-      setInterval(() => {
-        testArticle(id, token);
-      }, 10000)
-    }));
+    const articleIds = await fetchAllArticles();
+    await asyncForEach(articleIds, async (id) => {
+       await testArticle(id)
+     });
   } else {
     const articles = JSON.parse("./articles.json");
   }
-  console.log(`Total errors: ${errorCounter}`)
+  console.log(`Total errors: ${errors.length}`)
 }
 
 run();

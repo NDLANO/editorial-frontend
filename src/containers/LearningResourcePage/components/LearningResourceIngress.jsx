@@ -30,6 +30,7 @@ const LearningResourceIngress = props => {
         fieldClassName={fieldClasses(undefined, 'introduction').className}
         noBorder
         maxLength={300}
+        data-cy="learning-resource-ingress"
         {...commonFieldProps}>
         <RemainingCharacters
           maxLength={300}

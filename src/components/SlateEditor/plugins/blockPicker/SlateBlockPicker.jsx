@@ -233,6 +233,7 @@ class SlateBlockPicker extends Component {
               <Button
                 key={action.data.kind}
                 stripped
+                data-cy={`create-${action.data.kind}`}
                 {...classes('block-type-button')}
                 onMouseDown={() => this.onElementAdd(action.data)}>
                 {action.icon}

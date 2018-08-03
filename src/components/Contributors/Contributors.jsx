@@ -94,7 +94,10 @@ const Contributors = props => {
         field={getField(name, schema)}
         submitted={submitted}
       />
-      <CirclePlusButton onClick={addContributor} disabled={disabled}>
+      <CirclePlusButton
+        onClick={addContributor}
+        data-cy="addContributor"
+        disabled={disabled}>
         <Plus className="c-icon--medium" />
       </CirclePlusButton>
     </Field>

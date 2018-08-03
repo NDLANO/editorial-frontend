@@ -8,6 +8,8 @@ yarn-error.log
 /coverage/
 /htdocs/
 
+scripts/articles.json
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json

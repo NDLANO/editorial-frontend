@@ -7,26 +7,11 @@ import {
 const chalk = require('chalk');
 const queryString = require('query-string');
 const fetch = require('isomorphic-fetch')
+const fs = require('fs');
 
 const url = 'https://staging.api.ndla.no/article-api/v2/articles/';
 const { fragment } = jsdom.JSDOM;
 
-
-/* function resolveJsonOrRejectWithError(res) {
-  return new Promise((resolve, reject) => {
-    if (res.ok) {
-      return resolve(res.json());
-    }
-    res.json().then(json => {
-      const reply = {
-        ...json,
-        statusCode: res.status,
-      }
-      console.log(reply)
-    }).catch(err => reject(new Error({...err, statusCode: res.status})))
-    reject(new Error ({statusCode: res.status}))
-  });
-} */
 
 const errors = [];
 
@@ -58,7 +43,7 @@ async function fetchArticles(query) {
 }
 
 async function fetchArticle(id) {
-
+    await sleep(1000); // eslint-disable-line
     let result;
     result = await fetch(`${url}${id}`, {
       headers: {
@@ -88,7 +73,7 @@ async function asyncForEach(array, callback) {
 async function fetchAllArticles(){
   const query = {
     page: 1,
-    'page-size': 100,
+    'page-size': 10,
   };
   const articleIds = []
   const firstResult = await fetchArticles(query, token);
@@ -97,11 +82,11 @@ async function fetchAllArticles(){
   const requests = [];
   let counter = 1;
   while(true) {
-    requests.push(fetchArticles({'page-size': 100, page: counter}, token));
+    requests.push(fetchArticles({'page-size': 10, page: counter}, token));
     await sleep(1000); // eslint-disable-line
     counter += 1;
     console.log(`🔍  ${chalk.green(`Fetching page ${counter} with page size 100`)}`)
-    if (counter === 10) break;
+    if (counter === 2) break;
   }
   const allResults = await Promise.all(requests.map(r => r))
    allResults.map((res) => {
@@ -113,9 +98,7 @@ async function fetchAllArticles(){
 }
 
 
-async function testArticle(id) {
-  await sleep(1000); // eslint-disable-line
-  const article = await fetchArticle(id, token);
+async function testArticle(id, article) {
   try {
     if (article) {
       const converted = learningResourceContentToEditorValue(article.content.content, fragment);
@@ -129,16 +112,24 @@ async function testArticle(id) {
 }
 
  async function run() {
-   console.log(process.env)
   await fetchSystemAccessToken();
   const readFromFile = process.argv[2] !== '-write';
   if (!readFromFile) {
+    const articles = [];
     const articleIds = await fetchAllArticles();
     await asyncForEach(articleIds, async (id) => {
-       await testArticle(id)
+      const article = await fetchArticle(id, token);
+      articles.push(article);
+       await testArticle(id, article)
      });
+     fs.writeFileSync('./scripts/articles.json', JSON.stringify(articles), 'utf8');
   } else {
-    const articles = JSON.parse("./articles.json");
+    const contents = fs.readFileSync("./scripts/articles.json");
+
+    const articles = await JSON.parse(contents);
+    articles.forEach(article => {
+      testArticle(article.id, article);
+    })
   }
   console.log(`Total errors: ${errors.length}`)
 }

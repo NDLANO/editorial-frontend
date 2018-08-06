@@ -135,7 +135,7 @@
     }
   }
 
-  &__transition-leave {
+  &__transition-exit {
     opacity: 1;
 
     &-active {

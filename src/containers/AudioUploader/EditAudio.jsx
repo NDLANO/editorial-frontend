@@ -86,5 +86,8 @@ const mapStateToProps = (state, props) => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(EditAudio),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(EditAudio),
 );

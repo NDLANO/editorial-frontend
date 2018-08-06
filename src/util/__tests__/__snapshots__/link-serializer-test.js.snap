@@ -22,7 +22,39 @@ Object {
                   Object {
                     "kind": "leaf",
                     "marks": Array [],
-                    "text": "  ",
+                    "text": " ",
+                  },
+                ],
+              },
+              Object {
+                "data": Object {
+                  "content-id": "504",
+                  "link-text": "Yrker i mediebransjen",
+                  "resource": "content-link",
+                },
+                "isVoid": false,
+                "kind": "inline",
+                "nodes": Array [
+                  Object {
+                    "kind": "text",
+                    "leaves": Array [
+                      Object {
+                        "kind": "leaf",
+                        "marks": Array [],
+                        "text": "Yrker i mediebransjen",
+                      },
+                    ],
+                  },
+                ],
+                "type": "link",
+              },
+              Object {
+                "kind": "text",
+                "leaves": Array [
+                  Object {
+                    "kind": "leaf",
+                    "marks": Array [],
+                    "text": " ",
                   },
                 ],
               },

@@ -17,6 +17,7 @@ class AudioPlayer extends React.Component {
       this.audioPlayer.load();
     }
   }
+
   render() {
     const { audio, noBorder, filepath } = this.props;
     return (

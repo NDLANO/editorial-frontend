@@ -9,120 +9,166 @@
 import React from 'react';
 import { string, bool, arrayOf, object, shape, func } from 'prop-types';
 import { Button } from 'ndla-ui';
-import { Folder, Link as LinkIcon } from 'ndla-icons/editor';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as LinkIcon } from 'ndla-icons/editor';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';
 import EditLinkButton from './EditLinkButton';
 import RoundIcon from '../../../components/RoundIcon';
 import FilterView from './FilterView';
+import handleError from '../../../util/handleError';
+import MakeDndList from '../../../components/MakeDndList';
+import FolderLink from './FolderLink';
+import {
+  updateTopicSubtopic,
+  updateSubjectTopic,
+} from '../../../modules/taxonomy';
+import { removeLastItemFromUrl } from '../../../util/routeHelpers';
 
-const classes = new BEMHelper({
+export const classes = new BEMHelper({
   name: 'folder',
   prefix: 'c-',
 });
 
-const FolderItem = ({
-  name,
-  path,
-  active,
-  topics = [],
-  match,
-  id,
-  refFunc,
-  showLink,
-  linkViewOpen,
-  activeFilters,
-  toggleFilter,
-  setPrimary,
-  deleteTopicLink,
-  ...rest
-}) => {
-  const { url, params } = match;
-  const type = id.includes('subject') ? 'subject' : 'topic';
-  const grayedOut = !active && params.subject && type === 'subject';
-  const { search } = window.location;
-  const uniqueId = type === 'topic' ? `${rest.parent}${id}` : id;
-  const toLink =
-    active && path.length === url.replace('/structure', '').length
-      ? url
-          .split('/')
-          .splice(0, url.split('/').length - 1)
-          .join('/')
-          .concat(search)
+class FolderItem extends React.PureComponent {
+  constructor() {
+    super();
+    this.onDragEnd = this.onDragEnd.bind(this);
+  }
+
+  async onDragEnd({ destination, source }) {
+    const { topics, refreshTopics } = this.props;
+    // dropped outside the list
+    if (!destination) {
+      return;
+    }
+    try {
+      const { connectionId, isPrimary } = topics[source.index];
+      const { rank } = topics[destination.index];
+
+      if (connectionId.includes('topic-subtopic')) {
+        const ok = await updateTopicSubtopic(connectionId, {
+          rank,
+          primary: isPrimary,
+        });
+        if (ok) refreshTopics();
+      } else {
+        const ok = await updateSubjectTopic(connectionId, {
+          rank,
+          primary: isPrimary,
+        });
+        if (ok) refreshTopics();
+      }
+    } catch (e) {
+      handleError(e.message);
+    }
+  }
+
+  render() {
+    const {
+      name,
+      path,
+      active,
+      match,
+      id,
+      refFunc,
+      showLink,
+      linkViewOpen,
+      activeFilters,
+      topics = [],
+      toggleFilter,
+      setPrimary,
+      deleteTopicLink,
+      ...rest
+    } = this.props;
+    const { url, params } = match;
+
+    const type = id.includes('subject') ? 'subject' : 'topic';
+    const grayedOut = !active && params.subject && type === 'subject';
+    const isMainActive = active && path === url.replace('/structure', '');
+    const { search } = window.location;
+    const uniqueId = type === 'topic' ? `${rest.parent}${id}` : id;
+    const toLink = isMainActive
+      ? removeLastItemFromUrl(url).concat(search)
       : `/structure${path}${search}`;
-  return (
-    <React.Fragment>
-      <div id={uniqueId} {...classes('wrapper')}>
-        <RouterLink
-          to={toLink}
-          {...classes(
-            'link',
-            `${active ? 'active' : ''} ${grayedOut ? 'grayedOut' : ''}`,
-          )}>
-          <Folder {...classes('folderIcon')} color="#70A5DA" />
-          {name}
-        </RouterLink>
-        {type === 'topic' &&
-          url.replace('/structure', '') === path && (
-            <Button stripped onClick={() => showLink(id, rest.parent)}>
-              <RoundIcon open={linkViewOpen} icon={<LinkIcon />} />
-            </Button>
-          )}
-        {active && (
-          <SettingsMenu id={id} name={name} type={type} path={path} {...rest} />
-        )}
-        {active &&
-          type === 'subject' && (
-            <FilterView
-              subjectFilters={rest.subjectFilters}
-              activeFilters={activeFilters}
-              toggleFilter={toggleFilter}
+    return (
+      <React.Fragment>
+        <div id={uniqueId} {...classes('wrapper')}>
+          <FolderLink
+            toLink={toLink}
+            name={name}
+            active={active}
+            grayedOut={grayedOut}
+          />
+          {type === 'topic' &&
+            isMainActive && (
+              <Button stripped onClick={() => showLink(id, rest.parent)}>
+                <RoundIcon open={linkViewOpen} icon={<LinkIcon />} />
+              </Button>
+            )}
+          {active && (
+            <SettingsMenu
+              id={id}
+              name={name}
+              type={type}
+              path={path}
+              {...rest}
             />
           )}
-      </div>
-      <div {...classes('subFolders')}>
-        {active &&
-          topics.map(topic => {
-            if (
-              activeFilters.length === 0 ||
-              activeFilters.some(activeFilter =>
-                topic.filters.some(filter => filter.id === activeFilter),
-              )
-            ) {
-              return (
-                <FolderItem
-                  {...rest}
-                  {...topic}
-                  key={topic.id}
-                  active={
-                    params.topic1 === topic.id.replace('urn:', '') ||
-                    params.topic2 === topic.id.replace('urn:', '') ||
-                    params.topic3 === topic.id.replace('urn:', '')
-                  }
-                  match={match}
-                  showLink={showLink}
-                  refFunc={refFunc}
-                  linkViewOpen={linkViewOpen}
-                  setPrimary={setPrimary}
-                  activeFilters={activeFilters}
-                />
-              );
-            }
-            return undefined;
-          })}
-      </div>
-      {type === 'subject' && (
-        <EditLinkButton
-          refFunc={refFunc}
-          id={id}
-          setPrimary={() => setPrimary(id)}
-          deleteTopicLink={deleteTopicLink}
-        />
-      )}
-    </React.Fragment>
-  );
-};
+          {active &&
+            type === 'subject' && (
+              <FilterView
+                subjectFilters={rest.subjectFilters}
+                activeFilters={activeFilters}
+                toggleFilter={toggleFilter}
+              />
+            )}
+        </div>
+        <div {...classes('subFolders')}>
+          {active && (
+            <MakeDndList onDragEnd={this.onDragEnd} disableDnd={!isMainActive}>
+              {topics.map(topic => {
+                if (
+                  activeFilters.length === 0 ||
+                  activeFilters.some(activeFilter =>
+                    topic.filters.some(filter => filter.id === activeFilter),
+                  )
+                ) {
+                  return (
+                    <FolderItem
+                      {...rest}
+                      {...topic}
+                      key={topic.id}
+                      active={
+                        params.topic1 === topic.id.replace('urn:', '') ||
+                        params.topic2 === topic.id.replace('urn:', '') ||
+                        params.topic3 === topic.id.replace('urn:', '')
+                      }
+                      match={match}
+                      showLink={showLink}
+                      refFunc={refFunc}
+                      linkViewOpen={linkViewOpen}
+                      setPrimary={setPrimary}
+                      activeFilters={activeFilters}
+                    />
+                  );
+                }
+                return undefined;
+              })}
+            </MakeDndList>
+          )}
+        </div>
+        {type === 'subject' && (
+          <EditLinkButton
+            refFunc={refFunc}
+            id={id}
+            setPrimary={() => setPrimary(id)}
+            deleteTopicLink={deleteTopicLink}
+          />
+        )}
+      </React.Fragment>
+    );
+  }
+}
 
 FolderItem.propTypes = {
   name: string.isRequired,
@@ -144,6 +190,7 @@ FolderItem.propTypes = {
   toggleFilter: func,
   setPrimary: func,
   deleteTopicLink: func,
+  refreshTopics: func,
 };
 
 export default FolderItem;

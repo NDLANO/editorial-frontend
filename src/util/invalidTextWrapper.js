@@ -9,7 +9,7 @@
 import jsdom from 'jsdom';
 import { BLOCK_TAGS, TABLE_TAGS } from './slateHelpers';
 
-const dom = new jsdom.JSDOM(`<!DOCTYPE html><html></html>`);
+const dom = new jsdom.JSDOM(`<!DOCTYPE html></html>`);
 
 const doc = typeof document !== 'undefined' ? document : dom.window.document;
 

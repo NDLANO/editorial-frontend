@@ -18,7 +18,9 @@
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
     "test-ci": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --maxWorkers=4 --ci",
     "test": "cross-env BABEL_ENV=test NODE_ENV=unittest jest",
-    "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch"
+    "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch",
+    "check-article-and-write": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node -r babel-register scripts/checkArticles.js -write",
+    "check-article": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node -r babel-register scripts/checkArticles.js"
   },
   "engines": {
     "node": ">=8.4.0",

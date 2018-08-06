@@ -8,13 +8,15 @@
 
 import jsdom from 'jsdom';
 import { BLOCK_TAGS, TABLE_TAGS } from './slateHelpers';
+import config from '../config';
 
 const dom = new jsdom.JSDOM(`<!DOCTYPE html></html>`);
 
-const doc = typeof document !== 'undefined' ? document : dom.window.document;
+const doc = !config.checkArticleScript ? document : dom.window.document;
 
-const nodefilter =
-  typeof NodeFilter !== 'undefined' ? NodeFilter : dom.window.NodeFilter;
+const nodefilter = !config.checkArticleScript
+  ? NodeFilter
+  : dom.window.NodeFilter;
 
 export const textWrapper = serializer => inputHtml => {
   const DefaultParse = serializer.parseHtml;
@@ -28,7 +30,7 @@ export const textWrapper = serializer => inputHtml => {
     .concat(BLOCKS_TO_CHECK)
     .concat(Object.keys(TABLE_TAGS))
     .concat(['embed', 'p', 'ol', 'li', 'ul']);
-  const treeWalker = document.createTreeWalker(tree, nodefilter.SHOW_ELEMENT, {
+  const treeWalker = doc.createTreeWalker(tree, nodefilter.SHOW_ELEMENT, {
     acceptNode: node =>
       node.nodeName && BLOCKS_TO_CHECK.includes(node.nodeName.toLowerCase())
         ? nodefilter.FILTER_ACCEPT

@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import jsdom from 'jsdom';
 import { learningResourceContentToEditorValue, learningResourceContentToHTML } from '../src/util/articleContentConverter';
 import {
@@ -15,7 +23,7 @@ const { fragment } = jsdom.JSDOM;
 const errors = [];
 
 let token = '';
-
+/* eslint no-console: 0 */
 async function fetchSystemAccessToken() {
   token = await fetch(`https://ndla.eu.auth0.com/oauth/token`, {
       method: 'POST',
@@ -37,12 +45,12 @@ async function fetchArticles(query) {
       headers: {
         Authorization: `Bearer ${token.access_token}`,
       },
-    }).then(resolveJsonOrRejectWithError).catch((err) => console.log(`${chalk.red(`Search with query page: ${query.page} is failing`)}`, err));;
+    }).then(resolveJsonOrRejectWithError).catch((err) => console.log(`${chalk.red(`Search with query page: ${query.page} is failing`)}`, err));
     return result;
 }
 
 async function fetchArticle(id) {
-    await sleep(1000); // eslint-disable-line
+    await sleep(100); // eslint-disable-line
     let result;
     result = await fetch(`${url}${id}`, {
       headers: {
@@ -79,10 +87,11 @@ async function fetchAllArticles(){
   articleIds.push(...firstResult.results.map(article => article.id))
   const numberOfPages = Math.ceil(firstResult.totalCount / firstResult.pageSize);
   const requests = [];
-
-  for (let i = 2; i < 10 + 1; i+= 1) {
+  const estimatedTime = (numberOfPages * query['page-size'] * 0.5) / 60;
+  console.log(`Fetching ${numberOfPages} pages with a page size of ${query['page-size']}. Estimated time is ${estimatedTime} minutes`)
+  for (let i = 2; i < numberOfPages + 1; i+= 1) {
     requests.push(fetchArticles({...query, page: i}, token));
-    await sleep(1000); // eslint-disable-line
+    await sleep(500); // eslint-disable-line
     console.log(`🔍  ${chalk.green(`Fetching page ${i} with page size ${query['page-size']}`)}`)  //eslint-disable-line
   }
 
@@ -130,5 +139,5 @@ async function testArticle(id, article) {
   }
   console.log(`Total errors: ${errors.length}. Articles that is failing is: ${errors ? errors.map(error => error ? error.id : '') : '[]'}`)  //eslint-disable-line
 }
-
+/* eslint-enable */
 run();

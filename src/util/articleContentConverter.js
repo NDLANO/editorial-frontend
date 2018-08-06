@@ -14,10 +14,11 @@ import isEqual from 'lodash/fp/isEqual';
 import { topicArticeRules, learningResourceRules } from './slateHelpers';
 import { textWrapper } from './invalidTextWrapper';
 import { convertFromHTML } from './convertFromHTML';
+import config from '../config';
 
 const dom = new jsdom.JSDOM(`<!DOCTYPE html><html></html>`);
 
-const doc = typeof document !== 'undefined' ? document : dom.window.document;
+const doc = !config.checkArticleScript ? document : dom.window.document;
 
 export const sectionSplitter = html => {
   const node = doc.createElement('div');
@@ -100,7 +101,11 @@ export function learningResourceContentToEditorValue(
 
   /*   Check the html for invalid text nodes,
   see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
-  const parser = textWrapper(new Html({ parseHtml: fragment }));
+  const parser = textWrapper(
+    new Html({
+      parseHtml: config.checkArticleScript ? fragment : undefined,
+    }),
+  );
   serializer.parseHtml = parser;
 
   const sections = sectionSplitter(html);

@@ -12,7 +12,6 @@ const fs = require('fs');
 const url = 'https://staging.api.ndla.no/article-api/v2/articles/';
 const { fragment } = jsdom.JSDOM;
 
-
 const errors = [];
 
 let token = '';

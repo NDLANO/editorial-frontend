@@ -53,7 +53,7 @@ async function fetchArticle(id) {
         await fetchSystemAccessToken();
         result = await fetchArticle(id);
       } else {
-        console.log(`${chalk.red(`ID: ${id} is failing`)}`, err);
+        console.log(`${chalk.red(`Article with id ${id} is failing`)}`, err);
       }
     });
     return result;
@@ -72,26 +72,24 @@ async function asyncForEach(array, callback) {
 async function fetchAllArticles(){
   const query = {
     page: 1,
-    'page-size': 10,
+    'page-size': 100,
   };
   const articleIds = []
   const firstResult = await fetchArticles(query, token);
   articleIds.push(...firstResult.results.map(article => article.id))
   const numberOfPages = Math.ceil(firstResult.totalCount / firstResult.pageSize);
   const requests = [];
-  let counter = 1;
-  while(true) {
-    requests.push(fetchArticles({'page-size': 10, page: counter}, token));
+
+  for (let i = 2; i < 10 + 1; i+= 1) {
+    requests.push(fetchArticles({...query, page: i}, token));
     await sleep(1000); // eslint-disable-line
-    counter += 1;
-    console.log(`🔍  ${chalk.green(`Fetching page ${counter} with page size 100`)}`)
-    if (counter === 2) break;
+    console.log(`🔍  ${chalk.green(`Fetching page ${i} with page size ${query['page-size']}`)}`)  //eslint-disable-line
   }
-  const allResults = await Promise.all(requests.map(r => r))
-   allResults.map((res) => {
-    const articles = res ? res.results.map(article => article.id) : [];
+
+  const requestPromises = await Promise.all(requests)
+  requestPromises.forEach((result) => {
+    const articles = result ? result.results.map(article => article.id) : [];
     articleIds.push(...articles)
-    return res;
   });
   return articleIds;
 }
@@ -106,7 +104,7 @@ async function testArticle(id, article) {
     }
   } catch (err) {
     errors.push({error: err, id})
-    console.log(`${chalk.red(`Article with id ${id} is failing`)}`, err);
+    console.log(`${chalk.red(`Article with id ${id} is failing`)}`, err); //eslint-disable-line
   }
 }
 
@@ -119,18 +117,18 @@ async function testArticle(id, article) {
     await asyncForEach(articleIds, async (id) => {
       const article = await fetchArticle(id, token);
       articles.push(article);
-       await testArticle(id, article)
-     });
-     fs.writeFileSync('./scripts/articles.json', JSON.stringify(articles), 'utf8');
+      await testArticle(id, article)
+    });
+    fs.writeFileSync('./scripts/articles.json', JSON.stringify(articles), 'utf8');
   } else {
     const contents = fs.readFileSync("./scripts/articles.json");
 
     const articles = await JSON.parse(contents);
     articles.forEach(article => {
-      testArticle(article.id, article);
+      if (article) testArticle(article.id, article);
     })
   }
-  console.log(`Total errors: ${errors.length}`)
+  console.log(`Total errors: ${errors.length}. Articles that is failing is: ${errors ? errors.map(error => error ? error.id : '') : '[]'}`)  //eslint-disable-line
 }
 
 run();

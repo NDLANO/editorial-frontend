@@ -7,7 +7,7 @@ yarn-error.log
 /build/
 /coverage/
 /htdocs/
-articles.json
+scripts/articles.json
 
 
 ### VisualStudioCode ###

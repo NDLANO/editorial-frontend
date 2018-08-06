@@ -15,6 +15,7 @@ const doc = typeof document !== 'undefined' ? document : dom.window.document;
 
 const nodefilter =
   typeof NodeFilter !== 'undefined' ? NodeFilter : dom.window.NodeFilter;
+
 export const textWrapper = serializer => inputHtml => {
   const DefaultParse = serializer.parseHtml;
   const tree = DefaultParse.apply(serializer, [inputHtml]);
@@ -27,8 +28,7 @@ export const textWrapper = serializer => inputHtml => {
     .concat(BLOCKS_TO_CHECK)
     .concat(Object.keys(TABLE_TAGS))
     .concat(['embed', 'p', 'ol', 'li', 'ul']);
-
-  const treeWalker = doc.createTreeWalker(tree, nodefilter.SHOW_ELEMENT, {
+  const treeWalker = document.createTreeWalker(tree, nodefilter.SHOW_ELEMENT, {
     acceptNode: node =>
       node.nodeName && BLOCKS_TO_CHECK.includes(node.nodeName.toLowerCase())
         ? nodefilter.FILTER_ACCEPT

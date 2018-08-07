@@ -136,7 +136,7 @@ async function testArticle(id, article) {
       learningResourceContentToHTML(converted);
       console.log(
         `${chalk.green(
-          `Id ${id} was sucessfully converted to slate and back. The article id is: ${
+          `Article with id ${id} was sucessfully converted to slate and back. The article id is: ${
             article.id
           }`,
         )}`,
@@ -144,7 +144,7 @@ async function testArticle(id, article) {
     }
   } catch (err) {
     errors.push({ error: err, id });
-    console.log(`${chalk.red(`Article with id ${id} is failing`)}`, err); //eslint-disable-line
+    console.log(`${chalk.red(`Article with id ${id} failed to convert.`)}`, err); //eslint-disable-line
   }
 }
 

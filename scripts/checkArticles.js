@@ -144,7 +144,10 @@ async function testArticle(id, article) {
     }
   } catch (err) {
     errors.push({ error: err, id });
-    console.log(`${chalk.red(`Article with id ${id} failed to convert.`)}`, err); //eslint-disable-line
+    console.log(
+      `${chalk.red(`Article with id ${id} failed to convert.`)}`,
+      err,
+    ); //eslint-disable-line
   }
 }
 

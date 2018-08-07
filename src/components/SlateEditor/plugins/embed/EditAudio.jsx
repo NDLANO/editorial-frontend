@@ -13,8 +13,8 @@ import BEMHelper from 'react-bem-helper';
 import ObjectSelector from '../../../ObjectSelector';
 import { EmbedShape } from '../../../../shapes';
 
-import Overlay from '../../../../components/Overlay';
-import { Portal } from '../../../../components/Portal';
+import Overlay from '../../../Overlay';
+import { Portal } from '../../../Portal';
 import FigureButtons from './FigureButtons';
 import SlateInputField from './SlateInputField';
 

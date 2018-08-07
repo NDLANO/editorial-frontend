@@ -70,7 +70,7 @@ import {
   fetchTopicResources,
   fetchTopicConnections,
   updateTopicSubtopic,
-} from './topics/';
+} from './topics';
 
 export {
   fetchResourceTypes,

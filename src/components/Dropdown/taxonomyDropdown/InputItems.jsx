@@ -7,7 +7,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DropdownTag } from './';
+import { DropdownTag } from '.';
 import ToolTip from '../../ToolTip';
 
 const InputItems = props => {
@@ -18,7 +18,7 @@ const InputItems = props => {
     (tag, index) =>
       name === 'topics' ? (
         <ToolTip
-          key={`${name}-tooptip-${tag.id}`}
+          key={`${name}-tooltip-${tag.id}`}
           name={name}
           onPopupClick={() => handlePopupClick({ ...tag, primary: true })}
           noPopup={tag.primary}

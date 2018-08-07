@@ -17,14 +17,14 @@ const DropdownSearchAction = ({
   multiSelect,
   onToggleMenu,
   clearSelection,
-  getButtonProps,
+  getToggleButtonProps,
   selectedItem,
 }) => {
   if (selectedItem && !multiSelect) {
     return (
       <Button
         {...dropDownClasses('action')}
-        {...getButtonProps()}
+        {...getToggleButtonProps()}
         onClick={clearSelection}
         stripped>
         <Cross className="c-icon--medium" />
@@ -35,7 +35,7 @@ const DropdownSearchAction = ({
   return (
     <Button
       {...dropDownClasses('action')}
-      {...getButtonProps()}
+      {...getToggleButtonProps()}
       onClick={onToggleMenu}
       stripped>
       <Search className="c-icon--medium" />

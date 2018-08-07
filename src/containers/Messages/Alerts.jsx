@@ -16,7 +16,7 @@ import { MessageShape } from '../../shapes';
 import WarningModal from '../../components/WarningModal';
 
 export const Action = ({ title, onClick }) => (
-  <button onClick={onClick} className="un-button alert_action">
+  <button type="button" onClick={onClick} className="un-button alert_action">
     <span className="alert_action-text">{title}</span>
   </button>
 );

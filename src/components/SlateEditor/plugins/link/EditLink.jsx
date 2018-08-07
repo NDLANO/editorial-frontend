@@ -12,7 +12,7 @@ import { injectT } from 'ndla-i18n';
 import Types from 'slate-prop-types';
 import { compose } from 'redux';
 import config from '../../../../config';
-import { TYPE } from './';
+import { TYPE } from '.';
 import connectLightbox from '../utils/connectLightbox';
 import LinkForm, { getInitialModel } from './LinkForm';
 
@@ -163,4 +163,7 @@ EditLink.propTypes = {
   ]),
 };
 
-export default compose(connectLightbox(() => TYPE), injectT)(EditLink);
+export default compose(
+  connectLightbox(() => TYPE),
+  injectT,
+)(EditLink);

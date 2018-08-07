@@ -79,7 +79,11 @@ export class StructurePage extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { location: { pathname }, match: { params }, history } = this.props;
+    const {
+      location: { pathname },
+      match: { params },
+      history,
+    } = this.props;
     if (pathname !== prevProps.location.pathname) {
       this.deleteConnections();
       const { subject } = params;
@@ -123,6 +127,7 @@ export class StructurePage extends React.PureComponent {
       subjectid,
       topicid: newId,
       primary: true,
+      rank: this.state.topics[subjectid].length + 1,
     });
     if (ok) {
       this.getSubjectTopics(subjectid);
@@ -130,7 +135,9 @@ export class StructurePage extends React.PureComponent {
   }
 
   getActiveFiltersFromUrl() {
-    const { location: { search } } = this.props;
+    const {
+      location: { search },
+    } = this.props;
     const { filters } = queryString.parse(search);
     return filters ? filters.split(',') : [];
   }
@@ -162,7 +169,9 @@ export class StructurePage extends React.PureComponent {
 
   getCurrentTopic() {
     const {
-      match: { params: { subject, topic1, topic2, topic3 } },
+      match: {
+        params: { subject, topic1, topic2, topic3 },
+      },
     } = this.props;
     if (topic1) {
       const sub = this.state.topics[`urn:${subject}`];
@@ -387,4 +396,10 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default compose(injectT, connect(mapStateToProps, null))(StructurePage);
+export default compose(
+  injectT,
+  connect(
+    mapStateToProps,
+    null,
+  ),
+)(StructurePage);

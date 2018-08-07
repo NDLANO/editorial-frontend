@@ -22,9 +22,11 @@ export const getLength = value => {
 export const isEmpty = value => {
   if (!value) {
     return true;
-  } else if (Object.keys(value).length === 0 && value.constructor === Object) {
+  }
+  if (Object.keys(value).length === 0 && value.constructor === Object) {
     return true;
-  } else if (value && value.document) {
+  }
+  if (value && value.document) {
     return value.document.text.length === 0;
   }
   return false;

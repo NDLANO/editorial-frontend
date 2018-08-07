@@ -90,7 +90,6 @@ class ImageMetaData extends Component {
 ImageMetaData.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
-  classes: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

@@ -19,12 +19,12 @@ export default function footnotePlugin() {
 
   /* eslint-disable react/prop-types */
   const renderNode = props => {
-    const { node, editor, attributes, children } = props;
+    const { node, editor } = props;
     const { value } = editor.props;
 
     switch (node.type) {
       case TYPE:
-        return <Footnote {...{ attributes, value, editor, node, children }} />;
+        return <Footnote {...props} value={value} />;
       default:
         return null;
     }

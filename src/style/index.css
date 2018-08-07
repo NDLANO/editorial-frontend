@@ -56,6 +56,10 @@
   }
 }
 
+.c-placeholder-editmode {
+  cursor: pointer;
+}
+
 /* Override ndla-ui styles */
 .c-article {
   font-family: var(--font);

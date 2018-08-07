@@ -102,9 +102,10 @@ export const textRule = {
   },
 };
 export const divRule = {
-  // div handling with text in box (bodybox)
+  // div handling with text in box (bodybox), related content and file embeds
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'div') return;
+    const { type } = el.dataset;
 
     if (el.className === 'c-bodybox') {
       return {
@@ -113,12 +114,20 @@ export const divRule = {
         nodes: next(el.childNodes),
       };
     }
-    if (el.dataset.type === 'related-content') {
+    if (type === 'related-content') {
       return {
         kind: 'block',
         type: 'related',
         isVoid: true,
-        data: reduceChildElements(el),
+        data: reduceChildElements(el, type),
+      };
+    }
+    if (type === 'file') {
+      return {
+        kind: 'block',
+        type: 'file',
+        isVoid: true,
+        data: reduceChildElements(el, type),
       };
     }
     const childs = next(el.childNodes);
@@ -130,10 +139,24 @@ export const divRule = {
   },
   serialize(object, children) {
     if (object.kind !== 'block') return;
-    if (object.type !== 'div' && object.type !== 'bodybox') return;
+    if (
+      object.type !== 'div' &&
+      object.type !== 'bodybox' &&
+      object.type !== 'file'
+    )
+      return;
     switch (object.type) {
       case 'bodybox':
         return <div className="c-bodybox">{children}</div>;
+      case 'file':
+        return (
+          <div data-type="file">
+            {object.data.get('nodes') &&
+              object.data
+                .get('nodes')
+                .map(node => <embed {...createEmbedProps(node)} />)}
+          </div>
+        );
       default:
         return <div>{children}</div>;
     }

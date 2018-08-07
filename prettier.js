@@ -25,9 +25,7 @@ const prettier = isWindows ? 'prettier.cmd' : 'prettier';
 const prettierCmd = path.resolve(__dirname, `node_modules/.bin/${prettier}`);
 
 const options = {
-  'jsx-bracket-same-line': 'true',
-  'single-quote': 'true',
-  'trailing-comma': 'all',
+  config: './.prettierrc.js',
 };
 
 // prettier-ignore

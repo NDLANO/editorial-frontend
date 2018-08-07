@@ -7,9 +7,11 @@
  */
 
 import React from 'react';
+import isEmpty from 'lodash/fp/isEmpty';
 import {
   reduceElementDataAttributes,
   createEmbedProps,
+  createProps,
   reduceChildElements,
 } from './embedTagHelpers';
 
@@ -26,6 +28,10 @@ export const BLOCK_TAGS = {
   h5: 'heading-two',
   h6: 'heading-two',
   br: 'br',
+};
+
+export const INLINE_TAGS = {
+  span: 'span',
 };
 
 export const TABLE_TAGS = {
@@ -84,7 +90,8 @@ export const textRule = {
       illegalTextUnderBlocks.includes(el.parentNode.tagName.toLowerCase())
     ) {
       return null;
-    } else if (
+    }
+    if (
       !el.nodeName ||
       el.nodeName.toLowerCase() !== '#text' ||
       (el.parentNode && el.parentNode.tagName.toLowerCase() !== 'section')
@@ -95,9 +102,10 @@ export const textRule = {
   },
 };
 export const divRule = {
-  // div handling with text in box (bodybox)
+  // div handling with text in box (bodybox), related content and file embeds
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'div') return;
+    const { type } = el.dataset;
 
     if (el.className === 'c-bodybox') {
       return {
@@ -105,12 +113,21 @@ export const divRule = {
         type: 'bodybox',
         nodes: next(el.childNodes),
       };
-    } else if (el.dataset.type === 'related-content') {
+    }
+    if (type === 'related-content') {
       return {
         kind: 'block',
         type: 'related',
         isVoid: true,
-        data: reduceChildElements(el),
+        data: reduceChildElements(el, type),
+      };
+    }
+    if (type === 'file') {
+      return {
+        kind: 'block',
+        type: 'file',
+        isVoid: true,
+        data: reduceChildElements(el, type),
       };
     }
     const childs = next(el.childNodes);
@@ -122,10 +139,24 @@ export const divRule = {
   },
   serialize(object, children) {
     if (object.kind !== 'block') return;
-    if (object.type !== 'div' && object.type !== 'bodybox') return;
+    if (
+      object.type !== 'div' &&
+      object.type !== 'bodybox' &&
+      object.type !== 'file'
+    )
+      return;
     switch (object.type) {
       case 'bodybox':
         return <div className="c-bodybox">{children}</div>;
+      case 'file':
+        return (
+          <div data-type="file">
+            {object.data.get('nodes') &&
+              object.data
+                .get('nodes')
+                .map(node => <embed {...createEmbedProps(node)} />)}
+          </div>
+        );
       default:
         return <div>{children}</div>;
     }
@@ -141,11 +172,11 @@ export const paragraphRule = {
       : '';
 
     const type = parent === 'li' ? 'list-text' : 'paragraph';
-
+    const nodes = next(el.childNodes);
     return {
       kind: 'block',
       type,
-      nodes: next(el.childNodes),
+      nodes,
     };
   },
   serialize(object, children) {
@@ -322,6 +353,31 @@ export const blockRules = {
   },
 };
 
+export const inlineRules = {
+  deserialize(el, next) {
+    const inline = INLINE_TAGS[el.tagName.toLowerCase()];
+    const attributes = reduceElementDataAttributes(el);
+
+    if (!inline) return;
+    if (inline === 'span' && isEmpty(attributes)) return; // Keep only spans with attributes
+    return {
+      kind: 'inline',
+      type: inline,
+      data: attributes,
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(object, children) {
+    if (object.kind !== 'inline') return;
+    const data = object.data.toJS();
+    const props = createProps(data);
+    switch (object.type) {
+      case 'span':
+        return <span {...props}>{children}</span>;
+    }
+  },
+};
+
 export const tableRules = {
   deserialize(el, next) {
     const tableTag = TABLE_TAGS[el.tagName.toLowerCase()];
@@ -396,6 +452,7 @@ const RULES = [
     },
   },
   blockRules,
+  inlineRules,
   {
     deserialize(el, next) {
       const mark = MARK_TAGS[el.tagName.toLowerCase()];
@@ -469,7 +526,6 @@ const topicArticeEmbedRule = [
     // Embeds handling
     deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
-
       if (el.dateset['data-resource'] === 'related-content') {
         return;
       }
@@ -495,9 +551,9 @@ export const learningResourceEmbedRule = [
   {
     deserialize(el) {
       if (!el.tagName.toLowerCase().startsWith('embed')) return;
-
       const embed = reduceElementDataAttributes(el);
-      if (el.dataset['data-resource'] === 'related-content') return;
+
+      if (el.dataset.resource === 'related-content') return;
       if (embed.resource === 'content-link') {
         return {
           kind: 'inline',
@@ -506,14 +562,43 @@ export const learningResourceEmbedRule = [
           nodes: [
             {
               kind: 'text',
-              text: embed['link-text']
-                ? embed['link-text']
-                : 'Ukjent link tekst',
+              isVoid: true,
+              leaves: [
+                {
+                  kind: 'leaf',
+                  text: embed['link-text']
+                    ? embed['link-text']
+                    : 'Ukjent link tekst',
+                  marks: [],
+                },
+              ],
             },
           ],
-          isVoid: false,
         };
       }
+      if (embed.resource === 'concept') {
+        return {
+          kind: 'inline',
+          type: 'concept',
+          data: embed,
+          nodes: [
+            {
+              kind: 'text',
+              isVoid: true,
+              leaves: [
+                {
+                  kind: 'leaf',
+                  text: embed['link-text']
+                    ? embed['link-text']
+                    : 'Ukjent begrepstekst',
+                  marks: [],
+                },
+              ],
+            },
+          ],
+        };
+      }
+
       return {
         kind: 'block',
         type: 'embed',
@@ -523,11 +608,15 @@ export const learningResourceEmbedRule = [
     },
 
     serialize(object) {
-      if (!object.type || !object.type.startsWith('embed')) return;
-      const data = object.data.toJS();
-      const props = createEmbedProps(data);
+      if (
+        (object.type && object.type.startsWith('embed')) ||
+        object.type === 'concept'
+      ) {
+        const data = object.data.toJS();
+        const props = createEmbedProps(data);
 
-      return <embed {...props} />;
+        return <embed {...props} />;
+      }
     },
   },
 ];

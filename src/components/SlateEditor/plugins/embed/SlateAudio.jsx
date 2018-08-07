@@ -89,7 +89,7 @@ class SlateAudio extends React.Component {
         ) : (
           <div
             role="button"
-            style={{ cursor: 'pointer' }}
+            className="c-placeholder-editmode"
             tabIndex={0}
             onKeyPress={this.toggleEdit}
             onClick={this.toggleEdit}>

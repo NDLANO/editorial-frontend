@@ -8,9 +8,11 @@
 
 import React from 'react';
 import nock from 'nock';
-import { render, Simulate, wait } from 'react-testing-library';
+import { render, fireEvent, cleanup, wait } from 'react-testing-library';
 import { RelatedArticleBox } from '../RelatedArticleBox';
 import IntlWrapper from '../../../../../util/__tests__/IntlWrapper';
+
+afterEach(cleanup);
 
 const wrapper = () =>
   render(
@@ -32,18 +34,18 @@ test('it goes in and out of edit mode', async () => {
     .reply(200, {});
   const { getByTestId, container } = wrapper();
 
-  Simulate.click(getByTestId('relatedWrapper'));
-  Simulate.click(getByTestId('showAddExternal'));
+  fireEvent.click(getByTestId('relatedWrapper'));
+  fireEvent.click(getByTestId('showAddExternal'));
   expect(container.firstChild).toMatchSnapshot();
 
   const input = getByTestId('addExternalUrlInput');
   const inputTitle = getByTestId('addExternalTitleInput');
   input.value = 'www.vg.no';
   inputTitle.value = 'Title';
-  Simulate.change(input);
-  Simulate.change(inputTitle);
+  fireEvent.change(input);
+  fireEvent.change(inputTitle);
 
-  Simulate.click(getByTestId('taxonomyLightboxButton'));
+  fireEvent.click(getByTestId('taxonomyLightboxButton'));
   await wait();
 
   expect(container.firstChild).toMatchSnapshot();

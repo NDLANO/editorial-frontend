@@ -10,6 +10,7 @@ import isObject from 'lodash/fp/isObject';
 import { isEmpty } from '../components/validators';
 
 export const reduceElementDataAttributes = el => {
+  if (!el.attributes) return null;
   const attrs = [].slice.call(el.attributes);
   const obj = attrs.reduce(
     (all, attr) =>
@@ -19,19 +20,31 @@ export const reduceElementDataAttributes = el => {
   return obj;
 };
 
-export const reduceChildElements = el => {
+export const reduceChildElements = (el, type) => {
   const childs = [];
   el.childNodes.forEach(node => {
-    if (node.dataset.url) {
+    if (type === 'file') {
       childs.push({
+        resource: 'file',
         title: node.dataset.title,
+        type: node.dataset.type,
         url: node.dataset.url,
+        path: node.dataset.path,
       });
+    } else if (type === 'related-content') {
+      if (node.dataset.url) {
+        childs.push({
+          title: node.dataset.title,
+          url: node.dataset.url,
+        });
+      } else {
+        childs.push({
+          articleId: node.dataset.articleId,
+          resource: 'related-content',
+        });
+      }
     } else {
-      childs.push({
-        articleId: node.dataset.articleId,
-        resource: 'related-content',
-      });
+      childs.push(node.dataset);
     }
   });
 
@@ -42,6 +55,11 @@ export const createEmbedProps = obj =>
   Object.keys(obj)
     .filter(key => obj[key] !== undefined && !isObject(obj[key]))
     .reduce((acc, key) => ({ ...acc, [`data-${key}`]: obj[key] }), {});
+
+export const createProps = obj =>
+  Object.keys(obj)
+    .filter(key => obj[key] !== undefined && !isObject(obj[key]))
+    .reduce((acc, key) => ({ ...acc, [key]: obj[key] }), {});
 
 export const parseEmbedTag = embedTag => {
   if (embedTag === '') {
@@ -76,9 +94,11 @@ export const createEmbedTag = visualElement => {
 export const isUserProvidedEmbedDataValid = embed => {
   if (embed.resource === 'image') {
     return !isEmpty(embed.alt);
-  } else if (embed.resource === 'brightcove') {
+  }
+  if (embed.resource === 'brightcove') {
     return !isEmpty(embed.caption);
-  } else if (embed.resource === 'audio') {
+  }
+  if (embed.resource === 'audio') {
     return true;
   }
   return true;

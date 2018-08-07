@@ -25,7 +25,9 @@ export function* fetchImage(id, language) {
 
 export function* watchFetchImage() {
   while (true) {
-    const { payload: { id, language } } = yield take(actions.fetchImage);
+    const {
+      payload: { id, language },
+    } = yield take(actions.fetchImage);
     const image = yield select(getImageById(id));
     if (!image || image.id !== id || image.language !== language) {
       yield call(fetchImage, id, language);
@@ -63,9 +65,9 @@ export function* createImage(image, file, history) {
 
 export function* watchUpdateImage() {
   while (true) {
-    const { payload: { image, file, history } } = yield take(
-      actions.updateImage,
-    );
+    const {
+      payload: { image, file, history },
+    } = yield take(actions.updateImage);
     if (image.id) {
       yield call(updateImage, image);
     } else {

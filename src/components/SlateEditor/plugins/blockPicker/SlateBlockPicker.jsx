@@ -26,12 +26,12 @@ import {
 import { Cross, Plus } from 'ndla-icons/action';
 import { Audio } from 'ndla-icons/common';
 
-import { Portal } from '../../../../components/Portal';
+import { Portal } from '../../../Portal';
 import { defaultAsideBlock, defaultRelatedBlock } from '../../schema';
-import { defaultBodyBoxBlock } from './../bodybox';
-import { defaultDetailsBlock } from './../detailsbox';
+import { defaultBodyBoxBlock } from '../bodybox';
+import { defaultDetailsBlock } from '../detailsbox';
 import SlateEmbedPicker from './SlateEmbedPicker';
-import { editTablePlugin } from './../externalPlugins';
+import { editTablePlugin } from '../externalPlugins';
 
 const classes = new BEMHelper({
   name: 'editor',

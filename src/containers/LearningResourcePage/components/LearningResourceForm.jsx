@@ -42,6 +42,7 @@ import {
   parseCopyrightContributors,
 } from '../../../util/formHelper';
 import { toEditArticle } from '../../../util/routeHelpers';
+import PreviewDraftLightbox from '../../../components/PreviewDraft/PreviewDraftLightbox';
 
 const findFootnotes = content =>
   content
@@ -79,6 +80,7 @@ export const getInitialModel = (
     creators: parseCopyrightContributors(article, 'creators'),
     processors: parseCopyrightContributors(article, 'processors'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
+    updated: article.updated || new Date(),
     origin:
       article.copyright && article.copyright.origin
         ? article.copyright.origin
@@ -105,6 +107,7 @@ class LearningResourceForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.getArticle = this.getArticle.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -125,41 +128,48 @@ class LearningResourceForm extends Component {
     }
   }
 
+  getArticle() {
+    const { model, licenses } = this.props;
+    const content = learningResourceContentToHTML(model.content);
+    const emptyContent = model.id ? '' : undefined;
+    return {
+      title: model.title,
+      introduction: editorValueToPlainText(model.introduction),
+      tags: model.tags,
+      content: content && content.length > 0 ? content : emptyContent,
+      metaImage: {
+        id: model.metaImageId,
+        alt: model.metaImageAlt,
+      },
+      metaDescription: editorValueToPlainText(model.metaDescription),
+      articleType: 'standard',
+      copyright: {
+        license: licenses.find(license => license.license === model.license),
+        origin: model.origin,
+        creators: model.creators,
+        processors: model.processors,
+        rightsholders: model.rightsholders,
+        agreementId: model.agreementId,
+      },
+      notes: model.notes,
+      language: model.language,
+      updated: model.updated,
+    };
+  }
+
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const { model, schema, revision, setSubmitted, licenses } = this.props;
+    const { model, schema, revision, setSubmitted } = this.props;
     if (!schema.isValid) {
       setSubmitted(true);
       return;
     }
-
-    const content = learningResourceContentToHTML(model.content);
-    const emptyContent = model.id ? '' : undefined;
     this.props.onUpdate(
       {
-        id: model.id,
+        ...this.getArticle(),
         revision,
-        title: model.title,
-        introduction: editorValueToPlainText(model.introduction),
-        tags: model.tags,
-        content: content && content.length > 0 ? content : emptyContent,
-        metaImage: {
-          id: model.metaImageId,
-          alt: model.metaImageAlt,
-        },
-        metaDescription: editorValueToPlainText(model.metaDescription),
-        articleType: 'standard',
-        copyright: {
-          license: licenses.find(license => license.license === model.license),
-          origin: model.origin,
-          creators: model.creators,
-          processors: model.processors,
-          rightsholders: model.rightsholders,
-          agreementId: model.agreementId,
-        },
-        notes: model.notes,
-        language: model.language,
+        updated: undefined,
       },
       {
         articleId: model.id,
@@ -230,6 +240,10 @@ class LearningResourceForm extends Component {
           saveDraft={this.handleSubmit}
         />
         <Field right>
+          <PreviewDraftLightbox
+            label={t('subNavigation.learningResource')}
+            getArticle={this.getArticle}
+          />
           <Link
             to="/"
             className="c-button c-button--outline c-abort-button"
@@ -239,15 +253,13 @@ class LearningResourceForm extends Component {
           <SaveButton isSaving={isSaving} showSaved={showSaved} />
         </Field>
         <WarningModalWrapper
-          {...{
-            schema,
-            showSaved,
-            fields,
-            model,
-            initialModel,
-            handleSubmit: this.handleSubmit,
-            text: t('warningModal.notSaved'),
-          }}
+          schema={schema}
+          showSaved={showSaved}
+          fields={fields}
+          model={model}
+          initialModel={initialModel}
+          handleSubmit={this.handleSubmit}
+          text={t('warningModal.notSaved')}
         />
       </form>
     );

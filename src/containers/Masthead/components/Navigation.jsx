@@ -85,6 +85,7 @@ export class Navigation extends Component {
               tabIndex="0"
               href={config.learningpathFrontendDomain}
               target="_blank"
+              rel="noopener noreferrer"
               {...classes('item')}
               onClick={this.toggleOpen}>
               <Learningpath className="c-icon--large" />

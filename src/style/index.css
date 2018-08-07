@@ -56,6 +56,10 @@
   }
 }
 
+.c-placeholder-editmode {
+  cursor: pointer;
+}
+
 /* Override ndla-ui styles */
 .c-article {
   font-family: var(--font);
@@ -76,4 +80,27 @@ a.c-button {
 
 .c-figure__byline .c-license-icons__list {
   margin-top: 0;
+}
+
+.c-preview-draft {
+  text-align: left;
+
+  .c-lightbox__content {
+    margin: 1rem 0;
+    padding: 1rem 0;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1024px;
+  }
+
+  .c-article {
+    padding-top: 0;
+    margin-top: 20px;
+  }
+
+  .c-lightbox__close {
+    margin-top: -20px;
+    margin-right: 0;
+  }
 }

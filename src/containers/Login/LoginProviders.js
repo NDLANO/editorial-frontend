@@ -14,6 +14,7 @@ export const LoginProviders = ({ t }) => [
   <ul key="login-providers_list" className="vertical-menu">
     <li className="vertical-menu_item">
       <button
+        type="button"
         onClick={() => loginPersonalAccessToken('google-oauth2')}
         className="login-button btn-google c-button">
         Google

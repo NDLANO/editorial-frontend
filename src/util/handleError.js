@@ -9,7 +9,8 @@
 export default (error, ...rest) => {
   if (process.env.NODE_ENV === 'production') {
     window.errorReporter.captureError(error);
-  } else {
+    // No logging when unit testing
+  } else if (process.env.NODE_ENV !== 'unittest') {
     console.error(error, ...rest); // eslint-disable-line no-console
   }
 };

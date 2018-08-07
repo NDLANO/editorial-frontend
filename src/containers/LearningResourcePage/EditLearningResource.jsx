@@ -180,5 +180,8 @@ const mapStateToProps = (state, props) => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(EditLearningResource),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(EditLearningResource),
 );

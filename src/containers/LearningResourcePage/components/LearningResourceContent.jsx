@@ -31,6 +31,8 @@ import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPicker';
 import relatedPlugin from '../../../components/SlateEditor/plugins/related';
+import filePlugin from '../../../components/SlateEditor/plugins/file';
+import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
 import { createEmptyValue } from '../../../util/articleContentConverter';
 
 import {
@@ -59,12 +61,14 @@ class LearningResourceContent extends Component {
       createAsidePlugin(),
       createDetailsPlugin(),
       createLinkPlugin(),
+      conceptPlugin(),
       headingPlugin(),
       blockquotePlugin,
       editListPlugin,
       createTablePlugin(),
       editTablePlugin,
       relatedPlugin(),
+      filePlugin(),
       blockPickerPlugin(this.addSection),
     ];
   }
@@ -76,7 +80,9 @@ class LearningResourceContent extends Component {
   }
 
   addSection() {
-    const { commonFieldProps: { bindInput } } = this.props;
+    const {
+      commonFieldProps: { bindInput },
+    } = this.props;
     const { value, onChange } = bindInput('content');
     const newblocks = [].concat(value);
     newblocks.push({ value: createEmptyValue(), index: value.length });

@@ -8,9 +8,11 @@
 
 import React from 'react';
 import nock from 'nock';
-import { render, Simulate, wait } from 'react-testing-library';
+import { render, fireEvent, cleanup, wait } from 'react-testing-library';
 import EditFilters from '../components/EditFilters';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
+
+afterEach(cleanup);
 
 const filterMock = [
   { id: 'urn:filter:f85f8f24-9e00-4267-82f5-ffd0dd3c53fa', name: 'SF VG1' },
@@ -57,12 +59,12 @@ it('calls add filter', async () => {
     .get('/taxonomy/v1/subjects/test/filters')
     .reply(200, [...filterMock, { name: 'Nytt filter', id: 'test' }]);
   const { getByTestId, container } = wrapper();
-  Simulate.click(getByTestId('addFilterButton'));
+  fireEvent.click(getByTestId('addFilterButton'));
 
   const input = getByTestId('addFilterInput');
   input.value = 'Nytt filter';
-  Simulate.change(input);
-  Simulate.keyDown(input, { key: 'Enter', keyCode: 13, which: 13 });
+  fireEvent.change(input);
+  fireEvent.keyDown(input, { key: 'Enter', keyCode: 13, which: 13 });
   await wait();
   await wait();
   expect(container.firstChild).toMatchSnapshot();

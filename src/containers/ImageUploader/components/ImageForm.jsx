@@ -126,8 +126,16 @@ class ImageForm extends Component {
           type="image"
           editUrl={lang => toEditImage(model.id, lang)}
         />
-        <ImageContent {...{ classes, commonFieldProps, tags, model }} />
-        <ImageMetaData {...{ classes, commonFieldProps, tags, licenses }} />
+        <ImageContent
+          commonFieldProps={commonFieldProps}
+          tags={tags}
+          model={model}
+        />
+        <ImageMetaData
+          commonFieldProps={commonFieldProps}
+          tags={tags}
+          licenses={licenses}
+        />
         <Field right>
           <Link
             to="/"
@@ -140,15 +148,13 @@ class ImageForm extends Component {
           </SaveButton>
         </Field>
         <WarningModalWrapper
-          {...{
-            schema,
-            model,
-            initialModel,
-            showSaved,
-            fields,
-            handleSubmit: this.handleSubmit,
-            text: t('warningModal.notSaved'),
-          }}
+          schema={schema}
+          model={model}
+          initialModel={initialModel}
+          showSaved={showSaved}
+          fields={fields}
+          handleSubmit={this.handleSubmit}
+          text={t('warningModal.notSaved')}
         />
       </form>
     );

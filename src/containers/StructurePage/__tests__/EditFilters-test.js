@@ -45,6 +45,7 @@ it('maps out filters', async () => {
   const { container } = wrapper();
   await wait();
   await wait();
+  await wait();
   expect(container.firstChild).toMatchSnapshot();
 });
 

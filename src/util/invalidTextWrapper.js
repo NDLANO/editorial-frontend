@@ -6,17 +6,7 @@
  *
  */
 
-// import jsdom from 'jsdom';
 import { BLOCK_TAGS, TABLE_TAGS } from './slateHelpers';
-// import config from '../config';
-
-// const dom = new jsdom.JSDOM(`<!DOCTYPE html></html>`);
-
-// const doc = !config.checkArticleScript ? document : dom.window.document;
-
-/* const nodefilter = !config.checkArticleScript
-  ? NodeFilter
-  : dom.window.NodeFilter; */
 
 export const textWrapper = serializer => inputHtml => {
   const DefaultParse = serializer.parseHtml;

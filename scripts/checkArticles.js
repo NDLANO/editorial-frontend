@@ -18,9 +18,12 @@ const queryString = require('query-string');
 const fetch = require('isomorphic-fetch');
 const fs = require('fs');
 
-const dom = new jsdom.JSDOM('');
-global.document = dom.document;
-global.NodeFilter = dom.window.NodeFilter;
+const dom = new jsdom.JSDOM('<!DOCTYPE html></html>');
+
+global.window = dom.window;
+global.document = window.document;
+global.navigator = window.navigator;
+global.NodeFilter = window.NodeFilter;
 
 const url = 'https://staging.api.ndla.no/article-api/v2/articles/';
 const { fragment } = jsdom.JSDOM;
@@ -29,6 +32,18 @@ const errors = [];
 
 let token = '';
 /* eslint no-console: 0 */
+/* eslint no-await-in-loop: 0 */
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index += 1) {
+    await callback(array[index], index, array);
+  }
+}
+
 async function fetchSystemAccessToken() {
   token = await fetch(`https://ndla.eu.auth0.com/oauth/token`, {
     method: 'POST',
@@ -62,7 +77,7 @@ async function fetchArticles(query) {
 }
 
 async function fetchArticle(id) {
-  await sleep(100); // eslint-disable-line
+  await sleep(100);
   let result;
   result = await fetch(`${url}${id}`, {
     headers: {
@@ -79,16 +94,6 @@ async function fetchArticle(id) {
       }
     });
   return result;
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function asyncForEach(array, callback) {
-  for (let index = 0; index < array.length; index += 1) {
-    await callback(array[index], index, array); //eslint-disable-line
-  }
 }
 
 async function fetchAllArticles() {
@@ -110,15 +115,15 @@ async function fetchAllArticles() {
     }. Estimated time is ${estimatedTime} minutes`,
   );
 
-  for (let i = 1; i < numberOfPages + 1; i += 1) {
+  for (let i = 1; i < 2 + 1; i += 1) {
     requests.push(fetchArticles({ ...query, page: i }, token));
-    await sleep(500); // eslint-disable-line
+    await sleep(500);
 
     console.log(
       `${chalk.green(
         `Fetching page ${i} with page size ${query['page-size']}`,
       )}`,
-    ); //eslint-disable-line
+    );
   }
 
   const articleIds = [];
@@ -151,11 +156,12 @@ async function testArticle(id, article) {
     console.log(
       `${chalk.red(`Article with id ${id} failed to convert.`)}`,
       err,
-    ); //eslint-disable-line
+    );
   }
 }
 
 async function runCheck() {
+  console.log(window)
   await fetchSystemAccessToken();
   const readFromFile = process.argv[2] !== '-write';
   if (!readFromFile) {
@@ -178,7 +184,7 @@ async function runCheck() {
         `${chalk.red(
           `Run yarn check-articles-and-write instead. File with path ${path} does not exist.`,
         )}`,
-      ); //eslint-disable-line
+      );
       return;
     }
     const contents = fs.readFileSync(path);
@@ -192,7 +198,7 @@ async function runCheck() {
     `Total errors: ${errors.length}. Articles that is failing is: ${
       errors ? errors.map(error => (error ? error.id : '')) : '[]'
     }`,
-  ); //eslint-disable-line
+  );
 }
 /* eslint-enable */
 runCheck();

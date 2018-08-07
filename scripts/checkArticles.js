@@ -115,7 +115,7 @@ async function fetchAllArticles() {
     }. Estimated time is ${estimatedTime} minutes`,
   );
 
-  for (let i = 1; i < 2 + 1; i += 1) {
+  for (let i = 1; i < numberOfPages + 1; i += 1) {
     requests.push(fetchArticles({ ...query, page: i }, token));
     await sleep(500);
 
@@ -145,9 +145,7 @@ async function testArticle(id, article) {
       learningResourceContentToHTML(converted);
       console.log(
         `${chalk.green(
-          `Article with id ${id} was sucessfully converted to slate and back. The article id is: ${
-            article.id
-          }`,
+          `Article with id ${id} was sucessfully converted to slate and back to HTML.`,
         )}`,
       );
     }

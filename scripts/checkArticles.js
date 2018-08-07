@@ -50,7 +50,7 @@ async function fetchArticles(query) {
     .then(resolveJsonOrRejectWithError)
     .catch(err =>
       console.log(
-        `${chalk.red(`Search with query page: ${query.page} is failing`)}`,
+        `${chalk.red(`Search with query page ${query.page} is failing.`)}`,
         err,
       ),
     );
@@ -92,31 +92,34 @@ async function fetchAllArticles() {
     page: 1,
     'page-size': 100,
   };
-  const articleIds = [];
   const firstResult = await fetchArticles(query, token);
-  articleIds.push(...firstResult.results.map(article => article.id));
+
   const numberOfPages = Math.ceil(
     firstResult.totalCount / firstResult.pageSize,
   );
   const requests = [];
-  const estimatedTime = (numberOfPages * query['page-size'] * 0.5) / 60;
+  const estimatedTime = (numberOfPages * query['page-size'] * 0.1) / 60;
+
   console.log(
     `Fetching ${numberOfPages} pages with a page size of ${
       query['page-size']
     }. Estimated time is ${estimatedTime} minutes`,
   );
-  for (let i = 2; i < numberOfPages + 1; i += 1) {
+
+  for (let i = 1; i < numberOfPages + 1; i += 1) {
     requests.push(fetchArticles({ ...query, page: i }, token));
     await sleep(500); // eslint-disable-line
+
     console.log(
-      `🔍  ${chalk.green(
+      `${chalk.green(
         `Fetching page ${i} with page size ${query['page-size']}`,
       )}`,
     ); //eslint-disable-line
   }
 
-  const requestPromises = await Promise.all(requests);
-  requestPromises.forEach(result => {
+  const articleIds = [];
+  const results = await Promise.all(requests);
+  results.forEach(result => {
     const articles = result ? result.results.map(article => article.id) : [];
     articleIds.push(...articles);
   });
@@ -145,7 +148,7 @@ async function testArticle(id, article) {
   }
 }
 
-async function run() {
+async function runCheck() {
   await fetchSystemAccessToken();
   const readFromFile = process.argv[2] !== '-write';
   if (!readFromFile) {
@@ -162,9 +165,18 @@ async function run() {
       'utf8',
     );
   } else {
-    const contents = fs.readFileSync('./scripts/articles.json');
-
+    const path = './scripts/articles.json';
+    if (!fs.existsSync(path)) {
+      console.log(
+        `${chalk.red(
+          `Run yarn check-articles-and-write instead. File with path ${path} does not exist.`,
+        )}`,
+      ); //eslint-disable-line
+      return;
+    }
+    const contents = fs.readFileSync(path);
     const articles = await JSON.parse(contents);
+
     articles.forEach(article => {
       if (article) testArticle(article.id, article);
     });
@@ -176,4 +188,4 @@ async function run() {
   ); //eslint-disable-line
 }
 /* eslint-enable */
-run();
+runCheck();

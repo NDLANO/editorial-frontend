@@ -96,6 +96,13 @@ export const EmbedShape = PropTypes.shape({
   alt: PropTypes.string,
 });
 
+export const FileShape = PropTypes.shape({
+  resource: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  type: PropTypes.string,
+  url: PropTypes.string,
+});
+
 export const MetaImageShape = PropTypes.shape({
   resource: PropTypes.string,
   resource_id: PropTypes.string,

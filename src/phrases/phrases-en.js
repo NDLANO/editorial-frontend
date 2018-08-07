@@ -537,6 +537,14 @@ const phrases = {
       showMore: 'Show more related articles',
       showLess: 'Show less',
     },
+    file: {
+      label: 'Files',
+      download: 'Download:',
+      title: {
+        label: 'File title',
+        placeholder: 'File title',
+      },
+    },
   },
   validation: {
     isRequired: '{label} is required.',

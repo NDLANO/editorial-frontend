@@ -545,6 +545,14 @@ const phrases = {
       showMore: 'Vis flere relaterte artikler',
       showLess: 'Vis mindre',
     },
+    file: {
+      label: 'Filer',
+      download: 'Last ned:',
+      title: {
+        label: 'Filtittel',
+        placeholder: 'Filtittel',
+      },
+    },
   },
   validation: {
     isRequired: '{label} er påkrevd.',

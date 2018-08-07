@@ -90,7 +90,7 @@ export const getInitialModel = (
       : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
     metaImageId,
-    metaImageAlt: '',
+    metaImageAlt: article.metaImage ? article.metaImage.alt : '',
     supportedLanguages: article.supportedLanguages || [],
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
     language: language || article.language,
@@ -133,6 +133,7 @@ class LearningResourceForm extends Component {
     const content = learningResourceContentToHTML(model.content);
     const emptyContent = model.id ? '' : undefined;
     return {
+      id: model.id,
       title: model.title,
       introduction: editorValueToPlainText(model.introduction),
       tags: model.tags,

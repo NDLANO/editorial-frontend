@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/NDLANO/ndla-frontend.svg?branch=master)](https://travis-ci.org/NDLANO/editorial-frontend)
+[![Build Status](https://travis-ci.org/NDLANO/editorial-frontend.svg?branch=master)](https://travis-ci.org/NDLANO/editorial-frontend)
 
 # NDLA Editorial frontend
 

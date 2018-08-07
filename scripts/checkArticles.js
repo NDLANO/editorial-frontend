@@ -161,7 +161,7 @@ async function testArticle(id, article) {
 }
 
 async function runCheck() {
-  console.log(window)
+  console.log(window);
   await fetchSystemAccessToken();
   const readFromFile = process.argv[2] !== '-write';
   if (!readFromFile) {

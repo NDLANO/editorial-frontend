@@ -6,17 +6,17 @@
  *
  */
 
-import jsdom from 'jsdom';
+// import jsdom from 'jsdom';
 import { BLOCK_TAGS, TABLE_TAGS } from './slateHelpers';
-import config from '../config';
+// import config from '../config';
 
-const dom = new jsdom.JSDOM(`<!DOCTYPE html></html>`);
+// const dom = new jsdom.JSDOM(`<!DOCTYPE html></html>`);
 
-const doc = !config.checkArticleScript ? document : dom.window.document;
+// const doc = !config.checkArticleScript ? document : dom.window.document;
 
-const nodefilter = !config.checkArticleScript
+/* const nodefilter = !config.checkArticleScript
   ? NodeFilter
-  : dom.window.NodeFilter;
+  : dom.window.NodeFilter; */
 
 export const textWrapper = serializer => inputHtml => {
   const DefaultParse = serializer.parseHtml;
@@ -30,11 +30,11 @@ export const textWrapper = serializer => inputHtml => {
     .concat(BLOCKS_TO_CHECK)
     .concat(Object.keys(TABLE_TAGS))
     .concat(['embed', 'p', 'ol', 'li', 'ul']);
-  const treeWalker = doc.createTreeWalker(tree, nodefilter.SHOW_ELEMENT, {
+  const treeWalker = document.createTreeWalker(tree, NodeFilter.SHOW_ELEMENT, {
     acceptNode: node =>
       node.nodeName && BLOCKS_TO_CHECK.includes(node.nodeName.toLowerCase())
-        ? nodefilter.FILTER_ACCEPT
-        : nodefilter.FILTER_SKIP,
+        ? NodeFilter.FILTER_ACCEPT
+        : NodeFilter.FILTER_SKIP,
   });
 
   const needWrapping = [];
@@ -52,7 +52,7 @@ export const textWrapper = serializer => inputHtml => {
   }
 
   needWrapping.forEach(tn => {
-    const wrapped = doc.createElement('p');
+    const wrapped = document.createElement('p');
     tn.parentNode.replaceChild(wrapped, tn);
     wrapped.appendChild(tn);
   });

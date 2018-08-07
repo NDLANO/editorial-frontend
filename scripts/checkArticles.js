@@ -18,6 +18,10 @@ const queryString = require('query-string');
 const fetch = require('isomorphic-fetch');
 const fs = require('fs');
 
+const dom = new jsdom.JSDOM('');
+global.document = dom.document;
+global.NodeFilter = dom.window.NodeFilter;
+
 const url = 'https://staging.api.ndla.no/article-api/v2/articles/';
 const { fragment } = jsdom.JSDOM;
 

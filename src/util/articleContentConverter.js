@@ -7,7 +7,7 @@
  */
 
 import { Value } from 'slate';
-import jsdom from 'jsdom';
+// import jsdom from 'jsdom';
 import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
 import isEqual from 'lodash/fp/isEqual';
@@ -16,12 +16,12 @@ import { textWrapper } from './invalidTextWrapper';
 import { convertFromHTML } from './convertFromHTML';
 import config from '../config';
 
-const dom = new jsdom.JSDOM(`<!DOCTYPE html><html></html>`);
+// const dom = new jsdom.JSDOM(`<!DOCTYPE html><html></html>`);
 
-const doc = !config.checkArticleScript ? document : dom.window.document;
+// const doc = !config.checkArticleScript ? document : dom.window.document;
 
 export const sectionSplitter = html => {
-  const node = doc.createElement('div');
+  const node = document.createElement('div');
   node.insertAdjacentHTML('beforeend', html);
   const sections = [];
   for (let i = 0; i < node.children.length; i += 1) {

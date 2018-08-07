@@ -13,6 +13,7 @@ import ToolTip from '../../ToolTip';
 const InputItems = props => {
   const { onRemoveItem, tagProps, name, selectedItem, messages } = props;
   const { handlePopupClick } = tagProps;
+
   return selectedItem.map(
     (tag, index) =>
       name === 'topics' ? (
@@ -26,14 +27,22 @@ const InputItems = props => {
           <DropdownTag
             key={`${name}-tag-${tag.id}`}
             onRemoveItem={onRemoveItem}
-            {...{ messages, tag, name, index, ...tagProps }}
+            messages={messages}
+            tag={tag}
+            name={name}
+            index={index}
+            {...tagProps}
           />
         </ToolTip>
       ) : (
         <DropdownTag
           key={`${name}-tag-${tag.id}`}
           onRemoveItem={onRemoveItem}
-          {...{ messages, tag, name, index, ...tagProps }}
+          messages={messages}
+          tag={tag}
+          name={name}
+          index={index}
+          {...tagProps}
         />
       ),
   );

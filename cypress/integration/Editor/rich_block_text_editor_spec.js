@@ -7,13 +7,12 @@
  */
 
 import { beforeEachHelper } from '../../support';
+import t from '../../../src/phrases/phrases-nb';
 
-beforeEach(() => {
-  beforeEachHelper('/subject-matter/learning-resource/new');
-});
+beforeEach(() => beforeEachHelper('/subject-matter/learning-resource/new'));
 
 describe('Learning resource editing', () => {
-  it('should be able to create a new learning resource', () => {
+  it('can enter title, ingress and content then save', () => {
     cy.server();
     cy.fixture('saveLearningResource').as('saveResponse');
     cy
@@ -37,22 +36,91 @@ describe('Learning resource editing', () => {
       .type('This is test content {enter}', {
         force: true,
       });
-    /*  
-        cy.get('[slate-block-picker]').click();
-        cy.get('[daya-cy=create-block]').click();     
-    cy.get('[daya-cy=create-factAside]').click();
-      cy.get('[daya-cy=create-table]').click();
-      cy.get('[daya-cy=create-bodybox]').click();
-      cy.get('[daya-cy=create-details]').click();
-      cy.get('[daya-cy=create-image]').click();
-      cy.get('[daya-cy=create-video]').click();
-      cy.get('[daya-cy=create-audio]').click();
-      cy.get('[daya-cy=create-h5p]').click(); 
-      */
+    cy.get('[data-testid=saveLearningResourceButton').click({ force: true });
+    cy.url().should('contain', 'subject-matter/learning-resource/9337/edit/nb');
+  });
+  it('can enter all types of blocks', () => {
+    cy.get('[data-cy=slate-block-picker]').click({ force: true });
+    cy.get('[data-cy=create-block]').click({ force: true });
+    cy
+      .get('[data-cy=slate-block-picker]')
+      .last()
+      .click({ force: true });
+    cy
+      .get('[data-cy=create-factAside]')
+      .last()
+      .click({ force: true });
+    cy.get('[data-cy=remove-fact-aside]').click({ force: true });
+    cy
+      .get('[data-cy=slate-block-picker]')
+      .last()
+      .click({ force: true });
+    cy
+      .get('[data-cy=create-table]')
+      .last()
+      .click({ force: true });
+    cy.contains(t.form.content.table['table-remove']).click({ force: true });
+    cy
+      .get('[data-cy=slate-block-picker]')
+      .last()
+      .click({ force: true });
+    cy
+      .get('[data-cy=create-bodybox]')
+      .last()
+      .click({ force: true });
+    cy
+      .get('[data-cy=slate-block-picker]')
+      .last()
+      .click({ force: true });
+    cy
+      .get('[data-cy=create-details]')
+      .last()
+      .click({ force: true });
+    cy
+      .get('[data-cy=slate-block-picker]')
+      .last()
+      .click({ force: true });
+    cy
+      .get('[data-cy=create-image]')
+      .last()
+      .click({ force: true });
+    cy
+      .get('button > img')
+      .first()
+      .parent()
+      .click();
+    cy.contains(t.imageSearch.useImage).click();
+    cy
+      .get('[data-cy=slate-block-picker]')
+      .last()
+      .click({ force: true });
+    cy
+      .get('[data-cy=create-video]')
+      .last()
+      .click({ force: true });
+    cy.contains(t.videoSearch.addVideo).click();
+
+    cy
+      .get('[data-cy=create-audio]')
+      .last()
+      .click({ force: true });
+    cy
+      .contains(t.audioSearch.useAudio)
+      .first()
+      .click({ force: true });
+    /* cy.get('[data-cy=slate-block-picker]').click({ force: true });
+    cy.get('[data-cy=create-h5p]').click(); */
+    cy
+      .get('[data-cy=create-related]')
+      .last()
+      .click({ force: true });
+    cy.get('[data-testid=relatedWrapper]').click({ force: true });
 
     /* 
       Test Lisens og bruker 
       */
+  });
+  it('Can add all contributors', () => {
     cy
       .get('button > span')
       .contains('Lisens og bruker')
@@ -100,8 +168,5 @@ describe('Learning resource editing', () => {
           .get('[data-cy="contributor-selector"]')
           .select('Processor', { force: true });
       });
-
-    cy.get('[data-testid=saveLearningResourceButton').click({ force: true });
-    cy.url().should('contain', 'subject-matter/learning-resource/9337/edit/nb');
   });
 });

@@ -116,6 +116,7 @@ class TopicSettingItems extends React.PureComponent {
           <Button
             {...classes('menuItem')}
             stripped
+            data-cy="change-topic-name"
             onClick={() => this.setState({ editMode: 'changeName' })}>
             <RoundIcon small icon={<Pencil />} />
             {t('taxonomy.changeName')}

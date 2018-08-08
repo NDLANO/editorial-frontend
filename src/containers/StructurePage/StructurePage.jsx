@@ -248,7 +248,7 @@ export class StructurePage extends React.PureComponent {
     } else {
       const connectionArray = await fetchTopicConnections(id);
 
-      const uniqueId = parent ? `${parent}${id}` : id;
+      const uniqueId = parent ? `${parent}/${id}` : id;
       const connections = connectLinkItems(
         uniqueId,
         connectionArray,

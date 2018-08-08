@@ -42,7 +42,7 @@ const FolderItem = ({
   const type = id.includes('subject') ? 'subject' : 'topic';
   const grayedOut = !active && params.subject && type === 'subject';
   const { search } = window.location;
-  const uniqueId = type === 'topic' ? `${rest.parent}${id}` : id;
+  const uniqueId = type === 'topic' ? `${rest.parent}/${id}` : id;
   const toLink =
     active && path.length === url.replace('/structure', '').length
       ? url
@@ -81,7 +81,7 @@ const FolderItem = ({
             />
           )}
       </div>
-      <div {...classes('subFolders')}>
+      <div data-cy="subFolders" {...classes('subFolders')}>
         {active &&
           topics.map(topic => {
             if (

@@ -26,6 +26,8 @@ export const ARTICLE_EXTERNAL = 'external-learning-resources';
 
 export const EXTERNAL_WHITELIST_PROVIDERS = [
   'YouTube',
+  'NRK',
+  'NRK Skole',
   'Vimeo',
   'Norgesfilm',
   'TED',

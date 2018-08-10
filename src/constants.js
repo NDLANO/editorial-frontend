@@ -23,3 +23,16 @@ export const RESOURCE_FILTER_CORE = 'urn:relevance:core';
 export const RESOURCE_FILTER_SUPPLEMENTARY = 'urn:relevance:supplementary';
 
 export const ARTICLE_EXTERNAL = 'external-learning-resources';
+
+export const EXTERNAL_WHITELIST_PROVIDERS = [
+  'YouTube',
+  'Vimeo',
+  'Norgesfilm',
+  'TED',
+  'TV2 Skole',
+  'Khan Academy',
+  'Prezi',
+  'Slideshare',
+  'Scribd',
+  'Kahoot',
+];

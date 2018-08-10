@@ -20,6 +20,7 @@ import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
 import { editorClasses } from '../SlateEditor/plugins/embed/SlateFigure';
+import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 
 export const getIframeSrcFromHtmlString = html => {
   const el = document.createElement('html');
@@ -102,13 +103,15 @@ export class DisplayExternal extends Component {
       url
         .match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n]+)/im)[1]
         .indexOf('h5p') > -1;
-    const isYouTube = type === 'video' && provider === 'YouTube';
+    const supportedProvider = EXTERNAL_WHITELIST_PROVIDERS.map(
+      whitelistProvider => whitelistProvider === type,
+    );
 
     const externalIframe =
-      !isYouTube && !isH5p ? null : (
+      !supportedProvider && !isH5p ? null : (
         <iframe
           style={
-            isYouTube
+            type === 'video'
               ? {
                   minHeight: '436px',
                 }
@@ -119,7 +122,7 @@ export class DisplayExternal extends Component {
           }}
           src={src}
           title={title}
-          allowFullScreen={isYouTube || undefined}
+          allowFullScreen={type === 'video' || type === 'presentation'}
           frameBorder="0"
         />
       );

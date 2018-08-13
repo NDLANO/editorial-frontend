@@ -603,6 +603,7 @@ export const learningResourceEmbedRule = [
         kind: 'block',
         type: 'embed',
         data: embed,
+        nodes: [],
         isVoid: true,
       };
     },

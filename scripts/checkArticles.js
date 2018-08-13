@@ -7,6 +7,7 @@
  */
 
 import jsdom from 'jsdom';
+import config from '../src/config';
 import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
@@ -25,7 +26,7 @@ global.document = window.document;
 global.navigator = window.navigator;
 global.NodeFilter = window.NodeFilter;
 
-const url = 'https://staging.api.ndla.no/article-api/v2/articles/';
+const url = `${config.ndlaApiUrl}/article-api/v2/articles/`;
 const { fragment } = jsdom.JSDOM;
 
 const errors = [];

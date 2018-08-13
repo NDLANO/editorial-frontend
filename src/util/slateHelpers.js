@@ -20,7 +20,7 @@ export const BLOCK_TAGS = {
   blockquote: 'quote',
   details: 'details',
   summary: 'summary',
-  pre: 'code',
+  pre: 'pre',
   h1: 'heading-two',
   h2: 'heading-two',
   h3: 'heading-three',
@@ -349,6 +349,8 @@ export const blockRules = {
         return <summary>{children}</summary>;
       case 'br':
         return <br />;
+      case 'pre':
+        return <pre>{children}</pre>;
     }
   },
 };
@@ -474,6 +476,8 @@ const RULES = [
           return <u>{children}</u>;
         case 'superscripted':
           return <sup>{children}</sup>;
+        case 'code':
+          return <code>{children}</code>;
       }
     },
   },

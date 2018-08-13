@@ -8,7 +8,7 @@
 
 import nock from 'nock';
 import React from 'react';
-import renderer from 'react-test-renderer';
+import TestRenderer from 'react-test-renderer';
 import sinon from 'sinon';
 import { MastheadSearchForm } from '../components/MastheadSearchForm';
 
@@ -19,7 +19,7 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
     push: sinon.spy(),
   };
 
-  const component = renderer.create(
+  const component = TestRenderer.create(
     <MastheadSearchForm
       show
       query=""
@@ -55,7 +55,7 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
     .get('/taxonomy/v1/topics/urn:topic:1:179373/?language=nb')
     .reply(200, { contentUri: 'urn:content:4232' });
 
-  const component = renderer.create(
+  const component = TestRenderer.create(
     <MastheadSearchForm
       show
       query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373"
@@ -89,7 +89,7 @@ test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
     .get('/draft-api/v1/drafts/external_id/4737')
     .reply(200, { id: '123' });
 
-  const component = renderer.create(
+  const component = TestRenderer.create(
     <MastheadSearchForm
       show
       query="https://ndla.no/nb/node/4737?fag=36"
@@ -119,7 +119,7 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
     push: sinon.spy(),
   };
 
-  const component = renderer.create(
+  const component = TestRenderer.create(
     <MastheadSearchForm
       show
       query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
@@ -149,7 +149,7 @@ test('MastheadSearchForm redirects on ndla node id pasted', () => {
     .get('/draft-api/v1/drafts/external_id/4737')
     .reply(200, { id: '123' });
 
-  const component = renderer.create(
+  const component = TestRenderer.create(
     <MastheadSearchForm
       show
       query="#4737"

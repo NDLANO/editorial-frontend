@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import renderer from 'react-test-renderer';
+import TestRenderer from 'react-test-renderer';
 import reformed from '../reformed';
 
 export const Form = props => {
@@ -64,14 +64,14 @@ const initialModel = {
 
 test('reformed HOC renderers form component correctly', () => {
   const Reformed = reformed(Form);
-  const component = renderer.create(<Reformed initialModel={initialModel} />);
+  const component = TestRenderer.create(<Reformed initialModel={initialModel} />);
 
   expect(component.toJSON()).toMatchSnapshot();
 });
 
 test('reformed HOC handles onChange event correctly', () => {
   const Reformed = reformed(Form);
-  const component = renderer.create(<Reformed initialModel={initialModel} />);
+  const component = TestRenderer.create(<Reformed initialModel={initialModel} />);
   const tree = component.toJSON();
 
   triggerOnChange(tree, 'title', 'Hombre');
@@ -81,7 +81,7 @@ test('reformed HOC handles onChange event correctly', () => {
 
 test('reformed HOC handles onChange event on nested property correctly', () => {
   const Reformed = reformed(Form);
-  const component = renderer.create(<Reformed initialModel={initialModel} />);
+  const component = TestRenderer.create(<Reformed initialModel={initialModel} />);
   const tree = component.toJSON();
 
   triggerOnChange(tree, 'image.caption', 'El Grande');
@@ -91,7 +91,7 @@ test('reformed HOC handles onChange event on nested property correctly', () => {
 
 test('reformed HOC handles setModel and setSubmitted', () => {
   const Reformed = reformed(Form);
-  const component = renderer.create(<Reformed initialModel={initialModel} />);
+  const component = TestRenderer.create(<Reformed initialModel={initialModel} />);
   const tree = component.toJSON();
 
   tree.props.onSubmit();

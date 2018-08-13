@@ -22,8 +22,9 @@ import { EditorShape } from '../../shapes';
 import { editorClasses } from '../SlateEditor/plugins/embed/SlateFigure';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 
+const el = document.createElement('html');
+
 export const getIframeSrcFromHtmlString = html => {
-  const el = document.createElement('html');
   el.innerHTML = html;
   const iframe = el.getElementsByTagName('iframe')[0];
   return iframe.getAttribute('src');
@@ -97,14 +98,14 @@ export class DisplayExternal extends Component {
     const { onRemoveClick, url } = this.props;
     const { title, src, error, type, provider } = this.state;
 
-    // TODO: When we need to support more, move this to helper function
     // Checks for h5p in domain name from URL
     const isH5p =
       url
         .match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n]+)/im)[1]
         .indexOf('h5p') > -1;
-    const supportedProvider = EXTERNAL_WHITELIST_PROVIDERS.map(
-      whitelistProvider => whitelistProvider === type,
+
+    const supportedProvider = EXTERNAL_WHITELIST_PROVIDERS.some(
+      whitelistProvider => whitelistProvider === provider,
     );
 
     const externalIframe =

@@ -8,7 +8,7 @@
 
 import nock from 'nock';
 import React from 'react';
-import renderer from 'react-test-renderer';
+import TestRenderer from 'react-test-renderer';
 import {
   DisplayExternal,
   getIframeSrcFromHtmlString,
@@ -51,12 +51,11 @@ test('DisplayOembed renderers correctly', () => {
       html: '<iframe src="iframe.html">',
     });
 
-  const component = renderer.create(
+  const component = TestRenderer.create(
     <DisplayExternal url="https://ndla.no/oembed" t={() => ''} />,
   );
 
   expect(component.toJSON()).toMatchSnapshot();
-  setTimeout(() => {}, global.DEFAULT_TIMEOUT);
 });
 
 test('DisplayOembed display error on fetch fail', () => {
@@ -68,10 +67,9 @@ test('DisplayOembed display error on fetch fail', () => {
       code: 'AWFUL_ERROR',
     });
 
-  const component = renderer.create(
+  const component = TestRenderer.create(
     <DisplayExternal url="https://ndla.no/oembed" t={() => 'Error message'} />,
   );
 
   expect(component.toJSON()).toMatchSnapshot();
-  setTimeout(() => {}, global.DEFAULT_TIMEOUT);
 });

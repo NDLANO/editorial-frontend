@@ -71,6 +71,7 @@ class LearningResourceMetadata extends Component {
         </PlainTextField>
         <MetaImageSearch
           metaImageId={model.metaImageId}
+          commonFieldProps={commonFieldProps}
           {...bindInput('metaImageId')}
         />
       </Accordion>

@@ -119,25 +119,14 @@ class SlateFigure extends React.Component {
       case 'audio':
         return <SlateAudio onRemoveClick={this.onRemoveClick} {...props} />;
       case 'external':
-        return (
-          <Figure>
-            <DisplayExternal
-              onRemoveClick={this.onRemoveClick}
-              editor={editor}
-              node={node}
-              url={embed.url}
-            />
-          </Figure>
-        );
       case 'iframe':
         return (
           <Figure>
             <DisplayExternal
               onRemoveClick={this.onRemoveClick}
-              isIframe
-              iframeEmbed={embed}
               editor={editor}
               node={node}
+              embed={embed}
               url={embed.url}
             />
           </Figure>

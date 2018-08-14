@@ -20,6 +20,7 @@ import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
 import { editorClasses } from '../SlateEditor/plugins/embed/SlateFigure';
+import { urlDomain } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 
 const el = document.createElement('html');
@@ -67,8 +68,11 @@ export class DisplayExternal extends Component {
   }
 
   async getPropsFromEmbed(url) {
-    const { isIframe } = this.props;
-    if (!isIframe) {
+    const { embed } = this.props;
+    const domain = urlDomain(url);
+    this.setState({ domain });
+
+    if (embed.resource === 'external') {
       try {
         const data = await fetchExternalOembed(url);
         const src = getIframeSrcFromHtmlString(data.html);
@@ -86,6 +90,13 @@ export class DisplayExternal extends Component {
         handleError(e);
         this.setState({ error: true });
       }
+    } else {
+      this.setState({
+        title: domain,
+        src: url,
+        type: embed.resource,
+        height: embed.height,
+      });
     }
   }
 
@@ -98,49 +109,36 @@ export class DisplayExternal extends Component {
   }
 
   render() {
-    const { onRemoveClick, url, isIframe, iframeEmbed } = this.props;
-    const { title, src, error, type, provider } = this.state;
+    const { onRemoveClick } = this.props;
+    const { title, src, height, error, type, provider, domain } = this.state;
 
-    const domain = url.match(
-      /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n]+)/im,
-    )[1];
+    // H5P does not provide its name
+    const providerName = domain && domain.includes('h5p') ? 'H5P' : provider;
 
-    const iframeProvider =
-      isIframe &&
-      EXTERNAL_WHITELIST_PROVIDERS.some(whitelistProvider =>
-        whitelistProvider.url.includes(domain),
-      ) ? (
-        <iframe
-          ref={iframe => {
-            this.iframe = iframe;
-          }}
-          height="486px"
-          title={domain}
-          src={url}
-          allowFullScreen
-          scrolling="no"
-          frameBorder="0"
-        />
-      ) : null;
+    const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter(
+      whitelistProvider => {
+        switch (type) {
+          case 'iframe':
+            return whitelistProvider.url.includes(domain);
+          default:
+            return whitelistProvider.name === providerName;
+        }
+      },
+    );
 
-    // Checks for h5p in domain name from URL
-    const isH5p = domain.indexOf('h5p') > -1;
-
-    const externalProvider =
-      !EXTERNAL_WHITELIST_PROVIDERS.some(
-        whitelistProvider => whitelistProvider.name === provider,
-      ) && !isH5p ? null : (
-        <iframe
-          height={type === 'video' ? '436px' : undefined}
-          ref={iframe => {
-            this.iframe = iframe;
-          }}
-          src={src}
-          title={title}
-          allowFullScreen={type === 'video' || type === 'presentation'}
-          frameBorder="0"
-        />
-      );
+    const renderProvider = allowedProvider && (
+      <iframe
+        ref={iframe => {
+          this.iframe = iframe;
+        }}
+        src={src}
+        height={allowedProvider.height || height}
+        title={title}
+        scrolling={type === 'iframe' ? 'no' : undefined}
+        allowFullScreen={allowedProvider.fullscreen || true}
+        frameBorder="0"
+      />
+    );
 
     if (error) {
       return (
@@ -167,7 +165,7 @@ export class DisplayExternal extends Component {
             {...editorClasses('button', 'red')}>
             <Cross />
           </Button>
-          {isH5p && (
+          {providerName === 'h5p' && (
             <Button
               stripped
               onClick={this.toggleEditH5p}
@@ -176,17 +174,15 @@ export class DisplayExternal extends Component {
             </Button>
           )}
         </div>
-        {externalProvider}
-        {iframeProvider}
-        {!externalProvider &&
-          !iframeProvider && (
-            <EditorErrorMessage
-              msg={this.props.t('displayOembed.notSupported', {
-                type,
-                provider,
-              })}
-            />
-          )}
+        {renderProvider}
+        {!renderProvider && (
+          <EditorErrorMessage
+            msg={this.props.t('displayOembed.notSupported', {
+              type,
+              provider,
+            })}
+          />
+        )}
         {this.state.editH5pMode && (
           <Lightbox display fullscreen big onClose={this.toggleEditH5p}>
             <VisualElementSearch
@@ -207,7 +203,7 @@ DisplayExternal.propTypes = {
   editor: EditorShape,
   node: Types.node,
   isIframe: PropTypes.bool,
-  iframeEmbed: PropTypes.shape({
+  embed: PropTypes.shape({
     width: PropTypes.string,
     heigth: PropTypes.string,
     url: PropTypes.string,

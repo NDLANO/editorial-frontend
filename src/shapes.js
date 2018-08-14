@@ -30,7 +30,11 @@ export const ContentResultShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   title: PropTypes.shape({ title: PropTypes.string }).isRequired,
   metaDescription: PropTypes.shape({ metaDescription: PropTypes.string }),
-  metaImage: PropTypes.string,
+  metaImage: PropTypes.shape({
+    alt: PropTypes.string,
+    url: PropTypes.string,
+    language: PropTypes.string,
+  }),
   contexts: PropTypes.arrayOf(
     PropTypes.shape({
       learningResourceType: PropTypes.string,

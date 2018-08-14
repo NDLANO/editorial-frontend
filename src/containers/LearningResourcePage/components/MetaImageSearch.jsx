@@ -17,6 +17,7 @@ import { classes } from '../../../components/Fields';
 import * as api from '../../VisualElement/visualElementApi';
 import Lightbox from '../../../components/Lightbox';
 import MetaImage from './MetaImage';
+import { CommonFieldPropsShape } from '../../../shapes';
 
 class MetaImageSearch extends Component {
   constructor(props) {
@@ -56,7 +57,7 @@ class MetaImageSearch extends Component {
   }
 
   render() {
-    const { t, locale } = this.props;
+    const { t, locale, commonFieldProps } = this.props;
     const { image } = this.state;
     return (
       <div>
@@ -81,6 +82,7 @@ class MetaImageSearch extends Component {
         {image ? (
           <MetaImage
             image={image}
+            commonFieldProps={commonFieldProps}
             toggleImageSearchLightBox={this.toggleImageSearchLightBox}
           />
         ) : (
@@ -96,6 +98,7 @@ MetaImageSearch.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
+  commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 
 const mapStateToProps = state => ({

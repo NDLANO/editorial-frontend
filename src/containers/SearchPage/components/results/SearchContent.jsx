@@ -18,8 +18,8 @@ import {
 import { searchClasses } from '../../SearchContainer';
 
 const SearchContent = ({ content, locale }) => {
-  const { contexts } = content;
-
+  const { contexts, metaImage } = content;
+  const { url, alt } = metaImage || {};
   let resourceType = {};
   if (
     contexts &&
@@ -48,7 +48,7 @@ const SearchContent = ({ content, locale }) => {
   return (
     <div {...searchClasses('result')}>
       <div {...searchClasses('image')}>
-        <img src={content.metaImage || '/placeholder.png'} alt="" />
+        <img src={url || '/placeholder.png'} alt={alt} />
       </div>
       <div {...searchClasses('content')}>
         {linkProps && linkProps.href ? (

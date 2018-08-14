@@ -9,14 +9,13 @@
 import nock from 'nock';
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import sinon from 'sinon';
 import { MastheadSearchForm } from '../components/MastheadSearchForm';
 
 const noop = () => {};
 
 test('MastheadSearchForm redirects on ndla url paste with id at the end', () => {
   const historyMock = {
-    push: sinon.spy(),
+    push: jest.fn(),
   };
 
   const component = TestRenderer.create(
@@ -48,7 +47,7 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
 
 test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end', () => {
   const historyMock = {
-    push: sinon.spy(),
+    push: jest.fn(),
   };
 
   nock('http://ndla-api')
@@ -82,7 +81,7 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
 
 test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
   const historyMock = {
-    push: sinon.spy(),
+    push: jest.fn(),
   };
 
   nock('http://ndla-api')
@@ -116,7 +115,7 @@ test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
 
 test('MastheadSearchForm invalid id at the end of the url', () => {
   const historyMock = {
-    push: sinon.spy(),
+    push: jest.fn(),
   };
 
   const component = TestRenderer.create(
@@ -143,7 +142,7 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
 
 test('MastheadSearchForm redirects on ndla node id pasted', () => {
   const historyMock = {
-    push: sinon.spy(),
+    push: jest.fn(),
   };
   nock('http://ndla-api')
     .get('/draft-api/v1/drafts/external_id/4737')

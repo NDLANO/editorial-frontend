@@ -8,13 +8,12 @@
 
 import React from 'react';
 import { render, fireEvent, wait, cleanup } from 'react-testing-library';
-import sinon from 'sinon';
 import InlineEditField from '../components/InlineEditField';
 
 afterEach(cleanup);
 
 it('Goes to edit mode, handles submit', async () => {
-  const actionFunc = sinon.spy();
+  const actionFunc = jest.fn();
   const { getByTestId, container } = render(
     <InlineEditField
       title="Test"
@@ -32,7 +31,7 @@ it('Goes to edit mode, handles submit', async () => {
 
   fireEvent.keyDown(input, { key: 'Enter', keyCode: 13, which: 13 });
   await wait();
-  expect(actionFunc.calledWith('Elefant')).toBe(true);
+  expect(actionFunc).toHaveBeenCalledWith('Elefant');
 });
 
 it('Goes to edit mode, handles submit and shows error', async () => {

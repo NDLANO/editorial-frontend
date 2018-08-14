@@ -67,22 +67,25 @@ export class DisplayExternal extends Component {
   }
 
   async getPropsFromEmbed(url) {
-    try {
-      const data = await fetchExternalOembed(url);
-      const src = getIframeSrcFromHtmlString(data.html);
-      if (src) {
-        this.setState({
-          title: data.title,
-          src,
-          type: data.type,
-          provider: data.providerName,
-        });
-      } else {
+    const { isIframe } = this.props;
+    if (!isIframe) {
+      try {
+        const data = await fetchExternalOembed(url);
+        const src = getIframeSrcFromHtmlString(data.html);
+        if (src) {
+          this.setState({
+            title: data.title,
+            src,
+            type: data.type,
+            provider: data.providerName,
+          });
+        } else {
+          this.setState({ error: true });
+        }
+      } catch (e) {
+        handleError(e);
         this.setState({ error: true });
       }
-    } catch (e) {
-      handleError(e);
-      this.setState({ error: true });
     }
   }
 
@@ -95,29 +98,40 @@ export class DisplayExternal extends Component {
   }
 
   render() {
-    const { onRemoveClick, url } = this.props;
+    const { onRemoveClick, url, isIframe, iframeEmbed } = this.props;
     const { title, src, error, type, provider } = this.state;
 
-    // Checks for h5p in domain name from URL
-    const isH5p =
-      url
-        .match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n]+)/im)[1]
-        .indexOf('h5p') > -1;
+    const domain = url.match(
+      /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n]+)/im,
+    )[1];
 
-    const supportedProvider = EXTERNAL_WHITELIST_PROVIDERS.some(
-      whitelistProvider => whitelistProvider === provider,
-    );
-
-    const externalIframe =
-      !supportedProvider && !isH5p ? null : (
+    const iframeProvider =
+      isIframe &&
+      EXTERNAL_WHITELIST_PROVIDERS.some(whitelistProvider =>
+        whitelistProvider.url.includes(domain),
+      ) ? (
         <iframe
-          style={
-            type === 'video'
-              ? {
-                  minHeight: '436px',
-                }
-              : undefined
-          }
+          ref={iframe => {
+            this.iframe = iframe;
+          }}
+          height="486px"
+          title={domain}
+          src={url}
+          allowFullScreen
+          scrolling="no"
+          frameBorder="0"
+        />
+      ) : null;
+
+    // Checks for h5p in domain name from URL
+    const isH5p = domain.indexOf('h5p') > -1;
+
+    const externalProvider =
+      !EXTERNAL_WHITELIST_PROVIDERS.some(
+        whitelistProvider => whitelistProvider.name === provider,
+      ) && !isH5p ? null : (
+        <iframe
+          height={type === 'video' ? '436px' : undefined}
           ref={iframe => {
             this.iframe = iframe;
           }}
@@ -162,11 +176,17 @@ export class DisplayExternal extends Component {
             </Button>
           )}
         </div>
-        {externalIframe || (
-          <EditorErrorMessage
-            msg={this.props.t('displayOembed.notSupported', { type, provider })}
-          />
-        )}
+        {externalProvider}
+        {iframeProvider}
+        {!externalProvider &&
+          !iframeProvider && (
+            <EditorErrorMessage
+              msg={this.props.t('displayOembed.notSupported', {
+                type,
+                provider,
+              })}
+            />
+          )}
         {this.state.editH5pMode && (
           <Lightbox display fullscreen big onClose={this.toggleEditH5p}>
             <VisualElementSearch
@@ -186,6 +206,12 @@ DisplayExternal.propTypes = {
   changeVisualElement: PropTypes.func,
   editor: EditorShape,
   node: Types.node,
+  isIframe: PropTypes.bool,
+  iframeEmbed: PropTypes.shape({
+    width: PropTypes.string,
+    heigth: PropTypes.string,
+    url: PropTypes.string,
+  }),
 };
 
 export default injectT(DisplayExternal);

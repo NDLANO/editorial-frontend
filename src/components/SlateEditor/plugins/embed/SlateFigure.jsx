@@ -129,6 +129,19 @@ class SlateFigure extends React.Component {
             />
           </Figure>
         );
+      case 'iframe':
+        return (
+          <Figure>
+            <DisplayExternal
+              onRemoveClick={this.onRemoveClick}
+              isIframe
+              iframeEmbed={embed}
+              editor={editor}
+              node={node}
+              url={embed.url}
+            />
+          </Figure>
+        );
       case 'related-content':
         return (
           <RelatedArticleBox

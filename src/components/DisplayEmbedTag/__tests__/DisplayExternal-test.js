@@ -41,7 +41,7 @@ test('getIframeSrcFromHtmlString returns null id src not found', () => {
   expect(src).toBe(null);
 });
 
-test('DisplayOembed renderers correctly', () => {
+test('DisplayExternal renderers correctly', () => {
   nock('http://ndla-api/')
     .persist()
     .get('/oembed-proxy/v1/oembed?url=https%3A%2F%2Fndla.no%2Foembed')
@@ -58,7 +58,7 @@ test('DisplayOembed renderers correctly', () => {
   expect(component.toJSON()).toMatchSnapshot();
 });
 
-test('DisplayOembed display error on fetch fail', () => {
+test('DisplayExternal display error on fetch fail', () => {
   nock('http://ndla-api/')
     .persist()
     .get('/oembed-proxy/v1/oembed?url=https%3A%2F%2Fndla.no%2Foembed')

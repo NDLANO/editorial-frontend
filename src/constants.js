@@ -31,10 +31,10 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'Vimeo', url: ['vimeo.no', 'vimeopro.com'], height: '486px' },
   { name: 'Norgesfilm', url: ['ndla.filmiundervisning.no'] },
   { name: 'TED', url: ['ted.com'] },
-  { name: 'TV2 Skole', url: ['tv2skole.no'] },
+  { name: 'TV2 Skole', url: ['www.tv2skole.no'], height: '431px' },
   { name: 'Khan Academy', url: ['nb.khanacademy.org'], height: '486px' },
   { name: 'Prezi', url: ['prezi.com'] },
-  { name: 'Slideshare', url: ['slideshare.net'] },
+  { name: 'SlideShare', url: ['www.slideshare.net'], height: '500px' },
   { name: 'Scribd', url: ['scribd.com'] },
   { name: 'Kahoot', url: ['embed.kahoot.it'] },
 ];

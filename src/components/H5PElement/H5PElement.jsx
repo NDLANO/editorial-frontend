@@ -10,9 +10,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { ErrorMessage } from 'ndla-ui';
-import { fetchH5PiframeUrl } from './h5pApi';
+import { fetchH5PiframeUrl, editH5PiframeUrl } from './h5pApi';
 
-class H5PSearch extends Component {
+class H5PElement extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,9 +25,12 @@ class H5PSearch extends Component {
   /* eslint-disable react/no-did-mount-set-state */
   /* See: https://github.com/yannickcr/eslint-plugin-react/issues/1110 */
   async componentDidMount() {
+    const { h5pUrl } = this.props;
     window.addEventListener('message', this.handleH5PChange);
     try {
-      const data = await fetchH5PiframeUrl();
+      const data = h5pUrl
+        ? await editH5PiframeUrl(h5pUrl)
+        : await fetchH5PiframeUrl();
       this.setState(() => ({ url: data.url }));
     } catch (e) {
       this.setState({ fetchFailed: true });
@@ -62,7 +65,7 @@ class H5PSearch extends Component {
             }}
             messages={{
               title: t('errorMessage.title'),
-              description: t('h5pSearch.fetchError'),
+              description: t('h5pElement.fetchError'),
             }}
           />
         )}
@@ -79,8 +82,9 @@ class H5PSearch extends Component {
   }
 }
 
-H5PSearch.propTypes = {
+H5PElement.propTypes = {
+  h5pUrl: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
 };
 
-export default injectT(H5PSearch);
+export default injectT(H5PElement);

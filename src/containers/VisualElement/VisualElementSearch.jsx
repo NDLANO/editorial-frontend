@@ -18,7 +18,7 @@ import config from '../../config';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
-import H5PSearch from '../../components/H5PSearch';
+import H5PElement from '../../components/H5PElement';
 
 const titles = t => ({
   video: t('form.visualElement.video'),
@@ -28,6 +28,7 @@ const titles = t => ({
 
 const VisualElementSearch = ({
   selectedResource,
+  selectedResourceUrl,
   handleVisualElementChange,
   locale,
   t,
@@ -105,7 +106,8 @@ const VisualElementSearch = ({
       return (
         <div>
           <h2>{titles(t)[selectedResource]}</h2>
-          <H5PSearch
+          <H5PElement
+            h5pUrl={selectedResourceUrl}
             onSelect={h5p =>
               handleVisualElementChange({
                 resource: 'external',
@@ -165,6 +167,7 @@ const VisualElementSearch = ({
 
 VisualElementSearch.propTypes = {
   selectedResource: PropTypes.string.isRequired,
+  selectedResourceUrl: PropTypes.string,
   handleVisualElementChange: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
 };

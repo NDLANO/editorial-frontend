@@ -19,3 +19,18 @@ export const fetchH5PiframeUrl = async () => {
   });
   return resolveJsonOrRejectWithError(response);
 };
+
+export const editH5PiframeUrl = async url => {
+  const response = await fetchReAuthorized(
+    `${config.h5pApiUrl}/select/edit/byurl`,
+    {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        Authorization: `Bearer JWT-token`,
+      },
+      method: 'POST',
+      body: `url=${encodeURIComponent(url)}`,
+    },
+  );
+  return resolveJsonOrRejectWithError(response);
+};

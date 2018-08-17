@@ -26,7 +26,9 @@ const locationOrigin = (() => {
   if (process.env.BUILD_TARGET === 'server') {
     return '';
   }
-
+  if (typeof window === 'undefined') {
+    return '';
+  }
   if (typeof window.location.origin === 'undefined') {
     window.location.origin = [
       window.location.protocol,

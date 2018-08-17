@@ -86,9 +86,14 @@ const config = {
   googleSearchEngineId: getEnvironmentVariabel('NDLA_GOOGLE_SEARCH_ENGINE_ID'),
   taxonomyEnabled: ndlaEnvironment === 'test' || ndlaEnvironment === 'local',
   localConverter: getEnvironmentVariabel('LOCAL_CONVERTER', false),
+  checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', false),
 };
 
 export function getUniversalConfig() {
+  if (typeof window === 'undefined') {
+    return config;
+  }
+
   return process.env.BUILD_TARGET === 'server' ||
     process.env.NODE_ENV === 'unittest'
     ? config

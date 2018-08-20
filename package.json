@@ -18,19 +18,23 @@
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
     "test-ci": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --maxWorkers=4 --ci",
     "test": "cross-env BABEL_ENV=test NODE_ENV=unittest jest",
-    "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch"
+    "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch",
+    "check-articles-and-write": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node -r babel-register scripts/checkArticles.js -write",
+    "check-articles": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node -r babel-register scripts/checkArticles.js"
   },
   "engines": {
     "node": ">=8.4.0",
     "npm": ">=5.3.0"
   },
   "devDependencies": {
+    "babel-register": "^6.26.0",
     "chalk": "^2.4.1",
     "cross-env": "^5.2.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^5.2.0",
     "eslint-config-ndla": "^0.5.1",
+    "esm": "^3.0.74",
     "flux-standard-action": "^2.0.3",
     "jsdom": "^11.12.0",
     "nock": "^9.4.3",

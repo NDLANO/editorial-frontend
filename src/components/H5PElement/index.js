@@ -6,6 +6,6 @@
  *
  */
 
-import H5PSearch from './H5PSearch';
+import H5PElement from './H5PElement';
 
-export default H5PSearch;
+export default H5PElement;

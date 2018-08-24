@@ -209,7 +209,7 @@ const phrases = {
     duration: 'Duration',
     interactioncount: 'Views',
   },
-  h5pSearch: {
+  h5pElement: {
     fetchError: 'Sorry, an error occurd while loading the H5P client.',
   },
   displayOembed: {
@@ -357,7 +357,7 @@ const phrases = {
       label: 'Visual element',
       video: 'Video search',
       image: 'Image search',
-      h5p: 'H5P search',
+      h5p: 'H5P',
     },
     status: {
       created: 'Created',

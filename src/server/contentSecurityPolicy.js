@@ -98,6 +98,7 @@ const frameSrc = (() => {
     'https://*.ndlah5p.com',
     'https://h5p.org',
     '*.ndla.no',
+    '*.ndla.sh',
     '*.slideshare.net',
     'slideshare.net',
     '*.vimeo.com',

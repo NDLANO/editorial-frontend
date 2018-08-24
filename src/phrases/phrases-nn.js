@@ -213,7 +213,7 @@ const phrases = {
     duration: 'Varighet',
     interactioncount: 'Visninger',
   },
-  h5pSearch: {
+  h5pElement: {
     fetchError:
       'Vi beklager, men en feil oppsto under lasting av H5P klienten.',
   },
@@ -367,7 +367,7 @@ const phrases = {
       label: 'Visuelt element',
       video: 'Videosøk',
       image: 'Bildesøk',
-      h5p: 'H5P Søk',
+      h5p: 'H5P',
     },
     status: {
       created: 'Opprettet',

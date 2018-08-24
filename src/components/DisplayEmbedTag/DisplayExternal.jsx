@@ -187,6 +187,7 @@ export class DisplayExternal extends Component {
           <Lightbox display fullscreen big onClose={this.toggleEditH5p}>
             <VisualElementSearch
               selectedResource="h5p"
+              selectedResourceUrl={src}
               handleVisualElementChange={this.onEditEmbed}
             />
           </Lightbox>

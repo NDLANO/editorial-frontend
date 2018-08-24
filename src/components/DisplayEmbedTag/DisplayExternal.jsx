@@ -112,6 +112,8 @@ export class DisplayExternal extends Component {
     const { onRemoveClick } = this.props;
     const { title, src, height, error, type, provider, domain } = this.state;
 
+    if (!type && !provider) return null;
+
     // H5P does not provide its name
     const providerName = domain && domain.includes('h5p') ? 'H5P' : provider;
 

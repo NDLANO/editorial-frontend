@@ -72,7 +72,8 @@ form {
   }
 
   & .c-save-button,
-  & .c-abort-button {
+  & .c-abort-button,
+  & .c-preview-draft__button {
     transition: all 0.5s ease;
     display: inline-block;
     min-width: 6rem;

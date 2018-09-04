@@ -7,17 +7,18 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DropdownTag } from './';
+import { DropdownTag } from '.';
 import ToolTip from '../../ToolTip';
 
 const InputItems = props => {
   const { onRemoveItem, tagProps, name, selectedItem, messages } = props;
   const { handlePopupClick } = tagProps;
+
   return selectedItem.map(
     (tag, index) =>
       name === 'topics' ? (
         <ToolTip
-          key={`${name}-tooptip-${tag.id}`}
+          key={`${name}-tooltip-${tag.id}`}
           name={name}
           onPopupClick={() => handlePopupClick({ ...tag, primary: true })}
           noPopup={tag.primary}
@@ -26,14 +27,22 @@ const InputItems = props => {
           <DropdownTag
             key={`${name}-tag-${tag.id}`}
             onRemoveItem={onRemoveItem}
-            {...{ messages, tag, name, index, ...tagProps }}
+            messages={messages}
+            tag={tag}
+            name={name}
+            index={index}
+            {...tagProps}
           />
         </ToolTip>
       ) : (
         <DropdownTag
           key={`${name}-tag-${tag.id}`}
           onRemoveItem={onRemoveItem}
-          {...{ messages, tag, name, index, ...tagProps }}
+          messages={messages}
+          tag={tag}
+          name={name}
+          index={index}
+          {...tagProps}
         />
       ),
   );

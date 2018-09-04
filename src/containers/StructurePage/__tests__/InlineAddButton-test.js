@@ -7,9 +7,11 @@
  */
 
 import React from 'react';
-import { render, Simulate } from 'react-testing-library';
+import { render, fireEvent, cleanup } from 'react-testing-library';
 import sinon from 'sinon';
 import InlineAddButton from '../components/InlineAddButton';
+
+afterEach(cleanup);
 
 it('Goes to edit mode, handles input and calls action prop', async () => {
   const actionFunc = sinon.spy();
@@ -18,13 +20,13 @@ it('Goes to edit mode, handles input and calls action prop', async () => {
   );
   expect(container.firstChild).toMatchSnapshot();
 
-  Simulate.click(getByTestId('AddSubjectButton'));
+  fireEvent.click(getByTestId('AddSubjectButton'));
   const input = getByTestId('addSubjectInputField');
   input.value = 'Elefant';
-  Simulate.change(input);
+  fireEvent.change(input);
   expect(container.firstChild).toMatchSnapshot();
 
-  Simulate.keyDown(input, { key: 'Enter', keyCode: 13, which: 13 });
+  fireEvent.keyDown(input, { key: 'Enter', keyCode: 13, which: 13 });
   expect(container.firstChild).toMatchSnapshot();
   expect(actionFunc.calledOnce).toBe(true);
 });

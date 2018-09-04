@@ -11,6 +11,81 @@ const phrases = {
     description:
       'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
   },
+  article: {
+    lastUpdated: 'Sist oppdatert',
+    edition: 'Utgave',
+    publisher: 'Utgiver',
+    useContent: 'Bruk innhold',
+    closeLabel: 'Lukk',
+    additionalLabel: 'Tilleggsstoff',
+  },
+  license: {
+    heading: 'Slik gjenbruker du innhold',
+    learnMore: 'Lær mer om åpne lisenser',
+    copyTitle: 'Kopier referanse',
+    hasCopiedTitle: 'Kopiert!',
+    embed: 'Bygg inn',
+    embedCopied: 'Kopierte innbyggingskode!',
+    download: 'Last ned',
+    tabs: {
+      text: 'Tekst',
+      images: 'Bilder',
+      audio: 'Lyd',
+      video: 'Video',
+    },
+    images: {
+      heading: 'Slik bruker du bilder fra artikkelen',
+      description:
+        'Husk å kopiere teksten som skal legges ved bildet der du bruker det.',
+      rules: 'Regler for bruk av bildet:',
+      source: 'Kilde',
+      title: 'Tittel',
+    },
+    text: {
+      heading: 'Slik bruker du tekst fra artikkelen',
+      description:
+        'Artikkelen kan være sammensatt av flere tekster som listes opp her.',
+      rules: 'Regler for bruk av teksten:',
+      published: 'Publiseringsdato',
+    },
+    audio: {
+      heading: 'Slik bruker du lydfiler',
+      description:
+        'Husk å kopiere teksten som skal legges ved lydfilen der du bruker den.',
+      rules: 'Regler for bruk av lydfilen:',
+    },
+    video: {
+      heading: 'Slik bruker du video fra artikkelen',
+      description:
+        'Husk å kopiere teksten som skal legges ved videoen der du bruker den.',
+      rules: 'Regler for bruk av videoen:',
+    },
+    creditType: {
+      originator: 'Opphavsmann',
+      authorDesc: 'Denne artikkelen er laget av flere opphavsmenn',
+      photographer: 'Fotograf',
+      artist: 'Kunstner',
+      editorial: 'Redaksjonelt',
+      writer: 'Forfatter',
+      scriptwriter: 'Manusforfatter',
+      reader: 'Innleser',
+      translator: 'Oversetter',
+      director: 'Regissør',
+      illustrator: 'Illustratør',
+      cowriter: 'Medforfatter',
+      composer: 'Komponist',
+      processor: 'Bearbeider',
+      facilitator: 'Tilrettelegger',
+      linguistic: 'Språklig',
+      idea: 'Idé',
+      compiler: 'Sammenstiller',
+      correction: 'Korrektur',
+      rightsholder: 'Rettighetshaver',
+      publisher: 'Forlag',
+      distributor: 'Distributør',
+      supplier: 'Leverandør',
+    },
+  },
   language: {
     en: 'Engelsk',
     nb: 'Bokmål',
@@ -138,7 +213,7 @@ const phrases = {
     duration: 'Varighet',
     interactioncount: 'Visninger',
   },
-  h5pSearch: {
+  h5pElement: {
     fetchError:
       'Vi beklager, men en feil oppsto under lasting av H5P klienten.',
   },
@@ -264,6 +339,7 @@ const phrases = {
     choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagret ',
+    preview: 'Forhåndsvis',
     abort: 'Avbryt',
     validate: 'Valider',
     publish: 'Publiser',
@@ -291,7 +367,7 @@ const phrases = {
       label: 'Visuelt element',
       video: 'Videosøk',
       image: 'Bildesøk',
-      h5p: 'H5P Søk',
+      h5p: 'H5P',
     },
     status: {
       created: 'Opprettet',
@@ -473,6 +549,14 @@ const phrases = {
       title: 'Relaterte artikler',
       showMore: 'Vis flere relaterte artikler',
       showLess: 'Vis mindre',
+    },
+    file: {
+      label: 'Filer',
+      download: 'Last ned:',
+      title: {
+        label: 'Filtittel',
+        placeholder: 'Filtittel',
+      },
     },
   },
   validation: {

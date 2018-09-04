@@ -55,9 +55,18 @@ class SlateInputField extends React.Component {
   }
 
   render() {
-    const { t, label, required, submitted, name, value, ...rest } = this.props;
+    const {
+      t,
+      label,
+      required,
+      submitted,
+      className,
+      name,
+      value,
+      ...rest
+    } = this.props;
     return (
-      <Field noBorder className="c-field--no-margin-top">
+      <Field noBorder className={className || 'c-field--no-margin-top'}>
         <label className="u-hidden" htmlFor={name}>
           {label}
         </label>

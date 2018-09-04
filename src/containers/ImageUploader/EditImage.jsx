@@ -18,6 +18,7 @@ class EditImage extends Component {
     const { imageId: id, fetchImage, imageLanguage } = this.props;
     if (id) fetchImage({ id, language: imageLanguage });
   }
+
   componentWillReceiveProps(nextProps) {
     const { imageId: id, fetchImage, imageLanguage, image } = nextProps;
 
@@ -29,6 +30,7 @@ class EditImage extends Component {
       fetchImage({ id, language: imageLanguage });
     }
   }
+
   render() {
     const {
       history,
@@ -84,5 +86,8 @@ const mapStateToProps = (state, props) => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(EditImage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(EditImage),
 );

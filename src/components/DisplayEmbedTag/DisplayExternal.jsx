@@ -19,7 +19,7 @@ import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
-import { editorClasses } from '../../components/SlateEditor/plugins/embed/SlateFigure';
+import { editorClasses } from '../SlateEditor/plugins/embed/SlateFigure';
 
 export const getIframeSrcFromHtmlString = html => {
   const el = document.createElement('html');
@@ -167,6 +167,7 @@ export class DisplayExternal extends Component {
           <Lightbox display fullscreen big onClose={this.toggleEditH5p}>
             <VisualElementSearch
               selectedResource="h5p"
+              selectedResourceUrl={src}
               handleVisualElementChange={this.onEditEmbed}
             />
           </Lightbox>

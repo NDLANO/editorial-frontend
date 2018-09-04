@@ -46,16 +46,18 @@ export function* logout(federated) {
 
 export function* watchLoginSuccess() {
   while (true) {
-    const { payload: { accessToken, history } } = yield take(
-      actions.loginSuccess,
-    );
+    const {
+      payload: { accessToken, history },
+    } = yield take(actions.loginSuccess);
     yield call(login, accessToken, history);
   }
 }
 
 export function* watchLogout() {
   while (true) {
-    const { payload: { federated } } = yield take(actions.logout);
+    const {
+      payload: { federated },
+    } = yield take(actions.logout);
     yield call(logout, federated);
   }
 }

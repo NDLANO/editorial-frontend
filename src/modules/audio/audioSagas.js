@@ -25,7 +25,9 @@ export function* fetchAudio(id, language) {
 
 export function* watchFetchAudio() {
   while (true) {
-    const { payload: { id, language } } = yield take(actions.fetchAudio);
+    const {
+      payload: { id, language },
+    } = yield take(actions.fetchAudio);
     const audio = yield select(getAudioById(id));
     if (!audio || audio.id !== id || audio.language !== language) {
       yield call(fetchAudio, id, language);
@@ -64,9 +66,9 @@ export function* createAudio(audio, file, history) {
 
 export function* watchUpdateAudio() {
   while (true) {
-    const { payload: { audio, file, history } } = yield take(
-      actions.updateAudio,
-    );
+    const {
+      payload: { audio, file, history },
+    } = yield take(actions.updateAudio);
     if (audio.id) {
       yield call(updateAudio, audio, file);
     } else {

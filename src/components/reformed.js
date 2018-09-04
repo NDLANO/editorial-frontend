@@ -92,7 +92,10 @@ const makeWrapper = WrappedComponent => {
     }
 
     bindInputEvent(e) {
-      const { type, target: { name } } = e;
+      const {
+        type,
+        target: { name },
+      } = e;
       if (type === 'blur') {
         this.setInputFlags(name, { touched: true, active: false });
       } else if (type === 'focus') {

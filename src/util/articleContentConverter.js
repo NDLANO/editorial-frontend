@@ -7,13 +7,13 @@
  */
 
 import { Value } from 'slate';
-
 import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
 import isEqual from 'lodash/fp/isEqual';
-import { topicArticeRules, learningResourceRules } from '../util/slateHelpers';
-import { textWrapper } from '../util/invalidTextWrapper';
+import { topicArticeRules, learningResourceRules } from './slateHelpers';
+import { textWrapper } from './invalidTextWrapper';
 import { convertFromHTML } from './convertFromHTML';
+import config from '../config';
 
 export const sectionSplitter = html => {
   const node = document.createElement('div');
@@ -31,13 +31,15 @@ export const isValueEmpty = value => {
   const { nodes } = document;
   if (nodes.isEmpty()) {
     return true;
-  } else if (
+  }
+  if (
     nodes.first().type === 'section' &&
     nodes.first().nodes.size === 1 &&
     nodes.first().nodes.first().isEmpty
   ) {
     return true;
-  } else if (
+  }
+  if (
     nodes.size === 1 &&
     nodes.first().type !== 'section' &&
     nodes.first().isEmpty
@@ -94,7 +96,11 @@ export function learningResourceContentToEditorValue(
 
   /*   Check the html for invalid text nodes,
   see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
-  const parser = textWrapper(new Html());
+  const parser = textWrapper(
+    new Html({
+      parseHtml: config.checkArticleScript ? fragment : undefined,
+    }),
+  );
   serializer.parseHtml = parser;
 
   const sections = sectionSplitter(html);
@@ -108,7 +114,10 @@ export function learningResourceContentToEditorValue(
     /*   Slate's default sanitization just obliterates block nodes that contain both
     inline+text children and block children.
     see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
-    const json = serializer.deserialize(section, { toJSON: true });
+    const json = serializer.deserialize(section, {
+      toJSON: true,
+      parseHtml: fragment,
+    });
     const value = convertFromHTML(json);
 
     return {

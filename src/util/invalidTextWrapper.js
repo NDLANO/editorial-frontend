@@ -20,7 +20,6 @@ export const textWrapper = serializer => inputHtml => {
     .concat(BLOCKS_TO_CHECK)
     .concat(Object.keys(TABLE_TAGS))
     .concat(['embed', 'p', 'ol', 'li', 'ul']);
-
   const treeWalker = document.createTreeWalker(tree, NodeFilter.SHOW_ELEMENT, {
     acceptNode: node =>
       node.nodeName && BLOCKS_TO_CHECK.includes(node.nodeName.toLowerCase())

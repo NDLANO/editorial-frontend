@@ -10,6 +10,84 @@ const phrases = {
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
+  article: {
+    author: 'Author',
+    published: 'Published',
+    edition: 'Edition',
+    publisher: 'Publisher',
+    created: 'Created',
+    lastUpdated: 'Last updated',
+    closeLabel: 'Close',
+    useContent: 'Cite or use',
+    additionalLabel: 'Additional content',
+  },
+  license: {
+    heading: 'Howto reuse content',
+    tabs: {
+      text: 'Text',
+      images: 'Images',
+      audio: 'Audio',
+      video: 'Video',
+    },
+    images: {
+      heading: 'How to use images from the article',
+      description:
+        'Remember to copy the text to be attached to the image where you use it.',
+      rules: 'Rules for use of image:',
+      source: 'Source',
+      title: 'Title',
+    },
+    text: {
+      heading: 'How to use text from the article',
+      description:
+        'The article may be composed of several different texts, which are listed here.',
+      rules: 'Rules for use of text:',
+      published: 'Published',
+    },
+    audio: {
+      heading: 'How to use audio files from the article',
+      description:
+        'Remember to copy the text to be attached to the audio where you use it.',
+      rules: 'Rules for use of audio file:',
+    },
+    video: {
+      heading: 'How to use videos from the article',
+      description:
+        'Remember to copy the text to be attached to the video where you use it.',
+      rules: 'Rules for use of audio file:',
+    },
+    learnMore: 'Learn more about open licenses',
+    copyTitle: 'Copy reference',
+    embed: 'Embed',
+    embedCopied: 'Copied embed code!',
+    hasCopiedTitle: 'Copied!',
+    download: 'Download',
+    creditType: {
+      originator: 'Originator',
+      authorDesc: 'This article is made by several originators',
+      photographer: 'Photographer',
+      artist: 'Artist',
+      editorial: 'Editorial',
+      writer: 'Writer',
+      scriptwriter: 'Scriptwriter',
+      reader: 'Reader',
+      translator: 'Translator',
+      director: 'Director',
+      illustrator: 'Illustrator',
+      cowriter: 'Cowriter',
+      composer: 'Composer',
+      processor: 'Processor',
+      facilitator: 'facilitator',
+      linguistic: 'Linguistic',
+      idea: 'Idea',
+      compiler: 'Compiler',
+      correction: 'Correction',
+      rightsholder: 'Rightsholder',
+      publisher: 'Publisher',
+      distributor: 'Distributor',
+      supplier: 'Supplier',
+    },
+  },
   language: {
     en: 'English',
     nb: 'Norwegian - Bokmål',
@@ -131,7 +209,7 @@ const phrases = {
     duration: 'Duration',
     interactioncount: 'Views',
   },
-  h5pSearch: {
+  h5pElement: {
     fetchError: 'Sorry, an error occurd while loading the H5P client.',
   },
   displayOembed: {
@@ -251,6 +329,7 @@ const phrases = {
     saving: 'Saving...',
     choose: 'Choose',
     saved: 'Saved ',
+    preview: 'Preview',
     abort: 'Abort',
     validate: 'Validate',
     publish: 'Publish',
@@ -278,7 +357,7 @@ const phrases = {
       label: 'Visual element',
       video: 'Video search',
       image: 'Image search',
-      h5p: 'H5P search',
+      h5p: 'H5P',
     },
     status: {
       created: 'Created',
@@ -457,6 +536,14 @@ const phrases = {
       title: 'Related articles',
       showMore: 'Show more related articles',
       showLess: 'Show less',
+    },
+    file: {
+      label: 'Files',
+      download: 'Download:',
+      title: {
+        label: 'File title',
+        placeholder: 'File title',
+      },
     },
   },
   validation: {

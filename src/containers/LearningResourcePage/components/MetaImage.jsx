@@ -13,8 +13,15 @@ import { Button } from 'ndla-ui';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import { formClasses } from '../../Form';
 import MetaInformation from '../../../components/MetaInformation';
+import { TextField } from '../../../components/Fields';
+import { CommonFieldPropsShape } from '../../../shapes';
 
-const MetaImage = ({ image, toggleImageSearchLightBox, t }) => {
+const MetaImage = ({
+  image,
+  toggleImageSearchLightBox,
+  commonFieldProps,
+  t,
+}) => {
   const copyright =
     image.copyright && image.copyright.creators
       ? image.copyright.creators.map(creator => creator.name).join(', ')
@@ -31,21 +38,32 @@ const MetaImage = ({ image, toggleImageSearchLightBox, t }) => {
     copyright: t('learningResourceForm.metaImage.copyright'),
   };
   return (
-    <div {...formClasses('meta-image')}>
-      <img src={image.imageUrl} alt={alt} />
-      <MetaInformation
-        title={title}
-        copyright={copyright}
-        action={imageAction}
-        translations={metaInformationTranslations}
+    <React.Fragment>
+      <div {...formClasses('meta-image')}>
+        <img src={image.imageUrl} alt={alt} />
+        <MetaInformation
+          title={title}
+          copyright={copyright}
+          action={imageAction}
+          translations={metaInformationTranslations}
+        />
+      </div>
+      <TextField
+        placeholder={t('topicArticleForm.fields.alt.placeholder')}
+        label={t('topicArticleForm.fields.alt.label')}
+        name="metaImageAlt"
+        {...commonFieldProps}
+        noBorder
+        maxLength={300}
       />
-    </div>
+    </React.Fragment>
   );
 };
 
 MetaImage.propTypes = {
   image: PropTypes.shape({}),
   toggleImageSearchLightBox: PropTypes.func.isRequired,
+  commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 
 export default injectT(MetaImage);

@@ -64,13 +64,15 @@ class ConnectFilters extends Component {
               topicId: id,
               relevanceId: relevance || RESOURCE_FILTER_CORE,
             });
-          } else if (active && relevance !== currentFilter.relevanceId) {
+          }
+          if (active && relevance !== currentFilter.relevanceId) {
             // update topic-filter with relevance
             return updateTopicFilter({
               connectionId: currentFilter.connectionId,
               relevanceId: relevance,
             });
-          } else if (!active && currentFilter) {
+          }
+          if (!active && currentFilter) {
             // delete topic-filter
             return deleteTopicFilter({
               connectionId: currentFilter.connectionId,

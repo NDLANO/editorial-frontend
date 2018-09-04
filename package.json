@@ -20,7 +20,7 @@
     "test": "cross-env BABEL_ENV=test NODE_ENV=unittest jest",
     "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch",
     "check-articles-and-write": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node -r babel-register scripts/checkArticles.js -write",
-    "check-articles": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node -r babel-register scripts/checkArticles.js"
+    "check-articles": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node -r babel-register scripts/checkArticles.js",
     "cy": "cypress open"
   },
   "jest": {

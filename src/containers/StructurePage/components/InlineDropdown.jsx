@@ -93,8 +93,10 @@ class InlineDropdown extends PureComponent {
           <Downshift
             selectedItem={selected}
             itemToString={item => itemToString(item, 'name')}
-            onChange={selectedItem => this.setState({ selected: selectedItem })}
-            render={downshiftProps => (
+            onChange={selectedItem =>
+              this.setState({ selected: selectedItem })
+            }>
+            {downshiftProps => (
               <div {...dropDownClasses()}>
                 <DropdownInput {...downshiftProps} />
                 <DropdownMenu
@@ -123,7 +125,7 @@ class InlineDropdown extends PureComponent {
                 )}
               </div>
             )}
-          />
+          </Downshift>
           <Button
             {...classes('saveButton')}
             data-testid="inlineEditSaveButton"

@@ -222,7 +222,7 @@ export class StructurePage extends React.PureComponent {
 
   async addSubject(name) {
     const newPath = await addSubject({ name });
-    if (newPath) this.getAllSubjects();
+    this.getAllSubjects();
     return newPath;
   }
 

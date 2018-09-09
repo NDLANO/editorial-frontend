@@ -8,7 +8,7 @@ const classes = new BEMHelper({
 });
 
 const Filter = ({ name, id, toggleFilter, active }) => (
-  <label {...classes('item')}>
+  <label data-testid="filter-item" {...classes('item')}>
     <input
       {...classes('checkbox')}
       checked={!!active}

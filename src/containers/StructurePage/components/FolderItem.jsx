@@ -86,13 +86,13 @@ class FolderItem extends React.PureComponent {
     const grayedOut = !active && params.subject && type === 'subject';
     const isMainActive = active && path === url.replace('/structure', '');
     const { search } = window.location;
-    const uniqueId = type === 'topic' ? `${rest.parent}${id}` : id;
+    const uniqueId = type === 'topic' ? `${rest.parent}/${id}` : id;
     const toLink = isMainActive
       ? removeLastItemFromUrl(url).concat(search)
       : `/structure${path}${search}`;
     return (
       <React.Fragment>
-        <div id={uniqueId} {...classes('wrapper')}>
+        <div id={uniqueId} data-cy="folderWrapper" {...classes('wrapper')}>
           <FolderLink
             toLink={toLink}
             name={name}
@@ -123,7 +123,7 @@ class FolderItem extends React.PureComponent {
               />
             )}
         </div>
-        <div {...classes('subFolders')}>
+        <div data-cy="subFolders" {...classes('subFolders')}>
           {active && (
             <MakeDndList onDragEnd={this.onDragEnd} disableDnd={!isMainActive}>
               {topics.map(topic => {

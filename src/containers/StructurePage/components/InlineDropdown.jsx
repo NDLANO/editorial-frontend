@@ -55,7 +55,7 @@ class InlineDropdown extends PureComponent {
     };
     this.setState({
       items: new Fuse(
-        filter ? res.filter(it => !it.path.includes(filter)) : res,
+        filter ? res.filter(it => it.path && !it.path.includes(filter)) : res,
         options,
       ),
     });

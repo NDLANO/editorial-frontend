@@ -13,15 +13,15 @@ beforeEach(() => {
   cy.get('#plumbContainer > div > a')
     .first()
     .click();
-  cy.get('[data-cy=subFolders] > div > div > div > a')
+  cy.get('[data-cy=subject-subFolders] > div > div > div > a')
     .first()
     .click();
 });
 
 describe('Topic editing', () => {
   it('should have a settings menu where everything works', () => {
-    cy.server(); // make sure no requests actually reach the server
-    cy.get('[data-cy=subFolders] [data-cy=folderWrapper]')
+    cy.server();
+    cy.get('[data-cy=subject-subFolders] [data-cy=folderWrapper]')
       .first()
       .then(div => {
         cy.route({

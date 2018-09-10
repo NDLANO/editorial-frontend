@@ -123,7 +123,7 @@ class FolderItem extends React.PureComponent {
               />
             )}
         </div>
-        <div data-cy="subFolders" {...classes('subFolders')}>
+        <div data-cy={`${type}-subFolders`} {...classes('subFolders')}>
           {active && (
             <MakeDndList onDragEnd={this.onDragEnd} disableDnd={!isMainActive}>
               {topics.map(topic => {

@@ -41,6 +41,7 @@ class TopicDescription extends Component {
             <Button
               className="c-topic-resource__add-button"
               stripped
+              data-testid="changeTopicDescription"
               onClick={this.toggleAddModal}>
               <Plus />
               {t('taxonomy.addTopicDescription')}

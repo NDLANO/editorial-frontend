@@ -1,0 +1,179 @@
+[
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:167841",
+    "name": "Fra brev til e-post",
+    "resourceTypes": [
+      { "id": "urn:resourcetype:academicArticle", "name": "Fagartikkel" },
+      { "id": "urn:resourcetype:subjectMaterial", "name": "Fagstoff" }
+    ],
+    "contentUri": "urn:article:4351",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167841",
+    "connectionId": "urn:topic-resource:d806b9d2-6524-4837-baa0-8745557ce216",
+    "rank": 1,
+    "isPrimary": true
+  },
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:167852",
+    "name": "Kundemøter på telefon",
+    "resourceTypes": [
+      { "id": "urn:resourcetype:academicArticle", "name": "Fagartikkel" },
+      { "id": "urn:resourcetype:subjectMaterial", "name": "Fagstoff" }
+    ],
+    "contentUri": "urn:article:4367",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167852",
+    "connectionId": "urn:topic-resource:7dee5c80-3f30-473e-b65b-3d1d33db1fdc",
+    "rank": 2,
+    "isPrimary": true
+  },
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:167894",
+    "name": "Digitale møter med kunden",
+    "resourceTypes": [
+      { "id": "urn:resourcetype:academicArticle", "name": "Fagartikkel" },
+      { "id": "urn:resourcetype:subjectMaterial", "name": "Fagstoff" }
+    ],
+    "contentUri": "urn:article:4395",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167894",
+    "connectionId": "urn:topic-resource:cc95fe5d-7916-49d4-87fe-8a66e7c5f324",
+    "rank": 3,
+    "isPrimary": true
+  },
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:167901",
+    "name": "Skriftlig kommunikasjon",
+    "resourceTypes": [
+      { "id": "urn:resourcetype:academicArticle", "name": "Fagartikkel" },
+      { "id": "urn:resourcetype:subjectMaterial", "name": "Fagstoff" }
+    ],
+    "contentUri": "urn:article:4414",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167901",
+    "connectionId": "urn:topic-resource:d50c30b3-dea6-46c8-9a87-97f05f3bc116",
+    "rank": 4,
+    "isPrimary": true
+  },
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:167902",
+    "name": "Journalføring og arkiv",
+    "resourceTypes": [
+      { "id": "urn:resourcetype:academicArticle", "name": "Fagartikkel" },
+      { "id": "urn:resourcetype:subjectMaterial", "name": "Fagstoff" }
+    ],
+    "contentUri": "urn:article:4480",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167902",
+    "connectionId": "urn:topic-resource:487b017f-d662-4934-a02a-5dfc2f851969",
+    "rank": 5,
+    "isPrimary": true
+  },
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:167912",
+    "name": "Elektronisk journal",
+    "resourceTypes": [
+      { "id": "urn:resourcetype:academicArticle", "name": "Fagartikkel" },
+      { "id": "urn:resourcetype:subjectMaterial", "name": "Fagstoff" }
+    ],
+    "contentUri": "urn:article:4490",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167912",
+    "connectionId": "urn:topic-resource:78596be2-8898-4f0f-aede-cc89dd0c7e44",
+    "rank": 6,
+    "isPrimary": true
+  },
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:167916",
+    "name": "Misfornøyde kunder er gull verdt ",
+    "resourceTypes": [
+      { "id": "urn:resourcetype:academicArticle", "name": "Fagartikkel" },
+      { "id": "urn:resourcetype:subjectMaterial", "name": "Fagstoff" }
+    ],
+    "contentUri": "urn:article:4507",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167916",
+    "connectionId": "urn:topic-resource:25f881ed-7778-49b0-ba65-bd80d36a0b49",
+    "rank": 7,
+    "isPrimary": true
+  },
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:167925",
+    "name": "Adgangskontroll",
+    "resourceTypes": [
+      { "id": "urn:resourcetype:academicArticle", "name": "Fagartikkel" },
+      { "id": "urn:resourcetype:subjectMaterial", "name": "Fagstoff" }
+    ],
+    "contentUri": "urn:article:4605",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167925",
+    "connectionId": "urn:topic-resource:f95e94ab-2fa3-4ff1-b515-2201d48927fb",
+    "rank": 8,
+    "isPrimary": true
+  },
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:167930",
+    "name": "Oppgavene til internservice",
+    "resourceTypes": [
+      { "id": "urn:resourcetype:academicArticle", "name": "Fagartikkel" },
+      { "id": "urn:resourcetype:subjectMaterial", "name": "Fagstoff" }
+    ],
+    "contentUri": "urn:article:4621",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167930",
+    "connectionId": "urn:topic-resource:73d46cba-1b9d-42f8-9308-4fbc97600319",
+    "rank": 9,
+    "isPrimary": true
+  },
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:134447",
+    "name": "Skolens administrative rutiner ",
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:tasksAndActivities",
+        "name": "Oppgaver og aktiviteter"
+      },
+      { "id": "urn:resourcetype:workAssignment", "name": "Arbeidsoppdrag" }
+    ],
+    "contentUri": "urn:article:4723",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:134447",
+    "connectionId": "urn:topic-resource:6b03803b-6eed-4a35-bb97-4da31f12afd1",
+    "rank": 15,
+    "isPrimary": true
+  },
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:134451",
+    "name": "Økonomirutiner",
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:tasksAndActivities",
+        "name": "Oppgaver og aktiviteter"
+      },
+      { "id": "urn:resourcetype:workAssignment", "name": "Arbeidsoppdrag" }
+    ],
+    "contentUri": "urn:article:4753",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:134451",
+    "connectionId": "urn:topic-resource:fa7728c5-0e6a-491f-8e4b-20cfa2b84a81",
+    "rank": 16,
+    "isPrimary": true
+  },
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:134453",
+    "name": "Ordregangen i en bedrift",
+    "resourceTypes": [
+      { "id": "urn:resourcetype:task", "name": "Oppgave" },
+      {
+        "id": "urn:resourcetype:tasksAndActivities",
+        "name": "Oppgaver og aktiviteter"
+      }
+    ],
+    "contentUri": null,
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:134453",
+    "connectionId": "urn:topic-resource:abeef469-d78f-4c71-b679-93a2f442c65f",
+    "rank": 17,
+    "isPrimary": true
+  }
+]

@@ -22,7 +22,9 @@ const Resource = ({
   relevance,
   id,
 }) => (
-  <div {...classes('text o-flag o-flag--top')}>
+  <div
+    data-testid={`resource-type-${contentType}`}
+    {...classes('text o-flag o-flag--top')}>
     {contentType && (
       <div key="img" {...classes('icon o-flag__img')}>
         <ContentTypeBadge background type={contentType} />

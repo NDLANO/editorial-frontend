@@ -1,19 +1,20 @@
 language: node_js
 
 node_js:
-- '8'
+  - '8'
 
 before_install:
-- curl -o- -L https://yarnpkg.com/install.sh | bash
-- export PATH="$HOME/.yarn/bin:$PATH"
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH="$HOME/.yarn/bin:$PATH"
 
 script:
-- yarn lint
-- yarn test-ci
-- yarn build
+  - yarn lint
+  - yarn test-ci
+  - yarn build
+  - yarn e2e-ci
 
 after_success:
-- travis_wait yarn ndla-scripts now-travis --npm
+  - travis_wait yarn ndla-scripts now-travis --npm
 
 cache:
   yarn: true
@@ -28,7 +29,9 @@ notifications:
     on_success: change
     on_failure: always
     rooms:
-      secure: HP0d1hQG2MCGvo4KF3YUdLxPjGei41UBgqMBhxVVPtyqm2twKOoH0ZaNz7HaMUZzGwLJ54O0I5ohWCM3E9nGBZFZj4fuqTTf9VQV1ig0B85DUKkT21ru2LxVqTDQQ2Md9sPIThZcviu3D11yD8tRnUl54/uV2/SH6mXw5BNimxipKLxKASQTroRxIsuAvNs72xEvKvE/ijNBlayXs9Vek9SuqTaTyS5WHvnO2hbtqrDYckqORmSVOa8TtMOeyz77ilOU7aqp+HrRgkB8xlyUOVmyod6EvU27IugunkwAAPQJLHNCoa/Dm3AFzj6ZMtyJet+e3/j2LPyN/92AcZMsz3IxFTxnZq0PhbpVSoVQbMVoIcFuV6c1kNTYEJY6B2dNhkBMvHGqq32z2XdX0EA4kJEihlMvI0jwsbYaBtcOXN/92HXqwM97LR2KKEseQGpbErM1aoWrzT0gWaU8IJ+RlPYzs016Nr33gE1Tmpk3UHh9jyBaWeIgbSxAVg1SWmI5B5iFnQm5tHiyJsH6+uGhJ08HniPqeIuKQpN5FEQ/ux8VpqMa+XqGLMauQdndDLz5DeAilTf8q4GH0HSv4I1UkwmIgpKeDBjmBe7H73rF1g+4uTkuxRd2irB/iEt+Infw+R0y55tRKsoP/b57ROGyZClzfpObbdwYNrvUPbQM91c=
+      secure:
+        HP0d1hQG2MCGvo4KF3YUdLxPjGei41UBgqMBhxVVPtyqm2twKOoH0ZaNz7HaMUZzGwLJ54O0I5ohWCM3E9nGBZFZj4fuqTTf9VQV1ig0B85DUKkT21ru2LxVqTDQQ2Md9sPIThZcviu3D11yD8tRnUl54/uV2/SH6mXw5BNimxipKLxKASQTroRxIsuAvNs72xEvKvE/ijNBlayXs9Vek9SuqTaTyS5WHvnO2hbtqrDYckqORmSVOa8TtMOeyz77ilOU7aqp+HrRgkB8xlyUOVmyod6EvU27IugunkwAAPQJLHNCoa/Dm3AFzj6ZMtyJet+e3/j2LPyN/92AcZMsz3IxFTxnZq0PhbpVSoVQbMVoIcFuV6c1kNTYEJY6B2dNhkBMvHGqq32z2XdX0EA4kJEihlMvI0jwsbYaBtcOXN/92HXqwM97LR2KKEseQGpbErM1aoWrzT0gWaU8IJ+RlPYzs016Nr33gE1Tmpk3UHh9jyBaWeIgbSxAVg1SWmI5B5iFnQm5tHiyJsH6+uGhJ08HniPqeIuKQpN5FEQ/ux8VpqMa+XqGLMauQdndDLz5DeAilTf8q4GH0HSv4I1UkwmIgpKeDBjmBe7H73rF1g+4uTkuxRd2irB/iEt+Infw+R0y55tRKsoP/b57ROGyZClzfpObbdwYNrvUPbQM91c=
 env:
   global:
-    secure: B4j2ILZZ1+PbWygQZ3iMSpC9gtC+zVxvoKjm/FZ7IIICqMXk4N7q6YMkg3RSUMPPOXMPXx8o85PtS5a2iJ1cztMy3B0jUOQE2sJL1PiE8zFezMUlKetpaHf9IJL6hDwEHq1BZtK74WltiHbYM8ssIy1oBwVhrRpgPCR2KuACGCKKPwAcJrCrazc5O5YBn0xF3jaIphmoE41lbaSykUI+Z0jHFUp7KFGeL+B/4Wp/OTnb6bQCDV18ShJYLWgzB/78tw1v9Mre1+eo0TeRd9HXA2HLtji0xAijOxw9OTd+F3JcNnD4mMJpiqi/98RxHRksTZRs6/8Goimijyokblm9PTqz4wL/ibKGNcWtg9h7mrZp/nExZeOX/tp8a0cQc3Sn0BCcJWuGe74KN/PPXUtcTtxxCx3+/tWPQfKhaukAMLpER3H+oUfQTDzK8QFoalxxgdrTxmYstMdNwP3M9rTs63idjQaVe+wvhgy5Uj5b8bxovWU5GXko1zOrOdbiM+3YwbCIH1iLP0TjZR0JQNxOqvQIZa/aq/6HkY6GNNQ27ws0WpkQ7fXAHE/v46rH0ZbG2cMg3xHLBEN6rdhbuB6ZhICHcCjvoxiFUdDKD0FqkoeSUMWOhCyBTqkRVMj5qdXOAitch2I1cx0cPWZ3DJOWCnq9hVfxAatoWOCHiML9iSI=
+    secure:
+      B4j2ILZZ1+PbWygQZ3iMSpC9gtC+zVxvoKjm/FZ7IIICqMXk4N7q6YMkg3RSUMPPOXMPXx8o85PtS5a2iJ1cztMy3B0jUOQE2sJL1PiE8zFezMUlKetpaHf9IJL6hDwEHq1BZtK74WltiHbYM8ssIy1oBwVhrRpgPCR2KuACGCKKPwAcJrCrazc5O5YBn0xF3jaIphmoE41lbaSykUI+Z0jHFUp7KFGeL+B/4Wp/OTnb6bQCDV18ShJYLWgzB/78tw1v9Mre1+eo0TeRd9HXA2HLtji0xAijOxw9OTd+F3JcNnD4mMJpiqi/98RxHRksTZRs6/8Goimijyokblm9PTqz4wL/ibKGNcWtg9h7mrZp/nExZeOX/tp8a0cQc3Sn0BCcJWuGe74KN/PPXUtcTtxxCx3+/tWPQfKhaukAMLpER3H+oUfQTDzK8QFoalxxgdrTxmYstMdNwP3M9rTs63idjQaVe+wvhgy5Uj5b8bxovWU5GXko1zOrOdbiM+3YwbCIH1iLP0TjZR0JQNxOqvQIZa/aq/6HkY6GNNQ27ws0WpkQ7fXAHE/v46rH0ZbG2cMg3xHLBEN6rdhbuB6ZhICHcCjvoxiFUdDKD0FqkoeSUMWOhCyBTqkRVMj5qdXOAitch2I1cx0cPWZ3DJOWCnq9hVfxAatoWOCHiML9iSI=

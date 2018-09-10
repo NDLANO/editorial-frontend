@@ -53,8 +53,6 @@ const h5pApiUrl = () => {
       return 'https://h5p-test.ndla.no';
     case 'test':
       return 'https://h5p-test.ndla.no';
-    case 'brukertest':
-      return 'https://h5p-test.ndla.no';
     default:
       return 'https://h5p.ndla.no';
   }

@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`calls add filter 1`] = `
-<div>
+<div
+  data-testid="editFilterBox"
+>
   <div>
     SF VG1
     <div
@@ -433,7 +435,9 @@ exports[`calls add filter 1`] = `
 `;
 
 exports[`maps out filters 1`] = `
-<div>
+<div
+  data-testid="editFilterBox"
+>
   <div>
     SF VG1
     <div

@@ -22,7 +22,7 @@
     "check-articles-and-write": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node -r babel-register scripts/checkArticles.js -write",
     "check-articles": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node -r babel-register scripts/checkArticles.js",
     "cy": "cypress open",
-    "pree2e-ci": "cross-env NDLA_ENVIRONMENT=mock NODE_ENV=production node build/server &",
+    "pree2e-ci": "cross-env NDLA_ENVIRONMENT=test NODE_ENV=production node build/server &",
     "e2e-ci": "cross-env cypress run --record --key 9dc87a7a-2d55-45ae-9d9b-45f9e01b7643"
   },
   "jest": {

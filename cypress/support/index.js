@@ -25,7 +25,7 @@ const visitOptions = {
   },
 };
 
-export const beforeEachHelper = (visitUrl) => {
+export const beforeEachHelper = visitUrl => {
   const options = {
     method: 'POST',
     url: 'https://ndla.eu.auth0.com/oauth/token',
@@ -35,9 +35,9 @@ export const beforeEachHelper = (visitUrl) => {
       grant_type: 'client_credentials',
       audience: 'ndla_system',
     },
+    json: true,
   };
-  cy
-    .request(options)
+  cy.request(options)
     .then(res => {
       localStorage.setItem('access_token', res.body.access_token);
       localStorage.setItem(

@@ -36,27 +36,8 @@ describe('Subject editing', () => {
         'content-type': 'text/plain; charset=UTF-8',
       },
     });
-    cy.route(
-      'GET',
-      '/taxonomy/v1/topics/?language=nb',
-      'fixture:allTopics.json',
-    );
     cy.route('POST', '/taxonomy/v1/subjects', '').as('addSubject');
-    cy.route('POST', '/taxonomy/v1/filters', '');
-    cy.route({
-      method: 'PUT',
-      url: '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554',
-      status: 204,
-      response: '',
-      headers: {
-        'Content-Type': 'text/plain; charset=UTF-8',
-      },
-    });
-    cy.route(
-      'DELETE',
-      '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554',
-      '',
-    );
+
     cy.route('GET', '/taxonomy/v1/subjects/?language=nb', []);
     cy.get('[data-testid=AddSubjectButton]').click();
     cy.get('[data-testid=addSubjectInputField]').type(
@@ -64,6 +45,7 @@ describe('Subject editing', () => {
     );
     cy.wait('@addSubject');
   });
+
   it('should have a settings menu where everything works', () => {
     cy.server({
       headers: {
@@ -87,6 +69,26 @@ describe('Subject editing', () => {
       status: 201,
       response: '',
     }).as('addNewTopic');
+    cy.route('POST', '/taxonomy/v1/filters', '');
+    cy.route({
+      method: 'PUT',
+      url: '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554',
+      status: 204,
+      response: '',
+      headers: {
+        'Content-Type': 'text/plain; charset=UTF-8',
+      },
+    });
+    cy.route(
+      'DELETE',
+      '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554',
+      '',
+    );
+    cy.route(
+      'GET',
+      '/taxonomy/v1/topics/?language=nb',
+      'fixture:allTopics.json',
+    );
     cy.route({
       method: 'POST',
       url: '/taxonomy/v1/subject-topics',
@@ -130,7 +132,7 @@ describe('Subject editing', () => {
       .first()
       .click();
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
-    cy.get('[data-testid=dropdown-items]')
+    cy.get('[data-testid=editFilterBox] > div')
       .first()
       .find('[data-testid=deleteFilter]')
       .click();

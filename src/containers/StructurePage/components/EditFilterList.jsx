@@ -48,7 +48,7 @@ const EditFilterList = ({
               </Button>
               <Button
                 stripped
-                data-testid={`deleteFilter${filter.id}`}
+                data-testid="deleteFilter"
                 onClick={() => showDeleteWarning(filter.id)}>
                 <RoundIcon small icon={<DeleteForever />} />
               </Button>

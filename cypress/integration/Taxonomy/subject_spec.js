@@ -9,6 +9,22 @@
 import { beforeEachHelper } from '../../support';
 
 beforeEach(() => {
+  cy.server();
+  cy.route(
+    'GET',
+    '/taxonomy/v1/subjects/?language=nb',
+    'fixture:allSubjects.json',
+  );
+  cy.route(
+    'GET',
+    '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true',
+    'fixture:allSubjectTopics.json',
+  );
+  cy.route(
+    'GET',
+    '/taxonomy/v1/subjects/urn:subject:12/filters',
+    'fixture:allSubjectFilters.json',
+  );
   beforeEachHelper('/structure');
 });
 
@@ -20,7 +36,27 @@ describe('Subject editing', () => {
         'content-type': 'text/plain; charset=UTF-8',
       },
     });
+    cy.route(
+      'GET',
+      '/taxonomy/v1/topics/?language=nb',
+      'fixture:allTopics.json',
+    );
     cy.route('POST', '/taxonomy/v1/subjects', '').as('addSubject');
+    cy.route('POST', '/taxonomy/v1/filters', '');
+    cy.route({
+      method: 'PUT',
+      url: '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554',
+      status: 204,
+      response: '',
+      headers: {
+        'Content-Type': 'text/plain; charset=UTF-8',
+      },
+    });
+    cy.route(
+      'DELETE',
+      '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554',
+      '',
+    );
     cy.route('GET', '/taxonomy/v1/subjects/?language=nb', []);
     cy.get('[data-testid=AddSubjectButton]').click();
     cy.get('[data-testid=addSubjectInputField]').type(
@@ -77,8 +113,11 @@ describe('Subject editing', () => {
       .first()
       .click();
     cy.get('[data-testid=addExistingSubjectTopicButton]').click();
-    cy.get('[data-testid=inlineDropdownInput]').type('F{downarrow}{enter}');
-    cy.get('[data-testid=inlineEditSaveButton]').click();
+    cy.get('[data-testid=inlineDropdownInput]').type('F');
+    cy.get('[data-testid=dropdown-items]')
+      .first()
+      .click();
+    cy.get('[data-testid=inlineEditSaveButton]').click({ force: true });
     cy.wait('@addNewSubjectTopic');
     cy.get('.c-settingsMenu')
       .first()
@@ -86,16 +125,14 @@ describe('Subject editing', () => {
     cy.get('[data-testid=editSubjectFiltersButton]').click();
     cy.get('[data-testid=addFilterButton]').click();
     cy.get('[data-testid=addFilterInput]').type('cypress-test-filter{enter}');
-    cy.get('div')
-      .contains('cypress-test-filter')
+    cy.get('[data-testid=editFilterBox] > div')
       .find('button')
       .first()
       .click();
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
-    cy.get('div')
-      .contains('cypress-test-filterTEST')
-      .find('button')
-      .last()
+    cy.get('[data-testid=dropdown-items]')
+      .first()
+      .find('[data-testid=deleteFilter]')
       .click();
     cy.get('[data-testid=warningModalConfirm]').click();
   });

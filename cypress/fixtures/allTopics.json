@@ -1,0 +1,1736 @@
+[
+  {
+    "id": "urn:topic:1:183682",
+    "name": "Etablere bedrift",
+    "contentUri": "urn:article:8458",
+    "path": "/subject:12/topic:1:183682"
+  },
+  {
+    "id": "urn:topic:1:182055",
+    "name": "Leksjon 12: Arbeid",
+    "contentUri": "urn:article:9217",
+    "path": "/subject:2/topic:1:182055"
+  },
+  {
+    "id": "urn:topic:1:183193",
+    "name": "Marked og målgrupper",
+    "contentUri": "urn:article:8540",
+    "path": "/subject:7/topic:1:183193"
+  },
+  {
+    "id": "urn:topic:1:182024",
+    "name": "Leksjon 6: Tid",
+    "contentUri": "urn:article:8477",
+    "path": "/subject:2/topic:1:182024"
+  },
+  {
+    "id": "urn:topic:1:184105",
+    "name": "Økonomi",
+    "contentUri": "urn:article:8490",
+    "path": "/subject:12/topic:1:184105"
+  },
+  {
+    "id": "urn:topic:1:182005",
+    "name": "Leksjon 4: Å studere kinesisk",
+    "contentUri": "urn:article:8527",
+    "path": "/subject:2/topic:1:182005"
+  },
+  {
+    "id": "urn:topic:1:183188",
+    "name": "Organisasjon og ledelse",
+    "contentUri": "urn:article:8433",
+    "path": "/subject:7/topic:1:183188"
+  },
+  {
+    "id": "urn:topic:1:182074",
+    "name": "Kinesisk 1",
+    "contentUri": "urn:article:9218",
+    "path": "/subject:2/topic:1:182074"
+  },
+  {
+    "id": "urn:topic:1:186401",
+    "name": "Brukertips og årsplaner",
+    "contentUri": "urn:article:8486",
+    "path": "/subject:1/topic:1:186401"
+  },
+  {
+    "id": "urn:topic:1:181968",
+    "name": "Leksjon 8: Å spørre om veien",
+    "contentUri": "urn:article:8473",
+    "path": "/subject:2/topic:1:181968"
+  },
+  {
+    "id": "urn:topic:1:182003",
+    "name": "Leksjon 3: Familie",
+    "contentUri": "urn:article:8561",
+    "path": "/subject:2/topic:1:182003"
+  },
+  {
+    "id": "urn:topic:1:181981",
+    "name": "Leksjon 2: På tur til Shanghai",
+    "contentUri": "urn:article:8543",
+    "path": "/subject:2/topic:1:181981"
+  },
+  {
+    "id": "urn:topic:1:181903",
+    "name": "Leksjon 5: Hos legen",
+    "contentUri": "urn:article:8430",
+    "path": "/subject:2/topic:1:181903"
+  },
+  {
+    "id": "urn:topic:1:117982",
+    "name": "Arbeidsplaner og eksamen",
+    "contentUri": "urn:article:9216",
+    "path": "/subject:14/topic:1:117982"
+  },
+  {
+    "id": "urn:topic:987e913a-c844-4331-8336-a81e63df0e7f",
+    "name": "blabla",
+    "contentUri": null,
+    "path": "/subject:bfe6d0b2-fa5d-4962-84d7-796dedb099ff/topic:987e913a-c844-4331-8336-a81e63df0e7f"
+  },
+  {
+    "id": "urn:topic:1:184100",
+    "name": "Transport og logistikk",
+    "contentUri": "urn:article:8478",
+    "path": "/subject:12/topic:1:184100"
+  },
+  {
+    "id": "urn:topic:1:81818",
+    "name": "Kommunikasjon og kommunikasjonsmidler",
+    "contentUri": "urn:article:8512",
+    "path": "/subject:14/topic:1:81818"
+  },
+  {
+    "id": "urn:topic:1:182054",
+    "name": "Leksjon 11: Vær og årstider",
+    "contentUri": "urn:article:8442",
+    "path": "/subject:2/topic:1:182054"
+  },
+  {
+    "id": "urn:topic:1:172416",
+    "name": "Idéskaping, mediedesign og uttrykkshistorie",
+    "contentUri": "urn:article:8601",
+    "path": "/subject:1/topic:1:172416"
+  },
+  {
+    "id": "urn:topic:1:186460",
+    "name": "Medieproduksjon",
+    "contentUri": "urn:article:8577",
+    "path": "/subject:1/topic:1:186460"
+  },
+  {
+    "id": "urn:topic:1:183043",
+    "name": "Administrasjon",
+    "contentUri": "urn:article:8497",
+    "path": "/subject:12/topic:1:183043"
+  },
+  {
+    "id": "urn:topic:1:181998",
+    "name": "Leksjon 1: Hei!",
+    "contentUri": "urn:article:8479",
+    "path": "/subject:2/topic:1:181998"
+  },
+  {
+    "id": "urn:topic:1:181978",
+    "name": "Leksjon 12: Nyheter",
+    "contentUri": "urn:article:8494",
+    "path": "/subject:2/topic:1:181978"
+  },
+  {
+    "id": "urn:topic:1:181991",
+    "name": "Litteratur i Kina",
+    "contentUri": "urn:article:8532",
+    "path": "/subject:2/topic:1:181991"
+  },
+  {
+    "id": "urn:topic:1:181900",
+    "name": "Leksjon 4: I dyrehagen",
+    "contentUri": "urn:article:8461",
+    "path": "/subject:2/topic:1:181900"
+  },
+  {
+    "id": "urn:topic:1:182035",
+    "name": "Leksjon 7: Å spise på restaurant",
+    "contentUri": "urn:article:8535",
+    "path": "/subject:2/topic:1:182035"
+  },
+  {
+    "id": "urn:topic:1:182036",
+    "name": "Leksjon 8: Å feire bursdag",
+    "contentUri": "urn:article:8498",
+    "path": "/subject:2/topic:1:182036"
+  },
+  {
+    "id": "urn:topic:1:181975",
+    "name": "Leksjon 11: Idrett",
+    "contentUri": "urn:article:8482",
+    "path": "/subject:2/topic:1:181975"
+  },
+  {
+    "id": "urn:topic:1:185608",
+    "name": "Filmanalyse",
+    "contentUri": "urn:article:373",
+    "path": "/subject:bfe6d0b2-fa5d-4962-84d7-796dedb099ff/topic:1:185608"
+  },
+  {
+    "id": "urn:topic:1:181972",
+    "name": "Leksjon 10: Å være gjest",
+    "contentUri": "urn:article:8462",
+    "path": "/subject:2/topic:1:181972"
+  },
+  {
+    "id": "urn:topic:1:182022",
+    "name": "Leksjon 5: Hobbyer",
+    "contentUri": "urn:article:8584",
+    "path": "/subject:2/topic:1:182022"
+  },
+  {
+    "id": "urn:topic:1:88916",
+    "name": "Bruk av digitale verktøy",
+    "contentUri": "urn:article:8569",
+    "path": "/subject:12/topic:1:88916"
+  },
+  {
+    "id": "urn:topic:1:182923",
+    "name": "6 Kamera läuft!",
+    "contentUri": "urn:article:8539",
+    "path": "/subject:8/topic:1:182923"
+  },
+  {
+    "id": "urn:topic:1:182043",
+    "name": "Leksjon 9: På kjøpesenteret",
+    "contentUri": "urn:article:8555",
+    "path": "/subject:2/topic:1:182043"
+  },
+  {
+    "id": "urn:topic:1:182707",
+    "name": "4 Typisch deutsch?",
+    "contentUri": "urn:article:8510",
+    "path": "/subject:8/topic:1:182707"
+  },
+  {
+    "id": "urn:topic:1:182686",
+    "name": "3 Unser digitales Leben",
+    "contentUri": "urn:article:8544",
+    "path": "/subject:8/topic:1:182686"
+  },
+  {
+    "id": "urn:topic:1:182562",
+    "name": "1 Jetzt geht's los!",
+    "contentUri": "urn:article:8519",
+    "path": "/subject:8/topic:1:182562"
+  },
+  {
+    "id": "urn:topic:1:183109",
+    "name": "11 Ausspracheübungen",
+    "contentUri": "urn:article:8475",
+    "path": "/subject:8/topic:1:183109"
+  },
+  {
+    "id": "urn:topic:1:182925",
+    "name": "7 Unterwegs",
+    "contentUri": "urn:article:8474",
+    "path": "/subject:8/topic:1:182925"
+  },
+  {
+    "id": "urn:topic:1:183846",
+    "name": "Salg og service",
+    "contentUri": "urn:article:8575",
+    "path": "/subject:12/topic:1:183846"
+  },
+  {
+    "id": "urn:topic:1:183442",
+    "name": "HMS, etikk og personvern",
+    "contentUri": "urn:article:8597",
+    "path": "/subject:12/topic:1:183442"
+  },
+  {
+    "id": "urn:topic:1:182643",
+    "name": "2 Ja, ja, die Jugend von heute!",
+    "contentUri": "urn:article:8580",
+    "path": "/subject:8/topic:1:182643"
+  },
+  {
+    "id": "urn:topic:1:184600",
+    "name": "8 Kleider machen Leute",
+    "contentUri": "urn:article:8541",
+    "path": "/subject:8/topic:1:184600"
+  },
+  {
+    "id": "urn:topic:1:184580",
+    "name": "5 Mein Alltag",
+    "contentUri": "urn:article:8441",
+    "path": "/subject:8/topic:1:184580"
+  },
+  {
+    "id": "urn:topic:1:182045",
+    "name": "Leksjon 10: Transport",
+    "contentUri": "urn:article:8505",
+    "path": "/subject:2/topic:1:182045"
+  },
+  {
+    "id": "urn:topic:1:183192",
+    "name": "Psykologi og kjøpsatferd",
+    "contentUri": "urn:article:8528",
+    "path": "/subject:7/topic:1:183192"
+  },
+  {
+    "id": "urn:topic:1:89271",
+    "name": "Sikkerhet",
+    "contentUri": "urn:article:8573",
+    "path": "/subject:12/topic:1:89271"
+  },
+  {
+    "id": "urn:topic:1:182001",
+    "name": "Leksjon 2: Å bli kjent med en medstudent",
+    "contentUri": "urn:article:8445",
+    "path": "/subject:2/topic:1:182001"
+  },
+  {
+    "id": "urn:topic:1:183839",
+    "name": "Reiseliv",
+    "contentUri": "urn:article:8488",
+    "path": "/subject:12/topic:1:183839"
+  },
+  {
+    "id": "urn:topic:1:183115",
+    "name": "1 Guten Tag! Wie geht's?",
+    "contentUri": "urn:article:8451",
+    "path": "/subject:8/topic:1:183115"
+  },
+  {
+    "id": "urn:topic:1:182988",
+    "name": "9 Berlin, Berlin!",
+    "contentUri": "urn:article:8582",
+    "path": "/subject:8/topic:1:182988"
+  },
+  {
+    "id": "urn:topic:1:183042",
+    "name": "10 Wien, Wien, nur du allein!",
+    "contentUri": "urn:article:8517",
+    "path": "/subject:8/topic:1:183042"
+  },
+  {
+    "id": "urn:topic:1:181963",
+    "name": "Leksjon 6: Å handle klær",
+    "contentUri": "urn:article:8463",
+    "path": "/subject:2/topic:1:181963"
+  },
+  {
+    "id": "urn:topic:1:168134",
+    "name": "In der Leseecke",
+    "contentUri": null,
+    "path": "/subject:8/topic:1:168134"
+  },
+  {
+    "id": "urn:topic:1:88173",
+    "name": "Markedsføring og kommunikasjon",
+    "contentUri": "urn:article:8538",
+    "path": "/subject:12/topic:1:88173"
+  },
+  {
+    "id": "urn:topic:1:181969",
+    "name": "Leksjon 9: WeChat",
+    "contentUri": "urn:article:8454",
+    "path": "/subject:2/topic:1:181969"
+  },
+  {
+    "id": "urn:topic:1:181990",
+    "name": "Kinesisk 2",
+    "contentUri": "urn:article:9220",
+    "path": "/subject:2/topic:1:181990"
+  },
+  {
+    "id": "urn:topic:1:186540",
+    "name": "Kinesisk film",
+    "contentUri": "urn:article:9219",
+    "path": "/subject:2/topic:1:186540"
+  },
+  {
+    "id": "urn:topic:1:183526",
+    "name": "Ausbildung und Beruf",
+    "contentUri": "urn:article:8471",
+    "path": "/subject:8/topic:1:183526"
+  },
+  {
+    "id": "urn:topic:7fb57ad5-18df-4b78-a3c2-12d2af48b89d",
+    "name": "blabla2",
+    "contentUri": null,
+    "path": "/subject:bfe6d0b2-fa5d-4962-84d7-796dedb099ff/topic:7fb57ad5-18df-4b78-a3c2-12d2af48b89d"
+  },
+  {
+    "id": "urn:topic:1:181982",
+    "name": "Leksjon 3: I Shanghai",
+    "contentUri": "urn:article:8563",
+    "path": "/subject:2/topic:1:181982"
+  },
+  {
+    "id": "urn:topic:1:181964",
+    "name": "Leksjon 7: På date",
+    "contentUri": "urn:article:8460",
+    "path": "/subject:2/topic:1:181964"
+  },
+  {
+    "id": "urn:topic:1:181994",
+    "name": "Introduksjon til kinesisk",
+    "contentUri": "urn:article:8508",
+    "path": "/subject:2/topic:1:181994"
+  },
+  {
+    "id": "urn:topic:1:183540",
+    "name": "Umwelt und Konsum",
+    "contentUri": "urn:article:8516",
+    "path": "/subject:8/topic:1:183540"
+  },
+  {
+    "id": "urn:topic:1:165831",
+    "name": "Netthandel",
+    "contentUri": "urn:article:8550",
+    "path": "/subject:12/topic:1:165831"
+  },
+  {
+    "id": "urn:topic:1:183209",
+    "name": "2 Das bin ich!",
+    "contentUri": "urn:article:8491",
+    "path": "/subject:8/topic:1:183209"
+  },
+  {
+    "id": "urn:topic:1:182777",
+    "name": "5 Schule in Deutschland und Norwegen",
+    "contentUri": "urn:article:8459",
+    "path": "/subject:8/topic:1:182777"
+  },
+  {
+    "id": "urn:topic:1:184582",
+    "name": "6 Essen und Trinken",
+    "contentUri": "urn:article:8565",
+    "path": "/subject:8/topic:1:184582"
+  },
+  {
+    "id": "urn:topic:1:181980",
+    "name": "Leksjon 1: Reise",
+    "contentUri": "urn:article:8500",
+    "path": "/subject:2/topic:1:181980"
+  },
+  {
+    "id": "urn:topic:1:182933",
+    "name": "8 Tradition und Religion",
+    "contentUri": "urn:article:8444",
+    "path": "/subject:8/topic:1:182933"
+  },
+  {
+    "id": "urn:topic:1:184584",
+    "name": "7 Freizeit und Freunde",
+    "contentUri": "urn:article:8501",
+    "path": "/subject:8/topic:1:184584"
+  },
+  {
+    "id": "urn:topic:1:185065",
+    "name": "9 Mein Zuhause",
+    "contentUri": "urn:article:8487",
+    "path": "/subject:8/topic:1:185065"
+  },
+  {
+    "id": "urn:topic:1:182163",
+    "name": "Samfunn og mennesker i tid",
+    "contentUri": "urn:article:8503",
+    "path": "/subject:9/topic:1:182163"
+  },
+  {
+    "id": "urn:topic:1:183550",
+    "name": "Made in Germany",
+    "contentUri": "urn:article:8542",
+    "path": "/subject:8/topic:1:183550"
+  },
+  {
+    "id": "urn:topic:1:151490",
+    "name": "3 Meine Familie und ich",
+    "contentUri": "urn:article:8559",
+    "path": "/subject:8/topic:1:151490"
+  },
+  {
+    "id": "urn:topic:1:183191",
+    "name": "Situasjonsanalyse og markedsinformasjon",
+    "contentUri": "urn:article:8466",
+    "path": "/subject:7/topic:1:183191"
+  },
+  {
+    "id": "urn:topic:1:185085",
+    "name": "10 Gute Reise!",
+    "contentUri": "urn:article:8546",
+    "path": "/subject:8/topic:1:185085"
+  },
+  {
+    "id": "urn:topic:1:183574",
+    "name": "Deutschland heute",
+    "contentUri": "urn:article:8439",
+    "path": "/subject:8/topic:1:183574"
+  },
+  {
+    "id": "urn:topic:f8009c96-7810-4442-bc2a-48e6305e5b71",
+    "name": "Testemne TEST",
+    "contentUri": "urn:article:282",
+    "path": "/subject:4769da63-fa10-4666-bf93-55173c57753f/topic:f8009c96-7810-4442-bc2a-48e6305e5b71"
+  },
+  {
+    "id": "urn:topic:1:186323",
+    "name": "Ut i verden",
+    "contentUri": "urn:article:727",
+    "path": "/subject:14/topic:1:186323"
+  },
+  {
+    "id": "urn:topic:1:186530",
+    "name": "Mediekritikk og medieforskning",
+    "contentUri": "urn:article:756",
+    "path": "/subject:14/topic:1:186530"
+  },
+  {
+    "id": "urn:topic:1:126720",
+    "name": "Medieproduksjon",
+    "contentUri": "urn:article:810",
+    "path": "/subject:14/topic:1:126720"
+  },
+  {
+    "id": "urn:topic:1:164987",
+    "name": "Govlesadteme ",
+    "contentUri": "urn:article:8502",
+    "path": "/subject:15/topic:1:164987"
+  },
+  {
+    "id": "urn:topic:1:159493",
+    "name": "Sjangerh",
+    "contentUri": "urn:article:8572",
+    "path": "/subject:15/topic:1:159493"
+  },
+  {
+    "id": "urn:topic:1:183187",
+    "name": "Din jobb som markedsfører",
+    "contentUri": "urn:article:8526",
+    "path": "/subject:7/topic:1:183187"
+  },
+  {
+    "id": "urn:topic:1:183189",
+    "name": "Konkurransemidlene",
+    "contentUri": "urn:article:8480",
+    "path": "/subject:7/topic:1:183189"
+  },
+  {
+    "id": "urn:topic:1:175143",
+    "name": "Ektie-bïejeme tjaalegh",
+    "contentUri": "urn:article:8450",
+    "path": "/subject:15/topic:1:175143"
+  },
+  {
+    "id": "urn:topic:1:181865",
+    "name": "Åehpiedehtedh",
+    "contentUri": "urn:article:8449",
+    "path": "/subject:15/topic:1:181865"
+  },
+  {
+    "id": "urn:topic:1:172396",
+    "name": "Lyrihke",
+    "contentUri": "urn:article:8537",
+    "path": "/subject:15/topic:1:172396"
+  },
+  {
+    "id": "urn:topic:1:182064",
+    "name": "Novellah jïh soptsesh",
+    "contentUri": "urn:article:8440",
+    "path": "/subject:15/topic:1:182064"
+  },
+  {
+    "id": "urn:topic:1:182073",
+    "name": "Soptsesh",
+    "contentUri": "urn:article:8469",
+    "path": "/subject:15/topic:1:182073"
+  },
+  {
+    "id": "urn:topic:1:176552",
+    "name": "Draama",
+    "contentUri": "urn:article:8524",
+    "path": "/subject:15/topic:1:176552"
+  },
+  {
+    "id": "urn:topic:1:172880",
+    "name": "Argumentasjovne",
+    "contentUri": "urn:article:8456",
+    "path": "/subject:15/topic:1:172880"
+  },
+  {
+    "id": "urn:topic:1:182039",
+    "name": "Filmh",
+    "contentUri": "urn:article:8493",
+    "path": "/subject:15/topic:1:182039"
+  },
+  {
+    "id": "urn:topic:1:181662",
+    "name": "Retorihke",
+    "contentUri": "urn:article:8468",
+    "path": "/subject:15/topic:1:181662"
+  },
+  {
+    "id": "urn:topic:1:175119",
+    "name": "Aamhtese-tjaalegh",
+    "contentUri": "urn:article:8435",
+    "path": "/subject:15/topic:1:175119"
+  },
+  {
+    "id": "urn:topic:1:185190",
+    "name": "Tjaeleme-histovrije",
+    "contentUri": "urn:article:8718",
+    "path": "/subject:15/topic:1:185190"
+  },
+  {
+    "id": "urn:topic:1:186476",
+    "name": "Saemien lidteratuvre",
+    "contentUri": "urn:article:9222",
+    "path": "/subject:15/topic:1:186476"
+  },
+  {
+    "id": "urn:topic:1:184564",
+    "name": "Markedskommunikasjon og lovverk",
+    "contentUri": "urn:article:8507",
+    "path": "/subject:7/topic:1:184564"
+  },
+  {
+    "id": "urn:topic:60d05214-90c1-4089-9821-7713e50e7903",
+    "name": "Testemne 23Test",
+    "contentUri": null,
+    "path": "/subject:bfe6d0b2-fa5d-4962-84d7-796dedb099ff/topic:60d05214-90c1-4089-9821-7713e50e7903"
+  },
+  {
+    "id": "urn:topic:1:181819",
+    "name": "Tjaaleldh govlesadteme",
+    "contentUri": "urn:article:8481",
+    "path": "/subject:15/topic:1:181819"
+  },
+  {
+    "id": "urn:topic:1:181933",
+    "name": "Mijjen gïele",
+    "contentUri": "urn:article:8509",
+    "path": "/subject:15/topic:1:181933"
+  },
+  {
+    "id": "urn:topic:1:182312",
+    "name": "Aerpievuekien jielemh",
+    "contentUri": "urn:article:8438",
+    "path": "/subject:15/topic:1:182312"
+  },
+  {
+    "id": "urn:topic:1:166611",
+    "name": "Gïeleviehkie-dïrregh",
+    "contentUri": "urn:article:8586",
+    "path": "/subject:15/topic:1:166611"
+  },
+  {
+    "id": "urn:topic:1:171906",
+    "name": "Mediebransjen",
+    "contentUri": "urn:article:8531",
+    "path": "/subject:1/topic:1:171906"
+  },
+  {
+    "id": "urn:topic:1:172362",
+    "name": "Mediene i samfunnet",
+    "contentUri": "urn:article:8489",
+    "path": "/subject:1/topic:1:172362"
+  },
+  {
+    "id": "urn:topic:1:103867",
+    "name": "Medietekster og medieanalyse",
+    "contentUri": "urn:article:8548",
+    "path": "/subject:14/topic:1:103867"
+  },
+  {
+    "id": "urn:topic:1:186479",
+    "name": "Mediekommunikasjon og analyse av medieuttrykk",
+    "contentUri": "urn:article:8513",
+    "path": "/subject:1/topic:1:186479"
+  },
+  {
+    "id": "urn:topic:1:172361",
+    "name": "Individet og mediene",
+    "contentUri": "urn:article:8547",
+    "path": "/subject:1/topic:1:172361"
+  },
+  {
+    "id": "urn:topic:1:79218",
+    "name": "Mediemakt og ytringsfrihet",
+    "contentUri": "urn:article:650",
+    "path": "/subject:14/topic:1:79218"
+  },
+  {
+    "id": "urn:topic:1:185993",
+    "name": "Mediebruk og mediepåvirkning",
+    "contentUri": "urn:article:592",
+    "path": "/subject:14/topic:1:185993"
+  },
+  {
+    "id": "urn:topic:1:185701",
+    "name": "Medieetikk, kildekritikk og personvern",
+    "contentUri": "urn:article:8431",
+    "path": "/subject:14/topic:1:185701"
+  },
+  {
+    "id": "urn:topic:1:185036",
+    "name": "Journalistikk, informasjon og reklame",
+    "contentUri": "urn:article:8558",
+    "path": "/subject:14/topic:1:185036"
+  },
+  {
+    "id": "urn:topic:1:185588",
+    "name": "Mediehistorie",
+    "contentUri": "urn:article:445",
+    "path": "/subject:14/topic:1:185588"
+  },
+  {
+    "id": "urn:topic:1:182020",
+    "name": "Historieforståelse og metoder ",
+    "contentUri": "urn:article:9221",
+    "path": "/subject:9/topic:1:182020"
+  },
+  {
+    "id": "urn:topic:1:172568",
+    "name": "Tverrfaglige arbeidsoppdrag",
+    "contentUri": "urn:article:8436",
+    "path": "/subject:1/topic:1:172568"
+  },
+  {
+    "id": "urn:topic:1:186251",
+    "name": "Norsk mediepolitikk og medieøkonomi",
+    "contentUri": "urn:article:701",
+    "path": "/subject:14/topic:1:186251"
+  },
+  {
+    "id": "urn:topic:1:172650",
+    "name": "Fortelleteknikker og virkemidler",
+    "contentUri": "urn:article:8874",
+    "path": "/subject:1/topic:1:172416/topic:1:172650"
+  },
+  {
+    "id": "urn:topic:1:184482",
+    "name": "Uttrykkshistorien, trender og stilarter",
+    "contentUri": "urn:article:8564",
+    "path": "/subject:1/topic:1:172416/topic:1:184482"
+  },
+  {
+    "id": "urn:topic:1:186464",
+    "name": "HMS, produksjonsutstyr og tekniske formater",
+    "contentUri": "urn:article:8623",
+    "path": "/subject:1/topic:1:186460/topic:1:186464"
+  },
+  {
+    "id": "urn:topic:1:186407",
+    "name": "Virkemidler i grafisk design",
+    "contentUri": "urn:article:8530",
+    "path": "/subject:1/topic:1:172416/topic:1:186407"
+  },
+  {
+    "id": "urn:topic:1:184084",
+    "name": "Sikkerhet på arbeidsplassen ",
+    "contentUri": "urn:article:8588",
+    "path": "/subject:12/topic:1:89271/topic:1:184084"
+  },
+  {
+    "id": "urn:topic:1:183437",
+    "name": "Administrative rutiner",
+    "contentUri": "urn:article:8785",
+    "path": "/subject:12/topic:1:183043/topic:1:183437"
+  },
+  {
+    "id": "urn:topic:1:183438",
+    "name": "Organisasjonsplan",
+    "contentUri": "urn:article:8741",
+    "path": "/subject:12/topic:1:183043/topic:1:183438"
+  },
+  {
+    "id": "urn:topic:1:84505",
+    "name": "Markedsføringsbegrepet",
+    "contentUri": "urn:article:8936",
+    "path": "/subject:7/topic:1:183193/topic:1:84505"
+  },
+  {
+    "id": "urn:topic:1:116620",
+    "name": "Lovverket i markedsføring",
+    "contentUri": "urn:article:8632",
+    "path": "/subject:7/topic:1:184564/topic:1:116620"
+  },
+  {
+    "id": "urn:topic:1:183085",
+    "name": "Skriftproduksjon",
+    "contentUri": "urn:article:8902",
+    "path": "/subject:1/topic:1:186460/topic:1:183085"
+  },
+  {
+    "id": "urn:topic:1:117506",
+    "name": "Organisasjonsoppbygging",
+    "contentUri": "urn:article:4845",
+    "path": "/subject:7/topic:1:183188/topic:1:117506"
+  },
+  {
+    "id": "urn:topic:1:184483",
+    "name": "Produksjonsprosesser",
+    "contentUri": "urn:article:8645",
+    "path": "/subject:1/topic:1:186460/topic:1:184483"
+  },
+  {
+    "id": "urn:topic:1:185600",
+    "name": "Kommunikasjonsvirksomhet",
+    "contentUri": "urn:article:8593",
+    "path": "/subject:14/topic:1:185036/topic:1:185600"
+  },
+  {
+    "id": "urn:topic:1:87722",
+    "name": " Datasikkerhet ",
+    "contentUri": "urn:article:5128",
+    "path": "/subject:12/topic:1:89271/topic:1:87722"
+  },
+  {
+    "id": "urn:topic:1:178849",
+    "name": "Underholdningsbransjen",
+    "contentUri": "urn:article:8857",
+    "path": "/subject:1/topic:1:171906/topic:1:178849"
+  },
+  {
+    "id": "urn:topic:1:186468",
+    "name": "Lydproduksjon",
+    "contentUri": "urn:article:8665",
+    "path": "/subject:1/topic:1:186460/topic:1:186468"
+  },
+  {
+    "id": "urn:topic:1:186403",
+    "name": "Idéutvikling",
+    "contentUri": "urn:article:8514",
+    "path": "/subject:1/topic:1:172416/topic:1:186403"
+  },
+  {
+    "id": "urn:topic:1:83496",
+    "name": "Trafikk og transport",
+    "contentUri": "urn:article:5932",
+    "path": "/subject:12/topic:1:89271/topic:1:83496"
+  },
+  {
+    "id": "urn:topic:1:89104",
+    "name": "Sikkerhetstiltak ",
+    "contentUri": "urn:article:8583",
+    "path": "/subject:12/topic:1:89271/topic:1:89104"
+  },
+  {
+    "id": "urn:topic:1:184123",
+    "name": "Føre regnskap",
+    "contentUri": "urn:article:8596",
+    "path": "/subject:12/topic:1:184105/topic:1:184123"
+  },
+  {
+    "id": "urn:topic:1:183446",
+    "name": "Etikk og personvern",
+    "contentUri": "urn:article:8733",
+    "path": "/subject:12/topic:1:183442/topic:1:183446"
+  },
+  {
+    "id": "urn:topic:1:186471",
+    "name": "Bildeproduksjon",
+    "contentUri": "urn:article:8686",
+    "path": "/subject:1/topic:1:186460/topic:1:186471"
+  },
+  {
+    "id": "urn:topic:1:185606",
+    "name": "Medieanalyse",
+    "contentUri": "urn:article:346",
+    "path": "/subject:14/topic:1:103867/topic:1:185606"
+  },
+  {
+    "id": "urn:topic:1:183697",
+    "name": "Forretningsplan",
+    "contentUri": "urn:article:8791",
+    "path": "/subject:12/topic:1:183682/topic:1:183697"
+  },
+  {
+    "id": "urn:topic:1:184102",
+    "name": "Transporttjenester",
+    "contentUri": "urn:article:8701",
+    "path": "/subject:12/topic:1:184100/topic:1:184102"
+  },
+  {
+    "id": "urn:topic:1:184113",
+    "name": "Finansiering",
+    "contentUri": "urn:article:8678",
+    "path": "/subject:12/topic:1:184105/topic:1:184113"
+  },
+  {
+    "id": "urn:topic:1:183861",
+    "name": "Salgs- og kjøpsprosessen",
+    "contentUri": "urn:article:8579",
+    "path": "/subject:12/topic:1:183846/topic:1:183861"
+  },
+  {
+    "id": "urn:topic:1:184505",
+    "name": "Tverrfaglige arbeidsoppdrag nivå 6",
+    "contentUri": "urn:article:8921",
+    "path": "/subject:1/topic:1:172568/topic:1:184505"
+  },
+  {
+    "id": "urn:topic:1:165738",
+    "name": "Journalistikk",
+    "contentUri": "urn:article:8679",
+    "path": "/subject:1/topic:1:171906/topic:1:165738"
+  },
+  {
+    "id": "urn:topic:1:171903",
+    "name": "Kildebruk, opphavsrett og personvern",
+    "contentUri": "urn:article:8681",
+    "path": "/subject:1/topic:1:172361/topic:1:171903"
+  },
+  {
+    "id": "urn:topic:1:183832",
+    "name": "Skriftlig informasjon og materiell",
+    "contentUri": "urn:article:8827",
+    "path": "/subject:12/topic:1:88173/topic:1:183832"
+  },
+  {
+    "id": "urn:topic:1:162528",
+    "name": "Salgskanaler",
+    "contentUri": "urn:article:8787",
+    "path": "/subject:12/topic:1:183846/topic:1:162528"
+  },
+  {
+    "id": "urn:topic:1:96343",
+    "name": "Segmenter og målgrupper",
+    "contentUri": "urn:article:2534",
+    "path": "/subject:7/topic:1:183193/topic:1:96343"
+  },
+  {
+    "id": "urn:topic:1:87883",
+    "name": "Markedsføringens historie",
+    "contentUri": "urn:article:8615",
+    "path": "/subject:7/topic:1:183193/topic:1:87883"
+  },
+  {
+    "id": "urn:topic:1:102949",
+    "name": "Kjøpsatferd",
+    "contentUri": "urn:article:8755",
+    "path": "/subject:7/topic:1:183192/topic:1:102949"
+  },
+  {
+    "id": "urn:topic:1:90225",
+    "name": "Ulike markeder",
+    "contentUri": "urn:article:2290",
+    "path": "/subject:7/topic:1:183193/topic:1:90225"
+  },
+  {
+    "id": "urn:topic:1:103222",
+    "name": "Kjøpsprosessen",
+    "contentUri": "urn:article:8939",
+    "path": "/subject:7/topic:1:183192/topic:1:103222"
+  },
+  {
+    "id": "urn:topic:1:186218",
+    "name": "Om historiske kilder",
+    "contentUri": "urn:article:9227",
+    "path": "/subject:9/topic:1:182020/topic:1:186218"
+  },
+  {
+    "id": "urn:topic:1:118292",
+    "name": "Organisasjonskultur",
+    "contentUri": "urn:article:8734",
+    "path": "/subject:7/topic:1:183188/topic:1:118292"
+  },
+  {
+    "id": "urn:topic:1:185037",
+    "name": "Fortelleteknikk i medietekster",
+    "contentUri": "urn:article:9277",
+    "path": "/subject:14/topic:1:103867/topic:1:185037"
+  },
+  {
+    "id": "urn:topic:1:184119",
+    "name": "Budsjettering",
+    "contentUri": "urn:article:8656",
+    "path": "/subject:12/topic:1:184105/topic:1:184119"
+  },
+  {
+    "id": "urn:topic:1:167944",
+    "name": "Drift av netthandel",
+    "contentUri": "urn:article:8709",
+    "path": "/subject:12/topic:1:165831/topic:1:167944"
+  },
+  {
+    "id": "urn:topic:1:89276",
+    "name": "Risikovurdering og forebygging",
+    "contentUri": "urn:article:5638",
+    "path": "/subject:12/topic:1:89271/topic:1:89276"
+  },
+  {
+    "id": "urn:topic:1:184092",
+    "name": "Trusselbilde",
+    "contentUri": "urn:article:8698",
+    "path": "/subject:12/topic:1:89271/topic:1:184092"
+  },
+  {
+    "id": "urn:topic:1:183445",
+    "name": "HMS i markeds- og servicearbeid",
+    "contentUri": "urn:article:8690",
+    "path": "/subject:12/topic:1:183442/topic:1:183445"
+  },
+  {
+    "id": "urn:topic:1:125903",
+    "name": "Journalistikk",
+    "contentUri": "urn:article:8594",
+    "path": "/subject:14/topic:1:185036/topic:1:125903"
+  },
+  {
+    "id": "urn:topic:1:184106",
+    "name": "Kalkyler",
+    "contentUri": "urn:article:8736",
+    "path": "/subject:12/topic:1:184105/topic:1:184106"
+  },
+  {
+    "id": "urn:topic:1:166321",
+    "name": "Kommunikasjonsvirksomhet",
+    "contentUri": "urn:article:8637",
+    "path": "/subject:1/topic:1:171906/topic:1:166321"
+  },
+  {
+    "id": "urn:topic:1:184126",
+    "name": "Regelverk for regnskapsføring",
+    "contentUri": "urn:article:8619",
+    "path": "/subject:12/topic:1:184105/topic:1:184126"
+  },
+  {
+    "id": "urn:topic:1:186487",
+    "name": "Mediekommunikasjon",
+    "contentUri": "urn:article:8598",
+    "path": "/subject:1/topic:1:186479/topic:1:186487"
+  },
+  {
+    "id": "urn:topic:1:182937",
+    "name": "Norge 1500–1800",
+    "contentUri": "urn:article:8627",
+    "path": "/subject:9/topic:1:182163/topic:1:182937"
+  },
+  {
+    "id": "urn:topic:1:165853",
+    "name": "Medieyrker og elevproduksjon",
+    "contentUri": "urn:article:8703",
+    "path": "/subject:1/topic:1:171906/topic:1:165853"
+  },
+  {
+    "id": "urn:topic:1:185595",
+    "name": "Internasjonal mediehistorie",
+    "contentUri": "urn:article:523",
+    "path": "/subject:14/topic:1:185588/topic:1:185595"
+  },
+  {
+    "id": "urn:topic:1:144149",
+    "name": "Historie + statistikk = sant?",
+    "contentUri": "urn:article:9187",
+    "path": "/subject:9/topic:1:182020/topic:1:144149"
+  },
+  {
+    "id": "urn:topic:1:183965",
+    "name": "Etablering av netthandel",
+    "contentUri": "urn:article:8922",
+    "path": "/subject:12/topic:1:165831/topic:1:183965"
+  },
+  {
+    "id": "urn:topic:1:172615",
+    "name": "Mediestrukturen i Norge",
+    "contentUri": "urn:article:8669",
+    "path": "/subject:1/topic:1:172362/topic:1:172615"
+  },
+  {
+    "id": "urn:topic:1:185602",
+    "name": "Markedskommunikasjon",
+    "contentUri": "urn:article:8608",
+    "path": "/subject:14/topic:1:185036/topic:1:185602"
+  },
+  {
+    "id": "urn:topic:1:184496",
+    "name": "Tverrfaglige arbeidsoppdrag nivå 4",
+    "contentUri": "urn:article:8880",
+    "path": "/subject:1/topic:1:172568/topic:1:184496"
+  },
+  {
+    "id": "urn:topic:1:186069",
+    "name": "Mediebruk og mediepåvirkning",
+    "contentUri": "urn:article:8862",
+    "path": "/subject:1/topic:1:172361/topic:1:186069"
+  },
+  {
+    "id": "urn:topic:1:157787",
+    "name": "Ideologiene på 1900-tallet",
+    "contentUri": "urn:article:5947",
+    "path": "/subject:9/topic:1:182163/topic:1:157787"
+  },
+  {
+    "id": "urn:topic:1:166872",
+    "name": "Markedsføring",
+    "contentUri": "urn:article:8738",
+    "path": "/subject:1/topic:1:171906/topic:1:166872"
+  },
+  {
+    "id": "urn:topic:1:106142",
+    "name": "Analyse av medieuttrykk",
+    "contentUri": "urn:article:352",
+    "path": "/subject:1/topic:1:186479/topic:1:106142"
+  },
+  {
+    "id": "urn:topic:1:172791",
+    "name": "Tverrfaglige arbeidsoppdrag nivå 3",
+    "contentUri": "urn:article:8651",
+    "path": "/subject:1/topic:1:172568/topic:1:172791"
+  },
+  {
+    "id": "urn:topic:1:184957",
+    "name": "Krig og konflikter",
+    "contentUri": "urn:article:9226",
+    "path": "/subject:9/topic:1:182163/topic:1:184957"
+  },
+  {
+    "id": "urn:topic:1:186416",
+    "name": "Å presentere historiske personer",
+    "contentUri": "urn:article:9223",
+    "path": "/subject:9/topic:1:182020/topic:1:186416"
+  },
+  {
+    "id": "urn:topic:1:184527",
+    "name": "Urfolk og minoriteter",
+    "contentUri": "urn:article:9224",
+    "path": "/subject:9/topic:1:182163/topic:1:184527"
+  },
+  {
+    "id": "urn:topic:1:104694",
+    "name": "Situasjonsanalysen",
+    "contentUri": "urn:article:8758",
+    "path": "/subject:7/topic:1:183191/topic:1:104694"
+  },
+  {
+    "id": "urn:topic:1:183640",
+    "name": "Emigrasjon",
+    "contentUri": "urn:article:8592",
+    "path": "/subject:9/topic:1:182163/topic:1:183640"
+  },
+  {
+    "id": "urn:topic:1:182165",
+    "name": "Tidlige samfunn",
+    "contentUri": "urn:article:8552",
+    "path": "/subject:9/topic:1:182163/topic:1:182165"
+  },
+  {
+    "id": "urn:topic:1:164660",
+    "name": "Kolonialismen",
+    "contentUri": "urn:article:7434",
+    "path": "/subject:9/topic:1:182163/topic:1:164660"
+  },
+  {
+    "id": "urn:topic:1:167555",
+    "name": "Oversjøisk ekspansjon",
+    "contentUri": "urn:article:8591",
+    "path": "/subject:9/topic:1:182163/topic:1:167555"
+  },
+  {
+    "id": "urn:topic:1:166938",
+    "name": "Opplysningstiden",
+    "contentUri": "urn:article:8743",
+    "path": "/subject:9/topic:1:182163/topic:1:166938"
+  },
+  {
+    "id": "urn:topic:1:155521",
+    "name": "Styreformer i Europa",
+    "contentUri": "urn:article:5789",
+    "path": "/subject:9/topic:1:182163/topic:1:155521"
+  },
+  {
+    "id": "urn:topic:1:184504",
+    "name": "Tverrfaglige arbeidsoppdrag nivå 5",
+    "contentUri": "urn:article:8899",
+    "path": "/subject:1/topic:1:172568/topic:1:184504"
+  },
+  {
+    "id": "urn:topic:1:188087",
+    "name": "Historiske sammenhenger",
+    "contentUri": "urn:article:9084",
+    "path": "/subject:9/topic:1:182020/topic:1:188087"
+  },
+  {
+    "id": "urn:topic:1:164917",
+    "name": "Handlemønstre og medievaner",
+    "contentUri": "urn:article:8629",
+    "path": "/subject:12/topic:1:88173/topic:1:164917"
+  },
+  {
+    "id": "urn:topic:1:172790",
+    "name": "Tverrfaglige arbeidsoppdrag nivå 2",
+    "contentUri": "urn:article:8708",
+    "path": "/subject:1/topic:1:172568/topic:1:172790"
+  },
+  {
+    "id": "urn:topic:1:183830",
+    "name": "Kommunikasjonsprosessen",
+    "contentUri": "urn:article:8670",
+    "path": "/subject:12/topic:1:88173/topic:1:183830"
+  },
+  {
+    "id": "urn:topic:1:184485",
+    "name": "Medieuttrykk i samfunnet",
+    "contentUri": "urn:article:8660",
+    "path": "/subject:1/topic:1:172362/topic:1:184485"
+  },
+  {
+    "id": "urn:topic:1:103870",
+    "name": "Mediesjangere",
+    "contentUri": "urn:article:8590",
+    "path": "/subject:14/topic:1:103867/topic:1:103870"
+  },
+  {
+    "id": "urn:topic:1:154342",
+    "name": "Middelalderen",
+    "contentUri": "urn:article:6766",
+    "path": "/subject:9/topic:1:182163/topic:1:154342"
+  },
+  {
+    "id": "urn:topic:1:183689",
+    "name": "Forretningsidé",
+    "contentUri": "urn:article:8654",
+    "path": "/subject:12/topic:1:183682/topic:1:183689"
+  },
+  {
+    "id": "urn:topic:1:162756",
+    "name": "Ytringsfrihet og demokrati",
+    "contentUri": "urn:article:988",
+    "path": "/subject:1/topic:1:172362/topic:1:162756"
+  },
+  {
+    "id": "urn:topic:1:156119",
+    "name": "Antikken",
+    "contentUri": "urn:article:6017",
+    "path": "/subject:9/topic:1:182163/topic:1:156119"
+  },
+  {
+    "id": "urn:topic:1:183765",
+    "name": "Nasjonalstat og demokrati",
+    "contentUri": "urn:article:8763",
+    "path": "/subject:9/topic:1:182163/topic:1:183765"
+  },
+  {
+    "id": "urn:topic:1:183762",
+    "name": "Industrialisering og arbeidsliv",
+    "contentUri": "urn:article:8612",
+    "path": "/subject:9/topic:1:182163/topic:1:183762"
+  },
+  {
+    "id": "urn:topic:1:183971",
+    "name": "Servicekvalitet",
+    "contentUri": "urn:article:8756",
+    "path": "/subject:12/topic:1:183846/topic:1:183971"
+  },
+  {
+    "id": "urn:topic:1:159687",
+    "name": "Mij akte sjangere?",
+    "contentUri": "urn:article:7148",
+    "path": "/subject:15/topic:1:159493/topic:1:159687"
+  },
+  {
+    "id": "urn:topic:1:166242",
+    "name": "Somalia 1960-2000",
+    "contentUri": "urn:article:8891",
+    "path": "/subject:9/topic:1:182163/topic:1:166242"
+  },
+  {
+    "id": "urn:topic:1:186327",
+    "name": "Mediekritikk",
+    "contentUri": "urn:article:757",
+    "path": "/subject:14/topic:1:186530/topic:1:186327"
+  },
+  {
+    "id": "urn:topic:1:183936",
+    "name": "Regelverk for markedsføring og salg",
+    "contentUri": null,
+    "path": "/subject:12/topic:1:183846/topic:1:183936"
+  },
+  {
+    "id": "urn:topic:1:70510",
+    "name": "Medieforskning",
+    "contentUri": "urn:article:798",
+    "path": "/subject:14/topic:1:186530/topic:1:70510"
+  },
+  {
+    "id": "urn:topic:1:161361",
+    "name": "Mij lea govlesadteme",
+    "contentUri": "urn:article:8675",
+    "path": "/subject:15/topic:1:164987/topic:1:161361"
+  },
+  {
+    "id": "urn:topic:1:172789",
+    "name": "Tverrfaglige arbeidsoppdrag nivå 1",
+    "contentUri": "urn:article:8721",
+    "path": "/subject:1/topic:1:172568/topic:1:172789"
+  },
+  {
+    "id": "urn:topic:1:186446",
+    "name": "Medieproduksjon på oppdrag",
+    "contentUri": "urn:article:945",
+    "path": "/subject:14/topic:1:126720/topic:1:186446"
+  },
+  {
+    "id": "urn:topic:1:183807",
+    "name": "Markedsplanen",
+    "contentUri": "urn:article:8757",
+    "path": "/subject:12/topic:1:88173/topic:1:183807"
+  },
+  {
+    "id": "urn:topic:1:74637",
+    "name": "Kvalitetskriterier og vurdering",
+    "contentUri": "urn:article:784",
+    "path": "/subject:14/topic:1:186530/topic:1:74637"
+  },
+  {
+    "id": "urn:topic:1:186445",
+    "name": "Tekstproduksjon i avis og blogg",
+    "contentUri": "urn:article:914",
+    "path": "/subject:14/topic:1:126720/topic:1:186445"
+  },
+  {
+    "id": "urn:topic:1:184103",
+    "name": "Vareflyt",
+    "contentUri": null,
+    "path": "/subject:12/topic:1:184100/topic:1:184103"
+  },
+  {
+    "id": "urn:topic:1:183704",
+    "name": "Selskapsformer",
+    "contentUri": "urn:article:8697",
+    "path": "/subject:12/topic:1:183682/topic:1:183704"
+  },
+  {
+    "id": "urn:topic:1:71425",
+    "name": "Servicebegrepet",
+    "contentUri": "urn:article:8783",
+    "path": "/subject:12/topic:1:183846/topic:1:71425"
+  },
+  {
+    "id": "urn:topic:1:108503",
+    "name": "P for pris",
+    "contentUri": "urn:article:8941",
+    "path": "/subject:7/topic:1:183189/topic:1:108503"
+  },
+  {
+    "id": "urn:topic:1:185574",
+    "name": "Befolkningsutvikling",
+    "contentUri": "urn:article:9235",
+    "path": "/subject:9/topic:1:182163/topic:1:185574"
+  },
+  {
+    "id": "urn:topic:1:111121",
+    "name": "P for plass",
+    "contentUri": "urn:article:8705",
+    "path": "/subject:7/topic:1:183189/topic:1:111121"
+  },
+  {
+    "id": "urn:topic:1:105795",
+    "name": "Markedsinformasjonssystemet (MIS)",
+    "contentUri": "urn:article:8692",
+    "path": "/subject:7/topic:1:183191/topic:1:105795"
+  },
+  {
+    "id": "urn:topic:1:107902",
+    "name": "P for produkt",
+    "contentUri": "urn:article:8622",
+    "path": "/subject:7/topic:1:183189/topic:1:107902"
+  },
+  {
+    "id": "urn:topic:1:185524",
+    "name": "Norge etter 1945",
+    "contentUri": "urn:article:9225",
+    "path": "/subject:9/topic:1:182163/topic:1:185524"
+  },
+  {
+    "id": "urn:topic:1:172557",
+    "name": "Levende bilder",
+    "contentUri": "urn:article:885",
+    "path": "/subject:14/topic:1:126720/topic:1:172557"
+  },
+  {
+    "id": "urn:topic:1:184484",
+    "name": "Makt og medier",
+    "contentUri": "urn:article:8689",
+    "path": "/subject:1/topic:1:172362/topic:1:184484"
+  },
+  {
+    "id": "urn:topic:1:61604",
+    "name": "Rekruttering",
+    "contentUri": "urn:article:8806",
+    "path": "/subject:12/topic:1:183043/topic:1:61604"
+  },
+  {
+    "id": "urn:topic:1:186343",
+    "name": "Lydproduksjon",
+    "contentUri": "urn:article:811",
+    "path": "/subject:14/topic:1:126720/topic:1:186343"
+  },
+  {
+    "id": "urn:topic:1:160606",
+    "name": "Musikk, arkitektur og billedkunst i etterkrigstiden",
+    "contentUri": "urn:article:9085",
+    "path": "/subject:9/topic:1:182163/topic:1:160606"
+  },
+  {
+    "id": "urn:topic:1:186347",
+    "name": "Bildeproduksjon",
+    "contentUri": "urn:article:841",
+    "path": "/subject:14/topic:1:126720/topic:1:186347"
+  },
+  {
+    "id": "urn:topic:fddc729f-330f-4faf-9527-e8afd2f23620",
+    "name": "Test underemne",
+    "contentUri": "urn:article:280",
+    "path": "/subject:4769da63-fa10-4666-bf93-55173c57753f/topic:f8009c96-7810-4442-bc2a-48e6305e5b71/topic:fddc729f-330f-4faf-9527-e8afd2f23620"
+  },
+  {
+    "id": "urn:topic:1:183444",
+    "name": "Innføring i HMS",
+    "contentUri": "urn:article:8737",
+    "path": "/subject:12/topic:1:183442/topic:1:183444"
+  },
+  {
+    "id": "urn:topic:1:183935",
+    "name": "Praktisk salgskurs",
+    "contentUri": "urn:article:8609",
+    "path": "/subject:12/topic:1:183846/topic:1:183935"
+  },
+  {
+    "id": "urn:topic:1:131964",
+    "name": "Soptsesi bïjre",
+    "contentUri": "urn:article:8581",
+    "path": "/subject:15/topic:1:182073/topic:1:131964"
+  },
+  {
+    "id": "urn:topic:1:173412",
+    "name": "Aamhtese-tjaalegh",
+    "contentUri": "urn:article:8932",
+    "path": "/subject:15/topic:1:175119/topic:1:173412"
+  },
+  {
+    "id": "urn:topic:1:175146",
+    "name": "Ektie-bïejeme tjaalegi bïjre",
+    "contentUri": "urn:article:8928",
+    "path": "/subject:15/topic:1:175143/topic:1:175146"
+  },
+  {
+    "id": "urn:topic:1:182306",
+    "name": "Draaman bïjre",
+    "contentUri": "urn:article:8646",
+    "path": "/subject:15/topic:1:176552/topic:1:182306"
+  },
+  {
+    "id": "urn:topic:1:183860",
+    "name": "Behovsanalyse",
+    "contentUri": "urn:article:8657",
+    "path": "/subject:12/topic:1:183846/topic:1:183860"
+  },
+  {
+    "id": "urn:topic:1:182394",
+    "name": "Retorihken bïjre",
+    "contentUri": "urn:article:8666",
+    "path": "/subject:15/topic:1:181662/topic:1:182394"
+  },
+  {
+    "id": "urn:topic:1:181665",
+    "name": "Åehpiedehtemh jïh håalemh",
+    "contentUri": "urn:article:8710",
+    "path": "/subject:15/topic:1:181865/topic:1:181665"
+  },
+  {
+    "id": "urn:topic:1:179502",
+    "name": "Mijjen gïelen bïjre",
+    "contentUri": "urn:article:8754",
+    "path": "/subject:15/topic:1:181933/topic:1:179502"
+  },
+  {
+    "id": "urn:topic:1:182389",
+    "name": "Tjaelemen bïjre",
+    "contentUri": "urn:article:8702",
+    "path": "/subject:15/topic:1:181819/topic:1:182389"
+  },
+  {
+    "id": "urn:topic:1:184089",
+    "name": "Saemien lidteratuvren bïjre",
+    "contentUri": "urn:article:9229",
+    "path": "/subject:15/topic:1:186476/topic:1:184089"
+  },
+  {
+    "id": "urn:topic:1:115982",
+    "name": "Markedskommunikasjon",
+    "contentUri": "urn:article:8706",
+    "path": "/subject:7/topic:1:184564/topic:1:115982"
+  },
+  {
+    "id": "urn:topic:1:183758",
+    "name": "Aerpievuekien jielemi bïjre",
+    "contentUri": "urn:article:9228",
+    "path": "/subject:15/topic:1:182312/topic:1:183758"
+  },
+  {
+    "id": "urn:topic:1:113151",
+    "name": "P for påvirkning",
+    "contentUri": "urn:article:8720",
+    "path": "/subject:7/topic:1:183189/topic:1:113151"
+  },
+  {
+    "id": "urn:topic:1:182173",
+    "name": "Lyrihken bïjre",
+    "contentUri": "urn:article:8677",
+    "path": "/subject:15/topic:1:172396/topic:1:182173"
+  },
+  {
+    "id": "urn:topic:1:179686",
+    "name": "Novellaj jïh soptsesi bïjre",
+    "contentUri": "urn:article:8761",
+    "path": "/subject:15/topic:1:182064/topic:1:179686"
+  },
+  {
+    "id": "urn:topic:1:182229",
+    "name": "Gïeleviehkie-dïrregi bïjre",
+    "contentUri": "urn:article:8926",
+    "path": "/subject:15/topic:1:166611/topic:1:182229"
+  },
+  {
+    "id": "urn:topic:1:182050",
+    "name": "Argumentasjovnen bïjre",
+    "contentUri": "urn:article:8747",
+    "path": "/subject:15/topic:1:172880/topic:1:182050"
+  },
+  {
+    "id": "urn:topic:1:183816",
+    "name": "Verdikjeden",
+    "contentUri": "urn:article:8644",
+    "path": "/subject:12/topic:1:88173/topic:1:183816"
+  },
+  {
+    "id": "urn:topic:1:182011",
+    "name": "Saemien filmestudije-aarkh",
+    "contentUri": "urn:article:8727",
+    "path": "/subject:15/topic:1:182039/topic:1:182011"
+  },
+  {
+    "id": "urn:topic:1:185598",
+    "name": "Filmens historie",
+    "contentUri": "urn:article:568",
+    "path": "/subject:14/topic:1:185588/topic:1:185598"
+  },
+  {
+    "id": "urn:topic:1:186474",
+    "name": "Videoproduksjon",
+    "contentUri": "urn:article:8935",
+    "path": "/subject:1/topic:1:186460/topic:1:186474"
+  },
+  {
+    "id": "urn:topic:1:169379",
+    "name": "Produksjon for internett",
+    "contentUri": "urn:article:8885",
+    "path": "/subject:1/topic:1:186460/topic:1:169379"
+  },
+  {
+    "id": "urn:topic:1:185591",
+    "name": "Norsk mediehistorie",
+    "contentUri": "urn:article:446",
+    "path": "/subject:14/topic:1:185588/topic:1:185591"
+  },
+  {
+    "id": "urn:topic:1:117225",
+    "name": "Salgsprosessen",
+    "contentUri": "urn:article:8766",
+    "path": "/subject:7/topic:1:183189/topic:1:117225"
+  },
+  {
+    "id": "urn:topic:1:110002",
+    "name": "Behov og motiv",
+    "contentUri": null,
+    "path": "/subject:12/topic:1:183846/topic:1:183935/topic:1:110002"
+  },
+  {
+    "id": "urn:topic:1:103055",
+    "name": "Salgssamtalen",
+    "contentUri": null,
+    "path": "/subject:12/topic:1:183846/topic:1:183935/topic:1:103055"
+  },
+  {
+    "id": "urn:topic:1:182948",
+    "name": "Sosiale forhold 1500–1800",
+    "contentUri": "urn:article:8931",
+    "path": "/subject:9/topic:1:182163/topic:1:182937/topic:1:182948"
+  },
+  {
+    "id": "urn:topic:1:168025",
+    "name": "Første verdenskrig – krigen som forandret Europa for godt",
+    "contentUri": "urn:article:8937",
+    "path": "/subject:9/topic:1:182163/topic:1:184957/topic:1:168025"
+  },
+  {
+    "id": "urn:topic:1:184116",
+    "name": "Arbeidsliv og kjønn",
+    "contentUri": "urn:article:8846",
+    "path": "/subject:9/topic:1:182163/topic:1:183762/topic:1:184116"
+  },
+  {
+    "id": "urn:topic:1:169760",
+    "name": "Nasjonale minoriteter",
+    "contentUri": "urn:article:8788",
+    "path": "/subject:9/topic:1:182163/topic:1:184527/topic:1:169760"
+  },
+  {
+    "id": "urn:topic:1:184708",
+    "name": "Samisk historie",
+    "contentUri": "urn:article:9231",
+    "path": "/subject:9/topic:1:182163/topic:1:184527/topic:1:184708"
+  },
+  {
+    "id": "urn:topic:1:183763",
+    "name": "Industrialisering",
+    "contentUri": "urn:article:8773",
+    "path": "/subject:9/topic:1:182163/topic:1:183762/topic:1:183763"
+  },
+  {
+    "id": "urn:topic:1:156470",
+    "name": "Nasjonalstaten",
+    "contentUri": "urn:article:5836",
+    "path": "/subject:9/topic:1:182163/topic:1:183765/topic:1:156470"
+  },
+  {
+    "id": "urn:topic:1:184873",
+    "name": "Napoleonskrigene",
+    "contentUri": "urn:article:8879",
+    "path": "/subject:9/topic:1:182163/topic:1:184957/topic:1:184873"
+  },
+  {
+    "id": "urn:topic:1:157138",
+    "name": "Næringslivet i Norge 1500–1800",
+    "contentUri": "urn:article:8801",
+    "path": "/subject:9/topic:1:182163/topic:1:182937/topic:1:157138"
+  },
+  {
+    "id": "urn:topic:1:184374",
+    "name": "Demokratiutvikling i Norge, 1800–1945",
+    "contentUri": "urn:article:8832",
+    "path": "/subject:9/topic:1:182163/topic:1:183765/topic:1:184374"
+  },
+  {
+    "id": "urn:topic:1:168758",
+    "name": "Andre verdenskrig",
+    "contentUri": "urn:article:8944",
+    "path": "/subject:9/topic:1:182163/topic:1:184957/topic:1:168758"
+  },
+  {
+    "id": "urn:topic:1:187198",
+    "name": "Krigen i Norge",
+    "contentUri": "urn:article:9234",
+    "path": "/subject:9/topic:1:182163/topic:1:184957/topic:1:187198"
+  },
+  {
+    "id": "urn:topic:1:187959",
+    "name": "Den kalde krigen",
+    "contentUri": "urn:article:9238",
+    "path": "/subject:9/topic:1:182163/topic:1:184957/topic:1:187959"
+  },
+  {
+    "id": "urn:topic:1:171478",
+    "name": "Verbh",
+    "contentUri": "urn:article:8650",
+    "path": "/subject:15/topic:1:181933/topic:1:179502/topic:1:171478"
+  },
+  {
+    "id": "urn:topic:1:170791",
+    "name": "Seerkeme-baakoeh",
+    "contentUri": "urn:article:8635",
+    "path": "/subject:15/topic:1:181933/topic:1:179502/topic:1:170791"
+  },
+  {
+    "id": "urn:topic:1:174722",
+    "name": "Jarkoestidh",
+    "contentUri": "urn:article:8617",
+    "path": "/subject:15/topic:1:181933/topic:1:179502/topic:1:174722"
+  },
+  {
+    "id": "urn:topic:1:185447",
+    "name": "Heamturh",
+    "contentUri": "urn:article:8830",
+    "path": "/subject:15/topic:1:182073/topic:1:131964/topic:1:185447"
+  },
+  {
+    "id": "urn:topic:1:176815",
+    "name": "Jienebegïelenvoete",
+    "contentUri": "urn:article:8631",
+    "path": "/subject:15/topic:1:181933/topic:1:179502/topic:1:176815"
+  },
+  {
+    "id": "urn:topic:1:185442",
+    "name": "Nomeni bïjre",
+    "contentUri": "urn:article:8661",
+    "path": "/subject:15/topic:1:181933/topic:1:179502/topic:1:185442"
+  },
+  {
+    "id": "urn:topic:1:185445",
+    "name": "Jeatjah aalkoe-almetji soptsesh",
+    "contentUri": "urn:article:8823",
+    "path": "/subject:15/topic:1:182073/topic:1:131964/topic:1:185445"
+  },
+  {
+    "id": "urn:topic:1:187267",
+    "name": "Saemie-laaken gïele-njoelkedassh",
+    "contentUri": "urn:article:9237",
+    "path": "/subject:15/topic:1:181933/topic:1:179502/topic:1:187267"
+  },
+  {
+    "id": "urn:topic:1:184748",
+    "name": "Raajese-bigkeme",
+    "contentUri": "urn:article:9232",
+    "path": "/subject:15/topic:1:181933/topic:1:179502/topic:1:184748"
+  },
+  {
+    "id": "urn:topic:1:184746",
+    "name": "Baakoe-klaassh",
+    "contentUri": "urn:article:9236",
+    "path": "/subject:15/topic:1:181933/topic:1:179502/topic:1:184746"
+  },
+  {
+    "id": "urn:topic:1:187330",
+    "name": "Lööneme-baakoej bïjre",
+    "contentUri": "urn:article:9230",
+    "path": "/subject:15/topic:1:181933/topic:1:179502/topic:1:187330"
+  },
+  {
+    "id": "urn:topic:1:185454",
+    "name": "Dikth",
+    "contentUri": "urn:article:8840",
+    "path": "/subject:15/topic:1:172396/topic:1:182173/topic:1:185454"
+  },
+  {
+    "id": "urn:topic:1:185443",
+    "name": "Saemien soptsestimmievuekie",
+    "contentUri": "urn:article:8892",
+    "path": "/subject:15/topic:1:182073/topic:1:131964/topic:1:185443"
+  },
+  {
+    "id": "urn:topic:8d87caa6-fefa-4248-bb38-e05f104a0a71",
+    "name": "Praktisk salgskurs",
+    "contentUri": "urn:article:8609",
+    "path": null
+  },
+  {
+    "id": "urn:topic:23ccf328-a636-4a2b-bdfa-4586548468d1",
+    "name": "TEST",
+    "contentUri": null,
+    "path": null
+  },
+  {
+    "id": "urn:topic:a0cabc24-a160-4974-9a4b-d24ecd27ca3d",
+    "name": "TEST",
+    "contentUri": null,
+    "path": null
+  },
+  {
+    "id": "urn:topic:4e91f9a3-f5fd-4616-869d-2e6dcd0edd4a",
+    "name": "Testing oma",
+    "contentUri": null,
+    "path": null
+  }
+]

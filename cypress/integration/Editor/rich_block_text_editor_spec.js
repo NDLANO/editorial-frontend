@@ -37,12 +37,12 @@ describe('Learning resource editing', () => {
     cy.url().should('contain', 'subject-matter/learning-resource/9337/edit/nb');
   });
   it('can enter all types of blocks', () => {
-    cy.server();
+    /*     cy.server();
     cy.route(
       'GET',
       '/image-api/v2/images/?page=1&page-size=16',
       'fixtures:editor/immageSearch.json',
-    );
+    ); */
 
     cy.get('[data-cy=slate-block-picker]').click({ force: true });
     cy.get('[data-cy=create-block]').click({ force: true });

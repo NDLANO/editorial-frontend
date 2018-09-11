@@ -26,6 +26,11 @@ const visitOptions = {
 };
 
 export const beforeEachHelper = visitUrl => {
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    // returning false here prevents Cypress from
+    // failing the test
+    return false;
+  });
   const options = {
     method: 'POST',
     url: 'https://ndla.eu.auth0.com/oauth/token',

@@ -36,14 +36,14 @@ describe('Learning resource editing', () => {
     cy.get('[data-testid=saveLearningResourceButton').click({ force: true });
     cy.url().should('contain', 'subject-matter/learning-resource/9337/edit/nb');
   });
-  it('can enter all types of blocks', () => {
-    /*     cy.server();
+  it.only('can enter all types of blocks', () => {
+    cy.server();
+    cy.route('GET', '/get_brightcove_token', '');
     cy.route(
       'GET',
-      '/image-api/v2/images/?page=1&page-size=16',
-      'fixtures:editor/immageSearch.json',
-    ); */
-
+      'https://cms.api.brightcove.com/v1/accounts/4806596774001/videos/?limit=10&offset=0&q=',
+      'fixture:editor/videoSearch.json',
+    );
     cy.get('[data-cy=slate-block-picker]').click({ force: true });
     cy.get('[data-cy=create-block]').click({ force: true });
     cy.get('[data-cy=slate-block-picker]')
@@ -83,13 +83,13 @@ describe('Learning resource editing', () => {
       .parent()
       .click();
     cy.contains(t.imageSearch.useImage).click();
-    cy.get('[data-cy=slate-block-picker]')
+    /*     cy.get('[data-cy=slate-block-picker]')
       .last()
       .click({ force: true });
     cy.get('[data-cy=create-video]')
       .last()
       .click({ force: true });
-    cy.contains(t.videoSearch.addVideo).click();
+    cy.contains(t.videoSearch.addVideo).click(); */
 
     cy.get('[data-cy=create-audio]')
       .last()

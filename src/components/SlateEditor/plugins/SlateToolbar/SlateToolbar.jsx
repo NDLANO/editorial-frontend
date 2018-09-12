@@ -66,7 +66,6 @@ class SlateToolbar extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { value } = nextProps;
-
     if (value.selection.startKey !== this.props.value.selection.startKey) {
       const nodeKey = value.document.getClosestBlock(value.selection.startKey)
         .key;
@@ -157,7 +156,8 @@ class SlateToolbar extends Component {
     const { menu } = this.state;
     const { value } = this.props;
     if (!menu) return;
-    if (value.isBlurred || value.isEmpty) {
+    if (value.isBlurred || value.isCollapsed) {
+      // change from isCollapsed to isEmpty when slate is updated, ref https://github.com/ianstormtaylor/slate/issues/2004
       menu.removeAttribute('style');
       return;
     }

@@ -1,0 +1,55 @@
+{
+  "totalCount": 7979,
+  "page": 1,
+  "pageSize": 10,
+  "language": "nb",
+  "results": [
+    {
+      "id": 280,
+      "title": {
+        "title": "Fortelleteknikker i skriftlig arbeid ",
+        "language": "nb"
+      },
+      "introduction": {
+        "introduction": "Medietekster kan være beskrivende, argumenterende eller fortellende. Det er avhengig av hvilket formål teksten har. Men alle tekster bør være tilpasset den kanalen teksten skal formidles gjennom, og den målgruppa den primært er skrevet for.",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "henrik tester oppdatering av metagreier..",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://test.api.ndla.no/image-api/raw/id/437",
+        "alt": "",
+        "language": "nb"
+      },
+      "url": "https://test.api.ndla.no/article-api/v2/articles/280",
+      "license": "by-sa",
+      "articleType": "standard",
+      "lastUpdated": "2018-08-24T08:10:31Z",
+      "supportedLanguages": ["nb", "nn"]
+    },
+    {
+      "id": 281,
+      "title": { "title": "Her er ingen kjære Mark!", "language": "nb" },
+      "introduction": {
+        "introduction": "Tenk hvor enkel verden ville vært om Facebook bare snakket norsk.",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "Tenk hvor enkel verden ville vært om Facebook bare snakket norsk.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://test.api.ndla.no/image-api/raw/id/436",
+        "alt": "",
+        "language": "nb"
+      },
+      "url": "https://test.api.ndla.no/article-api/v2/articles/281",
+      "license": "by-sa",
+      "articleType": "standard",
+      "lastUpdated": "2018-05-11T14:32:12Z",
+      "supportedLanguages": ["nb", "nn"]
+    }
+  ]
+}

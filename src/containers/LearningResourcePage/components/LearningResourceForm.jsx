@@ -251,7 +251,11 @@ class LearningResourceForm extends Component {
             disabled={isSaving}>
             {t('form.abort')}
           </Link>
-          <SaveButton isSaving={isSaving} showSaved={showSaved} />
+          <SaveButton
+            data-testid="saveLearningResourceButton"
+            isSaving={isSaving}
+            showSaved={showSaved}
+          />
         </Field>
         <WarningModalWrapper
           schema={schema}

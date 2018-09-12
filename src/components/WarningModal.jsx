@@ -34,7 +34,11 @@ const WarningModal = ({
             className="c-save-button">
             {confirmDelete ? t('form.abort') : t('form.save')}
           </Button>
-          <Button outline onClick={onContinue} className="c-save-button">
+          <Button
+            outline
+            data-testid="warningModalConfirm"
+            onClick={onContinue}
+            className="c-save-button">
             {confirmDelete
               ? t('warningModal.delete')
               : t('warningModal.continue')}

@@ -105,6 +105,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
       >
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:1"
         >
           <a
@@ -138,6 +139,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           >
             <button
               class="c-button c-button--stripped"
+              data-cy="settings-button-subject"
               type="button"
             >
               <div
@@ -176,10 +178,12 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         >
           <div
             class="c-folder__wrapper"
-            id="urn:subject:1urn:topic:1:186401"
+            data-cy="folderWrapper"
+            id="urn:subject:1/urn:topic:1:186401"
           >
             <a
               class="c-folder__link"
@@ -210,10 +214,12 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           </div>
           <div
             class="c-folder__subFolders"
+            data-cy="topic-subFolders"
           />
           <div
             class="c-folder__wrapper"
-            id="urn:subject:1urn:topic:1:172416"
+            data-cy="folderWrapper"
+            id="urn:subject:1/urn:topic:1:172416"
           >
             <a
               class="c-folder__link"
@@ -244,10 +250,12 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           </div>
           <div
             class="c-folder__subFolders"
+            data-cy="topic-subFolders"
           />
           <div
             class="c-folder__wrapper"
-            id="urn:subject:1urn:topic:1:186460"
+            data-cy="folderWrapper"
+            id="urn:subject:1/urn:topic:1:186460"
           >
             <a
               class="c-folder__link"
@@ -278,10 +286,12 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           </div>
           <div
             class="c-folder__subFolders"
+            data-cy="topic-subFolders"
           />
           <div
             class="c-folder__wrapper"
-            id="urn:subject:1urn:topic:1:186479"
+            data-cy="folderWrapper"
+            id="urn:subject:1/urn:topic:1:186479"
           >
             <a
               class="c-folder__link c-folder__link--active"
@@ -314,6 +324,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             >
               <button
                 class="c-button c-button--stripped"
+                data-cy="settings-button-topic"
                 type="button"
               >
                 <div
@@ -349,10 +360,12 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           </div>
           <div
             class="c-folder__subFolders"
+            data-cy="topic-subFolders"
           >
             <div
               class="c-folder__wrapper"
-              id="urn:topic:1:186479urn:topic:1:186487"
+              data-cy="folderWrapper"
+              id="urn:topic:1:186479/urn:topic:1:186487"
             >
               <a
                 class="c-folder__link"
@@ -383,10 +396,12 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
             <div
               class="c-folder__subFolders"
+              data-cy="topic-subFolders"
             />
             <div
               class="c-folder__wrapper"
-              id="urn:topic:1:186479urn:topic:1:172650"
+              data-cy="folderWrapper"
+              id="urn:topic:1:186479/urn:topic:1:172650"
             >
               <a
                 class="c-folder__link c-folder__link--active"
@@ -419,6 +434,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               >
                 <button
                   class="c-button c-button--stripped"
+                  data-cy="settings-button-topic"
                   type="button"
                 >
                   <div
@@ -454,10 +470,12 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
             <div
               class="c-folder__subFolders"
+              data-cy="topic-subFolders"
             />
             <div
               class="c-folder__wrapper"
-              id="urn:topic:1:186479urn:topic:1:185606"
+              data-cy="folderWrapper"
+              id="urn:topic:1:186479/urn:topic:1:185606"
             >
               <a
                 class="c-folder__link"
@@ -488,11 +506,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
             <div
               class="c-folder__subFolders"
+              data-cy="topic-subFolders"
             />
           </div>
           <div
             class="c-folder__wrapper"
-            id="urn:subject:1urn:topic:1:171906"
+            data-cy="folderWrapper"
+            id="urn:subject:1/urn:topic:1:171906"
           >
             <a
               class="c-folder__link"
@@ -523,10 +543,12 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           </div>
           <div
             class="c-folder__subFolders"
+            data-cy="topic-subFolders"
           />
           <div
             class="c-folder__wrapper"
-            id="urn:subject:1urn:topic:1:172361"
+            data-cy="folderWrapper"
+            id="urn:subject:1/urn:topic:1:172361"
           >
             <a
               class="c-folder__link"
@@ -557,10 +579,12 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           </div>
           <div
             class="c-folder__subFolders"
+            data-cy="topic-subFolders"
           />
           <div
             class="c-folder__wrapper"
-            id="urn:subject:1urn:topic:1:172362"
+            data-cy="folderWrapper"
+            id="urn:subject:1/urn:topic:1:172362"
           >
             <a
               class="c-folder__link"
@@ -591,10 +615,12 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           </div>
           <div
             class="c-folder__subFolders"
+            data-cy="topic-subFolders"
           />
           <div
             class="c-folder__wrapper"
-            id="urn:subject:1urn:topic:1:172568"
+            data-cy="folderWrapper"
+            id="urn:subject:1/urn:topic:1:172568"
           >
             <a
               class="c-folder__link"
@@ -625,6 +651,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           </div>
           <div
             class="c-folder__subFolders"
+            data-cy="topic-subFolders"
           />
         </div>
         <div
@@ -663,6 +690,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:2"
         >
           <a
@@ -694,6 +722,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:2"
@@ -731,6 +760,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:3"
         >
           <a
@@ -762,6 +792,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:3"
@@ -799,6 +830,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:4"
         >
           <a
@@ -830,6 +862,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:4"
@@ -867,6 +900,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:5"
         >
           <a
@@ -898,6 +932,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:5"
@@ -935,6 +970,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:6"
         >
           <a
@@ -966,6 +1002,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:6"
@@ -1003,6 +1040,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:7"
         >
           <a
@@ -1034,6 +1072,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:7"
@@ -1071,6 +1110,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:8"
         >
           <a
@@ -1102,6 +1142,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:8"
@@ -1139,6 +1180,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:9"
         >
           <a
@@ -1170,6 +1212,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:9"
@@ -1207,6 +1250,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:10"
         >
           <a
@@ -1238,6 +1282,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:10"
@@ -1275,6 +1320,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:11"
         >
           <a
@@ -1306,6 +1352,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:11"
@@ -1343,6 +1390,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:12"
         >
           <a
@@ -1374,6 +1422,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:12"
@@ -1411,6 +1460,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:13"
         >
           <a
@@ -1442,6 +1492,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:13"
@@ -1479,6 +1530,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:14"
         >
           <a
@@ -1510,6 +1562,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:14"
@@ -1547,6 +1600,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:15"
         >
           <a
@@ -1578,6 +1632,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:15"
@@ -1615,6 +1670,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:16"
         >
           <a
@@ -1646,6 +1702,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:16"
@@ -1683,6 +1740,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:17"
         >
           <a
@@ -1714,6 +1772,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:17"
@@ -1751,6 +1810,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:18"
         >
           <a
@@ -1782,6 +1842,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:18"
@@ -1819,6 +1880,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__wrapper"
+          data-cy="folderWrapper"
           id="urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
         >
           <a
@@ -1850,6 +1912,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </div>
         <div
           class="c-folder__subFolders"
+          data-cy="subject-subFolders"
         />
         <div
           id="linkButton-urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
@@ -1906,6 +1969,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
       </button>
       <button
         class="c-button c-button--stripped c-topic-resource__add-button"
+        data-testid="changeTopicDescription"
         type="button"
       >
         <svg

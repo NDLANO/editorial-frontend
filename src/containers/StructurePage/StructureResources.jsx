@@ -40,9 +40,9 @@ export class StructureResources extends React.PureComponent {
     try {
       const { currentTopic } = this.props;
       await this.getAllResourceTypes();
-      if (currentTopic.id) {
-        this.getTopicResources(currentTopic.id);
-      }
+
+      this.getTopicResources();
+
       if (currentTopic.contentUri) {
         this.getArticle(currentTopic.contentUri);
       }
@@ -57,12 +57,12 @@ export class StructureResources extends React.PureComponent {
       activeFilters,
     } = this.props;
     if (id !== prevProps.currentTopic.id) {
-      this.getTopicResources(id, activeFilters);
-      if (contentUri && contentUri !== prevProps.currentTopic.contentUri) {
-        this.getArticle(contentUri);
-      }
-    } else if (activeFilters !== prevProps.activeFilters) {
-      this.getTopicResources(id, activeFilters);
+      this.getTopicResources();
+    } else if (activeFilters.length !== prevProps.activeFilters.length) {
+      this.getTopicResources();
+    }
+    if (contentUri && contentUri !== prevProps.currentTopic.contentUri) {
+      this.getArticle(contentUri);
     }
   }
 
@@ -93,10 +93,14 @@ export class StructureResources extends React.PureComponent {
     }
   }
 
-  async getTopicResources(topicId, activeFilters = this.props.activeFilters) {
+  async getTopicResources() {
+    const {
+      currentTopic: { id: topicId },
+      locale,
+      activeFilters,
+    } = this.props;
+    const { resourceTypes } = this.state;
     if (topicId) {
-      const { locale } = this.props;
-      const { resourceTypes } = this.state;
       try {
         const [
           coreTopicResources = [],
@@ -152,7 +156,7 @@ export class StructureResources extends React.PureComponent {
               resource={resourceType}
               topicResource={topicResource}
               params={this.props.params}
-              refreshResources={() => this.getTopicResources(currentTopic.id)}
+              refreshResources={this.getTopicResources}
               activeFilter={activeFilters.length === 1 ? activeFilters[0] : ''}
               locale={locale}
             />

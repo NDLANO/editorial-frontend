@@ -100,5 +100,8 @@
   &__checkbox {
     width: auto;
     margin-right: calc(var(--spacing--small) / 2);
+    -webkit-appearance: checkbox !important;
+    -moz-appearance: checkbox !important;
+    padding: inital;
   }
 }

@@ -1,0 +1,32 @@
+{
+  "id": 9337,
+  "revision": 1,
+  "status": ["CREATED"],
+  "title": { "title": "Test Torgeir 2", "language": "nb" },
+  "content": { "content": "<section><p>ewtgq</p></section>", "language": "nb" },
+  "copyright": {
+    "license": {
+      "license": "by-sa",
+      "description": "Creative Commons Attribution-ShareAlike 2.0 Generic",
+      "url": "https://creativecommons.org/licenses/by-sa/2.0/"
+    },
+    "origin": "",
+    "creators": [],
+    "processors": [],
+    "rightsholders": []
+  },
+  "tags": { "tags": [], "language": "nb" },
+  "requiredLibraries": [],
+  "introduction": { "introduction": "", "language": "nb" },
+  "metaDescription": { "metaDescription": "", "language": "nb" },
+  "metaImage": {
+    "url": "https://test.api.ndla.no/image-api/raw/id/",
+    "language": "nb"
+  },
+  "created": "2018-08-02T10:53:39Z",
+  "updated": "2018-08-02T10:53:39Z",
+  "updatedBy": "8FLJRGHG1w9K9Xq3VMJs8Rv5",
+  "articleType": "standard",
+  "supportedLanguages": ["nb"],
+  "notes": []
+}

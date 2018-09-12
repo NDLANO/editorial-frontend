@@ -1,0 +1,44 @@
+{
+  "id": 8785,
+  "oldNdlaUrl": "//red.ndla.no/node/183437",
+  "revision": 1,
+  "title": { "title": "Administrative rutiner", "language": "nb" },
+  "content": {
+    "content": "<section><embed data-align=\"\" data-alt=\"Humoristisk bilde av overarbeidet kontormedarbeider. Foto.\" data-caption=\"\" data-resource=\"image\" data-resource_id=\"42743\" data-size=\"full\" data-url=\"https://test.api.ndla.no/image-api/v2/images/42743\"><h2></h2><p>Kunne du tenke deg å jobbe på et kontor? Kanskje du blir utplassert på et kontor i yrkesfaglig fordypning? I så fall ville det vært greit for deg å vite litt om ulike administrative rutiner i en virksomhet.</p><p>Administrative rutiner dreier seg om å svare på e-post og telefon, bruk av digitale plattformer for å kommunisere med kunder, journalføring, arkivering og sentralbordtjeneste for å nevne noen. </p></section>",
+    "language": "nb"
+  },
+  "copyright": {
+    "license": {
+      "license": "by-sa",
+      "description": "Creative Commons Attribution-ShareAlike 2.0 Generic",
+      "url": "https://creativecommons.org/licenses/by-sa/2.0/"
+    },
+    "origin": "",
+    "creators": [{ "type": "Writer", "name": "Hanne-Lisbet Løite" }],
+    "processors": [],
+    "rightsholders": []
+  },
+  "tags": {
+    "tags": ["administrasjon", "administrative rutiner", "rutiner"],
+    "language": "nb"
+  },
+  "requiredLibraries": [],
+  "metaImage": {
+    "url": "https://test.api.ndla.no/image-api/raw/id/42743",
+    "alt": "",
+    "language": "nb"
+  },
+  "introduction": {
+    "introduction": "Administrative rutiner er nødvendig for å sørge for at arbeidsoppgavene blir gjort, at de blir gjort riktig og på en bestemt måte. En rutine er med andre ord en fast måte å gjøre tingene på.",
+    "language": "nb"
+  },
+  "metaDescription": {
+    "metaDescription": "Kunne du tenke deg å jobbe på et kontor? I så fall ville det vært greit for deg å vite litt om ulike administrative rutiner på et kontor.",
+    "language": "nb"
+  },
+  "created": "2018-05-11T16:17:51Z",
+  "updated": "2018-05-11T16:17:51Z",
+  "updatedBy": "r0gHb9Xg3li4yyXv0QSGQczV3bviakrT",
+  "articleType": "standard",
+  "supportedLanguages": ["nb", "nn"]
+}

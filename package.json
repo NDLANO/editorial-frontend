@@ -20,7 +20,16 @@
     "test": "cross-env BABEL_ENV=test NODE_ENV=unittest jest",
     "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch",
     "check-articles-and-write": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node -r babel-register scripts/checkArticles.js -write",
-    "check-articles": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node -r babel-register scripts/checkArticles.js"
+    "check-articles": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node -r babel-register scripts/checkArticles.js",
+    "cy": "cypress open",
+    "pree2e-ci": "cross-env NODE_ENV=production node build/server &",
+    "e2e-ci": "cross-env cypress run --record --key 9dc87a7a-2d55-45ae-9d9b-45f9e01b7643"
+  },
+  "jest": {
+    "testRegex": "/__tests__/.*-test.(js|jsx)$",
+    "setupFiles": [
+      "./src/__tests__/_initTestEnv.js"
+    ]
   },
   "engines": {
     "node": ">=8.4.0",
@@ -30,6 +39,7 @@
     "babel-register": "^6.26.0",
     "chalk": "^2.4.1",
     "cross-env": "^5.2.0",
+    "cypress": "^3.0.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^5.2.0",

@@ -179,6 +179,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         />
         <div
           class="c-dropdown__items c-dropdown__items--resourceMenu"
+          data-testid="dropdown-items"
         >
           <div
             aria-selected="false"
@@ -382,6 +383,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
         />
         <div
           class="c-dropdown__items c-dropdown__items--resourceMenu"
+          data-testid="dropdown-items"
         >
           <div
             aria-selected="true"

@@ -46,7 +46,7 @@ class EditFilters extends React.Component {
   async editFilter(id, name) {
     try {
       await editSubjectFilter(id, this.props.id, name);
-      this.getFilters();
+      this.props.getFilters();
     } catch (e) {
       handleError(e);
       this.setState({ error: e.message });
@@ -73,7 +73,7 @@ class EditFilters extends React.Component {
     const { editMode, showDelete } = this.state;
 
     return (
-      <div {...classes('editFilters')}>
+      <div {...classes('editFilters')} data-testid="editFilterBox">
         <EditFilterList
           filters={filters}
           editMode={editMode}

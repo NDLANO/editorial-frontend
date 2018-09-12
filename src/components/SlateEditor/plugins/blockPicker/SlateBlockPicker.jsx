@@ -220,6 +220,7 @@ class SlateBlockPicker extends Component {
           <Button
             stripped
             {...classes('block-type-button')}
+            data-cy="slate-block-picker"
             onMouseDown={this.toggleIsOpen}>
             {this.state.isOpen ? (
               <Cross className="c-icon--medium" />
@@ -232,6 +233,7 @@ class SlateBlockPicker extends Component {
               <Button
                 key={action.data.object}
                 stripped
+                data-cy={`create-${action.data.kind}`}
                 {...classes('block-type-button')}
                 onMouseDown={() => this.onElementAdd(action.data)}>
                 {action.icon}

@@ -36,7 +36,9 @@ const DropdownMenu = props => {
       : items;
 
   return !isOpen || (dontShowOnEmptyFilter && !inputValue) ? null : (
-    <div {...dropDownClasses('items', resourceMenu ? 'resourceMenu' : '')}>
+    <div
+      {...dropDownClasses('items', resourceMenu ? 'resourceMenu' : '')}
+      data-testid="dropdown-items">
       {!isEmpty(values) ? (
         values.map((item, index) => (
           <DropDownItem

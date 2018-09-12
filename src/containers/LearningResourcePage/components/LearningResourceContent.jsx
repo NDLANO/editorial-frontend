@@ -117,6 +117,7 @@ class LearningResourceContent extends Component {
           title
           noBorder
           placeholder={t('form.title.label')}
+          data-cy="learning-resource-title"
           {...commonFieldProps}
         />
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
@@ -136,6 +137,7 @@ class LearningResourceContent extends Component {
           label={t('form.content.label')}
           placeholder={contentPlaceholder}
           name="content"
+          data-cy="learning-resource-content"
           plugins={this.plugins}
           {...commonFieldProps}
         />

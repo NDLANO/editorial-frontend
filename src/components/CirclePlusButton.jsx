@@ -12,8 +12,9 @@ import PropTypes from 'prop-types';
 import { Plus } from 'ndla-icons/action';
 import { classes } from './Fields';
 
-const CirclePlusButton = ({ onClick, disabled }) => (
+const CirclePlusButton = ({ onClick, disabled, ...rest }) => (
   <Button
+    {...rest}
     {...classes('circle-button', disabled ? 'disabled' : 'eee')}
     disabled={disabled}
     stripped

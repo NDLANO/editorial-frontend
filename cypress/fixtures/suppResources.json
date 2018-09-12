@@ -1,0 +1,72 @@
+[
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:95567",
+    "name": "Personalrutiner",
+    "resourceTypes": [
+      { "id": "urn:resourcetype:academicArticle", "name": "Fagartikkel" },
+      { "id": "urn:resourcetype:subjectMaterial", "name": "Fagstoff" }
+    ],
+    "contentUri": "urn:article:4640",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:95567",
+    "connectionId": "urn:topic-resource:70323f42-f2d4-4d56-950f-26ce3429e639",
+    "rank": 10,
+    "isPrimary": true
+  },
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:95938",
+    "name": "Rutiner i rekrutteringsprosessen",
+    "resourceTypes": [
+      { "id": "urn:resourcetype:academicArticle", "name": "Fagartikkel" },
+      { "id": "urn:resourcetype:subjectMaterial", "name": "Fagstoff" }
+    ],
+    "contentUri": "urn:article:4655",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:95938",
+    "connectionId": "urn:topic-resource:a82be6e8-d976-4589-a37a-1ae4e0e68e91",
+    "rank": 11,
+    "isPrimary": true
+  },
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:95569",
+    "name": "Medarbeidersamtale",
+    "resourceTypes": [
+      { "id": "urn:resourcetype:academicArticle", "name": "Fagartikkel" },
+      { "id": "urn:resourcetype:subjectMaterial", "name": "Fagstoff" }
+    ],
+    "contentUri": "urn:article:4672",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:95569",
+    "connectionId": "urn:topic-resource:f0d5feb8-7588-436b-a0a3-5c9e047b6cba",
+    "rank": 12,
+    "isPrimary": true
+  },
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:95571",
+    "name": "Økonomiske rutiner",
+    "resourceTypes": [
+      { "id": "urn:resourcetype:academicArticle", "name": "Fagartikkel" },
+      { "id": "urn:resourcetype:subjectMaterial", "name": "Fagstoff" }
+    ],
+    "contentUri": "urn:article:4691",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:95571",
+    "connectionId": "urn:topic-resource:696f1e06-cd84-4901-b693-0294af7d8179",
+    "rank": 13,
+    "isPrimary": true
+  },
+  {
+    "topicId": "urn:topic:1:183437",
+    "id": "urn:resource:1:95574",
+    "name": "Bestillingsrutiner",
+    "resourceTypes": [
+      { "id": "urn:resourcetype:academicArticle", "name": "Fagartikkel" },
+      { "id": "urn:resourcetype:subjectMaterial", "name": "Fagstoff" }
+    ],
+    "contentUri": "urn:article:4702",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:95574",
+    "connectionId": "urn:topic-resource:b8616984-0afd-4c6b-9488-2756afd693a6",
+    "rank": 14,
+    "isPrimary": true
+  }
+]

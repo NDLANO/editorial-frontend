@@ -1,0 +1,70 @@
+[
+  {
+    "id": "urn:resourcetype:subjectMaterial",
+    "name": "Fagstoff",
+    "subtypes": [
+      { "id": "urn:resourcetype:academicArticle", "name": "Fagartikkel" },
+      { "id": "urn:resourcetype:movieAndClip", "name": "Film og filmklipp" },
+      {
+        "id": "urn:resourcetype:lectureAndPresentation",
+        "name": "Forelesning og presentasjon"
+      },
+      {
+        "id": "urn:resourcetype:dictionary",
+        "name": "Oppslagsverk og ordliste"
+      },
+      { "id": "urn:resourcetype:guidance", "name": "Veiledning" },
+      { "id": "urn:resourcetype:toolAndTemplate", "name": "Verktøy og mal" },
+      {
+        "id": "urn:resourcetype:drawingAndIllustration",
+        "name": "Tegning og illustrasjon"
+      },
+      { "id": "urn:resourcetype:simulation", "name": "Simulering" },
+      { "id": "urn:resourcetype:soundRecording", "name": "Lydopptak" }
+    ]
+  },
+  {
+    "id": "urn:resourcetype:tasksAndActivities",
+    "name": "Oppgaver og aktiviteter",
+    "subtypes": [
+      { "id": "urn:resourcetype:task", "name": "Oppgave" },
+      { "id": "urn:resourcetype:exercise", "name": "Øvelse" },
+      { "id": "urn:resourcetype:workAssignment", "name": "Arbeidsoppdrag" },
+      { "id": "urn:resourcetype:game", "name": "Spill" }
+    ]
+  },
+  {
+    "id": "urn:resourcetype:reviewResource",
+    "name": "Vurderingsressurs",
+    "subtypes": [
+      { "id": "urn:resourcetype:selfEvaluation", "name": "Egenvurdering" },
+      { "id": "urn:resourcetype:teacherEvaluation", "name": "Lærervurdering" },
+      { "id": "urn:resourcetype:peerEvaulation", "name": "Medelevvurdering" }
+    ]
+  },
+  { "id": "urn:resourcetype:learningPath", "name": "Læringssti" },
+  {
+    "id": "urn:resourcetype:SourceMaterial",
+    "name": "Kildemateriale",
+    "subtypes": [
+      { "id": "urn:resourcetype:featureFilm", "name": "Spillefilm" },
+      { "id": "urn:resourcetype:shortFilm", "name": "Kortfilm" },
+      {
+        "id": "urn:resourcetype:historicalMaterial",
+        "name": "Historisk materiale"
+      },
+      {
+        "id": "urn:resourcetype:paintingGraphicsPhoto",
+        "name": "Malerier- grafikk -kunstfoto"
+      },
+      { "id": "urn:resourcetype:literaryText", "name": "Litterære tekster" }
+    ]
+  },
+  {
+    "id": "urn:resourcetype:externalResource",
+    "name": "Ekstern læringsressurs",
+    "subtypes": [
+      { "id": "urn:resourcetype:externalLink", "name": "Ekstern lenke" }
+    ]
+  }
+]

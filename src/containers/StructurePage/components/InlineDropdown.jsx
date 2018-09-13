@@ -55,7 +55,7 @@ class InlineDropdown extends PureComponent {
     };
     this.setState({
       items: new Fuse(
-        filter ? res.filter(it => !it.path.includes(filter)) : res,
+        filter ? res.filter(it => it.path && !it.path.includes(filter)) : res,
         options,
       ),
     });
@@ -93,10 +93,15 @@ class InlineDropdown extends PureComponent {
           <Downshift
             selectedItem={selected}
             itemToString={item => itemToString(item, 'name')}
-            onChange={selectedItem => this.setState({ selected: selectedItem })}
-            render={downshiftProps => (
+            onChange={selectedItem =>
+              this.setState({ selected: selectedItem })
+            }>
+            {downshiftProps => (
               <div {...dropDownClasses()}>
-                <DropdownInput {...downshiftProps} />
+                <DropdownInput
+                  testid="inlineDropdownInput"
+                  {...downshiftProps}
+                />
                 <DropdownMenu
                   items={items ? items.search(downshiftProps.inputValue) : []}
                   {...downshiftProps}
@@ -123,7 +128,7 @@ class InlineDropdown extends PureComponent {
                 )}
               </div>
             )}
-          />
+          </Downshift>
           <Button
             {...classes('saveButton')}
             data-testid="inlineEditSaveButton"

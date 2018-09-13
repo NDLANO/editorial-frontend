@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { Button } from 'ndla-ui';
+import PropTypes from 'prop-types';
 import { Settings } from 'ndla-icons/editor';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenuDropdown from './SettingsMenuDropdown';
@@ -30,7 +31,10 @@ class SettingsMenu extends React.Component {
   render() {
     return (
       <div {...classes('')}>
-        <Button onClick={() => this.setState({ open: true })} stripped>
+        <Button
+          onClick={() => this.setState({ open: true })}
+          data-cy={`settings-button-${this.props.type}`}
+          stripped>
           <RoundIcon icon={<Settings />} margin />
         </Button>
         {this.state.open && (
@@ -47,5 +51,9 @@ class SettingsMenu extends React.Component {
     );
   }
 }
+
+SettingsMenu.propTypes = {
+  type: PropTypes.string,
+};
 
 export default SettingsMenu;

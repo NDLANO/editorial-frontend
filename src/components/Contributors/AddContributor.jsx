@@ -33,6 +33,7 @@ const AddContributor = ({
         options={contributorTypes}
         value={type}
         idKey="type"
+        data-cy="contributor-selector"
         labelKey="translation"
         onChange={handleContributorTypeChange}
         onBlur={handleContributorTypeChange}

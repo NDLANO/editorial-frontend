@@ -10,7 +10,6 @@ exports[`deserializing related-content works 1`] = `
 Object {
   "document": Object {
     "data": Object {},
-    "kind": "document",
     "nodes": Array [
       Object {
         "data": Object {
@@ -26,24 +25,25 @@ Object {
           ],
         },
         "isVoid": true,
-        "kind": "block",
         "nodes": Array [
           Object {
-            "kind": "text",
             "leaves": Array [
               Object {
-                "kind": "leaf",
                 "marks": Array [],
-                "text": " ",
+                "object": "leaf",
+                "text": "",
               },
             ],
+            "object": "text",
           },
         ],
+        "object": "block",
         "type": "related",
       },
     ],
+    "object": "document",
   },
-  "kind": "value",
+  "object": "value",
 }
 `;
 

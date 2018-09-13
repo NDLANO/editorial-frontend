@@ -22,7 +22,7 @@ describe('Learning resource editing', () => {
       response: '@saveResponse',
     }).as('savedLR');
 
-    cy.get('[data-testid=saveLearningResourceButton]').click({ force: true }); // check that saving is disabled
+    cy.get('[data-testid=saveLearningResourceButton]').click({ force: true }); // checking that saving is disabled
     cy.get('[data-cy=learning-resource-title]').type('This is a test title.', {
       force: true,
     });
@@ -36,7 +36,7 @@ describe('Learning resource editing', () => {
     cy.get('[data-testid=saveLearningResourceButton').click({ force: true });
     cy.url().should('contain', 'subject-matter/learning-resource/9337/edit/nb');
   });
-  it.only('can enter all types of blocks', () => {
+  it('can enter all types of blocks', () => {
     cy.server();
     cy.route('GET', '/get_brightcove_token', '');
     cy.route(
@@ -44,6 +44,9 @@ describe('Learning resource editing', () => {
       'https://cms.api.brightcove.com/v1/accounts/4806596774001/videos/?limit=10&offset=0&q=',
       'fixture:editor/videoSearch.json',
     );
+    cy.get('[data-cy=slate-editor] div')
+      .first()
+      .focus();
     cy.get('[data-cy=slate-block-picker]').click({ force: true });
     cy.get('[data-cy=create-block]').click({ force: true });
     cy.get('[data-cy=slate-block-picker]')
@@ -103,11 +106,8 @@ describe('Learning resource editing', () => {
       .last()
       .click({ force: true });
     cy.get('[data-testid=relatedWrapper]').click({ force: true });
-
-    /* 
-      Test Lisens og bruker 
-      */
   });
+
   it('Can add all contributors', () => {
     cy.get('button > span')
       .contains('Lisens og bruker')

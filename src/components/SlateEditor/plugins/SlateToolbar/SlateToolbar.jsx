@@ -108,7 +108,7 @@ class SlateToolbar extends Component {
         editListPlugin.changes.wrapInList(change, type);
       }
     } else {
-      change.setBlock(isActive ? DEFAULT_NODE : type);
+      change.setBlocks(isActive ? DEFAULT_NODE : type);
     }
     this.handleValueChange(change);
   }

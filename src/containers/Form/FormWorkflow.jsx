@@ -17,8 +17,9 @@ import { actions as draftActions } from '../../modules/draft/draft';
 import * as messageActions from '../Messages/messagesActions';
 import { articleStatuses } from '../../util/formHelper';
 import { AddNotes, formClasses } from '.';
-
 import { CommonFieldPropsShape } from '../../shapes';
+import { statuses } from '../../tempStatusFile';
+import FormStatusActions from './components/FormStatusActions';
 
 class FormWorkflow extends Component {
   constructor(props) {
@@ -28,6 +29,10 @@ class FormWorkflow extends Component {
     };
     this.toggleWorkflow = this.toggleWorkflow.bind(this);
     this.onValidateClick = this.onValidateClick.bind(this);
+  }
+
+  onActionClick(currentStatus, newStatus) {
+    console.log()
   }
 
   onValidateClick() {
@@ -70,6 +75,9 @@ class FormWorkflow extends Component {
       articleStatus,
       commonFieldProps,
     } = this.props;
+    console.log(model);
+    const possibleStatuses = statuses[model.status[0]]
+    console.log(possibleStatuses);
     return (
       <Accordion
         fill
@@ -90,23 +98,8 @@ class FormWorkflow extends Component {
             </span>
           ))}
         </div>
-        <div {...formClasses('actions')}>
-          {model.id ? (
-            <Button outline onClick={this.onValidateClick}>
-              {t('form.validate')}
-            </Button>
-          ) : (
-            ''
-          )}
-          {model.id ? (
-            <Button outline onClick={() => publishDraft({ draft: model })}>
-              {t('form.publish')}
-            </Button>
-          ) : (
-            ''
-          )}
-          <Button onClick={saveDraft}>{t('form.save')}</Button>
-        </div>
+
+        <FormStatusActions articleStatus={articleStatus} model={model} onValidateClick={this.onValidateClick}/>
       </Accordion>
     );
   }

@@ -51,7 +51,7 @@ export const fetchNewArticleId = id => {
 };
 
 export const validateDraft = id =>
-  fetchAuthorized(`${baseUrl}/${id}/validate`, {
+  fetchAuthorized(`${baseUrl}/${id}/validate/`, {
     method: 'PUT',
   }).then(resolveJsonOrRejectWithError);
 

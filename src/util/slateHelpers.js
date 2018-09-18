@@ -137,22 +137,22 @@ export const divRule = {
       nodes: childs,
     };
   },
-  serialize(object, children) {
-    if (object.object !== 'block') return;
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'block') return;
     if (
-      object.type !== 'div' &&
-      object.type !== 'bodybox' &&
-      object.type !== 'file'
+      slateObject.type !== 'div' &&
+      slateObject.type !== 'bodybox' &&
+      slateObject.type !== 'file'
     )
       return;
-    switch (object.type) {
+    switch (slateObject.type) {
       case 'bodybox':
         return <div className="c-bodybox">{children}</div>;
       case 'file':
         return (
           <div data-type="file">
-            {object.data.get('nodes') &&
-              object.data
+            {slateObject.data.get('nodes') &&
+              slateObject.data
                 .get('nodes')
                 .map(node => <embed {...createEmbedProps(node)} />)}
           </div>
@@ -179,10 +179,11 @@ export const paragraphRule = {
       nodes,
     };
   },
-  serialize(object, children) {
-    if (object.object !== 'block') return;
-    if (object.type !== 'paragraph' && object.type !== 'list-text') return;
-    if (object.type === 'list-text') {
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'block') return;
+    if (slateObject.type !== 'paragraph' && slateObject.type !== 'list-text')
+      return;
+    if (slateObject.type === 'list-text') {
       return <ListText>{children}</ListText>;
     }
     return <p>{children}</p>;
@@ -199,9 +200,9 @@ export const listItemRule = {
       nodes: next(el.childNodes),
     };
   },
-  serialize(object, children) {
-    if (object.object !== 'block') return;
-    if (object.type !== 'list-item') return;
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'block') return;
+    if (slateObject.type !== 'list-item') return;
     return <li>{children}</li>;
   },
 };
@@ -227,13 +228,16 @@ export const unorderListRules = {
       nodes: next(el.childNodes),
     };
   },
-  serialize(object, children) {
-    if (object.object !== 'block') return;
-    if (object.type !== 'two-column-list' && object.type !== 'bulleted-list') {
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'block') return;
+    if (
+      slateObject.type !== 'two-column-list' &&
+      slateObject.type !== 'bulleted-list'
+    ) {
       return;
     }
 
-    if (object.type === 'two-column-list') {
+    if (slateObject.type === 'two-column-list') {
       return <ul data-type="two-column">{children}</ul>;
     }
     return <ul>{children}</ul>;
@@ -260,11 +264,14 @@ export const orderListRules = {
       nodes: next(el.childNodes),
     };
   },
-  serialize(object, children) {
-    if (object.object !== 'block') return;
-    if (object.type !== 'numbered-list' && object.type !== 'letter-list')
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'block') return;
+    if (
+      slateObject.type !== 'numbered-list' &&
+      slateObject.type !== 'letter-list'
+    )
       return;
-    if (object.type === 'letter-list') {
+    if (slateObject.type === 'letter-list') {
       return <ol data-type="letters">{children}</ol>;
     }
     return <ol>{children}</ol>;
@@ -299,11 +306,11 @@ export const footnoteRule = {
       },
     };
   },
-  serialize(object) {
-    if (object.object !== 'inline') return;
-    if (object.type !== 'footnote') return;
+  serialize(slateObject) {
+    if (slateObject.object !== 'inline') return;
+    if (slateObject.type !== 'footnote') return;
 
-    const data = object.data.toJS();
+    const data = slateObject.data.toJS();
     const props = createEmbedProps({
       ...data,
       authors: data.authors ? data.authors.join(';') : '',
@@ -322,9 +329,9 @@ export const blockRules = {
       nodes: next(el.childNodes),
     };
   },
-  serialize(object, children) {
-    if (object.object !== 'block') return;
-    switch (object.type) {
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'block') return;
+    switch (slateObject.type) {
       case 'section':
         return <section>{children}</section>;
       case 'bulleted-list':
@@ -369,11 +376,11 @@ export const inlineRules = {
       nodes: next(el.childNodes),
     };
   },
-  serialize(object, children) {
-    if (object.object !== 'inline') return;
-    const data = object.data.toJS();
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'inline') return;
+    const data = slateObject.data.toJS();
     const props = createProps(data);
-    switch (object.type) {
+    switch (slateObject.type) {
       case 'span':
         return <span {...props}>{children}</span>;
     }
@@ -447,10 +454,10 @@ const RULES = [
         data: getAsideType(el),
       };
     },
-    serialize(object, children) {
-      if (object.object !== 'block') return;
-      if (object.type !== 'aside') return;
-      return <aside {...setAsideTag(object.data)}>{children}</aside>;
+    serialize(slateObject, children) {
+      if (slateObject.object !== 'block') return;
+      if (slateObject.type !== 'aside') return;
+      return <aside {...setAsideTag(slateObject.data)}>{children}</aside>;
     },
   },
   blockRules,
@@ -465,9 +472,9 @@ const RULES = [
         nodes: next(el.childNodes),
       };
     },
-    serialize(object, children) {
-      if (object.object !== 'mark') return;
-      switch (object.type) {
+    serialize(slateObject, children) {
+      if (slateObject.object !== 'mark') return;
+      switch (slateObject.type) {
         case 'bold':
           return <strong>{children}</strong>;
         case 'italic':
@@ -496,17 +503,17 @@ const RULES = [
         nodes: next(el.childNodes),
       };
     },
-    serialize(object, children) {
-      if (object.object !== 'inline') return;
-      if (object.type !== 'link') return;
-      const data = object.data.toJS();
+    serialize(slateObject, children) {
+      if (slateObject.object !== 'inline') return;
+      if (slateObject.type !== 'link') return;
+      const data = slateObject.data.toJS();
 
       if (data.resource === 'content-link') {
         return (
           <embed
             data-resource={data.resource}
             data-content-id={data['content-id']}
-            data-link-text={object.text}
+            data-link-text={slateObject.text}
             data-open-in={data['open-in']}
           />
         );
@@ -517,7 +524,7 @@ const RULES = [
           href={data.href}
           target={data.target}
           rel={data.rel}
-          title={object.text}>
+          title={slateObject.text}>
           {children}
         </a>
       );

@@ -16,6 +16,7 @@ export const setImage = createAction('SET_IMAGE');
 export const updateImage = createAction('UPDATE_IMAGE');
 export const updateImageSuccess = createAction('UPDATE_IMAGE_SUCCESS');
 export const updateImageError = createAction('UPDATE_IMAGE_ERROR');
+export const clearUploadedImage = createAction('CLEAR_UPLOADED_IMAGE');
 
 export const actions = {
   updateImage,
@@ -23,11 +24,13 @@ export const actions = {
   setImage,
   updateImageSuccess,
   updateImageError,
+  clearUploadedImage,
 };
 
 const initalState = {
   all: {},
   isSaving: false,
+  uploadedImageId: null,
 };
 
 export default handleActions(
@@ -47,9 +50,10 @@ export default handleActions(
       throw: state => state,
     },
     [updateImageSuccess]: {
-      next: state => ({
+      next: (state, action) => ({
         ...state,
         isSaving: false,
+        uploadedImage: action.payload.uploadedImage,
       }),
       throw: state => state,
     },
@@ -57,6 +61,13 @@ export default handleActions(
       next: state => ({
         ...state,
         isSaving: false,
+      }),
+      throw: state => state,
+    },
+    [clearUploadedImage]: {
+      next: state => ({
+        ...state,
+        uploadedImage: null,
       }),
       throw: state => state,
     },
@@ -103,4 +114,9 @@ export const getImage = (imageId, useLanguage = false) =>
 export const getSaving = createSelector(
   [getImagesFromState],
   images => images.isSaving,
+);
+
+export const getUploadedImage = createSelector(
+  [getImagesFromState],
+  images => images.uploadedImage,
 );

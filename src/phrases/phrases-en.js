@@ -197,6 +197,8 @@ const phrases = {
     buttonTitle: 'Search',
     useImage: 'Use image',
     noTitle: 'No title',
+    noResultsText: 'No images found matching "{searchWord}"',
+    noResultsButtonText: 'Upload image',
   },
   videoSearch: {
     searchPlaceholder: 'Search videos',
@@ -276,10 +278,7 @@ const phrases = {
     },
   },
   imageForm: {
-    title: {
-      create: 'You are now creating an image',
-      update: 'You are now editing an image',
-    },
+    title: 'Image | {title} ({key})',
   },
   learningResourceForm: {
     metaImage: {
@@ -357,6 +356,7 @@ const phrases = {
       label: 'Visual element',
       video: 'Video search',
       image: 'Image search',
+      imageUpload: 'Upload image',
       h5p: 'H5P',
     },
     status: {

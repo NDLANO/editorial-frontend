@@ -34,7 +34,6 @@ class ImageUploaderPage extends Component {
 
   render() {
     const { match, ...rest } = this.props;
-
     return (
       <OneColumn>
         <Switch>

@@ -201,6 +201,8 @@ const phrases = {
     buttonTitle: 'Søk',
     useImage: 'Bruk bildet',
     noTitle: 'Ingen tittel',
+    noResultsText: 'Fant ingen bilder med søket: "{searchWord}"',
+    noResultsButtonText: 'Last opp bilde',
   },
   videoSearch: {
     searchPlaceholder: 'Søk i videoer',
@@ -367,6 +369,7 @@ const phrases = {
       label: 'Visuelt element',
       video: 'Videosøk',
       image: 'Bildesøk',
+      imageUpload: 'Last opp bilde',
       h5p: 'H5P',
     },
     status: {

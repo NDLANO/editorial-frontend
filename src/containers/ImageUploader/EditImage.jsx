@@ -37,15 +37,20 @@ class EditImage extends Component {
       image: imageData,
       updateImage,
       locale,
+      inModal,
+      editingArticle,
       ...rest
     } = this.props;
 
     return (
       <ImageForm
+        inModal={inModal}
         initialModel={getInitialModel(imageData || { language: locale })}
         revision={imageData && imageData.revision}
         imageInfo={imageData && imageData.imageFile}
-        onUpdate={(image, file) => updateImage({ image, file, history })}
+        onUpdate={(image, file) => {
+          updateImage({ image, file, history, editingArticle });
+        }}
         {...rest}
       />
     );
@@ -70,6 +75,8 @@ EditImage.propTypes = {
   updateImage: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
   imageLanguage: PropTypes.string,
+  inModal: PropTypes.bool,
+  editingArticle: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

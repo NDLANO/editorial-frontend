@@ -116,6 +116,7 @@ class ImageForm extends Component {
       isSaving,
       fields,
       showSaved,
+      inModal,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
@@ -127,6 +128,7 @@ class ImageForm extends Component {
           editUrl={lang => toEditImage(model.id, lang)}
         />
         <ImageContent
+          inModal={inModal}
           commonFieldProps={commonFieldProps}
           tags={tags}
           model={model}
@@ -187,6 +189,7 @@ ImageForm.propTypes = {
   isSaving: PropTypes.bool.isRequired,
   showSaved: PropTypes.bool.isRequired,
   revision: PropTypes.number,
+  inModal: PropTypes.bool,
 };
 
 export default compose(

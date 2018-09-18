@@ -339,6 +339,7 @@ const phrases = {
     createdOk: 'Created OK',
     addNewImage: 'Add new image',
     addNewAudio: 'Add new audio',
+    addNotes: 'Add note',
     editImage: 'Edit image',
     editAudio: 'Edit audio',
     variant: {
@@ -371,6 +372,7 @@ const phrases = {
       awaiting_unpublishing: 'Awaiting unpublishing',
       imported: 'Imported',
       archieved: 'Archieved',
+      proposal: 'Proposal',
       actions: {
         DRAFT: 'Save as draft',
         PROPOSAL: 'Save as proposal',

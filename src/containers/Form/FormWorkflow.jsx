@@ -86,7 +86,11 @@ class FormWorkflow extends Component {
         handleToggle={this.toggleWorkflow}
         header={t('form.workflowSection')}
         hidden={this.state.hiddenWorkflow}>
-        <AddNotes name="notes" label="Legg til merknad" {...commonFieldProps} />
+        <AddNotes
+          name="notes"
+          label={t('form.addNotes')}
+          {...commonFieldProps}
+        />
         <span {...formClasses('title')}>Status</span>
         <FormStatusColumns articleStatus={articleStatus} />
         <FormStatusActions

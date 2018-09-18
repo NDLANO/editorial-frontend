@@ -349,6 +349,7 @@ const phrases = {
     createdOk: 'Opprettet OK',
     addNewImage: 'Legg til nytt bilde',
     addNewAudio: 'Legg til ny lyd',
+    addNotes: 'Legg til merknad',
     editImage: 'Endre bilde',
     editAudio: 'Endre lyd',
     variant: {
@@ -381,6 +382,7 @@ const phrases = {
       awaiting_unpublishing: 'Til avpublisering',
       imported: 'Fra spoling',
       archieved: 'Arkivert',
+      proposal: 'Forslag',
       actions: {
         DRAFT: 'Lagre som utkast',
         PROPOSAL: 'Sett til forslag',

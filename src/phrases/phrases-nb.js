@@ -201,7 +201,8 @@ const phrases = {
     buttonTitle: 'Søk',
     useImage: 'Bruk bildet',
     noTitle: 'Ingen tittel',
-    noResultsText: 'Fant ingen bilder med søket: "{searchWord}"',
+    noResultsText:
+      'Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?',
     noResultsButtonText: 'Last opp bilde',
   },
   videoSearch: {

@@ -9,6 +9,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import ImageSearch from 'ndla-image-search';
 import VideoSearch from 'ndla-video-search';
@@ -136,7 +137,19 @@ class VisualElementSearch extends Component {
                     }
                     noResults={
                       <Fragment>
-                        <div>Søket gav ingen treff</div>
+                        <div style={{ marginBottom: '20px' }}>
+                          {t('imageSearch.noResultsText')}
+                        </div>
+                        <Button
+                          submit
+                          outline
+                          onClick={() => {
+                            this.setState({
+                              selectedIndex: 1,
+                            });
+                          }}>
+                          {t('imageSearch.noResultsButtonText')}
+                        </Button>
                       </Fragment>
                     }
                     onError={api.onError}

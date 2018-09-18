@@ -197,7 +197,7 @@ const phrases = {
     buttonTitle: 'Search',
     useImage: 'Use image',
     noTitle: 'No title',
-    noResultsText: 'No images found matching "{searchWord}"',
+    noResultsText: 'No images found. Would you like to upload a new image?',
     noResultsButtonText: 'Upload image',
   },
   videoSearch: {

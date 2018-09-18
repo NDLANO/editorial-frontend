@@ -54,9 +54,13 @@ export function* createImage(image, file, history, editingArticle) {
     const createdImage = yield call(api.postImage, formData);
     yield put(actions.setImage({ ...createdImage, language: image.language }));
     yield put(
-      actions.updateImageSuccess(editingArticle ? {
-        uploadedImage: createdImage,
-      } : null),
+      actions.updateImageSuccess(
+        editingArticle
+          ? {
+              uploadedImage: createdImage,
+            }
+          : null,
+      ),
     );
     yield put(messageActions.showSaved());
     if (!editingArticle) {

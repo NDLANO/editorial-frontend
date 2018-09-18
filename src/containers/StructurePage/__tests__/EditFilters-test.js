@@ -46,11 +46,6 @@ it('maps out filters', async () => {
   await wait();
   await wait();
   await wait();
-  await wait();
-  await wait();
-  await wait();
-  await wait();
-  await wait();
   expect(container.firstChild).toMatchSnapshot();
 });
 

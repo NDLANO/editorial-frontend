@@ -18,9 +18,9 @@ test('imageSagas watchUpdateImage create new image', () => {
     .reply(200, { id: '123', title: 'unit test' });
 
   return expectSaga(sagas.watchUpdateImage)
-    .withState({})
+    .withState({ uploadedImage: null })
     .put(actions.setImage({ id: '123', title: 'unit test', language: 'nb' }))
-    .put(actions.updateImageSuccess())
+    .put(actions.updateImageSuccess(null))
     .dispatch(
       actions.updateImage({
         image: { title: 'update title test', language: 'nb' },

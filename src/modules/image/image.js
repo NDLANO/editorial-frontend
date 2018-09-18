@@ -30,7 +30,6 @@ export const actions = {
 const initalState = {
   all: {},
   isSaving: false,
-  uploadedImageId: null,
 };
 
 export default handleActions(

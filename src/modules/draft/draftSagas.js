@@ -76,12 +76,12 @@ export function* watchUpdateDraft() {
   }
 }
 
-export function* publishDraft(draft) {
+export function* updateStatusDraft(id, status) {
   try {
-    const publishedDraft = yield call(api.publishDraft, draft.id);
-    const currentDraft = yield select(getDraft(draft.id));
+    const statusChangedDraft = yield call(api.updateStatusDraft, id, status);
+    const currentDraft = yield select(getDraft(id));
 
-    yield put(actions.setDraft({ ...currentDraft, ...publishedDraft })); // Quick hack to set draft language on updated draft. Maybe language should not be on model?
+    yield put(actions.setDraft({ ...currentDraft, ...statusChangedDraft })); // Quick hack to set draft language on updated draft. Maybe language should not be on model?
     yield put(actions.updateDraftSuccess());
     yield put(
       messageActions.addMessage({ translationKey: 'form.publishedOk' }),
@@ -93,15 +93,15 @@ export function* publishDraft(draft) {
   }
 }
 
-export function* watchPublishDraft() {
+export function* watchUpdateStatusDraft() {
   while (true) {
     const {
-      payload: { draft },
-    } = yield take(actions.publishDraft);
-    if (draft.id) {
-      yield call(publishDraft, draft);
+      payload: { id, status },
+    } = yield take(actions.updateStatusDraft);
+    if (id && status) {
+      yield call(updateStatusDraft, id, status);
     }
   }
 }
 
-export default [watchPublishDraft, watchFetchDraft, watchUpdateDraft];
+export default [watchUpdateStatusDraft, watchFetchDraft, watchUpdateDraft];

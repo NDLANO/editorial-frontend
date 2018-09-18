@@ -23,7 +23,7 @@ export const articleStatuses = [
   { key: 'DRAFT' },
   { key: 'USER_TEST' },
   { key: 'AWAITING_QUALITY_ASSURANCE' },
-  {key: 'QUALITY_ASSURED'},
+  { key: 'QUALITY_ASSURED' },
   {
     key: 'QUEUED_FOR_PUBLISHING',
     columnSize: 2,
@@ -32,5 +32,5 @@ export const articleStatuses = [
   { key: 'AWAITING_UNPUBLISHING' },
   { key: 'UNPUBLISHED' },
   { key: 'IMPORTED' },
-  {key: 'ARCHIEVED'},
+  { key: 'ARCHIEVED' },
 ];

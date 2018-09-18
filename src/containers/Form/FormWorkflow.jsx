@@ -9,30 +9,39 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { Button } from 'ndla-ui';
 import { connect } from 'react-redux';
 import Accordion from '../../components/Accordion';
-import { validateDraft } from '../../modules/draft/draftApi';
 import { actions as draftActions } from '../../modules/draft/draft';
+import * as draftApi from '../../modules/draft/draftApi';
 import * as messageActions from '../Messages/messagesActions';
-import { articleStatuses } from '../../util/formHelper';
 import { AddNotes, formClasses } from '.';
 import { CommonFieldPropsShape } from '../../shapes';
-import { statuses } from '../../tempStatusFile';
 import FormStatusActions from './components/FormStatusActions';
+import FormStatusColumns from './components/FormStatusColumns';
 
 class FormWorkflow extends Component {
   constructor(props) {
     super(props);
     this.state = {
       hiddenWorkflow: true,
+      possibleStatuses: [],
     };
     this.toggleWorkflow = this.toggleWorkflow.bind(this);
     this.onValidateClick = this.onValidateClick.bind(this);
+    this.onUpdateStatus = this.onUpdateStatus.bind(this);
   }
 
-  onActionClick(currentStatus, newStatus) {
-    console.log()
+  async componentDidMount() {
+    const possibleStatuses = await draftApi.fetchStatusStateMachine();
+    this.setState({ possibleStatuses });
+  }
+
+  onUpdateStatus(status) {
+    const {
+      model: { id },
+      updateStatusDraft,
+    } = this.props;
+    updateStatusDraft({ id, status });
   }
 
   onValidateClick() {
@@ -40,7 +49,8 @@ class FormWorkflow extends Component {
       model: { id },
       addMessage,
     } = this.props;
-    validateDraft(id)
+    draftApi
+      .validateDraft(id)
       .then(() => {
         addMessage({
           translationKey: 'form.validationOk',
@@ -67,17 +77,9 @@ class FormWorkflow extends Component {
   }
 
   render() {
-    const {
-      t,
-      model,
-      publishDraft,
-      saveDraft,
-      articleStatus,
-      commonFieldProps,
-    } = this.props;
-    console.log(model);
-    const possibleStatuses = statuses[model.status[0]]
-    console.log(possibleStatuses);
+    const { t, model, saveDraft, articleStatus, commonFieldProps } = this.props;
+    const { possibleStatuses } = this.state;
+
     return (
       <Accordion
         fill
@@ -86,20 +88,15 @@ class FormWorkflow extends Component {
         hidden={this.state.hiddenWorkflow}>
         <AddNotes name="notes" label="Legg til merknad" {...commonFieldProps} />
         <span {...formClasses('title')}>Status</span>
-        <div {...formClasses('status-columns')}>
-          {articleStatuses.map(status => (
-            <span
-              key={status.key}
-              {...formClasses(
-                `status-${status.columnSize || 1}-column`,
-                articleStatus.includes(status.key) ? 'active' : '',
-              )}>
-              {t(`form.status.${status.key.toLowerCase()}`)}
-            </span>
-          ))}
-        </div>
-
-        <FormStatusActions articleStatus={articleStatus} model={model} onValidateClick={this.onValidateClick}/>
+        <FormStatusColumns articleStatus={articleStatus} />
+        <FormStatusActions
+          articleStatus={articleStatus}
+          model={model}
+          saveDraft={saveDraft}
+          onValidateClick={this.onValidateClick}
+          possibleStatuses={possibleStatuses}
+          onUpdateStatus={this.onUpdateStatus}
+        />
       </Accordion>
     );
   }
@@ -111,7 +108,7 @@ FormWorkflow.propTypes = {
   }),
   articleStatus: PropTypes.arrayOf(PropTypes.string),
   addMessage: PropTypes.func.isRequired,
-  publishDraft: PropTypes.func.isRequired,
+  updateStatusDraft: PropTypes.func.isRequired,
   saveDraft: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
 };
@@ -122,7 +119,7 @@ FormWorkflow.defaultProps = {
 
 const mapDispatchToProps = {
   addMessage: messageActions.addMessage,
-  publishDraft: draftActions.publishDraft,
+  updateStatusDraft: draftActions.updateStatusDraft,
 };
 
 export default connect(

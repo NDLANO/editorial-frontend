@@ -15,9 +15,8 @@ cache:
   yarn: true
   directories:
     - '~/.npm'
-    - '~/.cache/Cypress/'
+    - '~/.cache'
     - '.eslintcache'
-    - node_modules
 notifications:
   slack:
     on_success: change

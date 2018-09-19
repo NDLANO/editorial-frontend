@@ -6,37 +6,28 @@
  *
  */
 
-import { getEventTransfer, cloneFragment } from 'slate-react';
-import { findNodesByType } from '../../../../util/slateHelpers';
+import { Document } from 'slate';
+import { getEventTransfer } from 'slate-react';
 
 function PasteHandler() {
   return {
     schema: {},
-    /*     onCopy(event, change) {
-      const { value } = change;
-      const { selection } = value;
-      console.log(value);
-      console.log(selection);
-      const fragment = undefined; // ... create a fragment from a set of nodes ...
-      console.log(value.document.getBlocksAtRange(selection));
-      if (fragment) {
-        cloneFragment(event, value, fragment);
-        return true;
-      }
-      return;
-    }, */
     onPaste(event, change) {
       const transfer = getEventTransfer(event);
-      const { value } = change;
       const { text } = transfer;
       console.log(transfer.fragment);
-      const { selection } = value;
       console.log('pasting text: ', text);
       const textNode = transfer.fragment.getLastText();
-      const paragraph = findNodesByType(transfer.fragment, 'paragraph').pop();
-      const insertBlock = value.document.getBlocksAtRange(selection);
-      console.log(insertBlock);
-      return change.insertText(text);
+      console.log('textNode', textNode);
+      const closestBlock = transfer.fragment.getClosestBlock(textNode.key);
+      console.log(closestBlock);
+
+      const newFragment = Document.create({
+        nodes: [closestBlock],
+        isVoid: false,
+      });
+      console.log('newFragment', newFragment);
+      return change.insertFragment(newFragment);
     },
   };
 }

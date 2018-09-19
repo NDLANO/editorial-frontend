@@ -17,6 +17,10 @@
   }
 }
 
+.c-editor table td {
+  min-width: 29px;
+}
+
 .c-table-actions {
   margin-bottom: -1px;
   margin-left: 8.66667px;

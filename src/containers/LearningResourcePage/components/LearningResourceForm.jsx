@@ -244,6 +244,11 @@ class LearningResourceForm extends Component {
           <PreviewDraftLightbox
             label={t('subNavigation.learningResource')}
             getArticle={this.getArticle}
+            compareWithArticle
+          />
+          <PreviewDraftLightbox
+            label={t('subNavigation.learningResource')}
+            getArticle={this.getArticle}
           />
           <Link
             to="/"

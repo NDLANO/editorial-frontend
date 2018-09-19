@@ -340,6 +340,7 @@ const phrases = {
     saving: 'Lagrer...',
     saved: 'Lagret ',
     preview: 'Forhåndsvis',
+    previewAndCompare: 'Sammenlign utkast og artikkel',
     abort: 'Avbryt',
     validate: 'Valider',
     publish: 'Publiser',

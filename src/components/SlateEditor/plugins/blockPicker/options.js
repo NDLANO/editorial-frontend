@@ -12,6 +12,7 @@ const defaultOptions = {
     'aside',
     'bodybox',
     'details',
+    'table',
   ],
 };
 

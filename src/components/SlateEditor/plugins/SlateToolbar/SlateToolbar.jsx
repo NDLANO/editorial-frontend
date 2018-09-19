@@ -64,17 +64,6 @@ class SlateToolbar extends Component {
     this.updateMenu();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { value } = nextProps;
-    if (value.selection.startKey !== this.props.value.selection.startKey) {
-      const nodeKey = value.document.getClosestBlock(value.selection.startKey)
-        .key;
-      this.setState({
-        isInsideAside: checkSelectionForType('aside', value, nodeKey),
-      });
-    }
-  }
-
   componentDidUpdate() {
     this.updateMenu();
   }
@@ -138,6 +127,17 @@ class SlateToolbar extends Component {
     if (kind === 'mark') this.onClickMark(e, type);
     if (kind === 'block') this.onClickBlock(e, type);
     if (kind === 'inline') this.onClickInline(e, type);
+  }
+
+  static getDerivedStateFromProps({ value }, { value: stateValue }) {
+    if (value.selection.startKey !== stateValue.selection.startKey) {
+      const nodeKey = value.document.getClosestBlock(value.selection.startKey)
+        .key;
+      return {
+        isInsideAside: checkSelectionForType('aside', value, nodeKey),
+      };
+    }
+    return null;
   }
 
   portalRef(menu) {

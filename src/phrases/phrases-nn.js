@@ -383,6 +383,18 @@ const phrases = {
       imported: 'Fra spoling',
       archieved: 'Arkivert',
       proposal: 'Forslag',
+      changed: {
+        DRAFT: 'Artikkel lagret som utkast',
+        PROPOSAL: 'Satt til forslag',
+        USER_TEST: 'Satt til brukertest',
+        AWAITING_QUALITY_ASSURANCE: 'Satt til kvalitetsikring.',
+        QUALITY_ASSURED: 'Satt til kvalitetsikring. (Admin)',
+        QUEUED_FOR_PUBLISHING: 'Artikkel publisert',
+        PUBLISHED: 'Artikkel publisert (Admin)',
+        AWAITING_UNPUBLISHING: 'Artikkel avpublisert.',
+        UNPUBLISHED: 'Artikkel avpublisert. (Admin)',
+        ARCHIEVED: 'Artikkel arkivert.',
+      },
       actions: {
         DRAFT: 'Lagre som utkast',
         PROPOSAL: 'Sett til forslag',

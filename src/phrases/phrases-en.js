@@ -373,6 +373,18 @@ const phrases = {
       imported: 'Imported',
       archieved: 'Archieved',
       proposal: 'Proposal',
+      changed: {
+        DRAFT: 'Article saved as draft',
+        PROPOSAL: 'Status changed to proposal',
+        USER_TEST: 'Status changed to user test',
+        AWAITING_QUALITY_ASSURANCE: 'Status changed to quality assurance',
+        QUALITY_ASSURED: 'Status changed to quality assurance (Admin)',
+        QUEUED_FOR_PUBLISHING: 'Article published',
+        PUBLISHED: 'Article published (Admin)',
+        AWAITING_UNPUBLISHING: 'Article depublished',
+        UNPUBLISHED: 'Article depublished (Admin)',
+        ARCHIEVED: 'Article archieved',
+      },
       actions: {
         DRAFT: 'Save as draft',
         PROPOSAL: 'Save as proposal',

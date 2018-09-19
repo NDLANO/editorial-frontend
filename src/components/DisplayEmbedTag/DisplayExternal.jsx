@@ -20,9 +20,12 @@ import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
 import { editorClasses } from '../SlateEditor/plugins/embed/SlateFigure';
+import { urlDomain } from '../../util/htmlHelpers';
+import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
+
+const el = document.createElement('html');
 
 export const getIframeSrcFromHtmlString = html => {
-  const el = document.createElement('html');
   el.innerHTML = html;
   const iframe = el.getElementsByTagName('iframe')[0];
   return iframe.getAttribute('src');
@@ -65,22 +68,35 @@ export class DisplayExternal extends Component {
   }
 
   async getPropsFromEmbed(url) {
-    try {
-      const data = await fetchExternalOembed(url);
-      const src = getIframeSrcFromHtmlString(data.html);
-      if (src) {
-        this.setState({
-          title: data.title,
-          src,
-          type: data.type,
-          provider: data.providerName,
-        });
-      } else {
+    const { embed } = this.props;
+    const domain = urlDomain(url);
+    this.setState({ domain });
+
+    if (embed.resource === 'external') {
+      try {
+        const data = await fetchExternalOembed(url);
+        const src = getIframeSrcFromHtmlString(data.html);
+        if (src) {
+          this.setState({
+            title: data.title,
+            src,
+            type: data.type,
+            provider: data.providerName,
+          });
+        } else {
+          this.setState({ error: true });
+        }
+      } catch (e) {
+        handleError(e);
         this.setState({ error: true });
       }
-    } catch (e) {
-      handleError(e);
-      this.setState({ error: true });
+    } else {
+      this.setState({
+        title: domain,
+        src: url,
+        type: embed.resource,
+        height: embed.height,
+      });
     }
   }
 
@@ -93,36 +109,38 @@ export class DisplayExternal extends Component {
   }
 
   render() {
-    const { onRemoveClick, url } = this.props;
-    const { title, src, error, type, provider } = this.state;
+    const { onRemoveClick } = this.props;
+    const { title, src, height, error, type, provider, domain } = this.state;
 
-    // TODO: When we need to support more, move this to helper function
-    // Checks for h5p in domain name from URL
-    const isH5p =
-      url
-        .match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n]+)/im)[1]
-        .indexOf('h5p') > -1;
-    const isYouTube = type === 'video' && provider === 'YouTube';
+    if (!type && !provider) return null;
 
-    const externalIframe =
-      !isYouTube && !isH5p ? null : (
-        <iframe
-          style={
-            isYouTube
-              ? {
-                  minHeight: '436px',
-                }
-              : undefined
-          }
-          ref={iframe => {
-            this.iframe = iframe;
-          }}
-          src={src}
-          title={title}
-          allowFullScreen={isYouTube || undefined}
-          frameBorder="0"
-        />
-      );
+    // H5P does not provide its name
+    const providerName = domain && domain.includes('h5p') ? 'H5P' : provider;
+
+    const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter(
+      whitelistProvider => {
+        switch (type) {
+          case 'iframe':
+            return whitelistProvider.url.includes(domain);
+          default:
+            return whitelistProvider.name === providerName;
+        }
+      },
+    );
+
+    const renderProvider = allowedProvider && (
+      <iframe
+        ref={iframe => {
+          this.iframe = iframe;
+        }}
+        src={src}
+        height={allowedProvider.height || height}
+        title={title}
+        scrolling={type === 'iframe' ? 'no' : undefined}
+        allowFullScreen={allowedProvider.fullscreen || true}
+        frameBorder="0"
+      />
+    );
 
     if (error) {
       return (
@@ -149,7 +167,7 @@ export class DisplayExternal extends Component {
             {...editorClasses('button', 'red')}>
             <Cross />
           </Button>
-          {isH5p && (
+          {providerName === 'h5p' && (
             <Button
               stripped
               onClick={this.toggleEditH5p}
@@ -158,9 +176,13 @@ export class DisplayExternal extends Component {
             </Button>
           )}
         </div>
-        {externalIframe || (
+        {renderProvider}
+        {!renderProvider && (
           <EditorErrorMessage
-            msg={this.props.t('displayOembed.notSupported', { type, provider })}
+            msg={this.props.t('displayOembed.notSupported', {
+              type,
+              provider,
+            })}
           />
         )}
         {this.state.editH5pMode && (
@@ -183,6 +205,12 @@ DisplayExternal.propTypes = {
   changeVisualElement: PropTypes.func,
   editor: EditorShape,
   node: Types.node,
+  isIframe: PropTypes.bool,
+  embed: PropTypes.shape({
+    width: PropTypes.string,
+    heigth: PropTypes.string,
+    url: PropTypes.string,
+  }),
 };
 
 export default injectT(DisplayExternal);

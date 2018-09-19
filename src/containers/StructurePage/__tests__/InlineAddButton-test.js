@@ -8,13 +8,12 @@
 
 import React from 'react';
 import { render, fireEvent, cleanup } from 'react-testing-library';
-import sinon from 'sinon';
 import InlineAddButton from '../components/InlineAddButton';
 
 afterEach(cleanup);
 
 it('Goes to edit mode, handles input and calls action prop', async () => {
-  const actionFunc = sinon.spy();
+  const actionFunc = jest.fn();
   const { getByTestId, container } = render(
     <InlineAddButton title="Test" action={actionFunc} />,
   );
@@ -28,5 +27,5 @@ it('Goes to edit mode, handles input and calls action prop', async () => {
 
   fireEvent.keyDown(input, { key: 'Enter', keyCode: 13, which: 13 });
   expect(container.firstChild).toMatchSnapshot();
-  expect(actionFunc.calledOnce).toBe(true);
+  expect(actionFunc).toHaveBeenCalledTimes(1);
 });

@@ -8,7 +8,7 @@
 
 import nock from 'nock';
 import React from 'react';
-import renderer from 'react-test-renderer';
+import TestRenderer from 'react-test-renderer';
 import {
   DisplayExternal,
   getIframeSrcFromHtmlString,
@@ -41,25 +41,45 @@ test('getIframeSrcFromHtmlString returns null id src not found', () => {
   expect(src).toBe(null);
 });
 
-test('DisplayOembed renderers correctly', () => {
+test('DisplayExternal renders external correctly', () => {
   nock('http://ndla-api/')
     .persist()
     .get('/oembed-proxy/v1/oembed?url=https%3A%2F%2Fndla.no%2Foembed')
     .reply(200, {
+      resource: 'external',
       title: 'unit test',
+      providerName: 'Vimeo',
       type: 'rich',
       html: '<iframe src="iframe.html">',
     });
 
-  const component = renderer.create(
-    <DisplayExternal url="https://ndla.no/oembed" t={() => ''} />,
+  const embed = {
+    resource: 'external',
+    url: 'https://ndla.no/oembed',
+  };
+
+  const component = TestRenderer.create(
+    <DisplayExternal embed={embed} url={embed.url} t={() => ''} />,
+  );
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('DisplayExternal renders iframe correctly', () => {
+  const embed = {
+    height: '392',
+    resource: 'iframe',
+    url: 'https://nb.khanacademy.org/embed_video?v=jHPr-CuvHhs',
+    width: '618',
+  };
+
+  const component = TestRenderer.create(
+    <DisplayExternal embed={embed} url={embed.url} t={() => ''} />,
   );
 
   expect(component.toJSON()).toMatchSnapshot();
-  setTimeout(() => {}, global.DEFAULT_TIMEOUT);
 });
 
-test('DisplayOembed display error on fetch fail', () => {
+test('DisplayExternal display error on fetch fail', () => {
   nock('http://ndla-api/')
     .persist()
     .get('/oembed-proxy/v1/oembed?url=https%3A%2F%2Fndla.no%2Foembed')
@@ -68,7 +88,7 @@ test('DisplayOembed display error on fetch fail', () => {
       code: 'AWFUL_ERROR',
     });
 
-  const component = renderer.create(
+  const component = TestRenderer.create(
     <DisplayExternal url="https://ndla.no/oembed" t={() => 'Error message'} />,
   );
 

@@ -60,8 +60,8 @@
     "redux-mock-store": "^1.5.3",
     "redux-saga-test-plan": "^3.7.0",
     "rimraf": "^2.6.2",
+    "slate-hyperscript": "^0.4.13",
     "sinon": "^6.1.4",
-    "slate-hyperscript": "0.6",
     "stylelint": "^9.4.0",
     "stylelint-config-standard": "^18.2.0",
     "webpack-bundle-analyzer": "^2.13.1"

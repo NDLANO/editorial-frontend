@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import renderer from 'react-test-renderer';
+import TestRenderer from 'react-test-renderer';
 import get from 'lodash/fp/get';
 import reformed from '../reformed';
 
@@ -59,7 +59,9 @@ const initialModel = {
 test('reformed HOC sets dirty flag in fields', () => {
   const Reformed = reformed(FieldForm);
 
-  const component = renderer.create(<Reformed initialModel={initialModel} />);
+  const component = TestRenderer.create(
+    <Reformed initialModel={initialModel} />,
+  );
   const tree = component.toJSON();
 
   expect(tree).toMatchSnapshot();
@@ -74,7 +76,9 @@ test('reformed HOC sets dirty flag in fields', () => {
 test('reformed HOC sets active flag on focus', () => {
   const Reformed = reformed(FieldForm);
 
-  const component = renderer.create(<Reformed initialModel={initialModel} />);
+  const component = TestRenderer.create(
+    <Reformed initialModel={initialModel} />,
+  );
   const tree = component.toJSON();
 
   triggerEvent(tree, 'title', 'focus');
@@ -86,7 +90,9 @@ test('reformed HOC sets active flag on focus', () => {
 test('reformed HOC removes active flag and set touched flag on blur', () => {
   const Reformed = reformed(FieldForm);
 
-  const component = renderer.create(<Reformed initialModel={initialModel} />);
+  const component = TestRenderer.create(
+    <Reformed initialModel={initialModel} />,
+  );
   const tree = component.toJSON();
 
   triggerEvent(tree, 'title', 'focus');
@@ -100,7 +106,9 @@ test('reformed HOC removes active flag and set touched flag on blur', () => {
 test('reformed HOC merges and overrides input flags correctly', () => {
   const Reformed = reformed(FieldForm);
 
-  const component = renderer.create(<Reformed initialModel={initialModel} />);
+  const component = TestRenderer.create(
+    <Reformed initialModel={initialModel} />,
+  );
   const tree = component.toJSON();
 
   triggerEvent(tree, 'title', 'focus');

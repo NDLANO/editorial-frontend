@@ -4,18 +4,13 @@ import { RelatedArticle as RelatedArticleUI } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { mapping as iconMapping } from '../utils/relatedArticleMapping';
+import { urlDomain } from '../../../../util/htmlHelpers';
 import { toEditArticle } from '../../../../util/routeHelpers';
 
 const resourceType = item =>
   item.resourceTypes
     ? item.resourceTypes.find(it => iconMapping(it.id))
     : { id: '' };
-
-const urlDomain = data => {
-  const a = document.createElement('a');
-  a.href = data;
-  return a.hostname;
-};
 
 const RelatedArticle = ({ locale, item, t }) => (
   <RelatedArticleUI

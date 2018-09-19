@@ -8,7 +8,6 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
 import { uuid } from 'ndla-util';
 
 import { Alerts, Alert, Action } from '../Alerts';
@@ -45,11 +44,11 @@ test('component/Alerts without messages', () => {
 });
 
 test('component/Action click', () => {
-  const handleClick = sinon.spy(() => {});
+  const handleClick = jest.fn(() => {});
 
   const actionBtn = shallow(<Action title="Undo" onClick={handleClick} />);
 
   actionBtn.simulate('click');
 
-  expect(handleClick.calledOnce).toBeTruthy();
+  expect(handleClick).toHaveBeenCalled();
 });

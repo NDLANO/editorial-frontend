@@ -6,6 +6,10 @@
  *
  */
 
+.c-editor table td {
+  min-width: 29px;
+}
+
 .c-article table {
   margin-top: 0;
 
@@ -15,10 +19,6 @@
     text-transform: uppercase;
     font-weight: 700;
   }
-}
-
-.c-editor table td {
-  min-width: 29px;
 }
 
 .c-table-actions {

@@ -13,13 +13,13 @@ import { formClasses } from '..';
 import { articleStatuses } from '../../../util/formHelper';
 
 const isActive = (articleStatus, status) => {
-  if (articleStatus.current === status.key) {
-    return true;
-  }
-  if (articleStatus || !articleStatus.current || !articleStatus.other) {
+  if (!articleStatus || !articleStatus.current || !articleStatus.other) {
     return false;
   }
-  return articleStatus.other.includes(status.key);
+  return (
+    articleStatus.current === status.key ||
+    articleStatus.other.includes(status.key)
+  );
 };
 
 const FormStatusColumns = ({ articleStatus, t }) => (
@@ -38,7 +38,10 @@ const FormStatusColumns = ({ articleStatus, t }) => (
 );
 
 FormStatusColumns.propTypes = {
-  articleStatus: PropTypes.arrayOf(PropTypes.string),
+  articleStatus: PropTypes.shape({
+    current: PropTypes.string,
+    other: PropTypes.arrayOf(PropTypes.string),
+  }),
 };
 
 export default injectT(FormStatusColumns);

@@ -24,7 +24,7 @@ class FormWorkflow extends Component {
     super(props);
     this.state = {
       hiddenWorkflow: true,
-      possibleStatuses: [],
+      possibleStatuses: {},
     };
     this.toggleWorkflow = this.toggleWorkflow.bind(this);
     this.onValidateClick = this.onValidateClick.bind(this);
@@ -110,7 +110,10 @@ FormWorkflow.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
   }),
-  articleStatus: PropTypes.arrayOf(PropTypes.string),
+  articleStatus: PropTypes.shape({
+    current: PropTypes.string,
+    other: PropTypes.arrayOf(PropTypes.string),
+  }),
   addMessage: PropTypes.func.isRequired,
   updateStatusDraft: PropTypes.func.isRequired,
   saveDraft: PropTypes.func.isRequired,
@@ -118,7 +121,10 @@ FormWorkflow.propTypes = {
 };
 
 FormWorkflow.defaultProps = {
-  articleStatus: [],
+  articleStatus: {
+    current: '',
+    other: [],
+  },
 };
 
 const mapDispatchToProps = {

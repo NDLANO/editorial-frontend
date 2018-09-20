@@ -202,7 +202,7 @@ const phrases = {
     useImage: 'Bruk bildet',
     noTitle: 'Ingen tittel',
     noResultsText:
-      'Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?',
+      'Fann ingen bildar på søk. Ønskjer du å laste opp eit nytt bilete?',
     noResultsButtonText: 'Last opp bilde',
   },
   videoSearch: {

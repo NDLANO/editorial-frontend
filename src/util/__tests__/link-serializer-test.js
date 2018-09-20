@@ -13,7 +13,7 @@
 
 import h from 'slate-hyperscript';
 import jsdom from 'jsdom';
-import renderer from 'react-test-renderer';
+import TestRenderer from 'react-test-renderer';
 import Html from 'slate-html-serializer';
 import { learningResourceRules } from '../slateHelpers';
 
@@ -63,5 +63,5 @@ test('serialize list with a link and text', () => {
   );
 
   const list = serializer.serialize(value, { render: false });
-  expect(renderer.create(list.first()).toJSON()).toMatchSnapshot();
+  expect(TestRenderer.create(list.first()).toJSON()).toMatchSnapshot();
 });

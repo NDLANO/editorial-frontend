@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { fromJS } from 'immutable';
-import renderer from 'react-test-renderer';
+import TestRenderer from 'react-test-renderer';
 import jsdom from 'jsdom';
 import { Value } from 'slate';
 import Html from 'slate-html-serializer';
@@ -52,7 +52,7 @@ test('serialize embed block', () => {
   };
   const tag = learningResourceEmbedRule[0].serialize(obj);
 
-  expect(renderer.create(tag).toJSON()).toMatchSnapshot();
+  expect(TestRenderer.create(tag).toJSON()).toMatchSnapshot();
 });
 
 test('find embed nodes in slate document', () => {
@@ -74,7 +74,7 @@ test('serialize bodybox block', () => {
   };
   const children = <p>test</p>;
   const bodybox = divRule.serialize(obj, children);
-  expect(renderer.create(bodybox).toJSON()).toMatchSnapshot();
+  expect(TestRenderer.create(bodybox).toJSON()).toMatchSnapshot();
 });
 
 test('deserialize bodybox block', () => {
@@ -165,7 +165,7 @@ test('serialize footnote', () => {
     type: 'footnote',
   };
   const footnote = footnoteRule.serialize(obj);
-  expect(renderer.create(footnote).toJSON()).toMatchSnapshot();
+  expect(TestRenderer.create(footnote).toJSON()).toMatchSnapshot();
 });
 
 test('deserializing any heading becomes heading-two except heading-three', () => {

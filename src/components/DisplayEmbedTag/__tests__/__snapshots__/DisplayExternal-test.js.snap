@@ -1,57 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DisplayOembed display error on fetch fail 1`] = `
-Array [
-  <div
-    className="c-editor__figure-buttons"
-  >
-    <button
-      className="c-button c-button--stripped c-editor__button c-editor__button--red"
-      disabled={false}
-      type="button"
-    >
-      <svg
-        className="c-icon"
-        data-license="Apache License 2.0"
-        data-source="Material Design"
-        fill="currentColor"
-        height="1em"
-        preserveAspectRatio="xMidYMid meet"
-        style={
-          Object {
-            "color": undefined,
-            "verticalAlign": "middle",
-          }
-        }
-        viewBox="0 0 24 24"
-        width="1em"
-      >
-        <title>
-          Cross
-        </title>
-        <g>
-          <path
-            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-          />
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-        </g>
-      </svg>
-    </button>
-  </div>,
-  <div
-    className="c-editor__error"
-  >
-    <span>
-      Error message
-    </span>
-  </div>,
-]
-`;
+exports[`DisplayExternal display error on fetch fail 1`] = `null`;
 
-exports[`DisplayOembed renderers correctly 1`] = `
+exports[`DisplayExternal renders external correctly 1`] = `null`;
+
+exports[`DisplayExternal renders iframe correctly 1`] = `
 Array [
   <div
     className="c-editor__figure-buttons"
@@ -92,12 +45,13 @@ Array [
       </svg>
     </button>
   </div>,
-  <div
-    className="c-editor__error"
-  >
-    <span>
-      
-    </span>
-  </div>,
+  <iframe
+    allowFullScreen={true}
+    frameBorder="0"
+    height="486px"
+    scrolling="no"
+    src="https://nb.khanacademy.org/embed_video?v=jHPr-CuvHhs"
+    title="nb.khanacademy.org"
+  />,
 ]
 `;

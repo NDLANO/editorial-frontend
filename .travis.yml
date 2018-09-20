@@ -15,9 +15,10 @@ cache:
   yarn: true
   directories:
     - '~/.npm'
-    - '~/.cache/Cypress/'
+    - '~/.cache'
     - '.eslintcache'
-    - node_modules
+  install:
+    - yarn install --frozen-lockfile
 notifications:
   slack:
     on_success: change

@@ -6,6 +6,10 @@
  *
  */
 
+.c-editor table td {
+  min-width: 29px;
+}
+
 .c-article table {
   margin-top: 0;
 

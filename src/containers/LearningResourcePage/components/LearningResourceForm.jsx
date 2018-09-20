@@ -294,7 +294,10 @@ LearningResourceForm.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
   showSaved: PropTypes.bool.isRequired,
-  articleStatus: PropTypes.arrayOf(PropTypes.string),
+  articleStatus: PropTypes.shape({
+    current: PropTypes.string,
+    other: PropTypes.arrayOf(PropTypes.string),
+  }),
   taxonomy: PropTypes.shape({
     resourceTypes: PropTypes.array,
     filter: PropTypes.array,

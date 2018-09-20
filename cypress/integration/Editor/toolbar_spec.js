@@ -59,15 +59,15 @@ describe('Selecting text and using the toolbar', () => {
         cy.get('ol > li').should('have.length', 1);
         cy.wrap($el).type('{rightarrow}{enter}Second item in list{selectall}');
         cy.get('[data-testid=toolbar-button-bulleted-list]').click();
-        cy.get('ul > li').should('have.length', 2);
+        cy.get('ul > li').should('have.length', 3);
         cy.wrap($el).type(
           '{rightarrow}{enter}Its now a bullet list{selectall}',
         );
         cy.get('[data-testid=toolbar-button-letter-list]').click();
-        cy.get('ol > li').should('have.length', 3);
+        cy.get('ol > li').should('have.length', 4);
         cy.wrap($el).type('{rightarrow}{enter}Now its letters!{selectall}');
         cy.get('[data-testid=toolbar-button-two-column-list]').click();
-        cy.get('ul > li').should('have.length', 4);
+        cy.get('ul > li').should('have.length', 5);
       });
   });
   it('Creates footnote', () => {

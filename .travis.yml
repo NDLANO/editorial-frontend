@@ -17,6 +17,8 @@ cache:
     - '~/.npm'
     - '~/.cache'
     - '.eslintcache'
+  install:
+    - yarn install --frozen-lockfile
 notifications:
   slack:
     on_success: change

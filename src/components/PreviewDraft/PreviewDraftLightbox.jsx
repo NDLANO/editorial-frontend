@@ -59,7 +59,10 @@ class PreviewDraftLightbox extends React.Component {
       originalArticle.language,
     );
     const articleInProduction = compareWithArticle
-      ? await articleApi.getArticle(draft.id)
+      ? await articleApi.getArticleFromArticleConverter(
+          originalArticle.id,
+          originalArticle.language,
+        )
       : undefined;
     this.setState({
       previewDraftArticle,
@@ -78,7 +81,9 @@ class PreviewDraftLightbox extends React.Component {
     if (!showPreview) {
       return (
         <Button {...classes('button')} onClick={this.openPreview}>
-          {compareWithArticle ? t('form.previewAndCompare') : t('form.preview')}
+          {compareWithArticle
+            ? t('form.previewAndCompare.button')
+            : t('form.preview')}
         </Button>
       );
     }
@@ -86,7 +91,11 @@ class PreviewDraftLightbox extends React.Component {
       <div {...classes(compareWithArticle ? 'two-articles' : '')}>
         <Lightbox onClose={this.onClosePreview}>
           <div {...classes('article')}>
-            <h2>Utkast</h2>
+            {compareWithArticle && (
+              <h2 className="u-4/6@desktop u-push-1/6@desktop">
+                {t('form.previewAndCompare.draft')}
+              </h2>
+            )}
             <PreviewDraft
               article={previewDraftArticle}
               label={label}
@@ -96,7 +105,9 @@ class PreviewDraftLightbox extends React.Component {
           {compareWithArticle &&
             articleInProduction && (
               <div {...classes('article')}>
-                <h2>Artikkel</h2>
+                <h2 className="u-4/6@desktop u-push-1/6@desktop">
+                  {t('form.previewAndCompare.article')}
+                </h2>
                 <PreviewDraft
                   article={articleInProduction}
                   label={label}

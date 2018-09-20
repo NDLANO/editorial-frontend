@@ -1,5 +1,14 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 .c-preview-draft {
   text-align: left;
+
   .c-lightbox__content {
     margin: 1rem 0;
     padding: 1rem 0;
@@ -20,20 +29,17 @@
   }
 }
 
-
-.c-preview-draft__article {
-  width: 48%;
-  display: inline-block;
-  text-align: left;
-  & > h2 {
-    margin-left: 2rem;
-  }
-}
 .c-preview-draft__two-articles {
+  .c-preview-draft__article {
+    width: 48%;
+    display: inline-block;
+    text-align: left;
+  }
+
   .c-lightbox__content {
-    margin: 1rem 0;
     padding: 1rem 0;
-    width: 100%;
+    width: 98%;
+    margin: 0 auto;
     max-width: 100%;
   }
 

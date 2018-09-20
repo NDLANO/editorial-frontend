@@ -330,6 +330,11 @@ const phrases = {
     choose: 'Choose',
     saved: 'Saved ',
     preview: 'Preview',
+    previewAndCompare: {
+      button: 'Compare draft and article',
+      article: 'Article',
+      draft: 'Draft',
+    },
     abort: 'Abort',
     validate: 'Validate',
     publish: 'Publish',

@@ -34,10 +34,16 @@ export const searchRelatedArticles = async (input, locale, contentType) => {
 export const getArticle = id =>
   fetchAuthorized(`${articleUrl}/${id}`).then(resolveJsonOrRejectWithError);
 
+const articleConverterUrl = config.localConverter
+  ? 'http://localhost:3100/article-converter'
+  : apiResourceUrl('/article-converter');
+
+export const getArticleFromArticleConverter = (id, locale) =>
+  fetchAuthorized(`${articleConverterUrl}/json/${locale}/${id}`).then(
+    resolveJsonOrRejectWithError,
+  );
+
 export const getPreviewArticle = async (article, locale) => {
-  const articleConverterUrl = config.localConverter
-    ? 'http://localhost:3100/article-converter'
-    : apiResourceUrl('/article-converter');
   const response = await fetchAuthorized(
     `${articleConverterUrl}/json/${locale}/transform-article`,
     {

@@ -77,7 +77,7 @@ class FormWorkflow extends Component {
   }
 
   render() {
-    const { t, model, saveDraft, articleStatus, commonFieldProps } = this.props;
+    const { t, model, articleStatus, commonFieldProps } = this.props;
     const { possibleStatuses } = this.state;
 
     return (
@@ -96,7 +96,6 @@ class FormWorkflow extends Component {
         <FormStatusActions
           articleStatus={articleStatus}
           model={model}
-          saveDraft={saveDraft}
           onValidateClick={this.onValidateClick}
           possibleStatuses={possibleStatuses}
           onUpdateStatus={this.onUpdateStatus}
@@ -116,7 +115,6 @@ FormWorkflow.propTypes = {
   }),
   addMessage: PropTypes.func.isRequired,
   updateStatusDraft: PropTypes.func.isRequired,
-  saveDraft: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 

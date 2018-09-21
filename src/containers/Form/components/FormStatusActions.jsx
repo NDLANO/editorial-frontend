@@ -15,7 +15,6 @@ import { formClasses } from '..';
 const FormStatusActions = props => {
   const {
     t,
-    saveDraft,
     articleStatus,
     model,
     possibleStatuses,
@@ -46,7 +45,6 @@ const FormStatusActions = props => {
       ) : (
         ''
       )}
-      <Button onClick={saveDraft}>{t('form.save')}</Button>
     </div>
   );
 };
@@ -60,7 +58,6 @@ FormStatusActions.propTypes = {
     other: PropTypes.arrayOf(PropTypes.string),
   }),
   onUpdateStatus: PropTypes.func.isRequired,
-  saveDraft: PropTypes.func.isRequired,
   onValidateClick: PropTypes.func.isRequired,
   possibleStatuses: PropTypes.shape({
     CREATED: PropTypes.arrayOf(PropTypes.string),

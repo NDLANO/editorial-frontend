@@ -168,7 +168,6 @@ class TopicArticleForm extends Component {
           commonFieldProps={commonFieldProps}
           articleStatus={articleStatus}
           model={model}
-          saveDraft={this.handleSubmit}
         />
         <Field right>
           <PreviewDraftLightbox

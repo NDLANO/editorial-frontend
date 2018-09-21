@@ -20,13 +20,18 @@ export const parseCopyrightContributors = (obj, contributorType) => {
 
 export const articleStatuses = [
   { key: 'CREATED' },
+  { key: 'PROPOSAL' },
+  { key: 'AWAITING_QUALITY_ASSURANCE', columnSize: 2 },
   { key: 'DRAFT' },
   { key: 'USER_TEST' },
-  { key: 'AWAITING_QUALITY_ASSURANCE' },
+  { key: 'IMPORTED', columnSize: 2 },
+  { key: 'QUALITY_ASSURED' },
+  { key: 'PUBLISHED' },
+  { key: 'AWAITING_UNPUBLISHING', columnSize: 2 },
+  { key: 'UNPUBLISHED' },
+  { key: 'ARCHIEVED' },
   {
     key: 'QUEUED_FOR_PUBLISHING',
     columnSize: 2,
   },
-  { key: 'PUBLISHED' },
-  { key: 'IMPORTED' },
 ];

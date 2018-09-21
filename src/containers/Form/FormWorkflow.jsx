@@ -9,25 +9,39 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { Button } from 'ndla-ui';
 import { connect } from 'react-redux';
 import Accordion from '../../components/Accordion';
-import { validateDraft } from '../../modules/draft/draftApi';
 import { actions as draftActions } from '../../modules/draft/draft';
+import * as draftApi from '../../modules/draft/draftApi';
 import * as messageActions from '../Messages/messagesActions';
-import { articleStatuses } from '../../util/formHelper';
 import { AddNotes, formClasses } from '.';
-
 import { CommonFieldPropsShape } from '../../shapes';
+import FormStatusActions from './components/FormStatusActions';
+import FormStatusColumns from './components/FormStatusColumns';
 
 class FormWorkflow extends Component {
   constructor(props) {
     super(props);
     this.state = {
       hiddenWorkflow: true,
+      possibleStatuses: {},
     };
     this.toggleWorkflow = this.toggleWorkflow.bind(this);
     this.onValidateClick = this.onValidateClick.bind(this);
+    this.onUpdateStatus = this.onUpdateStatus.bind(this);
+  }
+
+  async componentDidMount() {
+    const possibleStatuses = await draftApi.fetchStatusStateMachine();
+    this.setState({ possibleStatuses });
+  }
+
+  onUpdateStatus(status) {
+    const {
+      model: { id },
+      updateStatusDraft,
+    } = this.props;
+    updateStatusDraft({ id, status });
   }
 
   onValidateClick() {
@@ -35,7 +49,8 @@ class FormWorkflow extends Component {
       model: { id },
       addMessage,
     } = this.props;
-    validateDraft(id)
+    draftApi
+      .validateDraft(id)
       .then(() => {
         addMessage({
           translationKey: 'form.validationOk',
@@ -62,51 +77,30 @@ class FormWorkflow extends Component {
   }
 
   render() {
-    const {
-      t,
-      model,
-      publishDraft,
-      saveDraft,
-      articleStatus,
-      commonFieldProps,
-    } = this.props;
+    const { t, model, saveDraft, articleStatus, commonFieldProps } = this.props;
+    const { possibleStatuses } = this.state;
+
     return (
       <Accordion
         fill
         handleToggle={this.toggleWorkflow}
         header={t('form.workflowSection')}
         hidden={this.state.hiddenWorkflow}>
-        <AddNotes name="notes" label="Legg til merknad" {...commonFieldProps} />
+        <AddNotes
+          name="notes"
+          label={t('form.addNotes')}
+          {...commonFieldProps}
+        />
         <span {...formClasses('title')}>Status</span>
-        <div {...formClasses('status-columns')}>
-          {articleStatuses.map(status => (
-            <span
-              key={status.key}
-              {...formClasses(
-                `status-${status.columnSize || 1}-column`,
-                articleStatus.includes(status.key) ? 'active' : '',
-              )}>
-              {t(`form.status.${status.key.toLowerCase()}`)}
-            </span>
-          ))}
-        </div>
-        <div {...formClasses('actions')}>
-          {model.id ? (
-            <Button outline onClick={this.onValidateClick}>
-              {t('form.validate')}
-            </Button>
-          ) : (
-            ''
-          )}
-          {model.id ? (
-            <Button outline onClick={() => publishDraft({ draft: model })}>
-              {t('form.publish')}
-            </Button>
-          ) : (
-            ''
-          )}
-          <Button onClick={saveDraft}>{t('form.save')}</Button>
-        </div>
+        <FormStatusColumns articleStatus={articleStatus} />
+        <FormStatusActions
+          articleStatus={articleStatus}
+          model={model}
+          saveDraft={saveDraft}
+          onValidateClick={this.onValidateClick}
+          possibleStatuses={possibleStatuses}
+          onUpdateStatus={this.onUpdateStatus}
+        />
       </Accordion>
     );
   }
@@ -116,20 +110,26 @@ FormWorkflow.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
   }),
-  articleStatus: PropTypes.arrayOf(PropTypes.string),
+  articleStatus: PropTypes.shape({
+    current: PropTypes.string,
+    other: PropTypes.arrayOf(PropTypes.string),
+  }),
   addMessage: PropTypes.func.isRequired,
-  publishDraft: PropTypes.func.isRequired,
+  updateStatusDraft: PropTypes.func.isRequired,
   saveDraft: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 
 FormWorkflow.defaultProps = {
-  articleStatus: [],
+  articleStatus: {
+    current: '',
+    other: [],
+  },
 };
 
 const mapDispatchToProps = {
   addMessage: messageActions.addMessage,
-  publishDraft: draftActions.publishDraft,
+  updateStatusDraft: draftActions.updateStatusDraft,
 };
 
 export default connect(

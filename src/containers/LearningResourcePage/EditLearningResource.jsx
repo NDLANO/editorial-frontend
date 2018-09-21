@@ -41,32 +41,30 @@ class EditLearningResource extends Component {
     this.fetchTaxonony = this.fetchTaxonony.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { articleId, fetchDraft, selectedLanguage } = this.props;
     fetchDraft({ id: articleId, language: selectedLanguage });
     this.fetchTaxonony(articleId, selectedLanguage);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate({
+    selectedLanguage: prevLanguage,
+    articleId: prevArticleId,
+    article: prevArticle,
+  }) {
     const {
       articleId,
       fetchDraft,
       selectedLanguage,
       article,
       fetchTags,
-    } = nextProps;
+    } = this.props;
 
-    if (
-      this.props.selectedLanguage !== selectedLanguage ||
-      articleId !== this.props.articleId
-    ) {
+    if (prevLanguage !== selectedLanguage || articleId !== prevArticleId) {
       fetchDraft({ id: articleId, language: selectedLanguage });
       this.fetchTaxonony(articleId, selectedLanguage);
     }
-    if (
-      article &&
-      (!this.props.article || article.id !== this.props.article.id)
-    ) {
+    if (article && (!prevArticle || article.id !== prevArticle.id)) {
       fetchTags({ language: article.language });
     }
   }

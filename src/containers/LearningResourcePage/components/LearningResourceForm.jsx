@@ -110,19 +110,20 @@ class LearningResourceForm extends Component {
     this.getArticle = this.getArticle.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { initialModel, setModel, setModelField, taxonomy } = nextProps;
+  componentDidUpdate({
+    taxonomy: prevTaxonomy,
+    initialModel: prevInitialModel,
+  }) {
+    const { initialModel, setModel, setModelField, taxonomy } = this.props;
     const hasTaxonomyChanged =
-      taxonomy &&
-      this.props.taxonomy &&
-      taxonomy.loading !== this.props.taxonomy.loading;
+      taxonomy && prevTaxonomy && taxonomy.loading !== prevTaxonomy.loading;
 
     if (hasTaxonomyChanged) {
       const fields = ['resourceTypes', 'filter', 'topics'];
       fields.map(field => setModelField(field, initialModel[field]));
     } else if (
-      initialModel.id !== this.props.initialModel.id ||
-      initialModel.language !== this.props.initialModel.language
+      initialModel.id !== prevInitialModel.id ||
+      initialModel.language !== prevInitialModel.language
     ) {
       setModel(initialModel);
     }

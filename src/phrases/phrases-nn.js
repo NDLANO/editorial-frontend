@@ -352,6 +352,7 @@ const phrases = {
     addNotes: 'Legg til merknad',
     editImage: 'Endre bilde',
     editAudio: 'Endre lyd',
+    resetToProd: 'Reset til prod',
     variant: {
       create: '+ Nytt språk',
     },
@@ -609,6 +610,7 @@ const phrases = {
     back: 'Tilbake',
     goToFrontPage: 'Gå til forsiden',
     invalidUrl: 'Ugyldig url',
+    noArticleInProd: 'Ingen artikkel funnet i prod',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',

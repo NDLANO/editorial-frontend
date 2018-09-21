@@ -116,6 +116,7 @@ class LearningResourceForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getArticleFromModel = this.getArticleFromModel.bind(this);
     this.onReset = this.onReset.bind(this);
+    this.state = {};
   }
 
   componentDidUpdate({
@@ -138,19 +139,17 @@ class LearningResourceForm extends Component {
   }
 
   async onReset() {
-    const { articleId, setModel, taxonomy, selectedLanguage } = this.props;
+    const { articleId, setModel, taxonomy, selectedLanguage, t } = this.props;
     try {
       const articleFromProd = await getArticle(articleId);
       const convertedArticle = articleConverter(
         articleFromProd,
         selectedLanguage,
       );
-      console.log(articleFromProd);
       setModel(getInitialModel(convertedArticle, taxonomy, selectedLanguage));
     } catch (e) {
-      console.log(e);
       if (e.status === 404) {
-        // Show message no article in prod
+        this.setState({ error: t('errorMessage.noArticleInProd') });
       }
     }
   }
@@ -226,7 +225,7 @@ class LearningResourceForm extends Component {
       showSaved,
       taxonomyIsLoading,
     } = this.props;
-
+    const { error } = this.state;
     const commonFieldProps = { bindInput, schema, submitted };
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
@@ -268,8 +267,9 @@ class LearningResourceForm extends Component {
           saveDraft={this.handleSubmit}
         />
         <Field right>
+          {error && <span className="c-errorMessage">{error}</span>}
           <Button {...classes('button')} onClick={this.onReset}>
-            Reset til prod
+            {t('form.resetToProd')}
           </Button>
           <PreviewDraftLightbox
             label={t('subNavigation.learningResource')}

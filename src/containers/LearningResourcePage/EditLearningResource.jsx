@@ -135,6 +135,7 @@ class EditLearningResource extends Component {
           selectedLanguage,
         )}
         taxonomy={this.state.taxonomy}
+        selectedLanguage={selectedLanguage}
         revision={article.revision}
         articleStatus={article.status}
         onUpdate={this.updateLearningResource}

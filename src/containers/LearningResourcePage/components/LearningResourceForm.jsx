@@ -43,8 +43,13 @@ import {
   parseCopyrightContributors,
 } from '../../../util/formHelper';
 import { toEditArticle } from '../../../util/routeHelpers';
-import PreviewDraftLightbox from '../../../components/PreviewDraft/PreviewDraftLightbox';
-import { getArticle } from '../../../modules/article/articleApi';
+import PreviewDraftLightbox, {
+  classes,
+} from '../../../components/PreviewDraft/PreviewDraftLightbox';
+import {
+  getArticle,
+  articleConverter,
+} from '../../../modules/article/articleApi';
 
 const findFootnotes = content =>
   content
@@ -133,11 +138,21 @@ class LearningResourceForm extends Component {
   }
 
   async onReset() {
-    const { articleId } = this.props;
-    console.log('resetting');
-    const articleFromProd = await getArticle(articleId);
-    console.log(articleFromProd);
-    // set initial model?
+    const { articleId, setModel, taxonomy, selectedLanguage } = this.props;
+    try {
+      const articleFromProd = await getArticle(articleId);
+      const convertedArticle = articleConverter(
+        articleFromProd,
+        selectedLanguage,
+      );
+      console.log(articleFromProd);
+      setModel(getInitialModel(convertedArticle, taxonomy, selectedLanguage));
+    } catch (e) {
+      console.log(e);
+      if (e.status === 404) {
+        // Show message no article in prod
+      }
+    }
   }
 
   getArticleFromModel() {
@@ -253,7 +268,9 @@ class LearningResourceForm extends Component {
           saveDraft={this.handleSubmit}
         />
         <Field right>
-          <Button onClick={this.onReset}>Reset til prod</Button>
+          <Button {...classes('button')} onClick={this.onReset}>
+            Reset til prod
+          </Button>
           <PreviewDraftLightbox
             label={t('subNavigation.learningResource')}
             getArticle={this.getArticleFromModel}

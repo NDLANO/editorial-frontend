@@ -15,7 +15,7 @@ import { getPreviewArticle } from '../../modules/article/articleApi';
 import Lightbox from '../Lightbox';
 import PreviewDraft from './PreviewDraft';
 
-const classes = new BEMHelper({
+export const classes = new BEMHelper({
   name: 'preview-draft',
   prefix: 'c-',
 });

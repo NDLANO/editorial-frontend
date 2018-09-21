@@ -12,6 +12,7 @@ import {
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import config from '../../config';
+import formatDate from '../../util/formatDate';
 
 const articleUrl = apiResourceUrl('/article-api/v2/articles');
 const conceptUrl = apiResourceUrl('/article-api/v1/concepts');
@@ -58,3 +59,29 @@ export const fetchConcept = async (conceptId, language) => {
   const concept = await resolveJsonOrRejectWithError(response);
   return concept;
 };
+
+export const articleConverter = (
+  {
+    metaDescription = {},
+    content = {},
+    introduction = {},
+    title = {},
+    tags = {},
+    visualElement = {},
+    created,
+    updated,
+    ...rest
+  },
+  language,
+) => ({
+  ...rest,
+  introduction: introduction.introduction,
+  metaDescription: metaDescription.metaDescription,
+  visualElement: visualElement.visualElement || {},
+  title: title.title,
+  content: content.content,
+  tags: tags.tags || [],
+  footnotes: content.footNotes,
+  created: formatDate(created, language),
+  updated: formatDate(updated, language),
+});

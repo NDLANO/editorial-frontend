@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { Button } from 'ndla-ui';
 import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
@@ -43,6 +44,7 @@ import {
 } from '../../../util/formHelper';
 import { toEditArticle } from '../../../util/routeHelpers';
 import PreviewDraftLightbox from '../../../components/PreviewDraft/PreviewDraftLightbox';
+import { getArticle } from '../../../modules/article/articleApi';
 
 const findFootnotes = content =>
   content
@@ -107,7 +109,8 @@ class LearningResourceForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.getArticle = this.getArticle.bind(this);
+    this.getArticleFromModel = this.getArticleFromModel.bind(this);
+    this.onReset = this.onReset.bind(this);
   }
 
   componentDidUpdate({
@@ -129,7 +132,15 @@ class LearningResourceForm extends Component {
     }
   }
 
-  getArticle() {
+  async onReset() {
+    const { articleId } = this.props;
+    console.log('resetting');
+    const articleFromProd = await getArticle(articleId);
+    console.log(articleFromProd);
+    // set initial model?
+  }
+
+  getArticleFromModel() {
     const { model, licenses } = this.props;
     const content = learningResourceContentToHTML(model.content);
     const emptyContent = model.id ? '' : undefined;
@@ -169,7 +180,7 @@ class LearningResourceForm extends Component {
     }
     this.props.onUpdate(
       {
-        ...this.getArticle(),
+        ...this.getArticleFromModel(),
         revision,
         updated: undefined,
       },
@@ -242,9 +253,10 @@ class LearningResourceForm extends Component {
           saveDraft={this.handleSubmit}
         />
         <Field right>
+          <Button onClick={this.onReset}>Reset til prod</Button>
           <PreviewDraftLightbox
             label={t('subNavigation.learningResource')}
-            getArticle={this.getArticle}
+            getArticle={this.getArticleFromModel}
           />
           <Link
             to="/"

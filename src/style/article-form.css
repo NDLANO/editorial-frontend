@@ -44,6 +44,12 @@
     display: block;
   }
 
+  &__subtitle {
+    margin: var(--spacing) 0;
+    font-size: 1.2rem;
+    display: block;
+  }
+
   &__actions {
     margin-top: var(--spacing--large);
     display: flex;

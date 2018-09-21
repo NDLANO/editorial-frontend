@@ -361,6 +361,8 @@ const phrases = {
       h5p: 'H5P',
     },
     status: {
+      current: 'Current status',
+      former: 'Completed statuses',
       created: 'Created',
       draft: 'Draft',
       user_test: 'User test',

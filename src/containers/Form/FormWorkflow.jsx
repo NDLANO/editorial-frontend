@@ -14,7 +14,7 @@ import Accordion from '../../components/Accordion';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as draftApi from '../../modules/draft/draftApi';
 import * as messageActions from '../Messages/messagesActions';
-import { AddNotes, formClasses } from '.';
+import { AddNotes } from '.';
 import { CommonFieldPropsShape } from '../../shapes';
 import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
@@ -91,7 +91,6 @@ class FormWorkflow extends Component {
           label={t('form.addNotes')}
           {...commonFieldProps}
         />
-        <span {...formClasses('title')}>Status</span>
         <FormStatusColumns articleStatus={articleStatus} />
         <FormStatusActions
           articleStatus={articleStatus}

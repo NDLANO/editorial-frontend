@@ -75,6 +75,7 @@ class EditTopicArticle extends Component {
     return (
       <TopicArticleForm
         initialModel={getInitialModel(article)}
+        selectedLanguage={article.language}
         revision={article.revision}
         articleStatus={article.status}
         onUpdate={this.updateDraft}

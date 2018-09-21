@@ -141,6 +141,7 @@ class LearningResourceForm extends Component {
   async onReset() {
     const { articleId, setModel, taxonomy, selectedLanguage, t } = this.props;
     try {
+      if (this.state.error) this.setState({ error: undefined });
       const articleFromProd = await getArticle(articleId);
       const convertedArticle = articleConverter(
         articleFromProd,
@@ -268,9 +269,11 @@ class LearningResourceForm extends Component {
         />
         <Field right>
           {error && <span className="c-errorMessage">{error}</span>}
-          <Button {...classes('button')} onClick={this.onReset}>
-            {t('form.resetToProd')}
-          </Button>
+          {model.id && (
+            <Button {...classes('button')} onClick={this.onReset}>
+              {t('form.resetToProd')}
+            </Button>
+          )}
           <PreviewDraftLightbox
             label={t('subNavigation.learningResource')}
             getArticle={this.getArticleFromModel}

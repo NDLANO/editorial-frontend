@@ -9,6 +9,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+
+import {
+  actions as tagActions,
+  getAllTagsByLanguage,
+} from '../../modules/tag/tag';
+import {
+  actions as licenseActions,
+  getAllLicenses,
+} from '../../modules/license/license';
+import { getLocale } from '../../modules/locale/locale';
 import ImageForm, { getInitialModel } from './components/ImageForm';
 import { actions, getImage } from '../../modules/image/image';
 import { ImageShape } from '../../shapes';
@@ -17,6 +27,12 @@ class EditImage extends Component {
   componentWillMount() {
     const { imageId: id, fetchImage, imageLanguage } = this.props;
     if (id) fetchImage({ id, language: imageLanguage });
+  }
+
+  componentDidMount() {
+    const { fetchTags, fetchLicenses, locale } = this.props;
+    fetchTags({ language: locale });
+    fetchLicenses();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -59,6 +75,8 @@ class EditImage extends Component {
 
 EditImage.propTypes = {
   imageId: PropTypes.string,
+  fetchTags: PropTypes.func.isRequired,
+  fetchLicenses: PropTypes.func.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchImage: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
@@ -80,6 +98,8 @@ EditImage.propTypes = {
 };
 
 const mapDispatchToProps = {
+  fetchTags: tagActions.fetchTags,
+  fetchLicenses: licenseActions.fetchLicenses,
   fetchImage: actions.fetchImage,
   updateImage: actions.updateImage,
 };
@@ -87,7 +107,12 @@ const mapDispatchToProps = {
 const mapStateToProps = (state, props) => {
   const { imageId } = props;
   const getImageSelector = getImage(imageId, true);
+  const locale = getLocale(state);
+  const getAllTagsSelector = getAllTagsByLanguage(locale);
   return {
+    locale,
+    tags: getAllTagsSelector(state),
+    licenses: getAllLicenses(state),
     image: getImageSelector(state),
   };
 };

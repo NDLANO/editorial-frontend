@@ -57,22 +57,16 @@ class VisualElementSearch extends Component {
     this.changeTabIndex = this.changeTabIndex.bind(this);
   }
 
-  componentWillMount() {
-    const { fetchTags, fetchLicenses, locale } = this.props;
-    fetchTags({ language: locale });
-    fetchLicenses();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.uploadedImage) {
-      const image = getImage(nextProps.uploadedImage.id, true);
+  componentDidUpdate() {
+    if (this.props.uploadedImage) {
+      const image = getImage(this.props.uploadedImage.id, true);
       this.props.handleVisualElementChange({
-        resource: nextProps.selectedResource,
-        resource_id: nextProps.uploadedImage.id,
+        resource: this.props.selectedResource,
+        resource_id: this.props.uploadedImage.id,
         size: 'fullbredde',
         align: '',
-        alt: nextProps.uploadedImage.alttext.alttext,
-        caption: nextProps.uploadedImage.caption.caption,
+        alt: this.props.uploadedImage.alttext.alttext,
+        caption: this.props.uploadedImage.caption.caption,
         metaData: image,
       });
     }
@@ -98,8 +92,6 @@ class VisualElementSearch extends Component {
       selectedResourceUrl,
       handleVisualElementChange,
       locale,
-      tags,
-      licenses,
       t,
     } = this.props;
 
@@ -160,9 +152,6 @@ class VisualElementSearch extends Component {
                 title: t('form.visualElement.imageUpload'),
                 content: (
                   <EditImage
-                    licenses={licenses}
-                    tags={tags}
-                    locale={locale}
                     isSaving={isSavingImage}
                     showSaved={false}
                     inModal
@@ -280,15 +269,6 @@ class VisualElementSearch extends Component {
 }
 
 VisualElementSearch.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
-  fetchTags: PropTypes.func.isRequired,
-  fetchLicenses: PropTypes.func.isRequired,
   selectedResource: PropTypes.string.isRequired,
   selectedResourceUrl: PropTypes.string,
   handleVisualElementChange: PropTypes.func.isRequired,

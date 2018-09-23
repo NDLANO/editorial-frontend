@@ -61,7 +61,11 @@ const ToolbarButton = ({
   const isActive = handleHasType(value, type, kind);
   const onMouseDown = e => handleOnClick(e, kind, type);
   return (
-    <Button stripped onMouseDown={onMouseDown} data-active={isActive}>
+    <Button
+      stripped
+      onMouseDown={onMouseDown}
+      data-testid={`toolbar-button-${type}`}
+      data-active={isActive}>
       <span {...toolbarClasses('icon', isActive ? 'active' : '')}>
         {toolbarIcon(t)[type]}
       </span>

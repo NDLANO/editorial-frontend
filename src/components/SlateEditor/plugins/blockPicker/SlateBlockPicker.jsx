@@ -39,17 +39,17 @@ const classes = new BEMHelper({
 });
 
 const actions = [
-  { data: { type: 'block', kind: 'block' }, icon: <Paragraph /> },
-  { data: { type: 'aside', kind: 'factAside' }, icon: <FactBox /> },
-  { data: { type: 'table', kind: 'table' }, icon: <Table /> },
-  { data: { type: 'bodybox', kind: 'bodybox' }, icon: <TextInBox /> },
-  { data: { type: 'details', kind: 'details' }, icon: <ExpandableBox /> },
-  { data: { type: 'embed', kind: 'image' }, icon: <Camera /> },
-  { data: { type: 'embed', kind: 'video' }, icon: <Video /> },
-  { data: { type: 'embed', kind: 'audio' }, icon: <Audio /> },
-  { data: { type: 'embed', kind: 'h5p' }, icon: <H5P /> },
+  { data: { type: 'block', object: 'block' }, icon: <Paragraph /> },
+  { data: { type: 'aside', object: 'factAside' }, icon: <FactBox /> },
+  { data: { type: 'table', object: 'table' }, icon: <Table /> },
+  { data: { type: 'bodybox', object: 'bodybox' }, icon: <TextInBox /> },
+  { data: { type: 'details', object: 'details' }, icon: <ExpandableBox /> },
+  { data: { type: 'embed', object: 'image' }, icon: <Camera /> },
+  { data: { type: 'embed', object: 'video' }, icon: <Video /> },
+  { data: { type: 'embed', object: 'audio' }, icon: <Audio /> },
+  { data: { type: 'embed', object: 'h5p' }, icon: <H5P /> },
   {
-    data: { type: 'related', kind: 'related' },
+    data: { type: 'related', object: 'related' },
     icon: <RelatedArticle />,
   },
 ];
@@ -112,12 +112,12 @@ class SlateBlockPicker extends Component {
         break;
       }
       case 'aside': {
-        this.onInsertBlock(defaultAsideBlock(block.kind));
+        this.onInsertBlock(defaultAsideBlock(block.object));
         break;
       }
       case 'embed': {
         this.setState({
-          embedSelect: { isOpen: true, embedType: block.kind },
+          embedSelect: { isOpen: true, embedType: block.object },
         });
         break;
       }
@@ -231,9 +231,9 @@ class SlateBlockPicker extends Component {
           <div {...classes('block-type', typeClassName)}>
             {actions.map(action => (
               <Button
-                key={action.data.kind}
+                key={action.data.object}
                 stripped
-                data-cy={`create-${action.data.kind}`}
+                data-cy={`create-${action.data.object}`}
                 {...classes('block-type-button')}
                 onMouseDown={() => this.onElementAdd(action.data)}>
                 {action.icon}

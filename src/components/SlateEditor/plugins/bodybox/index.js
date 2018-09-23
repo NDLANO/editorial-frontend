@@ -25,7 +25,7 @@ export default function createBodyBox() {
 
   // Rule to always insert a paragraph as the last node inside if void type
   function validateNode(node) {
-    if (node.kind !== 'block') return null;
+    if (node.object !== 'block') return null;
     if (node.type !== 'bodybox') return null;
     if (!node.nodes.last().type) return null;
     if (!node.nodes.last().isVoid) return null;

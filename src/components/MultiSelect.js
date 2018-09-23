@@ -54,6 +54,7 @@ class MultiSelect extends Component {
     return (
       <RWMultiselect
         filter={filter}
+        data-testid={`multiselect-${name}`}
         open={open}
         messages={messages}
         value={value}

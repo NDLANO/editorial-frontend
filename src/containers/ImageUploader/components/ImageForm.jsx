@@ -51,6 +51,19 @@ export const getInitialModel = (image = {}) => ({
       : DEFAULT_LICENSE.license,
 });
 
+const FormWrapper = ({ inModal, children, onSubmit }) => {
+  if (inModal) {
+    return <div {...classes()}>{children}</div>
+  }
+  return <form onSubmit={onSubmit} {...classes()}>{children}</form>
+}
+
+FormWrapper.propTypes = {
+  inModal: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+  onSubmit: PropTypes.func,
+}
+
 class ImageForm extends Component {
   constructor(props) {
     super(props);
@@ -122,7 +135,7 @@ class ImageForm extends Component {
     const commonFieldProps = { bindInput, schema, submitted };
 
     return (
-      <form onSubmit={this.handleSubmit} {...classes()}>
+      <FormWrapper inModal={inModal} onSubmit={this.handleSubmit}>
         <FormHeader
           model={model}
           type="image"
@@ -173,7 +186,7 @@ class ImageForm extends Component {
           handleSubmit={this.handleSubmit}
           text={t('warningModal.notSaved')}
         />
-      </form>
+      </FormWrapper>
     );
   }
 }

@@ -161,6 +161,7 @@ class LearningResourceForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
+    console.log('handleSubmit');
     const { model, schema, revision, setSubmitted } = this.props;
     if (!schema.isValid) {
       setSubmitted(true);

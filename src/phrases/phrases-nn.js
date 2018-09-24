@@ -372,7 +372,7 @@ const phrases = {
     },
     workflow: {
       current: 'Nåværende status',
-      completed: 'Fullførte statuser',
+      former: 'Tidligere statuser',
       change: 'Endre status',
     },
     status: {

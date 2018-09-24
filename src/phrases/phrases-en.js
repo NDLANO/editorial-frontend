@@ -362,7 +362,7 @@ const phrases = {
     },
     workflow: {
       current: 'Current status',
-      completed: 'Completed status',
+      former: 'Former status',
       change: 'Change status',
     },
     status: {

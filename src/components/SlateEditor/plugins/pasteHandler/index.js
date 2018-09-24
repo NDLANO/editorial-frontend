@@ -13,9 +13,12 @@ function PasteHandler() {
   return {
     schema: {},
     onPaste(event, change) {
-      const transfer = getEventTransfer(event);
-      const textNode = transfer.fragment.getLastText();
-      const closestBlock = transfer.fragment.getClosestBlock(textNode.key);
+      const { fragment, text } = getEventTransfer(event);
+
+      if (!fragment) return change.insertText(text);
+
+      const textNode = fragment.getLastText();
+      const closestBlock = fragment.getClosestBlock(textNode.key);
       const newFragment = Document.create({
         nodes: [closestBlock],
         isVoid: false,

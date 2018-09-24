@@ -51,7 +51,6 @@
   }
 
   &__actions {
-    margin-top: var(--spacing--large);
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
@@ -60,7 +59,6 @@
       border-radius: 1px;
       margin-right: 1%;
       margin-top: 1rem;
-      flex: auto;
     }
   }
 

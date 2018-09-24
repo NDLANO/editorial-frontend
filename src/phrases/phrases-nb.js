@@ -387,7 +387,7 @@ const phrases = {
       published: 'Publisert',
       unpublished: 'Avpublisert',
       awaiting_unpublishing: 'Til avpublisering',
-      archieved: 'Arkivert',
+      archived: 'Arkivert',
       actions: {
         DRAFT: 'Kladd',
         PROPOSAL: 'Utkast',
@@ -398,7 +398,7 @@ const phrases = {
         PUBLISHED: 'Publiser',
         AWAITING_UNPUBLISHING: 'Til avpublisering',
         UNPUBLISHED: 'Avpubliser',
-        ARCHIEVED: 'Arkiver',
+        ARCHIVED: 'Arkiver',
       },
     },
     validDate: {

@@ -377,7 +377,7 @@ const phrases = {
       published: 'Published',
       unpublished: 'Unpublished',
       awaiting_unpublishing: 'Awaiting unpublishing',
-      archieved: 'Archieved',
+      archived: 'Archieved',
       actions: {
         DRAFT: 'Draft',
         PROPOSAL: 'Proposal',
@@ -388,7 +388,7 @@ const phrases = {
         PUBLISHED: 'Publish',
         AWAITING_UNPUBLISHING: 'Queue for unpublishing',
         UNPUBLISHED: 'Unpublish',
-        ARCHIEVED: 'Archive',
+        ARCHIVED: 'Archive',
       },
     },
     validDate: {

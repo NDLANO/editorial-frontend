@@ -46,7 +46,7 @@
 
   &__edit {
     position: relative;
-    z-index: 101;
+    z-index: 99;
     background-color: var(--gray-2);
     border: 1px solid var(--gray-6);
   }

@@ -183,3 +183,18 @@ export const AudioShape = PropTypes.shape({
     license: PropTypes.shape({ license: PropTypes.string }),
   }),
 });
+
+export const PossibleStatusShape = PropTypes.shape({
+  CREATED: PropTypes.arrayOf(PropTypes.string),
+  PROPOSAL: PropTypes.arrayOf(PropTypes.string),
+  AWAITING_QUALITY_ASSURANCE: PropTypes.arrayOf(PropTypes.string),
+  DRAFT: PropTypes.arrayOf(PropTypes.string),
+  USER_TEST: PropTypes.arrayOf(PropTypes.string),
+  IMPORTED: PropTypes.arrayOf(PropTypes.string),
+  QUALITY_ASSURED: PropTypes.arrayOf(PropTypes.string),
+  PUBLISHED: PropTypes.arrayOf(PropTypes.string),
+  AWAITING_UNPUBLISHING: PropTypes.arrayOf(PropTypes.string),
+  UNPUBLISHED: PropTypes.arrayOf(PropTypes.string),
+  ARCHIEVED: PropTypes.arrayOf(PropTypes.string),
+  QUEUED_FOR_PUBLISHING: PropTypes.arrayOf(PropTypes.string),
+});

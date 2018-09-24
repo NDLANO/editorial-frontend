@@ -51,12 +51,12 @@ export const fetchNewArticleId = id => {
 };
 
 export const validateDraft = id =>
-  fetchAuthorized(`${baseUrl}/${id}/validate`, {
+  fetchAuthorized(`${baseUrl}/${id}/validate/`, {
     method: 'PUT',
   }).then(resolveJsonOrRejectWithError);
 
-export const publishDraft = id =>
-  fetchAuthorized(`${baseUrl}/${id}/publish`, {
+export const updateStatusDraft = (id, status) =>
+  fetchAuthorized(`${baseUrl}/${id}/status/${status}`, {
     method: 'PUT',
   }).then(resolveJsonOrRejectWithError);
 
@@ -81,3 +81,8 @@ export const createAgreement = agreement =>
     method: 'POST',
     body: JSON.stringify(agreement),
   }).then(resolveJsonOrRejectWithError);
+
+export const fetchStatusStateMachine = () =>
+  fetchAuthorized(`${baseUrl}/status-state-machine/`).then(
+    resolveJsonOrRejectWithError,
+  );

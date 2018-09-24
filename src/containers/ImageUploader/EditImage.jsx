@@ -55,6 +55,7 @@ class EditImage extends Component {
       locale,
       inModal,
       editingArticle,
+      closeModal,
       ...rest
     } = this.props;
 
@@ -67,6 +68,7 @@ class EditImage extends Component {
         onUpdate={(image, file) => {
           updateImage({ image, file, history, editingArticle });
         }}
+        closeModal={closeModal}
         {...rest}
       />
     );
@@ -94,6 +96,7 @@ EditImage.propTypes = {
   isSaving: PropTypes.bool.isRequired,
   imageLanguage: PropTypes.string,
   inModal: PropTypes.bool,
+  closeModal: PropTypes.func,
   editingArticle: PropTypes.bool,
 };
 

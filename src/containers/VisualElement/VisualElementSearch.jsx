@@ -91,6 +91,7 @@ class VisualElementSearch extends Component {
       selectedResource,
       selectedResourceUrl,
       handleVisualElementChange,
+      closeModal,
       locale,
       t,
     } = this.props;
@@ -156,6 +157,7 @@ class VisualElementSearch extends Component {
                     showSaved={false}
                     inModal
                     editingArticle
+                    closeModal={closeModal}
                   />
                 ),
               },
@@ -285,6 +287,7 @@ VisualElementSearch.propTypes = {
   isSavingImage: PropTypes.bool,
   image: ImageShape,
   clearUploadedImage: PropTypes.func.isRequired,
+  closeModal: PropTypes.func,
 };
 
 const mapDispatchToProps = {

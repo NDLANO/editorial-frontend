@@ -10,6 +10,7 @@ import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { Button } from 'ndla-ui';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
@@ -69,7 +70,6 @@ class ImageForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
     const {
       model,
       schema,
@@ -117,6 +117,7 @@ class ImageForm extends Component {
       fields,
       showSaved,
       inModal,
+      closeModal,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
@@ -139,13 +140,27 @@ class ImageForm extends Component {
           licenses={licenses}
         />
         <Field right>
-          <Link
-            to="/"
-            className="c-button c-button--outline c-abort-button"
-            disabled={isSaving}>
-            {t('form.abort')}
-          </Link>
-          <SaveButton isSaving={isSaving} showSaved={showSaved}>
+          {inModal ? (
+            <Button outline onClick={closeModal}>
+              Avbryt
+            </Button>
+          ) : (
+            <Link
+              to="/"
+              className="c-button c-button--outline c-abort-button"
+              disabled={isSaving}>
+              {t('form.abort')}
+            </Link>
+          )}
+          <SaveButton
+            isSaving={isSaving}
+            showSaved={showSaved}
+            submit={!inModal}
+            onClick={e => {
+              if (inModal) {
+                this.handleSubmit(e);
+              }
+            }}>
             {t('form.save')}
           </SaveButton>
         </Field>
@@ -190,6 +205,7 @@ ImageForm.propTypes = {
   showSaved: PropTypes.bool.isRequired,
   revision: PropTypes.number,
   inModal: PropTypes.bool,
+  closeModal: PropTypes.func,
 };
 
 export default compose(

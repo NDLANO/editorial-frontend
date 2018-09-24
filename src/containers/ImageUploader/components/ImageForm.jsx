@@ -53,16 +53,20 @@ export const getInitialModel = (image = {}) => ({
 
 const FormWrapper = ({ inModal, children, onSubmit }) => {
   if (inModal) {
-    return <div {...classes()}>{children}</div>
+    return <div {...classes()}>{children}</div>;
   }
-  return <form onSubmit={onSubmit} {...classes()}>{children}</form>
-}
+  return (
+    <form onSubmit={onSubmit} {...classes()}>
+      {children}
+    </form>
+  );
+};
 
 FormWrapper.propTypes = {
   inModal: PropTypes.bool,
   children: PropTypes.node.isRequired,
   onSubmit: PropTypes.func,
-}
+};
 
 class ImageForm extends Component {
   constructor(props) {

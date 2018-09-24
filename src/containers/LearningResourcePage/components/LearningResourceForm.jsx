@@ -11,6 +11,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Link } from 'react-router-dom';
+import config from '../../../config';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
@@ -222,13 +223,14 @@ class LearningResourceForm extends Component {
             footnotes={findFootnotes(model.content)}
           />
         </LearningResourceContent>
-        {model.id && (
-          <LearningResourceTaxonomy
-            commonFieldProps={commonFieldProps}
-            model={model}
-            taxonomyIsLoading={taxonomyIsLoading}
-          />
-        )}
+        {model.id &&
+          config.taxonomyEnabled && (
+            <LearningResourceTaxonomy
+              commonFieldProps={commonFieldProps}
+              model={model}
+              taxonomyIsLoading={taxonomyIsLoading}
+            />
+          )}
         <FormCopyright
           model={model}
           commonFieldProps={commonFieldProps}

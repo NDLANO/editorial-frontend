@@ -15,11 +15,11 @@ import Tag from '../../../components/Tag';
 function FormStatusColumns({ articleStatus, t }) {
   return (
     <div>
-      <span {...formClasses('title')}>{t('form.status.current')}</span>
+      <span {...formClasses('title')}>{t('form.workflow.current')}</span>
       <div style={{ display: 'flex' }}>
         <Tag>{t(`form.status.${articleStatus.current.toLowerCase()}`)}</Tag>
       </div>
-      <span {...formClasses('subtitle')}>{t('form.status.completed')}</span>
+      <span {...formClasses('subtitle')}>{t('form.workflow.completed')}</span>
       <div style={{ display: 'flex' }}>
         {articleStatus.other.map(status => (
           <Tag key={status}>{t(`form.status.${status.toLowerCase()}`)}</Tag>

@@ -66,7 +66,7 @@ const FormStatusActions = props => {
 
   return (
     <Fragment>
-      <span {...formClasses('title')}>{t('form.status.change')}</span>
+      <span {...formClasses('title')}>{t('form.workflow.change')}</span>
       <div {...formClasses('actions')}>
         {possibleStatuses[articleStatus.current]
           .filter(status => !isAdminStatus(status))

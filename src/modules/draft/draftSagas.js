@@ -83,11 +83,6 @@ export function* updateStatusDraft(id, status) {
 
     yield put(actions.setDraft({ ...currentDraft, ...statusChangedDraft })); // Quick hack to set draft language on updated draft. Maybe language should not be on model?
     yield put(actions.updateDraftSuccess());
-    yield put(
-      messageActions.addMessage({
-        translationKey: `form.status.changed.${status}`,
-      }),
-    );
   } catch (error) {
     yield put(actions.updateDraftError());
     // TODO: handle error

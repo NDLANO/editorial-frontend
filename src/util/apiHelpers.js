@@ -75,11 +75,17 @@ export const fetchWithAuthorization = async (url, config = {}, forceAuth) => {
     ? config.headers['Content-Type']
     : 'text/plain';
   const extraHeaders = contentType ? { 'Content-Type': contentType } : {};
+  const cacheControl = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(
+    config.method,
+  )
+    ? {}
+    : { 'Cache-Control': 'no-cache' };
 
   return fetch(url, {
     ...config,
     headers: {
       ...extraHeaders,
+      ...cacheControl,
       Authorization: `Bearer ${getAccessToken()}`,
     },
   });

@@ -41,10 +41,8 @@ import { toEditArticle } from '../../../util/routeHelpers';
 import PreviewDraftLightbox, {
   classes,
 } from '../../../components/PreviewDraft/PreviewDraftLightbox';
-import {
-  getArticle,
-  articleConverter,
-} from '../../../modules/article/articleApi';
+import { getArticle } from '../../../modules/article/articleApi';
+import { articleConverter } from '../../../modules/draft/draft';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);

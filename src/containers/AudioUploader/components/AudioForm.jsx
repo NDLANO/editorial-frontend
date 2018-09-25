@@ -56,11 +56,11 @@ class AudioForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { initialModel, setModel } = nextProps;
+  componentDidUpdate({ initialModel: prevModel }) {
+    const { initialModel, setModel } = this.props;
     if (
-      initialModel.id !== this.props.initialModel.id ||
-      initialModel.language !== this.props.initialModel.language
+      prevModel.id !== initialModel.id ||
+      prevModel.language !== initialModel.language
     ) {
       setModel(initialModel);
     }

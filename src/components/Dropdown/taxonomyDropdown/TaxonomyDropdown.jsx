@@ -6,13 +6,13 @@
  *
  */
 
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import Downshift from 'downshift';
-import { DropdownMenu, DropdownAction, dropDownClasses } from '../common';
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 import { TaxonomyDropdownInput } from '.';
-import { itemToString } from '../../../util/downShiftHelpers';
 import { RESOURCE_FILTER_CORE } from '../../../constants';
+import { itemToString } from '../../../util/downShiftHelpers';
+import { DropdownAction, dropDownClasses, DropdownMenu } from '../common';
 
 class TaxonomyDropdown extends PureComponent {
   constructor(props) {
@@ -35,15 +35,6 @@ class TaxonomyDropdown extends PureComponent {
     this.handlePopupClick = this.handlePopupClick.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.selectedItems &&
-      this.state.selectedItems.length !== nextProps.selectedItems.length
-    ) {
-      this.setState({ selectedItems: nextProps.selectedItems });
-    }
-  }
-
   onWrapperClick(e) {
     if (this.inputWrapper === e.target || this.input === e.target) {
       this.focusOnInput();
@@ -60,6 +51,16 @@ class TaxonomyDropdown extends PureComponent {
     if (!this.state.isOpen) {
       this.handleToggleMenu();
     }
+  }
+
+  static getDerivedStateFromProps({ selectedItems }, prevState) {
+    if (
+      selectedItems &&
+      selectedItems.length !== prevState.selectedItems.length
+    ) {
+      return { selectedItems };
+    }
+    return null;
   }
 
   handlePopupClick(selectedItem) {

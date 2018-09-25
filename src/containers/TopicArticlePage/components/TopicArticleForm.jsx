@@ -72,11 +72,11 @@ class TopicArticleForm extends Component {
     this.getArticle = this.getArticle.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { initialModel, setModel } = nextProps;
+  componentDidUpdate({ initialModel: prevModel }) {
+    const { initialModel, setModel } = this.props;
     if (
-      initialModel.id !== this.props.initialModel.id ||
-      initialModel.language !== this.props.initialModel.language
+      initialModel.id !== prevModel.id ||
+      initialModel.language !== prevModel.language
     ) {
       setModel(initialModel);
     }

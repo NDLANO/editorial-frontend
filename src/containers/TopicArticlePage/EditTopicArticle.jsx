@@ -27,29 +27,26 @@ class EditTopicArticle extends Component {
     this.updateDraft = this.updateDraft.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { articleId, fetchDraft, articleLanguage } = this.props;
     fetchDraft({ id: articleId, language: articleLanguage });
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate({ articleId: prevId, article: prevArticle }) {
     const {
       articleId,
       fetchDraft,
       articleLanguage,
       article,
       fetchTags,
-    } = nextProps;
+    } = this.props;
     if (
       this.props.articleLanguage !== articleLanguage ||
-      articleId !== this.props.articleId
+      articleId !== prevId
     ) {
       fetchDraft({ id: articleId, language: articleLanguage });
     }
-    if (
-      article &&
-      (!this.props.article || article.id !== this.props.article.id)
-    ) {
+    if (article && (!prevArticle || article.id !== prevArticle.id)) {
       fetchTags({ language: article.language });
     }
   }

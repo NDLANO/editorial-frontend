@@ -20,6 +20,7 @@ const classes = new BEMHelper({
 
 const Accordion = ({
   fill,
+  inModal,
   taxonomy,
   resourceGroup,
   header,
@@ -80,7 +81,9 @@ const Accordion = ({
         {...classes(
           'content',
           contentModifiers,
-          taxonomy || resourceGroup ? '' : 'u-4/6@desktop u-push-1/6@desktop',
+          taxonomy || resourceGroup || inModal
+            ? ''
+            : 'u-4/6@desktop u-push-1/6@desktop',
         )}>
         {rest.children}
       </div>
@@ -94,6 +97,7 @@ Accordion.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   fill: PropTypes.bool,
+  inModal: PropTypes.bool,
   taxonomy: PropTypes.bool,
   resourceGroup: PropTypes.bool,
   header: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,

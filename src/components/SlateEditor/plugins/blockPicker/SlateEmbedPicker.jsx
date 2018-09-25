@@ -24,6 +24,7 @@ const SlateEmbedPicker = ({
       <VisualElementSearch
         selectedResource={resource}
         handleVisualElementChange={onEmbedAdd}
+        closeModal={onEmbedClose}
       />
     </Lightbox>
   );

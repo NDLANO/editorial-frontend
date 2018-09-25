@@ -191,6 +191,7 @@ export class DisplayExternal extends Component {
               selectedResource="h5p"
               selectedResourceUrl={src}
               handleVisualElementChange={this.onEditEmbed}
+              closeModal={this.toggleEditH5p}
             />
           </Lightbox>
         )}

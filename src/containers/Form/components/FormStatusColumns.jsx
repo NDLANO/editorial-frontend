@@ -6,36 +6,32 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { formClasses } from '..';
-import { articleStatuses } from '../../../util/formHelper';
+import Tag from '../../../components/Tag';
 
-const isActive = (articleStatus, status) => {
-  if (!articleStatus || !articleStatus.current || !articleStatus.other) {
-    return false;
-  }
+function FormStatusColumns({ articleStatus, t }) {
   return (
-    articleStatus.current === status.key ||
-    articleStatus.other.includes(status.key)
+    <div>
+      <span {...formClasses('title')}>{t('form.workflow.current')}</span>
+      <div style={{ display: 'flex' }}>
+        <Tag>{t(`form.status.${articleStatus.current.toLowerCase()}`)}</Tag>
+      </div>
+      {articleStatus.other.length > 0 && (
+        <Fragment>
+          <span {...formClasses('subtitle')}>{t('form.workflow.former')}</span>
+          <div style={{ display: 'flex' }}>
+            {articleStatus.other.map(status => (
+              <Tag key={status}>{t(`form.status.${status.toLowerCase()}`)}</Tag>
+            ))}
+          </div>
+        </Fragment>
+      )}
+    </div>
   );
-};
-
-const FormStatusColumns = ({ articleStatus, t }) => (
-  <div {...formClasses('status-columns')}>
-    {articleStatuses.map(status => (
-      <span
-        key={status.key}
-        {...formClasses(
-          `status-${status.columnSize || 1}-column`,
-          isActive(articleStatus, status) ? 'active' : '',
-        )}>
-        {t(`form.status.${status.key.toLowerCase()}`)}
-      </span>
-    ))}
-  </div>
-);
+}
 
 FormStatusColumns.propTypes = {
   articleStatus: PropTypes.shape({

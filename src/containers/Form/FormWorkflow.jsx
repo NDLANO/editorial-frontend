@@ -14,7 +14,7 @@ import Accordion from '../../components/Accordion';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as draftApi from '../../modules/draft/draftApi';
 import * as messageActions from '../Messages/messagesActions';
-import { AddNotes, formClasses } from '.';
+import { AddNotes } from '.';
 import { CommonFieldPropsShape } from '../../shapes';
 import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
@@ -77,7 +77,7 @@ class FormWorkflow extends Component {
   }
 
   render() {
-    const { t, model, saveDraft, articleStatus, commonFieldProps } = this.props;
+    const { t, model, articleStatus, commonFieldProps } = this.props;
     const { possibleStatuses } = this.state;
 
     return (
@@ -91,12 +91,10 @@ class FormWorkflow extends Component {
           label={t('form.addNotes')}
           {...commonFieldProps}
         />
-        <span {...formClasses('title')}>Status</span>
         <FormStatusColumns articleStatus={articleStatus} />
         <FormStatusActions
           articleStatus={articleStatus}
           model={model}
-          saveDraft={saveDraft}
           onValidateClick={this.onValidateClick}
           possibleStatuses={possibleStatuses}
           onUpdateStatus={this.onUpdateStatus}
@@ -116,7 +114,6 @@ FormWorkflow.propTypes = {
   }),
   addMessage: PropTypes.func.isRequired,
   updateStatusDraft: PropTypes.func.isRequired,
-  saveDraft: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 

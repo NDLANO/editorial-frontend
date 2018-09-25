@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { tagClasses } from '.';
+import { tagClasses } from '../../Tag';
 
 const DropdownTagPropertyItem = ({
   tagProperty,

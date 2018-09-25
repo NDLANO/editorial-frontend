@@ -193,7 +193,6 @@ class TopicArticleForm extends Component {
           commonFieldProps={commonFieldProps}
           articleStatus={articleStatus}
           model={model}
-          saveDraft={this.handleSubmit}
         />
         <Field right>
           {error && <span className="c-errorMessage">{error}</span>}

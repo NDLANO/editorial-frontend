@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { formClasses } from '..';
@@ -15,20 +15,17 @@ import Tag from '../../../components/Tag';
 function FormStatusColumns({ articleStatus, t }) {
   return (
     <div>
-      <span {...formClasses('title')}>{t('form.workflow.current')}</span>
+      <span {...formClasses('title')}>{t('form.workflow.title')}</span>
       <div style={{ display: 'flex' }}>
-        <Tag>{t(`form.status.${articleStatus.current.toLowerCase()}`)}</Tag>
+        <Tag modifier="wide">
+          {t(`form.status.${articleStatus.current.toLowerCase()}`)}
+        </Tag>
+        {articleStatus.other.map(status => (
+          <Tag key={status} modifier={['secondary', 'wide']}>
+            {t(`form.status.${status.toLowerCase()}`)}
+          </Tag>
+        ))}
       </div>
-      {articleStatus.other.length > 0 && (
-        <Fragment>
-          <span {...formClasses('subtitle')}>{t('form.workflow.former')}</span>
-          <div style={{ display: 'flex' }}>
-            {articleStatus.other.map(status => (
-              <Tag key={status}>{t(`form.status.${status.toLowerCase()}`)}</Tag>
-            ))}
-          </div>
-        </Fragment>
-      )}
     </div>
   );
 }

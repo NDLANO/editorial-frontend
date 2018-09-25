@@ -361,8 +361,7 @@ const phrases = {
       h5p: 'H5P',
     },
     workflow: {
-      current: 'Current status',
-      former: 'Former status',
+      title: 'Status',
       change: 'Change status',
     },
     status: {

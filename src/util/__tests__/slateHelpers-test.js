@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { fromJS } from 'immutable';
-import renderer from 'react-test-renderer';
+import TestRenderer from 'react-test-renderer';
 import jsdom from 'jsdom';
 import { Value } from 'slate';
 import Html from 'slate-html-serializer';
@@ -46,13 +46,13 @@ const { fragment } = jsdom.JSDOM;
 
 test('serialize embed block', () => {
   const obj = {
-    kind: 'block',
+    object: 'block',
     type: 'embed',
     data: fromJS({ caption: 'test' }),
   };
   const tag = learningResourceEmbedRule[0].serialize(obj);
 
-  expect(renderer.create(tag).toJSON()).toMatchSnapshot();
+  expect(TestRenderer.create(tag).toJSON()).toMatchSnapshot();
 });
 
 test('find embed nodes in slate document', () => {
@@ -69,12 +69,12 @@ test('find footnote nodes in slate document', () => {
 
 test('serialize bodybox block', () => {
   const obj = {
-    kind: 'block',
+    object: 'block',
     type: 'bodybox',
   };
   const children = <p>test</p>;
   const bodybox = divRule.serialize(obj, children);
-  expect(renderer.create(bodybox).toJSON()).toMatchSnapshot();
+  expect(TestRenderer.create(bodybox).toJSON()).toMatchSnapshot();
 });
 
 test('deserialize bodybox block', () => {
@@ -141,7 +141,7 @@ test('deserialize footnote', () => {
 test('serialize footnote', () => {
   const obj = {
     isVoid: false,
-    kind: 'inline',
+    object: 'inline',
     data: fromJS({
       title: 'Apple Watch',
       type: 'product',
@@ -152,10 +152,10 @@ test('serialize footnote', () => {
     }),
     nodes: [
       {
-        kind: 'text',
+        object: 'text',
         leaves: [
           {
-            kind: 'leaf',
+            object: 'leaf',
             marks: [],
             text: '#',
           },
@@ -165,7 +165,7 @@ test('serialize footnote', () => {
     type: 'footnote',
   };
   const footnote = footnoteRule.serialize(obj);
-  expect(renderer.create(footnote).toJSON()).toMatchSnapshot();
+  expect(TestRenderer.create(footnote).toJSON()).toMatchSnapshot();
 });
 
 test('deserializing any heading becomes heading-two except heading-three', () => {

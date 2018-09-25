@@ -79,7 +79,7 @@ class EditLink extends React.Component {
           .change()
           .moveToRangeOf(node)
           .insertText(text)
-          .setInline(data),
+          .setInlines(data),
       );
     } else {
       // create new

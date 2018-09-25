@@ -8,7 +8,7 @@
  */
 
 export function setBlock(options, change) {
-  return change.setBlock(options.defaultType);
+  return change.setBlocks(options.defaultType);
 }
 
 export function insertParagraph(options, change) {

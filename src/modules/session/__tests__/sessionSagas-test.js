@@ -7,7 +7,6 @@
  */
 
 import { expectSaga } from 'redux-saga-test-plan';
-import sinon from 'sinon';
 import nock from 'nock';
 
 import * as sagas from '../sessionSagas';
@@ -35,7 +34,7 @@ afterEach(() => {
 });
 
 test('sessionSagas login success', () => {
-  const replace = sinon.spy(() => {});
+  const replace = jest.fn(() => {});
   const result = expectSaga(sagas.watchLoginSuccess)
     .withState({})
     .put(actions.setAuthenticated(true))
@@ -49,8 +48,8 @@ test('sessionSagas login success', () => {
     .run({ silenceTimeout: true });
 
   return result.then(() => {
-    expect(replace.calledOnce).toBe(true);
-    expect(replace.calledWith('/')).toBe(true);
+    expect(replace).toHaveBeenCalledTimes(1);
+    expect(replace).toHaveBeenCalledWith('/');
     expect(localStorage.getItem('access_token')).toBe(accessToken);
     expect(localStorage.getItem('access_token_personal')).toBe('true');
   });

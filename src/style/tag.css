@@ -10,7 +10,11 @@
   line-height: 1rem;
   padding-left: 0.3rem;
   padding-right: 0.3rem;
-  margin: 0.1rem;
+  margin: 0.1rem 0.3rem;
+
+  &:first-child {
+    margin-left: 0;
+  }
 
   &--highlighted {
     background-color: black;
@@ -84,6 +88,16 @@
   &--search {
     color: var(--gray-3);
     margin-right: var(--spacing--small);
+    background-color: var(--gray-9);
+  }
+
+  &--wide {
+    padding-left: var(--spacing--small);
+    padding-right: var(--spacing--small);
+  }
+
+  &--secondary {
+    color: var(--brand-grey-dark);
     background-color: var(--gray-9);
   }
 }

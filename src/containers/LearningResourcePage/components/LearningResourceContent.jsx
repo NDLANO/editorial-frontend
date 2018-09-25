@@ -34,6 +34,7 @@ import relatedPlugin from '../../../components/SlateEditor/plugins/related';
 import filePlugin from '../../../components/SlateEditor/plugins/file';
 import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
 import { createEmptyValue } from '../../../util/articleContentConverter';
+import pasteHandler from '../../../components/SlateEditor/plugins/pasteHandler';
 
 import {
   editListPlugin,
@@ -70,6 +71,7 @@ class LearningResourceContent extends Component {
       relatedPlugin(),
       filePlugin(),
       blockPickerPlugin(this.addSection),
+      pasteHandler(),
     ];
   }
 

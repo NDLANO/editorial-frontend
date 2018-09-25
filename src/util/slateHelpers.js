@@ -54,8 +54,8 @@ export const findNodesByType = (node, type, nodes = []) => {
   if (node.type === type) {
     nodes.push(node);
   } else if (
-    node.kind === 'document' ||
-    (node.kind === 'block' && node.nodes.size > 0)
+    node.object === 'document' ||
+    (node.object === 'block' && node.nodes.size > 0)
   ) {
     node.nodes.forEach(n => findNodesByType(n, type, nodes));
   }
@@ -109,14 +109,14 @@ export const divRule = {
 
     if (el.className === 'c-bodybox') {
       return {
-        kind: 'block',
+        object: 'block',
         type: 'bodybox',
         nodes: next(el.childNodes),
       };
     }
     if (type === 'related-content') {
       return {
-        kind: 'block',
+        object: 'block',
         type: 'related',
         isVoid: true,
         data: reduceChildElements(el, type),
@@ -124,7 +124,7 @@ export const divRule = {
     }
     if (type === 'file') {
       return {
-        kind: 'block',
+        object: 'block',
         type: 'file',
         isVoid: true,
         data: reduceChildElements(el, type),
@@ -132,27 +132,27 @@ export const divRule = {
     }
     const childs = next(el.childNodes);
     return {
-      kind: 'block',
+      object: 'block',
       type: 'div',
       nodes: childs,
     };
   },
-  serialize(object, children) {
-    if (object.kind !== 'block') return;
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'block') return;
     if (
-      object.type !== 'div' &&
-      object.type !== 'bodybox' &&
-      object.type !== 'file'
+      slateObject.type !== 'div' &&
+      slateObject.type !== 'bodybox' &&
+      slateObject.type !== 'file'
     )
       return;
-    switch (object.type) {
+    switch (slateObject.type) {
       case 'bodybox':
         return <div className="c-bodybox">{children}</div>;
       case 'file':
         return (
           <div data-type="file">
-            {object.data.get('nodes') &&
-              object.data
+            {slateObject.data.get('nodes') &&
+              slateObject.data
                 .get('nodes')
                 .map(node => <embed {...createEmbedProps(node)} />)}
           </div>
@@ -174,15 +174,16 @@ export const paragraphRule = {
     const type = parent === 'li' ? 'list-text' : 'paragraph';
     const nodes = next(el.childNodes);
     return {
-      kind: 'block',
+      object: 'block',
       type,
       nodes,
     };
   },
-  serialize(object, children) {
-    if (object.kind !== 'block') return;
-    if (object.type !== 'paragraph' && object.type !== 'list-text') return;
-    if (object.type === 'list-text') {
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'block') return;
+    if (slateObject.type !== 'paragraph' && slateObject.type !== 'list-text')
+      return;
+    if (slateObject.type === 'list-text') {
       return <ListText>{children}</ListText>;
     }
     return <p>{children}</p>;
@@ -194,14 +195,14 @@ export const listItemRule = {
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'li') return;
     return {
-      kind: 'block',
+      object: 'block',
       type: 'list-item',
       nodes: next(el.childNodes),
     };
   },
-  serialize(object, children) {
-    if (object.kind !== 'block') return;
-    if (object.type !== 'list-item') return;
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'block') return;
+    if (slateObject.type !== 'list-item') return;
     return <li>{children}</li>;
   },
 };
@@ -214,7 +215,7 @@ export const unorderListRules = {
 
     if (data.type === 'two-column') {
       return {
-        kind: 'block',
+        object: 'block',
         type: 'two-column-list',
         nodes: next(el.childNodes),
         data,
@@ -222,18 +223,21 @@ export const unorderListRules = {
     }
 
     return {
-      kind: 'block',
+      object: 'block',
       type: 'bulleted-list',
       nodes: next(el.childNodes),
     };
   },
-  serialize(object, children) {
-    if (object.kind !== 'block') return;
-    if (object.type !== 'two-column-list' && object.type !== 'bulleted-list') {
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'block') return;
+    if (
+      slateObject.type !== 'two-column-list' &&
+      slateObject.type !== 'bulleted-list'
+    ) {
       return;
     }
 
-    if (object.type === 'two-column-list') {
+    if (slateObject.type === 'two-column-list') {
       return <ul data-type="two-column">{children}</ul>;
     }
     return <ul>{children}</ul>;
@@ -248,23 +252,26 @@ export const orderListRules = {
     const data = { type: type ? type.value : '' };
     if (data.type === 'letters') {
       return {
-        kind: 'block',
+        object: 'block',
         type: 'letter-list',
         nodes: next(el.childNodes),
         data,
       };
     }
     return {
-      kind: 'block',
+      object: 'block',
       type: 'numbered-list',
       nodes: next(el.childNodes),
     };
   },
-  serialize(object, children) {
-    if (object.kind !== 'block') return;
-    if (object.type !== 'numbered-list' && object.type !== 'letter-list')
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'block') return;
+    if (
+      slateObject.type !== 'numbered-list' &&
+      slateObject.type !== 'letter-list'
+    )
       return;
-    if (object.type === 'letter-list') {
+    if (slateObject.type === 'letter-list') {
       return <ol data-type="letters">{children}</ol>;
     }
     return <ol>{children}</ol>;
@@ -278,15 +285,15 @@ export const footnoteRule = {
     if (embed.resource !== 'footnote') return;
 
     return {
-      kind: 'inline',
+      object: 'inline',
       type: 'footnote',
       nodes: [
         {
-          kind: 'text',
+          object: 'text',
           isVoid: true,
           leaves: [
             {
-              kind: 'leaf',
+              object: 'leaf',
               text: '#',
               marks: [],
             },
@@ -299,11 +306,11 @@ export const footnoteRule = {
       },
     };
   },
-  serialize(object) {
-    if (object.kind !== 'inline') return;
-    if (object.type !== 'footnote') return;
+  serialize(slateObject) {
+    if (slateObject.object !== 'inline') return;
+    if (slateObject.type !== 'footnote') return;
 
-    const data = object.data.toJS();
+    const data = slateObject.data.toJS();
     const props = createEmbedProps({
       ...data,
       authors: data.authors ? data.authors.join(';') : '',
@@ -317,14 +324,14 @@ export const blockRules = {
     const block = BLOCK_TAGS[el.tagName.toLowerCase()];
     if (!block) return;
     return {
-      kind: 'block',
+      object: 'block',
       type: block,
       nodes: next(el.childNodes),
     };
   },
-  serialize(object, children) {
-    if (object.kind !== 'block') return;
-    switch (object.type) {
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'block') return;
+    switch (slateObject.type) {
       case 'section':
         return <section>{children}</section>;
       case 'bulleted-list':
@@ -363,17 +370,17 @@ export const inlineRules = {
     if (!inline) return;
     if (inline === 'span' && isEmpty(attributes)) return; // Keep only spans with attributes
     return {
-      kind: 'inline',
+      object: 'inline',
       type: inline,
       data: attributes,
       nodes: next(el.childNodes),
     };
   },
-  serialize(object, children) {
-    if (object.kind !== 'inline') return;
-    const data = object.data.toJS();
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'inline') return;
+    const data = slateObject.data.toJS();
     const props = createProps(data);
-    switch (object.type) {
+    switch (slateObject.type) {
       case 'span':
         return <span {...props}>{children}</span>;
     }
@@ -385,13 +392,13 @@ export const tableRules = {
     const tableTag = TABLE_TAGS[el.tagName.toLowerCase()];
     if (!tableTag) return;
     return {
-      kind: 'block',
+      object: 'block',
       type: tableTag,
       nodes: next(el.childNodes),
     };
   },
   serialize(object, children) {
-    if (object.kind !== 'block') return;
+    if (object.object !== 'block') return;
     switch (object.type) {
       case 'table': {
         return (
@@ -441,16 +448,16 @@ const RULES = [
     deserialize(el, next) {
       if (el.tagName.toLowerCase() !== 'aside') return;
       return {
-        kind: 'block',
+        object: 'block',
         type: 'aside',
         nodes: next(el.childNodes),
         data: getAsideType(el),
       };
     },
-    serialize(object, children) {
-      if (object.kind !== 'block') return;
-      if (object.type !== 'aside') return;
-      return <aside {...setAsideTag(object.data)}>{children}</aside>;
+    serialize(slateObject, children) {
+      if (slateObject.object !== 'block') return;
+      if (slateObject.type !== 'aside') return;
+      return <aside {...setAsideTag(slateObject.data)}>{children}</aside>;
     },
   },
   blockRules,
@@ -460,14 +467,14 @@ const RULES = [
       const mark = MARK_TAGS[el.tagName.toLowerCase()];
       if (!mark) return;
       return {
-        kind: 'mark',
+        object: 'mark',
         type: mark,
         nodes: next(el.childNodes),
       };
     },
-    serialize(object, children) {
-      if (object.kind !== 'mark') return;
-      switch (object.type) {
+    serialize(slateObject, children) {
+      if (slateObject.object !== 'mark') return;
+      switch (slateObject.type) {
         case 'bold':
           return <strong>{children}</strong>;
         case 'italic':
@@ -486,7 +493,7 @@ const RULES = [
     deserialize(el, next) {
       if (el.tagName.toLowerCase() !== 'a') return;
       return {
-        kind: 'inline',
+        object: 'inline',
         type: 'link',
         data: {
           href: el.href ? el.href : '#',
@@ -496,17 +503,17 @@ const RULES = [
         nodes: next(el.childNodes),
       };
     },
-    serialize(object, children) {
-      if (object.kind !== 'inline') return;
-      if (object.type !== 'link') return;
-      const data = object.data.toJS();
+    serialize(slateObject, children) {
+      if (slateObject.object !== 'inline') return;
+      if (slateObject.type !== 'link') return;
+      const data = slateObject.data.toJS();
 
       if (data.resource === 'content-link') {
         return (
           <embed
             data-resource={data.resource}
             data-content-id={data['content-id']}
-            data-link-text={object.text}
+            data-link-text={slateObject.text}
             data-open-in={data['open-in']}
           />
         );
@@ -517,7 +524,7 @@ const RULES = [
           href={data.href}
           target={data.target}
           rel={data.rel}
-          title={object.text}>
+          title={slateObject.text}>
           {children}
         </a>
       );
@@ -534,14 +541,14 @@ const topicArticeEmbedRule = [
         return;
       }
       return {
-        kind: 'block',
+        object: 'block',
         type: 'embed',
         data: reduceElementDataAttributes(el),
         isVoid: true,
       };
     },
     serialize(object) {
-      if (object.kind !== 'block') return;
+      if (object.object !== 'block') return;
       if (object.type !== 'embed') return;
       switch (object.type) {
         case 'embed':
@@ -560,16 +567,16 @@ export const learningResourceEmbedRule = [
       if (el.dataset.resource === 'related-content') return;
       if (embed.resource === 'content-link') {
         return {
-          kind: 'inline',
+          object: 'inline',
           type: 'link',
           data: embed,
           nodes: [
             {
-              kind: 'text',
+              object: 'text',
               isVoid: true,
               leaves: [
                 {
-                  kind: 'leaf',
+                  object: 'leaf',
                   text: embed['link-text']
                     ? embed['link-text']
                     : 'Ukjent link tekst',
@@ -582,16 +589,16 @@ export const learningResourceEmbedRule = [
       }
       if (embed.resource === 'concept') {
         return {
-          kind: 'inline',
+          object: 'inline',
           type: 'concept',
           data: embed,
           nodes: [
             {
-              kind: 'text',
+              object: 'text',
               isVoid: true,
               leaves: [
                 {
-                  kind: 'leaf',
+                  object: 'leaf',
                   text: embed['link-text']
                     ? embed['link-text']
                     : 'Ukjent begrepstekst',
@@ -604,7 +611,7 @@ export const learningResourceEmbedRule = [
       }
 
       return {
-        kind: 'block',
+        object: 'block',
         type: 'embed',
         data: embed,
         nodes: [],

@@ -9,14 +9,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import BEMHelper from 'react-bem-helper';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
-
-const tagClasses = new BEMHelper({
-  name: 'tag',
-  prefix: 'c-',
-});
+import { tagClasses } from '../../../../components/Tag';
 
 class SearchTag extends Component {
   constructor(props) {

@@ -64,18 +64,6 @@ class SlateToolbar extends Component {
     this.updateMenu();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { value } = nextProps;
-
-    if (value.selection.startKey !== this.props.value.selection.startKey) {
-      const nodeKey = value.document.getClosestBlock(value.selection.startKey)
-        .key;
-      this.setState({
-        isInsideAside: checkSelectionForType('aside', value, nodeKey),
-      });
-    }
-  }
-
   componentDidUpdate() {
     this.updateMenu();
   }
@@ -109,7 +97,7 @@ class SlateToolbar extends Component {
         editListPlugin.changes.wrapInList(change, type);
       }
     } else {
-      change.setBlock(isActive ? DEFAULT_NODE : type);
+      change.setBlocks(isActive ? DEFAULT_NODE : type);
     }
     this.handleValueChange(change);
   }
@@ -141,6 +129,17 @@ class SlateToolbar extends Component {
     if (kind === 'inline') this.onClickInline(e, type);
   }
 
+  static getDerivedStateFromProps({ value }, { value: stateValue }) {
+    if (value.selection.startKey !== stateValue.selection.startKey) {
+      const nodeKey = value.document.getClosestBlock(value.selection.startKey)
+        .key;
+      return {
+        isInsideAside: checkSelectionForType('aside', value, nodeKey),
+      };
+    }
+    return null;
+  }
+
   portalRef(menu) {
     // ReactDOM.createPortal callback ref only seems to return a ReactPortal node instance
     // eslint-disable-next-line react/no-find-dom-node
@@ -157,7 +156,8 @@ class SlateToolbar extends Component {
     const { menu } = this.state;
     const { value } = this.props;
     if (!menu) return;
-    if (value.isBlurred || value.isEmpty) {
+    if (value.isBlurred || value.isCollapsed) {
+      // change from isCollapsed to isEmpty when slate is updated, ref https://github.com/ianstormtaylor/slate/issues/2004
       menu.removeAttribute('style');
       return;
     }

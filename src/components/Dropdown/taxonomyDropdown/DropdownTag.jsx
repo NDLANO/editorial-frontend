@@ -11,7 +11,8 @@ import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Cross } from 'ndla-icons/action';
 import { injectT } from 'ndla-i18n';
-import { DropdownTagPropertyItem, tagClasses } from '.';
+import { DropdownTagPropertyItem } from '.';
+import { tagClasses } from '../../Tag';
 import ToolTip from '../../ToolTip';
 
 class DropdownTag extends Component {

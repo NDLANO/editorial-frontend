@@ -29,10 +29,10 @@ class DropdownTag extends Component {
     this.onRemove = this.onRemove.bind(this);
     this.onClick = this.onClick.bind(this);
     this.handleSetTagProperty = this.handleSetTagProperty.bind(this);
-    this.toggleHighligth = this.toggleHighligth.bind(this);
+    this.toggleHighlight = this.toggleHighlight.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { t, name, tag } = this.props;
     if (name === 'topics' && tag.primary) {
       this.setState({ tagProperty: { name: t('form.topics.primaryTopic') } });
@@ -68,7 +68,7 @@ class DropdownTag extends Component {
     const { tag } = this.state;
     const { name } = this.props;
     if (name === 'topics' && !tag.primary) {
-      this.toggleHighligth();
+      this.toggleHighlight();
     }
   }
 
@@ -92,7 +92,7 @@ class DropdownTag extends Component {
     }
   }
 
-  toggleHighligth() {
+  toggleHighlight() {
     this.setState(prevState => ({
       isHighlighted: !prevState.isHighlighted,
     }));
@@ -151,12 +151,7 @@ class DropdownTag extends Component {
     }
 
     return (
-      <div
-        role="button"
-        tabIndex="0"
-        onClick={this.onClick}
-        onKeyPress={this.onClick}
-        {...tagClasses('', isHighlighted ? 'highlighted' : '')}>
+      <div {...tagClasses('', isHighlighted ? 'highlighted' : '')}>
         <div {...tagClasses('description')}>{tag.name}</div>
         {tagItem && <div {...tagClasses('item')}>{tagItem}</div>}
         <Button onClick={this.onRemove} stripped>

@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { Button } from 'ndla-ui';
 import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
@@ -37,7 +38,11 @@ import {
   WarningModalWrapper,
 } from '../../Form';
 import { toEditArticle } from '../../../util/routeHelpers';
-import PreviewDraftLightbox from '../../../components/PreviewDraft/PreviewDraftLightbox';
+import PreviewDraftLightbox, {
+  classes,
+} from '../../../components/PreviewDraft/PreviewDraftLightbox';
+import { getArticle } from '../../../modules/article/articleApi';
+import { articleConverter } from '../../../modules/draft/draft';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -70,15 +75,34 @@ class TopicArticleForm extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getArticle = this.getArticle.bind(this);
+    this.onReset = this.onReset.bind(this);
+    this.state = {};
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { initialModel, setModel } = nextProps;
+  componentDidUpdate({ initialModel: prevInitialModel }) {
+    const { initialModel, setModel } = this.props;
     if (
-      initialModel.id !== this.props.initialModel.id ||
-      initialModel.language !== this.props.initialModel.language
+      initialModel.id !== prevInitialModel.id ||
+      initialModel.language !== prevInitialModel.language
     ) {
       setModel(initialModel);
+    }
+  }
+
+  async onReset() {
+    const { articleId, setModel, taxonomy, selectedLanguage, t } = this.props;
+    try {
+      if (this.state.error) this.setState({ error: undefined });
+      const articleFromProd = await getArticle(articleId);
+      const convertedArticle = articleConverter(
+        articleFromProd,
+        selectedLanguage,
+      );
+      setModel(getInitialModel(convertedArticle, taxonomy, selectedLanguage));
+    } catch (e) {
+      if (e.status === 404) {
+        this.setState({ error: t('errorMessage.noArticleInProd') });
+      }
     }
   }
 
@@ -140,6 +164,7 @@ class TopicArticleForm extends Component {
       showSaved,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
+    const { error } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
@@ -170,6 +195,12 @@ class TopicArticleForm extends Component {
           model={model}
         />
         <Field right>
+          {error && <span className="c-errorMessage">{error}</span>}
+          {model.id && (
+            <Button {...classes('button')} onClick={this.onReset}>
+              {t('form.resetToProd')}
+            </Button>
+          )}
           <PreviewDraftLightbox
             label={t('subNavigation.learningResource')}
             getArticle={this.getArticle}

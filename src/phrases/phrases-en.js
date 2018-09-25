@@ -341,6 +341,7 @@ const phrases = {
     addNotes: 'Add note',
     editImage: 'Edit image',
     editAudio: 'Edit audio',
+    resetToProd: 'Reset to prod',
     variant: {
       create: 'Create variant +',
     },
@@ -594,6 +595,7 @@ const phrases = {
     back: 'Back',
     goToFrontPage: 'Go to frontpage',
     invalidUrl: 'Invalid url',
+    noArticleInProd: 'No article found in prod',
   },
   notFound: {
     description: 'The page cannot be found',

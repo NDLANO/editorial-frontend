@@ -27,29 +27,27 @@ class EditTopicArticle extends Component {
     this.updateDraft = this.updateDraft.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { articleId, fetchDraft, articleLanguage } = this.props;
     fetchDraft({ id: articleId, language: articleLanguage });
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate({
+    selectedLanguage: prevLanguage,
+    articleId: prevArticleId,
+    article: prevArticle,
+  }) {
     const {
       articleId,
       fetchDraft,
       articleLanguage,
       article,
       fetchTags,
-    } = nextProps;
-    if (
-      this.props.articleLanguage !== articleLanguage ||
-      articleId !== this.props.articleId
-    ) {
+    } = this.props;
+    if (prevLanguage !== articleLanguage || articleId !== prevArticleId) {
       fetchDraft({ id: articleId, language: articleLanguage });
     }
-    if (
-      article &&
-      (!this.props.article || article.id !== this.props.article.id)
-    ) {
+    if (article && (!prevArticle || article.id !== prevArticle.id)) {
       fetchTags({ language: article.language });
     }
   }
@@ -75,6 +73,7 @@ class EditTopicArticle extends Component {
     return (
       <TopicArticleForm
         initialModel={getInitialModel(article)}
+        selectedLanguage={article.language}
         revision={article.revision}
         articleStatus={article.status}
         onUpdate={this.updateDraft}

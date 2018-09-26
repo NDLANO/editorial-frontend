@@ -60,7 +60,8 @@ const TableActions = ({ value, editor, t }) => {
   };
 
   const show =
-    editTablePlugin.utils.isSelectionInTable(value) && value.isFocused;
+    editTablePlugin.utils.isSelectionInTable(value) &&
+    value.selection.isFocused;
   return (
     <div {...classes('', show ? 'show' : 'hidden')}>
       {supportedTableOperations.map(operation => (

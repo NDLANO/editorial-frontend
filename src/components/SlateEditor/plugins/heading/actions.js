@@ -10,7 +10,7 @@
 import { setBlock, insertParagraph } from './changes';
 
 export function getCurrentHeading(options, value) {
-  if (!value.selection.startKey) return null;
+  if (!value.selection.start.key) return null;
   const { startBlock } = value;
   return startBlock && options.types.includes(startBlock.type)
     ? startBlock
@@ -27,7 +27,7 @@ export function onEnter(evt, value, options, change) {
 }
 
 export function onBackspace(evt, value, options, change) {
-  const { startOffset, isCollapsed } = value;
+  const { startOffset, isCollapsed } = value.selection;
   const currentHeading = getCurrentHeading(options, value);
   if (!currentHeading || !isCollapsed) {
     return null;

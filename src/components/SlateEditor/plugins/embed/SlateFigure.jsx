@@ -83,7 +83,7 @@ class SlateFigure extends React.Component {
 
   isSelected() {
     const { node, editor } = this.props;
-    const isSelected = editor.value.selection.hasEdgeIn(node);
+    const isSelected = editor.value.selection.anchor.isInNode(node);
     return isSelected;
   }
 

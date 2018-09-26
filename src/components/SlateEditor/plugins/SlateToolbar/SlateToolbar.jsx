@@ -127,8 +127,8 @@ class SlateToolbar extends Component {
   }
 
   static getDerivedStateFromProps({ value }, { value: stateValue }) {
-    if (value.selection.startKey !== stateValue.selection.startKey) {
-      const nodeKey = value.document.getClosestBlock(value.selection.startKey)
+    if (value.selection.start.key !== stateValue.selection.start.key) {
+      const nodeKey = value.document.getClosestBlock(value.selection.start.key)
         .key;
       return {
         isInsideAside: checkSelectionForType('aside', value, nodeKey),
@@ -151,16 +151,17 @@ class SlateToolbar extends Component {
 
   updateMenu() {
     const { menu } = this.state;
-    const { value } = this.props;
+    const {
+      value: { selection, fragment },
+    } = this.props;
     if (!menu) return;
-    if (value.isBlurred || value.isCollapsed) {
-      // change from isCollapsed to isEmpty when slate is updated, ref https://github.com/ianstormtaylor/slate/issues/2004
+    if (selection.isBlurred || selection.isCollapsed || fragment.text === '') {
       menu.removeAttribute('style');
       return;
     }
     menu.style.display = 'block';
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
+    const native = window.getSelection();
+    const range = native.getRangeAt(0);
     const rect = range.getBoundingClientRect();
 
     menu.style.opacity = 1;

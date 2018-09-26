@@ -6,7 +6,7 @@ function getCurrentBlockquote(opts, value, block) {
   let currentBlock = block;
 
   if (!block) {
-    if (!value.selection.startKey) return null;
+    if (!value.selection.start.key) return null;
     currentBlock = value.startBlock;
   }
 

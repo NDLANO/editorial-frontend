@@ -7,7 +7,7 @@ import { unwrapBlockquote } from '../changes';
  */
 function onBackspace(opts, event, change) {
   const { value } = change;
-  const { startOffset, isCollapsed } = value;
+  const { startOffset, isCollapsed } = value.selection;
 
   if (!getCurrentBlockquote(opts, value) || !isCollapsed) {
     return undefined;

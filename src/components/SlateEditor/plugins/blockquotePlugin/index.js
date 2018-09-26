@@ -17,4 +17,4 @@ function blockquotePlugin(opts) {
   };
 }
 
-export default blockquotePlugin;
+export default blockquotePlugin({ type: 'quote' });

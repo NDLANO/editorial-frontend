@@ -11,7 +11,7 @@ import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import { getPreviewArticle } from '../../modules/article/articleApi';
+import * as articleApi from '../../modules/article/articleApi';
 import Lightbox from '../Lightbox';
 import PreviewDraft from './PreviewDraft';
 
@@ -37,7 +37,11 @@ const transformArticle = article => ({
 class PreviewDraftLightbox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { previewArticle: undefined };
+    this.state = {
+      previewDraftArticle: undefined,
+      articleInProduction: undefined,
+      showPreview: false,
+    };
     this.openPreview = this.openPreview.bind(this);
     this.onClosePreview = this.onClosePreview.bind(this);
   }
@@ -47,33 +51,70 @@ class PreviewDraftLightbox extends React.Component {
   }
 
   async openPreview() {
-    const { getArticle } = this.props;
-    const originalArticle = transformArticle(getArticle());
-    const previewArticle = await getPreviewArticle(
+    const { getArticle, compareWithArticle } = this.props;
+    const draft = getArticle();
+    const originalArticle = transformArticle(draft);
+    const previewDraftArticle = await articleApi.getPreviewArticle(
       originalArticle,
       originalArticle.language,
     );
-    this.setState({ previewArticle, showPreview: true });
+    const articleInProduction = compareWithArticle
+      ? await articleApi.getArticleFromArticleConverter(
+          originalArticle.id,
+          originalArticle.language,
+        )
+      : undefined;
+    this.setState({
+      previewDraftArticle,
+      articleInProduction,
+      showPreview: true,
+    });
   }
 
   render() {
-    const { previewArticle, showPreview } = this.state;
-    const { label, contentType, t } = this.props;
+    const {
+      previewDraftArticle,
+      showPreview,
+      articleInProduction,
+    } = this.state;
+    const { label, contentType, compareWithArticle, t } = this.props;
     if (!showPreview) {
       return (
-        <Button {...classes('button')} onClick={this.openPreview}>
-          {t('form.preview')}
+        <Button {...classes('button')} outline onClick={this.openPreview}>
+          {compareWithArticle
+            ? t('form.previewAndCompare.button')
+            : t('form.preview')}
         </Button>
       );
     }
     return (
-      <div {...classes()}>
+      <div {...classes(compareWithArticle ? 'two-articles' : '')}>
         <Lightbox onClose={this.onClosePreview}>
-          <PreviewDraft
-            article={previewArticle}
-            label={label}
-            contentType={contentType}
-          />
+          <div {...classes('article')}>
+            {compareWithArticle && (
+              <h2 className="u-4/6@desktop u-push-1/6@desktop">
+                {t('form.previewAndCompare.draft')}
+              </h2>
+            )}
+            <PreviewDraft
+              article={previewDraftArticle}
+              label={label}
+              contentType={contentType}
+            />
+          </div>
+          {compareWithArticle &&
+            articleInProduction && (
+              <div {...classes('article')}>
+                <h2 className="u-4/6@desktop u-push-1/6@desktop">
+                  {t('form.previewAndCompare.article')}
+                </h2>
+                <PreviewDraft
+                  article={articleInProduction}
+                  label={label}
+                  contentType={contentType}
+                />
+              </div>
+            )}
         </Lightbox>
       </div>
     );
@@ -86,4 +127,9 @@ PreviewDraftLightbox.propTypes = {
   getArticle: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   contentType: PropTypes.string,
+  compareWithArticle: PropTypes.bool,
+};
+
+PreviewDraftLightbox.defaultProps = {
+  compareWithArticle: false,
 };

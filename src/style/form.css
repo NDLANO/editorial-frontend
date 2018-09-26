@@ -70,31 +70,4 @@ form {
       border-color: var(--green-1);
     }
   }
-
-  & .c-save-button,
-  & .c-abort-button,
-  & .c-preview-draft__button {
-    transition: all 0.5s ease;
-    display: inline-block;
-    min-width: 6rem;
-    border-width: 1px;
-    border-radius: 1px;
-    margin-left: 2rem;
-
-    &:active {
-      transform: none;
-    }
-
-    /* NB! Should use :enabled in ndla-ui button css instead */
-    &:disabled {
-      transform: none;
-      color: #fff;
-    }
-
-    &:hover:enabled,
-    &:focus:enabled {
-      border-width: 1px;
-      transform: none;
-    }
-  }
 }

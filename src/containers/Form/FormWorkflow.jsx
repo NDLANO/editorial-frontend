@@ -18,6 +18,7 @@ import { AddNotes } from '.';
 import { CommonFieldPropsShape } from '../../shapes';
 import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
+import FormQualityAssurance from './components/FormQualityAssurance';
 
 class FormWorkflow extends Component {
   constructor(props) {
@@ -77,7 +78,13 @@ class FormWorkflow extends Component {
   }
 
   render() {
-    const { t, model, articleStatus, commonFieldProps } = this.props;
+    const {
+      t,
+      model,
+      articleStatus,
+      commonFieldProps,
+      getArticle,
+    } = this.props;
     const { possibleStatuses } = this.state;
 
     return (
@@ -94,10 +101,13 @@ class FormWorkflow extends Component {
         <FormStatusColumns articleStatus={articleStatus} />
         <FormStatusActions
           articleStatus={articleStatus}
-          model={model}
-          onValidateClick={this.onValidateClick}
           possibleStatuses={possibleStatuses}
           onUpdateStatus={this.onUpdateStatus}
+        />
+        <FormQualityAssurance
+          getArticle={getArticle}
+          model={model}
+          onValidateClick={this.onValidateClick}
         />
       </Accordion>
     );
@@ -115,6 +125,7 @@ FormWorkflow.propTypes = {
   addMessage: PropTypes.func.isRequired,
   updateStatusDraft: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
+  getArticle: PropTypes.func.isRequired,
 };
 
 FormWorkflow.defaultProps = {

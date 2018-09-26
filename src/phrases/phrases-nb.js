@@ -343,6 +343,11 @@ const phrases = {
     saving: 'Lagrer...',
     saved: 'Lagret ',
     preview: 'Forhåndsvis',
+    previewAndCompare: {
+      button: 'Sammenlign utkast og artikkel',
+      article: 'Artikkel',
+      draft: 'Utkast',
+    },
     abort: 'Avbryt',
     validate: 'Valider',
     publish: 'Publiser',
@@ -378,6 +383,7 @@ const phrases = {
     workflow: {
       title: 'Status',
       change: 'Endre status',
+      qualityAssurance: 'Kvalitetsikring',
     },
     status: {
       created: 'Opprettet',

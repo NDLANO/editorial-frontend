@@ -69,7 +69,7 @@ export function convertFromHTML(json) {
     node.nodes = cleanNodes;
   };
 
-  // wrapMixedChildren(json.document);
+  wrapMixedChildren(json.document);
 
   /* We often end up with bogus whitespace at the bottom of complex emails, either
   because the input contained whitespace, or because there were elements present

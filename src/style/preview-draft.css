@@ -9,6 +9,10 @@
 .c-preview-draft {
   text-align: left;
 
+  &__button {
+    margin-right: 1rem;
+  }
+
   .c-lightbox__content {
     margin: 1rem 0;
     padding: 1rem 0;

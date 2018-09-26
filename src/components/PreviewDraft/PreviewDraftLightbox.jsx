@@ -80,7 +80,7 @@ class PreviewDraftLightbox extends React.Component {
     const { label, contentType, compareWithArticle, t } = this.props;
     if (!showPreview) {
       return (
-        <Button {...classes('button')} onClick={this.openPreview}>
+        <Button {...classes('button')} outline onClick={this.openPreview}>
           {compareWithArticle
             ? t('form.previewAndCompare.button')
             : t('form.preview')}

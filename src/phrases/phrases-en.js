@@ -369,6 +369,7 @@ const phrases = {
     workflow: {
       title: 'Status',
       change: 'Change status',
+      qualityAssurance: 'Quality assurance',
     },
     status: {
       created: 'Created',

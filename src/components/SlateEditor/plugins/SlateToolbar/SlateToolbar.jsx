@@ -17,11 +17,8 @@ import { setActiveNode } from '../../createSlateStore';
 import { hasNodeOfType, checkSelectionForType } from '../utils';
 import { TYPE as footnote } from '../footnote';
 import { TYPE as link } from '../link';
-import {
-  listTypes,
-  editListPlugin,
-  blockquotePlugin,
-} from '../externalPlugins';
+import blockquotePlugin from '../blockquotePlugin';
+import { listTypes, editListPlugin } from '../externalPlugins';
 
 const DEFAULT_NODE = 'paragraph';
 

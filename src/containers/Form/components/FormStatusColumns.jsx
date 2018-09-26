@@ -13,6 +13,9 @@ import { formClasses } from '..';
 import Tag from '../../../components/Tag';
 
 function FormStatusColumns({ articleStatus, t }) {
+  if (!articleStatus || articleStatus.current.length === 0) {
+    return null;
+  }
   return (
     <div>
       <span {...formClasses('title')}>{t('form.workflow.title')}</span>

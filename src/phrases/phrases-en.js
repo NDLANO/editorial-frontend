@@ -329,6 +329,11 @@ const phrases = {
     choose: 'Choose',
     saved: 'Saved ',
     preview: 'Preview',
+    previewAndCompare: {
+      button: 'Compare draft and article',
+      article: 'Article',
+      draft: 'Draft',
+    },
     abort: 'Abort',
     validate: 'Validate',
     publish: 'Publish',
@@ -364,6 +369,7 @@ const phrases = {
     workflow: {
       title: 'Status',
       change: 'Change status',
+      qualityAssurance: 'Quality assurance',
     },
     status: {
       created: 'Created',

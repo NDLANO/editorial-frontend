@@ -38,9 +38,6 @@ import {
   WarningModalWrapper,
 } from '../../Form';
 import { toEditArticle } from '../../../util/routeHelpers';
-import PreviewDraftLightbox, {
-  classes,
-} from '../../../components/PreviewDraft/PreviewDraftLightbox';
 import { getArticle } from '../../../modules/article/articleApi';
 import { articleConverter } from '../../../modules/draft/draft';
 
@@ -193,21 +190,16 @@ class TopicArticleForm extends Component {
           commonFieldProps={commonFieldProps}
           articleStatus={articleStatus}
           model={model}
+          getArticle={this.getArticle}
         />
-        <Field right>
+        <Field right {...formClasses('form-actions')}>
           {error && <span className="c-errorMessage">{error}</span>}
           {model.id && (
-            <Button {...classes('button')} onClick={this.onReset}>
-              {t('form.resetToProd')}
-            </Button>
+            <Button onClick={this.onReset}>{t('form.resetToProd')}</Button>
           )}
-          <PreviewDraftLightbox
-            label={t('subNavigation.learningResource')}
-            getArticle={this.getArticle}
-          />
           <Link
             to="/"
-            className="c-button c-button--outline c-abort-button"
+            className="c-button c-button--outline"
             disabled={isSaving}>
             {t('form.abort')}
           </Link>

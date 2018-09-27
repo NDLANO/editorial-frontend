@@ -80,13 +80,19 @@ class WarningModalWrapper extends PureComponent {
     const { fields, initialModel, model } = this.props;
 
     // Checking specific slate object fields if they really have changed
-    const slateFields = ['introduction', 'metadescription', 'content'];
+    const slateFields = ['introduction', 'metaDescription', 'content'];
     const dirtyFields = [];
     Object.keys(fields)
       .filter(field => fields[field].dirty)
       .forEach(dirtyField => {
         if (slateFields.includes(dirtyField)) {
-          if (!isEqualEditorValue(initialModel[dirtyField], model[dirtyField]))
+          if (
+            !isEqualEditorValue(
+              initialModel[dirtyField],
+              model[dirtyField],
+              model.articleType,
+            )
+          )
             dirtyFields.push(dirtyField);
         } else {
           dirtyFields.push(dirtyField);
@@ -112,6 +118,7 @@ WarningModalWrapper.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
+    articleType: PropTypes.string,
     language: PropTypes.string,
   }),
   initialModel: PropTypes.shape({

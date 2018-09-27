@@ -109,13 +109,18 @@ test('articleContentConverter convert learningresource contents that are equal/n
     contentHTML,
     fragment,
   );
+
   const editorValue2 = learningResourceContentToEditorValue(
     contentHTMLWithSections,
     fragment,
   );
 
-  expect(isEqualEditorValue(editorValue1, editorValue1)).toBe(true);
-  expect(isEqualEditorValue(editorValue2, editorValue2)).toBe(true);
-  expect(isEqualEditorValue(editorValue1, editorValue2)).toBe(false);
-  expect(isEqualEditorValue(editorValue2, editorValue1)).toBe(false);
+  expect(isEqualEditorValue(editorValue1, editorValue1, 'standard')).toBe(true);
+  expect(isEqualEditorValue(editorValue2, editorValue2, 'standard')).toBe(true);
+  expect(isEqualEditorValue(editorValue1, editorValue2, 'standard')).toBe(
+    false,
+  );
+  expect(isEqualEditorValue(editorValue2, editorValue1, 'standard')).toBe(
+    false,
+  );
 });

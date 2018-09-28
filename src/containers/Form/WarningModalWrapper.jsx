@@ -67,7 +67,7 @@ class WarningModalWrapper extends PureComponent {
   }
 
   onContinue() {
-    this.setState({ discardChanges: true, openModal: false }, () => {
+    this.setState({ discardChanges: true }, () => {
       const nextLocation =
         this.state.nextLocation.pathname +
         this.state.nextLocation.hash +

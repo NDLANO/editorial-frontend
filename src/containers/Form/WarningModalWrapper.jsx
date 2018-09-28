@@ -23,10 +23,10 @@ class WarningModalWrapper extends PureComponent {
   }
 
   componentDidMount() {
-    this.unblock = this.props.history.block(nextLocation => {
+    const { history, showSaved } = this.props;
+    this.unblock = history.block(nextLocation => {
       const isDirty = this.isDirty();
-      const canNavigate =
-        !isDirty || this.state.discardChanges || this.props.showSaved;
+      const canNavigate = !isDirty || this.state.discardChanges || showSaved;
       if (!canNavigate) {
         this.setState({
           openModal: true,

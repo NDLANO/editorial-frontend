@@ -32,6 +32,7 @@ import {
 } from './slateMockValues';
 
 const contentHTML = `<section><h2>Lorem ipsum</h2></section>`;
+const otherContentHTML = `<section><p>Lorem ipsum</p></section>`;
 
 const contentHTMLWithSections = `<section><h2>Section 1</h2></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>`;
 
@@ -121,6 +122,28 @@ test('articleContentConverter convert learningresource contents that are equal/n
     false,
   );
   expect(isEqualEditorValue(editorValue2, editorValue1, 'standard')).toBe(
+    false,
+  );
+});
+
+test('articleContentConverter convert topic article contents that are equal/not equal with isEqualEditorValue', () => {
+  const editorValue1 = topicArticleContentToEditorValue(contentHTML, fragment);
+
+  const editorValue2 = topicArticleContentToEditorValue(
+    otherContentHTML,
+    fragment,
+  );
+
+  expect(isEqualEditorValue(editorValue1, editorValue1, 'topic-article')).toBe(
+    true,
+  );
+  expect(isEqualEditorValue(editorValue2, editorValue2, 'topic-article')).toBe(
+    true,
+  );
+  expect(isEqualEditorValue(editorValue1, editorValue2, 'topic-article')).toBe(
+    false,
+  );
+  expect(isEqualEditorValue(editorValue2, editorValue1, 'topic-article')).toBe(
     false,
   );
 });

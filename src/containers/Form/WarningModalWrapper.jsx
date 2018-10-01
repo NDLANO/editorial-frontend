@@ -8,6 +8,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import { injectT } from 'ndla-i18n';
 import config from '../../config';
 import { isEqualEditorValue } from '../../util/articleContentConverter';
 import WarningModal from '../../components/WarningModal';
@@ -16,7 +17,7 @@ import { SchemaShape } from '../../shapes';
 class WarningModalWrapper extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { openModal: false, discardChanges: false, dirtyFields: [] };
+    this.state = { openModal: false, discardChanges: false };
     this.isDirty = this.isDirty.bind(this);
     this.onSave = this.onSave.bind(this);
     this.onContinue = this.onContinue.bind(this);
@@ -32,7 +33,6 @@ class WarningModalWrapper extends PureComponent {
         this.setState({
           openModal: true,
           nextLocation,
-          dirtyFields: this.isDirty(),
         });
       } else {
         window.onbeforeunload = null;
@@ -96,12 +96,15 @@ class WarningModalWrapper extends PureComponent {
   }
 
   render() {
+    const { t, text } = this.props;
     return this.state.openModal ? (
       <WarningModal
-        text={this.props.text}
-        dirtyFields={this.state.dirtyFields}
-        onSave={this.onSave}
-        onContinue={this.onContinue}
+        text={text}
+        firstAction={{ text: t('form.save'), action: this.onSave }}
+        secondAction={{
+          text: t('warningModal.continue'),
+          action: this.onContinue,
+        }}
         onCancel={() => this.setState({ openModal: false })}
       />
     ) : null;
@@ -129,4 +132,4 @@ WarningModalWrapper.propTypes = {
   showSaved: PropTypes.bool,
 };
 
-export default withRouter(WarningModalWrapper);
+export default withRouter(injectT(WarningModalWrapper));

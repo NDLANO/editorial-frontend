@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Warning } from 'ndla-icons/editor';
-import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
 import Lightbox from './Lightbox';
 
@@ -14,10 +13,8 @@ const classes = new BEMHelper({
 const WarningModal = ({
   text,
   onCancel,
-  onSave,
-  onContinue,
-  t,
-  confirmDelete,
+  firstAction,
+  secondAction,
   noButtons,
 }) => (
   <Lightbox modal onClose={onCancel}>
@@ -28,21 +25,23 @@ const WarningModal = ({
       </div>
       {!noButtons && (
         <div {...classes('buttons')}>
-          <Button
-            outline
-            onClick={confirmDelete ? onCancel : onSave}
-            className="c-save-button">
-            {confirmDelete ? t('form.abort') : t('form.save')}
-          </Button>
-          <Button
-            outline
-            data-testid="warningModalConfirm"
-            onClick={onContinue}
-            className="c-save-button">
-            {confirmDelete
-              ? t('warningModal.delete')
-              : t('warningModal.continue')}
-          </Button>
+          {firstAction && (
+            <Button
+              outline
+              onClick={firstAction.action}
+              className="c-save-button">
+              {firstAction.text}
+            </Button>
+          )}
+          {secondAction && (
+            <Button
+              outline
+              data-testid="warningModalConfirm"
+              onClick={secondAction.action}
+              className="c-save-button">
+              {secondAction.text}
+            </Button>
+          )}
         </div>
       )}
     </div>
@@ -52,10 +51,15 @@ const WarningModal = ({
 WarningModal.propTypes = {
   text: PropTypes.string.isRequired,
   onCancel: PropTypes.func.isRequired,
-  onSave: PropTypes.func,
-  onContinue: PropTypes.func,
-  confirmDelete: PropTypes.bool,
+  firstAction: PropTypes.shape({
+    text: PropTypes.string,
+    action: PropTypes.func,
+  }),
+  secondAction: PropTypes.shape({
+    text: PropTypes.string,
+    action: PropTypes.func,
+  }),
   noButtons: PropTypes.bool,
 };
 
-export default injectT(WarningModal);
+export default WarningModal;

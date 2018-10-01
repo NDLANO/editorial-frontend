@@ -27,10 +27,16 @@ class EditFilters extends React.Component {
     this.state = {
       editMode: '',
     };
+
+    this.onCancel = this.onCancel.bind(this);
     this.addFilter = this.addFilter.bind(this);
     this.showDeleteWarning = this.showDeleteWarning.bind(this);
     this.deleteFilter = this.deleteFilter.bind(this);
     this.editFilter = this.editFilter.bind(this);
+  }
+
+  onCancel() {
+    this.setState({ showDelete: '' });
   }
 
   async addFilter(name) {
@@ -104,10 +110,13 @@ class EditFilters extends React.Component {
         <div {...classes('errorMessage')}>{this.state.error}</div>
         {showDelete && (
           <WarningModal
-            confirmDelete
             text={t('taxonomy.confirmDelete')}
-            onContinue={this.deleteFilter}
-            onCancel={() => this.setState({ showDelete: '' })}
+            firstAction={{ text: t('form.abort'), action: this.onCancel }}
+            secondAction={{
+              text: t('warningModal.delete'),
+              action: this.deleteFilter,
+            }}
+            onCancel={this.onCancel}
           />
         )}
       </div>

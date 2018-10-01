@@ -87,6 +87,7 @@ class ResourceItems extends React.PureComponent {
 
   render() {
     const { contentType, resources, t, activeFilter } = this.props;
+    const { deleteId, error } = this.state;
     return (
       <ul {...classes('list')}>
         <MakeDndList onDragEnd={this.onDragEnd}>
@@ -106,18 +107,24 @@ class ResourceItems extends React.PureComponent {
             />
           ))}
         </MakeDndList>
-        {this.state.error && (
+        {error && (
           <div
             data-testid="inlineEditErrorMessage"
             {...classes('errorMessage')}>
-            {this.state.error}
+            {error}
           </div>
         )}
-        {this.state.deleteId && (
+        {deleteId && (
           <WarningModal
-            confirmDelete
             text={t('taxonomy.resource.confirmDelete')}
-            onContinue={() => this.onDelete(this.state.deleteId)}
+            firstAction={{
+              text: t('form.abort'),
+              action: () => this.toggleDelete(''),
+            }}
+            secondAction={{
+              text: t('warningModal.delete'),
+              action: () => this.onDelete(deleteId),
+            }}
             onCancel={() => this.toggleDelete('')}
           />
         )}

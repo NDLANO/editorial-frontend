@@ -346,7 +346,10 @@ const phrases = {
     addNotes: 'Add note',
     editImage: 'Edit image',
     editAudio: 'Edit audio',
-    resetToProd: 'Reset to prod',
+    resetToProd: {
+      button: 'Reset to prod',
+      modal: 'Do you want to reset the draft as it is on the ndla frontpage?'
+    },
     variant: {
       create: 'Create variant +',
     },

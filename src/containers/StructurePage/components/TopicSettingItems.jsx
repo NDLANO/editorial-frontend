@@ -195,9 +195,14 @@ class TopicSettingItems extends React.PureComponent {
         </Button>
         {editMode === 'delete' && (
           <WarningModal
-            confirmDelete
-            onContinue={() => this.onDeleteTopic(id)}
-            onCancel={() => this.setState({ editMode: '' })}
+            firstAction={{
+              text: t('form.abort'),
+              action: () => this.setState({ editMode: '' }),
+            }}
+            secondAction={{
+              text: t('warningModal.delete'),
+              action: () => this.onDeleteTopic(id),
+            }}
             text={t('taxonomy.confirmDeleteTopic')}
           />
         )}

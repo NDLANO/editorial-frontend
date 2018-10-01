@@ -17,6 +17,7 @@ import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
+import WarningModal from '../../../components/WarningModal';
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -112,7 +113,9 @@ class LearningResourceForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getArticleFromModel = this.getArticleFromModel.bind(this);
     this.onReset = this.onReset.bind(this);
-    this.state = {};
+    this.state = {
+      showResetModal: false,
+    };
   }
 
   componentDidUpdate({
@@ -267,7 +270,24 @@ class LearningResourceForm extends Component {
         <Field right {...formClasses('form-actions')}>
           {error && <span className="c-errorMessage">{error}</span>}
           {model.id && (
-            <Button onClick={this.onReset}>{t('form.resetToProd')}</Button>
+            <Button onClick={() => this.setState({ showResetModal: true })}>
+              {t('form.resetToProd.button')}
+            </Button>
+          )}
+
+          {this.state.showResetModal && (
+            <WarningModal
+              text={t('form.resetToProd.modal')}
+              firstAction={{
+                text: t('form.abort'),
+                action: () => this.setState({ showResetModal: false }),
+              }}
+              secondAction={{
+                text: 'Reset',
+                action: this.onReset,
+              }}
+              onCancel={() => this.setState({ showResetModal: false })}
+            />
           )}
           <Link
             to="/"

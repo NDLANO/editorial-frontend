@@ -44,9 +44,16 @@ class EditLinkButton extends Component {
             <WarningModal
               text={t('taxonomy.confirmSetPrimary')}
               onCancel={() => this.setState({ setPrimaryWarning: false })}
-              onContinue={() => {
-                this.setState({ setPrimaryWarning: false, open: false });
-                setPrimary();
+              secondAction={{
+                text: 'Bekfreft',
+                action: () => {
+                  this.setState({ setPrimaryWarning: false, open: false });
+                  setPrimary();
+                },
+              }}
+              firstAction={{
+                text: t('form.abort'),
+                action: () => this.setState({ setPrimaryWarning: false }),
               }}
             />
           </Portal>
@@ -56,10 +63,16 @@ class EditLinkButton extends Component {
             <WarningModal
               text={t('taxonomy.confirmDeleteTopic')}
               onCancel={() => this.setState({ deleteLinkWarning: false })}
-              confirmDelete
-              onContinue={() => {
-                this.setState({ deleteLinkWarning: false, open: false });
-                deleteTopicLink(id);
+              firstAction={{
+                text: t('form.abort'),
+                action: () => this.setState({ deleteLinkWarning: false }),
+              }}
+              secondAction={{
+                text: t('warningModal.delete'),
+                action: () => {
+                  this.setState({ deleteLinkWarning: false, open: false });
+                  deleteTopicLink(id);
+                },
               }}
             />
           </Portal>

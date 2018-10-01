@@ -83,10 +83,13 @@ export class FigureButtons extends React.Component {
         </Link>
         {this.state.showDeleteConfirmation && (
           <WarningModal
-            confirmDelete
+            onCancel={this.onCancel}
+            firstAction={{ text: t('form.abort'), action: this.onCancel }}
+            secondAction={{
+              text: t('form.delete'),
+              action: this.onDeleteConfirm,
+            }}
             text={t('form.content.figure.confirmDelete')}
-            onContinue={this.onDeleteConfirm}
-            onCancel={this.toggleDelete}
           />
         )}
       </div>

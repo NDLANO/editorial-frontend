@@ -1,31 +1,6 @@
 import { Block } from 'slate';
 
 /**
- * Create a schema definition with rules to normalize blockquotes
- */
-function schema(opts) {
-  return {
-    blocks: {
-      [opts.type]: {
-        nodes: [
-          {
-            objects: ['block'],
-          },
-        ],
-        normalize(change, violation, context) {
-          switch (violation) {
-            case 'child_object_invalid':
-              return containBlocks(opts, change, context);
-            default:
-              return undefined;
-          }
-        },
-      },
-    },
-  };
-}
-
-/**
  *  Ensures that blockquotes always contain blocks.
  */
 function containBlocks(opts, change, context) {
@@ -58,6 +33,31 @@ function containBlocks(opts, change, context) {
   });
 
   return change;
+}
+
+/**
+ * Create a schema definition with rules to normalize blockquotes
+ */
+function schema(opts) {
+  return {
+    blocks: {
+      [opts.type]: {
+        nodes: [
+          {
+            objects: ['block'],
+          },
+        ],
+        normalize(change, violation, context) {
+          switch (violation) {
+            case 'child_object_invalid':
+              return containBlocks(opts, change, context);
+            default:
+              return undefined;
+          }
+        },
+      },
+    },
+  };
 }
 
 export default schema;

@@ -118,8 +118,8 @@ export function learningResourceContentToEditorValue(
       toJSON: true,
       parseHtml: fragment,
     });
-    const value = convertFromHTML(json);
 
+    const value = convertFromHTML(json);
     return {
       value,
       index,

@@ -67,6 +67,7 @@ const TableActions = ({ value, editor, t }) => {
       {supportedTableOperations.map(operation => (
         <Button
           key={operation}
+          data-cy={operation}
           stripped
           onMouseDown={e => handleOnClick(e, operation)}
           {...classes('button')}>

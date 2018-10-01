@@ -1,5 +1,5 @@
-import EditList from 'slate-edit-list';
-import EditTable from 'slate-edit-table';
+import EditList from 'ndla-slate-edit-list';
+import EditTable from 'ndla-slate-edit-table';
 
 export const listTypes = [
   'numbered-list',

@@ -6835,6 +6835,14 @@ ndla-scripts@^0.6.0:
     octonode "^0.9.2"
     url-regex "^4.1.1"
 
+ndla-slate-edit-list@^0.12.3:
+  version "0.12.3"
+  resolved "https://registry.yarnpkg.com/ndla-slate-edit-list/-/ndla-slate-edit-list-0.12.3.tgz#599d1b1cd82b9ee9a069d3d4aaff6a518fad7fe1"
+
+ndla-slate-edit-table@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/ndla-slate-edit-table/-/ndla-slate-edit-table-0.1.0.tgz#3e9c20ae94bfbc5aba70b4895bfb5025fbe07d54"
+
 ndla-tabs@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.6.0.tgz#a867d4570f7db54f013a28adea9001339515385e"
@@ -9647,14 +9655,6 @@ slate-dev-environment@^0.2.0:
 slate-dev-warning@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/slate-dev-warning/-/slate-dev-warning-0.0.1.tgz#f6c36731babea5e301b5bd504fe64911dd24200a"
-
-slate-edit-list@^0.12.1:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/slate-edit-list/-/slate-edit-list-0.12.1.tgz#11a83e4c91af858b37a516ef0b2a868910eb4903"
-
-slate-edit-table@^0.17.0:
-  version "0.17.0"
-  resolved "https://registry.yarnpkg.com/slate-edit-table/-/slate-edit-table-0.17.0.tgz#aa32177a09d7682d1d2bfa25491f63b56216e1d8"
 
 slate-hotkeys@^0.2.5:
   version "0.2.5"

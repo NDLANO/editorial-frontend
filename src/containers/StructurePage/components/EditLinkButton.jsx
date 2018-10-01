@@ -45,7 +45,7 @@ class EditLinkButton extends Component {
               text={t('taxonomy.confirmSetPrimary')}
               onCancel={() => this.setState({ setPrimaryWarning: false })}
               secondAction={{
-                text: 'Bekfreft',
+                text: t('warningModal.confirm'),
                 action: () => {
                   this.setState({ setPrimaryWarning: false, open: false });
                   setPrimary();

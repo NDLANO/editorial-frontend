@@ -348,7 +348,7 @@ const phrases = {
     editAudio: 'Edit audio',
     resetToProd: {
       button: 'Reset to prod',
-      modal: 'Do you want to reset the draft as it is on the ndla frontpage?'
+      modal: 'Do you want to reset the draft as it is on the ndla frontpage?',
     },
     variant: {
       create: 'Create variant +',
@@ -616,6 +616,7 @@ const phrases = {
     notSaved: 'Document is not saved, do you want to continue?',
     continue: 'Continue',
     delete: 'Delete',
+    confirm: 'Confirm',
   },
   taxonomy: {
     editStructure: '  Edit structure',

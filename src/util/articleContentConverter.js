@@ -175,19 +175,20 @@ export function editorValueToPlainText(editorValue) {
   return editorValue ? Plain.serialize(editorValue) : '';
 }
 
-export function isEqualEditorValue(value1, value2) {
+export function isEqualEditorValue(value1, value2, type) {
   if (value1 && value1.document) {
     return value2 && value2.document
       ? isEqual(value1.toJSON(), value2.toJSON())
       : false;
   }
-  // For content with multiple sections
-  return !value1
-    .map(
-      (section, index) =>
-        value2[index] && value2[index].value && value2[index].value.document
-          ? isEqual(section.value.toJSON(), value2[index].value.toJSON())
-          : false,
-    )
-    .some(isDirty => !isDirty);
+  if (type === 'topic-article') {
+    return isEqual(
+      topicArticleContentToHTML(value1),
+      topicArticleContentToHTML(value2),
+    );
+  }
+  return isEqual(
+    learningResourceContentToHTML(value1),
+    learningResourceContentToHTML(value2),
+  );
 }

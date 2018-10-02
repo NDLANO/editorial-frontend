@@ -167,14 +167,15 @@ export class DisplayExternal extends Component {
             {...editorClasses('button', 'red')}>
             <Cross />
           </Button>
-          {providerName === 'h5p' && (
-            <Button
-              stripped
-              onClick={this.toggleEditH5p}
-              {...editorClasses('button', 'green')}>
-              <Pencil />
-            </Button>
-          )}
+          {providerName &&
+            providerName.toLowerCase() === 'h5p' && (
+              <Button
+                stripped
+                onClick={this.toggleEditH5p}
+                {...editorClasses('button', 'green')}>
+                <Pencil />
+              </Button>
+            )}
         </div>
         {renderProvider}
         {!renderProvider && (

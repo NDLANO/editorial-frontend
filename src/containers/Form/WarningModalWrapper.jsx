@@ -16,23 +16,21 @@ import { SchemaShape } from '../../shapes';
 class WarningModalWrapper extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { openModal: false, discardChanges: false, dirtyFields: [] };
+    this.state = { openModal: false, discardChanges: false };
     this.isDirty = this.isDirty.bind(this);
     this.onSave = this.onSave.bind(this);
     this.onContinue = this.onContinue.bind(this);
   }
 
   componentDidMount() {
-    this.unblock = this.props.history.block(nextLocation => {
-      const canNavigate =
-        !this.isDirty().length > 0 ||
-        this.state.discardChanges ||
-        this.props.showSaved;
+    const { history, showSaved } = this.props;
+    this.unblock = history.block(nextLocation => {
+      const isDirty = this.isDirty();
+      const canNavigate = !isDirty || this.state.discardChanges || showSaved;
       if (!canNavigate) {
         this.setState({
           openModal: true,
           nextLocation,
-          dirtyFields: this.isDirty(),
         });
       } else {
         window.onbeforeunload = null;
@@ -41,8 +39,7 @@ class WarningModalWrapper extends PureComponent {
     });
 
     if (config.isNdlaProdEnvironment) {
-      window.onbeforeunload = () =>
-        !this.isDirty().length > 0 || this.state.discardChanges;
+      window.onbeforeunload = () => !this.isDirty || this.state.discardChanges;
     }
   }
 
@@ -80,26 +77,35 @@ class WarningModalWrapper extends PureComponent {
     const { fields, initialModel, model } = this.props;
 
     // Checking specific slate object fields if they really have changed
-    const slateFields = ['introduction', 'metadescription', 'content'];
+    const slateFields = ['introduction', 'metaDescription', 'content'];
     const dirtyFields = [];
     Object.keys(fields)
       .filter(field => fields[field].dirty)
       .forEach(dirtyField => {
         if (slateFields.includes(dirtyField)) {
-          if (!isEqualEditorValue(initialModel[dirtyField], model[dirtyField]))
+          if (
+            !isEqualEditorValue(
+              initialModel[dirtyField],
+              model[dirtyField],
+              model.articleType,
+            )
+          ) {
             dirtyFields.push(dirtyField);
+          }
         } else {
           dirtyFields.push(dirtyField);
         }
       });
-    return dirtyFields;
+    return dirtyFields.length > 0;
   }
 
   render() {
-    return this.state.openModal ? (
+    const { openModal } = this.state;
+    const { text } = this.props;
+
+    return openModal ? (
       <WarningModal
-        text={this.props.text}
-        dirtyFields={this.state.dirtyFields}
+        text={text}
         onSave={this.onSave}
         onContinue={this.onContinue}
         onCancel={() => this.setState({ openModal: false })}
@@ -112,6 +118,7 @@ WarningModalWrapper.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
+    articleType: PropTypes.string,
     language: PropTypes.string,
   }),
   initialModel: PropTypes.shape({

@@ -17,12 +17,11 @@ class InputItems extends React.PureComponent {
 
     return selectedItem.map(
       (tag, index) =>
-        name === 'topics' ? (
+        name === 'topics' && !tag.primary ? (
           <ToolTip
             key={`${name}-tooltip-${tag.id}`}
             name={name}
             onPopupClick={() => handlePopupClick({ ...tag, primary: true })}
-            noPopup={tag.primary}
             messages={{ ariaLabel: 'tooltip' }}
             content={messages.toolTipDescription}>
             <DropdownTag

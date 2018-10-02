@@ -275,20 +275,21 @@ class LearningResourceForm extends Component {
             </Button>
           )}
 
-          {this.state.showResetModal && (
-            <WarningModal
-              text={t('form.resetToProd.modal')}
-              firstAction={{
+          <WarningModal
+            show={this.state.showResetModal}
+            text={t('form.resetToProd.modal')}
+            actions={[
+              {
                 text: t('form.abort'),
-                action: () => this.setState({ showResetModal: false }),
-              }}
-              secondAction={{
+                onClick: () => this.setState({ showResetModal: false }),
+              },
+              {
                 text: 'Reset',
-                action: this.onReset,
-              }}
-              onCancel={() => this.setState({ showResetModal: false })}
-            />
-          )}
+                onClick: this.onReset,
+              },
+            ]}
+            onCancel={() => this.setState({ showResetModal: false })}
+          />
           <Link
             to="/"
             className="c-button c-button--outline"

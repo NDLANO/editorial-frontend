@@ -193,19 +193,20 @@ class TopicSettingItems extends React.PureComponent {
           <RoundIcon small icon={<DeleteForever />} />
           {t('warningModal.delete')}
         </Button>
-        {editMode === 'delete' && (
-          <WarningModal
-            firstAction={{
+        <WarningModal
+          show={editMode === 'delete'}
+          actions={[
+            {
               text: t('form.abort'),
-              action: () => this.setState({ editMode: '' }),
-            }}
-            secondAction={{
+              onClick: () => this.setState({ editMode: '' }),
+            },
+            {
               text: t('warningModal.delete'),
-              action: () => this.onDeleteTopic(id),
-            }}
-            text={t('taxonomy.confirmDeleteTopic')}
-          />
-        )}
+              onClick: () => this.onDeleteTopic(id),
+            },
+          ]}
+          text={t('taxonomy.confirmDeleteTopic')}
+        />
         {loading && <Spinner cssModifier="absolute" />}
         {loading && (
           <Overlay cssModifiers={['absolute', 'white-opacity', 'zIndex']} />

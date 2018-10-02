@@ -114,20 +114,21 @@ class ResourceItems extends React.PureComponent {
             {error}
           </div>
         )}
-        {deleteId && (
-          <WarningModal
-            text={t('taxonomy.resource.confirmDelete')}
-            firstAction={{
+        <WarningModal
+          show={!!deleteId}
+          text={t('taxonomy.resource.confirmDelete')}
+          actions={[
+            {
               text: t('form.abort'),
-              action: () => this.toggleDelete(''),
-            }}
-            secondAction={{
+              onClick: () => this.toggleDelete(''),
+            },
+            {
               text: t('warningModal.delete'),
-              action: () => this.onDelete(deleteId),
-            }}
-            onCancel={() => this.toggleDelete('')}
-          />
-        )}
+              onClick: () => this.onDelete(deleteId),
+            },
+          ]}
+          onCancel={() => this.toggleDelete('')}
+        />
       </ul>
     );
   }

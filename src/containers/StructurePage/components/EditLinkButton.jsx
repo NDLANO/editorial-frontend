@@ -39,44 +39,46 @@ class EditLinkButton extends Component {
         style={{ display: 'none' }}
         id={linkId}
         ref={el => refFunc(el, linkId)}>
-        {this.state.setPrimaryWarning && (
-          <Portal isOpened>
-            <WarningModal
-              text={t('taxonomy.confirmSetPrimary')}
-              onCancel={() => this.setState({ setPrimaryWarning: false })}
-              secondAction={{
+        <Portal isOpened>
+          <WarningModal
+            show={this.state.setPrimaryWarning}
+            text={t('taxonomy.confirmSetPrimary')}
+            onCancel={() => this.setState({ setPrimaryWarning: false })}
+            actions={[
+              {
+                text: t('form.abort'),
+                onClick: () => this.setState({ setPrimaryWarning: false }),
+              },
+              {
                 text: t('warningModal.confirm'),
-                action: () => {
+                onClick: () => {
                   this.setState({ setPrimaryWarning: false, open: false });
                   setPrimary();
                 },
-              }}
-              firstAction={{
+              },
+            ]}
+          />
+        </Portal>
+        <Portal isOpened>
+          <WarningModal
+            show={this.state.deleteLinkWarning}
+            text={t('taxonomy.confirmDeleteTopic')}
+            onCancel={() => this.setState({ deleteLinkWarning: false })}
+            actions={[
+              {
                 text: t('form.abort'),
-                action: () => this.setState({ setPrimaryWarning: false }),
-              }}
-            />
-          </Portal>
-        )}
-        {this.state.deleteLinkWarning && (
-          <Portal isOpened>
-            <WarningModal
-              text={t('taxonomy.confirmDeleteTopic')}
-              onCancel={() => this.setState({ deleteLinkWarning: false })}
-              firstAction={{
-                text: t('form.abort'),
-                action: () => this.setState({ deleteLinkWarning: false }),
-              }}
-              secondAction={{
+                onClick: () => this.setState({ deleteLinkWarning: false }),
+              },
+              {
                 text: t('warningModal.delete'),
-                action: () => {
+                onClick: () => {
                   this.setState({ deleteLinkWarning: false, open: false });
                   deleteTopicLink(id);
                 },
-              }}
-            />
-          </Portal>
-        )}
+              },
+            ]}
+          />
+        </Portal>
         <Button
           stripped
           onClick={() => {

@@ -24,6 +24,7 @@ class WarningModalWrapper extends PureComponent {
 
   componentDidMount() {
     const { history, showSaved } = this.props;
+    console.log(showSaved);
     this.unblock = history.block(nextLocation => {
       const isDirty = this.isDirty();
       const canNavigate = !isDirty || this.state.discardChanges || showSaved;
@@ -74,8 +75,7 @@ class WarningModalWrapper extends PureComponent {
   }
 
   isDirty() {
-    const { fields, initialModel, model } = this.props;
-
+    const { fields, initialModel, model, showSaved } = this.props;
     // Checking specific slate object fields if they really have changed
     const slateFields = ['introduction', 'metaDescription', 'content'];
     const dirtyFields = [];
@@ -96,7 +96,7 @@ class WarningModalWrapper extends PureComponent {
           dirtyFields.push(dirtyField);
         }
       });
-    return dirtyFields.length > 0;
+    return dirtyFields.length > 0 && !showSaved;
   }
 
   render() {

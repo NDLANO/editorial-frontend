@@ -40,6 +40,7 @@ const { fragment } = jsdom.JSDOM;
 
 test('articleContentConverter is value empty should be true if value is empty', () => {
   const emptyValue = createEmptyValue();
+
   expect(isValueEmpty(emptyValue)).toBe(true);
   expect(isValueEmpty(Value.fromJSON(brValue))).toBe(true);
 });
@@ -48,11 +49,6 @@ test('articleContentConverter is value empty should be false if value is not emp
   expect(
     isValueEmpty(Value.fromJSON(valueWithInlineFootnotesAndContentLinks)),
   ).toBe(false);
-  const value = Value.fromJSON(normalDivValue);
-  console.log(value.document);
-  console.log(value.document.nodes.isEmpty());
-  console.log(value.document.nodes.first().type);
-  console.log(isValueEmpty(value));
   expect(isValueEmpty(Value.fromJSON(normalDivValue))).toBe(false);
   expect(isValueEmpty(Value.fromJSON(quoteValue))).toBe(false);
   expect(isValueEmpty(Value.fromJSON(sectionValue))).toBe(false);

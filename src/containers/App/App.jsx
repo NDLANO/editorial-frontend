@@ -60,7 +60,6 @@ export class App extends React.Component {
             params={params}
             authenticated={this.props.authenticated}
             userName={this.props.userName}
-            style={{ background: 'blue' }}
           />
           <Switch>
             <Route path="/" exact component={WelcomePage} />

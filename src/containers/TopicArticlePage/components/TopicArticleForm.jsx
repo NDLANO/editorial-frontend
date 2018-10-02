@@ -11,6 +11,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
+import Accordion from 'ndla-accordion';
 import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
@@ -170,27 +171,52 @@ class TopicArticleForm extends Component {
           type={model.articleType}
           editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
         />
-        <TopicArticleMetadata
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-          tags={tags}
-        />
-        <TopicArticleContent
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-          tags={tags}
-          model={model}
-        />
-        <FormCopyright
-          model={model}
-          commonFieldProps={commonFieldProps}
-          licenses={licenses}
-        />
-        <FormWorkflow
-          commonFieldProps={commonFieldProps}
-          articleStatus={articleStatus}
-          model={model}
-          getArticle={this.getArticle}
+        <Accordion
+          tabs={[
+            {
+              title: t('form.contentSection'),
+              open: true,
+              children: (
+                <TopicArticleContent
+                  commonFieldProps={commonFieldProps}
+                  bindInput={bindInput}
+                  tags={tags}
+                  model={model}
+                />
+              ),
+            },
+            {
+              title: t('form.copyrightSection'),
+              children: (
+                <FormCopyright
+                  model={model}
+                  commonFieldProps={commonFieldProps}
+                  licenses={licenses}
+                />
+              ),
+            },
+            {
+              title: t('form.metadataSection'),
+              children: (
+                <TopicArticleMetadata
+                  commonFieldProps={commonFieldProps}
+                  bindInput={bindInput}
+                  tags={tags}
+                />
+              ),
+            },
+            {
+              title: t('form.workflowSection'),
+              children: (
+                <FormWorkflow
+                  commonFieldProps={commonFieldProps}
+                  articleStatus={articleStatus}
+                  model={model}
+                  getArticle={this.getArticle}
+                />
+              ),
+            },
+          ]}
         />
         <Field right {...formClasses('form-actions')}>
           {error && <span className="c-errorMessage">{error}</span>}

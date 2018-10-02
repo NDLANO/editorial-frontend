@@ -6839,9 +6839,9 @@ ndla-slate-edit-list@^0.12.3:
   version "0.12.3"
   resolved "https://registry.yarnpkg.com/ndla-slate-edit-list/-/ndla-slate-edit-list-0.12.3.tgz#599d1b1cd82b9ee9a069d3d4aaff6a518fad7fe1"
 
-ndla-slate-edit-table@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/ndla-slate-edit-table/-/ndla-slate-edit-table-0.1.0.tgz#3e9c20ae94bfbc5aba70b4895bfb5025fbe07d54"
+ndla-slate-edit-table@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ndla-slate-edit-table/-/ndla-slate-edit-table-0.1.1.tgz#614affeeefe5dc2c066759ef12b35a4a30060dfa"
 
 ndla-tabs@^0.6.0:
   version "0.6.0"

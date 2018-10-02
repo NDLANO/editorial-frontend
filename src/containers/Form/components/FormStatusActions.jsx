@@ -48,14 +48,7 @@ AdminActions.propTypes = {
 };
 
 const FormStatusActions = props => {
-  const {
-    t,
-    articleStatus,
-    model,
-    possibleStatuses,
-    onUpdateStatus,
-    onValidateClick,
-  } = props;
+  const { t, articleStatus, possibleStatuses, onUpdateStatus } = props;
   if (
     !possibleStatuses ||
     possibleStatuses.length === 0 ||
@@ -69,7 +62,6 @@ const FormStatusActions = props => {
       <span {...formClasses('title')}>{t('form.workflow.change')}</span>
       <div {...formClasses('actions')}>
         {possibleStatuses[articleStatus.current]
-          // .filter(status => !isAdminStatus(status))
           .filter(
             status =>
               !isAdminStatus(status) && articleStatus.current !== status,
@@ -81,13 +73,6 @@ const FormStatusActions = props => {
               {t(`form.status.actions.${status}`)}
             </Button>
           ))}
-        {model.id ? (
-          <Button outline onClick={onValidateClick}>
-            {t('form.validate')}
-          </Button>
-        ) : (
-          ''
-        )}
       </div>
       <AdminActions
         t={t}
@@ -100,15 +85,11 @@ const FormStatusActions = props => {
 };
 
 FormStatusActions.propTypes = {
-  model: PropTypes.shape({
-    id: PropTypes.number,
-  }),
   articleStatus: PropTypes.shape({
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
   onUpdateStatus: PropTypes.func.isRequired,
-  onValidateClick: PropTypes.func.isRequired,
   possibleStatuses: PossibleStatusShape.isRequired,
 };
 

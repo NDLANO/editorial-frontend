@@ -49,6 +49,7 @@ class VisualElementSelectField extends Component {
           selectedResource={selectedResource}
           embedTag={value}
           handleVisualElementChange={this.handleVisualElementChange}
+          closeModal={this.onImageLightboxClose}
         />
       </Lightbox>
     );

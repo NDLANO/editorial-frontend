@@ -10,6 +10,7 @@ import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { Button } from 'ndla-ui';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
@@ -50,6 +51,23 @@ export const getInitialModel = (image = {}) => ({
       : DEFAULT_LICENSE.license,
 });
 
+const FormWrapper = ({ inModal, children, onSubmit }) => {
+  if (inModal) {
+    return <div {...classes()}>{children}</div>;
+  }
+  return (
+    <form onSubmit={onSubmit} {...classes()}>
+      {children}
+    </form>
+  );
+};
+
+FormWrapper.propTypes = {
+  inModal: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+  onSubmit: PropTypes.func,
+};
+
 class ImageForm extends Component {
   constructor(props) {
     super(props);
@@ -69,7 +87,6 @@ class ImageForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
     const {
       model,
       schema,
@@ -116,17 +133,20 @@ class ImageForm extends Component {
       isSaving,
       fields,
       showSaved,
+      inModal,
+      closeModal,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
     return (
-      <form onSubmit={this.handleSubmit} {...classes()}>
+      <FormWrapper inModal={inModal} onSubmit={this.handleSubmit}>
         <FormHeader
           model={model}
           type="image"
           editUrl={lang => toEditImage(model.id, lang)}
         />
         <ImageContent
+          inModal={inModal}
           commonFieldProps={commonFieldProps}
           tags={tags}
           model={model}
@@ -137,13 +157,27 @@ class ImageForm extends Component {
           licenses={licenses}
         />
         <Field right>
-          <Link
-            to="/"
-            className="c-button c-button--outline c-abort-button"
-            disabled={isSaving}>
-            {t('form.abort')}
-          </Link>
-          <SaveButton isSaving={isSaving} showSaved={showSaved}>
+          {inModal ? (
+            <Button outline onClick={closeModal}>
+              Avbryt
+            </Button>
+          ) : (
+            <Link
+              to="/"
+              className="c-button c-button--outline c-abort-button"
+              disabled={isSaving}>
+              {t('form.abort')}
+            </Link>
+          )}
+          <SaveButton
+            isSaving={isSaving}
+            showSaved={showSaved}
+            submit={!inModal}
+            onClick={e => {
+              if (inModal) {
+                this.handleSubmit(e);
+              }
+            }}>
             {t('form.save')}
           </SaveButton>
         </Field>
@@ -156,7 +190,7 @@ class ImageForm extends Component {
           handleSubmit={this.handleSubmit}
           text={t('warningModal.notSaved')}
         />
-      </form>
+      </FormWrapper>
     );
   }
 }
@@ -187,6 +221,8 @@ ImageForm.propTypes = {
   isSaving: PropTypes.bool.isRequired,
   showSaved: PropTypes.bool.isRequired,
   revision: PropTypes.number,
+  inModal: PropTypes.bool,
+  closeModal: PropTypes.func,
 };
 
 export default compose(

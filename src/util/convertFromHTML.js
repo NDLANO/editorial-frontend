@@ -14,63 +14,6 @@ import { Value } from 'slate';
 import { BLOCK_TAGS } from './slateHelpers';
 
 export function convertFromHTML(json) {
-  /* Slate's default sanitization just obliterates block nodes that contain both
-  inline+text children and block children. This happens very often because we
-  preserve <section> nodes as blocks. Implement better coercion before theirs:
-
-  - Find nodes with mixed children:
-    + Wrap adjacent inline+text children in a new <section> block
-  */
-  const wrapMixedChildren = node => {
-    if (!node.nodes) return;
-
-    // visit all our children
-    node.nodes.forEach(wrapMixedChildren);
-
-    const blockChildren = node.nodes.filter(n => n.object === 'block');
-    const mixed =
-      blockChildren.length > 0 && blockChildren.length !== node.nodes.length;
-    if (!mixed) {
-      return;
-    }
-
-    const cleanNodes = [];
-    let openWrapperBlock = null;
-    for (const child of node.nodes) {
-      if (child.object === 'block') {
-        if (openWrapperBlock) {
-          openWrapperBlock = null;
-          // this node will close the wrapper block we've created and trigger a newline!
-          // If this node is empty (was just a <br> or <p></p> to begin with) let's skip
-          // it to avoid creating a double newline.
-          if (
-            child.type === BLOCK_TAGS.section.type &&
-            child.nodes &&
-            child.nodes.length === 0
-          ) {
-            continue;
-          }
-        }
-        cleanNodes.push(child);
-      } else {
-        if (!openWrapperBlock) {
-          openWrapperBlock = {
-            type: BLOCK_TAGS.section.type,
-            object: 'block',
-            nodes: [],
-            data: {},
-          };
-          cleanNodes.push(openWrapperBlock);
-        }
-        openWrapperBlock.nodes.push(child);
-      }
-    }
-
-    node.nodes = cleanNodes;
-  };
-
-  wrapMixedChildren(json.document);
-
   /* We often end up with bogus whitespace at the bottom of complex emails, either
   because the input contained whitespace, or because there were elements present
   that we didn't convert into anything. Prune the trailing empty node(s). */

@@ -47,7 +47,11 @@ class EditLearningResource extends Component {
     this.fetchTaxonony(articleId, selectedLanguage);
   }
 
-  componentDidUpdate({ articleId: prevId, article: prevArticle }) {
+  componentDidUpdate({
+    selectedLanguage: prevLanguage,
+    articleId: prevArticleId,
+    article: prevArticle,
+  }) {
     const {
       articleId,
       fetchDraft,
@@ -56,10 +60,7 @@ class EditLearningResource extends Component {
       fetchTags,
     } = this.props;
 
-    if (
-      this.props.selectedLanguage !== selectedLanguage ||
-      articleId !== prevId
-    ) {
+    if (prevLanguage !== selectedLanguage || articleId !== prevArticleId) {
       fetchDraft({ id: articleId, language: selectedLanguage });
       this.fetchTaxonony(articleId, selectedLanguage);
     }
@@ -132,6 +133,7 @@ class EditLearningResource extends Component {
           selectedLanguage,
         )}
         taxonomy={this.state.taxonomy}
+        selectedLanguage={selectedLanguage}
         revision={article.revision}
         articleStatus={article.status}
         onUpdate={this.updateLearningResource}

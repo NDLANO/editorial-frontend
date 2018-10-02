@@ -121,7 +121,7 @@ class SlateFigure extends React.Component {
       case 'external':
       case 'iframe':
         return (
-          <Figure>
+          <Figure id={embed.url}>
             <DisplayExternal
               onRemoveClick={this.onRemoveClick}
               editor={editor}

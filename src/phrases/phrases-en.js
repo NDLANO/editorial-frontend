@@ -197,6 +197,8 @@ const phrases = {
     buttonTitle: 'Search',
     useImage: 'Use image',
     noTitle: 'No title',
+    noResultsText: 'No images found. Would you like to upload a new image?',
+    noResultsButtonText: 'Upload image',
   },
   videoSearch: {
     searchPlaceholder: 'Search videos',
@@ -276,10 +278,7 @@ const phrases = {
     },
   },
   imageForm: {
-    title: {
-      create: 'You are now creating an image',
-      update: 'You are now editing an image',
-    },
+    title: 'Image | {title} ({key})',
   },
   learningResourceForm: {
     metaImage: {
@@ -330,6 +329,11 @@ const phrases = {
     choose: 'Choose',
     saved: 'Saved ',
     preview: 'Preview',
+    previewAndCompare: {
+      button: 'Compare draft and article',
+      article: 'Article',
+      draft: 'Draft',
+    },
     abort: 'Abort',
     validate: 'Validate',
     publish: 'Publish',
@@ -342,6 +346,7 @@ const phrases = {
     addNotes: 'Add note',
     editImage: 'Edit image',
     editAudio: 'Edit audio',
+    resetToProd: 'Reset to prod',
     variant: {
       create: 'Create variant +',
     },
@@ -358,12 +363,13 @@ const phrases = {
       label: 'Visual element',
       video: 'Video search',
       image: 'Image search',
+      imageUpload: 'Upload image',
       h5p: 'H5P',
     },
     workflow: {
-      current: 'Current status',
-      former: 'Former status',
+      title: 'Status',
       change: 'Change status',
+      qualityAssurance: 'Quality assurance',
     },
     status: {
       created: 'Created',
@@ -595,6 +601,7 @@ const phrases = {
     back: 'Back',
     goToFrontPage: 'Go to frontpage',
     invalidUrl: 'Invalid url',
+    noArticleInProd: 'No article found in prod',
   },
   notFound: {
     description: 'The page cannot be found',

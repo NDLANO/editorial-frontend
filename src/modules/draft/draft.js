@@ -82,32 +82,29 @@ export const getSaving = createSelector(
 const getLanguageFromField = (object, field, fallback = undefined) =>
   object && object[field] ? object[field].language : fallback;
 
+export const articleConverter = (article, locale) => ({
+  ...article,
+  title: convertFieldWithFallback(article, 'title', ''),
+  introduction: convertFieldWithFallback(article, 'introduction', ''),
+  visualElement: convertFieldWithFallback(article, 'visualElement', {}),
+  content: convertFieldWithFallback(article, 'content', ''),
+  footnotes:
+    article.content && article.content.footNotes
+      ? article.content.footNotes
+      : undefined,
+  metaDescription: convertFieldWithFallback(article, 'metaDescription', ''),
+  tags: convertFieldWithFallback(article, 'tags', []),
+  language:
+    article && article.tags
+      ? getLanguageFromField(article, 'tags')
+      : getLanguageFromField(article, 'content', locale),
+  created: formatDate(article.created, locale),
+  updated: formatDate(article.updated, locale),
+});
+
 export const getDraft = articleId =>
-  createSelector([getDraftById(articleId), getLocale], (article, locale) => {
-    const language =
-      article && article.tags
-        ? getLanguageFromField(article, 'tags')
-        : getLanguageFromField(article, 'content', locale);
-    return article
-      ? {
-          ...article,
-          title: convertFieldWithFallback(article, 'title', ''),
-          introduction: convertFieldWithFallback(article, 'introduction', ''),
-          visualElement: convertFieldWithFallback(article, 'visualElement', {}),
-          content: convertFieldWithFallback(article, 'content', ''),
-          footnotes:
-            article.content && article.content.footNotes
-              ? article.content.footNotes
-              : undefined,
-          metaDescription: convertFieldWithFallback(
-            article,
-            'metaDescription',
-            '',
-          ),
-          tags: convertFieldWithFallback(article, 'tags', []),
-          language,
-          created: formatDate(article.created, locale),
-          updated: formatDate(article.updated, locale),
-        }
-      : undefined;
-  });
+  createSelector(
+    [getDraftById(articleId), getLocale],
+    (article, locale) =>
+      article ? articleConverter(article, locale) : undefined,
+  );

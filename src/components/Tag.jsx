@@ -15,10 +15,20 @@ export const tagClasses = new BEMHelper({
   prefix: 'c-',
 });
 
-const Tag = ({ children }) => <span {...tagClasses('')}>{children}</span>;
+const Tag = ({ children, modifier }) => (
+  <span {...tagClasses(undefined, modifier)}>{children}</span>
+);
 
 Tag.propTypes = {
   children: PropTypes.node,
+  modifier: PropTypes.oneOf(
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ),
+};
+
+Tag.defaultProps = {
+  modifier: '',
 };
 
 export default Tag;

@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { Button } from 'ndla-ui';
 import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
@@ -37,7 +38,8 @@ import {
   WarningModalWrapper,
 } from '../../Form';
 import { toEditArticle } from '../../../util/routeHelpers';
-import PreviewDraftLightbox from '../../../components/PreviewDraft/PreviewDraftLightbox';
+import { getArticle } from '../../../modules/article/articleApi';
+import { articleConverter } from '../../../modules/draft/draft';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -70,6 +72,8 @@ class TopicArticleForm extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getArticle = this.getArticle.bind(this);
+    this.onReset = this.onReset.bind(this);
+    this.state = {};
   }
 
   componentDidUpdate({ initialModel: prevModel }) {
@@ -79,6 +83,23 @@ class TopicArticleForm extends Component {
       initialModel.language !== prevModel.language
     ) {
       setModel(initialModel);
+    }
+  }
+
+  async onReset() {
+    const { articleId, setModel, taxonomy, selectedLanguage, t } = this.props;
+    try {
+      if (this.state.error) this.setState({ error: undefined });
+      const articleFromProd = await getArticle(articleId);
+      const convertedArticle = articleConverter(
+        articleFromProd,
+        selectedLanguage,
+      );
+      setModel(getInitialModel(convertedArticle, taxonomy, selectedLanguage));
+    } catch (e) {
+      if (e.status === 404) {
+        this.setState({ error: t('errorMessage.noArticleInProd') });
+      }
     }
   }
 
@@ -140,6 +161,7 @@ class TopicArticleForm extends Component {
       showSaved,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
+    const { error } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
@@ -168,15 +190,16 @@ class TopicArticleForm extends Component {
           commonFieldProps={commonFieldProps}
           articleStatus={articleStatus}
           model={model}
+          getArticle={this.getArticle}
         />
-        <Field right>
-          <PreviewDraftLightbox
-            label={t('subNavigation.learningResource')}
-            getArticle={this.getArticle}
-          />
+        <Field right {...formClasses('form-actions')}>
+          {error && <span className="c-errorMessage">{error}</span>}
+          {model.id && (
+            <Button onClick={this.onReset}>{t('form.resetToProd')}</Button>
+          )}
           <Link
             to="/"
-            className="c-button c-button--outline c-abort-button"
+            className="c-button c-button--outline"
             disabled={isSaving}>
             {t('form.abort')}
           </Link>

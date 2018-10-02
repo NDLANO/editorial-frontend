@@ -64,6 +64,7 @@ async function fetchSystemAccessToken() {
 async function fetchArticles(query) {
   const result = await fetch(`${url}?${queryString.stringify(query)}`, {
     headers: {
+      'Cache-Control': 'no-cache',
       Authorization: `Bearer ${token.access_token}`,
     },
   })
@@ -82,6 +83,7 @@ async function fetchArticle(id) {
   let result;
   result = await fetch(`${url}${id}`, {
     headers: {
+      'Cache-Control': 'no-cache',
       Authorization: `Bearer ${token.access_token}`,
     },
   })

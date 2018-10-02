@@ -201,6 +201,9 @@ const phrases = {
     buttonTitle: 'Søk',
     useImage: 'Bruk bildet',
     noTitle: 'Ingen tittel',
+    noResultsText:
+      'Fann ingen bildar på søk. Ønskjer du å laste opp eit nytt bilete?',
+    noResultsButtonText: 'Last opp bilde',
   },
   videoSearch: {
     searchPlaceholder: 'Søk i videoer',
@@ -340,6 +343,11 @@ const phrases = {
     saving: 'Lagrer...',
     saved: 'Lagret ',
     preview: 'Forhåndsvis',
+    previewAndCompare: {
+      button: 'Sammenlign utkast og artikkel',
+      article: 'Artikkel',
+      draft: 'Utkast',
+    },
     abort: 'Avbryt',
     validate: 'Valider',
     publish: 'Publiser',
@@ -352,6 +360,7 @@ const phrases = {
     addNotes: 'Legg til merknad',
     editImage: 'Endre bilde',
     editAudio: 'Endre lyd',
+    resetToProd: 'Reset til prod',
     variant: {
       create: '+ Nytt språk',
     },
@@ -368,12 +377,13 @@ const phrases = {
       label: 'Visuelt element',
       video: 'Videosøk',
       image: 'Bildesøk',
+      imageUpload: 'Last opp bilde',
       h5p: 'H5P',
     },
     workflow: {
-      current: 'Nåværende status',
-      former: 'Tidligere statuser',
+      title: 'Status',
       change: 'Endre status',
+      qualityAssurance: 'Kvalitetsikring',
     },
     status: {
       created: 'Opprettet',
@@ -602,6 +612,7 @@ const phrases = {
     back: 'Tilbake',
     goToFrontPage: 'Gå til forsiden',
     invalidUrl: 'Ugyldig url',
+    noArticleInProd: 'Ingen artikkel funnet i prod',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',

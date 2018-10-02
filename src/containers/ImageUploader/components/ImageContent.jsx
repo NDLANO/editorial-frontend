@@ -29,9 +29,10 @@ class ImageContent extends Component {
   }
 
   render() {
-    const { t, commonFieldProps, model } = this.props;
+    const { t, commonFieldProps, model, inModal } = this.props;
     return (
       <Accordion
+        inModal={inModal}
         handleToggle={this.toggleContent}
         header={t('form.contentSection')}
         hidden={this.state.hiddenContent}>
@@ -76,6 +77,7 @@ class ImageContent extends Component {
 }
 
 ImageContent.propTypes = {
+  inModal: PropTypes.bool,
   commonFieldProps: CommonFieldPropsShape.isRequired,
   model: PropTypes.shape({
     id: PropTypes.number,

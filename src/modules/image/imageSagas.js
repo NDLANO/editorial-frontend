@@ -48,14 +48,20 @@ export function* updateImage(image) {
   }
 }
 
-export function* createImage(image, file, history) {
+export function* createImage(image, file, history, editingArticle) {
   try {
     const formData = yield call(createFormData, image, file);
     const createdImage = yield call(api.postImage, formData);
     yield put(actions.setImage({ ...createdImage, language: image.language }));
-    yield put(actions.updateImageSuccess());
+    yield put(
+      actions.updateImageSuccess({
+        uploadedImage: createdImage,
+      }),
+    );
     yield put(messageActions.showSaved());
-    history.push(toEditImage(createdImage.id, image.language));
+    if (!editingArticle) {
+      history.push(toEditImage(createdImage.id, image.language));
+    }
   } catch (error) {
     yield put(actions.updateImageError());
     // TODO: handle error
@@ -66,12 +72,12 @@ export function* createImage(image, file, history) {
 export function* watchUpdateImage() {
   while (true) {
     const {
-      payload: { image, file, history },
+      payload: { image, file, history, editingArticle },
     } = yield take(actions.updateImage);
     if (image.id) {
       yield call(updateImage, image);
     } else {
-      yield call(createImage, image, file, history);
+      yield call(createImage, image, file, history, editingArticle);
     }
   }
 }

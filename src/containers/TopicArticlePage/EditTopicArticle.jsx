@@ -32,7 +32,11 @@ class EditTopicArticle extends Component {
     fetchDraft({ id: articleId, language: articleLanguage });
   }
 
-  componentDidUpdate({ articleId: prevId, article: prevArticle }) {
+  componentDidUpdate({
+    selectedLanguage: prevLanguage,
+    articleId: prevArticleId,
+    article: prevArticle,
+  }) {
     const {
       articleId,
       fetchDraft,
@@ -40,10 +44,7 @@ class EditTopicArticle extends Component {
       article,
       fetchTags,
     } = this.props;
-    if (
-      this.props.articleLanguage !== articleLanguage ||
-      articleId !== prevId
-    ) {
+    if (prevLanguage !== articleLanguage || articleId !== prevArticleId) {
       fetchDraft({ id: articleId, language: articleLanguage });
     }
     if (article && (!prevArticle || article.id !== prevArticle.id)) {
@@ -72,6 +73,7 @@ class EditTopicArticle extends Component {
     return (
       <TopicArticleForm
         initialModel={getInitialModel(article)}
+        selectedLanguage={article.language}
         revision={article.revision}
         articleStatus={article.status}
         onUpdate={this.updateDraft}

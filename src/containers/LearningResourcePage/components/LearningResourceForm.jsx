@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { Button } from 'ndla-ui';
 import { Link } from 'react-router-dom';
 import config from '../../../config';
 import reformed from '../../../components/reformed';
@@ -43,7 +44,8 @@ import {
   parseCopyrightContributors,
 } from '../../../util/formHelper';
 import { toEditArticle } from '../../../util/routeHelpers';
-import PreviewDraftLightbox from '../../../components/PreviewDraft/PreviewDraftLightbox';
+import { getArticle } from '../../../modules/article/articleApi';
+import { articleConverter } from '../../../modules/draft/draft';
 
 const findFootnotes = content =>
   content
@@ -108,7 +110,9 @@ class LearningResourceForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.getArticle = this.getArticle.bind(this);
+    this.getArticleFromModel = this.getArticleFromModel.bind(this);
+    this.onReset = this.onReset.bind(this);
+    this.state = {};
   }
 
   componentDidUpdate({ taxonomy: prevTaxonomy, initialModel: prevModel }) {
@@ -127,7 +131,24 @@ class LearningResourceForm extends Component {
     }
   }
 
-  getArticle() {
+  async onReset() {
+    const { articleId, setModel, taxonomy, selectedLanguage, t } = this.props;
+    try {
+      if (this.state.error) this.setState({ error: undefined });
+      const articleFromProd = await getArticle(articleId);
+      const convertedArticle = articleConverter(
+        articleFromProd,
+        selectedLanguage,
+      );
+      setModel(getInitialModel(convertedArticle, taxonomy, selectedLanguage));
+    } catch (e) {
+      if (e.status === 404) {
+        this.setState({ error: t('errorMessage.noArticleInProd') });
+      }
+    }
+  }
+
+  getArticleFromModel() {
     const { model, licenses } = this.props;
     const content = learningResourceContentToHTML(model.content);
     const emptyContent = model.id ? '' : undefined;
@@ -167,7 +188,7 @@ class LearningResourceForm extends Component {
     }
     this.props.onUpdate(
       {
-        ...this.getArticle(),
+        ...this.getArticleFromModel(),
         revision,
         updated: undefined,
       },
@@ -198,7 +219,7 @@ class LearningResourceForm extends Component {
       showSaved,
       taxonomyIsLoading,
     } = this.props;
-
+    const { error } = this.state;
     const commonFieldProps = { bindInput, schema, submitted };
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
@@ -238,15 +259,16 @@ class LearningResourceForm extends Component {
           commonFieldProps={commonFieldProps}
           articleStatus={articleStatus}
           model={model}
+          getArticle={this.getArticleFromModel}
         />
-        <Field right>
-          <PreviewDraftLightbox
-            label={t('subNavigation.learningResource')}
-            getArticle={this.getArticle}
-          />
+        <Field right {...formClasses('form-actions')}>
+          {error && <span className="c-errorMessage">{error}</span>}
+          {model.id && (
+            <Button onClick={this.onReset}>{t('form.resetToProd')}</Button>
+          )}
           <Link
             to="/"
-            className="c-button c-button--outline c-abort-button"
+            className="c-button c-button--outline"
             disabled={isSaving}>
             {t('form.abort')}
           </Link>

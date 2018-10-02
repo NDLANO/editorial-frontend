@@ -22,12 +22,18 @@ describe('Learning resource editing', () => {
     cy.get('[data-cy=create-table]')
       .last()
       .click({ force: true });
-    cy.get('table').click();
-    cy.type('TEST{rightarrow}TEST2{downarrow}TEST3', { force: true });
+    cy.get('[data-cy=slate-editor] div')
+      .first()
+      .focus()
+      .type('{downarrow}TEST{rightarrow}TEST2{downarrow}TEST3', {
+        force: true,
+      });
     cy.get('[data-cy=column-add').click();
-    cy.type('Test new column');
-    cy.get('[data-cy=column-add').click();
-    cy.type('Test new column nr 2');
+    cy.get('table').type('Test new column');
+    cy.get('[data-cy=row-add').click();
+    cy.get('table').type('Test new row');
+    cy.get('[data-cy=column-remove').click();
+    cy.get('[data-cy=row-remove').click();
     cy.contains(t.form.content.table['table-remove']).click({ force: true });
   });
 });

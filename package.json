@@ -61,7 +61,7 @@
     "redux-saga-test-plan": "^3.7.0",
     "rimraf": "^2.6.2",
     "sinon": "^6.1.4",
-    "slate-hyperscript": "^0.10.6",
+    "slate-hyperscript": "^0.10.7",
     "stylelint": "^9.4.0",
     "stylelint-config-standard": "^18.2.0",
     "webpack-bundle-analyzer": "^2.13.1"
@@ -129,11 +129,11 @@
     "redux-saga": "^0.16.0",
     "reselect": "^3.0.1",
     "serialize-javascript": "^1.5.0",
-    "slate": "0.41.1",
-    "slate-html-serializer": "0.7.6",
-    "slate-plain-serializer": "0.6.6",
-    "slate-prop-types": "^0.4.65",
-    "slate-react": "0.18.9",
+    "slate": "0.41.2",
+    "slate-html-serializer": "0.7.7",
+    "slate-plain-serializer": "0.6.7",
+    "slate-prop-types": "^0.4.66",
+    "slate-react": "0.18.10",
     "source-map-support": "^0.5.6"
   },
   "repository": {

@@ -172,7 +172,7 @@ class TopicArticleForm extends Component {
           editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
         />
         <Accordion
-          tabs={[
+          panels={[
             {
               title: t('form.contentSection'),
               open: true,

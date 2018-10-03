@@ -74,8 +74,7 @@ class WarningModalWrapper extends PureComponent {
   }
 
   isDirty() {
-    const { fields, initialModel, model } = this.props;
-
+    const { fields, initialModel, model, showSaved } = this.props;
     // Checking specific slate object fields if they really have changed
     const slateFields = ['introduction', 'metaDescription', 'content'];
     const dirtyFields = [];
@@ -96,7 +95,7 @@ class WarningModalWrapper extends PureComponent {
           dirtyFields.push(dirtyField);
         }
       });
-    return dirtyFields.length > 0;
+    return dirtyFields.length > 0 && !showSaved;
   }
 
   render() {

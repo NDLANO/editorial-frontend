@@ -15,11 +15,11 @@ import Spinner from '../../../../components/Spinner';
 import { SearchResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
 
-const SearchList = ({ results, query, type, locale, t, searching }) => (
+const SearchList = ({ results, searchObject, type, t, searching }) => (
   <div {...searchClasses('results')}>
     {searching && <Spinner cssModifier="absolute" />}
     {results.length === 0 ? (
-      <p>{t(`searchPage.${type}NoHits`, { query })}</p>
+      <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query })}</p>
     ) : null}
     <TransitionGroup>
       {results.map(result => (
@@ -31,7 +31,7 @@ const SearchList = ({ results, query, type, locale, t, searching }) => (
             key={result.id}
             result={result}
             type={type}
-            locale={locale}
+            locale={searchObject.language || result.title.language}
           />
         </CSSTransition>
       ))}
@@ -41,9 +41,11 @@ const SearchList = ({ results, query, type, locale, t, searching }) => (
 
 SearchList.propTypes = {
   results: PropTypes.arrayOf(SearchResultShape).isRequired,
-  query: PropTypes.string,
+  searchObject: PropTypes.shape({
+    query: PropTypes.string,
+    language: PropTypes.string,
+  }),
   type: PropTypes.string,
-  locale: PropTypes.string.isRequired,
   searching: PropTypes.bool,
 };
 

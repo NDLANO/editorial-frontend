@@ -114,6 +114,7 @@ class EditFilters extends React.Component {
           actions={[
             { text: t('form.abort'), onClick: this.onCancel },
             {
+              'data-testid': 'warningModalConfirm',
               text: t('warningModal.delete'),
               onClick: this.deleteFilter,
             },

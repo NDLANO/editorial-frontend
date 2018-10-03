@@ -119,7 +119,7 @@ class AgreementForm extends Component {
           <Button outline onClick={history.goBack} disabled={isSaving}>
             {t('form.abort')}
           </Button>
-          <Button submit disabled={false} className="c-save-button">
+          <Button submit disabled={false}>
             {t('form.save')}
           </Button>
         </Field>

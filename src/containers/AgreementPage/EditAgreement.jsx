@@ -44,7 +44,7 @@ class EditAgreement extends Component {
   }
 
   render() {
-    const { isSaving, licenses, upsertAgreement } = this.props;
+    const { isSaving, licenses, upsertAgreement, ...rest } = this.props;
     const { agreement } = this.state;
     if (!agreement) {
       return null;
@@ -55,6 +55,7 @@ class EditAgreement extends Component {
         licenses={licenses}
         isSaving={isSaving}
         onUpdate={upsertAgreement}
+        {...rest}
       />
     );
   }

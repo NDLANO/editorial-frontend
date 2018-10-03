@@ -10,7 +10,6 @@ import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { Agreement } from 'ndla-icons/editor';
 import BEMHelper from 'react-bem-helper';
 import reformed from '../../../components/reformed';
@@ -90,6 +89,7 @@ class AgreementForm extends Component {
       submitted,
       licenses,
       isSaving,
+      history,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
@@ -115,14 +115,11 @@ class AgreementForm extends Component {
             bindInput={bindInput}
           />
         </div>
-        <Field right>
-          <Link
-            to="/"
-            className="c-button c-button--outline c-abort-button"
-            disabled={isSaving}>
+        <Field right {...classes('form-actions')}>
+          <Button outline onClick={history.goBack} disabled={isSaving}>
             {t('form.abort')}
-          </Link>
-          <Button submit outline disabled={false} className="c-save-button">
+          </Button>
+          <Button submit disabled={false} className="c-save-button">
             {t('form.save')}
           </Button>
         </Field>
@@ -148,6 +145,9 @@ AgreementForm.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   setSubmitted: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  history: PropTypes.shape({
+    goBack: PropTypes.func,
+  }).isRequired,
 };
 
 export default compose(

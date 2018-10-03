@@ -11,7 +11,6 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
-import { Link } from 'react-router-dom';
 import config from '../../../config';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
@@ -221,7 +220,9 @@ class LearningResourceForm extends Component {
       fields,
       showSaved,
       taxonomyIsLoading,
+      history,
     } = this.props;
+
     const { error } = this.state;
     const commonFieldProps = { bindInput, schema, submitted };
     return (
@@ -269,12 +270,9 @@ class LearningResourceForm extends Component {
           {model.id && (
             <Button onClick={this.onReset}>{t('form.resetToProd')}</Button>
           )}
-          <Link
-            to="/"
-            className="c-button c-button--outline"
-            disabled={isSaving}>
+          <Button outline onClick={history.goBack} disabled={isSaving}>
             {t('form.abort')}
-          </Link>
+          </Button>
           <SaveButton
             data-testid="saveLearningResourceButton"
             isSaving={isSaving}
@@ -330,6 +328,9 @@ LearningResourceForm.propTypes = {
   }),
   taxonomyIsLoading: PropTypes.bool,
   selectedLanguage: PropTypes.string,
+  history: PropTypes.shape({
+    goBack: PropTypes.func,
+  }).isRequired,
 };
 
 export default compose(

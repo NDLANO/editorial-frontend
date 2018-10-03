@@ -69,6 +69,7 @@ class EditImage extends Component {
           updateImage({ image, file, history, editingArticle });
         }}
         closeModal={closeModal}
+        history={history}
         {...rest}
       />
     );

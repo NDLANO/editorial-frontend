@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Button } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
@@ -114,7 +114,9 @@ class AudioForm extends Component {
       audioInfo,
       showSaved,
       fields,
+      history,
     } = this.props;
+
     const commonFieldProps = { bindInput, schema, submitted };
 
     return (
@@ -139,13 +141,10 @@ class AudioForm extends Component {
           tags={tags}
           licenses={licenses}
         />
-        <Field right>
-          <Link
-            to="/"
-            className="c-button c-button--outline c-abort-button"
-            disabled={isSaving}>
+        <Field right {...classes('form-actions')}>
+          <Button outline disabled={isSaving} onClick={history.goBack}>
             {t('form.abort')}
-          </Link>
+          </Button>
           <SaveButton isSaving={isSaving} showSaved={showSaved} />
         </Field>
         <WarningModalWrapper
@@ -194,6 +193,9 @@ AudioForm.propTypes = {
     mimeType: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
   }),
+  history: PropTypes.shape({
+    goBack: PropTypes.func,
+  }).isRequired,
 };
 
 export default compose(

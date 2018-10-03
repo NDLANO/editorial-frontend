@@ -56,7 +56,7 @@ class AgreementPage extends React.Component {
   }
 
   render() {
-    const { locale, match, licenses } = this.props;
+    const { locale, match, licenses, history } = this.props;
     return (
       <div>
         <OneColumn>
@@ -69,6 +69,7 @@ class AgreementPage extends React.Component {
                   isSaving={this.state.isSaving}
                   upsertAgreement={this.upsertAgreement}
                   licenses={licenses}
+                  history={history}
                 />
               )}
             />
@@ -82,6 +83,7 @@ class AgreementPage extends React.Component {
                   isSaving={this.state.isSaving}
                   upsertAgreement={this.upsertAgreement}
                   licenses={licenses}
+                  history={history}
                 />
               )}
             />

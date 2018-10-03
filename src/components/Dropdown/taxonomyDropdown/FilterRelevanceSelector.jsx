@@ -1,13 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { tagClasses } from '../../Tag';
 import ToolTip from '../../ToolTip';
 import { DropdownTagPropertyItem } from '.';
-import {
-  RESOURCE_FILTER_CORE,
-  RESOURCE_FILTER_SUPPLEMENTARY,
-} from '../../../constants';
-
-import PropTypes from 'prop-types';
+import { RESOURCE_FILTER_CORE } from '../../../constants';
 
 const FilterRelevanceSelector = ({
   currentRelevance,
@@ -15,7 +11,6 @@ const FilterRelevanceSelector = ({
   tagProperties,
   handleSetTagProperty,
 }) => {
-  console.log(currentRelevance);
   const tagPropertyItem = (
     <strong>{currentRelevance === RESOURCE_FILTER_CORE ? 'K' : 'T'}</strong>
   );
@@ -32,12 +27,13 @@ const FilterRelevanceSelector = ({
               {messages.toolTipDescription}
             </div>
             {tagProperties.map(
-              property =>
-                property.name ? (
+              ({ name, id }) =>
+                name ? (
                   <DropdownTagPropertyItem
-                    key={property.id}
-                    itemProperty={currentRelevance}
-                    tagProperty={property}
+                    key={id}
+                    id={id}
+                    name={name}
+                    checked={currentRelevance === id}
                     handleSetTagProperty={handleSetTagProperty}
                   />
                 ) : (
@@ -52,6 +48,11 @@ const FilterRelevanceSelector = ({
   );
 };
 
-FilterRelevanceSelector.propTypes = {};
+FilterRelevanceSelector.propTypes = {
+  currentRelevance: PropTypes.string,
+  messages: PropTypes.objectOf(PropTypes.string),
+  tagProperties: PropTypes.arrayOf(PropTypes.object),
+  handleSetTagProperty: PropTypes.func,
+};
 
 export default FilterRelevanceSelector;

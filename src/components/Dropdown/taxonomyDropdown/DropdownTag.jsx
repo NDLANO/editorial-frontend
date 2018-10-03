@@ -32,11 +32,10 @@ class DropdownTag extends Component {
   }
 
   handleSetTagProperty(id) {
-    const { handlePopupClick, tagProperties, tag } = this.props;
+    const { handlePopupClick, tag } = this.props;
 
-    const tagProperty = tagProperties.find(tagProp => tagProp.id === id);
-    if (tagProperty) {
-      handlePopupClick({ ...tag, relevanceId: tagProperty.id });
+    if (id) {
+      handlePopupClick({ ...tag, relevanceId: id });
     }
   }
 

@@ -360,7 +360,10 @@ const phrases = {
     addNotes: 'Legg til merknad',
     editImage: 'Endre bilde',
     editAudio: 'Endre lyd',
-    resetToProd: 'Reset til prod',
+    resetToProd: {
+      button: 'Tilbakestill til prod',
+      modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsiden?',
+    },
     variant: {
       create: '+ Nytt språk',
     },
@@ -629,6 +632,7 @@ const phrases = {
     notSaved: 'Dokumentet er ikke lagret, ønsker du å lagre?',
     continue: 'Fortsett',
     delete: 'Slett',
+    confirm: 'Bekreft',
   },
   taxonomy: {
     editStructure: '  Rediger struktur',

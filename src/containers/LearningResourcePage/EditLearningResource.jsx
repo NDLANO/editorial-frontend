@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
@@ -30,7 +30,7 @@ import {
   getAllTagsByLanguage,
 } from '../../modules/tag/tag';
 
-class EditLearningResource extends Component {
+class EditLearningResource extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

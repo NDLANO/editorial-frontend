@@ -689,6 +689,7 @@ export const brValue = {
       {
         data: {},
         isVoid: false,
+        type: 'br',
         object: 'block',
         nodes: [
           {
@@ -702,7 +703,6 @@ export const brValue = {
             ],
           },
         ],
-        type: 'br',
       },
     ],
   },

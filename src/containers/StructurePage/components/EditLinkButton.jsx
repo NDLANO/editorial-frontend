@@ -39,31 +39,46 @@ class EditLinkButton extends Component {
         style={{ display: 'none' }}
         id={linkId}
         ref={el => refFunc(el, linkId)}>
-        {this.state.setPrimaryWarning && (
-          <Portal isOpened>
-            <WarningModal
-              text={t('taxonomy.confirmSetPrimary')}
-              onCancel={() => this.setState({ setPrimaryWarning: false })}
-              onContinue={() => {
-                this.setState({ setPrimaryWarning: false, open: false });
-                setPrimary();
-              }}
-            />
-          </Portal>
-        )}
-        {this.state.deleteLinkWarning && (
-          <Portal isOpened>
-            <WarningModal
-              text={t('taxonomy.confirmDeleteTopic')}
-              onCancel={() => this.setState({ deleteLinkWarning: false })}
-              confirmDelete
-              onContinue={() => {
-                this.setState({ deleteLinkWarning: false, open: false });
-                deleteTopicLink(id);
-              }}
-            />
-          </Portal>
-        )}
+        <Portal isOpened>
+          <WarningModal
+            show={this.state.setPrimaryWarning}
+            text={t('taxonomy.confirmSetPrimary')}
+            onCancel={() => this.setState({ setPrimaryWarning: false })}
+            actions={[
+              {
+                text: t('form.abort'),
+                onClick: () => this.setState({ setPrimaryWarning: false }),
+              },
+              {
+                text: t('warningModal.confirm'),
+                onClick: () => {
+                  this.setState({ setPrimaryWarning: false, open: false });
+                  setPrimary();
+                },
+              },
+            ]}
+          />
+        </Portal>
+        <Portal isOpened>
+          <WarningModal
+            show={this.state.deleteLinkWarning}
+            text={t('taxonomy.confirmDeleteTopic')}
+            onCancel={() => this.setState({ deleteLinkWarning: false })}
+            actions={[
+              {
+                text: t('form.abort'),
+                onClick: () => this.setState({ deleteLinkWarning: false }),
+              },
+              {
+                text: t('warningModal.delete'),
+                onClick: () => {
+                  this.setState({ deleteLinkWarning: false, open: false });
+                  deleteTopicLink(id);
+                },
+              },
+            ]}
+          />
+        </Portal>
         <Button
           stripped
           onClick={() => {

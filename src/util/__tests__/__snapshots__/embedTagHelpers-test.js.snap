@@ -24,7 +24,6 @@ Object {
             },
           ],
         },
-        "isVoid": true,
         "nodes": Array [
           Object {
             "leaves": Array [

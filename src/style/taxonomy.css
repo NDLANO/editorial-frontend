@@ -10,7 +10,7 @@
   &__wrapper {
     display: flex;
     align-items: center;
-    padding: var(--spacing--xsmall) 0;
+    padding: calc(var(--spacing--small) / 2);
 
     &--dragging {
       margin: 0;
@@ -21,7 +21,7 @@
     display: flex;
     align-items: center;
     box-shadow: none;
-    margin-right: var(--spacing--xsmall);
+    margin-right: calc(var(--spacing--small) / 2);
     color: var(--primary-color);
     font-size: 0.8rem;
 
@@ -35,7 +35,7 @@
   }
 
   &__folderIcon {
-    margin-right: var(--spacing--xsmall);
+    margin-right: calc(var(--spacing--small) / 2);
   }
 
   &__subFolders {
@@ -68,7 +68,7 @@
     right: 0;
 
     & > input {
-      margin: var(--spacing--xsmall);
+      margin: calc(var(--spacing--small) / 2);
     }
 
     & > button,
@@ -119,11 +119,11 @@
     height: 18px;
     width: 18px;
     min-width: 18px;
-    margin-right: var(--spacing--xsmall);
+    margin-right: calc(var(--spacing--small) / 2);
   }
 
   &--margin {
-    margin-left: var(--spacing--xsmall);
+    margin-left: calc(var(--spacing--small) / 2);
   }
 }
 
@@ -150,7 +150,7 @@
 
   &__checkbox {
     width: auto;
-    margin: 0 var(--spacing--xsmall) 0 var(--spacing--small);
+    margin: 0 calc(var(--spacing--small) / 2);
     -webkit-appearance: checkbox !important;
     -moz-appearance: checkbox !important;
     padding: inital;

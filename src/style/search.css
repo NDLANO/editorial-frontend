@@ -58,7 +58,7 @@
   }
 
   &__breadcrumb {
-    margin-right: var(--spacing--small);
+    margin-right: calc(var(--spacing) / 2);
     font-size: 0.7rem;
     color: black;
     text-decoration: underline;
@@ -90,7 +90,7 @@
 
   &__sort-container {
     width: 100%;
-    margin-top: var(--spacing--small);
+    margin-top: calc(var(--spacing) / 2);
     padding: var(--spacing--small);
     background-color: var(--gray-10);
     border: 1px solid var(--gray-8);

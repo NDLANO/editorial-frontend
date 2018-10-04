@@ -8,7 +8,6 @@ module.exports = {
 
     modifyRule(appConfig, { test: /\.css$/ }, rule => {
       rule.use.push({ loader: 'postcss-loader' });
-      rule.use.push({ loader: 'sass-loader' });
     });
 
     if (target === 'web') {

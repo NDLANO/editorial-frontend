@@ -46,7 +46,7 @@ export const connectLinkItems = (
   });
 
   return connectionTargets.map(({ targetId, isPrimary }) => {
-    const connected = instance.connect({
+    const connection = instance.connect({
       source,
       target: targetId,
       overlays: [
@@ -65,8 +65,8 @@ export const connectLinkItems = (
         ],
       ],
     });
-    connected.showOverlay('sourceOverlay');
-    connected.showOverlay(`targetOverlay`);
-    return connected;
+    connection.showOverlay('sourceOverlay');
+    connection.showOverlay(`targetOverlay`);
+    return { instance, connection };
   });
 };

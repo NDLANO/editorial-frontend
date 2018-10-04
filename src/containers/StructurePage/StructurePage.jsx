@@ -14,7 +14,6 @@ import queryString from 'query-string';
 import { injectT } from 'ndla-i18n';
 import { OneColumn } from 'ndla-ui';
 import { Taxonomy, Star } from 'ndla-icons/editor';
-import { jsPlumb } from 'jsplumb';
 import { connectLinkItems } from '../../util/jsPlumbHelpers';
 import handleError from '../../util/handleError';
 import { getLocale } from '../../modules/locale/locale';
@@ -22,7 +21,7 @@ import StructureResources from './StructureResources';
 import FolderItem from './components/FolderItem';
 import InlineAddButton from './components/InlineAddButton';
 import Accordion from '../../components/Accordion';
-import { Portal } from '../../components/Portal';
+import ErrorBoundary from '../../components/ErrorBoundary';
 import {
   fetchSubjects,
   fetchSubjectTopics,
@@ -227,8 +226,8 @@ export class StructurePage extends React.PureComponent {
   }
 
   deleteConnections() {
-    this.state.jsPlumbConnections.forEach(conn => {
-      jsPlumb.deleteConnection(conn);
+    this.state.jsPlumbConnections.forEach(({ instance, connection }) => {
+      instance.deleteConnection(connection);
     });
     this.setState({ jsPlumbConnections: [], activeConnections: [] });
   }
@@ -307,71 +306,73 @@ export class StructurePage extends React.PureComponent {
     const currentTopic = this.getCurrentTopic();
 
     return (
-      <OneColumn>
-        <Accordion
-          handleToggle={() =>
-            this.setState(prevState => ({
-              editStructureHidden: !prevState.editStructureHidden,
-            }))
-          }
-          header={
-            <React.Fragment>
-              <Taxonomy className="c-icon--medium" />
-              {t('taxonomy.editStructure')}
-            </React.Fragment>
-          }
-          taxonomy
-          addButton={
-            <InlineAddButton
-              title={t('taxonomy.addSubject')}
-              action={this.addSubject}
-            />
-          }
-          hidden={editStructureHidden}>
-          <div id="plumbContainer">
-            {subjects.map(subject => (
-              <FolderItem
-                {...subject}
-                refFunc={this.refFunc}
-                key={subject.id}
-                topics={topics[subject.id]}
-                active={subject.id.replace('urn:', '') === params.subject}
-                match={match}
-                onChangeSubjectName={this.onChangeSubjectName}
-                onAddSubjectTopic={this.onAddSubjectTopic}
-                showLink={this.showLink}
-                onAddExistingTopic={this.onAddExistingTopic}
-                refreshTopics={() => this.getSubjectTopics(subject.id)}
-                linkViewOpen={jsPlumbConnections.length > 0}
-                getFilters={this.getFilters}
-                subjectFilters={filters}
-                activeFilters={activeFilters}
-                toggleFilter={this.toggleFilter}
-                setPrimary={this.setPrimary}
-                deleteTopicLink={this.deleteTopicLink}
+      <ErrorBoundary>
+        <OneColumn>
+          <Accordion
+            handleToggle={() =>
+              this.setState(prevState => ({
+                editStructureHidden: !prevState.editStructureHidden,
+              }))
+            }
+            header={
+              <React.Fragment>
+                <Taxonomy className="c-icon--medium" />
+                {t('taxonomy.editStructure')}
+              </React.Fragment>
+            }
+            taxonomy
+            addButton={
+              <InlineAddButton
+                title={t('taxonomy.addSubject')}
+                action={this.addSubject}
               />
-            ))}
-          </div>
-        </Accordion>
-        {topicId && (
-          <StructureResources
-            locale={locale}
-            params={params}
-            activeFilters={activeFilters}
-            currentTopic={currentTopic}
-            refreshTopics={() => this.getSubjectTopics(`urn:${params.subject}`)}
-          />
-        )}
-        <Portal isOpened>
-          <div
-            style={{
-              display: jsPlumbConnections.length > 0 ? 'block' : 'none',
-            }}
-            ref={this.starButton}>
-            <RoundIcon icon={<Star />} />
-          </div>
-        </Portal>
-      </OneColumn>
+            }
+            hidden={editStructureHidden}>
+            <div id="plumbContainer">
+              {subjects.map(subject => (
+                <FolderItem
+                  {...subject}
+                  refFunc={this.refFunc}
+                  key={subject.id}
+                  topics={topics[subject.id]}
+                  active={subject.id.replace('urn:', '') === params.subject}
+                  match={match}
+                  onChangeSubjectName={this.onChangeSubjectName}
+                  onAddSubjectTopic={this.onAddSubjectTopic}
+                  showLink={this.showLink}
+                  onAddExistingTopic={this.onAddExistingTopic}
+                  refreshTopics={() => this.getSubjectTopics(subject.id)}
+                  linkViewOpen={jsPlumbConnections.length > 0}
+                  getFilters={this.getFilters}
+                  subjectFilters={filters}
+                  activeFilters={activeFilters}
+                  toggleFilter={this.toggleFilter}
+                  setPrimary={this.setPrimary}
+                  deleteTopicLink={this.deleteTopicLink}
+                />
+              ))}
+              <div
+                style={{
+                  display: jsPlumbConnections.length > 0 ? 'block' : 'none',
+                }}
+                ref={this.starButton}>
+                <RoundIcon icon={<Star />} />
+              </div>
+            </div>
+          </Accordion>
+          {topicId && (
+            <StructureResources
+              locale={locale}
+              params={params}
+              activeFilters={activeFilters}
+              currentTopic={currentTopic}
+              refreshTopics={() =>
+                this.getSubjectTopics(`urn:${params.subject}`)
+              }
+            />
+          )}
+        </OneColumn>
+      </ErrorBoundary>
     );
   }
 }

@@ -32,6 +32,7 @@ import SubjectMatterPage from './SubjectMatterPage';
 import MediaPage from './MediaPage';
 import StructurePage from '../StructurePage/StructurePage';
 import '../../style/index.css';
+import ErrorBoundary from '../../components/ErrorBoundary';
 
 export class App extends React.Component {
   getChildContext() {
@@ -49,42 +50,44 @@ export class App extends React.Component {
     } = this.props;
 
     return (
-      <PageContainer>
-        <Helmet
-          title="NDLA"
-          meta={[{ name: 'description', content: t('meta.description') }]}
-        />
-        <Content>
-          <Masthead
-            t={t}
-            params={params}
-            authenticated={this.props.authenticated}
-            userName={this.props.userName}
+      <ErrorBoundary>
+        <PageContainer>
+          <Helmet
+            title="NDLA"
+            meta={[{ name: 'description', content: t('meta.description') }]}
           />
-          <Switch>
-            <Route path="/" exact component={WelcomePage} />
-            <Route path="/login" component={Login} />
-            <Route path="/logout" component={Logout} />
-            <PrivateRoute path="/search" component={SearchPage} />
-            <PrivateRoute
-              path="/subject-matter"
-              component={SubjectMatterPage}
+          <Content>
+            <Masthead
+              t={t}
+              params={params}
+              authenticated={this.props.authenticated}
+              userName={this.props.userName}
             />
-            <PrivateRoute path="/media" component={MediaPage} />
-            <PrivateRoute path="/agreement" component={AgreementPage} />
-            {config.taxonomyEnabled && (
+            <Switch>
+              <Route path="/" exact component={WelcomePage} />
+              <Route path="/login" component={Login} />
+              <Route path="/logout" component={Logout} />
+              <PrivateRoute path="/search" component={SearchPage} />
               <PrivateRoute
-                path="/structure/:subject?/:topic1?/:topic2?/:topic3?"
-                component={StructurePage}
+                path="/subject-matter"
+                component={SubjectMatterPage}
               />
-            )}
-            <Route path="/forbidden" component={ForbiddenPage} />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </Content>
-        <Footer t={t} />
-        <Alerts dispatch={dispatch} messages={messages} />
-      </PageContainer>
+              <PrivateRoute path="/media" component={MediaPage} />
+              <PrivateRoute path="/agreement" component={AgreementPage} />
+              {config.taxonomyEnabled && (
+                <PrivateRoute
+                  path="/structure/:subject?/:topic1?/:topic2?/:topic3?"
+                  component={StructurePage}
+                />
+              )}
+              <Route path="/forbidden" component={ForbiddenPage} />
+              <Route component={NotFoundPage} />
+            </Switch>
+          </Content>
+          <Footer t={t} />
+          <Alerts dispatch={dispatch} messages={messages} />
+        </PageContainer>
+      </ErrorBoundary>
     );
   }
 }

@@ -56,13 +56,7 @@ describe('Learning resource editing', () => {
       .last()
       .click({ force: true });
     cy.get('[data-cy=remove-fact-aside]').click({ force: true });
-    cy.get('[data-cy=slate-block-picker]')
-      .last()
-      .click({ force: true });
-    cy.get('[data-cy=create-table]')
-      .last()
-      .click({ force: true });
-    cy.contains(t.form.content.table['table-remove']).click({ force: true });
+
     cy.get('[data-cy=slate-block-picker]')
       .last()
       .click({ force: true });

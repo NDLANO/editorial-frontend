@@ -7,11 +7,9 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [

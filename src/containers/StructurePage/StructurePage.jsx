@@ -18,8 +18,8 @@ import { connectLinkItems } from '../../util/jsPlumbHelpers';
 import handleError from '../../util/handleError';
 import { getLocale } from '../../modules/locale/locale';
 import StructureResources from './StructureResources';
-import FolderItem from './components/FolderItem';
-import InlineAddButton from './components/InlineAddButton';
+import FolderItem from './folderComponents/FolderItem';
+import InlineAddButton from '../../components/InlineAddButton';
 import Accordion from '../../components/Accordion';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import {

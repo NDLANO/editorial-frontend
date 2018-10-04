@@ -17,7 +17,7 @@ import RoundIcon from '../../../components/RoundIcon';
 import FilterView from './FilterView';
 import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
-import FolderLink from './FolderLink';
+import FolderLink from '../../../components/FolderLink';
 import {
   updateTopicSubtopic,
   updateSubjectTopic,

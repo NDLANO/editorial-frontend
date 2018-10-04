@@ -12,7 +12,7 @@ import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { Plus } from 'ndla-icons/action';
 import handleError from '../../../util/handleError';
-import InlineEditField from './InlineEditField';
+import InlineEditField from '../../../components/InlineEditField';
 import {
   createSubjectFilter,
   editSubjectFilter,

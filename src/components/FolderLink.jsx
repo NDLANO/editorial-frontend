@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Folder } from 'ndla-icons/editor';
 import { Link as RouterLink } from 'react-router-dom';
-import { classes } from './FolderItem';
+import { classes } from '../containers/StructurePage/folderComponents/FolderItem';
 
 const FolderLink = ({ toLink, name, active, grayedOut }) => (
   <RouterLink

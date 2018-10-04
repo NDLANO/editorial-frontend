@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import ResourceGroup from './components/ResourceGroup';
+import ResourceGroup from './resourceComponents/ResourceGroup';
 import {
   RESOURCE_FILTER_CORE,
   RESOURCE_FILTER_SUPPLEMENTARY,
@@ -22,7 +22,7 @@ import {
 import handleError from '../../util/handleError';
 import { getArticle } from '../../modules/article/articleApi';
 
-import TopicDescription from './components/TopicDescription';
+import TopicDescription from './resourceComponents/TopicDescription';
 
 export class StructureResources extends React.PureComponent {
   constructor(props) {

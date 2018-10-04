@@ -13,8 +13,8 @@ import { injectT } from 'ndla-i18n';
 import { Filter } from 'ndla-icons/editor';
 import { Button } from 'ndla-ui';
 import { fetchTopics } from '../../../modules/taxonomy';
-import InlineEditField from './InlineEditField';
-import InlineDropdown from './InlineDropdown';
+import InlineEditField from '../../../components/InlineEditField';
+import InlineDropdown from '../../../components/Dropdown/InlineDropdown';
 import EditFilters from './EditFilters';
 import RoundIcon from '../../../components/RoundIcon';
 

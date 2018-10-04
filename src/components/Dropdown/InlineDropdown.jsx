@@ -15,15 +15,11 @@ import Downshift from 'downshift';
 import Fuse from 'fuse.js';
 import { Cross } from 'ndla-icons/action';
 import { Search } from 'ndla-icons/common';
-import handleError from '../../../util/handleError';
-import { itemToString } from '../../../util/downShiftHelpers';
-import {
-  DropdownMenu,
-  DropdownInput,
-  dropDownClasses,
-} from '../../../components/Dropdown/common';
-import RoundIcon from '../../../components/RoundIcon';
-import Spinner from '../../../components/Spinner';
+import handleError from '../../util/handleError';
+import { itemToString } from '../../util/downShiftHelpers';
+import { DropdownMenu, DropdownInput, dropDownClasses } from './common';
+import RoundIcon from '../RoundIcon';
+import Spinner from '../Spinner';
 
 class InlineDropdown extends PureComponent {
   constructor() {

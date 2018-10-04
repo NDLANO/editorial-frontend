@@ -10,9 +10,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'ndla-ui';
 import { Done } from 'ndla-icons/editor';
-import RoundIcon from '../../../components/RoundIcon';
-import handleError from '../../../util/handleError';
-import Spinner from '../../../components/Spinner';
+import RoundIcon from './RoundIcon';
+import handleError from '../util/handleError';
+import Spinner from './Spinner';
 
 class InlineEditField extends PureComponent {
   constructor() {

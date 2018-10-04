@@ -140,16 +140,22 @@ class LearningResourceForm extends Component {
   async onReset() {
     const { articleId, setModel, taxonomy, selectedLanguage, t } = this.props;
     try {
-      if (this.state.error) this.setState({ error: undefined });
+      if (this.state.error) {
+        this.setState({ error: undefined });
+      }
       const articleFromProd = await getArticle(articleId);
       const convertedArticle = articleConverter(
         articleFromProd,
         selectedLanguage,
       );
       setModel(getInitialModel(convertedArticle, taxonomy, selectedLanguage));
+      this.setState({ showResetModal: false });
     } catch (e) {
       if (e.status === 404) {
-        this.setState({ error: t('errorMessage.noArticleInProd') });
+        this.setState({
+          showResetModal: false,
+          error: t('errorMessage.noArticleInProd'),
+        });
       }
     }
   }

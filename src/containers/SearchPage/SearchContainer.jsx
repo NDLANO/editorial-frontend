@@ -119,8 +119,7 @@ class SearchContainer extends Component {
             />
           </SearchAccordion>
           <SearchList
-            query={searchObject.query}
-            locale={searchObject.language || locale}
+            searchObject={searchObject}
             results={results.results}
             searching={searching}
             type={type}

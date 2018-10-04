@@ -60,12 +60,14 @@ const TableActions = ({ value, editor, t }) => {
   };
 
   const show =
-    editTablePlugin.utils.isSelectionInTable(value) && value.isFocused;
+    editTablePlugin.utils.isSelectionInTable(value) &&
+    value.selection.isFocused;
   return (
     <div {...classes('', show ? 'show' : 'hidden')}>
       {supportedTableOperations.map(operation => (
         <Button
           key={operation}
+          data-cy={operation}
           stripped
           onMouseDown={e => handleOnClick(e, operation)}
           {...classes('button')}>

@@ -110,7 +110,7 @@ class EditLink extends React.Component {
   }
 
   addData(node) {
-    const { startOffset, endOffset, focusText } = this.props.value;
+    const { startOffset, endOffset, focusText } = this.props.value.selection;
     const data = node.data ? node.data.toJS() : {};
     const text = node.text
       ? node.text

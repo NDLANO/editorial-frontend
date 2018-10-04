@@ -8,6 +8,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import { injectT } from 'ndla-i18n';
 import config from '../../config';
 import { isEqualEditorValue } from '../../util/articleContentConverter';
 import WarningModal from '../../components/WarningModal';
@@ -74,8 +75,7 @@ class WarningModalWrapper extends PureComponent {
   }
 
   isDirty() {
-    const { fields, initialModel, model } = this.props;
-
+    const { fields, initialModel, model, showSaved } = this.props;
     // Checking specific slate object fields if they really have changed
     const slateFields = ['introduction', 'metaDescription', 'content'];
     const dirtyFields = [];
@@ -96,21 +96,25 @@ class WarningModalWrapper extends PureComponent {
           dirtyFields.push(dirtyField);
         }
       });
-    return dirtyFields.length > 0;
+    return dirtyFields.length > 0 && !showSaved;
   }
 
   render() {
-    const { openModal } = this.state;
-    const { text } = this.props;
-
-    return openModal ? (
+    const { t, text } = this.props;
+    return (
       <WarningModal
+        show={this.state.openModal}
         text={text}
-        onSave={this.onSave}
-        onContinue={this.onContinue}
+        actions={[
+          { text: t('form.save'), onClick: this.onSave },
+          {
+            text: t('warningModal.continue'),
+            onClick: this.onContinue,
+          },
+        ]}
         onCancel={() => this.setState({ openModal: false })}
       />
-    ) : null;
+    );
   }
 }
 
@@ -136,4 +140,4 @@ WarningModalWrapper.propTypes = {
   showSaved: PropTypes.bool,
 };
 
-export default withRouter(WarningModalWrapper);
+export default withRouter(injectT(WarningModalWrapper));

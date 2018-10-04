@@ -35,10 +35,10 @@ import filePlugin from '../../../components/SlateEditor/plugins/file';
 import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
 import { createEmptyValue } from '../../../util/articleContentConverter';
 import pasteHandler from '../../../components/SlateEditor/plugins/pasteHandler';
+import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 
 import {
   editListPlugin,
-  blockquotePlugin,
   editTablePlugin,
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';

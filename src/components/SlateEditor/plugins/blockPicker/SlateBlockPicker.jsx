@@ -150,7 +150,7 @@ class SlateBlockPicker extends Component {
   focusInsideIllegalArea() {
     const { editorValue, illegalAreas } = this.props;
     let node = editorValue.document.getClosestBlock(
-      editorValue.selection.startKey,
+      editorValue.selection.start.key,
     );
     while (true) {
       const parent = editorValue.document.getParent(node.key);
@@ -175,13 +175,13 @@ class SlateBlockPicker extends Component {
     ).className.split(' ')[1];
 
     const { editorValue, allowedPickAreas } = this.props;
-    if (!editorValue.selection.startKey) {
+    if (!editorValue.selection.start.key) {
       this.menuEl.classList.add(hiddenClassName);
       return;
     }
 
     const node = editorValue.document.getClosestBlock(
-      editorValue.selection.startKey,
+      editorValue.selection.start.key,
     );
     const nodeEl = findDOMNode(node); // eslint-disable-line react/no-find-dom-node
 
@@ -189,7 +189,7 @@ class SlateBlockPicker extends Component {
       node.text.length === 0 &&
       !this.focusInsideIllegalArea() &&
       allowedPickAreas.includes(node.type) &&
-      editorValue.isFocused;
+      editorValue.selection.isFocused;
 
     if (show) {
       this.menuEl.classList.remove(hiddenClassName);

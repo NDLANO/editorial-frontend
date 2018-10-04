@@ -63,7 +63,8 @@ const RichTextEditor = class extends React.Component {
       const { selection } = value;
       if (
         value.document.text.length === 0 &&
-        selection.isAtStartOf(value.document)
+        selection.isCollapsed &&
+        selection.anchor.isAtStartOfNode(value.document)
       ) {
         this.props.removeSection(this.props.index);
       }

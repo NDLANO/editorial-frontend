@@ -31,11 +31,11 @@ export const Alert = injectT(({ message, dispatch, t }) => {
 
   return (
     <WarningModal
+      show
       text={
         message.translationKey ? t(message.translationKey) : message.message
       }
       onCancel={() => dispatch(clearMessage(message.id))}
-      noButtons
       className={`alert alert--${severity}`}
     />
   );

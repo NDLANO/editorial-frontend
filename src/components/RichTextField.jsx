@@ -34,7 +34,10 @@ export const RichTextField = ({
         </label>
       )}
       {noBorder && (
-        <FocusLabel name={name} hasFocus={() => value.isFocused} value={value}>
+        <FocusLabel
+          name={name}
+          hasFocus={() => value.selection.isFocused}
+          value={value}>
           {label}
         </FocusLabel>
       )}

@@ -28,7 +28,7 @@ const FilterRelevanceSelector = ({
             </div>
             {tagProperties.map(
               ({ name, id }) =>
-                name ? (
+                name && (
                   <DropdownTagPropertyItem
                     key={id}
                     id={id}
@@ -36,8 +36,6 @@ const FilterRelevanceSelector = ({
                     checked={currentRelevance === id}
                     handleSetTagProperty={handleSetTagProperty}
                   />
-                ) : (
-                  ''
                 ),
             )}
           </div>

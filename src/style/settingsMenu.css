@@ -34,7 +34,7 @@
     position: absolute;
     top: -7px;
     z-index: 2;
-    padding: calc(var(--spacing--small) / 2);
+    padding: var(--spacing--xsmall);
     min-width: 250px;
     background-color: var(--gray-11);
     box-shadow: 0 0 4px 0 rgba(78, 78, 78, 0.5);
@@ -49,10 +49,10 @@
   &__menuItem {
     display: flex;
     align-items: center;
-    margin: calc(var(--spacing--small) / 2);
+    margin: var(--spacing--xsmall);
 
     & input {
-      margin-right: calc(var(--spacing--small) / 2);
+      margin-right: var(--spacing--xsmall);
       max-height: var(--spacing);
       width: auto;
     }
@@ -70,14 +70,14 @@
 
   &__editFilters {
     background-color: white;
-    padding: calc(var(--spacing--small) / 2);
+    padding: var(--spacing--xsmall);
     position: relative;
   }
 
   &__filterItem {
     display: flex;
     justify-content: space-between;
-    margin: calc(var(--spacing--small) / 2);
+    margin: var(--spacing--xsmall);
   }
 
   &__addFilter {
@@ -92,14 +92,14 @@
 
   &__item {
     display: flex;
-    margin: calc(var(--spacing--small) / 2);
+    margin: var(--spacing--xsmall);
     align-items: center;
     color: var(--gray-5);
   }
 
   &__checkbox {
     width: auto;
-    margin-right: calc(var(--spacing--small) / 2);
+    margin-right: var(--spacing--xsmall);
     -webkit-appearance: checkbox !important;
     -moz-appearance: checkbox !important;
     padding: inital;

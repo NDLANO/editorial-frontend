@@ -60,7 +60,7 @@
   &__content {
     @media (min-width: 37.5em) {
       padding-left: var(--spacing--small);
-      padding-right: calc(var(--spacing--small) / 2);
+      padding-right: var(--spacing--xsmall);
     }
 
     &--visible {

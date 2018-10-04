@@ -6,11 +6,15 @@
  *
  */
 
+@import '~ndla-core/scss/core';
+@import '~ndla-icons/scss/icons';
+@import '~ndla-button/scss/button';
+@import '~ndla-ui/src/main';
+@import '~ndla-tabs/scss/tabs';
+@import '~ndla-audio-search/scss/audio-search';
+@import '~ndla-image-search/scss/image-search';
+@import '~ndla-video-search/scss/video-search';
 @import '../../node_modules/flatpickr/dist/flatpickr.min.css';
-@import '../../node_modules/ndla-ui/lib/audioSearch.css';
-@import '../../node_modules/ndla-ui/lib/imageSearch.css';
-@import '../../node_modules/ndla-ui/lib/main.css';
-@import '../../node_modules/ndla-ui/lib/videoSearch.css';
 @import '../../node_modules/react-image-crop/dist/ReactCrop.css';
 @import './accordion.css';
 @import './alert.css';
@@ -48,6 +52,10 @@
 @import './article-preview.css';
 @import './preview-draft.css';
 
+:root {
+  --spacing--xsmall: 6.5;
+}
+
 .c-audio-search {
   width: 70%;
   margin: 0 auto;
@@ -63,11 +71,11 @@
 
 /* Override ndla-ui styles */
 .c-article {
-  font-family: var(--font);
+  font-family: $font;
 }
 
 .article_introduction {
-  margin-top: var(--spacing--small);
+  margin-top: $spacing--small;
 }
 
 .c-hero {

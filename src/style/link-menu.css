@@ -8,7 +8,7 @@
 
 .c-link-menu {
   position: absolute;
-  padding: calc(var(--spacing--small) / 2);
+  padding: var(--spacing--xsmall);
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.2);

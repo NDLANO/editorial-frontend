@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 import { Warning } from 'ndla-icons/editor';
 import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';

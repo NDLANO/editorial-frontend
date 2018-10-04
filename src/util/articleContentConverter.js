@@ -27,25 +27,32 @@ export const sectionSplitter = html => {
 };
 
 export const isValueEmpty = value => {
-  const { document } = value;
+  const { document, texts } = value;
   const { nodes } = document;
   if (nodes.isEmpty()) {
+    return true;
+  }
+  if (texts.size === 0 || (texts.size === 1 && !texts.first().text)) {
     return true;
   }
   if (
     nodes.first().type === 'section' &&
     nodes.first().nodes.size === 1 &&
-    nodes.first().nodes.first().isEmpty
+    nodes
+      .first()
+      .nodes.first()
+      .isEmpty()
   ) {
     return true;
   }
   if (
     nodes.size === 1 &&
     nodes.first().type !== 'section' &&
-    nodes.first().isEmpty
+    nodes.first().isEmpty()
   ) {
     return true;
   }
+
   return false;
 };
 
@@ -118,8 +125,8 @@ export function learningResourceContentToEditorValue(
       toJSON: true,
       parseHtml: fragment,
     });
-    const value = convertFromHTML(json);
 
+    const value = convertFromHTML(json);
     return {
       value,
       index,

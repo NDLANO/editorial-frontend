@@ -21,6 +21,7 @@ import {
 import { flattenResourceTypes } from '../../../util/taxonomyHelpers';
 import Spinner from '../../../components/Spinner';
 import Overlay from '../../../components/Overlay';
+import handleError from '../../../util/handleError';
 
 class LearningResourceTaxonomy extends Component {
   constructor(props) {
@@ -37,7 +38,7 @@ class LearningResourceTaxonomy extends Component {
     this.toggleContent = this.toggleContent.bind(this);
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     const { model } = this.props;
 
     try {
@@ -60,7 +61,7 @@ class LearningResourceTaxonomy extends Component {
         },
       });
     } catch (e) {
-      throw new Error(e);
+      handleError(e);
     }
   }
 

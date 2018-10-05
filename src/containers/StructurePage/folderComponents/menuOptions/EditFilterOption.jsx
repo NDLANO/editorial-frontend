@@ -3,47 +3,40 @@ import PropTypes from 'prop-types';
 import { Filter } from 'ndla-icons/editor';
 import { Button } from 'ndla-ui';
 import RoundIcon from '../../../../components/RoundIcon';
-import ConnectFilters from '../ConnectFilters';
+import EditFilters from '../EditFilters';
 
-class ConnectFilterOption extends PureComponent {
+class EditFilterOption extends PureComponent {
   constructor() {
     super();
     this.toggleEditMode = this.toggleEditMode.bind(this);
   }
 
   toggleEditMode() {
-    this.props.toggleEditMode('connectFilters');
+    this.props.toggleEditMode('editFilters');
   }
 
   render() {
-    const {
-      classes,
-      id,
-      path,
-      filters,
-      refreshTopics,
-      subjectFilters,
-      editMode,
-      t,
-    } = this.props;
+    const { classes, t, editMode, getFilters, subjectFilters, id } = this.props;
     return (
       <React.Fragment>
-        <Button {...classes('menuItem')} stripped onClick={this.toggleEditMode}>
+        <Button
+          {...classes('menuItem')}
+          stripped
+          data-testid="editSubjectFiltersButton"
+          onClick={this.toggleEditMode}>
           <RoundIcon
             small
-            open={editMode === 'connectFilters'}
+            open={editMode === 'editFilters'}
             icon={<Filter />}
           />
-          {t('taxonomy.connectFilters')}
+          {t('taxonomy.editFilter')}
         </Button>
-        {editMode === 'connectFilters' && (
-          <ConnectFilters
+        {editMode === 'editFilters' && (
+          <EditFilters
             classes={classes}
-            path={path}
             id={id}
-            subjectFilters={subjectFilters}
-            refreshTopics={refreshTopics}
-            topicFilters={filters}
+            getFilters={getFilters}
+            filters={subjectFilters}
           />
         )}
       </React.Fragment>
@@ -51,23 +44,19 @@ class ConnectFilterOption extends PureComponent {
   }
 }
 
-ConnectFilterOption.propTypes = {
+EditFilterOption.propTypes = {
   toggleEditMode: PropTypes.func,
   classes: PropTypes.func,
   refreshTopics: PropTypes.func,
   id: PropTypes.string,
   path: PropTypes.string,
-  filters: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  ),
   subjectFilters: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
     }),
   ),
+  getFilters: PropTypes.func,
   editMode: PropTypes.string,
 };
 
-export default ConnectFilterOption;
+export default EditFilterOption;

@@ -12,13 +12,16 @@ import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import { Settings } from 'ndla-icons/editor';
 import { Cross } from 'ndla-icons/action';
-import SubjectSettingsItems from './SubjectSettingsItems';
 import RoundIcon from '../../../components/RoundIcon';
 import ChangeTopicName from './menuOptions/ChangeTopicName';
 import AddExistingTopic from './menuOptions/AddExistingTopic';
 import AddTopic from './menuOptions/AddTopic';
 import ConnectFilterOption from './menuOptions/ConnectFilterOption';
 import DeleteTopic from './menuOptions/DeleteTopic';
+import ChangeSubjectName from './menuOptions/ChangeSubjectName';
+import AddSubjectTopic from './menuOptions/AddSubjectTopic';
+import AddExistingSubjectTopic from './menuOptions/AddExistingSubjectTopic';
+import EditFilterOption from './menuOptions/EditFilterOption';
 
 const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
   const type = id.includes('subject') ? 'subject' : 'topic';
@@ -33,12 +36,12 @@ const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
         </Button>
       </div>
       {type === 'subject' ? (
-        <SubjectSettingsItems
-          classes={classes}
-          onClose={onClose}
-          id={id}
-          {...rest}
-        />
+        <React.Fragment>
+          <ChangeSubjectName {...sendDown} />
+          <AddSubjectTopic {...sendDown} />
+          <AddExistingSubjectTopic {...sendDown} />
+          <EditFilterOption {...sendDown} />
+        </React.Fragment>
       ) : (
         <React.Fragment>
           <ChangeTopicName {...sendDown} />

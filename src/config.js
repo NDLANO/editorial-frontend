@@ -12,7 +12,8 @@ export const getEnvironmentVariabel = (key, fallback = undefined) => {
   return variabel || fallback;
 };
 
-const ndlaEnvironment = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'test');
+const ndlaEnvironment =
+  'brukertest' || getEnvironmentVariabel('NDLA_ENVIRONMENT', 'test');
 
 const apiDomain = () => {
   switch (ndlaEnvironment) {
@@ -84,7 +85,8 @@ const config = {
   ),
   googleSearchApiKey: getEnvironmentVariabel('NDLA_GOOGLE_API_KEY'),
   googleSearchEngineId: getEnvironmentVariabel('NDLA_GOOGLE_SEARCH_ENGINE_ID'),
-  taxonomyEnabled: ndlaEnvironment === 'test' || ndlaEnvironment === 'local',
+  taxonomyEnabled:
+    true || ndlaEnvironment === 'test' || ndlaEnvironment === 'local',
   localConverter: getEnvironmentVariabel('LOCAL_CONVERTER', false),
   checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', false),
 };

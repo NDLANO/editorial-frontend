@@ -59,6 +59,8 @@ AddExistingTopic.propTypes = {
   path: PropTypes.string,
   onClose: PropTypes.func,
   editMode: PropTypes.string,
+  toggleEditMode: PropTypes.func,
+  locale: PropTypes.string,
 };
 
 export default AddExistingTopic;

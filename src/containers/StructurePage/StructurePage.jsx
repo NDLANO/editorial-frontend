@@ -26,10 +26,7 @@ import {
   fetchSubjects,
   fetchSubjectTopics,
   addSubject,
-  addTopic,
-  updateSubjectName,
   fetchSubjectFilters,
-  addSubjectTopic,
   fetchTopicConnections,
   updateTopicSubtopic,
   updateSubjectTopic,
@@ -54,12 +51,9 @@ export class StructurePage extends React.PureComponent {
     this.getAllSubjects = this.getAllSubjects.bind(this);
     this.getSubjectTopics = this.getSubjectTopics.bind(this);
     this.addSubject = this.addSubject.bind(this);
-    this.onChangeSubjectName = this.onChangeSubjectName.bind(this);
-    this.onAddSubjectTopic = this.onAddSubjectTopic.bind(this);
     this.showLink = this.showLink.bind(this);
     this.refFunc = this.refFunc.bind(this);
     this.deleteConnections = this.deleteConnections.bind(this);
-    this.onAddExistingTopic = this.onAddExistingTopic.bind(this);
     this.getCurrentTopic = this.getCurrentTopic.bind(this);
     this.getFilters = this.getFilters.bind(this);
     this.toggleFilter = this.toggleFilter.bind(this);
@@ -100,36 +94,6 @@ export class StructurePage extends React.PureComponent {
       if (currentSub && !this.state.topics[`urn:${subject}`]) {
         this.getSubjectTopics(`urn:${subject}`);
       }
-    }
-  }
-
-  async onChangeSubjectName(subjectId, name) {
-    const ok = await updateSubjectName(subjectId, name);
-    this.getAllSubjects();
-    return ok;
-  }
-
-  async onAddExistingTopic(subjectid, topicid) {
-    const ok = await addSubjectTopic({
-      subjectid,
-      topicid,
-    });
-    if (ok) {
-      this.getSubjectTopics(subjectid);
-    }
-  }
-
-  async onAddSubjectTopic(subjectid, name) {
-    const newPath = await addTopic({ name });
-    const newId = newPath.replace('/v1/topics/', '');
-    const ok = await addSubjectTopic({
-      subjectid,
-      topicid: newId,
-      primary: true,
-      rank: this.state.topics[subjectid].length + 1,
-    });
-    if (ok) {
-      this.getSubjectTopics(subjectid);
     }
   }
 
@@ -337,7 +301,7 @@ export class StructurePage extends React.PureComponent {
                   topics={topics[subject.id]}
                   active={subject.id.replace('urn:', '') === params.subject}
                   match={match}
-                  onChangeSubjectName={this.onChangeSubjectName}
+                  getAllSubjects={this.getAllSubjects}
                   onAddSubjectTopic={this.onAddSubjectTopic}
                   showLink={this.showLink}
                   onAddExistingTopic={this.onAddExistingTopic}

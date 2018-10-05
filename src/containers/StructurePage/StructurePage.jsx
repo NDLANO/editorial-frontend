@@ -311,7 +311,6 @@ export class StructurePage extends React.PureComponent {
                   subjectFilters={filters}
                   activeFilters={activeFilters}
                   toggleFilter={this.toggleFilter}
-                  setPrimary={this.setPrimary}
                   deleteTopicLink={this.deleteTopicLink}
                   locale={locale}
                 />

@@ -37,6 +37,7 @@ class AddSubjectTopic extends React.PureComponent {
     return editMode === 'addSubjectTopic' ? (
       <InlineEditField
         classes={classes}
+        placeholder={t('taxonomy.newSubject')}
         currentVal=""
         messages={{ errorMessage: t('taxonomy.errorMessage') }}
         onClose={onClose}

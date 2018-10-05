@@ -38,6 +38,7 @@ class AddExistingSubjectTopic extends React.PureComponent {
     return editMode === 'addExistingSubjectTopic' ? (
       <InlineDropdown
         fetchItems={this.fetchTopicsLocale}
+        placeholder={t('taxonomy.existingTopic')}
         classes={classes}
         onClose={onClose}
         onSubmit={this.onAddExistingTopic}

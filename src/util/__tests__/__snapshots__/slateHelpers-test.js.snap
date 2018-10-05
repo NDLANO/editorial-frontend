@@ -7,7 +7,6 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -37,7 +36,6 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -67,7 +65,6 @@ Object {
               "type": "Programming",
               "year": "2018",
             },
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -123,7 +120,6 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -147,7 +143,6 @@ Object {
               "type": "",
               "year": "2015",
             },
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -186,7 +181,6 @@ Object {
               "type": "",
               "year": "2007",
             },
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -230,11 +224,9 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -256,11 +248,9 @@ Object {
       },
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -278,11 +268,9 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -300,7 +288,6 @@ Object {
               },
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -318,7 +305,6 @@ Object {
               },
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -340,7 +326,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -358,11 +343,9 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -380,7 +363,6 @@ Object {
               },
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -398,11 +380,9 @@ Object {
               },
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "data": Object {},
-                    "isVoid": false,
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -428,11 +408,9 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -456,11 +434,9 @@ Object {
             "data": Object {
               "type": "letters",
             },
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -478,7 +454,6 @@ Object {
               },
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -496,7 +471,6 @@ Object {
               },
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -518,7 +492,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -538,11 +511,9 @@ Object {
             "data": Object {
               "type": "factAside",
             },
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -560,7 +531,6 @@ Object {
               },
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -578,7 +548,6 @@ Object {
               },
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -596,7 +565,6 @@ Object {
               },
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -614,7 +582,6 @@ Object {
               },
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -636,7 +603,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -654,15 +620,12 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "data": Object {},
-                    "isVoid": false,
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -680,7 +643,6 @@ Object {
                   },
                   Object {
                     "data": Object {},
-                    "isVoid": false,
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -698,7 +660,6 @@ Object {
                   },
                   Object {
                     "data": Object {},
-                    "isVoid": false,
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -716,7 +677,6 @@ Object {
                   },
                   Object {
                     "data": Object {},
-                    "isVoid": false,
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -738,11 +698,9 @@ Object {
               },
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "data": Object {},
-                    "isVoid": false,
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -760,7 +718,6 @@ Object {
                   },
                   Object {
                     "data": Object {},
-                    "isVoid": false,
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -778,7 +735,6 @@ Object {
                   },
                   Object {
                     "data": Object {},
-                    "isVoid": false,
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -796,7 +752,6 @@ Object {
                   },
                   Object {
                     "data": Object {},
-                    "isVoid": false,
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -818,11 +773,9 @@ Object {
               },
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "data": Object {},
-                    "isVoid": false,
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -840,7 +793,6 @@ Object {
                   },
                   Object {
                     "data": Object {},
-                    "isVoid": false,
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -858,7 +810,6 @@ Object {
                   },
                   Object {
                     "data": Object {},
-                    "isVoid": false,
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -876,7 +827,6 @@ Object {
                   },
                   Object {
                     "data": Object {},
-                    "isVoid": false,
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -902,7 +852,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -930,7 +879,6 @@ Object {
               "size": "fullbredde",
               "url": "https://test.api.ndla.no/image-api/v2/images/2",
             },
-            "isVoid": true,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -948,7 +896,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -978,7 +925,6 @@ Object {
               "upper-left-y": "23.736979166666668",
               "url": "https://test.api.ndla.no/image-api/v2/images/3",
             },
-            "isVoid": true,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -996,7 +942,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1014,7 +959,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1032,7 +976,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1058,7 +1001,6 @@ Object {
               "size": "fullbredde",
               "url": "https://test.api.ndla.no/image-api/v2/images/4",
             },
-            "isVoid": true,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1076,7 +1018,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1094,7 +1035,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1112,7 +1052,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1138,7 +1077,6 @@ Object {
               "size": "fullbredde",
               "url": "https://test.api.ndla.no/image-api/v2/images/6",
             },
-            "isVoid": true,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1156,7 +1094,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1174,7 +1111,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1192,7 +1128,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1210,7 +1145,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1228,7 +1162,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1252,7 +1185,6 @@ Object {
               "resource": "brightcove",
               "videoid": "5389115230001",
             },
-            "isVoid": true,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1270,7 +1202,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1292,7 +1223,6 @@ Object {
               "resource_id": "945",
               "url": "https://test.api.ndla.no/audio-api/v1/audio/945",
             },
-            "isVoid": true,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1310,7 +1240,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1328,7 +1257,6 @@ Object {
                   "rel": "",
                   "target": "",
                 },
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -1360,7 +1288,6 @@ Object {
                   "rel": "noopener noreferrer",
                   "target": "_blank",
                 },
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -1392,7 +1319,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1410,7 +1336,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1428,7 +1353,6 @@ Object {
                   "rel": "noopener noreferrer",
                   "target": "_blank",
                 },
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -1460,7 +1384,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1494,7 +1417,6 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -1524,11 +1446,9 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1562,7 +1482,6 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -1592,11 +1511,9 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1630,7 +1547,6 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -1646,7 +1562,6 @@ Object {
             "data": Object {
               "lang": "en",
             },
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1692,11 +1607,9 @@ Object {
         "data": Object {
           "type": "letters",
         },
-        "isVoid": false,
         "nodes": Array [
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1714,7 +1627,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1732,7 +1644,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -1766,7 +1677,6 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -1784,7 +1694,6 @@ Object {
       },
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -1802,7 +1711,6 @@ Object {
       },
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -1820,7 +1728,6 @@ Object {
       },
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -1838,7 +1745,6 @@ Object {
       },
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -1856,7 +1762,6 @@ Object {
       },
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -1886,7 +1791,6 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -1916,7 +1820,6 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -1946,7 +1849,6 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -1976,7 +1878,6 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -2006,7 +1907,6 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -2036,7 +1936,6 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -2066,11 +1965,9 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -2088,7 +1985,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -2106,7 +2002,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -2140,11 +2035,9 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -2162,7 +2055,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -2196,15 +2088,12 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -2226,11 +2115,9 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -2252,11 +2139,9 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -2294,11 +2179,9 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -2316,7 +2199,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -2334,7 +2216,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -2368,15 +2249,12 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -2394,7 +2272,6 @@ Object {
               },
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -2416,11 +2293,9 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -2438,7 +2313,6 @@ Object {
               },
               Object {
                 "data": Object {},
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -2476,11 +2350,9 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -2498,7 +2370,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -2516,7 +2387,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [

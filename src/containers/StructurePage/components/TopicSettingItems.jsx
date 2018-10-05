@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Pencil, Plus } from 'ndla-icons/action';
 import { injectT } from 'ndla-i18n';
 import { Filter, DeleteForever } from 'ndla-icons/editor';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 import InlineEditField from './InlineEditField';
 import InlineDropdown from './InlineDropdown';
 import ConnectFilters from './ConnectFilters';
@@ -193,14 +193,20 @@ class TopicSettingItems extends React.PureComponent {
           <RoundIcon small icon={<DeleteForever />} />
           {t('warningModal.delete')}
         </Button>
-        {editMode === 'delete' && (
-          <WarningModal
-            confirmDelete
-            onContinue={() => this.onDeleteTopic(id)}
-            onCancel={() => this.setState({ editMode: '' })}
-            text={t('taxonomy.confirmDeleteTopic')}
-          />
-        )}
+        <WarningModal
+          show={editMode === 'delete'}
+          actions={[
+            {
+              text: t('form.abort'),
+              onClick: () => this.setState({ editMode: '' }),
+            },
+            {
+              text: t('warningModal.delete'),
+              onClick: () => this.onDeleteTopic(id),
+            },
+          ]}
+          text={t('taxonomy.confirmDeleteTopic')}
+        />
         {loading && <Spinner cssModifier="absolute" />}
         {loading && (
           <Overlay cssModifiers={['absolute', 'white-opacity', 'zIndex']} />

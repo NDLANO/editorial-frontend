@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 import { injectT } from 'ndla-i18n';
 import { Plus } from 'ndla-icons/action';
 import handleError from '../../../util/handleError';
@@ -27,10 +27,16 @@ class EditFilters extends React.Component {
     this.state = {
       editMode: '',
     };
+
+    this.onCancel = this.onCancel.bind(this);
     this.addFilter = this.addFilter.bind(this);
     this.showDeleteWarning = this.showDeleteWarning.bind(this);
     this.deleteFilter = this.deleteFilter.bind(this);
     this.editFilter = this.editFilter.bind(this);
+  }
+
+  onCancel() {
+    this.setState({ showDelete: '' });
   }
 
   async addFilter(name) {
@@ -102,14 +108,19 @@ class EditFilters extends React.Component {
           </Button>
         )}
         <div {...classes('errorMessage')}>{this.state.error}</div>
-        {showDelete && (
-          <WarningModal
-            confirmDelete
-            text={t('taxonomy.confirmDelete')}
-            onContinue={this.deleteFilter}
-            onCancel={() => this.setState({ showDelete: '' })}
-          />
-        )}
+        <WarningModal
+          show={showDelete}
+          text={t('taxonomy.confirmDelete')}
+          actions={[
+            { text: t('form.abort'), onClick: this.onCancel },
+            {
+              'data-testid': 'warningModalConfirm',
+              text: t('warningModal.delete'),
+              onClick: this.deleteFilter,
+            },
+          ]}
+          onCancel={this.onCancel}
+        />
       </div>
     );
   }

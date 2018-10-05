@@ -10,14 +10,15 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { Button } from 'ndla-ui';
 import Accordion from 'ndla-accordion';
+import Button from 'ndla-button';
 import { Link } from 'react-router-dom';
 import config from '../../../config';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
+import WarningModal from '../../../components/WarningModal';
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -113,7 +114,9 @@ class LearningResourceForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getArticleFromModel = this.getArticleFromModel.bind(this);
     this.onReset = this.onReset.bind(this);
-    this.state = {};
+    this.state = {
+      showResetModal: false,
+    };
   }
 
   componentDidUpdate({
@@ -295,8 +298,26 @@ class LearningResourceForm extends Component {
         <Field right {...formClasses('form-actions')}>
           {error && <span className="c-errorMessage">{error}</span>}
           {model.id && (
-            <Button onClick={this.onReset}>{t('form.resetToProd')}</Button>
+            <Button onClick={() => this.setState({ showResetModal: true })}>
+              {t('form.resetToProd.button')}
+            </Button>
           )}
+
+          <WarningModal
+            show={this.state.showResetModal}
+            text={t('form.resetToProd.modal')}
+            actions={[
+              {
+                text: t('form.abort'),
+                onClick: () => this.setState({ showResetModal: false }),
+              },
+              {
+                text: 'Reset',
+                onClick: this.onReset,
+              },
+            ]}
+            onCancel={() => this.setState({ showResetModal: false })}
+          />
           <Link
             to="/"
             className="c-button c-button--outline"

@@ -27,10 +27,8 @@ import {
   validateNode,
 } from '../../../components/SlateEditor/schema';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
-import {
-  editListPlugin,
-  blockquotePlugin,
-} from '../../../components/SlateEditor/plugins/externalPlugins';
+import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
+import { editListPlugin } from '../../../components/SlateEditor/plugins/externalPlugins';
 import { CommonFieldPropsShape } from '../../../shapes';
 
 const classes = new BEMHelper({

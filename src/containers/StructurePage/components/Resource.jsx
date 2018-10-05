@@ -9,7 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { RemoveCircle } from 'ndla-icons/action';
-import { Button, ContentTypeBadge } from 'ndla-ui';
+import { ContentTypeBadge } from 'ndla-ui';
+import Button from 'ndla-button';
 import { classes } from './ResourceGroup';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import { RESOURCE_FILTER_CORE } from '../../../constants';

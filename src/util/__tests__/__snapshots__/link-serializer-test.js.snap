@@ -7,11 +7,9 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -29,7 +27,6 @@ Object {
                   "link-text": "Yrker i mediebransjen",
                   "resource": "content-link",
                 },
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -61,7 +58,6 @@ Object {
           },
           Object {
             "data": Object {},
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [
@@ -79,7 +75,6 @@ Object {
                   "rel": "noopener noreferrer",
                   "target": "_blank",
                 },
-                "isVoid": false,
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -127,7 +122,6 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {},
-        "isVoid": false,
         "nodes": Array [
           Object {
             "leaves": Array [
@@ -145,7 +139,6 @@ Object {
               "rel": "noopener noreferrer",
               "target": "_blank",
             },
-            "isVoid": false,
             "nodes": Array [
               Object {
                 "leaves": Array [

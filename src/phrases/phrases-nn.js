@@ -628,6 +628,9 @@ const phrases = {
   taxonomy: {
     editStructure: '  Rediger struktur',
     addSubject: 'Legg til nytt fag',
+    newSubject: 'Nytt fag',
+    existingTopic: 'Eksisterende emne',
+    newTopic: 'Nytt emne',
     addExistingTopic: 'Legg til eksisterende emne',
     subjectSettings: 'Faginstillinger',
     topicSettings: 'Emneinstillinger',

@@ -13,11 +13,16 @@ import { Button } from 'ndla-ui';
 import { Settings } from 'ndla-icons/editor';
 import { Cross } from 'ndla-icons/action';
 import SubjectSettingsItems from './SubjectSettingsItems';
-import TopicSettingItems from './TopicSettingItems';
 import RoundIcon from '../../../components/RoundIcon';
+import ChangeTopicName from './menuOptions/ChangeTopicName';
+import AddExistingTopic from './menuOptions/AddExistingTopic';
+import AddTopic from './menuOptions/AddTopic';
+import ConnectFilterOption from './menuOptions/ConnectFilterOption';
+import DeleteTopic from './menuOptions/DeleteTopic';
 
 const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
   const type = id.includes('subject') ? 'subject' : 'topic';
+  const sendDown = { classes, onClose, t, id, ...rest };
   return (
     <div {...classes('openMenu')}>
       <div className="header">
@@ -35,12 +40,13 @@ const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
           {...rest}
         />
       ) : (
-        <TopicSettingItems
-          classes={classes}
-          onClose={onClose}
-          id={id}
-          {...rest}
-        />
+        <React.Fragment>
+          <ChangeTopicName {...sendDown} />
+          <AddTopic {...sendDown} />
+          <AddExistingTopic {...sendDown} />
+          <ConnectFilterOption {...sendDown} />
+          <DeleteTopic {...sendDown} />
+        </React.Fragment>
       )}
     </div>
   );

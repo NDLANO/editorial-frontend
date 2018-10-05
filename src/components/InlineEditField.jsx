@@ -54,6 +54,7 @@ class InlineEditField extends PureComponent {
       icon,
       messages = {},
       dataTestid = 'inlineEditInput',
+      placeholder,
     } = this.props;
     const { status, input } = this.state;
     const value = input === undefined ? currentVal : input;
@@ -63,6 +64,7 @@ class InlineEditField extends PureComponent {
           <RoundIcon open small icon={icon} />
           <input
             type="text"
+            placeholder={placeholder}
             value={value}
             data-testid={dataTestid}
             onChange={e => this.setState({ input: e.target.value })}
@@ -102,6 +104,7 @@ InlineEditField.propTypes = {
   messages: PropTypes.shape({
     errorMessage: PropTypes.string,
   }),
+  placeholder: PropTypes.string,
 };
 
 export default InlineEditField;

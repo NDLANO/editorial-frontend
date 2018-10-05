@@ -80,7 +80,7 @@ class InlineDropdown extends PureComponent {
   }
 
   render() {
-    const { icon, classes, t } = this.props;
+    const { icon, classes, t, placeholder } = this.props;
     const { selected, items, status } = this.state;
     return (
       <React.Fragment>
@@ -96,6 +96,7 @@ class InlineDropdown extends PureComponent {
               <div {...dropDownClasses()}>
                 <DropdownInput
                   testid="inlineDropdownInput"
+                  placeholder={placeholder}
                   {...downshiftProps}
                 />
                 <DropdownMenu
@@ -155,6 +156,7 @@ InlineDropdown.propTypes = {
   classes: PropTypes.func,
   onClose: PropTypes.func,
   fetchItems: PropTypes.func,
+  placeholder: PropTypes.string,
 };
 
 export default injectT(InlineDropdown);

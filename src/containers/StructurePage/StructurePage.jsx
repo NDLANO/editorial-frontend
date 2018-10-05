@@ -17,7 +17,7 @@ import { Taxonomy, Star } from 'ndla-icons/editor';
 import { connectLinkItems } from '../../util/jsPlumbHelpers';
 import handleError from '../../util/handleError';
 import { getLocale } from '../../modules/locale/locale';
-import StructureResources from './StructureResources';
+import StructureResources from './resourceComponents/StructureResources';
 import FolderItem from './folderComponents/FolderItem';
 import InlineAddButton from '../../components/InlineAddButton';
 import Accordion from '../../components/Accordion';
@@ -349,6 +349,7 @@ export class StructurePage extends React.PureComponent {
                   toggleFilter={this.toggleFilter}
                   setPrimary={this.setPrimary}
                   deleteTopicLink={this.deleteTopicLink}
+                  locale={locale}
                 />
               ))}
               <div

@@ -10,7 +10,7 @@
   &__wrapper {
     display: flex;
     align-items: center;
-    padding: calc(var(--spacing--small) / 2);
+    padding: calc(var(--spacing--small) / 2) 0;
 
     &--dragging {
       margin: 0;
@@ -150,7 +150,7 @@
 
   &__checkbox {
     width: auto;
-    margin: 0 calc(var(--spacing--small) / 2);
+    margin: 0 calc(var(--spacing--small) / 2) 0 var(--spacing--small);
     -webkit-appearance: checkbox !important;
     -moz-appearance: checkbox !important;
     padding: inital;

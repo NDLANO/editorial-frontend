@@ -10,7 +10,7 @@ import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';

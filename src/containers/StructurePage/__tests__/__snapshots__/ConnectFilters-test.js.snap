@@ -19,6 +19,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
       class="c-toggleSwitch"
     >
       <input
+        checked=""
         data-testid="urn:filter:f102710e-973e-4999-9daf-f1536d41188a-relevance"
         type="checkbox"
       />
@@ -44,6 +45,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
       class="c-toggleSwitch"
     >
       <input
+        checked=""
         data-testid="urn:filter:fc0a6fc5-4ed3-4aec-ade7-381ac51c446e-relevance"
         type="checkbox"
       />
@@ -69,6 +71,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
       class="c-toggleSwitch"
     >
       <input
+        checked=""
         data-testid="urn:filter:fd6893b9-c02a-4016-b64e-1b6533ff9ba2-relevance"
         type="checkbox"
       />
@@ -94,6 +97,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
       class="c-toggleSwitch"
     >
       <input
+        checked=""
         data-testid="urn:filter:a583772c-4c71-401c-807d-6cb676dcf523-relevance"
         type="checkbox"
       />
@@ -132,6 +136,7 @@ exports[`maps out filters 1`] = `
       class="c-toggleSwitch"
     >
       <input
+        checked=""
         data-testid="urn:filter:f102710e-973e-4999-9daf-f1536d41188a-relevance"
         type="checkbox"
       />
@@ -157,6 +162,7 @@ exports[`maps out filters 1`] = `
       class="c-toggleSwitch"
     >
       <input
+        checked=""
         data-testid="urn:filter:fc0a6fc5-4ed3-4aec-ade7-381ac51c446e-relevance"
         type="checkbox"
       />
@@ -182,6 +188,7 @@ exports[`maps out filters 1`] = `
       class="c-toggleSwitch"
     >
       <input
+        checked=""
         data-testid="urn:filter:fd6893b9-c02a-4016-b64e-1b6533ff9ba2-relevance"
         type="checkbox"
       />
@@ -207,6 +214,7 @@ exports[`maps out filters 1`] = `
       class="c-toggleSwitch"
     >
       <input
+        checked=""
         data-testid="urn:filter:a583772c-4c71-401c-807d-6cb676dcf523-relevance"
         type="checkbox"
       />

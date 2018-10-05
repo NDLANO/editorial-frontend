@@ -33,7 +33,7 @@ import {
   deleteTopicConnection,
   deleteSubTopicConnection,
 } from '../../modules/taxonomy';
-import { groupTopics } from '../../util/taxonomyHelpers';
+import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
 import RoundIcon from '../../components/RoundIcon';
 
 export class StructurePage extends React.PureComponent {
@@ -54,7 +54,6 @@ export class StructurePage extends React.PureComponent {
     this.showLink = this.showLink.bind(this);
     this.refFunc = this.refFunc.bind(this);
     this.deleteConnections = this.deleteConnections.bind(this);
-    this.getCurrentTopic = this.getCurrentTopic.bind(this);
     this.getFilters = this.getFilters.bind(this);
     this.toggleFilter = this.toggleFilter.bind(this);
     this.setPrimary = this.setPrimary.bind(this);
@@ -129,30 +128,6 @@ export class StructurePage extends React.PureComponent {
     } catch (e) {
       handleError(e);
     }
-  }
-
-  getCurrentTopic() {
-    const {
-      match: {
-        params: { subject, topic1, topic2, topic3 },
-      },
-    } = this.props;
-    if (topic1) {
-      const sub = this.state.topics[`urn:${subject}`];
-      let topic = sub ? sub.find(top => top.id === `urn:${topic1}`) : {};
-      if (topic2) {
-        topic = topic.topics
-          ? topic.topics.find(top => top.id === `urn:${topic2}`)
-          : {};
-        if (topic3) {
-          topic = topic.topics
-            ? topic.topics.find(top => top.id === `urn:${topic3}`)
-            : {};
-        }
-      }
-      return topic || {};
-    }
-    return {};
   }
 
   async getFilters(subjectId = `urn:${this.props.match.params.subject}`) {
@@ -275,7 +250,7 @@ export class StructurePage extends React.PureComponent {
     const activeFilters = this.getActiveFiltersFromUrl();
     const { params } = match;
     const topicId = params.topic3 || params.topic2 || params.topic1;
-    const currentTopic = this.getCurrentTopic();
+    const currentTopic = getCurrentTopic({ params, topics });
 
     return (
       <ErrorBoundary>

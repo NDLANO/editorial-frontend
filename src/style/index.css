@@ -60,11 +60,11 @@
 
 /* Override ndla-ui styles */
 .c-article {
-  font-family: $font;
+  font-family: var(--font);
 }
 
 .article_introduction {
-  margin-top: $spacing--small;
+  margin-top: var(--spacing--small);
 }
 
 .c-hero {

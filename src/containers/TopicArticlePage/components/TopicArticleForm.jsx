@@ -41,6 +41,7 @@ import {
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { articleConverter } from '../../../modules/draft/draft';
+import WarningModal from '../../../components/WarningModal';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -74,7 +75,9 @@ class TopicArticleForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getArticle = this.getArticle.bind(this);
     this.onReset = this.onReset.bind(this);
-    this.state = {};
+    this.state = {
+      showResetModal: false,
+    };
   }
 
   componentDidUpdate({ initialModel: prevInitialModel }) {
@@ -90,16 +93,22 @@ class TopicArticleForm extends Component {
   async onReset() {
     const { articleId, setModel, taxonomy, selectedLanguage, t } = this.props;
     try {
-      if (this.state.error) this.setState({ error: undefined });
+      if (this.state.error) {
+        this.setState({ error: undefined });
+      }
       const articleFromProd = await getArticle(articleId);
       const convertedArticle = articleConverter(
         articleFromProd,
         selectedLanguage,
       );
       setModel(getInitialModel(convertedArticle, taxonomy, selectedLanguage));
+      this.setState({ showResetModal: false });
     } catch (e) {
       if (e.status === 404) {
-        this.setState({ error: t('errorMessage.noArticleInProd') });
+        this.setState({
+          showResetModal: false,
+          error: t('errorMessage.noArticleInProd'),
+        });
       }
     }
   }
@@ -221,8 +230,26 @@ class TopicArticleForm extends Component {
         <Field right {...formClasses('form-actions')}>
           {error && <span className="c-errorMessage">{error}</span>}
           {model.id && (
-            <Button onClick={this.onReset}>{t('form.resetToProd')}</Button>
+            <Button onClick={() => this.setState({ showResetModal: true })}>
+              {t('form.resetToProd.button')}
+            </Button>
           )}
+
+          <WarningModal
+            show={this.state.showResetModal}
+            text={t('form.resetToProd.modal')}
+            actions={[
+              {
+                text: t('form.abort'),
+                onClick: () => this.setState({ showResetModal: false }),
+              },
+              {
+                text: 'Reset',
+                onClick: this.onReset,
+              },
+            ]}
+            onCancel={() => this.setState({ showResetModal: false })}
+          />
           <Link
             to="/"
             className="c-button c-button--outline"

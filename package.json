@@ -75,6 +75,7 @@
     "compression": "^1.7.3",
     "date-fns": "^1.29.0",
     "defined": "1.0.0",
+    "diff": "^3.5.0",
     "downshift": "^2.0.20",
     "express": "^4.16.3",
     "express-basic-auth": "^1.1.5",

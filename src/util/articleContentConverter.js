@@ -26,6 +26,7 @@ export const sectionSplitter = html => {
   return sections;
 };
 
+const legalEmbeds = ['related', 'file', 'embed'];
 export const isValueEmpty = value => {
   const { document, texts } = value;
   const { nodes } = document;
@@ -33,6 +34,14 @@ export const isValueEmpty = value => {
     return true;
   }
   if (texts.size === 0 || (texts.size === 1 && !texts.first().text)) {
+    if (
+      nodes.first().type === 'section' &&
+      nodes.first().nodes &&
+      legalEmbeds.includes(nodes.first().nodes.first().type)
+    ) {
+      return false;
+    }
+
     return true;
   }
   if (

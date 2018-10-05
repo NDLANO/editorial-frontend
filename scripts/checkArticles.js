@@ -18,6 +18,7 @@ const chalk = require('chalk');
 const queryString = require('query-string');
 const fetch = require('isomorphic-fetch');
 const fs = require('fs');
+const jsdiff = require('diff');
 
 const dom = new jsdom.JSDOM('<!DOCTYPE html></html>');
 
@@ -110,7 +111,9 @@ async function fetchAllArticles() {
     firstResult.totalCount / firstResult.pageSize,
   );
   const requests = [];
-  const estimatedTime = (numberOfPages * query['page-size'] * 0.1) / 60;
+  const estimatedTime = Math.ceil(
+    (numberOfPages * query['page-size'] * 0.5) / 60,
+  );
 
   console.log(
     `Fetching ${numberOfPages} pages with a page size of ${
@@ -138,6 +141,32 @@ async function fetchAllArticles() {
   return articleIds;
 }
 
+function shouldWarnFromDiff(part) {
+  return part.value.includes('embed') || part.count > 20;
+}
+
+function diffHTML(oldHtml, newHtml) {
+  const diff = jsdiff.diffChars(oldHtml, newHtml);
+  let diffString = '';
+  const lengthDifference = Math.abs(newHtml.lenth - oldHtml.length);
+
+  let shouldWarn = lengthDifference > 50;
+
+  diff.forEach(part => {
+    // green for additions, red for deletions
+    // grey for common parts
+    if (part.added) {
+      diffString += `${chalk.green(part.value)}`;
+    } else if (part.removed) {
+      diffString += `${chalk.red(part.value)}`;
+      shouldWarn = shouldWarn || shouldWarnFromDiff(part);
+    } else {
+      diffString += part.value;
+    }
+  });
+  return { diff: diffString, warn: shouldWarn };
+}
+
 async function testArticle(id, article) {
   try {
     if (article) {
@@ -145,11 +174,17 @@ async function testArticle(id, article) {
         article.content.content,
         fragment,
       );
-      learningResourceContentToHTML(converted);
+
+      const diffObject = diffHTML(
+        article.content.content,
+        learningResourceContentToHTML(converted),
+      );
+      const diffString = diffObject.warn ? `diff: ${diffObject.diff}` : '';
+
       console.log(
         `${chalk.green(
-          `Article with id ${id} was sucessfully converted to slate and back to HTML.`,
-        )}`,
+          `Article with id ${id} was sucessfully converted to slate and back to HTML and the`,
+        )} ${diffString}\n`,
       );
     }
   } catch (err) {
@@ -191,7 +226,9 @@ async function runCheck() {
     const articles = await JSON.parse(contents);
 
     articles.forEach(article => {
-      if (article) testArticle(article.id, article);
+      if (article) {
+        testArticle(article.id, article);
+      }
     });
   }
   console.log(

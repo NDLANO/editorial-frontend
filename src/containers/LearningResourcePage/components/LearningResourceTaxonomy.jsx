@@ -6,12 +6,11 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { TaxonomyFieldDropdown } from '../../../components/Fields';
 import { CommonFieldPropsShape, TaxonomyShape } from '../../../shapes';
-import Accordion from '../../../components/Accordion';
 import {
   fetchResourceTypes,
   fetchFilters,
@@ -26,7 +25,6 @@ class LearningResourceTaxonomy extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hiddenContent: true,
       taxonomy: {
         resourceTypes: [],
         filters: [],
@@ -34,7 +32,6 @@ class LearningResourceTaxonomy extends Component {
         relevances: [],
       },
     };
-    this.toggleContent = this.toggleContent.bind(this);
   }
 
   async componentWillMount() {
@@ -64,12 +61,6 @@ class LearningResourceTaxonomy extends Component {
     }
   }
 
-  toggleContent() {
-    this.setState(prevState => ({
-      hiddenContent: !prevState.hiddenContent,
-    }));
-  }
-
   render() {
     const { taxonomy } = this.state;
     const { t, commonFieldProps, model, taxonomyIsLoading } = this.props;
@@ -81,11 +72,7 @@ class LearningResourceTaxonomy extends Component {
       ...commonFieldProps,
     };
     return (
-      <Accordion
-        handleToggle={this.toggleContent}
-        header={t('form.taxonomytSection')}
-        hidden={this.state.hiddenContent}
-        fill>
+      <Fragment>
         {taxonomyIsLoading ? <Spinner cssModifier="absolute" /> : ''}
         {taxonomyIsLoading ? (
           <Overlay cssModifiers={['absolute', 'white-opacity']} />
@@ -131,7 +118,7 @@ class LearningResourceTaxonomy extends Component {
           }}
           {...defaultDropdownProps}
         />
-      </Accordion>
+      </Fragment>
     );
   }
 }

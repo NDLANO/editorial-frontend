@@ -8199,6 +8199,11 @@ ncp@~2.0.0:
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
   integrity sha1-GVoh1sRuNh0vsSgbo4uR6d9727M=
 
+ndla-accordion@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/ndla-accordion/-/ndla-accordion-0.1.0.tgz#f077b4bf489c862e8c52d517e70c36317f3e12a9"
+  integrity sha512-C0X34jYoOaGquuq7RrH5cO5KhDbcsVK+RKEm0/JtKJMRDqwAmnIl4ReyMVt0xlUVfF0rF2Q/Hw6ROLXdxOs2nA==
+
 ndla-article-scripts@^0.4.7:
   version "0.4.7"
   resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.4.7.tgz#3c603320d6f7ce952f1b5a87be9185d19185dd98"

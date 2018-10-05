@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import Accordion from 'ndla-accordion';
 import Button from 'ndla-button';
 import { Link } from 'react-router-dom';
 import config from '../../../config';
@@ -227,6 +228,65 @@ class LearningResourceForm extends Component {
     } = this.props;
     const { error } = this.state;
     const commonFieldProps = { bindInput, schema, submitted };
+    const tabsAccordion = [
+      {
+        title: t('form.contentSection'),
+        children: (
+          <LearningResourceContent
+            commonFieldProps={commonFieldProps}
+            bindInput={bindInput}>
+            <LearningResourceFootnotes
+              t={t}
+              footnotes={findFootnotes(model.content)}
+            />
+          </LearningResourceContent>
+        ),
+      },
+      {
+        title: t('form.copyrightSection'),
+        children: (
+          <FormCopyright
+            model={model}
+            commonFieldProps={commonFieldProps}
+            licenses={licenses}
+          />
+        ),
+      },
+      {
+        title: t('form.metadataSection'),
+        children: (
+          <LearningResourceMetadata
+            commonFieldProps={commonFieldProps}
+            bindInput={bindInput}
+            tags={tags}
+            model={model}
+          />
+        ),
+      },
+      {
+        title: t('form.workflowSection'),
+        children: (
+          <FormWorkflow
+            commonFieldProps={commonFieldProps}
+            articleStatus={articleStatus}
+            model={model}
+            getArticle={this.getArticleFromModel}
+          />
+        ),
+      },
+    ];
+    if (model.id && config.taxonomyEnabled) {
+      tabsAccordion.splice(1, 0, {
+        title: t('form.taxonomytSection'),
+        children: (
+          <LearningResourceTaxonomy
+            commonFieldProps={commonFieldProps}
+            model={model}
+            taxonomyIsLoading={taxonomyIsLoading}
+          />
+        ),
+      });
+    }
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader
@@ -234,39 +294,7 @@ class LearningResourceForm extends Component {
           type={model.articleType}
           editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
         />
-        <LearningResourceMetadata
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-          tags={tags}
-          model={model}
-        />
-        <LearningResourceContent
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}>
-          <LearningResourceFootnotes
-            t={t}
-            footnotes={findFootnotes(model.content)}
-          />
-        </LearningResourceContent>
-        {model.id &&
-          config.taxonomyEnabled && (
-            <LearningResourceTaxonomy
-              commonFieldProps={commonFieldProps}
-              model={model}
-              taxonomyIsLoading={taxonomyIsLoading}
-            />
-          )}
-        <FormCopyright
-          model={model}
-          commonFieldProps={commonFieldProps}
-          licenses={licenses}
-        />
-        <FormWorkflow
-          commonFieldProps={commonFieldProps}
-          articleStatus={articleStatus}
-          model={model}
-          getArticle={this.getArticleFromModel}
-        />
+        <Accordion panels={tabsAccordion} />
         <Field right {...formClasses('form-actions')}>
           {error && <span className="c-errorMessage">{error}</span>}
           {model.id && (

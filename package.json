@@ -91,6 +91,7 @@
     "jsplumb": "^2.8.0",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.11",
+    "ndla-accordion": "^0.1.0",
     "ndla-article-scripts": "^0.4.7",
     "ndla-audio-search": "^0.4.0",
     "ndla-button": "^0.0.2",

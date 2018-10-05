@@ -60,6 +60,7 @@ export class StructurePage extends React.PureComponent {
     this.setPrimary = this.setPrimary.bind(this);
     this.getActiveFiltersFromUrl = this.getActiveFiltersFromUrl.bind(this);
     this.deleteTopicLink = this.deleteTopicLink.bind(this);
+    this.refreshTopics = this.refreshTopics.bind(this);
   }
 
   componentDidMount() {
@@ -255,6 +256,13 @@ export class StructurePage extends React.PureComponent {
     }
   }
 
+  refreshTopics() {
+    const {
+      match: { params },
+    } = this.props;
+    this.getSubjectTopics(`urn:${params.subject}`);
+  }
+
   render() {
     const { match, t, locale } = this.props;
     const {
@@ -305,7 +313,7 @@ export class StructurePage extends React.PureComponent {
                   onAddSubjectTopic={this.onAddSubjectTopic}
                   showLink={this.showLink}
                   onAddExistingTopic={this.onAddExistingTopic}
-                  refreshTopics={() => this.getSubjectTopics(subject.id)}
+                  refreshTopics={this.refreshTopics}
                   linkViewOpen={jsPlumbConnections.length > 0}
                   getFilters={this.getFilters}
                   subjectFilters={filters}
@@ -330,9 +338,7 @@ export class StructurePage extends React.PureComponent {
               params={params}
               activeFilters={activeFilters}
               currentTopic={currentTopic}
-              refreshTopics={() =>
-                this.getSubjectTopics(`urn:${params.subject}`)
-              }
+              refreshTopics={this.refreshTopics}
             />
           )}
         </OneColumn>

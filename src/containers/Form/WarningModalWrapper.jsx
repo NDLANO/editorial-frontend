@@ -8,6 +8,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import { injectT } from 'ndla-i18n';
 import config from '../../config';
 import { isEqualEditorValue } from '../../util/articleContentConverter';
 import WarningModal from '../../components/WarningModal';
@@ -99,17 +100,21 @@ class WarningModalWrapper extends PureComponent {
   }
 
   render() {
-    const { openModal } = this.state;
-    const { text } = this.props;
-
-    return openModal ? (
+    const { t, text } = this.props;
+    return (
       <WarningModal
+        show={this.state.openModal}
         text={text}
-        onSave={this.onSave}
-        onContinue={this.onContinue}
+        actions={[
+          { text: t('form.save'), onClick: this.onSave },
+          {
+            text: t('warningModal.continue'),
+            onClick: this.onContinue,
+          },
+        ]}
         onCancel={() => this.setState({ openModal: false })}
       />
-    ) : null;
+    );
   }
 }
 
@@ -135,4 +140,4 @@ WarningModalWrapper.propTypes = {
   showSaved: PropTypes.bool,
 };
 
-export default withRouter(WarningModalWrapper);
+export default withRouter(injectT(WarningModalWrapper));

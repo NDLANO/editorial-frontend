@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import {
@@ -14,70 +14,51 @@ import {
   MultiSelectField,
   RemainingCharacters,
 } from '../../../components/Fields';
-import Accordion from '../../../components/Accordion';
 import { MetaImageShape, CommonFieldPropsShape } from '../../../shapes';
 import MetaImageSearch from './MetaImageSearch';
 
-class LearningResourceMetadata extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hiddenMetadata: true,
-    };
-    this.toggleMetadata = this.toggleMetadata.bind(this);
-  }
-
-  toggleMetadata() {
-    this.setState(prevState => ({
-      hiddenMetadata: !prevState.hiddenMetadata,
-    }));
-  }
-
-  render() {
-    const { t, bindInput, commonFieldProps, tags, model } = this.props;
-
-    return (
-      <Accordion
-        fill
-        handleToggle={this.toggleMetadata}
-        header={t('form.metadataSection')}
-        hidden={this.state.hiddenMetadata}>
-        <MultiSelectField
-          obligatory
-          name="tags"
-          data={tags}
-          label={t('form.tags.label')}
-          description={t('form.tags.description')}
-          messages={{
-            createOption: t('form.tags.createOption'),
-            emptyFilter: t('form.tags.emptyFilter'),
-            emptyList: t('form.tags.emptyList'),
-          }}
-          {...commonFieldProps}
-        />
-        <PlainTextField
-          label={t('form.metaDescription.label')}
-          description={t('form.metaDescription.description')}
-          name="metaDescription"
-          maxLength={155}
-          {...commonFieldProps}>
-          <RemainingCharacters
-            maxLength={155}
-            getRemainingLabel={(maxLength, remaining) =>
-              t('form.remainingCharacters', { maxLength, remaining })
-            }
-            value={bindInput('metaDescription').value.document.text}
-          />
-        </PlainTextField>
-        <MetaImageSearch
-          metaImageId={model.metaImageId}
-          commonFieldProps={commonFieldProps}
-          {...bindInput('metaImageId')}
-        />
-      </Accordion>
-    );
-  }
-}
+const LearningResourceMetadata = ({
+  t,
+  bindInput,
+  commonFieldProps,
+  tags,
+  model,
+}) => (
+  <Fragment>
+    <MultiSelectField
+      obligatory
+      name="tags"
+      data={tags}
+      label={t('form.tags.label')}
+      description={t('form.tags.description')}
+      messages={{
+        createOption: t('form.tags.createOption'),
+        emptyFilter: t('form.tags.emptyFilter'),
+        emptyList: t('form.tags.emptyList'),
+      }}
+      {...commonFieldProps}
+    />
+    <PlainTextField
+      label={t('form.metaDescription.label')}
+      description={t('form.metaDescription.description')}
+      name="metaDescription"
+      maxLength={155}
+      {...commonFieldProps}>
+      <RemainingCharacters
+        maxLength={155}
+        getRemainingLabel={(maxLength, remaining) =>
+          t('form.remainingCharacters', { maxLength, remaining })
+        }
+        value={bindInput('metaDescription').value.document.text}
+      />
+    </PlainTextField>
+    <MetaImageSearch
+      metaImageId={model.metaImageId}
+      commonFieldProps={commonFieldProps}
+      {...bindInput('metaImageId')}
+    />
+  </Fragment>
+);
 
 LearningResourceMetadata.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,

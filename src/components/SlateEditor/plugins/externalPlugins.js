@@ -1,6 +1,5 @@
-import EditBlockquote from 'slate-edit-blockquote';
-import EditList from 'slate-edit-list';
-import EditTable from 'slate-edit-table';
+import EditList from 'ndla-slate-edit-list';
+import EditTable from 'ndla-slate-edit-table';
 
 export const listTypes = [
   'numbered-list',
@@ -9,7 +8,6 @@ export const listTypes = [
   'two-column-list',
 ];
 
-export const blockquotePlugin = EditBlockquote({ type: 'quote' });
 export const editListPlugin = EditList({
   types: listTypes,
   typeItem: 'list-item',

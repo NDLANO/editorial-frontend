@@ -9,7 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { Figure, Button } from 'ndla-ui';
+import { Figure } from 'ndla-ui';
+import Button from 'ndla-button';
 import { Cross } from 'ndla-icons/action';
 import { injectT } from 'ndla-i18n';
 import config from '../../../../config';

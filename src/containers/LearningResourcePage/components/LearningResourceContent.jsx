@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 import { getLocale } from '../../../modules/locale/locale';
 import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
-import Accordion from '../../../components/Accordion';
 import LearningResourceIngress from './LearningResourceIngress';
 import {
   renderNode,
@@ -35,10 +34,10 @@ import filePlugin from '../../../components/SlateEditor/plugins/file';
 import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
 import { createEmptyValue } from '../../../util/articleContentConverter';
 import pasteHandler from '../../../components/SlateEditor/plugins/pasteHandler';
+import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 
 import {
   editListPlugin,
-  blockquotePlugin,
   editTablePlugin,
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
@@ -49,11 +48,7 @@ import { CommonFieldPropsShape } from '../../../shapes';
 class LearningResourceContent extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      hiddenContent: false,
-    };
     const { locale } = props;
-    this.toggleContent = this.toggleContent.bind(this);
     this.addSection = this.addSection.bind(this);
     this.plugins = [
       footnotePlugin(),
@@ -73,12 +68,6 @@ class LearningResourceContent extends Component {
       blockPickerPlugin(this.addSection),
       pasteHandler(),
     ];
-  }
-
-  toggleContent() {
-    this.setState(prevState => ({
-      hiddenContent: !prevState.hiddenContent,
-    }));
   }
 
   addSection() {
@@ -109,10 +98,7 @@ class LearningResourceContent extends Component {
     );
 
     return (
-      <Accordion
-        handleToggle={this.toggleContent}
-        header={t('form.contentSection')}
-        hidden={this.state.hiddenContent}>
+      <Fragment>
         <TextField
           label={t('form.title.label')}
           name="title"
@@ -144,7 +130,7 @@ class LearningResourceContent extends Component {
           {...commonFieldProps}
         />
         {children}
-      </Accordion>
+      </Fragment>
     );
   }
 }

@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 import { injectT } from 'ndla-i18n';
 import { Cross, Pencil, Plus } from 'ndla-icons/action';
 import { editorClasses } from './SlateFigure';
@@ -81,14 +81,18 @@ export class FigureButtons extends React.Component {
           title={url[figureType].editTitle}>
           <Pencil />
         </Link>
-        {this.state.showDeleteConfirmation && (
-          <WarningModal
-            confirmDelete
-            text={t('form.content.figure.confirmDelete')}
-            onContinue={this.onDeleteConfirm}
-            onCancel={this.toggleDelete}
-          />
-        )}
+        <WarningModal
+          show={this.state.showDeleteConfirmation}
+          onCancel={this.toggleDelete}
+          actions={[
+            { text: t('form.abort'), onClick: this.toggleDelete },
+            {
+              text: t('warningModal.delete'),
+              onClick: this.onDeleteConfirm,
+            },
+          ]}
+          text={t('form.content.figure.confirmDelete')}
+        />
       </div>
     );
   }

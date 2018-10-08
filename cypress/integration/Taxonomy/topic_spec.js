@@ -10,6 +10,39 @@ import { beforeEachHelper } from '../../support';
 
 beforeEach(() => {
   beforeEachHelper('/structure');
+  cy.server({ force404: true });
+  cy.route(
+    'GET',
+    '/taxonomy/v1/subjects/?language=nb',
+    'fixture:allSubjects.json',
+  );
+  cy.route(
+    'GET',
+    '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true',
+    'fixture:allSubjectTopics.json',
+  );
+  cy.route(
+    'GET',
+    '/taxonomy/v1/subjects/urn:subject:12/filters',
+    'fixture:allSubjectFilters.json',
+  );
+  cy.route(
+    'GET',
+    '/taxonomy/v1/resource-types/?language=nb',
+    'fixture:resourceTypes.json',
+  );
+  cy.route(
+    'GET',
+    '/taxonomy/v1/topics/urn:topic:1:183043/resources/?language=nb&relevance=urn:relevance:core&filter=',
+    'fixture:coreResources.json',
+  );
+  cy.route(
+    'GET',
+    '/taxonomy/v1/topics/urn:topic:1:183043/resources/?language=nb&relevance=urn:relevance:supplementary&filter=',
+    'fixture:supplementaryResources.json',
+  );
+  cy.route('GET', '/article-api/v2/articles/8497', 'fixture:article.json');
+
   cy.get('#plumbContainer > div > a')
     .first()
     .click();
@@ -20,7 +53,6 @@ beforeEach(() => {
 
 describe('Topic editing', () => {
   it('should have a settings menu where everything works', () => {
-    cy.server();
     cy.get('[data-cy=subject-subFolders] [data-cy=folderWrapper]')
       .first()
       .then(div => {

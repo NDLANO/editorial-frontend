@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
@@ -19,7 +19,6 @@ import {
 } from '../../../components/Fields';
 import { RichTextField } from '../../../components/RichTextField';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
-import Accordion from '../../../components/Accordion';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
 import {
   schema,
@@ -28,10 +27,8 @@ import {
   validateNode,
 } from '../../../components/SlateEditor/schema';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
-import {
-  editListPlugin,
-  blockquotePlugin,
-} from '../../../components/SlateEditor/plugins/externalPlugins';
+import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
+import { editListPlugin } from '../../../components/SlateEditor/plugins/externalPlugins';
 import { CommonFieldPropsShape } from '../../../shapes';
 
 const classes = new BEMHelper({
@@ -47,88 +44,65 @@ const plugins = [
   editListPlugin,
 ];
 
-class TopicArticleContent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hiddenContent: false,
-    };
-    this.toggleContent = this.toggleContent.bind(this);
-  }
+const TopicArticleContent = ({
+  t,
+  bindInput,
+  commonFieldProps,
+  model: { creators, updated, visualElement },
+}) => (
+  <Fragment>
+    <TextField
+      label={t('form.title.label')}
+      name="title"
+      title
+      noBorder
+      placeholder={t('form.title.label')}
+      {...commonFieldProps}
+    />
+    {/* TODO: Change to c-article-byline */}
+    <div {...classes('info')}>
+      {creators.map(creator => creator.name).join(',')}
+      {updated
+        ? ` - ${t('topicArticleForm.info.lastUpdated', { updated })}`
+        : ''}
+    </div>
 
-  toggleContent() {
-    this.setState(prevState => ({
-      hiddenContent: !prevState.hiddenContent,
-    }));
-  }
-
-  render() {
-    const {
-      t,
-      bindInput,
-      commonFieldProps,
-      model: { creators, updated, visualElement },
-    } = this.props;
-
-    return (
-      <Accordion
-        handleToggle={this.toggleContent}
-        header={t('form.contentSection')}
-        hidden={this.state.hiddenContent}>
-        <TextField
-          label={t('form.title.label')}
-          name="title"
-          title
-          noBorder
-          placeholder={t('form.title.label')}
-          {...commonFieldProps}
-        />
-        {/* TODO: Change to c-article-byline */}
-        <div {...classes('info')}>
-          {creators.map(creator => creator.name).join(',')}
-          {updated
-            ? ` - ${t('topicArticleForm.info.lastUpdated', { updated })}`
-            : ''}
-        </div>
-
-        <PlainTextField
-          label={t('form.introduction.label')}
-          placeholder={t('form.introduction.label')}
-          name="introduction"
-          className="article_introduction"
-          fieldClassName={fieldClasses(undefined, 'introduction').className}
-          noBorder
-          maxLength={300}
-          {...commonFieldProps}>
-          <RemainingCharacters
-            maxLength={300}
-            getRemainingLabel={(maxLength, remaining) =>
-              t('form.remainingCharacters', { maxLength, remaining })
-            }
-            value={bindInput('introduction').value.document.text}
-          />
-        </PlainTextField>
-        <TopicArticleVisualElement
-          visualElement={visualElement}
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-        />
-        <RichTextField
-          noBorder
-          label={t('form.content.label')}
-          placeholder={t('form.content.placeholder')}
-          name="content"
-          slateSchema={schema}
-          renderNode={renderNode}
-          renderMark={renderMark}
-          validateNode={validateNode}
-          plugins={plugins}
-          {...commonFieldProps}
-        />
-      </Accordion>
-    );
-  }
-}
+    <PlainTextField
+      label={t('form.introduction.label')}
+      placeholder={t('form.introduction.label')}
+      name="introduction"
+      className="article_introduction"
+      fieldClassName={fieldClasses(undefined, 'introduction').className}
+      noBorder
+      maxLength={300}
+      {...commonFieldProps}>
+      <RemainingCharacters
+        maxLength={300}
+        getRemainingLabel={(maxLength, remaining) =>
+          t('form.remainingCharacters', { maxLength, remaining })
+        }
+        value={bindInput('introduction').value.document.text}
+      />
+    </PlainTextField>
+    <TopicArticleVisualElement
+      visualElement={visualElement}
+      commonFieldProps={commonFieldProps}
+      bindInput={bindInput}
+    />
+    <RichTextField
+      noBorder
+      label={t('form.content.label')}
+      placeholder={t('form.content.placeholder')}
+      name="content"
+      slateSchema={schema}
+      renderNode={renderNode}
+      renderMark={renderMark}
+      validateNode={validateNode}
+      plugins={plugins}
+      {...commonFieldProps}
+    />
+  </Fragment>
+);
 
 TopicArticleContent.propTypes = {
   model: PropTypes.shape({

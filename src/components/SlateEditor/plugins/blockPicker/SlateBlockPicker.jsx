@@ -11,7 +11,7 @@ import { findDOMNode } from 'slate-react';
 import Types from 'slate-prop-types';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 import {
   H5P,
   Paragraph,
@@ -72,7 +72,7 @@ class SlateBlockPicker extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.editorValue.isFocused && this.state.isOpen) {
+    if (!nextProps.editorValue.selection.isFocused && this.state.isOpen) {
       this.setState({ isOpen: false });
     }
   }
@@ -149,7 +149,7 @@ class SlateBlockPicker extends Component {
   focusInsideIllegalArea() {
     const { editorValue, illegalAreas } = this.props;
     let node = editorValue.document.getClosestBlock(
-      editorValue.selection.startKey,
+      editorValue.selection.start.key,
     );
     while (true) {
       const parent = editorValue.document.getParent(node.key);
@@ -174,13 +174,13 @@ class SlateBlockPicker extends Component {
     ).className.split(' ')[1];
 
     const { editorValue, allowedPickAreas } = this.props;
-    if (!editorValue.selection.startKey) {
+    if (!editorValue.selection.start.key) {
       this.menuEl.classList.add(hiddenClassName);
       return;
     }
 
     const node = editorValue.document.getClosestBlock(
-      editorValue.selection.startKey,
+      editorValue.selection.start.key,
     );
     const nodeEl = findDOMNode(node); // eslint-disable-line react/no-find-dom-node
 
@@ -188,7 +188,7 @@ class SlateBlockPicker extends Component {
       node.text.length === 0 &&
       !this.focusInsideIllegalArea() &&
       allowedPickAreas.includes(node.type) &&
-      editorValue.isFocused;
+      editorValue.selection.isFocused;
 
     if (show) {
       this.menuEl.classList.remove(hiddenClassName);

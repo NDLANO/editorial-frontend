@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 import { Pencil } from 'ndla-icons/action';
 import { injectT } from 'ndla-i18n';
 import { DeleteForever } from 'ndla-icons/editor';

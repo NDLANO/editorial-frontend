@@ -8,7 +8,7 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Agreement } from 'ndla-icons/editor';

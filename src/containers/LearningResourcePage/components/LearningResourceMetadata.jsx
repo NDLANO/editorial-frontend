@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import {
@@ -24,7 +24,7 @@ const LearningResourceMetadata = ({
   tags,
   model,
 }) => (
-  <Fragment>
+  <div className="u-4/6@desktop u-push-1/6@desktop">
     <MultiSelectField
       obligatory
       name="tags"
@@ -57,7 +57,7 @@ const LearningResourceMetadata = ({
       commonFieldProps={commonFieldProps}
       {...bindInput('metaImageId')}
     />
-  </Fragment>
+  </div>
 );
 
 LearningResourceMetadata.propTypes = {

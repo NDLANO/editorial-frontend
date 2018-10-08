@@ -8218,15 +8218,15 @@ ndla-audio-search@^0.4.0:
   resolved "https://registry.yarnpkg.com/ndla-audio-search/-/ndla-audio-search-0.4.0.tgz#ea7e002d65e3342a6224f513acd43ecfb312152e"
   integrity sha512-r5ExoVqrfERUo/c4zZLDLo97VZcYTnvMWJPU7OusdKCSa/vzxv7Q9FKGtrLvNP35fRXuiBLJsnjfJuL1ewdeeQ==
 
-ndla-button@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/ndla-button/-/ndla-button-0.0.2.tgz#c9d6deba93e1ceffeea04847f2cc03c4682ba8ac"
-  integrity sha512-OgYgmYdKjb40XJxWFn7dpaZt9iVid51aKRv+t0Yg6duBTeYY8ULjZ3kGy2mYoy4soeSW3Lbt3ZVzX2FEkXA/yg==
+ndla-button@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/ndla-button/-/ndla-button-0.0.3.tgz#e92918d12a314c514e88082d17156cc71dc01c2d"
+  integrity sha512-57L3gS/ztnmFsRgj+tfuK3Jbf2WTM5pt+oqQF/QqYqdkUtwDkXIUDyzzqaD2YnbLkkVsGngdIrzmtt395gSGpg==
 
-ndla-core@^0.2.0:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/ndla-core/-/ndla-core-0.2.1.tgz#58d08a67f9e31a067cff6933c61a3e556da06052"
-  integrity sha512-y0kOvRXO0BhYBo1uOdJkrhsKjr4yn97bqkeEO8d0/dNS4q00nrZHDta2wG1RVQyqZiy2t2uEn1iXYXTROQ7Lnw==
+ndla-core@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/ndla-core/-/ndla-core-0.3.0.tgz#b24df43a94bd9bd00aee1c4519b14b41db32263d"
+  integrity sha512-5f1+ZKGzUuYTI2fE2BAVLZnk4OKvd0Z4z4JcyCIZ4Ocz7JCBP6q3jifCHQZNj/WzBd+ySMdn676Y2ic+cVnccw==
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
@@ -8304,10 +8304,10 @@ ndla-tabs@^0.7.1:
   dependencies:
     lodash "^4.17.5"
 
-ndla-ui@^0.17.3:
-  version "0.17.3"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.17.3.tgz#3734305e2409afd143d35d0f46a8d356f387cc6f"
-  integrity sha512-12cU2G4AjpMScJh4B7u9dBY9ytZgybLbXlxs6oU06ePVS4eeu9u2P1aKgg9I2ul5g6abt+7dCv+fYpyNXieD5g==
+ndla-ui@^0.17.4:
+  version "0.17.4"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.17.4.tgz#79fc693d902cc5aac966f14d9a3c889f4eada8bd"
+  integrity sha512-oiIAAt9L34XL1hno4n3+0WsRAfgiXe+1s+lnwNFSUkTZVBMpYiN+ByxWJfuyqos1UMT1rFXHcEuSUzGSbElghg==
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"

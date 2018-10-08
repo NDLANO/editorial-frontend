@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
@@ -98,7 +98,7 @@ class LearningResourceContent extends Component {
     );
 
     return (
-      <Fragment>
+      <div className="u-4/6@desktop u-push-1/6@desktop">
         <TextField
           label={t('form.title.label')}
           name="title"
@@ -130,7 +130,7 @@ class LearningResourceContent extends Component {
           {...commonFieldProps}
         />
         {children}
-      </Fragment>
+      </div>
     );
   }
 }

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
@@ -50,7 +50,7 @@ const TopicArticleContent = ({
   commonFieldProps,
   model: { creators, updated, visualElement },
 }) => (
-  <Fragment>
+  <div className="u-4/6@desktop u-push-1/6@desktop">
     <TextField
       label={t('form.title.label')}
       name="title"
@@ -101,7 +101,7 @@ const TopicArticleContent = ({
       plugins={plugins}
       {...commonFieldProps}
     />
-  </Fragment>
+  </div>
 );
 
 TopicArticleContent.propTypes = {

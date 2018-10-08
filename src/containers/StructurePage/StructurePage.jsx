@@ -60,6 +60,7 @@ export class StructurePage extends React.PureComponent {
     this.getActiveFiltersFromUrl = this.getActiveFiltersFromUrl.bind(this);
     this.deleteTopicLink = this.deleteTopicLink.bind(this);
     this.refreshTopics = this.refreshTopics.bind(this);
+    this.toggleStructure = this.toggleStructure.bind(this);
   }
 
   componentDidMount() {
@@ -71,27 +72,31 @@ export class StructurePage extends React.PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate({
+    match: {
+      params: { subject: prevSubject },
+    },
+    location: { pathname: prevPathname },
+  }) {
+    const { subjects, topics } = this.state;
     const {
       location: { pathname },
       match: { params },
       history,
     } = this.props;
-    if (pathname !== prevProps.location.pathname) {
+    if (pathname !== prevPathname) {
       this.deleteConnections();
       const { subject } = params;
       if (subject) {
         this.getFilters(`urn:${subject}`);
       }
-      if (!subject || subject !== prevProps.match.params.subject) {
+      if (!subject || subject !== prevSubject) {
         history.push({
           search: '',
         });
       }
-      const currentSub = this.state.subjects.find(
-        sub => sub.id === `urn:${subject}`,
-      );
-      if (currentSub && !this.state.topics[`urn:${subject}`]) {
+      const currentSub = subjects.find(sub => sub.id === `urn:${subject}`);
+      if (currentSub && !topics[`urn:${subject}`]) {
         this.getSubjectTopics(`urn:${subject}`);
       }
     }
@@ -184,6 +189,7 @@ export class StructurePage extends React.PureComponent {
       } else {
         await deleteTopicConnection(connectionId);
       }
+      this.deleteConnections();
       this.getSubjectTopics(subjectId);
     } catch (e) {
       handleError(e);
@@ -238,6 +244,12 @@ export class StructurePage extends React.PureComponent {
     this.getSubjectTopics(`urn:${params.subject}`);
   }
 
+  toggleStructure() {
+    this.setState(prevState => ({
+      editStructureHidden: !prevState.editStructureHidden,
+    }));
+  }
+
   render() {
     const { match, t, locale } = this.props;
     const {
@@ -251,16 +263,13 @@ export class StructurePage extends React.PureComponent {
     const { params } = match;
     const topicId = params.topic3 || params.topic2 || params.topic1;
     const currentTopic = getCurrentTopic({ params, topics });
+    const linkViewOpen = jsPlumbConnections.length > 0;
 
     return (
       <ErrorBoundary>
         <OneColumn>
           <Accordion
-            handleToggle={() =>
-              this.setState(prevState => ({
-                editStructureHidden: !prevState.editStructureHidden,
-              }))
-            }
+            handleToggle={this.toggleStructure}
             header={
               <React.Fragment>
                 <Taxonomy className="c-icon--medium" />
@@ -289,7 +298,7 @@ export class StructurePage extends React.PureComponent {
                   showLink={this.showLink}
                   onAddExistingTopic={this.onAddExistingTopic}
                   refreshTopics={this.refreshTopics}
-                  linkViewOpen={jsPlumbConnections.length > 0}
+                  linkViewOpen={linkViewOpen}
                   getFilters={this.getFilters}
                   subjectFilters={filters}
                   activeFilters={activeFilters}
@@ -300,7 +309,7 @@ export class StructurePage extends React.PureComponent {
               ))}
               <div
                 style={{
-                  display: jsPlumbConnections.length > 0 ? 'block' : 'none',
+                  display: linkViewOpen ? 'block' : 'none',
                 }}
                 ref={this.starButton}>
                 <RoundIcon icon={<Star />} />

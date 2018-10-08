@@ -43,7 +43,6 @@ const FolderItem = ({
   ...rest
 }) => {
   const { url, params } = match;
-
   const type = id.includes('subject') ? 'subject' : 'topic';
   const grayedOut = !active && params.subject && type === 'subject';
   const isMainActive = active && path === url.replace('/structure', '');
@@ -65,6 +64,32 @@ const FolderItem = ({
     linkViewOpen,
     ...rest,
   };
+  const settingsButton = active && (
+    <SettingsMenu id={id} name={name} type={type} path={path} {...rest} />
+  );
+  const showLinkButton = type === 'topic' &&
+    isMainActive && (
+      <Button stripped onClick={() => showLink(id, rest.parent)}>
+        <RoundIcon open={linkViewOpen} icon={<LinkIcon />} />
+      </Button>
+    );
+  const editLinkButton = type === 'subject' && (
+    <EditLinkButton
+      refFunc={refFunc}
+      id={id}
+      setPrimary={() => setPrimary(id)}
+      deleteTopicLink={deleteTopicLink}
+    />
+  );
+  const subjectFilters = active &&
+    type === 'subject' && (
+      <FilterView
+        subjectFilters={rest.subjectFilters}
+        activeFilters={activeFilters}
+        toggleFilter={toggleFilter}
+      />
+    );
+
   return (
     <React.Fragment>
       <div id={uniqueId} data-cy="folderWrapper" {...classes('wrapper')}>
@@ -74,33 +99,12 @@ const FolderItem = ({
           active={active}
           grayedOut={grayedOut}
         />
-        {type === 'topic' &&
-          isMainActive && (
-            <Button stripped onClick={() => showLink(id, rest.parent)}>
-              <RoundIcon open={linkViewOpen} icon={<LinkIcon />} />
-            </Button>
-          )}
-        {active && (
-          <SettingsMenu id={id} name={name} type={type} path={path} {...rest} />
-        )}
-        {active &&
-          type === 'subject' && (
-            <FilterView
-              subjectFilters={rest.subjectFilters}
-              activeFilters={activeFilters}
-              toggleFilter={toggleFilter}
-            />
-          )}
+        {showLinkButton}
+        {editLinkButton}
+        {settingsButton}
+        {subjectFilters}
       </div>
       <SubFolders {...sendToSubFolders} />
-      {type === 'subject' && (
-        <EditLinkButton
-          refFunc={refFunc}
-          id={id}
-          setPrimary={() => setPrimary(id)}
-          deleteTopicLink={deleteTopicLink}
-        />
-      )}
     </React.Fragment>
   );
 };

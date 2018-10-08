@@ -16,13 +16,11 @@ class AddExistingSubjectTopic extends React.PureComponent {
 
   async onAddExistingTopic(topicid) {
     const { id, refreshTopics } = this.props;
-    const ok = await addSubjectTopic({
+    await addSubjectTopic({
       subjectid: id,
       topicid,
     });
-    if (ok) {
-      refreshTopics();
-    }
+    refreshTopics();
   }
 
   toggleEditMode() {

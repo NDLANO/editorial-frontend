@@ -31,16 +31,11 @@ class EditFilters extends React.Component {
     this.showDeleteWarning = this.showDeleteWarning.bind(this);
     this.deleteFilter = this.deleteFilter.bind(this);
     this.editFilter = this.editFilter.bind(this);
+    this.setEditMode = this.setEditMode.bind(this);
   }
 
-  async addFilter(name) {
-    try {
-      await createSubjectFilter(this.props.id, name);
-      this.props.getFilters();
-    } catch (e) {
-      handleError(e);
-      this.setState({ error: e.message });
-    }
+  setEditMode(name) {
+    this.setState({ editMode: name });
   }
 
   async editFilter(id, name) {
@@ -68,9 +63,19 @@ class EditFilters extends React.Component {
     this.setState({ showDelete: false });
   }
 
+  async addFilter(name) {
+    try {
+      await createSubjectFilter(this.props.id, name);
+      this.props.getFilters();
+    } catch (e) {
+      handleError(e);
+      this.setState({ error: e.message });
+    }
+  }
+
   render() {
     const { classes, t, filters } = this.props;
-    const { editMode, showDelete } = this.state;
+    const { editMode, showDelete, error } = this.state;
 
     return (
       <div {...classes('editFilters')} data-testid="editFilterBox">
@@ -78,7 +83,7 @@ class EditFilters extends React.Component {
           filters={filters}
           editMode={editMode}
           classes={classes}
-          setEditState={name => this.setState({ editMode: name })}
+          setEditState={this.setEditMode}
           showDeleteWarning={this.showDeleteWarning}
           editFilter={this.editFilter}
         />
@@ -88,7 +93,7 @@ class EditFilters extends React.Component {
             currentVal=""
             messages={{ errorMessage: t('taxonomy.errorMessage') }}
             dataTestid="addFilterInput"
-            onClose={() => this.setState({ editMode: '' })}
+            onClose={this.setEditMode}
             onSubmit={this.addFilter}
           />
         ) : (
@@ -101,7 +106,7 @@ class EditFilters extends React.Component {
             {t('taxonomy.addFilter')}
           </Button>
         )}
-        <div {...classes('errorMessage')}>{this.state.error}</div>
+        <div {...classes('errorMessage')}>{error}</div>
         {showDelete && (
           <WarningModal
             confirmDelete

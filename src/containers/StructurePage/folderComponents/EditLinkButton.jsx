@@ -29,10 +29,36 @@ class EditLinkButton extends Component {
     this.state = {
       open: false,
     };
+    this.toggleOpen = this.toggleOpen.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.deleteTopicLink = this.deleteTopicLink.bind(this);
+    this.setPrimary = this.setPrimary.bind(this);
+  }
+
+  onCancel() {
+    this.setState({
+      setPrimaryWarning: false,
+      deleteLinkWarning: false,
+    });
+  }
+
+  setPrimary() {
+    this.setState({ setPrimaryWarning: false, open: false });
+    this.props.setPrimary();
+  }
+
+  deleteTopicLink() {
+    const { deleteTopicLink, id } = this.props;
+    this.setState({ deleteLinkWarning: false, open: false });
+    deleteTopicLink(id);
+  }
+
+  toggleOpen() {
+    this.setState(prevState => ({ open: !prevState.open }));
   }
 
   render() {
-    const { refFunc, id, t, setPrimary, deleteTopicLink } = this.props;
+    const { refFunc, id, t } = this.props;
     const linkId = `linkButton-${id}`;
     return (
       <div
@@ -43,11 +69,8 @@ class EditLinkButton extends Component {
           <Portal isOpened>
             <WarningModal
               text={t('taxonomy.confirmSetPrimary')}
-              onCancel={() => this.setState({ setPrimaryWarning: false })}
-              onContinue={() => {
-                this.setState({ setPrimaryWarning: false, open: false });
-                setPrimary();
-              }}
+              onCancel={this.onCancel}
+              onContinue={this.setPrimary}
             />
           </Portal>
         )}
@@ -55,26 +78,19 @@ class EditLinkButton extends Component {
           <Portal isOpened>
             <WarningModal
               text={t('taxonomy.confirmDeleteTopic')}
-              onCancel={() => this.setState({ deleteLinkWarning: false })}
+              onCancel={this.onCancel}
               confirmDelete
-              onContinue={() => {
-                this.setState({ deleteLinkWarning: false, open: false });
-                deleteTopicLink(id);
-              }}
+              onContinue={this.deleteTopicLink}
             />
           </Portal>
         )}
-        <Button
-          stripped
-          onClick={() => {
-            this.setState({ open: true });
-          }}>
+        <Button stripped onClick={this.toggleOpen}>
           <RoundIcon icon={<LinkIcon />} />
         </Button>
         {this.state.open && (
           <React.Fragment>
             <Portal isOpened>
-              <Overlay onExit={() => this.setState({ open: false })} />
+              <Overlay onExit={this.toggleOpen} />
             </Portal>
             <div {...classes('openMenu')}>
               <div className="header">
@@ -83,7 +99,7 @@ class EditLinkButton extends Component {
                 <Button
                   stripped
                   {...classes('closeButton')}
-                  onClick={() => this.setState({ open: false })}>
+                  onClick={this.toggleOpen}>
                   <Cross />
                 </Button>
               </div>

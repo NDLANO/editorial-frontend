@@ -9,7 +9,8 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
+import { withRouter } from 'react-router-dom';
 import BEMHelper from 'react-bem-helper';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
@@ -200,6 +201,7 @@ AudioForm.propTypes = {
 
 export default compose(
   injectT,
+  withRouter,
   reformed,
   validateSchema({
     title: {

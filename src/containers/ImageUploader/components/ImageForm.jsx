@@ -10,6 +10,7 @@ import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
 import PropTypes from 'prop-types';
 import Button from 'ndla-button';
+import { withRouter } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
@@ -227,6 +228,7 @@ ImageForm.propTypes = {
 
 export default compose(
   injectT,
+  withRouter,
   reformed,
   validateSchema({
     title: {

@@ -46,7 +46,6 @@ class EditAudio extends Component {
         revision={audioData && audioData.revision}
         audioInfo={audioData && audioData.audioFile}
         onUpdate={(audio, file) => updateAudio({ audio, file, history })}
-        history={history}
         {...rest}
       />
     );

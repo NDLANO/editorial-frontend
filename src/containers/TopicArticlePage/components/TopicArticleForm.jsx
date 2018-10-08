@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import Accordion from 'ndla-accordion';
 import Button from 'ndla-button';
+import { withRouter } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
@@ -306,6 +307,7 @@ TopicArticleForm.propTypes = {
 
 export default compose(
   injectT,
+  withRouter,
   reformed,
   validateSchema({
     title: {

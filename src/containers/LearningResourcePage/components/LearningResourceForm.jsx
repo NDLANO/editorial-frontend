@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { withRouter } from 'react-router-dom';
 import Accordion from 'ndla-accordion';
 import Button from 'ndla-button';
 import config from '../../../config';
@@ -390,6 +391,7 @@ LearningResourceForm.propTypes = {
 
 export default compose(
   injectT,
+  withRouter,
   reformed,
   validateSchema({
     title: {

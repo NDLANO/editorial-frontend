@@ -6,11 +6,8 @@
  *
  */
 
+@import '../../node_modules/ndla-ui/lib/all.css';
 @import '../../node_modules/flatpickr/dist/flatpickr.min.css';
-@import '../../node_modules/ndla-ui/lib/audioSearch.css';
-@import '../../node_modules/ndla-ui/lib/imageSearch.css';
-@import '../../node_modules/ndla-ui/lib/main.css';
-@import '../../node_modules/ndla-ui/lib/videoSearch.css';
 @import '../../node_modules/react-image-crop/dist/ReactCrop.css';
 @import './accordion.css';
 @import './alert.css';

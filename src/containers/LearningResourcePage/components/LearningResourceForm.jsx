@@ -10,7 +10,8 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { Button } from 'ndla-ui';
+import Accordion from 'ndla-accordion';
+import Button from 'ndla-button';
 import config from '../../../config';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
@@ -139,16 +140,22 @@ class LearningResourceForm extends Component {
   async onReset() {
     const { articleId, setModel, taxonomy, selectedLanguage, t } = this.props;
     try {
-      if (this.state.error) this.setState({ error: undefined });
+      if (this.state.error) {
+        this.setState({ error: undefined });
+      }
       const articleFromProd = await getArticle(articleId);
       const convertedArticle = articleConverter(
         articleFromProd,
         selectedLanguage,
       );
       setModel(getInitialModel(convertedArticle, taxonomy, selectedLanguage));
+      this.setState({ showResetModal: false });
     } catch (e) {
       if (e.status === 404) {
-        this.setState({ error: t('errorMessage.noArticleInProd') });
+        this.setState({
+          showResetModal: false,
+          error: t('errorMessage.noArticleInProd'),
+        });
       }
     }
   }
@@ -228,6 +235,65 @@ class LearningResourceForm extends Component {
 
     const { error } = this.state;
     const commonFieldProps = { bindInput, schema, submitted };
+    const tabsAccordion = [
+      {
+        title: t('form.contentSection'),
+        children: (
+          <LearningResourceContent
+            commonFieldProps={commonFieldProps}
+            bindInput={bindInput}>
+            <LearningResourceFootnotes
+              t={t}
+              footnotes={findFootnotes(model.content)}
+            />
+          </LearningResourceContent>
+        ),
+      },
+      {
+        title: t('form.copyrightSection'),
+        children: (
+          <FormCopyright
+            model={model}
+            commonFieldProps={commonFieldProps}
+            licenses={licenses}
+          />
+        ),
+      },
+      {
+        title: t('form.metadataSection'),
+        children: (
+          <LearningResourceMetadata
+            commonFieldProps={commonFieldProps}
+            bindInput={bindInput}
+            tags={tags}
+            model={model}
+          />
+        ),
+      },
+      {
+        title: t('form.workflowSection'),
+        children: (
+          <FormWorkflow
+            commonFieldProps={commonFieldProps}
+            articleStatus={articleStatus}
+            model={model}
+            getArticle={this.getArticleFromModel}
+          />
+        ),
+      },
+    ];
+    if (model.id && config.taxonomyEnabled) {
+      tabsAccordion.splice(1, 0, {
+        title: t('form.taxonomytSection'),
+        children: (
+          <LearningResourceTaxonomy
+            commonFieldProps={commonFieldProps}
+            model={model}
+            taxonomyIsLoading={taxonomyIsLoading}
+          />
+        ),
+      });
+    }
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader
@@ -235,39 +301,7 @@ class LearningResourceForm extends Component {
           type={model.articleType}
           editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
         />
-        <LearningResourceMetadata
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-          tags={tags}
-          model={model}
-        />
-        <LearningResourceContent
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}>
-          <LearningResourceFootnotes
-            t={t}
-            footnotes={findFootnotes(model.content)}
-          />
-        </LearningResourceContent>
-        {model.id &&
-          config.taxonomyEnabled && (
-            <LearningResourceTaxonomy
-              commonFieldProps={commonFieldProps}
-              model={model}
-              taxonomyIsLoading={taxonomyIsLoading}
-            />
-          )}
-        <FormCopyright
-          model={model}
-          commonFieldProps={commonFieldProps}
-          licenses={licenses}
-        />
-        <FormWorkflow
-          commonFieldProps={commonFieldProps}
-          articleStatus={articleStatus}
-          model={model}
-          getArticle={this.getArticleFromModel}
-        />
+        <Accordion panels={tabsAccordion} />
         <Field right {...formClasses('form-actions')}>
           {error && <span className="c-errorMessage">{error}</span>}
           {model.id && (

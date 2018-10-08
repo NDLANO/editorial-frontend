@@ -8,7 +8,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 import { injectT } from 'ndla-i18n';
 import { Plus } from 'ndla-icons/action';
 import BEMHelper from 'react-bem-helper';

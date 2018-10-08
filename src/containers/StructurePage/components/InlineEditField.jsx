@@ -8,7 +8,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 import { Done } from 'ndla-icons/editor';
 import RoundIcon from '../../../components/RoundIcon';
 import handleError from '../../../util/handleError';

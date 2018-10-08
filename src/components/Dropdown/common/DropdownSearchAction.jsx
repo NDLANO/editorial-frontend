@@ -7,7 +7,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 import Downshift from 'downshift';
 import { Search } from 'ndla-icons/common';
 import { Cross } from 'ndla-icons/action';

@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 import { injectT } from 'ndla-i18n';
 import { Link as LinkIcon } from 'ndla-icons/editor';
 import BEMHelper from 'react-bem-helper';

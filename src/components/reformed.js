@@ -36,8 +36,12 @@ const makeWrapper = WrappedComponent => {
       this.checkIfDirty = this.checkIfDirty.bind(this);
     }
 
-    setModel(model) {
-      this.setState({ model });
+    setModel(model, overRideInitial = false) {
+      if (overRideInitial) {
+        this.setState({ model, initialModel: model });
+      } else {
+        this.setState({ model });
+      }
       return model;
     }
 

@@ -134,7 +134,7 @@ class LearningResourceForm extends Component {
       initialModel.id !== prevInitialModel.id ||
       initialModel.language !== prevInitialModel.language
     ) {
-      setModel(initialModel);
+      setModel(initialModel, true);
     }
   }
 
@@ -232,6 +232,7 @@ class LearningResourceForm extends Component {
       showSaved,
       taxonomyIsLoading,
     } = this.props;
+
     const { error } = this.state;
     const commonFieldProps = { bindInput, schema, submitted };
     const tabsAccordion = [

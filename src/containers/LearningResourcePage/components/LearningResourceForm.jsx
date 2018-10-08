@@ -237,6 +237,7 @@ class LearningResourceForm extends Component {
     const tabsAccordion = [
       {
         title: t('form.contentSection'),
+        extraPadding: true,
         children: (
           <LearningResourceContent
             commonFieldProps={commonFieldProps}

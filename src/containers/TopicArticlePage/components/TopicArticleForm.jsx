@@ -185,6 +185,7 @@ class TopicArticleForm extends Component {
             {
               title: t('form.contentSection'),
               open: true,
+              extraPadding: true,
               children: (
                 <TopicArticleContent
                   commonFieldProps={commonFieldProps}

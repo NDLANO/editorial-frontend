@@ -310,12 +310,8 @@ export class StructurePage extends React.PureComponent {
                   locale={locale}
                 />
               ))}
-              <div
-                style={{
-                  display: linkViewOpen ? 'block' : 'none',
-                }}
-                ref={this.starButton}>
-                <RoundIcon icon={<Star />} />
+              <div ref={this.starButton}>
+                {linkViewOpen && <RoundIcon icon={<Star />} />}
               </div>
             </div>
           </Accordion>

@@ -49,36 +49,31 @@ class SubFolders extends React.PureComponent {
       topics,
       isMainActive,
       activeFilters,
-      params,
+      match,
       ...rest
     } = this.props;
+    const filteredTopics = topics.filter(
+      topic =>
+        activeFilters.length === 0 ||
+        activeFilters.some(activeFilter =>
+          topic.filters.some(filter => filter.id === activeFilter),
+        ),
+    );
+
     return (
       <div data-cy={`${type}-subFolders`} {...classes('subFolders')}>
         {active && (
           <MakeDndList onDragEnd={this.onDragEnd} disableDnd={!isMainActive}>
-            {topics.map(topic => {
-              if (
-                activeFilters.length === 0 ||
-                activeFilters.some(activeFilter =>
-                  topic.filters.some(filter => filter.id === activeFilter),
-                )
-              ) {
-                return (
-                  <FolderItem
-                    {...rest}
-                    {...topic}
-                    key={topic.id}
-                    active={
-                      params.topic1 === topic.id.replace('urn:', '') ||
-                      params.topic2 === topic.id.replace('urn:', '') ||
-                      params.topic3 === topic.id.replace('urn:', '')
-                    }
-                    activeFilters={activeFilters}
-                  />
-                );
-              }
-              return undefined;
-            })}
+            {filteredTopics.map(topic => (
+              <FolderItem
+                {...rest}
+                {...topic}
+                key={topic.id}
+                active={match.url.includes(topic.id.replace('urn:', ''))}
+                activeFilters={activeFilters}
+                match={match}
+              />
+            ))}
           </MakeDndList>
         )}
       </div>

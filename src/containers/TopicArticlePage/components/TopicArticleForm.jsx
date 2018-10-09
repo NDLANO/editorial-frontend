@@ -10,7 +10,11 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import Accordion from 'ndla-accordion';
+import Accordion, {
+  AccordionWrapper,
+  AccordionBar,
+  AccordionPanel,
+} from 'ndla-accordion';
 import Button from 'ndla-button';
 import { Link } from 'react-router-dom';
 import reformed from '../../../components/reformed';
@@ -180,53 +184,77 @@ class TopicArticleForm extends Component {
           type={model.articleType}
           editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
         />
-        <Accordion
-          panels={[
-            {
-              title: t('form.contentSection'),
-              open: true,
-              children: (
-                <TopicArticleContent
-                  commonFieldProps={commonFieldProps}
-                  bindInput={bindInput}
-                  tags={tags}
-                  model={model}
-                />
-              ),
-            },
-            {
-              title: t('form.copyrightSection'),
-              children: (
-                <FormCopyright
-                  model={model}
-                  commonFieldProps={commonFieldProps}
-                  licenses={licenses}
-                />
-              ),
-            },
-            {
-              title: t('form.metadataSection'),
-              children: (
-                <TopicArticleMetadata
-                  commonFieldProps={commonFieldProps}
-                  bindInput={bindInput}
-                  tags={tags}
-                />
-              ),
-            },
-            {
-              title: t('form.workflowSection'),
-              children: (
-                <FormWorkflow
-                  commonFieldProps={commonFieldProps}
-                  articleStatus={articleStatus}
-                  model={model}
-                  getArticle={this.getArticle}
-                />
-              ),
-            },
-          ]}
-        />
+        <Accordion>
+          {({ openIndexes, handleItemClick }) => (
+            <AccordionWrapper>
+              {[
+                {
+                  id: 'topic-article-content',
+                  title: t('form.contentSection'),
+                  component: (
+                    <TopicArticleContent
+                      commonFieldProps={commonFieldProps}
+                      bindInput={bindInput}
+                      tags={tags}
+                      model={model}
+                    />
+                  ),
+                },
+                {
+                  id: 'topic-article-copyright',
+                  title: t('form.copyrightSection'),
+                  component: (
+                    <FormCopyright
+                      model={model}
+                      commonFieldProps={commonFieldProps}
+                      licenses={licenses}
+                    />
+                  ),
+                },
+                {
+                  id: 'topic-article-metadata',
+                  title: t('form.metadataSection'),
+                  component: (
+                    <TopicArticleMetadata
+                      commonFieldProps={commonFieldProps}
+                      bindInput={bindInput}
+                      tags={tags}
+                    />
+                  ),
+                },
+                {
+                  id: 'topic-article-workflow',
+                  title: t('form.workflowSection'),
+                  component: (
+                    <FormWorkflow
+                      commonFieldProps={commonFieldProps}
+                      articleStatus={articleStatus}
+                      model={model}
+                      getArticle={this.getArticle}
+                    />
+                  ),
+                },
+              ].map(item => (
+                <React.Fragment key={item.id}>
+                  <AccordionBar
+                    panelId={item.id}
+                    ariaLabel={item.title}
+                    onClick={() => handleItemClick(item.id)}
+                    isOpen={openIndexes.includes(item.id)}>
+                    {item.title}
+                  </AccordionBar>
+                  <AccordionPanel
+                    id={item.id}
+                    isOpen={openIndexes.includes(item.id)}>
+                    <div className="u-4/6@desktop u-push-1/6@desktop">
+                      {item.component}
+                    </div>
+                  </AccordionPanel>
+                </React.Fragment>
+              ))}
+            </AccordionWrapper>
+          )}
+        </Accordion>
         <Field right {...formClasses('form-actions')}>
           {error && <span className="c-errorMessage">{error}</span>}
           {model.id && (

@@ -9,6 +9,9 @@
 import { beforeEachHelper } from '../../support';
 import phrases from '../../../src/phrases/phrases-nb';
 
+const selectSubject = 'subject:12';
+const selectTopic = 'topic:1:183043';
+
 beforeEach(() => {
   cy.server({ force404: true });
   cy.route(
@@ -18,12 +21,12 @@ beforeEach(() => {
   );
   cy.route(
     'GET',
-    '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true',
+    `/taxonomy/v1/subjects/urn:${selectSubject}/topics?recursive=true`,
     'fixture:allSubjectTopics.json',
   );
   cy.route(
     'GET',
-    '/taxonomy/v1/subjects/urn:subject:12/filters',
+    `/taxonomy/v1/subjects/urn:${selectSubject}/filters`,
     'fixture:allSubjectFilters.json',
   );
   cy.route(
@@ -33,23 +36,23 @@ beforeEach(() => {
   );
   cy.route(
     'GET',
-    '/taxonomy/v1/topics/urn:topic:1:183043/resources/?language=nb&relevance=urn:relevance:core&filter=',
+    `/taxonomy/v1/topics/urn:${selectTopic}/resources/?language=nb&relevance=urn:relevance:core&filter=`,
     'fixture:coreResources.json',
   );
   cy.route(
     'GET',
-    '/taxonomy/v1/topics/urn:topic:1:183043/resources/?language=nb&relevance=urn:relevance:supplementary&filter=',
+    `/taxonomy/v1/topics/urn:${selectTopic}/resources/?language=nb&relevance=urn:relevance:supplementary&filter=`,
     'fixture:supplementaryResources.json',
   );
   cy.route('GET', '/article-api/v2/articles/8497', 'fixture:article.json');
-  beforeEachHelper('/structure/subject:12/topic:1:183043');
+  beforeEachHelper(`/structure/${selectSubject}/${selectTopic}`);
 });
 
 describe('Topic editing', () => {
   it('should have a settings menu where everything works', () => {
     cy.route({
       method: 'PUT',
-      url: '/taxonomy/v1/topics/urn:topic:1:183043',
+      url: `/taxonomy/v1/topics/urn:${selectTopic}`,
       status: 204,
       headers: {
         Location: 'newPath',
@@ -112,7 +115,7 @@ describe('Topic editing', () => {
       cy.wrap($lbl).click();
     });
     cy.route(
-      '/taxonomy/v1/topics/urn:topic:1:183043/filters',
+      `/taxonomy/v1/topics/urn:${selectTopic}/filters`,
       'fixture:topicFilters.json',
     );
     cy.route({

@@ -18,6 +18,13 @@ const phrases = {
     useContent: 'Bruk innhold',
     closeLabel: 'Lukk',
     additionalLabel: 'Tilleggsstoff',
+    urlContributionsLabel: 'Se hva {name} har bidratt med',
+    urlAuthorLabel: 'Les mer om {name}',
+    multipleAuthorsLabelAbbreviation: 'm. fl.',
+    multipleAuthorsLabel: 'Opphavere av artikkel:',
+    multipleAuthorsLabelAria: 'Opphavere av artikkelen er {names}',
+    multipleAuthorsLabelAriaConjunction: 'og',
+    singleAuthorsLabelAria: 'Opphaver av artikkelen er {name}',
   },
   license: {
     heading: 'Slik gjenbruker du innhold',

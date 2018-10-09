@@ -20,6 +20,13 @@ const phrases = {
     closeLabel: 'Close',
     useContent: 'Cite or use',
     additionalLabel: 'Additional content',
+    urlContributionsLabel: 'See {name}`s contributions',
+    urlAuthorLabel: 'Read more about {name}',
+    multipleAuthorsLabelAbbreviation: 'et al.',
+    multipleAuthorsLabel: 'Article authors:',
+    multipleAuthorsLabelAria: 'Authors of this article are {names}',
+    multipleAuthorsLabelAriaConjunction: 'og',
+    singleAuthorsLabelAria: 'The author of this article is {name}',
   },
   license: {
     heading: 'Howto reuse content',

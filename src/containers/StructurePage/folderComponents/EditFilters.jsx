@@ -107,14 +107,23 @@ class EditFilters extends React.Component {
           </Button>
         )}
         <div {...classes('errorMessage')}>{error}</div>
-        {showDelete && (
-          <WarningModal
-            confirmDelete
-            text={t('taxonomy.confirmDelete')}
-            onContinue={this.deleteFilter}
-            onCancel={() => this.setState({ showDelete: '' })}
-          />
-        )}
+
+        <WarningModal
+          show={showDelete}
+          actions={[
+            {
+              text: t('form.abort'),
+              onClick: () => this.showDeleteWarning(),
+            },
+            {
+              text: t('warningModal.delete'),
+              'data-testid': 'warningModalConfirm',
+              action: this.deleteFilter,
+            },
+          ]}
+          text={t('taxonomy.confirmDelete')}
+          onCancel={this.showDeleteWarning}
+        />
       </div>
     );
   }

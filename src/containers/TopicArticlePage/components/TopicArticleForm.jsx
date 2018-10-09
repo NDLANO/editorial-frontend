@@ -171,7 +171,7 @@ class TopicArticleForm extends Component {
       showSaved,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
-    const { error } = this.state;
+    const { error, showResetModal } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
@@ -236,7 +236,7 @@ class TopicArticleForm extends Component {
           )}
 
           <WarningModal
-            show={this.state.showResetModal}
+            show={showResetModal}
             text={t('form.resetToProd.modal')}
             actions={[
               {

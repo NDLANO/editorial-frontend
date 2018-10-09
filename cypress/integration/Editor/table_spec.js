@@ -13,6 +13,9 @@ beforeEach(() => beforeEachHelper('/subject-matter/learning-resource/new'));
 
 describe('Learning resource editing', () => {
   it('can enter all types of blocks', () => {
+    cy.get('button')
+      .contains('Innhold')
+      .click();
     cy.get('[data-cy=slate-editor] div')
       .first()
       .focus();

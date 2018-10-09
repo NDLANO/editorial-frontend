@@ -59,31 +59,41 @@ class EditLinkButton extends Component {
 
   render() {
     const { refFunc, id, t } = this.props;
+    const { setPrimaryWarning, deleteLinkWarning } = this.state;
     const linkId = `linkButton-${id}`;
     return (
       <div
         style={{ display: 'none' }}
         id={linkId}
         ref={el => refFunc(el, linkId)}>
-        {this.state.setPrimaryWarning && (
-          <Portal isOpened>
-            <WarningModal
-              text={t('taxonomy.confirmSetPrimary')}
-              onCancel={this.onCancel}
-              onContinue={this.setPrimary}
-            />
-          </Portal>
-        )}
-        {this.state.deleteLinkWarning && (
-          <Portal isOpened>
-            <WarningModal
-              text={t('taxonomy.confirmDeleteTopic')}
-              onCancel={this.onCancel}
-              confirmDelete
-              onContinue={this.deleteTopicLink}
-            />
-          </Portal>
-        )}
+        <Portal isOpened>
+          <WarningModal
+            show={setPrimaryWarning}
+            text={t('taxonomy.confirmSetPrimary')}
+            onCancel={this.onCancel}
+            actions={[
+              {
+                text: t('form.abort'),
+                onClick: this.onCancel,
+              },
+              { text: t('warningModal.continue'), action: this.setPrimary },
+            ]}
+          />
+        </Portal>
+        <Portal isOpened>
+          <WarningModal
+            show={deleteLinkWarning}
+            text={t('taxonomy.confirmDeleteTopic')}
+            onCancel={this.onCancel}
+            actions={[
+              {
+                text: t('form.abort'),
+                onClick: this.onCancel,
+              },
+              { text: t('warningModal.delete'), action: this.deleteTopicLink },
+            ]}
+          />
+        </Portal>
         <Button stripped onClick={this.toggleOpen}>
           <RoundIcon icon={<LinkIcon />} />
         </Button>

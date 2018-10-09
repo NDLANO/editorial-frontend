@@ -9,7 +9,6 @@
 import { beforeEachHelper } from '../../support';
 
 beforeEach(() => {
-  beforeEachHelper('/structure');
   cy.server({ force404: true });
   cy.route(
     'GET',
@@ -42,34 +41,21 @@ beforeEach(() => {
     'fixture:supplementaryResources.json',
   );
   cy.route('GET', '/article-api/v2/articles/8497', 'fixture:article.json');
-
-  cy.get('#plumbContainer > div > a')
-    .first()
-    .click();
-  cy.get('[data-cy=subject-subFolders] > div > div > div > a')
-    .first()
-    .click();
+  beforeEachHelper('/structure/subject:12/topic:1:183043');
 });
 
 describe('Topic editing', () => {
   it('should have a settings menu where everything works', () => {
-    cy.get('[data-cy=subject-subFolders] [data-cy=folderWrapper]')
-      .first()
-      .then(div => {
-        cy.route({
-          method: 'PUT',
-          url: `/taxonomy/v1/topics/${div
-            .attr('id')
-            .split('/')
-            .pop()}`,
-          status: 204,
-          headers: {
-            Location: 'newPath',
-            'content-type': 'text/plain; charset=UTF-8',
-          },
-          response: '',
-        }).as('changeTopicName');
-      });
+    cy.route({
+      method: 'PUT',
+      url: '/taxonomy/v1/topics/urn:topic:1:183043',
+      status: 204,
+      headers: {
+        Location: 'newPath',
+        'content-type': 'text/plain; charset=UTF-8',
+      },
+      response: '',
+    }).as('changeTopicName');
 
     cy.get('[data-cy=settings-button-topic]').click({ force: true });
     cy.get('[data-cy=change-topic-name]').click({ force: true });

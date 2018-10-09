@@ -61,14 +61,20 @@ class DeleteTopic extends PureComponent {
           <RoundIcon small icon={<DeleteForever />} />
           {t('warningModal.delete')}
         </Button>
-        {editMode === 'deleteTopic' && (
-          <WarningModal
-            confirmDelete
-            onContinue={this.onDeleteTopic}
-            onCancel={this.toggleEditMode}
-            text={t('taxonomy.confirmDeleteTopic')}
-          />
-        )}
+
+        <WarningModal
+          show={editMode === 'deleteTopic'}
+          actions={[
+            {
+              text: t('form.abort'),
+              onClick: this.toggleEditMode,
+            },
+            { text: t('warningModal.delete'), action: this.onDeleteTopic },
+          ]}
+          onCancel={this.toggleEditMode}
+          text={t('taxonomy.confirmDeleteTopic')}
+        />
+
         {loading && <Spinner cssModifier="absolute" />}
         {loading && (
           <Overlay cssModifiers={['absolute', 'white-opacity', 'zIndex']} />

@@ -53,16 +53,12 @@ describe('Subject editing', () => {
         'content-type': 'text/plain; charset=UTF-8',
       },
     });
-    cy.get('#plumbContainer > div')
-      .first()
-      .then(div => {
-        cy.route({
-          method: 'PUT',
-          url: `/taxonomy/v1/subjects/${div.attr('id')}`,
-          status: 204,
-          response: '',
-        }).as('newSubjectName');
-      });
+    cy.route({
+      method: 'PUT',
+      url: `/taxonomy/v1/subjects/urn:subject:12`,
+      status: 204,
+      response: '',
+    }).as('newSubjectName');
     cy.route({
       method: 'POST',
       url: '/taxonomy/v1/topics',

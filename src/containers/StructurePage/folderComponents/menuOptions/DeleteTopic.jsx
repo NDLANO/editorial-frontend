@@ -69,7 +69,11 @@ class DeleteTopic extends PureComponent {
               text: t('form.abort'),
               onClick: this.toggleEditMode,
             },
-            { text: t('warningModal.delete'), action: this.onDeleteTopic },
+            {
+              text: t('warningModal.delete'),
+              'data-testid': 'confirmDelete',
+              onClick: this.onDeleteTopic,
+            },
           ]}
           onCancel={this.toggleEditMode}
           text={t('taxonomy.confirmDeleteTopic')}

@@ -16,6 +16,7 @@ class AddTopic extends React.PureComponent {
   async onAddSubTopic(name) {
     const { id, numberOfSubtopics, refreshTopics } = this.props;
     const newPath = await addTopic({ name });
+    if (!newPath) throw Error('Invalid topic path returned');
     const newId = newPath.replace('/v1/topics/', '');
     await addTopicToTopic({
       subtopicid: newId,

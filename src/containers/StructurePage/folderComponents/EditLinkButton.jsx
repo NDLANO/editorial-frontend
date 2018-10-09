@@ -43,8 +43,9 @@ class EditLinkButton extends Component {
   }
 
   setPrimary() {
+    const { setPrimary, id } = this.props;
     this.setState({ setPrimaryWarning: false, open: false });
-    this.props.setPrimary();
+    setPrimary(id);
   }
 
   deleteTopicLink() {
@@ -76,7 +77,7 @@ class EditLinkButton extends Component {
                 text: t('form.abort'),
                 onClick: this.onCancel,
               },
-              { text: t('warningModal.continue'), action: this.setPrimary },
+              { text: t('warningModal.continue'), onClick: this.setPrimary },
             ]}
           />
         </Portal>
@@ -90,7 +91,7 @@ class EditLinkButton extends Component {
                 text: t('form.abort'),
                 onClick: this.onCancel,
               },
-              { text: t('warningModal.delete'), action: this.deleteTopicLink },
+              { text: t('warningModal.delete'), onClick: this.deleteTopicLink },
             ]}
           />
         </Portal>

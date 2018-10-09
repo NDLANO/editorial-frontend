@@ -61,6 +61,7 @@ const FolderItem = ({
     match,
     showLink,
     refFunc,
+    setPrimary,
     linkViewOpen,
     ...rest,
   };
@@ -77,7 +78,7 @@ const FolderItem = ({
     <EditLinkButton
       refFunc={refFunc}
       id={id}
-      setPrimary={() => setPrimary(id)}
+      setPrimary={setPrimary}
       deleteTopicLink={deleteTopicLink}
     />
   );

@@ -113,7 +113,9 @@ export class StructurePage extends React.PureComponent {
   async getAllSubjects() {
     try {
       const subjects = await fetchSubjects(this.props.locale);
-      this.setState({ subjects });
+      this.setState({
+        subjects: subjects.sort((a, b) => a.name.localeCompare(b.name)),
+      });
     } catch (e) {
       handleError(e);
     }
@@ -302,6 +304,7 @@ export class StructurePage extends React.PureComponent {
                   getFilters={this.getFilters}
                   subjectFilters={filters}
                   activeFilters={activeFilters}
+                  setPrimary={this.setPrimary}
                   toggleFilter={this.toggleFilter}
                   deleteTopicLink={this.deleteTopicLink}
                   locale={locale}

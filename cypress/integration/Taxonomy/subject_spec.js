@@ -25,7 +25,7 @@ beforeEach(() => {
     '/taxonomy/v1/subjects/urn:subject:12/filters',
     'fixture:allSubjectFilters.json',
   );
-  beforeEachHelper('/structure');
+  beforeEachHelper('/structure/subject:12');
 });
 
 describe('Subject editing', () => {
@@ -91,9 +91,7 @@ describe('Subject editing', () => {
       status: 201,
       response: '',
     }).as('addNewSubjectTopic');
-    cy.get('#plumbContainer > div > a')
-      .first()
-      .click();
+
     cy.get('.c-settingsMenu')
       .first()
       .click();

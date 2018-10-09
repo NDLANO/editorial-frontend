@@ -16,6 +16,7 @@ class AddSubjectTopic extends React.PureComponent {
   async onAddSubjectTopic(name) {
     const { id, refreshTopics } = this.props;
     const newPath = await addTopic({ name });
+    if (!newPath) throw Error('Invalid topic path returned');
     const newId = newPath.replace('/v1/topics/', '');
     const ok = await addSubjectTopic({
       subjectid: id,

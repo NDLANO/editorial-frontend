@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import {
@@ -17,7 +17,7 @@ import {
 import { CommonFieldPropsShape } from '../../../shapes';
 
 const TopicArticleMetadata = ({ t, bindInput, commonFieldProps, tags }) => (
-  <div className="u-4/6@desktop u-push-1/6@desktop">
+  <Fragment>
     <MultiSelectField
       obligatory
       name="tags"
@@ -45,7 +45,7 @@ const TopicArticleMetadata = ({ t, bindInput, commonFieldProps, tags }) => (
         value={bindInput('metaDescription').value.document.text}
       />
     </PlainTextField>
-  </div>
+  </Fragment>
 );
 
 TopicArticleMetadata.propTypes = {

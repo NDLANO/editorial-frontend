@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
@@ -79,7 +79,7 @@ class FormWorkflow extends Component {
     const { possibleStatuses } = this.state;
 
     return (
-      <div className="u-4/6@desktop u-push-1/6@desktop">
+      <Fragment>
         <AddNotes
           name="notes"
           label={t('form.addNotes')}
@@ -96,7 +96,7 @@ class FormWorkflow extends Component {
           model={model}
           onValidateClick={this.onValidateClick}
         />
-      </div>
+      </Fragment>
     );
   }
 }

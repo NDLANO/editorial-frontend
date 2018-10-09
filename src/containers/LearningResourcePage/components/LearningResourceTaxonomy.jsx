@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { TaxonomyFieldDropdown } from '../../../components/Fields';
@@ -72,7 +72,7 @@ class LearningResourceTaxonomy extends Component {
       ...commonFieldProps,
     };
     return (
-      <div className="u-4/6@desktop u-push-1/6@desktop">
+      <Fragment>
         {taxonomyIsLoading ? <Spinner cssModifier="absolute" /> : ''}
         {taxonomyIsLoading ? (
           <Overlay cssModifiers={['absolute', 'white-opacity']} />
@@ -118,7 +118,7 @@ class LearningResourceTaxonomy extends Component {
           }}
           {...defaultDropdownProps}
         />
-      </div>
+      </Fragment>
     );
   }
 }

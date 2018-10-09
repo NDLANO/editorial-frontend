@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { SelectObjectField } from '../../components/Fields';
@@ -17,7 +17,7 @@ import { AgreementConnection } from '.';
 const FormCopyright = ({ t, commonFieldProps, licenses, model }) => {
   const disabled = !!model.agreementId;
   return (
-    <div className="u-4/6@desktop u-push-1/6@desktop">
+    <Fragment>
       <Contributors
         name="creators"
         label={t('form.creators.label')}
@@ -45,7 +45,7 @@ const FormCopyright = ({ t, commonFieldProps, licenses, model }) => {
         disabled={disabled}
         {...commonFieldProps}
       />
-    </div>
+    </Fragment>
   );
 };
 

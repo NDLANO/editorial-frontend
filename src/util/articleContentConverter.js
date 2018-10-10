@@ -29,10 +29,21 @@ export const sectionSplitter = html => {
 export const isValueEmpty = value => {
   const { document, texts } = value;
   const { nodes } = document;
+  const first = nodes.first();
+  const second = first.nodes.first();
   if (nodes.isEmpty()) {
     return true;
   }
-  if (texts.size === 0 || (texts.size === 1 && !texts.first().text)) {
+  if (
+    first.type === 'section' &&
+    (second.type === 'related' || second.type === 'embed')
+  ) {
+    return false;
+  }
+  if (
+    !second.isVoid &&
+    (texts.size === 0 || (texts.size === 1 && !texts.first().text))
+  ) {
     return true;
   }
   if (

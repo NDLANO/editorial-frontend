@@ -26,6 +26,15 @@ const phrases = {
     multipleAuthorsLabelAriaConjunction: 'og',
     singleAuthorsLabelAria: 'Opphaver av artikkelen er {name}',
   },
+  dialog: {
+    close: 'Lukk',
+    title: 'Tittel',
+    audio: {
+      rulesForUse: 'Regler for bruk av lydklipp',
+    },
+    learnAboutLicenses: 'Lær mer om åpne lisenser',
+    source: 'Kilde',
+  },
   license: {
     heading: 'Slik gjenbruker du innhold',
     learnMore: 'Lær mer om åpne lisenser',

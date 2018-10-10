@@ -28,6 +28,15 @@ const phrases = {
     multipleAuthorsLabelAriaConjunction: 'og',
     singleAuthorsLabelAria: 'The author of this article is {name}',
   },
+  dialog: {
+    close: 'Close',
+    title: 'Title',
+    audio: {
+      rulesForUse: 'Rules for use of audio',
+    },
+    learnAboutLicenses: 'Learn more about open licenses',
+    source: 'Source',
+  },
   license: {
     heading: 'Howto reuse content',
     tabs: {

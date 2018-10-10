@@ -16,7 +16,7 @@ import Accordion, {
   AccordionPanel,
 } from 'ndla-accordion';
 import Button from 'ndla-button';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
@@ -173,6 +173,7 @@ class TopicArticleForm extends Component {
       fields,
       licenses,
       showSaved,
+      history,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
     const { error } = this.state;
@@ -278,12 +279,9 @@ class TopicArticleForm extends Component {
             ]}
             onCancel={() => this.setState({ showResetModal: false })}
           />
-          <Link
-            to="/"
-            className="c-button c-button--outline"
-            disabled={isSaving}>
+          <Button outline onClick={history.goBack} disabled={isSaving}>
             {t('form.abort')}
-          </Link>
+          </Button>
           <SaveButton
             {...formClasses}
             isSaving={isSaving}
@@ -330,10 +328,14 @@ TopicArticleForm.propTypes = {
     other: PropTypes.arrayOf(PropTypes.string),
   }),
   licenses: LicensesArrayOf,
+  history: PropTypes.shape({
+    goBack: PropTypes.func,
+  }).isRequired,
 };
 
 export default compose(
   injectT,
+  withRouter,
   reformed,
   validateSchema({
     title: {

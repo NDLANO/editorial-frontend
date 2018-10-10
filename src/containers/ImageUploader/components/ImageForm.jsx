@@ -9,8 +9,8 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import Button from 'ndla-button';
+import { withRouter } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
@@ -135,6 +135,7 @@ class ImageForm extends Component {
       showSaved,
       inModal,
       closeModal,
+      history,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
@@ -156,18 +157,15 @@ class ImageForm extends Component {
           tags={tags}
           licenses={licenses}
         />
-        <Field right>
+        <Field right {...classes('form-actions')}>
           {inModal ? (
             <Button outline onClick={closeModal}>
               Avbryt
             </Button>
           ) : (
-            <Link
-              to="/"
-              className="c-button c-button--outline c-abort-button"
-              disabled={isSaving}>
+            <Button onClick={history.goBack} outline disabled={isSaving}>
               {t('form.abort')}
-            </Link>
+            </Button>
           )}
           <SaveButton
             isSaving={isSaving}
@@ -223,10 +221,14 @@ ImageForm.propTypes = {
   revision: PropTypes.number,
   inModal: PropTypes.bool,
   closeModal: PropTypes.func,
+  history: PropTypes.shape({
+    goBack: PropTypes.func,
+  }).isRequired,
 };
 
 export default compose(
   injectT,
+  withRouter,
   reformed,
   validateSchema({
     title: {

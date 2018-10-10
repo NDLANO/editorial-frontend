@@ -9,19 +9,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AgreementForm, { getInitialModel } from './components/AgreementForm';
 
-const CreateAgreement = ({
-  locale,
-  licenses,
-  isSaving,
-  upsertAgreement,
-  ...rest
-}) => (
+const CreateAgreement = ({ upsertAgreement, ...rest }) => (
   <AgreementForm
     initialModel={getInitialModel()}
-    licenses={licenses}
-    locale={locale}
     onUpdate={agreement => upsertAgreement(agreement)}
-    isSaving={isSaving}
     {...rest}
   />
 );

@@ -44,7 +44,7 @@ class EditAgreement extends Component {
   }
 
   render() {
-    const { isSaving, licenses, upsertAgreement, ...rest } = this.props;
+    const { upsertAgreement, ...rest } = this.props;
     const { agreement } = this.state;
     if (!agreement) {
       return null;
@@ -52,8 +52,6 @@ class EditAgreement extends Component {
     return (
       <AgreementForm
         initialModel={getInitialModel(agreement)}
-        licenses={licenses}
-        isSaving={isSaving}
         onUpdate={upsertAgreement}
         {...rest}
       />

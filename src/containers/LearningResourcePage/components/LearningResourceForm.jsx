@@ -11,7 +11,11 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { withRouter } from 'react-router-dom';
-import Accordion from 'ndla-accordion';
+import Accordion, {
+  AccordionWrapper,
+  AccordionBar,
+  AccordionPanel,
+} from 'ndla-accordion';
 import Button from 'ndla-button';
 import config from '../../../config';
 import reformed from '../../../components/reformed';
@@ -236,10 +240,11 @@ class LearningResourceForm extends Component {
 
     const { error } = this.state;
     const commonFieldProps = { bindInput, schema, submitted };
-    const tabsAccordion = [
+    const panels = [
       {
+        id: 'learning-resource-content',
         title: t('form.contentSection'),
-        children: (
+        component: (
           <LearningResourceContent
             commonFieldProps={commonFieldProps}
             bindInput={bindInput}>
@@ -251,8 +256,9 @@ class LearningResourceForm extends Component {
         ),
       },
       {
+        id: 'learning-resource-copyright',
         title: t('form.copyrightSection'),
-        children: (
+        component: (
           <FormCopyright
             model={model}
             commonFieldProps={commonFieldProps}
@@ -261,8 +267,9 @@ class LearningResourceForm extends Component {
         ),
       },
       {
+        id: 'learning-resource-metadata',
         title: t('form.metadataSection'),
-        children: (
+        component: (
           <LearningResourceMetadata
             commonFieldProps={commonFieldProps}
             bindInput={bindInput}
@@ -272,8 +279,9 @@ class LearningResourceForm extends Component {
         ),
       },
       {
+        id: 'learning-resource-workflow',
         title: t('form.workflowSection'),
-        children: (
+        component: (
           <FormWorkflow
             commonFieldProps={commonFieldProps}
             articleStatus={articleStatus}
@@ -284,9 +292,10 @@ class LearningResourceForm extends Component {
       },
     ];
     if (model.id && config.taxonomyEnabled) {
-      tabsAccordion.splice(1, 0, {
+      panels.splice(1, 0, {
+        id: 'learning-resource-taxonomy',
         title: t('form.taxonomytSection'),
-        children: (
+        component: (
           <LearningResourceTaxonomy
             commonFieldProps={commonFieldProps}
             model={model}
@@ -302,7 +311,30 @@ class LearningResourceForm extends Component {
           type={model.articleType}
           editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
         />
-        <Accordion panels={tabsAccordion} />
+        <Accordion>
+          {({ openIndexes, handleItemClick }) => (
+            <AccordionWrapper>
+              {panels.map(panel => (
+                <React.Fragment key={panel.id}>
+                  <AccordionBar
+                    panelId={panel.id}
+                    ariaLabel={panel.title}
+                    onClick={() => handleItemClick(panel.id)}
+                    isOpen={openIndexes.includes(panel.id)}>
+                    {panel.title}
+                  </AccordionBar>
+                  <AccordionPanel
+                    id={panel.id}
+                    isOpen={openIndexes.includes(panel.id)}>
+                    <div className="u-4/6@desktop u-push-1/6@desktop">
+                      {panel.component}
+                    </div>
+                  </AccordionPanel>
+                </React.Fragment>
+              ))}
+            </AccordionWrapper>
+          )}
+        </Accordion>
         <Field right {...formClasses('form-actions')}>
           {error && <span className="c-errorMessage">{error}</span>}
           {model.id && (

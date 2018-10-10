@@ -14,7 +14,6 @@ import { defaultBlock } from '../../schema';
 const detailsBlock = [
   {
     type: 'summary',
-    isVoid: false,
     data: {},
   },
 ];
@@ -22,7 +21,6 @@ const detailsBlock = [
 /* eslint-disable react/prop-types */
 export const defaultDetailsBlock = () =>
   Block.create({
-    isVoid: false,
     type: 'details',
     nodes: Block.createList(detailsBlock),
   });

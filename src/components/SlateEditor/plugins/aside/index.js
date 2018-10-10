@@ -14,7 +14,6 @@ import SlateAside from './SlateAside';
 export const defaultAsideBlock = type =>
   Block.create({
     data: { type },
-    isVoid: false,
     type: 'aside',
     nodes: Block.createList([defaultBlock]),
   });

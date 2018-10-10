@@ -13,7 +13,6 @@ import { defaultBlock } from '../../schema';
 
 export const defaultBodyBoxBlock = () =>
   Block.create({
-    isVoid: false,
     type: 'bodybox',
     nodes: Block.createList([defaultBlock]),
   });

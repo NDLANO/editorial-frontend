@@ -12,13 +12,11 @@ import { Block } from 'slate';
 
 export const defaultBlock = {
   type: 'paragraph',
-  isVoid: false,
   data: {},
 };
 
 export const defaultBlockWithText = text => ({
   data: {},
-  isVoid: false,
   object: 'block',
   nodes: [
     {
@@ -38,23 +36,21 @@ export const defaultBlockWithText = text => ({
 export const defaultAsideBlock = type =>
   Block.create({
     data: { type },
-    isVoid: false,
     type: 'aside',
     nodes: Block.createList([defaultBlock]),
   });
 
 export const defaultEmbedBlock = data =>
   Block.create({
-    isVoid: true,
     type: 'embed',
     data,
   });
 
 export const defaultRelatedBlock = () =>
   Block.create({
-    isVoid: true,
     object: 'block',
     type: 'related',
+    data: {},
   });
 
 export const getSchemaEmbed = node => node.get('data').toJS();

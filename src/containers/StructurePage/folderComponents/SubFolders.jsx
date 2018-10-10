@@ -86,10 +86,8 @@ SubFolders.propTypes = {
   topics: arrayOf(object),
   type: string,
   isMainActive: bool,
-  params: shape({
-    topic1: string,
-    topic2: string,
-    subject: string,
+  match: shape({
+    url: string,
   }),
   activeFilters: arrayOf(string),
 };

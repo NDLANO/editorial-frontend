@@ -29,7 +29,7 @@ const wrapper = () =>
           t={() => 'injected'}
           locale="nb"
           match={{
-            url: '',
+            url: 'subject:1/topic:1:186479/topic:1:172650',
             params: {
               subject: 'subject:1',
               topic1: 'topic:1:186479',

@@ -94,9 +94,10 @@ export const getInitialModel = (
       article.copyright && article.copyright.origin
         ? article.copyright.origin
         : '',
-    license: article.copyright
-      ? article.copyright.license.license
-      : DEFAULT_LICENSE.license,
+    license:
+      article.copyright && article.copyright.license
+        ? article.copyright.license.license
+        : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
     metaImageId,
     metaImageAlt: article.metaImage ? article.metaImage.alt : '',

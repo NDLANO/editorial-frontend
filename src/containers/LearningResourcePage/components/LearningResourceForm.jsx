@@ -238,7 +238,7 @@ class LearningResourceForm extends Component {
     } = this.props;
     const { error } = this.state;
     const commonFieldProps = { bindInput, schema, submitted };
-    const tabsAccordion = [
+    const panels = [
       {
         id: 'learning-resource-content',
         title: t('form.contentSection'),
@@ -290,7 +290,7 @@ class LearningResourceForm extends Component {
       },
     ];
     if (model.id && config.taxonomyEnabled) {
-      tabsAccordion.splice(1, 0, {
+      panels.splice(1, 0, {
         id: 'learning-resource-taxonomy',
         title: t('form.taxonomytSection'),
         component: (
@@ -312,20 +312,20 @@ class LearningResourceForm extends Component {
         <Accordion>
           {({ openIndexes, handleItemClick }) => (
             <AccordionWrapper>
-              {tabsAccordion.map(item => (
-                <React.Fragment key={item.id}>
+              {panels.map(panel => (
+                <React.Fragment key={panel.id}>
                   <AccordionBar
-                    panelId={item.id}
-                    ariaLabel={item.title}
-                    onClick={() => handleItemClick(item.id)}
-                    isOpen={openIndexes.includes(item.id)}>
-                    {item.title}
+                    panelId={panel.id}
+                    ariaLabel={panel.title}
+                    onClick={() => handleItemClick(panel.id)}
+                    isOpen={openIndexes.includes(panel.id)}>
+                    {panel.title}
                   </AccordionBar>
                   <AccordionPanel
-                    id={item.id}
-                    isOpen={openIndexes.includes(item.id)}>
+                    id={panel.id}
+                    isOpen={openIndexes.includes(panel.id)}>
                     <div className="u-4/6@desktop u-push-1/6@desktop">
-                      {item.component}
+                      {panel.component}
                     </div>
                   </AccordionPanel>
                 </React.Fragment>

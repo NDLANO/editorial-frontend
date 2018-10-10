@@ -176,7 +176,54 @@ class TopicArticleForm extends Component {
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
     const { error } = this.state;
-
+    const panels = [
+      {
+        id: 'topic-article-content',
+        title: t('form.contentSection'),
+        component: (
+          <TopicArticleContent
+            commonFieldProps={commonFieldProps}
+            bindInput={bindInput}
+            tags={tags}
+            model={model}
+          />
+        ),
+      },
+      {
+        id: 'topic-article-copyright',
+        title: t('form.copyrightSection'),
+        component: (
+          <FormCopyright
+            model={model}
+            commonFieldProps={commonFieldProps}
+            licenses={licenses}
+          />
+        ),
+      },
+      {
+        id: 'topic-article-metadata',
+        title: t('form.metadataSection'),
+        component: (
+          <TopicArticleMetadata
+            commonFieldProps={commonFieldProps}
+            bindInput={bindInput}
+            tags={tags}
+          />
+        ),
+      },
+      {
+        id: 'topic-article-workflow',
+        title: t('form.workflowSection'),
+        component: (
+          <FormWorkflow
+            commonFieldProps={commonFieldProps}
+            articleStatus={articleStatus}
+            model={model}
+            getArticle={this.getArticle}
+          />
+        ),
+      },
+    ];
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader
@@ -187,67 +234,20 @@ class TopicArticleForm extends Component {
         <Accordion>
           {({ openIndexes, handleItemClick }) => (
             <AccordionWrapper>
-              {[
-                {
-                  id: 'topic-article-content',
-                  title: t('form.contentSection'),
-                  component: (
-                    <TopicArticleContent
-                      commonFieldProps={commonFieldProps}
-                      bindInput={bindInput}
-                      tags={tags}
-                      model={model}
-                    />
-                  ),
-                },
-                {
-                  id: 'topic-article-copyright',
-                  title: t('form.copyrightSection'),
-                  component: (
-                    <FormCopyright
-                      model={model}
-                      commonFieldProps={commonFieldProps}
-                      licenses={licenses}
-                    />
-                  ),
-                },
-                {
-                  id: 'topic-article-metadata',
-                  title: t('form.metadataSection'),
-                  component: (
-                    <TopicArticleMetadata
-                      commonFieldProps={commonFieldProps}
-                      bindInput={bindInput}
-                      tags={tags}
-                    />
-                  ),
-                },
-                {
-                  id: 'topic-article-workflow',
-                  title: t('form.workflowSection'),
-                  component: (
-                    <FormWorkflow
-                      commonFieldProps={commonFieldProps}
-                      articleStatus={articleStatus}
-                      model={model}
-                      getArticle={this.getArticle}
-                    />
-                  ),
-                },
-              ].map(item => (
-                <React.Fragment key={item.id}>
+              {panels.map(panel => (
+                <React.Fragment key={panel.id}>
                   <AccordionBar
-                    panelId={item.id}
-                    ariaLabel={item.title}
-                    onClick={() => handleItemClick(item.id)}
-                    isOpen={openIndexes.includes(item.id)}>
-                    {item.title}
+                    panelId={panel.id}
+                    ariaLabel={panel.title}
+                    onClick={() => handleItemClick(panel.id)}
+                    isOpen={openIndexes.includes(panel.id)}>
+                    {panel.title}
                   </AccordionBar>
                   <AccordionPanel
-                    id={item.id}
-                    isOpen={openIndexes.includes(item.id)}>
+                    id={panel.id}
+                    isOpen={openIndexes.includes(panel.id)}>
                     <div className="u-4/6@desktop u-push-1/6@desktop">
-                      {item.component}
+                      {panel.component}
                     </div>
                   </AccordionPanel>
                 </React.Fragment>

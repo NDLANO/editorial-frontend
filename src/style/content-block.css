@@ -85,10 +85,6 @@ details {
   padding: var(--spacing) var(--spacing--large);
   z-index: 1;
 
-  @media (--large-viewport) {
-    margin: -1em -7em;
-  }
-
   & figure {
     position: static !important;
   }

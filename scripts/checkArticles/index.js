@@ -13,14 +13,12 @@ const fetch = require('isomorphic-fetch');
 const fs = require('fs');
 const jsdiff = require('diff');
 const mkdirp = require('mkdirp');
-const { getUniversalConfig } = require('../../src/config');
+const { getNdlaApiUrl } = require('../../src/config');
 const {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } = require('../../src/util/articleContentConverter');
 const { resolveJsonOrRejectWithError } = require('../../src/util/apiHelpers');
-
-const config = getUniversalConfig();
 
 const dom = new jsdom.JSDOM('<!DOCTYPE html></html>');
 
@@ -29,7 +27,6 @@ global.document = window.document;
 global.navigator = window.navigator;
 global.NodeFilter = window.NodeFilter;
 
-const url = `${config.ndlaApiUrl}/article-api/v2/articles/`;
 const { fragment } = jsdom.JSDOM;
 
 const errors = [];
@@ -64,8 +61,7 @@ async function fetchSystemAccessToken() {
   }).then(resolveJsonOrRejectWithError);
 }
 
-async function fetchArticles(query) {
-  console.log(url);
+async function fetchArticles(url, query) {
   const result = await fetch(`${url}?${queryString.stringify(query)}`, {
     headers: {
       'Cache-Control': 'no-cache',
@@ -82,7 +78,7 @@ async function fetchArticles(query) {
   return result;
 }
 
-async function fetchArticle(id) {
+async function fetchArticle(url, id) {
   await sleep(100);
   let result;
   result = await fetch(`${url}${id}`, {
@@ -201,16 +197,17 @@ async function testArticle(id, article) {
 
 async function runCheck(argv) {
   await fetchSystemAccessToken();
+  const url = `${getNdlaApiUrl(argv.env)}/article-api/v2/articles/`;
 
   if (argv.single) {
     const id = argv.single;
-    const article = await fetchArticle(id, token);
+    const article = await fetchArticle(url, id);
     await testArticle(id, article);
   } else if (argv.write) {
     const articles = [];
-    const articleIds = (await fetchAllArticles()).slice(0, 2);
+    const articleIds = await fetchAllArticles();
     await asyncForEach(articleIds, async id => {
-      const article = await fetchArticle(id, token);
+      const article = await fetchArticle(url, id);
       articles.push(article);
       await testArticle(id, article);
     });

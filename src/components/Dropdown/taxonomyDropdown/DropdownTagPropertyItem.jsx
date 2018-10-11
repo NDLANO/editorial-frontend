@@ -11,28 +11,29 @@ import PropTypes from 'prop-types';
 import { tagClasses } from '../../Tag';
 
 const DropdownTagPropertyItem = ({
-  tagProperty,
-  itemProperty,
+  name,
+  checked,
+  id,
   handleSetTagProperty,
 }) => (
   <label
     {...tagClasses('radio', 'label')}
     id="tag-input-label"
-    htmlFor={tagProperty.name.toLowerCase()}>
+    htmlFor={name.toLowerCase()}>
     <input
       type="radio"
-      value={tagProperty.id}
-      onChange={e => handleSetTagProperty(e)}
-      checked={itemProperty.id === tagProperty.id}
+      onChange={() => handleSetTagProperty(id)}
+      checked={checked}
     />
-    {tagProperty.name}
+    {name}
   </label>
 );
 
 DropdownTagPropertyItem.propTypes = {
   handleSetTagProperty: PropTypes.func,
-  tagProperty: PropTypes.shape({}),
-  itemProperty: PropTypes.shape({}),
+  name: PropTypes.string,
+  id: PropTypes.string,
+  checked: PropTypes.bool,
 };
 
 export default DropdownTagPropertyItem;

@@ -21,6 +21,7 @@ describe('Learning resource editing', () => {
       status: 201,
       response: '@saveResponse',
     }).as('savedLR');
+    cy.get('button[aria-label=Innhold]').click();
 
     cy.get('[data-testid=saveLearningResourceButton]').click({ force: true }); // checking that saving is disabled
     cy.get('[data-cy=learning-resource-title]').type('This is a test title.', {

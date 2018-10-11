@@ -124,10 +124,7 @@ class LearningResourceForm extends Component {
     };
   }
 
-  componentDidUpdate({
-    taxonomy: prevTaxonomy,
-    initialModel: prevInitialModel,
-  }) {
+  componentDidUpdate({ taxonomy: prevTaxonomy, initialModel: prevModel }) {
     const { initialModel, setModel, setModelField, taxonomy } = this.props;
     const hasTaxonomyChanged =
       taxonomy && prevTaxonomy && taxonomy.loading !== prevTaxonomy.loading;
@@ -136,8 +133,8 @@ class LearningResourceForm extends Component {
       const fields = ['resourceTypes', 'filter', 'topics'];
       fields.map(field => setModelField(field, initialModel[field]));
     } else if (
-      initialModel.id !== prevInitialModel.id ||
-      initialModel.language !== prevInitialModel.language
+      initialModel.id !== prevModel.id ||
+      initialModel.language !== prevModel.language
     ) {
       setModel(initialModel);
     }

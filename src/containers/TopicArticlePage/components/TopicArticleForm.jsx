@@ -84,11 +84,11 @@ class TopicArticleForm extends Component {
     };
   }
 
-  componentDidUpdate({ initialModel: prevInitialModel }) {
+  componentDidUpdate({ initialModel: prevModel }) {
     const { initialModel, setModel } = this.props;
     if (
-      initialModel.id !== prevInitialModel.id ||
-      initialModel.language !== prevInitialModel.language
+      initialModel.id !== prevModel.id ||
+      initialModel.language !== prevModel.language
     ) {
       setModel(initialModel);
     }
@@ -176,7 +176,6 @@ class TopicArticleForm extends Component {
       history,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
-    const { error } = this.state;
     const panels = [
       {
         id: 'topic-article-content',
@@ -225,6 +224,7 @@ class TopicArticleForm extends Component {
         ),
       },
     ];
+    const { error, showResetModal } = this.state;
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader
@@ -265,7 +265,7 @@ class TopicArticleForm extends Component {
           )}
 
           <WarningModal
-            show={this.state.showResetModal}
+            show={showResetModal}
             text={t('form.resetToProd.modal')}
             actions={[
               {

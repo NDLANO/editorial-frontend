@@ -7,9 +7,12 @@
  */
 
 import { beforeEachHelper } from '../../support';
+import phrases from '../../../src/phrases/phrases-nb';
+
+const selectSubject = 'subject:12';
+const selectTopic = 'topic:1:183043';
 
 beforeEach(() => {
-  beforeEachHelper('/structure');
   cy.server({ force404: true });
   cy.route(
     'GET',
@@ -18,12 +21,12 @@ beforeEach(() => {
   );
   cy.route(
     'GET',
-    '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true',
+    `/taxonomy/v1/subjects/urn:${selectSubject}/topics?recursive=true`,
     'fixture:allSubjectTopics.json',
   );
   cy.route(
     'GET',
-    '/taxonomy/v1/subjects/urn:subject:12/filters',
+    `/taxonomy/v1/subjects/urn:${selectSubject}/filters`,
     'fixture:allSubjectFilters.json',
   );
   cy.route(
@@ -33,43 +36,51 @@ beforeEach(() => {
   );
   cy.route(
     'GET',
-    '/taxonomy/v1/topics/urn:topic:1:183043/resources/?language=nb&relevance=urn:relevance:core&filter=',
+    `/taxonomy/v1/topics/urn:${selectTopic}/resources/?language=nb&relevance=urn:relevance:core&filter=`,
     'fixture:coreResources.json',
   );
   cy.route(
     'GET',
-    '/taxonomy/v1/topics/urn:topic:1:183043/resources/?language=nb&relevance=urn:relevance:supplementary&filter=',
+    `/taxonomy/v1/topics/urn:${selectTopic}/resources/?language=nb&relevance=urn:relevance:supplementary&filter=`,
     'fixture:supplementaryResources.json',
   );
   cy.route('GET', '/article-api/v2/articles/8497', 'fixture:article.json');
-
-  cy.get('#plumbContainer > div > a')
-    .first()
-    .click();
-  cy.get('[data-cy=subject-subFolders] > div > div > div > a')
-    .first()
-    .click();
+  beforeEachHelper(`/structure/${selectSubject}/${selectTopic}`);
 });
 
 describe('Topic editing', () => {
   it('should have a settings menu where everything works', () => {
-    cy.get('[data-cy=subject-subFolders] [data-cy=folderWrapper]')
-      .first()
-      .then(div => {
-        cy.route({
-          method: 'PUT',
-          url: `/taxonomy/v1/topics/${div
-            .attr('id')
-            .split('/')
-            .pop()}`,
-          status: 204,
-          headers: {
-            Location: 'newPath',
-            'content-type': 'text/plain; charset=UTF-8',
-          },
-          response: '',
-        }).as('changeTopicName');
-      });
+    cy.route({
+      method: 'PUT',
+      url: `/taxonomy/v1/topics/urn:${selectTopic}`,
+      status: 204,
+      headers: {
+        Location: 'newPath',
+        'content-type': 'text/plain; charset=UTF-8',
+      },
+      response: '',
+    }).as('changeTopicName');
+    cy.route({
+      method: 'POST',
+      url: '/taxonomy/v1/topics',
+      status: 201,
+      headers: {
+        Location: 'newPath',
+        'content-type': 'text/plain; charset=UTF-8',
+      },
+      response: '',
+    });
+    cy.route({
+      method: 'POST',
+      status: 201,
+      url: '/taxonomy/v1/topic-subtopics',
+      headers: {
+        Location: 'newSubTopicPath',
+        'content-type': 'text/plain; charset=UTF-8',
+      },
+      response: '',
+    });
+    cy.route('/taxonomy/v1/topics/?language=nb', 'fixture:allTopics.json');
 
     cy.get('[data-cy=settings-button-topic]').click({ force: true });
     cy.get('[data-cy=change-topic-name]').click({ force: true });
@@ -77,5 +88,59 @@ describe('Topic editing', () => {
       force: true,
     });
     cy.wait('@changeTopicName');
+
+    cy.get('[data-cy=settings-button-topic]').click({ force: true });
+    cy.get('button')
+      .contains(phrases.taxonomy.addTopic)
+      .click();
+    cy.get(`input[placeholder="${phrases.taxonomy.newTopic}"]`).type(
+      'Nytt testemne{enter}',
+    );
+
+    cy.get('[data-cy=settings-button-topic]').click({ force: true });
+    cy.get('button')
+      .contains(phrases.taxonomy.addExistingTopic)
+      .click();
+    cy.get(`input[placeholder="${phrases.taxonomy.existingTopic}"]`).type('F');
+    cy.get('[data-testid=dropdown-items]')
+      .contains('Filmanalyse')
+      .click();
+    cy.get('[data-testid=inlineEditSaveButton]').click();
+
+    cy.get('[data-cy=settings-button-topic]').click({ force: true });
+    cy.get('button')
+      .contains(phrases.taxonomy.connectFilters)
+      .click();
+    cy.get('.c-connectFilter > label').each($lbl => {
+      cy.wrap($lbl).click();
+    });
+    cy.route(
+      `/taxonomy/v1/topics/urn:${selectTopic}/filters`,
+      'fixture:topicFilters.json',
+    );
+    cy.route({
+      method: 'POST',
+      url: '/taxonomy/v1/topic-filters',
+      headers: {
+        Location: 'filterLocation',
+        'content-type': 'text/plain; charset=UTF-8',
+      },
+      status: 201,
+      response: '',
+    }).as('addToFilter');
+    cy.get('[data-testid="submitConnectFilters"]').click();
+
+    cy.wait('@addToFilter');
+    cy.get('button')
+      .contains(phrases.warningModal.delete)
+      .click();
+    cy.route({
+      method: 'DELETE',
+      url:
+        '/taxonomy/v1/subject-topics/urn:subject-topic:2357d45d-1f79-4953-86e8-b97617a493d0',
+      status: 204,
+      response: '',
+    });
+    cy.get('[data-testid=confirmDelete]').click();
   });
 });

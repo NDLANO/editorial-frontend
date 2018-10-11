@@ -14,18 +14,18 @@ import { actions, getAudio } from '../../modules/audio/audio';
 import { AudioShape } from '../../shapes';
 
 class EditAudio extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { audioId: id, fetchAudio, audioLanguage } = this.props;
     if (id) fetchAudio({ id, language: audioLanguage });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { audioId: id, fetchAudio, audioLanguage, audio } = nextProps;
+  componentDidUpdate({ audioId: prevId }) {
+    const { audioId: id, fetchAudio, audioLanguage, audio } = this.props;
 
     if (
       id &&
       audioLanguage &&
-      ((audio && audio.language !== audioLanguage) || id !== this.props.audioId)
+      ((audio && audio.language !== audioLanguage) || id !== prevId)
     ) {
       fetchAudio({ id, language: audioLanguage });
     }

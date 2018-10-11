@@ -24,24 +24,27 @@ import { actions, getImage } from '../../modules/image/image';
 import { ImageShape } from '../../shapes';
 
 class EditImage extends Component {
-  componentWillMount() {
-    const { imageId: id, fetchImage, imageLanguage } = this.props;
-    if (id) fetchImage({ id, language: imageLanguage });
-  }
-
   componentDidMount() {
-    const { fetchTags, fetchLicenses, locale } = this.props;
+    const {
+      imageId: id,
+      fetchImage,
+      imageLanguage,
+      fetchTags,
+      fetchLicenses,
+      locale,
+    } = this.props;
+    if (id) fetchImage({ id, language: imageLanguage });
     fetchTags({ language: locale });
     fetchLicenses();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { imageId: id, fetchImage, imageLanguage, image } = nextProps;
+  componentDidUpdate({ imageId: prevId }) {
+    const { imageId: id, fetchImage, imageLanguage, image } = this.props;
 
     if (
       id &&
       imageLanguage &&
-      ((image && image.language !== imageLanguage) || id !== this.props.imageId)
+      ((image && image.language !== imageLanguage) || id !== prevId)
     ) {
       fetchImage({ id, language: imageLanguage });
     }

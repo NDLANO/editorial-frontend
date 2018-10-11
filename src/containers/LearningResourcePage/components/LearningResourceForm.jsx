@@ -134,7 +134,7 @@ class LearningResourceForm extends Component {
       initialModel.id !== prevInitialModel.id ||
       initialModel.language !== prevInitialModel.language
     ) {
-      setModel(initialModel, true);
+      setModel(initialModel);
     }
   }
 

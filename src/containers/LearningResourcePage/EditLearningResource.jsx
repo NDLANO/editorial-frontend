@@ -61,7 +61,7 @@ class EditLearningResource extends PureComponent {
     } = this.props;
 
     if (prevLanguage !== selectedLanguage || articleId !== prevArticleId) {
-      await fetchDraft({ id: articleId, language: selectedLanguage });
+      fetchDraft({ id: articleId, language: selectedLanguage });
       this.fetchTaxonony(articleId, selectedLanguage);
     }
     if (article && (!prevArticle || article.id !== prevArticle.id)) {

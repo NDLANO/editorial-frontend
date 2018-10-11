@@ -23,16 +23,12 @@ class DateTimeInput extends React.Component {
   }
 
   componentDidMount() {
-    const options = this.getOptions();
-    this.flatpickr = new Flatpickr(this.node, options);
-    this.setValue(this.props);
+    this.flatpickr = new Flatpickr(this.node, this.getOptions());
+    this.setValue();
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setValue(nextProps);
-
-    const options = this.getOptions(nextProps);
-    this.flatpickr.set(options);
+  componentDidUpdate() {
+    this.setValue();
   }
 
   componentWillUnmount() {
@@ -41,7 +37,7 @@ class DateTimeInput extends React.Component {
 
   onChange(selectedDates) {
     const value = selectedDates[0] || null;
-    if (value !== this.props.value) {
+    if (value && value !== this.props.value) {
       value.setHours(12);
       this.props.onChange(value);
     }
@@ -59,9 +55,10 @@ class DateTimeInput extends React.Component {
     return options;
   }
 
-  setValue(props) {
-    if ('value' in props) {
-      this.flatpickr.setDate(props.value, false);
+  setValue() {
+    const { value } = this.props;
+    if (value) {
+      this.flatpickr.setDate(value, false);
     }
   }
 

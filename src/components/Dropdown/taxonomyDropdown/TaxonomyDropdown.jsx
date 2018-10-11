@@ -6,20 +6,19 @@
  *
  */
 
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import Downshift from 'downshift';
-import { DropdownMenu, DropdownAction, dropDownClasses } from '../common';
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 import { TaxonomyDropdownInput } from '.';
-import { itemToString } from '../../../util/downShiftHelpers';
 import { RESOURCE_FILTER_CORE } from '../../../constants';
+import { itemToString } from '../../../util/downShiftHelpers';
+import { DropdownAction, dropDownClasses, DropdownMenu } from '../common';
 
 class TaxonomyDropdown extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       inputValue: '',
-      selectedItems: props.selectedItems || [],
       isOpen: false,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -33,15 +32,6 @@ class TaxonomyDropdown extends PureComponent {
     this.onInputFocus = this.onInputFocus.bind(this);
     this.onWrapperClick = this.onWrapperClick.bind(this);
     this.handlePopupClick = this.handlePopupClick.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.selectedItems &&
-      this.state.selectedItems.length !== nextProps.selectedItems.length
-    ) {
-      this.setState({ selectedItems: nextProps.selectedItems });
-    }
   }
 
   onWrapperClick(e) {
@@ -63,7 +53,7 @@ class TaxonomyDropdown extends PureComponent {
   }
 
   handlePopupClick(selectedItem) {
-    const { selectedItems } = this.state;
+    const { selectedItems } = this.props;
     const copy = [...selectedItems];
 
     // Unset current primary item
@@ -82,7 +72,6 @@ class TaxonomyDropdown extends PureComponent {
     );
     copy.filter(val => val);
 
-    this.setState({ selectedItems: copy });
     this.props.onChange(copy);
   }
 
@@ -103,7 +92,7 @@ class TaxonomyDropdown extends PureComponent {
   }
 
   handleChange(selectedItem, stateAndHelpers) {
-    const { selectedItems } = this.state;
+    const { selectedItems } = this.props;
     const { id } = stateAndHelpers;
 
     if (selectedItems.length === 0) {
@@ -119,12 +108,12 @@ class TaxonomyDropdown extends PureComponent {
   }
 
   addSelectedItem(selectedItem, id) {
-    const { selectedItems } = this.state;
+    const { selectedItems } = this.props;
     let newItem;
 
     // Additional tag attributes by type
     if (id === 'topics') {
-      if (this.state.selectedItems.length === 0) {
+      if (selectedItems.length === 0) {
         newItem = { ...selectedItem, primary: true };
       } else {
         newItem = { ...selectedItem, primary: selectedItem.primary || false };
@@ -136,14 +125,11 @@ class TaxonomyDropdown extends PureComponent {
         relevanceId: selectedItem.relevanceId || RESOURCE_FILTER_CORE,
       };
     }
-    this.setState(prevState => ({
-      selectedItems: [...prevState.selectedItems, newItem || selectedItem],
-    }));
     this.props.onChange([...selectedItems, newItem || selectedItem]);
   }
 
   removeItem(selectedItem) {
-    const { selectedItems } = this.state;
+    const { selectedItems } = this.props;
 
     const item = selectedItems.find(element => element.id === selectedItem.id);
     const copy = [...selectedItems];
@@ -156,7 +142,6 @@ class TaxonomyDropdown extends PureComponent {
       newPrimaryItem = { ...newPrimaryItem, primary: true };
       copy.unshift(newPrimaryItem);
     }
-    this.setState({ selectedItems: copy });
     this.props.onChange(copy);
   }
 
@@ -185,10 +170,11 @@ class TaxonomyDropdown extends PureComponent {
       name,
       items,
       tagProperties,
+      selectedItems,
       ...rest
     } = this.props;
 
-    const { selectedItems, isOpen, inputValue } = this.state;
+    const { isOpen, inputValue } = this.state;
 
     const inputProps = {
       value: inputValue,

@@ -37,17 +37,12 @@ export const schema = {
         ],
       },
     ],
-    normalize: (change, error) => {
-      console.log(error.code);
-    },
   },
   blocks: {
     section: {
       nodes: [{ match: 'paragraph', min: 1 }],
       last: { type: 'paragraph' },
       normalize: (change, error) => {
-        console.log(error.code);
-        console.log(error.node);
         switch (error.code) {
           case 'last_child_type_invalid': {
             const block = Block.create(defaultBlocks.defaultBlock);
@@ -56,15 +51,15 @@ export const schema = {
               error.node.nodes.size,
               block,
             );
-            return;
+            break;
           }
           case 'child_required': {
             const block = Block.create(defaultBlocks.defaultBlock);
             change.insertNodeByKey(error.node.key, 0, block);
-            return;
+            break;
           }
           default:
-            return;
+            break;
         }
       },
     },

@@ -6,19 +6,21 @@
  *
  */
 
-import jsdom from 'jsdom';
-import config from '../src/config';
-import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
-} from '../src/util/articleContentConverter';
-import { resolveJsonOrRejectWithError } from '../src/util/apiHelpers';
-
+const jsdom = require('jsdom');
 const chalk = require('chalk');
 const queryString = require('query-string');
 const fetch = require('isomorphic-fetch');
 const fs = require('fs');
 const jsdiff = require('diff');
+const mkdirp = require('mkdirp');
+const { getUniversalConfig } = require('../../src/config');
+const {
+  learningResourceContentToEditorValue,
+  learningResourceContentToHTML,
+} = require('../../src/util/articleContentConverter');
+const { resolveJsonOrRejectWithError } = require('../../src/util/apiHelpers');
+
+const config = getUniversalConfig();
 
 const dom = new jsdom.JSDOM('<!DOCTYPE html></html>');
 
@@ -54,8 +56,8 @@ async function fetchSystemAccessToken() {
     },
     body: JSON.stringify({
       grant_type: 'client_credentials',
-      client_id: process.env.NDLA_TEST_CLIENT_ID,
-      client_secret: process.env.NDLA_TEST_CLIENT_SECRET,
+      client_id: process.env.NDLA_FRONTEND_CLIENT_ID,
+      client_secret: process.env.NDLA_FRONTEND_CLIENT_SECRET,
       audience: 'ndla_system',
     }),
     json: true,
@@ -63,6 +65,7 @@ async function fetchSystemAccessToken() {
 }
 
 async function fetchArticles(query) {
+  console.log(url);
   const result = await fetch(`${url}?${queryString.stringify(query)}`, {
     headers: {
       'Cache-Control': 'no-cache',
@@ -196,28 +199,33 @@ async function testArticle(id, article) {
   }
 }
 
-async function runCheck() {
+async function runCheck(argv) {
   await fetchSystemAccessToken();
-  const readFromFile = process.argv[2] !== '-write';
-  if (!readFromFile) {
+
+  if (argv.single) {
+    const id = argv.single;
+    const article = await fetchArticle(id, token);
+    await testArticle(id, article);
+  } else if (argv.write) {
     const articles = [];
-    const articleIds = await fetchAllArticles();
+    const articleIds = (await fetchAllArticles()).slice(0, 2);
     await asyncForEach(articleIds, async id => {
       const article = await fetchArticle(id, token);
       articles.push(article);
       await testArticle(id, article);
     });
+    mkdirp.sync('./scripts/.cache');
     fs.writeFileSync(
-      './scripts/articles.json',
+      './scripts/.cache/articles.json',
       JSON.stringify(articles),
       'utf8',
     );
   } else {
-    const path = './scripts/articles.json';
+    const path = './scripts/.cache/articles.json';
     if (!fs.existsSync(path)) {
       console.log(
         `${chalk.red(
-          `Run yarn check-articles-and-write instead. File with path ${path} does not exist.`,
+          `Run \`yarn check-articles -w instead\`. File with path ${path} does not exist.`,
         )}`,
       );
       return;
@@ -237,5 +245,5 @@ async function runCheck() {
     }`,
   );
 }
-/* eslint-enable */
-runCheck();
+
+module.exports = runCheck;

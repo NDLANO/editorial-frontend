@@ -60,7 +60,9 @@ const RichTextEditor = class extends React.Component {
       mark = 'underlined';
     } else if (e.key === 'Backspace') {
       const { selection } = value;
+      const numberOfNodesInSection = value.document.nodes.first().nodes.size;
       if (
+        numberOfNodesInSection === 1 &&
         value.document.text.length === 0 &&
         selection.isCollapsed &&
         selection.anchor.isAtStartOfNode(value.document)

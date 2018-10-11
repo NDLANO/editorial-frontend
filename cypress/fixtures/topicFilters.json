@@ -1,0 +1,8 @@
+[
+  {
+    "id": "urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce",
+    "name": "Administrasjon og økonomi",
+    "connectionId": "urn:topic-filter:e979cfb2-29de-402b-bd24-f8de5f14cfe1",
+    "relevanceId": "urn:relevance:core"
+  }
+]

@@ -38,7 +38,7 @@ class SearchContainer extends Component {
     this.toggleContent = this.toggleContent.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { location, search } = this.props;
     if (location.search) {
       const searchObject = queryString.parse(location.search);
@@ -46,9 +46,9 @@ class SearchContainer extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { location, search } = nextProps;
-    if (location.search && location.search !== this.props.location.search) {
+  componentDidUpdate({ location: prevLocation }) {
+    const { location, search } = this.props;
+    if (location.search && location.search !== prevLocation.search) {
       const searchObject = queryString.parse(location.search);
       search(searchObject);
     }

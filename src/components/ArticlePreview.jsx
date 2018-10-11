@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import BEMHelper from 'react-bem-helper';
-import { toEditArticle } from '../../../util/routeHelpers';
+import { toEditArticle } from '../util/routeHelpers';
 
 const classes = new BEMHelper({
   name: 'article-preview',

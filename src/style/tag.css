@@ -16,7 +16,8 @@
     margin-left: 0;
   }
 
-  &--highlighted {
+  &--shouldHaveHover:hover,
+  &--shouldHaveHover:focus {
     background-color: black;
   }
 

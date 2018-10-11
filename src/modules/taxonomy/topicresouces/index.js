@@ -87,9 +87,11 @@ async function createDeleteUpdateTopicResources(
       deleteTopicResource(item.id);
     });
     newTopics[2].forEach(item => {
-      updateTopicResource(item.id, {
-        primary: item.primary,
-      });
+      // only update if changed to primary, previous primary is automatically unset
+      if (item.primary)
+        updateTopicResource(item.id, {
+          primary: item.primary,
+        });
     });
   } catch (e) {
     throw new Error(e);

@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { render, fireEvent, cleanup } from 'react-testing-library';
-import InlineAddButton from '../components/InlineAddButton';
+import InlineAddButton from '../../../components/InlineAddButton';
 
 afterEach(cleanup);
 

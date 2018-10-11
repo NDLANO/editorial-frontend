@@ -21,14 +21,14 @@ class EditAgreement extends Component {
     this.fetchAgreement = this.fetchAgreement.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { agreementId } = this.props;
     this.fetchAgreement(agreementId);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { agreementId } = nextProps;
-    if (agreementId !== this.props.agreementId) {
+  componentDidUpdate({ agreementId: prevId }) {
+    const { agreementId } = this.props;
+    if (prevId !== agreementId) {
       this.fetchAgreement(agreementId);
     }
   }

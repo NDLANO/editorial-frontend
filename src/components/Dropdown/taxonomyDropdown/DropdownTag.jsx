@@ -11,65 +11,15 @@ import PropTypes from 'prop-types';
 import Button from 'ndla-button';
 import { Cross } from 'ndla-icons/action';
 import { injectT } from 'ndla-i18n';
-import { DropdownTagPropertyItem } from '.';
+
 import { tagClasses } from '../../Tag';
-import ToolTip from '../../ToolTip';
+import FilterRelevanceSelector from './FilterRelevanceSelector';
 
 class DropdownTag extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tag: props.tag,
-      isHighlighted: false,
-      tagProperty:
-        props.name === 'filter'
-          ? { id: 'urn:relevance:core', name: props.t('form.filter.core') }
-          : {},
-    };
     this.onRemove = this.onRemove.bind(this);
-    this.onClick = this.onClick.bind(this);
     this.handleSetTagProperty = this.handleSetTagProperty.bind(this);
-    this.toggleHighligth = this.toggleHighligth.bind(this);
-  }
-
-  componentWillMount() {
-    const { t, name, tag } = this.props;
-    if (name === 'topics' && tag.primary) {
-      this.setState({ tagProperty: { name: t('form.topics.primaryTopic') } });
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { name, tag, tagProperties, t } = this.props;
-
-    if (nextProps.tag !== tag) {
-      this.setState({ tag: nextProps.tag });
-    }
-
-    if (nextProps.tagProperties !== tagProperties && name === 'filter') {
-      this.setState({
-        tagProperty: {
-          id: tag.relevanceId,
-          name: nextProps.tagProperties.find(
-            item => item.id === tag.relevanceId,
-          ).name,
-        },
-      });
-    }
-    if (nextProps.tag.primary !== tag.primary && nextProps.tag.primary) {
-      this.setState({
-        tagProperty: { name: t('form.topics.primaryTopic') },
-        isHighlighted: false,
-      });
-    }
-  }
-
-  onClick() {
-    const { tag } = this.state;
-    const { name } = this.props;
-    if (name === 'topics' && !tag.primary) {
-      this.toggleHighligth();
-    }
   }
 
   onRemove(e) {
@@ -81,84 +31,38 @@ class DropdownTag extends Component {
     }
   }
 
-  handleSetTagProperty(e) {
-    const { handlePopupClick, tagProperties, tag } = this.props;
-    const { value } = e.target;
+  handleSetTagProperty(id) {
+    const { handlePopupClick, tag } = this.props;
 
-    const tagProperty = tagProperties.find(tagProp => tagProp.id === value);
-    if (tagProperty) {
-      this.setState({ tagProperty });
-      handlePopupClick({ ...tag, relevanceId: tagProperty.id });
+    if (id) {
+      handlePopupClick({ ...tag, relevanceId: id });
     }
-  }
-
-  toggleHighligth() {
-    this.setState(prevState => ({
-      isHighlighted: !prevState.isHighlighted,
-    }));
   }
 
   render() {
-    const { tag, tagProperty, isHighlighted } = this.state;
-    const { messages, name, tagProperties } = this.props;
+    const { messages, name, tagProperties, tag } = this.props;
 
-    let tagRelevances;
-    if (tagProperties) {
-      tagRelevances = tagProperties.map(
-        property =>
-          property.name ? (
-            <DropdownTagPropertyItem
-              key={property.id}
-              itemProperty={tagProperty}
-              tagProperty={property}
-              handleSetTagProperty={this.handleSetTagProperty}
-            />
-          ) : (
-            ''
-          ),
-      );
-    }
-    const tagShortName = tagProperty.name
-      ? tagProperty.name.charAt(0).toUpperCase()
-      : '';
-
-    const tagPropertyItem = <strong>{tagShortName}</strong>;
-
-    const filterTooltipItem = (
-      <div {...tagClasses('radio')} tabIndex={-1} role="radiogroup">
-        <div {...tagClasses('radio', 'description')}>
-          {messages.toolTipDescription}
-        </div>
-        {tagRelevances}
-      </div>
-    );
-
-    const filterItem = (
-      <ToolTip
-        name={name}
-        direction="right"
-        messages={{ ariaLabel: 'tooltip' }}
-        content={filterTooltipItem}>
-        {tagPropertyItem}
-      </ToolTip>
-    );
-
-    let tagItem;
-    if (tag.primary) {
-      tagItem = tagPropertyItem;
-    } else if (tagProperty && name === 'filter') {
-      tagItem = filterItem;
-    }
+    const isFilterTag = name === 'filter';
+    const isTopicTag = name === 'topics';
+    const isPrimaryTopic = !!tag.primary;
 
     return (
       <div
-        role="button"
-        tabIndex="0"
-        onClick={this.onClick}
-        onKeyPress={this.onClick}
-        {...tagClasses('', isHighlighted ? 'highlighted' : '')}>
+        {...tagClasses('', isTopicTag && !isPrimaryTopic && 'shouldHaveHover')}>
         <div {...tagClasses('description')}>{tag.name}</div>
-        {tagItem && <div {...tagClasses('item')}>{tagItem}</div>}
+        {isFilterTag && (
+          <FilterRelevanceSelector
+            currentRelevance={tag.relevanceId}
+            messages={messages}
+            tagProperties={tagProperties}
+            handleSetTagProperty={this.handleSetTagProperty}
+          />
+        )}
+        {isPrimaryTopic && (
+          <div {...tagClasses('item')}>
+            <strong>P</strong>
+          </div>
+        )}
         <Button onClick={this.onRemove} stripped>
           <Cross className="c-icon--small" />
         </Button>

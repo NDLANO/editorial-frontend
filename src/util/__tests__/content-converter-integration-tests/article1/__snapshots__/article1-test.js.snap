@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`serializing article 1 1`] = `
+"
+<section>
+  <h3>
+    <embed data-align
+      data-alt=\\"Ung jente tar en personlighetstest. Foto.\\"
+      data-caption
+      data-resource=\\"image\\"
+      data-resource_id=\\"6073\\"
+      data-size=\\"full\\"
+      data-url=\\"https://api.ndla.no/image-api/v2/images/6073\\">
+
+  </h3>
+</section>
+<section>
+  <p>
+    <strong>Personlighetstester kan si en del om deg, men ikke se dem som en fasit. Og ikke let etter supermennesket.
+    </strong>
+  </p>
+  <p>Henriette Gjendine Hjerpaasen (19) var usikker på hva hun skulle gjøre etter videregående skole, og oppsøkte Trude Ekker, leder for karriereveiledning i selskapet Smart Karriere. Der tok Hjerpaasen blant annet personlighetstester for å finne ut hva slags yrker hun passet til.
+  </p>
+  <p>– Personlighetstesten var en av mange faktorer som fikk meg til å velge hva jeg skulle gjøre videre i livet. Den fikk meg til å tenke mer på hva jeg selv ville, forteller hun.
+  </p>
+  <p>Ifølge fagsjef i Norsk Psykologforening, Andreas Høstmælingen, brukes personlighetstester i seleksjonsprosesser, typisk ansettelsesprosesser, i stadig større omfang i Norge.
+  </p>
+  <p>– Det er grunn til å ha en sunn, kritisk holdning til disse testene, de brukes ganske mye, sier han.
+  </p>
+  <embed data-align=\\"right\\"
+    data-alt=\\"Henriette Hjerpåsen. Foto.\\"
+    data-caption=\\"Henriette Hjerpaasen opplevde at personlighetstesten stemte bra med slik hun oppfatter seg selv.\\"
+    data-resource=\\"image\\"
+    data-resource_id=\\"6072\\"
+    data-size=\\"full\\"
+    data-url=\\"https://api.ndla.no/image-api/v2/images/6072\\">
+
+  <h2>Personlighet</h2>
+  <p>Så hvor mye kan egentlig en god personlighetstest si om en person?</p>
+  <p>– En del, men ikke alt, sier Høstmælingen, og utdyper.</p>
+  <p>– Personlighet er rimelig konsistent på tvers av situasjoner og ulike roller, så hvis vi er pratsomme overfor naboen, er vi sannsynligvis det overfor kollegaer også. Testene kan gi en indikasjon på om man er utadvendt eller innadvendt, omsorgsfull eller kritisk, planmessig eller mer impulsiv, følsom for stress eller robust, eller om man aktivt oppsøker nye erfaringer eller holder fast i det kjente.
+  </p>
+  <p>Imidlertid kan personligheten komme til uttrykk på forskjellige måter.</p>
+  <p>– I situasjoner og roller som stiller klare rollekrav, vil man kunne lære seg å håndtere kravene. Så hvor godt egnet man er til en jobb, dreier seg også om hvor lærevillig og motivert man er, sier han.
+  </p>
+  <div class=\\"c-bodybox\\">
+    <h3>Femfaktormodellen</h3>
+    <p>
+      <strong>De fleste personlighetstester i dag tar utgangspunkt i den såkalte femfaktormodellen, med fem dimensjoner som ulike personlighetstrekk plasseres langs.
+      </strong>
+    </p>
+    <p></p>
+    <p>Under er eksempler på trekk i hver sin ytterkant av dimensjonene:</p>
+    <p></p>
+    <p>
+      <strong>«Ekstroversjon»:
+      </strong>Får energi fra andre, selskapelig, interessert i andre. I motsatt ytterkant: Vil være for seg selv, tilbakeholden, ikke så avhengig av kontakt med andre for å trives.
+    </p>
+    <p></p>
+    <p>
+      <strong>«Medmenneskelighet»:
+      </strong>Omsorgsfull, naiv, tillitsfull, tolerant, lett å omgås. I motsatt ytterkant: Hardfør, kritisk, kynisk.
+    </p>
+    <p></p>
+    <p>
+      <strong>«Planmessighet»:
+      </strong>Velorganisert, planleggende, ansvarlig, selvdisiplinert. I motsatt ytterkant: Sorgløs, ustrukturert, styrt av interesse, impulsiv.
+    </p>
+    <p></p>
+    <p>
+      <strong>«Nevrotisisme»:
+      </strong>Følsom for stress, urolig, tviler på seg selv. I motsatt ytterkant: Stabil, rolig, robust, takler avvisninger og stress.
+    </p>
+    <p></p>
+    <p>
+      <strong>«Åpenhet for erfaring»:
+      </strong>Oppsøker nye erfaringer aktivt, nysgjerrig, kreativ, utradisjonell. I motsatt ytterkant: Mer fastlåst tankemønster, tenker mer konkret, realistisk, holder fast i det kjente.
+    </p>
+    <p></p>
+    <p>(Kilde: Andreas Høstmælingen, Norsk Psykologforening)</p>
+  </div>
+</section>
+<section>
+  <h2>Ingen fasit</h2>
+  <p>En annen forutsetning er at den som utfører testen, er bevisst på hvordan den skal brukes.
+  </p>
+  <p>– I kombinasjon med andre metoder og verktøy kan en personlighetstest være veldig nyttig. Men man kan ikke bruke det som et fasitsvar på hvem du er og hvordan du vil oppføre deg, sier Høstmælingen, og advarer mot å lete etter såkalte supermannprofiler, med høy utadvendthet, høy samvittighetsfullhet, høy planmessighet, lav nevrotisisme, og høy på åpenhet for erfaring. Det betyr nemlig ikke at du da har en personlighet som passer i alle jobber.
+  </p>
+  <p>– Man er nødt til å se på de ulike arbeidsoppgavene og analysere hvilke egenskaper man trenger.
+  </p>
+  <p>Personlighetstestene er dessuten utviklet for ulike behov, noen for å sammenligne mange personer opp mot hverandre, andre mer for personlig utvikling.
+  </p>
+  <embed data-align=\\"right\\"
+    data-alt=\\"Testskjema. Foto.\\"
+    data-caption=\\" \\"
+    data-resource=\\"image\\"
+    data-resource_id=\\"6070\\"
+    data-size=\\"full\\"
+    data-url=\\"https://api.ndla.no/image-api/v2/images/6070\\">
+
+  <h2>Sertifisering</h2>
+  <p>Det Norske Veritas (DNV GL) sertifiserer tester ut fra et faglig rammeverk gitt av EFPA (The European Federation of Psychologists Associations), en europeisk paraplyorganisasjon for psykologforeninger. Testleverandører kan få DNV GL til å granske, og derigjennom eventuelt sertifisere, testene. En granskingsprosess koster omkring 100.000 kroner.
+  </p>
+  <p>– Vi gransker mange tester som ikke blir sertifisert, forteller Siv Eklo, leder for DNV GLs training og personsertifisering i Nord-Europa.
+  </p>
+  <p>De fleste testene er laget i andre land, og må tilpasses norske forhold for at de skal kunne brukes på en god måte i det norske markedet.
+  </p>
+  <p>Også de som utfører testene, kan godkjennes av DNV GL.</p>
+  <h2>Dialog</h2>
+  <p>Trude Kvammen Ekker er sertifisert på verktøyene de bruker i karriereveiledningen. Personlighetstestene kombineres med samtale.
+  </p>
+  <p>– Sammen med kandidaten går jeg gjennom område for område. Jeg utdyper områdene, kandidaten gir respons og kommer gjerne med eksempler fra livet. Det blir en dialog for å lære, sier Ekker.
+  </p>
+  <p>Resultatene viser så til ulike personlighetstyper.</p>
+  <p>– Men de er ikke hogget i stein. Vi utforsker disse typene sammen og leser kanskje beslektede typer. Sammen kommer vi fram til den typen som kjennes riktigst, forklarer hun, og understreker at det aldri er et én-til-én-forhold mellom personlighetstype og forslag til studier eller karriere videre.
+  </p>
+  <p>– Jeg bruker en del andre verktøy i tillegg, for å nyansere og utdype bildet, sier hun.
+  </p>
+  <p>Henriette Hjerpaasen opplevde personlighetstesten som nyttig.</p>
+  <p>– Da jeg leste om min personlighetstype, var det akkurat som om noen hadde skrevet om meg, sier hun.
+  </p>
+  <p>Personlighetstypen som ifølge Smart Karriers test best beskriver Henriette Hjerpaasen, forteller blant annet at hun motiveres klart av å kunne hjelpe og bidra med noe positivt overfor andre. Hun er veldig strukturert anlagt, og tar naturlig ansvar når noe skal gjøres. I tillegg er hun orientert mot det estetiske – det å skape og å befinne seg i tiltalende omgivelser.
+  </p>
+</section>"
+`;

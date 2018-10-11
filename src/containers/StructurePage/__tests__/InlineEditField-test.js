@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { render, fireEvent, wait, cleanup } from 'react-testing-library';
-import InlineEditField from '../components/InlineEditField';
+import InlineEditField from '../../../components/InlineEditField';
 
 afterEach(cleanup);
 

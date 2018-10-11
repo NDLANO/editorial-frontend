@@ -9,7 +9,7 @@
 import React from 'react';
 import nock from 'nock';
 import { render, fireEvent, cleanup, wait } from 'react-testing-library';
-import ResourceItems from '../components/ResourceItems';
+import ResourceItems from '../resourceComponents/ResourceItems';
 import {
   supplementaryResourcesMock,
   coreResourcesMock,

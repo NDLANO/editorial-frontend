@@ -13,6 +13,7 @@ import {
 } from '../../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
+const resolveTaxonomyResponse = res => resolveJsonOrRejectWithError(res, true);
 
 function fetchTopics(locale) {
   return fetchAuthorized(`${baseUrl}/topics/?language=${locale}`).then(
@@ -35,9 +36,11 @@ function fetchTopicResources(topicId, locale, relevance, filters) {
 function addTopic(body) {
   return fetchAuthorized(`${baseUrl}/topics`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+    },
     body: JSON.stringify(body),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(resolveTaxonomyResponse);
 }
 
 function updateTopic({ id, ...params }) {
@@ -45,7 +48,7 @@ function updateTopic({ id, ...params }) {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ ...params }),
-  }).then(res => resolveJsonOrRejectWithError(res, true));
+  }).then(resolveTaxonomyResponse);
 }
 
 function addTopicToTopic(body) {
@@ -53,7 +56,7 @@ function addTopicToTopic(body) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(resolveTaxonomyResponse);
 }
 
 function updateTopicSubtopic(connectionId, body) {
@@ -61,19 +64,19 @@ function updateTopicSubtopic(connectionId, body) {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
-  }).then(res => resolveJsonOrRejectWithError(res, true));
+  }).then(resolveTaxonomyResponse);
 }
 
 function deleteTopicConnection(id) {
   return fetchAuthorized(`${baseUrl}/subject-topics/${id}`, {
     method: 'DELETE',
-  }).then(resolveJsonOrRejectWithError);
+  }).then(resolveTaxonomyResponse);
 }
 
 function deleteSubTopicConnection(id) {
   return fetchAuthorized(`${baseUrl}/topic-subtopics/${id}`, {
     method: 'DELETE',
-  }).then(resolveJsonOrRejectWithError);
+  }).then(resolveTaxonomyResponse);
 }
 
 function addFilterToTopic({ filterId, relevanceId, topicId }) {
@@ -81,7 +84,7 @@ function addFilterToTopic({ filterId, relevanceId, topicId }) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ filterId, relevanceId, topicId }),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(resolveTaxonomyResponse);
 }
 
 function updateTopicFilter({ connectionId, relevanceId }) {
@@ -89,13 +92,13 @@ function updateTopicFilter({ connectionId, relevanceId }) {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ relevanceId }),
-  }).then(res => resolveJsonOrRejectWithError(res, true));
+  }).then(resolveTaxonomyResponse);
 }
 
 function deleteTopicFilter({ connectionId }) {
   return fetchAuthorized(`${baseUrl}/topic-filters/${connectionId}`, {
     method: 'DELETE',
-  }).then(res => resolveJsonOrRejectWithError(res, true));
+  }).then(resolveTaxonomyResponse);
 }
 
 function fetchTopicConnections(id) {

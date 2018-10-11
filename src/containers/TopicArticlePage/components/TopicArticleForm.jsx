@@ -10,8 +10,13 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { Button } from 'ndla-ui';
-import { Link } from 'react-router-dom';
+import Accordion, {
+  AccordionWrapper,
+  AccordionBar,
+  AccordionPanel,
+} from 'ndla-accordion';
+import Button from 'ndla-button';
+import { withRouter } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
@@ -40,6 +45,7 @@ import {
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { articleConverter } from '../../../modules/draft/draft';
+import WarningModal from '../../../components/WarningModal';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -73,7 +79,9 @@ class TopicArticleForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getArticle = this.getArticle.bind(this);
     this.onReset = this.onReset.bind(this);
-    this.state = {};
+    this.state = {
+      showResetModal: false,
+    };
   }
 
   componentDidUpdate({ initialModel: prevInitialModel }) {
@@ -89,16 +97,22 @@ class TopicArticleForm extends Component {
   async onReset() {
     const { articleId, setModel, taxonomy, selectedLanguage, t } = this.props;
     try {
-      if (this.state.error) this.setState({ error: undefined });
+      if (this.state.error) {
+        this.setState({ error: undefined });
+      }
       const articleFromProd = await getArticle(articleId);
       const convertedArticle = articleConverter(
         articleFromProd,
         selectedLanguage,
       );
       setModel(getInitialModel(convertedArticle, taxonomy, selectedLanguage));
+      this.setState({ showResetModal: false });
     } catch (e) {
       if (e.status === 404) {
-        this.setState({ error: t('errorMessage.noArticleInProd') });
+        this.setState({
+          showResetModal: false,
+          error: t('errorMessage.noArticleInProd'),
+        });
       }
     }
   }
@@ -159,10 +173,58 @@ class TopicArticleForm extends Component {
       fields,
       licenses,
       showSaved,
+      history,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
     const { error } = this.state;
-
+    const panels = [
+      {
+        id: 'topic-article-content',
+        title: t('form.contentSection'),
+        component: (
+          <TopicArticleContent
+            commonFieldProps={commonFieldProps}
+            bindInput={bindInput}
+            tags={tags}
+            model={model}
+          />
+        ),
+      },
+      {
+        id: 'topic-article-copyright',
+        title: t('form.copyrightSection'),
+        component: (
+          <FormCopyright
+            model={model}
+            commonFieldProps={commonFieldProps}
+            licenses={licenses}
+          />
+        ),
+      },
+      {
+        id: 'topic-article-metadata',
+        title: t('form.metadataSection'),
+        component: (
+          <TopicArticleMetadata
+            commonFieldProps={commonFieldProps}
+            bindInput={bindInput}
+            tags={tags}
+          />
+        ),
+      },
+      {
+        id: 'topic-article-workflow',
+        title: t('form.workflowSection'),
+        component: (
+          <FormWorkflow
+            commonFieldProps={commonFieldProps}
+            articleStatus={articleStatus}
+            model={model}
+            getArticle={this.getArticle}
+          />
+        ),
+      },
+    ];
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader
@@ -170,39 +232,56 @@ class TopicArticleForm extends Component {
           type={model.articleType}
           editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
         />
-        <TopicArticleMetadata
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-          tags={tags}
-        />
-        <TopicArticleContent
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-          tags={tags}
-          model={model}
-        />
-        <FormCopyright
-          model={model}
-          commonFieldProps={commonFieldProps}
-          licenses={licenses}
-        />
-        <FormWorkflow
-          commonFieldProps={commonFieldProps}
-          articleStatus={articleStatus}
-          model={model}
-          getArticle={this.getArticle}
-        />
+        <Accordion>
+          {({ openIndexes, handleItemClick }) => (
+            <AccordionWrapper>
+              {panels.map(panel => (
+                <React.Fragment key={panel.id}>
+                  <AccordionBar
+                    panelId={panel.id}
+                    ariaLabel={panel.title}
+                    onClick={() => handleItemClick(panel.id)}
+                    isOpen={openIndexes.includes(panel.id)}>
+                    {panel.title}
+                  </AccordionBar>
+                  <AccordionPanel
+                    id={panel.id}
+                    isOpen={openIndexes.includes(panel.id)}>
+                    <div className="u-4/6@desktop u-push-1/6@desktop">
+                      {panel.component}
+                    </div>
+                  </AccordionPanel>
+                </React.Fragment>
+              ))}
+            </AccordionWrapper>
+          )}
+        </Accordion>
         <Field right {...formClasses('form-actions')}>
           {error && <span className="c-errorMessage">{error}</span>}
           {model.id && (
-            <Button onClick={this.onReset}>{t('form.resetToProd')}</Button>
+            <Button onClick={() => this.setState({ showResetModal: true })}>
+              {t('form.resetToProd.button')}
+            </Button>
           )}
-          <Link
-            to="/"
-            className="c-button c-button--outline"
-            disabled={isSaving}>
+
+          <WarningModal
+            show={this.state.showResetModal}
+            text={t('form.resetToProd.modal')}
+            actions={[
+              {
+                text: t('form.abort'),
+                onClick: () => this.setState({ showResetModal: false }),
+              },
+              {
+                text: 'Reset',
+                onClick: this.onReset,
+              },
+            ]}
+            onCancel={() => this.setState({ showResetModal: false })}
+          />
+          <Button outline onClick={history.goBack} disabled={isSaving}>
             {t('form.abort')}
-          </Link>
+          </Button>
           <SaveButton
             {...formClasses}
             isSaving={isSaving}
@@ -249,10 +328,14 @@ TopicArticleForm.propTypes = {
     other: PropTypes.arrayOf(PropTypes.string),
   }),
   licenses: LicensesArrayOf,
+  history: PropTypes.shape({
+    goBack: PropTypes.func,
+  }).isRequired,
 };
 
 export default compose(
   injectT,
+  withRouter,
   reformed,
   validateSchema({
     title: {

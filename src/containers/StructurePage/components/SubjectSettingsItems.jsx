@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { Pencil, Plus } from 'ndla-icons/action';
 import { injectT } from 'ndla-i18n';
 import { Filter } from 'ndla-icons/editor';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 import { fetchTopics } from '../../../modules/taxonomy';
 import InlineEditField from './InlineEditField';
 import InlineDropdown from './InlineDropdown';

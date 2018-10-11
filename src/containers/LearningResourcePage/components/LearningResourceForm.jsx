@@ -10,8 +10,13 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { Button } from 'ndla-ui';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import Accordion, {
+  AccordionWrapper,
+  AccordionBar,
+  AccordionPanel,
+} from 'ndla-accordion';
+import Button from 'ndla-button';
 import config from '../../../config';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
@@ -140,16 +145,22 @@ class LearningResourceForm extends Component {
   async onReset() {
     const { articleId, setModel, taxonomy, selectedLanguage, t } = this.props;
     try {
-      if (this.state.error) this.setState({ error: undefined });
+      if (this.state.error) {
+        this.setState({ error: undefined });
+      }
       const articleFromProd = await getArticle(articleId);
       const convertedArticle = articleConverter(
         articleFromProd,
         selectedLanguage,
       );
       setModel(getInitialModel(convertedArticle, taxonomy, selectedLanguage));
+      this.setState({ showResetModal: false });
     } catch (e) {
       if (e.status === 404) {
-        this.setState({ error: t('errorMessage.noArticleInProd') });
+        this.setState({
+          showResetModal: false,
+          error: t('errorMessage.noArticleInProd'),
+        });
       }
     }
   }
@@ -224,9 +235,75 @@ class LearningResourceForm extends Component {
       fields,
       showSaved,
       taxonomyIsLoading,
+      history,
     } = this.props;
+
     const { error } = this.state;
     const commonFieldProps = { bindInput, schema, submitted };
+    const panels = [
+      {
+        id: 'learning-resource-content',
+        title: t('form.contentSection'),
+        component: (
+          <LearningResourceContent
+            commonFieldProps={commonFieldProps}
+            bindInput={bindInput}>
+            <LearningResourceFootnotes
+              t={t}
+              footnotes={findFootnotes(model.content)}
+            />
+          </LearningResourceContent>
+        ),
+      },
+      {
+        id: 'learning-resource-copyright',
+        title: t('form.copyrightSection'),
+        component: (
+          <FormCopyright
+            model={model}
+            commonFieldProps={commonFieldProps}
+            licenses={licenses}
+          />
+        ),
+      },
+      {
+        id: 'learning-resource-metadata',
+        title: t('form.metadataSection'),
+        component: (
+          <LearningResourceMetadata
+            commonFieldProps={commonFieldProps}
+            bindInput={bindInput}
+            tags={tags}
+            model={model}
+          />
+        ),
+      },
+      {
+        id: 'learning-resource-workflow',
+        title: t('form.workflowSection'),
+        component: (
+          <FormWorkflow
+            commonFieldProps={commonFieldProps}
+            articleStatus={articleStatus}
+            model={model}
+            getArticle={this.getArticleFromModel}
+          />
+        ),
+      },
+    ];
+    if (model.id && config.taxonomyEnabled) {
+      panels.splice(1, 0, {
+        id: 'learning-resource-taxonomy',
+        title: t('form.taxonomytSection'),
+        component: (
+          <LearningResourceTaxonomy
+            commonFieldProps={commonFieldProps}
+            model={model}
+            taxonomyIsLoading={taxonomyIsLoading}
+          />
+        ),
+      });
+    }
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader
@@ -234,39 +311,30 @@ class LearningResourceForm extends Component {
           type={model.articleType}
           editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
         />
-        <LearningResourceMetadata
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-          tags={tags}
-          model={model}
-        />
-        <LearningResourceContent
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}>
-          <LearningResourceFootnotes
-            t={t}
-            footnotes={findFootnotes(model.content)}
-          />
-        </LearningResourceContent>
-        {model.id &&
-          config.taxonomyEnabled && (
-            <LearningResourceTaxonomy
-              commonFieldProps={commonFieldProps}
-              model={model}
-              taxonomyIsLoading={taxonomyIsLoading}
-            />
+        <Accordion>
+          {({ openIndexes, handleItemClick }) => (
+            <AccordionWrapper>
+              {panels.map(panel => (
+                <React.Fragment key={panel.id}>
+                  <AccordionBar
+                    panelId={panel.id}
+                    ariaLabel={panel.title}
+                    onClick={() => handleItemClick(panel.id)}
+                    isOpen={openIndexes.includes(panel.id)}>
+                    {panel.title}
+                  </AccordionBar>
+                  <AccordionPanel
+                    id={panel.id}
+                    isOpen={openIndexes.includes(panel.id)}>
+                    <div className="u-4/6@desktop u-push-1/6@desktop">
+                      {panel.component}
+                    </div>
+                  </AccordionPanel>
+                </React.Fragment>
+              ))}
+            </AccordionWrapper>
           )}
-        <FormCopyright
-          model={model}
-          commonFieldProps={commonFieldProps}
-          licenses={licenses}
-        />
-        <FormWorkflow
-          commonFieldProps={commonFieldProps}
-          articleStatus={articleStatus}
-          model={model}
-          getArticle={this.getArticleFromModel}
-        />
+        </Accordion>
         <Field right {...formClasses('form-actions')}>
           {error && <span className="c-errorMessage">{error}</span>}
           {model.id && (
@@ -290,12 +358,9 @@ class LearningResourceForm extends Component {
             ]}
             onCancel={() => this.setState({ showResetModal: false })}
           />
-          <Link
-            to="/"
-            className="c-button c-button--outline"
-            disabled={isSaving}>
+          <Button outline onClick={history.goBack} disabled={isSaving}>
             {t('form.abort')}
-          </Link>
+          </Button>
           <SaveButton
             data-testid="saveLearningResourceButton"
             isSaving={isSaving}
@@ -351,10 +416,14 @@ LearningResourceForm.propTypes = {
   }),
   taxonomyIsLoading: PropTypes.bool,
   selectedLanguage: PropTypes.string,
+  history: PropTypes.shape({
+    goBack: PropTypes.func,
+  }).isRequired,
 };
 
 export default compose(
   injectT,
+  withRouter,
   reformed,
   validateSchema({
     title: {

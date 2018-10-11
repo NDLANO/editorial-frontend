@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 import { ImageNormal, ImageSmall, ImageXsmall } from 'ndla-icons/editor';
 
 export const classes = new BEMHelper({

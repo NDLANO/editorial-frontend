@@ -6,11 +6,10 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
-import Accordion from '../../components/Accordion';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as draftApi from '../../modules/draft/draftApi';
 import * as messageActions from '../Messages/messagesActions';
@@ -24,10 +23,8 @@ class FormWorkflow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hiddenWorkflow: true,
       possibleStatuses: {},
     };
-    this.toggleWorkflow = this.toggleWorkflow.bind(this);
     this.onValidateClick = this.onValidateClick.bind(this);
     this.onUpdateStatus = this.onUpdateStatus.bind(this);
   }
@@ -71,12 +68,6 @@ class FormWorkflow extends Component {
       });
   }
 
-  toggleWorkflow() {
-    this.setState(prevState => ({
-      hiddenWorkflow: !prevState.hiddenWorkflow,
-    }));
-  }
-
   render() {
     const {
       t,
@@ -88,11 +79,7 @@ class FormWorkflow extends Component {
     const { possibleStatuses } = this.state;
 
     return (
-      <Accordion
-        fill
-        handleToggle={this.toggleWorkflow}
-        header={t('form.workflowSection')}
-        hidden={this.state.hiddenWorkflow}>
+      <Fragment>
         <AddNotes
           name="notes"
           label={t('form.addNotes')}
@@ -109,7 +96,7 @@ class FormWorkflow extends Component {
           model={model}
           onValidateClick={this.onValidateClick}
         />
-      </Accordion>
+      </Fragment>
     );
   }
 }

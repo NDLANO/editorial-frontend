@@ -9,49 +9,7 @@
 
 import React from 'react';
 import { Block } from 'slate';
-
-export const defaultBlock = {
-  type: 'paragraph',
-  data: {},
-};
-
-export const defaultBlockWithText = text => ({
-  data: {},
-  object: 'block',
-  nodes: [
-    {
-      object: 'text',
-      leaves: [
-        {
-          object: 'leaf',
-          marks: [],
-          text,
-        },
-      ],
-    },
-  ],
-  type: 'paragraph',
-});
-
-export const defaultAsideBlock = type =>
-  Block.create({
-    data: { type },
-    type: 'aside',
-    nodes: Block.createList([defaultBlock]),
-  });
-
-export const defaultEmbedBlock = data =>
-  Block.create({
-    type: 'embed',
-    data,
-  });
-
-export const defaultRelatedBlock = () =>
-  Block.create({
-    object: 'block',
-    type: 'related',
-    data: {},
-  });
+import { defaultBlocks } from './utils';
 
 export const getSchemaEmbed = node => node.get('data').toJS();
 
@@ -64,7 +22,7 @@ export function validateNode(node) {
   if (node.object === 'document') {
     // Rule to insert a paragraph block if the document is empty.
     if (!node.nodes.size) {
-      const block = Block.create(defaultBlock);
+      const block = Block.create(defaultBlocks.defaultBlock);
       return change => change.insertNodeByKey(node.key, 0, block);
     }
   }
@@ -77,7 +35,7 @@ export function validateNode(node) {
       case 'section': {
         const lastNode = node.nodes.last();
         if (lastNode.type !== 'paragraph') {
-          const block = Block.create(defaultBlock);
+          const block = Block.create(defaultBlocks.defaultBlock);
           return change =>
             change.insertNodeByKey(node.key, node.nodes.size, block);
         }

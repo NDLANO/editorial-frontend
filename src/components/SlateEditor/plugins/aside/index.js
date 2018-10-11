@@ -8,15 +8,8 @@
 
 import React from 'react';
 import { Block } from 'slate';
-import { defaultBlock } from '../../schema';
+import { defaultBlocks } from '../../utils';
 import SlateAside from './SlateAside';
-
-export const defaultAsideBlock = type =>
-  Block.create({
-    data: { type },
-    type: 'aside',
-    nodes: Block.createList([defaultBlock]),
-  });
 
 export default function createAside() {
   const schema = {
@@ -30,7 +23,7 @@ export default function createAside() {
     if (!node.nodes.last().type) return null;
     if (!node.nodes.last().isVoid) return null;
 
-    const block = Block.create(defaultBlock);
+    const block = Block.create(defaultBlocks.defaultBlock);
     return change => {
       change.insertNodeByKey(node.key, node.nodes.size, block);
     };

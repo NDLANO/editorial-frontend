@@ -27,11 +27,13 @@ import { Cross, Plus } from 'ndla-icons/action';
 import { Audio } from 'ndla-icons/common';
 
 import { Portal } from '../../../Portal';
-import { defaultAsideBlock, defaultRelatedBlock } from '../../schema';
+import { defaultBlocks } from '../../utils';
 import { defaultBodyBoxBlock } from '../bodybox';
 import { defaultDetailsBlock } from '../detailsbox';
 import SlateEmbedPicker from './SlateEmbedPicker';
 import { editTablePlugin } from '../externalPlugins';
+
+const { defaultAsideBlock, defaultRelatedBlock } = defaultBlocks;
 
 const classes = new BEMHelper({
   name: 'editor',

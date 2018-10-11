@@ -24,7 +24,7 @@ class SlateAudio extends React.Component {
     this.onAudioFigureInputChange = this.onAudioFigureInputChange.bind(this);
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     const { caption, resource_id: resourceId } = this.props.embed;
     try {
       const audio = await visualElementApi.fetchAudio(resourceId);

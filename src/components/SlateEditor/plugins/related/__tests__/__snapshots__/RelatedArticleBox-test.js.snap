@@ -25,7 +25,6 @@ exports[`it goes in and out of edit mode 1`] = `
           autocomplete="off"
           class="c-dropdown__single"
           id="downshift-0-input"
-          placeholder="Søk på tittel"
           value=""
         />
         <button

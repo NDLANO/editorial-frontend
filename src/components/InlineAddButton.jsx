@@ -13,8 +13,8 @@ import { injectT } from 'ndla-i18n';
 import { Done } from 'ndla-icons/editor';
 import { Plus } from 'ndla-icons/action';
 import BEMHelper from 'react-bem-helper';
-import handleError from '../../../util/handleError';
-import Spinner from '../../../components/Spinner';
+import handleError from '../util/handleError';
+import Spinner from './Spinner';
 
 const classes = new BEMHelper({
   name: 'addButton',

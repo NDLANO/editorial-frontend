@@ -21,14 +21,14 @@ class EditAgreement extends Component {
     this.fetchAgreement = this.fetchAgreement.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { agreementId } = this.props;
     this.fetchAgreement(agreementId);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { agreementId } = nextProps;
-    if (agreementId !== this.props.agreementId) {
+  componentDidUpdate({ agreementId: prevId }) {
+    const { agreementId } = this.props;
+    if (prevId !== agreementId) {
       this.fetchAgreement(agreementId);
     }
   }
@@ -44,7 +44,7 @@ class EditAgreement extends Component {
   }
 
   render() {
-    const { isSaving, licenses, upsertAgreement } = this.props;
+    const { upsertAgreement, ...rest } = this.props;
     const { agreement } = this.state;
     if (!agreement) {
       return null;
@@ -52,9 +52,8 @@ class EditAgreement extends Component {
     return (
       <AgreementForm
         initialModel={getInitialModel(agreement)}
-        licenses={licenses}
-        isSaving={isSaving}
         onUpdate={upsertAgreement}
+        {...rest}
       />
     );
   }

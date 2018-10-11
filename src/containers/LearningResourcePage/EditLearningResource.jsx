@@ -29,6 +29,7 @@ import {
   actions as tagActions,
   getAllTagsByLanguage,
 } from '../../modules/tag/tag';
+import handleError from '../../util/handleError';
 
 class EditLearningResource extends PureComponent {
   constructor(props) {
@@ -103,7 +104,7 @@ class EditLearningResource extends PureComponent {
         });
       }
     } catch (e) {
-      throw new Error(e);
+      handleError(e);
     }
   }
 

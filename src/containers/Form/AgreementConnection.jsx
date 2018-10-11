@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
@@ -15,7 +15,7 @@ import { SchemaShape } from '../../shapes';
 import * as draftApi from '../../modules/draft/draftApi';
 import { toEditAgreement } from '../../util/routeHelpers';
 
-class AgreementConnection extends Component {
+class AgreementConnection extends PureComponent {
   static async searchAgreements(query) {
     const response = await draftApi.fetchAgreements(query);
     return response.results;
@@ -28,19 +28,16 @@ class AgreementConnection extends Component {
     this.state = { agreement: undefined };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { model } = this.props;
     this.fetchAgreement(model.agreementId);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { model } = nextProps;
-    if (
-      !model.agreementId &&
-      this.props.model.agreementId !== model.agreementId
-    ) {
-      this.setState({ agreement: undefined });
+  static getDerivedStateFromProps({ model }, { agreement }) {
+    if (!model.agreementId && agreement) {
+      return { agreement: undefined };
     }
+    return null;
   }
 
   async fetchAgreement(id) {
@@ -75,12 +72,13 @@ class AgreementConnection extends Component {
 
   render() {
     const { t, commonFieldProps } = this.props;
+    const { agreement } = this.state;
     return [
       <AsyncDropdownField
         key="agreement-connection-dropdown"
         valueField="id"
         name="agreementId"
-        selectedItem={this.state.agreement}
+        selectedItem={agreement}
         textField="title"
         placeholder={t('form.agreement.placeholder')}
         label={t('form.agreement.label')}
@@ -92,12 +90,12 @@ class AgreementConnection extends Component {
         }}
         onChange={this.handleChange}
       />,
-      this.state.agreement && this.state.agreement.id ? (
+      agreement && agreement.id ? (
         <Link
           key="agreement-connection-link"
           target="_blank"
-          to={toEditAgreement(this.state.agreement.id)}>
-          {this.state.agreement.title}
+          to={toEditAgreement(agreement.id)}>
+          {agreement.title}
         </Link>
       ) : (
         undefined

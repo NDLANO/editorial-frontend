@@ -25,25 +25,43 @@ class SettingsMenu extends React.Component {
     super();
     this.state = {
       open: false,
+      editMode: '',
     };
+    this.toggleEditMode = this.toggleEditMode.bind(this);
+    this.toggleOpenMenu = this.toggleOpenMenu.bind(this);
+  }
+
+  toggleEditMode(name) {
+    this.setState(prevState => ({
+      editMode: name === prevState.editMode ? '' : name,
+    }));
+  }
+
+  toggleOpenMenu() {
+    this.setState(prevState => ({
+      open: !prevState.open,
+    }));
   }
 
   render() {
+    const { editMode, open } = this.state;
     return (
       <div {...classes('')}>
         <Button
-          onClick={() => this.setState({ open: true })}
+          onClick={this.toggleOpenMenu}
           data-cy={`settings-button-${this.props.type}`}
           stripped>
           <RoundIcon icon={<Settings />} margin />
         </Button>
-        {this.state.open && (
+        {open && (
           <React.Fragment>
-            <Overlay onExit={() => this.setState({ open: false })} />
+            <Overlay onExit={this.toggleOpenMenu} />
             <SettingsMenuDropdown
-              onClose={() => this.setState({ open: false })}
+              onClose={this.toggleOpenMenu}
               classes={classes}
               {...this.props}
+              toggleEditMode={this.toggleEditMode}
+              editMode={editMode}
             />
           </React.Fragment>
         )}

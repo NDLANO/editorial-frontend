@@ -44,9 +44,13 @@ class SlateImage extends React.Component {
     SlateImage.handleFloatedImages(this.props.node, align);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.embed.align !== nextProps.embed.align) {
-      SlateImage.handleFloatedImages(nextProps.node, nextProps.embed.align);
+  componentDidUpdate({ embed: { align: prevAlign } }) {
+    const {
+      embed: { align },
+      node,
+    } = this.props;
+    if (align !== prevAlign) {
+      SlateImage.handleFloatedImages(node, align);
     }
   }
 

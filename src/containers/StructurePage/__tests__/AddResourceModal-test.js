@@ -10,7 +10,7 @@ import React from 'react';
 import nock from 'nock';
 import { render, fireEvent, cleanup, wait } from 'react-testing-library';
 import { MemoryRouter } from 'react-router-dom';
-import AddResourceModal from '../components/AddResourceModal';
+import AddResourceModal from '../resourceComponents/AddResourceModal';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 import {
   resourcesByType,

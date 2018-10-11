@@ -14,30 +14,26 @@ import queryString from 'query-string';
 import { injectT } from 'ndla-i18n';
 import { OneColumn } from 'ndla-ui';
 import { Taxonomy, Star } from 'ndla-icons/editor';
-import { jsPlumb } from 'jsplumb';
 import { connectLinkItems } from '../../util/jsPlumbHelpers';
 import handleError from '../../util/handleError';
 import { getLocale } from '../../modules/locale/locale';
-import StructureResources from './StructureResources';
-import FolderItem from './components/FolderItem';
-import InlineAddButton from './components/InlineAddButton';
+import StructureResources from './resourceComponents/StructureResources';
+import FolderItem from './folderComponents/FolderItem';
+import InlineAddButton from '../../components/InlineAddButton';
 import Accordion from '../../components/Accordion';
-import { Portal } from '../../components/Portal';
+import ErrorBoundary from '../../components/ErrorBoundary';
 import {
   fetchSubjects,
   fetchSubjectTopics,
   addSubject,
-  addTopic,
-  updateSubjectName,
   fetchSubjectFilters,
-  addSubjectTopic,
   fetchTopicConnections,
   updateTopicSubtopic,
   updateSubjectTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,
 } from '../../modules/taxonomy';
-import { groupTopics } from '../../util/taxonomyHelpers';
+import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
 import RoundIcon from '../../components/RoundIcon';
 
 export class StructurePage extends React.PureComponent {
@@ -55,18 +51,16 @@ export class StructurePage extends React.PureComponent {
     this.getAllSubjects = this.getAllSubjects.bind(this);
     this.getSubjectTopics = this.getSubjectTopics.bind(this);
     this.addSubject = this.addSubject.bind(this);
-    this.onChangeSubjectName = this.onChangeSubjectName.bind(this);
-    this.onAddSubjectTopic = this.onAddSubjectTopic.bind(this);
     this.showLink = this.showLink.bind(this);
     this.refFunc = this.refFunc.bind(this);
     this.deleteConnections = this.deleteConnections.bind(this);
-    this.onAddExistingTopic = this.onAddExistingTopic.bind(this);
-    this.getCurrentTopic = this.getCurrentTopic.bind(this);
     this.getFilters = this.getFilters.bind(this);
     this.toggleFilter = this.toggleFilter.bind(this);
     this.setPrimary = this.setPrimary.bind(this);
     this.getActiveFiltersFromUrl = this.getActiveFiltersFromUrl.bind(this);
     this.deleteTopicLink = this.deleteTopicLink.bind(this);
+    this.refreshTopics = this.refreshTopics.bind(this);
+    this.toggleStructure = this.toggleStructure.bind(this);
   }
 
   componentDidMount() {
@@ -78,59 +72,33 @@ export class StructurePage extends React.PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate({
+    match: {
+      params: { subject: prevSubject },
+    },
+    location: { pathname: prevPathname },
+  }) {
+    const { subjects, topics } = this.state;
     const {
       location: { pathname },
       match: { params },
       history,
     } = this.props;
-    if (pathname !== prevProps.location.pathname) {
+    if (pathname !== prevPathname) {
       this.deleteConnections();
       const { subject } = params;
       if (subject) {
         this.getFilters(`urn:${subject}`);
       }
-      if (!subject || subject !== prevProps.match.params.subject) {
+      if (!subject || subject !== prevSubject) {
         history.push({
           search: '',
         });
       }
-      const currentSub = this.state.subjects.find(
-        sub => sub.id === `urn:${subject}`,
-      );
-      if (currentSub && !this.state.topics[`urn:${subject}`]) {
+      const currentSub = subjects.find(sub => sub.id === `urn:${subject}`);
+      if (currentSub && !topics[`urn:${subject}`]) {
         this.getSubjectTopics(`urn:${subject}`);
       }
-    }
-  }
-
-  async onChangeSubjectName(subjectId, name) {
-    const ok = await updateSubjectName(subjectId, name);
-    this.getAllSubjects();
-    return ok;
-  }
-
-  async onAddExistingTopic(subjectid, topicid) {
-    const ok = await addSubjectTopic({
-      subjectid,
-      topicid,
-    });
-    if (ok) {
-      this.getSubjectTopics(subjectid);
-    }
-  }
-
-  async onAddSubjectTopic(subjectid, name) {
-    const newPath = await addTopic({ name });
-    const newId = newPath.replace('/v1/topics/', '');
-    const ok = await addSubjectTopic({
-      subjectid,
-      topicid: newId,
-      primary: true,
-      rank: this.state.topics[subjectid].length + 1,
-    });
-    if (ok) {
-      this.getSubjectTopics(subjectid);
     }
   }
 
@@ -145,7 +113,9 @@ export class StructurePage extends React.PureComponent {
   async getAllSubjects() {
     try {
       const subjects = await fetchSubjects(this.props.locale);
-      this.setState({ subjects });
+      this.setState({
+        subjects: subjects.sort((a, b) => a.name.localeCompare(b.name)),
+      });
     } catch (e) {
       handleError(e);
     }
@@ -165,30 +135,6 @@ export class StructurePage extends React.PureComponent {
     } catch (e) {
       handleError(e);
     }
-  }
-
-  getCurrentTopic() {
-    const {
-      match: {
-        params: { subject, topic1, topic2, topic3 },
-      },
-    } = this.props;
-    if (topic1) {
-      const sub = this.state.topics[`urn:${subject}`];
-      let topic = sub ? sub.find(top => top.id === `urn:${topic1}`) : {};
-      if (topic2) {
-        topic = topic.topics
-          ? topic.topics.find(top => top.id === `urn:${topic2}`)
-          : {};
-        if (topic3) {
-          topic = topic.topics
-            ? topic.topics.find(top => top.id === `urn:${topic3}`)
-            : {};
-        }
-      }
-      return topic || {};
-    }
-    return {};
   }
 
   async getFilters(subjectId = `urn:${this.props.match.params.subject}`) {
@@ -227,8 +173,8 @@ export class StructurePage extends React.PureComponent {
   }
 
   deleteConnections() {
-    this.state.jsPlumbConnections.forEach(conn => {
-      jsPlumb.deleteConnection(conn);
+    this.state.jsPlumbConnections.forEach(({ instance, connection }) => {
+      instance.deleteConnection(connection);
     });
     this.setState({ jsPlumbConnections: [], activeConnections: [] });
   }
@@ -245,6 +191,7 @@ export class StructurePage extends React.PureComponent {
       } else {
         await deleteTopicConnection(connectionId);
       }
+      this.deleteConnections();
       this.getSubjectTopics(subjectId);
     } catch (e) {
       handleError(e);
@@ -292,6 +239,19 @@ export class StructurePage extends React.PureComponent {
     }
   }
 
+  refreshTopics() {
+    const {
+      match: { params },
+    } = this.props;
+    this.getSubjectTopics(`urn:${params.subject}`);
+  }
+
+  toggleStructure() {
+    this.setState(prevState => ({
+      editStructureHidden: !prevState.editStructureHidden,
+    }));
+  }
+
   render() {
     const { match, t, locale } = this.props;
     const {
@@ -304,74 +264,68 @@ export class StructurePage extends React.PureComponent {
     const activeFilters = this.getActiveFiltersFromUrl();
     const { params } = match;
     const topicId = params.topic3 || params.topic2 || params.topic1;
-    const currentTopic = this.getCurrentTopic();
+    const currentTopic = getCurrentTopic({ params, topics });
+    const linkViewOpen = jsPlumbConnections.length > 0;
 
     return (
-      <OneColumn>
-        <Accordion
-          handleToggle={() =>
-            this.setState(prevState => ({
-              editStructureHidden: !prevState.editStructureHidden,
-            }))
-          }
-          header={
-            <React.Fragment>
-              <Taxonomy className="c-icon--medium" />
-              {t('taxonomy.editStructure')}
-            </React.Fragment>
-          }
-          taxonomy
-          addButton={
-            <InlineAddButton
-              title={t('taxonomy.addSubject')}
-              action={this.addSubject}
-            />
-          }
-          hidden={editStructureHidden}>
-          <div id="plumbContainer">
-            {subjects.map(subject => (
-              <FolderItem
-                {...subject}
-                refFunc={this.refFunc}
-                key={subject.id}
-                topics={topics[subject.id]}
-                active={subject.id.replace('urn:', '') === params.subject}
-                match={match}
-                onChangeSubjectName={this.onChangeSubjectName}
-                onAddSubjectTopic={this.onAddSubjectTopic}
-                showLink={this.showLink}
-                onAddExistingTopic={this.onAddExistingTopic}
-                refreshTopics={() => this.getSubjectTopics(subject.id)}
-                linkViewOpen={jsPlumbConnections.length > 0}
-                getFilters={this.getFilters}
-                subjectFilters={filters}
-                activeFilters={activeFilters}
-                toggleFilter={this.toggleFilter}
-                setPrimary={this.setPrimary}
-                deleteTopicLink={this.deleteTopicLink}
+      <ErrorBoundary>
+        <OneColumn>
+          <Accordion
+            handleToggle={this.toggleStructure}
+            header={
+              <React.Fragment>
+                <Taxonomy className="c-icon--medium" />
+                {t('taxonomy.editStructure')}
+              </React.Fragment>
+            }
+            taxonomy
+            addButton={
+              <InlineAddButton
+                title={t('taxonomy.addSubject')}
+                action={this.addSubject}
               />
-            ))}
-          </div>
-        </Accordion>
-        {topicId && (
-          <StructureResources
-            locale={locale}
-            params={params}
-            activeFilters={activeFilters}
-            currentTopic={currentTopic}
-            refreshTopics={() => this.getSubjectTopics(`urn:${params.subject}`)}
-          />
-        )}
-        <Portal isOpened>
-          <div
-            style={{
-              display: jsPlumbConnections.length > 0 ? 'block' : 'none',
-            }}
-            ref={this.starButton}>
-            <RoundIcon icon={<Star />} />
-          </div>
-        </Portal>
-      </OneColumn>
+            }
+            hidden={editStructureHidden}>
+            <div id="plumbContainer">
+              {subjects.map(subject => (
+                <FolderItem
+                  {...subject}
+                  refFunc={this.refFunc}
+                  key={subject.id}
+                  topics={topics[subject.id]}
+                  active={subject.id.replace('urn:', '') === params.subject}
+                  match={match}
+                  getAllSubjects={this.getAllSubjects}
+                  onAddSubjectTopic={this.onAddSubjectTopic}
+                  showLink={this.showLink}
+                  onAddExistingTopic={this.onAddExistingTopic}
+                  refreshTopics={this.refreshTopics}
+                  linkViewOpen={linkViewOpen}
+                  getFilters={this.getFilters}
+                  subjectFilters={filters}
+                  activeFilters={activeFilters}
+                  setPrimary={this.setPrimary}
+                  toggleFilter={this.toggleFilter}
+                  deleteTopicLink={this.deleteTopicLink}
+                  locale={locale}
+                />
+              ))}
+              <div ref={this.starButton}>
+                {linkViewOpen && <RoundIcon icon={<Star />} />}
+              </div>
+            </div>
+          </Accordion>
+          {topicId && (
+            <StructureResources
+              locale={locale}
+              params={params}
+              activeFilters={activeFilters}
+              currentTopic={currentTopic}
+              refreshTopics={this.refreshTopics}
+            />
+          )}
+        </OneColumn>
+      </ErrorBoundary>
     );
   }
 }

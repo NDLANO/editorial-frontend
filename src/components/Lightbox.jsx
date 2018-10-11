@@ -17,21 +17,21 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-export default class Lightbox extends React.Component {
+export default class Lightbox extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = { display: props.display };
     this.onCloseButtonClick = this.onCloseButtonClick.bind(this);
   }
 
-  componentWillReceiveProps(props) {
-    const { display } = props;
-    this.setState({ display });
-  }
-
   onCloseButtonClick(evt) {
     this.setState({ display: false }, () => this.props.onClose());
     evt.preventDefault();
+  }
+
+  static getDerivedStateFromProps({ display }, prevState) {
+    if (display !== prevState.display) return { display };
+    return null;
   }
 
   render() {

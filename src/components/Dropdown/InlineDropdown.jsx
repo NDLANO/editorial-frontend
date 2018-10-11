@@ -15,15 +15,11 @@ import Downshift from 'downshift';
 import Fuse from 'fuse.js';
 import { Cross } from 'ndla-icons/action';
 import { Search } from 'ndla-icons/common';
-import handleError from '../../../util/handleError';
-import { itemToString } from '../../../util/downShiftHelpers';
-import {
-  DropdownMenu,
-  DropdownInput,
-  dropDownClasses,
-} from '../../../components/Dropdown/common';
-import RoundIcon from '../../../components/RoundIcon';
-import Spinner from '../../../components/Spinner';
+import handleError from '../../util/handleError';
+import { itemToString } from '../../util/downShiftHelpers';
+import { DropdownMenu, DropdownInput, dropDownClasses } from './common';
+import RoundIcon from '../RoundIcon';
+import Spinner from '../Spinner';
 
 class InlineDropdown extends PureComponent {
   constructor() {
@@ -84,7 +80,7 @@ class InlineDropdown extends PureComponent {
   }
 
   render() {
-    const { icon, classes, t } = this.props;
+    const { icon, classes, t, placeholder } = this.props;
     const { selected, items, status } = this.state;
     return (
       <React.Fragment>
@@ -100,6 +96,7 @@ class InlineDropdown extends PureComponent {
               <div {...dropDownClasses()}>
                 <DropdownInput
                   testid="inlineDropdownInput"
+                  placeholder={placeholder}
                   {...downshiftProps}
                 />
                 <DropdownMenu
@@ -159,6 +156,7 @@ InlineDropdown.propTypes = {
   classes: PropTypes.func,
   onClose: PropTypes.func,
   fetchItems: PropTypes.func,
+  placeholder: PropTypes.string,
 };
 
 export default injectT(InlineDropdown);

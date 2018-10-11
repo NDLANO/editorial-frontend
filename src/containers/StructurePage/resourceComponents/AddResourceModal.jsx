@@ -15,7 +15,7 @@ import {
 import { getResourceIdFromPath } from '../../../util/routeHelpers';
 
 import { getArticle } from '../../../modules/article/articleApi';
-import ArticlePreview from './ArticlePreview';
+import ArticlePreview from '../../../components/ArticlePreview';
 
 class AddResourceModal extends Component {
   constructor() {

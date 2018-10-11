@@ -10,7 +10,7 @@ import React from 'react';
 import nock from 'nock';
 import { render, fireEvent, cleanup, wait } from 'react-testing-library';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
-import ConnectFilters from '../components/ConnectFilters';
+import ConnectFilters from '../folderComponents/ConnectFilters';
 
 afterEach(cleanup);
 

@@ -10,9 +10,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'ndla-button';
 import { Done } from 'ndla-icons/editor';
-import RoundIcon from '../../../components/RoundIcon';
-import handleError from '../../../util/handleError';
-import Spinner from '../../../components/Spinner';
+import RoundIcon from './RoundIcon';
+import handleError from '../util/handleError';
+import Spinner from './Spinner';
 
 class InlineEditField extends PureComponent {
   constructor() {
@@ -54,6 +54,7 @@ class InlineEditField extends PureComponent {
       icon,
       messages = {},
       dataTestid = 'inlineEditInput',
+      placeholder,
     } = this.props;
     const { status, input } = this.state;
     const value = input === undefined ? currentVal : input;
@@ -63,6 +64,7 @@ class InlineEditField extends PureComponent {
           <RoundIcon open small icon={icon} />
           <input
             type="text"
+            placeholder={placeholder}
             value={value}
             data-testid={dataTestid}
             onChange={e => this.setState({ input: e.target.value })}
@@ -102,6 +104,7 @@ InlineEditField.propTypes = {
   messages: PropTypes.shape({
     errorMessage: PropTypes.string,
   }),
+  placeholder: PropTypes.string,
 };
 
 export default InlineEditField;

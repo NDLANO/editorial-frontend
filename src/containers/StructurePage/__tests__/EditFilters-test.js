@@ -9,7 +9,7 @@
 import React from 'react';
 import nock from 'nock';
 import { render, fireEvent, cleanup, wait } from 'react-testing-library';
-import EditFilters from '../components/EditFilters';
+import EditFilters from '../folderComponents/EditFilters';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 
 afterEach(cleanup);

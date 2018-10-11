@@ -39,7 +39,7 @@ function addSubjectTopic(body) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
 function updateSubjectName(id, name) {

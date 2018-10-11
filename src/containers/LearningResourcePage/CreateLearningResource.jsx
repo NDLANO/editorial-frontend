@@ -40,7 +40,6 @@ class CreateLearningResource extends Component {
     const { locale, ...rest } = this.props;
     return (
       <LearningResourceForm
-        history={this.props.history}
         initialModel={getInitialModel({ language: locale })}
         {...rest}
         onUpdate={this.updateDraft}

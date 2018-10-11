@@ -29,10 +29,38 @@ class EditLinkButton extends Component {
     this.state = {
       open: false,
     };
+    this.toggleOpen = this.toggleOpen.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.deleteTopicLink = this.deleteTopicLink.bind(this);
+    this.setPrimary = this.setPrimary.bind(this);
+  }
+
+  onCancel() {
+    this.setState({
+      setPrimaryWarning: false,
+      deleteLinkWarning: false,
+    });
+  }
+
+  setPrimary() {
+    const { setPrimary, id } = this.props;
+    this.setState({ setPrimaryWarning: false, open: false });
+    setPrimary(id);
+  }
+
+  deleteTopicLink() {
+    const { deleteTopicLink, id } = this.props;
+    this.setState({ deleteLinkWarning: false, open: false });
+    deleteTopicLink(id);
+  }
+
+  toggleOpen() {
+    this.setState(prevState => ({ open: !prevState.open }));
   }
 
   render() {
-    const { refFunc, id, t, setPrimary, deleteTopicLink } = this.props;
+    const { refFunc, id, t } = this.props;
+    const { setPrimaryWarning, deleteLinkWarning } = this.state;
     const linkId = `linkButton-${id}`;
     return (
       <div
@@ -41,55 +69,39 @@ class EditLinkButton extends Component {
         ref={el => refFunc(el, linkId)}>
         <Portal isOpened>
           <WarningModal
-            show={this.state.setPrimaryWarning}
+            show={setPrimaryWarning}
             text={t('taxonomy.confirmSetPrimary')}
-            onCancel={() => this.setState({ setPrimaryWarning: false })}
+            onCancel={this.onCancel}
             actions={[
               {
                 text: t('form.abort'),
-                onClick: () => this.setState({ setPrimaryWarning: false }),
+                onClick: this.onCancel,
               },
-              {
-                text: t('warningModal.confirm'),
-                onClick: () => {
-                  this.setState({ setPrimaryWarning: false, open: false });
-                  setPrimary();
-                },
-              },
+              { text: t('warningModal.continue'), onClick: this.setPrimary },
             ]}
           />
         </Portal>
         <Portal isOpened>
           <WarningModal
-            show={this.state.deleteLinkWarning}
+            show={deleteLinkWarning}
             text={t('taxonomy.confirmDeleteTopic')}
-            onCancel={() => this.setState({ deleteLinkWarning: false })}
+            onCancel={this.onCancel}
             actions={[
               {
                 text: t('form.abort'),
-                onClick: () => this.setState({ deleteLinkWarning: false }),
+                onClick: this.onCancel,
               },
-              {
-                text: t('warningModal.delete'),
-                onClick: () => {
-                  this.setState({ deleteLinkWarning: false, open: false });
-                  deleteTopicLink(id);
-                },
-              },
+              { text: t('warningModal.delete'), onClick: this.deleteTopicLink },
             ]}
           />
         </Portal>
-        <Button
-          stripped
-          onClick={() => {
-            this.setState({ open: true });
-          }}>
+        <Button stripped onClick={this.toggleOpen}>
           <RoundIcon icon={<LinkIcon />} />
         </Button>
         {this.state.open && (
           <React.Fragment>
             <Portal isOpened>
-              <Overlay onExit={() => this.setState({ open: false })} />
+              <Overlay onExit={this.toggleOpen} />
             </Portal>
             <div {...classes('openMenu')}>
               <div className="header">
@@ -98,7 +110,7 @@ class EditLinkButton extends Component {
                 <Button
                   stripped
                   {...classes('closeButton')}
-                  onClick={() => this.setState({ open: false })}>
+                  onClick={this.toggleOpen}>
                   <Cross />
                 </Button>
               </div>

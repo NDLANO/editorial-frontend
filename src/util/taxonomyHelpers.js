@@ -169,6 +169,26 @@ const groupTopics = allTopics =>
     return insertSubTopic(acc.filter(topic => topic.id !== curr.id), curr);
   }, allTopics);
 
+const getCurrentTopic = ({ params, topics }) => {
+  const { subject, topic1, topic2, topic3 } = params;
+  if (topic1) {
+    const sub = topics[`urn:${subject}`];
+    let topic = sub ? sub.find(top => top.id === `urn:${topic1}`) : {};
+    if (topic2) {
+      topic = topic.topics
+        ? topic.topics.find(top => top.id === `urn:${topic2}`)
+        : {};
+      if (topic3) {
+        topic = topic.topics
+          ? topic.topics.find(top => top.id === `urn:${topic3}`)
+          : {};
+      }
+    }
+    return topic || {};
+  }
+  return {};
+};
+
 export {
   flattenResourceTypes,
   spliceChangedItems,
@@ -177,4 +197,5 @@ export {
   topicResourcesByTypeWithMetaData,
   groupSortResourceTypesFromTopicResources,
   groupTopics,
+  getCurrentTopic,
 };

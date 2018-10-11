@@ -174,7 +174,6 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
           autocomplete="off"
           class="c-dropdown__single"
           id="downshift-0-input"
-          placeholder="Søk på tittel"
           value=""
         />
         <div
@@ -378,7 +377,6 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
           autocomplete="off"
           class="c-dropdown__single"
           id="downshift-0-input"
-          placeholder="Søk på tittel"
           value="Hva kan du om geologiske prosesser?"
         />
         <div

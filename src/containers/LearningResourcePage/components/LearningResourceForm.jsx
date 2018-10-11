@@ -10,13 +10,13 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { withRouter } from 'react-router-dom';
 import Accordion, {
   AccordionWrapper,
   AccordionBar,
   AccordionPanel,
 } from 'ndla-accordion';
 import Button from 'ndla-button';
-import { Link } from 'react-router-dom';
 import config from '../../../config';
 import reformed from '../../../components/reformed';
 import validateSchema from '../../../components/validateSchema';
@@ -123,10 +123,7 @@ class LearningResourceForm extends Component {
     };
   }
 
-  componentDidUpdate({
-    taxonomy: prevTaxonomy,
-    initialModel: prevInitialModel,
-  }) {
+  componentDidUpdate({ taxonomy: prevTaxonomy, initialModel: prevModel }) {
     const { initialModel, setModel, setModelField, taxonomy } = this.props;
     const hasTaxonomyChanged =
       taxonomy && prevTaxonomy && taxonomy.loading !== prevTaxonomy.loading;
@@ -135,8 +132,8 @@ class LearningResourceForm extends Component {
       const fields = ['resourceTypes', 'filter', 'topics'];
       fields.map(field => setModelField(field, initialModel[field]));
     } else if (
-      initialModel.id !== prevInitialModel.id ||
-      initialModel.language !== prevInitialModel.language
+      initialModel.id !== prevModel.id ||
+      initialModel.language !== prevModel.language
     ) {
       setModel(initialModel);
     }
@@ -235,7 +232,9 @@ class LearningResourceForm extends Component {
       fields,
       showSaved,
       taxonomyIsLoading,
+      history,
     } = this.props;
+
     const { error } = this.state;
     const commonFieldProps = { bindInput, schema, submitted };
     const panels = [
@@ -356,12 +355,9 @@ class LearningResourceForm extends Component {
             ]}
             onCancel={() => this.setState({ showResetModal: false })}
           />
-          <Link
-            to="/"
-            className="c-button c-button--outline"
-            disabled={isSaving}>
+          <Button outline onClick={history.goBack} disabled={isSaving}>
             {t('form.abort')}
-          </Link>
+          </Button>
           <SaveButton
             data-testid="saveLearningResourceButton"
             isSaving={isSaving}
@@ -417,10 +413,14 @@ LearningResourceForm.propTypes = {
   }),
   taxonomyIsLoading: PropTypes.bool,
   selectedLanguage: PropTypes.string,
+  history: PropTypes.shape({
+    goBack: PropTypes.func,
+  }).isRequired,
 };
 
 export default compose(
   injectT,
+  withRouter,
   reformed,
   validateSchema({
     title: {

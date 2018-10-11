@@ -41,10 +41,11 @@ const RichTextEditor = class extends React.Component {
     this.onKeyDown = this.onKeyDown.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate() {
     const { slateStore } = this.state;
-    if (nextProps.submitted !== slateStore.getState().submitted) {
-      slateStore.dispatch(setSubmitted(nextProps.submitted));
+    const { submitted } = this.props;
+    if (submitted !== slateStore.getState().submitted) {
+      slateStore.dispatch(setSubmitted(submitted));
     }
   }
 

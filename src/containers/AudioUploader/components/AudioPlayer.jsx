@@ -10,8 +10,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from '../../../components/Fields';
 
-class AudioPlayer extends React.Component {
-  componentWillReceiveProps(props) {
+class AudioPlayer extends React.PureComponent {
+  componentDidUpdate(props) {
     if (this.props.filepath !== props.filepath) {
       this.audioPlayer.pause();
       this.audioPlayer.load();

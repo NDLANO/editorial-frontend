@@ -7107,9 +7107,10 @@ ncp@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
 
-ndla-accordion@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/ndla-accordion/-/ndla-accordion-0.1.0.tgz#f077b4bf489c862e8c52d517e70c36317f3e12a9"
+ndla-accordion@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ndla-accordion/-/ndla-accordion-0.2.0.tgz#cc6cc607ada8b7feef03ac2c33fc974324f46588"
+  integrity sha512-SyN2mnU5YnXbQfTwbdydc0nua8jn8rhT3p3H+VtmujakLXvKvL+kWUa004unvle9oyUaW8L5KvzcuxbzGxCk6w==
 
 ndla-article-scripts@^0.4.7:
   version "0.4.7"
@@ -7123,13 +7124,15 @@ ndla-audio-search@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/ndla-audio-search/-/ndla-audio-search-0.4.0.tgz#ea7e002d65e3342a6224f513acd43ecfb312152e"
 
-ndla-button@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/ndla-button/-/ndla-button-0.0.2.tgz#c9d6deba93e1ceffeea04847f2cc03c4682ba8ac"
+ndla-button@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/ndla-button/-/ndla-button-0.0.3.tgz#e92918d12a314c514e88082d17156cc71dc01c2d"
+  integrity sha512-57L3gS/ztnmFsRgj+tfuK3Jbf2WTM5pt+oqQF/QqYqdkUtwDkXIUDyzzqaD2YnbLkkVsGngdIrzmtt395gSGpg==
 
-ndla-core@^0.2.0:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/ndla-core/-/ndla-core-0.2.1.tgz#58d08a67f9e31a067cff6933c61a3e556da06052"
+ndla-core@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/ndla-core/-/ndla-core-0.3.0.tgz#b24df43a94bd9bd00aee1c4519b14b41db32263d"
+  integrity sha512-5f1+ZKGzUuYTI2fE2BAVLZnk4OKvd0Z4z4JcyCIZ4Ocz7JCBP6q3jifCHQZNj/WzBd+ySMdn676Y2ic+cVnccw==
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
@@ -7197,9 +7200,10 @@ ndla-tabs@^0.7.1:
   dependencies:
     lodash "^4.17.5"
 
-ndla-ui@^0.17.3:
-  version "0.17.3"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.17.3.tgz#3734305e2409afd143d35d0f46a8d356f387cc6f"
+ndla-ui@^0.17.5:
+  version "0.17.5"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.17.5.tgz#7fb7acfa7a2a86e740543c800009e17ba10bd253"
+  integrity sha512-erDafD+4P9bWvh21xZOy00XwCwnoW2jvvsZU/tepFYdryvKFI6Xsz7mKhj1SnyQuQmw3BYoHk3fXANpwKBkkiw==
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"

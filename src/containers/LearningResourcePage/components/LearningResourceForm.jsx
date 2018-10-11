@@ -48,6 +48,7 @@ import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
+  isFormDirty,
 } from '../../../util/formHelper';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
@@ -198,9 +199,29 @@ class LearningResourceForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const { model, schema, revision, setSubmitted } = this.props;
+    const {
+      model,
+      schema,
+      revision,
+      setSubmitted,
+      fields,
+      initialModel,
+      showSaved,
+    } = this.props;
+
     if (!schema.isValid) {
       setSubmitted(true);
+      return;
+    }
+    if (
+      !isFormDirty(
+        fields,
+        initialModel,
+        model,
+        ['introduction', 'metaDescription', 'content'],
+        showSaved,
+      )
+    ) {
       return;
     }
     this.props.onUpdate(

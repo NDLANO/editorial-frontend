@@ -34,6 +34,7 @@ import { SchemaShape, LicensesArrayOf } from '../../../shapes';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
+  isFormDirty,
 } from '../../../util/formHelper';
 import {
   FormWorkflow,
@@ -147,9 +148,29 @@ class TopicArticleForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const { schema, revision, setSubmitted, onUpdate } = this.props;
+    const {
+      schema,
+      revision,
+      setSubmitted,
+      onUpdate,
+      fields,
+      model,
+      initialModel,
+      showSaved,
+    } = this.props;
     if (!schema.isValid) {
       setSubmitted(true);
+      return;
+    }
+    if (
+      !isFormDirty(
+        fields,
+        initialModel,
+        model,
+        ['introduction', 'metaDescription', 'content'],
+        showSaved,
+      )
+    ) {
       return;
     }
 

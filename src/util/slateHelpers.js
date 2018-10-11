@@ -41,7 +41,7 @@ export const TABLE_TAGS = {
   td: 'table-cell',
 };
 
-const MARK_TAGS = {
+export const MARK_TAGS = {
   strong: 'bold',
   em: 'italic',
   u: 'underlined',

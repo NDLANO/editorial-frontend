@@ -19,6 +19,12 @@ const {
   learningResourceContentToHTML,
 } = require('../../src/util/articleContentConverter');
 const { resolveJsonOrRejectWithError } = require('../../src/util/apiHelpers');
+const {
+  BLOCK_TAGS,
+  MARK_TAGS,
+  INLINE_TAGS,
+  TABLE_TAGS,
+} = require('../../src/util/slateHelpers');
 
 const config = getUniversalConfig();
 
@@ -144,8 +150,20 @@ async function fetchAllArticles() {
   return articleIds;
 }
 
+const importantHTMLTags = [
+  ...Object.keys(BLOCK_TAGS),
+  ...Object.keys(TABLE_TAGS),
+  ...Object.keys(MARK_TAGS),
+  ...Object.keys(INLINE_TAGS),
+];
 function shouldWarnFromDiff(part) {
-  return part.value.includes('embed') || part.count > 20;
+  console.log(importantHTMLTags);
+  return (
+    importantHTMLTags.some(
+      tag =>
+        part.value.includes(`<${tag}>`) || part.value.includes(`</${tag}>`),
+    ) || part.count > 20
+  );
 }
 
 function diffHTML(oldHtml, newHtml) {

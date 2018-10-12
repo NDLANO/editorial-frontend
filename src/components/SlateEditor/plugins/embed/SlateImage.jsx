@@ -109,14 +109,19 @@ class SlateImage extends React.Component {
             {...rest}
           />
         ) : (
-          <Button stripped onClick={this.toggleEditModus}>
+          <Button
+            stripped
+            onClick={this.toggleEditModus}
+            style={{ textAlign: 'left' }}>
             <figure {...figureClass}>
               <img
                 src={src}
                 alt={embed.alt}
                 srcSet={getSrcSets(embed.resource_id, transformData)}
               />
-              <figcaption>{embed.caption}</figcaption>
+              <figcaption className="c-figure__caption">
+                <div className="c-figure__info">{embed.caption}</div>
+              </figcaption>
             </figure>
           </Button>
         )}

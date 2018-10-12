@@ -80,10 +80,10 @@ class SlateVideo extends React.PureComponent {
           ) : (
             <Button
               stripped
-              style={{ width: '100%' }}
+              style={{ width: '100%', textAlign: 'left' }}
               onClick={this.toggleEditModus}>
-              <figcaption style={{ position: 'absolute', width: '100%' }}>
-                {embed.caption}
+              <figcaption className="c-figure__caption">
+                <div className="c-figure__info">{embed.caption}</div>
               </figcaption>
             </Button>
           )}

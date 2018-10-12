@@ -47,6 +47,7 @@ class EditRelated extends React.PureComponent {
     // Placing embed within placeholder div on mount
     placeholderEl.style.height = `${embedRect.height + 120}px`;
     embedEl.style.position = 'absolute';
+    embedEl.style.background = 'white';
     embedEl.style.top = `${placeholderRect.top - bodyRect.top + 50}px`;
     embedEl.style.left = `${placeholderRect.left - 50}px`;
     embedEl.style.width = `${placeholderRect.width + 100}px`;

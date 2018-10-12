@@ -9,7 +9,7 @@ yarn-error.log
 /coverage/
 /cypress/screenshots
 /htdocs/
-scripts/articles.json
+scripts/.cache/
 
 
 ### VisualStudioCode ###

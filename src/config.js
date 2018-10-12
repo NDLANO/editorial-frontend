@@ -14,8 +14,8 @@ export const getEnvironmentVariabel = (key, fallback = undefined) => {
 
 const ndlaEnvironment = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'test');
 
-const apiDomain = () => {
-  switch (ndlaEnvironment) {
+export const getNdlaApiUrl = env => {
+  switch (env) {
     case 'local':
       return 'http://proxy.ndla-local';
     case 'prod':
@@ -66,7 +66,10 @@ const config = {
   logEnvironment: getEnvironmentVariabel('NDLA_ENVIRONMENT', 'local'),
   logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
-  ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', apiDomain()),
+  ndlaApiUrl: getEnvironmentVariabel(
+    'NDLA_API_URL',
+    getNdlaApiUrl(ndlaEnvironment),
+  ),
   editorialFrontendDomain: editorialFrontendDomain(),
   learningpathFrontendDomain: learningpathFrontendDomain(),
   ndlaPersonalClientId: getEnvironmentVariabel('NDLA_PERSONAL_CLIENT_ID', ''),

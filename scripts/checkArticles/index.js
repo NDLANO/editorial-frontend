@@ -29,20 +29,13 @@ global.NodeFilter = window.NodeFilter;
 
 const { fragment } = jsdom.JSDOM;
 
-const errors = [];
-
 let token = '';
 /* eslint no-console: 0 */
+/* eslint prefer-template: 0 */
 /* eslint no-await-in-loop: 0 */
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function asyncForEach(array, callback) {
-  for (let index = 0; index < array.length; index += 1) {
-    await callback(array[index], index, array);
-  }
 }
 
 async function fetchSystemAccessToken() {
@@ -64,7 +57,6 @@ async function fetchSystemAccessToken() {
 async function fetchArticles(url, query) {
   const result = await fetch(`${url}?${queryString.stringify(query)}`, {
     headers: {
-      'Cache-Control': 'no-cache',
       Authorization: `Bearer ${token.access_token}`,
     },
   })
@@ -83,7 +75,6 @@ async function fetchArticle(url, id) {
   let result;
   result = await fetch(`${url}${id}`, {
     headers: {
-      'Cache-Control': 'no-cache',
       Authorization: `Bearer ${token.access_token}`,
     },
   })
@@ -99,12 +90,12 @@ async function fetchArticle(url, id) {
   return result;
 }
 
-async function fetchAllArticles() {
+async function fetchAllArticles(url) {
   const query = {
     page: 1,
     'page-size': 100,
   };
-  const firstResult = await fetchArticles(query, token);
+  const firstResult = await fetchArticles(url, query);
 
   const numberOfPages = Math.ceil(
     firstResult.totalCount / firstResult.pageSize,
@@ -121,7 +112,7 @@ async function fetchAllArticles() {
   );
 
   for (let i = 1; i < numberOfPages + 1; i += 1) {
-    requests.push(fetchArticles({ ...query, page: i }, token));
+    requests.push(fetchArticles(url, { ...query, page: i }));
     await sleep(500);
 
     console.log(
@@ -166,33 +157,55 @@ function diffHTML(oldHtml, newHtml) {
   return { diff: diffString, warn: shouldWarn };
 }
 
-async function testArticle(id, article) {
+function testArticle(article) {
   try {
-    if (article) {
-      const converted = learningResourceContentToEditorValue(
-        article.content.content,
-        fragment,
-      );
+    const converted = learningResourceContentToEditorValue(
+      article.content.content,
+      fragment,
+    );
 
-      const diffObject = diffHTML(
-        article.content.content,
-        learningResourceContentToHTML(converted),
-      );
-      const diffString = diffObject.warn ? `diff: ${diffObject.diff}` : '';
+    const diffObject = diffHTML(
+      article.content.content,
+      learningResourceContentToHTML(converted),
+    );
 
-      console.log(
-        `${chalk.green(
-          `Article with id ${id} was sucessfully converted to slate and back to HTML and the`,
-        )} ${diffString}\n`,
-      );
-    }
-  } catch (err) {
-    errors.push({ error: err, id });
     console.log(
-      `${chalk.red(`Article with id ${id} failed to convert.`)}`,
+      `${chalk.green(
+        `Article with id ${
+          article.id
+        } was sucessfully converted to slate and back to HTML.`,
+      )}`,
+    );
+    if (diffObject.warn) {
+      console.log(
+        `${chalk.yellow(`WARN Diff detected:\n`)} ${diffObject.diff}`,
+      );
+      return { hasDiff: true };
+    }
+    return { hasDiff: false };
+  } catch (err) {
+    console.log(
+      `${chalk.red(`Article with id ${article.id} failed to convert.`)}`,
       err,
     );
+    return { error: err, id: article.id, hasError: true };
   }
+}
+
+function printResults(articles, results) {
+  const errors = results.filter(result => result.hasError);
+  const diffs = results.filter(result => result.hasDiff);
+  const passed = results.filter(result => !result.hasDiff && !result.hasError);
+  const passedString = chalk.bold.green(` ${passed.length} passed`) + ',';
+  const errString =
+    errors.length > 0 ? chalk.bold.red(` ${errors.length} failed`) + ',' : '';
+  const diffString =
+    diffs.length > 0 ? chalk.bold.yellow(` ${diffs.length} diffs`) + ',' : '';
+  console.log(
+    `${chalk.bold('Articles: ')}${passedString}${errString}${diffString} ${
+      articles.length
+    } total`,
+  );
 }
 
 async function runCheck(argv) {
@@ -202,21 +215,25 @@ async function runCheck(argv) {
   if (argv.single) {
     const id = argv.single;
     const article = await fetchArticle(url, id);
-    await testArticle(id, article);
+    const result = testArticle(article);
+    printResults([article], [result]);
   } else if (argv.write) {
     const articles = [];
-    const articleIds = await fetchAllArticles();
-    await asyncForEach(articleIds, async id => {
-      const article = await fetchArticle(url, id);
-      articles.push(article);
-      await testArticle(id, article);
-    });
+    const articleIds = (await fetchAllArticles(url)).slice(1, 100);
+    const results = await Promise.all(
+      articleIds.map(async id => {
+        const article = await fetchArticle(url, id);
+        articles.push(article);
+        return testArticle(article);
+      }),
+    );
     mkdirp.sync('./scripts/.cache');
     fs.writeFileSync(
       './scripts/.cache/articles.json',
       JSON.stringify(articles),
       'utf8',
     );
+    printResults(articles, results);
   } else {
     const path = './scripts/.cache/articles.json';
     if (!fs.existsSync(path)) {
@@ -228,19 +245,11 @@ async function runCheck(argv) {
       return;
     }
     const contents = fs.readFileSync(path);
-    const articles = await JSON.parse(contents);
+    const articles = JSON.parse(contents);
 
-    articles.forEach(article => {
-      if (article) {
-        testArticle(article.id, article);
-      }
-    });
+    const results = articles.map(testArticle);
+    printResults(articles, results);
   }
-  console.log(
-    `Total errors: ${errors.length}. Articles that is failing is: ${
-      errors ? errors.map(error => (error ? error.id : '')) : '[]'
-    }`,
-  );
 }
 
 module.exports = runCheck;

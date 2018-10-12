@@ -11,7 +11,7 @@ const chalk = require('chalk');
 const queryString = require('query-string');
 const fetch = require('isomorphic-fetch');
 const fs = require('fs');
-const jsdiff = require('diff');
+const Differ = require('diff-match-patch');
 const mkdirp = require('mkdirp');
 const { getNdlaApiUrl } = require('../../src/config');
 const {
@@ -21,6 +21,7 @@ const {
 const { resolveJsonOrRejectWithError } = require('../../src/util/apiHelpers');
 
 const dom = new jsdom.JSDOM('<!DOCTYPE html></html>');
+const differ = new Differ();
 
 global.window = dom.window;
 global.document = window.document;
@@ -131,33 +132,35 @@ async function fetchAllArticles(url) {
   return articleIds;
 }
 
-function shouldWarnFromDiff(part) {
-  return part.value.includes('embed') || part.count > 20;
-}
-
 function diffHTML(oldHtml, newHtml) {
-  const diff = jsdiff.diffChars(oldHtml, newHtml);
+  const diffs = differ.diff_main(oldHtml, newHtml);
   let diffString = '';
   const lengthDifference = Math.abs(newHtml.lenth - oldHtml.length);
 
   let shouldWarn = lengthDifference > 50;
 
-  diff.forEach(part => {
+  diffs.forEach(diff => {
     // green for additions, red for deletions
     // grey for common parts
-    if (part.added) {
-      diffString += `${chalk.green(part.value)}`;
-    } else if (part.removed) {
-      diffString += `${chalk.red(part.value)}`;
-      shouldWarn = shouldWarn || shouldWarnFromDiff(part);
+    const [result, value] = diff;
+    if (result === 1) {
+      diffString += `${chalk.green(value)}`;
+    } else if (result === -1) {
+      diffString += `${chalk.red(value)}`;
+      shouldWarn = true;
     } else {
-      diffString += part.value;
+      diffString += value;
     }
   });
   return { diff: diffString, warn: shouldWarn };
 }
 
 function testArticle(article) {
+  if (!article) {
+    console.log(`${chalk.yellow(`No article!`)}`);
+    return { hasError: true };
+  }
+
   try {
     const converted = learningResourceContentToEditorValue(
       article.content.content,

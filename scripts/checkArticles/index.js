@@ -232,13 +232,13 @@ async function runCheck(argv) {
     );
     mkdirp.sync('./scripts/.cache');
     fs.writeFileSync(
-      './scripts/.cache/articles.json',
+      `./scripts/.cache/articles-${argv.env}.json`,
       JSON.stringify(articles),
       'utf8',
     );
     printResults(articles, results);
   } else {
-    const path = './scripts/.cache/articles.json';
+    const path = `./scripts/.cache/articles-${argv.env}.json`;
     if (!fs.existsSync(path)) {
       console.log(
         `${chalk.red(

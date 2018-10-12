@@ -19,7 +19,6 @@ import {
   renderNode,
   schema,
   renderMark,
-  validateNode,
 } from '../../../components/SlateEditor/schema';
 import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
@@ -121,7 +120,6 @@ class LearningResourceContent extends Component {
           slateSchema={schema}
           renderNode={renderNode}
           renderMark={renderMark}
-          validateNode={validateNode}
           label={t('form.content.label')}
           placeholder={contentPlaceholder}
           name="content"

@@ -14,7 +14,7 @@ import { injectT } from 'ndla-i18n';
 import config from '../../../../config';
 import { Portal } from '../../../Portal';
 import { setActiveNode } from '../../createSlateStore';
-import isNodeInCurrentSelection from '../utils/isNodeInCurrentSelection';
+import isNodeInCurrentSelection from '../../utils/isNodeInCurrentSelection';
 import { EditorShape } from '../../../../shapes';
 import { classes } from '../../RichTextEditor';
 

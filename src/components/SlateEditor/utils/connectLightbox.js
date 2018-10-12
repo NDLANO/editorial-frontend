@@ -10,9 +10,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { getComponentName } from 'ndla-util';
-import { Portal } from '../../../Portal';
-import Lightbox from '../../../Lightbox';
-import { setActiveNode } from '../../createSlateStore';
+import { Portal } from '../../Portal';
+import Lightbox from '../../Lightbox';
+import { setActiveNode } from '../createSlateStore';
 
 const makeWrapper = getNodeType => WrappedComponent => {
   class ConnectLightbox extends Component {

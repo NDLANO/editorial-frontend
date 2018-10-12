@@ -118,7 +118,6 @@ export const divRule = {
       return {
         object: 'block',
         type: 'related',
-        isVoid: true,
         data: reduceChildElements(el, type),
       };
     }
@@ -544,7 +543,6 @@ const topicArticeEmbedRule = [
         object: 'block',
         type: 'embed',
         data: reduceElementDataAttributes(el),
-        isVoid: true,
       };
     },
     serialize(object) {
@@ -615,7 +613,6 @@ export const learningResourceEmbedRule = [
         type: 'embed',
         data: embed,
         nodes: [],
-        isVoid: true,
       };
     },
 

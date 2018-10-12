@@ -27,11 +27,13 @@ import { Cross, Plus } from 'ndla-icons/action';
 import { Audio } from 'ndla-icons/common';
 
 import { Portal } from '../../../Portal';
-import { defaultAsideBlock, defaultRelatedBlock } from '../../schema';
+import { defaultBlocks } from '../../utils';
 import { defaultBodyBoxBlock } from '../bodybox';
 import { defaultDetailsBlock } from '../detailsbox';
 import SlateEmbedPicker from './SlateEmbedPicker';
 import { editTablePlugin } from '../externalPlugins';
+
+const { defaultAsideBlock, defaultRelatedBlock } = defaultBlocks;
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -126,7 +128,7 @@ class SlateBlockPicker extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (!nextProps.editorValue.isFocused && prevState.isOpen) {
+    if (!nextProps.editorValue.selection.isFocused && prevState.isOpen) {
       return { isOpen: false };
     }
     return null;
@@ -200,13 +202,14 @@ class SlateBlockPicker extends Component {
   }
 
   render() {
-    const typeClassName = this.state.isOpen ? '' : 'hidden';
+    const { isOpen, embedSelect } = this.state;
+    const typeClassName = isOpen ? '' : 'hidden';
     return (
       <Portal isOpened>
-        {this.state.embedSelect.isOpen ? (
+        {embedSelect.isOpen ? (
           <SlateEmbedPicker
-            resource={this.state.embedSelect.embedType}
-            isOpen={this.state.embedSelect.isOpen}
+            resource={embedSelect.embedType}
+            isOpen={embedSelect.isOpen}
             onEmbedClose={this.onEmbedClose}
             onInsertBlock={this.onInsertBlock}
           />
@@ -223,7 +226,7 @@ class SlateBlockPicker extends Component {
             {...classes('block-type-button')}
             data-cy="slate-block-picker"
             onMouseDown={this.toggleIsOpen}>
-            {this.state.isOpen ? (
+            {isOpen ? (
               <Cross className="c-icon--medium" />
             ) : (
               <Plus className="c-icon--medium" />

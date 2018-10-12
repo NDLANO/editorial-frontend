@@ -10,10 +10,12 @@ import isTypeinSelection from './isTypeinSelection';
 import listNodesOfType from './listNodesOfType';
 import hasNodeOfType from './hasNodeOfType';
 import checkSelectionForType from './checkSelectionForType';
+import * as defaultBlocks from './defaultBlocks';
 
 export {
   isTypeinSelection,
   listNodesOfType,
   hasNodeOfType,
   checkSelectionForType,
+  defaultBlocks,
 };

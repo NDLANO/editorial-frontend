@@ -9,12 +9,11 @@
 import React from 'react';
 import { Block } from 'slate';
 import DetailsBox from './DetailsBox';
-import { defaultBlock } from '../../schema';
+import { defaultBlocks } from '../../utils';
 
 const detailsBlock = [
   {
     type: 'summary',
-    isVoid: false,
     data: {},
   },
 ];
@@ -22,7 +21,6 @@ const detailsBlock = [
 /* eslint-disable react/prop-types */
 export const defaultDetailsBlock = () =>
   Block.create({
-    isVoid: false,
     type: 'details',
     nodes: Block.createList(detailsBlock),
   });
@@ -38,7 +36,7 @@ export default function createDetails() {
     if (node.type !== 'details') return null;
     if (!node.nodes.last().type) return null;
     if (!node.nodes.last().isVoid) return null;
-    const block = Block.create(defaultBlock);
+    const block = Block.create(defaultBlocks.defaultBlock);
     return change => {
       change.insertNodeByKey(node.key, node.nodes.size, block);
     };

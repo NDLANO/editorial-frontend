@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Lightbox from '../../../Lightbox';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
-import { defaultEmbedBlock } from '../../schema';
+import { defaultBlocks } from '../../utils';
 
 const SlateEmbedPicker = ({
   isOpen,
@@ -11,7 +11,7 @@ const SlateEmbedPicker = ({
   onInsertBlock,
 }) => {
   const onEmbedAdd = embed => {
-    const blockToInsert = defaultEmbedBlock(embed);
+    const blockToInsert = defaultBlocks.defaultEmbedBlock(embed);
     onInsertBlock(blockToInsert);
     onEmbedClose();
   };

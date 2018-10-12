@@ -14,7 +14,7 @@ import Types from 'slate-prop-types';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
 import { setActiveNode } from '../../createSlateStore';
-import { hasNodeOfType, checkSelectionForType } from '../utils';
+import { hasNodeOfType, checkSelectionForType } from '../../utils';
 import { TYPE as footnote } from '../footnote';
 import { TYPE as link } from '../link';
 import blockquotePlugin from '../blockquotePlugin';

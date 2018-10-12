@@ -11,41 +11,32 @@ const chalk = require('chalk');
 const queryString = require('query-string');
 const fetch = require('isomorphic-fetch');
 const fs = require('fs');
-const jsdiff = require('diff');
+const Differ = require('diff-match-patch');
 const mkdirp = require('mkdirp');
-const { getUniversalConfig } = require('../../src/config');
+const { getNdlaApiUrl } = require('../../src/config');
 const {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } = require('../../src/util/articleContentConverter');
 const { resolveJsonOrRejectWithError } = require('../../src/util/apiHelpers');
 
-const config = getUniversalConfig();
-
 const dom = new jsdom.JSDOM('<!DOCTYPE html></html>');
+const differ = new Differ();
 
 global.window = dom.window;
 global.document = window.document;
 global.navigator = window.navigator;
 global.NodeFilter = window.NodeFilter;
 
-const url = `${config.ndlaApiUrl}/article-api/v2/articles/`;
 const { fragment } = jsdom.JSDOM;
-
-const errors = [];
 
 let token = '';
 /* eslint no-console: 0 */
+/* eslint prefer-template: 0 */
 /* eslint no-await-in-loop: 0 */
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function asyncForEach(array, callback) {
-  for (let index = 0; index < array.length; index += 1) {
-    await callback(array[index], index, array);
-  }
 }
 
 async function fetchSystemAccessToken() {
@@ -64,11 +55,9 @@ async function fetchSystemAccessToken() {
   }).then(resolveJsonOrRejectWithError);
 }
 
-async function fetchArticles(query) {
-  console.log(url);
+async function fetchArticles(url, query) {
   const result = await fetch(`${url}?${queryString.stringify(query)}`, {
     headers: {
-      'Cache-Control': 'no-cache',
       Authorization: `Bearer ${token.access_token}`,
     },
   })
@@ -82,12 +71,11 @@ async function fetchArticles(query) {
   return result;
 }
 
-async function fetchArticle(id) {
+async function fetchArticle(url, id) {
   await sleep(100);
   let result;
   result = await fetch(`${url}${id}`, {
     headers: {
-      'Cache-Control': 'no-cache',
       Authorization: `Bearer ${token.access_token}`,
     },
   })
@@ -103,12 +91,12 @@ async function fetchArticle(id) {
   return result;
 }
 
-async function fetchAllArticles() {
+async function fetchAllArticles(url) {
   const query = {
     page: 1,
     'page-size': 100,
   };
-  const firstResult = await fetchArticles(query, token);
+  const firstResult = await fetchArticles(url, query);
 
   const numberOfPages = Math.ceil(
     firstResult.totalCount / firstResult.pageSize,
@@ -125,7 +113,7 @@ async function fetchAllArticles() {
   );
 
   for (let i = 1; i < numberOfPages + 1; i += 1) {
-    requests.push(fetchArticles({ ...query, page: i }, token));
+    requests.push(fetchArticles(url, { ...query, page: i }));
     await sleep(500);
 
     console.log(
@@ -144,84 +132,113 @@ async function fetchAllArticles() {
   return articleIds;
 }
 
-function shouldWarnFromDiff(part) {
-  return part.value.includes('embed') || part.count > 20;
-}
-
 function diffHTML(oldHtml, newHtml) {
-  const diff = jsdiff.diffChars(oldHtml, newHtml);
+  const diffs = differ.diff_main(oldHtml, newHtml);
   let diffString = '';
   const lengthDifference = Math.abs(newHtml.lenth - oldHtml.length);
 
   let shouldWarn = lengthDifference > 50;
 
-  diff.forEach(part => {
+  diffs.forEach(diff => {
     // green for additions, red for deletions
     // grey for common parts
-    if (part.added) {
-      diffString += `${chalk.green(part.value)}`;
-    } else if (part.removed) {
-      diffString += `${chalk.red(part.value)}`;
-      shouldWarn = shouldWarn || shouldWarnFromDiff(part);
+    const [result, value] = diff;
+    if (result === 1) {
+      diffString += `${chalk.green(value)}`;
+    } else if (result === -1) {
+      diffString += `${chalk.red(value)}`;
+      shouldWarn = true;
     } else {
-      diffString += part.value;
+      diffString += value;
     }
   });
   return { diff: diffString, warn: shouldWarn };
 }
 
-async function testArticle(id, article) {
+function testArticle(article) {
+  if (!article) {
+    console.log(`${chalk.yellow(`No article!`)}`);
+    return { hasError: true };
+  }
+
   try {
-    if (article) {
-      const converted = learningResourceContentToEditorValue(
-        article.content.content,
-        fragment,
-      );
+    const converted = learningResourceContentToEditorValue(
+      article.content.content,
+      fragment,
+    );
 
-      const diffObject = diffHTML(
-        article.content.content,
-        learningResourceContentToHTML(converted),
-      );
-      const diffString = diffObject.warn ? `diff: ${diffObject.diff}` : '';
+    const diffObject = diffHTML(
+      article.content.content,
+      learningResourceContentToHTML(converted),
+    );
 
-      console.log(
-        `${chalk.green(
-          `Article with id ${id} was sucessfully converted to slate and back to HTML and the`,
-        )} ${diffString}\n`,
-      );
-    }
-  } catch (err) {
-    errors.push({ error: err, id });
     console.log(
-      `${chalk.red(`Article with id ${id} failed to convert.`)}`,
+      `${chalk.green(
+        `Article with id ${
+          article.id
+        } was sucessfully converted to slate and back to HTML.`,
+      )}`,
+    );
+    if (diffObject.warn) {
+      console.log(
+        `${chalk.yellow(`WARN Diff detected:\n`)} ${diffObject.diff}`,
+      );
+      return { hasDiff: true };
+    }
+    return { hasDiff: false };
+  } catch (err) {
+    console.log(
+      `${chalk.red(`Article with id ${article.id} failed to convert.`)}`,
       err,
     );
+    return { error: err, id: article.id, hasError: true };
   }
+}
+
+function printResults(articles, results) {
+  const errors = results.filter(result => result.hasError);
+  const diffs = results.filter(result => result.hasDiff);
+  const passed = results.filter(result => !result.hasDiff && !result.hasError);
+  const passedString = chalk.bold.green(` ${passed.length} passed`) + ',';
+  const errString =
+    errors.length > 0 ? chalk.bold.red(` ${errors.length} failed`) + ',' : '';
+  const diffString =
+    diffs.length > 0 ? chalk.bold.yellow(` ${diffs.length} diffs`) + ',' : '';
+  console.log(
+    `${chalk.bold('Articles: ')}${passedString}${errString}${diffString} ${
+      articles.length
+    } total`,
+  );
 }
 
 async function runCheck(argv) {
   await fetchSystemAccessToken();
+  const url = `${getNdlaApiUrl(argv.env)}/article-api/v2/articles/`;
 
   if (argv.single) {
     const id = argv.single;
-    const article = await fetchArticle(id, token);
-    await testArticle(id, article);
+    const article = await fetchArticle(url, id);
+    const result = testArticle(article);
+    printResults([article], [result]);
   } else if (argv.write) {
     const articles = [];
-    const articleIds = (await fetchAllArticles()).slice(0, 2);
-    await asyncForEach(articleIds, async id => {
-      const article = await fetchArticle(id, token);
-      articles.push(article);
-      await testArticle(id, article);
-    });
+    const articleIds = (await fetchAllArticles(url)).slice(1, 100);
+    const results = await Promise.all(
+      articleIds.map(async id => {
+        const article = await fetchArticle(url, id);
+        articles.push(article);
+        return testArticle(article);
+      }),
+    );
     mkdirp.sync('./scripts/.cache');
     fs.writeFileSync(
-      './scripts/.cache/articles.json',
+      `./scripts/.cache/articles-${argv.env}.json`,
       JSON.stringify(articles),
       'utf8',
     );
+    printResults(articles, results);
   } else {
-    const path = './scripts/.cache/articles.json';
+    const path = `./scripts/.cache/articles-${argv.env}.json`;
     if (!fs.existsSync(path)) {
       console.log(
         `${chalk.red(
@@ -231,19 +248,11 @@ async function runCheck(argv) {
       return;
     }
     const contents = fs.readFileSync(path);
-    const articles = await JSON.parse(contents);
+    const articles = JSON.parse(contents);
 
-    articles.forEach(article => {
-      if (article) {
-        testArticle(article.id, article);
-      }
-    });
+    const results = articles.map(testArticle);
+    printResults(articles, results);
   }
-  console.log(
-    `Total errors: ${errors.length}. Articles that is failing is: ${
-      errors ? errors.map(error => (error ? error.id : '')) : '[]'
-    }`,
-  );
 }
 
 module.exports = runCheck;

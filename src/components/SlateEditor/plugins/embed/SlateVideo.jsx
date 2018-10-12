@@ -11,51 +11,56 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { Figure } from 'ndla-ui';
 import Button from 'ndla-button';
-import { Cross } from 'ndla-icons/action';
 import { injectT } from 'ndla-i18n';
+import { Cross } from 'ndla-icons/action';
 import config from '../../../../config';
-import SlateInputField from './SlateInputField';
 import { EmbedShape } from '../../../../shapes';
 import { editorClasses } from './SlateFigure';
+import EditVideo from './EditVideo';
 
-const SlateVideo = ({
-  embed,
-  onFigureInputChange,
-  attributes,
-  submitted,
-  onRemoveClick,
-  t,
-}) => {
-  const src = `//players.brightcove.net/${config.brightCoveAccountId}/${
-    config.brightcovePlayerId
-  }_default/index.min.js`;
-  return (
-    <Figure {...attributes}>
-      <Button
-        stripped
-        onClick={onRemoveClick}
-        {...editorClasses('delete-button')}>
-        <Cross />
-      </Button>
-      <Helmet>
-        <script src={src} type="text/javascript" />
-      </Helmet>
-      <div
-        style={{
-          display: 'block',
-          position: 'relative',
-          maxWidth: '100%',
-        }}>
-        <div style={{ paddingTop: '56.25%' }}>
+class SlateVideo extends React.PureComponent {
+  constructor() {
+    super();
+    this.state = { editMode: false };
+    this.toggleEditModus = this.toggleEditModus.bind(this);
+  }
+
+  toggleEditModus() {
+    this.setState(prevState => ({ editMode: !prevState.editMode }));
+  }
+
+  render() {
+    const {
+      embed,
+      attributes,
+      t,
+      figureClass,
+      onRemoveClick,
+      ...rest
+    } = this.props;
+    const src = `//players.brightcove.net/${config.brightCoveAccountId}/${
+      config.brightcovePlayerId
+    }_default/index.min.js`;
+    return (
+      <Figure id={embed.videoid} {...attributes}>
+        <Button
+          stripped
+          onClick={onRemoveClick}
+          {...editorClasses('delete-button')}>
+          <Cross />
+        </Button>
+        <Helmet>
+          <script src={src} type="text/javascript" />
+        </Helmet>
+        <figure style={{ paddingTop: '56.25%' }} {...figureClass}>
           <video
             style={{
               width: '100%',
               height: '100%',
               position: 'absolute',
               top: '0px',
-              bottom: '0px',
-              right: '0px',
               left: '0px',
+              right: '0px',
             }}
             data-video-id={embed.videoid}
             data-account={embed.account}
@@ -65,21 +70,28 @@ const SlateVideo = ({
             controls>
             <track kind="captions" label={embed.caption} />
           </video>
-        </div>
-      </div>
-      <SlateInputField
-        name="caption"
-        label={t('form.video.caption.label')}
-        type="text"
-        required
-        value={embed.caption}
-        submitted={submitted}
-        onChange={onFigureInputChange}
-        placeholder={t('form.video.caption.placeholder')}
-      />
-    </Figure>
-  );
-};
+          {this.state.editMode ? (
+            <EditVideo
+              embed={embed}
+              toggleEditModus={this.toggleEditModus}
+              t={t}
+              {...rest}
+            />
+          ) : (
+            <Button
+              stripped
+              style={{ width: '100%' }}
+              onClick={this.toggleEditModus}>
+              <figcaption style={{ position: 'absolute', width: '100%' }}>
+                {embed.caption}
+              </figcaption>
+            </Button>
+          )}
+        </figure>
+      </Figure>
+    );
+  }
+}
 
 SlateVideo.propTypes = {
   embed: EmbedShape.isRequired,
@@ -89,6 +101,7 @@ SlateVideo.propTypes = {
   }),
   submitted: PropTypes.bool.isRequired,
   onRemoveClick: PropTypes.func.isRequired,
+  figureClass: PropTypes.shape({ className: PropTypes.string }).isRequired,
 };
 
 export default injectT(SlateVideo);

@@ -44,7 +44,7 @@ class EditTopicArticle extends Component {
       article,
       fetchTags,
     } = this.props;
-    console.log('YO', prevLanguage, selectedLanguage, articleId, prevArticleId);
+
     if (prevLanguage !== selectedLanguage || articleId !== prevArticleId) {
       fetchDraft({ id: articleId, language: selectedLanguage });
     }

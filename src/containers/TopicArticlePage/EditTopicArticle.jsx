@@ -28,8 +28,8 @@ class EditTopicArticle extends Component {
   }
 
   componentDidMount() {
-    const { articleId, fetchDraft, articleLanguage } = this.props;
-    fetchDraft({ id: articleId, language: articleLanguage });
+    const { articleId, fetchDraft, selectedLanguage } = this.props;
+    fetchDraft({ id: articleId, language: selectedLanguage });
   }
 
   componentDidUpdate({
@@ -40,12 +40,13 @@ class EditTopicArticle extends Component {
     const {
       articleId,
       fetchDraft,
-      articleLanguage,
+      selectedLanguage,
       article,
       fetchTags,
     } = this.props;
-    if (prevLanguage !== articleLanguage || articleId !== prevArticleId) {
-      fetchDraft({ id: articleId, language: articleLanguage });
+    console.log('YO', prevLanguage, selectedLanguage, articleId, prevArticleId);
+    if (prevLanguage !== selectedLanguage || articleId !== prevArticleId) {
+      fetchDraft({ id: articleId, language: selectedLanguage });
     }
     if (article && (!prevArticle || article.id !== prevArticle.id)) {
       fetchTags({ language: article.language });
@@ -89,7 +90,7 @@ EditTopicArticle.propTypes = {
   fetchTags: PropTypes.func.isRequired,
   updateDraft: PropTypes.func.isRequired,
   article: ArticleShape,
-  articleLanguage: PropTypes.string.isRequired,
+  selectedLanguage: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = {

@@ -157,7 +157,6 @@ const importantHTMLTags = [
   ...Object.keys(INLINE_TAGS),
 ];
 function shouldWarnFromDiff(part) {
-  console.log(importantHTMLTags);
   return (
     importantHTMLTags.some(
       tag =>

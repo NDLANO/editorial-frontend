@@ -52,7 +52,7 @@ class EditFootnote extends Component {
     } else {
       handleValueChange(
         change
-          .collapseToEnd()
+          .moveToEnd()
           .insertText('#')
           .extend(-1)
           .wrapInline({

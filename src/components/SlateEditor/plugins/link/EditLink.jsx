@@ -42,21 +42,36 @@ const createLinkData = (href, targetRel) => ({
   },
 });
 
+const getModelFromNode = (node, value) => {
+  const { start, end, focusText } = value.selection;
+  console.log(node);
+  const data = node.data ? node.data.toJS() : {};
+  console.log(data);
+  const text = node.text
+    ? node.text
+    : focusText.text.slice(start.offset, end.offset);
+
+  const href =
+    data.resource === 'content-link'
+      ? `${config.editorialFrontendDomain}/article/${data['content-id']}`
+      : data.href;
+
+  const checkbox =
+    data.target === '_blank' || data['open-in'] === 'new-context';
+
+  return {
+    href,
+    text,
+    checkbox,
+  };
+};
+
 class EditLink extends React.Component {
   constructor() {
     super();
-    this.state = {
-      model: undefined,
-    };
-    this.addData = this.addData.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleChangeAndClose = this.handleChangeAndClose.bind(this);
-  }
-
-  componentWillMount() {
-    const { node } = this.props;
-    this.addData(node);
   }
 
   handleSave(model) {
@@ -77,7 +92,7 @@ class EditLink extends React.Component {
       this.handleChangeAndClose(
         value
           .change()
-          .moveToRangeOf(node)
+          .moveToRangeOfNode(node)
           .insertText(text)
           .setInlines(data),
       );
@@ -89,7 +104,7 @@ class EditLink extends React.Component {
           .insertText(text)
           .extend(0 - text.length)
           .wrapInline(data)
-          .collapseToEnd(),
+          .moveToEnd(),
       );
     }
   }
@@ -109,33 +124,10 @@ class EditLink extends React.Component {
     closeDialog();
   }
 
-  addData(node) {
-    const { startOffset, endOffset, focusText } = this.props.value.selection;
-    const data = node.data ? node.data.toJS() : {};
-    const text = node.text
-      ? node.text
-      : focusText.text.slice(startOffset, endOffset);
-
-    const href =
-      data.resource === 'content-link'
-        ? `${config.editorialFrontendDomain}/article/${data['content-id']}`
-        : data.href;
-
-    const checkbox =
-      data.target === '_blank' || data['open-in'] === 'new-context';
-
-    this.setState({
-      model: {
-        href,
-        text,
-        checkbox,
-      },
-    });
-  }
-
   render() {
-    const { t, value } = this.props;
-    const { model } = this.state;
+    console.log(this.props);
+    const { t, value, node } = this.props;
+    const model = node ? getModelFromNode(node, value) : {};
     const isEdit = model !== undefined && model.href !== undefined;
 
     return (

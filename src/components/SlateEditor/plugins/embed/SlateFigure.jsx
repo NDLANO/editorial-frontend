@@ -130,6 +130,14 @@ class SlateFigure extends React.Component {
             />
           </Figure>
         );
+      case 'error':
+        return (
+          <EditorErrorMessage
+            onRemoveClick={this.onRemoveClick}
+            attributes={this.props.attributes}
+            msg={embed.message}
+          />
+        );
       default:
         return (
           <EditorErrorMessage

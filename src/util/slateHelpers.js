@@ -8,6 +8,7 @@
 
 import React from 'react';
 import isEmpty from 'lodash/fp/isEmpty';
+import { uuid } from 'ndla-util';
 import {
   reduceElementDataAttributes,
   createEmbedProps,
@@ -428,7 +429,7 @@ const relatedRule = {
           {object.data.get('nodes') &&
             object.data
               .get('nodes')
-              .map(node => <embed {...createEmbedProps(node)} />)}
+              .map(node => <embed key={uuid()} {...createEmbedProps(node)} />)}
         </div>
       );
     }

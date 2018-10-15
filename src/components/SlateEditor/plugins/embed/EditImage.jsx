@@ -10,15 +10,18 @@ class EditImage extends Component {
     const { placeholderEl, embedEl } = this;
 
     const bodyRect = document.body.getBoundingClientRect();
-    const embedRect = embedEl.getBoundingClientRect();
+
     const placeholderRect = placeholderEl.getBoundingClientRect();
 
     // Placing embed within placeholder div on mount
     embedEl.style.position = 'absolute';
-    embedEl.style.top = `${placeholderRect.top - bodyRect.top + 50}px`;
+    embedEl.style.top = `${placeholderRect.top - bodyRect.top}px`;
     embedEl.style.left = `${placeholderRect.left}px`;
     embedEl.style.width = `${placeholderRect.width}px`;
-    placeholderEl.style.height = `${embedRect.height / 2}px`;
+
+    const embedRect = embedEl.getBoundingClientRect();
+
+    placeholderEl.style.height = `${embedRect.height}px`;
   }
 
   render() {

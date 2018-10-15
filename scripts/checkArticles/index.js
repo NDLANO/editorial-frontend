@@ -134,6 +134,7 @@ async function fetchAllArticles(url) {
 
 function diffHTML(oldHtml, newHtml) {
   const diffs = differ.diff_main(oldHtml, newHtml);
+  differ.diff_cleanupSemantic(diffs);
   let diffString = '';
   const lengthDifference = Math.abs(newHtml.lenth - oldHtml.length);
 

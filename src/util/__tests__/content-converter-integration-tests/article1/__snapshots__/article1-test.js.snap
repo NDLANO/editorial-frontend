@@ -53,8 +53,9 @@ exports[`serializing article 1 1`] = `
     <p>Under er eksempler på trekk i hver sin ytterkant av dimensjonene:</p>
     <p></p>
     <p>
-      <strong>«Ekstroversjon»:
-      </strong>Får energi fra andre, selskapelig, interessert i andre. I motsatt ytterkant: Vil være for seg selv, tilbakeholden, ikke så avhengig av kontakt med andre for å trives.
+      <strong>«Ekstroversjon»:</strong>
+      <br>
+      Får energi fra andre, selskapelig, interessert i andre. I motsatt ytterkant: Vil være for seg selv, tilbakeholden, ikke så avhengig av kontakt med andre for å trives.
     </p>
     <p></p>
     <p>
@@ -68,8 +69,9 @@ exports[`serializing article 1 1`] = `
     </p>
     <p></p>
     <p>
-      <strong>«Nevrotisisme»:
-      </strong>Følsom for stress, urolig, tviler på seg selv. I motsatt ytterkant: Stabil, rolig, robust, takler avvisninger og stress.
+      <strong>«Nevrotisisme»:</strong>
+      <br>
+      Følsom for stress, urolig, tviler på seg selv. I motsatt ytterkant: Stabil, rolig, robust, takler avvisninger og stress.
     </p>
     <p></p>
     <p>

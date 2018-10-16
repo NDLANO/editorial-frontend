@@ -1455,14 +1455,15 @@ Object {
               Object {
                 "marks": Array [],
                 "object": "leaf",
-                "text": "",
+                "text": "
+",
               },
             ],
             "object": "text",
           },
         ],
         "object": "block",
-        "type": "br",
+        "type": "paragraph",
       },
     ],
     "object": "document",

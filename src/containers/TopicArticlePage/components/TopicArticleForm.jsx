@@ -162,15 +162,7 @@ class TopicArticleForm extends Component {
       setSubmitted(true);
       return;
     }
-    if (
-      !isFormDirty(
-        fields,
-        initialModel,
-        model,
-        ['introduction', 'metaDescription', 'content'],
-        showSaved,
-      )
-    ) {
+    if (!isFormDirty(fields, initialModel, model, showSaved)) {
       return;
     }
 

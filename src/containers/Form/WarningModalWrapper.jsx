@@ -14,8 +14,6 @@ import WarningModal from '../../components/WarningModal';
 import { SchemaShape } from '../../shapes';
 import { isFormDirty } from '../../util/formHelper';
 
-const slateFields = ['introduction', 'metaDescription', 'content'];
-
 class WarningModalWrapper extends PureComponent {
   constructor(props) {
     super(props);
@@ -26,10 +24,11 @@ class WarningModalWrapper extends PureComponent {
 
   componentDidMount() {
     const { history, model, initialModel, fields, showSaved } = this.props;
+    const { discardChanges } = this.state;
     this.unblock = history.block(nextLocation => {
       const canNavigate =
-        !isFormDirty(fields, initialModel, model, slateFields, showSaved) ||
-        this.state.discardChanges ||
+        !isFormDirty(fields, initialModel, model, showSaved) ||
+        discardChanges ||
         showSaved;
       if (!canNavigate) {
         this.setState({
@@ -44,8 +43,7 @@ class WarningModalWrapper extends PureComponent {
 
     if (config.isNdlaProdEnvironment) {
       window.onbeforeunload = () =>
-        !isFormDirty(fields, initialModel, model, slateFields, showSaved) ||
-        this.state.discardChanges;
+        !isFormDirty(fields, initialModel, model, showSaved) || discardChanges;
     }
   }
 

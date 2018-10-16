@@ -11,7 +11,7 @@ import { isEmpty } from '../components/validators';
 export const removeEmptyElementDataAttributes = obj => {
   const newObject = {};
   Object.keys(obj).forEach(key => {
-    if (obj[key]) {
+    if (obj[key] !== null && obj[key] !== undefined) {
       newObject[key] = obj[key];
     }
   });

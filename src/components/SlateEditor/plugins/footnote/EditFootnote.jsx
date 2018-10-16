@@ -13,13 +13,23 @@ import Types from 'slate-prop-types';
 import FootnoteForm, { getInitialModel } from './FootnoteForm';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
-import { TYPE } from '.';
+import { FootnoteShape } from '../../../../shapes';
 
 class EditFootnote extends Component {
   constructor() {
     super();
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.onClose = this.onClose.bind(this);
+  }
+
+  onClose() {
+    const { model, closeDialog } = this.props;
+    if (!model.title) {
+      this.handleRemove();
+    } else {
+      closeDialog();
+    }
   }
 
   handleRemove() {
@@ -34,36 +44,24 @@ class EditFootnote extends Component {
   handleSave(data) {
     const { value, onChange, node, closeDialog } = this.props;
     const change = value.change();
-    if (node) {
-      onChange(change.setNodeByKey(node.key, { data }));
-    } else {
-      onChange(
-        change
-          .moveToEnd()
-          .insertText('#')
-          .extend(-1)
-          .wrapInline({
-            type: TYPE,
-            data,
-          }),
-      );
-    }
+
+    onChange(change.setNodeByKey(node.key, { data }));
     closeDialog();
   }
 
   render() {
-    const { t, closeDialog, model } = this.props;
+    const { t, model } = this.props;
     const isEdit = model.title !== undefined;
 
     return (
       <Portal isOpened>
-        <Lightbox display big onClose={closeDialog}>
+        <Lightbox display big onClose={this.onClose}>
           <h2>
             {t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}
           </h2>
           <FootnoteForm
             initialModel={getInitialModel(model)}
-            onClose={closeDialog}
+            onClose={this.onClose}
             isEdit={isEdit}
             onRemove={this.handleRemove}
             onSave={this.handleSave}
@@ -78,6 +76,7 @@ EditFootnote.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   value: Types.value.isRequired,
+  model: FootnoteShape,
   node: PropTypes.oneOfType([
     Types.node,
     PropTypes.shape({ type: PropTypes.string.isRequired }),

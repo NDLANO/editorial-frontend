@@ -110,7 +110,15 @@ class SlateToolbar extends Component {
     const { value } = this.props;
 
     const change = value.change();
-    change.wrapInline(type);
+    if (type === 'footnote') {
+      change
+        .moveToEnd()
+        .insertText('#')
+        .moveFocusForward(-1)
+        .wrapInline(type);
+    } else {
+      change.wrapInline(type);
+    }
     this.handleValueChange(change);
   }
 

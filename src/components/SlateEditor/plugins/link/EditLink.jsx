@@ -47,6 +47,16 @@ class EditLink extends React.Component {
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleChangeAndClose = this.handleChangeAndClose.bind(this);
+    this.onClose = this.onClose.bind(this);
+  }
+
+  onClose() {
+    const { value, model } = this.props;
+    if (!model.href) {
+      this.handleRemove();
+    } else {
+      this.handleChangeAndClose(value.change());
+    }
   }
 
   handleSave(model) {
@@ -92,24 +102,18 @@ class EditLink extends React.Component {
   }
 
   render() {
-    const { t, value, model, closeEditMode } = this.props;
+    const { t, model } = this.props;
     const isEdit = model !== undefined && model.href !== undefined;
 
     return (
       <Portal isOpened>
-        <Lightbox display big onClose={closeEditMode}>
+        <Lightbox display big onClose={this.onClose}>
           <h2>
             {t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}
           </h2>
           <LinkForm
             initialModel={getInitialModel(model)}
-            onClose={() => {
-              if (!model.href) {
-                this.handleRemove();
-              } else {
-                this.handleChangeAndClose(value.change());
-              }
-            }}
+            onClose={this.onClose}
             isEdit={isEdit}
             onRemove={this.handleRemove}
             onSave={this.handleSave}

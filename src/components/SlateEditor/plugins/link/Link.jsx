@@ -42,9 +42,9 @@ const getModelFromNode = (node, value) => {
 class Link extends Component {
   constructor(props) {
     super(props);
-    this.existingModel = getModelFromNode(props.node, props.value);
+    const existingModel = getModelFromNode(props.node, props.value);
     this.state = {
-      editMode: !(this.existingModel.href || this.existingModel['content-id']),
+      editMode: !(existingModel.href || existingModel['content-id']),
     };
     this.toggleEditMode = this.toggleEditMode.bind(this);
   }
@@ -79,7 +79,7 @@ class Link extends Component {
     const isInline = isNodeInCurrentSelection(EditorValue, node);
     const { top, left } = this.getMenuPosition();
 
-    const model = this.existingModel;
+    const model = getModelFromNode(node, EditorValue);
     const { href } = model;
 
     return (

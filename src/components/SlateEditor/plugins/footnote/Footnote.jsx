@@ -20,8 +20,8 @@ class Footnote extends Component {
   constructor(props) {
     super(props);
 
-    this.existingFootnote = props.node.data ? props.node.data.toJS() : {};
-    this.state = { editMode: !this.existingFootnote.title };
+    const existingFootnote = props.node.data ? props.node.data.toJS() : {};
+    this.state = { editMode: !existingFootnote.title };
     this.toggleEditMode = this.toggleEditMode.bind(this);
   }
 
@@ -32,6 +32,7 @@ class Footnote extends Component {
   render() {
     const { attributes, children, editor, value, node } = this.props;
     const { editMode } = this.state;
+    const existingFootnote = node.data ? node.data.toJS() : {};
     return (
       <React.Fragment>
         <a
@@ -46,7 +47,7 @@ class Footnote extends Component {
           <EditFootnote
             value={value}
             node={node}
-            model={this.existingFootnote}
+            model={existingFootnote}
             blur={editor.blur}
             closeDialog={this.toggleEditMode}
             onChange={editor.onChange}

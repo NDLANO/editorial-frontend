@@ -28,6 +28,7 @@ class WarningModalWrapper extends PureComponent {
     this.unblock = history.block(nextLocation => {
       const isDirty = this.isDirty();
       const canNavigate = !isDirty || this.state.discardChanges || showSaved;
+
       if (!canNavigate) {
         this.setState({
           openModal: true,
@@ -35,6 +36,9 @@ class WarningModalWrapper extends PureComponent {
         });
       } else {
         window.onbeforeunload = null;
+        this.setState({
+          discardChanges: false,
+        });
       }
       return canNavigate;
     });
@@ -52,7 +56,7 @@ class WarningModalWrapper extends PureComponent {
     const { schema, history, handleSubmit } = this.props;
     handleSubmit(e);
     if (schema.isValid) {
-      this.setState({ discardChanges: true }, () => {
+      this.setState({ discardChanges: true, openModal: false }, () => {
         const nextLocation =
           this.state.nextLocation.pathname +
           this.state.nextLocation.hash +
@@ -65,7 +69,7 @@ class WarningModalWrapper extends PureComponent {
   }
 
   onContinue() {
-    this.setState({ discardChanges: true }, () => {
+    this.setState({ discardChanges: true, openModal: false }, () => {
       const nextLocation =
         this.state.nextLocation.pathname +
         this.state.nextLocation.hash +

@@ -19,12 +19,6 @@ const {
   learningResourceContentToHTML,
 } = require('../../src/util/articleContentConverter');
 const { resolveJsonOrRejectWithError } = require('../../src/util/apiHelpers');
-const {
-  BLOCK_TAGS,
-  MARK_TAGS,
-  INLINE_TAGS,
-  TABLE_TAGS,
-} = require('../../src/util/slateHelpers');
 
 const dom = new jsdom.JSDOM('<!DOCTYPE html></html>');
 const differ = new Differ();

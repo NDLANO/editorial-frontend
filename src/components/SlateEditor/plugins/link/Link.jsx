@@ -46,6 +46,7 @@ class Link extends Component {
     this.state = {
       editMode: !(existingLink.href || existingLink['content-id']),
     };
+    this.toggleEditMode = this.toggleEditMode.bind(this);
   }
 
   getMenuPosition() {
@@ -60,6 +61,10 @@ class Link extends Component {
       top: 0,
       left: 0,
     };
+  }
+
+  toggleEditMode() {
+    this.setState(prevState => ({ editMode: !prevState.editMode }));
   }
 
   render() {
@@ -97,11 +102,7 @@ class Link extends Component {
           <span
             className="c-link-menu"
             style={{ top: `${top}px`, left: `${left}px` }}>
-            <Button
-              stripped
-              onClick={() =>
-                this.setState(prevState => ({ editMode: !prevState.editMode }))
-              }>
+            <Button stripped onClick={this.toggleEditMode}>
               {t('form.content.link.change')}
             </Button>{' '}
             | {t('form.content.link.goTo')}{' '}
@@ -115,7 +116,7 @@ class Link extends Component {
           <EditLink
             {...this.props}
             model={model}
-            closeEditMode={() => this.setState({ editMode: false })}
+            closeEditMode={this.toggleEditMode}
             blur={blur}
             slateStore={slateStore}
             onChange={onChange}

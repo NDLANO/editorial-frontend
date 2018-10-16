@@ -20,6 +20,7 @@ export default () => {
 
     switch (node.type) {
       case 'file':
+        console.log('file');
         return <Filelist {...props} />;
       default:
         return null;

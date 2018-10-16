@@ -107,6 +107,7 @@ export const divRule = {
     if (el.tagName.toLowerCase() !== 'div') return;
     const { type } = el.dataset;
 
+    console.log(type);
     if (el.className === 'c-bodybox') {
       return {
         object: 'block',
@@ -122,6 +123,7 @@ export const divRule = {
       };
     }
     if (type === 'file') {
+      console.log('here');
       return {
         object: 'block',
         type: 'file',

@@ -17,18 +17,20 @@ import { EditorShape } from '../../../../shapes';
 /* eslint jsx-a11y/no-static-element-interactions: 1 */
 
 class Footnote extends Component {
-  constructor() {
-    super();
-    this.state = { editMode: false };
-    this.handleClick = this.handleClick.bind(this);
+  constructor(props) {
+    super(props);
+
+    this.existingFootnote = props.node.data ? props.node.data.toJS() : {};
+    this.state = { editMode: !this.existingFootnote.title };
+    this.toggleEditMode = this.toggleEditMode.bind(this);
   }
 
-  handleClick() {
+  toggleEditMode() {
     this.setState(prevState => ({ editMode: !prevState.editMode }));
   }
 
   render() {
-    const { attributes, children, value } = this.props;
+    const { attributes, children, editor, value, node } = this.props;
     const { editMode } = this.state;
     return (
       <React.Fragment>
@@ -36,15 +38,18 @@ class Footnote extends Component {
           {...attributes}
           role="link"
           tabIndex={0}
-          onKeyPress={this.handleClick}
-          onClick={this.handleClick}>
+          onKeyPress={this.toggleEditMode}
+          onClick={this.toggleEditMode}>
           <sup>{children}</sup>
         </a>
         {editMode && (
           <EditFootnote
             value={value}
-            blur={value.editor.blur}
-            onChange={value.editor.onChange}
+            node={node}
+            model={this.existingFootnote}
+            blur={editor.blur}
+            closeDialog={this.toggleEditMode}
+            onChange={editor.onChange}
           />
         )}
       </React.Fragment>
@@ -57,6 +62,7 @@ Footnote.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   editor: EditorShape,
+  value: Types.value.isRequired,
   node: Types.node.isRequired,
 };
 

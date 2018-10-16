@@ -62,6 +62,7 @@ const findFootnotes = content =>
       ],
       [],
     )
+    .filter(footnote => footnote.data.size > 0)
     .map(footnoteNode => footnoteNode.data.toJS());
 
 const parseImageUrl = metaImage => {

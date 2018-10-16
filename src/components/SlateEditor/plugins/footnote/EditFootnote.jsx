@@ -10,46 +10,34 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import Types from 'slate-prop-types';
-import { compose } from 'redux';
 import FootnoteForm, { getInitialModel } from './FootnoteForm';
+import { Portal } from '../../../Portal';
+import Lightbox from '../../../Lightbox';
 import { TYPE } from '.';
 
 class EditFootnote extends Component {
   constructor() {
     super();
-    this.state = {
-      model: undefined,
-      nodeKey: undefined,
-    };
-    this.addFootnoteData = this.addFootnoteData.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
   }
 
-  componentWillMount() {
-    const { node } = this.props;
-
-    if (node.data) {
-      this.addFootnoteData(node);
-    }
-  }
-
   handleRemove() {
-    const { value, handleValueChange, closeDialog } = this.props;
-    if (this.state.nodeKey) {
-      const nextState = value.change().removeNodeByKey(this.state.nodeKey);
-      handleValueChange(nextState);
+    const { value, node, onChange, closeDialog } = this.props;
+    if (node) {
+      const nextState = value.change().removeNodeByKey(node.key);
+      onChange(nextState);
       closeDialog();
     }
   }
 
   handleSave(data) {
-    const { value, handleValueChange, closeDialog } = this.props;
+    const { value, onChange, node, closeDialog } = this.props;
     const change = value.change();
-    if (this.state.nodeKey) {
-      handleValueChange(change.setNodeByKey(this.state.nodeKey, { data }));
+    if (node) {
+      onChange(change.setNodeByKey(node.key, { data }));
     } else {
-      handleValueChange(
+      onChange(
         change
           .moveToEnd()
           .insertText('#')
@@ -63,39 +51,32 @@ class EditFootnote extends Component {
     closeDialog();
   }
 
-  addFootnoteData(footnoteNode) {
-    const model = footnoteNode.data.toJS();
-    this.setState({
-      model,
-      nodeKey: footnoteNode.key,
-    });
-  }
-
   render() {
-    const { model } = this.state;
-    const { t, closeDialog } = this.props;
-    const isEdit = model !== undefined;
+    const { t, closeDialog, model } = this.props;
+    const isEdit = model.title !== undefined;
 
     return (
-      <div>
-        <h2>
-          {t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}
-        </h2>
-        <FootnoteForm
-          initialModel={getInitialModel(model)}
-          onClose={closeDialog}
-          isEdit={isEdit}
-          onRemove={this.handleRemove}
-          onSave={this.handleSave}
-        />
-      </div>
+      <Portal isOpened>
+        <Lightbox display big onClose={closeDialog}>
+          <h2>
+            {t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}
+          </h2>
+          <FootnoteForm
+            initialModel={getInitialModel(model)}
+            onClose={closeDialog}
+            isEdit={isEdit}
+            onRemove={this.handleRemove}
+            onSave={this.handleSave}
+          />
+        </Lightbox>
+      </Portal>
     );
   }
 }
 
 EditFootnote.propTypes = {
   closeDialog: PropTypes.func.isRequired,
-  handleValueChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   value: Types.value.isRequired,
   node: PropTypes.oneOfType([
     Types.node,

@@ -15,7 +15,6 @@ import { toEditAudio } from '../../../../util/routeHelpers';
 import { AudioResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
 
-// NOT USED, can be deleted?
 const SearchAudio = ({ audio, locale, t }) => (
   <div {...searchClasses('result')}>
     <div {...searchClasses('image')}>

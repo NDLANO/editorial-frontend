@@ -27,7 +27,6 @@ export const BLOCK_TAGS = {
   h4: 'heading-two',
   h5: 'heading-two',
   h6: 'heading-two',
-  br: 'br',
 };
 
 export const INLINE_TAGS = {
@@ -388,11 +387,13 @@ export const inlineRules = {
 
 export const tableRules = {
   deserialize(el, next) {
-    const tableTag = TABLE_TAGS[el.tagName.toLowerCase()];
+    const tagName = el.tagName.toLowerCase();
+    const tableTag = TABLE_TAGS[tagName];
     if (!tableTag) return;
     return {
       object: 'block',
       type: tableTag,
+      data: { isHeader: tagName === 'th' },
       nodes: next(el.childNodes),
     };
   },

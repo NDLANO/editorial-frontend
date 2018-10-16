@@ -310,7 +310,7 @@ class LearningResourceForm extends Component {
           type={model.articleType}
           editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
         />
-        <Accordion>
+        <Accordion openIndexes={['learning-resource-content']}>
           {({ openIndexes, handleItemClick }) => (
             <AccordionWrapper>
               {panels.map(panel => (

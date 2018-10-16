@@ -619,13 +619,19 @@ Object {
             "type": "paragraph",
           },
           Object {
-            "data": Object {},
+            "data": Object {
+              "isHeader": false,
+            },
             "nodes": Array [
               Object {
-                "data": Object {},
+                "data": Object {
+                  "isHeader": false,
+                },
                 "nodes": Array [
                   Object {
-                    "data": Object {},
+                    "data": Object {
+                      "isHeader": true,
+                    },
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -642,7 +648,9 @@ Object {
                     "type": "table-cell",
                   },
                   Object {
-                    "data": Object {},
+                    "data": Object {
+                      "isHeader": true,
+                    },
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -659,7 +667,9 @@ Object {
                     "type": "table-cell",
                   },
                   Object {
-                    "data": Object {},
+                    "data": Object {
+                      "isHeader": true,
+                    },
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -676,7 +686,9 @@ Object {
                     "type": "table-cell",
                   },
                   Object {
-                    "data": Object {},
+                    "data": Object {
+                      "isHeader": true,
+                    },
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -697,10 +709,14 @@ Object {
                 "type": "table-row",
               },
               Object {
-                "data": Object {},
+                "data": Object {
+                  "isHeader": false,
+                },
                 "nodes": Array [
                   Object {
-                    "data": Object {},
+                    "data": Object {
+                      "isHeader": false,
+                    },
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -717,7 +733,9 @@ Object {
                     "type": "table-cell",
                   },
                   Object {
-                    "data": Object {},
+                    "data": Object {
+                      "isHeader": false,
+                    },
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -734,7 +752,9 @@ Object {
                     "type": "table-cell",
                   },
                   Object {
-                    "data": Object {},
+                    "data": Object {
+                      "isHeader": false,
+                    },
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -751,7 +771,9 @@ Object {
                     "type": "table-cell",
                   },
                   Object {
-                    "data": Object {},
+                    "data": Object {
+                      "isHeader": false,
+                    },
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -772,10 +794,14 @@ Object {
                 "type": "table-row",
               },
               Object {
-                "data": Object {},
+                "data": Object {
+                  "isHeader": false,
+                },
                 "nodes": Array [
                   Object {
-                    "data": Object {},
+                    "data": Object {
+                      "isHeader": false,
+                    },
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -792,7 +818,9 @@ Object {
                     "type": "table-cell",
                   },
                   Object {
-                    "data": Object {},
+                    "data": Object {
+                      "isHeader": false,
+                    },
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -809,7 +837,9 @@ Object {
                     "type": "table-cell",
                   },
                   Object {
-                    "data": Object {},
+                    "data": Object {
+                      "isHeader": false,
+                    },
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -826,7 +856,9 @@ Object {
                     "type": "table-cell",
                   },
                   Object {
-                    "data": Object {},
+                    "data": Object {
+                      "isHeader": false,
+                    },
                     "nodes": Array [
                       Object {
                         "leaves": Array [
@@ -1423,14 +1455,15 @@ Object {
               Object {
                 "marks": Array [],
                 "object": "leaf",
-                "text": "",
+                "text": "
+",
               },
             ],
             "object": "text",
           },
         ],
         "object": "block",
-        "type": "br",
+        "type": "paragraph",
       },
     ],
     "object": "document",
@@ -2248,13 +2281,19 @@ Object {
     "data": Object {},
     "nodes": Array [
       Object {
-        "data": Object {},
+        "data": Object {
+          "isHeader": false,
+        },
         "nodes": Array [
           Object {
-            "data": Object {},
+            "data": Object {
+              "isHeader": false,
+            },
             "nodes": Array [
               Object {
-                "data": Object {},
+                "data": Object {
+                  "isHeader": true,
+                },
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -2271,7 +2310,9 @@ Object {
                 "type": "table-cell",
               },
               Object {
-                "data": Object {},
+                "data": Object {
+                  "isHeader": true,
+                },
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -2292,10 +2333,14 @@ Object {
             "type": "table-row",
           },
           Object {
-            "data": Object {},
+            "data": Object {
+              "isHeader": false,
+            },
             "nodes": Array [
               Object {
-                "data": Object {},
+                "data": Object {
+                  "isHeader": false,
+                },
                 "nodes": Array [
                   Object {
                     "leaves": Array [
@@ -2312,7 +2357,9 @@ Object {
                 "type": "table-cell",
               },
               Object {
-                "data": Object {},
+                "data": Object {
+                  "isHeader": false,
+                },
                 "nodes": Array [
                   Object {
                     "leaves": Array [

@@ -11,9 +11,7 @@ import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
 import isEqual from 'lodash/fp/isEqual';
 import { topicArticeRules, learningResourceRules } from './slateHelpers';
-import { textWrapper } from './invalidTextWrapper';
 import { convertFromHTML } from './convertFromHTML';
-import config from '../config';
 
 export const sectionSplitter = html => {
   const node = document.createElement('div');
@@ -70,15 +68,6 @@ export function learningResourceContentToEditorValue(
     rules: learningResourceRules,
     parseHtml: fragment,
   });
-
-  /*   Check the html for invalid text nodes,
-  see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
-  const parser = textWrapper(
-    new Html({
-      parseHtml: config.checkArticleScript ? fragment : undefined,
-    }),
-  );
-  serializer.parseHtml = parser;
 
   const sections = sectionSplitter(html);
 

@@ -47,8 +47,8 @@ async function fetchSystemAccessToken() {
     },
     body: JSON.stringify({
       grant_type: 'client_credentials',
-      client_id: process.env.NDLA_FRONTEND_CLIENT_ID,
-      client_secret: process.env.NDLA_FRONTEND_CLIENT_SECRET,
+      client_id: process.env.NDLA_EDITORIAL_CLIENT_ID,
+      client_secret: process.env.NDLA_EDITORIAL_CLIENT_SECRET,
       audience: 'ndla_system',
     }),
     json: true,

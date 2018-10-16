@@ -118,7 +118,6 @@ export const divRule = {
       return {
         object: 'block',
         type: 'related',
-        isVoid: true,
         data: reduceChildElements(el, type),
       };
     }
@@ -389,11 +388,13 @@ export const inlineRules = {
 
 export const tableRules = {
   deserialize(el, next) {
-    const tableTag = TABLE_TAGS[el.tagName.toLowerCase()];
+    const tagName = el.tagName.toLowerCase();
+    const tableTag = TABLE_TAGS[tagName];
     if (!tableTag) return;
     return {
       object: 'block',
       type: tableTag,
+      data: { isHeader: tagName === 'th' },
       nodes: next(el.childNodes),
     };
   },
@@ -544,7 +545,6 @@ const topicArticeEmbedRule = [
         object: 'block',
         type: 'embed',
         data: reduceElementDataAttributes(el),
-        isVoid: true,
       };
     },
     serialize(object) {
@@ -615,7 +615,6 @@ export const learningResourceEmbedRule = [
         type: 'embed',
         data: embed,
         nodes: [],
-        isVoid: true,
       };
     },
 

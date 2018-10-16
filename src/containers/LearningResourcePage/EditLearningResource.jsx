@@ -48,7 +48,7 @@ class EditLearningResource extends PureComponent {
     this.fetchTaxonony(articleId, selectedLanguage);
   }
 
-  componentDidUpdate({
+  async componentDidUpdate({
     selectedLanguage: prevLanguage,
     articleId: prevArticleId,
     article: prevArticle,
@@ -126,13 +126,12 @@ class EditLearningResource extends PureComponent {
         />
       );
     }
+    const language = article.supportedLanguages.includes(selectedLanguage)
+      ? article.language
+      : selectedLanguage;
     return (
       <LearningResourceForm
-        initialModel={getInitialModel(
-          article,
-          this.state.taxonomy,
-          selectedLanguage,
-        )}
+        initialModel={getInitialModel(article, this.state.taxonomy, language)}
         taxonomy={this.state.taxonomy}
         selectedLanguage={selectedLanguage}
         revision={article.revision}

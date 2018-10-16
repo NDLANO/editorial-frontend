@@ -94,9 +94,10 @@ export const getInitialModel = (
       article.copyright && article.copyright.origin
         ? article.copyright.origin
         : '',
-    license: article.copyright
-      ? article.copyright.license.license
-      : DEFAULT_LICENSE.license,
+    license:
+      article.copyright && article.copyright.license
+        ? article.copyright.license.license
+        : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
     metaImageId,
     metaImageAlt: article.metaImage ? article.metaImage.alt : '',
@@ -308,7 +309,7 @@ class LearningResourceForm extends Component {
           type={model.articleType}
           editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
         />
-        <Accordion>
+        <Accordion openIndexes={['learning-resource-content']}>
           {({ openIndexes, handleItemClick }) => (
             <AccordionWrapper>
               {panels.map(panel => (

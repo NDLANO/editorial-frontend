@@ -6,7 +6,7 @@
  *
  */
 
-import { editTablePlugin } from '../externalPlugins';
+import { editTablePlugin } from '../plugins/externalPlugins';
 
 const hasNodeOfType = (value, type, kind = 'block') => {
   if (type === 'table') {

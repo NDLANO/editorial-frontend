@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 import { initAudioPlayers } from 'ndla-article-scripts';
-import { AudioPlayer, FigureCaption } from 'ndla-ui';
+import { AudioPlayer, FigureCaption, FigureLicenseDialog } from 'ndla-ui';
 import { getLicenseByAbbreviation } from 'ndla-licenses';
 import { AudioShape } from '../../../../shapes';
 
@@ -12,17 +13,29 @@ class AudioPlayerMounter extends Component {
 
   render() {
     const {
-      id,
-      title,
-      caption,
-      audioFile: { mimeType, url },
-      copyright: {
-        creators,
-        license: { license: licenseAbbreviation },
+      audio: {
+        id,
+        title,
+        caption,
+        audioFile: { mimeType, url },
+        copyright: {
+          creators,
+          license: { license: licenseAbbreviation },
+        },
       },
-    } = this.props.audio;
+      t,
+    } = this.props;
     const locale = 'nb';
     const license = getLicenseByAbbreviation(licenseAbbreviation, locale);
+    const figureLicenseDialogId = `edit-audio-${id}`;
+
+    const messages = {
+      title: t('dialog.title'),
+      close: t('dialog.close'),
+      rulesForUse: t('dialog.audio.rulesForUse'),
+      learnAboutLicenses: t('dialog.learnAboutLicenses'),
+      source: t('dialog.source'),
+    };
 
     return (
       <div>
@@ -33,14 +46,24 @@ class AudioPlayerMounter extends Component {
           speech={this.props.speech}
         />
         {!this.props.speech && (
-          <FigureCaption
-            id={`${id}`}
-            figureId={`figure-${id}`}
-            caption={caption}
-            reuseLabel=""
-            licenseRights={license.rights}
-            authors={creators}
-          />
+          <Fragment>
+            <FigureCaption
+              id={figureLicenseDialogId}
+              figureId={`figure-${id}`}
+              caption={caption}
+              reuseLabel=""
+              licenseRights={license.rights}
+              authors={creators}
+            />
+            <FigureLicenseDialog
+              id={figureLicenseDialogId}
+              title={title}
+              license={license}
+              authors={[]}
+              origin={origin}
+              messages={messages}
+            />
+          </Fragment>
         )}
       </div>
     );
@@ -54,4 +77,4 @@ AudioPlayerMounter.propTypes = {
   speech: PropTypes.bool,
 };
 
-export default AudioPlayerMounter;
+export default injectT(AudioPlayerMounter);

@@ -9,11 +9,12 @@
 import React from 'react';
 import { Block } from 'slate';
 import SlateBodyBox from './SlateBodyBox';
-import { defaultBlock } from '../../schema';
+import { defaultBlocks } from '../../utils';
+
+const { defaultBlock } = defaultBlocks;
 
 export const defaultBodyBoxBlock = () =>
   Block.create({
-    isVoid: false,
     type: 'bodybox',
     nodes: Block.createList([defaultBlock]),
   });

@@ -12,6 +12,12 @@ import RelatedArticleBox from './RelatedArticleBox';
 export default () => {
   const schema = {
     document: {},
+    blocks: {
+      related: {
+        isVoid: true,
+        data: {},
+      },
+    },
   };
 
   /* eslint-disable react/prop-types */

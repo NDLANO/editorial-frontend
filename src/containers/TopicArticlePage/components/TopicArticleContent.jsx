@@ -24,7 +24,6 @@ import {
   schema,
   renderNode,
   renderMark,
-  validateNode,
 } from '../../../components/SlateEditor/schema';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
@@ -97,7 +96,6 @@ const TopicArticleContent = ({
       slateSchema={schema}
       renderNode={renderNode}
       renderMark={renderMark}
-      validateNode={validateNode}
       plugins={plugins}
       {...commonFieldProps}
     />

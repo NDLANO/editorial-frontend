@@ -85,8 +85,14 @@ details {
   padding: var(--spacing) var(--spacing--large);
   z-index: 1;
 
-  @media (--large-viewport) {
-    margin: -1em -7em;
+  &__article {
+    position: relative;
+    flex: 1 0 50%;
+    max-width: 600px;
+
+    & > article {
+      max-width: 100%;
+    }
   }
 
   & figure {
@@ -209,12 +215,6 @@ details {
     direction: ltr;
     margin-left: 3.2em;
   }
-}
-
-.c-related-box__article {
-  position: relative;
-  flex: 1 0 50%;
-  max-width: 600px;
 }
 
 .o-list--two-columns {

@@ -9,104 +9,62 @@
 
 import React from 'react';
 import { Block } from 'slate';
-
-export const defaultBlock = {
-  type: 'paragraph',
-  isVoid: false,
-  data: {},
-};
-
-export const defaultBlockWithText = text => ({
-  data: {},
-  isVoid: false,
-  object: 'block',
-  nodes: [
-    {
-      object: 'text',
-      leaves: [
-        {
-          object: 'leaf',
-          marks: [],
-          text,
-        },
-      ],
-    },
-  ],
-  type: 'paragraph',
-});
-
-export const defaultAsideBlock = type =>
-  Block.create({
-    data: { type },
-    isVoid: false,
-    type: 'aside',
-    nodes: Block.createList([defaultBlock]),
-  });
-
-export const defaultEmbedBlock = data =>
-  Block.create({
-    isVoid: true,
-    type: 'embed',
-    data,
-  });
-
-export const defaultRelatedBlock = () =>
-  Block.create({
-    isVoid: true,
-    object: 'block',
-    type: 'related',
-  });
+import { defaultBlocks } from './utils';
 
 export const getSchemaEmbed = node => node.get('data').toJS();
 
 export const schema = {
-  document: {},
-};
-
-export function validateNode(node) {
-  // Document rules
-  if (node.object === 'document') {
-    // Rule to insert a paragraph block if the document is empty.
-    if (!node.nodes.size) {
-      const block = Block.create(defaultBlock);
-      return change => change.insertNodeByKey(node.key, 0, block);
-    }
-  }
-
-  // Block rules
-  if (node.object === 'block') {
-    // Type-specific rules
-    switch (node.type) {
-      // Rule to always add a paragrah node if end of a section
-      case 'section': {
-        const lastNode = node.nodes.last();
-        if (lastNode.type !== 'paragraph') {
-          const block = Block.create(defaultBlock);
-          return change =>
-            change.insertNodeByKey(node.key, node.nodes.size, block);
+  document: {
+    nodes: [
+      {
+        match: [{ type: 'section' }],
+        min: 1,
+      },
+      {
+        match: [
+          { type: 'paragraph' },
+          { type: 'image' },
+          { type: 'br' },
+          { type: 'bulleted-list' },
+          { type: 'numbered-list' },
+          { type: 'letter-list' },
+          { type: 'two-column-list' },
+          { type: 'list-text' },
+          { type: 'list-item' },
+          { type: 'quote' },
+          { type: 'div' },
+          { type: 'span' },
+        ],
+      },
+    ],
+  },
+  blocks: {
+    section: {
+      nodes: [{ match: 'paragraph', min: 1 }],
+      last: { type: 'paragraph' },
+      normalize: (change, error) => {
+        switch (error.code) {
+          case 'last_child_type_invalid': {
+            const block = Block.create(defaultBlocks.defaultBlock);
+            change.insertNodeByKey(
+              error.node.key,
+              error.node.nodes.size,
+              block,
+            );
+            break;
+          }
+          case 'child_required': {
+            const block = Block.create(defaultBlocks.defaultBlock);
+            change.insertNodeByKey(error.node.key, 0, block);
+            break;
+          }
+          default:
+            break;
         }
-        break;
-      }
-      default:
-        break;
-    }
-
-    // Rule to remove all empty text nodes that exists in the document
-    const invalidChildren = node.nodes.filter(
-      child =>
-        child.object === 'block' &&
-        (child.type === 'emptyTextNode' || !child.type),
-    );
-    if (invalidChildren.size > 0) {
-      return change => {
-        invalidChildren.forEach(child => {
-          change.removeNodeByKey(child.key);
-        });
-      };
-    }
-  }
-  return null;
-}
+      },
+    },
+  },
+};
 
 /* eslint-disable react/prop-types */
 export const renderNode = props => {

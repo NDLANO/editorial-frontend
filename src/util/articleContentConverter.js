@@ -26,45 +26,6 @@ export const sectionSplitter = html => {
   return sections;
 };
 
-const legalEmbeds = ['related', 'file', 'embed'];
-export const isValueEmpty = value => {
-  const { document, texts } = value;
-  const { nodes } = document;
-  if (nodes.isEmpty()) {
-    return true;
-  }
-  if (texts.size === 0 || (texts.size === 1 && !texts.first().text)) {
-    if (
-      nodes.first().type === 'section' &&
-      nodes.first().nodes &&
-      legalEmbeds.includes(nodes.first().nodes.first().type)
-    ) {
-      return false;
-    }
-
-    return true;
-  }
-  if (
-    nodes.first().type === 'section' &&
-    nodes.first().nodes.size === 1 &&
-    nodes
-      .first()
-      .nodes.first()
-      .isEmpty()
-  ) {
-    return true;
-  }
-  if (
-    nodes.size === 1 &&
-    nodes.first().type !== 'section' &&
-    nodes.first().isEmpty()
-  ) {
-    return true;
-  }
-
-  return false;
-};
-
 export const createEmptyValue = () =>
   Value.fromJSON({
     document: {
@@ -150,10 +111,7 @@ export function learningResourceContentToHTML(contentValue) {
   });
 
   return contentValue
-    .map(
-      section =>
-        isValueEmpty(section.value) ? '' : serializer.serialize(section.value),
-    )
+    .map(section => serializer.serialize(section.value))
     .join('')
     .replace(/<deleteme><\/deleteme>/g, '');
 }
@@ -175,9 +133,7 @@ export function topicArticleContentToEditorValue(html, fragment = undefined) {
 export function topicArticleContentToHTML(value) {
   const serializer = new Html({ rules: topicArticeRules });
 
-  return isValueEmpty(value)
-    ? undefined
-    : serializer.serialize(value).replace(/<deleteme><\/deleteme>/g, '');
+  return serializer.serialize(value).replace(/<deleteme><\/deleteme>/g, '');
 }
 
 export function plainTextToEditorValue(text, withDefaultPlainValue = false) {

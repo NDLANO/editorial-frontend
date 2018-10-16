@@ -13,7 +13,7 @@ import Types from 'slate-prop-types';
 import { compose } from 'redux';
 import config from '../../../../config';
 import { TYPE } from '.';
-import connectLightbox from '../utils/connectLightbox';
+import connectLightbox from '../../utils/connectLightbox';
 import LinkForm, { getInitialModel } from './LinkForm';
 
 const newTabAttributes = {

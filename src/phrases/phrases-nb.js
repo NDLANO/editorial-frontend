@@ -18,6 +18,22 @@ const phrases = {
     useContent: 'Bruk innhold',
     closeLabel: 'Lukk',
     additionalLabel: 'Tilleggsstoff',
+    urlContributionsLabel: 'Se hva {name} har bidratt med',
+    urlAuthorLabel: 'Les mer om {name}',
+    multipleAuthorsLabelAbbreviation: 'm. fl.',
+    multipleAuthorsLabel: 'Opphavere av artikkel:',
+    multipleAuthorsLabelAria: 'Opphavere av artikkelen er {names}',
+    multipleAuthorsLabelAriaConjunction: 'og',
+    singleAuthorsLabelAria: 'Opphaver av artikkelen er {name}',
+  },
+  dialog: {
+    close: 'Lukk',
+    title: 'Tittel',
+    audio: {
+      rulesForUse: 'Regler for bruk av lydklipp',
+    },
+    learnAboutLicenses: 'Lær mer om åpne lisenser',
+    source: 'Kilde',
   },
   license: {
     heading: 'Slik gjenbruker du innhold',

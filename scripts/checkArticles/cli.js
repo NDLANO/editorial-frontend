@@ -17,6 +17,12 @@ const args = {
       description: 'Check one article with given article id',
       type: 'number',
     },
+    env: {
+      alias: 'e',
+      description: 'NDLA api enviornment',
+      default: 'test',
+      choices: ['test', 'brukertest', 'spoletest', 'staging', 'prod'],
+    },
   },
   usage: 'Usage: $0 -w',
 };

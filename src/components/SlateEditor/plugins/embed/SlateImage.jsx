@@ -15,11 +15,10 @@ import Button from 'ndla-button';
 import { findDOMNode } from 'slate-react';
 import SlateTypes from 'slate-prop-types';
 import config from '../../../../config';
-import SlateInputField from './SlateInputField';
-import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { EmbedShape } from '../../../../shapes';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
+import EditImage from './EditImage';
 
 class SlateImage extends React.Component {
   static handleFloatedImages(node, align) {
@@ -65,11 +64,10 @@ class SlateImage extends React.Component {
       embed,
       figureClass,
       attributes,
-      onFigureInputChange,
-      submitted,
       onRemoveClick,
       locale,
       t,
+      ...rest
     } = this.props;
 
     const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
@@ -104,41 +102,29 @@ class SlateImage extends React.Component {
           figureType="image"
         />
         {this.state.editModus ? (
-          <ImageEditor
-            embedTag={embed}
-            toggleEditModus={this.toggleEditModus}
-            {...this.props}
+          <EditImage
+            embed={embed}
+            t={t}
+            closeEdit={this.toggleEditModus}
+            {...rest}
           />
         ) : (
-          <Button stripped onClick={this.toggleEditModus}>
+          <Button
+            stripped
+            onClick={this.toggleEditModus}
+            style={{ textAlign: 'left' }}>
             <figure {...figureClass}>
               <img
                 src={src}
                 alt={embed.alt}
                 srcSet={getSrcSets(embed.resource_id, transformData)}
               />
+              <figcaption className="c-figure__caption">
+                <div className="c-figure__info">{embed.caption}</div>
+              </figcaption>
             </figure>
           </Button>
         )}
-        <SlateInputField
-          name="caption"
-          label={t('form.image.caption.label')}
-          type="text"
-          value={embed.caption}
-          onChange={onFigureInputChange}
-          placeholder={t('form.image.caption.placeholder')}
-          submitted={submitted}
-        />
-        <SlateInputField
-          name="alt"
-          label={t('form.image.alt.label')}
-          type="text"
-          required
-          value={embed.alt}
-          onChange={onFigureInputChange}
-          placeholder={t('form.image.alt.placeholder')}
-          submitted={submitted}
-        />
       </Figure>
     );
   }

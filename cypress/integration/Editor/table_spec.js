@@ -13,9 +13,6 @@ beforeEach(() => beforeEachHelper('/subject-matter/learning-resource/new'));
 
 describe('Learning resource editing', () => {
   it('can enter all types of blocks', () => {
-    cy.get('button')
-      .contains('Innhold')
-      .click();
     cy.get('[data-cy=slate-editor] div')
       .first()
       .focus();
@@ -28,15 +25,18 @@ describe('Learning resource editing', () => {
     cy.get('[data-cy=slate-editor] div')
       .first()
       .focus()
-      .type('{downarrow}TEST{rightarrow}TEST2{downarrow}TEST3', {
-        force: true,
+      .then($el => {
+        cy.wrap($el).type('{downarrow}TEST{rightarrow}TEST2{downarrow}TEST3', {
+          force: true,
+        });
+        cy.get('[data-cy=column-add]').click();
+        cy.wrap($el).type('Test new column');
+        cy.get('[data-cy=row-add]').click();
+        cy.wrap($el).type('Test new row');
       });
-    cy.get('[data-cy=column-add').click();
-    cy.get('table').type('Test new column');
-    cy.get('[data-cy=row-add').click();
-    cy.get('table').type('Test new row');
-    cy.get('[data-cy=column-remove').click();
-    cy.get('[data-cy=row-remove').click();
+
+    cy.get('[data-cy=column-remove]').click();
+    cy.get('[data-cy=row-remove]').click();
     cy.contains(t.form.content.table['table-remove']).click({ force: true });
   });
 });

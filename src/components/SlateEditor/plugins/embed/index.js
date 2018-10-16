@@ -11,7 +11,12 @@ import SlateFigure from './SlateFigure';
 
 export default function createEmbedPlugin(locale) {
   const schema = {
-    document: {},
+    blocks: {
+      embed: {
+        isVoid: true,
+        data: {},
+      },
+    },
   };
 
   /* eslint-disable react/prop-types */

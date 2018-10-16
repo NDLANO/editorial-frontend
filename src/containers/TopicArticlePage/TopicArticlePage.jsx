@@ -38,11 +38,11 @@ class TopicArticlePage extends React.Component {
             render={() => <CreateTopicArticle history={history} {...rest} />}
           />
           <Route
-            path={`${match.url}/:articleId/edit/:articleLanguage`}
+            path={`${match.url}/:articleId/edit/:selectedLanguage`}
             render={routeProps => (
               <EditTopicArticle
                 articleId={routeProps.match.params.articleId}
-                articleLanguage={routeProps.match.params.articleLanguage}
+                selectedLanguage={routeProps.match.params.selectedLanguage}
                 {...rest}
               />
             )}

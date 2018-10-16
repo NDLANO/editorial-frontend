@@ -8,9 +8,9 @@
 import { isEqualEditorValue } from './articleContentConverter';
 
 export const DEFAULT_LICENSE = {
-  description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
-  license: 'by-sa',
-  url: 'https://creativecommons.org/licenses/by-sa/2.0/',
+  description: 'Creative Commons Attribution-ShareAlike 4.0 International',
+  license: 'CC-BY-SA-4.0',
+  url: 'https://creativecommons.org/licenses/by-sa/4.0/',
 };
 
 export const parseCopyrightContributors = (obj, contributorType) => {

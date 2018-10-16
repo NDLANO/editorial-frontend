@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { RelatedArticle as RelatedArticleUI } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
-import { mapping as iconMapping } from '../utils/relatedArticleMapping';
+import { mapping as iconMapping } from '../../utils/relatedArticleMapping';
 import { urlDomain } from '../../../../util/htmlHelpers';
 import { toEditArticle } from '../../../../util/routeHelpers';
 

@@ -29,8 +29,9 @@ const makeWrapper = getNodeType => WrappedComponent => {
       );
     }
 
-    componentWillMount() {
+    componentDidMount() {
       const { slateStore } = this.props;
+      console.log(slateStore);
       this.unsubscribe = slateStore.subscribe(this.onStoreChange);
     }
 
@@ -41,6 +42,9 @@ const makeWrapper = getNodeType => WrappedComponent => {
     onStoreChange() {
       const { slateStore } = this.props;
       const node = slateStore.getState().activeNode;
+      console.log('connect lgihtbox');
+      console.log(node);
+      console.log(node.type, this.nodeType);
       this.setState({
         node: node && node.type === this.nodeType ? node : undefined,
       });

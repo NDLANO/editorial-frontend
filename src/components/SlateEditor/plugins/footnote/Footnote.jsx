@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import Types from 'slate-prop-types';
-import { setActiveNode } from '../../createSlateStore';
+import EditFootnote from './EditFootnote';
 import { EditorShape } from '../../../../shapes';
 
 // Todo: a -> button
@@ -19,58 +19,35 @@ import { EditorShape } from '../../../../shapes';
 class Footnote extends Component {
   constructor() {
     super();
+    this.state = { editMode: false };
     this.handleClick = this.handleClick.bind(this);
-    this.onStoreChange = this.onStoreChange.bind(this);
-  }
-
-  componentWillMount() {
-    const {
-      editor: {
-        props: { slateStore },
-      },
-    } = this.props;
-    this.unsubscribe = slateStore.subscribe(this.onStoreChange);
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  onStoreChange() {
-    const {
-      editor: {
-        props: { slateStore },
-      },
-    } = this.props;
-
-    this.setState({
-      // Needed for slate store, can not be removed.
-      /* eslint-disable-next-line react/no-unused-state */
-      showFootnoteDialog: slateStore.getState().showFootnoteDialog,
-    });
   }
 
   handleClick() {
-    const {
-      editor: {
-        props: { slateStore },
-      },
-      node,
-    } = this.props;
-    slateStore.dispatch(setActiveNode(node));
+    this.setState(prevState => ({ editMode: !prevState.editMode }));
   }
 
   render() {
-    const { attributes, children } = this.props;
+    const { attributes, children, value } = this.props;
+    const { editMode } = this.state;
     return (
-      <a
-        {...attributes}
-        role="link"
-        tabIndex={0}
-        onKeyPress={this.handleClick}
-        onClick={this.handleClick}>
-        <sup>{children}</sup>
-      </a>
+      <React.Fragment>
+        <a
+          {...attributes}
+          role="link"
+          tabIndex={0}
+          onKeyPress={this.handleClick}
+          onClick={this.handleClick}>
+          <sup>{children}</sup>
+        </a>
+        {editMode && (
+          <EditFootnote
+            value={value}
+            blur={value.editor.blur}
+            onChange={value.editor.onChange}
+          />
+        )}
+      </React.Fragment>
     );
   }
 }

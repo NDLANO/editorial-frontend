@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import EditFootnote from './EditFootnote';
 import Footnote from './Footnote';
 
 export const TYPE = 'footnote';
@@ -30,20 +29,8 @@ export default function footnotePlugin() {
     }
   };
 
-  const renderEditor = (props, editor) => (
-    <span>
-      <EditFootnote
-        value={props.value}
-        blur={editor.blur}
-        slateStore={editor.props.slateStore}
-        onChange={editor.onChange}
-      />
-      {props.children}
-    </span>
-  );
   return {
     schema,
     renderNode,
-    renderEditor,
   };
 }

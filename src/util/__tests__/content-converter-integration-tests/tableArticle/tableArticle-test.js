@@ -16,7 +16,7 @@ import { html } from './tableArticle';
 
 const { fragment } = jsdom.JSDOM;
 
-test('serializing article with sup tag', () => {
+test('serializing article with table tag and attributes', () => {
   const converted = learningResourceContentToEditorValue(html, fragment);
 
   const result = learningResourceContentToHTML(converted);

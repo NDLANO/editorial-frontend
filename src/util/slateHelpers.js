@@ -45,6 +45,7 @@ const MARK_TAGS = {
   em: 'italic',
   u: 'underlined',
   code: 'code',
+  sup: 'superscripted',
 };
 
 const ListText = ({ children }) => children;

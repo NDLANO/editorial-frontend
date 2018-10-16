@@ -18,6 +18,27 @@ import { EditorShape } from '../../../../shapes';
 import { classes } from '../../RichTextEditor';
 import EditLink from './EditLink';
 
+const getModelFromNode = (node, value) => {
+  const { start, end, focusText } = value.selection;
+  const data = node.data ? node.data.toJS() : {};
+  const text = node.text
+    ? node.text
+    : focusText.text.slice(start.offset, end.offset);
+
+  const href =
+    data.resource === 'content-link'
+      ? `${config.editorialFrontendDomain}/article/${data['content-id']}`
+      : data.href;
+
+  const checkbox =
+    data.target === '_blank' || data['open-in'] === 'new-context';
+
+  return {
+    href,
+    text,
+    checkbox,
+  };
+};
 class Link extends Component {
   constructor(props) {
     super(props);
@@ -52,16 +73,14 @@ class Link extends Component {
         blur,
       },
       node,
+      value,
     } = this.props;
 
-    const data = node.data.toJS();
     const isInline = isNodeInCurrentSelection(EditorValue, node);
     const { top, left } = this.getMenuPosition();
 
-    const href =
-      data.resource === 'content-link'
-        ? `${config.editorialFrontendDomain}/article/${data['content-id']}`
-        : data.href;
+    const model = node ? getModelFromNode(node, value) : {};
+    const { href } = model;
 
     return (
       <span>
@@ -95,6 +114,7 @@ class Link extends Component {
         {this.state.editMode && (
           <EditLink
             {...this.props}
+            model={model}
             closeEditMode={() => this.setState({ editMode: false })}
             blur={blur}
             slateStore={slateStore}

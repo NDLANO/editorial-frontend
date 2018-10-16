@@ -12,7 +12,6 @@ import { injectT } from 'ndla-i18n';
 import Types from 'slate-prop-types';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
-import config from '../../../../config';
 import { TYPE } from '.';
 import LinkForm, { getInitialModel } from './LinkForm';
 
@@ -41,29 +40,6 @@ const createLinkData = (href, targetRel) => ({
     ...targetRel,
   },
 });
-
-const getModelFromNode = (node, value) => {
-  // put in Link to reuse
-  const { start, end, focusText } = value.selection;
-  const data = node.data ? node.data.toJS() : {};
-  const text = node.text
-    ? node.text
-    : focusText.text.slice(start.offset, end.offset);
-
-  const href =
-    data.resource === 'content-link'
-      ? `${config.editorialFrontendDomain}/article/${data['content-id']}`
-      : data.href;
-
-  const checkbox =
-    data.target === '_blank' || data['open-in'] === 'new-context';
-
-  return {
-    href,
-    text,
-    checkbox,
-  };
-};
 
 class EditLink extends React.Component {
   constructor() {
@@ -116,8 +92,7 @@ class EditLink extends React.Component {
   }
 
   render() {
-    const { t, value, node, closeEditMode } = this.props;
-    const model = node ? getModelFromNode(node, value) : {};
+    const { t, value, model, closeEditMode } = this.props;
     const isEdit = model !== undefined && model.href !== undefined;
 
     return (
@@ -146,8 +121,12 @@ class EditLink extends React.Component {
 }
 
 EditLink.propTypes = {
-  closeDialog: PropTypes.func.isRequired,
-  handleValueChange: PropTypes.func.isRequired,
+  model: PropTypes.shape({
+    href: PropTypes.string,
+  }).isRequired,
+  closeEditMode: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+
   value: Types.value.isRequired,
   node: PropTypes.oneOfType([
     Types.node,

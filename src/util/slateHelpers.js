@@ -571,7 +571,6 @@ export const learningResourceEmbedRule = [
           nodes: [
             {
               object: 'text',
-              isVoid: true,
               leaves: [
                 {
                   object: 'leaf',

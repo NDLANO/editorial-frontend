@@ -10,10 +10,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import Types from 'slate-prop-types';
-import { compose } from 'redux';
+import { Portal } from '../../../Portal';
+import Lightbox from '../../../Lightbox';
 import config from '../../../../config';
 import { TYPE } from '.';
-import connectLightbox from '../../utils/connectLightbox';
 import LinkForm, { getInitialModel } from './LinkForm';
 
 const newTabAttributes = {
@@ -43,10 +43,9 @@ const createLinkData = (href, targetRel) => ({
 });
 
 const getModelFromNode = (node, value) => {
+  // put in Link to reuse
   const { start, end, focusText } = value.selection;
-  console.log(node);
   const data = node.data ? node.data.toJS() : {};
-  console.log(data);
   const text = node.text
     ? node.text
     : focusText.text.slice(start.offset, end.offset);
@@ -96,16 +95,6 @@ class EditLink extends React.Component {
           .insertText(text)
           .setInlines(data),
       );
-    } else {
-      // create new
-      this.handleChangeAndClose(
-        value
-          .change()
-          .insertText(text)
-          .extend(0 - text.length)
-          .wrapInline(data)
-          .moveToEnd(),
-      );
     }
   }
 
@@ -119,28 +108,39 @@ class EditLink extends React.Component {
   }
 
   handleChangeAndClose(change) {
-    const { handleValueChange, closeDialog } = this.props;
-    handleValueChange(change.focus()); // Always return focus to editor
-    closeDialog();
+    const { onChange, closeEditMode } = this.props;
+
+    onChange(change.focus()); // Always return focus to editor
+
+    closeEditMode();
   }
 
   render() {
-    console.log(this.props);
-    const { t, value, node } = this.props;
+    const { t, value, node, closeEditMode } = this.props;
     const model = node ? getModelFromNode(node, value) : {};
     const isEdit = model !== undefined && model.href !== undefined;
 
     return (
-      <div>
-        <h2>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</h2>
-        <LinkForm
-          initialModel={getInitialModel(model)}
-          onClose={() => this.handleChangeAndClose(value.change())}
-          isEdit={isEdit}
-          onRemove={this.handleRemove}
-          onSave={this.handleSave}
-        />
-      </div>
+      <Portal isOpened>
+        <Lightbox display big onClose={closeEditMode}>
+          <h2>
+            {t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}
+          </h2>
+          <LinkForm
+            initialModel={getInitialModel(model)}
+            onClose={() => {
+              if (!model.href) {
+                this.handleRemove();
+              } else {
+                this.handleChangeAndClose(value.change());
+              }
+            }}
+            isEdit={isEdit}
+            onRemove={this.handleRemove}
+            onSave={this.handleSave}
+          />
+        </Lightbox>
+      </Portal>
     );
   }
 }
@@ -155,7 +155,4 @@ EditLink.propTypes = {
   ]),
 };
 
-export default compose(
-  connectLightbox(() => TYPE),
-  injectT,
-)(EditLink);
+export default injectT(EditLink);

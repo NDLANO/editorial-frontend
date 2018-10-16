@@ -13,19 +13,18 @@ import Button from 'ndla-button';
 import { injectT } from 'ndla-i18n';
 import config from '../../../../config';
 import { Portal } from '../../../Portal';
-import { setActiveNode } from '../../createSlateStore';
 import isNodeInCurrentSelection from '../../utils/isNodeInCurrentSelection';
 import { EditorShape } from '../../../../shapes';
 import { classes } from '../../RichTextEditor';
+import EditLink from './EditLink';
 
 class Link extends Component {
-  // shouldNodeComponentUpdate does'nt allow consistent return
-  // eslint-disable-next-line consistent-return
-  static shouldNodeComponentUpdate(previousProps, nextProps) {
-    const { value: previousEditorValue } = previousProps;
-    const { value: nextEditorValue } = nextProps;
-    // return true here to trigger a re-render
-    if (previousEditorValue.inlines !== nextEditorValue.inlines) return true;
+  constructor(props) {
+    super(props);
+    const existingLink = props.node.data.toJS();
+    this.state = {
+      editMode: !(existingLink.href || existingLink['content-id']),
+    };
   }
 
   getMenuPosition() {
@@ -49,13 +48,14 @@ class Link extends Component {
       value: EditorValue,
       editor: {
         props: { slateStore },
+        onChange,
+        blur,
       },
       node,
     } = this.props;
+
     const data = node.data.toJS();
-
     const isInline = isNodeInCurrentSelection(EditorValue, node);
-
     const { top, left } = this.getMenuPosition();
 
     const href =
@@ -80,7 +80,9 @@ class Link extends Component {
             style={{ top: `${top}px`, left: `${left}px` }}>
             <Button
               stripped
-              onClick={() => slateStore.dispatch(setActiveNode(node))}>
+              onClick={() =>
+                this.setState(prevState => ({ editMode: !prevState.editMode }))
+              }>
               {t('form.content.link.change')}
             </Button>{' '}
             | {t('form.content.link.goTo')}{' '}
@@ -90,6 +92,15 @@ class Link extends Component {
             </a>
           </span>
         </Portal>
+        {this.state.editMode && (
+          <EditLink
+            {...this.props}
+            closeEditMode={() => this.setState({ editMode: false })}
+            blur={blur}
+            slateStore={slateStore}
+            onChange={onChange}
+          />
+        )}
       </span>
     );
   }

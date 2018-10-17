@@ -18,12 +18,8 @@ import { EditorShape } from '../../../../shapes';
 import { classes } from '../../RichTextEditor';
 import EditLink from './EditLink';
 
-const getModelFromNode = (node, value) => {
-  const { start, end, focusText } = value.selection;
+const getModelFromNode = node => {
   const data = node.data ? node.data.toJS() : {};
-  const text = node.text
-    ? node.text
-    : focusText.text.slice(start.offset, end.offset);
 
   const href =
     data.resource === 'content-link'
@@ -35,7 +31,7 @@ const getModelFromNode = (node, value) => {
 
   return {
     href,
-    text,
+    text: node.text,
     checkbox,
   };
 };

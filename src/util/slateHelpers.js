@@ -32,6 +32,16 @@ export const BLOCK_TAGS = {
 
 export const INLINE_TAGS = {
   span: 'span',
+  mfrac: 'mfrac',
+  mrow: 'mrow',
+  mn: 'mn',
+  mo: 'mo',
+  mi: 'mi',
+  mfenced: 'mfenced',
+  msup: 'msup',
+  mtd: 'mtd',
+  mtr: 'mtr',
+  menclose: 'menclose',
 };
 
 export const TABLE_TAGS = {
@@ -244,6 +254,25 @@ export const unorderListRules = {
   },
 };
 
+export const mathRules = {
+  deserialize(el, next) {
+    const tagName = el.tagName.toLowerCase();
+    if (tagName !== 'math' && tagName !== 'mtable') return;
+    return {
+      object: 'block',
+      type: tagName,
+      data: { ...reduceElementDataAttributes(el) },
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(slateObject, children) {
+    const { object, type, data } = slateObject;
+    if (object !== 'block') return;
+    if (type !== 'math' && type !== 'mtable') return;
+    return <slateObject.type {...data.toJS()}>{children}</slateObject.type>;
+  },
+};
+
 export const orderListRules = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
@@ -369,6 +398,7 @@ export const inlineRules = {
 
     if (!inline) return;
     if (inline === 'span' && isEmpty(attributes)) return; // Keep only spans with attributes
+
     return {
       object: 'inline',
       type: inline,
@@ -380,10 +410,7 @@ export const inlineRules = {
     if (slateObject.object !== 'inline') return;
     const data = slateObject.data.toJS();
     const props = createProps(data);
-    switch (slateObject.type) {
-      case 'span':
-        return <span {...props}>{children}</span>;
-    }
+    return <slateObject.type {...props}>{children}</slateObject.type>;
   },
 };
 
@@ -453,6 +480,7 @@ const RULES = [
   paragraphRule,
   listItemRule,
   relatedRule,
+  mathRules,
   {
     // Aside handling
     deserialize(el, next) {

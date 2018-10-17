@@ -410,7 +410,10 @@ export const inlineRules = {
     if (slateObject.object !== 'inline') return;
     const data = slateObject.data.toJS();
     const props = createProps(data);
-    return <slateObject.type {...props}>{children}</slateObject.type>;
+    const inline = INLINE_TAGS[slateObject.type];
+    if (inline) {
+      return <slateObject.type {...props}>{children}</slateObject.type>;
+    }
   },
 };
 

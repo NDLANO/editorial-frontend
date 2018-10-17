@@ -82,7 +82,11 @@ export class RelatedArticleBox extends React.Component {
           nodes: items.map(
             item =>
               item.id === ARTICLE_EXTERNAL
-                ? { url: item.url, title: item.title }
+                ? {
+                    resource: 'related-content',
+                    url: item.url,
+                    title: item.title,
+                  }
                 : { resource: 'related-content', ['article-id']: item.id }, // eslint-disable-line
           ),
         },

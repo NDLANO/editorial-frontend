@@ -43,7 +43,7 @@ function allowTHeadInsertion({ current, next, previous }) {
   );
 }
 
-// I.E "<h6>...</h6>" -> "<h2>...</h2>"
+// I.E "<h6>...</h6>" -> "<h3>...</h3>"
 function allowHeadingConversion({ current, next, previous }) {
   return (
     (previous.endsWith('</h') || previous.endsWith('<h')) &&

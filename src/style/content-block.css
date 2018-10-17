@@ -169,12 +169,6 @@ details {
     display: none;
   }
 
-  &__error {
-    border: 1px solid red;
-    color: red;
-    padding: 1rem;
-  }
-
   &__figure {
     position: relative;
   }

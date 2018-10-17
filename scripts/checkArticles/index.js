@@ -136,7 +136,7 @@ function diffHTML(oldHtml, newHtml) {
   const diffs = differ.diff_main(oldHtml, newHtml);
   differ.diff_cleanupSemantic(diffs);
   let diffString = '';
-  const lengthDifference = Math.abs(newHtml.lenth - oldHtml.length);
+  const lengthDifference = Math.abs(newHtml.length - oldHtml.length);
 
   let shouldWarn = lengthDifference > 50;
 

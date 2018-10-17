@@ -13,6 +13,7 @@ import {
   createEmbedProps,
   createProps,
   reduceChildElements,
+  removeEmptyElementDataAttributes,
 } from './embedTagHelpers';
 
 export const BLOCK_TAGS = {
@@ -40,11 +41,12 @@ export const TABLE_TAGS = {
   td: 'table-cell',
 };
 
-const MARK_TAGS = {
+export const MARK_TAGS = {
   strong: 'bold',
   em: 'italic',
   u: 'underlined',
   code: 'code',
+  sup: 'superscripted',
 };
 
 const ListText = ({ children }) => children;
@@ -392,31 +394,39 @@ export const tableRules = {
     const tagName = el.tagName.toLowerCase();
     const tableTag = TABLE_TAGS[tagName];
     if (!tableTag) return;
+
+    const attributes = reduceElementDataAttributes(el);
     return {
       object: 'block',
       type: tableTag,
-      data: { isHeader: tagName === 'th' },
+      data: { isHeader: tagName === 'th', ...attributes },
       nodes: next(el.childNodes),
     };
   },
   serialize(object, children) {
     if (object.object !== 'block') return;
+
+    const data = object.data.toJS();
+    const props = removeEmptyElementDataAttributes({
+      ...createProps(data),
+      isHeader: undefined,
+    });
     switch (object.type) {
       case 'table': {
         return (
-          <table>
+          <table {...props}>
             <thead>{children.slice(0, 1)}</thead>
             <tbody>{children.slice(1)}</tbody>
           </table>
         );
       }
       case 'table-row':
-        return <tr>{children}</tr>;
+        return <tr {...props}>{children}</tr>;
       case 'table-cell':
         if (object.data.get('isHeader')) {
-          return <th>{children}</th>;
+          return <th {...props}>{children}</th>;
         }
-        return <td>{children}</td>;
+        return <td {...props}>{children}</td>;
     }
   },
 };

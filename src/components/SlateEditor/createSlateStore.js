@@ -9,7 +9,6 @@
 import { createStore } from 'redux';
 import { createAction } from 'redux-actions';
 
-export const setActiveNode = createAction('SET_ACTIVE_NODE');
 export const setSubmitted = createAction('SET_SUBMITTED');
 
 export default () =>
@@ -17,9 +16,6 @@ export default () =>
     (state, action) => {
       if (action.type === setSubmitted.toString()) {
         return { ...state, submitted: action.payload };
-      }
-      if (action.type === setActiveNode.toString()) {
-        return { ...state, activeNode: action.payload };
       }
       return state;
     },

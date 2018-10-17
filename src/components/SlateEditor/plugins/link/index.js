@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import EditLink from './EditLink';
+
 import Link from './Link';
 
 export const TYPE = 'link';
@@ -30,21 +30,8 @@ export default function linkPlugin() {
     }
   };
 
-  const renderEditor = (props, editor) => (
-    <span>
-      <EditLink
-        value={props.value}
-        blur={editor.blur}
-        slateStore={editor.props.slateStore}
-        onChange={editor.onChange}
-      />
-      {props.children}
-    </span>
-  );
-
   return {
     schema,
     renderNode,
-    renderEditor,
   };
 }

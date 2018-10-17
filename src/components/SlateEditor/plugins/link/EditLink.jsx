@@ -10,10 +10,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import Types from 'slate-prop-types';
-import { compose } from 'redux';
-import config from '../../../../config';
+import { Portal } from '../../../Portal';
+import Lightbox from '../../../Lightbox';
 import { TYPE } from '.';
-import connectLightbox from '../../utils/connectLightbox';
 import LinkForm, { getInitialModel } from './LinkForm';
 
 const newTabAttributes = {
@@ -45,18 +44,19 @@ const createLinkData = (href, targetRel) => ({
 class EditLink extends React.Component {
   constructor() {
     super();
-    this.state = {
-      model: undefined,
-    };
-    this.addData = this.addData.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleChangeAndClose = this.handleChangeAndClose.bind(this);
+    this.onClose = this.onClose.bind(this);
   }
 
-  componentWillMount() {
-    const { node } = this.props;
-    this.addData(node);
+  onClose() {
+    const { value, model } = this.props;
+    if (!model.href) {
+      this.handleRemove();
+    } else {
+      this.handleChangeAndClose(value.change());
+    }
   }
 
   handleSave(model) {
@@ -77,19 +77,9 @@ class EditLink extends React.Component {
       this.handleChangeAndClose(
         value
           .change()
-          .moveToRangeOf(node)
+          .moveToRangeOfNode(node)
           .insertText(text)
           .setInlines(data),
-      );
-    } else {
-      // create new
-      this.handleChangeAndClose(
-        value
-          .change()
-          .insertText(text)
-          .extend(0 - text.length)
-          .wrapInline(data)
-          .collapseToEnd(),
       );
     }
   }
@@ -104,58 +94,43 @@ class EditLink extends React.Component {
   }
 
   handleChangeAndClose(change) {
-    const { handleValueChange, closeDialog } = this.props;
-    handleValueChange(change.focus()); // Always return focus to editor
-    closeDialog();
-  }
+    const { onChange, closeEditMode } = this.props;
 
-  addData(node) {
-    const { startOffset, endOffset, focusText } = this.props.value.selection;
-    const data = node.data ? node.data.toJS() : {};
-    const text = node.text
-      ? node.text
-      : focusText.text.slice(startOffset, endOffset);
+    onChange(change.focus()); // Always return focus to editor
 
-    const href =
-      data.resource === 'content-link'
-        ? `${config.editorialFrontendDomain}/article/${data['content-id']}`
-        : data.href;
-
-    const checkbox =
-      data.target === '_blank' || data['open-in'] === 'new-context';
-
-    this.setState({
-      model: {
-        href,
-        text,
-        checkbox,
-      },
-    });
+    closeEditMode();
   }
 
   render() {
-    const { t, value } = this.props;
-    const { model } = this.state;
+    const { t, model } = this.props;
     const isEdit = model !== undefined && model.href !== undefined;
 
     return (
-      <div>
-        <h2>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</h2>
-        <LinkForm
-          initialModel={getInitialModel(model)}
-          onClose={() => this.handleChangeAndClose(value.change())}
-          isEdit={isEdit}
-          onRemove={this.handleRemove}
-          onSave={this.handleSave}
-        />
-      </div>
+      <Portal isOpened>
+        <Lightbox display big onClose={this.onClose}>
+          <h2>
+            {t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}
+          </h2>
+          <LinkForm
+            initialModel={getInitialModel(model)}
+            onClose={this.onClose}
+            isEdit={isEdit}
+            onRemove={this.handleRemove}
+            onSave={this.handleSave}
+          />
+        </Lightbox>
+      </Portal>
     );
   }
 }
 
 EditLink.propTypes = {
-  closeDialog: PropTypes.func.isRequired,
-  handleValueChange: PropTypes.func.isRequired,
+  model: PropTypes.shape({
+    href: PropTypes.string,
+  }).isRequired,
+  closeEditMode: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+
   value: Types.value.isRequired,
   node: PropTypes.oneOfType([
     Types.node,
@@ -163,7 +138,4 @@ EditLink.propTypes = {
   ]),
 };
 
-export default compose(
-  connectLightbox(() => TYPE),
-  injectT,
-)(EditLink);
+export default injectT(EditLink);

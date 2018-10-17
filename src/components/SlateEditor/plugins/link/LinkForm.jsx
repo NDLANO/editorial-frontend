@@ -72,7 +72,12 @@ class LinkForm extends Component {
         </Field>
         <Field>
           <label htmlFor="checkbox">{t('form.content.link.newTab')}</label>
-          <input type="checkbox" {...bindInput('checkbox', 'checkbox')} />
+
+          <input
+            css={{ appearance: 'checkbox !important' }}
+            type="checkbox"
+            {...bindInput('checkbox', 'checkbox')}
+          />
           <FieldErrorMessages
             label={t('form.content.link.newTab')}
             field={getField('checkbox', schema)}

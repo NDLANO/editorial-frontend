@@ -34,15 +34,17 @@ export const reduceChildElements = (el, type) => {
   el.childNodes.forEach(node => {
     if (type === 'file') {
       childs.push({
+        alt: node.dataset.alt,
+        path: node.dataset.path,
         resource: 'file',
         title: node.dataset.title,
         type: node.dataset.type,
         url: node.dataset.url,
-        path: node.dataset.path,
       });
     } else if (type === 'related-content') {
       if (node.dataset.url) {
         childs.push({
+          resource: 'related-content',
           title: node.dataset.title,
           url: node.dataset.url,
         });

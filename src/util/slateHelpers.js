@@ -521,10 +521,10 @@ const RULES = [
       if (data.resource === 'content-link') {
         return (
           <embed
-            data-resource={data.resource}
             data-content-id={data['content-id']}
             data-link-text={slateObject.text}
             data-open-in={data['open-in']}
+            data-resource={data.resource}
           />
         );
       }
@@ -532,8 +532,8 @@ const RULES = [
       return (
         <a
           href={data.href}
-          target={data.target}
           rel={data.rel}
+          target={data.target}
           title={slateObject.text}>
           {children}
         </a>

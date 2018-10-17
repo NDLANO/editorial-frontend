@@ -6,8 +6,17 @@
  *
  */
 import isObject from 'lodash/fp/isObject';
-
 import { isEmpty } from '../components/validators';
+
+export const removeEmptyElementDataAttributes = obj => {
+  const newObject = {};
+  Object.keys(obj).forEach(key => {
+    if (obj[key] !== null && obj[key] !== undefined) {
+      newObject[key] = obj[key];
+    }
+  });
+  return newObject;
+};
 
 export const reduceElementDataAttributes = el => {
   if (!el.attributes) return null;
@@ -25,15 +34,17 @@ export const reduceChildElements = (el, type) => {
   el.childNodes.forEach(node => {
     if (type === 'file') {
       childs.push({
+        alt: node.dataset.alt,
+        path: node.dataset.path,
         resource: 'file',
         title: node.dataset.title,
         type: node.dataset.type,
         url: node.dataset.url,
-        path: node.dataset.path,
       });
     } else if (type === 'related-content') {
       if (node.dataset.url) {
         childs.push({
+          resource: 'related-content',
           title: node.dataset.title,
           url: node.dataset.url,
         });

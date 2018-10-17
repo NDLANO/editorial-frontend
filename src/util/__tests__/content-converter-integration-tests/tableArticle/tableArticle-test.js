@@ -7,16 +7,15 @@
  */
 
 import jsdom from 'jsdom';
-
 import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } from '../../../articleContentConverter';
-import { html } from './article1';
+import { html } from './tableArticle';
 
 const { fragment } = jsdom.JSDOM;
 
-test('serializing article 1', () => {
+test('serializing article with table tag and attributes', () => {
   const converted = learningResourceContentToEditorValue(html, fragment);
 
   const result = learningResourceContentToHTML(converted);

@@ -11,6 +11,7 @@ import './raf-polyfill';
 /* eslint-disable */
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import prettier from 'prettier';
 
 /* eslint-enable */
 configure({ adapter: new Adapter() });
@@ -32,6 +33,9 @@ const localStorageMock = (function createLocalStorage() {
     },
   };
 })();
+
+const prettify = content => prettier.format(`${content}`, { parser: 'parse5' });
+global.prettifyHTML = prettify;
 
 Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,

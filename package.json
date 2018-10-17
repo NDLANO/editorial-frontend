@@ -70,6 +70,7 @@
   },
   "dependencies": {
     "auth0-js": "^9.8.0",
+    "babel-plugin-emotion": "^9.2.11",
     "body-parser": "^1.18.3",
     "btoa": "^1.2.1",
     "bunyan": "^1.8.12",
@@ -112,6 +113,7 @@
     "ndla-ui": "^0.17.7",
     "ndla-util": "^0.2.9",
     "ndla-video-search": "^0.5.0",
+    "polished": "^2.2.0",
     "prop-types": "^15.6.2",
     "query-string": "^5.1.1",
     "razzle": "^2.4.0",

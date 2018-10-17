@@ -10,67 +10,50 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import Types from 'slate-prop-types';
-import { setActiveNode } from '../../createSlateStore';
+import EditFootnote from './EditFootnote';
 import { EditorShape } from '../../../../shapes';
 
 // Todo: a -> button
 /* eslint jsx-a11y/no-static-element-interactions: 1 */
 
 class Footnote extends Component {
-  constructor() {
-    super();
-    this.handleClick = this.handleClick.bind(this);
-    this.onStoreChange = this.onStoreChange.bind(this);
+  constructor(props) {
+    super(props);
+
+    const existingFootnote = props.node.data ? props.node.data.toJS() : {};
+    this.state = { editMode: !existingFootnote.title };
+    this.toggleEditMode = this.toggleEditMode.bind(this);
   }
 
-  componentWillMount() {
-    const {
-      editor: {
-        props: { slateStore },
-      },
-    } = this.props;
-    this.unsubscribe = slateStore.subscribe(this.onStoreChange);
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  onStoreChange() {
-    const {
-      editor: {
-        props: { slateStore },
-      },
-    } = this.props;
-
-    this.setState({
-      // Needed for slate store, can not be removed.
-      /* eslint-disable-next-line react/no-unused-state */
-      showFootnoteDialog: slateStore.getState().showFootnoteDialog,
-    });
-  }
-
-  handleClick() {
-    const {
-      editor: {
-        props: { slateStore },
-      },
-      node,
-    } = this.props;
-    slateStore.dispatch(setActiveNode(node));
+  toggleEditMode() {
+    this.setState(prevState => ({ editMode: !prevState.editMode }));
   }
 
   render() {
-    const { attributes, children } = this.props;
+    const { attributes, children, editor, value, node } = this.props;
+    const { editMode } = this.state;
+    const existingFootnote = node.data ? node.data.toJS() : {};
     return (
-      <a
-        {...attributes}
-        role="link"
-        tabIndex={0}
-        onKeyPress={this.handleClick}
-        onClick={this.handleClick}>
-        <sup>{children}</sup>
-      </a>
+      <React.Fragment>
+        <a
+          {...attributes}
+          role="link"
+          tabIndex={0}
+          onKeyPress={this.toggleEditMode}
+          onClick={this.toggleEditMode}>
+          <sup>{children}</sup>
+        </a>
+        {editMode && (
+          <EditFootnote
+            value={value}
+            node={node}
+            model={existingFootnote}
+            blur={editor.blur}
+            closeDialog={this.toggleEditMode}
+            onChange={editor.onChange}
+          />
+        )}
+      </React.Fragment>
     );
   }
 }
@@ -80,6 +63,7 @@ Footnote.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   editor: EditorShape,
+  value: Types.value.isRequired,
   node: Types.node.isRequired,
 };
 

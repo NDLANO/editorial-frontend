@@ -86,7 +86,10 @@ class WarningModalWrapper extends PureComponent {
         show={this.state.openModal}
         text={text}
         actions={[
-          { text: t('form.save'), onClick: this.onSave },
+          {
+            text: t('form.abort'),
+            onClick: () => this.setState({ openModal: false }),
+          },
           {
             text: t('warningModal.continue'),
             onClick: this.onContinue,

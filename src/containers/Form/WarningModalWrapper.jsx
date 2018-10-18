@@ -10,24 +10,24 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
 import config from '../../config';
-import { isEqualEditorValue } from '../../util/articleContentConverter';
 import WarningModal from '../../components/WarningModal';
 import { SchemaShape } from '../../shapes';
+import { isFormDirty } from '../../util/formHelper';
 
 class WarningModalWrapper extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { openModal: false, discardChanges: false };
-    this.isDirty = this.isDirty.bind(this);
     this.onSave = this.onSave.bind(this);
     this.onContinue = this.onContinue.bind(this);
   }
 
   componentDidMount() {
-    const { history, showSaved } = this.props;
+    const { history } = this.props;
     this.unblock = history.block(nextLocation => {
-      const isDirty = this.isDirty();
-      const canNavigate = !isDirty || this.state.discardChanges || showSaved;
+      const { showSaved } = this.props;
+      const canNavigate =
+        !isFormDirty(this.props) || this.state.discardChanges || showSaved;
 
       if (!canNavigate) {
         this.setState({
@@ -44,7 +44,8 @@ class WarningModalWrapper extends PureComponent {
     });
 
     if (config.isNdlaProdEnvironment) {
-      window.onbeforeunload = () => !this.isDirty || this.state.discardChanges;
+      window.onbeforeunload = () =>
+        !isFormDirty(this.props) || this.state.discardChanges;
     }
   }
 
@@ -76,31 +77,6 @@ class WarningModalWrapper extends PureComponent {
         this.state.nextLocation.search;
       return this.props.history.push(nextLocation);
     });
-  }
-
-  isDirty() {
-    const { fields, initialModel, model, showSaved } = this.props;
-    // Checking specific slate object fields if they really have changed
-    const slateFields = ['introduction', 'metaDescription', 'content'];
-    const dirtyFields = [];
-    Object.keys(fields)
-      .filter(field => fields[field].dirty)
-      .forEach(dirtyField => {
-        if (slateFields.includes(dirtyField)) {
-          if (
-            !isEqualEditorValue(
-              initialModel[dirtyField],
-              model[dirtyField],
-              model.articleType,
-            )
-          ) {
-            dirtyFields.push(dirtyField);
-          }
-        } else {
-          dirtyFields.push(dirtyField);
-        }
-      });
-    return dirtyFields.length > 0 && !showSaved;
   }
 
   render() {

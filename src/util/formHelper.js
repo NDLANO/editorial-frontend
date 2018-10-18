@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
+import { isEqualEditorValue } from './articleContentConverter';
+
 export const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
   license: 'CC-BY-SA-4.0',
@@ -35,3 +37,27 @@ export const articleStatuses = [
     columnSize: 2,
   },
 ];
+
+export const isFormDirty = ({ fields, initialModel, model, showSaved }) => {
+  // Checking specific slate object fields if they really have changed
+  const slateFields = ['introduction', 'metaDescription', 'content'];
+  const dirtyFields = [];
+  Object.keys(fields)
+    .filter(field => fields[field].dirty)
+    .forEach(dirtyField => {
+      if (slateFields.includes(dirtyField)) {
+        if (
+          !isEqualEditorValue(
+            initialModel[dirtyField],
+            model[dirtyField],
+            model.articleType,
+          )
+        ) {
+          dirtyFields.push(dirtyField);
+        }
+      } else {
+        dirtyFields.push(dirtyField);
+      }
+    });
+  return dirtyFields.length > 0 && !showSaved;
+};

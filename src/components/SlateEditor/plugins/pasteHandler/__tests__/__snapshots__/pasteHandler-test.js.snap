@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Paste transforms plaintext line block type to paragraph type 1`] = `
+Object {
+  "data": Object {},
+  "nodes": Array [
+    Object {
+      "leaves": Array [
+        Object {
+          "marks": Array [],
+          "object": "leaf",
+          "text": "Text from PlaintextEditor",
+        },
+      ],
+      "object": "text",
+    },
+  ],
+  "object": "block",
+  "type": "paragraph",
+}
+`;

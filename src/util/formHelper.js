@@ -38,25 +38,19 @@ export const articleStatuses = [
   },
 ];
 
-const slateFields = ['introdoction', 'metaDescription', 'content']
-
-export const isFormDirty = (
-  formFields,
-  initialModel,
-  currentModel,
-  showSaved = false,
-) => {
+export const isFormDirty = ({ fields, initialModel, model, showSaved }) => {
   // Checking specific slate object fields if they really have changed
+  const slateFields = ['introduction', 'metaDescription', 'content'];
   const dirtyFields = [];
-  Object.keys(formFields)
-    .filter(field => formFields[field].dirty)
+  Object.keys(fields)
+    .filter(field => fields[field].dirty)
     .forEach(dirtyField => {
       if (slateFields.includes(dirtyField)) {
         if (
           !isEqualEditorValue(
             initialModel[dirtyField],
-            currentModel[dirtyField],
-            currentModel.articleType,
+            model[dirtyField],
+            model.articleType,
           )
         ) {
           dirtyFields.push(dirtyField);

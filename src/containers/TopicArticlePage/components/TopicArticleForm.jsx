@@ -148,21 +148,12 @@ class TopicArticleForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const {
-      schema,
-      revision,
-      setSubmitted,
-      onUpdate,
-      fields,
-      model,
-      initialModel,
-      showSaved,
-    } = this.props;
+    const { schema, revision, setSubmitted, onUpdate } = this.props;
     if (!schema.isValid) {
       setSubmitted(true);
       return;
     }
-    if (!isFormDirty(fields, initialModel, model, showSaved)) {
+    if (!isFormDirty(this.props)) {
       return;
     }
 

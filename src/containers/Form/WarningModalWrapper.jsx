@@ -23,13 +23,11 @@ class WarningModalWrapper extends PureComponent {
   }
 
   componentDidMount() {
-    const { history, model, initialModel, fields, showSaved } = this.props;
-    const { discardChanges } = this.state;
+    const { history } = this.props;
     this.unblock = history.block(nextLocation => {
+      const { showSaved } = this.props;
       const canNavigate =
-        !isFormDirty(fields, initialModel, model, showSaved) ||
-        discardChanges ||
-        showSaved;
+        !isFormDirty(this.props) || this.state.discardChanges || showSaved;
 
       if (!canNavigate) {
         this.setState({
@@ -47,7 +45,7 @@ class WarningModalWrapper extends PureComponent {
 
     if (config.isNdlaProdEnvironment) {
       window.onbeforeunload = () =>
-        !isFormDirty(fields, initialModel, model, showSaved) || discardChanges;
+        !isFormDirty(this.props) || this.state.discardChanges;
     }
   }
 

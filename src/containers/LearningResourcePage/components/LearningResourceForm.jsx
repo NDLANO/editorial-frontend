@@ -198,21 +198,13 @@ class LearningResourceForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const {
-      model,
-      schema,
-      revision,
-      setSubmitted,
-      fields,
-      initialModel,
-      showSaved,
-    } = this.props;
+    const { model, schema, revision, setSubmitted } = this.props;
 
     if (!schema.isValid) {
       setSubmitted(true);
       return;
     }
-    if (!isFormDirty(fields, initialModel, model, showSaved)) {
+    if (!isFormDirty(this.props)) {
       return;
     }
     this.props.onUpdate(

@@ -43,12 +43,23 @@ function allowTHeadInsertion({ current, next, previous }) {
   );
 }
 
+// I.E "<h6>...</h6>" -> "<h3>...</h3>"
+function allowHeadingConversion({ current, next, previous }) {
+  return (
+    (previous.endsWith('</h') || previous.endsWith('<h')) &&
+    (current === '4' || current === '5' || current === '6') &&
+    next === '3'
+  );
+}
+
 function isRemovalAllowed(index, diffs) {
   const values = getValues(index, diffs);
   if (values) {
-    const result = [allowSpaceRemovalBetweenTags, allowTHeadInsertion].find(
-      fn => fn(values) === true,
-    );
+    const result = [
+      allowSpaceRemovalBetweenTags,
+      allowTHeadInsertion,
+      allowHeadingConversion,
+    ].find(fn => fn(values) === true);
     return result !== undefined;
   }
   return false;

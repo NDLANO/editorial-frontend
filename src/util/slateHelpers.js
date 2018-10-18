@@ -8,6 +8,7 @@
 
 import React from 'react';
 import isEmpty from 'lodash/fp/isEmpty';
+import { uuid } from 'ndla-util';
 import {
   reduceElementDataAttributes,
   createEmbedProps,
@@ -437,7 +438,7 @@ const relatedRule = {
           {object.data.get('nodes') &&
             object.data
               .get('nodes')
-              .map(node => <embed {...createEmbedProps(node)} />)}
+              .map(node => <embed key={uuid()} {...createEmbedProps(node)} />)}
         </div>
       );
     }
@@ -547,9 +548,6 @@ const topicArticeEmbedRule = [
     // Embeds handling
     deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
-      if (el.dateset['data-resource'] === 'related-content') {
-        return;
-      }
       return {
         object: 'block',
         type: 'embed',

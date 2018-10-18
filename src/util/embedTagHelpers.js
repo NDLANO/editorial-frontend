@@ -50,7 +50,7 @@ export const reduceChildElements = (el, type) => {
         });
       } else {
         childs.push({
-          articleId: node.dataset.articleId,
+          'article-id': node.dataset.articleId,
           resource: 'related-content',
         });
       }

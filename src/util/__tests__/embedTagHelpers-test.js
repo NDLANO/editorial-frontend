@@ -53,6 +53,16 @@ test('parseEmbedTag parses h5p embed tag to object', () => {
   expect(obj).toMatchSnapshot();
 });
 
+test('parseEmbedTag parses related-content embed tag to object', () => {
+  const obj = parseEmbedTag(
+    `<embed
+      data-article-id="363"
+      data-resource="related-content"
+     >`,
+  );
+  expect(obj).toMatchSnapshot();
+});
+
 test('createEmbedTag creates image embed tag from object', () => {
   const tag = createEmbedTag({
     align: '',
@@ -146,7 +156,7 @@ test('isUserProvidedEmbedDataValid for audio', () => {
 test('deserializing related-content works', () => {
   const serializer = new Html({ rules: [divRule], parseHtml: fragment });
   const deserialized = serializer.deserialize(
-    '<div data-type="related-content"><embed data-url="www.vg.no" data-title="Forsiden vg" /><embed data-articleId="54" /></div>',
+    '<div data-type="related-content"><embed data-url="www.vg.no" data-title="Forsiden vg" /><embed data-article-id="54" /></div>',
   );
 
   expect(toJSON(deserialized)).toMatchSnapshot();

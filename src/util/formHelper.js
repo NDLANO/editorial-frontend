@@ -38,11 +38,12 @@ export const articleStatuses = [
   },
 ];
 
+const slateFields = ['introdoction', 'metaDescription', 'content']
+
 export const isFormDirty = (
   formFields,
   initialModel,
   currentModel,
-  slateFields = [],
   showSaved = false,
 ) => {
   // Checking specific slate object fields if they really have changed

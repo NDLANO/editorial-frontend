@@ -406,9 +406,14 @@ export const tableRules = {
     if (object.object !== 'block') return;
 
     const data = object.data.toJS();
+    const tempProps = createProps(data);
     const props = removeEmptyElementDataAttributes({
       ...createProps(data),
       isHeader: undefined,
+      colSpan: tempProps.colspan,
+      colspan: undefined,
+      rowSpan: tempProps.rowspan,
+      rowspan: undefined,
     });
     switch (object.type) {
       case 'table': {

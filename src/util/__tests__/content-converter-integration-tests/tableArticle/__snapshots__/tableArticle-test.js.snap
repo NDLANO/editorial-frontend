@@ -26,19 +26,19 @@ exports[`serializing article with table tag and attributes 1`] = `
   <table>
     <thead>
       <tr>
-        <th colspan=\\"4\\" align=\\"center\\" valign=\\"top\\">Balanse</th>
+        <th align=\\"center\\" valign=\\"top\\" colspan=\\"4\\">Balanse</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td colspan=\\"2\\"
-          align=\\"center\\"
-          valign=\\"top\\">
+        <td align=\\"center\\"
+          valign=\\"top\\"
+          colspan=\\"2\\">
           <strong>Eiendeler</strong>
         </td>
-        <td colspan=\\"2\\"
-          align=\\"center\\"
-          valign=\\"top\\">
+        <td align=\\"center\\"
+          valign=\\"top\\"
+          colspan=\\"2\\">
           <strong>Egenkapital
             <br>
             og gjeld
@@ -46,15 +46,15 @@ exports[`serializing article with table tag and attributes 1`] = `
         </td>
       </tr>
       <tr>
-        <td colspan=\\"2\\"
-          align=\\"left\\"
-          valign=\\"top\\">Kapitalanvendelse:
+        <td align=\\"left\\"
+          valign=\\"top\\"
+          colspan=\\"2\\">Kapitalanvendelse:
           <br>
           hvor pengene er brukt
         </td>
-        <td colspan=\\"2\\"
-          align=\\"left\\"
-          valign=\\"top\\">Kapitalanskaffelse:
+        <td align=\\"left\\"
+          valign=\\"top\\"
+          colspan=\\"2\\">Kapitalanskaffelse:
           <br>
           hvor pengene kommer fra
         </td>
@@ -77,34 +77,34 @@ exports[`serializing article with table tag and attributes 1`] = `
   <table>
     <thead>
       <tr>
-        <th colspan=\\"4\\" align=\\"center\\" valign=\\"top\\">Inntekter</th>
+        <th align=\\"center\\" valign=\\"top\\" colspan=\\"4\\">Inntekter</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">Debet</td>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">Kredit</td>
+        <td align=\\"center\\" valign=\\"top\\" colspan=\\"2\\">Debet</td>
+        <td align=\\"center\\" valign=\\"top\\" colspan=\\"2\\">Kredit</td>
       </tr>
       <tr>
-        <td colspan=\\"2\\" align=\\"left\\" valign=\\"top\\"></td>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">1 000</td>
+        <td align=\\"left\\" valign=\\"top\\" colspan=\\"2\\"></td>
+        <td align=\\"center\\" valign=\\"top\\" colspan=\\"2\\">1 000</td>
       </tr>
     </tbody>
   </table>
   <table>
     <thead>
       <tr>
-        <th colspan=\\"4\\" align=\\"center\\" valign=\\"top\\">Kontanter</th>
+        <th align=\\"center\\" valign=\\"top\\" colspan=\\"4\\">Kontanter</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">Debet</td>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">Kredit</td>
+        <td align=\\"center\\" valign=\\"top\\" colspan=\\"2\\">Debet</td>
+        <td align=\\"center\\" valign=\\"top\\" colspan=\\"2\\">Kredit</td>
       </tr>
       <tr>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">1 000</td>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\"></td>
+        <td align=\\"center\\" valign=\\"top\\" colspan=\\"2\\">1 000</td>
+        <td align=\\"center\\" valign=\\"top\\" colspan=\\"2\\"></td>
       </tr>
     </tbody>
   </table>
@@ -117,19 +117,19 @@ exports[`serializing article with table tag and attributes 1`] = `
   <table>
     <thead>
       <tr>
-        <th colspan=\\"4\\" align=\\"center\\" valign=\\"top\\">Balanse</th>
+        <th align=\\"center\\" valign=\\"top\\" colspan=\\"4\\">Balanse</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td colspan=\\"2\\"
-          align=\\"center\\"
-          valign=\\"top\\">
+        <td align=\\"center\\"
+          valign=\\"top\\"
+          colspan=\\"2\\">
           <strong>Eiendeler</strong>
         </td>
-        <td colspan=\\"2\\"
-          align=\\"center\\"
-          valign=\\"top\\">
+        <td align=\\"center\\"
+          valign=\\"top\\"
+          colspan=\\"2\\">
           <strong>Egenkapital
             <br>
             og gjeld

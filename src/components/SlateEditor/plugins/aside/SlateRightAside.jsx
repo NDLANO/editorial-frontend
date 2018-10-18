@@ -12,6 +12,7 @@ import Button from 'ndla-button';
 import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
 import { Cross } from 'ndla-icons/action';
+import { ChevronLeft } from 'ndla-icons/common';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -19,7 +20,7 @@ const classes = new BEMHelper({
 });
 
 const SlateRightAside = props => {
-  const { children, onRemoveClick, t, attributes } = props;
+  const { children, onRemoveClick, onMoveContent, t, attributes } = props;
 
   return (
     <aside {...classes('right-aside', '', 'c-aside expanded')} {...attributes}>
@@ -30,6 +31,12 @@ const SlateRightAside = props => {
       <Button stripped onClick={onRemoveClick} {...classes('delete-button')}>
         <Cross />
       </Button>
+      <Button
+        stripped
+        onClick={onMoveContent}
+        {...classes('move-content-button')}>
+        <ChevronLeft />
+      </Button>
     </aside>
   );
 };
@@ -39,6 +46,7 @@ SlateRightAside.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   onRemoveClick: PropTypes.func.isRequired,
+  onMoveContent: PropTypes.func.isRequired,
 };
 
 export default injectT(SlateRightAside);

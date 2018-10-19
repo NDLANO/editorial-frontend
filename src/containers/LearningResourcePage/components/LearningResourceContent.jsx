@@ -34,6 +34,7 @@ import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
 import { createEmptyValue } from '../../../util/articleContentConverter';
 import pasteHandler from '../../../components/SlateEditor/plugins/pasteHandler';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
+import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 
 import {
   editListPlugin,
@@ -58,6 +59,7 @@ class LearningResourceContent extends Component {
       createLinkPlugin(),
       conceptPlugin(),
       headingPlugin(),
+      paragraphPlugin(),
       blockquotePlugin,
       editListPlugin,
       createTablePlugin(),

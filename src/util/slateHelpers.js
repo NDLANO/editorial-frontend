@@ -22,6 +22,7 @@ export const BLOCK_TAGS = {
   details: 'details',
   summary: 'summary',
   pre: 'pre',
+  br: 'br',
   h1: 'heading-two',
   h2: 'heading-two',
   h3: 'heading-three',
@@ -186,6 +187,13 @@ export const paragraphRule = {
     if (slateObject.type === 'list-text') {
       return <ListText>{children}</ListText>;
     }
+
+    /**
+      We insert empty p tag throughout the document to enable positioning the cursor
+      between element with no spacing (i.e two images). We need to remove these element
+      on seriaization.
+     */
+    if (slateObject.text === '') return null;
     return <p>{children}</p>;
   },
 };
@@ -331,6 +339,7 @@ export const blockRules = {
   },
   serialize(slateObject, children) {
     if (slateObject.object !== 'block') return;
+    console.log(slateObject);
     switch (slateObject.type) {
       case 'section':
         return <section>{children}</section>;

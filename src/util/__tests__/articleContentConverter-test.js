@@ -13,7 +13,7 @@ import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
   sectionSplitter,
-  isEqualEditorValue,
+  isEditorValueDirty,
 } from '../articleContentConverter';
 
 const contentHTML = `<section><h2>Lorem ipsum</h2></section>`;
@@ -82,17 +82,11 @@ test('articleContentConverter convert learningresource contents that are equal/n
     fragment,
   );
 
-  expect(isEqualEditorValue(editorValue1, editorValue1, 'standard')).toBe(true);
-  expect(isEqualEditorValue(editorValue2, editorValue2, 'standard')).toBe(true);
-  expect(isEqualEditorValue(editorValue1, editorValue2, 'standard')).toBe(
-    false,
-  );
-  expect(isEqualEditorValue(editorValue2, editorValue1, 'standard')).toBe(
-    false,
-  );
+  expect(isEditorValueDirty(editorValue1)).toBe(false);
+  expect(isEditorValueDirty(editorValue2)).toBe(false);
 });
 
-test('articleContentConverter convert topic article contents that are equal/not equal with isEqualEditorValue', () => {
+test('articleContentConverter convert topic article contents that are equal/not equal with isEqualEditorValue', async () => {
   const editorValue1 = topicArticleContentToEditorValue(contentHTML, fragment);
 
   const editorValue2 = topicArticleContentToEditorValue(
@@ -100,18 +94,8 @@ test('articleContentConverter convert topic article contents that are equal/not 
     fragment,
   );
 
-  expect(isEqualEditorValue(editorValue1, editorValue1, 'topic-article')).toBe(
-    true,
-  );
-  expect(isEqualEditorValue(editorValue2, editorValue2, 'topic-article')).toBe(
-    true,
-  );
-  expect(isEqualEditorValue(editorValue1, editorValue2, 'topic-article')).toBe(
-    false,
-  );
-  expect(isEqualEditorValue(editorValue2, editorValue1, 'topic-article')).toBe(
-    false,
-  );
+  expect(isEditorValueDirty(editorValue1)).toBe(false);
+  expect(isEditorValueDirty(editorValue2)).toBe(false);
 });
 
 test('articleContentConverter convert article that is a mix of inline and block object by wrapping the inline', () => {

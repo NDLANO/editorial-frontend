@@ -49,10 +49,10 @@ export class RelatedArticleBox extends React.Component {
       node: { data },
     } = this.props;
     if (data && data.get('nodes')) {
-      data.get('nodes').forEach(({ articleId, title, url }) => {
-        if (articleId) this.fetchRelated(articleId);
-        if (title) {
-          this.fetchExternal(url, title);
+      data.get('nodes').forEach(article => {
+        if (article['article-id']) this.fetchRelated(article['article-id']);
+        if (article.title) {
+          this.fetchExternal(article.url, article.title);
         }
       });
     }
@@ -82,7 +82,11 @@ export class RelatedArticleBox extends React.Component {
           nodes: items.map(
             item =>
               item.id === ARTICLE_EXTERNAL
-                ? { url: item.url, title: item.title }
+                ? {
+                    resource: 'related-content',
+                    url: item.url,
+                    title: item.title,
+                  }
                 : { resource: 'related-content', ['article-id']: item.id }, // eslint-disable-line
           ),
         },

@@ -8,6 +8,7 @@
 
 import React from 'react';
 import isEmpty from 'lodash/fp/isEmpty';
+import { uuid } from 'ndla-util';
 import {
   reduceElementDataAttributes,
   createEmbedProps,
@@ -25,9 +26,9 @@ export const BLOCK_TAGS = {
   h1: 'heading-two',
   h2: 'heading-two',
   h3: 'heading-three',
-  h4: 'heading-two',
-  h5: 'heading-two',
-  h6: 'heading-two',
+  h4: 'heading-three',
+  h5: 'heading-three',
+  h6: 'heading-three',
 };
 
 export const INLINE_TAGS = {
@@ -442,7 +443,7 @@ const relatedRule = {
           {object.data.get('nodes') &&
             object.data
               .get('nodes')
-              .map(node => <embed {...createEmbedProps(node)} />)}
+              .map(node => <embed key={uuid()} {...createEmbedProps(node)} />)}
         </div>
       );
     }
@@ -577,9 +578,6 @@ const topicArticeEmbedRule = [
     // Embeds handling
     deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
-      if (el.dateset['data-resource'] === 'related-content') {
-        return;
-      }
       return {
         object: 'block',
         type: 'embed',

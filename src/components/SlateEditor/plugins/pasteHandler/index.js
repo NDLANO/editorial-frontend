@@ -6,21 +6,32 @@
  *
  */
 
-import { Document } from 'slate';
+import { Document, Block } from 'slate';
 import { getEventTransfer } from 'slate-react';
+
+export function convertToSupportedBlockTypes(block) {
+  switch (block.type) {
+    case 'line':
+      return Block.create({
+        type: 'paragraph',
+        nodes: block.nodes,
+      });
+    default:
+      return block;
+  }
+}
 
 function PasteHandler() {
   return {
     schema: {},
     onPaste(event, change) {
       const { fragment, text } = getEventTransfer(event);
-
       if (!fragment) return change.insertText(text);
 
       const textNode = fragment.getLastText();
       const closestBlock = fragment.getClosestBlock(textNode.key);
       const newFragment = Document.create({
-        nodes: [closestBlock],
+        nodes: [convertToSupportedBlockTypes(closestBlock)],
         isVoid: false,
       });
       return change.insertFragment(newFragment);

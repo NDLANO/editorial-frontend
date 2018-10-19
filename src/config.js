@@ -41,7 +41,7 @@ const learningpathFrontendDomain = () => {
     case 'local':
       return 'http://localhost:30017';
     case 'prod':
-      return 'https://beta.sti.ndla.no';
+      return 'https://stier.ndla.no';
     default:
       return `https://learningpath-frontend.${ndlaEnvironment}.api.ndla.no`;
   }

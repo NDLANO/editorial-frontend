@@ -34,5 +34,9 @@ export function onEnter(evt, change) {
       .insertBlock(TYPE);
   }
 
+  if (evt.shiftKey === true) {
+    return change.insertText('\n');
+  }
+
   return change.insertBlock(TYPE);
 }

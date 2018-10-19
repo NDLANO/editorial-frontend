@@ -22,7 +22,6 @@ export const BLOCK_TAGS = {
   details: 'details',
   summary: 'summary',
   pre: 'pre',
-  br: 'br',
   h1: 'heading-two',
   h2: 'heading-two',
   h3: 'heading-three',
@@ -339,7 +338,6 @@ export const blockRules = {
   },
   serialize(slateObject, children) {
     if (slateObject.object !== 'block') return;
-    console.log(slateObject);
     switch (slateObject.type) {
       case 'section':
         return <section>{children}</section>;
@@ -363,8 +361,6 @@ export const blockRules = {
         return <details>{children}</details>;
       case 'summary':
         return <summary>{children}</summary>;
-      case 'br':
-        return <br />;
       case 'pre':
         return <pre>{children}</pre>;
     }
@@ -547,6 +543,31 @@ const RULES = [
           {children}
         </a>
       );
+    },
+  },
+  {
+    deserialize(el, next) {
+      if (el.tagName.toLowerCase() !== 'br') return;
+      if (el.parentNode.tagName.toLowerCase() === 'p') {
+        return {
+          object: 'text',
+          leaves: [
+            {
+              object: 'leaf',
+              text: '\n',
+              marks: [],
+            },
+          ],
+        };
+      }
+      return {
+        object: 'block',
+        type: 'br',
+        nodes: next(el.childNodes),
+      };
+    },
+    serialize() {
+      return <br />;
     },
   },
 ];

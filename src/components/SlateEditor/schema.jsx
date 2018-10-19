@@ -40,10 +40,16 @@ export const schema = {
   },
   blocks: {
     section: {
+      first: { type: 'paragraph' },
       nodes: [{ match: 'paragraph', min: 1 }],
       last: { type: 'paragraph' },
       normalize: (change, error) => {
         switch (error.code) {
+          case 'first_child_type_invalid': {
+            const block = Block.create(defaultBlocks.defaultBlock);
+            change.insertNodeByKey(error.node.key, 0, block);
+            break;
+          }
           case 'last_child_type_invalid': {
             const block = Block.create(defaultBlocks.defaultBlock);
             change.insertNodeByKey(

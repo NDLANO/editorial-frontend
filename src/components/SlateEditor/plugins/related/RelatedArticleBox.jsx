@@ -95,17 +95,8 @@ export class RelatedArticleBox extends React.Component {
     );
   }
 
-  updateEmbedNode(onMount) {
-    const { editor } = this.props;
-    if (!onMount) {
-      this.setNodeKey();
-    } else {
-      editor.change(change => {
-        change.withoutSaving(() => {
-          this.setNodeKey();
-        });
-      });
-    }
+  updateEmbedNode() {
+    this.setNodeKey();
   }
 
   async fetchRelated(id, onMount = false) {
@@ -117,13 +108,11 @@ export class RelatedArticleBox extends React.Component {
         queryResources(id, locale),
       ]);
       if (article)
-        this.setState(
-          prevState => ({
-            items: [...prevState.items, mapRelatedArticle(article, resource)],
-            editMode: false,
-          }),
-          () => this.updateEmbedNode(onMount),
-        );
+        this.setState(prevState => ({
+          items: [...prevState.items, mapRelatedArticle(article, resource)],
+          editMode: false,
+        }));
+      if (!onMount) this.updateEmbedNode();
     } catch (error) {
       handleError(error);
     }

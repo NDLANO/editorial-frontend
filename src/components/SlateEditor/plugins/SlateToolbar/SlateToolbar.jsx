@@ -13,7 +13,6 @@ import BEMHelper from 'react-bem-helper';
 import Types from 'slate-prop-types';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
-import { setActiveNode } from '../../createSlateStore';
 import { hasNodeOfType, checkSelectionForType } from '../../utils';
 import { TYPE as footnote } from '../footnote';
 import { TYPE as link } from '../link';
@@ -108,16 +107,19 @@ class SlateToolbar extends Component {
 
   onClickInline(e, type) {
     e.preventDefault();
-    const { slateStore, value: editorValue } = this.props;
+    const { value } = this.props;
 
-    if (editorValue.inlines && editorValue.inlines.size > 0) {
-      const node = editorValue.inlines.find(
-        inline => inline.type === footnote || inline.type === link,
-      );
-      slateStore.dispatch(setActiveNode(node));
+    const change = value.change();
+    if (type === 'footnote') {
+      change
+        .moveToEnd()
+        .insertText('#')
+        .moveFocusForward(-1)
+        .wrapInline(type);
     } else {
-      slateStore.dispatch(setActiveNode({ type }));
+      change.wrapInline(type);
     }
+    this.handleValueChange(change);
   }
 
   onButtonClick(e, kind, type) {

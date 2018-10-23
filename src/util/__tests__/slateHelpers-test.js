@@ -428,7 +428,7 @@ test('serializing standard article', () => {
   });
   const value = Value.fromJSON(standardArticleValue);
   const serialized = serializer.serialize(value);
-  expect(serialized).toMatchSnapshot();
+  expect(global.prettifyHTML(serialized)).toMatchSnapshot();
 });
 
 test('deserialize em mark that contains embed footnote', () => {

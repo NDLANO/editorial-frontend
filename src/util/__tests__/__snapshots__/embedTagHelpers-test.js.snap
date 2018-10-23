@@ -15,11 +15,12 @@ Object {
         "data": Object {
           "nodes": Array [
             Object {
+              "resource": "related-content",
               "title": "Forsiden vg",
               "url": "www.vg.no",
             },
             Object {
-              "articleId": undefined,
+              "article-id": "54",
               "resource": "related-content",
             },
           ],
@@ -75,5 +76,13 @@ Object {
   "resource_id": "42159",
   "size": "fullbredde",
   "url": "https://api.ndla.no/image-api/v2/images/42159",
+}
+`;
+
+exports[`parseEmbedTag parses related-content embed tag to object 1`] = `
+Object {
+  "article-id": "363",
+  "metaData": Object {},
+  "resource": "related-content",
 }
 `;

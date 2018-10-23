@@ -7,7 +7,6 @@
  */
 
 import jsdom from 'jsdom';
-import prettify from '../prettify';
 import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
@@ -21,5 +20,5 @@ test('serializing article with table tag and attributes', () => {
 
   const result = learningResourceContentToHTML(converted);
 
-  expect(prettify(result)).toMatchSnapshot();
+  expect(global.prettifyHTML(result)).toMatchSnapshot();
 });

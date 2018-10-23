@@ -10,101 +10,77 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import Types from 'slate-prop-types';
-import { compose } from 'redux';
 import FootnoteForm, { getInitialModel } from './FootnoteForm';
-import connectLightbox from '../../utils/connectLightbox';
-import { TYPE } from '.';
+import { Portal } from '../../../Portal';
+import Lightbox from '../../../Lightbox';
+import { FootnoteShape } from '../../../../shapes';
 
 class EditFootnote extends Component {
   constructor() {
     super();
-    this.state = {
-      model: undefined,
-      nodeKey: undefined,
-    };
-    this.addFootnoteData = this.addFootnoteData.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.onClose = this.onClose.bind(this);
   }
 
-  componentWillMount() {
-    const { node } = this.props;
-
-    if (node.data) {
-      this.addFootnoteData(node);
+  onClose() {
+    const { model, closeDialog } = this.props;
+    if (!model.title) {
+      this.handleRemove();
+    } else {
+      closeDialog();
     }
   }
 
   handleRemove() {
-    const { value, handleValueChange, closeDialog } = this.props;
-    if (this.state.nodeKey) {
-      const nextState = value.change().removeNodeByKey(this.state.nodeKey);
-      handleValueChange(nextState);
+    const { value, node, onChange, closeDialog } = this.props;
+    if (node) {
+      const nextState = value.change().removeNodeByKey(node.key);
+      onChange(nextState);
       closeDialog();
     }
   }
 
   handleSave(data) {
-    const { value, handleValueChange, closeDialog } = this.props;
+    const { value, onChange, node, closeDialog } = this.props;
     const change = value.change();
-    if (this.state.nodeKey) {
-      handleValueChange(change.setNodeByKey(this.state.nodeKey, { data }));
-    } else {
-      handleValueChange(
-        change
-          .collapseToEnd()
-          .insertText('#')
-          .extend(-1)
-          .wrapInline({
-            type: TYPE,
-            data,
-          }),
-      );
-    }
+
+    onChange(change.setNodeByKey(node.key, { data }));
     closeDialog();
   }
 
-  addFootnoteData(footnoteNode) {
-    const model = footnoteNode.data.toJS();
-    this.setState({
-      model,
-      nodeKey: footnoteNode.key,
-    });
-  }
-
   render() {
-    const { model } = this.state;
-    const { t, closeDialog } = this.props;
-    const isEdit = model !== undefined;
+    const { t, model } = this.props;
+    const isEdit = model.title !== undefined;
 
     return (
-      <div>
-        <h2>
-          {t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}
-        </h2>
-        <FootnoteForm
-          initialModel={getInitialModel(model)}
-          onClose={closeDialog}
-          isEdit={isEdit}
-          onRemove={this.handleRemove}
-          onSave={this.handleSave}
-        />
-      </div>
+      <Portal isOpened>
+        <Lightbox display big onClose={this.onClose}>
+          <h2>
+            {t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}
+          </h2>
+          <FootnoteForm
+            initialModel={getInitialModel(model)}
+            onClose={this.onClose}
+            isEdit={isEdit}
+            onRemove={this.handleRemove}
+            onSave={this.handleSave}
+          />
+        </Lightbox>
+      </Portal>
     );
   }
 }
 
 EditFootnote.propTypes = {
   closeDialog: PropTypes.func.isRequired,
-  handleValueChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   value: Types.value.isRequired,
+  model: FootnoteShape,
   node: PropTypes.oneOfType([
     Types.node,
     PropTypes.shape({ type: PropTypes.string.isRequired }),
   ]),
 };
 
-export default compose(
-  connectLightbox(() => TYPE),
-  injectT,
-)(EditFootnote);
+export default injectT(EditFootnote);

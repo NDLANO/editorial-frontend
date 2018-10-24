@@ -136,7 +136,7 @@ export function editorValueToPlainText(editorValue) {
 }
 
 export function isEditorValueDirty(value) {
-  if (value && value.history) {
+  if (value.history) {
     return value.history.undos.size > 0;
   }
   return (

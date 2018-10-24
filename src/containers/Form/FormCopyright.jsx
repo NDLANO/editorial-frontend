@@ -16,6 +16,10 @@ import { AgreementConnection } from '.';
 
 const FormCopyright = ({ t, commonFieldProps, licenses, model }) => {
   const disabled = !!model.agreementId;
+  const licensesWithTranslations = licenses.map(license => ({
+    ...license,
+    name: t(`license.types.${license.license}`),
+  }));
   return (
     <Fragment>
       <Contributors
@@ -39,9 +43,9 @@ const FormCopyright = ({ t, commonFieldProps, licenses, model }) => {
       <SelectObjectField
         name="license"
         label={t('form.license.label')}
-        options={licenses}
+        options={licensesWithTranslations}
         idKey="license"
-        labelKey="description"
+        labelKey="name"
         disabled={disabled}
         {...commonFieldProps}
       />

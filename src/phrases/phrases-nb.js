@@ -101,6 +101,17 @@ const phrases = {
       distributor: 'Distributør',
       supplier: 'Leverandør',
     },
+    types: {
+      'CC0-1.0': 'Gitt til fellesskapet',
+      PD: 'Offentlig eiendom',
+      COPYRIGHTED: 'Opphavsrett',
+      'CC-BY-4.0': 'Navngivelse',
+      'CC-BY-SA-4.0': 'Navngivelse-Del på samme vilkår ',
+      'CC-BY-NC-4.0': 'Navngivelse-Ikkekommersiell',
+      'CC-BY-ND-4.0': 'Navngivelse-Ingen bearbeidelse ',
+      'CC-BY-NC-SA-4.0': 'Navngivelse-Ikkekommersiell-Del på samme vilkår',
+      'CC-BY-NC-ND-4.0': 'Navngivelse-Ikkekommersiell-Ingen bearbeidelse',
+    },
   },
   language: {
     en: 'Engelsk',

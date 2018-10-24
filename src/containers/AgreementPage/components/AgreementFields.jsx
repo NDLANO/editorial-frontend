@@ -15,6 +15,10 @@ import Contributors from '../../../components/Contributors/Contributors';
 
 const AgreementFields = props => {
   const { t, commonFieldProps, licenses, locale } = props;
+  const licensesWithTranslations = licenses.map(license => ({
+    ...license,
+    name: t(`license.types.${license.license}`),
+  }));
 
   return (
     <div>
@@ -38,9 +42,9 @@ const AgreementFields = props => {
       <SelectObjectField
         name="license"
         label={t('form.license.label')}
-        options={licenses}
+        options={licensesWithTranslations}
         idKey="license"
-        labelKey="description"
+        labelKey="name"
         {...commonFieldProps}
       />
       <TextAreaField

@@ -35,6 +35,10 @@ class ImageMetaData extends Component {
 
   render() {
     const { t, commonFieldProps, tags, licenses } = this.props;
+    const licensesWithTranslations = licenses.map(license => ({
+      ...license,
+      name: t(`license.types.${license.license}`),
+    }));
     return (
       <Accordion
         fill
@@ -57,9 +61,9 @@ class ImageMetaData extends Component {
         <SelectObjectField
           name="license"
           label={t('form.license.label')}
-          options={licenses}
+          options={licensesWithTranslations}
           idKey="license"
-          labelKey="description"
+          labelKey="name"
           {...commonFieldProps}
         />
         <TextField

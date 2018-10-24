@@ -103,6 +103,21 @@ const phrases = {
       distributor: 'Distributor',
       supplier: 'Supplier',
     },
+    types: {
+      'CC0-1.0': 'Creative Commons Zero',
+      PD: 'Public Domain Mark',
+      COPYRIGHTED: 'Copyrighted',
+      'CC-BY-4.0': 'Creative Commons Attribution 4.0 International',
+      'CC-BY-SA-4.0':
+        'Creative Commons Attribution-ShareAlike 4.0 International',
+      'CC-BY-NC-4.0':
+        'Creative Commons Attribution-NonCommercial 4.0 International',
+      'CC-BY-ND-4.0': 'Creative Commons Attribution-NoDerivs 4.0 International',
+      'CC-BY-NC-SA-4.0':
+        'Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International',
+      'CC-BY-NC-ND-4.0':
+        'Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International',
+    },
   },
   language: {
     en: 'English',

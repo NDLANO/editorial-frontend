@@ -359,7 +359,10 @@ const phrases = {
     createdOk: 'Created OK',
     addNewImage: 'Add new image',
     addNewAudio: 'Add new audio',
-    addNotes: 'Add note',
+    notesHeading: 'Notes',
+    addNotes: 'Add new note',
+    removeNotes: 'Remove note',
+    warningNotes: 'A note must contain text',
     editImage: 'Edit image',
     editAudio: 'Edit audio',
     resetToProd: {

@@ -10,15 +10,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import Button from 'ndla-button';
-import { formClasses } from '..';
+import { FormHeader } from 'ndla-forms';
 import PreviewDraftLightbox from '../../../components/PreviewDraft/PreviewDraftLightbox';
 
 function FormQualityAssurance({ getArticle, model, onValidateClick, t }) {
   return (
     <div>
-      <span {...formClasses('title')}>
-        {t('form.workflow.qualityAssurance')}
-      </span>
+      <FormHeader title={t('form.workflow.qualityAssurance')} width={3 / 4} />
       <PreviewDraftLightbox
         label={t('subNavigation.learningResource')}
         getArticle={getArticle}

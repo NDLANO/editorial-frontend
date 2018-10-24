@@ -373,7 +373,10 @@ const phrases = {
     createdOk: 'Opprettet OK',
     addNewImage: 'Legg til nytt bilde',
     addNewAudio: 'Legg til ny lyd',
+    notesHeading: 'Merknader',
     addNotes: 'Legg til merknad',
+    removeNotes: 'Ta bort',
+    warningNotes: 'En merknad må ha tekst',
     editImage: 'Endre bilde',
     editAudio: 'Endre lyd',
     resetToProd: {

@@ -8,8 +8,7 @@
  */
 
 import React from 'react';
-import { Block } from 'slate';
-import { defaultBlocks } from './utils';
+import { textBlockValidationRules } from './utils';
 
 export const getSchemaEmbed = node => node.get('data').toJS();
 
@@ -39,30 +38,7 @@ export const schema = {
     ],
   },
   blocks: {
-    section: {
-      nodes: [{ match: 'paragraph', min: 1 }],
-      last: { type: 'paragraph' },
-      normalize: (change, error) => {
-        switch (error.code) {
-          case 'last_child_type_invalid': {
-            const block = Block.create(defaultBlocks.defaultBlock);
-            change.insertNodeByKey(
-              error.node.key,
-              error.node.nodes.size,
-              block,
-            );
-            break;
-          }
-          case 'child_required': {
-            const block = Block.create(defaultBlocks.defaultBlock);
-            change.insertNodeByKey(error.node.key, 0, block);
-            break;
-          }
-          default:
-            break;
-        }
-      },
-    },
+    section: textBlockValidationRules,
   },
 };
 

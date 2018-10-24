@@ -2513,15 +2513,11 @@ exports[`serializing standard article 1`] = `
   <h2>Blokk 1</h2>
 </section>
 <section>
-  <p />
-
   <ul>
     <li>Bullet 1</li>
     <li>Bullet 2</li>
     <li>Bullet 3</li>
   </ul>
-  <p />
-
   <div class=\\"c-bodybox\\">
     <h2>Bodybox</h2>
     <p>Bodybox content</p>
@@ -2537,8 +2533,6 @@ exports[`serializing standard article 1`] = `
     <li>Alpha 2</li>
     <li>Alpha 3</li>
   </ol>
-  <p />
-
   <aside data-type=\\"factAside\\">
     <h2>Fact box</h2>
     <p>This should contain some facts!</p>
@@ -2549,8 +2543,6 @@ exports[`serializing standard article 1`] = `
     <p>Nunc velit dui, sagittis vel lectus eu, tempus porttitor risus. Duis tristique ipsum id massa consequat, non bibendum nisl dictum. Mauris non dignissim sapien. In congue massa libero, at malesuada risus aliquet et. Morbi tincidunt, nisi ac luctus vulputate, nibh nisl vulputate nisi, ac interdum ligula est a ex. Vestibulum at sapien eget odio vulputate varius quis non felis. Donec quis volutpat nisl, at tristique erat. Vestibulum tempor, urna eget hendrerit suscipit, lorem metus mollis nunc, a rhoncus metus lectus elementum justo. Donec id felis at orci varius interdum eu ut orci. Vestibulum quis tempus metus, sed accumsan arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
     </p>
   </aside>
-  <p />
-
   <table>
     <thead>
       <tr>
@@ -2575,8 +2567,6 @@ exports[`serializing standard article 1`] = `
       </tr>
     </tbody>
   </table>
-  <p />
-
   <embed data-size=\\"fullbredde\\"
     data-align
     data-caption=\\"focalpoint\\"
@@ -2586,8 +2576,6 @@ exports[`serializing standard article 1`] = `
     data-url=\\"https://test.api.ndla.no/image-api/v2/images/2\\"
     data-focal-x=\\"20.126776485788113\\"
     data-focal-y=\\"7.414585620197585\\">
-
-  <p />
 
   <embed data-size=\\"fullbredde\\"
     data-align
@@ -2605,8 +2593,6 @@ exports[`serializing standard article 1`] = `
   </p>
   <p>Proin vehicula odio id dui vehicula, id pellentesque mauris tincidunt. Aliquam eget porta leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent posuere ante a dapibus maximus. Nulla quis felis sit amet justo mollis suscipit ut non massa. Quisque et nulla ligula. Nam dictum pharetra dui ut tempus. Morbi rutrum urna eu sem euismod, vitae rutrum turpis bibendum. Etiam vulputate urna eget mauris dictum, quis cursus leo scelerisque. Nunc imperdiet elementum nunc in vehicula. Praesent ante purus, posuere vitae luctus sit amet, scelerisque et nibh. Aliquam vestibulum ligula at tristique varius. Proin fermentum nisi in ligula cursus, nec scelerisque felis interdum.
   </p>
-  <p />
-
   <embed data-align=\\"left\\"
     data-alt=\\"left align\\"
     data-caption=\\"left align\\"
@@ -2619,8 +2605,6 @@ exports[`serializing standard article 1`] = `
   </p>
   <p>Phasellus vitae metus vitae tellus imperdiet fringilla vel sit amet metus. Praesent tincidunt diam in laoreet maximus. Nulla ultricies dolor in nisi imperdiet lobortis. Nullam euismod, ex quis tempus maximus, nunc tortor dictum massa, non pulvinar turpis magna vestibulum tellus. Donec vehicula neque sed vehicula varius. Nam in cursus lectus, eget laoreet ex. Donec eleifend varius mi ac dapibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed at erat non arcu porta posuere sit amet ut nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam ornare massa id ipsum interdum pulvinar. Donec sed malesuada sem, non tempus ligula. In hac habitasse platea dictumst. Proin metus tortor, molestie id commodo ullamcorper, malesuada volutpat nisi.
   </p>
-  <p />
-
   <embed data-align=\\"right\\"
     data-alt=\\"right align\\"
     data-caption=\\"right align\\"
@@ -2631,21 +2615,11 @@ exports[`serializing standard article 1`] = `
 
   <p>In hac habitasse platea dictumst. Curabitur vestibulum nisl leo, blandit vehicula purus cursus vel. Pellentesque ac mi dolor. Ut pretium arcu pharetra justo ultrices aliquam. Aliquam leo est, congue eget ultricies at, commodo a massa. In ultrices consectetur ante, sit amet vestibulum lorem volutpat sed. Fusce orci orci, pretium at aliquet eu, ornare sed lacus. Nunc ut odio velit. In velit mauris, fringilla sit amet mi ornare, dictum molestie ipsum. Donec eget justo accumsan, malesuada nisi id, commodo elit. Mauris congue lacus a scelerisque varius.
   </p>
-  <p />
-
-  <p />
-
-  <p />
-
-  <p />
-
   <embed data-account=\\"4806596774001\\"
     data-caption=\\"video\\"
     data-player=\\"BkLm8fT\\"
     data-resource=\\"brightcove\\"
     data-videoid=\\"5389115230001\\">
-
-  <p />
 
   <embed data-resource=\\"audio\\"
     data-resource_id=\\"945\\"
@@ -2659,8 +2633,6 @@ exports[`serializing standard article 1`] = `
       title=\\"meg\\">meg
     </a>
   </p>
-  <p />
-
   <p>NDLA
     <a href=\\"https://ndla.no/en/node/42\\"
       rel=\\"noopener noreferrer\\"

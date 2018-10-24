@@ -184,6 +184,7 @@ class TopicArticleForm extends Component {
       {
         id: 'topic-article-content',
         title: t('form.contentSection'),
+        className: 'u-4/6@desktop u-push-1/6@desktop',
         component: (
           <TopicArticleContent
             commonFieldProps={commonFieldProps}
@@ -196,6 +197,7 @@ class TopicArticleForm extends Component {
       {
         id: 'topic-article-copyright',
         title: t('form.copyrightSection'),
+        className: 'u-6/6',
         component: (
           <FormCopyright
             model={model}
@@ -207,6 +209,7 @@ class TopicArticleForm extends Component {
       {
         id: 'topic-article-metadata',
         title: t('form.metadataSection'),
+        className: 'u-6/6',
         component: (
           <TopicArticleMetadata
             commonFieldProps={commonFieldProps}
@@ -218,6 +221,7 @@ class TopicArticleForm extends Component {
       {
         id: 'topic-article-workflow',
         title: t('form.workflowSection'),
+        className: 'u-6/6',
         component: (
           <FormWorkflow
             commonFieldProps={commonFieldProps}
@@ -251,9 +255,7 @@ class TopicArticleForm extends Component {
                   <AccordionPanel
                     id={panel.id}
                     isOpen={openIndexes.includes(panel.id)}>
-                    <div className="u-4/6@desktop u-push-1/6@desktop">
-                      {panel.component}
-                    </div>
+                    <div className={panel.className}>{panel.component}</div>
                   </AccordionPanel>
                 </React.Fragment>
               ))}

@@ -248,6 +248,7 @@ class LearningResourceForm extends Component {
       {
         id: 'learning-resource-content',
         title: t('form.contentSection'),
+        className: 'u-4/6@desktop u-push-1/6@desktop',
         component: (
           <LearningResourceContent
             commonFieldProps={commonFieldProps}
@@ -262,6 +263,7 @@ class LearningResourceForm extends Component {
       {
         id: 'learning-resource-copyright',
         title: t('form.copyrightSection'),
+        className: 'u-6/6',
         component: (
           <FormCopyright
             model={model}
@@ -273,6 +275,7 @@ class LearningResourceForm extends Component {
       {
         id: 'learning-resource-metadata',
         title: t('form.metadataSection'),
+        className: 'u-6/6',
         component: (
           <LearningResourceMetadata
             commonFieldProps={commonFieldProps}
@@ -285,6 +288,7 @@ class LearningResourceForm extends Component {
       {
         id: 'learning-resource-workflow',
         title: t('form.workflowSection'),
+        className: 'u-6/6',
         component: (
           <FormWorkflow
             commonFieldProps={commonFieldProps}
@@ -299,6 +303,7 @@ class LearningResourceForm extends Component {
       panels.splice(1, 0, {
         id: 'learning-resource-taxonomy',
         title: t('form.taxonomytSection'),
+        className: 'u-6/6',
         component: (
           <LearningResourceTaxonomy
             commonFieldProps={commonFieldProps}
@@ -330,9 +335,7 @@ class LearningResourceForm extends Component {
                   <AccordionPanel
                     id={panel.id}
                     isOpen={openIndexes.includes(panel.id)}>
-                    <div className="u-4/6@desktop u-push-1/6@desktop">
-                      {panel.component}
-                    </div>
+                    <div className={panel.className}>{panel.component}</div>
                   </AccordionPanel>
                 </React.Fragment>
               ))}

@@ -6,9 +6,10 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { uuid } from 'ndla-util';
+import { FormHeader, FormSections } from 'ndla-forms';
 import BEMHelper from 'react-bem-helper';
 import get from 'lodash/fp/get';
 import MultiSelect from './MultiSelect';
@@ -557,24 +558,29 @@ export const AsyncDropdownField = ({
   submitted,
   schema,
   noBorder,
+  width,
   ...rest
 }) => {
   const { onChange } = bindInput(name);
   return (
-    <Field noBorder={noBorder}>
-      <label htmlFor={name}>{label}</label>
-      <AsyncDropdown
-        onChange={val =>
-          onChange({ target: { name, value: val ? val.id : undefined } })
-        }
-        {...rest}
-      />
-      <FieldErrorMessages
-        label={label}
-        field={getField(name, schema)}
-        submitted={submitted}
-      />
-    </Field>
+    <Fragment>
+      <FormHeader title={label} width={width} />
+      <FormSections>
+        <div>
+          <AsyncDropdown
+            onChange={val =>
+              onChange({ target: { name, value: val ? val.id : undefined } })
+            }
+            {...rest}
+          />
+          <FieldErrorMessages
+            label={label}
+            field={getField(name, schema)}
+            submitted={submitted}
+          />
+        </div>
+      </FormSections>
+    </Fragment>
   );
 };
 
@@ -587,8 +593,10 @@ AsyncDropdownField.propTypes = {
   }),
   noBorder: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
+  width: PropTypes.number,
 };
 
 AsyncDropdownField.defaultProps = {
   noBorder: false,
+  width: 1,
 };

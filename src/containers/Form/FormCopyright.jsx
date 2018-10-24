@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { SelectObjectField } from '../../components/Fields';
+import { FormHeader, FormSections, FormDropdown } from 'ndla-forms';
 import { CommonFieldPropsShape } from '../../shapes';
 import Contributors from '../../components/Contributors/Contributors';
 import { AgreementConnection } from '.';
@@ -21,30 +21,43 @@ const FormCopyright = ({ t, commonFieldProps, licenses, model }) => {
       <Contributors
         name="creators"
         label={t('form.creators.label')}
+        labelRemove={t('form.creators.labelRemove')}
+        placeholder={t('form.creators.placeholder')}
         disabled={disabled}
         {...commonFieldProps}
       />
       <Contributors
         name="rightsholders"
         label={t('form.rightsholders.label')}
+        labelRemove={t('form.rightsholders.labelRemove')}
+        placeholder={t('form.rightsholders.placeholder')}
         disabled={disabled}
         {...commonFieldProps}
       />
       <Contributors
         name="processors"
         label={t('form.processors.label')}
+        labelRemove={t('form.processors.labelRemove')}
+        placeholder={t('form.processors.placeholder')}
         {...commonFieldProps}
       />
-      <AgreementConnection commonFieldProps={commonFieldProps} model={model} />
-      <SelectObjectField
-        name="license"
-        label={t('form.license.label')}
-        options={licenses}
-        idKey="license"
-        labelKey="description"
-        disabled={disabled}
-        {...commonFieldProps}
+      <AgreementConnection
+        commonFieldProps={commonFieldProps}
+        model={model}
+        width={3 / 4}
       />
+      <FormHeader title={t('form.license.label')} width={3 / 4} />
+      <FormSections>
+        <div>
+          <FormDropdown value="" {...commonFieldProps.bindInput('license')}>
+            {licenses.map(license => (
+              <option value={license.license} key={license.license}>
+                {license.description}
+              </option>
+            ))}
+          </FormDropdown>
+        </div>
+      </FormSections>
     </Fragment>
   );
 };

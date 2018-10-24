@@ -6,7 +6,7 @@
  *
  */
 
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
@@ -15,7 +15,7 @@ import { SchemaShape } from '../../shapes';
 import * as draftApi from '../../modules/draft/draftApi';
 import { toEditAgreement } from '../../util/routeHelpers';
 
-class AgreementConnection extends PureComponent {
+class AgreementConnection extends Component {
   static async searchAgreements(query) {
     const response = await draftApi.fetchAgreements(query);
     return response.results;
@@ -28,16 +28,19 @@ class AgreementConnection extends PureComponent {
     this.state = { agreement: undefined };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { model } = this.props;
     this.fetchAgreement(model.agreementId);
   }
 
-  static getDerivedStateFromProps({ model }, { agreement }) {
-    if (!model.agreementId && agreement) {
-      return { agreement: undefined };
+  componentWillReceiveProps(nextProps) {
+    const { model } = nextProps;
+    if (
+      !model.agreementId &&
+      this.props.model.agreementId !== model.agreementId
+    ) {
+      this.setState({ agreement: undefined });
     }
-    return null;
   }
 
   async fetchAgreement(id) {
@@ -71,14 +74,13 @@ class AgreementConnection extends PureComponent {
   }
 
   render() {
-    const { t, commonFieldProps } = this.props;
-    const { agreement } = this.state;
+    const { t, commonFieldProps, width } = this.props;
     return [
       <AsyncDropdownField
         key="agreement-connection-dropdown"
         valueField="id"
         name="agreementId"
-        selectedItem={agreement}
+        selectedItem={this.state.agreement}
         textField="title"
         placeholder={t('form.agreement.placeholder')}
         label={t('form.agreement.label')}
@@ -89,13 +91,14 @@ class AgreementConnection extends PureComponent {
           emptyList: t('form.agreement.emptyList'),
         }}
         onChange={this.handleChange}
+        width={width}
       />,
-      agreement && agreement.id ? (
+      this.state.agreement && this.state.agreement.id ? (
         <Link
           key="agreement-connection-link"
           target="_blank"
-          to={toEditAgreement(agreement.id)}>
-          {agreement.title}
+          to={toEditAgreement(this.state.agreement.id)}>
+          {this.state.agreement.title}
         </Link>
       ) : (
         undefined
@@ -113,6 +116,11 @@ AgreementConnection.propTypes = {
     bindInput: PropTypes.func.isRequired,
     submitted: PropTypes.bool.isRequired,
   }),
+  width: PropTypes.number,
+};
+
+AgreementConnection.defaultProps = {
+  width: 1,
 };
 
 export default injectT(AgreementConnection);

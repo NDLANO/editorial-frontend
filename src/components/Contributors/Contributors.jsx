@@ -6,15 +6,21 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Plus } from 'ndla-icons/action';
 import { contributorGroups, contributorTypes } from 'ndla-licenses';
-import { Field, FieldErrorMessages, getField } from '../Fields';
-import AddContributor from './AddContributor';
+import Button from 'ndla-button';
+import {
+  FormHeader,
+  FormSections,
+  FormSplitter,
+  FormInput,
+  FormDropdown,
+  FormRemoveButton,
+} from 'ndla-forms';
+import { getField } from '../Fields';
 import { getLocale } from '../../modules/locale/locale';
-import CirclePlusButton from '../CirclePlusButton';
 
 const capitalizeFirstLetter = string =>
   string.charAt(0).toUpperCase() + string.slice(1);
@@ -23,6 +29,7 @@ const Contributors = props => {
   const {
     name,
     label,
+    labelRemove,
     locale,
     schema,
     submitted,
@@ -42,7 +49,7 @@ const Contributors = props => {
   };
   const addContributor = () => {
     const newContributors = [].concat(value);
-    newContributors.push({ name: '', type: '' });
+    newContributors.push({ name: '', type: '', focusOnMount: true });
     onContributorChange(newContributors);
   };
 
@@ -69,38 +76,63 @@ const Contributors = props => {
       : contributorTypes.nb[item],
   }));
 
+  const errorMessages = getField(name, schema).errors.map(error =>
+    error(label),
+  );
+
   return (
-    <Field>
-      <label htmlFor={name}>{label}</label>
+    <Fragment>
+      <FormHeader title={label} width={3 / 4} />
       {value.map((contributor, index) => (
-        <AddContributor
-          key={`contributor_${index}`} // eslint-disable-line react/no-array-index-key
-          {...contributor}
-          index={index}
-          contributorTypes={contributorTypeItems}
-          handleContributorTypeChange={evt =>
-            handleContributorChange(evt, 'type', index)
-          }
-          handleContributorNameChange={evt =>
-            handleContributorChange(evt, 'name', index)
-          }
-          removeContributor={evt => removeContributor(evt, index)}
-          placeholder={placeholder}
-          disabled={disabled}
-        />
+        <FormSections
+          key={`contributor_test_${index}`} // eslint-disable-line react/no-array-index-key
+        >
+          <div>
+            <FormSplitter>
+              <FormInput
+                warningText={
+                  submitted &&
+                  (contributor.name === '' || contributor.type === '')
+                    ? errorMessages[0]
+                    : null
+                }
+                container="div"
+                type="text"
+                focusOnMount={contributor.focusOnMount}
+                placeholder={placeholder}
+                disabled={disabled}
+                value={contributor.name}
+                onChange={e => handleContributorChange(e, 'name', index)}
+              />
+              <FormDropdown
+                value={contributor.type}
+                onChange={e => handleContributorChange(e, 'type', index)}
+                onBlur={e => handleContributorChange(e, 'type', index)}
+                data-cy="contributor-selector">
+                <option value="" />
+                {contributorTypeItems.map(item => (
+                  <option value={item.type} key={item.type}>
+                    {item.translation}
+                  </option>
+                ))}
+              </FormDropdown>
+            </FormSplitter>
+          </div>
+          <div>
+            <FormRemoveButton onClick={evt => removeContributor(evt, index)}>
+              {labelRemove}
+            </FormRemoveButton>
+          </div>
+        </FormSections>
       ))}
-      <FieldErrorMessages
-        label={label}
-        field={getField(name, schema)}
-        submitted={submitted}
-      />
-      <CirclePlusButton
+      <Button
+        outline
         onClick={addContributor}
         data-cy="addContributor"
         disabled={disabled}>
-        <Plus className="c-icon--medium" />
-      </CirclePlusButton>
-    </Field>
+        Legg til
+      </Button>
+    </Fragment>
   );
 };
 
@@ -115,6 +147,7 @@ Contributors.propTypes = {
   submitted: PropTypes.bool.isRequired,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
+  labelRemove: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({

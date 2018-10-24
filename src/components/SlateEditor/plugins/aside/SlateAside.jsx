@@ -22,7 +22,7 @@ const SlateAside = props => {
   };
 
   const onMoveContent = () => {
-    const next = editor.value.change().unwrapBlockByKey(node.key);
+    const next = editor.value.change().unwrapBlockByKey(node.key, node.type);
     editor.onChange(next);
   };
 

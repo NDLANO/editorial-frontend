@@ -8,12 +8,14 @@
 
 import React from 'react';
 import { Block } from 'slate';
-import { defaultBlocks } from '../../utils';
+import { defaultBlocks, textBlockValidationRules } from '../../utils';
 import SlateAside from './SlateAside';
 
 export default function createAside() {
   const schema = {
-    document: {},
+    blocks: {
+      aside: textBlockValidationRules,
+    },
   };
 
   // Rule to always insert a paragraph as the last node inside if void type

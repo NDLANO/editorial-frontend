@@ -17,7 +17,7 @@ import {
   removeEmptyElementDataAttributes,
 } from './embedTagHelpers';
 
-export const BLOCK_TAGS = {
+const BLOCK_TAGS = {
   section: 'section',
   blockquote: 'quote',
   details: 'details',
@@ -450,6 +450,34 @@ const relatedRule = {
   },
 };
 
+export const brRule = {
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'br') return;
+
+    // Transform <br> in blocktags as blocks. This prevents slate from
+    // wrapping br in paragraphs (i.e. "<br><br><br>" -> "<p><br><br><br></p>"
+    if (
+      el.parentNode &&
+      el.parentNode.tagName &&
+      (el.parentNode.tagName.toLowerCase() === 'section' ||
+        el.parentNode.tagName.toLowerCase() === 'div' ||
+        el.parentNode.tagName.toLowerCase() === 'aside' ||
+        BLOCK_TAGS[el.parentNode.tagName.toLowerCase()] !== undefined)
+    ) {
+      return {
+        object: 'block',
+        type: 'br',
+        nodes: next(el.childNodes),
+      };
+    }
+    // Default to standard slate deserializing if not in a known block
+  },
+  serialize(slateObject) {
+    if (slateObject.type !== 'br') return;
+    return <br />;
+  },
+};
+
 const RULES = [
   divRule,
   textRule,
@@ -478,6 +506,7 @@ const RULES = [
   },
   blockRules,
   inlineRules,
+  brRule,
   {
     deserialize(el, next) {
       const mark = MARK_TAGS[el.tagName.toLowerCase()];
@@ -544,31 +573,6 @@ const RULES = [
           {children}
         </a>
       );
-    },
-  },
-  {
-    deserialize(el, next) {
-      if (el.tagName.toLowerCase() !== 'br') return;
-      if (el.parentNode.tagName.toLowerCase() === 'p') {
-        return {
-          object: 'text',
-          leaves: [
-            {
-              object: 'leaf',
-              text: '\n',
-              marks: [],
-            },
-          ],
-        };
-      }
-      return {
-        object: 'block',
-        type: 'br',
-        nodes: next(el.childNodes),
-      };
-    },
-    serialize() {
-      return <br />;
     },
   },
 ];

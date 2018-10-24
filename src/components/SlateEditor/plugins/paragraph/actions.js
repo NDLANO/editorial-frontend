@@ -23,7 +23,7 @@ export function onEnter(evt, change) {
   evt.preventDefault();
   /**
    If the user types enter in an empty paragraph we transform the paragraph to a <br>.
-   This enables us to filter put unnecessary empty <p> tags on save. We insert empty p tags
+   This enables us to filter out unnecessary empty <p> tags on save. We insert empty p tags
    throughout the document to enable positioning the cursor between element with no
    spacing (i.e two images).
    */

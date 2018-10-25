@@ -113,6 +113,89 @@ Object {
 }
 `;
 
+exports[`deserialize em mark that contains embed footnote 2`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "nodes": Array [
+          Object {
+            "leaves": Array [
+              Object {
+                "marks": Array [
+                  Object {
+                    "data": Object {},
+                    "object": "mark",
+                    "type": "italic",
+                  },
+                ],
+                "object": "leaf",
+                "text": "NDLA",
+              },
+            ],
+            "object": "text",
+          },
+        ],
+        "object": "block",
+        "type": "paragraph",
+      },
+      Object {
+        "data": Object {
+          "authors": "Peter, Christian",
+          "edition": "",
+          "publisher": "Knowit",
+          "resource": "footnote",
+          "title": "Javascript.",
+          "type": "Programming",
+          "year": "2018",
+        },
+        "nodes": Array [
+          Object {
+            "leaves": Array [
+              Object {
+                "marks": Array [],
+                "object": "leaf",
+                "text": "",
+              },
+            ],
+            "object": "text",
+          },
+        ],
+        "object": "block",
+        "type": "embed",
+      },
+      Object {
+        "data": Object {},
+        "nodes": Array [
+          Object {
+            "leaves": Array [
+              Object {
+                "marks": Array [
+                  Object {
+                    "data": Object {},
+                    "object": "mark",
+                    "type": "italic",
+                  },
+                ],
+                "object": "leaf",
+                "text": " ",
+              },
+            ],
+            "object": "text",
+          },
+        ],
+        "object": "block",
+        "type": "paragraph",
+      },
+    ],
+    "object": "document",
+  },
+  "object": "value",
+}
+`;
+
 exports[`deserialize footnote 1`] = `
 Object {
   "document": Object {
@@ -2179,7 +2262,13 @@ Object {
                   Object {
                     "leaves": Array [
                       Object {
-                        "marks": Array [],
+                        "marks": Array [
+                          Object {
+                            "data": Object {},
+                            "object": "mark",
+                            "type": "bold",
+                          },
+                        ],
                         "object": "leaf",
                         "text": "bold paragraph 3",
                       },

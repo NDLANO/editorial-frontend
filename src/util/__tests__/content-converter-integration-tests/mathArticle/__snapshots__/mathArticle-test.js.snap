@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`serializing article with sup tag 1`] = `
+exports[`serializing article with mathml tags 1`] = `
 "
 <section>
   <embed data-align

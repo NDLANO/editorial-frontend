@@ -40,7 +40,6 @@ import {
   paragraphRule,
   learningResourceRules,
 } from '../slateHelpers';
-import { standardArticleHTML, standardArticleValue } from './slateMockArticle';
 
 const { fragment } = jsdom.JSDOM;
 
@@ -410,25 +409,6 @@ test('serializing br', () => {
   const value = Value.fromJSON(brValue);
   const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
-});
-
-test('deserialize standard article', () => {
-  const serializer = new Html({
-    rules: learningResourceRules,
-    parseHtml: fragment,
-  });
-  const deserialized = serializer.deserialize(standardArticleHTML);
-  expect(toJSON(deserialized)).toMatchSnapshot();
-});
-
-test('serializing standard article', () => {
-  const serializer = new Html({
-    rules: learningResourceRules,
-    parseHtml: fragment,
-  });
-  const value = Value.fromJSON(standardArticleValue);
-  const serialized = serializer.serialize(value);
-  expect(global.prettifyHTML(serialized)).toMatchSnapshot();
 });
 
 test('deserialize em mark that contains embed footnote', () => {

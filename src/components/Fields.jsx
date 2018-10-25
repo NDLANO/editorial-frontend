@@ -51,7 +51,7 @@ FieldHelp.propTypes = {
 export const getField = (name, schema) => get(name, schema.fields);
 const hasError = field => field && !field.valid;
 const showError = (field, submitted) =>
-  hasError(field) && (field.dirty || submitted);
+  hasError(field) && (field.touched || submitted);
 
 export const FieldErrorMessages = ({ field, submitted, label }) => {
   if (!field || !showError(field, submitted)) {

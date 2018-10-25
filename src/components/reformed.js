@@ -57,7 +57,7 @@ const makeWrapper = WrappedComponent => {
         return {
           fields: set(
             name,
-            { dirty: false, ...currentFlags, ...flags },
+            { dirty: false, touched: false, ...currentFlags, ...flags },
             prevState.fields,
           ),
         };

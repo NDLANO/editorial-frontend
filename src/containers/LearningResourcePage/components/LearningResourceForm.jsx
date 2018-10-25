@@ -195,6 +195,13 @@ class LearningResourceForm extends Component {
     };
   }
 
+  checkTouchedInvalidField = field => {
+    if (field.touched || this.props.submitted) {
+      return !field.valid;
+    }
+    return false;
+  };
+
   handleSubmit(evt) {
     evt.preventDefault();
 
@@ -248,6 +255,9 @@ class LearningResourceForm extends Component {
       {
         id: 'learning-resource-content',
         title: t('form.contentSection'),
+        hasError: [schema.fields.title, schema.fields.content].some(field =>
+          this.checkTouchedInvalidField(field),
+        ),
         component: (
           <LearningResourceContent
             commonFieldProps={commonFieldProps}
@@ -262,6 +272,12 @@ class LearningResourceForm extends Component {
       {
         id: 'learning-resource-copyright',
         title: t('form.copyrightSection'),
+        hasError: [
+          schema.fields.creators,
+          schema.fields.rightsholders,
+          schema.fields.processors,
+          schema.fields.license,
+        ].some(field => this.checkTouchedInvalidField(field)),
         component: (
           <FormCopyright
             model={model}
@@ -281,10 +297,16 @@ class LearningResourceForm extends Component {
             model={model}
           />
         ),
+        hasError: [schema.fields.metaDescription, schema.fields.tags].some(
+          field => this.checkTouchedInvalidField(field),
+        ),
       },
       {
         id: 'learning-resource-workflow',
         title: t('form.workflowSection'),
+        hasError: [schema.fields.notes].some(field =>
+          this.checkTouchedInvalidField(field),
+        ),
         component: (
           <FormWorkflow
             commonFieldProps={commonFieldProps}
@@ -324,11 +346,13 @@ class LearningResourceForm extends Component {
                     panelId={panel.id}
                     ariaLabel={panel.title}
                     onClick={() => handleItemClick(panel.id)}
+                    hasError={panel.hasError}
                     isOpen={openIndexes.includes(panel.id)}>
                     {panel.title}
                   </AccordionBar>
                   <AccordionPanel
                     id={panel.id}
+                    hasError={panel.hasError}
                     isOpen={openIndexes.includes(panel.id)}>
                     <div className="u-4/6@desktop u-push-1/6@desktop">
                       {panel.component}
@@ -461,6 +485,9 @@ export default compose(
     metaDescription: {
       maxLength: 155,
     },
+    tags: {
+      required: false,
+    },
     creators: {
       allObjectFieldsRequired: true,
     },
@@ -469,6 +496,12 @@ export default compose(
     },
     rightsholders: {
       allObjectFieldsRequired: true,
+    },
+    license: {
+      required: false,
+    },
+    notes: {
+      required: false,
     },
   }),
 )(LearningResourceForm);

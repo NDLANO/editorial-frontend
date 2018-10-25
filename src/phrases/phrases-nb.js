@@ -656,7 +656,7 @@ const phrases = {
     description: 'Du har ikke tilgang til denne siden',
   },
   warningModal: {
-    notSaved: 'Dokumentet er ikke lagret, ønsker du å lagre?',
+    notSaved: 'Dokumentet er ikke lagret, ønsker du å fortsette?',
     continue: 'Fortsett',
     delete: 'Slett',
     confirm: 'Bekreft',

@@ -296,10 +296,8 @@ class TopicArticleForm extends Component {
         <WarningModalWrapper
           initialModel={initialModel}
           model={model}
-          schema={schema}
           showSaved={showSaved}
           fields={fields}
-          handleSubmit={this.handleSubmit}
           text={t('warningModal.notSaved')}
         />
       </form>

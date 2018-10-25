@@ -11,14 +11,13 @@ import { withRouter } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
 import config from '../../config';
 import WarningModal from '../../components/WarningModal';
-import { SchemaShape } from '../../shapes';
 import { isFormDirty } from '../../util/formHelper';
 
 class WarningModalWrapper extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { openModal: false, discardChanges: false };
-    this.onSave = this.onSave.bind(this);
+    this.onCancel = this.onCancel.bind(this);
     this.onContinue = this.onContinue.bind(this);
   }
 
@@ -53,20 +52,8 @@ class WarningModalWrapper extends PureComponent {
     this.unblock();
   }
 
-  onSave(e) {
-    const { schema, history, handleSubmit } = this.props;
-    handleSubmit(e);
-    if (schema.isValid) {
-      this.setState({ discardChanges: true, openModal: false }, () => {
-        const nextLocation =
-          this.state.nextLocation.pathname +
-          this.state.nextLocation.hash +
-          this.state.nextLocation.search;
-        return history.push(nextLocation);
-      });
-    } else {
-      this.setState({ openModal: false });
-    }
+  onCancel() {
+    this.setState({ openModal: false });
   }
 
   onContinue() {
@@ -86,13 +73,16 @@ class WarningModalWrapper extends PureComponent {
         show={this.state.openModal}
         text={text}
         actions={[
-          { text: t('form.save'), onClick: this.onSave },
+          {
+            text: t('form.abort'),
+            onClick: this.onCancel,
+          },
           {
             text: t('warningModal.continue'),
             onClick: this.onContinue,
           },
         ]}
-        onCancel={() => this.setState({ openModal: false })}
+        onCancel={this.onCancel}
       />
     );
   }
@@ -110,12 +100,10 @@ WarningModalWrapper.propTypes = {
     language: PropTypes.string,
   }),
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
-  schema: SchemaShape,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
     block: PropTypes.func.isRequired,
   }).isRequired,
-  handleSubmit: PropTypes.func,
   text: PropTypes.string,
   showSaved: PropTypes.bool,
 };

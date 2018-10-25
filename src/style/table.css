@@ -10,15 +10,15 @@
   min-width: 29px;
 }
 
+.c-table__header {
+  background-color: white;
+  border-bottom: 3px solid #deebf6;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
 .c-article table {
   margin-top: 0;
-
-  & tr:first-child td {
-    background-color: white;
-    border-bottom: 3px solid #deebf6;
-    text-transform: uppercase;
-    font-weight: 700;
-  }
 }
 
 .c-table-actions {

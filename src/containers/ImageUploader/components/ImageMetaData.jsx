@@ -9,11 +9,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import {
-  MultiSelectField,
-  SelectObjectField,
-  TextField,
-} from '../../../components/Fields';
+import { MultiSelectField, TextField } from '../../../components/Fields';
+import FormLicense from '../../Form/components/FormLicense';
 import Accordion from '../../../components/Accordion';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Contributors from '../../../components/Contributors/Contributors';
@@ -35,10 +32,7 @@ class ImageMetaData extends Component {
 
   render() {
     const { t, commonFieldProps, tags, licenses } = this.props;
-    const licensesWithTranslations = licenses.map(license => ({
-      ...license,
-      name: t(`license.types.${license.license}`),
-    }));
+
     return (
       <Accordion
         fill
@@ -58,14 +52,7 @@ class ImageMetaData extends Component {
           }}
           {...commonFieldProps}
         />
-        <SelectObjectField
-          name="license"
-          label={t('form.license.label')}
-          options={licensesWithTranslations}
-          idKey="license"
-          labelKey="name"
-          {...commonFieldProps}
-        />
+        <FormLicense licenses={licenses} commonFieldProps={commonFieldProps} />
         <TextField
           label={t('form.origin.label')}
           name="origin"

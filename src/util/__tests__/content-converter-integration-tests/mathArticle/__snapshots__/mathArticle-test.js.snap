@@ -1,0 +1,253 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`serializing article with sup tag 1`] = `
+"
+<section>
+  <embed data-align
+    data-alt=\\"Ulikhet 4\\"
+    data-caption
+    data-resource=\\"image\\"
+    data-resource_id=\\"18284\\"
+    data-size=\\"full\\"
+    data-url=\\"https://api.ndla.no/image-api/v2/images/18284\\">
+
+  <h2>Hva er budsjettkontroll?</h2>
+  <p>Normalt er vi ferdig med driftsregnskapet 10–15 dager inn i neste måned. Detinnebærer for eksempel at driftsregnskapet for januar måned er ferdig 10.–15. februar. En av de analysene vi da bør gjøre, er å sammenlikne driftsregnskapet for januar med driftsbudsjettet for januar.
+  </p>
+  <h2>Hvordan gjør vi det?</h2>
+  <p>En sammenlikning mellom driftsregnskap og driftsbudsjett er en viktig del av økonomistyringen.
+  </p>
+  <ol>
+    <li>Først sammenlikner vi selve driftsresultatet for måneden meddet driftsresultatet som er budsjettert for måneden.
+    </li>
+    <li>Så ser vi på summen av driftsinntektermot det som er budsjettert.</li>
+    <li>Videre gjør vi det samme med summene av varekostnader, lønnskostnader og faste kostnader. Vi ser altså først på alle hovedsummene.
+    </li>
+    <li>Deretter bør vi sammenlikne på kontonivå, detaljnivå. Vi konsentrerer oss om der det er store avvik mellom regnskap og budsjett.
+    </li>
+  </ol>
+  <h2>Eksempel på budsjettkontroll</h2>
+  <p>Alt dette er det enkelt å gjøre i et regneark. Du får fram avvikene i kroner og i prosent. Se oppsettet nedenfor. Salget gjelder desember måned for en blomsterbutikk, og utviklingen er positiv.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th rowspan=\\"2\\">Tekst</th>
+        <th align=\\"center\\" valign=\\"top\\">Regnskap</th>
+        <th align=\\"center\\" valign=\\"top\\">Budsjett</th>
+        <th colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">Avvik</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td align=\\"center\\"
+          valign=\\"top\\">
+          <strong>kr</strong>
+        </td>
+        <td align=\\"center\\"
+          valign=\\"top\\">
+          <strong>kr</strong>
+        </td>
+        <td align=\\"center\\"
+          valign=\\"top\\">
+          <strong>kr</strong>
+        </td>
+        <td align=\\"center\\"
+          valign=\\"top\\">
+          <strong>%</strong>
+        </td>
+      </tr>
+      <tr>
+        <td>Varesalg</td>
+        <td align=\\"right\\" valign=\\"top\\">50 000</td>
+        <td align=\\"right\\" valign=\\"top\\">45 000</td>
+        <td align=\\"right\\" valign=\\"top\\">+5 000</td>
+        <td align=\\"right\\" valign=\\"top\\">+11,1 %</td>
+      </tr>
+      <tr>
+        <td>Varekostnader</td>
+        <td align=\\"right\\" valign=\\"top\\">30 000</td>
+        <td align=\\"right\\" valign=\\"top\\">26 000</td>
+        <td align=\\"right\\" valign=\\"top\\">+4 000</td>
+        <td align=\\"right\\" valign=\\"top\\">+15,4 %</td>
+      </tr>
+      <tr>
+        <td align=\\"left\\"
+          valign=\\"top\\">
+          <strong>Bruttofortjeneste
+            <br>
+            (dekningsbidrag)
+          </strong>
+        </td>
+        <td align=\\"right\\"
+          valign=\\"top\\">
+          <strong>20 000</strong>
+        </td>
+        <td align=\\"right\\"
+          valign=\\"top\\">
+          <strong>19 000</strong>
+        </td>
+        <td align=\\"right\\"
+          valign=\\"top\\">
+          <strong>+1 000</strong>
+        </td>
+        <td align=\\"right\\"
+          valign=\\"top\\">
+          <strong>+5,3 %</strong>
+        </td>
+      </tr>
+      <tr>
+        <td>Lønn</td>
+        <td align=\\"right\\" valign=\\"top\\">8 000</td>
+        <td align=\\"right\\" valign=\\"top\\">7 800</td>
+        <td align=\\"right\\" valign=\\"top\\">+200</td>
+        <td align=\\"right\\" valign=\\"top\\">+2,6 %</td>
+      </tr>
+      <tr>
+        <td>Arbeidsgiveravgift</td>
+        <td align=\\"right\\" valign=\\"top\\">1 120</td>
+        <td align=\\"right\\" valign=\\"top\\">1 092</td>
+        <td align=\\"right\\" valign=\\"top\\">+28</td>
+        <td align=\\"right\\" valign=\\"top\\">+2,6 %</td>
+      </tr>
+      <tr>
+        <td>Strømkostnader</td>
+        <td align=\\"right\\" valign=\\"top\\">1 000</td>
+        <td align=\\"right\\" valign=\\"top\\">1 200</td>
+        <td align=\\"right\\" valign=\\"top\\">–200</td>
+        <td align=\\"right\\" valign=\\"top\\">–16,7 %</td>
+      </tr>
+      <tr>
+        <td>Husleie</td>
+        <td align=\\"right\\" valign=\\"top\\">2 000</td>
+        <td align=\\"right\\" valign=\\"top\\">2 050</td>
+        <td align=\\"right\\" valign=\\"top\\">–50</td>
+        <td align=\\"right\\" valign=\\"top\\">–2,4 %</td>
+      </tr>
+      <tr>
+        <td>Avskrivinger</td>
+        <td align=\\"right\\" valign=\\"top\\">1 200</td>
+        <td align=\\"right\\" valign=\\"top\\">1 400</td>
+        <td align=\\"right\\" valign=\\"top\\">–200</td>
+        <td align=\\"right\\" valign=\\"top\\">–14,3 %</td>
+      </tr>
+      <tr>
+        <td>Rentekostnader</td>
+        <td align=\\"right\\" valign=\\"top\\">1 000</td>
+        <td align=\\"right\\" valign=\\"top\\">800</td>
+        <td align=\\"right\\" valign=\\"top\\">+200</td>
+        <td align=\\"right\\" valign=\\"top\\">+25,0 %</td>
+      </tr>
+      <tr>
+        <td align=\\"left\\">
+          <strong>Sum indirekte kostnader</strong>
+        </td>
+        <td align=\\"right\\"
+          valign=\\"top\\">
+          <strong>14 320</strong>
+        </td>
+        <td align=\\"right\\"
+          valign=\\"top\\">
+          <strong>14 342</strong>
+        </td>
+        <td align=\\"right\\"
+          valign=\\"top\\">–
+          <strong>22</strong>
+        </td>
+        <td align=\\"right\\"
+          valign=\\"top\\">–
+          <strong>0,2 %</strong>
+        </td>
+      </tr>
+      <tr>
+        <td align=\\"left\\">
+          <strong>Resultat</strong>
+        </td>
+        <td align=\\"right\\"
+          valign=\\"top\\">
+          <strong>5 680</strong>
+        </td>
+        <td align=\\"right\\"
+          valign=\\"top\\">
+          <strong>4 658</strong>
+        </td>
+        <td align=\\"right\\"
+          valign=\\"top\\">
+          <strong>+1 022</strong>
+        </td>
+        <td align=\\"right\\"
+          valign=\\"top\\">
+          <strong>+21,9 %</strong>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+<section>
+  <h2>Tiltak ved avvik</h2>
+  <p>Er avvikene store, bør vi straks sette inn tiltak for å rette på dette. Bare på den måten kan vi unngå tilsvarende avvik de kommende månedene. Uten å sette inn tiltak er det liten verdi i en avviksanalyse.
+  </p>
+  <p>Hvis vi finner avvik tidlig i året,har vi muligheter for å rette det opp. Finner vi derimot store avvik mot slutten av året, er løpet kjørt.
+  </p>
+  <h2>Forklaring på en del utregninger</h2>
+  <h3>Varesalg</h3>
+  <p>Vi har solgt for 5000 kr mer enn planlagt. Det utgjør en økning på 11,1 %. Vi regner økningen i prosent i forhold til budsjettet:
+  </p>
+  <p>
+    <math xmlns=\\"http://www.w3.org/1998/Math/MathML\\">
+      <mfrac>
+        <mrow>
+          <mn>5</mn>
+          <mo></mo>
+          <mn>000</mn>
+          <mo></mo>
+          <mi>kr</mi>
+          <mo></mo>
+          <mo>·</mo>
+          <mo></mo>
+          <mn>100</mn>
+          <mo></mo>
+          <mo>%</mo>
+        </mrow>
+        <mrow>
+          <mn>45</mn>
+          <mo></mo>
+          <mn>000</mn>
+          <mo></mo>
+          <mi>kr</mi>
+        </mrow>
+      </mfrac>
+      <mo>=</mo>
+      <mn>11</mn>
+      <mo>,</mo>
+      <mn>1</mn>
+      <mo></mo>
+      <mo>%</mo>
+    </math>
+  </p>
+  <p>Hvis vi derimot hadde solgt for mindre enn planlagt, hva tror du det skyldes? Hva kan du gjøre for å rette opp i dette?
+  </p>
+  <h3>Varekjøp</h3>
+  <p>Her gjør vi de samme utregningene. Varekostnaden har prosentvis økt noe mer enn salget. Det er litt uheldig.
+    <br>
+    Hva tror du er grunnen, og hva kan du gjøre med det?
+  </p>
+  <h3>Bruttofortjeneste (dekningsbidrag)</h3>
+  <p>På grunn av økt varekostnad blir bruttofortjenesten litt mindre.</p>
+  <h3>Andre faste kostnader</h3>
+  <p>Her er det nokså små avvik selv om de prosentvise utslagene er store. Det skyldes at tallene ikke er så store.
+  </p>
+  <h3>Resultat</h3>
+  <p>Overskuddet ble om lag 1000 kr bedre enn budsjettert.
+    <br>
+    Hva er grunnen til det?
+  </p>
+</section>
+<section>
+  <div data-type=\\"related-content\\">
+    <embed data-article-id=\\"1387\\"
+      data-resource=\\"related-content\\">
+
+  </div>
+</section>"
+`;

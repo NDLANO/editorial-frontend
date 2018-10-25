@@ -40,12 +40,7 @@ import {
   paragraphRule,
   learningResourceRules,
 } from '../slateHelpers';
-import {
-  standardArticleHTML,
-  standardArticleValue,
-  articleWithMath,
-  mathArticleValue,
-} from './slateMockArticle';
+import { standardArticleHTML, standardArticleValue } from './slateMockArticle';
 
 const { fragment } = jsdom.JSDOM;
 
@@ -446,15 +441,4 @@ test('deserialize em mark that contains embed footnote', () => {
   );
 
   expect(toJSON(deserialized)).toMatchSnapshot();
-});
-
-test('deserializing', () => {
-  const deserialized = learningResourceSerializer.deserialize(articleWithMath);
-  expect(toJSON(deserialized)).toMatchSnapshot();
-});
-
-test('serializing', () => {
-  const value = Value.fromJSON(mathArticleValue);
-  const serialized = learningResourceSerializer.serialize(value);
-  expect(global.prettifyHTML(serialized)).toMatchSnapshot();
 });

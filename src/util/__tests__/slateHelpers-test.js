@@ -39,6 +39,7 @@ import {
   listItemRule,
   paragraphRule,
   learningResourceRules,
+  brRule,
 } from '../slateHelpers';
 
 const { fragment } = jsdom.JSDOM;
@@ -393,7 +394,7 @@ test('serializing quote', () => {
 
 test('deserializing a br', () => {
   const serializer = new Html({
-    rules: [blockRules, paragraphRule],
+    rules: [brRule, paragraphRule],
     parseHtml: fragment,
   });
   const br = '<br />';
@@ -403,7 +404,7 @@ test('deserializing a br', () => {
 
 test('serializing br', () => {
   const serializer = new Html({
-    rules: [blockRules],
+    rules: [brRule],
     parseHtml: fragment,
   });
   const value = Value.fromJSON(brValue);

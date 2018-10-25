@@ -9,7 +9,7 @@
 import React from 'react';
 import { Block } from 'slate';
 import SlateBodyBox from './SlateBodyBox';
-import { defaultBlocks } from '../../utils';
+import { defaultBlocks, textBlockValidationRules } from '../../utils';
 
 const { defaultBlock } = defaultBlocks;
 
@@ -21,7 +21,9 @@ export const defaultBodyBoxBlock = () =>
 
 export default function createBodyBox() {
   const schema = {
-    document: {},
+    blocks: {
+      bodybox: textBlockValidationRules,
+    },
   };
 
   // Rule to always insert a paragraph as the last node inside if void type

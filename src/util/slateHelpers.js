@@ -17,7 +17,7 @@ import {
   removeEmptyElementDataAttributes,
 } from './embedTagHelpers';
 
-export const BLOCK_TAGS = {
+const BLOCK_TAGS = {
   section: 'section',
   blockquote: 'quote',
   details: 'details',
@@ -230,6 +230,13 @@ export const paragraphRule = {
     if (slateObject.type === 'list-text') {
       return <ListText>{children}</ListText>;
     }
+
+    /**
+      We insert empty p tag throughout the document to enable positioning the cursor
+      between element with no spacing (i.e two images). We need to remove these element
+      on seriaization.
+     */
+    if (slateObject.text === '') return null;
     return <p>{children}</p>;
   },
 };
@@ -417,8 +424,6 @@ export const blockRules = {
         return <details>{children}</details>;
       case 'summary':
         return <summary>{children}</summary>;
-      case 'br':
-        return <br />;
       case 'pre':
         return <pre>{children}</pre>;
     }
@@ -508,6 +513,34 @@ const relatedRule = {
   },
 };
 
+export const brRule = {
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'br') return;
+
+    // Transform <br> in blocktags as blocks. This prevents slate from
+    // wrapping br in paragraphs (i.e. "<br><br><br>" -> "<p><br><br><br></p>"
+    if (
+      el.parentNode &&
+      el.parentNode.tagName &&
+      (el.parentNode.tagName.toLowerCase() === 'section' ||
+        el.parentNode.tagName.toLowerCase() === 'div' ||
+        el.parentNode.tagName.toLowerCase() === 'aside' ||
+        BLOCK_TAGS[el.parentNode.tagName.toLowerCase()] !== undefined)
+    ) {
+      return {
+        object: 'block',
+        type: 'br',
+        nodes: next(el.childNodes),
+      };
+    }
+    // Default to standard slate deserializing if not in a known block
+  },
+  serialize(slateObject) {
+    if (slateObject.type !== 'br') return;
+    return <br />;
+  },
+};
+
 const RULES = [
   divRule,
   textRule,
@@ -537,6 +570,7 @@ const RULES = [
   },
   blockRules,
   inlineRules,
+  brRule,
   {
     deserialize(el, next) {
       const mark = MARK_TAGS[el.tagName.toLowerCase()];

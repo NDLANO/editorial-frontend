@@ -1269,3 +1269,214 @@ export const standardArticleValue = {
   },
   object: 'value',
 };
+
+export const articleWithMath =
+  '<section><embed data-align="" data-alt="Ulikhet 4" data-caption="" data-resource="image" data-resource_id="18284" data-size="full" data-url="https://api.ndla.no/image-api/v2/images/18284"/><h2>Hva er budsjettkontroll?</h2><p>Normalt er vi ferdig med driftsregnskapet 10–15 dager inn i neste måned. Detinnebærer for eksempel at driftsregnskapet for januar måned er ferdig 10.–15. februar. En av de analysene vi da bør gjøre, er å sammenlikne driftsregnskapet for januar med driftsbudsjettet for januar.</p><h2>Hvordan gjør vi det?</h2><p>En sammenlikning mellom driftsregnskap og driftsbudsjett er en viktig del av økonomistyringen.</p><ol> <li>Først sammenlikner vi selve driftsresultatet for måneden meddet driftsresultatet som er budsjettert for måneden.</li> <li>Så ser vi på summen av driftsinntektermot det som er budsjettert.</li> <li>Videre gjør vi det samme med summene av varekostnader, lønnskostnader og faste kostnader. Vi ser altså først på alle hovedsummene.</li> <li>Deretter bør vi sammenlikne på kontonivå, detaljnivå. Vi konsentrerer oss om der det er store avvik mellom regnskap og budsjett.</li> </ol><h2>Eksempel på budsjettkontroll</h2><p>Alt dette er det enkelt å gjøre i et regneark. Du får fram avvikene i kroner og i prosent. Se oppsettet nedenfor. Salget gjelder desember måned for en blomsterbutikk, og utviklingen er positiv.</p><table><thead><tr><th rowspan="2"><h53>Tekst</h53></th> <th align="center" valign="top"><h53>Regnskap</h53></th> <th align="center" valign="top"><h53>Budsjett</h53></th> <th colspan="2" align="center" valign="top"><h53>Avvik</h53></th></tr></thead><tbody> <tr><td align="center" valign="top"><h53><strong>kr</strong></h53></td> <td align="center" valign="top"><h53><strong>kr</strong></h53></td> <td align="center" valign="top"><h53><strong>kr</strong></h53></td> <td align="center" valign="top"><h53><strong>%</strong></h53></td></tr> <tr><td><h53>Varesalg</h53></td> <td align="right" valign="top"><h53>50 000</h53></td> <td align="right" valign="top"><h53>45 000</h53></td> <td align="right" valign="top"><h53>+5 000</h53></td> <td align="right" valign="top"><h53>+11,1 %</h53></td></tr> <tr><td><h53>Varekostnader</h53></td> <td align="right" valign="top"><h53>30 000</h53></td> <td align="right" valign="top"><h53>26 000</h53></td> <td align="right" valign="top"><h53>+4 000</h53></td> <td align="right" valign="top"><h53>+15,4 %</h53></td></tr> <tr><td align="left" valign="top"><h53><strong>Bruttofortjeneste<br/> (dekningsbidrag)</strong></h53></td> <td align="right" valign="top"><h53><strong>20 000</strong></h53></td> <td align="right" valign="top"><h53><strong>19 000</strong></h53></td> <td align="right" valign="top"><h53><strong>+1 000</strong></h53></td> <td align="right" valign="top"><h53><strong>+5,3 %</strong></h53></td></tr> <tr><td><h53>Lønn</h53></td> <td align="right" valign="top"><h53>8 000</h53></td> <td align="right" valign="top"><h53>7 800</h53></td> <td align="right" valign="top"><h53>+200</h53></td> <td align="right" valign="top"><h53>+2,6 %</h53></td></tr> <tr><td><h53>Arbeidsgiveravgift</h53></td> <td align="right" valign="top"><h53>1 120</h53></td> <td align="right" valign="top"><h53>1 092</h53></td> <td align="right" valign="top"><h53>+28</h53></td> <td align="right" valign="top"><h53>+2,6 %</h53></td></tr> <tr><td><h53>Strømkostnader</h53></td> <td align="right" valign="top"><h53>1 000</h53></td> <td align="right" valign="top"><h53>1 200</h53></td> <td align="right" valign="top"><h53>–200</h53></td> <td align="right" valign="top"><h53>–16,7 %</h53></td></tr> <tr><td><h53>Husleie</h53></td> <td align="right" valign="top"><h53>2 000</h53></td> <td align="right" valign="top"><h53>2 050</h53></td> <td align="right" valign="top"><h53>–50</h53></td> <td align="right" valign="top"><h53>–2,4 %</h53></td></tr> <tr><td><h53>Avskrivinger</h53></td> <td align="right" valign="top"><h53>1 200</h53></td> <td align="right" valign="top"><h53>1 400</h53></td> <td align="right" valign="top"><h53>–200</h53></td> <td align="right" valign="top"><h53>–14,3 %</h53></td></tr> <tr><td><h53>Rentekostnader</h53></td> <td align="right" valign="top"><h53>1 000</h53></td> <td align="right" valign="top"><h53>800</h53></td> <td align="right" valign="top"><h53>+200</h53></td> <td align="right" valign="top"><h53>+25,0 %</h53></td></tr> <tr><td align="left"><h53><strong>Sum indirekte kostnader</strong></h53></td> <td align="right" valign="top"><h53><strong>14 320</strong></h53></td> <td align="right" valign="top"><h53><strong>14 342</strong></h53></td> <td align="right" valign="top"><h53>–<strong>22</strong></h53></td> <td align="right" valign="top"><h53>–<strong>0,2 %</strong></h53></td></tr> <tr><td align="left"><h53><strong>Resultat</strong></h53></td> <td align="right" valign="top"><h53><strong>5 680</strong></h53></td> <td align="right" valign="top"><h53><strong>4 658</strong></h53></td> <td align="right" valign="top"><h53><strong>+1 022</strong></h53></td> <td align="right" valign="top"><h53><strong>+21,9 %</strong></h53></td></tr></tbody></table></section><section><h2>Tiltak ved avvik</h2><p>Er avvikene store, bør vi straks sette inn tiltak for å rette på dette. Bare på den måten kan vi unngå tilsvarende avvik de kommende månedene. Uten å sette inn tiltak er det liten verdi i en avviksanalyse.</p><p>Hvis vi finner avvik tidlig i året,har vi muligheter for å rette det opp. Finner vi derimot store avvik mot slutten av året, er løpet kjørt.</p><h2>Forklaring på en del utregninger</h2><h3>Varesalg</h3><p>Vi har solgt for 5000 kr mer enn planlagt. Det utgjør en økning på 11,1 %. Vi regner økningen i prosent i forhold til budsjettet:</p><p><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mrow><mn>5</mn><mo>&#xa0; </mo><mn>000</mn><mo>&#xa0; </mo><mi>kr</mi><mo>&#xa0; </mo><mo>·</mo><mo>&#xa0; </mo><mn>100</mn><mo>&#xa0; </mo><mo>%</mo></mrow><mrow><mn>45</mn><mo>&#xa0; </mo><mn>000</mn><mo>&#xa0; </mo><mi>kr</mi></mrow></mfrac><mo>=</mo><mn>11</mn><mo>,</mo><mn>1</mn><mo>&#xa0; </mo><mo>%</mo></math></p><p>Hvis vi derimot hadde solgt for mindre enn planlagt, hva tror du det skyldes? Hva kan du gjøre for å rette opp i dette?</p><h3>Varekjøp</h3><p>Her gjør vi de samme utregningene. Varekostnaden har prosentvis økt noe mer enn salget. Det er litt uheldig.<br/>Hva tror du er grunnen, og hva kan du gjøre med det?</p><h3>Bruttofortjeneste (dekningsbidrag)</h3><p>På grunn av økt varekostnad blir bruttofortjenesten litt mindre.</p><h3>Andre faste kostnader</h3><p>Her er det nokså små avvik selv om de prosentvise utslagene er store. Det skyldes at tallene ikke er så store.</p><h3>Resultat</h3><p>Overskuddet ble om lag 1000 kr bedre enn budsjettert.<br/>Hva er grunnen til det?</p></section><section><div data-type="related-content"><embed data-article-id="1387" data-resource="related-content"/></div></section>';
+
+export const mathArticleValue = {
+  document: {
+    data: {},
+    object: 'document',
+    nodes: [
+      {
+        data: {},
+        isVoid: false,
+        object: 'block',
+        nodes: [
+          {
+            data: {},
+            isVoid: false,
+            object: 'block',
+            nodes: [
+              {
+                object: 'text',
+                leaves: [
+                  {
+                    object: 'leaf',
+                    marks: [],
+                    text: 'Blokk 1 ',
+                  },
+                ],
+              },
+            ],
+            type: 'heading-two',
+          },
+        ],
+        type: 'section',
+      },
+      {
+        data: {},
+        isVoid: false,
+        object: 'block',
+        nodes: [
+          {
+            data: {},
+            isVoid: false,
+            object: 'block',
+            nodes: [
+              {
+                object: 'text',
+                leaves: [
+                  {
+                    object: 'leaf',
+                    marks: [],
+                    text: '',
+                  },
+                ],
+              },
+            ],
+            type: 'paragraph',
+          },
+          {
+            object: 'block',
+            type: 'paragraph',
+            data: {},
+            nodes: [
+              {
+                object: 'block',
+                type: 'math',
+                data: { xmlns: 'http://www.w3.org/1998/Math/MathML' },
+                nodes: [
+                  {
+                    object: 'text',
+                    leaves: [{ object: 'leaf', text: '', marks: [] }],
+                  },
+                  {
+                    object: 'inline',
+                    type: 'mfrac',
+                    data: {},
+                    nodes: [
+                      {
+                        object: 'text',
+                        leaves: [{ object: 'leaf', text: '', marks: [] }],
+                      },
+                      {
+                        object: 'inline',
+                        type: 'mn',
+                        data: {},
+                        nodes: [
+                          {
+                            object: 'text',
+                            leaves: [{ object: 'leaf', text: '1', marks: [] }],
+                          },
+                        ],
+                      },
+                      {
+                        object: 'text',
+                        leaves: [{ object: 'leaf', text: '', marks: [] }],
+                      },
+                      {
+                        object: 'inline',
+                        type: 'mrow',
+                        data: {},
+                        nodes: [
+                          {
+                            object: 'text',
+                            leaves: [{ object: 'leaf', text: '', marks: [] }],
+                          },
+                          {
+                            object: 'inline',
+                            type: 'mn',
+                            data: {},
+                            nodes: [
+                              {
+                                object: 'text',
+                                leaves: [
+                                  { object: 'leaf', text: '2', marks: [] },
+                                ],
+                              },
+                            ],
+                          },
+                          {
+                            object: 'text',
+                            leaves: [{ object: 'leaf', text: '', marks: [] }],
+                          },
+                          {
+                            object: 'inline',
+                            type: 'mi',
+                            data: {},
+                            nodes: [
+                              {
+                                object: 'text',
+                                leaves: [
+                                  { object: 'leaf', text: 'x', marks: [] },
+                                ],
+                              },
+                            ],
+                          },
+                          {
+                            object: 'text',
+                            leaves: [{ object: 'leaf', text: '', marks: [] }],
+                          },
+                          {
+                            object: 'inline',
+                            type: 'mo',
+                            data: {},
+                            nodes: [
+                              {
+                                object: 'text',
+                                leaves: [
+                                  { object: 'leaf', text: '-', marks: [] },
+                                ],
+                              },
+                            ],
+                          },
+                          {
+                            object: 'text',
+                            leaves: [{ object: 'leaf', text: '', marks: [] }],
+                          },
+                          {
+                            object: 'inline',
+                            type: 'mn',
+                            data: {},
+                            nodes: [
+                              {
+                                object: 'text',
+                                leaves: [
+                                  { object: 'leaf', text: '2', marks: [] },
+                                ],
+                              },
+                            ],
+                          },
+                          {
+                            object: 'text',
+                            leaves: [{ object: 'leaf', text: '', marks: [] }],
+                          },
+                        ],
+                      },
+                      {
+                        object: 'text',
+                        leaves: [{ object: 'leaf', text: '', marks: [] }],
+                      },
+                    ],
+                  },
+                  {
+                    object: 'text',
+                    leaves: [{ object: 'leaf', text: '', marks: [] }],
+                  },
+                  {
+                    object: 'inline',
+                    type: 'mo',
+                    data: {},
+                    nodes: [
+                      {
+                        object: 'text',
+                        leaves: [{ object: 'leaf', text: '+', marks: [] }],
+                      },
+                    ],
+                  },
+                  {
+                    object: 'text',
+                    leaves: [{ object: 'leaf', text: '', marks: [] }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        type: 'section',
+      },
+    ],
+  },
+  object: 'value',
+};

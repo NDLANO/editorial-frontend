@@ -180,12 +180,10 @@ class ImageForm extends Component {
           </SaveButton>
         </Field>
         <WarningModalWrapper
-          schema={schema}
           model={model}
           initialModel={initialModel}
           showSaved={showSaved}
           fields={fields}
-          handleSubmit={this.handleSubmit}
           text={t('warningModal.notSaved')}
         />
       </FormWrapper>

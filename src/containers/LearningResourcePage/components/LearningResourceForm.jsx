@@ -19,7 +19,9 @@ import Accordion, {
 import Button from 'ndla-button';
 import config from '../../../config';
 import reformed from '../../../components/reformed';
-import validateSchema from '../../../components/validateSchema';
+import validateSchema, {
+  checkTouchedInvalidField,
+} from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
 import WarningModal from '../../../components/WarningModal';
@@ -255,9 +257,11 @@ class LearningResourceForm extends Component {
       {
         id: 'learning-resource-content',
         title: t('form.contentSection'),
-        hasError: [schema.fields.title, schema.fields.content].some(field =>
-          this.checkTouchedInvalidField(field),
-        ),
+        hasError: [
+          schema.fields.title,
+          schema.fields.introduction,
+          schema.fields.content,
+        ].some(field => checkTouchedInvalidField(field, submitted)),
         component: (
           <LearningResourceContent
             commonFieldProps={commonFieldProps}
@@ -277,7 +281,7 @@ class LearningResourceForm extends Component {
           schema.fields.rightsholders,
           schema.fields.processors,
           schema.fields.license,
-        ].some(field => this.checkTouchedInvalidField(field)),
+        ].some(field => checkTouchedInvalidField(field, submitted)),
         component: (
           <FormCopyright
             model={model}
@@ -289,6 +293,9 @@ class LearningResourceForm extends Component {
       {
         id: 'learning-resource-metadata',
         title: t('form.metadataSection'),
+        hasError: [schema.fields.metaDescription, schema.fields.tags].some(
+          field => checkTouchedInvalidField(field, submitted),
+        ),
         component: (
           <LearningResourceMetadata
             commonFieldProps={commonFieldProps}
@@ -297,15 +304,12 @@ class LearningResourceForm extends Component {
             model={model}
           />
         ),
-        hasError: [schema.fields.metaDescription, schema.fields.tags].some(
-          field => this.checkTouchedInvalidField(field),
-        ),
       },
       {
         id: 'learning-resource-workflow',
         title: t('form.workflowSection'),
         hasError: [schema.fields.notes].some(field =>
-          this.checkTouchedInvalidField(field),
+          checkTouchedInvalidField(field, submitted),
         ),
         component: (
           <FormWorkflow

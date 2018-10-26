@@ -51,7 +51,7 @@ FieldHelp.propTypes = {
 export const getField = (name, schema) => get(name, schema.fields);
 const hasError = field => field && !field.valid;
 const showError = (field, submitted) =>
-  hasError(field) && (field.touched || submitted);
+  hasError(field) && (field.touched || field.dirty || submitted);
 
 export const FieldErrorMessages = ({ field, submitted, label }) => {
   if (!field || !showError(field, submitted)) {
@@ -301,7 +301,7 @@ export const PlainTextField = ({
   fieldClassName,
   ...rest
 }) => {
-  const { value, onChange } = bindInput(name);
+  const { value, onChange, onFocus, onBlur } = bindInput(name);
   return (
     <Field noBorder={noBorder} className={fieldClassName}>
       {!noBorder ? (
@@ -331,6 +331,8 @@ export const PlainTextField = ({
             target: { name, value: val.value, type: 'SlateEditorValue' },
           })
         }
+        onFocus={() => onFocus({ target: { name }, type: 'focus' })}
+        onBlur={() => onBlur({ target: { name }, type: 'blur' })}
         value={value}
         {...rest}
       />

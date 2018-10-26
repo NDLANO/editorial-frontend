@@ -11,12 +11,20 @@ import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
 import Types from 'slate-prop-types';
 
-const PlainTextEditor = ({ onChange, value, ...rest }) => (
-  <Editor value={value} onChange={onChange} {...rest} />
+const PlainTextEditor = ({ onChange, onFocus, onBlur, value, ...rest }) => (
+  <Editor
+    value={value}
+    onChange={onChange}
+    onFocus={onFocus}
+    onBlur={onBlur}
+    {...rest}
+  />
 );
 
 PlainTextEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  onFocus: PropTypes.func.isRequired,
   value: Types.value.isRequired,
 };
 

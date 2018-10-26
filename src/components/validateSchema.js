@@ -154,4 +154,11 @@ const validateSchema = schema => WrappedComponent => {
   return hoistNonReactStatics(validated, WrappedComponent);
 };
 
+export const checkTouchedInvalidField = (field, submitted) => {
+  if (field.touched || submitted) {
+    return !field.valid;
+  }
+  return false;
+};
+
 export default validateSchema;

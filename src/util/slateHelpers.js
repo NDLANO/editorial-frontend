@@ -11,7 +11,7 @@ import isEmpty from 'lodash/fp/isEmpty';
 import { uuid } from 'ndla-util';
 import {
   reduceElementDataAttributes,
-  createEmbedProps,
+  createDataProps,
   createProps,
   reduceChildElements,
   removeEmptyElementDataAttributes,
@@ -198,7 +198,7 @@ export const divRule = {
             {slateObject.data.get('nodes') &&
               slateObject.data
                 .get('nodes')
-                .map(node => <embed {...createEmbedProps(node)} />)}
+                .map(node => <embed {...createDataProps(node)} />)}
           </div>
         );
       default:
@@ -214,11 +214,13 @@ export const paragraphRule = {
     const parent = el.parentElement
       ? el.parentElement.tagName.toLowerCase()
       : '';
-
     const type = parent === 'li' ? 'list-text' : 'paragraph';
     const nodes = next(el.childNodes);
     return {
       object: 'block',
+      data: {
+        ...reduceElementDataAttributes(el),
+      },
       type,
       nodes,
     };
@@ -237,7 +239,9 @@ export const paragraphRule = {
       on seriaization.
      */
     if (slateObject.text === '') return null;
-    return <p>{children}</p>;
+
+    const dataProps = createDataProps(slateObject.data.toJS());
+    return <p {...dataProps}>{children}</p>;
   },
 };
 
@@ -381,7 +385,7 @@ export const footnoteRule = {
     if (slateObject.type !== 'footnote') return;
 
     const data = slateObject.data.toJS();
-    const props = createEmbedProps({
+    const props = createDataProps({
       ...data,
       authors: data.authors ? data.authors.join(';') : '',
     });
@@ -506,7 +510,7 @@ const relatedRule = {
           {object.data.get('nodes') &&
             object.data
               .get('nodes')
-              .map(node => <embed key={uuid()} {...createEmbedProps(node)} />)}
+              .map(node => <embed key={uuid()} {...createDataProps(node)} />)}
         </div>
       );
     }
@@ -728,7 +732,7 @@ export const learningResourceEmbedRule = [
         object.type === 'concept'
       ) {
         const data = object.data.toJS();
-        const props = createEmbedProps(data);
+        const props = createDataProps(data);
 
         return <embed {...props} />;
       }

@@ -16,6 +16,7 @@ import {
   resourceToLinkProps,
 } from '../../../../util/resourceHelpers';
 import { searchClasses } from '../../SearchContainer';
+import SearchContentLanguage from './SearchContentLanguage';
 
 const SearchContent = ({ content, locale }) => {
   const { contexts, metaImage } = content;
@@ -51,15 +52,25 @@ const SearchContent = ({ content, locale }) => {
         <img src={url || '/placeholder.png'} alt={alt} />
       </div>
       <div {...searchClasses('content')}>
-        {linkProps && linkProps.href ? (
-          <a {...searchClasses('link')} {...linkProps}>
-            {contentTitle}
-          </a>
-        ) : (
-          <Link {...searchClasses('link')} to={linkProps.to}>
-            {contentTitle}
-          </Link>
-        )}
+        <div {...searchClasses('header')}>
+          {linkProps && linkProps.href ? (
+            <a {...searchClasses('link')} {...linkProps}>
+              {contentTitle}
+            </a>
+          ) : (
+            <Link {...searchClasses('link')} to={linkProps.to}>
+              {contentTitle}
+            </Link>
+          )}
+          {content.supportedLanguages.map(lang => (
+            <SearchContentLanguage
+              key={`${lang}_search_content`}
+              language={lang}
+              content={content}
+              contentType={resourceType.contentType}
+            />
+          ))}
+        </div>
         <p {...searchClasses('description')}>
           {content.metaDescription.metaDescription}
         </p>

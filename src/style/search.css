@@ -29,6 +29,12 @@
     }
   }
 
+  &__other-link:not(:last-child) {
+    &::after {
+      content: ' / ';
+    }
+  }
+
   &__content {
     display: inline-block;
     width: 90%;

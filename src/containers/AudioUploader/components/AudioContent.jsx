@@ -6,57 +6,34 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { InputFileField, TextField } from '../../../components/Fields';
-import Accordion from '../../../components/Accordion';
 import { CommonFieldPropsShape } from '../../../shapes';
 import AudioPlayer from './AudioPlayer';
 
-class AudioContent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hiddenContent: false,
-    };
-    this.toggleContent = this.toggleContent.bind(this);
-  }
-
-  toggleContent() {
-    this.setState(prevState => ({
-      hiddenContent: !prevState.hiddenContent,
-    }));
-  }
-
-  render() {
-    const { t, commonFieldProps, model, audioInfo } = this.props;
-    return (
-      <Accordion
-        handleToggle={this.toggleContent}
-        header={t('form.contentSection')}
-        hidden={this.state.hiddenContent}>
-        <TextField
-          label={t('form.title.label')}
-          name="title"
-          title
-          noBorder
-          placeholder={t('form.title.label')}
-          {...commonFieldProps}
-        />
-        <InputFileField
-          label={t('form.audio.file')}
-          name="audioFile"
-          {...commonFieldProps}
-        />
-        {model.id && (
-          <AudioPlayer audio={audioInfo} filepath={model.filepath} />
-        )}
-      </Accordion>
-    );
-  }
-}
-
+const AudioContent = props => {
+  const { t, commonFieldProps, model, audioInfo } = props;
+  return (
+    <Fragment>
+      <TextField
+        label={t('form.title.label')}
+        name="title"
+        title
+        noBorder
+        placeholder={t('form.title.label')}
+        {...commonFieldProps}
+      />
+      <InputFileField
+        label={t('form.audio.file')}
+        name="audioFile"
+        {...commonFieldProps}
+      />
+      {model.id && <AudioPlayer audio={audioInfo} filepath={model.filepath} />}
+    </Fragment>
+  );
+};
 AudioContent.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
   classes: PropTypes.func.isRequired,

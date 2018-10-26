@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import {
@@ -14,78 +14,57 @@ import {
   SelectObjectField,
   TextField,
 } from '../../../components/Fields';
-import Accordion from '../../../components/Accordion';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Contributors from '../../../components/Contributors/Contributors';
 
-class AudioMetaData extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hiddenMetadata: true,
-    };
-    this.toggleMetadata = this.toggleMetadata.bind(this);
-  }
-
-  toggleMetadata() {
-    this.setState(prevState => ({
-      hiddenMetadata: !prevState.hiddenMetadata,
-    }));
-  }
-
-  render() {
-    const { t, commonFieldProps, tags, licenses } = this.props;
-    return (
-      <Accordion
-        fill
-        handleToggle={this.toggleMetadata}
-        header={t('form.metadataSection')}
-        hidden={this.state.hiddenMetadata}>
-        <MultiSelectField
-          obligatory
-          name="tags"
-          data={tags}
-          label={t('form.tags.label')}
-          description={t('form.tags.description')}
-          messages={{
-            createOption: t('form.tags.createOption'),
-            emptyFilter: t('form.tags.emptyFilter'),
-            emptyList: t('form.tags.emptyList'),
-          }}
-          {...commonFieldProps}
-        />
-        <SelectObjectField
-          name="license"
-          label={t('form.license.label')}
-          options={licenses}
-          idKey="license"
-          labelKey="description"
-          {...commonFieldProps}
-        />
-        <TextField
-          label={t('form.origin.label')}
-          name="origin"
-          {...commonFieldProps}
-        />
-        <Contributors
-          name="creators"
-          label={t('form.creators.label')}
-          {...commonFieldProps}
-        />
-        <Contributors
-          name="rightsholders"
-          label={t('form.rightsholders.label')}
-          {...commonFieldProps}
-        />
-        <Contributors
-          name="processors"
-          label={t('form.processors.label')}
-          {...commonFieldProps}
-        />
-      </Accordion>
-    );
-  }
-}
+const AudioMetaData = props => {
+  const { t, commonFieldProps, tags, licenses } = props;
+  return (
+    <Fragment>
+      <MultiSelectField
+        obligatory
+        name="tags"
+        data={tags}
+        label={t('form.tags.label')}
+        description={t('form.tags.description')}
+        messages={{
+          createOption: t('form.tags.createOption'),
+          emptyFilter: t('form.tags.emptyFilter'),
+          emptyList: t('form.tags.emptyList'),
+        }}
+        {...commonFieldProps}
+      />
+      <SelectObjectField
+        name="license"
+        label={t('form.license.label')}
+        options={licenses}
+        idKey="license"
+        labelKey="description"
+        {...commonFieldProps}
+      />
+      <TextField
+        label={t('form.origin.label')}
+        name="origin"
+        {...commonFieldProps}
+      />
+      <Contributors
+        name="creators"
+        label={t('form.creators.label')}
+        {...commonFieldProps}
+      />
+      <Contributors
+        name="rightsholders"
+        label={t('form.rightsholders.label')}
+        {...commonFieldProps}
+      />
+      <Contributors
+        name="processors"
+        label={t('form.processors.label')}
+        {...commonFieldProps}
+      />
+    </Fragment>
+  );
+};
 
 AudioMetaData.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,

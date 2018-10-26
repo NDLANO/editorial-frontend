@@ -71,6 +71,15 @@ class LinkForm extends Component {
           />
         </Field>
         <Field>
+          <label htmlFor="title">{t('form.content.link.title')}</label>
+          <input type="text" {...bindInput('title')} />
+          <FieldErrorMessages
+            label={t('form.content.link.title')}
+            field={getField('title', schema)}
+            submitted={submitted}
+          />
+        </Field>
+        <Field>
           <label htmlFor="checkbox">{t('form.content.link.newTab')}</label>
 
           <input

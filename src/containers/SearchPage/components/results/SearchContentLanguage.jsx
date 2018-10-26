@@ -38,7 +38,7 @@ const SearchContentLanguage = ({ language, content, contentType, t }) => {
 SearchContentLanguage.propTypes = {
   content: ContentResultShape,
   language: PropTypes.string.isRequired,
-  contentType: PropTypes.string.isRequired,
+  contentType: PropTypes.string,
 };
 
 export default injectT(SearchContentLanguage);

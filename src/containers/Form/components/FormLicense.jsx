@@ -15,7 +15,14 @@ import { SelectObjectField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 import { getLocale } from '../../../modules/locale/locale';
 
-const FormLicense = ({ t, commonFieldProps, name, licenses, disabled, locale }) => {
+const FormLicense = ({
+  t,
+  commonFieldProps,
+  name,
+  licenses,
+  disabled,
+  locale,
+}) => {
   const licensesWithTranslations = licenses.map(license => ({
     ...license,
     ...getLicenseByAbbreviation(license.license, locale),

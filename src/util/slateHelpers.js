@@ -33,49 +33,6 @@ const BLOCK_TAGS = {
 
 export const INLINE_TAGS = {
   span: 'span',
-  mlongdiv: 'mlongdiv',
-  malignmark: 'marlignmark',
-  mfrac: 'mfrac',
-  mrow: 'mrow',
-  mn: 'mn',
-  mo: 'mo',
-  mi: 'mi',
-  mfenced: 'mfenced',
-  msup: 'msup',
-  mtd: 'mtd',
-  mtr: 'mtr',
-  menclose: 'menclose',
-  annotation: 'annotation',
-  'annotation-xml': 'annotation-xml',
-  maction: 'maction',
-  maligngroup: 'maligngroup',
-  math: 'math',
-  merror: 'merror',
-  mglyph: 'mglyph',
-  mlabeledtr: 'mlabeledtr',
-  mmultiscripts: 'mmultiscripts',
-  mover: 'mover',
-  mpadded: 'mpadded',
-  mphantom: 'mphantom',
-  mroot: 'mroot',
-  ms: 'ms',
-  mscarries: 'mscarries',
-  mscarry: 'mscarry',
-  msgroup: 'msgroup',
-  msline: 'msline',
-  mspace: 'mspace',
-  msqrt: 'msqrt',
-  msrow: 'msrow',
-  mstac: 'mstac',
-  mstack: 'mstack',
-  mstyle: 'mstyle',
-  msub: 'msub',
-  msubsup: 'msubsup',
-  mtable: 'mtable',
-  mtext: 'mtext',
-  munder: 'munder',
-  munderover: 'munderover',
-  semantics: 'semantics',
 };
 
 export const TABLE_TAGS = {
@@ -111,6 +68,22 @@ export const toJSON = state => state.toJSON();
 
 export const logState = state => {
   console.log(JSON.stringify(toJSON(state), null, 2)); // eslint-disable-line no-console
+};
+
+// Check if a the parent element can contain a Slate block. This is useful because Slate does not
+// allow you to have mixed inline and block level content in the same node. A block can either
+// contain all block nodes, or it can contain inline and text nodes.
+const canParentElementContainBlock = el => {
+  if (el.parentNode && el.parentNode.tagName) {
+    const tagName = el.parentNode.tagName.toLowerCase();
+    return (
+      tagName === 'section' ||
+      tagName === 'div' ||
+      tagName === 'aside' ||
+      BLOCK_TAGS[tagName] !== undefined
+    );
+  }
+  return false;
 };
 
 // TODO: get type of aside in here. Default should be rightAside since that is the only
@@ -300,21 +273,38 @@ export const unorderListRules = {
 };
 
 export const mathRules = {
-  deserialize(el, next) {
+  deserialize(el) {
     const tagName = el.tagName.toLowerCase();
-    if (tagName !== 'math' && tagName !== 'mtable') return;
+    if (tagName !== 'math') return;
     return {
-      object: 'block',
-      type: tagName,
-      data: { ...reduceElementDataAttributes(el) },
-      nodes: next(el.childNodes),
+      object: canParentElementContainBlock(el) ? 'block' : 'inline',
+      type: 'mathml',
+      data: { ...reduceElementDataAttributes(el), innerHTML: el.innerHTML },
+      nodes: [
+        {
+          object: 'text',
+          leaves: [
+            {
+              object: 'leaf',
+              text: 'mathml',
+            },
+          ],
+        },
+      ],
     };
   },
-  serialize(slateObject, children) {
-    const { object, type, data } = slateObject;
-    if (object !== 'block') return;
-    if (type !== 'math' && type !== 'mtable') return;
-    return <slateObject.type {...data.toJS()}>{children}</slateObject.type>;
+  serialize(slateObject) {
+    const { type, data } = slateObject;
+    if (type !== 'mathml') return;
+    const { innerHTML, ...mathAttributes } = data.toJS();
+    return (
+      <math
+        {...mathAttributes}
+        dangerouslySetInnerHTML={{
+          __html: innerHTML,
+        }}
+      />
+    );
   },
 };
 
@@ -523,14 +513,7 @@ export const brRule = {
 
     // Transform <br> in blocktags as blocks. This prevents slate from
     // wrapping br in paragraphs (i.e. "<br><br><br>" -> "<p><br><br><br></p>"
-    if (
-      el.parentNode &&
-      el.parentNode.tagName &&
-      (el.parentNode.tagName.toLowerCase() === 'section' ||
-        el.parentNode.tagName.toLowerCase() === 'div' ||
-        el.parentNode.tagName.toLowerCase() === 'aside' ||
-        BLOCK_TAGS[el.parentNode.tagName.toLowerCase()] !== undefined)
-    ) {
+    if (canParentElementContainBlock(el)) {
       return {
         object: 'block',
         type: 'br',

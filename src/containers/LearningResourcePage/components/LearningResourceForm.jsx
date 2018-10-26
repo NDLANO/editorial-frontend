@@ -400,12 +400,10 @@ class LearningResourceForm extends Component {
           />
         </Field>
         <WarningModalWrapper
-          schema={schema}
           showSaved={showSaved}
           fields={fields}
           model={model}
           initialModel={initialModel}
-          handleSubmit={this.handleSubmit}
           text={t('warningModal.notSaved')}
         />
       </form>

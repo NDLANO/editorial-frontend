@@ -6,16 +6,9 @@
  *
  */
 
-import isTypeinSelection from './isTypeinSelection';
-import listNodesOfType from './listNodesOfType';
-import hasNodeOfType from './hasNodeOfType';
-import checkSelectionForType from './checkSelectionForType';
-import * as defaultBlocks from './defaultBlocks';
-
-export {
-  isTypeinSelection,
-  listNodesOfType,
-  hasNodeOfType,
-  checkSelectionForType,
-  defaultBlocks,
-};
+export { default as isTypeinSelection } from './isTypeinSelection';
+export { default as listNodesOfType } from './listNodesOfType';
+export { default as hasNodeOfType } from './hasNodeOfType';
+export { default as checkSelectionForType } from './checkSelectionForType';
+export { textBlockValidationRules } from './schemaHelpers';
+export { default as defaultBlocks } from './defaultBlocks';

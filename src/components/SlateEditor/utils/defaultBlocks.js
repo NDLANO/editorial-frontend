@@ -42,3 +42,11 @@ export const defaultRelatedBlock = () =>
     type: 'related',
     data: {},
   });
+
+export default {
+  defaultBlock,
+  defaultBlockWithText,
+  defaultAsideBlock,
+  defaultEmbedBlock,
+  defaultRelatedBlock,
+};

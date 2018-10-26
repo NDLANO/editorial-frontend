@@ -308,7 +308,11 @@ const phrases = {
         'One or more inlcuded video, image, or audio elements is missing caption or alternative text.',
     },
     fields: {
-      rightAside: 'Right column',
+      rightAside: {
+        title: 'Right column',
+        moveContent: 'Move content into the text',
+        delete: 'Delete right aside',
+      },
       metaImage: {
         title: 'Meta image',
         label: 'Meta image',

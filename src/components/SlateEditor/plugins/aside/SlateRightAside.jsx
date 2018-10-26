@@ -25,13 +25,18 @@ const SlateRightAside = props => {
   return (
     <aside {...classes('right-aside', '', 'c-aside expanded')} {...attributes}>
       <div {...classes('aside-type')} contentEditable={false}>
-        {t('learningResourceForm.fields.rightAside')}
+        {t('learningResourceForm.fields.rightAside.title')}
       </div>
       <div className="c-aside__content">{children}</div>
-      <Button stripped onClick={onRemoveClick} {...classes('delete-button')}>
+      <Button
+        title={t('learningResourceForm.fields.rightAside.delete')}
+        stripped
+        onClick={onRemoveClick}
+        {...classes('delete-button')}>
         <Cross />
       </Button>
       <Button
+        title={t('learningResourceForm.fields.rightAside.moveContent')}
         stripped
         onClick={onMoveContent}
         {...classes('move-content-button')}>

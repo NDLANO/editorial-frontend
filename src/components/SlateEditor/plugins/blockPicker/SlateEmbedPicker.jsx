@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from 'ndla-modal';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 import { defaultBlocks } from '../../utils';
@@ -9,6 +10,7 @@ const SlateEmbedPicker = ({
   resource,
   onEmbedClose,
   onInsertBlock,
+  t,
 }) => {
   const onEmbedAdd = embed => {
     const blockToInsert = defaultBlocks.defaultEmbedBlock(embed);
@@ -26,7 +28,10 @@ const SlateEmbedPicker = ({
       {onCloseModal => (
         <Fragment>
           <ModalHeader>
-            <ModalCloseButton title="Lukk" onClick={onCloseModal} />
+            <ModalCloseButton
+              title={t('dialog.close')}
+              onClick={onCloseModal}
+            />
           </ModalHeader>
           <ModalBody>
             <VisualElementSearch
@@ -48,4 +53,4 @@ SlateEmbedPicker.propTypes = {
   onInsertBlock: PropTypes.func.isRequired,
 };
 
-export default SlateEmbedPicker;
+export default injectT(SlateEmbedPicker);

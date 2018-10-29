@@ -29,7 +29,6 @@ import { defaultBodyBoxBlock } from '../bodybox';
 import { defaultDetailsBlock } from '../detailsbox';
 import SlateEmbedPicker from './SlateEmbedPicker';
 import { editTablePlugin } from '../externalPlugins';
-import { ConsoleView } from 'react-device-detect';
 
 const { defaultAsideBlock, defaultRelatedBlock } = defaultBlocks;
 

@@ -15,24 +15,14 @@ import * as articleApi from '../../modules/article/articleApi';
 import * as draftApi from '../../modules/draft/draftApi';
 import Lightbox from '../Lightbox';
 import PreviewLightboxContent from './PreviewLightboxContent';
+import {
+  transformArticle,
+  transformArticleToApiVersion,
+} from '../../util/articleUtil';
 
 export const classes = new BEMHelper({
   name: 'preview-draft',
   prefix: 'c-',
-});
-
-const transformArticle = article => ({
-  ...article,
-  title: { title: article.title, language: article.language },
-  introduction: { introduction: article.introduction },
-  tags: { tags: article.tags, language: article.language },
-  content: {
-    content: article.content,
-    language: article.language,
-  },
-  metaDescription: {
-    metaDescription: article.metaDescription,
-  },
 });
 
 const defaultState = {
@@ -69,7 +59,7 @@ class PreviewDraftLightbox extends React.Component {
     const { getArticle, typeOfPreview } = this.props;
 
     const draft = getArticle();
-    const originalArticle = transformArticle(draft);
+    const originalArticle = transformArticleToApiVersion(draft);
 
     const secondArticleLanguage = originalArticle.supportedLanguages.find(
       l => l !== draft.language,
@@ -90,7 +80,7 @@ class PreviewDraftLightbox extends React.Component {
       : undefined;
 
     this.setState({
-      firstArticle,
+      firstArticle: transformArticle(firstArticle, originalArticle.language),
       secondArticle,
       showPreview: true,
       previewLanguage: secondArticleLanguage,
@@ -100,17 +90,17 @@ class PreviewDraftLightbox extends React.Component {
   async previewProductionArticle() {
     const { getArticle } = this.props;
     const draft = getArticle();
-    const originalArticle = transformArticle(draft);
+    const originalArticle = transformArticleToApiVersion(draft);
     const article = await articleApi.getArticleFromArticleConverter(
       originalArticle.id,
       originalArticle.language,
     );
-    return article;
+    return transformArticle(article, originalArticle.language);
   }
 
   async previewLanguageArticle(language = undefined) {
     const { getArticle } = this.props;
-    const originalArticle = transformArticle(getArticle());
+    const originalArticle = transformArticleToApiVersion(getArticle());
     const draftOtherLanguage = await draftApi.fetchDraft(
       originalArticle.id,
       language,
@@ -119,7 +109,7 @@ class PreviewDraftLightbox extends React.Component {
       draftOtherLanguage,
       language,
     );
-    return article;
+    return transformArticle(article, language);
   }
 
   render() {

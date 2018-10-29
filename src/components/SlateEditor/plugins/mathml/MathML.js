@@ -28,9 +28,15 @@ export const MathML = props => {
     editor.onChange(next);
   };
 
+  const { innerHTML, xlmns } = node.data.toJS();
   return (
     <StyledMathWrapper {...props.attributes}>
-      Mathml
+      <math
+        xlmns={xlmns}
+        dangerouslySetInnerHTML={{
+          __html: innerHTML,
+        }}
+      />
       <EditorDeleteButton
         onClick={onRemoveClick}
         style={{ position: 'relative', marginLeft: spacing.small, top: 0 }}
@@ -46,5 +52,3 @@ MathML.propTypes = {
   node: Types.node.isRequired,
   editor: EditorShape,
 };
-
-// export default MathML;

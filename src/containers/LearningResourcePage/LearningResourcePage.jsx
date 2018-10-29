@@ -29,6 +29,18 @@ class LearningResourcePage extends Component {
     fetchLicenses();
   }
 
+  componentDidMount() {
+    if (window.MathJax) {
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    }
+  }
+
+  componentDidUpdate() {
+    if (window.MathJax) {
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    }
+  }
+
   render() {
     const { match, history, ...rest } = this.props;
     return (

@@ -29,6 +29,7 @@ import { defaultBodyBoxBlock } from '../bodybox';
 import { defaultDetailsBlock } from '../detailsbox';
 import SlateEmbedPicker from './SlateEmbedPicker';
 import { editTablePlugin } from '../externalPlugins';
+import { ConsoleView } from 'react-device-detect';
 
 const { defaultAsideBlock, defaultRelatedBlock } = defaultBlocks;
 
@@ -217,6 +218,7 @@ class SlateBlockPicker extends Component {
     const node = editorValue.document.getClosestBlock(
       editorValue.selection.start.key,
     );
+
     const show =
       this.state.isOpen ||
       (node &&
@@ -225,8 +227,8 @@ class SlateBlockPicker extends Component {
         allowedPickAreas.includes(node.type) &&
         editorValue.selection.isFocused);
 
-    const nodeEl = findDOMNode(node); // eslint-disable-line react/no-find-dom-node
     if (show) {
+      const nodeEl = findDOMNode(node); // eslint-disable-line react/no-find-dom-node
       this.update(nodeEl);
     } else {
       const { current: slateBlockRef } = this.slateBlockRef;

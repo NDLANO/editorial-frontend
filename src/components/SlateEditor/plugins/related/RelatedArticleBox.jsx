@@ -42,6 +42,7 @@ export class RelatedArticleBox extends React.Component {
     this.onInsertBlock = this.onInsertBlock.bind(this);
     this.updateEmbedNode = this.updateEmbedNode.bind(this);
     this.openEditMode = this.openEditMode.bind(this);
+    this.setNodeKey = this.setNodeKey.bind(this);
   }
 
   componentDidMount() {
@@ -50,9 +51,10 @@ export class RelatedArticleBox extends React.Component {
     } = this.props;
     if (data && data.get('nodes')) {
       data.get('nodes').forEach(article => {
-        if (article['article-id']) this.fetchRelated(article['article-id']);
+        if (article['article-id'])
+          this.fetchRelated(article['article-id'], true);
         if (article.title) {
-          this.fetchExternal(article.url, article.title);
+          this.fetchExternal(article.url, article.title, true);
         }
       });
     }
@@ -72,10 +74,9 @@ export class RelatedArticleBox extends React.Component {
     }
   }
 
-  updateEmbedNode() {
+  setNodeKey() {
     const { editor, node } = this.props;
     const { items } = this.state;
-
     editor.change(change =>
       change.setNodeByKey(node.key, {
         data: {
@@ -94,7 +95,11 @@ export class RelatedArticleBox extends React.Component {
     );
   }
 
-  async fetchRelated(id) {
+  updateEmbedNode() {
+    this.setNodeKey();
+  }
+
+  async fetchRelated(id, onMount = false) {
     const { locale } = this.props;
 
     try {
@@ -103,19 +108,17 @@ export class RelatedArticleBox extends React.Component {
         queryResources(id, locale),
       ]);
       if (article)
-        this.setState(
-          prevState => ({
-            items: [...prevState.items, mapRelatedArticle(article, resource)],
-            editMode: false,
-          }),
-          this.updateEmbedNode,
-        );
+        this.setState(prevState => ({
+          items: [...prevState.items, mapRelatedArticle(article, resource)],
+          editMode: false,
+        }));
+      if (!onMount) this.updateEmbedNode();
     } catch (error) {
       handleError(error);
     }
   }
 
-  async fetchExternal(url, title) {
+  async fetchExternal(url, title, onMount = false) {
     // await get description meta data
     this.setState(
       prevState => ({
@@ -130,7 +133,7 @@ export class RelatedArticleBox extends React.Component {
         ],
         editMode: false,
       }),
-      this.updateEmbedNode,
+      () => this.updateEmbedNode(onMount),
     );
   }
 

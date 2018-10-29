@@ -21,11 +21,22 @@ const SlateAside = props => {
     editor.onChange(next);
   };
 
+  const onMoveContent = () => {
+    const next = editor.value.change().unwrapBlockByKey(node.key, node.type);
+    editor.onChange(next);
+  };
+
   const type = node.get('data').get('type');
 
   switch (type) {
     case 'rightAside':
-      return <SlateRightAside onRemoveClick={onRemoveClick} {...props} />;
+      return (
+        <SlateRightAside
+          onRemoveClick={onRemoveClick}
+          onMoveContent={onMoveContent}
+          {...props}
+        />
+      );
     case 'factAside':
       return <SlateFactAside onRemoveClick={onRemoveClick} {...props} />;
     default: {

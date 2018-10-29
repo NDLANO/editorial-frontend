@@ -322,7 +322,11 @@ const phrases = {
         'En eller flere inkluderte lyd, bilde, eller video elementer mangler beskrivende tekst eller alternativ tekst.',
     },
     fields: {
-      rightAside: 'Høyrespalte',
+      rightAside: {
+        title: 'Høyrespalte',
+        moveContent: 'Flytt innhold inn i teksten',
+        delete: 'Slett høyrespalte',
+      },
       metaImage: {
         title: 'Metabilde',
         label: 'Metabilde',

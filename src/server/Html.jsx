@@ -39,7 +39,7 @@ const Html = props => {
         />
         <link
           rel="shortcut icon"
-          href={`/ndla-favicon.ico}`}
+          href="/static/ndla-favicon.png"
           type="image/x-icon"
         />
       </head>

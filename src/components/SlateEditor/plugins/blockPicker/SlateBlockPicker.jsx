@@ -6,25 +6,22 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { findDOMNode } from 'slate-react';
 import Types from 'slate-prop-types';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
-import Button from 'ndla-button';
+import { SlateBlockMenu } from 'ndla-editor';
 import {
-  H5P,
-  Paragraph,
+  Quote,
   Camera,
-  Video,
-  FactBox,
-  TextInBox,
-  Table,
-  ExpandableBox,
-  RelatedArticle,
+  FactBoxMaterial,
+  Link as LinkIcon,
+  TableMaterial,
+  ArrowExpand,
+  Framed,
+  PlayBoxOutline,
+  PresentationPlay,
 } from 'ndla-icons/editor';
-import { Cross, Plus } from 'ndla-icons/action';
-import { Audio } from 'ndla-icons/common';
 
 import { Portal } from '../../../Portal';
 import { defaultBlocks } from '../../utils';
@@ -35,24 +32,56 @@ import { editTablePlugin } from '../externalPlugins';
 
 const { defaultAsideBlock, defaultRelatedBlock } = defaultBlocks;
 
-const classes = new BEMHelper({
-  name: 'editor',
-  prefix: 'c-',
-});
-
 const actions = [
-  { data: { type: 'block', object: 'block' }, icon: <Paragraph /> },
-  { data: { type: 'aside', object: 'factAside' }, icon: <FactBox /> },
-  { data: { type: 'table', object: 'table' }, icon: <Table /> },
-  { data: { type: 'bodybox', object: 'bodybox' }, icon: <TextInBox /> },
-  { data: { type: 'details', object: 'details' }, icon: <ExpandableBox /> },
-  { data: { type: 'embed', object: 'image' }, icon: <Camera /> },
-  { data: { type: 'embed', object: 'video' }, icon: <Video /> },
-  { data: { type: 'embed', object: 'audio' }, icon: <Audio /> },
-  { data: { type: 'embed', object: 'h5p' }, icon: <H5P /> },
+  {
+    data: { type: 'block', object: 'block' },
+    label: 'Paragraf',
+    icon: <Quote />,
+  },
+  {
+    data: { type: 'aside', object: 'factAside' },
+    label: 'Faktaboks',
+    icon: <FactBoxMaterial />,
+  },
+  {
+    data: { type: 'table', object: 'table' },
+    label: 'Tabell',
+    icon: <TableMaterial />,
+  },
+  {
+    data: { type: 'bodybox', object: 'bodybox' },
+    label: 'Tekst i ramme',
+    icon: <Framed />,
+  },
+  {
+    data: { type: 'details', object: 'details' },
+    label: 'Ekspanderende boks',
+    icon: <ArrowExpand />,
+  },
+  {
+    data: { type: 'embed', object: 'image' },
+    label: 'Bilde',
+    icon: <Camera />,
+  },
+  {
+    data: { type: 'embed', object: 'video' },
+    label: 'Video',
+    icon: <PlayBoxOutline />,
+  },
+  {
+    data: { type: 'embed', object: 'audio' },
+    label: 'Lyd',
+    icon: <Quote />,
+  },
+  {
+    data: { type: 'embed', object: 'h5p' },
+    label: 'H5P',
+    icon: <PresentationPlay />,
+  },
   {
     data: { type: 'related', object: 'related' },
-    icon: <RelatedArticle />,
+    label: 'Relatert artikkel',
+    icon: <LinkIcon />,
   },
 ];
 
@@ -71,6 +100,19 @@ class SlateBlockPicker extends Component {
     this.focusInsideIllegalArea = this.focusInsideIllegalArea.bind(this);
     this.onEmbedClose = this.onEmbedClose.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
+    this.slateBlockRef = React.createRef();
+    this.slateBlockButtonRef = React.createRef();
+  }
+
+  componentDidMount() {
+    this.slateBlockRef.current.style.transition = 'opacity 200ms ease';
+    this.slateBlockRef.current.style.position = 'absolute';
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.editorValue.isFocused && this.state.isOpen) {
+      this.setState({ isOpen: false });
+    }
   }
 
   componentDidUpdate() {
@@ -127,26 +169,25 @@ class SlateBlockPicker extends Component {
     this.setState({ isOpen: false });
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (!nextProps.editorValue.selection.isFocused && prevState.isOpen) {
-      return { isOpen: false };
-    }
-    return null;
-  }
-
-  toggleIsOpen(evt) {
-    evt.preventDefault();
-    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
+  toggleIsOpen(isOpen) {
+    this.setState({ isOpen });
   }
 
   update(nodeEl) {
-    const { menuEl } = this;
-    if (!menuEl) return;
-    const bodyRect = document.body.getBoundingClientRect();
-    menuEl.style.position = 'absolute';
-    const rect = nodeEl.getBoundingClientRect();
-    menuEl.style.top = `${rect.top - bodyRect.top - 5}px`;
-    menuEl.style.left = `${rect.left - 60}px`;
+    const { current: slateBlockRef } = this.slateBlockRef;
+    if (slateBlockRef) {
+      const rect = nodeEl.getBoundingClientRect();
+      slateBlockRef.style.top = `${rect.top -
+        nodeEl.parentNode.getBoundingClientRect().top +
+        23}px`;
+      slateBlockRef.style.left = '-78px';
+      slateBlockRef.style.position = 'absolute';
+      slateBlockRef.style.opacity = 1;
+      slateBlockRef.style.zIndex = 1;
+      this.slateBlockButtonRef.current.setAttribute('aria-hidden', false);
+      this.slateBlockButtonRef.current.tabIndex = 0;
+      this.slateBlockButtonRef.current.disabled = false;
+    }
   }
 
   focusInsideIllegalArea() {
@@ -171,81 +212,59 @@ class SlateBlockPicker extends Component {
   }
 
   showPicker() {
-    const hiddenClassName = classes(
-      'block-type-container',
-      'hidden',
-    ).className.split(' ')[1];
-
     const { editorValue, allowedPickAreas } = this.props;
-    if (!editorValue.selection.start.key) {
-      this.menuEl.classList.add(hiddenClassName);
-      return;
-    }
 
     const node = editorValue.document.getClosestBlock(
       editorValue.selection.start.key,
     );
-    const nodeEl = findDOMNode(node); // eslint-disable-line react/no-find-dom-node
-
     const show =
-      node.text.length === 0 &&
-      !this.focusInsideIllegalArea() &&
-      allowedPickAreas.includes(node.type) &&
-      editorValue.selection.isFocused;
+      this.state.isOpen ||
+      (node &&
+        node.text.length === 0 &&
+        !this.focusInsideIllegalArea() &&
+        allowedPickAreas.includes(node.type) &&
+        editorValue.selection.isFocused);
 
+    const nodeEl = findDOMNode(node); // eslint-disable-line react/no-find-dom-node
     if (show) {
-      this.menuEl.classList.remove(hiddenClassName);
       this.update(nodeEl);
     } else {
-      this.menuEl.classList.add(hiddenClassName);
+      const { current: slateBlockRef } = this.slateBlockRef;
+      slateBlockRef.style.opacity = 0;
+      this.slateBlockButtonRef.current.setAttribute('aria-hidden', true);
+      this.slateBlockButtonRef.current.tabIndex = -1;
+      this.slateBlockButtonRef.current.disabled = true;
     }
   }
 
   render() {
     const { isOpen, embedSelect } = this.state;
-    const typeClassName = isOpen ? '' : 'hidden';
     return (
-      <Portal isOpened>
-        {embedSelect.isOpen ? (
-          <SlateEmbedPicker
-            resource={embedSelect.embedType}
-            isOpen={embedSelect.isOpen}
-            onEmbedClose={this.onEmbedClose}
-            onInsertBlock={this.onInsertBlock}
+      <Fragment>
+        <Portal isOpened>
+          {embedSelect.isOpen && (
+            <SlateEmbedPicker
+              resource={embedSelect.embedType}
+              isOpen={embedSelect.isOpen}
+              onEmbedClose={this.onEmbedClose}
+              onInsertBlock={this.onInsertBlock}
+            />
+          )}
+        </Portal>
+        <div ref={this.slateBlockRef}>
+          <SlateBlockMenu
+            ref={this.slateBlockButtonRef}
+            cy="slate-block-picker"
+            isOpen={isOpen}
+            heading="Legg til"
+            actions={actions}
+            onToggleOpen={this.toggleIsOpen}
+            clickItem={data => {
+              this.onElementAdd(data);
+            }}
           />
-        ) : (
-          ''
-        )}
-        <div
-          {...classes('block-type-container', 'hidden')}
-          ref={menuEl => {
-            this.menuEl = menuEl;
-          }}>
-          <Button
-            stripped
-            {...classes('block-type-button')}
-            data-cy="slate-block-picker"
-            onMouseDown={this.toggleIsOpen}>
-            {isOpen ? (
-              <Cross className="c-icon--medium" />
-            ) : (
-              <Plus className="c-icon--medium" />
-            )}
-          </Button>
-          <div {...classes('block-type', typeClassName)}>
-            {actions.map(action => (
-              <Button
-                key={action.data.object}
-                stripped
-                data-cy={`create-${action.data.object}`}
-                {...classes('block-type-button')}
-                onMouseDown={() => this.onElementAdd(action.data)}>
-                {action.icon}
-              </Button>
-            ))}
-          </div>
         </div>
-      </Portal>
+      </Fragment>
     );
   }
 }

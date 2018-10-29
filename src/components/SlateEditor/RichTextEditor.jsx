@@ -98,7 +98,7 @@ const RichTextEditor = class extends React.Component {
 
     return (
       <article>
-        <div data-cy="slate-editor">
+        <div data-cy="slate-editor" style={{ position: 'relative' }}>
           <Editor
             {...classes(undefined, undefined, className)}
             onKeyDown={this.onKeyDown}

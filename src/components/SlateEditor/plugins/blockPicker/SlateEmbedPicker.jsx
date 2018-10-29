@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Lightbox from '../../../Lightbox';
+import Modal, { ModalHeader, ModalBody, ModalCloseButton } from 'ndla-modal';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 import { defaultBlocks } from '../../utils';
 
@@ -16,17 +16,28 @@ const SlateEmbedPicker = ({
     onEmbedClose();
   };
   return (
-    <Lightbox
-      display={isOpen}
-      fullscreen={resource === 'h5p'}
-      big
-      onClose={onEmbedClose}>
-      <VisualElementSearch
-        selectedResource={resource}
-        handleVisualElementChange={onEmbedAdd}
-        closeModal={onEmbedClose}
-      />
-    </Lightbox>
+    <Modal
+      controllable
+      isOpen={isOpen}
+      onClose={onEmbedClose}
+      size={resource === 'h5p' ? 'fullscreen' : 'large'}
+      backgroundColor="white"
+      minHeight="85vh">
+      {onCloseModal => (
+        <Fragment>
+          <ModalHeader>
+            <ModalCloseButton title="Lukk" onClick={onCloseModal} />
+          </ModalHeader>
+          <ModalBody>
+            <VisualElementSearch
+              selectedResource={resource}
+              handleVisualElementChange={onEmbedAdd}
+              closeModal={onEmbedClose}
+            />
+          </ModalBody>
+        </Fragment>
+      )}
+    </Modal>
   );
 };
 

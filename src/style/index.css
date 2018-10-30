@@ -61,8 +61,6 @@
 /* Should be moved to Article component in ndla-ui */
 .MJXc-display {
   display: inline-block !important;
-}
-.MJXc-display {
   margin: 0;
 
   & .mjx-chtml {

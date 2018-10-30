@@ -49,6 +49,7 @@ export const getResourceLanguages = t => [
   { id: 'nb', name: t('language.nb') },
   { id: 'nn', name: t('language.nn') },
   { id: 'en', name: t('language.en') },
+  { id: 'se', name: t('language.se') },
   { id: 'de', name: t('language.de') },
   { id: 'unknown', name: t('language.unknown') },
 ];
@@ -67,7 +68,7 @@ const isLearningPathResourceType = contentType =>
 export const resourceToLinkProps = (content, contentType, locale) => {
   if (isLearningPathResourceType(contentType)) {
     return {
-      href: `${config.learningpathFrontendDomain}/learningpaths/${
+      href: `${config.learningpathFrontendDomain}/${locale}/learningpaths/${
         content.id
       }/first-step`,
       target: '_blank',

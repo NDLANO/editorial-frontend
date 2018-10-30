@@ -13,7 +13,7 @@ beforeEach(() => beforeEachHelper('/subject-matter/learning-resource/new'));
 
 describe('Learning resource editing', () => {
   it('can enter all types of blocks', () => {
-    cy.get('[data-cy=slate-editor] div')
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus();
     cy.get('[data-cy=slate-block-picker]')
@@ -22,7 +22,7 @@ describe('Learning resource editing', () => {
     cy.get('[data-cy=create-table]')
       .last()
       .click({ force: true });
-    cy.get('[data-cy=slate-editor] div')
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
       .then($el => {

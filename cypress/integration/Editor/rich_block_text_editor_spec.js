@@ -28,7 +28,7 @@ describe('Learning resource editing', () => {
       force: true,
     });
     cy.get('.article_introduction').type('Test ingress', { force: true });
-    cy.get('[data-cy=slate-editor] div')
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
       .type('This is test content {enter}', {
@@ -45,7 +45,7 @@ describe('Learning resource editing', () => {
       'https://cms.api.brightcove.com/v1/accounts/4806596774001/videos/?limit=10&offset=0&q=',
       'fixture:editor/videoSearch.json',
     );
-    cy.get('[data-cy=slate-editor] div')
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus();
     cy.get('[data-cy=slate-block-picker]').click({ force: true });

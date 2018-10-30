@@ -57,6 +57,28 @@ function allowHeadingConversion({ current, next, previous }) {
   );
 }
 
+// I.E "<mo>&#xa0;</mo>" -> "<mo>&nbsp;</mo>"
+function allowSpaceReplacement({ current, next }) {
+  return current === '#xa0' && next === 'nbsp';
+}
+
+// I.E "<mo>&#xa0;</mo>" -> "<mo>&nbsp;</mo>"
+function allowStrongRemoval({ current, next, previous }) {
+  // I.E. <strong><math>...</math></strong> -> <math>...</math>
+  if (current === 'strong><' && next.startsWith('math')) {
+    return true;
+  }
+  // I.E. <strong><math>...</math></strong> -> <math>...</math>
+  if (current === 'strong></' && previous.endsWith('</math></')) {
+    return true;
+  }
+  // I.E. <strong>one</strong><strong>two</strong> -> <strong>onetwo</strong>
+  if (current === '</strong><strong>') {
+    return true;
+  }
+  return false;
+}
+
 function isRemovalAllowed(index, diffs) {
   const values = getValues(index, diffs);
   if (values) {
@@ -65,6 +87,8 @@ function isRemovalAllowed(index, diffs) {
       allowTHeadInsertion,
       allowHeadingConversion,
       allowQuotEntityReplacement,
+      allowSpaceReplacement,
+      allowStrongRemoval,
     ].find(fn => fn(values) === true);
     return result !== undefined;
   }

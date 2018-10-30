@@ -108,6 +108,7 @@ const phrases = {
     en: 'English',
     nb: 'Norwegian - Bokmål',
     nn: 'Norwegian - Nynorsk',
+    se: 'Swedish',
     unknown: 'Unknown',
     de: 'German',
     empty: 'No languages left',
@@ -308,7 +309,11 @@ const phrases = {
         'One or more inlcuded video, image, or audio elements is missing caption or alternative text.',
     },
     fields: {
-      rightAside: 'Right column',
+      rightAside: {
+        title: 'Right column',
+        moveContent: 'Move content into the text',
+        delete: 'Delete right aside',
+      },
       metaImage: {
         title: 'Meta image',
         label: 'Meta image',

@@ -9,7 +9,6 @@
 import { Value } from 'slate';
 import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
-import isEqual from 'lodash/fp/isEqual';
 import { topicArticeRules, learningResourceRules } from './slateHelpers';
 import { convertFromHTML } from './convertFromHTML';
 
@@ -136,20 +135,13 @@ export function editorValueToPlainText(editorValue) {
   return editorValue ? Plain.serialize(editorValue) : '';
 }
 
-export function isEqualEditorValue(value1, value2, type) {
-  if (value1 && value1.document) {
-    return value2 && value2.document
-      ? isEqual(value1.toJSON(), value2.toJSON())
-      : false;
+export function isEditorValueDirty(value) {
+  if (value.history) {
+    return value.history.undos.size > 0;
   }
-  if (type === 'topic-article') {
-    return isEqual(
-      topicArticleContentToHTML(value1),
-      topicArticleContentToHTML(value2),
-    );
-  }
-  return isEqual(
-    learningResourceContentToHTML(value1),
-    learningResourceContentToHTML(value2),
+  return (
+    value
+      .map(val => (val && val.value ? val.value.history.undos.size : 0))
+      .reduce((a, b) => a + b, 0) > 0
   );
 }

@@ -12,11 +12,11 @@ import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } from '../../../articleContentConverter';
-import { html } from './article1';
+import { html } from './embedInHeadingArticle';
 
 const { fragment } = jsdom.JSDOM;
 
-test('serializing article 1', () => {
+test('serializing article with <embed> in <h3>', () => {
   const converted = learningResourceContentToEditorValue(html, fragment);
 
   const result = learningResourceContentToHTML(converted);

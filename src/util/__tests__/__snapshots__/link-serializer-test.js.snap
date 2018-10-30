@@ -74,6 +74,7 @@ Object {
                   "href": "https://www.nrk.no/skole/?page=search&q=Jobb%20i%20NRK",
                   "rel": "noopener noreferrer",
                   "target": "_blank",
+                  "title": "Yrker i NRK",
                 },
                 "nodes": Array [
                   Object {
@@ -138,6 +139,7 @@ Object {
               "href": "http://www.nav.no/",
               "rel": "noopener noreferrer",
               "target": "_blank",
+              "title": "nav.no",
             },
             "nodes": Array [
               Object {
@@ -187,7 +189,6 @@ exports[`serialize list with a link and text 1`] = `
       href="http://slatejs.org"
       rel="noopener noreferrer"
       target="_blank"
-      title="Slate"
     >
       Slate
     </a>

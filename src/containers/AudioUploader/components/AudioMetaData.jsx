@@ -9,13 +9,10 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import {
-  MultiSelectField,
-  SelectObjectField,
-  TextField,
-} from '../../../components/Fields';
+import { MultiSelectField, TextField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Contributors from '../../../components/Contributors/Contributors';
+import FormLicense from '../../Form/components/FormLicense';
 
 const AudioMetaData = props => {
   const { t, commonFieldProps, tags, licenses } = props;
@@ -34,14 +31,7 @@ const AudioMetaData = props => {
         }}
         {...commonFieldProps}
       />
-      <SelectObjectField
-        name="license"
-        label={t('form.license.label')}
-        options={licenses}
-        idKey="license"
-        labelKey="description"
-        {...commonFieldProps}
-      />
+      <FormLicense licenses={licenses} commonFieldProps={commonFieldProps} />
       <TextField
         label={t('form.origin.label')}
         name="origin"

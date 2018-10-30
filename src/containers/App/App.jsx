@@ -6,6 +6,9 @@
  *
  */
 
+// import before all other imports component to make sure it is loaded befor any emotion stuff.
+import '../../style/index.css';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -31,7 +34,6 @@ import ForbiddenPage from '../ForbiddenPage/ForbiddenPage';
 import SubjectMatterPage from './SubjectMatterPage';
 import MediaPage from './MediaPage';
 import StructurePage from '../StructurePage/StructurePage';
-import '../../style/index.css';
 import ErrorBoundary from '../../components/ErrorBoundary';
 
 export class App extends React.Component {

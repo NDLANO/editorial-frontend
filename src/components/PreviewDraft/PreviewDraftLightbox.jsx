@@ -153,5 +153,9 @@ PreviewDraftLightbox.propTypes = {
   getArticle: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   contentType: PropTypes.string,
-  typeOfPreview: PropTypes.string.isRequired,
+  typeOfPreview: PropTypes.oneOf([
+    'preview',
+    'previewProductionArticle',
+    'previewLanguageArticle',
+  ]),
 };

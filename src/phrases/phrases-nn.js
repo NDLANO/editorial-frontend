@@ -363,11 +363,17 @@ const phrases = {
     choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagret ',
-    preview: 'Forhåndsvis',
-    previewAndCompare: {
+    preview: {
+      button: 'Forhåndsvis',
+    },
+    previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',
       article: 'Artikkel',
       draft: 'Utkast',
+    },
+    previewLanguageArticle: {
+      button: 'Sammenlign forskjellige språk versjoner',
+      title: 'Utkast på {language}',
     },
     abort: 'Avbryt',
     validate: 'Valider',

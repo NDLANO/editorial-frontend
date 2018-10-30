@@ -74,6 +74,10 @@ const Html = props => {
     jax: ["input/MathML", "output/CommonHTML"],
     extensions: ["mml2jax.js"],
     showMathMenu: false,
+    showProcessingMessages: false,
+    menuSettings: {
+      zoom: "None"
+    }
   });
         `,
           }}

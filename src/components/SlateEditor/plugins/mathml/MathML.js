@@ -10,37 +10,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import styled from 'react-emotion';
-import { colors, spacing } from 'ndla-core';
 import { EditorShape } from '../../../../shapes';
-import { EditorDeleteButton } from '../../common/EditorDeleteButton';
 
 const StyledMathWrapper = styled('span')`
-  display: inline-block;
-  border: 1px solid ${colors.brand.default};
-  padding: ${spacing.xsmall};
+  /* Don't know if this is necessary (copied from ndla-frontend) */
+  .MJXc-display {
+    display: inline-block !important;
+    margin: 0;
+
+    & .mjx-chtml {
+      padding: 0;
+    }
+  }
 `;
 
 export const MathML = props => {
-  const { node, editor } = props;
-
-  const onRemoveClick = () => {
-    const next = editor.value.change().removeNodeByKey(node.key);
-    editor.onChange(next);
-  };
+  const { node } = props;
 
   const { innerHTML, xlmns } = node.data.toJS();
   return (
-    <StyledMathWrapper {...props.attributes}>
-      <math
-        xlmns={xlmns}
-        dangerouslySetInnerHTML={{
-          __html: innerHTML,
-        }}
-      />
-      <EditorDeleteButton
-        onClick={onRemoveClick}
-        style={{ position: 'relative', marginLeft: spacing.small, top: 0 }}
-      />
+    <StyledMathWrapper contentEditable={false} {...props.attributes}>
+      {node.nodes.map(text => (
+        <span key={text.key} data-key={text.key}>
+          <math
+            xlmns={xlmns}
+            dangerouslySetInnerHTML={{
+              __html: innerHTML,
+            }}
+          />
+        </span>
+      ))}
     </StyledMathWrapper>
   );
 };

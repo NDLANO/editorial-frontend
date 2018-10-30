@@ -286,7 +286,7 @@ export const mathRules = {
           leaves: [
             {
               object: 'leaf',
-              text: 'mathml',
+              text: 'm',
             },
           ],
         },

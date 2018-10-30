@@ -293,9 +293,11 @@ class LearningResourceForm extends Component {
       {
         id: 'learning-resource-metadata',
         title: t('form.metadataSection'),
-        hasError: [schema.fields.metaDescription, schema.fields.tags].some(
-          field => checkTouchedInvalidField(field, submitted),
-        ),
+        hasError: [
+          schema.fields.metaDescription,
+          schema.fields.tags,
+          schema.fields.metaImageAlt,
+        ].some(field => checkTouchedInvalidField(field, submitted)),
         component: (
           <LearningResourceMetadata
             commonFieldProps={commonFieldProps}

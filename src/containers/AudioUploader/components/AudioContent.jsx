@@ -13,27 +13,25 @@ import { InputFileField, TextField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 import AudioPlayer from './AudioPlayer';
 
-const AudioContent = props => {
-  const { t, commonFieldProps, model, audioInfo } = props;
-  return (
-    <Fragment>
-      <TextField
-        label={t('form.title.label')}
-        name="title"
-        title
-        noBorder
-        placeholder={t('form.title.label')}
-        {...commonFieldProps}
-      />
-      <InputFileField
-        label={t('form.audio.file')}
-        name="audioFile"
-        {...commonFieldProps}
-      />
-      {model.id && <AudioPlayer audio={audioInfo} filepath={model.filepath} />}
-    </Fragment>
-  );
-};
+const AudioContent = ({ t, commonFieldProps, model, audioInfo }) => (
+  <Fragment>
+    <TextField
+      label={t('form.title.label')}
+      name="title"
+      title
+      noBorder
+      placeholder={t('form.title.label')}
+      {...commonFieldProps}
+    />
+    <InputFileField
+      label={t('form.audio.file')}
+      name="audioFile"
+      {...commonFieldProps}
+    />
+    {model.id && <AudioPlayer audio={audioInfo} filepath={model.filepath} />}
+  </Fragment>
+);
+
 AudioContent.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
   classes: PropTypes.func.isRequired,

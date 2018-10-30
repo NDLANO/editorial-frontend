@@ -12,48 +12,45 @@ import { injectT } from 'ndla-i18n';
 import { InputFileField, TextField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 
-const ImageContent = props => {
-  const { t, commonFieldProps, model } = props;
-  return (
-    <Fragment>
-      <TextField
-        label={t('form.title.label')}
-        name="title"
-        title
-        noBorder
-        maxLength={300}
-        placeholder={t('form.title.label')}
+const ImageContent = ({ t, commonFieldProps, model }) => (
+  <Fragment>
+    <TextField
+      label={t('form.title.label')}
+      name="title"
+      title
+      noBorder
+      maxLength={300}
+      placeholder={t('form.title.label')}
+      {...commonFieldProps}
+    />
+    {!model.id ? (
+      <InputFileField
+        label={t('form.image.file')}
+        name="imageFile"
         {...commonFieldProps}
       />
-      {!model.id ? (
-        <InputFileField
-          label={t('form.image.file')}
-          name="imageFile"
-          {...commonFieldProps}
-        />
-      ) : null}
-      {model.imageFile && (
-        <img src={model.filepath || model.imageFile} alt="" height="500" />
-      )}
-      <TextField
-        placeholder={t(`form.image.caption.placeholder`)}
-        label={t(`form.image.caption.label`)}
-        name="caption"
-        noBorder
-        maxLength={300}
-        {...commonFieldProps}
-      />
-      <TextField
-        placeholder={t('form.image.alt.placeholder')}
-        label={t('form.image.alt.label')}
-        name="alttext"
-        noBorder
-        maxLength={300}
-        {...commonFieldProps}
-      />
-    </Fragment>
-  );
-};
+    ) : null}
+    {model.imageFile && (
+      <img src={model.filepath || model.imageFile} alt="" height="500" />
+    )}
+    <TextField
+      placeholder={t(`form.image.caption.placeholder`)}
+      label={t(`form.image.caption.label`)}
+      name="caption"
+      noBorder
+      maxLength={300}
+      {...commonFieldProps}
+    />
+    <TextField
+      placeholder={t('form.image.alt.placeholder')}
+      label={t('form.image.alt.label')}
+      name="alttext"
+      noBorder
+      maxLength={300}
+      {...commonFieldProps}
+    />
+  </Fragment>
+);
 
 ImageContent.propTypes = {
   inModal: PropTypes.bool,

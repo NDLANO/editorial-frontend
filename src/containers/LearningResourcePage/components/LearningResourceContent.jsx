@@ -35,6 +35,7 @@ import { createEmptyValue } from '../../../util/articleContentConverter';
 import pasteHandler from '../../../components/SlateEditor/plugins/pasteHandler';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
+import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
 
 import {
   editListPlugin,
@@ -70,6 +71,7 @@ class LearningResourceContent extends Component {
       editTablePlugin,
       relatedPlugin(),
       filePlugin(),
+      mathmlPlugin(),
       blockPickerPlugin(this.addSection),
       pasteHandler(),
     ];

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`serializing article 1 1`] = `
+exports[`serializing article with <embed> in <h3> 1`] = `
 "
 <section>
   <h3>

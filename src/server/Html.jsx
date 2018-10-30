@@ -39,7 +39,7 @@ const Html = props => {
         />
         <link
           rel="shortcut icon"
-          href={`/ndla-favicon.ico}`}
+          href="/static/ndla-favicon.png"
           type="image/x-icon"
         />
       </head>
@@ -65,6 +65,28 @@ const Html = props => {
           src={assets.client.js}
           defer
           crossOrigin={(process.env.NODE_ENV !== 'production').toString()}
+        />
+        <script
+          type="text/x-mathjax-config"
+          dangerouslySetInnerHTML={{
+            __html: `
+  MathJax.Hub.Config({
+    jax: ["input/MathML", "output/CommonHTML"],
+    extensions: ["mml2jax.js"],
+    showMathMenu: false,
+    showProcessingMessages: false,
+    menuSettings: {
+      zoom: "None"
+    }
+  });
+        `,
+          }}
+        />
+        <script
+          type="text/javascript"
+          defer
+          async
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"
         />
       </body>
     </html>

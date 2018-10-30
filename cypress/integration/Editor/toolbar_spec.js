@@ -5,7 +5,7 @@ beforeEach(() => beforeEachHelper('/subject-matter/learning-resource/new'));
 describe('Selecting text and using the toolbar', () => {
   // selectall stopped working
   it('change the text styling', () => {
-    cy.get('[data-cy=slate-editor] div')
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .then($el => {
         cy.wrap($el)
@@ -34,7 +34,7 @@ describe('Selecting text and using the toolbar', () => {
   });
 
   it('can create a valid link', () => {
-    cy.get('[data-cy=slate-editor] div')
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
 
       .then($el => {
@@ -63,7 +63,7 @@ describe('Selecting text and using the toolbar', () => {
   });
 
   it('All lists work properly', () => {
-    cy.get('[data-cy=slate-editor] div')
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
 
       .then($el => {
@@ -90,11 +90,11 @@ describe('Selecting text and using the toolbar', () => {
   });
 
   it('Creates footnote', () => {
-    cy.get('[data-cy=slate-editor] div')
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
       .type('footnote');
-    cy.get('[data-cy=slate-editor] div')
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
       .type('{selectall}');

@@ -21,12 +21,20 @@ function FormQualityAssurance({ getArticle, model, onValidateClick, t }) {
       </span>
       <PreviewDraftLightbox
         label={t('subNavigation.learningResource')}
+        typeOfPreview="preview"
         getArticle={getArticle}
       />
       {model.id && (
         <PreviewDraftLightbox
           label={t('subNavigation.learningResource')}
-          compareWithArticle
+          typeOfPreview="previewProductionArticle"
+          getArticle={getArticle}
+        />
+      )}
+      {model.id && (
+        <PreviewDraftLightbox
+          label={t('subNavigation.learningResource')}
+          typeOfPreview="previewLanguageArticle"
           getArticle={getArticle}
         />
       )}

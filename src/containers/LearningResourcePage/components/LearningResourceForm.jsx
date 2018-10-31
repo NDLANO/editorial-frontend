@@ -194,6 +194,7 @@ class LearningResourceForm extends Component {
       notes: model.notes,
       language: model.language,
       updated: model.updated,
+      supportedLanguages: model.supportedLanguages,
     };
   }
 

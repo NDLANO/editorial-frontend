@@ -144,6 +144,7 @@ class TopicArticleForm extends Component {
       },
       notes: model.notes,
       language: model.language,
+      supportedLanguages: model.supportedLanguages,
     };
   }
 

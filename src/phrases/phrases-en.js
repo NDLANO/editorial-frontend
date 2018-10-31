@@ -349,11 +349,17 @@ const phrases = {
     saving: 'Saving...',
     choose: 'Choose',
     saved: 'Saved ',
-    preview: 'Preview',
-    previewAndCompare: {
+    preview: {
+      button: 'Preview',
+    },
+    previewProductionArticle: {
       button: 'Compare draft and article',
       article: 'Article',
       draft: 'Draft',
+    },
+    previewLanguageArticle: {
+      button: 'Compare different language versions',
+      title: 'Draft on {language}',
     },
     abort: 'Abort',
     validate: 'Validate',
@@ -457,6 +463,7 @@ const phrases = {
         change: 'Change',
         remove: 'Remove link',
         href: 'Link',
+        title: 'Title',
         newTab: 'Open link in new tab',
         text: 'Text',
         addTitle: 'Add link',

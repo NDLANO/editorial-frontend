@@ -125,11 +125,11 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     data-url=\\"https://test.api.ndla.no/audio-api/v1/audio/945\\">
 
   <p>Hei på
-    <a href=\\"https://ndla.no/\\" rel target title=\\"deg\\">deg</a>og
+    <a href=\\"https://ndla.no/\\" title=\\"deg\\">deg</a>og
     <a href=\\"https://ndla.no/\\"
       rel=\\"noopener noreferrer\\"
       target=\\"_blank\\"
-      title=\\"meg\\">meg
+      title=\\"NDLA\\">meg
     </a>
   </p>
   <p>NDLA

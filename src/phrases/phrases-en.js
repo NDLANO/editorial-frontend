@@ -463,6 +463,7 @@ const phrases = {
         change: 'Change',
         remove: 'Remove link',
         href: 'Link',
+        title: 'Title',
         newTab: 'Open link in new tab',
         text: 'Text',
         addTitle: 'Add link',

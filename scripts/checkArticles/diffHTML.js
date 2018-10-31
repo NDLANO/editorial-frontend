@@ -43,6 +43,11 @@ function allowTHeadInsertion({ current, next, previous }) {
   );
 }
 
+// I.E "<p>some "text".</p>" -> "<p>some &quot;text&quot;.</p>"
+function allowQuotEntityReplacement({ current, next }) {
+  return current === '"' && next === '&quot;';
+}
+
 // I.E "<h6>...</h6>" -> "<h3>...</h3>"
 function allowHeadingConversion({ current, next, previous }) {
   return (
@@ -81,6 +86,7 @@ function isRemovalAllowed(index, diffs) {
       allowSpaceRemovalBetweenTags,
       allowTHeadInsertion,
       allowHeadingConversion,
+      allowQuotEntityReplacement,
       allowSpaceReplacement,
       allowStrongRemoval,
     ].find(fn => fn(values) === true);
@@ -101,9 +107,9 @@ function diffHTML(oldHtml, newHtml) {
     // grey for common parts
     const [result, value] = diff;
     if (result === 1) {
-      diffString += `${chalk.green(value)}`;
+      diffString += `${chalk.underline.green(value)}`;
     } else if (result === -1) {
-      diffString += `${chalk.red(value)}`;
+      diffString += `${chalk.underline.red(value)}`;
       // Some diffs are allowed
       if (!isRemovalAllowed(index, diffs)) {
         shouldWarn = true;

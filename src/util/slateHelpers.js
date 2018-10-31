@@ -593,8 +593,9 @@ const RULES = [
         type: 'link',
         data: {
           href: el.href ? el.href : '#',
-          target: el.target ? el.target : '',
-          rel: el.rel ? el.rel : '',
+          target: el.target !== '' ? el.target : undefined,
+          title: el.title !== '' ? el.title : undefined,
+          rel: el.rel !== '' ? el.rel : undefined,
         },
         nodes: next(el.childNodes),
       };
@@ -620,7 +621,7 @@ const RULES = [
           href={data.href}
           rel={data.rel}
           target={data.target}
-          title={slateObject.text}>
+          title={data.title}>
           {children}
         </a>
       );

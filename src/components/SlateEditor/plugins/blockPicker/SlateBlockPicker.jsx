@@ -179,8 +179,8 @@ class SlateBlockPicker extends Component {
     if (slateBlockRef) {
       const rect = nodeEl.getBoundingClientRect();
       slateBlockRef.style.top = `${rect.top -
-        nodeEl.parentNode.getBoundingClientRect().top +
-        23}px`;
+        nodeEl.parentNode.parentNode.parentNode.getBoundingClientRect().top +
+        6.5}px`;
       slateBlockRef.style.left = '-78px';
       slateBlockRef.style.position = 'absolute';
       slateBlockRef.style.opacity = 1;
@@ -189,7 +189,7 @@ class SlateBlockPicker extends Component {
       this.slateBlockButtonRef.current.disabled = false;
       clearTimeout(this.zIndexTimeout);
       this.zIndexTimeout = setTimeout(() => {
-        slateBlockRef.style.zIndex = 1;
+        slateBlockRef.style.zIndex = 999;
       }, 100);
     }
   }

@@ -110,12 +110,6 @@ class SlateBlockPicker extends Component {
     this.slateBlockRef.current.style.position = 'absolute';
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.editorValue.isFocused && this.state.isOpen) {
-      this.setState({ isOpen: false });
-    }
-  }
-
   componentDidUpdate() {
     this.showPicker();
   }
@@ -168,6 +162,12 @@ class SlateBlockPicker extends Component {
         break;
     }
     this.setState({ isOpen: false });
+  }
+
+  getDerviedStateFromProps(nextProps, prevState) {
+    if (!nextProps.editorValue.isFocused && prevState.isOpen) {
+      this.setState({ isOpen: false });
+    }
   }
 
   toggleIsOpen(isOpen) {

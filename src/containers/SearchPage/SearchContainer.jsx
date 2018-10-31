@@ -14,9 +14,14 @@ import { injectT } from 'ndla-i18n';
 import { OneColumn } from 'ndla-ui';
 import Pager from 'ndla-pager';
 import BEMHelper from 'react-bem-helper';
+import Accordion, {
+  AccordionWrapper,
+  AccordionBar,
+  AccordionPanel,
+} from 'ndla-accordion';
+import { Search } from 'ndla-icons/common';
 import { getLocale } from '../../modules/locale/locale';
 import { getSearching } from '../../modules/search/searchSelectors';
-import SearchAccordion from './components/SearchAccordion';
 import { SearchResultShape } from '../../shapes';
 import SearchList from './components/results/SearchList';
 import SearchListOptions from './components/results/SearchListOptions';
@@ -93,47 +98,60 @@ class SearchContainer extends Component {
 
     const searchObject = queryString.parse(location.search);
     return (
-      <div>
-        <OneColumn>
-          <SearchAccordion
-            handleToggle={this.toggleContent}
-            header={t(`searchPage.header.${type}`)}
-            hidden={this.state.hiddenContent}>
-            <SearchForm
-              type={type}
-              search={this.onQueryPush}
-              searchObject={searchObject}
-              location={location}
-              locale={locale}
-            />
-            {type === 'content' && (
-              <SearchSort
-                location={location}
-                onSortOrderChange={this.onSortOrderChange}
-              />
-            )}
-            <SearchListOptions
-              type={type}
-              searchObject={searchObject}
-              totalCount={totalCount}
-              search={this.onQueryPush}
-            />
-          </SearchAccordion>
-          <SearchList
-            searchObject={searchObject}
-            results={results.results}
-            searching={searching}
-            type={type}
-            locale={locale}
-          />
-          <Pager
-            page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
-            lastPage={lastPage}
-            query={searchObject}
-            pathname={toSearch(undefined, type)}
-          />
-        </OneColumn>
-      </div>
+      <OneColumn>
+        <Accordion openIndexes={['search-content']}>
+          {({ openIndexes, handleItemClick }) => (
+            <AccordionWrapper>
+              <AccordionBar
+                panelId="search-content"
+                ariaLabel={t(`searchPage.header.${type}`)}
+                onClick={() => handleItemClick('search-content')}
+                isOpen={openIndexes.includes('search-content')}>
+                <Search className="c-icon--medium" />
+                {t(`searchPage.header.${type}`)}
+              </AccordionBar>
+              <AccordionPanel
+                id="search-content"
+                isOpen={openIndexes.includes('search-content')}>
+                <div>
+                  <SearchForm
+                    type={type}
+                    search={this.onQueryPush}
+                    searchObject={searchObject}
+                    location={location}
+                    locale={locale}
+                  />
+                  {type === 'content' && (
+                    <SearchSort
+                      location={location}
+                      onSortOrderChange={this.onSortOrderChange}
+                    />
+                  )}
+                  <SearchListOptions
+                    type={type}
+                    searchObject={searchObject}
+                    totalCount={totalCount}
+                    search={this.onQueryPush}
+                  />
+                </div>
+              </AccordionPanel>
+            </AccordionWrapper>
+          )}
+        </Accordion>
+        <SearchList
+          searchObject={searchObject}
+          results={results.results}
+          searching={searching}
+          type={type}
+          locale={locale}
+        />
+        <Pager
+          page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
+          lastPage={lastPage}
+          query={searchObject}
+          pathname={toSearch(undefined, type)}
+        />
+      </OneColumn>
     );
   }
 }

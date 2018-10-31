@@ -19,6 +19,7 @@ import reformed from '../../../reformed';
 
 export const getInitialModel = (link = {}) => ({
   text: link.text || '',
+  title: link.title || '',
   href: link.href || '',
   checkbox: link.checkbox || false,
 });

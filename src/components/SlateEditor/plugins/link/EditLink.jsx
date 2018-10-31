@@ -128,6 +128,9 @@ class EditLink extends React.Component {
 EditLink.propTypes = {
   model: PropTypes.shape({
     href: PropTypes.string,
+    text: PropTypes.string,
+    title: PropTypes.string,
+    checkbox: PropTypes.bool,
   }).isRequired,
   closeEditMode: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

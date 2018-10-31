@@ -39,7 +39,6 @@ class SearchContainer extends Component {
     super();
     this.onSortOrderChange = this.onSortOrderChange.bind(this);
     this.onQueryPush = this.onQueryPush.bind(this);
-    this.toggleContent = this.toggleContent.bind(this);
   }
 
   componentDidMount() {

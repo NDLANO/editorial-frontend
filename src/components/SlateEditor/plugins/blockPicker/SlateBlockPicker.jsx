@@ -102,6 +102,7 @@ class SlateBlockPicker extends Component {
     this.onInsertBlock = this.onInsertBlock.bind(this);
     this.slateBlockRef = React.createRef();
     this.slateBlockButtonRef = React.createRef();
+    this.zIndexTimeout = null;
   }
 
   componentDidMount() {
@@ -183,10 +184,13 @@ class SlateBlockPicker extends Component {
       slateBlockRef.style.left = '-78px';
       slateBlockRef.style.position = 'absolute';
       slateBlockRef.style.opacity = 1;
-      slateBlockRef.style.zIndex = 1;
       this.slateBlockButtonRef.current.setAttribute('aria-hidden', false);
       this.slateBlockButtonRef.current.tabIndex = 0;
       this.slateBlockButtonRef.current.disabled = false;
+      clearTimeout(this.zIndexTimeout);
+      this.zIndexTimeout = setTimeout(() => {
+        slateBlockRef.style.zIndex = 1;
+      }, 100);
     }
   }
 
@@ -235,6 +239,10 @@ class SlateBlockPicker extends Component {
       this.slateBlockButtonRef.current.setAttribute('aria-hidden', true);
       this.slateBlockButtonRef.current.tabIndex = -1;
       this.slateBlockButtonRef.current.disabled = true;
+      clearTimeout(this.zIndexTimeout);
+      this.zIndexTimeout = setTimeout(() => {
+        slateBlockRef.style.zIndex = 0;
+      }, 100);
     }
   }
 

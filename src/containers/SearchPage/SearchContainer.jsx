@@ -37,7 +37,6 @@ export const searchClasses = new BEMHelper({
 class SearchContainer extends Component {
   constructor() {
     super();
-    this.state = { hiddenContent: false };
     this.onSortOrderChange = this.onSortOrderChange.bind(this);
     this.onQueryPush = this.onQueryPush.bind(this);
     this.toggleContent = this.toggleContent.bind(this);
@@ -78,10 +77,6 @@ class SearchContainer extends Component {
 
   onSortOrderChange(sort) {
     this.onQueryPush({ sort, page: 1 });
-  }
-
-  toggleContent() {
-    this.setState(prevState => ({ hiddenContent: !prevState.hiddenContent }));
   }
 
   render() {

@@ -4858,6 +4858,11 @@ fill-range@^4.0.0:
     repeat-string "^1.6.1"
     to-regex-range "^2.1.0"
 
+filter-console@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/filter-console/-/filter-console-0.1.0.tgz#e9454e7f72221f5aa67eceb54366bb043e7e5da4"
+  integrity sha512-4za65Ug7I0hl8rrs67cbEPX82lSPvXkhlq5e1UA/YK1kqg77S/DUUPNlqV7DqmjbgcLCleayiVbpTV+jYPxiiw==
+
 finalhandler@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/finalhandler/-/finalhandler-1.1.1.tgz#eebf4ed840079c83f4249038c9d703008301b105"

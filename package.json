@@ -45,6 +45,7 @@
     "eslint": "^5.2.0",
     "eslint-config-ndla": "^0.5.1",
     "esm": "^3.0.74",
+    "filter-console": "^0.1.0",
     "flux-standard-action": "^2.0.3",
     "jsdom": "^11.12.0",
     "mkdirp": "^0.5.1",

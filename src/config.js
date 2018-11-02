@@ -30,7 +30,7 @@ const editorialFrontendDomain = () => {
     case 'local':
       return 'http://localhost:30017';
     case 'prod':
-      return 'https://ndla-frontend.api.ndla.no';
+      return 'https://ndla.no';
     default:
       return `https://ndla-frontend.${ndlaEnvironment}.api.ndla.no`;
   }

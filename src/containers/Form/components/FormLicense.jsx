@@ -23,10 +23,12 @@ const FormLicense = ({
   disabled,
   locale,
 }) => {
-  const licensesWithTranslations = licenses.map(license => ({
-    ...license,
-    ...getLicenseByAbbreviation(license.license, locale),
-  }));
+  const licensesWithTranslations = licenses
+    ? licenses.map(license => ({
+        ...license,
+        ...getLicenseByAbbreviation(license.license, locale),
+      }))
+    : [];
 
   return (
     <SelectObjectField

@@ -28,19 +28,16 @@ class AgreementConnection extends Component {
     this.state = { agreement: undefined };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { model } = this.props;
     this.fetchAgreement(model.agreementId);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { model } = nextProps;
-    if (
-      !model.agreementId &&
-      this.props.model.agreementId !== model.agreementId
-    ) {
-      this.setState({ agreement: undefined });
+  static getDerivedStateFromProps({ model }, { agreement }) {
+    if (!model.agreementId && agreement) {
+      return { agreement: undefined };
     }
+    return null;
   }
 
   async fetchAgreement(id) {

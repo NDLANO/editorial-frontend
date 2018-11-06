@@ -375,6 +375,9 @@ const phrases = {
       button: 'Sammenlign forskjellige språkversjoner',
       title: 'Utkast på {language}',
     },
+    contributor: {
+      add: 'Legg til',
+    },
     abort: 'Avbryt',
     validate: 'Valider',
     publish: 'Publiser',

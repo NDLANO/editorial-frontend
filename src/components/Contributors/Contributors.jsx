@@ -9,6 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { injectT } from 'ndla-i18n';
 import { contributorGroups, contributorTypes } from 'ndla-licenses';
 import Button from 'ndla-button';
 import {
@@ -36,6 +37,7 @@ const Contributors = props => {
     placeholder,
     bindInput,
     disabled,
+    t,
   } = props;
   const { onChange, value } = bindInput(name);
 
@@ -130,7 +132,7 @@ const Contributors = props => {
         onClick={addContributor}
         data-cy="addContributor"
         disabled={disabled}>
-        Legg til
+        {t('form.contributor.add')}
       </Button>
     </Fragment>
   );
@@ -154,4 +156,4 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default connect(mapStateToProps)(Contributors);
+export default injectT(connect(mapStateToProps)(Contributors));

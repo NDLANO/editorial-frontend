@@ -361,6 +361,9 @@ const phrases = {
       button: 'Compare different language versions',
       title: 'Draft on {language}',
     },
+    contributor: {
+      add: 'Add',
+    },
     abort: 'Abort',
     validate: 'Validate',
     publish: 'Publish',

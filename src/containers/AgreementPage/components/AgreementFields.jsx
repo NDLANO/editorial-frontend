@@ -35,7 +35,7 @@ const AgreementFields = props => {
         label={t('form.creators.label')}
         {...commonFieldProps}
       />
-      <FormLicense liceses={licenses} commonFieldProps={commonFieldProps} />
+      <FormLicense licenses={licenses} commonFieldProps={commonFieldProps} />
       <TextAreaField
         label={t('agreementForm.fields.content.label')}
         name="content"

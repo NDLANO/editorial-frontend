@@ -72,12 +72,13 @@ class AgreementConnection extends Component {
 
   render() {
     const { t, commonFieldProps, width } = this.props;
+    const { agreement } = this.state;
     return [
       <AsyncDropdownField
         key="agreement-connection-dropdown"
         valueField="id"
         name="agreementId"
-        selectedItem={this.state.agreement}
+        selectedItem={agreement}
         textField="title"
         placeholder={t('form.agreement.placeholder')}
         label={t('form.agreement.label')}
@@ -90,12 +91,12 @@ class AgreementConnection extends Component {
         onChange={this.handleChange}
         width={width}
       />,
-      this.state.agreement && this.state.agreement.id ? (
+      agreement && agreement.id ? (
         <Link
           key="agreement-connection-link"
           target="_blank"
-          to={toEditAgreement(this.state.agreement.id)}>
-          {this.state.agreement.title}
+          to={toEditAgreement(agreement.id)}>
+          {agreement.title}
         </Link>
       ) : (
         undefined

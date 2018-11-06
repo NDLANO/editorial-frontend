@@ -13,7 +13,7 @@ import { MultiSelectField, TextField } from '../../../components/Fields';
 import FormLicense from '../../Form/components/FormLicense';
 import Accordion from '../../../components/Accordion';
 import { CommonFieldPropsShape } from '../../../shapes';
-import Contributors from '../../../components/Contributors/Contributors';
+import Contributors from '../../../components/Contributors';
 
 class ImageMetaData extends Component {
   constructor(props) {

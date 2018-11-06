@@ -12,7 +12,7 @@ import { injectT } from 'ndla-i18n';
 import { MultiSelectField, TextField } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 import { CommonFieldPropsShape } from '../../../shapes';
-import Contributors from '../../../components/Contributors/Contributors';
+import Contributors from '../../../components/Contributors';
 import FormLicense from '../../Form/components/FormLicense';
 
 class AudioMetaData extends Component {

@@ -10,7 +10,7 @@ import {
   DateField,
 } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
-import Contributors from '../../../components/Contributors/Contributors';
+import Contributors from '../../../components/Contributors';
 import FormLicense from '../../Form/components/FormLicense';
 
 const AgreementFields = props => {

@@ -58,6 +58,16 @@
   cursor: pointer;
 }
 
+/* Should be moved to Article component in ndla-ui */
+.MJXc-display {
+  display: inline-block !important;
+  margin: 0;
+
+  & .mjx-chtml {
+    padding: 0;
+  }
+}
+
 /* Override ndla-ui styles */
 .c-article {
   font-family: var(--font);

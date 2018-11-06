@@ -21,7 +21,7 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-class InlineAddButton extends React.PureComponent {
+export class InlineAddButton extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

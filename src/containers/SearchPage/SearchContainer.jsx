@@ -124,6 +124,7 @@ class SearchContainer extends Component {
             results={results.results}
             searching={searching}
             type={type}
+            locale={locale}
           />
           <Pager
             page={searchObject.page ? parseInt(searchObject.page, 10) : 1}

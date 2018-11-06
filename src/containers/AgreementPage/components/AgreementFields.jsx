@@ -7,11 +7,11 @@ import {
   classes as fieldsClasses,
   TextField,
   TextAreaField,
-  SelectObjectField,
   DateField,
 } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Contributors from '../../../components/Contributors/Contributors';
+import FormLicense from '../../Form/components/FormLicense';
 
 const AgreementFields = props => {
   const { t, commonFieldProps, licenses, locale } = props;
@@ -35,14 +35,7 @@ const AgreementFields = props => {
         label={t('form.creators.label')}
         {...commonFieldProps}
       />
-      <SelectObjectField
-        name="license"
-        label={t('form.license.label')}
-        options={licenses}
-        idKey="license"
-        labelKey="description"
-        {...commonFieldProps}
-      />
+      <FormLicense licenses={licenses} commonFieldProps={commonFieldProps} />
       <TextAreaField
         label={t('agreementForm.fields.content.label')}
         name="content"

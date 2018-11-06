@@ -62,7 +62,7 @@ export const reduceChildElements = (el, type) => {
   return { nodes: childs };
 };
 
-export const createEmbedProps = obj =>
+export const createDataProps = obj =>
   Object.keys(obj)
     .filter(key => obj[key] !== undefined && !isObject(obj[key]))
     .reduce((acc, key) => ({ ...acc, [`data-${key}`]: obj[key] }), {});

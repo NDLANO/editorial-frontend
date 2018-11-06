@@ -48,7 +48,6 @@ const FormHeader = props => {
     { key: 'de', title: t('language.de'), include: false },
   ];
   const language = languages.find(lang => lang.key === model.language);
-
   if (!model.id) {
     return (
       <div {...formClasses('header', types[type].cssModifier)}>
@@ -91,6 +90,7 @@ const FormHeader = props => {
 FormHeader.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
+    language: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
   }),
   type: PropTypes.string.isRequired,

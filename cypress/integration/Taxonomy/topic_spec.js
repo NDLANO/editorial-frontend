@@ -141,6 +141,8 @@ describe('Topic editing', () => {
       status: 204,
       response: '',
     });
-    cy.get('[data-testid=confirmDelete]').click();
+    cy.get('[data-testid=confirmDelete]').click({
+      force: true,
+    });
   });
 });

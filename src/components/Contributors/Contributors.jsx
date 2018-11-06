@@ -6,20 +6,14 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectT } from 'ndla-i18n';
 import { contributorGroups, contributorTypes } from 'ndla-licenses';
 import Button from 'ndla-button';
-import {
-  FormHeader,
-  FormSections,
-  FormSplitter,
-  FormInput,
-  FormDropdown,
-  FormRemoveButton,
-} from 'ndla-forms';
+import { FormHeader } from 'ndla-forms';
+import Contributor from './Contributor';
 import { getField } from '../Fields';
 import { getLocale } from '../../modules/locale/locale';
 
@@ -30,14 +24,12 @@ const Contributors = props => {
   const {
     name,
     label,
-    labelRemove,
     locale,
     schema,
-    submitted,
-    placeholder,
     bindInput,
     disabled,
     t,
+    ...rest
   } = props;
   const { onChange, value } = bindInput(name);
 
@@ -83,49 +75,19 @@ const Contributors = props => {
   );
 
   return (
-    <Fragment>
+    <div>
       <FormHeader title={label} width={3 / 4} />
       {value.map((contributor, index) => (
-        <FormSections
-          key={`contributor_test_${index}`} // eslint-disable-line react/no-array-index-key
-        >
-          <div>
-            <FormSplitter>
-              <FormInput
-                warningText={
-                  submitted &&
-                  (contributor.name === '' || contributor.type === '')
-                    ? errorMessages[0]
-                    : null
-                }
-                container="div"
-                type="text"
-                focusOnMount={contributor.focusOnMount}
-                placeholder={placeholder}
-                disabled={disabled}
-                value={contributor.name}
-                onChange={e => handleContributorChange(e, 'name', index)}
-              />
-              <FormDropdown
-                value={contributor.type}
-                onChange={e => handleContributorChange(e, 'type', index)}
-                onBlur={e => handleContributorChange(e, 'type', index)}
-                data-cy="contributor-selector">
-                <option value="" />
-                {contributorTypeItems.map(item => (
-                  <option value={item.type} key={item.type}>
-                    {item.translation}
-                  </option>
-                ))}
-              </FormDropdown>
-            </FormSplitter>
-          </div>
-          <div>
-            <FormRemoveButton onClick={evt => removeContributor(evt, index)}>
-              {labelRemove}
-            </FormRemoveButton>
-          </div>
-        </FormSections>
+        <Contributor
+          key={`contributor_${index}`} // eslint-disable-line react/no-array-index-key
+          contributor={contributor}
+          index={index}
+          errorMessages={errorMessages}
+          contributorTypeItems={contributorTypeItems}
+          handleContributorChange={handleContributorChange}
+          removeContributor={removeContributor}
+          {...rest}
+        />
       ))}
       <Button
         outline
@@ -134,7 +96,7 @@ const Contributors = props => {
         disabled={disabled}>
         {t('form.contributor.add')}
       </Button>
-    </Fragment>
+    </div>
   );
 };
 

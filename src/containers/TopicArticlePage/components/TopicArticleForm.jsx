@@ -18,7 +18,9 @@ import Accordion, {
 import Button from 'ndla-button';
 import { withRouter } from 'react-router-dom';
 import reformed from '../../../components/reformed';
-import validateSchema from '../../../components/validateSchema';
+import validateSchema, {
+  checkTouchedInvalidField,
+} from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
 import {
@@ -185,6 +187,11 @@ class TopicArticleForm extends Component {
       {
         id: 'topic-article-content',
         title: t('form.contentSection'),
+        hasError: [
+          schema.fields.title,
+          schema.fields.introduction,
+          schema.fields.content,
+        ].some(field => checkTouchedInvalidField(field, submitted)),
         component: (
           <TopicArticleContent
             commonFieldProps={commonFieldProps}
@@ -197,6 +204,12 @@ class TopicArticleForm extends Component {
       {
         id: 'topic-article-copyright',
         title: t('form.copyrightSection'),
+        hasError: [
+          schema.fields.creators,
+          schema.fields.rightsholders,
+          schema.fields.processors,
+          schema.fields.license,
+        ].some(field => checkTouchedInvalidField(field, submitted)),
         component: (
           <FormCopyright
             model={model}
@@ -208,6 +221,9 @@ class TopicArticleForm extends Component {
       {
         id: 'topic-article-metadata',
         title: t('form.metadataSection'),
+        hasError: [schema.fields.metaDescription, schema.fields.tags].some(
+          field => checkTouchedInvalidField(field, submitted),
+        ),
         component: (
           <TopicArticleMetadata
             commonFieldProps={commonFieldProps}
@@ -219,6 +235,9 @@ class TopicArticleForm extends Component {
       {
         id: 'topic-article-workflow',
         title: t('form.workflowSection'),
+        hasError: [schema.fields.notes].some(field =>
+          checkTouchedInvalidField(field, submitted),
+        ),
         component: (
           <FormWorkflow
             commonFieldProps={commonFieldProps}
@@ -246,11 +265,13 @@ class TopicArticleForm extends Component {
                     panelId={panel.id}
                     ariaLabel={panel.title}
                     onClick={() => handleItemClick(panel.id)}
+                    hasError={panel.hasError}
                     isOpen={openIndexes.includes(panel.id)}>
                     {panel.title}
                   </AccordionBar>
                   <AccordionPanel
                     id={panel.id}
+                    hasError={panel.hasError}
                     isOpen={openIndexes.includes(panel.id)}>
                     <div className="u-4/6@desktop u-push-1/6@desktop">
                       {panel.component}
@@ -347,6 +368,10 @@ export default compose(
     introduction: {
       maxLength: 300,
     },
+    content: {
+      // TODO: Write test to validate content (see learning resource)
+      required: false,
+    },
     metaDescription: {
       maxLength: 155,
     },
@@ -365,6 +390,9 @@ export default compose(
         (model.visualElement.resource === 'image' ||
           model.visualElement.resource === 'brightcove'),
     },
+    tags: {
+      required: false,
+    },
     creators: {
       allObjectFieldsRequired: true,
     },
@@ -373,6 +401,12 @@ export default compose(
     },
     rightsholders: {
       allObjectFieldsRequired: true,
+    },
+    license: {
+      required: false,
+    },
+    notes: {
+      required: false,
     },
   }),
 )(TopicArticleForm);

@@ -192,6 +192,7 @@ class LearningResourceForm extends Component {
       notes: model.notes,
       language: model.language,
       updated: model.updated,
+      supportedLanguages: model.supportedLanguages,
     };
   }
 
@@ -375,12 +376,10 @@ class LearningResourceForm extends Component {
           />
         </Field>
         <WarningModalWrapper
-          schema={schema}
           showSaved={showSaved}
           fields={fields}
           model={model}
           initialModel={initialModel}
-          handleSubmit={this.handleSubmit}
           text={t('warningModal.notSaved')}
         />
       </form>

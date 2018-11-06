@@ -6,6 +6,17 @@
  *
  */
 
+.c-editor__move-content-button {
+  position: absolute;
+  top: 0.1rem;
+  right: 1.2rem;
+  color: var(--green-1);
+
+  &:focus {
+    color: color(var(--green-1) blackness(+20%));
+  }
+}
+
 .c-bodybox__delete-button,
 .c-related-box__delete-button,
 .c-editor__delete-button,

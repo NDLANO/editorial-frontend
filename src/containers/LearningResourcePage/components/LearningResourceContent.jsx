@@ -34,6 +34,8 @@ import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
 import { createEmptyValue } from '../../../util/articleContentConverter';
 import pasteHandler from '../../../components/SlateEditor/plugins/pasteHandler';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
+import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
+import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
 
 import {
   editListPlugin,
@@ -58,12 +60,18 @@ class LearningResourceContent extends Component {
       createLinkPlugin(),
       conceptPlugin(),
       headingPlugin(),
+      // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
+      // Blockquote and editList actions need to be triggered before paragraph action, else
+      // unwrapping (jumping out of block) will not work.
       blockquotePlugin,
       editListPlugin,
+      paragraphPlugin(),
+
       createTablePlugin(),
       editTablePlugin,
       relatedPlugin(),
       filePlugin(),
+      mathmlPlugin(),
       blockPickerPlugin(this.addSection),
       pasteHandler(),
     ];

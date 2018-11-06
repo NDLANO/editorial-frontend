@@ -12,6 +12,7 @@ import Button from 'ndla-button';
 import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
 import { Cross } from 'ndla-icons/action';
+import { ChevronLeft } from 'ndla-icons/common';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -19,16 +20,27 @@ const classes = new BEMHelper({
 });
 
 const SlateRightAside = props => {
-  const { children, onRemoveClick, t, attributes } = props;
+  const { children, onRemoveClick, onMoveContent, t, attributes } = props;
 
   return (
     <aside {...classes('right-aside', '', 'c-aside expanded')} {...attributes}>
       <div {...classes('aside-type')} contentEditable={false}>
-        {t('learningResourceForm.fields.rightAside')}
+        {t('learningResourceForm.fields.rightAside.title')}
       </div>
       <div className="c-aside__content">{children}</div>
-      <Button stripped onClick={onRemoveClick} {...classes('delete-button')}>
+      <Button
+        title={t('learningResourceForm.fields.rightAside.delete')}
+        stripped
+        onClick={onRemoveClick}
+        {...classes('delete-button')}>
         <Cross />
+      </Button>
+      <Button
+        title={t('learningResourceForm.fields.rightAside.moveContent')}
+        stripped
+        onClick={onMoveContent}
+        {...classes('move-content-button')}>
+        <ChevronLeft />
       </Button>
     </aside>
   );
@@ -39,6 +51,7 @@ SlateRightAside.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   onRemoveClick: PropTypes.func.isRequired,
+  onMoveContent: PropTypes.func.isRequired,
 };
 
 export default injectT(SlateRightAside);

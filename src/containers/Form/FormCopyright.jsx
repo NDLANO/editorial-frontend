@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { FormHeader, FormSections, FormDropdown } from 'ndla-forms';
+import FormLicense from './components/FormLicense';
 import { CommonFieldPropsShape } from '../../shapes';
 import Contributors from '../../components/Contributors/Contributors';
 import { AgreementConnection } from '.';
@@ -46,18 +46,11 @@ const FormCopyright = ({ t, commonFieldProps, licenses, model }) => {
         model={model}
         width={3 / 4}
       />
-      <FormHeader title={t('form.license.label')} width={3 / 4} />
-      <FormSections>
-        <div>
-          <FormDropdown value="" {...commonFieldProps.bindInput('license')}>
-            {licenses.map(license => (
-              <option value={license.license} key={license.license}>
-                {license.description}
-              </option>
-            ))}
-          </FormDropdown>
-        </div>
-      </FormSections>
+      <FormLicense
+        disabled={disabled}
+        licenses={licenses}
+        commonFieldProps={commonFieldProps}
+      />
     </Fragment>
   );
 };
@@ -73,6 +66,7 @@ FormCopyright.propTypes = {
   model: PropTypes.shape({
     agreementId: PropTypes.number,
   }),
+  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(FormCopyright);

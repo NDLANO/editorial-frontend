@@ -108,6 +108,7 @@ const phrases = {
     en: 'English',
     nb: 'Norwegian - Bokmål',
     nn: 'Norwegian - Nynorsk',
+    se: 'Swedish',
     unknown: 'Unknown',
     de: 'German',
     empty: 'No languages left',
@@ -308,7 +309,11 @@ const phrases = {
         'One or more inlcuded video, image, or audio elements is missing caption or alternative text.',
     },
     fields: {
-      rightAside: 'Right column',
+      rightAside: {
+        title: 'Right column',
+        moveContent: 'Move content into the text',
+        delete: 'Delete right aside',
+      },
       metaImage: {
         title: 'Meta image',
         label: 'Meta image',
@@ -344,11 +349,17 @@ const phrases = {
     saving: 'Saving...',
     choose: 'Choose',
     saved: 'Saved ',
-    preview: 'Preview',
-    previewAndCompare: {
+    preview: {
+      button: 'Preview',
+    },
+    previewProductionArticle: {
       button: 'Compare draft and article',
       article: 'Article',
       draft: 'Draft',
+    },
+    previewLanguageArticle: {
+      button: 'Compare different language versions',
+      title: 'Draft on {language}',
     },
     abort: 'Abort',
     validate: 'Validate',
@@ -455,6 +466,7 @@ const phrases = {
         change: 'Change',
         remove: 'Remove link',
         href: 'Link',
+        title: 'Title',
         newTab: 'Open link in new tab',
         text: 'Text',
         addTitle: 'Add link',

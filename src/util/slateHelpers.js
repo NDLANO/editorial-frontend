@@ -11,13 +11,13 @@ import isEmpty from 'lodash/fp/isEmpty';
 import { uuid } from 'ndla-util';
 import {
   reduceElementDataAttributes,
-  createEmbedProps,
+  createDataProps,
   createProps,
   reduceChildElements,
   removeEmptyElementDataAttributes,
 } from './embedTagHelpers';
 
-export const BLOCK_TAGS = {
+const BLOCK_TAGS = {
   section: 'section',
   blockquote: 'quote',
   details: 'details',
@@ -68,6 +68,22 @@ export const toJSON = state => state.toJSON();
 
 export const logState = state => {
   console.log(JSON.stringify(toJSON(state), null, 2)); // eslint-disable-line no-console
+};
+
+// Check if a the parent element can contain a Slate block. This is useful because Slate does not
+// allow you to have mixed inline and block level content in the same node. A block can either
+// contain all block nodes, or it can contain inline and text nodes.
+const canParentElementContainBlock = el => {
+  if (el.parentNode && el.parentNode.tagName) {
+    const tagName = el.parentNode.tagName.toLowerCase();
+    return (
+      tagName === 'section' ||
+      tagName === 'div' ||
+      tagName === 'aside' ||
+      BLOCK_TAGS[tagName] !== undefined
+    );
+  }
+  return false;
 };
 
 // TODO: get type of aside in here. Default should be rightAside since that is the only
@@ -155,7 +171,7 @@ export const divRule = {
             {slateObject.data.get('nodes') &&
               slateObject.data
                 .get('nodes')
-                .map(node => <embed {...createEmbedProps(node)} />)}
+                .map(node => <embed {...createDataProps(node)} />)}
           </div>
         );
       default:
@@ -171,11 +187,13 @@ export const paragraphRule = {
     const parent = el.parentElement
       ? el.parentElement.tagName.toLowerCase()
       : '';
-
     const type = parent === 'li' ? 'list-text' : 'paragraph';
     const nodes = next(el.childNodes);
     return {
       object: 'block',
+      data: {
+        ...reduceElementDataAttributes(el),
+      },
       type,
       nodes,
     };
@@ -187,7 +205,16 @@ export const paragraphRule = {
     if (slateObject.type === 'list-text') {
       return <ListText>{children}</ListText>;
     }
-    return <p>{children}</p>;
+
+    /**
+      We insert empty p tag throughout the document to enable positioning the cursor
+      between element with no spacing (i.e two images). We need to remove these element
+      on seriaization.
+     */
+    if (slateObject.text === '') return null;
+
+    const dataProps = createDataProps(slateObject.data.toJS());
+    return <p {...dataProps}>{children}</p>;
   },
 };
 
@@ -242,6 +269,42 @@ export const unorderListRules = {
       return <ul data-type="two-column">{children}</ul>;
     }
     return <ul>{children}</ul>;
+  },
+};
+
+export const mathRules = {
+  deserialize(el) {
+    const tagName = el.tagName.toLowerCase();
+    if (tagName !== 'math') return;
+    return {
+      object: canParentElementContainBlock(el) ? 'block' : 'inline',
+      type: 'mathml',
+      data: { ...reduceElementDataAttributes(el), innerHTML: el.innerHTML },
+      nodes: [
+        {
+          object: 'text',
+          leaves: [
+            {
+              object: 'leaf',
+              text: 'm',
+            },
+          ],
+        },
+      ],
+    };
+  },
+  serialize(slateObject) {
+    const { type, data } = slateObject;
+    if (type !== 'mathml') return;
+    const { innerHTML, ...mathAttributes } = data.toJS();
+    return (
+      <math
+        {...mathAttributes}
+        dangerouslySetInnerHTML={{
+          __html: innerHTML,
+        }}
+      />
+    );
   },
 };
 
@@ -312,7 +375,7 @@ export const footnoteRule = {
     if (slateObject.type !== 'footnote') return;
 
     const data = slateObject.data.toJS();
-    const props = createEmbedProps({
+    const props = createDataProps({
       ...data,
       authors: data.authors ? data.authors.join(';') : '',
     });
@@ -355,8 +418,6 @@ export const blockRules = {
         return <details>{children}</details>;
       case 'summary':
         return <summary>{children}</summary>;
-      case 'br':
-        return <br />;
       case 'pre':
         return <pre>{children}</pre>;
     }
@@ -370,6 +431,7 @@ export const inlineRules = {
 
     if (!inline) return;
     if (inline === 'span' && isEmpty(attributes)) return; // Keep only spans with attributes
+
     return {
       object: 'inline',
       type: inline,
@@ -381,9 +443,9 @@ export const inlineRules = {
     if (slateObject.object !== 'inline') return;
     const data = slateObject.data.toJS();
     const props = createProps(data);
-    switch (slateObject.type) {
-      case 'span':
-        return <span {...props}>{children}</span>;
+    const inline = INLINE_TAGS[slateObject.type];
+    if (inline) {
+      return <slateObject.type {...props}>{children}</slateObject.type>;
     }
   },
 };
@@ -438,10 +500,31 @@ const relatedRule = {
           {object.data.get('nodes') &&
             object.data
               .get('nodes')
-              .map(node => <embed key={uuid()} {...createEmbedProps(node)} />)}
+              .map(node => <embed key={uuid()} {...createDataProps(node)} />)}
         </div>
       );
     }
+  },
+};
+
+export const brRule = {
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'br') return;
+
+    // Transform <br> in blocktags as blocks. This prevents slate from
+    // wrapping br in paragraphs (i.e. "<br><br><br>" -> "<p><br><br><br></p>"
+    if (canParentElementContainBlock(el)) {
+      return {
+        object: 'block',
+        type: 'br',
+        nodes: next(el.childNodes),
+      };
+    }
+    // Default to standard slate deserializing if not in a known block
+  },
+  serialize(slateObject) {
+    if (slateObject.type !== 'br') return;
+    return <br />;
   },
 };
 
@@ -454,6 +537,7 @@ const RULES = [
   paragraphRule,
   listItemRule,
   relatedRule,
+  mathRules,
   {
     // Aside handling
     deserialize(el, next) {
@@ -473,6 +557,7 @@ const RULES = [
   },
   blockRules,
   inlineRules,
+  brRule,
   {
     deserialize(el, next) {
       const mark = MARK_TAGS[el.tagName.toLowerCase()];
@@ -508,8 +593,9 @@ const RULES = [
         type: 'link',
         data: {
           href: el.href ? el.href : '#',
-          target: el.target ? el.target : '',
-          rel: el.rel ? el.rel : '',
+          target: el.target !== '' ? el.target : undefined,
+          title: el.title !== '' ? el.title : undefined,
+          rel: el.rel !== '' ? el.rel : undefined,
         },
         nodes: next(el.childNodes),
       };
@@ -535,7 +621,7 @@ const RULES = [
           href={data.href}
           rel={data.rel}
           target={data.target}
-          title={slateObject.text}>
+          title={data.title}>
           {children}
         </a>
       );
@@ -630,7 +716,7 @@ export const learningResourceEmbedRule = [
         object.type === 'concept'
       ) {
         const data = object.data.toJS();
-        const props = createEmbedProps(data);
+        const props = createDataProps(data);
 
         return <embed {...props} />;
       }

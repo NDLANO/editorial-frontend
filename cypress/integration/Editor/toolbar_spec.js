@@ -29,7 +29,7 @@ describe('Selecting text and using the toolbar', () => {
         cy.get('[data-testid=toolbar-button-heading-three]').click();
         cy.wrap($el)
           .find('h3')
-          .should('have.length', 2);
+          .should('have.length', 3);
       });
   });
 
@@ -61,6 +61,7 @@ describe('Selecting text and using the toolbar', () => {
           .and('equal', 'http://www.vg.no/');
       });
   });
+
   it('All lists work properly', () => {
     cy.get('[data-cy=slate-editor] div')
       .first()
@@ -75,24 +76,19 @@ describe('Selecting text and using the toolbar', () => {
         cy.get('[data-testid=toolbar-button-numbered-list]').click();
         cy.get('ol > li').should('have.length', 1);
         cy.wrap($el).type('{rightarrow}{enter}Second item in list');
+        cy.get('ol > li').should('have.length', 2);
         cy.wrap($el)
           .focus()
           .type('{selectall}');
         cy.get('[data-testid=toolbar-button-bulleted-list]').click();
-        cy.get('ul > li').should('have.length', 3);
-        cy.wrap($el).type(
-          '{rightarrow}{enter}Its now a bullet list{selectall}',
-        );
+        cy.get('ul > li').should('have.length', 4); // N.B {selectall} selects empty paragraphs so item increases by 2
         cy.get('[data-testid=toolbar-button-letter-list]').click();
         cy.get('ol > li').should('have.length', 4);
-        cy.wrap($el).type('{rightarrow}{enter}Now its letters!');
-        cy.wrap($el)
-          .focus()
-          .type('{selectall}');
         cy.get('[data-testid=toolbar-button-two-column-list]').click();
-        cy.get('ul > li').should('have.length', 5);
+        cy.get('ul > li').should('have.length', 4);
       });
   });
+
   it('Creates footnote', () => {
     cy.get('[data-cy=slate-editor] div')
       .first()

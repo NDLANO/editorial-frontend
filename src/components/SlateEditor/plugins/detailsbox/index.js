@@ -27,7 +27,29 @@ export const defaultDetailsBlock = () =>
 
 export default function createDetails() {
   const schema = {
-    document: {},
+    blocks: {
+      // We can't use textBlockValidationRules for <details> because it wraps <summary>. Just
+      // use last child rule for now, but we should refactor to use a more suited representation
+      // which separates summary from details.
+      details: {
+        last: { type: 'paragraph' },
+        normalize: (change, error) => {
+          switch (error.code) {
+            case 'last_child_type_invalid': {
+              const block = Block.create(defaultBlocks.defaultBlock);
+              change.insertNodeByKey(
+                error.node.key,
+                error.node.nodes.size,
+                block,
+              );
+              break;
+            }
+            default:
+              break;
+          }
+        },
+      },
+    },
   };
 
   // Rule to always insert a paragraph as the last node inside if void type

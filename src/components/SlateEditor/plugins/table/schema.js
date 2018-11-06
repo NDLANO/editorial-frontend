@@ -47,7 +47,13 @@ const renderNode = props => {
     case 'table-row':
       return <tr {...attributes}>{children}</tr>;
     case 'table-cell':
-      return <td {...attributes}>{children}</td>;
+      return (
+        <td
+          className={node.data.get('isHeader') ? 'c-table__header' : ''}
+          {...attributes}>
+          {children}
+        </td>
+      );
     default:
       return null;
   }

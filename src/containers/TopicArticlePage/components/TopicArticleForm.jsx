@@ -142,6 +142,7 @@ class TopicArticleForm extends Component {
       },
       notes: model.notes,
       language: model.language,
+      supportedLanguages: model.supportedLanguages,
     };
   }
 
@@ -298,10 +299,8 @@ class TopicArticleForm extends Component {
         <WarningModalWrapper
           initialModel={initialModel}
           model={model}
-          schema={schema}
           showSaved={showSaved}
           fields={fields}
-          handleSubmit={this.handleSubmit}
           text={t('warningModal.notSaved')}
         />
       </form>

@@ -6,36 +6,51 @@
  *
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Article as UIArticle, ContentTypeBadge } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 
-const PreviewDraft = ({ article, contentType, label, t }) => {
-  if (!article) {
-    return null;
+class PreviewDraft extends Component {
+  componentDidMount() {
+    if (window.MathJax) {
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    }
   }
-  const icon = contentType ? (
-    <ContentTypeBadge type={contentType} background size="large" />
-  ) : null;
-  return (
-    <UIArticle
-      article={article}
-      icon={icon}
-      messages={{
-        lastUpdated: t('article.lastUpdated'),
-        edition: t('article.edition'),
-        publisher: t('article.publisher'),
-        label,
-        useContent: t('article.useContent'),
-        closeLabel: t('article.closeLabel'),
-        additionalLabel: t('article.additionalLabel'),
-        authorLabel: t('license.creditType.originator'),
-        authorDescription: t('license.creditType.authorDesc'),
-      }}
-    />
-  );
-};
+
+  componentDidUpdate() {
+    if (window.MathJax) {
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    }
+  }
+
+  render() {
+    const { article, contentType, label, t } = this.props;
+    if (!article) {
+      return null;
+    }
+    const icon = contentType ? (
+      <ContentTypeBadge type={contentType} background size="large" />
+    ) : null;
+    return (
+      <UIArticle
+        article={article}
+        icon={icon}
+        messages={{
+          lastUpdated: t('article.lastUpdated'),
+          edition: t('article.edition'),
+          publisher: t('article.publisher'),
+          label,
+          useContent: t('article.useContent'),
+          closeLabel: t('article.closeLabel'),
+          additionalLabel: t('article.additionalLabel'),
+          authorLabel: t('license.creditType.originator'),
+          authorDescription: t('license.creditType.authorDesc'),
+        }}
+      />
+    );
+  }
+}
 
 PreviewDraft.propTypes = {
   article: PropTypes.shape({

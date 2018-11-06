@@ -9,14 +9,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import {
-  MultiSelectField,
-  SelectObjectField,
-  TextField,
-} from '../../../components/Fields';
+import { MultiSelectField, TextField } from '../../../components/Fields';
 import Accordion from '../../../components/Accordion';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Contributors from '../../../components/Contributors/Contributors';
+import FormLicense from '../../Form/components/FormLicense';
 
 class AudioMetaData extends Component {
   constructor(props) {
@@ -35,6 +32,7 @@ class AudioMetaData extends Component {
 
   render() {
     const { t, commonFieldProps, tags, licenses } = this.props;
+
     return (
       <Accordion
         fill
@@ -54,14 +52,7 @@ class AudioMetaData extends Component {
           }}
           {...commonFieldProps}
         />
-        <SelectObjectField
-          name="license"
-          label={t('form.license.label')}
-          options={licenses}
-          idKey="license"
-          labelKey="description"
-          {...commonFieldProps}
-        />
+        <FormLicense licenses={licenses} commonFieldProps={commonFieldProps} />
         <TextField
           label={t('form.origin.label')}
           name="origin"

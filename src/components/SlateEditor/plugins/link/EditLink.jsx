@@ -33,10 +33,11 @@ const createContentLinkData = (href, targetRel) => {
   };
 };
 
-const createLinkData = (href, targetRel) => ({
+const createLinkData = (href, title, targetRel) => ({
   type: TYPE,
   data: {
     href,
+    title,
     ...targetRel,
   },
 });
@@ -61,7 +62,7 @@ class EditLink extends React.Component {
 
   handleSave(model) {
     const { value, node } = this.props;
-    const { href, text, checkbox } = model;
+    const { href, text, title, checkbox } = model;
     const isNDLAUrl = /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
     const data = isNDLAUrl
       ? createContentLinkData(
@@ -70,7 +71,7 @@ class EditLink extends React.Component {
             ? { 'open-in': 'new-context' }
             : { 'open-in': 'current-context' },
         )
-      : createLinkData(href, checkbox ? newTabAttributes : {});
+      : createLinkData(href, title, checkbox ? newTabAttributes : {});
 
     if (node.key) {
       // update/change
@@ -127,6 +128,9 @@ class EditLink extends React.Component {
 EditLink.propTypes = {
   model: PropTypes.shape({
     href: PropTypes.string,
+    text: PropTypes.string,
+    title: PropTypes.string,
+    checkbox: PropTypes.bool,
   }).isRequired,
   closeEditMode: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

@@ -32,6 +32,7 @@ const getModelFromNode = node => {
   return {
     href,
     text: node.text,
+    title: data.title,
     checkbox,
   };
 };
@@ -76,7 +77,7 @@ class Link extends Component {
     const { top, left } = this.getMenuPosition();
 
     const model = getModelFromNode(node, EditorValue);
-    const { href } = model;
+    const { href, title } = model;
 
     return (
       <span>
@@ -86,6 +87,7 @@ class Link extends Component {
           ref={linkRef => {
             this.linkRef = linkRef;
           }}
+          title={title}
           {...attributes}>
           {this.props.children}
         </a>
@@ -97,7 +99,11 @@ class Link extends Component {
               {t('form.content.link.change')}
             </Button>{' '}
             | {t('form.content.link.goTo')}{' '}
-            <a href={href} target="_blank" rel="noopener noreferrer">
+            <a
+              title={title}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer">
               {' '}
               {href}
             </a>

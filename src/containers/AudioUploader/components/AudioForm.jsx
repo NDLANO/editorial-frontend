@@ -8,12 +8,19 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
+import Accordion, {
+  AccordionWrapper,
+  AccordionBar,
+  AccordionPanel,
+} from 'ndla-accordion';
 import PropTypes from 'prop-types';
 import Button from 'ndla-button';
 import { withRouter } from 'react-router-dom';
 import BEMHelper from 'react-bem-helper';
 import reformed from '../../../components/reformed';
-import validateSchema from '../../../components/validateSchema';
+import validateSchema, {
+  checkTouchedInvalidField,
+} from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
 import {
@@ -120,6 +127,46 @@ class AudioForm extends Component {
 
     const commonFieldProps = { bindInput, schema, submitted };
 
+    const panels = [
+      {
+        id: 'audio-upload-content',
+        title: t('form.contentSection'),
+        hasError: [schema.fields.title, schema.fields.audioFile].some(field =>
+          checkTouchedInvalidField(field, submitted),
+        ),
+        component: (
+          <AudioContent
+            classes={classes}
+            commonFieldProps={commonFieldProps}
+            bindInput={bindInput}
+            tags={tags}
+            model={model}
+            audioInfo={audioInfo}
+          />
+        ),
+      },
+      {
+        id: 'audio-upload-metadataSection',
+        title: t('form.metadataSection'),
+        hasError: [
+          schema.fields.tags,
+          schema.fields.creators,
+          schema.fields.rightsholders,
+          schema.fields.processors,
+          schema.fields.license,
+        ].some(field => checkTouchedInvalidField(field, submitted)),
+        component: (
+          <AudioMetaData
+            classes={classes}
+            commonFieldProps={commonFieldProps}
+            bindInput={bindInput}
+            tags={tags}
+            licenses={licenses}
+          />
+        ),
+      },
+    ];
+
     return (
       <form onSubmit={this.handleSubmit} {...classes()}>
         <FormHeader
@@ -127,21 +174,32 @@ class AudioForm extends Component {
           type="audio"
           editUrl={lang => toEditAudio(model.id, lang)}
         />
-        <AudioContent
-          classes={classes}
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-          tags={tags}
-          model={model}
-          audioInfo={audioInfo}
-        />
-        <AudioMetaData
-          classes={classes}
-          commonFieldProps={commonFieldProps}
-          bindInput={bindInput}
-          tags={tags}
-          licenses={licenses}
-        />
+        <Accordion openIndexes={['audio-upload-content']}>
+          {({ openIndexes, handleItemClick }) => (
+            <AccordionWrapper>
+              {panels.map(panel => (
+                <React.Fragment key={panel.id}>
+                  <AccordionBar
+                    panelId={panel.id}
+                    ariaLabel={panel.title}
+                    onClick={() => handleItemClick(panel.id)}
+                    hasError={panel.hasError}
+                    isOpen={openIndexes.includes(panel.id)}>
+                    {panel.title}
+                  </AccordionBar>
+                  <AccordionPanel
+                    id={panel.id}
+                    hasError={panel.hasError}
+                    isOpen={openIndexes.includes(panel.id)}>
+                    <div className="u-4/6@desktop u-push-1/6@desktop">
+                      {panel.component}
+                    </div>
+                  </AccordionPanel>
+                </React.Fragment>
+              ))}
+            </AccordionWrapper>
+          )}
+        </Accordion>
         <Field right {...classes('form-actions')}>
           <Button outline disabled={isSaving} onClick={history.goBack}>
             {t('form.abort')}
@@ -219,6 +277,9 @@ export default compose(
       allObjectFieldsRequired: true,
     },
     audioFile: {
+      required: true,
+    },
+    license: {
       required: true,
     },
   }),

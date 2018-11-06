@@ -110,36 +110,39 @@ describe('Learning resource editing', () => {
     cy.get('button > span')
       .contains('Innhold')
       .click({ force: true });
-    cy.get('label')
+    cy.get('h2')
       .contains('Opphavsperson')
+      .parent()
       .parent()
       .within(_ => {
         cy.get('[data-cy=addContributor]').click({ force: true });
-        cy.get('.c-field__add-contributor > input').type('Ola Nordmann', {
+        cy.get('input[type="text"]').type('Ola Nordmann', {
           force: true,
         });
         cy.get('[data-cy="contributor-selector"]').select('Originator', {
           force: true,
         });
       });
-    cy.get('label')
+    cy.get('h2')
       .contains('Rettighetshaver')
+      .parent()
       .parent()
       .within(_ => {
         cy.get('[data-cy=addContributor]').click({ force: true });
-        cy.get('.c-field__add-contributor > input').type('Ola Nordmann', {
+        cy.get('input[type="text"]').type('Ola Nordmann', {
           force: true,
         });
         cy.get('[data-cy="contributor-selector"]').select('Rightsholder', {
           force: true,
         });
       });
-    cy.get('label')
+    cy.get('h2')
       .contains('Bearbeider')
+      .parent()
       .parent()
       .within(_ => {
         cy.get('[data-cy=addContributor]').click({ force: true });
-        cy.get('.c-field__add-contributor > input').type('Ola Nordmann', {
+        cy.get('input[type="text"]').type('Ola Nordmann', {
           force: true,
         });
         cy.get('[data-cy="contributor-selector"]').select('Processor', {

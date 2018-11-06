@@ -9,6 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { FormHeader, FormSections, FormInput } from 'ndla-forms';
 import {
   PlainTextField,
   MultiSelectField,
@@ -31,20 +32,36 @@ const TopicArticleMetadata = ({ t, bindInput, commonFieldProps, tags }) => (
       }}
       {...commonFieldProps}
     />
+    <FormHeader
+      title={t('form.metaDescription.label')}
+      subTitle={t('form.metaDescription.description')}
+    />
+    <FormSections>
+      <div>
+        <FormInput
+          container="div"
+          maxLength={155}
+          autoExpand
+          {...commonFieldProps}
+        />
+      </div>
+      <div>
+        <RemainingCharacters
+          maxLength={155}
+          getRemainingLabel={(maxLength, remaining) =>
+            t('form.remainingCharacters', { maxLength, remaining })
+          }
+          value={bindInput('metaDescription').value.document.text}
+        />
+      </div>
+    </FormSections>
     <PlainTextField
       label={t('form.metaDescription.label')}
       description={t('form.metaDescription.description')}
       name="metaDescription"
       maxLength={155}
-      {...commonFieldProps}>
-      <RemainingCharacters
-        maxLength={155}
-        getRemainingLabel={(maxLength, remaining) =>
-          t('form.remainingCharacters', { maxLength, remaining })
-        }
-        value={bindInput('metaDescription').value.document.text}
-      />
-    </PlainTextField>
+      {...commonFieldProps}
+    />
   </Fragment>
 );
 

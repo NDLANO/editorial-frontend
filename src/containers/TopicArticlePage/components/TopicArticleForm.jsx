@@ -187,6 +187,7 @@ class TopicArticleForm extends Component {
       {
         id: 'topic-article-content',
         title: t('form.contentSection'),
+        className: 'u-4/6@desktop u-push-1/6@desktop',
         hasError: [
           schema.fields.title,
           schema.fields.introduction,
@@ -221,6 +222,7 @@ class TopicArticleForm extends Component {
       {
         id: 'topic-article-metadata',
         title: t('form.metadataSection'),
+        className: 'u-6/6',
         hasError: [schema.fields.metaDescription, schema.fields.tags].some(
           field => checkTouchedInvalidField(field, submitted),
         ),
@@ -235,6 +237,7 @@ class TopicArticleForm extends Component {
       {
         id: 'topic-article-workflow',
         title: t('form.workflowSection'),
+        className: 'u-6/6',
         hasError: [schema.fields.notes].some(field =>
           checkTouchedInvalidField(field, submitted),
         ),
@@ -273,9 +276,7 @@ class TopicArticleForm extends Component {
                     id={panel.id}
                     hasError={panel.hasError}
                     isOpen={openIndexes.includes(panel.id)}>
-                    <div className="u-4/6@desktop u-push-1/6@desktop">
-                      {panel.component}
-                    </div>
+                    <div className={panel.className}>{panel.component}</div>
                   </AccordionPanel>
                 </React.Fragment>
               ))}

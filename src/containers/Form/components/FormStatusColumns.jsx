@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { formClasses } from '..';
+import { FormHeader } from 'ndla-forms';
 import Tag from '../../../components/Tag';
 
 function FormStatusColumns({ articleStatus, t }) {
@@ -18,7 +18,7 @@ function FormStatusColumns({ articleStatus, t }) {
   }
   return (
     <div>
-      <span {...formClasses('title')}>{t('form.workflow.title')}</span>
+      <FormHeader title={t('form.workflow.title')} width={3 / 4} />
       <div style={{ display: 'flex' }}>
         <Tag modifier="wide">
           {t(`form.status.${articleStatus.current.toLowerCase()}`)}

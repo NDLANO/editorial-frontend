@@ -258,6 +258,7 @@ class LearningResourceForm extends Component {
       {
         id: 'learning-resource-content',
         title: t('form.contentSection'),
+        className: 'u-4/6@desktop u-push-1/6@desktop',
         hasError: [
           schema.fields.title,
           schema.fields.introduction,
@@ -277,6 +278,7 @@ class LearningResourceForm extends Component {
       {
         id: 'learning-resource-copyright',
         title: t('form.copyrightSection'),
+        className: 'u-6/6',
         hasError: [
           schema.fields.creators,
           schema.fields.rightsholders,
@@ -294,6 +296,7 @@ class LearningResourceForm extends Component {
       {
         id: 'learning-resource-metadata',
         title: t('form.metadataSection'),
+        className: 'u-6/6',
         hasError: [
           schema.fields.metaDescription,
           schema.fields.tags,
@@ -311,6 +314,7 @@ class LearningResourceForm extends Component {
       {
         id: 'learning-resource-workflow',
         title: t('form.workflowSection'),
+        className: 'u-6/6',
         hasError: [schema.fields.notes].some(field =>
           checkTouchedInvalidField(field, submitted),
         ),
@@ -328,6 +332,7 @@ class LearningResourceForm extends Component {
       panels.splice(1, 0, {
         id: 'learning-resource-taxonomy',
         title: t('form.taxonomytSection'),
+        className: 'u-6/6',
         component: (
           <LearningResourceTaxonomy
             commonFieldProps={commonFieldProps}
@@ -361,9 +366,7 @@ class LearningResourceForm extends Component {
                     id={panel.id}
                     hasError={panel.hasError}
                     isOpen={openIndexes.includes(panel.id)}>
-                    <div className="u-4/6@desktop u-push-1/6@desktop">
-                      {panel.component}
-                    </div>
+                    <div className={panel.className}>{panel.component}</div>
                   </AccordionPanel>
                 </React.Fragment>
               ))}

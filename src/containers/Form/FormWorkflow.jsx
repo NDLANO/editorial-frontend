@@ -82,7 +82,10 @@ class FormWorkflow extends Component {
       <Fragment>
         <AddNotes
           name="notes"
-          label={t('form.addNotes')}
+          labelHeading={t('form.notesHeading')}
+          labelAddNote={t('form.addNotes')}
+          labelRemoveNote={t('form.removeNotes')}
+          labelWarningNote={t('form.warningNotes')}
           {...commonFieldProps}
         />
         <FormStatusColumns articleStatus={articleStatus} />

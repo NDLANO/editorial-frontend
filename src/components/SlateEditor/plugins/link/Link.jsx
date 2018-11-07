@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import config from '../../../../config';
 import { Portal } from '../../../Portal';

@@ -208,6 +208,15 @@
   dependencies:
     "@ndla/core" "^0.4.0"
 
+"@ndla/article-scripts@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@ndla/article-scripts/-/article-scripts-0.5.0.tgz#797737bed71a8ece93053c60f2862b9f246a6496"
+  dependencies:
+    "@ndla/util" "^0.3.0"
+    focus-trap "^2.4.3"
+    jump.js "^1.0.2"
+    lodash "^4.17.5"
+
 "@ndla/audio-search@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@ndla/audio-search/-/audio-search-0.5.0.tgz#62b96a1c31088a6361f0f73a9af0404e20771e3c"
@@ -233,6 +242,20 @@
     polished "^2.2.0"
     sass-mq "^5.0.0"
 
+"@ndla/error-reporter@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@ndla/error-reporter/-/error-reporter-0.4.0.tgz#465d79377c52d535113cab864b61eee2f7d2eb50"
+  dependencies:
+    "@ndla/util" "^0.3.0"
+    raven-js "^3.22.3"
+
+"@ndla/forms@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.1.0.tgz#759353f317bf8c1329986f9705b37fc24ce80729"
+  dependencies:
+    "@ndla/core" "^0.4.0"
+    "@ndla/icons" "^0.5.0"
+
 "@ndla/i18n@^0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@ndla/i18n/-/i18n-0.4.0.tgz#1bcde295961d82d1b4d9a132e53e5b90b7d4d2bc"
@@ -245,6 +268,16 @@
 "@ndla/icons@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.5.0.tgz#00f6f741e3d87a81a19b2d4a6a4aaaa182788764"
+
+"@ndla/image-search@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-0.7.0.tgz#c1eff0de68722d4dd6dc9e41f3fdb0ff530bab34"
+  dependencies:
+    "@ndla/button" "^0.1.0"
+    "@ndla/core" "^0.4.0"
+    "@ndla/forms" "^0.1.0"
+    "@ndla/licenses" "^0.4.0"
+    "@ndla/util" "^0.3.0"
 
 "@ndla/licenses@^0.4.0":
   version "0.4.0"
@@ -259,6 +292,31 @@
     "@ndla/button" "^0.1.0"
     "@ndla/core" "^0.4.0"
     "@ndla/util" "^0.3.0"
+
+"@ndla/pager@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-0.3.0.tgz#2044171beecec7ea6837cd6a56004a20bf9d049a"
+  dependencies:
+    "@ndla/core" "^0.4.0"
+
+"@ndla/scripts@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@ndla/scripts/-/scripts-0.7.0.tgz#ebd0033456a669220d4b0b972c373e5d41d8abbe"
+  dependencies:
+    await-url "^0.3.0"
+    cross-spawn "^6.0.5"
+    cross-spawn-promise "^0.10.1"
+    normalize-url "^3.3.0"
+    now "^11.4.2"
+    octonode "^0.9.4"
+    url-regex "^4.1.1"
+
+"@ndla/tabs@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-0.9.0.tgz#e61c0ab9c70c0194fa5d7bc14888f273a510e209"
+  dependencies:
+    "@ndla/core" "^0.4.0"
+    lodash "^4.17.11"
 
 "@ndla/ui@^0.18.0":
   version "0.18.0"
@@ -616,6 +674,15 @@ ajv@^6.5.0:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.1"
+
+ajv@^6.5.5:
+  version "6.5.5"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.5.5.tgz#cf97cdade71c6399a92c6d6c4177381291b781a1"
+  dependencies:
+    fast-deep-equal "^2.0.1"
+    fast-json-stable-stringify "^2.0.0"
+    json-schema-traverse "^0.4.1"
+    uri-js "^4.2.2"
 
 align-text@^0.1.1, align-text@^0.1.3:
   version "0.1.4"
@@ -984,6 +1051,10 @@ aws-sign2@~0.7.0:
 aws4@^1.2.1, aws4@^1.6.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.7.0.tgz#d4d0e9b9dbfca77bf08eeb0a8a471550fe39e289"
+
+aws4@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.8.0.tgz#f0e003d9ca9e7f59c7a508945d7b2ef9a04a542f"
 
 axobject-query@^0.1.0:
   version "0.1.0"
@@ -1807,7 +1878,11 @@ bluebird@3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.0.tgz#791420d7f551eea2897453a8a77653f96606d67c"
 
-bluebird@^3.5.0, bluebird@^3.5.1:
+bluebird@^3.5.0:
+  version "3.5.3"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.3.tgz#7d01c6f9616c9a51ab0f8c549a79dfe6ec33efa7"
+
+bluebird@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
 
@@ -2505,6 +2580,12 @@ colors@~1.1.2:
 combined-stream@1.0.6, combined-stream@^1.0.5, combined-stream@~1.0.5:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.6.tgz#723e7df6e801ac5613113a7e445a9b69cb632818"
+  dependencies:
+    delayed-stream "~1.0.0"
+
+combined-stream@^1.0.6, combined-stream@~1.0.6:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.7.tgz#2d1d24317afb8abe95d6d2c0b07b57813539d828"
   dependencies:
     delayed-stream "~1.0.0"
 
@@ -4127,6 +4208,10 @@ extend@^3.0.0, extend@~3.0.0, extend@~3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.1.tgz#a755ea7bc1adfcc5a31ce7e762dbaadc5e636444"
 
+extend@~3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
+
 external-editor@^2.0.4, external-editor@^2.1.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/external-editor/-/external-editor-2.2.0.tgz#045511cfd8d133f3846673d1047c154e214ad3d5"
@@ -4475,6 +4560,14 @@ form-data@~2.1.1:
   dependencies:
     asynckit "^0.4.0"
     combined-stream "^1.0.5"
+    mime-types "^2.1.12"
+
+form-data@~2.3.2:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.3.3.tgz#dcce52c05f644f298c6a7ab936bd724ceffbf3a6"
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.6"
     mime-types "^2.1.12"
 
 formidable@^1.2.0:
@@ -4857,6 +4950,13 @@ har-validator@~5.0.3:
   resolved "https://registry.yarnpkg.com/har-validator/-/har-validator-5.0.3.tgz#ba402c266194f15956ef15e0fcf242993f6a7dfd"
   dependencies:
     ajv "^5.1.0"
+    har-schema "^2.0.0"
+
+har-validator@~5.1.0:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/har-validator/-/har-validator-5.1.2.tgz#a3891924f815c88e41c7f31112079cfef5e129e5"
+  dependencies:
+    ajv "^6.5.5"
     har-schema "^2.0.0"
 
 has-ansi@^2.0.0:
@@ -7044,11 +7144,21 @@ miller-rabin@^4.0.0:
   version "1.35.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.35.0.tgz#0569d657466491283709663ad379a99b90d9ab47"
 
+mime-db@~1.37.0:
+  version "1.37.0"
+  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.37.0.tgz#0b6a0ce6fdbe9576e25f1f2d2fde8830dc0ad0d8"
+
 mime-types@^2.1.12, mime-types@~2.1.17, mime-types@~2.1.18, mime-types@~2.1.7:
   version "2.1.18"
   resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.18.tgz#6f323f60a83d11146f831ff11fd66e2fe5503bb8"
   dependencies:
     mime-db "~1.33.0"
+
+mime-types@~2.1.19:
+  version "2.1.21"
+  resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.21.tgz#28995aa1ecb770742fe6ae7e58f9181c744b3f96"
+  dependencies:
+    mime-db "~1.37.0"
 
 mime@1.4.1:
   version "1.4.1"
@@ -7067,8 +7177,8 @@ mimic-fn@^1.0.0:
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-1.2.0.tgz#820c86a39334640e99516928bd03fca88057d022"
 
 mimic-response@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/mimic-response/-/mimic-response-1.0.0.tgz#df3d3652a73fded6b9b0b24146e6fd052353458e"
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/mimic-response/-/mimic-response-1.0.1.tgz#4923538878eef42063cb8a3e3b0798781487ab1b"
 
 mini-css-extract-plugin@^0.4.0:
   version "0.4.0"
@@ -7246,67 +7356,6 @@ ncp@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
 
-ndla-accordion@^0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/ndla-accordion/-/ndla-accordion-0.2.5.tgz#820ff115e477b034a6ae389b03102808b74f274c"
-
-ndla-article-scripts@^0.4.9:
-  version "0.4.9"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.4.9.tgz#6b30c58e26e3f01dc6e9bbe4c270a4fee4d00037"
-  dependencies:
-    focus-trap "^2.4.3"
-    jump.js "^1.0.2"
-    lodash "^4.17.5"
-
-ndla-button@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/ndla-button/-/ndla-button-0.0.3.tgz#e92918d12a314c514e88082d17156cc71dc01c2d"
-
-ndla-core@^0.3.7:
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/ndla-core/-/ndla-core-0.3.7.tgz#020ac822d938dc2512a1d5b75c3dfd0a6f500706"
-  dependencies:
-    facepaint "^1.2.1"
-    inuitcss "6.0.0-beta.4"
-    polished "^2.2.0"
-    sass-mq "^5.0.0"
-
-ndla-error-reporter@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.3.2.tgz#875b9f904ff2fa41c2d04b8a637580f383135aa5"
-  dependencies:
-    raven-js "^3.22.3"
-
-ndla-forms@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/ndla-forms/-/ndla-forms-0.0.5.tgz#95490f673fb4a8df1ea7431db19f57829786852b"
-
-ndla-image-search@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/ndla-image-search/-/ndla-image-search-0.6.1.tgz#4921f7d757abaaada873d04efaca11c9500dba57"
-
-ndla-licenses@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.3.1.tgz#f9885c5a0fa4def10cd92cf4dc6cd07fb2345e8d"
-  dependencies:
-    defined "1.0.0"
-
-ndla-pager@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/ndla-pager/-/ndla-pager-0.2.2.tgz#37cfbef04e3266aca98c9e6deee1cdb12f1dc5ca"
-
-ndla-scripts@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/ndla-scripts/-/ndla-scripts-0.6.1.tgz#c14724b660c8c198270f73f028e6256657800123"
-  dependencies:
-    await-url "^0.3.0"
-    cross-spawn "^6.0.5"
-    cross-spawn-promise "^0.10.1"
-    normalize-url "^3.3.0"
-    now "^11.4.2"
-    octonode "^0.9.4"
-    url-regex "^4.1.1"
-
 ndla-slate-edit-list@^0.12.3:
   version "0.12.3"
   resolved "https://registry.yarnpkg.com/ndla-slate-edit-list/-/ndla-slate-edit-list-0.12.3.tgz#599d1b1cd82b9ee9a069d3d4aaff6a518fad7fe1"
@@ -7314,19 +7363,6 @@ ndla-slate-edit-list@^0.12.3:
 ndla-slate-edit-table@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/ndla-slate-edit-table/-/ndla-slate-edit-table-0.1.1.tgz#614affeeefe5dc2c066759ef12b35a4a30060dfa"
-
-ndla-tabs@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.8.0.tgz#1994ac11c8a2fa257144d7dd4e9bfa135dc4b866"
-  dependencies:
-    lodash "^4.17.11"
-
-ndla-util@^0.2.9:
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.2.9.tgz#81d81c9b3720ba8ce0fde64ba9179dea24fe4cea"
-  dependencies:
-    defined "1.0.0"
-    pdfmake "^0.1.38"
 
 nearley@^2.7.10:
   version "2.13.0"
@@ -7531,8 +7567,8 @@ normalize-url@^3.3.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
 
 now@^11.4.2:
-  version "11.4.6"
-  resolved "https://registry.yarnpkg.com/now/-/now-11.4.6.tgz#611729c3de4c1108be72f9f9a4b3851dece29380"
+  version "11.5.2"
+  resolved "https://registry.yarnpkg.com/now/-/now-11.5.2.tgz#d91f7f6665ebea5e3a9b96c72215aab2b81fe42e"
 
 npm-bundled@^1.0.1:
   version "1.0.3"
@@ -7585,6 +7621,10 @@ nwsapi@^2.0.7:
 oauth-sign@~0.8.1, oauth-sign@~0.8.2:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
+
+oauth-sign@~0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
 
 object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
@@ -7684,8 +7724,8 @@ obuf@^1.0.0, obuf@^1.1.1:
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
 
 octonode@^0.9.4:
-  version "0.9.4"
-  resolved "https://registry.yarnpkg.com/octonode/-/octonode-0.9.4.tgz#ea0b348912b55cd873ecc6074d7aae6918d6a581"
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/octonode/-/octonode-0.9.5.tgz#0237ea289a2d6642068f6383a420bf97cfca993e"
   dependencies:
     bluebird "^3.5.0"
     deep-extend "^0.6.0"
@@ -8916,7 +8956,7 @@ qs@6.5.1, qs@^6.4.0, qs@^6.5.1, qs@~6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
 
-qs@6.5.2:
+qs@6.5.2, qs@~6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
 
@@ -9023,8 +9063,8 @@ range-parser@^1.0.3, range-parser@~1.2.0:
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
 
 raven-js@^3.22.3:
-  version "3.24.1"
-  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.24.1.tgz#7327e08786248517eedd36205bf50f1047821ffa"
+  version "3.27.0"
+  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.27.0.tgz#9f47c03e17933ce756e189f3669d49c441c1ba6e"
 
 raw-body@2.3.2:
   version "2.3.2"
@@ -9781,7 +9821,7 @@ request@2.81.0:
     tunnel-agent "^0.6.0"
     uuid "^3.0.0"
 
-request@2.87.0, request@^2.72.0, request@^2.83.0, request@^2.87.0:
+request@2.87.0, request@^2.83.0, request@^2.87.0:
   version "2.87.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.87.0.tgz#32f00235cd08d482b4d0d68db93a829c0ed5756e"
   dependencies:
@@ -9805,6 +9845,31 @@ request@2.87.0, request@^2.72.0, request@^2.83.0, request@^2.87.0:
     tough-cookie "~2.3.3"
     tunnel-agent "^0.6.0"
     uuid "^3.1.0"
+
+request@^2.72.0:
+  version "2.88.0"
+  resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
+  dependencies:
+    aws-sign2 "~0.7.0"
+    aws4 "^1.8.0"
+    caseless "~0.12.0"
+    combined-stream "~1.0.6"
+    extend "~3.0.2"
+    forever-agent "~0.6.1"
+    form-data "~2.3.2"
+    har-validator "~5.1.0"
+    http-signature "~1.2.0"
+    is-typedarray "~1.0.0"
+    isstream "~0.1.2"
+    json-stringify-safe "~5.0.1"
+    mime-types "~2.1.19"
+    oauth-sign "~0.9.0"
+    performance-now "^2.1.0"
+    qs "~6.5.2"
+    safe-buffer "^5.1.2"
+    tough-cookie "~2.4.3"
+    tunnel-agent "^0.6.0"
+    uuid "^3.3.2"
 
 require-directory@^2.1.1:
   version "2.1.1"
@@ -11054,7 +11119,7 @@ touch@^2.0.1:
   dependencies:
     nopt "~1.0.10"
 
-tough-cookie@>=2.3.3, tough-cookie@^2.3.3, tough-cookie@^2.3.4:
+tough-cookie@>=2.3.3, tough-cookie@^2.3.3, tough-cookie@^2.3.4, tough-cookie@~2.4.3:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.4.3.tgz#53f36da3f47783b0925afa06ff9f3b165280f781"
   dependencies:
@@ -11345,7 +11410,7 @@ uri-js@^3.0.2:
   dependencies:
     punycode "^2.1.0"
 
-uri-js@^4.2.1:
+uri-js@^4.2.1, uri-js@^4.2.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/uri-js/-/uri-js-4.2.2.tgz#94c540e1ff772956e2299507c010aea6c8838eb0"
   dependencies:
@@ -11452,7 +11517,7 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
 
-uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0:
+uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0, uuid@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
 

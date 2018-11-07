@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import defined from 'defined';
 import Types from 'slate-prop-types';
 import { Crop, FocalPoint } from '@ndla/icons/editor';

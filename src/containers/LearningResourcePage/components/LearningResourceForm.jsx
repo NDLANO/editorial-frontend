@@ -16,7 +16,7 @@ import Accordion, {
   AccordionBar,
   AccordionPanel,
 } from '@ndla/accordion';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import config from '../../../config';
 import reformed from '../../../components/reformed';
 import validateSchema, {

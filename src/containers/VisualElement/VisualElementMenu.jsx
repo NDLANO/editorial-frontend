@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import { Cross, Plus } from '@ndla/icons/action';
 import { H5P, Camera, Video } from '@ndla/icons/editor';
 import { visualElementClasses } from '../TopicArticlePage/components/TopicArticleVisualElement';

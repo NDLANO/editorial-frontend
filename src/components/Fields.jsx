@@ -8,8 +8,8 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { uuid } from 'ndla-util';
-import { FormHeader, FormSections } from 'ndla-forms';
+import { uuid } from '@ndla/util';
+import { FormHeader, FormSections } from '@ndla/forms';
 import BEMHelper from 'react-bem-helper';
 import get from 'lodash/fp/get';
 import MultiSelect from './MultiSelect';

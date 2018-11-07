@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { compose } from 'redux';
 import { Field, FieldErrorMessages, getField } from '../../../Fields';

@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import PropTypes from 'prop-types';
 import { Plus } from '@ndla/icons/action';
 import { classes } from './Fields';

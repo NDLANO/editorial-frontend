@@ -1,6 +1,6 @@
 import React from 'react';
 import { bool } from 'prop-types';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import { Check } from '@ndla/icons/editor';

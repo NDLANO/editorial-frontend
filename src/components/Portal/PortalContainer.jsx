@@ -8,7 +8,7 @@
 
 import { Component } from 'react';
 import { createPortal } from 'react-dom';
-import { uuid } from 'ndla-util';
+import { uuid } from '@ndla/util';
 
 class PortalContainer extends Component {
   componentWillUnmount() {

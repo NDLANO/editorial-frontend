@@ -14,7 +14,7 @@ import Accordion, {
   AccordionPanel,
 } from '@ndla/accordion';
 import PropTypes from 'prop-types';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import { withRouter } from 'react-router-dom';
 import BEMHelper from 'react-bem-helper';
 import reformed from '../../../components/reformed';

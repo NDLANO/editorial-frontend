@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { uuid } from 'ndla-util';
+import { uuid } from '@ndla/util';
 import RichBlockTextEditor from './SlateEditor/RichBlockTextEditor';
 import {
   Field,

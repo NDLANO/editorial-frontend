@@ -15,7 +15,7 @@ import Accordion, {
   AccordionBar,
   AccordionPanel,
 } from '@ndla/accordion';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import { withRouter } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema, {

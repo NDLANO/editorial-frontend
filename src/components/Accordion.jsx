@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
 
 const classes = new BEMHelper({

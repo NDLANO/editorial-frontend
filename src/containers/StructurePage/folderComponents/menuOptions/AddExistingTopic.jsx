@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Plus } from '@ndla/icons/action';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import InlineDropdown from '../../../../components/Dropdown/InlineDropdown';
 import RoundIcon from '../../../../components/RoundIcon';
 import { fetchTopics, addTopicToTopic } from '../../../../modules/taxonomy';

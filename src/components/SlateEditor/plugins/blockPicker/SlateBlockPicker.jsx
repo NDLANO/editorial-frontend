@@ -11,7 +11,7 @@ import { findDOMNode } from 'slate-react';
 import Types from 'slate-prop-types';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import {
   H5P,
   Paragraph,

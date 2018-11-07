@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { FormHeader, FormSections, FormInput } from 'ndla-forms';
+import { FormHeader, FormSections, FormInput } from '@ndla/forms';
 import {
   PlainTextField,
   MultiSelectField,

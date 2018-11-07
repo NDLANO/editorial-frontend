@@ -10,8 +10,8 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
-import { getLicenseByAbbreviation } from 'ndla-licenses';
-import { FormHeader, FormSections, FormDropdown } from 'ndla-forms';
+import { getLicenseByAbbreviation } from '@ndla/licenses';
+import { FormHeader, FormSections, FormDropdown } from '@ndla/forms';
 import { CommonFieldPropsShape } from '../../../shapes';
 import { getLocale } from '../../../modules/locale/locale';
 

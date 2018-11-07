@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import PropTypes from 'prop-types';
 import { Settings } from '@ndla/icons/editor';
 import BEMHelper from 'react-bem-helper';

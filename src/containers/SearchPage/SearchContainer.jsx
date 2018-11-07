@@ -92,7 +92,6 @@ class SearchContainer extends Component {
           <Search className="c-icon--medium" />
           {t(`searchPage.header.${type}`)}
         </h2>
-
         <SearchForm
           type={type}
           search={this.onQueryPush}
@@ -112,7 +111,6 @@ class SearchContainer extends Component {
           totalCount={totalCount}
           search={this.onQueryPush}
         />
-
         <SearchList
           searchObject={searchObject}
           results={results.results}

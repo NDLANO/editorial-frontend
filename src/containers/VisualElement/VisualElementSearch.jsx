@@ -15,6 +15,7 @@ import ImageSearch from 'ndla-image-search';
 import VideoSearch from 'ndla-video-search';
 import AudioSearch from 'ndla-audio-search';
 import Tabs from 'ndla-tabs';
+import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 
 import {
   actions as tagActions,
@@ -42,10 +43,8 @@ import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
 import H5PElement from '../../components/H5PElement';
 
-const titles = t => ({
-  video: t('form.visualElement.video'),
-  image: t('form.visualElement.image'),
-  h5p: t('form.visualElement.h5p'),
+const titles = (t, resource = '') => ({
+  [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
 });
 
 class VisualElementSearch extends Component {
@@ -96,6 +95,10 @@ class VisualElementSearch extends Component {
       t,
     } = this.props;
 
+    const allowedUrlResource = EXTERNAL_WHITELIST_PROVIDERS.filter(
+      provider => provider.name === selectedResource,
+    )[0].name;
+
     switch (selectedResource) {
       case 'image':
         return (
@@ -108,7 +111,7 @@ class VisualElementSearch extends Component {
             selectedIndex={this.state.selectedIndex}
             tabs={[
               {
-                title: titles(t)[selectedResource],
+                title: titles(t, selectedResource)[selectedResource],
                 content: (
                   <ImageSearch
                     fetchImage={api.fetchImage}
@@ -178,7 +181,7 @@ class VisualElementSearch extends Component {
         };
         return (
           <div>
-            <h2>{titles(t)[selectedResource]}</h2>
+            <h2>{titles(t, selectedResource)[selectedResource]}</h2>
             <VideoSearch
               enabledSources={['Brightcove', 'YouTube']}
               searchVideos={(query, type) => api.searchVideos(query, type)}
@@ -206,10 +209,10 @@ class VisualElementSearch extends Component {
           </div>
         );
       }
-      case 'h5p': {
+      case 'H5P': {
         return (
           <div>
-            <h2>{titles(t)[selectedResource]}</h2>
+            <h2>{titles(t, selectedResource)[selectedResource]}</h2>
             <H5PElement
               h5pUrl={selectedResourceUrl}
               onSelect={h5p =>
@@ -264,8 +267,12 @@ class VisualElementSearch extends Component {
         handleVisualElementChange({ resource: 'related-content' });
         return null;
       }
+      // URL-editable embed resources
+      case allowedUrlResource: {
+        return <h3>{`Embedtag ${selectedResource} is supported!`}</h3>; // TODO Replace with URL preview component
+      }
       default:
-        return <p>{`Embedtag ${selectedResource} is not supported.`}</p>;
+        return <h3>{`Embedtag ${selectedResource} is not supported.`}</h3>;
     }
   }
 }

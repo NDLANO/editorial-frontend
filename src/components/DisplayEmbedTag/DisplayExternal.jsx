@@ -35,10 +35,10 @@ export class DisplayExternal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editH5pMode: false,
+      editEmbedMode: false,
     };
     this.onEditEmbed = this.onEditEmbed.bind(this);
-    this.toggleEditH5p = this.toggleEditH5p.bind(this);
+    this.toggleEditEmbed = this.toggleEditEmbed.bind(this);
     this.getPropsFromEmbed = this.getPropsFromEmbed.bind(this);
   }
 
@@ -63,7 +63,7 @@ export class DisplayExternal extends Component {
       });
       editor.onChange(next);
 
-      this.toggleEditH5p();
+      this.toggleEditEmbed();
     }
   }
 
@@ -100,12 +100,12 @@ export class DisplayExternal extends Component {
     }
   }
 
-  toggleEditH5p() {
+  toggleEditEmbed(providerName) {
     const { changeVisualElement } = this.props;
     if (changeVisualElement) {
-      changeVisualElement('h5p');
+      changeVisualElement(providerName);
     } else
-      this.setState(prevState => ({ editH5pMode: !prevState.editH5pMode }));
+      this.setState(prevState => ({ editEmbedMode: !prevState.editEmbedMode }));
   }
 
   render() {
@@ -142,7 +142,13 @@ export class DisplayExternal extends Component {
       />
     );
 
-    if (error) {
+    if (error || !renderProvider) {
+      const msg = error
+        ? this.props.t('displayOembed.errorMessage')
+        : this.props.t('displayOembed.notSupported', {
+            type,
+            provider,
+          });
       return (
         <Fragment>
           <Button
@@ -151,9 +157,7 @@ export class DisplayExternal extends Component {
             {...editorClasses('delete-button')}>
             <Cross />
           </Button>
-          <EditorErrorMessage
-            msg={this.props.t('displayOembed.errorMessage')}
-          />
+          <EditorErrorMessage msg={msg} />
         </Fragment>
       );
     }
@@ -167,32 +171,23 @@ export class DisplayExternal extends Component {
             {...editorClasses('button', 'red')}>
             <Cross />
           </Button>
-          {providerName &&
-            providerName.toLowerCase() === 'h5p' && (
-              <Button
-                stripped
-                onClick={this.toggleEditH5p}
-                {...editorClasses('button', 'green')}>
-                <Pencil />
-              </Button>
-            )}
+          {providerName && (
+            <Button
+              stripped
+              onClick={() => this.toggleEditEmbed(providerName.toLowerCase())}
+              {...editorClasses('button', 'green')}>
+              <Pencil />
+            </Button>
+          )}
         </div>
         {renderProvider}
-        {!renderProvider && (
-          <EditorErrorMessage
-            msg={this.props.t('displayOembed.notSupported', {
-              type,
-              provider,
-            })}
-          />
-        )}
-        {this.state.editH5pMode && (
-          <Lightbox display fullscreen big onClose={this.toggleEditH5p}>
+        {this.state.editEmbedMode && (
+          <Lightbox display fullscreen big onClose={this.toggleEditEmbed}>
             <VisualElementSearch
-              selectedResource="h5p"
+              selectedResource={providerName}
               selectedResourceUrl={src}
               handleVisualElementChange={this.onEditEmbed}
-              closeModal={this.toggleEditH5p}
+              closeModal={this.toggleEditEmbed}
             />
           </Lightbox>
         )}

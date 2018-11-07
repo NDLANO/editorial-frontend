@@ -205,6 +205,7 @@ class TopicArticleForm extends Component {
       {
         id: 'topic-article-copyright',
         title: t('form.copyrightSection'),
+        className: 'u-6/6',
         hasError: [
           schema.fields.creators,
           schema.fields.rightsholders,

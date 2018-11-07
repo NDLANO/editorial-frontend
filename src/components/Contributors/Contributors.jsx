@@ -111,7 +111,6 @@ Contributors.propTypes = {
   submitted: PropTypes.bool.isRequired,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
-  labelRemove: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({

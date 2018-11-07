@@ -10,7 +10,7 @@ script:
   - yarn build
   - yarn e2e-ci
 after_success:
-  - travis_wait yarn ndla-scripts now-travis --npm
+  - travis_wait yarn @ndla/scripts now-travis --npm
 cache:
   yarn: true
   directories:

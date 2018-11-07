@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 
 import { clearMessage } from './messagesActions';
 import { MessageShape } from '../../shapes';

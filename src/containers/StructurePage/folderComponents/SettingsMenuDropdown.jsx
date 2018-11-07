@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import Button from 'ndla-button';
 import { Settings } from '@ndla/icons/editor';
 import { Cross } from '@ndla/icons/action';

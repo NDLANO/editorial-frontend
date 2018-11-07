@@ -36,7 +36,7 @@
     min-width: 6rem;
     margin-left: 1rem;
 
-    /* NB! Should use :enabled in ndla-ui button css instead */
+    /* NB! Should use :enabled in @ndla/ui button css instead */
     &:disabled {
       transform: none;
       color: #fff;

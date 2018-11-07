@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'ndla-button';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { Plus } from '@ndla/icons/action';
 import handleError from '../../../util/handleError';
 import InlineEditField from '../../../components/InlineEditField';

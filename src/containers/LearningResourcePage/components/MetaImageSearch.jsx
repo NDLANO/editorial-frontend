@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import ImageSearch from 'ndla-image-search';
 import { connect } from 'react-redux';
 import Button from 'ndla-button';

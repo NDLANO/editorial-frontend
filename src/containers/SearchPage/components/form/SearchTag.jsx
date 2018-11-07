@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import Button from 'ndla-button';
 import { Cross } from '@ndla/icons/action';
 import { tagClasses } from '../../../../components/Tag';

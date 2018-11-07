@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { FormHeader } from 'ndla-forms';
 import Tag from '../../../components/Tag';
 

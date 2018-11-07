@@ -7,7 +7,7 @@
 
 import React, { Component } from 'react';
 import { compose } from 'redux';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import Accordion, {
   AccordionWrapper,
   AccordionBar,

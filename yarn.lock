@@ -208,6 +208,22 @@
   dependencies:
     "@ndla/core" "^0.4.0"
 
+"@ndla/audio-search@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@ndla/audio-search/-/audio-search-0.5.0.tgz#62b96a1c31088a6361f0f73a9af0404e20771e3c"
+  dependencies:
+    "@ndla/button" "^0.1.0"
+    "@ndla/core" "^0.4.0"
+    "@ndla/licenses" "^0.4.0"
+    "@ndla/ui" "^0.18.0"
+    "@ndla/util" "^0.3.0"
+
+"@ndla/button@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.1.0.tgz#e3432064f486daf24fb28ece095bbe6348b5ded9"
+  dependencies:
+    "@ndla/core" "^0.4.0"
+
 "@ndla/core@^0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.0.tgz#18c0912df0d240c30b09d453d60850688e95162b"
@@ -217,9 +233,62 @@
     polished "^2.2.0"
     sass-mq "^5.0.0"
 
+"@ndla/i18n@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@ndla/i18n/-/i18n-0.4.0.tgz#1bcde295961d82d1b4d9a132e53e5b90b7d4d2bc"
+  dependencies:
+    hoist-non-react-statics "^2.5.0"
+    intl-format-cache "^2.1.0"
+    intl-messageformat "^2.2.0"
+    invariant "^2.2.3"
+
 "@ndla/icons@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.5.0.tgz#00f6f741e3d87a81a19b2d4a6a4aaaa182788764"
+
+"@ndla/licenses@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-0.4.0.tgz#6e6c0f12e754345ec251303e92b9f05b047fe13b"
+  dependencies:
+    defined "1.0.0"
+
+"@ndla/modal@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.2.0.tgz#a8bfb30c70dd445a19c9c90688a515cceb1634c5"
+  dependencies:
+    "@ndla/button" "^0.1.0"
+    "@ndla/core" "^0.4.0"
+    "@ndla/util" "^0.3.0"
+
+"@ndla/ui@^0.18.0":
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.18.0.tgz#b12fc2fa635bc67c1d924977c5353b7b4ce491e3"
+  dependencies:
+    "@ndla/core" "^0.4.0"
+    classnames "2.2.5"
+    focus-trap "^2.4.3"
+    focus-trap-react "^4.0.0"
+    jump.js "^1.0.2"
+    lodash "^4.17.5"
+    react-bem-helper "1.4.1"
+    react-device-detect "^1.5.9"
+    react-facebook "^4.2.1"
+    react-prop-types "0.4.0"
+    react-slick "^0.19.0"
+    react-transition-group "^2.2.1"
+
+"@ndla/util@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@ndla/util/-/util-0.3.0.tgz#144727e6ac228d9b2a451f9f194e4a29793c50c4"
+  dependencies:
+    defined "1.0.0"
+    pdfmake "^0.1.38"
+
+"@ndla/video-search@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@ndla/video-search/-/video-search-0.6.0.tgz#3832fe95d4a381d5ac57ac8460028fdae0d14593"
+  dependencies:
+    react-bem-helper "^1.4.1"
 
 "@sinonjs/commons@^1.0.2":
   version "1.0.2"
@@ -7189,10 +7258,6 @@ ndla-article-scripts@^0.4.9:
     jump.js "^1.0.2"
     lodash "^4.17.5"
 
-ndla-audio-search@^0.4.4:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/ndla-audio-search/-/ndla-audio-search-0.4.4.tgz#3c52108d8548fa5cc605825c430925872e80c8d9"
-
 ndla-button@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/ndla-button/-/ndla-button-0.0.3.tgz#e92918d12a314c514e88082d17156cc71dc01c2d"
@@ -7216,15 +7281,6 @@ ndla-forms@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/ndla-forms/-/ndla-forms-0.0.5.tgz#95490f673fb4a8df1ea7431db19f57829786852b"
 
-ndla-i18n@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/ndla-i18n/-/ndla-i18n-0.3.3.tgz#cf628417c17624b14c47fc77e3d6a4bb2cdf92c6"
-  dependencies:
-    hoist-non-react-statics "^2.5.0"
-    intl-format-cache "^2.1.0"
-    intl-messageformat "^2.2.0"
-    invariant "^2.2.3"
-
 ndla-image-search@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/ndla-image-search/-/ndla-image-search-0.6.1.tgz#4921f7d757abaaada873d04efaca11c9500dba57"
@@ -7234,10 +7290,6 @@ ndla-licenses@^0.3.1:
   resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.3.1.tgz#f9885c5a0fa4def10cd92cf4dc6cd07fb2345e8d"
   dependencies:
     defined "1.0.0"
-
-ndla-modal@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/ndla-modal/-/ndla-modal-0.1.4.tgz#c850a8bfc17faf5308c2dbb319cd778e6b9ae835"
 
 ndla-pager@^0.2.2:
   version "0.2.2"
@@ -7269,34 +7321,12 @@ ndla-tabs@^0.8.0:
   dependencies:
     lodash "^4.17.11"
 
-ndla-ui@^0.17.11:
-  version "0.17.11"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.17.11.tgz#d85cebf47a710ec26f62bd3d9107efe3c318e24e"
-  dependencies:
-    classnames "2.2.5"
-    focus-trap "^2.4.3"
-    focus-trap-react "^4.0.0"
-    jump.js "^1.0.2"
-    lodash "^4.17.5"
-    react-bem-helper "1.4.1"
-    react-device-detect "^1.5.9"
-    react-facebook "^4.2.1"
-    react-prop-types "0.4.0"
-    react-slick "^0.19.0"
-    react-transition-group "^2.2.1"
-
 ndla-util@^0.2.9:
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.2.9.tgz#81d81c9b3720ba8ce0fde64ba9179dea24fe4cea"
   dependencies:
     defined "1.0.0"
     pdfmake "^0.1.38"
-
-ndla-video-search@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/ndla-video-search/-/ndla-video-search-0.5.0.tgz#7e5c9512cf3c8ad6101ca8cce5eb70ea2245ed13"
-  dependencies:
-    react-bem-helper "^1.4.1"
 
 nearley@^2.7.10:
   version "2.13.0"

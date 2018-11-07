@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import IntlProvider from 'ndla-i18n';
+import IntlProvider from '@ndla/i18n';
 import { getLocaleObject } from '../../i18n';
 
 export default ({ children }) => (

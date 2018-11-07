@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { initAudioPlayers } from 'ndla-article-scripts';
-import { AudioPlayer, FigureCaption, FigureLicenseDialog } from 'ndla-ui';
+import { AudioPlayer, FigureCaption, FigureLicenseDialog } from '@ndla/ui';
 import { getLicenseByAbbreviation } from 'ndla-licenses';
 import { AudioShape } from '../../../../shapes';
 

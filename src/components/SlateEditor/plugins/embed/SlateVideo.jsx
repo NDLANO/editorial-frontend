@@ -9,9 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { Figure } from 'ndla-ui';
+import { Figure } from '@ndla/ui';
 import Button from 'ndla-button';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { Cross } from '@ndla/icons/action';
 import config from '../../../../config';
 import { EmbedShape } from '../../../../shapes';

@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
-import { OneColumn } from 'ndla-ui';
+import { OneColumn } from '@ndla/ui';
 import LoginFailure from './LoginFailure';
 import LoginSuccess from './LoginSuccess';
 import LoginProviders from './LoginProviders';

@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'ndla-button';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { Done } from '@ndla/icons/editor';
 import { Plus } from '@ndla/icons/action';
 import BEMHelper from 'react-bem-helper';

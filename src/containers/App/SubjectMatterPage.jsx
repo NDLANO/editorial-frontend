@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { colors } from 'ndla-core';
 import { TopicArticle, LearningResource, Concept } from '@ndla/icons/editor';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';

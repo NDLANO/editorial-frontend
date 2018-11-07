@@ -9,9 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'ndla-button';
-import { Pencil } from 'ndla-icons/action';
+import { Pencil } from '@ndla/icons/action';
 import { injectT } from 'ndla-i18n';
-import { DeleteForever } from 'ndla-icons/editor';
+import { DeleteForever } from '@ndla/icons/editor';
 import RoundIcon from '../../../components/RoundIcon';
 import InlineEditField from '../../../components/InlineEditField';
 

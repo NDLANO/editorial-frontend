@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Filter } from 'ndla-icons/editor';
+import { Filter } from '@ndla/icons/editor';
 import Button from 'ndla-button';
 import RoundIcon from '../../../../components/RoundIcon';
 import EditFilters from '../EditFilters';

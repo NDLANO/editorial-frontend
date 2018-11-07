@@ -3,7 +3,7 @@ import { bool } from 'prop-types';
 import Button from 'ndla-button';
 import { injectT } from 'ndla-i18n';
 import BEMHelper from 'react-bem-helper';
-import { Check } from 'ndla-icons/editor';
+import { Check } from '@ndla/icons/editor';
 
 const SaveButton = ({ isSaving, showSaved, t, ...rest }) => {
   const classes = new BEMHelper({

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Pencil } from 'ndla-icons/action';
+import { Pencil } from '@ndla/icons/action';
 import Button from 'ndla-button';
 import InlineEditField from '../../../../components/InlineEditField';
 import RoundIcon from '../../../../components/RoundIcon';

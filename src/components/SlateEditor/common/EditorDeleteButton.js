@@ -12,7 +12,7 @@ import { css } from 'react-emotion';
 import darken from 'polished/lib/color/darken';
 import { colors } from 'ndla-core';
 import Button from 'ndla-button';
-import { Cross } from 'ndla-icons/action';
+import { Cross } from '@ndla/icons/action';
 
 const deleteButtonStyle = css`
   position: absolute;

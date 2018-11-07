@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { SearchMedia, SearchContent } from 'ndla-icons/editor';
+import { SearchMedia, SearchContent } from '@ndla/icons/editor';
 import { injectT } from 'ndla-i18n';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';

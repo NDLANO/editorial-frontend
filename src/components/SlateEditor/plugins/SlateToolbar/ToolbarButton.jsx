@@ -24,7 +24,7 @@ import {
   Heading2,
   Heading1,
   Section,
-} from 'ndla-icons/editor';
+} from '@ndla/icons/editor';
 import Types from 'slate-prop-types';
 import { toolbarClasses } from './SlateToolbar';
 

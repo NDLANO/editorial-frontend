@@ -12,7 +12,7 @@ import Accordion, {
   AccordionWrapper,
   AccordionBar,
   AccordionPanel,
-} from 'ndla-accordion';
+} from '@ndla/accordion';
 import PropTypes from 'prop-types';
 import Button from 'ndla-button';
 import { withRouter } from 'react-router-dom';

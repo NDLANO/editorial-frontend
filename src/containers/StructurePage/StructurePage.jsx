@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 import { injectT } from 'ndla-i18n';
 import { OneColumn } from 'ndla-ui';
-import { Taxonomy, Star } from 'ndla-icons/editor';
+import { Taxonomy, Star } from '@ndla/icons/editor';
 import { connectLinkItems } from '../../util/jsPlumbHelpers';
 import handleError from '../../util/handleError';
 import { getLocale } from '../../modules/locale/locale';

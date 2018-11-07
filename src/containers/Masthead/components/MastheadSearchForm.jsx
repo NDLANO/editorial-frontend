@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'ndla-button';
-import { Search } from 'ndla-icons/common';
+import { Search } from '@ndla/icons/common';
 import { injectT } from 'ndla-i18n';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';

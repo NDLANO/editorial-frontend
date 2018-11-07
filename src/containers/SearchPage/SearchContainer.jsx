@@ -14,7 +14,7 @@ import { injectT } from 'ndla-i18n';
 import { OneColumn } from 'ndla-ui';
 import Pager from 'ndla-pager';
 import BEMHelper from 'react-bem-helper';
-import { Search } from 'ndla-icons/common';
+import { Search } from '@ndla/icons/common';
 import { getLocale } from '../../modules/locale/locale';
 import { getSearching } from '../../modules/search/searchSelectors';
 import { SearchResultShape } from '../../shapes';

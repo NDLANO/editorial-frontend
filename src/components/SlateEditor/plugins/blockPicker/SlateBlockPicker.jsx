@@ -22,9 +22,9 @@ import {
   Table,
   ExpandableBox,
   RelatedArticle,
-} from 'ndla-icons/editor';
-import { Cross, Plus } from 'ndla-icons/action';
-import { Audio } from 'ndla-icons/common';
+} from '@ndla/icons/editor';
+import { Cross, Plus } from '@ndla/icons/action';
+import { Audio } from '@ndla/icons/common';
 
 import { Portal } from '../../../Portal';
 import { defaultBlocks } from '../../utils';

@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import Button from 'ndla-button';
-import { AlignLeft, AlignCenter, AlignRight } from 'ndla-icons/editor';
+import { AlignLeft, AlignCenter, AlignRight } from '@ndla/icons/editor';
 
 export const classes = new BEMHelper({
   name: 'image-editor',

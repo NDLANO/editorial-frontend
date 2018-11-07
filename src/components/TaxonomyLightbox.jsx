@@ -10,7 +10,7 @@ import React from 'react';
 import Button from 'ndla-button';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import { Cross } from 'ndla-icons/action';
+import { Cross } from '@ndla/icons/action';
 import { injectT } from 'ndla-i18n';
 import Overlay from './Overlay';
 import Spinner from './Spinner';

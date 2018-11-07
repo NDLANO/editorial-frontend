@@ -9,9 +9,9 @@
 import React from 'react';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import { SearchFolder, LastUsed } from 'ndla-icons/editor';
+import { SearchFolder, LastUsed } from '@ndla/icons/editor';
 import BEMHelper from 'react-bem-helper';
-import { RightArrow } from 'ndla-icons/action';
+import { RightArrow } from '@ndla/icons/action';
 
 export const classes = new BEMHelper({
   name: 'welcome',

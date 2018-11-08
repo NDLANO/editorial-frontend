@@ -88,7 +88,9 @@ describe('Learning resource editing', () => {
       .last()
       .click({ force: true });
     cy.contains(t.videoSearch.addVideo).click(); */
-
+    cy.get('[data-cy=slate-block-picker]')
+      .last()
+      .click({ force: true });
     cy.get('[data-cy=create-audio]')
       .last()
       .click({ force: true });
@@ -97,6 +99,9 @@ describe('Learning resource editing', () => {
       .click({ force: true });
     /* cy.get('[data-cy=slate-block-picker]').click({ force: true });
     cy.get('[data-cy=create-h5p]').click(); */
+    cy.get('[data-cy=slate-block-picker]')
+      .last()
+      .click({ force: true });
     cy.get('[data-cy=create-related]')
       .last()
       .click({ force: true });

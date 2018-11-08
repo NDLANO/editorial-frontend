@@ -12,6 +12,9 @@ const SlateEmbedPicker = ({
   onInsertBlock,
   t,
 }) => {
+  if (!isOpen) {
+    return null;
+  }
   const onEmbedAdd = embed => {
     const blockToInsert = defaultBlocks.defaultEmbedBlock(embed);
     onInsertBlock(blockToInsert);

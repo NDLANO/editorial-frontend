@@ -10,79 +10,17 @@ import React, { Component, Fragment } from 'react';
 import { findDOMNode } from 'slate-react';
 import Types from 'slate-prop-types';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
-import {
-  Quote,
-  Camera,
-  FactBoxMaterial,
-  Link as LinkIcon,
-  TableMaterial,
-  ArrowExpand,
-  Framed,
-  PlayBoxOutline,
-  PresentationPlay,
-} from '@ndla/icons/editor';
 import { Portal } from '../../../Portal';
 import { defaultBlocks } from '../../utils';
 import { defaultBodyBoxBlock } from '../bodybox';
 import { defaultDetailsBlock } from '../detailsbox';
 import SlateEmbedPicker from './SlateEmbedPicker';
 import { editTablePlugin } from '../externalPlugins';
+import actions from './actions';
 
 const { defaultAsideBlock, defaultRelatedBlock } = defaultBlocks;
-
-const actions = [
-  {
-    data: { type: 'block', object: 'block' },
-    label: 'Paragraf',
-    icon: <Quote />,
-  },
-  {
-    data: { type: 'aside', object: 'factAside' },
-    label: 'Faktaboks',
-    icon: <FactBoxMaterial />,
-  },
-  {
-    data: { type: 'table', object: 'table' },
-    label: 'Tabell',
-    icon: <TableMaterial />,
-  },
-  {
-    data: { type: 'bodybox', object: 'bodybox' },
-    label: 'Tekst i ramme',
-    icon: <Framed />,
-  },
-  {
-    data: { type: 'details', object: 'details' },
-    label: 'Ekspanderende boks',
-    icon: <ArrowExpand />,
-  },
-  {
-    data: { type: 'embed', object: 'image' },
-    label: 'Bilde',
-    icon: <Camera />,
-  },
-  {
-    data: { type: 'embed', object: 'video' },
-    label: 'Video',
-    icon: <PlayBoxOutline />,
-  },
-  {
-    data: { type: 'embed', object: 'audio' },
-    label: 'Lyd',
-    icon: <Quote />,
-  },
-  {
-    data: { type: 'embed', object: 'h5p' },
-    label: 'H5P',
-    icon: <PresentationPlay />,
-  },
-  {
-    data: { type: 'related', object: 'related' },
-    label: 'Relatert artikkel',
-    icon: <LinkIcon />,
-  },
-];
 
 class SlateBlockPicker extends Component {
   constructor(props) {
@@ -178,8 +116,7 @@ class SlateBlockPicker extends Component {
     if (slateBlockRef) {
       const rect = nodeEl.getBoundingClientRect();
       slateBlockRef.style.top = `${rect.top -
-        nodeEl.parentNode.parentNode.parentNode.getBoundingClientRect().top +
-        6.5}px`;
+        nodeEl.parentNode.getBoundingClientRect().top - 14}px`;
       slateBlockRef.style.left = '-78px';
       slateBlockRef.style.position = 'absolute';
       slateBlockRef.style.opacity = 1;
@@ -246,26 +183,28 @@ class SlateBlockPicker extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const { isOpen, embedSelect } = this.state;
     return (
       <Fragment>
         <Portal isOpened>
-          {embedSelect.isOpen && (
-            <SlateEmbedPicker
-              resource={embedSelect.embedType}
-              isOpen={embedSelect.isOpen}
-              onEmbedClose={this.onEmbedClose}
-              onInsertBlock={this.onInsertBlock}
-            />
-          )}
+          <SlateEmbedPicker
+            resource={embedSelect.embedType}
+            isOpen={embedSelect.isOpen}
+            onEmbedClose={this.onEmbedClose}
+            onInsertBlock={this.onInsertBlock}
+          />
         </Portal>
         <div ref={this.slateBlockRef}>
           <SlateBlockMenu
             ref={this.slateBlockButtonRef}
             cy="slate-block-picker"
             isOpen={isOpen}
-            heading="Legg til"
-            actions={actions}
+            heading={t('editorBlockpicker.heading')}
+            actions={actions.map(action => ({
+              ...action,
+              label: t(`editorBlockpicker.actions.${action.data.object}`),
+            }))}
             onToggleOpen={this.toggleIsOpen}
             clickItem={data => {
               this.onElementAdd(data);
@@ -285,4 +224,4 @@ SlateBlockPicker.propTypes = {
   illegalAreas: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default SlateBlockPicker;
+export default injectT(SlateBlockPicker);

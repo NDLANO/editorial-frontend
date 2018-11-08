@@ -353,6 +353,21 @@ const phrases = {
     headingThree: 'Overskrift 3',
     footnote: 'Fotnote',
   },
+  editorBlockpicker: {
+    heading: 'Legg til',
+    actions: {
+      block: 'Paragraf',
+      factAside: 'Faktaboks',
+      table: 'Tabell',
+      bodybox: 'Tekst i ramme',
+      details: 'Ekspanderende boks',
+      image: 'Bilde',
+      video: 'Video',
+      audio: 'Lyd',
+      h5p: 'H5P',
+      related: 'Relatert artikkel',
+    },
+  },
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Innhold',

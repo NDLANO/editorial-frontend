@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Lightbox from '../../../Lightbox';
+import { injectT } from '@ndla/i18n';
+import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 import { defaultBlocks } from '../../utils';
 
@@ -9,24 +10,42 @@ const SlateEmbedPicker = ({
   resource,
   onEmbedClose,
   onInsertBlock,
+  t,
 }) => {
+  if (!isOpen) {
+    return null;
+  }
   const onEmbedAdd = embed => {
     const blockToInsert = defaultBlocks.defaultEmbedBlock(embed);
     onInsertBlock(blockToInsert);
     onEmbedClose();
   };
   return (
-    <Lightbox
-      display={isOpen}
-      fullscreen={resource === 'h5p'}
-      big
-      onClose={onEmbedClose}>
-      <VisualElementSearch
-        selectedResource={resource}
-        handleVisualElementChange={onEmbedAdd}
-        closeModal={onEmbedClose}
-      />
-    </Lightbox>
+    <Modal
+      controllable
+      isOpen={isOpen}
+      onClose={onEmbedClose}
+      size={resource === 'h5p' ? 'fullscreen' : 'large'}
+      backgroundColor="white"
+      minHeight="85vh">
+      {onCloseModal => (
+        <Fragment>
+          <ModalHeader>
+            <ModalCloseButton
+              title={t('dialog.close')}
+              onClick={onCloseModal}
+            />
+          </ModalHeader>
+          <ModalBody>
+            <VisualElementSearch
+              selectedResource={resource}
+              handleVisualElementChange={onEmbedAdd}
+              closeModal={onEmbedClose}
+            />
+          </ModalBody>
+        </Fragment>
+      )}
+    </Modal>
   );
 };
 
@@ -37,4 +56,4 @@ SlateEmbedPicker.propTypes = {
   onInsertBlock: PropTypes.func.isRequired,
 };
 
-export default SlateEmbedPicker;
+export default injectT(SlateEmbedPicker);

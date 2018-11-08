@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
 import { isKeyHotkey } from 'is-hotkey';
 import BEMHelper from 'react-bem-helper';
+import { css } from 'react-emotion';
 import createSlateStore, { setSubmitted } from './createSlateStore';
 import SlateToolbar from './plugins/SlateToolbar/SlateToolbar';
 import { PluginShape } from '../../shapes';
@@ -25,6 +26,10 @@ export const classes = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
 });
+
+const slateEditorDivStyle = css`
+  position: relative;
+`;
 
 const RichTextEditor = class extends React.Component {
   constructor(props) {
@@ -98,9 +103,11 @@ const RichTextEditor = class extends React.Component {
       ...rest
     } = this.props;
 
+    const { slateStore } = this.state;
+
     return (
       <article>
-        <div data-cy="slate-editor">
+        <div data-cy="slate-editor" className={slateEditorDivStyle}>
           <Editor
             {...classes(undefined, undefined, className)}
             onKeyDown={this.onKeyDown}
@@ -111,7 +118,7 @@ const RichTextEditor = class extends React.Component {
             }
             onFocus={onFocus}
             onBlur={onBlur}
-            slateStore={this.state.slateStore}
+            slateStore={slateStore}
             plugins={plugins}
             {...rest}
           />
@@ -120,7 +127,7 @@ const RichTextEditor = class extends React.Component {
         <SlateToolbar
           value={value}
           onChange={onChange}
-          slateStore={this.state.slateStore}
+          slateStore={slateStore}
           name={name}
         />
       </article>

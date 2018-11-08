@@ -242,6 +242,13 @@
     polished "^2.2.0"
     sass-mq "^5.0.0"
 
+"@ndla/editor@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.3.0.tgz#3e3d14a2f2d87e77e237273d84704f00691d7031"
+  dependencies:
+    "@ndla/core" "^0.4.0"
+    "@ndla/icons" "^0.5.0"
+
 "@ndla/error-reporter@^0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@ndla/error-reporter/-/error-reporter-0.4.0.tgz#465d79377c52d535113cab864b61eee2f7d2eb50"

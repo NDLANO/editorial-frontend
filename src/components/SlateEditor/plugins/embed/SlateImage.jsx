@@ -26,7 +26,7 @@ class SlateImage extends React.Component {
     if (align === 'right' || align === 'left') {
       nodeEl.parentNode.style.display = 'inline';
     } else {
-      nodeEl.parentNode.style.display = 'inline-block';
+      nodeEl.parentNode.style.display = 'block';
     }
   }
 

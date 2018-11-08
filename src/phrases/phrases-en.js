@@ -339,6 +339,21 @@ const phrases = {
     headingThree: 'Heading 3',
     footnote: 'Footnote',
   },
+  editorBlockpicker: {
+    heading: 'Add',
+    actions: {
+      block: 'Paragraph',
+      factAside: 'Factbox',
+      table: 'Table',
+      bodybox: 'Text in frame',
+      details: 'Expandable box',
+      image: 'Image',
+      video: 'Video',
+      audio: 'Audio',
+      h5p: 'H5P',
+      related: 'Related article',
+    },
+  },
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Content',

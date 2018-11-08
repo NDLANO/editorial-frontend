@@ -118,6 +118,7 @@ class AsyncDropDown extends React.Component {
       onClick,
       value: this.state.inputValue,
     };
+
     return (
       <Downshift
         {...rest}
@@ -126,24 +127,36 @@ class AsyncDropDown extends React.Component {
         onChange={this.handleChange}
         isOpen={this.state.isOpen || alwaysOpen}
         selectedItem={this.state.selectedItem}>
-        {downshiftProps => (
-          <div {...dropDownClasses()}>
-            <DropdownInput {...downshiftProps} inputProps={inputProps} />
-            <DropdownMenu
-              {...downshiftProps}
-              items={items}
-              messages={messages}
-              textField={textField}
-              valueField={valueField}
-              asyncSelect
-              resourceMenu
-            />
+        {downshiftProps => {
+          const DropdownSearch = (
             <DropdownSearchAction
               {...downshiftProps}
               onToggleMenu={this.handleToggleMenu}
             />
-          </div>
-        )}
+          );
+          const { multiselect } = downshiftProps;
+          return (
+            <div {...dropDownClasses()}>
+              <DropdownInput
+                {...downshiftProps}
+                inputProps={inputProps}
+                multiselect={multiselect}
+                iconRight={multiselect ? null : DropdownSearch}
+              />
+              <DropdownMenu
+                {...downshiftProps}
+                multiselect={multiselect}
+                items={items}
+                messages={messages}
+                textField={textField}
+                valueField={valueField}
+                asyncSelect
+                resourceMenu
+              />
+              {multiselect && DropdownSearch}
+            </div>
+          );
+        }}
       </Downshift>
     );
   }

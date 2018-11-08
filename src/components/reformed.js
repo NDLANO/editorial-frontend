@@ -13,7 +13,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import get from 'lodash/fp/get';
 import set from 'lodash/fp/set';
 import isEqual from 'lodash/fp/isEqual';
-import { getComponentName } from 'ndla-util';
+import { getComponentName } from '@ndla/util';
 
 const makeWrapper = WrappedComponent => {
   class FormWrapper extends React.Component {
@@ -57,7 +57,7 @@ const makeWrapper = WrappedComponent => {
         return {
           fields: set(
             name,
-            { dirty: false, ...currentFlags, ...flags },
+            { dirty: false, touched: false, ...currentFlags, ...flags },
             prevState.fields,
           ),
         };

@@ -8,9 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { Link } from 'react-router-dom';
-import { Audio } from 'ndla-icons/common';
+import { Audio } from '@ndla/icons/common';
 import { toEditAudio } from '../../../../util/routeHelpers';
 import { AudioResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
@@ -23,7 +23,7 @@ const SearchAudio = ({ audio, locale, t }) => (
     <div {...searchClasses('content')}>
       <Link to={toEditAudio(audio.id, locale)}>
         <h1 {...searchClasses('title')}>
-          {audio.title || t('audioSearch.noTitle')}
+          {audio.title.title || t('audioSearch.noTitle')}
         </h1>
       </Link>
     </div>

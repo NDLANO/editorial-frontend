@@ -10,7 +10,7 @@ import React, { Component, Fragment } from 'react';
 import { findDOMNode } from 'slate-react';
 import Types from 'slate-prop-types';
 import PropTypes from 'prop-types';
-import { SlateBlockMenu } from 'ndla-editor';
+import { SlateBlockMenu } from '@ndla/editor';
 import {
   Quote,
   Camera,
@@ -21,8 +21,7 @@ import {
   Framed,
   PlayBoxOutline,
   PresentationPlay,
-} from 'ndla-icons/editor';
-
+} from '@ndla/icons/editor';
 import { Portal } from '../../../Portal';
 import { defaultBlocks } from '../../utils';
 import { defaultBodyBoxBlock } from '../bodybox';

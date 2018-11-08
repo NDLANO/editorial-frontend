@@ -6,16 +6,16 @@
  *
  */
 
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { AsyncDropdownField } from '../../components/Fields';
 import { SchemaShape } from '../../shapes';
 import * as draftApi from '../../modules/draft/draftApi';
 import { toEditAgreement } from '../../util/routeHelpers';
 
-class AgreementConnection extends PureComponent {
+class AgreementConnection extends Component {
   static async searchAgreements(query) {
     const response = await draftApi.fetchAgreements(query);
     return response.results;
@@ -71,7 +71,7 @@ class AgreementConnection extends PureComponent {
   }
 
   render() {
-    const { t, commonFieldProps } = this.props;
+    const { t, commonFieldProps, width } = this.props;
     const { agreement } = this.state;
     return [
       <AsyncDropdownField
@@ -89,6 +89,7 @@ class AgreementConnection extends PureComponent {
           emptyList: t('form.agreement.emptyList'),
         }}
         onChange={this.handleChange}
+        width={width}
       />,
       agreement && agreement.id ? (
         <Link
@@ -113,6 +114,11 @@ AgreementConnection.propTypes = {
     bindInput: PropTypes.func.isRequired,
     submitted: PropTypes.bool.isRequired,
   }),
+  width: PropTypes.number,
+};
+
+AgreementConnection.defaultProps = {
+  width: 1,
 };
 
 export default injectT(AgreementConnection);

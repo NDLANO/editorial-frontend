@@ -7,12 +7,19 @@
 
 import React, { Component } from 'react';
 import { compose } from 'redux';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
+import Accordion, {
+  AccordionWrapper,
+  AccordionBar,
+  AccordionPanel,
+} from '@ndla/accordion';
 import PropTypes from 'prop-types';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import { withRouter } from 'react-router-dom';
 import reformed from '../../../components/reformed';
-import validateSchema from '../../../components/validateSchema';
+import validateSchema, {
+  checkTouchedInvalidField,
+} from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
 import {
@@ -139,6 +146,44 @@ class ImageForm extends Component {
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
 
+    const panels = [
+      {
+        id: 'image-upload-content',
+        title: t('form.contentSection'),
+        hasError: [
+          schema.fields.title,
+          schema.fields.imageFile,
+          schema.fields.alttext,
+          schema.fields.caption,
+        ].some(field => checkTouchedInvalidField(field, submitted)),
+        component: (
+          <ImageContent
+            commonFieldProps={commonFieldProps}
+            tags={tags}
+            model={model}
+          />
+        ),
+      },
+      {
+        id: 'image-upload-metadataSection',
+        title: t('form.metadataSection'),
+        hasError: [
+          schema.fields.tags,
+          schema.fields.creators,
+          schema.fields.rightsholders,
+          schema.fields.processors,
+          schema.fields.license,
+        ].some(field => checkTouchedInvalidField(field, submitted)),
+        component: (
+          <ImageMetaData
+            commonFieldProps={commonFieldProps}
+            tags={tags}
+            licenses={licenses}
+          />
+        ),
+      },
+    ];
+
     return (
       <FormWrapper inModal={inModal} onSubmit={this.handleSubmit}>
         <FormHeader
@@ -146,17 +191,32 @@ class ImageForm extends Component {
           type="image"
           editUrl={lang => toEditImage(model.id, lang)}
         />
-        <ImageContent
-          inModal={inModal}
-          commonFieldProps={commonFieldProps}
-          tags={tags}
-          model={model}
-        />
-        <ImageMetaData
-          commonFieldProps={commonFieldProps}
-          tags={tags}
-          licenses={licenses}
-        />
+        <Accordion openIndexes={['image-upload-content']}>
+          {({ openIndexes, handleItemClick }) => (
+            <AccordionWrapper>
+              {panels.map(panel => (
+                <React.Fragment key={panel.id}>
+                  <AccordionBar
+                    panelId={panel.id}
+                    ariaLabel={panel.title}
+                    onClick={() => handleItemClick(panel.id)}
+                    hasError={panel.hasError}
+                    isOpen={openIndexes.includes(panel.id)}>
+                    {panel.title}
+                  </AccordionBar>
+                  <AccordionPanel
+                    id={panel.id}
+                    hasError={panel.hasError}
+                    isOpen={openIndexes.includes(panel.id)}>
+                    <div className="u-4/6@desktop u-push-1/6@desktop">
+                      {panel.component}
+                    </div>
+                  </AccordionPanel>
+                </React.Fragment>
+              ))}
+            </AccordionWrapper>
+          )}
+        </Accordion>
         <Field right {...classes('form-actions')}>
           {inModal ? (
             <Button outline onClick={closeModal}>
@@ -252,6 +312,9 @@ export default compose(
       allObjectFieldsRequired: true,
     },
     imageFile: {
+      required: true,
+    },
+    license: {
       required: true,
     },
   }),

@@ -8,18 +8,26 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'ndla-button';
-import { Plus, Cross } from 'ndla-icons/action';
+import Button from '@ndla/button';
 import {
-  Field,
-  FieldErrorMessages,
-  getField,
-  classes,
-} from '../../components/Fields';
-import CirclePlusButton from '../../components/CirclePlusButton';
+  FormHeader,
+  FormSections,
+  FormInput,
+  FormRemoveButton,
+} from '@ndla/forms';
+import { Field } from '../../components/Fields';
 
 const AddNotes = props => {
-  const { name, label, schema, submitted, placeholder, bindInput } = props;
+  const {
+    name,
+    submitted,
+    placeholder,
+    bindInput,
+    labelAddNote,
+    labelRemoveNote,
+    labelHeading,
+    labelWarningNote,
+  } = props;
   const { onChange, value } = bindInput(name);
 
   const onNotesChange = newContributors => {
@@ -51,42 +59,47 @@ const AddNotes = props => {
 
   return (
     <Field>
-      <label htmlFor={name}>{label}</label>
+      <FormHeader title={labelHeading} width={3 / 4} />
       {value.map((note, index) => (
-        <div
-          key={/* eslint-disable */ `notes_${index}` /* eslint-enable */}
-          {...classes('removable')}>
-          <input
-            value={note}
-            placeholder={placeholder}
-            onChange={e => handleNoteChange(e, index)}
-          />
-          <Button stripped onClick={e => removeNote(e, index)}>
-            <Cross className="c-icon--medium" />
-          </Button>
-        </div>
+        <FormSections
+          key={/* eslint-disable */ `notes_${index}` /* eslint-enable */}>
+          <div>
+            <FormInput
+              warningText={submitted && note === '' ? labelWarningNote : ''}
+              container="div"
+              type="text"
+              focusOnMount
+              placeholder={placeholder}
+              value={note}
+              onChange={e => handleNoteChange(e, index)}
+            />
+          </div>
+          <div>
+            <FormRemoveButton onClick={evt => removeNote(evt, index)}>
+              {labelRemoveNote}
+            </FormRemoveButton>
+          </div>
+        </FormSections>
       ))}
-      <FieldErrorMessages
-        label={label}
-        field={getField(name, schema)}
-        submitted={submitted}
-      />
-      <CirclePlusButton onClick={addNote}>
-        <Plus className="c-icon--medium" />
-      </CirclePlusButton>
+      <Button outline onClick={addNote}>
+        {labelAddNote}
+      </Button>
     </Field>
   );
 };
 
 AddNotes.propTypes = {
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  labelHeading: PropTypes.string.isRequired,
   bindInput: PropTypes.func.isRequired,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),
   submitted: PropTypes.bool.isRequired,
   placeholder: PropTypes.string,
+  labelRemoveNote: PropTypes.string.isRequired,
+  labelAddNote: PropTypes.string.isRequired,
+  labelWarningNote: PropTypes.string.isRequired,
 };
 
 export default AddNotes;

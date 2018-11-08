@@ -8,12 +8,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import Types from 'slate-prop-types';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
 import { TYPE } from '.';
 import LinkForm, { getInitialModel } from './LinkForm';
+import config from '../../../../config';
 
 const newTabAttributes = {
   target: '_blank',
@@ -63,7 +64,9 @@ class EditLink extends React.Component {
   handleSave(model) {
     const { value, node } = this.props;
     const { href, text, title, checkbox } = model;
-    const isNDLAUrl = /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
+    const isNDLAUrl = config.isNdlaProdEnvironment
+      ? /^https:\/\/(www\.)?ndla.no\/article\/\d*/.test(href)
+      : /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
     const data = isNDLAUrl
       ? createContentLinkData(
           href,

@@ -9,20 +9,13 @@
 import React from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import SearchResult from './SearchResult';
 import Spinner from '../../../../components/Spinner';
 import { SearchResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
 
-const getResultLanguage = (result, searchObject, type, locale) => {
-  if (type === 'media') {
-    return locale;
-  }
-  return searchObject.language || result.title.language;
-};
-
-const SearchList = ({ results, searchObject, type, t, searching, locale }) => (
+const SearchList = ({ results, searchObject, type, t, searching }) => (
   <div {...searchClasses('results')}>
     {searching && <Spinner cssModifier="absolute" />}
     {results.length === 0 ? (
@@ -38,7 +31,7 @@ const SearchList = ({ results, searchObject, type, t, searching, locale }) => (
             key={result.id}
             result={result}
             type={type}
-            locale={getResultLanguage(result, searchObject, type, locale)}
+            locale={searchObject.language || result.title.language}
           />
         </CSSTransition>
       ))}
@@ -54,7 +47,6 @@ SearchList.propTypes = {
   }),
   type: PropTypes.string,
   searching: PropTypes.bool,
-  locale: PropTypes.string.isRequired,
 };
 
 SearchList.defaultProps = {

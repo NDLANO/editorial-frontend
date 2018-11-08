@@ -8,8 +8,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
-import { ErrorMessage } from 'ndla-ui';
+import { injectT } from '@ndla/i18n';
+import { ErrorMessage } from '@ndla/ui';
 import { fetchH5PiframeUrl, editH5PiframeUrl } from './h5pApi';
 
 class H5PElement extends Component {

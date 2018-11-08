@@ -13,8 +13,8 @@ import {
   LearningResource,
   Camera,
   SquareAudio,
-} from 'ndla-icons/editor';
-import { injectT } from 'ndla-i18n';
+} from '@ndla/icons/editor';
+import { injectT } from '@ndla/i18n';
 import { Link } from 'react-router-dom';
 import { formClasses } from '.';
 import FormLanguage from './FormLanguage';

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { connect } from 'react-redux';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { getLocale } from '../../../../modules/locale/locale';
 import { fetchConcept } from '../../../../modules/article/articleApi';
 

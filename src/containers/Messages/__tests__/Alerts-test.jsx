@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
-import { uuid } from 'ndla-util';
+import { uuid } from '@ndla/util';
 
 import { Alerts, Alert, Action } from '../Alerts';
 

@@ -10,8 +10,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'ndla-button';
-import { Cross } from 'ndla-icons/action';
+import Button from '@ndla/button';
+import { Cross } from '@ndla/icons/action';
 import RichTextEditor from './RichTextEditor';
 import { PluginShape } from '../../shapes';
 import { formClasses } from '../../containers/Form';
@@ -67,6 +67,8 @@ class RichBlockTextEditor extends Component {
       value,
       name,
       onChange,
+      onFocus,
+      onBlur,
       ...rest
     } = this.props;
     return (
@@ -87,6 +89,8 @@ class RichBlockTextEditor extends Component {
               name={name}
               schema={schema}
               onChange={e => this.onContentChange(e, index)}
+              onFocus={() => onFocus({ target: { name }, type: 'focus' })}
+              onBlur={() => onBlur({ target: { name }, type: 'blur' })}
               isBlock
               {...rest}
               value={val.value}
@@ -104,6 +108,8 @@ class RichBlockTextEditor extends Component {
 RichBlockTextEditor.propTypes = {
   schema: PropTypes.shape({}),
   onChange: PropTypes.func.isRequired,
+  onFocus: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,

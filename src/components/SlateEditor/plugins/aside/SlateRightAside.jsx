@@ -8,11 +8,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'ndla-button';
-import { injectT } from 'ndla-i18n';
+import Button from '@ndla/button';
+import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
-import { Cross } from 'ndla-icons/action';
-import { ChevronLeft } from 'ndla-icons/common';
+import { Cross } from '@ndla/icons/action';
+import { ChevronLeft } from '@ndla/icons/common';
 
 const classes = new BEMHelper({
   name: 'editor',

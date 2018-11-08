@@ -10,8 +10,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import Types from 'slate-prop-types';
-import Button from 'ndla-button';
-import { Cross } from 'ndla-icons/action';
+import Button from '@ndla/button';
+import { Cross } from '@ndla/icons/action';
 import { EditorShape } from '../../../../shapes';
 
 const classes = new BEMHelper({

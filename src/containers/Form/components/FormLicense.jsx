@@ -6,12 +6,12 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
-import { getLicenseByAbbreviation } from 'ndla-licenses';
-import { SelectObjectField } from '../../../components/Fields';
+import { getLicenseByAbbreviation } from '@ndla/licenses';
+import { FormHeader, FormSections, FormDropdown } from '@ndla/forms';
 import { CommonFieldPropsShape } from '../../../shapes';
 import { getLocale } from '../../../modules/locale/locale';
 
@@ -29,15 +29,23 @@ const FormLicense = ({
   }));
 
   return (
-    <SelectObjectField
-      name={name}
-      label={t('form.license.label')}
-      options={licensesWithTranslations}
-      idKey="license"
-      labelKey="title"
-      disabled={disabled}
-      {...commonFieldProps}
-    />
+    <Fragment>
+      <FormHeader title={t('form.license.label')} width={3 / 4} />
+      <FormSections>
+        <div>
+          <FormDropdown
+            disabled={disabled}
+            value=""
+            {...commonFieldProps.bindInput(name)}>
+            {licensesWithTranslations.map(license => (
+              <option value={license.license} key={license.license}>
+                {license.title}
+              </option>
+            ))}
+          </FormDropdown>
+        </div>
+      </FormSections>
+    </Fragment>
   );
 };
 

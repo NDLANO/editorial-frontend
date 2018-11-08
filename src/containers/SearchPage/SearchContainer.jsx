@@ -10,13 +10,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import queryString from 'query-string';
-import { injectT } from 'ndla-i18n';
-import { OneColumn } from 'ndla-ui';
-import Pager from 'ndla-pager';
+import { injectT } from '@ndla/i18n';
+import { OneColumn } from '@ndla/ui';
+import Pager from '@ndla/pager';
 import BEMHelper from 'react-bem-helper';
+import { Search } from '@ndla/icons/common';
 import { getLocale } from '../../modules/locale/locale';
 import { getSearching } from '../../modules/search/searchSelectors';
-import SearchAccordion from './components/SearchAccordion';
 import { SearchResultShape } from '../../shapes';
 import SearchList from './components/results/SearchList';
 import SearchListOptions from './components/results/SearchListOptions';
@@ -32,10 +32,8 @@ export const searchClasses = new BEMHelper({
 class SearchContainer extends Component {
   constructor() {
     super();
-    this.state = { hiddenContent: false };
     this.onSortOrderChange = this.onSortOrderChange.bind(this);
     this.onQueryPush = this.onQueryPush.bind(this);
-    this.toggleContent = this.toggleContent.bind(this);
   }
 
   componentDidMount() {
@@ -75,10 +73,6 @@ class SearchContainer extends Component {
     this.onQueryPush({ sort, page: 1 });
   }
 
-  toggleContent() {
-    this.setState(prevState => ({ hiddenContent: !prevState.hiddenContent }));
-  }
-
   render() {
     const {
       location,
@@ -93,47 +87,43 @@ class SearchContainer extends Component {
 
     const searchObject = queryString.parse(location.search);
     return (
-      <div>
-        <OneColumn>
-          <SearchAccordion
-            handleToggle={this.toggleContent}
-            header={t(`searchPage.header.${type}`)}
-            hidden={this.state.hiddenContent}>
-            <SearchForm
-              type={type}
-              search={this.onQueryPush}
-              searchObject={searchObject}
-              location={location}
-              locale={locale}
-            />
-            {type === 'content' && (
-              <SearchSort
-                location={location}
-                onSortOrderChange={this.onSortOrderChange}
-              />
-            )}
-            <SearchListOptions
-              type={type}
-              searchObject={searchObject}
-              totalCount={totalCount}
-              search={this.onQueryPush}
-            />
-          </SearchAccordion>
-          <SearchList
-            searchObject={searchObject}
-            results={results.results}
-            searching={searching}
-            type={type}
-            locale={locale}
+      <OneColumn>
+        <h2>
+          <Search className="c-icon--medium" />
+          {t(`searchPage.header.${type}`)}
+        </h2>
+        <SearchForm
+          type={type}
+          search={this.onQueryPush}
+          searchObject={searchObject}
+          location={location}
+          locale={locale}
+        />
+        {type === 'content' && (
+          <SearchSort
+            location={location}
+            onSortOrderChange={this.onSortOrderChange}
           />
-          <Pager
-            page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
-            lastPage={lastPage}
-            query={searchObject}
-            pathname={toSearch(undefined, type)}
-          />
-        </OneColumn>
-      </div>
+        )}
+        <SearchListOptions
+          type={type}
+          searchObject={searchObject}
+          totalCount={totalCount}
+          search={this.onQueryPush}
+        />
+        <SearchList
+          searchObject={searchObject}
+          results={results.results}
+          searching={searching}
+          type={type}
+        />
+        <Pager
+          page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
+          lastPage={lastPage}
+          query={searchObject}
+          pathname={toSearch(undefined, type)}
+        />
+      </OneColumn>
     );
   }
 }

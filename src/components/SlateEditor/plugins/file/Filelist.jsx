@@ -9,8 +9,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
-import { FileList } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+import { FileList } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 import { EditorShape } from '../../../../shapes';
 import { getSchemaEmbed } from '../../schema';
 import EditFile from './EditFile';

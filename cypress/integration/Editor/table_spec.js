@@ -29,14 +29,14 @@ describe('Learning resource editing', () => {
         cy.wrap($el).type('{downarrow}TEST{rightarrow}TEST2{downarrow}TEST3', {
           force: true,
         });
-        cy.get('[data-cy=column-add]').click();
+        cy.get('[data-cy=column-add]').click({ force: true });
         cy.wrap($el).type('Test new column');
-        cy.get('[data-cy=row-add]').click();
+        cy.get('[data-cy=row-add]').click({ force: true });
         cy.wrap($el).type('Test new row');
       });
 
-    cy.get('[data-cy=column-remove]').click();
-    cy.get('[data-cy=row-remove]').click();
+    cy.get('[data-cy=column-remove]').click({ force: true });
+    cy.get('[data-cy=row-remove]').click({ force: true });
     cy.contains(t.form.content.table['table-remove']).click({ force: true });
   });
 });

@@ -9,12 +9,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Plus } from 'ndla-icons/action';
-import { contributorGroups, contributorTypes } from 'ndla-licenses';
-import { Field, FieldErrorMessages, getField } from '../Fields';
-import AddContributor from './AddContributor';
+import { injectT } from '@ndla/i18n';
+import { contributorGroups, contributorTypes } from '@ndla/licenses';
+import Button from '@ndla/button';
+import { FormHeader } from '@ndla/forms';
+import Contributor from './Contributor';
+import { getField } from '../Fields';
 import { getLocale } from '../../modules/locale/locale';
-import CirclePlusButton from '../CirclePlusButton';
 
 const capitalizeFirstLetter = string =>
   string.charAt(0).toUpperCase() + string.slice(1);
@@ -25,10 +26,10 @@ const Contributors = props => {
     label,
     locale,
     schema,
-    submitted,
-    placeholder,
     bindInput,
     disabled,
+    t,
+    ...rest
   } = props;
   const { onChange, value } = bindInput(name);
 
@@ -42,7 +43,7 @@ const Contributors = props => {
   };
   const addContributor = () => {
     const newContributors = [].concat(value);
-    newContributors.push({ name: '', type: '' });
+    newContributors.push({ name: '', type: '', focusOnMount: true });
     onContributorChange(newContributors);
   };
 
@@ -69,38 +70,33 @@ const Contributors = props => {
       : contributorTypes.nb[item],
   }));
 
+  const errorMessages = getField(name, schema).errors.map(error =>
+    error(label),
+  );
+
   return (
-    <Field>
-      <label htmlFor={name}>{label}</label>
+    <div>
+      <FormHeader title={label} width={3 / 4} />
       {value.map((contributor, index) => (
-        <AddContributor
+        <Contributor
           key={`contributor_${index}`} // eslint-disable-line react/no-array-index-key
-          {...contributor}
+          contributor={contributor}
           index={index}
-          contributorTypes={contributorTypeItems}
-          handleContributorTypeChange={evt =>
-            handleContributorChange(evt, 'type', index)
-          }
-          handleContributorNameChange={evt =>
-            handleContributorChange(evt, 'name', index)
-          }
-          removeContributor={evt => removeContributor(evt, index)}
-          placeholder={placeholder}
-          disabled={disabled}
+          errorMessages={errorMessages}
+          contributorTypeItems={contributorTypeItems}
+          handleContributorChange={handleContributorChange}
+          removeContributor={removeContributor}
+          {...rest}
         />
       ))}
-      <FieldErrorMessages
-        label={label}
-        field={getField(name, schema)}
-        submitted={submitted}
-      />
-      <CirclePlusButton
+      <Button
+        outline
         onClick={addContributor}
         data-cy="addContributor"
         disabled={disabled}>
-        <Plus className="c-icon--medium" />
-      </CirclePlusButton>
-    </Field>
+        {t('form.contributor.add')}
+      </Button>
+    </div>
   );
 };
 
@@ -121,4 +117,4 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default connect(mapStateToProps)(Contributors);
+export default injectT(connect(mapStateToProps)(Contributors));

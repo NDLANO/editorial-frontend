@@ -6,9 +6,10 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { uuid } from 'ndla-util';
+import { uuid } from '@ndla/util';
+import { FormHeader, FormSections } from '@ndla/forms';
 import BEMHelper from 'react-bem-helper';
 import get from 'lodash/fp/get';
 import MultiSelect from './MultiSelect';
@@ -51,7 +52,7 @@ FieldHelp.propTypes = {
 export const getField = (name, schema) => get(name, schema.fields);
 const hasError = field => field && !field.valid;
 const showError = (field, submitted) =>
-  hasError(field) && (field.dirty || submitted);
+  hasError(field) && (field.touched || field.dirty || submitted);
 
 export const FieldErrorMessages = ({ field, submitted, label }) => {
   if (!field || !showError(field, submitted)) {
@@ -301,7 +302,7 @@ export const PlainTextField = ({
   fieldClassName,
   ...rest
 }) => {
-  const { value, onChange } = bindInput(name);
+  const { value, onChange, onFocus, onBlur } = bindInput(name);
   return (
     <Field noBorder={noBorder} className={fieldClassName}>
       {!noBorder ? (
@@ -331,6 +332,8 @@ export const PlainTextField = ({
             target: { name, value: val.value, type: 'SlateEditorValue' },
           })
         }
+        onFocus={() => onFocus({ target: { name }, type: 'focus' })}
+        onBlur={() => onBlur({ target: { name }, type: 'blur' })}
         value={value}
         {...rest}
       />
@@ -557,24 +560,29 @@ export const AsyncDropdownField = ({
   submitted,
   schema,
   noBorder,
+  width,
   ...rest
 }) => {
   const { onChange } = bindInput(name);
   return (
-    <Field noBorder={noBorder}>
-      <label htmlFor={name}>{label}</label>
-      <AsyncDropdown
-        onChange={val =>
-          onChange({ target: { name, value: val ? val.id : undefined } })
-        }
-        {...rest}
-      />
-      <FieldErrorMessages
-        label={label}
-        field={getField(name, schema)}
-        submitted={submitted}
-      />
-    </Field>
+    <Fragment>
+      <FormHeader title={label} width={width} />
+      <FormSections>
+        <div>
+          <AsyncDropdown
+            onChange={val =>
+              onChange({ target: { name, value: val ? val.id : undefined } })
+            }
+            {...rest}
+          />
+          <FieldErrorMessages
+            label={label}
+            field={getField(name, schema)}
+            submitted={submitted}
+          />
+        </div>
+      </FormSections>
+    </Fragment>
   );
 };
 
@@ -587,8 +595,10 @@ AsyncDropdownField.propTypes = {
   }),
   noBorder: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
+  width: PropTypes.number,
 };
 
 AsyncDropdownField.defaultProps = {
   noBorder: false,
+  width: 1,
 };

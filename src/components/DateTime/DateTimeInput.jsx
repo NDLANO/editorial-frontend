@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Flatpickr from 'flatpickr';
-import { Calendar } from 'ndla-icons/editor';
+import { Calendar } from '@ndla/icons/editor';
 import { Norwegian } from 'flatpickr/dist/l10n/no';
 import { english } from 'flatpickr/dist/l10n/default';
 

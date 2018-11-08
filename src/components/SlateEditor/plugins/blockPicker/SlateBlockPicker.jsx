@@ -116,7 +116,8 @@ class SlateBlockPicker extends Component {
     if (slateBlockRef) {
       const rect = nodeEl.getBoundingClientRect();
       slateBlockRef.style.top = `${rect.top -
-        nodeEl.parentNode.getBoundingClientRect().top - 14}px`;
+        nodeEl.parentNode.getBoundingClientRect().top -
+        14}px`;
       slateBlockRef.style.left = '-78px';
       slateBlockRef.style.position = 'absolute';
       slateBlockRef.style.opacity = 1;

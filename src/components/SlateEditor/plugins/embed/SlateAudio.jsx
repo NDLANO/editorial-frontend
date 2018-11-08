@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Figure } from 'ndla-ui';
+import { Figure } from '@ndla/ui';
 
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 import { EmbedShape } from '../../../../shapes';

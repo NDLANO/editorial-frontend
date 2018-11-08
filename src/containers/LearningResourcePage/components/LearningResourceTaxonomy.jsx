@@ -8,7 +8,7 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { TaxonomyFieldDropdown } from '../../../components/Fields';
 import { CommonFieldPropsShape, TaxonomyShape } from '../../../shapes';
 import {

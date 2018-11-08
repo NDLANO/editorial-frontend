@@ -8,8 +8,8 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'ndla-button';
-import { Done } from 'ndla-icons/editor';
+import Button from '@ndla/button';
+import { Done } from '@ndla/icons/editor';
 import RoundIcon from './RoundIcon';
 import handleError from '../util/handleError';
 import Spinner from './Spinner';

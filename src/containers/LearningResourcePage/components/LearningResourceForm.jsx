@@ -9,14 +9,14 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import Accordion, {
   AccordionWrapper,
   AccordionBar,
   AccordionPanel,
-} from 'ndla-accordion';
-import Button from 'ndla-button';
+} from '@ndla/accordion';
+import Button from '@ndla/button';
 import config from '../../../config';
 import reformed from '../../../components/reformed';
 import validateSchema, {

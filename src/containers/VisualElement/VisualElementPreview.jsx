@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import DisplayEmbedTag from '../../components/DisplayEmbedTag/DisplayEmbedTag';
 import MetaInformation from '../../components/MetaInformation';
 import { getVisualElementInformation } from '../../util/visualElementHelper';

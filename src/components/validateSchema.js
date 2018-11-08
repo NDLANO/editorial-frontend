@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import set from 'lodash/fp/set';
 import get from 'lodash/fp/get';
-import { getComponentName } from 'ndla-util';
+import { getComponentName } from '@ndla/util';
 import {
   isUrl,
   isEmpty,

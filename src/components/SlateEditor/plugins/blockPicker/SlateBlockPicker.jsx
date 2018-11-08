@@ -11,7 +11,7 @@ import { findDOMNode } from 'slate-react';
 import Types from 'slate-prop-types';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import {
   H5P,
   Paragraph,
@@ -22,9 +22,9 @@ import {
   Table,
   ExpandableBox,
   RelatedArticle,
-} from 'ndla-icons/editor';
-import { Cross, Plus } from 'ndla-icons/action';
-import { Audio } from 'ndla-icons/common';
+} from '@ndla/icons/editor';
+import { Cross, Plus } from '@ndla/icons/action';
+import { Audio } from '@ndla/icons/common';
 
 import { Portal } from '../../../Portal';
 import { defaultBlocks } from '../../utils';

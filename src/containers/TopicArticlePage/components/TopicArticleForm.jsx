@@ -9,13 +9,13 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import Accordion, {
   AccordionWrapper,
   AccordionBar,
   AccordionPanel,
-} from 'ndla-accordion';
-import Button from 'ndla-button';
+} from '@ndla/accordion';
+import Button from '@ndla/button';
 import { withRouter } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema, {
@@ -205,6 +205,7 @@ class TopicArticleForm extends Component {
       {
         id: 'topic-article-copyright',
         title: t('form.copyrightSection'),
+        className: 'u-6/6',
         hasError: [
           schema.fields.creators,
           schema.fields.rightsholders,

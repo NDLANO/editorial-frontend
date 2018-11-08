@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Masthead, MastheadItem, Logo } from 'ndla-ui';
+import { Masthead, MastheadItem, Logo } from '@ndla/ui';
 import BEMHelper from 'react-bem-helper';
 import MastheadSearch from './MastheadSearch';
 import SessionContainer from './components/SessionContainer';

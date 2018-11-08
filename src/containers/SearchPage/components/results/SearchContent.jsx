@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { ContentTypeBadge } from 'ndla-ui';
+import { ContentTypeBadge } from '@ndla/ui';
 import { ContentResultShape } from '../../../../shapes';
 import {
   getContentTypeFromResourceTypes,

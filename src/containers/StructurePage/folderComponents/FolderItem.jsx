@@ -8,8 +8,8 @@
 
 import React from 'react';
 import { string, bool, arrayOf, object, shape, func } from 'prop-types';
-import Button from 'ndla-button';
-import { Link as LinkIcon } from 'ndla-icons/editor';
+import Button from '@ndla/button';
+import { Link as LinkIcon } from '@ndla/icons/editor';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';
 import EditLinkButton from './EditLinkButton';

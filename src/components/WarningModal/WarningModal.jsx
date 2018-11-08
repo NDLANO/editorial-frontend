@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Warning } from 'ndla-icons/editor';
+import { Warning } from '@ndla/icons/editor';
 import BEMHelper from 'react-bem-helper';
 import Lightbox from '../Lightbox';
 import WarningModalFooter from './WarningModalFooter';

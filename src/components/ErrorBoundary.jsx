@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import PropTypes from 'prop-types';
 import handleError from '../util/handleError';
 

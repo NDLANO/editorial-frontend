@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { DeleteForever } from 'ndla-icons/editor';
-import Button from 'ndla-button';
+import { DeleteForever } from '@ndla/icons/editor';
+import Button from '@ndla/button';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
 import WarningModal from '../../../../components/WarningModal';

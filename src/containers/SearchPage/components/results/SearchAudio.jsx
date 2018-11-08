@@ -8,9 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { Link } from 'react-router-dom';
-import { Audio } from 'ndla-icons/common';
+import { Audio } from '@ndla/icons/common';
 import { toEditAudio } from '../../../../util/routeHelpers';
 import { AudioResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';

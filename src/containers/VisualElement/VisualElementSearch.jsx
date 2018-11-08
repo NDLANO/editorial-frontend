@@ -9,12 +9,12 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Button from 'ndla-button';
-import { injectT } from 'ndla-i18n';
-import ImageSearch from 'ndla-image-search';
-import VideoSearch from 'ndla-video-search';
-import AudioSearch from 'ndla-audio-search';
-import Tabs from 'ndla-tabs';
+import Button from '@ndla/button';
+import { injectT } from '@ndla/i18n';
+import ImageSearch from '@ndla/image-search';
+import VideoSearch from '@ndla/video-search';
+import AudioSearch from '@ndla/audio-search';
+import Tabs from '@ndla/tabs';
 
 import {
   actions as tagActions,

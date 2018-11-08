@@ -8,7 +8,7 @@
 
 import React from 'react';
 import isEmpty from 'lodash/fp/isEmpty';
-import { uuid } from 'ndla-util';
+import { uuid } from '@ndla/util';
 import {
   reduceElementDataAttributes,
   createDataProps,

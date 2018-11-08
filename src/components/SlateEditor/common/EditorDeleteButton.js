@@ -10,9 +10,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'react-emotion';
 import darken from 'polished/lib/color/darken';
-import { colors } from 'ndla-core';
-import Button from 'ndla-button';
-import { Cross } from 'ndla-icons/action';
+import { colors } from '@ndla/core';
+import Button from '@ndla/button';
+import { Cross } from '@ndla/icons/action';
 
 const deleteButtonStyle = css`
   position: absolute;

@@ -14,26 +14,16 @@ import { injectT } from '@ndla/i18n';
 import { Cross, Pencil, Plus } from '@ndla/icons/action';
 import { editorClasses } from './SlateFigure';
 import { EmbedShape } from '../../../../shapes';
-import WarningModal from '../../../WarningModal';
 
 export class FigureButtons extends React.Component {
   constructor() {
     super();
-    this.state = { showDeleteConfirmation: false };
-    this.toggleDelete = this.toggleDelete.bind(this);
     this.onDeleteConfirm = this.onDeleteConfirm.bind(this);
   }
 
   onDeleteConfirm(e) {
     const { onRemoveClick } = this.props;
-    this.setState({ showDeleteConfirmation: false });
     onRemoveClick(e);
-  }
-
-  toggleDelete() {
-    this.setState(prevState => ({
-      showDeleteConfirmation: !prevState.showDeleteConfirmation,
-    }));
   }
 
   render() {
@@ -64,7 +54,7 @@ export class FigureButtons extends React.Component {
         )}>
         <Button
           {...editorClasses('button', 'red')}
-          onClick={this.toggleDelete}
+          onClick={this.onDeleteConfirm}
           stripped>
           <Cross />
         </Button>
@@ -81,18 +71,6 @@ export class FigureButtons extends React.Component {
           title={url[figureType].editTitle}>
           <Pencil />
         </Link>
-        <WarningModal
-          show={this.state.showDeleteConfirmation}
-          onCancel={this.toggleDelete}
-          actions={[
-            { text: t('form.abort'), onClick: this.toggleDelete },
-            {
-              text: t('warningModal.delete'),
-              onClick: this.onDeleteConfirm,
-            },
-          ]}
-          text={t('form.content.figure.confirmDelete')}
-        />
       </div>
     );
   }

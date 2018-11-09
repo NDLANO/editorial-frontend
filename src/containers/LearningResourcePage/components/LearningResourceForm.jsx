@@ -362,12 +362,14 @@ class LearningResourceForm extends Component {
                     isOpen={openIndexes.includes(panel.id)}>
                     {panel.title}
                   </AccordionBar>
-                  <AccordionPanel
-                    id={panel.id}
-                    hasError={panel.hasError}
-                    isOpen={openIndexes.includes(panel.id)}>
-                    <div className={panel.className}>{panel.component}</div>
-                  </AccordionPanel>
+                  {openIndexes.includes(panel.id) && (
+                    <AccordionPanel
+                      id={panel.id}
+                      hasError={panel.hasError}
+                      isOpen={openIndexes.includes(panel.id)}>
+                      <div className={panel.className}>{panel.component}</div>
+                    </AccordionPanel>
+                  )}
                 </React.Fragment>
               ))}
             </AccordionWrapper>

@@ -66,7 +66,6 @@ FormCopyright.propTypes = {
   model: PropTypes.shape({
     agreementId: PropTypes.number,
   }),
-  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(FormCopyright);

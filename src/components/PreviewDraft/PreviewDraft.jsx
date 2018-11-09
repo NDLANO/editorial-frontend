@@ -8,8 +8,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Article as UIArticle, ContentTypeBadge } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 
 class PreviewDraft extends Component {
   componentDidMount() {

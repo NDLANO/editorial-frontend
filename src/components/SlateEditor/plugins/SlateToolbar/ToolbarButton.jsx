@@ -8,8 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
-import Button from 'ndla-button';
+import { injectT } from '@ndla/i18n';
+import Button from '@ndla/button';
 import {
   Bold,
   Italic,
@@ -24,11 +24,11 @@ import {
   Heading2,
   Heading1,
   Section,
-} from 'ndla-icons/editor';
+} from '@ndla/icons/editor';
 import Types from 'slate-prop-types';
 import { toolbarClasses } from './SlateToolbar';
 
-// ndla-ui icon for Link type in toolbar has the same name as a link/anchor element component.
+// @ndla/ui icon for Link type in toolbar has the same name as a link/anchor element component.
 // Thus triggering a false positive, that we have to disable.
 /* eslint-disable jsx-a11y/anchor-is-valid */
 const toolbarIcon = t => ({

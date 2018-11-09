@@ -9,8 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
-import { OneColumn, ErrorMessage } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+import { OneColumn, ErrorMessage } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 
 const Status = ({ code, children }) => (
   <Route

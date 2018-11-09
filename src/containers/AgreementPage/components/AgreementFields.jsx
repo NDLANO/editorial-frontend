@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { getLocale } from '../../../modules/locale/locale';
 import {

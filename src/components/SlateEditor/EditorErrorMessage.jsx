@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'react-emotion';
-import { colors } from 'ndla-core';
+import { colors } from '@ndla/core';
 import { EditorDeleteButton } from './common/EditorDeleteButton';
 
 const StyledEditorErrorMessage = styled('div')`

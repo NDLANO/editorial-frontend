@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { loginPersonalAccessToken } from '../../util/authHelpers';
 
 export const LoginProviders = ({ t }) => [

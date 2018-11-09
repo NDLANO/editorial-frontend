@@ -9,13 +9,12 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Button from 'ndla-button';
-import { injectT } from 'ndla-i18n';
-import ImageSearch from 'ndla-image-search';
-import VideoSearch from 'ndla-video-search';
-import AudioSearch from 'ndla-audio-search';
-import Tabs from 'ndla-tabs';
-import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
+import Button from '@ndla/button';
+import { injectT } from '@ndla/i18n';
+import ImageSearch from '@ndla/image-search';
+import VideoSearch from '@ndla/video-search';
+import AudioSearch from '@ndla/audio-search';
+import Tabs from '@ndla/tabs';
 
 import {
   actions as tagActions,
@@ -42,6 +41,7 @@ import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
 import H5PElement from '../../components/H5PElement';
+import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 
 const titles = (t, resource = '') => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),

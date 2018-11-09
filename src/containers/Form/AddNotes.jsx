@@ -8,13 +8,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import {
   FormHeader,
   FormSections,
   FormInput,
   FormRemoveButton,
-} from 'ndla-forms';
+} from '@ndla/forms';
 import { Field } from '../../components/Fields';
 
 const AddNotes = props => {

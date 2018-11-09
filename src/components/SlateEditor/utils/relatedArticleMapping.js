@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContentTypeBadge, constants } from 'ndla-ui';
+import { ContentTypeBadge, constants } from '@ndla/ui';
 
 export const mapping = resource => {
   switch (resource) {

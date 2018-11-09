@@ -14,7 +14,7 @@ import {
   FormInput,
   FormDropdown,
   FormRemoveButton,
-} from 'ndla-forms';
+} from '@ndla/forms';
 
 const Contributor = ({
   labelRemove,

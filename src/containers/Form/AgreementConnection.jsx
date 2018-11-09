@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { AsyncDropdownField } from '../../components/Fields';
 import { SchemaShape } from '../../shapes';
 import * as draftApi from '../../modules/draft/draftApi';

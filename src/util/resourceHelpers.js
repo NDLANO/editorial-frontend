@@ -6,7 +6,7 @@
  *
  */
 
-import { constants } from 'ndla-ui';
+import { constants } from '@ndla/ui';
 import config from '../config';
 import { toEditArticle } from './routeHelpers';
 

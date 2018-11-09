@@ -6,7 +6,7 @@
  *
  */
 
-@import '../../node_modules/ndla-ui/lib/all.css';
+@import '../../node_modules/@ndla/ui/lib/all.css';
 @import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 @import '../../node_modules/react-image-crop/dist/ReactCrop.css';
 @import './accordion.css';
@@ -58,7 +58,7 @@
   cursor: pointer;
 }
 
-/* Should be moved to Article component in ndla-ui */
+/* Should be moved to Article component in @ndla/ui */
 .MJXc-display {
   display: inline-block !important;
   margin: 0;
@@ -68,7 +68,7 @@
   }
 }
 
-/* Override ndla-ui styles */
+/* Override @ndla/ui styles */
 .c-article {
   font-family: var(--font);
 }

@@ -9,7 +9,7 @@
 import React from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import SearchResult from './SearchResult';
 import Spinner from '../../../../components/Spinner';
 import { SearchResultShape } from '../../../../shapes';

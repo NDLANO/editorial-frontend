@@ -9,9 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Button from 'ndla-button';
-import { injectT } from 'ndla-i18n';
-import { Cross, Pencil, Plus } from 'ndla-icons/action';
+import Button from '@ndla/button';
+import { injectT } from '@ndla/i18n';
+import { Cross, Pencil, Plus } from '@ndla/icons/action';
 import { editorClasses } from './SlateFigure';
 import { EmbedShape } from '../../../../shapes';
 import WarningModal from '../../../WarningModal';

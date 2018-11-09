@@ -8,8 +8,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
-import Button from 'ndla-button';
+import { injectT } from '@ndla/i18n';
+import Button from '@ndla/button';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
 

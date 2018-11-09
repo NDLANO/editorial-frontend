@@ -188,7 +188,7 @@ class SlateBlockPicker extends Component {
     const { isOpen, embedSelect } = this.state;
     return (
       <Fragment>
-        <Portal isOpened>
+        <Portal isOpened={embedSelect.isOpen}>
           <SlateEmbedPicker
             resource={embedSelect.embedType}
             isOpen={embedSelect.isOpen}

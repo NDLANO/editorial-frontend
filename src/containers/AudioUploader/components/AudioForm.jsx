@@ -187,14 +187,16 @@ class AudioForm extends Component {
                     isOpen={openIndexes.includes(panel.id)}>
                     {panel.title}
                   </AccordionBar>
-                  <AccordionPanel
-                    id={panel.id}
-                    hasError={panel.hasError}
-                    isOpen={openIndexes.includes(panel.id)}>
-                    <div className="u-4/6@desktop u-push-1/6@desktop">
-                      {panel.component}
-                    </div>
-                  </AccordionPanel>
+                  {openIndexes.includes(panel.id) && (
+                    <AccordionPanel
+                      id={panel.id}
+                      hasError={panel.hasError}
+                      isOpen={openIndexes.includes(panel.id)}>
+                      <div className="u-4/6@desktop u-push-1/6@desktop">
+                        {panel.component}
+                      </div>
+                    </AccordionPanel>
+                  )}
                 </React.Fragment>
               ))}
             </AccordionWrapper>

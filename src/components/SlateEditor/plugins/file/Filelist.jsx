@@ -6,16 +6,18 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
-import { FileList } from '@ndla/ui';
+import BEMHelper from 'react-bem-helper';
 import { injectT } from '@ndla/i18n';
 import { EditorShape } from '../../../../shapes';
 import { getSchemaEmbed } from '../../schema';
-import EditFile from './EditFile';
+import SingleFile from './SingleFile';
 
-class Filelist extends React.Component {
+const fileListClasses = BEMHelper('c-file-list');
+
+class FileList extends React.Component {
   constructor(props) {
     super(props);
     const { node, t } = props;
@@ -29,8 +31,7 @@ class Filelist extends React.Component {
       ],
     }));
 
-    this.state = { files, editMode: false };
-    this.toggleEdit = this.toggleEdit.bind(this);
+    this.state = { files };
     this.onFileInputChange = this.onFileInputChange.bind(this);
   }
 
@@ -68,51 +69,33 @@ class Filelist extends React.Component {
     editor.onChange(next);
   }
 
-  toggleEdit(e) {
-    e.stopPropagation();
-    this.setState(prevState => ({ editMode: !prevState.editMode }));
-  }
-
   render() {
-    const { files, editMode } = this.state;
+    const { files } = this.state;
     const { t } = this.props;
-
+    if (files.length === 0) {
+      return null;
+    }
     return (
-      <Fragment>
-        {editMode ? (
-          <EditFile
-            heading={t(`form.file.label`)}
-            files={files}
-            onExit={this.toggleEdit}
-            onFileListInputChange={this.onFileInputChange}
-            submitted={false}
-          />
-        ) : (
-          <div
-            role="button"
-            className="c-placeholder-editmode"
-            tabIndex={0}
-            onKeyPress={this.toggleEdit}
-            onClick={this.toggleEdit}>
-            {files &&
-              files.length > 0 && (
-                <FileList
-                  heading={t(`form.file.label`)}
-                  id="file-embed"
-                  files={files}
-                />
-              )}
-          </div>
-        )}
-      </Fragment>
+      <section {...fileListClasses()}>
+        <h1 {...fileListClasses('heading')}>{t(`form.file.label`)}</h1>
+        <ul {...fileListClasses('files')}>
+          {files.map(file => (
+            <SingleFile
+              key={`file-${file.id}-${file.formats[0].url}`}
+              file={file}
+              onFileInputChange={this.onFileInputChange}
+            />
+          ))}
+        </ul>
+      </section>
     );
   }
 }
 
-Filelist.propTypes = {
+FileList.propTypes = {
   editor: EditorShape,
   node: Types.node.isRequired,
   locale: PropTypes.string,
 };
 
-export default injectT(Filelist);
+export default injectT(FileList);

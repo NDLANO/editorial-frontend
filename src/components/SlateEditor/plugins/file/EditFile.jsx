@@ -2,10 +2,10 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { File } from '@ndla/ui';
+import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import SlateInputField from '../embed/SlateInputField';
 import { Portal } from '../../../Portal';
 import { EmbedFileShape } from '../../../../shapes';
-import Lightbox from '../../../Lightbox';
 
 class EditFile extends Component {
   render() {
@@ -29,26 +29,54 @@ class EditFile extends Component {
           }}
         />
         <Portal isOpened>
-          <Lightbox big onClose={onExit}>
-            <div
-              ref={embedEl => {
-                this.embedEl = embedEl;
-              }}>
-              <File file={file} id="file-embed" />
-              <SlateInputField
-                key={`fileTitle-${file.formats[0].url}`}
-                id={file.id}
-                name="title"
-                noBorder={false}
-                label={t('form.file.title.label')}
-                type="text"
-                value={file.title}
-                onChange={onFileListInputChange}
-                placeholder={t('form.file.title.placeholder')}
-                submitted={submitted}
-              />
-            </div>
-          </Lightbox>
+          <Modal
+            controllable
+            isOpen
+            onClose={onExit}
+            size="large"
+            backgroundColor="white"
+            minHeight="85vh">
+            {onCloseModal => (
+              <Fragment>
+                <ModalHeader>
+                  <ModalCloseButton
+                    title={t('dialog.close')}
+                    onClick={onCloseModal}
+                  />
+                </ModalHeader>
+                <ModalBody>
+                  <div
+                    ref={embedEl => {
+                      this.embedEl = embedEl;
+                    }}>
+                    <File file={file} id="file-embed" />
+                    <SlateInputField
+                      id={file.id}
+                      name="title"
+                      noBorder={false}
+                      label={t('form.file.title.label')}
+                      type="text"
+                      value={file.title}
+                      onChange={onFileListInputChange}
+                      placeholder={t('form.file.title.placeholder')}
+                      submitted={submitted}
+                    />
+                    <SlateInputField
+                      id={file.id}
+                      name="alt"
+                      noBorder={false}
+                      label={t('form.file.alt.label')}
+                      type="text"
+                      value={file.alt}
+                      onChange={onFileListInputChange}
+                      placeholder={t('form.file.alt.placeholder')}
+                      submitted={submitted}
+                    />
+                  </div>
+                </ModalBody>
+              </Fragment>
+            )}
+          </Modal>
         </Portal>
       </Fragment>
     );

@@ -366,6 +366,7 @@ const phrases = {
       audio: 'Lyd',
       h5p: 'H5P',
       related: 'Relatert artikkel',
+      file: 'Fil',
     },
   },
   form: {
@@ -638,6 +639,13 @@ const phrases = {
     },
     file: {
       label: 'Filer',
+      file: {
+        label: 'Fil',
+      },
+      alt: {
+        label: 'Alt-tekst',
+        placeholder: 'Alt-tekst',
+      },
       download: 'Last ned:',
       title: {
         label: 'Filtittel',

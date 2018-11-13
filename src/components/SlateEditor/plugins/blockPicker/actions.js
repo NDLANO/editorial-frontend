@@ -10,6 +10,7 @@ import {
   PlayBoxOutline,
   PresentationPlay,
 } from '@ndla/icons/editor';
+import { Download } from '@ndla/icons/common';
 
 const actions = [
   {
@@ -47,6 +48,10 @@ const actions = [
   {
     data: { type: 'embed', object: 'h5p' },
     icon: <PresentationPlay />,
+  },
+  {
+    data: { type: 'file', object: 'file' },
+    icon: <Download />,
   },
   {
     data: { type: 'related', object: 'related' },

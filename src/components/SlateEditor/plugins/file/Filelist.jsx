@@ -14,6 +14,7 @@ import { injectT } from '@ndla/i18n';
 import { EditorShape } from '../../../../shapes';
 import { getSchemaEmbed } from '../../schema';
 import SingleFile from './SingleFile';
+import EditFileList from './EditFileList';
 
 const fileListClasses = BEMHelper('c-file-list');
 
@@ -23,15 +24,17 @@ class FileList extends React.Component {
     const { node, t } = props;
     const { nodes } = getSchemaEmbed(node);
 
-    const files = nodes.map(({ title, type, url }, id) => ({
+    const files = nodes.map(({ title, type, url, alt }, id) => ({
       id,
       title,
+      alt,
       formats: [
         { url, fileType: type, tooltip: `${t(`form.file.download`)} ${title}` },
       ],
     }));
 
-    this.state = { files };
+    this.state = { files, editMode: false };
+    this.toggleEdit = this.toggleEdit.bind(this);
     this.onFileInputChange = this.onFileInputChange.bind(this);
   }
 
@@ -69,25 +72,43 @@ class FileList extends React.Component {
     editor.onChange(next);
   }
 
+  toggleEdit() {
+    this.setState(prevState => ({ editMode: !prevState.editMode }));
+  }
+
   render() {
-    const { files } = this.state;
-    const { t } = this.props;
+    const { files, editMode } = this.state;
     if (files.length === 0) {
       return null;
     }
+
+    const { t } = this.props;
+
     return (
-      <section {...fileListClasses()}>
-        <h1 {...fileListClasses('heading')}>{t(`form.file.label`)}</h1>
-        <ul {...fileListClasses('files')}>
-          {files.map(file => (
-            <SingleFile
-              key={`file-${file.id}-${file.formats[0].url}`}
-              file={file}
-              onFileInputChange={this.onFileInputChange}
-            />
-          ))}
-        </ul>
-      </section>
+      <div
+        role="button"
+        className="c-placeholder-editmode"
+        tabIndex={0}
+        onKeyPress={this.toggleEdit}
+        onClick={this.toggleEdit}>
+        <EditFileList editMode={editMode} />
+        <section
+          {...fileListClasses()}
+          ref={embedEl => {
+            this.embedEl = embedEl;
+          }}>
+          <h1 {...fileListClasses('heading')}>{t(`form.file.label`)}</h1>
+          <ul {...fileListClasses('files')}>
+            {files.map(file => (
+              <SingleFile
+                key={`file-${file.id}-${file.formats[0].url}`}
+                file={file}
+                onFileInputChange={this.onFileInputChange}
+              />
+            ))}
+          </ul>
+        </section>
+      </div>
     );
   }
 }

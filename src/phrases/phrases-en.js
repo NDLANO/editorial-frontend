@@ -352,6 +352,7 @@ const phrases = {
       audio: 'Audio',
       h5p: 'H5P',
       related: 'Related article',
+      file: 'File',
     },
   },
   form: {
@@ -626,6 +627,13 @@ const phrases = {
     },
     file: {
       label: 'Files',
+      file: {
+        label: 'File',
+      },
+      alt: {
+        label: 'Alt text',
+        placeholder: 'Alt text',
+      },
       download: 'Download:',
       title: {
         label: 'File title',

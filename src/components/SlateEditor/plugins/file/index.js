@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import Filelist from './Filelist';
+import FileList from './FileList';
 
 export default () => {
   const schema = {
@@ -17,10 +17,10 @@ export default () => {
   /* eslint-disable react/prop-types */
   const renderNode = props => {
     const { node } = props;
-
+    console.log(node.type);
     switch (node.type) {
       case 'file':
-        return <Filelist {...props} />;
+        return <FileList {...props} />;
       default:
         return null;
     }

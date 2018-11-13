@@ -67,7 +67,9 @@ class SlateInputField extends React.Component {
       ...rest
     } = this.props;
     return (
-      <Field noBorder className={className || 'c-field--no-margin-top'}>
+      <Field
+        noBorder={noBorder}
+        className={className || 'c-field--no-margin-top'}>
         {!noBorder ? (
           <label htmlFor={name}>{label}</label>
         ) : (
@@ -87,7 +89,7 @@ class SlateInputField extends React.Component {
           id={name}
           name={name}
           value={value}
-          className="c-editor__figure-input-field"
+          className={noBorder ? 'c-editor__figure-input-field' : ''}
           onClick={this.onFigureInputClick}
           onBlur={this.onFigureInputBlur}
           {...rest}

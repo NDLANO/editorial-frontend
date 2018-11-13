@@ -41,6 +41,7 @@ import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
 import H5PElement from '../../components/H5PElement';
+import FileUploader from '../../components/FileUploader';
 
 const titles = t => ({
   video: t('form.visualElement.video'),
@@ -263,6 +264,24 @@ class VisualElementSearch extends Component {
       case 'related-content': {
         handleVisualElementChange({ resource: 'related-content' });
         return null;
+      }
+      case 'file': {
+        return (
+          <FileUploader
+            onFileSave={file => {
+              console.log(file);
+              return handleVisualElementChange(
+                {
+                  url: config.ndlaApiUrl + file.path,
+                  resource: 'file',
+                  ...file,
+                },
+                'file',
+              );
+            }}
+            onClose={closeModal}
+          />
+        );
       }
       default:
         return <p>{`Embedtag ${selectedResource} is not supported.`}</p>;

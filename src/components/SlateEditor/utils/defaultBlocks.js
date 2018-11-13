@@ -36,6 +36,13 @@ export const defaultEmbedBlock = data =>
     data,
   });
 
+export const defaultFilesBlock = data =>
+  Block.create({
+    object: 'Block',
+    type: 'file',
+    data,
+  });
+
 export const defaultRelatedBlock = () =>
   Block.create({
     object: 'block',
@@ -48,5 +55,6 @@ export default {
   defaultBlockWithText,
   defaultAsideBlock,
   defaultEmbedBlock,
+  defaultFilesBlock,
   defaultRelatedBlock,
 };

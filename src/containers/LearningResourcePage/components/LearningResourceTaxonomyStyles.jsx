@@ -292,6 +292,9 @@ const RemoveConnectionButton = styled('button')`
   width: ${spacing.normal};
   height: ${spacing.normal};
   transition: background 100ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:hover,
   &:focus {
     background: rgba(0, 0, 0, 0.15);

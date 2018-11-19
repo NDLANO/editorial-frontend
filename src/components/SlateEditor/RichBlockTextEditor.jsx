@@ -10,8 +10,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'ndla-button';
-import { Cross } from 'ndla-icons/action';
+import Button from '@ndla/button';
+import { Cross } from '@ndla/icons/action';
 import RichTextEditor from './RichTextEditor';
 import { PluginShape } from '../../shapes';
 import { formClasses } from '../../containers/Form';

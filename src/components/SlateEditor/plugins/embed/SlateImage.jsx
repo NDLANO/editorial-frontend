@@ -9,9 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { injectT } from 'ndla-i18n';
-import { Figure } from 'ndla-ui';
-import Button from 'ndla-button';
+import { injectT } from '@ndla/i18n';
+import { Figure } from '@ndla/ui';
+import Button from '@ndla/button';
 import { findDOMNode } from 'slate-react';
 import SlateTypes from 'slate-prop-types';
 import config from '../../../../config';
@@ -26,7 +26,7 @@ class SlateImage extends React.Component {
     if (align === 'right' || align === 'left') {
       nodeEl.parentNode.style.display = 'inline';
     } else {
-      nodeEl.parentNode.style.display = 'inline-block';
+      nodeEl.parentNode.style.display = 'block';
     }
   }
 

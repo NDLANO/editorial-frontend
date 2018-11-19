@@ -21,14 +21,13 @@ describe('Learning resource editing', () => {
       status: 201,
       response: '@saveResponse',
     }).as('savedLR');
-    cy.get('button[aria-label=Innhold]').click();
 
     cy.get('[data-testid=saveLearningResourceButton]').click({ force: true }); // checking that saving is disabled
     cy.get('[data-cy=learning-resource-title]').type('This is a test title.', {
       force: true,
     });
     cy.get('.article_introduction').type('Test ingress', { force: true });
-    cy.get('[data-cy=slate-editor] div')
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
       .type('This is test content {enter}', {
@@ -45,7 +44,7 @@ describe('Learning resource editing', () => {
       'https://cms.api.brightcove.com/v1/accounts/4806596774001/videos/?limit=10&offset=0&q=',
       'fixture:editor/videoSearch.json',
     );
-    cy.get('[data-cy=slate-editor] div')
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus();
     cy.get('[data-cy=slate-block-picker]').click({ force: true });
@@ -88,7 +87,9 @@ describe('Learning resource editing', () => {
       .last()
       .click({ force: true });
     cy.contains(t.videoSearch.addVideo).click(); */
-
+    cy.get('[data-cy=slate-block-picker]')
+      .last()
+      .click({ force: true });
     cy.get('[data-cy=create-audio]')
       .last()
       .click({ force: true });
@@ -97,6 +98,9 @@ describe('Learning resource editing', () => {
       .click({ force: true });
     /* cy.get('[data-cy=slate-block-picker]').click({ force: true });
     cy.get('[data-cy=create-h5p]').click(); */
+    cy.get('[data-cy=slate-block-picker]')
+      .last()
+      .click({ force: true });
     cy.get('[data-cy=create-related]')
       .last()
       .click({ force: true });

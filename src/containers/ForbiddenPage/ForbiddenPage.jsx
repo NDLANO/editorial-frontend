@@ -5,12 +5,12 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import { OneColumn } from 'ndla-ui';
+import { OneColumn } from '@ndla/ui';
 import React from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 
 const Status = ({ code, children }) => (
   <Route

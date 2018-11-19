@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Footer } from 'ndla-ui';
+import { Footer } from '@ndla/ui';
 import SelectLocale from '../../SelectLocale/SelectLocale';
 
 const FooterWrapper = ({ t }) => (

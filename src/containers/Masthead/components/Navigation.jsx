@@ -8,9 +8,9 @@
 
 import React, { Component } from 'react';
 import BEMHelper from 'react-bem-helper';
-import { Plus, Minus } from 'ndla-icons/action';
-import Button from 'ndla-button';
-import { injectT } from 'ndla-i18n';
+import { Plus, Minus } from '@ndla/icons/action';
+import Button from '@ndla/button';
+import { injectT } from '@ndla/i18n';
 import { withRouter, Link } from 'react-router-dom';
 import {
   Learningpath,
@@ -19,7 +19,7 @@ import {
   Media,
   SubjectMatter,
   Taxonomy,
-} from 'ndla-icons/editor';
+} from '@ndla/icons/editor';
 import config from '../../../config';
 import {
   toCreateLearningResource,

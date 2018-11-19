@@ -8,7 +8,7 @@
 
 import React, { Component, Fragment } from 'react';
 import { bool, func, string } from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import ObjectSelector from '../../../ObjectSelector';
 import { EmbedShape } from '../../../../shapes';

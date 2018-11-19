@@ -7,14 +7,14 @@
 
 import React, { Component } from 'react';
 import { compose } from 'redux';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import Accordion, {
   AccordionWrapper,
   AccordionBar,
   AccordionPanel,
-} from 'ndla-accordion';
+} from '@ndla/accordion';
 import PropTypes from 'prop-types';
-import Button from 'ndla-button';
+import Button from '@ndla/button';
 import { withRouter } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema, {
@@ -204,14 +204,16 @@ class ImageForm extends Component {
                     isOpen={openIndexes.includes(panel.id)}>
                     {panel.title}
                   </AccordionBar>
-                  <AccordionPanel
-                    id={panel.id}
-                    hasError={panel.hasError}
-                    isOpen={openIndexes.includes(panel.id)}>
-                    <div className="u-4/6@desktop u-push-1/6@desktop">
-                      {panel.component}
-                    </div>
-                  </AccordionPanel>
+                  {openIndexes.includes(panel.id) && (
+                    <AccordionPanel
+                      id={panel.id}
+                      hasError={panel.hasError}
+                      isOpen={openIndexes.includes(panel.id)}>
+                      <div className="u-4/6@desktop u-push-1/6@desktop">
+                        {panel.component}
+                      </div>
+                    </AccordionPanel>
+                  )}
                 </React.Fragment>
               ))}
             </AccordionWrapper>

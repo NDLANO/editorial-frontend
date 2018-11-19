@@ -8,10 +8,10 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
-import Button from 'ndla-button';
+import { injectT } from '@ndla/i18n';
+import Button from '@ndla/button';
 import Types from 'slate-prop-types';
-import { Cross, Pencil } from 'ndla-icons/action';
+import { Cross, Pencil } from '@ndla/icons/action';
 import './h5pResizer';
 import Lightbox from '../Lightbox';
 import VisualElementSearch from '../../containers/VisualElement/VisualElementSearch';

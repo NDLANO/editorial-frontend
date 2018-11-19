@@ -8,7 +8,7 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import SearchTag from './SearchTag';
 import { ResourceTypeShape } from '../../../../shapes';
 

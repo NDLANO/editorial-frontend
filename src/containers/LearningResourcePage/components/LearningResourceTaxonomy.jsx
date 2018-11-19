@@ -8,6 +8,7 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
 import { injectT } from 'ndla-i18n';
 import { cx } from 'react-emotion';
 import Button from 'ndla-button';
@@ -37,6 +38,10 @@ import {
   SubjectName,
   TitleModal,
 } from './LearningResourceTaxonomyStyles';
+=======
+import { injectT } from '@ndla/i18n';
+import { TaxonomyFieldDropdown } from '../../../components/Fields';
+>>>>>>> master
 import { CommonFieldPropsShape, TaxonomyShape } from '../../../shapes';
 import {
   fetchResourceTypes,

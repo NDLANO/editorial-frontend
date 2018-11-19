@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Plus } from 'ndla-icons/action';
-import Button from 'ndla-button';
+import { Plus } from '@ndla/icons/action';
+import Button from '@ndla/button';
 import InlineEditField from '../../../../components/InlineEditField';
 import RoundIcon from '../../../../components/RoundIcon';
 import { addTopic, addTopicToTopic } from '../../../../modules/taxonomy';

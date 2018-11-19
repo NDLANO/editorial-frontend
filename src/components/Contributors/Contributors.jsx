@@ -9,10 +9,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectT } from 'ndla-i18n';
-import { contributorGroups, contributorTypes } from 'ndla-licenses';
-import Button from 'ndla-button';
-import { FormHeader } from 'ndla-forms';
+import { injectT } from '@ndla/i18n';
+import { contributorGroups, contributorTypes } from '@ndla/licenses';
+import Button from '@ndla/button';
+import { FormHeader } from '@ndla/forms';
 import Contributor from './Contributor';
 import { getField } from '../Fields';
 import { getLocale } from '../../modules/locale/locale';
@@ -111,7 +111,6 @@ Contributors.propTypes = {
   submitted: PropTypes.bool.isRequired,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
-  labelRemove: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({

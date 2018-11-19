@@ -8,7 +8,7 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import FormLicense from './components/FormLicense';
 import { CommonFieldPropsShape } from '../../shapes';
 import Contributors from '../../components/Contributors';
@@ -66,7 +66,6 @@ FormCopyright.propTypes = {
   model: PropTypes.shape({
     agreementId: PropTypes.number,
   }),
-  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(FormCopyright);

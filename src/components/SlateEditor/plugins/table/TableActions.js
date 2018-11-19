@@ -8,8 +8,8 @@
 
 import React from 'react';
 import Types from 'slate-prop-types';
-import Button from 'ndla-button';
-import { injectT } from 'ndla-i18n';
+import Button from '@ndla/button';
+import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import { editTablePlugin } from '../externalPlugins';
 import { EditorShape } from '../../../../shapes';

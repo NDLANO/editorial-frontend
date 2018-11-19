@@ -9,15 +9,20 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import Accordion, {
   AccordionWrapper,
   AccordionBar,
   AccordionPanel,
+<<<<<<< HEAD
 } from 'ndla-accordion';
 import Button from 'ndla-button';
 import { Spinner } from 'ndla-editor';
+=======
+} from '@ndla/accordion';
+import Button from '@ndla/button';
+>>>>>>> master
 import config from '../../../config';
 import reformed from '../../../components/reformed';
 import validateSchema, {
@@ -366,12 +371,14 @@ class LearningResourceForm extends Component {
                     isOpen={openIndexes.includes(panel.id)}>
                     {panel.title}
                   </AccordionBar>
-                  <AccordionPanel
-                    id={panel.id}
-                    hasError={panel.hasError}
-                    isOpen={openIndexes.includes(panel.id)}>
-                    <div className={panel.className}>{panel.component}</div>
-                  </AccordionPanel>
+                  {openIndexes.includes(panel.id) && (
+                    <AccordionPanel
+                      id={panel.id}
+                      hasError={panel.hasError}
+                      isOpen={openIndexes.includes(panel.id)}>
+                      <div className={panel.className}>{panel.component}</div>
+                    </AccordionPanel>
+                  )}
                 </React.Fragment>
               ))}
             </AccordionWrapper>

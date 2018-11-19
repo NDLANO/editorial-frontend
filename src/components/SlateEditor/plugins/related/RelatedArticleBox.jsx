@@ -8,13 +8,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { uuid } from 'ndla-util';
-import { injectT } from 'ndla-i18n';
+import { uuid } from '@ndla/util';
+import { injectT } from '@ndla/i18n';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Types from 'slate-prop-types';
-import { RelatedArticleList } from 'ndla-ui';
-import { toggleRelatedArticles } from 'ndla-article-scripts';
+import { RelatedArticleList } from '@ndla/ui';
+import { toggleRelatedArticles } from '@ndla/article-scripts';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { searchArticles } from '../../../../modules/article/articleApi';
 import { queryResources } from '../../../../modules/taxonomy/taxonomyApi';

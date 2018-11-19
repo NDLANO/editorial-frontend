@@ -9,9 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import Types from 'slate-prop-types';
-import { Figure } from 'ndla-ui';
+import { Figure } from '@ndla/ui';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';

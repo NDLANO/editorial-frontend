@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 
 export const LoginFailure = ({ t }) => (
   <div>

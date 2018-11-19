@@ -7,8 +7,8 @@
  */
 
 import React from 'react';
-import Button from 'ndla-button';
-import { injectT } from 'ndla-i18n';
+import Button from '@ndla/button';
+import { injectT } from '@ndla/i18n';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import * as articleApi from '../../modules/article/articleApi';

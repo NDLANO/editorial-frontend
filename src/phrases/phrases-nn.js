@@ -435,6 +435,11 @@ const phrases = {
       title: 'Status',
       change: 'Endre status',
       qualityAssurance: 'Kvalitetsikring',
+      deleteLanguageVersion: {
+        button: 'Delete language version',
+        title: 'Slett språkversjon',
+        modal: 'Are you sure that you want to delete this language version?',
+      },
     },
     status: {
       created: 'Opprettet',

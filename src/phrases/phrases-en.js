@@ -421,6 +421,11 @@ const phrases = {
       title: 'Status',
       change: 'Change status',
       qualityAssurance: 'Quality assurance',
+      deleteLanguageVersion: {
+        button: 'Delete language version',
+        title: 'Delete language version',
+        modal: 'Are you sure that you want to delete this language version?',
+      },
     },
     status: {
       created: 'Created',

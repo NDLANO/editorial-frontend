@@ -45,6 +45,11 @@ export const createDraft = draft =>
     body: JSON.stringify(draft),
   }).then(resolveJsonOrRejectWithError);
 
+export const deleteLanguageVersion = (id, language) =>
+  fetchAuthorized(`${baseUrl}/${id}/language/${language}`, {
+    method: 'DELETE',
+  }).then(resolveJsonOrRejectWithError);
+
 export const fetchNewArticleId = id => {
   const url = `${baseUrl}/external_id/${id}`;
   return fetchAuthorized(url).then(resolveJsonOrRejectWithError);

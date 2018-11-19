@@ -639,6 +639,8 @@ const phrases = {
         label: 'File title',
         placeholder: 'File title',
       },
+      addFile: 'Add file',
+      removeList: 'Remove file list',
     },
   },
   validation: {

@@ -656,6 +656,8 @@ const phrases = {
         label: 'Filtittel',
         placeholder: 'Filtittel',
       },
+      addFile: 'Legg til fil',
+      removeList: 'Fjern filliste',
     },
   },
   validation: {

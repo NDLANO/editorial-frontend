@@ -169,8 +169,12 @@ class Filelist extends React.Component {
         <section {...fileListClasses()}>
           <h1 {...fileListClasses('heading')}>{t('form.file.label')}</h1>
           <StyledButtonDiv>
-            <Button onClick={this.onOpenFileUploader}>Legg til fil</Button>
-            <Button onClick={this.onRemoveFileList}>Fjern liste</Button>
+            <Button onClick={this.onOpenFileUploader}>
+              {t('form.file.addFile')}
+            </Button>
+            <Button onClick={this.onRemoveFileList}>
+              {t('form.file.removeList')}
+            </Button>
           </StyledButtonDiv>
           <ul {...fileListClasses('files')}>
             {files.map(file => (

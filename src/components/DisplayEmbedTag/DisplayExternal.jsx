@@ -12,6 +12,8 @@ import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import Types from 'slate-prop-types';
 import { Cross, Pencil } from '@ndla/icons/action';
+
+import { Portal } from '../Portal';
 import './h5pResizer';
 import Lightbox from '../Lightbox';
 import VisualElementSearch from '../../containers/VisualElement/VisualElementSearch';
@@ -20,16 +22,8 @@ import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
 import { editorClasses } from '../SlateEditor/plugins/embed/SlateFigure';
-import { urlDomain } from '../../util/htmlHelpers';
+import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
-
-const el = document.createElement('html');
-
-export const getIframeSrcFromHtmlString = html => {
-  el.innerHTML = html;
-  const iframe = el.getElementsByTagName('iframe')[0];
-  return iframe.getAttribute('src');
-};
 
 export class DisplayExternal extends Component {
   constructor(props) {
@@ -171,10 +165,12 @@ export class DisplayExternal extends Component {
             {...editorClasses('button', 'red')}>
             <Cross />
           </Button>
-          {providerName && (
+          {allowedProvider.name && (
             <Button
               stripped
-              onClick={() => this.toggleEditEmbed(providerName.toLowerCase())}
+              onClick={() =>
+                this.toggleEditEmbed(allowedProvider.name.toLowerCase())
+              }
               {...editorClasses('button', 'green')}>
               <Pencil />
             </Button>
@@ -182,14 +178,17 @@ export class DisplayExternal extends Component {
         </div>
         {renderProvider}
         {this.state.editEmbedMode && (
-          <Lightbox display fullscreen big onClose={this.toggleEditEmbed}>
-            <VisualElementSearch
-              selectedResource={providerName}
-              selectedResourceUrl={src}
-              handleVisualElementChange={this.onEditEmbed}
-              closeModal={this.toggleEditEmbed}
-            />
-          </Lightbox>
+          <Portal isOpened>
+            <Lightbox display fullscreen big onClose={this.toggleEditEmbed}>
+              <VisualElementSearch
+                selectedResource={allowedProvider.name}
+                selectedResourceUrl={src}
+                selectedResourceType={type}
+                handleVisualElementChange={this.onEditEmbed}
+                closeModal={this.toggleEditEmbed}
+              />
+            </Lightbox>
+          </Portal>
         )}
       </Fragment>
     );

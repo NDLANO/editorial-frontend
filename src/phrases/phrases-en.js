@@ -489,6 +489,10 @@ const phrases = {
         text: 'Text',
         addTitle: 'Add link',
         changeTitle: 'Change link',
+        required: 'Link is required',
+        invalid: 'Invalid link',
+        unSupported: 'Content in link is not supported',
+        newUrlResource: 'New resource',
       },
       footnote: {
         title: 'Title',

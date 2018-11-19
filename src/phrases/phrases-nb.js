@@ -503,6 +503,10 @@ const phrases = {
         text: 'Tekst',
         addTitle: 'Legg til lenke',
         changeTitle: 'Endre lenke',
+        required: 'Lenke er påkrevd',
+        invalid: 'Ugyldig lenke',
+        unSupported: 'Innholdstypen i lenken er ikke støttet',
+        newUrlResource: 'Ny ressurs',
       },
       footnote: {
         title: 'Tittel',

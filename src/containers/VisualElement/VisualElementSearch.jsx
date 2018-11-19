@@ -42,6 +42,7 @@ import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
 import H5PElement from '../../components/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
+import VisualElementUrlPreview from './VisualElementUrlPreview';
 
 const titles = (t, resource = '') => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
@@ -89,15 +90,16 @@ class VisualElementSearch extends Component {
       isSavingImage,
       selectedResource,
       selectedResourceUrl,
+      selectedResourceType,
       handleVisualElementChange,
       closeModal,
       locale,
       t,
     } = this.props;
 
-    const allowedUrlResource = EXTERNAL_WHITELIST_PROVIDERS.filter(
-      provider => provider.name === selectedResource,
-    )[0].name;
+    const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map(
+      provider => provider.name,
+    ).filter(name => name === selectedResource);
 
     switch (selectedResource) {
       case 'image':
@@ -180,7 +182,7 @@ class VisualElementSearch extends Component {
           interactioncount: t('videoSearch.interactioncount'),
         };
         return (
-          <div>
+          <Fragment>
             <h2>{titles(t, selectedResource)[selectedResource]}</h2>
             <VideoSearch
               enabledSources={['Brightcove', 'YouTube']}
@@ -206,12 +208,13 @@ class VisualElementSearch extends Component {
               }}
               onError={api.onError}
             />
-          </div>
+          </Fragment>
         );
       }
-      case 'H5P': {
+      case 'H5P':
+      case 'h5p': {
         return (
-          <div>
+          <Fragment>
             <h2>{titles(t, selectedResource)[selectedResource]}</h2>
             <H5PElement
               h5pUrl={selectedResourceUrl}
@@ -224,7 +227,7 @@ class VisualElementSearch extends Component {
               }
               label={t('form.visualElement.label')}
             />
-          </div>
+          </Fragment>
         );
       }
       case 'audio': {
@@ -269,7 +272,18 @@ class VisualElementSearch extends Component {
       }
       // URL-editable embed resources
       case allowedUrlResource: {
-        return <h3>{`Embedtag ${selectedResource} is supported!`}</h3>; // TODO Replace with URL preview component
+        return (
+          <VisualElementUrlPreview
+            resource={allowedUrlResource}
+            url={selectedResourceUrl}
+            type={selectedResourceType}
+            onUrlSave={urlResource =>
+              handleVisualElementChange({
+                ...urlResource,
+              })
+            }
+          />
+        );
       }
       default:
         return <h3>{`Embedtag ${selectedResource} is not supported.`}</h3>;
@@ -280,6 +294,7 @@ class VisualElementSearch extends Component {
 VisualElementSearch.propTypes = {
   selectedResource: PropTypes.string.isRequired,
   selectedResourceUrl: PropTypes.string,
+  selectedResourceType: PropTypes.string,
   handleVisualElementChange: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   uploadedImage: PropTypes.shape({

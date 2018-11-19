@@ -693,6 +693,26 @@ const phrases = {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
     },
+    resourceTypes: {
+      title: 'Content type',
+      subTitle: 'What content type does this resource have?',
+      placeholder: 'Select content type',
+    },
+    topics: {
+      title: 'Topic connections',
+      subTitle: 'Where in the taxonomy should this resource be?',
+      filestructureButton: 'Create a topic connection',
+      filestructureHeading: 'Select a topic connection',
+      filestructureClose: 'Close',
+      addedTopic: 'Added to taxonomy',
+      filterTopic: 'Filter topics',
+    },
+    filters: {
+      title: 'Filters',
+      subTitle: 'Which filters should be applied?',
+      additional: 'Additional resource',
+      core: 'Core resource',
+    },
   },
 };
 

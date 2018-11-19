@@ -13,6 +13,61 @@ import {
 } from '../constants';
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
 
+const sortByName = (a, b) => {
+  if (a.name < b.name) return -1;
+  if (a.name > b.name) return 1;
+  return 0;
+};
+
+const connectSubConnections = (items, parents) => {
+  const currentParents = parents;
+  items.forEach(connection => {
+    const currentConnection = connection;
+    if (parents[currentConnection.id]) {
+      currentConnection.subtopics = parents[currentConnection.id];
+      delete currentParents[currentConnection.id];
+      connectSubConnections(connection.subtopics, currentParents);
+    } else {
+      currentConnection.subtopics = [];
+    }
+  });
+};
+
+const connectionTopicsToParent = (unConnectedTopics, id) => {
+  const parents = {};
+  // Group into arrays
+  unConnectedTopics.forEach(unconnected => {
+    if (!parents[unconnected.parent]) {
+      parents[unconnected.parent] = [];
+    }
+    parents[unconnected.parent].push(unconnected);
+  });
+  // Sort groups by name
+  Object.keys(parents).forEach(parentKey => {
+    parents[parentKey] = parents[parentKey].sort(sortByName);
+  });
+  // Get all direct connections
+  const directConnections = parents[id];
+  delete parents[id];
+  // Connect subconnections
+  connectSubConnections(directConnections, parents);
+  return directConnections;
+};
+
+const filterToSubjects = allFilters => {
+  const filterObjects = {};
+  allFilters.forEach(filter => {
+    if (!filterObjects[filter.subjectId]) {
+      filterObjects[filter.subjectId] = [];
+    }
+    filterObjects[filter.subjectId].push(filter);
+  });
+  Object.keys(filterObjects).forEach(subjectId => {
+    filterObjects[subjectId] = filterObjects[subjectId].sort(sortByName);
+  });
+  return filterObjects;
+};
+
 function flattenResourceTypes(data = []) {
   const resourceTypes = [];
   data.forEach(type => {
@@ -198,4 +253,7 @@ export {
   groupSortResourceTypesFromTopicResources,
   groupTopics,
   getCurrentTopic,
+  filterToSubjects,
+  connectionTopicsToParent,
+  sortByName,
 };

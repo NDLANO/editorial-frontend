@@ -17,6 +17,7 @@ import Accordion, {
   AccordionPanel,
 } from 'ndla-accordion';
 import Button from 'ndla-button';
+import { Spinner } from 'ndla-editor';
 import config from '../../../config';
 import reformed from '../../../components/reformed';
 import validateSchema, {
@@ -329,11 +330,14 @@ class LearningResourceForm extends Component {
       },
     ];
     if (model.id && config.taxonomyEnabled) {
+      // Test if resources topics has been loaded!!!!
       panels.splice(1, 0, {
         id: 'learning-resource-taxonomy',
         title: t('form.taxonomytSection'),
         className: 'u-6/6',
-        component: (
+        component: taxonomyIsLoading ? (
+          <Spinner />
+        ) : (
           <LearningResourceTaxonomy
             commonFieldProps={commonFieldProps}
             model={model}

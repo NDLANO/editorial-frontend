@@ -709,6 +709,26 @@ const phrases = {
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
     },
     removeLink: 'Fjern link',
+    resourceTypes: {
+      title: 'Innholdstype',
+      subTitle: 'Hvilken innholdstype har denne ressursen?',
+      placeholder: 'Velg innholdstype',
+    },
+    topics: {
+      title: 'Emnetilknytninger',
+      subTitle: 'Hvor i taksonomien skal ressursen ligge?',
+      filestructureButton: 'Opprett emnetilknytning',
+      filestructureHeading: 'Velg emnetilknytning',
+      filestructureClose: 'Lukk',
+      addedTopic: 'Lagt til',
+      filterTopic: 'Filtrer emner',
+    },
+    filters: {
+      title: 'Filter',
+      subTitle: 'Hvilket fagfilter gjelder for denne ressursen?',
+      additional: 'Tilleggsressurs',
+      core: 'Kjerneressurs',
+    },
   },
 };
 

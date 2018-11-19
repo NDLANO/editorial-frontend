@@ -12,10 +12,9 @@ import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import Types from 'slate-prop-types';
 import { Cross, Pencil } from '@ndla/icons/action';
+import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 
-import { Portal } from '../Portal';
 import './h5pResizer';
-import Lightbox from '../Lightbox';
 import VisualElementSearch from '../../containers/VisualElement/VisualElementSearch';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
@@ -103,7 +102,7 @@ export class DisplayExternal extends Component {
   }
 
   render() {
-    const { onRemoveClick } = this.props;
+    const { onRemoveClick, t } = this.props;
     const { title, src, height, error, type, provider, domain } = this.state;
 
     if (!type && !provider) return null;
@@ -178,17 +177,37 @@ export class DisplayExternal extends Component {
         </div>
         {renderProvider}
         {this.state.editEmbedMode && (
-          <Portal isOpened>
-            <Lightbox display fullscreen big onClose={this.toggleEditEmbed}>
-              <VisualElementSearch
-                selectedResource={allowedProvider.name}
-                selectedResourceUrl={src}
-                selectedResourceType={type}
-                handleVisualElementChange={this.onEditEmbed}
-                closeModal={this.toggleEditEmbed}
-              />
-            </Lightbox>
-          </Portal>
+          <Modal
+            controllable
+            isOpen={this.state.editEmbedMode}
+            onClose={this.toggleEditEmbed}
+            size={
+              allowedProvider.name.toLowerCase() === 'h5p'
+                ? 'fullscreen'
+                : 'large'
+            }
+            backgroundColor="white"
+            minHeight="85vh">
+            {onCloseModal => (
+              <Fragment>
+                <ModalHeader>
+                  <ModalCloseButton
+                    title={t('dialog.close')}
+                    onClick={onCloseModal}
+                  />
+                </ModalHeader>
+                <ModalBody>
+                  <VisualElementSearch
+                    selectedResource={allowedProvider.name}
+                    selectedResourceUrl={src}
+                    selectedResourceType={type}
+                    handleVisualElementChange={this.onEditEmbed}
+                    closeModal={this.toggleEditEmbed}
+                  />
+                </ModalBody>
+              </Fragment>
+            )}
+          </Modal>
         )}
       </Fragment>
     );

@@ -19,7 +19,6 @@ import {
 } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
 
-import Lightbox from '../../components/Lightbox';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import {
   isValidURL,
@@ -90,7 +89,7 @@ class VisualElementUrlPreview extends Component {
 
   render() {
     const { url, isInvalidURL, isNotSupportedUrl, type } = this.state;
-    const { resource, showLightbox, toggleEditEmbed, t } = this.props;
+    const { resource, t } = this.props;
 
     const isChangedUrl = url !== this.props.url;
 
@@ -105,7 +104,7 @@ class VisualElementUrlPreview extends Component {
       warningText = t('form.content.link.required');
     }
 
-    const urlForm = (
+    return (
       <Fragment>
         <FormHeader
           title={
@@ -149,15 +148,6 @@ class VisualElementUrlPreview extends Component {
         </Button>
       </Fragment>
     );
-
-    if (showLightbox) {
-      return (
-        <Lightbox display fullscreen big onClose={toggleEditEmbed}>
-          {urlForm}
-        </Lightbox>
-      );
-    }
-    return urlForm;
   }
 }
 
@@ -165,8 +155,6 @@ VisualElementUrlPreview.propTypes = {
   url: PropTypes.string,
   type: PropTypes.string,
   resource: PropTypes.string,
-  showLightbox: PropTypes.func,
-  toggleEditEmbed: PropTypes.func,
   onUrlSave: PropTypes.func.isRequired,
 };
 

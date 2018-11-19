@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import { injectT } from '@ndla/i18n';
 import SlateInputField from './SlateInputField';
 import { Portal } from '../../../Portal';
 import Overlay from '../../../Overlay';
@@ -64,10 +64,9 @@ class EditVideo extends Component {
 
 EditVideo.propTypes = {
   toggleEditModus: PropTypes.func,
-  t: PropTypes.func,
   embed: EmbedShape.isRequired,
   onFigureInputChange: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
 };
 
-export default EditVideo;
+export default injectT(EditVideo);

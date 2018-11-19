@@ -87,8 +87,12 @@ EditFile.propTypes = {
   file: EmbedFileShape,
   onExit: PropTypes.func.isRequired,
   onFileListInputChange: PropTypes.func.isRequired,
-  submitted: PropTypes.bool.isRequired,
+  submitted: PropTypes.bool,
   editMode: PropTypes.bool.isRequired,
+};
+
+EditFile.defaultProps = {
+  submitted: false,
 };
 
 export default injectT(EditFile);

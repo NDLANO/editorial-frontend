@@ -19,7 +19,7 @@ class FileUploader extends React.Component {
     this.onChangeField = this.onChangeField.bind(this);
     this.onSave = this.onSave.bind(this);
     this.state = {
-      file: undefined,
+      file: '',
       title: '',
       alt: '',
       submitted: false,
@@ -58,7 +58,6 @@ class FileUploader extends React.Component {
         <Field>
           <label htmlFor="file">{t('form.file.file.label')}</label>
           <input
-            id="file"
             type="file"
             name="file"
             value={file}

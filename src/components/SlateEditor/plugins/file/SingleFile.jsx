@@ -6,12 +6,18 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { File } from '@ndla/ui';
+import styled from 'react-emotion';
 import { injectT } from '@ndla/i18n';
 import { EmbedFileShape } from '../../../../shapes';
 import EditFile from './EditFile';
+import { EditorDeleteButton } from '../../common/EditorDeleteButton';
+
+const RelativeDiv = styled.div`
+  position: relative;
+`;
 
 class SingleFile extends React.Component {
   constructor(props) {
@@ -30,19 +36,18 @@ class SingleFile extends React.Component {
 
   render() {
     const { editMode } = this.state;
-    const { t, file, onFileInputChange } = this.props;
+    const { t, file, onFileInputChange, onRemoveFile } = this.props;
     if (!file) {
       return null;
     }
 
     return (
-      <Fragment>
+      <RelativeDiv>
         <EditFile
-          heading={t(`form.file.label`)}
+          heading={t('form.file.label')}
           file={file}
           onExit={this.toggleEdit}
           onFileListInputChange={onFileInputChange}
-          submitted={false}
           editMode={editMode}
         />
         <div
@@ -53,7 +58,8 @@ class SingleFile extends React.Component {
           onClick={this.toggleEdit}>
           <File file={file} id="file-embed" />
         </div>
-      </Fragment>
+        <EditorDeleteButton onClick={evt => onRemoveFile(evt, file)} />
+      </RelativeDiv>
     );
   }
 }
@@ -62,6 +68,7 @@ SingleFile.propTypes = {
   file: EmbedFileShape,
   locale: PropTypes.string,
   onFileInputChange: PropTypes.func.isRequired,
+  onRemoveFile: PropTypes.func.isRequired,
 };
 
 export default injectT(SingleFile);

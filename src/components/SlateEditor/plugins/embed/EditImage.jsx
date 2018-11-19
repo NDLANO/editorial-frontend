@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 import SlateInputField from './SlateInputField';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { Portal } from '../../../Portal';
@@ -74,4 +75,4 @@ EditImage.propTypes = {
   submitted: PropTypes.bool.isRequired,
 };
 
-export default EditImage;
+export default injectT(EditImage);

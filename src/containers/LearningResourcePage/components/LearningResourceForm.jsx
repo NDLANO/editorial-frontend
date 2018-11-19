@@ -15,14 +15,9 @@ import Accordion, {
   AccordionWrapper,
   AccordionBar,
   AccordionPanel,
-<<<<<<< HEAD
-} from 'ndla-accordion';
-import Button from 'ndla-button';
-import { Spinner } from 'ndla-editor';
-=======
 } from '@ndla/accordion';
 import Button from '@ndla/button';
->>>>>>> master
+import { Spinner } from '@ndla/editor';
 import config from '../../../config';
 import reformed from '../../../components/reformed';
 import validateSchema, {

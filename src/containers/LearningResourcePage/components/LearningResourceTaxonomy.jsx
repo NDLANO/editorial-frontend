@@ -8,17 +8,16 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
-import { injectT } from 'ndla-i18n';
 import { cx } from 'react-emotion';
-import Button from 'ndla-button';
-import { FormHeader, FormDropdown } from 'ndla-forms';
-import { FileStructure, Spinner } from 'ndla-editor';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from 'ndla-modal';
-import { Additional, Core, ChevronRight } from 'ndla-icons/common';
-import { Check } from 'ndla-icons/editor';
-import { Cross } from 'ndla-icons/action';
-import { colors } from 'ndla-core';
+import { injectT } from '@ndla/i18n';
+import Button from '@ndla/button';
+import { FormHeader, FormDropdown } from '@ndla/forms';
+import { FileStructure, Spinner } from '@ndla/editor';
+import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { Additional, Core, ChevronRight } from '@ndla/icons/common';
+import { Check } from '@ndla/icons/editor';
+import { Cross } from '@ndla/icons/action';
+import { colors } from '@ndla/core';
 import {
   buttonAddition,
   filterbuttonwrapper,
@@ -38,10 +37,6 @@ import {
   SubjectName,
   TitleModal,
 } from './LearningResourceTaxonomyStyles';
-=======
-import { injectT } from '@ndla/i18n';
-import { TaxonomyFieldDropdown } from '../../../components/Fields';
->>>>>>> master
 import { CommonFieldPropsShape, TaxonomyShape } from '../../../shapes';
 import {
   fetchResourceTypes,

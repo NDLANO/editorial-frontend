@@ -40,7 +40,7 @@ const formatFile = ({ title, type, url, alt, ...rest }, id, t) => ({
   ],
 });
 
-class FileList extends React.Component {
+class Filelist extends React.Component {
   constructor(props) {
     super(props);
     const { node, t } = props;
@@ -122,7 +122,7 @@ class FileList extends React.Component {
           ),
         ]),
       }),
-      () => this.onChangeFileData,
+      this.onChangeFileData,
     );
   }
 
@@ -188,10 +188,10 @@ class FileList extends React.Component {
   }
 }
 
-FileList.propTypes = {
+Filelist.propTypes = {
   editor: EditorShape,
   node: Types.node.isRequired,
   locale: PropTypes.string,
 };
 
-export default injectT(FileList);
+export default injectT(Filelist);

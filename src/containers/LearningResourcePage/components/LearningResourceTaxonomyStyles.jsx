@@ -1,7 +1,7 @@
 import styled, { css } from 'react-emotion';
-import { colors, spacing, fonts, misc } from 'ndla-core';
+import { colors, spacing, fonts, misc } from '@ndla/core';
 
-/** CSS **/
+/* CSS */
 const buttonAddition = css`
   opacity: 0;
   height: auto;
@@ -110,7 +110,7 @@ const listClass = css`
   }
 `;
 
-/** Styled components **/
+/* Styled components */
 
 const AddTitle = styled('span')`
   ${fonts.sizes(16, 1.2)} font-weight: ${fonts.weight.semibold};

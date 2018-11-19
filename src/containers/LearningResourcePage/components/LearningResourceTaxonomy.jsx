@@ -186,6 +186,10 @@ class LearningResourceTaxonomy extends Component {
     const updatedTopics = this.props.model.topics.filter(
       topic => topic.id !== id,
     );
+    if (updatedTopics.length === 1) {
+      // Auto set primary of only one connection.
+      updatedTopics[0].primary = true;
+    }
     onChange({
       target: { name: 'topics', value: updatedTopics },
     });

@@ -6,6 +6,7 @@ import { Plus } from '@ndla/icons/action';
 import Accordion from '../../../components/Accordion';
 import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
+import config from '../../../config';
 
 class TopicDescription extends Component {
   constructor(props) {
@@ -38,14 +39,16 @@ class TopicDescription extends Component {
           header={t('searchForm.articleType.topicArticle')}
           hidden={!this.state.displayTopicDescription}
           addButton={
-            <Button
-              className="c-topic-resource__add-button"
-              stripped
-              data-testid="changeTopicDescription"
-              onClick={this.toggleAddModal}>
-              <Plus />
-              {t('taxonomy.addTopicDescription')}
-            </Button>
+            config.enableFullTaxonomy && (
+              <Button
+                className="c-topic-resource__add-button"
+                stripped
+                data-testid="changeTopicDescription"
+                onClick={this.toggleAddModal}>
+                <Plus />
+                {t('taxonomy.addTopicDescription')}
+              </Button>
+            )
           }
           handleToggle={() =>
             this.setState(prevState => ({

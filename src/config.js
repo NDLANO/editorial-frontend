@@ -87,7 +87,8 @@ const config = {
   ),
   googleSearchApiKey: getEnvironmentVariabel('NDLA_GOOGLE_API_KEY'),
   googleSearchEngineId: getEnvironmentVariabel('NDLA_GOOGLE_SEARCH_ENGINE_ID'),
-  taxonomyEnabled: ndlaEnvironment === 'test' || ndlaEnvironment === 'local',
+  taxonomyEnabled: true,
+  enableFullTaxonomy: ndlaEnvironment === 'test' || ndlaEnvironment === 'local',
   localConverter: getEnvironmentVariabel('LOCAL_CONVERTER', false),
   checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', false),
 };

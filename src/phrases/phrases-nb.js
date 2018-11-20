@@ -737,6 +737,7 @@ const phrases = {
       filestructureClose: 'Lukk',
       addedTopic: 'Lagt til',
       filterTopic: 'Filtrer emner',
+      disconnectedTaxonomyWarning: 'Ugyldig tilknytning',
     },
     filters: {
       title: 'Filter',

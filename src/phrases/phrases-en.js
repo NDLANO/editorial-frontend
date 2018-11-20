@@ -721,6 +721,7 @@ const phrases = {
       filestructureClose: 'Close',
       addedTopic: 'Added to taxonomy',
       filterTopic: 'Filter topics',
+      disconnectedTaxonomyWarning: 'Invalid topic connection',
     },
     filters: {
       title: 'Filters',

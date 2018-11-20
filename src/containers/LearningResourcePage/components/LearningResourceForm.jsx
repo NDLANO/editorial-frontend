@@ -330,7 +330,6 @@ class LearningResourceForm extends Component {
       },
     ];
     if (model.id && config.taxonomyEnabled) {
-      // Test if resources topics has been loaded!!!!
       panels.splice(1, 0, {
         id: 'learning-resource-taxonomy',
         title: t('form.taxonomytSection'),

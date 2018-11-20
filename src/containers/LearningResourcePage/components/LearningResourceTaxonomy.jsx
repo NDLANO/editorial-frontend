@@ -28,6 +28,7 @@ import {
   ConnectionButton,
   Connections,
   ConnectionsWrapper,
+  ErrorLabel,
   FilterButton,
   FilterCheckBox,
   FilterListTR,
@@ -152,33 +153,37 @@ class LearningResourceTaxonomy extends Component {
   }
 
   retriveBreadCrumbs(topic) {
-    let topicPaths = topic.path
-      .split('/')
-      .splice(1)
-      .map(url => `urn:${url}`);
+    try {
+      let topicPaths = topic.path
+        .split('/')
+        .splice(1)
+        .map(url => `urn:${url}`);
 
-    const subject = this.state.structure.find(
-      structureSubject => structureSubject.id === topicPaths[0],
-    );
-    topicPaths = topicPaths.splice(1);
-    let error;
-    const returnPaths = [];
+      const subject = this.state.structure.find(
+        structureSubject => structureSubject.id === topicPaths[0],
+      );
+      topicPaths = topicPaths.splice(1);
+      const returnPaths = [];
 
-    returnPaths.push({
-      name: subject.name,
-      id: subject.id,
-    });
-    let { subtopics } = subject;
-    topicPaths.forEach(pathId => {
-      subtopics = subtopics.find(subtopic => subtopic.id === pathId);
       returnPaths.push({
-        name: subtopics.name,
-        id: subtopics.id,
+        name: subject.name,
+        id: subject.id,
       });
-      ({ subtopics } = subtopics);
-    });
+      let { subtopics } = subject;
+      topicPaths.forEach(pathId => {
+        subtopics = subtopics.find(subtopic => subtopic.id === pathId);
+        returnPaths.push({
+          name: subtopics.name,
+          id: subtopics.id,
+        });
+        ({ subtopics } = subtopics);
+      });
 
-    return error ? [] : returnPaths;
+      return returnPaths;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
   }
 
   removeConnection(id) {
@@ -228,28 +233,47 @@ class LearningResourceTaxonomy extends Component {
   renderConnections() {
     return (
       <ConnectionsWrapper>
-        {this.props.model.topics.map(topic => (
-          <Connections key={topic.id}>
-            <PrimaryConnectionButton
-              primary={topic.primary}
-              onClick={() => this.setPrimaryConnection(topic.id)}>
-              Primærkobling
-            </PrimaryConnectionButton>
-            <BreadCrumb style={{ flexGrow: 1 }}>
-              {this.retriveBreadCrumbs(topic).map(path => (
-                <Fragment key={`${topic.id}${path.id}`}>
-                  <span>{path.name}</span>
-                  <ChevronRight />
-                </Fragment>
-              ))}
-            </BreadCrumb>
-            <RemoveConnectionButton
-              type="button"
-              onClick={() => this.removeConnection(topic.id)}>
-              <Cross />
-            </RemoveConnectionButton>
-          </Connections>
-        ))}
+        {this.props.model.topics.map(topic => {
+          const breadCrumbs = this.retriveBreadCrumbs(topic);
+          if (!breadCrumbs) {
+            // Connection not available.
+            return (
+              <Connections key={topic.id} error>
+                <ErrorLabel>Ugyldig tilknytning</ErrorLabel>
+                <BreadCrumb>
+                  <span>{topic.path}</span>
+                </BreadCrumb>
+                <RemoveConnectionButton
+                  type="button"
+                  onClick={() => this.removeConnection(topic.id)}>
+                  <Cross />
+                </RemoveConnectionButton>
+              </Connections>
+            );
+          }
+          return (
+            <Connections key={topic.id}>
+              <PrimaryConnectionButton
+                primary={topic.primary}
+                onClick={() => this.setPrimaryConnection(topic.id)}>
+                Primærkobling
+              </PrimaryConnectionButton>
+              <BreadCrumb>
+                {breadCrumbs.map(path => (
+                  <Fragment key={`${topic.id}${path.id}`}>
+                    <span>{path.name}</span>
+                    <ChevronRight />
+                  </Fragment>
+                ))}
+              </BreadCrumb>
+              <RemoveConnectionButton
+                type="button"
+                onClick={() => this.removeConnection(topic.id)}>
+                <Cross />
+              </RemoveConnectionButton>
+            </Connections>
+          );
+        })}
       </ConnectionsWrapper>
     );
   }
@@ -363,16 +387,18 @@ class LearningResourceTaxonomy extends Component {
       <FilterTable>
         <tbody>
           {Object.keys(availableSubjects).map((filterSubjectKey, index) => {
-            const subjectName = structure.find(
+            const subject = structure.find(
               structureItem => structureItem.id === filterSubjectKey,
-            ).name;
-
+            );
+            if (!subject) {
+              return null;
+            }
             return (
               <Fragment key={filterSubjectKey}>
                 <tr>
                   <td>
                     <SubjectName firstSubject={index === 0}>
-                      {subjectName}:
+                      {subject.name}:
                     </SubjectName>
                   </td>
                 </tr>

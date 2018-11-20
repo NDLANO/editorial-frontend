@@ -178,7 +178,8 @@ const ConnectionButton = styled('button')`
 const Connections = styled('div')`
   display: flex;
   align-items: center;
-  background: ${colors.brand.greyLightest};
+  background: ${props =>
+    props.error ? `${colors.support.red}11` : colors.brand.greyLightest};
   padding: ${spacing.xsmall};
   margin-bottom: 2px;
   border-radius: ${misc.borderRadius};
@@ -192,6 +193,22 @@ const Connections = styled('div')`
 
 const ConnectionsWrapper = styled('div')`
   padding-bottom: ${spacing.small};
+`;
+
+const ErrorLabel = styled('div')`
+  background: ${colors.support.red};
+  border: 0;
+  border-radius: ${misc.borderRadius};
+  padding: ${spacing.xsmall} ${spacing.small};
+  margin-right: ${spacing.xsmall};
+  text-transform: uppercase;
+  color: #fff;
+  ${fonts.sizes(14, 1.1)} font-weight: ${fonts.weight.semibold};
+  ${props =>
+    props.primary &&
+    css`
+      opacity: 1;
+    `};
 `;
 
 const FilterButton = styled('button')`
@@ -276,6 +293,11 @@ const PrimaryConnectionButton = styled('button')`
   margin-right: ${spacing.xsmall};
   text-transform: uppercase;
   opacity: 0.3;
+  transition: opacity 100ms ease;
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
   ${fonts.sizes(14, 1.1)} font-weight: ${fonts.weight.semibold};
   ${props =>
     props.primary &&
@@ -320,6 +342,7 @@ export {
   ConnectionButton,
   Connections,
   ConnectionsWrapper,
+  ErrorLabel,
   FilterButton,
   FilterCheckBox,
   FilterListTR,

@@ -365,6 +365,7 @@ const phrases = {
       video: 'Video',
       audio: 'Lyd',
       h5p: 'H5P',
+      url: 'Ressurs fra lenke',
       related: 'Relatert artikkel',
     },
   },

@@ -351,6 +351,7 @@ const phrases = {
       video: 'Video',
       audio: 'Audio',
       h5p: 'H5P',
+      url: 'Resource from link',
       related: 'Related article',
     },
   },

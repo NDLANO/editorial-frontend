@@ -271,6 +271,7 @@ class VisualElementSearch extends Component {
         return null;
       }
       // URL-editable embed resources
+      case 'url':
       case allowedUrlResource: {
         return (
           <VisualElementUrlPreview

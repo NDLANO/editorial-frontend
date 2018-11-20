@@ -140,7 +140,7 @@ class VisualElementUrlPreview extends Component {
     } = this.state;
     const { resource, t } = this.props;
 
-    const isChangedUrl = url !== this.props.url;
+    const isChangedUrl = url !== this.props.url || this.props.url === undefined;
 
     let warningText = null;
     if (isInvalidURL) {

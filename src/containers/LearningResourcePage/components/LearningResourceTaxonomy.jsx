@@ -187,12 +187,37 @@ class LearningResourceTaxonomy extends Component {
   }
 
   removeConnection(id) {
+    const { topics, filter } = this.props.model;
     const onChange = this.getOnChangeFunction();
-    const updatedTopics = this.props.model.topics.filter(
-      topic => topic.id !== id,
-    );
+    const currentConnection = topics.find(topic => topic.id === id);
+    const updatedTopics = topics.filter(topic => topic.id !== id);
+    const currentConnectionSubjectId = currentConnection.path.split('/')[1];
+    // 1. Check if last of connection within this subject
+    // 2. If so, remove filters that subject
+    if (
+      !updatedTopics.some(
+        topic => topic.path.indexOf(currentConnectionSubjectId) !== -1,
+      )
+    ) {
+      const { availableFilters } = this.state.taxonomy;
+      const removeFiltersFrom =
+        availableFilters[`urn:${currentConnectionSubjectId}`];
+      const updatedFilters = filter.filter(
+        checkFilter =>
+          !removeFiltersFrom.some(
+            removeFilter => removeFilter.id === checkFilter.id,
+          ),
+      );
+      if (updatedFilters.length !== filter.length) {
+        // Need to update filters
+        onChange({
+          target: { name: 'filter', value: updatedTopics },
+        });
+      }
+    }
+
+    // Auto set primary of only one connection.
     if (updatedTopics.length === 1) {
-      // Auto set primary of only one connection.
       updatedTopics[0].primary = true;
     }
     onChange({

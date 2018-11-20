@@ -499,6 +499,7 @@ const phrases = {
         addTitle: 'Legg til lenke',
         changeTitle: 'Endre lenke',
         required: 'Lenke er påkrevd',
+        preview: 'Forhåndsvis lenke',
         invalid: 'Ugyldig lenke',
         unSupported: 'Innholdstypen i lenken er ikke støttet',
         newUrlResource: 'Ny ressurs',

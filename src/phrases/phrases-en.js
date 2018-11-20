@@ -491,6 +491,7 @@ const phrases = {
         changeTitle: 'Change link',
         required: 'Link is required',
         invalid: 'Invalid link',
+        preview: 'Preview link',
         unSupported: 'Content in link is not supported',
         newUrlResource: 'New resource',
       },

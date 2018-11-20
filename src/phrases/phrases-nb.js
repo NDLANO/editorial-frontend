@@ -505,6 +505,7 @@ const phrases = {
         changeTitle: 'Endre lenke',
         required: 'Lenke er påkrevd',
         invalid: 'Ugyldig lenke',
+        preview: 'Forhåndsvis lenke',
         unSupported: 'Innholdstypen i lenken er ikke støttet',
         newUrlResource: 'Ny ressurs',
       },

@@ -18,6 +18,8 @@ import {
   FormRemoveButton,
 } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
+import styled from 'react-emotion';
+import { spacing } from '@ndla/core';
 
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import {
@@ -35,10 +37,36 @@ const filterWhiteListedURL = url => {
   return isWhiteListedURL;
 };
 
+const ButtonWrapper = styled('div')`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  > * {
+    margin-bottom: 13px;
+    margin-right: 13px;
+  }
+`;
+
+const PreviewWrapper = styled('div')`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: ${spacing.large};
+`;
+
+const PreviewItem = styled('div')`
+  width: 50%;
+`;
+
 class VisualElementUrlPreview extends Component {
   constructor(props) {
     super(props);
-    this.state = { url: props.url, type: props.type };
+    this.state = {
+      url: props.url,
+      embedUrl: props.url,
+      type: props.type,
+      showPreview: props.url !== '',
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleSaveUrl = this.handleSaveUrl.bind(this);
@@ -49,22 +77,31 @@ class VisualElementUrlPreview extends Component {
     this.setState({ url: '' });
   }
 
-  async handleSaveUrl(url) {
+  async handleSaveUrl(url, preview = false) {
     const { onUrlSave } = this.props;
 
     try {
       const data = await fetchExternalOembed(url);
       const src = getIframeSrcFromHtmlString(data.html);
-      onUrlSave({ resource: 'external', url: src });
+
+      if (preview) {
+        this.setState({ embedUrl: src, showPreview: true });
+      } else {
+        onUrlSave({ resource: 'external', url: src });
+      }
     } catch (e) {
       const whiteListedUrl = filterWhiteListedURL(url);
       if (whiteListedUrl) {
-        onUrlSave({
-          resource: 'iframe',
-          url,
-          width: '708px',
-          height: whiteListedUrl.height || '486px',
-        });
+        if (preview) {
+          this.setState({ embedUrl: url, showPreview: true });
+        } else {
+          onUrlSave({
+            resource: 'iframe',
+            url,
+            width: '708px',
+            height: whiteListedUrl.height || '486px',
+          });
+        }
       } else {
         this.setState({ isNotSupportedUrl: true });
       }
@@ -73,7 +110,16 @@ class VisualElementUrlPreview extends Component {
 
   handleChange(e) {
     const url = e.target.value;
-    this.setState({ url, isInvalidURL: false, isNotSupportedUrl: false });
+    this.setState({
+      url,
+      isInvalidURL: false,
+      isNotSupportedUrl: false,
+      showPreview: false,
+      embedUrl: '',
+    });
+    if (url === this.props.url) {
+      this.setState({ showPreview: true, embedUrl: url });
+    }
   }
 
   handleBlur(e) {
@@ -84,7 +130,14 @@ class VisualElementUrlPreview extends Component {
   }
 
   render() {
-    const { url, isInvalidURL, isNotSupportedUrl, type } = this.state;
+    const {
+      url,
+      embedUrl,
+      showPreview,
+      isInvalidURL,
+      isNotSupportedUrl,
+      type,
+    } = this.state;
     const { resource, t } = this.props;
 
     const isChangedUrl = url !== this.props.url;
@@ -134,14 +187,34 @@ class VisualElementUrlPreview extends Component {
             </FormRemoveButton>
           </div>
         </FormSections>
-        <Button
-          disabled={url === '' || url === this.props.url || isInvalidURL}
-          outline
-          onClick={() => this.handleSaveUrl(url)}>
-          {isChangedUrl
-            ? t('form.content.link.insert')
-            : t('form.content.link.update')}
-        </Button>
+        <ButtonWrapper>
+          <Button
+            disabled={url === this.props.url || url === ''}
+            outline
+            onClick={() => this.handleSaveUrl(url, true)}>
+            {t('form.content.link.preview')}
+          </Button>
+          <Button
+            disabled={url === '' || url === this.props.url || isInvalidURL}
+            outline
+            onClick={() => this.handleSaveUrl(url)}>
+            {isChangedUrl
+              ? t('form.content.link.insert')
+              : t('form.content.link.update')}
+          </Button>
+        </ButtonWrapper>
+        {showPreview && (
+          <PreviewWrapper>
+            <PreviewItem>
+              <iframe
+                src={embedUrl}
+                title={resource}
+                height="350px"
+                frameBorder="0"
+              />
+            </PreviewItem>
+          </PreviewWrapper>
+        )}
       </Fragment>
     );
   }

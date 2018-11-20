@@ -28,7 +28,7 @@ export class DisplayExternal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editEmbedMode: false,
+      isEditMode: false,
     };
     this.onEditEmbed = this.onEditEmbed.bind(this);
     this.toggleEditEmbed = this.toggleEditEmbed.bind(this);
@@ -55,7 +55,6 @@ export class DisplayExternal extends Component {
         },
       });
       editor.onChange(next);
-
       this.toggleEditEmbed();
     }
   }
@@ -95,15 +94,25 @@ export class DisplayExternal extends Component {
 
   toggleEditEmbed(providerName) {
     const { changeVisualElement } = this.props;
+
     if (changeVisualElement) {
       changeVisualElement(providerName);
-    } else
-      this.setState(prevState => ({ editEmbedMode: !prevState.editEmbedMode }));
+    }
+    this.setState(prevState => ({ isEditMode: !prevState.isEditMode }));
   }
 
   render() {
     const { onRemoveClick, t } = this.props;
-    const { title, src, height, error, type, provider, domain } = this.state;
+    const {
+      isEditMode,
+      title,
+      src,
+      height,
+      error,
+      type,
+      provider,
+      domain,
+    } = this.state;
 
     if (!type && !provider) return null;
 
@@ -176,11 +185,10 @@ export class DisplayExternal extends Component {
           )}
         </div>
         {renderProvider}
-        {this.state.editEmbedMode && (
+        {isEditMode && (
           <Modal
             controllable
-            isOpen={this.state.editEmbedMode}
-            onClose={this.toggleEditEmbed}
+            isOpen={isEditMode}
             size={
               allowedProvider.name.toLowerCase() === 'h5p'
                 ? 'fullscreen'

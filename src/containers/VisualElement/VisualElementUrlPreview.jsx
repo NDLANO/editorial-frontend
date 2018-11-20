@@ -52,26 +52,22 @@ class VisualElementUrlPreview extends Component {
   async handleSaveUrl(url) {
     const { onUrlSave } = this.props;
 
-    if (isValidURL(url)) {
-      try {
-        const data = await fetchExternalOembed(url);
-        const src = getIframeSrcFromHtmlString(data.html);
-        onUrlSave({ resource: 'external', url: src });
-      } catch (e) {
-        const whiteListedUrl = filterWhiteListedURL(url);
-        if (whiteListedUrl) {
-          onUrlSave({
-            resource: 'iframe',
-            url,
-            width: '708px',
-            height: whiteListedUrl.height || '486px',
-          });
-        } else {
-          this.setState({ isNotSupportedUrl: true });
-        }
+    try {
+      const data = await fetchExternalOembed(url);
+      const src = getIframeSrcFromHtmlString(data.html);
+      onUrlSave({ resource: 'external', url: src });
+    } catch (e) {
+      const whiteListedUrl = filterWhiteListedURL(url);
+      if (whiteListedUrl) {
+        onUrlSave({
+          resource: 'iframe',
+          url,
+          width: '708px',
+          height: whiteListedUrl.height || '486px',
+        });
+      } else {
+        this.setState({ isNotSupportedUrl: true });
       }
-    } else {
-      this.setState({ isInvalidURL: true });
     }
   }
 

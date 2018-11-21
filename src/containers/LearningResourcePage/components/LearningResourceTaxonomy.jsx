@@ -60,7 +60,6 @@ class LearningResourceTaxonomy extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalIsOpen: false,
       structure: [],
       fileStructureFilters: [],
       taxonomy: {
@@ -303,7 +302,7 @@ class LearningResourceTaxonomy extends Component {
     );
   }
 
-  renderListItems({ paths, level, isOpen, id }) {
+  renderListItems({ paths, level, isOpen, id, onCloseModal }) {
     const { availableFilters } = this.state.taxonomy;
     const { t } = this.props;
 
@@ -379,9 +378,7 @@ class LearningResourceTaxonomy extends Component {
               onChange({
                 target: { name: 'topics', value: modelTopics },
               });
-              this.setState({
-                modalIsOpen: false,
-              });
+              onCloseModal();
             }}>
             {t('taxonomy.topics.filestructureButton')}
           </Button>
@@ -497,7 +494,6 @@ class LearningResourceTaxonomy extends Component {
   render() {
     const {
       taxonomy: { availableResourceTypes, availableFilters, hasLoadedData },
-      modalIsOpen,
       fileStructureFilters,
       structure,
     } = this.state;
@@ -564,18 +560,13 @@ class LearningResourceTaxonomy extends Component {
           subTitle={t('taxonomy.topics.subTitle')}
         />
         {this.renderConnections()}
-        <Button onClick={() => this.setState({ modalIsOpen: true })}>
-          Opprett emnetilknytning
-        </Button>
         <Modal
           backgroundColor="white"
           animation="subtle"
           size="large"
           narrow
           minHeight="85vh"
-          controllable
-          onClose={() => this.setState({ modalIsOpen: false })}
-          isOpen={modalIsOpen}>
+          activateButton={<Button>Opprett emnetilknytning</Button>}>
           {onCloseModal => (
             <Fragment>
               <ModalHeader>
@@ -597,6 +588,7 @@ class LearningResourceTaxonomy extends Component {
                   listClass={listClass}
                   fileStructureFilters={fileStructureFilters}
                   filters={availableFilters}
+                  onCloseModal={onCloseModal}
                 />
               </ModalBody>
             </Fragment>

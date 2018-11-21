@@ -57,6 +57,7 @@ class FormDeleteLanguageVersion extends React.Component {
       supportedLanguages.includes(language)
     ) {
       await deleteLanguageVersion(id, language);
+      this.toggleShowDeleteWarning();
       const otherSupportedLanguage = supportedLanguages.find(
         lang => lang !== language,
       );

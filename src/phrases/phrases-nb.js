@@ -509,6 +509,7 @@ const phrases = {
         preview: 'Forhåndsvis lenke',
         unSupported: 'Innholdstypen i lenken er ikke støttet',
         newUrlResource: 'Ny ressurs',
+        changeUrlResource: 'Rediger ressurs: {type}',
       },
       footnote: {
         title: 'Tittel',

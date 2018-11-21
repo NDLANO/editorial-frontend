@@ -58,24 +58,30 @@ class VisualElementSearch extends Component {
   }
 
   componentDidUpdate() {
+    const {
+      uploadedImage,
+      selectedResource,
+      handleVisualElementChange,
+    } = this.props;
     if (this.props.uploadedImage) {
-      const image = getImage(this.props.uploadedImage.id, true);
-      this.props.handleVisualElementChange({
-        resource: this.props.selectedResource,
-        resource_id: this.props.uploadedImage.id,
+      const image = getImage(uploadedImage.id, true);
+      handleVisualElementChange({
+        resource: selectedResource,
+        resource_id: uploadedImage.id,
         size: 'fullbredde',
         align: '',
-        alt: this.props.uploadedImage.alttext.alttext,
-        caption: this.props.uploadedImage.caption.caption,
+        alt: uploadedImage.alttext.alttext,
+        caption: uploadedImage.caption.caption,
         metaData: image,
       });
     }
   }
 
   componentWillUnmount() {
-    if (this.props.uploadedImage) {
+    const { uploadedImage, clearUploadedImage } = this.props;
+    if (uploadedImage) {
       // clear uploadedImage.
-      this.props.clearUploadedImage();
+      clearUploadedImage();
     }
   }
 
@@ -276,13 +282,9 @@ class VisualElementSearch extends Component {
         return (
           <VisualElementUrlPreview
             resource={allowedUrlResource}
-            url={selectedResourceUrl}
-            type={selectedResourceType}
-            onUrlSave={urlResource =>
-              handleVisualElementChange({
-                ...urlResource,
-              })
-            }
+            selectedResourceUrl={selectedResourceUrl}
+            selectedResourceType={selectedResourceType}
+            onUrlSave={handleVisualElementChange}
           />
         );
       }

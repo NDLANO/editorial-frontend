@@ -12,12 +12,11 @@ import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import Types from 'slate-prop-types';
 import { Cross, Pencil } from '@ndla/icons/action';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 
-import './h5pResizer';
-import VisualElementSearch from '../../containers/VisualElement/VisualElementSearch';
+import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
+import DisplayExternalModal from './helpers/DisplayExternalModal';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
 import { editorClasses } from '../SlateEditor/plugins/embed/SlateFigure';
@@ -31,7 +30,9 @@ export class DisplayExternal extends Component {
       isEditMode: false,
     };
     this.onEditEmbed = this.onEditEmbed.bind(this);
-    this.toggleEditEmbed = this.toggleEditEmbed.bind(this);
+    this.handleChangeVisualElement = this.handleChangeVisualElement.bind(this);
+    this.openEditEmbed = this.openEditEmbed.bind(this);
+    this.closeEditEmbed = this.closeEditEmbed.bind(this);
     this.getPropsFromEmbed = this.getPropsFromEmbed.bind(this);
   }
 
@@ -55,7 +56,7 @@ export class DisplayExternal extends Component {
         },
       });
       editor.onChange(next);
-      this.toggleEditEmbed();
+      this.closeEditEmbed();
     }
   }
 
@@ -92,13 +93,21 @@ export class DisplayExternal extends Component {
     }
   }
 
-  toggleEditEmbed(providerName) {
+  handleChangeVisualElement(providerName) {
     const { changeVisualElement } = this.props;
-
     if (changeVisualElement) {
       changeVisualElement(providerName);
     }
-    this.setState(prevState => ({ isEditMode: !prevState.isEditMode }));
+  }
+
+  openEditEmbed(providerName) {
+    this.handleChangeVisualElement(providerName);
+    this.setState({ isEditMode: true });
+  }
+
+  closeEditEmbed(providerName) {
+    this.handleChangeVisualElement(providerName);
+    this.setState({ isEditMode: false });
   }
 
   render() {
@@ -114,43 +123,21 @@ export class DisplayExternal extends Component {
       domain,
     } = this.state;
 
-    if (!type && !provider) return null;
+    if (!type && !provider) {
+      return null;
+    }
 
     // H5P does not provide its name
     const providerName = domain && domain.includes('h5p') ? 'H5P' : provider;
 
     const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter(
-      whitelistProvider => {
-        switch (type) {
-          case 'iframe':
-            return whitelistProvider.url.includes(domain);
-          default:
-            return whitelistProvider.name === providerName;
-        }
-      },
+      whitelistProvider =>
+        type === 'iframe'
+          ? whitelistProvider.url.includes(domain)
+          : whitelistProvider.name === providerName,
     );
 
-    const renderProvider = allowedProvider && (
-      <iframe
-        ref={iframe => {
-          this.iframe = iframe;
-        }}
-        src={src}
-        height={allowedProvider.height || height}
-        title={title}
-        scrolling={type === 'iframe' ? 'no' : undefined}
-        allowFullScreen={allowedProvider.fullscreen || true}
-        frameBorder="0"
-      />
-    );
-
-    if (error || !renderProvider) {
-      const msg = error
-        ? this.props.t('displayOembed.errorMessage')
-        : this.props.t('displayOembed.notSupported', {
-            type,
-            provider,
-          });
+    if (error || !allowedProvider) {
       return (
         <Fragment>
           <Button
@@ -159,7 +146,16 @@ export class DisplayExternal extends Component {
             {...editorClasses('delete-button')}>
             <Cross />
           </Button>
-          <EditorErrorMessage msg={msg} />
+          <EditorErrorMessage
+            msg={
+              error
+                ? t('displayOembed.errorMessage')
+                : t('displayOembed.notSupported', {
+                    type,
+                    provider,
+                  })
+            }
+          />
         </Fragment>
       );
     }
@@ -177,46 +173,32 @@ export class DisplayExternal extends Component {
             <Button
               stripped
               onClick={() =>
-                this.toggleEditEmbed(allowedProvider.name.toLowerCase())
+                this.openEditEmbed(allowedProvider.name.toLowerCase())
               }
               {...editorClasses('button', 'green')}>
               <Pencil />
             </Button>
           )}
         </div>
-        {renderProvider}
-        {isEditMode && (
-          <Modal
-            controllable
-            isOpen={isEditMode}
-            size={
-              allowedProvider.name.toLowerCase() === 'h5p'
-                ? 'fullscreen'
-                : 'large'
-            }
-            backgroundColor="white"
-            minHeight="85vh">
-            {onCloseModal => (
-              <Fragment>
-                <ModalHeader>
-                  <ModalCloseButton
-                    title={t('dialog.close')}
-                    onClick={onCloseModal}
-                  />
-                </ModalHeader>
-                <ModalBody>
-                  <VisualElementSearch
-                    selectedResource={allowedProvider.name}
-                    selectedResourceUrl={src}
-                    selectedResourceType={type}
-                    handleVisualElementChange={this.onEditEmbed}
-                    closeModal={this.toggleEditEmbed}
-                  />
-                </ModalBody>
-              </Fragment>
-            )}
-          </Modal>
-        )}
+        <iframe
+          ref={iframe => {
+            this.iframe = iframe;
+          }}
+          src={src}
+          height={allowedProvider.height || height}
+          title={title}
+          scrolling={type === 'iframe' ? 'no' : undefined}
+          allowFullScreen={allowedProvider.fullscreen || true}
+          frameBorder="0"
+        />
+        <DisplayExternalModal
+          isEditMode={isEditMode}
+          src={src}
+          type={type}
+          onEditEmbed={this.onEditEmbed}
+          onClose={this.closeEditEmbed}
+          allowedProvider={allowedProvider}
+        />
       </Fragment>
     );
   }

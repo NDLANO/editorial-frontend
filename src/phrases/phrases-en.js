@@ -495,6 +495,7 @@ const phrases = {
         preview: 'Preview link',
         unSupported: 'Content in link is not supported',
         newUrlResource: 'New resource',
+        changeUrlResource: 'Edit resource: {type}',
       },
       footnote: {
         title: 'Title',

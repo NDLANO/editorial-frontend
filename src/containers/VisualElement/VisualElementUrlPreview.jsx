@@ -42,8 +42,8 @@ const ButtonWrapper = styled('div')`
   flex-direction: row;
   flex-wrap: wrap;
   > * {
-    margin-bottom: 13px;
-    margin-right: 13px;
+    margin-bottom: ${spacing.small};
+    margin-right: ${spacing.small};
   }
 `;
 
@@ -62,19 +62,47 @@ class VisualElementUrlPreview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      url: props.url,
-      embedUrl: props.url,
-      type: props.type,
-      showPreview: props.url !== '',
+      url: props.selectedResourceUrl,
+      embedUrl: props.selectedResourceUrl,
+      type: props.selectedResourceType,
+      showPreview: props.selectedResourceUrl !== '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleSaveUrl = this.handleSaveUrl.bind(this);
     this.handleClearInput = this.handleClearInput.bind(this);
+    this.getWarningText = this.getWarningText.bind(this);
+    this.getSubTitle = this.getSubTitle.bind(this);
+  }
+
+  getWarningText() {
+    const { t } = this.props;
+    const { isInvalidURL, isNotSupportedUrl, url } = this.state;
+    if (isInvalidURL) {
+      return t('form.content.link.invalid');
+    }
+    if (isNotSupportedUrl) {
+      return t('form.content.link.unSupported');
+    }
+    if (url === '') {
+      return t('form.content.link.required');
+    }
+    return null;
+  }
+
+  getSubTitle() {
+    const { url } = this.state;
+    const { resource, t, selectedResourceUrl } = this.props;
+    const isChangedUrl =
+      url !== selectedResourceUrl || selectedResourceUrl === undefined;
+    if (isChangedUrl) {
+      return null;
+    }
+    return resource || t('form.content.link.insert');
   }
 
   handleClearInput() {
-    this.setState({ url: '' });
+    this.setState({ url: '', embedUrl: '' });
   }
 
   async handleSaveUrl(url, preview = false) {
@@ -89,7 +117,7 @@ class VisualElementUrlPreview extends Component {
       } else {
         onUrlSave({ resource: 'external', url: src });
       }
-    } catch (e) {
+    } catch (err) {
       const whiteListedUrl = filterWhiteListedURL(url);
       if (whiteListedUrl) {
         if (preview) {
@@ -108,8 +136,9 @@ class VisualElementUrlPreview extends Component {
     }
   }
 
-  handleChange(e) {
-    const url = e.target.value;
+  handleChange(evt) {
+    const url = evt.target.value;
+    const { selectedResourceUrl } = this.props;
     this.setState({
       url,
       isInvalidURL: false,
@@ -117,41 +146,23 @@ class VisualElementUrlPreview extends Component {
       showPreview: false,
       embedUrl: '',
     });
-    if (url === this.props.url) {
+    if (url === selectedResourceUrl) {
       this.setState({ showPreview: true, embedUrl: url });
     }
   }
 
-  handleBlur(e) {
-    const url = e.target.value;
+  handleBlur(evt) {
+    const url = evt.target.value;
     if (url !== '' && !isValidURL(url)) {
       this.setState({ isInvalidURL: true });
     }
   }
 
   render() {
-    const {
-      url,
-      embedUrl,
-      showPreview,
-      isInvalidURL,
-      isNotSupportedUrl,
-      type,
-    } = this.state;
-    const { resource, t } = this.props;
-
-    const isChangedUrl = url !== this.props.url || this.props.url === undefined;
-
-    let warningText = null;
-    if (isInvalidURL) {
-      warningText = t('form.content.link.invalid');
-    }
-    if (isNotSupportedUrl) {
-      warningText = t('form.content.link.unSupported');
-    }
-    if (url === '') {
-      warningText = t('form.content.link.required');
-    }
+    const { url, embedUrl, showPreview, isInvalidURL, type } = this.state;
+    const { resource, t, selectedResourceUrl } = this.props;
+    const isChangedUrl =
+      url !== selectedResourceUrl || selectedResourceUrl === undefined;
 
     return (
       <Fragment>
@@ -159,11 +170,9 @@ class VisualElementUrlPreview extends Component {
           title={
             isChangedUrl
               ? t('form.content.link.newUrlResource')
-              : `Rediger ressurs: ${type}`
+              : t('form.content.link.changeUrlResource', { type })
           }
-          subTitle={
-            isChangedUrl ? null : resource || t('form.content.link.insert')
-          }
+          subTitle={this.getSubTitle()}
         />
         <FormSections>
           <div>
@@ -172,30 +181,30 @@ class VisualElementUrlPreview extends Component {
                 focusOnMount
                 iconRight={<LinkIcon />}
                 container="div"
-                warningText={warningText}
+                warningText={this.getWarningText()}
                 value={url}
                 type="text"
                 placeholder={t('form.content.link.href')}
-                onChange={e => this.handleChange(e)}
-                onBlur={e => this.handleBlur(e)}
+                onChange={this.handleChange}
+                onBlur={this.handleBlur}
               />
             </FormSplitter>
           </div>
           <div>
-            <FormRemoveButton onClick={e => this.handleClearInput(e)}>
+            <FormRemoveButton onClick={this.handleClearInput}>
               {t('form.content.link.remove')}
             </FormRemoveButton>
           </div>
         </FormSections>
         <ButtonWrapper>
           <Button
-            disabled={url === this.props.url || url === ''}
+            disabled={url === selectedResourceUrl || url === ''}
             outline
             onClick={() => this.handleSaveUrl(url, true)}>
             {t('form.content.link.preview')}
           </Button>
           <Button
-            disabled={url === '' || url === this.props.url || isInvalidURL}
+            disabled={url === '' || url === selectedResourceUrl || isInvalidURL}
             outline
             onClick={() => this.handleSaveUrl(url)}>
             {isChangedUrl
@@ -221,8 +230,8 @@ class VisualElementUrlPreview extends Component {
 }
 
 VisualElementUrlPreview.propTypes = {
-  url: PropTypes.string,
-  type: PropTypes.string,
+  selectedResourceUrl: PropTypes.string,
+  selectedResourceType: PropTypes.string,
   resource: PropTypes.string,
   onUrlSave: PropTypes.func.isRequired,
 };

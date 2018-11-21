@@ -5,16 +5,7 @@ import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 import { defaultBlocks } from '../../utils';
 
-const SlateEmbedPicker = ({
-  isOpen,
-  resource,
-  onEmbedClose,
-  onInsertBlock,
-  t,
-}) => {
-  if (!isOpen) {
-    return null;
-  }
+const SlateEmbedPicker = ({ resource, onEmbedClose, onInsertBlock, t }) => {
   const onEmbedAdd = embed => {
     const blockToInsert = defaultBlocks.defaultEmbedBlock(embed);
     onInsertBlock(blockToInsert);
@@ -23,7 +14,7 @@ const SlateEmbedPicker = ({
   return (
     <Modal
       controllable
-      isOpen={isOpen}
+      isOpen
       onClose={onEmbedClose}
       size={resource === 'h5p' ? 'fullscreen' : 'large'}
       backgroundColor="white"

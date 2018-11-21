@@ -8,35 +8,17 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { cx } from 'react-emotion';
 import { injectT } from '@ndla/i18n';
-import Button from '@ndla/button';
 import { FormHeader, FormDropdown } from '@ndla/forms';
-import { FileStructure, Spinner } from '@ndla/editor';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { Additional, Core, ChevronRight } from '@ndla/icons/common';
-import { Check } from '@ndla/icons/editor';
-import { Cross } from '@ndla/icons/action';
-import { colors } from '@ndla/core';
+import { Spinner } from '@ndla/editor';
+import { Additional, Core } from '@ndla/icons/common';
 import {
-  buttonAddition,
   filterbuttonwrapper,
-  listClass,
-  AddTitle,
-  BreadCrumb,
-  Checked,
-  ConnectionButton,
-  Connections,
-  ConnectionsWrapper,
-  ErrorLabel,
   FilterButton,
   FilterCheckBox,
   FilterListTR,
   FilterTable,
-  PrimaryConnectionButton,
-  RemoveConnectionButton,
   SubjectName,
-  TitleModal,
 } from './LearningResourceTaxonomyStyles';
 import { CommonFieldPropsShape, TaxonomyShape } from '../../../shapes';
 import {
@@ -52,6 +34,7 @@ import {
   connectionTopicsToParent,
 } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
+import TopicConnections from './TopicConnections';
 
 const FILTER_SUPPLEMENTARY_ID = 'urn:relevance:supplementary';
 const FILTER_CORE_ID = 'urn:relevance:core';
@@ -61,17 +44,19 @@ class LearningResourceTaxonomy extends Component {
     super(props);
     this.state = {
       structure: [],
-      fileStructureFilters: [],
       taxonomy: {
         resourceTypes: [],
         filters: [],
         topics: [],
         relevances: [],
-        availableFilters: [],
+        availableFilters: {},
         availableResourceTypes: [],
       },
     };
-    this.renderListItems = this.renderListItems.bind(this);
+    this.retriveBreadCrumbs = this.retriveBreadCrumbs.bind(this);
+    this.getOnChangeFunction = this.getOnChangeFunction.bind(this);
+    this.removeConnection = this.removeConnection.bind(this);
+    this.setPrimaryConnection = this.setPrimaryConnection.bind(this);
   }
 
   async componentDidMount() {
@@ -254,147 +239,6 @@ class LearningResourceTaxonomy extends Component {
     });
   }
 
-  renderConnections() {
-    return (
-      <ConnectionsWrapper>
-        {this.props.model.topics.map(topic => {
-          const breadCrumbs = this.retriveBreadCrumbs(topic);
-          if (!breadCrumbs) {
-            // Connection not available.
-            return (
-              <Connections key={topic.id} error>
-                <ErrorLabel>Ugyldig tilknytning</ErrorLabel>
-                <BreadCrumb>
-                  <span>{topic.path}</span>
-                </BreadCrumb>
-                <RemoveConnectionButton
-                  type="button"
-                  onClick={() => this.removeConnection(topic.id)}>
-                  <Cross />
-                </RemoveConnectionButton>
-              </Connections>
-            );
-          }
-          return (
-            <Connections key={topic.id}>
-              <PrimaryConnectionButton
-                primary={topic.primary}
-                onClick={() => this.setPrimaryConnection(topic.id)}>
-                Primærkobling
-              </PrimaryConnectionButton>
-              <BreadCrumb>
-                {breadCrumbs.map(path => (
-                  <Fragment key={`${topic.id}${path.id}`}>
-                    <span>{path.name}</span>
-                    <ChevronRight />
-                  </Fragment>
-                ))}
-              </BreadCrumb>
-              <RemoveConnectionButton
-                type="button"
-                onClick={() => this.removeConnection(topic.id)}>
-                <Cross />
-              </RemoveConnectionButton>
-            </Connections>
-          );
-        })}
-      </ConnectionsWrapper>
-    );
-  }
-
-  renderListItems({ paths, level, isOpen, id, onCloseModal }) {
-    const { availableFilters } = this.state.taxonomy;
-    const { t } = this.props;
-
-    if (level === 0) {
-      if (!availableFilters[paths[0]] || !isOpen) {
-        return null;
-      }
-      return (
-        <div className={cx('filestructure')}>
-          <AddTitle show>{t('taxonomy.topics.filterTopic')}:</AddTitle>
-          {availableFilters[paths[0]].map(filter => (
-            <ConnectionButton
-              type="button"
-              key={filter.id}
-              className={
-                this.state.fileStructureFilters.some(
-                  FileStructureFilter => FileStructureFilter === filter.id,
-                )
-                  ? 'checkboxItem--checked'
-                  : ''
-              }
-              onClick={() => {
-                const currentIndex = this.state.fileStructureFilters.findIndex(
-                  FileStructureFilter => FileStructureFilter === filter.id,
-                );
-                if (currentIndex === -1) {
-                  this.setState(prevState => {
-                    const { fileStructureFilters } = prevState;
-                    fileStructureFilters.push(filter.id);
-                    return {
-                      fileStructureFilters,
-                    };
-                  });
-                } else {
-                  this.setState(prevState => {
-                    const { fileStructureFilters } = prevState;
-                    fileStructureFilters.splice(currentIndex, 1);
-                    return {
-                      fileStructureFilters,
-                    };
-                  });
-                }
-              }}>
-              <span />
-              <span>{filter.name}</span>
-            </ConnectionButton>
-          ))}
-        </div>
-      );
-    }
-
-    const currentIndex = this.props.model.topics.findIndex(
-      topic => topic.id === id,
-    );
-
-    return (
-      <div className={cx('filestructure')}>
-        {currentIndex === -1 ? (
-          <Button
-            outline
-            className={buttonAddition}
-            onClick={() => {
-              const { model } = this.props;
-              const modelTopics = model.topics;
-              const addTopic = this.state.taxonomy.topics.find(
-                taxonomyTopic => taxonomyTopic.id === id,
-              );
-              addTopic.primary = modelTopics.length === 0;
-              modelTopics.push(addTopic);
-
-              const onChange = this.getOnChangeFunction();
-
-              onChange({
-                target: { name: 'topics', value: modelTopics },
-              });
-              onCloseModal();
-            }}>
-            {t('taxonomy.topics.filestructureButton')}
-          </Button>
-        ) : (
-          <Checked>
-            <Check
-              className="c-icon--22"
-              style={{ fill: colors.support.green }}
-            />{' '}
-            <span>{t('taxonomy.topics.addedTopic')}</span>
-          </Checked>
-        )}
-      </div>
-    );
-  }
-
   renderSubjectFilters() {
     const {
       t,
@@ -493,8 +337,12 @@ class LearningResourceTaxonomy extends Component {
 
   render() {
     const {
-      taxonomy: { availableResourceTypes, availableFilters, hasLoadedData },
-      fileStructureFilters,
+      taxonomy: {
+        availableResourceTypes,
+        availableFilters,
+        hasLoadedData,
+        topics,
+      },
       structure,
     } = this.state;
     const { t, model, taxonomyIsLoading } = this.props;
@@ -555,45 +403,17 @@ class LearningResourceTaxonomy extends Component {
               ),
           )}
         </FormDropdown>
-        <FormHeader
-          title={t('taxonomy.topics.title')}
-          subTitle={t('taxonomy.topics.subTitle')}
+        <TopicConnections
+          availableFilters={availableFilters}
+          structure={structure}
+          taxonomyTopics={topics}
+          modelTopics={model.topics}
+          retriveBreadCrumbs={this.retriveBreadCrumbs}
+          removeConnection={this.removeConnection}
+          setPrimaryConnection={this.setPrimaryConnection}
+          getOnChangeFunction={this.getOnChangeFunction}
         />
-        {this.renderConnections()}
-        <Modal
-          backgroundColor="white"
-          animation="subtle"
-          size="large"
-          narrow
-          minHeight="85vh"
-          activateButton={<Button>Opprett emnetilknytning</Button>}>
-          {onCloseModal => (
-            <Fragment>
-              <ModalHeader>
-                <ModalCloseButton
-                  title={t('taxonomy.topics.filestructureClose')}
-                  onClick={onCloseModal}
-                />
-              </ModalHeader>
-              <ModalBody>
-                <TitleModal>
-                  {t('taxonomy.topics.filestructureHeading')}:
-                </TitleModal>
-                <hr />
-                <FileStructure
-                  openedPaths={[]}
-                  structure={structure}
-                  toggleOpen={this.handleOpenToggle}
-                  renderListItems={this.renderListItems}
-                  listClass={listClass}
-                  fileStructureFilters={fileStructureFilters}
-                  filters={availableFilters}
-                  onCloseModal={onCloseModal}
-                />
-              </ModalBody>
-            </Fragment>
-          )}
-        </Modal>
+
         {model.topics.length > 0 && (
           <Fragment>
             <FormHeader

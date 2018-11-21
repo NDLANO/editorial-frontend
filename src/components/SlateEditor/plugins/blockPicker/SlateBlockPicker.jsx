@@ -191,7 +191,6 @@ class SlateBlockPicker extends Component {
         <Portal isOpened={embedSelect.isOpen}>
           <SlateEmbedPicker
             resource={embedSelect.embedType}
-            isOpen={embedSelect.isOpen}
             onEmbedClose={this.onEmbedClose}
             onInsertBlock={this.onInsertBlock}
           />

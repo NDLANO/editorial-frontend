@@ -12,6 +12,8 @@ import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { isEmpty } from '../validators';
 import { Field, FieldHelp } from '../Fields';
+import { uploadFile } from '../../modules/draft/draftApi';
+import { createFormData } from '../../util/formDataHelper';
 
 class FileUploader extends React.Component {
   constructor() {
@@ -27,25 +29,31 @@ class FileUploader extends React.Component {
   }
 
   onChangeField(evt) {
-    const { name, value } = evt.target;
-    this.setState({ [name]: value, submitted: false });
+    const { name, value, type } = evt.target;
+    if (type === 'file') {
+      const file = evt.target.files[0];
+      this.setState({ [name]: file, submitted: false });
+    } else {
+      this.setState({ [name]: value, submitted: false });
+    }
   }
 
   onSave() {
     const { onFileSave } = this.props;
     const { file, title, alt } = this.state;
-    if (isEmpty(alt) || isEmpty(title) || isEmpty(alt)) {
+    if (isEmpty(alt) || isEmpty(title) || isEmpty(file)) {
       this.setState({ submitted: true });
     } else {
-      const splittedPathString = file.split('.');
-      this.setState({ submitted: false }, () =>
+      this.setState({ submitted: false }, async () => {
+        const formData = await createFormData(file);
+        const fileResult = await uploadFile(formData);
         onFileSave({
-          path: file,
+          path: fileResult.path,
           title,
-          type: splittedPathString[splittedPathString.length - 1],
+          type: fileResult.extension.substring(1),
           alt,
-        }),
-      );
+        });
+      });
     }
   }
 
@@ -57,12 +65,7 @@ class FileUploader extends React.Component {
       <Fragment>
         <Field>
           <label htmlFor="file">{t('form.file.file.label')}</label>
-          <input
-            type="file"
-            name="file"
-            value={file}
-            onChange={this.onChangeField}
-          />
+          <input type="file" name="file" onChange={this.onChangeField} />
           {isEmpty(file) &&
             submitted && (
               <FieldHelp error>

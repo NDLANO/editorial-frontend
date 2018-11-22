@@ -91,3 +91,10 @@ export const fetchStatusStateMachine = () =>
   fetchAuthorized(`${baseUrl}/status-state-machine/`).then(
     resolveJsonOrRejectWithError,
   );
+
+export const uploadFile = formData =>
+  fetchAuthorized(`${baseUrl}/upload-file/`, {
+    method: 'POST',
+    headers: { 'Content-Type': undefined },
+    body: formData,
+  }).then(resolveJsonOrRejectWithError);

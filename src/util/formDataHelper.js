@@ -6,10 +6,12 @@
  *
  */
 
-export const createFormData = (metadata, file) =>
+export const createFormData = (file, metadata = undefined) =>
   new Promise(resolve => {
     const form = new FormData();
-    form.append('metadata', JSON.stringify(metadata));
+    if (metadata) {
+      form.append('metadata', JSON.stringify(metadata));
+    }
     form.append('file', file);
     resolve(form);
   });

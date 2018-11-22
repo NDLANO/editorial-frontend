@@ -199,3 +199,10 @@ export const PossibleStatusShape = PropTypes.shape({
   ARCHIEVED: PropTypes.arrayOf(PropTypes.string),
   QUEUED_FOR_PUBLISHING: PropTypes.arrayOf(PropTypes.string),
 });
+
+export const HistoryShape = PropTypes.shape({
+  push: PropTypes.func.isRequired,
+  goBack: PropTypes.func.isRequired,
+  block: PropTypes.func.isRequired,
+  replace: PropTypes.func.isRequired,
+});

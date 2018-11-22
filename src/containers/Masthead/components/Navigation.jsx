@@ -105,7 +105,7 @@ export class Navigation extends Component {
               <Agreement className="c-icon--large" />
               <span>{t('subNavigation.agreement')}</span>
             </Link>
-            {config.taxonomyEnabled && (
+            {
               <Link
                 to="/structure"
                 {...classes('item')}
@@ -113,7 +113,7 @@ export class Navigation extends Component {
                 <Taxonomy className="c-icon--large" />
                 <span>{t('subNavigation.structure')}</span>
               </Link>
-            )}
+            }
             <Link
               to={toSearch(
                 {

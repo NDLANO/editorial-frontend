@@ -328,7 +328,7 @@ class LearningResourceForm extends Component {
         ),
       },
     ];
-    if (model.id && config.taxonomyEnabled) {
+    if (model.id) {
       panels.splice(1, 0, {
         id: 'learning-resource-taxonomy',
         title: t('form.taxonomytSection'),

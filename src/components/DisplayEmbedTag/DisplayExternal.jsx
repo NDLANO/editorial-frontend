@@ -12,33 +12,27 @@ import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import Types from 'slate-prop-types';
 import { Cross, Pencil } from '@ndla/icons/action';
-import './h5pResizer';
-import Lightbox from '../Lightbox';
-import VisualElementSearch from '../../containers/VisualElement/VisualElementSearch';
+
+import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
+import DisplayExternalModal from './helpers/DisplayExternalModal';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
 import { editorClasses } from '../SlateEditor/plugins/embed/SlateFigure';
-import { urlDomain } from '../../util/htmlHelpers';
+import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
-
-const el = document.createElement('html');
-
-export const getIframeSrcFromHtmlString = html => {
-  el.innerHTML = html;
-  const iframe = el.getElementsByTagName('iframe')[0];
-  return iframe.getAttribute('src');
-};
 
 export class DisplayExternal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editH5pMode: false,
+      isEditMode: false,
     };
     this.onEditEmbed = this.onEditEmbed.bind(this);
-    this.toggleEditH5p = this.toggleEditH5p.bind(this);
+    this.handleChangeVisualElement = this.handleChangeVisualElement.bind(this);
+    this.openEditEmbed = this.openEditEmbed.bind(this);
+    this.closeEditEmbed = this.closeEditEmbed.bind(this);
     this.getPropsFromEmbed = this.getPropsFromEmbed.bind(this);
   }
 
@@ -62,8 +56,7 @@ export class DisplayExternal extends Component {
         },
       });
       editor.onChange(next);
-
-      this.toggleEditH5p();
+      this.closeEditEmbed();
     }
   }
 
@@ -100,49 +93,51 @@ export class DisplayExternal extends Component {
     }
   }
 
-  toggleEditH5p() {
+  handleChangeVisualElement(providerName) {
     const { changeVisualElement } = this.props;
     if (changeVisualElement) {
-      changeVisualElement('h5p');
-    } else
-      this.setState(prevState => ({ editH5pMode: !prevState.editH5pMode }));
+      changeVisualElement(providerName);
+    }
+  }
+
+  openEditEmbed(providerName) {
+    this.handleChangeVisualElement(providerName);
+    this.setState({ isEditMode: true });
+  }
+
+  closeEditEmbed(providerName) {
+    this.handleChangeVisualElement(providerName);
+    this.setState({ isEditMode: false });
   }
 
   render() {
-    const { onRemoveClick } = this.props;
-    const { title, src, height, error, type, provider, domain } = this.state;
+    const { onRemoveClick, t } = this.props;
+    const {
+      isEditMode,
+      title,
+      src,
+      height,
+      error,
+      type,
+      provider,
+      domain,
+    } = this.state;
 
-    if (!type && !provider) return null;
+    if (!type && !provider) {
+      return null;
+    }
 
     // H5P does not provide its name
     const providerName = domain && domain.includes('h5p') ? 'H5P' : provider;
 
     const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter(
-      whitelistProvider => {
-        switch (type) {
-          case 'iframe':
-            return whitelistProvider.url.includes(domain);
-          default:
-            return whitelistProvider.name === providerName;
-        }
-      },
+      whitelistProvider =>
+        type === 'iframe'
+          ? whitelistProvider.url.includes(domain)
+          : whitelistProvider.name === providerName,
     );
 
-    const renderProvider = allowedProvider && (
-      <iframe
-        ref={iframe => {
-          this.iframe = iframe;
-        }}
-        src={src}
-        height={allowedProvider.height || height}
-        title={title}
-        scrolling={type === 'iframe' ? 'no' : undefined}
-        allowFullScreen={allowedProvider.fullscreen || true}
-        frameBorder="0"
-      />
-    );
-
-    if (error) {
+    if (error || !allowedProvider) {
       return (
         <Fragment>
           <Button
@@ -152,7 +147,14 @@ export class DisplayExternal extends Component {
             <Cross />
           </Button>
           <EditorErrorMessage
-            msg={this.props.t('displayOembed.errorMessage')}
+            msg={
+              error
+                ? t('displayOembed.errorMessage')
+                : t('displayOembed.notSupported', {
+                    type,
+                    provider,
+                  })
+            }
           />
         </Fragment>
       );
@@ -167,35 +169,36 @@ export class DisplayExternal extends Component {
             {...editorClasses('button', 'red')}>
             <Cross />
           </Button>
-          {providerName &&
-            providerName.toLowerCase() === 'h5p' && (
-              <Button
-                stripped
-                onClick={this.toggleEditH5p}
-                {...editorClasses('button', 'green')}>
-                <Pencil />
-              </Button>
-            )}
+          {allowedProvider.name && (
+            <Button
+              stripped
+              onClick={() =>
+                this.openEditEmbed(allowedProvider.name.toLowerCase())
+              }
+              {...editorClasses('button', 'green')}>
+              <Pencil />
+            </Button>
+          )}
         </div>
-        {renderProvider}
-        {!renderProvider && (
-          <EditorErrorMessage
-            msg={this.props.t('displayOembed.notSupported', {
-              type,
-              provider,
-            })}
-          />
-        )}
-        {this.state.editH5pMode && (
-          <Lightbox display fullscreen big onClose={this.toggleEditH5p}>
-            <VisualElementSearch
-              selectedResource="h5p"
-              selectedResourceUrl={src}
-              handleVisualElementChange={this.onEditEmbed}
-              closeModal={this.toggleEditH5p}
-            />
-          </Lightbox>
-        )}
+        <iframe
+          ref={iframe => {
+            this.iframe = iframe;
+          }}
+          src={src}
+          height={allowedProvider.height || height}
+          title={title}
+          scrolling={type === 'iframe' ? 'no' : undefined}
+          allowFullScreen={allowedProvider.fullscreen || true}
+          frameBorder="0"
+        />
+        <DisplayExternalModal
+          isEditMode={isEditMode}
+          src={src}
+          type={type}
+          onEditEmbed={this.onEditEmbed}
+          onClose={this.closeEditEmbed}
+          allowedProvider={allowedProvider}
+        />
       </Fragment>
     );
   }

@@ -41,11 +41,11 @@ import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
 import H5PElement from '../../components/H5PElement';
+import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
+import VisualElementUrlPreview from './VisualElementUrlPreview';
 
-const titles = t => ({
-  video: t('form.visualElement.video'),
-  image: t('form.visualElement.image'),
-  h5p: t('form.visualElement.h5p'),
+const titles = (t, resource = '') => ({
+  [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
 });
 
 class VisualElementSearch extends Component {
@@ -58,24 +58,30 @@ class VisualElementSearch extends Component {
   }
 
   componentDidUpdate() {
+    const {
+      uploadedImage,
+      selectedResource,
+      handleVisualElementChange,
+    } = this.props;
     if (this.props.uploadedImage) {
-      const image = getImage(this.props.uploadedImage.id, true);
-      this.props.handleVisualElementChange({
-        resource: this.props.selectedResource,
-        resource_id: this.props.uploadedImage.id,
+      const image = getImage(uploadedImage.id, true);
+      handleVisualElementChange({
+        resource: selectedResource,
+        resource_id: uploadedImage.id,
         size: 'fullbredde',
         align: '',
-        alt: this.props.uploadedImage.alttext.alttext,
-        caption: this.props.uploadedImage.caption.caption,
+        alt: uploadedImage.alttext.alttext,
+        caption: uploadedImage.caption.caption,
         metaData: image,
       });
     }
   }
 
   componentWillUnmount() {
-    if (this.props.uploadedImage) {
+    const { uploadedImage, clearUploadedImage } = this.props;
+    if (uploadedImage) {
       // clear uploadedImage.
-      this.props.clearUploadedImage();
+      clearUploadedImage();
     }
   }
 
@@ -90,11 +96,16 @@ class VisualElementSearch extends Component {
       isSavingImage,
       selectedResource,
       selectedResourceUrl,
+      selectedResourceType,
       handleVisualElementChange,
       closeModal,
       locale,
       t,
     } = this.props;
+
+    const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map(
+      provider => provider.name,
+    ).filter(name => name === selectedResource);
 
     switch (selectedResource) {
       case 'image':
@@ -108,7 +119,7 @@ class VisualElementSearch extends Component {
             selectedIndex={this.state.selectedIndex}
             tabs={[
               {
-                title: titles(t)[selectedResource],
+                title: titles(t, selectedResource)[selectedResource],
                 content: (
                   <ImageSearch
                     fetchImage={api.fetchImage}
@@ -177,8 +188,8 @@ class VisualElementSearch extends Component {
           interactioncount: t('videoSearch.interactioncount'),
         };
         return (
-          <div>
-            <h2>{titles(t)[selectedResource]}</h2>
+          <Fragment>
+            <h2>{titles(t, selectedResource)[selectedResource]}</h2>
             <VideoSearch
               enabledSources={['Brightcove', 'YouTube']}
               searchVideos={(query, type) => api.searchVideos(query, type)}
@@ -203,13 +214,14 @@ class VisualElementSearch extends Component {
               }}
               onError={api.onError}
             />
-          </div>
+          </Fragment>
         );
       }
+      case 'H5P':
       case 'h5p': {
         return (
-          <div>
-            <h2>{titles(t)[selectedResource]}</h2>
+          <Fragment>
+            <h2>{titles(t, selectedResource)[selectedResource]}</h2>
             <H5PElement
               h5pUrl={selectedResourceUrl}
               onSelect={h5p =>
@@ -221,7 +233,7 @@ class VisualElementSearch extends Component {
               }
               label={t('form.visualElement.label')}
             />
-          </div>
+          </Fragment>
         );
       }
       case 'audio': {
@@ -264,8 +276,20 @@ class VisualElementSearch extends Component {
         handleVisualElementChange({ resource: 'related-content' });
         return null;
       }
+      // URL-editable embed resources
+      case 'url':
+      case allowedUrlResource: {
+        return (
+          <VisualElementUrlPreview
+            resource={allowedUrlResource}
+            selectedResourceUrl={selectedResourceUrl}
+            selectedResourceType={selectedResourceType}
+            onUrlSave={handleVisualElementChange}
+          />
+        );
+      }
       default:
-        return <p>{`Embedtag ${selectedResource} is not supported.`}</p>;
+        return <h3>{`Embedtag ${selectedResource} is not supported.`}</h3>;
     }
   }
 }
@@ -273,6 +297,7 @@ class VisualElementSearch extends Component {
 VisualElementSearch.propTypes = {
   selectedResource: PropTypes.string.isRequired,
   selectedResourceUrl: PropTypes.string,
+  selectedResourceType: PropTypes.string,
   handleVisualElementChange: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   uploadedImage: PropTypes.shape({

@@ -9,6 +9,7 @@ import {
   Framed,
   PlayBoxOutline,
   PresentationPlay,
+  RelatedArticle,
 } from '@ndla/icons/editor';
 
 const actions = [
@@ -49,8 +50,12 @@ const actions = [
     icon: <PresentationPlay />,
   },
   {
-    data: { type: 'related', object: 'related' },
+    data: { type: 'embed', object: 'url' },
     icon: <LinkIcon />,
+  },
+  {
+    data: { type: 'related', object: 'related' },
+    icon: <RelatedArticle />,
   },
 ];
 

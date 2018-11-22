@@ -9,10 +9,8 @@
 import nock from 'nock';
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import {
-  DisplayExternal,
-  getIframeSrcFromHtmlString,
-} from '../DisplayExternal';
+import { DisplayExternal } from '../DisplayExternal';
+import { getIframeSrcFromHtmlString } from '../../../util/htmlHelpers';
 
 test('getIframeSrcFromHtmlString returns src attribute', () => {
   const src = getIframeSrcFromHtmlString(

@@ -14,6 +14,7 @@ import {
 
 const baseUrl = apiResourceUrl('/draft-api/v1/drafts');
 const baseAgreementsUrl = apiResourceUrl('/draft-api/v1/agreements');
+const baseFileUrl = apiResourceUrl('/draft-api/v1/files');
 
 export const fetchTags = language => {
   const query = queryString.stringify({ size: 7000, language });
@@ -93,7 +94,7 @@ export const fetchStatusStateMachine = () =>
   );
 
 export const uploadFile = formData =>
-  fetchAuthorized(`${baseUrl}/upload-file/`, {
+  fetchAuthorized(`${baseFileUrl}/`, {
     method: 'POST',
     headers: { 'Content-Type': undefined },
     body: formData,

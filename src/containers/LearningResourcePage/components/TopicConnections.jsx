@@ -11,8 +11,7 @@ import PropTypes from 'prop-types';
 import { cx } from 'react-emotion';
 import { Check } from '@ndla/icons/editor';
 import { colors } from '@ndla/core';
-import { ChevronRight } from '@ndla/icons/common';
-import { Cross } from '@ndla/icons/action';
+
 import { FileStructure } from '@ndla/editor';
 import { FormHeader } from '@ndla/forms';
 import Button from '@ndla/button';
@@ -24,14 +23,9 @@ import {
   buttonAddition,
   AddTitle,
   Checked,
-  BreadCrumb,
-  Connections,
-  ConnectionsWrapper,
-  ErrorLabel,
   ConnectionButton,
-  RemoveConnectionButton,
-  PrimaryConnectionButton,
 } from './LearningResourceTaxonomyStyles';
+import ActiveTopicConnections from './ActiveTopicConnections';
 
 class TopicConnections extends Component {
   constructor(props) {
@@ -42,10 +36,9 @@ class TopicConnections extends Component {
     };
     this.renderListItems = this.renderListItems.bind(this);
     this.handleOpenToggle = this.handleOpenToggle.bind(this);
-    this.renderConnections = this.renderConnections.bind(this);
   }
 
-  handleOpenToggle(path, id, level) {
+  handleOpenToggle({ path, level }) {
     const { allowMultipleSubjectsOpen } = this.props;
     this.setState(prevState => {
       let { openedPaths } = prevState;
@@ -65,7 +58,7 @@ class TopicConnections extends Component {
     });
   }
 
-  renderListItems({ paths, level, isOpen, id, onCloseModal }) {
+  renderListItems({ paths, level, isOpen, id, closeModal }) {
     const {
       t,
       modelTopics,
@@ -130,7 +123,7 @@ class TopicConnections extends Component {
               onChange({
                 target: { name: 'topics', value: modelTopics },
               });
-              onCloseModal();
+              closeModal();
             }}>
             {t('taxonomy.topics.filestructureButton')}
           </Button>
@@ -147,62 +140,8 @@ class TopicConnections extends Component {
     );
   }
 
-  renderConnections() {
-    const {
-      retriveBreadCrumbs,
-      removeConnection,
-      setPrimaryConnection,
-      modelTopics,
-    } = this.props;
-    return (
-      <ConnectionsWrapper>
-        {modelTopics.map(topic => {
-          const breadCrumbs = retriveBreadCrumbs(topic);
-          if (!breadCrumbs) {
-            // Connection not available.
-            return (
-              <Connections key={topic.id} error>
-                <ErrorLabel>Ugyldig tilknytning</ErrorLabel>
-                <BreadCrumb>
-                  <span>{topic.path}</span>
-                </BreadCrumb>
-                <RemoveConnectionButton
-                  type="button"
-                  onClick={() => removeConnection(topic.id)}>
-                  <Cross />
-                </RemoveConnectionButton>
-              </Connections>
-            );
-          }
-          return (
-            <Connections key={topic.id}>
-              <PrimaryConnectionButton
-                primary={topic.primary}
-                onClick={() => setPrimaryConnection(topic.id)}>
-                Primærkobling
-              </PrimaryConnectionButton>
-              <BreadCrumb>
-                {breadCrumbs.map(path => (
-                  <Fragment key={`${topic.id}${path.id}`}>
-                    <span>{path.name}</span>
-                    <ChevronRight />
-                  </Fragment>
-                ))}
-              </BreadCrumb>
-              <RemoveConnectionButton
-                type="button"
-                onClick={() => removeConnection(topic.id)}>
-                <Cross />
-              </RemoveConnectionButton>
-            </Connections>
-          );
-        })}
-      </ConnectionsWrapper>
-    );
-  }
-
   render() {
-    const { t, structure, availableFilters } = this.props;
+    const { t, structure, availableFilters, ...rest } = this.props;
     const { fileStructureFilters, openedPaths } = this.state;
     return (
       <Fragment>
@@ -210,7 +149,7 @@ class TopicConnections extends Component {
           title={t('taxonomy.topics.title')}
           subTitle={t('taxonomy.topics.subTitle')}
         />
-        {this.renderConnections()}
+        <ActiveTopicConnections {...rest} />
         <Modal
           backgroundColor="white"
           animation="subtle"
@@ -218,12 +157,12 @@ class TopicConnections extends Component {
           narrow
           minHeight="85vh"
           activateButton={<Button>Opprett emnetilknytning</Button>}>
-          {onCloseModal => (
+          {closeModal => (
             <Fragment>
               <ModalHeader>
                 <ModalCloseButton
                   title={t('taxonomy.topics.filestructureClose')}
-                  onClick={onCloseModal}
+                  onClick={closeModal}
                 />
               </ModalHeader>
               <ModalBody>
@@ -236,7 +175,7 @@ class TopicConnections extends Component {
                   structure={structure}
                   toggleOpen={this.handleOpenToggle}
                   renderListItems={props =>
-                    this.renderListItems({ ...props, onCloseModal })
+                    this.renderListItems({ ...props, closeModal })
                   }
                   listClass={listClass}
                   fileStructureFilters={fileStructureFilters}

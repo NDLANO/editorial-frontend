@@ -1,0 +1,141 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import Button from '@ndla/button';
+import { injectT } from '@ndla/i18n';
+import { isEmpty } from '../validators';
+import { Field, FieldHelp } from '../Fields';
+import { uploadFile } from '../../modules/draft/draftApi';
+import { createFormData } from '../../util/formDataHelper';
+import handleError from '../../util/handleError';
+
+class FileUploader extends React.Component {
+  constructor() {
+    super();
+    this.onChangeField = this.onChangeField.bind(this);
+    this.onSave = this.onSave.bind(this);
+    this.state = {
+      file: '',
+      title: '',
+      alt: '',
+      submitted: false,
+      errorMessage: '',
+    };
+  }
+
+  onChangeField(evt) {
+    const { name, value, type } = evt.target;
+    if (type === 'file') {
+      const file = evt.target.files[0];
+      this.setState({ [name]: file, submitted: false, errorMessage: '' });
+    } else {
+      this.setState({ [name]: value, submitted: false });
+    }
+  }
+
+  async onSave() {
+    const { onFileSave } = this.props;
+    const { file, title, alt } = this.state;
+    if (isEmpty(alt) || isEmpty(title) || isEmpty(file)) {
+      this.setState({ submitted: true });
+    } else {
+      try {
+        const formData = await createFormData(file);
+        const fileResult = await uploadFile(formData);
+        this.setState({ submitted: false });
+        onFileSave({
+          path: fileResult.path,
+          title,
+          type: fileResult.extension.substring(1),
+          alt,
+        });
+      } catch (err) {
+        if (err && err.json.messages) {
+          this.setState({
+            submitted: false,
+            errorMessage: err.json.messages
+              .map(message => message.message)
+              .join(', '),
+          });
+        }
+        handleError(err);
+      }
+    }
+  }
+
+  render() {
+    const { t, onClose } = this.props;
+    const { file, title, alt, submitted, errorMessage } = this.state;
+    return (
+      <Fragment>
+        <Field>
+          <label htmlFor="file">{t('form.file.file.label')}</label>
+          <input type="file" name="file" onChange={this.onChangeField} />
+          {isEmpty(file) &&
+            submitted && (
+              <FieldHelp error>
+                {t('validation.isRequired', {
+                  label: t('form.file.file.label'),
+                })}
+              </FieldHelp>
+            )}
+          {errorMessage.length > 0 && (
+            <FieldHelp error>{errorMessage}</FieldHelp>
+          )}
+        </Field>
+        <Field>
+          <label htmlFor="title">{t('form.file.title.label')}</label>
+          <input
+            name="title"
+            value={title}
+            onChange={this.onChangeField}
+            placeholder={t('form.file.title.placeholder')}
+          />
+          {isEmpty(title) &&
+            submitted && (
+              <FieldHelp error>
+                {t('validation.isRequired', {
+                  label: t('form.file.title.label'),
+                })}
+              </FieldHelp>
+            )}
+        </Field>
+        <Field>
+          <label htmlFor="alt">{t('form.file.alt.label')}</label>
+          <input
+            name="alt"
+            value={alt}
+            onChange={this.onChangeField}
+            placeholder={t('form.file.alt.placeholder')}
+          />
+          {isEmpty(alt) &&
+            submitted && (
+              <FieldHelp error>
+                {t('validation.isRequired', {
+                  label: t('form.file.alt.label'),
+                })}
+              </FieldHelp>
+            )}
+        </Field>
+        <Field className="c-form__form-actions" right>
+          <Button onClick={this.onSave}>Legg til fil</Button>
+          <Button onClick={onClose}>Avbryt</Button>
+        </Field>
+      </Fragment>
+    );
+  }
+}
+
+FileUploader.propTypes = {
+  onFileSave: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
+
+export default injectT(FileUploader);

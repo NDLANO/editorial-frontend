@@ -62,22 +62,34 @@ class SlateInputField extends React.Component {
       submitted,
       className,
       name,
+      noBorder,
       value,
       ...rest
     } = this.props;
     return (
-      <Field noBorder className={className || 'c-field--no-margin-top'}>
-        <label className="u-hidden" htmlFor={name}>
-          {label}
-        </label>
-        <FocusLabel name={name} hasFocus={() => this.state.focus} value={value}>
-          {label}
-        </FocusLabel>
+      <Field
+        noBorder={noBorder}
+        className={className || 'c-field--no-margin-top'}>
+        {!noBorder ? (
+          <label htmlFor={name}>{label}</label>
+        ) : (
+          <label className="u-hidden" htmlFor={name}>
+            {label}
+          </label>
+        )}
+        {noBorder && (
+          <FocusLabel
+            name={name}
+            hasFocus={() => this.state.focus}
+            value={value}>
+            {label}
+          </FocusLabel>
+        )}
         <input
           id={name}
           name={name}
           value={value}
-          className="c-editor__figure-input-field"
+          className={noBorder ? 'c-editor__figure-input-field' : ''}
           onClick={this.onFigureInputClick}
           onBlur={this.onFigureInputBlur}
           {...rest}
@@ -100,10 +112,12 @@ SlateInputField.propTypes = {
   label: PropTypes.string.isRequired,
   required: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
+  noBorder: PropTypes.bool,
 };
 
 SlateInputField.defaultProps = {
   required: false,
+  noBorder: true,
 };
 
 export default injectT(SlateInputField);

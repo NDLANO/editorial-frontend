@@ -185,6 +185,17 @@ export const AudioShape = PropTypes.shape({
   }),
 });
 
+export const EmbedFileShape = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  formats: PropTypes.arrayOf(
+    PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      fileType: PropTypes.string.isRequired,
+      tooltip: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+});
+
 export const PossibleStatusShape = PropTypes.shape({
   CREATED: PropTypes.arrayOf(PropTypes.string),
   PROPOSAL: PropTypes.arrayOf(PropTypes.string),

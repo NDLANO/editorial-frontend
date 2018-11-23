@@ -15,7 +15,6 @@ import ImageSearch from '@ndla/image-search';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
 import Tabs from '@ndla/tabs';
-
 import {
   actions as tagActions,
   getAllTagsByLanguage,
@@ -33,9 +32,7 @@ import {
 } from '../../modules/image/image';
 import { ImageShape } from '../../shapes';
 import { getShowSaved } from '../Messages/messagesSelectors';
-
 import EditImage from '../ImageUploader/EditImage';
-
 import config from '../../config';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import * as api from './visualElementApi';
@@ -43,6 +40,7 @@ import { getLocale } from '../../modules/locale/locale';
 import H5PElement from '../../components/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import VisualElementUrlPreview from './VisualElementUrlPreview';
+import FileUploader from '../../components/FileUploader';
 
 const titles = (t, resource = '') => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
@@ -288,6 +286,22 @@ class VisualElementSearch extends Component {
           />
         );
       }
+      case 'file':
+        return (
+          <FileUploader
+            onFileSave={file =>
+              handleVisualElementChange(
+                {
+                  url: config.ndlaApiUrl + file.path,
+                  resource: 'file',
+                  ...file,
+                },
+                'file',
+              )
+            }
+            onClose={closeModal}
+          />
+        );
       default:
         return <h3>{`Embedtag ${selectedResource} is not supported.`}</h3>;
     }

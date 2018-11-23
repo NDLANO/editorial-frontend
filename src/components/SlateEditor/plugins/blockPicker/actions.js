@@ -11,6 +11,7 @@ import {
   PresentationPlay,
   RelatedArticle,
 } from '@ndla/icons/editor';
+import { Download } from '@ndla/icons/common';
 
 const actions = [
   {
@@ -52,6 +53,10 @@ const actions = [
   {
     data: { type: 'embed', object: 'url' },
     icon: <LinkIcon />,
+  },
+  {
+    data: { type: 'file', object: 'file' },
+    icon: <Download />,
   },
   {
     data: { type: 'related', object: 'related' },

@@ -367,6 +367,7 @@ const phrases = {
       h5p: 'H5P',
       url: 'Ressurs fra lenke',
       related: 'Relatert artikkel',
+      file: 'Fil',
     },
   },
   form: {
@@ -650,11 +651,20 @@ const phrases = {
     },
     file: {
       label: 'Filer',
+      file: {
+        label: 'Fil',
+      },
+      alt: {
+        label: 'Alt-tekst',
+        placeholder: 'Alt-tekst',
+      },
       download: 'Last ned:',
       title: {
         label: 'Filtittel',
         placeholder: 'Filtittel',
       },
+      addFile: 'Legg til fil',
+      removeList: 'Fjern filliste',
     },
   },
   validation: {

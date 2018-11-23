@@ -16,7 +16,7 @@ import { Portal } from '../../../Portal';
 import { defaultBlocks } from '../../utils';
 import { defaultBodyBoxBlock } from '../bodybox';
 import { defaultDetailsBlock } from '../detailsbox';
-import SlateEmbedPicker from './SlateEmbedPicker';
+import SlateVisualElementPicker from './SlateVisualElementPicker';
 import { editTablePlugin } from '../externalPlugins';
 import actions from './actions';
 
@@ -27,7 +27,7 @@ class SlateBlockPicker extends Component {
     super(props);
     this.state = {
       isOpen: false,
-      embedSelect: {
+      visualElementSelect: {
         isOpen: false,
       },
     };
@@ -35,7 +35,7 @@ class SlateBlockPicker extends Component {
     this.onElementAdd = this.onElementAdd.bind(this);
     this.showPicker = this.showPicker.bind(this);
     this.focusInsideIllegalArea = this.focusInsideIllegalArea.bind(this);
-    this.onEmbedClose = this.onEmbedClose.bind(this);
+    this.onVisualElementClose = this.onVisualElementClose.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
     this.slateBlockRef = React.createRef();
     this.slateBlockButtonRef = React.createRef();
@@ -51,8 +51,10 @@ class SlateBlockPicker extends Component {
     this.showPicker();
   }
 
-  onEmbedClose() {
-    this.setState({ embedSelect: { isOpen: false, embedType: '' } });
+  onVisualElementClose() {
+    this.setState({
+      visualElementSelect: { isOpen: false, visualElementType: '' },
+    });
   }
 
   onInsertBlock(block) {
@@ -85,9 +87,13 @@ class SlateBlockPicker extends Component {
         this.onInsertBlock(defaultAsideBlock(block.object));
         break;
       }
+      case 'file':
       case 'embed': {
         this.setState({
-          embedSelect: { isOpen: true, embedType: block.object },
+          visualElementSelect: {
+            isOpen: true,
+            visualElementType: block.object,
+          },
         });
         break;
       }
@@ -185,14 +191,14 @@ class SlateBlockPicker extends Component {
 
   render() {
     const { t } = this.props;
-    const { isOpen, embedSelect } = this.state;
+    const { isOpen, visualElementSelect } = this.state;
     return (
       <Fragment>
-        <Portal isOpened={embedSelect.isOpen}>
-          <SlateEmbedPicker
-            resource={embedSelect.embedType}
-            isOpen={embedSelect.isOpen}
-            onEmbedClose={this.onEmbedClose}
+        <Portal isOpened={visualElementSelect.isOpen}>
+          <SlateVisualElementPicker
+            resource={visualElementSelect.visualElementType}
+            isOpen={visualElementSelect.isOpen}
+            onVisualElementClose={this.onVisualElementClose}
             onInsertBlock={this.onInsertBlock}
           />
         </Portal>

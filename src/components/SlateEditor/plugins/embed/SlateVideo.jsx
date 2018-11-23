@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { Figure } from '@ndla/ui';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
 import { Cross } from '@ndla/icons/action';
 import config from '../../../../config';
 import { EmbedShape } from '../../../../shapes';
@@ -33,7 +32,6 @@ class SlateVideo extends React.PureComponent {
     const {
       embed,
       attributes,
-      t,
       figureClass,
       onRemoveClick,
       ...rest
@@ -74,7 +72,6 @@ class SlateVideo extends React.PureComponent {
             <EditVideo
               embed={embed}
               toggleEditModus={this.toggleEditModus}
-              t={t}
               {...rest}
             />
           ) : (
@@ -104,4 +101,4 @@ SlateVideo.propTypes = {
   figureClass: PropTypes.shape({ className: PropTypes.string }).isRequired,
 };
 
-export default injectT(SlateVideo);
+export default SlateVideo;

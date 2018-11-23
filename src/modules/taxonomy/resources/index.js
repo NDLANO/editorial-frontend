@@ -21,6 +21,12 @@ function fetchResource(id, locale) {
   );
 }
 
+function fetchFullResource(id, locale) {
+  return fetchAuthorized(
+    `${baseUrl}/resources/${id}/full?language=${locale}`,
+  ).then(resolveJsonOrRejectWithError);
+}
+
 function createResource(resource) {
   return fetchAuthorized(`${baseUrl}/resources`, {
     headers: {
@@ -66,5 +72,6 @@ export {
   fetchResourceResourceType,
   fetchResourceFilter,
   updateResourceRelevance,
+  fetchFullResource,
   // fetchTopicResource,
 };

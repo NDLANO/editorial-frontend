@@ -14,11 +14,9 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { actions, getDraft } from '../../modules/draft/draft';
 import {
   queryResources,
-  fetchResourceResourceType,
-  fetchResourceFilter,
-  fetchAllTopicResource,
   fetchTopicArticle,
   updateTaxonomy,
+  fetchFullResource,
 } from '../../modules/taxonomy';
 import LearningResourceForm, {
   getInitialModel,
@@ -75,33 +73,40 @@ class EditLearningResource extends PureComponent {
     try {
       const resource = await queryResources(articleId, selectedLanguage);
       if (resource.length > 0) {
-        const [resourceTypes, filter] = await Promise.all([
-          fetchResourceResourceType(resource[0].id, selectedLanguage),
-          fetchResourceFilter(resource[0].id, selectedLanguage),
-        ]);
-
-        // Temporary method until API is simplified
-        const allTopics = await fetchAllTopicResource(selectedLanguage);
-        const topicResource = allTopics.filter(
-          item => item.resourceId === resource[0].id,
-        );
+        const {
+          resourceTypes,
+          filters,
+          parentTopics,
+        } = await fetchFullResource(resource[0].id, selectedLanguage);
 
         const topics = await Promise.all(
-          topicResource.map(async item => {
+          // Need to fetch each topic seperate because path is still not returned in parentTopics
+          parentTopics.map(async item => {
             const topicArticle = await fetchTopicArticle(
-              item.topicid,
+              item.id,
               selectedLanguage,
             );
-            return { ...topicArticle, primary: item.primary };
+            return { ...topicArticle, primary: item.isPrimary };
           }),
         );
+
         this.setState({
-          taxonomy: { resourceTypes, filter, topics, loading: false },
-          originalResourceTopics: topicResource,
+          taxonomy: {
+            resourceTypes,
+            filter: filters,
+            topics,
+            loading: false,
+          },
+          originalResourceTopics: topics,
         });
       } else {
         this.setState({
-          taxonomy: { loading: false },
+          taxonomy: {
+            resourceTypes: [],
+            filter: [],
+            topics: [],
+            loading: false,
+          },
         });
       }
     } catch (e) {

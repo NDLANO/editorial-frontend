@@ -61,12 +61,9 @@ async function createDeleteUpdateTopicResources(
   resourceId,
   topics,
   locale,
-  allTopics,
+  originalTopics,
 ) {
   try {
-    const originalTopics = allTopics.filter(
-      item => item.resourceId === resourceId,
-    );
     const [createItems, deleteItems, updateItems] = sortIntoCreateDeleteUpdate({
       changedItems: topics,
       originalItems: originalTopics,

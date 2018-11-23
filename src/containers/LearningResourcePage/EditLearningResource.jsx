@@ -36,7 +36,7 @@ class EditLearningResource extends PureComponent {
     super(props);
     this.state = {
       taxonomy: { resourceTypes: [], filter: [], topics: [], loading: true },
-      allTopics: [],
+      originalResourceTopics: [],
     };
     this.updateLearningResource = this.updateLearningResource.bind(this);
     this.fetchTaxonony = this.fetchTaxonony.bind(this);
@@ -96,7 +96,7 @@ class EditLearningResource extends PureComponent {
         );
         this.setState({
           taxonomy: { resourceTypes, filter, topics, loading: false },
-          allTopics,
+          originalResourceTopics: topicResource,
         });
       } else {
         this.setState({
@@ -111,7 +111,7 @@ class EditLearningResource extends PureComponent {
   updateLearningResource(article, taxonomy) {
     const { updateDraft } = this.props;
     updateDraft({ draft: article });
-    updateTaxonomy(taxonomy, this.state.allTopics);
+    updateTaxonomy(taxonomy, this.state.originalResourceTopics);
   }
 
   render() {

@@ -105,19 +105,7 @@ class LearningResourceTaxonomy extends Component {
   }
 
   getOnChangeFunction() {
-    const { commonFieldProps } = this.props;
-    const defaultDropdownProps = {
-      obligatory: true,
-      textField: 'name',
-      valueField: 'id',
-      ...commonFieldProps,
-    };
-
-    const { onChange } = defaultDropdownProps.bindInput(
-      defaultDropdownProps.name,
-    );
-
-    return onChange;
+    return this.props.commonFieldProps.bindInput().onChange;
   }
 
   setPrimaryConnection(id) {

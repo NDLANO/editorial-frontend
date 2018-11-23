@@ -17,7 +17,6 @@ import Accordion, {
   AccordionPanel,
 } from '@ndla/accordion';
 import Button from '@ndla/button';
-import config from '../../../config';
 import reformed from '../../../components/reformed';
 import validateSchema, {
   checkTouchedInvalidField,

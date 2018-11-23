@@ -39,13 +39,13 @@ class EditLearningResource extends PureComponent {
       originalResourceTopics: [],
     };
     this.updateLearningResource = this.updateLearningResource.bind(this);
-    this.fetchTaxonony = this.fetchTaxonony.bind(this);
+    this.fetchTaxonomy = this.fetchTaxonomy.bind(this);
   }
 
   componentDidMount() {
     const { articleId, fetchDraft, selectedLanguage } = this.props;
     fetchDraft({ id: articleId, language: selectedLanguage });
-    this.fetchTaxonony();
+    this.fetchTaxonomy();
   }
 
   async componentDidUpdate({
@@ -63,14 +63,14 @@ class EditLearningResource extends PureComponent {
 
     if (prevLanguage !== selectedLanguage || articleId !== prevArticleId) {
       fetchDraft({ id: articleId, language: selectedLanguage });
-      this.fetchTaxonony();
+      this.fetchTaxonomy();
     }
     if (article && (!prevArticle || article.id !== prevArticle.id)) {
       fetchTags({ language: article.language });
     }
   }
 
-  async fetchTaxonony() {
+  async fetchTaxonomy() {
     const { articleId, selectedLanguage } = this.props;
     try {
       const resource = await queryResources(articleId, selectedLanguage);
@@ -116,7 +116,7 @@ class EditLearningResource extends PureComponent {
       taxonomy,
       this.state.originalResourceTopics,
     );
-    if (didUpdate) this.fetchTaxonony();
+    if (didUpdate) this.fetchTaxonomy();
   }
 
   render() {

@@ -73,6 +73,7 @@ async function updateTaxonomy(taxonomy, allTopics) {
       });
       resource = await queryResources(taxonomy.articleId, taxonomy.language);
       // resource = [{ id: resourceId.replace(/(\/v1\/resources\/)/, '') }];
+      return true;
     }
     if (resource.length !== 0 && resource[0].id) {
       createDeleteResourceTypes(
@@ -93,7 +94,9 @@ async function updateTaxonomy(taxonomy, allTopics) {
         taxonomy.language,
         allTopics,
       );
+      return true;
     }
+    return false;
   } catch (e) {
     throw new Error(e);
   }

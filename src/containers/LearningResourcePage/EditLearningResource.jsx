@@ -45,7 +45,7 @@ class EditLearningResource extends PureComponent {
   componentDidMount() {
     const { articleId, fetchDraft, selectedLanguage } = this.props;
     fetchDraft({ id: articleId, language: selectedLanguage });
-    this.fetchTaxonony(articleId, selectedLanguage);
+    this.fetchTaxonony();
   }
 
   async componentDidUpdate({
@@ -63,24 +63,25 @@ class EditLearningResource extends PureComponent {
 
     if (prevLanguage !== selectedLanguage || articleId !== prevArticleId) {
       fetchDraft({ id: articleId, language: selectedLanguage });
-      this.fetchTaxonony(articleId, selectedLanguage);
+      this.fetchTaxonony();
     }
     if (article && (!prevArticle || article.id !== prevArticle.id)) {
       fetchTags({ language: article.language });
     }
   }
 
-  async fetchTaxonony(articleId, articleLanguage) {
+  async fetchTaxonony() {
+    const { articleId, selectedLanguage } = this.props;
     try {
-      const resource = await queryResources(articleId, articleLanguage);
+      const resource = await queryResources(articleId, selectedLanguage);
       if (resource.length > 0) {
         const [resourceTypes, filter] = await Promise.all([
-          fetchResourceResourceType(resource[0].id, articleLanguage),
-          fetchResourceFilter(resource[0].id, articleLanguage),
+          fetchResourceResourceType(resource[0].id, selectedLanguage),
+          fetchResourceFilter(resource[0].id, selectedLanguage),
         ]);
 
         // Temporary method until API is simplified
-        const allTopics = await fetchAllTopicResource(articleLanguage);
+        const allTopics = await fetchAllTopicResource(selectedLanguage);
         const topicResource = allTopics.filter(
           item => item.resourceId === resource[0].id,
         );
@@ -89,7 +90,7 @@ class EditLearningResource extends PureComponent {
           topicResource.map(async item => {
             const topicArticle = await fetchTopicArticle(
               item.topicid,
-              articleLanguage,
+              selectedLanguage,
             );
             return { ...topicArticle, primary: item.primary };
           }),
@@ -108,10 +109,14 @@ class EditLearningResource extends PureComponent {
     }
   }
 
-  updateLearningResource(article, taxonomy) {
+  async updateLearningResource(article, taxonomy) {
     const { updateDraft } = this.props;
     updateDraft({ draft: article });
-    updateTaxonomy(taxonomy, this.state.originalResourceTopics);
+    const didUpdate = await updateTaxonomy(
+      taxonomy,
+      this.state.originalResourceTopics,
+    );
+    if (didUpdate) this.fetchTaxonony();
   }
 
   render() {

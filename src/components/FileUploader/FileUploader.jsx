@@ -34,7 +34,7 @@ class FileUploader extends React.Component {
     const { name, value, type } = evt.target;
     if (type === 'file') {
       const file = evt.target.files[0];
-      this.setState({ [name]: file, submitted: false });
+      this.setState({ [name]: file, submitted: false, errorMessage: '' });
     } else {
       this.setState({ [name]: value, submitted: false });
     }
@@ -61,7 +61,7 @@ class FileUploader extends React.Component {
           this.setState({
             submitted: false,
             errorMessage: err.json.messages
-              .map(message => `${message.field}: ${message.message}`)
+              .map(message => message.message)
               .join(', '),
           });
         }
@@ -136,7 +136,6 @@ class FileUploader extends React.Component {
 FileUploader.propTypes = {
   onFileSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  addMessage: PropTypes.func.isRequired,
 };
 
 export default injectT(FileUploader);

@@ -14,6 +14,7 @@ import { isEmpty } from '../validators';
 import { Field, FieldHelp } from '../Fields';
 import { uploadFile } from '../../modules/draft/draftApi';
 import { createFormData } from '../../util/formDataHelper';
+import handleError from '../../util/handleError';
 
 class FileUploader extends React.Component {
   constructor() {
@@ -25,6 +26,7 @@ class FileUploader extends React.Component {
       title: '',
       alt: '',
       submitted: false,
+      errorMessage: '',
     };
   }
 
@@ -38,29 +40,39 @@ class FileUploader extends React.Component {
     }
   }
 
-  onSave() {
+  async onSave() {
     const { onFileSave } = this.props;
     const { file, title, alt } = this.state;
     if (isEmpty(alt) || isEmpty(title) || isEmpty(file)) {
       this.setState({ submitted: true });
     } else {
-      this.setState({ submitted: false }, async () => {
+      try {
         const formData = await createFormData(file);
         const fileResult = await uploadFile(formData);
+        this.setState({ submitted: false });
         onFileSave({
           path: fileResult.path,
           title,
           type: fileResult.extension.substring(1),
           alt,
         });
-      });
+      } catch (err) {
+        if (err && err.json.messages) {
+          this.setState({
+            submitted: false,
+            errorMessage: err.json.messages
+              .map(message => `${message.field}: ${message.message}`)
+              .join(', '),
+          });
+        }
+        handleError(err);
+      }
     }
   }
 
   render() {
     const { t, onClose } = this.props;
-
-    const { file, title, alt, submitted } = this.state;
+    const { file, title, alt, submitted, errorMessage } = this.state;
     return (
       <Fragment>
         <Field>
@@ -74,6 +86,9 @@ class FileUploader extends React.Component {
                 })}
               </FieldHelp>
             )}
+          {errorMessage.length > 0 && (
+            <FieldHelp error>{errorMessage}</FieldHelp>
+          )}
         </Field>
         <Field>
           <label htmlFor="title">{t('form.file.title.label')}</label>
@@ -121,6 +136,7 @@ class FileUploader extends React.Component {
 FileUploader.propTypes = {
   onFileSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  addMessage: PropTypes.func.isRequired,
 };
 
 export default injectT(FileUploader);

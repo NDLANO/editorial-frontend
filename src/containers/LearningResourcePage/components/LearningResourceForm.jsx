@@ -17,7 +17,6 @@ import Accordion, {
   AccordionPanel,
 } from '@ndla/accordion';
 import Button from '@ndla/button';
-import config from '../../../config';
 import reformed from '../../../components/reformed';
 import validateSchema, {
   checkTouchedInvalidField,
@@ -328,7 +327,7 @@ class LearningResourceForm extends Component {
         ),
       },
     ];
-    if (model.id && config.taxonomyEnabled) {
+    if (model.id) {
       panels.splice(1, 0, {
         id: 'learning-resource-taxonomy',
         title: t('form.taxonomytSection'),

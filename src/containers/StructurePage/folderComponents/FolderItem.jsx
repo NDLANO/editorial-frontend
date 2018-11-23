@@ -17,7 +17,7 @@ import RoundIcon from '../../../components/RoundIcon';
 import FilterView from './FilterView';
 
 import FolderLink from '../../../components/FolderLink';
-
+import config from '../../../config';
 import { removeLastItemFromUrl } from '../../../util/routeHelpers';
 import SubFolders from './SubFolders';
 
@@ -65,10 +65,12 @@ const FolderItem = ({
     linkViewOpen,
     ...rest,
   };
-  const settingsButton = active && (
-    <SettingsMenu id={id} name={name} type={type} path={path} {...rest} />
-  );
+  const settingsButton = active &&
+    config.enableFullTaxonomy && (
+      <SettingsMenu id={id} name={name} type={type} path={path} {...rest} />
+    );
   const showLinkButton = type === 'topic' &&
+    config.enableFullTaxonomy &&
     isMainActive && (
       <Button stripped onClick={() => showLink(id, rest.parent)}>
         <RoundIcon open={linkViewOpen} icon={<LinkIcon />} />

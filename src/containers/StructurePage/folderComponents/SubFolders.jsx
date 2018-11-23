@@ -7,6 +7,7 @@ import {
   updateTopicSubtopic,
   updateSubjectTopic,
 } from '../../../modules/taxonomy';
+import config from '../../../config';
 
 class SubFolders extends React.PureComponent {
   constructor() {
@@ -63,7 +64,9 @@ class SubFolders extends React.PureComponent {
     return (
       <div data-cy={`${type}-subFolders`} {...classes('subFolders')}>
         {active && (
-          <MakeDndList onDragEnd={this.onDragEnd} disableDnd={!isMainActive}>
+          <MakeDndList
+            onDragEnd={this.onDragEnd}
+            disableDnd={!config.enableFullTaxonomy || !isMainActive}>
             {filteredTopics.map(topic => (
               <FolderItem
                 {...rest}

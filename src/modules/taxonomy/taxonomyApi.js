@@ -77,19 +77,19 @@ async function updateTaxonomy(taxonomy, allTopics) {
     if (resource.length !== 0 && resource[0].id) {
       createDeleteResourceTypes(
         resource[0].id,
-        [...taxonomy.resourceTypes],
+        taxonomy.resourceTypes,
         taxonomy.language,
       );
 
       createDeleteUpdateFilters(
         resource[0].id,
-        [...taxonomy.filter],
+        taxonomy.filter,
         taxonomy.language,
       );
 
       createDeleteUpdateTopicResources(
         resource[0].id,
-        [...taxonomy.topics],
+        taxonomy.topics,
         taxonomy.language,
         allTopics,
       );

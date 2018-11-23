@@ -6,7 +6,10 @@
  *
  */
 
-import { flattenResourceTypes, spliceChangedItems } from '../taxonomyHelpers';
+import {
+  flattenResourceTypes,
+  sortIntoCreateDeleteUpdate,
+} from '../taxonomyHelpers';
 import {
   resourceTypesMock,
   flattenedResourceTypes,
@@ -19,13 +22,14 @@ test('taxonomy/flattenResourceTypes flattening', () => {
   );
 });
 
-test('taxonomy/spliceChangedItems different item changes', () => {
+test('taxonomy/sortIntoCreateDeleteUpdate different item changes', () => {
   // No changes
-  expect(spliceChangedItems([...filtersMock], [...filtersMock])).toEqual([
-    [],
-    [],
-    [],
-  ]);
+  expect(
+    sortIntoCreateDeleteUpdate({
+      changedItems: [...filtersMock],
+      originalItems: [...filtersMock],
+    }),
+  ).toEqual([[], [], []]);
 
   // Deleting items
   const keptItem = [
@@ -37,7 +41,12 @@ test('taxonomy/spliceChangedItems different item changes', () => {
     },
   ];
 
-  expect(spliceChangedItems([...keptItem], [...filtersMock])).toEqual([
+  expect(
+    sortIntoCreateDeleteUpdate({
+      changedItems: [...keptItem],
+      originalItems: [...filtersMock],
+    }),
+  ).toEqual([
     [],
     [
       {
@@ -81,13 +90,11 @@ test('taxonomy/spliceChangedItems different item changes', () => {
   ];
 
   expect(
-    spliceChangedItems(
-      [...updatedItem],
-      [...filtersMock],
-      'id',
-      'id',
-      'relevanceId',
-    ),
+    sortIntoCreateDeleteUpdate({
+      changedItems: [...updatedItem],
+      originalItems: [...filtersMock],
+      updateProperty: 'relevanceId',
+    }),
   ).toEqual([
     [],
     [],
@@ -130,7 +137,12 @@ test('taxonomy/spliceChangedItems different item changes', () => {
     },
   ];
 
-  expect(spliceChangedItems([...createNewItem], [...filtersMock])).toEqual([
+  expect(
+    sortIntoCreateDeleteUpdate({
+      changedItems: [...createNewItem],
+      originalItems: [...filtersMock],
+    }),
+  ).toEqual([
     [
       {
         connectionId:

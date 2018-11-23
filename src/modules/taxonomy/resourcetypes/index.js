@@ -11,7 +11,7 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../../util/apiHelpers';
-import { spliceChangedItems } from '../../../util/taxonomyHelpers';
+import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import {
   fetchResourceResourceType,
   resolveTaxonomyJsonOrRejectWithError,
@@ -50,19 +50,19 @@ async function createDeleteResourceTypes(resourceId, resourceTypes, language) {
       resourceId,
       language,
     );
-    const newResourceTypes = spliceChangedItems(
-      resourceTypes,
-      remoteResourceTypes,
-    );
+    const [createItems, deleteItems] = sortIntoCreateDeleteUpdate({
+      changedItems: resourceTypes,
+      originalItems: remoteResourceTypes,
+    });
 
-    newResourceTypes[0].forEach(item => {
+    createItems.forEach(item => {
       createResourceResourceType({
         resourceTypeId: item.id,
         resourceId,
       });
     });
 
-    newResourceTypes[1].forEach(item => {
+    deleteItems.forEach(item => {
       deleteResourceResourceType(item.connectionId);
     });
   } catch (e) {

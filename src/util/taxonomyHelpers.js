@@ -90,43 +90,41 @@ function flattenResourceTypes(data = []) {
   return resourceTypes;
 }
 
-function spliceChangedItems(
+function sortIntoCreateDeleteUpdate({
   changedItems,
-  items,
-  changedItemId = 'id',
-  itemId = 'id',
+  originalItems,
+  changedId = 'id',
+  originalId = 'id',
   updateProperty,
-) {
-  const copy = [...changedItems];
-  const updatedItems = [];
-  copy.forEach(item => {
-    const foundItem = items.find(
-      itemType => itemType[itemId] === item[changedItemId],
+}) {
+  const updateItems = [];
+  const createItems = [];
+  const deleteItems = originalItems.filter(item => {
+    const originalItemInChangedItem = changedItems.find(
+      changedItem => changedItem[changedId] === item[originalId],
+    );
+    return !originalItemInChangedItem;
+  });
+  changedItems.forEach(changedItem => {
+    const foundItem = originalItems.find(
+      item => item[originalId] === changedItem[changedId],
     );
     if (foundItem) {
-      changedItems.splice(
-        changedItems.findIndex(
-          itemType => itemType[changedItemId] === item[changedItemId],
-        ),
-        1,
-      );
-      items.splice(
-        items.findIndex(itemType => itemType[itemId] === item[changedItemId]),
-        1,
-      );
       if (
         updateProperty &&
-        foundItem[updateProperty] !== item[updateProperty]
+        foundItem[updateProperty] !== changedItem[updateProperty]
       ) {
-        updatedItems.push({
+        updateItems.push({
           ...foundItem,
-          [updateProperty]: item[updateProperty],
+          [updateProperty]: changedItem[updateProperty],
         });
       }
+    } else {
+      createItems.push(changedItem);
     }
   });
-  // [Create], [Delete], [Update]
-  return [[...changedItems], [...items], [...updatedItems]];
+
+  return [createItems, deleteItems, updateItems];
 }
 
 function groupRelevanceResourceTypes(
@@ -246,7 +244,7 @@ const getCurrentTopic = ({ params, topics }) => {
 
 export {
   flattenResourceTypes,
-  spliceChangedItems,
+  sortIntoCreateDeleteUpdate,
   getResourcesGroupedByResourceTypes,
   getTopicResourcesByType,
   topicResourcesByTypeWithMetaData,

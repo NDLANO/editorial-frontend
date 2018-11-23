@@ -11,7 +11,7 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../../util/apiHelpers';
-import { spliceChangedItems } from '../../../util/taxonomyHelpers';
+import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import { resolveTaxonomyJsonOrRejectWithError } from '..';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
@@ -64,29 +64,28 @@ async function createDeleteUpdateTopicResources(
   allTopics,
 ) {
   try {
-    const topicResource = allTopics.filter(
+    const originalTopics = allTopics.filter(
       item => item.resourceId === resourceId,
     );
+    const [createItems, deleteItems, updateItems] = sortIntoCreateDeleteUpdate({
+      changedItems: topics,
+      originalItems: originalTopics,
+      changedId: 'id',
+      originalId: 'topicid',
+      updateProperty: 'primary',
+    });
 
-    const newTopics = spliceChangedItems(
-      topics,
-      topicResource,
-      'id',
-      'topicid',
-      'primary',
-    );
-
-    newTopics[0].forEach(item => {
+    createItems.forEach(item => {
       createTopicResource({
         topicid: item.id,
         primary: item.primary,
         resourceId, // Not consistent!
       });
     });
-    newTopics[1].forEach(item => {
+    deleteItems.forEach(item => {
       deleteTopicResource(item.id);
     });
-    newTopics[2].forEach(item => {
+    updateItems.forEach(item => {
       // only update if changed to primary, previous primary is automatically unset
       if (item.primary)
         updateTopicResource(item.id, {

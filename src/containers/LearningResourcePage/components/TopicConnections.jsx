@@ -156,7 +156,9 @@ class TopicConnections extends Component {
           size="large"
           narrow
           minHeight="85vh"
-          activateButton={<Button>Opprett emnetilknytning</Button>}>
+          activateButton={
+            <Button>{t('taxonomy.topics.filestructureButton')}</Button>
+          }>
           {closeModal => (
             <Fragment>
               <ModalHeader>

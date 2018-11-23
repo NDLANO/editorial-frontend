@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { ChevronRight } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
+import { injectT } from '@ndla/i18n';
 import {
   BreadCrumb,
   Connections,
@@ -16,6 +17,7 @@ const ActiveTopicConnections = ({
   removeConnection,
   setPrimaryConnection,
   modelTopics,
+  t,
 }) => (
   <ConnectionsWrapper>
     {modelTopics.map(topic => {
@@ -24,7 +26,9 @@ const ActiveTopicConnections = ({
         // Connection not available.
         return (
           <Connections key={topic.id} error>
-            <ErrorLabel>Ugyldig tilknytning</ErrorLabel>
+            <ErrorLabel>
+              {t('taxonomy.topics.disconnectedTaxonomyWarning')}
+            </ErrorLabel>
             <BreadCrumb>
               <span>{topic.path}</span>
             </BreadCrumb>
@@ -42,7 +46,7 @@ const ActiveTopicConnections = ({
             primary={topic.primary}
             type="button"
             onClick={() => setPrimaryConnection(topic.id)}>
-            Primærkobling
+            {t('form.topics.primaryTopic')}
           </PrimaryConnectionButton>
           <BreadCrumb>
             {breadCrumbs.map(path => (
@@ -70,4 +74,4 @@ ActiveTopicConnections.propTypes = {
   modelTopics: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default ActiveTopicConnections;
+export default injectT(ActiveTopicConnections);

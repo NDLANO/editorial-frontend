@@ -134,6 +134,7 @@ FilterConnections.propTypes = {
     topics: PropTypes.arrayOf(PropTypes.shape({})),
   }),
   structure: PropTypes.arrayOf(PropTypes.object),
+  updateFilter: PropTypes.func,
 };
 
 export default injectT(FilterConnections);

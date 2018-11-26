@@ -66,6 +66,7 @@ class LearningResourceTaxonomy extends Component {
     this.getSubjectTopics = this.getSubjectTopics.bind(this);
     this.onChangeSelectedResource = this.onChangeSelectedResource.bind(this);
     this.updateFilter = this.updateFilter.bind(this);
+    this.updateSubject = this.updateSubject.bind(this);
   }
 
   async componentDidMount() {
@@ -141,17 +142,10 @@ class LearningResourceTaxonomy extends Component {
       return;
     }
     try {
+      this.updateSubject(subjectid, { loading: true });
       const allTopics = await fetchSubjectTopics(subjectid);
       const groupedTopics = groupTopics(allTopics);
-      this.setState(prevState => ({
-        structure: prevState.structure.map(subject => {
-          if (subject.id === subjectid) {
-            const updatedSubject = { ...subject, topics: groupedTopics };
-            return updatedSubject;
-          }
-          return subject;
-        }),
-      }));
+      this.updateSubject(subjectid, { loading: false, topics: groupedTopics });
     } catch (e) {
       handleError(e);
     }
@@ -175,6 +169,18 @@ class LearningResourceTaxonomy extends Component {
         }),
       },
     });
+  }
+
+  updateSubject(subjectid, newSubject) {
+    this.setState(prevState => ({
+      structure: prevState.structure.map(subject => {
+        if (subject.id === subjectid) {
+          const updatedSubject = { ...subject, ...newSubject };
+          return updatedSubject;
+        }
+        return subject;
+      }),
+    }));
   }
 
   retriveBreadCrumbs(topic) {

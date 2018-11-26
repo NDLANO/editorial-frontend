@@ -22,7 +22,7 @@ import {
 import {
   filterToSubjects,
   sortByName,
-  connectionTopicsToParent,
+  groupTopics,
   selectedResourceTypeValue,
 } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
@@ -63,6 +63,7 @@ class LearningResourceTaxonomy extends Component {
     this.getOnChangeFunction = this.getOnChangeFunction.bind(this);
     this.removeConnection = this.removeConnection.bind(this);
     this.setPrimaryConnection = this.setPrimaryConnection.bind(this);
+    this.getSubjectTopics = this.getSubjectTopics.bind(this);
     this.onChangeSelectedResource = this.onChangeSelectedResource.bind(this);
     this.updateFilter = this.updateFilter.bind(this);
   }
@@ -81,11 +82,6 @@ class LearningResourceTaxonomy extends Component {
         .filter(subject => subject.name)
         .sort(sortByName);
 
-      const subjectIds = sortedSubjects.map(subject => subject.id);
-      const subjectsTopics = await Promise.all(
-        subjectIds.map(subjectId => fetchSubjectTopics(subjectId)),
-      );
-
       // Filter out items with no name (is required)
       this.setState({
         taxonomy: {
@@ -99,13 +95,7 @@ class LearningResourceTaxonomy extends Component {
           topics: topics.filter(topic => topic.name),
           hasLoadedData: true,
         },
-        structure: sortedSubjects.map((subject, index) => {
-          const updateSubject = subject;
-          updateSubject.subtopics = subjectsTopics[index].length
-            ? connectionTopicsToParent(subjectsTopics[index], subject.id)
-            : [];
-          return updateSubject;
-        }),
+        structure: sortedSubjects,
       });
     } catch (e) {
       handleError(e);
@@ -142,6 +132,31 @@ class LearningResourceTaxonomy extends Component {
     });
   }
 
+  async getSubjectTopics(subjectid) {
+    if (
+      this.state.structure.some(
+        subject => subject.id === subjectid && subject.topics,
+      )
+    ) {
+      return;
+    }
+    try {
+      const allTopics = await fetchSubjectTopics(subjectid);
+      const groupedTopics = groupTopics(allTopics);
+      this.setState(prevState => ({
+        structure: prevState.structure.map(subject => {
+          if (subject.id === subjectid) {
+            const updatedSubject = { ...subject, topics: groupedTopics };
+            return updatedSubject;
+          }
+          return subject;
+        }),
+      }));
+    } catch (e) {
+      handleError(e);
+    }
+  }
+
   getOnChangeFunction() {
     return this.props.commonFieldProps.bindInput().onChange;
   }
@@ -163,13 +178,17 @@ class LearningResourceTaxonomy extends Component {
   }
 
   retriveBreadCrumbs(topic) {
+    const {
+      structure,
+      taxonomy: { topics },
+    } = this.state;
     try {
       let topicPaths = topic.path
         .split('/')
         .splice(1)
         .map(url => `urn:${url}`);
 
-      const subject = this.state.structure.find(
+      const subject = structure.find(
         structureSubject => structureSubject.id === topicPaths[0],
       );
       topicPaths = topicPaths.splice(1);
@@ -179,19 +198,17 @@ class LearningResourceTaxonomy extends Component {
         name: subject.name,
         id: subject.id,
       });
-      let { subtopics } = subject;
       topicPaths.forEach(pathId => {
-        subtopics = subtopics.find(subtopic => subtopic.id === pathId);
+        const topicPath = topics.find(subtopic => subtopic.id === pathId);
         returnPaths.push({
-          name: subtopics.name,
-          id: subtopics.id,
+          name: topicPath.name,
+          id: topicPath.id,
         });
-        ({ subtopics } = subtopics);
       });
 
       return returnPaths;
     } catch (err) {
-      console.log(err);
+      handleError(err);
       return false;
     }
   }
@@ -288,6 +305,7 @@ class LearningResourceTaxonomy extends Component {
           removeConnection={this.removeConnection}
           setPrimaryConnection={this.setPrimaryConnection}
           getOnChangeFunction={this.getOnChangeFunction}
+          getSubjectTopics={this.getSubjectTopics}
         />
 
         {model.topics.length > 0 && (

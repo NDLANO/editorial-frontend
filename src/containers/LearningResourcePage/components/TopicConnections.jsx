@@ -38,16 +38,20 @@ class TopicConnections extends Component {
     this.handleOpenToggle = this.handleOpenToggle.bind(this);
   }
 
-  handleOpenToggle({ path, level }) {
-    const { allowMultipleSubjectsOpen } = this.props;
+  handleOpenToggle({ path, level, id }) {
+    const { allowMultipleSubjectsOpen, getSubjectTopics } = this.props;
     this.setState(prevState => {
       let { openedPaths } = prevState;
       const index = openedPaths.indexOf(path);
       if (index === -1) {
         // Has other subjects open and !allowMultipleSubjectsOpen?
-        if (level === 0 && !allowMultipleSubjectsOpen) {
-          openedPaths = [];
+        if (level === 0) {
+          getSubjectTopics(id);
+          if (!allowMultipleSubjectsOpen) {
+            openedPaths = [];
+          }
         }
+
         openedPaths.push(path);
       } else {
         openedPaths.splice(index, 1);
@@ -198,7 +202,6 @@ TopicConnections.propTypes = {
   fileStructureFilters: PropTypes.arrayOf(PropTypes.string),
   modelTopics: PropTypes.arrayOf(PropTypes.object),
   taxonomyTopics: PropTypes.arrayOf(PropTypes.object),
-  retriveBreadCrumbs: PropTypes.func,
   removeConnection: PropTypes.func,
   setPrimaryConnection: PropTypes.func,
   availableFilters: PropTypes.objectOf(
@@ -210,6 +213,7 @@ TopicConnections.propTypes = {
   ),
   allowMultipleSubjectsOpen: PropTypes.bool,
   getOnChangeFunction: PropTypes.func,
+  getSubjectTopics: PropTypes.func,
 };
 
 export default injectT(TopicConnections);

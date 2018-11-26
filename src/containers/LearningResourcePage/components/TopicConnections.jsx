@@ -12,7 +12,7 @@ import { cx } from 'react-emotion';
 import { Check } from '@ndla/icons/editor';
 import { colors } from '@ndla/core';
 
-import { FileStructure } from '@ndla/editor';
+import { Structure } from '@ndla/editor';
 import { FormHeader } from '@ndla/forms';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
@@ -176,7 +176,7 @@ class TopicConnections extends Component {
                   {t('taxonomy.topics.filestructureHeading')}:
                 </TitleModal>
                 <hr />
-                <FileStructure
+                <Structure
                   openedPaths={openedPaths}
                   structure={structure}
                   toggleOpen={this.handleOpenToggle}

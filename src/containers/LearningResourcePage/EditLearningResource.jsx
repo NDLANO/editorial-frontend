@@ -17,6 +17,7 @@ import {
   fetchTopicArticle,
   updateTaxonomy,
   fetchFullResource,
+  fetchAllTopicResource,
 } from '../../modules/taxonomy';
 import LearningResourceForm, {
   getInitialModel,
@@ -79,6 +80,11 @@ class EditLearningResource extends PureComponent {
           parentTopics,
         } = await fetchFullResource(resource[0].id, selectedLanguage);
 
+        // TODO Remove fetchAllTopicResource when fetchFullResource returns connectionId in parentTopics array
+        const allTopicResourceConnections = await fetchAllTopicResource(
+          selectedLanguage,
+        );
+
         const topics = await Promise.all(
           // Need to fetch each topic seperate because path is still not returned in parentTopics
           parentTopics.map(async item => {
@@ -86,7 +92,14 @@ class EditLearningResource extends PureComponent {
               item.id,
               selectedLanguage,
             );
-            return { ...topicArticle, primary: item.isPrimary };
+            const { id } = allTopicResourceConnections.find(
+              conn => conn.resourceId === resource[0].id,
+            );
+            return {
+              ...topicArticle,
+              primary: item.isPrimary,
+              connectionId: id,
+            };
           }),
         );
 

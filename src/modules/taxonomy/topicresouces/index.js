@@ -67,8 +67,6 @@ async function createDeleteUpdateTopicResources(
     const [createItems, deleteItems, updateItems] = sortIntoCreateDeleteUpdate({
       changedItems: topics,
       originalItems: originalTopics,
-      changedId: 'id',
-      originalId: 'topicid',
       updateProperty: 'primary',
     });
 
@@ -80,12 +78,12 @@ async function createDeleteUpdateTopicResources(
       });
     });
     deleteItems.forEach(item => {
-      deleteTopicResource(item.id);
+      deleteTopicResource(item.connectionId);
     });
     updateItems.forEach(item => {
       // only update if changed to primary, previous primary is automatically unset
       if (item.primary)
-        updateTopicResource(item.id, {
+        updateTopicResource(item.connectionId, {
           primary: item.primary,
         });
     });

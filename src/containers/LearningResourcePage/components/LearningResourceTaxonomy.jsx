@@ -162,11 +162,10 @@ class LearningResourceTaxonomy extends Component {
     onChange({
       target: {
         name: 'topics',
-        value: topics.map(topic => {
-          const returnTopic = topic;
-          returnTopic.primary = returnTopic.id === id;
-          return returnTopic;
-        }),
+        value: topics.map(topic => ({
+          ...topic,
+          primary: topic.id === id,
+        })),
       },
     });
   }

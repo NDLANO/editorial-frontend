@@ -3,6 +3,9 @@ FROM node:10-alpine
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/editorial-frontend
 
+RUN apk add py2-pip jq && pip install awscli
+COPY run-editorial-frontend.sh /
+
 # Copy necessary files for installing dependencies
 COPY yarn.lock package.json $APP_PATH/
 
@@ -21,4 +24,4 @@ ENV NODE_ENV=production
 WORKDIR $APP_PATH
 RUN yarn run build
 
-CMD ["node", "build/server", "|", "bunyan"]
+CMD ["/run-editorial-frontend.sh", "node build/server '|' bunyan"]

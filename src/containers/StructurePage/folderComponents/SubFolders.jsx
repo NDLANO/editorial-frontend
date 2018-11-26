@@ -46,7 +46,7 @@ class SubFolders extends React.PureComponent {
     const {
       type,
       active,
-      topics,
+      topics = [],
       isMainActive,
       activeFilters,
       match,

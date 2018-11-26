@@ -36,7 +36,8 @@ const FolderItem = ({
   showLink,
   linkViewOpen,
   activeFilters,
-  topics = [],
+  topics,
+  subtopics,
   toggleFilter,
   setPrimary,
   deleteTopicLink,
@@ -54,7 +55,7 @@ const FolderItem = ({
   const sendToSubFolders = {
     type,
     active,
-    topics,
+    topics: topics || subtopics,
     isMainActive,
     activeFilters,
     params,
@@ -115,6 +116,7 @@ FolderItem.propTypes = {
   path: string,
   active: bool,
   topics: arrayOf(object),
+  subtopics: arrayOf(object),
   match: shape({
     params: shape({
       topic1: string,

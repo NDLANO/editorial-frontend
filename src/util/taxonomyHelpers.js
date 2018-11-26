@@ -19,41 +19,6 @@ const sortByName = (a, b) => {
   return 0;
 };
 
-const connectSubConnections = (items, parents) => {
-  const currentParents = parents;
-  items.forEach(connection => {
-    const currentConnection = connection;
-    if (parents[currentConnection.id]) {
-      currentConnection.subtopics = parents[currentConnection.id];
-      delete currentParents[currentConnection.id];
-      connectSubConnections(connection.subtopics, currentParents);
-    } else {
-      currentConnection.subtopics = [];
-    }
-  });
-};
-
-const connectionTopicsToParent = (unConnectedTopics, id) => {
-  const parents = {};
-  // Group into arrays
-  unConnectedTopics.forEach(unconnected => {
-    if (!parents[unconnected.parent]) {
-      parents[unconnected.parent] = [];
-    }
-    parents[unconnected.parent].push(unconnected);
-  });
-  // Sort groups by name
-  Object.keys(parents).forEach(parentKey => {
-    parents[parentKey] = parents[parentKey].sort(sortByName);
-  });
-  // Get all direct connections
-  const directConnections = parents[id];
-  delete parents[id];
-  // Connect subconnections
-  connectSubConnections(directConnections, parents);
-  return directConnections;
-};
-
 const filterToSubjects = allFilters => {
   const filterObjects = {};
   allFilters.forEach(filter => {
@@ -202,13 +167,13 @@ function insertSubTopic(topics, subTopic) {
     if (topic.id === subTopic.parent) {
       return {
         ...topic,
-        topics: [...(topic.topics || []), subTopic],
+        subtopics: [...(topic.subtopics || []), subTopic],
       };
     }
-    if (topic.topics) {
+    if (topic.subtopics) {
       return {
         ...topic,
-        topics: insertSubTopic(topic.topics, subTopic),
+        subtopics: insertSubTopic(topic.subtopics, subTopic),
       };
     }
     return topic;
@@ -266,7 +231,6 @@ export {
   groupTopics,
   getCurrentTopic,
   filterToSubjects,
-  connectionTopicsToParent,
   sortByName,
   selectedResourceTypeValue,
 };

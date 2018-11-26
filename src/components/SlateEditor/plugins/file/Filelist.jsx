@@ -9,11 +9,36 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
-import { FileList } from '@ndla/ui';
+import BEMHelper from 'react-bem-helper';
+import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
+import styled from 'react-emotion';
 import { EditorShape } from '../../../../shapes';
 import { getSchemaEmbed } from '../../schema';
-import EditFile from './EditFile';
+import SingleFile from './SingleFile';
+import AddFileToList from './AddFileToList';
+import config from '../../../../config';
+
+const fileListClasses = BEMHelper('c-file-list');
+
+const StyledButtonDiv = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  & > * {
+    width: 48%;
+  }
+`;
+
+const formatFile = ({ title, type, url, alt, ...rest }, id, t) => ({
+  id,
+  title,
+  alt,
+  type,
+  ...rest,
+  formats: [
+    { url, fileType: type, tooltip: `${t(`form.file.download`)} ${title}` },
+  ],
+});
 
 class Filelist extends React.Component {
   constructor(props) {
@@ -21,17 +46,17 @@ class Filelist extends React.Component {
     const { node, t } = props;
     const { nodes } = getSchemaEmbed(node);
 
-    const files = nodes.map(({ title, type, url }, id) => ({
-      id,
-      title,
-      formats: [
-        { url, fileType: type, tooltip: `${t(`form.file.download`)} ${title}` },
-      ],
-    }));
+    const files = nodes.map((file, id) => formatFile(file, id, t));
 
-    this.state = { files, editMode: false };
-    this.toggleEdit = this.toggleEdit.bind(this);
+    this.state = { files, showFileUploader: false };
+
+    this.onOpenFileUploader = this.onOpenFileUploader.bind(this);
+    this.onCloseFileUploader = this.onCloseFileUploader.bind(this);
     this.onFileInputChange = this.onFileInputChange.bind(this);
+    this.onRemoveFileList = this.onRemoveFileList.bind(this);
+    this.onRemoveFile = this.onRemoveFile.bind(this);
+    this.onAddFileToList = this.onAddFileToList.bind(this);
+    this.onChangeFileData = this.onChangeFileData.bind(this);
   }
 
   onFileInputChange(e) {
@@ -68,42 +93,100 @@ class Filelist extends React.Component {
     editor.onChange(next);
   }
 
-  toggleEdit(e) {
-    e.stopPropagation();
-    this.setState(prevState => ({ editMode: !prevState.editMode }));
+  onRemoveFileList(evt) {
+    evt.stopPropagation();
+    const { node, editor } = this.props;
+    const next = editor.value.change().removeNodeByKey(node.key);
+    editor.onChange(next);
+  }
+
+  onRemoveFile(evt, removedFile) {
+    this.setState(
+      prevState => ({
+        files: prevState.files.filter(file => file.id !== removedFile.id),
+      }),
+      this.onChangeFileData,
+    );
+  }
+
+  onAddFileToList(file) {
+    const { t } = this.props;
+    this.setState(
+      prevState => ({
+        showFileUploader: false,
+        files: prevState.files.concat([
+          formatFile(
+            { ...file, url: config.ndlaApiUrl + file.path, resource: 'file' },
+            prevState.files.length,
+            t,
+          ),
+        ]),
+      }),
+      this.onChangeFileData,
+    );
+  }
+
+  onChangeFileData() {
+    const { node, editor } = this.props;
+    const nodes = this.state.files.map(file => ({
+      path: file.path,
+      type: file.type,
+      alt: file.alt,
+      title: file.title,
+      resource: file.resource,
+    }));
+    const next = editor.value.change().setNodeByKey(node.key, {
+      data: {
+        nodes,
+      },
+    });
+    editor.onChange(next);
+  }
+
+  onOpenFileUploader() {
+    this.setState({ showFileUploader: true });
+  }
+
+  onCloseFileUploader() {
+    this.setState({ showFileUploader: false });
   }
 
   render() {
-    const { files, editMode } = this.state;
+    const { files, showFileUploader } = this.state;
+    if (!files.length === 0) {
+      return null;
+    }
+
     const { t } = this.props;
 
     return (
       <Fragment>
-        {editMode ? (
-          <EditFile
-            heading={t(`form.file.label`)}
-            files={files}
-            onExit={this.toggleEdit}
-            onFileListInputChange={this.onFileInputChange}
-            submitted={false}
-          />
-        ) : (
-          <div
-            role="button"
-            className="c-placeholder-editmode"
-            tabIndex={0}
-            onKeyPress={this.toggleEdit}
-            onClick={this.toggleEdit}>
-            {files &&
-              files.length > 0 && (
-                <FileList
-                  heading={t(`form.file.label`)}
-                  id="file-embed"
-                  files={files}
-                />
-              )}
-          </div>
-        )}
+        <AddFileToList
+          onFileSave={this.onAddFileToList}
+          onClose={this.onCloseFileUploader}
+          showFileUploader={showFileUploader}
+        />
+        <section {...fileListClasses()}>
+          <h1 {...fileListClasses('heading')}>{t('form.file.label')}</h1>
+          <StyledButtonDiv>
+            <Button onClick={this.onOpenFileUploader}>
+              {t('form.file.addFile')}
+            </Button>
+            <Button onClick={this.onRemoveFileList}>
+              {t('form.file.removeList')}
+            </Button>
+          </StyledButtonDiv>
+          <ul {...fileListClasses('files')}>
+            {files.map(file => (
+              <SingleFile
+                key={`file-${file.id}-${file.formats[0].url}`}
+                file={file}
+                onFileInputChange={this.onFileInputChange}
+                onRemoveFile={this.onRemoveFile}
+              />
+            ))}
+          </ul>
+        </section>
       </Fragment>
     );
   }

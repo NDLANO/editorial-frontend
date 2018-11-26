@@ -50,7 +50,7 @@ export function* updateImage(image) {
 
 export function* createImage(image, file, history, editingArticle) {
   try {
-    const formData = yield call(createFormData, image, file);
+    const formData = yield call(createFormData, file, image);
     const createdImage = yield call(api.postImage, formData);
     yield put(actions.setImage({ ...createdImage, language: image.language }));
     yield put(

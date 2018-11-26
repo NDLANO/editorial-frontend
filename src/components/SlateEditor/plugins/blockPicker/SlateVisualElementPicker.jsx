@@ -5,20 +5,33 @@ import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 import { defaultBlocks } from '../../utils';
 
-const SlateEmbedPicker = ({ resource, onEmbedClose, onInsertBlock, t }) => {
-  const onEmbedAdd = embed => {
-    const blockToInsert = defaultBlocks.defaultEmbedBlock(embed);
-    onInsertBlock(blockToInsert);
-    onEmbedClose();
+const SlateVisualElementPicker = ({
+  resource,
+  onVisualElementClose,
+  onInsertBlock,
+  t,
+}) => {
+  const onVisualElementAdd = (visualElement, type = 'embed') => {
+    if (type === 'embed') {
+      const blockToInsert = defaultBlocks.defaultEmbedBlock(visualElement);
+      onInsertBlock(blockToInsert);
+    } else if (type === 'file') {
+      const blockToInsert = defaultBlocks.defaultFilesBlock({
+        type: 'file',
+        nodes: [visualElement],
+      });
+      onInsertBlock(blockToInsert);
+    }
+    onVisualElementClose();
   };
   return (
     <Modal
       controllable
       isOpen
-      onClose={onEmbedClose}
+      onClose={onVisualElementClose}
       size={resource === 'h5p' ? 'fullscreen' : 'large'}
       backgroundColor="white"
-      minHeight="85vh">
+      minHeight="90vh">
       {onCloseModal => (
         <Fragment>
           <ModalHeader>
@@ -30,8 +43,8 @@ const SlateEmbedPicker = ({ resource, onEmbedClose, onInsertBlock, t }) => {
           <ModalBody>
             <VisualElementSearch
               selectedResource={resource}
-              handleVisualElementChange={onEmbedAdd}
-              closeModal={onEmbedClose}
+              handleVisualElementChange={onVisualElementAdd}
+              closeModal={onVisualElementClose}
             />
           </ModalBody>
         </Fragment>
@@ -40,11 +53,10 @@ const SlateEmbedPicker = ({ resource, onEmbedClose, onInsertBlock, t }) => {
   );
 };
 
-SlateEmbedPicker.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
+SlateVisualElementPicker.propTypes = {
   resource: PropTypes.string.isRequired,
-  onEmbedClose: PropTypes.func.isRequired,
+  onVisualElementClose: PropTypes.func.isRequired,
   onInsertBlock: PropTypes.func.isRequired,
 };
 
-export default injectT(SlateEmbedPicker);
+export default injectT(SlateVisualElementPicker);

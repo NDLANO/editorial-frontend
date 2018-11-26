@@ -365,7 +365,9 @@ const phrases = {
       video: 'Video',
       audio: 'Lyd',
       h5p: 'H5P',
+      url: 'Ressurs fra lenke',
       related: 'Relatert artikkel',
+      file: 'Fil',
     },
   },
   form: {
@@ -435,6 +437,11 @@ const phrases = {
       title: 'Status',
       change: 'Endre status',
       qualityAssurance: 'Kvalitetsikring',
+      deleteLanguageVersion: {
+        button: 'Slett språkversjon',
+        title: 'Slett språkversjon',
+        modal: 'Er du sikker på at du vil slette denne språkversjonen?',
+      },
     },
     status: {
       created: 'Opprettet',
@@ -503,6 +510,12 @@ const phrases = {
         text: 'Tekst',
         addTitle: 'Legg til lenke',
         changeTitle: 'Endre lenke',
+        required: 'Lenke er påkrevd',
+        invalid: 'Ugyldig lenke',
+        preview: 'Forhåndsvis lenke',
+        unSupported: 'Innholdstypen i lenken er ikke støttet',
+        newUrlResource: 'Ny ressurs',
+        changeUrlResource: 'Rediger ressurs: {type}',
       },
       footnote: {
         title: 'Tittel',
@@ -643,11 +656,20 @@ const phrases = {
     },
     file: {
       label: 'Filer',
+      file: {
+        label: 'Fil',
+      },
       download: 'Last ned:',
+      alt: {
+        label: 'Alt-tekst',
+        placeholder: 'Alt-tekst',
+      },
       title: {
         label: 'Filtittel',
         placeholder: 'Filtittel',
       },
+      addFile: 'Legg til fil',
+      removeList: 'Fjern filliste',
     },
   },
   validation: {

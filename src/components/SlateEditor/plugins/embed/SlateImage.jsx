@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { injectT } from '@ndla/i18n';
 import { Figure } from '@ndla/ui';
 import Button from '@ndla/button';
 import { findDOMNode } from 'slate-react';
@@ -66,7 +65,6 @@ class SlateImage extends React.Component {
       attributes,
       onRemoveClick,
       locale,
-      t,
       ...rest
     } = this.props;
 
@@ -102,12 +100,7 @@ class SlateImage extends React.Component {
           figureType="image"
         />
         {this.state.editModus ? (
-          <EditImage
-            embed={embed}
-            t={t}
-            closeEdit={this.toggleEditModus}
-            {...rest}
-          />
+          <EditImage embed={embed} closeEdit={this.toggleEditModus} {...rest} />
         ) : (
           <Button
             stripped
@@ -143,4 +136,4 @@ SlateImage.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default injectT(SlateImage);
+export default SlateImage;

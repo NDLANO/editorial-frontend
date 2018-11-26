@@ -37,7 +37,7 @@ export function* watchFetchAudio() {
 
 export function* updateAudio(audio, file) {
   try {
-    const formData = yield call(createFormData, audio, file);
+    const formData = yield call(createFormData, file, audio);
     const updatedAudio = yield call(api.updateAudio, audio.id, formData);
     yield put(actions.setAudio({ ...updatedAudio, language: audio.language }));
     yield put(actions.updateAudioSuccess());
@@ -51,7 +51,7 @@ export function* updateAudio(audio, file) {
 
 export function* createAudio(audio, file, history) {
   try {
-    const formData = yield call(createFormData, audio, file);
+    const formData = yield call(createFormData, file, audio);
     const createdAudio = yield call(api.postAudio, formData);
     yield put(actions.setAudio({ ...createdAudio, language: audio.language }));
     yield put(actions.updateAudioSuccess());

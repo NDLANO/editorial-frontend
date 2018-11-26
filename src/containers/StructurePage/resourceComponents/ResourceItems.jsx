@@ -25,6 +25,7 @@ import {
   RESOURCE_FILTER_CORE,
   RESOURCE_FILTER_SUPPLEMENTARY,
 } from '../../../constants';
+import config from '../../../config';
 
 class ResourceItems extends React.PureComponent {
   constructor() {
@@ -90,7 +91,9 @@ class ResourceItems extends React.PureComponent {
     const { deleteId, error } = this.state;
     return (
       <ul {...classes('list')}>
-        <MakeDndList onDragEnd={this.onDragEnd}>
+        <MakeDndList
+          onDragEnd={this.onDragEnd}
+          disableDnd={!config.enableFullTaxonomy}>
           {resources.map(resource => (
             <Resource
               contentType={contentType}

@@ -351,7 +351,9 @@ const phrases = {
       video: 'Video',
       audio: 'Audio',
       h5p: 'H5P',
+      url: 'Resource from link',
       related: 'Related article',
+      file: 'File',
     },
   },
   form: {
@@ -421,6 +423,11 @@ const phrases = {
       title: 'Status',
       change: 'Change status',
       qualityAssurance: 'Quality assurance',
+      deleteLanguageVersion: {
+        button: 'Delete language version',
+        title: 'Delete language version',
+        modal: 'Are you sure that you want to delete this language version?',
+      },
     },
     status: {
       created: 'Created',
@@ -489,6 +496,12 @@ const phrases = {
         text: 'Text',
         addTitle: 'Add link',
         changeTitle: 'Change link',
+        required: 'Link is required',
+        invalid: 'Invalid link',
+        preview: 'Preview link',
+        unSupported: 'Content in link is not supported',
+        newUrlResource: 'New resource',
+        changeUrlResource: 'Edit resource: {type}',
       },
       footnote: {
         title: 'Title',
@@ -626,11 +639,20 @@ const phrases = {
     },
     file: {
       label: 'Files',
+      file: {
+        label: 'File',
+      },
+      alt: {
+        label: 'Alt text',
+        placeholder: 'Alt text',
+      },
       download: 'Download:',
       title: {
         label: 'File title',
         placeholder: 'File title',
       },
+      addFile: 'Add file',
+      removeList: 'Remove file list',
     },
   },
   validation: {

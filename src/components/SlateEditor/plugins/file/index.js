@@ -17,7 +17,6 @@ export default () => {
   /* eslint-disable react/prop-types */
   const renderNode = props => {
     const { node } = props;
-
     switch (node.type) {
       case 'file':
         return <Filelist {...props} />;

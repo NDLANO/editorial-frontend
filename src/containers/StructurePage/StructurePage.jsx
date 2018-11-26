@@ -35,6 +35,7 @@ import {
 } from '../../modules/taxonomy';
 import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
 import RoundIcon from '../../components/RoundIcon';
+import config from '../../config';
 
 export class StructurePage extends React.PureComponent {
   constructor(props) {
@@ -280,10 +281,12 @@ export class StructurePage extends React.PureComponent {
             }
             taxonomy
             addButton={
-              <InlineAddButton
-                title={t('taxonomy.addSubject')}
-                action={this.addSubject}
-              />
+              config.enableFullTaxonomy && (
+                <InlineAddButton
+                  title={t('taxonomy.addSubject')}
+                  action={this.addSubject}
+                />
+              )
             }
             hidden={editStructureHidden}>
             <div id="plumbContainer">

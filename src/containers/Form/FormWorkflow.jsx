@@ -18,6 +18,7 @@ import { CommonFieldPropsShape } from '../../shapes';
 import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
 import FormQualityAssurance from './components/FormQualityAssurance';
+import FormDeleteLanguageVersion from './components/FormDeleteLanguageVersion';
 
 class FormWorkflow extends Component {
   constructor(props) {
@@ -94,6 +95,7 @@ class FormWorkflow extends Component {
           possibleStatuses={possibleStatuses}
           onUpdateStatus={this.onUpdateStatus}
         />
+        <FormDeleteLanguageVersion model={model} />
         <FormQualityAssurance
           getArticle={getArticle}
           model={model}

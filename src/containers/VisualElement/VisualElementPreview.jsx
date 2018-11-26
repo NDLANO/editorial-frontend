@@ -58,14 +58,12 @@ class VisualElementPreview extends Component {
     return (
       <Field>
         <div {...visualElementClasses('preview')}>
-          <div>
-            <DisplayEmbedTag
-              embedTag={value}
-              changeVisualElement={changeVisualElement}
-              onRemoveClick={this.removeVisualElement}
-              {...visualElementClasses(value.resource)}
-            />
-          </div>
+          <DisplayEmbedTag
+            embedTag={value}
+            changeVisualElement={changeVisualElement}
+            onRemoveClick={this.removeVisualElement}
+            {...visualElementClasses(value.resource)}
+          />
           <MetaInformation {...element} translations={metaTranslations} />
         </div>
       </Field>

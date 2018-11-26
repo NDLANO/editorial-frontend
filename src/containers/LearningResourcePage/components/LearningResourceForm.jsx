@@ -18,7 +18,6 @@ import Accordion, {
 } from '@ndla/accordion';
 import Button from '@ndla/button';
 import { Spinner } from '@ndla/editor';
-import config from '../../../config';
 import reformed from '../../../components/reformed';
 import validateSchema, {
   checkTouchedInvalidField,
@@ -56,6 +55,7 @@ import {
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { articleConverter } from '../../../modules/draft/draft';
+import config from '../../../config';
 
 const findFootnotes = content =>
   content
@@ -329,7 +329,7 @@ class LearningResourceForm extends Component {
         ),
       },
     ];
-    if (model.id && config.taxonomyEnabled) {
+    if (model.id && config.enableFullTaxonomy) {
       panels.splice(1, 0, {
         id: 'learning-resource-taxonomy',
         title: t('form.taxonomytSection'),

@@ -185,6 +185,17 @@ export const AudioShape = PropTypes.shape({
   }),
 });
 
+export const EmbedFileShape = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  formats: PropTypes.arrayOf(
+    PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      fileType: PropTypes.string.isRequired,
+      tooltip: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+});
+
 export const PossibleStatusShape = PropTypes.shape({
   CREATED: PropTypes.arrayOf(PropTypes.string),
   PROPOSAL: PropTypes.arrayOf(PropTypes.string),
@@ -198,4 +209,11 @@ export const PossibleStatusShape = PropTypes.shape({
   UNPUBLISHED: PropTypes.arrayOf(PropTypes.string),
   ARCHIEVED: PropTypes.arrayOf(PropTypes.string),
   QUEUED_FOR_PUBLISHING: PropTypes.arrayOf(PropTypes.string),
+});
+
+export const HistoryShape = PropTypes.shape({
+  push: PropTypes.func.isRequired,
+  goBack: PropTypes.func.isRequired,
+  block: PropTypes.func.isRequired,
+  replace: PropTypes.func.isRequired,
 });

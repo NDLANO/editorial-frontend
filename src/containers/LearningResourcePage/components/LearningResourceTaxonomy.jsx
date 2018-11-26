@@ -11,15 +11,6 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FormHeader, FormDropdown } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
-import { Additional, Core } from '@ndla/icons/common';
-import {
-  filterbuttonwrapper,
-  FilterButton,
-  FilterCheckBox,
-  FilterListTR,
-  FilterTable,
-  SubjectName,
-} from './LearningResourceTaxonomyStyles';
 import { CommonFieldPropsShape, TaxonomyShape } from '../../../shapes';
 import {
   fetchResourceTypes,
@@ -32,12 +23,27 @@ import {
   filterToSubjects,
   sortByName,
   connectionTopicsToParent,
+  selectedResourceTypeValue,
 } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
 import TopicConnections from './TopicConnections';
+import FilterConnections from './FilterConnections';
 
-const FILTER_SUPPLEMENTARY_ID = 'urn:relevance:supplementary';
-const FILTER_CORE_ID = 'urn:relevance:core';
+const resourceTypesToOptionList = availableResourceTypes =>
+  availableResourceTypes.map(
+    resourceType =>
+      resourceType.subtypes ? (
+        resourceType.subtypes.map(subtype => (
+          <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
+            {resourceType.name} - {subtype.name}
+          </option>
+        ))
+      ) : (
+        <option key={resourceType.id} value={resourceType.id}>
+          {resourceType.name}
+        </option>
+      ),
+  );
 
 class LearningResourceTaxonomy extends Component {
   constructor(props) {
@@ -57,6 +63,8 @@ class LearningResourceTaxonomy extends Component {
     this.getOnChangeFunction = this.getOnChangeFunction.bind(this);
     this.removeConnection = this.removeConnection.bind(this);
     this.setPrimaryConnection = this.setPrimaryConnection.bind(this);
+    this.onChangeSelectedResource = this.onChangeSelectedResource.bind(this);
+    this.updateFilter = this.updateFilter.bind(this);
   }
 
   async componentDidMount() {
@@ -102,6 +110,36 @@ class LearningResourceTaxonomy extends Component {
     } catch (e) {
       handleError(e);
     }
+  }
+
+  onChangeSelectedResource(e) {
+    const {
+      taxonomy: { availableResourceTypes },
+    } = this.state;
+    const options = e.target.value.split(',');
+    const selectedResource = availableResourceTypes.find(
+      resourceType => resourceType.id === options[0],
+    );
+    const val = [
+      {
+        name: selectedResource.name,
+        id: selectedResource.id,
+      },
+    ];
+    if (options.length > 1) {
+      const subType = selectedResource.subtypes.find(
+        subtype => subtype.id === options[1],
+      );
+      val.push({
+        id: subType.id,
+        name: subType.name,
+        parentId: selectedResource.id,
+      });
+    }
+    const onChange = this.getOnChangeFunction();
+    onChange({
+      target: { name: 'resourceTypes', value: val },
+    });
   }
 
   getOnChangeFunction() {
@@ -197,21 +235,6 @@ class LearningResourceTaxonomy extends Component {
     });
   }
 
-  selectedResourceTypeValue() {
-    const { resourceTypes } = this.props.model;
-    if (!resourceTypes.length) {
-      return '';
-    }
-    const withParentId = resourceTypes.find(
-      resourceType => resourceType.parentId,
-    );
-    if (withParentId) {
-      return `${withParentId.parentId},${withParentId.id}`;
-    }
-    // return first match (multiple selections not possible..)
-    return resourceTypes[0].id;
-  }
-
   updateFilter(filter, relevanceId, remove) {
     const updatedFilters = this.props.model.filter.filter(
       modelFilter => modelFilter.id !== filter.id,
@@ -227,102 +250,6 @@ class LearningResourceTaxonomy extends Component {
     });
   }
 
-  renderSubjectFilters() {
-    const {
-      t,
-      model: { filter, topics },
-    } = this.props;
-    const { taxonomy, structure } = this.state;
-    const availableSubjects = {};
-    topics.forEach(topic => {
-      availableSubjects[`urn:${topic.path.split('/')[1]}`] = true;
-    });
-    return (
-      <FilterTable>
-        <tbody>
-          {Object.keys(availableSubjects).map((filterSubjectKey, index) => {
-            const subject = structure.find(
-              structureItem => structureItem.id === filterSubjectKey,
-            );
-            if (!subject) {
-              return null;
-            }
-            return (
-              <Fragment key={filterSubjectKey}>
-                <tr>
-                  <td>
-                    <SubjectName firstSubject={index === 0}>
-                      {subject.name}:
-                    </SubjectName>
-                  </td>
-                </tr>
-                {taxonomy.availableFilters[filterSubjectKey].map(
-                  currentFilter => {
-                    const useFilter = filter.find(
-                      resourceFilter => resourceFilter.id === currentFilter.id,
-                    );
-                    const active = useFilter !== undefined;
-                    return (
-                      <FilterListTR key={currentFilter.id} active={active}>
-                        <td>
-                          <FilterCheckBox
-                            type="button"
-                            onClick={() =>
-                              this.updateFilter(
-                                currentFilter,
-                                FILTER_CORE_ID,
-                                active,
-                              )
-                            }
-                            className={active ? 'checkboxItem--checked' : ''}>
-                            <span />
-                            <span>{currentFilter.name}</span>
-                          </FilterCheckBox>
-                        </td>
-                        <td>
-                          <div className={filterbuttonwrapper}>
-                            <FilterButton
-                              type="button"
-                              selected={
-                                useFilter &&
-                                useFilter.relevanceId ===
-                                  FILTER_SUPPLEMENTARY_ID
-                              }
-                              onClick={() =>
-                                this.updateFilter(
-                                  currentFilter,
-                                  FILTER_SUPPLEMENTARY_ID,
-                                )
-                              }>
-                              <Additional className="c-icon--22" />{' '}
-                              {t('taxonomy.filters.additional')}
-                            </FilterButton>
-                            <FilterButton
-                              type="button"
-                              selected={
-                                useFilter &&
-                                useFilter.relevanceId === FILTER_CORE_ID
-                              }
-                              onClick={() =>
-                                this.updateFilter(currentFilter, FILTER_CORE_ID)
-                              }>
-                              <Core className="c-icon--22" />{' '}
-                              {t('taxonomy.filters.core')}
-                            </FilterButton>
-                          </div>
-                        </td>
-                      </FilterListTR>
-                    );
-                  },
-                )}
-              </Fragment>
-            );
-          })}
-        </tbody>
-      </FilterTable>
-    );
-  }
-
   render() {
     const {
       taxonomy: {
@@ -334,6 +261,7 @@ class LearningResourceTaxonomy extends Component {
       structure,
     } = this.state;
     const { t, model, taxonomyIsLoading } = this.props;
+    const { resourceTypes } = model;
 
     if (taxonomyIsLoading || !hasLoadedData) {
       return <Spinner />;
@@ -346,50 +274,10 @@ class LearningResourceTaxonomy extends Component {
           subTitle={t('taxonomy.resourceTypes.subTitle')}
         />
         <FormDropdown
-          value={this.selectedResourceTypeValue()}
-          onChange={e => {
-            const options = e.target.value.split(',');
-            const selectedResource = availableResourceTypes.find(
-              resourceType => resourceType.id === options[0],
-            );
-            const val = [
-              {
-                name: selectedResource.name,
-                id: selectedResource.id,
-              },
-            ];
-            if (options.length > 1) {
-              const subType = selectedResource.subtypes.find(
-                subtype => subtype.id === options[1],
-              );
-              val.push({
-                id: subType.id,
-                name: subType.name,
-                parentId: selectedResource.id,
-              });
-            }
-            const onChange = this.getOnChangeFunction();
-            onChange({
-              target: { name: 'resourceTypes', value: val },
-            });
-          }}>
+          value={selectedResourceTypeValue(resourceTypes)}
+          onChange={this.onChangeSelectedResource}>
           <option value="">{t('taxonomy.resourceTypes.placeholder')}</option>
-          {availableResourceTypes.map(
-            resourceType =>
-              resourceType.subtypes ? (
-                resourceType.subtypes.map(subtype => (
-                  <option
-                    value={`${resourceType.id},${subtype.id}`}
-                    key={subtype.id}>
-                    {resourceType.name} - {subtype.name}
-                  </option>
-                ))
-              ) : (
-                <option key={resourceType.id} value={resourceType.id}>
-                  {resourceType.name}
-                </option>
-              ),
-          )}
+          {resourceTypesToOptionList(availableResourceTypes)}
         </FormDropdown>
         <TopicConnections
           availableFilters={availableFilters}
@@ -403,13 +291,12 @@ class LearningResourceTaxonomy extends Component {
         />
 
         {model.topics.length > 0 && (
-          <Fragment>
-            <FormHeader
-              title={t('taxonomy.filters.title')}
-              subTitle={t('taxonomy.filters.subTitle')}
-            />
-            {this.renderSubjectFilters()}
-          </Fragment>
+          <FilterConnections
+            model={model}
+            structure={structure}
+            taxonomy={this.state.taxonomy}
+            updateFilter={this.updateFilter}
+          />
         )}
       </Fragment>
     );

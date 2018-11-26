@@ -242,6 +242,20 @@ const getCurrentTopic = ({ params, topics }) => {
   return {};
 };
 
+const selectedResourceTypeValue = resourceTypes => {
+  if (!resourceTypes.length) {
+    return '';
+  }
+  const withParentId = resourceTypes.find(
+    resourceType => resourceType.parentId,
+  );
+  if (withParentId) {
+    return `${withParentId.parentId},${withParentId.id}`;
+  }
+  // return first match (multiple selections not possible..)
+  return resourceTypes[0].id;
+};
+
 export {
   flattenResourceTypes,
   sortIntoCreateDeleteUpdate,
@@ -254,4 +268,5 @@ export {
   filterToSubjects,
   connectionTopicsToParent,
   sortByName,
+  selectedResourceTypeValue,
 };

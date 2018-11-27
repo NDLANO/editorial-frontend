@@ -88,4 +88,13 @@ export const getPathsFromUrl = url =>
   url
     .split('/')
     .filter(item => item.includes('urn:'))
-    .reduce((acc, curr) => [...acc, acc.concat(curr).join('/')], []);
+    .reduce(
+      (acc, curr) => [
+        ...acc,
+        acc
+          .slice(-1)
+          .concat(curr)
+          .join('/'),
+      ],
+      [],
+    );

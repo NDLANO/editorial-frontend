@@ -298,7 +298,6 @@ export class StructurePage extends React.PureComponent {
       subject: subjects.find(sub => sub.id === params.subject),
     });
     const linkViewOpen = jsPlumbConnections.length > 0;
-
     return (
       <ErrorBoundary>
         <OneColumn>
@@ -326,30 +325,27 @@ export class StructurePage extends React.PureComponent {
                 structure={subjects}
                 filters={filters}
                 toggleOpen={this.handleStructureToggle}
+                renderListItems={listProps => (
+                  <FolderItem
+                    refFunc={this.refFunc}
+                    match={match}
+                    {...listProps}
+                    getAllSubjects={this.getAllSubjects}
+                    onAddSubjectTopic={this.onAddSubjectTopic}
+                    showLink={this.showLink}
+                    subjectFilters={filters[params.subject]}
+                    onAddExistingTopic={this.onAddExistingTopic}
+                    refreshTopics={this.refreshTopics}
+                    linkViewOpen={linkViewOpen}
+                    getFilters={this.getFilters}
+                    activeFilters={activeFilters}
+                    setPrimary={this.setPrimary}
+                    toggleFilter={this.toggleFilter}
+                    deleteTopicLink={this.deleteTopicLink}
+                    locale={locale}
+                  />
+                )}
               />
-              {/* {subjects.map(subject => (
-                <FolderItem
-                  {...subject}
-                  refFunc={this.refFunc}
-                  key={subject.id}
-                  topics={topics[subject.id]}
-                  active={subject.id.replace('urn:', '') === params.subject}
-                  match={match}
-                  getAllSubjects={this.getAllSubjects}
-                  onAddSubjectTopic={this.onAddSubjectTopic}
-                  showLink={this.showLink}
-                  onAddExistingTopic={this.onAddExistingTopic}
-                  refreshTopics={this.refreshTopics}
-                  linkViewOpen={linkViewOpen}
-                  getFilters={this.getFilters}
-                  subjectFilters={filters}
-                  activeFilters={activeFilters}
-                  setPrimary={this.setPrimary}
-                  toggleFilter={this.toggleFilter}
-                  deleteTopicLink={this.deleteTopicLink}
-                  locale={locale}
-                />
-              ))} */}
               <div ref={this.starButton}>
                 {linkViewOpen && <RoundIcon icon={<Star />} />}
               </div>

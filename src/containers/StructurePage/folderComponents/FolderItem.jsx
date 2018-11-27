@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { string, bool, arrayOf, object, shape, func } from 'prop-types';
+import { string, bool, arrayOf, objectOf, shape, func } from 'prop-types';
 import Button from '@ndla/button';
 import { Link as LinkIcon } from '@ndla/icons/editor';
 import BEMHelper from 'react-bem-helper';
@@ -16,10 +16,7 @@ import EditLinkButton from './EditLinkButton';
 import RoundIcon from '../../../components/RoundIcon';
 import FilterView from './FilterView';
 
-import FolderLink from '../../../components/FolderLink';
 import config from '../../../config';
-import { removeLastItemFromUrl } from '../../../util/routeHelpers';
-import SubFolders from './SubFolders';
 
 export const classes = new BEMHelper({
   name: 'folder',
@@ -28,64 +25,54 @@ export const classes = new BEMHelper({
 
 const FolderItem = ({
   name,
-  path,
-  active,
+  pathToString,
   match,
   id,
+  isOpen,
   refFunc,
   showLink,
   linkViewOpen,
   activeFilters,
-  topics,
-  subtopics,
   toggleFilter,
   setPrimary,
   deleteTopicLink,
+  filters,
   ...rest
 }) => {
-  const { url, params } = match;
+  const { url } = match;
   const type = id.includes('subject') ? 'subject' : 'topic';
-  const grayedOut = !active && params.subject && type === 'subject';
-  const isMainActive = active && path === url.replace('/structure', '');
-  const { search } = window.location;
+  const isMainActive = pathToString === url.replace('/structure', '');
   const uniqueId = type === 'topic' ? `${rest.parent}/${id}` : id;
-  const toLink = isMainActive
-    ? removeLastItemFromUrl(url).concat(search)
-    : `/structure${path}${search}`;
-  const sendToSubFolders = {
-    type,
-    active,
-    topics: topics || subtopics,
-    isMainActive,
-    activeFilters,
-    params,
-    match,
-    showLink,
-    refFunc,
-    setPrimary,
-    linkViewOpen,
-    ...rest,
-  };
-  const settingsButton = active &&
+
+  const settingsButton = isOpen &&
     config.enableFullTaxonomy && (
-      <SettingsMenu id={id} name={name} type={type} path={path} {...rest} />
+      <SettingsMenu
+        id={id}
+        name={name}
+        type={type}
+        path={pathToString}
+        topicFilters={filters}
+        {...rest}
+      />
     );
-  const showLinkButton = type === 'topic' &&
+  const showLinkButton = isOpen &&
+    type === 'topic' &&
     config.enableFullTaxonomy &&
     isMainActive && (
       <Button stripped onClick={() => showLink(id, rest.parent)}>
         <RoundIcon open={linkViewOpen} icon={<LinkIcon />} />
       </Button>
     );
-  const editLinkButton = type === 'subject' && (
-    <EditLinkButton
-      refFunc={refFunc}
-      id={id}
-      setPrimary={setPrimary}
-      deleteTopicLink={deleteTopicLink}
-    />
-  );
-  const subjectFilters = active &&
+  const editLinkButton = isOpen &&
+    type === 'subject' && (
+      <EditLinkButton
+        refFunc={refFunc}
+        id={id}
+        setPrimary={setPrimary}
+        deleteTopicLink={deleteTopicLink}
+      />
+    );
+  const subjectFilters = isOpen &&
     type === 'subject' && (
       <FilterView
         subjectFilters={rest.subjectFilters}
@@ -97,28 +84,19 @@ const FolderItem = ({
   return (
     <React.Fragment>
       <div id={uniqueId} data-cy="folderWrapper" {...classes('wrapper')}>
-        <FolderLink
-          toLink={toLink}
-          name={name}
-          active={active}
-          grayedOut={grayedOut}
-        />
         {showLinkButton}
         {editLinkButton}
         {settingsButton}
         {subjectFilters}
       </div>
-      <SubFolders {...sendToSubFolders} />
     </React.Fragment>
   );
 };
 
 FolderItem.propTypes = {
   name: string.isRequired,
-  path: string,
-  active: bool,
-  topics: arrayOf(object),
-  subtopics: arrayOf(object),
+  pathToString: string,
+  isOpen: bool,
   match: shape({
     params: shape({
       topic1: string,
@@ -126,7 +104,7 @@ FolderItem.propTypes = {
       subject: string,
     }),
   }),
-  id: string,
+  id: string.isRequired,
   refFunc: func,
   showLink: func,
   linkViewOpen: bool,
@@ -135,6 +113,7 @@ FolderItem.propTypes = {
   setPrimary: func,
   deleteTopicLink: func,
   refreshTopics: func,
+  filters: objectOf(arrayOf(string)),
 };
 
 export default FolderItem;

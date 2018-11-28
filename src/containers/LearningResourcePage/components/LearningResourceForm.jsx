@@ -247,7 +247,7 @@ class LearningResourceForm extends Component {
           schema.fields.introduction,
           schema.fields.content,
         ].some(field => checkTouchedInvalidField(field, submitted)),
-        component: (
+        component: () => (
           <LearningResourceContent
             commonFieldProps={commonFieldProps}
             bindInput={bindInput}>
@@ -268,7 +268,7 @@ class LearningResourceForm extends Component {
           schema.fields.processors,
           schema.fields.license,
         ].some(field => checkTouchedInvalidField(field, submitted)),
-        component: (
+        component: () => (
           <FormCopyright
             model={model}
             commonFieldProps={commonFieldProps}
@@ -285,7 +285,7 @@ class LearningResourceForm extends Component {
           schema.fields.tags,
           schema.fields.metaImageAlt,
         ].some(field => checkTouchedInvalidField(field, submitted)),
-        component: (
+        component: () => (
           <LearningResourceMetadata
             commonFieldProps={commonFieldProps}
             bindInput={bindInput}
@@ -301,7 +301,7 @@ class LearningResourceForm extends Component {
         hasError: [schema.fields.notes].some(field =>
           checkTouchedInvalidField(field, submitted),
         ),
-        component: (
+        component: () => (
           <FormWorkflow
             commonFieldProps={commonFieldProps}
             articleStatus={articleStatus}
@@ -316,11 +316,12 @@ class LearningResourceForm extends Component {
         id: 'learning-resource-taxonomy',
         title: t('form.taxonomytSection'),
         className: 'u-6/6',
-        component: (
+        component: closePanel => (
           <LearningResourceTaxonomy
             commonFieldProps={commonFieldProps}
             language={model.language}
             articleId={articleId}
+            closePanel={closePanel}
           />
         ),
       });
@@ -350,7 +351,9 @@ class LearningResourceForm extends Component {
                       id={panel.id}
                       hasError={panel.hasError}
                       isOpen={openIndexes.includes(panel.id)}>
-                      <div className={panel.className}>{panel.component}</div>
+                      <div className={panel.className}>
+                        {panel.component(() => handleItemClick(panel.id))}
+                      </div>
                     </AccordionPanel>
                   )}
                 </React.Fragment>

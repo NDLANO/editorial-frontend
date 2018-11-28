@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FormHeader, FormDropdown } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
+import Button from '@ndla/button';
 import { Field } from '../../../components/Fields';
 import { formClasses } from '../../Form';
 import {
@@ -370,7 +371,7 @@ class LearningResourceTaxonomy extends Component {
       isSaving,
       saveSuccess,
     } = this.state;
-    const { t } = this.props;
+    const { t, closePanel } = this.props;
 
     if (isLoading || resourceIsLoading) {
       return <Spinner />;
@@ -410,6 +411,9 @@ class LearningResourceTaxonomy extends Component {
           />
         )}
         <Field right {...formClasses('form-actions')}>
+          <Button outline onClick={closePanel} disabled={isSaving}>
+            {t('form.abort')}
+          </Button>
           <SaveButton
             isSaving={isSaving}
             showSaved={saveSuccess}
@@ -425,6 +429,7 @@ class LearningResourceTaxonomy extends Component {
 LearningResourceTaxonomy.propTypes = {
   language: PropTypes.string,
   articleId: PropTypes.string,
+  closePanel: PropTypes.func,
 };
 
 export default injectT(LearningResourceTaxonomy);

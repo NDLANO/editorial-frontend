@@ -61,16 +61,14 @@ class LearningResourceTaxonomy extends Component {
         resourceTypes: [],
         filter: [],
         topics: [],
-        loading: true,
+        isLoadingResource: true,
       },
       taxonomy: {
-        resourceTypes: [],
-        filters: [],
+        allFilters: [],
         allTopics: [],
-        relevances: [],
         availableFilters: {},
         availableResourceTypes: [],
-        isLoading: false,
+        isLoadingTaxonomy: false,
       },
       isSaving: false,
       saveSuccess: false,
@@ -78,7 +76,6 @@ class LearningResourceTaxonomy extends Component {
         resourceTypes: [],
         filter: [],
         topics: [],
-        loading: false,
       },
     };
     this.retriveBreadCrumbs = this.retriveBreadCrumbs.bind(this);
@@ -99,7 +96,7 @@ class LearningResourceTaxonomy extends Component {
     try {
       const [
         allResourceTypes,
-        filters,
+        allFilters,
         allTopics,
         subjects,
       ] = await Promise.all([
@@ -119,10 +116,12 @@ class LearningResourceTaxonomy extends Component {
           availableResourceTypes: allResourceTypes.filter(
             resourceType => resourceType.name,
           ),
-          availableFilters: filterToSubjects(filters.filter(filt => filt.name)),
-          filters: filters.filter(filt => filt.name),
+          availableFilters: filterToSubjects(
+            allFilters.filter(filt => filt.name),
+          ),
+          allFilters: allFilters.filter(filt => filt.name),
           allTopics: allTopics.filter(topic => topic.name),
-          isLoading: false,
+          isLoadingTaxonomy: false,
         },
         structure: sortedSubjects,
       });
@@ -202,7 +201,7 @@ class LearningResourceTaxonomy extends Component {
         } = await fetchFullResource(resource[0].id, language);
 
         const topics = await Promise.all(
-          // Need to fetch each topic seperate because path is still not returned in parentTopics
+          // Need to fetch each topic seperate because path is not returned in parentTopics
           parentTopics.map(async item => {
             const topicArticle = await fetchTopicArticle(item.id, language);
             return {
@@ -218,7 +217,7 @@ class LearningResourceTaxonomy extends Component {
             resourceTypes,
             filter: filters,
             topics,
-            loading: false,
+            isLoadingResource: false,
           },
           taxonomyChanges: {
             topics,
@@ -360,12 +359,12 @@ class LearningResourceTaxonomy extends Component {
   render() {
     const {
       taxonomy: {
-        isLoading,
+        isLoadingTaxonomy,
         availableResourceTypes,
         availableFilters,
         allTopics,
       },
-      resourceTaxonomy: { loading: resourceIsLoading },
+      resourceTaxonomy: { isLoadingResource },
       taxonomyChanges: { resourceTypes, topics, filter },
       structure,
       isSaving,
@@ -373,7 +372,7 @@ class LearningResourceTaxonomy extends Component {
     } = this.state;
     const { t, closePanel } = this.props;
 
-    if (isLoading || resourceIsLoading) {
+    if (isLoadingTaxonomy || isLoadingResource) {
       return <Spinner />;
     }
 
@@ -406,7 +405,7 @@ class LearningResourceTaxonomy extends Component {
             topics={topics}
             filter={filter}
             structure={structure}
-            taxonomy={this.state.taxonomy}
+            availableFilters={availableFilters}
             updateFilter={this.updateFilter}
           />
         )}

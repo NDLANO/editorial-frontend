@@ -11,7 +11,6 @@ import {
   FilterTable,
   SubjectName,
 } from './LearningResourceTaxonomyStyles';
-import { TaxonomyShape } from '../../../shapes';
 import {
   RESOURCE_FILTER_CORE,
   RESOURCE_FILTER_SUPPLEMENTARY,
@@ -21,7 +20,7 @@ const FilterConnections = ({
   t,
   topics,
   filter,
-  taxonomy,
+  availableFilters,
   structure,
   updateFilter,
 }) => {
@@ -53,68 +52,63 @@ const FilterConnections = ({
                     </SubjectName>
                   </td>
                 </tr>
-                {taxonomy.availableFilters[filterSubjectKey].map(
-                  currentFilter => {
-                    const useFilter = filter.find(
-                      resourceFilter => resourceFilter.id === currentFilter.id,
-                    );
-                    const active = useFilter !== undefined;
-                    return (
-                      <FilterListTR key={currentFilter.id} active={active}>
-                        <td>
-                          <FilterCheckBox
+                {availableFilters[filterSubjectKey].map(currentFilter => {
+                  const useFilter = filter.find(
+                    resourceFilter => resourceFilter.id === currentFilter.id,
+                  );
+                  const active = useFilter !== undefined;
+                  return (
+                    <FilterListTR key={currentFilter.id} active={active}>
+                      <td>
+                        <FilterCheckBox
+                          type="button"
+                          onClick={() =>
+                            updateFilter(
+                              currentFilter,
+                              RESOURCE_FILTER_CORE,
+                              active,
+                            )
+                          }
+                          className={active ? 'checkboxItem--checked' : ''}>
+                          <span />
+                          <span>{currentFilter.name}</span>
+                        </FilterCheckBox>
+                      </td>
+                      <td>
+                        <div className={filterbuttonwrapper}>
+                          <FilterButton
                             type="button"
+                            selected={
+                              useFilter &&
+                              useFilter.relevanceId ===
+                                RESOURCE_FILTER_SUPPLEMENTARY
+                            }
                             onClick={() =>
                               updateFilter(
                                 currentFilter,
-                                RESOURCE_FILTER_CORE,
-                                active,
+                                RESOURCE_FILTER_SUPPLEMENTARY,
                               )
+                            }>
+                            <Additional className="c-icon--22" />{' '}
+                            {t('taxonomy.filters.additional')}
+                          </FilterButton>
+                          <FilterButton
+                            type="button"
+                            selected={
+                              useFilter &&
+                              useFilter.relevanceId === RESOURCE_FILTER_CORE
                             }
-                            className={active ? 'checkboxItem--checked' : ''}>
-                            <span />
-                            <span>{currentFilter.name}</span>
-                          </FilterCheckBox>
-                        </td>
-                        <td>
-                          <div className={filterbuttonwrapper}>
-                            <FilterButton
-                              type="button"
-                              selected={
-                                useFilter &&
-                                useFilter.relevanceId ===
-                                  RESOURCE_FILTER_SUPPLEMENTARY
-                              }
-                              onClick={() =>
-                                updateFilter(
-                                  currentFilter,
-                                  RESOURCE_FILTER_SUPPLEMENTARY,
-                                )
-                              }>
-                              <Additional className="c-icon--22" />{' '}
-                              {t('taxonomy.filters.additional')}
-                            </FilterButton>
-                            <FilterButton
-                              type="button"
-                              selected={
-                                useFilter &&
-                                useFilter.relevanceId === RESOURCE_FILTER_CORE
-                              }
-                              onClick={() =>
-                                updateFilter(
-                                  currentFilter,
-                                  RESOURCE_FILTER_CORE,
-                                )
-                              }>
-                              <Core className="c-icon--22" />{' '}
-                              {t('taxonomy.filters.core')}
-                            </FilterButton>
-                          </div>
-                        </td>
-                      </FilterListTR>
-                    );
-                  },
-                )}
+                            onClick={() =>
+                              updateFilter(currentFilter, RESOURCE_FILTER_CORE)
+                            }>
+                            <Core className="c-icon--22" />{' '}
+                            {t('taxonomy.filters.core')}
+                          </FilterButton>
+                        </div>
+                      </td>
+                    </FilterListTR>
+                  );
+                })}
               </Fragment>
             );
           })}
@@ -125,7 +119,7 @@ const FilterConnections = ({
 };
 
 FilterConnections.propTypes = {
-  taxonomy: TaxonomyShape,
+  availableFilters: PropTypes.arrayOf(PropTypes.shape({})),
   filter: PropTypes.arrayOf(PropTypes.shape({})),
   topics: PropTypes.arrayOf(PropTypes.shape({})),
   structure: PropTypes.arrayOf(PropTypes.object),

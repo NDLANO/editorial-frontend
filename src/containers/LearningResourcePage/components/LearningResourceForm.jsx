@@ -54,7 +54,6 @@ import {
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { articleConverter } from '../../../modules/draft/draft';
-import config from '../../../config';
 
 const findFootnotes = content =>
   content

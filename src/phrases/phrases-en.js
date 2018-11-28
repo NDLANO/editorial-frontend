@@ -363,6 +363,8 @@ const phrases = {
     taxonomytSection: 'Taxonomy',
     copyrightSection: 'License and authors',
     save: 'Save',
+    saveDraft: 'Save draft',
+    saveTax: 'Save taxonomy',
     saving: 'Saving...',
     choose: 'Choose',
     saved: 'Saved ',

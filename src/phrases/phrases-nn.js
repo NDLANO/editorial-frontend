@@ -377,6 +377,8 @@ const phrases = {
     taxonomytSection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
+    saveDraft: 'Lagre utkast',
+    saveTax: 'Lagre taksonomi',
     choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagret ',

@@ -408,6 +408,7 @@ class LearningResourceForm extends Component {
             data-testid="saveLearningResourceButton"
             isSaving={isSaving}
             showSaved={showSaved}
+            defaultText="saveDraft"
           />
         </Field>
         <WarningModalWrapper

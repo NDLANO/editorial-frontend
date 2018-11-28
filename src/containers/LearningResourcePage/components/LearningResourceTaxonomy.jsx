@@ -11,13 +11,18 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FormHeader, FormDropdown } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
-import { CommonFieldPropsShape, TaxonomyShape } from '../../../shapes';
+import { Field } from '../../../components/Fields';
+import { formClasses } from '../../Form';
 import {
   fetchResourceTypes,
   fetchFilters,
   fetchTopics,
   fetchSubjects,
   fetchSubjectTopics,
+  updateTaxonomy,
+  queryResources,
+  fetchTopicArticle,
+  fetchFullResource,
 } from '../../../modules/taxonomy';
 import {
   filterToSubjects,
@@ -28,6 +33,7 @@ import {
 import handleError from '../../../util/handleError';
 import TopicConnections from './TopicConnections';
 import FilterConnections from './FilterConnections';
+import SaveButton from '../../../components/SaveButton';
 
 const resourceTypesToOptionList = availableResourceTypes =>
   availableResourceTypes.map(
@@ -50,33 +56,56 @@ class LearningResourceTaxonomy extends Component {
     super(props);
     this.state = {
       structure: [],
+      resourceTaxonomy: {
+        resourceTypes: [],
+        filter: [],
+        topics: [],
+        loading: true,
+      },
       taxonomy: {
         resourceTypes: [],
         filters: [],
-        topics: [],
+        allTopics: [],
         relevances: [],
         availableFilters: {},
         availableResourceTypes: [],
+        isLoading: false,
+      },
+      isSaving: false,
+      saveSuccess: false,
+      taxonomyChanges: {
+        resourceTypes: [],
+        filter: [],
+        topics: [],
+        loading: false,
       },
     };
     this.retriveBreadCrumbs = this.retriveBreadCrumbs.bind(this);
-    this.getOnChangeFunction = this.getOnChangeFunction.bind(this);
+    this.stageTaxonomyChanges = this.stageTaxonomyChanges.bind(this);
     this.removeConnection = this.removeConnection.bind(this);
     this.setPrimaryConnection = this.setPrimaryConnection.bind(this);
     this.getSubjectTopics = this.getSubjectTopics.bind(this);
     this.onChangeSelectedResource = this.onChangeSelectedResource.bind(this);
     this.updateFilter = this.updateFilter.bind(this);
     this.updateSubject = this.updateSubject.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.fetchTaxonomy = this.fetchTaxonomy.bind(this);
   }
 
   async componentDidMount() {
-    const { model } = this.props;
+    const { language } = this.props;
+    this.fetchTaxonomy();
     try {
-      const [resourceTypes, filters, topics, subjects] = await Promise.all([
-        fetchResourceTypes(model.language),
-        fetchFilters(model.language),
-        fetchTopics(model.language),
-        fetchSubjects(model.language),
+      const [
+        allResourceTypes,
+        filters,
+        allTopics,
+        subjects,
+      ] = await Promise.all([
+        fetchResourceTypes(language),
+        fetchFilters(language),
+        fetchTopics(language),
+        fetchSubjects(language),
       ]);
       // Fetch all relevant subjects topics for resource
       const sortedSubjects = subjects
@@ -86,15 +115,13 @@ class LearningResourceTaxonomy extends Component {
       // Filter out items with no name (is required)
       this.setState({
         taxonomy: {
-          availableResourceTypes: resourceTypes.filter(
+          availableResourceTypes: allResourceTypes.filter(
             resourceType => resourceType.name,
           ),
-          availableFilters: filterToSubjects(
-            filters.filter(filter => filter.name),
-          ),
-          filters: filters.filter(filter => filter.name),
-          topics: topics.filter(topic => topic.name),
-          hasLoadedData: true,
+          availableFilters: filterToSubjects(filters.filter(filt => filt.name)),
+          filters: filters.filter(filt => filt.name),
+          allTopics: allTopics.filter(topic => topic.name),
+          isLoading: false,
         },
         structure: sortedSubjects,
       });
@@ -127,9 +154,9 @@ class LearningResourceTaxonomy extends Component {
         parentId: selectedResource.id,
       });
     }
-    const onChange = this.getOnChangeFunction();
-    onChange({
-      target: { name: 'resourceTypes', value: val },
+
+    this.stageTaxonomyChanges({
+      resourceTypes: val,
     });
   }
 
@@ -151,23 +178,83 @@ class LearningResourceTaxonomy extends Component {
     }
   }
 
-  getOnChangeFunction() {
-    return this.props.commonFieldProps.bindInput().onChange;
+  setPrimaryConnection(id) {
+    const { topics } = this.state.taxonomyChanges;
+
+    this.stageTaxonomyChanges({
+      topics: topics.map(topic => ({
+        ...topic,
+        primary: topic.id === id,
+      })),
+    });
   }
 
-  setPrimaryConnection(id) {
-    const { topics } = this.props.model;
-    const onChange = this.getOnChangeFunction();
+  async fetchTaxonomy() {
+    const { articleId, language } = this.props;
+    try {
+      const resource = await queryResources(articleId, language);
+      if (resource.length > 0) {
+        const {
+          resourceTypes,
+          filters,
+          parentTopics,
+        } = await fetchFullResource(resource[0].id, language);
 
-    onChange({
-      target: {
-        name: 'topics',
-        value: topics.map(topic => ({
-          ...topic,
-          primary: topic.id === id,
-        })),
+        const topics = await Promise.all(
+          // Need to fetch each topic seperate because path is still not returned in parentTopics
+          parentTopics.map(async item => {
+            const topicArticle = await fetchTopicArticle(item.id, language);
+            return {
+              ...topicArticle,
+              primary: item.isPrimary,
+              connectionId: item.connectionId,
+            };
+          }),
+        );
+
+        this.setState({
+          resourceTaxonomy: {
+            resourceTypes,
+            filter: filters,
+            topics,
+            loading: false,
+          },
+          taxonomyChanges: {
+            topics,
+            resourceTypes,
+            filter: filters,
+          },
+        });
+      }
+    } catch (e) {
+      handleError(e);
+    }
+  }
+
+  stageTaxonomyChanges(properties) {
+    this.setState(prevState => ({
+      taxonomyChanges: {
+        ...prevState.taxonomyChanges,
+        ...properties,
       },
-    });
+    }));
+  }
+
+  async handleSubmit(e) {
+    e.preventDefault();
+    const { resourceTaxonomy, taxonomyChanges } = this.state;
+    const { language, articleId } = this.props;
+    this.setState({ isSaving: true });
+    const didUpdate = await updateTaxonomy(
+      articleId,
+      resourceTaxonomy,
+      taxonomyChanges,
+      language,
+    );
+    if (didUpdate) this.fetchTaxonomy();
+    this.setState({ saveSuccess: true, isSaving: false }, () =>
+      setTimeout(() => this.setState({ saveSuccess: false }), 5000),
+    );
   }
 
   updateSubject(subjectid, newSubject) {
@@ -185,7 +272,7 @@ class LearningResourceTaxonomy extends Component {
   retriveBreadCrumbs(topic) {
     const {
       structure,
-      taxonomy: { topics },
+      taxonomy: { allTopics },
     } = this.state;
     try {
       let topicPaths = topic.path
@@ -204,7 +291,7 @@ class LearningResourceTaxonomy extends Component {
         id: subject.id,
       });
       topicPaths.forEach(pathId => {
-        const topicPath = topics.find(subtopic => subtopic.id === pathId);
+        const topicPath = allTopics.find(subtopic => subtopic.id === pathId);
         returnPaths.push({
           name: topicPath.name,
           id: topicPath.id,
@@ -219,8 +306,7 @@ class LearningResourceTaxonomy extends Component {
   }
 
   removeConnection(id) {
-    const { topics, filter } = this.props.model;
-    const onChange = this.getOnChangeFunction();
+    const { topics, filter } = this.state.taxonomyChanges;
     const currentConnection = topics.find(topic => topic.id === id);
     const updatedTopics = topics.filter(topic => topic.id !== id);
     const currentConnectionSubjectId = currentConnection.path.split('/')[1];
@@ -242,8 +328,8 @@ class LearningResourceTaxonomy extends Component {
       );
       if (updatedFilters.length !== filter.length) {
         // Need to update filters
-        onChange({
-          target: { name: 'filter', value: updatedTopics },
+        this.stageTaxonomyChanges({
+          filter: updatedFilters,
         });
       }
     }
@@ -252,40 +338,41 @@ class LearningResourceTaxonomy extends Component {
     if (updatedTopics.length === 1) {
       updatedTopics[0].primary = true;
     }
-    onChange({
-      target: { name: 'topics', value: updatedTopics },
+    this.stageTaxonomyChanges({
+      topics: updatedTopics,
     });
   }
 
   updateFilter(filter, relevanceId, remove) {
-    const updatedFilters = this.props.model.filter.filter(
+    const updatedFilters = this.state.taxonomyChanges.filter.filter(
       modelFilter => modelFilter.id !== filter.id,
     );
     if (!remove) {
       updatedFilters.push({ ...filter, relevanceId });
     }
 
-    const onChange = this.getOnChangeFunction();
-
-    onChange({
-      target: { name: 'filter', value: updatedFilters },
+    this.stageTaxonomyChanges({
+      filter: updatedFilters,
     });
   }
 
   render() {
     const {
       taxonomy: {
+        isLoading,
         availableResourceTypes,
         availableFilters,
-        hasLoadedData,
-        topics,
+        allTopics,
       },
+      resourceTaxonomy: { loading: resourceIsLoading },
+      taxonomyChanges: { resourceTypes, topics, filter },
       structure,
+      isSaving,
+      saveSuccess,
     } = this.state;
-    const { t, model, taxonomyIsLoading } = this.props;
-    const { resourceTypes } = model;
+    const { t } = this.props;
 
-    if (taxonomyIsLoading || !hasLoadedData) {
+    if (isLoading || resourceIsLoading) {
       return <Spinner />;
     }
 
@@ -304,40 +391,40 @@ class LearningResourceTaxonomy extends Component {
         <TopicConnections
           availableFilters={availableFilters}
           structure={structure}
-          taxonomyTopics={topics}
-          modelTopics={model.topics}
+          taxonomyTopics={allTopics}
+          activeTopics={topics}
           retriveBreadCrumbs={this.retriveBreadCrumbs}
           removeConnection={this.removeConnection}
           setPrimaryConnection={this.setPrimaryConnection}
-          getOnChangeFunction={this.getOnChangeFunction}
+          stageTaxonomyChanges={this.stageTaxonomyChanges}
           getSubjectTopics={this.getSubjectTopics}
         />
 
-        {model.topics.length > 0 && (
+        {topics.length > 0 && (
           <FilterConnections
-            model={model}
+            topics={topics}
+            filter={filter}
             structure={structure}
             taxonomy={this.state.taxonomy}
             updateFilter={this.updateFilter}
           />
         )}
+        <Field right {...formClasses('form-actions')}>
+          <SaveButton
+            isSaving={isSaving}
+            showSaved={saveSuccess}
+            onClick={this.handleSubmit}
+            defaultText="saveTax"
+          />
+        </Field>
       </Fragment>
     );
   }
 }
 
 LearningResourceTaxonomy.propTypes = {
-  commonFieldProps: CommonFieldPropsShape.isRequired,
-  taxonomy: TaxonomyShape,
-  model: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-    language: PropTypes.string,
-    resourceTypes: PropTypes.arrayOf(PropTypes.shape({})),
-    filter: PropTypes.arrayOf(PropTypes.shape({})),
-    topics: PropTypes.arrayOf(PropTypes.shape({})),
-  }),
-  taxonomyIsLoading: PropTypes.bool,
+  language: PropTypes.string,
+  articleId: PropTypes.string,
 };
 
 export default injectT(LearningResourceTaxonomy);

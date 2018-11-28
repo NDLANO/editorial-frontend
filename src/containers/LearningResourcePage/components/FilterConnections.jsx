@@ -19,7 +19,8 @@ import {
 
 const FilterConnections = ({
   t,
-  model: { filter, topics },
+  topics,
+  filter,
   taxonomy,
   structure,
   updateFilter,
@@ -125,14 +126,8 @@ const FilterConnections = ({
 
 FilterConnections.propTypes = {
   taxonomy: TaxonomyShape,
-  model: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-    language: PropTypes.string,
-    resourceTypes: PropTypes.arrayOf(PropTypes.shape({})),
-    filter: PropTypes.arrayOf(PropTypes.shape({})),
-    topics: PropTypes.arrayOf(PropTypes.shape({})),
-  }),
+  filter: PropTypes.arrayOf(PropTypes.shape({})),
+  topics: PropTypes.arrayOf(PropTypes.shape({})),
   structure: PropTypes.arrayOf(PropTypes.object),
   updateFilter: PropTypes.func,
 };

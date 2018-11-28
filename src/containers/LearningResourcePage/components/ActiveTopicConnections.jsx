@@ -16,11 +16,11 @@ const ActiveTopicConnections = ({
   retriveBreadCrumbs,
   removeConnection,
   setPrimaryConnection,
-  modelTopics,
+  activeTopics,
   t,
 }) => (
   <ConnectionsWrapper>
-    {modelTopics.map(topic => {
+    {activeTopics.map(topic => {
       const breadCrumbs = retriveBreadCrumbs(topic);
       if (!breadCrumbs) {
         // Connection not available.
@@ -71,7 +71,7 @@ ActiveTopicConnections.propTypes = {
   retriveBreadCrumbs: PropTypes.func,
   removeConnection: PropTypes.func,
   setPrimaryConnection: PropTypes.func,
-  modelTopics: PropTypes.arrayOf(PropTypes.object),
+  activeTopics: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default injectT(ActiveTopicConnections);

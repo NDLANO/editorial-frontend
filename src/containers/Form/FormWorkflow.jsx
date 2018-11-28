@@ -12,13 +12,20 @@ import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as draftApi from '../../modules/draft/draftApi';
-import * as messageActions from '../Messages/messagesActions';
 import { AddNotes } from '.';
 import { CommonFieldPropsShape } from '../../shapes';
 import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
 import FormQualityAssurance from './components/FormQualityAssurance';
 import FormDeleteLanguageVersion from './components/FormDeleteLanguageVersion';
+
+export const formatErrorMessage = error => ({
+  message: error.json.messages
+    .map(message => `${message.field}: ${message.message}`)
+    .join(', '),
+  severity: 'danger',
+  timeToLive: 0,
+});
 
 class FormWorkflow extends Component {
   constructor(props) {
@@ -35,38 +42,41 @@ class FormWorkflow extends Component {
     this.setState({ possibleStatuses });
   }
 
-  onUpdateStatus(status) {
+  async onUpdateStatus(status) {
     const {
       model: { id },
       updateStatusDraft,
+      createMessage,
     } = this.props;
-    updateStatusDraft({ id, status });
+
+    try {
+      if (status === 'PUBLISHED' || status === 'QUEUED_FOR_PUBLISHING') {
+        await draftApi.validateDraft(id);
+      }
+      updateStatusDraft({ id, status });
+    } catch (error) {
+      if (error && error.json.messages) {
+        createMessage(formatErrorMessage(error));
+      }
+    }
   }
 
-  onValidateClick() {
+  async onValidateClick() {
     const {
       model: { id },
-      addMessage,
+      createMessage,
     } = this.props;
-    draftApi
-      .validateDraft(id)
-      .then(() => {
-        addMessage({
-          translationKey: 'form.validationOk',
-          severity: 'success',
-        });
-      })
-      .catch(err => {
-        if (err && err.json.messages) {
-          addMessage({
-            message: err.json.messages
-              .map(message => `${message.field}: ${message.message}`)
-              .join(', '),
-            severity: 'danger',
-            timeToLive: 0,
-          });
-        }
+    try {
+      await draftApi.validateDraft(id);
+      createMessage({
+        translationKey: 'form.validationOk',
+        severity: 'success',
       });
+    } catch (error) {
+      if (error && error.json.messages) {
+        createMessage(formatErrorMessage(error));
+      }
+    }
   }
 
   render() {
@@ -114,7 +124,7 @@ FormWorkflow.propTypes = {
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
-  addMessage: PropTypes.func.isRequired,
+  createMessage: PropTypes.func.isRequired,
   updateStatusDraft: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
   getArticle: PropTypes.func.isRequired,
@@ -128,7 +138,6 @@ FormWorkflow.defaultProps = {
 };
 
 const mapDispatchToProps = {
-  addMessage: messageActions.addMessage,
   updateStatusDraft: draftActions.updateStatusDraft,
 };
 

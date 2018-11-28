@@ -311,14 +311,13 @@ class LearningResourceForm extends Component {
         ),
       },
     ];
-    if (model.id && config.enableFullTaxonomy) {
+    if (model.id) {
       panels.splice(1, 0, {
         id: 'learning-resource-taxonomy',
         title: t('form.taxonomytSection'),
         className: 'u-6/6',
         component: closePanel => (
           <LearningResourceTaxonomy
-            commonFieldProps={commonFieldProps}
             language={model.language}
             articleId={articleId}
             closePanel={closePanel}

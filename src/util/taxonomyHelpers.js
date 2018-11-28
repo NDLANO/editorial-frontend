@@ -208,7 +208,7 @@ const getCurrentTopic = ({ params, topics }) => {
 };
 
 const selectedResourceTypeValue = resourceTypes => {
-  if (!resourceTypes.length) {
+  if (resourceTypes.length === 0) {
     return '';
   }
   const withParentId = resourceTypes.find(

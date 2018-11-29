@@ -119,7 +119,7 @@ const FilterConnections = ({
 };
 
 FilterConnections.propTypes = {
-  availableFilters: PropTypes.arrayOf(PropTypes.shape({})),
+  availableFilters: PropTypes.objectOf(PropTypes.array),
   filter: PropTypes.arrayOf(PropTypes.shape({})),
   topics: PropTypes.arrayOf(PropTypes.shape({})),
   structure: PropTypes.arrayOf(PropTypes.object),

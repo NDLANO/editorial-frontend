@@ -12,7 +12,6 @@ import {
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import {
-  createResource,
   createDeleteResourceTypes,
   createDeleteUpdateFilters,
   createDeleteUpdateTopicResources,
@@ -59,9 +58,8 @@ function queryResources(articleId, language) {
 
 /* Taxonomy actions */
 async function updateTaxonomy(
-  articleId,
+  resourceId,
   {
-    title: articleName,
     topics: originalTopics,
     filter: originalFilters,
     resourceTypes: originalResourceTypes,
@@ -70,46 +68,27 @@ async function updateTaxonomy(
   language,
 ) {
   try {
-    let resource = await queryResources(articleId, language);
-    if (
-      resource.length === 0 &&
-      (taxonomyChanges.resourceTypes.length > 0 ||
-        taxonomyChanges.filter.length > 0 ||
-        taxonomyChanges.topics.length > 0)
-    ) {
-      await createResource({
-        contentUri: `urn:article:${articleId}`,
-        name: articleName,
-      });
-      resource = await queryResources(articleId, language);
-      // resource = [{ id: resourceId.replace(/(\/v1\/resources\/)/, '') }];
-      return true;
-    }
-    if (resource.length !== 0 && resource[0].id) {
-      await Promise.all([
-        createDeleteResourceTypes(
-          resource[0].id,
-          taxonomyChanges.resourceTypes,
-          originalResourceTypes,
-        ),
+    await Promise.all([
+      createDeleteResourceTypes(
+        resourceId,
+        taxonomyChanges.resourceTypes,
+        originalResourceTypes,
+      ),
 
-        createDeleteUpdateFilters(
-          resource[0].id,
-          taxonomyChanges.filter,
-          originalFilters,
-        ),
+      createDeleteUpdateFilters(
+        resourceId,
+        taxonomyChanges.filter,
+        originalFilters,
+      ),
 
-        createDeleteUpdateTopicResources(
-          resource[0].id,
-          taxonomyChanges.topics,
-          language,
-          originalTopics,
-        ),
-      ]);
-
-      return true;
-    }
-    return false;
+      createDeleteUpdateTopicResources(
+        resourceId,
+        taxonomyChanges.topics,
+        language,
+        originalTopics,
+      ),
+    ]);
+    return true;
   } catch (e) {
     throw new Error(e);
   }

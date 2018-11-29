@@ -24,6 +24,7 @@ import {
   queryResources,
   fetchTopicArticle,
   fetchFullResource,
+  createResource,
 } from '../../../modules/taxonomy';
 import {
   filterToSubjects,
@@ -53,9 +54,10 @@ const resourceTypesToOptionList = availableResourceTypes =>
   );
 
 class LearningResourceTaxonomy extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
+      resourceId: '',
       structure: [],
       resourceTaxonomy: {
         resourceTypes: [],
@@ -88,46 +90,13 @@ class LearningResourceTaxonomy extends Component {
     this.updateSubject = this.updateSubject.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.fetchTaxonomy = this.fetchTaxonomy.bind(this);
+    this.fetchTaxonomyChoices = this.fetchTaxonomyChoices.bind(this);
+    this.getResourceId = this.getResourceId.bind(this);
   }
 
-  async componentDidMount() {
-    const { language } = this.props;
+  componentDidMount() {
     this.fetchTaxonomy();
-    try {
-      const [
-        allResourceTypes,
-        allFilters,
-        allTopics,
-        subjects,
-      ] = await Promise.all([
-        fetchResourceTypes(language),
-        fetchFilters(language),
-        fetchTopics(language),
-        fetchSubjects(language),
-      ]);
-      // Fetch all relevant subjects topics for resource
-      const sortedSubjects = subjects
-        .filter(subject => subject.name)
-        .sort(sortByName);
-
-      // Filter out items with no name (is required)
-      this.setState({
-        taxonomy: {
-          availableResourceTypes: allResourceTypes.filter(
-            resourceType => resourceType.name,
-          ),
-          availableFilters: filterToSubjects(
-            allFilters.filter(filt => filt.name),
-          ),
-          allFilters: allFilters.filter(filt => filt.name),
-          allTopics: allTopics.filter(topic => topic.name),
-          isLoadingTaxonomy: false,
-        },
-        structure: sortedSubjects,
-      });
-    } catch (e) {
-      handleError(e);
-    }
+    this.fetchTaxonomyChoices();
   }
 
   onChangeSelectedResource(e) {
@@ -189,16 +158,27 @@ class LearningResourceTaxonomy extends Component {
     });
   }
 
-  async fetchTaxonomy() {
+  async getResourceId() {
     const { articleId, language } = this.props;
+    let resourceId = '';
+    const resource = await queryResources(articleId, language);
+    if (resource.length > 0) resourceId = resource[0].id;
+    return resourceId;
+  }
+
+  async fetchTaxonomy() {
+    const { language } = this.props;
     try {
-      const resource = await queryResources(articleId, language);
-      if (resource.length > 0) {
+      let { resourceId } = this.state;
+      if (!resourceId) {
+        resourceId = await this.getResourceId();
+      }
+      if (resourceId) {
         const {
           resourceTypes,
           filters,
           parentTopics,
-        } = await fetchFullResource(resource[0].id, language);
+        } = await fetchFullResource(resourceId, language);
 
         const topics = await Promise.all(
           // Need to fetch each topic seperate because path is not returned in parentTopics
@@ -213,6 +193,7 @@ class LearningResourceTaxonomy extends Component {
         );
 
         this.setState({
+          resourceId,
           resourceTaxonomy: {
             resourceTypes,
             filter: filters,
@@ -225,7 +206,53 @@ class LearningResourceTaxonomy extends Component {
             filter: filters,
           },
         });
+      } else {
+        this.setState(prevState => ({
+          resourceTaxonomy: {
+            ...prevState.resourceTaxonomy,
+            isLoadingResource: false,
+          },
+        }));
       }
+    } catch (e) {
+      handleError(e);
+    }
+  }
+
+  async fetchTaxonomyChoices() {
+    const { language } = this.props;
+    try {
+      const [
+        allResourceTypes,
+        allFilters,
+        allTopics,
+        subjects,
+      ] = await Promise.all([
+        fetchResourceTypes(language),
+        fetchFilters(language),
+        fetchTopics(language),
+        fetchSubjects(language),
+      ]);
+      // Fetch all relevant subjects topics for resource
+      const sortedSubjects = subjects
+        .filter(subject => subject.name)
+        .sort(sortByName);
+
+      // Filter out items with no name (is required)
+      this.setState({
+        taxonomy: {
+          availableResourceTypes: allResourceTypes.filter(
+            resourceType => resourceType.name,
+          ),
+          availableFilters: filterToSubjects(
+            allFilters.filter(filt => filt.name),
+          ),
+          allFilters: allFilters.filter(filt => filt.name),
+          allTopics: allTopics.filter(topic => topic.name),
+          isLoadingTaxonomy: false,
+        },
+        structure: sortedSubjects,
+      });
     } catch (e) {
       handleError(e);
     }
@@ -243,18 +270,31 @@ class LearningResourceTaxonomy extends Component {
   async handleSubmit(e) {
     e.preventDefault();
     const { resourceTaxonomy, taxonomyChanges } = this.state;
-    const { language, articleId } = this.props;
+    let { resourceId } = this.state;
+    const { language, articleId, title } = this.props;
     this.setState({ isSaving: true });
-    const didUpdate = await updateTaxonomy(
-      articleId,
-      resourceTaxonomy,
-      taxonomyChanges,
-      language,
-    );
-    if (didUpdate) this.fetchTaxonomy();
-    this.setState({ saveSuccess: true, isSaving: false }, () =>
-      setTimeout(() => this.setState({ saveSuccess: false }), 5000),
-    );
+    if (!resourceId) {
+      await createResource({
+        contentUri: `urn:article:${articleId}`,
+        name: title,
+      });
+      resourceId = await this.getResourceId();
+      this.setState({
+        resourceId,
+      });
+    }
+    if (resourceId) {
+      const didUpdate = await updateTaxonomy(
+        resourceId,
+        resourceTaxonomy,
+        taxonomyChanges,
+        language,
+      );
+      if (didUpdate) this.fetchTaxonomy();
+      this.setState({ saveSuccess: true, isSaving: false }, () =>
+        setTimeout(() => this.setState({ saveSuccess: false }), 5000),
+      );
+    }
   }
 
   updateSubject(subjectid, newSubject) {

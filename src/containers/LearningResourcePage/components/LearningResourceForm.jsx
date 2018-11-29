@@ -318,6 +318,7 @@ class LearningResourceForm extends Component {
         component: closePanel => (
           <LearningResourceTaxonomy
             language={model.language}
+            title={model.title}
             articleId={articleId}
             closePanel={closePanel}
           />

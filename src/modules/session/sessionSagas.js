@@ -22,7 +22,10 @@ export function* login(accessToken, history) {
     const decoded = decodeToken(accessToken);
     yield put(actions.setAuthenticated(true));
     yield put(
-      actions.setUserData({ name: decoded['https://ndla.no/user_name'] }),
+      actions.setUserData({
+        name: decoded['https://ndla.no/user_name'],
+        scope: decoded.scope,
+      }),
     );
     setAccessTokenInLocalStorage(accessToken, true);
     history.replace('/');

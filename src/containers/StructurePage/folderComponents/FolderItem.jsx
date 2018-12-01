@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { string, bool, arrayOf, objectOf, shape, func } from 'prop-types';
+import { string, bool, arrayOf, shape, func } from 'prop-types';
 import Button from '@ndla/button';
 import { Link as LinkIcon } from '@ndla/icons/editor';
 import BEMHelper from 'react-bem-helper';
@@ -113,7 +113,11 @@ FolderItem.propTypes = {
   setPrimary: func,
   deleteTopicLink: func,
   refreshTopics: func,
-  filters: objectOf(arrayOf(string)),
+  filters: arrayOf(
+    shape({
+      id: string,
+    }),
+  ),
 };
 
 export default FolderItem;

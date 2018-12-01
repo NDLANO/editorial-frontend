@@ -41,6 +41,7 @@ import {
 import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
 import RoundIcon from '../../components/RoundIcon';
 import config from '../../config';
+import { listClass } from '../../style/LearningResourceTaxonomyStyles';
 
 export class StructurePage extends React.PureComponent {
   constructor(props) {
@@ -325,6 +326,8 @@ export class StructurePage extends React.PureComponent {
                 structure={subjects}
                 filters={filters}
                 toggleOpen={this.handleStructureToggle}
+                fileStructureFilters={activeFilters}
+                listClass={listClass}
                 renderListItems={listProps => (
                   <FolderItem
                     refFunc={this.refFunc}

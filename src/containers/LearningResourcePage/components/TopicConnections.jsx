@@ -24,7 +24,7 @@ import {
   AddTitle,
   Checked,
   ConnectionButton,
-} from './LearningResourceTaxonomyStyles';
+} from '../../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnections from './ActiveTopicConnections';
 
 class TopicConnections extends Component {

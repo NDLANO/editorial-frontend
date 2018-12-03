@@ -22,6 +22,7 @@ import {
   fetchFullResource,
   updateResourceRelevance,
   getFullResource,
+  getResourceId,
   // fetchTopicResource,
 } from './resources';
 import {
@@ -127,4 +128,5 @@ export {
   updateSubjectTopic,
   getFullResource,
   fetchFullResource,
+  getResourceId,
 };

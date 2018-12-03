@@ -11,7 +11,11 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../../util/apiHelpers';
-import { resolveTaxonomyJsonOrRejectWithError, fetchTopicArticle } from '..';
+import {
+  resolveTaxonomyJsonOrRejectWithError,
+  fetchTopicArticle,
+  queryResources,
+} from '..';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
@@ -67,6 +71,19 @@ function updateResourceRelevance(resourceFilterId, relevance) {
 }
  */
 
+async function getResourceId({ articleId, language }) {
+  let resourceId = '';
+  const resource = await queryResources(articleId, language);
+  if (resource.length > 0) {
+    if (resource.length > 1)
+      throw new Error(
+        'More than one resource with this articleId, unable to process taxonomy',
+      );
+    resourceId = resource[0].id;
+  }
+  return resourceId;
+}
+
 async function getFullResource(resourceId, language) {
   const { resourceTypes, filters, parentTopics } = await fetchFullResource(
     resourceId,
@@ -99,5 +116,6 @@ export {
   updateResourceRelevance,
   fetchFullResource,
   getFullResource,
+  getResourceId,
   // fetchTopicResource,
 };

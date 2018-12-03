@@ -22,9 +22,9 @@ import {
   fetchSubjects,
   fetchSubjectTopics,
   updateTaxonomy,
-  queryResources,
   getFullResource,
   createResource,
+  getResourceId,
 } from '../../../modules/taxonomy';
 import {
   filterToSubjects,
@@ -89,7 +89,6 @@ class LearningResourceTaxonomy extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.fetchTaxonomy = this.fetchTaxonomy.bind(this);
     this.fetchTaxonomyChoices = this.fetchTaxonomyChoices.bind(this);
-    this.getResourceId = this.getResourceId.bind(this);
   }
 
   componentDidMount() {
@@ -156,27 +155,13 @@ class LearningResourceTaxonomy extends Component {
     });
   }
 
-  async getResourceId() {
-    const { articleId, language } = this.props;
-    let resourceId = '';
-    const resource = await queryResources(articleId, language);
-    if (resource.length > 0) {
-      if (resource.length > 1)
-        throw new Error(
-          'More than one resource with this articleId, unable to process taxonomy',
-        );
-      resourceId = resource[0].id;
-    }
-    return resourceId;
-  }
-
   async fetchTaxonomy() {
-    const { language } = this.props;
+    const { language, articleId } = this.props;
     try {
       let { resourceId } = this.state;
       this.setState({ status: 'loading' });
       if (!resourceId) {
-        resourceId = await this.getResourceId();
+        resourceId = await getResourceId({ articleId, language });
       }
       if (resourceId) {
         const { resourceTypes, filters, topics } = await getFullResource(
@@ -274,7 +259,7 @@ class LearningResourceTaxonomy extends Component {
           contentUri: `urn:article:${articleId}`,
           name: title,
         });
-        resourceId = await this.getResourceId();
+        resourceId = await getResourceId({ articleId, language });
         this.setState({
           resourceId,
         });

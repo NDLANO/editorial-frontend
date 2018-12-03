@@ -315,7 +315,8 @@ class LearningResourceForm extends Component {
 
     if (
       model.id &&
-      userAccess.includes(`taxonomy-${config.ndlaEnvironment}:write`)
+      (userAccess.includes(`taxonomy-${config.ndlaEnvironment}:write`) ||
+        userAccess.includes('taxonomy:write'))
     ) {
       panels.splice(1, 0, {
         id: 'learning-resource-taxonomy',

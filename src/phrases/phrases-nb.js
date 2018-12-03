@@ -700,6 +700,7 @@ const phrases = {
     goToFrontPage: 'Gå til forsiden',
     invalidUrl: 'Ugyldig url',
     noArticleInProd: 'Ingen artikkel funnet i prod',
+    taxonomy: 'Det var et problem ved lasting av taksonomi',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',

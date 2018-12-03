@@ -684,6 +684,7 @@ const phrases = {
     goToFrontPage: 'Go to frontpage',
     invalidUrl: 'Invalid url',
     noArticleInProd: 'No article found in prod',
+    taxonomy: 'There was a problem loading taxonomy',
   },
   notFound: {
     description: 'The page cannot be found',

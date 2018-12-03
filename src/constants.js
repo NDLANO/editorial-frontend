@@ -44,5 +44,5 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   },
   { name: 'Issuu', url: ['e.issuu.com'] },
   { name: 'Geogebra', url: ['www.geogebra.org'] },
-  { name: 'IMDB', url: ['www.imdb.com'], height: '378px' },
+  { name: 'IMDB', url: ['www.imdb.com'], height: '398px' },
 ];

@@ -328,6 +328,7 @@ export class StructurePage extends React.PureComponent {
                 toggleOpen={this.handleStructureToggle}
                 fileStructureFilters={activeFilters}
                 listClass={listClass}
+                highlightMainActive
                 renderListItems={listProps => (
                   <FolderItem
                     refFunc={this.refFunc}

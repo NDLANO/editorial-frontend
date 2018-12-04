@@ -1,40 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
+import { css } from 'react-emotion';
+import { injectT } from '@ndla/i18n';
+import {
+  StyledFilterButton,
+  StyledFilterHeading,
+} from '../../../style/LearningResourceTaxonomyStyles';
 
-const classes = new BEMHelper({
-  name: 'filter-view',
-  prefix: 'c-',
-});
+const wrapper = css`
+  display: flex;
+  margin-left: auto;
+`;
 
-const Filter = ({ name, id, toggleFilter, active }) => (
-  <label data-testid="filter-item" {...classes('item')}>
-    <input
-      {...classes('checkbox')}
-      checked={!!active}
-      onChange={() => toggleFilter(id)}
-      type="checkbox"
-    />
-    <span>{name}</span>
-  </label>
-);
-
-Filter.propTypes = {
-  name: PropTypes.string,
-  toggleFilter: PropTypes.func,
-  id: PropTypes.string,
-  active: PropTypes.string,
-};
-
-const FilterView = ({ subjectFilters = [], activeFilters, toggleFilter }) => (
-  <div {...classes('wrapper')}>
+const FilterView = ({
+  subjectFilters = [],
+  t,
+  activeFilters,
+  toggleFilter,
+}) => (
+  <div className={wrapper}>
+    <StyledFilterHeading show>
+      {t('taxonomy.topics.filterTopic')}:
+    </StyledFilterHeading>
     {subjectFilters.map(filter => (
-      <Filter
-        {...filter}
+      <StyledFilterButton
+        type="button"
         key={filter.id}
-        toggleFilter={toggleFilter}
-        active={activeFilters.find(filterId => filterId === filter.id)}
-      />
+        className={
+          activeFilters.find(filterId => filterId === filter.id)
+            ? 'checkboxItem--checked'
+            : ''
+        }
+        onClick={() => toggleFilter(filter.id)}>
+        <span />
+        <span>{filter.name}</span>
+      </StyledFilterButton>
     ))}
   </div>
 );
@@ -45,4 +45,4 @@ FilterView.propTypes = {
   toggleFilter: PropTypes.func,
 };
 
-export default FilterView;
+export default injectT(FilterView);

@@ -8,7 +8,6 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { cx } from 'react-emotion';
 import { Check } from '@ndla/icons/editor';
 import { colors } from '@ndla/core';
 
@@ -19,13 +18,12 @@ import { injectT } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import {
   TitleModal,
-  listClass,
   buttonAddition,
-  AddTitle,
   Checked,
-  ConnectionButton,
+  listClass,
 } from '../../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnections from './ActiveTopicConnections';
+import FilterView from '../../StructurePage/folderComponents/FilterView';
 
 class TopicConnections extends Component {
   constructor(props) {
@@ -37,6 +35,7 @@ class TopicConnections extends Component {
     this.renderListItems = this.renderListItems.bind(this);
     this.handleOpenToggle = this.handleOpenToggle.bind(this);
     this.addTopic = this.addTopic.bind(this);
+    this.toggleFilter = this.toggleFilter.bind(this);
   }
 
   handleOpenToggle({ path, level, id }) {
@@ -81,6 +80,16 @@ class TopicConnections extends Component {
     closeModal();
   }
 
+  toggleFilter(id) {
+    const { fileStructureFilters } = this.state;
+    const newFilterArray = fileStructureFilters.includes(id)
+      ? fileStructureFilters.filter(activeFilter => activeFilter !== id)
+      : [...fileStructureFilters, id];
+    this.setState({
+      fileStructureFilters: newFilterArray,
+    });
+  }
+
   renderListItems({ paths, level, isOpen, id, closeModal }) {
     const { t, activeTopics, availableFilters } = this.props;
     const { fileStructureFilters } = this.state;
@@ -90,40 +99,18 @@ class TopicConnections extends Component {
         return null;
       }
       return (
-        <div className={cx('filestructure')}>
-          <AddTitle show>{t('taxonomy.topics.filterTopic')}:</AddTitle>
-          {availableFilters[paths[0]].map(filter => {
-            const isChecked = fileStructureFilters.some(
-              activeFilter => activeFilter === filter.id,
-            );
-            return (
-              <ConnectionButton
-                type="button"
-                key={filter.id}
-                className={isChecked ? 'checkboxItem--checked' : ''}
-                onClick={() => {
-                  const newFilterArray = isChecked
-                    ? fileStructureFilters.filter(
-                        activeFilter => activeFilter !== filter.id,
-                      )
-                    : [...fileStructureFilters, filter.id];
-                  this.setState({
-                    fileStructureFilters: newFilterArray,
-                  });
-                }}>
-                <span />
-                <span>{filter.name}</span>
-              </ConnectionButton>
-            );
-          })}
-        </div>
+        <FilterView
+          subjectFilters={availableFilters[paths[0]]}
+          activeFilters={fileStructureFilters}
+          toggleFilter={this.toggleFilter}
+        />
       );
     }
 
     const currentIndex = activeTopics.findIndex(topic => topic.id === id);
 
     return (
-      <div className={cx('filestructure')}>
+      <div className="filestructure">
         {currentIndex === -1 ? (
           <Button
             outline
@@ -181,10 +168,10 @@ class TopicConnections extends Component {
                   openedPaths={openedPaths}
                   structure={structure}
                   toggleOpen={this.handleOpenToggle}
+                  listClass={listClass}
                   renderListItems={props =>
                     this.renderListItems({ ...props, closeModal })
                   }
-                  listClass={listClass}
                   fileStructureFilters={fileStructureFilters}
                   filters={availableFilters}
                 />

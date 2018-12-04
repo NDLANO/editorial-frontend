@@ -29,6 +29,14 @@ module.exports = {
       }
     }
 
+    if (target === 'node' && !dev) {
+      appConfig.externals = [];
+      appConfig.module.noParse = [
+        /dtrace-provider.js$/,
+        /express\/lib\/view.js$/,
+      ];
+    }
+
     return appConfig;
   },
 };

@@ -204,7 +204,7 @@ class LearningResourceForm extends Component {
     evt.preventDefault();
 
     const {
-      model,
+      model: { id },
       schema,
       revision,
       setSubmitted,
@@ -228,7 +228,7 @@ class LearningResourceForm extends Component {
 
     if (status === 'PUBLISHED' || status === 'QUEUED_FOR_PUBLISHING') {
       try {
-        await validateDraft(model.id, {
+        await validateDraft(id, {
           ...this.getArticleFromModel(),
           revision,
         });

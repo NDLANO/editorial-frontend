@@ -33,6 +33,7 @@ module.exports = {
       appConfig.externals = [];
       appConfig.module.noParse = [
         /dtrace-provider.js$/,
+        /iconv-loader.js$/,
         /express\/lib\/view.js$/,
       ];
     }

@@ -116,6 +116,11 @@ const frameSrc = (() => {
     'https://khanacademy.org/',
     '*.khanacademy.org/',
     'https://*.auth0.com',
+    'https://livestream.com',
+    'https://*.livestream.com',
+    'https://www.imdb.com',
+    'https://e.issuu.com',
+    'https://www.geogebra.org',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

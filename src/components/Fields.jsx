@@ -17,7 +17,7 @@ import { isEmpty } from './validators';
 import PlainTextEditor from './SlateEditor/PlainTextEditor';
 import DateTimeInput from './DateTime/DateTimeInput';
 import ObjectSelector from './ObjectSelector';
-import { AsyncDropdown, TaxonomyDropdown } from './Dropdown';
+import { AsyncDropdown } from './Dropdown';
 
 export const classes = new BEMHelper({
   name: 'field',
@@ -449,57 +449,6 @@ SelectObjectField.propTypes = {
   submitted: PropTypes.bool.isRequired,
   idKey: PropTypes.string.isRequired,
   labelKey: PropTypes.string.isRequired,
-};
-
-export const TaxonomyFieldDropdown = ({
-  bindInput,
-  name,
-  obligatory,
-  description,
-  label,
-  submitted,
-  schema,
-  ...rest
-}) => {
-  const { onChange, value } = bindInput(name);
-  return (
-    <Field>
-      <label htmlFor={name}>{label}</label>
-      {description && (
-        <FieldDescription obligatory={obligatory}>
-          {description}
-        </FieldDescription>
-      )}
-      <TaxonomyDropdown
-        name={name}
-        id={name}
-        selectedItems={value}
-        onChange={val =>
-          onChange({
-            target: { name, value: val },
-          })
-        }
-        {...rest}
-      />
-      <FieldErrorMessages
-        label={label}
-        field={getField(name, schema)}
-        submitted={submitted}
-      />
-    </Field>
-  );
-};
-TaxonomyFieldDropdown.propTypes = {
-  bindInput: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  obligatory: PropTypes.bool,
-  description: PropTypes.string,
-  label: PropTypes.string.isRequired,
-  schema: PropTypes.shape({
-    fields: PropTypes.object.isRequired,
-  }),
-  data: PropTypes.arrayOf(PropTypes.string),
-  submitted: PropTypes.bool.isRequired,
 };
 
 export const DateField = ({

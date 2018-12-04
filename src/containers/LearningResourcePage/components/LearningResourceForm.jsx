@@ -77,11 +77,7 @@ const parseImageUrl = metaImage => {
   return splittedUrl[splittedUrl.length - 1];
 };
 
-export const getInitialModel = (
-  article = {},
-  taxonomy = { resourceTypes: [], filter: [], topics: [] },
-  language,
-) => {
+export const getInitialModel = (article = {}, language) => {
   const metaImageId = parseImageUrl(article.metaImage);
   return {
     id: article.id,
@@ -111,9 +107,6 @@ export const getInitialModel = (
     articleType: 'standard',
     status: article.status || [],
     notes: article.notes || [],
-    resourceTypes: taxonomy.resourceTypes || [],
-    filter: taxonomy.filter || [],
-    topics: taxonomy.topics || [],
   };
 };
 
@@ -145,7 +138,7 @@ class LearningResourceForm extends Component {
   }
 
   async onReset() {
-    const { articleId, setModel, taxonomy, selectedLanguage, t } = this.props;
+    const { articleId, setModel, selectedLanguage, t } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
@@ -155,7 +148,7 @@ class LearningResourceForm extends Component {
         articleFromProd,
         selectedLanguage,
       );
-      setModel(getInitialModel(convertedArticle, taxonomy, selectedLanguage));
+      setModel(getInitialModel(convertedArticle, selectedLanguage));
       this.setState({ showResetModal: false });
     } catch (e) {
       if (e.status === 404) {
@@ -208,7 +201,7 @@ class LearningResourceForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const { model, schema, revision, setSubmitted } = this.props;
+    const { schema, revision, setSubmitted } = this.props;
 
     if (!schema.isValid) {
       setSubmitted(true);
@@ -217,21 +210,11 @@ class LearningResourceForm extends Component {
     if (!isFormDirty(this.props)) {
       return;
     }
-    this.props.onUpdate(
-      {
-        ...this.getArticleFromModel(),
-        revision,
-        updated: undefined,
-      },
-      {
-        articleId: model.id,
-        articleName: model.title,
-        resourceTypes: model.resourceTypes,
-        filter: model.filter,
-        topics: model.topics,
-        language: model.language,
-      },
-    );
+    this.props.onUpdate({
+      ...this.getArticleFromModel(),
+      revision,
+      updated: undefined,
+    });
   }
 
   render() {
@@ -248,8 +231,9 @@ class LearningResourceForm extends Component {
       articleStatus,
       fields,
       showSaved,
-      taxonomyIsLoading,
       history,
+      articleId,
+      userAccess,
     } = this.props;
 
     const { error } = this.state;
@@ -264,7 +248,7 @@ class LearningResourceForm extends Component {
           schema.fields.introduction,
           schema.fields.content,
         ].some(field => checkTouchedInvalidField(field, submitted)),
-        component: (
+        component: () => (
           <LearningResourceContent
             commonFieldProps={commonFieldProps}
             bindInput={bindInput}>
@@ -285,7 +269,7 @@ class LearningResourceForm extends Component {
           schema.fields.processors,
           schema.fields.license,
         ].some(field => checkTouchedInvalidField(field, submitted)),
-        component: (
+        component: () => (
           <FormCopyright
             model={model}
             commonFieldProps={commonFieldProps}
@@ -302,7 +286,7 @@ class LearningResourceForm extends Component {
           schema.fields.tags,
           schema.fields.metaImageAlt,
         ].some(field => checkTouchedInvalidField(field, submitted)),
-        component: (
+        component: () => (
           <LearningResourceMetadata
             commonFieldProps={commonFieldProps}
             bindInput={bindInput}
@@ -318,7 +302,7 @@ class LearningResourceForm extends Component {
         hasError: [schema.fields.notes].some(field =>
           checkTouchedInvalidField(field, submitted),
         ),
-        component: (
+        component: () => (
           <FormWorkflow
             commonFieldProps={commonFieldProps}
             articleStatus={articleStatus}
@@ -328,16 +312,22 @@ class LearningResourceForm extends Component {
         ),
       },
     ];
-    if (model.id && config.enableFullTaxonomy) {
+
+    if (
+      model.id &&
+      (userAccess.includes(`taxonomy-${config.ndlaEnvironment}:write`) ||
+        userAccess.includes('taxonomy:write'))
+    ) {
       panels.splice(1, 0, {
         id: 'learning-resource-taxonomy',
         title: t('form.taxonomytSection'),
         className: 'u-6/6',
-        component: (
+        component: closePanel => (
           <LearningResourceTaxonomy
-            commonFieldProps={commonFieldProps}
-            model={model}
-            taxonomyIsLoading={taxonomyIsLoading}
+            language={model.language}
+            title={model.title}
+            articleId={articleId}
+            closePanel={closePanel}
           />
         ),
       });
@@ -367,7 +357,9 @@ class LearningResourceForm extends Component {
                       id={panel.id}
                       hasError={panel.hasError}
                       isOpen={openIndexes.includes(panel.id)}>
-                      <div className={panel.className}>{panel.component}</div>
+                      <div className={panel.className}>
+                        {panel.component(() => handleItemClick(panel.id))}
+                      </div>
                     </AccordionPanel>
                   )}
                 </React.Fragment>
@@ -405,6 +397,7 @@ class LearningResourceForm extends Component {
             data-testid="saveLearningResourceButton"
             isSaving={isSaving}
             showSaved={showSaved}
+            defaultText="saveDraft"
           />
         </Field>
         <WarningModalWrapper
@@ -429,6 +422,7 @@ LearningResourceForm.propTypes = {
     id: PropTypes.number,
     language: PropTypes.string,
   }),
+  articleId: PropTypes.string,
   setModel: PropTypes.func.isRequired,
   setModelField: PropTypes.func.isRequired,
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
@@ -452,11 +446,11 @@ LearningResourceForm.propTypes = {
     topics: PropTypes.array,
     loading: PropTypes.bool,
   }),
-  taxonomyIsLoading: PropTypes.bool,
   selectedLanguage: PropTypes.string,
   history: PropTypes.shape({
     goBack: PropTypes.func,
   }).isRequired,
+  userAccess: PropTypes.string,
 };
 
 export default compose(

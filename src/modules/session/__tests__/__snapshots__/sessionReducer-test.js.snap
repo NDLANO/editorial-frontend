@@ -12,6 +12,7 @@ Object {
   "authenticated": true,
   "user": Object {
     "name": "Rune Storløpa",
+    "scope": "",
   },
 }
 `;

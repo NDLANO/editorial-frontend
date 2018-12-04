@@ -11,8 +11,8 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../../util/apiHelpers';
-import { spliceChangedItems } from '../../../util/taxonomyHelpers';
-import { fetchResourceFilter, resolveTaxonomyJsonOrRejectWithError } from '..';
+import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
+import { resolveTaxonomyJsonOrRejectWithError } from '..';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
@@ -45,28 +45,25 @@ function deleteResourceFilter(id) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-async function createDeleteUpdateFilters(resourceId, filter, language) {
+async function createDeleteUpdateFilters(resourceId, filters, originalFilters) {
   try {
-    const remoteFilter = await fetchResourceFilter(resourceId, language);
-    const newFilter = spliceChangedItems(
-      filter,
-      remoteFilter,
-      'id',
-      'id',
-      'relevanceId',
-    );
+    const [createItems, deleteItems, updateItems] = sortIntoCreateDeleteUpdate({
+      changedItems: filters,
+      originalItems: originalFilters,
+      updateProperty: 'relevanceId',
+    });
 
-    newFilter[0].forEach(item => {
+    createItems.forEach(item => {
       createResourceFilter({
         filterId: item.id,
         relevanceId: item.relevanceId,
         resourceId,
       });
     });
-    newFilter[1].forEach(item => {
+    deleteItems.forEach(item => {
       deleteResourceFilter(item.connectionId);
     });
-    newFilter[2].forEach(item => {
+    updateItems.forEach(item => {
       updateResourceFilter(item.connectionId, {
         relevanceId: item.relevanceId,
       });

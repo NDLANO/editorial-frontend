@@ -377,6 +377,8 @@ const phrases = {
     taxonomytSection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
+    saveDraft: 'Lagre utkast',
+    saveTax: 'Lagre taksonomi',
     choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagret ',
@@ -693,6 +695,7 @@ const phrases = {
     goToFrontPage: 'Gå til forsiden',
     invalidUrl: 'Ugyldig url',
     noArticleInProd: 'Ingen artikkel funnet i prod',
+    taxonomy: 'Det var et problem ved lasting av taksonomi',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',
@@ -741,6 +744,27 @@ const phrases = {
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
     },
     removeLink: 'Fjern link',
+    resourceTypes: {
+      title: 'Innhaldstype',
+      subTitle: 'Kva for ei innhaldstype har denne ressursen?',
+      placeholder: 'Velg innhaldstype',
+    },
+    topics: {
+      title: 'Emnetilknytninger',
+      subTitle: 'Kor i taksonomien skal ressursen ligge?',
+      filestructureButton: 'Opprett emnetilknytning',
+      filestructureHeading: 'Velg emnetilknytning',
+      filestructureClose: 'Lukk',
+      addedTopic: 'Lagt til',
+      filterTopic: 'Filtrer emner',
+      disconnectedTaxonomyWarning: 'Ugyldig tilknytning',
+    },
+    filters: {
+      title: 'Filter',
+      subTitle: 'Kva fagfilter gjelder for denne ressursen?',
+      additional: 'Tilleggsressurs',
+      core: 'Kjerneressurs',
+    },
   },
 };
 

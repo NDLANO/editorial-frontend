@@ -12,14 +12,7 @@ import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 
 import { actions, getDraft } from '../../modules/draft/draft';
-import {
-  queryResources,
-  fetchResourceResourceType,
-  fetchResourceFilter,
-  fetchAllTopicResource,
-  fetchTopicArticle,
-  updateTaxonomy,
-} from '../../modules/taxonomy';
+
 import LearningResourceForm, {
   getInitialModel,
 } from './components/LearningResourceForm';
@@ -29,23 +22,16 @@ import {
   actions as tagActions,
   getAllTagsByLanguage,
 } from '../../modules/tag/tag';
-import handleError from '../../util/handleError';
 
 class EditLearningResource extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      taxonomy: { resourceTypes: [], filter: [], topics: [], loading: true },
-      allTopics: [],
-    };
     this.updateLearningResource = this.updateLearningResource.bind(this);
-    this.fetchTaxonony = this.fetchTaxonony.bind(this);
   }
 
   componentDidMount() {
     const { articleId, fetchDraft, selectedLanguage } = this.props;
     fetchDraft({ id: articleId, language: selectedLanguage });
-    this.fetchTaxonony(articleId, selectedLanguage);
   }
 
   async componentDidUpdate({
@@ -63,55 +49,15 @@ class EditLearningResource extends PureComponent {
 
     if (prevLanguage !== selectedLanguage || articleId !== prevArticleId) {
       fetchDraft({ id: articleId, language: selectedLanguage });
-      this.fetchTaxonony(articleId, selectedLanguage);
     }
     if (article && (!prevArticle || article.id !== prevArticle.id)) {
       fetchTags({ language: article.language });
     }
   }
 
-  async fetchTaxonony(articleId, articleLanguage) {
-    try {
-      const resource = await queryResources(articleId, articleLanguage);
-      if (resource.length > 0) {
-        const [resourceTypes, filter] = await Promise.all([
-          fetchResourceResourceType(resource[0].id, articleLanguage),
-          fetchResourceFilter(resource[0].id, articleLanguage),
-        ]);
-
-        // Temporary method until API is simplified
-        const allTopics = await fetchAllTopicResource(articleLanguage);
-        const topicResource = allTopics.filter(
-          item => item.resourceId === resource[0].id,
-        );
-
-        const topics = await Promise.all(
-          topicResource.map(async item => {
-            const topicArticle = await fetchTopicArticle(
-              item.topicid,
-              articleLanguage,
-            );
-            return { ...topicArticle, primary: item.primary };
-          }),
-        );
-        this.setState({
-          taxonomy: { resourceTypes, filter, topics, loading: false },
-          allTopics,
-        });
-      } else {
-        this.setState({
-          taxonomy: { loading: false },
-        });
-      }
-    } catch (e) {
-      handleError(e);
-    }
-  }
-
-  updateLearningResource(article, taxonomy) {
+  async updateLearningResource(article) {
     const { updateDraft } = this.props;
     updateDraft({ draft: article });
-    updateTaxonomy(taxonomy, this.state.allTopics);
   }
 
   render() {
@@ -131,13 +77,11 @@ class EditLearningResource extends PureComponent {
       : selectedLanguage;
     return (
       <LearningResourceForm
-        initialModel={getInitialModel(article, this.state.taxonomy, language)}
-        taxonomy={this.state.taxonomy}
+        initialModel={getInitialModel(article, language)}
         selectedLanguage={selectedLanguage}
         revision={article.revision}
         articleStatus={article.status}
         onUpdate={this.updateLearningResource}
-        taxonomyIsLoading={this.state.taxonomy.loading}
         {...rest}
       />
     );

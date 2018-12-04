@@ -36,6 +36,7 @@ class TopicConnections extends Component {
     };
     this.renderListItems = this.renderListItems.bind(this);
     this.handleOpenToggle = this.handleOpenToggle.bind(this);
+    this.addTopic = this.addTopic.bind(this);
   }
 
   handleOpenToggle({ path, level, id }) {
@@ -62,14 +63,26 @@ class TopicConnections extends Component {
     });
   }
 
+  addTopic(id, closeModal) {
+    const { activeTopics, taxonomyTopics, stageTaxonomyChanges } = this.props;
+    const addTopic = taxonomyTopics.find(
+      taxonomyTopic => taxonomyTopic.id === id,
+    );
+
+    stageTaxonomyChanges({
+      topics: [
+        ...activeTopics,
+        {
+          ...addTopic,
+          primary: activeTopics.length === 0,
+        },
+      ],
+    });
+    closeModal();
+  }
+
   renderListItems({ paths, level, isOpen, id, closeModal }) {
-    const {
-      t,
-      modelTopics,
-      availableFilters,
-      taxonomyTopics,
-      getOnChangeFunction,
-    } = this.props;
+    const { t, activeTopics, availableFilters } = this.props;
     const { fileStructureFilters } = this.state;
 
     if (level === 0) {
@@ -107,7 +120,7 @@ class TopicConnections extends Component {
       );
     }
 
-    const currentIndex = modelTopics.findIndex(topic => topic.id === id);
+    const currentIndex = activeTopics.findIndex(topic => topic.id === id);
 
     return (
       <div className={cx('filestructure')}>
@@ -115,20 +128,8 @@ class TopicConnections extends Component {
           <Button
             outline
             className={buttonAddition}
-            onClick={() => {
-              const addTopic = taxonomyTopics.find(
-                taxonomyTopic => taxonomyTopic.id === id,
-              );
-              addTopic.primary = modelTopics.length === 0;
-              modelTopics.push(addTopic);
-
-              const onChange = getOnChangeFunction();
-
-              onChange({
-                target: { name: 'topics', value: modelTopics },
-              });
-              closeModal();
-            }}>
+            type="button"
+            onClick={() => this.addTopic(id, closeModal)}>
             {t('taxonomy.topics.filestructureButton')}
           </Button>
         ) : (
@@ -200,7 +201,7 @@ TopicConnections.propTypes = {
   isOpened: PropTypes.bool,
   structure: PropTypes.arrayOf(PropTypes.shape()),
   fileStructureFilters: PropTypes.arrayOf(PropTypes.string),
-  modelTopics: PropTypes.arrayOf(PropTypes.object),
+  activeTopics: PropTypes.arrayOf(PropTypes.object),
   taxonomyTopics: PropTypes.arrayOf(PropTypes.object),
   removeConnection: PropTypes.func,
   setPrimaryConnection: PropTypes.func,
@@ -212,7 +213,7 @@ TopicConnections.propTypes = {
     ),
   ),
   allowMultipleSubjectsOpen: PropTypes.bool,
-  getOnChangeFunction: PropTypes.func,
+  stageTaxonomyChanges: PropTypes.func,
   getSubjectTopics: PropTypes.func,
 };
 

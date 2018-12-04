@@ -12,7 +12,7 @@ import {
   fetchAuthorized,
 } from '../../../util/apiHelpers';
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
-import { fetchResourceFilter, resolveTaxonomyJsonOrRejectWithError } from '..';
+import { resolveTaxonomyJsonOrRejectWithError } from '..';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
@@ -45,12 +45,11 @@ function deleteResourceFilter(id) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-async function createDeleteUpdateFilters(resourceId, filter, language) {
+async function createDeleteUpdateFilters(resourceId, filters, originalFilters) {
   try {
-    const remoteFilter = await fetchResourceFilter(resourceId, language);
     const [createItems, deleteItems, updateItems] = sortIntoCreateDeleteUpdate({
-      changedItems: filter,
-      originalItems: remoteFilter,
+      changedItems: filters,
+      originalItems: originalFilters,
       updateProperty: 'relevanceId',
     });
 

@@ -363,6 +363,8 @@ const phrases = {
     taxonomytSection: 'Taxonomy',
     copyrightSection: 'License and authors',
     save: 'Save',
+    saveDraft: 'Save draft',
+    saveTax: 'Save taxonomy',
     saving: 'Saving...',
     choose: 'Choose',
     saved: 'Saved ',
@@ -682,6 +684,7 @@ const phrases = {
     goToFrontPage: 'Go to frontpage',
     invalidUrl: 'Invalid url',
     noArticleInProd: 'No article found in prod',
+    taxonomy: 'There was a problem loading taxonomy',
   },
   notFound: {
     description: 'The page cannot be found',

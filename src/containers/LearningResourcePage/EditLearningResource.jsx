@@ -12,13 +12,7 @@ import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 
 import { actions, getDraft } from '../../modules/draft/draft';
-import {
-  queryResources,
-  fetchTopicArticle,
-  updateTaxonomy,
-  fetchFullResource,
-  fetchAllTopicResource,
-} from '../../modules/taxonomy';
+
 import LearningResourceForm, {
   getInitialModel,
 } from './components/LearningResourceForm';
@@ -28,23 +22,16 @@ import {
   actions as tagActions,
   getAllTagsByLanguage,
 } from '../../modules/tag/tag';
-import handleError from '../../util/handleError';
 
 class EditLearningResource extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      taxonomy: { resourceTypes: [], filter: [], topics: [], loading: true },
-      originalResourceTopics: [],
-    };
     this.updateLearningResource = this.updateLearningResource.bind(this);
-    this.fetchTaxonomy = this.fetchTaxonomy.bind(this);
   }
 
   componentDidMount() {
     const { articleId, fetchDraft, selectedLanguage } = this.props;
     fetchDraft({ id: articleId, language: selectedLanguage });
-    this.fetchTaxonomy();
   }
 
   async componentDidUpdate({
@@ -62,79 +49,15 @@ class EditLearningResource extends PureComponent {
 
     if (prevLanguage !== selectedLanguage || articleId !== prevArticleId) {
       fetchDraft({ id: articleId, language: selectedLanguage });
-      this.fetchTaxonomy();
     }
     if (article && (!prevArticle || article.id !== prevArticle.id)) {
       fetchTags({ language: article.language });
     }
   }
 
-  async fetchTaxonomy() {
-    const { articleId, selectedLanguage } = this.props;
-    try {
-      const resource = await queryResources(articleId, selectedLanguage);
-      if (resource.length > 0) {
-        const {
-          resourceTypes,
-          filters,
-          parentTopics,
-        } = await fetchFullResource(resource[0].id, selectedLanguage);
-
-        // TODO Remove fetchAllTopicResource when fetchFullResource returns connectionId in parentTopics array
-        const allTopicResourceConnections = await fetchAllTopicResource(
-          selectedLanguage,
-        );
-
-        const topics = await Promise.all(
-          // Need to fetch each topic seperate because path is still not returned in parentTopics
-          parentTopics.map(async item => {
-            const topicArticle = await fetchTopicArticle(
-              item.id,
-              selectedLanguage,
-            );
-            const { id } = allTopicResourceConnections.find(
-              conn => conn.resourceId === resource[0].id,
-            );
-            return {
-              ...topicArticle,
-              primary: item.isPrimary,
-              connectionId: id,
-            };
-          }),
-        );
-
-        this.setState({
-          taxonomy: {
-            resourceTypes,
-            filter: filters,
-            topics,
-            loading: false,
-          },
-          originalResourceTopics: topics,
-        });
-      } else {
-        this.setState({
-          taxonomy: {
-            resourceTypes: [],
-            filter: [],
-            topics: [],
-            loading: false,
-          },
-        });
-      }
-    } catch (e) {
-      handleError(e);
-    }
-  }
-
-  async updateLearningResource(article, taxonomy) {
+  async updateLearningResource(article) {
     const { updateDraft } = this.props;
     updateDraft({ draft: article });
-    const didUpdate = await updateTaxonomy(
-      taxonomy,
-      this.state.originalResourceTopics,
-    );
-    if (didUpdate) this.fetchTaxonomy();
   }
 
   render() {
@@ -154,13 +77,11 @@ class EditLearningResource extends PureComponent {
       : selectedLanguage;
     return (
       <LearningResourceForm
-        initialModel={getInitialModel(article, this.state.taxonomy, language)}
-        taxonomy={this.state.taxonomy}
+        initialModel={getInitialModel(article, language)}
         selectedLanguage={selectedLanguage}
         revision={article.revision}
         articleStatus={article.status}
         onUpdate={this.updateLearningResource}
-        taxonomyIsLoading={this.state.taxonomy.loading}
         {...rest}
       />
     );

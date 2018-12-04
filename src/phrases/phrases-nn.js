@@ -377,6 +377,8 @@ const phrases = {
     taxonomytSection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
+    saveDraft: 'Lagre utkast',
+    saveTax: 'Lagre taksonomi',
     choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagret ',
@@ -693,6 +695,7 @@ const phrases = {
     goToFrontPage: 'Gå til forsiden',
     invalidUrl: 'Ugyldig url',
     noArticleInProd: 'Ingen artikkel funnet i prod',
+    taxonomy: 'Det var et problem ved lasting av taksonomi',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',

@@ -23,11 +23,13 @@ const AudioContent = ({ t, commonFieldProps, model, audioInfo }) => (
       placeholder={t('form.title.label')}
       {...commonFieldProps}
     />
-    <InputFileField
-      label={t('form.audio.file')}
-      name="audioFile"
-      {...commonFieldProps}
-    />
+    {!model.id && (
+      <InputFileField
+        label={t('form.audio.file')}
+        name="audioFile"
+        {...commonFieldProps}
+      />
+    )}
     {model.id && <AudioPlayer audio={audioInfo} filepath={model.filepath} />}
   </Fragment>
 );

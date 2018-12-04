@@ -17,7 +17,7 @@ import { toEditArticle, to404 } from '../../../util/routeHelpers';
 
 import { fetchTopicArticle } from '../../../modules/taxonomy';
 
-import { fetchNewArticleId } from '../../../modules/draft/draftApi';
+import { fetchDraft, fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { getLocale } from '../../../modules/locale/locale';
 import { editorialMastheadClasses } from '../MastheadContainer';
 
@@ -37,15 +37,25 @@ export class MastheadSearchForm extends Component {
     this.setState({ query: evt.target.value });
   }
 
-  handleNodeId(nodeId) {
+  async handleNodeId(nodeId) {
     const { history, locale } = this.props;
-    fetchNewArticleId(nodeId)
-      .then(response => {
-        history.push(toEditArticle(response.id, 'standard', locale));
-      })
-      .catch(() => {
-        history.push(to404());
-      });
+    try {
+      const newArticle = await fetchNewArticleId(nodeId);
+      const article = await fetchDraft(newArticle.id);
+      const [supportedLanguage] = article.supportedLanguages.filter(
+        item => item === locale,
+      );
+
+      history.push(
+        toEditArticle(
+          newArticle.id,
+          'standard',
+          supportedLanguage || article.supportedLanguages[0],
+        ),
+      );
+    } catch (error) {
+      history.push(to404());
+    }
   }
 
   handleUrlPaste(ndlaUrl) {

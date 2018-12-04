@@ -83,6 +83,7 @@ LearningResourcePage.propTypes = {
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
   showSaved: PropTypes.bool.isRequired,
+  userAccess: PropTypes.string,
 };
 
 const mapDispatchToProps = {
@@ -94,6 +95,7 @@ const mapStateToProps = state => ({
   licenses: getAllLicenses(state),
   isSaving: getSaving(state),
   showSaved: getShowSaved(state),
+  userAccess: state.session.user.scope,
 });
 
 export default connect(

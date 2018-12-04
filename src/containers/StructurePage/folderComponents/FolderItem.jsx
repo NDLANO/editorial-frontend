@@ -7,8 +7,10 @@
  */
 
 import React from 'react';
-import { string, bool, arrayOf, shape, func } from 'prop-types';
+import { string, bool, arrayOf, shape, func, instanceOf } from 'prop-types';
 import Button from '@ndla/button';
+import { injectT } from '@ndla/i18n';
+import { css } from 'react-emotion';
 import { Link as LinkIcon } from '@ndla/icons/editor';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';
@@ -36,12 +38,14 @@ const FolderItem = ({
   toggleFilter,
   setPrimary,
   deleteTopicLink,
+  resourceSection,
   filters,
+  t,
   ...rest
 }) => {
   const { url } = match;
   const type = id.includes('subject') ? 'subject' : 'topic';
-  const isMainActive = pathToString === url.replace('/structure', '');
+  const isMainActive = pathToString === url.replace('/structure/', '');
   const uniqueId = type === 'topic' ? `${rest.parent}/${id}` : id;
 
   const settingsButton = isOpen &&
@@ -81,6 +85,19 @@ const FolderItem = ({
       />
     );
 
+  const jumpToResources = isMainActive &&
+    type === 'topic' && (
+      <Button
+        outline
+        className={css`
+          margin-left: auto;
+        `}
+        type="button"
+        onClick={() => resourceSection && resourceSection.scrollIntoView()}>
+        {t('taxonomy.jumpToResources')}
+      </Button>
+    );
+
   return (
     <React.Fragment>
       <div id={uniqueId} data-cy="folderWrapper" {...classes('wrapper')}>
@@ -88,6 +105,7 @@ const FolderItem = ({
         {editLinkButton}
         {settingsButton}
         {subjectFilters}
+        {jumpToResources}
       </div>
     </React.Fragment>
   );
@@ -106,6 +124,7 @@ FolderItem.propTypes = {
   }),
   id: string.isRequired,
   refFunc: func,
+  resourceSection: instanceOf(Element),
   showLink: func,
   linkViewOpen: bool,
   activeFilters: arrayOf(string),
@@ -120,4 +139,4 @@ FolderItem.propTypes = {
   ),
 };
 
-export default FolderItem;
+export default injectT(FolderItem);

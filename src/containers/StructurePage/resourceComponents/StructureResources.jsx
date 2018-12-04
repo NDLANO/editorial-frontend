@@ -135,7 +135,13 @@ export class StructureResources extends React.PureComponent {
   }
 
   render() {
-    const { activeFilters, locale, refreshTopics, currentTopic } = this.props;
+    const {
+      activeFilters,
+      locale,
+      refreshTopics,
+      currentTopic,
+      refFunc,
+    } = this.props;
     const { topicDescription, resourceTypes, topicResources } = this.state;
 
     return (
@@ -143,6 +149,7 @@ export class StructureResources extends React.PureComponent {
         <TopicDescription
           topicDescription={topicDescription}
           locale={locale}
+          refFunc={refFunc}
           refreshTopics={refreshTopics}
           currentTopic={currentTopic}
         />
@@ -179,6 +186,7 @@ StructureResources.propTypes = {
   }).isRequired,
   refreshTopics: PropTypes.func,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
+  refFunc: PropTypes.func,
 };
 
 export default StructureResources;

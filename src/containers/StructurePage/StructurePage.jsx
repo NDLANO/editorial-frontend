@@ -41,7 +41,6 @@ import {
 import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
 import RoundIcon from '../../components/RoundIcon';
 import config from '../../config';
-import { listClass } from '../../style/LearningResourceTaxonomyStyles';
 
 export class StructurePage extends React.PureComponent {
   constructor(props) {
@@ -268,7 +267,7 @@ export class StructurePage extends React.PureComponent {
     }));
   }
 
-  handleStructureToggle({ path, level, id }) {
+  handleStructureToggle({ path }) {
     const {
       location: { search },
       history,
@@ -327,7 +326,6 @@ export class StructurePage extends React.PureComponent {
                 filters={filters}
                 toggleOpen={this.handleStructureToggle}
                 fileStructureFilters={activeFilters}
-                listClass={listClass}
                 highlightMainActive
                 renderListItems={listProps => (
                   <FolderItem
@@ -346,6 +344,7 @@ export class StructurePage extends React.PureComponent {
                     setPrimary={this.setPrimary}
                     toggleFilter={this.toggleFilter}
                     deleteTopicLink={this.deleteTopicLink}
+                    resourceSection={this.resourceSection}
                     locale={locale}
                   />
                 )}
@@ -359,6 +358,7 @@ export class StructurePage extends React.PureComponent {
             <StructureResources
               locale={locale}
               params={params}
+              refFunc={this.refFunc}
               activeFilters={activeFilters}
               currentTopic={currentTopic}
               refreshTopics={this.refreshTopics}

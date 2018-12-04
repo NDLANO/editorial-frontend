@@ -12,7 +12,6 @@ import {
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import {
-  createResource,
   createDeleteResourceTypes,
   createDeleteUpdateFilters,
   createDeleteUpdateTopicResources,
@@ -58,42 +57,38 @@ function queryResources(articleId, language) {
 }
 
 /* Taxonomy actions */
-async function updateTaxonomy(taxonomy, allTopics) {
+async function updateTaxonomy(
+  resourceId,
+  {
+    topics: originalTopics,
+    filter: originalFilters,
+    resourceTypes: originalResourceTypes,
+  },
+  taxonomyChanges,
+  language,
+) {
   try {
-    let resource = await queryResources(taxonomy.articleId, taxonomy.language);
-    if (
-      resource.length === 0 &&
-      (taxonomy.resourceTypes.length > 0 ||
-        taxonomy.filter.length > 0 ||
-        taxonomy.topics.length > 0)
-    ) {
-      await createResource({
-        contentUri: `urn:article:${taxonomy.articleId}`,
-        name: taxonomy.articleName,
-      });
-      resource = await queryResources(taxonomy.articleId, taxonomy.language);
-      // resource = [{ id: resourceId.replace(/(\/v1\/resources\/)/, '') }];
-    }
-    if (resource.length !== 0 && resource[0].id) {
+    await Promise.all([
       createDeleteResourceTypes(
-        resource[0].id,
-        [...taxonomy.resourceTypes],
-        taxonomy.language,
-      );
+        resourceId,
+        taxonomyChanges.resourceTypes,
+        originalResourceTypes,
+      ),
 
       createDeleteUpdateFilters(
-        resource[0].id,
-        [...taxonomy.filter],
-        taxonomy.language,
-      );
+        resourceId,
+        taxonomyChanges.filter,
+        originalFilters,
+      ),
 
       createDeleteUpdateTopicResources(
-        resource[0].id,
-        [...taxonomy.topics],
-        taxonomy.language,
-        allTopics,
-      );
-    }
+        resourceId,
+        taxonomyChanges.topics,
+        language,
+        originalTopics,
+      ),
+    ]);
+    return true;
   } catch (e) {
     throw new Error(e);
   }

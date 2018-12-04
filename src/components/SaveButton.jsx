@@ -1,11 +1,11 @@
 import React from 'react';
-import { bool } from 'prop-types';
+import { bool, string } from 'prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import { Check } from '@ndla/icons/editor';
 
-const SaveButton = ({ isSaving, showSaved, t, ...rest }) => {
+const SaveButton = ({ isSaving, showSaved, t, defaultText, ...rest }) => {
   const classes = new BEMHelper({
     name: 'save-button',
     prefix: 'c-',
@@ -13,7 +13,7 @@ const SaveButton = ({ isSaving, showSaved, t, ...rest }) => {
   const getModifier = () => {
     if (isSaving) return 'saving';
     if (showSaved) return 'saved';
-    return 'save';
+    return defaultText || 'save';
   };
   return (
     <Button
@@ -32,6 +32,7 @@ const SaveButton = ({ isSaving, showSaved, t, ...rest }) => {
 SaveButton.propTypes = {
   isSaving: bool,
   showSaved: bool,
+  defaultText: string,
 };
 
 export default injectT(SaveButton);

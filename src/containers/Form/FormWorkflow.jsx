@@ -46,12 +46,17 @@ class FormWorkflow extends Component {
     const {
       model: { id },
       updateStatusDraft,
+      getArticleFromModel,
       createMessage,
+      revision,
     } = this.props;
 
     try {
       if (status === 'PUBLISHED' || status === 'QUEUED_FOR_PUBLISHING') {
-        await draftApi.validateDraft(id);
+        await draftApi.validateDraft(id, {
+          ...getArticleFromModel(),
+          revision,
+        });
       }
       updateStatusDraft({ id, status });
     } catch (error) {
@@ -65,9 +70,12 @@ class FormWorkflow extends Component {
     const {
       model: { id },
       createMessage,
+      getArticleFromModel,
+      revision,
     } = this.props;
+
     try {
-      await draftApi.validateDraft(id);
+      await draftApi.validateDraft(id, { ...getArticleFromModel(), revision });
       createMessage({
         translationKey: 'form.validationOk',
         severity: 'success',

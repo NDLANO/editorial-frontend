@@ -200,18 +200,44 @@ class LearningResourceForm extends Component {
     return false;
   };
 
-  handleSubmit(evt) {
+  async handleSubmit(evt) {
     evt.preventDefault();
 
-    const { schema, revision, setSubmitted } = this.props;
+    const {
+      model,
+      schema,
+      revision,
+      setSubmitted,
+      createMessage,
+      articleStatus,
+    } = this.props;
+
+    let status;
+    if (articleStatus) {
+      status = articleStatus.current;
+    }
 
     if (!schema.isValid) {
       setSubmitted(true);
       return;
     }
+
     if (!isFormDirty(this.props)) {
       return;
     }
+
+    if (status === 'PUBLISHED' || status === 'QUEUED_FOR_PUBLISHING') {
+      try {
+        await validateDraft(model.id, {
+          ...this.getArticleFromModel(),
+          revision,
+        });
+      } catch (error) {
+        createMessage(formatErrorMessage(error));
+        return;
+      }
+    }
+
     this.props.onUpdate({
       ...this.getArticleFromModel(),
       revision,
@@ -236,6 +262,8 @@ class LearningResourceForm extends Component {
       history,
       articleId,
       userAccess,
+      createMessage,
+      revision,
     } = this.props;
 
     const { error } = this.state;
@@ -311,6 +339,8 @@ class LearningResourceForm extends Component {
             model={model}
             getArticle={this.getArticleFromModel}
             createMessage={createMessage}
+            getArticleFromModel={this.getArticleFromModel}
+            revision={revision}
           />
         ),
       },

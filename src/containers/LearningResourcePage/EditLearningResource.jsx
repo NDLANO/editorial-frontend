@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 
+import * as messageActions from '../Messages/messagesActions';
 import { actions, getDraft } from '../../modules/draft/draft';
 
 import LearningResourceForm, {
@@ -27,6 +28,7 @@ class EditLearningResource extends PureComponent {
   constructor(props) {
     super(props);
     this.updateLearningResource = this.updateLearningResource.bind(this);
+    this.createMessage = this.createMessage.bind(this);
   }
 
   componentDidMount() {
@@ -87,6 +89,7 @@ class EditLearningResource extends PureComponent {
         revision={article.revision}
         articleStatus={article.status}
         onUpdate={this.updateLearningResource}
+        createMessage={this.createMessage}
         {...rest}
       />
     );

@@ -47,7 +47,6 @@ const FolderItem = ({
   const { url } = match;
   const type = id.includes('subject') ? 'subject' : 'topic';
   const isMainActive = pathToString === url.replace('/structure/', '');
-  const uniqueId = type === 'topic' ? `${rest.parent}/${id}` : id;
 
   const settingsButton = isOpen &&
     config.enableFullTaxonomy && (
@@ -68,15 +67,14 @@ const FolderItem = ({
         <RoundIcon open={linkViewOpen} icon={<LinkIcon />} />
       </Button>
     );
-  const editLinkButton = isOpen &&
-    type === 'subject' && (
-      <EditLinkButton
-        refFunc={refFunc}
-        id={id}
-        setPrimary={setPrimary}
-        deleteTopicLink={deleteTopicLink}
-      />
-    );
+  const editLinkButton = type === 'subject' && (
+    <EditLinkButton
+      refFunc={refFunc}
+      id={id}
+      setPrimary={setPrimary}
+      deleteTopicLink={deleteTopicLink}
+    />
+  );
   const subjectFilters = isOpen &&
     type === 'subject' && (
       <FilterView
@@ -101,7 +99,7 @@ const FolderItem = ({
     );
 
   return (
-    <div id={uniqueId} data-cy="folderWrapper" {...classes('wrapper')}>
+    <div data-cy="folderWrapper" {...classes('wrapper')}>
       {showLinkButton}
       {editLinkButton}
       {settingsButton}

@@ -110,7 +110,7 @@ class AddResourceModal extends Component {
         this.setState({ loading: true });
         await createTopicResource({
           resourceId: getResourceIdFromPath(selected.id),
-          topicid: `urn:${topicId}`,
+          topicid: topicId,
         });
         refreshResources();
         this.setState({ loading: false });

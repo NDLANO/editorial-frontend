@@ -258,7 +258,7 @@ export class StructurePage extends React.PureComponent {
     const {
       match: { params },
     } = this.props;
-    this.getSubjectTopics(`urn:${params.subject}`);
+    this.getSubjectTopics(params.subject);
   }
 
   toggleStructure() {

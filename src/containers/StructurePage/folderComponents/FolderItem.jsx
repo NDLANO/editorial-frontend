@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { string, bool, arrayOf, shape, func, instanceOf } from 'prop-types';
+import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { css } from 'react-emotion';
@@ -90,7 +91,8 @@ const FolderItem = ({
       <Button
         outline
         className={css`
-          margin-left: auto;
+          margin: 3px ${spacing.xsmall} 3px auto;
+          ${fonts.sizes(14, 1.1)};
         `}
         type="button"
         onClick={() => resourceSection && resourceSection.scrollIntoView()}>
@@ -99,15 +101,13 @@ const FolderItem = ({
     );
 
   return (
-    <React.Fragment>
-      <div id={uniqueId} data-cy="folderWrapper" {...classes('wrapper')}>
-        {showLinkButton}
-        {editLinkButton}
-        {settingsButton}
-        {subjectFilters}
-        {jumpToResources}
-      </div>
-    </React.Fragment>
+    <div id={uniqueId} data-cy="folderWrapper" {...classes('wrapper')}>
+      {showLinkButton}
+      {editLinkButton}
+      {settingsButton}
+      {subjectFilters}
+      {jumpToResources}
+    </div>
   );
 };
 

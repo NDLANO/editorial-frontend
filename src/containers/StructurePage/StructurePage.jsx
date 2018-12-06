@@ -277,9 +277,9 @@ export class StructurePage extends React.PureComponent {
     const levelAbove = removeLastItemFromUrl(currentPath);
     let newPath = path;
     if (currentPath === path) {
-      newPath = levelAbove.concat(search);
+      newPath = levelAbove;
     }
-    history.push(`/structure/${newPath}`);
+    history.push(`/structure/${newPath.concat(search)}`);
   }
 
   render() {

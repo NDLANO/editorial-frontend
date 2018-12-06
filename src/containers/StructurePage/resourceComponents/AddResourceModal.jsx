@@ -34,8 +34,10 @@ class AddResourceModal extends Component {
 
   onSelect(selected) {
     if (selected) {
-      const articleId = selected.url.split('/').pop();
-      this.articleToState(articleId);
+      if (!selected.url.includes('learningpaths')) {
+        const articleId = selected.url.split('/').pop();
+        this.articleToState(articleId);
+      }
       this.setState({ selected });
     } else {
       this.setState({ selected: {}, article: {} });
@@ -75,7 +77,6 @@ class AddResourceModal extends Component {
       const result = res.length > 0 ? res.pop().results : [];
       return result.map(current => ({
         ...current,
-        id: current.paths.pop(),
         title: current.title ? current.title.title : '',
       }));
     } catch (e) {

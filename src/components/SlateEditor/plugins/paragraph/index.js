@@ -8,7 +8,6 @@
  */
 
 import { onEnter } from './actions';
-import { TYPE } from './type';
 
 const KEY_ENTER = 'Enter';
 

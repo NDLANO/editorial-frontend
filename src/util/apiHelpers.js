@@ -15,7 +15,10 @@ import {
   isAccessTokenValid,
   renewAuth,
 } from './authHelpers';
-import { resolveJsonOrRejectWithError } from './resolveJsonOrRejectWithError';
+import {
+  resolveJsonOrRejectWithError,
+  createErrorPayload,
+} from './resolveJsonOrRejectWithError';
 
 export function apiResourceUrl(path) {
   return apiBaseUrl + path;
@@ -107,4 +110,4 @@ export const setOembedUrl = query =>
 export const fetchExternalOembed = (url, options) =>
   fetchOembed(setOembedUrl({ url }), options);
 
-export { resolveJsonOrRejectWithError };
+export { resolveJsonOrRejectWithError, createErrorPayload };

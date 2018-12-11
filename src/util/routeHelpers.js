@@ -71,9 +71,9 @@ export function to404() {
 export function getResourceIdFromPath(path) {
   if (typeof path !== 'string') return undefined;
   const learningPath = path.match(/learningpaths\/(\d+)/);
-  if (learningPath[1]) return learningPath[1];
+  if (learningPath && learningPath[1]) return learningPath[1];
   const resource = path.match(/(resource:[:\d]+)\/?$/);
-  return `urn:${resource[1]}` || '';
+  return resource ? `urn:${resource[1]}` : '';
 }
 
 export const removeLastItemFromUrl = url =>

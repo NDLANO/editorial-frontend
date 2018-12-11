@@ -82,6 +82,7 @@ class ResourceGroup extends PureComponent {
         {this.state.showAddModal && (
           <AddResourceModal
             type={resource.id}
+            allowPaste={resource.id !== 'urn:resourcetype:learningPath'}
             topicId={params.topic3 || params.topic2 || params.topic1}
             refreshResources={refreshResources}
             onClose={this.toggleAddModal}

@@ -16,7 +16,6 @@ import BEMHelper from 'react-bem-helper';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
-import config from '../../../config';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -58,15 +57,13 @@ class ResourceGroup extends PureComponent {
       <React.Fragment>
         <Accordion
           addButton={
-            config.enableFullTaxonomy && (
-              <Button
-                {...classes('add-button')}
-                stripped
-                onClick={this.toggleAddModal}>
-                <Plus />
-                {t('taxonomy.addResource')}
-              </Button>
-            )
+            <Button
+              {...classes('add-button')}
+              stripped
+              onClick={this.toggleAddModal}>
+              <Plus />
+              {t('taxonomy.addResource')}
+            </Button>
           }
           handleToggle={this.handleToggle}
           resourceGroup

@@ -8,7 +8,7 @@
  */
 
 import { Block } from 'slate';
-import { defaultBlocks } from '.';
+import defaultBlocks from './defaultBlocks';
 
 export const textBlockValidationRules = {
   first: { type: 'paragraph' },

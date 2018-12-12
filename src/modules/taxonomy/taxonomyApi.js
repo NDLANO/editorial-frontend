@@ -11,14 +11,9 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
-import {
-  createDeleteResourceTypes,
-  createDeleteUpdateFilters,
-  createDeleteUpdateTopicResources,
-} from '.';
-
-const resolveTaxonomyJsonOrRejectWithError = res =>
-  resolveJsonOrRejectWithError(res, true);
+import { createDeleteResourceTypes } from './resourcetypes';
+import { createDeleteUpdateFilters } from './filter';
+import { createDeleteUpdateTopicResources } from './topicresouces';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
@@ -48,13 +43,6 @@ function fetchRelevances(locale) {
 }
 
 /* Queries */
-function queryResources(articleId, language) {
-  return fetchAuthorized(
-    `${baseUrl}/queries/resources/?contentURI=${encodeURIComponent(
-      `urn:article:${articleId}`,
-    )}&?language=${language}`,
-  ).then(resolveJsonOrRejectWithError);
-}
 
 /* Taxonomy actions */
 async function updateTaxonomy(
@@ -95,11 +83,9 @@ async function updateTaxonomy(
 }
 
 export {
-  resolveTaxonomyJsonOrRejectWithError,
   fetchResourceTypes,
   fetchFilters,
   fetchTopicArticle,
   fetchRelevances,
-  queryResources,
   updateTaxonomy,
 };

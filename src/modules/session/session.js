@@ -32,8 +32,12 @@ export const getSessionStateFromLocalStorage = () => {
   const token = getAccessToken();
   const isAccessTokenPersonal = getAccessTokenPersonal();
   if (isValid(token) && isAccessTokenPersonal) {
+    const decodedToken = decodeToken(token);
     return {
-      user: { name: decodeToken(token)['https://ndla.no/user_name'] },
+      user: {
+        name: decodedToken['https://ndla.no/user_name'],
+        scope: decodedToken.scope,
+      },
       authenticated: true,
     };
   }

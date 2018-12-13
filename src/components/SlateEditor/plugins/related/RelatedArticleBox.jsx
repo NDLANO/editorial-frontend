@@ -17,7 +17,7 @@ import { RelatedArticleList } from '@ndla/ui';
 import { toggleRelatedArticles } from '@ndla/article-scripts';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { searchArticles } from '../../../../modules/article/articleApi';
-import { queryResources } from '../../../../modules/taxonomy/taxonomyApi';
+import { queryResources } from '../../../../modules/taxonomy';
 import { getLocale } from '../../../../modules/locale/locale';
 import { EditorShape } from '../../../../shapes';
 import EditRelated from './EditRelated';

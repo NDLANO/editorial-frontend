@@ -11,12 +11,12 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../../util/apiHelpers';
-import { spliceChangedItems } from '../../../util/taxonomyHelpers';
-import { fetchResourceFilter, resolveTaxonomyJsonOrRejectWithError } from '..';
+import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
+import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-function createResourceFilter(filter) {
+export function createResourceFilter(filter) {
   return fetchAuthorized(`${baseUrl}/resource-filters`, {
     headers: {
       'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ function createResourceFilter(filter) {
   }).then(resolveTaxonomyJsonOrRejectWithError);
 }
 
-function updateResourceFilter(id, filter) {
+export function updateResourceFilter(id, filter) {
   return fetchAuthorized(`${baseUrl}/resource-filters/${id}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ function updateResourceFilter(id, filter) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-function deleteResourceFilter(id) {
+export function deleteResourceFilter(id) {
   return fetchAuthorized(`${baseUrl}/resource-filters/${id}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -45,28 +45,29 @@ function deleteResourceFilter(id) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-async function createDeleteUpdateFilters(resourceId, filter, language) {
+export async function createDeleteUpdateFilters(
+  resourceId,
+  filters,
+  originalFilters,
+) {
   try {
-    const remoteFilter = await fetchResourceFilter(resourceId, language);
-    const newFilter = spliceChangedItems(
-      filter,
-      remoteFilter,
-      'id',
-      'id',
-      'relevanceId',
-    );
+    const [createItems, deleteItems, updateItems] = sortIntoCreateDeleteUpdate({
+      changedItems: filters,
+      originalItems: originalFilters,
+      updateProperty: 'relevanceId',
+    });
 
-    newFilter[0].forEach(item => {
+    createItems.forEach(item => {
       createResourceFilter({
         filterId: item.id,
         relevanceId: item.relevanceId,
         resourceId,
       });
     });
-    newFilter[1].forEach(item => {
+    deleteItems.forEach(item => {
       deleteResourceFilter(item.connectionId);
     });
-    newFilter[2].forEach(item => {
+    updateItems.forEach(item => {
       updateResourceFilter(item.connectionId, {
         relevanceId: item.relevanceId,
       });
@@ -76,7 +77,7 @@ async function createDeleteUpdateFilters(resourceId, filter, language) {
   }
 }
 
-function createSubjectFilter(id, name) {
+export function createSubjectFilter(id, name) {
   return fetchAuthorized(`${baseUrl}/filters`, {
     headers: {
       'Content-Type': 'application/json',
@@ -86,7 +87,7 @@ function createSubjectFilter(id, name) {
   }).then(resolveTaxonomyJsonOrRejectWithError);
 }
 
-function editSubjectFilter(filterId, subjectId, name) {
+export function editSubjectFilter(filterId, subjectId, name) {
   return fetchAuthorized(`${baseUrl}/filters/${filterId}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -96,18 +97,8 @@ function editSubjectFilter(filterId, subjectId, name) {
   }).then(resolveTaxonomyJsonOrRejectWithError);
 }
 
-function deleteFilter(id) {
+export function deleteFilter(id) {
   return fetchAuthorized(`${baseUrl}/filters/${id}`, {
     method: 'DELETE',
   }).then(resolveJsonOrRejectWithError);
 }
-
-export {
-  createResourceFilter,
-  updateResourceFilter,
-  deleteResourceFilter,
-  createDeleteUpdateFilters,
-  createSubjectFilter,
-  editSubjectFilter,
-  deleteFilter,
-};

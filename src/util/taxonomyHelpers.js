@@ -13,6 +13,26 @@ import {
 } from '../constants';
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
 
+const sortByName = (a, b) => {
+  if (a.name < b.name) return -1;
+  if (a.name > b.name) return 1;
+  return 0;
+};
+
+const filterToSubjects = allFilters => {
+  const filterObjects = {};
+  allFilters.forEach(filter => {
+    if (!filterObjects[filter.subjectId]) {
+      filterObjects[filter.subjectId] = [];
+    }
+    filterObjects[filter.subjectId].push(filter);
+  });
+  Object.keys(filterObjects).forEach(subjectId => {
+    filterObjects[subjectId] = filterObjects[subjectId].sort(sortByName);
+  });
+  return filterObjects;
+};
+
 function flattenResourceTypes(data = []) {
   const resourceTypes = [];
   data.forEach(type => {
@@ -35,43 +55,41 @@ function flattenResourceTypes(data = []) {
   return resourceTypes;
 }
 
-function spliceChangedItems(
+function sortIntoCreateDeleteUpdate({
   changedItems,
-  items,
-  changedItemId = 'id',
-  itemId = 'id',
+  originalItems,
+  changedId = 'id',
+  originalId = 'id',
   updateProperty,
-) {
-  const copy = [...changedItems];
-  const updatedItems = [];
-  copy.forEach(item => {
-    const foundItem = items.find(
-      itemType => itemType[itemId] === item[changedItemId],
+}) {
+  const updateItems = [];
+  const createItems = [];
+  const deleteItems = originalItems.filter(item => {
+    const originalItemInChangedItem = changedItems.find(
+      changedItem => changedItem[changedId] === item[originalId],
+    );
+    return !originalItemInChangedItem;
+  });
+  changedItems.forEach(changedItem => {
+    const foundItem = originalItems.find(
+      item => item[originalId] === changedItem[changedId],
     );
     if (foundItem) {
-      changedItems.splice(
-        changedItems.findIndex(
-          itemType => itemType[changedItemId] === item[changedItemId],
-        ),
-        1,
-      );
-      items.splice(
-        items.findIndex(itemType => itemType[itemId] === item[changedItemId]),
-        1,
-      );
       if (
         updateProperty &&
-        foundItem[updateProperty] !== item[updateProperty]
+        foundItem[updateProperty] !== changedItem[updateProperty]
       ) {
-        updatedItems.push({
+        updateItems.push({
           ...foundItem,
-          [updateProperty]: item[updateProperty],
+          [updateProperty]: changedItem[updateProperty],
         });
       }
+    } else {
+      createItems.push(changedItem);
     }
   });
-  // [Create], [Delete], [Update]
-  return [[...changedItems], [...items], [...updatedItems]];
+
+  return [createItems, deleteItems, updateItems];
 }
 
 function groupRelevanceResourceTypes(
@@ -149,13 +167,13 @@ function insertSubTopic(topics, subTopic) {
     if (topic.id === subTopic.parent) {
       return {
         ...topic,
-        topics: [...(topic.topics || []), subTopic],
+        subtopics: [...(topic.subtopics || []), subTopic],
       };
     }
-    if (topic.topics) {
+    if (topic.subtopics) {
       return {
         ...topic,
-        topics: insertSubTopic(topic.topics, subTopic),
+        subtopics: insertSubTopic(topic.subtopics, subTopic),
       };
     }
     return topic;
@@ -189,13 +207,30 @@ const getCurrentTopic = ({ params, topics }) => {
   return {};
 };
 
+const selectedResourceTypeValue = resourceTypes => {
+  if (resourceTypes.length === 0) {
+    return '';
+  }
+  const withParentId = resourceTypes.find(
+    resourceType => resourceType.parentId,
+  );
+  if (withParentId) {
+    return `${withParentId.parentId},${withParentId.id}`;
+  }
+  // return first match (multiple selections not possible..)
+  return resourceTypes[0].id;
+};
+
 export {
   flattenResourceTypes,
-  spliceChangedItems,
+  sortIntoCreateDeleteUpdate,
   getResourcesGroupedByResourceTypes,
   getTopicResourcesByType,
   topicResourcesByTypeWithMetaData,
   groupSortResourceTypesFromTopicResources,
   groupTopics,
   getCurrentTopic,
+  filterToSubjects,
+  sortByName,
+  selectedResourceTypeValue,
 };

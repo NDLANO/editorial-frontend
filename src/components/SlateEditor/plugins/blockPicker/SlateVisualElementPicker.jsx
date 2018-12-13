@@ -6,15 +6,11 @@ import VisualElementSearch from '../../../../containers/VisualElement/VisualElem
 import { defaultBlocks } from '../../utils';
 
 const SlateVisualElementPicker = ({
-  isOpen,
   resource,
   onVisualElementClose,
   onInsertBlock,
   t,
 }) => {
-  if (!isOpen) {
-    return null;
-  }
   const onVisualElementAdd = (visualElement, type = 'embed') => {
     if (type === 'embed') {
       const blockToInsert = defaultBlocks.defaultEmbedBlock(visualElement);
@@ -31,7 +27,7 @@ const SlateVisualElementPicker = ({
   return (
     <Modal
       controllable
-      isOpen={isOpen}
+      isOpen
       onClose={onVisualElementClose}
       size={resource === 'h5p' ? 'fullscreen' : 'large'}
       backgroundColor="white"
@@ -58,7 +54,6 @@ const SlateVisualElementPicker = ({
 };
 
 SlateVisualElementPicker.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
   resource: PropTypes.string.isRequired,
   onVisualElementClose: PropTypes.func.isRequired,
   onInsertBlock: PropTypes.func.isRequired,

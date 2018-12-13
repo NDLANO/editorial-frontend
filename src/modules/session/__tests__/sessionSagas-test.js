@@ -38,7 +38,7 @@ test('sessionSagas login success', () => {
   const result = expectSaga(sagas.watchLoginSuccess)
     .withState({})
     .put(actions.setAuthenticated(true))
-    .put(actions.setUserData({ name: 'Rune Storløpa' }))
+    .put(actions.setUserData({ name: 'Rune Storløpa', scope: '' }))
     .dispatch(
       actions.loginSuccess({
         history: { replace },

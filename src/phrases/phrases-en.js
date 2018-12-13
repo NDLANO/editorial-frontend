@@ -363,6 +363,8 @@ const phrases = {
     taxonomytSection: 'Taxonomy',
     copyrightSection: 'License and authors',
     save: 'Save',
+    saveDraft: 'Save draft',
+    saveTax: 'Save taxonomy',
     saving: 'Saving...',
     choose: 'Choose',
     saved: 'Saved ',
@@ -682,6 +684,7 @@ const phrases = {
     goToFrontPage: 'Go to frontpage',
     invalidUrl: 'Invalid url',
     noArticleInProd: 'No article found in prod',
+    taxonomy: 'There was a problem loading taxonomy',
   },
   notFound: {
     description: 'The page cannot be found',
@@ -729,6 +732,27 @@ const phrases = {
     resource: {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
+    },
+    resourceTypes: {
+      title: 'Content type',
+      subTitle: 'What content type does this resource have?',
+      placeholder: 'Select content type',
+    },
+    topics: {
+      title: 'Topic connections',
+      subTitle: 'Where in the taxonomy should this resource be?',
+      filestructureButton: 'Create a topic connection',
+      filestructureHeading: 'Select a topic connection',
+      filestructureClose: 'Close',
+      addedTopic: 'Added to taxonomy',
+      filterTopic: 'Filter topics',
+      disconnectedTaxonomyWarning: 'Invalid topic connection',
+    },
+    filters: {
+      title: 'Filters',
+      subTitle: 'Which filters should be applied?',
+      additional: 'Additional resource',
+      core: 'Core resource',
     },
   },
 };

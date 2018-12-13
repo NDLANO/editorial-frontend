@@ -70,6 +70,7 @@ const getAuth0Hostname = () => {
 };
 
 const config = {
+  ndlaEnvironment,
   componentName: getEnvironmentVariabel('npm_package_name'),
   host: getEnvironmentVariabel('EDITORIAL_FRONTEND_HOST', 'localhost'),
   port: getEnvironmentVariabel('EDITORIAL_FRONTEND_PORT', '3000'),

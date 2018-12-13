@@ -11,15 +11,9 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
-import {
-  createResource,
-  createDeleteResourceTypes,
-  createDeleteUpdateFilters,
-  createDeleteUpdateTopicResources,
-} from '.';
-
-const resolveTaxonomyJsonOrRejectWithError = res =>
-  resolveJsonOrRejectWithError(res, true);
+import { createDeleteResourceTypes } from './resourcetypes';
+import { createDeleteUpdateFilters } from './filter';
+import { createDeleteUpdateTopicResources } from './topicresouces';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
@@ -49,62 +43,49 @@ function fetchRelevances(locale) {
 }
 
 /* Queries */
-function queryResources(articleId, language) {
-  return fetchAuthorized(
-    `${baseUrl}/queries/resources/?contentURI=${encodeURIComponent(
-      `urn:article:${articleId}`,
-    )}&?language=${language}`,
-  ).then(resolveJsonOrRejectWithError);
-}
 
 /* Taxonomy actions */
-async function updateTaxonomy(taxonomy, allTopics) {
+async function updateTaxonomy(
+  resourceId,
+  {
+    topics: originalTopics,
+    filter: originalFilters,
+    resourceTypes: originalResourceTypes,
+  },
+  taxonomyChanges,
+  language,
+) {
   try {
-    let resource = await queryResources(taxonomy.articleId, taxonomy.language);
-    if (
-      resource.length === 0 &&
-      (taxonomy.resourceTypes.length > 0 ||
-        taxonomy.filter.length > 0 ||
-        taxonomy.topics.length > 0)
-    ) {
-      await createResource({
-        contentUri: `urn:article:${taxonomy.articleId}`,
-        name: taxonomy.articleName,
-      });
-      resource = await queryResources(taxonomy.articleId, taxonomy.language);
-      // resource = [{ id: resourceId.replace(/(\/v1\/resources\/)/, '') }];
-    }
-    if (resource.length !== 0 && resource[0].id) {
+    await Promise.all([
       createDeleteResourceTypes(
-        resource[0].id,
-        [...taxonomy.resourceTypes],
-        taxonomy.language,
-      );
+        resourceId,
+        taxonomyChanges.resourceTypes,
+        originalResourceTypes,
+      ),
 
       createDeleteUpdateFilters(
-        resource[0].id,
-        [...taxonomy.filter],
-        taxonomy.language,
-      );
+        resourceId,
+        taxonomyChanges.filter,
+        originalFilters,
+      ),
 
       createDeleteUpdateTopicResources(
-        resource[0].id,
-        [...taxonomy.topics],
-        taxonomy.language,
-        allTopics,
-      );
-    }
+        resourceId,
+        taxonomyChanges.topics,
+        language,
+        originalTopics,
+      ),
+    ]);
+    return true;
   } catch (e) {
     throw new Error(e);
   }
 }
 
 export {
-  resolveTaxonomyJsonOrRejectWithError,
   fetchResourceTypes,
   fetchFilters,
   fetchTopicArticle,
   fetchRelevances,
-  queryResources,
   updateTaxonomy,
 };

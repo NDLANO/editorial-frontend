@@ -27,7 +27,7 @@ export const ARTICLE_EXTERNAL = 'external-learning-resources';
 export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'H5P', url: ['h5p'] },
   { name: 'YouTube', url: ['youtube.com', 'youtu.be'], height: '486px' },
-  { name: 'NRK', url: ['www.nrk.no'] },
+  { name: 'NRK', url: ['static.nrk.no'], height: '398px' },
   { name: 'Vimeo', url: ['vimeo.no', 'vimeopro.com'], height: '486px' },
   { name: 'Norgesfilm', url: ['ndla.filmiundervisning.no'] },
   { name: 'TED', url: ['ted.com'] },
@@ -37,4 +37,12 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'SlideShare', url: ['www.slideshare.net'], height: '500px' },
   { name: 'Scribd', url: ['scribd.com'] },
   { name: 'Kahoot', url: ['embed.kahoot.it'] },
+  {
+    name: 'Livestream',
+    url: ['livestream.com', 'new.livestream.com'],
+    height: '398px',
+  },
+  { name: 'Issuu', url: ['e.issuu.com'] },
+  { name: 'Geogebra', url: ['www.geogebra.org'] },
+  { name: 'IMDB', url: ['www.imdb.com'], height: '398px' },
 ];

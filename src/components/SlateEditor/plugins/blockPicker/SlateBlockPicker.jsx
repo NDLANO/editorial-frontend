@@ -197,7 +197,6 @@ class SlateBlockPicker extends Component {
         <Portal isOpened={visualElementSelect.isOpen}>
           <SlateVisualElementPicker
             resource={visualElementSelect.visualElementType}
-            isOpen={visualElementSelect.isOpen}
             onVisualElementClose={this.onVisualElementClose}
             onInsertBlock={this.onInsertBlock}
           />

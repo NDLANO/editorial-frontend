@@ -32,6 +32,7 @@ const FilterView = ({
             : ''
         }
         onClick={() => toggleFilter(filter.id)}>
+        <span />
         <span>{filter.name}</span>
       </StyledFilterButton>
     ))}

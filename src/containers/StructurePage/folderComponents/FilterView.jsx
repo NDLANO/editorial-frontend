@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { css } from 'react-emotion';
+import styled from 'react-emotion';
 import { injectT } from '@ndla/i18n';
 import {
   StyledFilterButton,
   StyledFilterHeading,
 } from '../../../style/LearningResourceTaxonomyStyles';
 
-const wrapper = css`
+const Wrapper = styled('div')`
   display: flex;
   margin-left: auto;
 `;
@@ -18,7 +18,7 @@ const FilterView = ({
   activeFilters,
   toggleFilter,
 }) => (
-  <div className={wrapper}>
+  <Wrapper>
     <StyledFilterHeading show>
       {t('taxonomy.topics.filterTopic')}:
     </StyledFilterHeading>
@@ -32,11 +32,10 @@ const FilterView = ({
             : ''
         }
         onClick={() => toggleFilter(filter.id)}>
-        <span />
         <span>{filter.name}</span>
       </StyledFilterButton>
     ))}
-  </div>
+  </Wrapper>
 );
 
 FilterView.propTypes = {

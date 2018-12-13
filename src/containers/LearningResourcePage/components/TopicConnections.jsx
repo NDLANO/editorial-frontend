@@ -81,13 +81,11 @@ class TopicConnections extends Component {
   }
 
   toggleFilter(id) {
-    const { fileStructureFilters } = this.state;
-    const newFilterArray = fileStructureFilters.includes(id)
-      ? fileStructureFilters.filter(activeFilter => activeFilter !== id)
-      : [...fileStructureFilters, id];
-    this.setState({
-      fileStructureFilters: newFilterArray,
-    });
+    this.setState(({ fileStructureFilters }) => ({
+      fileStructureFilters: fileStructureFilters.includes(id)
+        ? fileStructureFilters.filter(activeFilter => activeFilter !== id)
+        : [...fileStructureFilters, id],
+    }));
   }
 
   renderListItems({ paths, level, isOpen, id, closeModal }) {

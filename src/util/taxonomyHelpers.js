@@ -189,9 +189,10 @@ const groupTopics = allTopics =>
 
 const getCurrentTopic = ({ params, subject = {} }) => {
   const { topic1, topic2, topic3 } = params;
+  let topic = {};
   if (topic1) {
     const sub = subject.topics;
-    let topic = sub ? sub.find(top => top.id === topic1) : {};
+    topic = sub ? sub.find(top => top.id === topic1) : {};
     if (topic2) {
       topic = topic.subtopics
         ? topic.subtopics.find(top => top.id === topic2)
@@ -202,9 +203,8 @@ const getCurrentTopic = ({ params, subject = {} }) => {
           : {};
       }
     }
-    return topic || {};
   }
-  return {};
+  return topic;
 };
 
 const selectedResourceTypeValue = resourceTypes => {

@@ -275,10 +275,7 @@ export class StructurePage extends React.PureComponent {
     } = this.props;
     const currentPath = match.url.replace('/structure/', '');
     const levelAbove = removeLastItemFromUrl(currentPath);
-    let newPath = path;
-    if (currentPath === path) {
-      newPath = levelAbove;
-    }
+    const newPath = currentPath === path ? levelAbove : path;
     history.push(`/structure/${newPath.concat(search)}`);
   }
 
@@ -298,6 +295,7 @@ export class StructurePage extends React.PureComponent {
       subject: subjects.find(sub => sub.id === params.subject),
     });
     const linkViewOpen = jsPlumbConnections.length > 0;
+
     return (
       <ErrorBoundary>
         <OneColumn>
@@ -330,7 +328,6 @@ export class StructurePage extends React.PureComponent {
                 renderListItems={listProps => (
                   <FolderItem
                     refFunc={this.refFunc}
-                    match={match}
                     {...listProps}
                     getAllSubjects={this.getAllSubjects}
                     onAddSubjectTopic={this.onAddSubjectTopic}

@@ -11,6 +11,7 @@ import { string, bool, arrayOf, shape, func, instanceOf } from 'prop-types';
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
+import { withRouter } from 'react-router-dom';
 import { css } from 'react-emotion';
 import { Link as LinkIcon } from '@ndla/icons/editor';
 import BEMHelper from 'react-bem-helper';
@@ -137,4 +138,4 @@ FolderItem.propTypes = {
   ),
 };
 
-export default injectT(FolderItem);
+export default withRouter(injectT(FolderItem));

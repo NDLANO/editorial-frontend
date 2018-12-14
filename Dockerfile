@@ -23,10 +23,14 @@ RUN yarn run build
 ### Run stage
 FROM node:10-alpine
 
+RUN apk add py2-pip jq && pip install awscli
+COPY run-editorial-frontend.sh /
+
+
 RUN npm install pm2 -g
 WORKDIR /home/app/editorial-frontend
 COPY --from=builder /home/app/editorial-frontend/build build
 
 ENV NODE_ENV=production
 
-CMD ["pm2-runtime", "-i", "max", "build/server.js", "|", "bunyan"]
+CMD ["/run-editorial-frontend.sh", "pm2-runtime -i max build/server.js '|' bunyan"]

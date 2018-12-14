@@ -61,17 +61,6 @@ class EditFile extends Component {
                       placeholder={t('form.file.title.placeholder')}
                       submitted={submitted}
                     />
-                    <SlateInputField
-                      id={file.id}
-                      name="alt"
-                      noBorder={false}
-                      label={t('form.file.alt.label')}
-                      type="text"
-                      value={file.alt}
-                      onChange={onFileListInputChange}
-                      placeholder={t('form.file.alt.placeholder')}
-                      submitted={submitted}
-                    />
                   </div>
                 </ModalBody>
               </Fragment>

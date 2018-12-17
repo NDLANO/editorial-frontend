@@ -193,12 +193,12 @@ const getCurrentTopic = ({ params, topics }) => {
     const sub = topics[`urn:${subject}`];
     let topic = sub ? sub.find(top => top.id === `urn:${topic1}`) : {};
     if (topic2) {
-      topic = topic.topics
-        ? topic.topics.find(top => top.id === `urn:${topic2}`)
+      topic = topic.subtopics
+        ? topic.subtopics.find(top => top.id === `urn:${topic2}`)
         : {};
       if (topic3) {
-        topic = topic.topics
-          ? topic.topics.find(top => top.id === `urn:${topic3}`)
+        topic = topic.subtopics
+          ? topic.subtopics.find(top => top.id === `urn:${topic3}`)
           : {};
       }
     }

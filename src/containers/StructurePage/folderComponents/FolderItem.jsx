@@ -27,6 +27,11 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
+const resourceButtonStyle = css`
+  margin: 3px ${spacing.xsmall} 3px auto;
+  ${fonts.sizes(14, 1.1)};
+`;
+
 const FolderItem = ({
   name,
   pathToString,
@@ -49,63 +54,53 @@ const FolderItem = ({
   const type = id.includes('subject') ? 'subject' : 'topic';
   const isMainActive = pathToString === url.replace('/structure/', '');
 
-  const settingsButton = isOpen &&
-    config.enableFullTaxonomy && (
-      <SettingsMenu
-        id={id}
-        name={name}
-        type={type}
-        path={pathToString}
-        topicFilters={filters}
-        {...rest}
-      />
-    );
-  const showLinkButton = isOpen &&
-    type === 'topic' &&
-    config.enableFullTaxonomy &&
-    isMainActive && (
-      <Button stripped onClick={() => showLink(id, rest.parent)}>
-        <RoundIcon open={linkViewOpen} icon={<LinkIcon />} />
-      </Button>
-    );
-  const editLinkButton = type === 'subject' && (
-    <EditLinkButton
-      refFunc={refFunc}
-      id={id}
-      setPrimary={setPrimary}
-      deleteTopicLink={deleteTopicLink}
-    />
-  );
-  const subjectFilters = isOpen &&
-    type === 'subject' && (
-      <FilterView
-        subjectFilters={rest.subjectFilters}
-        activeFilters={activeFilters}
-        toggleFilter={toggleFilter}
-      />
-    );
-
-  const jumpToResources = isMainActive &&
-    type === 'topic' && (
-      <Button
-        outline
-        className={css`
-          margin: 3px ${spacing.xsmall} 3px auto;
-          ${fonts.sizes(14, 1.1)};
-        `}
-        type="button"
-        onClick={() => resourceSection && resourceSection.scrollIntoView()}>
-        {t('taxonomy.jumpToResources')}
-      </Button>
-    );
+  const showSettings = isOpen && config.enableFullTaxonomy;
+  const showLinkButton =
+    isOpen && type === 'topic' && config.enableFullTaxonomy && isMainActive;
+  const showSubjectFilters = isOpen && type === 'subject';
+  const showJumpToResources = isMainActive && type === 'topic';
 
   return (
     <div data-cy="folderWrapper" {...classes('wrapper')}>
-      {showLinkButton}
-      {editLinkButton}
-      {settingsButton}
-      {subjectFilters}
-      {jumpToResources}
+      {showLinkButton && (
+        <Button stripped onClick={() => showLink(id, rest.parent)}>
+          <RoundIcon open={linkViewOpen} icon={<LinkIcon />} />
+        </Button>
+      )}
+      {showSettings && (
+        <SettingsMenu
+          id={id}
+          name={name}
+          type={type}
+          path={pathToString}
+          topicFilters={filters}
+          {...rest}
+        />
+      )}
+      {showSubjectFilters && (
+        <FilterView
+          subjectFilters={rest.subjectFilters}
+          activeFilters={activeFilters}
+          toggleFilter={toggleFilter}
+        />
+      )}
+      {showJumpToResources && (
+        <Button
+          outline
+          className={resourceButtonStyle}
+          type="button"
+          onClick={() => resourceSection && resourceSection.scrollIntoView()}>
+          {t('taxonomy.jumpToResources')}
+        </Button>
+      )}
+      {type === 'subject' && (
+        <EditLinkButton
+          refFunc={refFunc}
+          id={id}
+          setPrimary={setPrimary}
+          deleteTopicLink={deleteTopicLink}
+        />
+      )}
     </div>
   );
 };

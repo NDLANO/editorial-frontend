@@ -8,9 +8,9 @@
 
 import 'isomorphic-fetch';
 import btoa from 'btoa';
-import { getEnvironmentVariabel } from '../config';
+import { getEnvironmentVariabel, getUniversalConfig } from '../config';
 
-const url = `https://ndla.eu.auth0.com/oauth/token`;
+const url = `https://${getUniversalConfig().auth0Domain}/oauth/token`;
 const editorialFrontendClientId = getEnvironmentVariabel(
   'NDLA_EDITORIAL_CLIENT_ID',
 );

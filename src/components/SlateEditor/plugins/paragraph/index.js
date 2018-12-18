@@ -10,7 +10,6 @@
 import { onEnter } from './actions';
 
 const KEY_ENTER = 'Enter';
-export const TYPE = 'paragraph';
 
 export default function paragraphPlugin() {
   function onKeyDown(e, change) {

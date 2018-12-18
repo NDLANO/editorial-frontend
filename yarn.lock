@@ -10432,16 +10432,18 @@ slate-react@0.18.10:
     slate-plain-serializer "^0.6.7"
     slate-prop-types "^0.4.66"
 
-slate@0.41.2:
-  version "0.41.2"
-  resolved "https://registry.yarnpkg.com/slate/-/slate-0.41.2.tgz#860806de87cec0d8446f61be423e3c20e3f2db51"
+slate@0.42:
+  version "0.42.6"
+  resolved "https://registry.yarnpkg.com/slate/-/slate-0.42.6.tgz#b597a8414a27dac378e56a7da24faf4ae5f35be6"
+  integrity sha512-iOPJ42AG7GQGu6V7+3isoMDT3wpABLiMVTeKwTwV9hGbWzsWVYFLmoANsfBdkE/NmgQ5T9KjWnZbpmR4D0Yjmw==
   dependencies:
     debug "^3.1.0"
     direction "^0.1.5"
     esrever "^0.2.0"
     is-plain-object "^2.0.4"
     lodash "^4.17.4"
-    slate-dev-warning "^0.0.1"
+    tiny-invariant "^1.0.1"
+    tiny-warning "^0.0.3"
     type-of "^2.0.1"
 
 slice-ansi@0.0.4:
@@ -11158,6 +11160,16 @@ tiny-inflate@^1.0.0, tiny-inflate@^1.0.2:
 tiny-invariant@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.0.1.tgz#54700d039a0384ef2e83afd0e81af84c6d67b140"
+
+tiny-invariant@^1.0.1:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.0.3.tgz#91efaaa0269ccb6271f0296aeedb05fc3e067b7a"
+  integrity sha512-ytQx8T4DL8PjlX53yYzcIC0WhIZbpR0p1qcYjw2pHu3w6UtgWwFJQ/02cnhOnBBhlFx/edUIfcagCaQSe3KMWg==
+
+tiny-warning@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/tiny-warning/-/tiny-warning-0.0.3.tgz#1807eb4c5f81784a6354d58ea1d5024f18c6c81f"
+  integrity sha512-r0SSA5Y5IWERF9Xh++tFPx0jITBgGggOsRLDWWew6YRw/C2dr4uNO1fw1vanrBmHsICmPyMLNBZboTlxUmUuaA==
 
 tlds@^1.187.0:
   version "1.203.1"

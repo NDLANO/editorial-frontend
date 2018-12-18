@@ -18,6 +18,9 @@ import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import {
+fetchTopicConnections,
+} from '../../../modules/taxonomy';
+import {
   TitleModal,
   listClass,
   buttonAddition,
@@ -63,11 +66,15 @@ class TopicConnections extends Component {
     });
   }
 
-  addTopic(id, closeModal) {
+  async addTopic(id, closeModal) {
+  
     const { activeTopics, taxonomyTopics, stageTaxonomyChanges } = this.props;
     const addTopic = taxonomyTopics.find(
       taxonomyTopic => taxonomyTopic.id === id,
     );
+
+    const topicConnections = await fetchTopicConnections(addTopic.id);
+    addTopic.topicConnections = topicConnections;
 
     stageTaxonomyChanges({
       topics: [
@@ -148,6 +155,7 @@ class TopicConnections extends Component {
   render() {
     const { t, structure, availableFilters, ...rest } = this.props;
     const { fileStructureFilters, openedPaths } = this.state;
+
     return (
       <Fragment>
         <FormHeader

@@ -26,7 +26,9 @@ const FilterConnections = ({
 }) => {
   const availableSubjects = {};
   topics.forEach(topic => {
-    availableSubjects[`urn:${topic.path.split('/')[1]}`] = true;
+    topic.topicConnections.forEach(topicConnection => {
+      availableSubjects[`urn:${topicConnection.paths[0].split('/')[1]}`] = true;
+    });
   });
   return (
     <Fragment>

@@ -21,6 +21,7 @@ import {
   fetchTopics,
   fetchSubjects,
   fetchSubjectTopics,
+  fetchTopicConnections,
   updateTaxonomy,
   getFullResource,
   createResource,
@@ -169,16 +170,19 @@ class LearningResourceTaxonomy extends Component {
           language,
         );
 
+        const topicConnections = await Promise.all(topics.map(topic => fetchTopicConnections(topic.id)));
+        const topicsWithConnections = topics.map((topic, index) => ({ topicConnections: topicConnections[index], ...topic }));
+      
         this.setState({
           resourceId,
           status: 'success',
           resourceTaxonomy: {
             resourceTypes,
             filter: filters,
-            topics,
+            topics: topicsWithConnections,
           },
           taxonomyChanges: {
-            topics,
+            topics: topicsWithConnections,
             resourceTypes,
             filter: filters,
           },
@@ -294,13 +298,13 @@ class LearningResourceTaxonomy extends Component {
     }));
   }
 
-  retriveBreadCrumbs(topic) {
+  retriveBreadCrumbs(topicPath) {
     const {
       structure,
       taxonomyChoices: { allTopics },
     } = this.state;
     try {
-      let topicPaths = topic.path
+      let topicPaths = topicPath
         .split('/')
         .splice(1)
         .map(url => `urn:${url}`);
@@ -384,12 +388,12 @@ class LearningResourceTaxonomy extends Component {
   render() {
     const {
       taxonomyChoices: { availableResourceTypes, availableFilters, allTopics },
-
       taxonomyChanges: { resourceTypes, topics, filter },
       structure,
       status,
       saveStatus,
     } = this.state;
+
     const { t, closePanel } = this.props;
 
     if (status === 'loading') {
@@ -433,7 +437,6 @@ class LearningResourceTaxonomy extends Component {
           stageTaxonomyChanges={this.stageTaxonomyChanges}
           getSubjectTopics={this.getSubjectTopics}
         />
-
         {topics.length > 0 && (
           <FilterConnections
             topics={topics}

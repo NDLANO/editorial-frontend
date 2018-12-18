@@ -189,6 +189,24 @@ const Connections = styled('div')`
       font-weight: ${fonts.weight.semibold};
     }
   }
+  ${props => props.shared && css`
+    background: none;
+    border: 2px dashed ${colors.brand.tertiary};
+    flex-direction: row-reverse;
+    margin-left: ${spacing.normal};
+    > div:last-child:before {
+      content: "";
+      position: absolute;
+      transform: translate(-${spacing.normal}, 4px);
+      border-bottom-left-radius: ${misc.borderRadius};
+      display: inline-block;
+      border: 2px solid ${colors.brand.tertiary};
+      height: 10px;
+      width: 10px;
+      border-right: none;
+      border-top: none;
+    }
+  `}
 `;
 
 const ConnectionsWrapper = styled('div')`
@@ -285,25 +303,34 @@ const FilterTable = styled('table')`
   }
 `;
 
-const PrimaryConnectionButton = styled('button')`
-  background: ${colors.support.green};
+const connectionButtonStyle = css`
   border: 0;
   border-radius: ${misc.borderRadius};
   padding: ${spacing.xsmall} ${spacing.small};
   margin-right: ${spacing.xsmall};
   text-transform: uppercase;
+  ${fonts.sizes(14, 1.1)} font-weight: ${fonts.weight.semibold};
+`;
+
+const PrimaryConnectionButton = styled('button')`
+  ${connectionButtonStyle}
+  background: ${colors.support.green};
   opacity: 0.3;
   transition: opacity 100ms ease;
   &:hover,
   &:focus {
     opacity: 1;
   }
-  ${fonts.sizes(14, 1.1)} font-weight: ${fonts.weight.semibold};
   ${props =>
     props.primary &&
     css`
       opacity: 1;
     `};
+`;
+
+const DuplicateConnectionLabel = styled('div')`
+  ${connectionButtonStyle}
+  background: ${colors.brand.light};
 `;
 
 const RemoveConnectionButton = styled('button')`
@@ -349,6 +376,7 @@ export {
   FilterTable,
   PrimaryConnectionButton,
   RemoveConnectionButton,
+  DuplicateConnectionLabel,
   SubjectName,
   TitleModal,
 };

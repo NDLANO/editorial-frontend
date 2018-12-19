@@ -1,4 +1,8 @@
-import { removeLastItemFromUrl, getResourceIdFromPath, getPathsFromUrl } from '../routeHelpers';
+import {
+  removeLastItemFromUrl,
+  getResourceIdFromPath,
+  getPathsFromUrl,
+} from '../routeHelpers';
 
 test('correctly removes last part of all urls', () => {
   const url1 =

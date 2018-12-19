@@ -213,7 +213,7 @@ class LearningResourceForm extends Component {
       articleStatus,
     } = this.props;
 
-    const status = articleStatus ? articleStatus.current : undefined
+    const status = articleStatus ? articleStatus.current : undefined;
 
     if (!schema.isValid) {
       setSubmitted(true);
@@ -224,7 +224,10 @@ class LearningResourceForm extends Component {
       return;
     }
 
-    if (status === articleStatuses.PUBLISHED || status === articleStatuses.QUEUED_FOR_PUBLISHING) {
+    if (
+      status === articleStatuses.PUBLISHED ||
+      status === articleStatuses.QUEUED_FOR_PUBLISHING
+    ) {
       try {
         await validateDraft(id, {
           ...this.getArticleFromModel(),

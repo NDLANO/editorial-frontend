@@ -16,14 +16,18 @@ import { PossibleStatusShape } from '../../../shapes';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 
 const isAdminStatus = status =>
-  status === articleStatuses.PUBLISHED || status === articleStatuses.UNPUBLISHED;
+  status === articleStatuses.PUBLISHED ||
+  status === articleStatuses.UNPUBLISHED;
 
 function AdminActions({ possibleStatuses, articleStatus, onUpdateStatus, t }) {
   if (possibleStatuses[articleStatus.current].find(isAdminStatus)) {
     return (
       <div {...formClasses('actions')}>
         {possibleStatuses[articleStatus.current].map(status => {
-          if (status === articleStatuses.PUBLISHED || status === articleStatuses.UNPUBLISHED) {
+          if (
+            status === articleStatuses.PUBLISHED ||
+            status === articleStatuses.UNPUBLISHED
+          ) {
             return (
               <Button
                 key={`status_action_${status}`}

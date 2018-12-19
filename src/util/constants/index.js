@@ -6,8 +6,8 @@
  *
  */
 
-import * as articleStatus from './articleStatus';
+import * as articleStatuses from './ArticleStatus';
 
 export default {
-  articleStatus,
+  articleStatuses,
 };

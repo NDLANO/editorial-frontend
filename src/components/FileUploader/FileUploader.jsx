@@ -24,7 +24,6 @@ class FileUploader extends React.Component {
     this.state = {
       file: '',
       title: '',
-      alt: '',
       submitted: false,
       errorMessage: '',
     };
@@ -42,8 +41,8 @@ class FileUploader extends React.Component {
 
   async onSave() {
     const { onFileSave } = this.props;
-    const { file, title, alt } = this.state;
-    if (isEmpty(alt) || isEmpty(title) || isEmpty(file)) {
+    const { file, title } = this.state;
+    if (isEmpty(title) || isEmpty(file)) {
       this.setState({ submitted: true });
     } else {
       try {
@@ -54,7 +53,6 @@ class FileUploader extends React.Component {
           path: fileResult.path,
           title,
           type: fileResult.extension.substring(1),
-          alt,
         });
       } catch (err) {
         if (err && err.json.messages) {
@@ -72,7 +70,7 @@ class FileUploader extends React.Component {
 
   render() {
     const { t, onClose } = this.props;
-    const { file, title, alt, submitted, errorMessage } = this.state;
+    const { file, title, submitted, errorMessage } = this.state;
     return (
       <Fragment>
         <Field>
@@ -107,26 +105,9 @@ class FileUploader extends React.Component {
               </FieldHelp>
             )}
         </Field>
-        <Field>
-          <label htmlFor="alt">{t('form.file.alt.label')}</label>
-          <input
-            name="alt"
-            value={alt}
-            onChange={this.onChangeField}
-            placeholder={t('form.file.alt.placeholder')}
-          />
-          {isEmpty(alt) &&
-            submitted && (
-              <FieldHelp error>
-                {t('validation.isRequired', {
-                  label: t('form.file.alt.label'),
-                })}
-              </FieldHelp>
-            )}
-        </Field>
         <Field className="c-form__form-actions" right>
-          <Button onClick={this.onSave}>Legg til fil</Button>
-          <Button onClick={onClose}>Avbryt</Button>
+          <Button onClick={this.onSave}>{t('form.file.addFile')}</Button>
+          <Button onClick={onClose}>{t('form.abort')}</Button>
         </Field>
       </Fragment>
     );

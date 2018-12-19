@@ -1,12 +1,11 @@
 language: node_js
 node_js:
-  - '8'
+  - '10'
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH="$HOME/.yarn/bin:$PATH"
 script:
-  - yarn lint
-  - yarn test-ci
+  - yarn check-all
   - yarn build
 after_success:
   - travis_wait yarn ndla-scripts now-travis --npm

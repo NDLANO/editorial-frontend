@@ -11,27 +11,24 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../../util/apiHelpers';
-import {
-  resolveTaxonomyJsonOrRejectWithError,
-  fetchTopicArticle,
-  queryResources,
-} from '..';
+import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
+import { fetchTopicArticle } from '../taxonomyApi';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-function fetchResource(id, locale) {
+export function fetchResource(id, locale) {
   return fetchAuthorized(`${baseUrl}/resources/${id}?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
 }
 
-function fetchFullResource(id, locale) {
+export function fetchFullResource(id, locale) {
   return fetchAuthorized(
     `${baseUrl}/resources/${id}/full?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
-function createResource(resource) {
+export function createResource(resource) {
   return fetchAuthorized(`${baseUrl}/resources`, {
     headers: {
       'Content-Type': 'application/json',
@@ -41,19 +38,19 @@ function createResource(resource) {
   }).then(resolveTaxonomyJsonOrRejectWithError);
 }
 
-function fetchResourceResourceType(id, locale) {
+export function fetchResourceResourceType(id, locale) {
   return fetchAuthorized(
     `${baseUrl}/resources/${id}/resource-types?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
-function fetchResourceFilter(id, locale) {
+export function fetchResourceFilter(id, locale) {
   return fetchAuthorized(
     `${baseUrl}/resources/${id}/filters?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
-function updateResourceRelevance(resourceFilterId, relevance) {
+export function updateResourceRelevance(resourceFilterId, relevance) {
   return fetchAuthorized(`${baseUrl}/resource-filters/${resourceFilterId}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -71,7 +68,7 @@ function updateResourceRelevance(resourceFilterId, relevance) {
 }
  */
 
-async function getResourceId({ articleId, language }) {
+export async function getResourceId({ articleId, language }) {
   let resourceId = '';
   const resource = await queryResources(articleId, language);
   if (resource.length > 0) {
@@ -84,7 +81,7 @@ async function getResourceId({ articleId, language }) {
   return resourceId;
 }
 
-async function getFullResource(resourceId, language) {
+export async function getFullResource(resourceId, language) {
   const { resourceTypes, filters, parentTopics } = await fetchFullResource(
     resourceId,
     language,
@@ -108,14 +105,10 @@ async function getFullResource(resourceId, language) {
   };
 }
 
-export {
-  fetchResource,
-  createResource,
-  fetchResourceResourceType,
-  fetchResourceFilter,
-  updateResourceRelevance,
-  fetchFullResource,
-  getFullResource,
-  getResourceId,
-  // fetchTopicResource,
-};
+export function queryResources(articleId, language) {
+  return fetchAuthorized(
+    `${baseUrl}/queries/resources/?contentURI=${encodeURIComponent(
+      `urn:article:${articleId}`,
+    )}&?language=${language}`,
+  ).then(resolveJsonOrRejectWithError);
+}

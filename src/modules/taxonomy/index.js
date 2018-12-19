@@ -5,33 +5,32 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {
+export {
   fetchResourceTypes,
   fetchFilters,
   fetchTopicArticle,
   fetchRelevances,
-  queryResources,
   updateTaxonomy,
-  resolveTaxonomyJsonOrRejectWithError,
 } from './taxonomyApi';
-import {
+
+export {
   fetchResource,
   createResource,
+  queryResources,
   fetchResourceResourceType,
   fetchResourceFilter,
   fetchFullResource,
   updateResourceRelevance,
   getFullResource,
-  getResourceId,
-  // fetchTopicResource,
+  getResourceId, // fetchTopicResource,
 } from './resources';
-import {
+export {
   fetchAllResourceTypes,
   createResourceResourceType,
   deleteResourceResourceType,
   createDeleteResourceTypes,
 } from './resourcetypes';
-import {
+export {
   createResourceFilter,
   updateResourceFilter,
   deleteResourceFilter,
@@ -40,7 +39,7 @@ import {
   editSubjectFilter,
   deleteFilter,
 } from './filter';
-import {
+export {
   fetchAllTopicResource,
   fetchSingleTopicResource,
   createTopicResource,
@@ -49,7 +48,7 @@ import {
   createDeleteUpdateTopicResources,
 } from './topicresouces';
 
-import {
+export {
   fetchSubjects,
   fetchSubjectTopics,
   addSubject,
@@ -59,7 +58,7 @@ import {
   updateSubjectTopic,
 } from './subjects';
 
-import {
+export {
   addTopic,
   fetchTopics,
   fetchTopicFilters,
@@ -74,59 +73,3 @@ import {
   fetchTopicConnections,
   updateTopicSubtopic,
 } from './topics';
-
-export {
-  fetchResourceTypes,
-  fetchResource,
-  createResource,
-  fetchAllResourceTypes,
-  fetchResourceResourceType,
-  createResourceResourceType,
-  deleteResourceResourceType,
-  createDeleteResourceTypes,
-  fetchResourceFilter,
-  createResourceFilter,
-  updateResourceFilter,
-  deleteResourceFilter,
-  createDeleteUpdateFilters,
-  fetchAllTopicResource,
-  fetchSingleTopicResource,
-  createTopicResource,
-  updateTopicResource,
-  deleteTopicResource,
-  createDeleteUpdateTopicResources,
-  fetchFilters,
-  fetchTopics,
-  fetchTopicResources,
-  addTopic,
-  fetchTopicArticle,
-  // fetchTopicResource,
-  fetchRelevances,
-  queryResources,
-  updateTaxonomy,
-  resolveTaxonomyJsonOrRejectWithError,
-  fetchSubjects,
-  fetchSubjectTopics,
-  addSubject,
-  updateSubjectName,
-  addSubjectTopic,
-  createSubjectFilter,
-  fetchSubjectFilters,
-  editSubjectFilter,
-  deleteFilter,
-  updateTopic,
-  addTopicToTopic,
-  deleteTopicConnection,
-  deleteSubTopicConnection,
-  fetchTopicFilters,
-  addFilterToTopic,
-  updateTopicFilter,
-  deleteTopicFilter,
-  fetchTopicConnections,
-  updateResourceRelevance,
-  updateTopicSubtopic,
-  updateSubjectTopic,
-  getFullResource,
-  fetchFullResource,
-  getResourceId,
-};

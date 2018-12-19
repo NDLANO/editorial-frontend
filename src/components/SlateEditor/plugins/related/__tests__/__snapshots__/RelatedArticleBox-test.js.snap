@@ -88,7 +88,7 @@ exports[`it goes in and out of edit mode 2`] = `
           >
             <a
               class="c-related-articles__link"
-              href="www.vg.no"
+              href="https://www.vg.no"
               rel="noopener noreferrer"
               target="_blank"
             />
@@ -100,7 +100,7 @@ exports[`it goes in and out of edit mode 2`] = `
         <p
           class="c-related-articles__link-info"
         >
-          Nettside hos 
+          Nettside hos www.vg.no
         </p>
       </article>
     </div>

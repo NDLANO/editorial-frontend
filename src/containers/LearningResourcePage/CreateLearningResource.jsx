@@ -26,7 +26,7 @@ class CreateLearningResource extends Component {
     this.updateDraft = this.updateDraft.bind(this);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { locale, fetchTags } = this.props;
     fetchTags({ language: locale });
   }

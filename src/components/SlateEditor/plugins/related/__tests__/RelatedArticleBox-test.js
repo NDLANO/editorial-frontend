@@ -40,8 +40,8 @@ test('it goes in and out of edit mode', async () => {
 
   const input = getByTestId('addExternalUrlInput');
   const inputTitle = getByTestId('addExternalTitleInput');
-  input.value = 'www.vg.no';
-  inputTitle.value = 'Title';
+  input.value = 'https://www.vg.no';
+  inputTitle.value = 'Verdens gang';
   fireEvent.change(input);
   fireEvent.change(inputTitle);
 

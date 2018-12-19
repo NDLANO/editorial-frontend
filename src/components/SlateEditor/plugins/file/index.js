@@ -15,13 +15,13 @@ export default () => {
   };
 
   /* eslint-disable react/prop-types */
-  const renderNode = props => {
+  const renderNode = (props, editor, next) => {
     const { node } = props;
     switch (node.type) {
       case 'file':
         return <Filelist {...props} />;
       default:
-        return null;
+        return next();
     }
   };
 

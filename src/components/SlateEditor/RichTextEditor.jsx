@@ -42,6 +42,7 @@ const RichTextEditor = class extends React.Component {
     this.state = {
       slateStore,
     };
+    this.editorRef = React.createRef();
     this.toggleMark = this.toggleMark.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
   }
@@ -103,14 +104,13 @@ const RichTextEditor = class extends React.Component {
       ...rest
     } = this.props;
 
-    const { slateStore } = this.state;
-
     return (
       <article>
         <div data-cy="slate-editor" className={slateEditorDivStyle}>
           <Editor
             {...classes(undefined, undefined, className)}
             onKeyDown={this.onKeyDown}
+            ref={this.editorRef}
             value={value}
             schema={schema}
             onChange={change =>
@@ -118,18 +118,19 @@ const RichTextEditor = class extends React.Component {
             }
             onFocus={onFocus}
             onBlur={onBlur}
-            slateStore={slateStore}
+            slateStore={this.state.slateStore}
             plugins={plugins}
             {...rest}
           />
           {children}
         </div>
-        <SlateToolbar
-          value={value}
-          onChange={onChange}
-          slateStore={slateStore}
-          name={name}
-        />
+        {this.editorRef.current && (
+          <SlateToolbar
+            editor={this.editorRef.current}
+            onChange={onChange}
+            name={name}
+          />
+        )}
       </article>
     );
   }

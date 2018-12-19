@@ -7,9 +7,9 @@ const KEY_BACKSPACE = 'Backspace';
 /**
  * User is pressing a key in the editor
  */
-function onKeyDown(opts, event, change, editor) {
+function onKeyDown(opts, event, editor, next) {
   // Build arguments list
-  const args = [opts, event, change, editor];
+  const args = [opts, event, editor, next];
 
   switch (event.key) {
     case KEY_ENTER:
@@ -17,7 +17,7 @@ function onKeyDown(opts, event, change, editor) {
     case KEY_BACKSPACE:
       return onBackspace(...args);
     default:
-      return undefined;
+      return next();
   }
 }
 

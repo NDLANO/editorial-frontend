@@ -58,13 +58,12 @@ class SlateBlockPicker extends Component {
   }
 
   onInsertBlock(block) {
-    const { editorValue, onChange } = this.props;
-    const nextChange = editorValue.change().insertBlock(block);
-    onChange(nextChange);
+    const { editor } = this.props;
+    editor.insertBlock(block);
   }
 
   onElementAdd(block) {
-    const { editorValue, onChange, addSection } = this.props;
+    const { editor, onChange, addSection } = this.props;
     switch (block.type) {
       case 'block': {
         addSection();
@@ -79,7 +78,7 @@ class SlateBlockPicker extends Component {
         break;
       }
       case 'table': {
-        const change = editorValue.change();
+        const change = editor.change();
         onChange(editTablePlugin.changes.insertTable(change, 2, 2));
         break;
       }
@@ -108,7 +107,7 @@ class SlateBlockPicker extends Component {
   }
 
   getDerviedStateFromProps(nextProps, prevState) {
-    if (!nextProps.editorValue.isFocused && prevState.isOpen) {
+    if (!nextProps.editor.isFocused && prevState.isOpen) {
       this.setState({ isOpen: false });
     }
   }
@@ -138,12 +137,12 @@ class SlateBlockPicker extends Component {
   }
 
   focusInsideIllegalArea() {
-    const { editorValue, illegalAreas } = this.props;
-    let node = editorValue.document.getClosestBlock(
-      editorValue.selection.start.key,
+    const { editor, illegalAreas } = this.props;
+    let node = editor.value.document.getClosestBlock(
+      editor.value.selection.start.key,
     );
     while (true) {
-      const parent = editorValue.document.getParent(node.key);
+      const parent = editor.value.document.getParent(node.key);
       if (
         !parent ||
         parent.get('type') === 'section' ||
@@ -159,10 +158,10 @@ class SlateBlockPicker extends Component {
   }
 
   showPicker() {
-    const { editorValue, allowedPickAreas } = this.props;
+    const { editor, allowedPickAreas } = this.props;
 
-    const node = editorValue.document.getClosestBlock(
-      editorValue.selection.start.key,
+    const node = editor.value.document.getClosestBlock(
+      editor.value.selection.start.key,
     );
 
     const show =
@@ -171,7 +170,7 @@ class SlateBlockPicker extends Component {
         node.text.length === 0 &&
         !this.focusInsideIllegalArea() &&
         allowedPickAreas.includes(node.type) &&
-        editorValue.selection.isFocused);
+        editor.value.selection.isFocused);
 
     if (show) {
       const nodeEl = findDOMNode(node); // eslint-disable-line react/no-find-dom-node
@@ -224,7 +223,7 @@ class SlateBlockPicker extends Component {
 
 SlateBlockPicker.propTypes = {
   onChange: PropTypes.func.isRequired,
-  editorValue: Types.value.isRequired,
+  editor: Types.value.isRequired,
   addSection: PropTypes.func.isRequired,
   allowedPickAreas: PropTypes.arrayOf(PropTypes.string),
   illegalAreas: PropTypes.arrayOf(PropTypes.string),

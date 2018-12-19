@@ -48,12 +48,6 @@ class SlateToolbar extends Component {
     this.portalRef = this.portalRef.bind(this);
     this.handleValueChange = this.handleValueChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
-
-    this.state = {
-      // Slate-component requires state to work, but is controlled by parent component
-      /* eslint-disable-next-line react/no-unused-state */
-      value: this.props.value,
-    };
   }
 
   componentDidMount() {
@@ -66,60 +60,58 @@ class SlateToolbar extends Component {
 
   onClickBlock(e, type) {
     e.preventDefault();
-    const { value } = this.props;
-    const change = value.change();
-    const { document } = value;
-    const isActive = hasNodeOfType(value, type);
+    const { editor } = this.props;
+    const { document, blocks } = editor.value;
+    const isActive = hasNodeOfType(editor.value, type);
     if (type === 'quote') {
-      if (blockquotePlugin.utils.isSelectionInBlockquote(value)) {
-        blockquotePlugin.changes.unwrapBlockquote(change);
+      if (blockquotePlugin.utils.isSelectionInBlockquote(editor)) {
+        blockquotePlugin.changes.unwrapBlockquote(editor);
       } else {
-        blockquotePlugin.changes.wrapInBlockquote(change);
+        blockquotePlugin.changes.wrapInBlockquote(editor);
       }
     } else if (listTypes.includes(type)) {
-      const isListTypeActive = value.blocks.some(
+      const isListTypeActive = blocks.some(
         block =>
           !!document.getClosest(block.key, parent => parent.type === type),
       );
       // Current list type is active
       if (isListTypeActive) {
-        editListPlugin.changes.unwrapList(change);
+        editListPlugin.changes.unwrapList(editor);
         // Current selection is list, but not the same type
-      } else if (editListPlugin.utils.isSelectionInList(value)) {
-        editListPlugin.changes.unwrapList(change);
-        editListPlugin.changes.wrapInList(change, type);
+      } else if (editListPlugin.utils.isSelectionInList(editor.value)) {
+        editListPlugin.changes.unwrapList(editor);
+        editListPlugin.changes.wrapInList(editor, type);
         // No list found, wrap in list type
       } else {
-        editListPlugin.changes.wrapInList(change, type);
+        editListPlugin.changes.wrapInList(editor, type);
       }
     } else {
-      change.setBlocks(isActive ? DEFAULT_NODE : type);
+      editor.setBlocks(isActive ? DEFAULT_NODE : type);
     }
-    this.handleValueChange(change);
+    this.handleValueChange(editor.value);
   }
 
   onClickMark(e, type) {
     e.preventDefault();
-    const { value } = this.props;
-    const nextState = value.change().toggleMark(type);
+    const { editor } = this.props;
+    const nextState = editor.toggleMark(type);
     this.handleValueChange(nextState);
   }
 
   onClickInline(e, type) {
     e.preventDefault();
-    const { value } = this.props;
+    const { editor } = this.props;
 
-    const change = value.change();
     if (type === 'footnote') {
-      change
+      editor
         .moveToEnd()
         .insertText('#')
         .moveFocusForward(-1)
         .wrapInline(type);
     } else {
-      change.wrapInline(type);
+      editor.wrapInline(type);
     }
-    this.handleValueChange(change);
+    this.handleValueChange(editor.value);
   }
 
   onButtonClick(e, kind, type) {
@@ -128,33 +120,24 @@ class SlateToolbar extends Component {
     if (kind === 'inline') this.onClickInline(e, type);
   }
 
-  static getDerivedStateFromProps({ value }, { value: stateValue }) {
-    if (value.selection.start.key !== stateValue.selection.start.key) {
-      const nodeKey = value.document.getClosestBlock(value.selection.start.key)
-        .key;
-      return {
-        isInsideAside: checkSelectionForType('aside', value, nodeKey),
-      };
-    }
-    return null;
-  }
-
   portalRef(menu) {
     // ReactDOM.createPortal callback ref only seems to return a ReactPortal node instance
     // eslint-disable-next-line react/no-find-dom-node
-    this.setState({ menu: findDOMNode(menu) });
+    this.menu = findDOMNode(menu);
   }
 
-  handleValueChange(change) {
+  handleValueChange(value) {
     const { name, onChange } = this.props;
-    onChange({ target: { name, value: change.value } });
+    onChange({ target: { name, value: value } });
     this.updateMenu();
   }
 
   updateMenu() {
-    const { menu } = this.state;
+    const { menu } = this;
     const {
-      value: { selection, fragment },
+      editor: {
+        value: { selection, fragment },
+      },
     } = this.props;
     if (!menu) return;
     if (selection.isBlurred || selection.isCollapsed || fragment.text === '') {
@@ -174,8 +157,15 @@ class SlateToolbar extends Component {
   }
 
   render() {
-    const { value } = this.props;
-    const toolbarElements = this.state.isInsideAside
+    const {
+      editor: { value },
+    } = this.props;
+    console.log(this.props.editor);
+    const toolbarElements = checkSelectionForType(
+      'aside',
+      value,
+      value.selection.start.key,
+    )
       ? supportedToolbarElementsAside
       : supportedToolbarElements;
     const toolbarButtons = Object.keys(toolbarElements).map(kind =>
@@ -202,7 +192,7 @@ class SlateToolbar extends Component {
 SlateToolbar.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  value: Types.value.isRequired,
+  editor: PropTypes.object.isRequired,
   slateStore: PropTypes.shape({
     dispatch: PropTypes.func.isRequired,
   }),

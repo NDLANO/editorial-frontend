@@ -89,8 +89,14 @@ class RichBlockTextEditor extends Component {
               name={name}
               schema={schema}
               onChange={e => this.onContentChange(e, index)}
-              onFocus={() => onFocus({ target: { name }, type: 'focus' })}
-              onBlur={() => onBlur({ target: { name }, type: 'blur' })}
+              onFocus={(event, editor, next) => {
+                onFocus({ target: { name }, type: 'focus' });
+                next();
+              }}
+              onBlur={(event, editor, next) => {
+                onBlur({ target: { name }, type: 'blur' });
+                next();
+              }}
               isBlock
               {...rest}
               value={val.value}

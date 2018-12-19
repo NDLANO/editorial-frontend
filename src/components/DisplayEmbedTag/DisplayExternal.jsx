@@ -50,12 +50,11 @@ export class DisplayExternal extends Component {
     const { editor, node } = this.props;
 
     if (properties.url !== this.props.url) {
-      const next = editor.value.change().setNodeByKey(node.key, {
+      editor.setNodeByKey(node.key, {
         data: {
           ...properties,
         },
       });
-      editor.onChange(next);
       this.closeEditEmbed();
     }
   }

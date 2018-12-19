@@ -136,12 +136,12 @@ export function editorValueToPlainText(editorValue) {
 }
 
 export function isEditorValueDirty(value) {
-  if (value.history) {
-    return value.history.undos.size > 0;
+  if (value.data.history) {
+    return value.data.history.undos.size > 0;
   }
   return (
     value
-      .map(val => (val && val.value ? val.value.history.undos.size : 0))
+      .map(val => (val && val.value ? val.value.data.history.undos.size : 0))
       .reduce((a, b) => a + b, 0) > 0
   );
 }

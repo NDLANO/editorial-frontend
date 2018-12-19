@@ -30,7 +30,7 @@ class Footnote extends Component {
   }
 
   render() {
-    const { attributes, children, editor, value, node } = this.props;
+    const { attributes, children, editor, node } = this.props;
     const { editMode } = this.state;
     const existingFootnote = node.data ? node.data.toJS() : {};
     return (
@@ -45,7 +45,7 @@ class Footnote extends Component {
         </a>
         {editMode && (
           <EditFootnote
-            value={value}
+            editor={editor}
             node={node}
             model={existingFootnote}
             blur={editor.blur}

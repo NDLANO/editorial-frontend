@@ -19,11 +19,11 @@ export default function createAside() {
   };
 
   // Rule to always insert a paragraph as the last node inside if void type
-  function validateNode(node) {
-    if (node.object !== 'block') return null;
-    if (node.type !== 'aside') return null;
-    if (!node.nodes.last().type) return null;
-    if (!node.nodes.last().isVoid) return null;
+  function validateNode(node, editor, next) {
+    if (node.object !== 'block') return next();
+    if (node.type !== 'aside') return next();
+    if (!node.nodes.last().type) return next();
+    if (!node.nodes.last().isVoid) return next();
 
     const block = Block.create(defaultBlocks.defaultBlock);
     return change => {
@@ -32,13 +32,13 @@ export default function createAside() {
   }
 
   /* eslint-disable react/prop-types */
-  const renderNode = props => {
+  const renderNode = (props, editor, next) => {
     const { node } = props;
     switch (node.type) {
       case 'aside':
         return <SlateAside {...props} />;
       default:
-        return null;
+        return next();
     }
   };
 

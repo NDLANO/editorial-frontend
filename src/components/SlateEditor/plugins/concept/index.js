@@ -17,12 +17,12 @@ export default function linkPlugin() {
   };
 
   /* eslint-disable react/prop-types */
-  const renderNode = props => {
+  const renderNode = (props, editor, next) => {
     switch (props.node.type) {
       case TYPE:
         return <EditConcept {...props} />;
       default:
-        return null;
+        return next();
     }
   };
 

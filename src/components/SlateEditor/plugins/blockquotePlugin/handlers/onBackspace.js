@@ -5,22 +5,22 @@ import { unwrapBlockquote } from '../changes';
  * User pressed Delete in an editor:
  * Unwrap the blockquote if at the start of the inner block.
  */
-function onBackspace(opts, event, change) {
-  const { value } = change;
+function onBackspace(opts, event, editor, next) {
+  const { value } = editor;
   const { startOffset, isCollapsed } = value.selection;
 
   if (!getCurrentBlockquote(opts, value) || !isCollapsed) {
-    return undefined;
+    return next();
   }
 
   if (startOffset !== 0) {
-    return undefined;
+    return next();
   }
 
   // Block is empty, we exit the blockquote
   event.preventDefault();
 
-  return unwrapBlockquote(opts, change);
+  return unwrapBlockquote(opts, editor);
 }
 
 export default onBackspace;

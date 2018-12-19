@@ -729,6 +729,7 @@ const phrases = {
     addTopicDescription: 'Change topic description',
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
+    jumpToResources: 'Jump to resources',
     resource: {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',

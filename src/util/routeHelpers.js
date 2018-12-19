@@ -81,3 +81,18 @@ export const removeLastItemFromUrl = url =>
     .split('/')
     .splice(0, url.split('/').length - 1)
     .join('/');
+
+export const getPathsFromUrl = url =>
+  url
+    .split('/')
+    .filter(item => item.includes('urn:'))
+    .reduce(
+      (acc, curr) => [
+        ...acc,
+        acc
+          .slice(-1)
+          .concat(curr)
+          .join('/'),
+      ],
+      [],
+    );

@@ -187,24 +187,24 @@ const groupTopics = allTopics =>
     return insertSubTopic(acc.filter(topic => topic.id !== curr.id), curr);
   }, allTopics);
 
-const getCurrentTopic = ({ params, topics }) => {
-  const { subject, topic1, topic2, topic3 } = params;
+const getCurrentTopic = ({ params, subject = {} }) => {
+  const { topic1, topic2, topic3 } = params;
+  let topic = {};
   if (topic1) {
-    const sub = topics[`urn:${subject}`];
-    let topic = sub ? sub.find(top => top.id === `urn:${topic1}`) : {};
+    const sub = subject.topics;
+    topic = sub ? sub.find(top => top.id === topic1) : {};
     if (topic2) {
-      topic = topic.topics
-        ? topic.topics.find(top => top.id === `urn:${topic2}`)
+      topic = topic.subtopics
+        ? topic.subtopics.find(top => top.id === topic2)
         : {};
       if (topic3) {
-        topic = topic.topics
-          ? topic.topics.find(top => top.id === `urn:${topic3}`)
+        topic = topic.subtopics
+          ? topic.subtopics.find(top => top.id === topic3)
           : {};
       }
     }
-    return topic || {};
   }
-  return {};
+  return topic;
 };
 
 const selectedResourceTypeValue = resourceTypes => {

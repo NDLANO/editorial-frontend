@@ -1,4 +1,4 @@
-import { removeLastItemFromUrl, getResourceIdFromPath } from '../routeHelpers';
+import { removeLastItemFromUrl, getResourceIdFromPath, getPathsFromUrl } from '../routeHelpers';
 
 test('correctly removes last part of all urls', () => {
   const url1 =
@@ -30,5 +30,28 @@ test('getResourceIdFromPath', () => {
 
   input.forEach((path, i) => {
     expect(getResourceIdFromPath(path)).toBe(output[i]);
+  });
+});
+
+test('getPathsFromUrl', () => {
+  const input = [
+    '/structure',
+    '/structure/urn:subject:7',
+    '/structure/urn:subject:7/urn:topic:1:183192',
+    '/structure/urn:subject:7/urn:topic:1:183192/urn:topic:1:103222',
+  ];
+  const output = [
+    [],
+    ['urn:subject:7'],
+    ['urn:subject:7', 'urn:subject:7/urn:topic:1:183192'],
+    [
+      'urn:subject:7',
+      'urn:subject:7/urn:topic:1:183192',
+      'urn:subject:7/urn:topic:1:183192/urn:topic:1:103222',
+    ],
+  ];
+
+  input.forEach((path, i) => {
+    expect(getPathsFromUrl(path)).toEqual(output[i]);
   });
 });

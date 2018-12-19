@@ -9,6 +9,7 @@
 import {
   flattenResourceTypes,
   sortIntoCreateDeleteUpdate,
+  getCurrentTopic,
 } from '../taxonomyHelpers';
 import {
   resourceTypesMock,
@@ -155,4 +156,26 @@ test('taxonomy/sortIntoCreateDeleteUpdate different item changes', () => {
     [],
     [],
   ]);
+});
+
+test('getCurrentTopic', () => {
+  const input = [
+    { params: { topic1: 'topic1' } },
+    { params: { topic1: 'topic1' }, subject: {} },
+    { params: { topic1: 'topic1' }, subject: { topics: [{ id: 'topic1' }] } },
+    {
+      params: { topic1: 'topic1', topic2: 'topic2' },
+      subject: { topics: [{ id: 'topic1', subtopics: [{ id: 'topic2' }] }] },
+    },
+    {
+      params: { topic1: 'topic1', topic2: 'topic99' },
+      subject: { topics: [{ id: 'topic1', subtopics: [{ id: 'topic2' }] }] },
+    },
+  ];
+
+  const output = [{}, {}, { id: 'topic1' }, { id: 'topic2' }, undefined];
+
+  input.forEach((variables, i) => {
+    expect(getCurrentTopic(variables)).toEqual(output[i]);
+  });
 });

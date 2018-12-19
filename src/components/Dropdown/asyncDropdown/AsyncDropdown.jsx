@@ -34,7 +34,7 @@ class AsyncDropDown extends React.Component {
     this.handleToggleMenu = this.handleToggleMenu.bind(this);
   }
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     this.isMountedOrMounting = true;
     const { apiAction } = this.props;
     const items = await apiAction('');

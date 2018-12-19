@@ -49,7 +49,7 @@ $ yarn test
 
 ### Code style
 
-_tl;dr_: Use eslint! Rules: [Airbnb Styleguide]https://github.com/airbnb/javascript.
+_tl;dr_: Use eslint! 
 
 Lint code with [eslint](http://eslint.org/), including [eslint react plugin](https://github.com/yannickcr/eslint-plugin-react), [eslint-plugin-import](https://github.com/benmosher/eslint-plugin-import), [eslint-plugin-jsx-a11y](https://github.com/evcohen/eslint-plugin-jsx-a11y#readme).
 Beside linting with globally installed eslint, eslint can be invoked with `npm`:
@@ -58,7 +58,7 @@ Beside linting with globally installed eslint, eslint can be invoked with `npm`:
 $ yarn run lint
 ```
 
-Rules are configured in `./.eslintrc.js` and extends [eslint-config-airbnb](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb). If feeling brave, try `eslint --fix`.
+Rules are configured in `./.eslintrc.js` and extends [eslint-config-react-app](https://github.com/facebook/create-react-app/tree/master/packages/eslint-config-react-app). If feeling brave, try `eslint --fix`.
 
 ## Other scripts
 

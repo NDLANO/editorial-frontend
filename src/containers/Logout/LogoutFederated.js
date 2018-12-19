@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { actions } from '../../modules/session/session';
 
 export class LogoutFederated extends React.Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { logout } = this.props;
     logout({ federated: true });
   }

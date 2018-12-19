@@ -22,7 +22,7 @@ class VisualElementPreview extends Component {
     this.removeVisualElement = this.removeVisualElement.bind(this);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { value, name, onChange } = this.props;
 
     if (value.resource && value.resource !== 'h5p') {

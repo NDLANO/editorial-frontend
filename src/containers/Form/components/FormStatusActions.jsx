@@ -13,16 +13,17 @@ import Button from '@ndla/button';
 import { FormHeader } from '@ndla/forms';
 import { formClasses } from '..';
 import { PossibleStatusShape } from '../../../shapes';
+import { articleStatus } from '../../../util/constants';
 
 const isAdminStatus = status =>
-  status === 'PUBLISHED' || status === 'UNPUBLISHED';
+  status === articleStatus.PUBLISHED || status === articleStatus.UNPUBLISHED;
 
 function AdminActions({ possibleStatuses, articleStatus, onUpdateStatus, t }) {
   if (possibleStatuses[articleStatus.current].find(isAdminStatus)) {
     return (
       <div {...formClasses('actions')}>
         {possibleStatuses[articleStatus.current].map(status => {
-          if (status === 'PUBLISHED' || status === 'UNPUBLISHED') {
+          if (status === articleStatus.PUBLISHED || status === articleStatus.UNPUBLISHED) {
             return (
               <Button
                 key={`status_action_${status}`}

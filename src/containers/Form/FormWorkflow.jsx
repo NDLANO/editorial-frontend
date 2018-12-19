@@ -18,6 +18,7 @@ import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
 import FormQualityAssurance from './components/FormQualityAssurance';
 import FormDeleteLanguageVersion from './components/FormDeleteLanguageVersion';
+import { articleStatus } from '../../../util/constants';
 
 export const formatErrorMessage = error => ({
   message: error.json.messages
@@ -52,7 +53,7 @@ class FormWorkflow extends Component {
     } = this.props;
 
     try {
-      if (status === 'PUBLISHED' || status === 'QUEUED_FOR_PUBLISHING') {
+      if (status === articleStatus.PUBLISHED || status === articleStatus.QUEUED_FOR_PUBLISHING) {
         await draftApi.validateDraft(id, {
           ...getArticleFromModel(),
           revision,

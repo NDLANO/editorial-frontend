@@ -56,6 +56,7 @@ import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { validateDraft } from '../../../modules/draft/draftApi';
 import { articleConverter } from '../../../modules/draft/draft';
+import { articleStatus } from '../../../util/constants';
 import config from '../../../config';
 
 const findFootnotes = content =>
@@ -209,10 +210,10 @@ class LearningResourceForm extends Component {
       revision,
       setSubmitted,
       createMessage,
-      articleStatus,
+      articleStatus: status,
     } = this.props;
 
-    const status = articleStatus ? articleStatus.current : undefined
+    const currentStatus = status ? status.current : undefined
 
     if (!schema.isValid) {
       setSubmitted(true);
@@ -223,7 +224,7 @@ class LearningResourceForm extends Component {
       return;
     }
 
-    if (status === 'PUBLISHED' || status === 'QUEUED_FOR_PUBLISHING') {
+    if (currentStatus === articleStatus.PUBLISHED || currentStatus === articleStatus.QUEUED_FOR_PUBLISHING) {
       try {
         await validateDraft(id, {
           ...this.getArticleFromModel(),

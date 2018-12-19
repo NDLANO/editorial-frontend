@@ -40,6 +40,7 @@ const LearningResourceMetadata = ({
     />
     <PlainTextField
       label={t('form.metaDescription.label')}
+      placeholder={t('form.metaDescription.label')}
       description={t('form.metaDescription.description')}
       name="metaDescription"
       maxLength={155}

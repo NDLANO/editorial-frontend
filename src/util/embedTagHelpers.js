@@ -107,7 +107,7 @@ export const isUserProvidedEmbedDataValid = embed => {
     return !isEmpty(embed.alt);
   }
   if (embed.resource === 'brightcove') {
-    return !isEmpty(embed.caption);
+    return true;
   }
   if (embed.resource === 'audio') {
     return true;

@@ -21,7 +21,6 @@ export const AudioResultShape = PropTypes.shape({
 export const ImageResultShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  altText: PropTypes.string,
   metaUrl: PropTypes.string.isRequired,
   previewUrl: PropTypes.string.isRequired,
 });

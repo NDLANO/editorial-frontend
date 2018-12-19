@@ -7,7 +7,7 @@
  *
  */
 
-import { TYPE } from '.';
+import { TYPE } from './type';
 
 export function getCurrentParagraph(value) {
   if (!value.selection.start.key) return null;

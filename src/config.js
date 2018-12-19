@@ -58,6 +58,17 @@ const h5pApiUrl = () => {
   }
 };
 
+const getAuth0Hostname = () => {
+  switch (process.env.NDLA_ENVIRONMENT) {
+    case 'prod':
+      return 'ndla.eu.auth0.com';
+    case 'staging':
+      return 'ndla-staging.eu.auth0.com';
+    default:
+      return 'ndla-test.eu.auth0.com';
+  }
+};
+
 const config = {
   ndlaEnvironment,
   componentName: getEnvironmentVariabel('npm_package_name'),
@@ -74,7 +85,7 @@ const config = {
   editorialFrontendDomain: editorialFrontendDomain(),
   learningpathFrontendDomain: learningpathFrontendDomain(),
   ndlaPersonalClientId: getEnvironmentVariabel('NDLA_PERSONAL_CLIENT_ID', ''),
-  auth0Domain: getEnvironmentVariabel('AUTH0_DOMAIN', ''),
+  auth0Domain: getAuth0Hostname(),
   brightCoveAccountId: getEnvironmentVariabel(
     'BRIGHTCOVE_ACCOUNT_ID',
     '123456789',

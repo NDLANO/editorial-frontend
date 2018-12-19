@@ -12,7 +12,7 @@ import {
   fetchAuthorized,
 } from '../../../util/apiHelpers';
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
-import { resolveTaxonomyJsonOrRejectWithError } from '..';
+import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 

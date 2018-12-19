@@ -12,11 +12,11 @@ import {
   fetchAuthorized,
 } from '../../../util/apiHelpers';
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
-import { resolveTaxonomyJsonOrRejectWithError } from '..';
+import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-function createResourceFilter(filter) {
+export function createResourceFilter(filter) {
   return fetchAuthorized(`${baseUrl}/resource-filters`, {
     headers: {
       'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ function createResourceFilter(filter) {
   }).then(resolveTaxonomyJsonOrRejectWithError);
 }
 
-function updateResourceFilter(id, filter) {
+export function updateResourceFilter(id, filter) {
   return fetchAuthorized(`${baseUrl}/resource-filters/${id}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ function updateResourceFilter(id, filter) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-function deleteResourceFilter(id) {
+export function deleteResourceFilter(id) {
   return fetchAuthorized(`${baseUrl}/resource-filters/${id}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -45,7 +45,11 @@ function deleteResourceFilter(id) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-async function createDeleteUpdateFilters(resourceId, filters, originalFilters) {
+export async function createDeleteUpdateFilters(
+  resourceId,
+  filters,
+  originalFilters,
+) {
   try {
     const [createItems, deleteItems, updateItems] = sortIntoCreateDeleteUpdate({
       changedItems: filters,
@@ -73,7 +77,7 @@ async function createDeleteUpdateFilters(resourceId, filters, originalFilters) {
   }
 }
 
-function createSubjectFilter(id, name) {
+export function createSubjectFilter(id, name) {
   return fetchAuthorized(`${baseUrl}/filters`, {
     headers: {
       'Content-Type': 'application/json',
@@ -83,7 +87,7 @@ function createSubjectFilter(id, name) {
   }).then(resolveTaxonomyJsonOrRejectWithError);
 }
 
-function editSubjectFilter(filterId, subjectId, name) {
+export function editSubjectFilter(filterId, subjectId, name) {
   return fetchAuthorized(`${baseUrl}/filters/${filterId}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -93,18 +97,8 @@ function editSubjectFilter(filterId, subjectId, name) {
   }).then(resolveTaxonomyJsonOrRejectWithError);
 }
 
-function deleteFilter(id) {
+export function deleteFilter(id) {
   return fetchAuthorized(`${baseUrl}/filters/${id}`, {
     method: 'DELETE',
   }).then(resolveJsonOrRejectWithError);
 }
-
-export {
-  createResourceFilter,
-  updateResourceFilter,
-  deleteResourceFilter,
-  createDeleteUpdateFilters,
-  createSubjectFilter,
-  editSubjectFilter,
-  deleteFilter,
-};

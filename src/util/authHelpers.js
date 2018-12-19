@@ -12,7 +12,7 @@ import auth0 from 'auth0-js';
 import createHistory from 'history/createBrowserHistory';
 import config from '../config';
 import { expiresIn } from './jwtHelper';
-import { resolveJsonOrRejectWithError } from './apiHelpers';
+import { resolveJsonOrRejectWithError } from './resolveJsonOrRejectWithError';
 
 const NDLA_API_URL = config.ndlaApiUrl;
 const AUTH0_DOMAIN = config.auth0Domain;

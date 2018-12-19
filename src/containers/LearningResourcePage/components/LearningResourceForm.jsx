@@ -212,10 +212,7 @@ class LearningResourceForm extends Component {
       articleStatus,
     } = this.props;
 
-    let status;
-    if (articleStatus) {
-      status = articleStatus.current;
-    }
+    const status = articleStatus ? articleStatus.current : undefined
 
     if (!schema.isValid) {
       setSubmitted(true);

@@ -142,7 +142,7 @@ test('isUserProvidedEmbedDataValid for brightcove', () => {
       resource: 'brightcove',
       caption: '',
     }),
-  ).toBe(false);
+  ).toBe(true);
 });
 
 test('isUserProvidedEmbedDataValid for audio', () => {

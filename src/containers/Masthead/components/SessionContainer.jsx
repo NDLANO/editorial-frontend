@@ -12,6 +12,7 @@ import { User } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
+import { colors } from '@ndla/core';
 import { Link, withRouter } from 'react-router-dom';
 import {
   toLogoutFederated,
@@ -21,6 +22,7 @@ import {
 import { editorialMastheadClasses } from '../MastheadContainer';
 import Overlay from '../../../components/Overlay';
 import { getAccessTokenPersonal } from '../../../util/authHelpers';
+import MastheadButton from './MastheadButton';
 
 const AuthSiteNavItem = ({ t, name, authenticated, onClick }) => {
   const isAccessTokenPersonal = getAccessTokenPersonal();
@@ -71,12 +73,12 @@ export class SessionContainer extends Component {
     const { t, userName, authenticated } = this.props;
     return (
       <div>
-        <Button
+        <MastheadButton
+          color={colors.brand.grey}
           onClick={this.toggleOpen}
-          stripped
-          {...editorialMastheadClasses('open-button')}>
+          stripped>
           <User className="c-icon--medium" />
-        </Button>
+        </MastheadButton>
         <div
           {...editorialMastheadClasses(
             'session-container',
@@ -91,7 +93,11 @@ export class SessionContainer extends Component {
           <Button
             onClick={this.toggleOpen}
             stripped
-            {...editorialMastheadClasses('close-button')}>
+            css={`
+              position: absolute;
+              right: 0;
+              top: 0;
+            `}>
             <Cross className="c-icon--medium" />
           </Button>
         </div>

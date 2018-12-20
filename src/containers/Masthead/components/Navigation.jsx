@@ -9,9 +9,7 @@
 import React, { Component } from 'react';
 import BEMHelper from 'react-bem-helper';
 import { Plus, Minus } from '@ndla/icons/action';
-import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
-import { css } from 'react-emotion'; 
 import { withRouter, Link } from 'react-router-dom';
 import {
   Learningpath,
@@ -21,33 +19,19 @@ import {
   SubjectMatter,
   Taxonomy,
 } from '@ndla/icons/editor';
+import { colors } from '@ndla/core';
 import config from '../../../config';
 import {
   toCreateLearningResource,
   toCreateImage,
   toSearch,
 } from '../../../util/routeHelpers';
+import MastheadButton from './MastheadButton';
 
 export const classes = new BEMHelper({
   name: 'navigation',
   prefix: 'c-',
 });
-
-const openNavigationButtonStyle = css`
-  &,
-  &:hover,
-  &:focus {
-    color: #20588f;
-    min-width: 4rem;
-    display: flex;
-    justify-content: space-between;
-    border: 1px solid #777;
-    border-radius: 1px;
-    background-color: white;
-    padding: 0.2rem;
-    height: 42px;
-  }
-`
 
 export class Navigation extends Component {
   constructor(props) {
@@ -66,10 +50,11 @@ export class Navigation extends Component {
     const { t } = this.props;
     return (
       <div>
-        <Button
+        <MastheadButton
+          color={colors.brand.primary}
+          minWidth={4}
           onClick={this.toggleOpen}
-          stripped
-          css={openNavigationButtonStyle}>
+          stripped>
           <Plus
             {...classes(
               'icon',
@@ -84,7 +69,7 @@ export class Navigation extends Component {
               'c-icon--medium',
             )}
           />
-        </Button>
+        </MastheadButton>
         <div
           {...classes(
             'container',

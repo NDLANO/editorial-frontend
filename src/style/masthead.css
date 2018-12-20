@@ -69,12 +69,6 @@
     }
   }
 
-  &__close-button {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-
   &__open-button {
     color: var(--brand-grey);
     border: 1px solid var(--brand-grey);

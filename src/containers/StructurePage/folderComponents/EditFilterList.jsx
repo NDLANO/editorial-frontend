@@ -13,7 +13,7 @@ import { Pencil } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
 import { DeleteForever } from '@ndla/icons/editor';
 import RoundIcon from '../../../components/RoundIcon';
-import InlineEditField from '../../../components/InlineEditField';
+import MenuItemEditField from './menuOptions/MenuItemEditField';
 
 const EditFilterList = ({
   filters,
@@ -28,7 +28,7 @@ const EditFilterList = ({
     {filters.map(
       filter =>
         editMode === filter.id ? (
-          <InlineEditField
+          <MenuItemEditField
             key={filter.id}
             classes={classes}
             messages={{ errorMessage: t('taxonomy.errorMessage') }}

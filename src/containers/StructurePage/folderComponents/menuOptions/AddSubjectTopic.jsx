@@ -1,10 +1,19 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Plus } from '@ndla/icons/action';
-import Button from '@ndla/button';
-import InlineEditField from '../../../../components/InlineEditField';
+import { injectT } from '@ndla/i18n';
 import RoundIcon from '../../../../components/RoundIcon';
 import { addTopic, addSubjectTopic } from '../../../../modules/taxonomy';
+import MenuItemButton from './MenuItemButton';
+import MenuItemEditField from './MenuItemEditField';
 
 class AddSubjectTopic extends React.PureComponent {
   constructor() {
@@ -36,7 +45,7 @@ class AddSubjectTopic extends React.PureComponent {
   render() {
     const { classes, onClose, t, editMode } = this.props;
     return editMode === 'addSubjectTopic' ? (
-      <InlineEditField
+      <MenuItemEditField
         classes={classes}
         placeholder={t('taxonomy.newSubject')}
         currentVal=""
@@ -46,14 +55,13 @@ class AddSubjectTopic extends React.PureComponent {
         icon={<Plus />}
       />
     ) : (
-      <Button
-        {...classes('menuItem')}
+      <MenuItemButton
         stripped
         data-testid="addSubjectTopicButon"
         onClick={this.toggleEditMode}>
         <RoundIcon small icon={<Plus />} />
         {t('taxonomy.addTopic')}
-      </Button>
+      </MenuItemButton>
     );
   }
 }
@@ -61,9 +69,8 @@ class AddSubjectTopic extends React.PureComponent {
 AddSubjectTopic.propTypes = {
   classes: PropTypes.func,
   onClose: PropTypes.func,
-  t: PropTypes.func,
   editMode: PropTypes.string,
   toggleEditMode: PropTypes.func,
 };
 
-export default AddSubjectTopic;
+export default injectT(AddSubjectTopic);

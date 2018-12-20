@@ -1,9 +1,18 @@
-import React, { PureComponent } from 'react';
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 import { Filter } from '@ndla/icons/editor';
-import Button from '@ndla/button';
 import RoundIcon from '../../../../components/RoundIcon';
 import ConnectFilters from '../ConnectFilters';
+import MenuItemButton from './MenuItemButton';
 
 class ConnectFilterOption extends PureComponent {
   constructor() {
@@ -27,15 +36,15 @@ class ConnectFilterOption extends PureComponent {
       t,
     } = this.props;
     return (
-      <React.Fragment>
-        <Button {...classes('menuItem')} stripped onClick={this.toggleEditMode}>
+      <Fragment>
+        <MenuItemButton stripped onClick={this.toggleEditMode}>
           <RoundIcon
             small
             open={editMode === 'connectFilters'}
             icon={<Filter />}
           />
           {t('taxonomy.connectFilters')}
-        </Button>
+        </MenuItemButton>
         {editMode === 'connectFilters' && (
           <ConnectFilters
             classes={classes}
@@ -46,7 +55,7 @@ class ConnectFilterOption extends PureComponent {
             topicFilters={filters}
           />
         )}
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
@@ -70,4 +79,4 @@ ConnectFilterOption.propTypes = {
   editMode: PropTypes.string,
 };
 
-export default ConnectFilterOption;
+export default injectT(ConnectFilterOption);

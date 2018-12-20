@@ -8,14 +8,14 @@
 
 import React from 'react';
 import { render, fireEvent, wait, cleanup } from 'react-testing-library';
-import InlineEditField from '../../../components/InlineEditField';
+import MenuItemEditField from '../folderComponents/menuOptions/MenuItemEditField';
 
 afterEach(cleanup);
 
 it('Goes to edit mode, handles submit', async () => {
   const actionFunc = jest.fn();
   const { getByTestId, container } = render(
-    <InlineEditField
+    <MenuItemEditField
       title="Test"
       classes={() => {}}
       onClose={() => {}}
@@ -37,7 +37,7 @@ it('Goes to edit mode, handles submit', async () => {
 it('Goes to edit mode, handles submit and shows error', async () => {
   const actionFunc = () => Promise.reject(new Error('Test error'));
   const { getByTestId } = render(
-    <InlineEditField
+    <MenuItemEditField
       title="Test"
       classes={() => {}}
       t={() => 'Errormelding'}

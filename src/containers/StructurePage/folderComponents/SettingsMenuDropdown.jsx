@@ -6,10 +6,12 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
+import { colors } from '@ndla/core';
+import { css } from 'react-emotion';
 import { Settings } from '@ndla/icons/editor';
 import { Cross } from '@ndla/icons/action';
 import RoundIcon from '../../../components/RoundIcon';
@@ -23,33 +25,38 @@ import AddSubjectTopic from './menuOptions/AddSubjectTopic';
 import AddExistingSubjectTopic from './menuOptions/AddExistingSubjectTopic';
 import EditFilterOption from './menuOptions/EditFilterOption';
 
+const closeButtonStyle = css`
+  color: ${colors.brand.grey};
+  margin-left: auto;
+`;
+
 const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
   const type = id.includes('subject') ? 'subject' : 'topic';
-  const sendDown = { classes, onClose, t, id, ...rest };
+  const sendDown = { classes, onClose, id, ...rest };
   return (
     <div {...classes('openMenu')}>
       <div className="header">
         <RoundIcon icon={<Settings />} open />
         <span>{t(`taxonomy.${type}Settings`)}</span>
-        <Button stripped {...classes('closeButton')} onClick={onClose}>
+        <Button stripped css={closeButtonStyle} onClick={onClose}>
           <Cross />
         </Button>
       </div>
       {type === 'subject' ? (
-        <React.Fragment>
+        <Fragment>
           <ChangeSubjectName {...sendDown} />
           <AddSubjectTopic {...sendDown} />
           <AddExistingSubjectTopic {...sendDown} />
           <EditFilterOption {...sendDown} />
-        </React.Fragment>
+        </Fragment>
       ) : (
-        <React.Fragment>
+        <Fragment>
           <ChangeTopicName {...sendDown} />
           <AddTopic {...sendDown} />
           <AddExistingTopic {...sendDown} />
           <ConnectFilterOption {...sendDown} />
           <DeleteTopic {...sendDown} />
-        </React.Fragment>
+        </Fragment>
       )}
     </div>
   );

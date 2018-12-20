@@ -1,10 +1,19 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Plus } from '@ndla/icons/action';
-import Button from '@ndla/button';
+import { injectT } from '@ndla/i18n';
 import RoundIcon from '../../../../components/RoundIcon';
 import { addSubjectTopic, fetchTopics } from '../../../../modules/taxonomy';
 import InlineDropdown from '../../../../components/Dropdown/InlineDropdown';
+import MenuItemButton from './MenuItemButton';
 
 class AddExistingSubjectTopic extends React.PureComponent {
   constructor() {
@@ -43,14 +52,13 @@ class AddExistingSubjectTopic extends React.PureComponent {
         icon={<Plus />}
       />
     ) : (
-      <Button
-        {...classes('menuItem')}
+      <MenuItemButton
         stripped
         data-testid="addExistingSubjectTopicButton"
         onClick={this.toggleEditMode}>
         <RoundIcon small icon={<Plus />} />
         {t('taxonomy.addExistingTopic')}
-      </Button>
+      </MenuItemButton>
     );
   }
 }
@@ -64,4 +72,4 @@ AddExistingSubjectTopic.propTypes = {
   locale: PropTypes.string,
 };
 
-export default AddExistingSubjectTopic;
+export default injectT(AddExistingSubjectTopic);

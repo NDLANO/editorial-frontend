@@ -6,15 +6,42 @@
  *
  */
 
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
+import { spacing, colors } from '@ndla/core';
+import { css } from 'react-emotion';
 import { Done } from '@ndla/icons/editor';
-import RoundIcon from './RoundIcon';
-import handleError from '../util/handleError';
-import Spinner from './Spinner';
+import RoundIcon from '../../../../components/RoundIcon';
+import handleError from '../../../../util/handleError';
+import Spinner from '../../../../components/Spinner';
 
-class InlineEditField extends PureComponent {
+const menuItemEditFieldStyle = css`
+  display: flex;
+  align-items: center;
+  margin: calc(${spacing.small} / 2);
+`;
+
+const menuItemInputFieldStyle = css`
+  margin-right: calc(${spacing.small} / 2);
+  max-height: ${spacing.normal};
+  width: auto;
+`;
+
+const saveButtonStyle = css`
+  &,
+  &:disabled {
+    height: 24px;
+    width: 24px;
+    min-width: 24px;
+    background-color: ${colors.brand.greyDark};
+    border-color: ${colors.brand.greyDark};
+    padding: 0;
+    line-height: 16.9px;
+  }
+`;
+
+class MenuItemEditField extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -59,10 +86,11 @@ class InlineEditField extends PureComponent {
     const { status, input } = this.state;
     const value = input === undefined ? currentVal : input;
     return (
-      <React.Fragment>
-        <div {...classes('menuItem')}>
+      <Fragment>
+        <div className={menuItemEditFieldStyle}>
           <RoundIcon open small icon={icon} />
           <input
+            className={menuItemInputFieldStyle}
             type="text"
             placeholder={placeholder}
             value={value}
@@ -71,7 +99,7 @@ class InlineEditField extends PureComponent {
             onKeyDown={this.handleKeyPress}
           />
           <Button
-            {...classes('saveButton')}
+            css={saveButtonStyle}
             data-testid="inlineEditSaveButton"
             disabled={status === 'loading'}
             onClick={this.handleSubmit}>
@@ -89,12 +117,12 @@ class InlineEditField extends PureComponent {
             {messages.errorMessage}
           </div>
         )}
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
 
-InlineEditField.propTypes = {
+MenuItemEditField.propTypes = {
   onSubmit: PropTypes.func,
   icon: PropTypes.node,
   currentVal: PropTypes.string,
@@ -107,4 +135,4 @@ InlineEditField.propTypes = {
   placeholder: PropTypes.string,
 };
 
-export default InlineEditField;
+export default MenuItemEditField;

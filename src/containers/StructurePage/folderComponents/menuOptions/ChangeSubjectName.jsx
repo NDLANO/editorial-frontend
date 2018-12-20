@@ -1,10 +1,19 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
+import { injectT } from '@ndla/i18n';
 import { Pencil } from '@ndla/icons/action';
 import RoundIcon from '../../../../components/RoundIcon';
-import InlineEditField from '../../../../components/InlineEditField';
+import MenuItemEditField from './MenuItemEditField';
 import { updateSubjectName } from '../../../../modules/taxonomy';
+import MenuItemButton from './MenuItemButton';
 
 class ChangeSubjectName extends Component {
   constructor() {
@@ -27,7 +36,7 @@ class ChangeSubjectName extends Component {
   render() {
     const { editMode, t, classes, name, onClose } = this.props;
     return editMode === 'changeSubjectName' ? (
-      <InlineEditField
+      <MenuItemEditField
         classes={classes}
         currentVal={name}
         messages={{ errorMessage: t('taxonomy.errorMessage') }}
@@ -36,14 +45,13 @@ class ChangeSubjectName extends Component {
         icon={<Pencil />}
       />
     ) : (
-      <Button
-        {...classes('menuItem')}
+      <MenuItemButton
         stripped
         data-testid="changeSubjectNameButton"
         onClick={this.toggleEditMode}>
         <RoundIcon small icon={<Pencil />} />
         {t('taxonomy.changeName')}
-      </Button>
+      </MenuItemButton>
     );
   }
 }
@@ -56,4 +64,4 @@ ChangeSubjectName.propTypes = {
   name: PropTypes.string,
 };
 
-export default ChangeSubjectName;
+export default injectT(ChangeSubjectName);

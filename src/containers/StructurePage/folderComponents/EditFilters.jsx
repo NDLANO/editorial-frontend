@@ -12,7 +12,7 @@ import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { Plus } from '@ndla/icons/action';
 import handleError from '../../../util/handleError';
-import InlineEditField from '../../../components/InlineEditField';
+import MenuItemEditField from './menuOptions/MenuItemEditField';
 import {
   createSubjectFilter,
   editSubjectFilter,
@@ -88,7 +88,7 @@ class EditFilters extends React.Component {
           editFilter={this.editFilter}
         />
         {editMode === 'addFilter' ? (
-          <InlineEditField
+          <MenuItemEditField
             classes={classes}
             currentVal=""
             messages={{ errorMessage: t('taxonomy.errorMessage') }}

@@ -170,9 +170,14 @@ class LearningResourceTaxonomy extends Component {
           language,
         );
 
-        const topicConnections = await Promise.all(topics.map(topic => fetchTopicConnections(topic.id)));
-        const topicsWithConnections = topics.map((topic, index) => ({ topicConnections: topicConnections[index], ...topic }));
-      
+        const topicConnections = await Promise.all(
+          topics.map(topic => fetchTopicConnections(topic.id)),
+        );
+        const topicsWithConnections = topics.map((topic, index) => ({
+          topicConnections: topicConnections[index],
+          ...topic,
+        }));
+
         this.setState({
           resourceId,
           status: 'success',

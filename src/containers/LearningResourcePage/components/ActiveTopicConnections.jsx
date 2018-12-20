@@ -44,45 +44,52 @@ const ActiveTopicConnections = ({
       return (
         <Fragment key={topic.id}>
           <Connections>
-          <PrimaryConnectionButton
-            primary={topic.primary}
-            type="button"
-            onClick={() => setPrimaryConnection(topic.id)}>
-            {t('form.topics.primaryTopic')}
-          </PrimaryConnectionButton>
-          <BreadCrumb>
-            {breadCrumbs.map(path => (
-              <Fragment key={`${topic.id}${path.id}`}>
-                <span>{path.name}</span>
-                <ChevronRight />
-              </Fragment>
-            ))}
-          </BreadCrumb>
-          <RemoveConnectionButton
-            type="button"
-            onClick={() => removeConnection(topic.id)}>
-            <Cross />
-          </RemoveConnectionButton>
-        </Connections>
-        {topic.topicConnections.length > 0 && topic.topicConnections.filter(topicConnection => !topicConnection.isPrimary).map(topicConnection => {
-          const topicConnectionsBreadCrumbs = retriveBreadCrumbs(topicConnection.paths[0]);
-          return (<Connections shared key={topicConnection.paths[0]}>
-            <DuplicateConnectionLabel>
-              {t('form.topics.sharedTopic')}
-            </DuplicateConnectionLabel>
+            <PrimaryConnectionButton
+              primary={topic.primary}
+              type="button"
+              onClick={() => setPrimaryConnection(topic.id)}>
+              {t('form.topics.primaryTopic')}
+            </PrimaryConnectionButton>
             <BreadCrumb>
-            {topicConnectionsBreadCrumbs.map((path, index) => (
-              <Fragment key={`${topic.id}_${index}`}>
-                <span>{path.name}</span>
-                <ChevronRight />
-              </Fragment>
-            ))}
-            <span>{topic.name}</span>
-            <ChevronRight />
-          </BreadCrumb>
-          </Connections>);
-        })}
-      </Fragment>
+              {breadCrumbs.map(path => (
+                <Fragment key={`${topic.id}${path.id}`}>
+                  <span>{path.name}</span>
+                  <ChevronRight />
+                </Fragment>
+              ))}
+            </BreadCrumb>
+            <RemoveConnectionButton
+              type="button"
+              onClick={() => removeConnection(topic.id)}>
+              <Cross />
+            </RemoveConnectionButton>
+          </Connections>
+          {topic.topicConnections.length > 0 &&
+            topic.topicConnections
+              .filter(topicConnection => !topicConnection.isPrimary)
+              .map(topicConnection => {
+                const topicConnectionsBreadCrumbs = retriveBreadCrumbs(
+                  topicConnection.paths[0],
+                );
+                return (
+                  <Connections shared key={topicConnection.paths[0]}>
+                    <DuplicateConnectionLabel>
+                      {t('form.topics.sharedTopic')}
+                    </DuplicateConnectionLabel>
+                    <BreadCrumb>
+                      {topicConnectionsBreadCrumbs.map((path, index) => (
+                        <Fragment key={`${topic.id}_${index}`}>
+                          <span>{path.name}</span>
+                          <ChevronRight />
+                        </Fragment>
+                      ))}
+                      <span>{topic.name}</span>
+                      <ChevronRight />
+                    </BreadCrumb>
+                  </Connections>
+                );
+              })}
+        </Fragment>
       );
     })}
   </ConnectionsWrapper>

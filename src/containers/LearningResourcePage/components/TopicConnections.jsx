@@ -16,9 +16,7 @@ import { FormHeader } from '@ndla/forms';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import {
-fetchTopicConnections,
-} from '../../../modules/taxonomy';
+import { fetchTopicConnections } from '../../../modules/taxonomy';
 import {
   TitleModal,
   buttonAddition,
@@ -66,7 +64,6 @@ class TopicConnections extends Component {
   }
 
   async addTopic(id, closeModal) {
-  
     const { activeTopics, taxonomyTopics, stageTaxonomyChanges } = this.props;
     const addTopic = taxonomyTopics.find(
       taxonomyTopic => taxonomyTopic.id === id,

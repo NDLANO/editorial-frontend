@@ -176,24 +176,26 @@ const Connections = styled('div')`
       font-weight: ${fonts.weight.semibold};
     }
   }
-  ${props => props.shared && css`
-    background: none;
-    border: 2px dashed ${colors.brand.tertiary};
-    flex-direction: row-reverse;
-    margin-left: ${spacing.normal};
-    > div:last-child:before {
-      content: "";
-      position: absolute;
-      transform: translate(-${spacing.normal}, 4px);
-      border-bottom-left-radius: ${misc.borderRadius};
-      display: inline-block;
-      border: 2px solid ${colors.brand.tertiary};
-      height: 10px;
-      width: 10px;
-      border-right: none;
-      border-top: none;
-    }
-  `}
+  ${props =>
+    props.shared &&
+    css`
+      background: none;
+      border: 2px dashed ${colors.brand.tertiary};
+      flex-direction: row-reverse;
+      margin-left: ${spacing.normal};
+      > div:last-child:before {
+        content: '';
+        position: absolute;
+        transform: translate(-${spacing.normal}, 4px);
+        border-bottom-left-radius: ${misc.borderRadius};
+        display: inline-block;
+        border: 2px solid ${colors.brand.tertiary};
+        height: 10px;
+        width: 10px;
+        border-right: none;
+        border-top: none;
+      }
+    `};
 `;
 
 const ConnectionsWrapper = styled('div')`

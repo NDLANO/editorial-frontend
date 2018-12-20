@@ -11,7 +11,7 @@ import {
   RemoveConnectionButton,
   PrimaryConnectionButton,
   DuplicateConnectionLabel,
-} from './LearningResourceTaxonomyStyles';
+} from '../../../style/LearningResourceTaxonomyStyles';
 
 const ActiveTopicConnections = ({
   retriveBreadCrumbs,

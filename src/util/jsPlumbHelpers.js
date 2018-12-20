@@ -18,10 +18,11 @@ export const connectLinkItems = (
     }
     return conn;
   });
+
   const instance = jsPlumb.getInstance({
     Container: 'plumbContainer',
     Endpoint: 'Blank',
-    Connector: ['Flowchart', { stub: 50 }],
+    Connector: ['Flowchart', { stub: 70 }],
     PaintStyle: { strokeWidth: 1, stroke: '#000000', dashstyle: '4 2' },
     Anchors: ['Left', 'Left'],
     deleteEndpointsOnDetach: false,
@@ -36,9 +37,9 @@ export const connectLinkItems = (
             );
             return isPrimary
               ? container.starButton.current
-              : container[`linkButton-urn:${subject}`];
+              : container[`linkButton-${subject}`];
           },
-          location: 70,
+          location: 57,
           id: 'sourceOverlay',
         },
       ],
@@ -59,7 +60,7 @@ export const connectLinkItems = (
                 ? container.starButton.current
                 : container[`linkButton-${targetId}`];
             },
-            location: -30,
+            location: -40,
             id: `targetOverlay`,
           },
         ],

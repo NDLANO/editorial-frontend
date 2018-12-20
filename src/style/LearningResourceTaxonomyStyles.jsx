@@ -84,26 +84,13 @@ const listClass = css`
   > div {
     > .filestructure {
       display: flex;
-      &:focus-within {
-        > button {
-          opacity: 1;
-        }
-      }
-    }
-    &:hover {
-      background: #f1f5f8;
-      .filestructure {
-        > button,
-        > span {
-          opacity: 1;
-        }
-      }
+      margin-left: auto;
     }
   }
-  &.active {
-    .filestructure {
-      > button,
-      > span {
+
+  > div:hover {
+    > .filestructure {
+      > button {
         opacity: 1;
       }
     }
@@ -112,7 +99,7 @@ const listClass = css`
 
 /* Styled components */
 
-const AddTitle = styled('span')`
+const StyledFilterHeading = styled('span')`
   ${fonts.sizes(16, 1.2)} font-weight: ${fonts.weight.semibold};
   text-transform: uppercase;
   color: ${colors.text.primary};
@@ -142,7 +129,7 @@ const Checked = styled('div')`
   }
 `;
 
-const ConnectionButton = styled('button')`
+const StyledFilterButton = styled('button')`
   border: 0;
   margin: 0 0 0 ${spacing.xsmall};
   background: none;
@@ -362,11 +349,11 @@ const TitleModal = styled('h1')`
 export {
   buttonAddition,
   filterbuttonwrapper,
-  listClass,
-  AddTitle,
+  StyledFilterHeading,
   BreadCrumb,
   Checked,
-  ConnectionButton,
+  StyledFilterButton,
+  listClass,
   Connections,
   ConnectionsWrapper,
   ErrorLabel,

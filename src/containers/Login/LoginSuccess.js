@@ -13,7 +13,7 @@ import { actions } from '../../modules/session/session';
 import { parseHash } from '../../util/authHelpers';
 
 export class LoginSuccess extends React.Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {
       loginSuccess,
       location: { hash },

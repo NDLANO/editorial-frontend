@@ -438,7 +438,7 @@ const phrases = {
     workflow: {
       title: 'Status',
       change: 'Endre status',
-      qualityAssurance: 'Kvalitetsikring',
+      qualityAssurance: 'Kvalitetssikring',
       deleteLanguageVersion: {
         button: 'Slett språkversjon',
         title: 'Slett språkversjon',
@@ -451,8 +451,8 @@ const phrases = {
       draft: 'Kladd',
       proposal: 'Utkast',
       user_test: 'Brukertest',
-      awaiting_quality_assurance: 'Til kvalitetsikring',
-      quality_assured: 'Kvalitetsikret',
+      awaiting_quality_assurance: 'Til kvalitetssikring',
+      quality_assured: 'Kvalitetssikret',
       queued_for_publishing: 'Til publisering',
       published: 'Publisert',
       unpublished: 'Avpublisert',
@@ -462,8 +462,8 @@ const phrases = {
         DRAFT: 'Kladd',
         PROPOSAL: 'Utkast',
         USER_TEST: 'Brukertest',
-        AWAITING_QUALITY_ASSURANCE: 'Til kvalitetsikring',
-        QUALITY_ASSURED: 'Kvalitetsikret',
+        AWAITING_QUALITY_ASSURANCE: 'Til kvalitetssikring',
+        QUALITY_ASSURED: 'Kvalitetssikret',
         QUEUED_FOR_PUBLISHING: 'Til publisering',
         PUBLISHED: 'Publiser',
         AWAITING_UNPUBLISHING: 'Til avpublisering',
@@ -745,6 +745,7 @@ const phrases = {
     noResources: 'Ingen ressurser funnet',
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjøre dette til hovedplassering?',
+    jumpToResources: 'Hopp til ressurser',
     resource: {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',

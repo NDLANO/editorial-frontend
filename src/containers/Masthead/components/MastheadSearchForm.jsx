@@ -14,6 +14,7 @@ import { Search } from '@ndla/icons/common';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { css } from 'react-emotion';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
 
 import { fetchTopicArticle } from '../../../modules/taxonomy';
@@ -120,7 +121,9 @@ export class MastheadSearchForm extends Component {
         <Button
           submit
           stripped
-          css={`color: ${colors.brand.grey}`}
+          css={css`
+            color: ${colors.brand.grey};
+          `}
           loading={searching}>
           <Search className="c-icon--medium" />
         </Button>

@@ -9,25 +9,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
+import { css } from 'react-emotion';
+import { colors } from '@ndla/core';
 
 const MastheadButton = ({ children, color, minWidth, ...rest }) => {
-  const css = `
-        &,
-        &:hover,
-        &:focus {
-            color: ${color};
-            min-width: ${minWidth}rem;
-            display: flex;
-            justify-content: space-between;
-            border: 1px solid #777;
-            border-radius: 1px;
-            background-color: white;
-            padding: 0.2rem;
-            height: 42px;
-        }
-        `;
+  const buttonStyle = css`
+    &,
+    &:hover,
+    &:focus {
+      color: ${color};
+      min-width: ${minWidth}rem;
+      border: 1px solid #777;
+      justify-content: space-between;
+      border-radius: 1px;
+      display: flex;
+      background-color: white;
+      padding: 0.2rem;
+      height: 42px;
+    }
+  `;
   return (
-    <Button {...rest} css={css}>
+    <Button {...rest} css={buttonStyle}>
       {children}
     </Button>
   );
@@ -39,7 +41,7 @@ MastheadButton.propTypes = {
 };
 
 MastheadButton.defaultProps = {
-  color: '#777',
+  color: colors.brand.grey,
   minWidth: 0,
 };
 

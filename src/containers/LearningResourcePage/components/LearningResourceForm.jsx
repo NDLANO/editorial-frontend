@@ -32,7 +32,6 @@ import {
   editorValueToPlainText,
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
-import { isUserProvidedEmbedDataValid } from '../../../util/embedTagHelpers';
 import { findNodesByType } from '../../../util/slateHelpers';
 import { SchemaShape, LicensesArrayOf } from '../../../shapes';
 

@@ -6,14 +6,13 @@
  *
  */
 
-import { Schema, Value } from 'slate';
+import { Editor, Value } from 'slate';
 import { schema as tableSchema } from '../schema';
 import { tableSlateValue } from '../../../../../util/__tests__/slateMockValues';
 import { toJSON } from '../../../../../util/slateHelpers';
 
 test('normalize table', () => {
   const value = Value.fromJSON(tableSlateValue);
-  const schema = Schema.fromJSON(tableSchema);
-  const change = value.change().normalize(schema);
-  expect(toJSON(change.value)).toMatchSnapshot();
+  const editor = new Editor({ value, plugins: [{ tableSchema }] });
+  expect(toJSON(editor.value)).toMatchSnapshot();
 });

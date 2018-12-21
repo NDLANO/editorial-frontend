@@ -94,7 +94,7 @@ WarningModalWrapper.propTypes = {
     title: PropTypes.string,
     articleType: PropTypes.string,
     language: PropTypes.string,
-  }),
+  }).isRequired,
   initialModel: PropTypes.shape({
     id: PropTypes.number,
     language: PropTypes.string,

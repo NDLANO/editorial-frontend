@@ -419,7 +419,7 @@ LearningResourceForm.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
     language: PropTypes.string,
-  }),
+  }).isRequired,
   initialModel: PropTypes.shape({
     id: PropTypes.number,
     language: PropTypes.string,

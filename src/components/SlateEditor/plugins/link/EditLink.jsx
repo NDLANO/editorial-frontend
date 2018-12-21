@@ -53,16 +53,16 @@ class EditLink extends React.Component {
   }
 
   onClose() {
-    const { value, model } = this.props;
+    const { editor, model } = this.props;
     if (!model.href) {
       this.handleRemove();
     } else {
-      this.handleChangeAndClose(value.change());
+      this.handleChangeAndClose(editor);
     }
   }
 
   handleSave(model) {
-    const { value, node } = this.props;
+    const { editor, node } = this.props;
     const { href, text, title, checkbox } = model;
     const isNDLAUrl = config.isNdlaProdEnvironment
       ? /^https:\/\/(www\.)?ndla.no\/article\/\d*/.test(href)
@@ -79,8 +79,7 @@ class EditLink extends React.Component {
     if (node.key) {
       // update/change
       this.handleChangeAndClose(
-        value
-          .change()
+        editor
           .moveToRangeOfNode(node)
           .insertText(text)
           .setInlines(data),
@@ -89,18 +88,15 @@ class EditLink extends React.Component {
   }
 
   handleRemove() {
-    const { value, node } = this.props;
-    const nextValue = value
-      .change()
-      .removeNodeByKey(node.key)
-      .insertText(node.text);
+    const { editor, node } = this.props;
+    const nextValue = editor.removeNodeByKey(node.key).insertText(node.text);
     this.handleChangeAndClose(nextValue);
   }
 
-  handleChangeAndClose(change) {
-    const { onChange, closeEditMode } = this.props;
+  handleChangeAndClose(editor) {
+    const { closeEditMode } = this.props;
 
-    onChange(change.focus()); // Always return focus to editor
+    editor.focus(); // Always return focus to editor
 
     closeEditMode();
   }
@@ -138,7 +134,7 @@ EditLink.propTypes = {
   closeEditMode: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
 
-  value: Types.value.isRequired,
+  editor: PropTypes.object.isRequired,
   node: PropTypes.oneOfType([
     Types.node,
     PropTypes.shape({ type: PropTypes.string.isRequired }),

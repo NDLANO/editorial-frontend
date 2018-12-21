@@ -20,11 +20,10 @@ export default function linkPlugin() {
   /* eslint-disable react/prop-types */
   const renderNode = (props, editor, next) => {
     const { node } = props;
-    const { value } = editor.props;
 
     switch (node.type) {
       case TYPE:
-        return <Link {...props} value={value} />;
+        return <Link {...props} editor={editor} />;
       default:
         return next();
     }

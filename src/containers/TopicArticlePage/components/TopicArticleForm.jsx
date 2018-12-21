@@ -151,8 +151,8 @@ class TopicArticleForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const { schema, revision, setSubmitted, onUpdate } = this.props;
-    if (!schema.isValid) {
+    const { validationErrors, revision, setSubmitted, onUpdate } = this.props;
+    if (!validationErrors.isValid) {
       setSubmitted(true);
       return;
     }
@@ -170,7 +170,7 @@ class TopicArticleForm extends Component {
     const {
       t,
       bindInput,
-      schema,
+      validationErrors: schema,
       initialModel,
       model,
       submitted,
@@ -341,7 +341,7 @@ TopicArticleForm.propTypes = {
     language: PropTypes.string,
   }),
   setModel: PropTypes.func.isRequired,
-  schema: SchemaShape,
+  validationErrors: SchemaShape,
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,

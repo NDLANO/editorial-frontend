@@ -85,14 +85,14 @@ class AgreementForm extends Component {
     const {
       t,
       bindInput,
-      schema,
+      validationErrors,
       model,
       submitted,
       licenses,
       isSaving,
       history,
     } = this.props;
-    const commonFieldProps = { bindInput, schema, submitted };
+    const commonFieldProps = { bindInput, schema: validationErrors, submitted };
 
     return (
       <form
@@ -134,7 +134,7 @@ AgreementForm.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
   }),
-  schema: SchemaShape,
+  validationErrors: SchemaShape,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

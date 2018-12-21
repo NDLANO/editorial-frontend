@@ -24,7 +24,7 @@ import {
   schema,
   renderNode,
   renderMark,
-} from '../../../components/SlateEditor/schema';
+} from '../../../components/SlateEditor/editorSchema';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import { editListPlugin } from '../../../components/SlateEditor/plugins/externalPlugins';

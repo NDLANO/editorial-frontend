@@ -18,9 +18,11 @@ import Accordion, {
 } from '@ndla/accordion';
 import Button from '@ndla/button';
 import reformed from '../../../components/reformed';
-import validateSchema, {
+import {
   checkTouchedInvalidField,
+  getValidationErrors,
 } from '../../../components/validateSchema';
+import articleSchema from '../../../articleSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
 import WarningModal from '../../../components/WarningModal';
@@ -221,7 +223,6 @@ class LearningResourceForm extends Component {
     const {
       t,
       bindInput,
-      schema,
       initialModel,
       model,
       submitted,
@@ -237,16 +238,22 @@ class LearningResourceForm extends Component {
     } = this.props;
 
     const { error } = this.state;
-    const commonFieldProps = { bindInput, schema, submitted };
+    const validationErrors = getValidationErrors(
+      articleSchema,
+      model,
+      fields,
+      t,
+    );
+    const commonFieldProps = { bindInput, schema: validationErrors, submitted };
     const panels = [
       {
         id: 'learning-resource-content',
         title: t('form.contentSection'),
         className: 'u-4/6@desktop u-push-1/6@desktop',
         hasError: [
-          schema.fields.title,
-          schema.fields.introduction,
-          schema.fields.content,
+          validationErrors.fields.title,
+          validationErrors.fields.introduction,
+          validationErrors.fields.content,
         ].some(field => checkTouchedInvalidField(field, submitted)),
         component: () => (
           <LearningResourceContent
@@ -264,10 +271,10 @@ class LearningResourceForm extends Component {
         title: t('form.copyrightSection'),
         className: 'u-6/6',
         hasError: [
-          schema.fields.creators,
-          schema.fields.rightsholders,
-          schema.fields.processors,
-          schema.fields.license,
+          validationErrors.fields.creators,
+          validationErrors.fields.rightsholders,
+          validationErrors.fields.processors,
+          validationErrors.fields.license,
         ].some(field => checkTouchedInvalidField(field, submitted)),
         component: () => (
           <FormCopyright
@@ -282,9 +289,9 @@ class LearningResourceForm extends Component {
         title: t('form.metadataSection'),
         className: 'u-6/6',
         hasError: [
-          schema.fields.metaDescription,
-          schema.fields.tags,
-          schema.fields.metaImageAlt,
+          validationErrors.fields.metaDescription,
+          validationErrors.fields.tags,
+          validationErrors.fields.metaImageAlt,
         ].some(field => checkTouchedInvalidField(field, submitted)),
         component: () => (
           <LearningResourceMetadata
@@ -299,7 +306,7 @@ class LearningResourceForm extends Component {
         id: 'learning-resource-workflow',
         title: t('form.workflowSection'),
         className: 'u-6/6',
-        hasError: [schema.fields.notes].some(field =>
+        hasError: [validationErrors.fields.notes].some(field =>
           checkTouchedInvalidField(field, submitted),
         ),
         component: () => (
@@ -457,55 +464,4 @@ export default compose(
   injectT,
   withRouter,
   reformed,
-  validateSchema({
-    title: {
-      required: true,
-    },
-    introduction: {
-      maxLength: 300,
-    },
-    metaImageAlt: {
-      required: true,
-      onlyValidateIf: model => model.metaImageId,
-    },
-    content: {
-      required: true,
-      test: (value, model, setError) => {
-        const embedsHasErrors = value.find(block => {
-          const embeds = findNodesByType(block.value.document, 'embed').map(
-            node => node.get('data').toJS(),
-          );
-          const notValidEmbeds = embeds.filter(
-            embed => !isUserProvidedEmbedDataValid(embed),
-          );
-          return notValidEmbeds.length > 0;
-        });
-
-        if (embedsHasErrors) {
-          setError('learningResourceForm.validation.missingEmbedData');
-        }
-      },
-    },
-    metaDescription: {
-      maxLength: 155,
-    },
-    tags: {
-      required: false,
-    },
-    creators: {
-      allObjectFieldsRequired: true,
-    },
-    processors: {
-      allObjectFieldsRequired: true,
-    },
-    rightsholders: {
-      allObjectFieldsRequired: true,
-    },
-    license: {
-      required: false,
-    },
-    notes: {
-      required: false,
-    },
-  }),
 )(LearningResourceForm);

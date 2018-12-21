@@ -17,7 +17,7 @@ import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbedTag/DisplayExternal';
-import { getSchemaEmbed } from '../../schema';
+import { getSchemaEmbed } from '../../editorSchema';
 import { EditorShape } from '../../../../shapes';
 
 export const editorClasses = new BEMHelper({

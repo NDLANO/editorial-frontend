@@ -19,7 +19,7 @@ import {
   renderNode,
   schema,
   renderMark,
-} from '../../../components/SlateEditor/schema';
+} from '../../../components/SlateEditor/editorSchema';
 import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';

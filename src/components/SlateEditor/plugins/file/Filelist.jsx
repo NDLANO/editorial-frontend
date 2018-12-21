@@ -14,7 +14,7 @@ import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import styled from 'react-emotion';
 import { EditorShape } from '../../../../shapes';
-import { getSchemaEmbed } from '../../schema';
+import { getSchemaEmbed } from '../../editorSchema';
 import SingleFile from './SingleFile';
 import AddFileToList from './AddFileToList';
 import config from '../../../../config';

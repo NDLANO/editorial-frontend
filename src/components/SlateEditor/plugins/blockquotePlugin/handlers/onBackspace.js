@@ -9,7 +9,7 @@ function onBackspace(opts, event, editor, next) {
   const { value } = editor;
   const { startOffset, isCollapsed } = value.selection;
 
-  if (!getCurrentBlockquote(opts, value) || !isCollapsed) {
+  if (!getCurrentBlockquote(opts, editor) || !isCollapsed) {
     return next();
   }
 

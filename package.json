@@ -143,7 +143,7 @@
     "slate-html-serializer": "0.7.33",
     "slate-plain-serializer": "0.6.33",
     "slate-prop-types": "^0.5.24",
-    "slate-react": "^0.21.15",
+    "slate-react": "^0.20",
     "source-map-support": "^0.5.9",
     "webpack-bundle-analyzer": "^2.13.1"
   },

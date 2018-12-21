@@ -8,7 +8,6 @@
 
 import React, { Component, Fragment } from 'react';
 import { findDOMNode } from 'slate-react';
-import Types from 'slate-prop-types';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
@@ -17,7 +16,6 @@ import { defaultBlocks } from '../../utils';
 import { defaultBodyBoxBlock } from '../bodybox';
 import { defaultDetailsBlock } from '../detailsbox';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
-import { editTablePlugin } from '../externalPlugins';
 import actions from './actions';
 
 const { defaultAsideBlock, defaultRelatedBlock } = defaultBlocks;
@@ -63,7 +61,7 @@ class SlateBlockPicker extends Component {
   }
 
   onElementAdd(block) {
-    const { editor, onChange, addSection } = this.props;
+    const { editor, addSection } = this.props;
     switch (block.type) {
       case 'block': {
         addSection();
@@ -78,8 +76,7 @@ class SlateBlockPicker extends Component {
         break;
       }
       case 'table': {
-        const change = editor.change();
-        onChange(editTablePlugin.changes.insertTable(change, 2, 2));
+        editor.insertTable(2, 2);
         break;
       }
       case 'aside': {
@@ -223,7 +220,7 @@ class SlateBlockPicker extends Component {
 
 SlateBlockPicker.propTypes = {
   onChange: PropTypes.func.isRequired,
-  editor: Types.value.isRequired,
+  editor: PropTypes.object.isRequired,
   addSection: PropTypes.func.isRequired,
   allowedPickAreas: PropTypes.arrayOf(PropTypes.string),
   illegalAreas: PropTypes.arrayOf(PropTypes.string),

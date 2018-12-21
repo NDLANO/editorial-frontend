@@ -27,26 +27,26 @@ export default function headingPlugin(opts = {}) {
     defaultType: opts.defaultType || 'paragraph',
   };
 
-  function onKeyDown(e, change) {
+  function onKeyDown(e, editor, next) {
     // Build arguments list
-    const { value } = change;
-    const args = [e, value, options, change];
+    const { value } = editor;
+    const args = [e, value, options, editor, next];
     switch (e.key) {
       case KEY_ENTER:
         return onEnter(...args);
       default:
-        return null;
+        return next();
     }
   }
 
-  function onKeyUp(e, change) {
-    const { value } = change;
-    const args = [e, value, options, change];
+  function onKeyUp(e, editor, next) {
+    const { value } = editor;
+    const args = [e, value, options, editor, next];
     switch (e.key) {
       case KEY_BACKSPACE:
         return onBackspace(...args);
       default:
-        return null;
+        return next();
     }
   }
 

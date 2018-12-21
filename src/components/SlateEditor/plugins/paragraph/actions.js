@@ -15,10 +15,10 @@ export function getCurrentParagraph(value) {
   return startBlock && startBlock.type === 'paragraph' ? startBlock : null;
 }
 
-export function onEnter(evt, change) {
-  const currentParagraph = getCurrentParagraph(change.value);
+export function onEnter(evt, editor, next) {
+  const currentParagraph = getCurrentParagraph(editor.value);
   if (!currentParagraph) {
-    return null;
+    return next();
   }
   evt.preventDefault();
   /**
@@ -28,15 +28,15 @@ export function onEnter(evt, change) {
    spacing (i.e two images).
    */
   if (currentParagraph.text === '') {
-    return change
+    return editor
       .delete()
       .insertBlock('br')
       .insertBlock(TYPE);
   }
 
   if (evt.shiftKey === true) {
-    return change.insertText('\n');
+    return editor.insertText('\n');
   }
 
-  return change.insertBlock(TYPE);
+  return editor.insertBlock(TYPE);
 }

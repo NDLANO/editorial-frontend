@@ -25,7 +25,7 @@ import {
   Heading1,
   Section,
 } from '@ndla/icons/editor';
-import Types from 'slate-prop-types';
+
 import { toolbarClasses } from './SlateToolbar';
 
 // @ndla/ui icon for Link type in toolbar has the same name as a link/anchor element component.
@@ -50,15 +50,7 @@ const toolbarIcon = t => ({
 });
 /* eslint-enable jsx-a11y/anchor-is-valid */
 
-const ToolbarButton = ({
-  value,
-  type,
-  kind,
-  handleHasType,
-  handleOnClick,
-  t,
-}) => {
-  const isActive = handleHasType(value, type, kind);
+const ToolbarButton = ({ isActive, type, kind, handleOnClick, t }) => {
   const onMouseDown = e => handleOnClick(e, kind, type);
   return (
     <Button
@@ -76,8 +68,7 @@ const ToolbarButton = ({
 ToolbarButton.propTypes = {
   type: PropTypes.string.isRequired,
   kind: PropTypes.string.isRequired,
-  value: Types.value.isRequired,
-  handleHasType: PropTypes.func.isRequired,
+  isActive: PropTypes.bool,
   handleOnClick: PropTypes.func.isRequired,
 };
 

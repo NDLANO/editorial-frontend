@@ -31,7 +31,7 @@ const slateEditorDivStyle = css`
   position: relative;
 `;
 
-const RichTextEditor = class extends React.Component {
+const RichTextEditor = class extends React.PureComponent {
   constructor(props) {
     super(props);
     // Need to use a observer pattern to notify slate nodes of

@@ -6,9 +6,10 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
+import isEqual from 'lodash/fp/isEqual';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import Accordion, {
@@ -112,7 +113,7 @@ export const getInitialModel = (article = {}, language) => {
   };
 };
 
-class LearningResourceForm extends Component {
+class LearningResourceForm extends PureComponent {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);

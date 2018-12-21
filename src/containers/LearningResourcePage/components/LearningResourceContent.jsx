@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
@@ -46,7 +46,7 @@ import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 import { formClasses } from '../../Form';
 import { CommonFieldPropsShape } from '../../../shapes';
 
-class LearningResourceContent extends Component {
+class LearningResourceContent extends PureComponent {
   constructor(props) {
     super(props);
     const { locale } = props;

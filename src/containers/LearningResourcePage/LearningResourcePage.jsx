@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -23,7 +23,7 @@ import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { LicensesArrayOf } from '../../shapes';
 
-class LearningResourcePage extends Component {
+class LearningResourcePage extends PureComponent {
   componentWillMount() {
     const { fetchLicenses } = this.props;
     fetchLicenses();

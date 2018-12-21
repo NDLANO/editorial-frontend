@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { MathML } from './MathML';
+import MathEditor from './MathEditor';
 
 export const TYPE = 'mathml';
 
@@ -21,11 +21,16 @@ const schema = {
 };
 export default function mathmlPlugin() {
   const renderNode = props => {
-    const { node } = props;
+    const { node, editor } = props;
+
+    const onRemoveClick = () => {
+      const next = editor.value.change().removeNodeByKey(node.key);
+      editor.onChange(next);
+    };
 
     switch (node.type) {
       case TYPE:
-        return <MathML {...props} />;
+        return <MathEditor onRemoveClick={onRemoveClick} {...props} />;
       default:
         return null;
     }

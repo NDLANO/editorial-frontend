@@ -19,6 +19,7 @@ const connectSrc = (() => {
     'https://*.boltdns.net',
     'https://www.googleapis.com/customsearch/',
     'https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com',
+    'https://www.wiris.net',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -75,6 +76,7 @@ const scriptSrc = (() => {
     '*.ndla.no',
     'cdnjs.cloudflare.com',
     'https://*.auth0.com',
+    'https://www.wiris.net',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -144,6 +146,7 @@ export default {
       "'unsafe-eval'",
       'https://fonts.googleapis.com',
       'https://fonts.gstatic.com',
+      'https://www.wiris.net',
     ],
     fontSrc: [
       "'self'",
@@ -151,6 +154,7 @@ export default {
       'https://fonts.gstatic.com',
       'data:',
       'cdnjs.cloudflare.com',
+      'https://www.wiris.net',
     ],
     imgSrc: [
       "'self'",
@@ -164,6 +168,7 @@ export default {
       'https://www.gstatic.com',
       ' data:',
       'blob:',
+      'https://www.wiris.net',
     ],
     mediaSrc: [
       "'self'",

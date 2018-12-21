@@ -88,6 +88,12 @@ const Html = props => {
           async
           src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"
         />
+        <script
+          type="text/javascript"
+          defer
+          async
+          src="https://www.wiris.net/demo/editor/editor"
+        />
       </body>
     </html>
   );

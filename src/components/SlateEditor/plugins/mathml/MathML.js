@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
-import { EditorShape } from '../../../../shapes';
 
 export const MathML = props => {
   const { node } = props;
@@ -36,5 +35,4 @@ MathML.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   node: Types.node.isRequired,
-  editor: EditorShape,
 };

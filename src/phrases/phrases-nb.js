@@ -233,6 +233,15 @@ const phrases = {
     duration: 'Varighet',
     interactioncount: 'Visninger',
   },
+  mathEditor: {
+    editMath: 'Rediger Matematikk',
+    showPreview: 'Forhåndsvis',
+    preview: 'Forhåndsvisning',
+    edit: 'Rediger',
+    save: 'Lagre',
+    cancel: 'Avbryt',
+    remove: 'Fjern',
+  },
   h5pElement: {
     fetchError:
       'Vi beklager, men en feil oppsto under lasting av H5P klienten.',
@@ -311,6 +320,7 @@ const phrases = {
   imageForm: {
     title: 'Bilde | {title} ({key})',
   },
+
   learningResourceForm: {
     metaImage: {
       title: 'Bildetittel',

@@ -228,6 +228,14 @@ const phrases = {
     duration: 'Duration',
     interactioncount: 'Views',
   },
+  mathEditor: {
+    editMath: 'Edit Math',
+    showPreview: 'Show Preview',
+    preview: 'Preview',
+    save: 'Save',
+    cancel: 'Cancel',
+    remove: 'Remove',
+  },
   h5pElement: {
     fetchError: 'Sorry, an error occurd while loading the H5P client.',
   },

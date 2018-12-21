@@ -43,7 +43,6 @@ const RichTextEditor = class extends React.PureComponent {
       slateStore,
     };
     this.editorRef = React.createRef();
-    this.toggleMark = this.toggleMark.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
   }
 
@@ -55,9 +54,9 @@ const RichTextEditor = class extends React.PureComponent {
     }
   }
 
-  onKeyDown(e, change) {
+  onKeyDown(e, editor, next) {
     let mark;
-    const { value } = change;
+    const { value } = editor;
 
     if (isBoldHotkey(e)) {
       mark = 'bold';
@@ -75,19 +74,17 @@ const RichTextEditor = class extends React.PureComponent {
         selection.anchor.isAtStartOfNode(value.document)
       ) {
         this.props.removeSection(this.props.index);
+        return;
       }
+      next();
     }
 
     if (mark) {
-      this.toggleMark(e, value, mark);
+      e.preventDefault();
+      editor.toggleMark(mark);
+    } else {
+      next();
     }
-  }
-
-  toggleMark(e, value, type) {
-    const { name, onChange } = this.props;
-    e.preventDefault();
-    const nextChange = value.change().toggleMark(type);
-    onChange({ target: { name, value: nextChange.value } });
   }
 
   render() {
@@ -146,7 +143,6 @@ RichTextEditor.propTypes = {
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
-  isBlock: PropTypes.bool,
   index: PropTypes.number,
   removeSection: PropTypes.func,
   plugins: PropTypes.arrayOf(PluginShape).isRequired,

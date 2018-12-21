@@ -300,7 +300,8 @@ export const PlainTextField = ({
   schema,
   children,
   fieldClassName,
-  ...rest
+  placeholder,
+  className,
 }) => {
   const { value, onChange, onFocus, onBlur } = bindInput(name);
   return (
@@ -332,10 +333,17 @@ export const PlainTextField = ({
             target: { name, value: val.value, type: 'SlateEditorValue' },
           })
         }
-        onFocus={() => onFocus({ target: { name }, type: 'focus' })}
-        onBlur={() => onBlur({ target: { name }, type: 'blur' })}
+        onFocus={(event, editor, next) => {
+          onFocus({ target: { name }, type: 'focus' });
+          next();
+        }}
+        onBlur={(event, editor, next) => {
+          onBlur({ target: { name }, type: 'blur' });
+          next();
+        }}
         value={value}
-        {...rest}
+        placeholder={placeholder}
+        className={className}
       />
       <FieldErrorMessages
         label={label}

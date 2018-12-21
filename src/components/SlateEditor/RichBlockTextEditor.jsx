@@ -97,7 +97,6 @@ class RichBlockTextEditor extends PureComponent {
                 onBlur({ target: { name }, type: 'blur' });
                 next();
               }}
-              isBlock
               {...rest}
               value={val.value}
               index={index}

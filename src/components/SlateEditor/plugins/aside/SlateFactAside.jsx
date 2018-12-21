@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
 import { Cross } from '@ndla/icons/action';
+import DeleteButton from '../../../DeleteButton';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -48,13 +49,12 @@ class SlateFactAside extends React.Component {
           onClick={this.toggleExpanded}
           className="c-button c-factbox__button"
         />
-        <Button
+        <DeleteButton
           stripped
           onClick={onRemoveClick}
-          data-cy="remove-fact-aside"
-          {...classes('delete-button')}>
+          data-cy="remove-fact-aside">
           <Cross />
-        </Button>
+        </DeleteButton>
       </aside>
     );
   }

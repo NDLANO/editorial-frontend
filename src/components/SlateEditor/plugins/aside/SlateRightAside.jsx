@@ -13,6 +13,7 @@ import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import { Cross } from '@ndla/icons/action';
 import { ChevronLeft } from '@ndla/icons/common';
+import DeleteButton from '../../../DeleteButton';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -28,13 +29,12 @@ const SlateRightAside = props => {
         {t('learningResourceForm.fields.rightAside.title')}
       </div>
       <div className="c-aside__content">{children}</div>
-      <Button
+      <DeleteButton
         title={t('learningResourceForm.fields.rightAside.delete')}
         stripped
-        onClick={onRemoveClick}
-        {...classes('delete-button')}>
+        onClick={onRemoveClick}>
         <Cross />
-      </Button>
+      </DeleteButton>
       <Button
         title={t('learningResourceForm.fields.rightAside.moveContent')}
         stripped

@@ -14,8 +14,8 @@ import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import config from '../../../../config';
 import { EmbedShape } from '../../../../shapes';
-import { editorClasses } from './SlateFigure';
 import EditVideo from './EditVideo';
+import DeleteButton from '../../../../components/DeleteButton';
 
 class SlateVideo extends React.PureComponent {
   constructor() {
@@ -41,12 +41,9 @@ class SlateVideo extends React.PureComponent {
     }_default/index.min.js`;
     return (
       <Figure id={embed.videoid} {...attributes}>
-        <Button
-          stripped
-          onClick={onRemoveClick}
-          {...editorClasses('delete-button')}>
+        <DeleteButton stripped onClick={onRemoveClick}>
           <Cross />
-        </Button>
+        </DeleteButton>
         <Helmet>
           <script src={src} type="text/javascript" />
         </Helmet>

@@ -18,6 +18,7 @@ import Overlay from '../../../Overlay';
 import RelatedArticle from './RelatedArticle';
 import TaxonomyLightbox from '../../../TaxonomyLightbox';
 import { Portal } from '../../../Portal';
+import DeleteButton from '../../../DeleteButton';
 
 const classes = new BEMHelper({
   name: 'related-box',
@@ -102,12 +103,9 @@ class EditRelated extends React.PureComponent {
         ) : (
           <div key={relatedArticle.id} {...classes('article')}>
             <RelatedArticle locale={locale} item={relatedArticle} />
-            <Button
-              stripped
-              onClick={e => removeArticle(i, e)}
-              {...classes('delete-button')}>
+            <DeleteButton stripped onClick={e => removeArticle(i, e)}>
               <Cross />
-            </Button>
+            </DeleteButton>
           </div>
         ),
     );
@@ -149,12 +147,9 @@ class EditRelated extends React.PureComponent {
                   {t('form.content.relatedArticle.addExternal')}
                 </Button>
               </div>
-              <Button
-                stripped
-                onClick={onRemoveClick}
-                {...classes('delete-button')}>
+              <DeleteButton stripped onClick={onRemoveClick}>
                 <Cross />
-              </Button>
+              </DeleteButton>
             </div>
             {this.state.showAddExternal && (
               <TaxonomyLightbox

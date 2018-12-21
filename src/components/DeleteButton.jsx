@@ -1,0 +1,38 @@
+/**
+ * Copyright (c) 2018-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import React from 'react';
+import PropTypes from 'prop-types';
+import { css } from 'react-emotion';
+import darken from 'polished/lib/color/darken';
+import { colors } from '@ndla/core';
+import Button from '@ndla/button'; //checked
+
+const deleteButtonStyle = css`
+  position: absolute;
+  top: 0.1rem;
+  right: 0.2rem;
+  color: ${colors.support.red};
+
+  &:hover,
+  &:focus {
+    color: ${darken(0.2, colors.support.red)};
+  }
+`;
+
+export const DeleteButton = ({ children, ...rest }) => (
+  <Button stripped css={deleteButtonStyle} {...rest}>
+    {children}
+  </Button>
+);
+
+DeleteButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};
+
+export default DeleteButton;

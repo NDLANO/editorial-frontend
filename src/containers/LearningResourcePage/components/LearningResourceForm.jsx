@@ -19,9 +19,8 @@ import Accordion, {
 } from '@ndla/accordion';
 import Button from '@ndla/button';
 import reformed from '../../../components/reformed';
-import {
+import validateSchema, {
   checkTouchedInvalidField,
-  getValidationErrors,
 } from '../../../components/validateSchema';
 import articleSchema from '../../../articleSchema';
 import { Field } from '../../../components/Fields';
@@ -204,9 +203,9 @@ class LearningResourceForm extends PureComponent {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const { schema, revision, setSubmitted } = this.props;
+    const { validationErrors, revision, setSubmitted } = this.props;
 
-    if (!schema.isValid) {
+    if (!validationErrors.isValid) {
       setSubmitted(true);
       return;
     }
@@ -236,15 +235,10 @@ class LearningResourceForm extends PureComponent {
       history,
       articleId,
       userAccess,
+      validationErrors,
     } = this.props;
 
     const { error } = this.state;
-    const validationErrors = getValidationErrors(
-      articleSchema,
-      model,
-      fields,
-      t,
-    );
     const commonFieldProps = { bindInput, schema: validationErrors, submitted };
     const panels = [
       {
@@ -434,7 +428,7 @@ LearningResourceForm.propTypes = {
   setModel: PropTypes.func.isRequired,
   setModelField: PropTypes.func.isRequired,
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
-  schema: SchemaShape,
+  validationErrors: SchemaShape,
   licenses: LicensesArrayOf,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
@@ -465,4 +459,5 @@ export default compose(
   injectT,
   withRouter,
   reformed,
+  validateSchema(articleSchema),
 )(LearningResourceForm);

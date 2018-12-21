@@ -140,7 +140,7 @@ const validateSchema = schema => WrappedComponent => {
 
     return React.createElement(WrappedComponent, {
       ...props,
-      schema: validationErrors,
+      validationErrors,
     });
   };
 

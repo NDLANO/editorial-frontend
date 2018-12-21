@@ -73,7 +73,6 @@ EditAgreement.propTypes = {
 };
 const mapDispatchToProps = {
   applicationError: messageActions.applicationError,
-  addMessage: messageActions.addMessage,
 };
 
 export default connect(

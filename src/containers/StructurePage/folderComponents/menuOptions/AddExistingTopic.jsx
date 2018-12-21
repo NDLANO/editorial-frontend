@@ -43,13 +43,12 @@ class AddExistingTopic extends React.PureComponent {
   }
 
   render() {
-    const { classes, t, path, onClose, editMode } = this.props;
+    const { t, path, onClose, editMode } = this.props;
     return editMode === 'addExistingTopic' ? (
       <MenuItemEditField
         placeholder={t('taxonomy.existingTopic')}
         fetchItems={this.fetchTopicsLocale}
         filter={path.split('/')[1]}
-        classes={classes}
         onClose={onClose}
         onSubmit={this.onAddExistingSubTopic}
         icon={<Plus />}
@@ -64,7 +63,6 @@ class AddExistingTopic extends React.PureComponent {
 }
 
 AddExistingTopic.propTypes = {
-  classes: PropTypes.func,
   path: PropTypes.string,
   onClose: PropTypes.func,
   editMode: PropTypes.string,

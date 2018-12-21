@@ -41,11 +41,10 @@ class AddTopic extends React.PureComponent {
   }
 
   render() {
-    const { classes, onClose, t, editMode } = this.props;
+    const { onClose, t, editMode } = this.props;
     return editMode === 'addTopic' ? (
       <MenuItemEditField
         placeholder={t('taxonomy.newTopic')}
-        classes={classes}
         currentVal=""
         messages={{ errorMessage: t('taxonomy.errorMessage') }}
         onClose={onClose}
@@ -62,7 +61,6 @@ class AddTopic extends React.PureComponent {
 }
 
 AddTopic.propTypes = {
-  classes: PropTypes.func,
   onClose: PropTypes.func,
   editMode: PropTypes.string,
   toggleEditMode: PropTypes.func,

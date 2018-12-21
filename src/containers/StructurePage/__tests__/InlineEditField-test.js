@@ -17,7 +17,6 @@ it('Goes to edit mode, handles submit', async () => {
   const { getByTestId, container } = render(
     <MenuItemEditField
       title="Test"
-      classes={() => {}}
       onClose={() => {}}
       t={() => {}}
       onSubmit={actionFunc}
@@ -39,7 +38,6 @@ it('Goes to edit mode, handles submit and shows error', async () => {
   const { getByTestId } = render(
     <MenuItemEditField
       title="Test"
-      classes={() => {}}
       t={() => 'Errormelding'}
       onSubmit={actionFunc}
     />,

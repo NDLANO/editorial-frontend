@@ -20,11 +20,12 @@ import {
 import Spinner from '../../../../components/Spinner';
 import Overlay from '../../../../components/Overlay';
 import MenuItemButton from './MenuItemButton';
+import { StyledErrorMessage } from './MenuItemEditField';
 
 class DeleteTopic extends PureComponent {
   constructor() {
     super();
-    this.state = {};
+    this.state = { loading: false, error: '' };
     this.onDeleteTopic = this.onDeleteTopic.bind(this);
     this.toggleEditMode = this.toggleEditMode.bind(this);
   }
@@ -62,7 +63,7 @@ class DeleteTopic extends PureComponent {
   }
 
   render() {
-    const { t, classes, editMode } = this.props;
+    const { t, editMode } = this.props;
     const { error, loading } = this.state;
     return (
       <React.Fragment>
@@ -93,11 +94,9 @@ class DeleteTopic extends PureComponent {
           <Overlay cssModifiers={['absolute', 'white-opacity', 'zIndex']} />
         )}
         {error && (
-          <div
-            data-testid="inlineEditErrorMessage"
-            {...classes('errorMessage')}>
+          <StyledErrorMessage data-testid="inlineEditErrorMessage">
             {error}
-          </div>
+          </StyledErrorMessage>
         )}
       </React.Fragment>
     );
@@ -105,7 +104,6 @@ class DeleteTopic extends PureComponent {
 }
 
 DeleteTopic.propTypes = {
-  classes: PropTypes.func,
   editMode: PropTypes.string,
   toggleEditMode: PropTypes.func,
 };

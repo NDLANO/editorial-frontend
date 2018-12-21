@@ -89,7 +89,6 @@ class EditFilters extends React.Component {
         />
         {editMode === 'addFilter' ? (
           <MenuItemEditField
-            classes={classes}
             currentVal=""
             messages={{ errorMessage: t('taxonomy.errorMessage') }}
             dataTestid="addFilterInput"

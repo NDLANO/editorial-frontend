@@ -8,37 +8,29 @@
 
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
-import { css } from 'react-emotion';
+import styled from 'react-emotion';
 import { Done } from '@ndla/icons/editor';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
 import Spinner from '../../../../components/Spinner';
+import MenuItemSaveButton from './MenuItemSaveButton';
 
-const menuItemEditFieldStyle = css`
+const StyledMenuItemEditField = styled('div')`
   display: flex;
   align-items: center;
   margin: calc(${spacing.small} / 2);
 `;
 
-const menuItemInputFieldStyle = css`
+const StyledmenuItemInputField = styled('input')`
   margin-right: calc(${spacing.small} / 2);
   max-height: ${spacing.normal};
   width: auto;
 `;
 
-const saveButtonStyle = css`
-  &,
-  &:disabled {
-    height: 24px;
-    width: 24px;
-    min-width: 24px;
-    background-color: ${colors.brand.greyDark};
-    border-color: ${colors.brand.greyDark};
-    padding: 0;
-    line-height: 16.9px;
-  }
+export const StyledErrorMessage = styled('div')`
+  color: ${colors.support.red};
+  text-align: center;
 `;
 
 class MenuItemEditField extends PureComponent {
@@ -77,7 +69,6 @@ class MenuItemEditField extends PureComponent {
   render() {
     const {
       currentVal = '',
-      classes,
       icon,
       messages = {},
       dataTestid = 'inlineEditInput',
@@ -87,10 +78,9 @@ class MenuItemEditField extends PureComponent {
     const value = input === undefined ? currentVal : input;
     return (
       <Fragment>
-        <div className={menuItemEditFieldStyle}>
+        <StyledMenuItemEditField>
           <RoundIcon open small icon={icon} />
-          <input
-            className={menuItemInputFieldStyle}
+          <StyledmenuItemInputField
             type="text"
             placeholder={placeholder}
             value={value}
@@ -98,8 +88,7 @@ class MenuItemEditField extends PureComponent {
             onChange={e => this.setState({ input: e.target.value })}
             onKeyDown={this.handleKeyPress}
           />
-          <Button
-            css={saveButtonStyle}
+          <MenuItemSaveButton
             data-testid="inlineEditSaveButton"
             disabled={status === 'loading'}
             onClick={this.handleSubmit}>
@@ -108,14 +97,12 @@ class MenuItemEditField extends PureComponent {
             ) : (
               <Done className="c-icon--small" />
             )}
-          </Button>
-        </div>
+          </MenuItemSaveButton>
+        </StyledMenuItemEditField>
         {status === 'error' && (
-          <div
-            data-testid="inlineEditErrorMessage"
-            {...classes('errorMessage')}>
+          <StyledErrorMessage data-testid="inlineEditErrorMessage">
             {messages.errorMessage}
-          </div>
+          </StyledErrorMessage>
         )}
       </Fragment>
     );
@@ -126,7 +113,6 @@ MenuItemEditField.propTypes = {
   onSubmit: PropTypes.func,
   icon: PropTypes.node,
   currentVal: PropTypes.string,
-  classes: PropTypes.func,
   onClose: PropTypes.func,
   dataTestid: PropTypes.string,
   messages: PropTypes.shape({

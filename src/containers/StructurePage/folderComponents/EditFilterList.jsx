@@ -30,7 +30,6 @@ const EditFilterList = ({
         editMode === filter.id ? (
           <MenuItemEditField
             key={filter.id}
-            classes={classes}
             messages={{ errorMessage: t('taxonomy.errorMessage') }}
             currentVal={filter.name}
             onClose={() => setEditState('')}

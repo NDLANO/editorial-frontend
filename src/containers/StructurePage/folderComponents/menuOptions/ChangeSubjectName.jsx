@@ -34,10 +34,9 @@ class ChangeSubjectName extends Component {
   }
 
   render() {
-    const { editMode, t, classes, name, onClose } = this.props;
+    const { editMode, t, name, onClose } = this.props;
     return editMode === 'changeSubjectName' ? (
       <MenuItemEditField
-        classes={classes}
         currentVal={name}
         messages={{ errorMessage: t('taxonomy.errorMessage') }}
         onSubmit={this.onChangeSubjectName}
@@ -58,7 +57,6 @@ class ChangeSubjectName extends Component {
 
 ChangeSubjectName.propTypes = {
   toggleEditMode: PropTypes.func,
-  classes: PropTypes.func,
   onClose: PropTypes.func,
   editMode: PropTypes.string,
   name: PropTypes.string,

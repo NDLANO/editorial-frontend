@@ -26,7 +26,7 @@ const deleteButtonStyle = css`
 `;
 
 export const EditorDeleteButton = props => (
-  <Button stripped className={deleteButtonStyle} {...props}>
+  <Button stripped css={deleteButtonStyle} {...props}>
     <Cross />
   </Button>
 );

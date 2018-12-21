@@ -12,7 +12,7 @@ import { Plus } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
 import RoundIcon from '../../../../components/RoundIcon';
 import { addSubjectTopic, fetchTopics } from '../../../../modules/taxonomy';
-import InlineDropdown from '../../../../components/Dropdown/InlineDropdown';
+import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
 
 class AddExistingSubjectTopic extends React.PureComponent {
@@ -41,12 +41,11 @@ class AddExistingSubjectTopic extends React.PureComponent {
   }
 
   render() {
-    const { classes, onClose, t, editMode } = this.props;
+    const { onClose, t, editMode } = this.props;
     return editMode === 'addExistingSubjectTopic' ? (
-      <InlineDropdown
+      <MenuItemDropdown
         fetchItems={this.fetchTopicsLocale}
         placeholder={t('taxonomy.existingTopic')}
-        classes={classes}
         onClose={onClose}
         onSubmit={this.onAddExistingTopic}
         icon={<Plus />}

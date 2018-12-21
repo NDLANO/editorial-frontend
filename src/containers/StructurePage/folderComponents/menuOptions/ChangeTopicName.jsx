@@ -41,10 +41,9 @@ class ChangeTopicName extends React.PureComponent {
   }
 
   render() {
-    const { classes, name, t, onClose, editMode } = this.props;
+    const { name, t, onClose, editMode } = this.props;
     return editMode === 'changeTopicName' ? (
       <MenuItemEditField
-        classes={classes}
         currentVal={name}
         messages={{ errorMessage: t('taxonomy.errorMessage') }}
         onSubmit={this.onChangeTopicName}
@@ -65,7 +64,6 @@ class ChangeTopicName extends React.PureComponent {
 
 ChangeTopicName.propTypes = {
   toggleEditMode: PropTypes.func,
-  classes: PropTypes.func,
   onClose: PropTypes.func,
   editMode: PropTypes.string,
   name: PropTypes.string,

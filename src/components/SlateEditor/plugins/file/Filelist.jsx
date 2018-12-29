@@ -29,10 +29,9 @@ const StyledButtonDiv = styled('div')`
   }
 `;
 
-const formatFile = ({ title, type, url, alt, ...rest }, id, t) => ({
+const formatFile = ({ title, type, url, ...rest }, id, t) => ({
   id,
   title,
-  alt,
   type,
   ...rest,
   formats: [
@@ -131,7 +130,6 @@ class Filelist extends React.Component {
     const nodes = this.state.files.map(file => ({
       path: file.path,
       type: file.type,
-      alt: file.alt,
       title: file.title,
       resource: file.resource,
     }));

@@ -23,7 +23,7 @@ class MastheadSearch extends Component {
     };
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { location } = this.props;
     if (location.search) {
       const query = queryString.parse(location.search);

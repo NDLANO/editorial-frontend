@@ -24,7 +24,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { LicensesArrayOf } from '../../shapes';
 
 class LearningResourcePage extends PureComponent {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { fetchLicenses } = this.props;
     fetchLicenses();
   }

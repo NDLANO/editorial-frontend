@@ -10,7 +10,7 @@ import {
   ErrorLabel,
   RemoveConnectionButton,
   PrimaryConnectionButton,
-} from './LearningResourceTaxonomyStyles';
+} from '../../../style/LearningResourceTaxonomyStyles';
 
 const ActiveTopicConnections = ({
   retriveBreadCrumbs,

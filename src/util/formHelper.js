@@ -20,24 +20,6 @@ export const parseCopyrightContributors = (obj, contributorType) => {
   return obj.copyright[contributorType] || [];
 };
 
-export const articleStatuses = [
-  { key: 'CREATED' },
-  { key: 'PROPOSAL' },
-  { key: 'AWAITING_QUALITY_ASSURANCE', columnSize: 2 },
-  { key: 'DRAFT' },
-  { key: 'USER_TEST' },
-  { key: 'IMPORTED', columnSize: 2 },
-  { key: 'QUALITY_ASSURED' },
-  { key: 'PUBLISHED' },
-  { key: 'AWAITING_UNPUBLISHING', columnSize: 2 },
-  { key: 'UNPUBLISHED' },
-  { key: 'ARCHIEVED' },
-  {
-    key: 'QUEUED_FOR_PUBLISHING',
-    columnSize: 2,
-  },
-];
-
 export const isFormDirty = ({ fields, model, showSaved }) => {
   // Checking specific slate object fields if they really have changed
   const slateFields = ['introduction', 'metaDescription', 'content'];

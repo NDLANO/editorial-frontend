@@ -8,58 +8,31 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { uuid } from '@ndla/util';
 import RichBlockTextEditor from './SlateEditor/RichBlockTextEditor';
-import {
-  Field,
-  FocusLabel,
-  FieldErrorMessages,
-  getField,
-  classes,
-} from './Fields';
+import { Field, FieldErrorMessages, getField, classes } from './Fields';
 import { PluginShape } from '../shapes';
 
 export const RichBlockTextField = ({
   bindInput,
   name,
   label,
-  noBorder,
   submitted,
   schema,
   slateSchema,
   ...rest
 }) => {
-  const { value, onChange, onFocus, onBlur } = bindInput(name);
+  const { value, ...inputs } = bindInput(name);
   return (
-    <Field
-      noBorder={noBorder}
-      className={classes('', 'position-static').className}>
-      {!noBorder ? (
-        <label htmlFor={name}>{label}</label>
-      ) : (
-        <label className="u-hidden" htmlFor={name}>
-          {label}
-        </label>
-      )}
-      {noBorder &&
-        value.map((val, i) => (
-          <FocusLabel
-            key={uuid()}
-            name={name}
-            hasFocus={() => val.value.selection.isFocused}
-            value={val.value}>
-            {`${label} Blokk ${i + 1}`}
-          </FocusLabel>
-        ))}
+    <Field className={classes('', 'position-static').className}>
+      <label htmlFor={name}>{label}</label>
+
       <RichBlockTextEditor
         id={name}
         name={name}
         value={value}
-        onChange={onChange}
-        onFocus={() => onFocus({ target: { name }, type: 'focus' })}
-        onBlur={() => onBlur({ target: { name }, type: 'blur' })}
         schema={slateSchema}
         submitted={submitted}
+        {...inputs}
         {...rest}
       />
       {submitted && ( // Only show if submitted

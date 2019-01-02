@@ -7760,10 +7760,12 @@ ncp@~2.0.0:
 ndla-slate-edit-list@^0.12.3:
   version "0.12.3"
   resolved "https://registry.yarnpkg.com/ndla-slate-edit-list/-/ndla-slate-edit-list-0.12.3.tgz#599d1b1cd82b9ee9a069d3d4aaff6a518fad7fe1"
+  integrity sha512-YYqjfsPoY8o7FtgUGPzor7hyxPvfhEFbjFFf97uo+ViC9KJ22Etqwcr31IrgQ4q6ZnBS4Rt26t/R7YynNssoeA==
 
 ndla-slate-edit-table@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/ndla-slate-edit-table/-/ndla-slate-edit-table-0.1.1.tgz#614affeeefe5dc2c066759ef12b35a4a30060dfa"
+  integrity sha512-zj+hC4I7BP7Ik+Ok84LsycIRoBDH5aRIN3UIvzeWuZIdSPuzxOPQi3zOgPakgVUHpk4IG9/Cn+t16rQVPEoTwA==
 
 nearley@^2.7.10:
   version "2.13.0"

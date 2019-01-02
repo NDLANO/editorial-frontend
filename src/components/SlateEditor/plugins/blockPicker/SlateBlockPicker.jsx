@@ -43,6 +43,7 @@ class SlateBlockPicker extends Component {
   componentDidMount() {
     this.slateBlockRef.current.style.transition = 'opacity 200ms ease';
     this.slateBlockRef.current.style.position = 'absolute';
+    this.showPicker();
   }
 
   componentDidUpdate() {

@@ -18,7 +18,8 @@ import { CommonFieldPropsShape } from '../../../shapes';
 
 const LearningResourceIngress = props => {
   const { t, commonFieldProps } = props;
-  const { bindInput } = commonFieldProps;
+  const { bindInput, schema, submitted } = commonFieldProps;
+  const { value, ...handlers } = bindInput('introduction');
 
   return (
     <div {...formClasses('container')}>
@@ -31,13 +32,16 @@ const LearningResourceIngress = props => {
         noBorder
         maxLength={300}
         data-cy="learning-resource-ingress"
-        {...commonFieldProps}>
+        value={value}
+        schema={schema}
+        submitted={submitted}
+        {...handlers}>
         <RemainingCharacters
           maxLength={300}
           getRemainingLabel={(maxLength, remaining) =>
             t('form.remainingCharacters', { maxLength, remaining })
           }
-          value={bindInput('introduction').value.document.text}
+          value={value.document.text}
         />
       </PlainTextField>
     </div>

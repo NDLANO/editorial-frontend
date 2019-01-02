@@ -197,7 +197,6 @@ class TopicArticleForm extends Component {
         component: (
           <TopicArticleContent
             commonFieldProps={commonFieldProps}
-            bindInput={bindInput}
             tags={tags}
             model={model}
           />
@@ -231,7 +230,6 @@ class TopicArticleForm extends Component {
         component: (
           <TopicArticleMetadata
             commonFieldProps={commonFieldProps}
-            bindInput={bindInput}
             tags={tags}
           />
         ),

@@ -96,6 +96,7 @@ const makeWrapper = WrappedComponent => {
         type,
         target: { name },
       } = e;
+      console.log(name, type);
       if (type === 'blur') {
         this.setInputFlags(name, { touched: true, active: false });
       } else if (type === 'focus') {
@@ -104,6 +105,7 @@ const makeWrapper = WrappedComponent => {
     }
 
     bindInput(name, type = '') {
+      // console.log('binding input: ', name, type);
       const defaultProps = {
         name,
         onChange: this.bindToChangeEvent,

@@ -44,6 +44,7 @@ const LearningResourceMetadata = ({
       description={t('form.metaDescription.description')}
       name="metaDescription"
       maxLength={155}
+      {...commonFieldProps.bindInput('metaDescription')}
       {...commonFieldProps}>
       <RemainingCharacters
         maxLength={155}

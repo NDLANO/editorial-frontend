@@ -94,15 +94,6 @@ class LearningResourceContent extends PureComponent {
 
   render() {
     const { t, commonFieldProps, children } = this.props;
-    const contentPlaceholder = (
-      <span
-        {...formClasses('placeholder')}
-        style={{
-          opacity: '0.333',
-        }}>
-        {t('form.content.placeholder')}
-      </span>
-    );
 
     return (
       <Fragment>
@@ -129,7 +120,7 @@ class LearningResourceContent extends PureComponent {
           renderNode={renderNode}
           renderMark={renderMark}
           label={t('form.content.label')}
-          placeholder={contentPlaceholder}
+          placeholder={t('form.content.placeholder')}
           name="content"
           data-cy="learning-resource-content"
           plugins={this.plugins}

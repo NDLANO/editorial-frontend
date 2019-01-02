@@ -90,10 +90,12 @@ class RichBlockTextEditor extends PureComponent {
               schema={schema}
               onChange={e => this.onContentChange(e, index)}
               onFocus={(event, editor, next) => {
+                console.log('focusing content');
                 onFocus({ target: { name }, type: 'focus' });
                 next();
               }}
               onBlur={(event, editor, next) => {
+                console.log('blurring content');
                 onBlur({ target: { name }, type: 'blur' });
                 next();
               }}

@@ -51,7 +51,6 @@ const plugins = [
 
 const TopicArticleContent = ({
   t,
-  bindInput,
   commonFieldProps,
   model: { creators, updated, visualElement },
 }) => (
@@ -80,19 +79,20 @@ const TopicArticleContent = ({
       fieldClassName={fieldClasses(undefined, 'introduction').className}
       noBorder
       maxLength={300}
+      {...commonFieldProps.bindInput('introduction')}
       {...commonFieldProps}>
       <RemainingCharacters
         maxLength={300}
         getRemainingLabel={(maxLength, remaining) =>
           t('form.remainingCharacters', { maxLength, remaining })
         }
-        value={bindInput('introduction').value.document.text}
+        value={commonFieldProps.bindInput('introduction').value.document.text}
       />
     </PlainTextField>
     <TopicArticleVisualElement
       visualElement={visualElement}
       commonFieldProps={commonFieldProps}
-      bindInput={bindInput}
+      bindInput={commonFieldProps.bindInput}
     />
     <RichTextField
       noBorder

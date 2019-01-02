@@ -290,7 +290,10 @@ TextAreaField.propTypes = {
 };
 
 export const PlainTextField = ({
-  bindInput,
+  value,
+  onChange,
+  onFocus,
+  onBlur,
   name,
   label,
   obligatory,
@@ -302,58 +305,55 @@ export const PlainTextField = ({
   fieldClassName,
   placeholder,
   className,
-}) => {
-  const { value, onChange, onFocus, onBlur } = bindInput(name);
-  return (
-    <Field noBorder={noBorder} className={fieldClassName}>
-      {!noBorder ? (
-        <label htmlFor={name}>{label}</label>
-      ) : (
-        <label className="u-hidden" htmlFor={name}>
-          {label}
-        </label>
-      )}
-      {noBorder && (
-        <FocusLabel
-          name={name}
-          hasFocus={() => value.selection.isFocused}
-          value={value}>
-          {label}
-        </FocusLabel>
-      )}
-      {description && (
-        <FieldDescription obligatory={obligatory}>
-          {description}
-        </FieldDescription>
-      )}
-      <PlainTextEditor
-        id={name}
-        onChange={val =>
-          onChange({
-            target: { name, value: val.value, type: 'SlateEditorValue' },
-          })
-        }
-        onFocus={(event, editor, next) => {
-          onFocus({ target: { name }, type: 'focus' });
-          next();
-        }}
-        onBlur={(event, editor, next) => {
-          onBlur({ target: { name }, type: 'blur' });
-          next();
-        }}
-        value={value}
-        placeholder={placeholder}
-        className={className}
-      />
-      <FieldErrorMessages
-        label={label}
-        field={getField(name, schema)}
-        submitted={submitted}
-      />
-      {children}
-    </Field>
-  );
-};
+}) => (
+  <Field noBorder={noBorder} className={fieldClassName}>
+    {!noBorder ? (
+      <label htmlFor={name}>{label}</label>
+    ) : (
+      <label className="u-hidden" htmlFor={name}>
+        {label}
+      </label>
+    )}
+    {noBorder && (
+      <FocusLabel
+        name={name}
+        hasFocus={() => value.selection.isFocused}
+        value={value}>
+        {label}
+      </FocusLabel>
+    )}
+    {description && (
+      <FieldDescription obligatory={obligatory}>{description}</FieldDescription>
+    )}
+    <PlainTextEditor
+      id={name}
+      onChange={val =>
+        onChange({
+          target: { name, value: val.value, type: 'SlateEditorValue' },
+        })
+      }
+      onFocus={(event, editor, next) => {
+        console.log('focusing ingress');
+        onFocus({ target: { name }, type: 'focus' });
+        next();
+      }}
+      onBlur={(event, editor, next) => {
+        console.log('blurring ingress');
+        onBlur({ target: { name }, type: 'blur' });
+        next();
+      }}
+      value={value}
+      placeholder={placeholder}
+      className={className}
+    />
+    <FieldErrorMessages
+      label={label}
+      field={getField(name, schema)}
+      submitted={submitted}
+    />
+    {children}
+  </Field>
+);
 
 PlainTextField.propTypes = {
   bindInput: PropTypes.func.isRequired,

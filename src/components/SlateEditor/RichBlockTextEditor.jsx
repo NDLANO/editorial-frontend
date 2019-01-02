@@ -10,11 +10,22 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
+import Button from '@ndla/button'; //checked
+import { css } from 'react-emotion';
 import { Cross } from '@ndla/icons/action';
 import RichTextEditor from './RichTextEditor';
 import { PluginShape } from '../../shapes';
 import { formClasses } from '../../containers/Form';
+
+const removeSectionButtonStyle = css`
+  display: none;
+`;
+
+const removeSectionButtonHoverStyle = css`
+  color: red;
+  display: block;
+  float: right;
+`;
 
 class RichBlockTextEditor extends Component {
   constructor(props) {
@@ -22,6 +33,12 @@ class RichBlockTextEditor extends Component {
     this.onContentChange = this.onContentChange.bind(this);
     this.onChange = this.onChange.bind(this);
     this.removeSection = this.removeSection.bind(this);
+    this.onMouseOver = this.onMouseOver.bind(this);
+    this.onMouseOut = this.onMouseOut.bind(this);
+
+    this.state = {
+      hover: -1,
+    };
   }
 
   onChange(indexValue, index) {
@@ -41,6 +58,14 @@ class RichBlockTextEditor extends Component {
 
   onContentChange(e, index) {
     this.onChange(e.target.value, index);
+  }
+
+  onMouseOver(index) {
+    this.setState({ hover: index });
+  }
+
+  onMouseOut() {
+    this.setState({ hover: -1 });
   }
 
   removeSection(index) {
@@ -76,12 +101,18 @@ class RichBlockTextEditor extends Component {
         {value.map((val, index) => (
           <div
             key={`editor_${index}`} // eslint-disable-line react/no-array-index-key
+            onMouseOver={() => this.onMouseOver(index)}
+            onMouseOut={this.onMouseOut}
             {...formClasses('container')}>
             {value.length > 1 ? (
               <Button
                 stripped
                 onClick={() => this.removeSection(index)}
-                {...formClasses('remove-section-button')}>
+                css={
+                  this.state.hover === index
+                    ? removeSectionButtonHoverStyle
+                    : removeSectionButtonStyle
+                }>
                 <Cross />
               </Button>
             ) : null}

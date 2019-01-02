@@ -23,6 +23,7 @@ import validateSchema, {
 } from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
+import { topicArticleSchema } from '../../../articleSchema';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -365,52 +366,5 @@ export default compose(
   injectT,
   withRouter,
   reformed,
-  validateSchema({
-    title: {
-      required: true,
-    },
-    introduction: {
-      maxLength: 300,
-    },
-    content: {
-      // TODO: Write test to validate content (see learning resource)
-      required: false,
-    },
-    metaDescription: {
-      maxLength: 155,
-    },
-    visualElement: {
-      required: false,
-    },
-    'visualElement.alt': {
-      required: true,
-      onlyValidateIf: model =>
-        model.visualElement && model.visualElement.resource === 'image',
-    },
-    'visualElement.caption': {
-      required: true,
-      onlyValidateIf: model =>
-        model.visualElement &&
-        (model.visualElement.resource === 'image' ||
-          model.visualElement.resource === 'brightcove'),
-    },
-    tags: {
-      required: false,
-    },
-    creators: {
-      allObjectFieldsRequired: true,
-    },
-    processors: {
-      allObjectFieldsRequired: true,
-    },
-    rightsholders: {
-      allObjectFieldsRequired: true,
-    },
-    license: {
-      required: false,
-    },
-    notes: {
-      required: false,
-    },
-  }),
+  validateSchema(topicArticleSchema),
 )(TopicArticleForm);

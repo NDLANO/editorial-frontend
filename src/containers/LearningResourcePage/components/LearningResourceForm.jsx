@@ -9,7 +9,6 @@
 import React, { PureComponent } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import isEqual from 'lodash/fp/isEqual';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import Accordion, {
@@ -22,7 +21,7 @@ import reformed from '../../../components/reformed';
 import validateSchema, {
   checkTouchedInvalidField,
 } from '../../../components/validateSchema';
-import articleSchema from '../../../articleSchema';
+import { learningResourceSchema } from '../../../articleSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
 import WarningModal from '../../../components/WarningModal';
@@ -492,5 +491,5 @@ export default compose(
   injectT,
   withRouter,
   reformed,
-  validateSchema(articleSchema),
+  validateSchema(learningResourceSchema),
 )(LearningResourceForm);

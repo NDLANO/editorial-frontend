@@ -120,7 +120,7 @@ class LinkForm extends Component {
 
 LinkForm.propTypes = {
   model: LinkShape.isRequired,
-  schema: SchemaShape,
+  validationErrors: SchemaShape,
   setSubmitted: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
   isEdit: PropTypes.bool.isRequired,

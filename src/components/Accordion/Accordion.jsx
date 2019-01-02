@@ -9,9 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-
 import Button from '@ndla/button';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
+import AccordionButtonLine from './AccordionButtonLine';
 
 const classes = new BEMHelper({
   name: 'accordion',
@@ -53,7 +53,7 @@ const Accordion = ({
   return (
     <div {...classes('', modifiers)} {...rest}>
       {addButton ? (
-        <div {...classes('button-line', modifiers)}>
+        <AccordionButtonLine modifiers={modifiers}>
           <Button
             {...classes('button', modifiers)}
             stripped
@@ -67,15 +67,12 @@ const Accordion = ({
             onClick={handleToggle}>
             {arrow}
           </Button>
-        </div>
+        </AccordionButtonLine>
       ) : (
-        <Button
-          {...classes('button-line', modifiers)}
-          stripped
-          onClick={handleToggle}>
+        <AccordionButtonLine modifiers={modifiers} handleToggle={handleToggle}>
           {title}
           {arrow}
-        </Button>
+        </AccordionButtonLine>
       )}
       <div
         {...classes(

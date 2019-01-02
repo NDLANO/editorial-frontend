@@ -8,11 +8,10 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { Plus } from '@ndla/icons/action';
 import BEMHelper from 'react-bem-helper';
-
+import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
@@ -59,13 +58,10 @@ class ResourceGroup extends PureComponent {
         <Accordion
           addButton={
             config.enableFullTaxonomy && (
-              <Button
-                {...classes('add-button')}
-                stripped
-                onClick={this.toggleAddModal}>
+              <AddTopicResourceButton stripped onClick={this.toggleAddModal}>
                 <Plus />
                 {t('taxonomy.addResource')}
-              </Button>
+              </AddTopicResourceButton>
             )
           }
           handleToggle={this.handleToggle}

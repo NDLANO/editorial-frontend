@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import Button from '@ndla/button';
 import { Plus } from '@ndla/icons/action';
 import Accordion from '../../../components/Accordion';
 import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
 import config from '../../../config';
+import AddTopicResourceButton from './AddTopicResourceButton';
 
 class TopicDescription extends Component {
   constructor(props) {
@@ -40,14 +40,13 @@ class TopicDescription extends Component {
           hidden={!this.state.displayTopicDescription}
           addButton={
             config.enableFullTaxonomy && (
-              <Button
-                className="c-topic-resource__add-button"
+              <AddTopicResourceButton
                 stripped
                 data-testid="changeTopicDescription"
                 onClick={this.toggleAddModal}>
                 <Plus />
                 {t('taxonomy.addTopicDescription')}
-              </Button>
+              </AddTopicResourceButton>
             )
           }
           handleToggle={() =>

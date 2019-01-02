@@ -6,8 +6,7 @@
  *
  */
 
-.c-accordion,
-.c-search-accordion {
+.c-accordion {
   &__button-line {
     display: flex;
     position: relative;
@@ -123,43 +122,6 @@
       color: var(--gray-6);
       margin-right: 4px;
     }
-  }
-}
-
-.c-search-accordion {
-  color: white;
-
-  &__button-line {
-    background-color: var(--brand-color);
-
-    &:hover,
-    &:focus {
-      background-color: var(--brand-color);
-    }
-  }
-
-  &__content {
-    margin: 0;
-    margin-top: var(--spacing--small);
-    padding: 0;
-  }
-
-  &__title,
-  &__arrow {
-    color: white;
-    align-self: center;
-  }
-
-  &__title {
-    text-transform: none;
-    font-size: 1rem;
-    font-weight: lighter;
-  }
-
-  &__arrow {
-    margin: 0;
-    height: 40px;
-    width: 40px;
   }
 }
 

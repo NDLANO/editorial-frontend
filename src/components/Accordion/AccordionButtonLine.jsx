@@ -8,15 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import { css } from 'react-emotion';
 import { colors } from '@ndla/core';
-import Button from '@ndla/button';
-
-const classes = new BEMHelper({
-  name: 'accordion',
-  prefix: 'c-',
-});
+import Button from '@ndla/button'; //checked
 
 const appearances = {
   resourceGroup: css`
@@ -73,7 +67,6 @@ const AccordionButtonLine = ({
   ...rest
 }) => {
   const styledAppearance = modifierToApperance(modifiers);
-  console.log(modifierToApperance(modifiers));
   if (addButton) {
     return <div css={buttonLineStyle(styledAppearance)}>{children}</div>;
   }
@@ -95,7 +88,7 @@ AccordionButtonLine.propTypes = {
   }),
   children: PropTypes.node,
   addButton: PropTypes.node,
-  handleToggle: PropTypes.func.isRequired,
+  handleToggle: PropTypes.func,
 };
 
 export default AccordionButtonLine;

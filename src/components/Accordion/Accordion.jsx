@@ -9,7 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import Button from '@ndla/button';
+import { css } from 'react-emotion';
+import { colors } from '@ndla/core';
+import Button from '@ndla/button'; //checked
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
 import AccordionButtonLine from './AccordionButtonLine';
 
@@ -17,6 +19,18 @@ const classes = new BEMHelper({
   name: 'accordion',
   prefix: 'c-',
 });
+
+const buttonStyle = css`
+  color: ${colors.brand.greyDark};
+  width: 100%;
+  height: 100%;
+  text-align: left;
+`;
+
+const arrowButtonStyle = css`
+  ${buttonStyle} min-width: 50px;
+  width: 50px;
+`;
 
 const Accordion = ({
   fill,
@@ -53,18 +67,12 @@ const Accordion = ({
   return (
     <div {...classes('', modifiers)} {...rest}>
       {addButton ? (
-        <AccordionButtonLine modifiers={modifiers}>
-          <Button
-            {...classes('button', modifiers)}
-            stripped
-            onClick={handleToggle}>
+        <AccordionButtonLine addButton={addButton} modifiers={modifiers}>
+          <Button css={buttonStyle} stripped onClick={handleToggle}>
             {title}
           </Button>
           {addButton}
-          <Button
-            {...classes('button', { ...modifiers, arrowButton: true })}
-            stripped
-            onClick={handleToggle}>
+          <Button css={arrowButtonStyle} stripped onClick={handleToggle}>
             {arrow}
           </Button>
         </AccordionButtonLine>

@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { User } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
-import Button from '@ndla/button';
+import Button from '@ndla/button'; //checked
 import { injectT } from '@ndla/i18n';
 import { colors } from '@ndla/core';
 import { Link, withRouter } from 'react-router-dom';

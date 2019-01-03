@@ -10,7 +10,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import BEMHelper from 'react-bem-helper';
-import Button from '@ndla/button';
+import Button from '@ndla/button'; //checked
 import { injectT } from '@ndla/i18n';
 import styled from 'react-emotion';
 import { EditorShape } from '../../../../shapes';

@@ -42,32 +42,4 @@ form {
   & a.c-button {
     display: inline-block;
   }
-
-  & .c-save-button {
-    & span {
-      display: flex;
-      justify-content: space-evenly;
-
-      & svg {
-        width: 1.45rem;
-        height: 1.45rem;
-      }
-    }
-
-    &--saving,
-    &--saving:hover,
-    &--saving:disabled {
-      transition: all 0.5s ease;
-      background-color: var(--green-2);
-      border-color: var(--green-2);
-    }
-
-    &--saved,
-    &--saved:hover,
-    &--saved:disabled {
-      transition: all 0.5s ease;
-      background-color: var(--green-1);
-      border-color: var(--green-1);
-    }
-  }
 }

@@ -7,23 +7,34 @@
  */
 
 import React from 'react';
-import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
+import { Cross } from '@ndla/icons/action';
+import Button from '@ndla/button'; //checked
+import { css } from 'react-emotion';
 import * as articleApi from '../../modules/article/articleApi';
 import * as draftApi from '../../modules/draft/draftApi';
-import Lightbox from '../Lightbox';
+import Lightbox, {
+  closeLightboxButtonStyle,
+  closeLightboxCrossStyle,
+} from '../Lightbox';
 import PreviewLightboxContent from './PreviewLightboxContent';
 import {
   transformArticle,
   transformArticleToApiVersion,
 } from '../../util/articleUtil';
+import { FormActionButton } from '../../containers/Form';
 
 export const classes = new BEMHelper({
   name: 'preview-draft',
   prefix: 'c-',
 });
+
+const twoArticlesCloseButtonStyle = css`
+  position: absolute;
+  right: 20px;
+`;
 
 const defaultState = {
   firstArticle: undefined,
@@ -123,15 +134,27 @@ class PreviewDraftLightbox extends React.Component {
 
     if (!showPreview) {
       return (
-        <Button {...classes('button')} outline onClick={this.openPreview}>
+        <FormActionButton outline onClick={this.openPreview}>
           {t(`form.${typeOfPreview}.button`)}
-        </Button>
+        </FormActionButton>
       );
     }
 
+    const closeButton = (
+      <Button
+        css={css`
+          ${closeLightboxButtonStyle} margin-top: -20px;
+          margin-right: 0;
+          ${typeOfPreview !== 'preview' ? twoArticlesCloseButtonStyle : null};
+        `}
+        stripped
+        onClick={this.onClosePreview}>
+        <Cross css={closeLightboxCrossStyle} />
+      </Button>
+    );
     return (
       <div {...classes(typeOfPreview !== 'preview' ? 'two-articles' : '')}>
-        <Lightbox onClose={this.onClosePreview}>
+        <Lightbox onClose={this.onClosePreview} closeButton={closeButton}>
           <PreviewLightboxContent
             firstArticle={firstArticle}
             secondArticle={secondArticle}

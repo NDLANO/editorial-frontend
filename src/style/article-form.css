@@ -31,18 +31,7 @@
   &__header--other {
     background-color: var(--brand-color--secondary);
   }
-
-  &__form-actions .c-button {
-    min-width: 6rem;
-    margin-left: 1rem;
-
-    /* NB! Should use :enabled in @ndla/ui button css instead */
-    &:disabled {
-      transform: none;
-      color: #fff;
-    }
-  }
-
+  
   @media (min-width: 37.5em) {
     padding-left: 0;
     padding-right: 0;

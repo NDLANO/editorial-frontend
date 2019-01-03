@@ -65,12 +65,11 @@
   }
 
   &__arrow {
-    color: var(--gray-5);
+    color: white;
     width: 45px;
     height: 45px;
 
     &--resourceGroup {
-      color: var(--gray-6);
       margin-right: 4px;
     }
   }

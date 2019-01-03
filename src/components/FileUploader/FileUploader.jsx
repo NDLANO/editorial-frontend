@@ -8,10 +8,10 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { isEmpty } from '../validators';
 import { Field, FieldHelp } from '../Fields';
+import { FormActionButton } from '../../containers/Form';
 import { uploadFile } from '../../modules/draft/draftApi';
 import { createFormData } from '../../util/formDataHelper';
 import handleError from '../../util/handleError';
@@ -105,9 +105,13 @@ class FileUploader extends React.Component {
               </FieldHelp>
             )}
         </Field>
-        <Field className="c-form__form-actions" right>
-          <Button onClick={this.onSave}>{t('form.file.addFile')}</Button>
-          <Button onClick={onClose}>{t('form.abort')}</Button>
+        <Field right>
+          <FormActionButton onClick={this.onSave}>
+            {t('form.file.addFile')}
+          </FormActionButton>
+          <FormActionButton outline onClick={onClose}>
+            {t('form.abort')}
+          </FormActionButton>
         </Field>
       </Fragment>
     );

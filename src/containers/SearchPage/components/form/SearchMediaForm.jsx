@@ -84,15 +84,22 @@ class SearchMediaForm extends Component {
           />
         </div>
         <div {...searchFormClasses('field', '25-width')}>
-          <Button css={
-            css`
+          <Button
+            css={css`
               margin-right: 1%;
               width: 49%;
-            `
-          } onClick={this.emptySearch} outline>
+            `}
+            onClick={this.emptySearch}
+            outline>
             {t('searchForm.empty')}
           </Button>
-          <Button css={css`width: 49%`} submit>{t('searchForm.btn')}</Button>
+          <Button
+            css={css`
+              width: 49%;
+            `}
+            submit>
+            {t('searchForm.btn')}
+          </Button>
         </div>
       </form>
     );

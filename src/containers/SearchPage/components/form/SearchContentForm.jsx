@@ -159,16 +159,22 @@ class SearchContentForm extends Component {
             </div>
           ))}
           <div {...searchFormClasses('field', '25-width')}>
-            <Button css={
-            css`
-              margin-right: 1%;
-              width: 49%;
-            `
-            } 
-            onClick={this.emptySearch} outline>
+            <Button
+              css={css`
+                margin-right: 1%;
+                width: 49%;
+              `}
+              onClick={this.emptySearch}
+              outline>
               {t('searchForm.empty')}
             </Button>
-            <Button css={css`width: 49%;`}submit>{t('searchForm.btn')}</Button>
+            <Button
+              css={css`
+                width: 49%;
+              `}
+              submit>
+              {t('searchForm.btn')}
+            </Button>
           </div>
           <div {...searchFormClasses('tagline')}>
             <SearchTagGroup

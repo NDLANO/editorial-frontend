@@ -150,12 +150,12 @@ export class StructurePage extends React.PureComponent {
     const { subject } = this.props.match.params;
     try {
       const filters = await fetchSubjectFilters(subject);
-      this.setState({
+      this.setState(prevState => ({
         filters: {
-          ...filters,
+          ...prevState.filters,
           [subject]: filters,
         },
-      });
+      }));
     } catch (e) {
       handleError(e);
     }

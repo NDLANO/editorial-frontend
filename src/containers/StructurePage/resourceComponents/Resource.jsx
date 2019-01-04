@@ -81,8 +81,18 @@ Resource.propTypes = {
   contentType: PropTypes.string.isRequired,
   name: PropTypes.string,
   onDelete: PropTypes.func,
-  toggleRelevance: PropTypes.func,
-  relevance: PropTypes.string,
+  showFilterPicker: PropTypes.bool,
+  toggleFilterPicker: PropTypes.func,
+  onFilterChange: PropTypes.func,
+  activeFilters: PropTypes.arrayOf(PropTypes.object),
+  currentTopic: PropTypes.shape({
+    filter: PropTypes.array,
+  }),
+  currentSubject: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  }),
+  onFilterSubmit: PropTypes.func,
   id: PropTypes.string,
 };
 

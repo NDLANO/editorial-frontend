@@ -42,10 +42,12 @@ const Resource = ({
     <div key="body" {...classes('body o-flag__body')}>
       <h1 {...classes('title')}>{name}</h1>
     </div>
-    <Button stripped onClick={toggleFilterPicker}>
-      <span {...classes('filterButton')} />
-      {t('taxonomy.resource.chooseFilter')}
-    </Button>
+    {contentType !== 'subject' && (
+      <Button stripped onClick={toggleFilterPicker}>
+        <span {...classes('filterButton')} />
+        {t('taxonomy.resource.chooseFilter')}
+      </Button>
+    )}
     {showFilterPicker && (
       <TaxonomyLightbox display big onClose={toggleFilterPicker} whiteContent>
         <FilterConnections

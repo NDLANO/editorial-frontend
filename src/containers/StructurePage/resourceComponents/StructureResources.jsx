@@ -141,6 +141,7 @@ export class StructureResources extends React.PureComponent {
       refreshTopics,
       currentTopic,
       refFunc,
+      currentSubject,
     } = this.props;
     const { topicDescription, resourceTypes, topicResources } = this.state;
 
@@ -166,6 +167,8 @@ export class StructureResources extends React.PureComponent {
               refreshResources={this.getTopicResources}
               activeFilter={activeFilters.length === 1 ? activeFilters[0] : ''}
               locale={locale}
+              currentTopic={currentTopic}
+              currentSubject={currentSubject}
             />
           );
         })}

@@ -748,6 +748,7 @@ const phrases = {
     resource: {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
+      chooseFilter: 'Velg filter',
     },
     removeLink: 'Fjern link',
     resourceTypes: {

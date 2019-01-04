@@ -290,9 +290,10 @@ export class StructurePage extends React.PureComponent {
     const activeFilters = this.getActiveFiltersFromUrl();
     const { params } = match;
     const topicId = params.topic3 || params.topic2 || params.topic1;
+    const currentSubject = subjects.find(sub => sub.id === params.subject);
     const currentTopic = getCurrentTopic({
       params,
-      subject: subjects.find(sub => sub.id === params.subject),
+      subject: currentSubject,
     });
     const linkViewOpen = jsPlumbConnections.length > 0;
 
@@ -358,6 +359,7 @@ export class StructurePage extends React.PureComponent {
               refFunc={this.refFunc}
               activeFilters={activeFilters}
               currentTopic={currentTopic}
+              currentSubject={currentSubject}
               refreshTopics={this.refreshTopics}
             />
           )}

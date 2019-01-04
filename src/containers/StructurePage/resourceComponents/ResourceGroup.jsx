@@ -52,6 +52,8 @@ class ResourceGroup extends PureComponent {
       refreshResources,
       activeFilter,
       locale,
+      currentTopic,
+      currentSubject,
     } = this.props;
 
     return (
@@ -79,6 +81,8 @@ class ResourceGroup extends PureComponent {
               refreshResources={refreshResources}
               activeFilter={activeFilter}
               locale={locale}
+              currentTopic={currentTopic}
+              currentSubject={currentSubject}
             />
           )}
         </Accordion>

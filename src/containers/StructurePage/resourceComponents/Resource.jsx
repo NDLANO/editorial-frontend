@@ -8,20 +8,28 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 import { RemoveCircle } from '@ndla/icons/action';
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
 import { classes } from './ResourceGroup';
-import ToggleSwitch from '../../../components/ToggleSwitch';
-import { RESOURCE_FILTER_CORE } from '../../../constants';
+import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
+import FilterConnections from '../../../components/Taxonomy/FilterConnections';
+// import { RESOURCE_FILTER_CORE } from '../../../constants';
 
 const Resource = ({
   contentType,
   name,
-  toggleRelevance,
+  showFilterPicker,
+  toggleFilterPicker,
+  onFilterChange,
+  activeFilters = [],
+  currentTopic,
+  currentSubject,
+  onFilterSubmit,
   onDelete,
-  relevance,
   id,
+  t,
 }) => (
   <div
     data-testid={`resource-type-${contentType}`}
@@ -34,13 +42,21 @@ const Resource = ({
     <div key="body" {...classes('body o-flag__body')}>
       <h1 {...classes('title')}>{name}</h1>
     </div>
-    {toggleRelevance && (
-      <ToggleSwitch
-        on={relevance === RESOURCE_FILTER_CORE}
-        onClick={toggleRelevance}
-        large
-        testId={`toggleRelevance-${id}`}
-      />
+    <Button stripped onClick={toggleFilterPicker}>
+      <span {...classes('filterButton')} />
+      {t('taxonomy.resource.chooseFilter')}
+    </Button>
+    {showFilterPicker && (
+      <TaxonomyLightbox display big onClose={toggleFilterPicker} whiteContent>
+        <FilterConnections
+          topics={[currentTopic]}
+          filter={activeFilters}
+          structure={[currentSubject]}
+          availableFilters={{ [currentSubject.id]: currentTopic.filters }}
+          updateFilter={onFilterChange}
+        />
+        <Button onClick={onFilterSubmit}>{t('form.save')}</Button>
+      </TaxonomyLightbox>
     )}
 
     {onDelete && (
@@ -60,4 +76,4 @@ Resource.propTypes = {
   id: PropTypes.string,
 };
 
-export default Resource;
+export default injectT(Resource);

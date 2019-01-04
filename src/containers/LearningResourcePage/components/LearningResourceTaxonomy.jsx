@@ -34,7 +34,7 @@ import {
 } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
 import TopicConnections from './TopicConnections';
-import FilterConnections from './FilterConnections';
+import FilterConnections from '../../../components/Taxonomy/FilterConnections';
 import SaveButton from '../../../components/SaveButton';
 
 const resourceTypesToOptionList = availableResourceTypes =>

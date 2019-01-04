@@ -12,8 +12,8 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Cross } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
-import Overlay from './Overlay';
-import Spinner from './Spinner';
+import Overlay from '../Overlay';
+import Spinner from '../Spinner';
 
 export const classes = new BEMHelper({
   name: 'taxonomy-lightbox',
@@ -27,6 +27,7 @@ const TaxonomyLightbox = ({
   t,
   loading,
   onClose,
+  whiteContent,
 }) => (
   <div {...classes()}>
     <Overlay onExit={onClose} />
@@ -37,7 +38,7 @@ const TaxonomyLightbox = ({
           <Cross />
         </Button>
       </div>
-      <div {...classes('content')}>
+      <div {...classes('content', whiteContent && 'whiteContent')}>
         {children}
         {onSelect && (
           <Button
@@ -58,6 +59,7 @@ TaxonomyLightbox.propTypes = {
   loading: PropTypes.bool,
   title: PropTypes.string,
   onSelect: PropTypes.func,
+  whiteContent: PropTypes.bool,
 };
 
 export default injectT(TaxonomyLightbox);

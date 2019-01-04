@@ -4,7 +4,7 @@ import { injectT } from '@ndla/i18n';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox, {
   classes,
-} from '../../../components/TaxonomyLightbox';
+} from '../../../components/Taxonomy/TaxonomyLightbox';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { groupSearch } from '../../../modules/search/searchApi';
 import {

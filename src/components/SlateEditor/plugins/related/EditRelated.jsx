@@ -16,7 +16,7 @@ import { searchRelatedArticles } from '../../../../modules/article/articleApi';
 import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
 import Overlay from '../../../Overlay';
 import RelatedArticle from './RelatedArticle';
-import TaxonomyLightbox from '../../../TaxonomyLightbox';
+import TaxonomyLightbox from '../../../Taxonomy/TaxonomyLightbox';
 import { Portal } from '../../../Portal';
 
 const classes = new BEMHelper({

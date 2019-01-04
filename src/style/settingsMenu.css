@@ -38,18 +38,6 @@
     }
   }
 
-  &__menuItem {
-    display: flex;
-    align-items: center;
-    margin: calc(var(--spacing--small) / 2);
-
-    & input {
-      margin-right: calc(var(--spacing--small) / 2);
-      max-height: var(--spacing);
-      width: auto;
-    }
-  }
-
   &__errorMessage {
     color: var(--red-1);
     text-align: center;

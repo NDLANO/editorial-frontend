@@ -8,8 +8,8 @@
 
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
-import Button from '@ndla/button';
+import { injectT } from '@ndla/i18n'; 
+import Button from '@ndla/button'; //checked
 import {
   FormHeader,
   FormSections,
@@ -37,7 +37,7 @@ const filterWhiteListedURL = url => {
   return isWhiteListedURL;
 };
 
-const ButtonWrapper = styled('div')`
+const StyledButtonWrapper = styled('div')`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -47,14 +47,14 @@ const ButtonWrapper = styled('div')`
   }
 `;
 
-const PreviewWrapper = styled('div')`
+const StyledPreviewWrapper = styled('div')`
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: ${spacing.large};
 `;
 
-const PreviewItem = styled('div')`
+const StyledPreviewItem = styled('div')`
   width: 50%;
 `;
 
@@ -196,7 +196,7 @@ class VisualElementUrlPreview extends Component {
             </FormRemoveButton>
           </div>
         </FormSections>
-        <ButtonWrapper>
+        <StyledButtonWrapper>
           <Button
             disabled={url === selectedResourceUrl || url === ''}
             outline
@@ -211,18 +211,18 @@ class VisualElementUrlPreview extends Component {
               ? t('form.content.link.insert')
               : t('form.content.link.update')}
           </Button>
-        </ButtonWrapper>
+        </StyledButtonWrapper>
         {showPreview && (
-          <PreviewWrapper>
-            <PreviewItem>
+          <StyledPreviewWrapper>
+            <StyledPreviewItem>
               <iframe
                 src={embedUrl}
                 title={resource}
                 height="350px"
                 frameBorder="0"
               />
-            </PreviewItem>
-          </PreviewWrapper>
+            </StyledPreviewItem>
+          </StyledPreviewWrapper>
         )}
       </Fragment>
     );

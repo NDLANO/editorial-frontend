@@ -14,7 +14,7 @@ import { colors } from '@ndla/core';
 
 import { Structure } from '@ndla/editor';
 import { FormHeader } from '@ndla/forms';
-import Button from '@ndla/button';
+import Button from '@ndla/button'; //checked
 import { injectT } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import {
@@ -127,7 +127,7 @@ class TopicConnections extends Component {
         {currentIndex === -1 ? (
           <Button
             outline
-            className={buttonAddition}
+            css={buttonAddition}
             type="button"
             onClick={() => this.addTopic(id, closeModal)}>
             {t('taxonomy.topics.filestructureButton')}

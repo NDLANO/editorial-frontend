@@ -13,7 +13,7 @@ import { css } from 'react-emotion';
 import darken from 'polished/lib/color/darken';
 import { colors } from '@ndla/core';
 import { withRouter } from 'react-router-dom';
-import Button from '@ndla/button';
+import Button from '@ndla/button'; //checked
 import { FormHeader } from '@ndla/forms';
 import { deleteLanguageVersion } from '../../../modules/draft/draftApi';
 import { HistoryShape } from '../../../shapes';

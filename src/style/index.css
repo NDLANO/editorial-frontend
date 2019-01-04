@@ -23,7 +23,6 @@
 @import './multiselect.css';
 @import './search.css';
 @import './toolbar.css';
-@import './image-editor.css';
 @import './vars.css';
 @import './footnotes.css';
 @import './table.css';
@@ -85,4 +84,8 @@ a.c-button {
 
 .c-figure__byline .c-license-icons__list {
   margin-top: 0;
+}
+
+.ReactCrop {
+  margin-bottom: -6px;
 }

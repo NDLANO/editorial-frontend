@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import ImageSearch from '@ndla/image-search';
 import { connect } from 'react-redux';
-import Button from '@ndla/button';
+import Button from '@ndla/button'; //checked
 import { getLocale } from '../../../modules/locale/locale';
 import { classes } from '../../../components/Fields';
 import * as api from '../../VisualElement/visualElementApi';

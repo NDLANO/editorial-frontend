@@ -77,8 +77,3 @@
     margin-top: -1rem;
   }
 }
-
-.c-toolbar > * + * {
-  margin-left: 1rem;
-  display: inline-block;
-}

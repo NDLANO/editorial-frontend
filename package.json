@@ -97,6 +97,7 @@
     "express-basic-auth": "^1.1.5",
     "flatpickr": "^4.5.2",
     "fuse.js": "^3.2.1",
+    "he": "^1.2.0",
     "helmet": "^3.13.0",
     "history": "^4.7.2",
     "hoist-non-react-statics": "^3.0.1",

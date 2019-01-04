@@ -235,6 +235,8 @@ const phrases = {
     save: 'Save',
     cancel: 'Cancel',
     remove: 'Remove',
+    continue:
+      'You have unsaved changes in the math editor. Do you want to continue?',
   },
   h5pElement: {
     fetchError: 'Sorry, an error occurd while loading the H5P client.',

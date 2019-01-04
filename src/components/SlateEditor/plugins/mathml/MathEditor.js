@@ -17,6 +17,8 @@ import Types from 'slate-prop-types';
 import { Portal } from '../../../Portal';
 import EditMath from './EditMath';
 import { MathML } from './MathML';
+import { getSchemaEmbed } from '../../schema';
+import { EditorShape } from '../../../../shapes';
 
 const StyledMenu = styled('span')`
   cursor: pointer;
@@ -67,7 +69,14 @@ class MathEditor extends Component {
   }
 
   handleSave(mathML) {
-    console.log(mathML); // TODO Add save handling
+    const { node, editor } = this.props;
+
+    const properties = {
+      data: { ...getSchemaEmbed(node), innerHTML: mathML },
+    };
+
+    const next = editor.value.change().setNodeByKey(node.key, properties);
+    editor.onChange(next);
   }
 
   render() {
@@ -111,6 +120,7 @@ class MathEditor extends Component {
 }
 
 MathEditor.propTypes = {
+  editor: EditorShape,
   onRemoveClick: PropTypes.func.isRequired,
   node: Types.node.isRequired,
 };

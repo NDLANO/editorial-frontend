@@ -6,6 +6,8 @@ import styled from 'react-emotion';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 
+import WarningModal from '../../../WarningModal';
+
 const StyledMathEditorWrapper = styled('div')`
   padding: ${spacing.small} 0;
   height: 40vh;
@@ -30,6 +32,9 @@ const EditMathModal = ({
   handleExit,
   handleSave,
   handleRemove,
+  handleCancel,
+  handleContinue,
+  openDiscardModal,
   mathML,
   isEditMode,
   onExit,
@@ -77,6 +82,21 @@ const EditMathModal = ({
               __html: mathML,
             }}
           />
+          <WarningModal
+            show={openDiscardModal}
+            text={t('mathEditor.continue')}
+            actions={[
+              {
+                text: t('form.abort'),
+                onClick: handleCancel,
+              },
+              {
+                text: t('warningModal.continue'),
+                onClick: handleContinue,
+              },
+            ]}
+            onCancel={handleCancel}
+          />
         </ModalBody>
       </Fragment>
     )}
@@ -88,6 +108,9 @@ EditMathModal.propTypes = {
   handleExit: PropTypes.func.isRequired,
   handleSave: PropTypes.func.isRequired,
   handleRemove: PropTypes.func.isRequired,
+  handleCancel: PropTypes.func.isRequired,
+  handleContinue: PropTypes.func.isRequired,
+  openDiscardModal: PropTypes.bool.isRequired,
   previewMath: PropTypes.func.isRequired,
   isEditMode: PropTypes.bool.isRequired,
   mathML: PropTypes.string,

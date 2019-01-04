@@ -241,6 +241,7 @@ const phrases = {
     save: 'Lagre',
     cancel: 'Avbryt',
     remove: 'Fjern',
+    continue: 'Du har ulagrede endringer i matteeditoren. Vil du fortsette?',
   },
   h5pElement: {
     fetchError:

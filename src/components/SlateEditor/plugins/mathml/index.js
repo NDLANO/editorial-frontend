@@ -16,9 +16,11 @@ const schema = {
   blocks: {
     mathml: {
       isVoid: true,
+      data: {},
     },
   },
 };
+
 export default function mathmlPlugin() {
   const renderNode = props => {
     const { node, editor } = props;

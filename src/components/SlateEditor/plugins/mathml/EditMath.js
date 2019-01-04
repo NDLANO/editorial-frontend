@@ -9,8 +9,12 @@
 import React, { Component } from 'react';
 import Types from 'slate-prop-types';
 import PropTypes from 'prop-types';
+import he from 'he';
+
 import EditMathModal from './EditMathModal';
 
+const mathOpenTag = '<math xmlns="http://www.w3.org/1998/Math/MathML">';
+const mathCloseTag = '</math>';
 let mathEditor;
 
 class EditMath extends Component {
@@ -19,13 +23,17 @@ class EditMath extends Component {
     const { node } = props;
     const { innerHTML } = node.data.toJS();
     this.state = {
-      initialMathML: innerHTML ? `<math>${innerHTML}</math>` : undefined,
-      mathML: `<math>${innerHTML}</math>`,
+      initialMathML: innerHTML
+        ? `${mathOpenTag}${he.decode(innerHTML)}${mathCloseTag}`
+        : undefined,
+      mathML: `${mathOpenTag}${he.decode(innerHTML)}${mathCloseTag}`,
     };
     this.previewMath = this.previewMath.bind(this);
     this.onHandleExit = this.onHandleExit.bind(this);
     this.onHandleExitSave = this.onHandleExitSave.bind(this);
     this.onHandleExitRemove = this.onHandleExitRemove.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.onContinue = this.onContinue.bind(this);
   }
 
   componentDidMount() {
@@ -49,19 +57,28 @@ class EditMath extends Component {
   }
 
   onHandleExit(closeModal) {
-    const { initialMathML, mathML } = this.state;
+    const { initialMathML, hasSaved } = this.state;
+    const mathML = he.decode(mathEditor.getMathML());
 
-    if (initialMathML !== undefined && initialMathML !== mathML) {
-      console.log('Unsaved changes'); // TODO warn if math has changed
+    if (!hasSaved && initialMathML !== undefined && initialMathML !== mathML) {
+      this.setState({ openDiscardModal: true });
+    } else {
+      closeModal();
     }
-    closeModal();
   }
 
   onHandleExitSave(closeModal) {
-    const { mathML } = this.state;
     const { handleSave } = this.props;
 
-    handleSave(mathML);
+    let saveMathML = he.decode(mathEditor.getMathML());
+
+    // Removes outer tags for embed saving
+    saveMathML = saveMathML.replace(mathOpenTag, '');
+    saveMathML = saveMathML.replace(mathCloseTag, '');
+
+    handleSave(saveMathML);
+    this.setState({ hasSaved: true });
+
     closeModal();
   }
 
@@ -77,8 +94,17 @@ class EditMath extends Component {
     this.setState({ mathML });
   }
 
+  onCancel() {
+    this.setState({ openDiscardModal: false });
+  }
+
+  onContinue() {
+    const { onExit } = this.props;
+    onExit();
+  }
+
   render() {
-    const { mathML } = this.state;
+    const { mathML, openDiscardModal } = this.state;
     const { onExit, isEditMode } = this.props;
 
     if (!isEditMode) {
@@ -90,9 +116,12 @@ class EditMath extends Component {
         handleExit={this.onHandleExit}
         handleSave={this.onHandleExitSave}
         handleRemove={this.onHandleExitRemove}
+        handleCancel={this.onCancel}
+        handleContinue={this.onContinue}
         onExit={onExit}
         previewMath={this.previewMath}
         isEditMode={isEditMode}
+        openDiscardModal={openDiscardModal}
         mathML={mathML}
       />
     );

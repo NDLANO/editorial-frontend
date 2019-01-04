@@ -30,23 +30,7 @@ const wrapper = () =>
     </IntlWrapper>,
   );
 
-test('Can toggle relevance when one filter is chosen', async () => {
-  const clickId = coreResourcesMock[0].id;
-  nock('http://ndla-api')
-    .get(`/taxonomy/v1/resources/${clickId}/filters?language=undefined`)
-    .reply(200, [{ id: 'filter', connectionId: 'testId' }]);
-  nock('http://ndla-api')
-    .put(
-      `/taxonomy/v1/resource-filters/testId`,
-      JSON.stringify({
-        relevanceId: 'urn:relevance:core',
-      }),
-    )
-    .reply(200, []);
-
-  const { container, getByTestId } = wrapper();
+test('matches snapshot', () => {
+  const { container } = wrapper();
   expect(container.firstChild).toMatchSnapshot();
-  fireEvent.change(getByTestId(`toggleRelevance-${clickId}`));
-  await wait();
-  expect(nock.isDone());
 });

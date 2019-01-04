@@ -47,6 +47,7 @@ const Resource = ({
       <Button
         stripped
         onClick={toggleFilterPicker}
+        data-testid={`openFilterPicker-${id}`}
         {...classes('filterButton')}>
         <Filter {...classes('filterIcon')} />
       </Button>

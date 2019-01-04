@@ -23,6 +23,7 @@ const FilterItem = ({ currentFilter, activeFilters, updateFilter, t }) => {
       <td>
         <FilterCheckBox
           type="button"
+          data-testid={`useFilterCheckbox-${currentFilter.id}`}
           onClick={() =>
             updateFilter(currentFilter, RESOURCE_FILTER_CORE, active)
           }
@@ -35,6 +36,7 @@ const FilterItem = ({ currentFilter, activeFilters, updateFilter, t }) => {
         <div className={filterbuttonwrapper}>
           <FilterButton
             type="button"
+            data-testid={`selectCoreRelevance-${currentFilter.id}`}
             selected={
               useFilter &&
               useFilter.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY
@@ -47,6 +49,7 @@ const FilterItem = ({ currentFilter, activeFilters, updateFilter, t }) => {
           </FilterButton>
           <FilterButton
             type="button"
+            data-testid={`selectSupplementaryRelevance-${currentFilter.id}`}
             selected={
               useFilter && useFilter.relevanceId === RESOURCE_FILTER_CORE
             }

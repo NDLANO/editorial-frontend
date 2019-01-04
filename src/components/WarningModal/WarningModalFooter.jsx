@@ -8,22 +8,37 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
+import Button from '@ndla/button'; //checked
 import { uuid } from '@ndla/util';
-import { classes } from './WarningModal';
+import styled, { css } from 'react-emotion';
+
+const warningModalFooterButtonStyle = css`
+  background-color: white;
+  margin-left: 0;
+`;
+
+const StyledFooter = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+`;
 
 const WarningModalFooter = ({ component, actions }) =>
   component || (
-    <div {...classes('footer')}>
+    <StyledFooter>
       {actions.map(action => {
         const { text, ...rest } = action;
         return (
-          <Button key={uuid()} outline {...rest}>
+          <Button
+            key={uuid()}
+            css={warningModalFooterButtonStyle}
+            outline
+            {...rest}>
             {text}
           </Button>
         );
       })}
-    </div>
+    </StyledFooter>
   );
 
 WarningModalFooter.propTypes = {

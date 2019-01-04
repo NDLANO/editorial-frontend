@@ -9,25 +9,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Warning } from '@ndla/icons/editor';
-import BEMHelper from 'react-bem-helper';
+import styled, { css } from 'react-emotion';
+import { spacing } from '@ndla/core';
 import Lightbox from '../Lightbox';
 import WarningModalFooter from './WarningModalFooter';
 
-export const classes = new BEMHelper({
-  name: 'warning-modal',
-  prefix: 'c-',
-});
+const StyledWarningModal = styled('div')`
+  color: white;
+  height: 100%;
+  padding-top: ${spacing.normal};
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const StyledWarningModalBody = styled('div')`
+  display: flex;
+`;
+
+const StyledWarningModalBodyText = styled('span')`
+  width: 100%;
+  display: inline-block;
+  text-align: left;
+`;
+
+const warningModalBodyIconStyle = css`
+  width: 27px;
+  height: 27px;
+  margin-right: ${spacing.small};
+`;
 
 const WarningModal = ({ text, onCancel, actions, component, show }) =>
   show ? (
     <Lightbox modal onClose={onCancel}>
-      <div {...classes()}>
-        <div {...classes('body')}>
-          <Warning {...classes('body-icon')} />
-          <span {...classes('body-text')}>{text}</span>
-        </div>
+      <StyledWarningModal>
+        <StyledWarningModalBody>
+          <Warning css={warningModalBodyIconStyle} />
+          <StyledWarningModalBodyText>{text}</StyledWarningModalBodyText>
+        </StyledWarningModalBody>
         <WarningModalFooter actions={actions} component={component} />
-      </div>
+      </StyledWarningModal>
     </Lightbox>
   ) : null;
 

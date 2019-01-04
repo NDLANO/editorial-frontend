@@ -733,7 +733,7 @@ const phrases = {
     resource: {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
-      chooseFilter: 'Choose filters',
+      chooseFilter: 'Connect to filters',
     },
     resourceTypes: {
       title: 'Content type',

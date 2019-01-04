@@ -34,6 +34,11 @@
     opacity: 0.6;
   }
 
+  &__filterIcon {
+    height: 24px;
+    width: 24px;
+  }
+
   &__icon {
     padding-right: 15px;
   }
@@ -53,5 +58,10 @@
   &__errorMessage {
     color: var(--red-1);
     text-align: center;
+  }
+
+  &__filterButton {
+    padding: 0 10px;
+    margin: 0 20px;
   }
 }

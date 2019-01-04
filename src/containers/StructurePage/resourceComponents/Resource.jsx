@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { Filter } from '@ndla/icons/editor';
 import { RemoveCircle } from '@ndla/icons/action';
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
@@ -43,13 +44,20 @@ const Resource = ({
       <h1 {...classes('title')}>{name}</h1>
     </div>
     {contentType !== 'subject' && (
-      <Button stripped onClick={toggleFilterPicker}>
-        <span {...classes('filterButton')} />
-        {t('taxonomy.resource.chooseFilter')}
+      <Button
+        stripped
+        onClick={toggleFilterPicker}
+        {...classes('filterButton')}>
+        <Filter {...classes('filterIcon')} />
       </Button>
     )}
     {showFilterPicker && (
-      <TaxonomyLightbox display big onClose={toggleFilterPicker} whiteContent>
+      <TaxonomyLightbox
+        display
+        big
+        title={t('taxonomy.resource.chooseFilter')}
+        onClose={toggleFilterPicker}
+        whiteContent>
         <FilterConnections
           topics={[currentTopic]}
           filter={activeFilters}

@@ -8,15 +8,32 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
+import Button from '@ndla/button'; //checked
 import BEMHelper from 'react-bem-helper';
 import { Cross } from '@ndla/icons/action';
+import { css } from 'react-emotion';
 import DeleteButton from '../../../DeleteButton';
 
 const classes = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
 });
+
+const factBoxButtonStyle = css`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+  z-index: 9;
+  box-shadow: 0 0 15px hsla(0, 0%, 50%, 0.3);
+  margin: auto;
+  padding: 5px 15px !important;
+  width: 0;
+  height: 33px;
+  text-align: center;
+  font-size: 14px;
+  border-radius: 50% !important;
+`;
 
 class SlateFactAside extends React.Component {
   constructor() {
@@ -45,10 +62,7 @@ class SlateFactAside extends React.Component {
         )}
         {...attributes}>
         <div className="c-factbox__content">{children}</div>
-        <Button
-          onClick={this.toggleExpanded}
-          className="c-button c-factbox__button"
-        />
+        <Button onClick={this.toggleExpanded} css={factBoxButtonStyle} />
         <DeleteButton
           stripped
           onClick={onRemoveClick}

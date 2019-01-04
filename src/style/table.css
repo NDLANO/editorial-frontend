@@ -20,25 +20,3 @@
 .c-article table {
   margin-top: 0;
 }
-
-.c-table-actions {
-  margin-bottom: -1px;
-  margin-left: 8.66667px;
-
-  &--hidden {
-    display: none;
-  }
-
-  &--show {
-    display: block;
-  }
-
-  &__button {
-    margin-right: 1rem;
-  }
-
-  &__button:hover,
-  &__button:focus {
-    border-bottom: 2px solid var(--brand-color);
-  }
-}

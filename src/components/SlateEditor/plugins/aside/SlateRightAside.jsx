@@ -8,17 +8,31 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
+import Button from '@ndla/button'; //checked
 import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import { Cross } from '@ndla/icons/action';
+import { colors } from '@ndla/core';
 import { ChevronLeft } from '@ndla/icons/common';
+import { css } from 'react-emotion';
+import darken from 'polished/lib/color/darken';
 import DeleteButton from '../../../DeleteButton';
 
 const classes = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
 });
+
+const moveContentButtonStyle = css`
+  position: absolute;
+  top: 0.1rem;
+  right: 1.2rem;
+  color: ${colors.support.green};
+  &:hover,
+  &:focus {
+    color: ${darken(0.2, colors.support.green)};
+  }
+`;
 
 const SlateRightAside = props => {
   const { children, onRemoveClick, onMoveContent, t, attributes } = props;
@@ -36,10 +50,10 @@ const SlateRightAside = props => {
         <Cross />
       </DeleteButton>
       <Button
+        css={moveContentButtonStyle}
         title={t('learningResourceForm.fields.rightAside.moveContent')}
         stripped
-        onClick={onMoveContent}
-        {...classes('move-content-button')}>
+        onClick={onMoveContent}>
         <ChevronLeft />
       </Button>
     </aside>

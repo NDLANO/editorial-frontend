@@ -8,11 +8,27 @@
 
 import React from 'react';
 import Types from 'slate-prop-types';
-import Button from '@ndla/button';
+import styled, { css } from 'react-emotion';
+import { colors } from '@ndla/core';
+import Button from '@ndla/button'; //checked
 import { injectT } from '@ndla/i18n';
-import BEMHelper from 'react-bem-helper';
 import { editTablePlugin } from '../externalPlugins';
 import { EditorShape } from '../../../../shapes';
+
+const tableActionButtonStyle = css`
+  margin-right: 1rem;
+
+  &:hover,
+  &:focus {
+    border-bottom: 2px solid ${colors.brand.primary};
+  }
+`;
+
+const StyledTableActions = styled('div')`
+  margin-bottom: -1px;
+  margin-left: 8.66667px;
+  ${p => (p.show ? 'display: block;' : 'display: none;')};
+`;
 
 const supportedTableOperations = [
   'row-remove',
@@ -21,11 +37,6 @@ const supportedTableOperations = [
   'column-remove',
   'column-add',
 ];
-
-const classes = new BEMHelper({
-  name: 'table-actions',
-  prefix: 'c-',
-});
 
 const TableActions = ({ value, editor, t }) => {
   const handleOnClick = (e, operation) => {
@@ -63,18 +74,18 @@ const TableActions = ({ value, editor, t }) => {
     editTablePlugin.utils.isSelectionInTable(value) &&
     value.selection.isFocused;
   return (
-    <div {...classes('', show ? 'show' : 'hidden')}>
+    <StyledTableActions show={show}>
       {supportedTableOperations.map(operation => (
         <Button
           key={operation}
           data-cy={operation}
           stripped
           onMouseDown={e => handleOnClick(e, operation)}
-          {...classes('button')}>
+          css={tableActionButtonStyle}>
           <span>{t(`form.content.table.${operation}`)}</span>
         </Button>
       ))}
-    </div>
+    </StyledTableActions>
   );
 };
 

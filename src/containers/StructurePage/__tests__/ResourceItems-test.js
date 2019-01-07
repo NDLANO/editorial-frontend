@@ -7,8 +7,7 @@
  */
 
 import React from 'react';
-import nock from 'nock';
-import { render, fireEvent, cleanup, wait } from 'react-testing-library';
+import { render, cleanup } from 'react-testing-library';
 import ResourceItems from '../resourceComponents/ResourceItems';
 import {
   supplementaryResourcesMock,

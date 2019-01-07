@@ -190,6 +190,10 @@ StructureResources.propTypes = {
   refreshTopics: PropTypes.func,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
   refFunc: PropTypes.func,
+  currentSubject: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  }),
 };
 
 export default StructureResources;

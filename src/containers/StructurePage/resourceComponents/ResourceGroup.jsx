@@ -114,6 +114,13 @@ ResourceGroup.propTypes = {
   refreshResources: PropTypes.func,
   activeFilter: PropTypes.string,
   locale: PropTypes.string,
+  currentTopic: PropTypes.shape({
+    filter: PropTypes.array,
+  }),
+  currentSubject: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  }),
 };
 
 export default injectT(ResourceGroup);

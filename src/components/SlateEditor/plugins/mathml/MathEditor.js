@@ -16,7 +16,7 @@ import Types from 'slate-prop-types';
 
 import { Portal } from '../../../Portal';
 import EditMath from './EditMath';
-import { MathML } from './MathML';
+import MathML from './MathML';
 import { getSchemaEmbed } from '../../schema';
 import { EditorShape } from '../../../../shapes';
 

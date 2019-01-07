@@ -20,7 +20,7 @@ class MathML extends Component {
 
     if (prevProps.innerHTML) {
       if (window.MathJax && prevProps.innerHTML !== innerHTML) {
-        // Note: a small delay after a 're-render" is required in order to
+        // Note: a small delay before a 're-render" is required in order to
         // get MatJax to render correctly after editing the MathML
         this.setState({ reRender: true });
         await setTimeout(() => {

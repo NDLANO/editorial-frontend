@@ -39,7 +39,10 @@ const StyledMenu = styled('span')`
 class MathEditor extends Component {
   constructor(props) {
     super(props);
-    this.state = { editMode: false };
+    const { node } = props;
+    const { innerHTML } = node.data.toJS();
+
+    this.state = { editMode: false, innerHTML };
     this.mathMLRef = createRef();
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
@@ -77,11 +80,12 @@ class MathEditor extends Component {
 
     const next = editor.value.change().setNodeByKey(node.key, properties);
     editor.onChange(next);
+    this.setState({ innerHTML: mathML });
   }
 
   render() {
     const { onRemoveClick, t } = this.props;
-    const { editMode, showMenu } = this.state;
+    const { editMode, showMenu, innerHTML } = this.state;
 
     const { top, left } = this.getMenuPosition();
 
@@ -93,7 +97,11 @@ class MathEditor extends Component {
           tabIndex={0}
           onKeyPress={this.toggleMenu}
           onClick={this.toggleMenu}>
-          <MathML mathRef={this.mathMLRef} {...this.props} />
+          <MathML
+            mathRef={this.mathMLRef}
+            innerHTML={innerHTML}
+            {...this.props}
+          />
           <Portal isOpened={showMenu}>
             <StyledMenu style={{ top: `${top}px`, left: `${left}px` }}>
               <Button stripped onClick={this.toggleEdit}>

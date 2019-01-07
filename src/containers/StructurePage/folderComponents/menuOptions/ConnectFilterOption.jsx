@@ -29,7 +29,7 @@ class ConnectFilterOption extends PureComponent {
       classes,
       id,
       path,
-      filters,
+      topicFilters,
       refreshTopics,
       subjectFilters,
       editMode,
@@ -52,7 +52,7 @@ class ConnectFilterOption extends PureComponent {
             id={id}
             subjectFilters={subjectFilters}
             refreshTopics={refreshTopics}
-            topicFilters={filters}
+            topicFilters={topicFilters}
           />
         )}
       </Fragment>
@@ -66,7 +66,7 @@ ConnectFilterOption.propTypes = {
   refreshTopics: PropTypes.func,
   id: PropTypes.string,
   path: PropTypes.string,
-  filters: PropTypes.arrayOf(
+  topicFilters: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
     }),

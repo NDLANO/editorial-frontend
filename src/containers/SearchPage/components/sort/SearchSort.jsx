@@ -23,7 +23,7 @@ class SearchSort extends Component {
     this.handleOrderChange = this.handleOrderChange.bind(this);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { location } = this.props;
     const { sort: sortOrder } = queryString.parse(location.search);
     const splitSortOrder = sortOrder.split('-');

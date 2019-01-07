@@ -11,6 +11,10 @@
   display: flex;
   font-size: 0.9rem;
 
+  > button {
+    outline: none;
+  }
+
   &__saveButton,
   &__saveButton:disabled {
     height: 24px;

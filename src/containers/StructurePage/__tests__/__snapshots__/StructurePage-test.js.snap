@@ -103,1931 +103,2036 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
       <div
         id="plumbContainer"
       >
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:6"
+        <ul
+          class="css-1l95nvm emotion-54"
         >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:6"
+          <li
+            class="css-1h1xp1p emotion-5"
           >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Brønnteknikk
-          </a>
-          <div
-            id="linkButton-urn:subject:6"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:11"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:11"
-          >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Bygg- og anleggsteknikk
-          </a>
-          <div
-            id="linkButton-urn:subject:11"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:16"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:16"
-          >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Elektrofag vg1
-          </a>
-          <div
-            id="linkButton-urn:subject:16"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:17"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:17"
-          >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Engelskspråklig litteratur og kultur
-          </a>
-          <div
-            id="linkButton-urn:subject:17"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:9"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:9"
-          >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Historie vg2 og vg3
-          </a>
-          <div
-            id="linkButton-urn:subject:9"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:2"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:2"
-          >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Kinesisk
-          </a>
-          <div
-            id="linkButton-urn:subject:2"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:18"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:18"
-          >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Kommunikasjon og kultur 1, 2, 3
-          </a>
-          <div
-            id="linkButton-urn:subject:18"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:7"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:7"
-          >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Markedsføring og ledelse 1
-          </a>
-          <div
-            id="linkButton-urn:subject:7"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:10"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:10"
-          >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Matematikk fellesfag
-          </a>
-          <div
-            id="linkButton-urn:subject:10"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structurenull"
-          >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Matte 101
-          </a>
-          <div
-            id="linkButton-urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:14"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:14"
-          >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Medie- og informasjonskunnskap
-          </a>
-          <div
-            id="linkButton-urn:subject:14"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:1"
-        >
-          <a
-            class="c-folder__link c-folder__link--active"
-            href="/structure/subject:1"
-          >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Medieuttrykk og mediesamfunnet
-          </a>
-          <div
-            id="linkButton-urn:subject:1"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-          <div
-            class="c-settingsMenu"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              data-cy="settings-button-subject"
-              type="button"
-            >
-              <div
-                class="c-roundIcon c-roundIcon--margin"
-              >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                >
-                  <title>
-                    Settings
-                  </title>
-                  <g>
-                    <path
-                      d="M0 0h24v24H0z"
-                      fill="none"
-                    />
-                    <path
-                      d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-          <div
-            class="c-filter-view__wrapper"
-          />
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        >
-          <div
-            class="c-folder__wrapper"
-            data-cy="folderWrapper"
-            id="urn:subject:1/urn:topic:1:186401"
-          >
-            <a
-              class="c-folder__link"
-              href="/structure/subject:1/topic:1:186401"
-            >
-              <svg
-                class="c-icon c-folder__folderIcon"
-                data-license="CC-BY 4.0"
-                data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
-              >
-                <title>
-                  Folder
-                </title>
-                <g>
-                  <path
-                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                  />
-                </g>
-              </svg>
-              Brukertips og årsplaner
-            </a>
-          </div>
-          <div
-            class="c-folder__subFolders"
-            data-cy="topic-subFolders"
-          />
-          <div
-            class="c-folder__wrapper"
-            data-cy="folderWrapper"
-            id="urn:subject:1/urn:topic:1:172416"
-          >
-            <a
-              class="c-folder__link"
-              href="/structure/subject:1/topic:1:172416"
-            >
-              <svg
-                class="c-icon c-folder__folderIcon"
-                data-license="CC-BY 4.0"
-                data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
-              >
-                <title>
-                  Folder
-                </title>
-                <g>
-                  <path
-                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                  />
-                </g>
-              </svg>
-              Idéskaping og mediedesign
-            </a>
-          </div>
-          <div
-            class="c-folder__subFolders"
-            data-cy="topic-subFolders"
-          />
-          <div
-            class="c-folder__wrapper"
-            data-cy="folderWrapper"
-            id="urn:subject:1/urn:topic:1:186460"
-          >
-            <a
-              class="c-folder__link"
-              href="/structure/subject:1/topic:1:186460"
-            >
-              <svg
-                class="c-icon c-folder__folderIcon"
-                data-license="CC-BY 4.0"
-                data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
-              >
-                <title>
-                  Folder
-                </title>
-                <g>
-                  <path
-                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                  />
-                </g>
-              </svg>
-              Medieproduksjon
-            </a>
-          </div>
-          <div
-            class="c-folder__subFolders"
-            data-cy="topic-subFolders"
-          />
-          <div
-            class="c-folder__wrapper"
-            data-cy="folderWrapper"
-            id="urn:subject:1/urn:topic:1:186479"
-          >
-            <a
-              class="c-folder__link c-folder__link--active"
-              href="/structure/subject:1/topic:1:186479"
-            >
-              <svg
-                class="c-icon c-folder__folderIcon"
-                data-license="CC-BY 4.0"
-                data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
-              >
-                <title>
-                  Folder
-                </title>
-                <g>
-                  <path
-                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                  />
-                </g>
-              </svg>
-              Mediekommunikasjon
-            </a>
             <div
-              class="c-settingsMenu"
+              class="css-gg4vpm"
             >
               <button
-                class="css-1juhdny emotion-0"
-                data-cy="settings-button-topic"
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:6"
                 type="button"
               >
-                <div
-                  class="c-roundIcon c-roundIcon--margin"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle;"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Settings
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"
-                      />
-                    </g>
-                  </svg>
-                </div>
+                Brønnteknikk
               </button>
-            </div>
-          </div>
-          <div
-            class="c-folder__subFolders"
-            data-cy="topic-subFolders"
-          >
-            <div
-              class="c-folder__wrapper"
-              data-cy="folderWrapper"
-              id="urn:topic:1:186479/urn:topic:1:186487"
-            >
-              <a
-                class="c-folder__link"
-                href="/structure/subject:1/topic:1:186479/topic:1:186487"
-              >
-                <svg
-                  class="c-icon c-folder__folderIcon"
-                  data-license="CC-BY 4.0"
-                  data-source="Knowit"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle; color: rgb(112, 165, 218);"
-                  viewBox="0 0 14 11"
-                  width="1em"
-                >
-                  <title>
-                    Folder
-                  </title>
-                  <g>
-                    <path
-                      d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                    />
-                  </g>
-                </svg>
-                Mediekommunikasjon
-              </a>
-            </div>
-            <div
-              class="c-folder__subFolders"
-              data-cy="topic-subFolders"
-            />
-            <div
-              class="c-folder__wrapper"
-              data-cy="folderWrapper"
-              id="urn:topic:1:186479/urn:topic:1:172650"
-            >
-              <a
-                class="c-folder__link c-folder__link--active"
-                href="/structure/subject:1/topic:1:186479/topic:1:172650"
-              >
-                <svg
-                  class="c-icon c-folder__folderIcon"
-                  data-license="CC-BY 4.0"
-                  data-source="Knowit"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle; color: rgb(112, 165, 218);"
-                  viewBox="0 0 14 11"
-                  width="1em"
-                >
-                  <title>
-                    Folder
-                  </title>
-                  <g>
-                    <path
-                      d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                    />
-                  </g>
-                </svg>
-                Fortelleteknikker og virkemidler
-              </a>
               <div
-                class="c-settingsMenu"
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
               >
-                <button
-                  class="css-1juhdny emotion-0"
-                  data-cy="settings-button-topic"
-                  type="button"
+                <div
+                  style="display: none;"
                 >
-                  <div
-                    class="c-roundIcon c-roundIcon--margin"
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
                   >
-                    <svg
-                      class="c-icon"
-                      data-license="Apache License 2.0"
-                      data-source="Material Design"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
-                      style="vertical-align: middle;"
-                      viewBox="0 0 24 24"
-                      width="1em"
+                    <div
+                      class="c-roundIcon"
                     >
-                      <title>
-                        Settings
-                      </title>
-                      <g>
-                        <path
-                          d="M0 0h24v24H0z"
-                          fill="none"
-                        />
-                        <path
-                          d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"
-                        />
-                      </g>
-                    </svg>
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
+          >
+            <div
+              class="css-gg4vpm"
+            >
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:11"
+                type="button"
+              >
+                Bygg- og anleggsteknikk
+              </button>
+              <div
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
+              >
+                <div
+                  style="display: none;"
+                >
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
+          >
+            <div
+              class="css-gg4vpm"
+            >
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:16"
+                type="button"
+              >
+                Elektrofag vg1
+              </button>
+              <div
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
+              >
+                <div
+                  style="display: none;"
+                >
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
+          >
+            <div
+              class="css-gg4vpm"
+            >
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:17"
+                type="button"
+              >
+                Engelskspråklig litteratur og kultur
+              </button>
+              <div
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
+              >
+                <div
+                  style="display: none;"
+                >
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
+          >
+            <div
+              class="css-gg4vpm"
+            >
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:9"
+                type="button"
+              >
+                Historie vg2 og vg3
+              </button>
+              <div
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
+              >
+                <div
+                  style="display: none;"
+                >
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
+          >
+            <div
+              class="css-gg4vpm"
+            >
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:2"
+                type="button"
+              >
+                Kinesisk
+              </button>
+              <div
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
+              >
+                <div
+                  style="display: none;"
+                >
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
+          >
+            <div
+              class="css-gg4vpm"
+            >
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:18"
+                type="button"
+              >
+                Kommunikasjon og kultur 1, 2, 3
+              </button>
+              <div
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
+              >
+                <div
+                  style="display: none;"
+                >
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
+          >
+            <div
+              class="css-gg4vpm"
+            >
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:7"
+                type="button"
+              >
+                Markedsføring og ledelse 1
+              </button>
+              <div
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
+              >
+                <div
+                  style="display: none;"
+                >
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
+          >
+            <div
+              class="css-gg4vpm"
+            >
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:10"
+                type="button"
+              >
+                Matematikk fellesfag
+              </button>
+              <div
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
+              >
+                <div
+                  style="display: none;"
+                >
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
+          >
+            <div
+              class="css-gg4vpm"
+            >
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
+                type="button"
+              >
+                Matte 101
+              </button>
+              <div
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
+              >
+                <div
+                  style="display: none;"
+                >
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
+          >
+            <div
+              class="css-gg4vpm"
+            >
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:14"
+                type="button"
+              >
+                Medie- og informasjonskunnskap
+              </button>
+              <div
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
+              >
+                <div
+                  style="display: none;"
+                >
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="css-26o8mj emotion-5"
+          >
+            <div
+              class="css-gg4vpm"
+            >
+              <button
+                class="css-1v2t4w1 emotion-3"
+                id="urn:subject:1"
+                type="button"
+              >
+                Medieuttrykk og mediesamfunnet
+              </button>
+              <div
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
+              >
+                <div
+                  class="c-settingsMenu"
+                >
+                  <button
+                    class="css-1juhdny emotion-0"
+                    data-cy="settings-button-subject"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon c-roundIcon--margin"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Settings
+                        </title>
+                        <g>
+                          <path
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                          />
+                          <path
+                            d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="css-1y4kgfw emotion-39"
+                >
+                  <span
+                    class="css-16q81wt emotion-38"
+                  >
+                    Filtrer emner
+                    :
+                  </span>
+                </div>
+                <div
+                  style="display: none;"
+                >
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="css-1l95nvm emotion-54"
+            >
+              <li
+                class="css-18h3lc8 emotion-5"
+              >
+                <div
+                  class="css-gg4vpm"
+                >
+                  <button
+                    class="css-f92lop emotion-3"
+                    id="urn:subject:1/urn:topic:1:186401"
+                    type="button"
+                  >
+                    Brukertips og årsplaner
+                  </button>
+                  <div
+                    class="c-folder__wrapper"
+                    data-cy="folderWrapper"
+                  />
+                </div>
+              </li>
+              <li
+                class="css-18h3lc8 emotion-5"
+              >
+                <div
+                  class="css-gg4vpm"
+                >
+                  <button
+                    class="css-1dqaoo4 emotion-3"
+                    id="urn:subject:1/urn:topic:1:172416"
+                    type="button"
+                  >
+                    Idéskaping og mediedesign
+                  </button>
+                  <div
+                    class="c-folder__wrapper"
+                    data-cy="folderWrapper"
+                  />
+                </div>
+                <ul
+                  class="css-1l95nvm emotion-54"
+                >
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172416/urn:topic:1:172597"
+                        type="button"
+                      >
+                        Idéutvikling
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172416/urn:topic:1:186404"
+                        type="button"
+                      >
+                        Idéutvikling
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172416/urn:topic:1:172600"
+                        type="button"
+                      >
+                        Mediedesign
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172416/urn:topic:1:186407"
+                        type="button"
+                      >
+                        Mediedesign
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172416/urn:topic:1:184482"
+                        type="button"
+                      >
+                        Uttrykkshistorien, trender og stilarter
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li
+                class="css-18h3lc8 emotion-5"
+              >
+                <div
+                  class="css-gg4vpm"
+                >
+                  <button
+                    class="css-1dqaoo4 emotion-3"
+                    id="urn:subject:1/urn:topic:1:186460"
+                    type="button"
+                  >
+                    Medieproduksjon
+                  </button>
+                  <div
+                    class="c-folder__wrapper"
+                    data-cy="folderWrapper"
+                  />
+                </div>
+                <ul
+                  class="css-1l95nvm emotion-54"
+                >
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:186460/urn:topic:1:186464"
+                        type="button"
+                      >
+                        HMS, produksjonsutstyr og tekniske formater
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:186460/urn:topic:1:184483"
+                        type="button"
+                      >
+                        Produksjonsprosesser
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:186460/urn:topic:1:183085"
+                        type="button"
+                      >
+                        Skriftlig tekstarbeid
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:186460/urn:topic:1:186468"
+                        type="button"
+                      >
+                        Lydarbeid
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:186460/urn:topic:1:186471"
+                        type="button"
+                      >
+                        Bilde
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:186460/urn:topic:1:186474"
+                        type="button"
+                      >
+                        Levende bilder
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:186460/urn:topic:1:169379"
+                        type="button"
+                      >
+                        Nettsider
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li
+                class="css-ds82gx emotion-5"
+              >
+                <div
+                  class="css-gg4vpm"
+                >
+                  <button
+                    class="css-1v2t4w1 emotion-3"
+                    id="urn:subject:1/urn:topic:1:186479"
+                    type="button"
+                  >
+                    Mediekommunikasjon
+                  </button>
+                  <div
+                    class="c-folder__wrapper"
+                    data-cy="folderWrapper"
+                  >
+                    <div
+                      class="c-settingsMenu"
+                    >
+                      <button
+                        class="css-1juhdny emotion-0"
+                        data-cy="settings-button-topic"
+                        type="button"
+                      >
+                        <div
+                          class="c-roundIcon c-roundIcon--margin"
+                        >
+                          <svg
+                            class="c-icon"
+                            data-license="Apache License 2.0"
+                            data-source="Material Design"
+                            fill="currentColor"
+                            height="1em"
+                            preserveAspectRatio="xMidYMid meet"
+                            style="vertical-align: middle;"
+                            viewBox="0 0 24 24"
+                            width="1em"
+                          >
+                            <title>
+                              Settings
+                            </title>
+                            <g>
+                              <path
+                                d="M0 0h24v24H0z"
+                                fill="none"
+                              />
+                              <path
+                                d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"
+                              />
+                            </g>
+                          </svg>
+                        </div>
+                      </button>
+                    </div>
                   </div>
-                </button>
+                </div>
+                <ul
+                  class="css-1l95nvm emotion-54"
+                >
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:186479/urn:topic:1:186487"
+                        type="button"
+                      >
+                        Mediekommunikasjon
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-nbem2u emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:186479/urn:topic:1:172650"
+                        type="button"
+                      >
+                        Fortelleteknikker og virkemidler
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      >
+                        <div
+                          class="c-settingsMenu"
+                        >
+                          <button
+                            class="css-1juhdny emotion-0"
+                            data-cy="settings-button-topic"
+                            type="button"
+                          >
+                            <div
+                              class="c-roundIcon c-roundIcon--margin"
+                            >
+                              <svg
+                                class="c-icon"
+                                data-license="Apache License 2.0"
+                                data-source="Material Design"
+                                fill="currentColor"
+                                height="1em"
+                                preserveAspectRatio="xMidYMid meet"
+                                style="vertical-align: middle;"
+                                viewBox="0 0 24 24"
+                                width="1em"
+                              >
+                                <title>
+                                  Settings
+                                </title>
+                                <g>
+                                  <path
+                                    d="M0 0h24v24H0z"
+                                    fill="none"
+                                  />
+                                  <path
+                                    d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"
+                                  />
+                                </g>
+                              </svg>
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:186479/urn:topic:1:185606"
+                        type="button"
+                      >
+                        Medieanalyse
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li
+                class="css-18h3lc8 emotion-5"
+              >
+                <div
+                  class="css-gg4vpm"
+                >
+                  <button
+                    class="css-1dqaoo4 emotion-3"
+                    id="urn:subject:1/urn:topic:1:171906"
+                    type="button"
+                  >
+                    Mediebransjen – yrker, regelverk og retorikk
+                  </button>
+                  <div
+                    class="c-folder__wrapper"
+                    data-cy="folderWrapper"
+                  />
+                </div>
+                <ul
+                  class="css-1l95nvm emotion-54"
+                >
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:171906/urn:topic:1:165853"
+                        type="button"
+                      >
+                        Medieyrker og elevproduksjon
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:171906/urn:topic:1:165738"
+                        type="button"
+                      >
+                        Journalistikk
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:171906/urn:topic:1:166321"
+                        type="button"
+                      >
+                        Kommunikasjonsvirksomhet
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:171906/urn:topic:1:166872"
+                        type="button"
+                      >
+                        Markedsføring
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:171906/urn:topic:1:178849"
+                        type="button"
+                      >
+                        Underholdningsbransjen
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li
+                class="css-18h3lc8 emotion-5"
+              >
+                <div
+                  class="css-gg4vpm"
+                >
+                  <button
+                    class="css-1dqaoo4 emotion-3"
+                    id="urn:subject:1/urn:topic:1:172361"
+                    type="button"
+                  >
+                    Individet og mediene
+                  </button>
+                  <div
+                    class="c-folder__wrapper"
+                    data-cy="folderWrapper"
+                  />
+                </div>
+                <ul
+                  class="css-1l95nvm emotion-54"
+                >
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172361/urn:topic:1:186069"
+                        type="button"
+                      >
+                        Mediebruk og mediepåvirking
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172361/urn:topic:1:171903"
+                        type="button"
+                      >
+                        Kildebruk, opphavsrett og personvern
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li
+                class="css-18h3lc8 emotion-5"
+              >
+                <div
+                  class="css-gg4vpm"
+                >
+                  <button
+                    class="css-1dqaoo4 emotion-3"
+                    id="urn:subject:1/urn:topic:1:172362"
+                    type="button"
+                  >
+                    Mediene i samfunnet
+                  </button>
+                  <div
+                    class="c-folder__wrapper"
+                    data-cy="folderWrapper"
+                  />
+                </div>
+                <ul
+                  class="css-1l95nvm emotion-54"
+                >
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172362/urn:topic:1:162756"
+                        type="button"
+                      >
+                        Ytringsfrihet og demokrati
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172362/urn:topic:1:172615"
+                        type="button"
+                      >
+                        Mediestrukturen i Norge
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172362/urn:topic:1:184484"
+                        type="button"
+                      >
+                        Makt og medier
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172362/urn:topic:1:185588"
+                        type="button"
+                      >
+                        Mediehistorie
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172362/urn:topic:1:184485"
+                        type="button"
+                      >
+                        Medieuttrykk i samfunnet
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li
+                class="css-18h3lc8 emotion-5"
+              >
+                <div
+                  class="css-gg4vpm"
+                >
+                  <button
+                    class="css-1dqaoo4 emotion-3"
+                    id="urn:subject:1/urn:topic:1:172568"
+                    type="button"
+                  >
+                    Tverrfaglige arbeidsoppdrag
+                  </button>
+                  <div
+                    class="c-folder__wrapper"
+                    data-cy="folderWrapper"
+                  />
+                </div>
+                <ul
+                  class="css-1l95nvm emotion-54"
+                >
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172568/urn:topic:1:172789"
+                        type="button"
+                      >
+                        Tverrfaglige arbeidsoppdrag nivå 1
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172568/urn:topic:1:172790"
+                        type="button"
+                      >
+                        Tverrfaglige arbeidsoppdrag nivå 2
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172568/urn:topic:1:172791"
+                        type="button"
+                      >
+                        Tverrfaglige arbeidsoppdrag nivå 3
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172568/urn:topic:1:184496"
+                        type="button"
+                      >
+                        Tverrfaglige arbeidsoppdrag nivå 4
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172568/urn:topic:1:184504"
+                        type="button"
+                      >
+                        Tverrfaglige arbeidsoppdrag nivå 5
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                  <li
+                    class="css-1s4ye1i emotion-5"
+                  >
+                    <div
+                      class="css-gg4vpm"
+                    >
+                      <button
+                        class="css-f92lop emotion-3"
+                        id="urn:topic:1:172568/urn:topic:1:184505"
+                        type="button"
+                      >
+                        Tverrfaglige arbeidsoppdrag nivå 6
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
+          >
+            <div
+              class="css-gg4vpm"
+            >
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:13"
+                type="button"
+              >
+                Naturbruk vg 1
+              </button>
+              <div
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
+              >
+                <div
+                  style="display: none;"
+                >
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
               </div>
             </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
+          >
             <div
-              class="c-folder__subFolders"
-              data-cy="topic-subFolders"
-            />
-            <div
-              class="c-folder__wrapper"
-              data-cy="folderWrapper"
-              id="urn:topic:1:186479/urn:topic:1:185606"
+              class="css-gg4vpm"
             >
-              <a
-                class="c-folder__link"
-                href="/structure/subject:1/topic:1:186479/topic:1:185606"
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:3"
+                type="button"
               >
-                <svg
-                  class="c-icon c-folder__folderIcon"
-                  data-license="CC-BY 4.0"
-                  data-source="Knowit"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle; color: rgb(112, 165, 218);"
-                  viewBox="0 0 14 11"
-                  width="1em"
+                Samfunnsfag
+              </button>
+              <div
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
+              >
+                <div
+                  style="display: none;"
                 >
-                  <title>
-                    Folder
-                  </title>
-                  <g>
-                    <path
-                      d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                    />
-                  </g>
-                </svg>
-                Medieanalyse
-              </a>
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
             </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
+          >
             <div
-              class="c-folder__subFolders"
-              data-cy="topic-subFolders"
-            />
-          </div>
-          <div
-            class="c-folder__wrapper"
-            data-cy="folderWrapper"
-            id="urn:subject:1/urn:topic:1:171906"
-          >
-            <a
-              class="c-folder__link"
-              href="/structure/subject:1/topic:1:171906"
+              class="css-gg4vpm"
             >
-              <svg
-                class="c-icon c-folder__folderIcon"
-                data-license="CC-BY 4.0"
-                data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:12"
+                type="button"
               >
-                <title>
-                  Folder
-                </title>
-                <g>
-                  <path
-                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                  />
-                </g>
-              </svg>
-              Mediebransjen – yrker, regelverk og retorikk
-            </a>
-          </div>
-          <div
-            class="c-folder__subFolders"
-            data-cy="topic-subFolders"
-          />
-          <div
-            class="c-folder__wrapper"
-            data-cy="folderWrapper"
-            id="urn:subject:1/urn:topic:1:172361"
-          >
-            <a
-              class="c-folder__link"
-              href="/structure/subject:1/topic:1:172361"
-            >
-              <svg
-                class="c-icon c-folder__folderIcon"
-                data-license="CC-BY 4.0"
-                data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
-              >
-                <title>
-                  Folder
-                </title>
-                <g>
-                  <path
-                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                  />
-                </g>
-              </svg>
-              Individet og mediene
-            </a>
-          </div>
-          <div
-            class="c-folder__subFolders"
-            data-cy="topic-subFolders"
-          />
-          <div
-            class="c-folder__wrapper"
-            data-cy="folderWrapper"
-            id="urn:subject:1/urn:topic:1:172362"
-          >
-            <a
-              class="c-folder__link"
-              href="/structure/subject:1/topic:1:172362"
-            >
-              <svg
-                class="c-icon c-folder__folderIcon"
-                data-license="CC-BY 4.0"
-                data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
-              >
-                <title>
-                  Folder
-                </title>
-                <g>
-                  <path
-                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                  />
-                </g>
-              </svg>
-              Mediene i samfunnet
-            </a>
-          </div>
-          <div
-            class="c-folder__subFolders"
-            data-cy="topic-subFolders"
-          />
-          <div
-            class="c-folder__wrapper"
-            data-cy="folderWrapper"
-            id="urn:subject:1/urn:topic:1:172568"
-          >
-            <a
-              class="c-folder__link"
-              href="/structure/subject:1/topic:1:172568"
-            >
-              <svg
-                class="c-icon c-folder__folderIcon"
-                data-license="CC-BY 4.0"
-                data-source="Knowit"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle; color: rgb(112, 165, 218);"
-                viewBox="0 0 14 11"
-                width="1em"
-              >
-                <title>
-                  Folder
-                </title>
-                <g>
-                  <path
-                    d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                  />
-                </g>
-              </svg>
-              Tverrfaglige arbeidsoppdrag
-            </a>
-          </div>
-          <div
-            class="c-folder__subFolders"
-            data-cy="topic-subFolders"
-          />
-        </div>
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:13"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:13"
-          >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Naturbruk vg 1
-          </a>
-          <div
-            id="linkButton-urn:subject:13"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
+                Service og samferdsel vg1
+              </button>
               <div
-                class="c-roundIcon"
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
               >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
+                <div
+                  style="display: none;"
                 >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
               </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:3"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:3"
+            </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
           >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
+            <div
+              class="css-gg4vpm"
             >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Samfunnsfag
-          </a>
-          <div
-            id="linkButton-urn:subject:3"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:15"
+                type="button"
+              >
+                Sørsamisk vg1 og vg2
+              </button>
               <div
-                class="c-roundIcon"
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
               >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
+                <div
+                  style="display: none;"
                 >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
               </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:12"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:12"
+            </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
           >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
+            <div
+              class="css-gg4vpm"
             >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Service og samferdsel vg1
-          </a>
-          <div
-            id="linkButton-urn:subject:12"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:5"
+                type="button"
+              >
+                Testfag
+              </button>
               <div
-                class="c-roundIcon"
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
               >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
+                <div
+                  style="display: none;"
                 >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
               </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:15"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:15"
+            </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
           >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
+            <div
+              class="css-gg4vpm"
             >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Sørsamisk vg1 og vg2
-          </a>
-          <div
-            id="linkButton-urn:subject:15"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:8"
+                type="button"
+              >
+                Tysk
+              </button>
               <div
-                class="c-roundIcon"
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
               >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
+                <div
+                  style="display: none;"
                 >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
               </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:5"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:5"
+            </div>
+          </li>
+          <li
+            class="css-1h1xp1p emotion-5"
           >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
+            <div
+              class="css-gg4vpm"
             >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Testfag
-          </a>
-          <div
-            id="linkButton-urn:subject:5"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
+              <button
+                class="css-1dqaoo4 emotion-3"
+                id="urn:subject:4"
+                type="button"
+              >
+                Vg 2 Helsearbeiderfag
+              </button>
               <div
-                class="c-roundIcon"
+                class="c-folder__wrapper"
+                data-cy="folderWrapper"
               >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
+                <div
+                  style="display: none;"
                 >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
+                  <button
+                    class="css-1juhdny emotion-0"
+                    type="button"
+                  >
+                    <div
+                      class="c-roundIcon"
+                    >
+                      <svg
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <title>
+                          Link
+                        </title>
+                        <g>
+                          <path
+                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
               </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:8"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:8"
-          >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Tysk
-          </a>
-          <div
-            id="linkButton-urn:subject:8"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
-        <div
-          class="c-folder__wrapper"
-          data-cy="folderWrapper"
-          id="urn:subject:4"
-        >
-          <a
-            class="c-folder__link c-folder__link--grayedOut"
-            href="/structure/subject:4"
-          >
-            <svg
-              class="c-icon c-folder__folderIcon"
-              data-license="CC-BY 4.0"
-              data-source="Knowit"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle; color: rgb(112, 165, 218);"
-              viewBox="0 0 14 11"
-              width="1em"
-            >
-              <title>
-                Folder
-              </title>
-              <g>
-                <path
-                  d="M8.5,1.1h4.4A1.1,1.1,0,0,1,14,2.2V9.9A1.1,1.1,0,0,1,12.9,11H1.1a1,1,0,0,1-1-1.1h0A.9.9,0,0,1,0,9.4V1.6A1.6,1.6,0,0,1,1.6,0H7A1.6,1.6,0,0,1,8.5,1.1Z"
-                />
-              </g>
-            </svg>
-            Vg 2 Helsearbeiderfag
-          </a>
-          <div
-            id="linkButton-urn:subject:4"
-            style="display: none;"
-          >
-            <button
-              class="css-1juhdny emotion-0"
-              type="button"
-            >
-              <div
-                class="c-roundIcon"
-              >
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                >
-                  <title>
-                    Link
-                  </title>
-                  <g>
-                    <path
-                      d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div
-          class="c-folder__subFolders"
-          data-cy="subject-subFolders"
-        />
+            </div>
+          </li>
+        </ul>
         <div />
       </div>
     </div>
   </div>
-  <div
-    class="c-accordion c-accordion--resourceGroup"
-  >
+  <div>
     <div
-      class="css-wk9fjy"
+      class="c-accordion c-accordion--resourceGroup"
     >
-      <button
-        class="css-y34ew2 emotion-0"
-        type="button"
+      <div
+        class="css-wk9fjy"
       >
-        <span
-          class="c-accordion__title c-accordion__title--resourceGroup"
+        <button
+          class="css-y34ew2 emotion-0"
+          type="button"
         >
-          Emnebeskrivelse
-        </span>
-      </button>
-      <button
-        class="css-ry4583 emotion-0"
-        data-testid="changeTopicDescription"
-        type="button"
-      >
-        <svg
-          class="c-icon"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
+          <span
+            class="c-accordion__title c-accordion__title--resourceGroup"
+          >
+            Emnebeskrivelse
+          </span>
+        </button>
+        <button
+          class="css-ry4583 emotion-0"
+          data-testid="changeTopicDescription"
+          type="button"
         >
-          <title>
-            Plus
-          </title>
-          <g>
-            <path
-              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
-        Endre emnebeskrivelse
-      </button>
-      <button
-        class="css-8fbctz emotion-0"
-        type="button"
-      >
-        <svg
-          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
+          <svg
+            class="c-icon"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
+          >
+            <title>
+              Plus
+            </title>
+            <g>
+              <path
+                d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+          Endre emnebeskrivelse
+        </button>
+        <button
+          class="css-8fbctz emotion-0"
+          type="button"
         >
-          <title>
-            ExpandLess
-          </title>
-          <g>
-            <path
-              d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
-            />
-          </g>
-        </svg>
-      </button>
+          <svg
+            class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
+          >
+            <title>
+              ExpandLess
+            </title>
+            <g>
+              <path
+                d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <div
+        class="c-accordion__content c-accordion__content--visible c-accordion__content--resourceGroup"
+      />
     </div>
-    <div
-      class="c-accordion__content c-accordion__content--visible c-accordion__content--resourceGroup"
-    />
   </div>
   <div
     class="c-accordion c-accordion--resourceGroup"

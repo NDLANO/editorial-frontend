@@ -9,8 +9,7 @@
 .c-folder {
   &__wrapper {
     display: flex;
-    align-items: center;
-    padding: calc(var(--spacing--small) / 2) 0;
+    width: 100%;
 
     &--dragging {
       margin: 0;

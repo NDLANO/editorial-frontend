@@ -31,9 +31,10 @@ class TopicDescription extends Component {
       refreshTopics,
       currentTopic,
       t,
+      refFunc,
     } = this.props;
     return (
-      <React.Fragment>
+      <div ref={el => refFunc(el, 'resourceSection')}>
         <Accordion
           resourceGroup
           header={t('searchForm.articleType.topicArticle')}
@@ -66,7 +67,7 @@ class TopicDescription extends Component {
             currentTopic={currentTopic}
           />
         )}
-      </React.Fragment>
+      </div>
     );
   }
 }
@@ -79,6 +80,7 @@ TopicDescription.propTypes = {
     id: PropTypes.string,
     contentUri: PropTypes.string,
   }).isRequired,
+  refFunc: PropTypes.func,
 };
 
 export default injectT(TopicDescription);

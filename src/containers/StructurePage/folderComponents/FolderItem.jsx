@@ -7,8 +7,12 @@
  */
 
 import React from 'react';
-import { string, bool, arrayOf, object, shape, func } from 'prop-types';
+import { string, bool, arrayOf, shape, func, instanceOf } from 'prop-types';
+import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
+import { injectT } from '@ndla/i18n';
+import { withRouter } from 'react-router-dom';
+import { css } from 'react-emotion';
 import { Link as LinkIcon } from '@ndla/icons/editor';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';
@@ -16,109 +20,95 @@ import EditLinkButton from './EditLinkButton';
 import RoundIcon from '../../../components/RoundIcon';
 import FilterView from './FilterView';
 
-import FolderLink from '../../../components/FolderLink';
 import config from '../../../config';
-import { removeLastItemFromUrl } from '../../../util/routeHelpers';
-import SubFolders from './SubFolders';
 
 export const classes = new BEMHelper({
   name: 'folder',
   prefix: 'c-',
 });
 
+const resourceButtonStyle = css`
+  margin: 3px ${spacing.xsmall} 3px auto;
+  ${fonts.sizes(14, 1.1)};
+`;
+
 const FolderItem = ({
   name,
-  path,
-  active,
+  pathToString,
   match,
   id,
+  isOpen,
   refFunc,
   showLink,
   linkViewOpen,
   activeFilters,
-  topics,
-  subtopics,
   toggleFilter,
   setPrimary,
   deleteTopicLink,
+  resourceSection,
+  filters,
+  t,
   ...rest
 }) => {
-  const { url, params } = match;
+  const { url } = match;
   const type = id.includes('subject') ? 'subject' : 'topic';
-  const grayedOut = !active && params.subject && type === 'subject';
-  const isMainActive = active && path === url.replace('/structure', '');
-  const { search } = window.location;
-  const uniqueId = type === 'topic' ? `${rest.parent}/${id}` : id;
-  const toLink = isMainActive
-    ? removeLastItemFromUrl(url).concat(search)
-    : `/structure${path}${search}`;
-  const sendToSubFolders = {
-    type,
-    active,
-    topics: topics || subtopics,
-    isMainActive,
-    activeFilters,
-    params,
-    match,
-    showLink,
-    refFunc,
-    setPrimary,
-    linkViewOpen,
-    ...rest,
-  };
-  const settingsButton = active &&
-    config.enableFullTaxonomy && (
-      <SettingsMenu id={id} name={name} type={type} path={path} {...rest} />
-    );
-  const showLinkButton = type === 'topic' &&
-    config.enableFullTaxonomy &&
-    isMainActive && (
-      <Button stripped onClick={() => showLink(id, rest.parent)}>
-        <RoundIcon open={linkViewOpen} icon={<LinkIcon />} />
-      </Button>
-    );
-  const editLinkButton = type === 'subject' && (
-    <EditLinkButton
-      refFunc={refFunc}
-      id={id}
-      setPrimary={setPrimary}
-      deleteTopicLink={deleteTopicLink}
-    />
-  );
-  const subjectFilters = active &&
-    type === 'subject' && (
-      <FilterView
-        subjectFilters={rest.subjectFilters}
-        activeFilters={activeFilters}
-        toggleFilter={toggleFilter}
-      />
-    );
+  const isMainActive = pathToString === url.replace('/structure/', '');
+
+  const showSettings = isOpen && config.enableFullTaxonomy;
+  const showLinkButton =
+    isOpen && type === 'topic' && config.enableFullTaxonomy && isMainActive;
+  const showSubjectFilters = isOpen && type === 'subject';
+  const showJumpToResources = isMainActive && type === 'topic';
 
   return (
-    <React.Fragment>
-      <div id={uniqueId} data-cy="folderWrapper" {...classes('wrapper')}>
-        <FolderLink
-          toLink={toLink}
+    <div data-cy="folderWrapper" {...classes('wrapper')}>
+      {showLinkButton && (
+        <Button stripped onClick={() => showLink(id, rest.parent)}>
+          <RoundIcon open={linkViewOpen} icon={<LinkIcon />} />
+        </Button>
+      )}
+      {showSettings && (
+        <SettingsMenu
+          id={id}
           name={name}
-          active={active}
-          grayedOut={grayedOut}
+          type={type}
+          path={pathToString}
+          topicFilters={filters}
+          {...rest}
         />
-        {showLinkButton}
-        {editLinkButton}
-        {settingsButton}
-        {subjectFilters}
-      </div>
-      <SubFolders {...sendToSubFolders} />
-    </React.Fragment>
+      )}
+      {showSubjectFilters && (
+        <FilterView
+          subjectFilters={rest.subjectFilters}
+          activeFilters={activeFilters}
+          toggleFilter={toggleFilter}
+        />
+      )}
+      {showJumpToResources && (
+        <Button
+          outline
+          className={resourceButtonStyle}
+          type="button"
+          onClick={() => resourceSection && resourceSection.scrollIntoView()}>
+          {t('taxonomy.jumpToResources')}
+        </Button>
+      )}
+      {type === 'subject' && (
+        <EditLinkButton
+          refFunc={refFunc}
+          id={id}
+          setPrimary={setPrimary}
+          deleteTopicLink={deleteTopicLink}
+        />
+      )}
+    </div>
   );
 };
 
 FolderItem.propTypes = {
   name: string.isRequired,
-  path: string,
-  active: bool,
-  topics: arrayOf(object),
-  subtopics: arrayOf(object),
+  pathToString: string,
+  isOpen: bool,
   match: shape({
     params: shape({
       topic1: string,
@@ -126,8 +116,9 @@ FolderItem.propTypes = {
       subject: string,
     }),
   }),
-  id: string,
+  id: string.isRequired,
   refFunc: func,
+  resourceSection: instanceOf(Element),
   showLink: func,
   linkViewOpen: bool,
   activeFilters: arrayOf(string),
@@ -135,6 +126,11 @@ FolderItem.propTypes = {
   setPrimary: func,
   deleteTopicLink: func,
   refreshTopics: func,
+  filters: arrayOf(
+    shape({
+      id: string,
+    }),
+  ),
 };
 
-export default FolderItem;
+export default withRouter(injectT(FolderItem));

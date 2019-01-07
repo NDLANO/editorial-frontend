@@ -56,9 +56,10 @@ export const fetchNewArticleId = id => {
   return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
 };
 
-export const validateDraft = id =>
+export const validateDraft = (id, draft) =>
   fetchAuthorized(`${baseUrl}/${id}/validate/`, {
     method: 'PUT',
+    body: JSON.stringify(draft),
   }).then(resolveJsonOrRejectWithError);
 
 export const updateStatusDraft = (id, status) =>

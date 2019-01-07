@@ -64,10 +64,7 @@ class EditLinkButton extends Component {
     const { setPrimaryWarning, deleteLinkWarning } = this.state;
     const linkId = `linkButton-${id}`;
     return (
-      <div
-        style={{ display: 'none' }}
-        id={linkId}
-        ref={el => refFunc(el, linkId)}>
+      <div style={{ display: 'none' }} ref={el => refFunc(el, linkId)}>
         <Portal isOpened>
           <WarningModal
             show={setPrimaryWarning}

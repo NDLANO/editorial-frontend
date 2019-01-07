@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { uuid } from '@ndla/util';
 import styled, { css } from 'react-emotion';
 

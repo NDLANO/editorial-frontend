@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from '@ndla/i18n';
 import { Link } from 'react-router-dom';

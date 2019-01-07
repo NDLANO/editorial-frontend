@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import { css } from 'react-emotion';
 import { Settings } from '@ndla/icons/editor';

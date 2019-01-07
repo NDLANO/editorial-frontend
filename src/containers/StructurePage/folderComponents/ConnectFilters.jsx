@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { css } from 'react-emotion';
 import isEqual from 'lodash/fp/isEqual';

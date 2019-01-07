@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { css } from 'react-emotion';
 import darken from 'polished/lib/color/darken';
 import { colors } from '@ndla/core';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 
 const deleteButtonStyle = css`
   position: absolute;

@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
 import { contributorGroups, contributorTypes } from '@ndla/licenses';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { FormHeader } from '@ndla/forms';
 import Contributor from './Contributor';
 import { getField } from '../Fields';

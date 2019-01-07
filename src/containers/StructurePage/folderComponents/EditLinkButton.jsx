@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { Link as LinkIcon } from '@ndla/icons/editor';
 import BEMHelper from 'react-bem-helper';
@@ -68,7 +68,6 @@ class EditLinkButton extends Component {
         style={{ display: 'none' }}
         id={linkId}
         ref={el => refFunc(el, linkId)}>
-
         <Portal isOpened>
           <WarningModal
             show={setPrimaryWarning}
@@ -124,7 +123,6 @@ class EditLinkButton extends Component {
               </MenuItemButton>
               <MenuItemButton
                 stripped
-
                 onClick={() => this.setState({ deleteLinkWarning: true })}>
                 <RoundIcon small icon={<Minus />} />
                 {t('taxonomy.removeLink')}

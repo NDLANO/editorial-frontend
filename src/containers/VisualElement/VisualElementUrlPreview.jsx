@@ -8,8 +8,8 @@
 
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n'; 
-import Button from '@ndla/button'; //checked
+import { injectT } from '@ndla/i18n';
+import Button from '@ndla/button';
 import {
   FormHeader,
   FormSections,

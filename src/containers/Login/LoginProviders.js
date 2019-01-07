@@ -6,7 +6,7 @@
  */
 
 import React, { Fragment } from 'react';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import styled, { css } from 'react-emotion';
 import { injectT } from '@ndla/i18n';
 import { loginPersonalAccessToken } from '../../util/authHelpers';

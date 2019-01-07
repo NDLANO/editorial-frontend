@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Cross } from '@ndla/icons/action';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { bool, string } from 'prop-types';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { Check } from '@ndla/icons/editor';
 import styled, { css } from 'react-emotion';

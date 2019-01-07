@@ -10,7 +10,7 @@ import React from 'react';
 import Types from 'slate-prop-types';
 import styled, { css } from 'react-emotion';
 import { colors } from '@ndla/core';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { editTablePlugin } from '../externalPlugins';
 import { EditorShape } from '../../../../shapes';

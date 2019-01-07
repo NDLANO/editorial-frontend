@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'react-emotion';
 import { colors } from '@ndla/core';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 
 const appearances = {
   resourceGroup: css`

@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { Figure } from '@ndla/ui';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import config from '../../../../config';
 import { EmbedShape } from '../../../../shapes';

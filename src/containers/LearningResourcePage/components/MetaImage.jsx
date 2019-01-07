@@ -10,7 +10,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from 'react-emotion';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import { formClasses } from '../../Form';
 import MetaInformation from '../../../components/MetaInformation';
@@ -19,7 +19,7 @@ import { CommonFieldPropsShape } from '../../../shapes';
 
 const metaImageButtonStyle = css`
   display: block;
-`
+`;
 
 const MetaImage = ({
   image,

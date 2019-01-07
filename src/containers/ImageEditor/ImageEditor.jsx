@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import styled from 'react-emotion';
 import defined from 'defined';
@@ -40,7 +40,7 @@ const StyledImageEditorEditMode = styled('div')`
   z-index: 99;
   background-color: ${colors.brand.grey};
   border: 1px solid ${colors.brand.greyLight};
-`
+`;
 
 const aligmnents = ['left', 'center', 'right'];
 

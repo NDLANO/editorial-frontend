@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import { Cross } from '@ndla/icons/action';

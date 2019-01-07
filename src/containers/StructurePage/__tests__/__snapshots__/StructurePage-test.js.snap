@@ -8,10 +8,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--taxonomy"
   >
     <div
-      class="c-accordion__button-line c-accordion__button-line--taxonomy"
+      class="css-1bb80c5"
     >
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy"
+        class="css-y34ew2 emotion-0"
         type="button"
       >
         <span
@@ -41,7 +41,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-addButton"
+        class="css-h7drtu emotion-0"
         data-testid="AddSubjectButton"
         type="button"
       >
@@ -72,7 +72,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         injected
       </button>
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--taxonomy c-accordion__button--arrowButton"
+        class="css-8fbctz emotion-0"
         type="button"
       >
         <svg
@@ -139,7 +139,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -209,7 +209,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -279,7 +279,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -349,7 +349,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -419,7 +419,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -489,7 +489,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -559,7 +559,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -629,7 +629,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -699,7 +699,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -769,7 +769,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -839,7 +839,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -909,7 +909,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -942,7 +942,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             class="c-settingsMenu"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               data-cy="settings-button-subject"
               type="button"
             >
@@ -1127,7 +1127,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               class="c-settingsMenu"
             >
               <button
-                class="c-button c-button--stripped"
+                class="css-1juhdny emotion-0"
                 data-cy="settings-button-topic"
                 type="button"
               >
@@ -1237,7 +1237,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 class="c-settingsMenu"
               >
                 <button
-                  class="c-button c-button--stripped"
+                  class="css-1juhdny emotion-0"
                   data-cy="settings-button-topic"
                   type="button"
                 >
@@ -1494,7 +1494,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -1564,7 +1564,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -1634,7 +1634,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -1704,7 +1704,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -1774,7 +1774,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -1844,7 +1844,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -1914,7 +1914,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             style="display: none;"
           >
             <button
-              class="c-button c-button--stripped"
+              class="css-1juhdny emotion-0"
               type="button"
             >
               <div
@@ -1956,10 +1956,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+      class="css-wk9fjy"
     >
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        class="css-y34ew2 emotion-0"
         type="button"
       >
         <span
@@ -1969,7 +1969,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-topic-resource__add-button"
+        class="css-ry4583 emotion-0"
         data-testid="changeTopicDescription"
         type="button"
       >
@@ -2000,7 +2000,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Endre emnebeskrivelse
       </button>
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        class="css-8fbctz emotion-0"
         type="button"
       >
         <svg
@@ -2033,10 +2033,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+      class="css-wk9fjy"
     >
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        class="css-y34ew2 emotion-0"
         type="button"
       >
         <span
@@ -2046,7 +2046,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-topic-resource__add-button"
+        class="css-ry4583 emotion-0"
         type="button"
       >
         <svg
@@ -2076,7 +2076,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        class="css-8fbctz emotion-0"
         type="button"
       >
         <svg
@@ -2109,10 +2109,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+      class="css-wk9fjy"
     >
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        class="css-y34ew2 emotion-0"
         type="button"
       >
         <span
@@ -2122,7 +2122,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-topic-resource__add-button"
+        class="css-ry4583 emotion-0"
         type="button"
       >
         <svg
@@ -2152,7 +2152,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        class="css-8fbctz emotion-0"
         type="button"
       >
         <svg
@@ -2185,10 +2185,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+      class="css-wk9fjy"
     >
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        class="css-y34ew2 emotion-0"
         type="button"
       >
         <span
@@ -2198,7 +2198,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-topic-resource__add-button"
+        class="css-ry4583 emotion-0"
         type="button"
       >
         <svg
@@ -2228,7 +2228,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        class="css-8fbctz emotion-0"
         type="button"
       >
         <svg
@@ -2261,10 +2261,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+      class="css-wk9fjy"
     >
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        class="css-y34ew2 emotion-0"
         type="button"
       >
         <span
@@ -2274,7 +2274,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-topic-resource__add-button"
+        class="css-ry4583 emotion-0"
         type="button"
       >
         <svg
@@ -2304,7 +2304,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        class="css-8fbctz emotion-0"
         type="button"
       >
         <svg
@@ -2337,10 +2337,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+      class="css-wk9fjy"
     >
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        class="css-y34ew2 emotion-0"
         type="button"
       >
         <span
@@ -2350,7 +2350,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-topic-resource__add-button"
+        class="css-ry4583 emotion-0"
         type="button"
       >
         <svg
@@ -2380,7 +2380,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        class="css-8fbctz emotion-0"
         type="button"
       >
         <svg
@@ -2413,10 +2413,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+      class="css-wk9fjy"
     >
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        class="css-y34ew2 emotion-0"
         type="button"
       >
         <span
@@ -2426,7 +2426,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-topic-resource__add-button"
+        class="css-ry4583 emotion-0"
         type="button"
       >
         <svg
@@ -2456,7 +2456,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        class="css-8fbctz emotion-0"
         type="button"
       >
         <svg
@@ -2489,10 +2489,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="c-accordion__button-line c-accordion__button-line--resourceGroup"
+      class="css-wk9fjy"
     >
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup"
+        class="css-y34ew2 emotion-0"
         type="button"
       >
         <span
@@ -2502,7 +2502,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="c-button c-button--stripped c-topic-resource__add-button"
+        class="css-ry4583 emotion-0"
         type="button"
       >
         <svg
@@ -2532,7 +2532,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="c-button c-button--stripped c-accordion__button c-accordion__button--resourceGroup c-accordion__button--arrowButton"
+        class="css-8fbctz emotion-0"
         type="button"
       >
         <svg

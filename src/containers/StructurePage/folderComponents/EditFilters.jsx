@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
+import { css } from 'react-emotion';
 import { injectT } from '@ndla/i18n';
 import { Plus } from '@ndla/icons/action';
 import handleError from '../../../util/handleError';
@@ -98,7 +99,9 @@ class EditFilters extends React.Component {
         ) : (
           <Button
             stripped
-            {...classes('addFilter')}
+            css={css`
+              text-decoration: underline;
+            `}
             data-testid="addFilterButton"
             onClick={() => this.setState({ editMode: 'addFilter' })}>
             <Plus />

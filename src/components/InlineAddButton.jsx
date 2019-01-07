@@ -9,7 +9,7 @@
 import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'react-emotion';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { injectT } from '@ndla/i18n';
 import { Done } from '@ndla/icons/editor';

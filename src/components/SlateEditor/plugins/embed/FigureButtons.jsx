@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'react-emotion';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import darken from 'polished/lib/color/darken';
 import { injectT } from '@ndla/i18n';
 import { colors } from '@ndla/core';

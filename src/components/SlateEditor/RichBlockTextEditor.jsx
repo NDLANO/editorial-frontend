@@ -10,7 +10,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { css } from 'react-emotion';
 import { Cross } from '@ndla/icons/action';
 import RichTextEditor from './RichTextEditor';

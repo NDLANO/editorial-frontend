@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Figure } from '@ndla/ui';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { css } from 'react-emotion';
 import { findDOMNode } from 'slate-react';
 import SlateTypes from 'slate-prop-types';

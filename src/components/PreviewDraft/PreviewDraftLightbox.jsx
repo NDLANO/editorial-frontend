@@ -11,7 +11,7 @@ import { injectT } from '@ndla/i18n';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Cross } from '@ndla/icons/action';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { css } from 'react-emotion';
 import * as articleApi from '../../modules/article/articleApi';
 import * as draftApi from '../../modules/draft/draftApi';

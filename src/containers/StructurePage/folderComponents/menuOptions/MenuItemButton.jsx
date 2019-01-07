@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import Button from '@ndla/button'; //checked
+import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { css } from 'react-emotion';
 

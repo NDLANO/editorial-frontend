@@ -73,9 +73,7 @@
       margin-right: 4px;
     }
   }
-}
 
-.c-accordion {
   &--fill {
     border-bottom: 1px solid var(--gray-11);
   }

@@ -116,11 +116,13 @@ class ResourceItems extends React.PureComponent {
           ...prevState.activeFilters,
           [id]: resourceFilters,
         },
+        filterPickerId: id,
       }));
+    } else {
+      this.setState({
+        filterPickerId: '',
+      });
     }
-    this.setState({
-      filterPickerId: isOpen ? '' : id,
-    });
   }
 
   updateFilter(resourceId, filterToUpdate, relevanceId, remove) {
@@ -132,7 +134,6 @@ class ResourceItems extends React.PureComponent {
       if (!remove) {
         newFilters.push({ ...filterToUpdate, relevanceId });
       }
-      console.log(newFilters);
       return {
         activeFilters: {
           ...prevState.activeFilters,
@@ -161,15 +162,14 @@ class ResourceItems extends React.PureComponent {
               contentType={contentType}
               showFilterPicker={filterPickerId === resource.id}
               currentSubject={currentSubject}
-              onFilterChange={(...args) =>
-                this.updateFilter(resource.id, ...args)
-              }
-              onFilterSubmit={() => this.onFilterSubmit(resource.id)}
-              toggleFilterPicker={() => this.toggleFilterPicker(resource.id)}
+              onFilterChange={this.updateFilter}
+              onFilterSubmit={this.onFilterSubmit}
+              toggleFilterPicker={this.toggleFilterPicker}
               name={resource.name}
               id={resource.id}
               key={resource.id}
-              onDelete={() => this.toggleDelete(resource.connectionId)}
+              onDelete={this.toggleDelete}
+              connectionId={resource.connectionId}
               currentTopic={currentTopic}
               activeFilters={activeFilters[resource.id]}
             />

@@ -18,6 +18,7 @@ const FilterConnections = ({
   availableFilters,
   structure,
   updateFilter,
+  resourceId,
 }) => {
   const availableSubjects = {};
   topics.forEach(topic => {
@@ -53,6 +54,7 @@ const FilterConnections = ({
                     key={currentFilter.id}
                     currentFilter={currentFilter}
                     activeFilters={filter}
+                    resourceId={resourceId}
                     updateFilter={updateFilter}
                   />
                 ))}
@@ -71,6 +73,7 @@ FilterConnections.propTypes = {
   topics: PropTypes.arrayOf(PropTypes.shape({})),
   structure: PropTypes.arrayOf(PropTypes.object),
   updateFilter: PropTypes.func,
+  resourceId: PropTypes.string,
 };
 
 export default injectT(FilterConnections);

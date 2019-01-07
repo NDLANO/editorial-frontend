@@ -30,6 +30,7 @@ const Resource = ({
   onFilterSubmit,
   onDelete,
   id,
+  connectionId,
   t,
 }) => (
   <div
@@ -46,7 +47,7 @@ const Resource = ({
     {contentType !== 'subject' && (
       <Button
         stripped
-        onClick={toggleFilterPicker}
+        onClick={() => toggleFilterPicker(id)}
         data-testid={`openFilterPicker-${id}`}
         {...classes('filterButton')}>
         <Filter {...classes('filterIcon')} />
@@ -57,21 +58,22 @@ const Resource = ({
         display
         big
         title={t('taxonomy.resource.chooseFilter')}
-        onClose={toggleFilterPicker}
+        onClose={() => toggleFilterPicker(id)}
         whiteContent>
         <FilterConnections
           topics={[currentTopic]}
           filter={activeFilters}
+          resourceId={id}
           structure={[currentSubject]}
           availableFilters={{ [currentSubject.id]: currentTopic.filters }}
           updateFilter={onFilterChange}
         />
-        <Button onClick={onFilterSubmit}>{t('form.save')}</Button>
+        <Button onClick={() => onFilterSubmit(id)}>{t('form.save')}</Button>
       </TaxonomyLightbox>
     )}
 
     {onDelete && (
-      <Button onClick={onDelete} stripped>
+      <Button onClick={() => onDelete(connectionId)} stripped>
         <RemoveCircle {...classes('deleteIcon')} />
       </Button>
     )}
@@ -95,6 +97,8 @@ Resource.propTypes = {
   }),
   onFilterSubmit: PropTypes.func,
   id: PropTypes.string,
+  connectionId: PropTypes.string,
+  resourceId: PropTypes.string,
 };
 
 export default injectT(Resource);

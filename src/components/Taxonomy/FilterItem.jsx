@@ -13,7 +13,13 @@ import {
   RESOURCE_FILTER_SUPPLEMENTARY,
 } from '../../constants';
 
-const FilterItem = ({ currentFilter, activeFilters, updateFilter, t }) => {
+const FilterItem = ({
+  currentFilter,
+  activeFilters,
+  updateFilter,
+  resourceId,
+  t,
+}) => {
   const useFilter = activeFilters.find(
     resourceFilter => resourceFilter.id === currentFilter.id,
   );
@@ -25,7 +31,12 @@ const FilterItem = ({ currentFilter, activeFilters, updateFilter, t }) => {
           type="button"
           data-testid={`useFilterCheckbox-${currentFilter.id}`}
           onClick={() =>
-            updateFilter(currentFilter, RESOURCE_FILTER_CORE, active)
+            updateFilter(
+              resourceId,
+              currentFilter,
+              RESOURCE_FILTER_CORE,
+              active,
+            )
           }
           className={active ? 'checkboxItem--checked' : ''}>
           <span />
@@ -42,7 +53,11 @@ const FilterItem = ({ currentFilter, activeFilters, updateFilter, t }) => {
               useFilter.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY
             }
             onClick={() =>
-              updateFilter(currentFilter, RESOURCE_FILTER_SUPPLEMENTARY)
+              updateFilter(
+                resourceId,
+                currentFilter,
+                RESOURCE_FILTER_SUPPLEMENTARY,
+              )
             }>
             <Additional className="c-icon--22" />{' '}
             {t('taxonomy.filters.additional')}
@@ -53,7 +68,9 @@ const FilterItem = ({ currentFilter, activeFilters, updateFilter, t }) => {
             selected={
               useFilter && useFilter.relevanceId === RESOURCE_FILTER_CORE
             }
-            onClick={() => updateFilter(currentFilter, RESOURCE_FILTER_CORE)}>
+            onClick={() =>
+              updateFilter(resourceId, currentFilter, RESOURCE_FILTER_CORE)
+            }>
             <Core className="c-icon--22" /> {t('taxonomy.filters.core')}
           </FilterButton>
         </div>
@@ -69,6 +86,7 @@ FilterItem.propTypes = {
   }),
   activeFilters: PropTypes.array,
   updateFilter: PropTypes.func,
+  resourceId: PropTypes.string,
 };
 
 export default injectT(FilterItem);

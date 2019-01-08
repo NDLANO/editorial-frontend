@@ -71,6 +71,7 @@
 
     &--resourceGroup {
       margin-right: 4px;
+      color: var(--gray-6);
     }
   }
 

@@ -65,7 +65,7 @@ class ResourceGroup extends PureComponent {
             )
           }
           handleToggle={this.handleToggle}
-          resourceGroup
+          appearance="resourceGroup"
           header={resource.name}
           hidden={topicResource.resources ? this.state.displayResource : true}>
           {topicResource.resources && (

@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { Figure } from '@ndla/ui';
 import Button from '@ndla/button';
-import { Cross } from '@ndla/icons/action';
 import config from '../../../../config';
 import { EmbedShape } from '../../../../shapes';
 import EditVideo from './EditVideo';
@@ -41,9 +40,7 @@ class SlateVideo extends React.PureComponent {
     }_default/index.min.js`;
     return (
       <Figure id={embed.videoid} {...attributes}>
-        <DeleteButton stripped onClick={onRemoveClick}>
-          <Cross />
-        </DeleteButton>
+        <DeleteButton stripped onClick={onRemoveClick} />
         <Helmet>
           <script src={src} type="text/javascript" />
         </Helmet>

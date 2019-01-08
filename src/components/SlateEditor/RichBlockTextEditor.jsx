@@ -10,12 +10,11 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
 import { css } from 'react-emotion';
-import { Cross } from '@ndla/icons/action';
 import RichTextEditor from './RichTextEditor';
 import { PluginShape } from '../../shapes';
 import { formClasses } from '../../containers/Form';
+import CrossButton from '../CrossButton';
 
 const removeSectionButtonStyle = css`
   display: none;
@@ -105,16 +104,15 @@ class RichBlockTextEditor extends Component {
             onMouseOut={this.onMouseOut}
             {...formClasses('container')}>
             {value.length > 1 ? (
-              <Button
+              <CrossButton
                 stripped
                 onClick={() => this.removeSection(index)}
                 css={
                   this.state.hover === index
                     ? removeSectionButtonHoverStyle
                     : removeSectionButtonStyle
-                }>
-                <Cross />
-              </Button>
+                }
+              />
             ) : null}
             <RichTextEditor
               name={name}

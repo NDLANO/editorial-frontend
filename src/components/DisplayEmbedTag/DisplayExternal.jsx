@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import Types from 'slate-prop-types';
-import { Cross, Pencil } from '@ndla/icons/action';
+import { Pencil } from '@ndla/icons/action';
 import { colors } from '@ndla/core';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
@@ -24,6 +24,7 @@ import { colorFigureButtonsLinkStyle } from '../SlateEditor/plugins/embed/Figure
 import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import DeleteButton from '../DeleteButton';
+import CrossButton from '../CrossButton';
 
 export class DisplayExternal extends Component {
   constructor(props) {
@@ -142,9 +143,7 @@ export class DisplayExternal extends Component {
     if (error || !allowedProvider) {
       return (
         <Fragment>
-          <DeleteButton stripped onClick={onRemoveClick}>
-            <Cross />
-          </DeleteButton>
+          <DeleteButton stripped onClick={onRemoveClick} />
           <EditorErrorMessage
             msg={
               error
@@ -162,12 +161,11 @@ export class DisplayExternal extends Component {
     return (
       <Fragment>
         <div {...editorClasses('', '')}>
-          <Button
+          <CrossButton
             css={colorFigureButtonsLinkStyle(colors.support.red)}
             stripped
-            onClick={onRemoveClick}>
-            <Cross />
-          </Button>
+            onClick={onRemoveClick}
+          />
           {allowedProvider.name && (
             <Button
               css={colorFigureButtonsLinkStyle(colors.support.green)}

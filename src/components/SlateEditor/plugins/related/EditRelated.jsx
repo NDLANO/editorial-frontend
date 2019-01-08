@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import Button from '@ndla/button';
-import { Cross } from '@ndla/icons/action';
 import { searchRelatedArticles } from '../../../../modules/article/articleApi';
 import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
 import Overlay from '../../../Overlay';
@@ -103,9 +102,7 @@ class EditRelated extends React.PureComponent {
         ) : (
           <div key={relatedArticle.id} {...classes('article')}>
             <RelatedArticle locale={locale} item={relatedArticle} />
-            <DeleteButton stripped onClick={e => removeArticle(i, e)}>
-              <Cross />
-            </DeleteButton>
+            <DeleteButton stripped onClick={e => removeArticle(i, e)} />
           </div>
         ),
     );
@@ -147,9 +144,7 @@ class EditRelated extends React.PureComponent {
                   {t('form.content.relatedArticle.addExternal')}
                 </Button>
               </div>
-              <DeleteButton stripped onClick={onRemoveClick}>
-                <Cross />
-              </DeleteButton>
+              <DeleteButton stripped onClick={onRemoveClick} />
             </div>
             {this.state.showAddExternal && (
               <TaxonomyLightbox

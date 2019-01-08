@@ -7,11 +7,10 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { css } from 'react-emotion';
 import darken from 'polished/lib/color/darken';
 import { colors } from '@ndla/core';
-import Button from '@ndla/button';
+import CrossButton from './CrossButton';
 
 const deleteButtonStyle = css`
   position: absolute;
@@ -26,13 +25,7 @@ const deleteButtonStyle = css`
 `;
 
 export const DeleteButton = ({ children, ...rest }) => (
-  <Button stripped css={deleteButtonStyle} {...rest}>
-    {children}
-  </Button>
+  <CrossButton stripped css={deleteButtonStyle} {...rest} />
 );
-
-DeleteButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
-};
 
 export default DeleteButton;

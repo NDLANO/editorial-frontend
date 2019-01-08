@@ -55,37 +55,25 @@ const buttonLineStyle = styledAppearance => css`
   ${appearances[styledAppearance]};
 `;
 
-function modifierToApperance(modifiers) {
-  return Object.keys(modifiers).find(key => modifiers[key]);
-}
-
 const AccordionButtonLine = ({
-  modifiers,
+  appearance,
   handleToggle,
   addButton,
   children,
   ...rest
 }) => {
-  const styledAppearance = modifierToApperance(modifiers);
   if (addButton) {
-    return <div css={buttonLineStyle(styledAppearance)}>{children}</div>;
+    return <div css={buttonLineStyle(appearance)}>{children}</div>;
   }
   return (
-    <Button
-      css={buttonLineStyle(styledAppearance)}
-      stripped
-      onClick={handleToggle}>
+    <Button css={buttonLineStyle(appearance)} stripped onClick={handleToggle}>
       {children}
     </Button>
   );
 };
 
 AccordionButtonLine.propTypes = {
-  modifiers: PropTypes.shape({
-    fill: PropTypes.bool,
-    resourceGroup: PropTypes.bool,
-    taxonomy: PropTypes.bool,
-  }),
+  appearance: PropTypes.oneOf(['fill', 'resourceGroup', 'taxonomy']),
   children: PropTypes.node,
   addButton: PropTypes.node,
   handleToggle: PropTypes.func,

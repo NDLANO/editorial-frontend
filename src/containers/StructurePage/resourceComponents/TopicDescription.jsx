@@ -36,7 +36,7 @@ class TopicDescription extends Component {
     return (
       <div ref={el => refFunc(el, 'resourceSection')}>
         <Accordion
-          resourceGroup
+          appearance="resourceGroup"
           header={t('searchForm.articleType.topicArticle')}
           hidden={!this.state.displayTopicDescription}
           addButton={

@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
-import { Cross } from '@ndla/icons/action';
 import { colors } from '@ndla/core';
 import { ChevronLeft } from '@ndla/icons/common';
 import { css } from 'react-emotion';
@@ -46,9 +45,8 @@ const SlateRightAside = props => {
       <DeleteButton
         title={t('learningResourceForm.fields.rightAside.delete')}
         stripped
-        onClick={onRemoveClick}>
-        <Cross />
-      </DeleteButton>
+        onClick={onRemoveClick}
+      />
       <Button
         css={moveContentButtonStyle}
         title={t('learningResourceForm.fields.rightAside.moveContent')}

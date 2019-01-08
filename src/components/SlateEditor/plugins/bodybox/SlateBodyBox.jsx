@@ -10,7 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'react-emotion';
 import Types from 'slate-prop-types';
-import { Cross } from '@ndla/icons/action';
 import { EditorShape } from '../../../../shapes';
 import DeleteButton from '../../../DeleteButton';
 
@@ -28,9 +27,7 @@ const SlateBodyBox = props => {
   return (
     <StyledBodyBox {...props.attributes}>
       {props.children}
-      <DeleteButton stripped onClick={onRemoveClick}>
-        <Cross />
-      </DeleteButton>
+      <DeleteButton stripped onClick={onRemoveClick} />
     </StyledBodyBox>
   );
 };

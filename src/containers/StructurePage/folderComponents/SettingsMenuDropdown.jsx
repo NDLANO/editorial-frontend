@@ -9,13 +9,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import { css } from 'react-emotion';
 import { Settings } from '@ndla/icons/editor';
-import { Cross } from '@ndla/icons/action';
 import RoundIcon from '../../../components/RoundIcon';
 import SettingsMenuDropdownType from './SettingsMenuDropdownType';
+import CrossButton from '../../../components/CrossButton';
 
 const closeButtonStyle = css`
   color: ${colors.brand.grey};
@@ -29,9 +28,7 @@ const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
       <div className="header">
         <RoundIcon icon={<Settings />} open />
         <span>{t(`taxonomy.${settingsMenuType}Settings`)}</span>
-        <Button stripped css={closeButtonStyle} onClick={onClose}>
-          <Cross />
-        </Button>
+        <CrossButton stripped css={closeButtonStyle} onClick={onClose} />
       </div>
       <SettingsMenuDropdownType
         onClose={onClose}

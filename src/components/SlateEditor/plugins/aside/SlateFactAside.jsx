@@ -10,7 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
-import { Cross } from '@ndla/icons/action';
 import { css } from 'react-emotion';
 import DeleteButton from '../../../DeleteButton';
 
@@ -66,9 +65,8 @@ class SlateFactAside extends React.Component {
         <DeleteButton
           stripped
           onClick={onRemoveClick}
-          data-cy="remove-fact-aside">
-          <Cross />
-        </DeleteButton>
+          data-cy="remove-fact-aside"
+        />
       </aside>
     );
   }

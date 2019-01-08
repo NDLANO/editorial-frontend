@@ -33,41 +33,37 @@ const arrowButtonStyle = css`
 `;
 
 const Accordion = ({
-  fill,
   inModal,
-  taxonomy,
-  resourceGroup,
   header,
   hidden,
   handleToggle,
   className,
   addButton,
+  appearance,
   ...rest
 }) => {
-  const modifiers = {
-    fill,
-    taxonomy,
-    resourceGroup,
-  };
+  const contentModifiers = appearance
+    ? {
+        hidden,
+        visible: !hidden,
+        [appearance]: true,
+      }
+    : {
+        hidden,
+        visible: !hidden,
+      };
 
-  const contentModifiers = {
-    hidden,
-    visible: !hidden,
-    taxonomy,
-    resourceGroup,
-  };
-
-  const title = <span {...classes('title', modifiers)}>{header}</span>;
+  const title = <span {...classes('title', appearance)}>{header}</span>;
   const arrow = hidden ? (
-    <ExpandMore {...classes('arrow', modifiers)} />
+    <ExpandMore {...classes('arrow', appearance)} />
   ) : (
-    <ExpandLess {...classes('arrow', modifiers)} />
+    <ExpandLess {...classes('arrow', appearance)} />
   );
 
   return (
-    <div {...classes('', modifiers)} {...rest}>
+    <div {...classes('', appearance)} {...rest}>
       {addButton ? (
-        <AccordionButtonLine addButton={addButton} modifiers={modifiers}>
+        <AccordionButtonLine addButton={addButton} appearance={appearance}>
           <Button css={buttonStyle} stripped onClick={handleToggle}>
             {title}
           </Button>
@@ -77,7 +73,9 @@ const Accordion = ({
           </Button>
         </AccordionButtonLine>
       ) : (
-        <AccordionButtonLine modifiers={modifiers} handleToggle={handleToggle}>
+        <AccordionButtonLine
+          appearance={appearance}
+          handleToggle={handleToggle}>
           {title}
           {arrow}
         </AccordionButtonLine>
@@ -86,9 +84,7 @@ const Accordion = ({
         {...classes(
           'content',
           contentModifiers,
-          taxonomy || resourceGroup || inModal
-            ? ''
-            : 'u-4/6@desktop u-push-1/6@desktop',
+          appearance || inModal ? '' : 'u-4/6@desktop u-push-1/6@desktop',
         )}>
         {rest.children}
       </div>
@@ -101,14 +97,12 @@ Accordion.propTypes = {
   addButton: PropTypes.node,
   className: PropTypes.string,
   disabled: PropTypes.bool,
-  fill: PropTypes.bool,
   inModal: PropTypes.bool,
-  taxonomy: PropTypes.bool,
-  resourceGroup: PropTypes.bool,
   header: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   hidden: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
   addButtonAction: PropTypes.func,
+  appearance: PropTypes.oneOf(['fill', 'resourceGroup', 'taxonomy']),
 };
 
 export default Accordion;

@@ -6,7 +6,7 @@
     "build": "razzle build",
     "postbuild": "cp build/assets.json build/public/assets.json",
     "clean": "rimraf ./build",
-    "check-all": "yarn lint && yarn test-ci && yarn e2e-ci",
+    "check-all": "yarn lint && yarn test-ci",
     "lint": "yarn lint-css && yarn format-check && yarn lint-es",
     "lint-css": "stylelint src/style/**/*.css",
     "lint-es": "eslint --cache --cache-location '.eslintcache/' --ext .js --ext .jsx --max-warnings=0 src",

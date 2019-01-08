@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Additional, Core } from '@ndla/icons/common';
 import {
-  filterbuttonwrapper,
-  FilterButton,
-  FilterCheckBox,
-  FilterListTR,
+  flexCenterAlign,
+  StyledRelevanceButton,
+  StyledFilterCheckBox,
+  StyledFilterListTableRow,
 } from '../../style/LearningResourceTaxonomyStyles';
 import {
   RESOURCE_FILTER_CORE,
@@ -25,9 +25,9 @@ const FilterItem = ({
   );
   const active = useFilter !== undefined;
   return (
-    <FilterListTR active={active}>
+    <StyledFilterListTableRow active={active}>
       <td>
-        <FilterCheckBox
+        <StyledFilterCheckBox
           type="button"
           data-testid={`useFilterCheckbox-${currentFilter.id}`}
           onClick={() =>
@@ -41,11 +41,11 @@ const FilterItem = ({
           className={active ? 'checkboxItem--checked' : ''}>
           <span />
           <span>{currentFilter.name}</span>
-        </FilterCheckBox>
+        </StyledFilterCheckBox>
       </td>
       <td>
-        <div className={filterbuttonwrapper}>
-          <FilterButton
+        <div className={flexCenterAlign}>
+          <StyledRelevanceButton
             type="button"
             data-testid={`selectCoreRelevance-${currentFilter.id}`}
             selected={
@@ -61,8 +61,8 @@ const FilterItem = ({
             }>
             <Additional className="c-icon--22" />{' '}
             {t('taxonomy.filters.additional')}
-          </FilterButton>
-          <FilterButton
+          </StyledRelevanceButton>
+          <StyledRelevanceButton
             type="button"
             data-testid={`selectSupplementaryRelevance-${currentFilter.id}`}
             selected={
@@ -72,10 +72,10 @@ const FilterItem = ({
               updateFilter(resourceId, currentFilter, RESOURCE_FILTER_CORE)
             }>
             <Core className="c-icon--22" /> {t('taxonomy.filters.core')}
-          </FilterButton>
+          </StyledRelevanceButton>
         </div>
       </td>
-    </FilterListTR>
+    </StyledFilterListTableRow>
   );
 };
 

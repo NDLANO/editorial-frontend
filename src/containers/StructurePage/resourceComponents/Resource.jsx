@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { css } from 'emotion';
 import { Filter } from '@ndla/icons/editor';
 import { RemoveCircle } from '@ndla/icons/action';
 import { ContentTypeBadge } from '@ndla/ui';
@@ -16,7 +17,11 @@ import Button from '@ndla/button';
 import { classes } from './ResourceGroup';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import FilterConnections from '../../../components/Taxonomy/FilterConnections';
-// import { RESOURCE_FILTER_CORE } from '../../../constants';
+
+const filterButtonStyle = css`
+  padding: 0 10px;
+  margin: 0 20px;
+`;
 
 const Resource = ({
   contentType,
@@ -49,7 +54,7 @@ const Resource = ({
         stripped
         onClick={() => toggleFilterPicker(id)}
         data-testid={`openFilterPicker-${id}`}
-        {...classes('filterButton')}>
+        css={filterButtonStyle}>
         <Filter {...classes('filterIcon')} />
       </Button>
     )}

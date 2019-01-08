@@ -8,9 +8,6 @@ import {
 } from '../../style/LearningResourceTaxonomyStyles';
 import FilterItem from './FilterItem';
 
-/* subjects,
-filters, */
-
 const FilterConnections = ({
   t,
   topics,

@@ -44,7 +44,7 @@ class ResourceItems extends React.PureComponent {
 
   async onDelete(id) {
     try {
-      this.setState({ deleteId: '' });
+      this.setState({ deleteId: '', error: '' });
       await deleteTopicResource(id);
       this.props.refreshResources();
     } catch (e) {
@@ -74,6 +74,7 @@ class ResourceItems extends React.PureComponent {
     try {
       const { locale, refreshResources } = this.props;
       const { activeFilters } = this.state;
+      this.setState({ error: '' });
       const resourceFilters = await fetchResourceFilter(resourceId, locale);
       const [
         createItems,
@@ -96,7 +97,10 @@ class ResourceItems extends React.PureComponent {
       refreshResources();
       this.toggleFilterPicker(resourceId);
     } catch (e) {
-      // TODO show error message
+      this.setState({
+        error: `${this.props.t('taxonomy.errorMessage')}: ${e.message}`,
+        filterPickerId: '',
+      });
       handleError(e);
     }
   }

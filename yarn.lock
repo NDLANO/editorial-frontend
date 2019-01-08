@@ -283,11 +283,11 @@
   dependencies:
     "@ndla/core" "^0.4.0"
 
-"@ndla/button@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.2.0.tgz#8d99a5f8073d9852b33de7f1724e3e0dfd82fc6e"
+"@ndla/button@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.2.2.tgz#08e41d12f446aad11d87d8c4b9169fef83b72b35"
   dependencies:
-    "@ndla/core" "^0.4.4"
+    "@ndla/core" "^0.4.5"
 
 "@ndla/core@^0.4.0":
   version "0.4.0"
@@ -307,9 +307,9 @@
     polished "^2.2.0"
     sass-mq "^5.0.0"
 
-"@ndla/core@^0.4.4":
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.4.tgz#2113de68023b5e14fca8b8f37ecdb910477129f7"
+"@ndla/core@^0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.5.tgz#435115293e29b5139de5c79c68d1259085c5f603"
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"

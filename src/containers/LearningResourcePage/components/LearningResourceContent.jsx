@@ -10,7 +10,6 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { getLocale } from '../../../modules/locale/locale';
 import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
@@ -107,14 +106,6 @@ class LearningResourceContent extends PureComponent {
           {...commonFieldProps}
         />
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
-        <div {...formClasses('add-media-links')}>
-          <Link to="/media/audio-upload/new" target="_blank">
-            {t('form.addNewAudio')}
-          </Link>
-          <Link to="/media/image-upload/new" target="_blank">
-            {t('form.addNewImage')}
-          </Link>
-        </div>
         <RichBlockTextField
           slateSchema={schema}
           renderNode={renderNode}

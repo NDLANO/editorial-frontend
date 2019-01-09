@@ -10,7 +10,6 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { getLocale } from '../../../modules/locale/locale';
 import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';

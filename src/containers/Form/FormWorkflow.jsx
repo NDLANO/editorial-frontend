@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as draftApi from '../../modules/draft/draftApi';
-import { AddNotes } from '.';
+import { FormNotes } from '.';
 import { CommonFieldPropsShape } from '../../shapes';
 import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
@@ -106,13 +106,14 @@ class FormWorkflow extends Component {
 
     return (
       <Fragment>
-        <AddNotes
+        <FormNotes
           name="notes"
           labelHeading={t('form.notesHeading')}
           labelAddNote={t('form.addNotes')}
           labelRemoveNote={t('form.removeNotes')}
           labelWarningNote={t('form.warningNotes')}
           {...commonFieldProps}
+          {...commonFieldProps.bindInput('notes')}
         />
         <FormStatusColumns articleStatus={articleStatus} />
         <FormStatusActions
@@ -150,6 +151,7 @@ FormWorkflow.defaultProps = {
     current: '',
     other: [],
   },
+  article: {},
 };
 
 const mapDispatchToProps = {

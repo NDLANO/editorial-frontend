@@ -142,7 +142,7 @@ class TopicArticleForm extends Component {
         rightsholders: model.rightsholders,
         agreementId: model.agreementId,
       },
-      notes: model.notes,
+      notes: model.notes ? model.notes.map(note => note.note) : [],
       language: model.language,
       supportedLanguages: model.supportedLanguages,
     };

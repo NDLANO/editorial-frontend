@@ -57,9 +57,15 @@ class AgreementForm extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const { model, schema, licenses, setSubmitted, onUpdate } = this.props;
+    const {
+      model,
+      validationErrors,
+      licenses,
+      setSubmitted,
+      onUpdate,
+    } = this.props;
 
-    if (!schema.isValid) {
+    if (!validationErrors.isValid) {
       setSubmitted(true);
       return;
     }

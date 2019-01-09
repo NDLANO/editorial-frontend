@@ -67,8 +67,6 @@ class RichBlockTextEditor extends PureComponent {
       value,
       name,
       onChange,
-      onFocus,
-      onBlur,
       ...rest
     } = this.props;
     return (
@@ -89,16 +87,6 @@ class RichBlockTextEditor extends PureComponent {
               name={name}
               schema={schema}
               onChange={e => this.onContentChange(e, index)}
-              onFocus={(event, editor, next) => {
-                console.log('focusing content');
-                onFocus({ target: { name }, type: 'focus' });
-                next();
-              }}
-              onBlur={(event, editor, next) => {
-                console.log('blurring content');
-                onBlur({ target: { name }, type: 'blur' });
-                next();
-              }}
               {...rest}
               value={val.value}
               index={index}
@@ -115,8 +103,6 @@ class RichBlockTextEditor extends PureComponent {
 RichBlockTextEditor.propTypes = {
   schema: PropTypes.shape({}),
   onChange: PropTypes.func.isRequired,
-  onFocus: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,

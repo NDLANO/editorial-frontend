@@ -23,7 +23,7 @@ export const RichTextField = ({
   fieldClassName,
   ...rest
 }) => {
-  const { value, onChange, onFocus, onBlur } = bindInput(name);
+  const { value, onChange } = bindInput(name);
   return (
     <Field noBorder={noBorder} className={fieldClassName}>
       {!noBorder ? (
@@ -46,8 +46,6 @@ export const RichTextField = ({
         name={name}
         value={value}
         onChange={onChange}
-        onFocus={() => onFocus({ target: { name }, type: 'focus' })}
-        onBlur={() => onBlur({ target: { name }, type: 'blur' })}
         schema={slateSchema}
         submitted={submitted}
         {...rest}

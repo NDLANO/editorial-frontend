@@ -292,8 +292,6 @@ TextAreaField.propTypes = {
 export const PlainTextField = ({
   value,
   onChange,
-  onFocus,
-  onBlur,
   name,
   label,
   obligatory,
@@ -332,16 +330,6 @@ export const PlainTextField = ({
           target: { name, value: val.value, type: 'SlateEditorValue' },
         })
       }
-      onFocus={(event, editor, next) => {
-        console.log('focusing ingress');
-        onFocus({ target: { name }, type: 'focus' });
-        next();
-      }}
-      onBlur={(event, editor, next) => {
-        console.log('blurring ingress');
-        onBlur({ target: { name }, type: 'blur' });
-        next();
-      }}
       value={value}
       placeholder={placeholder}
       className={className}
@@ -367,6 +355,12 @@ PlainTextField.propTypes = {
   }),
   noBorder: PropTypes.bool,
   submitted: PropTypes.bool.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({ _immutable: PropTypes.object }),
+  ]).isRequired,
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
 };
 
 export const MultiSelectField = ({

@@ -194,13 +194,6 @@ class LearningResourceForm extends PureComponent {
     };
   }
 
-  checkTouchedInvalidField = field => {
-    if (field.touched || this.props.submitted) {
-      return !field.valid;
-    }
-    return false;
-  };
-
   async handleSubmit(evt) {
     evt.preventDefault();
 
@@ -273,11 +266,9 @@ class LearningResourceForm extends PureComponent {
         id: 'learning-resource-content',
         title: t('form.contentSection'),
         className: 'u-4/6@desktop u-push-1/6@desktop',
-        hasError: [
-          validationErrors.fields.title,
-          validationErrors.fields.introduction,
-          validationErrors.fields.content,
-        ].some(field => checkTouchedInvalidField(field, submitted)),
+        hasError: [validationErrors.fields.title].some(field =>
+          checkTouchedInvalidField(field, submitted),
+        ),
         component: () => (
           <LearningResourceContent
             commonFieldProps={commonFieldProps}

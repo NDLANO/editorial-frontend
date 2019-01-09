@@ -95,8 +95,6 @@ const RichTextEditor = class extends React.PureComponent {
       value,
       name,
       onChange,
-      onFocus,
-      onBlur,
       plugins,
       ...rest
     } = this.props;
@@ -113,8 +111,6 @@ const RichTextEditor = class extends React.PureComponent {
             onChange={change =>
               onChange({ target: { name, value: change.value } })
             }
-            onFocus={onFocus}
-            onBlur={onBlur}
             slateStore={this.state.slateStore}
             plugins={plugins}
             {...rest}
@@ -136,8 +132,6 @@ const RichTextEditor = class extends React.PureComponent {
 RichTextEditor.propTypes = {
   schema: PropTypes.shape({}),
   onChange: PropTypes.func.isRequired,
-  onFocus: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   submitted: PropTypes.bool.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,

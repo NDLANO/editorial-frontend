@@ -116,14 +116,6 @@ class LearningResourceContent extends Component {
           {...commonFieldProps}
         />
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
-        <div {...formClasses('add-media-links')}>
-          <Link to="/media/audio-upload/new" target="_blank">
-            {t('form.addNewAudio')}
-          </Link>
-          <Link to="/media/image-upload/new" target="_blank">
-            {t('form.addNewImage')}
-          </Link>
-        </div>
         <RichBlockTextField
           slateSchema={schema}
           renderNode={renderNode}

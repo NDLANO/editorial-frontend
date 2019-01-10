@@ -406,10 +406,19 @@ const phrases = {
     createdOk: 'Opprettet OK',
     addNewImage: 'Legg til nytt bilde',
     addNewAudio: 'Legg til ny lyd',
-    notesHeading: 'Merknader',
-    addNotes: 'Legg til merknad',
-    removeNotes: 'Ta bort',
-    warningNotes: 'En merknad må ha tekst',
+    notes: {
+      heading: 'Merknader',
+      add: 'Legg til merknad',
+      remove: 'Ta bort',
+      warning: 'En merknad må ha tekst',
+      table: {
+        heading: 'Merknads historikk',
+        timestamp: 'Tidspunkt',
+        user: 'Bruker',
+        status: 'Status',
+        note: 'Merknad',
+      },
+    },
     editImage: 'Endre bilde',
     editAudio: 'Endre lyd',
     resetToProd: {

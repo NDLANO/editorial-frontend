@@ -392,10 +392,19 @@ const phrases = {
     createdOk: 'Created OK',
     addNewImage: 'Add new image',
     addNewAudio: 'Add new audio',
-    notesHeading: 'Notes',
-    addNotes: 'Add new note',
-    removeNotes: 'Remove note',
-    warningNotes: 'A note must contain text',
+    notes: {
+      heading: 'Notes',
+      add: 'Add new note',
+      remove: 'Remove note',
+      warning: 'A note must contain text',
+      table: {
+        heading: 'Notes history',
+        timestamp: 'Timestamp',
+        user: 'User',
+        status: 'Status',
+        note: 'Note',
+      },
+    },
     editImage: 'Edit image',
     editAudio: 'Edit audio',
     resetToProd: {

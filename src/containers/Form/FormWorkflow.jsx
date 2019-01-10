@@ -106,11 +106,11 @@ class FormWorkflow extends Component {
       <Fragment>
         <FormNotes
           name="notes"
-          labelHeading={t('form.notesHeading')}
-          labelAddNote={t('form.addNotes')}
+          labelHeading={t('form.notes.heading')}
+          labelAddNote={t('form.notes.add')}
           article={article}
-          labelRemoveNote={t('form.removeNotes')}
-          labelWarningNote={t('form.warningNotes')}
+          labelRemoveNote={t('form.notes.remove')}
+          labelWarningNote={t('form.notes.warning')}
           {...commonFieldProps}
           {...commonFieldProps.bindInput('notes')}
         />

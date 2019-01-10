@@ -76,14 +76,22 @@ class FormNotesTable extends React.Component {
 
     return (
       <Field>
-        <FormHeader title="Merknads historikk" width={3 / 4} />
+        <FormHeader title={t('form.notes.table.heading')} width={3 / 4} />
         <StyledTable>
           <thead>
             <StyledTableHeaderRow>
-              <StyledTableHeaderCell>Merknad</StyledTableHeaderCell>
-              <StyledTableHeaderCell>Status</StyledTableHeaderCell>
-              <StyledTableHeaderCell>Bruker</StyledTableHeaderCell>
-              <StyledTableHeaderCell>Tidspunkt</StyledTableHeaderCell>
+              <StyledTableHeaderCell>
+                {t('form.notes.table.note')}
+              </StyledTableHeaderCell>
+              <StyledTableHeaderCell>
+                {t('form.notes.table.status')}
+              </StyledTableHeaderCell>
+              <StyledTableHeaderCell>
+                {t('form.notes.table.user')}
+              </StyledTableHeaderCell>
+              <StyledTableHeaderCell>
+                {t('form.notes.table.timestamp')}
+              </StyledTableHeaderCell>
             </StyledTableHeaderRow>
           </thead>
           <tbody>
@@ -95,7 +103,7 @@ class FormNotesTable extends React.Component {
                       css={css`
                         min-width: 60%;
                       `}>
-                      {note.note || ' '}
+                      {note.note}
                     </StyledTableCell>
                     <StyledTableCell>
                       {note.status

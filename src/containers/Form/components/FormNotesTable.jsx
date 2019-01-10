@@ -121,7 +121,9 @@ class FormNotesTable extends React.Component {
               })
             ) : (
               <StyledTableRow>
-                <StyledTableCell colspan="4">Ingen merknader</StyledTableCell>
+                <StyledTableCell colspan="4">
+                  {t('form.notes.table.empty')}
+                </StyledTableCell>
               </StyledTableRow>
             )}
           </tbody>
@@ -133,6 +135,10 @@ class FormNotesTable extends React.Component {
 
 FormNotesTable.propTypes = {
   notes: PropTypes.arrayOf(NoteShape),
+};
+
+FormNotesTable.defaultProps = {
+  notes: [],
 };
 
 export default injectT(FormNotesTable);

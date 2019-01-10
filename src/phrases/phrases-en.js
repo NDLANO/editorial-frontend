@@ -403,6 +403,7 @@ const phrases = {
         user: 'User',
         status: 'Status',
         note: 'Note',
+        empty: 'No notes',
       },
     },
     editImage: 'Edit image',

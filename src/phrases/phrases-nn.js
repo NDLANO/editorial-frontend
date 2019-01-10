@@ -417,6 +417,7 @@ const phrases = {
         user: 'Bruker',
         status: 'Status',
         note: 'Merknad',
+        empty: 'Ingen merknader',
       },
     },
     editImage: 'Endre bilde',

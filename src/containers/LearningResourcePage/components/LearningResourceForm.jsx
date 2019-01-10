@@ -32,7 +32,7 @@ import {
 } from '../../../util/articleContentConverter';
 import { isUserProvidedEmbedDataValid } from '../../../util/embedTagHelpers';
 import { findNodesByType } from '../../../util/slateHelpers';
-import { SchemaShape, LicensesArrayOf } from '../../../shapes';
+import { SchemaShape, LicensesArrayOf, ArticleShape } from '../../../shapes';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
@@ -109,7 +109,7 @@ export const getInitialModel = (article = {}, language) => {
     language: language || article.language,
     articleType: 'standard',
     status: article.status || [],
-    notes: article.notes || [],
+    notes: [],
   };
 };
 
@@ -187,7 +187,7 @@ class LearningResourceForm extends Component {
         rightsholders: model.rightsholders,
         agreementId: model.agreementId,
       },
-      notes: model.notes,
+      notes: model.notes || [],
       language: model.language,
       updated: model.updated,
       supportedLanguages: model.supportedLanguages,
@@ -211,6 +211,8 @@ class LearningResourceForm extends Component {
       setSubmitted,
       createMessage,
       articleStatus,
+      setModelField,
+      onUpdate,
     } = this.props;
 
     const status = articleStatus ? articleStatus.current : undefined;
@@ -239,11 +241,12 @@ class LearningResourceForm extends Component {
       }
     }
 
-    this.props.onUpdate({
+    onUpdate({
       ...this.getArticleFromModel(),
       revision,
       updated: undefined,
     });
+    setModelField('notes', []);
   }
 
   render() {
@@ -265,6 +268,7 @@ class LearningResourceForm extends Component {
       userAccess,
       createMessage,
       revision,
+      article,
     } = this.props;
 
     const { error } = this.state;
@@ -335,6 +339,7 @@ class LearningResourceForm extends Component {
         ),
         component: () => (
           <FormWorkflow
+            article={article}
             commonFieldProps={commonFieldProps}
             articleStatus={articleStatus}
             model={model}
@@ -486,6 +491,7 @@ LearningResourceForm.propTypes = {
     goBack: PropTypes.func,
   }).isRequired,
   userAccess: PropTypes.string,
+  article: ArticleShape,
 };
 
 export default compose(

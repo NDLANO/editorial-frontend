@@ -90,6 +90,7 @@ class EditLearningResource extends PureComponent {
         articleStatus={article.status}
         onUpdate={this.updateLearningResource}
         createMessage={this.createMessage}
+        article={article}
         {...rest}
       />
     );

@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as draftApi from '../../modules/draft/draftApi';
 import { FormNotes } from '.';
-import { CommonFieldPropsShape } from '../../shapes';
+import { CommonFieldPropsShape, ArticleShape } from '../../shapes';
 import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
 import FormQualityAssurance from './components/FormQualityAssurance';
@@ -57,7 +57,6 @@ class FormWorkflow extends Component {
         status === articleStatuses.PUBLISHED ||
         status === articleStatuses.QUEUED_FOR_PUBLISHING
       ) {
-        console.log('Validating before publishing');
         await draftApi.validateDraft(id, {
           ...getArticleFromModel(),
           revision,
@@ -79,8 +78,6 @@ class FormWorkflow extends Component {
       revision,
     } = this.props;
 
-    console.log(articleStatuses.PUBLISHED);
-
     try {
       await draftApi.validateDraft(id, { ...getArticleFromModel(), revision });
       createMessage({
@@ -101,6 +98,7 @@ class FormWorkflow extends Component {
       articleStatus,
       commonFieldProps,
       getArticle,
+      article,
     } = this.props;
     const { possibleStatuses } = this.state;
 
@@ -110,6 +108,7 @@ class FormWorkflow extends Component {
           name="notes"
           labelHeading={t('form.notesHeading')}
           labelAddNote={t('form.addNotes')}
+          article={article}
           labelRemoveNote={t('form.removeNotes')}
           labelWarningNote={t('form.warningNotes')}
           {...commonFieldProps}
@@ -144,6 +143,7 @@ FormWorkflow.propTypes = {
   updateStatusDraft: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
   getArticle: PropTypes.func.isRequired,
+  article: ArticleShape,
 };
 
 FormWorkflow.defaultProps = {

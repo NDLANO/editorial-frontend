@@ -17,6 +17,7 @@ import {
 } from '@ndla/forms';
 import { Field } from '../../components/Fields';
 import FormNotesTable from './components/FormNotesTable';
+import { ArticleShape } from '../../shapes';
 
 class FormNotes extends Component {
   constructor() {
@@ -55,7 +56,7 @@ class FormNotes extends Component {
   handleNoteChange(evt, index) {
     const { value } = this.props;
     const newNotes = [].concat(value);
-    newNotes[index] = { ...value[index], note: evt.target.value };
+    newNotes[index] = evt.target.value;
     this.onNotesChange(newNotes);
   }
 
@@ -68,11 +69,12 @@ class FormNotes extends Component {
       labelRemoveNote,
       labelHeading,
       labelWarningNote,
+      article,
     } = this.props;
 
     return (
       <Fragment>
-        <FormNotesTable value={value} />
+        <FormNotesTable notes={article.notes} />
         <Field>
           <FormHeader title={labelHeading} width={3 / 4} />
           {value.map((note, index) => (
@@ -85,7 +87,7 @@ class FormNotes extends Component {
                   type="text"
                   focusOnMount
                   placeholder={placeholder}
-                  value={note.note}
+                  value={note}
                   onChange={e => this.handleNoteChange(e, index)}
                 />
               </div>
@@ -105,6 +107,12 @@ class FormNotes extends Component {
   }
 }
 
+FormNotes.defaultProps = {
+  article: {
+    notes: [],
+  },
+};
+
 FormNotes.propTypes = {
   name: PropTypes.string.isRequired,
   labelHeading: PropTypes.string.isRequired,
@@ -118,7 +126,8 @@ FormNotes.propTypes = {
   labelAddNote: PropTypes.string.isRequired,
   labelWarningNote: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.shape({}),
+  value: PropTypes.arrayOf(PropTypes.string),
+  article: ArticleShape,
 };
 
 export default FormNotes;

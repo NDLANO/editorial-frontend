@@ -127,7 +127,6 @@ class SlateToolbar extends Component {
   }
 
   handleValueChange(value) {
-    console.log(value);
     const { name, onChange } = this.props;
     onChange({ target: { name, value: value } });
     this.updateMenu();

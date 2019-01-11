@@ -344,7 +344,6 @@ export const PlainTextField = ({
 );
 
 PlainTextField.propTypes = {
-  bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   obligatory: PropTypes.bool,

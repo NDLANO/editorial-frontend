@@ -42,7 +42,6 @@ import {
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 
-import { formClasses } from '../../Form';
 import { CommonFieldPropsShape } from '../../../shapes';
 
 class LearningResourceContent extends PureComponent {

@@ -29,7 +29,7 @@ const classes = new BEMHelper({
 const TableActions = ({ value, editor, t }) => {
   const handleOnClick = (e, operation) => {
     e.preventDefault();
-    const position = editor.getPosition();
+    const position = editor.getTablePosition();
     switch (operation) {
       case 'row-remove': {
         if (position.getHeight() > 2) {

@@ -15,7 +15,6 @@ import ToolbarButton from './ToolbarButton';
 import { hasNodeOfType, checkSelectionForType } from '../../utils';
 import { TYPE as footnote } from '../footnote';
 import { TYPE as link } from '../link';
-import blockquotePlugin from '../blockquotePlugin';
 import { listTypes } from '../externalPlugins';
 
 const DEFAULT_NODE = 'paragraph';
@@ -63,10 +62,10 @@ class SlateToolbar extends Component {
     const { document, blocks } = editor.value;
     const isActive = hasNodeOfType(editor, type);
     if (type === 'quote') {
-      if (blockquotePlugin.utils.isSelectionInBlockquote(editor)) {
-        blockquotePlugin.changes.unwrapBlockquote(editor);
+      if (editor.isSelectionInBlockquote()) {
+        editor.unwrapBlockquote();
       } else {
-        blockquotePlugin.changes.wrapInBlockquote(editor);
+        editor.wrapInBlockquote();
       }
     } else if (listTypes.includes(type)) {
       const isListTypeActive = blocks.some(

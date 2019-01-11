@@ -24,6 +24,7 @@ import {
   Heading2,
   Heading1,
   Section,
+  Star,
 } from '@ndla/icons/editor';
 import { css } from 'react-emotion';
 import Types from 'slate-prop-types';
@@ -48,6 +49,7 @@ const toolbarIcon = t => ({
   'heading-two': <Heading2 title={t('editorToolbar.headingTwo')} />,
   'heading-three': <Heading3 title={t('editorToolbar.headingThree')} />,
   footnote: <Section title={t('editorToolbar.footnote')} />,
+  mathml: <Star title={t('editorToolbar.mathml')} />,
 });
 /* eslint-enable jsx-a11y/anchor-is-valid */
 

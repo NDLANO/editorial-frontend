@@ -16,6 +16,7 @@ import ToolbarButton from './ToolbarButton';
 import { hasNodeOfType, checkSelectionForType } from '../../utils';
 import { TYPE as footnote } from '../footnote';
 import { TYPE as link } from '../link';
+import { TYPE as mathml } from '../mathml';
 import blockquotePlugin from '../blockquotePlugin';
 import { listTypes, editListPlugin } from '../externalPlugins';
 
@@ -24,13 +25,13 @@ const DEFAULT_NODE = 'paragraph';
 const supportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  inline: [link, footnote],
+  inline: [link, footnote, mathml],
 };
 
 const supportedToolbarElementsAside = {
   mark: ['bold', 'italic', 'underlined'],
   block: ['quote', ...listTypes, 'heading-one'],
-  inline: [link, footnote],
+  inline: [link, footnote, mathml],
 };
 
 export const toolbarClasses = new BEMHelper({

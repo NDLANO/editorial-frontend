@@ -348,6 +348,7 @@ const phrases = {
     headingTwo: 'Heading 2',
     headingThree: 'Heading 3',
     footnote: 'Footnote',
+    mathml: 'Math',
   },
   editorBlockpicker: {
     heading: 'Add',

@@ -20,13 +20,14 @@ let mathEditor;
 class EditMath extends Component {
   constructor(props) {
     super(props);
-    const { node } = props;
-    const { innerHTML } = node.data.toJS();
+    const { innerHTML } = props.model;
     this.state = {
       initialMathML: innerHTML
         ? `${mathOpenTag}${he.decode(innerHTML)}${mathCloseTag}`
         : undefined,
-      mathML: `${mathOpenTag}${he.decode(innerHTML)}${mathCloseTag}`,
+      mathML: innerHTML
+        ? `${mathOpenTag}${he.decode(innerHTML)}${mathCloseTag}`
+        : '',
     };
     this.previewMath = this.previewMath.bind(this);
     this.onHandleExit = this.onHandleExit.bind(this);
@@ -134,6 +135,9 @@ EditMath.propTypes = {
   onRemoveClick: PropTypes.func.isRequired,
   isEditMode: PropTypes.bool.isRequired,
   node: Types.node.isRequired,
+  model: PropTypes.shape({
+    innerHTML: PropTypes.string.isRequired,
+  }),
 };
 
 export default EditMath;

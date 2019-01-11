@@ -16,25 +16,24 @@ class MathML extends Component {
   }
 
   async componentDidUpdate(prevProps) {
-    const { innerHTML } = this.props;
+    const { model } = this.props;
+    const { innerHTML } = model;
 
-    if (prevProps.innerHTML) {
-      if (window.MathJax && prevProps.innerHTML !== innerHTML) {
-        // Note: a small delay before a 're-render" is required in order to
-        // get MatJax to render correctly after editing the MathML
-        this.setState({ reRender: true });
-        await setTimeout(() => {
-          window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-        }, 10);
-        this.setState({ reRender: false });
-      }
+    if (window.MathJax && prevProps.model.innerHTML !== innerHTML) {
+      // Note: a small delay before a 're-render" is required in order to
+      // get the MatJax script to render correctly after editing the MathML
+      console.log('Are we here?');
+      this.setState({ reRender: true });
+      await setTimeout(() => {
+        window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+      }, 10);
+      this.setState({ reRender: false });
     }
   }
 
   render() {
     const { reRender } = this.state;
-    const { node, innerHTML } = this.props;
-    const { xlmns } = node.data.toJS();
+    const { node, model } = this.props;
 
     if (reRender) return null;
 
@@ -43,9 +42,9 @@ class MathML extends Component {
         {node.nodes.map(text => (
           <span key={text.key} data-key={text.key}>
             <math
-              xlmns={xlmns}
+              xlmns={model.xlmns}
               dangerouslySetInnerHTML={{
-                __html: innerHTML,
+                __html: model.innerHTML,
               }}
             />
           </span>
@@ -61,6 +60,10 @@ MathML.propTypes = {
   }),
   innerHTML: PropTypes.string.isRequired,
   node: Types.node.isRequired,
+  model: PropTypes.shape({
+    xlmns: PropTypes.string.isRequired,
+    innerHTML: PropTypes.string.isRequired,
+  }),
 };
 
 export default MathML;

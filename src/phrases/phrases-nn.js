@@ -361,6 +361,7 @@ const phrases = {
     headingTwo: 'Overskrift 2',
     headingThree: 'Overskrift 3',
     footnote: 'Fotnote',
+    mathml: 'Matte',
   },
   editorBlockpicker: {
     heading: 'Legg til',

@@ -36,13 +36,21 @@ const StyledMenu = styled('span')`
   }
 `;
 
+const getModelFromNode = node => {
+  const data = node.data ? node.data.toJS() : {};
+
+  return {
+    innerHTML: data.innerHTML,
+    xlmns: data.xlmns || 'xmlns="http://www.w3.org/1998/Math/MathML',
+  };
+};
+
 class MathEditor extends Component {
   constructor(props) {
     super(props);
-    const { node } = props;
-    const { innerHTML } = node.data.toJS();
+    const existingModel = getModelFromNode(props.node);
 
-    this.state = { editMode: false, innerHTML };
+    this.state = { editMode: !existingModel.innerHTML };
     this.mathMLRef = createRef();
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
@@ -80,12 +88,13 @@ class MathEditor extends Component {
 
     const next = editor.value.change().setNodeByKey(node.key, properties);
     editor.onChange(next);
-    this.setState({ innerHTML: mathML });
   }
 
   render() {
-    const { onRemoveClick, t } = this.props;
-    const { editMode, showMenu, innerHTML } = this.state;
+    const { onRemoveClick, t, node } = this.props;
+    const { editMode, showMenu } = this.state;
+
+    const model = getModelFromNode(node);
 
     const { top, left } = this.getMenuPosition();
 
@@ -99,7 +108,8 @@ class MathEditor extends Component {
           onClick={this.toggleMenu}>
           <MathML
             mathRef={this.mathMLRef}
-            innerHTML={innerHTML}
+            node={node}
+            model={model}
             {...this.props}
           />
           <Portal isOpened={showMenu}>
@@ -117,9 +127,10 @@ class MathEditor extends Component {
         {editMode && (
           <EditMath
             onExit={this.toggleEdit}
+            model={model}
             handleSave={this.handleSave}
             isEditMode={editMode}
-            {...this.props}
+            onRemoveClick={onRemoveClick}
           />
         )}
       </Fragment>

@@ -1,10 +1,19 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Plus } from '@ndla/icons/action';
-import Button from '@ndla/button';
-import InlineEditField from '../../../../components/InlineEditField';
+import { injectT } from '@ndla/i18n';
 import RoundIcon from '../../../../components/RoundIcon';
 import { addTopic, addTopicToTopic } from '../../../../modules/taxonomy';
+import MenuItemButton from './MenuItemButton';
+import MenuItemEditField from './MenuItemEditField';
 
 class AddTopic extends React.PureComponent {
   constructor() {
@@ -32,11 +41,10 @@ class AddTopic extends React.PureComponent {
   }
 
   render() {
-    const { classes, onClose, t, editMode } = this.props;
+    const { onClose, t, editMode } = this.props;
     return editMode === 'addTopic' ? (
-      <InlineEditField
+      <MenuItemEditField
         placeholder={t('taxonomy.newTopic')}
-        classes={classes}
         currentVal=""
         messages={{ errorMessage: t('taxonomy.errorMessage') }}
         onClose={onClose}
@@ -44,20 +52,18 @@ class AddTopic extends React.PureComponent {
         icon={<Plus />}
       />
     ) : (
-      <Button {...classes('menuItem')} stripped onClick={this.toggleEditMode}>
+      <MenuItemButton stripped onClick={this.toggleEditMode}>
         <RoundIcon small icon={<Plus />} />
         {t('taxonomy.addTopic')}
-      </Button>
+      </MenuItemButton>
     );
   }
 }
 
 AddTopic.propTypes = {
-  classes: PropTypes.func,
   onClose: PropTypes.func,
-  t: PropTypes.func,
   editMode: PropTypes.string,
   toggleEditMode: PropTypes.func,
 };
 
-export default AddTopic;
+export default injectT(AddTopic);

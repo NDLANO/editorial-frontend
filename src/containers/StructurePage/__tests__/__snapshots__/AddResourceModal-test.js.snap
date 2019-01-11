@@ -16,11 +16,11 @@ exports[`Can paste a valid url and add it to topic 1`] = `
     >
       Søk etter ressurs
       <button
-        class="c-button c-button--stripped c-taxonomy-lightbox__close"
+        class="css-b1xtu5 emotion-0"
         type="button"
       >
         <svg
-          class="c-icon"
+          class="c-icon css-1yvjjcj"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
@@ -89,7 +89,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
         </div>
       </div>
       <button
-        class="c-button c-button--stripped c-taxonomy-lightbox__select-button"
+        class="css-dygiml emotion-0"
         data-testid="taxonomyLightboxButton"
         type="button"
       >
@@ -116,11 +116,11 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
     >
       Søk etter ressurs
       <button
-        class="c-button c-button--stripped c-taxonomy-lightbox__close"
+        class="css-b1xtu5 emotion-0"
         type="button"
       >
         <svg
-          class="c-icon"
+          class="c-icon css-1yvjjcj"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
@@ -172,7 +172,6 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
           aria-controls="downshift-0-menu"
           aria-labelledby="downshift-0-label"
           autocomplete="off"
-          class="c-dropdown__single"
           id="downshift-0-input"
           value=""
         />
@@ -263,7 +262,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         </div>
       </div>
       <button
-        class="c-button c-button--stripped c-taxonomy-lightbox__select-button"
+        class="css-dygiml emotion-0"
         data-testid="taxonomyLightboxButton"
         type="button"
       >
@@ -290,11 +289,11 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
     >
       Søk etter ressurs
       <button
-        class="c-button c-button--stripped c-taxonomy-lightbox__close"
+        class="css-b1xtu5 emotion-0"
         type="button"
       >
         <svg
-          class="c-icon"
+          class="c-icon css-1yvjjcj"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
@@ -346,7 +345,6 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
           aria-controls="downshift-0-menu"
           aria-labelledby="downshift-0-label"
           autocomplete="off"
-          class="c-dropdown__single"
           id="downshift-0-input"
           value="Hva kan du om geologiske prosesser?"
         />
@@ -468,7 +466,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
         </div>
       </div>
       <button
-        class="c-button c-button--stripped c-taxonomy-lightbox__select-button"
+        class="css-dygiml emotion-0"
         data-testid="taxonomyLightboxButton"
         type="button"
       >

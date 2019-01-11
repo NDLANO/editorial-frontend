@@ -27,11 +27,6 @@
     padding-top: 0;
     margin-top: 20px;
   }
-
-  .c-lightbox__close {
-    margin-top: -20px;
-    margin-right: 0;
-  }
 }
 
 .c-preview-draft__two-articles {
@@ -52,12 +47,5 @@
   .c-article {
     padding-top: 0;
     margin-top: 20px;
-  }
-
-  .c-lightbox__close {
-    margin-top: -20px;
-    margin-right: 0;
-    position: absolute;
-    right: 20px;
   }
 }

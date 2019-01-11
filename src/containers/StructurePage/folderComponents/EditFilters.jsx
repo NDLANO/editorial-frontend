@@ -9,10 +9,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
+import { css } from 'react-emotion';
 import { injectT } from '@ndla/i18n';
 import { Plus } from '@ndla/icons/action';
 import handleError from '../../../util/handleError';
-import InlineEditField from '../../../components/InlineEditField';
+import MenuItemEditField from './menuOptions/MenuItemEditField';
 import {
   createSubjectFilter,
   editSubjectFilter,
@@ -88,8 +89,7 @@ class EditFilters extends React.Component {
           editFilter={this.editFilter}
         />
         {editMode === 'addFilter' ? (
-          <InlineEditField
-            classes={classes}
+          <MenuItemEditField
             currentVal=""
             messages={{ errorMessage: t('taxonomy.errorMessage') }}
             dataTestid="addFilterInput"
@@ -99,7 +99,9 @@ class EditFilters extends React.Component {
         ) : (
           <Button
             stripped
-            {...classes('addFilter')}
+            css={css`
+              text-decoration: underline;
+            `}
             data-testid="addFilterButton"
             onClick={() => this.setState({ editMode: 'addFilter' })}>
             <Plus />

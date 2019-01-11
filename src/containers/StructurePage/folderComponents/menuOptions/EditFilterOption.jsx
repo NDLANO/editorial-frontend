@@ -1,9 +1,18 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 import { Filter } from '@ndla/icons/editor';
-import Button from '@ndla/button';
 import RoundIcon from '../../../../components/RoundIcon';
 import EditFilters from '../EditFilters';
+import MenuItemButton from './MenuItemButton';
 
 class EditFilterOption extends PureComponent {
   constructor() {
@@ -19,8 +28,7 @@ class EditFilterOption extends PureComponent {
     const { classes, t, editMode, getFilters, subjectFilters, id } = this.props;
     return (
       <React.Fragment>
-        <Button
-          {...classes('menuItem')}
+        <MenuItemButton
           stripped
           data-testid="editSubjectFiltersButton"
           onClick={this.toggleEditMode}>
@@ -30,7 +38,7 @@ class EditFilterOption extends PureComponent {
             icon={<Filter />}
           />
           {t('taxonomy.editFilter')}
-        </Button>
+        </MenuItemButton>
         {editMode === 'editFilters' && (
           <EditFilters
             classes={classes}
@@ -59,4 +67,4 @@ EditFilterOption.propTypes = {
   editMode: PropTypes.string,
 };
 
-export default EditFilterOption;
+export default injectT(EditFilterOption);

@@ -72,19 +72,8 @@
     font-size: 0.8rem;
   }
 
-  &__link-actions {
-    & button + button {
-      margin-left: 0.2rem;
-    }
-  }
-
   &__close-dialog {
     float: right;
     margin-top: -1rem;
   }
-}
-
-.c-toolbar > * + * {
-  margin-left: 1rem;
-  display: inline-block;
 }

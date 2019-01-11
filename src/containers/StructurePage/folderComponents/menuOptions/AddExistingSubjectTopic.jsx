@@ -1,10 +1,19 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Plus } from '@ndla/icons/action';
-import Button from '@ndla/button';
+import { injectT } from '@ndla/i18n';
 import RoundIcon from '../../../../components/RoundIcon';
 import { addSubjectTopic, fetchTopics } from '../../../../modules/taxonomy';
-import InlineDropdown from '../../../../components/Dropdown/InlineDropdown';
+import MenuItemDropdown from './MenuItemDropdown';
+import MenuItemButton from './MenuItemButton';
 
 class AddExistingSubjectTopic extends React.PureComponent {
   constructor() {
@@ -32,25 +41,23 @@ class AddExistingSubjectTopic extends React.PureComponent {
   }
 
   render() {
-    const { classes, onClose, t, editMode } = this.props;
+    const { onClose, t, editMode } = this.props;
     return editMode === 'addExistingSubjectTopic' ? (
-      <InlineDropdown
+      <MenuItemDropdown
         fetchItems={this.fetchTopicsLocale}
         placeholder={t('taxonomy.existingTopic')}
-        classes={classes}
         onClose={onClose}
         onSubmit={this.onAddExistingTopic}
         icon={<Plus />}
       />
     ) : (
-      <Button
-        {...classes('menuItem')}
+      <MenuItemButton
         stripped
         data-testid="addExistingSubjectTopicButton"
         onClick={this.toggleEditMode}>
         <RoundIcon small icon={<Plus />} />
         {t('taxonomy.addExistingTopic')}
-      </Button>
+      </MenuItemButton>
     );
   }
 }
@@ -64,4 +71,4 @@ AddExistingSubjectTopic.propTypes = {
   locale: PropTypes.string,
 };
 
-export default AddExistingSubjectTopic;
+export default injectT(AddExistingSubjectTopic);

@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import Button from '@ndla/button';
 import PropTypes from 'prop-types';
 import { Settings } from '@ndla/icons/editor';
@@ -54,7 +54,7 @@ class SettingsMenu extends React.Component {
           <RoundIcon icon={<Settings />} margin />
         </Button>
         {open && (
-          <React.Fragment>
+          <Fragment>
             <Overlay onExit={this.toggleOpenMenu} />
             <SettingsMenuDropdown
               onClose={this.toggleOpenMenu}
@@ -63,7 +63,7 @@ class SettingsMenu extends React.Component {
               toggleEditMode={this.toggleEditMode}
               editMode={editMode}
             />
-          </React.Fragment>
+          </Fragment>
         )}
       </div>
     );

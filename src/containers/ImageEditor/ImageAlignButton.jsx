@@ -7,14 +7,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
-import Button from '@ndla/button';
 import { AlignLeft, AlignCenter, AlignRight } from '@ndla/icons/editor';
-
-export const classes = new BEMHelper({
-  name: 'image-editor',
-  prefix: 'c-',
-});
+import ImageEditorButton from './ImageEditorButton';
 
 const icon = {
   left: <AlignLeft />,
@@ -30,15 +24,12 @@ const ImageAlignButton = ({ currentAlign, alignType, onFieldChange }) => {
     }
   };
   return (
-    <Button
-      {...classes(
-        'align-image-button',
-        currentAlign === alignType ? 'active' : '',
-      )}
+    <ImageEditorButton
+      isActive={currentAlign === alignType}
       stripped
       onClick={onChange}>
       {icon[alignType]}
-    </Button>
+    </ImageEditorButton>
   );
 };
 ImageAlignButton.propTypes = {

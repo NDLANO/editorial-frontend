@@ -15,7 +15,6 @@ import Accordion, {
   AccordionBar,
   AccordionPanel,
 } from '@ndla/accordion';
-import Button from '@ndla/button';
 import { withRouter } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema, {
@@ -42,6 +41,7 @@ import {
   FormWorkflow,
   FormCopyright,
   FormHeader,
+  FormActionButton,
   formClasses,
   WarningModalWrapper,
 } from '../../Form';
@@ -286,12 +286,13 @@ class TopicArticleForm extends Component {
             </AccordionWrapper>
           )}
         </Accordion>
-        <Field right {...formClasses('form-actions')}>
+        <Field right>
           {error && <span className="c-errorMessage">{error}</span>}
           {model.id && (
-            <Button onClick={() => this.setState({ showResetModal: true })}>
+            <FormActionButton
+              onClick={() => this.setState({ showResetModal: true })}>
               {t('form.resetToProd.button')}
-            </Button>
+            </FormActionButton>
           )}
 
           <WarningModal
@@ -309,9 +310,12 @@ class TopicArticleForm extends Component {
             ]}
             onCancel={() => this.setState({ showResetModal: false })}
           />
-          <Button outline onClick={history.goBack} disabled={isSaving}>
+          <FormActionButton
+            outline
+            onClick={history.goBack}
+            disabled={isSaving}>
             {t('form.abort')}
-          </Button>
+          </FormActionButton>
           <SaveButton
             {...formClasses}
             isSaving={isSaving}

@@ -2,29 +2,61 @@ import React from 'react';
 import { bool, string } from 'prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
-import BEMHelper from 'react-bem-helper';
 import { Check } from '@ndla/icons/editor';
+import styled, { css } from 'react-emotion';
+import { colors } from '@ndla/core';
+
+const appereances = {
+  saved: css`
+    &,
+    &:hover,
+    &:disabled {
+      color: white;
+      transition: all 0.5s ease;
+      background-color: ${colors.support.green};
+      border-color: ${colors.support.green};
+    }
+  `,
+  saving: css`
+    &,
+    &:hover,
+    &:disabled {
+      color: white;
+      transition: all 0.5s ease;
+      background-color: ${colors.support.greenLight};
+      border-color: ${colors.support.greenLight};
+    }
+  `,
+};
+
+const StyledSpan = styled('span')`
+  display: flex;
+  justify-content: space-evenly;
+`;
+
+const checkStyle = css`
+  width: 1.45rem;
+  height: 1.45rem;
+`;
 
 const SaveButton = ({ isSaving, showSaved, t, defaultText, ...rest }) => {
-  const classes = new BEMHelper({
-    name: 'save-button',
-    prefix: 'c-',
-  });
   const getModifier = () => {
     if (isSaving) return 'saving';
     if (showSaved) return 'saved';
     return defaultText || 'save';
   };
+
+  const modifier = getModifier();
   return (
     <Button
-      {...classes('', getModifier())}
       disabled={isSaving || showSaved}
       submit
+      css={appereances[modifier]}
       {...rest}>
-      <span>
-        {t(`form.${getModifier()}`)}
-        {showSaved && <Check />}
-      </span>
+      <StyledSpan>
+        {t(`form.${modifier}`)}
+        {showSaved && <Check css={checkStyle} />}
+      </StyledSpan>
     </Button>
   );
 };

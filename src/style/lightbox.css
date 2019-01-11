@@ -95,17 +95,6 @@
     z-index: 2;
   }
 
-  &__close {
-    height: 50px;
-    width: 50px;
-  }
-
-  &__close svg {
-    height: 24px;
-    width: 24px;
-    margin-right: 7px;
-  }
-
   &__content {
     padding: 2em;
     height: 100%;
@@ -124,14 +113,6 @@
     padding-left: var(--spacing--small);
     height: 50px;
     color: var(--gray-11);
-  }
-
-  &__select-button,
-  &__select-button:hover {
-    border-radius: 5px;
-    background-color: white;
-    padding: 3px var(--spacing--large);
-    margin-top: var(--spacing);
   }
 
   &__or {

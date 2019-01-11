@@ -33,18 +33,6 @@
     }
   }
 
-  &__open-button {
-    color: var(--brand-color);
-    min-width: 4rem;
-    display: flex;
-    justify-content: space-between;
-
-    &:hover,
-    &:focus {
-      color: var(--brand-color);
-    }
-  }
-
   &__icon--hidden {
     visibility: hidden;
     opacity: 0;

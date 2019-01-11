@@ -11,13 +11,13 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import Button from '@ndla/button';
-import { Cross } from '@ndla/icons/action';
 import { searchRelatedArticles } from '../../../../modules/article/articleApi';
 import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
 import Overlay from '../../../Overlay';
 import RelatedArticle from './RelatedArticle';
 import TaxonomyLightbox from '../../../TaxonomyLightbox';
 import { Portal } from '../../../Portal';
+import DeleteButton from '../../../DeleteButton';
 
 const classes = new BEMHelper({
   name: 'related-box',
@@ -102,12 +102,7 @@ class EditRelated extends React.PureComponent {
         ) : (
           <div key={relatedArticle.id} {...classes('article')}>
             <RelatedArticle locale={locale} item={relatedArticle} />
-            <Button
-              stripped
-              onClick={e => removeArticle(i, e)}
-              {...classes('delete-button')}>
-              <Cross />
-            </Button>
+            <DeleteButton stripped onClick={e => removeArticle(i, e)} />
           </div>
         ),
     );
@@ -149,12 +144,7 @@ class EditRelated extends React.PureComponent {
                   {t('form.content.relatedArticle.addExternal')}
                 </Button>
               </div>
-              <Button
-                stripped
-                onClick={onRemoveClick}
-                {...classes('delete-button')}>
-                <Cross />
-              </Button>
+              <DeleteButton stripped onClick={onRemoveClick} />
             </div>
             {this.state.showAddExternal && (
               <TaxonomyLightbox

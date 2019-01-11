@@ -7,10 +7,10 @@ exports[`DisplayExternal renders external correctly 1`] = `null`;
 exports[`DisplayExternal renders iframe correctly 1`] = `
 Array [
   <div
-    className="c-editor__figure-buttons"
+    className="c-editor"
   >
     <button
-      className="c-button c-button--stripped c-editor__button c-editor__button--red"
+      className="css-hihfb5 emotion-0"
       disabled={false}
       type="button"
     >
@@ -45,7 +45,7 @@ Array [
       </svg>
     </button>
     <button
-      className="c-button c-button--stripped c-editor__button c-editor__button--green"
+      className="css-16rbn0v emotion-0"
       disabled={false}
       onClick={[Function]}
       type="button"

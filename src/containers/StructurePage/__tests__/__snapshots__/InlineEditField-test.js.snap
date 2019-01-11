@@ -1,17 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Goes to edit mode, handles submit 1`] = `
-<div>
+<div
+  class="css-5mjlri emotion-2"
+>
   <div
     class="c-roundIcon c-roundIcon--open c-roundIcon--small"
   />
   <input
+    class="css-1wzkqwd emotion-0"
     data-testid="inlineEditInput"
     type="text"
     value=""
   />
   <button
-    class="c-button"
+    class="css-1sckute emotion-1"
     data-testid="inlineEditSaveButton"
     type="button"
   >

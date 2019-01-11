@@ -13,6 +13,7 @@ import FormWorkflow from './FormWorkflow';
 import FormCopyright from './FormCopyright';
 import WarningModalWrapper from './WarningModalWrapper';
 import FormHeader from './FormHeader';
+import FormActionButton from './components/FormActionButton';
 
 export {
   AddNotes,
@@ -21,5 +22,6 @@ export {
   FormWorkflow,
   FormCopyright,
   FormHeader,
+  FormActionButton,
   WarningModalWrapper,
 };

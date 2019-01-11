@@ -307,7 +307,7 @@ export class StructurePage extends React.PureComponent {
                 {t('taxonomy.editStructure')}
               </React.Fragment>
             }
-            taxonomy
+            appearance="taxonomy"
             addButton={
               config.enableFullTaxonomy && (
                 <InlineAddButton

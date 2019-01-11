@@ -10,7 +10,7 @@ exports[`calls add filter 1`] = `
       style="display: flex;"
     >
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="editFilterurn:filter:f85f8f24-9e00-4267-82f5-ffd0dd3c53fa"
         type="button"
       >
@@ -44,7 +44,7 @@ exports[`calls add filter 1`] = `
         </div>
       </button>
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="deleteFilter"
         type="button"
       >
@@ -89,7 +89,7 @@ exports[`calls add filter 1`] = `
       style="display: flex;"
     >
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="editFilterurn:filter:0a0dc7e0-911f-4674-801a-580b3e8fa09a"
         type="button"
       >
@@ -123,7 +123,7 @@ exports[`calls add filter 1`] = `
         </div>
       </button>
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="deleteFilter"
         type="button"
       >
@@ -168,7 +168,7 @@ exports[`calls add filter 1`] = `
       style="display: flex;"
     >
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="editFilterurn:filter:e8aa33b2-f5b7-4dee-84f6-4b594127b4c5"
         type="button"
       >
@@ -202,7 +202,7 @@ exports[`calls add filter 1`] = `
         </div>
       </button>
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="deleteFilter"
         type="button"
       >
@@ -247,7 +247,7 @@ exports[`calls add filter 1`] = `
       style="display: flex;"
     >
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="editFilterurn:filter:3ae5a086-8444-43c3-8fa4-db869e7292d2"
         type="button"
       >
@@ -281,7 +281,7 @@ exports[`calls add filter 1`] = `
         </div>
       </button>
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="deleteFilter"
         type="button"
       >
@@ -326,7 +326,7 @@ exports[`calls add filter 1`] = `
       style="display: flex;"
     >
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="editFilterurn:filter:9e522d29-edf0-4949-bb94-a2089c79e437"
         type="button"
       >
@@ -360,7 +360,7 @@ exports[`calls add filter 1`] = `
         </div>
       </button>
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="deleteFilter"
         type="button"
       >
@@ -400,7 +400,7 @@ exports[`calls add filter 1`] = `
     </div>
   </div>
   <button
-    class="c-button c-button--stripped"
+    class="css-17n5wxx emotion-0"
     data-testid="addFilterButton"
     type="button"
   >
@@ -444,7 +444,7 @@ exports[`maps out filters 1`] = `
       style="display: flex;"
     >
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="editFilterurn:filter:f85f8f24-9e00-4267-82f5-ffd0dd3c53fa"
         type="button"
       >
@@ -478,7 +478,7 @@ exports[`maps out filters 1`] = `
         </div>
       </button>
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="deleteFilter"
         type="button"
       >
@@ -523,7 +523,7 @@ exports[`maps out filters 1`] = `
       style="display: flex;"
     >
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="editFilterurn:filter:0a0dc7e0-911f-4674-801a-580b3e8fa09a"
         type="button"
       >
@@ -557,7 +557,7 @@ exports[`maps out filters 1`] = `
         </div>
       </button>
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="deleteFilter"
         type="button"
       >
@@ -602,7 +602,7 @@ exports[`maps out filters 1`] = `
       style="display: flex;"
     >
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="editFilterurn:filter:e8aa33b2-f5b7-4dee-84f6-4b594127b4c5"
         type="button"
       >
@@ -636,7 +636,7 @@ exports[`maps out filters 1`] = `
         </div>
       </button>
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="deleteFilter"
         type="button"
       >
@@ -681,7 +681,7 @@ exports[`maps out filters 1`] = `
       style="display: flex;"
     >
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="editFilterurn:filter:3ae5a086-8444-43c3-8fa4-db869e7292d2"
         type="button"
       >
@@ -715,7 +715,7 @@ exports[`maps out filters 1`] = `
         </div>
       </button>
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="deleteFilter"
         type="button"
       >
@@ -760,7 +760,7 @@ exports[`maps out filters 1`] = `
       style="display: flex;"
     >
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="editFilterurn:filter:9e522d29-edf0-4949-bb94-a2089c79e437"
         type="button"
       >
@@ -794,7 +794,7 @@ exports[`maps out filters 1`] = `
         </div>
       </button>
       <button
-        class="c-button c-button--stripped"
+        class="css-1juhdny emotion-0"
         data-testid="deleteFilter"
         type="button"
       >
@@ -834,7 +834,7 @@ exports[`maps out filters 1`] = `
     </div>
   </div>
   <button
-    class="c-button c-button--stripped"
+    class="css-17n5wxx emotion-0"
     data-testid="addFilterButton"
     type="button"
   >

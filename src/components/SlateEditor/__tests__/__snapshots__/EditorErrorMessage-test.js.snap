@@ -2,10 +2,10 @@
 
 exports[`EditorErrorMessage renders 1`] = `
 <div
-  className="css-121c9wz e3zqixd0"
+  className="css-121c9wz emotion-1"
 >
   <button
-    className="c-button c-button--stripped css-1j4501m"
+    className="css-15w35ia emotion-0"
     disabled={false}
     onClick={[Function]}
     type="button"

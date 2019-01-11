@@ -9,6 +9,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { css } from 'react-emotion';
 import Button from '@ndla/button';
 import {
   fetchSubjects,
@@ -158,10 +159,22 @@ class SearchContentForm extends Component {
             </div>
           ))}
           <div {...searchFormClasses('field', '25-width')}>
-            <Button onClick={this.emptySearch} outline>
+            <Button
+              css={css`
+                margin-right: 1%;
+                width: 49%;
+              `}
+              onClick={this.emptySearch}
+              outline>
               {t('searchForm.empty')}
             </Button>
-            <Button submit>{t('searchForm.btn')}</Button>
+            <Button
+              css={css`
+                width: 49%;
+              `}
+              submit>
+              {t('searchForm.btn')}
+            </Button>
           </div>
           <div {...searchFormClasses('tagline')}>
             <SearchTagGroup

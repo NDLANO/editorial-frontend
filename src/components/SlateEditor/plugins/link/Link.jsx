@@ -11,12 +11,29 @@ import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
+import styled, { css } from 'react-emotion';
+import { colors, spacing } from '@ndla/core';
 import config from '../../../../config';
 import { Portal } from '../../../Portal';
 import isNodeInCurrentSelection from '../../utils/isNodeInCurrentSelection';
 import { EditorShape } from '../../../../shapes';
 import { classes } from '../../RichTextEditor';
 import EditLink from './EditLink';
+
+const linkMenuButtonStyle = css`
+  color: ${colors.brand.primary};
+  text-decoration: underline;
+`;
+const StyledLinkMenu = styled('span')`
+  position: absolute;
+  top: ${p => p.top}px;
+  left: ${p => p.left}px;
+  padding: calc(${spacing.small} / 2);
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid ${colors.brand.greyLight};
+  z-index: 1;
+`;
 
 const getModelFromNode = node => {
   const data = node.data ? node.data.toJS() : {};
@@ -92,10 +109,11 @@ class Link extends Component {
           {this.props.children}
         </a>
         <Portal isOpened={isInline}>
-          <span
-            className="c-link-menu"
-            style={{ top: `${top}px`, left: `${left}px` }}>
-            <Button stripped onClick={this.toggleEditMode}>
+          <StyledLinkMenu top={top} left={left}>
+            <Button
+              css={linkMenuButtonStyle}
+              stripped
+              onClick={this.toggleEditMode}>
               {t('form.content.link.change')}
             </Button>{' '}
             | {t('form.content.link.goTo')}{' '}
@@ -107,7 +125,7 @@ class Link extends Component {
               {' '}
               {href}
             </a>
-          </span>
+          </StyledLinkMenu>
         </Portal>
         {this.state.editMode && (
           <EditLink

@@ -11,11 +11,28 @@ import Button from '@ndla/button';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Cross } from '@ndla/icons/action';
+import { css } from 'react-emotion';
 
 const classes = new BEMHelper({
   name: 'lightbox',
   prefix: 'c-',
 });
+
+export const closeLightboxButtonStyle = css`
+  float: right;
+  height: 44px;
+  width: 44px;
+  margin-top: -5px;
+  margin-right: -20px;
+`;
+
+export const closeLightboxCrossStyle = css`
+  float: right;
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+  color: var(--brand-grey-dark);
+`;
 
 export default class Lightbox extends React.PureComponent {
   constructor(props) {
@@ -35,7 +52,7 @@ export default class Lightbox extends React.PureComponent {
   }
 
   render() {
-    const { children, big, width, fullscreen, modal } = this.props;
+    const { children, closeButton, big, width, fullscreen, modal } = this.props;
     const modifiers = {
       big,
       fullscreen,
@@ -47,12 +64,16 @@ export default class Lightbox extends React.PureComponent {
     return this.state.display ? (
       <div {...classes()}>
         <div {...classes('content', modifiers)} style={style}>
-          <Button
-            {...classes('close')}
-            stripped
-            onClick={this.onCloseButtonClick}>
-            <Cross />
-          </Button>
+          {closeButton ? (
+            closeButton
+          ) : (
+            <Button
+              css={closeLightboxButtonStyle}
+              stripped
+              onClick={this.onCloseButtonClick}>
+              <Cross css={closeLightboxCrossStyle} />
+            </Button>
+          )}
           {children}
         </div>
       </div>
@@ -67,6 +88,7 @@ Lightbox.propTypes = {
   fullscreen: PropTypes.bool,
   modal: PropTypes.bool,
   width: PropTypes.string,
+  closeButton: PropTypes.node,
 };
 
 Lightbox.defaultProps = {

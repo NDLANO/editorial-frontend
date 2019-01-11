@@ -112,7 +112,7 @@ class TopicConnections extends Component {
         {currentIndex === -1 ? (
           <Button
             outline
-            className={buttonAddition}
+            css={buttonAddition}
             type="button"
             onClick={() => this.addTopic(id, closeModal)}>
             {t('taxonomy.topics.filestructureButton')}

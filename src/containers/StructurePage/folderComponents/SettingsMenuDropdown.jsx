@@ -9,48 +9,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import Button from '@ndla/button';
+import { colors } from '@ndla/core';
+import { css } from 'react-emotion';
 import { Settings } from '@ndla/icons/editor';
-import { Cross } from '@ndla/icons/action';
 import RoundIcon from '../../../components/RoundIcon';
-import ChangeTopicName from './menuOptions/ChangeTopicName';
-import AddExistingTopic from './menuOptions/AddExistingTopic';
-import AddTopic from './menuOptions/AddTopic';
-import ConnectFilterOption from './menuOptions/ConnectFilterOption';
-import DeleteTopic from './menuOptions/DeleteTopic';
-import ChangeSubjectName from './menuOptions/ChangeSubjectName';
-import AddSubjectTopic from './menuOptions/AddSubjectTopic';
-import AddExistingSubjectTopic from './menuOptions/AddExistingSubjectTopic';
-import EditFilterOption from './menuOptions/EditFilterOption';
+import SettingsMenuDropdownType from './SettingsMenuDropdownType';
+import CrossButton from '../../../components/CrossButton';
+
+const closeButtonStyle = css`
+  color: ${colors.brand.grey};
+  margin-left: auto;
+`;
 
 const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
-  const type = id.includes('subject') ? 'subject' : 'topic';
-  const sendDown = { classes, onClose, t, id, ...rest };
+  const settingsMenuType = id.includes('subject') ? 'subject' : 'topic';
   return (
     <div {...classes('openMenu')}>
       <div className="header">
         <RoundIcon icon={<Settings />} open />
-        <span>{t(`taxonomy.${type}Settings`)}</span>
-        <Button stripped {...classes('closeButton')} onClick={onClose}>
-          <Cross />
-        </Button>
+        <span>{t(`taxonomy.${settingsMenuType}Settings`)}</span>
+        <CrossButton stripped css={closeButtonStyle} onClick={onClose} />
       </div>
-      {type === 'subject' ? (
-        <React.Fragment>
-          <ChangeSubjectName {...sendDown} />
-          <AddSubjectTopic {...sendDown} />
-          <AddExistingSubjectTopic {...sendDown} />
-          <EditFilterOption {...sendDown} />
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <ChangeTopicName {...sendDown} />
-          <AddTopic {...sendDown} />
-          <AddExistingTopic {...sendDown} />
-          <ConnectFilterOption {...sendDown} />
-          <DeleteTopic {...sendDown} />
-        </React.Fragment>
-      )}
+      <SettingsMenuDropdownType
+        onClose={onClose}
+        classes={classes}
+        id={id}
+        {...rest}
+        settingsMenuType={settingsMenuType}
+      />
     </div>
   );
 };

@@ -174,25 +174,6 @@
     }
   }
 
-  &__field button {
-    width: 49%;
-    min-height: 1.5rem;
-    padding-top: 0.2rem;
-    padding-bottom: 0.2rem;
-    text-transform: uppercase;
-    border-width: 1px;
-    font-weight: lighter;
-
-    & + button {
-      margin-left: 2%;
-    }
-
-    &:hover,
-    &:focus {
-      border-width: 1px;
-    }
-  }
-
   & select {
     width: 100%;
     padding-top: 0.5rem;

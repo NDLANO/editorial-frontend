@@ -10,7 +10,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { uuid } from '@ndla/util';
 
-import { Alerts, Alert, Action } from '../Alerts';
+import { Alerts, Alert } from '../Alerts';
 
 const noop = () => {};
 
@@ -41,14 +41,4 @@ test('component/Alerts two messages', () => {
 test('component/Alerts without messages', () => {
   const component = shallow(<Alerts messages={[]} dispatch={noop} />);
   expect(component.hasClass('alert-overlay--hidden')).toBeTruthy();
-});
-
-test('component/Action click', () => {
-  const handleClick = jest.fn(() => {});
-
-  const actionBtn = shallow(<Action title="Undo" onClick={handleClick} />);
-
-  actionBtn.simulate('click');
-
-  expect(handleClick).toHaveBeenCalled();
 });

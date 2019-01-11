@@ -59,7 +59,11 @@ class EditLearningResource extends PureComponent {
 
   async updateLearningResource(article) {
     const { updateDraft } = this.props;
-    updateDraft({ draft: article });
+    try {
+      updateDraft({ draft: article });
+    } catch (err) {
+      console.log('ERRergflfl', err);
+    }
   }
 
   createMessage(message = {}) {

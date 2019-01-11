@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Cross } from '@ndla/icons/action';
 import { css } from 'react-emotion';
+import { colors } from '@ndla/core';
 
 const classes = new BEMHelper({
   name: 'lightbox',
@@ -31,7 +32,7 @@ export const closeLightboxCrossStyle = css`
   height: 24px;
   width: 24px;
   margin-right: 7px;
-  color: var(--brand-grey-dark);
+  color: ${colors.brand.grey};
 `;
 
 export default class Lightbox extends React.PureComponent {

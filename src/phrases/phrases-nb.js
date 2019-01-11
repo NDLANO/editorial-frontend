@@ -701,6 +701,9 @@ const phrases = {
     invalidUrl: 'Ugyldig url',
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var et problem ved lasting av taksonomi',
+    statusCode: {
+      409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har editert og last siden på nytt for å kunne lagre.',
+    },
   },
   notFound: {
     description: 'Denne siden finnes ikke.',

@@ -12,6 +12,10 @@ import * as api from './draftApi';
 import { toEditArticle } from '../../util/routeHelpers';
 import * as messageActions from '../../containers/Messages/messagesActions';
 
+const statusMessages = {
+  409: 'errorMessage.statusCode.409',
+};
+
 export function* fetchDraft(id, language) {
   try {
     const draft = yield call(api.fetchDraft, id, language);
@@ -42,8 +46,17 @@ export function* updateDraft(draft) {
     yield put(messageActions.showSaved());
   } catch (error) {
     yield put(actions.updateDraftError());
-    // TODO: handle error
-    yield put(messageActions.applicationError(error));
+    if (statusMessages[error.status]) {
+      yield put(
+        messageActions.addMessage({
+          translationKey: statusMessages[error.status],
+          timeToLive: 0,
+        }),
+      );
+    } else {
+      yield put(messageActions.showSaved());
+      yield put(messageActions.applicationError(error));
+    }
   }
 }
 

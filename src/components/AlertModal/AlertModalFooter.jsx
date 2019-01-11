@@ -12,7 +12,7 @@ import Button from '@ndla/button';
 import { uuid } from '@ndla/util';
 import styled, { css } from 'react-emotion';
 
-const warningModalFooterButtonStyle = css`
+const alertModalFooterButtonStyle = css`
   background-color: white;
   margin-left: 0;
 `;
@@ -23,7 +23,7 @@ const StyledFooter = styled('div')`
   align-items: flex-end;
 `;
 
-const WarningModalFooter = ({ component, actions }) =>
+const AlertModalFooter = ({ component, actions }) =>
   component || (
     <StyledFooter>
       {actions.map(action => {
@@ -31,7 +31,7 @@ const WarningModalFooter = ({ component, actions }) =>
         return (
           <Button
             key={uuid()}
-            css={warningModalFooterButtonStyle}
+            css={alertModalFooterButtonStyle}
             outline
             {...rest}>
             {text}
@@ -41,7 +41,7 @@ const WarningModalFooter = ({ component, actions }) =>
     </StyledFooter>
   );
 
-WarningModalFooter.propTypes = {
+AlertModalFooter.propTypes = {
   component: PropTypes.node,
   actions: PropTypes.arrayOf(
     PropTypes.shape({
@@ -51,7 +51,7 @@ WarningModalFooter.propTypes = {
   ),
 };
 
-WarningModalFooter.defaultProps = {
+AlertModalFooter.defaultProps = {
   actions: [],
 };
 

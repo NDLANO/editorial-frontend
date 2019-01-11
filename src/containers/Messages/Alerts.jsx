@@ -8,27 +8,31 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { injectT } from '@ndla/i18n';
-
+import styled, { css } from 'react-emotion';
 import { clearMessage } from './messagesActions';
 import { MessageShape } from '../../shapes';
 import WarningModal from '../../components/WarningModal';
 
-export const Action = ({ title, onClick }) => (
-  <button type="button" onClick={onClick} className="un-button alert_action">
-    <span className="alert_action-text">{title}</span>
-  </button>
-);
-
-Action.propTypes = {
-  title: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+const appearances = {
+  hidden: css`
+    display: none;
+  `,
 };
 
-export const Alert = injectT(({ message, dispatch, t }) => {
-  const severity = message.severity ? message.severity : 'info';
+const StyledAlertOverlay = styled('div')`
+  position: fixed;
+  width: 80%;
+  max-width: 800px;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  margin: 0 auto;
+  ${p => appearances[p.appearance]};
+`;
 
+export const Alert = injectT(({ message, dispatch, t }) => {
   return (
     <WarningModal
       show
@@ -36,7 +40,7 @@ export const Alert = injectT(({ message, dispatch, t }) => {
         message.translationKey ? t(message.translationKey) : message.message
       }
       onCancel={() => dispatch(clearMessage(message.id))}
-      className={`alert alert--${severity}`}
+      severity={message.severity}
     />
   );
 });
@@ -49,11 +53,6 @@ Alert.propTypes = {
 
 export const Alerts = ({ dispatch, messages }) => {
   const isHidden = messages.length === 0;
-  const overlayClasses = classNames({
-    'alert-overlay': true,
-    'alert-overlay--hidden': isHidden,
-  });
-
   const timeoutMessage = item => {
     setTimeout(() => dispatch(clearMessage(item.id)), item.timeToLive);
   };
@@ -61,11 +60,11 @@ export const Alerts = ({ dispatch, messages }) => {
   messages.filter(m => m.timeToLive > 0).forEach(item => timeoutMessage(item));
 
   return (
-    <div className={overlayClasses}>
+    <StyledAlertOverlay appearance={isHidden ? 'hidden' : ''}>
       {messages.map(message => (
         <Alert key={message.id} dispatch={dispatch} message={message} />
       ))}
-    </div>
+    </StyledAlertOverlay>
   );
 };
 

@@ -20,6 +20,7 @@ export default handleActions(
           translationKey: action.payload.translationKey,
           severity: action.payload.severity,
           action: action.payload.action,
+          statusCode: action.payload.statusCode,
           timeToLive:
             typeof action.payload.timeToLive === 'undefined'
               ? 1500

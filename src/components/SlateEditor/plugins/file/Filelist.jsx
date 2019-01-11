@@ -88,15 +88,13 @@ class Filelist extends React.Component {
       },
     };
 
-    const next = editor.setNodeByKey(node.key, properties);
-    editor.onChange(next);
+    editor.setNodeByKey(node.key, properties);
   }
 
   onRemoveFileList(evt) {
     evt.stopPropagation();
     const { node, editor } = this.props;
-    const next = editor.removeNodeByKey(node.key);
-    editor.onChange(next);
+    editor.removeNodeByKey(node.key);
   }
 
   onRemoveFile(evt, removedFile) {
@@ -133,12 +131,11 @@ class Filelist extends React.Component {
       title: file.title,
       resource: file.resource,
     }));
-    const next = editor.setNodeByKey(node.key, {
+    editor.setNodeByKey(node.key, {
       data: {
         nodes,
       },
     });
-    editor.onChange(next);
   }
 
   onOpenFileUploader() {

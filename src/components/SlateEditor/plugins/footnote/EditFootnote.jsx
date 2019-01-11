@@ -33,10 +33,10 @@ class EditFootnote extends Component {
   }
 
   handleRemove() {
-    const { editor, node, onChange, closeDialog } = this.props;
+    const { editor, node, closeDialog } = this.props;
     if (node) {
-      const nextState = editor.removeNodeByKey(node.key);
-      onChange(nextState);
+      editor.removeNodeByKey(node.key);
+
       closeDialog();
     }
   }

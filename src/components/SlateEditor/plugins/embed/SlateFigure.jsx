@@ -75,8 +75,7 @@ class SlateFigure extends React.Component {
   onRemoveClick(e) {
     e.stopPropagation();
     const { node, editor } = this.props;
-    const next = editor.removeNodeByKey(node.key);
-    editor.onChange(next);
+    editor.removeNodeByKey(node.key);
   }
 
   isSelected() {

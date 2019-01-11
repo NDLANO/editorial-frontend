@@ -23,8 +23,7 @@ const SlateBodyBox = props => {
   const { node, editor } = props;
 
   const onRemoveClick = () => {
-    const next = editor.removeNodeByKey(node.key);
-    editor.onChange(next);
+    editor.removeNodeByKey(node.key);
   };
   return (
     <div {...props.attributes} {...classes()}>

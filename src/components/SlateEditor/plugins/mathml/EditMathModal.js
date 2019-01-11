@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
-import styled from 'react-emotion';
+import styled, { css } from 'react-emotion';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 
@@ -23,10 +23,11 @@ const StyledButtonWrapper = styled('div')`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  > * {
-    margin-right: ${spacing.small};
-  }
 `;
+
+const buttonStyle = css(`
+  margin-right: ${spacing.small};
+`);
 
 const EditMathModal = ({
   handleExit,
@@ -62,16 +63,25 @@ const EditMathModal = ({
           <hr />
           <StyledMathEditorWrapper id="mathEditorContainer" />
           <StyledButtonWrapper>
-            <Button outline onClick={previewMath}>
+            <Button outline css={buttonStyle} onClick={previewMath}>
               {t('mathEditor.showPreview')}
             </Button>
-            <Button outline onClick={() => handleSave(onCloseModal)}>
+            <Button
+              outline
+              css={buttonStyle}
+              onClick={() => handleSave(onCloseModal)}>
               {t('mathEditor.save')}
             </Button>
-            <Button outline onClick={() => handleExit(onCloseModal)}>
+            <Button
+              outline
+              css={buttonStyle}
+              onClick={() => handleExit(onCloseModal)}>
               {t('mathEditor.cancel')}
             </Button>
-            <Button outline onClick={() => handleRemove(onCloseModal)}>
+            <Button
+              outline
+              css={buttonStyle}
+              onClick={() => handleRemove(onCloseModal)}>
               {t('mathEditor.remove')}
             </Button>
           </StyledButtonWrapper>

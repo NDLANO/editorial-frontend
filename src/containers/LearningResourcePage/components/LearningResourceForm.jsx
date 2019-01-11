@@ -238,13 +238,17 @@ class LearningResourceForm extends Component {
         return;
       }
     }
-
+    try {
     this.props.onUpdate({
       ...this.getArticleFromModel(),
       revision,
       updated: undefined,
     });
+    } catch (err) {
+      console.log("ERRs", err)
+    }
   }
+
 
   render() {
     const {

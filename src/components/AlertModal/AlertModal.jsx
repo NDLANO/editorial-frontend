@@ -39,7 +39,7 @@ const alertModalBodyIconStyle = css`
   margin-right: ${spacing.small};
 `;
 
-const Alert = ({ text, onCancel, actions, component, show, severity }) =>
+const AlertModal = ({ text, onCancel, actions, component, show, severity }) =>
   show ? (
     <Lightbox
       display={show}
@@ -56,7 +56,7 @@ const Alert = ({ text, onCancel, actions, component, show, severity }) =>
     </Lightbox>
   ) : null;
 
-Alert.propTypes = {
+AlertModal.propTypes = {
   text: PropTypes.string.isRequired,
   onCancel: PropTypes.func.isRequired,
   component: PropTypes.node,
@@ -70,8 +70,8 @@ Alert.propTypes = {
   severity: PropTypes.string,
 };
 
-Alert.defaultProps = {
+AlertModal.defaultProps = {
   severity: 'danger',
 };
 
-export default Alert;
+export default AlertModal;

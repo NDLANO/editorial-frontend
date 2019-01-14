@@ -23,7 +23,7 @@ const StyledFooter = styled('div')`
   align-items: flex-end;
 `;
 
-const AlertFooter = ({ component, actions }) =>
+const AlertModalFooter = ({ component, actions }) =>
   component || (
     <StyledFooter>
       {actions.map(action => {
@@ -41,7 +41,7 @@ const AlertFooter = ({ component, actions }) =>
     </StyledFooter>
   );
 
-AlertFooter.propTypes = {
+AlertModalFooter.propTypes = {
   component: PropTypes.node,
   actions: PropTypes.arrayOf(
     PropTypes.shape({
@@ -51,8 +51,8 @@ AlertFooter.propTypes = {
   ),
 };
 
-AlertFooter.defaultProps = {
+AlertModalFooter.defaultProps = {
   actions: [],
 };
 
-export default AlertFooter;
+export default AlertModalFooter;

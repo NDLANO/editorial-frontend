@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import styled, { css } from 'react-emotion';
 import { clearMessage } from './messagesActions';
 import { MessageShape } from '../../shapes';
-import WarningModal from '../../components/WarningModal';
+import AlertModal from '../../components/AlertModal';
 
 const appearances = {
   hidden: css`
@@ -20,7 +20,7 @@ const appearances = {
   `,
 };
 
-const StyledAlertOverlay = styled('div')`
+const StyledMessageAlertOverlay = styled('div')`
   position: fixed;
   width: 80%;
   max-width: 800px;
@@ -32,9 +32,9 @@ const StyledAlertOverlay = styled('div')`
   ${p => appearances[p.appearance]};
 `;
 
-export const Alert = injectT(({ message, dispatch, t }) => {
+export const Message = injectT(({ message, dispatch, t }) => {
   return (
-    <WarningModal
+    <AlertModal
       show
       text={
         message.translationKey ? t(message.translationKey) : message.message
@@ -45,13 +45,13 @@ export const Alert = injectT(({ message, dispatch, t }) => {
   );
 });
 
-Alert.propTypes = {
+Message.propTypes = {
   message: MessageShape.isRequired,
   dispatch: PropTypes.func.isRequired,
   className: PropTypes.string,
 };
 
-export const Alerts = ({ dispatch, messages }) => {
+export const Messages = ({ dispatch, messages }) => {
   const isHidden = messages.length === 0;
   const timeoutMessage = item => {
     setTimeout(() => dispatch(clearMessage(item.id)), item.timeToLive);
@@ -60,17 +60,17 @@ export const Alerts = ({ dispatch, messages }) => {
   messages.filter(m => m.timeToLive > 0).forEach(item => timeoutMessage(item));
 
   return (
-    <StyledAlertOverlay appearance={isHidden ? 'hidden' : ''}>
+    <StyledMessageAlertOverlay appearance={isHidden ? 'hidden' : ''}>
       {messages.map(message => (
-        <Alert key={message.id} dispatch={dispatch} message={message} />
+        <Message key={message.id} dispatch={dispatch} message={message} />
       ))}
-    </StyledAlertOverlay>
+    </StyledMessageAlertOverlay>
   );
 };
 
-Alerts.propTypes = {
+Messages.propTypes = {
   messages: PropTypes.arrayOf(MessageShape).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
-export default Alerts;
+export default Messages;

@@ -711,7 +711,7 @@ const phrases = {
   forbiddenPage: {
     description: 'Du har ikke tilgang til denne siden',
   },
-  warningModal: {
+  alertModal: {
     notSaved: 'Dokumentet er ikke lagret, ønsker du å fortsette?',
     continue: 'Fortsett',
     delete: 'Slett',

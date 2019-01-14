@@ -12,9 +12,9 @@ import { Warning } from '@ndla/icons/editor';
 import styled, { css } from 'react-emotion';
 import { spacing } from '@ndla/core';
 import AlertModalFooter from './AlertModalFooter';
+import Lightbox from '../Lightbox';
 
 const StyledAlertModal = styled('div')`
-  color: white;
   height: 100%;
   padding-top: ${spacing.normal};
   font-size: 24px;
@@ -39,18 +39,24 @@ const alertModalBodyIconStyle = css`
   margin-right: ${spacing.small};
 `;
 
-const AlertModal = ({ text, onCancel, actions, component, show, severity }) =>
+const Alert = ({ text, onCancel, actions, component, show, severity }) =>
   show ? (
-    <StyledAlertModal>
-      <StyledAlertModalBody>
-        <Warning css={alertModalBodyIconStyle} />
-        <StyledAlertModalBodyText>{text}</StyledAlertModalBodyText>
-      </StyledAlertModalBody>
-      <AlertModalFooter actions={actions} component={component} />
-    </StyledAlertModal>
+    <Lightbox
+      display={show}
+      onClose={onCancel}
+      appearance="modal"
+      severity={severity}>
+      <StyledAlertModal severity={severity}>
+        <StyledAlertModalBody>
+          <Warning css={alertModalBodyIconStyle} />
+          <StyledAlertModalBodyText>{text}</StyledAlertModalBodyText>
+        </StyledAlertModalBody>
+        <AlertModalFooter actions={actions} component={component} />
+      </StyledAlertModal>
+    </Lightbox>
   ) : null;
 
-AlertModal.propTypes = {
+Alert.propTypes = {
   text: PropTypes.string.isRequired,
   onCancel: PropTypes.func.isRequired,
   component: PropTypes.node,
@@ -64,4 +70,8 @@ AlertModal.propTypes = {
   severity: PropTypes.string,
 };
 
-export default AlertModal;
+Alert.defaultProps = {
+  severity: 'danger',
+};
+
+export default Alert;

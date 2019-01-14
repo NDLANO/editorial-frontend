@@ -19,7 +19,7 @@ import {
   editSubjectFilter,
   deleteFilter,
 } from '../../../modules/taxonomy';
-import WarningModal from '../../../components/WarningModal';
+import AlertModal from '../../../components/AlertModal';
 import EditFilterList from './EditFilterList';
 
 class EditFilters extends React.Component {
@@ -110,7 +110,7 @@ class EditFilters extends React.Component {
         )}
         <div {...classes('errorMessage')}>{error}</div>
 
-        <WarningModal
+        <AlertModal
           show={showDelete}
           actions={[
             {
@@ -118,7 +118,7 @@ class EditFilters extends React.Component {
               onClick: () => this.showDeleteWarning(),
             },
             {
-              text: t('warningModal.delete'),
+              text: t('alertModal.delete'),
               'data-testid': 'warningModalConfirm',
               action: this.deleteFilter,
             },

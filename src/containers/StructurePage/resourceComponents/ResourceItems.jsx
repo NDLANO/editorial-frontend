@@ -19,7 +19,7 @@ import {
 } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
-import WarningModal from '../../../components/WarningModal';
+import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
 import {
   RESOURCE_FILTER_CORE,
@@ -117,7 +117,7 @@ class ResourceItems extends React.PureComponent {
             {error}
           </div>
         )}
-        <WarningModal
+        <AlertModal
           show={!!deleteId}
           text={t('taxonomy.resource.confirmDelete')}
           actions={[
@@ -126,7 +126,7 @@ class ResourceItems extends React.PureComponent {
               onClick: () => this.toggleDelete(''),
             },
             {
-              text: t('warningModal.delete'),
+              text: t('alertModal.delete'),
               onClick: () => this.onDelete(deleteId),
             },
           ]}

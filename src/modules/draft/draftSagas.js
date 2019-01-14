@@ -49,6 +49,7 @@ export function* updateDraft(draft) {
     if (statusMessages[error.status]) {
       yield put(
         messageActions.addMessage({
+          severity: 'danger',
           translationKey: statusMessages[error.status],
           timeToLive: 0,
         }),

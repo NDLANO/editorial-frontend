@@ -26,6 +26,7 @@ const findTagName = (array, value, arrayKey = undefined) => {
 const SearchTagGroup = ({
   subjects,
   resourceTypes,
+  draftStatus,
   searchObject,
   languages,
   t,
@@ -47,6 +48,11 @@ const SearchTagGroup = ({
       type: 'resourceTypes',
       id: searchObject.resourceTypes,
       name: findTagName(resourceTypes, searchObject.resourceTypes, 'id'),
+    },
+    {
+      type: 'draftStatus',
+      id: searchObject.draftStatus,
+      name: findTagName(draftStatus, searchObject.draftStatus, 'id'),
     },
   ];
 
@@ -70,6 +76,7 @@ SearchTagGroup.propTypes = {
   onRemoveItem: PropTypes.func.isRequired,
   subjects: PropTypes.arrayOf(PropTypes.shape({})),
   resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+  draftStatus: PropTypes.arrayOf(PropTypes.shape({})), // TODO: Is this okay?
   languages: PropTypes.func,
   searchObject: PropTypes.shape({
     query: PropTypes.string,

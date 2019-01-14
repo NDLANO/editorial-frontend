@@ -200,6 +200,7 @@ class SearchContentForm extends Component {
               subjects={subjects}
               searchObject={this.state.search}
               resourceTypes={resourceTypes}
+              draftStatus={this.getDraftStatuses()}
             />
           </div>
         </form>

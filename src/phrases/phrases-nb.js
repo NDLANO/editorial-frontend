@@ -185,6 +185,7 @@ const phrases = {
       subjects: 'Emne',
       language: 'Språk',
       resourceTypes: 'Innholdstype',
+      draftStatus: 'Status',
     },
     btn: 'Søk',
     empty: 'Tøm',

@@ -182,6 +182,13 @@ const phrases = {
       resourceTypes: 'Select Resource type',
       draftStatus: 'Select status',
     },
+    tagType: {
+      query: 'Query',
+      subjects: 'Subject',
+      language: 'Language',
+      resourceTypes: 'Resource-Type',
+      draftStatus: 'Status',
+    },
     btn: 'Search',
     empty: 'Empty',
     articleType: {

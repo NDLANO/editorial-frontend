@@ -19,28 +19,16 @@ import { formClasses } from '../../containers/Form';
 class RichBlockTextEditor extends PureComponent {
   constructor(props) {
     super(props);
-    this.onContentChange = this.onContentChange.bind(this);
     this.onChange = this.onChange.bind(this);
     this.removeSection = this.removeSection.bind(this);
   }
 
-  onChange(indexValue, index) {
-    const { name, onChange, value } = this.props;
+  onChange(change, index) {
+    const { onChange, value } = this.props;
     const newValue = [].concat(value);
-    newValue[index] = { value: indexValue, index };
-    const changedValue = {
-      target: {
-        value: newValue,
-        name,
-        type: 'SlateEditorValue',
-      },
-    };
+    newValue[index] = { value: change.value, index };
 
-    onChange(changedValue);
-  }
-
-  onContentChange(e, index) {
-    this.onChange(e.target.value, index);
+    onChange(newValue);
   }
 
   removeSection(index) {
@@ -86,9 +74,12 @@ class RichBlockTextEditor extends PureComponent {
             <RichTextEditor
               name={name}
               schema={schema}
-              onChange={e => this.onContentChange(e, index)}
-              {...rest}
+              onChange={change => {
+                console.log(change.value.data.get('undos'));
+                this.onChange(change, index);
+              }}
               value={val.value}
+              {...rest}
               index={index}
               removeSection={this.removeSection}
             />

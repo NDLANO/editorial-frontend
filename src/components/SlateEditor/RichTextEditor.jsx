@@ -98,7 +98,6 @@ const RichTextEditor = class extends React.PureComponent {
       plugins,
       ...rest
     } = this.props;
-
     return (
       <article>
         <div data-cy="slate-editor" className={slateEditorDivStyle}>
@@ -108,9 +107,7 @@ const RichTextEditor = class extends React.PureComponent {
             ref={this.editorRef}
             value={value}
             schema={schema}
-            onChange={change =>
-              onChange({ target: { name, value: change.value } })
-            }
+            onChange={onChange}
             slateStore={this.state.slateStore}
             plugins={plugins}
             {...rest}

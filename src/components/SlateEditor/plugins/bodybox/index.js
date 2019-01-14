@@ -34,9 +34,9 @@ export default function createBodyBox() {
     if (!node.nodes.last().isVoid) return next();
 
     const block = Block.create(defaultBlock);
-    return change => {
-      change.insertNodeByKey(node.key, node.nodes.size, block);
-    };
+    editor.withoutSaving(() => {
+      editor.insertNodeByKey(node.key, node.nodes.size, block);
+    });
   }
 
   /* eslint-disable react/prop-types */

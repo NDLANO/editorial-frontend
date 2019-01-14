@@ -24,6 +24,7 @@ export const RichTextField = ({
   ...rest
 }) => {
   const { value, onChange } = bindInput(name);
+
   return (
     <Field noBorder={noBorder} className={fieldClassName}>
       {!noBorder ? (

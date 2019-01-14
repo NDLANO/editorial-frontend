@@ -86,7 +86,7 @@ class SlateToolbar extends Component {
     } else {
       editor.setBlocks(isActive ? DEFAULT_NODE : type);
     }
-    this.handleValueChange(editor.value);
+    this.handleValueChange(editor);
   }
 
   onClickMark(e, type) {
@@ -110,7 +110,7 @@ class SlateToolbar extends Component {
         editor.wrapInline(type);
       });
     }
-    this.handleValueChange(editor.value);
+    this.handleValueChange(editor);
   }
 
   onButtonClick(e, kind, type) {
@@ -126,8 +126,8 @@ class SlateToolbar extends Component {
   }
 
   handleValueChange(value) {
-    const { name, onChange } = this.props;
-    onChange({ target: { name, value: value } });
+    const { onChange } = this.props;
+    onChange(value);
     this.updateMenu();
   }
 

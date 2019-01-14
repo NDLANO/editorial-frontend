@@ -25,13 +25,13 @@ function validateNode(node, editor, next) {
     return next();
   }
 
-  return change => {
+  editor.withoutSaving(() => {
     firstNode.nodes.forEach(child =>
-      change.setNodeByKey(child.key, {
+      editor.setNodeByKey(child.key, {
         data: { ...child.data, isHeader: true },
       }),
     );
-  };
+  });
 }
 
 const schema = {

@@ -33,15 +33,17 @@ export default function createDetails() {
       // which separates summary from details.
       details: {
         last: { type: 'paragraph' },
-        normalize: (change, error) => {
+        normalize: (editor, error) => {
           switch (error.code) {
             case 'last_child_type_invalid': {
               const block = Block.create(defaultBlocks.defaultBlock);
-              change.insertNodeByKey(
-                error.node.key,
-                error.node.nodes.size,
-                block,
-              );
+              editor.withoutSaving(() => {
+                editor.insertNodeByKey(
+                  error.node.key,
+                  error.node.nodes.size,
+                  block,
+                );
+              });
               break;
             }
             default:
@@ -59,9 +61,9 @@ export default function createDetails() {
     if (!node.nodes.last().type) return next();
     if (!node.nodes.last().isVoid) return next();
     const block = Block.create(defaultBlocks.defaultBlock);
-    return change => {
-      change.insertNodeByKey(node.key, node.nodes.size, block);
-    };
+    editor.withoutSaving(() => {
+      editor.insertNodeByKey(node.key, node.nodes.size, block);
+    });
   }
 
   /* eslint-disable react/prop-types */

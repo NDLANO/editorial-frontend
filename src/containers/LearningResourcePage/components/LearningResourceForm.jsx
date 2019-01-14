@@ -10,6 +10,7 @@ import React, { PureComponent } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import isEqual from 'lodash/fp/isEqual';
 import { withRouter } from 'react-router-dom';
 import Accordion, {
   AccordionWrapper,
@@ -30,6 +31,7 @@ import {
   learningResourceContentToEditorValue,
   editorValueToPlainText,
   plainTextToEditorValue,
+  isEditorValueDirty,
 } from '../../../util/articleContentConverter';
 import { findNodesByType } from '../../../util/slateHelpers';
 import { SchemaShape, LicensesArrayOf } from '../../../shapes';
@@ -119,8 +121,10 @@ class LearningResourceForm extends PureComponent {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getArticleFromModel = this.getArticleFromModel.bind(this);
     this.onReset = this.onReset.bind(this);
+    console.log(props.initialModel.content[0].value.get('undos'));
     this.state = {
       showResetModal: false,
+      contentValues: props.initialModel.content,
     };
   }
 
@@ -137,6 +141,7 @@ class LearningResourceForm extends PureComponent {
       initialModel.language !== prevModel.language
     ) {
       setModel(initialModel);
+      this.setState({ contentValues: initialModel.content });
     }
   }
 
@@ -165,7 +170,7 @@ class LearningResourceForm extends PureComponent {
 
   getArticleFromModel() {
     const { model, licenses } = this.props;
-    const content = learningResourceContentToHTML(model.content);
+    const content = learningResourceContentToHTML(this.state.contentValues);
     const emptyContent = model.id ? '' : undefined;
     return {
       id: model.id,
@@ -199,6 +204,7 @@ class LearningResourceForm extends PureComponent {
 
     const {
       model: { id },
+      initialModel: { content },
       validationErrors,
       revision,
       setSubmitted,
@@ -211,8 +217,10 @@ class LearningResourceForm extends PureComponent {
       setSubmitted(true);
       return;
     }
-
-    if (!isFormDirty(this.props)) {
+    if (
+      !isFormDirty(this.props) &&
+      !isEditorValueDirty(this.state.contentValues)
+    ) {
       return;
     }
 
@@ -259,7 +267,7 @@ class LearningResourceForm extends PureComponent {
       validationErrors,
     } = this.props;
 
-    const { error } = this.state;
+    const { error, contentValues } = this.state;
     const commonFieldProps = { bindInput, schema: validationErrors, submitted };
     const panels = [
       {
@@ -272,7 +280,26 @@ class LearningResourceForm extends PureComponent {
         component: () => (
           <LearningResourceContent
             commonFieldProps={commonFieldProps}
-            bindInput={bindInput}>
+            value={contentValues}
+            onChange={newContentValues => {
+              console.log('changing value');
+              if (
+                this.state.contentValues.some((val, i) => {
+                  return (
+                    newContentValues[i] &&
+                    !isEqual(
+                      val.value.document,
+                      newContentValues[i].value.document,
+                    )
+                  );
+                })
+              ) {
+                console.log('changing value to dirty!');
+                this.setState({ contentValues: newContentValues, dirty: true });
+              } else {
+                this.setState({ contentValues: newContentValues });
+              }
+            }}>
             <LearningResourceFootnotes
               t={t}
               footnotes={findFootnotes(model.content)}

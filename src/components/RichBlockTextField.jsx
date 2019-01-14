@@ -13,7 +13,6 @@ import { Field, FieldErrorMessages, getField, classes } from './Fields';
 import { PluginShape } from '../shapes';
 
 export const RichBlockTextField = ({
-  bindInput,
   name,
   label,
   submitted,
@@ -21,7 +20,6 @@ export const RichBlockTextField = ({
   slateSchema,
   ...rest
 }) => {
-  const { value, ...inputs } = bindInput(name);
   return (
     <Field className={classes('', 'position-static').className}>
       <label htmlFor={name}>{label}</label>
@@ -29,19 +27,17 @@ export const RichBlockTextField = ({
       <RichBlockTextEditor
         id={name}
         name={name}
-        value={value}
         schema={slateSchema}
         submitted={submitted}
-        {...inputs}
         {...rest}
       />
-      {submitted && ( // Only show if submitted
+      {/*       {submitted && ( // Only show if submitted
         <FieldErrorMessages
           label={label}
           field={getField(name, schema)}
           submitted={submitted}
         />
-      )}
+      )} */}
     </Field>
   );
 };

@@ -22,7 +22,7 @@ export const parseCopyrightContributors = (obj, contributorType) => {
 
 export const isFormDirty = ({ fields, model, showSaved }) => {
   // Checking specific slate object fields if they really have changed
-  const slateFields = ['introduction', 'metaDescription', 'content'];
+  const slateFields = ['introduction', 'metaDescription'];
   const dirtyFields = [];
   Object.keys(fields)
     .filter(field => fields[field].dirty)

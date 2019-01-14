@@ -85,6 +85,7 @@ export function learningResourceContentToEditorValue(
     });
 
     const value = convertFromHTML(json);
+
     return {
       value,
       index,
@@ -141,12 +142,12 @@ export function isEditorValueDirty(value) {
   }
   return (
     value
-      .map(
-        val =>
-          val && val.value && val.value.data.get('undos')
-            ? val.value.data.get('undos').size
-            : 0,
-      )
+      .map(val => {
+        console.log(val.value.data.get('undos'));
+        return val && val.value && val.value.data.get('undos')
+          ? val.value.data.get('undos').size
+          : 0;
+      })
       .reduce((a, b) => a + b, 0) > 0
   );
 }

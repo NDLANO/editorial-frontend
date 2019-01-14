@@ -76,22 +76,14 @@ class LearningResourceContent extends PureComponent {
   }
 
   addSection() {
-    const {
-      commonFieldProps: { bindInput },
-    } = this.props;
-    const { value, onChange } = bindInput('content');
+    const { value, onChange } = this.props;
     const newblocks = [].concat(value);
     newblocks.push({ value: createEmptyValue(), index: value.length });
-    onChange({
-      target: {
-        name: 'content',
-        value: newblocks,
-      },
-    });
+    onChange(newblocks);
   }
 
   render() {
-    const { t, commonFieldProps, children } = this.props;
+    const { t, commonFieldProps, children, ...rest } = this.props;
 
     return (
       <Fragment>
@@ -114,7 +106,7 @@ class LearningResourceContent extends PureComponent {
           name="content"
           data-cy="learning-resource-content"
           plugins={this.plugins}
-          {...commonFieldProps}
+          {...rest}
         />
         {children}
       </Fragment>
@@ -125,6 +117,8 @@ class LearningResourceContent extends PureComponent {
 LearningResourceContent.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
   locale: PropTypes.string.isRequired,
+  value: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

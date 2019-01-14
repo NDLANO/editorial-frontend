@@ -22,7 +22,6 @@ class MathML extends Component {
     if (window.MathJax && prevProps.model.innerHTML !== innerHTML) {
       // Note: a small delay before a 're-render" is required in order to
       // get the MatJax script to render correctly after editing the MathML
-      console.log('Are we here?');
       this.setState({ reRender: true });
       await setTimeout(() => {
         window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);

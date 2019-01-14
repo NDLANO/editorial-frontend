@@ -9,9 +9,37 @@ import {
   ConnectionsWrapper,
   ErrorLabel,
   RemoveConnectionButton,
-  PrimaryConnectionButton,
-  DuplicateConnectionLabel,
+  StyledPrimaryConnectionButton,
+  StyledDuplicateConnectionLabel,
 } from '../../../style/LearningResourceTaxonomyStyles';
+
+const renderTopic = ({ topic, retriveBreadCrumbs, sharedTopicLabel }) => (
+  topic.topicConnections.length > 0 &&
+    topic.topicConnections
+      .filter(topicConnection => !topicConnection.isPrimary)
+      .map(topicConnection => {
+        const topicConnectionsBreadCrumbs = retriveBreadCrumbs(
+          topicConnection.paths[0],
+        );
+        return (
+          <Connections shared key={topicConnection.paths[0]}>
+            <StyledDuplicateConnectionLabel>
+              {sharedTopicLabel}
+            </StyledDuplicateConnectionLabel>
+            <BreadCrumb>
+              {topicConnectionsBreadCrumbs.map((path, index) => (
+                <Fragment key={`${topic.id}_${index}`}>
+                  <span>{path.name}</span>
+                  <ChevronRight />
+                </Fragment>
+              ))}
+              <span>{topic.name}</span>
+              <ChevronRight />
+            </BreadCrumb>
+          </Connections>
+        );
+      })
+)
 
 const ActiveTopicConnections = ({
   retriveBreadCrumbs,
@@ -24,7 +52,7 @@ const ActiveTopicConnections = ({
     {activeTopics.map(topic => {
       const breadCrumbs = retriveBreadCrumbs(topic.path);
       if (!breadCrumbs) {
-        // Connection not available.
+        // No breadcrumbs means connection isnt available, show as error 
         return (
           <Connections key={topic.id} error>
             <ErrorLabel>
@@ -41,15 +69,16 @@ const ActiveTopicConnections = ({
           </Connections>
         );
       }
+      // Render connection
       return (
         <Fragment key={topic.id}>
           <Connections>
-            <PrimaryConnectionButton
+            <StyledPrimaryConnectionButton
               primary={topic.primary}
               type="button"
               onClick={() => setPrimaryConnection(topic.id)}>
               {t('form.topics.primaryTopic')}
-            </PrimaryConnectionButton>
+            </StyledPrimaryConnectionButton>
             <BreadCrumb>
               {breadCrumbs.map(path => (
                 <Fragment key={`${topic.id}${path.id}`}>
@@ -64,31 +93,7 @@ const ActiveTopicConnections = ({
               <Cross />
             </RemoveConnectionButton>
           </Connections>
-          {topic.topicConnections.length > 0 &&
-            topic.topicConnections
-              .filter(topicConnection => !topicConnection.isPrimary)
-              .map(topicConnection => {
-                const topicConnectionsBreadCrumbs = retriveBreadCrumbs(
-                  topicConnection.paths[0],
-                );
-                return (
-                  <Connections shared key={topicConnection.paths[0]}>
-                    <DuplicateConnectionLabel>
-                      {t('form.topics.sharedTopic')}
-                    </DuplicateConnectionLabel>
-                    <BreadCrumb>
-                      {topicConnectionsBreadCrumbs.map((path, index) => (
-                        <Fragment key={`${topic.id}_${index}`}>
-                          <span>{path.name}</span>
-                          <ChevronRight />
-                        </Fragment>
-                      ))}
-                      <span>{topic.name}</span>
-                      <ChevronRight />
-                    </BreadCrumb>
-                  </Connections>
-                );
-              })}
+          {renderTopic({ topic, retriveBreadCrumbs, sharedTopicLabel: t('form.topics.sharedTopic') })}
         </Fragment>
       );
     })}

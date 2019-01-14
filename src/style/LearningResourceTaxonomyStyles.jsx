@@ -301,7 +301,7 @@ const connectionButtonStyle = css`
   ${fonts.sizes(14, 1.1)} font-weight: ${fonts.weight.semibold};
 `;
 
-const PrimaryConnectionButton = styled('button')`
+const StyledPrimaryConnectionButton = styled('button')`
   ${connectionButtonStyle}
   background: ${colors.support.green};
   opacity: 0.3;
@@ -317,7 +317,7 @@ const PrimaryConnectionButton = styled('button')`
     `};
 `;
 
-const DuplicateConnectionLabel = styled('div')`
+const StyledDuplicateConnectionLabel = styled('div')`
   ${connectionButtonStyle}
   background: ${colors.brand.light};
 `;
@@ -363,9 +363,9 @@ export {
   FilterCheckBox,
   FilterListTR,
   FilterTable,
-  PrimaryConnectionButton,
+  StyledPrimaryConnectionButton,
   RemoveConnectionButton,
-  DuplicateConnectionLabel,
+  StyledDuplicateConnectionLabel,
   SubjectName,
   TitleModal,
 };

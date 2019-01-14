@@ -84,9 +84,7 @@ class FormDeleteLanguageVersion extends React.Component {
           title={t('form.workflow.deleteLanguageVersion.title')}
           width={3 / 4}
         />
-        <Button
-          className={deleteButtonStyle}
-          onClick={this.toggleShowDeleteWarning}>
+        <Button css={deleteButtonStyle} onClick={this.toggleShowDeleteWarning}>
           {t('form.workflow.deleteLanguageVersion.button')}
         </Button>
         <WarningModal

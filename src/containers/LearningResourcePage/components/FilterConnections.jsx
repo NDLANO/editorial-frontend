@@ -10,7 +10,7 @@ import {
   FilterListTR,
   FilterTable,
   SubjectName,
-} from './LearningResourceTaxonomyStyles';
+} from '../../../style/LearningResourceTaxonomyStyles';
 import {
   RESOURCE_FILTER_CORE,
   RESOURCE_FILTER_SUPPLEMENTARY,

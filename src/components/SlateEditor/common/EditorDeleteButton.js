@@ -11,8 +11,7 @@ import PropTypes from 'prop-types';
 import { css } from 'react-emotion';
 import darken from 'polished/lib/color/darken';
 import { colors } from '@ndla/core';
-import Button from '@ndla/button';
-import { Cross } from '@ndla/icons/action';
+import CrossButton from '../../CrossButton';
 
 const deleteButtonStyle = css`
   position: absolute;
@@ -26,9 +25,7 @@ const deleteButtonStyle = css`
 `;
 
 export const EditorDeleteButton = props => (
-  <Button stripped className={deleteButtonStyle} {...props}>
-    <Cross />
-  </Button>
+  <CrossButton stripped css={deleteButtonStyle} {...props} />
 );
 
 EditorDeleteButton.propTypes = {

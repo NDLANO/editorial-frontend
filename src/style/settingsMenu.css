@@ -11,6 +11,10 @@
   display: flex;
   font-size: 0.9rem;
 
+  > button {
+    outline: none;
+  }
+
   &__saveButton,
   &__saveButton:disabled {
     height: 24px;
@@ -20,14 +24,6 @@
     color: var(--gray-11);
     padding: 0;
     line-height: 16.9px;
-  }
-
-  &__borderButton,
-  &__borderButton:hover,
-  &__borderButton:focus {
-    border: 1px solid var(--gray-1);
-    border-radius: 3px;
-    width: 100px;
   }
 
   &__openMenu {
@@ -43,18 +39,6 @@
     & .header {
       display: flex;
       align-items: center;
-    }
-  }
-
-  &__menuItem {
-    display: flex;
-    align-items: center;
-    margin: calc(var(--spacing--small) / 2);
-
-    & input {
-      margin-right: calc(var(--spacing--small) / 2);
-      max-height: var(--spacing);
-      width: auto;
     }
   }
 
@@ -78,10 +62,6 @@
     display: flex;
     justify-content: space-between;
     margin: calc(var(--spacing--small) / 2);
-  }
-
-  &__addFilter {
-    text-decoration: underline;
   }
 }
 

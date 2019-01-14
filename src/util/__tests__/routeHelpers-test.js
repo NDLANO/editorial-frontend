@@ -1,4 +1,4 @@
-import { removeLastItemFromUrl } from '../routeHelpers';
+import { removeLastItemFromUrl, getPathsFromUrl } from '../routeHelpers';
 
 test('correctly removes last part of all urls', () => {
   const url1 =
@@ -16,4 +16,27 @@ test('correctly removes last part of all urls', () => {
     'http://localhost:3000/structure/subject:7',
   );
   expect(removeLastItemFromUrl(url4)).toBe('');
+});
+
+test('getPathsFromUrl', () => {
+  const input = [
+    '/structure',
+    '/structure/urn:subject:7',
+    '/structure/urn:subject:7/urn:topic:1:183192',
+    '/structure/urn:subject:7/urn:topic:1:183192/urn:topic:1:103222',
+  ];
+  const output = [
+    [],
+    ['urn:subject:7'],
+    ['urn:subject:7', 'urn:subject:7/urn:topic:1:183192'],
+    [
+      'urn:subject:7',
+      'urn:subject:7/urn:topic:1:183192',
+      'urn:subject:7/urn:topic:1:183192/urn:topic:1:103222',
+    ],
+  ];
+
+  input.forEach((path, i) => {
+    expect(getPathsFromUrl(path)).toEqual(output[i]);
+  });
 });

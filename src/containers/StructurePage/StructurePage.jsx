@@ -14,11 +14,16 @@ import queryString from 'query-string';
 import { injectT } from '@ndla/i18n';
 import { OneColumn } from '@ndla/ui';
 import { Taxonomy, Star } from '@ndla/icons/editor';
+import { Structure } from '@ndla/editor';
 import { connectLinkItems } from '../../util/jsPlumbHelpers';
 import handleError from '../../util/handleError';
 import { getLocale } from '../../modules/locale/locale';
 import StructureResources from './resourceComponents/StructureResources';
 import FolderItem from './folderComponents/FolderItem';
+import {
+  removeLastItemFromUrl,
+  getPathsFromUrl,
+} from '../../util/routeHelpers';
 import InlineAddButton from '../../components/InlineAddButton';
 import Accordion from '../../components/Accordion';
 import ErrorBoundary from '../../components/ErrorBoundary';
@@ -43,8 +48,7 @@ export class StructurePage extends React.PureComponent {
     this.state = {
       editStructureHidden: false,
       subjects: [],
-      topics: {},
-      filters: [],
+      filters: {},
       jsPlumbConnections: [],
       activeConnections: [],
     };
@@ -62,14 +66,15 @@ export class StructurePage extends React.PureComponent {
     this.deleteTopicLink = this.deleteTopicLink.bind(this);
     this.refreshTopics = this.refreshTopics.bind(this);
     this.toggleStructure = this.toggleStructure.bind(this);
+    this.handleStructureToggle = this.handleStructureToggle.bind(this);
   }
 
   componentDidMount() {
     this.getAllSubjects();
     const { subject } = this.props.match.params;
     if (subject) {
-      this.getSubjectTopics(`urn:${subject}`);
-      this.getFilters(`urn:${subject}`);
+      this.getSubjectTopics(subject);
+      this.getFilters();
     }
   }
 
@@ -79,7 +84,7 @@ export class StructurePage extends React.PureComponent {
     },
     location: { pathname: prevPathname },
   }) {
-    const { subjects, topics } = this.state;
+    const { subjects } = this.state;
     const {
       location: { pathname },
       match: { params },
@@ -89,16 +94,16 @@ export class StructurePage extends React.PureComponent {
       this.deleteConnections();
       const { subject } = params;
       if (subject) {
-        this.getFilters(`urn:${subject}`);
+        this.getFilters();
       }
       if (!subject || subject !== prevSubject) {
         history.push({
           search: '',
         });
       }
-      const currentSub = subjects.find(sub => sub.id === `urn:${subject}`);
-      if (currentSub && !topics[`urn:${subject}`]) {
-        this.getSubjectTopics(`urn:${subject}`);
+      const currentSub = subjects.find(sub => sub.id === subject);
+      if (currentSub && !currentSub.topics) {
+        this.getSubjectTopics(subject);
       }
     }
   }
@@ -126,22 +131,31 @@ export class StructurePage extends React.PureComponent {
     try {
       const allTopics = await fetchSubjectTopics(subjectid);
       const groupedTopics = groupTopics(allTopics);
-
       this.setState(prevState => ({
-        topics: {
-          ...prevState.topics,
-          [subjectid]: groupedTopics,
-        },
+        subjects: prevState.subjects.map(subject => {
+          if (subject.id === subjectid)
+            return {
+              ...subject,
+              topics: groupedTopics,
+            };
+          return subject;
+        }),
       }));
     } catch (e) {
       handleError(e);
     }
   }
 
-  async getFilters(subjectId = `urn:${this.props.match.params.subject}`) {
+  async getFilters() {
+    const { subject } = this.props.match.params;
     try {
-      const filters = await fetchSubjectFilters(subjectId);
-      this.setState({ filters });
+      const filters = await fetchSubjectFilters(subject);
+      this.setState({
+        filters: {
+          ...filters,
+          [subject]: filters,
+        },
+      });
     } catch (e) {
       handleError(e);
     }
@@ -244,7 +258,7 @@ export class StructurePage extends React.PureComponent {
     const {
       match: { params },
     } = this.props;
-    this.getSubjectTopics(`urn:${params.subject}`);
+    this.getSubjectTopics(params.subject);
   }
 
   toggleStructure() {
@@ -253,10 +267,21 @@ export class StructurePage extends React.PureComponent {
     }));
   }
 
+  handleStructureToggle({ path }) {
+    const {
+      location: { search },
+      history,
+      match,
+    } = this.props;
+    const currentPath = match.url.replace('/structure/', '');
+    const levelAbove = removeLastItemFromUrl(currentPath);
+    const newPath = currentPath === path ? levelAbove : path;
+    history.push(`/structure/${newPath.concat(search)}`);
+  }
+
   render() {
     const { match, t, locale } = this.props;
     const {
-      topics,
       filters,
       jsPlumbConnections,
       subjects,
@@ -265,7 +290,10 @@ export class StructurePage extends React.PureComponent {
     const activeFilters = this.getActiveFiltersFromUrl();
     const { params } = match;
     const topicId = params.topic3 || params.topic2 || params.topic1;
-    const currentTopic = getCurrentTopic({ params, topics });
+    const currentTopic = getCurrentTopic({
+      params,
+      subject: subjects.find(sub => sub.id === params.subject),
+    });
     const linkViewOpen = jsPlumbConnections.length > 0;
 
     return (
@@ -279,7 +307,7 @@ export class StructurePage extends React.PureComponent {
                 {t('taxonomy.editStructure')}
               </React.Fragment>
             }
-            taxonomy
+            appearance="taxonomy"
             addButton={
               config.enableFullTaxonomy && (
                 <InlineAddButton
@@ -290,29 +318,34 @@ export class StructurePage extends React.PureComponent {
             }
             hidden={editStructureHidden}>
             <div id="plumbContainer">
-              {subjects.map(subject => (
-                <FolderItem
-                  {...subject}
-                  refFunc={this.refFunc}
-                  key={subject.id}
-                  topics={topics[subject.id]}
-                  active={subject.id.replace('urn:', '') === params.subject}
-                  match={match}
-                  getAllSubjects={this.getAllSubjects}
-                  onAddSubjectTopic={this.onAddSubjectTopic}
-                  showLink={this.showLink}
-                  onAddExistingTopic={this.onAddExistingTopic}
-                  refreshTopics={this.refreshTopics}
-                  linkViewOpen={linkViewOpen}
-                  getFilters={this.getFilters}
-                  subjectFilters={filters}
-                  activeFilters={activeFilters}
-                  setPrimary={this.setPrimary}
-                  toggleFilter={this.toggleFilter}
-                  deleteTopicLink={this.deleteTopicLink}
-                  locale={locale}
-                />
-              ))}
+              <Structure
+                openedPaths={getPathsFromUrl(match.url)}
+                structure={subjects}
+                filters={filters}
+                toggleOpen={this.handleStructureToggle}
+                fileStructureFilters={activeFilters}
+                highlightMainActive
+                renderListItems={listProps => (
+                  <FolderItem
+                    refFunc={this.refFunc}
+                    {...listProps}
+                    getAllSubjects={this.getAllSubjects}
+                    onAddSubjectTopic={this.onAddSubjectTopic}
+                    showLink={this.showLink}
+                    subjectFilters={filters[params.subject]}
+                    onAddExistingTopic={this.onAddExistingTopic}
+                    refreshTopics={this.refreshTopics}
+                    linkViewOpen={linkViewOpen}
+                    getFilters={this.getFilters}
+                    activeFilters={activeFilters}
+                    setPrimary={this.setPrimary}
+                    toggleFilter={this.toggleFilter}
+                    deleteTopicLink={this.deleteTopicLink}
+                    resourceSection={this.resourceSection}
+                    locale={locale}
+                  />
+                )}
+              />
               <div ref={this.starButton}>
                 {linkViewOpen && <RoundIcon icon={<Star />} />}
               </div>
@@ -322,6 +355,7 @@ export class StructurePage extends React.PureComponent {
             <StructureResources
               locale={locale}
               params={params}
+              refFunc={this.refFunc}
               activeFilters={activeFilters}
               currentTopic={currentTopic}
               refreshTopics={this.refreshTopics}

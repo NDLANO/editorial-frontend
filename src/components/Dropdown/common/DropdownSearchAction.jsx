@@ -7,11 +7,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
 import Downshift from 'downshift';
 import { Search } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
-import { dropDownClasses } from './dropDownClasses';
+import DropdownActionButton from './DropdownActionButton';
 
 const DropdownSearchAction = ({
   multiSelect,
@@ -22,24 +21,22 @@ const DropdownSearchAction = ({
 }) => {
   if (selectedItem && !multiSelect) {
     return (
-      <Button
-        {...dropDownClasses('action')}
+      <DropdownActionButton
         {...getToggleButtonProps()}
         onClick={clearSelection}
         stripped>
         <Cross className="c-icon--medium" />
-      </Button>
+      </DropdownActionButton>
     );
   }
 
   return (
-    <Button
-      {...dropDownClasses('action')}
+    <DropdownActionButton
       {...getToggleButtonProps()}
       onClick={onToggleMenu}
       stripped>
       <Search className="c-icon--medium" />
-    </Button>
+    </DropdownActionButton>
   );
 };
 

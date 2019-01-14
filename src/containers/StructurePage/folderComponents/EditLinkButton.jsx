@@ -12,11 +12,13 @@ import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { Link as LinkIcon } from '@ndla/icons/editor';
 import BEMHelper from 'react-bem-helper';
-import { Cross, Pencil, Minus } from '@ndla/icons/action';
+import { Pencil, Minus } from '@ndla/icons/action';
 import Overlay from '../../../components/Overlay';
 import RoundIcon from '../../../components/RoundIcon';
 import WarningModal from '../../../components/WarningModal';
 import { Portal } from '../../../components/Portal';
+import MenuItemButton from './menuOptions/MenuItemButton';
+import CrossButton from '../../../components/CrossButton';
 
 const classes = new BEMHelper({
   name: 'settingsMenu',
@@ -63,10 +65,7 @@ class EditLinkButton extends Component {
     const { setPrimaryWarning, deleteLinkWarning } = this.state;
     const linkId = `linkButton-${id}`;
     return (
-      <div
-        style={{ display: 'none' }}
-        id={linkId}
-        ref={el => refFunc(el, linkId)}>
+      <div style={{ display: 'none' }} ref={el => refFunc(el, linkId)}>
         <Portal isOpened>
           <WarningModal
             show={setPrimaryWarning}
@@ -107,27 +106,24 @@ class EditLinkButton extends Component {
               <div className="header">
                 <RoundIcon icon={<LinkIcon />} open />
                 <span>{t(`taxonomy.linkSettings`)}</span>
-                <Button
+                <CrossButton
                   stripped
                   {...classes('closeButton')}
-                  onClick={this.toggleOpen}>
-                  <Cross />
-                </Button>
+                  onClick={this.toggleOpen}
+                />
               </div>
-              <Button
+              <MenuItemButton
                 stripped
-                {...classes('menuItem')}
                 onClick={() => this.setState({ setPrimaryWarning: true })}>
                 <RoundIcon small icon={<Pencil />} />
                 {t('taxonomy.setPrimary')}
-              </Button>
-              <Button
+              </MenuItemButton>
+              <MenuItemButton
                 stripped
-                {...classes('menuItem')}
                 onClick={() => this.setState({ deleteLinkWarning: true })}>
                 <RoundIcon small icon={<Minus />} />
                 {t('taxonomy.removeLink')}
-              </Button>
+              </MenuItemButton>
             </div>
           </React.Fragment>
         )}

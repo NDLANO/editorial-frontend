@@ -32,17 +32,6 @@
     background-color: var(--brand-color--secondary);
   }
 
-  &__form-actions .c-button {
-    min-width: 6rem;
-    margin-left: 1rem;
-
-    /* NB! Should use :enabled in @ndla/ui button css instead */
-    &:disabled {
-      transform: none;
-      color: #fff;
-    }
-  }
-
   @media (min-width: 37.5em) {
     padding-left: 0;
     padding-right: 0;
@@ -171,35 +160,6 @@
     }
   }
 
-  &__remove-section-button {
-    display: none;
-  }
-
-  &__container:hover &__remove-section-button,
-  &__container:focus &__remove-section-button {
-    color: red;
-    display: block;
-    float: right;
-    margin-right: calc(calc(var(--clrf__container--margin) + 1em) * -1);
-  }
-
-  &__delete-block-button {
-    float: right;
-    color: red;
-    margin-top: -6.5em;
-    margin-right: calc(calc(var(--clrf__container--margin) + 1em) * -1);
-
-    &:hover,
-    &:focus {
-      color: color(red blackness(+20%));
-    }
-  }
-
-  &__container:hover &__delete-block-button,
-  &__container:focus &__delete-block-button {
-    visibility: visible;
-  }
-
   &__meta-image {
     display: flex;
 
@@ -209,11 +169,6 @@
       margin-top: 10px;
     }
   }
-}
-
-:root {
-  /* c-form -> clrf */
-  --clrf__container--margin: 8em;
 }
 
 .c-topic-article-content {

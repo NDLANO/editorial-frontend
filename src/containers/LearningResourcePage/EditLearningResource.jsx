@@ -85,18 +85,16 @@ class EditLearningResource extends PureComponent {
       : selectedLanguage;
     return (
       <div>
-        <Helmet
-          title={`${article.title} - NDLA`}
-        />
+        <Helmet title={`${article.title} - NDLA`} />
         <LearningResourceForm
-        initialModel={getInitialModel(article, language)}
-        selectedLanguage={selectedLanguage}
-        revision={article.revision}
-        articleStatus={article.status}
-        onUpdate={this.updateLearningResource}
-        createMessage={this.createMessage}
-        {...rest}
-      />
+          initialModel={getInitialModel(article, language)}
+          selectedLanguage={selectedLanguage}
+          revision={article.revision}
+          articleStatus={article.status}
+          onUpdate={this.updateLearningResource}
+          createMessage={this.createMessage}
+          {...rest}
+        />
       </div>
     );
   }

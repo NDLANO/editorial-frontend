@@ -178,6 +178,7 @@ const phrases = {
       language: 'Velg Språk',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innholdstype',
+      draftStatus: 'Velg status',
     },
     tagType: {
       query: 'Innhold',

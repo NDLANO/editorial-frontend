@@ -180,6 +180,7 @@ const phrases = {
       language: 'Select Language',
       subjects: 'Select subject',
       resourceTypes: 'Select Resource type',
+      draftStatus: 'Select status',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -443,7 +444,7 @@ const phrases = {
       published: 'Published',
       unpublished: 'Unpublished',
       awaiting_unpublishing: 'Awaiting unpublishing',
-      archived: 'Archieved',
+      archived: 'Archived',
       actions: {
         DRAFT: 'Draft',
         PROPOSAL: 'Proposal',

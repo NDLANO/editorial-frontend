@@ -206,7 +206,7 @@ export const PossibleStatusShape = PropTypes.shape({
   PUBLISHED: PropTypes.arrayOf(PropTypes.string),
   AWAITING_UNPUBLISHING: PropTypes.arrayOf(PropTypes.string),
   UNPUBLISHED: PropTypes.arrayOf(PropTypes.string),
-  ARCHIEVED: PropTypes.arrayOf(PropTypes.string),
+  ARCHIVED: PropTypes.arrayOf(PropTypes.string),
   QUEUED_FOR_PUBLISHING: PropTypes.arrayOf(PropTypes.string),
 });
 

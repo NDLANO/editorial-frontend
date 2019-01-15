@@ -18,26 +18,29 @@ export const RichBlockTextField = ({
   submitted,
   schema,
   slateSchema,
+  bindInput,
   ...rest
 }) => {
+  const { value, onChange } = bindInput(name);
   return (
     <Field className={classes('', 'position-static').className}>
       <label htmlFor={name}>{label}</label>
-
       <RichBlockTextEditor
         id={name}
         name={name}
+        value={value}
+        onChange={onChange}
         schema={slateSchema}
         submitted={submitted}
         {...rest}
       />
-      {/*       {submitted && ( // Only show if submitted
+      {submitted && ( // Only show if submitted
         <FieldErrorMessages
           label={label}
           field={getField(name, schema)}
           submitted={submitted}
         />
-      )} */}
+      )}
     </Field>
   );
 };

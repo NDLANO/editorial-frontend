@@ -10,7 +10,6 @@ import React, { PureComponent } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import isEqual from 'lodash/fp/isEqual';
 import { withRouter } from 'react-router-dom';
 import Accordion, {
   AccordionWrapper,
@@ -31,9 +30,8 @@ import {
   learningResourceContentToEditorValue,
   editorValueToPlainText,
   plainTextToEditorValue,
-  isEditorValueDirty,
 } from '../../../util/articleContentConverter';
-import { findNodesByType } from '../../../util/slateHelpers';
+
 import { SchemaShape, LicensesArrayOf } from '../../../shapes';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
@@ -46,8 +44,7 @@ import {
   WarningModalWrapper,
 } from '../../Form';
 import { formatErrorMessage } from '../../Form/FormWorkflow';
-import LearningResourceFootnotes from './LearningResourceFootnotes';
-import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
+
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import {
   DEFAULT_LICENSE,
@@ -60,18 +57,6 @@ import { validateDraft } from '../../../modules/draft/draftApi';
 import { articleConverter } from '../../../modules/draft/draft';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import config from '../../../config';
-
-const findFootnotes = content =>
-  content
-    .reduce(
-      (all, item) => [
-        ...all,
-        ...findNodesByType(item.value.document, footnoteType),
-      ],
-      [],
-    )
-    .filter(footnote => footnote.data.size > 0)
-    .map(footnoteNode => footnoteNode.data.toJS());
 
 const parseImageUrl = metaImage => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
@@ -121,14 +106,14 @@ class LearningResourceForm extends PureComponent {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getArticleFromModel = this.getArticleFromModel.bind(this);
     this.onReset = this.onReset.bind(this);
-    console.log(props.initialModel.content[0].value.get('undos'));
+
     this.state = {
       showResetModal: false,
-      contentValues: props.initialModel.content,
     };
   }
 
-  componentDidUpdate({ taxonomy: prevTaxonomy, initialModel: prevModel }) {
+  componentDidUpdate(prevProps) {
+    const { taxonomy: prevTaxonomy, initialModel: prevModel } = prevProps;
     const { initialModel, setModel, setModelField, taxonomy } = this.props;
     const hasTaxonomyChanged =
       taxonomy && prevTaxonomy && taxonomy.loading !== prevTaxonomy.loading;
@@ -141,7 +126,6 @@ class LearningResourceForm extends PureComponent {
       initialModel.language !== prevModel.language
     ) {
       setModel(initialModel);
-      this.setState({ contentValues: initialModel.content });
     }
   }
 
@@ -170,7 +154,7 @@ class LearningResourceForm extends PureComponent {
 
   getArticleFromModel() {
     const { model, licenses } = this.props;
-    const content = learningResourceContentToHTML(this.state.contentValues);
+    const content = learningResourceContentToHTML(model.content);
     const emptyContent = model.id ? '' : undefined;
     return {
       id: model.id,
@@ -204,7 +188,6 @@ class LearningResourceForm extends PureComponent {
 
     const {
       model: { id },
-      initialModel: { content },
       validationErrors,
       revision,
       setSubmitted,
@@ -217,10 +200,7 @@ class LearningResourceForm extends PureComponent {
       setSubmitted(true);
       return;
     }
-    if (
-      !isFormDirty(this.props) &&
-      !isEditorValueDirty(this.state.contentValues)
-    ) {
+    if (!isFormDirty(this.props)) {
       return;
     }
 
@@ -250,7 +230,6 @@ class LearningResourceForm extends PureComponent {
     const {
       t,
       bindInput,
-      initialModel,
       model,
       submitted,
       tags,
@@ -267,44 +246,20 @@ class LearningResourceForm extends PureComponent {
       validationErrors,
     } = this.props;
 
-    const { error, contentValues } = this.state;
+    const { error } = this.state;
     const commonFieldProps = { bindInput, schema: validationErrors, submitted };
     const panels = [
       {
         id: 'learning-resource-content',
         title: t('form.contentSection'),
         className: 'u-4/6@desktop u-push-1/6@desktop',
-        hasError: [validationErrors.fields.title].some(field =>
-          checkTouchedInvalidField(field, submitted),
-        ),
+        hasError: [
+          validationErrors.fields.title,
+          validationErrors.fields.introduction,
+          validationErrors.fields.content,
+        ].some(field => checkTouchedInvalidField(field, submitted)),
         component: () => (
-          <LearningResourceContent
-            commonFieldProps={commonFieldProps}
-            value={contentValues}
-            onChange={newContentValues => {
-              console.log('changing value');
-              if (
-                this.state.contentValues.some((val, i) => {
-                  return (
-                    newContentValues[i] &&
-                    !isEqual(
-                      val.value.document,
-                      newContentValues[i].value.document,
-                    )
-                  );
-                })
-              ) {
-                console.log('changing value to dirty!');
-                this.setState({ contentValues: newContentValues, dirty: true });
-              } else {
-                this.setState({ contentValues: newContentValues });
-              }
-            }}>
-            <LearningResourceFootnotes
-              t={t}
-              footnotes={findFootnotes(model.content)}
-            />
-          </LearningResourceContent>
+          <LearningResourceContent commonFieldProps={commonFieldProps} />
         ),
       },
       {
@@ -454,8 +409,6 @@ class LearningResourceForm extends PureComponent {
         <WarningModalWrapper
           showSaved={showSaved}
           fields={fields}
-          model={model}
-          initialModel={initialModel}
           text={t('warningModal.notSaved')}
         />
       </form>
@@ -471,6 +424,7 @@ LearningResourceForm.propTypes = {
   }).isRequired,
   initialModel: PropTypes.shape({
     id: PropTypes.number,
+    content: PropTypes.arrayOf(PropTypes.object),
     language: PropTypes.string,
   }),
   articleId: PropTypes.string,

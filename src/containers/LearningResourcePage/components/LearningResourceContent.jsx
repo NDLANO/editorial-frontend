@@ -10,15 +10,18 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
+
 import { getLocale } from '../../../modules/locale/locale';
 import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
+import LearningResourceFootnotes from './LearningResourceFootnotes';
 import LearningResourceIngress from './LearningResourceIngress';
 import {
   renderNode,
   schema,
   renderMark,
 } from '../../../components/SlateEditor/editorSchema';
+import { findNodesByType } from '../../../util/slateHelpers';
 import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
@@ -35,7 +38,7 @@ import pasteHandler from '../../../components/SlateEditor/plugins/pasteHandler';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
-
+import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
 import {
   editListPlugin,
   editTablePlugin,
@@ -43,6 +46,18 @@ import {
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 
 import { CommonFieldPropsShape } from '../../../shapes';
+
+const findFootnotes = content =>
+  content
+    .reduce(
+      (all, item) => [
+        ...all,
+        ...findNodesByType(item.value.document, footnoteType),
+      ],
+      [],
+    )
+    .filter(footnote => footnote.data.size > 0)
+    .map(footnoteNode => footnoteNode.data.toJS());
 
 class LearningResourceContent extends PureComponent {
   constructor(props) {
@@ -76,15 +91,23 @@ class LearningResourceContent extends PureComponent {
   }
 
   addSection() {
-    const { value, onChange } = this.props;
+    const {
+      commonFieldProps: { bindInput },
+    } = this.props;
+    const { value, onChange } = bindInput('content');
     const newblocks = [].concat(value);
     newblocks.push({ value: createEmptyValue(), index: value.length });
-    onChange(newblocks);
+    onChange({
+      target: {
+        name: 'content',
+        value: newblocks,
+      },
+    });
   }
 
   render() {
-    const { t, commonFieldProps, children, ...rest } = this.props;
-
+    const { t, commonFieldProps } = this.props;
+    const { value } = commonFieldProps.bindInput('content');
     return (
       <Fragment>
         <TextField
@@ -106,9 +129,9 @@ class LearningResourceContent extends PureComponent {
           name="content"
           data-cy="learning-resource-content"
           plugins={this.plugins}
-          {...rest}
+          {...commonFieldProps}
         />
-        {children}
+        <LearningResourceFootnotes t={t} footnotes={findFootnotes(value)} />
       </Fragment>
     );
   }
@@ -117,8 +140,6 @@ class LearningResourceContent extends PureComponent {
 LearningResourceContent.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
   locale: PropTypes.string.isRequired,
-  value: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

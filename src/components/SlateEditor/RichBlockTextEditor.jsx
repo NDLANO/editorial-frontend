@@ -24,11 +24,16 @@ class RichBlockTextEditor extends PureComponent {
   }
 
   onChange(change, index) {
-    const { onChange, value } = this.props;
+    const { onChange, value, name } = this.props;
     const newValue = [].concat(value);
     newValue[index] = { value: change.value, index };
-
-    onChange(newValue);
+    const changedValue = {
+      target: {
+        value: newValue,
+        name,
+      },
+    };
+    onChange(changedValue);
   }
 
   removeSection(index) {
@@ -74,10 +79,7 @@ class RichBlockTextEditor extends PureComponent {
             <RichTextEditor
               name={name}
               schema={schema}
-              onChange={change => {
-                console.log(change.value.data.get('undos'));
-                this.onChange(change, index);
-              }}
+              onChange={change => this.onChange(change, index)}
               value={val.value}
               {...rest}
               index={index}
@@ -98,7 +100,6 @@ RichBlockTextEditor.propTypes = {
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
-  submitted: PropTypes.bool.isRequired,
   plugins: PropTypes.arrayOf(PluginShape).isRequired,
 };
 

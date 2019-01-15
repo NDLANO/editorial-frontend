@@ -15,7 +15,6 @@ import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
-import config from '../../../config';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -57,12 +56,10 @@ class ResourceGroup extends PureComponent {
       <React.Fragment>
         <Accordion
           addButton={
-            config.enableFullTaxonomy && (
-              <AddTopicResourceButton stripped onClick={this.toggleAddModal}>
-                <Plus />
-                {t('taxonomy.addResource')}
-              </AddTopicResourceButton>
-            )
+            <AddTopicResourceButton stripped onClick={this.toggleAddModal}>
+              <Plus />
+              {t('taxonomy.addResource')}
+            </AddTopicResourceButton>
           }
           handleToggle={this.handleToggle}
           appearance="resourceGroup"
@@ -81,6 +78,7 @@ class ResourceGroup extends PureComponent {
         {this.state.showAddModal && (
           <AddResourceModal
             type={resource.id}
+            allowPaste={resource.id !== 'urn:resourcetype:learningPath'}
             topicId={params.topic3 || params.topic2 || params.topic1}
             refreshResources={refreshResources}
             onClose={this.toggleAddModal}

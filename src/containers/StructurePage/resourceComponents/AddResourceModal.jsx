@@ -125,7 +125,7 @@ class AddResourceModal extends Component {
   }
 
   render() {
-    const { onClose, t } = this.props;
+    const { onClose, t, allowPaste } = this.props;
     const { selected, article, loading, pastedUrl, error } = this.state;
 
     return (
@@ -134,18 +134,20 @@ class AddResourceModal extends Component {
         onSelect={this.addSelected}
         loading={loading}
         onClose={onClose}>
-        <input
-          type="text"
-          data-testid="addResourceUrlInput"
-          value={pastedUrl}
-          onChange={this.onPaste}
-          placeholder={t('taxonomy.urlPlaceholder')}
-        />
+        {allowPaste && (
+          <input
+            type="text"
+            data-testid="addResourceUrlInput"
+            value={pastedUrl}
+            onChange={this.onPaste}
+            placeholder={t('taxonomy.urlPlaceholder')}
+          />
+        )}
         {error && <span className="c-errorMessage">{error}</span>}
 
         {!pastedUrl && (
           <React.Fragment>
-            <span {...classes('or')}>{t('taxonomy.or')}</span>
+            {allowPaste && <span {...classes('or')}>{t('taxonomy.or')}</span>}
             <AsyncDropdown
               valueField="id"
               name="resourceSearch"
@@ -171,6 +173,7 @@ class AddResourceModal extends Component {
 AddResourceModal.propTypes = {
   onClose: PropTypes.func,
   type: PropTypes.string,
+  allowPaste: PropTypes.bool,
 };
 
 export default injectT(AddResourceModal);

@@ -11,10 +11,8 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FormHeader, FormDropdown } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
-import Button from '@ndla/button';
 import { ErrorMessage } from '@ndla/ui';
 import { Field } from '../../../components/Fields';
-import { formClasses } from '../../Form';
 import {
   fetchResourceTypes,
   fetchFilters,
@@ -34,8 +32,9 @@ import {
 } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
 import TopicConnections from './TopicConnections';
-import FilterConnections from './FilterConnections';
+import FilterConnections from '../../../components/Taxonomy/FilterConnections';
 import SaveButton from '../../../components/SaveButton';
+import { FormActionButton } from '../../Form';
 
 const resourceTypesToOptionList = availableResourceTypes =>
   availableResourceTypes.map(
@@ -443,13 +442,13 @@ class LearningResourceTaxonomy extends Component {
             updateFilter={this.updateFilter}
           />
         )}
-        <Field right {...formClasses('form-actions')}>
-          <Button
+        <Field right>
+          <FormActionButton
             outline
             onClick={closePanel}
             disabled={saveStatus === 'loading'}>
             {t('form.abort')}
-          </Button>
+          </FormActionButton>
           <SaveButton
             isSaving={saveStatus === 'loading'}
             showSaved={saveStatus === 'success'}

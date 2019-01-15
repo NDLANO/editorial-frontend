@@ -6,15 +6,20 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { css } from 'react-emotion';
 import Button from '@ndla/button';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import { formClasses } from '../../Form';
 import MetaInformation from '../../../components/MetaInformation';
 import { TextField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
+
+const metaImageButtonStyle = css`
+  display: block;
+`;
 
 const MetaImage = ({
   image,
@@ -29,7 +34,7 @@ const MetaImage = ({
   const title = convertFieldWithFallback(image, 'title', '');
   const alt = convertFieldWithFallback(image, 'alttext', '');
   const imageAction = (
-    <Button onClick={toggleImageSearchLightBox}>
+    <Button css={metaImageButtonStyle} onClick={toggleImageSearchLightBox}>
       {t('learningResourceForm.metaImage.change')}
     </Button>
   );
@@ -38,7 +43,7 @@ const MetaImage = ({
     copyright: t('learningResourceForm.metaImage.copyright'),
   };
   return (
-    <React.Fragment>
+    <Fragment>
       <div {...formClasses('meta-image')}>
         <img src={image.imageUrl} alt={alt} />
         <MetaInformation
@@ -56,7 +61,7 @@ const MetaImage = ({
         noBorder
         maxLength={300}
       />
-    </React.Fragment>
+    </Fragment>
   );
 };
 

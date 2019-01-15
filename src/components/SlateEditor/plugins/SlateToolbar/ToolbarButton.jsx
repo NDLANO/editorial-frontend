@@ -26,6 +26,8 @@ import {
   Section,
 } from '@ndla/icons/editor';
 
+import { css } from 'react-emotion';
+import Types from 'slate-prop-types';
 import { toolbarClasses } from './SlateToolbar';
 
 // @ndla/ui icon for Link type in toolbar has the same name as a link/anchor element component.
@@ -50,6 +52,11 @@ const toolbarIcon = t => ({
 });
 /* eslint-enable jsx-a11y/anchor-is-valid */
 
+const toolbarButtonStyle = css`
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  display: inline-block;
+`;
 const ToolbarButton = ({ isActive, type, kind, handleOnClick, t }) => {
   const onMouseDown = e => handleOnClick(e, kind, type);
   return (
@@ -57,7 +64,8 @@ const ToolbarButton = ({ isActive, type, kind, handleOnClick, t }) => {
       stripped
       onMouseDown={onMouseDown}
       data-testid={`toolbar-button-${type}`}
-      data-active={isActive}>
+      data-active={isActive}
+      css={toolbarButtonStyle}>
       <span {...toolbarClasses('icon', isActive ? 'active' : '')}>
         {toolbarIcon(t)[type]}
       </span>

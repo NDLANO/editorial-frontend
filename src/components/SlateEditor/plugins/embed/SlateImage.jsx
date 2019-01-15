@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Figure } from '@ndla/ui';
 import Button from '@ndla/button';
+import { css } from 'react-emotion';
 import { findDOMNode } from 'slate-react';
 import SlateTypes from 'slate-prop-types';
 import config from '../../../../config';
@@ -104,8 +105,10 @@ class SlateImage extends React.Component {
         ) : (
           <Button
             stripped
-            onClick={this.toggleEditModus}
-            style={{ textAlign: 'left' }}>
+            css={css`
+              text-align: left;
+            `}
+            onClick={this.toggleEditModus}>
             <figure {...figureClass}>
               <img
                 src={src}

@@ -8,7 +8,6 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { injectT } from '@ndla/i18n';
-import Button from '@ndla/button';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Agreement } from '@ndla/icons/editor';
@@ -22,6 +21,7 @@ import {
 } from '../../../util/formHelper';
 import { SchemaShape } from '../../../shapes';
 import AgreementFields from './AgreementFields';
+import { FormActionButton } from '../../Form';
 
 export const getInitialModel = (agreement = {}) => ({
   id: agreement.id,
@@ -122,13 +122,16 @@ class AgreementForm extends Component {
             bindInput={bindInput}
           />
         </div>
-        <Field right {...classes('form-actions')}>
-          <Button outline onClick={history.goBack} disabled={isSaving}>
+        <Field right>
+          <FormActionButton
+            outline
+            onClick={history.goBack}
+            disabled={isSaving}>
             {t('form.abort')}
-          </Button>
-          <Button submit disabled={false}>
+          </FormActionButton>
+          <FormActionButton submit disabled={false}>
             {t('form.save')}
-          </Button>
+          </FormActionButton>
         </Field>
       </form>
     );

@@ -14,32 +14,37 @@ import Resource from './Resource';
 import {
   deleteTopicResource,
   fetchResourceFilter,
-  updateResourceRelevance,
+  createResourceFilter,
+  updateResourceFilter,
+  deleteResourceFilter,
   updateTopicResource,
 } from '../../../modules/taxonomy';
+import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
 import WarningModal from '../../../components/WarningModal';
 import { classes } from './ResourceGroup';
-import {
-  RESOURCE_FILTER_CORE,
-  RESOURCE_FILTER_SUPPLEMENTARY,
-} from '../../../constants';
+
 import config from '../../../config';
 
 class ResourceItems extends React.PureComponent {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      activeFilters: {},
+      filterPickerId: '',
+    };
     this.onDelete = this.onDelete.bind(this);
-    this.toggleRelevance = this.toggleRelevance.bind(this);
+    this.onFilterSubmit = this.onFilterSubmit.bind(this);
+    this.updateFilter = this.updateFilter.bind(this);
+    this.toggleFilterPicker = this.toggleFilterPicker.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
   }
 
   async onDelete(id) {
     try {
-      this.setState({ deleteId: '' });
+      this.setState({ deleteId: '', error: '' });
       await deleteTopicResource(id);
       this.props.refreshResources();
     } catch (e) {
@@ -65,48 +70,112 @@ class ResourceItems extends React.PureComponent {
     }
   }
 
-  async toggleRelevance(resourceId, relevance) {
-    const { activeFilter, locale, refreshResources } = this.props;
-    const newRelevance =
-      relevance === RESOURCE_FILTER_CORE
-        ? RESOURCE_FILTER_SUPPLEMENTARY
-        : RESOURCE_FILTER_CORE;
-    const resourceFilters = await fetchResourceFilter(resourceId, locale);
-    const fetchedFilter = resourceFilters.find(
-      filter => filter.id === activeFilter,
-    );
-    const ok = fetchedFilter
-      ? await updateResourceRelevance(fetchedFilter.connectionId, newRelevance)
-      : false;
-
-    if (ok) refreshResources();
+  async onFilterSubmit(resourceId) {
+    try {
+      const { locale, refreshResources } = this.props;
+      const { activeFilters } = this.state;
+      this.setState({ error: '' });
+      const resourceFilters = await fetchResourceFilter(resourceId, locale);
+      const [
+        createItems,
+        deleteItems,
+        updateItems,
+      ] = sortIntoCreateDeleteUpdate({
+        changedItems: activeFilters[resourceId],
+        originalItems: resourceFilters,
+        updateProperty: 'relevanceId',
+      });
+      await Promise.all([
+        ...createItems.map(({ id: filterId, ...filter }) =>
+          createResourceFilter({ filterId, resourceId, ...filter }),
+        ),
+        ...updateItems.map(filter =>
+          updateResourceFilter(filter.connectionId, filter),
+        ),
+        ...deleteItems.map(filter => deleteResourceFilter(filter.connectionId)),
+      ]);
+      refreshResources();
+      this.toggleFilterPicker(resourceId);
+    } catch (e) {
+      this.setState({
+        error: `${this.props.t('taxonomy.errorMessage')}: ${e.message}`,
+        filterPickerId: '',
+      });
+      handleError(e);
+    }
   }
 
   toggleDelete(id) {
     this.setState({ deleteId: id });
   }
 
+  async toggleFilterPicker(id) {
+    const { filterPickerId } = this.state;
+    const { locale } = this.props;
+    const isOpen = filterPickerId === id;
+    if (!isOpen) {
+      const resourceFilters = await fetchResourceFilter(id, locale);
+      this.setState(prevState => ({
+        activeFilters: {
+          ...prevState.activeFilters,
+          [id]: resourceFilters,
+        },
+        filterPickerId: id,
+      }));
+    } else {
+      this.setState({
+        filterPickerId: '',
+      });
+    }
+  }
+
+  updateFilter(resourceId, filterToUpdate, relevanceId, remove) {
+    this.setState(prevState => {
+      const currentFilters = prevState.activeFilters[resourceId];
+      const newFilters = currentFilters.filter(
+        filter => filter.id !== filterToUpdate.id,
+      );
+      if (!remove) {
+        newFilters.push({ ...filterToUpdate, relevanceId });
+      }
+      return {
+        activeFilters: {
+          ...prevState.activeFilters,
+          [resourceId]: newFilters,
+        },
+      };
+    });
+  }
+
   render() {
-    const { contentType, resources, t, activeFilter } = this.props;
-    const { deleteId, error } = this.state;
+    const {
+      contentType,
+      resources,
+      t,
+      currentTopic,
+      currentSubject,
+    } = this.props;
+    const { deleteId, error, filterPickerId, activeFilters } = this.state;
     return (
       <ul {...classes('list')}>
         <MakeDndList
           onDragEnd={this.onDragEnd}
-          disableDnd={!config.enableFullTaxonomy}>
+          disableDnd={!config.enableFullTaxonomy || !!filterPickerId}>
           {resources.map(resource => (
             <Resource
               contentType={contentType}
+              showFilterPicker={filterPickerId === resource.id}
+              currentSubject={currentSubject}
+              onFilterChange={this.updateFilter}
+              onFilterSubmit={this.onFilterSubmit}
+              toggleFilterPicker={this.toggleFilterPicker}
               name={resource.name}
               id={resource.id}
               key={resource.id}
-              onDelete={() => this.toggleDelete(resource.connectionId)}
-              toggleRelevance={
-                activeFilter
-                  ? () => this.toggleRelevance(resource.id, resource.relevance)
-                  : undefined
-              }
-              relevance={resource.relevance}
+              onDelete={this.toggleDelete}
+              connectionId={resource.connectionId}
+              currentTopic={currentTopic}
+              activeFilters={activeFilters[resource.id]}
             />
           ))}
         </MakeDndList>
@@ -143,6 +212,13 @@ ResourceItems.propTypes = {
   classes: PropTypes.func,
   refreshResources: PropTypes.func.isRequired,
   activeFilter: PropTypes.string,
+  currentTopic: PropTypes.shape({
+    filter: PropTypes.array,
+  }),
+  currentSubject: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  }),
 };
 
 export default injectT(ResourceItems);

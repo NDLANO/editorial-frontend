@@ -742,6 +742,7 @@ const phrases = {
     resource: {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
+      chooseFilter: 'Koble til filter',
     },
     jumpToResources: 'Hopp til ressurser',
     removeLink: 'Fjern link',

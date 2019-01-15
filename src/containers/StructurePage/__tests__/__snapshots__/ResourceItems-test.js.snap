@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Can toggle relevance when one filter is chosen 1`] = `
+exports[`matches snapshot 1`] = `
 <ul
   class="c-topic-resource__list"
 >
@@ -74,19 +74,8 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
             Kontrast og balanse i grafisk design
           </h1>
         </div>
-        <label
-          class="c-toggleSwitch c-toggleSwitch--large"
-        >
-          <input
-            data-testid="toggleRelevance-urn:resource:1:159742"
-            type="checkbox"
-          />
-          <span
-            class="c-toggleSwitch__slider c-toggleSwitch__slider--large"
-          />
-        </label>
         <button
-          class="c-button c-button--stripped"
+          class="css-1juhdny emotion-0"
           type="button"
         >
           <svg
@@ -183,19 +172,8 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
             Hvorfor bruker vi mediene?
           </h1>
         </div>
-        <label
-          class="c-toggleSwitch c-toggleSwitch--large"
-        >
-          <input
-            data-testid="toggleRelevance-urn:resource:1:166022"
-            type="checkbox"
-          />
-          <span
-            class="c-toggleSwitch__slider c-toggleSwitch__slider--large"
-          />
-        </label>
         <button
-          class="c-button c-button--stripped"
+          class="css-1juhdny emotion-0"
           type="button"
         >
           <svg
@@ -292,19 +270,8 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
             Medieundersøkelser og mediebruk
           </h1>
         </div>
-        <label
-          class="c-toggleSwitch c-toggleSwitch--large"
-        >
-          <input
-            data-testid="toggleRelevance-urn:resource:1:167859"
-            type="checkbox"
-          />
-          <span
-            class="c-toggleSwitch__slider c-toggleSwitch__slider--large"
-          />
-        </label>
         <button
-          class="c-button c-button--stripped"
+          class="css-1juhdny emotion-0"
           type="button"
         >
           <svg
@@ -401,19 +368,8 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
             Mediebruk og statistikk
           </h1>
         </div>
-        <label
-          class="c-toggleSwitch c-toggleSwitch--large"
-        >
-          <input
-            data-testid="toggleRelevance-urn:resource:1:169735"
-            type="checkbox"
-          />
-          <span
-            class="c-toggleSwitch__slider c-toggleSwitch__slider--large"
-          />
-        </label>
         <button
-          class="c-button c-button--stripped"
+          class="css-1juhdny emotion-0"
           type="button"
         >
           <svg
@@ -510,19 +466,8 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
             Identitet og mediebruk
           </h1>
         </div>
-        <label
-          class="c-toggleSwitch c-toggleSwitch--large"
-        >
-          <input
-            data-testid="toggleRelevance-urn:resource:1:178253"
-            type="checkbox"
-          />
-          <span
-            class="c-toggleSwitch__slider c-toggleSwitch__slider--large"
-          />
-        </label>
         <button
-          class="c-button c-button--stripped"
+          class="css-1juhdny emotion-0"
           type="button"
         >
           <svg
@@ -619,19 +564,8 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
             Mediepåvirkning
           </h1>
         </div>
-        <label
-          class="c-toggleSwitch c-toggleSwitch--large"
-        >
-          <input
-            data-testid="toggleRelevance-urn:resource:1:183249"
-            type="checkbox"
-          />
-          <span
-            class="c-toggleSwitch__slider c-toggleSwitch__slider--large"
-          />
-        </label>
         <button
-          class="c-button c-button--stripped"
+          class="css-1juhdny emotion-0"
           type="button"
         >
           <svg

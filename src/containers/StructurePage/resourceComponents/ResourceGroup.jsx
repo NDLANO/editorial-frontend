@@ -8,15 +8,13 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { Plus } from '@ndla/icons/action';
 import BEMHelper from 'react-bem-helper';
-
+import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
-import config from '../../../config';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -52,24 +50,21 @@ class ResourceGroup extends PureComponent {
       refreshResources,
       activeFilter,
       locale,
+      currentTopic,
+      currentSubject,
     } = this.props;
 
     return (
       <React.Fragment>
         <Accordion
           addButton={
-            config.enableFullTaxonomy && (
-              <Button
-                {...classes('add-button')}
-                stripped
-                onClick={this.toggleAddModal}>
-                <Plus />
-                {t('taxonomy.addResource')}
-              </Button>
-            )
+            <AddTopicResourceButton stripped onClick={this.toggleAddModal}>
+              <Plus />
+              {t('taxonomy.addResource')}
+            </AddTopicResourceButton>
           }
           handleToggle={this.handleToggle}
-          resourceGroup
+          appearance="resourceGroup"
           header={resource.name}
           hidden={topicResource.resources ? this.state.displayResource : true}>
           {topicResource.resources && (
@@ -79,12 +74,15 @@ class ResourceGroup extends PureComponent {
               refreshResources={refreshResources}
               activeFilter={activeFilter}
               locale={locale}
+              currentTopic={currentTopic}
+              currentSubject={currentSubject}
             />
           )}
         </Accordion>
         {this.state.showAddModal && (
           <AddResourceModal
             type={resource.id}
+            allowPaste={resource.id !== 'urn:resourcetype:learningPath'}
             topicId={params.topic3 || params.topic2 || params.topic1}
             refreshResources={refreshResources}
             onClose={this.toggleAddModal}
@@ -110,6 +108,13 @@ ResourceGroup.propTypes = {
   refreshResources: PropTypes.func,
   activeFilter: PropTypes.string,
   locale: PropTypes.string,
+  currentTopic: PropTypes.shape({
+    filter: PropTypes.array,
+  }),
+  currentSubject: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  }),
 };
 
 export default injectT(ResourceGroup);

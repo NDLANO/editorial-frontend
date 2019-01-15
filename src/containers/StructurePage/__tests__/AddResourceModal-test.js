@@ -50,6 +50,7 @@ const wrapper = props =>
       <MemoryRouter>
         <AddResourceModal
           topicId="topicId2"
+          allowPaste
           t={() => 'injected'}
           type={resourceType}
           onClose={() => {}}

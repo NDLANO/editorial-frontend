@@ -16,7 +16,6 @@ import Accordion, {
   AccordionBar,
   AccordionPanel,
 } from '@ndla/accordion';
-import Button from '@ndla/button';
 import reformed from '../../../components/reformed';
 import validateSchema, {
   checkTouchedInvalidField,
@@ -40,6 +39,7 @@ import {
   FormWorkflow,
   FormCopyright,
   FormHeader,
+  FormActionButton,
   formClasses,
   WarningModalWrapper,
 } from '../../Form';
@@ -372,12 +372,13 @@ class LearningResourceForm extends Component {
             </AccordionWrapper>
           )}
         </Accordion>
-        <Field right {...formClasses('form-actions')}>
+        <Field right>
           {error && <span className="c-errorMessage">{error}</span>}
           {model.id && (
-            <Button onClick={() => this.setState({ showResetModal: true })}>
+            <FormActionButton
+              onClick={() => this.setState({ showResetModal: true })}>
               {t('form.resetToProd.button')}
-            </Button>
+            </FormActionButton>
           )}
 
           <WarningModal
@@ -395,9 +396,12 @@ class LearningResourceForm extends Component {
             ]}
             onCancel={() => this.setState({ showResetModal: false })}
           />
-          <Button outline onClick={history.goBack} disabled={isSaving}>
+          <FormActionButton
+            outline
+            onClick={history.goBack}
+            disabled={isSaving}>
             {t('form.abort')}
-          </Button>
+          </FormActionButton>
           <SaveButton
             data-testid="saveLearningResourceButton"
             isSaving={isSaving}

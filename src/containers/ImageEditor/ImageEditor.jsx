@@ -10,6 +10,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import Button from '@ndla/button';
+import { colors } from '@ndla/core';
+import styled from 'react-emotion';
 import defined from 'defined';
 import Types from 'slate-prop-types';
 import { Crop, FocalPoint } from '@ndla/icons/editor';
@@ -24,6 +26,21 @@ export const classes = new BEMHelper({
   name: 'image-editor',
   prefix: 'c-',
 });
+
+const StyledImageEditorMenu = styled('div')`
+  color: white;
+  background-color: black;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const StyledImageEditorEditMode = styled('div')`
+  position: relative;
+  z-index: 99;
+  background-color: ${colors.brand.grey};
+  border: 1px solid ${colors.brand.greyLight};
+`;
 
 const aligmnents = ['left', 'center', 'right'];
 
@@ -150,9 +167,9 @@ class ImageEditor extends Component {
 
     return (
       <div {...classes()}>
-        <div {...classes('edit')}>
+        <StyledImageEditorEditMode>
           <div>
-            <div {...classes('menu')}>
+            <StyledImageEditorMenu>
               {aligmnents.map(aligment => (
                 <ImageAlignButton
                   key={`align_${aligment}`}
@@ -161,9 +178,9 @@ class ImageEditor extends Component {
                   currentAlign={this.state.align}
                 />
               ))}
-            </div>
+            </StyledImageEditorMenu>
             {this.state.align === 'left' || this.state.align === 'right' ? (
-              <div {...classes('menu')}>
+              <StyledImageEditorMenu>
                 {sizes.map(size => (
                   <ImageSizeButton
                     key={`size_${size}`}
@@ -172,7 +189,7 @@ class ImageEditor extends Component {
                     currentSize={this.state.size}
                   />
                 ))}
-              </div>
+              </StyledImageEditorMenu>
             ) : (
               ''
             )}
@@ -184,7 +201,7 @@ class ImageEditor extends Component {
             transformData={this.state.transformData}
             editType={this.state.editType}
           />
-          <div {...classes('menu')}>
+          <StyledImageEditorMenu>
             <Button
               stripped
               onClick={evt => this.onEditorTypeSet(evt, 'focalPoint')}>
@@ -208,8 +225,8 @@ class ImageEditor extends Component {
             <Button stripped onClick={evt => this.onEditorTypeSet(evt, 'crop')}>
               <Crop />
             </Button>
-          </div>
-        </div>
+          </StyledImageEditorMenu>
+        </StyledImageEditorEditMode>
       </div>
     );
   }

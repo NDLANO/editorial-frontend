@@ -43,55 +43,6 @@
   }
 }
 
-.c-addButton {
-  height: 100%;
-  margin-left: auto;
-  padding: 0 var(--spacing--small);
-  white-space: nowrap;
-  font-size: 1.1rem;
-  background: linear-gradient(
-    var(--lighter-color),
-    var(--taxonomy-color) 50%,
-    var(--lighter-color) 100%
-  );
-
-  &:hover {
-    color: white;
-  }
-
-  &__editMode {
-    display: flex;
-    height: 100%;
-    margin-left: auto;
-    position: absolute;
-    right: 0;
-
-    & > input {
-      margin: calc(var(--spacing--small) / 2);
-    }
-
-    & > button,
-    & > button:hover {
-      background-color: var(--gray-2);
-      color: white;
-      min-width: 50px;
-      height: 50px;
-    }
-
-    & svg {
-      height: 38px;
-      width: 38px;
-    }
-  }
-
-  &__errorMessage {
-    color: var(--red-1);
-    position: absolute;
-    right: 55px;
-    top: 50px;
-  }
-}
-
 .c-roundIcon {
   display: flex;
   align-items: center;

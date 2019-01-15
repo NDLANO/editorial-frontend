@@ -9,9 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
-import Button from '@ndla/button';
-import { Cross } from '@ndla/icons/action';
 import { EditorShape } from '../../../../shapes';
+import DeleteButton from '../../../DeleteButton';
 
 const DetailsBox = props => {
   const { node, editor } = props;
@@ -23,12 +22,7 @@ const DetailsBox = props => {
   return (
     <details {...props.attributes} open>
       {props.children}
-      <Button
-        stripped
-        onClick={onRemoveClick}
-        className="c-details__delete-button">
-        <Cross />
-      </Button>
+      <DeleteButton stripped onClick={onRemoveClick} />
     </details>
   );
 };

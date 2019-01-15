@@ -8,16 +8,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
+import styled from 'react-emotion';
 import Types from 'slate-prop-types';
-import Button from '@ndla/button';
-import { Cross } from '@ndla/icons/action';
 import { EditorShape } from '../../../../shapes';
+import DeleteButton from '../../../DeleteButton';
 
-const classes = new BEMHelper({
-  name: 'bodybox',
-  prefix: 'c-',
-});
+const StyledBodyBox = styled('div')`
+  position: relative;
+`;
 
 const SlateBodyBox = props => {
   const { node, editor } = props;
@@ -26,12 +24,10 @@ const SlateBodyBox = props => {
     editor.removeNodeByKey(node.key);
   };
   return (
-    <div {...props.attributes} {...classes()}>
+    <StyledBodyBox {...props.attributes}>
       {props.children}
-      <Button stripped onClick={onRemoveClick} {...classes('delete-button')}>
-        <Cross />
-      </Button>
-    </div>
+      <DeleteButton stripped onClick={onRemoveClick} />
+    </StyledBodyBox>
   );
 };
 

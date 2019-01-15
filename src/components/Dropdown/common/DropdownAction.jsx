@@ -7,10 +7,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
 import Downshift from 'downshift';
 import { Cross, ExpandLess, ExpandMore } from '@ndla/icons/action';
-import { dropDownClasses } from './dropDownClasses';
+import DropdownActionButton from './DropdownActionButton';
 
 const DropdownAction = ({
   multiSelect,
@@ -23,9 +22,9 @@ const DropdownAction = ({
 }) => {
   if (selectedItem && !multiSelect) {
     return (
-      <Button {...dropDownClasses('action')} onClick={clearSelection} stripped>
+      <DropdownActionButton onClick={clearSelection} stripped>
         <Cross className="c-icon--medium" />
-      </Button>
+      </DropdownActionButton>
     );
   }
   let onClick;
@@ -35,13 +34,13 @@ const DropdownAction = ({
     onClick = isOpen ? closeMenu : openMenu;
   }
   return (
-    <Button {...dropDownClasses('action')} onClick={onClick} stripped>
+    <DropdownActionButton onClick={onClick} stripped>
       {isOpen ? (
         <ExpandLess className="c-icon--medium" />
       ) : (
         <ExpandMore className="c-icon--medium" />
       )}
-    </Button>
+    </DropdownActionButton>
   );
 };
 

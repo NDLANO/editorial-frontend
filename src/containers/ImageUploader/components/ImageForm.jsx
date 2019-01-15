@@ -14,7 +14,6 @@ import Accordion, {
   AccordionPanel,
 } from '@ndla/accordion';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
 import { withRouter } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema, {
@@ -32,6 +31,7 @@ import ImageContent from './ImageContent';
 import { SchemaShape } from '../../../shapes';
 import {
   FormHeader,
+  FormActionButton,
   formClasses as classes,
   WarningModalWrapper,
 } from '../../Form';
@@ -219,15 +219,18 @@ class ImageForm extends Component {
             </AccordionWrapper>
           )}
         </Accordion>
-        <Field right {...classes('form-actions')}>
+        <Field right>
           {inModal ? (
-            <Button outline onClick={closeModal}>
-              Avbryt
-            </Button>
-          ) : (
-            <Button onClick={history.goBack} outline disabled={isSaving}>
+            <FormActionButton outline onClick={closeModal}>
               {t('form.abort')}
-            </Button>
+            </FormActionButton>
+          ) : (
+            <FormActionButton
+              onClick={history.goBack}
+              outline
+              disabled={isSaving}>
+              {t('form.abort')}
+            </FormActionButton>
           )}
           <SaveButton
             isSaving={isSaving}

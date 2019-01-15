@@ -10,36 +10,8 @@ import {
   ErrorLabel,
   RemoveConnectionButton,
   StyledPrimaryConnectionButton,
-  StyledDuplicateConnectionLabel,
 } from '../../../style/LearningResourceTaxonomyStyles';
-
-const renderTopic = ({ topic, retriveBreadCrumbs, sharedTopicLabel }) => (
-  topic.topicConnections.length > 0 &&
-    topic.topicConnections
-      .filter(topicConnection => !topicConnection.isPrimary)
-      .map(topicConnection => {
-        const topicConnectionsBreadCrumbs = retriveBreadCrumbs(
-          topicConnection.paths[0],
-        );
-        return (
-          <Connections shared key={topicConnection.paths[0]}>
-            <StyledDuplicateConnectionLabel>
-              {sharedTopicLabel}
-            </StyledDuplicateConnectionLabel>
-            <BreadCrumb>
-              {topicConnectionsBreadCrumbs.map((path, index) => (
-                <Fragment key={`${topic.id}_${index}`}>
-                  <span>{path.name}</span>
-                  <ChevronRight />
-                </Fragment>
-              ))}
-              <span>{topic.name}</span>
-              <ChevronRight />
-            </BreadCrumb>
-          </Connections>
-        );
-      })
-)
+import SharedTopicConnections from './SharedTopicConnections';
 
 const ActiveTopicConnections = ({
   retriveBreadCrumbs,
@@ -52,7 +24,6 @@ const ActiveTopicConnections = ({
     {activeTopics.map(topic => {
       const breadCrumbs = retriveBreadCrumbs(topic.path);
       if (!breadCrumbs) {
-        // No breadcrumbs means connection isnt available, show as error 
         return (
           <Connections key={topic.id} error>
             <ErrorLabel>
@@ -69,7 +40,6 @@ const ActiveTopicConnections = ({
           </Connections>
         );
       }
-      // Render connection
       return (
         <Fragment key={topic.id}>
           <Connections>
@@ -93,7 +63,10 @@ const ActiveTopicConnections = ({
               <Cross />
             </RemoveConnectionButton>
           </Connections>
-          {renderTopic({ topic, retriveBreadCrumbs, sharedTopicLabel: t('form.topics.sharedTopic') })}
+          <SharedTopicConnections
+            topic={topic}
+            retriveBreadCrumbs={retriveBreadCrumbs}
+          />
         </Fragment>
       );
     })}

@@ -107,6 +107,7 @@
     "jsplumb": "^2.8.0",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.11",
+    "monaco-editor": "^0.15.6",
     "ndla-slate-edit-list": "^0.12.3",
     "ndla-slate-edit-table": "^0.1.1",
     "polished": "^2.2.0",

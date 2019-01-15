@@ -75,7 +75,6 @@ const TopicArticleMetadata = ({
 
 TopicArticleMetadata.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  bindInput: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 

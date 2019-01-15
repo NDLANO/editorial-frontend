@@ -6,7 +6,7 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
@@ -59,7 +59,7 @@ const findFootnotes = content =>
     .filter(footnote => footnote.data.size > 0)
     .map(footnoteNode => footnoteNode.data.toJS());
 
-class LearningResourceContent extends PureComponent {
+class LearningResourceContent extends Component {
   constructor(props) {
     super(props);
     const { locale } = props;

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
@@ -100,7 +100,7 @@ export const getInitialModel = (article = {}, language) => {
   };
 };
 
-class LearningResourceForm extends PureComponent {
+class LearningResourceForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -292,7 +292,6 @@ class LearningResourceForm extends PureComponent {
         component: () => (
           <LearningResourceMetadata
             commonFieldProps={commonFieldProps}
-            bindInput={bindInput}
             tags={tags}
             model={model}
           />

@@ -86,7 +86,7 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           />
         </label>
         <button
-          class="c-button c-button--stripped"
+          class="css-1juhdny emotion-0"
           type="button"
         >
           <svg
@@ -195,7 +195,7 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           />
         </label>
         <button
-          class="c-button c-button--stripped"
+          class="css-1juhdny emotion-0"
           type="button"
         >
           <svg
@@ -304,7 +304,7 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           />
         </label>
         <button
-          class="c-button c-button--stripped"
+          class="css-1juhdny emotion-0"
           type="button"
         >
           <svg
@@ -413,7 +413,7 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           />
         </label>
         <button
-          class="c-button c-button--stripped"
+          class="css-1juhdny emotion-0"
           type="button"
         >
           <svg
@@ -522,7 +522,7 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           />
         </label>
         <button
-          class="c-button c-button--stripped"
+          class="css-1juhdny emotion-0"
           type="button"
         >
           <svg
@@ -631,7 +631,7 @@ exports[`Can toggle relevance when one filter is chosen 1`] = `
           />
         </label>
         <button
-          class="c-button c-button--stripped"
+          class="css-1juhdny emotion-0"
           type="button"
         >
           <svg

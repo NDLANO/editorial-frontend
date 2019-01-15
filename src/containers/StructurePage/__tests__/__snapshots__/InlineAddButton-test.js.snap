@@ -2,7 +2,7 @@
 
 exports[`Goes to edit mode, handles input and calls action prop 1`] = `
 <button
-  class="c-button c-button--stripped c-addButton"
+  class="css-h7drtu emotion-0"
   data-testid="AddSubjectButton"
   type="button"
 >
@@ -36,15 +36,16 @@ exports[`Goes to edit mode, handles input and calls action prop 1`] = `
 
 exports[`Goes to edit mode, handles input and calls action prop 2`] = `
 <div
-  class="c-addButton__editMode"
+  class="css-1hzwzoe emotion-2"
 >
   <input
+    class="css-yx9wau emotion-0"
     data-testid="addSubjectInputField"
     type="text"
     value="Elefant"
   />
   <button
-    class="c-button c-button--stripped"
+    class="css-1m2yjhd emotion-1"
     type="button"
   >
     <svg
@@ -77,15 +78,16 @@ exports[`Goes to edit mode, handles input and calls action prop 2`] = `
 
 exports[`Goes to edit mode, handles input and calls action prop 3`] = `
 <div
-  class="c-addButton__editMode"
+  class="css-1hzwzoe emotion-2"
 >
   <input
+    class="css-yx9wau emotion-0"
     data-testid="addSubjectInputField"
     type="text"
     value="Elefant"
   />
   <button
-    class="c-button c-button--stripped"
+    class="css-1m2yjhd emotion-1"
     disabled=""
     type="button"
   >

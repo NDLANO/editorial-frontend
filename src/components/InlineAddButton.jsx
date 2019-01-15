@@ -6,22 +6,69 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import styled, { css } from 'react-emotion';
 import Button from '@ndla/button';
+import { colors, spacing } from '@ndla/core';
 import { injectT } from '@ndla/i18n';
 import { Done } from '@ndla/icons/editor';
 import { Plus } from '@ndla/icons/action';
-import BEMHelper from 'react-bem-helper';
 import handleError from '../util/handleError';
 import Spinner from './Spinner';
 
-const classes = new BEMHelper({
-  name: 'addButton',
-  prefix: 'c-',
-});
+const addButtonStyle = css`
+  height: 50px;
+  margin-left: auto;
+  padding: 0 ${spacing.small};
+  white-space: nowrap;
+  font-size: 1.1rem;
+  background: linear-gradient(
+    rgba(226, 226, 226, 0.1),
+    ${colors.brand.secondary} 50%,
+    rgba(226, 226, 226, 0.1) 100%
+  );
 
-export class InlineAddButton extends React.PureComponent {
+  &:hover {
+    color: white;
+  }
+`;
+
+const StyledEditMode = styled('div')`
+  display: flex;
+  height: 100%;
+  margin-left: auto;
+  position: absolute;
+  right: 0;
+
+  & svg {
+    height: 38px;
+    width: 38px;
+  }
+`;
+
+const StyledErrorMessage = styled('span')`
+  color: ${colors.support.red};
+  position: absolute;
+  right: 55px;
+  top: 50px;
+`;
+
+const StyledInputField = styled('input')`
+  margin: calc(${spacing.small} / 2);
+`;
+
+const saveButtonStyle = css`
+  &,
+  &:hover {
+    background-color: ${colors.brand.greyDark};
+    color: white;
+    min-width: 50px;
+    height: 50px;
+  }
+`;
+
+export class InlineAddButton extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,9 +113,9 @@ export class InlineAddButton extends React.PureComponent {
     const { status, inputValue } = this.state;
 
     return status === 'edit' || status === 'loading' || status === 'error' ? (
-      <React.Fragment>
-        <div {...classes('editMode')}>
-          <input
+      <Fragment>
+        <StyledEditMode>
+          <StyledInputField
             type="text"
             autoFocus //  eslint-disable-line
             /* allow autofocus when it happens when clicking a dialog and not at page load
@@ -80,25 +127,26 @@ export class InlineAddButton extends React.PureComponent {
           />
           <Button
             stripped
+            css={saveButtonStyle}
             disabled={status === 'loading'}
             onClick={this.handleClick}>
             {status === 'loading' ? <Spinner cssModifier="small" /> : <Done />}
           </Button>
-        </div>
+        </StyledEditMode>
         {status === 'error' && (
-          <span {...classes('errorMessage')}>
+          <StyledErrorMessage>
             {this.props.t('taxonomy.errorMessage')}
-          </span>
+          </StyledErrorMessage>
         )}
-      </React.Fragment>
+      </Fragment>
     ) : (
       <Button
+        css={addButtonStyle}
         stripped
         data-testid="AddSubjectButton"
         onClick={() => {
           this.setState({ status: 'edit' });
-        }}
-        {...classes('')}>
+        }}>
         <Plus />
         {title}
       </Button>

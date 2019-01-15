@@ -69,9 +69,9 @@ class SubFolders extends React.PureComponent {
             disableDnd={!config.enableFullTaxonomy || !isMainActive}>
             {filteredTopics.map(topic => (
               <FolderItem
+                key={topic.id}
                 {...rest}
                 {...topic}
-                key={topic.id}
                 active={match.url.includes(topic.id.replace('urn:', ''))}
                 activeFilters={activeFilters}
                 match={match}

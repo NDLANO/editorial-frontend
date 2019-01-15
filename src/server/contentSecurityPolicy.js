@@ -121,6 +121,9 @@ const frameSrc = (() => {
     'https://www.imdb.com',
     'https://e.issuu.com',
     'https://www.geogebra.org',
+    'lab.concord.org',
+    'worldbank.org',
+    '*.worldbank.org',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

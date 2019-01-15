@@ -9,9 +9,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
+import { css } from 'react-emotion';
+import { colors } from '@ndla/core';
 import { Cross, Plus } from '@ndla/icons/action';
 import { H5P, Camera, Video } from '@ndla/icons/editor';
 import { visualElementClasses } from '../TopicArticlePage/components/TopicArticleVisualElement';
+
+const visualElementButtonStyle = css`
+  height: 40px;
+  width: 40px;
+  border: 1px solid ${colors.brand.grey};
+  border-radius: 25px;
+  margin-right: 0.3rem;
+  color: ${colors.brand.grey};
+
+  &:focus,
+  &:hover {
+    color: ${colors.brand.grey};
+    border: 1px solid ${colors.brand.grey};
+    border-radius: 25px;
+  }
+`;
 
 class VisualElementMenu extends Component {
   constructor(props) {
@@ -39,26 +57,26 @@ class VisualElementMenu extends Component {
       <div>
         <Button
           stripped
-          {...visualElementClasses('type-button')}
+          css={visualElementButtonStyle}
           onClick={this.toggleIsOpen}>
           {this.state.isOpen ? <Cross /> : <Plus />}
         </Button>
         <div {...visualElementClasses('type', typeClassName)}>
           <Button
             stripped
-            {...visualElementClasses('type-button')}
+            css={visualElementButtonStyle}
             onClick={() => this.handleSelect('image')}>
             <Camera />
           </Button>
           <Button
             stripped
-            {...visualElementClasses('type-button')}
+            css={visualElementButtonStyle}
             onClick={() => this.handleSelect('video')}>
             <Video />
           </Button>
           <Button
             stripped
-            {...visualElementClasses('type-button')}
+            css={visualElementButtonStyle}
             onClick={() => this.handleSelect('h5p')}>
             <H5P />
           </Button>

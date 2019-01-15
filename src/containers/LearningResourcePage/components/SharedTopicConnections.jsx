@@ -8,9 +8,11 @@ import {
   StyledDuplicateConnectionLabel,
 } from '../../../style/LearningResourceTaxonomyStyles';
 
-export const sharedTopicConnections = ({ topic, retriveBreadCrumbs, t }) =>
-  topic.topicConnections.length > 0
-    ? topic.topicConnections
+export const sharedTopicConnections = ({ topic, retriveBreadCrumbs, t }) => {
+    if (topic.topicConnections.length === 0) {
+        return null;
+    }
+    return topic.topicConnections
         .filter(topicConnection => !topicConnection.isPrimary)
         .map(topicConnection => {
           const topicConnectionsBreadCrumbs = retriveBreadCrumbs(
@@ -33,8 +35,8 @@ export const sharedTopicConnections = ({ topic, retriveBreadCrumbs, t }) =>
               </BreadCrumb>
             </Connections>
           );
-        })
-    : null;
+        });
+    }
 
 sharedTopicConnections.propTypes = {
   topic: PropTypes.object,

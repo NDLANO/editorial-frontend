@@ -43,7 +43,7 @@ class SearchContentForm extends Component {
       search: {
         subjects: searchObject.subjects || '',
         resourceTypes: searchObject['resource-types'] || '',
-        draftStatus: searchObject.draftStatus || '',
+        draftStatus: searchObject['draft-status'] || '',
         query: searchObject.query || '',
         language: searchObject.language || '',
       },

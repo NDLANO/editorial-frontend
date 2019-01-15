@@ -386,12 +386,13 @@ export const footnoteRule = {
 export const blockRules = {
   deserialize(el, next) {
     const block = BLOCK_TAGS[el.tagName.toLowerCase()];
-    if (!block) return;
-    return {
-      object: 'block',
-      type: block,
-      nodes: next(el.childNodes),
-    };
+    if (block) {
+      return {
+        object: 'block',
+        type: block,
+        nodes: next(el.childNodes),
+      };
+    }
   },
   serialize(slateObject, children) {
     if (slateObject.object !== 'block') return;

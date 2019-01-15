@@ -113,7 +113,6 @@ TopicArticleContent.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
   }),
-  bindInput: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 

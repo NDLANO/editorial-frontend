@@ -325,11 +325,7 @@ export const PlainTextField = ({
     )}
     <PlainTextEditor
       id={name}
-      onChange={val =>
-        onChange({
-          target: { name, value: val.value, type: 'SlateEditorValue' },
-        })
-      }
+      onChange={onChange}
       value={value}
       placeholder={placeholder}
       className={className}

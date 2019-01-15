@@ -46,7 +46,7 @@ export const RichTextField = ({
         id={name}
         name={name}
         value={value}
-        onChange={onChange}
+        onChange={change => onChange({ target: { name, value: change.value } })}
         schema={slateSchema}
         submitted={submitted}
         {...rest}

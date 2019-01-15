@@ -409,6 +409,7 @@ class LearningResourceForm extends PureComponent {
         <WarningModalWrapper
           showSaved={showSaved}
           fields={fields}
+          model={model}
           text={t('warningModal.notSaved')}
         />
       </form>

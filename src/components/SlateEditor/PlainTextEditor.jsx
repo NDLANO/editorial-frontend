@@ -11,10 +11,26 @@ import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
 import Types from 'slate-prop-types';
 
-const PlainTextEditor = ({ onChange, value, ...rest }) => (
-  <Editor value={value} onChange={onChange} {...rest} />
-);
-
+class PlainTextEditor extends React.PureComponent {
+  render() {
+    const { onChange, value, ...rest } = this.props;
+    return (
+      <Editor
+        value={value}
+        onChange={val =>
+          onChange({
+            target: {
+              name: rest.id,
+              value: val.value,
+              type: 'SlateEditorValue',
+            },
+          })
+        }
+        {...rest}
+      />
+    );
+  }
+}
 PlainTextEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: Types.value.isRequired,

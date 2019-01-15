@@ -13,6 +13,18 @@ export const ResourceTypeShape = PropTypes.shape({
   resources: PropTypes.arrayOf(ResourceShape),
 });
 
+export const DraftStatusShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+});
+
+export const SubjectShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  contentUri: PropTypes.string,
+  path: PropTypes.string,
+});
+
 export const AudioResultShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,

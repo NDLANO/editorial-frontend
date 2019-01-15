@@ -219,6 +219,7 @@ SearchContentForm.propTypes = {
     subjects: PropTypes.string,
     language: PropTypes.string,
     'resource-types': PropTypes.string,
+    'draft-status': PropTypes.string,
   }),
 };
 

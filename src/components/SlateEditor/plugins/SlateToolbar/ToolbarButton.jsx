@@ -25,6 +25,7 @@ import {
   Heading1,
   Section,
 } from '@ndla/icons/editor';
+import { css } from 'react-emotion';
 import Types from 'slate-prop-types';
 import { toolbarClasses } from './SlateToolbar';
 
@@ -50,6 +51,12 @@ const toolbarIcon = t => ({
 });
 /* eslint-enable jsx-a11y/anchor-is-valid */
 
+const toolbarButtonStyle = css`
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  display: inline-block;
+`;
+
 const ToolbarButton = ({
   value,
   type,
@@ -65,7 +72,8 @@ const ToolbarButton = ({
       stripped
       onMouseDown={onMouseDown}
       data-testid={`toolbar-button-${type}`}
-      data-active={isActive}>
+      data-active={isActive}
+      css={toolbarButtonStyle}>
       <span {...toolbarClasses('icon', isActive ? 'active' : '')}>
         {toolbarIcon(t)[type]}
       </span>

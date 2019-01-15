@@ -1,7 +1,16 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import Button from '@ndla/button';
+import { colors } from '@ndla/core';
+import styled, { css } from 'react-emotion';
 import {
   getElementOffset,
   getClientPos,
@@ -10,10 +19,24 @@ import {
 } from '../../util/imageEditorUtil';
 import { EmbedShape } from '../../shapes';
 
-export const classes = new BEMHelper({
-  name: 'image-editor',
-  prefix: 'c-',
-});
+const focalPointButtonStyle = css`
+  cursor: crosshair;
+`;
+
+const StyledFocalPointMarker = styled('div')`
+  cursor: crosshair;
+  position: absolute;
+  background-color: ${colors.brand.secondary};
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid ${colors.brand.secondary};
+  margin-left: -5px;
+  margin-top: -5px;
+`;
+const StyledFocalPointContainer = styled('div')`
+  position: relative;
+`;
 
 class ImageFocalPointEdit extends React.Component {
   constructor() {
@@ -77,11 +100,11 @@ class ImageFocalPointEdit extends React.Component {
         };
     return (
       <div>
-        <div {...classes('focal-point-container')}>
+        <StyledFocalPointContainer>
           <Button
             stripped
             onClick={this.onImageClick}
-            {...classes('focal-point')}>
+            css={focalPointButtonStyle}>
             <img
               alt={embed.alt}
               ref={focalImg => {
@@ -91,8 +114,8 @@ class ImageFocalPointEdit extends React.Component {
               srcSet={getSrcSets(embed.resource_id, transformData)}
             />
           </Button>
-          <div {...classes('focal-point-marker')} style={style} />
-        </div>
+          <StyledFocalPointMarker style={style} />
+        </StyledFocalPointContainer>
       </div>
     );
   }

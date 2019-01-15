@@ -12,8 +12,30 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Cross } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
+import { css } from 'react-emotion';
+import { spacing } from '@ndla/core';
 import Overlay from '../Overlay';
 import Spinner from '../Spinner';
+
+const closeButtonStyle = css`
+  height: 50px;
+  width: 50px;
+`;
+
+const crossStyle = css`
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+`;
+
+const selectButtonStyle = css`
+  &,
+  &:hover {
+  border-radius: 5px;
+  background-color: white;
+  margin-top: ${spacing.normal};
+  padding: 3px ${spacing.large};
+`;
 
 export const classes = new BEMHelper({
   name: 'taxonomy-lightbox',
@@ -27,24 +49,23 @@ const TaxonomyLightbox = ({
   t,
   loading,
   onClose,
-  whiteContent,
 }) => (
   <div {...classes()}>
     <Overlay onExit={onClose} />
     <div {...classes('wrapper')}>
       <div {...classes('header')}>
         {title}
-        <Button {...classes('close')} stripped onClick={onClose}>
-          <Cross />
+        <Button css={closeButtonStyle} stripped onClick={onClose}>
+          <Cross css={crossStyle} />
         </Button>
       </div>
-      <div {...classes('content', whiteContent && 'whiteContent')}>
+      <div {...classes('content')}>
         {children}
         {onSelect && (
           <Button
             data-testid="taxonomyLightboxButton"
             stripped
-            {...classes('select-button')}
+            css={selectButtonStyle}
             onClick={onSelect}>
             {loading ? <Spinner cssModifier="small" /> : t('form.choose')}
           </Button>
@@ -59,7 +80,6 @@ TaxonomyLightbox.propTypes = {
   loading: PropTypes.bool,
   title: PropTypes.string,
   onSelect: PropTypes.func,
-  whiteContent: PropTypes.bool,
 };
 
 export default injectT(TaxonomyLightbox);

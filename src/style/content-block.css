@@ -17,75 +17,12 @@
   }
 }
 
-.c-bodybox__delete-button,
-.c-related-box__delete-button,
-.c-editor__delete-button,
-.c-details__delete-button {
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  color: red;
-
-  &:hover,
-  &:focus {
-    color: color(red blackness(+20%));
-  }
-}
-
-.c-editor__button {
-  &--red {
-    color: red;
-
-    &:hover,
-    &:focus {
-      color: color(red blackness(+20%));
-    }
-  }
-
-  &--green {
-    color: var(--green-1);
-
-    &:hover,
-    &:focus {
-      color: color(var(--green-1) blackness(+10%));
-    }
-  }
-}
-
-.c-editor__figure-buttons {
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  display: flex;
-  flex-flow: column;
-
-  &--right-adjusted {
-    right: -1rem;
-    top: -0.4rem;
-  }
-
-  & > a {
-    text-decoration: none;
-    line-height: 1.625;
-    box-shadow: none;
-
-    &:hover,
-    &:focus {
-      text-decoration: none;
-    }
-  }
-}
-
 details {
   position: relative;
 }
 
 .c-aside.expanded .c-aside__content > div > .c-bodybox__delete-button {
   position: absolute;
-}
-
-.c-bodybox {
-  position: relative;
 }
 
 .c-related-box {
@@ -142,34 +79,6 @@ details {
 
   &__block-type-container--hidden {
     display: none;
-  }
-
-  &__block-type-button {
-    height: 40px;
-    width: 40px;
-    border: 1px solid var(--gray-3);
-    border-radius: 25px;
-    margin-bottom: 0.1rem;
-    color: var(--gray-3);
-    background-color: white;
-    display: inline-block;
-    margin-right: 0.2rem;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.1s, visibility 0s linear 0.1s;
-
-    &:focus,
-    &:hover {
-      color: var(--gray-3);
-      border: 1px solid var(--gray-3);
-      border-radius: 25px;
-      background-color: white;
-    }
-
-    &--green {
-      border-color: var(--green-1);
-      color: var(--green-1);
-    }
   }
 
   &__block-type {

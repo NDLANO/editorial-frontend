@@ -21,23 +21,6 @@
     }
   }
 
-  &__type-button {
-    height: 40px;
-    width: 40px;
-    border: 1px solid var(--gray-3);
-    border-radius: 25px;
-    margin-right: 0.3rem;
-    color: var(--gray-3);
-
-    &:focus,
-    &:hover {
-      padding: 0.3rem 0.5rem;
-      color: var(--gray-3);
-      border: 1px solid var(--gray-3);
-      border-radius: 25px;
-    }
-  }
-
   &__type {
     display: inline-block;
   }

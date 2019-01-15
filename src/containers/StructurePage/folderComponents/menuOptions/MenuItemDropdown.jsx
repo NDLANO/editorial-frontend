@@ -6,22 +6,43 @@
  *
  */
 
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
+import { spacing } from '@ndla/core';
+import { css } from 'react-emotion';
 import { Done } from '@ndla/icons/editor';
 import Downshift from 'downshift';
 import Fuse from 'fuse.js';
 import { Cross } from '@ndla/icons/action';
 import { Search } from '@ndla/icons/common';
-import handleError from '../../util/handleError';
-import { itemToString } from '../../util/downShiftHelpers';
-import { DropdownMenu, DropdownInput, dropDownClasses } from './common';
-import RoundIcon from '../RoundIcon';
-import Spinner from '../Spinner';
+import handleError from '../../../../util/handleError';
+import { itemToString } from '../../../../util/downShiftHelpers';
+import {
+  DropdownMenu,
+  DropdownInput,
+  DropdownActionButton,
+  dropDownClasses,
+  dropdownActionButtonStyle,
+} from '../../../../components/Dropdown/common';
+import RoundIcon from '../../../../components/RoundIcon';
+import Spinner from '../../../../components/Spinner';
+import MenuItemSaveButton from './MenuItemSaveButton';
+import { StyledErrorMessage } from './MenuItemEditField';
 
-class InlineDropdown extends PureComponent {
+const menuItemStyle = css`
+  display: flex;
+  align-items: center;
+  margin: calc(${spacing.small} / 2);
+`;
+
+const dropdownInputStyle = css`
+  margin-right: 6.5px;
+  max-height: 26px;
+  width: auto;
+`;
+
+class MenuItemDropdown extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -58,14 +79,16 @@ class InlineDropdown extends PureComponent {
   }
 
   async handleSubmit() {
-    if (this.state.selected) {
+    const { selected } = this.state;
+    if (selected) {
+      const { onSubmit, onClose } = this.props;
       this.setState({ status: 'loading' });
       try {
-        await this.props.onSubmit(this.state.selected.id);
-        this.props.onClose();
+        await onSubmit(selected.id);
+        onClose();
         this.setState({ status: 'success' });
-      } catch (e) {
-        handleError(e);
+      } catch (error) {
+        handleError(error);
         this.setState({ status: 'error' });
       }
     }
@@ -80,11 +103,11 @@ class InlineDropdown extends PureComponent {
   }
 
   render() {
-    const { icon, classes, t, placeholder } = this.props;
+    const { icon, t, placeholder } = this.props;
     const { selected, items, status } = this.state;
     return (
-      <React.Fragment>
-        <div {...classes('menuItem')}>
+      <Fragment>
+        <div className={menuItemStyle}>
           <RoundIcon open small icon={icon} />
           <Downshift
             selectedItem={selected}
@@ -95,6 +118,7 @@ class InlineDropdown extends PureComponent {
             {downshiftProps => (
               <div {...dropDownClasses()}>
                 <DropdownInput
+                  css={dropdownInputStyle}
                   testid="inlineDropdownInput"
                   placeholder={placeholder}
                   {...downshiftProps}
@@ -112,22 +136,20 @@ class InlineDropdown extends PureComponent {
                   }}
                 />
                 {selected ? (
-                  <Button
-                    {...dropDownClasses('action')}
+                  <DropdownActionButton
                     onClick={downshiftProps.clearSelection}
                     stripped>
                     <Cross className="c-icon--medium" />
-                  </Button>
+                  </DropdownActionButton>
                 ) : (
-                  <div {...dropDownClasses('action')}>
+                  <div css={dropdownActionButtonStyle}>
                     <Search className="c-icon--medium" />
                   </div>
                 )}
               </div>
             )}
           </Downshift>
-          <Button
-            {...classes('saveButton')}
+          <MenuItemSaveButton
             data-testid="inlineEditSaveButton"
             onClick={this.handleSubmit}>
             {status === 'loading' ? (
@@ -135,21 +157,19 @@ class InlineDropdown extends PureComponent {
             ) : (
               <Done className="c-icon--small" />
             )}
-          </Button>
+          </MenuItemSaveButton>
         </div>
         {status === 'error' && (
-          <div
-            data-testid="inlineEditErrorMessage"
-            {...classes('errorMessage')}>
+          <StyledErrorMessage data-testid="inlineEditErrorMessage">
             {t('taxonomy.errorMessage')}
-          </div>
+          </StyledErrorMessage>
         )}
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
 
-InlineDropdown.propTypes = {
+MenuItemDropdown.propTypes = {
   icon: PropTypes.node,
   onSubmit: PropTypes.func,
   currentVal: PropTypes.string,
@@ -159,4 +179,4 @@ InlineDropdown.propTypes = {
   placeholder: PropTypes.string,
 };
 
-export default injectT(InlineDropdown);
+export default injectT(MenuItemDropdown);

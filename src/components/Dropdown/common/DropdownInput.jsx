@@ -27,6 +27,7 @@ const DropdownInput = props => {
     getInputProps,
     testid,
     placeholder,
+    className,
   } = props;
   if (multiSelect) {
     return (
@@ -39,12 +40,14 @@ const DropdownInput = props => {
       />
     );
   }
+
   return (
     <input
       {...getInputProps({ name, ...inputProps })}
       {...dropDownClasses('single')}
       data-testid={testid}
       placeholder={placeholder}
+      className={className}
     />
   );
 };

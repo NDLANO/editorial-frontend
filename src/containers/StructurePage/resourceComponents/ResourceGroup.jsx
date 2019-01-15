@@ -50,6 +50,8 @@ class ResourceGroup extends PureComponent {
       refreshResources,
       activeFilter,
       locale,
+      currentTopic,
+      currentSubject,
     } = this.props;
 
     return (
@@ -72,6 +74,8 @@ class ResourceGroup extends PureComponent {
               refreshResources={refreshResources}
               activeFilter={activeFilter}
               locale={locale}
+              currentTopic={currentTopic}
+              currentSubject={currentSubject}
             />
           )}
         </Accordion>
@@ -104,6 +108,13 @@ ResourceGroup.propTypes = {
   refreshResources: PropTypes.func,
   activeFilter: PropTypes.string,
   locale: PropTypes.string,
+  currentTopic: PropTypes.shape({
+    filter: PropTypes.array,
+  }),
+  currentSubject: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  }),
 };
 
 export default injectT(ResourceGroup);

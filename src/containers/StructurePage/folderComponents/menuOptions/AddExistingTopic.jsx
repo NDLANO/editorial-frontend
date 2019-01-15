@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 import RoundIcon from '../../../../components/RoundIcon';
 import { fetchTopics, addTopicToTopic } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
-import MenuItemEditField from './MenuItemEditField';
+import MenuItemDropdown from './MenuItemDropdown';
 
 class AddExistingTopic extends React.PureComponent {
   constructor() {
@@ -45,7 +45,7 @@ class AddExistingTopic extends React.PureComponent {
   render() {
     const { t, path, onClose, editMode } = this.props;
     return editMode === 'addExistingTopic' ? (
-      <MenuItemEditField
+      <MenuItemDropdown
         placeholder={t('taxonomy.existingTopic')}
         fetchItems={this.fetchTopicsLocale}
         filter={path.split('/')[1]}

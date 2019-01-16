@@ -55,7 +55,7 @@ const StyledLightbox = styled('div')`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 100;
-  overflow-x: scroll;
+  overflow-x: auto;
 
   @media (max-width: ${breakpoints.tabletWide}) {
     top: 64px;
@@ -70,7 +70,7 @@ const StyledLightbox = styled('div')`
 `;
 
 const StyledLightboxContent = styled('div')`
-  overflow-x: scroll;
+  overflow-x: auto;
   background-color: white;
   margin: 10% auto 0;
   padding: 1em 2em 3em;

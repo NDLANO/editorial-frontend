@@ -21,7 +21,7 @@ import Masthead from '../Masthead';
 import Footer from './components/Footer';
 import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
-import Alerts from '../Messages/Alerts';
+import Messages from '../Messages/Messages';
 import Login from '../Login/Login';
 import Logout from '../Logout/Logout';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
@@ -84,7 +84,7 @@ export class App extends React.Component {
             </Switch>
           </Content>
           <Footer t={t} />
-          <Alerts dispatch={dispatch} messages={messages} />
+          <Messages dispatch={dispatch} messages={messages} />
         </PageContainer>
       </ErrorBoundary>
     );

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import he from 'he';
 
 import EditMathModal from './EditMathModal';
-import { getLocale } from '../../modules/locale/locale';
+import { getLocale } from '../../../../modules/locale/locale';
 
 const mathOpenTag = '<math xmlns="http://www.w3.org/1998/Math/MathML">';
 const mathCloseTag = '</math>';

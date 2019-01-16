@@ -102,6 +102,10 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
+
+    &--whiteContent {
+      background-color: white;
+    }
   }
 
   &__header {

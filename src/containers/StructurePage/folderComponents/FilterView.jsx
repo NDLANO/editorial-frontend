@@ -26,6 +26,7 @@ const FilterView = ({
       <StyledFilterButton
         type="button"
         key={filter.id}
+        data-testid="filter-item"
         className={
           activeFilters.find(filterId => filterId === filter.id)
             ? 'checkboxItem--checked'

@@ -15,7 +15,6 @@ import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
-import config from '../../../config';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -51,18 +50,18 @@ class ResourceGroup extends PureComponent {
       refreshResources,
       activeFilter,
       locale,
+      currentTopic,
+      currentSubject,
     } = this.props;
 
     return (
       <React.Fragment>
         <Accordion
           addButton={
-            config.enableFullTaxonomy && (
-              <AddTopicResourceButton stripped onClick={this.toggleAddModal}>
-                <Plus />
-                {t('taxonomy.addResource')}
-              </AddTopicResourceButton>
-            )
+            <AddTopicResourceButton stripped onClick={this.toggleAddModal}>
+              <Plus />
+              {t('taxonomy.addResource')}
+            </AddTopicResourceButton>
           }
           handleToggle={this.handleToggle}
           appearance="resourceGroup"
@@ -75,12 +74,15 @@ class ResourceGroup extends PureComponent {
               refreshResources={refreshResources}
               activeFilter={activeFilter}
               locale={locale}
+              currentTopic={currentTopic}
+              currentSubject={currentSubject}
             />
           )}
         </Accordion>
         {this.state.showAddModal && (
           <AddResourceModal
             type={resource.id}
+            allowPaste={resource.id !== 'urn:resourcetype:learningPath'}
             topicId={params.topic3 || params.topic2 || params.topic1}
             refreshResources={refreshResources}
             onClose={this.toggleAddModal}
@@ -106,6 +108,13 @@ ResourceGroup.propTypes = {
   refreshResources: PropTypes.func,
   activeFilter: PropTypes.string,
   locale: PropTypes.string,
+  currentTopic: PropTypes.shape({
+    filter: PropTypes.array,
+  }),
+  currentSubject: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  }),
 };
 
 export default injectT(ResourceGroup);

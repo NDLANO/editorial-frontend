@@ -321,7 +321,6 @@ const phrases = {
   imageForm: {
     title: 'Bilde | {title} ({key})',
   },
-
   learningResourceForm: {
     metaImage: {
       title: 'Bildetittel',

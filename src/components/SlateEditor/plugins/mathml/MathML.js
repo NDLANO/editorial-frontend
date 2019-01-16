@@ -34,7 +34,9 @@ class MathML extends Component {
     const { reRender } = this.state;
     const { node, model } = this.props;
 
-    if (reRender) return null;
+    if (reRender) {
+      return null;
+    }
 
     return (
       <span contentEditable={false} {...this.props.attributes}>

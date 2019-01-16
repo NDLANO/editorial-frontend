@@ -5,15 +5,20 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { OneColumn } from '@ndla/ui';
-import MonacoEditor from '../../components/MonacoEditor/MonacoEditor';
+
+const MonacoEditor = React.lazy(() =>
+  import('../../components/MonacoEditor/MonacoEditor'),
+);
 
 class ExperimentPage extends React.Component {
   render() {
     return (
       <OneColumn>
-        <MonacoEditor />
+        <Suspense fallback={<div>Loading...</div>}>
+          <MonacoEditor />
+        </Suspense>
       </OneColumn>
     );
   }

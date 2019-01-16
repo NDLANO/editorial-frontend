@@ -91,7 +91,7 @@ class MonacoEditor extends Component {
       <div
         css={css`
           width: 100%;
-          height: 900px;
+          height: 700px;
           margin-top: ${spacing.large};
         `}
         ref={this.container}

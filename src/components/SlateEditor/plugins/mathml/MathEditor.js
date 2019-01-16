@@ -29,6 +29,8 @@ const StyledMenu = styled('span')`
   border: 1px solid rgba(0, 0, 0, 0.2);
   border: 1px solid ${colors.brand.greyLight};
   z-index: 1;
+  ${p => (p.left ? `left: ${p.left}px;` : '')} ${p =>
+    p.top ? `top: ${p.top}px;` : ''};
 `;
 
 const buttonStyle = css(`
@@ -114,7 +116,7 @@ class MathEditor extends Component {
             {...this.props}
           />
           <Portal isOpened={showMenu}>
-            <StyledMenu style={{ top: `${top}px`, left: `${left}px` }}>
+            <StyledMenu top={top} left={left}>
               <Button stripped css={buttonStyle} onClick={this.toggleEdit}>
                 {t('mathEditor.edit')}
               </Button>

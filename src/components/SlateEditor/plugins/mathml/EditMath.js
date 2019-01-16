@@ -7,11 +7,13 @@
  */
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Types from 'slate-prop-types';
 import PropTypes from 'prop-types';
 import he from 'he';
 
 import EditMathModal from './EditMathModal';
+import { getLocale } from '../../modules/locale/locale';
 
 const mathOpenTag = '<math xmlns="http://www.w3.org/1998/Math/MathML">';
 const mathCloseTag = '</math>';
@@ -38,13 +40,15 @@ class EditMath extends Component {
   }
 
   componentDidMount() {
+    const { locale } = this.props;
+
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     }
 
     if (window.com.wiris) {
       mathEditor = window.com.wiris.jsEditor.JsEditor.newInstance({
-        language: 'en',
+        language: locale,
       });
       mathEditor.setMathML(this.state.mathML);
       mathEditor.insertInto(document.getElementById('mathEditorContainer'));
@@ -130,6 +134,7 @@ class EditMath extends Component {
 }
 
 EditMath.propTypes = {
+  locale: PropTypes.string.isRequired,
   onExit: PropTypes.func,
   handleSave: PropTypes.func.isRequired,
   onRemoveClick: PropTypes.func.isRequired,
@@ -140,4 +145,8 @@ EditMath.propTypes = {
   }),
 };
 
-export default EditMath;
+const mapStateToProps = state => ({
+  locale: getLocale(state),
+});
+
+export default connect(mapStateToProps)(EditMath);

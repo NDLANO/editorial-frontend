@@ -6,7 +6,7 @@ import styled, { css } from 'react-emotion';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 
-import WarningModal from '../../../WarningModal';
+import AlertModal from '../../../AlertModal';
 
 const StyledMathEditorWrapper = styled('div')`
   padding: ${spacing.small} 0;
@@ -92,7 +92,7 @@ const EditMathModal = ({
               __html: mathML,
             }}
           />
-          <WarningModal
+          <AlertModal
             show={openDiscardModal}
             text={t('mathEditor.continue')}
             actions={[
@@ -101,7 +101,7 @@ const EditMathModal = ({
                 onClick: handleCancel,
               },
               {
-                text: t('warningModal.continue'),
+                text: t('alertModal.continue'),
                 onClick: handleContinue,
               },
             ]}

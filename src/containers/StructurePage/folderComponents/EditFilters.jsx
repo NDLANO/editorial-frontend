@@ -120,7 +120,7 @@ class EditFilters extends React.Component {
             {
               text: t('alertModal.delete'),
               'data-testid': 'warningModalConfirm',
-              action: this.deleteFilter,
+              onClick: this.deleteFilter,
             },
           ]}
           text={t('taxonomy.confirmDelete')}

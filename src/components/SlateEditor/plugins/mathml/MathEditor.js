@@ -8,7 +8,7 @@
 
 import React, { Fragment, createRef, Component } from 'react';
 import { injectT } from '@ndla/i18n';
-import styled from 'react-emotion';
+import styled, { css } from 'react-emotion';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
@@ -29,12 +29,13 @@ const StyledMenu = styled('span')`
   border: 1px solid rgba(0, 0, 0, 0.2);
   border: 1px solid ${colors.brand.greyLight};
   z-index: 1;
-
-  button {
-    color: ${colors.brand.primary};
-    text-decoration: underline;
-  }
 `;
+
+const buttonStyle = css(`
+  color: ${colors.brand.primary};
+  text-decoration: underline;
+  margin: 0 ${spacing.xsmall};
+`);
 
 const getModelFromNode = node => {
   const data = node.data ? node.data.toJS() : {};
@@ -114,13 +115,13 @@ class MathEditor extends Component {
           />
           <Portal isOpened={showMenu}>
             <StyledMenu style={{ top: `${top}px`, left: `${left}px` }}>
-              <Button stripped onClick={this.toggleEdit}>
+              <Button stripped css={buttonStyle} onClick={this.toggleEdit}>
                 {t('mathEditor.edit')}
-              </Button>{' '}
-              |{' '}
-              <Button stripped onClick={onRemoveClick}>
+              </Button>
+              |
+              <Button stripped css={buttonStyle} onClick={onRemoveClick}>
                 {t('mathEditor.remove')}
-              </Button>{' '}
+              </Button>
             </StyledMenu>
           </Portal>
         </div>

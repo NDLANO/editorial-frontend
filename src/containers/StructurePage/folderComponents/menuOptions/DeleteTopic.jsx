@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { DeleteForever } from '@ndla/icons/editor';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
-import WarningModal from '../../../../components/WarningModal';
+import AlertModal from '../../../../components/AlertModal';
 import {
   deleteTopicConnection,
   deleteSubTopicConnection,
@@ -69,10 +69,10 @@ class DeleteTopic extends PureComponent {
       <React.Fragment>
         <MenuItemButton stripped onClick={this.toggleEditMode}>
           <RoundIcon small icon={<DeleteForever />} />
-          {t('warningModal.delete')}
+          {t('alertModal.delete')}
         </MenuItemButton>
 
-        <WarningModal
+        <AlertModal
           show={editMode === 'deleteTopic'}
           actions={[
             {
@@ -80,7 +80,7 @@ class DeleteTopic extends PureComponent {
               onClick: this.toggleEditMode,
             },
             {
-              text: t('warningModal.delete'),
+              text: t('alertModal.delete'),
               'data-testid': 'confirmDelete',
               onClick: this.onDeleteTopic,
             },

@@ -21,7 +21,7 @@ function normalizeNode(node, editor, next) {
     child => !!child.data.get('isHeader'),
   );
 
-  if (headerNodes.size > 0) {
+  if (headerNodes.size === firstNode.nodes.size) {
     return next();
   }
 
@@ -29,7 +29,7 @@ function normalizeNode(node, editor, next) {
     editor.withoutSaving(() => {
       firstNode.nodes.forEach(child =>
         editor.setNodeByKey(child.key, {
-          data: { ...child.data, isHeader: true },
+          data: { ...child.data.toJS(), isHeader: true },
         }),
       );
     });

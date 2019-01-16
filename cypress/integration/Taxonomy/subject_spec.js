@@ -9,7 +9,13 @@
 import { beforeEachHelper } from '../../support';
 
 beforeEach(() => {
-  cy.server({ force404: true });
+  cy.server({
+    force404: true,
+    headers: {
+      Location: 'newPath',
+      'content-type': 'text/plain; charset=UTF-8',
+    },
+  });
   cy.route(
     'GET',
     '/taxonomy/v1/subjects/?language=nb',
@@ -30,12 +36,6 @@ beforeEach(() => {
 
 describe('Subject editing', () => {
   it('should add a new subject', () => {
-    cy.server({
-      headers: {
-        Location: 'newPath',
-        'content-type': 'text/plain; charset=UTF-8',
-      },
-    });
     cy.route('POST', '/taxonomy/v1/subjects', '').as('addSubject');
 
     cy.route('GET', '/taxonomy/v1/subjects/?language=nb', []);
@@ -47,12 +47,6 @@ describe('Subject editing', () => {
   });
 
   it('should have a settings menu where everything works', () => {
-    cy.server({
-      headers: {
-        Location: 'newPath',
-        'content-type': 'text/plain; charset=UTF-8',
-      },
-    });
     cy.route({
       method: 'PUT',
       url: `/taxonomy/v1/subjects/urn:subject:12`,

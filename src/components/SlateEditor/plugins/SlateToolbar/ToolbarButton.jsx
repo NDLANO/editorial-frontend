@@ -15,7 +15,7 @@ import {
   Italic,
   ListCircle,
   ListNumbered,
-  ListSquare,
+  ListAlphebetical,
   ListTwoColumns,
   Quote,
   Underline,
@@ -28,7 +28,6 @@ import {
 import { css } from 'react-emotion';
 import Types from 'slate-prop-types';
 import { toolbarClasses } from './SlateToolbar';
-
 // @ndla/ui icon for Link type in toolbar has the same name as a link/anchor element component.
 // Thus triggering a false positive, that we have to disable.
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -43,7 +42,7 @@ const toolbarIcon = t => ({
   'two-column-list': (
     <ListTwoColumns title={t('editorToolbar.twoColumnList')} />
   ),
-  'letter-list': <ListSquare title={t('editorToolbar.letterList')} />,
+  'letter-list': <ListAlphebetical title={t('editorToolbar.letterList')} />,
   'heading-one': <Heading1 title={t('editorToolbar.headingOne')} />,
   'heading-two': <Heading2 title={t('editorToolbar.headingTwo')} />,
   'heading-three': <Heading3 title={t('editorToolbar.headingThree')} />,

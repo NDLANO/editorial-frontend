@@ -9,7 +9,7 @@
 import { beforeEachHelper } from '../../support';
 
 beforeEach(() => {
-  cy.server();
+  cy.server({ force404: true });
   cy.route(
     'GET',
     '/taxonomy/v1/subjects/?language=nb',
@@ -25,7 +25,7 @@ beforeEach(() => {
     '/taxonomy/v1/subjects/urn:subject:12/filters',
     'fixture:allSubjectFilters.json',
   );
-  beforeEachHelper('/structure/subject:12');
+  beforeEachHelper('/structure/urn:subject:12');
 });
 
 describe('Subject editing', () => {

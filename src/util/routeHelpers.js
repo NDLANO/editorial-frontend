@@ -70,12 +70,10 @@ export function to404() {
 
 export function getResourceIdFromPath(path) {
   if (typeof path !== 'string') return undefined;
-  let lastPath = path;
-  if (path[path.length - 1] === '/') lastPath = path.slice(0, -1);
-  lastPath = lastPath.split('/').pop();
-  if (!lastPath) return undefined;
-  const id = lastPath.startsWith('resource') ? `urn:${lastPath}` : lastPath;
-  return id.includes('resource') ? id : '';
+  const learningPath = path.match(/learningpaths\/(\d+)/);
+  if (learningPath && learningPath[1]) return learningPath[1];
+  const resource = path.match(/(resource:[:\d]+)\/?$/);
+  return resource ? `urn:${resource[1]}` : '';
 }
 
 export const removeLastItemFromUrl = url =>

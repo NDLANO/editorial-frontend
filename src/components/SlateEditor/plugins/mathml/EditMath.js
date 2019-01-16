@@ -26,7 +26,7 @@ class EditMath extends Component {
     this.state = {
       initialMathML: innerHTML
         ? `${mathOpenTag}${he.decode(innerHTML)}${mathCloseTag}`
-        : undefined,
+        : '',
       mathML: innerHTML
         ? `${mathOpenTag}${he.decode(innerHTML)}${mathCloseTag}`
         : '',
@@ -82,9 +82,7 @@ class EditMath extends Component {
     saveMathML = saveMathML.replace(mathCloseTag, '');
 
     handleSave(saveMathML);
-    this.setState({ hasSaved: true });
-
-    closeModal();
+    this.setState({ hasSaved: true }, closeModal);
   }
 
   onHandleExitRemove(closeModal) {

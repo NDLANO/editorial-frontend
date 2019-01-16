@@ -33,7 +33,7 @@ import {
   FormHeader,
   FormActionButton,
   formClasses as classes,
-  WarningModalWrapper,
+  AlertModalWrapper,
 } from '../../Form';
 import { toEditImage } from '../../../util/routeHelpers';
 
@@ -244,12 +244,13 @@ class ImageForm extends Component {
             {t('form.save')}
           </SaveButton>
         </Field>
-        <WarningModalWrapper
+        <AlertModalWrapper
           model={model}
+          severity="danger"
           initialModel={initialModel}
           showSaved={showSaved}
           fields={fields}
-          text={t('warningModal.notSaved')}
+          text={t('alertModal.notSaved')}
         />
       </FormWrapper>
     );

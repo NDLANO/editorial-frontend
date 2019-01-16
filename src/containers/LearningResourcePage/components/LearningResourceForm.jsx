@@ -23,7 +23,7 @@ import validateSchema, {
 import { learningResourceSchema } from '../../../articleSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
-import WarningModal from '../../../components/WarningModal';
+import AlertModal from '../../../components/AlertModal';
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -41,7 +41,7 @@ import {
   FormHeader,
   FormActionButton,
   formClasses,
-  WarningModalWrapper,
+  AlertModalWrapper,
 } from '../../Form';
 import { formatErrorMessage } from '../../Form/FormWorkflow';
 
@@ -218,7 +218,6 @@ class LearningResourceForm extends Component {
         return;
       }
     }
-
     this.props.onUpdate({
       ...this.getArticleFromModel(),
       revision,
@@ -381,7 +380,7 @@ class LearningResourceForm extends Component {
             </FormActionButton>
           )}
 
-          <WarningModal
+          <AlertModal
             show={this.state.showResetModal}
             text={t('form.resetToProd.modal')}
             actions={[
@@ -409,9 +408,10 @@ class LearningResourceForm extends Component {
             defaultText="saveDraft"
           />
         </Field>
-        <WarningModalWrapper
+        <AlertModalWrapper
           showSaved={showSaved}
           fields={fields}
+          severity="danger"
           model={model}
           text={t('warningModal.notSaved')}
         />

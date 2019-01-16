@@ -132,7 +132,7 @@ describe('Topic editing', () => {
 
     cy.wait('@addToFilter');
     cy.get('button')
-      .contains(phrases.warningModal.delete)
+      .contains(phrases.alertModal.delete)
       .click();
     cy.route({
       method: 'DELETE',

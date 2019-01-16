@@ -66,7 +66,7 @@ class MetaImageSearch extends Component {
         </h3>
         <Lightbox
           display={this.state.showImageSearch}
-          big
+          appearance="big"
           onClose={this.toggleImageSearchLightBox}>
           <ImageSearch
             fetchImage={api.fetchImage}

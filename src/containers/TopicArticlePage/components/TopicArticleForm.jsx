@@ -44,12 +44,12 @@ import {
   FormHeader,
   FormActionButton,
   formClasses,
-  WarningModalWrapper,
+  AlertModalWrapper,
 } from '../../Form';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { articleConverter } from '../../../modules/draft/draft';
-import WarningModal from '../../../components/WarningModal';
+import AlertModal from '../../../components/AlertModal';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -294,7 +294,7 @@ class TopicArticleForm extends Component {
             </FormActionButton>
           )}
 
-          <WarningModal
+          <AlertModal
             show={showResetModal}
             text={t('form.resetToProd.modal')}
             actions={[
@@ -322,12 +322,13 @@ class TopicArticleForm extends Component {
             {t('form.save')}
           </SaveButton>
         </Field>
-        <WarningModalWrapper
+        <AlertModalWrapper
           initialModel={initialModel}
           model={model}
+          severity="danger"
           showSaved={showSaved}
           fields={fields}
-          text={t('warningModal.notSaved')}
+          text={t('alertModal.notSaved')}
         />
       </form>
     );

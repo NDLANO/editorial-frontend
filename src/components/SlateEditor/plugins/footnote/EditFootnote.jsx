@@ -54,7 +54,7 @@ class EditFootnote extends Component {
 
     return (
       <Portal isOpened>
-        <Lightbox display big onClose={this.onClose}>
+        <Lightbox display appearance="big" onClose={this.onClose}>
           <h2>
             {t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}
           </h2>

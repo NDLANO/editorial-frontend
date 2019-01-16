@@ -28,7 +28,7 @@ import {
 import { SchemaShape } from '../../../shapes';
 import {
   FormHeader,
-  WarningModalWrapper,
+  AlertModalWrapper,
   FormActionButton,
   formClasses,
 } from '../../Form';
@@ -209,12 +209,13 @@ class AudioForm extends Component {
           </FormActionButton>
           <SaveButton isSaving={isSaving} showSaved={showSaved} />
         </Field>
-        <WarningModalWrapper
+        <AlertModalWrapper
           initialModel={initialModel}
           model={model}
+          severity="danger"
           showSaved={showSaved}
           fields={fields}
-          text={t('warningModal.notSaved')}
+          text={t('alertModal.notSaved')}
         />
       </form>
     );

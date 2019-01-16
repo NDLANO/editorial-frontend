@@ -11,11 +11,10 @@ import PropTypes from 'prop-types';
 import { Warning } from '@ndla/icons/editor';
 import styled, { css } from 'react-emotion';
 import { spacing } from '@ndla/core';
+import AlertModalFooter from './AlertModalFooter';
 import Lightbox from '../Lightbox';
-import WarningModalFooter from './WarningModalFooter';
 
-const StyledWarningModal = styled('div')`
-  color: white;
+const StyledAlertModal = styled('div')`
   height: 100%;
   padding-top: ${spacing.normal};
   font-size: 24px;
@@ -24,36 +23,40 @@ const StyledWarningModal = styled('div')`
   justify-content: space-between;
 `;
 
-const StyledWarningModalBody = styled('div')`
+const StyledAlertModalBody = styled('div')`
   display: flex;
 `;
 
-const StyledWarningModalBodyText = styled('span')`
+const StyledAlertModalBodyText = styled('span')`
   width: 100%;
   display: inline-block;
   text-align: left;
 `;
 
-const warningModalBodyIconStyle = css`
+const alertModalBodyIconStyle = css`
   width: 27px;
   height: 27px;
   margin-right: ${spacing.small};
 `;
 
-const WarningModal = ({ text, onCancel, actions, component, show }) =>
+const AlertModal = ({ text, onCancel, actions, component, show, severity }) =>
   show ? (
-    <Lightbox modal onClose={onCancel}>
-      <StyledWarningModal>
-        <StyledWarningModalBody>
-          <Warning css={warningModalBodyIconStyle} />
-          <StyledWarningModalBodyText>{text}</StyledWarningModalBodyText>
-        </StyledWarningModalBody>
-        <WarningModalFooter actions={actions} component={component} />
-      </StyledWarningModal>
+    <Lightbox
+      display={show}
+      onClose={onCancel}
+      appearance="modal"
+      severity={severity}>
+      <StyledAlertModal severity={severity}>
+        <StyledAlertModalBody>
+          <Warning css={alertModalBodyIconStyle} />
+          <StyledAlertModalBodyText>{text}</StyledAlertModalBodyText>
+        </StyledAlertModalBody>
+        <AlertModalFooter actions={actions} component={component} />
+      </StyledAlertModal>
     </Lightbox>
   ) : null;
 
-WarningModal.propTypes = {
+AlertModal.propTypes = {
   text: PropTypes.string.isRequired,
   onCancel: PropTypes.func.isRequired,
   component: PropTypes.node,
@@ -64,6 +67,11 @@ WarningModal.propTypes = {
     }),
   ),
   show: PropTypes.bool,
+  severity: PropTypes.string,
 };
 
-export default WarningModal;
+AlertModal.defaultProps = {
+  severity: 'danger',
+};
+
+export default AlertModal;

@@ -6,6 +6,6 @@
  *
  */
 
-import WarningModal from './WarningModal';
+import AlertModal from './AlertModal';
 
-export default WarningModal;
+export default AlertModal;

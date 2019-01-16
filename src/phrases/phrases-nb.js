@@ -701,6 +701,9 @@ const phrases = {
     invalidUrl: 'Ugyldig url',
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var et problem ved lasting av taksonomi',
+    statusCode: {
+      409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har editert og last siden på nytt for å kunne lagre.',
+    },
   },
   notFound: {
     description: 'Denne siden finnes ikke.',
@@ -708,7 +711,7 @@ const phrases = {
   forbiddenPage: {
     description: 'Du har ikke tilgang til denne siden',
   },
-  warningModal: {
+  alertModal: {
     notSaved: 'Dokumentet er ikke lagret, ønsker du å fortsette?',
     continue: 'Fortsett',
     delete: 'Slett',

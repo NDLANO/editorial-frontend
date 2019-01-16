@@ -18,7 +18,7 @@ import { FormHeader } from '@ndla/forms';
 import { deleteLanguageVersion } from '../../../modules/draft/draftApi';
 import { HistoryShape } from '../../../shapes';
 import { toEditArticle } from '../../../util/routeHelpers';
-import WarningModal from '../../../components/WarningModal';
+import AlertModal from '../../../components/AlertModal';
 
 const deleteButtonStyle = css`
   background-color: ${colors.support.red};
@@ -87,7 +87,7 @@ class FormDeleteLanguageVersion extends React.Component {
         <Button css={deleteButtonStyle} onClick={this.toggleShowDeleteWarning}>
           {t('form.workflow.deleteLanguageVersion.button')}
         </Button>
-        <WarningModal
+        <AlertModal
           show={showDeleteWarning}
           text={t('form.workflow.deleteLanguageVersion.modal')}
           actions={[

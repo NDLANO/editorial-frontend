@@ -10,10 +10,10 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 import config from '../../config';
-import WarningModal from '../../components/WarningModal';
+import AlertModal from '../../components/AlertModal';
 import { isFormDirty } from '../../util/formHelper';
 
-class WarningModalWrapper extends PureComponent {
+class AlertModalWrapper extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { openModal: false, discardChanges: false };
@@ -67,9 +67,9 @@ class WarningModalWrapper extends PureComponent {
   }
 
   render() {
-    const { t, text } = this.props;
+    const { t, text, severity } = this.props;
     return (
-      <WarningModal
+      <AlertModal
         show={this.state.openModal}
         text={text}
         actions={[
@@ -78,17 +78,18 @@ class WarningModalWrapper extends PureComponent {
             onClick: this.onCancel,
           },
           {
-            text: t('warningModal.continue'),
+            text: t('alertModal.continue'),
             onClick: this.onContinue,
           },
         ]}
         onCancel={this.onCancel}
+        severity={severity}
       />
     );
   }
 }
 
-WarningModalWrapper.propTypes = {
+AlertModalWrapper.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
@@ -106,6 +107,7 @@ WarningModalWrapper.propTypes = {
   }).isRequired,
   text: PropTypes.string,
   showSaved: PropTypes.bool,
+  severity: PropTypes.string,
 };
 
-export default withRouter(injectT(WarningModalWrapper));
+export default withRouter(injectT(AlertModalWrapper));

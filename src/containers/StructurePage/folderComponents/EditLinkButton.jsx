@@ -15,7 +15,7 @@ import BEMHelper from 'react-bem-helper';
 import { Pencil, Minus } from '@ndla/icons/action';
 import Overlay from '../../../components/Overlay';
 import RoundIcon from '../../../components/RoundIcon';
-import WarningModal from '../../../components/WarningModal';
+import AlertModal from '../../../components/AlertModal';
 import { Portal } from '../../../components/Portal';
 import MenuItemButton from './menuOptions/MenuItemButton';
 import CrossButton from '../../../components/CrossButton';
@@ -67,7 +67,7 @@ class EditLinkButton extends Component {
     return (
       <div style={{ display: 'none' }} ref={el => refFunc(el, linkId)}>
         <Portal isOpened>
-          <WarningModal
+          <AlertModal
             show={setPrimaryWarning}
             text={t('taxonomy.confirmSetPrimary')}
             onCancel={this.onCancel}
@@ -76,12 +76,12 @@ class EditLinkButton extends Component {
                 text: t('form.abort'),
                 onClick: this.onCancel,
               },
-              { text: t('warningModal.continue'), onClick: this.setPrimary },
+              { text: t('alertModal.continue'), onClick: this.setPrimary },
             ]}
           />
         </Portal>
         <Portal isOpened>
-          <WarningModal
+          <AlertModal
             show={deleteLinkWarning}
             text={t('taxonomy.confirmDeleteTopic')}
             onCancel={this.onCancel}
@@ -90,7 +90,7 @@ class EditLinkButton extends Component {
                 text: t('form.abort'),
                 onClick: this.onCancel,
               },
-              { text: t('warningModal.delete'), onClick: this.deleteTopicLink },
+              { text: t('alertModal.delete'), onClick: this.deleteTopicLink },
             ]}
           />
         </Portal>

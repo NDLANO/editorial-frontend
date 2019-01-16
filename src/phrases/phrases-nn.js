@@ -235,11 +235,7 @@ const phrases = {
   },
   mathEditor: {
     editMath: 'Rediger Matematikk',
-    showPreview: 'Forhåndsvis',
     preview: 'Forhåndsvisning',
-    save: 'Lagre',
-    cancel: 'Avbryt',
-    remove: 'Fjern',
     continue: 'Du har ulagrede endringer i matteeditoren. Vil du fortsette?',
   },
   h5pElement: {
@@ -408,6 +404,8 @@ const phrases = {
       add: 'Legg til',
     },
     abort: 'Avbryt',
+    edit: 'Rediger',
+    remove: 'Fjern',
     validate: 'Valider',
     publish: 'Publiser',
     savedOk: 'Lagret OK',

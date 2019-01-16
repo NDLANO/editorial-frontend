@@ -230,11 +230,7 @@ const phrases = {
   },
   mathEditor: {
     editMath: 'Edit Math',
-    showPreview: 'Show Preview',
     preview: 'Preview',
-    save: 'Save',
-    cancel: 'Cancel',
-    remove: 'Remove',
     continue:
       'You have unsaved changes in the math editor. Do you want to continue?',
   },
@@ -395,6 +391,8 @@ const phrases = {
       add: 'Add',
     },
     abort: 'Abort',
+    edit: 'Edit',
+    remove: 'Remove',
     validate: 'Validate',
     publish: 'Publish',
     savedOk: 'Saved OK',

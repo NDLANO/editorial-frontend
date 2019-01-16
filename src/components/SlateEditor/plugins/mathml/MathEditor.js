@@ -118,11 +118,11 @@ class MathEditor extends Component {
           <Portal isOpened={showMenu}>
             <StyledMenu top={top} left={left}>
               <Button stripped css={buttonStyle} onClick={this.toggleEdit}>
-                {t('mathEditor.edit')}
+                {t('form.edit')}
               </Button>
               |
               <Button stripped css={buttonStyle} onClick={onRemoveClick}>
-                {t('mathEditor.remove')}
+                {t('form.remove')}
               </Button>
             </StyledMenu>
           </Portal>

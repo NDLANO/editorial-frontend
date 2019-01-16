@@ -64,25 +64,25 @@ const EditMathModal = ({
           <StyledMathEditorWrapper id="mathEditorContainer" />
           <StyledButtonWrapper>
             <Button outline css={buttonStyle} onClick={previewMath}>
-              {t('mathEditor.showPreview')}
+              {t('form.preview.button')}
             </Button>
             <Button
               outline
               css={buttonStyle}
               onClick={() => handleSave(onCloseModal)}>
-              {t('mathEditor.save')}
+              {t('form.save')}
             </Button>
             <Button
               outline
               css={buttonStyle}
               onClick={() => handleExit(onCloseModal)}>
-              {t('mathEditor.cancel')}
+              {t('form.abort')}
             </Button>
             <Button
               outline
               css={buttonStyle}
               onClick={() => handleRemove(onCloseModal)}>
-              {t('mathEditor.remove')}
+              {t('form.remove')}
             </Button>
           </StyledButtonWrapper>
           <h3>{t('mathEditor.preview')}</h3>

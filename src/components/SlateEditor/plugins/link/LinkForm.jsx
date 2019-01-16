@@ -56,7 +56,7 @@ class LinkForm extends Component {
       onClose,
     } = this.props;
     return (
-      <form>
+      <form data-cy="link_form">
         <Field>
           <label htmlFor="text">{t('form.content.link.text')}</label>
           <input type="text" {...bindInput('text')} />

@@ -34,6 +34,7 @@ import SubjectMatterPage from './SubjectMatterPage';
 import MediaPage from './MediaPage';
 import StructurePage from '../StructurePage/StructurePage';
 import ErrorBoundary from '../../components/ErrorBoundary';
+import ExperimentPage from '../ExperimentPage/ExperimentPage';
 
 export class App extends React.Component {
   getChildContext() {
@@ -68,6 +69,7 @@ export class App extends React.Component {
               <Route path="/" exact component={WelcomePage} />
               <Route path="/login" component={Login} />
               <Route path="/logout" component={Logout} />
+              <Route path="/experiments" component={ExperimentPage} />
               <PrivateRoute path="/search" component={SearchPage} />
               <PrivateRoute
                 path="/subject-matter"

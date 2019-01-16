@@ -14,7 +14,6 @@ import helmet from 'helmet';
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE } from 'http-status';
 import bodyParser from 'body-parser';
 import Auth0SilentCallback from './Auth0SilentCallback';
-import enableBasicAuth from './enableBasicAuth';
 import getConditionalClassnames from './getConditionalClassnames';
 import { getLocaleObject } from '../i18n';
 import Html from './Html';
@@ -24,10 +23,6 @@ import errorLogger from '../util/logger';
 
 const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
-
-if (process.env.NDLA_ENVIRONMENT === 'test') {
-  enableBasicAuth(app);
-}
 
 app.use(compression());
 app.use(

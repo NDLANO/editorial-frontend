@@ -52,7 +52,6 @@ class RichBlockTextEditor extends PureComponent {
     onChange(changedValue);
   }
 
-
   onMouseOver(index) {
     this.setState({ hover: index });
   }

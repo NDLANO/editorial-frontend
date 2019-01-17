@@ -49,6 +49,7 @@ class AgreementPage extends React.Component {
       this.setState({ isSaving: false });
       addMessage({
         translationKey: agreement.id ? 'form.savedOk' : 'form.createdOk',
+        severity: 'success',
       });
     } catch (err) {
       this.setState({ isSaving: false });

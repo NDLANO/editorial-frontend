@@ -19,7 +19,7 @@ import { expiresIn } from '../../src/util/jwtHelper';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-const visitOptions = {
+export const visitOptions = {
   onBeforeLoad: win => {
     win.fetch = null; //eslint-disable-line
   },
@@ -35,10 +35,10 @@ export const beforeEachHelper = visitUrl => {
     method: 'POST',
     url: 'https://ndla.eu.auth0.com/oauth/token',
     body: {
-      client_id: Cypress.env('NDLA_EDITORIAL_CLIENT_ID'),
-      client_secret: Cypress.env('NDLA_EDITORIAL_CLIENT_SECRET'),
-      grant_type: 'client_credentials',
-      audience: 'ndla_system',
+      client_id: Cypress.env('NDLA_END_TO_END_TESTING_CLIENT_ID'),
+      client_secret: Cypress.env('NDLA_END_TO_END_TESTING_CLIENT_SECRET'),
+      grant_type: Cypress.env('NDLA_END_TO_END_TESTING_GRANT_TYPE'),
+      audience: Cypress.env('NDLA_END_TO_END_TESTING_AUDIENCE'),
     },
     json: true,
   };

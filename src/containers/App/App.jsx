@@ -20,7 +20,7 @@ import { MessageShape } from '../../shapes';
 import Masthead from '../Masthead';
 import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
-import Alerts from '../Messages/Alerts';
+import Messages from '../Messages/Messages';
 import Login from '../Login/Login';
 import Logout from '../Logout/Logout';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
@@ -81,7 +81,7 @@ export class App extends React.Component {
               <Route component={NotFoundPage} />
             </Switch>
           </Content>
-          <Alerts dispatch={dispatch} messages={messages} />
+          <Messages dispatch={dispatch} messages={messages} />
         </PageContainer>
       </ErrorBoundary>
     );

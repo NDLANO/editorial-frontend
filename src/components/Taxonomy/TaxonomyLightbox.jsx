@@ -14,8 +14,8 @@ import { Cross } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
 import { css } from 'react-emotion';
 import { spacing } from '@ndla/core';
-import Overlay from './Overlay';
-import Spinner from './Spinner';
+import Overlay from '../Overlay';
+import Spinner from '../Spinner';
 
 const closeButtonStyle = css`
   height: 50px;

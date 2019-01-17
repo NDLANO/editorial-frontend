@@ -13,7 +13,7 @@ beforeEach(() => beforeEachHelper('/subject-matter/learning-resource/new'));
 
 describe('Learning resource editing', () => {
   it('can enter title, ingress and content then save', () => {
-    cy.server();
+    cy.server({ force404: true });
     cy.fixture('saveLearningResource').as('saveResponse');
     cy.route({
       method: 'POST',

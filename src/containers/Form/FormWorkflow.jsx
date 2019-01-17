@@ -57,7 +57,6 @@ class FormWorkflow extends Component {
         status === articleStatuses.PUBLISHED ||
         status === articleStatuses.QUEUED_FOR_PUBLISHING
       ) {
-        console.log('Validating before publishing');
         await draftApi.validateDraft(id, {
           ...getArticleFromModel(),
           revision,
@@ -78,8 +77,6 @@ class FormWorkflow extends Component {
       getArticleFromModel,
       revision,
     } = this.props;
-
-    console.log(articleStatuses.PUBLISHED);
 
     try {
       await draftApi.validateDraft(id, { ...getArticleFromModel(), revision });

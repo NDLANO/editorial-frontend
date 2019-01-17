@@ -41,6 +41,7 @@ import {
 import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
 import RoundIcon from '../../components/RoundIcon';
 import config from '../../config';
+import Footer from '../App/components/Footer';
 
 export class StructurePage extends React.PureComponent {
   constructor(props) {
@@ -362,6 +363,7 @@ export class StructurePage extends React.PureComponent {
             />
           )}
         </OneColumn>
+        <Footer />
       </ErrorBoundary>
     );
   }
@@ -389,8 +391,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   injectT,
-  connect(
-    mapStateToProps,
-    null,
-  ),
+  connect(mapStateToProps),
 )(StructurePage);

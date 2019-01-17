@@ -8,9 +8,9 @@
 
 import nock from 'nock';
 import React from 'react';
-
 import { render, wait, cleanup } from 'react-testing-library';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { StructurePage } from '../StructurePage';
 import {
   subjectsMock,
@@ -21,27 +21,35 @@ import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 
 afterEach(cleanup);
 
+const store = {
+  getState: jest.fn(() => ({ locale: 'nb' })),
+  dispatch: jest.fn(),
+  subscribe: jest.fn(),
+};
+
 const wrapper = () =>
   render(
-    <MemoryRouter>
-      <IntlWrapper>
-        <StructurePage
-          t={() => 'injected'}
-          locale="nb"
-          match={{
-            url: 'urn:subject:1/urn:topic:1:186479/urn:topic:1:172650',
-            params: {
-              subject: 'urn:subject:1',
-              topic1: 'urn:topic:1:186479',
-              topic2: 'urn:topic:1:172650',
-            },
-          }}
-          location={{
-            search: '',
-          }}
-        />
-      </IntlWrapper>
-    </MemoryRouter>,
+    <Provider store={store}>
+      <MemoryRouter>
+        <IntlWrapper>
+          <StructurePage
+            t={() => 'injected'}
+            locale="nb"
+            match={{
+              url: 'urn:subject:1/urn:topic:1:186479/urn:topic:1:172650',
+              params: {
+                subject: 'urn:subject:1',
+                topic1: 'urn:topic:1:186479',
+                topic2: 'urn:topic:1:172650',
+              },
+            }}
+            location={{
+              search: '',
+            }}
+          />
+        </IntlWrapper>
+      </MemoryRouter>
+    </Provider>,
   );
 
 beforeEach(() => {

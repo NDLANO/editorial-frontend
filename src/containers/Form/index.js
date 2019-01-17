@@ -6,7 +6,7 @@
  *
  */
 
-import FormNotes from './FormNotes';
+import FormAddNotes from './FormAddNotes';
 import AgreementConnection from './AgreementConnection';
 import formClasses from './formClasses';
 import FormWorkflow from './FormWorkflow';
@@ -20,7 +20,7 @@ export {
   formClasses,
   FormWorkflow,
   FormCopyright,
-  FormNotes,
+  FormAddNotes,
   FormHeader,
   FormActionButton,
   AlertModalWrapper,

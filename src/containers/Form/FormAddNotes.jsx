@@ -16,10 +16,10 @@ import {
   FormRemoveButton,
 } from '@ndla/forms';
 import { Field } from '../../components/Fields';
-import FormNotesTable from './components/FormNotesTable';
+import FormNotes from './components/FormNotes';
 import { ArticleShape } from '../../shapes';
 
-class FormNotes extends Component {
+class FormAddNotes extends Component {
   constructor() {
     super();
     this.onNotesChange = this.onNotesChange.bind(this);
@@ -74,7 +74,7 @@ class FormNotes extends Component {
 
     return (
       <Fragment>
-        <FormNotesTable notes={article.notes} />
+        <FormNotes notes={article.notes} />
         <Field>
           <FormHeader title={labelHeading} width={3 / 4} />
           {value.map((note, index) => (
@@ -107,13 +107,13 @@ class FormNotes extends Component {
   }
 }
 
-FormNotes.defaultProps = {
+FormAddNotes.defaultProps = {
   article: {
     notes: [],
   },
 };
 
-FormNotes.propTypes = {
+FormAddNotes.propTypes = {
   name: PropTypes.string.isRequired,
   labelHeading: PropTypes.string.isRequired,
   bindInput: PropTypes.func.isRequired,
@@ -130,4 +130,4 @@ FormNotes.propTypes = {
   article: ArticleShape,
 };
 
-export default FormNotes;
+export default FormAddNotes;

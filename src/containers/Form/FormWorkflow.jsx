@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as draftApi from '../../modules/draft/draftApi';
-import { FormNotes } from '.';
+import { FormAddNotes } from '.';
 import { CommonFieldPropsShape, ArticleShape } from '../../shapes';
 import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
@@ -104,7 +104,7 @@ class FormWorkflow extends Component {
 
     return (
       <Fragment>
-        <FormNotes
+        <FormAddNotes
           name="notes"
           labelHeading={t('form.notes.heading')}
           labelAddNote={t('form.notes.add')}

@@ -14,7 +14,6 @@ import Helmet from 'react-helmet';
 import config from '../config';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); // eslint-disable-line import/no-dynamic-require
-console.log(assets);
 
 const Html = props => {
   const { lang, className, component, state } = props;

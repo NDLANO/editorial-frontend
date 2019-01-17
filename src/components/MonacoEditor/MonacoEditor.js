@@ -58,9 +58,9 @@ const content =
 window.MonacoEnvironment = {
   getWorkerUrl: function(moduleId, label) {
     if (label === 'html') {
-      return 'http://localhost:3001/static/js/editor.worker.js';
+      return '/static/js/html.worker.js';
     }
-    return 'http://localhost:3001/static/js/editor.worker.js';
+    return '/static/js/html.worker.js';
   },
 };
 

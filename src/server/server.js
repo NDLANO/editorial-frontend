@@ -13,6 +13,7 @@ import compression from 'compression';
 import helmet from 'helmet';
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE } from 'http-status';
 import bodyParser from 'body-parser';
+import proxy from 'express-http-proxy';
 import Auth0SilentCallback from './Auth0SilentCallback';
 import getConditionalClassnames from './getConditionalClassnames';
 import { getLocaleObject } from '../i18n';
@@ -107,6 +108,11 @@ app.post('/csp-report', (req, res) => {
       .json({ status: NOT_ACCEPTABLE, text: 'CSP Error not recieved' });
   }
 });
+
+if (process.env.NODE_ENV === 'development') {
+  // proxy js request to handle web worker crossorgin issue (only necessary under development)
+  app.get('/static/js/*', proxy('http://localhost:3001'));
+}
 
 app.get('*', (req, res) => {
   const paths = req.url.split('/');

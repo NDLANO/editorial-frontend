@@ -95,6 +95,7 @@
     "downshift": "^2.2.3",
     "emotion": "^9.2.12",
     "express": "^4.16.3",
+    "express-http-proxy": "^1.5.1",
     "flatpickr": "^4.5.2",
     "fuse.js": "^3.2.1",
     "helmet": "^3.13.0",

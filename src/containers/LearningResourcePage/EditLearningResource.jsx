@@ -6,9 +6,10 @@
  *
  */
 
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
 import { Redirect, withRouter } from 'react-router-dom';
 
 import * as messageActions from '../Messages/messagesActions';
@@ -83,16 +84,19 @@ class EditLearningResource extends PureComponent {
       ? article.language
       : selectedLanguage;
     return (
-      <LearningResourceForm
-        initialModel={getInitialModel(article, language)}
-        selectedLanguage={selectedLanguage}
-        revision={article.revision}
-        articleStatus={article.status}
-        onUpdate={this.updateLearningResource}
-        createMessage={this.createMessage}
-        article={article}
-        {...rest}
-      />
+      <Fragment>
+        <Helmet title={`${article.title} - NDLA`} />
+        <LearningResourceForm
+          initialModel={getInitialModel(article, language)}
+          selectedLanguage={selectedLanguage}
+          revision={article.revision}
+          articleStatus={article.status}
+          onUpdate={this.updateLearningResource}
+          createMessage={this.createMessage}
+          article={article}
+          {...rest}
+        />
+      </Fragment>
     );
   }
 }

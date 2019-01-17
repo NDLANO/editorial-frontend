@@ -117,7 +117,11 @@ class FootnoteForm extends Component {
           <Button css={marginLeftStyle} outline onClick={onClose}>
             {t('form.abort')}
           </Button>
-          <Button css={marginLeftStyle} type="button" onClick={this.handleSave}>
+          <Button
+            css={marginLeftStyle}
+            data-cy="save_footnote"
+            type="button"
+            onClick={this.handleSave}>
             {t('form.save')}
           </Button>
         </Field>

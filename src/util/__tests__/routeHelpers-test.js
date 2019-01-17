@@ -1,4 +1,8 @@
-import { removeLastItemFromUrl, getPathsFromUrl } from '../routeHelpers';
+import {
+  removeLastItemFromUrl,
+  getResourceIdFromPath,
+  getPathsFromUrl,
+} from '../routeHelpers';
 
 test('correctly removes last part of all urls', () => {
   const url1 =
@@ -16,6 +20,21 @@ test('correctly removes last part of all urls', () => {
     'http://localhost:3000/structure/subject:7',
   );
   expect(removeLastItemFromUrl(url4)).toBe('');
+});
+
+test('getResourceIdFromPath', () => {
+  const input = [
+    'https://ndla.no/subjects/subject:9/topic:1:182020/topic:1:186218/resource:1:132925',
+    'https://ndla.no/subjects/subject:9/topic:1:182020/resource:1:142207/',
+    'https://stier.ndla.no/nb/learningpaths/125/step/871',
+    'resource:1243/?something',
+  ];
+
+  const output = ['urn:resource:1:132925', 'urn:resource:1:142207', '125', ''];
+
+  input.forEach((path, i) => {
+    expect(getResourceIdFromPath(path)).toBe(output[i]);
+  });
 });
 
 test('getPathsFromUrl', () => {

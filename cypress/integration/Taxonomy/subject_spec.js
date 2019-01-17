@@ -25,7 +25,7 @@ beforeEach(() => {
     '/taxonomy/v1/subjects/urn:subject:12/filters',
     'fixture:allSubjectFilters.json',
   );
-  beforeEachHelper('/structure/subject:12');
+  beforeEachHelper('/structure/urn:subject:12');
 });
 
 describe('Subject editing', () => {
@@ -92,20 +92,20 @@ describe('Subject editing', () => {
       response: '',
     }).as('addNewSubjectTopic');
 
-    cy.get('.c-settingsMenu')
+    cy.get('.c-settingsMenu > button')
       .first()
       .click();
     cy.get('[data-testid=changeSubjectNameButton]').click();
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
     cy.wait('@newSubjectName');
-    cy.get('.c-settingsMenu')
+    cy.get('.c-settingsMenu > button')
       .first()
       .click();
     cy.get('[data-testid=addSubjectTopicButon]').click();
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
     cy.wait('@addNewTopic');
     cy.wait('@addNewSubjectTopic');
-    cy.get('.c-settingsMenu')
+    cy.get('.c-settingsMenu > button')
       .first()
       .click();
     cy.get('[data-testid=addExistingSubjectTopicButton]').click();
@@ -115,7 +115,7 @@ describe('Subject editing', () => {
       .click();
     cy.get('[data-testid=inlineEditSaveButton]').click();
     cy.wait('@addNewSubjectTopic');
-    cy.get('.c-settingsMenu')
+    cy.get('.c-settingsMenu > button')
       .first()
       .click();
     cy.get('[data-testid=editSubjectFiltersButton]').click();

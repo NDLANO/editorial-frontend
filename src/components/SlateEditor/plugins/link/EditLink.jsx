@@ -111,7 +111,7 @@ class EditLink extends React.Component {
 
     return (
       <Portal isOpened>
-        <Lightbox display big onClose={this.onClose}>
+        <Lightbox display appearance="big" onClose={this.onClose}>
           <h2>
             {t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}
           </h2>

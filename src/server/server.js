@@ -21,7 +21,6 @@ import bodyParser from 'body-parser';
 import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
 import Auth0SilentCallback from './Auth0SilentCallback';
-import enableBasicAuth from './enableBasicAuth';
 import getConditionalClassnames from './getConditionalClassnames';
 import { getLocaleObject } from '../i18n';
 import Html from './Html';
@@ -32,10 +31,6 @@ import config from '../config';
 
 const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
-
-if (process.env.NDLA_ENVIRONMENT === 'test') {
-  enableBasicAuth(app);
-}
 
 app.use(compression());
 app.use(

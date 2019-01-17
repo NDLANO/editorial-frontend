@@ -7,6 +7,7 @@
  */
 
 import { beforeEachHelper } from '../../support';
+import coreResources from '../../fixtures/coreResources.json';
 
 beforeEach(() => {
   cy.server({ force404: true });
@@ -49,18 +50,14 @@ beforeEach(() => {
   cy.route('PUT', '/taxonomy/v1/topics/urn:topic:1:183437', '').as(
     'updateTopicDesc',
   );
-  beforeEachHelper('/structure/subject:12');
+  beforeEachHelper('/structure/urn:subject:12');
 });
 
 describe('Resource listing', () => {
   it('shows all the different resource types, and can add/delete them', () => {
     cy.get('[data-testid=resource-type-subject]').should('have.length', 0);
-    cy.get('[data-cy=subject-subFolders] > div a')
-      .first()
-      .click();
-    cy.get('[data-cy=topic-subFolders] > div a')
-      .first()
-      .click();
+    cy.get('button[id="urn:subject:12/urn:topic:1:183043"]').click();
+    cy.get('button[id="urn:topic:1:183043/urn:topic:1:183437"]').click();
     cy.get('[data-testid=resource-type-subject-material]').should(
       'have.length',
       14,
@@ -76,22 +73,21 @@ describe('Resource listing', () => {
       .click();
     cy.wait('@updateTopicDesc');
   });
-  it('shows toggle relevance only when single filter is chosen', () => {
-    cy.get('[data-cy=subject-subFolders] > div a')
-      .first()
-      .click();
-    cy.get('[data-cy=topic-subFolders] > div a')
-      .first()
-      .click();
-    cy.get('[data-testid="toggleRelevance-urn:resource:1:167841"]').should(
-      'not.exist',
+  it.only('should open filter picker and have functioning buttons', () => {
+    cy.route(
+      'GET',
+      '/taxonomy/v1/resources/urn:resource:1:167841/filters?language=nb',
+      'fixture:resourceFilters.json',
     );
-    cy.get('[data-testid=filter-item]')
-      .first()
-      .click();
-    cy.get('[data-testid="toggleRelevance-urn:resource:1:167841"]').should(
-      'have.length',
-      1,
-    );
+
+    cy.get('button[id="urn:subject:12/urn:topic:1:183043"]').click();
+    cy.get('button[id="urn:topic:1:183043/urn:topic:1:183437"]').click();
+    cy.get(`[data-testid="openFilterPicker-${coreResources[0].id}"]`).click();
+    cy.get(
+      '[data-testid="useFilterCheckbox-urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce"]',
+    ).click();
+    cy.get(
+      '[data-testid="selectCoreRelevance-urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce"]',
+    ).click();
   });
 });

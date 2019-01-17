@@ -1,0 +1,26 @@
+[
+  {
+    "id": "urn:filter:1e2de4a1-db77-4b56-8fec-9027637d44f4",
+    "name": "1T",
+    "connectionId": "urn:resource-filter:3a8ebf38-003c-432a-8739-2606a3fb151e",
+    "relevanceId": "urn:relevance:core"
+  },
+  {
+    "id": "urn:filter:03200223-742a-499b-ad0f-4e73917cfea4",
+    "name": "1T-Y",
+    "connectionId": "urn:resource-filter:ad482a31-8a7d-43dd-9c26-1c31892be2c0",
+    "relevanceId": "urn:relevance:core"
+  },
+  {
+    "id": "urn:filter:222b1643-cb6c-492b-be90-97e7016a580c",
+    "name": "1P",
+    "connectionId": "urn:resource-filter:198d98a0-e8ae-4f81-8446-a6c6d669a9e4",
+    "relevanceId": "urn:relevance:core"
+  },
+  {
+    "id": "urn:filter:f0fff57a-d375-4a85-bea2-63b4272decf1",
+    "name": "1P-Y",
+    "connectionId": "urn:resource-filter:176740bf-204b-4d05-a6b4-d536ade4f3f5",
+    "relevanceId": "urn:relevance:core"
+  }
+]

@@ -10,7 +10,11 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import SearchTag from './SearchTag';
-import { ResourceTypeShape } from '../../../../shapes';
+import {
+  ResourceTypeShape,
+  DraftStatusShape,
+  SubjectShape,
+} from '../../../../shapes';
 
 const findTagName = (array, value, arrayKey = undefined) => {
   if (!array || array.length === 0) {
@@ -26,6 +30,7 @@ const findTagName = (array, value, arrayKey = undefined) => {
 const SearchTagGroup = ({
   subjects,
   resourceTypes,
+  draftStatus,
   searchObject,
   languages,
   t,
@@ -48,6 +53,11 @@ const SearchTagGroup = ({
       id: searchObject.resourceTypes,
       name: findTagName(resourceTypes, searchObject.resourceTypes, 'id'),
     },
+    {
+      type: 'draftStatus',
+      id: searchObject.draftStatus,
+      name: findTagName(draftStatus, searchObject.draftStatus, 'id'),
+    },
   ];
 
   return (
@@ -68,14 +78,16 @@ const SearchTagGroup = ({
 
 SearchTagGroup.propTypes = {
   onRemoveItem: PropTypes.func.isRequired,
-  subjects: PropTypes.arrayOf(PropTypes.shape({})),
+  subjects: PropTypes.arrayOf(SubjectShape),
   resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+  draftStatus: PropTypes.arrayOf(DraftStatusShape),
   languages: PropTypes.func,
   searchObject: PropTypes.shape({
     query: PropTypes.string,
     language: PropTypes.string,
     subjects: PropTypes.string,
     resourceTypes: PropTypes.string,
+    draftStatus: PropTypes.string,
   }),
 };
 

@@ -3,7 +3,7 @@ import { beforeEachHelper } from '../../support';
 beforeEach(() => beforeEachHelper('/subject-matter/learning-resource/new'));
 
 describe('Selecting text and using the toolbar', () => {
-  it('change the text styling', () => {
+  it.only('change the text styling', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
@@ -41,7 +41,7 @@ describe('Selecting text and using the toolbar', () => {
       .first()
       .focus()
       .then($el => {
-        cy.wrap($el).type('This is test content{leftarrow}{leftarrow}');
+        cy.wrap($el).type('This is a test link{leftarrow}{leftarrow}');
         cy.wrap($el).type('{selectall}');
       });
 
@@ -54,9 +54,8 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('button')
       .contains('Sett inn lenke')
       .click();
-
+    cy.get('a[title=VG]').contains('This is a test link');
     cy.get('a[title=VG]')
-      .contains('http://www.vg.no')
       .should('have.prop', 'href')
       .and('equal', 'http://www.vg.no/');
   });

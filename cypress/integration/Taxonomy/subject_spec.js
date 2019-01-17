@@ -6,64 +6,55 @@
  *
  */
 
-import { beforeEachHelper } from '../../support';
-
-beforeEach(() => {
-  cy.server({ force404: true });
-  cy.route(
-    'GET',
-    '/taxonomy/v1/subjects/?language=nb',
-    'fixture:allSubjects.json',
-  );
-  cy.route(
-    'GET',
-    '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true',
-    'fixture:allSubjectTopics.json',
-  );
-  cy.route(
-    'GET',
-    '/taxonomy/v1/subjects/urn:subject:12/filters',
-    'fixture:allSubjectFilters.json',
-  );
-  beforeEachHelper('/structure/urn:subject:12');
-});
+import { visitOptions, setToken } from '../../support';
 
 describe('Subject editing', () => {
-  it('should add a new subject', () => {
+  beforeEach(() => {
+    setToken();
     cy.server({
-      headers: {
-        Location: 'newPath',
-        'content-type': 'text/plain; charset=UTF-8',
-      },
+      force404: true,
     });
-    cy.route('POST', '/taxonomy/v1/subjects', '').as('addSubject');
-
-    cy.route('GET', '/taxonomy/v1/subjects/?language=nb', []);
-    cy.get('[data-testid=AddSubjectButton]').click();
-    cy.get('[data-testid=addSubjectInputField]').type(
-      'Cypress test subject{enter}',
+    cy.route(
+      'GET',
+      '/taxonomy/v1/subjects/?language=nb',
+      'fixture:allSubjects.json',
+    ).as('allSubjects');
+    cy.route(
+      'GET',
+      '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true',
+      'fixture:allSubjectTopics.json',
     );
-    cy.wait('@addSubject');
-  });
-
-  it('should have a settings menu where everything works', () => {
-    cy.server({
+    cy.route(
+      'GET',
+      '/taxonomy/v1/subjects/urn:subject:12/filters',
+      'fixture:allSubjectFilters.json',
+    );
+    cy.route({
+      method: 'POST',
+      url: '/taxonomy/v1/subjects',
       headers: {
         Location: 'newPath',
-        'content-type': 'text/plain; charset=UTF-8',
       },
-    });
+      response: '',
+    }).as('addSubject');
+
     cy.route({
       method: 'PUT',
       url: `/taxonomy/v1/subjects/urn:subject:12`,
       status: 204,
       response: '',
+      headers: {
+        Location: 'newPath',
+      },
     }).as('newSubjectName');
     cy.route({
       method: 'POST',
       url: '/taxonomy/v1/topics',
       status: 201,
       response: '',
+      headers: {
+        Location: 'newPath',
+      },
     }).as('addNewTopic');
     cy.route('POST', '/taxonomy/v1/filters', '');
     cy.route({
@@ -71,9 +62,6 @@ describe('Subject editing', () => {
       url: '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554',
       status: 204,
       response: '',
-      headers: {
-        'Content-Type': 'text/plain; charset=UTF-8',
-      },
     });
     cy.route(
       'DELETE',
@@ -90,8 +78,24 @@ describe('Subject editing', () => {
       url: '/taxonomy/v1/subject-topics',
       status: 201,
       response: '',
+      headers: {
+        Location: 'newPath',
+        'content-type': 'text/plain; charset=UTF-8',
+      },
     }).as('addNewSubjectTopic');
+    cy.visit('/structure/urn:subject:12', visitOptions);
+  });
 
+  it('should add a new subject', () => {
+    cy.get('[data-testid=AddSubjectButton]').click();
+    cy.get('[data-testid=addSubjectInputField]').type(
+      'Cypress test subject{enter}',
+    );
+    cy.wait('@addSubject');
+  });
+
+  it.only('should have a settings menu where everything works', () => {
+    cy.wait('@allSubjects');
     cy.get('.c-settingsMenu > button')
       .first()
       .click();

@@ -27,7 +27,6 @@ import {
 } from '@ndla/icons/editor';
 
 import { css } from 'react-emotion';
-import Types from 'slate-prop-types';
 import { toolbarClasses } from './SlateToolbar';
 // @ndla/ui icon for Link type in toolbar has the same name as a link/anchor element component.
 // Thus triggering a false positive, that we have to disable.

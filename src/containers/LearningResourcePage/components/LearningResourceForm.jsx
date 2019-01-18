@@ -413,7 +413,7 @@ class LearningResourceForm extends Component {
           fields={fields}
           severity="danger"
           model={model}
-          text={t('warningModal.notSaved')}
+          text={t('alertModal.notSaved')}
         />
       </form>
     );

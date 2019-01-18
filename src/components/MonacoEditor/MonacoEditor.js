@@ -73,6 +73,11 @@ monaco.editor.defineTheme('myCustomTheme', {
   inherit: false,
   rules: [
     { token: 'tag', foreground: 'CC342B' },
+    {
+      token: 'invalidtag',
+      foreground: 'ff0000',
+      fontStyle: 'underline bold',
+    },
     { token: 'attribute.name', foreground: '3971ED' },
     { token: 'attribute.value', foreground: '178844' },
   ],

@@ -1,24 +1,15 @@
-// Allow for running under nodejs/requirejs in tests
-var _monaco = typeof monaco === 'undefined' ? self.monaco : monaco; //eslint-disable-line
-var EMPTY_ELEMENTS = [
-  'area',
-  'base',
-  'br',
-  'col',
-  'embed',
-  'hr',
-  'img',
-  'input',
-  'keygen',
-  'link',
-  'menuitem',
-  'meta',
-  'param',
-  'source',
-  'track',
-  'wbr',
-];
-export var conf = {
+import htmlRules from './html-rules.json';
+const VALID_TAGS = [
+  ...htmlRules.tags,
+  ...Object.keys(htmlRules.attributes),
+].sort((a, b) => b.length - a.length);
+console.log(VALID_TAGS);
+
+const _monaco = typeof monaco === 'undefined' ? self.monaco : monaco; //eslint-disable-line
+
+const EMPTY_ELEMENTS = ['br', 'embed'];
+
+export const conf = {
   wordPattern: /(-?\d*\.\d\w*)|([^`~!@$^&*()=+[{\]}\\|;:'",.<>/\s]+)/g,
   comments: {
     blockComment: ['<!--', '-->'],
@@ -74,28 +65,28 @@ export var language = {
   // The main tokenizer for our languages
   tokenizer: {
     root: [
-      [/<!DOCTYPE/, 'metatag', '@doctype'],
-      [/<!--/, 'comment', '@comment'],
       [
         /(<)((?:[\w-]+:)?[\w-]+)(\s*)(\/>)/,
         ['delimiter', 'tag', '', 'delimiter'],
       ],
       [
+        new RegExp('(<)(' + VALID_TAGS.join('|') + ')'),
+        ['delimiter', { token: 'tag', next: '@otherTag' }],
+      ],
+      [
         /(<)((?:[\w-]+:)?[\w-]+)/,
+        ['delimiter', { token: 'invalidtag', next: '@otherTag' }],
+      ],
+      [
+        new RegExp('(</)(' + VALID_TAGS.join('|') + ')'),
         ['delimiter', { token: 'tag', next: '@otherTag' }],
       ],
       [
         /(<\/)((?:[\w-]+:)?[\w-]+)/,
-        ['delimiter', { token: 'tag', next: '@otherTag' }],
+        ['delimiter', { token: 'invalidtag', next: '@otherTag' }],
       ],
       [/</, 'delimiter'],
       [/[^<]+/],
-    ],
-    doctype: [[/[^>]+/, 'metatag.content'], [/>/, 'metatag', '@pop']],
-    comment: [
-      [/-->/, 'comment', '@pop'],
-      [/[^-]+/, 'comment.content'],
-      [/./, 'comment.content'],
     ],
     otherTag: [
       [/\/?>/, 'delimiter', '@pop'],

@@ -6,50 +6,47 @@
  *
  */
 
-import { beforeEachHelper } from '../../support';
+import { visitOptions, setToken } from '../../support';
 import phrases from '../../../src/phrases/phrases-nb';
 
 const selectSubject = 'urn:subject:12';
 const selectTopic = 'urn:topic:1:183043';
 
-beforeEach(() => {
-  cy.server({ force404: true });
-  cy.route(
-    'GET',
-    '/taxonomy/v1/subjects/?language=nb',
-    'fixture:allSubjects.json',
-  );
-  cy.route(
-    'GET',
-    `/taxonomy/v1/subjects/${selectSubject}/topics?recursive=true`,
-    'fixture:allSubjectTopics.json',
-  );
-  cy.route(
-    'GET',
-    `/taxonomy/v1/subjects/${selectSubject}/filters`,
-    'fixture:allSubjectFilters.json',
-  );
-  cy.route(
-    'GET',
-    '/taxonomy/v1/resource-types/?language=nb',
-    'fixture:resourceTypes.json',
-  );
-  cy.route(
-    'GET',
-    `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:core&filter=`,
-    'fixture:coreResources.json',
-  );
-  cy.route(
-    'GET',
-    `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:supplementary&filter=`,
-    'fixture:supplementaryResources.json',
-  );
-  cy.route('GET', '/article-api/v2/articles/8497', 'fixture:article.json');
-  beforeEachHelper(`/structure/${selectSubject}/${selectTopic}`);
-});
-
 describe('Topic editing', () => {
-  it('should have a settings menu where everything works', () => {
+  beforeEach(() => {
+    setToken();
+    cy.server({ force404: true });
+    cy.route(
+      'GET',
+      '/taxonomy/v1/subjects/?language=nb',
+      'fixture:allSubjects.json',
+    );
+    cy.route(
+      'GET',
+      `/taxonomy/v1/subjects/${selectSubject}/topics?recursive=true`,
+      'fixture:allSubjectTopics.json',
+    ).as('subjectTopics');
+    cy.route(
+      'GET',
+      `/taxonomy/v1/subjects/${selectSubject}/filters`,
+      'fixture:allSubjectFilters.json',
+    );
+    cy.route(
+      'GET',
+      '/taxonomy/v1/resource-types/?language=nb',
+      'fixture:resourceTypes.json',
+    );
+    cy.route(
+      'GET',
+      `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:core&filter=`,
+      'fixture:coreResources.json',
+    );
+    cy.route(
+      'GET',
+      `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:supplementary&filter=`,
+      'fixture:supplementaryResources.json',
+    );
+    cy.route('GET', '/article-api/v2/articles/8497', 'fixture:article.json');
     cy.route({
       method: 'PUT',
       url: `/taxonomy/v1/topics/${selectTopic}`,
@@ -80,40 +77,9 @@ describe('Topic editing', () => {
       },
       response: '',
     });
-    cy.route('/taxonomy/v1/topics/?language=nb', 'fixture:allTopics.json');
-
-    cy.get('[data-cy=settings-button-topic]').click({ force: true });
-    cy.get('[data-cy=change-topic-name]').click({ force: true });
-    cy.get('[data-testid=inlineEditInput]').type('TEST{enter}', {
-      force: true,
-    });
-    cy.wait('@changeTopicName');
-
-    cy.get('[data-cy=settings-button-topic]').click({ force: true });
-    cy.get('button')
-      .contains(phrases.taxonomy.addTopic)
-      .click();
-    cy.get(`input[placeholder="${phrases.taxonomy.newTopic}"]`).type(
-      'Nytt testemne{enter}',
+    cy.route('/taxonomy/v1/topics/?language=nb', 'fixture:allTopics.json').as(
+      'allTopics',
     );
-
-    cy.get('[data-cy=settings-button-topic]').click({ force: true });
-    cy.get('button')
-      .contains(phrases.taxonomy.addExistingTopic)
-      .click();
-    cy.get(`input[placeholder="${phrases.taxonomy.existingTopic}"]`).type('F');
-    cy.get('[data-testid=dropdown-items]')
-      .contains('Filmanalyse')
-      .click();
-    cy.get('[data-testid=inlineEditSaveButton]').click();
-
-    cy.get('[data-cy=settings-button-topic]').click({ force: true });
-    cy.get('button')
-      .contains(phrases.taxonomy.connectFilters)
-      .click();
-    cy.get('.c-connectFilter > label').each($lbl => {
-      cy.wrap($lbl).click();
-    });
     cy.route(
       `/taxonomy/v1/topics/${selectTopic}/filters`,
       'fixture:topicFilters.json',
@@ -128,6 +94,46 @@ describe('Topic editing', () => {
       status: 201,
       response: '',
     }).as('addToFilter');
+
+    cy.visit(`/structure/${selectSubject}/${selectTopic}`, visitOptions);
+  });
+
+  it('should have a settings menu where everything works', () => {
+    cy.wait('@subjectTopics');
+    cy.get('[data-cy=settings-button-topic]').click();
+    cy.get('[data-cy=change-topic-name]').click({ force: true });
+    cy.get('[data-testid=inlineEditInput]').type('TEST{enter}', {
+      force: true,
+    });
+    cy.wait('@changeTopicName');
+
+    cy.get('[data-cy=settings-button-topic]').click();
+    cy.get('button')
+      .contains(phrases.taxonomy.addTopic)
+      .click();
+    cy.get(`input[placeholder="${phrases.taxonomy.newTopic}"]`).type(
+      'Nytt testemne{enter}',
+    );
+
+    cy.get('[data-cy=settings-button-topic]').click();
+    cy.get('button')
+      .contains(phrases.taxonomy.addExistingTopic)
+      .click();
+    cy.get(`input[placeholder="${phrases.taxonomy.existingTopic}"]`).type('F');
+    cy.wait('@allTopics');
+    cy.get('[data-testid=dropdown-items]')
+      .contains('Filmanalyse')
+      .click();
+    cy.get('[data-testid=inlineEditSaveButton]').click();
+
+    cy.get('[data-cy=settings-button-topic]').click();
+    cy.get('button')
+      .contains(phrases.taxonomy.connectFilters)
+      .click();
+    cy.get('.c-connectFilter > label').each($lbl => {
+      cy.wrap($lbl).click();
+    });
+
     cy.get('[data-testid="submitConnectFilters"]').click();
 
     cy.wait('@addToFilter');

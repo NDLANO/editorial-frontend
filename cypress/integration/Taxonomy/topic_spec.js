@@ -25,7 +25,7 @@ describe('Topic editing', () => {
       'GET',
       `/taxonomy/v1/subjects/${selectSubject}/topics?recursive=true`,
       'fixture:allSubjectTopics.json',
-    );
+    ).as('subjectTopics');
     cy.route(
       'GET',
       `/taxonomy/v1/subjects/${selectSubject}/filters`,
@@ -77,7 +77,9 @@ describe('Topic editing', () => {
       },
       response: '',
     });
-    cy.route('/taxonomy/v1/topics/?language=nb', 'fixture:allTopics.json');
+    cy.route('/taxonomy/v1/topics/?language=nb', 'fixture:allTopics.json').as(
+      'allTopics',
+    );
     cy.route(
       `/taxonomy/v1/topics/${selectTopic}/filters`,
       'fixture:topicFilters.json',
@@ -97,6 +99,7 @@ describe('Topic editing', () => {
   });
 
   it('should have a settings menu where everything works', () => {
+    cy.wait('@subjectTopics');
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('[data-cy=change-topic-name]').click({ force: true });
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}', {
@@ -117,6 +120,7 @@ describe('Topic editing', () => {
       .contains(phrases.taxonomy.addExistingTopic)
       .click();
     cy.get(`input[placeholder="${phrases.taxonomy.existingTopic}"]`).type('F');
+    cy.wait('@allTopics');
     cy.get('[data-testid=dropdown-items]')
       .contains('Filmanalyse')
       .click();

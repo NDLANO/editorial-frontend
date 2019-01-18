@@ -72,7 +72,7 @@ describe('Subject editing', () => {
       'GET',
       '/taxonomy/v1/topics/?language=nb',
       'fixture:allTopics.json',
-    );
+    ).as('allTopics');
     cy.route({
       method: 'POST',
       url: '/taxonomy/v1/subject-topics',
@@ -114,6 +114,7 @@ describe('Subject editing', () => {
       .click();
     cy.get('[data-testid=addExistingSubjectTopicButton]').click();
     cy.get('[data-testid=inlineDropdownInput]').type('F');
+    cy.wait('@allTopics');
     cy.get('[data-testid=dropdown-items]')
       .first()
       .click();

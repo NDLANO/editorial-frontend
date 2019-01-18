@@ -1,9 +1,12 @@
-import { beforeEachHelper } from '../../support';
-
-beforeEach(() => beforeEachHelper('/subject-matter/learning-resource/new'));
+import { visitOptions, setToken } from '../../support';
 
 describe('Selecting text and using the toolbar', () => {
-  it.only('change the text styling', () => {
+  beforeEach(() => {
+    setToken();
+    cy.visit('/subject-matter/learning-resource/new', visitOptions);
+  });
+
+  it('change the text styling', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()

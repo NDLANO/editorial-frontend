@@ -2,7 +2,7 @@ import styled, { css } from 'react-emotion';
 import { colors, spacing, fonts, misc } from '@ndla/core';
 
 /* CSS */
-const buttonAddition = css`
+const buttonAdditionStyle = css`
   opacity: 0;
   height: auto;
   padding: 0 ${spacing.small};
@@ -11,7 +11,7 @@ const buttonAddition = css`
   ${fonts.sizes(14, 1.1)};
 `;
 
-const checkboxItemCSS = css`
+const checkboxItemStyle = css`
   border: 2px solid ${colors.brand.tertiary};
   background: transparent;
   width: 18px;
@@ -49,7 +49,7 @@ const checkboxItemCSS = css`
   }
 `;
 
-const checkboxItemSelectedCSS = css`
+const checkboxItemSelectedStyle = css`
   background: ${colors.brand.primary};
   border: 2px solid ${colors.brand.primary};
   &:before {
@@ -64,7 +64,7 @@ const checkboxItemSelectedCSS = css`
   }
 `;
 
-const checkboxItemHoverCSS = css`
+const checkboxItemHoverStyle = css`
   &:before {
     width: 5px;
     transition: width 100ms ease;
@@ -75,12 +75,12 @@ const checkboxItemHoverCSS = css`
   }
 `;
 
-const flexCenterAlign = css`
+const flexButtonCenterAlignStyle = css`
   display: flex;
   align-items: center;
 `;
 
-const listClass = css`
+const listStyle = css`
   > div {
     > .filestructure {
       display: flex;
@@ -110,14 +110,14 @@ const StyledFilterHeading = styled('span')`
   white-space: no-wrap;
 `;
 
-const BreadCrumb = styled('div')`
+const StyledBreadCrumb = styled('div')`
   flex-grow: 1;
   span:last-of-type {
     font-weight: ${fonts.weight.semibold};
   }
 `;
 
-const Checked = styled('div')`
+const StyledChecked = styled('div')`
   ${fonts.sizes(16, 1.1)} font-weight: ${fonts.weight.semibold};
   display: flex;
   align-items: center;
@@ -134,7 +134,7 @@ const StyledFilterButton = styled('button')`
   margin: 0 0 0 ${spacing.xsmall};
   background: none;
   transition: opacity 100ms ease;
-  ${flexCenterAlign};
+  ${flexButtonCenterAlignStyle};
   justify-content: center;
   text-align: left;
   padding: ${spacing.xsmall};
@@ -144,25 +144,25 @@ const StyledFilterButton = styled('button')`
     color: ${colors.brand.light};
   }
   > span:first-child {
-    ${checkboxItemCSS};
+    ${checkboxItemStyle};
   }
   &:not(:disabled) {
     &:hover,
     &:focus {
       > span:first-child {
-        ${checkboxItemHoverCSS};
+        ${checkboxItemHoverStyle};
       }
     }
   }
   &.checkboxItem--checked {
     > span:first-child {
-      ${checkboxItemSelectedCSS};
+      ${checkboxItemSelectedStyle};
     }
   }
 `;
 
-const Connections = styled('div')`
-  ${flexCenterAlign};
+const StyledConnections = styled('div')`
+  ${flexButtonCenterAlignStyle};
   background: ${props =>
     props.error ? `${colors.support.red}11` : colors.brand.greyLightest};
   padding: ${spacing.xsmall};
@@ -196,11 +196,11 @@ const Connections = styled('div')`
     `};
 `;
 
-const ConnectionsWrapper = styled('div')`
+const StyledConnectionsWrapper = styled('div')`
   padding-bottom: ${spacing.small};
 `;
 
-const ErrorLabel = styled('div')`
+const StyledErrorLabel = styled('div')`
   background: ${colors.support.red};
   border: 0;
   border-radius: ${misc.borderRadius};
@@ -225,7 +225,7 @@ const StyledRelevanceButton = styled('button')`
   &:focus {
     opacity: 1;
   }
-  ${flexCenterAlign};
+  ${flexButtonCenterAlignStyle};
   ${fonts.sizes(14, 1.1)};
   svg {
     margin-right: ${spacing.xsmall};
@@ -235,25 +235,25 @@ const StyledRelevanceButton = styled('button')`
 const StyledFilterCheckBox = styled('button')`
   border: 0;
   background: none;
-  ${flexCenterAlign};
+  ${flexButtonCenterAlignStyle};
   justify-content: center;
   text-align: left;
   padding: ${spacing.xsmall};
   color: ${colors.text.primary};
   ${fonts.sizes(16, 1.1)} font-weight: ${fonts.weight.semibold};
   > span:first-child {
-    ${checkboxItemCSS};
+    ${checkboxItemStyle};
     margin-right: ${spacing.small};
   }
   &:hover,
   &:focus {
     > span:first-child {
-      ${checkboxItemHoverCSS};
+      ${checkboxItemHoverStyle};
     }
   }
   &.checkboxItem--checked {
     > span:first-child {
-      ${checkboxItemSelectedCSS};
+      ${checkboxItemSelectedStyle};
     }
   }
 `;
@@ -281,7 +281,7 @@ const StyledFilterListTableRow = styled('tr')`
     `};
 `;
 
-const FilterTable = styled('table')`
+const StyledFilterTable = styled('table')`
   width: 100%;
   td:first-child {
     width: 100%;
@@ -318,7 +318,7 @@ const StyledDuplicateConnectionLabel = styled('div')`
   background: ${colors.brand.light};
 `;
 
-const RemoveConnectionButton = styled('button')`
+const StyledRemoveConnectionButton = styled('button')`
   border: 0;
   border-radius: 100%;
   padding: 0;
@@ -326,7 +326,7 @@ const RemoveConnectionButton = styled('button')`
   width: ${spacing.normal};
   height: ${spacing.normal};
   transition: background 100ms ease;
-  ${flexCenterAlign};
+  ${flexButtonCenterAlignStyle};
   justify-content: center;
   &:hover,
   &:focus {
@@ -334,33 +334,33 @@ const RemoveConnectionButton = styled('button')`
   }
 `;
 
-const SubjectName = styled('div')`
+const StyledSubjectName = styled('div')`
   padding: ${props => (props.firstSubject ? spacing.small : spacing.medium)} 0
     ${spacing.xsmall};
 `;
 
-const TitleModal = styled('h1')`
+const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};
 `;
 
 export {
-  buttonAddition,
-  flexCenterAlign,
+  buttonAdditionStyle,
+  flexButtonCenterAlignStyle,
+  listStyle,
   StyledFilterHeading,
-  BreadCrumb,
-  Checked,
+  StyledBreadCrumb,
+  StyledChecked,
   StyledFilterButton,
-  listClass,
-  Connections,
-  ConnectionsWrapper,
-  ErrorLabel,
+  StyledConnections,
+  StyledConnectionsWrapper,
+  StyledErrorLabel,
   StyledRelevanceButton,
   StyledFilterCheckBox,
   StyledFilterListTableRow,
-  FilterTable,
+  StyledFilterTable,
   StyledPrimaryConnectionButton,
-  RemoveConnectionButton,
+  StyledRemoveConnectionButton,
   StyledDuplicateConnectionLabel,
-  SubjectName,
-  TitleModal,
+  StyledSubjectName,
+  StyledTitleModal,
 };

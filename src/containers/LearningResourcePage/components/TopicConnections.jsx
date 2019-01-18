@@ -18,10 +18,10 @@ import { injectT } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { fetchTopicConnections } from '../../../modules/taxonomy';
 import {
-  TitleModal,
-  buttonAddition,
-  Checked,
-  listClass,
+  buttonAdditionStyle,
+  listStyle,
+  StyledTitleModal,
+  StyledChecked,
 } from '../../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnections from './ActiveTopicConnections';
 import FilterView from '../../StructurePage/folderComponents/FilterView';
@@ -116,19 +116,19 @@ class TopicConnections extends Component {
         {currentIndex === -1 ? (
           <Button
             outline
-            css={buttonAddition}
+            css={buttonAdditionStyle}
             type="button"
             onClick={() => this.addTopic(id, closeModal)}>
             {t('taxonomy.topics.filestructureButton')}
           </Button>
         ) : (
-          <Checked>
+          <StyledChecked>
             <Check
               className="c-icon--22"
               style={{ fill: colors.support.green }}
             />{' '}
             <span>{t('taxonomy.topics.addedTopic')}</span>
-          </Checked>
+          </StyledChecked>
         )}
       </div>
     );
@@ -163,15 +163,15 @@ class TopicConnections extends Component {
                 />
               </ModalHeader>
               <ModalBody>
-                <TitleModal>
+                <StyledTitleModal>
                   {t('taxonomy.topics.filestructureHeading')}:
-                </TitleModal>
+                </StyledTitleModal>
                 <hr />
                 <Structure
                   openedPaths={openedPaths}
                   structure={structure}
                   toggleOpen={this.handleOpenToggle}
-                  listClass={listClass}
+                  listClass={listStyle}
                   renderListItems={props =>
                     this.renderListItems({ ...props, closeModal })
                   }

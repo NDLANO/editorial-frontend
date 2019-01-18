@@ -4,17 +4,17 @@ import { Additional, Core } from '@ndla/icons/common';
 import { FormHeader } from '@ndla/forms';
 import { injectT } from '@ndla/i18n';
 import {
-  filterbuttonwrapper,
-  FilterButton,
-  FilterCheckBox,
-  FilterListTR,
-  FilterTable,
-  SubjectName,
-} from '../../../style/LearningResourceTaxonomyStyles';
+  flexButtonCenterAlignStyle,
+  StyledFilterButton,
+  StyledFilterCheckBox,
+  StyledFilterListTableRow,
+  StyledFilterTable,
+  StyledSubjectName,
+} from '../../style/LearningResourceTaxonomyStyles';
 import {
   RESOURCE_FILTER_CORE,
   RESOURCE_FILTER_SUPPLEMENTARY,
-} from '../../../constants';
+} from '../../constants';
 
 const FilterConnections = ({
   t,
@@ -36,7 +36,7 @@ const FilterConnections = ({
         title={t('taxonomy.filters.title')}
         subTitle={t('taxonomy.filters.subTitle')}
       />
-      <FilterTable>
+      <StyledFilterTable>
         <tbody>
           {Object.keys(availableSubjects).map((filterSubjectKey, index) => {
             const subject = structure.find(
@@ -49,9 +49,9 @@ const FilterConnections = ({
               <Fragment key={filterSubjectKey}>
                 <tr>
                   <td>
-                    <SubjectName firstSubject={index === 0}>
+                    <StyledSubjectName firstSubject={index === 0}>
                       {subject.name}:
-                    </SubjectName>
+                    </StyledSubjectName>
                   </td>
                 </tr>
                 {availableFilters[filterSubjectKey].map(currentFilter => {
@@ -60,9 +60,11 @@ const FilterConnections = ({
                   );
                   const active = useFilter !== undefined;
                   return (
-                    <FilterListTR key={currentFilter.id} active={active}>
+                    <StyledFilterListTableRow
+                      key={currentFilter.id}
+                      active={active}>
                       <td>
-                        <FilterCheckBox
+                        <StyledFilterCheckBox
                           type="button"
                           onClick={() =>
                             updateFilter(
@@ -74,11 +76,11 @@ const FilterConnections = ({
                           className={active ? 'checkboxItem--checked' : ''}>
                           <span />
                           <span>{currentFilter.name}</span>
-                        </FilterCheckBox>
+                        </StyledFilterCheckBox>
                       </td>
                       <td>
-                        <div className={filterbuttonwrapper}>
-                          <FilterButton
+                        <div css={flexButtonCenterAlignStyle}>
+                          <StyledFilterButton
                             type="button"
                             selected={
                               useFilter &&
@@ -93,8 +95,8 @@ const FilterConnections = ({
                             }>
                             <Additional className="c-icon--22" />{' '}
                             {t('taxonomy.filters.additional')}
-                          </FilterButton>
-                          <FilterButton
+                          </StyledFilterButton>
+                          <StyledFilterButton
                             type="button"
                             selected={
                               useFilter &&
@@ -105,17 +107,17 @@ const FilterConnections = ({
                             }>
                             <Core className="c-icon--22" />{' '}
                             {t('taxonomy.filters.core')}
-                          </FilterButton>
+                          </StyledFilterButton>
                         </div>
                       </td>
-                    </FilterListTR>
+                    </StyledFilterListTableRow>
                   );
                 })}
               </Fragment>
             );
           })}
         </tbody>
-      </FilterTable>
+      </StyledFilterTable>
     </Fragment>
   );
 };

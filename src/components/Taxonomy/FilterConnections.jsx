@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { FormHeader } from '@ndla/forms';
 import { injectT } from '@ndla/i18n';
 import {
-  FilterTable,
-  SubjectName,
+  StyledFilterTable,
+  StyledSubjectName,
 } from '../../style/LearningResourceTaxonomyStyles';
 import FilterItem from './FilterItem';
 
@@ -29,7 +29,7 @@ const FilterConnections = ({
         title={t('taxonomy.filters.title')}
         subTitle={t('taxonomy.filters.subTitle')}
       />
-      <FilterTable>
+      <StyledFilterTable>
         <tbody>
           {Object.keys(availableSubjects).map((filterSubjectKey, index) => {
             const subject = structure.find(
@@ -42,9 +42,9 @@ const FilterConnections = ({
               <Fragment key={filterSubjectKey}>
                 <tr>
                   <td>
-                    <SubjectName firstSubject={index === 0}>
+                    <StyledSubjectName firstSubject={index === 0}>
                       {subject.name}:
-                    </SubjectName>
+                    </StyledSubjectName>
                   </td>
                 </tr>
                 {availableFilters[filterSubjectKey].map(currentFilter => (
@@ -60,7 +60,7 @@ const FilterConnections = ({
             );
           })}
         </tbody>
-      </FilterTable>
+      </StyledFilterTable>
     </Fragment>
   );
 };

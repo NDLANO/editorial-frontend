@@ -16,15 +16,15 @@ import { FormHeader } from '@ndla/forms';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { fetchTopicConnections } from '../../../modules/taxonomy';
+import { fetchTopicConnections } from '../../../../modules/taxonomy';
 import {
   buttonAdditionStyle,
   listStyle,
   StyledTitleModal,
   StyledChecked,
-} from '../../../style/LearningResourceTaxonomyStyles';
+} from '../../../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnections from './ActiveTopicConnections';
-import FilterView from '../../StructurePage/folderComponents/FilterView';
+import FilterView from '../../../StructurePage/folderComponents/FilterView';
 
 class TopicConnections extends Component {
   constructor(props) {

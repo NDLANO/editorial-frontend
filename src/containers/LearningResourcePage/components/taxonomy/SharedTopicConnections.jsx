@@ -1,12 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { ChevronRight } from '@ndla/icons/common';
 import { injectT } from '@ndla/i18n';
+import TopicConnectionBreadCrumbs from './TopicConnectionBreadCrumbs';
 import {
-  StyledBreadCrumb,
   StyledConnections,
   StyledDuplicateConnectionLabel,
-} from '../../../style/LearningResourceTaxonomyStyles';
+} from '../../../../style/LearningResourceTaxonomyStyles';
 
 export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, t }) => {
   if (topic.topicConnections.length === 0) {
@@ -15,24 +14,16 @@ export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, t }) => {
   return topic.topicConnections
     .filter(topicConnection => !topicConnection.isPrimary)
     .map(topicConnection => {
-      const topicConnectionsBreadCrumbs = retriveBreadCrumbs(
-        topicConnection.paths[0],
-      );
       return (
         <StyledConnections shared key={topicConnection.paths[0]}>
           <StyledDuplicateConnectionLabel>
             {t('form.topics.sharedTopic')}
           </StyledDuplicateConnectionLabel>
-          <StyledBreadCrumb>
-            {topicConnectionsBreadCrumbs.map((path, index) => (
-              <Fragment key={`${topic.id}_${index}`}>
-                <span>{path.name}</span>
-                <ChevronRight />
-              </Fragment>
-            ))}
-            <span>{topic.name}</span>
-            <ChevronRight />
-          </StyledBreadCrumb>
+          <TopicConnectionBreadCrumbs
+            topicConnection={topicConnection}
+            topic={topic}
+            retriveBreadCrumbs={retriveBreadCrumbs}
+          />
         </StyledConnections>
       );
     });

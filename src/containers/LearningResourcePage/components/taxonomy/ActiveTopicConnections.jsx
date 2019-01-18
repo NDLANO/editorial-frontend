@@ -10,7 +10,7 @@ import {
   StyledErrorLabel,
   StyledRemoveConnectionButton,
   StyledPrimaryConnectionButton,
-} from '../../../style/LearningResourceTaxonomyStyles';
+} from '../../../../style/LearningResourceTaxonomyStyles';
 import SharedTopicConnections from './SharedTopicConnections';
 
 const ActiveTopicConnections = ({

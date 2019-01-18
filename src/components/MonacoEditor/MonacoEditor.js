@@ -68,6 +68,16 @@ window.MonacoEnvironment = {
   },
 };
 
+monaco.editor.defineTheme('myCustomTheme', {
+  base: 'vs',
+  inherit: false,
+  rules: [
+    { token: 'tag', foreground: 'CC342B' },
+    { token: 'attribute.name', foreground: '3971ED' },
+    { token: 'attribute.value', foreground: '178844' },
+  ],
+});
+
 class MonacoEditor extends Component {
   constructor(props) {
     super(props);
@@ -87,6 +97,7 @@ class MonacoEditor extends Component {
     this.editor = monaco.editor.create(this.container.current, {
       value: prettified,
       scrollBeyondLastLine: false,
+      theme: 'myCustomTheme',
       wordWrap: 'on',
       miniMap: false,
       language: 'html',

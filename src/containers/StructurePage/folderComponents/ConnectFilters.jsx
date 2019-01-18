@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
+import { colors } from '@ndla/core';
 import { css } from 'react-emotion';
 import isEqual from 'lodash/fp/isEqual';
 import {
@@ -28,9 +29,10 @@ const borderButtonStyle = css`
   &,
   &:hover,
   &:focus {
-    border: 1px solid var(--gray-1);
+    border: 1px solid ${colors.brand.grey};
     border-radius: 3px;
     width: 100px;
+  }
 `;
 
 class ConnectFilters extends Component {

@@ -107,7 +107,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
     </label>
   </div>
   <button
-    class="css-1j428vq emotion-0"
+    class="css-1l8kmm4 emotion-0"
     data-testid="submitConnectFilters"
     type="button"
   >
@@ -224,7 +224,7 @@ exports[`maps out filters 1`] = `
     </label>
   </div>
   <button
-    class="css-1j428vq emotion-0"
+    class="css-1l8kmm4 emotion-0"
     data-testid="submitConnectFilters"
     type="button"
   >

@@ -74,20 +74,18 @@ class MonacoEditor extends Component {
     this.container = React.createRef();
   }
 
-  componentDidMount() {
-    monaco.editor.create(this.container.current, {
-      //       value: [
-      //         `<section>
-      //   <h1>Hello World</h1>
-      //   <p>Lorem ipsum dolor sit lmet</p>
-      //   <ul>
-      //     <li>Punkt 1</li>
-      //     <li>Punkt 2</li>
-      //     <li>Punkt 3</li>
-      //   </ul>
-      // </section>`,
-      //       ].join('\n'),
-      value: content,
+  async componentDidMount() {
+    const data = await fetch(`/prettify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ content }),
+    });
+    const { prettified } = await data.json();
+
+    this.editor = monaco.editor.create(this.container.current, {
+      value: prettified,
       scrollBeyondLastLine: false,
       wordWrap: 'on',
       miniMap: false,

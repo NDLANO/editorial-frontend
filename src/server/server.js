@@ -13,6 +13,7 @@ import compression from 'compression';
 import helmet from 'helmet';
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE } from 'http-status';
 import bodyParser from 'body-parser';
+import prettier from 'prettier';
 import proxy from 'express-http-proxy';
 import Auth0SilentCallback from './Auth0SilentCallback';
 import getConditionalClassnames from './getConditionalClassnames';
@@ -71,6 +72,11 @@ app.get('/robots.txt', (req, res) => {
 
 app.get('/health', (req, res) => {
   res.status(OK).json({ status: OK, text: 'Health check ok' });
+});
+
+app.post('/prettify', (req, res) => {
+  const prettified = prettier.format(req.body.content, { parser: 'parse5' });
+  res.status(OK).json({ prettified, content: req.body.content });
 });
 
 app.get('/login/silent-callback', (req, res) => {

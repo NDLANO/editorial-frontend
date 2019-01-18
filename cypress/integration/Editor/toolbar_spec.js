@@ -6,78 +6,66 @@ describe('Selecting text and using the toolbar', () => {
     cy.visit('/subject-matter/learning-resource/new', visitOptions);
   });
 
-  // selectall stopped working
   it('change the text styling', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
+      .focus()
+      .type('This is test content{leftarrow}{leftarrow}{selectall}');
+
+    cy.get('[data-testid=toolbar-button-bold]').click({ force: true });
+    cy.get('[data-testid=toolbar-button-italic]').click({ force: true });
+    cy.get('[data-testid=toolbar-button-underlined]').click({
+      force: true,
+    });
+    cy.get('[data-testid=toolbar-button-quote]').click({ force: true });
+    cy.get('span')
+      .contains('This is test content')
+      .type('{rightarrow}{enter}{enter}test new line{selectall}');
+    cy.get('blockquote')
+      .contains('test new line')
+      .should('not.exist');
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
+      .last()
       .then($el => {
-        cy.wrap($el)
-          .focus()
-          .type('This is test content{leftarrow}{leftarrow}');
-        cy.wrap($el)
-          .focus()
-          .type('{selectall}');
-        cy.get('[data-testid=toolbar-button-bold]').click({ force: true });
-        cy.get('[data-testid=toolbar-button-italic]').click({ force: true });
-        cy.get('[data-testid=toolbar-button-underlined]').click({
-          force: true,
-        });
-        cy.get('[data-testid=toolbar-button-quote]').click({ force: true });
-        cy.wrap($el).type('{rightarrow}{enter}{enter}test new line{selectall}');
-        cy.get('blockquote')
-          .contains('test new line')
-          .should('not.exist');
-        cy.get('[data-testid=toolbar-button-bold]').click({ force: true });
-        cy.get('[data-testid=toolbar-button-italic]').click({ force: true });
-        cy.get('[data-testid=toolbar-button-underlined]').click({
-          force: true,
-        });
-        cy.get('[data-testid=toolbar-button-heading-two]').click({
-          force: true,
-        });
-        cy.get('[data-testid=toolbar-button-heading-three]').click({
-          force: true,
-        });
+        cy.wrap($el).type('last line{selectall}');
+        cy.get('[data-testid=toolbar-button-bold]').click();
+        cy.get('[data-testid=toolbar-button-italic]').click();
+        cy.get('[data-testid=toolbar-button-underlined]').click();
+        cy.get('[data-testid=toolbar-button-heading-two]').click();
+        cy.get('[data-testid=toolbar-button-heading-three]').click();
         cy.wrap($el)
           .find('h3')
           .should('have.length', 1);
       });
   });
 
-  /* Test not working anymore...
   it('can create a valid link', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
-
+      .focus()
       .then($el => {
-        cy.wrap($el)
-          .focus()
-          .type('This is a link');
-        cy.wrap($el)
-          .focus()
-          .type('{selectall}');
-        cy.get('[data-testid=toolbar-button-link]').click();
-        cy.get('button')
-          .contains('Sett inn lenke')
-          .click();
-        cy.get('input[name=href]').type('http://www.vg.no');
-        cy.get('button')
-          .contains('Sett inn lenke')
-          .click();
-        cy.wrap($el)
-          .focus()
-          .type('{selectall}');
-        cy.get('a')
-          .contains('http://www.vg.no')
-          .should('have.prop', 'href')
-          .and('equal', 'http://www.vg.no/');
+        cy.wrap($el).type('This is a test link{leftarrow}{leftarrow}');
+        cy.wrap($el).type('{selectall}');
       });
-  }); */
+
+    cy.get('[data-testid=toolbar-button-link]').click({ force: true });
+    cy.get('button')
+      .contains('Sett inn lenke')
+      .click();
+    cy.get('input[name=href]').type('http://www.vg.no');
+    cy.get('[data-cy=link_form] input[name=title]').type('VG');
+    cy.get('button')
+      .contains('Sett inn lenke')
+      .click();
+    cy.get('a[title=VG]').contains('This is a test link');
+    cy.get('a[title=VG]')
+      .should('have.prop', 'href')
+      .and('equal', 'http://www.vg.no/');
+  });
 
   it('All lists work properly', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
-
       .then($el => {
         cy.wrap($el)
           .focus()
@@ -85,27 +73,21 @@ describe('Selecting text and using the toolbar', () => {
         cy.wrap($el)
           .focus()
           .type('{selectall}');
-        cy.get('[data-testid=toolbar-button-numbered-list]').click({
-          force: true,
-        });
+        cy.get('[data-testid=toolbar-button-numbered-list]').click();
         cy.get('ol > li').should('have.length', 1);
         cy.wrap($el).type('{rightarrow}{enter}Second item in list');
         cy.get('ol > li').should('have.length', 2);
         cy.wrap($el)
           .focus()
           .type('{selectall}');
-        cy.get('[data-testid=toolbar-button-bulleted-list]').click({
-          force: true,
-        });
-        cy.get('ul > li').should('have.length', 1); // N.B {selectall} selects empty paragraphs so item increases by 2
-        cy.get('[data-testid=toolbar-button-letter-list]').click({
-          force: true,
-        });
-        cy.get('ol > li').should('have.length', 2);
-        cy.get('[data-testid=toolbar-button-two-column-list]').click({
-          force: true,
-        });
-        cy.get('ul > li').should('have.length', 1);
+        cy.get('[data-testid=toolbar-button-bulleted-list]').click();
+        cy.get('ul > li').should('have.length', 4); // N.B {selectall} selects empty paragraphs so item increases by 2
+        cy.get('[data-testid=toolbar-button-letter-list]').click();
+        cy.get('ol > li').should('have.length', 4);
+        cy.get('[data-testid=toolbar-button-two-column-list]').click();
+        cy.get('ul > li').should('have.length', 4);
+        cy.get('[data-testid=toolbar-button-two-column-list]').click();
+        cy.get('ul > li').should('have.length', 0);
       });
   });
 

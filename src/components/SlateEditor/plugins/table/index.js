@@ -7,12 +7,12 @@
  *
  */
 
-import { schema, renderNode, validateNode } from './schema';
+import { schema, renderNode, normalizeNode } from './schema';
 
 export default function createTablePlugin() {
   return {
     schema,
     renderNode,
-    validateNode,
+    normalizeNode,
   };
 }

@@ -96,14 +96,14 @@ class ImageForm extends Component {
     event.preventDefault();
     const {
       model,
-      schema,
+      validationErrors,
       licenses,
       setSubmitted,
       onUpdate,
       revision,
     } = this.props;
 
-    if (!schema.isValid) {
+    if (!validationErrors.isValid) {
       setSubmitted(true);
       return;
     }
@@ -131,7 +131,7 @@ class ImageForm extends Component {
     const {
       t,
       bindInput,
-      schema,
+      validationErrors: schema,
       model,
       initialModel,
       submitted,
@@ -267,7 +267,7 @@ ImageForm.propTypes = {
     language: PropTypes.string,
   }),
   setModel: PropTypes.func.isRequired,
-  schema: SchemaShape,
+  validationErrors: SchemaShape,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

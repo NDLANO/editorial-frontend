@@ -40,8 +40,8 @@ class FootnoteForm extends Component {
 
   handleSave(evt) {
     evt.preventDefault();
-    const { onSave, model, schema, setSubmitted } = this.props;
-    if (!schema.isValid) {
+    const { onSave, model, validationErrors, setSubmitted } = this.props;
+    if (!validationErrors.isValid) {
       setSubmitted(true);
       return;
     }
@@ -51,7 +51,7 @@ class FootnoteForm extends Component {
   render() {
     const {
       t,
-      schema,
+      validationErrors,
       submitted,
       bindInput,
       isEdit,
@@ -65,7 +65,7 @@ class FootnoteForm extends Component {
           <input type="text" {...bindInput('title')} />
           <FieldErrorMessages
             label={t('form.content.footnote.title')}
-            field={getField('title', schema)}
+            field={getField('title', validationErrors)}
             submitted={submitted}
           />
         </Field>
@@ -74,7 +74,7 @@ class FootnoteForm extends Component {
           <input type="text" {...bindInput('year')} />
           <FieldErrorMessages
             label={t('form.content.footnote.year')}
-            field={getField('year', schema)}
+            field={getField('year', validationErrors)}
             submitted={submitted}
           />
         </Field>
@@ -92,7 +92,7 @@ class FootnoteForm extends Component {
           />
           <FieldErrorMessages
             label={t('form.content.footnote.authors.label')}
-            field={getField('authors', schema)}
+            field={getField('authors', validationErrors)}
             submitted={submitted}
           />
         </Field>
@@ -132,7 +132,7 @@ class FootnoteForm extends Component {
 
 FootnoteForm.propTypes = {
   model: FootnoteShape.isRequired,
-  schema: SchemaShape,
+  validationErrors: SchemaShape,
   setSubmitted: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
   isEdit: PropTypes.bool.isRequired,

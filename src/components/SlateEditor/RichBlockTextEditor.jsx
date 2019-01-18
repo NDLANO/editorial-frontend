@@ -8,7 +8,7 @@
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'react-emotion';
 import RichTextEditor from './RichTextEditor';
@@ -26,10 +26,9 @@ const removeSectionButtonHoverStyle = css`
   float: right;
 `;
 
-class RichBlockTextEditor extends Component {
+class RichBlockTextEditor extends PureComponent {
   constructor(props) {
     super(props);
-    this.onContentChange = this.onContentChange.bind(this);
     this.onChange = this.onChange.bind(this);
     this.removeSection = this.removeSection.bind(this);
     this.onMouseOver = this.onMouseOver.bind(this);
@@ -40,23 +39,17 @@ class RichBlockTextEditor extends Component {
     };
   }
 
-  onChange(indexValue, index) {
-    const { name, onChange, value } = this.props;
+  onChange(change, index) {
+    const { onChange, value, name } = this.props;
     const newValue = [].concat(value);
-    newValue[index] = { value: indexValue, index };
+    newValue[index] = { value: change.value, index };
     const changedValue = {
       target: {
         value: newValue,
         name,
-        type: 'SlateEditorValue',
       },
     };
-
     onChange(changedValue);
-  }
-
-  onContentChange(e, index) {
-    this.onChange(e.target.value, index);
   }
 
   onMouseOver(index) {
@@ -91,8 +84,6 @@ class RichBlockTextEditor extends Component {
       value,
       name,
       onChange,
-      onFocus,
-      onBlur,
       ...rest
     } = this.props;
     return (
@@ -117,12 +108,9 @@ class RichBlockTextEditor extends Component {
             <RichTextEditor
               name={name}
               schema={schema}
-              onChange={e => this.onContentChange(e, index)}
-              onFocus={() => onFocus({ target: { name }, type: 'focus' })}
-              onBlur={() => onBlur({ target: { name }, type: 'blur' })}
-              isBlock
-              {...rest}
+              onChange={change => this.onChange(change, index)}
               value={val.value}
+              {...rest}
               index={index}
               removeSection={this.removeSection}
             />
@@ -137,13 +125,10 @@ class RichBlockTextEditor extends Component {
 RichBlockTextEditor.propTypes = {
   schema: PropTypes.shape({}),
   onChange: PropTypes.func.isRequired,
-  onFocus: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
-  submitted: PropTypes.bool.isRequired,
   plugins: PropTypes.arrayOf(PluginShape).isRequired,
 };
 

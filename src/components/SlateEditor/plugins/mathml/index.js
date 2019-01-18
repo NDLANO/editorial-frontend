@@ -20,14 +20,14 @@ const schema = {
   },
 };
 export default function mathmlPlugin() {
-  const renderNode = props => {
+  const renderNode = (props, editor, next) => {
     const { node } = props;
 
     switch (node.type) {
       case TYPE:
         return <MathML {...props} />;
       default:
-        return null;
+        return next();
     }
   };
 

@@ -3,8 +3,8 @@ import getCurrentBlockquote from './getCurrentBlockquote';
 /**
  * Is the selection in a blockquote
  */
-function isSelectionInBlockquote(opts, value) {
-  return Boolean(getCurrentBlockquote(opts, value));
+function isSelectionInBlockquote(opts, editor) {
+  return Boolean(getCurrentBlockquote(opts, editor));
 }
 
 export default isSelectionInBlockquote;

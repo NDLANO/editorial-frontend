@@ -43,7 +43,7 @@ export const schema = {
 };
 
 /* eslint-disable react/prop-types */
-export const renderNode = props => {
+export const renderNode = (props, editor, next) => {
   const { attributes, children, node } = props;
   switch (node.type) {
     case 'section':
@@ -87,11 +87,11 @@ export const renderNode = props => {
     case 'span':
       return <span {...attributes}>{children}</span>;
     default:
-      return null;
+      return next();
   }
 };
 
-export const renderMark = props => {
+export const renderMark = (props, editor, next) => {
   const { attributes, children, mark } = props;
   switch (mark.type) {
     case 'bold':
@@ -101,6 +101,6 @@ export const renderMark = props => {
     case 'underlined':
       return <u {...attributes}>{children}</u>;
     default:
-      return null;
+      return next();
   }
 };

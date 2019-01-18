@@ -413,11 +413,8 @@ const phrases = {
       add: 'Legg til merknad',
       remove: 'Ta bort',
       warning: 'Ein merknad må ha tekst',
-      table: {
+      history: {
         heading: 'Merknads historikk',
-        timestamp: 'Tidspunkt',
-        user: 'Bruker',
-        status: 'Status',
         note: 'Merknad',
         empty: 'Ingen merknader',
       },
@@ -692,6 +689,7 @@ const phrases = {
     dateAfterInvalid: '{label} kan ikke være før {beforeLabel}.',
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
+    noEmptyNote: 'A note can not be empty',
   },
   footer: {
     aboutNDLA: 'Om NDLA',

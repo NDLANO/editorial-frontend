@@ -531,6 +531,15 @@ export default compose(
         }
       },
     },
+    notes: {
+      required: false,
+      test: (value, model, setError) => {
+        const emptyNote = value.find(note => note.length === 0);
+        if (emptyNote !== undefined) {
+          setError('learningResourceForm.validation.noEmptyNote');
+        }
+      },
+    },
     metaDescription: {
       maxLength: 155,
     },
@@ -547,9 +556,6 @@ export default compose(
       allObjectFieldsRequired: true,
     },
     license: {
-      required: false,
-    },
-    notes: {
       required: false,
     },
   }),

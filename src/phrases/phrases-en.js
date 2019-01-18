@@ -405,11 +405,8 @@ const phrases = {
       add: 'Add new note',
       remove: 'Remove note',
       warning: 'A note must contain text',
-      table: {
+      history: {
         heading: 'Notes history',
-        timestamp: 'Timestamp',
-        user: 'User',
-        status: 'Status',
         note: 'Note',
         empty: 'No notes',
       },
@@ -687,6 +684,7 @@ const phrases = {
     minLength: '{length} must have at least {minLength, number} characters.',
     minItems:
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
+    noEmptyNote: 'En merknad kan ikke være en tom',
   },
   footer: {
     aboutNDLA: 'About NDLA',

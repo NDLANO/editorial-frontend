@@ -20,7 +20,7 @@ import {
   fetchAuthorized,
 } from '../../../util/apiHelpers';
 import { NoteShape } from '../../../shapes';
-import Tag from "../../../components/Tag";
+import Tag from '../../../components/Tag';
 
 const StyledFormNote = styled('div')`
   display: flex;
@@ -63,7 +63,6 @@ class FormNotes extends React.Component {
     const users = await fetchAuthorized(
       `/get_note_users?userIds=${uniqueUserIds}`,
     ).then(resolveJsonOrRejectWithError);
-    console.log(users);
     this.setState({
       users:
         users && !users.error
@@ -85,33 +84,37 @@ class FormNotes extends React.Component {
 
     return (
       <Field>
-        <FormHeader title={t('form.notes.table.heading')} width={3 / 4} />
-        {notes.map((note, index) => {
-          return (
-            <StyledFormNote
-              key={
-                /* eslint-disable */ `show_notes_${index}` /* eslint-enable */
-              }>
-              <StyledFormNoteHeader>
-                <StyledFormNoteHeaderText>
-                  <User css={iconStyle} />
-                  {this.getUsername(note.user)}
-                </StyledFormNoteHeaderText>
-                <StyledFormNoteHeaderText>
-                  <Time css={iconStyle} />
-                  {formatDate(note.timestamp, 'nb')}
-                </StyledFormNoteHeaderText>
-                <Tag>
-                  {note.status
-                    ? t(`form.status.${note.status.current.toLowerCase()}`)
-                    : ''}
-                </Tag>
-              </StyledFormNoteHeader>
-              <b>Merknad:</b>
-              <div>{note.note}</div>
-            </StyledFormNote>
-          );
-        })}
+        <FormHeader title={t('form.notes.history.heading')} width={3 / 4} />
+        {notes && notes.length > 0 ? (
+          notes.map((note, index) => {
+            return (
+              <StyledFormNote
+                key={
+                  /* eslint-disable */ `show_notes_${index}` /* eslint-enable */
+                }>
+                <StyledFormNoteHeader>
+                  <StyledFormNoteHeaderText>
+                    <User css={iconStyle} />
+                    {this.getUsername(note.user)}
+                  </StyledFormNoteHeaderText>
+                  <StyledFormNoteHeaderText>
+                    <Time css={iconStyle} />
+                    {formatDate(note.timestamp, 'nb')}
+                  </StyledFormNoteHeaderText>
+                  <Tag>
+                    {note.status
+                      ? t(`form.status.${note.status.current.toLowerCase()}`)
+                      : ''}
+                  </Tag>
+                </StyledFormNoteHeader>
+                <b>{t('form.notes.history.note')}</b>
+                <div>{note.note}</div>
+              </StyledFormNote>
+            );
+          })
+        ) : (
+          <span>{t('form.notes.history.empty')}</span>
+        )}
       </Field>
     );
   }

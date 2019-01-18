@@ -261,7 +261,7 @@ class LearningResourceForm extends Component {
       showSaved,
       history,
       articleId,
-      userAccess,
+      userAccess = '',
       createMessage,
       revision,
     } = this.props;

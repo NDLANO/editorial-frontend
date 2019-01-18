@@ -10,9 +10,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
+import { css } from 'react-emotion';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
-
 import { searchFormClasses } from './SearchForm';
 
 class SearchMediaForm extends Component {
@@ -84,10 +84,22 @@ class SearchMediaForm extends Component {
           />
         </div>
         <div {...searchFormClasses('field', '25-width')}>
-          <Button onClick={this.emptySearch} outline>
+          <Button
+            css={css`
+              margin-right: 1%;
+              width: 49%;
+            `}
+            onClick={this.emptySearch}
+            outline>
             {t('searchForm.empty')}
           </Button>
-          <Button submit>{t('searchForm.btn')}</Button>
+          <Button
+            css={css`
+              width: 49%;
+            `}
+            submit>
+            {t('searchForm.btn')}
+          </Button>
         </div>
       </form>
     );

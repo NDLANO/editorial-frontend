@@ -1,21 +1,31 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 import { DeleteForever } from '@ndla/icons/editor';
-import Button from '@ndla/button';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
-import WarningModal from '../../../../components/WarningModal';
+import AlertModal from '../../../../components/AlertModal';
 import {
   deleteTopicConnection,
   deleteSubTopicConnection,
 } from '../../../../modules/taxonomy';
 import Spinner from '../../../../components/Spinner';
 import Overlay from '../../../../components/Overlay';
+import MenuItemButton from './MenuItemButton';
+import { StyledErrorMessage } from './MenuItemEditField';
 
 class DeleteTopic extends PureComponent {
   constructor() {
     super();
-    this.state = {};
+    this.state = { loading: false, error: '' };
     this.onDeleteTopic = this.onDeleteTopic.bind(this);
     this.toggleEditMode = this.toggleEditMode.bind(this);
   }
@@ -53,16 +63,16 @@ class DeleteTopic extends PureComponent {
   }
 
   render() {
-    const { t, classes, editMode } = this.props;
+    const { t, editMode } = this.props;
     const { error, loading } = this.state;
     return (
       <React.Fragment>
-        <Button {...classes('menuItem')} stripped onClick={this.toggleEditMode}>
+        <MenuItemButton stripped onClick={this.toggleEditMode}>
           <RoundIcon small icon={<DeleteForever />} />
-          {t('warningModal.delete')}
-        </Button>
+          {t('alertModal.delete')}
+        </MenuItemButton>
 
-        <WarningModal
+        <AlertModal
           show={editMode === 'deleteTopic'}
           actions={[
             {
@@ -70,7 +80,7 @@ class DeleteTopic extends PureComponent {
               onClick: this.toggleEditMode,
             },
             {
-              text: t('warningModal.delete'),
+              text: t('alertModal.delete'),
               'data-testid': 'confirmDelete',
               onClick: this.onDeleteTopic,
             },
@@ -84,11 +94,9 @@ class DeleteTopic extends PureComponent {
           <Overlay cssModifiers={['absolute', 'white-opacity', 'zIndex']} />
         )}
         {error && (
-          <div
-            data-testid="inlineEditErrorMessage"
-            {...classes('errorMessage')}>
+          <StyledErrorMessage data-testid="inlineEditErrorMessage">
             {error}
-          </div>
+          </StyledErrorMessage>
         )}
       </React.Fragment>
     );
@@ -96,10 +104,8 @@ class DeleteTopic extends PureComponent {
 }
 
 DeleteTopic.propTypes = {
-  t: PropTypes.func,
-  classes: PropTypes.func,
   editMode: PropTypes.string,
   toggleEditMode: PropTypes.func,
 };
 
-export default DeleteTopic;
+export default injectT(DeleteTopic);

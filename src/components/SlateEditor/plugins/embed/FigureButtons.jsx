@@ -9,11 +9,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Button from '@ndla/button';
+import styled, { css } from 'react-emotion';
+import darken from 'polished/lib/color/darken';
 import { injectT } from '@ndla/i18n';
-import { Cross, Pencil, Plus } from '@ndla/icons/action';
-import { editorClasses } from './SlateFigure';
+import { colors } from '@ndla/core';
+import { Pencil, Plus } from '@ndla/icons/action';
 import { EmbedShape } from '../../../../shapes';
+import CrossButton from '../../../CrossButton';
+
+export const figureButtonsStyle = css`
+  position: absolute;
+  top: 0.1rem;
+  right: 0.2rem;
+  display: flex;
+  flex-flow: column;
+`;
+
+const rightAdjustedStyle = css`
+  right: -1rem;
+  top: -0.4rem;
+`;
+
+const StyledFigureButtons = styled('div')`
+  ${figureButtonsStyle} ${p => (p.isNotCentered ? rightAdjustedStyle : null)};
+`;
+
+export const colorFigureButtonsLinkStyle = color => css`
+  text-decoration: none;
+  line-height: 1.625;
+  box-shadow: none;
+  color: ${color};
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    color: ${darken(0.1, color)};
+  }
+`;
 
 const FigureButtons = ({ embed, locale, figureType, t, onRemoveClick }) => {
   const url = {
@@ -35,18 +67,14 @@ const FigureButtons = ({ embed, locale, figureType, t, onRemoveClick }) => {
     embed.size === 'small' ||
     embed.size === 'xsmall';
   return (
-    <div
-      {...editorClasses(
-        'figure-buttons',
-        isNotCentered ? 'right-adjusted' : '',
-      )}>
-      <Button
-        {...editorClasses('button', 'red')}
+    <StyledFigureButtons isNotCentered={isNotCentered}>
+      <CrossButton
+        css={colorFigureButtonsLinkStyle(colors.support.red)}
         onClick={onRemoveClick}
-        stripped>
-        <Cross />
-      </Button>
+        stripped
+      />
       <Link
+        css={colorFigureButtonsLinkStyle(colors.brand.primary)}
         to={`${url[figureType].path}/new`}
         target="_blank"
         title={url[figureType].newTitle}>
@@ -55,11 +83,11 @@ const FigureButtons = ({ embed, locale, figureType, t, onRemoveClick }) => {
       <Link
         to={`${url[figureType].path}/${embed.resource_id}/edit/${locale}`}
         target="_blank"
-        {...editorClasses('button', 'green')}
+        css={colorFigureButtonsLinkStyle(colors.support.green)}
         title={url[figureType].editTitle}>
         <Pencil />
       </Link>
-    </div>
+    </StyledFigureButtons>
   );
 };
 

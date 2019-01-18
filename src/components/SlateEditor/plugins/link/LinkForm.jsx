@@ -10,12 +10,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
+import { css } from 'react-emotion';
 import { compose } from 'redux';
 import { Field, FieldErrorMessages, getField } from '../../../Fields';
 import validateSchema from '../../../validateSchema';
 import { SchemaShape, LinkShape } from '../../../../shapes';
-import { toolbarClasses } from '../SlateToolbar/SlateToolbar'; // TODO: Remove depdency
 import reformed from '../../../reformed';
+
+const marginLeftStyle = css`
+  margin-left: 0.2rem;
+`;
 
 export const getInitialModel = (link = {}) => ({
   text: link.text || '',
@@ -95,23 +99,19 @@ class LinkForm extends Component {
           />
         </Field>
         <Field right>
-          <div {...toolbarClasses('link-actions')}>
-            {isEdit ? (
-              <Button onClick={onRemove}>
-                {t('form.content.link.remove')}
-              </Button>
-            ) : (
-              ''
-            )}
-            <Button outline onClick={onClose}>
-              {t('form.abort')}
-            </Button>
-            <Button type="button" onClick={this.handleSave}>
-              {isEdit
-                ? t('form.content.link.update')
-                : t('form.content.link.insert')}
-            </Button>
-          </div>
+          {isEdit ? (
+            <Button onClick={onRemove}>{t('form.content.link.remove')}</Button>
+          ) : (
+            ''
+          )}
+          <Button css={marginLeftStyle} outline onClick={onClose}>
+            {t('form.abort')}
+          </Button>
+          <Button css={marginLeftStyle} type="button" onClick={this.handleSave}>
+            {isEdit
+              ? t('form.content.link.update')
+              : t('form.content.link.insert')}
+          </Button>
         </Field>
       </form>
     );

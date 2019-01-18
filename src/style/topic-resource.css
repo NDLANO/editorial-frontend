@@ -34,20 +34,13 @@
     opacity: 0.6;
   }
 
-  &__icon {
-    padding-right: 15px;
+  &__filterIcon {
+    height: 24px;
+    width: 24px;
   }
 
-  &__add-button,
-  &__add-button:hover {
-    white-space: nowrap;
-    color: var(--gray-3);
-    font-size: 1.2rem;
-    border-left: 1px solid #eaeaea;
-    border-right: 1px solid #eaeaea;
-    background: linear-gradient(180deg, white, #e9eff2 50%, #e9eff2 100%);
-    padding: 0 var(--spacing--small);
-    height: 100%;
+  &__icon {
+    padding-right: 15px;
   }
 
   &__errorMessage {

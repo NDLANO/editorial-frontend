@@ -180,6 +180,14 @@ const phrases = {
       language: 'Select Language',
       subjects: 'Select subject',
       resourceTypes: 'Select Resource type',
+      draftStatus: 'Select status',
+    },
+    tagType: {
+      query: 'Query',
+      subjects: 'Subject',
+      language: 'Language',
+      resourceTypes: 'Resource-Type',
+      draftStatus: 'Status',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -443,7 +451,7 @@ const phrases = {
       published: 'Published',
       unpublished: 'Unpublished',
       awaiting_unpublishing: 'Awaiting unpublishing',
-      archived: 'Archieved',
+      archived: 'Archived',
       actions: {
         DRAFT: 'Draft',
         PROPOSAL: 'Proposal',
@@ -693,7 +701,7 @@ const phrases = {
   forbiddenPage: {
     description: 'You do not have access to this page',
   },
-  warningModal: {
+  alertModal: {
     notSaved: 'Document is not saved, do you want to continue?',
     continue: 'Continue',
     delete: 'Delete',
@@ -734,6 +742,7 @@ const phrases = {
     resource: {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
+      chooseFilter: 'Connect to filters',
     },
     resourceTypes: {
       title: 'Content type',

@@ -9,81 +9,82 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-
+import { css } from 'react-emotion';
+import { colors } from '@ndla/core';
 import Button from '@ndla/button';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
+import AccordionButtonLine from './AccordionButtonLine';
 
 const classes = new BEMHelper({
   name: 'accordion',
   prefix: 'c-',
 });
 
+const buttonStyle = css`
+  color: ${colors.brand.greyDark};
+  width: 100%;
+  height: 100%;
+  text-align: left;
+`;
+
+const arrowButtonStyle = css`
+  ${buttonStyle} min-width: 50px;
+  width: 50px;
+`;
+
 const Accordion = ({
-  fill,
   inModal,
-  taxonomy,
-  resourceGroup,
   header,
   hidden,
   handleToggle,
   className,
   addButton,
+  appearance,
   ...rest
 }) => {
-  const modifiers = {
-    fill,
-    taxonomy,
-    resourceGroup,
-  };
+  const contentModifiers = appearance
+    ? {
+        hidden,
+        visible: !hidden,
+        [appearance]: true,
+      }
+    : {
+        hidden,
+        visible: !hidden,
+      };
 
-  const contentModifiers = {
-    hidden,
-    visible: !hidden,
-    taxonomy,
-    resourceGroup,
-  };
-
-  const title = <span {...classes('title', modifiers)}>{header}</span>;
+  const title = <span {...classes('title', appearance)}>{header}</span>;
   const arrow = hidden ? (
-    <ExpandMore {...classes('arrow', modifiers)} />
+    <ExpandMore {...classes('arrow', appearance)} />
   ) : (
-    <ExpandLess {...classes('arrow', modifiers)} />
+    <ExpandLess {...classes('arrow', appearance)} />
   );
 
   return (
-    <div {...classes('', modifiers)} {...rest}>
+    <div {...classes('', appearance)} {...rest}>
       {addButton ? (
-        <div {...classes('button-line', modifiers)}>
-          <Button
-            {...classes('button', modifiers)}
-            stripped
-            onClick={handleToggle}>
+        <AccordionButtonLine addButton={addButton} appearance={appearance}>
+          <Button css={buttonStyle} stripped onClick={handleToggle}>
             {title}
           </Button>
           {addButton}
-          <Button
-            {...classes('button', { ...modifiers, arrowButton: true })}
-            stripped
-            onClick={handleToggle}>
+          <Button css={arrowButtonStyle} stripped onClick={handleToggle}>
             {arrow}
           </Button>
-        </div>
+        </AccordionButtonLine>
       ) : (
-        <Button
-          {...classes('button-line', modifiers)}
-          stripped
-          onClick={handleToggle}>
+        <AccordionButtonLine
+          appearance={appearance}
+          handleToggle={handleToggle}>
           {title}
           {arrow}
-        </Button>
+        </AccordionButtonLine>
       )}
       <div
         {...classes(
           'content',
           contentModifiers,
-          taxonomy || resourceGroup || inModal
-            ? ''
-            : 'u-4/6@desktop u-push-1/6@desktop',
+          appearance || inModal ? '' : 'u-4/6@desktop u-push-1/6@desktop',
         )}>
         {rest.children}
       </div>
@@ -96,14 +97,12 @@ Accordion.propTypes = {
   addButton: PropTypes.node,
   className: PropTypes.string,
   disabled: PropTypes.bool,
-  fill: PropTypes.bool,
   inModal: PropTypes.bool,
-  taxonomy: PropTypes.bool,
-  resourceGroup: PropTypes.bool,
   header: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   hidden: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
   addButtonAction: PropTypes.func,
+  appearance: PropTypes.oneOf(['fill', 'resourceGroup', 'taxonomy']),
 };
 
 export default Accordion;

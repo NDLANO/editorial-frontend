@@ -19,39 +19,30 @@ import { expiresIn } from '../../src/util/jwtHelper';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-const visitOptions = {
+export const visitOptions = {
   onBeforeLoad: win => {
     win.fetch = null; //eslint-disable-line
   },
 };
 
-export const beforeEachHelper = visitUrl => {
-  Cypress.on('uncaught:exception', (err, runnable) => {
-    // returning false here prevents Cypress from
-    // failing the test
-    return false;
-  });
+export const setToken = () => {
   const options = {
     method: 'POST',
     url: 'https://ndla.eu.auth0.com/oauth/token',
     body: {
-      client_id: Cypress.env('NDLA_EDITORIAL_CLIENT_ID'),
-      client_secret: Cypress.env('NDLA_EDITORIAL_CLIENT_SECRET'),
-      grant_type: 'client_credentials',
-      audience: 'ndla_system',
+      client_id: Cypress.env('NDLA_END_TO_END_TESTING_CLIENT_ID'),
+      client_secret: Cypress.env('NDLA_END_TO_END_TESTING_CLIENT_SECRET'),
+      grant_type: Cypress.env('NDLA_END_TO_END_TESTING_GRANT_TYPE'),
+      audience: Cypress.env('NDLA_END_TO_END_TESTING_AUDIENCE'),
     },
     json: true,
   };
-  cy.request(options)
-    .then(res => {
-      localStorage.setItem('access_token', res.body.access_token);
-      localStorage.setItem(
-        'access_token_expires_at',
-        expiresIn(res.body.access_token) * 1000 + new Date().getTime(),
-      );
-      localStorage.setItem('access_token_personal', true);
-    })
-    .then(() => {
-      cy.visit(visitUrl, visitOptions);
-    });
+  cy.request(options).then(res => {
+    localStorage.setItem('access_token', res.body.access_token);
+    localStorage.setItem(
+      'access_token_expires_at',
+      expiresIn(res.body.access_token) * 1000 + new Date().getTime(),
+    );
+    localStorage.setItem('access_token_personal', true);
+  });
 };

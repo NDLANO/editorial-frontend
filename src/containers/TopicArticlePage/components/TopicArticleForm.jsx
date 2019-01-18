@@ -15,7 +15,6 @@ import Accordion, {
   AccordionBar,
   AccordionPanel,
 } from '@ndla/accordion';
-import Button from '@ndla/button';
 import { withRouter } from 'react-router-dom';
 import reformed from '../../../components/reformed';
 import validateSchema, {
@@ -42,13 +41,14 @@ import {
   FormWorkflow,
   FormCopyright,
   FormHeader,
+  FormActionButton,
   formClasses,
-  WarningModalWrapper,
+  AlertModalWrapper,
 } from '../../Form';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { articleConverter } from '../../../modules/draft/draft';
-import WarningModal from '../../../components/WarningModal';
+import AlertModal from '../../../components/AlertModal';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -286,15 +286,16 @@ class TopicArticleForm extends Component {
             </AccordionWrapper>
           )}
         </Accordion>
-        <Field right {...formClasses('form-actions')}>
+        <Field right>
           {error && <span className="c-errorMessage">{error}</span>}
           {model.id && (
-            <Button onClick={() => this.setState({ showResetModal: true })}>
+            <FormActionButton
+              onClick={() => this.setState({ showResetModal: true })}>
               {t('form.resetToProd.button')}
-            </Button>
+            </FormActionButton>
           )}
 
-          <WarningModal
+          <AlertModal
             show={showResetModal}
             text={t('form.resetToProd.modal')}
             actions={[
@@ -309,9 +310,12 @@ class TopicArticleForm extends Component {
             ]}
             onCancel={() => this.setState({ showResetModal: false })}
           />
-          <Button outline onClick={history.goBack} disabled={isSaving}>
+          <FormActionButton
+            outline
+            onClick={history.goBack}
+            disabled={isSaving}>
             {t('form.abort')}
-          </Button>
+          </FormActionButton>
           <SaveButton
             {...formClasses}
             isSaving={isSaving}
@@ -319,12 +323,13 @@ class TopicArticleForm extends Component {
             {t('form.save')}
           </SaveButton>
         </Field>
-        <WarningModalWrapper
+        <AlertModalWrapper
           initialModel={initialModel}
           model={model}
+          severity="danger"
           showSaved={showSaved}
           fields={fields}
-          text={t('warningModal.notSaved')}
+          text={t('alertModal.notSaved')}
         />
       </form>
     );

@@ -7,14 +7,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
-import Button from '@ndla/button';
 import { ImageNormal, ImageSmall, ImageXsmall } from '@ndla/icons/editor';
-
-export const classes = new BEMHelper({
-  name: 'image-editor',
-  prefix: 'c-',
-});
+import ImageEditorButton from './ImageEditorButton';
 
 const icon = {
   xsmall: <ImageXsmall />,
@@ -23,12 +17,12 @@ const icon = {
 };
 
 const ImageSizeButton = ({ currentSize, size, onFieldChange }) => (
-  <Button
-    {...classes('align-image-button', currentSize === size ? 'active' : '')}
+  <ImageEditorButton
+    isActive={currentSize === size}
     stripped
     onClick={evt => onFieldChange(evt, 'size', size)}>
     {icon[size]}
-  </Button>
+  </ImageEditorButton>
 );
 
 ImageSizeButton.propTypes = {

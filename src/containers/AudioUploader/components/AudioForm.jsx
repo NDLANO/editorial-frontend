@@ -14,9 +14,7 @@ import Accordion, {
   AccordionPanel,
 } from '@ndla/accordion';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
 import { withRouter } from 'react-router-dom';
-import BEMHelper from 'react-bem-helper';
 import reformed from '../../../components/reformed';
 import validateSchema, {
   checkTouchedInvalidField,
@@ -28,7 +26,12 @@ import {
   parseCopyrightContributors,
 } from '../../../util/formHelper';
 import { SchemaShape } from '../../../shapes';
-import { FormHeader, WarningModalWrapper } from '../../Form';
+import {
+  FormHeader,
+  AlertModalWrapper,
+  FormActionButton,
+  formClasses,
+} from '../../Form';
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 import { toEditAudio } from '../../../util/routeHelpers';
@@ -51,11 +54,6 @@ export const getInitialModel = (audio = {}) => ({
     audio.copyright && audio.copyright.license
       ? audio.copyright.license.license
       : DEFAULT_LICENSE.license,
-});
-
-const classes = new BEMHelper({
-  name: 'form',
-  prefix: 'c-',
 });
 
 class AudioForm extends Component {
@@ -136,7 +134,7 @@ class AudioForm extends Component {
         ),
         component: (
           <AudioContent
-            classes={classes}
+            classes={formClasses}
             commonFieldProps={commonFieldProps}
             bindInput={bindInput}
             tags={tags}
@@ -157,7 +155,7 @@ class AudioForm extends Component {
         ].some(field => checkTouchedInvalidField(field, submitted)),
         component: (
           <AudioMetaData
-            classes={classes}
+            classes={formClasses}
             commonFieldProps={commonFieldProps}
             bindInput={bindInput}
             tags={tags}
@@ -168,7 +166,7 @@ class AudioForm extends Component {
     ];
 
     return (
-      <form onSubmit={this.handleSubmit} {...classes()}>
+      <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader
           model={model}
           type="audio"
@@ -202,18 +200,22 @@ class AudioForm extends Component {
             </AccordionWrapper>
           )}
         </Accordion>
-        <Field right {...classes('form-actions')}>
-          <Button outline disabled={isSaving} onClick={history.goBack}>
+        <Field right>
+          <FormActionButton
+            outline
+            disabled={isSaving}
+            onClick={history.goBack}>
             {t('form.abort')}
-          </Button>
+          </FormActionButton>
           <SaveButton isSaving={isSaving} showSaved={showSaved} />
         </Field>
-        <WarningModalWrapper
+        <AlertModalWrapper
           initialModel={initialModel}
           model={model}
+          severity="danger"
           showSaved={showSaved}
           fields={fields}
-          text={t('warningModal.notSaved')}
+          text={t('alertModal.notSaved')}
         />
       </form>
     );

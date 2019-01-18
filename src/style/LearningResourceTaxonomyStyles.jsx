@@ -75,7 +75,7 @@ const checkboxItemHoverCSS = css`
   }
 `;
 
-const filterbuttonwrapper = css`
+const flexCenterAlign = css`
   display: flex;
   align-items: center;
 `;
@@ -134,8 +134,7 @@ const StyledFilterButton = styled('button')`
   margin: 0 0 0 ${spacing.xsmall};
   background: none;
   transition: opacity 100ms ease;
-  display: flex;
-  align-items: center;
+  ${flexCenterAlign};
   justify-content: center;
   text-align: left;
   padding: ${spacing.xsmall};
@@ -163,8 +162,7 @@ const StyledFilterButton = styled('button')`
 `;
 
 const Connections = styled('div')`
-  display: flex;
-  align-items: center;
+  ${flexCenterAlign};
   background: ${props =>
     props.error ? `${colors.support.red}11` : colors.brand.greyLightest};
   padding: ${spacing.xsmall};
@@ -218,7 +216,7 @@ const ErrorLabel = styled('div')`
     `};
 `;
 
-const FilterButton = styled('button')`
+const StyledRelevanceButton = styled('button')`
   border: 0;
   background: none;
   transition: opacity 200ms ease;
@@ -227,19 +225,17 @@ const FilterButton = styled('button')`
   &:focus {
     opacity: 1;
   }
-  display: flex;
-  align-items: center;
+  ${flexCenterAlign};
   ${fonts.sizes(14, 1.1)};
   svg {
     margin-right: ${spacing.xsmall};
   }
 `;
 
-const FilterCheckBox = styled('button')`
+const StyledFilterCheckBox = styled('button')`
   border: 0;
   background: none;
-  display: flex;
-  align-items: center;
+  ${flexCenterAlign};
   justify-content: center;
   text-align: left;
   padding: ${spacing.xsmall};
@@ -262,7 +258,7 @@ const FilterCheckBox = styled('button')`
   }
 `;
 
-const FilterListTR = styled('tr')`
+const StyledFilterListTableRow = styled('tr')`
   border-bottom: 1px solid ${colors.brand.lighter};
   td:last-child {
     transition: opacity 200ms ease;
@@ -330,8 +326,7 @@ const RemoveConnectionButton = styled('button')`
   width: ${spacing.normal};
   height: ${spacing.normal};
   transition: background 100ms ease;
-  display: flex;
-  align-items: center;
+  ${flexCenterAlign};
   justify-content: center;
   &:hover,
   &:focus {
@@ -350,7 +345,7 @@ const TitleModal = styled('h1')`
 
 export {
   buttonAddition,
-  filterbuttonwrapper,
+  flexCenterAlign,
   StyledFilterHeading,
   BreadCrumb,
   Checked,
@@ -359,9 +354,9 @@ export {
   Connections,
   ConnectionsWrapper,
   ErrorLabel,
-  FilterButton,
-  FilterCheckBox,
-  FilterListTR,
+  StyledRelevanceButton,
+  StyledFilterCheckBox,
+  StyledFilterListTableRow,
   FilterTable,
   StyledPrimaryConnectionButton,
   RemoveConnectionButton,

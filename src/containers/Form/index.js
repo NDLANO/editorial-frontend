@@ -11,8 +11,9 @@ import AgreementConnection from './AgreementConnection';
 import formClasses from './formClasses';
 import FormWorkflow from './FormWorkflow';
 import FormCopyright from './FormCopyright';
-import WarningModalWrapper from './WarningModalWrapper';
+import AlertModalWrapper from './AlertModalWrapper';
 import FormHeader from './FormHeader';
+import FormActionButton from './components/FormActionButton';
 
 export {
   AddNotes,
@@ -21,5 +22,6 @@ export {
   FormWorkflow,
   FormCopyright,
   FormHeader,
-  WarningModalWrapper,
+  FormActionButton,
+  AlertModalWrapper,
 };

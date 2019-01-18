@@ -9,8 +9,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
 import { Redirect, withRouter } from 'react-router-dom';
 
+import * as messageActions from '../Messages/messagesActions';
 import { actions, getDraft } from '../../modules/draft/draft';
 
 import LearningResourceForm, {
@@ -27,6 +29,7 @@ class EditLearningResource extends PureComponent {
   constructor(props) {
     super(props);
     this.updateLearningResource = this.updateLearningResource.bind(this);
+    this.createMessage = this.createMessage.bind(this);
   }
 
   componentDidMount() {
@@ -60,6 +63,11 @@ class EditLearningResource extends PureComponent {
     updateDraft({ draft: article });
   }
 
+  createMessage(message = {}) {
+    const { addMessage } = this.props;
+    addMessage(message);
+  }
+
   render() {
     const { article, selectedLanguage, ...rest } = this.props;
     if (!article) {
@@ -76,14 +84,18 @@ class EditLearningResource extends PureComponent {
       ? article.language
       : selectedLanguage;
     return (
-      <LearningResourceForm
-        initialModel={getInitialModel(article, language)}
-        selectedLanguage={selectedLanguage}
-        revision={article.revision}
-        articleStatus={article.status}
-        onUpdate={this.updateLearningResource}
-        {...rest}
-      />
+      <div>
+        <Helmet title={`${article.title} - NDLA`} />
+        <LearningResourceForm
+          initialModel={getInitialModel(article, language)}
+          selectedLanguage={selectedLanguage}
+          revision={article.revision}
+          articleStatus={article.status}
+          onUpdate={this.updateLearningResource}
+          createMessage={this.createMessage}
+          {...rest}
+        />
+      </div>
     );
   }
 }
@@ -100,9 +112,11 @@ EditLearningResource.propTypes = {
   setDraft: PropTypes.func.isRequired,
   selectedLanguage: PropTypes.string.isRequired,
   fetchTags: PropTypes.func.isRequired,
+  addMessage: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
+  addMessage: messageActions.addMessage,
   fetchDraft: actions.fetchDraft,
   updateDraft: actions.updateDraft,
   setDraft: actions.setDraft,

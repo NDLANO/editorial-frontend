@@ -16,14 +16,13 @@ import Accordion, {
   AccordionBar,
   AccordionPanel,
 } from '@ndla/accordion';
-import Button from '@ndla/button';
 import reformed from '../../../components/reformed';
 import validateSchema, {
   checkTouchedInvalidField,
 } from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
-import WarningModal from '../../../components/WarningModal';
+import AlertModal from '../../../components/AlertModal';
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -40,9 +39,11 @@ import {
   FormWorkflow,
   FormCopyright,
   FormHeader,
+  FormActionButton,
   formClasses,
-  WarningModalWrapper,
+  AlertModalWrapper,
 } from '../../Form';
+import { formatErrorMessage } from '../../Form/FormWorkflow';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
@@ -53,7 +54,9 @@ import {
 } from '../../../util/formHelper';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
+import { validateDraft } from '../../../modules/draft/draftApi';
 import { articleConverter } from '../../../modules/draft/draft';
+import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import config from '../../../config';
 
 const findFootnotes = content =>
@@ -198,17 +201,42 @@ class LearningResourceForm extends Component {
     return false;
   };
 
-  handleSubmit(evt) {
+  async handleSubmit(evt) {
     evt.preventDefault();
 
-    const { schema, revision, setSubmitted } = this.props;
+    const {
+      model: { id },
+      schema,
+      revision,
+      setSubmitted,
+      createMessage,
+      articleStatus,
+    } = this.props;
+
+    const status = articleStatus ? articleStatus.current : undefined;
 
     if (!schema.isValid) {
       setSubmitted(true);
       return;
     }
+
     if (!isFormDirty(this.props)) {
       return;
+    }
+
+    if (
+      status === articleStatuses.PUBLISHED ||
+      status === articleStatuses.QUEUED_FOR_PUBLISHING
+    ) {
+      try {
+        await validateDraft(id, {
+          ...this.getArticleFromModel(),
+          revision,
+        });
+      } catch (error) {
+        createMessage(formatErrorMessage(error));
+        return;
+      }
     }
     this.props.onUpdate({
       ...this.getArticleFromModel(),
@@ -233,7 +261,9 @@ class LearningResourceForm extends Component {
       showSaved,
       history,
       articleId,
-      userAccess,
+      userAccess = '',
+      createMessage,
+      revision,
     } = this.props;
 
     const { error } = this.state;
@@ -308,6 +338,9 @@ class LearningResourceForm extends Component {
             articleStatus={articleStatus}
             model={model}
             getArticle={this.getArticleFromModel}
+            createMessage={createMessage}
+            getArticleFromModel={this.getArticleFromModel}
+            revision={revision}
           />
         ),
       },
@@ -367,15 +400,16 @@ class LearningResourceForm extends Component {
             </AccordionWrapper>
           )}
         </Accordion>
-        <Field right {...formClasses('form-actions')}>
+        <Field right>
           {error && <span className="c-errorMessage">{error}</span>}
           {model.id && (
-            <Button onClick={() => this.setState({ showResetModal: true })}>
+            <FormActionButton
+              onClick={() => this.setState({ showResetModal: true })}>
               {t('form.resetToProd.button')}
-            </Button>
+            </FormActionButton>
           )}
 
-          <WarningModal
+          <AlertModal
             show={this.state.showResetModal}
             text={t('form.resetToProd.modal')}
             actions={[
@@ -390,9 +424,12 @@ class LearningResourceForm extends Component {
             ]}
             onCancel={() => this.setState({ showResetModal: false })}
           />
-          <Button outline onClick={history.goBack} disabled={isSaving}>
+          <FormActionButton
+            outline
+            onClick={history.goBack}
+            disabled={isSaving}>
             {t('form.abort')}
-          </Button>
+          </FormActionButton>
           <SaveButton
             data-testid="saveLearningResourceButton"
             isSaving={isSaving}
@@ -400,12 +437,13 @@ class LearningResourceForm extends Component {
             defaultText="saveDraft"
           />
         </Field>
-        <WarningModalWrapper
+        <AlertModalWrapper
           showSaved={showSaved}
           fields={fields}
+          severity="danger"
           model={model}
           initialModel={initialModel}
-          text={t('warningModal.notSaved')}
+          text={t('alertModal.notSaved')}
         />
       </form>
     );
@@ -434,6 +472,7 @@ LearningResourceForm.propTypes = {
   revision: PropTypes.number,
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  createMessage: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
   showSaved: PropTypes.bool.isRequired,
   articleStatus: PropTypes.shape({

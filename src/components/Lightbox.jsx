@@ -9,15 +9,94 @@
 import React from 'react';
 import Button from '@ndla/button';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import { Cross } from '@ndla/icons/action';
+import styled, { css } from 'react-emotion';
+import { colors, breakpoints, spacing } from '@ndla/core';
 
-const classes = new BEMHelper({
-  name: 'lightbox',
-  prefix: 'c-',
-});
+const appearances = {
+  big: css`
+    max-width: 870px;
+  `,
+  fullscreen: css`
+    max-width: 95%;
+  `,
+  modal: css`
+    border-radius: 0;
+    height: 210px;
+    max-width: 620px;
+    padding-bottom: ${spacing.noraml};
+  `,
+};
 
-export default class Lightbox extends React.PureComponent {
+const severities = {
+  success: css`
+    background-color: ${colors.support.green};
+    color: white;
+  `,
+  info: css`
+    background-color: white;
+    color: black;
+  `,
+  warning: css`
+    background-color: ${colors.support.yellow};
+    color: white;
+  `,
+  danger: css`
+    background-color: ${colors.support.red};
+    color: white;
+  `,
+};
+
+const StyledLightbox = styled('div')`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 100;
+  overflow-x: auto;
+
+  @media (max-width: ${breakpoints.tabletWide}) {
+    top: 64px;
+    overflow-y: auto;
+    white-space: normal;
+    z-index: 26;
+  }
+
+  @media (max-width: ${breakpoints.mobileWide}) {
+    top: 43px;
+  }
+`;
+
+const StyledLightboxContent = styled('div')`
+  overflow-x: auto;
+  background-color: white;
+  margin: 10% auto 0;
+  padding: 1em 2em 3em;
+  max-width: ${p => p.maxWidth || '400px'};
+  border-radius: 5px;
+  ${p => appearances[p.appearance]} ${p => severities[p.severity]};
+`;
+
+export const closeLightboxButtonStyle = css`
+  float: right;
+  height: 44px;
+  width: 44px;
+  margin-top: -5px;
+  margin-right: -20px;
+`;
+
+export const closeLightboxCrossStyle = severity => css`
+  float: right;
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+  color: ${colors.brand.grey};
+  ${severities[severity]};
+`;
+
+class Lightbox extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = { display: props.display };
@@ -35,27 +114,26 @@ export default class Lightbox extends React.PureComponent {
   }
 
   render() {
-    const { children, big, width, fullscreen, modal } = this.props;
-    const modifiers = {
-      big,
-      fullscreen,
-      modal,
-    };
-
-    const style = width ? { maxWidth: width } : undefined;
-
+    const { children, closeButton, width, appearance, severity } = this.props;
     return this.state.display ? (
-      <div {...classes()}>
-        <div {...classes('content', modifiers)} style={style}>
-          <Button
-            {...classes('close')}
-            stripped
-            onClick={this.onCloseButtonClick}>
-            <Cross />
-          </Button>
+      <StyledLightbox>
+        <StyledLightboxContent
+          maxWidth={width}
+          appearance={appearance}
+          severity={severity}>
+          {closeButton ? (
+            closeButton
+          ) : (
+            <Button
+              css={closeLightboxButtonStyle}
+              stripped
+              onClick={this.onCloseButtonClick}>
+              <Cross css={closeLightboxCrossStyle(severity)} />
+            </Button>
+          )}
           {children}
-        </div>
-      </div>
+        </StyledLightboxContent>
+      </StyledLightbox>
     ) : null;
   }
 }
@@ -63,14 +141,10 @@ export default class Lightbox extends React.PureComponent {
 Lightbox.propTypes = {
   onClose: PropTypes.func.isRequired,
   display: PropTypes.bool,
-  big: PropTypes.bool,
-  fullscreen: PropTypes.bool,
-  modal: PropTypes.bool,
   width: PropTypes.string,
+  closeButton: PropTypes.node,
+  appearance: PropTypes.oneOf(['modal', 'big', 'fullscreen']),
+  severity: PropTypes.oneOf(['danger', 'info', 'success', 'warning']),
 };
 
-Lightbox.defaultProps = {
-  display: true,
-  big: false,
-  fullscreen: false,
-};
+export default Lightbox;

@@ -42,8 +42,7 @@ class VisualElementSelectField extends Component {
     return (
       <Lightbox
         display
-        big
-        fullscreen={selectedResource === 'h5p'}
+        appearance={selectedResource === 'h5p' ? 'fullscreen' : 'big'}
         onClose={this.onImageLightboxClose}>
         <VisualElementSearch
           selectedResource={selectedResource}

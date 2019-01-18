@@ -10,6 +10,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
+import { colors } from '@ndla/core';
+import { css } from 'react-emotion';
 import isEqual from 'lodash/fp/isEqual';
 import {
   fetchTopicFilters,
@@ -22,6 +24,16 @@ import Spinner from '../../../components/Spinner';
 import Overlay from '../../../components/Overlay';
 import { RESOURCE_FILTER_CORE } from '../../../constants';
 import handleError from '../../../util/handleError';
+
+const borderButtonStyle = css`
+  &,
+  &:hover,
+  &:focus {
+    border: 1px solid ${colors.brand.grey};
+    border-radius: 3px;
+    width: 100px;
+  }
+`;
 
 class ConnectFilters extends Component {
   constructor() {
@@ -128,7 +140,7 @@ class ConnectFilters extends Component {
         ))}
         <Button
           stripped
-          {...classes('borderButton')}
+          css={borderButtonStyle}
           data-testid="submitConnectFilters"
           onClick={this.onSubmit}>
           {t('form.save')}

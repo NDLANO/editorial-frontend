@@ -5,22 +5,49 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
+import Button from '@ndla/button';
+import styled, { css } from 'react-emotion';
 import { injectT } from '@ndla/i18n';
 import { loginPersonalAccessToken } from '../../util/authHelpers';
 
-export const LoginProviders = ({ t }) => [
-  <h3 key="login-providers_title">{t('loginProviders.description')}</h3>,
-  <ul key="login-providers_list" className="vertical-menu">
-    <li className="vertical-menu_item">
-      <button
-        type="button"
-        onClick={() => loginPersonalAccessToken('google-oauth2')}
-        className="login-button btn-google c-button">
-        Google
-      </button>
-    </li>
-  </ul>,
-];
+const VerticalMenu = styled('ul')`
+  padding: 0;
+  margin: 0;
+  list-style: none;
+`;
+
+const VerticalMenuItem = styled('li')`
+  margin: 0 0 1em;
+  max-width: 300px;
+`;
+
+const googleButtonStyle = css`
+  background-color: #dd4b39;
+  border-color: #dd4b39;
+  min-width: 150px;
+  display: block;
+  margin: 0 auto;
+  &:hover,
+  &:focus {
+    background-color: #c23321;
+    border-color: #c23321;
+  }
+`;
+
+export const LoginProviders = ({ t }) => (
+  <Fragment>
+    <h3>{t('loginProviders.description')}</h3>
+    <VerticalMenu>
+      <VerticalMenuItem>
+        <Button
+          css={googleButtonStyle}
+          onClick={() => loginPersonalAccessToken('google-oauth2')}>
+          Google
+        </Button>
+      </VerticalMenuItem>
+    </VerticalMenu>
+  </Fragment>
+);
 
 export default injectT(LoginProviders);

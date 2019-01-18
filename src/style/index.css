@@ -12,22 +12,19 @@
 @import './accordion.css';
 @import './alert.css';
 @import './article-form.css';
-@import './auth.css';
 @import './content-block.css';
 @import './dropdown-menu.css';
 @import './dropdown.css';
 @import './fields.css';
 @import './form.css';
 @import './imageSearch.css';
-@import './lightbox.css';
+@import './taxonomy-lightbox.css';
 @import './masthead.css';
 @import './multiselect.css';
 @import './search.css';
 @import './toolbar.css';
-@import './image-editor.css';
 @import './vars.css';
 @import './footnotes.css';
-@import './link-menu.css';
 @import './table.css';
 @import './tag.css';
 @import './topic-resource.css';
@@ -35,7 +32,6 @@
 @import './visual-element.css';
 @import './navigation.css';
 @import './welcome.css';
-@import './warningModal.css';
 @import './overlay.css';
 @import './tooltip.css';
 @import './spinner.css';
@@ -88,4 +84,8 @@ a.c-button {
 
 .c-figure__byline .c-license-icons__list {
   margin-top: 0;
+}
+
+.ReactCrop {
+  margin-bottom: -6px;
 }

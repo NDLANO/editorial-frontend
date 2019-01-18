@@ -178,12 +178,14 @@ const phrases = {
       language: 'Velg Språk',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innholdstype',
+      draftStatus: 'Velg status',
     },
     tagType: {
       query: 'Innhold',
       subjects: 'Emne',
       language: 'Språk',
       resourceTypes: 'Innholdstype',
+      draftStatus: 'Status',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -704,7 +706,7 @@ const phrases = {
   forbiddenPage: {
     description: 'Du har ikke tilgang til denne siden',
   },
-  warningModal: {
+  alertModal: {
     notSaved: 'Dokumentet er ikke lagret, ønsker du å fortsette?',
     continue: 'Fortsett',
     delete: 'Slett',
@@ -743,6 +745,7 @@ const phrases = {
     resource: {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
+      chooseFilter: 'Koble til filter',
     },
     jumpToResources: 'Hopp til ressurser',
     removeLink: 'Fjern link',

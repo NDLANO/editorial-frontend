@@ -12,11 +12,13 @@ import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { Link as LinkIcon } from '@ndla/icons/editor';
 import BEMHelper from 'react-bem-helper';
-import { Cross, Pencil, Minus } from '@ndla/icons/action';
+import { Pencil, Minus } from '@ndla/icons/action';
 import Overlay from '../../../components/Overlay';
 import RoundIcon from '../../../components/RoundIcon';
-import WarningModal from '../../../components/WarningModal';
+import AlertModal from '../../../components/AlertModal';
 import { Portal } from '../../../components/Portal';
+import MenuItemButton from './menuOptions/MenuItemButton';
+import CrossButton from '../../../components/CrossButton';
 
 const classes = new BEMHelper({
   name: 'settingsMenu',
@@ -65,7 +67,7 @@ class EditLinkButton extends Component {
     return (
       <div style={{ display: 'none' }} ref={el => refFunc(el, linkId)}>
         <Portal isOpened>
-          <WarningModal
+          <AlertModal
             show={setPrimaryWarning}
             text={t('taxonomy.confirmSetPrimary')}
             onCancel={this.onCancel}
@@ -74,12 +76,12 @@ class EditLinkButton extends Component {
                 text: t('form.abort'),
                 onClick: this.onCancel,
               },
-              { text: t('warningModal.continue'), onClick: this.setPrimary },
+              { text: t('alertModal.continue'), onClick: this.setPrimary },
             ]}
           />
         </Portal>
         <Portal isOpened>
-          <WarningModal
+          <AlertModal
             show={deleteLinkWarning}
             text={t('taxonomy.confirmDeleteTopic')}
             onCancel={this.onCancel}
@@ -88,7 +90,7 @@ class EditLinkButton extends Component {
                 text: t('form.abort'),
                 onClick: this.onCancel,
               },
-              { text: t('warningModal.delete'), onClick: this.deleteTopicLink },
+              { text: t('alertModal.delete'), onClick: this.deleteTopicLink },
             ]}
           />
         </Portal>
@@ -104,27 +106,24 @@ class EditLinkButton extends Component {
               <div className="header">
                 <RoundIcon icon={<LinkIcon />} open />
                 <span>{t(`taxonomy.linkSettings`)}</span>
-                <Button
+                <CrossButton
                   stripped
                   {...classes('closeButton')}
-                  onClick={this.toggleOpen}>
-                  <Cross />
-                </Button>
+                  onClick={this.toggleOpen}
+                />
               </div>
-              <Button
+              <MenuItemButton
                 stripped
-                {...classes('menuItem')}
                 onClick={() => this.setState({ setPrimaryWarning: true })}>
                 <RoundIcon small icon={<Pencil />} />
                 {t('taxonomy.setPrimary')}
-              </Button>
-              <Button
+              </MenuItemButton>
+              <MenuItemButton
                 stripped
-                {...classes('menuItem')}
                 onClick={() => this.setState({ deleteLinkWarning: true })}>
                 <RoundIcon small icon={<Minus />} />
                 {t('taxonomy.removeLink')}
-              </Button>
+              </MenuItemButton>
             </div>
           </React.Fragment>
         )}

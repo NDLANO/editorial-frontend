@@ -9,6 +9,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { css } from 'react-emotion';
 import Button from '@ndla/button';
 import {
   fetchSubjects,
@@ -18,6 +19,7 @@ import { flattenResourceTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
+import ArticleStatuses from '../../../../util/constants/index';
 
 import { searchFormClasses } from './SearchForm';
 
@@ -26,6 +28,7 @@ const emptySearchState = {
   language: '',
   subjects: '',
   resourceTypes: '',
+  draftStatus: '',
 };
 
 class SearchContentForm extends Component {
@@ -40,6 +43,7 @@ class SearchContentForm extends Component {
       search: {
         subjects: searchObject.subjects || '',
         resourceTypes: searchObject['resource-types'] || '',
+        draftStatus: searchObject['draft-status'] || '',
         query: searchObject.query || '',
         language: searchObject.language || '',
       },
@@ -49,6 +53,7 @@ class SearchContentForm extends Component {
     this.removeTagItem = this.removeTagItem.bind(this);
     this.emptySearch = this.emptySearch.bind(this);
     this.onFieldChange = this.onFieldChange.bind(this);
+    this.getDraftStatuses = this.getDraftStatuses.bind(this);
   }
 
   componentDidMount() {
@@ -83,11 +88,12 @@ class SearchContentForm extends Component {
       evt.preventDefault();
     }
     const {
-      search: { resourceTypes, subjects, query, language },
+      search: { resourceTypes, draftStatus, subjects, query, language },
     } = this.state;
     const { search } = this.props;
     search({
       'resource-types': resourceTypes,
+      'draft-status': draftStatus,
       subjects,
       query,
       language,
@@ -106,6 +112,12 @@ class SearchContentForm extends Component {
     this.setState({ search: emptySearchState }, this.handleSearch);
   }
 
+  getDraftStatuses() {
+    return Object.keys(ArticleStatuses.articleStatuses).map(s => {
+      return { id: s, name: this.props.t(`form.status.${s.toLowerCase()}`) };
+    });
+  }
+
   render() {
     const {
       dropDown: { subjects, resourceTypes },
@@ -117,8 +129,14 @@ class SearchContentForm extends Component {
       {
         name: 'resourceTypes',
         label: 'resourceTypes',
-        width: 50,
+        width: 25,
         options: resourceTypes,
+      },
+      {
+        name: 'draftStatus',
+        label: 'draftStatus',
+        width: 25,
+        options: this.getDraftStatuses(),
       },
       {
         name: 'language',
@@ -158,10 +176,22 @@ class SearchContentForm extends Component {
             </div>
           ))}
           <div {...searchFormClasses('field', '25-width')}>
-            <Button onClick={this.emptySearch} outline>
+            <Button
+              css={css`
+                margin-right: 1%;
+                width: 49%;
+              `}
+              onClick={this.emptySearch}
+              outline>
               {t('searchForm.empty')}
             </Button>
-            <Button submit>{t('searchForm.btn')}</Button>
+            <Button
+              css={css`
+                width: 49%;
+              `}
+              submit>
+              {t('searchForm.btn')}
+            </Button>
           </div>
           <div {...searchFormClasses('tagline')}>
             <SearchTagGroup
@@ -170,6 +200,7 @@ class SearchContentForm extends Component {
               subjects={subjects}
               searchObject={this.state.search}
               resourceTypes={resourceTypes}
+              draftStatus={this.getDraftStatuses()}
             />
           </div>
         </form>
@@ -188,6 +219,7 @@ SearchContentForm.propTypes = {
     subjects: PropTypes.string,
     language: PropTypes.string,
     'resource-types': PropTypes.string,
+    'draft-status': PropTypes.string,
   }),
 };
 

@@ -6,29 +6,29 @@
  *
  */
 
-import { beforeEachHelper } from '../../support';
-
-beforeEach(() => {
-  cy.server();
-  cy.route(
-    'GET',
-    '/taxonomy/v1/subjects/?language=nb',
-    'fixture:allSubjects.json',
-  );
-  cy.route(
-    'GET',
-    '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true',
-    'fixture:allSubjectTopics.json',
-  );
-  cy.route(
-    'GET',
-    '/taxonomy/v1/subjects/urn:subject:12/filters',
-    'fixture:allSubjectFilters.json',
-  );
-  beforeEachHelper('/structure/subject:12');
-});
+import { visitOptions, setToken } from '../../support';
 
 describe('Subject editing', () => {
+  beforeEach(() => {
+    setToken();
+    cy.server({ force404: true });
+    cy.route(
+      'GET',
+      '/taxonomy/v1/subjects/?language=nb',
+      'fixture:allSubjects.json',
+    );
+    cy.route(
+      'GET',
+      '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true',
+      'fixture:allSubjectTopics.json',
+    );
+    cy.route(
+      'GET',
+      '/taxonomy/v1/subjects/urn:subject:12/filters',
+      'fixture:allSubjectFilters.json',
+    );
+    cy.visit('/structure/urn:subject:12', visitOptions);
+  });
   it('should have a settings menu where everything works', () => {
     cy.get('[data-testid=filter-item]')
       .first()

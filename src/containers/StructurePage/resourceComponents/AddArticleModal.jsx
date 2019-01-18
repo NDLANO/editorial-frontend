@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { updateTopic } from '../../../modules/taxonomy';
-import TaxonomyLightbox from '../../../components/TaxonomyLightbox';
+import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { searchRelatedArticles } from '../../../modules/article/articleApi';
 import handleError from '../../../util/handleError';

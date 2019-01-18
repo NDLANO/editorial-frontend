@@ -150,12 +150,12 @@ export class StructurePage extends React.PureComponent {
     const { subject } = this.props.match.params;
     try {
       const filters = await fetchSubjectFilters(subject);
-      this.setState({
+      this.setState(prevState => ({
         filters: {
-          ...filters,
+          ...prevState.filters,
           [subject]: filters,
         },
-      });
+      }));
     } catch (e) {
       handleError(e);
     }
@@ -290,9 +290,10 @@ export class StructurePage extends React.PureComponent {
     const activeFilters = this.getActiveFiltersFromUrl();
     const { params } = match;
     const topicId = params.topic3 || params.topic2 || params.topic1;
+    const currentSubject = subjects.find(sub => sub.id === params.subject);
     const currentTopic = getCurrentTopic({
       params,
-      subject: subjects.find(sub => sub.id === params.subject),
+      subject: currentSubject,
     });
     const linkViewOpen = jsPlumbConnections.length > 0;
 
@@ -307,7 +308,7 @@ export class StructurePage extends React.PureComponent {
                 {t('taxonomy.editStructure')}
               </React.Fragment>
             }
-            taxonomy
+            appearance="taxonomy"
             addButton={
               config.enableFullTaxonomy && (
                 <InlineAddButton
@@ -358,6 +359,7 @@ export class StructurePage extends React.PureComponent {
               refFunc={this.refFunc}
               activeFilters={activeFilters}
               currentTopic={currentTopic}
+              currentSubject={currentSubject}
               refreshTopics={this.refreshTopics}
             />
           )}

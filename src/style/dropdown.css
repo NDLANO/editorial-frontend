@@ -58,17 +58,4 @@
   &__item--active {
     background-color: var(--brand-grey--light);
   }
-
-  &__action {
-    position: absolute;
-    right: 0.8rem;
-    top: 0.1rem;
-    color: var(--brand-grey);
-
-    &:hover,
-    &:focus {
-      outline: none;
-      color: var(--brand-grey);
-    }
-  }
 }

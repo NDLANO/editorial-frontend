@@ -1,8 +1,11 @@
-import { beforeEachHelper } from '../../support';
-
-beforeEach(() => beforeEachHelper('/subject-matter/learning-resource/new'));
+import { visitOptions, setToken } from '../../support';
 
 describe('Selecting text and using the toolbar', () => {
+  beforeEach(() => {
+    setToken();
+    cy.visit('/subject-matter/learning-resource/new', visitOptions);
+  });
+
   // selectall stopped working
   it('change the text styling', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
@@ -116,16 +119,15 @@ describe('Selecting text and using the toolbar', () => {
       .focus()
       .type('{selectall}');
     cy.get('[data-testid=toolbar-button-footnote]').click({ force: true });
-    cy.get('.c-lightbox input[name=title]').type('Testnavn');
+    cy.get('input[name=title]')
+      .last()
+      .type('Testnavn');
     cy.get('input[name=year]').type('1984');
     cy.get('[data-testid=multiselect-authors] input').type('Navn navnesen');
     cy.get('li')
       .contains('Opprett ny forfatter')
       .click({ force: true });
-    cy.get('.c-lightbox')
-      .find('button')
-      .contains('Lagre')
-      .click({ force: true });
+    cy.get('[data-cy=save_footnote]').click({ force: true });
     cy.get('a > sup').click({ force: true });
     cy.get('h2').contains('Rediger fotnote');
   });

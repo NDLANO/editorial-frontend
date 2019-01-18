@@ -21,17 +21,6 @@
     background-color: black;
   }
 
-  & .c-button {
-    margin-left: 0.1rem;
-    margin-bottom: 0.1rem;
-
-    &:hover,
-    &:focus {
-      color: white;
-      background-color: black;
-    }
-  }
-
   &__label {
     font-weight: 800;
     font-size: 0.8em;

@@ -16,7 +16,7 @@ import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
 import { classes } from './ResourceGroup';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
-import FilterConnections from '../../../components/Taxonomy/FilterConnections';
+import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 
 const filterButtonStyle = css`
   padding: 0 10px;
@@ -29,7 +29,7 @@ const Resource = ({
   showFilterPicker,
   toggleFilterPicker,
   onFilterChange,
-  activeFilters = [],
+  activeFilters,
   currentTopic,
   currentSubject,
   onFilterSubmit,
@@ -84,6 +84,10 @@ const Resource = ({
     )}
   </div>
 );
+
+Resource.defaultProps = {
+  activeFilters: [],
+};
 
 Resource.propTypes = {
   contentType: PropTypes.string.isRequired,

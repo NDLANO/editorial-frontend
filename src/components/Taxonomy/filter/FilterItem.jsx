@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Additional, Core } from '@ndla/icons/common';
@@ -16,7 +24,7 @@ import {
   RESOURCE_FILTER_SUPPLEMENTARY,
 } from '../../constants';
 
-const FilterConnections = ({
+const FilterItem = ({
   t,
   topics,
   filter,
@@ -122,7 +130,7 @@ const FilterConnections = ({
   );
 };
 
-FilterConnections.propTypes = {
+FilterItem.propTypes = {
   availableFilters: PropTypes.objectOf(PropTypes.array),
   filter: PropTypes.arrayOf(PropTypes.shape({})),
   topics: PropTypes.arrayOf(PropTypes.shape({})),
@@ -130,4 +138,4 @@ FilterConnections.propTypes = {
   updateFilter: PropTypes.func,
 };
 
-export default injectT(FilterConnections);
+export default injectT(FilterItem);

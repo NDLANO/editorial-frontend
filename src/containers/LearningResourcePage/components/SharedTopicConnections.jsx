@@ -8,7 +8,7 @@ import {
   StyledDuplicateConnectionLabel,
 } from '../../../style/LearningResourceTaxonomyStyles';
 
-export const sharedTopicConnections = ({ topic, retriveBreadCrumbs, t }) => {
+export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, t }) => {
   if (topic.topicConnections.length === 0) {
     return null;
   }
@@ -38,9 +38,9 @@ export const sharedTopicConnections = ({ topic, retriveBreadCrumbs, t }) => {
     });
 };
 
-sharedTopicConnections.propTypes = {
+SharedTopicConnections.propTypes = {
   topic: PropTypes.object,
   retriveBreadCrumbs: PropTypes.func.isRequired,
 };
 
-export default injectT(sharedTopicConnections);
+export default injectT(SharedTopicConnections);

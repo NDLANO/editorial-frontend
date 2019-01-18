@@ -33,7 +33,7 @@ import {
 } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
 import TopicConnections from './TopicConnections';
-import FilterConnections from '../../../components/Taxonomy/FilterConnections';
+import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import SaveButton from '../../../components/SaveButton';
 import { FormActionButton } from '../../Form';
 

@@ -56,7 +56,7 @@ const getModelFromNode = node => {
 class Link extends Component {
   constructor(props) {
     super(props);
-    const existingModel = getModelFromNode(props.node, props.value);
+    const existingModel = getModelFromNode(props.node, props.editor.value);
     this.state = {
       editMode: !(existingModel.href || existingModel['content-id']),
     };
@@ -85,15 +85,14 @@ class Link extends Component {
     const {
       t,
       attributes,
-      value: EditorValue,
-      editor: { onChange, blur },
+      editor: { onChange, blur, value },
       node,
     } = this.props;
 
-    const isInline = isNodeInCurrentSelection(EditorValue, node);
+    const isInline = isNodeInCurrentSelection(value, node);
     const { top, left } = this.getMenuPosition();
 
-    const model = getModelFromNode(node, EditorValue);
+    const model = getModelFromNode(node, value);
     const { href, title } = model;
 
     return (
@@ -145,7 +144,6 @@ Link.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  value: Types.value.isRequired,
   editor: EditorShape,
   node: Types.node.isRequired,
 };

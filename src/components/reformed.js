@@ -68,6 +68,7 @@ const makeWrapper = WrappedComponent => {
       this.setState(prevstate => ({
         model: set(name, value, prevstate.model),
       }));
+
       this.setInputFlags(name, {
         dirty: this.checkIfDirty(name, value),
       });

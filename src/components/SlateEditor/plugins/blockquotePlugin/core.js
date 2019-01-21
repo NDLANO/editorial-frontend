@@ -9,15 +9,13 @@ import { schema } from './validation';
  * Bind a change to given options, and scope it to act only inside a blockquote
  */
 function bindAndScopeChange(opts, fn) {
-  return (change, ...args) => {
-    const { value } = change;
-
-    if (!isSelectionInBlockquote(opts, value)) {
-      return change;
+  return (editor, ...args) => {
+    if (!editor.isSelectionInBlockquote()) {
+      return editor;
     }
 
     // $FlowFixMe
-    return fn(...[opts, change].concat(args));
+    return fn(...[opts, editor].concat(args));
   };
 }
 
@@ -31,11 +29,11 @@ function core(optsParam) {
   return {
     schema: schema(opts),
 
-    utils: {
+    queries: {
       isSelectionInBlockquote: isSelectionInBlockquote.bind(null, opts),
     },
 
-    changes: {
+    commands: {
       wrapInBlockquote: wrapInBlockquote.bind(null, opts),
       unwrapBlockquote: bindAndScopeChange(opts, unwrapBlockquote),
     },

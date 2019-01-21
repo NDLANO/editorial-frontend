@@ -12,7 +12,6 @@ import styled, { css } from 'react-emotion';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
-import { editTablePlugin } from '../externalPlugins';
 import { EditorShape } from '../../../../shapes';
 
 const tableActionButtonStyle = css`
@@ -41,38 +40,34 @@ const supportedTableOperations = [
 const TableActions = ({ value, editor, t }) => {
   const handleOnClick = (e, operation) => {
     e.preventDefault();
-    const change = value.change();
-    const position = editTablePlugin.utils.getPosition(value);
+    const position = editor.getTablePosition();
     switch (operation) {
       case 'row-remove': {
         if (position.getHeight() > 2) {
-          editTablePlugin.changes.removeRow(change);
+          editor.removeRow();
         }
         break;
       }
       case 'row-add':
-        editTablePlugin.changes.insertRow(change);
+        editor.insertRow();
         break;
       case 'column-remove': {
         if (position.getWidth() > 1) {
-          editTablePlugin.changes.removeColumn(change);
+          editor.removeColumn();
         }
         break;
       }
       case 'column-add':
-        editTablePlugin.changes.insertColumn(change);
+        editor.insertColumn();
         break;
       case 'table-remove':
-        editTablePlugin.changes.removeTable(change);
+        editor.removeTable();
         break;
       default:
     }
-    editor.onChange(change);
   };
 
-  const show =
-    editTablePlugin.utils.isSelectionInTable(value) &&
-    value.selection.isFocused;
+  const show = editor.isSelectionInTable() && value.selection.isFocused;
   return (
     <StyledTableActions show={show}>
       {supportedTableOperations.map(operation => (

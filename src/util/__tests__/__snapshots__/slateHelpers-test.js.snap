@@ -122,16 +122,6 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "",
-              },
-            ],
-            "object": "text",
-          },
-          Object {
             "data": Object {
               "authors": Array [
                 "Jony Ive",
@@ -157,16 +147,6 @@ Object {
             ],
             "object": "inline",
             "type": "footnote",
-          },
-          Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "",
-              },
-            ],
-            "object": "text",
           },
           Object {
             "data": Object {
@@ -195,16 +175,6 @@ Object {
             ],
             "object": "inline",
             "type": "footnote",
-          },
-          Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "",
-              },
-            ],
-            "object": "text",
           },
         ],
         "object": "block",
@@ -357,16 +327,6 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "",
-              },
-            ],
-            "object": "text",
-          },
-          Object {
             "data": Object {
               "lang": "en",
             },
@@ -384,16 +344,6 @@ Object {
             ],
             "object": "inline",
             "type": "span",
-          },
-          Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "",
-              },
-            ],
-            "object": "text",
           },
         ],
         "object": "block",
@@ -1270,7 +1220,7 @@ exports[`serializing br 1`] = `"<br/>"`;
 
 exports[`serializing bullet list 1`] = `"<ul><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ul>"`;
 
-exports[`serializing details box with summary element 1`] = `"<details><summary>Summary text</summary></details>"`;
+exports[`serializing details box with summary element 1`] = `"<details><summary>Summary text</summary>Details text</details>"`;
 
 exports[`serializing heading-two 1`] = `"<h2>heading 2</h2>"`;
 

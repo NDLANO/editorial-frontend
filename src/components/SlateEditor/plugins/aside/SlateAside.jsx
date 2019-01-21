@@ -17,13 +17,11 @@ const SlateAside = props => {
   const { node, editor } = props;
 
   const onRemoveClick = () => {
-    const next = editor.value.change().removeNodeByKey(node.key);
-    editor.onChange(next);
+    editor.removeNodeByKey(node.key);
   };
 
   const onMoveContent = () => {
-    const next = editor.value.change().unwrapBlockByKey(node.key, node.type);
-    editor.onChange(next);
+    editor.unwrapBlockByKey(node.key, node.type);
   };
 
   const type = node.get('data').get('type');

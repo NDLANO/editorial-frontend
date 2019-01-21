@@ -27,32 +27,33 @@ export default function createBodyBox() {
   };
 
   // Rule to always insert a paragraph as the last node inside if void type
-  function validateNode(node) {
-    if (node.object !== 'block') return null;
-    if (node.type !== 'bodybox') return null;
-    if (!node.nodes.last().type) return null;
-    if (!node.nodes.last().isVoid) return null;
+  function normalizeNode(node, editor, next) {
+    if (node.object !== 'block') return next();
+    if (node.type !== 'bodybox') return next();
+    if (!node.nodes.last().type) return next();
+    if (!node.nodes.last().isVoid) return next();
 
     const block = Block.create(defaultBlock);
-    return change => {
-      change.insertNodeByKey(node.key, node.nodes.size, block);
-    };
+    return () =>
+      editor.withoutSaving(() => {
+        editor.insertNodeByKey(node.key, node.nodes.size, block);
+      });
   }
 
   /* eslint-disable react/prop-types */
-  const renderNode = props => {
+  const renderNode = (props, editor, next) => {
     const { node } = props;
     switch (node.type) {
       case 'bodybox':
         return <SlateBodyBox {...props} />;
       default:
-        return null;
+        return next();
     }
   };
 
   return {
     schema,
     renderNode,
-    validateNode,
+    normalizeNode,
   };
 }

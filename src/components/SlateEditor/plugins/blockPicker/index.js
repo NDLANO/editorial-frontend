@@ -12,17 +12,20 @@ import options from './options';
 
 export default function blockPickerPlugin(addSection, opts = {}) {
   const schema = {};
-  const renderEditor = (props, editor) => (
-    <span>
-      <SlateBlockPicker
-        editorValue={editor.value}
-        onChange={editor.onChange}
-        addSection={addSection}
-        {...options(opts)}
-      />
-      {props.children}
-    </span>
-  );
+  const renderEditor = (props, editor, next) => {
+    const children = next();
+    return (
+      <React.Fragment>
+        <SlateBlockPicker
+          editor={editor}
+          onChange={editor.onChange}
+          addSection={addSection}
+          {...options(opts)}
+        />
+        {children}
+      </React.Fragment>
+    );
+  };
 
   return {
     schema,

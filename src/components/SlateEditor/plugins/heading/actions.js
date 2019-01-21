@@ -17,24 +17,25 @@ export function getCurrentHeading(options, value) {
     : null;
 }
 
-export function onEnter(evt, value, options, change) {
+export function onEnter(evt, value, options, editor, next) {
   const currentHeading = getCurrentHeading(options, value);
   if (!currentHeading) {
-    return null;
+    return next();
   }
   evt.preventDefault();
-  return insertParagraph(options, change);
+  return insertParagraph(options, editor);
 }
 
-export function onBackspace(evt, value, options, change) {
+export function onBackspace(evt, value, options, editor, next) {
   const { startOffset, isCollapsed } = value.selection;
-  const currentHeading = getCurrentHeading(options, value);
+  const currentHeading = getCurrentHeading(options, value, next);
   if (!currentHeading || !isCollapsed) {
-    return null;
+    return next();
   }
   if (startOffset === 0) {
     evt.preventDefault();
-    return setBlock(options, change);
+    console.log(options);
+    return setBlock(options, editor);
   }
-  return null;
+  return next();
 }

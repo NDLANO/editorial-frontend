@@ -12,7 +12,7 @@ import React from 'react';
 const schema = {};
 
 /* eslint-disable react/prop-types */
-const renderNode = props => {
+const renderNode = (props, editor, next) => {
   const { node } = props;
   switch (node.type) {
     case 'heading-one':
@@ -28,7 +28,7 @@ const renderNode = props => {
     case 'heading-six':
       return <h6 {...props.attributes}>{props.children}</h6>;
     default:
-      return null;
+      return next();
   }
 };
 

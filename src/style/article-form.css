@@ -141,25 +141,6 @@
     position: relative;
   }
 
-  &__container {
-    margin: 0;
-    padding: 0.44em 0;
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
-    clear: both;
-
-    &:hover,
-    &:focus {
-      border-top: 1px solid var(--brand-grey--light);
-      border-bottom: 1px solid var(--brand-grey--light);
-    }
-
-    & ol,
-    & ul {
-      margin-top: 1rem;
-    }
-  }
-
   &__meta-image {
     display: flex;
 

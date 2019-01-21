@@ -19,22 +19,6 @@ import { css } from 'react-emotion';
 import DeleteButton from '../../../DeleteButton';
 import { EditorShape } from '../../../../shapes';
 
-const factBoxButtonStyle = css`
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 2px;
-  z-index: 9;
-  box-shadow: 0 0 15px hsla(0, 0%, 50%, 0.3);
-  margin: auto;
-  padding: 5px 15px !important;
-  width: 0;
-  height: 33px;
-  text-align: center;
-  font-size: 14px;
-  border-radius: 50% !important;
-`;
-
 const moveContentButtonStyle = css`
   position: absolute;
   top: 0.1rem;

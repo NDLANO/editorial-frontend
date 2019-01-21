@@ -12,7 +12,7 @@ import { FormHeader } from '@ndla/forms';
 import { injectT } from '@ndla/i18n';
 import { StyledFilterTable } from '../../../style/LearningResourceTaxonomyStyles';
 import SubjectFilters from './SubjectFilters';
-import { TopicShape } from '../../../shapes'
+import { TopicShape, FilterShape, StructureShape } from '../../../shapes';
 
 const FilterConnections = ({
   t,
@@ -29,7 +29,6 @@ const FilterConnections = ({
       availableSubjects[`urn:${topicConnection.paths[0].split('/')[1]}`] = true;
     });
   });
-  console.log("TOPICS, ", topics)
   return (
     <Fragment>
       <FormHeader
@@ -57,14 +56,22 @@ const FilterConnections = ({
 };
 
 FilterConnections.defaultProps = {
-  topics: []
-}
+  topics: [],
+};
 
 FilterConnections.propTypes = {
-  availableFilters: PropTypes.objectOf(PropTypes.array),
-  filter: PropTypes.arrayOf(PropTypes.shape({})),
+  availableFilters: PropTypes.objectOf(
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string,
+        subjectId: PropTypes.string,
+      }),
+    ),
+  ),
+  filter: PropTypes.arrayOf(FilterShape),
   topics: PropTypes.arrayOf(TopicShape),
-  structure: PropTypes.arrayOf(PropTypes.object),
+  structure: PropTypes.arrayOf(StructureShape),
   updateFilter: PropTypes.func,
   resourceId: PropTypes.string,
 };

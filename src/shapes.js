@@ -246,5 +246,18 @@ export const TopicShape = PropTypes.shape({
   path: PropTypes.string,
   primary: PropTypes.bool,
   topicConnections: PropTypes.arrayOf(TopicConnectionShape),
-})
+});
 
+export const FilterShape = PropTypes.shape({
+  connectionId: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  relevanceId: PropTypes.string,
+});
+
+export const StructureShape = PropTypes.shape({
+  contentUri: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  path: PropTypes.string,
+});

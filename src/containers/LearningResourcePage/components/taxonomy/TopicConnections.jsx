@@ -10,7 +10,6 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Check } from '@ndla/icons/editor';
 import { colors } from '@ndla/core';
-
 import { Structure } from '@ndla/editor';
 import { FormHeader } from '@ndla/forms';
 import Button from '@ndla/button';
@@ -25,6 +24,7 @@ import {
 } from '../../../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnections from './ActiveTopicConnections';
 import FilterView from '../../../StructurePage/folderComponents/FilterView';
+import { StructureShape, TopicShape } from '../../../../shapes';
 
 class TopicConnections extends Component {
   constructor(props) {
@@ -189,10 +189,17 @@ class TopicConnections extends Component {
 
 TopicConnections.propTypes = {
   isOpened: PropTypes.bool,
-  structure: PropTypes.arrayOf(PropTypes.shape()),
+  structure: PropTypes.arrayOf(StructureShape),
   fileStructureFilters: PropTypes.arrayOf(PropTypes.string),
-  activeTopics: PropTypes.arrayOf(PropTypes.object),
-  taxonomyTopics: PropTypes.arrayOf(PropTypes.object),
+  activeTopics: PropTypes.arrayOf(TopicShape),
+  taxonomyTopics: PropTypes.arrayOf(
+    PropTypes.shape({
+      contentUri: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string,
+      path: PropTypes.string,
+    }),
+  ),
   removeConnection: PropTypes.func,
   setPrimaryConnection: PropTypes.func,
   availableFilters: PropTypes.objectOf(

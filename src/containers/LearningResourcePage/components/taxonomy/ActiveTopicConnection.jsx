@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { ChevronRight } from '@ndla/icons/common';
@@ -11,6 +19,7 @@ import {
   StyledPrimaryConnectionButton,
 } from '../../../../style/LearningResourceTaxonomyStyles';
 import SharedTopicConnections from './SharedTopicConnections';
+import { TopicShape } from '../../../../shapes';
 
 const ActiveTopicConnection = ({
   retriveBreadCrumbs,
@@ -19,11 +28,10 @@ const ActiveTopicConnection = ({
   t,
   topic,
 }) => {
-    console.log(topic);
   const breadCrumbs = retriveBreadCrumbs(topic.path);
   if (!breadCrumbs) {
     return (
-      <StyledConnections key={topic.id} error>
+      <StyledConnections error>
         <StyledErrorLabel>
           {t('taxonomy.topics.disconnectedTaxonomyWarning')}
         </StyledErrorLabel>
@@ -40,7 +48,7 @@ const ActiveTopicConnection = ({
   }
 
   return (
-    <Fragment key={topic.id}>
+    <Fragment>
       <StyledConnections>
         <StyledPrimaryConnectionButton
           primary={topic.primary}
@@ -74,6 +82,7 @@ ActiveTopicConnection.propTypes = {
   retriveBreadCrumbs: PropTypes.func,
   removeConnection: PropTypes.func,
   setPrimaryConnection: PropTypes.func,
+  topic: TopicShape,
 };
 
 export default injectT(ActiveTopicConnection);

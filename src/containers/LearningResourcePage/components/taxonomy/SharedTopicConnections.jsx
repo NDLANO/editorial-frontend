@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
@@ -6,11 +14,13 @@ import {
   StyledConnections,
   StyledDuplicateConnectionLabel,
 } from '../../../../style/LearningResourceTaxonomyStyles';
+import { TopicShape } from '../../../../shapes';
 
 export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, t }) => {
   if (topic.topicConnections.length === 0) {
     return null;
   }
+
   return topic.topicConnections
     .filter(topicConnection => !topicConnection.isPrimary)
     .map(topicConnection => {
@@ -30,7 +40,7 @@ export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, t }) => {
 };
 
 SharedTopicConnections.propTypes = {
-  topic: PropTypes.object,
+  topic: TopicShape,
   retriveBreadCrumbs: PropTypes.func.isRequired,
 };
 

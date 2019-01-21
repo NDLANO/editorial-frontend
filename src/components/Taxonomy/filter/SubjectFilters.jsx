@@ -10,6 +10,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { StyledSubjectName } from '../../../style/LearningResourceTaxonomyStyles';
 import FilterItem from './FilterItem';
+import { FilterShape, StructureShape } from '../../../shapes';
 
 const SubjectFilters = ({
   filter,
@@ -56,9 +57,17 @@ SubjectFilters.defaultProps = {
 
 SubjectFilters.propTypes = {
   filterSubjectKey: PropTypes.string.isRequired,
-  availableFilters: PropTypes.objectOf(PropTypes.array),
-  filter: PropTypes.arrayOf(PropTypes.shape({})),
-  structure: PropTypes.arrayOf(PropTypes.object),
+  availableFilters: PropTypes.objectOf(
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string,
+        subjectId: PropTypes.string,
+      }),
+    ),
+  ),
+  filter: PropTypes.arrayOf(FilterShape),
+  structure: PropTypes.arrayOf(StructureShape),
   updateFilter: PropTypes.func,
   resourceId: PropTypes.string,
   isFirstSubject: PropTypes.bool,

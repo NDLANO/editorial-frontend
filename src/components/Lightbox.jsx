@@ -109,18 +109,29 @@ class Lightbox extends React.PureComponent {
   }
 
   static getDerivedStateFromProps({ display }, prevState) {
-    if (display !== prevState.display) return { display };
+    if (display !== prevState.display) {
+      return { display };
+    }
     return null;
   }
 
   render() {
-    const { children, closeButton, width, appearance, severity } = this.props;
+    const {
+      children,
+      closeButton,
+      width,
+      appearance,
+      severity,
+      contentCss,
+    } = this.props;
+    console.log(contentCss);
     return this.state.display ? (
       <StyledLightbox>
         <StyledLightboxContent
           maxWidth={width}
           appearance={appearance}
-          severity={severity}>
+          severity={severity}
+          css={contentCss}>
           {closeButton ? (
             closeButton
           ) : (
@@ -145,6 +156,7 @@ Lightbox.propTypes = {
   closeButton: PropTypes.node,
   appearance: PropTypes.oneOf(['modal', 'big', 'fullscreen']),
   severity: PropTypes.oneOf(['danger', 'info', 'success', 'warning']),
+  contentCss: PropTypes.string,
 };
 
 export default Lightbox;

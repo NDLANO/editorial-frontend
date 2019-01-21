@@ -376,7 +376,7 @@ class LearningResourceTaxonomy extends Component {
     });
   }
 
-  updateFilter(filter, relevanceId, remove) {
+  updateFilter(resourceId, filter, relevanceId, remove) {
     const updatedFilters = this.state.taxonomyChanges.filter.filter(
       modelFilter => modelFilter.id !== filter.id,
     );

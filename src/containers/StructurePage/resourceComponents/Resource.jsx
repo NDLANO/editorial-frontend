@@ -37,53 +37,55 @@ const Resource = ({
   id,
   connectionId,
   t,
-}) => (
-  <div
-    data-testid={`resource-type-${contentType}`}
-    {...classes('text o-flag o-flag--top')}>
-    {contentType && (
-      <div key="img" {...classes('icon o-flag__img')}>
-        <ContentTypeBadge background type={contentType} />
+}) => {
+  return (
+    <div
+      data-testid={`resource-type-${contentType}`}
+      {...classes('text o-flag o-flag--top')}>
+      {contentType && (
+        <div key="img" {...classes('icon o-flag__img')}>
+          <ContentTypeBadge background type={contentType} />
+        </div>
+      )}
+      <div key="body" {...classes('body o-flag__body')}>
+        <h1 {...classes('title')}>{name}</h1>
       </div>
-    )}
-    <div key="body" {...classes('body o-flag__body')}>
-      <h1 {...classes('title')}>{name}</h1>
-    </div>
-    {contentType !== 'subject' && (
-      <Button
-        stripped
-        onClick={() => toggleFilterPicker(id)}
-        data-testid={`openFilterPicker-${id}`}
-        css={filterButtonStyle}>
-        <Filter {...classes('filterIcon')} />
-      </Button>
-    )}
-    {showFilterPicker && (
-      <TaxonomyLightbox
-        display
-        big
-        title={t('taxonomy.resource.chooseFilter')}
-        onClose={() => toggleFilterPicker(id)}
-        whiteContent>
-        <FilterConnections
-          topics={[currentTopic]}
-          filter={activeFilters}
-          resourceId={id}
-          structure={[currentSubject]}
-          availableFilters={{ [currentSubject.id]: currentTopic.filters }}
-          updateFilter={onFilterChange}
-        />
-        <Button onClick={() => onFilterSubmit(id)}>{t('form.save')}</Button>
-      </TaxonomyLightbox>
-    )}
+      {contentType !== 'subject' && (
+        <Button
+          stripped
+          onClick={() => toggleFilterPicker(id)}
+          data-testid={`openFilterPicker-${id}`}
+          css={filterButtonStyle}>
+          <Filter {...classes('filterIcon')} />
+        </Button>
+      )}
+      {showFilterPicker && (
+        <TaxonomyLightbox
+          display
+          big
+          title={t('taxonomy.resource.chooseFilter')}
+          onClose={() => toggleFilterPicker(id)}
+          whiteContent>
+          <FilterConnections
+            topics={[currentTopic]}
+            filter={activeFilters}
+            resourceId={id}
+            structure={[currentSubject]}
+            availableFilters={{ [currentSubject.id]: currentTopic.filters }}
+            updateFilter={onFilterChange}
+          />
+          <Button onClick={() => onFilterSubmit(id)}>{t('form.save')}</Button>
+        </TaxonomyLightbox>
+      )}
 
-    {onDelete && (
-      <Button onClick={() => onDelete(connectionId)} stripped>
-        <RemoveCircle {...classes('deleteIcon')} />
-      </Button>
-    )}
-  </div>
-);
+      {onDelete && (
+        <Button onClick={() => onDelete(connectionId)} stripped>
+          <RemoveCircle {...classes('deleteIcon')} />
+        </Button>
+      )}
+    </div>
+  );
+};
 
 Resource.defaultProps = {
   activeFilters: [],

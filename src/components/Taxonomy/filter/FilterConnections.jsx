@@ -25,9 +25,16 @@ const FilterConnections = ({
 }) => {
   const availableSubjects = {};
   topics.forEach(topic => {
-    topic.topicConnections.forEach(topicConnection => {
-      availableSubjects[`urn:${topicConnection.paths[0].split('/')[1]}`] = true;
-    });
+    if (topic.topicConnections) {
+      topic.topicConnections.forEach(topicConnection => {
+        availableSubjects[
+          `urn:${topicConnection.paths[0].split('/')[1]}`
+        ] = true;
+      });
+    } else {
+      const parentSubject = topic.path.split('/')[1];
+      availableSubjects[`urn:${parentSubject}`] = true;
+    }
   });
   return (
     <Fragment>

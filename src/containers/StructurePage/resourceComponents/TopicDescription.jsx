@@ -7,6 +7,7 @@ import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
 import config from '../../../config';
 import AddTopicResourceButton from './AddTopicResourceButton';
+import { fetchTopicConnections } from '../../../modules/taxonomy';
 
 class TopicDescription extends Component {
   constructor(props) {
@@ -16,11 +17,20 @@ class TopicDescription extends Component {
       showAddModal: false,
     };
     this.toggleAddModal = this.toggleAddModal.bind(this);
+    this.toggleDisplayTopicDescription = this.toggleDisplayTopicDescription.bind(
+      this,
+    );
   }
 
   toggleAddModal() {
     this.setState(prevState => ({
       showAddModal: !prevState.showAddModal,
+    }));
+  }
+
+  toggleDisplayTopicDescription() {
+    this.setState(prevState => ({
+      displayTopicDescription: !prevState.displayTopicDescription,
     }));
   }
 
@@ -33,12 +43,18 @@ class TopicDescription extends Component {
       t,
       refFunc,
     } = this.props;
+    const {
+      topicsWithConnections,
+      displayTopicDescription,
+      showAddModal,
+    } = this.state;
+
     return (
       <div ref={el => refFunc(el, 'resourceSection')}>
         <Accordion
           appearance="resourceGroup"
           header={t('searchForm.articleType.topicArticle')}
-          hidden={!this.state.displayTopicDescription}
+          hidden={!displayTopicDescription}
           addButton={
             config.enableFullTaxonomy && (
               <AddTopicResourceButton
@@ -50,16 +66,12 @@ class TopicDescription extends Component {
               </AddTopicResourceButton>
             )
           }
-          handleToggle={() =>
-            this.setState(prevState => ({
-              displayTopicDescription: !prevState.displayTopicDescription,
-            }))
-          }>
+          handleToggle={this.toggleDisplayTopicDescription}>
           {topicDescription && (
             <Resource contentType="subject" name={topicDescription} />
           )}
         </Accordion>
-        {this.state.showAddModal && (
+        {showAddModal && (
           <AddArticleModal
             toggleAddModal={this.toggleAddModal}
             locale={locale}

@@ -24,7 +24,6 @@ import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
-
 import config from '../../../config';
 
 class ResourceItems extends React.PureComponent {
@@ -155,13 +154,9 @@ class ResourceItems extends React.PureComponent {
       currentTopic,
       currentSubject,
     } = this.props;
-    const {
-      deleteId,
-      error,
-      filterPickerId,
-      activeFilters,
-      topicsWithConnections,
-    } = this.state;
+
+    const { deleteId, error, filterPickerId, activeFilters } = this.state;
+
     return (
       <ul {...classes('list')}>
         <MakeDndList

@@ -7,7 +7,6 @@ import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
 import config from '../../../config';
 import AddTopicResourceButton from './AddTopicResourceButton';
-import { fetchTopicConnections } from '../../../modules/taxonomy';
 
 class TopicDescription extends Component {
   constructor(props) {
@@ -43,11 +42,8 @@ class TopicDescription extends Component {
       t,
       refFunc,
     } = this.props;
-    const {
-      topicsWithConnections,
-      displayTopicDescription,
-      showAddModal,
-    } = this.state;
+
+    const { displayTopicDescription, showAddModal } = this.state;
 
     return (
       <div ref={el => refFunc(el, 'resourceSection')}>

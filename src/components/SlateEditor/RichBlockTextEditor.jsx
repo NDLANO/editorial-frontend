@@ -10,33 +10,16 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { css } from 'react-emotion';
 import RichTextEditor from './RichTextEditor';
+import StyledFormContainer from './common/StyledFormContainer';
 import { PluginShape } from '../../shapes';
-import { formClasses } from '../../containers/Form';
 import CrossButton from '../CrossButton';
-
-const removeSectionButtonStyle = css`
-  display: none;
-`;
-
-const removeSectionButtonHoverStyle = css`
-  color: red;
-  display: block;
-  float: right;
-`;
 
 class RichBlockTextEditor extends PureComponent {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.removeSection = this.removeSection.bind(this);
-    this.onMouseOver = this.onMouseOver.bind(this);
-    this.onMouseOut = this.onMouseOut.bind(this);
-
-    this.state = {
-      hover: -1,
-    };
   }
 
   onChange(change, index) {
@@ -50,14 +33,6 @@ class RichBlockTextEditor extends PureComponent {
       },
     };
     onChange(changedValue);
-  }
-
-  onMouseOver(index) {
-    this.setState({ hover: index });
-  }
-
-  onMouseOut() {
-    this.setState({ hover: -1 });
   }
 
   removeSection(index) {
@@ -89,33 +64,23 @@ class RichBlockTextEditor extends PureComponent {
     return (
       <article>
         {value.map((val, index) => (
-          <div
+          <StyledFormContainer
             key={`editor_${index}`} // eslint-disable-line react/no-array-index-key
-            onMouseOver={() => this.onMouseOver(index)}
-            onMouseOut={this.onMouseOut}
-            {...formClasses('container')}>
+          >
             {value.length > 1 ? (
-              <CrossButton
-                stripped
-                onClick={() => this.removeSection(index)}
-                css={
-                  this.state.hover === index
-                    ? removeSectionButtonHoverStyle
-                    : removeSectionButtonStyle
-                }
-              />
+              <CrossButton stripped onClick={() => this.removeSection(index)} />
             ) : null}
             <RichTextEditor
               name={name}
               schema={schema}
-              onChange={change => this.onChange(change, index)}
+              onChange={this.onChange}
               value={val.value}
               {...rest}
               index={index}
               removeSection={this.removeSection}
             />
             {children}
-          </div>
+          </StyledFormContainer>
         ))}
       </article>
     );

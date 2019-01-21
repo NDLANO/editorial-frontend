@@ -96,6 +96,7 @@ const RichTextEditor = class extends React.PureComponent {
       name,
       onChange,
       plugins,
+      index,
       ...rest
     } = this.props;
     return (
@@ -107,7 +108,7 @@ const RichTextEditor = class extends React.PureComponent {
             ref={this.editorRef}
             value={value}
             schema={schema}
-            onChange={onChange}
+            onChange={change => onChange(change, index)}
             slateStore={this.state.slateStore}
             plugins={plugins}
             {...rest}
@@ -117,7 +118,7 @@ const RichTextEditor = class extends React.PureComponent {
         {this.editorRef.current && (
           <SlateToolbar
             editor={this.editorRef.current}
-            onChange={onChange}
+            onChange={change => onChange(change, index)}
             name={name}
           />
         )}

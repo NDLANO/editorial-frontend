@@ -8,13 +8,13 @@
 
 import React from 'react';
 import { injectT } from '@ndla/i18n';
-import { formClasses } from '../../Form';
 import {
   PlainTextField,
   RemainingCharacters,
   classes as fieldClasses,
 } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
+import StyledFormContainer from '../../../components/SlateEditor/common/StyledFormContainer';
 
 const LearningResourceIngress = props => {
   const { t, commonFieldProps } = props;
@@ -22,7 +22,7 @@ const LearningResourceIngress = props => {
   const { value, onChange } = bindInput('introduction');
 
   return (
-    <div {...formClasses('container')}>
+    <StyledFormContainer>
       <PlainTextField
         label={t('form.introduction.label')}
         placeholder={t('form.introduction.label')}
@@ -44,7 +44,7 @@ const LearningResourceIngress = props => {
           value={value.document.text}
         />
       </PlainTextField>
-    </div>
+    </StyledFormContainer>
   );
 };
 

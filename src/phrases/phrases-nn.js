@@ -575,6 +575,7 @@ const phrases = {
       emptyFilter: 'Fant ingen passende emnetilknytninger',
       emptyList: 'Det er ingen emnetilknytning i denne listen',
       primaryTopic: 'Primærkobling',
+      sharedTopic: 'Delt emne',
       setPrimaryTopic: 'Velg som primærkoblet emne',
     },
     metaDescription: {

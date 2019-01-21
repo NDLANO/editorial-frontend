@@ -10,8 +10,9 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormHeader } from '@ndla/forms';
 import { injectT } from '@ndla/i18n';
-import { StyledFilterTable } from '../../style/LearningResourceTaxonomyStyles';
+import { StyledFilterTable } from '../../../style/LearningResourceTaxonomyStyles';
 import SubjectFilters from './SubjectFilters';
+import { TopicShape } from '../../../shapes'
 
 const FilterConnections = ({
   t,
@@ -28,6 +29,7 @@ const FilterConnections = ({
       availableSubjects[`urn:${topicConnection.paths[0].split('/')[1]}`] = true;
     });
   });
+  console.log("TOPICS, ", topics)
   return (
     <Fragment>
       <FormHeader
@@ -54,10 +56,14 @@ const FilterConnections = ({
   );
 };
 
+FilterConnections.defaultProps = {
+  topics: []
+}
+
 FilterConnections.propTypes = {
   availableFilters: PropTypes.objectOf(PropTypes.array),
   filter: PropTypes.arrayOf(PropTypes.shape({})),
-  topics: PropTypes.arrayOf(PropTypes.shape({})),
+  topics: PropTypes.arrayOf(TopicShape),
   structure: PropTypes.arrayOf(PropTypes.object),
   updateFilter: PropTypes.func,
   resourceId: PropTypes.string,

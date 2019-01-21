@@ -1,75 +1,18 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { ChevronRight } from '@ndla/icons/common';
-import { Cross } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
 import {
-  StyledBreadCrumb,
-  StyledConnections,
   StyledConnectionsWrapper,
-  StyledErrorLabel,
-  StyledRemoveConnectionButton,
-  StyledPrimaryConnectionButton,
 } from '../../../../style/LearningResourceTaxonomyStyles';
-import SharedTopicConnections from './SharedTopicConnections';
+import ActiveTopicConnection from './ActiveTopicConnection';
 
 const ActiveTopicConnections = ({
-  retriveBreadCrumbs,
-  removeConnection,
-  setPrimaryConnection,
   activeTopics,
   t,
+  ...rest
 }) => (
   <StyledConnectionsWrapper>
-    {activeTopics.map(topic => {
-      const breadCrumbs = retriveBreadCrumbs(topic.path);
-      if (!breadCrumbs) {
-        return (
-          <StyledConnections key={topic.id} error>
-            <StyledErrorLabel>
-              {t('taxonomy.topics.disconnectedTaxonomyWarning')}
-            </StyledErrorLabel>
-            <StyledBreadCrumb>
-              <span>{topic.path}</span>
-            </StyledBreadCrumb>
-            <StyledRemoveConnectionButton
-              type="button"
-              onClick={() => removeConnection(topic.id)}>
-              <Cross />
-            </StyledRemoveConnectionButton>
-          </StyledConnections>
-        );
-      }
-      return (
-        <Fragment key={topic.id}>
-          <StyledConnections>
-            <StyledPrimaryConnectionButton
-              primary={topic.primary}
-              type="button"
-              onClick={() => setPrimaryConnection(topic.id)}>
-              {t('form.topics.primaryTopic')}
-            </StyledPrimaryConnectionButton>
-            <StyledBreadCrumb>
-              {breadCrumbs.map(path => (
-                <Fragment key={`${topic.id}${path.id}`}>
-                  <span>{path.name}</span>
-                  <ChevronRight />
-                </Fragment>
-              ))}
-            </StyledBreadCrumb>
-            <StyledRemoveConnectionButton
-              type="button"
-              onClick={() => removeConnection(topic.id)}>
-              <Cross />
-            </StyledRemoveConnectionButton>
-          </StyledConnections>
-          <SharedTopicConnections
-            topic={topic}
-            retriveBreadCrumbs={retriveBreadCrumbs}
-          />
-        </Fragment>
-      );
-    })}
+    {activeTopics.map(topic => <ActiveTopicConnection topic={topic} {...rest}/>)}
   </StyledConnectionsWrapper>
 );
 

@@ -8,7 +8,7 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { StyledSubjectName } from '../../style/LearningResourceTaxonomyStyles';
+import { StyledSubjectName } from '../../../style/LearningResourceTaxonomyStyles';
 import FilterItem from './FilterItem';
 
 const SubjectFilters = ({

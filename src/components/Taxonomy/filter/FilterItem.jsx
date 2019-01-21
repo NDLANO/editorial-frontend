@@ -18,11 +18,12 @@ import {
   StyledFilterListTableRow,
   StyledFilterTable,
   StyledSubjectName,
-} from '../../style/LearningResourceTaxonomyStyles';
+} from '../../../style/LearningResourceTaxonomyStyles';
 import {
   RESOURCE_FILTER_CORE,
   RESOURCE_FILTER_SUPPLEMENTARY,
-} from '../../constants';
+} from '../../../constants';
+import { TopicShape } from '../../../shapes'
 
 const FilterItem = ({
   t,
@@ -130,10 +131,14 @@ const FilterItem = ({
   );
 };
 
+FilterItem.defaultProps = {
+  topics: [],
+}
+
 FilterItem.propTypes = {
   availableFilters: PropTypes.objectOf(PropTypes.array),
   filter: PropTypes.arrayOf(PropTypes.shape({})),
-  topics: PropTypes.arrayOf(PropTypes.shape({})),
+  topics: PropTypes.arrayOf(TopicShape),
   structure: PropTypes.arrayOf(PropTypes.object),
   updateFilter: PropTypes.func,
 };

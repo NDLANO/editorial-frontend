@@ -20,6 +20,7 @@ import reformed from '../../../components/reformed';
 import validateSchema, {
   checkTouchedInvalidField,
 } from '../../../components/validateSchema';
+import { learningResourceSchema } from '../../../articleSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
 import AlertModal from '../../../components/AlertModal';
@@ -29,8 +30,7 @@ import {
   editorValueToPlainText,
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
-import { isUserProvidedEmbedDataValid } from '../../../util/embedTagHelpers';
-import { findNodesByType } from '../../../util/slateHelpers';
+
 import { SchemaShape, LicensesArrayOf } from '../../../shapes';
 
 import LearningResourceMetadata from './LearningResourceMetadata';
@@ -44,8 +44,7 @@ import {
   AlertModalWrapper,
 } from '../../Form';
 import { formatErrorMessage } from '../../Form/FormWorkflow';
-import LearningResourceFootnotes from './LearningResourceFootnotes';
-import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
+
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import {
   DEFAULT_LICENSE,
@@ -58,18 +57,6 @@ import { validateDraft } from '../../../modules/draft/draftApi';
 import { articleConverter } from '../../../modules/draft/draft';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import config from '../../../config';
-
-const findFootnotes = content =>
-  content
-    .reduce(
-      (all, item) => [
-        ...all,
-        ...findNodesByType(item.value.document, footnoteType),
-      ],
-      [],
-    )
-    .filter(footnote => footnote.data.size > 0)
-    .map(footnoteNode => footnoteNode.data.toJS());
 
 const parseImageUrl = metaImage => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
@@ -119,12 +106,14 @@ class LearningResourceForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getArticleFromModel = this.getArticleFromModel.bind(this);
     this.onReset = this.onReset.bind(this);
+
     this.state = {
       showResetModal: false,
     };
   }
 
-  componentDidUpdate({ taxonomy: prevTaxonomy, initialModel: prevModel }) {
+  componentDidUpdate(prevProps) {
+    const { taxonomy: prevTaxonomy, initialModel: prevModel } = prevProps;
     const { initialModel, setModel, setModelField, taxonomy } = this.props;
     const hasTaxonomyChanged =
       taxonomy && prevTaxonomy && taxonomy.loading !== prevTaxonomy.loading;
@@ -194,19 +183,12 @@ class LearningResourceForm extends Component {
     };
   }
 
-  checkTouchedInvalidField = field => {
-    if (field.touched || this.props.submitted) {
-      return !field.valid;
-    }
-    return false;
-  };
-
   async handleSubmit(evt) {
     evt.preventDefault();
 
     const {
       model: { id },
-      schema,
+      validationErrors,
       revision,
       setSubmitted,
       createMessage,
@@ -214,12 +196,10 @@ class LearningResourceForm extends Component {
     } = this.props;
 
     const status = articleStatus ? articleStatus.current : undefined;
-
-    if (!schema.isValid) {
+    if (!validationErrors.isValid) {
       setSubmitted(true);
       return;
     }
-
     if (!isFormDirty(this.props)) {
       return;
     }
@@ -249,8 +229,6 @@ class LearningResourceForm extends Component {
     const {
       t,
       bindInput,
-      schema,
-      initialModel,
       model,
       submitted,
       tags,
@@ -264,29 +242,23 @@ class LearningResourceForm extends Component {
       userAccess = '',
       createMessage,
       revision,
+      validationErrors,
     } = this.props;
 
     const { error } = this.state;
-    const commonFieldProps = { bindInput, schema, submitted };
+    const commonFieldProps = { bindInput, schema: validationErrors, submitted };
     const panels = [
       {
         id: 'learning-resource-content',
         title: t('form.contentSection'),
         className: 'u-4/6@desktop u-push-1/6@desktop',
         hasError: [
-          schema.fields.title,
-          schema.fields.introduction,
-          schema.fields.content,
+          validationErrors.fields.title,
+          validationErrors.fields.introduction,
+          validationErrors.fields.content,
         ].some(field => checkTouchedInvalidField(field, submitted)),
         component: () => (
-          <LearningResourceContent
-            commonFieldProps={commonFieldProps}
-            bindInput={bindInput}>
-            <LearningResourceFootnotes
-              t={t}
-              footnotes={findFootnotes(model.content)}
-            />
-          </LearningResourceContent>
+          <LearningResourceContent commonFieldProps={commonFieldProps} />
         ),
       },
       {
@@ -294,10 +266,10 @@ class LearningResourceForm extends Component {
         title: t('form.copyrightSection'),
         className: 'u-6/6',
         hasError: [
-          schema.fields.creators,
-          schema.fields.rightsholders,
-          schema.fields.processors,
-          schema.fields.license,
+          validationErrors.fields.creators,
+          validationErrors.fields.rightsholders,
+          validationErrors.fields.processors,
+          validationErrors.fields.license,
         ].some(field => checkTouchedInvalidField(field, submitted)),
         component: () => (
           <FormCopyright
@@ -312,14 +284,13 @@ class LearningResourceForm extends Component {
         title: t('form.metadataSection'),
         className: 'u-6/6',
         hasError: [
-          schema.fields.metaDescription,
-          schema.fields.tags,
-          schema.fields.metaImageAlt,
+          validationErrors.fields.metaDescription,
+          validationErrors.fields.tags,
+          validationErrors.fields.metaImageAlt,
         ].some(field => checkTouchedInvalidField(field, submitted)),
         component: () => (
           <LearningResourceMetadata
             commonFieldProps={commonFieldProps}
-            bindInput={bindInput}
             tags={tags}
             model={model}
           />
@@ -329,7 +300,7 @@ class LearningResourceForm extends Component {
         id: 'learning-resource-workflow',
         title: t('form.workflowSection'),
         className: 'u-6/6',
-        hasError: [schema.fields.notes].some(field =>
+        hasError: [validationErrors.fields.notes].some(field =>
           checkTouchedInvalidField(field, submitted),
         ),
         component: () => (
@@ -442,7 +413,6 @@ class LearningResourceForm extends Component {
           fields={fields}
           severity="danger"
           model={model}
-          initialModel={initialModel}
           text={t('alertModal.notSaved')}
         />
       </form>
@@ -455,16 +425,17 @@ LearningResourceForm.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
     language: PropTypes.string,
-  }),
+  }).isRequired,
   initialModel: PropTypes.shape({
     id: PropTypes.number,
+    content: PropTypes.arrayOf(PropTypes.object),
     language: PropTypes.string,
   }),
   articleId: PropTypes.string,
   setModel: PropTypes.func.isRequired,
   setModelField: PropTypes.func.isRequired,
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
-  schema: SchemaShape,
+  validationErrors: SchemaShape,
   licenses: LicensesArrayOf,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
@@ -496,55 +467,5 @@ export default compose(
   injectT,
   withRouter,
   reformed,
-  validateSchema({
-    title: {
-      required: true,
-    },
-    introduction: {
-      maxLength: 300,
-    },
-    metaImageAlt: {
-      required: true,
-      onlyValidateIf: model => model.metaImageId,
-    },
-    content: {
-      required: true,
-      test: (value, model, setError) => {
-        const embedsHasErrors = value.find(block => {
-          const embeds = findNodesByType(block.value.document, 'embed').map(
-            node => node.get('data').toJS(),
-          );
-          const notValidEmbeds = embeds.filter(
-            embed => !isUserProvidedEmbedDataValid(embed),
-          );
-          return notValidEmbeds.length > 0;
-        });
-
-        if (embedsHasErrors) {
-          setError('learningResourceForm.validation.missingEmbedData');
-        }
-      },
-    },
-    metaDescription: {
-      maxLength: 155,
-    },
-    tags: {
-      required: false,
-    },
-    creators: {
-      allObjectFieldsRequired: true,
-    },
-    processors: {
-      allObjectFieldsRequired: true,
-    },
-    rightsholders: {
-      allObjectFieldsRequired: true,
-    },
-    license: {
-      required: false,
-    },
-    notes: {
-      required: false,
-    },
-  }),
+  validateSchema(learningResourceSchema),
 )(LearningResourceForm);

@@ -16,7 +16,7 @@ import defined from 'defined';
 import Types from 'slate-prop-types';
 import { Crop, FocalPoint } from '@ndla/icons/editor';
 import { injectT } from '@ndla/i18n';
-import { getSchemaEmbed } from '../../components/SlateEditor/schema';
+import { getSchemaEmbed } from '../../components/SlateEditor/editorSchema';
 import { EmbedShape, EditorShape } from '../../shapes';
 import ImageTransformEditor from './ImageTransformEditor';
 import ImageAlignButton from './ImageAlignButton';
@@ -93,8 +93,7 @@ class ImageEditor extends Component {
     const properties = {
       data,
     };
-    const next = editor.value.change().setNodeByKey(node.key, properties);
-    editor.onChange(next);
+    editor.setNodeByKey(node.key, properties);
   }
 
   onFocalPointChange(focalPoint) {

@@ -24,7 +24,7 @@ import {
   validDateRange,
 } from './validators';
 
-const getValidationErrors = (schema, model, fields, t) =>
+export const getValidationErrors = (schema, model, fields, t) =>
   Object.keys(schema).reduce(
     (acc, key) => {
       let errors = [];
@@ -140,7 +140,7 @@ const validateSchema = schema => WrappedComponent => {
 
     return React.createElement(WrappedComponent, {
       ...props,
-      schema: validationErrors,
+      validationErrors,
     });
   };
 

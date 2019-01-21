@@ -8,20 +8,21 @@
 
 import React from 'react';
 import { injectT } from '@ndla/i18n';
-import { formClasses } from '../../Form';
 import {
   PlainTextField,
   RemainingCharacters,
   classes as fieldClasses,
 } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
+import StyledFormContainer from '../../../components/SlateEditor/common/StyledFormContainer';
 
 const LearningResourceIngress = props => {
   const { t, commonFieldProps } = props;
-  const { bindInput } = commonFieldProps;
+  const { bindInput, schema, submitted } = commonFieldProps;
+  const { value, onChange } = bindInput('introduction');
 
   return (
-    <div {...formClasses('container')}>
+    <StyledFormContainer>
       <PlainTextField
         label={t('form.introduction.label')}
         placeholder={t('form.introduction.label')}
@@ -31,16 +32,19 @@ const LearningResourceIngress = props => {
         noBorder
         maxLength={300}
         data-cy="learning-resource-ingress"
-        {...commonFieldProps}>
+        value={value}
+        schema={schema}
+        submitted={submitted}
+        onChange={onChange}>
         <RemainingCharacters
           maxLength={300}
           getRemainingLabel={(maxLength, remaining) =>
             t('form.remainingCharacters', { maxLength, remaining })
           }
-          value={bindInput('introduction').value.document.text}
+          value={value.document.text}
         />
       </PlainTextField>
-    </div>
+    </StyledFormContainer>
   );
 };
 

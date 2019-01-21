@@ -16,14 +16,15 @@ function containBlocks(opts, change, context) {
     nodes: [],
   });
 
-  change.insertNodeByKey(
-    context.node.key,
-    0,
-    wrapper,
-    // Be careful of Slate's core schema removing inlines or blocks when
-    // a block contains a mix of them.
-    { normalize: false },
-  );
+  change.withoutNormalizing(() => {
+    change.insertNodeByKey(
+      context.node.key,
+      0,
+      wrapper,
+      // Be careful of Slate's core schema removing inlines or blocks when
+      // a block contains a mix of them.
+    );
+  });
 
   toWrap.forEach((child, index) => {
     const isLast = index === toWrap.size - 1;

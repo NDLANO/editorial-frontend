@@ -22,6 +22,7 @@ import validateSchema, {
 } from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
+import { topicArticleSchema } from '../../../articleSchema';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -151,8 +152,8 @@ class TopicArticleForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const { schema, revision, setSubmitted, onUpdate } = this.props;
-    if (!schema.isValid) {
+    const { validationErrors, revision, setSubmitted, onUpdate } = this.props;
+    if (!validationErrors.isValid) {
       setSubmitted(true);
       return;
     }
@@ -170,7 +171,7 @@ class TopicArticleForm extends Component {
     const {
       t,
       bindInput,
-      schema,
+      validationErrors: schema,
       initialModel,
       model,
       submitted,
@@ -196,7 +197,6 @@ class TopicArticleForm extends Component {
         component: (
           <TopicArticleContent
             commonFieldProps={commonFieldProps}
-            bindInput={bindInput}
             tags={tags}
             model={model}
           />
@@ -230,7 +230,6 @@ class TopicArticleForm extends Component {
         component: (
           <TopicArticleMetadata
             commonFieldProps={commonFieldProps}
-            bindInput={bindInput}
             tags={tags}
           />
         ),
@@ -340,13 +339,13 @@ TopicArticleForm.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
-  }),
+  }).isRequired,
   initialModel: PropTypes.shape({
     id: PropTypes.number,
     language: PropTypes.string,
   }),
   setModel: PropTypes.func.isRequired,
-  schema: SchemaShape,
+  validationErrors: SchemaShape,
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
@@ -370,52 +369,5 @@ export default compose(
   injectT,
   withRouter,
   reformed,
-  validateSchema({
-    title: {
-      required: true,
-    },
-    introduction: {
-      maxLength: 300,
-    },
-    content: {
-      // TODO: Write test to validate content (see learning resource)
-      required: false,
-    },
-    metaDescription: {
-      maxLength: 155,
-    },
-    visualElement: {
-      required: false,
-    },
-    'visualElement.alt': {
-      required: true,
-      onlyValidateIf: model =>
-        model.visualElement && model.visualElement.resource === 'image',
-    },
-    'visualElement.caption': {
-      required: true,
-      onlyValidateIf: model =>
-        model.visualElement &&
-        (model.visualElement.resource === 'image' ||
-          model.visualElement.resource === 'brightcove'),
-    },
-    tags: {
-      required: false,
-    },
-    creators: {
-      allObjectFieldsRequired: true,
-    },
-    processors: {
-      allObjectFieldsRequired: true,
-    },
-    rightsholders: {
-      allObjectFieldsRequired: true,
-    },
-    license: {
-      required: false,
-    },
-    notes: {
-      required: false,
-    },
-  }),
+  validateSchema(topicArticleSchema),
 )(TopicArticleForm);

@@ -17,15 +17,15 @@ export default function footnotePlugin() {
   };
 
   /* eslint-disable react/prop-types */
-  const renderNode = props => {
-    const { node, editor } = props;
+  const renderNode = (props, editor, next) => {
+    const { node } = props;
     const { value } = editor.props;
 
     switch (node.type) {
       case TYPE:
         return <Footnote {...props} value={value} />;
       default:
-        return null;
+        return next();
     }
   };
 

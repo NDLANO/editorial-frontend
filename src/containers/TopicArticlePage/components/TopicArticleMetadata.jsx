@@ -17,7 +17,11 @@ import {
 } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 
-const TopicArticleMetadata = ({ t, bindInput, commonFieldProps, tags }) => (
+const TopicArticleMetadata = ({
+  t,
+  commonFieldProps: { bindInput, ...handlers },
+  tags,
+}) => (
   <Fragment>
     <MultiSelectField
       obligatory
@@ -30,7 +34,8 @@ const TopicArticleMetadata = ({ t, bindInput, commonFieldProps, tags }) => (
         emptyFilter: t('form.tags.emptyFilter'),
         emptyList: t('form.tags.emptyList'),
       }}
-      {...commonFieldProps}
+      bindInput={bindInput}
+      {...handlers}
     />
     <FormHeader
       title={t('form.metaDescription.label')}
@@ -42,7 +47,8 @@ const TopicArticleMetadata = ({ t, bindInput, commonFieldProps, tags }) => (
           container="div"
           maxLength={155}
           autoExpand
-          {...commonFieldProps}
+          bindInput={bindInput}
+          {...handlers}
         />
       </div>
       <div>
@@ -61,14 +67,14 @@ const TopicArticleMetadata = ({ t, bindInput, commonFieldProps, tags }) => (
       description={t('form.metaDescription.description')}
       name="metaDescription"
       maxLength={155}
-      {...commonFieldProps}
+      {...bindInput('metaDescription')}
+      {...handlers}
     />
   </Fragment>
 );
 
 TopicArticleMetadata.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  bindInput: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 

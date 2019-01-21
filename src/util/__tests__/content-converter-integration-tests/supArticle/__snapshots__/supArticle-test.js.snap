@@ -24,7 +24,8 @@ exports[`serializing article with sup tag 1`] = `
   <p>3) Sirkulasjonstrykket i bunnen av brønnen:</p>
   <p>pBH1 = phyd + pfr</p>
   <p>
-    <strong>pBH1 = (2500 · 0,0981 · 1,20) + 2,5 = 296,8 bar
+    <strong>pBH1 = (2500 · 0,0981 · 1,20) + 2,5 = 296,8 bar</strong>
+    <strong>
       <br>
 
     </strong>
@@ -50,7 +51,9 @@ exports[`serializing article with sup tag 1`] = `
     <strong>
       <sup>2</sup>
     </strong>
-    <strong>+ 294,3 = 304,3 bar
+    <strong>+</strong>
+    <strong>294,3 = 304,3 bar</strong>
+    <strong>
       <br>
 
     </strong>
@@ -69,7 +72,8 @@ exports[`serializing article with sup tag 1`] = `
       <sup>2</sup>= 10 bar
     </p>
     <p>
-      <strong>Friksjonsgradient: 10/2500 = 0,004 bar/meter
+      <strong>Friksjonsgradient: 10/2500 = 0,004 bar/meter</strong>
+      <strong>
         <br>
 
       </strong>
@@ -79,7 +83,8 @@ exports[`serializing article with sup tag 1`] = `
       <sup>2</sup>= 200 bar
     </p>
     <p>
-      <strong>Friksjonsgradient: 200/2500 = 0,008 bar/meter
+      <strong>Friksjonsgradient: 200/2500 = 0,008 bar/meter</strong>
+      <strong>
         <br>
 
       </strong>
@@ -90,7 +95,8 @@ exports[`serializing article with sup tag 1`] = `
       <strong>
         <sup>2</sup>
       </strong>
-      <strong>= 80 bar
+      <strong>= 80 bar</strong>
+      <strong>
         <br>
 
       </strong>

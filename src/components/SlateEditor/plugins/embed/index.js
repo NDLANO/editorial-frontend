@@ -20,12 +20,11 @@ export default function createEmbedPlugin(locale) {
   };
 
   /* eslint-disable react/prop-types */
-  const renderNode = props => {
-    const { node, editor } = props;
+  const renderNode = (props, editor, next) => {
+    const { node } = props;
     const onRemoveClick = e => {
       e.stopPropagation();
-      const next = editor.value.change().removeNodeByKey(node.key);
-      editor.onChange(next);
+      editor.removeNodeByKey(node.key);
     };
 
     switch (node.type) {
@@ -38,7 +37,7 @@ export default function createEmbedPlugin(locale) {
           />
         );
       default:
-        return null;
+        return next();
     }
   };
 

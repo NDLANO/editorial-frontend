@@ -15,13 +15,13 @@ export default function createNoEmbedsPlugin() {
   };
 
   /* eslint-disable react/prop-types */
-  const renderNode = props => {
+  const renderNode = (props, editor, next) => {
     const { node } = props;
     switch (node.type) {
       case 'embed':
         return <NoEmbedMessage {...props} />;
       default:
-        return null;
+        return next();
     }
   };
 

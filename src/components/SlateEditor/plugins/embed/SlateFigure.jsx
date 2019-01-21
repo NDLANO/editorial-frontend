@@ -17,7 +17,7 @@ import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbedTag/DisplayExternal';
-import { getSchemaEmbed } from '../../schema';
+import { getSchemaEmbed } from '../../editorSchema';
 import { EditorShape } from '../../../../shapes';
 
 export const editorClasses = new BEMHelper({
@@ -69,15 +69,13 @@ class SlateFigure extends React.Component {
     const properties = {
       data: { ...getSchemaEmbed(node), [name]: value },
     };
-    const next = editor.value.change().setNodeByKey(node.key, properties);
-    editor.onChange(next);
+    editor.setNodeByKey(node.key, properties);
   }
 
   onRemoveClick(e) {
     e.stopPropagation();
     const { node, editor } = this.props;
-    const next = editor.value.change().removeNodeByKey(node.key);
-    editor.onChange(next);
+    editor.removeNodeByKey(node.key);
   }
 
   isSelected() {

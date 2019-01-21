@@ -124,7 +124,7 @@ class Lightbox extends React.PureComponent {
       severity,
       contentCss,
     } = this.props;
-    console.log(contentCss);
+
     return this.state.display ? (
       <StyledLightbox>
         <StyledLightboxContent

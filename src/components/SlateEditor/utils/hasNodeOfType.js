@@ -6,11 +6,10 @@
  *
  */
 
-import { editTablePlugin } from '../plugins/externalPlugins';
-
-const hasNodeOfType = (value, type, kind = 'block') => {
+const hasNodeOfType = (editor, type, kind = 'block') => {
+  const { value } = editor;
   if (type === 'table') {
-    return editTablePlugin.utils.isSelectionInTable(value);
+    return editor.isSelectionInTable();
   }
   return value[`${kind}s`].some(node => node.type === type);
 };

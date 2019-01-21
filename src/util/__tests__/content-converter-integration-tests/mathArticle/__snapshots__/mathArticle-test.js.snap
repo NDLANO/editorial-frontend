@@ -74,10 +74,12 @@ exports[`serializing article with mathml tags 1`] = `
       <tr>
         <td align=\\"left\\"
           valign=\\"top\\">
-          <strong>Bruttofortjeneste
+          <strong>Bruttofortjeneste</strong>
+          <strong>
             <br>
-            (dekningsbidrag)
+
           </strong>
+          <strong>(dekningsbidrag)</strong>
         </td>
         <td align=\\"right\\"
           valign=\\"top\\">

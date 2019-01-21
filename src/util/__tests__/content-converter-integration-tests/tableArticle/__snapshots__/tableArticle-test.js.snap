@@ -39,10 +39,12 @@ exports[`serializing article with table tag and attributes 1`] = `
         <td colspan=\\"2\\"
           align=\\"center\\"
           valign=\\"top\\">
-          <strong>Egenkapital
+          <strong>Egenkapital</strong>
+          <strong>
             <br>
-            og gjeld
+
           </strong>
+          <strong>og gjeld</strong>
         </td>
       </tr>
       <tr>
@@ -130,10 +132,12 @@ exports[`serializing article with table tag and attributes 1`] = `
         <td colspan=\\"2\\"
           align=\\"center\\"
           valign=\\"top\\">
-          <strong>Egenkapital
+          <strong>Egenkapital</strong>
+          <strong>
             <br>
-            og gjeld
+
           </strong>
+          <strong>og gjeld</strong>
         </td>
       </tr>
       <tr>

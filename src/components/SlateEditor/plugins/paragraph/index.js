@@ -12,12 +12,12 @@ import { onEnter } from './actions';
 const KEY_ENTER = 'Enter';
 
 export default function paragraphPlugin() {
-  function onKeyDown(e, change) {
+  function onKeyDown(e, editor, next) {
     switch (e.key) {
       case KEY_ENTER:
-        return onEnter(e, change);
+        return onEnter(e, editor, next);
       default:
-        return null;
+        return next();
     }
   }
 

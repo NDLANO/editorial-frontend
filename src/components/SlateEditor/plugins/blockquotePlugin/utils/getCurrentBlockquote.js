@@ -1,13 +1,13 @@
 /**
  * Return the current blockquote, from current selection or from a node.
  */
-function getCurrentBlockquote(opts, value, block) {
-  const { document } = value;
+function getCurrentBlockquote(opts, editor, block) {
+  const { document, selection, startBlock } = editor.value;
   let currentBlock = block;
 
   if (!block) {
-    if (!value.selection.start.key) return null;
-    currentBlock = value.startBlock;
+    if (!selection.start.key) return null;
+    currentBlock = startBlock;
   }
 
   const parent = document.getParent(currentBlock.key);

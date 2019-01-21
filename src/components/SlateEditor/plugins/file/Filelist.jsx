@@ -14,7 +14,7 @@ import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import styled from 'react-emotion';
 import { EditorShape } from '../../../../shapes';
-import { getSchemaEmbed } from '../../schema';
+import { getSchemaEmbed } from '../../editorSchema';
 import SingleFile from './SingleFile';
 import AddFileToList from './AddFileToList';
 import config from '../../../../config';
@@ -88,15 +88,13 @@ class Filelist extends React.Component {
       },
     };
 
-    const next = editor.value.change().setNodeByKey(node.key, properties);
-    editor.onChange(next);
+    editor.setNodeByKey(node.key, properties);
   }
 
   onRemoveFileList(evt) {
     evt.stopPropagation();
     const { node, editor } = this.props;
-    const next = editor.value.change().removeNodeByKey(node.key);
-    editor.onChange(next);
+    editor.removeNodeByKey(node.key);
   }
 
   onRemoveFile(evt, removedFile) {
@@ -133,12 +131,11 @@ class Filelist extends React.Component {
       title: file.title,
       resource: file.resource,
     }));
-    const next = editor.value.change().setNodeByKey(node.key, {
+    editor.setNodeByKey(node.key, {
       data: {
         nodes,
       },
     });
-    editor.onChange(next);
   }
 
   onOpenFileUploader() {

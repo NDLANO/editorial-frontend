@@ -565,6 +565,7 @@ const phrases = {
       emptyList: 'No topics available',
       emptyFilter: 'No matching topics found',
       primaryTopic: 'Primary topic',
+      sharedTopic: 'Shared topic',
       setPrimaryTopic: 'Set as primary topic',
     },
     metaDescription: {

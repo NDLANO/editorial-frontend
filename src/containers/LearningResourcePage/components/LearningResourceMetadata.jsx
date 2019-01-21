@@ -17,13 +17,7 @@ import {
 import { MetaImageShape, CommonFieldPropsShape } from '../../../shapes';
 import MetaImageSearch from './MetaImageSearch';
 
-const LearningResourceMetadata = ({
-  t,
-  bindInput,
-  commonFieldProps,
-  tags,
-  model,
-}) => (
+const LearningResourceMetadata = ({ t, commonFieldProps, tags, model }) => (
   <Fragment>
     <MultiSelectField
       obligatory
@@ -44,26 +38,28 @@ const LearningResourceMetadata = ({
       description={t('form.metaDescription.description')}
       name="metaDescription"
       maxLength={155}
+      {...commonFieldProps.bindInput('metaDescription')}
       {...commonFieldProps}>
       <RemainingCharacters
         maxLength={155}
         getRemainingLabel={(maxLength, remaining) =>
           t('form.remainingCharacters', { maxLength, remaining })
         }
-        value={bindInput('metaDescription').value.document.text}
+        value={
+          commonFieldProps.bindInput('metaDescription').value.document.text
+        }
       />
     </PlainTextField>
     <MetaImageSearch
       metaImageId={model.metaImageId}
       commonFieldProps={commonFieldProps}
-      {...bindInput('metaImageId')}
+      {...commonFieldProps.bindInput('metaImageId')}
     />
   </Fragment>
 );
 
 LearningResourceMetadata.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  bindInput: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
   model: PropTypes.shape({
     metaImage: MetaImageShape,

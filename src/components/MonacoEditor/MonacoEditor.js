@@ -53,7 +53,7 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
 
 import React, { Component } from 'react';
 import { css } from 'emotion';
-import { spacing } from '@ndla/core';
+import { spacing, colors } from '@ndla/core';
 import './html.contribution.js';
 
 const content =
@@ -83,7 +83,7 @@ monaco.editor.defineTheme('myCustomTheme', {
   ],
 });
 
-class MonacoEditor extends Component {
+export class MonacoEditor extends Component {
   constructor(props) {
     super(props);
     this.container = React.createRef();
@@ -113,8 +113,9 @@ class MonacoEditor extends Component {
       <div
         css={css`
           width: 100%;
-          height: 700px;
+          height: 85vh;
           margin-top: ${spacing.large};
+          border: 1px solid ${colors.brand.greyLight};
         `}
         ref={this.container}
       />

@@ -46,6 +46,7 @@ import {
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 
 import { CommonFieldPropsShape } from '../../../shapes';
+import MonacoEditorModal from '../../../components/MonacoEditor/MonacoEditorModal';
 
 const findFootnotes = content =>
   content
@@ -110,6 +111,7 @@ class LearningResourceContent extends Component {
     const { value } = commonFieldProps.bindInput('content');
     return (
       <Fragment>
+        <MonacoEditorModal />
         <TextField
           label={t('form.title.label')}
           name="title"

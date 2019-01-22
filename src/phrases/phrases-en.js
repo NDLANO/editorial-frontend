@@ -694,6 +694,8 @@ const phrases = {
     invalidUrl: 'Invalid url',
     noArticleInProd: 'No article found in prod',
     taxonomy: 'There was a problem loading taxonomy',
+    auth0:
+      'There was a problem with renewal of your token. You can either choose to cancel to make sure you do not lose any data or log out to try again. Following error message came from auth0: {message}',
   },
   notFound: {
     description: 'The page cannot be found',

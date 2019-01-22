@@ -9,10 +9,14 @@
 import 'isomorphic-fetch';
 import defined from 'defined';
 import auth0 from 'auth0-js';
-import createHistory from 'history/createBrowserHistory';
 import config from '../config';
 import { expiresIn } from './jwtHelper';
 import { resolveJsonOrRejectWithError } from './resolveJsonOrRejectWithError';
+import * as messageActions from '../containers/Messages/messagesActions';
+const client =
+  process.env.NODE_ENV !== 'unittest'
+    ? require('../client.jsx')
+    : { store: { dispatch: () => {} } };
 
 const NDLA_API_URL = config.ndlaApiUrl;
 const AUTH0_DOMAIN = config.auth0Domain;
@@ -73,7 +77,6 @@ const auth = new auth0.WebAuth({
   redirectUri: `${locationOrigin}/login/success`,
   audience: 'ndla_system',
 });
-
 export function parseHash(hash) {
   return new Promise((resolve, reject) => {
     auth.parseHash({ hash, _idTokenVerification: false }, (err, authResult) => {
@@ -141,8 +144,13 @@ export const renewPersonalAuth = () =>
           setAccessTokenInLocalStorage(authResult.accessToken, true);
           resolve(authResult.accessToken);
         } else {
-          createHistory().push('/logout/session'); // Push to logoutPath
-          window.location.reload(); // Need to reload to logout
+          client.store.dispatch(
+            messageActions.addAuth0Message({
+              translationKey: 'errorMessage.auth0',
+              translationObject: { message: authResult.errorDescription },
+              timeToLive: 0,
+            }),
+          );
           reject();
         }
       },

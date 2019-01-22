@@ -704,6 +704,8 @@ const phrases = {
     invalidUrl: 'Ugyldig url',
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var et problem ved lasting av taksonomi',
+    auth0:
+      'Det var et problem med fornyelse av token. Du kan enten velge å avbryte for å ta vare på eventuelt nytt innhold eller logge ut for å prøve på nytt. Følgende feilmelding kom fra auth0: {message}',
     statusCode: {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har editert og last siden på nytt for å kunne lagre.',
     },

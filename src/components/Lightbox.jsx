@@ -22,7 +22,7 @@ const appearances = {
   `,
   modal: css`
     border-radius: 0;
-    height: 210px;
+    min-height: 210px;
     max-width: 620px;
     padding-bottom: ${spacing.noraml};
   `,

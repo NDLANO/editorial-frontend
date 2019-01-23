@@ -82,7 +82,7 @@ const Contributors = props => {
   const errorMessages = getField(name, schema).errors.map(error =>
     error(label),
   );
-  console.log(errorMessages);
+
   return (
     <div>
       <FormHeader title={label} width={3 / 4} />

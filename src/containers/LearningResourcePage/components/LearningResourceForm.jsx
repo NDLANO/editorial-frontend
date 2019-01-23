@@ -57,6 +57,7 @@ import { validateDraft } from '../../../modules/draft/draftApi';
 import { articleConverter } from '../../../modules/draft/draft';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import config from '../../../config';
+import ContentMarkupEditor from '../../../components/ContentMarkupEditor';
 
 const parseImageUrl = metaImage => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
@@ -343,6 +344,13 @@ class LearningResourceForm extends Component {
           type={model.articleType}
           editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
         />
+        {model.id && (
+          <ContentMarkupEditor
+            draftId={model.id}
+            key={model.id}
+            language={model.language}
+          />
+        )}
         <Accordion openIndexes={['learning-resource-content']}>
           {({ openIndexes, handleItemClick }) => (
             <AccordionWrapper>

@@ -85,7 +85,7 @@ class FormWorkflow extends Component {
         severity: 'success',
       });
     } catch (error) {
-      if (error && error.json.messages) {
+      if (error && error.json && error.json.messages) {
         createMessage(formatErrorMessage(error));
       }
     }

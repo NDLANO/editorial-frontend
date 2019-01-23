@@ -18,7 +18,6 @@ import { withRouter, Route, Switch } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 import { MessageShape } from '../../shapes';
 import Masthead from '../Masthead';
-import Footer from './components/Footer';
 import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
 import Messages from '../Messages/Messages';
@@ -49,7 +48,6 @@ export class App extends React.Component {
       t,
       match: { params },
     } = this.props;
-
     return (
       <ErrorBoundary>
         <PageContainer>
@@ -83,7 +81,6 @@ export class App extends React.Component {
               <Route component={NotFoundPage} />
             </Switch>
           </Content>
-          <Footer t={t} />
           <Messages dispatch={dispatch} messages={messages} />
         </PageContainer>
       </ErrorBoundary>

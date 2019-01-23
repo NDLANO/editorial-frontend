@@ -12,10 +12,18 @@ import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
 import { contributorGroups, contributorTypes } from '@ndla/licenses';
 import Button from '@ndla/button';
+import styled from 'react-emotion';
+import { fonts, colors } from '@ndla/core';
 import { FormHeader } from '@ndla/forms';
 import Contributor from './Contributor';
 import { getField } from '../Fields';
 import { getLocale } from '../../modules/locale/locale';
+
+const StyledFormWarningText = styled.p`
+  font-family: ${fonts.sans};
+  color: ${colors.support.red};
+  ${fonts.sizes(14, 1.1)};
+`;
 
 const capitalizeFirstLetter = string =>
   string.charAt(0).toUpperCase() + string.slice(1);
@@ -28,6 +36,7 @@ const Contributors = props => {
     schema,
     bindInput,
     disabled,
+    submitted,
     t,
     ...rest
   } = props;
@@ -73,7 +82,7 @@ const Contributors = props => {
   const errorMessages = getField(name, schema).errors.map(error =>
     error(label),
   );
-
+  console.log(errorMessages);
   return (
     <div>
       <FormHeader title={label} width={3 / 4} />
@@ -82,6 +91,7 @@ const Contributors = props => {
           key={`contributor_${index}`} // eslint-disable-line react/no-array-index-key
           contributor={contributor}
           index={index}
+          submitted={submitted}
           errorMessages={errorMessages}
           contributorTypeItems={contributorTypeItems}
           handleContributorChange={handleContributorChange}
@@ -89,6 +99,11 @@ const Contributors = props => {
           {...rest}
         />
       ))}
+      {submitted &&
+        value.length === 0 &&
+        errorMessages.length > 0 && (
+          <StyledFormWarningText>{errorMessages[0]}</StyledFormWarningText>
+        )}
       <Button
         outline
         onClick={addContributor}

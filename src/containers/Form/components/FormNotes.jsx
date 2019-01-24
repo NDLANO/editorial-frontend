@@ -15,10 +15,7 @@ import styled, { css } from 'react-emotion';
 import { User, Time } from '@ndla/icons/common';
 import { Field } from '../../../components/Fields';
 import formatDate from '../../../util/formatDate';
-import {
-  resolveJsonOrRejectWithError,
-  fetchAuthorized,
-} from '../../../util/apiHelpers';
+import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
 import { NoteShape } from '../../../shapes';
 import Tag from '../../../components/Tag';
 
@@ -48,6 +45,17 @@ const iconStyle = css`
 `;
 
 class FormNotes extends React.Component {
+  static async getDerivedStateFromProps(props, state) {
+    const userIds = props.notes.map(note => note.user);
+    const uniqueUserIds = Array.from(new Set(userIds)).join(',');
+
+    if (state.users.length !== uniqueUserIds) {
+      const users = await fetchAuth0Users(uniqueUserIds);
+      return { users };
+    }
+    return undefined;
+  }
+
   constructor() {
     super();
     this.getUsername = this.getUsername.bind(this);
@@ -60,9 +68,7 @@ class FormNotes extends React.Component {
     const { notes } = this.props;
     const userIds = notes.map(note => note.user);
     const uniqueUserIds = Array.from(new Set(userIds)).join(',');
-    const users = await fetchAuthorized(
-      `/get_note_users?userIds=${uniqueUserIds}`,
-    ).then(resolveJsonOrRejectWithError);
+    const users = await fetchAuth0Users(uniqueUserIds);
     this.setState({
       users:
         users && !users.error
@@ -73,6 +79,9 @@ class FormNotes extends React.Component {
           : [],
     });
   }
+
+  componentDidUpdate() {}
+
   getUsername(userId) {
     const { users } = this.state;
     const noteUser = users.find(user => user.id === userId);

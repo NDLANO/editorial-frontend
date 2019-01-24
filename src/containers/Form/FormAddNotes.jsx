@@ -17,7 +17,7 @@ import {
 } from '@ndla/forms';
 import { Field } from '../../components/Fields';
 import FormNotes from './components/FormNotes';
-import { ArticleShape } from '../../shapes';
+import { NewArticleShape } from '../../shapes';
 
 class FormAddNotes extends Component {
   constructor() {
@@ -40,17 +40,15 @@ class FormAddNotes extends Component {
 
   addNote() {
     const { value } = this.props;
-    const newNotes = [].concat(value);
-    newNotes.push('');
-    this.onNotesChange(newNotes);
+    this.onNotesChange([...value, '']);
   }
 
-  removeNote(e, index) {
+  removeNote(e, noteIndexToRemove) {
     const { value } = this.props;
     e.preventDefault();
-    const newNotes = [].concat(value);
-    newNotes.splice(index, 1);
-    this.onNotesChange(newNotes);
+    this.onNotesChange(
+      value.filter((note, index) => index !== noteIndexToRemove),
+    );
   }
 
   handleNoteChange(evt, index) {
@@ -127,7 +125,7 @@ FormAddNotes.propTypes = {
   labelWarningNote: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.arrayOf(PropTypes.string),
-  article: ArticleShape,
+  article: NewArticleShape,
 };
 
 export default FormAddNotes;

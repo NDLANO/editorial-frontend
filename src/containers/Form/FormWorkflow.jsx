@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as draftApi from '../../modules/draft/draftApi';
 import { FormAddNotes } from '.';
-import { CommonFieldPropsShape, ArticleShape } from '../../shapes';
+import { CommonFieldPropsShape, NewArticleShape } from '../../shapes';
 import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
 import FormQualityAssurance from './components/FormQualityAssurance';
@@ -143,7 +143,7 @@ FormWorkflow.propTypes = {
   updateStatusDraft: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
   getArticle: PropTypes.func.isRequired,
-  article: ArticleShape,
+  article: NewArticleShape,
 };
 
 FormWorkflow.defaultProps = {

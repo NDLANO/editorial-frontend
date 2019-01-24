@@ -12,7 +12,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import IntlProvider from '@ndla/i18n';
 import ErrorReporter from '@ndla/error-reporter';
-
+import { configureTracker } from '@ndla/tracker';
 import config from './config';
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
@@ -38,6 +38,12 @@ window.errorReporter = ErrorReporter.getInstance({
   logglyApiKey,
   environment,
   componentName,
+});
+
+configureTracker({
+  listen: browserHistory.listen,
+  gaTrackingId: config.gaTrackingId,
+  googleTagManagerId: config.googleTagManagerId,
 });
 
 const renderApp = () =>

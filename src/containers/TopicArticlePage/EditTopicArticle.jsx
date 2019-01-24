@@ -5,11 +5,13 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-
+import { HelmetWithTracker } from '@ndla/tracker';
+import { injectT } from '@ndla/i18n';
 import { actions as draftActions, getDraft } from '../../modules/draft/draft';
 import TopicArticleForm, {
   getInitialModel,
@@ -59,7 +61,7 @@ class EditTopicArticle extends Component {
   }
 
   render() {
-    const { article, ...rest } = this.props;
+    const { article, t, ...rest } = this.props;
     if (!article) {
       return null;
     }
@@ -72,14 +74,19 @@ class EditTopicArticle extends Component {
       );
     }
     return (
-      <TopicArticleForm
-        initialModel={getInitialModel(article)}
-        selectedLanguage={article.language}
-        revision={article.revision}
-        articleStatus={article.status}
-        onUpdate={this.updateDraft}
-        {...rest}
-      />
+      <Fragment>
+        <HelmetWithTracker
+          title={`${article.title} ${t('htmlTitles.titleTemplate')}`}
+        />
+        <TopicArticleForm
+          initialModel={getInitialModel(article)}
+          selectedLanguage={article.language}
+          revision={article.revision}
+          articleStatus={article.status}
+          onUpdate={this.updateDraft}
+          {...rest}
+        />
+      </Fragment>
     );
   }
 }
@@ -112,7 +119,10 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+export default compose(
+  injectT,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(EditTopicArticle);

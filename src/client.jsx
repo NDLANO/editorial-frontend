@@ -9,10 +9,11 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import IntlProvider from '@ndla/i18n';
 import ErrorReporter from '@ndla/error-reporter';
 import { configureTracker } from '@ndla/tracker';
+import createBrowserHistory from 'history/createBrowserHistory';
 import config from './config';
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
@@ -40,6 +41,8 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName,
 });
 
+const browserHistory = createBrowserHistory(basename);
+
 configureTracker({
   listen: browserHistory.listen,
   gaTrackingId: config.gaTrackingId,
@@ -50,9 +53,9 @@ const renderApp = () =>
   render(
     <Provider store={store}>
       <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-        <BrowserRouter basename={basename}>
+        <Router history={browserHistory}>
           <App />
-        </BrowserRouter>
+        </Router>
       </IntlProvider>
     </Provider>,
     document.getElementById('root'),

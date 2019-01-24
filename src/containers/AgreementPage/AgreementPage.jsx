@@ -9,8 +9,9 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { HelmetWithTracker } from '@ndla/tracker';
+import { injectT } from '@ndla/i18n';
 import { OneColumn } from '@ndla/ui';
-
 import { getLocale } from '../../modules/locale/locale';
 import EditAgreement from './EditAgreement';
 import CreateAgreement from './CreateAgreement';
@@ -58,9 +59,10 @@ class AgreementPage extends React.Component {
   }
 
   render() {
-    const { locale, match, licenses } = this.props;
+    const { locale, match, t, licenses } = this.props;
     return (
       <Fragment>
+        <HelmetWithTracker title={t('htmlTitles.agreementPage')} />
         <OneColumn>
           <Switch>
             <Route
@@ -124,7 +126,9 @@ const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AgreementPage);
+export default injectT(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AgreementPage),
+);

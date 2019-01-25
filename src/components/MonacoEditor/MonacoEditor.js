@@ -88,13 +88,13 @@ export class MonacoEditor extends Component {
   }
 
   async componentDidMount() {
-    const { content } = this.props;
+    const { value } = this.props;
     const data = await fetch(`/prettify`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ content }),
+      body: JSON.stringify({ content: value }),
     });
     const { prettified } = await data.json();
 
@@ -103,8 +103,14 @@ export class MonacoEditor extends Component {
       scrollBeyondLastLine: false,
       theme: 'myCustomTheme',
       wordWrap: 'on',
-      miniMap: false,
+      fontSize: 15,
+      minimap: false,
       language: 'html',
+    });
+
+    this.editor.onDidChangeModelContent(event => {
+      const value = this.editor.getValue();
+      this.props.onChange(value, event);
     });
   }
   render() {
@@ -123,7 +129,8 @@ export class MonacoEditor extends Component {
 }
 
 MonacoEditor.propTypes = {
-  content: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default MonacoEditor;

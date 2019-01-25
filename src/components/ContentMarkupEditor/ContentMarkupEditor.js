@@ -64,9 +64,18 @@ export class ContentMarkupEditor extends Component {
                     maxWidth: '800px',
                   }}>
                   <Suspense fallback={<div>Loading...</div>}>
-                    <MonacoEditor content={content} />
+                    <MonacoEditor
+                      value={content}
+                      onChange={content => this.setState({ content })}
+                    />
                   </Suspense>
                 </div>
+                <Button
+                  onClick={() => {
+                    console.log(content);
+                  }}>
+                  Lagre
+                </Button>
               </Fragment>
             )}
           </Modal>

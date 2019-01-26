@@ -13,7 +13,8 @@ import compression from 'compression';
 import helmet from 'helmet';
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE } from 'http-status';
 import bodyParser from 'body-parser';
-import prettier from 'prettier';
+import prettier from 'prettier/standalone';
+import parseHTML from 'prettier/parser-html';
 import proxy from 'express-http-proxy';
 import Auth0SilentCallback from './Auth0SilentCallback';
 import getConditionalClassnames from './getConditionalClassnames';
@@ -75,7 +76,10 @@ app.get('/health', (req, res) => {
 });
 
 app.post('/prettify', (req, res) => {
-  const prettified = prettier.format(req.body.content, { parser: 'parse5' });
+  const prettified = prettier.format(req.body.content, {
+    parser: 'html',
+    plugins: [parseHTML],
+  });
   res.status(OK).json({ prettified, content: req.body.content });
 });
 

@@ -25,7 +25,7 @@ const b64EncodeUnicode = str =>
     ),
   );
 
-export const getToken = () =>
+export const getToken = (audience = 'ndla_system') =>
   fetch(url, {
     method: 'POST',
     headers: {
@@ -35,7 +35,7 @@ export const getToken = () =>
       grant_type: 'client_credentials',
       client_id: `${editorialFrontendClientId}`,
       client_secret: `${editorialFrontendClientSecret}`,
-      audience: 'ndla_system',
+      audience,
     }),
     json: true,
   }).then(res => res.json());
@@ -53,4 +53,21 @@ export const getBrightcoveToken = () => {
     },
     body: 'grant_type=client_credentials',
   }).then(res => res.json());
+};
+
+export const getUsers = (managementToken, userIds) => {
+  const query = userIds
+    .split(',')
+    .map(userId => `app_metadata.ndla_id:"${userId}"`)
+    .join(' OR ');
+  return fetch(
+    `https://${getUniversalConfig().auth0Domain}/api/v2/users?q=${query}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${managementToken.access_token}`,
+      },
+      json: true,
+    },
+  ).then(res => res.json());
 };

@@ -8,23 +8,30 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'react-emotion';
 import PreviewDraft from './PreviewDraft';
-import { classes } from './PreviewDraftLightbox';
 import PreviewProduction from './PreviewProduction';
 import PreviewLanguage from './PreviewLanguage';
+
+const StyledPreviewSignleArticle = styled('div')`
+  & .c-article {
+    padding-top: 0;
+    margin-top: 20px;
+  }
+`;
 
 const PreviewLightboxContent = props => {
   const { firstArticle, label, typeOfPreview, contentType } = props;
   switch (typeOfPreview) {
     case 'preview':
       return (
-        <div {...classes('article')}>
+        <StyledPreviewSignleArticle>
           <PreviewDraft
             article={firstArticle}
             label={label}
             contentType={contentType}
           />
-        </div>
+        </StyledPreviewSignleArticle>
       );
     case 'previewProductionArticle':
       return <PreviewProduction {...props} />;

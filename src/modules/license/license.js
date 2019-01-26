@@ -39,8 +39,9 @@ export default handleActions(
 
 const getLicensesFromState = state => state.licenses.all;
 
-export const getAllLicenses = createSelector([getLicensesFromState], licenses =>
-  defined(licenses, []),
+export const getAllLicenses = createSelector(
+  [getLicensesFromState],
+  licenses => defined(licenses, []),
 );
 
 export const getHasFetched = state => state.licenses.hasFetched;

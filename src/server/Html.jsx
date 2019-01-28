@@ -92,7 +92,7 @@ const Html = props => {
           type="text/javascript"
           defer
           async
-          src="https://www.wiris.net/demo/editor/editor"
+          src="https://www.wiris.net/client/editor/editor"
         />
       </body>
     </html>

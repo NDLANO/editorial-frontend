@@ -32,14 +32,14 @@ class MathML extends Component {
 
   render() {
     const { reRender } = this.state;
-    const { node, model } = this.props;
-
     if (reRender) {
       return null;
     }
 
+    const { node, model, attributes } = this.props;
+
     return (
-      <span contentEditable={false} {...this.props.attributes}>
+      <span contentEditable={false} {...attributes}>
         {node.nodes.map(text => (
           <span key={text.key} data-key={text.key}>
             <math

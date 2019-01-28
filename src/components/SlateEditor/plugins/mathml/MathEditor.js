@@ -29,8 +29,8 @@ const StyledMenu = styled('span')`
   border: 1px solid rgba(0, 0, 0, 0.2);
   border: 1px solid ${colors.brand.greyLight};
   z-index: 1;
-  ${p => (p.left ? `left: ${p.left}px;` : '')} ${p =>
-    p.top ? `top: ${p.top}px;` : ''};
+  ${p => (p.left ? `left: ${p.left}px;` : '')};
+  ${p => (p.top ? `top: ${p.top}px;` : '')};
 `;
 
 const buttonStyle = css(`
@@ -58,6 +58,7 @@ class MathEditor extends Component {
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
   }
 
   getMenuPosition() {
@@ -88,13 +89,17 @@ class MathEditor extends Component {
     const properties = {
       data: { ...getSchemaEmbed(node), innerHTML: mathML },
     };
+    editor.setNodeByKey(node.key, properties);
+  }
 
-    const next = editor.value.change().setNodeByKey(node.key, properties);
-    editor.onChange(next);
+  handleRemove() {
+    const { editor, node } = this.props;
+    editor.removeNodeByKey(node.key);
+    editor.focus();
   }
 
   render() {
-    const { onRemoveClick, t, node } = this.props;
+    const { t, node } = this.props;
     const { editMode, showMenu } = this.state;
 
     const model = getModelFromNode(node);
@@ -121,7 +126,7 @@ class MathEditor extends Component {
                 {t('form.edit')}
               </Button>
               |
-              <Button stripped css={buttonStyle} onClick={onRemoveClick}>
+              <Button stripped css={buttonStyle} onClick={this.handleRemove}>
                 {t('form.remove')}
               </Button>
             </StyledMenu>
@@ -133,7 +138,7 @@ class MathEditor extends Component {
             model={model}
             handleSave={this.handleSave}
             isEditMode={editMode}
-            onRemoveClick={onRemoveClick}
+            onRemoveClick={this.handleRemove}
           />
         )}
       </Fragment>

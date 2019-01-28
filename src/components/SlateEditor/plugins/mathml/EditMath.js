@@ -77,7 +77,8 @@ class EditMath extends Component {
 
     let saveMathML = he.decode(mathEditor.getMathML());
 
-    // Removes outer tags for embed saving
+    /* Outer closing <math> tag needs to be stripped away as it is not
+       to be saved as embed */
     saveMathML = saveMathML.replace(mathOpenTag, '');
     saveMathML = saveMathML.replace(mathCloseTag, '');
 

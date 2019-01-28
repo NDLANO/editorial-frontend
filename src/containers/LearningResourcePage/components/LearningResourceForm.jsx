@@ -30,9 +30,7 @@ import {
   editorValueToPlainText,
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
-
-import { SchemaShape, LicensesArrayOf } from '../../../shapes';
-
+import { SchemaShape, LicensesArrayOf, ArticleShape } from '../../../shapes';
 import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
 import {
@@ -44,7 +42,6 @@ import {
   AlertModalWrapper,
 } from '../../Form';
 import { formatErrorMessage } from '../../Form/FormWorkflow';
-
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import {
   DEFAULT_LICENSE,
@@ -96,7 +93,7 @@ export const getInitialModel = (article = {}, language) => {
     language: language || article.language,
     articleType: 'standard',
     status: article.status || [],
-    notes: article.notes || [],
+    notes: [],
   };
 };
 
@@ -176,7 +173,7 @@ class LearningResourceForm extends Component {
         rightsholders: model.rightsholders,
         agreementId: model.agreementId,
       },
-      notes: model.notes,
+      notes: model.notes || [],
       language: model.language,
       updated: model.updated,
       supportedLanguages: model.supportedLanguages,
@@ -193,6 +190,8 @@ class LearningResourceForm extends Component {
       setSubmitted,
       createMessage,
       articleStatus,
+      setModelField,
+      onUpdate,
     } = this.props;
 
     const status = articleStatus ? articleStatus.current : undefined;
@@ -218,11 +217,12 @@ class LearningResourceForm extends Component {
         return;
       }
     }
-    this.props.onUpdate({
+    onUpdate({
       ...this.getArticleFromModel(),
       revision,
       updated: undefined,
     });
+    setModelField('notes', []);
   }
 
   render() {
@@ -242,6 +242,7 @@ class LearningResourceForm extends Component {
       userAccess = '',
       createMessage,
       revision,
+      article,
       validationErrors,
     } = this.props;
 
@@ -305,6 +306,7 @@ class LearningResourceForm extends Component {
         ),
         component: () => (
           <FormWorkflow
+            article={article}
             commonFieldProps={commonFieldProps}
             articleStatus={articleStatus}
             model={model}
@@ -461,6 +463,7 @@ LearningResourceForm.propTypes = {
     goBack: PropTypes.func,
   }).isRequired,
   userAccess: PropTypes.string,
+  article: ArticleShape,
 };
 
 export default compose(

@@ -93,9 +93,25 @@ export const CopyrightObjectShape = PropTypes.shape({
   }).isRequired,
 });
 
+export const NoteShape = PropTypes.shape({
+  note: PropTypes.string,
+  user: PropTypes.string,
+  status: PropTypes.shape({
+    current: PropTypes.string,
+    other: PropTypes.arrayOf(PropTypes.string),
+  }),
+});
+
 export const ArticleShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  notes: PropTypes.arrayOf(NoteShape),
+});
+
+export const NewArticleShape = PropTypes.shape({
+  id: PropTypes.number,
+  title: PropTypes.string,
+  notes: PropTypes.arrayOf(NoteShape),
 });
 
 export const ImageShape = PropTypes.shape({

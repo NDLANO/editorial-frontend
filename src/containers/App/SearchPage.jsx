@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { SearchMedia, SearchContent } from '@ndla/icons/editor';
@@ -16,6 +16,7 @@ import SubNavigation from '../Masthead/components/SubNavigation';
 import SearchContentPage from '../SearchPage/SearchContentPage';
 import SearchMediaPage from '../SearchPage/SearchMediaPage';
 import { toSearch } from '../../util/routeHelpers';
+import Footer from './components/Footer';
 
 const SearchPage = ({ match, t }) => {
   const supportedTypes = [
@@ -45,7 +46,7 @@ const SearchPage = ({ match, t }) => {
   ];
 
   return (
-    <div>
+    <Fragment>
       <SubNavigation type="media" subtypes={supportedTypes} />
       <Switch>
         <PrivateRoute
@@ -55,7 +56,8 @@ const SearchPage = ({ match, t }) => {
         <PrivateRoute path={`${match.url}/media`} component={SearchMediaPage} />
         <Route component={NotFoundPage} />
       </Switch>
-    </div>
+      <Footer showLocaleSelector={false} />
+    </Fragment>
   );
 };
 

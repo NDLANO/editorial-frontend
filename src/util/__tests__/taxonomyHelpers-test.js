@@ -7,7 +7,7 @@
  */
 
 import {
-  flattenResourceTypes,
+  flattenResourceTypesAndAddContextTypes,
   sortIntoCreateDeleteUpdate,
   getCurrentTopic,
 } from '../taxonomyHelpers';
@@ -17,8 +17,8 @@ import {
   filtersMock,
 } from './taxonomyMocks';
 
-test('taxonomy/flattenResourceTypes flattening', () => {
-  expect(flattenResourceTypes(resourceTypesMock)).toEqual(
+test('taxonomy/flattenResourceTypesAndAddContextTypes flattening', () => {
+  expect(flattenResourceTypesAndAddContextTypes(resourceTypesMock)).toEqual(
     flattenedResourceTypes,
   );
 });

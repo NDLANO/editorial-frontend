@@ -52,7 +52,7 @@ function flattenResourceTypesAndAddContextTypes(data = []) {
       });
     }
   });
-  resourceTypes.push({name: 'Emne', id: 'topic-article'})
+  resourceTypes.push({ name: 'Emne', id: 'topic-article' });
   return resourceTypes;
 }
 

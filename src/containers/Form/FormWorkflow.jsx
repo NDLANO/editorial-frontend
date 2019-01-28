@@ -12,8 +12,8 @@ import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as draftApi from '../../modules/draft/draftApi';
-import { AddNotes } from '.';
-import { CommonFieldPropsShape } from '../../shapes';
+import { FormAddNotes } from '.';
+import { CommonFieldPropsShape, NewArticleShape } from '../../shapes';
 import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
 import FormQualityAssurance from './components/FormQualityAssurance';
@@ -85,7 +85,7 @@ class FormWorkflow extends Component {
         severity: 'success',
       });
     } catch (error) {
-      if (error && error.json.messages) {
+      if (error && error.json && error.json.messages) {
         createMessage(formatErrorMessage(error));
       }
     }
@@ -98,18 +98,21 @@ class FormWorkflow extends Component {
       articleStatus,
       commonFieldProps,
       getArticle,
+      article,
     } = this.props;
     const { possibleStatuses } = this.state;
 
     return (
       <Fragment>
-        <AddNotes
+        <FormAddNotes
           name="notes"
-          labelHeading={t('form.notesHeading')}
-          labelAddNote={t('form.addNotes')}
-          labelRemoveNote={t('form.removeNotes')}
-          labelWarningNote={t('form.warningNotes')}
+          labelHeading={t('form.notes.heading')}
+          labelAddNote={t('form.notes.add')}
+          article={article}
+          labelRemoveNote={t('form.notes.remove')}
+          labelWarningNote={t('form.notes.warning')}
           {...commonFieldProps}
+          {...commonFieldProps.bindInput('notes')}
         />
         <FormStatusColumns articleStatus={articleStatus} />
         <FormStatusActions
@@ -140,6 +143,7 @@ FormWorkflow.propTypes = {
   updateStatusDraft: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
   getArticle: PropTypes.func.isRequired,
+  article: NewArticleShape,
 };
 
 FormWorkflow.defaultProps = {
@@ -147,6 +151,7 @@ FormWorkflow.defaultProps = {
     current: '',
     other: [],
   },
+  article: {},
 };
 
 const mapDispatchToProps = {

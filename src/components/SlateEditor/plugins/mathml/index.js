@@ -23,7 +23,7 @@ const schema = {
 
 export default function mathmlPlugin() {
   const renderNode = props => {
-    const { node, editor } = props;
+    const { node, editor, next } = props;
 
     const onRemoveClick = () => {
       const next = editor.value.change().removeNodeByKey(node.key);
@@ -34,7 +34,7 @@ export default function mathmlPlugin() {
       case TYPE:
         return <MathEditor onRemoveClick={onRemoveClick} {...props} />;
       default:
-        return null;
+        return next();
     }
   };
 

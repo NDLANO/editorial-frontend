@@ -6,46 +6,29 @@
  *
  */
 
-/*  eslint-disable no-console, global-require */
+import express from 'express';
+import config from './config';
 
-import http from 'http';
-
-import config, { getEnvironmentVariabel } from './config';
-import app from './server/server';
-import redirectConfig from './server/redirect';
-
-const server = http.createServer(app);
-
-let currentApp = app;
-
-server.listen(config.port, error => {
-  if (error) {
-    console.log(error);
-  }
-
-  console.log('🚀  Server started!');
-});
+let app = require('./server/server').default;
 
 if (module.hot) {
-  console.log('✅  Server-side HMR Enabled!');
-
-  module.hot.accept('./server/server', () => {
+  module.hot.accept('./server/server', function() {
     console.log('🔁  HMR Reloading `./server/server`...');
-    server.removeListener('request', currentApp);
-    const newApp = require('./server/server').default;
-    server.on('request', newApp);
-    currentApp = newApp;
+    try {
+      app = require('./server/server').default;
+    } catch (error) {
+      console.error(error);
+    }
   });
+  console.info('✅  Server-side HMR Enabled!');
 }
 
-if (
-  getEnvironmentVariabel('NOW') !== 'true' &&
-  process.env.NODE_ENV === 'production'
-) {
-  const redirectServer = http.createServer(redirectConfig);
-  // If port is 79 the request has been dispatched with http protocol from ELB. Redirecting to https.
-  redirectServer.listen(config.redirectPort);
-  redirectServer.on('listening', () => {
-    console.log(`Listening for redirects on ${config.redirectPort}`);
+export default express()
+  .use((req, res) => app.handle(req, res))
+  .listen(config.port, function(err) {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    console.log(`> Started on port ${config.port}`);
   });
-}

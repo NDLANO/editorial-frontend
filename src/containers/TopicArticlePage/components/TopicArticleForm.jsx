@@ -22,6 +22,7 @@ import validateSchema, {
 } from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
+import { topicArticleSchema } from '../../../articleSchema';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -31,7 +32,7 @@ import {
 import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
 import TopicArticleMetadata from './TopicArticleMetadata';
 import TopicArticleContent from './TopicArticleContent';
-import { SchemaShape, LicensesArrayOf } from '../../../shapes';
+import { SchemaShape, LicensesArrayOf, ArticleShape } from '../../../shapes';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
@@ -68,7 +69,7 @@ export const getInitialModel = (article = {}) => {
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
-    notes: article.notes || [],
+    notes: [],
     visualElement: visualElement || {},
     language: article.language,
     supportedLanguages: article.supportedLanguages || [],
@@ -142,7 +143,7 @@ class TopicArticleForm extends Component {
         rightsholders: model.rightsholders,
         agreementId: model.agreementId,
       },
-      notes: model.notes,
+      notes: model.notes || [],
       language: model.language,
       supportedLanguages: model.supportedLanguages,
     };
@@ -151,26 +152,32 @@ class TopicArticleForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const { schema, revision, setSubmitted, onUpdate } = this.props;
-    if (!schema.isValid) {
+    const {
+      validationErrors,
+      revision,
+      setSubmitted,
+      onUpdate,
+      setModelField,
+    } = this.props;
+    if (!validationErrors.isValid) {
       setSubmitted(true);
       return;
     }
     if (!isFormDirty(this.props)) {
       return;
     }
-
     onUpdate({
       ...this.getArticle(),
       revision,
     });
+    setModelField('notes', []);
   }
 
   render() {
     const {
       t,
       bindInput,
-      schema,
+      validationErrors: schema,
       initialModel,
       model,
       submitted,
@@ -181,6 +188,7 @@ class TopicArticleForm extends Component {
       licenses,
       showSaved,
       history,
+      article,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
     const panels = [
@@ -196,7 +204,6 @@ class TopicArticleForm extends Component {
         component: (
           <TopicArticleContent
             commonFieldProps={commonFieldProps}
-            bindInput={bindInput}
             tags={tags}
             model={model}
           />
@@ -230,7 +237,6 @@ class TopicArticleForm extends Component {
         component: (
           <TopicArticleMetadata
             commonFieldProps={commonFieldProps}
-            bindInput={bindInput}
             tags={tags}
           />
         ),
@@ -248,6 +254,7 @@ class TopicArticleForm extends Component {
             articleStatus={articleStatus}
             model={model}
             getArticle={this.getArticle}
+            article={article}
           />
         ),
       },
@@ -340,12 +347,14 @@ TopicArticleForm.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
-  }),
+  }).isRequired,
   initialModel: PropTypes.shape({
     id: PropTypes.number,
     language: PropTypes.string,
   }),
   setModel: PropTypes.func.isRequired,
+  validationErrors: SchemaShape,
+  setModelField: PropTypes.func.isRequired,
   schema: SchemaShape,
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -364,58 +373,12 @@ TopicArticleForm.propTypes = {
   history: PropTypes.shape({
     goBack: PropTypes.func,
   }).isRequired,
+  article: ArticleShape,
 };
 
 export default compose(
   injectT,
   withRouter,
   reformed,
-  validateSchema({
-    title: {
-      required: true,
-    },
-    introduction: {
-      maxLength: 300,
-    },
-    content: {
-      // TODO: Write test to validate content (see learning resource)
-      required: false,
-    },
-    metaDescription: {
-      maxLength: 155,
-    },
-    visualElement: {
-      required: false,
-    },
-    'visualElement.alt': {
-      required: true,
-      onlyValidateIf: model =>
-        model.visualElement && model.visualElement.resource === 'image',
-    },
-    'visualElement.caption': {
-      required: true,
-      onlyValidateIf: model =>
-        model.visualElement &&
-        (model.visualElement.resource === 'image' ||
-          model.visualElement.resource === 'brightcove'),
-    },
-    tags: {
-      required: false,
-    },
-    creators: {
-      allObjectFieldsRequired: true,
-    },
-    processors: {
-      allObjectFieldsRequired: true,
-    },
-    rightsholders: {
-      allObjectFieldsRequired: true,
-    },
-    license: {
-      required: false,
-    },
-    notes: {
-      required: false,
-    },
-  }),
+  validateSchema(topicArticleSchema),
 )(TopicArticleForm);

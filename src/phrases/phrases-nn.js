@@ -178,12 +178,14 @@ const phrases = {
       language: 'Velg Språk',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innholdstype',
+      draftStatus: 'Velg status',
     },
     tagType: {
       query: 'Innhold',
       subjects: 'Emne',
       language: 'Språk',
       resourceTypes: 'Innholdstype',
+      draftStatus: 'Status',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -414,10 +416,17 @@ const phrases = {
     createdOk: 'Opprettet OK',
     addNewImage: 'Legg til nytt bilde',
     addNewAudio: 'Legg til ny lyd',
-    notesHeading: 'Merknader',
-    addNotes: 'Legg til merknad',
-    removeNotes: 'Ta bort',
-    warningNotes: 'Ein merknad må ha tekst',
+    notes: {
+      heading: 'Merknader',
+      add: 'Legg til merknad',
+      remove: 'Ta bort',
+      warning: 'Ein merknad må ha tekst',
+      history: {
+        heading: 'Merknads historikk',
+        note: 'Merknad',
+        empty: 'Ingen merknader',
+      },
+    },
     editImage: 'Endre bilde',
     editAudio: 'Endre lyd',
     resetToProd: {
@@ -581,6 +590,7 @@ const phrases = {
       emptyFilter: 'Fant ingen passende emnetilknytninger',
       emptyList: 'Det er ingen emnetilknytning i denne listen',
       primaryTopic: 'Primærkobling',
+      sharedTopic: 'Delt emne',
       setPrimaryTopic: 'Velg som primærkoblet emne',
     },
     metaDescription: {
@@ -688,6 +698,7 @@ const phrases = {
     dateAfterInvalid: '{label} kan ikke være før {beforeLabel}.',
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
+    noEmptyNote: 'A note can not be empty',
   },
   footer: {
     aboutNDLA: 'Om NDLA',

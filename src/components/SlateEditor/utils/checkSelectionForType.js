@@ -1,5 +1,6 @@
-export const checkSelctionForType = (type, value, nodeKey) => {
+export const checkSelectionForType = (type, value, nodeKey) => {
   const parent = value.document.getParent(nodeKey);
+
   if (
     !parent ||
     parent.get('type') === 'section' ||
@@ -11,7 +12,7 @@ export const checkSelctionForType = (type, value, nodeKey) => {
     return true;
   }
   const { key } = parent;
-  return checkSelctionForType(type, value, key);
+  return checkSelectionForType(type, value, key);
 };
 
-export default checkSelctionForType;
+export default checkSelectionForType;

@@ -31,7 +31,7 @@ const slateEditorDivStyle = css`
   position: relative;
 `;
 
-const RichTextEditor = class extends React.Component {
+const RichTextEditor = class extends React.PureComponent {
   constructor(props) {
     super(props);
     // Need to use a observer pattern to notify slate nodes of
@@ -42,7 +42,7 @@ const RichTextEditor = class extends React.Component {
     this.state = {
       slateStore,
     };
-    this.toggleMark = this.toggleMark.bind(this);
+    this.editorRef = React.createRef();
     this.onKeyDown = this.onKeyDown.bind(this);
   }
 
@@ -54,9 +54,9 @@ const RichTextEditor = class extends React.Component {
     }
   }
 
-  onKeyDown(e, change) {
+  onKeyDown(e, editor, next) {
     let mark;
-    const { value } = change;
+    const { value } = editor;
 
     if (isBoldHotkey(e)) {
       mark = 'bold';
@@ -74,19 +74,17 @@ const RichTextEditor = class extends React.Component {
         selection.anchor.isAtStartOfNode(value.document)
       ) {
         this.props.removeSection(this.props.index);
+        return;
       }
+      next();
     }
 
     if (mark) {
-      this.toggleMark(e, value, mark);
+      e.preventDefault();
+      editor.toggleMark(mark);
+    } else {
+      next();
     }
-  }
-
-  toggleMark(e, value, type) {
-    const { name, onChange } = this.props;
-    e.preventDefault();
-    const nextChange = value.change().toggleMark(type);
-    onChange({ target: { name, value: nextChange.value } });
   }
 
   render() {
@@ -97,39 +95,33 @@ const RichTextEditor = class extends React.Component {
       value,
       name,
       onChange,
-      onFocus,
-      onBlur,
       plugins,
+      index,
       ...rest
     } = this.props;
-
-    const { slateStore } = this.state;
-
     return (
       <article>
         <div data-cy="slate-editor" css={slateEditorDivStyle}>
           <Editor
             {...classes(undefined, undefined, className)}
             onKeyDown={this.onKeyDown}
+            ref={this.editorRef}
             value={value}
             schema={schema}
-            onChange={change =>
-              onChange({ target: { name, value: change.value } })
-            }
-            onFocus={onFocus}
-            onBlur={onBlur}
-            slateStore={slateStore}
+            onChange={change => onChange(change, index)}
+            slateStore={this.state.slateStore}
             plugins={plugins}
             {...rest}
           />
           {children}
         </div>
-        <SlateToolbar
-          value={value}
-          onChange={onChange}
-          slateStore={slateStore}
-          name={name}
-        />
+        {this.editorRef.current && (
+          <SlateToolbar
+            editor={this.editorRef.current}
+            onChange={change => onChange(change, index)}
+            name={name}
+          />
+        )}
       </article>
     );
   }
@@ -138,14 +130,11 @@ const RichTextEditor = class extends React.Component {
 RichTextEditor.propTypes = {
   schema: PropTypes.shape({}),
   onChange: PropTypes.func.isRequired,
-  onFocus: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   submitted: PropTypes.bool.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
-  isBlock: PropTypes.bool,
   index: PropTypes.number,
   removeSection: PropTypes.func,
   plugins: PropTypes.arrayOf(PluginShape).isRequired,

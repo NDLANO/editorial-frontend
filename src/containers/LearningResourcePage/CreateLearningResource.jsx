@@ -7,7 +7,7 @@
 
 /* global history */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -20,7 +20,7 @@ import LearningResourceForm, {
   getInitialModel,
 } from './components/LearningResourceForm';
 
-class CreateLearningResource extends Component {
+class CreateLearningResource extends PureComponent {
   constructor(props) {
     super(props);
     this.updateDraft = this.updateDraft.bind(this);

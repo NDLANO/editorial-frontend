@@ -6,21 +6,20 @@ import { unwrapBlockquote } from '../changes';
  *
  * Enter on an empty block inside a blockquote exit the blockquote.
  */
-function onEnter(opts, event, change) {
-  const { value } = change;
-  const { startBlock } = value;
+function onEnter(opts, event, editor, next) {
+  const { startBlock } = editor.value;
 
-  if (!getCurrentBlockquote(opts, value)) {
-    return undefined;
+  if (!getCurrentBlockquote(opts, editor)) {
+    return next();
   }
 
   if (startBlock.text.length !== 0) {
-    return undefined;
+    return next();
   }
 
   // Block is empty, we exit the blockquote
   event.preventDefault();
-  return unwrapBlockquote(opts, change);
+  return unwrapBlockquote(opts, editor);
 }
 
 export default onEnter;

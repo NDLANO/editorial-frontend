@@ -180,6 +180,14 @@ const phrases = {
       language: 'Select Language',
       subjects: 'Select subject',
       resourceTypes: 'Select Resource type',
+      draftStatus: 'Select status',
+    },
+    tagType: {
+      query: 'Query',
+      subjects: 'Subject',
+      language: 'Language',
+      resourceTypes: 'Resource-Type',
+      draftStatus: 'Status',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -401,10 +409,17 @@ const phrases = {
     createdOk: 'Created OK',
     addNewImage: 'Add new image',
     addNewAudio: 'Add new audio',
-    notesHeading: 'Notes',
-    addNotes: 'Add new note',
-    removeNotes: 'Remove note',
-    warningNotes: 'A note must contain text',
+    notes: {
+      heading: 'Notes',
+      add: 'Add new note',
+      remove: 'Remove note',
+      warning: 'A note must contain text',
+      history: {
+        heading: 'Notes history',
+        note: 'Note',
+        empty: 'No notes',
+      },
+    },
     editImage: 'Edit image',
     editAudio: 'Edit audio',
     resetToProd: {
@@ -452,7 +467,7 @@ const phrases = {
       published: 'Published',
       unpublished: 'Unpublished',
       awaiting_unpublishing: 'Awaiting unpublishing',
-      archived: 'Archieved',
+      archived: 'Archived',
       actions: {
         DRAFT: 'Draft',
         PROPOSAL: 'Proposal',
@@ -566,6 +581,7 @@ const phrases = {
       emptyList: 'No topics available',
       emptyFilter: 'No matching topics found',
       primaryTopic: 'Primary topic',
+      sharedTopic: 'Shared topic',
       setPrimaryTopic: 'Set as primary topic',
     },
     metaDescription: {
@@ -678,6 +694,7 @@ const phrases = {
     minLength: '{length} must have at least {minLength, number} characters.',
     minItems:
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
+    noEmptyNote: 'En merknad kan ikke være en tom',
   },
   footer: {
     aboutNDLA: 'About NDLA',

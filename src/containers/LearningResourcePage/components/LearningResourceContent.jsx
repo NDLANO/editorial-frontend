@@ -10,15 +10,18 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
+
 import { getLocale } from '../../../modules/locale/locale';
 import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
+import LearningResourceFootnotes from './LearningResourceFootnotes';
 import LearningResourceIngress from './LearningResourceIngress';
 import {
   renderNode,
   schema,
   renderMark,
-} from '../../../components/SlateEditor/schema';
+} from '../../../components/SlateEditor/editorSchema';
+import { findNodesByType } from '../../../util/slateHelpers';
 import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
@@ -35,15 +38,26 @@ import pasteHandler from '../../../components/SlateEditor/plugins/pasteHandler';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
-
+import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
 import {
   editListPlugin,
   editTablePlugin,
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 
-import { formClasses } from '../../Form';
 import { CommonFieldPropsShape } from '../../../shapes';
+
+const findFootnotes = content =>
+  content
+    .reduce(
+      (all, item) => [
+        ...all,
+        ...findNodesByType(item.value.document, footnoteType),
+      ],
+      [],
+    )
+    .filter(footnote => footnote.data.size > 0)
+    .map(footnoteNode => footnoteNode.data.toJS());
 
 class LearningResourceContent extends Component {
   constructor(props) {
@@ -92,17 +106,8 @@ class LearningResourceContent extends Component {
   }
 
   render() {
-    const { t, commonFieldProps, children } = this.props;
-    const contentPlaceholder = (
-      <span
-        {...formClasses('placeholder')}
-        style={{
-          opacity: '0.333',
-        }}>
-        {t('form.content.placeholder')}
-      </span>
-    );
-
+    const { t, commonFieldProps } = this.props;
+    const { value } = commonFieldProps.bindInput('content');
     return (
       <Fragment>
         <TextField
@@ -120,13 +125,13 @@ class LearningResourceContent extends Component {
           renderNode={renderNode}
           renderMark={renderMark}
           label={t('form.content.label')}
-          placeholder={contentPlaceholder}
+          placeholder={t('form.content.placeholder')}
           name="content"
           data-cy="learning-resource-content"
           plugins={this.plugins}
           {...commonFieldProps}
         />
-        {children}
+        <LearningResourceFootnotes t={t} footnotes={findFootnotes(value)} />
       </Fragment>
     );
   }

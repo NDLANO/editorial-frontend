@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Types from 'slate-prop-types';
 import EditorErrorMessage from '../../EditorErrorMessage';
-import { getSchemaEmbed } from '../../schema';
+import { getSchemaEmbed } from '../../editorSchema';
 
 const NoEmbedMessage = ({ text, t, node, attributes }) => {
   const embed = getSchemaEmbed(node);

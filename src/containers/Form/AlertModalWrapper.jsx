@@ -96,10 +96,6 @@ AlertModalWrapper.propTypes = {
     articleType: PropTypes.string,
     language: PropTypes.string,
   }),
-  initialModel: PropTypes.shape({
-    id: PropTypes.number,
-    language: PropTypes.string,
-  }),
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

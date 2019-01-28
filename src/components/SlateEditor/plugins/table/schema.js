@@ -10,10 +10,10 @@
 import React from 'react';
 import SlateTable from './SlateTable';
 
-function validateNode(node) {
-  if (node.object !== 'block') return null;
-  if (node.type !== 'table') return null;
-  if (node.nodes.first().type !== 'table-row') return null;
+function normalizeNode(node, editor, next) {
+  if (node.object !== 'block') return next();
+  if (node.type !== 'table') return next();
+  if (node.nodes.first().type !== 'table-row') return next();
 
   const { nodes } = node;
   const firstNode = nodes.first();
@@ -21,17 +21,18 @@ function validateNode(node) {
     child => !!child.data.get('isHeader'),
   );
 
-  if (headerNodes.size > 0) {
-    return null;
+  if (headerNodes.size === firstNode.nodes.size) {
+    return next();
   }
 
-  return change => {
-    firstNode.nodes.forEach(child =>
-      change.setNodeByKey(child.key, {
-        data: { ...child.data, isHeader: true },
-      }),
-    );
-  };
+  return () =>
+    editor.withoutSaving(() => {
+      firstNode.nodes.forEach(child =>
+        editor.setNodeByKey(child.key, {
+          data: { ...child.data.toJS(), isHeader: true },
+        }),
+      );
+    });
 }
 
 const schema = {
@@ -39,7 +40,7 @@ const schema = {
 };
 
 /* eslint-disable react/prop-types */
-const renderNode = props => {
+const renderNode = (props, editor, next) => {
   const { attributes, children, node } = props;
   switch (node.type) {
     case 'table':
@@ -55,8 +56,8 @@ const renderNode = props => {
         </td>
       );
     default:
-      return null;
+      return next();
   }
 };
 
-export { schema, validateNode, renderNode };
+export { schema, normalizeNode, renderNode };

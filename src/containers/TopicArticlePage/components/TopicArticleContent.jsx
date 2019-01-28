@@ -24,7 +24,7 @@ import {
   schema,
   renderNode,
   renderMark,
-} from '../../../components/SlateEditor/schema';
+} from '../../../components/SlateEditor/editorSchema';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import { editListPlugin } from '../../../components/SlateEditor/plugins/externalPlugins';
@@ -51,7 +51,6 @@ const plugins = [
 
 const TopicArticleContent = ({
   t,
-  bindInput,
   commonFieldProps,
   model: { creators, updated, visualElement },
 }) => (
@@ -80,19 +79,20 @@ const TopicArticleContent = ({
       fieldClassName={fieldClasses(undefined, 'introduction').className}
       noBorder
       maxLength={300}
+      {...commonFieldProps.bindInput('introduction')}
       {...commonFieldProps}>
       <RemainingCharacters
         maxLength={300}
         getRemainingLabel={(maxLength, remaining) =>
           t('form.remainingCharacters', { maxLength, remaining })
         }
-        value={bindInput('introduction').value.document.text}
+        value={commonFieldProps.bindInput('introduction').value.document.text}
       />
     </PlainTextField>
     <TopicArticleVisualElement
       visualElement={visualElement}
       commonFieldProps={commonFieldProps}
-      bindInput={bindInput}
+      bindInput={commonFieldProps.bindInput}
     />
     <RichTextField
       noBorder
@@ -113,7 +113,6 @@ TopicArticleContent.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
   }),
-  bindInput: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 

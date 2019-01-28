@@ -63,6 +63,7 @@ export function learningResourceContentToEditorValue(
       },
     ];
   }
+
   const serializer = new Html({
     rules: learningResourceRules,
     parseHtml: fragment,
@@ -85,6 +86,7 @@ export function learningResourceContentToEditorValue(
     });
 
     const value = convertFromHTML(json);
+
     return {
       value,
       index,
@@ -136,12 +138,18 @@ export function editorValueToPlainText(editorValue) {
 }
 
 export function isEditorValueDirty(value) {
-  if (value.history) {
-    return value.history.undos.size > 0;
+  if (value.data) {
+    return !!value.data.get('undos') && value.data.get('undos').size > 0;
   }
   return (
     value
-      .map(val => (val && val.value ? val.value.history.undos.size : 0))
-      .reduce((a, b) => a + b, 0) > 0
+      .map(val => {
+        return val && val.value && val.value.data.get('undos')
+          ? val.value.data.get('undos').size
+          : 0;
+      })
+      .reduce((a, b) => a + b, 0) > 1
   );
+  // Since last update slate saves selection on startup so undo size is always at least one
+  // this PR is supposed to fix it again: https://github.com/ianstormtaylor/slate/pull/2347
 }

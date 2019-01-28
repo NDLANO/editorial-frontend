@@ -6,13 +6,16 @@
  *
  */
 
-import { beforeEachHelper } from '../../support';
+import { visitOptions, setToken } from '../../support';
 import t from '../../../src/phrases/phrases-nb';
 
-beforeEach(() => beforeEachHelper('/subject-matter/learning-resource/new'));
+describe('Table plugin', () => {
+  beforeEach(() => {
+    setToken();
+    cy.visit('/subject-matter/learning-resource/new', visitOptions);
+  });
 
-describe('Learning resource editing', () => {
-  it('can enter all types of blocks', () => {
+  it('all table functions work', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus();

@@ -36,8 +36,8 @@ class LinkForm extends Component {
 
   handleSave(evt) {
     evt.preventDefault();
-    const { onSave, model, schema, setSubmitted } = this.props;
-    if (!schema.isValid) {
+    const { onSave, model, validationErrors, setSubmitted } = this.props;
+    if (!validationErrors.isValid) {
       setSubmitted(true);
       return;
     }
@@ -48,7 +48,7 @@ class LinkForm extends Component {
   render() {
     const {
       t,
-      schema,
+      validationErrors,
       submitted,
       bindInput,
       isEdit,
@@ -56,13 +56,13 @@ class LinkForm extends Component {
       onClose,
     } = this.props;
     return (
-      <form>
+      <form data-cy="link_form">
         <Field>
           <label htmlFor="text">{t('form.content.link.text')}</label>
           <input type="text" {...bindInput('text')} />
           <FieldErrorMessages
             label={t('form.content.link.text')}
-            field={getField('text', schema)}
+            field={getField('text', validationErrors)}
             submitted={submitted}
           />
         </Field>
@@ -71,7 +71,7 @@ class LinkForm extends Component {
           <input type="text" {...bindInput('href')} />
           <FieldErrorMessages
             label={t('form.content.link.href')}
-            field={getField('href', schema)}
+            field={getField('href', validationErrors)}
             submitted={submitted}
           />
         </Field>
@@ -80,7 +80,7 @@ class LinkForm extends Component {
           <input type="text" {...bindInput('title')} />
           <FieldErrorMessages
             label={t('form.content.link.title')}
-            field={getField('title', schema)}
+            field={getField('title', validationErrors)}
             submitted={submitted}
           />
         </Field>
@@ -94,7 +94,7 @@ class LinkForm extends Component {
           />
           <FieldErrorMessages
             label={t('form.content.link.newTab')}
-            field={getField('checkbox', schema)}
+            field={getField('checkbox', validationErrors)}
             submitted={submitted}
           />
         </Field>
@@ -120,7 +120,7 @@ class LinkForm extends Component {
 
 LinkForm.propTypes = {
   model: LinkShape.isRequired,
-  schema: SchemaShape,
+  validationErrors: SchemaShape,
   setSubmitted: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
   isEdit: PropTypes.bool.isRequired,

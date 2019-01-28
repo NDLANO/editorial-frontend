@@ -33,19 +33,18 @@ class EditFootnote extends Component {
   }
 
   handleRemove() {
-    const { value, node, onChange, closeDialog } = this.props;
+    const { editor, node, closeDialog } = this.props;
     if (node) {
-      const nextState = value.change().removeNodeByKey(node.key);
-      onChange(nextState);
+      editor.removeNodeByKey(node.key);
+
       closeDialog();
     }
   }
 
   handleSave(data) {
-    const { value, onChange, node, closeDialog } = this.props;
-    const change = value.change();
+    const { editor, node, closeDialog } = this.props;
+    editor.setNodeByKey(node.key, { data });
 
-    onChange(change.setNodeByKey(node.key, { data }));
     closeDialog();
   }
 
@@ -75,7 +74,7 @@ class EditFootnote extends Component {
 EditFootnote.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  value: Types.value.isRequired,
+  editor: PropTypes.object.isRequired,
   model: FootnoteShape,
   node: PropTypes.oneOfType([
     Types.node,

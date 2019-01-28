@@ -25,12 +25,7 @@ export const visitOptions = {
   },
 };
 
-export const beforeEachHelper = visitUrl => {
-  Cypress.on('uncaught:exception', (err, runnable) => {
-    // returning false here prevents Cypress from
-    // failing the test
-    return false;
-  });
+export const setToken = () => {
   const options = {
     method: 'POST',
     url: 'https://ndla.eu.auth0.com/oauth/token',
@@ -42,16 +37,12 @@ export const beforeEachHelper = visitUrl => {
     },
     json: true,
   };
-  cy.request(options)
-    .then(res => {
-      localStorage.setItem('access_token', res.body.access_token);
-      localStorage.setItem(
-        'access_token_expires_at',
-        expiresIn(res.body.access_token) * 1000 + new Date().getTime(),
-      );
-      localStorage.setItem('access_token_personal', true);
-    })
-    .then(() => {
-      cy.visit(visitUrl, visitOptions);
-    });
+  cy.request(options).then(res => {
+    localStorage.setItem('access_token', res.body.access_token);
+    localStorage.setItem(
+      'access_token_expires_at',
+      expiresIn(res.body.access_token) * 1000 + new Date().getTime(),
+    );
+    localStorage.setItem('access_token_personal', true);
+  });
 };

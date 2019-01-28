@@ -77,14 +77,14 @@ class AudioForm extends Component {
 
     const {
       model,
-      schema,
+      validationErrors,
       licenses,
       setSubmitted,
       onUpdate,
       revision,
     } = this.props;
 
-    if (!schema.isValid) {
+    if (!validationErrors.isValid) {
       setSubmitted(true);
       return;
     }
@@ -110,7 +110,7 @@ class AudioForm extends Component {
     const {
       t,
       bindInput,
-      schema,
+      validationErrors: schema,
       initialModel,
       model,
       submitted,
@@ -232,7 +232,7 @@ AudioForm.propTypes = {
     language: PropTypes.string,
   }),
   setModel: PropTypes.func.isRequired,
-  schema: SchemaShape,
+  validationErrors: SchemaShape,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

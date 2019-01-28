@@ -400,10 +400,17 @@ const phrases = {
     createdOk: 'Created OK',
     addNewImage: 'Add new image',
     addNewAudio: 'Add new audio',
-    notesHeading: 'Notes',
-    addNotes: 'Add new note',
-    removeNotes: 'Remove note',
-    warningNotes: 'A note must contain text',
+    notes: {
+      heading: 'Notes',
+      add: 'Add new note',
+      remove: 'Remove note',
+      warning: 'A note must contain text',
+      history: {
+        heading: 'Notes history',
+        note: 'Note',
+        empty: 'No notes',
+      },
+    },
     editImage: 'Edit image',
     editAudio: 'Edit audio',
     resetToProd: {
@@ -678,6 +685,7 @@ const phrases = {
     minLength: '{length} must have at least {minLength, number} characters.',
     minItems:
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
+    noEmptyNote: 'En merknad kan ikke være en tom',
   },
   footer: {
     aboutNDLA: 'About NDLA',

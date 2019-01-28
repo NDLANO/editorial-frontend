@@ -77,6 +77,7 @@ const auth = new auth0.WebAuth({
   redirectUri: `${locationOrigin}/login/success`,
   audience: 'ndla_system',
 });
+
 export function parseHash(hash) {
   return new Promise((resolve, reject) => {
     auth.parseHash({ hash, _idTokenVerification: false }, (err, authResult) => {
@@ -164,9 +165,9 @@ export const renewAuth = async () => {
   return renewSystemAuth();
 };
 
-export const personalAuthLogout = federated => {
+export const personalAuthLogout = (federated, returnToLogin) => {
   const options = {
-    returnTo: `${locationOrigin}`,
+    returnTo: returnToLogin ? `${locationOrigin}/login` : `${locationOrigin}`,
     clientID: ndlaPersonalClientId,
   };
 

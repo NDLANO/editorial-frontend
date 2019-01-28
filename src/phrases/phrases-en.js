@@ -703,7 +703,7 @@ const phrases = {
     noArticleInProd: 'No article found in prod',
     taxonomy: 'There was a problem loading taxonomy',
     auth0:
-      'There was a problem with renewal of your token. You can either choose to cancel to make sure you do not lose any data or log out to try again. Following error message came from auth0: {message}',
+      'Press cancel to take care of any changes you have made before logging in again. The following error message came from auth0: {message}',
   },
   notFound: {
     description: 'The page cannot be found',
@@ -716,6 +716,7 @@ const phrases = {
     continue: 'Continue',
     delete: 'Delete',
     confirm: 'Confirm',
+    loginAgain: 'Login again',
   },
   taxonomy: {
     editStructure: '  Edit structure',

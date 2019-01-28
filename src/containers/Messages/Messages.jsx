@@ -36,11 +36,15 @@ const StyledMessageAlertOverlay = styled('div')`
 const getActions = (message, dispatch, t) => {
   if (message.type === 'auth0') {
     return [
-      { text: 'Avbryt', onClick: () => dispatch(clearMessage(message.id)) },
       {
-        text: 'Logg ut',
-        onClick: () => {
-          createHistory().push('/logout/session'); // Push to logoutPath
+        text: t('form.abort'),
+        onClick: () => dispatch(clearMessage(message.id)),
+      },
+      {
+        text: t('alertModal.loginAgain'),
+        onClick: async evt => {
+          evt.preventDefault();
+          await createHistory().push('/logout/session?returnToLogin=true'); // Push to logoutPath
           window.location.reload();
         },
       },

@@ -35,11 +35,12 @@ export function* login(accessToken, history) {
   }
 }
 
-export function* logout(federated) {
+export function* logout(federated, returnToLogin = false) {
   try {
+    console.log(returnToLogin);
     yield put(actions.setAuthenticated(false));
     yield put(actions.clearUserData());
-    yield call(personalAuthLogout, federated);
+    yield call(personalAuthLogout, federated, returnToLogin);
     clearAccessTokenFromLocalStorage();
     yield call(renewSystemAuth);
   } catch (error) {
@@ -59,9 +60,9 @@ export function* watchLoginSuccess() {
 export function* watchLogout() {
   while (true) {
     const {
-      payload: { federated },
+      payload: { federated, returnToLogin },
     } = yield take(actions.logout);
-    yield call(logout, federated);
+    yield call(logout, federated, returnToLogin);
   }
 }
 

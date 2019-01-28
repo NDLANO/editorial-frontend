@@ -713,7 +713,7 @@ const phrases = {
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var et problem ved lasting av taksonomi',
     auth0:
-      'Det var et problem med fornyelse av token. Du kan enten velge å avbryte for å ta vare på eventuelt nytt innhold eller logge ut for å prøve på nytt. Følgende feilmelding kom fra auth0: {message}',
+      'Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {message}',
     statusCode: {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har editert og last siden på nytt for å kunne lagre.',
     },
@@ -729,6 +729,7 @@ const phrases = {
     continue: 'Fortsett',
     delete: 'Slett',
     confirm: 'Bekreft',
+    loginAgain: 'Logg inn på nytt',
   },
   taxonomy: {
     editStructure: '  Rediger struktur',

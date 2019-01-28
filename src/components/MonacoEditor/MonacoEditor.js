@@ -62,7 +62,7 @@ window.MonacoEnvironment = {
     if (label === 'html') {
       return '/static/js/html.worker.js';
     }
-    return '/static/js/html.worker.js';
+    return '/static/js/editor.worker.js';
   },
 };
 

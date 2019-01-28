@@ -5,9 +5,9 @@ module.exports = options => (config, env, webpack) => {
   if (target === 'web') {
     if (dev) {
       appConfig.entry[options.name] = [
-        appConfig.entry.client[0], // hot reloading
+        options.disableHMR ? undefined : appConfig.entry.client[0], // hot reloading
         options.entry,
-      ];
+      ].filter(entry => entry !== undefined);
     } else {
       appConfig.entry[options.name] = [options.entry];
     }

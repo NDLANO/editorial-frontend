@@ -8,10 +8,12 @@ module.exports = {
     addEntry({
       entry: 'monaco-editor/esm/vs/editor/editor.worker.js',
       name: 'editor.worker',
+      disableHMR: true,
     }),
     addEntry({
       entry: 'monaco-editor/esm/vs/language/html/html.worker.js',
       name: 'html.worker',
+      disableHMR: true,
     }),
   ],
   modify(config, { target, dev }) {

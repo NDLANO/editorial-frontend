@@ -77,22 +77,21 @@ export class RelatedArticleBox extends React.Component {
   setNodeKey() {
     const { editor, node } = this.props;
     const { items } = this.state;
-    editor.change(change =>
-      change.setNodeByKey(node.key, {
-        data: {
-          nodes: items.map(
-            item =>
-              item.id === ARTICLE_EXTERNAL
-                ? {
-                    resource: 'related-content',
-                    url: item.url,
-                    title: item.title,
-                  }
-                : { resource: 'related-content', ['article-id']: item.id }, // eslint-disable-line
-          ),
-        },
-      }),
-    );
+
+    editor.setNodeByKey(node.key, {
+      data: {
+        nodes: items.map(
+          item =>
+            item.id === ARTICLE_EXTERNAL
+              ? {
+                  resource: 'related-content',
+                  url: item.url,
+                  title: item.title,
+                }
+              : { resource: 'related-content', ['article-id']: item.id }, // eslint-disable-line
+        ),
+      },
+    });
   }
 
   updateEmbedNode() {
@@ -182,12 +181,13 @@ export class RelatedArticleBox extends React.Component {
             showMore: t('form.related.showMore'),
             showLess: t('form.related.showLess'),
           }}>
-          {items.map(item =>
-            !item.id ? (
-              t('form.content.relatedArticle.invalidArticle')
-            ) : (
-              <RelatedArticle key={uuid()} locale={locale} item={item} />
-            ),
+          {items.map(
+            item =>
+              !item.id ? (
+                t('form.content.relatedArticle.invalidArticle')
+              ) : (
+                <RelatedArticle key={uuid()} locale={locale} item={item} />
+              ),
           )}
         </RelatedArticleList>
       </div>

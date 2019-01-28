@@ -52,6 +52,19 @@ export const MARK_TAGS = {
 
 const ListText = ({ children }) => children;
 
+const emptyNodes = [
+  {
+    object: 'text',
+    leaves: [
+      {
+        object: 'leaf',
+        marks: [],
+        text: '',
+      },
+    ],
+  },
+];
+
 export const findNodesByType = (node, type, nodes = []) => {
   if (node.type === type) {
     nodes.push(node);
@@ -137,13 +150,14 @@ export const divRule = {
         object: 'block',
         type: 'related',
         data: reduceChildElements(el, type),
+        nodes: emptyNodes,
       };
     }
     if (type === 'file') {
       return {
         object: 'block',
         type: 'file',
-        isVoid: true,
+        nodes: emptyNodes,
         data: reduceChildElements(el, type),
       };
     }
@@ -707,7 +721,7 @@ export const learningResourceEmbedRule = [
         object: 'block',
         type: 'embed',
         data: embed,
-        nodes: [],
+        nodes: emptyNodes,
       };
     },
 

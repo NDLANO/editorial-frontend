@@ -3,11 +3,22 @@ import { Block } from 'slate';
 export const defaultBlock = {
   type: 'paragraph',
   data: {},
+  nodes: [
+    {
+      object: 'text',
+      leaves: [
+        {
+          object: 'leaf',
+          marks: [],
+          text: '',
+        },
+      ],
+    },
+  ],
 };
 
 export const defaultBlockWithText = text => ({
   data: {},
-  object: 'block',
   nodes: [
     {
       object: 'text',

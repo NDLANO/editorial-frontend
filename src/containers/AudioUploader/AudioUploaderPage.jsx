@@ -10,7 +10,8 @@ import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
-
+import { HelmetWithTracker } from '@ndla/tracker';
+import { injectT } from '@ndla/i18n';
 import {
   actions as tagActions,
   getAllTagsByLanguage,
@@ -33,11 +34,12 @@ class AudioUploaderPage extends Component {
   }
 
   render() {
-    const { match, ...rest } = this.props;
+    const { match, t, ...rest } = this.props;
 
     return (
       <div>
         <OneColumn>
+          <HelmetWithTracker title={t('htmlTitles.audioUploaderPage')} />
           <Switch>
             <Route
               path={`${match.url}/new`}
@@ -98,7 +100,9 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AudioUploaderPage);
+export default injectT(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AudioUploaderPage),
+);

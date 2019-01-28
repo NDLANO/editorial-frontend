@@ -17,6 +17,7 @@ const connectSrc = (() => {
     'https://hlsak-a.akamaihd.net',
     'https://*.zendesk.com',
     'https://*.boltdns.net',
+    'https://www.google-analytics.com',
     'https://www.googleapis.com/customsearch/',
     'https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com',
     'https://www.wiris.net',
@@ -76,7 +77,10 @@ const scriptSrc = (() => {
     '*.ndla.no',
     'cdnjs.cloudflare.com',
     'https://*.auth0.com',
-    'https://www.wiris.net',
+    'https://www.googletagmanager.com',
+    'https://www.google-analytics.com',
+    'https://tagmanager.google.com',
+    'http://www.google-analytics.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -169,6 +173,7 @@ export default {
       'https://i.ytimg.com/',
       'https://ssl.gstatic.com',
       'https://www.gstatic.com',
+      'https://www.google-analytics.com',
       ' data:',
       'blob:',
       'https://www.wiris.net',

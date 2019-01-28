@@ -1,26 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`serializing article with table tag and attributes 1`] = `
-"
-<section>
-  <embed data-align
+"<section>
+  <embed
+    data-align=\\"\\"
     data-alt=\\"Regnskap. Foto.\\"
-    data-caption
+    data-caption=\\"\\"
     data-resource=\\"image\\"
     data-resource_id=\\"2935\\"
     data-size=\\"full\\"
-    data-url=\\"https://api.ndla.no/image-api/v2/images/2935\\">
-
+    data-url=\\"https://api.ndla.no/image-api/v2/images/2935\\"
+  />
   <h2>Balanse</h2>
 </section>
 <section>
-  <p>For å lære oss reglene skal vi se nærmere på balansen. Det er balansen som er selve «oppfinnelsen» når det gjelder måten vi fører regnskap på. Den danner grunnlaget for all regnskapsførsel. Måten balansen er bygd opp på, bestemmer hvordan alt innenfor regnskap skal føres.
+  <p>
+    For å lære oss reglene skal vi se nærmere på balansen. Det er balansen som
+    er selve «oppfinnelsen» når det gjelder måten vi fører regnskap på. Den
+    danner grunnlaget for all regnskapsførsel. Måten balansen er bygd opp på,
+    bestemmer hvordan alt innenfor regnskap skal føres.
   </p>
-  <p>All kapital vi har skaffet oss, fører vi på høyre side under
-    <em>Egenkapital og gjeld.</em>Vi kaller det gjerne
-    <em>kapitalanskaffelsen
-    </em>. Det vi har brukt kapitalen til, plasserer vi til venstre under
-    <em>Eiendeler</em>. Det kaller vi
+  <p>
+    All kapital vi har skaffet oss, fører vi på høyre side under
+    <em>Egenkapital og gjeld.</em> Vi kaller det gjerne
+    <em>kapitalanskaffelsen</em>. Det vi har brukt kapitalen til, plasserer vi
+    til venstre under <em>Eiendeler</em>. Det kaller vi
     <em>kapitalanvendelsen</em>, se illustrasjonen nedenfor:
   </p>
   <table>
@@ -31,33 +35,21 @@ exports[`serializing article with table tag and attributes 1`] = `
     </thead>
     <tbody>
       <tr>
-        <td colspan=\\"2\\"
-          align=\\"center\\"
-          valign=\\"top\\">
+        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">
           <strong>Eiendeler</strong>
         </td>
-        <td colspan=\\"2\\"
-          align=\\"center\\"
-          valign=\\"top\\">
-          <strong>Egenkapital</strong>
-          <strong>
-            <br>
-
-          </strong>
-          <strong>og gjeld</strong>
+        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">
+          <strong>Egenkapital</strong><strong><br /></strong
+          ><strong> og gjeld</strong>
         </td>
       </tr>
       <tr>
-        <td colspan=\\"2\\"
-          align=\\"left\\"
-          valign=\\"top\\">Kapitalanvendelse:
-          <br>
+        <td colspan=\\"2\\" align=\\"left\\" valign=\\"top\\">
+          Kapitalanvendelse:<br />
           hvor pengene er brukt
         </td>
-        <td colspan=\\"2\\"
-          align=\\"left\\"
-          valign=\\"top\\">Kapitalanskaffelse:
-          <br>
+        <td colspan=\\"2\\" align=\\"left\\" valign=\\"top\\">
+          Kapitalanskaffelse:<br />
           hvor pengene kommer fra
         </td>
       </tr>
@@ -66,15 +58,19 @@ exports[`serializing article with table tag and attributes 1`] = `
   <h2>Det doble bokføringsprinsippet</h2>
 </section>
 <section>
-  <p>Dette uttrykket kan høres litt vanskelig ut. I balansen står på en måte de samme pengene på begge sider av oppstillingen. Det kaller vi
-    <em>dobbel bokføring
-    </em>. Bokføring er betegnelsen på å føre et regnskap. Fordi summen er lik på begge sider, snakker vi om balanse. For at regnskapet hele tida skal balansere, må vi alltid føre hendingene to ganger, en gang til høyre og en gang til venstre. Venstre side kaller vi
-    <em>debet</em>, og høyre side er
-    <em>kredit</em>.
+  <p>
+    Dette uttrykket kan høres litt vanskelig ut. I balansen står på en måte de
+    samme pengene på begge sider av oppstillingen. Det kaller vi
+    <em>dobbel bokføring</em>. Bokføring er betegnelsen på å føre et regnskap.
+    Fordi summen er lik på begge sider, snakker vi om balanse. For at regnskapet
+    hele tida skal balansere, må vi alltid føre hendingene to ganger, en gang
+    til høyre og en gang til venstre. Venstre side kaller vi <em>debet</em>, og
+    høyre side er <em>kredit</em>.
   </p>
-  <p>Når vi fører et bilag, må det alltid være
-    <em>lik sum i debet og kredit.
-    </em>Vi kan illustrere det med en såkalt T-konto, der vi for eksempel har solgt varer for 1000 kr kontant.
+  <p>
+    Når vi fører et bilag, må det alltid være
+    <em>lik sum i debet og kredit.</em> Vi kan illustrere det med en såkalt
+    T-konto, der vi for eksempel har solgt varer for 1000 kr kontant.
   </p>
   <table>
     <thead>
@@ -110,10 +106,18 @@ exports[`serializing article with table tag and attributes 1`] = `
       </tr>
     </tbody>
   </table>
-  <p>Du ser at vi har ført samme sum en gang til kredit og en gang til debet. Hvorfor summen går i kredit på den ene kontoen og i debet på den andre kontoen, krever nærmere forklaring. Det er her tommelfingerreglene kommer inn.
+  <p>
+    Du ser at vi har ført samme sum en gang til kredit og en gang til debet.
+    Hvorfor summen går i kredit på den ene kontoen og i debet på den andre
+    kontoen, krever nærmere forklaring. Det er her tommelfingerreglene kommer
+    inn.
   </p>
   <h2>Tre regnskapsregler</h2>
-  <p>Balansen består av tre hovedgrupper: eiendeler, egenkapital og gjeld. Alle eiendelskontoene brukes på samme måte hver gang vi fører på dem. Det samme gjelder egenkapitalen og gjelda: Når vi fører i debet eller i kredit på en av kontoene, blir effekten alltid den samme.
+  <p>
+    Balansen består av tre hovedgrupper: eiendeler, egenkapital og gjeld. Alle
+    eiendelskontoene brukes på samme måte hver gang vi fører på dem. Det samme
+    gjelder egenkapitalen og gjelda: Når vi fører i debet eller i kredit på en
+    av kontoene, blir effekten alltid den samme.
   </p>
   <p>Det er lurt å tenke på hvor i balansen de tre hovedgruppene står:</p>
   <table>
@@ -124,20 +128,12 @@ exports[`serializing article with table tag and attributes 1`] = `
     </thead>
     <tbody>
       <tr>
-        <td colspan=\\"2\\"
-          align=\\"center\\"
-          valign=\\"top\\">
+        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">
           <strong>Eiendeler</strong>
         </td>
-        <td colspan=\\"2\\"
-          align=\\"center\\"
-          valign=\\"top\\">
-          <strong>Egenkapital</strong>
-          <strong>
-            <br>
-
-          </strong>
-          <strong>og gjeld</strong>
+        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">
+          <strong>Egenkapital</strong><strong><br /></strong
+          ><strong> og gjeld</strong>
         </td>
       </tr>
       <tr>
@@ -148,33 +144,41 @@ exports[`serializing article with table tag and attributes 1`] = `
       </tr>
     </tbody>
   </table>
-  <p>Ser du at de tre hovedgruppene oppfører seg etter hvor de står i balansen? Økning og minking skal føres samme vei som hovedgruppa står i balansen. Altså øker vi eiendelene ved å føre i debet, mens vi øker egenkapitalen og gjelda ved å føre i kredit.
+  <p>
+    Ser du at de tre hovedgruppene oppfører seg etter hvor de står i balansen?
+    Økning og minking skal føres samme vei som hovedgruppa står i balansen.
+    Altså øker vi eiendelene ved å føre i debet, mens vi øker egenkapitalen og
+    gjelda ved å føre i kredit.
   </p>
   <p>Vi kan derfor sette opp disse tre reglene:</p>
   <div class=\\"c-bodybox\\">
-    <p>
-      <strong>Regel 1</strong>
-    </p>
+    <p><strong>Regel 1</strong></p>
     <p>Debitering av en eiendelskonto: øker verdien</p>
     <p>Kreditering av en eiendelskonto: reduserer verdien</p>
   </div>
   <div class=\\"c-bodybox\\">
-    <p>
-      <strong>Regel 2</strong>
-    </p>
+    <p><strong>Regel 2</strong></p>
     <p>Debitering av en gjeldskonto: reduserer gjelda</p>
     <p>Kreditering av en gjeldskonto: øker gjelda</p>
   </div>
   <div class=\\"c-bodybox\\">
-    <p>
-      <strong>Regel 3</strong>
-    </p>
+    <p><strong>Regel 3</strong></p>
     <p>Debitering av en egenkapitalkonto: reduserer egenkapitalen</p>
     <p>Kreditering av en egenkapitalkonto: øker egenkapitalen</p>
   </div>
-  <p>Resultatregnskapet er en underavdeling av egenkapitalen. Derfor fungerer alle resultatkontoer som egenkapitalen. Egenkapitalen står til høyre i balansen (til kredit), og derfor fører vi en økning av egenkapitalen til høyre (til kredit) og en reduksjon til venstre (til debet).
+  <p>
+    Resultatregnskapet er en underavdeling av egenkapitalen. Derfor fungerer
+    alle resultatkontoer som egenkapitalen. Egenkapitalen står til høyre i
+    balansen (til kredit), og derfor fører vi en økning av egenkapitalen til
+    høyre (til kredit) og en reduksjon til venstre (til debet).
   </p>
-  <p>Slik er det med all føring i resultatregnskapet. Alt som øker egenkapitalen, blir ført i kredit. Alt som reduserer egenkapitalen, blir ført i debet. Det vil si at inntekter alltid skal føres i kredit, fordi det egentlig øker egenkapitalen. Kostnader skal alltid føres i debet, fordi det egentlig reduserer egenkapitalen.
+  <p>
+    Slik er det med all føring i resultatregnskapet. Alt som øker egenkapitalen,
+    blir ført i kredit. Alt som reduserer egenkapitalen, blir ført i debet. Det
+    vil si at inntekter alltid skal føres i kredit, fordi det egentlig øker
+    egenkapitalen. Kostnader skal alltid føres i debet, fordi det egentlig
+    reduserer egenkapitalen.
   </p>
-</section>"
+</section>
+"
 `;

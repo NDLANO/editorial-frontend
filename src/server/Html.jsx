@@ -12,6 +12,7 @@ import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import Helmet from 'react-helmet';
 import config from '../config';
+import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); // eslint-disable-line import/no-dynamic-require
 
@@ -26,13 +27,13 @@ const Html = props => {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <GoogleTagMangerScript />
         {head.title.toComponent()}
         {head.meta.toComponent()}
         {head.script.toComponent()}
-        {assets.client &&
-          assets.client.css && (
-            <link rel="stylesheet" type="text/css" href={assets.client.css} />
-          )}
+        {assets.client && assets.client.css && (
+          <link rel="stylesheet" type="text/css" href={assets.client.css} />
+        )}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300italic,400,600,700|Signika:400,600,300,700"
@@ -44,6 +45,15 @@ const Html = props => {
         />
       </head>
       <body>
+        <GoogleTagMangerNoScript />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            window.originalLocation = { originalLocation: document.location.protocol + '//' + document.location.hostname + document.location.pathname + document.location.search };
+            window.dataLayer.push(window.originalLocation);`,
+          }}
+        />
         <div id="root" dangerouslySetInnerHTML={{ __html: content }} />
         <script
           dangerouslySetInnerHTML={{

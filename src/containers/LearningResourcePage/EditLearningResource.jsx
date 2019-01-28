@@ -6,7 +6,7 @@
  *
  */
 
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
@@ -84,7 +84,7 @@ class EditLearningResource extends PureComponent {
       ? article.language
       : selectedLanguage;
     return (
-      <div>
+      <Fragment>
         <Helmet title={`${article.title} - NDLA`} />
         <LearningResourceForm
           initialModel={getInitialModel(article, language)}
@@ -93,9 +93,10 @@ class EditLearningResource extends PureComponent {
           articleStatus={article.status}
           onUpdate={this.updateLearningResource}
           createMessage={this.createMessage}
+          article={article}
           {...rest}
         />
-      </div>
+      </Fragment>
     );
   }
 }

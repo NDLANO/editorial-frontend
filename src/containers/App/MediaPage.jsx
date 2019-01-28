@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { SquareAudio, Camera } from '@ndla/icons/editor';
@@ -15,6 +15,7 @@ import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import AudioUploaderPage from '../AudioUploader/AudioUploaderPage';
 import ImageUploaderPage from '../ImageUploader/ImageUploaderPage';
 import SubNavigation from '../Masthead/components/SubNavigation';
+import Footer from './components/Footer';
 
 const MediaPage = ({ match, t }) => {
   const supportedTypes = [
@@ -33,7 +34,7 @@ const MediaPage = ({ match, t }) => {
   ];
 
   return (
-    <div>
+    <Fragment>
       <SubNavigation type="media" subtypes={supportedTypes} />
       <Switch>
         <PrivateRoute
@@ -46,7 +47,8 @@ const MediaPage = ({ match, t }) => {
         />
         <Route component={NotFoundPage} />
       </Switch>
-    </div>
+      <Footer showLocaleSelector={false} />
+    </Fragment>
   );
 };
 

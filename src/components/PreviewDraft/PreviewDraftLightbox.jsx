@@ -9,10 +9,9 @@
 import React from 'react';
 import { injectT } from '@ndla/i18n';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import { Cross } from '@ndla/icons/action';
 import Button from '@ndla/button';
-import { css } from 'react-emotion';
+import styled, { css } from 'react-emotion';
 import * as articleApi from '../../modules/article/articleApi';
 import * as draftApi from '../../modules/draft/draftApi';
 import Lightbox, {
@@ -26,15 +25,32 @@ import {
 } from '../../util/articleUtil';
 import { FormActionButton } from '../../containers/Form';
 
-export const classes = new BEMHelper({
-  name: 'preview-draft',
-  prefix: 'c-',
-});
-
 const twoArticlesCloseButtonStyle = css`
   position: absolute;
   right: 20px;
 `;
+
+const StyledPreviewDraft = styled('div')`
+  ${p => (p.typeOfPreview === 'preview' ? 'text-align: left;' : '')};
+`;
+
+const lightboxContentStyle = typeOfPreview =>
+  typeOfPreview !== 'preview'
+    ? css`
+        padding: 1rem 0;
+        width: 98%;
+        margin: 0 auto;
+        max-width: 100%;
+        display: flex;
+      `
+    : css`
+        margin: 1rem 0;
+        padding: 1rem 0;
+        width: 100%;
+        margin-right: auto;
+        margin-left: auto;
+        max-width: 1024px;
+      `;
 
 const defaultState = {
   firstArticle: undefined,
@@ -143,18 +159,23 @@ class PreviewDraftLightbox extends React.Component {
     const closeButton = (
       <Button
         css={css`
-          ${closeLightboxButtonStyle} margin-top: -20px;
-          margin-right: 0;
+          ${closeLightboxButtonStyle};
           ${typeOfPreview !== 'preview' ? twoArticlesCloseButtonStyle : null};
+          margin: 0;
         `}
         stripped
         onClick={this.onClosePreview}>
         <Cross css={closeLightboxCrossStyle} />
       </Button>
     );
+
     return (
-      <div {...classes(typeOfPreview !== 'preview' ? 'two-articles' : '')}>
-        <Lightbox onClose={this.onClosePreview} closeButton={closeButton}>
+      <StyledPreviewDraft typeOfPreview={typeOfPreview}>
+        <Lightbox
+          display
+          onClose={this.onClosePreview}
+          closeButton={closeButton}
+          contentCss={lightboxContentStyle(typeOfPreview)}>
           <PreviewLightboxContent
             firstArticle={firstArticle}
             secondArticle={secondArticle}
@@ -165,7 +186,7 @@ class PreviewDraftLightbox extends React.Component {
             previewLanguage={previewLanguage}
           />
         </Lightbox>
-      </div>
+      </StyledPreviewDraft>
     );
   }
 }

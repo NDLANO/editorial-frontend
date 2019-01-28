@@ -34,7 +34,6 @@ export function onBackspace(evt, value, options, editor, next) {
   }
   if (startOffset === 0) {
     evt.preventDefault();
-    console.log(options);
     return setBlock(options, editor);
   }
   return next();

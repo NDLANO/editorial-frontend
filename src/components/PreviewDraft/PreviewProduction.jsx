@@ -6,17 +6,17 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import PreviewDraft from './PreviewDraft';
-import { classes } from './PreviewDraftLightbox';
+import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
 
 const PreviewProduction = props => {
   const { firstArticle, secondArticle, label, contentType, t } = props;
   return (
-    <React.Fragment>
-      <div {...classes('article')}>
+    <Fragment>
+      <StyledPreviewTwoArticles>
         <h2 className="u-4/6@desktop u-push-1/6@desktop">
           {t('form.previewProductionArticle.draft')}
         </h2>
@@ -25,8 +25,8 @@ const PreviewProduction = props => {
           label={label}
           contentType={contentType}
         />
-      </div>
-      <div {...classes('article')}>
+      </StyledPreviewTwoArticles>
+      <StyledPreviewTwoArticles>
         <h2 className="u-4/6@desktop u-push-1/6@desktop">
           {t('form.previewProductionArticle.article')}
         </h2>
@@ -35,8 +35,8 @@ const PreviewProduction = props => {
           label={label}
           contentType={contentType}
         />
-      </div>
-    </React.Fragment>
+      </StyledPreviewTwoArticles>
+    </Fragment>
   );
 };
 

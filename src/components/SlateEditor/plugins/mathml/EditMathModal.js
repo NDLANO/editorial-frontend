@@ -36,7 +36,7 @@ const EditMathModal = ({
   handleCancel,
   handleContinue,
   openDiscardModal,
-  mathML,
+  renderMathML,
   isEditMode,
   onExit,
   previewMath,
@@ -61,7 +61,7 @@ const EditMathModal = ({
         <ModalBody>
           <h1>{t('mathEditor.editMath')}</h1>
           <hr />
-          <StyledMathEditorWrapper id="mathEditorContainer" />
+          {isEditMode && <StyledMathEditorWrapper id="mathEditorContainer" />}
           <StyledButtonWrapper>
             <Button outline css={buttonStyle} onClick={previewMath}>
               {t('form.preview.button')}
@@ -89,7 +89,7 @@ const EditMathModal = ({
           <hr />
           <StyledMathPreviewWrapper
             dangerouslySetInnerHTML={{
-              __html: mathML,
+              __html: renderMathML,
             }}
           />
           <AlertModal
@@ -123,7 +123,7 @@ EditMathModal.propTypes = {
   openDiscardModal: PropTypes.bool.isRequired,
   previewMath: PropTypes.func.isRequired,
   isEditMode: PropTypes.bool.isRequired,
-  mathML: PropTypes.string,
+  renderMathML: PropTypes.string,
 };
 
 export default injectT(EditMathModal);

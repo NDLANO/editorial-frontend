@@ -76,6 +76,7 @@ const scriptSrc = (() => {
     'ndla.no',
     '*.ndla.no',
     'cdnjs.cloudflare.com',
+    'https://www.wiris.net',
     'https://*.auth0.com',
     'https://www.googletagmanager.com',
     'https://www.google-analytics.com',

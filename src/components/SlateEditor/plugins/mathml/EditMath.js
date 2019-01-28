@@ -17,6 +17,7 @@ import { getLocale } from '../../../../modules/locale/locale';
 
 const mathOpenTag = '<math xmlns="http://www.w3.org/1998/Math/MathML">';
 const mathCloseTag = '</math>';
+const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>';
 let mathEditor;
 
 class EditMath extends Component {
@@ -24,12 +25,12 @@ class EditMath extends Component {
     super(props);
     const { innerHTML } = props.model;
     this.state = {
+      renderMathML: innerHTML
+        ? `${mathOpenTag}${he.decode(innerHTML)}${mathCloseTag}`
+        : emptyMathTag,
       initialMathML: innerHTML
         ? `${mathOpenTag}${he.decode(innerHTML)}${mathCloseTag}`
-        : '',
-      mathML: innerHTML
-        ? `${mathOpenTag}${he.decode(innerHTML)}${mathCloseTag}`
-        : '',
+        : emptyMathTag,
     };
     this.previewMath = this.previewMath.bind(this);
     this.onHandleExit = this.onHandleExit.bind(this);
@@ -40,6 +41,7 @@ class EditMath extends Component {
   }
 
   componentDidMount() {
+    const { renderMathML } = this.state;
     const { locale } = this.props;
 
     if (window.MathJax) {
@@ -50,7 +52,7 @@ class EditMath extends Component {
       mathEditor = window.com.wiris.jsEditor.JsEditor.newInstance({
         language: locale,
       });
-      mathEditor.setMathML(this.state.mathML);
+      mathEditor.setMathML(renderMathML);
       mathEditor.insertInto(document.getElementById('mathEditorContainer'));
     }
   }
@@ -65,7 +67,7 @@ class EditMath extends Component {
     const { initialMathML, hasSaved } = this.state;
     const mathML = he.decode(mathEditor.getMathML());
 
-    if (!hasSaved && initialMathML !== undefined && initialMathML !== mathML) {
+    if (!hasSaved && initialMathML !== mathML) {
       this.setState({ openDiscardModal: true });
     } else {
       closeModal();
@@ -94,8 +96,8 @@ class EditMath extends Component {
   }
 
   previewMath() {
-    const mathML = mathEditor.getMathML();
-    this.setState({ mathML });
+    const renderMathML = mathEditor.getMathML();
+    this.setState({ renderMathML });
   }
 
   onCancel() {
@@ -108,12 +110,8 @@ class EditMath extends Component {
   }
 
   render() {
-    const { mathML, openDiscardModal } = this.state;
+    const { renderMathML, openDiscardModal } = this.state;
     const { onExit, isEditMode } = this.props;
-
-    if (!isEditMode) {
-      return null;
-    }
 
     return (
       <EditMathModal
@@ -126,7 +124,7 @@ class EditMath extends Component {
         previewMath={this.previewMath}
         isEditMode={isEditMode}
         openDiscardModal={openDiscardModal}
-        mathML={mathML}
+        renderMathML={renderMathML}
       />
     );
   }

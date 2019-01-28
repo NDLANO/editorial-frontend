@@ -122,7 +122,7 @@
     "postcss-nested": "^3.0.0",
     "prop-types": "^15.6.2",
     "query-string": "^5.1.1",
-    "razzle": "^2.4.0",
+    "razzle": "3.0.0-alpha.2",
     "razzle-config-utils": "^0.1.0",
     "react": "^16.7.0",
     "react-beautiful-dnd": "^9.0.2",

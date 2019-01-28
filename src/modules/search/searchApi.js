@@ -12,21 +12,14 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
+import { transformQuery } from '../../util/searchHelpers';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
 const groupUrl = apiResourceUrl('/search-api/v1/search/group/');
 
-export const search = async ({ 'resource-types': resourceTypes, ...rest }) => {
-  const query = { ...rest };
-
-  if (resourceTypes === 'topic-article') {
-    query['context-types'] = resourceTypes;
-  } else if (resourceTypes !== undefined) {
-    query['resource-types'] = resourceTypes;
-  }
-
+export const search = async query => {
   const response = await fetchAuthorized(
-    `${baseUrl}/editorial/?${queryString.stringify(query)}`,
+    `${baseUrl}/editorial/?${queryString.stringify(transformQuery(query))}`,
   );
   return resolveJsonOrRejectWithError(response);
 };

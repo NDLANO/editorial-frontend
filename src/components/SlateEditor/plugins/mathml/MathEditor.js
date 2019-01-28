@@ -17,7 +17,7 @@ import Types from 'slate-prop-types';
 import { Portal } from '../../../Portal';
 import EditMath from './EditMath';
 import MathML from './MathML';
-import { getSchemaEmbed } from '../../schema';
+import { getSchemaEmbed } from '../../editorSchema';
 import { EditorShape } from '../../../../shapes';
 
 const StyledMenu = styled('span')`

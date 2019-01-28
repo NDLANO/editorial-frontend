@@ -118,6 +118,12 @@ class SearchContentForm extends Component {
     });
   }
 
+  sortByProperty(property){
+    return function (a,b) {
+      return a[property].localeCompare(b[property]);
+    }
+  }
+
   render() {
     const {
       dropDown: { subjects, resourceTypes },
@@ -125,24 +131,24 @@ class SearchContentForm extends Component {
     const { t } = this.props;
 
     const selectFields = [
-      { name: 'subjects', label: 'subjects', width: 50, options: subjects },
+      { name: 'subjects', label: 'subjects', width: 50, options: subjects.sort(this.sortByProperty("name")) },
       {
         name: 'resourceTypes',
         label: 'resourceTypes',
         width: 25,
-        options: resourceTypes,
+        options: resourceTypes.sort(this.sortByProperty("name")),
       },
       {
         name: 'draftStatus',
         label: 'draftStatus',
         width: 25,
-        options: this.getDraftStatuses(),
+        options: this.getDraftStatuses().sort(this.sortByProperty("name")),
       },
       {
         name: 'language',
         label: 'language',
         width: 25,
-        options: getResourceLanguages(t),
+        options: getResourceLanguages(t).sort(this.sortByProperty("name")),
       },
     ];
 

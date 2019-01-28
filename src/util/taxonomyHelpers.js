@@ -191,9 +191,12 @@ const getCurrentTopic = ({ params, subject = {} }) => {
   const { topic1, topic2, topic3 } = params;
   let topic = {};
   if (topic1) {
-    topic = subject.topics && subject.topics.find(top => top.id === topic1);
+    topic =
+      (subject.topics && subject.topics.find(top => top.id === topic1)) || {};
     if (topic2) {
-      topic = topic.subtopics && topic.subtopics.find(top => top.id === topic2);
+      topic =
+        (topic.subtopics && topic.subtopics.find(top => top.id === topic2)) ||
+        {};
       if (topic3) {
         topic =
           topic.subtopics && topic.subtopics.find(top => top.id === topic3);

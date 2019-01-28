@@ -27,6 +27,7 @@ export const isFormDirty = ({ fields, model, showSaved }) => {
   Object.keys(fields)
     .filter(field => fields[field].dirty)
     .forEach(dirtyField => {
+      console.log(dirtyField);
       if (slateFields.includes(dirtyField)) {
         if (isEditorValueDirty(model[dirtyField])) {
           dirtyFields.push(dirtyField);

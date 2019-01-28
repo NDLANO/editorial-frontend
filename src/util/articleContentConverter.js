@@ -139,17 +139,20 @@ export function editorValueToPlainText(editorValue) {
 
 export function isEditorValueDirty(value) {
   if (value.data) {
-    return !!value.data.get('undos') && value.data.get('undos').size > 0;
+    return !!value.data.get('undos') && value.data.get('undos').size > 1;
   }
-  return (
-    value
-      .map(val => {
-        return val && val.value && val.value.data.get('undos')
-          ? val.value.data.get('undos').size
-          : 0;
-      })
-      .reduce((a, b) => a + b, 0) > 1
-  );
+  const undoSizes = value.map(val => {
+    if (!val || !val.value || !val.value.data) return 0;
+    const undoArray = val.value.data.get('undos').toJS();
+    console.log(undoArray);
+    return undoArray.filter(
+      undoList =>
+        !undoList.every(operation => operation.type === 'set_selection'),
+    ).length;
+  }); // end value.map
+
+  return undoSizes.some(size => size > 1);
+
   // Since last update slate saves selection on startup so undo size is always at least one
   // this PR is supposed to fix it again: https://github.com/ianstormtaylor/slate/pull/2347
 }

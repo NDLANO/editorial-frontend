@@ -10,6 +10,10 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { css } from 'emotion';
+import { Link as LinkIcon } from '@ndla/icons/editor';
+import { spacing } from '@ndla/core';
 
 import { getLocale } from '../../../modules/locale/locale';
 import { TextField } from '../../../components/Fields';
@@ -47,6 +51,16 @@ import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 
 import { CommonFieldPropsShape } from '../../../shapes';
 
+const linkStyle = css`
+  box-shadow: none;
+  font-size: 3em;
+  margin-top: ${spacing.small};
+  svg {
+    width: ${spacing.normal};
+    height: ${spacing.normal};
+  }
+  float: right;
+`;
 const findFootnotes = content =>
   content
     .reduce(
@@ -106,7 +120,7 @@ class LearningResourceContent extends Component {
   }
 
   render() {
-    const { t, commonFieldProps } = this.props;
+    const { t, commonFieldProps, userAccess, model } = this.props;
     const { value } = commonFieldProps.bindInput('content');
     return (
       <Fragment>
@@ -120,6 +134,13 @@ class LearningResourceContent extends Component {
           {...commonFieldProps}
         />
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
+        {model.id && userAccess.includes('drafts:admin') && (
+          <Link
+            css={linkStyle}
+            to={`/edit-markup/${model.id}/${model.language}`}>
+            <LinkIcon title={t('editMarkup.linkTitle')} />
+          </Link>
+        )}
         <RichBlockTextField
           slateSchema={schema}
           renderNode={renderNode}
@@ -140,6 +161,11 @@ class LearningResourceContent extends Component {
 LearningResourceContent.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
   locale: PropTypes.string.isRequired,
+  userAccess: PropTypes.string.isRequired,
+  model: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    language: PropTypes.string.isRequired,
+  }),
 };
 
 const mapStateToProps = state => ({

@@ -217,6 +217,9 @@ const phrases = {
   subjectPage: {
     topics: 'Topics',
   },
+  editMarkup: {
+    linkTitle: 'Go to HTML editor',
+  },
   imageSearch: {
     placeholder: 'Search images',
     buttonTitle: 'Search',

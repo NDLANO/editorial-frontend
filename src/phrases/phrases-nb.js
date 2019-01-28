@@ -215,6 +215,9 @@ const phrases = {
   subjectPage: {
     topics: 'Emner',
   },
+  editMarkup: {
+    linkTitle: 'Gå til HTML editor',
+  },
   imageSearch: {
     placeholder: 'Søk i bilder',
     buttonTitle: 'Søk',

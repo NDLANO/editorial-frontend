@@ -6,7 +6,7 @@
  *
  */
 
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
@@ -14,7 +14,6 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
 import * as messageActions from '../Messages/messagesActions';
 import { actions, getDraft } from '../../modules/draft/draft';
-
 import LearningResourceForm, {
   getInitialModel,
 } from './components/LearningResourceForm';
@@ -84,7 +83,7 @@ class EditLearningResource extends PureComponent {
       ? article.language
       : selectedLanguage;
     return (
-      <div>
+      <Fragment>
         <HelmetWithTracker
           title={`${article.title} ${t('htmlTitles.titleTemplate')}`}
         />
@@ -95,9 +94,10 @@ class EditLearningResource extends PureComponent {
           articleStatus={article.status}
           onUpdate={this.updateLearningResource}
           createMessage={this.createMessage}
+          article={article}
           {...rest}
         />
-      </div>
+      </Fragment>
     );
   }
 }

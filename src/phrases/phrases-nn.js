@@ -421,10 +421,17 @@ const phrases = {
     createdOk: 'Opprettet OK',
     addNewImage: 'Legg til nytt bilde',
     addNewAudio: 'Legg til ny lyd',
-    notesHeading: 'Merknader',
-    addNotes: 'Legg til merknad',
-    removeNotes: 'Ta bort',
-    warningNotes: 'Ein merknad må ha tekst',
+    notes: {
+      heading: 'Merknader',
+      add: 'Legg til merknad',
+      remove: 'Ta bort',
+      warning: 'Ein merknad må ha tekst',
+      history: {
+        heading: 'Merknads historikk',
+        note: 'Merknad',
+        empty: 'Ingen merknader',
+      },
+    },
     editImage: 'Endre bilde',
     editAudio: 'Endre lyd',
     resetToProd: {
@@ -696,6 +703,7 @@ const phrases = {
     dateAfterInvalid: '{label} kan ikke være før {beforeLabel}.',
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
+    noEmptyNote: 'A note can not be empty',
   },
   footer: {
     aboutNDLA: 'Om NDLA',

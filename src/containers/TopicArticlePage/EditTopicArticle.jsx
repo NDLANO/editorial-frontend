@@ -84,6 +84,7 @@ class EditTopicArticle extends Component {
           revision={article.revision}
           articleStatus={article.status}
           onUpdate={this.updateDraft}
+          article={article}
           {...rest}
         />
       </Fragment>

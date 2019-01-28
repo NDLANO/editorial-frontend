@@ -32,7 +32,7 @@ import {
 import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
 import TopicArticleMetadata from './TopicArticleMetadata';
 import TopicArticleContent from './TopicArticleContent';
-import { SchemaShape, LicensesArrayOf } from '../../../shapes';
+import { SchemaShape, LicensesArrayOf, ArticleShape } from '../../../shapes';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
@@ -69,7 +69,7 @@ export const getInitialModel = (article = {}) => {
       ? article.copyright
       : { license: DEFAULT_LICENSE, origin: '' },
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
-    notes: article.notes || [],
+    notes: [],
     visualElement: visualElement || {},
     language: article.language,
     supportedLanguages: article.supportedLanguages || [],
@@ -143,7 +143,7 @@ class TopicArticleForm extends Component {
         rightsholders: model.rightsholders,
         agreementId: model.agreementId,
       },
-      notes: model.notes,
+      notes: model.notes || [],
       language: model.language,
       supportedLanguages: model.supportedLanguages,
     };
@@ -152,7 +152,13 @@ class TopicArticleForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    const { validationErrors, revision, setSubmitted, onUpdate } = this.props;
+    const {
+      validationErrors,
+      revision,
+      setSubmitted,
+      onUpdate,
+      setModelField,
+    } = this.props;
     if (!validationErrors.isValid) {
       setSubmitted(true);
       return;
@@ -160,11 +166,11 @@ class TopicArticleForm extends Component {
     if (!isFormDirty(this.props)) {
       return;
     }
-
     onUpdate({
       ...this.getArticle(),
       revision,
     });
+    setModelField('notes', []);
   }
 
   render() {
@@ -182,6 +188,7 @@ class TopicArticleForm extends Component {
       licenses,
       showSaved,
       history,
+      article,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
     const panels = [
@@ -247,6 +254,7 @@ class TopicArticleForm extends Component {
             articleStatus={articleStatus}
             model={model}
             getArticle={this.getArticle}
+            article={article}
           />
         ),
       },
@@ -346,6 +354,8 @@ TopicArticleForm.propTypes = {
   }),
   setModel: PropTypes.func.isRequired,
   validationErrors: SchemaShape,
+  setModelField: PropTypes.func.isRequired,
+  schema: SchemaShape,
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   submitted: PropTypes.bool.isRequired,
@@ -363,6 +373,7 @@ TopicArticleForm.propTypes = {
   history: PropTypes.shape({
     goBack: PropTypes.func,
   }).isRequired,
+  article: ArticleShape,
 };
 
 export default compose(

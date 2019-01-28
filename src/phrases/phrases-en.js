@@ -175,18 +175,18 @@ const phrases = {
   searchForm: {
     placeholder: 'Search articles',
     types: {
-      contentQuery: 'Search for Content',
-      mediaQuery: 'Search for Media',
-      language: 'Select Language',
+      contentQuery: 'Search for content',
+      mediaQuery: 'Search for media',
+      language: 'Select language',
       subjects: 'Select subject',
-      resourceTypes: 'Select Resource type',
+      resourceTypes: 'Select resource type',
       draftStatus: 'Select status',
     },
     tagType: {
       query: 'Query',
       subjects: 'Subject',
       language: 'Language',
-      resourceTypes: 'Resource-Type',
+      resourceTypes: 'Resource type',
       draftStatus: 'Status',
     },
     btn: 'Search',

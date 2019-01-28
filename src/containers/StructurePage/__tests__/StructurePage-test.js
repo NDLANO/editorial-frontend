@@ -11,7 +11,7 @@ import React from 'react';
 import { render, wait, cleanup } from 'react-testing-library';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { StructurePage } from '../StructurePage';
+import { StructureContainer } from '../StructureContainer';
 import {
   subjectsMock,
   resourceTypesMock,
@@ -32,7 +32,7 @@ const wrapper = () =>
     <Provider store={store}>
       <MemoryRouter>
         <IntlWrapper>
-          <StructurePage
+          <StructureContainer
             t={() => 'injected'}
             locale="nb"
             match={{

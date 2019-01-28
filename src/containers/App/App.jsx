@@ -52,7 +52,6 @@ export class App extends React.Component {
       <ErrorBoundary>
         <PageContainer>
           <Helmet
-            title="NDLA"
             meta={[{ name: 'description', content: t('meta.description') }]}
           />
           <Content>

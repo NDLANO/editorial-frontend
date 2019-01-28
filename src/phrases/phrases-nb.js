@@ -6,7 +6,20 @@
  *
  */
 
+const titleTemplate = '- Produksjonsystem - NDLA';
+
 const phrases = {
+  htmlTitles: {
+    titleTemplate,
+    createLearningResourcePage: `Fagstoff ${titleTemplate}`,
+    createTopicArticlePage: `Emne ${titleTemplate}`,
+    agreementPage: `Avtale ${titleTemplate}`,
+    searchPage: `Søk ${titleTemplate}`,
+    welcomePage: `Forside ${titleTemplate}`,
+    structurePage: `Struktur ${titleTemplate}`,
+    audioUploaderPage: `Lyd ${titleTemplate}`,
+    imageUploaderPage: `Bilde ${titleTemplate}`,
+  },
   meta: {
     description:
       'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',

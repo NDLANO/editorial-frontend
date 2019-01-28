@@ -308,7 +308,11 @@ export default compose(
       minItems: 3,
     },
     creators: {
-      minItems: 1,
+      test: (value, model, setError) => {
+        if (value.length === 0 && model.rightsholders.length === 0) {
+          setError('validation.minItems', { minItems: 1 });
+        }
+      },
       allObjectFieldsRequired: true,
     },
     processors: {

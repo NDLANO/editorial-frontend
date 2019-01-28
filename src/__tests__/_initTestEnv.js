@@ -11,7 +11,8 @@ import './raf-polyfill';
 /* eslint-disable */
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import prettier from 'prettier';
+import prettier from 'prettier/standalone';
+import parseHTML from 'prettier/parser-html';
 
 /* eslint-enable */
 configure({ adapter: new Adapter() });
@@ -34,7 +35,11 @@ const localStorageMock = (function createLocalStorage() {
   };
 })();
 
-const prettify = content => prettier.format(`${content}`, { parser: 'parse5' });
+const prettify = content =>
+  prettier.format(`${content}`, {
+    parser: 'html',
+    plugins: [parseHTML],
+  });
 global.prettifyHTML = prettify;
 
 Object.defineProperty(window, 'localStorage', {

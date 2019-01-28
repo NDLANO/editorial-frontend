@@ -73,23 +73,26 @@ export const getAudioById = audioId =>
   );
 
 export const getAudio = (audioId, useLanguage = false) =>
-  createSelector([getAudioById(audioId)], audio => {
-    const audioLanguage =
-      audio &&
-      useLanguage &&
-      audio.supportedLanguages &&
-      audio.supportedLanguages.includes(audio.language)
-        ? audio.language
-        : undefined;
+  createSelector(
+    [getAudioById(audioId)],
+    audio => {
+      const audioLanguage =
+        audio &&
+        useLanguage &&
+        audio.supportedLanguages &&
+        audio.supportedLanguages.includes(audio.language)
+          ? audio.language
+          : undefined;
 
-    return audio
-      ? {
-          ...audio,
-          title: convertFieldWithFallback(audio, 'title', '', audioLanguage),
-          tags: convertFieldWithFallback(audio, 'tags', [], audioLanguage),
-        }
-      : undefined;
-  });
+      return audio
+        ? {
+            ...audio,
+            title: convertFieldWithFallback(audio, 'title', '', audioLanguage),
+            tags: convertFieldWithFallback(audio, 'tags', [], audioLanguage),
+          }
+        : undefined;
+    },
+  );
 
 export const getSaving = createSelector(
   [getAudiosFromState],

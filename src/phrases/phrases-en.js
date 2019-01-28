@@ -6,7 +6,20 @@
  *
  */
 
+const titleTemplate = '- Production system - NDLA';
+
 const phrases = {
+  htmlTitles: {
+    titleTemplate,
+    createLearningResourcePage: `Learning resource ${titleTemplate}`,
+    createTopicArticlePage: `Topic ${titleTemplate}`,
+    agreementPage: `Agreement ${titleTemplate}`,
+    searchPage: `Search ${titleTemplate}`,
+    welcomePage: `Frontpage ${titleTemplate}`,
+    structurePage: `Structure ${titleTemplate}`,
+    audioUploaderPage: `Audio ${titleTemplate}`,
+    imageUploaderPage: `Image ${titleTemplate}`,
+  },
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },

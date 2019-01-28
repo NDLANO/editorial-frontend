@@ -9,6 +9,7 @@
 import React, { Fragment } from 'react';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder, LastUsed } from '@ndla/icons/editor';
 import BEMHelper from 'react-bem-helper';
 import { RightArrow } from '@ndla/icons/action';
@@ -21,6 +22,7 @@ export const classes = new BEMHelper({
 
 export const WelcomePage = ({ t }) => (
   <Fragment>
+    <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
     <OneColumn>
       <div {...classes('header')}>
         <a href="#guidelines" {...classes('header-link')}>

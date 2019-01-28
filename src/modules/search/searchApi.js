@@ -16,7 +16,15 @@ import {
 const baseUrl = apiResourceUrl('/search-api/v1/search');
 const groupUrl = apiResourceUrl('/search-api/v1/search/group/');
 
-export const search = async query => {
+export const search = async ({ 'resource-types': resourceTypes, ...rest }) => {
+  let query = { ...rest };
+  
+  if (resourceTypes === 'topic-article') {
+    query['context-types'] = resourceTypes;
+  } else if (resourceTypes !== undefined){
+    query['resource-types'] = resourceTypes;
+  }
+  
   const response = await fetchAuthorized(
     `${baseUrl}/editorial/?${queryString.stringify(query)}`,
   );

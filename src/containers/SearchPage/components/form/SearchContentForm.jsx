@@ -15,7 +15,7 @@ import {
   fetchSubjects,
   fetchResourceTypes,
 } from '../../../../modules/taxonomy';
-import { flattenResourceTypes } from '../../../../util/taxonomyHelpers';
+import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
@@ -78,7 +78,7 @@ class SearchContentForm extends Component {
     this.setState({
       dropDown: {
         subjects,
-        resourceTypes: flattenResourceTypes(resourceTypes),
+        resourceTypes: flattenResourceTypesAndAddContextTypes(resourceTypes),
       },
     });
   }

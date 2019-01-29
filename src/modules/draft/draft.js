@@ -72,7 +72,10 @@ export default handleActions(
 const getDraftsFromState = state => state.drafts;
 
 export const getDraftById = draftId =>
-  createSelector([getDraftsFromState], drafts => drafts.all[draftId]);
+  createSelector(
+    [getDraftsFromState],
+    drafts => drafts.all[draftId],
+  );
 
 export const getSaving = createSelector(
   [getDraftsFromState],

@@ -1003,6 +1003,10 @@
     "@ndla/core" "^0.4.0"
     lodash "^4.17.11"
 
+"@ndla/tracker@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.3.1.tgz#c639fbacf412857750ece984f29ee23b11fd743f"
+
 "@ndla/ui@^0.18.0":
   version "0.18.0"
   resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.18.0.tgz#b12fc2fa635bc67c1d924977c5353b7b4ce491e3"

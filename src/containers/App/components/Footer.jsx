@@ -12,18 +12,14 @@ import { Footer } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import SelectLocale from '../../SelectLocale/SelectLocale';
 
-const FooterWrapper = ({ t, showLocaleSelector, locale }) => (
+const FooterWrapper = ({ t, showLocaleSelector }) => (
   <Footer>
     {showLocaleSelector && (
       <form className="footer_form">
         <label className="footer_label footer--bold" htmlFor="language-select">
           {t('footer.selectLanguage')}
         </label>
-        <SelectLocale
-          locale={locale}
-          id="language-select"
-          className="footer_language-select"
-        />
+        <SelectLocale id="language-select" className="footer_language-select" />
       </form>
     )}
     <Footer.Ruler />
@@ -43,7 +39,6 @@ const FooterWrapper = ({ t, showLocaleSelector, locale }) => (
 
 FooterWrapper.propTypes = {
   showLocaleSelector: PropTypes.bool,
-  locale: PropTypes.string.isRequired,
 };
 
 FooterWrapper.defaultProps = {

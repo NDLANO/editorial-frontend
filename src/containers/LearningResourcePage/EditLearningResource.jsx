@@ -9,12 +9,11 @@
 import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Helmet from 'react-helmet';
 import { Redirect, withRouter } from 'react-router-dom';
-
+import { HelmetWithTracker } from '@ndla/tracker';
+import { injectT } from '@ndla/i18n';
 import * as messageActions from '../Messages/messagesActions';
 import { actions, getDraft } from '../../modules/draft/draft';
-
 import LearningResourceForm, {
   getInitialModel,
 } from './components/LearningResourceForm';
@@ -69,7 +68,7 @@ class EditLearningResource extends PureComponent {
   }
 
   render() {
-    const { article, selectedLanguage, ...rest } = this.props;
+    const { article, selectedLanguage, t, ...rest } = this.props;
     if (!article) {
       return null;
     }
@@ -85,7 +84,9 @@ class EditLearningResource extends PureComponent {
       : selectedLanguage;
     return (
       <Fragment>
-        <Helmet title={`${article.title} - NDLA`} />
+        <HelmetWithTracker
+          title={`${article.title} ${t('htmlTitles.titleTemplate')}`}
+        />
         <LearningResourceForm
           initialModel={getInitialModel(article, language)}
           selectedLanguage={selectedLanguage}
@@ -137,9 +138,11 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(EditLearningResource),
+export default injectT(
+  withRouter(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps,
+    )(EditLearningResource),
+  ),
 );

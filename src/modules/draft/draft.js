@@ -98,8 +98,8 @@ export const articleConverter = (article, locale) => ({
   metaDescription: convertFieldWithFallback(article, 'metaDescription', ''),
   tags: convertFieldWithFallback(article, 'tags', []),
   language:
-    article && article.tags
-      ? getLanguageFromField(article, 'tags')
+    article && article.title
+      ? getLanguageFromField(article, 'title')
       : getLanguageFromField(article, 'content', locale),
   created: formatDate(article.created, locale),
   updated: formatDate(article.updated, locale),

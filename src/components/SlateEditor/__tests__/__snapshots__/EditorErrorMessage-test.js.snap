@@ -5,7 +5,7 @@ exports[`EditorErrorMessage renders 1`] = `
   className="css-121c9wz emotion-1"
 >
   <button
-    className="css-15w35ia emotion-0"
+    className="css-136exqh emotion-0"
     disabled={false}
     onClick={[Function]}
     type="button"

@@ -14,7 +14,7 @@ exports[`Goes to edit mode, handles submit 1`] = `
     value=""
   />
   <button
-    class="css-1sckute emotion-1"
+    class="css-1dqvgou emotion-1"
     data-testid="inlineEditSaveButton"
     type="button"
   >

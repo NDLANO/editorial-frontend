@@ -85,7 +85,7 @@ a.c-button {
   margin-top: 0;
 }
 
-.c-figure.selected {
+.c-figure.isSelectedForCopy {
   box-shadow: rgb(32, 88, 143) 0 0 0 2px;
 }
 

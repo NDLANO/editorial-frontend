@@ -8,10 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import { Figure } from '@ndla/ui';
 import Button from '@ndla/button';
-import { css } from 'react-emotion';
+import { css, cx } from 'react-emotion';
 import { findDOMNode } from 'slate-react';
 import SlateTypes from 'slate-prop-types';
 import config from '../../../../config';
@@ -83,14 +82,14 @@ class SlateImage extends React.Component {
       'lower-right-y': embed['lower-right-y'],
     };
 
-    const figureClassNames = classnames('c-figure', {
+    const figureClassNames = cx('c-figure', {
       [`u-float-${embed.size}-${embed.align}`]:
         ['left', 'right'].includes(embed.align) &&
         ['small', 'xsmall'].includes(embed.size),
       [`u-float-${embed.align}`]:
         ['left', 'right'].includes(embed.align) &&
         !['small', 'xsmall'].includes(embed.size),
-      ['isSelectedForCopy']: isSelectedForCopy && (!editModus || !active),
+      isSelectedForCopy: isSelectedForCopy && (!editModus || !active),
     });
 
     return (

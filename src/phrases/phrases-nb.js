@@ -143,7 +143,7 @@ const phrases = {
     contentNoHits: 'Ingen innhold samsvarte med søket ditt på: {query}',
     mediaNoHits: 'Ingen media samsvarte med søket ditt på: {query}',
     pageSize: '{pageSize} treff per side',
-    totalCount: 'Antall resultater',
+    totalCount: 'Antall søketreff',
   },
   subNavigation: {
     media: 'Media',
@@ -248,12 +248,17 @@ const phrases = {
     duration: 'Varighet',
     interactioncount: 'Visninger',
   },
+  mathEditor: {
+    editMath: 'Rediger Matematikk',
+    preview: 'Forhåndsvisning',
+    continue: 'Du har ulagrede endringer i matteeditoren. Vil du fortsette?',
+  },
   h5pElement: {
     fetchError:
-      'Vi beklager, men en feil oppsto under lasting av H5P klienten.',
+      'Vi beklager, men en feil oppsto under lasting av H5P-klienten.',
   },
   displayOembed: {
-    errorMessage: 'En feil oppsto ved visning av oEmbed innhold.',
+    errorMessage: 'En feil oppsto ved visning av oEmbed-innhold.',
     notSupported: 'oEmbed av type {type} og kilde {provider} er ikke støttet.',
   },
   audioSearch: {
@@ -335,7 +340,7 @@ const phrases = {
     title: 'Fagstoff | {title} ({key})',
     validation: {
       missingEmbedData:
-        'En eller flere inkluderte lyd, bilde, eller video elementer mangler beskrivende tekst eller alternativ tekst.',
+        'En eller flere inkluderte lyd-, bilde-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.',
     },
     fields: {
       rightAside: {
@@ -367,6 +372,7 @@ const phrases = {
     headingTwo: 'Overskrift 2',
     headingThree: 'Overskrift 3',
     footnote: 'Fotnote',
+    mathml: 'Matte',
   },
   editorBlockpicker: {
     heading: 'Legg til',
@@ -413,6 +419,8 @@ const phrases = {
       add: 'Legg til',
     },
     abort: 'Avbryt',
+    edit: 'Rediger',
+    remove: 'Fjern',
     validate: 'Valider',
     publish: 'Publiser',
     savedOk: 'Lagret OK',
@@ -427,7 +435,7 @@ const phrases = {
       remove: 'Ta bort',
       warning: 'En merknad må ha tekst',
       history: {
-        heading: 'Merknads historikk',
+        heading: 'Merknadshistorikk',
         note: 'Merknad',
         empty: 'Ingen merknader',
       },
@@ -708,7 +716,7 @@ const phrases = {
     dateAfterInvalid: '{label} kan ikke være før {beforeLabel}.',
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
-    noEmptyNote: 'En merknad kan ikke være en tom',
+    noEmptyNote: 'En merknad kan ikke være tom',
   },
   footer: {
     aboutNDLA: 'Om NDLA',
@@ -726,7 +734,7 @@ const phrases = {
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var et problem ved lasting av taksonomi',
     statusCode: {
-      409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har editert og last siden på nytt for å kunne lagre.',
+      409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endret og last siden på nytt for å kunne lagre.',
     },
   },
   notFound: {

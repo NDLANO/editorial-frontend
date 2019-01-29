@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 import Types from 'slate-prop-types';
 import PropTypes from 'prop-types';
 import he from 'he';
-
 import EditMathModal from './EditMathModal';
 import { getLocale } from '../../../../modules/locale/locale';
 

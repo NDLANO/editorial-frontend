@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
@@ -5,7 +13,6 @@ import { injectT } from '@ndla/i18n';
 import styled, { css } from 'react-emotion';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
-
 import AlertModal from '../../../AlertModal';
 
 const StyledMathEditorWrapper = styled('div')`
@@ -25,9 +32,9 @@ const StyledButtonWrapper = styled('div')`
   flex-wrap: wrap;
 `;
 
-const buttonStyle = css(`
+const buttonStyle = css`
   margin-right: ${spacing.small};
-`);
+`;
 
 const EditMathModal = ({
   handleExit,

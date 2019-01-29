@@ -792,6 +792,9 @@ const phrases = {
       core: 'Kjerneressurs',
     },
   },
+  contextTypes: {
+    topic: 'Emne',
+  },
 };
 
 export default phrases;

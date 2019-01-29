@@ -280,10 +280,7 @@ const phrases = {
     info: {
       lastUpdated: 'Last updated: {updated}',
     },
-    title: {
-      create: 'You are now creating a topic description',
-      update: 'You are now editing a topic description',
-    },
+    title: 'Topic description | {title} ({key})',
     fields: {
       caption: {
         label: {
@@ -786,6 +783,9 @@ const phrases = {
       additional: 'Additional resource',
       core: 'Core resource',
     },
+  },
+  contextTypes: {
+    topic: 'Topic',
   },
 };
 

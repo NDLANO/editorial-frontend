@@ -195,7 +195,7 @@ const phrases = {
     },
     tagType: {
       query: 'Innhold',
-      subjects: 'Emne',
+      subjects: 'Fag',
       language: 'Språk',
       resourceTypes: 'Innholdstype',
       draftStatus: 'Status',
@@ -799,6 +799,9 @@ const phrases = {
       additional: 'Tilleggsressurs',
       core: 'Kjerneressurs',
     },
+  },
+  contextTypes: {
+    topic: 'Emne',
   },
 };
 

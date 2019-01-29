@@ -33,7 +33,7 @@ const filterToSubjects = allFilters => {
   return filterObjects;
 };
 
-function flattenResourceTypesAndAddContextTypes(data = []) {
+function flattenResourceTypesAndAddContextTypes(data = [], t) {
   const resourceTypes = [];
   data.forEach(type => {
     if (type.subtypes) {
@@ -52,7 +52,7 @@ function flattenResourceTypesAndAddContextTypes(data = []) {
       });
     }
   });
-  resourceTypes.push({ name: 'Emne', id: 'topic-article' });
+  resourceTypes.push({ name: t('contextTypes.topic'), id: 'topic-article' });
   return resourceTypes;
 }
 

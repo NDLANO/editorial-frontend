@@ -71,6 +71,7 @@ class SearchContentForm extends Component {
 
   async getTaxonomyData() {
     const { locale } = this.props;
+    const { t } = this.props;
     const [resourceTypes, subjects] = await Promise.all([
       fetchResourceTypes(locale),
       fetchSubjects(locale),
@@ -78,7 +79,7 @@ class SearchContentForm extends Component {
     this.setState({
       dropDown: {
         subjects,
-        resourceTypes: flattenResourceTypesAndAddContextTypes(resourceTypes),
+        resourceTypes: flattenResourceTypesAndAddContextTypes(resourceTypes, t),
       },
     });
   }

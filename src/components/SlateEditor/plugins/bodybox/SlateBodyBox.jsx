@@ -35,7 +35,7 @@ const StyledBodyBox = styled('div')`
 `;
 
 const SlateBodyBox = props => {
-  const { node, editor, t } = props;
+  const { node, editor, t, attributes, children } = props;
 
   const onRemoveClick = () => {
     editor.removeNodeByKey(node.key);
@@ -45,8 +45,8 @@ const SlateBodyBox = props => {
     editor.unwrapBlockByKey(node.key, node.type);
   };
   return (
-    <StyledBodyBox {...props.attributes}>
-      {props.children}
+    <StyledBodyBox {...attributes}>
+      {children}
       <DeleteButton stripped onClick={onRemoveClick} />
       <Button
         css={moveContentButtonStyle}

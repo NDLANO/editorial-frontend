@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { actions } from '../../modules/session/session';
 
 export class LogoutSession extends React.Component {
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     const { logout, location } = this.props;
     const query = queryString.parse(location.search);
     logout({ federated: false, returnToLogin: query && query.returnToLogin });

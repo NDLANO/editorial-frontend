@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { MathML } from './MathML';
+import MathEditor from './MathEditor';
 
 export const TYPE = 'mathml';
 
@@ -16,16 +16,18 @@ const schema = {
   blocks: {
     mathml: {
       isVoid: true,
+      data: {},
     },
   },
 };
+
 export default function mathmlPlugin() {
-  const renderNode = (props, editor, next) => {
-    const { node } = props;
+  const renderNode = props => {
+    const { node, next } = props;
 
     switch (node.type) {
       case TYPE:
-        return <MathML {...props} />;
+        return <MathEditor {...props} />;
       default:
         return next();
     }

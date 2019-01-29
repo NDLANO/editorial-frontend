@@ -249,6 +249,12 @@ const phrases = {
     duration: 'Duration',
     interactioncount: 'Views',
   },
+  mathEditor: {
+    editMath: 'Edit Math',
+    preview: 'Preview',
+    continue:
+      'You have unsaved changes in the math editor. Do you want to continue?',
+  },
   h5pElement: {
     fetchError: 'Sorry, an error occurd while loading the H5P client.',
   },
@@ -356,6 +362,7 @@ const phrases = {
     headingTwo: 'Heading 2',
     headingThree: 'Heading 3',
     footnote: 'Footnote',
+    mathml: 'Math',
   },
   editorBlockpicker: {
     heading: 'Add',
@@ -402,6 +409,8 @@ const phrases = {
       add: 'Add',
     },
     abort: 'Abort',
+    edit: 'Edit',
+    remove: 'Remove',
     validate: 'Validate',
     publish: 'Publish',
     savedOk: 'Saved OK',

@@ -79,7 +79,11 @@ function deleteSubTopicConnection(id) {
   }).then(resolveTaxonomyResponse);
 }
 
-function addFilterToTopic({ filterId, relevanceId, topicId }) {
+function addFilterToTopic({
+  filterId,
+  relevanceId = 'urn:relevance:core',
+  topicId,
+}) {
   return fetchAuthorized(`${baseUrl}/topic-filters`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },

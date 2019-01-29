@@ -78,7 +78,7 @@ exports[`Goes to edit mode, handles input and calls action prop 2`] = `
 
 exports[`Goes to edit mode, handles input and calls action prop 3`] = `
 <div
-  class="css-1hzwzoe emotion-2"
+  class="css-1hzwzoe emotion-3"
 >
   <input
     class="css-yx9wau emotion-0"
@@ -87,12 +87,12 @@ exports[`Goes to edit mode, handles input and calls action prop 3`] = `
     value="Elefant"
   />
   <button
-    class="css-1gz0s07 emotion-1"
+    class="css-1gz0s07 emotion-2"
     disabled=""
     type="button"
   >
     <div
-      class="c-spinner c-spinner--small"
+      class="css-x5cbz3 emotion-1"
     />
   </button>
 </div>

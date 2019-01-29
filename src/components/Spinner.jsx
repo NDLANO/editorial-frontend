@@ -8,21 +8,62 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
+import styled, { keyframes, css } from 'react-emotion';
+import { colors } from '@ndla/core';
 
-const classes = new BEMHelper({
-  name: 'spinner',
-  prefix: 'c-',
-});
+const spinnerKeyframeStyle = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
 
-const Spinner = ({ cssModifier }) => <div {...classes('', cssModifier)} />;
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+const commonAbsoluteAndFixedStyle = css`
+  top: 40%;
+  left: 50%;
+  right: 50%;
+  z-index: 999;
+`;
+
+const appeareances = {
+  fixed: css`
+    position: fixed;
+    ${commonAbsoluteAndFixedStyle}
+  `,
+  absolute: css`
+    position: absolute;
+    ${commonAbsoluteAndFixedStyle}
+  `,
+  small: css`
+    width: 1em;
+    height: 1em;
+  `,
+};
+
+const StyledSpinner = styled('div')`
+  border: 0.4em solid ${colors.brand.greyLight};
+  border-bottom-color: ${colors.brand.primary};
+  border-radius: 50%;
+  margin: 0 auto;
+  width: 3em;
+  height: 3em;
+  animation: ${spinnerKeyframeStyle} 0.7s linear infinite;
+  ${p => appeareances[p.appearance]}
+`;
+
+const Spinner = ({ appearance, ...rest }) => (
+  <StyledSpinner appearance={appearance} {...rest} />
+);
 
 Spinner.propTypes = {
-  cssModifier: PropTypes.string,
+  appearance: PropTypes.string,
 };
 
 Spinner.defaultProps = {
-  cssModifier: '',
+  appearance: '',
 };
 
 export default Spinner;

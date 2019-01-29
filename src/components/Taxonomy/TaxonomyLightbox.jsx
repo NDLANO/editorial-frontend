@@ -67,7 +67,7 @@ const TaxonomyLightbox = ({
             stripped
             css={selectButtonStyle}
             onClick={onSelect}>
-            {loading ? <Spinner cssModifier="small" /> : t('form.choose')}
+            {loading ? <Spinner appearance="small" /> : t('form.choose')}
           </Button>
         )}
       </div>

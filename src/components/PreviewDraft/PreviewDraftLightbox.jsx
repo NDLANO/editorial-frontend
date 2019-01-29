@@ -11,6 +11,7 @@ import { injectT } from '@ndla/i18n';
 import PropTypes from 'prop-types';
 import { Cross } from '@ndla/icons/action';
 import Button from '@ndla/button';
+import { spacing } from '@ndla/core';
 import styled, { css } from 'react-emotion';
 import * as articleApi from '../../modules/article/articleApi';
 import * as draftApi from '../../modules/draft/draftApi';
@@ -24,6 +25,7 @@ import {
   transformArticleToApiVersion,
 } from '../../util/articleUtil';
 import { FormActionButton } from '../../containers/Form';
+import Spinner from '../Spinner';
 
 const twoArticlesCloseButtonStyle = css`
   position: absolute;
@@ -52,11 +54,24 @@ const lightboxContentStyle = typeOfPreview =>
         max-width: 1024px;
       `;
 
+const closeButtonStyle = typeOfPreview => css`
+  ${closeLightboxButtonStyle};
+  ${typeOfPreview !== 'preview' ? twoArticlesCloseButtonStyle : null};
+  margin-right: 0;
+  margin-top: -15px;
+`;
+
+const customSpinnerStyle = css`
+  display: inline-block;
+  margin-right: ${spacing.xsmall};
+`;
+
 const defaultState = {
   firstArticle: undefined,
   secondArticle: undefined,
   previewLanguage: undefined,
   showPreview: false,
+  loading: false,
 };
 
 class PreviewDraftLightbox extends React.Component {
@@ -96,7 +111,7 @@ class PreviewDraftLightbox extends React.Component {
       previewLanguageArticle: () =>
         this.previewLanguageArticle(secondArticleLanguage),
     };
-
+    this.setState({ loading: true });
     const firstArticle = await articleApi.getPreviewArticle(
       originalArticle,
       originalArticle.language,
@@ -111,6 +126,7 @@ class PreviewDraftLightbox extends React.Component {
       secondArticle,
       showPreview: true,
       previewLanguage: secondArticleLanguage,
+      loading: false,
     });
   }
 
@@ -145,12 +161,14 @@ class PreviewDraftLightbox extends React.Component {
       showPreview,
       secondArticle,
       previewLanguage,
+      loading,
     } = this.state;
     const { label, contentType, typeOfPreview, t } = this.props;
 
     if (!showPreview) {
       return (
-        <FormActionButton outline onClick={this.openPreview}>
+        <FormActionButton outline onClick={this.openPreview} disabled={loading}>
+          {loading && <Spinner appearance="small" css={customSpinnerStyle} />}
           {t(`form.${typeOfPreview}.button`)}
         </FormActionButton>
       );
@@ -158,11 +176,7 @@ class PreviewDraftLightbox extends React.Component {
 
     const closeButton = (
       <Button
-        css={css`
-          ${closeLightboxButtonStyle};
-          ${typeOfPreview !== 'preview' ? twoArticlesCloseButtonStyle : null};
-          margin: 0;
-        `}
+        css={closeButtonStyle(typeOfPreview)}
         stripped
         onClick={this.onClosePreview}>
         <Cross css={closeLightboxCrossStyle} />

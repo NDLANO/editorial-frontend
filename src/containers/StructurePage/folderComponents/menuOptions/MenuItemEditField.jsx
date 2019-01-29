@@ -93,7 +93,7 @@ class MenuItemEditField extends PureComponent {
             disabled={status === 'loading'}
             onClick={this.handleSubmit}>
             {status === 'loading' ? (
-              <Spinner cssModifier="small" />
+              <Spinner appearance="small" />
             ) : (
               <Done className="c-icon--small" />
             )}

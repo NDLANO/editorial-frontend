@@ -15,7 +15,7 @@ import {
   Italic,
   ListCircle,
   ListNumbered,
-  ListAlphebetical,
+  ListAlphabetical,
   ListTwoColumns,
   Quote,
   Underline,
@@ -24,6 +24,7 @@ import {
   Heading2,
   Heading1,
   Section,
+  Math,
 } from '@ndla/icons/editor';
 
 import { css } from 'react-emotion';
@@ -42,11 +43,12 @@ const toolbarIcon = t => ({
   'two-column-list': (
     <ListTwoColumns title={t('editorToolbar.twoColumnList')} />
   ),
-  'letter-list': <ListAlphebetical title={t('editorToolbar.letterList')} />,
+  'letter-list': <ListAlphabetical title={t('editorToolbar.letterList')} />,
   'heading-one': <Heading1 title={t('editorToolbar.headingOne')} />,
   'heading-two': <Heading2 title={t('editorToolbar.headingTwo')} />,
   'heading-three': <Heading3 title={t('editorToolbar.headingThree')} />,
   footnote: <Section title={t('editorToolbar.footnote')} />,
+  mathml: <Math title={t('editorToolbar.mathml')} />,
 });
 /* eslint-enable jsx-a11y/anchor-is-valid */
 

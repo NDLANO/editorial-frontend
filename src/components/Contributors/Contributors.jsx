@@ -99,11 +99,9 @@ const Contributors = props => {
           {...rest}
         />
       ))}
-      {submitted &&
-        value.length === 0 &&
-        errorMessages.length > 0 && (
-          <StyledFormWarningText>{errorMessages[0]}</StyledFormWarningText>
-        )}
+      {submitted && value.length === 0 && errorMessages.length > 0 && (
+        <StyledFormWarningText>{errorMessages[0]}</StyledFormWarningText>
+      )}
       <Button
         outline
         onClick={addContributor}

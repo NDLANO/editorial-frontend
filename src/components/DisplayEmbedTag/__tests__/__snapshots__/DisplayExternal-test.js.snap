@@ -10,7 +10,7 @@ Array [
     className="c-editor"
   >
     <button
-      className="css-hihfb5 emotion-0"
+      className="css-10ndbs7 emotion-0"
       disabled={false}
       type="button"
     >
@@ -45,7 +45,7 @@ Array [
       </svg>
     </button>
     <button
-      className="css-16rbn0v emotion-0"
+      className="css-ggvj8x emotion-0"
       disabled={false}
       onClick={[Function]}
       type="button"

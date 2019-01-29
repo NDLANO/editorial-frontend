@@ -37,7 +37,6 @@ export function* login(accessToken, history) {
 
 export function* logout(federated, returnToLogin = false) {
   try {
-    console.log(returnToLogin);
     yield put(actions.setAuthenticated(false));
     yield put(actions.clearUserData());
     yield call(personalAuthLogout, federated, returnToLogin);

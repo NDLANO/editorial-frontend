@@ -16,7 +16,6 @@ export class LogoutSession extends React.Component {
   UNSAFE_componentWillMount() {
     const { logout, location } = this.props;
     const query = queryString.parse(location.search);
-    console.log(query);
     logout({ federated: false, returnToLogin: query && query.returnToLogin });
   }
 

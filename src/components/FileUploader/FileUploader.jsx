@@ -76,13 +76,14 @@ class FileUploader extends React.Component {
         <Field>
           <label htmlFor="file">{t('form.file.file.label')}</label>
           <input type="file" name="file" onChange={this.onChangeField} />
-          {isEmpty(file) && submitted && (
-            <FieldHelp error>
-              {t('validation.isRequired', {
-                label: t('form.file.file.label'),
-              })}
-            </FieldHelp>
-          )}
+          {isEmpty(file) &&
+            submitted && (
+              <FieldHelp error>
+                {t('validation.isRequired', {
+                  label: t('form.file.file.label'),
+                })}
+              </FieldHelp>
+            )}
           {errorMessage.length > 0 && (
             <FieldHelp error>{errorMessage}</FieldHelp>
           )}
@@ -95,13 +96,14 @@ class FileUploader extends React.Component {
             onChange={this.onChangeField}
             placeholder={t('form.file.title.placeholder')}
           />
-          {isEmpty(title) && submitted && (
-            <FieldHelp error>
-              {t('validation.isRequired', {
-                label: t('form.file.title.label'),
-              })}
-            </FieldHelp>
-          )}
+          {isEmpty(title) &&
+            submitted && (
+              <FieldHelp error>
+                {t('validation.isRequired', {
+                  label: t('form.file.title.label'),
+                })}
+              </FieldHelp>
+            )}
         </Field>
         <Field right>
           <FormActionButton onClick={this.onSave}>

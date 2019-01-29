@@ -182,12 +182,13 @@ export class RelatedArticleBox extends React.Component {
             showMore: t('form.related.showMore'),
             showLess: t('form.related.showLess'),
           }}>
-          {items.map(item =>
-            !item.id ? (
-              t('form.content.relatedArticle.invalidArticle')
-            ) : (
-              <RelatedArticle key={uuid()} locale={locale} item={item} />
-            ),
+          {items.map(
+            item =>
+              !item.id ? (
+                t('form.content.relatedArticle.invalidArticle')
+              ) : (
+                <RelatedArticle key={uuid()} locale={locale} item={item} />
+              ),
           )}
         </RelatedArticleList>
       </div>

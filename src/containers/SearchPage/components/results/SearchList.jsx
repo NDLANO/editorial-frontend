@@ -17,7 +17,7 @@ import { searchClasses } from '../../SearchContainer';
 
 const SearchList = ({ results, searchObject, type, t, searching }) => (
   <div {...searchClasses('results')}>
-    {searching && <Spinner cssModifier="absolute" />}
+    {searching && <Spinner appearance="absolute" />}
     {results.length === 0 ? (
       <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query })}</p>
     ) : null}

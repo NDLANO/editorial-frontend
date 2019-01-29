@@ -118,10 +118,10 @@ class SearchContentForm extends Component {
     });
   }
 
-  sortByProperty(property){
-    return function (a,b) {
+  sortByProperty(property) {
+    return function(a, b) {
       return a[property].localeCompare(b[property]);
-    }
+    };
   }
 
   render() {
@@ -131,24 +131,29 @@ class SearchContentForm extends Component {
     const { t } = this.props;
 
     const selectFields = [
-      { name: 'subjects', label: 'subjects', width: 50, options: subjects.sort(this.sortByProperty("name")) },
+      {
+        name: 'subjects',
+        label: 'subjects',
+        width: 50,
+        options: subjects.sort(this.sortByProperty('name')),
+      },
       {
         name: 'resourceTypes',
         label: 'resourceTypes',
         width: 25,
-        options: resourceTypes.sort(this.sortByProperty("name")),
+        options: resourceTypes.sort(this.sortByProperty('name')),
       },
       {
         name: 'draftStatus',
         label: 'draftStatus',
         width: 25,
-        options: this.getDraftStatuses().sort(this.sortByProperty("name")),
+        options: this.getDraftStatuses().sort(this.sortByProperty('name')),
       },
       {
         name: 'language',
         label: 'language',
         width: 25,
-        options: getResourceLanguages(t).sort(this.sortByProperty("name")),
+        options: getResourceLanguages(t).sort(this.sortByProperty('name')),
       },
     ];
 

@@ -16,12 +16,24 @@ import { css } from 'emotion';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import Row from '../../components/Row';
+import {
+  learningResourceContentToEditorValue,
+  learningResourceContentToHTML,
+} from '../../util/articleContentConverter';
 
 const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
 
+// Serialize and deserialize content using slate helpers
+// to ensure standarized markup.
+// Also useful for detecting validatio issues.
+function standardizeContent(content) {
+  const converted = learningResourceContentToEditorValue(content);
+  return learningResourceContentToHTML(converted);
+}
+
 export class EditMarkupPage extends Component {
   state = {
-    // initial | loading | edit | error | saving
+    // initial | loading | edit | fetch-error | save-error | saving
     status: 'initial',
     draft: undefined,
   };
@@ -34,7 +46,7 @@ export class EditMarkupPage extends Component {
       this.setState({ draft, status: 'edit' });
     } catch (e) {
       handleError(e);
-      this.setState({ status: 'error' });
+      this.setState({ status: 'fetch-error' });
     }
   }
 
@@ -42,16 +54,17 @@ export class EditMarkupPage extends Component {
     try {
       const { draftId, language } = this.props.match.params;
       this.setState({ status: 'saving' });
-      await updateDraft({
+      const content = standardizeContent(this.state.draft.content.content);
+      const draft = await updateDraft({
         id: parseInt(draftId, 10),
-        content: this.state.draft.content.content,
+        content,
         revision: this.state.draft.revision,
         language,
       });
-      this.setState({ status: 'edit' });
+      this.setState({ status: 'edit', draft });
     } catch (e) {
       handleError(e);
-      this.setState({ status: 'error' });
+      this.setState({ status: 'save-error' });
     }
   };
 
@@ -67,7 +80,7 @@ export class EditMarkupPage extends Component {
   render() {
     const { draftId, language } = this.props.match.params;
     const { status, draft } = this.state;
-    if (status === 'error') {
+    if (status === 'fetch-error') {
       return <p>Kunne ikke laste artikkel</p>;
     }
 
@@ -83,13 +96,11 @@ export class EditMarkupPage extends Component {
                 maxWidth: '1000px',
               }}>
               <Suspense fallback={<div>Loading...</div>}>
-                {status === 'edit' && (
-                  <MonacoEditor
-                    key={draft.id}
-                    value={draft.content.content}
-                    onChange={this.handleChange}
-                  />
-                )}
+                <MonacoEditor
+                  key={draft ? draft.id + draft.revision : 'draft'}
+                  value={draft ? draft.content.content : ''}
+                  onChange={this.handleChange}
+                />
               </Suspense>
               <Row
                 justifyContent="end"

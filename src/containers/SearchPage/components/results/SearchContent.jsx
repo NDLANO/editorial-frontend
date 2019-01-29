@@ -32,9 +32,10 @@ const SearchContent = ({ content, locale }) => {
   }
   const contentTitle = (
     <h2 {...searchClasses('title')}>
-      {resourceType && resourceType.contentType && (
-        <ContentTypeBadge background type={resourceType.contentType} />
-      )}{' '}
+      {resourceType &&
+        resourceType.contentType && (
+          <ContentTypeBadge background type={resourceType.contentType} />
+        )}{' '}
       {content.title.title}
     </h2>
   );

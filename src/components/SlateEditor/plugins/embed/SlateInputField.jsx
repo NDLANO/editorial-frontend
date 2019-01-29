@@ -94,9 +94,11 @@ class SlateInputField extends React.Component {
           onBlur={this.onFigureInputBlur}
           {...rest}
         />
-        {isEmpty(value) && required && submitted && (
-          <FieldHelp error>{t('validation.isRequired', { label })}</FieldHelp>
-        )}
+        {isEmpty(value) &&
+          required &&
+          submitted && (
+            <FieldHelp error>{t('validation.isRequired', { label })}</FieldHelp>
+          )}
       </Field>
     );
   }

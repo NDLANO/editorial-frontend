@@ -38,18 +38,19 @@ import SaveButton from '../../../components/SaveButton';
 import { FormActionButton } from '../../Form';
 
 const resourceTypesToOptionList = availableResourceTypes =>
-  availableResourceTypes.map(resourceType =>
-    resourceType.subtypes ? (
-      resourceType.subtypes.map(subtype => (
-        <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
-          {resourceType.name} - {subtype.name}
+  availableResourceTypes.map(
+    resourceType =>
+      resourceType.subtypes ? (
+        resourceType.subtypes.map(subtype => (
+          <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
+            {resourceType.name} - {subtype.name}
+          </option>
+        ))
+      ) : (
+        <option key={resourceType.id} value={resourceType.id}>
+          {resourceType.name}
         </option>
-      ))
-    ) : (
-      <option key={resourceType.id} value={resourceType.id}>
-        {resourceType.name}
-      </option>
-    ),
+      ),
   );
 
 class LearningResourceTaxonomy extends Component {

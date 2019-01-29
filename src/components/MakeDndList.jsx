@@ -21,27 +21,25 @@ const MakeDndList = ({ disableDnd, children, onDragEnd }) =>
               'drop-zone',
               snapshot.isDraggingOver ? 'dragging' : '',
             )}>
-            {React.Children.map(
-              children,
-              (child, index) =>
-                child ? (
-                  <Draggable
-                    key={child.props.id}
-                    draggableId={child.props.id}
-                    index={index}>
-                    {(providedInner, snapshotInner) => (
-                      <div
-                        ref={providedInner.innerRef}
-                        {...providedInner.draggableProps}
-                        {...providedInner.dragHandleProps}
-                        {...classes('drag-item')}>
-                        {React.cloneElement(child, {
-                          isDragging: snapshotInner.isDragging,
-                        })}
-                      </div>
-                    )}
-                  </Draggable>
-                ) : null,
+            {React.Children.map(children, (child, index) =>
+              child ? (
+                <Draggable
+                  key={child.props.id}
+                  draggableId={child.props.id}
+                  index={index}>
+                  {(providedInner, snapshotInner) => (
+                    <div
+                      ref={providedInner.innerRef}
+                      {...providedInner.draggableProps}
+                      {...providedInner.dragHandleProps}
+                      {...classes('drag-item')}>
+                      {React.cloneElement(child, {
+                        isDragging: snapshotInner.isDragging,
+                      })}
+                    </div>
+                  )}
+                </Draggable>
+              ) : null,
             )}
             {provided.placeholder}
           </div>

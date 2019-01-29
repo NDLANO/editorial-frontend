@@ -1,13 +1,44 @@
 import { isUserProvidedEmbedDataValid } from './util/embedTagHelpers';
 import { findNodesByType } from './util/slateHelpers';
 
-export const learningResourceSchema = {
+const commonArticleSchema = {
   title: {
     required: true,
   },
   introduction: {
     maxLength: 300,
   },
+  metaDescription: {
+    maxLength: 155,
+  },
+  tags: {
+    required: false,
+  },
+  creators: {
+    allObjectFieldsRequired: true,
+  },
+  processors: {
+    allObjectFieldsRequired: true,
+  },
+  rightsholders: {
+    allObjectFieldsRequired: true,
+  },
+  license: {
+    required: false,
+  },
+  notes: {
+    required: false,
+    test: (value, model, setError) => {
+      const emptyNote = value.find(note => note.length === 0);
+      if (emptyNote !== undefined) {
+        setError('learningResourceForm.validation.noEmptyNote');
+      }
+    },
+  },
+};
+
+export const learningResourceSchema = {
+  ...commonArticleSchema,
   metaImageAlt: {
     required: true,
     onlyValidateIf: model => model.metaImageId,
@@ -30,42 +61,13 @@ export const learningResourceSchema = {
       }
     },
   },
-  metaDescription: {
-    maxLength: 155,
-  },
-  tags: {
-    required: false,
-  },
-  creators: {
-    allObjectFieldsRequired: true,
-  },
-  processors: {
-    allObjectFieldsRequired: true,
-  },
-  rightsholders: {
-    allObjectFieldsRequired: true,
-  },
-  license: {
-    required: false,
-  },
-  notes: {
-    required: false,
-  },
 };
 
 export const topicArticleSchema = {
-  title: {
-    required: true,
-  },
-  introduction: {
-    maxLength: 300,
-  },
+  ...commonArticleSchema,
   content: {
     // TODO: Write test to validate content (see learning resource)
     required: false,
-  },
-  metaDescription: {
-    maxLength: 155,
   },
   visualElement: {
     required: false,
@@ -81,24 +83,6 @@ export const topicArticleSchema = {
       model.visualElement &&
       (model.visualElement.resource === 'image' ||
         model.visualElement.resource === 'brightcove'),
-  },
-  tags: {
-    required: false,
-  },
-  creators: {
-    allObjectFieldsRequired: true,
-  },
-  processors: {
-    allObjectFieldsRequired: true,
-  },
-  rightsholders: {
-    allObjectFieldsRequired: true,
-  },
-  license: {
-    required: false,
-  },
-  notes: {
-    required: false,
   },
 };
 

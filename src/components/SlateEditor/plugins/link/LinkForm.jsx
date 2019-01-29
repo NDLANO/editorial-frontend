@@ -8,10 +8,10 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { css } from 'react-emotion';
-import { compose } from 'redux';
 import { Field, FieldErrorMessages, getField } from '../../../Fields';
 import validateSchema from '../../../validateSchema';
 import { SchemaShape, LinkShape } from '../../../../shapes';

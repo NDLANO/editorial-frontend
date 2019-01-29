@@ -7,9 +7,11 @@
 
 /* global history */
 
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { HelmetWithTracker } from '@ndla/tracker';
+import { injectT } from '@ndla/i18n';
 import {
   actions as tagActions,
   getAllTagsByLanguage,
@@ -37,13 +39,17 @@ class CreateLearningResource extends PureComponent {
   }
 
   render() {
-    const { locale, ...rest } = this.props;
+    const { locale, t, ...rest } = this.props;
     return (
-      <LearningResourceForm
-        initialModel={getInitialModel({ language: locale })}
-        {...rest}
-        onUpdate={this.updateDraft}
-      />
+      <Fragment>
+        <HelmetWithTracker title={t('htmlTitles.createLearningResourcePage')} />
+
+        <LearningResourceForm
+          initialModel={getInitialModel({ language: locale })}
+          {...rest}
+          onUpdate={this.updateDraft}
+        />
+      </Fragment>
     );
   }
 }
@@ -72,7 +78,9 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreateLearningResource);
+export default injectT(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(CreateLearningResource),
+);

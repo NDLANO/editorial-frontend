@@ -24,7 +24,6 @@ import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
-
 import config from '../../../config';
 
 class ResourceItems extends React.PureComponent {
@@ -155,7 +154,9 @@ class ResourceItems extends React.PureComponent {
       currentTopic,
       currentSubject,
     } = this.props;
+
     const { deleteId, error, filterPickerId, activeFilters } = this.state;
+
     return (
       <ul {...classes('list')}>
         <MakeDndList
@@ -163,6 +164,7 @@ class ResourceItems extends React.PureComponent {
           disableDnd={!config.enableFullTaxonomy || !!filterPickerId}>
           {resources.map(resource => (
             <Resource
+              key={resource.id}
               contentType={contentType}
               showFilterPicker={filterPickerId === resource.id}
               currentSubject={currentSubject}
@@ -171,7 +173,6 @@ class ResourceItems extends React.PureComponent {
               toggleFilterPicker={this.toggleFilterPicker}
               name={resource.name}
               id={resource.id}
-              key={resource.id}
               onDelete={this.toggleDelete}
               connectionId={resource.connectionId}
               currentTopic={currentTopic}

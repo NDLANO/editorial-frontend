@@ -10,20 +10,21 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Check } from '@ndla/icons/editor';
 import { colors } from '@ndla/core';
-
 import { Structure } from '@ndla/editor';
 import { FormHeader } from '@ndla/forms';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { fetchTopicConnections } from '../../../../modules/taxonomy';
 import {
-  TitleModal,
-  buttonAddition,
-  Checked,
-  listClass,
-} from '../../../style/LearningResourceTaxonomyStyles';
+  buttonAdditionStyle,
+  listStyle,
+  StyledTitleModal,
+  StyledChecked,
+} from '../../../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnections from './ActiveTopicConnections';
-import FilterView from '../../StructurePage/folderComponents/FilterView';
+import FilterView from '../../../StructurePage/folderComponents/FilterView';
+import { StructureShape, TopicShape } from '../../../../shapes';
 
 class TopicConnections extends Component {
   constructor(props) {
@@ -62,11 +63,14 @@ class TopicConnections extends Component {
     });
   }
 
-  addTopic(id, closeModal) {
+  async addTopic(id, closeModal) {
     const { activeTopics, taxonomyTopics, stageTaxonomyChanges } = this.props;
     const addTopic = taxonomyTopics.find(
       taxonomyTopic => taxonomyTopic.id === id,
     );
+
+    const topicConnections = await fetchTopicConnections(addTopic.id);
+    addTopic.topicConnections = topicConnections;
 
     stageTaxonomyChanges({
       topics: [
@@ -112,19 +116,19 @@ class TopicConnections extends Component {
         {currentIndex === -1 ? (
           <Button
             outline
-            css={buttonAddition}
+            css={buttonAdditionStyle}
             type="button"
             onClick={() => this.addTopic(id, closeModal)}>
             {t('taxonomy.topics.filestructureButton')}
           </Button>
         ) : (
-          <Checked>
+          <StyledChecked>
             <Check
               className="c-icon--22"
               style={{ fill: colors.support.green }}
             />{' '}
             <span>{t('taxonomy.topics.addedTopic')}</span>
-          </Checked>
+          </StyledChecked>
         )}
       </div>
     );
@@ -133,6 +137,7 @@ class TopicConnections extends Component {
   render() {
     const { t, structure, availableFilters, ...rest } = this.props;
     const { fileStructureFilters, openedPaths } = this.state;
+
     return (
       <Fragment>
         <FormHeader
@@ -158,15 +163,15 @@ class TopicConnections extends Component {
                 />
               </ModalHeader>
               <ModalBody>
-                <TitleModal>
+                <StyledTitleModal>
                   {t('taxonomy.topics.filestructureHeading')}:
-                </TitleModal>
+                </StyledTitleModal>
                 <hr />
                 <Structure
                   openedPaths={openedPaths}
                   structure={structure}
                   toggleOpen={this.handleOpenToggle}
-                  listClass={listClass}
+                  listClass={listStyle}
                   renderListItems={props =>
                     this.renderListItems({ ...props, closeModal })
                   }
@@ -184,10 +189,17 @@ class TopicConnections extends Component {
 
 TopicConnections.propTypes = {
   isOpened: PropTypes.bool,
-  structure: PropTypes.arrayOf(PropTypes.shape()),
+  structure: PropTypes.arrayOf(StructureShape),
   fileStructureFilters: PropTypes.arrayOf(PropTypes.string),
-  activeTopics: PropTypes.arrayOf(PropTypes.object),
-  taxonomyTopics: PropTypes.arrayOf(PropTypes.object),
+  activeTopics: PropTypes.arrayOf(TopicShape),
+  taxonomyTopics: PropTypes.arrayOf(
+    PropTypes.shape({
+      contentUri: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string,
+      path: PropTypes.string,
+    }),
+  ),
   removeConnection: PropTypes.func,
   setPrimaryConnection: PropTypes.func,
   availableFilters: PropTypes.objectOf(

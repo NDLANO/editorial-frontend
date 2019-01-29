@@ -65,7 +65,6 @@ const FormHeader = props => {
       !model.supportedLanguages.includes(lang.key) &&
       lang.include,
   );
-
   const otherLanguages = model.supportedLanguages.filter(
     lang => lang !== language.key,
   );

@@ -1,31 +1,41 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { Additional, Core } from '@ndla/icons/common';
+import { injectT } from '@ndla/i18n';
 import {
-  flexCenterAlign,
+  flexButtonCenterAlignStyle,
   StyledRelevanceButton,
   StyledFilterCheckBox,
   StyledFilterListTableRow,
-} from '../../style/LearningResourceTaxonomyStyles';
+} from '../../../style/LearningResourceTaxonomyStyles';
 import {
   RESOURCE_FILTER_CORE,
   RESOURCE_FILTER_SUPPLEMENTARY,
-} from '../../constants';
+} from '../../../constants';
+import { FilterShape } from '../../../shapes';
 
 const FilterItem = ({
+  t,
   currentFilter,
   activeFilters,
-  updateFilter,
   resourceId,
-  t,
+  updateFilter,
 }) => {
   const useFilter = activeFilters.find(
     resourceFilter => resourceFilter.id === currentFilter.id,
   );
   const active = useFilter !== undefined;
+
   return (
-    <StyledFilterListTableRow active={active}>
+    <StyledFilterListTableRow key={currentFilter.id} active={active}>
       <td>
         <StyledFilterCheckBox
           type="button"
@@ -44,7 +54,7 @@ const FilterItem = ({
         </StyledFilterCheckBox>
       </td>
       <td>
-        <div className={flexCenterAlign}>
+        <div css={flexButtonCenterAlignStyle}>
           <StyledRelevanceButton
             type="button"
             data-testid={`selectCoreRelevance-${currentFilter.id}`}
@@ -80,11 +90,8 @@ const FilterItem = ({
 };
 
 FilterItem.propTypes = {
-  currentFilter: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-  }),
-  activeFilters: PropTypes.array,
+  currentFilter: FilterShape,
+  activeFilters: PropTypes.arrayOf(FilterShape),
   updateFilter: PropTypes.func,
   resourceId: PropTypes.string,
 };

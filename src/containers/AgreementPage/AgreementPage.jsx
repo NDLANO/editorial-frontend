@@ -5,12 +5,13 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { HelmetWithTracker } from '@ndla/tracker';
+import { injectT } from '@ndla/i18n';
 import { OneColumn } from '@ndla/ui';
-
 import { getLocale } from '../../modules/locale/locale';
 import EditAgreement from './EditAgreement';
 import CreateAgreement from './CreateAgreement';
@@ -22,6 +23,7 @@ import {
   getAllLicenses,
 } from '../../modules/license/license';
 import { toEditAgreement } from '../../util/routeHelpers';
+import Footer from '../App/components/Footer';
 
 class AgreementPage extends React.Component {
   constructor() {
@@ -57,9 +59,10 @@ class AgreementPage extends React.Component {
   }
 
   render() {
-    const { locale, match, licenses } = this.props;
+    const { locale, match, t, licenses } = this.props;
     return (
-      <div>
+      <Fragment>
+        <HelmetWithTracker title={t('htmlTitles.agreementPage')} />
         <OneColumn>
           <Switch>
             <Route
@@ -89,7 +92,8 @@ class AgreementPage extends React.Component {
             <Route component={NotFoundPage} />
           </Switch>
         </OneColumn>
-      </div>
+        <Footer showLocaleSelector={false} />
+      </Fragment>
     );
   }
 }
@@ -122,7 +126,9 @@ const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AgreementPage);
+export default injectT(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AgreementPage),
+);

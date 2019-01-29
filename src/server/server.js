@@ -11,15 +11,23 @@ import { renderToString } from 'react-dom/server';
 import express from 'express';
 import compression from 'compression';
 import helmet from 'helmet';
-import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE } from 'http-status';
+import {
+  OK,
+  INTERNAL_SERVER_ERROR,
+  NOT_ACCEPTABLE,
+  FORBIDDEN,
+} from 'http-status';
 import bodyParser from 'body-parser';
+import jwt from 'express-jwt';
+import jwksRsa from 'jwks-rsa';
 import Auth0SilentCallback from './Auth0SilentCallback';
 import getConditionalClassnames from './getConditionalClassnames';
 import { getLocaleObject } from '../i18n';
 import Html from './Html';
-import { getToken, getBrightcoveToken } from './auth';
+import { getToken, getBrightcoveToken, getUsers } from './auth';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import errorLogger from '../util/logger';
+import config from '../config';
 
 const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
@@ -91,6 +99,45 @@ app.get('/get_brightcove_token', (req, res) => {
     })
     .catch(err => res.status(INTERNAL_SERVER_ERROR).send(err.message));
 });
+
+app.get(
+  '/get_note_users',
+  jwt({
+    secret: jwksRsa.expressJwtSecret({
+      cache: true,
+      jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
+    }),
+    audience: 'ndla_system',
+    issuer: `https://${config.auth0Domain}/`,
+    algorithms: ['RS256'],
+  }),
+  async (req, res) => {
+    const {
+      user,
+      query: { userIds },
+    } = req;
+    const hasWriteAccess =
+      user &&
+      (user.scope.includes('drafts:write') ||
+        user.scope.includes('drafts:set_to_publish'));
+
+    if (!hasWriteAccess) {
+      res
+        .status(FORBIDDEN)
+        .json({ status: FORBIDDEN, text: 'No access allowed' });
+    } else {
+      try {
+        const managementToken = await getToken(
+          `https://${config.auth0Domain}/api/v2/`,
+        );
+        const users = await getUsers(managementToken, userIds);
+        res.status(OK).json(users);
+      } catch (err) {
+        res.status(INTERNAL_SERVER_ERROR).send(err.message);
+      }
+    }
+  },
+);
 
 app.post('/csp-report', (req, res) => {
   const { body } = req;

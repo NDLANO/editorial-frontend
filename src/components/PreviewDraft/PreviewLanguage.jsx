@@ -6,11 +6,11 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import PreviewDraft from './PreviewDraft';
-import { classes } from './PreviewDraftLightbox';
+import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
 
 const PreviewLanguage = props => {
   const {
@@ -23,8 +23,8 @@ const PreviewLanguage = props => {
     t,
   } = props;
   return (
-    <React.Fragment>
-      <div {...classes('article')}>
+    <Fragment>
+      <StyledPreviewTwoArticles>
         <h2 className="u-4/6@desktop u-push-1/6@desktop">
           {t('form.previewLanguageArticle.title', {
             language: t(`language.${firstArticle.language}`).toLowerCase(),
@@ -36,8 +36,8 @@ const PreviewLanguage = props => {
           label={label}
           contentType={contentType}
         />
-      </div>
-      <div {...classes('article')}>
+      </StyledPreviewTwoArticles>
+      <StyledPreviewTwoArticles>
         <h2 className="u-4/6@desktop u-push-1/6@desktop">
           {t('form.previewLanguageArticle.title', {
             language: t(`language.${previewLanguage}`).toLowerCase(),
@@ -58,8 +58,8 @@ const PreviewLanguage = props => {
           label={label}
           contentType={contentType}
         />
-      </div>
-    </React.Fragment>
+      </StyledPreviewTwoArticles>
+    </Fragment>
   );
 };
 

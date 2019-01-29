@@ -1,4 +1,3 @@
-// @flow
 import { Record } from 'immutable';
 
 const DEFAULTS = {
@@ -9,10 +8,6 @@ const DEFAULTS = {
 /**
  * The plugin options container
  */
-class Options extends Record(DEFAULTS) {
-  type;
-
-  typeDefault;
-}
+class Options extends Record(DEFAULTS) {}
 
 export default Options;

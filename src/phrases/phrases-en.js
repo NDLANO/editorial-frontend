@@ -6,7 +6,20 @@
  *
  */
 
+const titleTemplate = '- Production system - NDLA';
+
 const phrases = {
+  htmlTitles: {
+    titleTemplate,
+    createLearningResourcePage: `Learning resource ${titleTemplate}`,
+    createTopicArticlePage: `Topic ${titleTemplate}`,
+    agreementPage: `Agreement ${titleTemplate}`,
+    searchPage: `Search ${titleTemplate}`,
+    welcomePage: `Frontpage ${titleTemplate}`,
+    structurePage: `Structure ${titleTemplate}`,
+    audioUploaderPage: `Audio ${titleTemplate}`,
+    imageUploaderPage: `Image ${titleTemplate}`,
+  },
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
@@ -236,6 +249,12 @@ const phrases = {
     duration: 'Duration',
     interactioncount: 'Views',
   },
+  mathEditor: {
+    editMath: 'Edit Math',
+    preview: 'Preview',
+    continue:
+      'You have unsaved changes in the math editor. Do you want to continue?',
+  },
   h5pElement: {
     fetchError: 'Sorry, an error occurd while loading the H5P client.',
   },
@@ -346,6 +365,7 @@ const phrases = {
     headingTwo: 'Heading 2',
     headingThree: 'Heading 3',
     footnote: 'Footnote',
+    mathml: 'Math',
   },
   editorBlockpicker: {
     heading: 'Add',
@@ -392,6 +412,8 @@ const phrases = {
       add: 'Add',
     },
     abort: 'Abort',
+    edit: 'Edit',
+    remove: 'Remove',
     validate: 'Validate',
     publish: 'Publish',
     savedOk: 'Saved OK',
@@ -400,10 +422,17 @@ const phrases = {
     createdOk: 'Created OK',
     addNewImage: 'Add new image',
     addNewAudio: 'Add new audio',
-    notesHeading: 'Notes',
-    addNotes: 'Add new note',
-    removeNotes: 'Remove note',
-    warningNotes: 'A note must contain text',
+    notes: {
+      heading: 'Notes',
+      add: 'Add new note',
+      remove: 'Remove note',
+      warning: 'A note must contain text',
+      history: {
+        heading: 'Notes history',
+        note: 'Note',
+        empty: 'No notes',
+      },
+    },
     editImage: 'Edit image',
     editAudio: 'Edit audio',
     resetToProd: {
@@ -565,6 +594,7 @@ const phrases = {
       emptyList: 'No topics available',
       emptyFilter: 'No matching topics found',
       primaryTopic: 'Primary topic',
+      sharedTopic: 'Shared topic',
       setPrimaryTopic: 'Set as primary topic',
     },
     metaDescription: {
@@ -677,6 +707,7 @@ const phrases = {
     minLength: '{length} must have at least {minLength, number} characters.',
     minItems:
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
+    noEmptyNote: 'En merknad kan ikke være en tom',
   },
   footer: {
     aboutNDLA: 'About NDLA',

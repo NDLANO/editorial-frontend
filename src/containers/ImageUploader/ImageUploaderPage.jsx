@@ -10,14 +10,16 @@ import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
-
+import { HelmetWithTracker } from '@ndla/tracker';
+import { injectT } from '@ndla/i18n';
 import { getSaving } from '../../modules/audio/audio';
 import { getShowSaved } from '../Messages/messagesSelectors';
 import EditImage from './EditImage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
-const ImageUploaderPage = ({ match, ...rest }) => (
+const ImageUploaderPage = ({ match, t, ...rest }) => (
   <OneColumn>
+    <HelmetWithTracker title={t('htmlTitles.imageUploaderPage')} />
     <Switch>
       <Route path={`${match.url}/new`} render={() => <EditImage {...rest} />} />
       <Route
@@ -54,4 +56,4 @@ const mapStateToProps = state => ({
   showSaved: getShowSaved(state),
 });
 
-export default connect(mapStateToProps)(ImageUploaderPage);
+export default injectT(connect(mapStateToProps)(ImageUploaderPage));

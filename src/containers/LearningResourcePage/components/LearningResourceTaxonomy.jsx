@@ -19,6 +19,7 @@ import {
   fetchTopics,
   fetchSubjects,
   fetchSubjectTopics,
+  fetchTopicConnections,
   updateTaxonomy,
   getFullResource,
   createResource,
@@ -31,25 +32,24 @@ import {
   selectedResourceTypeValue,
 } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
-import TopicConnections from './TopicConnections';
-import FilterConnections from '../../../components/Taxonomy/FilterConnections';
+import TopicConnections from './taxonomy/TopicConnections';
+import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import SaveButton from '../../../components/SaveButton';
 import { FormActionButton } from '../../Form';
 
 const resourceTypesToOptionList = availableResourceTypes =>
-  availableResourceTypes.map(
-    resourceType =>
-      resourceType.subtypes ? (
-        resourceType.subtypes.map(subtype => (
-          <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
-            {resourceType.name} - {subtype.name}
-          </option>
-        ))
-      ) : (
-        <option key={resourceType.id} value={resourceType.id}>
-          {resourceType.name}
+  availableResourceTypes.map(resourceType =>
+    resourceType.subtypes ? (
+      resourceType.subtypes.map(subtype => (
+        <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
+          {resourceType.name} - {subtype.name}
         </option>
-      ),
+      ))
+    ) : (
+      <option key={resourceType.id} value={resourceType.id}>
+        {resourceType.name}
+      </option>
+    ),
   );
 
 class LearningResourceTaxonomy extends Component {
@@ -168,16 +168,24 @@ class LearningResourceTaxonomy extends Component {
           language,
         );
 
+        const topicConnections = await Promise.all(
+          topics.map(topic => fetchTopicConnections(topic.id)),
+        );
+        const topicsWithConnections = topics.map((topic, index) => ({
+          topicConnections: topicConnections[index],
+          ...topic,
+        }));
+
         this.setState({
           resourceId,
           status: 'success',
           resourceTaxonomy: {
             resourceTypes,
             filter: filters,
-            topics,
+            topics: topicsWithConnections,
           },
           taxonomyChanges: {
-            topics,
+            topics: topicsWithConnections,
             resourceTypes,
             filter: filters,
           },
@@ -293,13 +301,13 @@ class LearningResourceTaxonomy extends Component {
     }));
   }
 
-  retriveBreadCrumbs(topic) {
+  retriveBreadCrumbs(topicPath) {
     const {
       structure,
       taxonomyChoices: { allTopics },
     } = this.state;
     try {
-      let topicPaths = topic.path
+      let topicPaths = topicPath
         .split('/')
         .splice(1)
         .map(url => `urn:${url}`);
@@ -367,7 +375,7 @@ class LearningResourceTaxonomy extends Component {
     });
   }
 
-  updateFilter(filter, relevanceId, remove) {
+  updateFilter(resourceId, filter, relevanceId, remove) {
     const updatedFilters = this.state.taxonomyChanges.filter.filter(
       modelFilter => modelFilter.id !== filter.id,
     );
@@ -383,12 +391,12 @@ class LearningResourceTaxonomy extends Component {
   render() {
     const {
       taxonomyChoices: { availableResourceTypes, availableFilters, allTopics },
-
       taxonomyChanges: { resourceTypes, topics, filter },
       structure,
       status,
       saveStatus,
     } = this.state;
+
     const { t, closePanel } = this.props;
 
     if (status === 'loading') {
@@ -432,7 +440,6 @@ class LearningResourceTaxonomy extends Component {
           stageTaxonomyChanges={this.stageTaxonomyChanges}
           getSubjectTopics={this.getSubjectTopics}
         />
-
         {topics.length > 0 && (
           <FilterConnections
             topics={topics}

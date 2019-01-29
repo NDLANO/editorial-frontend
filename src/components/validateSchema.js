@@ -103,8 +103,13 @@ export const getValidationErrors = (schema, model, fields, t) =>
 
       if (rules.test) {
         let error;
-        rules.test(value, model, msgKey => {
-          error = label => t(msgKey, { label });
+        rules.test(value, model, (msgKey, msgObject) => {
+          error = label =>
+            t(msgKey, {
+              label,
+              labelLowerCase: label ? label.toLowerCase() : '',
+              ...msgObject,
+            });
         });
         if (error) {
           errors.push(error);

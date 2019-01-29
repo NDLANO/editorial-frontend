@@ -93,9 +93,25 @@ export const CopyrightObjectShape = PropTypes.shape({
   }).isRequired,
 });
 
+export const NoteShape = PropTypes.shape({
+  note: PropTypes.string,
+  user: PropTypes.string,
+  status: PropTypes.shape({
+    current: PropTypes.string,
+    other: PropTypes.arrayOf(PropTypes.string),
+  }),
+});
+
 export const ArticleShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  notes: PropTypes.arrayOf(NoteShape),
+});
+
+export const NewArticleShape = PropTypes.shape({
+  id: PropTypes.number,
+  title: PropTypes.string,
+  notes: PropTypes.arrayOf(NoteShape),
 });
 
 export const ImageShape = PropTypes.shape({
@@ -228,4 +244,36 @@ export const HistoryShape = PropTypes.shape({
   goBack: PropTypes.func.isRequired,
   block: PropTypes.func.isRequired,
   replace: PropTypes.func.isRequired,
+});
+
+export const TopicConnectionShape = PropTypes.shape({
+  connectionId: PropTypes.string.isRequired,
+  isPrimary: PropTypes.bool,
+  paths: PropTypes.arrayOf(PropTypes.string),
+  targetId: PropTypes.string,
+  type: PropTypes.string,
+});
+
+export const TopicShape = PropTypes.shape({
+  connectionId: PropTypes.string.isRequired,
+  contentUri: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  path: PropTypes.string,
+  primary: PropTypes.bool,
+  topicConnections: PropTypes.arrayOf(TopicConnectionShape),
+});
+
+export const FilterShape = PropTypes.shape({
+  connectionId: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  relevanceId: PropTypes.string,
+});
+
+export const StructureShape = PropTypes.shape({
+  contentUri: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  path: PropTypes.string,
 });

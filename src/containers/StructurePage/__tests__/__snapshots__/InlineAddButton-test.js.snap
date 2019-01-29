@@ -2,7 +2,7 @@
 
 exports[`Goes to edit mode, handles input and calls action prop 1`] = `
 <button
-  class="css-h7drtu emotion-0"
+  class="css-1gbvfca emotion-0"
   data-testid="AddSubjectButton"
   type="button"
 >
@@ -45,7 +45,7 @@ exports[`Goes to edit mode, handles input and calls action prop 2`] = `
     value="Elefant"
   />
   <button
-    class="css-1m2yjhd emotion-1"
+    class="css-1gz0s07 emotion-1"
     type="button"
   >
     <svg
@@ -87,7 +87,7 @@ exports[`Goes to edit mode, handles input and calls action prop 3`] = `
     value="Elefant"
   />
   <button
-    class="css-1m2yjhd emotion-1"
+    class="css-1gz0s07 emotion-1"
     disabled=""
     type="button"
   >

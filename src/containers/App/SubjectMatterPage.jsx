@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
+import styled from 'react-emotion';
 import { injectT } from '@ndla/i18n';
 import { colors } from '@ndla/core';
 import { TopicArticle, LearningResource, Concept } from '@ndla/icons/editor';
@@ -16,6 +17,11 @@ import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
 import LearningResourcePage from '../LearningResourcePage/LearningResourcePage';
 import SubNavigation from '../Masthead/components/SubNavigation';
+import Footer from './components/Footer';
+
+const StyledSubjectMatterPage = styled('div')`
+  background-color: ${colors.brand.greyLightest};
+`;
 
 const SubjectMatterPage = ({ match, t }) => {
   const supportedTypes = [
@@ -40,20 +46,23 @@ const SubjectMatterPage = ({ match, t }) => {
   ];
 
   return (
-    <div style={{ background: colors.brand.greyLightest }}>
-      <SubNavigation type="subject-matter" subtypes={supportedTypes} />
-      <Switch>
-        <PrivateRoute
-          path={`${match.url}/topic-article/`}
-          component={TopicArticlePage}
-        />
-        <PrivateRoute
-          path={`${match.url}/learning-resource`}
-          component={LearningResourcePage}
-        />
-        <Route component={NotFoundPage} />
-      </Switch>
-    </div>
+    <Fragment>
+      <StyledSubjectMatterPage>
+        <SubNavigation type="subject-matter" subtypes={supportedTypes} />
+        <Switch>
+          <PrivateRoute
+            path={`${match.url}/topic-article/`}
+            component={TopicArticlePage}
+          />
+          <PrivateRoute
+            path={`${match.url}/learning-resource`}
+            component={LearningResourcePage}
+          />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </StyledSubjectMatterPage>
+      <Footer showLocaleSelector={false} />
+    </Fragment>
   );
 };
 

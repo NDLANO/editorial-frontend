@@ -7,17 +7,21 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Footer } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 import SelectLocale from '../../SelectLocale/SelectLocale';
 
-const FooterWrapper = ({ t }) => (
+const FooterWrapper = ({ t, showLocaleSelector }) => (
   <Footer>
-    <form className="footer_form">
-      <label className="footer_label footer--bold" htmlFor="language-select">
-        {t('footer.selectLanguage')}
-      </label>
-      <SelectLocale id="language-select" className="footer_language-select" />
-    </form>
+    {showLocaleSelector && (
+      <form className="footer_form">
+        <label className="footer_label footer--bold" htmlFor="language-select">
+          {t('footer.selectLanguage')}
+        </label>
+        <SelectLocale id="language-select" className="footer_language-select" />
+      </form>
+    )}
     <Footer.Ruler />
     <Footer.Text>
       <Footer.Editor
@@ -33,4 +37,12 @@ const FooterWrapper = ({ t }) => (
   </Footer>
 );
 
-export default FooterWrapper;
+FooterWrapper.propTypes = {
+  showLocaleSelector: PropTypes.bool,
+};
+
+FooterWrapper.defaultProps = {
+  showLocaleSelector: true,
+};
+
+export default injectT(FooterWrapper);

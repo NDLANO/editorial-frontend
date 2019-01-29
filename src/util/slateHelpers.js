@@ -202,14 +202,13 @@ export const paragraphRule = {
       ? el.parentElement.tagName.toLowerCase()
       : '';
     const type = parent === 'li' ? 'list-text' : 'paragraph';
-    const nodes = next(el.childNodes);
     return {
       object: 'block',
       data: {
         ...reduceElementDataAttributes(el),
       },
       type,
-      nodes,
+      nodes: next(el.childNodes),
     };
   },
   serialize(slateObject, children) {
@@ -236,10 +235,12 @@ export const listItemRule = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'li') return;
+    const nodes = [...next(el.childNodes), ...emptyNodes];
+
     return {
       object: 'block',
       type: 'list-item',
-      nodes: next(el.childNodes),
+      nodes,
     };
   },
   serialize(slateObject, children) {
@@ -368,7 +369,6 @@ export const footnoteRule = {
       nodes: [
         {
           object: 'text',
-          isVoid: true,
           leaves: [
             {
               object: 'leaf',
@@ -603,6 +603,7 @@ const RULES = [
   {
     deserialize(el, next) {
       if (el.tagName.toLowerCase() !== 'a') return;
+      const nodes = next(el.childNodes);
       return {
         object: 'inline',
         type: 'link',
@@ -612,7 +613,7 @@ const RULES = [
           title: el.title !== '' ? el.title : undefined,
           rel: el.rel !== '' ? el.rel : undefined,
         },
-        nodes: next(el.childNodes),
+        nodes,
       };
     },
     serialize(slateObject, children) {
@@ -674,6 +675,7 @@ export const learningResourceEmbedRule = [
 
       if (el.dataset.resource === 'related-content') return;
       if (embed.resource === 'content-link') {
+        console.log('content link');
         return {
           object: 'inline',
           type: 'link',
@@ -702,7 +704,6 @@ export const learningResourceEmbedRule = [
           nodes: [
             {
               object: 'text',
-              isVoid: true,
               leaves: [
                 {
                   object: 'leaf',

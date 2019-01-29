@@ -86,6 +86,7 @@ app.get('/health', (req, res) => {
 app.post('/prettify', (req, res) => {
   const prettified = prettier.format(req.body.content, {
     parser: 'html',
+    printWidth: 1000000, // Avoid inserting linebreaks for long inline texts i.e. <p>Lorem ......... ipsum</p>
     plugins: [parseHTML],
   });
   res.status(OK).json({ prettified, content: req.body.content });

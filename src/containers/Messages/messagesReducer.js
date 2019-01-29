@@ -18,6 +18,7 @@ export default handleActions(
           id: uuid(),
           message: action.payload.message,
           translationKey: action.payload.translationKey,
+          translationObject: action.payload.translationObject,
           severity: action.payload.severity,
           action: action.payload.action,
           statusCode: action.payload.statusCode,
@@ -33,7 +34,34 @@ export default handleActions(
         };
       },
     },
+    [actions.addAuth0Message]: {
+      next(state, action) {
+        if (
+          state.messages &&
+          state.messages.find(msg => msg.type === 'auth0')
+        ) {
+          return state;
+        }
+        const message = {
+          id: uuid(),
+          message: action.payload.message,
+          translationKey: action.payload.translationKey,
+          translationObject: action.payload.translationObject,
+          severity: action.payload.severity,
+          action: action.payload.action,
+          type: 'auth0',
+          timeToLive:
+            typeof action.payload.timeToLive === 'undefined'
+              ? 1500
+              : action.payload.timeToLive,
+        };
 
+        return {
+          ...state,
+          messages: [...state.messages, message],
+        };
+      },
+    },
     [actions.clearAllMessages]: {
       next: state => ({
         ...state,

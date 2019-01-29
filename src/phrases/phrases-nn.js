@@ -733,6 +733,8 @@ const phrases = {
     invalidUrl: 'Ugyldig url',
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var eit problem ved lasting av taksonomi',
+    auth0:
+      'Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {message}',
     statusCode: {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endra og last sida på nytt for å kunne lagre.',
     },
@@ -748,6 +750,7 @@ const phrases = {
     continue: 'Fortsett',
     delete: 'Slett',
     confirm: 'Bekreft',
+    loginAgain: 'Logg inn på nytt',
   },
   taxonomy: {
     editStructure: 'Rediger struktur',

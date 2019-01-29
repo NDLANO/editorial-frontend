@@ -5,9 +5,11 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { injectT } from '@ndla/i18n';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { actions as draftActions } from '../../modules/draft/draft';
 import TopicArticleForm, {
   getInitialModel,
@@ -34,15 +36,18 @@ class CreateTopicArticle extends Component {
   }
 
   render() {
-    const { locale, ...rest } = this.props;
+    const { locale, t, ...rest } = this.props;
 
     return (
-      <TopicArticleForm
-        initialModel={getInitialModel({ language: locale })}
-        locale={locale}
-        onUpdate={this.updateDraft}
-        {...rest}
-      />
+      <Fragment>
+        <HelmetWithTracker title={t('htmlTitles.createTopicArticlePage')} />
+        <TopicArticleForm
+          initialModel={getInitialModel({ language: locale })}
+          locale={locale}
+          onUpdate={this.updateDraft}
+          {...rest}
+        />
+      </Fragment>
     );
   }
 }
@@ -67,7 +72,9 @@ const mapStateToProps = (state, props) => {
     tags: getAllTagsSelector(state),
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreateTopicArticle);
+export default injectT(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(CreateTopicArticle),
+);

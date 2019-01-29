@@ -36,6 +36,19 @@ const editorialFrontendDomain = () => {
   }
 };
 
+const gaTrackingId = () => {
+  if (process.env.NODE_ENV !== 'production') {
+    return '';
+  }
+
+  switch (ndlaEnvironment) {
+    case 'prod':
+      return 'UA-9036010-36';
+    default:
+      return '';
+  }
+};
+
 const learningpathFrontendDomain = () => {
   switch (ndlaEnvironment) {
     case 'local':
@@ -102,6 +115,8 @@ const config = {
   enableFullTaxonomy: ndlaEnvironment === 'test' || ndlaEnvironment === 'local',
   localConverter: getEnvironmentVariabel('LOCAL_CONVERTER', false),
   checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', false),
+  googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
+  gaTrackingId: gaTrackingId(),
 };
 
 export function getUniversalConfig() {

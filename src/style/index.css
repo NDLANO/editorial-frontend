@@ -85,6 +85,10 @@ a.c-button {
   margin-top: 0;
 }
 
+.c-figure.selected {
+  box-shadow: rgb(32, 88, 143) 0 0 0 2px;
+}
+
 .ReactCrop {
   margin-bottom: -6px;
 }

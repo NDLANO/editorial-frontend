@@ -66,8 +66,11 @@ class SlateImage extends React.Component {
       attributes,
       onRemoveClick,
       locale,
+      isSelectedForCopy,
+      active,
       ...rest
     } = this.props;
+    const { editModus } = this.state;
 
     const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
 
@@ -87,6 +90,7 @@ class SlateImage extends React.Component {
       [`u-float-${embed.align}`]:
         ['left', 'right'].includes(embed.align) &&
         !['small', 'xsmall'].includes(embed.size),
+      ['isSelectedForCopy']: isSelectedForCopy && (!editModus || !active),
     });
 
     return (
@@ -100,7 +104,7 @@ class SlateImage extends React.Component {
           embed={embed}
           figureType="image"
         />
-        {this.state.editModus ? (
+        {editModus ? (
           <EditImage embed={embed} closeEdit={this.toggleEditModus} {...rest} />
         ) : (
           <Button

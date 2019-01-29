@@ -248,6 +248,11 @@ const phrases = {
     duration: 'Varighet',
     interactioncount: 'Visninger',
   },
+  mathEditor: {
+    editMath: 'Rediger Matematikk',
+    preview: 'Forhåndsvisning',
+    continue: 'Du har ulagrede endringer i matteeditoren. Vil du fortsette?',
+  },
   h5pElement: {
     fetchError:
       'Vi beklager, men ein feil oppsto under lasting av H5P-klienten.',
@@ -367,6 +372,7 @@ const phrases = {
     headingTwo: 'Overskrift 2',
     headingThree: 'Overskrift 3',
     footnote: 'Fotnote',
+    mathml: 'Matte',
   },
   editorBlockpicker: {
     heading: 'Legg til',
@@ -413,6 +419,8 @@ const phrases = {
       add: 'Legg til',
     },
     abort: 'Avbryt',
+    edit: 'Rediger',
+    remove: 'Fjern',
     validate: 'Valider',
     publish: 'Publiser',
     savedOk: 'Lagra OK',

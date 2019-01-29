@@ -11,7 +11,11 @@ import PropTypes from 'prop-types';
 import { Plus } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
 import RoundIcon from '../../../../components/RoundIcon';
-import { addTopic, addSubjectTopic } from '../../../../modules/taxonomy';
+import {
+  addTopic,
+  addSubjectTopic,
+  addFilterToTopic,
+} from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from './MenuItemEditField';
 
@@ -23,19 +27,23 @@ class AddSubjectTopic extends React.PureComponent {
   }
 
   async onAddSubjectTopic(name) {
-    const { id, refreshTopics } = this.props;
+    const { id, refreshTopics, subjectFilters } = this.props;
     const newPath = await addTopic({ name });
     if (!newPath) throw Error('Invalid topic path returned');
     const newId = newPath.replace('/v1/topics/', '');
-    const ok = await addSubjectTopic({
-      subjectid: id,
-      topicid: newId,
-      primary: true,
-      // rank: this.state.topics[subjectid].length + 1,
-    });
-    if (ok) {
-      refreshTopics();
-    }
+    await Promise.all([
+      addSubjectTopic({
+        subjectid: id,
+        topicid: newId,
+        primary: true,
+        // rank: this.state.topics[subjectid].length + 1,
+      }),
+      addFilterToTopic({
+        filterId: subjectFilters[0].id,
+        topicId: newId,
+      }),
+    ]);
+    refreshTopics();
   }
 
   toggleEditMode() {

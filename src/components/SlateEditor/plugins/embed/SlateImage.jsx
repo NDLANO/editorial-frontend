@@ -139,6 +139,8 @@ SlateImage.propTypes = {
   }),
   submitted: PropTypes.bool.isRequired,
   onRemoveClick: PropTypes.func.isRequired,
+  isSelectedForCopy: PropTypes.bool,
+  active: PropTypes.bool,
   locale: PropTypes.string.isRequired,
 };
 

@@ -163,6 +163,7 @@ SlateFigure.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   locale: PropTypes.string.isRequired,
+  isSelected: PropTypes.bool,
 };
 
 SlateFigure.defaultProps = {

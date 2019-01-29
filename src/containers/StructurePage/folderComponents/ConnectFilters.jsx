@@ -64,36 +64,34 @@ class ConnectFilters extends Component {
         this.props.id,
       );
       await Promise.all([
-        ...subjectFilters
-          .filter(filter => !!inputs[filter.id])
-          .map(filter => {
-            const { active, relevance } = inputs[filter.id];
-            const currentFilter = topicFiltersWithConnectionId.find(
-              it => it.id === filter.id,
-            );
-            if (active && !currentFilter) {
-              // add filter to topic
-              return addFilterToTopic({
-                filterId: filter.id,
-                topicId: id,
-                relevanceId: relevance || RESOURCE_FILTER_CORE,
-              });
-            }
-            if (active && relevance !== currentFilter.relevanceId) {
-              // update topic-filter with relevance
-              return updateTopicFilter({
-                connectionId: currentFilter.connectionId,
-                relevanceId: relevance,
-              });
-            }
-            if (!active && currentFilter) {
-              // delete topic-filter
-              return deleteTopicFilter({
-                connectionId: currentFilter.connectionId,
-              });
-            }
-            return undefined;
-          }),
+        ...subjectFilters.filter(filter => !!inputs[filter.id]).map(filter => {
+          const { active, relevance } = inputs[filter.id];
+          const currentFilter = topicFiltersWithConnectionId.find(
+            it => it.id === filter.id,
+          );
+          if (active && !currentFilter) {
+            // add filter to topic
+            return addFilterToTopic({
+              filterId: filter.id,
+              topicId: id,
+              relevanceId: relevance || RESOURCE_FILTER_CORE,
+            });
+          }
+          if (active && relevance !== currentFilter.relevanceId) {
+            // update topic-filter with relevance
+            return updateTopicFilter({
+              connectionId: currentFilter.connectionId,
+              relevanceId: relevance,
+            });
+          }
+          if (!active && currentFilter) {
+            // delete topic-filter
+            return deleteTopicFilter({
+              connectionId: currentFilter.connectionId,
+            });
+          }
+          return undefined;
+        }),
       ]);
       this.props.refreshTopics();
       this.setState({

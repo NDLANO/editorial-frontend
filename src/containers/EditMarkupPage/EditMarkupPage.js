@@ -12,8 +12,10 @@ import { Trans } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { Link } from 'react-router-dom';
 import { spacing } from '@ndla/core';
+import { css } from 'emotion';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
+import Row from '../../components/Row';
 
 const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
 
@@ -63,6 +65,7 @@ export class EditMarkupPage extends Component {
   };
 
   render() {
+    const { draftId, language } = this.props.match.params;
     const { status, draft } = this.state;
     if (status === 'error') {
       return <p>Kunne ikke laste artikkel</p>;
@@ -79,9 +82,6 @@ export class EditMarkupPage extends Component {
                 margin: '0 auto',
                 maxWidth: '1000px',
               }}>
-              <div css={{ float: 'left' }}>
-                <Link to={`subject-matter`}>Tilbake</Link>
-              </div>
               <Suspense fallback={<div>Loading...</div>}>
                 {status === 'edit' && (
                   <MonacoEditor
@@ -91,14 +91,18 @@ export class EditMarkupPage extends Component {
                   />
                 )}
               </Suspense>
-              <Button
-                onClick={this.saveChanges}
-                css={{
-                  marginTop: spacing.small,
-                  float: 'right',
-                }}>
-                Lagre
-              </Button>
+              <Row
+                justifyContent="end"
+                alignItems="baseline"
+                css={css`
+                  margin-top: ${spacing.normal};
+                `}>
+                <Link
+                  to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
+                  Tilbake
+                </Link>
+                <Button onClick={this.saveChanges}>Lagre</Button>
+              </Row>
             </div>
           </Fragment>
         )}

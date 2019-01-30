@@ -137,11 +137,18 @@ export function editorValueToPlainText(editorValue) {
   return editorValue ? Plain.serialize(editorValue) : '';
 }
 
-function filterSelectionOperation(undoArray) {
-  return undoArray.filter(
-    undoList =>
-      !undoList.every(operation => operation.type === 'set_selection'),
-  );
+function filterUnwantedUndos(undoArray) {
+  return undoArray.filter(undoList => {
+    const selection = undoList.every(
+      operation => operation.type === 'set_selection',
+    );
+    const emptyText = undoList.every(
+      operation =>
+        operation.type === 'insert_node' &&
+        operation.node.leaves[0].text === '',
+    );
+    return !selection && !emptyText;
+  });
 }
 
 function countUndoLength(value) {
@@ -149,8 +156,7 @@ function countUndoLength(value) {
     return 0;
   }
   const undoArray = value.data.get('undos').toJS();
-  console.log(undoArray);
-  return filterSelectionOperation(undoArray).length;
+  return filterUnwantedUndos(undoArray).length;
 }
 
 export function isEditorValueDirty(value) {

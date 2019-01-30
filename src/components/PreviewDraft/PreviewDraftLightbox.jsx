@@ -159,7 +159,7 @@ class PreviewDraftLightbox extends React.Component {
       previewLanguage,
       loading,
     } = this.state;
-    const { label, contentType, typeOfPreview, t } = this.props;
+    const { label, typeOfPreview, t } = this.props;
 
     if (!showPreview) {
       return (
@@ -190,7 +190,6 @@ class PreviewDraftLightbox extends React.Component {
             firstArticle={firstArticle}
             secondArticle={secondArticle}
             label={label}
-            contentType={contentType}
             typeOfPreview={typeOfPreview}
             onChangePreviewLanguage={this.onChangePreviewLanguage}
             previewLanguage={previewLanguage}
@@ -206,7 +205,6 @@ export default injectT(PreviewDraftLightbox);
 PreviewDraftLightbox.propTypes = {
   getArticle: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
-  contentType: PropTypes.string,
   typeOfPreview: PropTypes.oneOf([
     'preview',
     'previewProductionArticle',

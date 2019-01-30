@@ -136,15 +136,12 @@ class TopicArticleForm extends Component {
       content: content || emptyField,
       visualElement: visualElement || emptyField,
       metaDescription: editorValueToPlainText(model.metaDescription),
-      articleType: 'topic-article',
       copyright: {
         ...model.copyright,
         creators: model.creators,
         processors: model.processors,
         rightsholders: model.rightsholders,
-        agreementId: model.agreementId,
       },
-      notes: model.notes || [],
       language: model.language,
       supportedLanguages: model.supportedLanguages,
     };

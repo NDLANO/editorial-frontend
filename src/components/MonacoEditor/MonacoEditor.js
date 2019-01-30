@@ -118,9 +118,8 @@ export class MonacoEditor extends Component {
     return (
       <div
         css={css`
-          width: 100%;
-          height: 85vh;
-          margin-top: ${spacing.large};
+          height: 80vh;
+          margin: ${spacing.normal};
           border: 1px solid ${colors.brand.greyLight};
         `}
         ref={this.container}

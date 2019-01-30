@@ -19,7 +19,7 @@ const StyledRow = styled('div')`
   ${p => p.alignItems && `align-items: ${p.alignItems}`};
 `;
 
-const Row = props => <StyledRow {...props} />;
+export const Row = props => <StyledRow {...props} />;
 
 Row.defaultProps = {
   spacing: 'normal',
@@ -46,5 +46,3 @@ Row.propTypes = {
     'space-evenly',
   ]),
 };
-
-export default Row;

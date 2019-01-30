@@ -6,16 +6,17 @@
  *
  */
 
-import React, { Component, Fragment, Suspense } from 'react';
+import React, { Component, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { Trans } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { Link } from 'react-router-dom';
 import { spacing } from '@ndla/core';
 import { css } from 'emotion';
+import { FormHeader } from '@ndla/forms';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
-import Row from '../../components/Row';
+import { Row, HelpMessage } from '../../components';
 import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
@@ -87,14 +88,20 @@ export class EditMarkupPage extends Component {
     return (
       <Trans>
         {({ t }) => (
-          <Fragment>
+          <>
             <div
               css={{
-                minHeight: '80vh',
-                padding: '15px',
                 margin: '0 auto',
                 maxWidth: '1000px',
               }}>
+              <FormHeader
+                title={t('editMarkup.title')}
+                subTitle={t('editMarkup.subTitle')}>
+                <HelpMessage>
+                  <p>{t('editMarkup.helpMessage.paragraph1')}</p>
+                  <p>{t('editMarkup.helpMessage.paragraph2')}</p>
+                </HelpMessage>
+              </FormHeader>
               <Suspense fallback={<div>Loading...</div>}>
                 <MonacoEditor
                   key={draft ? draft.id + draft.revision : 'draft'}
@@ -115,7 +122,7 @@ export class EditMarkupPage extends Component {
                 <Button onClick={this.saveChanges}>Lagre</Button>
               </Row>
             </div>
-          </Fragment>
+          </>
         )}
       </Trans>
     );

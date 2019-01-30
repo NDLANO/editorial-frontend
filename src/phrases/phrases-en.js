@@ -232,6 +232,14 @@ const phrases = {
   },
   editMarkup: {
     linkTitle: 'Go to HTML editor',
+    title: 'HTML editor',
+    subTitle: 'Edit article with HTML',
+    helpMessage: {
+      paragraph1:
+        'For å gjøre det mer brukervennlig så formatter vi HTML koden slik at den blir enklere å redigere. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisning funksjonaliteten aktivt. ',
+      paragraph2:
+        'For å minimerer eventuelle problemer med formatering og sikre at at HTML blir konsistent så blir koden kjørt gjennom de samme transformeringen som WYSIWYG editoren. Det betyr at linjeskift f.eks. blir endret til <br> ved lagring og samt at den vil prøve å rette opp kode som ikke følger følgende regler:',
+    },
   },
   imageSearch: {
     placeholder: 'Search images',

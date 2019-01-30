@@ -13,8 +13,9 @@ import queryString from 'query-string';
 import { injectT } from '@ndla/i18n';
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
-import BEMHelper from 'react-bem-helper';
 import { Search } from '@ndla/icons/common';
+import debounce from 'lodash/debounce';
+import BEMHelper from 'react-bem-helper';
 import { getLocale } from '../../modules/locale/locale';
 import { getSearching } from '../../modules/search/searchSelectors';
 import { SearchResultShape } from '../../shapes';
@@ -65,8 +66,9 @@ class SearchContainer extends Component {
     Object.keys(searchQuery).forEach(
       key => searchQuery[key] === '' && delete searchQuery[key],
     );
-
-    history.push(toSearch({ ...searchQuery }, type));
+    debounce(() => {
+      history.push(toSearch({ ...searchQuery }, type));
+    }, 200)();
   }
 
   onSortOrderChange(sort) {

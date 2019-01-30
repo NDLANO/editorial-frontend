@@ -181,13 +181,12 @@ export class RelatedArticleBox extends React.Component {
             showMore: t('form.related.showMore'),
             showLess: t('form.related.showLess'),
           }}>
-          {items.map(
-            item =>
-              !item.id ? (
-                t('form.content.relatedArticle.invalidArticle')
-              ) : (
-                <RelatedArticle key={uuid()} locale={locale} item={item} />
-              ),
+          {items.map(item =>
+            !item.id ? (
+              t('form.content.relatedArticle.invalidArticle')
+            ) : (
+              <RelatedArticle key={uuid()} locale={locale} item={item} />
+            ),
           )}
         </RelatedArticleList>
       </div>
@@ -199,7 +198,7 @@ RelatedArticleBox.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  editor: EditorShape,
+  editor: EditorShape.isRequired,
   node: PropTypes.oneOfType([Types.node, PropTypes.shape({})]).isRequired,
   locale: PropTypes.string.isRequired,
   onRemoveClick: PropTypes.func,

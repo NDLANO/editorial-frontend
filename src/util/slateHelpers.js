@@ -235,12 +235,12 @@ export const listItemRule = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'li') return;
-    const nodes = [...next(el.childNodes), ...emptyNodes];
+    // const nodes = [...next(el.childNodes), ...emptyNodes];
 
     return {
       object: 'block',
       type: 'list-item',
-      nodes,
+      nodes: next(el.childNodes),
     };
   },
   serialize(slateObject, children) {
@@ -675,7 +675,6 @@ export const learningResourceEmbedRule = [
 
       if (el.dataset.resource === 'related-content') return;
       if (embed.resource === 'content-link') {
-        console.log('content link');
         return {
           object: 'inline',
           type: 'link',

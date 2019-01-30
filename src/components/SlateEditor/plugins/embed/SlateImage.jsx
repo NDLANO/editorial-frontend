@@ -8,10 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import { Figure } from '@ndla/ui';
 import Button from '@ndla/button';
-import { css } from 'react-emotion';
+import { css, cx } from 'react-emotion';
 import { findDOMNode } from 'slate-react';
 import SlateTypes from 'slate-prop-types';
 import config from '../../../../config';
@@ -66,8 +65,11 @@ class SlateImage extends React.Component {
       attributes,
       onRemoveClick,
       locale,
+      isSelectedForCopy,
+      active,
       ...rest
     } = this.props;
+    const { editModus } = this.state;
 
     const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
 
@@ -80,13 +82,14 @@ class SlateImage extends React.Component {
       'lower-right-y': embed['lower-right-y'],
     };
 
-    const figureClassNames = classnames('c-figure', {
+    const figureClassNames = cx('c-figure', {
       [`u-float-${embed.size}-${embed.align}`]:
         ['left', 'right'].includes(embed.align) &&
         ['small', 'xsmall'].includes(embed.size),
       [`u-float-${embed.align}`]:
         ['left', 'right'].includes(embed.align) &&
         !['small', 'xsmall'].includes(embed.size),
+      isSelectedForCopy: isSelectedForCopy && (!editModus || !active),
     });
 
     return (
@@ -100,7 +103,7 @@ class SlateImage extends React.Component {
           embed={embed}
           figureType="image"
         />
-        {this.state.editModus ? (
+        {editModus ? (
           <EditImage embed={embed} closeEdit={this.toggleEditModus} {...rest} />
         ) : (
           <Button
@@ -136,6 +139,8 @@ SlateImage.propTypes = {
   }),
   submitted: PropTypes.bool.isRequired,
   onRemoveClick: PropTypes.func.isRequired,
+  isSelectedForCopy: PropTypes.bool,
+  active: PropTypes.bool,
   locale: PropTypes.string.isRequired,
 };
 

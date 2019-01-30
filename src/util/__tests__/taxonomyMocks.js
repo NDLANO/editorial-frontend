@@ -312,6 +312,7 @@ export const flattenedResourceTypes = [
     typeName: 'Ekstern læringsressurs',
   },
   { id: 'urn:resourcetype:concept', name: 'Begrep' },
+  { id: 'topic-article', name: 'Emne' },
 ];
 
 export const subjectsMock = [

@@ -33,7 +33,7 @@ const filterToSubjects = allFilters => {
   return filterObjects;
 };
 
-function flattenResourceTypes(data = []) {
+function flattenResourceTypesAndAddContextTypes(data = [], t) {
   const resourceTypes = [];
   data.forEach(type => {
     if (type.subtypes) {
@@ -52,6 +52,7 @@ function flattenResourceTypes(data = []) {
       });
     }
   });
+  resourceTypes.push({ name: t('contextTypes.topic'), id: 'topic-article' });
   return resourceTypes;
 }
 
@@ -221,7 +222,7 @@ const selectedResourceTypeValue = resourceTypes => {
 };
 
 export {
-  flattenResourceTypes,
+  flattenResourceTypesAndAddContextTypes,
   sortIntoCreateDeleteUpdate,
   getResourcesGroupedByResourceTypes,
   getTopicResourcesByType,

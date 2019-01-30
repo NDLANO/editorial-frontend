@@ -15,7 +15,7 @@ import {
   fetchSubjects,
   fetchResourceTypes,
 } from '../../../../modules/taxonomy';
-import { flattenResourceTypes } from '../../../../util/taxonomyHelpers';
+import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
@@ -71,6 +71,7 @@ class SearchContentForm extends Component {
 
   async getTaxonomyData() {
     const { locale } = this.props;
+    const { t } = this.props;
     const [resourceTypes, subjects] = await Promise.all([
       fetchResourceTypes(locale),
       fetchSubjects(locale),
@@ -78,7 +79,7 @@ class SearchContentForm extends Component {
     this.setState({
       dropDown: {
         subjects,
-        resourceTypes: flattenResourceTypes(resourceTypes),
+        resourceTypes: flattenResourceTypesAndAddContextTypes(resourceTypes, t),
       },
     });
   }
@@ -118,6 +119,12 @@ class SearchContentForm extends Component {
     });
   }
 
+  sortByProperty(property) {
+    return function(a, b) {
+      return a[property].localeCompare(b[property]);
+    };
+  }
+
   render() {
     const {
       dropDown: { subjects, resourceTypes },
@@ -125,24 +132,29 @@ class SearchContentForm extends Component {
     const { t } = this.props;
 
     const selectFields = [
-      { name: 'subjects', label: 'subjects', width: 50, options: subjects },
+      {
+        name: 'subjects',
+        label: 'subjects',
+        width: 50,
+        options: subjects.sort(this.sortByProperty('name')),
+      },
       {
         name: 'resourceTypes',
         label: 'resourceTypes',
         width: 25,
-        options: resourceTypes,
+        options: resourceTypes.sort(this.sortByProperty('name')),
       },
       {
         name: 'draftStatus',
         label: 'draftStatus',
         width: 25,
-        options: this.getDraftStatuses(),
+        options: this.getDraftStatuses().sort(this.sortByProperty('name')),
       },
       {
         name: 'language',
         label: 'language',
         width: 25,
-        options: getResourceLanguages(t),
+        options: getResourceLanguages(t).sort(this.sortByProperty('name')),
       },
     ];
 

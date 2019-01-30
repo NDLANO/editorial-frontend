@@ -188,18 +188,18 @@ const phrases = {
   searchForm: {
     placeholder: 'Search articles',
     types: {
-      contentQuery: 'Search for Content',
-      mediaQuery: 'Search for Media',
-      language: 'Select Language',
+      contentQuery: 'Search for content',
+      mediaQuery: 'Search for media',
+      language: 'Select language',
       subjects: 'Select subject',
-      resourceTypes: 'Select Resource type',
+      resourceTypes: 'Select resource type',
       draftStatus: 'Select status',
     },
     tagType: {
       query: 'Query',
       subjects: 'Subject',
       language: 'Language',
-      resourceTypes: 'Resource-Type',
+      resourceTypes: 'Resource type',
       draftStatus: 'Status',
     },
     btn: 'Search',
@@ -286,10 +286,7 @@ const phrases = {
     info: {
       lastUpdated: 'Last updated: {updated}',
     },
-    title: {
-      create: 'You are now creating a topic description',
-      update: 'You are now editing a topic description',
-    },
+    title: 'Topic description | {title} ({key})',
     fields: {
       caption: {
         label: {
@@ -801,6 +798,9 @@ const phrases = {
       additional: 'Additional resource',
       core: 'Core resource',
     },
+  },
+  contextTypes: {
+    topic: 'Topic',
   },
 };
 

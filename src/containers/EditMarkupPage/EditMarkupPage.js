@@ -16,7 +16,7 @@ import { css } from 'emotion';
 import { FormHeader } from '@ndla/forms';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
-import { Row, HelpMessage } from '../../components';
+import { Row, HelpMessage, PreviewDraftLightbox } from '../../components';
 import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
@@ -110,16 +110,28 @@ export class EditMarkupPage extends Component {
                 />
               </Suspense>
               <Row
-                justifyContent="end"
-                alignItems="baseline"
+                justifyContent="space-between"
                 css={css`
-                  margin-top: ${spacing.normal};
+                  margin: ${spacing.normal};
                 `}>
-                <Link
-                  to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
-                  Tilbake
-                </Link>
-                <Button onClick={this.saveChanges}>Lagre</Button>
+                <PreviewDraftLightbox
+                  label={t('subNavigation.learningResource')}
+                  typeOfPreview="preview"
+                  getArticle={() => {
+                    return {
+                      ...draft,
+                      tags: [],
+                      language,
+                    };
+                  }}
+                />
+                <Row justifyContent="end" alignItems="baseline">
+                  <Link
+                    to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
+                    Tilbake
+                  </Link>
+                  <Button onClick={this.saveChanges}>Lagre</Button>
+                </Row>
               </Row>
             </div>
           </>

@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { css } from 'emotion';
-import { Link as LinkIcon } from '@ndla/icons/editor';
+import { Code } from '@ndla/icons/editor';
 import { spacing } from '@ndla/core';
 
 import { getLocale } from '../../../modules/locale/locale';
@@ -138,7 +138,7 @@ class LearningResourceContent extends Component {
           <Link
             css={linkStyle}
             to={`/edit-markup/${model.id}/${model.language}`}>
-            <LinkIcon title={t('editMarkup.linkTitle')} />
+            <Code title={t('editMarkup.linkTitle')} />
           </Link>
         )}
         <RichBlockTextField

@@ -85,11 +85,15 @@ class SlateFigure extends React.Component {
   }
 
   render() {
-    const figureClass = editorClasses(
-      'figure',
-      this.isSelected() ? 'active' : '',
-    );
-    const { node, attributes, editor, locale } = this.props;
+    const active = this.isSelected();
+    const figureClass = editorClasses('figure', active ? 'active' : '');
+    const {
+      node,
+      attributes,
+      editor,
+      locale,
+      isSelected: isSelectedForCopy,
+    } = this.props;
 
     const embed = getSchemaEmbed(node);
 
@@ -100,6 +104,8 @@ class SlateFigure extends React.Component {
       attributes,
       submitted: this.state.submitted,
       locale,
+      isSelectedForCopy,
+      active,
     };
     switch (embed.resource) {
       case 'image':
@@ -157,6 +163,7 @@ SlateFigure.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   locale: PropTypes.string.isRequired,
+  isSelected: PropTypes.bool,
 };
 
 SlateFigure.defaultProps = {

@@ -50,6 +50,7 @@ import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { articleConverter } from '../../../modules/draft/draft';
 import AlertModal from '../../../components/AlertModal';
+import { transformArticleToApiVersion } from '../../../util/articleUtil';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -127,7 +128,7 @@ class TopicArticleForm extends Component {
     const visualElement = createEmbedTag(model.visualElement);
     const content = topicArticleContentToHTML(model.content);
 
-    return {
+    const article = {
       id: model.id,
       title: model.title,
       introduction: editorValueToPlainText(model.introduction),
@@ -135,18 +136,17 @@ class TopicArticleForm extends Component {
       content: content || emptyField,
       visualElement: visualElement || emptyField,
       metaDescription: editorValueToPlainText(model.metaDescription),
-      articleType: 'topic-article',
       copyright: {
         ...model.copyright,
         creators: model.creators,
         processors: model.processors,
         rightsholders: model.rightsholders,
-        agreementId: model.agreementId,
       },
-      notes: model.notes || [],
       language: model.language,
       supportedLanguages: model.supportedLanguages,
     };
+
+    return transformArticleToApiVersion(article);
   }
 
   handleSubmit(evt) {

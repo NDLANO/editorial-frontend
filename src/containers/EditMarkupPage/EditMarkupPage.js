@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { spacing } from '@ndla/core';
 import { css } from 'emotion';
 import { FormHeader } from '@ndla/forms';
+import { Spinner } from '@ndla/editor';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { Row, HelpMessage, PreviewDraftLightbox } from '../../components';
@@ -102,37 +103,37 @@ export class EditMarkupPage extends Component {
                   <p>{t('editMarkup.helpMessage.paragraph2')}</p>
                 </HelpMessage>
               </FormHeader>
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<Spinner />}>
                 <MonacoEditor
                   key={draft ? draft.id + draft.revision : 'draft'}
                   value={draft ? draft.content.content : ''}
                   onChange={this.handleChange}
                 />
-              </Suspense>
-              <Row
-                justifyContent="space-between"
-                css={css`
-                  margin: ${spacing.normal};
-                `}>
-                <PreviewDraftLightbox
-                  label={t('subNavigation.learningResource')}
-                  typeOfPreview="preview"
-                  getArticle={() => {
-                    return {
-                      ...draft,
-                      tags: [],
-                      language,
-                    };
-                  }}
-                />
-                <Row justifyContent="end" alignItems="baseline">
-                  <Link
-                    to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
-                    Tilbake
-                  </Link>
-                  <Button onClick={this.saveChanges}>Lagre</Button>
+                <Row
+                  justifyContent="space-between"
+                  css={css`
+                    margin: ${spacing.normal};
+                  `}>
+                  <PreviewDraftLightbox
+                    label={t('subNavigation.learningResource')}
+                    typeOfPreview="preview"
+                    getArticle={() => {
+                      return {
+                        ...draft,
+                        tags: [],
+                        language,
+                      };
+                    }}
+                  />
+                  <Row justifyContent="end" alignItems="baseline">
+                    <Link
+                      to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
+                      Tilbake
+                    </Link>
+                    <Button onClick={this.saveChanges}>Lagre</Button>
+                  </Row>
                 </Row>
-              </Row>
+              </Suspense>
             </div>
           </>
         )}

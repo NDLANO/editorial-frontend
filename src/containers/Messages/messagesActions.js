@@ -14,6 +14,7 @@ export const clearAllMessages = createAction('CLEAR_ALL_MESSAGES');
 export const clearMessage = createAction('CLEAR_MESSAGE');
 export const showSaved = createAction('SHOW_SAVED');
 export const clearSaved = createAction('CLEAR_SAVED');
+export const addAuth0Message = createAction('ADD_AUTH0_MESSAGE');
 
 export function timeoutMessage(message) {
   return dispatch =>

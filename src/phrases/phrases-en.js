@@ -260,6 +260,12 @@ const phrases = {
     duration: 'Duration',
     interactioncount: 'Views',
   },
+  mathEditor: {
+    editMath: 'Edit Math',
+    preview: 'Preview',
+    continue:
+      'You have unsaved changes in the math editor. Do you want to continue?',
+  },
   h5pElement: {
     fetchError: 'Sorry, an error occurd while loading the H5P client.',
   },
@@ -370,6 +376,7 @@ const phrases = {
     headingTwo: 'Heading 2',
     headingThree: 'Heading 3',
     footnote: 'Footnote',
+    mathml: 'Math',
   },
   editorBlockpicker: {
     heading: 'Add',
@@ -416,6 +423,8 @@ const phrases = {
       add: 'Add',
     },
     abort: 'Abort',
+    edit: 'Edit',
+    remove: 'Remove',
     validate: 'Validate',
     publish: 'Publish',
     savedOk: 'Saved OK',
@@ -726,6 +735,11 @@ const phrases = {
     invalidUrl: 'Invalid url',
     noArticleInProd: 'No article found in prod',
     taxonomy: 'There was a problem loading taxonomy',
+    auth0:
+      'Authentication error. Press cancel to take care of any changes you have made before logging in again. The following error message came from auth0: {message}',
+    statusCode: {
+      409: 'This article has already been updated. Keep what you have changed and reload the page to save.',
+    },
   },
   notFound: {
     description: 'The page cannot be found',
@@ -738,6 +752,7 @@ const phrases = {
     continue: 'Continue',
     delete: 'Delete',
     confirm: 'Confirm',
+    loginAgain: 'Login again',
   },
   taxonomy: {
     editStructure: '  Edit structure',

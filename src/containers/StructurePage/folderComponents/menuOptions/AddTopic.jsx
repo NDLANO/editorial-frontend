@@ -11,7 +11,11 @@ import PropTypes from 'prop-types';
 import { Plus } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
 import RoundIcon from '../../../../components/RoundIcon';
-import { addTopic, addTopicToTopic } from '../../../../modules/taxonomy';
+import {
+  addTopic,
+  addTopicToTopic,
+  addFilterToTopic,
+} from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from './MenuItemEditField';
 
@@ -23,16 +27,23 @@ class AddTopic extends React.PureComponent {
   }
 
   async onAddSubTopic(name) {
-    const { id, numberOfSubtopics, refreshTopics } = this.props;
+    const { id, numberOfSubtopics, refreshTopics, topicFilters } = this.props;
     const newPath = await addTopic({ name });
     if (!newPath) throw Error('Invalid topic path returned');
     const newId = newPath.replace('/v1/topics/', '');
-    await addTopicToTopic({
-      subtopicid: newId,
-      topicid: id,
-      primary: true,
-      rank: numberOfSubtopics + 1,
-    });
+    await Promise.all([
+      addTopicToTopic({
+        subtopicid: newId,
+        topicid: id,
+        primary: true,
+        rank: numberOfSubtopics + 1,
+      }),
+      addFilterToTopic({
+        filterId: topicFilters[0].id,
+        relevanceId: topicFilters[0].relevanceId,
+        topicId: newId,
+      }),
+    ]);
     refreshTopics();
   }
 

@@ -11,7 +11,11 @@ import PropTypes from 'prop-types';
 import { Plus } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
 import RoundIcon from '../../../../components/RoundIcon';
-import { addSubjectTopic, fetchTopics } from '../../../../modules/taxonomy';
+import {
+  addSubjectTopic,
+  fetchTopics,
+  addFilterToTopic,
+} from '../../../../modules/taxonomy';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
 
@@ -24,11 +28,17 @@ class AddExistingSubjectTopic extends React.PureComponent {
   }
 
   async onAddExistingTopic(topicid) {
-    const { id, refreshTopics } = this.props;
-    await addSubjectTopic({
-      subjectid: id,
-      topicid,
-    });
+    const { id, refreshTopics, subjectFilters } = this.props;
+    await Promise.all([
+      addSubjectTopic({
+        subjectid: id,
+        topicid,
+      }),
+      addFilterToTopic({
+        filterId: subjectFilters[0].id,
+        topicId: topicid,
+      }),
+    ]);
     refreshTopics();
   }
 

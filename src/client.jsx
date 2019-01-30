@@ -27,7 +27,7 @@ const locale = getLocaleObject(localeString);
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 
-const store = configureStore({
+export const store = configureStore({
   ...initialState,
   session: getSessionStateFromLocalStorage(),
 });

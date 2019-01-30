@@ -89,7 +89,7 @@ class DeleteTopic extends PureComponent {
           text={t('taxonomy.confirmDeleteTopic')}
         />
 
-        {loading && <Spinner cssModifier="absolute" />}
+        {loading && <Spinner appearance="absolute" />}
         {loading && (
           <Overlay cssModifiers={['absolute', 'white-opacity', 'zIndex']} />
         )}

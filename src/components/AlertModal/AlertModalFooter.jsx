@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { uuid } from '@ndla/util';
 import styled, { css } from 'react-emotion';
+import { spacing } from '@ndla/core';
 
 const alertModalFooterButtonStyle = css`
   background-color: white;
@@ -21,6 +22,7 @@ const StyledFooter = styled('div')`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  margin-top: ${spacing.small};
 `;
 
 const AlertModalFooter = ({ component, actions }) =>

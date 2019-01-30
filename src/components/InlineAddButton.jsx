@@ -130,7 +130,7 @@ export class InlineAddButton extends PureComponent {
             css={saveButtonStyle}
             disabled={status === 'loading'}
             onClick={this.handleClick}>
-            {status === 'loading' ? <Spinner cssModifier="small" /> : <Done />}
+            {status === 'loading' ? <Spinner appearance="small" /> : <Done />}
           </Button>
         </StyledEditMode>
         {status === 'error' && (

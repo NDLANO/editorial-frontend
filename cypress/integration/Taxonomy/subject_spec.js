@@ -75,6 +75,16 @@ describe('Subject editing', () => {
     ).as('allTopics');
     cy.route({
       method: 'POST',
+      url: '/taxonomy/v1/topic-filters',
+      status: 201,
+      response: '',
+      headers: {
+        Location: 'filterPath',
+        'content-type': 'text/plain; charset=UTF-8',
+      },
+    });
+    cy.route({
+      method: 'POST',
       url: '/taxonomy/v1/subject-topics',
       status: 201,
       response: '',
@@ -109,17 +119,20 @@ describe('Subject editing', () => {
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
     cy.wait('@addNewTopic');
     cy.wait('@addNewSubjectTopic');
+
     cy.get('.c-settingsMenu > button')
       .first()
       .click();
     cy.get('[data-testid=addExistingSubjectTopicButton]').click();
     cy.get('[data-testid=inlineDropdownInput]').type('F');
     cy.wait('@allTopics');
+
     cy.get('[data-testid=dropdown-items]')
       .first()
       .click();
     cy.get('[data-testid=inlineEditSaveButton]').click();
     cy.wait('@addNewSubjectTopic');
+
     cy.get('.c-settingsMenu > button')
       .first()
       .click();

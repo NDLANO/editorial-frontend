@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import styled, { css } from 'react-emotion';
+import createHistory from 'history/createBrowserHistory';
 import { clearMessage } from './messagesActions';
 import { MessageShape } from '../../shapes';
 import AlertModal from '../../components/AlertModal';
@@ -32,13 +33,36 @@ const StyledMessageAlertOverlay = styled('div')`
   ${p => appearances[p.appearance]};
 `;
 
+const getActions = (message, dispatch, t) => {
+  if (message.type === 'auth0') {
+    return [
+      {
+        text: t('form.abort'),
+        onClick: () => dispatch(clearMessage(message.id)),
+      },
+      {
+        text: t('alertModal.loginAgain'),
+        onClick: async evt => {
+          evt.preventDefault();
+          await createHistory().push('/logout/session?returnToLogin=true'); // Push to logoutPath
+          window.location.reload();
+        },
+      },
+    ];
+  }
+  return [];
+};
+
 export const Message = injectT(({ message, dispatch, t }) => {
   return (
     <AlertModal
       show
       text={
-        message.translationKey ? t(message.translationKey) : message.message
+        message.translationKey
+          ? t(message.translationKey, message.translationObject)
+          : message.message
       }
+      actions={getActions(message, dispatch, t)}
       onCancel={() => dispatch(clearMessage(message.id))}
       severity={message.severity}
     />

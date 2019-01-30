@@ -153,7 +153,7 @@ class MenuItemDropdown extends PureComponent {
             data-testid="inlineEditSaveButton"
             onClick={this.handleSubmit}>
             {status === 'loading' ? (
-              <Spinner cssModifier="small" />
+              <Spinner appearance="small" />
             ) : (
               <Done className="c-icon--small" />
             )}

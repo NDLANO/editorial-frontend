@@ -138,21 +138,19 @@ export function editorValueToPlainText(editorValue) {
 }
 
 function filterNonUserInputUndos(undoArray) {
-  console.log(undoArray);
   return undoArray.filter(undoList => {
     const selection = undoList.every(
       operation => operation.type === 'set_selection',
     );
-    const emptyText = undoList.every(
+    const emptyTextOrMerge = undoList.every(
       operation =>
-        operation.type === 'insert_node' &&
-        operation.node.leaves &&
-        operation.node.leaves[0].text === '',
+        operation.type === 'merge_node' ||
+        (operation.type === 'insert_node' &&
+          operation.node.leaves &&
+          operation.node.leaves[0].text === ''),
     );
-    const mergeNodes = undoList.every(
-      operation => operation.type === 'merge_node',
-    );
-    return !selection && !emptyText && !mergeNodes;
+
+    return !selection && !emptyTextOrMerge;
   });
 }
 

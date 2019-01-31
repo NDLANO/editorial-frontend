@@ -34,9 +34,7 @@ class SearchContainer extends Component {
   constructor() {
     super();
     this.onSortOrderChange = this.onSortOrderChange.bind(this);
-    this.onQueryPush = this.onQueryPush.bind(this);
-    this.onUrlChange = debounce(this.onUrlChange.bind(this), 2000);
-    this.onSearch = debounce(this.onSearch.bind(this), 100);
+    this.onQueryPush = debounce(this.onQueryPush.bind(this), 300);
   }
 
   componentDidMount() {
@@ -47,13 +45,8 @@ class SearchContainer extends Component {
     }
   }
 
-  onSearch(searchQuery) {
-    const { search } = this.props;
-    search(searchQuery);
-  }
-
   onQueryPush(newSearchObject) {
-    const { location } = this.props;
+    const { location, history, type, search } = this.props;
     const oldSearchObject = queryString.parse(location.search);
 
     const searchQuery = {
@@ -65,13 +58,7 @@ class SearchContainer extends Component {
     Object.keys(searchQuery).forEach(
       key => searchQuery[key] === '' && delete searchQuery[key],
     );
-
-    this.onSearch(searchQuery);
-    this.onUrlChange(searchQuery);
-  }
-
-  onUrlChange(searchQuery) {
-    const { history, type } = this.props;
+    search(searchQuery);
     history.push(toSearch(searchQuery, type));
   }
 

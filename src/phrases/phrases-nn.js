@@ -351,6 +351,7 @@ const phrases = {
       metaImage: {
         title: 'Metabilde',
         label: 'Metabilde',
+        helpLabel: 'Kva er eit metabilde?',
       },
       footnotes: {
         edition: 'Utgåve',
@@ -575,6 +576,7 @@ const phrases = {
     },
     tags: {
       label: 'Nøkkelord',
+      helpLabel: 'Kva er nøkkelord?',
       description: 'Obligatorisk med 3 nøkkelord.',
       createOption: 'Opprett nytt nøkkelord',
       emptyFilter: 'Fant ingen passende nøkkelord',
@@ -614,9 +616,11 @@ const phrases = {
     metaDescription: {
       label: 'Metabeskrivelse',
       description: 'Beskrivelsen blir synlig i søk.',
+      helpLabel: 'Kva er metabeskrivelse?',
     },
     agreement: {
       label: 'Koble til avtale',
+      helpLabel: 'Kva er ei avtale?',
       placeholder: 'Søk etter avtale',
       emptyFilter: 'Fant ingen passende avtaler',
       emptyList: 'Det er ingen avtaler i denne lista',
@@ -648,6 +652,7 @@ const phrases = {
     },
     license: {
       label: 'Lisens',
+      helpLabel: 'Kva er lisensar?',
     },
     origin: {
       label: 'Opphav',

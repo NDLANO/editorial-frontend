@@ -56,7 +56,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 import { spacing, colors } from '@ndla/core';
-import './html.contribution.js';
+import './html.contribution';
 
 window.MonacoEnvironment = {
   getWorkerUrl: function(moduleId, label) {

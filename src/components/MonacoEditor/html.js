@@ -1,10 +1,3 @@
-import htmlRules from './html-rules.json';
-const VALID_TAGS = [
-  ...htmlRules.tags,
-  ...Object.keys(htmlRules.attributes),
-].sort((a, b) => b.length - a.length);
-console.log(VALID_TAGS);
-
 const _monaco = typeof monaco === 'undefined' ? self.monaco : monaco; //eslint-disable-line
 
 const EMPTY_ELEMENTS = ['br', 'embed'];
@@ -58,43 +51,68 @@ export const conf = {
     },
   },
 };
-export var language = {
-  defaultToken: '',
-  tokenPostfix: '.html',
-  ignoreCase: true,
-  // The main tokenizer for our languages
-  tokenizer: {
-    root: [
-      [
-        /(<)((?:[\w-]+:)?[\w-]+)(\s*)(\/>)/,
-        ['delimiter', 'tag', '', 'delimiter'],
+function createLanguage(VALID_TAGS) {
+  return {
+    defaultToken: '',
+    tokenPostfix: '.html',
+    ignoreCase: true,
+    // The main tokenizer for our languages
+    tokenizer: {
+      root: [
+        [
+          /(<)((?:[\w-]+:)?[\w-]+)(\s*)(\/>)/,
+          ['delimiter', 'tag', '', 'delimiter'],
+        ],
+        [
+          new RegExp('(<)(' + VALID_TAGS.join('|') + ')'),
+          ['delimiter', { token: 'tag', next: '@otherTag' }],
+        ],
+        [
+          /(<)((?:[\w-]+:)?[\w-]+)/,
+          ['delimiter', { token: 'invalidtag', next: '@otherTag' }],
+        ],
+        [
+          new RegExp('(</)(' + VALID_TAGS.join('|') + ')'),
+          ['delimiter', { token: 'tag', next: '@otherTag' }],
+        ],
+        [
+          /(<\/)((?:[\w-]+:)?[\w-]+)/,
+          ['delimiter', { token: 'invalidtag', next: '@otherTag' }],
+        ],
+        [/</, 'delimiter'],
+        [/[^<]+/],
       ],
-      [
-        new RegExp('(<)(' + VALID_TAGS.join('|') + ')'),
-        ['delimiter', { token: 'tag', next: '@otherTag' }],
+      otherTag: [
+        [/\/?>/, 'delimiter', '@pop'],
+        [/"([^"]*)"/, 'attribute.value'],
+        [/'([^']*)'/, 'attribute.value'],
+        [/[\w-]+/, 'attribute.name'],
+        [/=/, 'delimiter'],
+        [/[ \t\r\n]+/],
       ],
-      [
-        /(<)((?:[\w-]+:)?[\w-]+)/,
-        ['delimiter', { token: 'invalidtag', next: '@otherTag' }],
-      ],
-      [
-        new RegExp('(</)(' + VALID_TAGS.join('|') + ')'),
-        ['delimiter', { token: 'tag', next: '@otherTag' }],
-      ],
-      [
-        /(<\/)((?:[\w-]+:)?[\w-]+)/,
-        ['delimiter', { token: 'invalidtag', next: '@otherTag' }],
-      ],
-      [/</, 'delimiter'],
-      [/[^<]+/],
-    ],
-    otherTag: [
-      [/\/?>/, 'delimiter', '@pop'],
-      [/"([^"]*)"/, 'attribute.value'],
-      [/'([^']*)'/, 'attribute.value'],
-      [/[\w-]+/, 'attribute.name'],
-      [/=/, 'delimiter'],
-      [/[ \t\r\n]+/],
-    ],
-  },
-};
+    },
+  };
+}
+
+function regiserTagCompletion(tags) {
+  _monaco.languages.registerCompletionItemProvider('html', {
+    provideCompletionItems: () => {
+      let suggestions = tags.map(tag => ({
+        label: tag,
+        kind: _monaco.languages.CompletionItemKind.Keyword,
+        insertText: `<${tag}>$0<${tag}/>`,
+        insertTextRules:
+          _monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+      }));
+      return { suggestions };
+    },
+  });
+}
+
+export function createLanguageConfiguration(VALID_TAGS) {
+  regiserTagCompletion(VALID_TAGS);
+  return {
+    conf,
+    language: createLanguage(VALID_TAGS),
+  };
+}

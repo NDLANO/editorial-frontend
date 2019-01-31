@@ -234,6 +234,10 @@ const phrases = {
     linkTitle: 'Go to HTML editor',
     title: 'HTML editor',
     subTitle: 'Edit article with HTML',
+    fetchError:
+      'An error occurred while loding an article into the HTML editor. Go back or try to reload the page.',
+    saveError:
+      'An error occurred while saving article changes. Make sure the HTML is valid an try again.',
     helpMessage: {
       paragraph1:
         'For å gjøre det mer brukervennlig så formatter vi HTML koden slik at den blir enklere å redigere. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisning funksjonaliteten aktivt. ',

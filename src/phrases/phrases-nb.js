@@ -232,6 +232,11 @@ const phrases = {
     linkTitle: 'Gå til HTML editor',
     title: 'HTML editor',
     subTitle: 'Editer artikkel innhold med HTML',
+    fetchError:
+      'En feil oppsto ved lasting av artikkel HTML editoren. Gå tilbake eller prøv å last siden på nytt.',
+    saveError:
+      'En feil oppsto ved lagring av endringer. Sjekk at kun gyldig HTML er brukt.',
+    back: 'Tilbake',
     helpMessage: {
       paragraph1:
         'For å gjøre det mer brukervennlig så formatter vi HTML koden slik at den blir enklere å redigere. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisning funksjonaliteten aktivt. ',

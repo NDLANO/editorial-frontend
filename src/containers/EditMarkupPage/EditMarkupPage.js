@@ -11,8 +11,8 @@ import PropTypes from 'prop-types';
 import { Trans } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { Link } from 'react-router-dom';
-import { spacing } from '@ndla/core';
-import { css } from 'emotion';
+import { spacing, colors } from '@ndla/core';
+import styled, { css } from 'react-emotion';
 import { FormHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
@@ -32,6 +32,37 @@ function standardizeContent(content) {
   const converted = learningResourceContentToEditorValue(content);
   return learningResourceContentToHTML(converted);
 }
+
+const StyledErrorMessage = styled('p')`
+  color: ${colors.support.red};
+  text-align: center;
+`;
+
+const Container = styled('div')`
+  margin: 0 auto;
+  max-width: 1000px;
+`;
+
+const FetchErrorMessage = ({ draftId, language }) => (
+  <Trans>
+    {({ t }) => (
+      <Container>
+        <StyledErrorMessage>{t('editMarkup.fetchError')}</StyledErrorMessage>
+        <Row justifyContent="center" alignItems="baseline">
+          <Link
+            to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
+            {t('editMarkup.back')}
+          </Link>
+        </Row>
+      </Container>
+    )}
+  </Trans>
+);
+
+FetchErrorMessage.propTypes = {
+  draftId: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
+};
 
 export class EditMarkupPage extends Component {
   state = {
@@ -82,60 +113,64 @@ export class EditMarkupPage extends Component {
   render() {
     const { draftId, language } = this.props.match.params;
     const { status, draft } = this.state;
+
     if (status === 'fetch-error') {
-      return <p>Kunne ikke laste artikkel</p>;
+      return <FetchErrorMessage draftId={draftId} language={language} />;
     }
 
     return (
       <Trans>
         {({ t }) => (
-          <>
-            <div
-              css={{
-                margin: '0 auto',
-                maxWidth: '1000px',
-              }}>
-              <FormHeader
-                title={t('editMarkup.title')}
-                subTitle={t('editMarkup.subTitle')}>
-                <HelpMessage>
-                  <p>{t('editMarkup.helpMessage.paragraph1')}</p>
-                  <p>{t('editMarkup.helpMessage.paragraph2')}</p>
-                </HelpMessage>
-              </FormHeader>
-              <Suspense fallback={<Spinner />}>
-                <MonacoEditor
-                  key={draft ? draft.id + draft.revision : 'draft'}
-                  value={draft ? draft.content.content : ''}
-                  onChange={this.handleChange}
-                />
-                <Row
-                  justifyContent="space-between"
+          <Container>
+            <FormHeader
+              title={t('editMarkup.title')}
+              subTitle={t('editMarkup.subTitle')}>
+              <HelpMessage>
+                <p>{t('editMarkup.helpMessage.paragraph1')}</p>
+                <p>{t('editMarkup.helpMessage.paragraph2')}</p>
+              </HelpMessage>
+            </FormHeader>
+            <Suspense fallback={<Spinner />}>
+              <MonacoEditor
+                key={draft ? draft.id + draft.revision : 'draft'}
+                value={draft ? draft.content.content : ''}
+                onChange={this.handleChange}
+              />
+              {status === 'save-error' && (
+                <StyledErrorMessage
                   css={css`
+                    text-align: left;
                     margin: ${spacing.normal};
                   `}>
-                  <PreviewDraftLightbox
-                    label={t('subNavigation.learningResource')}
-                    typeOfPreview="preview"
-                    getArticle={() => {
-                      return {
-                        ...draft,
-                        tags: [],
-                        language,
-                      };
-                    }}
-                  />
-                  <Row justifyContent="end" alignItems="baseline">
-                    <Link
-                      to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
-                      Tilbake
-                    </Link>
-                    <Button onClick={this.saveChanges}>Lagre</Button>
-                  </Row>
+                  {t('editMarkup.saveError')}
+                </StyledErrorMessage>
+              )}
+              <Row
+                justifyContent="space-between"
+                css={css`
+                  margin: ${spacing.normal};
+                `}>
+                <PreviewDraftLightbox
+                  label={t('subNavigation.learningResource')}
+                  typeOfPreview="preview"
+                  getArticle={() => {
+                    return {
+                      ...draft,
+                      tags: [],
+                      language,
+                    };
+                  }}
+                />
+                <Row justifyContent="end" alignItems="baseline">
+                  <Link
+                    to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
+                    {t('editMarkup.back')}
+                  </Link>
+                  <Button onClick={this.saveChanges}>{t('form.save')}</Button>
                 </Row>
-              </Suspense>
-            </div>
-          </>
+              </Row>
+            </Suspense>
+          </Container>
         )}
       </Trans>
     );

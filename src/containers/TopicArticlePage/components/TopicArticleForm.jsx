@@ -393,6 +393,7 @@ TopicArticleForm.propTypes = {
   revision: PropTypes.number,
   setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  createMessage: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
   showSaved: PropTypes.bool.isRequired,
   articleStatus: PropTypes.shape({

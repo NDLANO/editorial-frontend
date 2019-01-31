@@ -46,9 +46,12 @@ import {
   formClasses,
   AlertModalWrapper,
 } from '../../Form';
+import { formatErrorMessage } from '../../Form/FormWorkflow';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
+import { validateDraft } from '../../../modules/draft/draftApi';
 import { articleConverter } from '../../../modules/draft/draft';
+import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import AlertModal from '../../../components/AlertModal';
 
 export const getInitialModel = (article = {}) => {
@@ -62,7 +65,7 @@ export const getInitialModel = (article = {}) => {
     content: topicArticleContentToEditorValue(article.content),
     tags: article.tags || [],
     creators: parseCopyrightContributors(article, 'creators'),
-    processors: parseCopyrightContributors(article, 'creators'),
+    processors: parseCopyrightContributors(article, 'processors'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
     copyright: article.copyright
@@ -149,22 +152,44 @@ class TopicArticleForm extends Component {
     };
   }
 
-  handleSubmit(evt) {
+  async handleSubmit(evt) {
     evt.preventDefault();
 
     const {
+      model: { id },
       validationErrors,
       revision,
       setSubmitted,
+      createMessage,
+      articleStatus,
       onUpdate,
       setModelField,
     } = this.props;
+
+    const status = articleStatus ? articleStatus.current : undefined;
     if (!validationErrors.isValid) {
       setSubmitted(true);
       return;
     }
     if (!isFormDirty(this.props)) {
       return;
+    }
+
+    if (
+      status === articleStatuses.PUBLISHED ||
+      status === articleStatuses.QUEUED_FOR_PUBLISHING
+    ) {
+      try {
+        await validateDraft(id, {
+          ...this.getArticle(),
+          revision,
+        });
+      } catch (error) {
+        if (error && error.json && error.json.messages) {
+          createMessage(formatErrorMessage(error));
+        }
+        return;
+      }
     }
     onUpdate({
       ...this.getArticle(),
@@ -188,7 +213,9 @@ class TopicArticleForm extends Component {
       licenses,
       showSaved,
       history,
+      revision,
       article,
+      createMessage,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
     const panels = [
@@ -254,7 +281,10 @@ class TopicArticleForm extends Component {
             articleStatus={articleStatus}
             model={model}
             getArticle={this.getArticle}
+            createMessage={createMessage}
+            getArticleFromModel={this.getArticle}
             article={article}
+            revision={revision}
           />
         ),
       },

@@ -64,7 +64,7 @@ class FormWorkflow extends Component {
       }
       updateStatusDraft({ id, status });
     } catch (error) {
-      if (error && error.json.messages) {
+      if (error && error.json && error.json.messages) {
         createMessage(formatErrorMessage(error));
       }
     }

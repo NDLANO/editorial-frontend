@@ -82,7 +82,7 @@ class TopicArticleVisualElement extends Component {
                   visualElement.resource
                 }`,
               )}
-              name="visualElement.caption"
+              name="visualElementCaption"
               {...commonFieldProps}
               noBorder
               maxLength={300}
@@ -91,7 +91,7 @@ class TopicArticleVisualElement extends Component {
               <TextField
                 placeholder={t('topicArticleForm.fields.alt.placeholder')}
                 label={t('topicArticleForm.fields.alt.label')}
-                name="visualElement.alt"
+                name="visualElementAlt"
                 {...commonFieldProps}
                 noBorder
                 maxLength={300}

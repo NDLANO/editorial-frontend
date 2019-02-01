@@ -33,7 +33,6 @@ class PreviewDraft extends Component {
     return (
       <Article
         article={article}
-        icon={null}
         messages={{
           lastUpdated: t('article.lastUpdated'),
           edition: t('article.edition'),

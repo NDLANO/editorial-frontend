@@ -160,7 +160,12 @@ class LearningResourceForm extends Component {
       introduction: editorValueToPlainText(model.introduction),
       tags: model.tags,
       content: content && content.length > 0 ? content : emptyContent,
+      metaImage: {
+        id: model.metaImageId,
+        alt: model.metaImageAlt,
+      },
       metaDescription: editorValueToPlainText(model.metaDescription),
+      articleType: 'standard',
       copyright: {
         license: licenses.find(license => license.license === model.license),
         origin: model.origin,
@@ -168,6 +173,7 @@ class LearningResourceForm extends Component {
         processors: model.processors,
         rightsholders: model.rightsholders,
       },
+      notes: model.notes || [],
       language: model.language,
       updated: model.updated,
       supportedLanguages: model.supportedLanguages,

@@ -6,6 +6,11 @@
  *
  */
 
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { css } from 'emotion';
+import { spacing, colors } from '@ndla/core';
+
 import 'monaco-editor/esm/vs/editor/browser/controller/coreCommands';
 import 'monaco-editor/esm/vs/editor/browser/widget/codeEditorWidget';
 import 'monaco-editor/esm/vs/editor/contrib/bracketMatching/bracketMatching';
@@ -17,46 +22,12 @@ import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/quickCommand';
 import 'monaco-editor/esm/vs/editor/contrib/multicursor/multicursor';
 import 'monaco-editor/esm/vs/editor/contrib/linesOperations/linesOperations';
 import 'monaco-editor/esm/vs/editor/contrib/fontZoom/fontZoom';
-
-// import 'monaco-editor/esm/vs/editor/browser/widget/diffEditorWidget.js';
-// import 'monaco-editor/esm/vs/editor/browser/widget/diffNavigator.js';
-// import 'monaco-editor/esm/vs/editor/contrib/caretOperations/caretOperations.js';
-// import 'monaco-editor/esm/vs/editor/contrib/caretOperations/transpose.js';
-// import 'monaco-editor/esm/vs/editor/contrib/clipboard/clipboard.js';
-// import 'monaco-editor/esm/vs/editor/contrib/codelens/codelensController.js';
-// import 'monaco-editor/esm/vs/editor/contrib/colorPicker/colorDetector.js';
-// import 'monaco-editor/esm/vs/editor/contrib/comment/comment.js';
-// import 'monaco-editor/esm/vs/editor/contrib/contextmenu/contextmenu.js';
-// import 'monaco-editor/esm/vs/editor/contrib/cursorUndo/cursorUndo.js';
-// import 'monaco-editor/esm/vs/editor/contrib/dnd/dnd.js';
-// import 'monaco-editor/esm/vs/editor/contrib/folding/folding.js';
-// import 'monaco-editor/esm/vs/editor/contrib/format/formatActions.js';
-// import 'monaco-editor/esm/vs/editor/contrib/gotoError/gotoError.js';
-// import 'monaco-editor/esm/vs/editor/contrib/hover/hover.js';
-// import 'monaco-editor/esm/vs/editor/contrib/inPlaceReplace/inPlaceReplace.js';
-// import 'monaco-editor/esm/vs/editor/contrib/parameterHints/parameterHints.js';
-// import 'monaco-editor/esm/vs/editor/contrib/referenceSearch/referenceSearch.js';
-// import 'monaco-editor/esm/vs/editor/contrib/rename/rename.js';
-// import 'monaco-editor/esm/vs/editor/contrib/smartSelect/smartSelect.js';
-// import 'monaco-editor/esm/vs/editor/contrib/snippet/snippetController2.js';
-// import 'monaco-editor/esm/vs/editor/contrib/toggleTabFocusMode/toggleTabFocusMode.js';
-// import 'monaco-editor/esm/vs/editor/contrib/wordOperations/wordOperations.js';
-// import 'monaco-editor/esm/vs/editor/standalone/browser/accessibilityHelp/accessibilityHelp.js';
-// import 'monaco-editor/esm/vs/editor/standalone/browser/inspectTokens/inspectTokens.js';
-// import 'monaco-editor/esm/vs/editor/standalone/browser/iPadShowKeyboard/iPadShowKeyboard.js';
-// import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/quickOutline.js';
-// import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/gotoLine.js';
-// import 'monaco-editor/esm/vs/editor/standalone/browser/toggleHighContrast/toggleHighContrast.js';
-
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 // import * as monaco from 'monaco-editor';
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { css } from 'emotion';
-import { spacing, colors } from '@ndla/core';
 import './html.contribution';
+import { createFormatAction } from './editorActions';
 
 window.MonacoEnvironment = {
   getWorkerUrl: function(moduleId, label) {
@@ -90,17 +61,9 @@ export class MonacoEditor extends Component {
 
   async componentDidMount() {
     const { value } = this.props;
-    const data = await fetch(`/prettify`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ content: value }),
-    });
-    const { prettified } = await data.json();
 
     this.editor = monaco.editor.create(this.container.current, {
-      value: prettified,
+      value,
       scrollBeyondLastLine: false,
       theme: 'myCustomTheme',
       wordWrap: 'on',
@@ -113,6 +76,8 @@ export class MonacoEditor extends Component {
       const value = this.editor.getValue();
       this.props.onChange(value, event);
     });
+
+    this.editor.addAction(createFormatAction(monaco));
   }
   render() {
     return (

@@ -56,7 +56,7 @@ function createLanguage(VALID_TAGS) {
     defaultToken: '',
     tokenPostfix: '.html',
     ignoreCase: true,
-    // The main tokenizer for our languages
+    // The main tokenizer
     tokenizer: {
       root: [
         [
@@ -94,13 +94,17 @@ function createLanguage(VALID_TAGS) {
   };
 }
 
+function isEmptyTag(tag) {
+  return EMPTY_ELEMENTS.includes(tag);
+}
+
 function regiserTagCompletion(tags) {
   _monaco.languages.registerCompletionItemProvider('html', {
     provideCompletionItems: () => {
       let suggestions = tags.map(tag => ({
         label: tag,
         kind: _monaco.languages.CompletionItemKind.Keyword,
-        insertText: `<${tag}>$0<${tag}/>`,
+        insertText: isEmptyTag(tag) ? `<${tag}/>` : `<${tag}>$0<${tag}/>`,
         insertTextRules:
           _monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
       }));

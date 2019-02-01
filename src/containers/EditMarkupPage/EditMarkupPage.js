@@ -33,6 +33,16 @@ function standardizeContent(content) {
   return learningResourceContentToHTML(converted);
 }
 
+function updateContentInDraft(draft, content) {
+  return {
+    ...draft,
+    content: {
+      ...draft.content,
+      content,
+    },
+  };
+}
+
 const StyledErrorMessage = styled('p')`
   color: ${colors.support.red};
   text-align: center;
@@ -103,10 +113,7 @@ export class EditMarkupPage extends Component {
 
   handleChange = (value, event) => {
     this.setState(prevState => ({
-      draft: {
-        ...prevState.draft,
-        content: { ...prevState.draft.content, content: value },
-      },
+      draft: updateContentInDraft(prevState.draft, value),
     }));
   };
 
@@ -154,8 +161,11 @@ export class EditMarkupPage extends Component {
                   label={t('subNavigation.learningResource')}
                   typeOfPreview="preview"
                   getArticle={() => {
+                    const content = standardizeContent(
+                      this.state.draft.content.content,
+                    );
                     return {
-                      ...draft,
+                      ...updateContentInDraft(draft, content),
                       tags: [],
                       language,
                     };

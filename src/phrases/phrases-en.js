@@ -236,11 +236,10 @@ const phrases = {
     subTitle: 'Edit article with HTML',
     fetchError:
       'An error occurred while loding an article into the HTML editor. Go back or try to reload the page.',
-    saveError:
-      'An error occurred while saving article changes. Make sure the HTML is valid an try again.',
+    saveError: 'An error occurred while saving article changes.',
     helpMessage: {
       paragraph1:
-        'For å gjøre det mer brukervennlig så formatter vi HTML koden slik at den blir enklere å redigere. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisning funksjonaliteten aktivt. ',
+        'Det er mulig å formatter  HTML koden ved å trykke på F1 og velge Format. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisning funksjonaliteten aktivt. ',
       paragraph2:
         'For å minimerer eventuelle problemer med formatering og sikre at at HTML blir konsistent så blir koden kjørt gjennom de samme transformeringen som WYSIWYG editoren. Det betyr at linjeskift f.eks. blir endret til <br> ved lagring og samt at den vil prøve å rette opp kode som ikke følger følgende regler:',
     },

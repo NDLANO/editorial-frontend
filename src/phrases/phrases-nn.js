@@ -234,11 +234,11 @@ const phrases = {
     subTitle: 'Editer artikkel innhold med HTML',
     fetchError:
       'En feil oppsto ved lasting av artikkel HTML editoren. Gå tilbake eller prøv å last siden på nytt.',
-    saveError:
-      'En feil oppsto ved lagring av endringer. Sjekk at kun gyldig HTML er brukt.',
+    saveError: 'En feil oppsto ved lagring av endringer.',
+    back: 'Tilbake',
     helpMessage: {
       paragraph1:
-        'For å gjøre det mer brukervennlig så formatter vi HTML koden slik at den blir enklere å redigere. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisning funksjonaliteten aktivt.',
+        'Det er mulig å formatter  HTML koden ved å trykke på F1 og velge Format. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisning funksjonaliteten aktivt. ',
       paragraph2:
         'For å minimerer eventuelle problemer med formatering og sikre at at HTML blir konsistent så blir koden kjørt gjennom de samme transformeringen som WYSIWYG editoren. Det betyr at linjeskift f.eks. blir endret til <br> ved lagring og samt at den vil prøve å rette opp kode som ikke følger følgende regler:',
     },

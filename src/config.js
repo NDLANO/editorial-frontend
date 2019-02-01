@@ -44,6 +44,8 @@ const gaTrackingId = () => {
   switch (ndlaEnvironment) {
     case 'prod':
       return 'UA-9036010-36';
+    case 'staging':
+      return 'UA-9036010-36';
     default:
       return '';
   }

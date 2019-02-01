@@ -54,6 +54,7 @@ import { validateDraft } from '../../../modules/draft/draftApi';
 import { articleConverter } from '../../../modules/draft/draft';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import config from '../../../config';
+import { transformArticleToApiVersion } from '../../../util/articleUtil';
 
 const parseImageUrl = metaImage => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
@@ -153,7 +154,7 @@ class LearningResourceForm extends Component {
     const { model, licenses } = this.props;
     const content = learningResourceContentToHTML(model.content);
     const emptyContent = model.id ? '' : undefined;
-    return {
+    const article = {
       id: model.id,
       title: model.title,
       introduction: editorValueToPlainText(model.introduction),
@@ -171,13 +172,14 @@ class LearningResourceForm extends Component {
         creators: model.creators,
         processors: model.processors,
         rightsholders: model.rightsholders,
-        agreementId: model.agreementId,
       },
       notes: model.notes || [],
       language: model.language,
       updated: model.updated,
       supportedLanguages: model.supportedLanguages,
     };
+
+    return transformArticleToApiVersion(article);
   }
 
   async handleSubmit(evt) {
@@ -312,7 +314,6 @@ class LearningResourceForm extends Component {
             model={model}
             getArticle={this.getArticleFromModel}
             createMessage={createMessage}
-            getArticleFromModel={this.getArticleFromModel}
             revision={revision}
           />
         ),

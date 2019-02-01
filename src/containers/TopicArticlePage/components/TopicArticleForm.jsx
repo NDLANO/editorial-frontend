@@ -53,6 +53,7 @@ import { validateDraft } from '../../../modules/draft/draftApi';
 import { articleConverter } from '../../../modules/draft/draft';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import AlertModal from '../../../components/AlertModal';
+import { transformArticleToApiVersion } from '../../../util/articleUtil';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -130,7 +131,7 @@ class TopicArticleForm extends Component {
     const visualElement = createEmbedTag(model.visualElement);
     const content = topicArticleContentToHTML(model.content);
 
-    return {
+    const article = {
       id: model.id,
       title: model.title,
       introduction: editorValueToPlainText(model.introduction),
@@ -150,6 +151,8 @@ class TopicArticleForm extends Component {
       language: model.language,
       supportedLanguages: model.supportedLanguages,
     };
+
+    return transformArticleToApiVersion(article);
   }
 
   async handleSubmit(evt) {

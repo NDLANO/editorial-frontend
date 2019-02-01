@@ -796,11 +796,13 @@ const phrases = {
     removeLink: 'Fjern link',
     resourceTypes: {
       title: 'Innholdstype',
+      helpLabel: 'Hva er en Innholdstype?',
       subTitle: 'Hvilken innholdstype har denne ressursen?',
       placeholder: 'Velg innholdstype',
     },
     topics: {
       title: 'Emnetilknytninger',
+      helpLabel: 'Hva er emnetilknytning?',
       subTitle: 'Hvor i taksonomien skal ressursen ligge?',
       filestructureButton: 'Opprett emnetilknytning',
       filestructureHeading: 'Velg emnetilknytning',
@@ -812,6 +814,7 @@ const phrases = {
     filters: {
       title: 'Filter',
       subTitle: 'Hvilket fagfilter gjelder for denne ressursen?',
+      helpLabel: 'Hva er et fagfilter?',
       additional: 'Tilleggsressurs',
       core: 'Kjerneressurs',
     },

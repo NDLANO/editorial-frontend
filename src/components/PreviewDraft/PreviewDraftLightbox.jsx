@@ -20,7 +20,10 @@ import Lightbox, {
   closeLightboxCrossStyle,
 } from '../Lightbox';
 import PreviewLightboxContent from './PreviewLightboxContent';
-import { transformArticle } from '../../util/articleUtil';
+import {
+  transformArticle,
+  transformArticleToApiVersion,
+} from '../../util/articleUtil';
 import { FormActionButton } from '../../containers/Form';
 import Spinner from '../Spinner';
 
@@ -97,7 +100,7 @@ class PreviewDraftLightbox extends React.Component {
   async openPreview() {
     const { getArticle, typeOfPreview } = this.props;
 
-    const article = getArticle();
+    const article = transformArticleToApiVersion(getArticle());
 
     const secondArticleLanguage = article.supportedLanguages.find(
       l => l !== article.language,
@@ -139,7 +142,7 @@ class PreviewDraftLightbox extends React.Component {
 
   async previewLanguageArticle(language = undefined) {
     const { getArticle } = this.props;
-    const originalArticle = getArticle();
+    const originalArticle = transformArticleToApiVersion(getArticle());
     const draftOtherLanguage = await draftApi.fetchDraft(
       originalArticle.id,
       language,

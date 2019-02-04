@@ -53,7 +53,6 @@ import { validateDraft } from '../../../modules/draft/draftApi';
 import { articleConverter } from '../../../modules/draft/draft';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import AlertModal from '../../../components/AlertModal';
-import { transformArticleToApiVersion } from '../../../util/articleUtil';
 
 export const getInitialModel = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -152,7 +151,7 @@ class TopicArticleForm extends Component {
       supportedLanguages: model.supportedLanguages,
     };
 
-    return transformArticleToApiVersion(article);
+    return article;
   }
 
   async handleSubmit(evt) {

@@ -8,12 +8,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import styled, { css } from 'react-emotion';
 import darken from 'polished/lib/color/darken';
+import Tooltip from '@ndla/tooltip';
 import { injectT } from '@ndla/i18n';
 import { colors } from '@ndla/core';
-import { Pencil, Plus } from '@ndla/icons/action';
 import { EmbedShape } from '../../../../shapes';
 import CrossButton from '../../../CrossButton';
 
@@ -47,19 +46,7 @@ export const colorFigureButtonsLinkStyle = color => css`
   }
 `;
 
-const FigureButtons = ({ embed, locale, figureType, t, onRemoveClick }) => {
-  const url = {
-    audio: {
-      path: '/media/audio-upload',
-      newTitle: t('form.addNewAudio'),
-      editTitle: t('form.editAudio'),
-    },
-    image: {
-      path: '/media/image-upload',
-      newTitle: t('form.addNewImage'),
-      editTitle: t('form.editImage'),
-    },
-  };
+const FigureButtons = ({ embed, t, onRemoveClick }) => {
 
   const isNotCentered =
     embed.align === 'left' ||
@@ -68,25 +55,13 @@ const FigureButtons = ({ embed, locale, figureType, t, onRemoveClick }) => {
     embed.size === 'xsmall';
   return (
     <StyledFigureButtons isNotCentered={isNotCentered}>
-      <CrossButton
-        css={colorFigureButtonsLinkStyle(colors.support.red)}
-        onClick={onRemoveClick}
-        stripped
-      />
-      <Link
-        css={colorFigureButtonsLinkStyle(colors.brand.primary)}
-        to={`${url[figureType].path}/new`}
-        target="_blank"
-        title={url[figureType].newTitle}>
-        <Plus />
-      </Link>
-      <Link
-        to={`${url[figureType].path}/${embed.resource_id}/edit/${locale}`}
-        target="_blank"
-        css={colorFigureButtonsLinkStyle(colors.support.green)}
-        title={url[figureType].editTitle}>
-        <Pencil />
-      </Link>
+      <Tooltip tooltip="Ta bort bilde">
+        <CrossButton
+          css={colorFigureButtonsLinkStyle(colors.support.red)}
+          onClick={onRemoveClick}
+          stripped
+        />
+      </Tooltip>
     </StyledFigureButtons>
   );
 };

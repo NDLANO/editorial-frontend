@@ -15,12 +15,14 @@ import styled from 'react-emotion';
 import defined from 'defined';
 import Types from 'slate-prop-types';
 import { Crop, FocalPoint } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
 import { injectT } from '@ndla/i18n';
 import { getSchemaEmbed } from '../../components/SlateEditor/editorSchema';
 import { EmbedShape, EditorShape } from '../../shapes';
 import ImageTransformEditor from './ImageTransformEditor';
 import ImageAlignButton from './ImageAlignButton';
 import ImageSizeButton from './ImageSizeButton';
+import ImageEditorButton from './ImageEditorButton';
 
 export const classes = new BEMHelper({
   name: 'image-editor',
@@ -42,7 +44,7 @@ const StyledImageEditorEditMode = styled('div')`
   border: 1px solid ${colors.brand.greyLight};
 `;
 
-const aligmnents = ['left', 'center', 'right'];
+const alignments = ['left', 'center', 'right'];
 
 const sizes = ['xsmall', 'small', 'fullwidth'];
 
@@ -170,10 +172,10 @@ class ImageEditor extends Component {
         <StyledImageEditorEditMode>
           <div>
             <StyledImageEditorMenu>
-              {aligmnents.map(aligment => (
+              {alignments.map(alignment => (
                 <ImageAlignButton
-                  key={`align_${aligment}`}
-                  alignType={aligment}
+                  key={`align_${alignment}`}
+                  alignType={alignment}
                   onFieldChange={this.onFieldChange}
                   currentAlign={this.state.align}
                 />
@@ -202,11 +204,14 @@ class ImageEditor extends Component {
             editType={this.state.editType}
           />
           <StyledImageEditorMenu>
-            <Button
-              stripped
-              onClick={evt => this.onEditorTypeSet(evt, 'focalPoint')}>
-              <FocalPoint />
-            </Button>
+            <Tooltip tooltip={t('form.image.focalPoint')}>
+              <ImageEditorButton
+                stripped
+                tabIndex={-1}
+                onClick={evt => this.onEditorTypeSet(evt, 'focalPoint')}>
+                <FocalPoint />
+              </ImageEditorButton>
+            </Tooltip>
             <Button stripped onClick={this.onSave}>
               {t('form.save')}
             </Button>
@@ -222,9 +227,15 @@ class ImageEditor extends Component {
             <Button stripped onClick={this.onAbort}>
               {t('form.abort')}
             </Button>
-            <Button stripped onClick={evt => this.onEditorTypeSet(evt, 'crop')}>
-              <Crop />
-            </Button>
+            <Tooltip tooltip={t('form.image.crop')}>
+              <ImageEditorButton
+                stripped
+                onClick={evt => this.onEditorTypeSet(evt, 'crop')}
+                tabIndex={-1}
+              >
+                <Crop />
+              </ImageEditorButton>
+            </Tooltip>
           </StyledImageEditorMenu>
         </StyledImageEditorEditMode>
       </div>

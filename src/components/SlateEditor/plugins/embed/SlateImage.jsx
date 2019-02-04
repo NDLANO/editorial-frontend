@@ -10,7 +10,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Figure } from '@ndla/ui';
 import Button from '@ndla/button';
-import { css, cx } from 'react-emotion';
+import { injectT } from '@ndla/i18n';
+import { spacing } from '@ndla/core';
+import styled, { cx } from 'react-emotion';
 import { findDOMNode } from 'slate-react';
 import SlateTypes from 'slate-prop-types';
 import config from '../../../../config';
@@ -18,6 +20,35 @@ import { EmbedShape } from '../../../../shapes';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
+
+const StyledButtonFigure = styled(Button)`
+  &::before {
+    font-size: 26px;
+    content: attr(data-label);
+    transition: opacity 200ms ease;
+    display: flex;
+    position: absolute;
+    top: 0;
+    height: inherit;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    text-shadow: 0 1px 6.5px rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    bottom: 0;
+    left: ${props => props.fullWidth ? spacing.normal : 0};
+    right: ${props => props.fullWidth ? spacing.normal : 0};
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:hover,
+  &:focus {
+    &::before {
+      opacity: 1;
+    }
+  }
+`;
 
 class SlateImage extends React.Component {
   static handleFloatedImages(node, align) {
@@ -52,9 +83,9 @@ class SlateImage extends React.Component {
     }
   }
 
-  toggleEditModus() {
+  toggleEditModus(close) {
     this.setState(prevState => ({
-      editModus: !prevState.editModus,
+      editModus: close === true ? false : !prevState.editModus,
     }));
   }
 
@@ -67,6 +98,7 @@ class SlateImage extends React.Component {
       locale,
       isSelectedForCopy,
       active,
+      t,
       ...rest
     } = this.props;
     const { editModus } = this.state;
@@ -82,14 +114,21 @@ class SlateImage extends React.Component {
       'lower-right-y': embed['lower-right-y'],
     };
 
+    const embedSize = editModus ? {
+      align: '',
+      size: 'fullbredde',
+    } : {
+      align: embed.align,
+      size: embed.size,
+    };
+
     const figureClassNames = cx('c-figure', {
-      [`u-float-${embed.size}-${embed.align}`]:
-        ['left', 'right'].includes(embed.align) &&
-        ['small', 'xsmall'].includes(embed.size),
-      [`u-float-${embed.align}`]:
-        ['left', 'right'].includes(embed.align) &&
-        !['small', 'xsmall'].includes(embed.size),
-      isSelectedForCopy: isSelectedForCopy && (!editModus || !active),
+      [`u-float-${embedSize.size}-${embedSize.align}`]:
+        ['left', 'right'].includes(embedSize.align) &&
+        ['small', 'xsmall'].includes(embedSize.size),
+      [`u-float-${embedSize.align}`]:
+        ['left', 'right'].includes(embedSize.align) &&
+        !['small', 'xsmall'].includes(embedSize.size),
     });
 
     return (
@@ -106,11 +145,10 @@ class SlateImage extends React.Component {
         {editModus ? (
           <EditImage embed={embed} closeEdit={this.toggleEditModus} {...rest} />
         ) : (
-          <Button
+          <StyledButtonFigure
             stripped
-            css={css`
-              text-align: left;
-            `}
+            data-label={t('imageEditor.editImage')}
+            fullWidth={embedSize.size === 'fullwidth' || embedSize.size === 'fullbredde' || embedSize.size === 'full'}
             onClick={this.toggleEditModus}>
             <figure {...figureClass}>
               <img
@@ -122,7 +160,7 @@ class SlateImage extends React.Component {
                 <div className="c-figure__info">{embed.caption}</div>
               </figcaption>
             </figure>
-          </Button>
+          </StyledButtonFigure>
         )}
       </Figure>
     );
@@ -144,4 +182,4 @@ SlateImage.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default SlateImage;
+export default injectT(SlateImage);

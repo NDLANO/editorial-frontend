@@ -7,6 +7,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
+import Tooltip from '@ndla/tooltip';
 import { ImageNormal, ImageSmall, ImageXsmall } from '@ndla/icons/editor';
 import ImageEditorButton from './ImageEditorButton';
 
@@ -16,13 +18,17 @@ const icon = {
   fullwidth: <ImageNormal />,
 };
 
-const ImageSizeButton = ({ currentSize, size, onFieldChange }) => (
-  <ImageEditorButton
-    isActive={currentSize === size}
-    stripped
-    onClick={evt => onFieldChange(evt, 'size', size)}>
+const ImageSizeButton = ({ currentSize, size, onFieldChange, t }) => (
+  <Tooltip tooltip={t(`form.image.sizes.${size}`)}>
+    <ImageEditorButton
+      isActive={currentSize === size}
+      tabIndex={-1}
+      stripped
+      onClick={evt => onFieldChange(evt, 'size', size)}
+    >
     {icon[size]}
-  </ImageEditorButton>
+    </ImageEditorButton>
+  </Tooltip>
 );
 
 ImageSizeButton.propTypes = {
@@ -35,4 +41,4 @@ ImageSizeButton.defaultProps = {
   currentSize: 'fullwidth',
 };
 
-export default ImageSizeButton;
+export default injectT(ImageSizeButton);

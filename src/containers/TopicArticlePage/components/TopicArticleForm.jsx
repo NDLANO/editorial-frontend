@@ -288,7 +288,6 @@ class TopicArticleForm extends Component {
             model={model}
             getArticle={this.getArticle}
             createMessage={createMessage}
-            getArticleFromModel={this.getArticle}
             article={article}
             revision={revision}
           />

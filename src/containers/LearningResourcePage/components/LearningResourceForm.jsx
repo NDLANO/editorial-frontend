@@ -54,7 +54,6 @@ import { validateDraft } from '../../../modules/draft/draftApi';
 import { articleConverter } from '../../../modules/draft/draft';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import config from '../../../config';
-import { transformArticleToApiVersion } from '../../../util/articleUtil';
 
 const parseImageUrl = metaImage => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
@@ -179,7 +178,7 @@ class LearningResourceForm extends Component {
       supportedLanguages: model.supportedLanguages,
     };
 
-    return transformArticleToApiVersion(article);
+    return article;
   }
 
   async handleSubmit(evt) {

@@ -82,6 +82,7 @@ class AgreementConnection extends Component {
         textField="title"
         placeholder={t('form.agreement.placeholder')}
         label={t('form.agreement.label')}
+        helpLabel={t('form.agreement.helpLabel')}
         apiAction={AgreementConnection.searchAgreements}
         {...commonFieldProps}
         messages={{

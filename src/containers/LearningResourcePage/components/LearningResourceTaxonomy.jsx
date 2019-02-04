@@ -36,6 +36,7 @@ import TopicConnections from './taxonomy/TopicConnections';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import SaveButton from '../../../components/SaveButton';
 import { FormActionButton } from '../../Form';
+import HowToHelper from '../../../components/HowTo/HowToHelper';
 
 const resourceTypesToOptionList = availableResourceTypes =>
   availableResourceTypes.map(resourceType =>
@@ -421,8 +422,12 @@ class LearningResourceTaxonomy extends Component {
       <Fragment>
         <FormHeader
           title={t('taxonomy.resourceTypes.title')}
-          subTitle={t('taxonomy.resourceTypes.subTitle')}
-        />
+          subTitle={t('taxonomy.resourceTypes.subTitle')}>
+          <HowToHelper
+            pageId="TaxonomyContentTypes"
+            tooltip={t('taxonomy.resourceTypes.helpLabel')}
+          />
+        </FormHeader>
         <FormDropdown
           value={selectedResourceTypeValue(resourceTypes)}
           onChange={this.onChangeSelectedResource}>

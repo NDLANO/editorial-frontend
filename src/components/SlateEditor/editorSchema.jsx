@@ -7,8 +7,8 @@
  *
  */
 
-import React from 'react';
-import { textBlockValidationRules } from './utils';
+import { Block } from 'slate';
+import defaultBlocks from './utils/defaultBlocks';
 
 export const getSchemaEmbed = node => node.get('data').toJS();
 
@@ -19,88 +19,72 @@ export const schema = {
         match: [{ type: 'section' }],
         min: 1,
       },
-      {
-        match: [
-          { type: 'paragraph' },
-          { type: 'image' },
-          { type: 'br' },
-          { type: 'bulleted-list' },
-          { type: 'numbered-list' },
-          { type: 'letter-list' },
-          { type: 'two-column-list' },
-          { type: 'list-text' },
-          { type: 'list-item' },
-          { type: 'quote' },
-          { type: 'div' },
-          { type: 'span' },
-        ],
-      },
     ],
   },
   blocks: {
-    section: textBlockValidationRules,
+    section: {
+      first: { type: 'paragraph' },
+      last: { type: 'paragraph' },
+      nodes: [
+        {
+          match: [
+            { type: 'paragraph' },
+            { type: 'embed' },
+            { type: 'heading-two' },
+            { type: 'heading-three' },
+            { type: 'bulleted-list' },
+            { type: 'numbered-list' },
+            { type: 'letter-list' },
+            { type: 'two-column-list' },
+            { type: 'related' },
+            { type: 'details' },
+            { type: 'quote' },
+            { type: 'pre' },
+          ],
+        },
+      ],
+      normalize: (editor, error) => {
+        console.log(error.code);
+        switch (error.code) {
+          case 'first_child_type_invalid': {
+            const block = Block.create(defaultBlocks.defaultBlock);
+            editor.withoutSaving(() => {
+              editor.insertNodeByKey(error.node.key, 0, block);
+            });
+            break;
+          }
+          case 'last_child_type_invalid': {
+            const block = Block.create(defaultBlocks.defaultBlock);
+            editor.withoutSaving(() => {
+              editor.insertNodeByKey(
+                error.node.key,
+                error.node.nodes.size,
+                block,
+              );
+            });
+            break;
+          }
+          case 'child_min_invalid': {
+            const block = Block.create(defaultBlocks.defaultBlock);
+            editor.withoutSaving(() => {
+              editor.insertNodeByKey(error.node.key, 0, block);
+            });
+            break;
+          }
+          case 'child_type_invalid':
+            editor.wrapBlockByKey(error.child.key, 'paragraph');
+            break;
+          default:
+            break;
+        }
+      },
+    },
   },
-};
-
-/* eslint-disable react/prop-types */
-export const renderNode = (props, editor, next) => {
-  const { attributes, children, node } = props;
-  switch (node.type) {
-    case 'section':
-      return <section {...attributes}>{children}</section>;
-    case 'br':
-      return <br {...attributes} />;
-    case 'paragraph':
-      return <p {...attributes}>{children}</p>;
-    case 'bulleted-list':
-      return (
-        <ul className="c-block__bulleted-list" {...attributes}>
-          {children}
-        </ul>
-      );
-    case 'list-text':
-      return <span {...attributes}>{children}</span>;
-    case 'list-item':
-      return (
-        <li className="c-block__list-item" {...attributes}>
-          {children}
-        </li>
-      );
-    case 'numbered-list':
-      return <ol {...attributes}>{children}</ol>;
-    case 'letter-list':
-      return (
-        <ol className="ol-list--roman" {...attributes}>
-          {children}
-        </ol>
-      );
-    case 'two-column-list':
-      return (
-        <ul className="o-list--two-columns" {...attributes}>
-          {children}
-        </ul>
-      );
-    case 'quote':
-      return <blockquote {...attributes}>{children}</blockquote>;
-    case 'div':
-      return <div {...attributes}>{children}</div>;
-    case 'span':
-      return <span {...attributes}>{children}</span>;
-    default:
-      return next();
-  }
-};
-
-export const renderMark = (props, editor, next) => {
-  const { attributes, children, mark } = props;
-  switch (mark.type) {
-    case 'bold':
-      return <strong {...attributes}>{children}</strong>;
-    case 'italic':
-      return <em {...attributes}>{children}</em>;
-    case 'underlined':
-      return <u {...attributes}>{children}</u>;
-    default:
-      return next();
-  }
+  inlines: {
+    span: {
+      parent: {
+        parent: { type: 'list' },
+      },
+    },
+  },
 };

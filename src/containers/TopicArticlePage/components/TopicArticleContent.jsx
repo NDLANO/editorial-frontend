@@ -20,11 +20,11 @@ import {
 import { RichTextField } from '../../../components/RichTextField';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
+import { schema } from '../../../components/SlateEditor/editorSchema';
 import {
-  schema,
   renderNode,
   renderMark,
-} from '../../../components/SlateEditor/editorSchema';
+} from '../../../components/SlateEditor/renderNode';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import { editListPlugin } from '../../../components/SlateEditor/plugins/externalPlugins';

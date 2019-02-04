@@ -33,11 +33,11 @@ DisplayImageTag.propTypes = {
   embedTag: PropTypes.shape({
     resource_id: PropTypes.string.isRequired,
     resource: PropTypes.string.isRequired,
-    onRemoveClick: PropTypes.func.isRequired,
     caption: PropTypes.string,
     alt: PropTypes.string,
   }),
   className: PropTypes.string,
+  onRemoveClick: PropTypes.func.isRequired,
 };
 
 export default DisplayImageTag;

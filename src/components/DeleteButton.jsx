@@ -30,7 +30,7 @@ export const DeleteButton = ({ children, style, ...rest }) => (
 );
 
 DeleteButton.propTypes = {
-  style: PropTypes.object,
+  style: PropTypes.string,
 };
 
 export default DeleteButton;

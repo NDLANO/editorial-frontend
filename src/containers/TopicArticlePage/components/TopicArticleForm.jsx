@@ -227,8 +227,8 @@ class TopicArticleForm extends Component {
           schema.fields.introduction,
           schema.fields.content,
           schema.fields.visualElement,
-          schema.fields.visualElementAlt,
-          schema.fields.visualElementCaption,
+          schema.fields.visualElement.alt,
+          schema.fields.visualElement.caption,
         ].some(field => checkTouchedInvalidField(field, submitted)),
         component: (
           <TopicArticleContent

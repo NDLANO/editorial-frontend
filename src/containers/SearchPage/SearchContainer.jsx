@@ -13,8 +13,9 @@ import queryString from 'query-string';
 import { injectT } from '@ndla/i18n';
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
-import BEMHelper from 'react-bem-helper';
 import { Search } from '@ndla/icons/common';
+import debounce from 'lodash/debounce';
+import BEMHelper from 'react-bem-helper';
 import { getLocale } from '../../modules/locale/locale';
 import { getSearching } from '../../modules/search/searchSelectors';
 import { SearchResultShape } from '../../shapes';
@@ -33,7 +34,7 @@ class SearchContainer extends Component {
   constructor() {
     super();
     this.onSortOrderChange = this.onSortOrderChange.bind(this);
-    this.onQueryPush = this.onQueryPush.bind(this);
+    this.onQueryPush = debounce(this.onQueryPush.bind(this), 300);
   }
 
   componentDidMount() {
@@ -44,16 +45,8 @@ class SearchContainer extends Component {
     }
   }
 
-  componentDidUpdate({ location: prevLocation }) {
-    const { location, search } = this.props;
-    if (location.search && location.search !== prevLocation.search) {
-      const searchObject = queryString.parse(location.search);
-      search(searchObject);
-    }
-  }
-
   onQueryPush(newSearchObject) {
-    const { history, location, type } = this.props;
+    const { location, history, type, search } = this.props;
     const oldSearchObject = queryString.parse(location.search);
 
     const searchQuery = {
@@ -65,8 +58,8 @@ class SearchContainer extends Component {
     Object.keys(searchQuery).forEach(
       key => searchQuery[key] === '' && delete searchQuery[key],
     );
-
-    history.push(toSearch({ ...searchQuery }, type));
+    search(searchQuery);
+    history.push(toSearch(searchQuery, type));
   }
 
   onSortOrderChange(sort) {

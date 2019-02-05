@@ -130,7 +130,7 @@ class TopicArticleForm extends Component {
     const visualElement = createEmbedTag(model.visualElement);
     const content = topicArticleContentToHTML(model.content);
 
-    return {
+    const article = {
       id: model.id,
       title: model.title,
       introduction: editorValueToPlainText(model.introduction),
@@ -150,6 +150,8 @@ class TopicArticleForm extends Component {
       language: model.language,
       supportedLanguages: model.supportedLanguages,
     };
+
+    return article;
   }
 
   async handleSubmit(evt) {
@@ -227,6 +229,9 @@ class TopicArticleForm extends Component {
           schema.fields.title,
           schema.fields.introduction,
           schema.fields.content,
+          schema.fields.visualElement,
+          schema.fields.visualElementAlt,
+          schema.fields.visualElementCaption,
         ].some(field => checkTouchedInvalidField(field, submitted)),
         component: (
           <TopicArticleContent
@@ -282,7 +287,6 @@ class TopicArticleForm extends Component {
             model={model}
             getArticle={this.getArticle}
             createMessage={createMessage}
-            getArticleFromModel={this.getArticle}
             article={article}
             revision={revision}
           />

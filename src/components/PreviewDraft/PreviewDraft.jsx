@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
+import { Article } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 
 class PreviewDraft extends Component {
@@ -25,17 +25,14 @@ class PreviewDraft extends Component {
   }
 
   render() {
-    const { article, contentType, label, t } = this.props;
+    const { article, label, t } = this.props;
     if (!article) {
       return null;
     }
-    const icon = contentType ? (
-      <ContentTypeBadge type={contentType} background size="large" />
-    ) : null;
+
     return (
-      <UIArticle
+      <Article
         article={article}
-        icon={icon}
         messages={{
           lastUpdated: t('article.lastUpdated'),
           edition: t('article.edition'),
@@ -59,7 +56,6 @@ PreviewDraft.propTypes = {
     title: PropTypes.string,
     introduction: PropTypes.string,
   }),
-  contentType: PropTypes.string,
   label: PropTypes.string.isRequired,
 };
 

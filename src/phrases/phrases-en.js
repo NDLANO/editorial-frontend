@@ -341,6 +341,7 @@ const phrases = {
       metaImage: {
         title: 'Meta image',
         label: 'Meta image',
+        helpLabel: 'What is a meta image?',
       },
       footnotes: {
         edition: 'Edition',
@@ -565,6 +566,7 @@ const phrases = {
     },
     tags: {
       label: 'Tags',
+      helpLabel: 'What is a tag?',
       description: '3 tags is required.',
       createOption: 'Create new tag',
       emptyList: 'No tags available',
@@ -596,10 +598,12 @@ const phrases = {
     },
     metaDescription: {
       label: 'Meta description',
+      helpLabel: 'What is a meta description?',
       description: 'The description will be viewable in search.',
     },
     agreement: {
       label: 'Connect to agreement',
+      helpLabel: 'What is an agreement?',
       placeholder: 'Search for agreement',
       emptyFilter: 'No matching agreement found',
       emptyList: 'No agreements in the list',
@@ -630,7 +634,8 @@ const phrases = {
       emptyList: ' ',
     },
     license: {
-      label: 'Lisens',
+      label: 'License',
+      helpLabel: 'What is a license?',
     },
     origin: {
       label: 'Origin',

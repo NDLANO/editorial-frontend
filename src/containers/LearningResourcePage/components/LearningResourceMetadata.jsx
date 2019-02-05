@@ -9,6 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { FormHeader } from '@ndla/forms';
 import {
   PlainTextField,
   MultiSelectField,
@@ -16,6 +17,7 @@ import {
 } from '../../../components/Fields';
 import { MetaImageShape, CommonFieldPropsShape } from '../../../shapes';
 import MetaImageSearch from './MetaImageSearch';
+import HowToHelper from '../../../components/HowTo/HowToHelper';
 
 const LearningResourceMetadata = ({ t, commonFieldProps, tags, model }) => (
   <Fragment>
@@ -23,6 +25,8 @@ const LearningResourceMetadata = ({ t, commonFieldProps, tags, model }) => (
       obligatory
       name="tags"
       data={tags}
+      howToId="MetaKeyword"
+      howToTooltip={t('form.tags.helpLabel')}
       label={t('form.tags.label')}
       description={t('form.tags.description')}
       messages={{
@@ -32,8 +36,13 @@ const LearningResourceMetadata = ({ t, commonFieldProps, tags, model }) => (
       }}
       {...commonFieldProps}
     />
+    <FormHeader title={t('form.metaDescription.label')}>
+      <HowToHelper
+        pageId="MetaImage"
+        tooltip={t('form.metaDescription.helpLabel')}
+      />
+    </FormHeader>
     <PlainTextField
-      label={t('form.metaDescription.label')}
       placeholder={t('form.metaDescription.label')}
       description={t('form.metaDescription.description')}
       name="metaDescription"

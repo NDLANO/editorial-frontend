@@ -77,7 +77,6 @@ export const schema = {
             break;
           }
           case 'child_type_invalid':
-            console.log(error.child);
             editor.wrapBlockByKey(error.child.key, 'paragraph');
             break;
           default:

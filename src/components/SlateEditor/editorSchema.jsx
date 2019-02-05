@@ -42,6 +42,7 @@ export const schema = {
             { type: 'quote' },
             { type: 'pre' },
             { type: 'br' },
+            { type: 'mathml' },
           ],
         },
       ],

@@ -39,6 +39,8 @@ export const schema = {
             { type: 'two-column-list' },
             { type: 'related' },
             { type: 'details' },
+            { type: 'bodybox' },
+            { type: 'aside' },
             { type: 'quote' },
             { type: 'pre' },
             { type: 'br' },
@@ -75,6 +77,7 @@ export const schema = {
             break;
           }
           case 'child_type_invalid':
+            console.log(error.child);
             editor.wrapBlockByKey(error.child.key, 'paragraph');
             break;
           default:

@@ -60,6 +60,7 @@ const FigureButtons = ({ embed, t, onRemoveClick }) => {
           css={colorFigureButtonsLinkStyle(colors.support.red)}
           onClick={onRemoveClick}
           stripped
+          tabIndex={-1}
         />
       </Tooltip>
     </StyledFigureButtons>

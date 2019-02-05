@@ -154,12 +154,14 @@ class Filelist extends React.Component {
 
     const { t } = this.props;
 
+    console.log('Filelist...', 'we are here right????');
     return (
       <Fragment>
         <AddFileToList
           onFileSave={this.onAddFileToList}
           onClose={this.onCloseFileUploader}
           showFileUploader={showFileUploader}
+          addedFiles={files}
         />
         <section {...fileListClasses()}>
           <h1 {...fileListClasses('heading')}>{t('form.file.label')}</h1>

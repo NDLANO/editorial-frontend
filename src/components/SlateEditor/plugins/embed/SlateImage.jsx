@@ -22,6 +22,8 @@ import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
 
 const StyledButtonFigure = styled(Button)`
+  position: relative;
+
   &::before {
     font-size: 26px;
     content: attr(data-label);
@@ -35,8 +37,8 @@ const StyledButtonFigure = styled(Button)`
     text-shadow: 0 1px 6.5px rgba(0, 0, 0, 0.7);
     z-index: 1;
     bottom: 0;
-    left: ${props => props.fullWidth ? spacing.normal : 0};
-    right: ${props => props.fullWidth ? spacing.normal : 0};
+    left: 0;
+    right: 0;
     color: #fff;
     align-items: center;
     justify-content: center;
@@ -148,7 +150,6 @@ class SlateImage extends React.Component {
           <StyledButtonFigure
             stripped
             data-label={t('imageEditor.editImage')}
-            fullWidth={embedSize.size === 'fullwidth' || embedSize.size === 'fullbredde' || embedSize.size === 'full'}
             onClick={this.toggleEditModus}>
             <figure {...figureClass}>
               <img

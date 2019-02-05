@@ -16,17 +16,23 @@ const StyledInputWrapper = styled.div`
 `;
 
 class EditImage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      alt: props.embed.alt,
+      caption: props.embed.caption,
+    }
+  }
   componentDidMount() {
     const { placeholderEl, embedEl } = this;
 
     const bodyRect = document.body.getBoundingClientRect();
 
-    // Use section as reference to fetch embed size when previewing.
-    const placeholderRect = placeholderEl.closest('section').getBoundingClientRect();
-
+    // Use contenteditable as reference to fetch embed size when previewing.
+    const placeholderRect = placeholderEl.closest('div[contenteditable="false"]').getBoundingClientRect();
     // Placing embed within placeholder div on mount
     embedEl.style.position = 'absolute';
-    embedEl.style.top = `${spacing.spacingUnit * 3 + placeholderRect.top - bodyRect.top}px`;
+    embedEl.style.top = `${placeholderRect.top - bodyRect.top}px`;
     embedEl.style.left = `${(placeholderRect.left + spacing.spacingUnit) - (placeholderRect.width * (0.333 / 2))}px`;
     embedEl.style.width = `${(placeholderRect.width * 1.333) - (spacing.spacingUnit * 2)}px`;
 
@@ -35,8 +41,14 @@ class EditImage extends Component {
     placeholderEl.style.height = `${embedRect.height + (spacing.spacingUnit * 2)}px`;
   }
 
+  onEdit(key, value) {
+    this.setState({
+      [key]: value,
+    });
+  }
+
   render() {
-    const { embed, onFigureInputChange, submitted, t, closeEdit } = this.props;
+    const { embed, onFigureInputMultipleUpdates, submitted, t, closeEdit } = this.props;
 
     return (
       <div
@@ -44,51 +56,57 @@ class EditImage extends Component {
           this.placeholderEl = placeholderEl;
         }}>
         <Portal isOpened>
-          <div
+          <FocusTrapReact
+            focusTrapOptions={{
+              onDeactivate: () => {
+                onFigureInputMultipleUpdates(
+                  {
+                    caption: this.state.caption,
+                    alt: this.state.alt,
+                  }
+                );
+                closeEdit(true)
+              },
+              clickOutsideDeactivates: true,
+              escapeDeactivates: true,
+            }}
+          >
+            <div
             ref={embedEl => {
               this.embedEl = embedEl;
             }}>
-            <FocusTrapReact
-              focusTrapOptions={{
-                onDeactivate: () => closeEdit(true),
-                clickOutsideDeactivates: true,
-                escapeDeactivates: true,
-              }}
-            >
-              <div>
-                <ImageEditor
-                  embedTag={embed}
-                  toggleEditModus={closeEdit}
-                  {...this.props}
+              <ImageEditor
+                embedTag={embed}
+                toggleEditModus={closeEdit}
+                {...this.props}
+              />
+              <StyledInputWrapper>
+                <FormInput
+                  name="caption"
+                  label={`${t('form.image.caption.label')}:`}
+                  value={this.state.caption}
+                  onChange={e => this.onEdit('caption', e.target.value)}
+                  container="div"
+                  type="text"
+                  autoExpand
+                  placeholder={t('form.image.caption.placeholder')}
+                  white
                 />
-                <StyledInputWrapper>
-                  <FormInput
-                    name="caption"
-                    label={`${t('form.image.caption.label')}:`}
-                    value={embed.caption}
-                    onChange={onFigureInputChange}
-                    container="div"
-                    type="text"
-                    autoExpand
-                    placeholder={t('form.image.caption.placeholder')}
-                    white
-                  />
-                  <FormInput
-                    name="alt"
-                    label={`${t('form.image.alt.label')}:`}
-                    value={embed.alt}
-                    onChange={onFigureInputChange}
-                    container="div"
-                    type="text"
-                    autoExpand
-                    placeholder={t('form.image.alt.placeholder')}
-                    white
-                    warningText={!submitted && isEmpty(embed.alt) ? t('form.image.alt.noText') : ''}
-                  />
-                </StyledInputWrapper>
-              </div>
-            </FocusTrapReact>
-          </div>
+                <FormInput
+                  name="alt"
+                  label={`${t('form.image.alt.label')}:`}
+                  value={this.state.alt}
+                  onChange={e => this.onEdit('alt', e.target.value)}
+                  container="div"
+                  type="text"
+                  autoExpand
+                  placeholder={t('form.image.alt.placeholder')}
+                  white
+                  warningText={!submitted && isEmpty(this.state.alt) ? t('form.image.alt.noText') : ''}
+                />
+              </StyledInputWrapper>
+            </div>
+          </FocusTrapReact>
         </Portal>
       </div>
     );
@@ -98,7 +116,7 @@ class EditImage extends Component {
 EditImage.propTypes = {
   closeEdit: PropTypes.func,
   embed: EmbedShape.isRequired,
-  onFigureInputChange: PropTypes.func.isRequired,
+  onFigureInputMultipleUpdates: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
 };
 

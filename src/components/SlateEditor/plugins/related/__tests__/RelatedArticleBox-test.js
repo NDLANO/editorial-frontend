@@ -19,7 +19,7 @@ const wrapper = () =>
     <IntlWrapper>
       <RelatedArticleBox
         t={() => 'injected'}
-        editor={{ onChange: () => {}, change: () => {} }}
+        editor={{ setNodeByKey: () => {} }}
         locale="nb"
         node={{}}
       />

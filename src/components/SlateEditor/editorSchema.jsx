@@ -30,6 +30,7 @@ export const schema = {
           match: [
             { type: 'paragraph' },
             { type: 'embed' },
+            { type: 'table' },
             { type: 'heading-two' },
             { type: 'heading-three' },
             { type: 'bulleted-list' },
@@ -40,6 +41,7 @@ export const schema = {
             { type: 'details' },
             { type: 'quote' },
             { type: 'pre' },
+            { type: 'br' },
           ],
         },
       ],

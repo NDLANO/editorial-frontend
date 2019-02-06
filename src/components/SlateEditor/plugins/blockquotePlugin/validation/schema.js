@@ -3,7 +3,7 @@ import { Block } from 'slate';
 /**
  *  Ensures that blockquotes always contain blocks.
  */
-function containBlocks(opts, change, context) {
+function containBlocks(opts, editor, context) {
   const toWrap = context.node.nodes.filter(n => n.object !== 'block');
 
   if (toWrap.isEmpty()) {
@@ -15,25 +15,24 @@ function containBlocks(opts, change, context) {
     type: opts.typeDefault,
     nodes: [],
   });
+  editor.withoutSaving(() => {
+    editor.withoutNormalizing(() => {
+      editor.insertNodeByKey(
+        context.node.key,
+        0,
+        wrapper,
+        // Be careful of Slate's core schema removing inlines or blocks when
+        // a block contains a mix of them.
+      );
+    });
 
-  change.withoutNormalizing(() => {
-    change.insertNodeByKey(
-      context.node.key,
-      0,
-      wrapper,
-      // Be careful of Slate's core schema removing inlines or blocks when
-      // a block contains a mix of them.
-    );
-  });
-
-  toWrap.forEach((child, index) => {
-    const isLast = index === toWrap.size - 1;
-    change.moveNodeByKey(child.key, wrapper.key, index, {
-      normalize: isLast,
+    toWrap.forEach((child, index) => {
+      const isLast = index === toWrap.size - 1;
+      editor.moveNodeByKey(child.key, wrapper.key, index, {
+        normalize: isLast,
+      });
     });
   });
-
-  return change;
 }
 
 /**
@@ -51,9 +50,10 @@ function schema(opts) {
         normalize(change, violation, context) {
           switch (violation) {
             case 'child_object_invalid':
-              return containBlocks(opts, change, context);
+              containBlocks(opts, change, context);
+              break;
             default:
-              return undefined;
+              break;
           }
         },
       },

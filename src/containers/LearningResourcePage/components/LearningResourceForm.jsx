@@ -204,10 +204,7 @@ class LearningResourceForm extends Component {
       return;
     }
 
-    if (
-      status === articleStatuses.PUBLISHED ||
-      status === articleStatuses.QUEUED_FOR_PUBLISHING
-    ) {
+    if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
       try {
         await validateDraft(id, {
           ...this.getArticleFromModel(),

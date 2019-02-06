@@ -9,22 +9,17 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
-import BEMHelper from 'react-bem-helper';
 import Tooltip from '@ndla/tooltip';
 import { injectT } from '@ndla/i18n';
-import { FormHeader } from '@ndla/forms';
+import { FormHeader, FormHeaderIconClass } from '@ndla/forms';
 import { uuid } from '@ndla/util';
 import { FileListEditor } from '@ndla/editor';
-import styled from 'react-emotion';
 import { Cross } from '@ndla/icons/action';
 import { CloudUploadOutline } from '@ndla/icons/editor'; 
 import { EditorShape } from '../../../../shapes';
 import { getSchemaEmbed } from '../../editorSchema';
-import SingleFile from './SingleFile';
 import AddFileToList from './AddFileToList';
 import config from '../../../../config';
-
-// const fileListClasses = BEMHelper('c-file-list');
 
 const formatFile = ({ title, type, url, ...rest }, id, t) => ({
   id,
@@ -48,44 +43,22 @@ class Filelist extends React.Component {
 
     this.onOpenFileUploader = this.onOpenFileUploader.bind(this);
     this.onCloseFileUploader = this.onCloseFileUploader.bind(this);
-    this.onFileInputChange = this.onFileInputChange.bind(this);
     this.onRemoveFileList = this.onRemoveFileList.bind(this);
-    this.onRemoveFile = this.onRemoveFile.bind(this);
     this.onAddFileToList = this.onAddFileToList.bind(this);
     this.onChangeFileData = this.onChangeFileData.bind(this);
+    this.onUpdateFileName = this.onUpdateFileName.bind(this);
+    this.onUpdateFiles = this.onUpdateFiles.bind(this);
   }
 
-  onFileInputChange(e) {
-    const { id, value, name } = e.target;
-    const { t, node, editor } = this.props;
-
-    const { files } = this.state;
-    files[id][name] = value;
-
-    // Update correct tooltip value in state as well
-    if (name === 'title') {
-      files[id].formats = files[id].formats.map(format => ({
-        ...format,
-        tooltip: `${t(`form.file.download`)} ${value}`,
-      }));
-    }
-
-    this.setState({ files });
-
-    const { nodes } = getSchemaEmbed(node);
-    const properties = {
-      data: {
-        nodes: nodes.map(nodeItem => ({
-          ...nodeItem,
-          // URL as unique identifier for file embed until proper key/id is added
-          [name]: files.filter(file => file.formats[0].url === nodeItem.url)[0][
-            name
-          ],
-        })),
-      },
-    };
-
-    editor.setNodeByKey(node.key, properties);
+  onUpdateFileName(index, value) {
+    this.setState(prevState => {
+      const { files } = prevState;
+      files[index].title = value;
+      return {
+        files,
+        changedData: true,
+      };
+    });
   }
 
   onRemoveFileList(evt) {
@@ -94,11 +67,10 @@ class Filelist extends React.Component {
     editor.removeNodeByKey(node.key);
   }
 
-  onRemoveFile(evt, removedFile) {
-    this.setState(
-      prevState => ({
-        files: prevState.files.filter(file => file.id !== removedFile.id),
-      }),
+  onUpdateFiles(files) {
+    this.setState({
+      files,
+    },
       this.onChangeFileData,
     );
   }
@@ -164,26 +136,20 @@ class Filelist extends React.Component {
         <section>
           <FormHeader title={t('form.file.label')}>
             <Tooltip tooltip={t('form.file.addFile')}>
-              <button type="button" onClick={this.onOpenFileUploader}>
-                <CloudUploadOutline />
+              <button tabIndex={-1} type="button" onClick={this.onOpenFileUploader}>
+                <CloudUploadOutline className={FormHeaderIconClass} />
               </button>
             </Tooltip>
             <Tooltip tooltip={t('form.file.removeList')}>
               <button tabIndex={-1} type="button" onClick={this.onRemoveFileList}>
-                <Cross />
+                <Cross className={FormHeaderIconClass} />
               </button>
             </Tooltip>
           </FormHeader>
           <FileListEditor
             files={files}
-            onEditFileName={(index, value) => { console.log(index, value); }}
-            onUpdateOrder={updatedFiles => {
-              if (updatedFiles.length === 0) {
-                this.onRemoveFileList();
-              } else {
-
-              }
-            }}
+            onEditFileName={this.onUpdateFileName}
+            onUpdateFiles={this.onUpdateFiles}
           />
         </section>
       </Fragment>

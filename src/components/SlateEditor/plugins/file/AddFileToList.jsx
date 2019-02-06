@@ -24,7 +24,11 @@ const AddFileToList = ({ showFileUploader, onClose, onFileSave, addedFiles, t })
               />
             </ModalHeader>
             <ModalBody>
-              <FileUploader addedFiles={addedFiles} onClose={onClose} onFileSave={onFileSave} />
+              <FileUploader
+                addedFiles={addedFiles}
+                onClose={onClose}
+                onFileSave={onFileSave}
+              />
             </ModalBody>
           </Fragment>
         )}

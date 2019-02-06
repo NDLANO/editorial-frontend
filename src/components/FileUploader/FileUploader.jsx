@@ -6,18 +6,38 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { css } from 'react-emotion';
 import { injectT } from '@ndla/i18n';
+import { spacing } from '@ndla/core';
 import Button from '@ndla/button';
 import { FileListEditor } from '@ndla/editor';
-import { UploadDropZone, FormInput } from '@ndla/forms';
-import { isEmpty } from '../validators';
-import { Field, FieldHelp } from '../Fields';
-import { FormActionButton } from '../../containers/Form';
+import { UploadDropZone, FormHeader } from '@ndla/forms';
 import { uploadFile } from '../../modules/draft/draftApi';
 import { createFormData } from '../../util/formDataHelper';
 import handleError from '../../util/handleError';
+
+const wrapperCSS = css`
+  padding: 0 ${spacing.large} ${spacing.large};
+`;
+
+const filesHeadingCSS = css`
+  h1,
+  h2 {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+`;
+
+const buttonWrapperCSS = css`
+  display: flex;
+  margin-top: ${spacing.medium};
+
+  > button {
+    margin-right: ${spacing.small};
+  }
+`;
 
 class FileUploader extends React.Component {
   constructor(props) {
@@ -31,11 +51,7 @@ class FileUploader extends React.Component {
     this.onSave = this.onSave.bind(this);
     this.onAddFiles = this.onAddFiles.bind(this);
     this.onUpdateFileName = this.onUpdateFileName.bind(this);
-    this.onUpdateOrder = this.onUpdateOrder.bind(this);
-  }
-
-  componentDidMount() {
-    console.log('componentDidMount');
+    this.onUpdateFiles = this.onUpdateFiles.bind(this);
   }
 
   onAddFiles(files) {
@@ -84,7 +100,7 @@ class FileUploader extends React.Component {
     });
   }
 
-  onUpdateOrder(addedFiles) {
+  onUpdateFiles(addedFiles) {
     this.setState({
       addedFiles,
     });
@@ -121,28 +137,31 @@ class FileUploader extends React.Component {
     }
 
     return (
-      <Fragment>
+      <div className={wrapperCSS}>
         <UploadDropZone
           allowedFiles={['application/*']}
           onAddedFiles={this.onAddFiles}
           multiple
           loading={saving}
+          ariaLabel="Drag and drop files or click to upload"
         >
           <strong>Dra og slipp</strong> eller trykk for å laste opp file(r)
         </UploadDropZone>
-        <h1>Added files:</h1>
-        {addedFiles && <FileListEditor
+        <FormHeader className={filesHeadingCSS} title="Added files:" />
+        {addedFiles ? <FileListEditor
           files={addedFiles}
           onEditFileName={this.onUpdateFileName}
-          onUpdateOrder={this.onUpdateOrder}
-        />}
-        <Button disabled={!changedData} onClick={() => this.props.onFileSave(addedFiles)}>
-          Lagre
-        </Button>
-        <Button onClick={onClose}>
-          Cancel
-        </Button>
-      </Fragment>
+          onUpdateFiles={this.onUpdateFiles}
+        /> : <span>No files added yet</span>}
+        <div className={buttonWrapperCSS}>
+          <Button disabled={!changedData} onClick={() => this.props.onFileSave(addedFiles)}>
+            Lagre endringer
+          </Button>
+          <Button onClick={onClose}>
+            Avbryt
+          </Button>
+        </div>
+      </div>
     );
   }
 }

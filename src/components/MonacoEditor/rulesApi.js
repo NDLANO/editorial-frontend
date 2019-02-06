@@ -6,34 +6,26 @@
  *
  */
 
-// import {
-//   resolveJsonOrRejectWithError,
-//   apiResourceUrl,
-//   fetchAuthorized,
-// } from '../../util/apiHelpers';
+import {
+  resolveJsonOrRejectWithError,
+  apiResourceUrl,
+  fetchAuthorized,
+} from '../../util/apiHelpers';
 
-// const baseUrl = apiResourceUrl('/draft-api/rules');
-// const baseUrl =
-//   'http://localhost:3000/rules/NDLANO/validation/master/src/main/resources/';
+const baseUrl = apiResourceUrl('/draft-api/v1/rules');
 
 export async function fetchEmbedTagRules() {
-  const rules = await import('./embed-tag-rules.json');
-  return rules.default;
-  // const response = await fetchAuthorized(`${baseUrl}/embed-tag`);
-  // return resolveJsonOrRejectWithError(response);
+  const response = await fetchAuthorized(`${baseUrl}/embed-tag/`);
+  return resolveJsonOrRejectWithError(response);
 }
 export async function fetchHTMLRules() {
-  const rules = await import('./html-rules.json');
-  return rules.default;
-  // const response = await fetchAuthorized(`${baseUrl}/embed-tag`);
-  // return resolveJsonOrRejectWithError(response);
+  const response = await fetchAuthorized(`${baseUrl}/html/`);
+  return resolveJsonOrRejectWithError(response);
 }
 
 export async function fetchMathMLRules() {
-  let rules = await import('./mathml-rules.json');
-  return rules.default;
-  // const response = await fetchAuthorized(`${baseUrl}/embed-tag`);
-  // return resolveJsonOrRejectWithError(response);
+  const response = await fetchAuthorized(`${baseUrl}/mathml/`);
+  return resolveJsonOrRejectWithError(response);
 }
 
 export async function fetchAllRules() {

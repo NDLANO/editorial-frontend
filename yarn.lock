@@ -881,10 +881,27 @@
   dependencies:
     "@ndla/core" "^0.4.6"
 
+"@ndla/button@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.2.5.tgz#dbd7f0fe5dd4a3a0119960ef1e008d1794fe1ddb"
+  integrity sha512-9v9N5v1+WCXPGEebINgrPGKbuhZz+YKpWbPdq/RcatYZMQb1pBFG+eNcIvcwTcYLZQpoB0POUPPy70hTRQJ3dg==
+  dependencies:
+    "@ndla/core" "^0.4.7"
+
 "@ndla/core@^0.4.6":
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.6.tgz#670dfd65a3db6f753cbe5943787177c53dbd1a1f"
   integrity sha512-zZaDm5m9/ZTn++sRsrPr+8AAYeB4MnG2pRgB6GVSmcqjqGvpz8pyjq19DMhni1A0nytDW1Gigw9Pn8/dgMXMxA==
+  dependencies:
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.2.0"
+    sass-mq "^5.0.0"
+
+"@ndla/core@^0.4.7":
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.7.tgz#3021b6da16773fbb575d087a4b06d57190530571"
+  integrity sha512-ErTrWikH79fvqGA5d2iULxMRgWS1przKwB8EbLfndM6ym1Ai3eSiYnf6tf4USefliUVQWNz6KtMlYf4WUX6xZw==
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
@@ -898,6 +915,14 @@
   dependencies:
     "@ndla/core" "^0.4.6"
     "@ndla/icons" "^0.6.5"
+
+"@ndla/editor@^0.3.14":
+  version "0.3.14"
+  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.3.14.tgz#1ae01250f08056bb54fa449a3e50e315fb215095"
+  integrity sha512-31q15Wedpt25knDRAQpVvFe9mmRAmp0usy4QIUjVd+4Cu3f5o/iv2+7Z033U2emNbL85kHKvzvHGH9v2iiGu/w==
+  dependencies:
+    "@ndla/core" "^0.4.7"
+    "@ndla/icons" "^0.6.6"
 
 "@ndla/error-reporter@^0.4.1":
   version "0.4.1"
@@ -915,6 +940,20 @@
     "@ndla/core" "^0.4.6"
     "@ndla/icons" "^0.6.5"
 
+"@ndla/howto@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-0.0.2.tgz#d3c24ed899a645d7726181bf6c93c2318feeca57"
+  integrity sha512-7y1dhHmVe6AangKYuFD1h13oluNCPv9nJ8dN1ssnjT3ruYsYvLAITq+njYcHPShSsi6UiDaMDqEBgY3yD1fkNA==
+  dependencies:
+    "@ndla/button" "^0.2.5"
+    "@ndla/core" "^0.4.7"
+    "@ndla/editor" "^0.3.14"
+    "@ndla/icons" "^0.6.6"
+    "@ndla/licenses" "^0.4.3"
+    "@ndla/modal" "^0.2.10"
+    "@ndla/tooltip" "^0.1.4"
+    "@ndla/ui" "^0.19.14"
+
 "@ndla/i18n@^0.4.1":
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/@ndla/i18n/-/i18n-0.4.1.tgz#07717956ea669ec347ddae74ae90bd538414c3c6"
@@ -929,6 +968,11 @@
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.5.tgz#69f7c16351e2e9ace1b26f58a72cbf5795edeb67"
   integrity sha512-1m6MnGEyrfSDUpKdQyYy9jWmS9AoAtvPUPiCwL91NXjVU27RUdyMZiSpC+TF5SUNbSU9rJIyzjbrkDcBRO5duA==
+
+"@ndla/icons@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.6.tgz#a6b7224840aec28248f14fd7c0b34b424ca5f4a3"
+  integrity sha512-xosfeqg6MdayC5r2dbvo5MGR2NIyeFBIBUHwBgWCk9WG/cVM95SwdPLNGZ/tlnD2q1JcrJosJwQQ0K3U7r69Mw==
 
 "@ndla/image-search@^0.7.14":
   version "0.7.14"
@@ -947,6 +991,15 @@
   integrity sha512-wT18L6MvEEQD/RiC5EUZ4cWGxPhDc60FIg09QeaESAZQNqbUK4ON91GTUDzilB1meEBCuAhLe3w7/D90lZ/cAw==
   dependencies:
     defined "1.0.0"
+
+"@ndla/modal@^0.2.10":
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.2.10.tgz#39d11778536516665da36ee54cb3ca1d80c35c6b"
+  integrity sha512-e4XhRYhM6VobWOaj7Pv3WHJdmU/GihAjopq8W56EaLYcPv2rrjNgSwnJz0zyzw3GvV/czt8bLGzSODt6G4grlQ==
+  dependencies:
+    "@ndla/button" "^0.2.5"
+    "@ndla/core" "^0.4.7"
+    "@ndla/util" "^0.3.1"
 
 "@ndla/modal@^0.2.9":
   version "0.2.9"
@@ -983,12 +1036,27 @@
     "@ndla/core" "^0.4.6"
     lodash "^4.17.11"
 
+"@ndla/tabs@^0.9.8":
+  version "0.9.8"
+  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-0.9.8.tgz#bf31b0f73ecb03f035966a1e70df07c2743324b3"
+  integrity sha512-ev/sCFgnVhgRRFmErCKUXQt9Cf62+zXzYgYERvJ3/wGJ0sooaFspWWYJmCFbfXG2MQ8gAeY8BJ3NOZFNlBgUdQ==
+  dependencies:
+    "@ndla/core" "^0.4.7"
+    lodash "^4.17.11"
+
 "@ndla/tooltip@^0.1.3":
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.1.3.tgz#5e8d4ea76a0dbcaf8c315b0e624ee99189c2b8f4"
   integrity sha512-8TFdVhBh/sJZr5c0tnB3rmoHy+i9lq+9wFGGNh8gR9emwbIg8vzr91WCX93/1NRcAO/LVD2/BRIm1Apqo2uGbQ==
   dependencies:
     "@ndla/core" "^0.4.6"
+
+"@ndla/tooltip@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.1.4.tgz#2dd4ef4b4b9127053298fb0b701ae8d5e0efda8a"
+  integrity sha512-NCPTnPcUozQWEpQXoWz2d+3D5T7ZJrJovESNwbFKGAIjYRyMPRJj4SirPvJp2lUvNNdEy5NkoyqYxxJuoQCyrQ==
+  dependencies:
+    "@ndla/core" "^0.4.7"
 
 "@ndla/tracker@^0.3.1":
   version "0.3.1"
@@ -1007,6 +1075,32 @@
     "@ndla/modal" "^0.2.9"
     "@ndla/tabs" "^0.9.7"
     "@ndla/tooltip" "^0.1.3"
+    "@ndla/util" "^0.3.1"
+    classnames "2.2.6"
+    focus-trap "^3.0.0"
+    focus-trap-react "^4.0.0"
+    jump.js "^1.0.2"
+    lodash "^4.17.5"
+    react-bem-helper "1.4.1"
+    react-device-detect "^1.6.1"
+    react-facebook "^6.0.15"
+    react-prop-types "0.4.0"
+    react-slick "^0.23.2"
+    react-transition-group "^2.5.1"
+
+"@ndla/ui@^0.19.14":
+  version "0.19.14"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.19.14.tgz#568345e0339a7a848f1a99b669e52d6f3ba60d33"
+  integrity sha512-RPANGsMzWTjMraMd0CbrvwBEmvcrZX8Rgn2NK8CcE6HBU2dp3a9az20qbpFFVb5SAHqxvbrFBWIKKHyBiBPROA==
+  dependencies:
+    "@ndla/button" "^0.2.5"
+    "@ndla/core" "^0.4.7"
+    "@ndla/i18n" "^0.4.1"
+    "@ndla/icons" "^0.6.6"
+    "@ndla/licenses" "^0.4.3"
+    "@ndla/modal" "^0.2.10"
+    "@ndla/tabs" "^0.9.8"
+    "@ndla/tooltip" "^0.1.4"
     "@ndla/util" "^0.3.1"
     classnames "2.2.6"
     focus-trap "^3.0.0"
@@ -7937,13 +8031,15 @@ ncp@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
 
-ndla-slate-edit-list@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/ndla-slate-edit-list/-/ndla-slate-edit-list-0.13.0.tgz#113382ffede2532a022919124002f8394535a436"
+ndla-slate-edit-list@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/ndla-slate-edit-list/-/ndla-slate-edit-list-0.13.1.tgz#6b767fa98638f19d9f64339f264699941ef9ac40"
+  integrity sha512-Ho77Pvoc/TENupCzs8vK26EVxAvIBLxx7JobXJhkP63pjgHhDu8ZNoTo4XONX9JlICUoucFQdniQ6CDUNZlKLA==
 
-ndla-slate-edit-table@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/ndla-slate-edit-table/-/ndla-slate-edit-table-0.1.3.tgz#0cfc628247dc9da4b7e57870cac414b9c3b51240"
+ndla-slate-edit-table@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ndla-slate-edit-table/-/ndla-slate-edit-table-0.1.4.tgz#5804f5dd99888a06bdecbffdfce2b519471932fe"
+  integrity sha512-wzD8ORjLdNukUZdUwGjyWJ4vHESY0AJ8vPM6p1+50uij7aGrnGyUsN5I6Yx1y3UxjOWY7tvXVGzlDCfehJpF5A==
   dependencies:
     babel-cli "^6.26.0"
 
@@ -11293,21 +11389,23 @@ slash@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/slash/-/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
 
-slate-base64-serializer@^0.2.82:
+slate-base64-serializer@^0.2.94:
   version "0.2.94"
   resolved "https://registry.yarnpkg.com/slate-base64-serializer/-/slate-base64-serializer-0.2.94.tgz#b908c3af481b9a0ead78f313653414c4b2b4b2d5"
+  integrity sha512-jltk0PwOS1lu/TRHTN/qW67+VSXlbX1d0GottPloKjYwHBbH47GVT/G+hmkOdrGXzV7P6220BvQwN8Xq2RaJ5A==
   dependencies:
     isomorphic-base64 "^1.0.2"
 
-slate-dev-environment@^0.2.0, slate-dev-environment@^0.2.1:
+slate-dev-environment@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/slate-dev-environment/-/slate-dev-environment-0.2.1.tgz#760f500f18af0dc61bcae39eec4160c420fea537"
   dependencies:
     is-in-browser "^1.1.3"
 
-slate-hotkeys@^0.2.7:
+slate-hotkeys@^0.2.8:
   version "0.2.8"
   resolved "https://registry.yarnpkg.com/slate-hotkeys/-/slate-hotkeys-0.2.8.tgz#7fecf732c512c860113f3f1a6dc1015df9d130a7"
+  integrity sha512-9d8hkXYGcuPMPxC3LvdhXZQGWMs0LISe3uKGp1dHandPNxffqxDHcgTJSYtUDyxM4Dve4eJByJQ4oBbYawUGDw==
   dependencies:
     is-hotkey "0.1.4"
     slate-dev-environment "^0.2.1"
@@ -11324,17 +11422,23 @@ slate-hyperscript@^0.11:
   dependencies:
     is-plain-object "^2.0.4"
 
-slate-plain-serializer@0.6.33, slate-plain-serializer@^0.6.21:
+slate-plain-serializer@0.6.33, slate-plain-serializer@^0.6.33:
   version "0.6.33"
   resolved "https://registry.yarnpkg.com/slate-plain-serializer/-/slate-plain-serializer-0.6.33.tgz#b731ecd8757f0d402ab36823f4be641c3f11a229"
 
-slate-prop-types@^0.5.12, slate-prop-types@^0.5.24:
+slate-prop-types@^0.5.24:
   version "0.5.24"
   resolved "https://registry.yarnpkg.com/slate-prop-types/-/slate-prop-types-0.5.24.tgz#ecff6584e250d88ff8384ff2bd820eec7d296913"
 
-slate-react@^0.20:
-  version "0.20.8"
-  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.20.8.tgz#8e5f4fcf204c9f45e3db5e2e942c20de2c52f9e5"
+slate-react-placeholder@^0.1.12:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/slate-react-placeholder/-/slate-react-placeholder-0.1.12.tgz#d09936acf1570f9178d3a40a56ff0616f67e1fd7"
+  integrity sha512-QBCLuRRrWhA7Igj6tgDsLPz5hnmMKBcknb7auXH21WC5L0OvT/oSd9qbyuHg36VLae3JjzQtN1+gXe2VWRWh1g==
+
+slate-react@^0.21.15:
+  version "0.21.15"
+  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.21.15.tgz#f616f59f2fd91755704c21512972b87f3df76a9e"
+  integrity sha512-yn3tu1Q6rBB2hYrnqE17+7eLy9Lxx7R7HdDFS02Bi6puYBoUa7RmwlwWCFAhyi9jUuaCa8pbXwZyUujDFV5DXQ==
   dependencies:
     debug "^3.1.0"
     get-window "^1.1.1"
@@ -11344,11 +11448,12 @@ slate-react@^0.20:
     prop-types "^15.5.8"
     react-immutable-proptypes "^2.1.0"
     selection-is-backward "^1.0.0"
-    slate-base64-serializer "^0.2.82"
-    slate-dev-environment "^0.2.0"
-    slate-hotkeys "^0.2.7"
-    slate-plain-serializer "^0.6.21"
-    slate-prop-types "^0.5.12"
+    slate-base64-serializer "^0.2.94"
+    slate-dev-environment "^0.2.1"
+    slate-hotkeys "^0.2.8"
+    slate-plain-serializer "^0.6.33"
+    slate-prop-types "^0.5.24"
+    slate-react-placeholder "^0.1.12"
     tiny-invariant "^1.0.1"
     tiny-warning "^0.0.3"
 

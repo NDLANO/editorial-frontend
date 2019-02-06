@@ -366,6 +366,7 @@ const phrases = {
       metaImage: {
         title: 'Metabilde',
         label: 'Metabilde',
+        helpLabel: 'Hva er et metabilde?',
       },
       footnotes: {
         edition: 'Utgave',
@@ -590,6 +591,7 @@ const phrases = {
     },
     tags: {
       label: 'Nøkkelord',
+      helpLabel: 'Hva er nøkkelord?',
       description: 'Obligatorisk med 3 nøkkelord.',
       createOption: 'Opprett nytt nøkkelord',
       emptyFilter: 'Fant ingen passende nøkkelord',
@@ -628,10 +630,12 @@ const phrases = {
     },
     metaDescription: {
       label: 'Metabeskrivelse',
+      helpLabel: 'Hva er metabeskrivelse?',
       description: 'Beskrivelsen blir synlig i søk.',
     },
     agreement: {
       label: 'Koble til avtale',
+      helpLabel: 'Hva er en avtale?',
       placeholder: 'Søk etter avtale',
       emptyFilter: 'Fant ingen passende avtaler',
       emptyList: 'Det er ingen avtaler i denne listen',
@@ -663,6 +667,7 @@ const phrases = {
     },
     license: {
       label: 'Lisens',
+      helpLabel: 'Hva er lisenser?',
     },
     origin: {
       label: 'Opphav',
@@ -806,11 +811,13 @@ const phrases = {
     removeLink: 'Fjern link',
     resourceTypes: {
       title: 'Innholdstype',
+      helpLabel: 'Hva er en Innholdstype?',
       subTitle: 'Hvilken innholdstype har denne ressursen?',
       placeholder: 'Velg innholdstype',
     },
     topics: {
       title: 'Emnetilknytninger',
+      helpLabel: 'Hva er emnetilknytning?',
       subTitle: 'Hvor i taksonomien skal ressursen ligge?',
       filestructureButton: 'Opprett emnetilknytning',
       filestructureHeading: 'Velg emnetilknytning',
@@ -822,6 +829,7 @@ const phrases = {
     filters: {
       title: 'Filter',
       subTitle: 'Hvilket fagfilter gjelder for denne ressursen?',
+      helpLabel: 'Hva er et fagfilter?',
       additional: 'Tilleggsressurs',
       core: 'Kjerneressurs',
     },

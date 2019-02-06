@@ -77,22 +77,21 @@ export class RelatedArticleBox extends React.Component {
   setNodeKey() {
     const { editor, node } = this.props;
     const { items } = this.state;
-    editor.change(change =>
-      change.setNodeByKey(node.key, {
-        data: {
-          nodes: items.map(
-            item =>
-              item.id === ARTICLE_EXTERNAL
-                ? {
-                    resource: 'related-content',
-                    url: item.url,
-                    title: item.title,
-                  }
-                : { resource: 'related-content', ['article-id']: item.id }, // eslint-disable-line
-          ),
-        },
-      }),
-    );
+
+    editor.setNodeByKey(node.key, {
+      data: {
+        nodes: items.map(
+          item =>
+            item.id === ARTICLE_EXTERNAL
+              ? {
+                  resource: 'related-content',
+                  url: item.url,
+                  title: item.title,
+                }
+              : { resource: 'related-content', ['article-id']: item.id }, // eslint-disable-line
+        ),
+      },
+    });
   }
 
   updateEmbedNode() {
@@ -199,7 +198,7 @@ RelatedArticleBox.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  editor: EditorShape,
+  editor: EditorShape.isRequired,
   node: PropTypes.oneOfType([Types.node, PropTypes.shape({})]).isRequired,
   locale: PropTypes.string.isRequired,
   onRemoveClick: PropTypes.func,

@@ -24,6 +24,7 @@ const moveContentButtonStyle = css`
   top: 0.1rem;
   right: 1.2rem;
   color: ${colors.support.green};
+
   &:hover,
   &:focus {
     color: ${darken(0.2, colors.support.green)};
@@ -45,7 +46,7 @@ const SlateBodyBox = props => {
     editor.unwrapBlockByKey(node.key, node.type);
   };
   return (
-    <StyledBodyBox {...attributes}>
+    <StyledBodyBox className="c-bodybox" {...attributes}>
       {children}
       <DeleteButton stripped onClick={onRemoveClick} />
       <Button

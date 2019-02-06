@@ -154,6 +154,7 @@ export default {
       "'unsafe-eval'",
       'https://fonts.googleapis.com',
       'https://fonts.gstatic.com',
+      'https://tagmanager.google.com',
       'https://www.wiris.net',
     ],
     fontSrc: [

@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { css } from 'react-emotion';
 import darken from 'polished/lib/color/darken';
 import { colors } from '@ndla/core';
@@ -24,8 +25,12 @@ const deleteButtonStyle = css`
   }
 `;
 
-export const DeleteButton = ({ children, ...rest }) => (
-  <CrossButton stripped css={deleteButtonStyle} {...rest} />
+export const DeleteButton = ({ children, style, ...rest }) => (
+  <CrossButton stripped css={[deleteButtonStyle, style]} {...rest} />
 );
+
+DeleteButton.propTypes = {
+  style: PropTypes.string,
+};
 
 export default DeleteButton;

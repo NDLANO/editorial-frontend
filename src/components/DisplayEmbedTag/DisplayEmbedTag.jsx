@@ -21,7 +21,13 @@ const DisplayEmbedTag = ({
 }) => {
   switch (embedTag.resource) {
     case 'image':
-      return <DisplayImageTag embedTag={embedTag} className={className} />;
+      return (
+        <DisplayImageTag
+          embedTag={embedTag}
+          className={className}
+          onRemoveClick={onRemoveClick}
+        />
+      );
     case 'brightcove':
       return <DisplayBrightcoveTag embedTag={embedTag} className={className} />;
     case 'external':

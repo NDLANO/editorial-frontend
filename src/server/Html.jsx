@@ -36,7 +36,7 @@ const Html = props => {
         )}
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300italic,400,600,700|Signika:400,600,300,700"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400,600,700|Signika:400,600,300,700"
         />
         <link
           rel="shortcut icon"

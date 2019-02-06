@@ -12,9 +12,9 @@ const resourceType = item =>
     ? item.resourceTypes.find(it => iconMapping(it.id))
     : { id: '' };
 
-const RelatedArticle = ({ locale, item, t }) => (
+const RelatedArticle = ({ locale, item, t, numberInList }) => (
   <RelatedArticleUI
-    {...iconMapping(resourceType(item).id || item.id)}
+    {...iconMapping(resourceType(item).id || item.id, numberInList)}
     title={convertFieldWithFallback(item, 'title', item.title)}
     introduction={convertFieldWithFallback(
       item,
@@ -38,6 +38,7 @@ RelatedArticle.propTypes = {
     id: PropTypes.string,
     title: PropTypes.string,
   }),
+  numberInList: PropTypes.number,
 };
 
 export default injectT(RelatedArticle);

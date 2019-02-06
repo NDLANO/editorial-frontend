@@ -57,6 +57,8 @@ export class RelatedArticleBox extends React.Component {
           this.fetchExternal(article.url, article.title, true);
         }
       });
+    } else {
+      this.setState({ editMode: true });
     }
   }
 

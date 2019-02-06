@@ -9,6 +9,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import AutosizeInput from 'react-input-autosize';
+import { Search } from '@ndla/icons/common';
+import { css } from 'react-emotion';
 import { dropDownClasses } from '.';
 
 const autosizeStyle = {
@@ -19,6 +21,13 @@ const autosizeStyle = {
   fontSize: '18px',
 };
 
+const searchIconStyle = css`
+  position: absolute;
+  top: 5.5px;
+  right: 3px;
+  color: #4d4d4d;
+`;
+
 const DropdownInput = props => {
   const {
     multiSelect,
@@ -26,7 +35,6 @@ const DropdownInput = props => {
     name,
     getInputProps,
     testid,
-    placeholder,
     className,
   } = props;
   if (multiSelect) {
@@ -42,13 +50,15 @@ const DropdownInput = props => {
   }
 
   return (
-    <input
-      {...getInputProps({ name, ...inputProps })}
-      {...dropDownClasses('single')}
-      data-testid={testid}
-      placeholder={placeholder}
-      className={className}
-    />
+    <React.Fragment>
+      <input
+        {...getInputProps({ name, ...inputProps })}
+        {...dropDownClasses('single')}
+        data-testid={testid}
+        className={className}
+      />
+      <Search className="c-icon--medium" css={searchIconStyle} />
+    </React.Fragment>
   );
 };
 

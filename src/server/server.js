@@ -83,13 +83,13 @@ app.get('/health', (req, res) => {
   res.status(OK).json({ status: OK, text: 'Health check ok' });
 });
 
-app.post('/prettify', (req, res) => {
-  const prettified = prettier.format(req.body.content, {
+app.post('/format-html', (req, res) => {
+  const html = prettier.format(req.body.html, {
     parser: 'html',
     printWidth: 1000000, // Avoid inserting linebreaks for long inline texts i.e. <p>Lorem ......... ipsum</p>
     plugins: [parseHTML],
   });
-  res.status(OK).json({ prettified, content: req.body.content });
+  res.status(OK).json({ html });
 });
 
 app.get('/login/silent-callback', (req, res) => {

@@ -20,15 +20,15 @@ export function createFormatAction(monaco) {
 
     run: async function(editor) {
       const model = editor.getModel();
-      const data = await fetch(`/prettify`, {
+      const data = await fetch(`/format-html`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ content: model.getValue() }),
+        body: JSON.stringify({ html: model.getValue() }),
       });
-      const { prettified } = await data.json();
-      model.setValue(prettified);
+      const { html } = await data.json();
+      model.setValue(html);
 
       return null;
     },

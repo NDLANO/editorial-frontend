@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 import { spacing, colors } from '@ndla/core';
@@ -53,16 +53,11 @@ monaco.editor.defineTheme('myCustomTheme', {
   ],
 });
 
-export class MonacoEditor extends Component {
-  constructor(props) {
-    super(props);
-    this.container = React.createRef();
-  }
+export function MonacoEditor({ value }) {
+  const divRef = useRef(null);
 
-  async componentDidMount() {
-    const { value } = this.props;
-
-    this.editor = monaco.editor.create(this.container.current, {
+  useEffect(() => {
+    let editor = monaco.editor.create(divRef.current, {
       value,
       scrollBeyondLastLine: false,
       theme: 'myCustomTheme',
@@ -72,25 +67,24 @@ export class MonacoEditor extends Component {
       language: 'html',
     });
 
-    this.editor.onDidChangeModelContent(event => {
+    editor.onDidChangeModelContent(event => {
       const value = this.editor.getValue();
       this.props.onChange(value, event);
     });
 
-    this.editor.addAction(createFormatAction(monaco));
-  }
-  render() {
-    return (
-      <div
-        css={css`
-          height: 80vh;
-          margin: ${spacing.normal};
-          border: 1px solid ${colors.brand.greyLight};
-        `}
-        ref={this.container}
-      />
-    );
-  }
+    editor.addAction(createFormatAction(monaco));
+  }, []);
+
+  return (
+    <div
+      css={css`
+        height: 80vh;
+        margin: ${spacing.normal};
+        border: 1px solid ${colors.brand.greyLight};
+      `}
+      ref={divRef}
+    />
+  );
 }
 
 MonacoEditor.propTypes = {

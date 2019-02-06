@@ -27,7 +27,7 @@ const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
 
 // Serialize and deserialize content using slate helpers
 // to ensure standarized markup.
-// Also useful for detecting validatio issues.
+// Also useful for detecting validation issues.
 function standardizeContent(content) {
   const converted = learningResourceContentToEditorValue(content);
   return learningResourceContentToHTML(converted);
@@ -76,14 +76,13 @@ FetchErrorMessage.propTypes = {
 
 export class EditMarkupPage extends Component {
   state = {
-    // initial | loading | edit | fetch-error | save-error | saving
+    // initial | edit | fetch-error | save-error | saving
     status: 'initial',
     draft: undefined,
   };
 
   async componentDidMount() {
     try {
-      this.setState({ status: 'loading' });
       const { draftId, language } = this.props.match.params;
       const draft = await fetchDraft(draftId, language);
       this.setState({ draft, status: 'edit' });
@@ -176,7 +175,11 @@ export class EditMarkupPage extends Component {
                     to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
                     {t('editMarkup.back')}
                   </Link>
-                  <Button onClick={this.saveChanges}>{t('form.save')}</Button>
+                  <Button
+                    disabled={status === 'initial' || status === 'saving'}
+                    onClick={this.saveChanges}>
+                    {t('form.save')}
+                  </Button>
                 </Row>
               </Row>
             </Suspense>

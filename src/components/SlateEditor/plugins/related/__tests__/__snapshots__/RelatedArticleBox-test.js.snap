@@ -14,6 +14,7 @@ exports[`it goes in and out of edit mode 1`] = `
 
 exports[`it goes in and out of edit mode 2`] = `
 <div
+  class="css-mlcrrv"
   data-testid="relatedWrapper"
   role="button"
   tabindex="0"

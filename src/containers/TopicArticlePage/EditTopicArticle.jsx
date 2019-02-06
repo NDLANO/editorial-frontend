@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
+import * as messageActions from '../Messages/messagesActions';
 import { actions as draftActions, getDraft } from '../../modules/draft/draft';
 import TopicArticleForm, {
   getInitialModel,
@@ -27,6 +28,7 @@ class EditTopicArticle extends Component {
   constructor(props) {
     super(props);
     this.updateDraft = this.updateDraft.bind(this);
+    this.createMessage = this.createMessage.bind(this);
   }
 
   componentDidMount() {
@@ -60,6 +62,11 @@ class EditTopicArticle extends Component {
     updateDraft({ draft: article });
   }
 
+  createMessage(message = {}) {
+    const { addMessage } = this.props;
+    addMessage(message);
+  }
+
   render() {
     const { article, t, ...rest } = this.props;
     if (!article) {
@@ -85,6 +92,7 @@ class EditTopicArticle extends Component {
           articleStatus={article.status}
           onUpdate={this.updateDraft}
           article={article}
+          createMessage={this.createMessage}
           {...rest}
         />
       </Fragment>
@@ -99,9 +107,11 @@ EditTopicArticle.propTypes = {
   updateDraft: PropTypes.func.isRequired,
   article: ArticleShape,
   selectedLanguage: PropTypes.string.isRequired,
+  addMessage: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
+  addMessage: messageActions.addMessage,
   fetchDraft: draftActions.fetchDraft,
   updateDraft: draftActions.updateDraft,
   fetchTags: tagActions.fetchTags,

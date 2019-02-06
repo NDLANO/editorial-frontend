@@ -104,11 +104,6 @@
     }
   }
 
-  &__learning-resource-meta-image {
-    font-size: 1.5rem;
-    font-weight: normal;
-  }
-
   &__date-picker + svg {
     margin-left: -1.5rem;
     margin-top: -2px;

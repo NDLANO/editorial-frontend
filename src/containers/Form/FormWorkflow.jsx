@@ -47,7 +47,7 @@ class FormWorkflow extends Component {
     const {
       model: { id },
       updateStatusDraft,
-      getArticleFromModel,
+      getArticle,
       createMessage,
       revision,
     } = this.props;
@@ -58,13 +58,13 @@ class FormWorkflow extends Component {
         status === articleStatuses.QUEUED_FOR_PUBLISHING
       ) {
         await draftApi.validateDraft(id, {
-          ...getArticleFromModel(),
+          ...getArticle(),
           revision,
         });
       }
       updateStatusDraft({ id, status });
     } catch (error) {
-      if (error && error.json.messages) {
+      if (error && error.json && error.json.messages) {
         createMessage(formatErrorMessage(error));
       }
     }
@@ -74,12 +74,12 @@ class FormWorkflow extends Component {
     const {
       model: { id },
       createMessage,
-      getArticleFromModel,
+      getArticle,
       revision,
     } = this.props;
 
     try {
-      await draftApi.validateDraft(id, { ...getArticleFromModel(), revision });
+      await draftApi.validateDraft(id, { ...getArticle(), revision });
       createMessage({
         translationKey: 'form.validationOk',
         severity: 'success',
@@ -87,6 +87,8 @@ class FormWorkflow extends Component {
     } catch (error) {
       if (error && error.json && error.json.messages) {
         createMessage(formatErrorMessage(error));
+      } else {
+        createMessage(error);
       }
     }
   }

@@ -14,6 +14,7 @@ import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { FormHeader, FormSections, FormDropdown } from '@ndla/forms';
 import { CommonFieldPropsShape } from '../../../shapes';
 import { getLocale } from '../../../modules/locale/locale';
+import HowToHelper from '../../../components/HowTo/HowToHelper';
 
 const FormLicense = ({
   t,
@@ -30,7 +31,12 @@ const FormLicense = ({
 
   return (
     <Fragment>
-      <FormHeader title={t('form.license.label')} width={3 / 4} />
+      <FormHeader title={t('form.license.label')} width={3 / 4}>
+        <HowToHelper
+          pageId="userLicense"
+          tooltip={t('form.license.helpLabel')}
+        />
+      </FormHeader>
       <FormSections>
         <div>
           <FormDropdown

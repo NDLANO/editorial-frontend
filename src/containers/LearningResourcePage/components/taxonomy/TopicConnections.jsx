@@ -25,6 +25,7 @@ import {
 import ActiveTopicConnections from './ActiveTopicConnections';
 import FilterView from '../../../StructurePage/folderComponents/FilterView';
 import { StructureShape, TopicShape } from '../../../../shapes';
+import HowToHelper from '../../../../components/HowTo/HowToHelper';
 
 class TopicConnections extends Component {
   constructor(props) {
@@ -142,8 +143,12 @@ class TopicConnections extends Component {
       <Fragment>
         <FormHeader
           title={t('taxonomy.topics.title')}
-          subTitle={t('taxonomy.topics.subTitle')}
-        />
+          subTitle={t('taxonomy.topics.subTitle')}>
+          <HowToHelper
+            pageId="TaxonomySubjectConnections"
+            tooltip={t('taxonomy.topics.helpLabel')}
+          />
+        </FormHeader>
         <ActiveTopicConnections {...rest} />
         <Modal
           backgroundColor="white"

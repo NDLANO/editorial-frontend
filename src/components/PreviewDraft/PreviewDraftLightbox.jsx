@@ -100,12 +100,12 @@ class PreviewDraftLightbox extends React.Component {
   async openPreview() {
     const { getArticle, typeOfPreview } = this.props;
 
-    const draft = getArticle();
-    const originalArticle = transformArticleToApiVersion(draft);
+    const article = transformArticleToApiVersion(getArticle());
 
-    const secondArticleLanguage = originalArticle.supportedLanguages.find(
-      l => l !== draft.language,
+    const secondArticleLanguage = article.supportedLanguages.find(
+      l => l !== article.language,
     );
+
     const types = {
       previewProductionArticle: this.previewProductionArticle,
       previewLanguageArticle: () =>
@@ -113,8 +113,8 @@ class PreviewDraftLightbox extends React.Component {
     };
     this.setState({ loading: true });
     const firstArticle = await articleApi.getPreviewArticle(
-      originalArticle,
-      originalArticle.language,
+      article,
+      article.language,
     );
 
     const secondArticle = types[typeOfPreview]
@@ -122,7 +122,7 @@ class PreviewDraftLightbox extends React.Component {
       : undefined;
 
     this.setState({
-      firstArticle: transformArticle(firstArticle, originalArticle.language),
+      firstArticle: transformArticle(firstArticle, article.language),
       secondArticle,
       showPreview: true,
       previewLanguage: secondArticleLanguage,
@@ -132,13 +132,12 @@ class PreviewDraftLightbox extends React.Component {
 
   async previewProductionArticle() {
     const { getArticle } = this.props;
-    const draft = getArticle();
-    const originalArticle = transformArticleToApiVersion(draft);
+    const { id, language } = getArticle();
     const article = await articleApi.getArticleFromArticleConverter(
-      originalArticle.id,
-      originalArticle.language,
+      id,
+      language,
     );
-    return transformArticle(article, originalArticle.language);
+    return transformArticle(article, language);
   }
 
   async previewLanguageArticle(language = undefined) {
@@ -163,7 +162,7 @@ class PreviewDraftLightbox extends React.Component {
       previewLanguage,
       loading,
     } = this.state;
-    const { label, contentType, typeOfPreview, t } = this.props;
+    const { label, typeOfPreview, t } = this.props;
 
     if (!showPreview) {
       return (
@@ -194,7 +193,6 @@ class PreviewDraftLightbox extends React.Component {
             firstArticle={firstArticle}
             secondArticle={secondArticle}
             label={label}
-            contentType={contentType}
             typeOfPreview={typeOfPreview}
             onChangePreviewLanguage={this.onChangePreviewLanguage}
             previewLanguage={previewLanguage}
@@ -210,7 +208,6 @@ export default injectT(PreviewDraftLightbox);
 PreviewDraftLightbox.propTypes = {
   getArticle: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
-  contentType: PropTypes.string,
   typeOfPreview: PropTypes.oneOf([
     'preview',
     'previewProductionArticle',

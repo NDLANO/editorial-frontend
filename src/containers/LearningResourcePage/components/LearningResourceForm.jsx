@@ -153,7 +153,7 @@ class LearningResourceForm extends Component {
     const { model, licenses } = this.props;
     const content = learningResourceContentToHTML(model.content);
     const emptyContent = model.id ? '' : undefined;
-    return {
+    const article = {
       id: model.id,
       title: model.title,
       introduction: editorValueToPlainText(model.introduction),
@@ -171,13 +171,14 @@ class LearningResourceForm extends Component {
         creators: model.creators,
         processors: model.processors,
         rightsholders: model.rightsholders,
-        agreementId: model.agreementId,
       },
       notes: model.notes || [],
       language: model.language,
       updated: model.updated,
       supportedLanguages: model.supportedLanguages,
     };
+
+    return article;
   }
 
   async handleSubmit(evt) {
@@ -203,10 +204,7 @@ class LearningResourceForm extends Component {
       return;
     }
 
-    if (
-      status === articleStatuses.PUBLISHED ||
-      status === articleStatuses.QUEUED_FOR_PUBLISHING
-    ) {
+    if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
       try {
         await validateDraft(id, {
           ...this.getArticleFromModel(),
@@ -312,7 +310,6 @@ class LearningResourceForm extends Component {
             model={model}
             getArticle={this.getArticleFromModel}
             createMessage={createMessage}
-            getArticleFromModel={this.getArticleFromModel}
             revision={revision}
           />
         ),

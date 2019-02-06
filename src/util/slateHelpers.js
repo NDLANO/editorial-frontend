@@ -52,6 +52,19 @@ export const MARK_TAGS = {
 
 const ListText = ({ children }) => children;
 
+const emptyNodes = [
+  {
+    object: 'text',
+    leaves: [
+      {
+        object: 'leaf',
+        marks: [],
+        text: '',
+      },
+    ],
+  },
+];
+
 export const findNodesByType = (node, type, nodes = []) => {
   if (node.type === type) {
     nodes.push(node);
@@ -137,13 +150,14 @@ export const divRule = {
         object: 'block',
         type: 'related',
         data: reduceChildElements(el, type),
+        nodes: emptyNodes,
       };
     }
     if (type === 'file') {
       return {
         object: 'block',
         type: 'file',
-        isVoid: true,
+        nodes: emptyNodes,
         data: reduceChildElements(el, type),
       };
     }
@@ -188,14 +202,13 @@ export const paragraphRule = {
       ? el.parentElement.tagName.toLowerCase()
       : '';
     const type = parent === 'li' ? 'list-text' : 'paragraph';
-    const nodes = next(el.childNodes);
     return {
       object: 'block',
       data: {
         ...reduceElementDataAttributes(el),
       },
       type,
-      nodes,
+      nodes: next(el.childNodes),
     };
   },
   serialize(slateObject, children) {
@@ -222,6 +235,8 @@ export const listItemRule = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'li') return;
+    // const nodes = [...next(el.childNodes), ...emptyNodes];
+
     return {
       object: 'block',
       type: 'list-item',
@@ -354,7 +369,6 @@ export const footnoteRule = {
       nodes: [
         {
           object: 'text',
-          isVoid: true,
           leaves: [
             {
               object: 'leaf',
@@ -589,6 +603,7 @@ const RULES = [
   {
     deserialize(el, next) {
       if (el.tagName.toLowerCase() !== 'a') return;
+      const nodes = next(el.childNodes);
       return {
         object: 'inline',
         type: 'link',
@@ -598,7 +613,7 @@ const RULES = [
           title: el.title !== '' ? el.title : undefined,
           rel: el.rel !== '' ? el.rel : undefined,
         },
-        nodes: next(el.childNodes),
+        nodes,
       };
     },
     serialize(slateObject, children) {
@@ -688,7 +703,6 @@ export const learningResourceEmbedRule = [
           nodes: [
             {
               object: 'text',
-              isVoid: true,
               leaves: [
                 {
                   object: 'leaf',
@@ -707,7 +721,7 @@ export const learningResourceEmbedRule = [
         object: 'block',
         type: 'embed',
         data: embed,
-        nodes: [],
+        nodes: emptyNodes,
       };
     },
 

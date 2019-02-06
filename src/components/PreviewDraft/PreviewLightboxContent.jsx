@@ -21,16 +21,12 @@ const StyledPreviewSignleArticle = styled('div')`
 `;
 
 const PreviewLightboxContent = props => {
-  const { firstArticle, label, typeOfPreview, contentType } = props;
+  const { firstArticle, label, typeOfPreview } = props;
   switch (typeOfPreview) {
     case 'preview':
       return (
         <StyledPreviewSignleArticle>
-          <PreviewDraft
-            article={firstArticle}
-            label={label}
-            contentType={contentType}
-          />
+          <PreviewDraft article={firstArticle} label={label} />
         </StyledPreviewSignleArticle>
       );
     case 'previewProductionArticle':
@@ -60,7 +56,6 @@ PreviewLightboxContent.propTypes = {
     'previewProductionArticle',
     'previewLanguageArticle',
   ]),
-  contentType: PropTypes.string,
   label: PropTypes.string.isRequired,
   onChangePreviewLanguage: PropTypes.func.isRequired,
   previewLanguage: PropTypes.string,

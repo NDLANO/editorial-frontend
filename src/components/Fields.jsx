@@ -18,6 +18,7 @@ import PlainTextEditor from './SlateEditor/PlainTextEditor';
 import DateTimeInput from './DateTime/DateTimeInput';
 import ObjectSelector from './ObjectSelector';
 import { AsyncDropdown } from './Dropdown';
+import HowToHelper from './HowTo/HowToHelper';
 
 export const classes = new BEMHelper({
   name: 'field',
@@ -366,10 +367,14 @@ export const MultiSelectField = ({
   label,
   submitted,
   schema,
+  howToId,
+  howToTooltip,
   ...rest
 }) => (
   <Field>
-    <label htmlFor={name}>{label}</label>
+    <FormHeader title={label}>
+      {howToId && <HowToHelper pageId={howToId} tooltip={howToTooltip} />}
+    </FormHeader>
     {description && (
       <FieldDescription obligatory={obligatory}>{description}</FieldDescription>
     )}
@@ -393,6 +398,8 @@ MultiSelectField.propTypes = {
   }),
   data: PropTypes.arrayOf(PropTypes.string),
   submitted: PropTypes.bool.isRequired,
+  howToId: PropTypes.string,
+  howToTooltip: PropTypes.string,
 };
 
 export const SelectObjectField = props => {
@@ -503,6 +510,7 @@ export const AsyncDropdownField = ({
   bindInput,
   name,
   label,
+  helpLabel,
   submitted,
   schema,
   noBorder,
@@ -512,7 +520,9 @@ export const AsyncDropdownField = ({
   const { onChange } = bindInput(name);
   return (
     <Fragment>
-      <FormHeader title={label} width={width} />
+      <FormHeader title={label} width={width}>
+        <HowToHelper pageId="userAgreements" tooltip={helpLabel} />
+      </FormHeader>
       <FormSections>
         <div>
           <AsyncDropdown
@@ -536,6 +546,7 @@ AsyncDropdownField.propTypes = {
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
+  helpLabel: PropTypes.string,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),

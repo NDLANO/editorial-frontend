@@ -20,7 +20,6 @@ import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
 import ArticleStatuses from '../../../../util/constants/index';
-
 import { searchFormClasses } from './SearchForm';
 
 const emptySearchState = {
@@ -92,6 +91,7 @@ class SearchContentForm extends Component {
       search: { resourceTypes, draftStatus, subjects, query, language },
     } = this.state;
     const { search } = this.props;
+
     search({
       'resource-types': resourceTypes,
       'draft-status': draftStatus,

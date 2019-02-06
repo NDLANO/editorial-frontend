@@ -142,6 +142,7 @@ class AsyncDropDown extends React.Component {
                 inputProps={inputProps}
                 multiselect={multiselect}
                 iconRight={multiselect ? null : DropdownSearch}
+                onToggleMenu={this.handleToggleMenu}
               />
               <DropdownMenu
                 {...downshiftProps}

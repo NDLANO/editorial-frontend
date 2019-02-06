@@ -8,6 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
+import Button from '@ndla/button';
 import AutosizeInput from 'react-input-autosize';
 import { Search } from '@ndla/icons/common';
 import { css } from 'react-emotion';
@@ -23,7 +24,7 @@ const autosizeStyle = {
 
 const searchIconStyle = css`
   position: absolute;
-  top: 5.5px;
+  top: 2px;
   right: 3px;
   color: #4d4d4d;
 `;
@@ -36,6 +37,7 @@ const DropdownInput = props => {
     getInputProps,
     testid,
     className,
+    onToggleMenu,
   } = props;
   if (multiSelect) {
     return (
@@ -57,7 +59,9 @@ const DropdownInput = props => {
         data-testid={testid}
         className={className}
       />
-      <Search className="c-icon--medium" css={searchIconStyle} />
+      <Button stripped css={searchIconStyle} onClick={onToggleMenu}>
+        <Search className="c-icon--medium" />
+      </Button>
     </React.Fragment>
   );
 };

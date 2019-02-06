@@ -10,24 +10,21 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import BEMHelper from 'react-bem-helper';
-import Button from '@ndla/button';
+import Tooltip from '@ndla/tooltip';
 import { injectT } from '@ndla/i18n';
+import { FormHeader } from '@ndla/forms';
+import { uuid } from '@ndla/util';
+import { FileListEditor } from '@ndla/editor';
 import styled from 'react-emotion';
+import { Cross } from '@ndla/icons/action';
+import { CloudUploadOutline } from '@ndla/icons/editor'; 
 import { EditorShape } from '../../../../shapes';
 import { getSchemaEmbed } from '../../editorSchema';
 import SingleFile from './SingleFile';
 import AddFileToList from './AddFileToList';
 import config from '../../../../config';
 
-const fileListClasses = BEMHelper('c-file-list');
-
-const StyledButtonDiv = styled('div')`
-  display: flex;
-  justify-content: space-between;
-  & > * {
-    width: 48%;
-  }
-`;
+// const fileListClasses = BEMHelper('c-file-list');
 
 const formatFile = ({ title, type, url, ...rest }, id, t) => ({
   id,
@@ -106,21 +103,23 @@ class Filelist extends React.Component {
     );
   }
 
-  onAddFileToList(file) {
+  onAddFileToList(files) {
     const { t } = this.props;
-    this.setState(
-      prevState => ({
-        showFileUploader: false,
-        files: prevState.files.concat([
-          formatFile(
-            { ...file, url: config.ndlaApiUrl + file.path, resource: 'file' },
-            prevState.files.length,
-            t,
-          ),
-        ]),
-      }),
-      this.onChangeFileData,
-    );
+    const updatedFileList = files.map((file) => {
+      if (file.format) {
+        return file;
+      }
+      return formatFile(
+        { ...file, url: config.ndlaApiUrl + file.path, resource: 'file' },
+        uuid(),
+        t,
+      );
+    });
+    
+    this.setState({
+      showFileUploader: false,
+      files: updatedFileList,
+    }, this.onChangeFileData);
   }
 
   onChangeFileData() {
@@ -154,7 +153,6 @@ class Filelist extends React.Component {
 
     const { t } = this.props;
 
-    console.log('Filelist...', 'we are here right????');
     return (
       <Fragment>
         <AddFileToList
@@ -163,26 +161,30 @@ class Filelist extends React.Component {
           showFileUploader={showFileUploader}
           addedFiles={files}
         />
-        <section {...fileListClasses()}>
-          <h1 {...fileListClasses('heading')}>{t('form.file.label')}</h1>
-          <StyledButtonDiv>
-            <Button onClick={this.onOpenFileUploader}>
-              {t('form.file.addFile')}
-            </Button>
-            <Button onClick={this.onRemoveFileList}>
-              {t('form.file.removeList')}
-            </Button>
-          </StyledButtonDiv>
-          <ul {...fileListClasses('files')}>
-            {files.map(file => (
-              <SingleFile
-                key={`file-${file.id}-${file.formats[0].url}`}
-                file={file}
-                onFileInputChange={this.onFileInputChange}
-                onRemoveFile={this.onRemoveFile}
-              />
-            ))}
-          </ul>
+        <section>
+          <FormHeader title={t('form.file.label')}>
+            <Tooltip tooltip={t('form.file.addFile')}>
+              <button type="button" onClick={this.onOpenFileUploader}>
+                <CloudUploadOutline />
+              </button>
+            </Tooltip>
+            <Tooltip tooltip={t('form.file.removeList')}>
+              <button tabIndex={-1} type="button" onClick={this.onRemoveFileList}>
+                <Cross />
+              </button>
+            </Tooltip>
+          </FormHeader>
+          <FileListEditor
+            files={files}
+            onEditFileName={(index, value) => { console.log(index, value); }}
+            onUpdateOrder={updatedFiles => {
+              if (updatedFiles.length === 0) {
+                this.onRemoveFileList();
+              } else {
+
+              }
+            }}
+          />
         </section>
       </Fragment>
     );

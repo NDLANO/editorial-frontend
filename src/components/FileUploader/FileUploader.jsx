@@ -10,8 +10,8 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
+import { FileListEditor } from '@ndla/editor';
 import { UploadDropZone, FormInput } from '@ndla/forms';
-import { Spinner } from '@ndla/editor';
 import { isEmpty } from '../validators';
 import { Field, FieldHelp } from '../Fields';
 import { FormActionButton } from '../../containers/Form';
@@ -31,6 +31,7 @@ class FileUploader extends React.Component {
     this.onSave = this.onSave.bind(this);
     this.onAddFiles = this.onAddFiles.bind(this);
     this.onUpdateFileName = this.onUpdateFileName.bind(this);
+    this.onUpdateOrder = this.onUpdateOrder.bind(this);
   }
 
   componentDidMount() {
@@ -55,9 +56,13 @@ class FileUploader extends React.Component {
       const { unsavedFiles, addedFiles } = prevState;
       unsavedFiles.shift();
       const saving = unsavedFiles.length > 0;
+      // Remove .[filetype] from title.
+      const cleanFile = storedFile;
+      cleanFile.title = cleanFile.title.replace(/\..*/,'');
+      
       return {
         unsavedFiles: unsavedFiles,
-        addedFiles: [storedFile, ...addedFiles],
+        addedFiles: [cleanFile, ...addedFiles],
         saving,
         changedData: true,
       };
@@ -79,6 +84,12 @@ class FileUploader extends React.Component {
     });
   }
 
+  onUpdateOrder(addedFiles) {
+    this.setState({
+      addedFiles,
+    });
+  }
+
   async onSave(file) {
     // const { onFileSave } = this.props;
     try {
@@ -89,13 +100,6 @@ class FileUploader extends React.Component {
         title: file.name,
         type: fileResult.extension.substring(1),
       });
-      /*
-      onFileSave({
-        path: fileResult.path,
-        title: file.name,
-        type: fileResult.extension.substring(1),
-      });
-      */
     } catch (err) {
       if (err && err.json.messages) {
         this.setState({
@@ -110,10 +114,11 @@ class FileUploader extends React.Component {
 
   render() {
     const { t, onClose } = this.props;
-    const { addedFiles, submitted, errorMessage, unsavedFiles, saving } = this.state;
+    const { addedFiles, changedData, errorMessage, saving } = this.state;
 
-    console.log('my added files', addedFiles);
-    console.log('unsavedFiles', unsavedFiles);
+    if (errorMessage) {
+      return <p>{errorMessage}</p>
+    }
 
     return (
       <Fragment>
@@ -125,21 +130,18 @@ class FileUploader extends React.Component {
         >
           <strong>Dra og slipp</strong> eller trykk for å laste opp file(r)
         </UploadDropZone>
-        {unsavedFiles.map(file => (
-          <Button key={file.name}>{file.name}</Button>
-        ))}
         <h1>Added files:</h1>
-        {addedFiles && addedFiles.map((file, index) => (
-          <div key={file.id}>
-            <FormInput
-              value={file.title}
-              container="div"
-              type="text"
-              placeholder="Oppgi et filnavn"
-              onChange={e => this.onUpdateFileName(index, e.target.value)}
-            />
-          </div>
-        ))}
+        {addedFiles && <FileListEditor
+          files={addedFiles}
+          onEditFileName={this.onUpdateFileName}
+          onUpdateOrder={this.onUpdateOrder}
+        />}
+        <Button disabled={!changedData} onClick={() => this.props.onFileSave(addedFiles)}>
+          Lagre
+        </Button>
+        <Button onClick={onClose}>
+          Cancel
+        </Button>
       </Fragment>
     );
   }

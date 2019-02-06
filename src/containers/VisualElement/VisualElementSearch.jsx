@@ -289,16 +289,18 @@ class VisualElementSearch extends Component {
       case 'file':
         return (
           <FileUploader
-            onFileSave={file =>
+            onFileSave={files => {
+              const preparedFiles = files.map(file => ({
+                url: config.ndlaApiUrl + file.path,
+                resource: 'file',
+                ...file,
+              }));
+              
               handleVisualElementChange(
-                {
-                  url: config.ndlaApiUrl + file.path,
-                  resource: 'file',
-                  ...file,
-                },
+                preparedFiles,
                 'file',
-              )
-            }
+              );
+            }}
             onClose={closeModal}
           />
         );

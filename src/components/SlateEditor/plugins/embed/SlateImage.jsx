@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { Figure } from '@ndla/ui';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
-import { spacing } from '@ndla/core';
 import styled, { cx } from 'react-emotion';
 import { findDOMNode } from 'slate-react';
 import SlateTypes from 'slate-prop-types';

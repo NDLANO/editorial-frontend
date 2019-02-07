@@ -102,7 +102,10 @@ export class SessionContainer extends Component {
           </Button>
         </div>
         {this.state.open ? (
-          <Overlay onExit={this.toggleOpen} cssModifiers="white-opacity" />
+          <Overlay
+            onExit={this.toggleOpen}
+            modifiers={['white-opacity', 'zIndex']}
+          />
         ) : null}
       </div>
     );

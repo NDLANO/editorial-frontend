@@ -120,7 +120,7 @@ class ConnectFilters extends Component {
       <form onSubmit={this.onSubmit} {...classes('editFilters')}>
         {loading && <Spinner appearance="absolute" />}
         {loading && (
-          <Overlay cssModifiers={['absolute', 'white-opacity', 'zIndex']} />
+          <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />
         )}
         {subjectFilters.map(filter => (
           <ConnectFilterItem

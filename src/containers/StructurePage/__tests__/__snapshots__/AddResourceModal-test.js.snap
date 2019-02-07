@@ -6,7 +6,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
 >
   <div
     aria-hidden="true"
-    class="c-overlay"
+    class="css-6zky6j emotion-0"
   />
   <div
     class="c-taxonomy-lightbox__wrapper"
@@ -16,7 +16,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
     >
       Søk etter ressurs
       <button
-        class="css-zdsvka emotion-0"
+        class="css-zdsvka emotion-1"
         type="button"
       >
         <svg
@@ -89,7 +89,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
         </div>
       </div>
       <button
-        class="css-1hn2egk emotion-0"
+        class="css-1hn2egk emotion-1"
         data-testid="taxonomyLightboxButton"
         type="button"
       >
@@ -106,7 +106,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
 >
   <div
     aria-hidden="true"
-    class="c-overlay"
+    class="css-6zky6j emotion-0"
   />
   <div
     class="c-taxonomy-lightbox__wrapper"
@@ -116,7 +116,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
     >
       Søk etter ressurs
       <button
-        class="css-zdsvka emotion-0"
+        class="css-zdsvka emotion-1"
         type="button"
       >
         <svg
@@ -262,7 +262,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         </div>
       </div>
       <button
-        class="css-1hn2egk emotion-0"
+        class="css-1hn2egk emotion-1"
         data-testid="taxonomyLightboxButton"
         type="button"
       >
@@ -279,7 +279,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
 >
   <div
     aria-hidden="true"
-    class="c-overlay"
+    class="css-6zky6j emotion-0"
   />
   <div
     class="c-taxonomy-lightbox__wrapper"
@@ -289,7 +289,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
     >
       Søk etter ressurs
       <button
-        class="css-zdsvka emotion-0"
+        class="css-zdsvka emotion-1"
         type="button"
       >
         <svg
@@ -466,7 +466,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
         </div>
       </div>
       <button
-        class="css-1hn2egk emotion-0"
+        class="css-1hn2egk emotion-1"
         data-testid="taxonomyLightboxButton"
         type="button"
       >

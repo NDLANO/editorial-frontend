@@ -17,7 +17,9 @@ const {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } = require('../../src/util/articleContentConverter');
-const { resolveJsonOrRejectWithError } = require('../../src/util/apiHelpers');
+const {
+  resolveJsonOrRejectWithError,
+} = require('../../src/util/resolveJsonOrRejectWithError');
 const diffHTML = require('./diffHTML');
 
 const dom = new jsdom.JSDOM('<!DOCTYPE html></html>');

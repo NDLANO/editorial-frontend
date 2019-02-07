@@ -119,7 +119,7 @@ export class EditMarkupPage extends Component {
     }
   };
 
-  handleChange = (value, event) => {
+  handleChange = value => {
     this.setState(prevState => ({
       draft: updateContentInDraft(prevState.draft, value),
     }));

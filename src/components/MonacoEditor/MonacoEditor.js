@@ -24,6 +24,7 @@ import 'monaco-editor/esm/vs/editor/contrib/linesOperations/linesOperations';
 import 'monaco-editor/esm/vs/editor/contrib/fontZoom/fontZoom';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
+// Uncomment the following line to test all monaco-editor features
 // import * as monaco from 'monaco-editor';
 
 import './html.contribution';

@@ -25,7 +25,7 @@ const ImageAlignButton = ({ currentAlign, alignType, onFieldChange, t }) => {
       onFieldChange(evt, 'size', 'fullwidth');
     }
   };
-  
+
   return (
     <Tooltip tooltip={t(`form.image.alignment.${alignType}`)}>
       <ImageEditorButton

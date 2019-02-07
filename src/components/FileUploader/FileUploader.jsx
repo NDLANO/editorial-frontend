@@ -46,38 +46,44 @@ class FileUploader extends React.Component {
   }
 
   onAddFiles(files) {
-    this.setState(prevState => ({
-      unsavedFiles: prevState.unsavedFiles.concat(files),
-    }), () => {
-      if (!this.state.saving) {
-        this.onSave(this.state.unsavedFiles[0]);
-        this.setState({
-          saving: true,
-        });
-      }
-    });
+    this.setState(
+      prevState => ({
+        unsavedFiles: prevState.unsavedFiles.concat(files),
+      }),
+      () => {
+        if (!this.state.saving) {
+          this.onSave(this.state.unsavedFiles[0]);
+          this.setState({
+            saving: true,
+          });
+        }
+      },
+    );
   }
 
   uploadedFile(storedFile) {
-    this.setState(prevState => {
-      const { unsavedFiles, addedFiles } = prevState;
-      unsavedFiles.shift();
-      const saving = unsavedFiles.length > 0;
-      // Remove .[filetype] from title.
-      const cleanFile = storedFile;
-      cleanFile.title = cleanFile.title.replace(/\..*/,'');
-      
-      return {
-        unsavedFiles: unsavedFiles,
-        addedFiles: [cleanFile, ...addedFiles],
-        saving,
-        changedData: true,
-      };
-    }, () => {
-      if (this.state.saving) {
-        this.onSave(this.state.unsavedFiles[0]);
-      }
-    });
+    this.setState(
+      prevState => {
+        const { unsavedFiles, addedFiles } = prevState;
+        unsavedFiles.shift();
+        const saving = unsavedFiles.length > 0;
+        // Remove .[filetype] from title.
+        const cleanFile = storedFile;
+        cleanFile.title = cleanFile.title.replace(/\..*/, '');
+
+        return {
+          unsavedFiles: unsavedFiles,
+          addedFiles: [cleanFile, ...addedFiles],
+          saving,
+          changedData: true,
+        };
+      },
+      () => {
+        if (this.state.saving) {
+          this.onSave(this.state.unsavedFiles[0]);
+        }
+      },
+    );
   }
 
   onUpdateFileName(index, value) {
@@ -124,7 +130,7 @@ class FileUploader extends React.Component {
     const { addedFiles, changedData, errorMessage, saving } = this.state;
 
     if (errorMessage) {
-      return <p>{errorMessage}</p>
+      return <p>{errorMessage}</p>;
     }
 
     return (
@@ -134,23 +140,26 @@ class FileUploader extends React.Component {
           onAddedFiles={this.onAddFiles}
           multiple
           loading={saving}
-          ariaLabel="Drag and drop files or click to upload"
-        >
+          ariaLabel="Drag and drop files or click to upload">
           <strong>Dra og slipp</strong> eller trykk for å laste opp file(r)
         </UploadDropZone>
         <FormHeader className={filesHeadingCSS} title="Added files:" />
-        {addedFiles ? <FileListEditor
-          files={addedFiles}
-          onEditFileName={this.onUpdateFileName}
-          onUpdateFiles={this.onUpdateFiles}
-        /> : <span>No files added yet</span>}
+        {addedFiles ? (
+          <FileListEditor
+            files={addedFiles}
+            onEditFileName={this.onUpdateFileName}
+            onUpdateFiles={this.onUpdateFiles}
+          />
+        ) : (
+          <span>No files added yet</span>
+        )}
         <StyledButtonWrapper>
-          <Button disabled={!changedData} onClick={() => this.props.onFileSave(addedFiles)}>
+          <Button
+            disabled={!changedData}
+            onClick={() => this.props.onFileSave(addedFiles)}>
             Lagre endringer
           </Button>
-          <Button onClick={onClose}>
-            Avbryt
-          </Button>
+          <Button onClick={onClose}>Avbryt</Button>
         </StyledButtonWrapper>
       </div>
     );

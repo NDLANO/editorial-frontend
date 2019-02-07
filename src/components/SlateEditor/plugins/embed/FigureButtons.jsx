@@ -30,10 +30,7 @@ const StyledFigureButtons = styled('div')`
   ${figureButtonsStyle} ${p => (p.isNotCentered ? rightAdjustedStyle : null)}
 `;
 
-export 
-
-const FigureButtons = ({ embed, t, onRemoveClick }) => {
-
+export const FigureButtons = ({ embed, t, onRemoveClick }) => {
   const isNotCentered =
     embed.align === 'left' ||
     embed.align === 'right' ||
@@ -42,10 +39,7 @@ const FigureButtons = ({ embed, t, onRemoveClick }) => {
   return (
     <StyledFigureButtons isNotCentered={isNotCentered}>
       <Tooltip tooltip="Ta bort bilde">
-        <DeleteSectionButton
-          onClick={onRemoveClick}
-          tabIndex={-1}
-        />
+        <DeleteSectionButton onClick={onRemoveClick} tabIndex={-1} />
       </Tooltip>
     </StyledFigureButtons>
   );

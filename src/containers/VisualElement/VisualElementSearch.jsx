@@ -295,11 +295,8 @@ class VisualElementSearch extends Component {
                 resource: 'file',
                 ...file,
               }));
-              
-              handleVisualElementChange(
-                preparedFiles,
-                'file',
-              );
+
+              handleVisualElementChange(preparedFiles, 'file');
             }}
             onClose={closeModal}
           />

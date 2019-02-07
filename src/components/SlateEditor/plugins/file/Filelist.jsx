@@ -67,21 +67,24 @@ class Filelist extends React.Component {
   }
 
   onUpdateFiles(files) {
-    this.setState({
-      files,
-    }, () => {
-      if (files.length === 0) {
-        const { node, editor } = this.props;
-        editor.removeNodeByKey(node.key);
-      } else {
-        this.onChangeFileData();
-      }
-    });
+    this.setState(
+      {
+        files,
+      },
+      () => {
+        if (files.length === 0) {
+          const { node, editor } = this.props;
+          editor.removeNodeByKey(node.key);
+        } else {
+          this.onChangeFileData();
+        }
+      },
+    );
   }
 
   onAddFileToList(files) {
     const { t } = this.props;
-    const updatedFileList = files.map((file) => {
+    const updatedFileList = files.map(file => {
       if (file.format) {
         return file;
       }
@@ -91,11 +94,14 @@ class Filelist extends React.Component {
         t,
       );
     });
-    
-    this.setState({
-      showFileUploader: false,
-      files: updatedFileList,
-    }, this.onChangeFileData);
+
+    this.setState(
+      {
+        showFileUploader: false,
+        files: updatedFileList,
+      },
+      this.onChangeFileData,
+    );
   }
 
   onChangeFileData() {
@@ -140,12 +146,18 @@ class Filelist extends React.Component {
         <section>
           <FormHeader title={t('form.file.label')}>
             <Tooltip tooltip={t('form.file.addFile')}>
-              <button tabIndex={-1} type="button" onClick={this.onOpenFileUploader}>
+              <button
+                tabIndex={-1}
+                type="button"
+                onClick={this.onOpenFileUploader}>
                 <Plus className={FormHeaderIconClass} />
               </button>
             </Tooltip>
             <Tooltip tooltip={t('form.file.removeList')}>
-              <button tabIndex={-1} type="button" onClick={this.onRemoveFileList}>
+              <button
+                tabIndex={-1}
+                type="button"
+                onClick={this.onRemoveFileList}>
                 <Cross className={FormHeaderIconClass} />
               </button>
             </Tooltip>

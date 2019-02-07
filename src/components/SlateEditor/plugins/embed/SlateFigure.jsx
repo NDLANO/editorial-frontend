@@ -33,7 +33,9 @@ class SlateFigure extends React.Component {
     };
     this.isSelected = this.isSelected.bind(this);
     this.onFigureInputChange = this.onFigureInputChange.bind(this);
-    this.onFigureInputMultipleUpdates = this.onFigureInputMultipleUpdates.bind(this);
+    this.onFigureInputMultipleUpdates = this.onFigureInputMultipleUpdates.bind(
+      this,
+    );
     this.onSubmittedChange = this.onSubmittedChange.bind(this);
     this.onRemoveClick = this.onRemoveClick.bind(this);
   }

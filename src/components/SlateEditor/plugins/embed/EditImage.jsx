@@ -43,7 +43,7 @@ class EditImage extends Component {
       caption: props.embed.caption,
       imageUpdates: undefined,
       madeChanges: false,
-    }
+    };
     this.onUpdatedImageSettings = this.onUpdatedImageSettings.bind(this);
     this.onSave = this.onSave.bind(this);
     this.onAbort = this.onAbort.bind(this);
@@ -55,16 +55,22 @@ class EditImage extends Component {
     const bodyRect = document.body.getBoundingClientRect();
 
     // Use contenteditable as reference to fetch embed size when previewing.
-    const placeholderRect = placeholderEl.closest('div[contenteditable="false"]').getBoundingClientRect();
+    const placeholderRect = placeholderEl
+      .closest('div[contenteditable="false"]')
+      .getBoundingClientRect();
     // Placing embed within placeholder div on mount
     embedEl.style.position = 'absolute';
     embedEl.style.top = `${placeholderRect.top - bodyRect.top}px`;
-    embedEl.style.left = `${(placeholderRect.left + spacing.spacingUnit) - (placeholderRect.width * (0.333 / 2))}px`;
-    embedEl.style.width = `${(placeholderRect.width * 1.333) - (spacing.spacingUnit * 2)}px`;
+    embedEl.style.left = `${placeholderRect.left +
+      spacing.spacingUnit -
+      placeholderRect.width * (0.333 / 2)}px`;
+    embedEl.style.width = `${placeholderRect.width * 1.333 -
+      spacing.spacingUnit * 2}px`;
 
     const embedRect = embedEl.getBoundingClientRect();
 
-    placeholderEl.style.height = `${embedRect.height + (spacing.spacingUnit * 2)}px`;
+    placeholderEl.style.height = `${embedRect.height +
+      spacing.spacingUnit * 2}px`;
   }
 
   onUpdatedImageSettings(imageUpdates) {
@@ -72,7 +78,6 @@ class EditImage extends Component {
       imageUpdates: imageUpdates,
       madeChanges: true,
     });
-    
   }
 
   onSave() {
@@ -120,17 +125,16 @@ class EditImage extends Component {
           <FocusTrapReact
             focusTrapOptions={{
               onDeactivate: () => {
-                closeEdit(true)
+                closeEdit(true);
               },
               clickOutsideDeactivates: true,
               escapeDeactivates: true,
-            }}
-          >
-            <div
-            className={editorContentCSS}
-            ref={embedEl => {
-              this.embedEl = embedEl;
             }}>
+            <div
+              className={editorContentCSS}
+              ref={embedEl => {
+                this.embedEl = embedEl;
+              }}>
               <ImageEditor
                 embedTag={embed}
                 toggleEditModus={closeEdit}
@@ -159,15 +163,19 @@ class EditImage extends Component {
                   autoExpand
                   placeholder={t('form.image.alt.placeholder')}
                   white
-                  warningText={!submitted && isEmpty(this.state.alt) ? t('form.image.alt.noText') : ''}
+                  warningText={
+                    !submitted && isEmpty(this.state.alt)
+                      ? t('form.image.alt.noText')
+                      : ''
+                  }
                 />
                 <StyledButtonWrapper paddingLeft>
-                  <Button disabled={!this.state.madeChanges} onClick={this.onSave}>
+                  <Button
+                    disabled={!this.state.madeChanges}
+                    onClick={this.onSave}>
                     {t('form.save')}
                   </Button>
-                  <Button onClick={this.onAbort}>
-                    {t('form.abort')}
-                  </Button>
+                  <Button onClick={this.onAbort}>{t('form.abort')}</Button>
                 </StyledButtonWrapper>
               </StyledInputWrapper>
             </div>

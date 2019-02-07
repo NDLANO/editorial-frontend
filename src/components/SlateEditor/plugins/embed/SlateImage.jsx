@@ -115,13 +115,15 @@ class SlateImage extends React.Component {
       'lower-right-y': embed['lower-right-y'],
     };
 
-    const embedSize = editModus ? {
-      align: '',
-      size: 'fullbredde',
-    } : {
-      align: embed.align,
-      size: embed.size,
-    };
+    const embedSize = editModus
+      ? {
+          align: '',
+          size: 'fullbredde',
+        }
+      : {
+          align: embed.align,
+          size: embed.size,
+        };
 
     const figureClassNames = cx('c-figure', {
       [`u-float-${embedSize.size}-${embedSize.align}`]:

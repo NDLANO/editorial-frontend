@@ -52,7 +52,8 @@ const SlateRightAside = props => {
         title={t('learningResourceForm.fields.rightAside.moveContent')}
         stripped
         onClick={onMoveContent}>
-        <ChevronLeft />??
+        <ChevronLeft />
+        ??
       </Button>
     </aside>
   );

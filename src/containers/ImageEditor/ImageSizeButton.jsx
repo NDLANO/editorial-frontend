@@ -24,9 +24,8 @@ const ImageSizeButton = ({ currentSize, size, onFieldChange, t }) => (
       isActive={currentSize === size}
       tabIndex={-1}
       stripped
-      onClick={evt => onFieldChange(evt, 'size', size)}
-    >
-    {icon[size]}
+      onClick={evt => onFieldChange(evt, 'size', size)}>
+      {icon[size]}
     </ImageEditorButton>
   </Tooltip>
 );

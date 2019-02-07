@@ -85,40 +85,52 @@ class ImageEditor extends Component {
   }
 
   onFocalPointChange(focalPoint) {
-    this.setState(prevState => ({
-      transformData: {
-        ...prevState.transformData,
-        'focal-x': focalPoint.x,
-        'focal-y': focalPoint.y,
-      },
-    }), this.props.onUpdatedImageSettings(this.state));
+    this.setState(
+      prevState => ({
+        transformData: {
+          ...prevState.transformData,
+          'focal-x': focalPoint.x,
+          'focal-y': focalPoint.y,
+        },
+      }),
+      this.props.onUpdatedImageSettings(this.state),
+    );
   }
 
   onCropComplete(crop, size) {
     if (size.width === 0) {
-      this.setState({
-        transformData: defaultData.crop,
-        editType: undefined,
-      }, this.props.onUpdatedImageSettings(this.state));
-    } else {
-      this.setState({
-        transformData: {
-          'upper-left-x': crop.x,
-          'upper-left-y': crop.y,
-          'lower-right-x': crop.x + crop.width,
-          'lower-right-y': crop.y + crop.height,
-          ...defaultData.focalPoint,
+      this.setState(
+        {
+          transformData: defaultData.crop,
+          editType: undefined,
         },
-      }, this.props.onUpdatedImageSettings(this.state));
+        this.props.onUpdatedImageSettings(this.state),
+      );
+    } else {
+      this.setState(
+        {
+          transformData: {
+            'upper-left-x': crop.x,
+            'upper-left-y': crop.y,
+            'lower-right-x': crop.x + crop.width,
+            'lower-right-y': crop.y + crop.height,
+            ...defaultData.focalPoint,
+          },
+        },
+        this.props.onUpdatedImageSettings(this.state),
+      );
     }
   }
 
   onFieldChange(evt, field, value) {
     evt.stopPropagation();
-    this.setState({
-      editType: undefined,
-      [field]: value,
-    }, this.props.onUpdatedImageSettings(this.state));
+    this.setState(
+      {
+        editType: undefined,
+        [field]: value,
+      },
+      this.props.onUpdatedImageSettings(this.state),
+    );
   }
 
   onEditorTypeSet(evt, type) {
@@ -127,22 +139,27 @@ class ImageEditor extends Component {
 
   onRemoveData(evt, field) {
     evt.stopPropagation();
-    this.setState(prevState => ({
-      editType: undefined,
-      transformData: {
-        ...prevState.transformData,
-        ...defaultData[field],
-      },
-    }), this.props.onUpdatedImageSettings(this.state));
+    this.setState(
+      prevState => ({
+        editType: undefined,
+        transformData: {
+          ...prevState.transformData,
+          ...defaultData[field],
+        },
+      }),
+      this.props.onUpdatedImageSettings(this.state),
+    );
   }
 
   render() {
     const { embed, t } = this.props;
 
-    const imageCancelButtonNeeded = 
-      this.state.editType && (
-      (this.state.editType === 'focalPoint' && this.state.transformData['focal-x']) ||
-      (this.state.editType === 'crop' && this.state.transformData['upper-left-x']))
+    const imageCancelButtonNeeded =
+      this.state.editType &&
+      ((this.state.editType === 'focalPoint' &&
+        this.state.transformData['focal-x']) ||
+        (this.state.editType === 'crop' &&
+          this.state.transformData['upper-left-x']));
 
     return (
       <div {...classes()}>
@@ -200,8 +217,7 @@ class ImageEditor extends Component {
               <ImageEditorButton
                 stripped
                 onClick={evt => this.onEditorTypeSet(evt, 'crop')}
-                tabIndex={-1}
-              >
+                tabIndex={-1}>
                 <Crop />
               </ImageEditorButton>
             </Tooltip>

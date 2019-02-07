@@ -69,8 +69,13 @@ class RichBlockTextEditor extends PureComponent {
             key={`editor_${index}`} // eslint-disable-line react/no-array-index-key
           >
             {value.length > 1 ? (
-              <Tooltip tooltip="Ta bort seksjon" tooltipContainerClass="tooltipContainerClass">
-                <CrossButton stripped onClick={() => this.removeSection(index)} />
+              <Tooltip
+                tooltip="Ta bort seksjon"
+                tooltipContainerClass="tooltipContainerClass">
+                <CrossButton
+                  stripped
+                  onClick={() => this.removeSection(index)}
+                />
               </Tooltip>
             ) : null}
             <RichTextEditor

@@ -33,7 +33,7 @@ export const buttonCSS = css`
   }
 
   &::before {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     width: ${spacing.normal};

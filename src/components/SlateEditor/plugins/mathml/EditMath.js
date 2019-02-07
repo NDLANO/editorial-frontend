@@ -8,7 +8,6 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Types from 'slate-prop-types';
 import PropTypes from 'prop-types';
 import he from 'he';
 import EditMathModal from './EditMathModal';
@@ -24,6 +23,7 @@ class EditMath extends Component {
     super(props);
     const { innerHTML } = props.model;
     this.state = {
+      openDiscardModal: false,
       renderMathML: innerHTML
         ? `${mathOpenTag}${he.decode(innerHTML)}${mathCloseTag}`
         : emptyMathTag,
@@ -135,9 +135,8 @@ EditMath.propTypes = {
   handleSave: PropTypes.func.isRequired,
   onRemoveClick: PropTypes.func.isRequired,
   isEditMode: PropTypes.bool.isRequired,
-  node: Types.node.isRequired,
   model: PropTypes.shape({
-    innerHTML: PropTypes.string.isRequired,
+    innerHTML: PropTypes.string,
   }),
 };
 

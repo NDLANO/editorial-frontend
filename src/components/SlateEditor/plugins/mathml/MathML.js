@@ -60,11 +60,11 @@ MathML.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  innerHTML: PropTypes.string.isRequired,
+  innerHTML: PropTypes.string,
   node: Types.node.isRequired,
   model: PropTypes.shape({
     xlmns: PropTypes.string.isRequired,
-    innerHTML: PropTypes.string.isRequired,
+    innerHTML: PropTypes.string,
   }),
 };
 

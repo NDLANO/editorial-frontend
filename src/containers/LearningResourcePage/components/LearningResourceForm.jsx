@@ -196,9 +196,7 @@ class LearningResourceForm extends Component {
       onUpdate,
       fields,
       model,
-      setInitialModel,
-      selectedLanguage,
-      setModel,
+      onModelSavedToServer,
     } = this.props;
 
     const status = articleStatus ? articleStatus.current : undefined;
@@ -226,11 +224,7 @@ class LearningResourceForm extends Component {
       revision,
       updated: undefined,
     });
-    this.setState({ savedButtonState: 'saved' });
-    setInitialModel(
-      getInitialModel(this.getArticleFromModel(), selectedLanguage),
-    );
-    setModel(getInitialModel(this.getArticleFromModel(), selectedLanguage));
+    onModelSavedToServer();
     setModelField('notes', []);
   }
 
@@ -252,12 +246,11 @@ class LearningResourceForm extends Component {
       revision,
       article,
       validationErrors,
+      savedToServer,
     } = this.props;
 
     const { error } = this.state;
     const commonFieldProps = { bindInput, schema: validationErrors, submitted };
-    console.log(isFormDirty({ model, fields }));
-    console.log(fields);
 
     const panels = [
       {
@@ -416,10 +409,7 @@ class LearningResourceForm extends Component {
           <SaveButton
             data-testid="saveLearningResourceButton"
             isSaving={isSaving}
-            showSaved={
-              this.state.savedButtonState === 'saved' &&
-              !isFormDirty({ model, fields })
-            }
+            showSaved={savedToServer && !isFormDirty({ model, fields })}
             defaultText="saveDraft"
           />
         </Field>
@@ -476,6 +466,7 @@ LearningResourceForm.propTypes = {
   }).isRequired,
   userAccess: PropTypes.string,
   article: ArticleShape,
+  savedToServer: PropTypes.bool,
 };
 
 export default compose(

@@ -24,9 +24,9 @@ const makeWrapper = WrappedComponent => {
         initialModel: props.initialModel || {},
         model: props.initialModel || {},
         fields: {},
+        savedToServer: false,
       };
       this.setModel = this.setModel.bind(this);
-      this.setInitialModel = this.setInitialModel.bind(this);
       this.setModelField = this.setModelField.bind(this);
       this.setProperty = this.setProperty.bind(this);
       this.bindToChangeEvent = this.bindToChangeEvent.bind(this);
@@ -35,16 +35,12 @@ const makeWrapper = WrappedComponent => {
       this.setSubmitted = this.setSubmitted.bind(this);
       this.bindInputEvent = this.bindInputEvent.bind(this);
       this.checkIfDirty = this.checkIfDirty.bind(this);
+      this.onModelSavedToServer = this.onModelSavedToServer.bind(this);
     }
 
     setModel(model) {
       this.setState({ model });
       return model;
-    }
-
-    setInitialModel(initialModel) {
-      this.setState({ initialModel });
-      return initialModel;
     }
 
     setModelField(field, value) {
@@ -55,6 +51,24 @@ const makeWrapper = WrappedComponent => {
 
     setSubmitted(submitted) {
       this.setState({ submitted });
+    }
+
+    onModelSavedToServer() {
+      this.setState(
+        prevState => ({
+          initialModel: prevState.model,
+          savedToServer: true,
+        }),
+        () => {
+          // set all fields to dirty = false
+          Object.keys(this.state.fields).forEach(field => {
+            const value = this.state.fields[field];
+            if (value.dirty) {
+              this.setProperty(field, this.state.model[field]);
+            }
+          });
+        },
+      );
     }
 
     setInputFlags(name, flags) {
@@ -139,18 +153,20 @@ const makeWrapper = WrappedComponent => {
     }
 
     render() {
+      const { model, fields, submitted, savedToServer } = this.state;
       const nextProps = {
         ...this.props,
-        bindInput: this.bindInput,
-        bindToChangeEvent: this.bindToChangeEvent,
-        model: this.state.model,
-        fields: this.state.fields,
-        submitted: this.state.submitted,
+        fields,
+        submitted,
+        savedToServer,
+        model,
         setProperty: this.setProperty,
         setSubmitted: this.setSubmitted,
+        bindInput: this.bindInput,
+        bindToChangeEvent: this.bindToChangeEvent,
+        onModelSavedToServer: this.onModelSavedToServer,
         setModel: this.setModel,
         setModelField: this.setModelField,
-        setInitialModel: this.setInitialModel,
       };
 
       return React.createElement(WrappedComponent, nextProps);

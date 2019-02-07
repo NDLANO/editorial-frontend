@@ -49,7 +49,6 @@ export const schema = {
         },
       ],
       normalize: (editor, error) => {
-        console.log(error.code);
         switch (error.code) {
           case 'first_child_type_invalid': {
             const block = Block.create(defaultBlocks.defaultBlock);
@@ -77,7 +76,9 @@ export const schema = {
             break;
           }
           case 'child_type_invalid':
-            editor.wrapBlockByKey(error.child.key, 'paragraph');
+            editor.withoutSaving(() => {
+              editor.wrapBlockByKey(error.child.key, 'paragraph');
+            });
             break;
           default:
             break;

@@ -414,7 +414,6 @@ class LearningResourceForm extends Component {
           />
         </Field>
         <AlertModalWrapper
-          showSaved={this.state.savedButtonState}
           fields={fields}
           severity="danger"
           model={model}

@@ -22,6 +22,7 @@ import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } from '../../util/articleContentConverter';
+import { getSessionStateFromLocalStorage } from '../../modules/session/session';
 
 const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
 
@@ -53,11 +54,11 @@ const Container = styled('div')`
   max-width: 1000px;
 `;
 
-const FetchErrorMessage = ({ draftId, language }) => (
+const ErrorMessage = ({ draftId, language, messageId }) => (
   <Trans>
     {({ t }) => (
       <Container>
-        <StyledErrorMessage>{t('editMarkup.fetchError')}</StyledErrorMessage>
+        <StyledErrorMessage>{t(messageId)}</StyledErrorMessage>
         <Row justifyContent="center" alignItems="baseline">
           <Link
             to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
@@ -69,19 +70,27 @@ const FetchErrorMessage = ({ draftId, language }) => (
   </Trans>
 );
 
-FetchErrorMessage.propTypes = {
+ErrorMessage.propTypes = {
+  messageId: PropTypes.string.isRequired,
   draftId: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
 };
 
 export class EditMarkupPage extends Component {
   state = {
-    // initial | edit | fetch-error | save-error | saving
+    // initial | edit | fetch-error | save-error | access-error | saving
     status: 'initial',
     draft: undefined,
   };
 
   async componentDidMount() {
+    const session = getSessionStateFromLocalStorage();
+
+    if (!session.user.scope.includes('drafts:admin')) {
+      this.setState({ status: 'access-error' });
+      return;
+    }
+
     try {
       const { draftId, language } = this.props.match.params;
       const draft = await fetchDraft(draftId, language);
@@ -120,8 +129,24 @@ export class EditMarkupPage extends Component {
     const { draftId, language } = this.props.match.params;
     const { status, draft } = this.state;
 
+    if (status === 'access-error') {
+      return (
+        <ErrorMessage
+          draftId={draftId}
+          language={language}
+          messageId="forbiddenPage.description"
+        />
+      );
+    }
+
     if (status === 'fetch-error') {
-      return <FetchErrorMessage draftId={draftId} language={language} />;
+      return (
+        <ErrorMessage
+          draftId={draftId}
+          language={language}
+          messageId="editMarkup.fetchError"
+        />
+      );
     }
 
     return (

@@ -54,10 +54,11 @@ class H5PElement extends Component {
   }
 
   render() {
+    const { url, fetchFailed } = this.state;
     const { t } = this.props;
     return (
       <div>
-        {this.state.fetchFailed && (
+        {fetchFailed && (
           <ErrorMessage
             illustration={{
               url: '/Oops.gif',
@@ -69,14 +70,7 @@ class H5PElement extends Component {
             }}
           />
         )}
-        {this.state.url ? (
-          <iframe
-            src={this.state.url}
-            title="H5P"
-            frameBorder="0"
-            height="900"
-          />
-        ) : null}
+        {url && <iframe src={url} title="H5P" frameBorder="0" height="900" />}
       </div>
     );
   }

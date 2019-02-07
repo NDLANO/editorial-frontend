@@ -13,18 +13,26 @@ import Button from '@ndla/button';
 import Types from 'slate-prop-types';
 import { Pencil } from '@ndla/icons/action';
 import { colors } from '@ndla/core';
+import styled from 'react-emotion';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import DisplayExternalModal from './helpers/DisplayExternalModal';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
-import { editorClasses } from '../SlateEditor/plugins/embed/SlateFigure';
 import { colorFigureButtonsLinkStyle } from '../SlateEditor/plugins/embed/FigureButtons';
 import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import DeleteButton from '../DeleteButton';
 import CrossButton from '../CrossButton';
+
+const StyledActionButtons = styled.div`
+  position: absolute;
+  top: 0.1rem;
+  right: 0.2rem;
+  display: flex;
+  flex-flow: column;
+`;
 
 export class DisplayExternal extends Component {
   constructor(props) {
@@ -159,7 +167,7 @@ export class DisplayExternal extends Component {
 
     return (
       <Fragment>
-        <div {...editorClasses('', '')}>
+        <StyledActionButtons>
           <CrossButton
             css={colorFigureButtonsLinkStyle(colors.support.red)}
             stripped
@@ -175,7 +183,7 @@ export class DisplayExternal extends Component {
               <Pencil />
             </Button>
           )}
-        </div>
+        </StyledActionButtons>
         <iframe
           ref={iframe => {
             this.iframe = iframe;

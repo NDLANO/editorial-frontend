@@ -37,7 +37,7 @@ class SlateFigure extends React.Component {
     this.onRemoveClick = this.onRemoveClick.bind(this);
   }
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     const {
       editor: {
         props: { slateStore },

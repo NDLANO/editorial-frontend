@@ -54,6 +54,7 @@
     border-right: 1px solid;
     padding-right: 0.7rem;
     line-height: initial;
+    background-color: white;
   }
 
   &__focus-text {

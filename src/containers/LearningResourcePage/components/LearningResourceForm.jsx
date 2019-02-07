@@ -106,7 +106,6 @@ class LearningResourceForm extends Component {
 
     this.state = {
       showResetModal: false,
-      savedButtonState: 'inital',
     };
   }
 

@@ -79,7 +79,6 @@ class LearningResourceContent extends Component {
       blockquotePlugin,
       editListPlugin,
       paragraphPlugin(),
-
       createTablePlugin(),
       editTablePlugin,
       relatedPlugin(),

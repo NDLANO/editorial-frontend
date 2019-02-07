@@ -404,6 +404,7 @@ TopicArticleForm.propTypes = {
     goBack: PropTypes.func,
   }).isRequired,
   article: ArticleShape,
+  savedToServer: PropTypes.bool,
 };
 
 export default compose(

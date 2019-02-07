@@ -46,7 +46,7 @@ ObjectSelector.propTypes = {
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
   labelKey: PropTypes.string.isRequired,
   idKey: PropTypes.string.isRequired,
   disabled: PropTypes.bool,

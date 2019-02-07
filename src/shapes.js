@@ -277,3 +277,9 @@ export const StructureShape = PropTypes.shape({
   name: PropTypes.string,
   path: PropTypes.string,
 });
+
+export const SupportedToolbarElementsShape = PropTypes.shape({
+  mark: PropTypes.arrayOf(PropTypes.string),
+  block: PropTypes.arrayOf(PropTypes.string),
+  inline: PropTypes.arrayOf(PropTypes.string),
+});

@@ -26,6 +26,7 @@ const makeWrapper = WrappedComponent => {
         fields: {},
       };
       this.setModel = this.setModel.bind(this);
+      this.setInitialModel = this.setInitialModel.bind(this);
       this.setModelField = this.setModelField.bind(this);
       this.setProperty = this.setProperty.bind(this);
       this.bindToChangeEvent = this.bindToChangeEvent.bind(this);
@@ -39,6 +40,11 @@ const makeWrapper = WrappedComponent => {
     setModel(model) {
       this.setState({ model });
       return model;
+    }
+
+    setInitialModel(initialModel) {
+      this.setState({ initialModel });
+      return initialModel;
     }
 
     setModelField(field, value) {
@@ -144,6 +150,7 @@ const makeWrapper = WrappedComponent => {
         setSubmitted: this.setSubmitted,
         setModel: this.setModel,
         setModelField: this.setModelField,
+        setInitialModel: this.setInitialModel,
       };
 
       return React.createElement(WrappedComponent, nextProps);

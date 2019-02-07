@@ -31,7 +31,7 @@ const StyledButtonFigure = styled(Button)`
     position: absolute;
     top: 0;
     height: inherit;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3);
     opacity: 0;
     text-shadow: 0 1px 6.5px rgba(0, 0, 0, 0.7);
     z-index: 1;

@@ -1,18 +1,38 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'react-emotion';
+import styled, { css } from 'react-emotion';
 import FocusTrapReact from 'focus-trap-react';
+import Types from 'slate-prop-types';
 import { injectT } from '@ndla/i18n';
-import { spacing, colors } from '@ndla/core';
-import { FormInput } from '@ndla/forms';
+import { spacing, colors, animations, shadows } from '@ndla/core';
+import Button from '@ndla/button';
+import { FormInput, StyledButtonWrapper } from '@ndla/forms';
 import { isEmpty } from '../../../validators';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { Portal } from '../../../Portal';
-import { EmbedShape } from '../../../../shapes';
+import { EmbedShape, EditorShape } from '../../../../shapes';
+import { getSchemaEmbed } from '../../editorSchema';
 
 const StyledInputWrapper = styled.div`
   background: ${colors.brand.greyLightest};
   padding: ${spacing.normal};
+  position: relative;
+  z-index: 20;
+`;
+
+const Background = styled.div`
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  ${animations.fadeIn()}
+`;
+
+const editorContentCSS = css`
+  box-shadow: ${shadows.levitate1};
 `;
 
 class EditImage extends Component {
@@ -21,8 +41,14 @@ class EditImage extends Component {
     this.state = {
       alt: props.embed.alt,
       caption: props.embed.caption,
+      imageUpdates: undefined,
+      madeChanges: false,
     }
+    this.onUpdatedImageSettings = this.onUpdatedImageSettings.bind(this);
+    this.onSave = this.onSave.bind(this);
+    this.onAbort = this.onAbort.bind(this);
   }
+
   componentDidMount() {
     const { placeholderEl, embedEl } = this;
 
@@ -41,30 +67,59 @@ class EditImage extends Component {
     placeholderEl.style.height = `${embedRect.height + (spacing.spacingUnit * 2)}px`;
   }
 
+  onUpdatedImageSettings(imageUpdates) {
+    this.setState({
+      imageUpdates: imageUpdates,
+      madeChanges: true,
+    });
+    
+  }
+
+  onSave() {
+    this.props.onFigureInputMultipleUpdates({
+      caption: this.state.caption,
+      alt: this.state.alt,
+    });
+
+    const { node, editor } = this.props;
+    const data = {
+      ...getSchemaEmbed(node),
+      ...this.state.imageUpdates.transformData,
+      align: this.state.imageUpdates.align,
+      size: this.state.imageUpdates.size,
+    };
+
+    editor.setNodeByKey(node.key, { data });
+    this.props.closeEdit(true);
+  }
+
+  onAbort() {
+    this.setState({
+      imageUpdates: undefined,
+    });
+    this.props.closeEdit(true);
+  }
+
   onEdit(key, value) {
     this.setState({
       [key]: value,
+      madeChanges: true,
     });
   }
 
   render() {
-    const { embed, onFigureInputMultipleUpdates, submitted, t, closeEdit } = this.props;
+    const { embed, submitted, t, closeEdit } = this.props;
 
     return (
       <div
         ref={placeholderEl => {
           this.placeholderEl = placeholderEl;
         }}>
+        <Background />
         <Portal isOpened>
           <FocusTrapReact
             focusTrapOptions={{
               onDeactivate: () => {
-                onFigureInputMultipleUpdates(
-                  {
-                    caption: this.state.caption,
-                    alt: this.state.alt,
-                  }
-                );
                 closeEdit(true)
               },
               clickOutsideDeactivates: true,
@@ -72,12 +127,14 @@ class EditImage extends Component {
             }}
           >
             <div
+            className={editorContentCSS}
             ref={embedEl => {
               this.embedEl = embedEl;
             }}>
               <ImageEditor
                 embedTag={embed}
                 toggleEditModus={closeEdit}
+                onUpdatedImageSettings={this.onUpdatedImageSettings}
                 {...this.props}
               />
               <StyledInputWrapper>
@@ -104,6 +161,14 @@ class EditImage extends Component {
                   white
                   warningText={!submitted && isEmpty(this.state.alt) ? t('form.image.alt.noText') : ''}
                 />
+                <StyledButtonWrapper paddingLeft>
+                  <Button disabled={!this.state.madeChanges} onClick={this.onSave}>
+                    {t('form.save')}
+                  </Button>
+                  <Button onClick={this.onAbort}>
+                    {t('form.abort')}
+                  </Button>
+                </StyledButtonWrapper>
               </StyledInputWrapper>
             </div>
           </FocusTrapReact>
@@ -118,6 +183,8 @@ EditImage.propTypes = {
   embed: EmbedShape.isRequired,
   onFigureInputMultipleUpdates: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
+  node: Types.node.isRequired,
+  editor: EditorShape,
 };
 
 export default injectT(EditImage);

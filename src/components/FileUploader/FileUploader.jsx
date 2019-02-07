@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import Button from '@ndla/button';
 import { FileListEditor } from '@ndla/editor';
-import { UploadDropZone, FormHeader } from '@ndla/forms';
+import { UploadDropZone, FormHeader, StyledButtonWrapper } from '@ndla/forms';
 import { uploadFile } from '../../modules/draft/draftApi';
 import { createFormData } from '../../util/formDataHelper';
 import handleError from '../../util/handleError';
@@ -27,15 +27,6 @@ const filesHeadingCSS = css`
   h2 {
     margin-top: 0 !important;
     padding-top: 0 !important;
-  }
-`;
-
-const buttonWrapperCSS = css`
-  display: flex;
-  margin-top: ${spacing.medium};
-
-  > button {
-    margin-right: ${spacing.small};
   }
 `;
 
@@ -153,14 +144,14 @@ class FileUploader extends React.Component {
           onEditFileName={this.onUpdateFileName}
           onUpdateFiles={this.onUpdateFiles}
         /> : <span>No files added yet</span>}
-        <div className={buttonWrapperCSS}>
+        <StyledButtonWrapper>
           <Button disabled={!changedData} onClick={() => this.props.onFileSave(addedFiles)}>
             Lagre endringer
           </Button>
           <Button onClick={onClose}>
             Avbryt
           </Button>
-        </div>
+        </StyledButtonWrapper>
       </div>
     );
   }

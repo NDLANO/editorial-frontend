@@ -115,6 +115,56 @@ details {
     float: right;
     font-size: 0.9rem;
   }
+
+  section[data-key] {
+    p[data-key]:not(:only-child) {
+      span[data-slate-zero-width] {
+        height: 100%;
+        width: 100%;
+        display: block;
+        box-sizing: border-box;
+        cursor: pointer;
+        &::before {
+          position: absolute;
+          display: block;
+          content: "Click to add content here";
+          color: #999;
+          opacity: 0;
+          transition: opacity 300ms ease;
+        }
+        br {
+          content: "-";
+          display: block;
+          height: 1.44rem;
+        }
+        &::after {
+          display: block;
+          content: "";
+          height: 0;
+          margin-bottom: -1.44rem;
+        }
+      }
+
+      &:hover {
+        background: #eee;
+        span[data-slate-zero-width] {
+          background: #eee;
+          &::before {
+            opacity: 1;
+          }
+        }
+      }
+    }
+    > br {
+      content: "-";
+      display: block;
+      height: 1.44rem;
+      cursor: default;
+      &:hover {
+        background: #f8f8f8;
+      }
+    }
+  }
 }
 
 .c-block {

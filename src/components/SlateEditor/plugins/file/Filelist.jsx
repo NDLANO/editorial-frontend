@@ -14,8 +14,7 @@ import { injectT } from '@ndla/i18n';
 import { FormHeader, FormHeaderIconClass } from '@ndla/forms';
 import { uuid } from '@ndla/util';
 import { FileListEditor } from '@ndla/editor';
-import { Cross } from '@ndla/icons/action';
-import { CloudUploadOutline } from '@ndla/icons/editor'; 
+import { Cross, Plus } from '@ndla/icons/action';
 import { EditorShape } from '../../../../shapes';
 import { getSchemaEmbed } from '../../editorSchema';
 import AddFileToList from './AddFileToList';
@@ -70,9 +69,14 @@ class Filelist extends React.Component {
   onUpdateFiles(files) {
     this.setState({
       files,
-    },
-      this.onChangeFileData,
-    );
+    }, () => {
+      if (files.length === 0) {
+        const { node, editor } = this.props;
+        editor.removeNodeByKey(node.key);
+      } else {
+        this.onChangeFileData();
+      }
+    });
   }
 
   onAddFileToList(files) {
@@ -137,7 +141,7 @@ class Filelist extends React.Component {
           <FormHeader title={t('form.file.label')}>
             <Tooltip tooltip={t('form.file.addFile')}>
               <button tabIndex={-1} type="button" onClick={this.onOpenFileUploader}>
-                <CloudUploadOutline className={FormHeaderIconClass} />
+                <Plus className={FormHeaderIconClass} />
               </button>
             </Tooltip>
             <Tooltip tooltip={t('form.file.removeList')}>
@@ -147,6 +151,7 @@ class Filelist extends React.Component {
             </Tooltip>
           </FormHeader>
           <FileListEditor
+            usePortal
             files={files}
             onEditFileName={this.onUpdateFileName}
             onUpdateFiles={this.onUpdateFiles}

@@ -9,19 +9,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'react-emotion';
-import darken from 'polished/lib/color/darken';
 import Tooltip from '@ndla/tooltip';
+import { spacing } from '@ndla/core';
 import { injectT } from '@ndla/i18n';
-import { colors } from '@ndla/core';
 import { EmbedShape } from '../../../../shapes';
-import CrossButton from '../../../CrossButton';
+import DeleteSectionButton from '../../../DeleteSectionButton';
 
 export const figureButtonsStyle = css`
   position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  display: flex;
-  flex-flow: column;
+  top: 0;
+  right: -${spacing.small};
 `;
 
 const rightAdjustedStyle = css`
@@ -30,21 +27,10 @@ const rightAdjustedStyle = css`
 `;
 
 const StyledFigureButtons = styled('div')`
-  ${figureButtonsStyle} ${p => (p.isNotCentered ? rightAdjustedStyle : null)};
+  ${figureButtonsStyle} ${p => (p.isNotCentered ? rightAdjustedStyle : null)}
 `;
 
-export const colorFigureButtonsLinkStyle = color => css`
-  text-decoration: none;
-  line-height: 1.625;
-  box-shadow: none;
-  color: ${color};
-
-  &:hover,
-  &:focus {
-    text-decoration: none;
-    color: ${darken(0.1, color)};
-  }
-`;
+export 
 
 const FigureButtons = ({ embed, t, onRemoveClick }) => {
 
@@ -56,10 +42,8 @@ const FigureButtons = ({ embed, t, onRemoveClick }) => {
   return (
     <StyledFigureButtons isNotCentered={isNotCentered}>
       <Tooltip tooltip="Ta bort bilde">
-        <CrossButton
-          css={colorFigureButtonsLinkStyle(colors.support.red)}
+        <DeleteSectionButton
           onClick={onRemoveClick}
-          stripped
           tabIndex={-1}
         />
       </Tooltip>

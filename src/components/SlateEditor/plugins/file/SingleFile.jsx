@@ -44,7 +44,7 @@ class SingleFile extends React.Component {
     return (
       <RelativeDiv>
         <EditFile
-          heading={`${t('form.file.label')}????`}
+          heading={`${t('form.file.label')}`}
           file={file}
           onExit={this.toggleEdit}
           onFileListInputChange={onFileInputChange}

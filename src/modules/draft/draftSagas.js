@@ -31,10 +31,7 @@ export function* watchFetchDraft() {
     const {
       payload: { id, language },
     } = yield take(actions.fetchDraft);
-    const draft = yield select(getDraft(id));
-    if (!draft || draft.id !== id || draft.language !== language) {
-      yield call(fetchDraft, id, language);
-    }
+    yield call(fetchDraft, id, language);
   }
 }
 

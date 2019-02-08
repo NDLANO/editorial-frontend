@@ -54,21 +54,10 @@ const makeWrapper = WrappedComponent => {
     }
 
     onModelSavedToServer() {
-      this.setState(
-        prevState => ({
-          initialModel: prevState.model,
-          savedToServer: true,
-        }),
-        () => {
-          // set all fields to dirty = false
-          Object.keys(this.state.fields).forEach(field => {
-            const value = this.state.fields[field];
-            if (value.dirty) {
-              this.setProperty(field, this.state.model[field]);
-            }
-          });
-        },
-      );
+      this.setState(prevState => ({
+        fields: {},
+        savedToServer: true,
+      }));
     }
 
     setInputFlags(name, flags) {

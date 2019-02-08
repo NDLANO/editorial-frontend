@@ -114,7 +114,7 @@ class SearchContainer extends Component {
           page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
           lastPage={lastPage}
           query={searchObject}
-          pathname={toSearch(undefined, type)}
+          onClick={this.onQueryPush}
         />
       </OneColumn>
     );

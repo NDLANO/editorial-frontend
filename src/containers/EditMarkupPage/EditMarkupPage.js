@@ -185,9 +185,7 @@ export class EditMarkupPage extends Component {
                   label={t('subNavigation.learningResource')}
                   typeOfPreview="preview"
                   getArticle={() => {
-                    const content = standardizeContent(
-                      this.state.draft.content.content,
-                    );
+                    const content = standardizeContent(draft.content.content);
                     return {
                       ...updateContentInDraft(draft, content),
                       tags: [],

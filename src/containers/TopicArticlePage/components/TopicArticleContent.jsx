@@ -46,12 +46,6 @@ const supportedToolbarElements = {
   inline: [link],
 };
 
-const supportedToolbarElementsAside = {
-  mark: ['bold', 'italic', 'underlined'],
-  block: ['quote', ...listTypes, 'heading-one'],
-  inline: [link],
-};
-
 const plugins = [
   createNoEmbedsPlugin(),
   createLinkPlugin(),
@@ -120,7 +114,6 @@ const TopicArticleContent = ({
       renderMark={renderMark}
       plugins={plugins}
       supportedToolbarElements={supportedToolbarElements}
-      supportedToolbarElementsAside={supportedToolbarElementsAside}
       {...commonFieldProps}
     />
   </Fragment>

@@ -93,7 +93,7 @@
     "compression": "^1.7.3",
     "date-fns": "^1.29.0",
     "defined": "1.0.0",
-    "downshift": "^2.2.3",
+    "downshift": "^3.2.2",
     "emotion": "^9.2.12",
     "express": "^4.16.3",
     "express-basic-auth": "^1.1.5",

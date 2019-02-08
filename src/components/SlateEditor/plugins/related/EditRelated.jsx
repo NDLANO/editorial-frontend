@@ -9,8 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import BEMHelper from 'react-bem-helper';
 import Button from '@ndla/button';
+import styled from 'react-emotion';
+import { colors, spacing } from '@ndla/core';
 import { searchRelatedArticles } from '../../../../modules/article/articleApi';
 import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
 import Overlay from '../../../Overlay';
@@ -19,10 +20,36 @@ import TaxonomyLightbox from '../../../Taxonomy/TaxonomyLightbox';
 import { Portal } from '../../../Portal';
 import DeleteButton from '../../../DeleteButton';
 
-const classes = new BEMHelper({
-  name: 'related-box',
-  prefix: 'c-',
-});
+const StyledBorderDiv = styled('div')`
+  position: relative;
+  border: 2px solid ${colors.brand.tertiary};
+  padding: ${spacing.large};
+  padding-top: 0;
+`;
+
+const StyledListWrapper = styled('div')`
+  display: flex;
+  flex-wrap: wrap;
+  z-index: 1;
+
+  & figure {
+    position: static !important;
+  }
+`;
+
+const StyledArticle = styled('div')`
+  position: relative;
+  flex: 1 0 50%;
+  max-width: 600px;
+
+  & > article {
+    max-width: 100%;
+  }
+`;
+
+const StyledOr = styled('div')`
+  margin: 10px 0;
+`;
 
 class EditRelated extends React.PureComponent {
   constructor() {
@@ -46,7 +73,7 @@ class EditRelated extends React.PureComponent {
     // Placing embed within placeholder div on mount
     embedEl.style.position = 'absolute';
     embedEl.style.background = 'white';
-    embedEl.style.top = `${placeholderRect.top - bodyRect.top + 50}px`;
+    embedEl.style.top = `${placeholderRect.top - bodyRect.top}px`;
     embedEl.style.left = `${placeholderRect.left - 50}px`;
     embedEl.style.width = `${placeholderRect.width + 100}px`;
 
@@ -99,10 +126,10 @@ class EditRelated extends React.PureComponent {
       !relatedArticle.id ? (
         t('form.content.relatedArticle.invalidArticle')
       ) : (
-        <div key={relatedArticle.id} {...classes('article')}>
+        <StyledArticle key={relatedArticle.id}>
           <RelatedArticle locale={locale} item={relatedArticle} />
           <DeleteButton stripped onClick={e => removeArticle(i, e)} />
-        </div>
+        </StyledArticle>
       ),
     );
 
@@ -114,14 +141,16 @@ class EditRelated extends React.PureComponent {
             this.placeholderEl = placeholderEl;
           }}>
           <Portal isOpened>
-            <div
-              {...classes()}
-              ref={embedEl => {
+            <StyledBorderDiv
+              innerRef={embedEl => {
                 this.embedEl = embedEl;
               }}
               {...rest}>
-              {relatedArticles}
-              <div {...classes('article')}>
+              <h1 className="c-section-heading c-related-articles__component-title">
+                {t('form.related.title')}
+              </h1>
+              <StyledListWrapper>{relatedArticles}</StyledListWrapper>
+              <StyledArticle>
                 <AsyncDropdown
                   valueField="id"
                   name="relatedArticleSearch"
@@ -136,15 +165,15 @@ class EditRelated extends React.PureComponent {
                   }}
                   onChange={selected => selected && onInsertBlock(selected.id)}
                 />
-                <div>{t('taxonomy.or')}</div>
+                <StyledOr>{t('taxonomy.or')}</StyledOr>
                 <Button
                   data-testid="showAddExternal"
                   onClick={this.toggleAddExternal}>
                   {t('form.content.relatedArticle.addExternal')}
                 </Button>
-              </div>
+              </StyledArticle>
               <DeleteButton stripped onClick={onRemoveClick} />
-            </div>
+            </StyledBorderDiv>
             {this.state.showAddExternal && (
               <TaxonomyLightbox
                 onSelect={() => insertExternal(url, title)}

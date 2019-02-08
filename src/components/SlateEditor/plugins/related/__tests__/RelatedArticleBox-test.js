@@ -34,7 +34,6 @@ test('it goes in and out of edit mode', async () => {
     .reply(200, {});
   const { getByTestId, container } = wrapper();
 
-  fireEvent.click(getByTestId('relatedWrapper'));
   fireEvent.click(getByTestId('showAddExternal'));
   expect(container.firstChild).toMatchSnapshot();
 

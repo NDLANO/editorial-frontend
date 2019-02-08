@@ -12,7 +12,7 @@ const resourceTypeProps = (item, numberInList) => {
     ? item.resource.length &&
       item.resource[0].resourceTypes &&
       item.resource[0].resourceTypes.find(
-        it => iconMapping(numberInList)[it.id],
+        resourceType => iconMapping(numberInList)[resourceType.id],
       )
     : { id: item.id }; // if no resource it is external article
   if (resourceType) {

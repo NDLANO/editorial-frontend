@@ -11,6 +11,7 @@ import Downshift from 'downshift';
 import Button from '@ndla/button';
 import AutosizeInput from 'react-input-autosize';
 import { Search } from '@ndla/icons/common';
+import { colors } from '@ndla/core';
 import { css } from 'react-emotion';
 import { dropDownClasses } from '.';
 
@@ -26,7 +27,7 @@ const searchIconStyle = css`
   position: absolute;
   top: 2px;
   right: 3px;
-  color: #4d4d4d;
+  color: ${colors.brand.greyDark};
 `;
 
 const DropdownInput = props => {

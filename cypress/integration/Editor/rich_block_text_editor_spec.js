@@ -110,7 +110,6 @@ describe('Learning resource editing', () => {
     cy.get('[data-cy=create-related]')
       .last()
       .click();
-    cy.get('[data-testid=relatedWrapper]').click();
   });
 
   it('Can add all contributors', () => {
@@ -138,7 +137,7 @@ describe('Learning resource editing', () => {
       .parent()
       .parent()
       .within(_ => {
-        cy.get('[data-cy=addContributor]').click();
+        cy.get('[data-cy=addContributor]').click({ force: true });
         cy.get('input[type="text"]').type('Ola Nordmann', {
           force: true,
         });
@@ -151,7 +150,7 @@ describe('Learning resource editing', () => {
       .parent()
       .parent()
       .within(_ => {
-        cy.get('[data-cy=addContributor]').click();
+        cy.get('[data-cy=addContributor]').click({ force: true });
         cy.get('input[type="text"]').type('Ola Nordmann', {
           force: true,
         });

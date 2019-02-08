@@ -13,6 +13,7 @@ import { injectT } from '@ndla/i18n';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Types from 'slate-prop-types';
+import { css } from 'react-emotion';
 import { RelatedArticleList } from '@ndla/ui';
 import { toggleRelatedArticles } from '@ndla/article-scripts';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
@@ -57,6 +58,8 @@ export class RelatedArticleBox extends React.Component {
           this.fetchExternal(article.url, article.title, true);
         }
       });
+    } else {
+      this.setState({ editMode: true });
     }
   }
 
@@ -174,6 +177,11 @@ export class RelatedArticleBox extends React.Component {
         data-testid="relatedWrapper"
         onClick={this.openEditMode}
         onKeyPress={this.openEditMode}
+        css={css`
+          & article > p {
+            font-family: Source Sans Pro !important;
+          }
+        `}
         {...attributes}>
         <RelatedArticleList
           messages={{
@@ -181,11 +189,16 @@ export class RelatedArticleBox extends React.Component {
             showMore: t('form.related.showMore'),
             showLess: t('form.related.showLess'),
           }}>
-          {items.map(item =>
+          {items.map((item, i) =>
             !item.id ? (
               t('form.content.relatedArticle.invalidArticle')
             ) : (
-              <RelatedArticle key={uuid()} locale={locale} item={item} />
+              <RelatedArticle
+                key={uuid()}
+                numberInList={i}
+                locale={locale}
+                item={item}
+              />
             ),
           )}
         </RelatedArticleList>

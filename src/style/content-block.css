@@ -25,34 +25,6 @@ details {
   position: absolute;
 }
 
-.c-related-box {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  border: 1px solid var(--article-color);
-  padding: var(--spacing) var(--spacing--large);
-  z-index: 1;
-
-  &__article {
-    position: relative;
-    flex: 1 0 50%;
-    max-width: 600px;
-
-    & > article {
-      max-width: 100%;
-    }
-  }
-
-  & figure {
-    position: static !important;
-  }
-
-  &__or {
-    color: white;
-    align-self: center;
-  }
-}
-
 .c-editor__aside-type + .c-aside__content {
   padding-top: 60px;
 }

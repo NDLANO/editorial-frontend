@@ -34,7 +34,7 @@ export const defaultBlockWithText = text => ({
   type: 'paragraph',
 });
 
-export const defaultAsideBlock = type => 
+export const defaultAsideBlock = type =>
   Block.create({
     data: { type },
     type: 'aside',
@@ -42,21 +42,19 @@ export const defaultAsideBlock = type =>
   });
 
 export const defaultEmbedBlock = data => {
-  console.log('defaultEmbedBlock', data);
   return Block.create({
     type: 'embed',
     data,
   });
-}
+};
 
 export const defaultFilesBlock = data => {
-  console.log('defaultFilesBlock', data);
   return Block.create({
     object: 'Block',
     type: 'file',
     data,
   });
-}
+};
 
 export const defaultRelatedBlock = () =>
   Block.create({

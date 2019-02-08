@@ -136,14 +136,19 @@ class FileUploader extends React.Component {
     return (
       <div className={wrapperCSS}>
         <UploadDropZone
+          name="file"
           allowedFiles={['application/*']}
           onAddedFiles={this.onAddFiles}
           multiple
           loading={saving}
           ariaLabel={t('form.file.dragdrop.ariaLabel')}>
-          <strong>{t('form.file.dragdrop.main')}</strong> {t('form.file.dragdrop.sub')}
+          <strong>{t('form.file.dragdrop.main')}</strong>{' '}
+          {t('form.file.dragdrop.sub')}
         </UploadDropZone>
-        <FormHeader className={filesHeadingCSS} title={`${t('form.file.filesAdded')}:`} />
+        <FormHeader
+          className={filesHeadingCSS}
+          title={`${t('form.file.filesAdded')}:`}
+        />
         {addedFiles.length > 0 ? (
           <FileListEditor
             files={addedFiles}

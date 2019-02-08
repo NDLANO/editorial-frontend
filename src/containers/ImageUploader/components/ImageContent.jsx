@@ -8,49 +8,108 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'react-emotion';
 import { injectT } from '@ndla/i18n';
-import { InputFileField, TextField } from '../../../components/Fields';
+import { UploadDropZone, FormInput } from '@ndla/forms';
+import Tooltip from '@ndla/tooltip';
+import { animations, spacing, colors } from '@ndla/core';
+import { TextField, getField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
+import DeleteSectionButton from '../../../components/DeleteSectionButton';
 
-const ImageContent = ({ t, commonFieldProps, model }) => (
-  <Fragment>
-    <TextField
-      label={t('form.title.label')}
-      name="title"
-      title
-      noBorder
-      maxLength={300}
-      placeholder={t('form.title.label')}
-      {...commonFieldProps}
-    />
-    {!model.id ? (
-      <InputFileField
-        label={t('form.image.file')}
-        name="imageFile"
+const StyledImage = styled.img`
+  margin: ${spacing.normal} 0;
+  border: 1px solid ${colors.brand.greyLight};
+  ${animations.fadeInBottom()}
+`;
+
+const StyledDeleteButtonContainer = styled.div`
+  position: absolute;
+  right: -${spacing.medium};
+  transform: translateY(${spacing.normal});
+  z-index: 1;
+`;
+
+const ImageContent = ({ t, commonFieldProps, model }) => {
+  const { bindInput, schema, submitted } = { ...commonFieldProps };
+  return (
+    <Fragment>
+      <TextField
+        label={t('form.title.label')}
+        name="title"
+        title
+        noBorder
+        maxLength={300}
+        placeholder={t('form.title.label')}
         {...commonFieldProps}
       />
-    ) : null}
-    {model.imageFile && (
-      <img src={model.filepath || model.imageFile} alt="" height="500" />
-    )}
-    <TextField
-      placeholder={t(`form.image.caption.placeholder`)}
-      label={t(`form.image.caption.label`)}
-      name="caption"
-      noBorder
-      maxLength={300}
-      {...commonFieldProps}
-    />
-    <TextField
-      placeholder={t('form.image.alt.placeholder')}
-      label={t('form.image.alt.label')}
-      name="alttext"
-      noBorder
-      maxLength={300}
-      {...commonFieldProps}
-    />
-  </Fragment>
-);
+      {!model.imageFile && (
+        <UploadDropZone
+          name="imageFile"
+          allowedFiles={['image/gif', 'image/png', 'image/jpeg', 'image/jpg']}
+          onAddedFiles={(files, e) => {
+            const bindInputs = { ...bindInput('imageFile') };
+            bindInputs.onChange(e);
+          }}
+          ariaLabel={t('form.image.dragdrop.ariaLabel')}>
+          <strong>{t('form.image.dragdrop.main')}</strong>{' '}
+          {t('form.image.dragdrop.sub')}
+        </UploadDropZone>
+      )}
+      {!model.id && model.imageFile && (
+        <StyledDeleteButtonContainer>
+          <Tooltip tooltip={t('form.image.dragdrop.removeImage')}>
+            <DeleteSectionButton
+              onClick={() => {
+                const c = { ...commonFieldProps };
+                const bindInputs = { ...c.bindInput('imageFile') };
+                bindInputs.onChange({
+                  name: 'imageFile',
+                });
+              }}
+              tabIndex={-1}
+            />
+          </Tooltip>
+        </StyledDeleteButtonContainer>
+      )}
+      {model.imageFile && (
+        <StyledImage src={model.filepath || model.imageFile} alt="" />
+      )}
+      <FormInput
+        name="caption"
+        placeholder={t(`form.image.caption.placeholder`)}
+        label={t(`form.image.caption.label`)}
+        container="div"
+        type="text"
+        autoExpand
+        warningText={
+          submitted
+            ? getField('caption', schema)
+                .errors.map(error => error('caption'))
+                .toString('. ')
+            : undefined
+        }
+        {...bindInput('caption')}
+      />
+      <FormInput
+        placeholder={t('form.image.alt.placeholder')}
+        label={t('form.image.alt.label')}
+        name="alttext"
+        container="div"
+        type="text"
+        autoExpand
+        warningText={
+          submitted
+            ? getField('alttext', schema)
+                .errors.map(error => error('alttext'))
+                .toString('. ')
+            : undefined
+        }
+        {...bindInput('alttext')}
+      />
+    </Fragment>
+  );
+};
 
 ImageContent.propTypes = {
   inModal: PropTypes.bool,

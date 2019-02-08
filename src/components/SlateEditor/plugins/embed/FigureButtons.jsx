@@ -17,13 +17,11 @@ import DeleteSectionButton from '../../../DeleteSectionButton';
 
 export const figureButtonsStyle = css`
   position: absolute;
-  top: 0;
   right: -${spacing.small};
 `;
 
 const rightAdjustedStyle = css`
-  right: -1rem;
-  top: -0.4rem;
+  right: -${spacing.small};
 `;
 
 const StyledFigureButtons = styled('div')`

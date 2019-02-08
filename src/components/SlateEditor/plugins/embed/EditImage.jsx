@@ -86,7 +86,7 @@ class EditImage extends Component {
 
   onSave() {
     const { node, editor, onFigureInputMultipleUpdates } = this.props;
-    
+
     onFigureInputMultipleUpdates({
       caption: this.state.caption,
       alt: this.state.alt,
@@ -122,7 +122,6 @@ class EditImage extends Component {
 
   render() {
     const { embed, submitted, t, closeEdit } = this.props;
-
     return (
       <div
         css={imageEditorWrapperStyle}

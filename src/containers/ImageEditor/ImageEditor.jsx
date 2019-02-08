@@ -129,7 +129,7 @@ class ImageEditor extends Component {
         editType: undefined,
         [field]: value,
       },
-      this.props.onUpdatedImageSettings(this.state),
+      () => this.props.onUpdatedImageSettings(this.state),
     );
   }
 

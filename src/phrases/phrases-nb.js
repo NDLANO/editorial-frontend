@@ -682,6 +682,12 @@ const phrases = {
         placeholder: 'Alt-tekst',
         noText: 'Universal utforming krever alt-tekst.',
       },
+      dragdrop: {
+        main: 'Dra og slipp',
+        sub: 'eller trykk for å laste opp bilde',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp bilde',
+        removeImage: 'Ta bort bilde',
+      },
     },
     video: {
       caption: {
@@ -731,7 +737,7 @@ const phrases = {
         sub: 'eller trykk for å laste opp file(r)',
         ariaLabel: 'Dra og slipp eller trykk for å laste opp file(r)',
         noFilesAdded: 'Ingen filer er lagt til',
-      }
+      },
     },
   },
   validation: {

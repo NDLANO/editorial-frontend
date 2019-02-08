@@ -39,10 +39,9 @@ const HowToHelper = ({ pageId, tooltip, extraIconPadding }) => (
     pageId={pageId}
     tooltip={tooltip}
     activateButton={
-      <InformationOutline css={[
-        extraIconPadding ? extraPadded : normalPadding,
-        iconCSS,
-      ]} />
+      <InformationOutline
+        css={[extraIconPadding ? extraPadded : normalPadding, iconCSS]}
+      />
     }
   />
 );

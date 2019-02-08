@@ -120,8 +120,8 @@ class MenuItemDropdown extends PureComponent {
                 <DropdownInput
                   css={dropdownInputStyle}
                   testid="inlineDropdownInput"
-                  placeholder={placeholder}
                   {...downshiftProps}
+                  inputProps={{ placeholder }}
                 />
                 <DropdownMenu
                   items={items ? items.search(downshiftProps.inputValue) : []}

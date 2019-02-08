@@ -16,21 +16,21 @@ import { getSearching } from '../../modules/search/searchSelectors';
 import { toSearch } from '../../util/routeHelpers';
 
 class MastheadSearch extends Component {
+  static getDerivedStateFromProps(props, state) {
+    const { location } = props;
+    const { query } = state;
+    const propsQuery = queryString.parse(location.search).query;
+    if (query !== propsQuery) {
+      return { query: propsQuery };
+    }
+    return null;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       query: undefined,
     };
-  }
-
-  UNSAFE_componentWillMount() {
-    const { location } = this.props;
-    if (location.search) {
-      const query = queryString.parse(location.search);
-      this.setState({
-        query: query.query,
-      });
-    }
   }
 
   render() {

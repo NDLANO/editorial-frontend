@@ -6,7 +6,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
 >
   <div
     aria-hidden="true"
-    class="c-overlay"
+    class="css-6zky6j emotion-0"
   />
   <div
     class="c-taxonomy-lightbox__wrapper"
@@ -16,7 +16,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
     >
       Søk etter ressurs
       <button
-        class="css-zdsvka emotion-0"
+        class="css-zdsvka emotion-1"
         type="button"
       >
         <svg
@@ -89,7 +89,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
         </div>
       </div>
       <button
-        class="css-1hn2egk emotion-0"
+        class="css-1hn2egk emotion-1"
         data-testid="taxonomyLightboxButton"
         type="button"
       >
@@ -106,7 +106,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
 >
   <div
     aria-hidden="true"
-    class="c-overlay"
+    class="css-6zky6j emotion-0"
   />
   <div
     class="c-taxonomy-lightbox__wrapper"
@@ -116,7 +116,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
     >
       Søk etter ressurs
       <button
-        class="css-zdsvka emotion-0"
+        class="css-zdsvka emotion-1"
         type="button"
       >
         <svg
@@ -173,8 +173,34 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
           aria-labelledby="downshift-0-label"
           autocomplete="off"
           id="downshift-0-input"
+          placeholder="Søk på tittel"
           value=""
         />
+        <button
+          class="css-6yth7i emotion-0"
+          type="button"
+        >
+          <svg
+            class="c-icon c-icon--medium"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            style="vertical-align: middle;"
+            viewBox="0 0 48 48"
+            width="1em"
+          >
+            <title>
+              Search
+            </title>
+            <g>
+              <path
+                d="M31 28h-1.59l-.55-.55C30.82 25.18 32 22.23 32 19c0-7.18-5.82-13-13-13S6 11.82 6 19s5.82 13 13 13c3.23 0 6.18-1.18 8.45-3.13l.55.55V31l10 9.98L40.98 38 31 28zm-12 0c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z"
+              />
+            </g>
+          </svg>
+        </button>
         <div
           class="c-dropdown__items c-dropdown__items--resourceMenu"
           data-testid="dropdown-items"
@@ -262,7 +288,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         </div>
       </div>
       <button
-        class="css-1hn2egk emotion-0"
+        class="css-1hn2egk emotion-1"
         data-testid="taxonomyLightboxButton"
         type="button"
       >
@@ -279,7 +305,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
 >
   <div
     aria-hidden="true"
-    class="c-overlay"
+    class="css-6zky6j emotion-0"
   />
   <div
     class="c-taxonomy-lightbox__wrapper"
@@ -289,7 +315,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
     >
       Søk etter ressurs
       <button
-        class="css-zdsvka emotion-0"
+        class="css-zdsvka emotion-1"
         type="button"
       >
         <svg
@@ -346,14 +372,40 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
           aria-labelledby="downshift-0-label"
           autocomplete="off"
           id="downshift-0-input"
+          placeholder="Søk på tittel"
           value="Hva kan du om geologiske prosesser?"
         />
+        <button
+          class="css-6yth7i emotion-0"
+          type="button"
+        >
+          <svg
+            class="c-icon c-icon--medium"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            style="vertical-align: middle;"
+            viewBox="0 0 48 48"
+            width="1em"
+          >
+            <title>
+              Search
+            </title>
+            <g>
+              <path
+                d="M31 28h-1.59l-.55-.55C30.82 25.18 32 22.23 32 19c0-7.18-5.82-13-13-13S6 11.82 6 19s5.82 13 13 13c3.23 0 6.18-1.18 8.45-3.13l.55.55V31l10 9.98L40.98 38 31 28zm-12 0c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z"
+              />
+            </g>
+          </svg>
+        </button>
         <div
           class="c-dropdown__items c-dropdown__items--resourceMenu"
           data-testid="dropdown-items"
         >
           <div
-            aria-selected="true"
+            aria-selected="false"
             class="c-dropdown__item"
             id="downshift-0-item-0"
             role="option"
@@ -466,7 +518,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
         </div>
       </div>
       <button
-        class="css-1hn2egk emotion-0"
+        class="css-1hn2egk emotion-1"
         data-testid="taxonomyLightboxButton"
         type="button"
       >

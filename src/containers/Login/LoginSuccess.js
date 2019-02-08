@@ -13,17 +13,17 @@ import { actions } from '../../modules/session/session';
 import { parseHash } from '../../util/authHelpers';
 
 export class LoginSuccess extends React.Component {
-  UNSAFE_componentWillMount() {
+  async componentDidMount() {
     const {
       loginSuccess,
       location: { hash },
       history,
     } = this.props;
-    parseHash(hash).then(authResult => {
-      if (authResult && authResult.accessToken) {
-        loginSuccess({ accessToken: authResult.accessToken, history });
-      }
-    });
+
+    const authResult = await parseHash(hash);
+    if (authResult && authResult.accessToken) {
+      loginSuccess({ accessToken: authResult.accessToken, history });
+    }
   }
 
   render() {

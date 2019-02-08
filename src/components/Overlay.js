@@ -8,34 +8,57 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
+import styled, { css } from 'react-emotion';
 
-const overlayClasses = new BEMHelper({
-  name: 'overlay',
-  prefix: 'c-',
-});
+const appearances = {
+  zIndex: css`
+    z-index: 1;
+  `,
+  absolute: css`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  `,
+  'white-opacity': css`
+    opacity: 0.8;
+    background-color: white;
+  `,
+};
 
-const Overlay = ({ onExit, cssModifiers }) =>
+const getAllAppearances = modifiers => {
+  if (Array.isArray(modifiers)) {
+    return modifiers.map(modifier => appearances[modifier]);
+  }
+  return appearances[modifiers];
+};
+
+const StyledOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  opacity: 0;
+  ${p => getAllAppearances(p.modifiers)}
+`;
+
+const Overlay = ({ onExit, modifiers }) =>
   onExit ? (
-    <div
-      onClick={onExit}
-      aria-hidden="true"
-      {...overlayClasses('', cssModifiers)}
-    />
+    <StyledOverlay onClick={onExit} modifiers={modifiers} aria-hidden="true" />
   ) : (
-    <div {...overlayClasses('', cssModifiers)} />
+    <StyledOverlay modifiers={modifiers} />
   );
 
 Overlay.propTypes = {
   onExit: PropTypes.func,
-  cssModifiers: PropTypes.oneOfType([
+  modifiers: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string),
   ]),
 };
 
 Overlay.defaultProps = {
-  cssModifiers: '',
+  modifiers: '',
 };
 
 export default Overlay;

@@ -14,7 +14,7 @@ import { css } from 'react-emotion';
 export const dropdownActionButtonStyle = css`
   position: absolute;
   right: 0.8rem;
-  top: 0.1rem;
+  top: 0;
   color: ${colors.brand.grey};
 
   &:hover,

@@ -54,19 +54,6 @@ export default function createDetails() {
     },
   };
 
-  // Rule to always insert a paragraph as the last node inside if void type
-  function normalizeNode(node, editor, next) {
-    if (node.object !== 'block') return next();
-    if (node.type !== 'details') return next();
-    if (!node.nodes.last().type) return next();
-    if (!node.nodes.last().isVoid) return next();
-    const block = Block.create(defaultBlocks.defaultBlock);
-    return () =>
-      editor.withoutSaving(() => {
-        editor.insertNodeByKey(node.key, node.nodes.size, block);
-      });
-  }
-
   /* eslint-disable react/prop-types */
   const renderNode = (props, editor, next) => {
     const { node } = props;
@@ -83,6 +70,5 @@ export default function createDetails() {
   return {
     schema,
     renderNode,
-    normalizeNode,
   };
 }

@@ -23,12 +23,9 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { LicensesArrayOf } from '../../shapes';
 
 class LearningResourcePage extends PureComponent {
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     const { fetchLicenses } = this.props;
     fetchLicenses();
-  }
-
-  componentDidMount() {
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     }

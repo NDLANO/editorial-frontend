@@ -16,11 +16,11 @@ import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import LearningResourceIngress from './LearningResourceIngress';
+import { schema } from '../../../components/SlateEditor/editorSchema';
 import {
   renderNode,
-  schema,
   renderMark,
-} from '../../../components/SlateEditor/editorSchema';
+} from '../../../components/SlateEditor/renderNode';
 import { findNodesByType } from '../../../util/slateHelpers';
 import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';

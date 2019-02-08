@@ -120,6 +120,7 @@ class LearningResourceForm extends Component {
       fields.map(field => setModelField(field, initialModel[field]));
     } else if (
       initialModel.id !== prevModel.id ||
+      initialModel.revision !== prevModel.revision ||
       initialModel.language !== prevModel.language
     ) {
       setModel(initialModel);

@@ -22,7 +22,7 @@ import {
 } from '../../modules/license/license';
 
 class TopicArticlePage extends React.Component {
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     const { fetchLicenses } = this.props;
     fetchLicenses();
   }

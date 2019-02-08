@@ -8012,10 +8012,10 @@ ncp@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
 
-ndla-slate-edit-list@^0.13.1:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/ndla-slate-edit-list/-/ndla-slate-edit-list-0.13.1.tgz#6b767fa98638f19d9f64339f264699941ef9ac40"
-  integrity sha512-Ho77Pvoc/TENupCzs8vK26EVxAvIBLxx7JobXJhkP63pjgHhDu8ZNoTo4XONX9JlICUoucFQdniQ6CDUNZlKLA==
+ndla-slate-edit-list@^0.13.2:
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/ndla-slate-edit-list/-/ndla-slate-edit-list-0.13.2.tgz#f8d42eaf8ab5387c689ea71ffd73c5b723286f6e"
+  integrity sha512-FMSzPK9i7FUe9If/Pb1yeY1Xg3b6l5a56WP4oDNJ3fwGl0By794Zt0TrHVeiEvr/XOj8JAyZOQRcnrqzimhiyA==
 
 ndla-slate-edit-table@^0.1.4:
   version "0.1.4"

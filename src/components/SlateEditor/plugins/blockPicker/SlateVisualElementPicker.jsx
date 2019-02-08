@@ -13,10 +13,11 @@ const SlateVisualElementPicker = ({
 }) => {
   const onVisualElementAdd = (visualElement, type = 'embed') => {
     if (type === 'embed') {
+      console.log('embed', visualElement);
       const blockToInsert = defaultBlocks.defaultEmbedBlock(visualElement);
       onInsertBlock(blockToInsert);
     } else if (type === 'file') {
-      console.log('visualElement', visualElement);
+      console.log('file', visualElement);
       const blockToInsert = defaultBlocks.defaultFilesBlock({
         type: 'file',
         nodes: visualElement,

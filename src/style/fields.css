@@ -54,6 +54,7 @@
     border-right: 1px solid;
     padding-right: 0.7rem;
     line-height: initial;
+    background-color: white;
   }
 
   &__focus-text {
@@ -102,11 +103,6 @@
       margin: 0;
       outline: none;
     }
-  }
-
-  &__learning-resource-meta-image {
-    font-size: 1.5rem;
-    font-weight: normal;
   }
 
   &__date-picker + svg {

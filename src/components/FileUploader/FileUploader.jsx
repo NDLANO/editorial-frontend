@@ -140,26 +140,26 @@ class FileUploader extends React.Component {
           onAddedFiles={this.onAddFiles}
           multiple
           loading={saving}
-          ariaLabel="Drag and drop files or click to upload">
-          <strong>Dra og slipp</strong> eller trykk for å laste opp file(r)
+          ariaLabel={t('form.file.dragdrop.ariaLabel')}>
+          <strong>{t('form.file.dragdrop.main')}</strong> {t('form.file.dragdrop.sub')}
         </UploadDropZone>
-        <FormHeader className={filesHeadingCSS} title="Added files:" />
-        {addedFiles ? (
+        <FormHeader className={filesHeadingCSS} title={`${t('form.file.filesAdded')}:`} />
+        {addedFiles.length > 0 ? (
           <FileListEditor
             files={addedFiles}
             onEditFileName={this.onUpdateFileName}
             onUpdateFiles={this.onUpdateFiles}
           />
         ) : (
-          <span>No files added yet</span>
+          <span>{t('form.file.dragdrop.noFilesAdded')}</span>
         )}
         <StyledButtonWrapper>
           <Button
             disabled={!changedData}
             onClick={() => this.props.onFileSave(addedFiles)}>
-            Lagre endringer
+            {t('form.file.saveChanges')}
           </Button>
-          <Button onClick={onClose}>Avbryt</Button>
+          <Button onClick={onClose}>{t('form.file.cancel')}</Button>
         </StyledButtonWrapper>
       </div>
     );
@@ -169,7 +169,7 @@ class FileUploader extends React.Component {
 FileUploader.propTypes = {
   onFileSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  addedFiles: PropTypes.any,
+  addedFiles: PropTypes.arrayOf(PropTypes.shape),
 };
 
 export default injectT(FileUploader);

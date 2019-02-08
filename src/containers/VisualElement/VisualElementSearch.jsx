@@ -78,7 +78,6 @@ class VisualElementSearch extends Component {
   componentWillUnmount() {
     const { uploadedImage, clearUploadedImage } = this.props;
     if (uploadedImage) {
-      // clear uploadedImage.
       clearUploadedImage();
     }
   }

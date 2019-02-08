@@ -25,7 +25,18 @@ Object {
             },
           ],
         },
-        "nodes": Array [],
+        "nodes": Array [
+          Object {
+            "leaves": Array [
+              Object {
+                "marks": Array [],
+                "object": "leaf",
+                "text": "",
+              },
+            ],
+            "object": "text",
+          },
+        ],
         "object": "block",
         "type": "related",
       },

@@ -54,7 +54,6 @@ import { validateDraft } from '../../../modules/draft/draftApi';
 import { articleConverter } from '../../../modules/draft/draft';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import config from '../../../config';
-import { transformArticleToApiVersion } from '../../../util/articleUtil';
 
 const parseImageUrl = metaImage => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
@@ -121,6 +120,7 @@ class LearningResourceForm extends Component {
       fields.map(field => setModelField(field, initialModel[field]));
     } else if (
       initialModel.id !== prevModel.id ||
+      initialModel.revision !== prevModel.revision ||
       initialModel.language !== prevModel.language
     ) {
       setModel(initialModel);
@@ -179,7 +179,7 @@ class LearningResourceForm extends Component {
       supportedLanguages: model.supportedLanguages,
     };
 
-    return transformArticleToApiVersion(article);
+    return article;
   }
 
   async handleSubmit(evt) {
@@ -205,10 +205,7 @@ class LearningResourceForm extends Component {
       return;
     }
 
-    if (
-      status === articleStatuses.PUBLISHED ||
-      status === articleStatuses.QUEUED_FOR_PUBLISHING
-    ) {
+    if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
       try {
         await validateDraft(id, {
           ...this.getArticleFromModel(),

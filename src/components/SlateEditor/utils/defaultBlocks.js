@@ -3,11 +3,22 @@ import { Block } from 'slate';
 export const defaultBlock = {
   type: 'paragraph',
   data: {},
+  nodes: [
+    {
+      object: 'text',
+      leaves: [
+        {
+          object: 'leaf',
+          marks: [],
+          text: '',
+        },
+      ],
+    },
+  ],
 };
 
 export const defaultBlockWithText = text => ({
   data: {},
-  object: 'block',
   nodes: [
     {
       object: 'text',
@@ -23,25 +34,29 @@ export const defaultBlockWithText = text => ({
   type: 'paragraph',
 });
 
-export const defaultAsideBlock = type =>
+export const defaultAsideBlock = type => 
   Block.create({
     data: { type },
     type: 'aside',
     nodes: Block.createList([defaultBlock]),
   });
 
-export const defaultEmbedBlock = data =>
-  Block.create({
+export const defaultEmbedBlock = data => {
+  console.log('defaultEmbedBlock', data);
+  return Block.create({
     type: 'embed',
     data,
   });
+}
 
-export const defaultFilesBlock = data =>
-  Block.create({
+export const defaultFilesBlock = data => {
+  console.log('defaultFilesBlock', data);
+  return Block.create({
     object: 'Block',
     type: 'file',
     data,
   });
+}
 
 export const defaultRelatedBlock = () =>
   Block.create({

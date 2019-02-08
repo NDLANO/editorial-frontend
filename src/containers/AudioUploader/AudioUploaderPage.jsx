@@ -27,7 +27,7 @@ import EditAudio from './EditAudio';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 class AudioUploaderPage extends Component {
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     const { fetchTags, fetchLicenses, locale } = this.props;
     fetchTags({ language: locale });
     fetchLicenses();

@@ -21,7 +21,6 @@ import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import DisplayExternalModal from './helpers/DisplayExternalModal';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
-import { editorClasses } from '../SlateEditor/plugins/embed/SlateFigure';
 import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import DeleteButton from '../DeleteButton';
@@ -173,7 +172,7 @@ export class DisplayExternal extends Component {
 
     return (
       <Fragment>
-        <div {...editorClasses('', '')}>
+        <div>
           <CrossButton
             css={colorFigureButtonsLinkStyle(colors.support.red)}
             stripped

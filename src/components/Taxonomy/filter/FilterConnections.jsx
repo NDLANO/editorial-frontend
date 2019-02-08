@@ -13,6 +13,7 @@ import { injectT } from '@ndla/i18n';
 import { StyledFilterTable } from '../../../style/LearningResourceTaxonomyStyles';
 import SubjectFilters from './SubjectFilters';
 import { TopicShape, FilterShape, StructureShape } from '../../../shapes';
+import HowToHelper from '../../HowTo/HowToHelper';
 
 const FilterConnections = ({
   t,
@@ -40,8 +41,12 @@ const FilterConnections = ({
     <Fragment>
       <FormHeader
         title={t('taxonomy.filters.title')}
-        subTitle={t('taxonomy.filters.subTitle')}
-      />
+        subTitle={t('taxonomy.filters.subTitle')}>
+        <HowToHelper
+          pageId="TaxonomySubjectFilters"
+          tooltip={t('taxonomy.filters.helpLabel')}
+        />
+      </FormHeader>
       <StyledFilterTable>
         <tbody>
           {Object.keys(availableSubjects).map((filterSubjectKey, index) => (

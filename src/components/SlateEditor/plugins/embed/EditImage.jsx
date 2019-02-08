@@ -35,6 +35,10 @@ const editorContentCSS = css`
   box-shadow: ${shadows.levitate1};
 `;
 
+const imageEditorWrapperStyle = css`
+  background-color: white;
+`;
+
 class EditImage extends Component {
   constructor(props) {
     super(props);
@@ -81,20 +85,24 @@ class EditImage extends Component {
   }
 
   onSave() {
-    this.props.onFigureInputMultipleUpdates({
+    const { node, editor, onFigureInputMultipleUpdates } = this.props;
+    
+    onFigureInputMultipleUpdates({
       caption: this.state.caption,
       alt: this.state.alt,
     });
 
-    const { node, editor } = this.props;
-    const data = {
-      ...getSchemaEmbed(node),
-      ...this.state.imageUpdates.transformData,
-      align: this.state.imageUpdates.align,
-      size: this.state.imageUpdates.size,
-    };
+    if (this.state.imageUpdates) {
+      const data = {
+        ...getSchemaEmbed(node),
+        ...this.state.imageUpdates.transformData,
+        align: this.state.imageUpdates.align,
+        size: this.state.imageUpdates.size,
+      };
 
-    editor.setNodeByKey(node.key, { data });
+      editor.setNodeByKey(node.key, { data });
+    }
+
     this.props.closeEdit(true);
   }
 
@@ -117,6 +125,7 @@ class EditImage extends Component {
 
     return (
       <div
+        css={imageEditorWrapperStyle}
         ref={placeholderEl => {
           this.placeholderEl = placeholderEl;
         }}>

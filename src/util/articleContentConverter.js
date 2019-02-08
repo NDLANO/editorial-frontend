@@ -137,19 +137,41 @@ export function editorValueToPlainText(editorValue) {
   return editorValue ? Plain.serialize(editorValue) : '';
 }
 
+function filterNonUserInputUndos(undoArray) {
+  return undoArray.filter(undoList => {
+    const selection = undoList.every(
+      operation => operation.type === 'set_selection',
+    );
+    const emptyTextOrMerge = undoList.every(
+      operation =>
+        operation.type === 'merge_node' ||
+        (operation.type === 'insert_node' &&
+          operation.node.leaves &&
+          operation.node.leaves[0].text === ''),
+    );
+
+    return !selection && !emptyTextOrMerge;
+  });
+}
+
+function countUndoLength(value) {
+  if (!value || !value.data || !value.data.get('undos')) {
+    return 0;
+  }
+  const undoArray = value.data.get('undos').toJS();
+  return filterNonUserInputUndos(undoArray).length;
+}
+
 export function isEditorValueDirty(value) {
   if (value.data) {
-    return !!value.data.get('undos') && value.data.get('undos').size > 0;
+    return countUndoLength(value) > 0;
   }
-  return (
-    value
-      .map(val => {
-        return val && val.value && val.value.data.get('undos')
-          ? val.value.data.get('undos').size
-          : 0;
-      })
-      .reduce((a, b) => a + b, 0) > 1
-  );
+  const undoSizes = value.map(val => {
+    return countUndoLength(val.value);
+  });
+
+  return undoSizes.some(size => size > 0);
+
   // Since last update slate saves selection on startup so undo size is always at least one
   // this PR is supposed to fix it again: https://github.com/ianstormtaylor/slate/pull/2347
 }

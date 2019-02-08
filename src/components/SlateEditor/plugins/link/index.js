@@ -15,6 +15,16 @@ export const TYPE = 'link';
 export default function linkPlugin() {
   const schema = {
     document: {},
+    inlines: {
+      link: {
+        data: {},
+        nodes: [
+          {
+            match: { object: 'text' },
+          },
+        ],
+      },
+    },
   };
 
   /* eslint-disable react/prop-types */

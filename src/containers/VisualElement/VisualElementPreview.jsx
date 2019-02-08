@@ -22,17 +22,15 @@ class VisualElementPreview extends Component {
     this.removeVisualElement = this.removeVisualElement.bind(this);
   }
 
-  UNSAFE_componentWillMount() {
+  async componentDidMount() {
     const { value, name, onChange } = this.props;
-
     if (value.resource && value.resource !== 'h5p') {
-      api.fetchVisualElement(value).then(metaData => {
-        onChange({
-          target: {
-            name,
-            value: { ...value, metaData },
-          },
-        });
+      const metaData = await api.fetchVisualElement(value);
+      onChange({
+        target: {
+          name,
+          value: { ...value, metaData },
+        },
       });
     }
   }

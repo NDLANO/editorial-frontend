@@ -54,7 +54,7 @@ monaco.editor.defineTheme('myCustomTheme', {
   ],
 });
 
-export function MonacoEditor({ value }) {
+export function MonacoEditor({ value, onChange }) {
   const divRef = useRef(null);
 
   useEffect(() => {
@@ -69,8 +69,8 @@ export function MonacoEditor({ value }) {
     });
 
     editor.onDidChangeModelContent(event => {
-      const value = this.editor.getValue();
-      this.props.onChange(value, event);
+      const value = editor.getValue();
+      onChange(value, event);
     });
 
     editor.addAction(createFormatAction(monaco));

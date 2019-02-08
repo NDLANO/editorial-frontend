@@ -10,7 +10,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
-import { FormHeader } from '@ndla/forms';
+import { FormFieldHeader } from '@ndla/forms';
 import { formClasses } from '..';
 import { PossibleStatusShape } from '../../../shapes';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
@@ -65,7 +65,7 @@ const FormStatusActions = props => {
 
   return (
     <Fragment>
-      <FormHeader title={t('form.workflow.change')} width={3 / 4} />
+      <FormFieldHeader title={t('form.workflow.change')} width={3 / 4} />
       <div {...formClasses('actions')}>
         {possibleStatuses[articleStatus.current]
           .filter(

@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { FormHeader } from '@ndla/forms';
+import { FormFieldHeader } from '@ndla/forms';
 import {
   PlainTextField,
   MultiSelectField,
@@ -36,12 +36,12 @@ const LearningResourceMetadata = ({ t, commonFieldProps, tags, model }) => (
       }}
       {...commonFieldProps}
     />
-    <FormHeader title={t('form.metaDescription.label')}>
+    <FormFieldHeader title={t('form.metaDescription.label')}>
       <HowToHelper
         pageId="MetaImage"
         tooltip={t('form.metaDescription.helpLabel')}
       />
-    </FormHeader>
+    </FormFieldHeader>
     <PlainTextField
       placeholder={t('form.metaDescription.label')}
       description={t('form.metaDescription.description')}

@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { Check } from '@ndla/icons/editor';
 import { colors } from '@ndla/core';
 import { Structure } from '@ndla/editor';
-import { FormHeader } from '@ndla/forms';
+import { FormFieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
@@ -141,14 +141,14 @@ class TopicConnections extends Component {
 
     return (
       <Fragment>
-        <FormHeader
+        <FormFieldHeader
           title={t('taxonomy.topics.title')}
           subTitle={t('taxonomy.topics.subTitle')}>
           <HowToHelper
             pageId="TaxonomySubjectConnections"
             tooltip={t('taxonomy.topics.helpLabel')}
           />
-        </FormHeader>
+        </FormFieldHeader>
         <ActiveTopicConnections {...rest} />
         <Modal
           backgroundColor="white"

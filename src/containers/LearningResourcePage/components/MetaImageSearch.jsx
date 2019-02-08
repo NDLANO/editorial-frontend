@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { FormHeader } from '@ndla/forms';
+import { FormFieldHeader } from '@ndla/forms';
 import ImageSearch from '@ndla/image-search';
 import { connect } from 'react-redux';
 import Button from '@ndla/button';
@@ -62,12 +62,13 @@ class MetaImageSearch extends Component {
     const { image } = this.state;
     return (
       <div>
-        <FormHeader title={t('learningResourceForm.fields.metaImage.title')}>
+        <FormFieldHeader
+          title={t('learningResourceForm.fields.metaImage.title')}>
           <HowToHelper
             pageId="MetaImage"
             tooltip={t('learningResourceForm.fields.metaImage.helpLabel')}
           />
-        </FormHeader>
+        </FormFieldHeader>
         <Lightbox
           display={this.state.showImageSearch}
           appearance="big"

@@ -368,7 +368,7 @@ const phrases = {
   editorBlockpicker: {
     heading: 'Add',
     actions: {
-      block: 'Paragraph',
+      block: 'Section',
       factAside: 'Factbox',
       table: 'Table',
       bodybox: 'Text in frame',

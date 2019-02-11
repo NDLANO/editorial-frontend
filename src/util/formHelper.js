@@ -6,6 +6,7 @@
  */
 
 import { isEditorValueDirty } from './articleContentConverter';
+import { getField } from '../components/Fields';
 
 export const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
@@ -37,3 +38,6 @@ export const isFormDirty = ({ fields, model, showSaved }) => {
     });
   return dirtyFields.length > 0 && !showSaved;
 };
+
+export const getErrorMessages = (label, name, schema) =>
+  getField(name, schema).errors.map(error => error(label));

@@ -12,23 +12,16 @@ import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { FormHeader, FormSections, FormDropdown } from '@ndla/forms';
-import { CommonFieldPropsShape } from '../../../shapes';
 import { getLocale } from '../../../modules/locale/locale';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 
-const FormLicense = ({
-  t,
-  commonFieldProps,
-  name,
-  licenses,
-  disabled,
-  locale,
-}) => {
+const FormLicense = props => {
+  const { t, onChange, onBlur, name, licenses, disabled, locale } = props;
   const licensesWithTranslations = licenses.map(license => ({
     ...license,
     ...getLicenseByAbbreviation(license.license, locale),
   }));
-
+  console.log(props);
   return (
     <Fragment>
       <FormHeader title={t('form.license.label')} width={3 / 4}>
@@ -42,7 +35,9 @@ const FormLicense = ({
           <FormDropdown
             disabled={disabled}
             value=""
-            {...commonFieldProps.bindInput(name)}>
+            onChange={onChange}
+            onBlur={onBlur}
+            name={name}>
             {licensesWithTranslations.map(license => (
               <option value={license.license} key={license.license}>
                 {license.title}
@@ -56,7 +51,8 @@ const FormLicense = ({
 };
 
 FormLicense.propTypes = {
-  commonFieldProps: CommonFieldPropsShape.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

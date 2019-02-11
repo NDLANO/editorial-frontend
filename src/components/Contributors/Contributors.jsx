@@ -16,7 +16,6 @@ import styled from 'react-emotion';
 import { fonts, colors } from '@ndla/core';
 import { FormHeader } from '@ndla/forms';
 import Contributor from './Contributor';
-import { getField } from '../Fields';
 import { getLocale } from '../../modules/locale/locale';
 
 const StyledFormWarningText = styled.p`
@@ -33,15 +32,15 @@ const Contributors = props => {
     name,
     label,
     locale,
-    schema,
-    bindInput,
+    errorMessages,
     disabled,
     submitted,
+    onChange,
+    value,
     t,
     ...rest
   } = props;
-  const { onChange, value } = bindInput(name);
-
+  console.log(value);
   const onContributorChange = newContributors => {
     onChange({
       target: {
@@ -79,10 +78,6 @@ const Contributors = props => {
       : contributorTypes.nb[item],
   }));
 
-  const errorMessages = getField(name, schema).errors.map(error =>
-    error(label),
-  );
-
   return (
     <div>
       <FormHeader title={label} width={3 / 4} />
@@ -117,13 +112,17 @@ Contributors.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
-  bindInput: PropTypes.func.isRequired,
-  schema: PropTypes.shape({
-    fields: PropTypes.object.isRequired,
-  }),
+  onChange: PropTypes.func.isRequired,
+  errorMessages: PropTypes.arrayOf(PropTypes.string),
   submitted: PropTypes.bool.isRequired,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
+  value: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      type: PropTypes.string,
+    }),
+  ),
 };
 
 const mapStateToProps = state => ({

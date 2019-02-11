@@ -9,49 +9,64 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { MultiSelectField, TextField } from '../../../components/Fields';
+import MultiSelect from '../../../components/MultiSelect';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Contributors from '../../../components/Contributors';
 import FormLicense from '../../Form/components/FormLicense';
+import { getErrorMessages } from '../../../util/formHelper';
+import FormikField from '../../../components/FormikField';
+
+const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
 const AudioMetaData = props => {
-  const { t, commonFieldProps, tags, licenses } = props;
+  const { t, onChange, tags, licenses } = props;
   return (
     <Fragment>
-      <MultiSelectField
-        obligatory
+      <FormikField
         name="tags"
-        data={tags}
         label={t('form.tags.label')}
-        description={t('form.tags.description')}
-        messages={{
-          createOption: t('form.tags.createOption'),
-          emptyFilter: t('form.tags.emptyFilter'),
-          emptyList: t('form.tags.emptyList'),
-        }}
-        {...commonFieldProps}
+        render={({ field }) => 
+          <MultiSelect 
+            data={tags}
+            obligatory
+            {...field}
+            description={t('form.tags.description')}
+            messages={{
+              createOption: t('form.tags.createOption'),
+              emptyFilter: t('form.tags.emptyFilter'),
+              emptyList: t('form.tags.emptyList'),
+            }}
+          />
+        }
       />
-      <FormLicense licenses={licenses} commonFieldProps={commonFieldProps} />
-      <TextField
+      <FormikField
+        name="license"
+        render={({ field }) => 
+          <FormLicense
+            licenses={licenses}
+            {...field}
+          />
+        }
+      />
+      <FormikField
         label={t('form.origin.label')}
         name="origin"
-        {...commonFieldProps}
       />
-      <Contributors
-        name="creators"
-        label={t('form.creators.label')}
-        {...commonFieldProps}
-      />
-      <Contributors
-        name="rightsholders"
-        label={t('form.rightsholders.label')}
-        {...commonFieldProps}
-      />
-      <Contributors
-        name="processors"
-        label={t('form.processors.label')}
-        {...commonFieldProps}
-      />
+      {contributorTypes.map(contributorType => {
+        const label = t(`form.${contributorType}.label`);
+        return (
+          <Contributors
+            name={contributorType}
+            label={label}
+            errorMessages={getErrorMessages(
+              label,
+              contributorType,
+              commonFieldProps.schema,
+            )}
+            {...commonFieldProps.bindInput(contributorType)}
+          />
+        );
+      })}
     </Fragment>
   );
 };

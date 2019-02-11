@@ -9,36 +9,34 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { InputFileField, TextField } from '../../../components/Fields';
-import { CommonFieldPropsShape } from '../../../shapes';
 import AudioPlayer from './AudioPlayer';
+import FormikField from '../../../components/FormikField';
 
-const AudioContent = ({ t, commonFieldProps, model, audioInfo }) => (
+const AudioContent = ({ t,values, audioInfo }) => (
   <Fragment>
-    <TextField
+    <FormikField
       label={t('form.title.label')}
       name="title"
       title
       noBorder
       placeholder={t('form.title.label')}
-      {...commonFieldProps}
     />
-    {!model.id && (
-      <InputFileField
-        label={t('form.audio.file')}
-        name="audioFile"
-        {...commonFieldProps}
-      />
+    {!values.id && (
+      <FormikField id="file" type="file" name="audioFile" label={t('form.audio.file')} />
     )}
-    {model.id && <AudioPlayer audio={audioInfo} filepath={model.filepath} />}
+    {values.id && <AudioPlayer audio={audioInfo} filepath={values.filepath} />}
   </Fragment>
 );
 
 AudioContent.propTypes = {
-  commonFieldProps: CommonFieldPropsShape.isRequired,
   classes: PropTypes.func.isRequired,
-  bindInput: PropTypes.func.isRequired,
-  model: PropTypes.shape({
+  audioInfo: PropTypes.shape({
+    fileSize: PropTypes.number.isRequired,
+    language: PropTypes.string.isRequired,
+    mimeType: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+  }),
+  values: PropTypes.shape({
     id: PropTypes.number,
     audioFile: PropTypes.shape({
       fileSize: PropTypes.number,
@@ -46,12 +44,6 @@ AudioContent.propTypes = {
       mimeType: PropTypes.string,
       url: PropTypes.string,
     }),
-  }),
-  audioInfo: PropTypes.shape({
-    fileSize: PropTypes.number.isRequired,
-    language: PropTypes.string.isRequired,
-    mimeType: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
   }),
 };
 

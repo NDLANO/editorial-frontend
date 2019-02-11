@@ -9,40 +9,62 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormHeader } from '@ndla/forms';
-import { colors, spacing } from '@ndla/core';
+import { colors, spacing, fonts } from '@ndla/core';
+import Tooltip from '@ndla/tooltip';
 import { injectT } from '@ndla/i18n';
-import styled, { css } from 'react-emotion';
-import { User, Time } from '@ndla/icons/common';
+import styled from 'react-emotion';
 import { Field } from '../../../components/Fields';
 import formatDate from '../../../util/formatDate';
 import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
 import { NoteShape } from '../../../shapes';
-import Tag from '../../../components/Tag';
 
-const StyledFormNote = styled('div')`
-  display: flex;
-  width: 75%;
-  flex-direction: column;
-  border-bottom: 3px solid ${colors.brand.secondary};
-  padding: ${spacing.normal} 0;
-  &:last-child {
-    border: 0;
+const StyledTable = styled.table`
+  color: ${colors.text.primary};
+  ${fonts.sizes(16, 1.1)};
+  width: 100%;
+
+  td,
+  th {
+    padding: 9.5px ${spacing.normal} 9.5px 0;
+  }
+
+  th {
+    font-weight: ${fonts.weight.semibold};
+    border-bottom: 2px solid ${colors.brand.tertiary};
+
+    &:nth-child(1) {
+      width: 21%;
+    }
+
+    &:nth-child(2) {
+      width: 15%;
+    }
+
+    &:nth-child(3) {
+      width: 45%;
+    }
+
+    &:nth-child(4) {
+      width: 19%;
+    }
+  }
+
+  tr {
+    &:not(:first-child) {
+      border-top: 1px solid ${colors.brand.greyLighter};
+    }
+  }
+
+  td {
+    vertical-align: top;
   }
 `;
 
-const StyledFormNoteHeader = styled('div')`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const StyledFormNoteHeaderText = styled('span')`
-  color: ${colors.brand.grey};
-`;
-
-const iconStyle = css`
-  height: 20px;
-  width: 20px;
-`;
+const shortenName = name =>
+  name.split(' ').map((namePart, index) => {
+    if (index === 0) return namePart;
+    return ` ${namePart.substring(0, 1).toUpperCase()}.`;
+  });
 
 class FormNotes extends React.Component {
   static async getDerivedStateFromProps(props, state) {
@@ -93,34 +115,40 @@ class FormNotes extends React.Component {
 
     return (
       <Field>
-        <FormHeader title={t('form.notes.history.heading')} width={3 / 4} />
+        <FormHeader title={t('form.notes.history.heading')} />
         {notes && notes.length > 0 ? (
-          notes.map((note, index) => {
-            return (
-              <StyledFormNote
-                key={
-                  /* eslint-disable */ `show_notes_${index}` /* eslint-enable */
-                }>
-                <StyledFormNoteHeader>
-                  <StyledFormNoteHeaderText>
-                    <User css={iconStyle} />
-                    {this.getUsername(note.user)}
-                  </StyledFormNoteHeaderText>
-                  <StyledFormNoteHeaderText>
-                    <Time css={iconStyle} />
-                    {formatDate(note.timestamp, 'nb')}
-                  </StyledFormNoteHeaderText>
-                  <Tag>
-                    {note.status
-                      ? t(`form.status.${note.status.current.toLowerCase()}`)
-                      : ''}
-                  </Tag>
-                </StyledFormNoteHeader>
-                <b>{t('form.notes.history.note')}</b>
-                <div>{note.note}</div>
-              </StyledFormNote>
-            );
-          })
+          <StyledTable>
+            <thead>
+              <th>{t('form.notes.history.user')}</th>
+              <th>{t('form.notes.history.time')}</th>
+              <th>{t('form.notes.history.note')}</th>
+              <th>{t('form.notes.history.status')}</th>
+            </thead>
+            <tbody>
+              {notes.map((note, index) => {
+                return (
+                  <tr
+                    key={
+                      /* eslint-disable */ `show_notes_${index}` /* eslint-enable */
+                    }>
+                    <td>
+                      <Tooltip
+                        tooltip={note.user || this.getUsername(note.user)}>
+                        {shortenName(note.user || this.getUsername(note.user))}
+                      </Tooltip>
+                    </td>
+                    <td>{formatDate(note.timestamp, 'nb')}</td>
+                    <td>{note.note}</td>
+                    <td>
+                      {note.status
+                        ? t(`form.status.${note.status.current.toLowerCase()}`)
+                        : ''}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </StyledTable>
         ) : (
           <span>{t('form.notes.history.empty')}</span>
         )}

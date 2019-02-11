@@ -16,7 +16,7 @@ import PreviewDraftLightbox from '../../../components/PreviewDraft/PreviewDraftL
 function FormQualityAssurance({ getArticle, model, onValidateClick, t }) {
   return (
     <div>
-      <FormHeader title={t('form.workflow.qualityAssurance')} width={3 / 4} />
+      <FormHeader title={t('form.workflow.qualityAssurance')} />
       <PreviewDraftLightbox
         label={t('subNavigation.learningResource')}
         typeOfPreview="preview"

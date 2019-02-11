@@ -426,6 +426,9 @@ const phrases = {
       remove: 'Remove note',
       warning: 'A note must contain text',
       history: {
+        user: 'User',
+        time: 'When',
+        status: 'Status',
         heading: 'Notes history',
         note: 'Note',
         empty: 'No notes',

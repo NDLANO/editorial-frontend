@@ -9,6 +9,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
+import styled from 'react-emotion';
+import { spacing } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
 import { injectT } from '@ndla/i18n';
 import { FormHeader, FormHeaderIconClass } from '@ndla/forms';
@@ -19,6 +21,10 @@ import { EditorShape } from '../../../../shapes';
 import { getSchemaEmbed } from '../../editorSchema';
 import AddFileToList from './AddFileToList';
 import config from '../../../../config';
+
+const StyledSection = styled.section`
+  margin-bottom: ${spacing.normal};
+`;
 
 const formatFile = ({ title, type, url, ...rest }, id, t) => ({
   id,
@@ -143,7 +149,7 @@ class Filelist extends React.Component {
           showFileUploader={showFileUploader}
           addedFiles={files}
         />
-        <section>
+        <StyledSection>
           <FormHeader title={t('form.file.label')}>
             <Tooltip tooltip={t('form.file.addFile')}>
               <button
@@ -168,7 +174,7 @@ class Filelist extends React.Component {
             onEditFileName={this.onUpdateFileName}
             onUpdateFiles={this.onUpdateFiles}
           />
-        </section>
+        </StyledSection>
       </Fragment>
     );
   }

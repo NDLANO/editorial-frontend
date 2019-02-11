@@ -61,10 +61,12 @@ const ImageContent = ({ t, commonFieldProps, model }) => {
           <Tooltip tooltip={t('form.image.dragdrop.removeImage')}>
             <DeleteSectionButton
               onClick={() => {
-                const c = { ...commonFieldProps };
-                const bindInputs = { ...c.bindInput('imageFile') };
+                const bindInputs = { ...bindInput('imageFile') };
                 bindInputs.onChange({
-                  name: 'imageFile',
+                  target: {
+                    name: 'imageFile',
+                    type: 'file',
+                  },
                 });
               }}
               tabIndex={-1}
@@ -112,7 +114,6 @@ const ImageContent = ({ t, commonFieldProps, model }) => {
 };
 
 ImageContent.propTypes = {
-  inModal: PropTypes.bool,
   commonFieldProps: CommonFieldPropsShape.isRequired,
   model: PropTypes.shape({
     id: PropTypes.number,

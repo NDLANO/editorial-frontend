@@ -125,7 +125,7 @@ class VisualElementSearch extends Component {
                     searchPlaceholder={t('imageSearch.placeholder')}
                     searchButtonTitle={t('imageSearch.buttonTitle')}
                     useImageTitle={t('imageSearch.useImage')}
-                    onImageSelect={image =>
+                    onImageSelect={image => {
                       handleVisualElementChange({
                         resource: selectedResource,
                         resource_id: image.id,
@@ -134,8 +134,8 @@ class VisualElementSearch extends Component {
                         alt: convertFieldWithFallback(image, 'alttext', ''),
                         caption: convertFieldWithFallback(image, 'caption', ''),
                         metaData: image,
-                      })
-                    }
+                      });
+                    }}
                     noResults={
                       <Fragment>
                         <div style={{ marginBottom: '20px' }}>
@@ -294,7 +294,6 @@ class VisualElementSearch extends Component {
                 resource: 'file',
                 ...file,
               }));
-
               handleVisualElementChange(preparedFiles, 'file');
             }}
             onClose={closeModal}

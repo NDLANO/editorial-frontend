@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormHeader } from '@ndla/forms';
 import { colors, spacing, fonts } from '@ndla/core';
+import { uuid } from '@ndla/util';
 import Tooltip from '@ndla/tooltip';
 import { injectT } from '@ndla/i18n';
 import styled from 'react-emotion';
@@ -19,14 +20,10 @@ import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
 import { NoteShape } from '../../../shapes';
 
 const StyledTable = styled.table`
+  margin: ${spacing.normal} 0;
   color: ${colors.text.primary};
   ${fonts.sizes(16, 1.1)};
   width: 100%;
-
-  td,
-  th {
-    padding: 9.5px ${spacing.normal} 9.5px 0;
-  }
 
   th {
     font-weight: ${fonts.weight.semibold};
@@ -49,14 +46,27 @@ const StyledTable = styled.table`
     }
   }
 
+  td,
+  th {
+    padding: 9.5px ${spacing.normal} 9.5px 0;
+
+    &:first-child {
+      padding-left: ${spacing.small};
+    }
+  }
+
   tr {
-    &:not(:first-child) {
-      border-top: 1px solid ${colors.brand.greyLighter};
+    &:nth-child(even) {
+      background: ${colors.brand.greyLighter};
     }
   }
 
   td {
     vertical-align: top;
+
+    &:first-child {
+      color: ${colors.brand.primary};
+    }
   }
 `;
 
@@ -127,10 +137,7 @@ class FormNotes extends React.Component {
             <tbody>
               {notes.map((note, index) => {
                 return (
-                  <tr
-                    key={
-                      /* eslint-disable */ `show_notes_${index}` /* eslint-enable */
-                    }>
+                  <tr key={uuid()}>
                     <td>
                       <Tooltip
                         tooltip={note.user || this.getUsername(note.user)}>

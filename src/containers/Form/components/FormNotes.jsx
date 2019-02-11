@@ -135,25 +135,23 @@ class FormNotes extends React.Component {
               <th>{t('form.notes.history.status')}</th>
             </thead>
             <tbody>
-              {notes.map((note, index) => {
-                return (
-                  <tr key={uuid()}>
-                    <td>
-                      <Tooltip
-                        tooltip={note.user || this.getUsername(note.user)}>
-                        {shortenName(note.user || this.getUsername(note.user))}
-                      </Tooltip>
-                    </td>
-                    <td>{formatDate(note.timestamp, 'nb')}</td>
-                    <td>{note.note}</td>
-                    <td>
-                      {note.status
-                        ? t(`form.status.${note.status.current.toLowerCase()}`)
-                        : ''}
-                    </td>
-                  </tr>
-                );
-              })}
+              {notes.map(note => (
+                <tr key={uuid()}>
+                  <td>
+                    <Tooltip
+                      tooltip={note.user || this.getUsername(note.user)}>
+                      {shortenName(note.user || this.getUsername(note.user))}
+                    </Tooltip>
+                  </td>
+                  <td>{formatDate(note.timestamp, 'nb')}</td>
+                  <td>{note.note}</td>
+                  <td>
+                    {note.status
+                      ? t(`form.status.${note.status.current.toLowerCase()}`)
+                      : ''}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </StyledTable>
         ) : (

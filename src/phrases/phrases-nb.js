@@ -231,7 +231,7 @@ const phrases = {
   editMarkup: {
     linkTitle: 'Gå til HTML editor',
     title: 'HTML editor',
-    subTitle: 'Editer artikkel innhold med HTML',
+    subTitle: 'Rediger artikkelinnhold med HTML',
     fetchError:
       'En feil oppsto ved lasting av artikkel HTML editoren. Gå tilbake eller prøv å last siden på nytt.',
     saveError: 'En feil oppsto ved lagring av endringer.',

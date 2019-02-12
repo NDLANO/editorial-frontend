@@ -177,7 +177,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
           value=""
         />
         <button
-          class="css-6yth7i emotion-0"
+          class="css-6yth7i emotion-1"
           type="button"
         >
           <svg
@@ -376,7 +376,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
           value="Hva kan du om geologiske prosesser?"
         />
         <button
-          class="css-6yth7i emotion-0"
+          class="css-6yth7i emotion-1"
           type="button"
         >
           <svg

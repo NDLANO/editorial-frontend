@@ -230,7 +230,7 @@ const phrases = {
   },
   editMarkup: {
     linkTitle: 'Gå til HTML-editor',
-    title: 'HTML editor',
+    title: 'HTML-editor',
     subTitle: 'Rediger artikkelinnhold med HTML',
     fetchError:
       'En feil oppsto ved lasting av HTML-editoren. Gå tilbake eller prøv å laste siden på nytt.',
@@ -238,9 +238,9 @@ const phrases = {
     back: 'Tilbake',
     helpMessage: {
       paragraph1:
-        'Det er mulig å formatter  HTML koden ved å trykke på F1 og velge Format. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisning funksjonaliteten aktivt. ',
+        'Det er mulig å formatere HTML-koden ved å trykke på F1 og velge Format. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisningsfunksjonaliteten aktivt. ',
       paragraph2:
-        'For å minimerer eventuelle problemer med formatering og sikre at at HTML blir konsistent så blir koden kjørt gjennom de samme transformeringen som WYSIWYG editoren. Det betyr at linjeskift f.eks. blir endret til <br> ved lagring og samt at den vil prøve å rette opp ugyldig kode.',
+        'For å minimere eventuelle problemer med formatering og for å sikre at at HTML blir konsistent, så blir koden kjørt gjennom de samme transformeringene som den vanlige editoren. Det betyr at linjeskift f.eks. blir endret til <br> ved lagring, samt at den vil prøve å rette opp ugyldig kode.',
     },
   },
   imageSearch: {

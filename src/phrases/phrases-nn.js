@@ -229,16 +229,16 @@ const phrases = {
     topics: 'Emner',
   },
   editMarkup: {
-    linkTitle: 'Gå til HTML editor',
-    title: 'HTML editor',
-    subTitle: 'Editer artikkel innhold med HTML',
+    linkTitle: 'Gå til HTML-editor',
+    title: 'HTML-editor',
+    subTitle: 'Rediger artikkelinnhold med HTML',
     fetchError:
       'Ein feil oppsto ved lasting av HTML-editoren. Gå tilbake eller prøv å laste sida på nytt.',
     saveError: 'Ein feil oppsto ved lagring av endringar.',
     back: 'Tilbake',
     helpMessage: {
       paragraph1:
-        'Det er mulig å formatter  HTML koden ved å trykke på F1 og velge Format. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisning funksjonaliteten aktivt. ',
+        'Det er mogeleg å formatere  HTML-koden ved å trykke på F1 og velge Format. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisningsfunksjonaliteten aktivt. ',
       paragraph2:
         'For å minimere eventuelle problemer med formatering og for å sikre at at HTML blir konsistent, så blir koden kjørt gjennom dei samme transformeringane som den vanlige editoren. Det betyr at linjeskift t.d. blir endra til <br> ved lagring, óg at den vil prøve å rette opp ugyldig kode.',
     },

@@ -239,7 +239,7 @@ const phrases = {
     saveError: 'An error occurred while saving article changes.',
     helpMessage: {
       paragraph1:
-        'Det er mulig å formatter  HTML koden ved å trykke på F1 og velge Format. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisning funksjonaliteten aktivt. ',
+        'It is possible to format the HTML code by pressing F1 and then selecting Format. Note that this could lead to changes in whitespace (indentations, linebreaks and spaces) when saving. Feel free to use the preview feature rapidly. ',
       paragraph2:
         'To minimize potential problems with formatting and to secure consistent HTML, the same transformations as in the regular editor is applied. This means that for instance linebreaks will be changed to<br> when saving, and illegal code is attempted to be corrected.',
     },

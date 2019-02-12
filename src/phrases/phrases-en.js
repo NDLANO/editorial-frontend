@@ -241,7 +241,7 @@ const phrases = {
       paragraph1:
         'Det er mulig å formatter  HTML koden ved å trykke på F1 og velge Format. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisning funksjonaliteten aktivt. ',
       paragraph2:
-        'For å minimerer eventuelle problemer med formatering og sikre at at HTML blir konsistent så blir koden kjørt gjennom de samme transformeringen som WYSIWYG editoren. Det betyr at linjeskift f.eks. blir endret til <br> ved lagring og samt at den vil prøve å rette opp ugyldig kode.',
+        'To minimize potential problems with formatting and to secure consistent HTML, the same transformations as in the regular editor is applied. This means that for instance linebreaks will be changed to<br> when saving, and illegal code is attempted to be corrected.',
     },
   },
   imageSearch: {

@@ -19,7 +19,7 @@ import FormikField from '../../../components/FormikField';
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
 const AudioMetaData = props => {
-  const { t, onChange, tags, licenses } = props;
+  const { t, tags, licenses } = props;
   return (
     <Fragment>
       <FormikField
@@ -55,16 +55,15 @@ const AudioMetaData = props => {
       {contributorTypes.map(contributorType => {
         const label = t(`form.${contributorType}.label`);
         return (
+        <FormikField
+        name={contributorType}
+        render={({field, form: { errors, touched }}) =>
           <Contributors
-            name={contributorType}
             label={label}
-            errorMessages={getErrorMessages(
-              label,
-              contributorType,
-              commonFieldProps.schema,
-            )}
-            {...commonFieldProps.bindInput(contributorType)}
+            errorMessages={touched[field.name] && errors[field.name]? [errors[field.name]] : []}
+            {...field}
           />
+        } />
         );
       })}
     </Fragment>
@@ -73,8 +72,6 @@ const AudioMetaData = props => {
 
 AudioMetaData.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  bindInput: PropTypes.func.isRequired,
-  commonFieldProps: CommonFieldPropsShape.isRequired,
   classes: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({

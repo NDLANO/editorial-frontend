@@ -16,17 +16,12 @@ import Accordion, {
 import { Formik } from 'formik';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import reformed from '../../../components/reformed';
-import validateSchema, {
-  checkTouchedInvalidField,
-} from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
 } from '../../../util/formHelper';
-import { SchemaShape } from '../../../shapes';
 import {
   FormHeader,
   AlertModalWrapper,
@@ -64,28 +59,27 @@ class AudioForm extends Component {
   }
 
   componentDidUpdate({ initialModel: prevModel }) {
-    const { initialModel, setModel } = this.props;
+    /*const { initialModel, setModel } = this.props;
     if (
       prevModel.id !== initialModel.id ||
       prevModel.language !== initialModel.language
     ) {
       setModel(initialModel);
-    }
+    }*/
   }
 
   handleSubmit(values, actions) {
     const {
-      model,
-      validationErrors,
+      //validationErrors,
       licenses,
       onUpdate,
       revision,
     } = this.props;
 
-    if (!validationErrors.isValid) {
+    /*if (!validationErrors.isValid) {
       actions.setSubmitting(false);
       return;
-    }
+    }*/
 
     const audioMetaData = {
       id: values.id,
@@ -107,9 +101,6 @@ class AudioForm extends Component {
   render() {
     const {
       t,
-      validationErrors: schema,
-      initialModel,
-      model,
       tags,
       licenses,
       isSaving,
@@ -120,19 +111,17 @@ class AudioForm extends Component {
 
     // const commonFieldProps = { bindInput, schema, submitted };
 
-    const panels = ({errors, onChange}) => [
+    const panels = ({errors, touced onChange}) => [
       {
         id: 'audio-upload-content',
         title: t('form.contentSection'),
-        hasError: [errors.title, errors.audioFile].some(field =>
-          checkTouchedInvalidField(field, submitted),
+        hasError: ['title', 'audioFile'].some(field =>
+          errors[field] && touched[field],
         ),
         component: (
           <AudioContent
             classes={formClasses}
-            onChange={onChange}
             tags={tags}
-            model={model}
             audioInfo={audioInfo}
           />
         ),
@@ -141,17 +130,15 @@ class AudioForm extends Component {
         id: 'audio-upload-metadataSection',
         title: t('form.metadataSection'),
         hasError: [
-          schema.fields.tags,
-          schema.fields.creators,
-          schema.fields.rightsholders,
-          schema.fields.processors,
-          schema.fields.license,
+          errors.tags,
+          errors.creators,
+          errors.rightsholders,
+          errors.processors,
+          errors.license,
         ].some(field => checkTouchedInvalidField(field, submitted)),
         component: (
           <AudioMetaData
             classes={formClasses}
-            commonFieldProps={commonFieldProps}
-            bindInput={bindInput}
             tags={tags}
             licenses={licenses}
           />
@@ -162,13 +149,8 @@ class AudioForm extends Component {
     return (
       <Formik
         initialValues={getInitialValues(audio)}
-        onSubmit={(values, actions) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
-          }, 1000);
-        }}
-        render={props => {
+        onSubmit={this.handleSubmit}>
+        {(props) => {
           const {
              handleSubmit,
               handleChange,
@@ -177,11 +159,11 @@ class AudioForm extends Component {
               errors,
           } = props;
           return (
-          <form onSubmit={this.handleSubmit} {...formClasses()}>
+          <form onSubmit={handleSubmit} {...formClasses()}>
             <FormHeader
-              model={model}
+              model={values}
               type="audio"
-              editUrl={lang => toEditAudio(model.id, lang)}
+              editUrl={lang => toEditAudio(values.id, lang)}
             />
             <Accordion openIndexes={['audio-upload-content']}>
               {({ openIndexes, handleItemClick }) => (
@@ -221,16 +203,15 @@ class AudioForm extends Component {
               <SaveButton isSaving={isSaving} showSaved={showSaved} />
             </Field>
             <AlertModalWrapper
-              initialModel={initialModel}
-              model={model}
+              model={values}
               severity="danger"
               showSaved={showSaved}
-              fields={fields}
+              fields={[]}//TODO!
               text={t('alertModal.notSaved')}
             />
           </form>
         )}}
-      />
+        </Formik>
     );
   }
 }

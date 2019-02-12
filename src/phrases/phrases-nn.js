@@ -233,7 +233,7 @@ const phrases = {
     title: 'HTML editor',
     subTitle: 'Editer artikkel innhold med HTML',
     fetchError:
-      'En feil oppsto ved lasting av artikkel HTML editoren. Gå tilbake eller prøv å last siden på nytt.',
+      'Ein feil oppsto ved lasting av HTML-editoren. Gå tilbake eller prøv å laste sida på nytt.',
     saveError: 'Ein feil oppsto ved lagring av endringar.',
     back: 'Tilbake',
     helpMessage: {

@@ -9,7 +9,6 @@
 import React, { Fragment, createRef, Component } from 'react';
 import { injectT } from '@ndla/i18n';
 import styled, { css } from 'react-emotion';
-import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import Types from 'slate-prop-types';
@@ -108,7 +107,7 @@ class MathEditor extends Component {
 
     return (
       <Fragment>
-        <div
+        <span
           ref={this.mathMLRef}
           role="button"
           tabIndex={0}
@@ -131,7 +130,7 @@ class MathEditor extends Component {
               </Button>
             </StyledMenu>
           </Portal>
-        </div>
+        </span>
         {editMode && (
           <EditMath
             onExit={this.toggleEdit}
@@ -148,7 +147,6 @@ class MathEditor extends Component {
 
 MathEditor.propTypes = {
   editor: EditorShape,
-  onRemoveClick: PropTypes.func.isRequired,
   node: Types.node.isRequired,
 };
 

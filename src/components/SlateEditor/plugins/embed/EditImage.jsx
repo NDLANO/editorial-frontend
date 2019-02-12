@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { css } from 'react-emotion';
 import SlateInputField from './SlateInputField';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { Portal } from '../../../Portal';
 import { EmbedShape } from '../../../../shapes';
+
+const imageEditorWrapperStyle = css`
+  background-color: white;
+`;
 
 class EditImage extends Component {
   componentDidMount() {
@@ -29,6 +34,7 @@ class EditImage extends Component {
     const { embed, onFigureInputChange, submitted, t, closeEdit } = this.props;
     return (
       <div
+        css={imageEditorWrapperStyle}
         ref={placeholderEl => {
           this.placeholderEl = placeholderEl;
         }}>

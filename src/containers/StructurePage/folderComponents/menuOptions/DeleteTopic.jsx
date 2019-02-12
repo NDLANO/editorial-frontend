@@ -91,7 +91,7 @@ class DeleteTopic extends PureComponent {
 
         {loading && <Spinner appearance="absolute" />}
         {loading && (
-          <Overlay cssModifiers={['absolute', 'white-opacity', 'zIndex']} />
+          <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />
         )}
         {error && (
           <StyledErrorMessage data-testid="inlineEditErrorMessage">

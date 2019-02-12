@@ -28,7 +28,7 @@ class CreateLearningResource extends PureComponent {
     this.updateDraft = this.updateDraft.bind(this);
   }
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     const { locale, fetchTags } = this.props;
     fetchTags({ language: locale });
   }

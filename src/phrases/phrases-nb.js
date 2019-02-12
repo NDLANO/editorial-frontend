@@ -229,7 +229,7 @@ const phrases = {
     topics: 'Emner',
   },
   editMarkup: {
-    linkTitle: 'Gå til HTML editor',
+    linkTitle: 'Gå til HTML-editor',
     title: 'HTML editor',
     subTitle: 'Rediger artikkelinnhold med HTML',
     fetchError:

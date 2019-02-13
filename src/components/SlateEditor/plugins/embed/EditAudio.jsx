@@ -100,11 +100,9 @@ class EditAudio extends Component {
           </div>
         </Portal>
         <FigureButtons
-          key="audioFigureButtons"
-          locale={locale}
+          tooltip={t('form.audio.remove')}
           onRemoveClick={onRemoveClick}
           embed={embed}
-          figureType="audio"
         />
       </Fragment>
     );

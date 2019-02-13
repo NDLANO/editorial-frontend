@@ -96,7 +96,6 @@ class SlateImage extends React.Component {
       figureClass,
       attributes,
       onRemoveClick,
-      locale,
       isSelectedForCopy,
       active,
       t,
@@ -140,10 +139,9 @@ class SlateImage extends React.Component {
         id={embed.resource_id}
         className={figureClassNames}>
         <FigureButtons
-          locale={locale}
+          tooltip={t('form.image.removeImage')}
           onRemoveClick={onRemoveClick}
           embed={embed}
-          figureType="image"
         />
         {editModus ? (
           <EditImage embed={embed} closeEdit={this.toggleEditModus} {...rest} />
@@ -181,7 +179,6 @@ SlateImage.propTypes = {
   onRemoveClick: PropTypes.func.isRequired,
   isSelectedForCopy: PropTypes.bool,
   active: PropTypes.bool,
-  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(SlateImage);

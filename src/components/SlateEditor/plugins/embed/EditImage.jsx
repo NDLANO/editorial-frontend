@@ -85,25 +85,31 @@ class EditImage extends Component {
   }
 
   onSave() {
-    const { node, editor, onFigureInputMultipleUpdates } = this.props;
+    const {
+      node,
+      editor,
+      onFigureInputMultipleUpdates,
+      closeEdit,
+    } = this.props;
+    const { caption, alt, imageUpdates } = this.state;
 
     onFigureInputMultipleUpdates({
-      caption: this.state.caption,
-      alt: this.state.alt,
+      caption: caption,
+      alt: alt,
     });
 
-    if (this.state.imageUpdates) {
+    if (imageUpdates) {
       const data = {
         ...getSchemaEmbed(node),
-        ...this.state.imageUpdates.transformData,
-        align: this.state.imageUpdates.align,
-        size: this.state.imageUpdates.size,
+        ...imageUpdates.transformData,
+        align: imageUpdates.align,
+        size: imageUpdates.size,
       };
 
       editor.setNodeByKey(node.key, { data });
     }
 
-    this.props.closeEdit(true);
+    closeEdit(true);
   }
 
   onAbort() {
@@ -122,6 +128,7 @@ class EditImage extends Component {
 
   render() {
     const { embed, submitted, t, closeEdit } = this.props;
+    const { caption, madeChanges, alt } = this.state;
     return (
       <div
         css={imageEditorWrapperStyle}
@@ -139,7 +146,7 @@ class EditImage extends Component {
               escapeDeactivates: true,
             }}>
             <div
-              className={editorContentCSS}
+              css={editorContentCSS}
               ref={embedEl => {
                 this.embedEl = embedEl;
               }}>
@@ -153,7 +160,7 @@ class EditImage extends Component {
                 <FormInput
                   name="caption"
                   label={`${t('form.image.caption.label')}:`}
-                  value={this.state.caption}
+                  value={caption}
                   onChange={e => this.onEdit('caption', e.target.value)}
                   container="div"
                   type="text"
@@ -164,7 +171,7 @@ class EditImage extends Component {
                 <FormInput
                   name="alt"
                   label={`${t('form.image.alt.label')}:`}
-                  value={this.state.alt}
+                  value={alt}
                   onChange={e => this.onEdit('alt', e.target.value)}
                   container="div"
                   type="text"
@@ -172,15 +179,11 @@ class EditImage extends Component {
                   placeholder={t('form.image.alt.placeholder')}
                   white
                   warningText={
-                    !submitted && isEmpty(this.state.alt)
-                      ? t('form.image.alt.noText')
-                      : ''
+                    !submitted && isEmpty(alt) ? t('form.image.alt.noText') : ''
                   }
                 />
                 <StyledButtonWrapper paddingLeft>
-                  <Button
-                    disabled={!this.state.madeChanges}
-                    onClick={this.onSave}>
+                  <Button disabled={!madeChanges} onClick={this.onSave}>
                     {t('form.save')}
                   </Button>
                   <Button onClick={this.onAbort}>{t('form.abort')}</Button>

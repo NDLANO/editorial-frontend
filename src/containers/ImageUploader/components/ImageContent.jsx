@@ -58,7 +58,7 @@ const ImageContent = ({ t, commonFieldProps, model }) => {
       )}
       {!model.id && model.imageFile && (
         <StyledDeleteButtonContainer>
-          <Tooltip tooltip={t('form.image.dragdrop.removeImage')}>
+          <Tooltip tooltip={t('form.image.removeImage')}>
             <DeleteSectionButton
               onClick={() => {
                 const bindInputs = { ...bindInput('imageFile') };

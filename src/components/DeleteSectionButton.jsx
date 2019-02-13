@@ -12,7 +12,7 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { colors, spacing } from '@ndla/core';
 import Button from '@ndla/button';
 
-export const buttonCSS = css`
+export const buttonStyle = css`
   margin: 0;
   padding: 0;
   background: 0;
@@ -57,7 +57,7 @@ export const buttonCSS = css`
 `;
 
 export const DeleteSectionButton = ({ children, ...rest }) => (
-  <Button stripped css={buttonCSS} {...rest}>
+  <Button stripped css={buttonStyle} {...rest}>
     <DeleteForever />
   </Button>
 );

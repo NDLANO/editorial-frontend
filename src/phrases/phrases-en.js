@@ -646,6 +646,20 @@ const phrases = {
     },
     image: {
       file: 'Image',
+      editImage: 'Edit image',
+      removeImage: 'Remove image',
+      alignment: {
+        left: 'Left aligned',
+        right: 'Right aligned',
+        center: 'Large centered',
+      },
+      sizes: {
+        xsmall: 'Size: Small',
+        small: 'Size: Medium',
+        fullwidth: 'Size: Large',
+      },
+      crop: 'Crop image',
+      focalPoint: 'Set focalpoint',
       alt: {
         label: 'Alt-text',
         placeholder: 'Alt-text',
@@ -653,6 +667,12 @@ const phrases = {
       caption: {
         label: 'Image caption',
         placeholder: 'Image caption',
+        noText: 'WCAG requires alt-tekst.',
+      },
+      dragdrop: {
+        main: 'Drag and drop',
+        sub: 'or click to upload image',
+        ariaLabel: 'Drag and drop or click to upload image',
       },
     },
     video: {
@@ -671,6 +691,7 @@ const phrases = {
         label: 'Audio caption',
         placeholder: 'Audio caption',
       },
+      remove: 'Remove audio',
       sound: 'Audio',
       speech: 'Speech',
     },

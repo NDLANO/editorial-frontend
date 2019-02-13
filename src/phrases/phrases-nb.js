@@ -661,6 +661,7 @@ const phrases = {
     image: {
       file: 'Bilde',
       editImage: 'Rediger bildet',
+      removeImage: 'Ta bort bilde',
       alignment: {
         left: 'Justering: Venstrestilt',
         right: 'Justering: Høyrestilt',
@@ -686,7 +687,6 @@ const phrases = {
         main: 'Dra og slipp',
         sub: 'eller trykk for å laste opp bilde',
         ariaLabel: 'Dra og slipp eller trykk for å laste opp bilde',
-        removeImage: 'Ta bort bilde',
       },
     },
     video: {
@@ -705,6 +705,7 @@ const phrases = {
         label: 'Lydtekst',
         placeholder: 'Lydtekst',
       },
+      remove: 'Ta bort lydfil',
       sound: 'Lyd',
       speech: 'Tale',
     },

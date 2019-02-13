@@ -46,13 +46,14 @@ class FileUploader extends React.Component {
   }
 
   onAddFiles(files) {
+    const { saving, unsavedFiles } = this.state;
     this.setState(
       prevState => ({
         unsavedFiles: prevState.unsavedFiles.concat(files),
       }),
       () => {
-        if (!this.state.saving) {
-          this.onSave(this.state.unsavedFiles[0]);
+        if (!saving) {
+          this.onSave(unsavedFiles[0]);
           this.setState({
             saving: true,
           });
@@ -62,6 +63,7 @@ class FileUploader extends React.Component {
   }
 
   uploadedFile(storedFile) {
+    const { saving, unsavedFiles } = this.state;
     this.setState(
       prevState => {
         const { unsavedFiles, addedFiles } = prevState;
@@ -79,8 +81,8 @@ class FileUploader extends React.Component {
         };
       },
       () => {
-        if (this.state.saving) {
-          this.onSave(this.state.unsavedFiles[0]);
+        if (saving) {
+          this.onSave(unsavedFiles[0]);
         }
       },
     );
@@ -104,7 +106,6 @@ class FileUploader extends React.Component {
   }
 
   async onSave(file) {
-    // const { onFileSave } = this.props;
     try {
       const formData = await createFormData(file);
       const fileResult = await uploadFile(formData);
@@ -126,7 +127,7 @@ class FileUploader extends React.Component {
   }
 
   render() {
-    const { t, onClose } = this.props;
+    const { t, onClose, onFileSave } = this.props;
     const { addedFiles, changedData, errorMessage, saving } = this.state;
 
     if (errorMessage) {
@@ -161,7 +162,7 @@ class FileUploader extends React.Component {
         <StyledButtonWrapper>
           <Button
             disabled={!changedData}
-            onClick={() => this.props.onFileSave(addedFiles)}>
+            onClick={() => onFileSave(addedFiles)}>
             {t('form.file.saveChanges')}
           </Button>
           <Button onClick={onClose}>{t('form.file.cancel')}</Button>

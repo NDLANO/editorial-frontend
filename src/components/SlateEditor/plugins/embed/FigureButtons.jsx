@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'react-emotion';
 import Tooltip from '@ndla/tooltip';
 import { spacing } from '@ndla/core';
-import { injectT } from '@ndla/i18n';
 import { EmbedShape } from '../../../../shapes';
 import DeleteSectionButton from '../../../DeleteSectionButton';
 
@@ -28,7 +27,7 @@ const StyledFigureButtons = styled('div')`
   ${figureButtonsStyle} ${p => (p.isNotCentered ? rightAdjustedStyle : null)}
 `;
 
-export const FigureButtons = ({ embed, t, onRemoveClick }) => {
+export const FigureButtons = ({ embed, tooltip, onRemoveClick }) => {
   const isNotCentered =
     embed.align === 'left' ||
     embed.align === 'right' ||
@@ -36,7 +35,7 @@ export const FigureButtons = ({ embed, t, onRemoveClick }) => {
     embed.size === 'xsmall';
   return (
     <StyledFigureButtons isNotCentered={isNotCentered}>
-      <Tooltip tooltip="Ta bort bilde">
+      <Tooltip tooltip={tooltip}>
         <DeleteSectionButton onClick={onRemoveClick} tabIndex={-1} />
       </Tooltip>
     </StyledFigureButtons>
@@ -45,9 +44,8 @@ export const FigureButtons = ({ embed, t, onRemoveClick }) => {
 
 FigureButtons.propTypes = {
   onRemoveClick: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
   embed: EmbedShape.isRequired,
-  figureType: PropTypes.string.isRequired,
+  tooltip: PropTypes.string.isRequired,
 };
 
-export default injectT(FigureButtons);
+export default FigureButtons;

@@ -46,6 +46,7 @@ export const schema = {
             { type: 'br' },
             { type: 'mathml' },
             { type: 'div' },
+            { type: 'file' },
           ],
         },
       ],

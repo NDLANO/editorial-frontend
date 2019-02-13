@@ -258,7 +258,11 @@ class LearningResourceForm extends Component {
           validationErrors.fields.content,
         ].some(field => checkTouchedInvalidField(field, submitted)),
         component: () => (
-          <LearningResourceContent commonFieldProps={commonFieldProps} />
+          <LearningResourceContent
+            userAccess={userAccess}
+            model={model}
+            commonFieldProps={commonFieldProps}
+          />
         ),
       },
       {

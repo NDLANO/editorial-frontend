@@ -24,7 +24,7 @@ export const RichBlockTextField = ({
   const { value, onChange } = bindInput(name);
   return (
     <Field className={classes('', 'position-static').className}>
-      <label htmlFor={name}>{label}</label>
+      {label && <label htmlFor={name}>{label}</label>}
       <RichBlockTextEditor
         id={name}
         name={name}
@@ -49,7 +49,7 @@ RichBlockTextField.propTypes = {
   slateSchema: PropTypes.shape({}).isRequired,
   bindInput: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   schema: PropTypes.shape({
     fields: PropTypes.object.isRequired,
   }),

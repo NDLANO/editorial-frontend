@@ -18,7 +18,7 @@ function setup_environment {
     fi
 }
 
-if [ $NDLA_ENVIRONMENT != "local" ]; then
+if [ "$NDLA_ENVIRONMENT" != "local" ] && [ -z "$NDLA_IS_KUBERNETES" ]; then
     setup_environment
 fi
 

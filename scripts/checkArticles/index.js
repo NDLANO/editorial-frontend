@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, NDLA.
+ * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -17,7 +17,9 @@ const {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } = require('../../src/util/articleContentConverter');
-const { resolveJsonOrRejectWithError } = require('../../src/util/apiHelpers');
+const {
+  resolveJsonOrRejectWithError,
+} = require('../../src/util/resolveJsonOrRejectWithError');
 const diffHTML = require('./diffHTML');
 
 const dom = new jsdom.JSDOM('<!DOCTYPE html></html>');

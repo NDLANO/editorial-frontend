@@ -25,7 +25,7 @@ const normalPadding = css`
   padding: 0;
 `;
 
-const HelpIcon = styled(InformationOutline)`
+export const HelpIcon = styled(InformationOutline)`
   color: ${colors.brand.tertiary};
 
   &:hover,

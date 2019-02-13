@@ -33,6 +33,7 @@ import SubjectMatterPage from './SubjectMatterPage';
 import MediaPage from './MediaPage';
 import StructurePage from '../StructurePage/StructurePage';
 import ErrorBoundary from '../../components/ErrorBoundary';
+import EditMarkupPage from '../EditMarkupPage/EditMarkupPage';
 
 export class App extends React.Component {
   getChildContext() {
@@ -69,6 +70,10 @@ export class App extends React.Component {
               <PrivateRoute
                 path="/subject-matter"
                 component={SubjectMatterPage}
+              />
+              <PrivateRoute
+                path="/edit-markup/:draftId/:language"
+                component={EditMarkupPage}
               />
               <PrivateRoute path="/media" component={MediaPage} />
               <PrivateRoute path="/agreement" component={AgreementPage} />

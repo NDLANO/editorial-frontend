@@ -13,13 +13,13 @@ import { spacing, colors } from '@ndla/core';
 import { ArticleInModal } from '@ndla/howto';
 import { InformationOutline } from '@ndla/icons/common';
 
-const extraPadded = css`
+const extraPaddedCSS = css`
   width: calc(${spacing.normal} * 1.5);
   height: calc(${spacing.normal} * 1.5);
   padding: ${spacing.xsmall};
 `;
 
-const normalPadding = css`
+const normalPaddingCSS = css`
   width: ${spacing.normal};
   height: ${spacing.normal};
   padding: 0;
@@ -40,7 +40,7 @@ const HowToHelper = ({ pageId, tooltip, extraIconPadding }) => (
     tooltip={tooltip}
     activateButton={
       <InformationOutline
-        css={[extraIconPadding ? extraPadded : normalPadding, iconCSS]}
+        css={[extraIconPadding ? extraPaddedCSS : normalPaddingCSS, iconCSS]}
       />
     }
   />

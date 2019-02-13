@@ -4,7 +4,7 @@ exports[`it goes in and out of edit mode 1`] = `
 <div>
   <div
     aria-hidden="true"
-    class="c-overlay"
+    class="css-6zky6j emotion-0"
   />
   <div
     style="height: 120px;"
@@ -14,6 +14,7 @@ exports[`it goes in and out of edit mode 1`] = `
 
 exports[`it goes in and out of edit mode 2`] = `
 <div
+  class="css-mlcrrv"
   data-testid="relatedWrapper"
   role="button"
   tabindex="0"

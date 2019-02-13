@@ -7,14 +7,23 @@ import { mapping as iconMapping } from '../../utils/relatedArticleMapping';
 import { urlDomain } from '../../../../util/htmlHelpers';
 import { toEditArticle } from '../../../../util/routeHelpers';
 
-const resourceType = item =>
-  item.resourceTypes
-    ? item.resourceTypes.find(it => iconMapping(it.id))
-    : { id: '' };
+const resourceTypeProps = (item, numberInList) => {
+  const resourceType = item.resource
+    ? item.resource.length &&
+      item.resource[0].resourceTypes &&
+      item.resource[0].resourceTypes.find(
+        resourceType => iconMapping(numberInList)[resourceType.id],
+      )
+    : { id: item.id }; // if no resource it is external article
+  if (resourceType) {
+    return iconMapping(numberInList)[resourceType.id];
+  }
+  return iconMapping(numberInList).default;
+};
 
-const RelatedArticle = ({ locale, item, t }) => (
+const RelatedArticle = ({ locale, item, t, numberInList }) => (
   <RelatedArticleUI
-    {...iconMapping(resourceType(item).id || item.id)}
+    {...resourceTypeProps(item, numberInList)}
     title={convertFieldWithFallback(item, 'title', item.title)}
     introduction={convertFieldWithFallback(
       item,
@@ -38,6 +47,7 @@ RelatedArticle.propTypes = {
     id: PropTypes.string,
     title: PropTypes.string,
   }),
+  numberInList: PropTypes.number,
 };
 
 export default injectT(RelatedArticle);

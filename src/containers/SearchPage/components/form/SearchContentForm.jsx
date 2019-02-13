@@ -61,7 +61,6 @@ class SearchContentForm extends Component {
 
   onFieldChange(evt) {
     const { name, value } = evt.target;
-
     this.setState(
       prevState => ({ search: { ...prevState.search, [name]: value } }),
       this.handleSearch,
@@ -91,7 +90,6 @@ class SearchContentForm extends Component {
       search: { resourceTypes, draftStatus, subjects, query, language },
     } = this.state;
     const { search } = this.props;
-
     search({
       'resource-types': resourceTypes,
       'draft-status': draftStatus,
@@ -183,7 +181,6 @@ class SearchContentForm extends Component {
                 emptyField
                 placeholder={t(`searchForm.types.${selectField.label}`)}
                 onChange={this.onFieldChange}
-                onBlur={this.onFieldChange}
               />
             </div>
           ))}

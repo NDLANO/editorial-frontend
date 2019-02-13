@@ -75,7 +75,7 @@ const shortenName = name => {
     if (index === 0) return namePart;
     return ` ${namePart.substring(0, 1).toUpperCase()}.`;
   });
-}
+};
 
 class FormNotes extends React.Component {
   static async getDerivedStateFromProps(props, state) {
@@ -139,8 +139,7 @@ class FormNotes extends React.Component {
               {notes.map(note => (
                 <tr key={uuid()}>
                   <td>
-                    <Tooltip
-                      tooltip={note.user || this.getUsername(note.user)}>
+                    <Tooltip tooltip={note.user || this.getUsername(note.user)}>
                       {shortenName(note.user || this.getUsername(note.user))}
                     </Tooltip>
                   </td>

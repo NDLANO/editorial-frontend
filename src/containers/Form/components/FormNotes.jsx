@@ -70,11 +70,12 @@ const StyledTable = styled.table`
   }
 `;
 
-const shortenName = name =>
+const shortenName = name => {
   name.split(' ').map((namePart, index) => {
     if (index === 0) return namePart;
     return ` ${namePart.substring(0, 1).toUpperCase()}.`;
   });
+}
 
 class FormNotes extends React.Component {
   static async getDerivedStateFromProps(props, state) {

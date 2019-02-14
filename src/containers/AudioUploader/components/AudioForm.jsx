@@ -115,7 +115,7 @@ class AudioForm extends Component {
       history,
       audio,
     } = this.props;
-    console.log(audio);
+
     const panels = ({ values, errors, touched, setFieldValue }) => [
       {
         id: 'audio-upload-content',

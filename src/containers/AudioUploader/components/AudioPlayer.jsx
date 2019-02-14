@@ -50,6 +50,7 @@ AudioPlayer.propTypes = {
 
 AudioPlayer.defaultProps = {
   noBorder: true,
+  audio: {},
 };
 
 export default AudioPlayer;

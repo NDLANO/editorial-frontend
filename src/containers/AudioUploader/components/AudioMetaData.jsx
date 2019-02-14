@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import MultiSelect from '../../../components/MultiSelect';
 import Contributors from '../../../components/Contributors';
 import FormLicense from '../../Form/components/FormLicense';
-import FormikField from '../../../components/FormikField';
+import FormikField, { FormikFieldError } from '../../../components/FormikField';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
@@ -44,9 +44,9 @@ const AudioMetaData = props => {
         return (
           <FormikField
             label={label}
+            showError={false}
             key={`formik_contributor_${contributorType}`}
-            name={contributorType}
-            showError={false}>
+            name={contributorType}>
             {({ field, form }) => {
               const { errors, touched, isSubmitting } = form;
               const error =
@@ -54,15 +54,22 @@ const AudioMetaData = props => {
                   ? errors[field.name](label)
                   : '';
               return (
-                <Contributors
-                  label={label}
-                  labelRemove={t(`form.${contributorType}.labelRemove`)}
-                  submitted={isSubmitting}
-                  errorMessages={
-                    touched[field.name] && errors[field.name] ? [error] : []
-                  }
-                  {...field}
-                />
+                <Fragment>
+                  <Contributors
+                    label={label}
+                    labelRemove={t(`form.${contributorType}.labelRemove`)}
+                    submitted={isSubmitting}
+                    errorMessages={
+                      touched[field.name] && errors[field.name] ? [error] : []
+                    }
+                    {...field}
+                  />
+                  {touched[field.name] &&
+                    errors[field.name] &&
+                    field.value.length === 0 && (
+                      <FormikFieldError>{error}</FormikFieldError>
+                    )}
+                </Fragment>
               );
             }}
           </FormikField>

@@ -28,7 +28,7 @@ FormikFieldLabel.propTypes = {
   label: PropTypes.string,
 };
 
-const FormikFieldError = ({ children }) => (
+export const FormikFieldError = ({ children }) => (
   <span {...classes('help', 'error')}>{children}</span>
 );
 
@@ -50,7 +50,7 @@ const FormikField = ({
       <Field name={name} {...rest}>
         {children || null}
       </Field>
-      {showError && formik.touched[name] && formik.errors[name] && (
+      {showError && label && formik.errors[name] && (
         <FormikFieldError>{formik.errors[name](label)}</FormikFieldError>
       )}
     </div>
@@ -62,7 +62,7 @@ FormikField.propTypes = {
   right: PropTypes.bool,
   title: PropTypes.bool,
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   showError: PropTypes.bool,
   formik: PropTypes.shape({
     form: PropTypes.shape({

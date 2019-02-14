@@ -14,14 +14,17 @@ const validateFormik = (values, rules, t) => {
   Object.keys(rules).forEach(ruleKey => {
     if (rules[ruleKey].numeric && !isNumeric(values[ruleKey])) {
       errors[ruleKey] = label => t('validation.isNumeric', { label });
-    } else if (rules[ruleKey].required && isEmpty(values[ruleKey])) {
+    }
+    if (rules[ruleKey].required && isEmpty(values[ruleKey])) {
       errors[ruleKey] = label => t('validation.isRequired', { label });
-    } else if (rules[ruleKey].allObjectFieldsRequired) {
+    }
+    if (rules[ruleKey].allObjectFieldsRequired) {
       if (values[ruleKey].filter(v => !objectHasBothField(v)).length > 0) {
         errors[ruleKey] = label =>
           t('validation.bothFields', { labelLowerCase: label.toLowerCase() });
       }
-    } else if (rules[ruleKey].dateBefore) {
+    }
+    if (rules[ruleKey].dateBefore) {
       const beforeDate = values[ruleKey];
       const afterKey = rules[ruleKey].afterKey;
       const afterDate = values[afterKey];
@@ -32,7 +35,8 @@ const validateFormik = (values, rules, t) => {
             afterLabel: t('form.validDate.to.label').toLowerCase(),
           });
       }
-    } else if (rules[ruleKey].dateAfter) {
+    }
+    if (rules[ruleKey].dateAfter) {
       const beforeKey = rules[ruleKey].beforeKey;
       const beforeDate = values[beforeKey];
       const afterDate = values[ruleKey];
@@ -43,7 +47,8 @@ const validateFormik = (values, rules, t) => {
             beforeLabel: t('form.validDate.from.label').toLowerCase(),
           });
       }
-    } else if (
+    }
+    if (
       rules[ruleKey].minLength &&
       minLength(values[ruleKey], rules[ruleKey].minLength)
     ) {
@@ -52,7 +57,8 @@ const validateFormik = (values, rules, t) => {
           label,
           minLength: rules[ruleKey].minLength,
         });
-    } else if (
+    }
+    if (
       rules[ruleKey].maxLength &&
       maxLength(values[ruleKey], rules[ruleKey].maxLength)
     ) {
@@ -61,7 +67,8 @@ const validateFormik = (values, rules, t) => {
           label,
           maxLength: rules[ruleKey].maxLength,
         });
-    } else if (
+    }
+    if (
       rules[ruleKey].minItems &&
       minItems(values[ruleKey], rules[ruleKey].minItems)
     ) {
@@ -71,7 +78,8 @@ const validateFormik = (values, rules, t) => {
           labelLowerCase: label.toLowerCase(),
           minItems: rules[ruleKey].minItems,
         });
-    } else if (rules[ruleKey].url && !isUrl(values[ruleKey])) {
+    }
+    if (rules[ruleKey].url && !isUrl(values[ruleKey])) {
       errors[ruleKey] = label => t('validation.url', { label });
     }
   });

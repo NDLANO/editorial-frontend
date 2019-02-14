@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { compose } from 'redux';
 import { injectT } from '@ndla/i18n';
 import Accordion, {
@@ -31,6 +31,8 @@ import {
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 import { toEditAudio } from '../../../util/routeHelpers';
+import validateFormik from '../../../components/formikValidationSchema';
+import { AudioShape } from '../../../shapes';
 
 export const getInitialValues = (audio = {}) => ({
   id: audio.id,
@@ -52,35 +54,39 @@ export const getInitialValues = (audio = {}) => ({
       : DEFAULT_LICENSE.license,
 });
 
+const rules = {
+  title: {
+    required: true,
+  },
+  tags: {
+    minItems: 3,
+  },
+  creators: {
+    minItems: 1,
+    allObjectFieldsRequired: true,
+  },
+  processors: {
+    allObjectFieldsRequired: true,
+  },
+  rightsholders: {
+    allObjectFieldsRequired: true,
+  },
+  audioFile: {
+    required: true,
+  },
+  license: {
+    required: true,
+  },
+};
+
 class AudioForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidUpdate({ initialModel: prevModel }) {
-    /*const { initialModel, setModel } = this.props;
-    if (
-      prevModel.id !== initialModel.id ||
-      prevModel.language !== initialModel.language
-    ) {
-      setModel(initialModel);
-    }*/
-  }
-
   handleSubmit(values, actions) {
-    const {
-      //validationErrors,
-      licenses,
-      onUpdate,
-      revision,
-    } = this.props;
-
-    /*if (!validationErrors.isValid) {
-      actions.setSubmitting(false);
-      return;
-    }*/
-
+    const { licenses, onUpdate, revision } = this.props;
     const audioMetaData = {
       id: values.id,
       revision,
@@ -107,22 +113,23 @@ class AudioForm extends Component {
       audioInfo,
       showSaved,
       history,
+      audio,
     } = this.props;
 
-    // const commonFieldProps = { bindInput, schema, submitted };
-
-    const panels = ({errors, touced onChange}) => [
+    const panels = ({ values, errors, touched, setFieldValue }) => [
       {
         id: 'audio-upload-content',
         title: t('form.contentSection'),
-        hasError: ['title', 'audioFile'].some(field =>
-          errors[field] && touched[field],
+        hasError: ['title', 'audioFile'].some(
+          field => errors[field] && touched[field],
         ),
         component: (
           <AudioContent
             classes={formClasses}
             tags={tags}
+            setFieldValue={setFieldValue}
             audioInfo={audioInfo}
+            values={values}
           />
         ),
       },
@@ -130,12 +137,12 @@ class AudioForm extends Component {
         id: 'audio-upload-metadataSection',
         title: t('form.metadataSection'),
         hasError: [
-          errors.tags,
-          errors.creators,
-          errors.rightsholders,
-          errors.processors,
-          errors.license,
-        ].some(field => checkTouchedInvalidField(field, submitted)),
+          'tags',
+          'creators',
+          'rightsholders',
+          'processors',
+          'license',
+        ].some(field => errors[field] && touched[field]),
         component: (
           <AudioMetaData
             classes={formClasses}
@@ -145,88 +152,74 @@ class AudioForm extends Component {
         ),
       },
     ];
-
     return (
       <Formik
         initialValues={getInitialValues(audio)}
-        onSubmit={this.handleSubmit}>
-        {(props) => {
-          const {
-             handleSubmit,
-              handleChange,
-              handleBlur,
-              values,
-              errors,
-          } = props;
+        onSubmit={this.handleSubmit}
+        validate={values => validateFormik(values, rules, t)}>
+        {formikProps => {
+          const { handleSubmit, values } = formikProps;
           return (
-          <form onSubmit={handleSubmit} {...formClasses()}>
-            <FormHeader
-              model={values}
-              type="audio"
-              editUrl={lang => toEditAudio(values.id, lang)}
-            />
-            <Accordion openIndexes={['audio-upload-content']}>
-              {({ openIndexes, handleItemClick }) => (
-                <AccordionWrapper>
-                  {panels(props).map(panel => (
-                    <React.Fragment key={panel.id}>
-                      <AccordionBar
-                        panelId={panel.id}
-                        ariaLabel={panel.title}
-                        onClick={() => handleItemClick(panel.id)}
-                        hasError={panel.hasError}
-                        isOpen={openIndexes.includes(panel.id)}>
-                        {panel.title}
-                      </AccordionBar>
-                      {openIndexes.includes(panel.id) && (
-                        <AccordionPanel
-                          id={panel.id}
+            <form onSubmit={handleSubmit} {...formClasses()}>
+              <FormHeader
+                model={values}
+                type="audio"
+                editUrl={lang => toEditAudio(values.id, lang)}
+              />
+              <Accordion openIndexes={['audio-upload-content']}>
+                {({ openIndexes, handleItemClick }) => (
+                  <AccordionWrapper>
+                    {panels(formikProps).map(panel => (
+                      <Fragment key={panel.id}>
+                        <AccordionBar
+                          panelId={panel.id}
+                          ariaLabel={panel.title}
+                          onClick={() => handleItemClick(panel.id)}
                           hasError={panel.hasError}
                           isOpen={openIndexes.includes(panel.id)}>
-                          <div className="u-4/6@desktop u-push-1/6@desktop">
-                            {panel.component}
-                          </div>
-                        </AccordionPanel>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </AccordionWrapper>
-              )}
-            </Accordion>
-            <Field right>
-              <FormActionButton
-                outline
-                disabled={isSaving}
-                onClick={history.goBack}>
-                {t('form.abort')}
-              </FormActionButton>
-              <SaveButton isSaving={isSaving} showSaved={showSaved} />
-            </Field>
-            <AlertModalWrapper
-              model={values}
-              severity="danger"
-              showSaved={showSaved}
-              fields={[]}//TODO!
-              text={t('alertModal.notSaved')}
-            />
-          </form>
-        )}}
-        </Formik>
+                          {panel.title}
+                        </AccordionBar>
+                        {openIndexes.includes(panel.id) && (
+                          <AccordionPanel
+                            id={panel.id}
+                            hasError={panel.hasError}
+                            isOpen={openIndexes.includes(panel.id)}>
+                            <div className="u-4/6@desktop u-push-1/6@desktop">
+                              {panel.component}
+                            </div>
+                          </AccordionPanel>
+                        )}
+                      </Fragment>
+                    ))}
+                  </AccordionWrapper>
+                )}
+              </Accordion>
+              <Field right>
+                <FormActionButton
+                  outline
+                  disabled={isSaving}
+                  onClick={history.goBack}>
+                  {t('form.abort')}
+                </FormActionButton>
+                <SaveButton isSaving={isSaving} showSaved={showSaved} />
+              </Field>
+              <AlertModalWrapper
+                isFormik
+                model={values}
+                {...formikProps}
+                severity="danger"
+                showSaved={showSaved}
+                text={t('alertModal.notSaved')}
+              />
+            </form>
+          );
+        }}
+      </Formik>
     );
   }
 }
 
 AudioForm.propTypes = {
-  /*model: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-  }),
-  initialModel: PropTypes.shape({
-    id: PropTypes.number,
-    language: PropTypes.string,
-  }),*/
-  //setModel: PropTypes.func.isRequired,
-  //validationErrors: SchemaShape,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
@@ -234,14 +227,10 @@ AudioForm.propTypes = {
     }),
   ).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  //submitted: PropTypes.bool.isRequired,
-  //bindInput: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  setSubmitted: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
   showSaved: PropTypes.bool.isRequired,
   revision: PropTypes.number,
-  //fields: PropTypes.objectOf(PropTypes.object).isRequired,
   audioInfo: PropTypes.shape({
     fileSize: PropTypes.number.isRequired,
     language: PropTypes.string.isRequired,
@@ -251,34 +240,10 @@ AudioForm.propTypes = {
   history: PropTypes.shape({
     goBack: PropTypes.func,
   }).isRequired,
+  audio: AudioShape,
 };
 
 export default compose(
   injectT,
   withRouter,
-  //reformed,
-  validateSchema({
-    title: {
-      required: true,
-    },
-    tags: {
-      minItems: 3,
-    },
-    creators: {
-      minItems: 1,
-      allObjectFieldsRequired: true,
-    },
-    processors: {
-      allObjectFieldsRequired: true,
-    },
-    rightsholders: {
-      allObjectFieldsRequired: true,
-    },
-    audioFile: {
-      required: true,
-    },
-    license: {
-      required: true,
-    },
-  }),
 )(AudioForm);

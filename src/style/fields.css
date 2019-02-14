@@ -37,7 +37,7 @@
     font-size: 0.75rem;
 
     &--error {
-      color: var(--mark-color);
+      color: red;
     }
 
     &--right {

@@ -21,7 +21,6 @@ const FormLicense = props => {
     ...license,
     ...getLicenseByAbbreviation(license.license, locale),
   }));
-  console.log(props);
   return (
     <Fragment>
       <FormHeader title={t('form.license.label')} width={3 / 4}>

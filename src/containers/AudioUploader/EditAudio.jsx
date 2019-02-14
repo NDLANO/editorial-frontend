@@ -9,14 +9,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import AudioForm, { getInitialModel } from './components/AudioForm';
+import AudioForm from './components/AudioForm';
 import { actions, getAudio } from '../../modules/audio/audio';
 import { AudioShape } from '../../shapes';
 
 class EditAudio extends Component {
   componentDidMount() {
     const { audioId: id, fetchAudio, audioLanguage } = this.props;
-    if (id) fetchAudio({ id, language: audioLanguage });
+    if (id) {
+      fetchAudio({ id, language: audioLanguage });
+    }
   }
 
   componentDidUpdate({ audioId: prevId }) {
@@ -34,18 +36,23 @@ class EditAudio extends Component {
   render() {
     const {
       history,
-      audio: audioData,
+      audio,
       updateAudio,
       locale,
+      audioId,
       ...rest
     } = this.props;
-
+    if (audioId && !audio.id) {
+      return null;
+    }
     return (
       <AudioForm
-        initialModel={getInitialModel(audioData || { language: locale })}
-        revision={audioData && audioData.revision}
-        audioInfo={audioData && audioData.audioFile}
-        onUpdate={(audio, file) => updateAudio({ audio, file, history })}
+        audio={{ ...audio, language: locale }}
+        revision={audio && audio.revision}
+        audioInfo={audio && audio.audioFile}
+        onUpdate={(updatedAudio, file) =>
+          updateAudio({ audio: updatedAudio, file, history })
+        }
         {...rest}
       />
     );
@@ -70,6 +77,10 @@ EditAudio.propTypes = {
   updateAudio: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
   audioLanguage: PropTypes.string,
+};
+
+EditAudio.defaultProps = {
+  audio: {},
 };
 
 const mapDispatchToProps = {

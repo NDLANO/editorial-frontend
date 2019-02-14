@@ -33,7 +33,7 @@ const Contributor = ({
       <FormSplitter>
         <FormInput
           warningText={
-            submitted && (contributor.name === '' || contributor.type === '')
+            contributor.name === '' || contributor.type === ''
               ? errorMessages[0]
               : null
           }

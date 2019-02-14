@@ -11,7 +11,7 @@ import { withRouter } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 import config from '../../config';
 import AlertModal from '../../components/AlertModal';
-import { isFormDirty } from '../../util/formHelper';
+import { isFormDirty, isFormikFormDirty } from '../../util/formHelper';
 
 class AlertModalWrapper extends PureComponent {
   constructor(props) {
@@ -19,6 +19,7 @@ class AlertModalWrapper extends PureComponent {
     this.state = { openModal: false, discardChanges: false };
     this.onCancel = this.onCancel.bind(this);
     this.onContinue = this.onContinue.bind(this);
+    this.isDirty = this.isDirty.bind(this);
   }
 
   componentDidMount() {
@@ -26,7 +27,7 @@ class AlertModalWrapper extends PureComponent {
     this.unblock = history.block(nextLocation => {
       const { showSaved } = this.props;
       const canNavigate =
-        !isFormDirty(this.props) || this.state.discardChanges || showSaved;
+        !this.isDirty(this.props) || this.state.discardChanges || showSaved;
 
       if (!canNavigate) {
         this.setState({
@@ -44,7 +45,7 @@ class AlertModalWrapper extends PureComponent {
 
     if (config.isNdlaProdEnvironment) {
       window.onbeforeunload = () =>
-        !isFormDirty(this.props) || this.state.discardChanges;
+        !this.isDirty(this.props) || this.state.discardChanges;
     }
   }
 
@@ -64,6 +65,13 @@ class AlertModalWrapper extends PureComponent {
         this.state.nextLocation.search;
       return this.props.history.push(nextLocation);
     });
+  }
+  isDirty() {
+    const { isFormik } = this.props;
+    if (!isFormik) {
+      return isFormDirty(this.props);
+    }
+    return isFormikFormDirty(this.props);
   }
 
   render() {
@@ -96,7 +104,7 @@ AlertModalWrapper.propTypes = {
     articleType: PropTypes.string,
     language: PropTypes.string,
   }),
-  fields: PropTypes.objectOf(PropTypes.object).isRequired,
+  fields: PropTypes.objectOf(PropTypes.object),
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
     block: PropTypes.func.isRequired,
@@ -104,6 +112,9 @@ AlertModalWrapper.propTypes = {
   text: PropTypes.string,
   showSaved: PropTypes.bool,
   severity: PropTypes.string,
+  isFormik: PropTypes.bool,
+  values: PropTypes.object,
+  initialValues: PropTypes.object,
 };
 
 export default withRouter(injectT(AlertModalWrapper));

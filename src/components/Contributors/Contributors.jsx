@@ -40,7 +40,6 @@ const Contributors = props => {
     t,
     ...rest
   } = props;
-  console.log(value);
   const onContributorChange = newContributors => {
     onChange({
       target: {
@@ -114,7 +113,7 @@ Contributors.propTypes = {
   locale: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   errorMessages: PropTypes.arrayOf(PropTypes.string),
-  submitted: PropTypes.bool.isRequired,
+  submitted: PropTypes.bool,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
   value: PropTypes.arrayOf(

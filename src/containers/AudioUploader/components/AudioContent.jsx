@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import AudioPlayer from './AudioPlayer';
 import FormikField from '../../../components/FormikField';
 
-const AudioContent = ({ t,values, audioInfo }) => (
+const AudioContent = ({ t, values, audioInfo, setFieldValue }) => (
   <Fragment>
     <FormikField
       label={t('form.title.label')}
@@ -22,7 +22,20 @@ const AudioContent = ({ t,values, audioInfo }) => (
       placeholder={t('form.title.label')}
     />
     {!values.id && (
-      <FormikField id="file" type="file" name="audioFile" label={t('form.audio.file')} />
+      <FormikField
+        id="file"
+        noBorder
+        name="audioFile"
+        label={t('form.audio.file')}>
+        {({ field }) => (
+          <input
+            type="file"
+            onChange={evt =>
+              setFieldValue('audioFile', evt.currentTarget.files[0])
+            }
+          />
+        )}
+      </FormikField>
     )}
     {values.id && <AudioPlayer audio={audioInfo} filepath={values.filepath} />}
   </Fragment>
@@ -45,6 +58,7 @@ AudioContent.propTypes = {
       url: PropTypes.string,
     }),
   }),
+  setFieldValue: PropTypes.func.isRequired,
 };
 
 export default injectT(AudioContent);

@@ -39,5 +39,23 @@ export const isFormDirty = ({ fields, model, showSaved }) => {
   return dirtyFields.length > 0 && !showSaved;
 };
 
+export const isFormikFormDirty = ({ values, initialValues, showSaved }) => {
+  // Checking specific slate object fields if they really have changed
+  const slateFields = ['introduction', 'metaDescription', 'content'];
+  const dirtyFields = [];
+  Object.keys(values)
+    .filter(valueKey => values[valueKey] !== initialValues[valueKey])
+    .forEach(dirtyValue => {
+      if (slateFields.includes(dirtyValue)) {
+        if (isEditorValueDirty(values[dirtyValue])) {
+          dirtyFields.push(dirtyValue);
+        }
+      } else {
+        dirtyFields.push(dirtyValue);
+      }
+    });
+  return dirtyFields.length > 0 && !showSaved;
+};
+
 export const getErrorMessages = (label, name, schema) =>
   getField(name, schema).errors.map(error => error(label));

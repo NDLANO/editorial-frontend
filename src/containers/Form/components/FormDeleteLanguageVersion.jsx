@@ -14,7 +14,7 @@ import darken from 'polished/lib/color/darken';
 import { colors } from '@ndla/core';
 import { withRouter } from 'react-router-dom';
 import Button from '@ndla/button';
-import { FormFieldHeader } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 import { deleteLanguageVersion } from '../../../modules/draft/draftApi';
 import { HistoryShape } from '../../../shapes';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -80,7 +80,7 @@ class FormDeleteLanguageVersion extends React.Component {
     }
     return (
       <div>
-        <FormFieldHeader
+        <FieldHeader
           title={t('form.workflow.deleteLanguageVersion.title')}
           width={3 / 4}
         />

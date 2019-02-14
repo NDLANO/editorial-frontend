@@ -11,11 +11,11 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import {
-  FormFieldHeader,
-  FormFieldSection,
-  FormFieldInput,
-  FormFieldSplitter,
-  FormFieldRemoveButton,
+  FieldHeader,
+  FieldSection,
+  Input,
+  FieldSplitter,
+  FieldRemoveButton,
 } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import styled from 'react-emotion';
@@ -166,7 +166,7 @@ class VisualElementUrlPreview extends Component {
 
     return (
       <Fragment>
-        <FormFieldHeader
+        <FieldHeader
           title={
             isChangedUrl
               ? t('form.content.link.newUrlResource')
@@ -174,10 +174,10 @@ class VisualElementUrlPreview extends Component {
           }
           subTitle={this.getSubTitle()}
         />
-        <FormFieldSection>
+        <FieldSection>
           <div>
-            <FormFieldSplitter>
-              <FormFieldInput
+            <FieldSplitter>
+              <Input
                 focusOnMount
                 iconRight={<LinkIcon />}
                 container="div"
@@ -188,14 +188,14 @@ class VisualElementUrlPreview extends Component {
                 onChange={this.handleChange}
                 onBlur={this.handleBlur}
               />
-            </FormFieldSplitter>
+            </FieldSplitter>
           </div>
           <div>
-            <FormFieldRemoveButton onClick={this.handleClearInput}>
+            <FieldRemoveButton onClick={this.handleClearInput}>
               {t('form.content.link.remove')}
-            </FormFieldRemoveButton>
+            </FieldRemoveButton>
           </div>
-        </FormFieldSection>
+        </FieldSection>
         <StyledButtonWrapper>
           <Button
             disabled={url === selectedResourceUrl || url === ''}

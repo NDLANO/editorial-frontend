@@ -10,10 +10,10 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import {
-  FormFieldHeader,
-  FormFieldSection,
-  FormFieldInput,
-  FormFieldRemoveButton,
+  FieldHeader,
+  FieldSection,
+  Input,
+  FieldRemoveButton,
 } from '@ndla/forms';
 import { Field } from '../../components/Fields';
 import FormNotes from './components/FormNotes';
@@ -74,12 +74,12 @@ class FormAddNotes extends Component {
       <Fragment>
         <FormNotes notes={article.notes} />
         <Field>
-          <FormFieldHeader title={labelHeading} width={3 / 4} />
+          <FieldHeader title={labelHeading} width={3 / 4} />
           {value.map((note, index) => (
-            <FormFieldSection
+            <FieldSection
               key={/* eslint-disable */ `notes_${index}` /* eslint-enable */}>
               <div>
-                <FormFieldInput
+                <Input
                   warningText={submitted && note === '' ? labelWarningNote : ''}
                   container="div"
                   type="text"
@@ -90,12 +90,11 @@ class FormAddNotes extends Component {
                 />
               </div>
               <div>
-                <FormFieldRemoveButton
-                  onClick={evt => this.removeNote(evt, index)}>
+                <FieldRemoveButton onClick={evt => this.removeNote(evt, index)}>
                   {labelRemoveNote}
-                </FormFieldRemoveButton>
+                </FieldRemoveButton>
               </div>
-            </FormFieldSection>
+            </FieldSection>
           ))}
           <Button outline onClick={this.addNote}>
             {labelAddNote}

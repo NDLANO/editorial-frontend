@@ -11,11 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
-import {
-  FormFieldHeader,
-  FormFieldSection,
-  FormFieldDropdown,
-} from '@ndla/forms';
+import { FieldHeader, FieldSection, Dropdown } from '@ndla/forms';
 import { CommonFieldPropsShape } from '../../../shapes';
 import { getLocale } from '../../../modules/locale/locale';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
@@ -35,15 +31,15 @@ const FormLicense = ({
 
   return (
     <Fragment>
-      <FormFieldHeader title={t('form.license.label')} width={3 / 4}>
+      <FieldHeader title={t('form.license.label')} width={3 / 4}>
         <HowToHelper
           pageId="userLicense"
           tooltip={t('form.license.helpLabel')}
         />
-      </FormFieldHeader>
-      <FormFieldSection>
+      </FieldHeader>
+      <FieldSection>
         <div>
-          <FormFieldDropdown
+          <Dropdown
             disabled={disabled}
             value=""
             {...commonFieldProps.bindInput(name)}>
@@ -52,9 +48,9 @@ const FormLicense = ({
                 {license.title}
               </option>
             ))}
-          </FormFieldDropdown>
+          </Dropdown>
         </div>
-      </FormFieldSection>
+      </FieldSection>
     </Fragment>
   );
 };

@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormFieldHeader } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 import { colors, spacing } from '@ndla/core';
 import { injectT } from '@ndla/i18n';
 import styled, { css } from 'react-emotion';
@@ -93,10 +93,7 @@ class FormNotes extends React.Component {
 
     return (
       <Field>
-        <FormFieldHeader
-          title={t('form.notes.history.heading')}
-          width={3 / 4}
-        />
+        <FieldHeader title={t('form.notes.history.heading')} width={3 / 4} />
         {notes && notes.length > 0 ? (
           notes.map((note, index) => {
             return (

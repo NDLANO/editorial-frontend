@@ -8,7 +8,7 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { FormFieldHeader } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 import { injectT } from '@ndla/i18n';
 import { StyledFilterTable } from '../../../style/LearningResourceTaxonomyStyles';
 import SubjectFilters from './SubjectFilters';
@@ -39,14 +39,14 @@ const FilterConnections = ({
   });
   return (
     <Fragment>
-      <FormFieldHeader
+      <FieldHeader
         title={t('taxonomy.filters.title')}
         subTitle={t('taxonomy.filters.subTitle')}>
         <HowToHelper
           pageId="TaxonomySubjectFilters"
           tooltip={t('taxonomy.filters.helpLabel')}
         />
-      </FormFieldHeader>
+      </FieldHeader>
       <StyledFilterTable>
         <tbody>
           {Object.keys(availableSubjects).map((filterSubjectKey, index) => (

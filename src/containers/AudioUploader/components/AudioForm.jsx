@@ -115,7 +115,7 @@ class AudioForm extends Component {
       history,
       audio,
     } = this.props;
-
+    console.log(audio);
     const panels = ({ values, errors, touched, setFieldValue }) => [
       {
         id: 'audio-upload-content',
@@ -156,6 +156,7 @@ class AudioForm extends Component {
       <Formik
         initialValues={getInitialValues(audio)}
         onSubmit={this.handleSubmit}
+        enableReinitialize
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
           const { handleSubmit, values } = formikProps;
@@ -244,6 +245,6 @@ AudioForm.propTypes = {
 };
 
 export default compose(
-  injectT,
   withRouter,
+  injectT,
 )(AudioForm);

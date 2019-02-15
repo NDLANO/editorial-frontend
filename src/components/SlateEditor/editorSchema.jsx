@@ -45,6 +45,8 @@ export const schema = {
             { type: 'pre' },
             { type: 'br' },
             { type: 'mathml' },
+            { type: 'div' },
+            { type: 'file' },
           ],
         },
       ],
@@ -53,8 +55,11 @@ export const schema = {
           case 'first_child_type_invalid': {
             const block = Block.create(defaultBlocks.defaultBlock);
             editor.withoutSaving(() => {
-              editor.insertNodeByKey(error.node.key, 0, block);
+              editor
+                .insertNodeByKey(error.node.key, 0, block)
+                .moveToStartOfNode(editor.value.document);
             });
+
             break;
           }
           case 'last_child_type_invalid': {

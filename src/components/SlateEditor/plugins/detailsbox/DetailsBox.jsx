@@ -22,7 +22,7 @@ const DetailsBox = props => {
   return (
     <details {...props.attributes} open>
       {props.children}
-      <DeleteButton stripped onClick={onRemoveClick} />
+      <DeleteButton stripped onMouseDown={onRemoveClick} />
     </details>
   );
 };

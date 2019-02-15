@@ -18,6 +18,9 @@ import {
   FORBIDDEN,
 } from 'http-status';
 import bodyParser from 'body-parser';
+import prettier from 'prettier/standalone';
+import parseHTML from 'prettier/parser-html';
+import proxy from 'express-http-proxy';
 import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
 import Auth0SilentCallback from './Auth0SilentCallback';
@@ -78,6 +81,15 @@ app.get('/robots.txt', (req, res) => {
 
 app.get('/health', (req, res) => {
   res.status(OK).json({ status: OK, text: 'Health check ok' });
+});
+
+app.post('/format-html', (req, res) => {
+  const html = prettier.format(req.body.html, {
+    parser: 'html',
+    printWidth: 1000000, // Avoid inserting linebreaks for long inline texts i.e. <p>Lorem ......... ipsum</p>
+    plugins: [parseHTML],
+  });
+  res.status(OK).json({ html });
 });
 
 app.get('/login/silent-callback', (req, res) => {
@@ -154,6 +166,11 @@ app.post('/csp-report', (req, res) => {
       .json({ status: NOT_ACCEPTABLE, text: 'CSP Error not recieved' });
   }
 });
+
+if (process.env.NODE_ENV === 'development') {
+  // proxy js request to handle web worker crossorgin issue (only necessary under development)
+  app.get('/static/js/*', proxy('http://localhost:3001'));
+}
 
 app.get('*', (req, res) => {
   const paths = req.url.split('/');

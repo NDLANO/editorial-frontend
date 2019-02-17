@@ -119,7 +119,7 @@ const phrases = {
     en: 'Engelsk',
     nb: 'Bokmål',
     nn: 'Nynorsk',
-    se: 'Svensk',
+    se: 'Samisk',
     unknown: 'Ukjent',
     de: 'Tysk',
     empty: 'Ingen flere språk',

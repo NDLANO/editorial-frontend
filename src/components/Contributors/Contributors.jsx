@@ -34,7 +34,7 @@ const Contributors = props => {
     locale,
     errorMessages,
     disabled,
-    submitted,
+    showError,
     onChange,
     value,
     t,
@@ -85,7 +85,7 @@ const Contributors = props => {
           key={`contributor_${index}`} // eslint-disable-line react/no-array-index-key
           contributor={contributor}
           index={index}
-          submitted={submitted}
+          showError={showError}
           errorMessages={errorMessages}
           contributorTypeItems={contributorTypeItems}
           handleContributorChange={handleContributorChange}
@@ -93,7 +93,7 @@ const Contributors = props => {
           {...rest}
         />
       ))}
-      {submitted && value.length === 0 && errorMessages.length > 0 && (
+      {showError && value.length === 0 && errorMessages.length > 0 && (
         <StyledFormWarningText>{errorMessages[0]}</StyledFormWarningText>
       )}
       <Button
@@ -113,7 +113,7 @@ Contributors.propTypes = {
   locale: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   errorMessages: PropTypes.arrayOf(PropTypes.string),
-  submitted: PropTypes.bool,
+  showError: PropTypes.bool,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
   value: PropTypes.arrayOf(
@@ -123,6 +123,10 @@ Contributors.propTypes = {
     }),
   ),
 };
+
+Contributors.defaultProps = {
+  showError: false,
+}
 
 const mapStateToProps = state => ({
   locale: getLocale(state),

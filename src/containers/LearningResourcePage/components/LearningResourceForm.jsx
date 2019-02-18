@@ -35,6 +35,7 @@ import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
 import {
   FormWorkflow,
+  FormAddNotes,
   FormCopyright,
   FormHeader,
   FormActionButton,
@@ -309,14 +310,23 @@ class LearningResourceForm extends Component {
         ),
         component: () => (
           <FormWorkflow
-            article={article}
-            commonFieldProps={commonFieldProps}
             articleStatus={articleStatus}
             model={model}
             getArticle={this.getArticleFromModel}
             createMessage={createMessage}
             revision={revision}
+          >
+          <FormAddNotes
+            showError={submitted}
+            name="notes"
+            labelHeading={t('form.notes.heading')}
+            labelAddNote={t('form.notes.add')}
+            article={article}
+            labelRemoveNote={t('form.notes.remove')}
+            labelWarningNote={t('form.notes.warning')}
+            {...commonFieldProps.bindInput('notes')}
           />
+          </FormWorkflow>
         ),
       },
     ];

@@ -8,11 +8,9 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as draftApi from '../../modules/draft/draftApi';
-import { FormAddNotes } from '.';
 import { CommonFieldPropsShape, NewArticleShape } from '../../shapes';
 import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
@@ -98,24 +96,14 @@ class FormWorkflow extends Component {
       t,
       model,
       articleStatus,
-      commonFieldProps,
       getArticle,
-      article,
+      children,
     } = this.props;
     const { possibleStatuses } = this.state;
 
     return (
       <Fragment>
-        <FormAddNotes
-          name="notes"
-          labelHeading={t('form.notes.heading')}
-          labelAddNote={t('form.notes.add')}
-          article={article}
-          labelRemoveNote={t('form.notes.remove')}
-          labelWarningNote={t('form.notes.warning')}
-          {...commonFieldProps}
-          {...commonFieldProps.bindInput('notes')}
-        />
+        {children}
         <FormStatusColumns articleStatus={articleStatus} />
         <FormStatusActions
           articleStatus={articleStatus}
@@ -143,9 +131,7 @@ FormWorkflow.propTypes = {
   }),
   createMessage: PropTypes.func.isRequired,
   updateStatusDraft: PropTypes.func.isRequired,
-  commonFieldProps: CommonFieldPropsShape.isRequired,
   getArticle: PropTypes.func.isRequired,
-  article: NewArticleShape,
 };
 
 FormWorkflow.defaultProps = {
@@ -163,4 +149,4 @@ const mapDispatchToProps = {
 export default connect(
   undefined,
   mapDispatchToProps,
-)(injectT(FormWorkflow));
+)(FormWorkflow);

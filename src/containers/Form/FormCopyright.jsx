@@ -27,6 +27,7 @@ const FormCopyright = ({ t, commonFieldProps, licenses, model }) => {
           <Contributors
             name={contributorType}
             label={label}
+            showError={commonFieldProps.submitted}
             errorMessages={getErrorMessages(
               label,
               contributorType,

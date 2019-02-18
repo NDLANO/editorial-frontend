@@ -33,6 +33,7 @@ const AgreementFields = props => {
           <Contributors
             name={contributorType}
             label={label}
+            showError={commonFieldProps.submitted}
             errorMessages={getErrorMessages(
               label,
               contributorType,

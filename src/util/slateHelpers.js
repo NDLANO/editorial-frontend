@@ -253,9 +253,6 @@ export const listItemRule = {
 export const unorderListRules = {
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'ul') return;
-    const type = el.attributes.getNamedItem('data-type');
-    const data = { type: type ? type.value : '' };
-
     return {
       object: 'block',
       type: 'bulleted-list',

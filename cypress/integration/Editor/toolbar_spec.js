@@ -91,8 +91,6 @@ describe('Selecting text and using the toolbar', () => {
         cy.wrap($el)
           .focus()
           .type('{selectall}');
-        cy.get('[data-testid=toolbar-button-two-column-list]').click();
-        cy.get('ul > li').should('have.length', 8);
       });
   });
 

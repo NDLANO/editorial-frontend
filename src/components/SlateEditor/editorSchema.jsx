@@ -36,7 +36,6 @@ export const schema = {
             { type: 'bulleted-list' },
             { type: 'numbered-list' },
             { type: 'letter-list' },
-            { type: 'two-column-list' },
             { type: 'related' },
             { type: 'details' },
             { type: 'bodybox' },

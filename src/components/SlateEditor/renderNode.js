@@ -40,12 +40,6 @@ export const renderNode = (props, editor, next) => {
           {children}
         </ol>
       );
-    case 'two-column-list':
-      return (
-        <ul className="o-list--two-columns" {...attributes}>
-          {children}
-        </ul>
-      );
     case 'quote':
       return <blockquote {...attributes}>{children}</blockquote>;
     case 'div':

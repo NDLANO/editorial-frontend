@@ -16,7 +16,6 @@ import {
   ListCircle,
   ListNumbered,
   ListAlphabetical,
-  ListTwoColumns,
   Quote,
   Underline,
   Link,
@@ -40,9 +39,6 @@ const toolbarIcon = t => ({
   link: <Link title={t('editorToolbar.link')} />,
   'numbered-list': <ListNumbered title={t('editorToolbar.numberedList')} />,
   'bulleted-list': <ListCircle title={t('editorToolbar.bulletedList')} />,
-  'two-column-list': (
-    <ListTwoColumns title={t('editorToolbar.twoColumnList')} />
-  ),
   'letter-list': <ListAlphabetical title={t('editorToolbar.letterList')} />,
   'heading-one': <Heading1 title={t('editorToolbar.headingOne')} />,
   'heading-two': <Heading2 title={t('editorToolbar.headingTwo')} />,

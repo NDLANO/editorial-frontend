@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { FormHeader } from '@ndla/forms';
 import { colors, spacing, fonts } from '@ndla/core';
 import { uuid } from '@ndla/util';
-import Tooltip from '@ndla/tooltip';
 import { injectT } from '@ndla/i18n';
 import styled from 'react-emotion';
 import { Field } from '../../../components/Fields';
@@ -24,58 +23,52 @@ const StyledTable = styled.table`
   color: ${colors.text.primary};
   ${fonts.sizes(16, 1.1)};
   width: 100%;
+`;
 
-  th {
-    font-weight: ${fonts.weight.semibold};
-    border-bottom: 2px solid ${colors.brand.tertiary};
-
-    &:nth-child(1) {
-      width: 21%;
-    }
-
-    &:nth-child(2) {
-      width: 15%;
-    }
-
-    &:nth-child(3) {
-      width: 45%;
-    }
-
-    &:nth-child(4) {
-      width: 19%;
-    }
-  }
-
-  td,
-  th {
-    padding: 9.5px ${spacing.normal} 9.5px 0;
-
-    &:first-child {
-      padding-left: ${spacing.small};
-    }
-  }
-
-  tr {
-    &:nth-child(even) {
-      background: ${colors.brand.greyLighter};
-    }
-  }
-
-  td {
-    vertical-align: top;
-
-    &:first-child {
-      color: ${colors.brand.primary};
-    }
+const StyledTableRow = styled.tr`
+  &:nth-child(even) {
+    background: ${colors.brand.greyLighter};
   }
 `;
 
-const shortenName = name => {
+const StyleTableHeaderCell = styled.th`
+  font-weight: ${fonts.weight.semibold};
+  padding: 9.5px ${spacing.normal} 9.5px 0;
+  border-bottom: 2px solid ${colors.brand.tertiary};
+
+  &:nth-child(1) {
+    width: 21%;
+    padding-left: ${spacing.small};
+  }
+
+  &:nth-child(2) {
+    width: 15%;
+  }
+
+  &:nth-child(3) {
+    width: 45%;
+  }
+
+  &:nth-child(4) {
+    width: 19%;
+  }
+`;
+
+const StyledTableDataCell = styled.td`
+  vertical-align: top;
+
+  &:first-child {
+    padding-left: ${spacing.small};
+  }
+`;
+
+const shortenName = name =>
   name.split(' ').map((namePart, index) => {
-    if (index === 0) return namePart;
+    if (index === 0) {
+      return namePart;
+    }
     return ` ${namePart.substring(0, 1).toUpperCase()}.`;
   });
-};
 
 class FormNotes extends React.Component {
   static async getDerivedStateFromProps(props, state) {
@@ -113,8 +106,6 @@ class FormNotes extends React.Component {
     });
   }
 
-  componentDidUpdate() {}
-
   getUsername(userId) {
     const { users } = this.state;
     const noteUser = users.find(user => user.id === userId);
@@ -130,27 +121,37 @@ class FormNotes extends React.Component {
         {notes && notes.length > 0 ? (
           <StyledTable>
             <thead>
-              <th>{t('form.notes.history.user')}</th>
-              <th>{t('form.notes.history.time')}</th>
-              <th>{t('form.notes.history.note')}</th>
-              <th>{t('form.notes.history.status')}</th>
+              <tr>
+                <StyleTableHeaderCell>
+                  {t('form.notes.history.user')}
+                </StyleTableHeaderCell>
+                <StyleTableHeaderCell>
+                  {t('form.notes.history.time')}
+                </StyleTableHeaderCell>
+                <StyleTableHeaderCell>
+                  {t('form.notes.history.note')}
+                </StyleTableHeaderCell>
+                <StyleTableHeaderCell>
+                  {t('form.notes.history.status')}
+                </StyleTableHeaderCell>
+              </tr>
             </thead>
             <tbody>
               {notes.map(note => (
-                <tr key={uuid()}>
-                  <td>
-                    <Tooltip tooltip={note.user || this.getUsername(note.user)}>
-                      {shortenName(note.user || this.getUsername(note.user))}
-                    </Tooltip>
-                  </td>
-                  <td>{formatDate(note.timestamp, 'nb')}</td>
-                  <td>{note.note}</td>
-                  <td>
+                <StyledTableRow key={uuid()}>
+                  <StyledTableDataCell>
+                    {shortenName(this.getUsername(note.user))}
+                  </StyledTableDataCell>
+                  <StyledTableDataCell>
+                    {formatDate(note.timestamp, 'nb')}
+                  </StyledTableDataCell>
+                  <StyledTableDataCell>{note.note}</StyledTableDataCell>
+                  <StyledTableDataCell>
                     {note.status
                       ? t(`form.status.${note.status.current.toLowerCase()}`)
                       : ''}
-                  </td>
-                </tr>
+                  </StyledTableDataCell>
+                </StyledTableRow>
               ))}
             </tbody>
           </StyledTable>

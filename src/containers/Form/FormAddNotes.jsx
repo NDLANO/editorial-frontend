@@ -74,7 +74,7 @@ class FormAddNotes extends Component {
       <Fragment>
         <FormNotes notes={article.notes} />
         <Field>
-          <FormHeader title={labelHeading} width={3 / 4} />
+          <FormHeader title={labelHeading} />
           {value.map((note, index) => (
             <FormSections
               key={/* eslint-disable */ `notes_${index}` /* eslint-enable */}>

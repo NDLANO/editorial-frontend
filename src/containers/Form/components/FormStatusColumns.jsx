@@ -18,7 +18,7 @@ function FormStatusColumns({ articleStatus, t }) {
   }
   return (
     <div>
-      <FormHeader title={t('form.workflow.title')} width={3 / 4} />
+      <FormHeader title={t('form.workflow.title')} />
       <div style={{ display: 'flex' }}>
         <Tag modifier="wide">
           {t(`form.status.${articleStatus.current.toLowerCase()}`)}

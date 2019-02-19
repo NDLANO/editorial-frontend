@@ -8,8 +8,11 @@ import { unwrapBlockquote } from '../changes';
  */
 function onEnter(opts, event, editor, next) {
   const { startBlock } = editor.value;
-
   if (!getCurrentBlockquote(opts, editor)) {
+    if (startBlock.text.length === 0) {
+      // We dont allow user to create empty paragraphs.
+      return null;
+    }
     return next();
   }
 

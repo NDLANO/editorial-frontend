@@ -167,6 +167,7 @@ class TopicArticleForm extends Component {
       articleStatus,
       onUpdate,
       setModelField,
+      onModelSavedToServer,
     } = this.props;
 
     const status = articleStatus ? articleStatus.current : undefined;
@@ -196,6 +197,7 @@ class TopicArticleForm extends Component {
       revision,
     });
     setModelField('notes', []);
+    onModelSavedToServer();
   }
 
   render() {
@@ -203,7 +205,6 @@ class TopicArticleForm extends Component {
       t,
       bindInput,
       validationErrors: schema,
-      initialModel,
       model,
       submitted,
       tags,
@@ -211,11 +212,11 @@ class TopicArticleForm extends Component {
       articleStatus,
       fields,
       licenses,
-      showSaved,
       history,
       revision,
       article,
       createMessage,
+      savedToServer,
     } = this.props;
     const commonFieldProps = { bindInput, schema, submitted };
     const panels = [
@@ -366,15 +367,13 @@ class TopicArticleForm extends Component {
           <SaveButton
             {...formClasses}
             isSaving={isSaving}
-            showSaved={showSaved}>
+            showSaved={savedToServer && !isFormDirty({ model, fields })}>
             {t('form.save')}
           </SaveButton>
         </Field>
         <AlertModalWrapper
-          initialModel={initialModel}
           model={model}
           severity="danger"
-          showSaved={showSaved}
           fields={fields}
           text={t('alertModal.notSaved')}
         />
@@ -405,7 +404,6 @@ TopicArticleForm.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  showSaved: PropTypes.bool.isRequired,
   articleStatus: PropTypes.shape({
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
@@ -415,6 +413,7 @@ TopicArticleForm.propTypes = {
     goBack: PropTypes.func,
   }).isRequired,
   article: ArticleShape,
+  savedToServer: PropTypes.bool,
 };
 
 export default compose(

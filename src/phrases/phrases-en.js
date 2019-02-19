@@ -382,7 +382,7 @@ const phrases = {
   editorBlockpicker: {
     heading: 'Add',
     actions: {
-      block: 'Paragraph',
+      block: 'Section',
       factAside: 'Factbox',
       table: 'Table',
       bodybox: 'Text in frame',
@@ -440,6 +440,9 @@ const phrases = {
       remove: 'Remove note',
       warning: 'A note must contain text',
       history: {
+        user: 'User',
+        time: 'When',
+        status: 'Status',
         heading: 'Notes history',
         note: 'Note',
         empty: 'No notes',

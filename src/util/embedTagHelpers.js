@@ -86,7 +86,7 @@ export const parseEmbedTag = embedTag => {
 
   const obj = reduceElementDataAttributes(embedElements[0]);
   delete obj.id;
-  return { ...obj, metaData: {} };
+  return obj;
 };
 
 export const createEmbedTag = visualElement => {

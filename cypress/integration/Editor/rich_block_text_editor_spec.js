@@ -18,7 +18,6 @@ describe('Learning resource editing', () => {
   it('can enter title, ingress and content then save', () => {
     cy.server({ force404: true });
     cy.fixture('saveLearningResource.json').then(data => {
-      console.log(data);
       cy.route({
         method: 'POST',
         url: `/draft-api/v1/drafts/`,

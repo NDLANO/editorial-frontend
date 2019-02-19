@@ -126,7 +126,7 @@ Contributors.propTypes = {
 
 Contributors.defaultProps = {
   showError: false,
-}
+};
 
 const mapStateToProps = state => ({
   locale: getLocale(state),

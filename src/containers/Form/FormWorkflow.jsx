@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as draftApi from '../../modules/draft/draftApi';
-import { CommonFieldPropsShape, NewArticleShape } from '../../shapes';
 import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
 import FormQualityAssurance from './components/FormQualityAssurance';
@@ -92,13 +91,7 @@ class FormWorkflow extends Component {
   }
 
   render() {
-    const {
-      t,
-      model,
-      articleStatus,
-      getArticle,
-      children,
-    } = this.props;
+    const { model, articleStatus, getArticle, children } = this.props;
     const { possibleStatuses } = this.state;
 
     return (

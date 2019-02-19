@@ -284,8 +284,7 @@ class TopicArticleForm extends Component {
             model={model}
             getArticle={this.getArticle}
             createMessage={createMessage}
-            revision={revision}
-          >
+            revision={revision}>
             <FormAddNotes
               showError={submitted}
               name="notes"

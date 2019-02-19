@@ -48,7 +48,7 @@ const ImageMetaData = props => {
         return (
           <Contributors
             name={contributorType}
-            label={label}          
+            label={label}
             showError={commonFieldProps.submitted}
             errorMessages={getErrorMessages(
               label,

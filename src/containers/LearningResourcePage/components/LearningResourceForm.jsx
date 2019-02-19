@@ -314,18 +314,17 @@ class LearningResourceForm extends Component {
             model={model}
             getArticle={this.getArticleFromModel}
             createMessage={createMessage}
-            revision={revision}
-          >
-          <FormAddNotes
-            showError={submitted}
-            name="notes"
-            labelHeading={t('form.notes.heading')}
-            labelAddNote={t('form.notes.add')}
-            article={article}
-            labelRemoveNote={t('form.notes.remove')}
-            labelWarningNote={t('form.notes.warning')}
-            {...commonFieldProps.bindInput('notes')}
-          />
+            revision={revision}>
+            <FormAddNotes
+              showError={submitted}
+              name="notes"
+              labelHeading={t('form.notes.heading')}
+              labelAddNote={t('form.notes.add')}
+              article={article}
+              labelRemoveNote={t('form.notes.remove')}
+              labelWarningNote={t('form.notes.warning')}
+              {...commonFieldProps.bindInput('notes')}
+            />
           </FormWorkflow>
         ),
       },

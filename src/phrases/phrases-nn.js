@@ -119,7 +119,7 @@ const phrases = {
     en: 'Engelsk',
     nb: 'Bokmål',
     nn: 'Nynorsk',
-    se: 'Svensk',
+    se: 'Samisk',
     unknown: 'Ukjent',
     de: 'Tysk',
     empty: 'Ingen flere språk',
@@ -393,7 +393,7 @@ const phrases = {
   editorBlockpicker: {
     heading: 'Legg til',
     actions: {
-      block: 'Paragraf',
+      block: 'Seksjon',
       factAside: 'Faktaboks',
       table: 'Tabell',
       bodybox: 'Tekst i ramme',
@@ -451,6 +451,9 @@ const phrases = {
       remove: 'Ta bort',
       warning: 'Ein merknad må ha tekst',
       history: {
+        user: 'Bruker',
+        time: 'Når',
+        status: 'Status',
         heading: 'Merknadshistorikk',
         note: 'Merknad',
         empty: 'Ingen merknader',

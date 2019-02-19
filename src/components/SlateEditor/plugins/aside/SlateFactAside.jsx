@@ -11,8 +11,8 @@ import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
 import { css } from 'react-emotion';
+import { colors } from '@ndla/core';
 import DeleteButton from '../../../DeleteButton';
-
 const classes = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
@@ -32,6 +32,24 @@ const factBoxButtonStyle = css`
   text-align: center;
   font-size: 14px;
   border-radius: 50% !important;
+
+  &:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 45%;
+    left: 32%;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid ${colors.brand.white};
+  }
+
+  &:hover,
+  &:active {
+    background: ${colors.brand.dark} !important;
+  }
 `;
 
 class SlateFactAside extends React.Component {
@@ -43,7 +61,8 @@ class SlateFactAside extends React.Component {
     this.toggleExpanded = this.toggleExpanded.bind(this);
   }
 
-  toggleExpanded() {
+  toggleExpanded(e) {
+    e.preventDefault();
     this.setState(prevState => ({
       expanded: !prevState.expanded,
     }));
@@ -61,10 +80,15 @@ class SlateFactAside extends React.Component {
         )}
         {...attributes}>
         <div className="c-factbox__content">{children}</div>
-        <Button onClick={this.toggleExpanded} css={factBoxButtonStyle} />
+        <Button
+          onMouseDown={this.toggleExpanded}
+          className="c-factbox__button"
+          css={factBoxButtonStyle}
+        />
+
         <DeleteButton
           stripped
-          onClick={onRemoveClick}
+          onMouseDown={onRemoveClick}
           data-cy="remove-fact-aside"
         />
       </aside>

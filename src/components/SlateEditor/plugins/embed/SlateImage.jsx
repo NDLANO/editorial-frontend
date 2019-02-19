@@ -8,11 +8,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 import { Figure } from '@ndla/ui';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
 import styled, { cx } from 'react-emotion';
-import { findDOMNode } from 'slate-react';
 import SlateTypes from 'slate-prop-types';
 import config from '../../../../config';
 import { EmbedShape } from '../../../../shapes';
@@ -52,36 +51,12 @@ const StyledButtonFigure = styled(Button)`
 `;
 
 class SlateImage extends React.Component {
-  static handleFloatedImages(node, align) {
-    const nodeEl = findDOMNode(node); // eslint-disable-line react/no-find-dom-node
-    if (align === 'right' || align === 'left') {
-      nodeEl.parentNode.style.display = 'inline';
-    } else {
-      nodeEl.parentNode.style.display = 'block';
-    }
-  }
-
   constructor() {
     super();
     this.state = {
       editModus: false,
     };
     this.setEditModus = this.setEditModus.bind(this);
-  }
-
-  componentDidMount() {
-    const { align } = this.props.embed;
-    SlateImage.handleFloatedImages(this.props.node, align);
-  }
-
-  componentDidUpdate({ embed: { align: prevAlign } }) {
-    const {
-      embed: { align },
-      node,
-    } = this.props;
-    if (align !== prevAlign) {
-      SlateImage.handleFloatedImages(node, align);
-    }
   }
 
   setEditModus(editModus) {

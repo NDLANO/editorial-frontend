@@ -26,7 +26,7 @@ const normalPaddingCSS = css`
 `;
 
 const iconCSS = css`
-  color: ${colors.brand.tertiary};
+  color: red;
 
   &:hover,
   &:focus {
@@ -43,9 +43,7 @@ const HowToHelper = ({ pageId, tooltip, extraIconPadding }) => (
     pageId={pageId}
     tooltip={tooltip}
     activateButton={
-      <InformationOutline
-        css={[extraIconPadding ? extraPaddedCSS : normalPaddingCSS, iconCSS]}
-      />
+      <HelpIcon css={[extraIconPadding ? extraPaddedCSS : normalPaddingCSS]} />
     }
   />
 );

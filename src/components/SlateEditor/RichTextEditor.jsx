@@ -16,7 +16,7 @@ import BEMHelper from 'react-bem-helper';
 import { css } from 'react-emotion';
 import createSlateStore, { setSubmitted } from './createSlateStore';
 import SlateToolbar from './plugins/SlateToolbar/SlateToolbar';
-import { PluginShape } from '../../shapes';
+import { PluginShape, SupportedToolbarElementsShape } from '../../shapes';
 
 const isBoldHotkey = isKeyHotkey('mod+b');
 const isItalicHotkey = isKeyHotkey('mod+i');
@@ -97,6 +97,8 @@ const RichTextEditor = class extends React.PureComponent {
       onChange,
       plugins,
       index,
+      supportedToolbarElements,
+      supportedToolbarElementsAside,
       ...rest
     } = this.props;
     return (
@@ -120,6 +122,8 @@ const RichTextEditor = class extends React.PureComponent {
             editor={this.editorRef.current}
             onChange={change => onChange(change, index)}
             name={name}
+            supportedToolbarElements={supportedToolbarElements}
+            supportedToolbarElementsAside={supportedToolbarElementsAside}
           />
         )}
       </article>
@@ -138,6 +142,8 @@ RichTextEditor.propTypes = {
   index: PropTypes.number,
   removeSection: PropTypes.func,
   plugins: PropTypes.arrayOf(PluginShape).isRequired,
+  supportedToolbarElements: SupportedToolbarElementsShape,
+  supportedToolbarElementsAside: SupportedToolbarElementsShape,
 };
 
 export default RichTextEditor;

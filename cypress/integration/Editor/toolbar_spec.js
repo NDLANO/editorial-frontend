@@ -32,6 +32,7 @@ describe('Selecting text and using the toolbar', () => {
         cy.get('[data-testid=toolbar-button-italic]').click();
         cy.get('[data-testid=toolbar-button-underlined]').click();
         cy.get('[data-testid=toolbar-button-heading-two]').click();
+        cy.wrap($el).type('{selectall}new heading{selectall}');
         cy.get('[data-testid=toolbar-button-heading-three]').click();
         cy.wrap($el)
           .find('h3')
@@ -82,12 +83,14 @@ describe('Selecting text and using the toolbar', () => {
           .type('{selectall}');
         cy.get('[data-testid=toolbar-button-bulleted-list]').click();
         cy.get('ul > li').should('have.length', 4); // N.B {selectall} selects empty paragraphs so item increases by 2
+        cy.wrap($el)
+          .focus()
+          .type('{selectall}');
         cy.get('[data-testid=toolbar-button-letter-list]').click();
-        cy.get('ol > li').should('have.length', 4);
-        cy.get('[data-testid=toolbar-button-two-column-list]').click();
-        cy.get('ul > li').should('have.length', 4);
-        cy.get('[data-testid=toolbar-button-two-column-list]').click();
-        cy.get('ul > li').should('have.length', 0);
+        cy.get('ol > li').should('have.length', 6);
+        cy.wrap($el)
+          .focus()
+          .type('{selectall}');
       });
   });
 

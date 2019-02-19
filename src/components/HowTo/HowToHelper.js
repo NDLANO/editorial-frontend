@@ -27,19 +27,19 @@ const normalPadding = css`
 
 export const HelpIcon = styled(InformationOutline)`
   color: ${colors.brand.tertiary};
-
   &:hover,
   &:focus {
     color: ${colors.brand.primary};
   }
-  ${props => (props.extraIconPadding ? extraPadded : normalPadding)}
 `;
 
 const HowToHelper = ({ pageId, tooltip, extraIconPadding }) => (
   <ArticleInModal
     pageId={pageId}
     tooltip={tooltip}
-    activateButton={<HelpIcon extraIconPadding={extraIconPadding} />}
+    activateButton={
+      <HelpIcon css={extraIconPadding ? extraPadded : normalPadding} />
+    }
   />
 );
 

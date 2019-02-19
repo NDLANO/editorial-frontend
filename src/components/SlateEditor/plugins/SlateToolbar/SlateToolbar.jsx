@@ -17,16 +17,17 @@ import { TYPE as footnote } from '../footnote';
 import { TYPE as link } from '../link';
 import { TYPE as mathml } from '../mathml';
 import { listTypes } from '../externalPlugins';
+import { SupportedToolbarElementsShape } from '../../../../shapes';
 
 const DEFAULT_NODE = 'paragraph';
 
-const supportedToolbarElements = {
+const defaultSupportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
   inline: [link, footnote, mathml],
 };
 
-const supportedToolbarElementsAside = {
+const defaultSupportedToolbarElementsAside = {
   mark: ['bold', 'italic', 'underlined'],
   block: ['quote', ...listTypes, 'heading-one'],
   inline: [link, footnote, mathml],
@@ -157,7 +158,11 @@ class SlateToolbar extends Component {
   }
 
   render() {
-    const { editor } = this.props;
+    const {
+      editor,
+      supportedToolbarElements,
+      supportedToolbarElementsAside,
+    } = this.props;
     const { value } = editor;
     const toolbarElements = checkSelectionForType(
       'aside',
@@ -186,6 +191,11 @@ class SlateToolbar extends Component {
   }
 }
 
+SlateToolbar.defaultProps = {
+  supportedToolbarElements: defaultSupportedToolbarElements,
+  supportedToolbarElementsAside: defaultSupportedToolbarElementsAside,
+};
+
 SlateToolbar.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
@@ -193,6 +203,8 @@ SlateToolbar.propTypes = {
   slateStore: PropTypes.shape({
     dispatch: PropTypes.func.isRequired,
   }),
+  supportedToolbarElements: SupportedToolbarElementsShape,
+  supportedToolbarElementsAside: SupportedToolbarElementsShape,
 };
 
 export default SlateToolbar;

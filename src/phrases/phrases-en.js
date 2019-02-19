@@ -121,7 +121,7 @@ const phrases = {
     en: 'English',
     nb: 'Norwegian - Bokmål',
     nn: 'Norwegian - Nynorsk',
-    se: 'Swedish',
+    se: 'Sami',
     unknown: 'Unknown',
     de: 'German',
     empty: 'No languages left',

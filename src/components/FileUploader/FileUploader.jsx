@@ -46,14 +46,13 @@ class FileUploader extends React.Component {
   }
 
   onAddFiles(files) {
-    const { saving, unsavedFiles } = this.state;
     this.setState(
       prevState => ({
         unsavedFiles: prevState.unsavedFiles.concat(files),
       }),
       () => {
-        if (!saving) {
-          this.onSave(unsavedFiles[0]);
+        if (!this.state.saving) {
+          this.onSave(this.state.unsavedFiles[0]);
           this.setState({
             saving: true,
           });
@@ -63,7 +62,6 @@ class FileUploader extends React.Component {
   }
 
   uploadedFile(storedFile) {
-    const { saving, unsavedFiles } = this.state;
     this.setState(
       prevState => {
         const { unsavedFiles, addedFiles } = prevState;
@@ -81,8 +79,8 @@ class FileUploader extends React.Component {
         };
       },
       () => {
-        if (saving) {
-          this.onSave(unsavedFiles[0]);
+        if (this.state.saving) {
+          this.onSave(this.state.unsavedFiles[0]);
         }
       },
     );
@@ -160,12 +158,14 @@ class FileUploader extends React.Component {
           <span>{t('form.file.dragdrop.noFilesAdded')}</span>
         )}
         <StyledButtonWrapper>
+          <Button outline onClick={onClose}>
+            {t('form.file.cancel')}
+          </Button>
           <Button
             disabled={!changedData}
             onClick={() => onFileSave(addedFiles)}>
             {t('form.file.saveChanges')}
           </Button>
-          <Button onClick={onClose}>{t('form.file.cancel')}</Button>
         </StyledButtonWrapper>
       </div>
     );

@@ -674,7 +674,8 @@ const phrases = {
     },
     image: {
       file: 'Bilde',
-      editImage: 'Rediger bildet',
+      save: 'Lagre bilde',
+      editImage: 'Rediger bilde',
       removeImage: 'Ta bort bilde',
       alignment: {
         left: 'Justering: Venstrestilt',

@@ -66,7 +66,7 @@ class SlateImage extends React.Component {
     this.state = {
       editModus: false,
     };
-    this.toggleEditModus = this.toggleEditModus.bind(this);
+    this.setEditModus = this.setEditModus.bind(this);
   }
 
   componentDidMount() {
@@ -84,10 +84,10 @@ class SlateImage extends React.Component {
     }
   }
 
-  toggleEditModus(close) {
-    this.setState(prevState => ({
-      editModus: close === true ? false : !prevState.editModus,
-    }));
+  setEditModus(editModus) {
+    this.setState({
+      editModus,
+    });
   }
 
   render() {
@@ -114,23 +114,13 @@ class SlateImage extends React.Component {
       'lower-right-y': embed['lower-right-y'],
     };
 
-    const embedSize = editModus
-      ? {
-          align: '',
-          size: 'fullbredde',
-        }
-      : {
-          align: embed.align,
-          size: embed.size,
-        };
-
     const figureClassNames = cx('c-figure', {
-      [`u-float-${embedSize.size}-${embedSize.align}`]:
-        ['left', 'right'].includes(embedSize.align) &&
-        ['small', 'xsmall'].includes(embedSize.size),
-      [`u-float-${embedSize.align}`]:
-        ['left', 'right'].includes(embedSize.align) &&
-        !['small', 'xsmall'].includes(embedSize.size),
+      [`u-float-${embed.size}-${embed.align}`]:
+        ['left', 'right'].includes(embed.align) &&
+        ['small', 'xsmall'].includes(embed.size),
+      [`u-float-${embed.align}`]:
+        ['left', 'right'].includes(embed.align) &&
+        !['small', 'xsmall'].includes(embed.size),
     });
 
     return (
@@ -143,25 +133,25 @@ class SlateImage extends React.Component {
           onRemoveClick={onRemoveClick}
           embed={embed}
         />
-        {editModus ? (
-          <EditImage embed={embed} closeEdit={this.toggleEditModus} {...rest} />
-        ) : (
-          <StyledButtonFigure
-            stripped
-            data-label={t('imageEditor.editImage')}
-            onClick={this.toggleEditModus}>
-            <figure {...figureClass}>
-              <img
-                src={src}
-                alt={embed.alt}
-                srcSet={getSrcSets(embed.resource_id, transformData)}
-              />
-              <figcaption className="c-figure__caption">
-                <div className="c-figure__info">{embed.caption}</div>
-              </figcaption>
-            </figure>
-          </StyledButtonFigure>
+        {editModus && (
+          <EditImage embed={embed} setEditModus={this.setEditModus} {...rest} />
         )}
+        <StyledButtonFigure
+          style={{ opacity: editModus ? 0 : 1 }}
+          stripped
+          data-label={t('imageEditor.editImage')}
+          onClick={() => this.setEditModus(true)}>
+          <figure {...figureClass}>
+            <img
+              src={src}
+              alt={embed.alt}
+              srcSet={getSrcSets(embed.resource_id, transformData)}
+            />
+            <figcaption className="c-figure__caption">
+              <div className="c-figure__info">{embed.caption}</div>
+            </figcaption>
+          </figure>
+        </StyledButtonFigure>
       </Figure>
     );
   }

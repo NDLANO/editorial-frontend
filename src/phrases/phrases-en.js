@@ -660,6 +660,7 @@ const phrases = {
     },
     image: {
       file: 'Image',
+      save: 'Save image',
       editImage: 'Edit image',
       removeImage: 'Remove image',
       alignment: {

@@ -62,18 +62,13 @@ class EditImage extends Component {
     const placeholderRect = placeholderEl
       .closest('div[contenteditable="false"]')
       .getBoundingClientRect();
-    // Placing embed within placeholder div on mount
+
     embedEl.style.position = 'absolute';
     embedEl.style.top = `${placeholderRect.top - bodyRect.top}px`;
     embedEl.style.left = `${placeholderRect.left +
       spacing.spacingUnit -
       placeholderRect.width * (0.333 / 2)}px`;
     embedEl.style.width = `${placeholderRect.width * 1.333 -
-      spacing.spacingUnit * 2}px`;
-
-    const embedRect = embedEl.getBoundingClientRect();
-
-    placeholderEl.style.height = `${embedRect.height +
       spacing.spacingUnit * 2}px`;
   }
 
@@ -89,7 +84,7 @@ class EditImage extends Component {
       node,
       editor,
       onFigureInputMultipleUpdates,
-      closeEdit,
+      setEditModus,
     } = this.props;
     const { caption, alt, imageUpdates } = this.state;
 
@@ -109,14 +104,14 @@ class EditImage extends Component {
       editor.setNodeByKey(node.key, { data });
     }
 
-    closeEdit(true);
+    setEditModus(false);
   }
 
   onAbort() {
     this.setState({
       imageUpdates: undefined,
     });
-    this.props.closeEdit(true);
+    this.props.setEditModus(false);
   }
 
   onEdit(key, value) {
@@ -127,7 +122,7 @@ class EditImage extends Component {
   }
 
   render() {
-    const { embed, submitted, t, closeEdit } = this.props;
+    const { embed, submitted, t, setEditModus } = this.props;
     const { caption, madeChanges, alt } = this.state;
     return (
       <div
@@ -140,7 +135,7 @@ class EditImage extends Component {
           <FocusTrapReact
             focusTrapOptions={{
               onDeactivate: () => {
-                closeEdit(true);
+                setEditModus(false);
               },
               clickOutsideDeactivates: true,
               escapeDeactivates: true,
@@ -152,7 +147,7 @@ class EditImage extends Component {
               }}>
               <ImageEditor
                 embedTag={embed}
-                toggleEditModus={closeEdit}
+                toggleEditModus={setEditModus}
                 onUpdatedImageSettings={this.onUpdatedImageSettings}
                 {...this.props}
               />
@@ -183,10 +178,12 @@ class EditImage extends Component {
                   }
                 />
                 <StyledButtonWrapper paddingLeft>
-                  <Button disabled={!madeChanges} onClick={this.onSave}>
-                    {t('form.save')}
+                  <Button onClick={this.onAbort} outline>
+                    {t('form.abort')}
                   </Button>
-                  <Button onClick={this.onAbort}>{t('form.abort')}</Button>
+                  <Button disabled={!madeChanges} onClick={this.onSave}>
+                    {t('form.image.save')}
+                  </Button>
                 </StyledButtonWrapper>
               </StyledInputWrapper>
             </div>
@@ -198,7 +195,7 @@ class EditImage extends Component {
 }
 
 EditImage.propTypes = {
-  closeEdit: PropTypes.func,
+  setEditModus: PropTypes.func,
   embed: EmbedShape.isRequired,
   onFigureInputMultipleUpdates: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,

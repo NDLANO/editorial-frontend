@@ -10,7 +10,6 @@ import React from 'react';
 import { css } from 'react-emotion';
 import { DeleteForever } from '@ndla/icons/editor';
 import { colors, spacing } from '@ndla/core';
-import Button from '@ndla/button';
 
 export const buttonStyle = css`
   margin: 0;
@@ -20,9 +19,6 @@ export const buttonStyle = css`
   color: ${colors.support.redLight};
   width: ${spacing.normal};
   height: ${spacing.normal};
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   svg {
     width: 22px;
@@ -57,9 +53,9 @@ export const buttonStyle = css`
 `;
 
 export const DeleteSectionButton = ({ children, ...rest }) => (
-  <Button stripped css={buttonStyle} {...rest}>
+  <button type="button" css={buttonStyle} {...rest}>
     <DeleteForever />
-  </Button>
+  </button>
 );
 
 export default DeleteSectionButton;

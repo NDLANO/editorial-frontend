@@ -675,6 +675,7 @@ const phrases = {
     },
     image: {
       file: 'Bilde',
+      save: 'Lagre bilde',
       editImage: 'Rediger bildet',
       removeImage: 'Ta bort bilde',
       alignment: {

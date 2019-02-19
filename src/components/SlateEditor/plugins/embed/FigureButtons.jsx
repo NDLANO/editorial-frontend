@@ -14,27 +14,28 @@ import { spacing } from '@ndla/core';
 import { EmbedShape } from '../../../../shapes';
 import DeleteSectionButton from '../../../DeleteSectionButton';
 
-export const figureButtonsStyle = css`
-  position: absolute;
-  right: -${spacing.small};
+const centerAdjustedStyle = css`
+  right: -${spacing.xsmall};
 `;
 
 const rightAdjustedStyle = css`
-  right: -${spacing.small};
+  right: -${spacing.spacingUnit * 1.25}px;
+`;
+
+const leftAdjustedStyle = css`
+  left: -${spacing.spacingUnit * 1.25}px;
 `;
 
 const StyledFigureButtons = styled('div')`
-  ${figureButtonsStyle} ${p => (p.isNotCentered ? rightAdjustedStyle : null)}
+  position: absolute;
+  ${p => p.align !== 'left' && p.align !== 'right' && centerAdjustedStyle}
+  ${p => p.align === 'left' && leftAdjustedStyle}
+  ${p => p.align === 'right' && rightAdjustedStyle}
 `;
 
 export const FigureButtons = ({ embed, tooltip, onRemoveClick }) => {
-  const isNotCentered =
-    embed.align === 'left' ||
-    embed.align === 'right' ||
-    embed.size === 'small' ||
-    embed.size === 'xsmall';
   return (
-    <StyledFigureButtons isNotCentered={isNotCentered}>
+    <StyledFigureButtons align={embed.align}>
       <Tooltip tooltip={tooltip}>
         <DeleteSectionButton onClick={onRemoveClick} tabIndex={-1} />
       </Tooltip>

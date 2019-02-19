@@ -41,12 +41,11 @@ export const defaultAsideBlock = type =>
     nodes: Block.createList([defaultBlock]),
   });
 
-export const defaultEmbedBlock = data => {
-  return Block.create({
+export const defaultEmbedBlock = data =>
+  Block.create({
     type: 'embed',
     data,
   });
-};
 
 export const defaultFilesBlock = data => {
   return Block.create({

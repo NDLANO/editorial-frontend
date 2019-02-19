@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { css } from 'react-emotion';
+import styled, { css } from 'react-emotion';
 import { spacing, colors } from '@ndla/core';
 import { ArticleInModal } from '@ndla/howto';
 import { InformationOutline } from '@ndla/icons/common';
@@ -32,6 +32,10 @@ const iconCSS = css`
   &:focus {
     color: ${colors.brand.primary};
   }
+`;
+
+export const HelpIcon = styled(InformationOutline)`
+  ${iconCSS}
 `;
 
 const HowToHelper = ({ pageId, tooltip, extraIconPadding }) => (

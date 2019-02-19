@@ -104,7 +104,7 @@ describe('Subject editing', () => {
     cy.wait('@addSubject');
   });
 
-  it.only('should have a settings menu where everything works', () => {
+  it('should have a settings menu where everything works', () => {
     cy.wait('@allSubjects');
     cy.get('.c-settingsMenu > button')
       .first()

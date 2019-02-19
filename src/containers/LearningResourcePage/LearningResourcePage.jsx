@@ -17,7 +17,6 @@ import {
 } from '../../modules/license/license';
 import { getSaving } from '../../modules/draft/draft';
 import { getLocale } from '../../modules/locale/locale';
-import { getShowSaved } from '../Messages/messagesSelectors';
 import EditLearningResource from './EditLearningResource';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -79,7 +78,6 @@ LearningResourcePage.propTypes = {
   fetchLicenses: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  showSaved: PropTypes.bool.isRequired,
   userAccess: PropTypes.string,
 };
 
@@ -91,7 +89,6 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
   licenses: getAllLicenses(state),
   isSaving: getSaving(state),
-  showSaved: getShowSaved(state),
   userAccess: state.session.user.scope,
 });
 

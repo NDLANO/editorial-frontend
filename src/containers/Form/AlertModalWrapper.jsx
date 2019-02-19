@@ -24,9 +24,7 @@ class AlertModalWrapper extends PureComponent {
   componentDidMount() {
     const { history } = this.props;
     this.unblock = history.block(nextLocation => {
-      const { showSaved } = this.props;
-      const canNavigate =
-        !isFormDirty(this.props) || this.state.discardChanges || showSaved;
+      const canNavigate = !isFormDirty(this.props) || this.state.discardChanges;
 
       if (!canNavigate) {
         this.setState({
@@ -102,7 +100,6 @@ AlertModalWrapper.propTypes = {
     block: PropTypes.func.isRequired,
   }).isRequired,
   text: PropTypes.string,
-  showSaved: PropTypes.bool,
   severity: PropTypes.string,
 };
 

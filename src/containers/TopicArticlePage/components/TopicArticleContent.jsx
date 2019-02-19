@@ -11,12 +11,8 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
-import {
-  TextField,
-  PlainTextField,
-  RemainingCharacters,
-  classes as fieldClasses,
-} from '../../../components/Fields';
+import { TextField } from '../../../components/Fields';
+import LearningResourceIngress from '../../LearningResourcePage/components/LearningResourceIngress';
 import { RichTextField } from '../../../components/RichTextField';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
@@ -80,25 +76,7 @@ const TopicArticleContent = ({
         ? ` - ${t('topicArticleForm.info.lastUpdated', { updated })}`
         : ''}
     </div>
-
-    <PlainTextField
-      label={t('form.introduction.label')}
-      placeholder={t('form.introduction.label')}
-      name="introduction"
-      className="article_introduction"
-      fieldClassName={fieldClasses(undefined, 'introduction').className}
-      noBorder
-      maxLength={300}
-      {...commonFieldProps.bindInput('introduction')}
-      {...commonFieldProps}>
-      <RemainingCharacters
-        maxLength={300}
-        getRemainingLabel={(maxLength, remaining) =>
-          t('form.remainingCharacters', { maxLength, remaining })
-        }
-        value={commonFieldProps.bindInput('introduction').value.document.text}
-      />
-    </PlainTextField>
+    <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
     <TopicArticleVisualElement
       visualElement={visualElement}
       commonFieldProps={commonFieldProps}
@@ -114,7 +92,7 @@ const TopicArticleContent = ({
       renderMark={renderMark}
       plugins={plugins}
       supportedToolbarElements={supportedToolbarElements}
-      {...commonFieldProps}
+      commonFieldProps={commonFieldProps}
     />
   </Fragment>
 );

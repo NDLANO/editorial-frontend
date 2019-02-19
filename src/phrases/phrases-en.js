@@ -121,7 +121,7 @@ const phrases = {
     en: 'English',
     nb: 'Norwegian - Bokmål',
     nn: 'Norwegian - Nynorsk',
-    se: 'Swedish',
+    se: 'Sami',
     unknown: 'Unknown',
     de: 'German',
     empty: 'No languages left',
@@ -229,6 +229,20 @@ const phrases = {
   },
   subjectPage: {
     topics: 'Topics',
+  },
+  editMarkup: {
+    linkTitle: 'Go to HTML editor',
+    title: 'HTML editor',
+    subTitle: 'Edit article with HTML',
+    fetchError:
+      'An error occurred while loding an article into the HTML editor. Go back or try to reload the page.',
+    saveError: 'An error occurred while saving article changes.',
+    helpMessage: {
+      paragraph1:
+        'It is possible to format the HTML code by pressing F1 and then selecting Format. Note that this could lead to changes in whitespace (indentations, linebreaks and spaces) when saving. Feel free to use the preview feature rapidly. ',
+      paragraph2:
+        'To minimize potential problems with formatting and to secure consistent HTML, the same transformations as in the regular editor is applied. This means that for instance linebreaks will be changed to<br> when saving, and illegal code is attempted to be corrected.',
+    },
   },
   imageSearch: {
     placeholder: 'Search images',

@@ -48,12 +48,12 @@ const SlateBodyBox = props => {
   return (
     <StyledBodyBox className="c-bodybox" {...attributes}>
       {children}
-      <DeleteButton stripped onClick={onRemoveClick} />
+      <DeleteButton stripped onMouseDown={onRemoveClick} />
       <Button
         css={moveContentButtonStyle}
         title={t('learningResourceForm.fields.rightAside.moveContent')}
         stripped
-        onClick={onMoveContent}>
+        onMouseDown={onMoveContent}>
         <ChevronLeft />
       </Button>
     </StyledBodyBox>

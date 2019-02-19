@@ -65,7 +65,7 @@ const FormStatusActions = props => {
 
   return (
     <Fragment>
-      <FormHeader title={t('form.workflow.change')} width={3 / 4} />
+      <FormHeader title={t('form.workflow.change')} />
       <div {...formClasses('actions')}>
         {possibleStatuses[articleStatus.current]
           .filter(

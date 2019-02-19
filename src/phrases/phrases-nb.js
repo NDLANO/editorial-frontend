@@ -451,6 +451,9 @@ const phrases = {
       remove: 'Ta bort',
       warning: 'En merknad må ha tekst',
       history: {
+        user: 'Bruker',
+        time: 'Når',
+        status: 'Status',
         heading: 'Merknadshistorikk',
         note: 'Merknad',
         empty: 'Ingen merknader',

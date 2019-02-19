@@ -23,14 +23,24 @@ import {
 } from '../../../components/SlateEditor/renderNode';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
-import { editListPlugin } from '../../../components/SlateEditor/plugins/externalPlugins';
+import {
+  editListPlugin,
+  listTypes,
+} from '../../../components/SlateEditor/plugins/externalPlugins';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 import { CommonFieldPropsShape } from '../../../shapes';
+import { TYPE as link } from '../../../components/SlateEditor/plugins/link';
 
 const classes = new BEMHelper({
   name: 'topic-article-content',
   prefix: 'c-',
 });
+
+const supportedToolbarElements = {
+  mark: ['bold', 'italic', 'underlined'],
+  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
+  inline: [link],
+};
 
 const plugins = [
   createNoEmbedsPlugin(),
@@ -81,6 +91,7 @@ const TopicArticleContent = ({
       renderNode={renderNode}
       renderMark={renderMark}
       plugins={plugins}
+      supportedToolbarElements={supportedToolbarElements}
       commonFieldProps={commonFieldProps}
     />
   </Fragment>

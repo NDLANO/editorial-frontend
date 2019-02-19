@@ -1,12 +1,7 @@
 import EditList from 'ndla-slate-edit-list';
 import EditTable from 'ndla-slate-edit-table';
 
-export const listTypes = [
-  'numbered-list',
-  'bulleted-list',
-  'letter-list',
-  'two-column-list',
-];
+export const listTypes = ['numbered-list', 'bulleted-list', 'letter-list'];
 
 export const editListPlugin = EditList({
   types: listTypes,

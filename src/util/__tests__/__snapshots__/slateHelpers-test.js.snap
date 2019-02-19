@@ -1115,76 +1115,6 @@ Object {
 }
 `;
 
-exports[`deserializing two column list 1`] = `
-Object {
-  "document": Object {
-    "data": Object {},
-    "nodes": Array [
-      Object {
-        "data": Object {},
-        "nodes": Array [
-          Object {
-            "data": Object {},
-            "nodes": Array [
-              Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Rad 1",
-                  },
-                ],
-                "object": "text",
-              },
-            ],
-            "object": "block",
-            "type": "list-item",
-          },
-          Object {
-            "data": Object {},
-            "nodes": Array [
-              Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Rad 2",
-                  },
-                ],
-                "object": "text",
-              },
-            ],
-            "object": "block",
-            "type": "list-item",
-          },
-          Object {
-            "data": Object {},
-            "nodes": Array [
-              Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Rad 3",
-                  },
-                ],
-                "object": "text",
-              },
-            ],
-            "object": "block",
-            "type": "list-item",
-          },
-        ],
-        "object": "block",
-        "type": "bulleted-list",
-      },
-    ],
-    "object": "document",
-  },
-  "object": "value",
-}
-`;
-
 exports[`serialize bodybox block 1`] = `
 <div
   className="c-bodybox"
@@ -1231,5 +1161,3 @@ exports[`serializing numbered list 1`] = `"<ol><li>Rad 1</li><li>Rad 2</li><li>R
 exports[`serializing quote 1`] = `"<blockquote>This quote should be both smart and wise</blockquote>"`;
 
 exports[`serializing section 1`] = `"<section><p>Paragraph text</p></section>"`;
-
-exports[`serializing two column list 1`] = `"<ul data-type=\\"two-column\\"><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ul>"`;

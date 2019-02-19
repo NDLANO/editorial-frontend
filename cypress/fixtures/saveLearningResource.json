@@ -2,8 +2,11 @@
   "id": 9337,
   "revision": 1,
   "status": ["CREATED"],
-  "title": { "title": "Test Torgeir 2", "language": "nb" },
-  "content": { "content": "<section><p>ewtgq</p></section>", "language": "nb" },
+  "title": { "title": "This is a test title.", "language": "nb" },
+  "content": {
+    "content": "<section><p>This is test content </p></section>",
+    "language": "nb"
+  },
   "copyright": {
     "license": {
       "license": "by-sa",
@@ -17,7 +20,7 @@
   },
   "tags": { "tags": [], "language": "nb" },
   "requiredLibraries": [],
-  "introduction": { "introduction": "", "language": "nb" },
+  "introduction": { "introduction": "Test ingress", "language": "nb" },
   "metaDescription": { "metaDescription": "", "language": "nb" },
   "metaImage": {
     "url": "https://test.api.ndla.no/image-api/raw/id/",

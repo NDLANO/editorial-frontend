@@ -11,12 +11,8 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
-import {
-  TextField,
-  PlainTextField,
-  RemainingCharacters,
-  classes as fieldClasses,
-} from '../../../components/Fields';
+import { TextField } from '../../../components/Fields';
+import LearningResourceIngress from '../../LearningResourcePage/components/LearningResourceIngress';
 import { RichTextField } from '../../../components/RichTextField';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
@@ -27,14 +23,24 @@ import {
 } from '../../../components/SlateEditor/renderNode';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
-import { editListPlugin } from '../../../components/SlateEditor/plugins/externalPlugins';
+import {
+  editListPlugin,
+  listTypes,
+} from '../../../components/SlateEditor/plugins/externalPlugins';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 import { CommonFieldPropsShape } from '../../../shapes';
+import { TYPE as link } from '../../../components/SlateEditor/plugins/link';
 
 const classes = new BEMHelper({
   name: 'topic-article-content',
   prefix: 'c-',
 });
+
+const supportedToolbarElements = {
+  mark: ['bold', 'italic', 'underlined'],
+  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
+  inline: [link],
+};
 
 const plugins = [
   createNoEmbedsPlugin(),
@@ -70,25 +76,7 @@ const TopicArticleContent = ({
         ? ` - ${t('topicArticleForm.info.lastUpdated', { updated })}`
         : ''}
     </div>
-
-    <PlainTextField
-      label={t('form.introduction.label')}
-      placeholder={t('form.introduction.label')}
-      name="introduction"
-      className="article_introduction"
-      fieldClassName={fieldClasses(undefined, 'introduction').className}
-      noBorder
-      maxLength={300}
-      {...commonFieldProps.bindInput('introduction')}
-      {...commonFieldProps}>
-      <RemainingCharacters
-        maxLength={300}
-        getRemainingLabel={(maxLength, remaining) =>
-          t('form.remainingCharacters', { maxLength, remaining })
-        }
-        value={commonFieldProps.bindInput('introduction').value.document.text}
-      />
-    </PlainTextField>
+    <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
     <TopicArticleVisualElement
       visualElement={visualElement}
       commonFieldProps={commonFieldProps}
@@ -103,7 +91,8 @@ const TopicArticleContent = ({
       renderNode={renderNode}
       renderMark={renderMark}
       plugins={plugins}
-      {...commonFieldProps}
+      supportedToolbarElements={supportedToolbarElements}
+      commonFieldProps={commonFieldProps}
     />
   </Fragment>
 );

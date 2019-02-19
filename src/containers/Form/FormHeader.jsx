@@ -44,6 +44,7 @@ const FormHeader = props => {
     { key: 'nn', title: t('language.nn'), include: true },
     { key: 'en', title: t('language.en'), include: true },
     { key: 'nb', title: t('language.nb'), include: true },
+    { key: 'se', title: t('language.se'), include: true },
     { key: 'unknown', title: t('language.unknown'), include: false },
     { key: 'de', title: t('language.de'), include: false },
   ];

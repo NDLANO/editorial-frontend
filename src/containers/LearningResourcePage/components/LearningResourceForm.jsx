@@ -194,6 +194,9 @@ class LearningResourceForm extends Component {
       articleStatus,
       setModelField,
       onUpdate,
+      fields,
+      model,
+      onModelSavedToServer,
     } = this.props;
 
     const status = articleStatus ? articleStatus.current : undefined;
@@ -201,7 +204,7 @@ class LearningResourceForm extends Component {
       setSubmitted(true);
       return;
     }
-    if (!isFormDirty(this.props)) {
+    if (!isFormDirty({ fields, model })) {
       return;
     }
 
@@ -221,6 +224,7 @@ class LearningResourceForm extends Component {
       revision,
       updated: undefined,
     });
+    onModelSavedToServer();
     setModelField('notes', []);
   }
 
@@ -235,7 +239,6 @@ class LearningResourceForm extends Component {
       isSaving,
       articleStatus,
       fields,
-      showSaved,
       history,
       articleId,
       userAccess = '',
@@ -243,10 +246,12 @@ class LearningResourceForm extends Component {
       revision,
       article,
       validationErrors,
+      savedToServer,
     } = this.props;
 
     const { error } = this.state;
     const commonFieldProps = { bindInput, schema: validationErrors, submitted };
+
     const panels = [
       {
         id: 'learning-resource-content',
@@ -258,7 +263,11 @@ class LearningResourceForm extends Component {
           validationErrors.fields.content,
         ].some(field => checkTouchedInvalidField(field, submitted)),
         component: () => (
-          <LearningResourceContent commonFieldProps={commonFieldProps} />
+          <LearningResourceContent
+            userAccess={userAccess}
+            model={model}
+            commonFieldProps={commonFieldProps}
+          />
         ),
       },
       {
@@ -404,12 +413,11 @@ class LearningResourceForm extends Component {
           <SaveButton
             data-testid="saveLearningResourceButton"
             isSaving={isSaving}
-            showSaved={showSaved}
+            showSaved={savedToServer && !isFormDirty({ model, fields })}
             defaultText="saveDraft"
           />
         </Field>
         <AlertModalWrapper
-          showSaved={showSaved}
           fields={fields}
           severity="danger"
           model={model}
@@ -445,7 +453,6 @@ LearningResourceForm.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
-  showSaved: PropTypes.bool.isRequired,
   articleStatus: PropTypes.shape({
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
@@ -462,6 +469,7 @@ LearningResourceForm.propTypes = {
   }).isRequired,
   userAccess: PropTypes.string,
   article: ArticleShape,
+  savedToServer: PropTypes.bool,
 };
 
 export default compose(

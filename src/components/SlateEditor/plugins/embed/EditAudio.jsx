@@ -44,7 +44,6 @@ class EditAudio extends Component {
       embed,
       onChange,
       onAudioFigureInputChange,
-      locale,
       onExit,
       onRemoveClick,
       audioType,
@@ -115,7 +114,6 @@ EditAudio.propTypes = {
   onAudioFigureInputChange: func,
   audioType: string,
   onRemoveClick: func,
-  locale: string,
   submitted: bool.isRequired,
   embed: EmbedShape.isRequired,
 };

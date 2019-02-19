@@ -393,7 +393,7 @@ const phrases = {
   editorBlockpicker: {
     heading: 'Legg til',
     actions: {
-      block: 'Paragraf',
+      block: 'Seksjon',
       factAside: 'Faktaboks',
       table: 'Tabell',
       bodybox: 'Tekst i ramme',

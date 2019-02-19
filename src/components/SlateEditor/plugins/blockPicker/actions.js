@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Quote,
   Camera,
   FactBoxMaterial,
   Link as LinkIcon,
@@ -11,7 +10,8 @@ import {
   PresentationPlay,
   RelatedArticle,
 } from '@ndla/icons/editor';
-import { Download } from '@ndla/icons/common';
+import { Download, VolumeUp } from '@ndla/icons/common';
+import { Minus } from '@ndla/icons/action';
 import HowToHelper from '../../../HowTo/HowToHelper';
 
 const renderArticleInModal = pageId => (
@@ -21,7 +21,7 @@ const renderArticleInModal = pageId => (
 const actions = [
   {
     data: { type: 'block', object: 'block' },
-    icon: <Quote />,
+    icon: <Minus />,
     helpIcon: renderArticleInModal('Paragraph'),
   },
   {
@@ -56,7 +56,7 @@ const actions = [
   },
   {
     data: { type: 'embed', object: 'audio' },
-    icon: <Quote />,
+    icon: <VolumeUp />,
     helpIcon: renderArticleInModal('Audios'),
   },
   {

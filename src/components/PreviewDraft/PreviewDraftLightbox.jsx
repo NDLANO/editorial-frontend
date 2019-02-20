@@ -129,7 +129,7 @@ class PreviewDraftLightbox extends React.Component {
       : undefined;
 
     this.setState({
-      firstArticle: transformArticle(firstArticle, article.language),
+      firstArticle: transformArticle(firstArticle),
       secondArticle,
       showPreview: true,
       previewLanguage: secondArticleLanguage,
@@ -144,7 +144,7 @@ class PreviewDraftLightbox extends React.Component {
       id,
       language,
     );
-    return transformArticle(article, language);
+    return transformArticle(article);
   }
 
   async previewLanguageArticle(language = undefined) {
@@ -158,7 +158,7 @@ class PreviewDraftLightbox extends React.Component {
       draftOtherLanguage,
       language,
     );
-    return transformArticle(article, language);
+    return transformArticle(article);
   }
 
   render() {

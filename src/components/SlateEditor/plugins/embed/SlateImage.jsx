@@ -11,44 +11,13 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Figure } from '@ndla/ui';
 import Button from '@ndla/button';
-import styled, { cx } from 'react-emotion';
+import { cx } from 'react-emotion';
 import SlateTypes from 'slate-prop-types';
 import config from '../../../../config';
 import { EmbedShape } from '../../../../shapes';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
-
-const StyledButtonFigure = styled(Button)`
-  position: relative;
-
-  &::before {
-    font-size: 26px;
-    content: attr(data-label);
-    transition: opacity 200ms ease;
-    display: flex;
-    position: absolute;
-    top: 0;
-    height: inherit;
-    background: rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    text-shadow: 0 1px 6.5px rgba(0, 0, 0, 0.7);
-    z-index: 1;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    color: #fff;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &:hover,
-  &:focus {
-    &::before {
-      opacity: 1;
-    }
-  }
-`;
 
 class SlateImage extends React.Component {
   constructor() {
@@ -96,6 +65,7 @@ class SlateImage extends React.Component {
       [`u-float-${embed.align}`]:
         ['left', 'right'].includes(embed.align) &&
         !['small', 'xsmall'].includes(embed.size),
+      isSelectedForCopy: isSelectedForCopy && (!editModus || !active),
     });
 
     return (
@@ -111,8 +81,7 @@ class SlateImage extends React.Component {
         {editModus && (
           <EditImage embed={embed} setEditModus={this.setEditModus} {...rest} />
         )}
-        <StyledButtonFigure
-          style={{ opacity: editModus ? 0 : 1 }}
+        <Button
           stripped
           data-label={t('imageEditor.editImage')}
           onClick={() => this.setEditModus(true)}>
@@ -126,7 +95,7 @@ class SlateImage extends React.Component {
               <div className="c-figure__info">{embed.caption}</div>
             </figcaption>
           </figure>
-        </StyledButtonFigure>
+        </Button>
       </Figure>
     );
   }

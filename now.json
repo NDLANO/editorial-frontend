@@ -1,4 +1,23 @@
 {
+  "version": 2,
+  "builds": [
+    {
+      "src": "build/public/**",
+      "use": "@now/static"
+    },
+    {
+      "src": "build/server.js",
+      "use": "@now/node-server"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "headers": { "cache-control": "s-maxage=86400" },
+      "dest": "build/public/static/$1"
+    },
+    { "src": "/(.*)", "dest": "/build/server.js" }
+  ],
   "env": {
     "NDLA_EDITORIAL_CLIENT_ID": "@ndla_editorial_client_id",
     "NDLA_EDITORIAL_CLIENT_SECRET": "@ndla_editorial_client_secret",

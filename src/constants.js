@@ -46,3 +46,6 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'Geogebra', url: ['www.geogebra.org'] },
   { name: 'IMDB', url: ['www.imdb.com'], height: '398px' },
 ];
+
+export const NORWEGIAN_FORMAT = 'dd.MM.yyyy';
+export const ENGLISH_FORMAT = 'MM/dd/yyyy';

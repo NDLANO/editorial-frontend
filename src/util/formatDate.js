@@ -7,14 +7,18 @@
  */
 
 import format from 'date-fns/format';
-import isValid from 'date-fns/is_valid';
+import parseISO from 'date-fns/parseISO';
+import isString from 'lodash/isString';
+import { getDateFormat } from './getDateFormat';
 
 export default function formatDate(date, locale) {
-  if (!date || !isValid(new Date(date))) {
+  if (!date) {
     return date;
   }
-  if (locale === 'nb' || locale === 'nn') {
-    return format(date, 'DD.MM.YYYY');
+
+  if (isString(date)) {
+    const parsedDate = parseISO(date);
+    return format(parsedDate, getDateFormat(locale));
   }
-  return format(date, 'MM/DD/YYYY');
+  return format(date, getDateFormat(locale));
 }

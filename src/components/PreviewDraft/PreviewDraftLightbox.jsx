@@ -9,17 +9,13 @@
 import React from 'react';
 import { injectT } from '@ndla/i18n';
 import PropTypes from 'prop-types';
-import { Cross } from '@ndla/icons/action';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 import styled, { css } from 'react-emotion';
 import isString from 'lodash/isString';
 import * as articleApi from '../../modules/article/articleApi';
 import * as draftApi from '../../modules/draft/draftApi';
-import Lightbox, {
-  closeLightboxButtonStyle,
-  closeLightboxCrossStyle,
-} from '../Lightbox';
+import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import PreviewLightboxContent from './PreviewLightboxContent';
 import {
   transformArticle,
@@ -185,7 +181,7 @@ class PreviewDraftLightbox extends React.Component {
         css={closeButtonStyle(typeOfPreview)}
         stripped
         onClick={this.onClosePreview}>
-        <Cross css={closeLightboxCrossStyle} />
+        <StyledCross />
       </Button>
     );
 

@@ -26,7 +26,7 @@ const normalPaddingCSS = css`
 `;
 
 const iconCSS = css`
-  color: red;
+  color: ${colors.brand.tertiary};
 
   &:hover,
   &:focus {

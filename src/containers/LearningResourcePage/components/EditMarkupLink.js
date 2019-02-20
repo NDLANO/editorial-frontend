@@ -15,19 +15,23 @@ import { spacing, colors } from '@ndla/core';
 
 const linkStyle = css`
   box-shadow: none;
+
   svg {
     width: ${spacing.normal};
     height: ${spacing.normal};
     padding: 2px;
     border-radius: 50%;
     border: 2px solid ${colors.brand.light};
+
     path:last-child {
       stroke: ${colors.brand.light};
       fill: ${colors.brand.light};
     }
+
     &:hover,
     &:focus {
       border-color: ${colors.brand.primary};
+
       path:last-child {
         stroke: ${colors.brand.primary};
         fill: ${colors.brand.primary};
@@ -44,6 +48,6 @@ export const EditMarkupLink = ({ title, to }) => {
 };
 
 EditMarkupLink.propTypes = {
-  to: PropTypes.number.isRequired,
+  to: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };

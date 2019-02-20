@@ -26,7 +26,6 @@ export default function createEmbedPlugin(locale) {
         normalize: (editor, error) => {
           switch (error.code) {
             case 'next_sibling_type_invalid': {
-              console.log(error.node);
               editor
                 .moveToEndOfNode(error.child)
                 .insertBlock(defaultBlocks.defaultBlock);

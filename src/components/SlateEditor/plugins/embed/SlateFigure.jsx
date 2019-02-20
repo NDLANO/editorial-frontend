@@ -33,6 +33,9 @@ class SlateFigure extends React.Component {
     };
     this.isSelected = this.isSelected.bind(this);
     this.onFigureInputChange = this.onFigureInputChange.bind(this);
+    this.onFigureInputMultipleUpdates = this.onFigureInputMultipleUpdates.bind(
+      this,
+    );
     this.onSubmittedChange = this.onSubmittedChange.bind(this);
     this.onRemoveClick = this.onRemoveClick.bind(this);
   }
@@ -72,6 +75,14 @@ class SlateFigure extends React.Component {
     editor.setNodeByKey(node.key, properties);
   }
 
+  onFigureInputMultipleUpdates(updates) {
+    const { node, editor } = this.props;
+    const properties = {
+      data: { ...getSchemaEmbed(node), ...updates },
+    };
+    editor.setNodeByKey(node.key, properties);
+  }
+
   onRemoveClick(e) {
     e.stopPropagation();
     const { node, editor } = this.props;
@@ -100,6 +111,7 @@ class SlateFigure extends React.Component {
     const props = {
       embed,
       onFigureInputChange: this.onFigureInputChange,
+      onFigureInputMultipleUpdates: this.onFigureInputMultipleUpdates,
       figureClass,
       attributes,
       submitted: this.state.submitted,

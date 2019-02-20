@@ -8,9 +8,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 import { Figure } from '@ndla/ui';
 import Button from '@ndla/button';
-import { css, cx } from 'react-emotion';
+import { cx } from 'react-emotion';
 import SlateTypes from 'slate-prop-types';
 import config from '../../../../config';
 import { EmbedShape } from '../../../../shapes';
@@ -24,13 +25,13 @@ class SlateImage extends React.Component {
     this.state = {
       editModus: false,
     };
-    this.toggleEditModus = this.toggleEditModus.bind(this);
+    this.setEditModus = this.setEditModus.bind(this);
   }
 
-  toggleEditModus() {
-    this.setState(prevState => ({
-      editModus: !prevState.editModus,
-    }));
+  setEditModus(editModus) {
+    this.setState({
+      editModus,
+    });
   }
 
   render() {
@@ -39,9 +40,9 @@ class SlateImage extends React.Component {
       figureClass,
       attributes,
       onRemoveClick,
-      locale,
       isSelectedForCopy,
       active,
+      t,
       ...rest
     } = this.props;
     const { editModus } = this.state;
@@ -73,32 +74,28 @@ class SlateImage extends React.Component {
         id={embed.resource_id}
         className={figureClassNames}>
         <FigureButtons
-          locale={locale}
+          tooltip={t('form.image.removeImage')}
           onRemoveClick={onRemoveClick}
           embed={embed}
-          figureType="image"
         />
-        {editModus ? (
-          <EditImage embed={embed} closeEdit={this.toggleEditModus} {...rest} />
-        ) : (
-          <Button
-            stripped
-            css={css`
-              text-align: left;
-            `}
-            onClick={this.toggleEditModus}>
-            <figure {...figureClass}>
-              <img
-                src={src}
-                alt={embed.alt}
-                srcSet={getSrcSets(embed.resource_id, transformData)}
-              />
-              <figcaption className="c-figure__caption">
-                <div className="c-figure__info">{embed.caption}</div>
-              </figcaption>
-            </figure>
-          </Button>
+        {editModus && (
+          <EditImage embed={embed} setEditModus={this.setEditModus} {...rest} />
         )}
+        <Button
+          stripped
+          data-label={t('imageEditor.editImage')}
+          onClick={() => this.setEditModus(true)}>
+          <figure {...figureClass}>
+            <img
+              src={src}
+              alt={embed.alt}
+              srcSet={getSrcSets(embed.resource_id, transformData)}
+            />
+            <figcaption className="c-figure__caption">
+              <div className="c-figure__info">{embed.caption}</div>
+            </figcaption>
+          </figure>
+        </Button>
       </Figure>
     );
   }
@@ -116,7 +113,6 @@ SlateImage.propTypes = {
   onRemoveClick: PropTypes.func.isRequired,
   isSelectedForCopy: PropTypes.bool,
   active: PropTypes.bool,
-  locale: PropTypes.string.isRequired,
 };
 
-export default SlateImage;
+export default injectT(SlateImage);

@@ -56,7 +56,6 @@ class EditImage extends Component {
       image: imageData,
       updateImage,
       locale,
-      inModal,
       editingArticle,
       closeModal,
       ...rest
@@ -64,7 +63,6 @@ class EditImage extends Component {
 
     return (
       <ImageForm
-        inModal={inModal}
         initialModel={getInitialModel(imageData || { language: locale })}
         revision={imageData && imageData.revision}
         imageInfo={imageData && imageData.imageFile}

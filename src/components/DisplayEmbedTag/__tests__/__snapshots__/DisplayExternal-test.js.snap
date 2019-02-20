@@ -6,9 +6,7 @@ exports[`DisplayExternal renders external correctly 1`] = `null`;
 
 exports[`DisplayExternal renders iframe correctly 1`] = `
 Array [
-  <div
-    className="css-1ddyuko emotion-2"
-  >
+  <div>
     <button
       className="css-10ndbs7 emotion-0"
       disabled={false}

@@ -99,7 +99,9 @@ class FormNotes extends React.Component {
       .filter(user => user !== 'System');
     const uniqueUserIds = Array.from(new Set(userIds)).join(',');
     const users = await fetchAuth0Users(uniqueUserIds);
-    users.push({ name: 'System', app_metadata: { ndla_id: 'System' } });
+    if (users && !users.error) {
+      users.push({ name: 'System', app_metadata: { ndla_id: 'System' } });
+    }
     this.setState({
       users:
         users && !users.error

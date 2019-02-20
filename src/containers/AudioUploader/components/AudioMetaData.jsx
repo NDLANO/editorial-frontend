@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import MultiSelect from '../../../components/MultiSelect';
 import Contributors from '../../../components/Contributors';
 import FormLicense from '../../Form/components/FormLicense';
-import FormikField, { FormikFieldError } from '../../../components/FormikField';
+import FormikField from '../../../components/FormikField';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
@@ -35,7 +35,7 @@ const AudioMetaData = props => {
           />
         )}
       </FormikField>
-      <FormikField name="license" label={t('form.license.label')}>
+      <FormikField name="license">
         {({ field }) => <FormLicense licenses={licenses} {...field} />}
       </FormikField>
       <FormikField label={t('form.origin.label')} name="origin" />
@@ -43,7 +43,6 @@ const AudioMetaData = props => {
         const label = t(`form.${contributorType}.label`);
         return (
           <FormikField
-            label={label}
             showError={false}
             key={`formik_contributor_${contributorType}`}
             name={contributorType}>
@@ -51,7 +50,7 @@ const AudioMetaData = props => {
               const { errors, touched } = form;
               const error =
                 touched[field.name] && errors[field.name]
-                  ? errors[field.name](label)
+                  ? errors[field.name]
                   : '';
               return (
                 <Fragment>
@@ -64,11 +63,6 @@ const AudioMetaData = props => {
                     }
                     {...field}
                   />
-                  {touched[field.name] &&
-                    errors[field.name] &&
-                    field.value.length === 0 && (
-                      <FormikFieldError>{error}</FormikFieldError>
-                    )}
                 </Fragment>
               );
             }}

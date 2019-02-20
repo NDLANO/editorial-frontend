@@ -25,17 +25,11 @@ const AudioContent = ({ t, values, audioInfo, setFieldValue }) => (
       <FormikField
         id="file"
         noBorder
+        type="file"
+        onChange={evt => setFieldValue('audioFile', evt.currentTarget.files[0])}
         name="audioFile"
-        label={t('form.audio.file')}>
-        {({ field }) => (
-          <input
-            type="file"
-            onChange={evt =>
-              setFieldValue('audioFile', evt.currentTarget.files[0])
-            }
-          />
-        )}
-      </FormikField>
+        label={t('form.audio.file')}
+      />
     )}
     {values.id && <AudioPlayer audio={audioInfo} filepath={values.filepath} />}
   </Fragment>

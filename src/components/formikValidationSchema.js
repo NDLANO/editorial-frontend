@@ -12,16 +12,19 @@ import {
 const validateFormik = (values, rules, t) => {
   const errors = {};
   Object.keys(rules).forEach(ruleKey => {
+    const label = t(`form.name.${ruleKey}`);
+
     if (rules[ruleKey].numeric && !isNumeric(values[ruleKey])) {
-      errors[ruleKey] = label => t('validation.isNumeric', { label });
+      errors[ruleKey] = t('validation.isNumeric', { label });
     }
     if (rules[ruleKey].required && isEmpty(values[ruleKey])) {
-      errors[ruleKey] = label => t('validation.isRequired', { label });
+      errors[ruleKey] = t('validation.isRequired', { label });
     }
     if (rules[ruleKey].allObjectFieldsRequired) {
       if (values[ruleKey].filter(v => !objectHasBothField(v)).length > 0) {
-        errors[ruleKey] = label =>
-          t('validation.bothFields', { labelLowerCase: label.toLowerCase() });
+        errors[ruleKey] = t('validation.bothFields', {
+          labelLowerCase: label.toLowerCase(),
+        });
       }
     }
     if (rules[ruleKey].dateBefore) {
@@ -29,11 +32,10 @@ const validateFormik = (values, rules, t) => {
       const afterKey = rules[ruleKey].afterKey;
       const afterDate = values[afterKey];
       if (!validDateRange(beforeDate, afterDate)) {
-        errors[ruleKey] = label =>
-          t('validation.dateBeforeInvalid', {
-            label,
-            afterLabel: t('form.validDate.to.label').toLowerCase(),
-          });
+        errors[ruleKey] = t('validation.dateBeforeInvalid', {
+          label,
+          afterLabel: t('form.validDate.to.label').toLowerCase(),
+        });
       }
     }
     if (rules[ruleKey].dateAfter) {
@@ -41,46 +43,42 @@ const validateFormik = (values, rules, t) => {
       const beforeDate = values[beforeKey];
       const afterDate = values[ruleKey];
       if (!validDateRange(beforeDate, afterDate)) {
-        errors[ruleKey] = label =>
-          t('validation.dateAfterInvalid', {
-            label,
-            beforeLabel: t('form.validDate.from.label').toLowerCase(),
-          });
+        errors[ruleKey] = t('validation.dateAfterInvalid', {
+          label,
+          beforeLabel: t('form.validDate.from.label').toLowerCase(),
+        });
       }
     }
     if (
       rules[ruleKey].minLength &&
       minLength(values[ruleKey], rules[ruleKey].minLength)
     ) {
-      errors[ruleKey] = label =>
-        t('validation.minLength', {
-          label,
-          minLength: rules[ruleKey].minLength,
-        });
+      errors[ruleKey] = t('validation.minLength', {
+        label,
+        minLength: rules[ruleKey].minLength,
+      });
     }
     if (
       rules[ruleKey].maxLength &&
       maxLength(values[ruleKey], rules[ruleKey].maxLength)
     ) {
-      errors[ruleKey] = label =>
-        t('validation.maxLength', {
-          label,
-          maxLength: rules[ruleKey].maxLength,
-        });
+      errors[ruleKey] = t('validation.maxLength', {
+        label,
+        maxLength: rules[ruleKey].maxLength,
+      });
     }
     if (
       rules[ruleKey].minItems &&
       minItems(values[ruleKey], rules[ruleKey].minItems)
     ) {
-      errors[ruleKey] = label =>
-        t('validation.minItems', {
-          label,
-          labelLowerCase: label.toLowerCase(),
-          minItems: rules[ruleKey].minItems,
-        });
+      errors[ruleKey] = t('validation.minItems', {
+        label,
+        labelLowerCase: label.toLowerCase(),
+        minItems: rules[ruleKey].minItems,
+      });
     }
     if (rules[ruleKey].url && !isUrl(values[ruleKey])) {
-      errors[ruleKey] = label => t('validation.url', { label });
+      errors[ruleKey] = t('validation.url', { label });
     }
   });
 

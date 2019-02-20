@@ -13,7 +13,7 @@ import Accordion, {
   AccordionBar,
   AccordionPanel,
 } from '@ndla/accordion';
-import { Formik } from 'formik';
+import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Field } from '../../../components/Fields';
@@ -120,7 +120,9 @@ class AudioForm extends Component {
       {
         id: 'audio-upload-content',
         title: t('form.contentSection'),
-        hasError: ['title', 'audioFile'].some(field => !!errors[field]),
+        hasError: ['title', 'audioFile'].some(
+          field => !!errors[field] && touched[field],
+        ),
         component: (
           <AudioContent
             classes={formClasses}
@@ -140,7 +142,7 @@ class AudioForm extends Component {
           'rightsholders',
           'processors',
           'license',
-        ].some(field => !!errors[field]),
+        ].some(field => !!errors[field] && touched[field]),
         component: (
           <AudioMetaData
             classes={formClasses}
@@ -157,9 +159,9 @@ class AudioForm extends Component {
         enableReinitialize
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
-          const { handleSubmit, values } = formikProps;
+          const { values } = formikProps;
           return (
-            <form onSubmit={handleSubmit} {...formClasses()}>
+            <Form {...formClasses()}>
               <FormHeader
                 model={values}
                 type="audio"
@@ -210,7 +212,7 @@ class AudioForm extends Component {
                 showSaved={showSaved}
                 text={t('alertModal.notSaved')}
               />
-            </form>
+            </Form>
           );
         }}
       </Formik>

@@ -1,12 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import { Field, connect } from 'formik';
+import { Field, ErrorMessage } from 'formik';
+import styled from 'react-emotion';
+import { colors, fonts } from '@ndla/core';
 
 export const classes = new BEMHelper({
   name: 'field',
   prefix: 'c-',
 });
+
+const StyledErrorMessage = styled.span`
+  display: block;
+  font-size: ${fonts.sizes(16, 1.2)};
+  color: ${colors.support.red};
+`;
 
 const FormikFieldLabel = ({ label, noBorder, name }) => {
   if (!label) {
@@ -29,7 +37,7 @@ FormikFieldLabel.propTypes = {
 };
 
 export const FormikFieldError = ({ children }) => (
-  <span {...classes('help', 'error')}>{children}</span>
+  <StyledErrorMessage>{children}</StyledErrorMessage>
 );
 
 const FormikField = ({
@@ -40,7 +48,6 @@ const FormikField = ({
   noBorder,
   title,
   right,
-  formik,
   showError,
   ...rest
 }) => {
@@ -50,8 +57,10 @@ const FormikField = ({
       <Field name={name} {...rest}>
         {children || null}
       </Field>
-      {showError && label && formik.errors[name] && (
-        <FormikFieldError>{formik.errors[name](label)}</FormikFieldError>
+      {showError && (
+        <ErrorMessage name={name}>
+          {message => <StyledErrorMessage>{message}</StyledErrorMessage>}
+        </ErrorMessage>
       )}
     </div>
   );
@@ -64,12 +73,7 @@ FormikField.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   showError: PropTypes.bool,
-  formik: PropTypes.shape({
-    form: PropTypes.shape({
-      errors: PropTypes.shape({}),
-      touched: PropTypes.shape({}),
-    }),
-  }),
+  children: PropTypes.func,
 };
 
 FormikField.defaultProps = {
@@ -77,4 +81,4 @@ FormikField.defaultProps = {
   showError: true,
 };
 
-export default connect(FormikField);
+export default FormikField;

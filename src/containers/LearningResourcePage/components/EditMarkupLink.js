@@ -44,6 +44,6 @@ export const EditMarkupLink = ({ title, to }) => {
 };
 
 EditMarkupLink.propTypes = {
-  to: PropTypes.number.isRequired,
+  to: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };

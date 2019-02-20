@@ -10,6 +10,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import Tooltip from '@ndla/tooltip';
 import RichTextEditor from './RichTextEditor';
 import StyledFormContainer from './common/StyledFormContainer';
 import { PluginShape } from '../../shapes';
@@ -68,7 +69,14 @@ class RichBlockTextEditor extends PureComponent {
             key={`editor_${index}`} // eslint-disable-line react/no-array-index-key
           >
             {value.length > 1 ? (
-              <CrossButton stripped onClick={() => this.removeSection(index)} />
+              <Tooltip
+                tooltip="Ta bort seksjon"
+                tooltipContainerClass="tooltipContainerClass">
+                <CrossButton
+                  stripped
+                  onClick={() => this.removeSection(index)}
+                />
+              </Tooltip>
             ) : null}
             <RichTextEditor
               name={name}

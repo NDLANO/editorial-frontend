@@ -91,9 +91,12 @@ const makeWrapper = WrappedComponent => {
     bindToChangeEvent(e) {
       const { name, type, value, checked } = e.target;
       if (type === 'file') {
-        const file = e.target.files[0];
+        const file = e.target.files && e.target.files[0];
         this.setProperty(name, file);
-        this.setProperty('filepath', URL.createObjectURL(file));
+        this.setProperty(
+          'filepath',
+          file ? URL.createObjectURL(file) : undefined,
+        );
       } else if (type === 'checkbox') {
         this.setProperty(name, checked);
       } else {

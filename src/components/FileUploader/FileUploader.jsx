@@ -6,112 +6,168 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { css } from 'react-emotion';
 import { injectT } from '@ndla/i18n';
-import { isEmpty } from '../validators';
-import { Field, FieldHelp } from '../Fields';
-import { FormActionButton } from '../../containers/Form';
+import { spacing } from '@ndla/core';
+import Button from '@ndla/button';
+import { FileListEditor } from '@ndla/editor';
+import { UploadDropZone, FormHeader, StyledButtonWrapper } from '@ndla/forms';
 import { uploadFile } from '../../modules/draft/draftApi';
 import { createFormData } from '../../util/formDataHelper';
 import handleError from '../../util/handleError';
 
+const wrapperCSS = css`
+  padding: 0 ${spacing.large} ${spacing.large};
+`;
+
+const filesHeadingCSS = css`
+  h1,
+  h2 {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+`;
+
 class FileUploader extends React.Component {
-  constructor() {
-    super();
-    this.onChangeField = this.onChangeField.bind(this);
-    this.onSave = this.onSave.bind(this);
+  constructor(props) {
+    super(props);
     this.state = {
-      file: '',
-      title: '',
-      submitted: false,
-      errorMessage: '',
+      unsavedFiles: [],
+      saving: false,
+      addedFiles: props.addedFiles || [],
+      changedData: false,
     };
+    this.onSave = this.onSave.bind(this);
+    this.onAddFiles = this.onAddFiles.bind(this);
+    this.onUpdateFileName = this.onUpdateFileName.bind(this);
+    this.onUpdateFiles = this.onUpdateFiles.bind(this);
   }
 
-  onChangeField(evt) {
-    const { name, value, type } = evt.target;
-    if (type === 'file') {
-      const file = evt.target.files[0];
-      this.setState({ [name]: file, submitted: false, errorMessage: '' });
-    } else {
-      this.setState({ [name]: value, submitted: false });
-    }
-  }
-
-  async onSave() {
-    const { onFileSave } = this.props;
-    const { file, title } = this.state;
-    if (isEmpty(title) || isEmpty(file)) {
-      this.setState({ submitted: true });
-    } else {
-      try {
-        const formData = await createFormData(file);
-        const fileResult = await uploadFile(formData);
-        this.setState({ submitted: false });
-        onFileSave({
-          path: fileResult.path,
-          title,
-          type: fileResult.extension.substring(1),
-        });
-      } catch (err) {
-        if (err && err.json.messages) {
+  onAddFiles(files) {
+    this.setState(
+      prevState => ({
+        unsavedFiles: prevState.unsavedFiles.concat(files),
+      }),
+      () => {
+        if (!this.state.saving) {
+          this.onSave(this.state.unsavedFiles[0]);
           this.setState({
-            submitted: false,
-            errorMessage: err.json.messages
-              .map(message => message.message)
-              .join(', '),
+            saving: true,
           });
         }
-        handleError(err);
+      },
+    );
+  }
+
+  uploadedFile(storedFile) {
+    this.setState(
+      prevState => {
+        const { unsavedFiles, addedFiles } = prevState;
+        unsavedFiles.shift();
+        const saving = unsavedFiles.length > 0;
+        // Remove .[filetype] from title.
+        const cleanFile = storedFile;
+        cleanFile.title = cleanFile.title.replace(/\..*/, '');
+
+        return {
+          unsavedFiles: unsavedFiles,
+          addedFiles: [cleanFile, ...addedFiles],
+          saving,
+          changedData: true,
+        };
+      },
+      () => {
+        if (this.state.saving) {
+          this.onSave(this.state.unsavedFiles[0]);
+        }
+      },
+    );
+  }
+
+  onUpdateFileName(index, value) {
+    this.setState(prevState => {
+      const { addedFiles } = prevState;
+      addedFiles[index].title = value;
+      return {
+        addedFiles,
+        changedData: true,
+      };
+    });
+  }
+
+  onUpdateFiles(addedFiles) {
+    this.setState({
+      addedFiles,
+    });
+  }
+
+  async onSave(file) {
+    try {
+      const formData = await createFormData(file);
+      const fileResult = await uploadFile(formData);
+      this.uploadedFile({
+        path: fileResult.path,
+        title: file.name,
+        type: fileResult.extension.substring(1),
+      });
+    } catch (err) {
+      if (err && err.json.messages) {
+        this.setState({
+          errorMessage: err.json.messages
+            .map(message => message.message)
+            .join(', '),
+        });
       }
+      handleError(err);
     }
   }
 
   render() {
-    const { t, onClose } = this.props;
-    const { file, title, submitted, errorMessage } = this.state;
+    const { t, onClose, onFileSave } = this.props;
+    const { addedFiles, changedData, errorMessage, saving } = this.state;
+
+    if (errorMessage) {
+      return <p>{errorMessage}</p>;
+    }
+
     return (
-      <Fragment>
-        <Field>
-          <label htmlFor="file">{t('form.file.file.label')}</label>
-          <input type="file" name="file" onChange={this.onChangeField} />
-          {isEmpty(file) && submitted && (
-            <FieldHelp error>
-              {t('validation.isRequired', {
-                label: t('form.file.file.label'),
-              })}
-            </FieldHelp>
-          )}
-          {errorMessage.length > 0 && (
-            <FieldHelp error>{errorMessage}</FieldHelp>
-          )}
-        </Field>
-        <Field>
-          <label htmlFor="title">{t('form.file.title.label')}</label>
-          <input
-            name="title"
-            value={title}
-            onChange={this.onChangeField}
-            placeholder={t('form.file.title.placeholder')}
+      <div className={wrapperCSS}>
+        <UploadDropZone
+          name="file"
+          allowedFiles={['application/*']}
+          onAddedFiles={this.onAddFiles}
+          multiple
+          loading={saving}
+          ariaLabel={t('form.file.dragdrop.ariaLabel')}>
+          <strong>{t('form.file.dragdrop.main')}</strong>{' '}
+          {t('form.file.dragdrop.sub')}
+        </UploadDropZone>
+        <FormHeader
+          className={filesHeadingCSS}
+          title={`${t('form.file.filesAdded')}:`}
+        />
+        {addedFiles.length > 0 ? (
+          <FileListEditor
+            files={addedFiles}
+            onEditFileName={this.onUpdateFileName}
+            onUpdateFiles={this.onUpdateFiles}
           />
-          {isEmpty(title) && submitted && (
-            <FieldHelp error>
-              {t('validation.isRequired', {
-                label: t('form.file.title.label'),
-              })}
-            </FieldHelp>
-          )}
-        </Field>
-        <Field right>
-          <FormActionButton onClick={this.onSave}>
-            {t('form.file.addFile')}
-          </FormActionButton>
-          <FormActionButton outline onClick={onClose}>
-            {t('form.abort')}
-          </FormActionButton>
-        </Field>
-      </Fragment>
+        ) : (
+          <span>{t('form.file.dragdrop.noFilesAdded')}</span>
+        )}
+        <StyledButtonWrapper>
+          <Button outline onClick={onClose}>
+            {t('form.file.cancel')}
+          </Button>
+          <Button
+            disabled={!changedData}
+            onClick={() => onFileSave(addedFiles)}>
+            {t('form.file.saveChanges')}
+          </Button>
+        </StyledButtonWrapper>
+      </div>
     );
   }
 }
@@ -119,6 +175,7 @@ class FileUploader extends React.Component {
 FileUploader.propTypes = {
   onFileSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  addedFiles: PropTypes.arrayOf(PropTypes.shape),
 };
 
 export default injectT(FileUploader);

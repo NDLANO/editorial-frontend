@@ -7,26 +7,30 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { css } from 'react-emotion';
-import { colors } from '@ndla/core';
+import styled from 'react-emotion';
+import { colors, spacing } from '@ndla/core';
 import Button from '@ndla/button';
 
-const activeButtonStyle = css`
-  color: ${colors.brand.primary};
+const EditButton = styled(Button)`
+  transition: color 200ms ease;
+  color: ${props => (props.isActive ? '#fff' : colors.brand.grey)};
+  padding: ${spacing.xsmall};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:focus,
   &:hover {
-    color: ${colors.brand.primary};
+    color: #fff;
   }
 `;
 
-const ImageEditorButton = ({ isActive, children, ...rest }) => {
-  return (
-    <Button css={isActive ? activeButtonStyle : null} {...rest}>
-      {children}
-    </Button>
-  );
-};
+const ImageEditorButton = ({ isActive, children, ...rest }) => (
+  <EditButton isActive={isActive} {...rest}>
+    {children}
+  </EditButton>
+);
+
 ImageEditorButton.propTypes = {
   isActive: PropTypes.bool,
 };

@@ -53,6 +53,7 @@ const SlateRightAside = props => {
         stripped
         onMouseDown={onMoveContent}>
         <ChevronLeft />
+        ??
       </Button>
     </aside>
   );

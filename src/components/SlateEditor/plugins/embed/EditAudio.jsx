@@ -44,7 +44,6 @@ class EditAudio extends Component {
       embed,
       onChange,
       onAudioFigureInputChange,
-      locale,
       onExit,
       onRemoveClick,
       audioType,
@@ -100,11 +99,9 @@ class EditAudio extends Component {
           </div>
         </Portal>
         <FigureButtons
-          key="audioFigureButtons"
-          locale={locale}
+          tooltip={t('form.audio.remove')}
           onRemoveClick={onRemoveClick}
           embed={embed}
-          figureType="audio"
         />
       </Fragment>
     );
@@ -117,7 +114,6 @@ EditAudio.propTypes = {
   onAudioFigureInputChange: func,
   audioType: string,
   onRemoveClick: func,
-  locale: string,
   submitted: bool.isRequired,
   embed: EmbedShape.isRequired,
 };

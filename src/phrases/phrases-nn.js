@@ -677,6 +677,21 @@ const phrases = {
     },
     image: {
       file: 'Bilde',
+      save: 'Lagre bilde',
+      editImage: 'Rediger bilde',
+      removeImage: 'Ta bort bilde',
+      alignment: {
+        left: 'Justering: Venstrestilt',
+        right: 'Justering: Høgrestilt',
+        center: 'Justering: Stort i midten',
+      },
+      sizes: {
+        xsmall: 'Størrelse: Lite',
+        small: 'Størrelse: Middels',
+        fullwidth: 'Størrelse: Stort',
+      },
+      crop: 'Lag utsnitt av bildet',
+      focalPoint: 'Sett fokalpunkt',
       caption: {
         label: 'Bildetekst',
         placeholder: 'Bildetekst',
@@ -684,6 +699,12 @@ const phrases = {
       alt: {
         label: 'Alt-tekst',
         placeholder: 'Alt-tekst',
+        noText: 'Universal utforming krever alt-tekst.',
+      },
+      dragdrop: {
+        main: 'Dra og slipp',
+        sub: 'eller trykk for å laste opp bilde',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp bilde',
       },
     },
     video: {
@@ -702,6 +723,7 @@ const phrases = {
         label: 'Lydtekst',
         placeholder: 'Lydtekst',
       },
+      remove: 'Ta bort lydfil',
       sound: 'Lyd',
       speech: 'Tale',
     },

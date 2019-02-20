@@ -7,6 +7,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
+import Tooltip from '@ndla/tooltip';
 import { AlignLeft, AlignCenter, AlignRight } from '@ndla/icons/editor';
 import ImageEditorButton from './ImageEditorButton';
 
@@ -16,20 +18,24 @@ const icon = {
   center: <AlignCenter />,
 };
 
-const ImageAlignButton = ({ currentAlign, alignType, onFieldChange }) => {
+const ImageAlignButton = ({ currentAlign, alignType, onFieldChange, t }) => {
   const onChange = evt => {
     onFieldChange(evt, 'align', alignType);
     if (alignType === 'center') {
       onFieldChange(evt, 'size', 'fullwidth');
     }
   };
+
   return (
-    <ImageEditorButton
-      isActive={currentAlign === alignType}
-      stripped
-      onClick={onChange}>
-      {icon[alignType]}
-    </ImageEditorButton>
+    <Tooltip tooltip={t(`form.image.alignment.${alignType}`)}>
+      <ImageEditorButton
+        tabIndex={-1}
+        isActive={currentAlign === alignType}
+        stripped
+        onClick={onChange}>
+        {icon[alignType]}
+      </ImageEditorButton>
+    </Tooltip>
   );
 };
 ImageAlignButton.propTypes = {
@@ -38,4 +44,4 @@ ImageAlignButton.propTypes = {
   onFieldChange: PropTypes.func.isRequired,
 };
 
-export default ImageAlignButton;
+export default injectT(ImageAlignButton);

@@ -255,8 +255,8 @@ const phrases = {
   videoSearch: {
     searchPlaceholder: 'Søk i videoer',
     searchButtonTitle: 'Søk',
-    loadMoreVideos: 'Last flere videor',
-    noResults: 'Ingen videor funnet.',
+    loadMoreVideos: 'Last flere videoer',
+    noResults: 'Ingen videoer funnet.',
     addVideo: 'Bruk video',
     previewVideo: 'Forhåndsvis',
     publishedDate: 'Publisert dato',
@@ -338,6 +338,7 @@ const phrases = {
     title: 'Lyd | {title} ({key})',
   },
   imageEditor: {
+    editImage: 'Rediger bildet',
     remove: {
       crop: 'Fjern utsnitt',
       focalPoint: 'Fjern fokuspunkt',
@@ -677,6 +678,21 @@ const phrases = {
     },
     image: {
       file: 'Bilde',
+      save: 'Lagre bilde',
+      editImage: 'Rediger bildet',
+      removeImage: 'Ta bort bilde',
+      alignment: {
+        left: 'Justering: Venstrestilt',
+        right: 'Justering: Høyrestilt',
+        center: 'Justering: Stort i midten',
+      },
+      sizes: {
+        xsmall: 'Størrelse: Lite',
+        small: 'Størrelse: Middels',
+        fullwidth: 'Størrelse: Stort',
+      },
+      crop: 'Lag utsnitt av bildet',
+      focalPoint: 'Sett fokalpunkt',
       caption: {
         label: 'Bildetekst',
         placeholder: 'Bildetekst',
@@ -684,6 +700,12 @@ const phrases = {
       alt: {
         label: 'Alt-tekst',
         placeholder: 'Alt-tekst',
+        noText: 'Universal utforming krever alt-tekst.',
+      },
+      dragdrop: {
+        main: 'Dra og slipp',
+        sub: 'eller trykk for å laste opp bilde',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp bilde',
       },
     },
     video: {
@@ -702,6 +724,7 @@ const phrases = {
         label: 'Lydtekst',
         placeholder: 'Lydtekst',
       },
+      remove: 'Ta bort lydfil',
       sound: 'Lyd',
       speech: 'Tale',
     },
@@ -726,6 +749,15 @@ const phrases = {
       },
       addFile: 'Legg til fil',
       removeList: 'Fjern filliste',
+      filesAdded: 'Filer lagt til',
+      saveChanges: 'Lagre endringer',
+      cancel: 'Avbryt',
+      dragdrop: {
+        main: 'Dra og slipp',
+        sub: 'eller trykk for å laste opp file(r)',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp file(r)',
+        noFilesAdded: 'Ingen filer er lagt til',
+      },
     },
   },
   validation: {

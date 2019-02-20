@@ -8,30 +8,35 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { css } from 'react-emotion';
+import darken from 'polished/lib/color/darken';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import Types from 'slate-prop-types';
 import { Pencil } from '@ndla/icons/action';
 import { colors } from '@ndla/core';
-import styled from 'react-emotion';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import DisplayExternalModal from './helpers/DisplayExternalModal';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
-import { colorFigureButtonsLinkStyle } from '../SlateEditor/plugins/embed/FigureButtons';
 import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import DeleteButton from '../DeleteButton';
 import CrossButton from '../CrossButton';
 
-const StyledActionButtons = styled.div`
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  display: flex;
-  flex-flow: column;
+const colorFigureButtonsLinkStyle = color => css`
+  text-decoration: none;
+  line-height: 1.625;
+  box-shadow: none;
+  color: ${color};
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    color: ${darken(0.1, color)};
+  }
 `;
 
 export class DisplayExternal extends Component {
@@ -167,7 +172,7 @@ export class DisplayExternal extends Component {
 
     return (
       <Fragment>
-        <StyledActionButtons>
+        <div>
           <CrossButton
             css={colorFigureButtonsLinkStyle(colors.support.red)}
             stripped
@@ -183,7 +188,7 @@ export class DisplayExternal extends Component {
               <Pencil />
             </Button>
           )}
-        </StyledActionButtons>
+        </div>
         <iframe
           ref={iframe => {
             this.iframe = iframe;

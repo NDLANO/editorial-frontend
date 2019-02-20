@@ -109,12 +109,12 @@ class TopicArticleVisualElement extends Component {
 TopicArticleVisualElement.propTypes = {
   bindInput: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
-  /* visualElement: PropTypes.shape({
+  visualElement: PropTypes.shape({
     caption: PropTypes.string,
     alt: PropTypes.string,
     id: PropTypes.string,
     resource: PropTypes.string,
-  }), */
+  }),
 };
 
 export default injectT(TopicArticleVisualElement);

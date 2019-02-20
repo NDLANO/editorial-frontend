@@ -13,24 +13,29 @@ import { spacing, colors } from '@ndla/core';
 import { ArticleInModal } from '@ndla/howto';
 import { InformationOutline } from '@ndla/icons/common';
 
-const extraPadded = css`
+const extraPaddedCSS = css`
   width: calc(${spacing.normal} * 1.5);
   height: calc(${spacing.normal} * 1.5);
   padding: ${spacing.xsmall};
 `;
 
-const normalPadding = css`
+const normalPaddingCSS = css`
   width: ${spacing.normal};
   height: ${spacing.normal};
   padding: 0;
 `;
 
-export const HelpIcon = styled(InformationOutline)`
+const iconCSS = css`
   color: ${colors.brand.tertiary};
+
   &:hover,
   &:focus {
     color: ${colors.brand.primary};
   }
+`;
+
+export const HelpIcon = styled(InformationOutline)`
+  ${iconCSS}
 `;
 
 const HowToHelper = ({ pageId, tooltip, extraIconPadding }) => (
@@ -38,7 +43,7 @@ const HowToHelper = ({ pageId, tooltip, extraIconPadding }) => (
     pageId={pageId}
     tooltip={tooltip}
     activateButton={
-      <HelpIcon css={extraIconPadding ? extraPadded : normalPadding} />
+      <HelpIcon css={[extraIconPadding ? extraPaddedCSS : normalPaddingCSS]} />
     }
   />
 );

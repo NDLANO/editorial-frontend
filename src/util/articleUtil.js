@@ -28,8 +28,8 @@ export const transformArticle = article => {
   const footNotes = defined(article.metaData.footnotes, []);
   return {
     ...article,
-    created: formatDate(article.created, 'nb'),
-    updated: formatDate(article.updated, 'nb'),
+    created: formatDate(article.created),
+    updated: formatDate(article.updated),
     footNotes,
     requiredLibraries: article.requiredLibraries
       ? article.requiredLibraries.map(lib => {

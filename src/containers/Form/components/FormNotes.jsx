@@ -143,7 +143,7 @@ class FormNotes extends React.Component {
                     {shortenName(this.getUsername(note.user))}
                   </StyledTableDataCell>
                   <StyledTableDataCell>
-                    {formatDate(note.timestamp, 'nb')}
+                    {formatDate(note.timestamp)}
                   </StyledTableDataCell>
                   <StyledTableDataCell>{note.note}</StyledTableDataCell>
                   <StyledTableDataCell>

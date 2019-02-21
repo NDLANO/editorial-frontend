@@ -251,7 +251,7 @@ class LearningResourceForm extends Component {
 
     const { error } = this.state;
     const commonFieldProps = { bindInput, schema: validationErrors, submitted };
-
+    const formIsDirty = isFormDirty({ model, fields });
     const panels = [
       {
         id: 'learning-resource-content',
@@ -321,6 +321,7 @@ class LearningResourceForm extends Component {
             getArticle={this.getArticleFromModel}
             createMessage={createMessage}
             revision={revision}
+            formIsDirty={formIsDirty}
           />
         ),
       },
@@ -413,7 +414,7 @@ class LearningResourceForm extends Component {
           <SaveButton
             data-testid="saveLearningResourceButton"
             isSaving={isSaving}
-            showSaved={savedToServer && !isFormDirty({ model, fields })}
+            showSaved={savedToServer && !formIsDirty}
             defaultText="saveDraft"
           />
         </Field>

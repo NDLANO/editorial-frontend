@@ -10,6 +10,9 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import Button from '@ndla/button';
+import { FormHeader } from '@ndla/forms';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as draftApi from '../../modules/draft/draftApi';
 import { FormAddNotes } from '.';
@@ -19,6 +22,7 @@ import FormStatusColumns from './components/FormStatusColumns';
 import FormQualityAssurance from './components/FormQualityAssurance';
 import FormDeleteLanguageVersion from './components/FormDeleteLanguageVersion';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
+import { toEditArticle } from '../../util/routeHelpers';
 
 export const formatErrorMessage = error => ({
   message: error.json.messages
@@ -36,6 +40,7 @@ class FormWorkflow extends Component {
     };
     this.onValidateClick = this.onValidateClick.bind(this);
     this.onUpdateStatus = this.onUpdateStatus.bind(this);
+    this.onSaveAsNew = this.onSaveAsNew.bind(this);
   }
 
   async componentDidMount() {
@@ -93,6 +98,24 @@ class FormWorkflow extends Component {
     }
   }
 
+  async onSaveAsNew() {
+    const { article, history, formIsDirty, createMessage } = this.props;
+    if (formIsDirty) {
+      createMessage({
+        translationKey: 'form.mustSaveFirst',
+        severity: 'danger',
+      });
+    } else {
+      const newArticle = await draftApi.createDraft({
+        ...article,
+        title: article.title.concat(' (kopi)'),
+      });
+      history.push(
+        toEditArticle(newArticle.id, newArticle.articleType, article.language),
+      );
+    }
+  }
+
   render() {
     const {
       t,
@@ -123,6 +146,12 @@ class FormWorkflow extends Component {
           onUpdateStatus={this.onUpdateStatus}
         />
         <FormDeleteLanguageVersion model={model} />
+        <div>
+          <FormHeader title={t('form.workflow.saveAsNew')} />
+          <Button onClick={this.onSaveAsNew}>
+            {t('form.workflow.saveAsNew')}
+          </Button>
+        </div>
         <FormQualityAssurance
           getArticle={getArticle}
           model={model}
@@ -160,7 +189,9 @@ const mapDispatchToProps = {
   updateStatusDraft: draftActions.updateStatusDraft,
 };
 
-export default connect(
-  undefined,
-  mapDispatchToProps,
-)(injectT(FormWorkflow));
+export default withRouter(
+  connect(
+    undefined,
+    mapDispatchToProps,
+  )(injectT(FormWorkflow)),
+);

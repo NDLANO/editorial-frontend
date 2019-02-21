@@ -423,6 +423,7 @@ const phrases = {
     contributor: {
       add: 'Add',
     },
+    mustSaveFirst: 'You must save your changes first',
     abort: 'Abort',
     edit: 'Edit',
     remove: 'Remove',
@@ -477,6 +478,7 @@ const phrases = {
       title: 'Status',
       change: 'Change status',
       qualityAssurance: 'Quality assurance',
+      saveAsNew: 'Save copy as new article',
       deleteLanguageVersion: {
         button: 'Delete language version',
         title: 'Delete language version',

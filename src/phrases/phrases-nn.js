@@ -444,6 +444,7 @@ const phrases = {
     validationOk: 'Ingen valideringsfeil funnet',
     createdOk: 'Oppretta OK',
     addNewImage: 'Legg til nytt bilde',
+    mustSaveFirst: 'Du må lagre endringene dine først',
     addNewAudio: 'Legg til ny lyd',
     notes: {
       heading: 'Merknader',
@@ -488,6 +489,7 @@ const phrases = {
       title: 'Status',
       change: 'Endre status',
       qualityAssurance: 'Kvalitetssikring',
+      saveAsNew: 'Lagre kopi som ny artikkel',
       deleteLanguageVersion: {
         button: 'Slett språkversjon',
         title: 'Slett språkversjon',

@@ -9,7 +9,7 @@
 import defined from 'defined';
 import formatDate from './formatDate';
 
-export const transformArticleToApiVersion = (article, language) => ({
+export const transformArticleToApiVersion = article => ({
   ...article,
   title: { title: article.title, language: article.language },
   introduction: { introduction: article.introduction },

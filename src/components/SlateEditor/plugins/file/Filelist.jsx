@@ -39,12 +39,8 @@ const formatFile = ({ title, type, url, ...rest }, id, t) => ({
 class Filelist extends React.Component {
   constructor(props) {
     super(props);
-    const { node, t } = props;
-    const { nodes } = getSchemaEmbed(node);
 
-    const files = nodes.map((file, id) => formatFile(file, id, t));
-
-    this.state = { files, showFileUploader: false };
+    this.state = { showFileUploader: false };
 
     this.onOpenFileUploader = this.onOpenFileUploader.bind(this);
     this.onCloseFileUploader = this.onCloseFileUploader.bind(this);
@@ -52,17 +48,20 @@ class Filelist extends React.Component {
     this.onAddFileToList = this.onAddFileToList.bind(this);
     this.onChangeFileData = this.onChangeFileData.bind(this);
     this.onUpdateFileName = this.onUpdateFileName.bind(this);
-    this.onUpdateFiles = this.onUpdateFiles.bind(this);
+    this.getFilesFromSlate = this.getFilesFromSlate.bind(this);
+    this.onDeleteFile = this.onDeleteFile.bind(this);
+    this.onMovedFile = this.onMovedFile.bind(this);
   }
 
   onUpdateFileName(index, value) {
-    this.setState(prevState => {
-      const { files } = prevState;
-      files[index].title = value;
-      return {
-        files,
-        changedData: true,
-      };
+    const { node, editor } = this.props;
+    editor.setNodeByKey(node.key, {
+      data: {
+        nodes: node.data.get('nodes').map((file, i) => {
+          if (i === index) return { ...file, title: value };
+          return file;
+        }),
+      },
     });
   }
 
@@ -72,20 +71,18 @@ class Filelist extends React.Component {
     editor.removeNodeByKey(node.key);
   }
 
-  onUpdateFiles(files) {
-    this.setState(
-      {
-        files,
-      },
-      () => {
-        if (files.length === 0) {
-          const { node, editor } = this.props;
-          editor.removeNodeByKey(node.key);
-        } else {
-          this.onChangeFileData();
-        }
-      },
-    );
+  onDeleteFile(index) {
+    const { node, editor } = this.props;
+    const files = this.getFilesFromSlate();
+    if (files.length === 0) {
+      editor.removeNodeByKey(node.key);
+    } else {
+      editor.setNodeByKey(node.key, {
+        data: {
+          nodes: node.data.get('nodes').filter((_, i) => i !== index),
+        },
+      });
+    }
   }
 
   onAddFileToList(files) {
@@ -108,6 +105,20 @@ class Filelist extends React.Component {
       },
       this.onChangeFileData,
     );
+  }
+
+  onMovedFile(from, to) {
+    const { editor, node } = this.props;
+    const files = node.data.get('nodes');
+    editor.setNodeByKey(node.key, {
+      data: {
+        nodes: files.map((file, i) => {
+          if (i === from) return files[to];
+          if (i === to) return files[from];
+          return file;
+        }),
+      },
+    });
   }
 
   onChangeFileData() {
@@ -133,22 +144,22 @@ class Filelist extends React.Component {
     this.setState({ showFileUploader: false });
   }
 
+  getFilesFromSlate() {
+    const { node, t } = this.props;
+    const { nodes } = getSchemaEmbed(node);
+
+    return nodes.map((file, id) => formatFile(file, id, t));
+  }
+
   render() {
-    const { files, showFileUploader } = this.state;
+    const { t } = this.props;
+    const { showFileUploader } = this.state;
+    const files = this.getFilesFromSlate();
     if (!files.length === 0) {
       return null;
     }
-
-    const { t } = this.props;
-
     return (
       <Fragment>
-        <AddFileToList
-          onFileSave={this.onAddFileToList}
-          onClose={this.onCloseFileUploader}
-          showFileUploader={showFileUploader}
-          addedFiles={files}
-        />
         <StyledSection>
           <FormHeader title={t('form.file.label')}>
             <Tooltip tooltip={t('form.file.addFile')}>
@@ -169,10 +180,17 @@ class Filelist extends React.Component {
             </Tooltip>
           </FormHeader>
           <FileListEditor
-            usePortal
             files={files}
+            usePortal
             onEditFileName={this.onUpdateFileName}
-            onUpdateFiles={this.onUpdateFiles}
+            onDeleteFile={this.onDeleteFile}
+            onMovedFile={this.onMovedFile}
+          />
+          <AddFileToList
+            onFileSave={this.onAddFileToList}
+            onClose={this.onCloseFileUploader}
+            showFileUploader={showFileUploader}
+            addedFiles={files}
           />
         </StyledSection>
       </Fragment>

@@ -11,6 +11,18 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'react-emotion';
 import { spacing, colors } from '@ndla/core';
 
+const ToggleSwitch = ({ on, onClick, testId, large }) => (
+  <StyledLabel large={large}>
+    <input
+      data-testid={testId}
+      checked={on}
+      onChange={onClick}
+      type="checkbox"
+    />
+    <StyledSlider large={large} />
+  </StyledLabel>
+);
+
 const StyledSlider = styled.span`
   position: absolute;
   cursor: pointer;
@@ -80,18 +92,6 @@ const StyledLabel = styled.label`
     border: 0.91px solid #446b92;
   }
 `;
-
-const ToggleSwitch = ({ on, onClick, testId, large }) => (
-  <StyledLabel large={large}>
-    <input
-      data-testid={testId}
-      checked={on}
-      onChange={onClick}
-      type="checkbox"
-    />
-    <StyledSlider large={large} />
-  </StyledLabel>
-);
 
 ToggleSwitch.propTypes = {
   on: PropTypes.bool,

@@ -45,7 +45,7 @@ const closeButtonStyle = css`
   margin-left: auto;
 `;
 
-const StyledDivWrapper = styled('div')`
+export const StyledDivWrapper = styled('div')`
   position: absolute;
   ${animations.fadeIn()}
   box-shadow: ${shadows.levitate1};

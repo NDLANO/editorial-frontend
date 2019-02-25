@@ -11,7 +11,6 @@ import Button from '@ndla/button';
 import PropTypes from 'prop-types';
 import { Settings } from '@ndla/icons/editor';
 import styled from 'react-emotion';
-import { colors } from '@ndla/core';
 import SettingsMenuDropdown from './SettingsMenuDropdown';
 import Overlay from '../../../components/Overlay';
 import RoundIcon from '../../../components/RoundIcon';
@@ -22,22 +21,6 @@ const StyledDivWrapper = styled('div')`
 
   > button {
     outline: none;
-  }
-
-  &__saveButton,
-  &__saveButton:disabled {
-    height: 24px;
-    width: 24px;
-    min-width: 24px;
-    background-color: ${colors.brand.greyLightest};
-    color: ${colors.brand.lightDark};
-    padding: 0;
-    line-height: 16.9px;
-  }
-
-  &__closeButton {
-    color: ${colors.brand.greyLight};
-    margin-left: auto;
   }
 `;
 

@@ -16,28 +16,6 @@ import {
   RESOURCE_FILTER_SUPPLEMENTARY,
 } from '../../../constants';
 
-const StyledFilterItem = styled('div')`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.9rem;
-`;
-
-const StyledLabel = styled('label')`
-  display: flex;
-  margin: calc(${spacing.small} / 2);
-  align-items: center;
-  color: ${colors.grey};
-`;
-
-const StyledCheckbox = styled('input')`
-  width: auto;
-  margin-right: calc(${spacing.small} / 2);
-  -webkit-appearance: checkbox !important;
-  -moz-appearance: checkbox !important;
-  padding: inital;
-`;
-
 const ConnectFilterItem = ({ id, name, inputValues, onChange }) => {
   const relevance =
     inputValues.relevance === undefined
@@ -68,6 +46,28 @@ const ConnectFilterItem = ({ id, name, inputValues, onChange }) => {
     </StyledFilterItem>
   );
 };
+
+const StyledFilterItem = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+`;
+
+const StyledLabel = styled('label')`
+  display: flex;
+  margin: calc(${spacing.small} / 2);
+  align-items: center;
+  color: ${colors.grey};
+`;
+
+const StyledCheckbox = styled('input')`
+  width: auto;
+  margin-right: calc(${spacing.small} / 2);
+  -webkit-appearance: checkbox !important;
+  -moz-appearance: checkbox !important;
+  padding: inital;
+`;
 
 ConnectFilterItem.propTypes = {
   id: PropTypes.string,

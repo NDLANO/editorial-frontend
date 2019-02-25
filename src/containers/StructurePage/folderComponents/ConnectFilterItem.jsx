@@ -22,7 +22,7 @@ const ConnectFilterItem = ({ id, name, inputValues, onChange }) => {
       ? true
       : inputValues.relevance === RESOURCE_FILTER_CORE;
   return (
-    <StyledFilterItem>
+    <StyledFilterItem data-cy="connectFilterItem">
       <StyledLabel>
         <StyledCheckbox
           type="checkbox"

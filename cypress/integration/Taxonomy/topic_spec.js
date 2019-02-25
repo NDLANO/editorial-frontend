@@ -130,7 +130,7 @@ describe('Topic editing', () => {
     cy.get('button')
       .contains(phrases.taxonomy.connectFilters)
       .click();
-    cy.get('.c-connectFilter > label').each($lbl => {
+    cy.get('[data-cy=connectFilterItem] > label').each($lbl => {
       cy.wrap($lbl).click();
     });
 

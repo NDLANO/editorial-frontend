@@ -10,7 +10,6 @@ import { handleActions, createAction } from 'redux-actions';
 import { createSelector } from 'reselect';
 import { getLocale } from '../locale/locale';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
-import formatDate from '../../util/formatDate';
 
 export const fetchDraft = createAction('FETCH_DRAFT');
 export const setDraft = createAction('SET_DRAFT');
@@ -101,8 +100,6 @@ export const articleConverter = (article, locale) => ({
     article && article.title
       ? getLanguageFromField(article, 'title')
       : getLanguageFromField(article, 'content', locale),
-  created: formatDate(article.created, locale),
-  updated: formatDate(article.updated, locale),
 });
 
 export const getDraft = articleId =>

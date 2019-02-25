@@ -901,6 +901,23 @@
   dependencies:
     "@ndla/core" "^0.4.9"
 
+"@ndla/button@^0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.2.8.tgz#c53c0565b707201ea0ab7da2650036a4088cd89d"
+  integrity sha512-K6E34vFPFeNcovvsOg69wO2Q7sTwHylcZVqk3HYlnC8tVMrQL8ZGMWY0XlBBp4JjfxWiN+zO2GUPqXHzX/6FvQ==
+  dependencies:
+    "@ndla/core" "^0.4.10"
+
+"@ndla/core@^0.4.10":
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.10.tgz#877d0ebbde525113c317aa257cb13500dd7e52fe"
+  integrity sha512-pM8tO9nexEueLWvUg87M9oRa6bDWHN7cgSvDqHNY8jWAPGse9FV4rpA9nsTil/bexQIlZBIeRvOMo12eH8/n1A==
+  dependencies:
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.3.3"
+    sass-mq "^5.0.0"
+
 "@ndla/core@^0.4.6":
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.6.tgz#670dfd65a3db6f753cbe5943787177c53dbd1a1f"
@@ -928,6 +945,15 @@
   dependencies:
     "@ndla/core" "^0.4.9"
     "@ndla/icons" "^0.6.8"
+
+"@ndla/editor@^0.3.18":
+  version "0.3.18"
+  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.3.18.tgz#7b07fb7f592b2383d08f19f86dd29992bbcfdc2a"
+  integrity sha512-+19vaRc8OX/l7seAVs6l9GL0izsvF4GX64OHN5FVNKARyFCUN2n2/0qXTAOypKgRVfJowd3o6lWAY3Uw+2iylQ==
+  dependencies:
+    "@ndla/core" "^0.4.10"
+    "@ndla/icons" "^0.6.8"
+    "@ndla/ui" "^0.20.3"
 
 "@ndla/error-reporter@^0.4.1":
   version "0.4.1"
@@ -1025,6 +1051,16 @@
     "@ndla/util" "^0.3.2"
     focus-trap-react "^6.0.0"
 
+"@ndla/modal@^0.2.13":
+  version "0.2.13"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.2.13.tgz#39b477cb98603df9cc760430e4b7505f64a0f008"
+  integrity sha512-kIpS5WLwIEh5m3Y41wUtuYbUSUxf0wGIDhafB0Y/uQ0lSh0WMbfozoUyQfGmso2j9NmE9KnXy0MJp+p9/zMT9w==
+  dependencies:
+    "@ndla/button" "^0.2.8"
+    "@ndla/core" "^0.4.10"
+    "@ndla/util" "^0.3.2"
+    focus-trap-react "^6.0.0"
+
 "@ndla/modal@^0.2.9":
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.2.9.tgz#0f77ef3b172416e3e430215afa605738d8af1bb4"
@@ -1061,6 +1097,15 @@
     "@ndla/util" "^0.3.2"
     react-tabs "^3.0.0"
 
+"@ndla/tabs@^0.10.2":
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-0.10.2.tgz#2a958104ae10c3f526d41a7bf25273f5eecedf7f"
+  integrity sha512-SNyJmM+trJ8J0JQDtivZhDUlz1E5yjWcHJCMUkANP2teXRXauBZ0mndLA3OpPTQXSvPrxrNVjERYECwbpBLOkg==
+  dependencies:
+    "@ndla/core" "^0.4.10"
+    "@ndla/util" "^0.3.2"
+    react-tabs "^3.0.0"
+
 "@ndla/tabs@^0.9.7":
   version "0.9.7"
   resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-0.9.7.tgz#fb9016f3f3c71f6bf08c538fd681c356d94a208f"
@@ -1082,6 +1127,13 @@
   integrity sha512-LUM/ZrA/VPUaFNTdDJhCjNhmzPDch+Cd8hZQLvI29E+IC6G41OPuyXH9+96P73oDzAwntW9RFYzGdx0gdkmRRQ==
   dependencies:
     "@ndla/core" "^0.4.9"
+
+"@ndla/tooltip@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.1.7.tgz#4bb27fb3eff5396681c3f7241e52cbaca5187a1d"
+  integrity sha512-AxA4/7sPASjZvHHxPPw46JW1Q+HNdM8w2ILNwOSsNMYj+yjcWZgidnSC1Ox+6fGpXiJI1mkmmf/9DAj78baKgg==
+  dependencies:
+    "@ndla/core" "^0.4.10"
 
 "@ndla/tracker@^0.3.1":
   version "0.3.1"
@@ -1126,6 +1178,32 @@
     "@ndla/modal" "^0.2.12"
     "@ndla/tabs" "^0.10.1"
     "@ndla/tooltip" "^0.1.6"
+    "@ndla/util" "^0.3.2"
+    classnames "2.2.6"
+    focus-trap "^4.0.2"
+    focus-trap-react "^6.0.0"
+    jump.js "^1.0.2"
+    lodash "^4.17.5"
+    react-bem-helper "1.4.1"
+    react-device-detect "^1.6.2"
+    react-facebook "^6.0.15"
+    react-prop-types "0.4.0"
+    react-slick "^0.23.2"
+    react-transition-group "^2.5.3"
+
+"@ndla/ui@^0.20.3":
+  version "0.20.3"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.20.3.tgz#1d3b6fde965e94bec829633401dfe0cd0350c135"
+  integrity sha512-/Y739kXsLOwxgxtqSlFW0dd1k8hy2amxUQ7JrHsRlq6SOgVO4rnU7y6e8v8AX3X1GZuOxgHHvhbRSXH8m5Vo7Q==
+  dependencies:
+    "@ndla/button" "^0.2.8"
+    "@ndla/core" "^0.4.10"
+    "@ndla/i18n" "^0.4.2"
+    "@ndla/icons" "^0.6.8"
+    "@ndla/licenses" "^0.4.3"
+    "@ndla/modal" "^0.2.13"
+    "@ndla/tabs" "^0.10.2"
+    "@ndla/tooltip" "^0.1.7"
     "@ndla/util" "^0.3.2"
     classnames "2.2.6"
     focus-trap "^4.0.2"

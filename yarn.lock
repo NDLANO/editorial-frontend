@@ -901,6 +901,16 @@
   dependencies:
     "@ndla/core" "^0.4.9"
 
+"@ndla/core@^0.4.10":
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.10.tgz#877d0ebbde525113c317aa257cb13500dd7e52fe"
+  integrity sha512-pM8tO9nexEueLWvUg87M9oRa6bDWHN7cgSvDqHNY8jWAPGse9FV4rpA9nsTil/bexQIlZBIeRvOMo12eH8/n1A==
+  dependencies:
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.3.3"
+    sass-mq "^5.0.0"
+
 "@ndla/core@^0.4.6":
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.6.tgz#670dfd65a3db6f753cbe5943787177c53dbd1a1f"
@@ -927,6 +937,14 @@
   integrity sha512-YtZcJxuozmnMu5PUcBX3kufpv/028l4RinRmqIW04wIedv/wFi0a5HvHz0ps9K0uoQoSpePV7To2dadaCNaMaA==
   dependencies:
     "@ndla/core" "^0.4.9"
+    "@ndla/icons" "^0.6.8"
+
+"@ndla/editor@^0.3.17":
+  version "0.3.17"
+  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.3.17.tgz#3ad0f24275f5406adf9bc51994e6e5c725710778"
+  integrity sha512-7qaHsbf15W5WXAw+wJDg/flIGDgQN3bBAiD2oeTnj68MCIusiiIiinHHgkMrEFkVBp1bFF5vCxNvuRWgfW9geg==
+  dependencies:
+    "@ndla/core" "^0.4.10"
     "@ndla/icons" "^0.6.8"
 
 "@ndla/error-reporter@^0.4.1":

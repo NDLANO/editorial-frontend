@@ -2,17 +2,17 @@
 
 exports[`Can paste a valid url and add it to topic 1`] = `
 <div
-  class="c-taxonomy-lightbox"
+  class="css-f0l7cz emotion-6"
 >
   <div
     aria-hidden="true"
-    class="css-6zky6j emotion-0"
+    class="css-7dq7l3 emotion-0"
   />
   <div
-    class="c-taxonomy-lightbox__wrapper"
+    class="css-1fb9dia emotion-5"
   >
     <div
-      class="c-taxonomy-lightbox__header"
+      class="css-h6g89e emotion-2"
     >
       Søk etter ressurs
       <button
@@ -46,7 +46,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
       </button>
     </div>
     <div
-      class="c-taxonomy-lightbox__content"
+      class="css-1xiahet emotion-4"
     >
       <input
         data-testid="addResourceUrlInput"
@@ -102,17 +102,17 @@ exports[`Can paste a valid url and add it to topic 1`] = `
 
 exports[`Can select a resource from the list and it adds it to topic 1`] = `
 <div
-  class="c-taxonomy-lightbox"
+  class="css-f0l7cz emotion-8"
 >
   <div
     aria-hidden="true"
-    class="css-6zky6j emotion-0"
+    class="css-7dq7l3 emotion-0"
   />
   <div
-    class="c-taxonomy-lightbox__wrapper"
+    class="css-1fb9dia emotion-7"
   >
     <div
-      class="c-taxonomy-lightbox__header"
+      class="css-h6g89e emotion-2"
     >
       Søk etter ressurs
       <button
@@ -146,7 +146,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
       </button>
     </div>
     <div
-      class="c-taxonomy-lightbox__content"
+      class="css-1xiahet emotion-6"
     >
       <input
         data-testid="addResourceUrlInput"
@@ -155,7 +155,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         value=""
       />
       <span
-        class="c-taxonomy-lightbox__or"
+        class="css-1cuzj5i emotion-3"
       >
         Eller
       </span>
@@ -301,17 +301,17 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
 
 exports[`Can select a resource from the list and it adds it to topic 2`] = `
 <div
-  class="c-taxonomy-lightbox"
+  class="css-f0l7cz emotion-8"
 >
   <div
     aria-hidden="true"
-    class="css-6zky6j emotion-0"
+    class="css-7dq7l3 emotion-0"
   />
   <div
-    class="c-taxonomy-lightbox__wrapper"
+    class="css-1fb9dia emotion-7"
   >
     <div
-      class="c-taxonomy-lightbox__header"
+      class="css-h6g89e emotion-2"
     >
       Søk etter ressurs
       <button
@@ -345,7 +345,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
       </button>
     </div>
     <div
-      class="c-taxonomy-lightbox__content"
+      class="css-1xiahet emotion-6"
     >
       <input
         data-testid="addResourceUrlInput"
@@ -354,7 +354,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
         value=""
       />
       <span
-        class="c-taxonomy-lightbox__or"
+        class="css-1cuzj5i emotion-3"
       >
         Eller
       </span>

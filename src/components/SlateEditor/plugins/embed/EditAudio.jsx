@@ -9,19 +9,18 @@
 import React, { Component, Fragment } from 'react';
 import { bool, func, string } from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import BEMHelper from 'react-bem-helper';
+import { FormInput } from '@ndla/forms';
+import { css } from 'react-emotion';
 import ObjectSelector from '../../../ObjectSelector';
 import { EmbedShape } from '../../../../shapes';
-
 import Overlay from '../../../Overlay';
 import { Portal } from '../../../Portal';
 import FigureButtons from './FigureButtons';
-import SlateInputField from './SlateInputField';
 
-const classes = new BEMHelper({
-  name: 'audio-box',
-  prefix: 'c-',
-});
+const placeholderStyle = css`
+  position: relative;
+  border: 1px solid var(--article-color);
+`;
 
 class EditAudio extends Component {
   componentDidMount() {
@@ -34,9 +33,9 @@ class EditAudio extends Component {
     // Placing embed within placeholder div on mount
     placeholderEl.style.height = `${embedRect.height + 120}px`;
     embedEl.style.position = 'absolute';
-    embedEl.style.top = `${placeholderRect.top - bodyRect.top + 50}px`;
-    embedEl.style.left = `${placeholderRect.left + 100}px`;
-    embedEl.style.width = `${placeholderRect.width - 200}px`;
+    embedEl.style.top = `${placeholderRect.top - bodyRect.top}px`;
+    embedEl.style.left = `${placeholderRect.left}px`;
+    embedEl.style.width = `${placeholderRect.width}px`;
   }
 
   render() {
@@ -56,13 +55,17 @@ class EditAudio extends Component {
         <Overlay onExit={onExit} key="audioOverlay" />
         <div
           key="audioPlaceholder"
-          {...classes()}
+          css={placeholderStyle}
           ref={placeholderEl => {
             this.placeholderEl = placeholderEl;
           }}
         />
         <Portal isOpened key="audioPortal">
           <div
+            css={`
+              padding: 50px;
+              background-color: white;
+            `}
             ref={embedEl => {
               this.embedEl = embedEl;
             }}>
@@ -87,9 +90,10 @@ class EditAudio extends Component {
               ]}
             />
             {children}
-            <SlateInputField
+            <FormInput
               name="caption"
               label={t('form.audio.caption.label')}
+              container="div"
               type="text"
               value={embed.caption}
               onChange={onAudioFigureInputChange}

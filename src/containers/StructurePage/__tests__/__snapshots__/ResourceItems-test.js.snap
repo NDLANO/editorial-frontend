@@ -5,596 +5,538 @@ exports[`matches snapshot 1`] = `
   class="c-topic-resource__list"
 >
   <div
-    class="c-dnd-list__drop-zone"
+    class="c-topic-resource__text o-flag o-flag--top"
+    data-testid="resource-type-subject"
   >
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
-      class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
-      data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
+      class="c-topic-resource__icon o-flag__img"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-subject"
+        class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
       >
-        <div
-          class="c-topic-resource__icon o-flag__img"
+        <svg
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
-          <div
-            class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
-          >
-            <svg
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
-            >
-              <title>
-                Subject
-              </title>
-              <g>
-                <title>
-                  Emne
-                </title>
-                <defs />
-                <g
-                  fill="none"
-                  fill-rule="evenodd"
-                  id="Page-1"
-                  stroke="none"
-                  stroke-width="1"
-                >
-                  <g
-                    fill="currentColor"
-                    id="emne"
-                  >
-                    <path
-                      d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
-                      id="bookmark_border---material"
-                    />
-                  </g>
-                </g>
-              </g>
-            </svg>
-          </div>
-        </div>
-        <div
-          class="c-topic-resource__body o-flag__body"
-        >
-          <h1
-            class="c-topic-resource__title"
-          >
-            Kontrast og balanse i grafisk design
-          </h1>
-        </div>
-        <button
-          class="css-ac6kxl emotion-0"
-          type="button"
-        >
-          <svg
-            class="c-icon c-topic-resource__deleteIcon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
+          <title>
+            Subject
+          </title>
+          <g>
             <title>
-              RemoveCircle
+              Emne
             </title>
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              />
+            <defs />
+            <g
+              fill="none"
+              fill-rule="evenodd"
+              id="Page-1"
+              stroke="none"
+              stroke-width="1"
+            >
+              <g
+                fill="currentColor"
+                id="emne"
+              >
+                <path
+                  d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
+                  id="bookmark_border---material"
+                />
+              </g>
             </g>
-          </svg>
-        </button>
+          </g>
+        </svg>
       </div>
     </div>
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
-      class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
-      data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
+      class="c-topic-resource__body o-flag__body"
+    >
+      <h1
+        class="c-topic-resource__title"
+      >
+        Kontrast og balanse i grafisk design
+      </h1>
+    </div>
+    <button
+      class="css-ac6kxl emotion-0"
+      type="button"
+    >
+      <svg
+        class="c-icon c-topic-resource__deleteIcon"
+        data-license="Apache License 2.0"
+        data-source="Material Design"
+        fill="currentColor"
+        height="1em"
+        preserveAspectRatio="xMidYMid meet"
+        style="vertical-align: middle;"
+        viewBox="0 0 24 24"
+        width="1em"
+      >
+        <title>
+          RemoveCircle
+        </title>
+        <g>
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path
+            d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+  <div
+    class="c-topic-resource__text o-flag o-flag--top"
+    data-testid="resource-type-subject"
+  >
+    <div
+      class="c-topic-resource__icon o-flag__img"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-subject"
+        class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
       >
-        <div
-          class="c-topic-resource__icon o-flag__img"
+        <svg
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
-          <div
-            class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
-          >
-            <svg
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
-            >
-              <title>
-                Subject
-              </title>
-              <g>
-                <title>
-                  Emne
-                </title>
-                <defs />
-                <g
-                  fill="none"
-                  fill-rule="evenodd"
-                  id="Page-1"
-                  stroke="none"
-                  stroke-width="1"
-                >
-                  <g
-                    fill="currentColor"
-                    id="emne"
-                  >
-                    <path
-                      d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
-                      id="bookmark_border---material"
-                    />
-                  </g>
-                </g>
-              </g>
-            </svg>
-          </div>
-        </div>
-        <div
-          class="c-topic-resource__body o-flag__body"
-        >
-          <h1
-            class="c-topic-resource__title"
-          >
-            Hvorfor bruker vi mediene?
-          </h1>
-        </div>
-        <button
-          class="css-ac6kxl emotion-0"
-          type="button"
-        >
-          <svg
-            class="c-icon c-topic-resource__deleteIcon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
+          <title>
+            Subject
+          </title>
+          <g>
             <title>
-              RemoveCircle
+              Emne
             </title>
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              />
+            <defs />
+            <g
+              fill="none"
+              fill-rule="evenodd"
+              id="Page-1"
+              stroke="none"
+              stroke-width="1"
+            >
+              <g
+                fill="currentColor"
+                id="emne"
+              >
+                <path
+                  d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
+                  id="bookmark_border---material"
+                />
+              </g>
             </g>
-          </svg>
-        </button>
+          </g>
+        </svg>
       </div>
     </div>
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
-      class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
-      data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
+      class="c-topic-resource__body o-flag__body"
+    >
+      <h1
+        class="c-topic-resource__title"
+      >
+        Hvorfor bruker vi mediene?
+      </h1>
+    </div>
+    <button
+      class="css-ac6kxl emotion-0"
+      type="button"
+    >
+      <svg
+        class="c-icon c-topic-resource__deleteIcon"
+        data-license="Apache License 2.0"
+        data-source="Material Design"
+        fill="currentColor"
+        height="1em"
+        preserveAspectRatio="xMidYMid meet"
+        style="vertical-align: middle;"
+        viewBox="0 0 24 24"
+        width="1em"
+      >
+        <title>
+          RemoveCircle
+        </title>
+        <g>
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path
+            d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+  <div
+    class="c-topic-resource__text o-flag o-flag--top"
+    data-testid="resource-type-subject"
+  >
+    <div
+      class="c-topic-resource__icon o-flag__img"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-subject"
+        class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
       >
-        <div
-          class="c-topic-resource__icon o-flag__img"
+        <svg
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
-          <div
-            class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
-          >
-            <svg
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
-            >
-              <title>
-                Subject
-              </title>
-              <g>
-                <title>
-                  Emne
-                </title>
-                <defs />
-                <g
-                  fill="none"
-                  fill-rule="evenodd"
-                  id="Page-1"
-                  stroke="none"
-                  stroke-width="1"
-                >
-                  <g
-                    fill="currentColor"
-                    id="emne"
-                  >
-                    <path
-                      d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
-                      id="bookmark_border---material"
-                    />
-                  </g>
-                </g>
-              </g>
-            </svg>
-          </div>
-        </div>
-        <div
-          class="c-topic-resource__body o-flag__body"
-        >
-          <h1
-            class="c-topic-resource__title"
-          >
-            Medieundersøkelser og mediebruk
-          </h1>
-        </div>
-        <button
-          class="css-ac6kxl emotion-0"
-          type="button"
-        >
-          <svg
-            class="c-icon c-topic-resource__deleteIcon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
+          <title>
+            Subject
+          </title>
+          <g>
             <title>
-              RemoveCircle
+              Emne
             </title>
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              />
+            <defs />
+            <g
+              fill="none"
+              fill-rule="evenodd"
+              id="Page-1"
+              stroke="none"
+              stroke-width="1"
+            >
+              <g
+                fill="currentColor"
+                id="emne"
+              >
+                <path
+                  d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
+                  id="bookmark_border---material"
+                />
+              </g>
             </g>
-          </svg>
-        </button>
+          </g>
+        </svg>
       </div>
     </div>
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
-      class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
-      data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
+      class="c-topic-resource__body o-flag__body"
+    >
+      <h1
+        class="c-topic-resource__title"
+      >
+        Medieundersøkelser og mediebruk
+      </h1>
+    </div>
+    <button
+      class="css-ac6kxl emotion-0"
+      type="button"
+    >
+      <svg
+        class="c-icon c-topic-resource__deleteIcon"
+        data-license="Apache License 2.0"
+        data-source="Material Design"
+        fill="currentColor"
+        height="1em"
+        preserveAspectRatio="xMidYMid meet"
+        style="vertical-align: middle;"
+        viewBox="0 0 24 24"
+        width="1em"
+      >
+        <title>
+          RemoveCircle
+        </title>
+        <g>
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path
+            d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+  <div
+    class="c-topic-resource__text o-flag o-flag--top"
+    data-testid="resource-type-subject"
+  >
+    <div
+      class="c-topic-resource__icon o-flag__img"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-subject"
+        class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
       >
-        <div
-          class="c-topic-resource__icon o-flag__img"
+        <svg
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
-          <div
-            class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
-          >
-            <svg
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
-            >
-              <title>
-                Subject
-              </title>
-              <g>
-                <title>
-                  Emne
-                </title>
-                <defs />
-                <g
-                  fill="none"
-                  fill-rule="evenodd"
-                  id="Page-1"
-                  stroke="none"
-                  stroke-width="1"
-                >
-                  <g
-                    fill="currentColor"
-                    id="emne"
-                  >
-                    <path
-                      d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
-                      id="bookmark_border---material"
-                    />
-                  </g>
-                </g>
-              </g>
-            </svg>
-          </div>
-        </div>
-        <div
-          class="c-topic-resource__body o-flag__body"
-        >
-          <h1
-            class="c-topic-resource__title"
-          >
-            Mediebruk og statistikk
-          </h1>
-        </div>
-        <button
-          class="css-ac6kxl emotion-0"
-          type="button"
-        >
-          <svg
-            class="c-icon c-topic-resource__deleteIcon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
+          <title>
+            Subject
+          </title>
+          <g>
             <title>
-              RemoveCircle
+              Emne
             </title>
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              />
+            <defs />
+            <g
+              fill="none"
+              fill-rule="evenodd"
+              id="Page-1"
+              stroke="none"
+              stroke-width="1"
+            >
+              <g
+                fill="currentColor"
+                id="emne"
+              >
+                <path
+                  d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
+                  id="bookmark_border---material"
+                />
+              </g>
             </g>
-          </svg>
-        </button>
+          </g>
+        </svg>
       </div>
     </div>
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
-      class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
-      data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
+      class="c-topic-resource__body o-flag__body"
+    >
+      <h1
+        class="c-topic-resource__title"
+      >
+        Mediebruk og statistikk
+      </h1>
+    </div>
+    <button
+      class="css-ac6kxl emotion-0"
+      type="button"
+    >
+      <svg
+        class="c-icon c-topic-resource__deleteIcon"
+        data-license="Apache License 2.0"
+        data-source="Material Design"
+        fill="currentColor"
+        height="1em"
+        preserveAspectRatio="xMidYMid meet"
+        style="vertical-align: middle;"
+        viewBox="0 0 24 24"
+        width="1em"
+      >
+        <title>
+          RemoveCircle
+        </title>
+        <g>
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path
+            d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+  <div
+    class="c-topic-resource__text o-flag o-flag--top"
+    data-testid="resource-type-subject"
+  >
+    <div
+      class="c-topic-resource__icon o-flag__img"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-subject"
+        class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
       >
-        <div
-          class="c-topic-resource__icon o-flag__img"
+        <svg
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
-          <div
-            class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
-          >
-            <svg
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
-            >
-              <title>
-                Subject
-              </title>
-              <g>
-                <title>
-                  Emne
-                </title>
-                <defs />
-                <g
-                  fill="none"
-                  fill-rule="evenodd"
-                  id="Page-1"
-                  stroke="none"
-                  stroke-width="1"
-                >
-                  <g
-                    fill="currentColor"
-                    id="emne"
-                  >
-                    <path
-                      d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
-                      id="bookmark_border---material"
-                    />
-                  </g>
-                </g>
-              </g>
-            </svg>
-          </div>
-        </div>
-        <div
-          class="c-topic-resource__body o-flag__body"
-        >
-          <h1
-            class="c-topic-resource__title"
-          >
-            Identitet og mediebruk
-          </h1>
-        </div>
-        <button
-          class="css-ac6kxl emotion-0"
-          type="button"
-        >
-          <svg
-            class="c-icon c-topic-resource__deleteIcon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
+          <title>
+            Subject
+          </title>
+          <g>
             <title>
-              RemoveCircle
+              Emne
             </title>
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              />
+            <defs />
+            <g
+              fill="none"
+              fill-rule="evenodd"
+              id="Page-1"
+              stroke="none"
+              stroke-width="1"
+            >
+              <g
+                fill="currentColor"
+                id="emne"
+              >
+                <path
+                  d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
+                  id="bookmark_border---material"
+                />
+              </g>
             </g>
-          </svg>
-        </button>
+          </g>
+        </svg>
       </div>
     </div>
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
-      class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
-      data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
+      class="c-topic-resource__body o-flag__body"
+    >
+      <h1
+        class="c-topic-resource__title"
+      >
+        Identitet og mediebruk
+      </h1>
+    </div>
+    <button
+      class="css-ac6kxl emotion-0"
+      type="button"
+    >
+      <svg
+        class="c-icon c-topic-resource__deleteIcon"
+        data-license="Apache License 2.0"
+        data-source="Material Design"
+        fill="currentColor"
+        height="1em"
+        preserveAspectRatio="xMidYMid meet"
+        style="vertical-align: middle;"
+        viewBox="0 0 24 24"
+        width="1em"
+      >
+        <title>
+          RemoveCircle
+        </title>
+        <g>
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path
+            d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+  <div
+    class="c-topic-resource__text o-flag o-flag--top"
+    data-testid="resource-type-subject"
+  >
+    <div
+      class="c-topic-resource__icon o-flag__img"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-subject"
+        class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
       >
-        <div
-          class="c-topic-resource__icon o-flag__img"
+        <svg
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
-          <div
-            class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
-          >
-            <svg
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
-            >
-              <title>
-                Subject
-              </title>
-              <g>
-                <title>
-                  Emne
-                </title>
-                <defs />
-                <g
-                  fill="none"
-                  fill-rule="evenodd"
-                  id="Page-1"
-                  stroke="none"
-                  stroke-width="1"
-                >
-                  <g
-                    fill="currentColor"
-                    id="emne"
-                  >
-                    <path
-                      d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
-                      id="bookmark_border---material"
-                    />
-                  </g>
-                </g>
-              </g>
-            </svg>
-          </div>
-        </div>
-        <div
-          class="c-topic-resource__body o-flag__body"
-        >
-          <h1
-            class="c-topic-resource__title"
-          >
-            Mediepåvirkning
-          </h1>
-        </div>
-        <button
-          class="css-ac6kxl emotion-0"
-          type="button"
-        >
-          <svg
-            class="c-icon c-topic-resource__deleteIcon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
+          <title>
+            Subject
+          </title>
+          <g>
             <title>
-              RemoveCircle
+              Emne
             </title>
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              />
+            <defs />
+            <g
+              fill="none"
+              fill-rule="evenodd"
+              id="Page-1"
+              stroke="none"
+              stroke-width="1"
+            >
+              <g
+                fill="currentColor"
+                id="emne"
+              >
+                <path
+                  d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
+                  id="bookmark_border---material"
+                />
+              </g>
             </g>
-          </svg>
-        </button>
+          </g>
+        </svg>
       </div>
     </div>
+    <div
+      class="c-topic-resource__body o-flag__body"
+    >
+      <h1
+        class="c-topic-resource__title"
+      >
+        Mediepåvirkning
+      </h1>
+    </div>
+    <button
+      class="css-ac6kxl emotion-0"
+      type="button"
+    >
+      <svg
+        class="c-icon c-topic-resource__deleteIcon"
+        data-license="Apache License 2.0"
+        data-source="Material Design"
+        fill="currentColor"
+        height="1em"
+        preserveAspectRatio="xMidYMid meet"
+        style="vertical-align: middle;"
+        viewBox="0 0 24 24"
+        width="1em"
+      >
+        <title>
+          RemoveCircle
+        </title>
+        <g>
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path
+            d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+          />
+        </g>
+      </svg>
+    </button>
   </div>
 </ul>
 `;

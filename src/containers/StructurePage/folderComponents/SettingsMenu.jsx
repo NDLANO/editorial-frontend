@@ -10,15 +10,36 @@ import React, { Fragment } from 'react';
 import Button from '@ndla/button';
 import PropTypes from 'prop-types';
 import { Settings } from '@ndla/icons/editor';
-import BEMHelper from 'react-bem-helper';
+import styled from 'react-emotion';
+import { colors } from '@ndla/core';
 import SettingsMenuDropdown from './SettingsMenuDropdown';
 import Overlay from '../../../components/Overlay';
 import RoundIcon from '../../../components/RoundIcon';
 
-const classes = new BEMHelper({
-  name: 'settingsMenu',
-  prefix: 'c-',
-});
+const StyledDivWrapper = styled('div')`
+  position: relative;
+  display: flex;
+
+  > button {
+    outline: none;
+  }
+
+  &__saveButton,
+  &__saveButton:disabled {
+    height: 24px;
+    width: 24px;
+    min-width: 24px;
+    background-color: ${colors.brand.greyLightest};
+    color: ${colors.brand.lightDark};
+    padding: 0;
+    line-height: 16.9px;
+  }
+
+  &__closeButton {
+    color: ${colors.brand.greyLight};
+    margin-left: auto;
+  }
+`;
 
 class SettingsMenu extends React.Component {
   constructor() {
@@ -46,26 +67,25 @@ class SettingsMenu extends React.Component {
   render() {
     const { editMode, open } = this.state;
     return (
-      <div {...classes('')}>
+      <StyledDivWrapper>
         <Button
           onClick={this.toggleOpenMenu}
           data-cy={`settings-button-${this.props.type}`}
           stripped>
-          <RoundIcon icon={<Settings />} margin />
+          <RoundIcon icon={<Settings />} margin open={open} />
         </Button>
         {open && (
           <Fragment>
             <Overlay onExit={this.toggleOpenMenu} />
             <SettingsMenuDropdown
               onClose={this.toggleOpenMenu}
-              classes={classes}
               {...this.props}
               toggleEditMode={this.toggleEditMode}
               editMode={editMode}
             />
           </Fragment>
         )}
-      </div>
+      </StyledDivWrapper>
     );
   }
 }

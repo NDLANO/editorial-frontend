@@ -1,15 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'react-emotion';
+import { fonts, colors, spacing } from '@ndla/core';
 import { injectT } from '@ndla/i18n';
-import {
-  StyledFilterButton,
-  StyledFilterHeading,
-} from '../../../style/LearningResourceTaxonomyStyles';
+import { StyledFilterButton } from '../../../style/LearningResourceTaxonomyStyles';
 
 const Wrapper = styled('div')`
   display: flex;
   margin-left: auto;
+`;
+
+const StyledFilterHeading = styled('span')`
+  ${fonts.sizes(16, 1.2)} font-weight: ${fonts.weight.semibold};
+  text-transform: uppercase;
+  color: ${colors.text.primary};
+  opacity: ${props => (props.show ? 1 : 0)};
+  display: flex;
+  align-items: center;
+  padding-right: ${spacing.small};
+  white-space: nowrap;
 `;
 
 const FilterView = ({

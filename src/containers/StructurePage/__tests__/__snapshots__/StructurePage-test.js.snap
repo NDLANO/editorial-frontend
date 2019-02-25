@@ -7,96 +7,56 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   <div
     class="c-accordion c-accordion--taxonomy"
   >
-    <div
-      class="css-1bb80c5"
+    <button
+      class="css-1kedg77 emotion-0"
+      type="button"
     >
-      <button
-        class="css-1d8mcv4 emotion-0"
-        type="button"
-      >
-        <span
-          class="c-accordion__title c-accordion__title--taxonomy"
-        >
-          <svg
-            class="c-icon c-icon--medium"
-            data-license="CC-BY 4.0"
-            data-source="Knowit"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 60 44"
-            width="1em"
-          >
-            <title>
-              Taxonomy
-            </title>
-            <g>
-              <path
-                d="M58,29H53V24a2.9,2.9,0,0,0-3-3H31.5V15H36a2,2,0,0,0,2-2V2a2,2,0,0,0-2-2H24a2,2,0,0,0-2,2V13a2,2,0,0,0,2,2h5.5v6H10a2.9,2.9,0,0,0-3,3v5H2a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H14a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H9V24a.9.9,0,0,1,1-1H29.5v6H24a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H36a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H31.5V23H50a.9.9,0,0,1,1,1v5H46a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H58a2,2,0,0,0,2-2V31A2,2,0,0,0,58,29ZM24,2H36V13H24ZM14,42H2V31H14ZM36,31V42H24V31H36ZM58,42H46V31H58Z"
-              />
-            </g>
-          </svg>
-          injected
-        </span>
-      </button>
-      <button
-        class="css-1gbvfca emotion-0"
-        data-testid="AddSubjectButton"
-        type="button"
+      <span
+        class="c-accordion__title c-accordion__title--taxonomy"
       >
         <svg
-          class="c-icon"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
+          class="c-icon c-icon--medium"
+          data-license="CC-BY 4.0"
+          data-source="Knowit"
           fill="currentColor"
           height="1em"
           preserveAspectRatio="xMidYMid meet"
           style="vertical-align: middle;"
-          viewBox="0 0 24 24"
+          viewBox="0 0 60 44"
           width="1em"
         >
           <title>
-            Plus
+            Taxonomy
           </title>
           <g>
             <path
-              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
+              d="M58,29H53V24a2.9,2.9,0,0,0-3-3H31.5V15H36a2,2,0,0,0,2-2V2a2,2,0,0,0-2-2H24a2,2,0,0,0-2,2V13a2,2,0,0,0,2,2h5.5v6H10a2.9,2.9,0,0,0-3,3v5H2a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H14a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H9V24a.9.9,0,0,1,1-1H29.5v6H24a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H36a2,2,0,0,0,2-2V31a2,2,0,0,0-2-2H31.5V23H50a.9.9,0,0,1,1,1v5H46a2,2,0,0,0-2,2V42a2,2,0,0,0,2,2H58a2,2,0,0,0,2-2V31A2,2,0,0,0,58,29ZM24,2H36V13H24ZM14,42H2V31H14ZM36,31V42H24V31H36ZM58,42H46V31H58Z"
             />
           </g>
         </svg>
         injected
-      </button>
-      <button
-        class="css-1t41wu4 emotion-0"
-        type="button"
+      </span>
+      <svg
+        class="c-icon c-accordion__arrow c-accordion__arrow--taxonomy"
+        data-license="Apache License 2.0"
+        data-source="Material Design"
+        fill="currentColor"
+        height="1em"
+        preserveAspectRatio="xMidYMid meet"
+        style="vertical-align: middle;"
+        viewBox="0 0 24 24"
+        width="1em"
       >
-        <svg
-          class="c-icon c-accordion__arrow c-accordion__arrow--taxonomy"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
-        >
-          <title>
-            ExpandLess
-          </title>
-          <g>
-            <path
-              d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
-            />
-          </g>
-        </svg>
-      </button>
-    </div>
+        <title>
+          ExpandLess
+        </title>
+        <g>
+          <path
+            d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
+          />
+        </g>
+      </svg>
+    </button>
     <div
       class="c-accordion__content c-accordion__content--visible c-accordion__content--taxonomy"
     >
@@ -104,16 +64,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         id="plumbContainer"
       >
         <ul
-          class="css-1l95nvm emotion-54"
+          class="css-1l95nvm emotion-66"
         >
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:6"
                 type="button"
               >
@@ -131,7 +91,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -160,13 +120,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:11"
                 type="button"
               >
@@ -184,7 +144,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -213,13 +173,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:16"
                 type="button"
               >
@@ -237,7 +197,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -266,13 +226,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:17"
                 type="button"
               >
@@ -290,7 +250,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -319,13 +279,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:9"
                 type="button"
               >
@@ -343,7 +303,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -372,13 +332,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:2"
                 type="button"
               >
@@ -396,7 +356,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -425,13 +385,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:18"
                 type="button"
               >
@@ -449,7 +409,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -478,13 +438,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:7"
                 type="button"
               >
@@ -502,7 +462,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -531,13 +491,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:10"
                 type="button"
               >
@@ -555,7 +515,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -584,13 +544,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
                 type="button"
               >
@@ -608,7 +568,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -637,13 +597,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:14"
                 type="button"
               >
@@ -661,7 +621,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -690,13 +650,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-26o8mj emotion-5"
+            class="css-26o8mj emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-16i9ucb emotion-3"
+                class="css-16i9ucb emotion-1"
                 id="urn:subject:1"
                 type="button"
               >
@@ -707,7 +667,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 data-cy="folderWrapper"
               >
                 <div
-                  class="c-settingsMenu"
+                  class="css-uwd2wj emotion-48"
                 >
                   <button
                     class="css-ac6kxl emotion-0"
@@ -715,7 +675,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon c-roundIcon--margin"
+                      class="css-1rki2l3 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -745,10 +705,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </button>
                 </div>
                 <div
-                  class="css-1y4kgfw emotion-39"
+                  class="css-1y4kgfw emotion-50"
                 >
                   <span
-                    class="css-1w045de emotion-38"
+                    class="css-3o571t emotion-49"
                   >
                     Filtrer emner
                     :
@@ -762,7 +722,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -790,16 +750,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               </div>
             </div>
             <ul
-              class="css-1l95nvm emotion-54"
+              class="css-1l95nvm emotion-66"
             >
               <li
-                class="css-18h3lc8 emotion-5"
+                class="css-18h3lc8 emotion-4"
               >
                 <div
                   class="css-gg4vpm"
                 >
                   <button
-                    class="css-1ppc4cm emotion-3"
+                    class="css-1ppc4cm emotion-1"
                     id="urn:subject:1/urn:topic:1:186401"
                     type="button"
                   >
@@ -812,13 +772,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </div>
               </li>
               <li
-                class="css-18h3lc8 emotion-5"
+                class="css-18h3lc8 emotion-4"
               >
                 <div
                   class="css-gg4vpm"
                 >
                   <button
-                    class="css-yes69z emotion-3"
+                    class="css-yes69z emotion-1"
                     id="urn:subject:1/urn:topic:1:172416"
                     type="button"
                   >
@@ -830,16 +790,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-54"
+                  class="css-1l95nvm emotion-66"
                 >
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172416/urn:topic:1:172597"
                         type="button"
                       >
@@ -852,13 +812,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172416/urn:topic:1:186404"
                         type="button"
                       >
@@ -871,13 +831,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172416/urn:topic:1:172600"
                         type="button"
                       >
@@ -890,13 +850,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172416/urn:topic:1:186407"
                         type="button"
                       >
@@ -909,13 +869,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172416/urn:topic:1:184482"
                         type="button"
                       >
@@ -930,13 +890,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-18h3lc8 emotion-5"
+                class="css-18h3lc8 emotion-4"
               >
                 <div
                   class="css-gg4vpm"
                 >
                   <button
-                    class="css-yes69z emotion-3"
+                    class="css-yes69z emotion-1"
                     id="urn:subject:1/urn:topic:1:186460"
                     type="button"
                   >
@@ -948,16 +908,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-54"
+                  class="css-1l95nvm emotion-66"
                 >
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:186460/urn:topic:1:186464"
                         type="button"
                       >
@@ -970,13 +930,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:186460/urn:topic:1:184483"
                         type="button"
                       >
@@ -989,13 +949,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:186460/urn:topic:1:183085"
                         type="button"
                       >
@@ -1008,13 +968,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:186460/urn:topic:1:186468"
                         type="button"
                       >
@@ -1027,13 +987,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:186460/urn:topic:1:186471"
                         type="button"
                       >
@@ -1046,13 +1006,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:186460/urn:topic:1:186474"
                         type="button"
                       >
@@ -1065,13 +1025,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:186460/urn:topic:1:169379"
                         type="button"
                       >
@@ -1086,13 +1046,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-ds82gx emotion-5"
+                class="css-ds82gx emotion-4"
               >
                 <div
                   class="css-gg4vpm"
                 >
                   <button
-                    class="css-16i9ucb emotion-3"
+                    class="css-16i9ucb emotion-1"
                     id="urn:subject:1/urn:topic:1:186479"
                     type="button"
                   >
@@ -1103,7 +1063,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     data-cy="folderWrapper"
                   >
                     <div
-                      class="c-settingsMenu"
+                      class="css-uwd2wj emotion-48"
                     >
                       <button
                         class="css-ac6kxl emotion-0"
@@ -1111,7 +1071,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                         type="button"
                       >
                         <div
-                          class="c-roundIcon c-roundIcon--margin"
+                          class="css-1rki2l3 emotion-2"
                         >
                           <svg
                             class="c-icon"
@@ -1143,16 +1103,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </div>
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-54"
+                  class="css-1l95nvm emotion-66"
                 >
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:186479/urn:topic:1:186487"
                         type="button"
                       >
@@ -1165,13 +1125,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-nbem2u emotion-5"
+                    class="css-nbem2u emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:186479/urn:topic:1:172650"
                         type="button"
                       >
@@ -1182,7 +1142,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                         data-cy="folderWrapper"
                       >
                         <div
-                          class="c-settingsMenu"
+                          class="css-uwd2wj emotion-48"
                         >
                           <button
                             class="css-ac6kxl emotion-0"
@@ -1190,7 +1150,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             type="button"
                           >
                             <div
-                              class="c-roundIcon c-roundIcon--margin"
+                              class="css-1rki2l3 emotion-2"
                             >
                               <svg
                                 class="c-icon"
@@ -1223,13 +1183,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:186479/urn:topic:1:185606"
                         type="button"
                       >
@@ -1244,13 +1204,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-18h3lc8 emotion-5"
+                class="css-18h3lc8 emotion-4"
               >
                 <div
                   class="css-gg4vpm"
                 >
                   <button
-                    class="css-yes69z emotion-3"
+                    class="css-yes69z emotion-1"
                     id="urn:subject:1/urn:topic:1:171906"
                     type="button"
                   >
@@ -1262,16 +1222,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-54"
+                  class="css-1l95nvm emotion-66"
                 >
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:171906/urn:topic:1:165853"
                         type="button"
                       >
@@ -1284,13 +1244,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:171906/urn:topic:1:165738"
                         type="button"
                       >
@@ -1303,13 +1263,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:171906/urn:topic:1:166321"
                         type="button"
                       >
@@ -1322,13 +1282,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:171906/urn:topic:1:166872"
                         type="button"
                       >
@@ -1341,13 +1301,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:171906/urn:topic:1:178849"
                         type="button"
                       >
@@ -1362,13 +1322,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-18h3lc8 emotion-5"
+                class="css-18h3lc8 emotion-4"
               >
                 <div
                   class="css-gg4vpm"
                 >
                   <button
-                    class="css-yes69z emotion-3"
+                    class="css-yes69z emotion-1"
                     id="urn:subject:1/urn:topic:1:172361"
                     type="button"
                   >
@@ -1380,16 +1340,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-54"
+                  class="css-1l95nvm emotion-66"
                 >
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172361/urn:topic:1:186069"
                         type="button"
                       >
@@ -1402,13 +1362,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172361/urn:topic:1:171903"
                         type="button"
                       >
@@ -1423,13 +1383,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-18h3lc8 emotion-5"
+                class="css-18h3lc8 emotion-4"
               >
                 <div
                   class="css-gg4vpm"
                 >
                   <button
-                    class="css-yes69z emotion-3"
+                    class="css-yes69z emotion-1"
                     id="urn:subject:1/urn:topic:1:172362"
                     type="button"
                   >
@@ -1441,16 +1401,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-54"
+                  class="css-1l95nvm emotion-66"
                 >
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172362/urn:topic:1:162756"
                         type="button"
                       >
@@ -1463,13 +1423,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172362/urn:topic:1:172615"
                         type="button"
                       >
@@ -1482,13 +1442,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172362/urn:topic:1:184484"
                         type="button"
                       >
@@ -1501,13 +1461,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172362/urn:topic:1:185588"
                         type="button"
                       >
@@ -1520,13 +1480,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172362/urn:topic:1:184485"
                         type="button"
                       >
@@ -1541,13 +1501,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-18h3lc8 emotion-5"
+                class="css-18h3lc8 emotion-4"
               >
                 <div
                   class="css-gg4vpm"
                 >
                   <button
-                    class="css-yes69z emotion-3"
+                    class="css-yes69z emotion-1"
                     id="urn:subject:1/urn:topic:1:172568"
                     type="button"
                   >
@@ -1559,16 +1519,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-54"
+                  class="css-1l95nvm emotion-66"
                 >
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172568/urn:topic:1:172789"
                         type="button"
                       >
@@ -1581,13 +1541,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172568/urn:topic:1:172790"
                         type="button"
                       >
@@ -1600,13 +1560,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172568/urn:topic:1:172791"
                         type="button"
                       >
@@ -1619,13 +1579,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172568/urn:topic:1:184496"
                         type="button"
                       >
@@ -1638,13 +1598,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172568/urn:topic:1:184504"
                         type="button"
                       >
@@ -1657,13 +1617,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-4"
                   >
                     <div
                       class="css-gg4vpm"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="css-1ppc4cm emotion-1"
                         id="urn:topic:1:172568/urn:topic:1:184505"
                         type="button"
                       >
@@ -1680,13 +1640,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </ul>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:13"
                 type="button"
               >
@@ -1704,7 +1664,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -1733,13 +1693,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:3"
                 type="button"
               >
@@ -1757,7 +1717,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -1786,13 +1746,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:12"
                 type="button"
               >
@@ -1810,7 +1770,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -1839,13 +1799,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:15"
                 type="button"
               >
@@ -1863,7 +1823,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -1892,13 +1852,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:5"
                 type="button"
               >
@@ -1916,7 +1876,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -1945,13 +1905,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:8"
                 type="button"
               >
@@ -1969,7 +1929,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -1998,13 +1958,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-1h1xp1p emotion-5"
+            class="css-1h1xp1p emotion-4"
           >
             <div
               class="css-gg4vpm"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="css-yes69z emotion-1"
                 id="urn:subject:4"
                 type="button"
               >
@@ -2022,7 +1982,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-2"
                     >
                       <svg
                         class="c-icon"
@@ -2059,76 +2019,36 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     <div
       class="c-accordion c-accordion--resourceGroup"
     >
-      <div
-        class="css-wk9fjy"
+      <button
+        class="css-1t5ppc8 emotion-0"
+        type="button"
       >
-        <button
-          class="css-1d8mcv4 emotion-0"
-          type="button"
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
         >
-          <span
-            class="c-accordion__title c-accordion__title--resourceGroup"
-          >
-            Emnebeskrivelse
-          </span>
-        </button>
-        <button
-          class="css-6f3lrq emotion-0"
-          data-testid="changeTopicDescription"
-          type="button"
+          Emnebeskrivelse
+        </span>
+        <svg
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
-          <svg
-            class="c-icon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <title>
-              Plus
-            </title>
-            <g>
-              <path
-                d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
-          </svg>
-          Endre emnebeskrivelse
-        </button>
-        <button
-          class="css-1t41wu4 emotion-0"
-          type="button"
-        >
-          <svg
-            class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <title>
-              ExpandLess
-            </title>
-            <g>
-              <path
-                d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
-              />
-            </g>
-          </svg>
-        </button>
-      </div>
+          <title>
+            ExpandLess
+          </title>
+          <g>
+            <path
+              d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
+            />
+          </g>
+        </svg>
+      </button>
       <div
         class="c-accordion__content c-accordion__content--visible c-accordion__content--resourceGroup"
       />

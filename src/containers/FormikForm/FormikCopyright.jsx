@@ -9,36 +9,19 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import MultiSelect from '../../../components/MultiSelect';
-import Contributors from '../../../components/Contributors';
-import FormLicense from '../../Form/components/FormLicense';
-import FormikField from '../../../components/FormikField';
+import FormLicense from '../Form/components/FormLicense';
+import { CommonFieldPropsShape } from '../../shapes';
+import Contributors from '../../components/Contributors';
+import { FormikAgreementConnection } from '.';
+import { getErrorMessages } from '../../util/formHelper';
+import FormikField from '../../components/FormikField';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
-const AudioMetaData = props => {
-  const { t, tags, licenses } = props;
+const FormikCopyright = ({ t, licenses, values }) => {
+  const disabled = !!values.agreementId;
   return (
     <Fragment>
-      <FormikField name="tags" label={t('form.tags.label')}>
-        {({ field }) => (
-          <MultiSelect
-            data={tags}
-            obligatory
-            {...field}
-            description={t('form.tags.description')}
-            messages={{
-              createOption: t('form.tags.createOption'),
-              emptyFilter: t('form.tags.emptyFilter'),
-              emptyList: t('form.tags.emptyList'),
-            }}
-          />
-        )}
-      </FormikField>
-      <FormikField name="license">
-        {({ field }) => <FormLicense licenses={licenses} {...field} />}
-      </FormikField>
-      <FormikField label={t('form.origin.label')} name="origin" />
       {contributorTypes.map(contributorType => {
         const label = t(`form.${contributorType}.label`);
         return (
@@ -67,19 +50,28 @@ const AudioMetaData = props => {
           </FormikField>
         );
       })}
+
+      <FormikAgreementConnection values={values} width={3 / 4} />
+      <FormikField name="license">
+        {({ field }) => (
+          <FormLicense disabled={disabled} licenses={licenses} {...field} />
+        )}
+      </FormikField>
     </Fragment>
   );
 };
 
-AudioMetaData.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  classes: PropTypes.func.isRequired,
+FormikCopyright.propTypes = {
+  commonFieldProps: CommonFieldPropsShape.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
       license: PropTypes.string,
     }),
   ).isRequired,
+  model: PropTypes.shape({
+    agreementId: PropTypes.number,
+  }),
 };
 
-export default injectT(AudioMetaData);
+export default injectT(FormikCopyright);

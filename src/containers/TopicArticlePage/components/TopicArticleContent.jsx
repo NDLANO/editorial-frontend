@@ -16,7 +16,7 @@ import LearningResourceIngress from '../../LearningResourcePage/components/Learn
 import { RichTextField } from '../../../components/RichTextField';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
-import { schema } from '../../../components/SlateEditor/editorSchema';
+import { schema as slateSchema } from '../../../components/SlateEditor/editorSchema';
 import {
   renderNode,
   renderMark,
@@ -28,8 +28,9 @@ import {
   listTypes,
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
-import { CommonFieldPropsShape } from '../../../shapes';
-import { TYPE as link } from '../../../components/SlateEditor/plugins/link';
+import { TYPE as link } from '../../../components/SlateEditor/plugins/link ';
+import FormikField from '../../../components/FormikField';
+import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
 
 const classes = new BEMHelper({
   name: 'topic-article-content',
@@ -57,17 +58,15 @@ const plugins = [
 
 const TopicArticleContent = ({
   t,
-  commonFieldProps,
-  model: { creators, updated, visualElement },
+  values: { creators, updated, visualElement },
 }) => (
   <Fragment>
-    <TextField
+    <FormikField
       label={t('form.title.label')}
       name="title"
       title
       noBorder
       placeholder={t('form.title.label')}
-      {...commonFieldProps}
     />
     {/* TODO: Change to c-article-byline */}
     <div {...classes('info')}>
@@ -76,33 +75,34 @@ const TopicArticleContent = ({
         ? ` - ${t('topicArticleForm.info.lastUpdated', { updated })}`
         : ''}
     </div>
-    <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
-    <TopicArticleVisualElement
-      visualElement={visualElement}
-      commonFieldProps={commonFieldProps}
-      bindInput={commonFieldProps.bindInput}
-    />
-    <RichTextField
-      noBorder
-      label={t('form.content.label')}
-      placeholder={t('form.content.placeholder')}
-      name="content"
-      slateSchema={schema}
-      renderNode={renderNode}
-      renderMark={renderMark}
-      plugins={plugins}
-      supportedToolbarElements={supportedToolbarElements}
-      commonFieldProps={commonFieldProps}
-    />
+    <LearningResourceIngress />
+    <TopicArticleVisualElement visualElement={visualElement} />
+    <FormikField name="content" label={t('form.content.label')} noBorder>
+      {({ field: { onChange, name, value } }) => (
+        <RichTextEditor
+          placeholder={t('form.content.placeholder')}
+          id={name}
+          name={name}
+          onChange={change =>
+            onChange({ target: { name, value: change.value } })
+          }
+          value={value}
+          renderNode={renderNode}
+          renderMark={renderMark}
+          plugins={plugins}
+          supportedToolbarElements={supportedToolbarElements}
+          schema={slateSchema}
+        />
+      )}
+    </FormikField>
   </Fragment>
 );
 
 TopicArticleContent.propTypes = {
-  model: PropTypes.shape({
+  values: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
   }),
-  commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 
 export default injectT(TopicArticleContent);

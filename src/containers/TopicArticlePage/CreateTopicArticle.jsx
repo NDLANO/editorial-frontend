@@ -11,9 +11,7 @@ import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { actions as draftActions } from '../../modules/draft/draft';
-import TopicArticleForm, {
-  getInitialModel,
-} from './components/TopicArticleForm';
+import TopicArticleForm from './components/TopicArticleForm';
 import {
   actions as tagActions,
   getAllTagsByLanguage,
@@ -42,7 +40,7 @@ class CreateTopicArticle extends Component {
       <Fragment>
         <HelmetWithTracker title={t('htmlTitles.createTopicArticlePage')} />
         <TopicArticleForm
-          initialModel={getInitialModel({ language: locale })}
+          article={{ language: locale }}
           locale={locale}
           onUpdate={this.updateDraft}
           {...rest}

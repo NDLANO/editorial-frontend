@@ -14,9 +14,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
 import * as messageActions from '../Messages/messagesActions';
 import { actions as draftActions, getDraft } from '../../modules/draft/draft';
-import TopicArticleForm, {
-  getInitialModel,
-} from './components/TopicArticleForm';
+import TopicArticleForm from './components/TopicArticleForm';
 import { ArticleShape } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
 import {
@@ -86,7 +84,6 @@ class EditTopicArticle extends Component {
           title={`${article.title} ${t('htmlTitles.titleTemplate')}`}
         />
         <TopicArticleForm
-          initialModel={getInitialModel(article)}
           selectedLanguage={article.language}
           revision={article.revision}
           articleStatus={article.status}

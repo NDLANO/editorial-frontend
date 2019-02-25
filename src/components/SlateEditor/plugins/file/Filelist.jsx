@@ -46,7 +46,6 @@ class Filelist extends React.Component {
     this.onCloseFileUploader = this.onCloseFileUploader.bind(this);
     this.onRemoveFileList = this.onRemoveFileList.bind(this);
     this.onAddFileToList = this.onAddFileToList.bind(this);
-    this.onChangeFileData = this.onChangeFileData.bind(this);
     this.onUpdateFileName = this.onUpdateFileName.bind(this);
     this.getFilesFromSlate = this.getFilesFromSlate.bind(this);
     this.onDeleteFile = this.onDeleteFile.bind(this);
@@ -71,7 +70,7 @@ class Filelist extends React.Component {
     editor.removeNodeByKey(node.key);
   }
 
-  onDeleteFile(index) {
+  onDeleteFile(indexToDelete) {
     const { node, editor } = this.props;
     const files = this.getFilesFromSlate();
     if (files.length === 0) {
@@ -79,15 +78,21 @@ class Filelist extends React.Component {
     } else {
       editor.setNodeByKey(node.key, {
         data: {
-          nodes: node.data.get('nodes').filter((_, i) => i !== index),
+          nodes: node.data.get('nodes').filter((_, i) => i !== indexToDelete),
         },
       });
     }
   }
 
   onAddFileToList(files) {
-    const { t } = this.props;
-    const updatedFileList = files.map(file => {
+    console.log(files);
+    const { t, editor, node } = this.props;
+    this.setState({
+      showFileUploader: false,
+    });
+    const existingFiles = node.data.get('nodes');
+    console.log(existingFiles);
+    const newFiles = files.map(file => {
       if (file.format) {
         return file;
       }
@@ -97,41 +102,35 @@ class Filelist extends React.Component {
         t,
       );
     });
-
-    this.setState(
-      {
-        showFileUploader: false,
-        files: updatedFileList,
+    console.log(newFiles);
+    editor.setNodeByKey(node.key, {
+      data: {
+        nodes: existingFiles.concat(
+          newFiles.map(file => ({
+            path: file.path,
+            type: file.type,
+            title: file.title,
+            resource: file.resource,
+          })),
+        ),
       },
-      this.onChangeFileData,
-    );
+    });
   }
 
-  onMovedFile(from, to) {
+  onMovedFile(fromIndex, toIndex) {
     const { editor, node } = this.props;
     const files = node.data.get('nodes');
     editor.setNodeByKey(node.key, {
       data: {
         nodes: files.map((file, i) => {
-          if (i === from) return files[to];
-          if (i === to) return files[from];
+          if (i === fromIndex) {
+            return files[toIndex];
+          }
+          if (i === toIndex) {
+            return files[fromIndex];
+          }
           return file;
         }),
-      },
-    });
-  }
-
-  onChangeFileData() {
-    const { node, editor } = this.props;
-    const nodes = this.state.files.map(file => ({
-      path: file.path,
-      type: file.type,
-      title: file.title,
-      resource: file.resource,
-    }));
-    editor.setNodeByKey(node.key, {
-      data: {
-        nodes,
       },
     });
   }
@@ -190,7 +189,6 @@ class Filelist extends React.Component {
             onFileSave={this.onAddFileToList}
             onClose={this.onCloseFileUploader}
             showFileUploader={showFileUploader}
-            addedFiles={files}
           />
         </StyledSection>
       </Fragment>

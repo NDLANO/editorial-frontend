@@ -99,7 +99,7 @@ class FormWorkflow extends Component {
   }
 
   async onSaveAsNew() {
-    const { article, history, formIsDirty, createMessage } = this.props;
+    const { article, history, formIsDirty, createMessage, t } = this.props;
     if (formIsDirty) {
       createMessage({
         translationKey: 'form.mustSaveFirst',
@@ -108,7 +108,7 @@ class FormWorkflow extends Component {
     } else {
       const newArticle = await draftApi.createDraft({
         ...article,
-        title: article.title.concat(' (kopi)'),
+        title: article.title.concat(t('form.titleCopy')),
       });
       history.push(
         toEditArticle(newArticle.id, newArticle.articleType, article.language),

@@ -420,6 +420,7 @@ const phrases = {
     choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagret ',
+    titleCopy: ' (kopi)',
     mustSaveFirst: 'Du må lagre endringene dine først',
     preview: {
       button: 'Forhåndsvis',

@@ -419,6 +419,7 @@ const phrases = {
     choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagra ',
+    titleCopy: ' (kopi)',
     preview: {
       button: 'Forhandsvis',
     },

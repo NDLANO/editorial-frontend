@@ -422,6 +422,7 @@ const phrases = {
     saved: 'Lagret ',
     titleCopy: ' (kopi)',
     mustSaveFirst: 'Du må lagre endringene dine først',
+    saveAsCopySuccess: 'Ny artikkel lagret',
     preview: {
       button: 'Forhåndsvis',
     },

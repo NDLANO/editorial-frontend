@@ -420,6 +420,7 @@ const phrases = {
     saving: 'Lagrer...',
     saved: 'Lagra ',
     titleCopy: ' (kopi)',
+    saveAsCopySuccess: 'Ny artikkel lagret',
     preview: {
       button: 'Forhandsvis',
     },

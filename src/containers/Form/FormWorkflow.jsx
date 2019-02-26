@@ -110,6 +110,10 @@ class FormWorkflow extends Component {
         ...article,
         title: article.title.concat(t('form.titleCopy')),
       });
+      createMessage({
+        translationKey: t('form.saveAsCopySuccess'),
+        severity: 'success',
+      });
       history.push(
         toEditArticle(newArticle.id, newArticle.articleType, article.language),
       );

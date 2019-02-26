@@ -409,6 +409,7 @@ const phrases = {
     choose: 'Choose',
     saved: 'Saved ',
     titleCopy: ' (copy)',
+    saveAsCopySuccess: 'New article saved',
     preview: {
       button: 'Preview',
     },

@@ -6,6 +6,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
 >
   <div
     class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
       class="css-keaacr emotion-1"
@@ -32,6 +33,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   </div>
   <div
     class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
       class="css-keaacr emotion-1"
@@ -58,6 +60,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   </div>
   <div
     class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
       class="css-keaacr emotion-1"
@@ -84,6 +87,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   </div>
   <div
     class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
       class="css-keaacr emotion-1"
@@ -125,6 +129,7 @@ exports[`maps out filters 1`] = `
 >
   <div
     class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
       class="css-keaacr emotion-1"
@@ -151,6 +156,7 @@ exports[`maps out filters 1`] = `
   </div>
   <div
     class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
       class="css-keaacr emotion-1"
@@ -177,6 +183,7 @@ exports[`maps out filters 1`] = `
   </div>
   <div
     class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
       class="css-keaacr emotion-1"
@@ -203,6 +210,7 @@ exports[`maps out filters 1`] = `
   </div>
   <div
     class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
       class="css-keaacr emotion-1"

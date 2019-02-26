@@ -41,6 +41,7 @@ class TopicArticleVisualElement extends Component {
 
   render() {
     const { t, bindInput, commonFieldProps } = this.props;
+    const { selectedResource } = this.state;
     const { schema, submitted } = commonFieldProps;
 
     const bindInputVisualElement = bindInput('visualElement');
@@ -65,7 +66,7 @@ class TopicArticleVisualElement extends Component {
           {...bindInputVisualElement}
         />
         <VisualElementSelectField
-          selectedResource={this.state.selectedResource}
+          selectedResource={selectedResource}
           {...bindInputVisualElement}
           resetSelectedResource={this.resetSelectedResource}
         />

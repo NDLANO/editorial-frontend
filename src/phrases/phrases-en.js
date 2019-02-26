@@ -734,6 +734,10 @@ const phrases = {
       },
       addFile: 'Add file',
       removeList: 'Remove file list',
+      placeholder: 'Filename',
+      changeName: 'Change name',
+      changeOrder: 'Change the order',
+      removeFile: 'Remove file',
     },
   },
   validation: {

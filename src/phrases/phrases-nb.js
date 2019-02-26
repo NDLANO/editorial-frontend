@@ -752,6 +752,10 @@ const phrases = {
       filesAdded: 'Filer lagt til',
       saveChanges: 'Lagre endringer',
       cancel: 'Avbryt',
+      placeholder: 'Oppgi et filnavn',
+      changeName: 'Endre navn',
+      changeOrder: 'Endre rekkefølge',
+      removeFile: 'Ta bort fil',
       dragdrop: {
         main: 'Dra og slipp',
         sub: 'eller trykk for å laste opp file(r)',

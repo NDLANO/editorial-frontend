@@ -184,6 +184,12 @@ class Filelist extends React.Component {
             onEditFileName={this.onUpdateFileName}
             onDeleteFile={this.onDeleteFile}
             onMovedFile={this.onMovedFile}
+            messages={{
+              placeholder: t('form.file.placeholder'),
+              changeName: t('form.file.changeName'),
+              changeOrder: t('form.file.changeOrder'),
+              removeFile: t('form.file.removeFile'),
+            }}
           />
           <AddFileToList
             onFileSave={this.onAddFileToList}

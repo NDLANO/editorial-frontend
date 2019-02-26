@@ -748,6 +748,10 @@ const phrases = {
       },
       addFile: 'Legg til fil',
       removeList: 'Fjern filliste',
+      placeholder: 'Oppgi et filnavn',
+      changeName: 'Endre navn',
+      changeOrder: 'Endre rekkefølge',
+      removeFile: 'Ta bort fil',
     },
   },
   validation: {

@@ -17,7 +17,7 @@ import { createFormData } from '../../util/formDataHelper';
 import handleError from '../../util/handleError';
 
 const wrapperCSS = css`
-  padding: 0 ${spacing.large} ${spacing.large};
+  padding: 0 ${spacing.large};
 `;
 
 class FileUploader extends React.Component {
@@ -36,7 +36,6 @@ class FileUploader extends React.Component {
   }
 
   async onSave(files) {
-    console.log(files);
     try {
       this.setState({ saving: true });
       const newFiles = await Promise.all(

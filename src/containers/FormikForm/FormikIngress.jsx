@@ -10,7 +10,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'formik';
-import { RemainingCharacters } from '../../../components/Fields';
+import { RemainingCharacters } from '../../components/Fields';
 import StyledFormContainer from '../../components/SlateEditor/common/StyledFormContainer';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';

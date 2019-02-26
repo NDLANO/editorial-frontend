@@ -11,9 +11,6 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
-import { TextField } from '../../../components/Fields';
-import LearningResourceIngress from '../../LearningResourcePage/components/LearningResourceIngress';
-import { RichTextField } from '../../../components/RichTextField';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
 import { schema as slateSchema } from '../../../components/SlateEditor/editorSchema';
@@ -21,16 +18,18 @@ import {
   renderNode,
   renderMark,
 } from '../../../components/SlateEditor/renderNode';
-import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import {
   editListPlugin,
   listTypes,
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
-import { TYPE as link } from '../../../components/SlateEditor/plugins/link ';
+import createLinkPlugin, {
+  TYPE as link,
+} from '../../../components/SlateEditor/plugins/link';
 import FormikField from '../../../components/FormikField';
 import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
+import { FormikIngress } from '../../FormikForm';
 
 const classes = new BEMHelper({
   name: 'topic-article-content',
@@ -45,7 +44,6 @@ const supportedToolbarElements = {
 
 const plugins = [
   createNoEmbedsPlugin(),
-  createLinkPlugin(),
   headingPlugin(),
 
   // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
@@ -53,6 +51,7 @@ const plugins = [
   // unwrapping (jumping out of block) will not work.
   blockquotePlugin,
   editListPlugin,
+  createLinkPlugin(),
   paragraphPlugin(),
 ];
 
@@ -75,7 +74,7 @@ const TopicArticleContent = ({
         ? ` - ${t('topicArticleForm.info.lastUpdated', { updated })}`
         : ''}
     </div>
-    <LearningResourceIngress />
+    <FormikIngress />
     <TopicArticleVisualElement visualElement={visualElement} />
     <FormikField name="content" label={t('form.content.label')} noBorder>
       {({ field: { onChange, name, value } }) => (

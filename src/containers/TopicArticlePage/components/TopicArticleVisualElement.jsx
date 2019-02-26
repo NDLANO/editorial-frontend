@@ -14,7 +14,6 @@ import { connect } from 'formik';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 import VisualElementMenu from '../../VisualElement/VisualElementMenu';
 import VisualElementPreview from '../../VisualElement/VisualElementPreview';
-import { CommonFieldPropsShape } from '../../../shapes';
 import FormikField from '../../../components/FormikField';
 
 export const visualElementClasses = new BEMHelper({
@@ -41,11 +40,12 @@ class TopicArticleVisualElement extends Component {
   }
 
   render() {
-    const { t, bindInput, commonFieldProps } = this.props;
-    // const { schema, submitted } = commonFieldProps;
-    const visualElement = {};
-    //const bindInputVisualElement = bindInput('visualElement');
-    //const { value: visualElement } = bindInputVisualElement;
+    const {
+      t,
+      formik: {
+        values: { visualElement },
+      },
+    } = this.props;
     return (
       <div>
         <div {...visualElementClasses('add-title')}>
@@ -110,13 +110,15 @@ class TopicArticleVisualElement extends Component {
 }
 
 TopicArticleVisualElement.propTypes = {
-  bindInput: PropTypes.func.isRequired,
-  commonFieldProps: CommonFieldPropsShape.isRequired,
-  visualElement: PropTypes.shape({
-    caption: PropTypes.string,
-    alt: PropTypes.string,
-    id: PropTypes.string,
-    resource: PropTypes.string,
+  formik: PropTypes.shape({
+    values: PropTypes.shape({
+      visualElement: PropTypes.shape({
+        caption: PropTypes.string,
+        alt: PropTypes.string,
+        id: PropTypes.string,
+        resource: PropTypes.string,
+      }),
+    }),
   }),
 };
 

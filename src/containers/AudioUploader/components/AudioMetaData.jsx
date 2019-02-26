@@ -20,13 +20,15 @@ const AudioMetaData = props => {
   const { t, tags, licenses } = props;
   return (
     <Fragment>
-      <FormikField name="tags" label={t('form.tags.label')}>
+      <FormikField
+        name="tags"
+        label={t('form.tags.label')}
+        obligatory
+        description={t('form.tags.description')}>
         {({ field }) => (
           <MultiSelect
             data={tags}
-            obligatory
             {...field}
-            description={t('form.tags.description')}
             messages={{
               createOption: t('form.tags.createOption'),
               emptyFilter: t('form.tags.emptyFilter'),

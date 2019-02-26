@@ -17,10 +17,8 @@ import Accordion, {
 } from '@ndla/accordion';
 import { Formik, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
-import reformed from '../../../components/reformed';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
-import { topicArticleSchema } from '../../../articleSchema';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -37,16 +35,14 @@ import {
   isFormikFormDirty,
 } from '../../../util/formHelper';
 import {
-  FormWorkflow,
   FormAddNotes,
   FormHeader,
   FormActionButton,
   formClasses,
   AlertModalWrapper,
 } from '../../Form';
-
-import { FormikCopyright } from '../../FormikForm';
-
+import FormikField from '../../../components/FormikField';
+import { FormikCopyright, FormikWorkflow } from '../../FormikForm';
 import { formatErrorMessage } from '../../Form/FormWorkflow';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
@@ -85,7 +81,6 @@ class TopicArticleForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.getArticle = this.getArticle.bind(this);
     this.onReset = this.onReset.bind(this);
     this.state = {
       showResetModal: false,
@@ -123,36 +118,6 @@ class TopicArticleForm extends Component {
         });
       }
     }
-  }
-
-  getArticle() {
-    const { model } = this.props;
-    const emptyField = model.id ? '' : undefined;
-    const visualElement = createEmbedTag(model.visualElement);
-    const content = topicArticleContentToHTML(model.content);
-
-    const article = {
-      id: model.id,
-      title: model.title,
-      introduction: editorValueToPlainText(model.introduction),
-      tags: model.tags,
-      content: content || emptyField,
-      visualElement: visualElement || emptyField,
-      metaDescription: editorValueToPlainText(model.metaDescription),
-      articleType: 'topic-article',
-      copyright: {
-        ...model.copyright,
-        creators: model.creators,
-        processors: model.processors,
-        rightsholders: model.rightsholders,
-        agreementId: model.agreementId,
-      },
-      notes: model.notes || [],
-      language: model.language,
-      supportedLanguages: model.supportedLanguages,
-    };
-
-    return article;
   }
 
   async handleSubmit(evt) {
@@ -203,7 +168,6 @@ class TopicArticleForm extends Component {
   render() {
     const {
       t,
-      validationErrors: schema,
       tags,
       isSaving,
       articleStatus,
@@ -213,6 +177,7 @@ class TopicArticleForm extends Component {
       article,
       createMessage,
       savedToServer,
+      showSaved,
     } = this.props;
     const panels = ({ values, errors, touched, setFieldValue }) => [
       {
@@ -220,12 +185,12 @@ class TopicArticleForm extends Component {
         title: t('form.contentSection'),
         className: 'u-4/6@desktop u-push-1/6@desktop',
         hasError: [
-          schema.fields.title,
-          schema.fields.introduction,
-          schema.fields.content,
-          schema.fields.visualElement,
-          schema.fields.visualElement.alt,
-          schema.fields.visualElement.caption,
+          'title',
+          'introduction',
+          'content',
+          'visualElement',
+          'visualElement.alt',
+          'visualElement.caption',
         ].some(field => !!errors[field] && touched[field]),
         component: <TopicArticleContent tags={tags} values={values} />,
       },
@@ -233,53 +198,46 @@ class TopicArticleForm extends Component {
         id: 'topic-article-copyright',
         title: t('form.copyrightSection'),
         className: 'u-6/6',
-        hasError: [
-          schema.fields.creators,
-          schema.fields.rightsholders,
-          schema.fields.processors,
-          schema.fields.license,
-        ].some(field => !!errors[field] && touched[field]),
-        component: <FormikCopyright model={values} licenses={licenses} />,
+        hasError: ['creators', 'rightsholders', 'processors', 'license'].some(
+          field => !!errors[field] && touched[field],
+        ),
+        component: <FormikCopyright values={values} licenses={licenses} />,
       },
       {
         id: 'topic-article-metadata',
         title: t('form.metadataSection'),
         className: 'u-6/6',
-        hasError: [schema.fields.metaDescription, schema.fields.tags].some(
+        hasError: ['metaDescription', 'tags'].some(
           field => !!errors[field] && touched[field],
         ),
-        component: (
-          <TopicArticleMetadata
-            commonFieldProps={commonFieldProps}
-            tags={tags}
-          />
-        ),
+        component: <TopicArticleMetadata tags={tags} />,
       },
       {
         id: 'topic-article-workflow',
         title: t('form.workflowSection'),
         className: 'u-6/6',
-        hasError: [schema.fields.notes].some(
-          field => !!errors[field] && touched[field],
-        ),
+        hasError: ['notes'].some(field => !!errors[field] && touched[field]),
         component: (
-          <FormWorkflow
+          <FormikWorkflow
             articleStatus={articleStatus}
-            model={values}
+            values={values}
             getArticle={this.getArticle}
             createMessage={createMessage}
             revision={revision}>
-            <FormAddNotes
-              showError={true}
-              name="notes"
-              labelHeading={t('form.notes.heading')}
-              labelAddNote={t('form.notes.add')}
-              article={article}
-              labelRemoveNote={t('form.notes.remove')}
-              labelWarningNote={t('form.notes.warning')}
-              {...commonFieldProps.bindInput('notes')}
-            />
-          </FormWorkflow>
+            <FormikField>
+              {({ field }) => (
+                <FormAddNotes
+                  showError={true}
+                  labelHeading={t('form.notes.heading')}
+                  labelAddNote={t('form.notes.add')}
+                  article={article}
+                  labelRemoveNote={t('form.notes.remove')}
+                  labelWarningNote={t('form.notes.warning')}
+                  {...field}
+                />
+              )}
+            </FormikField>
+          </FormikWorkflow>
         ),
       },
     ];

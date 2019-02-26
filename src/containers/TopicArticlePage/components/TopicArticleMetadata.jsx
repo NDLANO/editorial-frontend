@@ -9,55 +9,56 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import {
-  PlainTextField,
-  MultiSelectField,
-  RemainingCharacters,
-} from '../../../components/Fields';
-import { CommonFieldPropsShape } from '../../../shapes';
+import { RemainingCharacters } from '../../../components/Fields';
+import FormikField from '../../../components/FormikField';
+import MultiSelect from '../../../components/MultiSelect';
+import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
-const TopicArticleMetadata = ({
-  t,
-  commonFieldProps: { bindInput, ...handlers },
-  tags,
-}) => (
+const TopicArticleMetadata = ({ t, tags }) => (
   <Fragment>
-    <MultiSelectField
-      obligatory
+    <FormikField
       name="tags"
-      data={tags}
       label={t('form.tags.label')}
       description={t('form.tags.description')}
-      messages={{
-        createOption: t('form.tags.createOption'),
-        emptyFilter: t('form.tags.emptyFilter'),
-        emptyList: t('form.tags.emptyList'),
-      }}
-      bindInput={bindInput}
-      {...handlers}
-    />
-    <PlainTextField
-      label={t('form.metaDescription.label')}
-      placeholder={t('form.metaDescription.label')}
-      description={t('form.metaDescription.description')}
+      obligatory>
+      {({ field }) => (
+        <MultiSelect
+          data={tags}
+          {...field}
+          messages={{
+            createOption: t('form.tags.createOption'),
+            emptyFilter: t('form.tags.emptyFilter'),
+            emptyList: t('form.tags.emptyList'),
+          }}
+        />
+      )}
+    </FormikField>
+    <FormikField
       name="metaDescription"
-      maxLength={155}
-      {...bindInput('metaDescription')}
-      {...handlers}>
-      <RemainingCharacters
-        maxLength={155}
-        getRemainingLabel={(maxLength, remaining) =>
-          t('form.remainingCharacters', { maxLength, remaining })
-        }
-        value={bindInput('metaDescription').value.document.text}
-      />
-    </PlainTextField>
+      label={t('form.metaDescription.label')}
+      description={t('form.metaDescription.description')}>
+      {({ field }) => (
+        <Fragment>
+          <PlainTextEditor
+            id={field.classNamename}
+            placeholder={t('form.metaDescription.label')}
+            {...field}
+          />
+          <RemainingCharacters
+            maxLength={155}
+            getRemainingLabel={(maxLength, remaining) =>
+              t('form.remainingCharacters', { maxLength, remaining })
+            }
+            value={field.value.document.text}
+          />
+        </Fragment>
+      )}
+    </FormikField>
   </Fragment>
 );
 
 TopicArticleMetadata.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 
 export default injectT(TopicArticleMetadata);

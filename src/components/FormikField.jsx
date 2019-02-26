@@ -79,14 +79,18 @@ const StyledFormikDescription = styled.p`
   ${p => (p.obligatory ? obligatoryDescriptionStyle : '')};
 `;
 
-const FormikFieldDescription = ({ description, obligatory }) =>
-  description && (
+const FormikFieldDescription = ({ description, obligatory }) => {
+  if (!description) {
+    return null;
+  }
+  return (
     <StyledFormikDescriptionBlock>
       <StyledFormikDescription obligatory={obligatory}>
         {description}
       </StyledFormikDescription>
     </StyledFormikDescriptionBlock>
   );
+};
 
 FormikFieldDescription.propTypes = {
   obligatory: PropTypes.bool,

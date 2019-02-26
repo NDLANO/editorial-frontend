@@ -62,14 +62,13 @@ const FormikCopyright = ({ t, licenses, values }) => {
 };
 
 FormikCopyright.propTypes = {
-  commonFieldProps: CommonFieldPropsShape.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
       license: PropTypes.string,
     }),
   ).isRequired,
-  model: PropTypes.shape({
+  values: PropTypes.shape({
     agreementId: PropTypes.number,
   }),
 };

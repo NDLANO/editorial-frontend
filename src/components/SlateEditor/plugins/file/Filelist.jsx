@@ -57,7 +57,9 @@ class Filelist extends React.Component {
     editor.setNodeByKey(node.key, {
       data: {
         nodes: node.data.get('nodes').map((file, i) => {
-          if (i === index) return { ...file, title: value };
+          if (i === index) {
+            return { ...file, title: value };
+          }
           return file;
         }),
       },

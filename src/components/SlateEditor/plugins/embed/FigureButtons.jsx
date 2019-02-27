@@ -28,6 +28,7 @@ const leftAdjustedStyle = css`
 
 const StyledFigureButtons = styled('div')`
   position: absolute;
+  top: 0;
   ${p => p.align !== 'left' && p.align !== 'right' && centerAdjustedStyle}
   ${p => p.align === 'left' && leftAdjustedStyle}
   ${p => p.align === 'right' && rightAdjustedStyle}

@@ -2,20 +2,23 @@
 
 exports[`calls add filter 1`] = `
 <div
+  class="css-1yq22hl"
   data-testid="editFilterBox"
 >
-  <div>
+  <div
+    class="css-1hfe091 emotion-4"
+  >
     SF VG1
     <div
       style="display: flex;"
     >
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="editFilterurn:filter:f85f8f24-9e00-4267-82f5-ffd0dd3c53fa"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -44,12 +47,12 @@ exports[`calls add filter 1`] = `
         </div>
       </button>
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="deleteFilter"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -83,18 +86,20 @@ exports[`calls add filter 1`] = `
       </button>
     </div>
   </div>
-  <div>
+  <div
+    class="css-1hfe091 emotion-4"
+  >
     SF VG2
     <div
       style="display: flex;"
     >
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="editFilterurn:filter:0a0dc7e0-911f-4674-801a-580b3e8fa09a"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -123,12 +128,12 @@ exports[`calls add filter 1`] = `
         </div>
       </button>
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="deleteFilter"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -162,18 +167,20 @@ exports[`calls add filter 1`] = `
       </button>
     </div>
   </div>
-  <div>
+  <div
+    class="css-1hfe091 emotion-4"
+  >
     Mediesamfunnet
     <div
       style="display: flex;"
     >
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="editFilterurn:filter:e8aa33b2-f5b7-4dee-84f6-4b594127b4c5"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -202,12 +209,12 @@ exports[`calls add filter 1`] = `
         </div>
       </button>
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="deleteFilter"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -241,18 +248,20 @@ exports[`calls add filter 1`] = `
       </button>
     </div>
   </div>
-  <div>
+  <div
+    class="css-1hfe091 emotion-4"
+  >
     Medieuttrykk
     <div
       style="display: flex;"
     >
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="editFilterurn:filter:3ae5a086-8444-43c3-8fa4-db869e7292d2"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -281,12 +290,12 @@ exports[`calls add filter 1`] = `
         </div>
       </button>
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="deleteFilter"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -320,18 +329,20 @@ exports[`calls add filter 1`] = `
       </button>
     </div>
   </div>
-  <div>
+  <div
+    class="css-1hfe091 emotion-4"
+  >
     SF VG3
     <div
       style="display: flex;"
     >
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="editFilterurn:filter:9e522d29-edf0-4949-bb94-a2089c79e437"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -360,12 +371,12 @@ exports[`calls add filter 1`] = `
         </div>
       </button>
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="deleteFilter"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -400,7 +411,7 @@ exports[`calls add filter 1`] = `
     </div>
   </div>
   <button
-    class="css-tflqdu emotion-0"
+    class="css-tflqdu emotion-1"
     data-testid="addFilterButton"
     type="button"
   >
@@ -430,26 +441,31 @@ exports[`calls add filter 1`] = `
     </svg>
     Nytt filter
   </button>
-  <div />
+  <div
+    class="css-v97c24 emotion-26"
+  />
 </div>
 `;
 
 exports[`maps out filters 1`] = `
 <div
+  class="css-1yq22hl"
   data-testid="editFilterBox"
 >
-  <div>
+  <div
+    class="css-1hfe091 emotion-4"
+  >
     SF VG1
     <div
       style="display: flex;"
     >
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="editFilterurn:filter:f85f8f24-9e00-4267-82f5-ffd0dd3c53fa"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -478,12 +494,12 @@ exports[`maps out filters 1`] = `
         </div>
       </button>
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="deleteFilter"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -517,18 +533,20 @@ exports[`maps out filters 1`] = `
       </button>
     </div>
   </div>
-  <div>
+  <div
+    class="css-1hfe091 emotion-4"
+  >
     SF VG2
     <div
       style="display: flex;"
     >
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="editFilterurn:filter:0a0dc7e0-911f-4674-801a-580b3e8fa09a"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -557,12 +575,12 @@ exports[`maps out filters 1`] = `
         </div>
       </button>
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="deleteFilter"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -596,18 +614,20 @@ exports[`maps out filters 1`] = `
       </button>
     </div>
   </div>
-  <div>
+  <div
+    class="css-1hfe091 emotion-4"
+  >
     Mediesamfunnet
     <div
       style="display: flex;"
     >
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="editFilterurn:filter:e8aa33b2-f5b7-4dee-84f6-4b594127b4c5"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -636,12 +656,12 @@ exports[`maps out filters 1`] = `
         </div>
       </button>
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="deleteFilter"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -675,18 +695,20 @@ exports[`maps out filters 1`] = `
       </button>
     </div>
   </div>
-  <div>
+  <div
+    class="css-1hfe091 emotion-4"
+  >
     Medieuttrykk
     <div
       style="display: flex;"
     >
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="editFilterurn:filter:3ae5a086-8444-43c3-8fa4-db869e7292d2"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -715,12 +737,12 @@ exports[`maps out filters 1`] = `
         </div>
       </button>
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="deleteFilter"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -754,18 +776,20 @@ exports[`maps out filters 1`] = `
       </button>
     </div>
   </div>
-  <div>
+  <div
+    class="css-1hfe091 emotion-4"
+  >
     SF VG3
     <div
       style="display: flex;"
     >
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="editFilterurn:filter:9e522d29-edf0-4949-bb94-a2089c79e437"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -794,12 +818,12 @@ exports[`maps out filters 1`] = `
         </div>
       </button>
       <button
-        class="css-ac6kxl emotion-0"
+        class="css-ac6kxl emotion-1"
         data-testid="deleteFilter"
         type="button"
       >
         <div
-          class="c-roundIcon c-roundIcon--small"
+          class="css-wdpkip emotion-0"
         >
           <svg
             class="c-icon"
@@ -834,7 +858,7 @@ exports[`maps out filters 1`] = `
     </div>
   </div>
   <button
-    class="css-tflqdu emotion-0"
+    class="css-tflqdu emotion-1"
     data-testid="addFilterButton"
     type="button"
   >
@@ -864,6 +888,8 @@ exports[`maps out filters 1`] = `
     </svg>
     Nytt filter
   </button>
-  <div />
+  <div
+    class="css-v97c24 emotion-26"
+  />
 </div>
 `;

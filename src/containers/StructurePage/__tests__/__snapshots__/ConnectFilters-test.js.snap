@@ -1,22 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`calls add filter, update filter, and delete filter 1`] = `
-<form>
+<form
+  class="css-1yq22hl"
+>
   <div
-    class="c-connectFilter"
+    class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
-      class="c-connectFilter__item"
+      class="css-keaacr emotion-1"
     >
       <input
-        class="c-connectFilter__checkbox"
+        class="css-jl06oa emotion-0"
         name="urn:filter:f102710e-973e-4999-9daf-f1536d41188a-active"
         type="checkbox"
       />
       blabla
     </label>
     <label
-      class="c-toggleSwitch"
+      class="css-1xb2h68 emotion-3"
     >
       <input
         checked=""
@@ -24,25 +27,26 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
         type="checkbox"
       />
       <span
-        class="c-toggleSwitch__slider"
+        class="css-1d0q2a4 emotion-2"
       />
     </label>
   </div>
   <div
-    class="c-connectFilter"
+    class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
-      class="c-connectFilter__item"
+      class="css-keaacr emotion-1"
     >
       <input
-        class="c-connectFilter__checkbox"
+        class="css-jl06oa emotion-0"
         name="urn:filter:fc0a6fc5-4ed3-4aec-ade7-381ac51c446e-active"
         type="checkbox"
       />
       blabla hei
     </label>
     <label
-      class="c-toggleSwitch"
+      class="css-1xb2h68 emotion-3"
     >
       <input
         checked=""
@@ -50,25 +54,26 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
         type="checkbox"
       />
       <span
-        class="c-toggleSwitch__slider"
+        class="css-1d0q2a4 emotion-2"
       />
     </label>
   </div>
   <div
-    class="c-connectFilter"
+    class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
-      class="c-connectFilter__item"
+      class="css-keaacr emotion-1"
     >
       <input
-        class="c-connectFilter__checkbox"
+        class="css-jl06oa emotion-0"
         name="urn:filter:fd6893b9-c02a-4016-b64e-1b6533ff9ba2-active"
         type="checkbox"
       />
       blabla
     </label>
     <label
-      class="c-toggleSwitch"
+      class="css-1xb2h68 emotion-3"
     >
       <input
         checked=""
@@ -76,25 +81,26 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
         type="checkbox"
       />
       <span
-        class="c-toggleSwitch__slider"
+        class="css-1d0q2a4 emotion-2"
       />
     </label>
   </div>
   <div
-    class="c-connectFilter"
+    class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
-      class="c-connectFilter__item"
+      class="css-keaacr emotion-1"
     >
       <input
-        class="c-connectFilter__checkbox"
+        class="css-jl06oa emotion-0"
         name="urn:filter:a583772c-4c71-401c-807d-6cb676dcf523-active"
         type="checkbox"
       />
       Test test
     </label>
     <label
-      class="c-toggleSwitch"
+      class="css-1xb2h68 emotion-3"
     >
       <input
         checked=""
@@ -102,12 +108,12 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
         type="checkbox"
       />
       <span
-        class="c-toggleSwitch__slider"
+        class="css-1d0q2a4 emotion-2"
       />
     </label>
   </div>
   <button
-    class="css-10y3blc emotion-0"
+    class="css-10y3blc emotion-20"
     data-testid="submitConnectFilters"
     type="button"
   >
@@ -118,22 +124,25 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
 `;
 
 exports[`maps out filters 1`] = `
-<form>
+<form
+  class="css-1yq22hl"
+>
   <div
-    class="c-connectFilter"
+    class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
-      class="c-connectFilter__item"
+      class="css-keaacr emotion-1"
     >
       <input
-        class="c-connectFilter__checkbox"
+        class="css-jl06oa emotion-0"
         name="urn:filter:f102710e-973e-4999-9daf-f1536d41188a-active"
         type="checkbox"
       />
       blabla
     </label>
     <label
-      class="c-toggleSwitch"
+      class="css-1xb2h68 emotion-3"
     >
       <input
         checked=""
@@ -141,25 +150,26 @@ exports[`maps out filters 1`] = `
         type="checkbox"
       />
       <span
-        class="c-toggleSwitch__slider"
+        class="css-1d0q2a4 emotion-2"
       />
     </label>
   </div>
   <div
-    class="c-connectFilter"
+    class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
-      class="c-connectFilter__item"
+      class="css-keaacr emotion-1"
     >
       <input
-        class="c-connectFilter__checkbox"
+        class="css-jl06oa emotion-0"
         name="urn:filter:fc0a6fc5-4ed3-4aec-ade7-381ac51c446e-active"
         type="checkbox"
       />
       blabla hei
     </label>
     <label
-      class="c-toggleSwitch"
+      class="css-1xb2h68 emotion-3"
     >
       <input
         checked=""
@@ -167,25 +177,26 @@ exports[`maps out filters 1`] = `
         type="checkbox"
       />
       <span
-        class="c-toggleSwitch__slider"
+        class="css-1d0q2a4 emotion-2"
       />
     </label>
   </div>
   <div
-    class="c-connectFilter"
+    class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
-      class="c-connectFilter__item"
+      class="css-keaacr emotion-1"
     >
       <input
-        class="c-connectFilter__checkbox"
+        class="css-jl06oa emotion-0"
         name="urn:filter:fd6893b9-c02a-4016-b64e-1b6533ff9ba2-active"
         type="checkbox"
       />
       blabla
     </label>
     <label
-      class="c-toggleSwitch"
+      class="css-1xb2h68 emotion-3"
     >
       <input
         checked=""
@@ -193,25 +204,26 @@ exports[`maps out filters 1`] = `
         type="checkbox"
       />
       <span
-        class="c-toggleSwitch__slider"
+        class="css-1d0q2a4 emotion-2"
       />
     </label>
   </div>
   <div
-    class="c-connectFilter"
+    class="css-1tm9q0w emotion-4"
+    data-cy="connectFilterItem"
   >
     <label
-      class="c-connectFilter__item"
+      class="css-keaacr emotion-1"
     >
       <input
-        class="c-connectFilter__checkbox"
+        class="css-jl06oa emotion-0"
         name="urn:filter:a583772c-4c71-401c-807d-6cb676dcf523-active"
         type="checkbox"
       />
       Test test
     </label>
     <label
-      class="c-toggleSwitch"
+      class="css-1xb2h68 emotion-3"
     >
       <input
         checked=""
@@ -219,12 +231,12 @@ exports[`maps out filters 1`] = `
         type="checkbox"
       />
       <span
-        class="c-toggleSwitch__slider"
+        class="css-1d0q2a4 emotion-2"
       />
     </label>
   </div>
   <button
-    class="css-10y3blc emotion-0"
+    class="css-10y3blc emotion-20"
     data-testid="submitConnectFilters"
     type="button"
   >

@@ -7,10 +7,11 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { bool, func, string } from 'prop-types';
+import { bool, func, string, shape, object } from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FormInput } from '@ndla/forms';
 import { css } from 'react-emotion';
+import { AudioPlayer } from '@ndla/ui';
 import ObjectSelector from '../../../ObjectSelector';
 import { EmbedShape } from '../../../../shapes';
 import Overlay from '../../../Overlay';
@@ -47,7 +48,11 @@ class EditAudio extends Component {
       onRemoveClick,
       audioType,
       t,
-      children,
+      speech,
+      audio: {
+        title,
+        audioFile: { mimeType, url },
+      },
       submitted,
     } = this.props;
     return (
@@ -89,7 +94,12 @@ class EditAudio extends Component {
                 },
               ]}
             />
-            {children}
+            <AudioPlayer
+              type={mimeType}
+              src={url}
+              title={title}
+              speech={speech}
+            />
             <FormInput
               name="caption"
               label={t('form.audio.caption.label')}
@@ -120,6 +130,11 @@ EditAudio.propTypes = {
   onRemoveClick: func,
   submitted: bool.isRequired,
   embed: EmbedShape.isRequired,
+  speech: bool,
+  audio: shape({
+    title: string,
+    audioFile: object,
+  }),
 };
 
 export default injectT(EditAudio);

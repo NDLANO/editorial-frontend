@@ -121,7 +121,7 @@ const phrases = {
     en: 'English',
     nb: 'Norwegian - Bokmål',
     nn: 'Norwegian - Nynorsk',
-    se: 'Swedish',
+    se: 'Sami',
     unknown: 'Unknown',
     de: 'German',
     empty: 'No languages left',
@@ -229,6 +229,20 @@ const phrases = {
   },
   subjectPage: {
     topics: 'Topics',
+  },
+  editMarkup: {
+    linkTitle: 'Go to HTML editor',
+    title: 'HTML editor',
+    subTitle: 'Edit article with HTML',
+    fetchError:
+      'An error occurred while loding an article into the HTML editor. Go back or try to reload the page.',
+    saveError: 'An error occurred while saving article changes.',
+    helpMessage: {
+      paragraph1:
+        'It is possible to format the HTML code by pressing F1 and then selecting Format. Note that this could lead to changes in whitespace (indentations, linebreaks and spaces) when saving. Feel free to use the preview feature rapidly. ',
+      paragraph2:
+        'To minimize potential problems with formatting and to secure consistent HTML, the same transformations as in the regular editor is applied. This means that for instance linebreaks will be changed to<br> when saving, and illegal code is attempted to be corrected.',
+    },
   },
   imageSearch: {
     placeholder: 'Search images',
@@ -368,7 +382,7 @@ const phrases = {
   editorBlockpicker: {
     heading: 'Add',
     actions: {
-      block: 'Paragraph',
+      block: 'Section',
       factAside: 'Factbox',
       table: 'Table',
       bodybox: 'Text in frame',
@@ -394,6 +408,8 @@ const phrases = {
     saving: 'Saving...',
     choose: 'Choose',
     saved: 'Saved ',
+    copy: 'copy',
+    saveAsCopySuccess: 'New article saved',
     preview: {
       button: 'Preview',
     },
@@ -409,6 +425,7 @@ const phrases = {
     contributor: {
       add: 'Add',
     },
+    mustSaveFirst: 'You must save your changes first',
     abort: 'Abort',
     edit: 'Edit',
     remove: 'Remove',
@@ -426,6 +443,9 @@ const phrases = {
       remove: 'Remove note',
       warning: 'A note must contain text',
       history: {
+        user: 'User',
+        time: 'When',
+        status: 'Status',
         heading: 'Notes history',
         note: 'Note',
         empty: 'No notes',
@@ -460,6 +480,7 @@ const phrases = {
       title: 'Status',
       change: 'Change status',
       qualityAssurance: 'Quality assurance',
+      saveAsNew: 'Save copy as new article',
       deleteLanguageVersion: {
         button: 'Delete language version',
         title: 'Delete language version',
@@ -528,7 +549,6 @@ const phrases = {
         change: 'Change',
         remove: 'Remove link',
         href: 'Link',
-        title: 'Title',
         newTab: 'Open link in new tab',
         text: 'Text',
         addTitle: 'Add link',
@@ -646,6 +666,21 @@ const phrases = {
     },
     image: {
       file: 'Image',
+      save: 'Save image',
+      editImage: 'Edit image',
+      removeImage: 'Remove image',
+      alignment: {
+        left: 'Left aligned',
+        right: 'Right aligned',
+        center: 'Large centered',
+      },
+      sizes: {
+        xsmall: 'Size: Small',
+        small: 'Size: Medium',
+        fullwidth: 'Size: Large',
+      },
+      crop: 'Crop image',
+      focalPoint: 'Set focalpoint',
       alt: {
         label: 'Alt-text',
         placeholder: 'Alt-text',
@@ -653,6 +688,12 @@ const phrases = {
       caption: {
         label: 'Image caption',
         placeholder: 'Image caption',
+        noText: 'WCAG requires alt-tekst.',
+      },
+      dragdrop: {
+        main: 'Drag and drop',
+        sub: 'or click to upload image',
+        ariaLabel: 'Drag and drop or click to upload image',
       },
     },
     video: {
@@ -671,6 +712,7 @@ const phrases = {
         label: 'Audio caption',
         placeholder: 'Audio caption',
       },
+      remove: 'Remove audio',
       sound: 'Audio',
       speech: 'Speech',
     },
@@ -695,6 +737,10 @@ const phrases = {
       },
       addFile: 'Add file',
       removeList: 'Remove file list',
+      placeholder: 'Filename',
+      changeName: 'Change name',
+      changeOrder: 'Change the order',
+      removeFile: 'Remove file',
     },
   },
   validation: {

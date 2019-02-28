@@ -10,6 +10,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
+import { FormHeader } from '@ndla/forms';
 
 import { getLocale } from '../../../modules/locale/locale';
 import { TextField } from '../../../components/Fields';
@@ -46,6 +47,7 @@ import {
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 
 import { CommonFieldPropsShape } from '../../../shapes';
+import { EditMarkupLink } from './EditMarkupLink';
 
 const findFootnotes = content =>
   content
@@ -79,7 +81,6 @@ class LearningResourceContent extends Component {
       blockquotePlugin,
       editListPlugin,
       paragraphPlugin(),
-
       createTablePlugin(),
       editTablePlugin,
       relatedPlugin(),
@@ -106,7 +107,7 @@ class LearningResourceContent extends Component {
   }
 
   render() {
-    const { t, commonFieldProps } = this.props;
+    const { t, commonFieldProps, userAccess, model } = this.props;
     const { value } = commonFieldProps.bindInput('content');
     return (
       <Fragment>
@@ -120,11 +121,18 @@ class LearningResourceContent extends Component {
           {...commonFieldProps}
         />
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
+        <FormHeader title={t('form.content.label')}>
+          {model.id && userAccess.includes('drafts:admin') && (
+            <EditMarkupLink
+              to={`/edit-markup/${model.id}/${model.language}`}
+              title={t('editMarkup.linkTitle')}
+            />
+          )}
+        </FormHeader>
         <RichBlockTextField
           slateSchema={schema}
           renderNode={renderNode}
           renderMark={renderMark}
-          label={t('form.content.label')}
           placeholder={t('form.content.placeholder')}
           name="content"
           data-cy="learning-resource-content"
@@ -140,6 +148,11 @@ class LearningResourceContent extends Component {
 LearningResourceContent.propTypes = {
   commonFieldProps: CommonFieldPropsShape.isRequired,
   locale: PropTypes.string.isRequired,
+  userAccess: PropTypes.string.isRequired,
+  model: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    language: PropTypes.string.isRequired,
+  }),
 };
 
 const mapStateToProps = state => ({

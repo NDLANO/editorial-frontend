@@ -155,7 +155,6 @@ export const FootnoteShape = PropTypes.shape({
 export const LinkShape = PropTypes.shape({
   text: PropTypes.string.isRequired,
   href: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
   checkbox: PropTypes.bool.isRequired,
 });
 
@@ -276,4 +275,10 @@ export const StructureShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
   path: PropTypes.string,
+});
+
+export const SupportedToolbarElementsShape = PropTypes.shape({
+  mark: PropTypes.arrayOf(PropTypes.string),
+  block: PropTypes.arrayOf(PropTypes.string),
+  inline: PropTypes.arrayOf(PropTypes.string),
 });

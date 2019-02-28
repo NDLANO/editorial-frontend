@@ -12,6 +12,12 @@ import Filelist from './Filelist';
 export default () => {
   const schema = {
     document: {},
+    blocks: {
+      file: {
+        isVoid: true,
+        data: {},
+      },
+    },
   };
 
   /* eslint-disable react/prop-types */

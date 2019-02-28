@@ -9,16 +9,13 @@
 import React from 'react';
 import { injectT } from '@ndla/i18n';
 import PropTypes from 'prop-types';
-import { Cross } from '@ndla/icons/action';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 import styled, { css } from 'react-emotion';
+import isString from 'lodash/isString';
 import * as articleApi from '../../modules/article/articleApi';
 import * as draftApi from '../../modules/draft/draftApi';
-import Lightbox, {
-  closeLightboxButtonStyle,
-  closeLightboxCrossStyle,
-} from '../Lightbox';
+import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import PreviewLightboxContent from './PreviewLightboxContent';
 import {
   transformArticle,
@@ -66,6 +63,13 @@ const customSpinnerStyle = css`
   margin-right: ${spacing.xsmall};
 `;
 
+// Transform article if title is a string. If not it's probably an api compatible article
+function toApiVersion(article) {
+  return isString(article.title)
+    ? transformArticleToApiVersion(article)
+    : article;
+}
+
 const defaultState = {
   firstArticle: undefined,
   secondArticle: undefined,
@@ -100,8 +104,7 @@ class PreviewDraftLightbox extends React.Component {
   async openPreview() {
     const { getArticle, typeOfPreview } = this.props;
 
-    const article = transformArticleToApiVersion(getArticle());
-
+    const article = toApiVersion(getArticle());
     const secondArticleLanguage = article.supportedLanguages.find(
       l => l !== article.language,
     );
@@ -122,7 +125,7 @@ class PreviewDraftLightbox extends React.Component {
       : undefined;
 
     this.setState({
-      firstArticle: transformArticle(firstArticle, article.language),
+      firstArticle: transformArticle(firstArticle),
       secondArticle,
       showPreview: true,
       previewLanguage: secondArticleLanguage,
@@ -137,12 +140,12 @@ class PreviewDraftLightbox extends React.Component {
       id,
       language,
     );
-    return transformArticle(article, language);
+    return transformArticle(article);
   }
 
   async previewLanguageArticle(language = undefined) {
     const { getArticle } = this.props;
-    const originalArticle = transformArticleToApiVersion(getArticle());
+    const originalArticle = toApiVersion(getArticle());
     const draftOtherLanguage = await draftApi.fetchDraft(
       originalArticle.id,
       language,
@@ -151,7 +154,7 @@ class PreviewDraftLightbox extends React.Component {
       draftOtherLanguage,
       language,
     );
-    return transformArticle(article, language);
+    return transformArticle(article);
   }
 
   render() {
@@ -178,7 +181,7 @@ class PreviewDraftLightbox extends React.Component {
         css={closeButtonStyle(typeOfPreview)}
         stripped
         onClick={this.onClosePreview}>
-        <Cross css={closeLightboxCrossStyle} />
+        <StyledCross />
       </Button>
     );
 

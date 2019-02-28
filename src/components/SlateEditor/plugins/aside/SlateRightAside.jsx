@@ -45,14 +45,15 @@ const SlateRightAside = props => {
       <DeleteButton
         title={t('learningResourceForm.fields.rightAside.delete')}
         stripped
-        onClick={onRemoveClick}
+        onMouseDown={onRemoveClick}
       />
       <Button
         css={moveContentButtonStyle}
         title={t('learningResourceForm.fields.rightAside.moveContent')}
         stripped
-        onClick={onMoveContent}>
+        onMouseDown={onMoveContent}>
         <ChevronLeft />
+        ??
       </Button>
     </aside>
   );

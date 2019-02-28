@@ -253,18 +253,6 @@ export const listItemRule = {
 export const unorderListRules = {
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'ul') return;
-    const type = el.attributes.getNamedItem('data-type');
-    const data = { type: type ? type.value : '' };
-
-    if (data.type === 'two-column') {
-      return {
-        object: 'block',
-        type: 'two-column-list',
-        nodes: next(el.childNodes),
-        data,
-      };
-    }
-
     return {
       object: 'block',
       type: 'bulleted-list',
@@ -273,15 +261,8 @@ export const unorderListRules = {
   },
   serialize(slateObject, children) {
     if (slateObject.object !== 'block') return;
-    if (
-      slateObject.type !== 'two-column-list' &&
-      slateObject.type !== 'bulleted-list'
-    ) {
+    if (slateObject.type !== 'bulleted-list') {
       return;
-    }
-
-    if (slateObject.type === 'two-column-list') {
-      return <ul data-type="two-column">{children}</ul>;
     }
     return <ul>{children}</ul>;
   },

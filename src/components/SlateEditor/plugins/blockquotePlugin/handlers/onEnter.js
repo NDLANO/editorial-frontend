@@ -8,7 +8,6 @@ import { unwrapBlockquote } from '../changes';
  */
 function onEnter(opts, event, editor, next) {
   const { startBlock } = editor.value;
-
   if (!getCurrentBlockquote(opts, editor)) {
     return next();
   }

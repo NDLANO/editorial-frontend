@@ -241,7 +241,7 @@ class ImageForm extends Component {
                 this.handleSubmit(e);
               }
             }}>
-            {t('form.save')}
+            {t('form.save')} - {inModal}
           </SaveButton>
         </Field>
         <AlertModalWrapper

@@ -9,24 +9,21 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
-import BEMHelper from 'react-bem-helper';
-import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
 import styled from 'react-emotion';
+import { spacing } from '@ndla/core';
+import Tooltip from '@ndla/tooltip';
+import { injectT } from '@ndla/i18n';
+import { FormHeader, FormHeaderIconClass } from '@ndla/forms';
+import { uuid } from '@ndla/util';
+import { FileListEditor } from '@ndla/editor';
+import { Cross, Plus } from '@ndla/icons/action';
 import { EditorShape } from '../../../../shapes';
 import { getSchemaEmbed } from '../../editorSchema';
-import SingleFile from './SingleFile';
 import AddFileToList from './AddFileToList';
 import config from '../../../../config';
 
-const fileListClasses = BEMHelper('c-file-list');
-
-const StyledButtonDiv = styled('div')`
-  display: flex;
-  justify-content: space-between;
-  & > * {
-    width: 48%;
-  }
+const StyledSection = styled.section`
+  margin-bottom: ${spacing.normal};
 `;
 
 const formatFile = ({ title, type, url, ...rest }, id, t) => ({
@@ -42,53 +39,31 @@ const formatFile = ({ title, type, url, ...rest }, id, t) => ({
 class Filelist extends React.Component {
   constructor(props) {
     super(props);
-    const { node, t } = props;
-    const { nodes } = getSchemaEmbed(node);
 
-    const files = nodes.map((file, id) => formatFile(file, id, t));
-
-    this.state = { files, showFileUploader: false };
+    this.state = { showFileUploader: false };
 
     this.onOpenFileUploader = this.onOpenFileUploader.bind(this);
     this.onCloseFileUploader = this.onCloseFileUploader.bind(this);
-    this.onFileInputChange = this.onFileInputChange.bind(this);
     this.onRemoveFileList = this.onRemoveFileList.bind(this);
-    this.onRemoveFile = this.onRemoveFile.bind(this);
     this.onAddFileToList = this.onAddFileToList.bind(this);
-    this.onChangeFileData = this.onChangeFileData.bind(this);
+    this.onUpdateFileName = this.onUpdateFileName.bind(this);
+    this.getFilesFromSlate = this.getFilesFromSlate.bind(this);
+    this.onDeleteFile = this.onDeleteFile.bind(this);
+    this.onMovedFile = this.onMovedFile.bind(this);
   }
 
-  onFileInputChange(e) {
-    const { id, value, name } = e.target;
-    const { t, node, editor } = this.props;
-
-    const { files } = this.state;
-    files[id][name] = value;
-
-    // Update correct tooltip value in state as well
-    if (name === 'title') {
-      files[id].formats = files[id].formats.map(format => ({
-        ...format,
-        tooltip: `${t(`form.file.download`)} ${value}`,
-      }));
-    }
-
-    this.setState({ files });
-
-    const { nodes } = getSchemaEmbed(node);
-    const properties = {
+  onUpdateFileName(index, value) {
+    const { node, editor } = this.props;
+    editor.setNodeByKey(node.key, {
       data: {
-        nodes: nodes.map(nodeItem => ({
-          ...nodeItem,
-          // URL as unique identifier for file embed until proper key/id is added
-          [name]: files.filter(file => file.formats[0].url === nodeItem.url)[0][
-            name
-          ],
-        })),
+        nodes: node.data.get('nodes').map((file, i) => {
+          if (i === index) {
+            return { ...file, title: value };
+          }
+          return file;
+        }),
       },
-    };
-
-    editor.setNodeByKey(node.key, properties);
+    });
   }
 
   onRemoveFileList(evt) {
@@ -97,43 +72,67 @@ class Filelist extends React.Component {
     editor.removeNodeByKey(node.key);
   }
 
-  onRemoveFile(evt, removedFile) {
-    this.setState(
-      prevState => ({
-        files: prevState.files.filter(file => file.id !== removedFile.id),
-      }),
-      this.onChangeFileData,
-    );
-  }
-
-  onAddFileToList(file) {
-    const { t } = this.props;
-    this.setState(
-      prevState => ({
-        showFileUploader: false,
-        files: prevState.files.concat([
-          formatFile(
-            { ...file, url: config.ndlaApiUrl + file.path, resource: 'file' },
-            prevState.files.length,
-            t,
-          ),
-        ]),
-      }),
-      this.onChangeFileData,
-    );
-  }
-
-  onChangeFileData() {
+  onDeleteFile(indexToDelete) {
     const { node, editor } = this.props;
-    const nodes = this.state.files.map(file => ({
-      path: file.path,
-      type: file.type,
-      title: file.title,
-      resource: file.resource,
-    }));
+    const files = this.getFilesFromSlate();
+    if (files.length === 0) {
+      editor.removeNodeByKey(node.key);
+    } else {
+      editor.setNodeByKey(node.key, {
+        data: {
+          nodes: node.data.get('nodes').filter((_, i) => i !== indexToDelete),
+        },
+      });
+    }
+  }
+
+  onAddFileToList(files) {
+    console.log(files);
+    const { t, editor, node } = this.props;
+    this.setState({
+      showFileUploader: false,
+    });
+    const existingFiles = node.data.get('nodes');
+    console.log(existingFiles);
+    const newFiles = files.map(file => {
+      if (file.format) {
+        return file;
+      }
+      return formatFile(
+        { ...file, url: config.ndlaApiUrl + file.path, resource: 'file' },
+        uuid(),
+        t,
+      );
+    });
+    console.log(newFiles);
     editor.setNodeByKey(node.key, {
       data: {
-        nodes,
+        nodes: existingFiles.concat(
+          newFiles.map(file => ({
+            path: file.path,
+            type: file.type,
+            title: file.title,
+            resource: file.resource,
+          })),
+        ),
+      },
+    });
+  }
+
+  onMovedFile(fromIndex, toIndex) {
+    const { editor, node } = this.props;
+    const files = node.data.get('nodes');
+    editor.setNodeByKey(node.key, {
+      data: {
+        nodes: files.map((file, i) => {
+          if (i === fromIndex) {
+            return files[toIndex];
+          }
+          if (i === toIndex) {
+            return files[fromIndex];
+          }
+          return file;
+        }),
       },
     });
   }
@@ -146,42 +145,60 @@ class Filelist extends React.Component {
     this.setState({ showFileUploader: false });
   }
 
+  getFilesFromSlate() {
+    const { node, t } = this.props;
+    const { nodes } = getSchemaEmbed(node);
+
+    return nodes.map((file, id) => formatFile(file, id, t));
+  }
+
   render() {
-    const { files, showFileUploader } = this.state;
+    const { t } = this.props;
+    const { showFileUploader } = this.state;
+    const files = this.getFilesFromSlate();
     if (!files.length === 0) {
       return null;
     }
-
-    const { t } = this.props;
-
     return (
       <Fragment>
-        <AddFileToList
-          onFileSave={this.onAddFileToList}
-          onClose={this.onCloseFileUploader}
-          showFileUploader={showFileUploader}
-        />
-        <section {...fileListClasses()}>
-          <h1 {...fileListClasses('heading')}>{t('form.file.label')}</h1>
-          <StyledButtonDiv>
-            <Button onClick={this.onOpenFileUploader}>
-              {t('form.file.addFile')}
-            </Button>
-            <Button onClick={this.onRemoveFileList}>
-              {t('form.file.removeList')}
-            </Button>
-          </StyledButtonDiv>
-          <ul {...fileListClasses('files')}>
-            {files.map(file => (
-              <SingleFile
-                key={`file-${file.id}-${file.formats[0].url}`}
-                file={file}
-                onFileInputChange={this.onFileInputChange}
-                onRemoveFile={this.onRemoveFile}
-              />
-            ))}
-          </ul>
-        </section>
+        <StyledSection>
+          <FormHeader title={t('form.file.label')}>
+            <Tooltip tooltip={t('form.file.addFile')}>
+              <button
+                tabIndex={-1}
+                type="button"
+                onClick={this.onOpenFileUploader}>
+                <Plus className={FormHeaderIconClass} />
+              </button>
+            </Tooltip>
+            <Tooltip tooltip={t('form.file.removeList')}>
+              <button
+                tabIndex={-1}
+                type="button"
+                onClick={this.onRemoveFileList}>
+                <Cross className={FormHeaderIconClass} />
+              </button>
+            </Tooltip>
+          </FormHeader>
+          <FileListEditor
+            files={files}
+            usePortal
+            onEditFileName={this.onUpdateFileName}
+            onDeleteFile={this.onDeleteFile}
+            onMovedFile={this.onMovedFile}
+            messages={{
+              placeholder: t('form.file.placeholder'),
+              changeName: t('form.file.changeName'),
+              changeOrder: t('form.file.changeOrder'),
+              removeFile: t('form.file.removeFile'),
+            }}
+          />
+          <AddFileToList
+            onFileSave={this.onAddFileToList}
+            onClose={this.onCloseFileUploader}
+            showFileUploader={showFileUploader}
+          />
+        </StyledSection>
       </Fragment>
     );
   }

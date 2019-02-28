@@ -119,7 +119,7 @@ const phrases = {
     en: 'Engelsk',
     nb: 'Bokmål',
     nn: 'Nynorsk',
-    se: 'Svensk',
+    se: 'Samisk',
     unknown: 'Ukjent',
     de: 'Tysk',
     empty: 'Ingen flere språk',
@@ -228,6 +228,21 @@ const phrases = {
   subjectPage: {
     topics: 'Emner',
   },
+  editMarkup: {
+    linkTitle: 'Gå til HTML-editor',
+    title: 'HTML-editor',
+    subTitle: 'Rediger artikkelinnhold med HTML',
+    fetchError:
+      'En feil oppsto ved lasting av HTML-editoren. Gå tilbake eller prøv å laste siden på nytt.',
+    saveError: 'En feil oppsto ved lagring av endringer.',
+    back: 'Tilbake',
+    helpMessage: {
+      paragraph1:
+        'Det er mulig å formatere HTML-koden ved å trykke på F1 og velge Format. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisningsfunksjonaliteten aktivt. ',
+      paragraph2:
+        'For å minimere eventuelle problemer med formatering og for å sikre at at HTML blir konsistent, så blir koden kjørt gjennom de samme transformeringene som den vanlige editoren. Det betyr at linjeskift f.eks. blir endret til <br> ved lagring, samt at den vil prøve å rette opp ugyldig kode.',
+    },
+  },
   imageSearch: {
     placeholder: 'Søk i bilder',
     buttonTitle: 'Søk',
@@ -240,8 +255,8 @@ const phrases = {
   videoSearch: {
     searchPlaceholder: 'Søk i videoer',
     searchButtonTitle: 'Søk',
-    loadMoreVideos: 'Last flere videor',
-    noResults: 'Ingen videor funnet.',
+    loadMoreVideos: 'Last flere videoer',
+    noResults: 'Ingen videoer funnet.',
     addVideo: 'Bruk video',
     previewVideo: 'Forhåndsvis',
     publishedDate: 'Publisert dato',
@@ -323,6 +338,7 @@ const phrases = {
     title: 'Lyd | {title} ({key})',
   },
   imageEditor: {
+    editImage: 'Rediger bildet',
     remove: {
       crop: 'Fjern utsnitt',
       focalPoint: 'Fjern fokuspunkt',
@@ -378,7 +394,7 @@ const phrases = {
   editorBlockpicker: {
     heading: 'Legg til',
     actions: {
-      block: 'Paragraf',
+      block: 'Seksjon',
       factAside: 'Faktaboks',
       table: 'Tabell',
       bodybox: 'Tekst i ramme',
@@ -404,6 +420,9 @@ const phrases = {
     choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagret ',
+    copy: 'kopi',
+    mustSaveFirst: 'Du må lagre endringene dine først',
+    saveAsCopySuccess: 'Ny artikkel lagret',
     preview: {
       button: 'Forhåndsvis',
     },
@@ -436,6 +455,9 @@ const phrases = {
       remove: 'Ta bort',
       warning: 'En merknad må ha tekst',
       history: {
+        user: 'Bruker',
+        time: 'Når',
+        status: 'Status',
         heading: 'Merknadshistorikk',
         note: 'Merknad',
         empty: 'Ingen merknader',
@@ -470,6 +492,7 @@ const phrases = {
       title: 'Status',
       change: 'Endre status',
       qualityAssurance: 'Kvalitetssikring',
+      saveAsNew: 'Lagre kopi som ny artikkel',
       deleteLanguageVersion: {
         button: 'Slett språkversjon',
         title: 'Slett språkversjon',
@@ -538,7 +561,6 @@ const phrases = {
         change: 'Endre',
         remove: 'Fjern lenke',
         href: 'Lenke',
-        title: 'Tittel',
         newTab: 'Åpne lenke i ny fane',
         text: 'Tekst',
         addTitle: 'Legg til lenke',
@@ -659,6 +681,21 @@ const phrases = {
     },
     image: {
       file: 'Bilde',
+      save: 'Lagre bilde',
+      editImage: 'Rediger bildet',
+      removeImage: 'Ta bort bilde',
+      alignment: {
+        left: 'Justering: Venstrestilt',
+        right: 'Justering: Høyrestilt',
+        center: 'Justering: Stort i midten',
+      },
+      sizes: {
+        xsmall: 'Størrelse: Lite',
+        small: 'Størrelse: Middels',
+        fullwidth: 'Størrelse: Stort',
+      },
+      crop: 'Lag utsnitt av bildet',
+      focalPoint: 'Sett fokalpunkt',
       caption: {
         label: 'Bildetekst',
         placeholder: 'Bildetekst',
@@ -666,6 +703,12 @@ const phrases = {
       alt: {
         label: 'Alt-tekst',
         placeholder: 'Alt-tekst',
+        noText: 'Universal utforming krever alt-tekst.',
+      },
+      dragdrop: {
+        main: 'Dra og slipp',
+        sub: 'eller trykk for å laste opp bilde',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp bilde',
       },
     },
     video: {
@@ -684,6 +727,7 @@ const phrases = {
         label: 'Lydtekst',
         placeholder: 'Lydtekst',
       },
+      remove: 'Ta bort lydfil',
       sound: 'Lyd',
       speech: 'Tale',
     },
@@ -708,6 +752,19 @@ const phrases = {
       },
       addFile: 'Legg til fil',
       removeList: 'Fjern filliste',
+      filesAdded: 'Filer lagt til',
+      saveChanges: 'Lagre endringer',
+      cancel: 'Avbryt',
+      placeholder: 'Oppgi et filnavn',
+      changeName: 'Endre navn',
+      changeOrder: 'Endre rekkefølge',
+      removeFile: 'Ta bort fil',
+      dragdrop: {
+        main: 'Dra og slipp',
+        sub: 'eller trykk for å laste opp file(r)',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp file(r)',
+        noFilesAdded: 'Ingen filer er lagt til',
+      },
     },
   },
   validation: {

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import styled from 'react-emotion';
 import handleError from '../../../util/handleError';
-import TaxonomyLightbox, {
-  classes,
-} from '../../../components/Taxonomy/TaxonomyLightbox';
+import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { groupSearch } from '../../../modules/search/searchApi';
 import {
@@ -17,6 +16,10 @@ import { getResourceIdFromPath } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import ArticlePreview from '../../../components/ArticlePreview';
 
+const StyledOrDivider = styled.span`
+  color: white;
+  align-self: center;
+`;
 class AddResourceModal extends Component {
   constructor() {
     super();
@@ -147,7 +150,9 @@ class AddResourceModal extends Component {
 
         {!pastedUrl && (
           <React.Fragment>
-            {allowPaste && <span {...classes('or')}>{t('taxonomy.or')}</span>}
+            {allowPaste && (
+              <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>
+            )}
             <AsyncDropdown
               valueField="id"
               name="resourceSearch"

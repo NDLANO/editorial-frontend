@@ -5,16 +5,21 @@ import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Portal } from '../../../Portal';
 import FileUploader from '../../../FileUploader';
 
-const AddFileToList = ({ showFileUploader, onClose, onFileSave, t }) =>
+const AddFileToList = ({
+  showFileUploader,
+  onClose,
+  onFileSave,
+  addedFiles,
+  t,
+}) =>
   showFileUploader ? (
     <Portal isOpened>
       <Modal
         controllable
         isOpen={showFileUploader}
-        size="large"
+        size="medium"
         onClose={onClose}
-        backgroundColor="white"
-        minHeight="90vh">
+        backgroundColor="white">
         {onCloseModal => (
           <Fragment>
             <ModalHeader>
@@ -36,6 +41,7 @@ AddFileToList.propTypes = {
   onFileSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   showFileUploader: PropTypes.bool.isRequired,
+  addedFiles: PropTypes.arrayOf(PropTypes.shape),
 };
 
 export default injectT(AddFileToList);

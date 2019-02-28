@@ -16,7 +16,7 @@ import { EditorShape } from '../../../../shapes';
 
 const tableActionButtonStyle = css`
   margin-right: 1rem;
-
+  border-bottom: 2px solid transparent;
   &:hover,
   &:focus {
     border-bottom: 2px solid ${colors.brand.primary};
@@ -24,17 +24,16 @@ const tableActionButtonStyle = css`
 `;
 
 const StyledTableActions = styled('div')`
-  margin-bottom: -1px;
-  margin-left: 8.66667px;
-  ${p => (p.show ? 'display: block;' : 'display: none;')};
+  display: ${p => (p.show ? 'block;' : 'none')};
+  position: absolute;
 `;
 
 const supportedTableOperations = [
-  'row-remove',
   'row-add',
-  'table-remove',
-  'column-remove',
   'column-add',
+  'row-remove',
+  'column-remove',
+  'table-remove',
 ];
 
 const TableActions = ({ value, editor, t }) => {

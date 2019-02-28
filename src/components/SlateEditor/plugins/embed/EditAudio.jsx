@@ -7,21 +7,21 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { bool, func, string } from 'prop-types';
+import { bool, func, string, shape, object } from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import BEMHelper from 'react-bem-helper';
+import { FormInput } from '@ndla/forms';
+import { css } from 'react-emotion';
+import { AudioPlayer } from '@ndla/ui';
 import ObjectSelector from '../../../ObjectSelector';
 import { EmbedShape } from '../../../../shapes';
-
 import Overlay from '../../../Overlay';
 import { Portal } from '../../../Portal';
 import FigureButtons from './FigureButtons';
-import SlateInputField from './SlateInputField';
 
-const classes = new BEMHelper({
-  name: 'audio-box',
-  prefix: 'c-',
-});
+const placeholderStyle = css`
+  position: relative;
+  border: 1px solid var(--article-color);
+`;
 
 class EditAudio extends Component {
   componentDidMount() {
@@ -34,9 +34,9 @@ class EditAudio extends Component {
     // Placing embed within placeholder div on mount
     placeholderEl.style.height = `${embedRect.height + 120}px`;
     embedEl.style.position = 'absolute';
-    embedEl.style.top = `${placeholderRect.top - bodyRect.top + 50}px`;
-    embedEl.style.left = `${placeholderRect.left + 100}px`;
-    embedEl.style.width = `${placeholderRect.width - 200}px`;
+    embedEl.style.top = `${placeholderRect.top - bodyRect.top}px`;
+    embedEl.style.left = `${placeholderRect.left}px`;
+    embedEl.style.width = `${placeholderRect.width}px`;
   }
 
   render() {
@@ -44,12 +44,15 @@ class EditAudio extends Component {
       embed,
       onChange,
       onAudioFigureInputChange,
-      locale,
       onExit,
       onRemoveClick,
       audioType,
       t,
-      children,
+      speech,
+      audio: {
+        title,
+        audioFile: { mimeType, url },
+      },
       submitted,
     } = this.props;
     return (
@@ -57,13 +60,17 @@ class EditAudio extends Component {
         <Overlay onExit={onExit} key="audioOverlay" />
         <div
           key="audioPlaceholder"
-          {...classes()}
+          css={placeholderStyle}
           ref={placeholderEl => {
             this.placeholderEl = placeholderEl;
           }}
         />
         <Portal isOpened key="audioPortal">
           <div
+            css={`
+              padding: 50px;
+              background-color: white;
+            `}
             ref={embedEl => {
               this.embedEl = embedEl;
             }}>
@@ -87,10 +94,16 @@ class EditAudio extends Component {
                 },
               ]}
             />
-            {children}
-            <SlateInputField
+            <AudioPlayer
+              type={mimeType}
+              src={url}
+              title={title}
+              speech={speech}
+            />
+            <FormInput
               name="caption"
               label={t('form.audio.caption.label')}
+              container="div"
               type="text"
               value={embed.caption}
               onChange={onAudioFigureInputChange}
@@ -100,11 +113,9 @@ class EditAudio extends Component {
           </div>
         </Portal>
         <FigureButtons
-          key="audioFigureButtons"
-          locale={locale}
+          tooltip={t('form.audio.remove')}
           onRemoveClick={onRemoveClick}
           embed={embed}
-          figureType="audio"
         />
       </Fragment>
     );
@@ -117,9 +128,13 @@ EditAudio.propTypes = {
   onAudioFigureInputChange: func,
   audioType: string,
   onRemoveClick: func,
-  locale: string,
   submitted: bool.isRequired,
   embed: EmbedShape.isRequired,
+  speech: bool,
+  audio: shape({
+    title: string,
+    audioFile: object,
+  }),
 };
 
 export default injectT(EditAudio);

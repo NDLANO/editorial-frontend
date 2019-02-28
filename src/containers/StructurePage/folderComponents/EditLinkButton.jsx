@@ -11,7 +11,8 @@ import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { Link as LinkIcon } from '@ndla/icons/editor';
-import BEMHelper from 'react-bem-helper';
+import { colors } from '@ndla/core';
+import { css } from 'react-emotion';
 import { Pencil, Minus } from '@ndla/icons/action';
 import Overlay from '../../../components/Overlay';
 import RoundIcon from '../../../components/RoundIcon';
@@ -19,11 +20,12 @@ import AlertModal from '../../../components/AlertModal';
 import { Portal } from '../../../components/Portal';
 import MenuItemButton from './menuOptions/MenuItemButton';
 import CrossButton from '../../../components/CrossButton';
+import { StyledDivWrapper } from './SettingsMenuDropdown';
 
-const classes = new BEMHelper({
-  name: 'settingsMenu',
-  prefix: 'c-',
-});
+const closeButtonStyle = css`
+  color: ${colors.brand.greyLight};
+  margin-left: auto;
+`;
 
 class EditLinkButton extends Component {
   constructor() {
@@ -102,13 +104,13 @@ class EditLinkButton extends Component {
             <Portal isOpened>
               <Overlay onExit={this.toggleOpen} />
             </Portal>
-            <div {...classes('openMenu')}>
+            <StyledDivWrapper>
               <div className="header">
                 <RoundIcon icon={<LinkIcon />} open />
                 <span>{t(`taxonomy.linkSettings`)}</span>
                 <CrossButton
                   stripped
-                  {...classes('closeButton')}
+                  css={closeButtonStyle}
                   onClick={this.toggleOpen}
                 />
               </div>
@@ -124,7 +126,7 @@ class EditLinkButton extends Component {
                 <RoundIcon small icon={<Minus />} />
                 {t('taxonomy.removeLink')}
               </MenuItemButton>
-            </div>
+            </StyledDivWrapper>
           </React.Fragment>
         )}
       </div>

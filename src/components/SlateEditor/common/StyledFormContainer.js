@@ -1,9 +1,9 @@
 import styled from 'react-emotion';
-import { colors } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 
 const StyledFormContainer = styled('div')`
   margin: 0;
-  padding: 0.44em 0;
+  padding: ${spacing.small} 0;
   border-top: 1px solid white;
   border-bottom: 1px solid white;
   clear: both;
@@ -13,7 +13,7 @@ const StyledFormContainer = styled('div')`
     border-top: 1px solid ${colors.brand.greyLight};
     border-bottom: 1px solid ${colors.brand.greyLight};
 
-    & > button {
+    .tooltipContainerClass {
       color: red;
       display: block;
       float: right;
@@ -25,7 +25,7 @@ const StyledFormContainer = styled('div')`
     margin-top: 1rem;
   }
 
-  & > button {
+  .tooltipContainerClass {
     display: none;
   }
 `;

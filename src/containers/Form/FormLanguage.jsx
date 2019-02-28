@@ -42,7 +42,9 @@ class FormLanguage extends Component {
         <Button stripped onClick={this.onDisplayToggle}>
           {t('form.variant.create')}
         </Button>
-        {display && <Overlay onExit={this.onDisplayToggle} />}
+        {display && (
+          <Overlay onExit={this.onDisplayToggle} modifiers={['zIndex']} />
+        )}
         <ul {...classes('items', display ? 'show' : '')}>
           {emptyLanguages.length > 0 ? (
             emptyLanguages.map(language => (

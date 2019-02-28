@@ -47,12 +47,13 @@ export const defaultEmbedBlock = data =>
     data,
   });
 
-export const defaultFilesBlock = data =>
-  Block.create({
+export const defaultFilesBlock = data => {
+  return Block.create({
     object: 'Block',
     type: 'file',
     data,
   });
+};
 
 export const defaultRelatedBlock = () =>
   Block.create({

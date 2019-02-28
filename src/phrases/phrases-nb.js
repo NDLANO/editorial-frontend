@@ -420,6 +420,9 @@ const phrases = {
     choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagret ',
+    copy: 'kopi',
+    mustSaveFirst: 'Du må lagre endringene dine først',
+    saveAsCopySuccess: 'Ny artikkel lagret',
     preview: {
       button: 'Forhåndsvis',
     },
@@ -489,6 +492,7 @@ const phrases = {
       title: 'Status',
       change: 'Endre status',
       qualityAssurance: 'Kvalitetssikring',
+      saveAsNew: 'Lagre kopi som ny artikkel',
       deleteLanguageVersion: {
         button: 'Slett språkversjon',
         title: 'Slett språkversjon',

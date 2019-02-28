@@ -51,7 +51,6 @@ exports[`parseEmbedTag parses brightcove embed tag to object 1`] = `
 Object {
   "account": "4806596774001",
   "caption": "Intervju med Hallvard",
-  "metaData": Object {},
   "player": "BkLm8fT",
   "resource": "brightcove",
   "videoid": "ref:106952",
@@ -60,7 +59,6 @@ Object {
 
 exports[`parseEmbedTag parses h5p embed tag to object 1`] = `
 Object {
-  "metaData": Object {},
   "resource": "h5p",
   "url": "https://h5p-test.ndla.no/resource/3ab6850d-cd30-4f11-aead-8be65f66f566/oembed",
 }
@@ -71,7 +69,6 @@ Object {
   "align": "",
   "alt": "Guinness sign",
   "caption": "Guinness is good for you",
-  "metaData": Object {},
   "resource": "image",
   "resource_id": "42159",
   "size": "fullbredde",
@@ -82,7 +79,6 @@ Object {
 exports[`parseEmbedTag parses related-content embed tag to object 1`] = `
 Object {
   "article-id": "363",
-  "metaData": Object {},
   "resource": "related-content",
 }
 `;

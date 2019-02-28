@@ -9,40 +9,60 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { colors } from '@ndla/core';
-import { css } from 'react-emotion';
+import { colors, spacing, animations, shadows } from '@ndla/core';
+import styled, { css } from 'react-emotion';
 import { Settings } from '@ndla/icons/editor';
 import RoundIcon from '../../../components/RoundIcon';
 import SettingsMenuDropdownType from './SettingsMenuDropdownType';
 import CrossButton from '../../../components/CrossButton';
+
+const SettingsMenuDropdown = ({ onClose, t, id, ...rest }) => {
+  const settingsMenuType = id.includes('subject') ? 'subject' : 'topic';
+  return (
+    <StyledDivWrapper>
+      <div className="header">
+        <RoundIcon icon={<Settings />} open />
+        <span
+          css={css`
+            margin-left: calc(${spacing.small} / 2);
+          `}>
+          {t(`taxonomy.${settingsMenuType}Settings`)}
+        </span>
+        <CrossButton stripped css={closeButtonStyle} onClick={onClose} />
+      </div>
+      <SettingsMenuDropdownType
+        onClose={onClose}
+        id={id}
+        {...rest}
+        settingsMenuType={settingsMenuType}
+      />
+    </StyledDivWrapper>
+  );
+};
 
 const closeButtonStyle = css`
   color: ${colors.brand.grey};
   margin-left: auto;
 `;
 
-const SettingsMenuDropdown = ({ classes, onClose, t, id, ...rest }) => {
-  const settingsMenuType = id.includes('subject') ? 'subject' : 'topic';
-  return (
-    <div {...classes('openMenu')}>
-      <div className="header">
-        <RoundIcon icon={<Settings />} open />
-        <span>{t(`taxonomy.${settingsMenuType}Settings`)}</span>
-        <CrossButton stripped css={closeButtonStyle} onClick={onClose} />
-      </div>
-      <SettingsMenuDropdownType
-        onClose={onClose}
-        classes={classes}
-        id={id}
-        {...rest}
-        settingsMenuType={settingsMenuType}
-      />
-    </div>
-  );
-};
+export const StyledDivWrapper = styled('div')`
+  position: absolute;
+  ${animations.fadeIn()}
+  box-shadow: ${shadows.levitate1};
+  z-index: 2;
+  top: -1px;
+  padding: calc(${spacing.small} / 2);
+  min-width: 350px;
+  background-color: ${colors.brand.greyLightest};
+  box-shadow: 0 0 4px 0 rgba(78, 78, 78, 0.5);
+
+  & .header {
+    display: flex;
+    align-items: center;
+  }
+`;
 
 SettingsMenuDropdown.propTypes = {
-  classes: PropTypes.func,
   onClose: PropTypes.func,
   onChangeSubjectName: PropTypes.func,
   onAddSubjectTopic: PropTypes.func,

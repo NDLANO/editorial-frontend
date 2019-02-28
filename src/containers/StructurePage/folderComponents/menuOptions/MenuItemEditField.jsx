@@ -25,7 +25,6 @@ const StyledMenuItemEditField = styled('div')`
 const StyledmenuItemInputField = styled('input')`
   margin-right: calc(${spacing.small} / 2);
   max-height: ${spacing.normal};
-  width: auto;
 `;
 
 export const StyledErrorMessage = styled('div')`

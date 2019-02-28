@@ -8,20 +8,27 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
+import { spacing } from '@ndla/core';
+import styled from 'react-emotion';
 
-const classes = new BEMHelper({
-  name: 'meta-information',
-  prefix: 'c-',
-});
+const StyleMetaInformation = styled.div`
+  display: inline-block;
+  margin-left: ${spacing.normal};
+}
+`;
+
+const StyledStrong = styled.strong`
+  display: block;
+`;
+
 const MetaInformation = ({ title, copyright, translations, action }) => (
-  <div {...classes()}>
-    <strong>{title ? translations.title : ''}</strong>
+  <StyleMetaInformation>
+    <StyledStrong>{title ? translations.title : ''}</StyledStrong>
     <span>{title}</span>
-    <strong>{copyright ? translations.copyright : ''}</strong>
+    <StyledStrong>{copyright ? translations.copyright : ''}</StyledStrong>
     <span>{copyright}</span>
     {action || null}
-  </div>
+  </StyleMetaInformation>
 );
 
 MetaInformation.propTypes = {

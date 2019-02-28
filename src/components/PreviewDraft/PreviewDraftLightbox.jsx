@@ -9,17 +9,13 @@
 import React from 'react';
 import { injectT } from '@ndla/i18n';
 import PropTypes from 'prop-types';
-import { Cross } from '@ndla/icons/action';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 import styled, { css } from 'react-emotion';
 import isString from 'lodash/isString';
 import * as articleApi from '../../modules/article/articleApi';
 import * as draftApi from '../../modules/draft/draftApi';
-import Lightbox, {
-  closeLightboxButtonStyle,
-  closeLightboxCrossStyle,
-} from '../Lightbox';
+import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import PreviewLightboxContent from './PreviewLightboxContent';
 import {
   transformArticle,
@@ -129,7 +125,7 @@ class PreviewDraftLightbox extends React.Component {
       : undefined;
 
     this.setState({
-      firstArticle: transformArticle(firstArticle, article.language),
+      firstArticle: transformArticle(firstArticle),
       secondArticle,
       showPreview: true,
       previewLanguage: secondArticleLanguage,
@@ -144,7 +140,7 @@ class PreviewDraftLightbox extends React.Component {
       id,
       language,
     );
-    return transformArticle(article, language);
+    return transformArticle(article);
   }
 
   async previewLanguageArticle(language = undefined) {
@@ -158,7 +154,7 @@ class PreviewDraftLightbox extends React.Component {
       draftOtherLanguage,
       language,
     );
-    return transformArticle(article, language);
+    return transformArticle(article);
   }
 
   render() {
@@ -185,7 +181,7 @@ class PreviewDraftLightbox extends React.Component {
         css={closeButtonStyle(typeOfPreview)}
         stripped
         onClick={this.onClosePreview}>
-        <Cross css={closeLightboxCrossStyle} />
+        <StyledCross />
       </Button>
     );
 

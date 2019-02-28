@@ -64,8 +64,7 @@ const Resource = ({
           display
           big
           title={t('taxonomy.resource.chooseFilter')}
-          onClose={() => toggleFilterPicker(id)}
-          whiteContent>
+          onClose={() => toggleFilterPicker(id)}>
           <FilterConnections
             topics={[currentTopic]}
             filter={activeFilters}

@@ -87,13 +87,13 @@ export const closeLightboxButtonStyle = css`
   margin-right: -20px;
 `;
 
-export const closeLightboxCrossStyle = severity => css`
+export const StyledCross = styled(Cross)`
   float: right;
   height: 24px;
   width: 24px;
   margin-right: 7px;
   color: ${colors.brand.grey};
-  ${severities[severity]};
+  ${p => severities[p.severity]};
 `;
 
 class Lightbox extends React.PureComponent {
@@ -139,7 +139,7 @@ class Lightbox extends React.PureComponent {
               css={closeLightboxButtonStyle}
               stripped
               onClick={this.onCloseButtonClick}>
-              <Cross css={closeLightboxCrossStyle(severity)} />
+              <StyledCross severity={severity} />
             </Button>
           )}
           {children}

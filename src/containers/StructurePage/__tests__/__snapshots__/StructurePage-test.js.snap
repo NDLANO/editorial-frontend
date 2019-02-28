@@ -104,10 +104,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         id="plumbContainer"
       >
         <ul
-          class="css-1l95nvm emotion-54"
+          class="css-1l95nvm emotion-68"
         >
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -131,7 +131,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -160,7 +160,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -184,7 +184,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -213,7 +213,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -237,7 +237,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -266,7 +266,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -290,7 +290,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -319,7 +319,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -343,7 +343,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -372,7 +372,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -396,7 +396,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -425,7 +425,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -449,7 +449,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -478,7 +478,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -502,7 +502,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -531,7 +531,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -555,7 +555,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -584,7 +584,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -608,7 +608,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -637,7 +637,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -661,7 +661,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -690,7 +690,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-26o8mj emotion-5"
+            class="css-26o8mj emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -707,7 +707,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 data-cy="folderWrapper"
               >
                 <div
-                  class="c-settingsMenu"
+                  class="css-a978th emotion-50"
                 >
                   <button
                     class="css-ac6kxl emotion-0"
@@ -715,7 +715,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon c-roundIcon--margin"
+                      class="css-1rki2l3 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -745,10 +745,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </button>
                 </div>
                 <div
-                  class="css-1y4kgfw emotion-39"
+                  class="css-1y4kgfw emotion-52"
                 >
                   <span
-                    class="css-1w045de emotion-38"
+                    class="css-3o571t emotion-51"
                   >
                     Filtrer emner
                     :
@@ -762,7 +762,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -790,10 +790,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               </div>
             </div>
             <ul
-              class="css-1l95nvm emotion-54"
+              class="css-1l95nvm emotion-68"
             >
               <li
-                class="css-18h3lc8 emotion-5"
+                class="css-18h3lc8 emotion-6"
               >
                 <div
                   class="css-gg4vpm"
@@ -812,7 +812,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </div>
               </li>
               <li
-                class="css-18h3lc8 emotion-5"
+                class="css-18h3lc8 emotion-6"
               >
                 <div
                   class="css-gg4vpm"
@@ -830,10 +830,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-54"
+                  class="css-1l95nvm emotion-68"
                 >
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -852,7 +852,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -871,7 +871,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -890,7 +890,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -909,7 +909,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -930,7 +930,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-18h3lc8 emotion-5"
+                class="css-18h3lc8 emotion-6"
               >
                 <div
                   class="css-gg4vpm"
@@ -948,10 +948,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-54"
+                  class="css-1l95nvm emotion-68"
                 >
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -970,7 +970,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -989,7 +989,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1008,7 +1008,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1027,7 +1027,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1046,7 +1046,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1065,7 +1065,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1086,7 +1086,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-ds82gx emotion-5"
+                class="css-ds82gx emotion-6"
               >
                 <div
                   class="css-gg4vpm"
@@ -1103,7 +1103,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     data-cy="folderWrapper"
                   >
                     <div
-                      class="c-settingsMenu"
+                      class="css-a978th emotion-50"
                     >
                       <button
                         class="css-ac6kxl emotion-0"
@@ -1111,7 +1111,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                         type="button"
                       >
                         <div
-                          class="c-roundIcon c-roundIcon--margin"
+                          class="css-1rki2l3 emotion-4"
                         >
                           <svg
                             class="c-icon"
@@ -1143,10 +1143,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </div>
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-54"
+                  class="css-1l95nvm emotion-68"
                 >
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1165,7 +1165,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-nbem2u emotion-5"
+                    class="css-nbem2u emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1182,7 +1182,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                         data-cy="folderWrapper"
                       >
                         <div
-                          class="c-settingsMenu"
+                          class="css-a978th emotion-50"
                         >
                           <button
                             class="css-ac6kxl emotion-0"
@@ -1190,7 +1190,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             type="button"
                           >
                             <div
-                              class="c-roundIcon c-roundIcon--margin"
+                              class="css-1rki2l3 emotion-4"
                             >
                               <svg
                                 class="c-icon"
@@ -1223,7 +1223,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1244,7 +1244,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-18h3lc8 emotion-5"
+                class="css-18h3lc8 emotion-6"
               >
                 <div
                   class="css-gg4vpm"
@@ -1262,10 +1262,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-54"
+                  class="css-1l95nvm emotion-68"
                 >
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1284,7 +1284,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1303,7 +1303,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1322,7 +1322,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1341,7 +1341,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1362,7 +1362,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-18h3lc8 emotion-5"
+                class="css-18h3lc8 emotion-6"
               >
                 <div
                   class="css-gg4vpm"
@@ -1380,10 +1380,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-54"
+                  class="css-1l95nvm emotion-68"
                 >
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1402,7 +1402,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1423,7 +1423,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-18h3lc8 emotion-5"
+                class="css-18h3lc8 emotion-6"
               >
                 <div
                   class="css-gg4vpm"
@@ -1441,10 +1441,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-54"
+                  class="css-1l95nvm emotion-68"
                 >
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1463,7 +1463,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1482,7 +1482,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1501,7 +1501,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1520,7 +1520,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1541,7 +1541,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-18h3lc8 emotion-5"
+                class="css-18h3lc8 emotion-6"
               >
                 <div
                   class="css-gg4vpm"
@@ -1559,10 +1559,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-54"
+                  class="css-1l95nvm emotion-68"
                 >
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1581,7 +1581,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1600,7 +1600,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1619,7 +1619,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1638,7 +1638,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1657,7 +1657,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-5"
+                    class="css-1s4ye1i emotion-6"
                   >
                     <div
                       class="css-gg4vpm"
@@ -1680,7 +1680,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </ul>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -1704,7 +1704,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -1733,7 +1733,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -1757,7 +1757,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -1786,7 +1786,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -1810,7 +1810,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -1839,7 +1839,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -1863,7 +1863,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -1892,7 +1892,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -1916,7 +1916,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -1945,7 +1945,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -1969,7 +1969,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"
@@ -1998,7 +1998,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-5"
+            class="css-b21031 emotion-6"
           >
             <div
               class="css-gg4vpm"
@@ -2022,7 +2022,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     type="button"
                   >
                     <div
-                      class="c-roundIcon"
+                      class="css-blrba0 emotion-4"
                     >
                       <svg
                         class="c-icon"

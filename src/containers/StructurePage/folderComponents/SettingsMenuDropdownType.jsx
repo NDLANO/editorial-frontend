@@ -18,25 +18,33 @@ import AddSubjectTopic from './menuOptions/AddSubjectTopic';
 import AddExistingSubjectTopic from './menuOptions/AddExistingSubjectTopic';
 import EditFilterOption from './menuOptions/EditFilterOption';
 
-const SettingsMenuDropdownType = ({ classes, settingsMenuType, ...rest }) => {
+const SettingsMenuDropdownType = ({
+  settingsMenuType,
+  showAllOptions,
+  ...rest
+}) => {
   switch (settingsMenuType) {
     case 'subject':
       return (
         <Fragment>
           <ChangeSubjectName {...rest} />
-          <AddSubjectTopic {...rest} />
-          <AddExistingSubjectTopic {...rest} />
-          <EditFilterOption classes={classes} {...rest} />
+          {showAllOptions && (
+            <Fragment>
+              <AddSubjectTopic {...rest} />
+              <AddExistingSubjectTopic {...rest} />
+              <EditFilterOption {...rest} />
+            </Fragment>
+          )}
         </Fragment>
       );
     case 'topic':
       return (
         <Fragment>
           <ChangeTopicName {...rest} />
-          <AddTopic {...rest} />
-          <AddExistingTopic {...rest} />
-          <ConnectFilterOption classes={classes} {...rest} />
-          <DeleteTopic {...rest} />
+          {showAllOptions && <AddTopic {...rest} />}
+          {showAllOptions && <AddExistingTopic {...rest} />}
+          <ConnectFilterOption {...rest} />
+          {showAllOptions && <DeleteTopic {...rest} />}
         </Fragment>
       );
     default:
@@ -45,7 +53,6 @@ const SettingsMenuDropdownType = ({ classes, settingsMenuType, ...rest }) => {
 };
 
 SettingsMenuDropdownType.propTypes = {
-  classes: PropTypes.func,
   onClose: PropTypes.func,
   onChangeSubjectName: PropTypes.func,
   onAddSubjectTopic: PropTypes.func,

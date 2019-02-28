@@ -54,12 +54,11 @@ describe('Selecting text and using the toolbar', () => {
       .contains('Sett inn lenke')
       .click();
     cy.get('input[name=href]').type('http://www.vg.no');
-    cy.get('[data-cy=link_form] input[name=title]').type('VG');
     cy.get('button')
       .contains('Sett inn lenke')
       .click();
-    cy.get('a[title=VG]').contains('This is a test link');
-    cy.get('a[title=VG]')
+    cy.get('a[href="http://www.vg.no"]').contains('This is a test link');
+    cy.get('a[href="http://www.vg.no"]')
       .should('have.prop', 'href')
       .and('equal', 'http://www.vg.no/');
   });

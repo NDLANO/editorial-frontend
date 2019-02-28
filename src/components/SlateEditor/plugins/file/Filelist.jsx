@@ -13,7 +13,7 @@ import styled from 'react-emotion';
 import { spacing } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
 import { injectT } from '@ndla/i18n';
-import { FormHeader, FormHeaderIconClass } from '@ndla/forms';
+import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
 import { uuid } from '@ndla/util';
 import { FileListEditor } from '@ndla/editor';
 import { Cross, Plus } from '@ndla/icons/action';
@@ -162,13 +162,13 @@ class Filelist extends React.Component {
     return (
       <Fragment>
         <StyledSection>
-          <FormHeader title={t('form.file.label')}>
+          <FieldHeader title={t('form.file.label')}>
             <Tooltip tooltip={t('form.file.addFile')}>
               <button
                 tabIndex={-1}
                 type="button"
                 onClick={this.onOpenFileUploader}>
-                <Plus className={FormHeaderIconClass} />
+                <Plus css={FieldHeaderIconStyle} />
               </button>
             </Tooltip>
             <Tooltip tooltip={t('form.file.removeList')}>
@@ -176,10 +176,10 @@ class Filelist extends React.Component {
                 tabIndex={-1}
                 type="button"
                 onClick={this.onRemoveFileList}>
-                <Cross className={FormHeaderIconClass} />
+                <Cross css={FieldHeaderIconStyle} />
               </button>
             </Tooltip>
-          </FormHeader>
+          </FieldHeader>
           <FileListEditor
             files={files}
             usePortal

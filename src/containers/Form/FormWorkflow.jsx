@@ -108,7 +108,7 @@ class FormWorkflow extends Component {
     } else {
       const newArticle = await draftApi.createDraft({
         ...article,
-        title: article.title.concat(t('form.titleCopy')),
+        title: `${article.title} (${t('form.copy')})`,
       });
       createMessage({
         translationKey: t('form.saveAsCopySuccess'),

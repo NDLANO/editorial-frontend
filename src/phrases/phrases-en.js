@@ -408,7 +408,7 @@ const phrases = {
     saving: 'Saving...',
     choose: 'Choose',
     saved: 'Saved ',
-    titleCopy: ' (copy)',
+    copy: 'copy',
     saveAsCopySuccess: 'New article saved',
     preview: {
       button: 'Preview',

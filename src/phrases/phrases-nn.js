@@ -120,6 +120,7 @@ const phrases = {
     nb: 'Bokmål',
     nn: 'Nynorsk',
     se: 'Samisk',
+    sma: 'Sørsamisk',
     unknown: 'Ukjent',
     de: 'Tysk',
     empty: 'Ingen flere språk',

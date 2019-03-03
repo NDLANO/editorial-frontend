@@ -122,6 +122,7 @@ const phrases = {
     nb: 'Norwegian - Bokmål',
     nn: 'Norwegian - Nynorsk',
     se: 'Sami',
+    sma: 'Southern Sami',
     unknown: 'Unknown',
     de: 'German',
     empty: 'No languages left',

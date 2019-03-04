@@ -9,7 +9,7 @@
 import React, { Component, Fragment } from 'react';
 import { bool, func, string, shape, object } from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { FormInput } from '@ndla/forms';
+import { Input } from '@ndla/forms';
 import { css } from 'react-emotion';
 import { AudioPlayer } from '@ndla/ui';
 import ObjectSelector from '../../../ObjectSelector';
@@ -100,7 +100,7 @@ class EditAudio extends Component {
               title={title}
               speech={speech}
             />
-            <FormInput
+            <Input
               name="caption"
               label={t('form.audio.caption.label')}
               container="div"

@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormHeader } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 import { colors, spacing, fonts } from '@ndla/core';
 import { uuid } from '@ndla/util';
 import { injectT } from '@ndla/i18n';
@@ -124,7 +124,7 @@ class FormNotes extends React.Component {
 
     return (
       <Field>
-        <FormHeader title={t('form.notes.history.heading')} />
+        <FieldHeader title={t('form.notes.history.heading')} />
         {notes && notes.length > 0 ? (
           <StyledTable>
             <thead>

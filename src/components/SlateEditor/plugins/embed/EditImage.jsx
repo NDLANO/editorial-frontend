@@ -6,7 +6,7 @@ import Types from 'slate-prop-types';
 import { injectT } from '@ndla/i18n';
 import { spacing, colors, shadows } from '@ndla/core';
 import Button from '@ndla/button';
-import { FormInput, StyledButtonWrapper } from '@ndla/forms';
+import { Input, StyledButtonWrapper } from '@ndla/forms';
 import { isEmpty } from '../../../validators';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { Portal } from '../../../Portal';
@@ -142,7 +142,7 @@ class EditImage extends Component {
                 {...this.props}
               />
               <StyledInputWrapper>
-                <FormInput
+                <Input
                   name="caption"
                   label={`${t('form.image.caption.label')}:`}
                   value={caption}
@@ -153,7 +153,7 @@ class EditImage extends Component {
                   placeholder={t('form.image.caption.placeholder')}
                   white
                 />
-                <FormInput
+                <Input
                   name="alt"
                   label={`${t('form.image.alt.label')}:`}
                   value={alt}

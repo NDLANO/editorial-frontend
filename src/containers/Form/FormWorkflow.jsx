@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Button from '@ndla/button';
-import { FormHeader } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as draftApi from '../../modules/draft/draftApi';
 import { FormAddNotes } from '.';
@@ -151,7 +151,7 @@ class FormWorkflow extends Component {
         />
         <FormDeleteLanguageVersion model={model} />
         <div>
-          <FormHeader title={t('form.workflow.saveAsNew')} />
+          <FieldHeader title={t('form.workflow.saveAsNew')} />
           <Button onClick={this.onSaveAsNew}>
             {t('form.workflow.saveAsNew')}
           </Button>

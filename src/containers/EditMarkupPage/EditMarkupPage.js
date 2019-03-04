@@ -13,7 +13,7 @@ import Button from '@ndla/button';
 import { Link } from 'react-router-dom';
 import { spacing, colors } from '@ndla/core';
 import styled, { css } from 'react-emotion';
-import { FormHeader } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
@@ -153,14 +153,14 @@ export class EditMarkupPage extends Component {
       <Trans>
         {({ t }) => (
           <Container>
-            <FormHeader
+            <FieldHeader
               title={t('editMarkup.title')}
               subTitle={t('editMarkup.subTitle')}>
               <HelpMessage>
                 <p>{t('editMarkup.helpMessage.paragraph1')}</p>
                 <p>{t('editMarkup.helpMessage.paragraph2')}</p>
               </HelpMessage>
-            </FormHeader>
+            </FieldHeader>
             <Suspense fallback={<Spinner />}>
               <MonacoEditor
                 key={draft ? draft.id + draft.revision : 'draft'}

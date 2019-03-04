@@ -10,12 +10,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
-import { FormHeader } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 import PreviewDraftLightbox from '../../../components/PreviewDraft/PreviewDraftLightbox';
 
 const FormikQualityAssurance = ({ getArticle, values, onValidateClick, t }) => (
   <div>
-    <FormHeader title={t('form.workflow.qualityAssurance')} />
+    <FieldHeader title={t('form.workflow.qualityAssurance')} />
     <PreviewDraftLightbox
       label={t('subNavigation.learningResource')}
       typeOfPreview="preview"

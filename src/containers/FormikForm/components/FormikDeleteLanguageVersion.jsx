@@ -14,7 +14,7 @@ import darken from 'polished/lib/color/darken';
 import { colors } from '@ndla/core';
 import { withRouter } from 'react-router-dom';
 import Button from '@ndla/button';
-import { FormHeader } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 import { deleteLanguageVersion } from '../../../modules/draft/draftApi';
 import { HistoryShape } from '../../../shapes';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -80,7 +80,7 @@ class FormikDeleteLanguageVersion extends React.Component {
     }
     return (
       <div>
-        <FormHeader title={t('form.workflow.deleteLanguageVersion.title')} />
+        <FieldHeader title={t('form.workflow.deleteLanguageVersion.title')} />
         <Button css={deleteButtonStyle} onClick={this.toggleShowDeleteWarning}>
           {t('form.workflow.deleteLanguageVersion.button')}
         </Button>

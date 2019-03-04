@@ -69,7 +69,7 @@ class FormAddNotes extends Component {
       article,
       showError,
     } = this.props;
-
+    console.log(this.props);
     return (
       <Fragment>
         <FormNotes notes={article.notes} />

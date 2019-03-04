@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'formik';
-import { FormHeader, FormSections } from '@ndla/forms';
+import { FieldHeader, FieldSection } from '@ndla/forms';
 import * as draftApi from '../../modules/draft/draftApi';
 import { toEditAgreement } from '../../util/routeHelpers';
 import { AsyncDropdown } from '../../components/Dropdown';
@@ -77,13 +77,13 @@ class FormikAgreementConnection extends Component {
     const { agreement } = this.state;
     return (
       <Fragment>
-        <FormHeader title={t('form.agreement.label')} width={width}>
+        <FieldHeader title={t('form.agreement.label')} width={width}>
           <HowToHelper
             pageId="userAgreements"
             tooltip={t('form.agreement.helpLabel')}
           />
-        </FormHeader>
-        <FormSections>
+        </FieldHeader>
+        <FieldSection>
           <FormikField name="agreementId">
             {({ field }) => (
               <AsyncDropdown
@@ -109,7 +109,7 @@ class FormikAgreementConnection extends Component {
               />
             )}
           </FormikField>
-        </FormSections>
+        </FieldSection>
         {agreement && agreement.id && (
           <Link
             key="agreement-connection-link"

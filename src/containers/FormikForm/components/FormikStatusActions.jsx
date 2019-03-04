@@ -10,7 +10,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
-import { FormHeader } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 import { formClasses } from '..';
 import { PossibleStatusShape } from '../../../shapes';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
@@ -65,7 +65,7 @@ const FormikStatusActions = props => {
 
   return (
     <Fragment>
-      <FormHeader title={t('form.workflow.change')} />
+      <FieldHeader title={t('form.workflow.change')} />
       <div {...formClasses('actions')}>
         {possibleStatuses[articleStatus.current]
           .filter(
@@ -106,4 +106,4 @@ FormikStatusActions.defaultProps = {
   },
 };
 
-export default injectT(FormStatusActions);
+export default injectT(FormikStatusActions);

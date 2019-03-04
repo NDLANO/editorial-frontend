@@ -40,7 +40,7 @@ const TopicArticleMetadata = ({ t, tags }) => (
       {({ field }) => (
         <Fragment>
           <PlainTextEditor
-            id={field.classNamename}
+            id={field.name}
             placeholder={t('form.metaDescription.label')}
             {...field}
           />

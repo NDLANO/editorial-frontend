@@ -10,7 +10,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
-import { FormHeader } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 
 import { getLocale } from '../../../modules/locale/locale';
 import { TextField } from '../../../components/Fields';
@@ -121,14 +121,14 @@ class LearningResourceContent extends Component {
           {...commonFieldProps}
         />
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
-        <FormHeader title={t('form.content.label')}>
+        <FieldHeader title={t('form.content.label')}>
           {model.id && userAccess.includes('drafts:admin') && (
             <EditMarkupLink
               to={`/edit-markup/${model.id}/${model.language}`}
               title={t('editMarkup.linkTitle')}
             />
           )}
-        </FormHeader>
+        </FieldHeader>
         <RichBlockTextField
           slateSchema={schema}
           renderNode={renderNode}

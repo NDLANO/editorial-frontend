@@ -23,7 +23,6 @@ const marginLeftStyle = css`
 
 export const getInitialModel = (link = {}) => ({
   text: link.text || '',
-  title: link.title || '',
   href: link.href || '',
   checkbox: link.checkbox || false,
 });
@@ -72,15 +71,6 @@ class LinkForm extends Component {
           <FieldErrorMessages
             label={t('form.content.link.href')}
             field={getField('href', validationErrors)}
-            submitted={submitted}
-          />
-        </Field>
-        <Field>
-          <label htmlFor="title">{t('form.content.link.title')}</label>
-          <input type="text" {...bindInput('title')} />
-          <FieldErrorMessages
-            label={t('form.content.link.title')}
-            field={getField('title', validationErrors)}
             submitted={submitted}
           />
         </Field>

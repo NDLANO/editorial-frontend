@@ -26,7 +26,6 @@ class ConnectFilterOption extends PureComponent {
 
   render() {
     const {
-      classes,
       id,
       path,
       topicFilters,
@@ -47,7 +46,6 @@ class ConnectFilterOption extends PureComponent {
         </MenuItemButton>
         {editMode === 'connectFilters' && (
           <ConnectFilters
-            classes={classes}
             path={path}
             id={id}
             subjectFilters={subjectFilters}
@@ -62,7 +60,6 @@ class ConnectFilterOption extends PureComponent {
 
 ConnectFilterOption.propTypes = {
   toggleEditMode: PropTypes.func,
-  classes: PropTypes.func,
   refreshTopics: PropTypes.func,
   id: PropTypes.string,
   path: PropTypes.string,

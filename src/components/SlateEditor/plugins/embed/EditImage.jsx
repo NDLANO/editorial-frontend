@@ -4,31 +4,21 @@ import styled, { css } from 'react-emotion';
 import FocusTrapReact from 'focus-trap-react';
 import Types from 'slate-prop-types';
 import { injectT } from '@ndla/i18n';
-import { spacing, colors, animations, shadows } from '@ndla/core';
+import { spacing, colors, shadows } from '@ndla/core';
 import Button from '@ndla/button';
-import { FormInput, StyledButtonWrapper } from '@ndla/forms';
+import { Input, StyledButtonWrapper } from '@ndla/forms';
 import { isEmpty } from '../../../validators';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { Portal } from '../../../Portal';
 import { EmbedShape, EditorShape } from '../../../../shapes';
 import { getSchemaEmbed } from '../../editorSchema';
+import Overlay from '../../../Overlay';
 
 const StyledInputWrapper = styled.div`
   background: ${colors.brand.greyLightest};
   padding: ${spacing.normal};
   position: relative;
   z-index: 20;
-`;
-
-const Background = styled.div`
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 10;
-  ${animations.fadeIn()}
 `;
 
 const editorContentCSS = css`
@@ -130,7 +120,7 @@ class EditImage extends Component {
         ref={placeholderEl => {
           this.placeholderEl = placeholderEl;
         }}>
-        <Background />
+        <Overlay />
         <Portal isOpened>
           <FocusTrapReact
             focusTrapOptions={{
@@ -152,7 +142,7 @@ class EditImage extends Component {
                 {...this.props}
               />
               <StyledInputWrapper>
-                <FormInput
+                <Input
                   name="caption"
                   label={`${t('form.image.caption.label')}:`}
                   value={caption}
@@ -163,7 +153,7 @@ class EditImage extends Component {
                   placeholder={t('form.image.caption.placeholder')}
                   white
                 />
-                <FormInput
+                <Input
                   name="alt"
                   label={`${t('form.image.alt.label')}:`}
                   value={alt}

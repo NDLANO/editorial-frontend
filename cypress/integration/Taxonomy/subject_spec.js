@@ -106,13 +106,13 @@ describe('Subject editing', () => {
 
   it('should have a settings menu where everything works', () => {
     cy.wait('@allSubjects');
-    cy.get('.c-settingsMenu > button')
+    cy.get('[data-cy=settings-button-subject]')
       .first()
       .click();
     cy.get('[data-testid=changeSubjectNameButton]').click();
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
     cy.wait('@newSubjectName');
-    cy.get('.c-settingsMenu > button')
+    cy.get('[data-cy=settings-button-subject] ')
       .first()
       .click();
     cy.get('[data-testid=addSubjectTopicButon]').click();
@@ -120,7 +120,7 @@ describe('Subject editing', () => {
     cy.wait('@addNewTopic');
     cy.wait('@addNewSubjectTopic');
 
-    cy.get('.c-settingsMenu > button')
+    cy.get('[data-cy=settings-button-subject] ')
       .first()
       .click();
     cy.get('[data-testid=addExistingSubjectTopicButton]').click();
@@ -133,7 +133,7 @@ describe('Subject editing', () => {
     cy.get('[data-testid=inlineEditSaveButton]').click();
     cy.wait('@addNewSubjectTopic');
 
-    cy.get('.c-settingsMenu > button')
+    cy.get('[data-cy=settings-button-subject] ')
       .first()
       .click();
     cy.get('[data-testid=editSubjectFiltersButton]').click();

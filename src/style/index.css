@@ -18,7 +18,6 @@
 @import './fields.css';
 @import './form.css';
 @import './imageSearch.css';
-@import './taxonomy-lightbox.css';
 @import './masthead.css';
 @import './multiselect.css';
 @import './search.css';
@@ -28,14 +27,11 @@
 @import './table.css';
 @import './tag.css';
 @import './topic-resource.css';
-@import './meta-information.css';
 @import './visual-element.css';
 @import './navigation.css';
 @import './welcome.css';
 @import './tooltip.css';
 @import './taxonomy.css';
-@import './toggleSwitch.css';
-@import './settingsMenu.css';
 @import './article-preview.css';
 
 .c-audio-search {

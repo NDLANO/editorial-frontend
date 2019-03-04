@@ -25,7 +25,7 @@ class EditFilterOption extends PureComponent {
   }
 
   render() {
-    const { classes, t, editMode, getFilters, subjectFilters, id } = this.props;
+    const { t, editMode, getFilters, subjectFilters, id } = this.props;
     return (
       <React.Fragment>
         <MenuItemButton
@@ -41,7 +41,6 @@ class EditFilterOption extends PureComponent {
         </MenuItemButton>
         {editMode === 'editFilters' && (
           <EditFilters
-            classes={classes}
             id={id}
             getFilters={getFilters}
             filters={subjectFilters}
@@ -54,7 +53,6 @@ class EditFilterOption extends PureComponent {
 
 EditFilterOption.propTypes = {
   toggleEditMode: PropTypes.func,
-  classes: PropTypes.func,
   refreshTopics: PropTypes.func,
   id: PropTypes.string,
   path: PropTypes.string,

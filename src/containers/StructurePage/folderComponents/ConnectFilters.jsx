@@ -24,6 +24,7 @@ import Spinner from '../../../components/Spinner';
 import Overlay from '../../../components/Overlay';
 import { RESOURCE_FILTER_CORE } from '../../../constants';
 import handleError from '../../../util/handleError';
+import { filterWrapper, StyledErrorMessage } from './styles';
 
 const borderButtonStyle = css`
   &,
@@ -114,10 +115,10 @@ class ConnectFilters extends Component {
   }
 
   render() {
-    const { subjectFilters, classes, t } = this.props;
+    const { subjectFilters, t } = this.props;
     const { inputs, error, loading } = this.state;
     return (
-      <form onSubmit={this.onSubmit} {...classes('editFilters')}>
+      <form onSubmit={this.onSubmit} css={filterWrapper}>
         {loading && <Spinner appearance="absolute" />}
         {loading && (
           <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />
@@ -147,14 +148,13 @@ class ConnectFilters extends Component {
           onClick={this.onSubmit}>
           {t('form.save')}
         </Button>
-        {error && <div {...classes('errorMessage')}>{error}</div>}
+        {error && <StyledErrorMessage>{error}</StyledErrorMessage>}
       </form>
     );
   }
 }
 
 ConnectFilters.propTypes = {
-  classes: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
   subjectFilters: PropTypes.arrayOf(

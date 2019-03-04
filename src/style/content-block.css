@@ -109,8 +109,3 @@ details {
     display: inline-block;
   }
 }
-
-.c-audio-box {
-  position: relative;
-  border: 1px solid var(--article-color);
-}

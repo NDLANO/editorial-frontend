@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { uuid } from '@ndla/util';
-import { FormHeader, FormSections } from '@ndla/forms';
+import { FieldHeader, FieldSection } from '@ndla/forms';
 import BEMHelper from 'react-bem-helper';
 import get from 'lodash/fp/get';
 import MultiSelect from './MultiSelect';
@@ -372,9 +372,9 @@ export const MultiSelectField = ({
   ...rest
 }) => (
   <Field>
-    <FormHeader title={label}>
+    <FieldHeader title={label}>
       {howToId && <HowToHelper pageId={howToId} tooltip={howToTooltip} />}
-    </FormHeader>
+    </FieldHeader>
     {description && (
       <FieldDescription obligatory={obligatory}>{description}</FieldDescription>
     )}
@@ -520,10 +520,10 @@ export const AsyncDropdownField = ({
   const { onChange } = bindInput(name);
   return (
     <Fragment>
-      <FormHeader title={label} width={width}>
+      <FieldHeader title={label} width={width}>
         <HowToHelper pageId="userAgreements" tooltip={helpLabel} />
-      </FormHeader>
-      <FormSections>
+      </FieldHeader>
+      <FieldSection>
         <div>
           <AsyncDropdown
             onChange={val =>
@@ -537,7 +537,7 @@ export const AsyncDropdownField = ({
             submitted={submitted}
           />
         </div>
-      </FormSections>
+      </FieldSection>
     </Fragment>
   );
 };

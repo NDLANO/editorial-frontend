@@ -122,6 +122,7 @@ const phrases = {
     nb: 'Norwegian - Bokmål',
     nn: 'Norwegian - Nynorsk',
     se: 'Sami',
+    sma: 'Southern Sami',
     unknown: 'Unknown',
     de: 'German',
     empty: 'No languages left',
@@ -408,6 +409,8 @@ const phrases = {
     saving: 'Saving...',
     choose: 'Choose',
     saved: 'Saved ',
+    copy: 'copy',
+    saveAsCopySuccess: 'New article saved',
     preview: {
       button: 'Preview',
     },
@@ -423,6 +426,7 @@ const phrases = {
     contributor: {
       add: 'Add',
     },
+    mustSaveFirst: 'You must save your changes first',
     abort: 'Abort',
     edit: 'Edit',
     remove: 'Remove',
@@ -477,6 +481,7 @@ const phrases = {
       title: 'Status',
       change: 'Change status',
       qualityAssurance: 'Quality assurance',
+      saveAsNew: 'Save copy as new article',
       deleteLanguageVersion: {
         button: 'Delete language version',
         title: 'Delete language version',
@@ -545,7 +550,6 @@ const phrases = {
         change: 'Change',
         remove: 'Remove link',
         href: 'Link',
-        title: 'Title',
         newTab: 'Open link in new tab',
         text: 'Text',
         addTitle: 'Add link',
@@ -734,6 +738,10 @@ const phrases = {
       },
       addFile: 'Add file',
       removeList: 'Remove file list',
+      placeholder: 'Filename',
+      changeName: 'Change name',
+      changeOrder: 'Change the order',
+      removeFile: 'Remove file',
     },
   },
   validation: {

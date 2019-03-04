@@ -99,17 +99,6 @@ const listStyle = css`
 
 /* Styled components */
 
-const StyledFilterHeading = styled('span')`
-  ${fonts.sizes(16, 1.2)} font-weight: ${fonts.weight.semibold};
-  text-transform: uppercase;
-  color: ${colors.text.primary};
-  opacity: ${props => (props.show ? 1 : 0)};
-  display: flex;
-  align-items: center;
-  padding-right: ${spacing.small};
-  white-space: no-wrap;
-`;
-
 const StyledBreadCrumb = styled('div')`
   flex-grow: 1;
   span:last-of-type {
@@ -126,38 +115,6 @@ const StyledChecked = styled('div')`
   }
   svg {
     fill: ${colors.support.green};
-  }
-`;
-
-const StyledFilterButton = styled('button')`
-  border: 0;
-  margin: 0 0 0 ${spacing.xsmall};
-  background: none;
-  transition: opacity 100ms ease;
-  ${flexButtonCenterAlignStyle};
-  justify-content: center;
-  text-align: left;
-  padding: ${spacing.xsmall};
-  color: ${colors.brand.primary};
-  ${fonts.sizes(14, 1.2)} white-space: no-wrap;
-  &:disabled {
-    color: ${colors.brand.light};
-  }
-  > span:first-child {
-    ${checkboxItemStyle};
-  }
-  &:not(:disabled) {
-    &:hover,
-    &:focus {
-      > span:first-child {
-        ${checkboxItemHoverStyle};
-      }
-    }
-  }
-  &.checkboxItem--checked {
-    > span:first-child {
-      ${checkboxItemSelectedStyle};
-    }
   }
 `;
 
@@ -334,6 +291,38 @@ const StyledRemoveConnectionButton = styled('button')`
   }
 `;
 
+const StyledFilterButton = styled('button')`
+  border: 0;
+  margin: 0 0 0 ${spacing.xsmall};
+  background: none;
+  transition: opacity 100ms ease;
+  ${flexButtonCenterAlignStyle};
+  justify-content: center;
+  text-align: left;
+  padding: ${spacing.xsmall};
+  color: ${colors.brand.primary};
+  ${fonts.sizes(14, 1.2)} white-space: no-wrap;
+  &:disabled {
+    color: ${colors.brand.light};
+  }
+  > span:first-child {
+    ${checkboxItemStyle};
+  }
+  &:not(:disabled) {
+    &:hover,
+    &:focus {
+      > span:first-child {
+        ${checkboxItemHoverStyle};
+      }
+    }
+  }
+  &.checkboxItem--checked {
+    > span:first-child {
+      ${checkboxItemSelectedStyle};
+    }
+  }
+`;
+
 const StyledSubjectName = styled('div')`
   padding: ${props => (props.firstSubject ? spacing.small : spacing.medium)} 0
     ${spacing.xsmall};
@@ -347,13 +336,12 @@ export {
   buttonAdditionStyle,
   flexButtonCenterAlignStyle,
   listStyle,
-  StyledFilterHeading,
   StyledBreadCrumb,
-  StyledChecked,
-  StyledFilterButton,
   StyledConnections,
   StyledConnectionsWrapper,
   StyledErrorLabel,
+  StyledChecked,
+  StyledFilterButton,
   StyledRelevanceButton,
   StyledFilterCheckBox,
   StyledFilterListTableRow,

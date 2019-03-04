@@ -46,6 +46,8 @@ class TopicArticleVisualElement extends Component {
         values: { visualElement },
       },
     } = this.props;
+    const { selectedResource } = this.state;
+
     return (
       <div>
         <div {...visualElementClasses('add-title')}>
@@ -67,7 +69,7 @@ class TopicArticleVisualElement extends Component {
                 {...field}
               />
               <VisualElementSelectField
-                selectedResource={this.state.selectedResource}
+                selectedResource={selectedResource}
                 resetSelectedResource={this.resetSelectedResource}
                 {...field}
               />

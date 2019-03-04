@@ -9,11 +9,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  FormSections,
-  FormSplitter,
-  FormInput,
-  FormDropdown,
-  FormRemoveButton,
+  FieldSection,
+  FieldSplitter,
+  Input,
+  Dropdown,
+  FieldRemoveButton,
 } from '@ndla/forms';
 
 const Contributor = ({
@@ -28,10 +28,10 @@ const Contributor = ({
   contributorTypeItems,
   removeContributor,
 }) => (
-  <FormSections>
+  <FieldSection>
     <div>
-      <FormSplitter>
-        <FormInput
+      <FieldSplitter>
+        <Input
           warningText={
             showError && (contributor.name === '' || contributor.type === '')
               ? errorMessages[0]
@@ -45,7 +45,7 @@ const Contributor = ({
           value={contributor.name}
           onChange={e => handleContributorChange(e, 'name', index)}
         />
-        <FormDropdown
+        <Dropdown
           value={contributor.type}
           onChange={e => handleContributorChange(e, 'type', index)}
           onBlur={e => handleContributorChange(e, 'type', index)}
@@ -56,15 +56,15 @@ const Contributor = ({
               {item.translation}
             </option>
           ))}
-        </FormDropdown>
-      </FormSplitter>
+        </Dropdown>
+      </FieldSplitter>
     </div>
     <div>
-      <FormRemoveButton onClick={evt => removeContributor(evt, index)}>
+      <FieldRemoveButton onClick={evt => removeContributor(evt, index)}>
         {labelRemove}
-      </FormRemoveButton>
+      </FieldRemoveButton>
     </div>
-  </FormSections>
+  </FieldSection>
 );
 
 Contributor.defaultProps = {

@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'react-emotion';
-
+import { animations } from '@ndla/core';
 const appearances = {
   zIndex: css`
     z-index: 1;
@@ -38,7 +38,9 @@ const StyledOverlay = styled.div`
   left: 0;
   height: 100vh;
   width: 100vw;
-  opacity: 0;
+  background: rgba(0, 0, 0, 0.3);
+
+  ${animations.fadeIn()}
   ${p => getAllAppearances(p.modifiers)}
 `;
 

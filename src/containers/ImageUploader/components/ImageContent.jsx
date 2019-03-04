@@ -10,7 +10,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'react-emotion';
 import { injectT } from '@ndla/i18n';
-import { UploadDropZone, FormInput } from '@ndla/forms';
+import { UploadDropZone, Input } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { animations, spacing, colors } from '@ndla/core';
 import { TextField, getField } from '../../../components/Fields';
@@ -77,7 +77,7 @@ const ImageContent = ({ t, commonFieldProps, model }) => {
       {model.imageFile && (
         <StyledImage src={model.filepath || model.imageFile} alt="" />
       )}
-      <FormInput
+      <Input
         name="caption"
         placeholder={t(`form.image.caption.placeholder`)}
         label={t(`form.image.caption.label`)}
@@ -93,7 +93,7 @@ const ImageContent = ({ t, commonFieldProps, model }) => {
         }
         {...bindInput('caption')}
       />
-      <FormInput
+      <Input
         placeholder={t('form.image.alt.placeholder')}
         label={t('form.image.alt.label')}
         name="alttext"

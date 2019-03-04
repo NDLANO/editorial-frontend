@@ -2,19 +2,20 @@
 
 exports[`Goes to edit mode, handles submit 1`] = `
 <div
-  class="css-5mjlri emotion-2"
+  class="css-5mjlri emotion-3"
 >
   <div
-    class="c-roundIcon c-roundIcon--open c-roundIcon--small"
+    class="css-nq6l38 emotion-0"
+    open=""
   />
   <input
-    class="css-1wzkqwd emotion-0"
+    class="css-1cupmrn emotion-1"
     data-testid="inlineEditInput"
     type="text"
     value=""
   />
   <button
-    class="css-1dqvgou emotion-1"
+    class="css-1dqvgou emotion-2"
     data-testid="inlineEditSaveButton"
     type="button"
   >

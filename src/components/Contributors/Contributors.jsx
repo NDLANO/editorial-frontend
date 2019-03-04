@@ -14,7 +14,7 @@ import { contributorGroups, contributorTypes } from '@ndla/licenses';
 import Button from '@ndla/button';
 import styled from 'react-emotion';
 import { fonts, colors } from '@ndla/core';
-import { FormHeader } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 import Contributor from './Contributor';
 import { getLocale } from '../../modules/locale/locale';
 
@@ -79,7 +79,7 @@ const Contributors = props => {
 
   return (
     <div>
-      <FormHeader title={label} width={3 / 4} />
+      <FieldHeader title={label} width={3 / 4} />
       {value.map((contributor, index) => (
         <Contributor
           key={`contributor_${index}`} // eslint-disable-line react/no-array-index-key

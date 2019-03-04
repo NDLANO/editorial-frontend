@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormHeader } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 import { colors, spacing, fonts } from '@ndla/core';
 import { uuid } from '@ndla/util';
 import { injectT } from '@ndla/i18n';
@@ -72,7 +72,9 @@ const shortenName = name =>
 
 class FormNotes extends React.Component {
   static async getDerivedStateFromProps(props, state) {
-    const userIds = props.notes.map(note => note.user);
+    const userIds = props.notes
+      .map(note => note.user)
+      .filter(user => user !== 'System');
     const uniqueUserIds = Array.from(new Set(userIds)).join(',');
 
     if (state.users.length !== uniqueUserIds) {
@@ -92,9 +94,14 @@ class FormNotes extends React.Component {
 
   async componentDidMount() {
     const { notes } = this.props;
-    const userIds = notes.map(note => note.user);
+    const userIds = notes
+      .map(note => note.user)
+      .filter(user => user !== 'System');
     const uniqueUserIds = Array.from(new Set(userIds)).join(',');
     const users = await fetchAuth0Users(uniqueUserIds);
+    if (users && !users.error) {
+      users.push({ name: 'System', app_metadata: { ndla_id: 'System' } });
+    }
     this.setState({
       users:
         users && !users.error
@@ -102,7 +109,7 @@ class FormNotes extends React.Component {
               id: user.app_metadata.ndla_id,
               name: user.name,
             }))
-          : [],
+          : [{ id: 'System', name: 'System' }],
     });
   }
 
@@ -117,7 +124,7 @@ class FormNotes extends React.Component {
 
     return (
       <Field>
-        <FormHeader title={t('form.notes.history.heading')} />
+        <FieldHeader title={t('form.notes.history.heading')} />
         {notes && notes.length > 0 ? (
           <StyledTable>
             <thead>
@@ -143,7 +150,7 @@ class FormNotes extends React.Component {
                     {shortenName(this.getUsername(note.user))}
                   </StyledTableDataCell>
                   <StyledTableDataCell>
-                    {formatDate(note.timestamp, 'nb')}
+                    {formatDate(note.timestamp)}
                   </StyledTableDataCell>
                   <StyledTableDataCell>{note.note}</StyledTableDataCell>
                   <StyledTableDataCell>

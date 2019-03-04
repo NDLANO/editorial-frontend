@@ -11,109 +11,46 @@ import PropTypes from 'prop-types';
 import { css } from 'react-emotion';
 import { injectT } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
-import Button from '@ndla/button';
-import { FileListEditor } from '@ndla/editor';
-import { UploadDropZone, FormHeader, StyledButtonWrapper } from '@ndla/forms';
+import { UploadDropZone } from '@ndla/forms';
 import { uploadFile } from '../../modules/draft/draftApi';
 import { createFormData } from '../../util/formDataHelper';
 import handleError from '../../util/handleError';
 
 const wrapperCSS = css`
-  padding: 0 ${spacing.large} ${spacing.large};
-`;
-
-const filesHeadingCSS = css`
-  h1,
-  h2 {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
+  padding: 0 ${spacing.large};
 `;
 
 class FileUploader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      unsavedFiles: [],
       saving: false,
-      addedFiles: props.addedFiles || [],
-      changedData: false,
     };
     this.onSave = this.onSave.bind(this);
-    this.onAddFiles = this.onAddFiles.bind(this);
-    this.onUpdateFileName = this.onUpdateFileName.bind(this);
-    this.onUpdateFiles = this.onUpdateFiles.bind(this);
+    this.saveFile = this.saveFile.bind(this);
   }
 
-  onAddFiles(files) {
-    this.setState(
-      prevState => ({
-        unsavedFiles: prevState.unsavedFiles.concat(files),
-      }),
-      () => {
-        if (!this.state.saving) {
-          this.onSave(this.state.unsavedFiles[0]);
-          this.setState({
-            saving: true,
-          });
-        }
-      },
-    );
+  async saveFile(file) {
+    const formData = await createFormData(file);
+    return uploadFile(formData);
   }
 
-  uploadedFile(storedFile) {
-    this.setState(
-      prevState => {
-        const { unsavedFiles, addedFiles } = prevState;
-        unsavedFiles.shift();
-        const saving = unsavedFiles.length > 0;
-        // Remove .[filetype] from title.
-        const cleanFile = storedFile;
-        cleanFile.title = cleanFile.title.replace(/\..*/, '');
-
-        return {
-          unsavedFiles: unsavedFiles,
-          addedFiles: [cleanFile, ...addedFiles],
-          saving,
-          changedData: true,
-        };
-      },
-      () => {
-        if (this.state.saving) {
-          this.onSave(this.state.unsavedFiles[0]);
-        }
-      },
-    );
-  }
-
-  onUpdateFileName(index, value) {
-    this.setState(prevState => {
-      const { addedFiles } = prevState;
-      addedFiles[index].title = value;
-      return {
-        addedFiles,
-        changedData: true,
-      };
-    });
-  }
-
-  onUpdateFiles(addedFiles) {
-    this.setState({
-      addedFiles,
-    });
-  }
-
-  async onSave(file) {
+  async onSave(files) {
     try {
-      const formData = await createFormData(file);
-      const fileResult = await uploadFile(formData);
-      this.uploadedFile({
-        path: fileResult.path,
-        title: file.name,
-        type: fileResult.extension.substring(1),
-      });
+      this.setState({ saving: true });
+      const newFiles = await Promise.all(
+        files.map(file => this.saveFile(file)),
+      );
+      this.props.onFileSave(
+        newFiles.map((file, i) => ({
+          path: file.path,
+          type: file.extension.substring(1),
+          title: files[i].name.replace(/\..*/, ''),
+        })),
+      );
+      this.setState({ saving: false });
     } catch (err) {
-      if (err && err.json.messages) {
+      if (err && err.json && err.json.messages) {
         this.setState({
           errorMessage: err.json.messages
             .map(message => message.message)
@@ -125,8 +62,8 @@ class FileUploader extends React.Component {
   }
 
   render() {
-    const { t, onClose, onFileSave } = this.props;
-    const { addedFiles, changedData, errorMessage, saving } = this.state;
+    const { t } = this.props;
+    const { errorMessage, saving } = this.state;
 
     if (errorMessage) {
       return <p>{errorMessage}</p>;
@@ -137,36 +74,13 @@ class FileUploader extends React.Component {
         <UploadDropZone
           name="file"
           allowedFiles={['application/*']}
-          onAddedFiles={this.onAddFiles}
+          onAddedFiles={this.onSave}
           multiple
           loading={saving}
           ariaLabel={t('form.file.dragdrop.ariaLabel')}>
           <strong>{t('form.file.dragdrop.main')}</strong>{' '}
           {t('form.file.dragdrop.sub')}
         </UploadDropZone>
-        <FormHeader
-          className={filesHeadingCSS}
-          title={`${t('form.file.filesAdded')}:`}
-        />
-        {addedFiles.length > 0 ? (
-          <FileListEditor
-            files={addedFiles}
-            onEditFileName={this.onUpdateFileName}
-            onUpdateFiles={this.onUpdateFiles}
-          />
-        ) : (
-          <span>{t('form.file.dragdrop.noFilesAdded')}</span>
-        )}
-        <StyledButtonWrapper>
-          <Button outline onClick={onClose}>
-            {t('form.file.cancel')}
-          </Button>
-          <Button
-            disabled={!changedData}
-            onClick={() => onFileSave(addedFiles)}>
-            {t('form.file.saveChanges')}
-          </Button>
-        </StyledButtonWrapper>
       </div>
     );
   }

@@ -8,7 +8,9 @@
  */
 
 import React from 'react';
+import { Block } from 'slate';
 import SlateTable from './SlateTable';
+import defaultBlocks from '../../utils/defaultBlocks';
 
 function normalizeNode(node, editor, next) {
   if (node.object !== 'block') return next();
@@ -36,7 +38,37 @@ function normalizeNode(node, editor, next) {
 }
 
 const schema = {
-  document: {},
+  blocks: {
+    table: {
+      next: [
+        {
+          type: 'paragraph',
+        },
+        { type: 'heading-two' },
+        { type: 'heading-three' },
+      ],
+      normalize: (editor, error) => {
+        console.log(error.child);
+        switch (error.code) {
+          case 'next_sibling_type_invalid': {
+            editor.withoutNormalizing(() => {
+              editor.wrapBlockByKey(error.child.key, 'section');
+              const wrapper = editor.value.document.getParent(error.child.key);
+              editor.insertNodeByKey(
+                wrapper.key,
+                1,
+                Block.create(defaultBlocks.defaultBlock),
+              );
+              editor.unwrapBlockByKey(wrapper.key, 'section');
+            });
+            break;
+          }
+          default:
+            break;
+        }
+      },
+    },
+  },
 };
 
 /* eslint-disable react/prop-types */

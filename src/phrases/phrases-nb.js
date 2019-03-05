@@ -437,6 +437,10 @@ const phrases = {
       license: 'Lisens',
       origin: 'Opphav',
       audioFile: 'Lydfil',
+      content: 'Innhold',
+      visualElement: 'Visuelt element',
+      visualElementCaption: '',
+      visualElementAlt: '',
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',

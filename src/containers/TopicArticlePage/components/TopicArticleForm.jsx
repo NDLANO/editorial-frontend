@@ -33,6 +33,7 @@ import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
   isFormikFormDirty,
+  topicArticleRules,
 } from '../../../util/formHelper';
 import {
   FormAddNotes,
@@ -50,6 +51,7 @@ import { validateDraft } from '../../../modules/draft/draftApi';
 import { articleConverter } from '../../../modules/draft/draft';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import AlertModal from '../../../components/AlertModal';
+import validateFormik from '../../../components/formikValidationSchema';
 
 export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -82,6 +84,7 @@ class TopicArticleForm extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onReset = this.onReset.bind(this);
+    this.getArticle = this.getArticle.bind(this);
     this.state = {
       showResetModal: false,
     };
@@ -110,8 +113,8 @@ class TopicArticleForm extends Component {
       );
       setModel(getInitialValues(convertedArticle, taxonomy, selectedLanguage));
       this.setState({ showResetModal: false });
-    } catch (e) {
-      if (e.status === 404) {
+    } catch (err) {
+      if (err.status === 404) {
         this.setState({
           showResetModal: false,
           error: t('errorMessage.noArticleInProd'),
@@ -119,6 +122,38 @@ class TopicArticleForm extends Component {
       }
     }
   }
+
+    getArticle(values) {
+    const emptyField = values.id ? '' : undefined;
+    const visualElement = createEmbedTag(values.visualElement);
+    const content = topicArticleContentToHTML(values.content);
+
+
+
+    const article = {
+      id: values.id,
+      title: values.title,
+      introduction: editorValueToPlainText(values.introduction),
+      tags: values.tags,
+      content: content || emptyField,
+      visualElement: visualElement || emptyField,
+      metaDescription: editorValueToPlainText(values.metaDescription),
+      articleType: 'topic-article',
+      copyright: {
+        ...values.copyright,
+        creators: values.creators,
+        processors: values.processors,
+        rightsholders: values.rightsholders,
+        agreementId: values.agreementId,
+      },
+      notes: values.notes || [],
+      language: values.language,
+      supportedLanguages: values.supportedLanguages,
+    };
+
+    return article;
+  }
+
 
   async handleSubmit(evt) {
     evt.preventDefault();
@@ -132,7 +167,6 @@ class TopicArticleForm extends Component {
       onUpdate,
       //setModelField,
       onModelSavedToServer,
-      showSaved,
     } = this.props;
 
     const status = articleStatus ? articleStatus.current : undefined;
@@ -177,7 +211,6 @@ class TopicArticleForm extends Component {
       article,
       createMessage,
       savedToServer,
-      showSaved,
     } = this.props;
     const panels = ({ values, errors, touched, setFieldValue }) => [
       {
@@ -221,11 +254,11 @@ class TopicArticleForm extends Component {
           <FormikWorkflow
             articleStatus={articleStatus}
             values={values}
-            getArticle={this.getArticle}
+            getArticle={() => this.getArticle(values)}
             createMessage={createMessage}
             revision={revision}>
-            <FormikField>
-              {({ field }) => (
+            <FormikField name="notes">
+              {({ field }) =>  (
                 <FormAddNotes
                   showError={true}
                   labelHeading={t('form.notes.heading')}
@@ -247,6 +280,7 @@ class TopicArticleForm extends Component {
         initialValues={getInitialValues(article)}
         onSubmit={this.handleSubmit}
         onReset={this.onReset}
+        validate={values => validateFormik(values, topicArticleRules, t)}
         enableReinitialize>
         {formikProps => {
           const { values, initialValues } = formikProps;
@@ -332,7 +366,6 @@ class TopicArticleForm extends Component {
                 model={values}
                 {...formikProps}
                 severity="danger"
-                showSaved={showSaved}
                 text={t('alertModal.notSaved')}
               />
             </Form>

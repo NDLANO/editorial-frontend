@@ -59,3 +59,63 @@ export const isFormikFormDirty = ({ values, initialValues, showSaved }) => {
 
 export const getErrorMessages = (label, name, schema) =>
   getField(name, schema).errors.map(error => error(label));
+
+
+const formikCommonArticleRules = {
+  title: {
+    required: true,
+  },
+  introduction: {
+    maxLength: 300,
+  },
+  metaDescription: {
+    maxLength: 155,
+  },
+  tags: {
+    required: false,
+  },
+  creators: {
+    allObjectFieldsRequired: true,
+  },
+  processors: {
+    allObjectFieldsRequired: true,
+  },
+  rightsholders: {
+    allObjectFieldsRequired: true,
+  },
+  license: {
+    required: false,
+  },
+  notes: {
+    required: false,
+    test: (value, model, setError) => {
+      const emptyNote = value.find(note => note.length === 0);
+      if (emptyNote !== undefined) {
+        setError('learningResourceForm.validation.noEmptyNote');
+      }
+    },
+  },
+};
+
+export const topicArticleRules = {
+  ...formikCommonArticleRules,
+  content: {
+    // TODO: Write test to validate content (see learning resource)
+    required: false,
+  },
+  visualElement: {
+    required: false,
+  },
+  'visualElement.alt': {
+    required: true,
+    onlyValidateIf: values =>
+      values.visualElement && values.visualElement.resource === 'image',
+  },
+  'visualElement.caption': {
+    required: true,
+    onlyValidateIf: values =>
+      values.visualElement &&
+      (values.visualElement.resource === 'image' ||
+        values.visualElement.resource === 'brightcove'),
+  },
+};

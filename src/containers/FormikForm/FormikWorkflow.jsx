@@ -55,7 +55,7 @@ class FormikWorkflow extends Component {
         status === articleStatuses.QUEUED_FOR_PUBLISHING
       ) {
         await draftApi.validateDraft(values.id, {
-          ...getArticle(values),
+          ...getArticle(),
           revision,
         });
       }

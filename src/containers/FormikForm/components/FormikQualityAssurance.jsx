@@ -19,20 +19,20 @@ const FormikQualityAssurance = ({ getArticle, values, onValidateClick, t }) => (
     <PreviewDraftLightbox
       label={t('subNavigation.learningResource')}
       typeOfPreview="preview"
-      getArticle={() => getArticle(values)}
+      getArticle={getArticle}
     />
     {values.id && (
       <PreviewDraftLightbox
         label={t('subNavigation.learningResource')}
         typeOfPreview="previewProductionArticle"
-        getArticle={() => getArticle(values)}
+        getArticle={getArticle}
       />
     )}
     {values.id && (
       <PreviewDraftLightbox
         label={t('subNavigation.learningResource')}
         typeOfPreview="previewLanguageArticle"
-        getArticle={() => getArticle(values)}
+        getArticle={getArticle}
       />
     )}
     {values.id && (

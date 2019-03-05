@@ -24,12 +24,12 @@ const TopicArticleMetadata = ({ t, tags }) => (
       {({ field }) => (
         <MultiSelect
           data={tags}
-          {...field}
           messages={{
             createOption: t('form.tags.createOption'),
             emptyFilter: t('form.tags.emptyFilter'),
             emptyList: t('form.tags.emptyList'),
           }}
+          {...field}
         />
       )}
     </FormikField>

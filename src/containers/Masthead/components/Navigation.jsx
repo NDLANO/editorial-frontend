@@ -20,6 +20,7 @@ import {
   Taxonomy,
 } from '@ndla/icons/editor';
 import { colors } from '@ndla/core';
+import FocusTrapReact from 'focus-trap-react';
 import config from '../../../config';
 import {
   toCreateLearningResource,
@@ -40,13 +41,16 @@ export class Navigation extends Component {
       open: false,
     };
     this.toggleOpen = this.toggleOpen.bind(this);
+    this.renderMenu = this.renderMenu.bind(this);
   }
 
   toggleOpen() {
-    this.setState(prevState => ({ open: !prevState.open }));
+    this.setState(
+      prevState => ({ open: !prevState.open }),
+    );
   }
 
-  render() {
+  renderMenu(open) {
     const { t } = this.props;
     return (
       <div>
@@ -56,24 +60,17 @@ export class Navigation extends Component {
           onClick={this.toggleOpen}
           stripped>
           <Plus
-            {...classes(
-              'icon',
-              this.state.open ? 'hidden' : 'show',
-              'c-icon--medium',
-            )}
+            {...classes('icon', open ? 'hidden' : 'show', 'c-icon--medium')}
           />
           <Minus
-            {...classes(
-              'icon',
-              !this.state.open ? 'hidden' : 'show',
-              'c-icon--medium',
-            )}
+            {...classes('icon', !open ? 'hidden' : 'show', 'c-icon--medium')}
           />
         </MastheadButton>
+
         <div
           {...classes(
             'container',
-            !this.state.open ? 'hidden' : ['absolute', 'brand-color-secondary'],
+            !open ? 'hidden' : ['absolute', 'brand-color-secondary'],
           )}>
           <div {...classes('items')}>
             <Link
@@ -132,7 +129,8 @@ export class Navigation extends Component {
             </Link>
           </div>
         </div>
-        {this.state.open ? (
+
+        {open ? (
           <div
             role="presentation"
             onKeyPress={this.toggleOpen}
@@ -143,6 +141,22 @@ export class Navigation extends Component {
           ''
         )}
       </div>
+    );
+  }
+
+  render() {
+    const { open } = this.state;
+    return (
+      <FocusTrapReact
+        active={open}
+        focusTrapOptions={{
+          onDeactivate: () => {
+            this.setState({open: false})
+          },
+          clickOutsideDeactivates: true,
+        }}>
+        {this.renderMenu(open)}
+      </FocusTrapReact>
     );
   }
 }

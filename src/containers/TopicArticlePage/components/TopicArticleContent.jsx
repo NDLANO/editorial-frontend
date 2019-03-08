@@ -77,15 +77,21 @@ const TopicArticleContent = ({
     <FormikIngress />
     <TopicArticleVisualElement visualElement={visualElement} />
     <FormikField name="content" label={t('form.content.label')} noBorder>
-      {({ field: { onChange, name, value } }) => (
+      {({ field: {name, onChange, value, onBlur}, eeee }) => (
         <RichTextEditor
+          value={value}
           placeholder={t('form.content.placeholder')}
           id={name}
-          name={name}
           onChange={change =>
             onChange({ target: { name, value: change.value } })
           }
-          value={value}
+          onBlur={(evt,editor, next) => {
+            // evt.preventDefault();
+            evt.stopPropagation();
+            editor.blur();//TODO
+            onBlur(evt)
+            next();
+          }}
           renderNode={renderNode}
           renderMark={renderMark}
           plugins={plugins}

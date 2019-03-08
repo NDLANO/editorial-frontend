@@ -47,7 +47,7 @@ class TopicArticleVisualElement extends Component {
       },
     } = this.props;
     const { selectedResource } = this.state;
-
+    console.log(visualElement);
     return (
       <div>
         <div {...visualElementClasses('add-title')}>

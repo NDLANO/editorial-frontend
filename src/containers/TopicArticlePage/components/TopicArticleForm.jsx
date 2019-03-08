@@ -36,14 +36,13 @@ import {
   topicArticleRules,
 } from '../../../util/formHelper';
 import {
-  FormAddNotes,
   FormHeader,
   FormActionButton,
   formClasses,
   AlertModalWrapper,
 } from '../../Form';
 import FormikField from '../../../components/FormikField';
-import { FormikCopyright, FormikWorkflow } from '../../FormikForm';
+import { FormikCopyright, FormikWorkflow, FormikAddNotes } from '../../FormikForm';
 import { formatErrorMessage } from '../../Form/FormWorkflow';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
@@ -79,6 +78,7 @@ export const getInitialValues = (article = {}) => {
   };
 };
 
+
 class TopicArticleForm extends Component {
   constructor(props) {
     super(props);
@@ -87,6 +87,7 @@ class TopicArticleForm extends Component {
     this.getArticle = this.getArticle.bind(this);
     this.state = {
       showResetModal: false,
+      savedToServer: false,
     };
   }
 
@@ -123,12 +124,12 @@ class TopicArticleForm extends Component {
     }
   }
 
-    getArticle(values) {
+  
+
+  getArticle(values) {
     const emptyField = values.id ? '' : undefined;
     const visualElement = createEmbedTag(values.visualElement);
     const content = topicArticleContentToHTML(values.content);
-
-
 
     const article = {
       id: values.id,
@@ -155,33 +156,29 @@ class TopicArticleForm extends Component {
   }
 
 
-  async handleSubmit(evt) {
-    evt.preventDefault();
+  async handleSubmit(values, actions, initialValues) {
+    //evt.preventDefault();
 
     const {
-      model: { id },
       //validationErrors,
       revision,
       createMessage,
       articleStatus,
       onUpdate,
       //setModelField,
-      onModelSavedToServer,
+     // onModelSavedToServer,
     } = this.props;
-
+    console.log(actions);
     const status = articleStatus ? articleStatus.current : undefined;
-    /*if (!validationErrors.isValid) {
-      setSubmitted(true);
+
+    /*if (!isFormikFormDirty({values, initialValues})) {
       return;
     }*/
-    if (!isFormikFormDirty(this.props)) {
-      return;
-    }
 
     if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
       try {
-        await validateDraft(id, {
-          ...this.getArticle(),
+        await validateDraft(values.id, {
+          ...this.getArticle(values),
           revision,
         });
       } catch (error) {
@@ -192,11 +189,11 @@ class TopicArticleForm extends Component {
       }
     }
     onUpdate({
-      ...this.getArticle(),
+      ...this.getArticle(values),
       revision,
     });
-    //setModelField('notes', []);
-    onModelSavedToServer();
+    actions.setFieldValue('notes', [], false);
+    this.setState({savedToServer: true});
   }
 
   render() {
@@ -210,7 +207,6 @@ class TopicArticleForm extends Component {
       revision,
       article,
       createMessage,
-      savedToServer,
     } = this.props;
     const panels = ({ values, errors, touched, setFieldValue }) => [
       {
@@ -257,15 +253,15 @@ class TopicArticleForm extends Component {
             getArticle={() => this.getArticle(values)}
             createMessage={createMessage}
             revision={revision}>
-            <FormikField name="notes">
+            <FormikField name="notes" showError={false}>
               {({ field }) =>  (
-                <FormAddNotes
-                  showError={true}
+                <FormikAddNotes
+                  showError={touched[field.name] && !!errors[field.name]}
                   labelHeading={t('form.notes.heading')}
                   labelAddNote={t('form.notes.add')}
                   article={article}
                   labelRemoveNote={t('form.notes.remove')}
-                  labelWarningNote={t('form.notes.warning')}
+                  labelWarningNote={errors[field.name]}
                   {...field}
                 />
               )}
@@ -274,16 +270,18 @@ class TopicArticleForm extends Component {
         ),
       },
     ];
-    const { error, showResetModal } = this.state;
+    const { error, showResetModal, savedToServer } = this.state;
+    const initVal = getInitialValues(article);
     return (
       <Formik
-        initialValues={getInitialValues(article)}
-        onSubmit={this.handleSubmit}
+        initialValues={initVal}
+        onSubmit={(values, actions) => this.handleSubmit(values, actions, initVal)}
         onReset={this.onReset}
         validate={values => validateFormik(values, topicArticleRules, t)}
         enableReinitialize>
         {formikProps => {
-          const { values, initialValues } = formikProps;
+          const { values, initialValues, touched } = formikProps;
+          console.log("formikprops", formikProps)
           return (
             <Form {...formClasses()}>
               <FormHeader
@@ -356,7 +354,7 @@ class TopicArticleForm extends Component {
                   isSaving={isSaving}
                   showSaved={
                     savedToServer &&
-                    !isFormikFormDirty({ values, initialValues })
+                    !isFormikFormDirty({ values, initialValues, showSaved: false, touched })
                   }>
                   {t('form.save')}
                 </SaveButton>
@@ -407,7 +405,6 @@ TopicArticleForm.propTypes = {
     goBack: PropTypes.func,
   }).isRequired,
   article: ArticleShape,
-  savedToServer: PropTypes.bool,
 };
 
 export default compose(

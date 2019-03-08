@@ -3,7 +3,7 @@ import FormikAgreementConnection from './FormikAgreementConnection';
 import FormikCopyright from './FormikCopyright';
 import FormikIngress from './FormikIngress';
 import FormikWorkflow from './FormikWorkflow';
-
+import FormikAddNotes from './FormikAddNotes';
 const formClasses = new BEMHelper({
   name: 'form',
   prefix: 'c-',
@@ -14,5 +14,6 @@ export {
   FormikAgreementConnection,
   FormikIngress,
   FormikWorkflow,
+  FormikAddNotes,
   formClasses,
 };

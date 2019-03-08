@@ -39,12 +39,13 @@ export const isFormDirty = ({ fields, model, showSaved = false }) => {
   return dirtyFields.length > 0 && !showSaved;
 };
 
-export const isFormikFormDirty = ({ values, initialValues, showSaved }) => {
+export const isFormikFormDirty = ({ values, initialValues, showSaved = false, touched }) => {
   // Checking specific slate object fields if they really have changed
   const slateFields = ['introduction', 'metaDescription', 'content'];
+  console.log(values, initialValues, touched)
   const dirtyFields = [];
   Object.keys(values)
-    .filter(valueKey => values[valueKey] !== initialValues[valueKey])
+    .filter(valueKey => touched[valueKey])
     .forEach(dirtyValue => {
       if (slateFields.includes(dirtyValue)) {
         if (isEditorValueDirty(values[dirtyValue])) {
@@ -54,6 +55,7 @@ export const isFormikFormDirty = ({ values, initialValues, showSaved }) => {
         dirtyFields.push(dirtyValue);
       }
     });
+    console.log(dirtyFields, showSaved)
   return dirtyFields.length > 0 && !showSaved;
 };
 
@@ -88,24 +90,18 @@ const formikCommonArticleRules = {
   },
   notes: {
     required: false,
-    test: (value, model, setError) => {
+    test: (value) => {
       const emptyNote = value.find(note => note.length === 0);
       if (emptyNote !== undefined) {
-        setError('learningResourceForm.validation.noEmptyNote');
+        return 'learningResourceForm.validation.noEmptyNote';
       }
+      return undefined;
     },
   },
 };
 
 export const topicArticleRules = {
   ...formikCommonArticleRules,
-  content: {
-    // TODO: Write test to validate content (see learning resource)
-    required: false,
-  },
-  visualElement: {
-    required: false,
-  },
   'visualElement.alt': {
     required: true,
     onlyValidateIf: values =>

@@ -438,9 +438,12 @@ const phrases = {
       origin: 'Opphav',
       audioFile: 'Lydfil',
       content: 'Innhold',
-      visualElement: 'Visuelt element',
-      visualElementCaption: '',
-      visualElementAlt: '',
+      notes: 'Merknader',
+      metaDescription: 'Metabeskrivelse',
+      visualElement: {
+        caption: 'Tekst',
+        alt: 'Alt tekst',
+      },
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',

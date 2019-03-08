@@ -80,10 +80,16 @@ const validateFormik = (values, rules, t) => {
     if (rules[ruleKey].url && !isUrl(values[ruleKey])) {
       errors[ruleKey] = t('validation.url', { label });
     }
-    
-    if (rules[ruleKey].onlyValidateIf && !rules[ruleKey].onlyValidateIf(values)) {
-        errors[ruleKey] = '';
+    if (rules[ruleKey].test){
+      const errorTranslationKey = rules[ruleKey].test(values[ruleKey]);
+      if (errorTranslationKey) {
+        errors[ruleKey] = t(errorTranslationKey)
+      }
     }
+    if (rules[ruleKey].onlyValidateIf && !rules[ruleKey].onlyValidateIf(values)) {
+        delete errors[ruleKey]
+    }
+
   });
 
   return errors;

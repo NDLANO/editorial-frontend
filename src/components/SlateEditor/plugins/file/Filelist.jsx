@@ -87,13 +87,11 @@ class Filelist extends React.Component {
   }
 
   onAddFileToList(files) {
-    console.log(files);
     const { t, editor, node } = this.props;
     this.setState({
       showFileUploader: false,
     });
     const existingFiles = node.data.get('nodes');
-    console.log(existingFiles);
     const newFiles = files.map(file => {
       if (file.format) {
         return file;
@@ -104,7 +102,6 @@ class Filelist extends React.Component {
         t,
       );
     });
-    console.log(newFiles);
     editor.setNodeByKey(node.key, {
       data: {
         nodes: existingFiles.concat(

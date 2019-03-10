@@ -10,12 +10,14 @@ import React from 'react';
 import { Block } from 'slate';
 import DetailsBox from './DetailsBox';
 import { defaultBlocks } from '../../utils';
+import Summary from './Summary';
 
 const detailsBlock = [
   {
     type: 'summary',
     data: {},
   },
+  defaultBlocks.defaultBlock,
 ];
 
 /* eslint-disable react/prop-types */
@@ -28,9 +30,6 @@ export const defaultDetailsBlock = () =>
 export default function createDetails() {
   const schema = {
     blocks: {
-      // We can't use textBlockValidationRules for <details> because it wraps <summary>. Just
-      // use last child rule for now, but we should refactor to use a more suited representation
-      // which separates summary from details.
       details: {
         last: { type: 'paragraph' },
         normalize: (editor, error) => {
@@ -59,9 +58,9 @@ export default function createDetails() {
     const { node } = props;
     switch (node.type) {
       case 'details':
-        return <DetailsBox {...props}>{props.children}</DetailsBox>;
+        return <DetailsBox {...props} />;
       case 'summary':
-        return <summary {...props.attributes}>{props.children}</summary>;
+        return <span>{props.children}</span>;
       default:
         return next();
     }

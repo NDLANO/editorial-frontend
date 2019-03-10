@@ -22,8 +22,8 @@ const schema = {
 };
 
 export default function mathmlPlugin() {
-  const renderNode = props => {
-    const { node, next } = props;
+  const renderNode = (props, editor, next) => {
+    const { node } = props;
 
     switch (node.type) {
       case TYPE:

@@ -1,3 +1,4 @@
+import get from 'lodash/fp/get';
 import {
   isUrl,
   isEmpty,
@@ -12,25 +13,26 @@ import {
 const validateFormik = (values, rules, t) => {
   const errors = {};
   Object.keys(rules).forEach(ruleKey => {
+    const value = get(ruleKey, values);
     const label = t(`form.name.${ruleKey}`);
 
-    if (rules[ruleKey].numeric && !isNumeric(values[ruleKey])) {
+    if (rules[ruleKey].numeric && !isNumeric(value)) {
       errors[ruleKey] = t('validation.isNumeric', { label });
     }
-    if (rules[ruleKey].required && isEmpty(values[ruleKey])) {
+    if (rules[ruleKey].required && isEmpty(value)) {
       errors[ruleKey] = t('validation.isRequired', { label });
     }
     if (rules[ruleKey].allObjectFieldsRequired) {
-      if (values[ruleKey].filter(v => !objectHasBothField(v)).length > 0) {
+      if (value.filter(v => !objectHasBothField(v)).length > 0) {
         errors[ruleKey] = t('validation.bothFields', {
           labelLowerCase: label.toLowerCase(),
         });
       }
     }
     if (rules[ruleKey].dateBefore) {
-      const beforeDate = values[ruleKey];
+      const beforeDate = value;
       const afterKey = rules[ruleKey].afterKey;
-      const afterDate = values[afterKey];
+      const afterDate = get(afterKey, values);
       if (!validDateRange(beforeDate, afterDate)) {
         errors[ruleKey] = t('validation.dateBeforeInvalid', {
           label,
@@ -40,8 +42,8 @@ const validateFormik = (values, rules, t) => {
     }
     if (rules[ruleKey].dateAfter) {
       const beforeKey = rules[ruleKey].beforeKey;
-      const beforeDate = values[beforeKey];
-      const afterDate = values[ruleKey];
+      const beforeDate = get(beforeKey, values);
+      const afterDate = value;
       if (!validDateRange(beforeDate, afterDate)) {
         errors[ruleKey] = t('validation.dateAfterInvalid', {
           label,
@@ -51,7 +53,7 @@ const validateFormik = (values, rules, t) => {
     }
     if (
       rules[ruleKey].minLength &&
-      minLength(values[ruleKey], rules[ruleKey].minLength)
+      minLength(value, rules[ruleKey].minLength)
     ) {
       errors[ruleKey] = t('validation.minLength', {
         label,
@@ -60,38 +62,37 @@ const validateFormik = (values, rules, t) => {
     }
     if (
       rules[ruleKey].maxLength &&
-      maxLength(values[ruleKey], rules[ruleKey].maxLength)
+      maxLength(value, rules[ruleKey].maxLength)
     ) {
       errors[ruleKey] = t('validation.maxLength', {
         label,
         maxLength: rules[ruleKey].maxLength,
       });
     }
-    if (
-      rules[ruleKey].minItems &&
-      minItems(values[ruleKey], rules[ruleKey].minItems)
-    ) {
+    if (rules[ruleKey].minItems && minItems(value, rules[ruleKey].minItems)) {
       errors[ruleKey] = t('validation.minItems', {
         label,
         labelLowerCase: label.toLowerCase(),
         minItems: rules[ruleKey].minItems,
       });
     }
-    if (rules[ruleKey].url && !isUrl(values[ruleKey])) {
+    if (rules[ruleKey].url && !isUrl(value)) {
       errors[ruleKey] = t('validation.url', { label });
     }
-    if (rules[ruleKey].test){
-      const errorTranslationKey = rules[ruleKey].test(values[ruleKey]);
+    if (rules[ruleKey].test) {
+      const errorTranslationKey = rules[ruleKey].test(value);
       if (errorTranslationKey) {
-        errors[ruleKey] = t(errorTranslationKey)
+        errors[ruleKey] = t(errorTranslationKey);
       }
     }
-    if (rules[ruleKey].onlyValidateIf && !rules[ruleKey].onlyValidateIf(values)) {
-        delete errors[ruleKey]
+    if (
+      rules[ruleKey].onlyValidateIf &&
+      !rules[ruleKey].onlyValidateIf(values)
+    ) {
+      delete errors[ruleKey];
     }
-
   });
-
+  console.log(errors);
   return errors;
 };
 

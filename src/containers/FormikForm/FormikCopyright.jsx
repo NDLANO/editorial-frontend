@@ -9,11 +9,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import FormLicense from '../Form/components/FormLicense';
-import { CommonFieldPropsShape } from '../../shapes';
+import FormikLicense from './components/FormikLicense';
 import Contributors from '../../components/Contributors';
 import { FormikAgreementConnection } from '.';
-import { getErrorMessages } from '../../util/formHelper';
 import FormikField from '../../components/FormikField';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
@@ -54,7 +52,7 @@ const FormikCopyright = ({ t, licenses, values }) => {
       <FormikAgreementConnection values={values} width={3 / 4} />
       <FormikField name="license">
         {({ field }) => (
-          <FormLicense disabled={disabled} licenses={licenses} {...field} />
+          <FormikLicense disabled={disabled} licenses={licenses} {...field} />
         )}
       </FormikField>
     </Fragment>

@@ -128,6 +128,9 @@ FormikAgreementConnection.propTypes = {
     agreementId: PropTypes.number,
   }),
   width: PropTypes.number,
+  values: PropTypes.shape({
+    agreementId: PropTypes.string,
+  }),
 };
 
 FormikAgreementConnection.defaultProps = {

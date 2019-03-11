@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
@@ -42,7 +42,11 @@ import {
   AlertModalWrapper,
 } from '../../Form';
 import FormikField from '../../../components/FormikField';
-import { FormikCopyright, FormikWorkflow, FormikAddNotes } from '../../FormikForm';
+import {
+  FormikCopyright,
+  FormikWorkflow,
+  FormikAddNotes,
+} from '../../FormikForm';
 import { formatErrorMessage } from '../../Form/FormWorkflow';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
@@ -78,7 +82,6 @@ export const getInitialValues = (article = {}) => {
   };
 };
 
-
 class TopicArticleForm extends Component {
   constructor(props) {
     super(props);
@@ -90,16 +93,6 @@ class TopicArticleForm extends Component {
       savedToServer: false,
     };
   }
-
-  /*componentDidUpdate({ initialModel: prevModel }) {
-    const { initialModel, setModel } = this.props;
-    if (
-      initialModel.id !== prevModel.id ||
-      initialModel.language !== prevModel.language
-    ) {
-      setModel(initialModel);
-    }
-  }*/
 
   async onReset() {
     const { articleId, setModel, taxonomy, selectedLanguage, t } = this.props;
@@ -123,8 +116,6 @@ class TopicArticleForm extends Component {
       }
     }
   }
-
-  
 
   getArticle(values) {
     const emptyField = values.id ? '' : undefined;
@@ -155,20 +146,16 @@ class TopicArticleForm extends Component {
     return article;
   }
 
-
   async handleSubmit(values, actions, initialValues) {
-    //evt.preventDefault();
-
     const {
-      //validationErrors,
       revision,
       createMessage,
       articleStatus,
       onUpdate,
       //setModelField,
-     // onModelSavedToServer,
+      // onModelSavedToServer,
     } = this.props;
-    console.log(actions);
+    console.log('SUBMIT', this.props);
     const status = articleStatus ? articleStatus.current : undefined;
 
     /*if (!isFormikFormDirty({values, initialValues})) {
@@ -193,7 +180,7 @@ class TopicArticleForm extends Component {
       revision,
     });
     actions.setFieldValue('notes', [], false);
-    this.setState({savedToServer: true});
+    this.setState({ savedToServer: true });
   }
 
   render() {
@@ -254,7 +241,7 @@ class TopicArticleForm extends Component {
             createMessage={createMessage}
             revision={revision}>
             <FormikField name="notes" showError={false}>
-              {({ field }) =>  (
+              {({ field }) => (
                 <FormikAddNotes
                   showError={touched[field.name] && !!errors[field.name]}
                   labelHeading={t('form.notes.heading')}
@@ -275,13 +262,15 @@ class TopicArticleForm extends Component {
     return (
       <Formik
         initialValues={initVal}
-        onSubmit={(values, actions) => this.handleSubmit(values, actions, initVal)}
+        validateOnBlur={false}
+        onSubmit={(values, actions) =>
+          this.handleSubmit(values, actions, initVal)
+        }
         onReset={this.onReset}
         validate={values => validateFormik(values, topicArticleRules, t)}
         enableReinitialize>
         {formikProps => {
-          const { values, initialValues, touched } = formikProps;
-          console.log("formikprops", formikProps)
+          const { values, initialValues, touched, dirty } = formikProps;
           return (
             <Form {...formClasses()}>
               <FormHeader
@@ -295,7 +284,7 @@ class TopicArticleForm extends Component {
                 {({ openIndexes, handleItemClick }) => (
                   <AccordionWrapper>
                     {panels(formikProps).map(panel => (
-                      <React.Fragment key={panel.id}>
+                      <Fragment key={panel.id}>
                         <AccordionBar
                           panelId={panel.id}
                           ariaLabel={panel.title}
@@ -314,7 +303,7 @@ class TopicArticleForm extends Component {
                             </div>
                           </AccordionPanel>
                         )}
-                      </React.Fragment>
+                      </Fragment>
                     ))}
                   </AccordionWrapper>
                 )}
@@ -354,7 +343,13 @@ class TopicArticleForm extends Component {
                   isSaving={isSaving}
                   showSaved={
                     savedToServer &&
-                    !isFormikFormDirty({ values, initialValues, showSaved: false, touched })
+                    !isFormikFormDirty({
+                      values,
+                      initialValues,
+                      showSaved: false,
+                      touched,
+                      dirty,
+                    })
                   }>
                   {t('form.save')}
                 </SaveButton>

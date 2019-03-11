@@ -95,7 +95,6 @@ const RichTextEditor = class extends React.PureComponent {
       value,
       name,
       onChange,
-      onBlur,
       plugins,
       index,
       supportedToolbarElements,
@@ -112,8 +111,18 @@ const RichTextEditor = class extends React.PureComponent {
             value={value}
             name={name}
             schema={schema}
-            onChange={change => onChange(change, index)}
-            onBlur={onBlur}
+            onChange={change =>
+              onChange(
+                {
+                  target: {
+                    name,
+                    value: change.value,
+                    type: 'SlateEditorValue',
+                  },
+                },
+                index,
+              )
+            }
             slateStore={this.state.slateStore}
             plugins={plugins}
             {...rest}

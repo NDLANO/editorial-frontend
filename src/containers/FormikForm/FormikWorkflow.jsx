@@ -69,7 +69,7 @@ class FormikWorkflow extends Component {
 
   async onValidateClick() {
     const {
-      model: { id },
+      values: { id },
       createMessage,
       getArticle,
       revision,

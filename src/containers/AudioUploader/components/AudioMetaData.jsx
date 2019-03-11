@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import MultiSelect from '../../../components/MultiSelect';
 import Contributors from '../../../components/Contributors';
-import FormLicense from '../../Form/components/FormLicense';
+import { FormikLicense } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
@@ -38,7 +38,7 @@ const AudioMetaData = props => {
         )}
       </FormikField>
       <FormikField name="license">
-        {({ field }) => <FormLicense licenses={licenses} {...field} />}
+        {({ field }) => <FormikLicense licenses={licenses} {...field} />}
       </FormikField>
       <FormikField label={t('form.origin.label')} name="origin" />
       {contributorTypes.map(contributorType => {

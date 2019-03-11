@@ -69,7 +69,7 @@ class FormikAddNotes extends Component {
       article,
       showError,
     } = this.props;
-    console.log(this.props);
+
     return (
       <Fragment>
         <FormikNotes notes={article.notes} />
@@ -118,7 +118,7 @@ FormikAddNotes.propTypes = {
   placeholder: PropTypes.string,
   labelRemoveNote: PropTypes.string.isRequired,
   labelAddNote: PropTypes.string.isRequired,
-  labelWarningNote: PropTypes.string.isRequired,
+  labelWarningNote: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.arrayOf(PropTypes.string),
   article: NewArticleShape,

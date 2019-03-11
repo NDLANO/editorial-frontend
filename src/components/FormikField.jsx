@@ -2,9 +2,12 @@ import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Field, ErrorMessage } from 'formik';
+import { Value } from 'slate';
 import styled, { css } from 'react-emotion';
+import { connect } from 'formik';
 import { colors, fonts } from '@ndla/core';
 import { isEmpty } from './validators';
+import { FormikShape } from '../shapes';
 
 export const classes = new BEMHelper({
   name: 'field',
@@ -17,27 +20,26 @@ const StyledErrorMessage = styled.span`
   color: ${colors.support.red};
 `;
 
-export const FocusLabel = ({ name, value, hasFocus, children }) => {
-  if (!hasFocus(name) || isEmpty(value)) {
-    return null;
-  }
-  return (
-    <div className="c-field__focus-label">
-      <span className="c-field__focus-text">{children}</span>
-    </div>
-  );
-};
+export const FocusLabel = connect(
+  ({ name, hasFocus, children, formik: { values } }) => {
+    if (!hasFocus || isEmpty(values[name])) {
+      return null;
+    }
+    return (
+      <div className="c-field__focus-label">
+        <span className="c-field__focus-text">{children}</span>
+      </div>
+    );
+  },
+);
 
 FocusLabel.propTypes = {
   name: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.shape({ _immutable: PropTypes.object }),
-  ]).isRequired,
   hasFocus: PropTypes.func.isRequired,
+  formik: FormikShape,
 };
 
-const FormikFieldLabel = ({ label, noBorder, name }) => {
+const FormikFieldLabel = ({ label, noBorder, name, hasFocus }) => {
   if (!label) {
     return null;
   }
@@ -49,6 +51,9 @@ const FormikFieldLabel = ({ label, noBorder, name }) => {
       <label className="u-hidden" htmlFor={name}>
         {label}
       </label>
+      <FocusLabel name={name} hasFocus={hasFocus}>
+        {label}
+      </FocusLabel>
     </Fragment>
   );
 };
@@ -108,23 +113,28 @@ const FormikField = ({
   description,
   obligatory,
   showError,
-  hasFocus,
-  onBlur,
+  formik: { values, handleBlur },
   ...rest
 }) => {
   const [focus, setFocus] = useState(false);
 
-  const onFieldBlur = evt => {
-    if (onBlur) {
-      onBlur(evt);
-    }
-    setFocus(false);
-  };
-
+  const isSlateValue = Value.isValue(values[name]);
+  const fieldActions = !isSlateValue
+    ? {
+        onFocus: () => {
+          setFocus(true);
+        },
+        onBlur: (evt, editor, next) => {
+          handleBlur(evt);
+          setFocus(false);
+        },
+      }
+    : {};
+  const hasFocus = isSlateValue ? values[name].selection.isFocused : focus;
   return (
     <div {...classes('', { 'no-border': noBorder, right, title }, className)}>
       <FormikFieldLabel
-        focus={hasFocus || focus}
+        hasFocus={hasFocus}
         label={label}
         name={name}
         noBorder={noBorder}
@@ -133,12 +143,18 @@ const FormikField = ({
         description={description}
         obligatory={obligatory}
       />
-      <Field
-        name={name}
-        onFocus={() => setFocus(true)}
-        onBlur={onFieldBlur}
-        {...rest}>
-        {children || null}
+      <Field name={name} {...rest} {...fieldActions}>
+        {children
+          ? formikProps => {
+              return children({
+                ...formikProps,
+                field: {
+                  ...formikProps.field,
+                  ...fieldActions,
+                },
+              });
+            }
+          : null}
       </Field>
       {showError && (
         <ErrorMessage name={name}>
@@ -155,12 +171,11 @@ FormikField.propTypes = {
   title: PropTypes.bool,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
-  onBlur: PropTypes.func,
   showError: PropTypes.bool,
   children: PropTypes.func,
   obligatory: PropTypes.bool,
-  hasFocus: PropTypes.bool,
   description: PropTypes.string,
+  formik: FormikShape,
 };
 
 FormikField.defaultProps = {
@@ -168,4 +183,4 @@ FormikField.defaultProps = {
   showError: true,
 };
 
-export default FormikField;
+export default connect(FormikField);

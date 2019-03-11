@@ -1,0 +1,88 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
+import { connect } from 'react-redux';
+import { getLicenseByAbbreviation } from '@ndla/licenses';
+import { FieldHeader, FieldSection, Dropdown } from '@ndla/forms';
+import { getLocale } from '../../../modules/locale/locale';
+import HowToHelper from '../../../components/HowTo/HowToHelper';
+
+const FormikLicense = props => {
+  const {
+    t,
+    onChange,
+    onBlur,
+    name,
+    licenses,
+    onFocus,
+    value,
+    disabled,
+    locale,
+  } = props;
+  const licensesWithTranslations = licenses.map(license => ({
+    ...license,
+    ...getLicenseByAbbreviation(license.license, locale),
+  }));
+  return (
+    <Fragment>
+      <FieldHeader title={t('form.license.label')} width={3 / 4}>
+        <HowToHelper
+          pageId="userLicense"
+          tooltip={t('form.license.helpLabel')}
+        />
+      </FieldHeader>
+      <FieldSection>
+        <div>
+          <Dropdown
+            disabled={disabled}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+            onFocus={onFocus}
+            name={name}>
+            {licensesWithTranslations.map(license => (
+              <option value={license.license} key={license.license}>
+                {license.title}
+              </option>
+            ))}
+          </Dropdown>
+        </div>
+      </FieldSection>
+    </Fragment>
+  );
+};
+
+FormikLicense.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  licenses: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string,
+      license: PropTypes.string,
+    }),
+  ).isRequired,
+  locale: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+  name: PropTypes.string,
+  value: PropTypes.string,
+  onFocus: PropTypes.func,
+};
+
+FormikLicense.defaultProps = {
+  disabled: false,
+  name: 'license',
+};
+
+const mapStateToProps = state => ({
+  locale: getLocale(state),
+});
+
+export default connect(mapStateToProps)(injectT(FormikLicense));

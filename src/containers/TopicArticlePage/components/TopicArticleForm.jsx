@@ -155,7 +155,6 @@ class TopicArticleForm extends Component {
       //setModelField,
       // onModelSavedToServer,
     } = this.props;
-    console.log('SUBMIT', this.props);
     const status = articleStatus ? articleStatus.current : undefined;
 
     /*if (!isFormikFormDirty({values, initialValues})) {

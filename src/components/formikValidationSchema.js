@@ -92,7 +92,6 @@ const validateFormik = (values, rules, t) => {
       delete errors[ruleKey];
     }
   });
-  console.log(errors);
   return errors;
 };
 

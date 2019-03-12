@@ -86,7 +86,7 @@ class TopicArticleForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.onReset = this.onReset.bind(this);
+    this.onResetFormToProd = this.onResetFormToProd.bind(this);
     this.getArticle = this.getArticle.bind(this);
     this.state = {
       showResetModal: false,
@@ -94,8 +94,8 @@ class TopicArticleForm extends Component {
     };
   }
 
-  async onReset() {
-    const { articleId, setModel, taxonomy, selectedLanguage, t } = this.props;
+  async onResetFormToProd({ setValues }) {
+    const { articleId, selectedLanguage, t } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
@@ -105,9 +105,10 @@ class TopicArticleForm extends Component {
         articleFromProd,
         selectedLanguage,
       );
-      setModel(getInitialValues(convertedArticle, taxonomy, selectedLanguage));
-      this.setState({ showResetModal: false });
+      const initialValues = getInitialValues(convertedArticle);
+      this.setState({ showResetModal: false }, () => setValues(initialValues));
     } catch (err) {
+      console.log('ERR', err);
       if (err.status === 404) {
         this.setState({
           showResetModal: false,
@@ -147,19 +148,8 @@ class TopicArticleForm extends Component {
   }
 
   async handleSubmit(values, actions, initialValues) {
-    const {
-      revision,
-      createMessage,
-      articleStatus,
-      onUpdate,
-      //setModelField,
-      // onModelSavedToServer,
-    } = this.props;
+    const { revision, createMessage, articleStatus, onUpdate } = this.props;
     const status = articleStatus ? articleStatus.current : undefined;
-
-    /*if (!isFormikFormDirty({values, initialValues})) {
-      return;
-    }*/
 
     if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
       try {
@@ -265,7 +255,6 @@ class TopicArticleForm extends Component {
         onSubmit={(values, actions) =>
           this.handleSubmit(values, actions, initVal)
         }
-        onReset={this.onReset}
         validate={values => validateFormik(values, topicArticleRules, t)}
         enableReinitialize>
         {formikProps => {
@@ -326,7 +315,7 @@ class TopicArticleForm extends Component {
                     },
                     {
                       text: 'Reset',
-                      onClick: this.onReset,
+                      onClick: () => this.onResetFormToProd(formikProps),
                     },
                   ]}
                   onCancel={() => this.setState({ showResetModal: false })}
@@ -369,24 +358,9 @@ class TopicArticleForm extends Component {
 }
 
 TopicArticleForm.propTypes = {
-  /*model: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-  }).isRequired,*/
-  /*initialModel: PropTypes.shape({
-    id: PropTypes.number,
-    language: PropTypes.string,
-  }),*/
-  //setModel: PropTypes.func.isRequired,
   validationErrors: SchemaShape,
-  //setModelField: PropTypes.func.isRequired,
-  //schema: SchemaShape,
-  //fields: PropTypes.objectOf(PropTypes.object).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  //submitted: PropTypes.bool.isRequired,
-  //bindInput: PropTypes.func.isRequired,
   revision: PropTypes.number,
-  //setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
@@ -404,6 +378,4 @@ TopicArticleForm.propTypes = {
 export default compose(
   injectT,
   withRouter,
-  //reformed,
-  //validateSchema(topicArticleSchema),
 )(TopicArticleForm);

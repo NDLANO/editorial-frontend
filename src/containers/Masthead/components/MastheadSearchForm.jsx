@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
-import { colors } from '@ndla/core';
+import { colors, misc, spacing } from '@ndla/core';
 import { Search } from '@ndla/icons/common';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
@@ -21,7 +21,18 @@ import { fetchTopicArticle } from '../../../modules/taxonomy';
 
 import { fetchDraft, fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { getLocale } from '../../../modules/locale/locale';
-import { editorialMastheadClasses } from '../MastheadContainer';
+
+const formCSS = css`
+  display: flex;
+  background: ${colors.brand.greyLight};
+  border-radius: ${misc.borderRadius};
+  input {
+    padding: ${spacing.xsmall};
+    background: transparent;
+    border: 0;
+    outline: none;
+  }
+`;
 
 export class MastheadSearchForm extends Component {
   constructor(props) {
@@ -110,10 +121,9 @@ export class MastheadSearchForm extends Component {
     const { searching, t } = this.props;
 
     return (
-      <form onSubmit={this.handleSubmit} {...editorialMastheadClasses('form')}>
+      <form onSubmit={this.handleSubmit} className={formCSS}>
         <input
           type="text"
-          {...editorialMastheadClasses('form-query')}
           onChange={this.handleQueryChange}
           value={this.state.query}
           placeholder={t('searchForm.placeholder')}

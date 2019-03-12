@@ -19,10 +19,8 @@ import {
   toLogoutSession,
   toLogin,
 } from '../../../util/routeHelpers';
-import { editorialMastheadClasses } from '../MastheadContainer';
 import Overlay from '../../../components/Overlay';
 import { getAccessTokenPersonal } from '../../../util/authHelpers';
-import MastheadButton from './MastheadButton';
 
 const AuthSiteNavItem = ({ t, name, authenticated, onClick }) => {
   const isAccessTokenPersonal = getAccessTokenPersonal();
@@ -73,34 +71,33 @@ export class SessionContainer extends Component {
     const { t, userName, authenticated } = this.props;
     return (
       <div>
-        <MastheadButton
+        <Button
           color={colors.brand.grey}
           onClick={this.toggleOpen}
           stripped>
           <User className="c-icon--medium" />
-        </MastheadButton>
-        <div
-          {...editorialMastheadClasses(
-            'session-container',
-            !this.state.open ? 'hidden' : '',
-          )}>
-          <AuthSiteNavItem
-            t={t}
-            name={userName}
-            authenticated={authenticated}
-            onClick={this.toggleOpen}
-          />
-          <Button
-            onClick={this.toggleOpen}
-            stripped
-            css={`
-              position: absolute;
-              right: 0;
-              top: 0;
-            `}>
-            <Cross className="c-icon--medium" />
-          </Button>
-        </div>
+          {userName}
+        </Button>
+        {this.state.open && (
+          <div>
+            <AuthSiteNavItem
+              t={t}
+              name={userName}
+              authenticated={authenticated}
+              onClick={this.toggleOpen}
+            />
+            <Button
+              onClick={this.toggleOpen}
+              stripped
+              css={`
+                position: absolute;
+                right: 0;
+                top: 0;
+              `}>
+              <Cross className="c-icon--medium" />
+            </Button>
+          </div>
+        )}
         {this.state.open ? (
           <Overlay
             onExit={this.toggleOpen}

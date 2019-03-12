@@ -8,32 +8,44 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
 import { css } from 'react-emotion';
-import { colors } from '@ndla/core';
+import { colors, fonts, spacing, misc } from '@ndla/core';
 
-const MastheadButton = ({ children, color, minWidth, ...rest }) => {
-  const buttonStyle = css`
-    &,
-    &:hover,
-    &:focus {
-      color: ${color};
-      min-width: ${minWidth}rem;
-      border: 1px solid #777;
-      justify-content: space-between;
-      border-radius: 1px;
-      display: flex;
-      background-color: white;
-      padding: 0.2rem;
-      height: 42px;
-    }
-  `;
-  return (
-    <Button {...rest} css={buttonStyle}>
-      {children}
-    </Button>
-  );
-};
+const buttonStyle = css`
+  background: transparent;
+  padding: ${spacing.small} ${spacing.normal};
+  ${fonts.sizes(16, 1.625)};
+  font-weight: ${fonts.weight.normal};
+  border-radius: ${misc.borderRadius};
+  border: 2px solid ${colors.brand.primary};
+  color: ${colors.brand.primary};
+  transition: 200ms all ease;
+  display: flex;
+  align-items: center;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    margin-right: ${spacing.xsmall};
+  }
+  &:hover {
+    border: 2px solid transparent;
+    background: ${colors.brand.primary};
+    color: ${colors.white};
+  }
+  &:active,
+  &:focus {
+    border: 2px solid ${colors.brand.lighter};
+    background: ${colors.white};
+    color: ${colors.brand.primary};
+  }
+`;
+
+const MastheadButton = ({ children, color, minWidth, ...rest }) => (
+  <button type="button" {...rest} css={buttonStyle}>
+    {children}
+  </button>
+);
 
 MastheadButton.propTypes = {
   color: PropTypes.string,

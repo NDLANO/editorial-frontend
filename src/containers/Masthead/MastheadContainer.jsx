@@ -8,38 +8,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Masthead, MastheadItem, Logo } from '@ndla/ui';
-import BEMHelper from 'react-bem-helper';
-import MastheadSearch from './MastheadSearch';
-import SessionContainer from './components/SessionContainer';
+import { Masthead } from '@ndla/ui';
 import Navigation from './components/Navigation';
-
-const classes = new BEMHelper({
-  name: 'masthead',
-  prefix: 'c-',
-});
-
-export const editorialMastheadClasses = new BEMHelper({
-  name: 'masthead-editorial',
-  prefix: 'c-',
-});
 
 const MastheadContainer = ({ t, authenticated, userName }) => (
   <Masthead>
-    <div {...classes('container')}>
-      <MastheadItem>
-        <Navigation t={t} />
-      </MastheadItem>
-      <MastheadItem>
-        <MastheadSearch t={t} />
-      </MastheadItem>
-      <MastheadItem>
-        <SessionContainer userName={userName} authenticated={authenticated} />
-      </MastheadItem>
-      <MastheadItem>
-        <Logo to="/" label="Nasjonal digital læringsarena" />
-      </MastheadItem>
-    </div>
+    <Navigation t={t} userName={userName} authenticated={authenticated}  />
   </Masthead>
 );
 

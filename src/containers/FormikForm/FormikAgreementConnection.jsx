@@ -124,12 +124,9 @@ class FormikAgreementConnection extends Component {
 }
 
 FormikAgreementConnection.propTypes = {
-  model: PropTypes.shape({
-    agreementId: PropTypes.number,
-  }),
   width: PropTypes.number,
   values: PropTypes.shape({
-    agreementId: PropTypes.string,
+    agreementId: PropTypes.number,
   }),
 };
 

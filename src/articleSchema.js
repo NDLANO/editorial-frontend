@@ -31,7 +31,7 @@ const commonArticleSchema = {
     test: (value, model, setError) => {
       const emptyNote = value.find(note => note.length === 0);
       if (emptyNote !== undefined) {
-        setError('learningResourceForm.validation.noEmptyNote');
+        setError('validation.noEmptyNote');
       }
     },
   },

@@ -1,9 +1,10 @@
 import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import { Field, ErrorMessage } from 'formik';
+import { Field } from 'formik';
 import { Value } from 'slate';
 import styled, { css } from 'react-emotion';
+import get from 'lodash/fp/get';
 import { connect } from 'formik';
 import { colors, fonts } from '@ndla/core';
 import { isEmpty } from './validators';
@@ -113,7 +114,7 @@ const FormikField = ({
   description,
   obligatory,
   showError,
-  formik: { values, handleBlur },
+  formik: { values, handleBlur, errors, touched },
   ...rest
 }) => {
   const [focus, setFocus] = useState(false);
@@ -156,10 +157,8 @@ const FormikField = ({
             }
           : null}
       </Field>
-      {showError && (
-        <ErrorMessage name={name}>
-          {message => <StyledErrorMessage>{message}</StyledErrorMessage>}
-        </ErrorMessage>
+      {showError && get(name, errors) && get(name, touched) && (
+        <StyledErrorMessage>{get(name, errors)}</StyledErrorMessage>
       )}
     </div>
   );

@@ -441,7 +441,7 @@ const phrases = {
       notes: 'Merknader',
       metaDescription: 'Metabeskrivelse',
       visualElement: {
-        caption: 'Tekst',
+        caption: 'Figur tekst',
         alt: 'Alt tekst',
       },
     },

@@ -90,7 +90,7 @@ const validateFormik = (values, rules, t) => {
     if (rules[ruleKey].test) {
       const errorTranslationKey = rules[ruleKey].test(value);
       if (errorTranslationKey) {
-        errors[ruleKey] = t(errorTranslationKey);
+        errors[ruleKey] = t(`${errorTranslationKey}`);
       }
     }
     if (

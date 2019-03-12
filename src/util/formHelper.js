@@ -99,7 +99,7 @@ const formikCommonArticleRules = {
     test: value => {
       const emptyNote = value.find(note => note.length === 0);
       if (emptyNote !== undefined) {
-        return 'learningResourceForm.validation.noEmptyNote';
+        return 'validation.noEmptyNote';
       }
       return undefined;
     },

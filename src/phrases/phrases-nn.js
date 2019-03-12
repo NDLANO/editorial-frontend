@@ -425,6 +425,24 @@ const phrases = {
     preview: {
       button: 'Forhandsvis',
     },
+    name: {
+      title: 'Tittel',
+      introduction: 'Introduksjon',
+      creators: 'Opphavsperson',
+      rightsholders: 'Rettighetshaver',
+      processors: 'Bearbeider',
+      tags: 'Nøkkelord',
+      license: 'Lisens',
+      origin: 'Opphav',
+      audioFile: 'Lydfil',
+      content: 'Innhald',
+      notes: 'Merknader',
+      metaDescription: 'Metabeskrivelse',
+      visualElement: {
+        caption: 'Figur tekst',
+        alt: 'Alt tekst',
+      },
+    },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
       article: 'Artikkel',

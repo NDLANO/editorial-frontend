@@ -35,17 +35,14 @@ import {
   isFormikFormDirty,
   topicArticleRules,
 } from '../../../util/formHelper';
-import {
-  FormHeader,
-  FormActionButton,
-  formClasses,
-  AlertModalWrapper,
-} from '../../Form';
+import { FormActionButton, AlertModalWrapper } from '../../Form';
 import FormikField from '../../../components/FormikField';
 import {
   FormikCopyright,
   FormikWorkflow,
   FormikAddNotes,
+  formClasses,
+  FormikHeader,
 } from '../../FormikForm';
 import { formatErrorMessage } from '../../Form/FormWorkflow';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -108,7 +105,6 @@ class TopicArticleForm extends Component {
       const initialValues = getInitialValues(convertedArticle);
       this.setState({ showResetModal: false }, () => setValues(initialValues));
     } catch (err) {
-      console.log('ERR', err);
       if (err.status === 404) {
         this.setState({
           showResetModal: false,
@@ -259,10 +255,11 @@ class TopicArticleForm extends Component {
         enableReinitialize>
         {formikProps => {
           const { values, initialValues, touched, dirty } = formikProps;
+          console.log(formikProps);
           return (
             <Form {...formClasses()}>
-              <FormHeader
-                model={values}
+              <FormikHeader
+                values={values}
                 type={values.articleType}
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)

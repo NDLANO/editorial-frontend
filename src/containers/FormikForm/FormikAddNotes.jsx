@@ -114,7 +114,6 @@ FormikAddNotes.defaultProps = {
 FormikAddNotes.propTypes = {
   name: PropTypes.string.isRequired,
   labelHeading: PropTypes.string.isRequired,
-  submitted: PropTypes.bool.isRequired,
   placeholder: PropTypes.string,
   labelRemoveNote: PropTypes.string.isRequired,
   labelAddNote: PropTypes.string.isRequired,

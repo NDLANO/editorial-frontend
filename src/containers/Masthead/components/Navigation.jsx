@@ -21,6 +21,7 @@ import {
 } from '@ndla/icons/editor';
 import { colors } from '@ndla/core';
 import FocusTrapReact from 'focus-trap-react';
+import styled from 'react-emotion';
 import config from '../../../config';
 import {
   toCreateLearningResource,
@@ -34,6 +35,10 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
+const StyledMenuContainer = styled.div`
+  background: transparent; /* wip styling */
+`;
+
 export class Navigation extends Component {
   constructor(props) {
     super(props);
@@ -45,9 +50,7 @@ export class Navigation extends Component {
   }
 
   toggleOpen() {
-    this.setState(
-      prevState => ({ open: !prevState.open }),
-    );
+    this.setState(prevState => ({ open: !prevState.open }));
   }
 
   renderMenu(open) {
@@ -67,7 +70,7 @@ export class Navigation extends Component {
           />
         </MastheadButton>
 
-        <div
+        <StyledMenuContainer
           {...classes(
             'container',
             !open ? 'hidden' : ['absolute', 'brand-color-secondary'],
@@ -77,7 +80,6 @@ export class Navigation extends Component {
               to={toCreateLearningResource()}
               {...classes('item')}
               onClick={this.toggleOpen}>
-              <SubjectMatter className="c-icon--large" />
               <span>{t('subNavigation.subjectMatter')}</span>
             </Link>
             <a
@@ -87,21 +89,18 @@ export class Navigation extends Component {
               rel="noopener noreferrer"
               {...classes('item')}
               onClick={this.toggleOpen}>
-              <Learningpath className="c-icon--large" />
               <span>{t('subNavigation.learningPath')}</span>
             </a>
             <Link
               to={toCreateImage()}
               {...classes('item')}
               onClick={this.toggleOpen}>
-              <Media className="c-icon--large" />
               <span>{t('subNavigation.media')}</span>
             </Link>
             <Link
               to="/agreement/new"
               {...classes('item')}
               onClick={this.toggleOpen}>
-              <Agreement className="c-icon--large" />
               <span>{t('subNavigation.agreement')}</span>
             </Link>
             {
@@ -109,7 +108,6 @@ export class Navigation extends Component {
                 to="/structure"
                 {...classes('item')}
                 onClick={this.toggleOpen}>
-                <Taxonomy className="c-icon--large" />
                 <span>{t('subNavigation.structure')}</span>
               </Link>
             }
@@ -124,11 +122,10 @@ export class Navigation extends Component {
               )}
               {...classes('item')}
               onClick={this.toggleOpen}>
-              <DetailSearch className="c-icon--large" />
               <span>{t('subNavigation.detailSearch')}</span>
             </Link>
           </div>
-        </div>
+        </StyledMenuContainer>
 
         {open ? (
           <div
@@ -151,7 +148,7 @@ export class Navigation extends Component {
         active={open}
         focusTrapOptions={{
           onDeactivate: () => {
-            this.setState({open: false})
+            this.setState({ open: false });
           },
           clickOutsideDeactivates: true,
         }}>

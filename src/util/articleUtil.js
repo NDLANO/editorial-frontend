@@ -18,6 +18,9 @@ export const transformArticleToApiVersion = article => ({
     content: article.content,
     language: article.language,
   },
+  visualElement: article.visualElement
+    ? { visualElement: article.visualElement, language: article.language }
+    : undefined,
   metaDescription: {
     metaDescription: article.metaDescription,
   },

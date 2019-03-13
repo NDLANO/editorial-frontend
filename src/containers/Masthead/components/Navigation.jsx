@@ -213,8 +213,7 @@ export class Navigation extends Component {
                       </a>
                       <div
                         className={menuItemCss}
-                        style={{pointerEvents: 'none', opacity: 0.3}}
-                      >
+                        style={{ pointerEvents: 'none', opacity: 0.3 }}>
                         <span>{t('subNavigation.concept')}</span>
                       </div>
                       <Link

@@ -43,11 +43,7 @@ export class App extends React.Component {
   }
 
   render() {
-    const {
-      dispatch,
-      messages,
-      t,
-    } = this.props;
+    const { dispatch, messages, t } = this.props;
     return (
       <ErrorBoundary>
         <PageContainer background>

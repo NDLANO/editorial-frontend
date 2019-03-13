@@ -172,7 +172,7 @@ class SlateToolbar extends Component {
     )
       ? defaultSupportedToolbarElementsAside
       : defaultSupportedToolbarElements;
-    console.log('TOOL', toolbarElements, link);
+
     const toolbarButtons = Object.keys(toolbarElements).map(kind =>
       toolbarElements[kind].map(type => (
         <ToolbarButton

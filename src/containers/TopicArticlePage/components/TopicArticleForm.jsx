@@ -144,7 +144,6 @@ class TopicArticleForm extends Component {
   }
 
   async handleSubmit(values, actions, initialValues) {
-    console.log('HKKHGKHGKKHKGKKG');
     const { revision, createMessage, articleStatus, onUpdate } = this.props;
     const status = articleStatus ? articleStatus.current : undefined;
 

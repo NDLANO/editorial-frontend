@@ -80,9 +80,7 @@ class EditTopicArticle extends Component {
         />
       );
     }
-    const language = article.supportedLanguages.includes(selectedLanguage)
-      ? article.language
-      : selectedLanguage;
+    const language = selectedLanguage || article.language;
     return (
       <Fragment>
         <HelmetWithTracker

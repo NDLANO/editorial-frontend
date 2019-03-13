@@ -54,7 +54,7 @@ import { articleConverter } from '../../../modules/draft/draft';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import AlertModal from '../../../components/AlertModal';
 
-export const getInitialModel = (article = {}) => {
+export const getInitialModel = (article = {}, language) => {
   const visualElement = parseEmbedTag(article.visualElement);
   return {
     id: article.id,
@@ -74,7 +74,7 @@ export const getInitialModel = (article = {}) => {
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
     notes: [],
     visualElement: visualElement || {},
-    language: article.language,
+    language: language || article.language,
     supportedLanguages: article.supportedLanguages || [],
     articleType: 'topic-article',
   };
@@ -148,6 +148,7 @@ class TopicArticleForm extends Component {
       },
       notes: model.notes || [],
       language: model.language,
+      updated: model.updated,
       supportedLanguages: model.supportedLanguages,
     };
 

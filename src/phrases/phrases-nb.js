@@ -152,7 +152,7 @@ const phrases = {
     subjectMatter: 'Opprett læringsressurs',
     detailSearch: 'Detaljsøk',
     topicArticle: 'Opprett emne',
-    learningResource: 'Fagstoff',
+    learningResource: 'Læringsressurs',
     image: 'Nytt bilde',
     audio: 'Ny lydfil',
     agreement: 'Ny avtale',

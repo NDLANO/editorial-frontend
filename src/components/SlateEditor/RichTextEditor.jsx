@@ -132,7 +132,18 @@ const RichTextEditor = class extends React.PureComponent {
         {this.editorRef.current && (
           <SlateToolbar
             editor={this.editorRef.current}
-            onChange={change => onChange(change, index)}
+            onChange={change =>
+              onChange(
+                {
+                  target: {
+                    name,
+                    value: change.value,
+                    type: 'SlateEditorValue',
+                  },
+                },
+                index,
+              )
+            }
             name={name}
             supportedToolbarElements={supportedToolbarElements}
             supportedToolbarElementsAside={supportedToolbarElementsAside}

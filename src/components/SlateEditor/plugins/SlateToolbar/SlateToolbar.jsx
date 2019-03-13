@@ -21,18 +21,6 @@ import { SupportedToolbarElementsShape } from '../../../../shapes';
 
 const DEFAULT_NODE = 'paragraph';
 
-const defaultSupportedToolbarElements = {
-  mark: ['bold', 'italic', 'underlined'],
-  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  inline: [link, footnote, mathml],
-};
-
-const defaultSupportedToolbarElementsAside = {
-  mark: ['bold', 'italic', 'underlined'],
-  block: ['quote', ...listTypes, 'heading-one'],
-  inline: [link, footnote, mathml],
-};
-
 export const toolbarClasses = new BEMHelper({
   name: 'toolbar',
   prefix: 'c-',
@@ -164,13 +152,27 @@ class SlateToolbar extends Component {
       supportedToolbarElementsAside,
     } = this.props;
     const { value } = editor;
+
+    const defaultSupportedToolbarElements = supportedToolbarElements || {
+      mark: ['bold', 'italic', 'underlined'],
+      block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
+      inline: [link, footnote, mathml],
+    };
+
+    const defaultSupportedToolbarElementsAside = supportedToolbarElementsAside || {
+      mark: ['bold', 'italic', 'underlined'],
+      block: ['quote', ...listTypes, 'heading-one'],
+      inline: [link, footnote, mathml],
+    };
+
     const toolbarElements = checkSelectionForType(
       'aside',
       value,
       value.selection.start.key,
     )
-      ? supportedToolbarElementsAside
-      : supportedToolbarElements;
+      ? defaultSupportedToolbarElementsAside
+      : defaultSupportedToolbarElements;
+    console.log('TOOL', toolbarElements, link);
     const toolbarButtons = Object.keys(toolbarElements).map(kind =>
       toolbarElements[kind].map(type => (
         <ToolbarButton
@@ -190,11 +192,6 @@ class SlateToolbar extends Component {
     );
   }
 }
-
-SlateToolbar.defaultProps = {
-  supportedToolbarElements: defaultSupportedToolbarElements,
-  supportedToolbarElementsAside: defaultSupportedToolbarElementsAside,
-};
 
 SlateToolbar.propTypes = {
   onChange: PropTypes.func.isRequired,

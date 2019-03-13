@@ -144,6 +144,7 @@ class TopicArticleForm extends Component {
   }
 
   async handleSubmit(values, actions, initialValues) {
+    console.log('HKKHGKHGKKHKGKKG');
     const { revision, createMessage, articleStatus, onUpdate } = this.props;
     const status = articleStatus ? articleStatus.current : undefined;
 
@@ -255,7 +256,6 @@ class TopicArticleForm extends Component {
         enableReinitialize>
         {formikProps => {
           const { values, initialValues, touched, dirty } = formikProps;
-          console.log(formikProps);
           return (
             <Form {...formClasses()}>
               <FormikHeader

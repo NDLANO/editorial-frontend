@@ -854,6 +854,10 @@ const phrases = {
   contextTypes: {
     topic: 'Topic',
   },
+  masthead: {
+    menu: 'Menu',
+    closeMenu: 'Close',
+  },
 };
 
 export default phrases;

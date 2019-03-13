@@ -143,12 +143,12 @@ export class Navigation extends Component {
                           height: 22px;
                         `}
                       />
-                      <span>Lukk</span>
+                      <span>{t('masthead.closeMenu')}</span>
                     </>
                   ) : (
                     <>
                       <Menu />
-                      <span>Meny</span>
+                      <span>{t('masthead.menu')}</span>
                     </>
                   )}
                 </MastheadButton>

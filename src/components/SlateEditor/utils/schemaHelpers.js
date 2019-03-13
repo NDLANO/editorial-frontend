@@ -14,6 +14,13 @@ export const textBlockValidationRules = {
   first: { type: 'paragraph' },
   nodes: [{ match: 'paragraph', min: 1 }],
   last: { type: 'paragraph' },
+  next: [
+    {
+      type: 'paragraph',
+    },
+    { type: 'heading-two' },
+    { type: 'heading-three' },
+  ],
   normalize: (editor, error) => {
     switch (error.code) {
       case 'first_child_type_invalid': {
@@ -34,6 +41,19 @@ export const textBlockValidationRules = {
         const block = Block.create(defaultBlocks.defaultBlock);
         editor.withoutSaving(() => {
           editor.insertNodeByKey(error.node.key, 0, block);
+        });
+        break;
+      }
+      case 'next_sibling_type_invalid': {
+        editor.withoutNormalizing(() => {
+          editor.wrapBlockByKey(error.child.key, 'section');
+          const wrapper = editor.value.document.getParent(error.child.key);
+          editor.insertNodeByKey(
+            wrapper.key,
+            1,
+            Block.create(defaultBlocks.defaultBlock),
+          );
+          editor.unwrapBlockByKey(wrapper.key, 'section');
         });
         break;
       }

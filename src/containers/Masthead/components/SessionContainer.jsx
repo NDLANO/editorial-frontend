@@ -6,6 +6,7 @@
  *
  */
 
+import { css } from '@emotion/core';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { User } from '@ndla/icons/common';
@@ -93,7 +94,7 @@ export class SessionContainer extends Component {
           <Button
             onClick={this.toggleOpen}
             stripped
-            css={`
+            css={css`
               position: absolute;
               right: 0;
               top: 0;

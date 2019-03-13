@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { fonts, colors, spacing } from '@ndla/core';
 import { injectT } from '@ndla/i18n';
 import { StyledFilterButton } from '../../../style/LearningResourceTaxonomyStyles';

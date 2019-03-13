@@ -12,7 +12,7 @@ import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import { Link as LinkIcon } from '@ndla/icons/editor';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';

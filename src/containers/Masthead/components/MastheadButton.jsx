@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 
 const MastheadButton = ({ children, color, minWidth, ...rest }) => {

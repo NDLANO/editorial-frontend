@@ -9,7 +9,7 @@
 import React from 'react';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 
 const menuItemStyle = css`
   display: flex;

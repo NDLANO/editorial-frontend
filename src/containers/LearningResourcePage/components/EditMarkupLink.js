@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import { Code } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
 

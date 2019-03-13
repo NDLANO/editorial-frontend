@@ -12,7 +12,7 @@ import Button from '@ndla/button';
 import AutosizeInput from 'react-input-autosize';
 import { Search } from '@ndla/icons/common';
 import { colors } from '@ndla/core';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import { dropDownClasses } from '.';
 
 const autosizeStyle = {

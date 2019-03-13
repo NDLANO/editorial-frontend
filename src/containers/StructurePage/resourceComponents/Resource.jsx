@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import { Filter } from '@ndla/icons/editor';
 import { RemoveCircle } from '@ndla/icons/action';
 import { ContentTypeBadge } from '@ndla/ui';

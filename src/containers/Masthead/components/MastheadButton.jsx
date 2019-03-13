@@ -24,8 +24,6 @@ const buttonStyle = css`
   align-items: center;
 
   svg {
-    width: 16px;
-    height: 16px;
     margin-right: ${spacing.xsmall};
   }
   &:hover {

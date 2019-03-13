@@ -17,7 +17,7 @@ import { Content, PageContainer } from '@ndla/ui';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 import { MessageShape } from '../../shapes';
-import Masthead from '../Masthead';
+import Navigation from '../Masthead/components/Navigation';
 import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
 import Messages from '../Messages/Messages';
@@ -47,18 +47,16 @@ export class App extends React.Component {
       dispatch,
       messages,
       t,
-      match: { params },
     } = this.props;
     return (
       <ErrorBoundary>
-        <PageContainer>
+        <PageContainer background>
           <Helmet
             meta={[{ name: 'description', content: t('meta.description') }]}
           />
           <Content>
-            <Masthead
+            <Navigation
               t={t}
-              params={params}
               authenticated={this.props.authenticated}
               userName={this.props.userName}
             />

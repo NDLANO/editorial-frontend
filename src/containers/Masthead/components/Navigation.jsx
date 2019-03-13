@@ -13,7 +13,7 @@ import { Cross } from '@ndla/icons/action';
 import { Menu } from '@ndla/icons/common';
 import { injectT } from '@ndla/i18n';
 import { withRouter, Link } from 'react-router-dom';
-import { colors, spacing, fonts, animations } from '@ndla/core';
+import { colors, spacing, animations } from '@ndla/core';
 import { Logo } from '@ndla/ui';
 import FocusTrapReact from 'focus-trap-react';
 import styled, { css } from 'react-emotion';
@@ -27,11 +27,23 @@ import {
 import MastheadButton from './MastheadButton';
 import MastheadSearch from '../MastheadSearch';
 import SessionContainer from './SessionContainer';
+import { menuItemCss } from '../../../style';
 
 export const classes = new BEMHelper({
   name: 'navigation',
   prefix: 'c-',
 });
+
+const logoCSS = css`
+  transform: translateY(3px);
+`;
+
+const StyledSplitter = styled.div`
+  height: ${spacing.medium};
+  width: 1px;
+  background: ${colors.brand.greyLighter};
+  margin: 0 ${spacing.normal};
+`;
 
 const StyledNavigationWrapper = styled.div`
   position: absolute;
@@ -49,6 +61,10 @@ const StyledHeaderItems = styled.div`
   align-items: center;
   max-width: 972px;
   margin: 0 auto;
+  > div {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 const StyledMenuContainer = styled.div`
@@ -56,6 +72,7 @@ const StyledMenuContainer = styled.div`
   position: absolute;
   right: 0;
   left: 0;
+  transform: translateY(6px);
   ${animations.fadeIn(animations.durations.superFast)};
   > div {
     max-width: 660px;
@@ -72,22 +89,6 @@ const StyledMenuContainer = styled.div`
   }
 `;
 
-const menuItemCss = css`
-  display: flex;
-  width: 100%;
-  padding: ${spacing.small};
-  background: transparent;
-  box-shadow: none;
-  border: 0;
-  color: ${colors.brand.primary};
-  font-family: ${fonts.sans};
-  font-weight: ${fonts.weight.semibold};
-  ${fonts.sizes(18, 1.1)};
-  &:focus, &:hover {
-    background: ${colors.brand.lighter} !important;
-  }
-`;
-
 const StyledBackground = styled.div`
   position: fixed;
   top: 0;
@@ -97,6 +98,10 @@ const StyledBackground = styled.div`
   z-index: 1;
   background: rgba(1, 1, 1, 0.3);
   ${animations.fadeIn()};
+`;
+
+const StyledWrapper = styled.div`
+  margin-bottom: ${spacing.spacingUnit * 4}px;
 `;
 
 export class Navigation extends Component {
@@ -116,7 +121,7 @@ export class Navigation extends Component {
     const { open } = this.state;
     const { t, userName, authenticated } = this.props;
     return (
-      <>
+      <StyledWrapper>
         <FocusTrapReact
           active={open}
           focusTrapOptions={{
@@ -125,25 +130,41 @@ export class Navigation extends Component {
             },
             clickOutsideDeactivates: true,
             escapeDeactivates: true,
-          }}
-        >
+          }}>
           <StyledNavigationWrapper>
             <StyledHeaderItems>
-              <MastheadButton
-                onClick={this.toggleOpen}>
-                {open ? (
-                  <>
-                    <Cross {...classes('icon')} /><span>Lukk</span>
-                  </>
-                ) : (
-                  <>
-                    <Menu {...classes('icon')} /><span>Meny</span>
-                  </>
-                )}
-              </MastheadButton>
-              <MastheadSearch t={t} />
-              <SessionContainer userName={userName} authenticated={authenticated} />
-              <Logo to="/" label="Nasjonal digital læringsarena" />
+              <div>
+                <MastheadButton onClick={this.toggleOpen}>
+                  {open ? (
+                    <>
+                      <Cross
+                        className={css`
+                          width: 22px;
+                          height: 22px;
+                        `}
+                      />
+                      <span>Lukk</span>
+                    </>
+                  ) : (
+                    <>
+                      <Menu />
+                      <span>Meny</span>
+                    </>
+                  )}
+                </MastheadButton>
+                <StyledSplitter />
+                <MastheadSearch t={t} />
+              </div>
+              <div>
+                <SessionContainer
+                  userName={userName}
+                  authenticated={authenticated}
+                />
+                <StyledSplitter />
+                <div className={logoCSS}>
+                  <Logo to="/" label="Nasjonal digital læringsarena" />
+                </div>
+              </div>
             </StyledHeaderItems>
             {open && (
               <StyledMenuContainer>
@@ -190,14 +211,12 @@ export class Navigation extends Component {
                         onClick={this.toggleOpen}>
                         <span>{t('subNavigation.learningPathLink')}</span>
                       </a>
-                      <a
+                      <div
                         className={menuItemCss}
-                        href="#"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={this.toggleOpen}>
+                        style={{pointerEvents: 'none', opacity: 0.3}}
+                      >
                         <span>{t('subNavigation.concept')}</span>
-                      </a>
+                      </div>
                       <Link
                         className={menuItemCss}
                         to="/structure"
@@ -212,7 +231,7 @@ export class Navigation extends Component {
           </StyledNavigationWrapper>
         </FocusTrapReact>
         {open && <StyledBackground />}
-      </>
+      </StyledWrapper>
     );
   }
 }

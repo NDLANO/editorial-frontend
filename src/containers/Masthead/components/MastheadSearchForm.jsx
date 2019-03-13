@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
-import { colors, misc, spacing } from '@ndla/core';
+import { colors, misc, spacing, fonts } from '@ndla/core';
 import { Search } from '@ndla/icons/common';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
@@ -24,13 +24,36 @@ import { getLocale } from '../../../modules/locale/locale';
 
 const formCSS = css`
   display: flex;
-  background: ${colors.brand.greyLight};
+  background: ${colors.brand.greyLightest};
   border-radius: ${misc.borderRadius};
+  border: 1px solid transparent;
+  ${fonts.sizes(16, 1.2)} font-weight: ${fonts.weight.semibold};
+  padding: ${spacing.xsmall} ${spacing.xsmall} ${spacing.xsmall} ${
+  spacing.small
+};
+  transition: all 200ms ease;
   input {
     padding: ${spacing.xsmall};
     background: transparent;
     border: 0;
     outline: none;
+    color: ${colors.brand.primary};
+  }
+  .c-icon {
+    margin: 0 ${spacing.small};
+  }
+  &:focus-within {
+    border: 1px solid ${colors.brand.primary};
+    .c-icon {
+      color: ${colors.brand.primary};
+    }
+  }
+  &:hover, &:focus {
+    &:not(:focus-within) {
+      cursor: pointer;
+      background: ${colors.brand.greyLighter};
+      border: 1px solid ${colors.brand.greyLight};
+    }
   }
 `;
 

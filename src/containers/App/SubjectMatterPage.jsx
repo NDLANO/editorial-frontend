@@ -8,34 +8,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import styled from 'react-emotion';
 import { injectT } from '@ndla/i18n';
-import { colors } from '@ndla/core';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
 import LearningResourcePage from '../LearningResourcePage/LearningResourcePage';
 import Footer from './components/Footer';
 
-const StyledSubjectMatterPage = styled('div')`
-  background-color: ${colors.brand.greyLightest};
-`;
-
 const SubjectMatterPage = ({ match, t }) => (
   <>
-    <StyledSubjectMatterPage>
-      <Switch>
-        <PrivateRoute
-          path={`${match.url}/topic-article/`}
-          component={TopicArticlePage}
-        />
-        <PrivateRoute
-          path={`${match.url}/learning-resource`}
-          component={LearningResourcePage}
-        />
-        <Route component={NotFoundPage} />
-      </Switch>
-    </StyledSubjectMatterPage>
+    <Switch>
+      <PrivateRoute
+        path={`${match.url}/topic-article/`}
+        component={TopicArticlePage}
+      />
+      <PrivateRoute
+        path={`${match.url}/learning-resource`}
+        component={LearningResourcePage}
+      />
+      <Route component={NotFoundPage} />
+    </Switch>
     <Footer showLocaleSelector={false} />
   </>
 );

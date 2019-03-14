@@ -97,6 +97,7 @@ FigureButtons.propTypes = {
   embed: EmbedShape.isRequired,
   tooltip: PropTypes.string.isRequired,
   figureType: PropTypes.string.isRequired,
+  locale: PropTypes.string.isRequired,
   withMargin: PropTypes.bool,
 };
 

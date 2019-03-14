@@ -78,8 +78,7 @@ const ImageContent = ({ t, commonFieldProps, model }) => {
                   },
                 });
               }}
-              tabIndex={-1}
-            >
+              tabIndex={-1}>
               <DeleteForever />
             </IconButton>
           </Tooltip>

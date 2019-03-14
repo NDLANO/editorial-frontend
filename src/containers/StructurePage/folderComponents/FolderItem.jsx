@@ -87,7 +87,7 @@ const FolderItem = ({
       {showJumpToResources && (
         <Button
           outline
-          className={resourceButtonStyle}
+          css={resourceButtonStyle}
           type="button"
           onClick={() => resourceSection && resourceSection.scrollIntoView()}>
           {t('taxonomy.jumpToResources')}

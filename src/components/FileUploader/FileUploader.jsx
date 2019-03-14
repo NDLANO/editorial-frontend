@@ -70,7 +70,7 @@ class FileUploader extends React.Component {
     }
 
     return (
-      <div className={wrapperCSS}>
+      <div css={wrapperCSS}>
         <UploadDropZone
           name="file"
           allowedFiles={['application/*']}

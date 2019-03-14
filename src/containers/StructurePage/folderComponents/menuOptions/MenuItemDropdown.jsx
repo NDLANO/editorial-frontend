@@ -104,7 +104,7 @@ class MenuItemDropdown extends PureComponent {
     const { selected, items, status } = this.state;
     return (
       <Fragment>
-        <div className={menuItemStyle}>
+        <div css={menuItemStyle}>
           <RoundIcon open small icon={icon} />
           <Downshift
             selectedItem={selected}

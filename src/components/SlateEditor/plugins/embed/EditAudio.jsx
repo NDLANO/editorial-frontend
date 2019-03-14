@@ -48,6 +48,7 @@ class EditAudio extends Component {
       onRemoveClick,
       audioType,
       t,
+      locale,
       speech,
       audio: {
         title,
@@ -110,13 +111,16 @@ class EditAudio extends Component {
               placeholder={t('form.audio.caption.placeholder')}
               submitted={submitted}
             />
+            <FigureButtons
+              figureType="audio"
+              tooltip={t('form.audio.remove')}
+              onRemoveClick={onRemoveClick}
+              embed={embed}
+              locale={locale}
+              withMargin
+            />
           </div>
         </Portal>
-        <FigureButtons
-          tooltip={t('form.audio.remove')}
-          onRemoveClick={onRemoveClick}
-          embed={embed}
-        />
       </Fragment>
     );
   }
@@ -135,6 +139,7 @@ EditAudio.propTypes = {
     title: string,
     audioFile: object,
   }),
+  locale: string,
 };
 
 export default injectT(EditAudio);

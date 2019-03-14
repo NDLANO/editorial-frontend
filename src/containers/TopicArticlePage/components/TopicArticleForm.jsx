@@ -77,6 +77,7 @@ export const getInitialModel = (article = {}) => {
     language: article.language,
     supportedLanguages: article.supportedLanguages || [],
     articleType: 'topic-article',
+    published: article.published || undefined,
   };
 };
 
@@ -148,6 +149,7 @@ class TopicArticleForm extends Component {
       },
       notes: model.notes || [],
       language: model.language,
+      published: model.published,
       supportedLanguages: model.supportedLanguages,
     };
 

@@ -472,12 +472,7 @@ export const DateField = ({
         type="text"
         name={name}
         value={value}
-        onChange={val =>
-          onChange({
-            target: { name, value: val, type: 'DateTime' },
-          })
-        }
-        {...classes('date-picker')}
+        onChange={onChange}
         {...rest}
       />
 

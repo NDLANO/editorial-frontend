@@ -463,6 +463,10 @@ const phrases = {
         empty: 'Ingen merknader',
       },
     },
+    published: {
+      label: 'Publisert dato',
+      helpLabel: 'Sett publisert dato manuelt',
+    },
     editImage: 'Endre bilde',
     editAudio: 'Endre lyd',
     resetToProd: {

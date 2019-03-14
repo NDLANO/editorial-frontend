@@ -21,6 +21,7 @@ import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
 import FormQualityAssurance from './components/FormQualityAssurance';
 import FormDeleteLanguageVersion from './components/FormDeleteLanguageVersion';
+import FormDatePicker from './components/FormDatePicker';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { toEditArticle } from '../../util/routeHelpers';
 
@@ -133,6 +134,10 @@ class FormWorkflow extends Component {
 
     return (
       <Fragment>
+        <FormDatePicker
+          name="published"
+          {...commonFieldProps.bindInput('published')}
+        />
         <FormAddNotes
           name="notes"
           labelHeading={t('form.notes.heading')}

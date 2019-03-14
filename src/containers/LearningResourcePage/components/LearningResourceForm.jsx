@@ -94,6 +94,7 @@ export const getInitialModel = (article = {}, language) => {
     articleType: 'standard',
     status: article.status || [],
     notes: [],
+    published: article.published || undefined,
   };
 };
 
@@ -176,6 +177,7 @@ class LearningResourceForm extends Component {
       notes: model.notes || [],
       language: model.language,
       updated: model.updated,
+      published: model.published,
       supportedLanguages: model.supportedLanguages,
     };
 

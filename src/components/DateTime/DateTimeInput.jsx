@@ -4,9 +4,9 @@ import Flatpickr from 'flatpickr';
 import { Calendar } from '@ndla/icons/editor';
 import { Norwegian } from 'flatpickr/dist/l10n/no';
 import { english } from 'flatpickr/dist/l10n/default';
-
+import styled from 'react-emotion';
+import { colors } from '@ndla/core';
 import NyNorsk from './NyNorsk';
-
 const FORMAT_PATTERN = 'Y-m-d';
 
 const locales = {
@@ -14,6 +14,18 @@ const locales = {
   en: english,
   nn: NyNorsk,
 };
+
+const StyledCalendarIcon = styled(Calendar)`
+  margin-left: -1.5rem;
+  margin-top: -2px;
+  height: 25px;
+  width: 25px;
+  fill: ${colors.brand.tertiary};
+`;
+
+const StyledDateTimeInput = styled.div`
+  width: 100%;
+`;
 
 class DateTimeInput extends React.Component {
   constructor() {
@@ -36,10 +48,14 @@ class DateTimeInput extends React.Component {
   }
 
   onChange(selectedDates) {
-    const value = selectedDates[0] || null;
-    if (value && value !== this.props.value) {
-      value.setHours(12);
-      this.props.onChange(value);
+    const { value, onChange, name } = this.props;
+    const selectedDateValue = selectedDates[0] || null;
+    if (selectedDateValue && selectedDateValue !== value) {
+      selectedDateValue.setHours(12);
+
+      onChange({
+        target: { name, value: selectedDateValue, type: 'DateTime' },
+      });
     }
   }
 
@@ -63,9 +79,9 @@ class DateTimeInput extends React.Component {
   }
 
   render() {
-    const { className, value, onChange, ...rest } = this.props;
+    const { className, value, ...rest } = this.props;
     return (
-      <span>
+      <StyledDateTimeInput>
         <input
           className={className || ''}
           {...rest}
@@ -73,8 +89,8 @@ class DateTimeInput extends React.Component {
             this.node = node;
           }}
         />
-        <Calendar />
-      </span>
+        <StyledCalendarIcon />
+      </StyledDateTimeInput>
     );
   }
 }
@@ -85,6 +101,7 @@ DateTimeInput.propTypes = {
   value: PropTypes.instanceOf(Date),
   locale: PropTypes.string.isRequired,
   className: PropTypes.string,
+  name: PropTypes.string.isRequired,
 };
 
 export default DateTimeInput;

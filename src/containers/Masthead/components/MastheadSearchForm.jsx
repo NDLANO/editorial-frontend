@@ -71,19 +71,20 @@ export class MastheadSearchForm extends Component {
 
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
 
-    if (!urlId.includes('urn:topic') && Number.isNaN(parseFloat(urlId)) && !splittedNdlaUrl.includes('subjects')) {return};
-  
+    if (
+      !urlId.includes('urn:topic') &&
+      Number.isNaN(parseFloat(urlId)) &&
+      !splittedNdlaUrl.includes('subjects')
+    ) {
+      return;
+    }
 
     this.setState({ query: '' });
     if (urlId.includes('urn:topic')) {
-      this.handleTopicUrl(urlId)
-    } else if (
-      splittedNdlaUrl.includes('node')
-    ) {
+      this.handleTopicUrl(urlId);
+    } else if (splittedNdlaUrl.includes('node')) {
       this.handleNodeId(urlId);
-    } else if (
-      splittedNdlaUrl.includes('subjects')
-    ) {
+    } else if (splittedNdlaUrl.includes('subjects')) {
       this.handleFrontendUrl(ndlaUrl);
     } else {
       history.push(toEditArticle(urlId, 'standard', locale));
@@ -91,29 +92,23 @@ export class MastheadSearchForm extends Component {
   }
 
   async handleTopicUrl(urlId) {
-    const {locale, history} = this.props;
-    const topicArticle = await fetchTopicArticle(urlId, locale)
+    const { locale, history } = this.props;
+    const topicArticle = await fetchTopicArticle(urlId, locale);
     const arr = topicArticle.contentUri.split(':');
     const id = arr[arr.length - 1];
     history.push(toEditArticle(id, 'topic-article', locale));
   }
 
   async handleFrontendUrl(url) {
-    const {locale, history} = this.props;
+    const { locale, history } = this.props;
     const splitted = url.split('subjects');
-    const taxonomyUrl = splitted[splitted.length -1];
+    const taxonomyUrl = splitted[splitted.length - 1];
     try {
-      const newArticle = await resolveUrls(taxonomyUrl, locale)
+      const newArticle = await resolveUrls(taxonomyUrl, locale);
       const arr = newArticle.contentUri.split(':');
       const id = arr[arr.length - 1];
 
-      history.push(
-        toEditArticle(
-          id,
-          'standard',
-          locale
-        ),
-      );
+      history.push(toEditArticle(id, 'standard', locale));
     } catch (error) {
       history.push(to404());
     }

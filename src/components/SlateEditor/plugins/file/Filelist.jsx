@@ -26,11 +26,12 @@ const StyledSection = styled.section`
   margin-bottom: ${spacing.normal};
 `;
 
-const formatFile = ({ title, type, url, ...rest }, id, t) => ({
+const formatFile = ({ title, type, url, path, ...rest }, id, t) => ({
   id,
   title,
   type,
   ...rest,
+  path: url,
   formats: [
     { url, fileType: type, tooltip: `${t(`form.file.download`)} ${title}` },
   ],
@@ -156,6 +157,7 @@ class Filelist extends React.Component {
     if (!files.length === 0) {
       return null;
     }
+
     return (
       <Fragment>
         <StyledSection>

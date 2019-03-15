@@ -10,17 +10,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { css, cx } from 'react-emotion';
 import { colors, fonts, spacing } from '@ndla/core';
-import {
-  Camera,
-  SquareAudio,
-} from '@ndla/icons/editor';
+import { Camera, SquareAudio } from '@ndla/icons/editor';
 import { injectT } from '@ndla/i18n';
-import {
-  ContentTypeBadge,
-  constants,
-} from '@ndla/ui';
+import { ContentTypeBadge, constants } from '@ndla/ui';
 import { Link } from 'react-router-dom';
 import PreviewDraftLightbox from '../../components/PreviewDraft/PreviewDraftLightbox';
+import FormDeleteLanguageVersion from './components/FormDeleteLanguageVersion';
 import FormLanguage from './FormLanguage';
 
 const { contentTypes } = constants;
@@ -29,12 +24,20 @@ const types = {
   standard: {
     form: 'learningResourceForm',
     cssModifier: 'article',
-    icon: <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="large" />,
+    icon: (
+      <ContentTypeBadge
+        type={contentTypes.SUBJECT_MATERIAL}
+        background
+        size="large"
+      />
+    ),
   },
   'topic-article': {
     form: 'topicArticleForm',
     cssModifier: 'article',
-    icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="large" />,
+    icon: (
+      <ContentTypeBadge type={contentTypes.SUBJECT} background size="large" />
+    ),
   },
   image: { form: 'imageForm', cssModifier: 'multimedia', icon: <Camera /> },
   audio: {
@@ -59,7 +62,9 @@ const FormHeader = props => {
 
   const { status } = model;
   console.log('current', status.current);
-  const statusText = status.current ? t(`form.status.${status.current.toLowerCase()}`) : t('form.status.new');
+  const statusText = status.current
+    ? t(`form.status.${status.current.toLowerCase()}`)
+    : t('form.status.new');
 
   const emptyLanguages = languages.filter(
     lang =>
@@ -82,22 +87,32 @@ const FormHeader = props => {
           {types[type].icon}
           <h1>{t(`${types[type].form}.title`)}</h1>
         </div>
-        <div>
-          {statusText}
-        </div>
+        <div>{statusText}</div>
       </div>
       {model.id && (
         <div className={languageWrapperCSS}>
-          {model.supportedLanguages.map(lang => (
-            model.language === lang ? 
-            <span className={cx(languageButtonsCSS, 'current')} key={`types_${lang}`}>{t(`language.${lang}`)}</span> :
-            <Link className={languageButtonsCSS} key={`types_${lang}`} to={editUrl(lang)}>{t(`language.${lang}`)}</Link>
-          ))}
+          {model.supportedLanguages.map(lang =>
+            model.language === lang ? (
+              <span
+                className={cx(languageButtonsCSS, 'current')}
+                key={`types_${lang}`}>
+                {t(`language.${lang}`)}
+              </span>
+            ) : (
+              <Link
+                className={languageButtonsCSS}
+                key={`types_${lang}`}
+                to={editUrl(lang)}>
+                {t(`language.${lang}`)}
+              </Link>
+            ),
+          )}
           <PreviewDraftLightbox
             label={t('subNavigation.learningResource')}
             typeOfPreview="previewLanguageArticle"
             getArticle={getArticle}
           />
+          <FormDeleteLanguageVersion model={model} />
           <FormLanguage emptyLanguages={emptyLanguages} editUrl={editUrl} />
         </div>
       )}
@@ -151,7 +166,8 @@ const languageButtonsCSS = css`
   margin-right: ${spacing.xsmall};
   transition: all 200ms ease;
   &:not(.current) {
-    &:focus, &:hover {
+    &:focus,
+    &:hover {
       color: #fff;
       background: ${colors.brand.primary};
       transform: translate(10px, 10px);

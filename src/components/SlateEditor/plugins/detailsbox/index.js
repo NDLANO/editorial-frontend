@@ -10,7 +10,6 @@ import React from 'react';
 import { Block } from 'slate';
 import DetailsBox from './DetailsBox';
 import { defaultBlocks } from '../../utils';
-import Summary from './Summary';
 
 const detailsBlock = [
   {

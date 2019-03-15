@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import { injectT } from '@ndla/i18n';
@@ -32,22 +32,12 @@ const DetailsBox = props => {
     if (node.type === 'summary') return node;
   });
 
-  if (!summary) {
-    return null;
-  }
   const [open, setOpen] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false);
 
   const toggleOpen = () => {
     setOpen(!open);
   };
-
-  useEffect(() => {
-    if (!summary) {
-      // no summary node means it has been deleted, remove whole details block
-      onRemoveClick();
-    }
-  }, [node]);
 
   const summaryTextNode = summary.getLastText();
   const [inputValue, setInputvalue] = useState(summary.text);

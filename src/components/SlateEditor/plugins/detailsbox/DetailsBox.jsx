@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import { injectT } from '@ndla/i18n';
@@ -28,6 +28,13 @@ const DetailsBox = props => {
     editor.removeNodeByKey(node.key);
   };
 
+  const summary = node.findDescendant(node => {
+    if (node.type === 'summary') return node;
+  });
+
+  if (!summary) {
+    return null;
+  }
   const [open, setOpen] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false);
 
@@ -35,9 +42,12 @@ const DetailsBox = props => {
     setOpen(!open);
   };
 
-  const summary = props.node.findDescendant(node => {
-    if (node.type === 'summary') return node;
-  });
+  useEffect(() => {
+    if (!summary) {
+      // no summary node means it has been deleted, remove whole details block
+      onRemoveClick();
+    }
+  }, [node]);
 
   const summaryTextNode = summary.getLastText();
   const [inputValue, setInputvalue] = useState(summary.text);

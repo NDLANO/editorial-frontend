@@ -10,6 +10,7 @@ import React from 'react';
 import { Block } from 'slate';
 import DetailsBox from './DetailsBox';
 import { defaultBlocks } from '../../utils';
+import onKeyDown from './onKeyDown';
 
 const detailsBlock = [
   {
@@ -84,7 +85,7 @@ export default function createDetails() {
       case 'details':
         return <DetailsBox {...props} />;
       case 'summary':
-        return <span>{node.text}</span>;
+        return <span {...props.attributes}>{node.text}</span>;
       default:
         return next();
     }
@@ -93,5 +94,6 @@ export default function createDetails() {
   return {
     schema,
     renderNode,
+    onKeyDown,
   };
 }

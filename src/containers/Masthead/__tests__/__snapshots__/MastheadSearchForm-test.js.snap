@@ -13,9 +13,9 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
     value="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
   />
   <button
-    type="submit"
     className="css-e0v71u emotion-0"
     disabled={false}
+    type="submit"
   >
     <svg
       fill="currentColor"
@@ -52,8 +52,8 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   />
   <button
     className="css-e0v71u emotion-0"
-    type="submit"
     disabled={false}
+    type="submit"
   >
     <svg
       className="c-icon c-icon--medium"
@@ -97,8 +97,8 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   />
   <button
     className="css-e0v71u emotion-0"
-    type="submit"
     disabled={false}
+    type="submit"
   >
     <svg
       className="c-icon c-icon--medium"
@@ -142,8 +142,8 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   />
   <button
     className="css-e0v71u emotion-0"
-    type="submit"
     disabled={false}
+    type="submit"
   >
     <svg
       className="c-icon c-icon--medium"
@@ -187,8 +187,8 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   />
   <button
     className="css-e0v71u emotion-0"
-    type="submit"
     disabled={false}
+    type="submit"
   >
     <svg
       className="c-icon c-icon--medium"

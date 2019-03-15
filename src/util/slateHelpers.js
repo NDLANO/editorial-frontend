@@ -27,6 +27,8 @@ const BLOCK_TAGS = {
   h4: 'heading-three',
   h5: 'heading-three',
   h6: 'heading-three',
+  summary: 'summary',
+  details: 'details',
 };
 
 export const INLINE_TAGS = {
@@ -410,37 +412,11 @@ export const blockRules = {
         return <blockquote>{children}</blockquote>;
       case 'pre':
         return <pre>{children}</pre>;
+      case 'details':
+        return <details>{children}</details>;
+      case 'summary':
+        return <summary>{children}</summary>;
     }
-  },
-};
-
-export const detailsRule = {
-  deserialize(el, next) {
-    if (el.tagName.toLowerCase() !== 'details') return;
-    return {
-      object: 'block',
-      type: 'details',
-      nodes: next(el.childNodes),
-    };
-  },
-  serialize(slateObject, children) {
-    if (slateObject.type !== 'details') return;
-    return <details>{children}</details>;
-  },
-};
-
-export const summaryRule = {
-  deserialize(el, next) {
-    if (el.tagName.toLowerCase() !== 'summary') return;
-    return {
-      object: 'block',
-      type: 'summary',
-      nodes: next(el.childNodes),
-    };
-  },
-  serialize(slateObject, children) {
-    if (slateObject.type !== 'summary') return;
-    return <summary>{children}</summary>;
   },
 };
 
@@ -558,8 +534,6 @@ const RULES = [
   listItemRule,
   relatedRule,
   mathRules,
-  detailsRule,
-  summaryRule,
   {
     // Aside handling
     deserialize(el, next) {

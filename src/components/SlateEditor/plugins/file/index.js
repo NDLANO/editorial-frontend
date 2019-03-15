@@ -8,6 +8,7 @@
 
 import React from 'react';
 import Filelist from './Filelist';
+import defaultBlocks from '../../utils/defaultBlocks';
 
 export default () => {
   const schema = {
@@ -16,6 +17,25 @@ export default () => {
       file: {
         isVoid: true,
         data: {},
+        next: [
+          {
+            type: 'paragraph',
+          },
+          { type: 'heading-two' },
+          { type: 'heading-three' },
+        ],
+        normalize: (editor, error) => {
+          switch (error.code) {
+            case 'next_sibling_type_invalid': {
+              editor
+                .moveToEndOfNode(error.child)
+                .insertBlock(defaultBlocks.defaultBlock);
+              break;
+            }
+            default:
+              break;
+          }
+        },
       },
     },
   };

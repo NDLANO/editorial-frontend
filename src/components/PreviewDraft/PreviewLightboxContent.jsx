@@ -13,7 +13,7 @@ import PreviewDraft from './PreviewDraft';
 import PreviewProduction from './PreviewProduction';
 import PreviewLanguage from './PreviewLanguage';
 
-const StyledPreviewSignleArticle = styled('div')`
+const StyledPreviewSingleArticle = styled('div')`
   & .c-article {
     padding-top: 0;
     margin-top: 20px;
@@ -25,9 +25,9 @@ const PreviewLightboxContent = props => {
   switch (typeOfPreview) {
     case 'preview':
       return (
-        <StyledPreviewSignleArticle>
+        <StyledPreviewSingleArticle>
           <PreviewDraft article={firstArticle} label={label} />
-        </StyledPreviewSignleArticle>
+        </StyledPreviewSingleArticle>
       );
     case 'previewProductionArticle':
       return <PreviewProduction {...props} />;

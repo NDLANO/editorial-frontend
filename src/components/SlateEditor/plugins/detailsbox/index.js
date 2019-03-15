@@ -35,6 +35,13 @@ export default function createDetails() {
       },
       details: {
         last: { type: 'paragraph' },
+        next: [
+          {
+            type: 'paragraph',
+          },
+          { type: 'heading-two' },
+          { type: 'heading-three' },
+        ],
         normalize: (editor, error) => {
           switch (error.code) {
             case 'last_child_type_invalid': {
@@ -45,6 +52,21 @@ export default function createDetails() {
                   error.node.nodes.size,
                   block,
                 );
+              });
+              break;
+            }
+            case 'next_sibling_type_invalid': {
+              editor.withoutNormalizing(() => {
+                editor.wrapBlockByKey(error.child.key, 'section');
+                const wrapper = editor.value.document.getParent(
+                  error.child.key,
+                );
+                editor.insertNodeByKey(
+                  wrapper.key,
+                  1,
+                  Block.create(defaultBlocks.defaultBlock),
+                );
+                editor.unwrapBlockByKey(wrapper.key, 'section');
               });
               break;
             }

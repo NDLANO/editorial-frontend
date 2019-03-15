@@ -10,6 +10,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
+import { FieldHeader } from '@ndla/forms';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import { TextField } from '../../../components/Fields';
 import LearningResourceIngress from '../../LearningResourcePage/components/LearningResourceIngress';
@@ -30,6 +31,7 @@ import {
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 import { CommonFieldPropsShape } from '../../../shapes';
 import { TYPE as link } from '../../../components/SlateEditor/plugins/link';
+import { FormDatePicker } from '../../Form'
 
 const classes = new BEMHelper({
   name: 'topic-article-content',
@@ -58,7 +60,7 @@ const plugins = [
 const TopicArticleContent = ({
   t,
   commonFieldProps,
-  model: { creators, updated, visualElement },
+  model: { id, creators, updated, visualElement },
 }) => (
   <Fragment>
     <TextField
@@ -77,11 +79,16 @@ const TopicArticleContent = ({
         : ''}
     </div>
     <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
+    { id && <FormDatePicker
+      name="updated"
+      {...commonFieldProps.bindInput('published')}
+    />}
     <TopicArticleVisualElement
       visualElement={visualElement}
       commonFieldProps={commonFieldProps}
       bindInput={commonFieldProps.bindInput}
     />
+    <FieldHeader title={t('form.content.label')} />
     <RichTextField
       noBorder
       label={t('form.content.label')}

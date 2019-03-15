@@ -14,6 +14,7 @@ import FormCopyright from './FormCopyright';
 import AlertModalWrapper from './AlertModalWrapper';
 import FormHeader from './FormHeader';
 import FormActionButton from './components/FormActionButton';
+import FormDatePicker from './components/FormDatePicker';
 
 export {
   AgreementConnection,
@@ -22,6 +23,7 @@ export {
   FormCopyright,
   FormAddNotes,
   FormHeader,
+  FormDatePicker,
   FormActionButton,
   AlertModalWrapper,
 };

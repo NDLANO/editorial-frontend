@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
+import { FieldHeader } from '@ndla/forms';
 import { TextField } from '../../../components/Fields';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 import VisualElementMenu from '../../VisualElement/VisualElementMenu';
@@ -48,12 +49,8 @@ class TopicArticleVisualElement extends Component {
     const { value: visualElement } = bindInputVisualElement;
     return (
       <div>
-        <div {...visualElementClasses('add-title')}>
-          <span>
-            {t('form.visualElement.title')}
-            <div {...visualElementClasses('add-title', 'border')} />
-          </span>
-        </div>
+        <FieldHeader title={t('form.visualElement.title')} />
+          
         {!visualElement.resource ? (
           <VisualElementMenu onSelect={this.handleSelectResource} />
         ) : null}

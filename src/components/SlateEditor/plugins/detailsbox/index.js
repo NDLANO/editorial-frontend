@@ -30,6 +30,9 @@ export const defaultDetailsBlock = () =>
 export default function createDetails() {
   const schema = {
     blocks: {
+      summary: {
+        isVoid: true,
+      },
       details: {
         last: { type: 'paragraph' },
         normalize: (editor, error) => {
@@ -60,7 +63,7 @@ export default function createDetails() {
       case 'details':
         return <DetailsBox {...props} />;
       case 'summary':
-        return <span>{props.children}</span>;
+        return <span>{node.text}</span>;
       default:
         return next();
     }

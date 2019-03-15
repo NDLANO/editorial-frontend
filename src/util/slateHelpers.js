@@ -27,7 +27,6 @@ const BLOCK_TAGS = {
   h4: 'heading-three',
   h5: 'heading-three',
   h6: 'heading-three',
-  summary: 'summary',
 };
 
 export const INLINE_TAGS = {
@@ -411,31 +410,37 @@ export const blockRules = {
         return <blockquote>{children}</blockquote>;
       case 'pre':
         return <pre>{children}</pre>;
-      case 'summary':
-        return <summary>{children}</summary>;
     }
   },
 };
 
 export const detailsRule = {
   deserialize(el, next) {
-    console.log(el.tagName);
     if (el.tagName.toLowerCase() !== 'details') return;
-    const attributes = reduceElementDataAttributes(el);
-    const [summary] = el.childNodes;
     return {
       object: 'block',
       type: 'details',
-      data: { summary: summary.textContent, ...attributes },
       nodes: next(el.childNodes),
     };
   },
   serialize(slateObject, children) {
     if (slateObject.type !== 'details') return;
-    const data = slateObject.data.toJS();
-    console.log(data);
-    const props = createProps(data);
     return <details>{children}</details>;
+  },
+};
+
+export const summaryRule = {
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'summary') return;
+    return {
+      object: 'block',
+      type: 'summary',
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(slateObject, children) {
+    if (slateObject.type !== 'summary') return;
+    return <summary>{children}</summary>;
   },
 };
 
@@ -554,6 +559,7 @@ const RULES = [
   relatedRule,
   mathRules,
   detailsRule,
+  summaryRule,
   {
     // Aside handling
     deserialize(el, next) {

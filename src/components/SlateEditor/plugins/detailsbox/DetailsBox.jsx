@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import { injectT } from '@ndla/i18n';
@@ -30,21 +30,10 @@ const DetailsBox = props => {
 
   const [open, setOpen] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [componentInFocus, setComponentInFocus] = useState(false);
-  const placeholderRef = useRef();
-  const summaryRef = useRef();
 
   const toggleOpen = () => {
     setOpen(!open);
   };
-
-  useEffect(() => {
-    const bodyRect = document.body.getBoundingClientRect();
-    const placeholderRect = placeholderRef.current.getBoundingClientRect();
-
-    summaryRef.current.style.top = `${placeholderRect.top - bodyRect.top}px`;
-    summaryRef.current.style.left = `${placeholderRect.left}px`;
-  });
 
   const summary = props.node.findDescendant(node => {
     if (node.type === 'summary') return node;
@@ -63,71 +52,59 @@ const DetailsBox = props => {
 
   const [summaryNode, ...contentNodes] = props.children;
 
-  const renderSummary = (
-    <StyledRow>
-      <summary css={summaryStyle(open)} onClick={toggleOpen}>
-        {summaryNode}
-      </summary>
-      {open && (
-        <Button
-          css={css`
-            height: 100%;
-            display: none;
-          `}
-          onClick={() => setShowEditModal(true)}
-          stripped>
-          <Pencil />
-        </Button>
-      )}
-    </StyledRow>
-  );
-
   return (
-    <div
-      css={detailsWrapper}
-      ref={placeholderRef}
-      onMouseEnter={() => setComponentInFocus(true)}
-      onMouseLeave={() => setComponentInFocus(false)}
-      {...props.attributes}>
-      {!componentInFocus && renderSummary}
+    <div css={detailsWrapper} {...props.attributes}>
+      <StyledRow>
+        <summary css={summaryStyle(open)} onClick={toggleOpen}>
+          {summaryNode}
+        </summary>
+        {open && (
+          <Button
+            css={css`
+              height: 100%;
+              display: none;
+            `}
+            onClick={() => setShowEditModal(true)}
+            stripped>
+            <Pencil />
+          </Button>
+        )}
+      </StyledRow>
       <Portal isOpened>
-        <div css={summaryWrapper} ref={summaryRef}>
-          {componentInFocus && renderSummary}
-          <Modal controllable isOpen={showEditModal}>
-            {props => (
-              <>
-                <ModalHeader>
-                  {' '}
-                  <ModalCloseButton
-                    title={t('dialog.close')}
-                    onClick={() => setShowEditModal(false)}
-                  />
-                </ModalHeader>
-                <ModalBody>
-                  <Input
-                    name="caption"
-                    container="div"
-                    label="Endre overskrift"
-                    type="text"
-                    value={inputValue}
-                    onChange={e => setInputvalue(e.target.value)}
-                    placeholder={'Kort sammendrag'}
-                  />
-                  <StyledButtonWrapper paddingLeft>
-                    <Button onClick={() => setShowEditModal(false)} outline>
-                      {t('form.abort')}
-                    </Button>
-                    <Button onClick={onChangeSummary}>
-                      {t('form.image.save')}
-                    </Button>
-                  </StyledButtonWrapper>
-                </ModalBody>
-              </>
-            )}
-          </Modal>
-        </div>
+        <Modal controllable isOpen={showEditModal}>
+          {props => (
+            <>
+              <ModalHeader>
+                {' '}
+                <ModalCloseButton
+                  title={t('dialog.close')}
+                  onClick={() => setShowEditModal(false)}
+                />
+              </ModalHeader>
+              <ModalBody>
+                <Input
+                  name="caption"
+                  container="div"
+                  label="Endre overskrift"
+                  type="text"
+                  value={inputValue}
+                  onChange={e => setInputvalue(e.target.value)}
+                  placeholder={'Kort sammendrag'}
+                />
+                <StyledButtonWrapper paddingLeft>
+                  <Button onClick={() => setShowEditModal(false)} outline>
+                    {t('form.abort')}
+                  </Button>
+                  <Button onClick={onChangeSummary}>
+                    {t('form.image.save')}
+                  </Button>
+                </StyledButtonWrapper>
+              </ModalBody>
+            </>
+          )}
+        </Modal>
       </Portal>
-      <div css={contentStyle(open, componentInFocus)}>{contentNodes}</div>
+      <div css={contentStyle(open)}>{contentNodes}</div>
       <DeleteButton stripped onMouseDown={onRemoveClick} />
     </div>
   );
@@ -146,16 +123,9 @@ const detailsWrapper = css`
   }
 `;
 
-const contentStyle = (open, componentInFocus) => css`
+const contentStyle = open => css`
   display: ${open ? '' : 'none'};
-  margin-top: calc(
-    ${spacing.small} * 1.5 + ${componentInFocus ? '80px' : '0px'}
-  );
-`;
-
-const summaryWrapper = css`
-  position: absolute;
-  padding: 0 26px 26px;
+  margin-top: calc(${spacing.small} * 1.5 + '0px');
 `;
 
 const summaryStyle = open => css`

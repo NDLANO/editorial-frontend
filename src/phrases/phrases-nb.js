@@ -354,7 +354,7 @@ const phrases = {
       copyright: 'Opphav',
       change: 'Bytt metabilde',
     },
-    title: 'Fagstoff | {title} ({key})',
+    title: 'Læringsressurs',
     validation: {
       missingEmbedData:
         'En eller flere inkluderte lyd-, bilde-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.',
@@ -501,6 +501,7 @@ const phrases = {
       },
     },
     status: {
+      new: 'Ny - Ikke lagret',
       created: 'Opprettet',
       imported: 'Fra spoling',
       draft: 'Kladd',

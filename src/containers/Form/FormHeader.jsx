@@ -8,27 +8,33 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { css, cx } from 'react-emotion';
+import { colors, fonts, spacing } from '@ndla/core';
 import {
-  TopicArticle,
-  LearningResource,
   Camera,
   SquareAudio,
 } from '@ndla/icons/editor';
 import { injectT } from '@ndla/i18n';
+import {
+  ContentTypeBadge,
+  constants,
+} from '@ndla/ui';
 import { Link } from 'react-router-dom';
 import { formClasses } from '.';
 import FormLanguage from './FormLanguage';
+
+const { contentTypes } = constants;
 
 const types = {
   standard: {
     form: 'learningResourceForm',
     cssModifier: 'article',
-    icon: <LearningResource />,
+    icon: <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="large" />,
   },
   'topic-article': {
     form: 'topicArticleForm',
     cssModifier: 'article',
-    icon: <TopicArticle />,
+    icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="large" />,
   },
   image: { form: 'imageForm', cssModifier: 'multimedia', icon: <Camera /> },
   audio: {
@@ -50,16 +56,9 @@ const FormHeader = props => {
     { key: 'de', title: t('language.de'), include: false },
   ];
   const language = languages.find(lang => lang.key === model.language);
-  if (!model.id) {
-    return (
-      <div {...formClasses('header', types[type].cssModifier)}>
-        <div>
-          {types[type].icon}
-          <span>{t(`${types[type].form}.title`, language)}</span>
-        </div>
-      </div>
-    );
-  }
+
+  const { status } = model;
+  const statusText = status ? t(`form.status.${status.current.toLowerCase()}`) : t('form.status.new');
 
   const emptyLanguages = languages.filter(
     lang =>
@@ -71,20 +70,32 @@ const FormHeader = props => {
     lang => lang !== language.key,
   );
 
+  console.log('???', props);
+  console.log(types);
+  console.log(otherLanguages);
+
   return (
-    <div {...formClasses('header', types[type].cssModifier)}>
-      <div>
-        {types[type].icon}
-        <span>{t(`${types[type].form}.title`, language)}</span>
-        {otherLanguages.map((lang, index) => (
-          <span key={`types_${lang}`}>
-            <Link to={editUrl(lang)}>{lang.toUpperCase()}</Link>
-            {index === otherLanguages.length - 1 ? '' : '|'}
-          </span>
-        ))}
+    <header>
+      <div className={headerCSS}>
+        <div className={titleCSS}>
+          {types[type].icon}
+          <h1>{t(`${types[type].form}.title`)}</h1>
+        </div>
+        <div>
+          {statusText}
+        </div>
       </div>
-      <FormLanguage emptyLanguages={emptyLanguages} editUrl={editUrl} />
-    </div>
+      {model.id && (
+        <div className={languageWrapperCSS}>
+          {model.supportedLanguages.map(lang => (
+            model.language === lang ? 
+            <span className={cx(languageButtonsCSS, 'current')} key={`types_${lang}`}>{lang.toUpperCase()}</span> :
+            <Link className={languageButtonsCSS} key={`types_${lang}`} to={editUrl(lang)}>{lang.toUpperCase()}</Link>
+          ))}
+          <FormLanguage emptyLanguages={emptyLanguages} editUrl={editUrl} />
+        </div>
+      )}
+    </header>
   );
 };
 
@@ -97,5 +108,40 @@ FormHeader.propTypes = {
   type: PropTypes.string.isRequired,
   editUrl: PropTypes.func,
 };
+
+const headerCSS = css`
+  display: flex;
+  justify-content: space-between;
+  padding: ${spacing.small} 0;
+  margin: 0 0 ${spacing.small};
+  border-bottom: 2px solid ${colors.brand.tertiary};
+`;
+
+const titleCSS = css`
+  padding-left: ${spacing.normal};
+  display: flex;
+  align-items: center;
+  h1 {
+    ${fonts.sizes(26, 1.1)};
+    font-weight: ${fonts.weight.semibold};
+    margin: ${spacing.small} ${spacing.normal} ${spacing.small} ${spacing.small};
+    color: ${colors.text.primary};
+  }
+`;
+
+const languageWrapperCSS = css`
+  padding-left: ${spacing.normal};
+  margin: 0 0 ${spacing.small};
+`;
+
+const languageButtonsCSS = css`
+  background: red;
+  &:focus {
+    border: 4px solid pink;
+  }
+  &.current {
+    background: green;
+  }
+`;
 
 export default injectT(FormHeader);

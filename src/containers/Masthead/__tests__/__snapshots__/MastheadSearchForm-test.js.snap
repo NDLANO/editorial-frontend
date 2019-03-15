@@ -8,13 +8,14 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 >
   <input
     onChange={[Function]}
-    placeholder="Søk etter artikler, aktiviteter eller oppgaver"
+    placeholder=""
     type="text"
     value="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
   />
   <button
     type="submit"
-    className="css-e0v71u e1ljv5qk0"
+    className="css-e0v71u emotion-0"
+    disabled={false}
   >
     <svg
       fill="currentColor"
@@ -45,13 +46,14 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 >
   <input
     onChange={[Function]}
-    placeholder="Søk etter artikler, aktiviteter eller oppgaver"
+    placeholder=""
     type="text"
     value="#4737"
   />
   <button
-    className="css-e0v71u e1ljv5qk0"
+    className="css-e0v71u emotion-0"
     type="submit"
+    disabled={false}
   >
     <svg
       className="c-icon c-icon--medium"
@@ -89,13 +91,14 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
 >
   <input
     onChange={[Function]}
-    placeholder="Søk etter artikler, aktiviteter eller oppgaver"
+    placeholder=""
     type="text"
     value=""
   />
   <button
-    className="css-e0v71u e1ljv5qk0"
+    className="css-e0v71u emotion-0"
     type="submit"
+    disabled={false}
   >
     <svg
       className="c-icon c-icon--medium"
@@ -133,13 +136,14 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
 >
   <input
     onChange={[Function]}
-    placeholder="Søk etter artikler, aktiviteter eller oppgaver"
+    placeholder=""
     type="text"
     value=""
   />
   <button
-    className="css-e0v71u e1ljv5qk0"
+    className="css-e0v71u emotion-0"
     type="submit"
+    disabled={false}
   >
     <svg
       className="c-icon c-icon--medium"
@@ -177,13 +181,14 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
 >
   <input
     onChange={[Function]}
-    placeholder="Søk etter artikler, aktiviteter eller oppgaver"
+    placeholder=""
     type="text"
     value=""
   />
   <button
-    className="css-e0v71u e1ljv5qk0"
+    className="css-e0v71u emotion-0"
     type="submit"
+    disabled={false}
   >
     <svg
       className="c-icon c-icon--medium"

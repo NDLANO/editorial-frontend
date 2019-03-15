@@ -105,11 +105,11 @@ export class MastheadSearchForm extends Component {
     const taxonomyUrl = splitted[splitted.length - 1];
     try {
       const newArticle = await resolveUrls(taxonomyUrl, locale);
-      const arr = newArticle.contentUri.split(':');
-      const id = arr[arr.length - 1];
+      const splittedUri = newArticle.contentUri.split(':');
+      const articleId = splittedUri[splittedUri.length - 1];
 
-      history.push(toEditArticle(id, 'standard', locale));
-    } catch (error) {
+      history.push(toEditArticle(articleId, 'standard', locale));
+    } catch {
       history.push(to404());
     }
   }

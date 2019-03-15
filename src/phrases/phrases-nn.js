@@ -470,7 +470,7 @@ const phrases = {
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsida?',
     },
     variant: {
-      create: '+ Nytt språk',
+      create: 'Legg til språk',
     },
     remainingCharacters:
       'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',

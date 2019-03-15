@@ -352,6 +352,7 @@ class LearningResourceForm extends Component {
           model={model}
           type={model.articleType}
           editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
+          getArticle={this.getArticleFromModel}
         />
         <Accordion openIndexes={['learning-resource-content']}>
           {({ openIndexes, handleItemClick }) => (

@@ -20,7 +20,7 @@ import {
   constants,
 } from '@ndla/ui';
 import { Link } from 'react-router-dom';
-import { formClasses } from '.';
+import PreviewDraftLightbox from '../../components/PreviewDraft/PreviewDraftLightbox';
 import FormLanguage from './FormLanguage';
 
 const { contentTypes } = constants;
@@ -45,7 +45,7 @@ const types = {
 };
 
 const FormHeader = props => {
-  const { t, model, type, editUrl } = props;
+  const { t, model, type, editUrl, getArticle } = props;
   const languages = [
     { key: 'nn', title: t('language.nn'), include: true },
     { key: 'en', title: t('language.en'), include: true },
@@ -58,7 +58,8 @@ const FormHeader = props => {
   const language = languages.find(lang => lang.key === model.language);
 
   const { status } = model;
-  const statusText = status ? t(`form.status.${status.current.toLowerCase()}`) : t('form.status.new');
+  console.log('current', status.current);
+  const statusText = status.current ? t(`form.status.${status.current.toLowerCase()}`) : t('form.status.new');
 
   const emptyLanguages = languages.filter(
     lang =>
@@ -89,9 +90,14 @@ const FormHeader = props => {
         <div className={languageWrapperCSS}>
           {model.supportedLanguages.map(lang => (
             model.language === lang ? 
-            <span className={cx(languageButtonsCSS, 'current')} key={`types_${lang}`}>{lang.toUpperCase()}</span> :
-            <Link className={languageButtonsCSS} key={`types_${lang}`} to={editUrl(lang)}>{lang.toUpperCase()}</Link>
+            <span className={cx(languageButtonsCSS, 'current')} key={`types_${lang}`}>{t(`language.${lang}`)}</span> :
+            <Link className={languageButtonsCSS} key={`types_${lang}`} to={editUrl(lang)}>{t(`language.${lang}`)}</Link>
           ))}
+          <PreviewDraftLightbox
+            label={t('subNavigation.learningResource')}
+            typeOfPreview="previewLanguageArticle"
+            getArticle={getArticle}
+          />
           <FormLanguage emptyLanguages={emptyLanguages} editUrl={editUrl} />
         </div>
       )}
@@ -135,12 +141,25 @@ const languageWrapperCSS = css`
 `;
 
 const languageButtonsCSS = css`
-  background: red;
-  &:focus {
-    border: 4px solid pink;
+  background: ${colors.brand.lighter};
+  color: ${colors.brand.tertiary};
+  box-shadow: none;
+  border-radius: ${spacing.xsmall};
+  padding: ${spacing.xsmall} ${spacing.small};
+  ${fonts.sizes(16, 1.1)};
+  font-weight: ${fonts.weight.semibold};
+  margin-right: ${spacing.xsmall};
+  transition: all 200ms ease;
+  &:not(.current) {
+    &:focus, &:hover {
+      color: #fff;
+      background: ${colors.brand.primary};
+      transform: translate(10px, 10px);
+    }
   }
   &.current {
-    background: green;
+    color: ${colors.brand.primary};
+    background: ${colors.brand.light};
   }
 `;
 

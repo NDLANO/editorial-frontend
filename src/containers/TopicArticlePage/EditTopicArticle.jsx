@@ -78,18 +78,18 @@ class EditTopicArticle extends Component {
         />
       );
     }
-    const currentArticleLanguage = selectedLanguage || article.language;
+    const language = selectedLanguage || article.language;
     return (
       <Fragment>
         <HelmetWithTracker
           title={`${article.title} ${t('htmlTitles.titleTemplate')}`}
         />
         <TopicArticleForm
-          selectedLanguage={currentArticleLanguage}
+          selectedLanguage={article.language}
           revision={article.revision}
           articleStatus={article.status}
           onUpdate={this.updateDraft}
-          article={{ ...article, language: currentArticleLanguage }}
+          article={{ ...article, language }}
           createMessage={this.createMessage}
           {...rest}
         />

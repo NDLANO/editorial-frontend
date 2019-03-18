@@ -67,9 +67,10 @@ export const getInitialValues = (article = {}) => {
     processors: parseCopyrightContributors(article, 'processors'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
-    copyright: article.copyright
-      ? article.copyright
-      : { license: DEFAULT_LICENSE, origin: '' },
+    license:
+      article.copyright && article.copyright.license
+        ? article.copyright.license.license
+        : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
     notes: [],
     visualElement: visualElement || {},
@@ -115,6 +116,7 @@ class TopicArticleForm extends Component {
   }
 
   getArticle(values) {
+    const { licenses } = this.props;
     const emptyField = values.id ? '' : undefined;
     const visualElement = createEmbedTag(values.visualElement);
     const content = topicArticleContentToHTML(values.content);
@@ -129,7 +131,7 @@ class TopicArticleForm extends Component {
       metaDescription: editorValueToPlainText(values.metaDescription),
       articleType: 'topic-article',
       copyright: {
-        ...values.copyright,
+        license: licenses.find(license => license.license === values.license),
         creators: values.creators,
         processors: values.processors,
         rightsholders: values.rightsholders,
@@ -137,6 +139,7 @@ class TopicArticleForm extends Component {
       },
       notes: values.notes || [],
       language: values.language,
+      updated: values.updated,
       supportedLanguages: values.supportedLanguages,
     };
 

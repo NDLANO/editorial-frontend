@@ -85,10 +85,6 @@ class EditTopicArticle extends Component {
           title={`${article.title} ${t('htmlTitles.titleTemplate')}`}
         />
         <TopicArticleForm
-<<<<<<< HEAD
-=======
-          initialModel={getInitialModel(article, language)}
->>>>>>> master
           selectedLanguage={article.language}
           revision={article.revision}
           articleStatus={article.status}

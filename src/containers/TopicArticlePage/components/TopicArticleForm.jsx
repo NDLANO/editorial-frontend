@@ -131,7 +131,7 @@ class TopicArticleForm extends Component {
       metaDescription: editorValueToPlainText(values.metaDescription),
       articleType: 'topic-article',
       copyright: {
-        license: licenses.find(license => license.license === values.license),
+        license: licenses.find(license => license.license === model.license),
         creators: values.creators,
         processors: values.processors,
         rightsholders: values.rightsholders,

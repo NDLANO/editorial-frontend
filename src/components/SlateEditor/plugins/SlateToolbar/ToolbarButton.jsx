@@ -24,6 +24,7 @@ import {
   Heading1,
   Section,
   Math,
+  Concept,
 } from '@ndla/icons/editor';
 
 import { css } from 'react-emotion';
@@ -45,6 +46,7 @@ const toolbarIcon = t => ({
   'heading-three': <Heading3 title={t('editorToolbar.headingThree')} />,
   footnote: <Section title={t('editorToolbar.footnote')} />,
   mathml: <Math title={t('editorToolbar.mathml')} />,
+  concept: <Concept title={t('editorToolbar.concept')} />,
 });
 /* eslint-enable jsx-a11y/anchor-is-valid */
 

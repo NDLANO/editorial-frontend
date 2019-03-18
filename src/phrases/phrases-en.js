@@ -162,6 +162,7 @@ const phrases = {
     concept: 'Concept',
     searchContent: 'Search content',
     searchMedia: 'Search media',
+    searchConcepts: 'Search concepts',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -852,6 +853,10 @@ const phrases = {
       additional: 'Additional resource',
       core: 'Core resource',
     },
+  },
+  notions: {
+    edit: 'Edit notions',
+    closeNotion: 'Close notion dialog',
   },
   contextTypes: {
     topic: 'Topic',

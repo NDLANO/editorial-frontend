@@ -16,6 +16,7 @@ import { hasNodeOfType, checkSelectionForType } from '../../utils';
 import { TYPE as footnote } from '../footnote';
 import { TYPE as link } from '../link';
 import { TYPE as mathml } from '../mathml';
+import { TYPE as concept } from '../concept';
 import { listTypes } from '../externalPlugins';
 import { SupportedToolbarElementsShape } from '../../../../shapes';
 
@@ -24,13 +25,13 @@ const DEFAULT_NODE = 'paragraph';
 const defaultSupportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  inline: [link, footnote, mathml],
+  inline: [link, footnote, mathml, concept],
 };
 
 const defaultSupportedToolbarElementsAside = {
   mark: ['bold', 'italic', 'underlined'],
   block: ['quote', ...listTypes, 'heading-one'],
-  inline: [link, footnote, mathml],
+  inline: [link, footnote, mathml, concept],
 };
 
 export const toolbarClasses = new BEMHelper({
@@ -46,7 +47,6 @@ class SlateToolbar extends Component {
     this.onClickInline = this.onClickInline.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
     this.portalRef = this.portalRef.bind(this);
-    this.handleValueChange = this.handleValueChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
   }
 
@@ -88,7 +88,6 @@ class SlateToolbar extends Component {
     } else {
       editor.setBlocks(isActive ? DEFAULT_NODE : type);
     }
-    this.handleValueChange(editor);
   }
 
   onClickMark(e, type) {
@@ -112,7 +111,6 @@ class SlateToolbar extends Component {
         editor.wrapInline(type);
       });
     }
-    this.handleValueChange(editor);
   }
 
   onButtonClick(e, kind, type) {
@@ -125,12 +123,6 @@ class SlateToolbar extends Component {
     // ReactDOM.createPortal callback ref only seems to return a ReactPortal node instance
     // eslint-disable-next-line react/no-find-dom-node
     this.menu = findDOMNode(menu);
-  }
-
-  handleValueChange(value) {
-    const { onChange } = this.props;
-    onChange(value);
-    this.updateMenu();
   }
 
   updateMenu() {

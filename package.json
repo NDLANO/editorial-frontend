@@ -79,6 +79,7 @@
     "@ndla/image-search": "^0.7.14",
     "@ndla/licenses": "^0.4.3",
     "@ndla/modal": "^0.2.9",
+    "@ndla/notion": "0.1.2",
     "@ndla/pager": "^0.3.6",
     "@ndla/tabs": "^0.9.7",
     "@ndla/tracker": "^0.3.1",

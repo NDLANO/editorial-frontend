@@ -18,6 +18,7 @@ export default function linkPlugin() {
 
   /* eslint-disable react/prop-types */
   const renderNode = (props, editor, next) => {
+    console.log(props.node);
     switch (props.node.type) {
       case TYPE:
         return <EditConcept {...props} />;

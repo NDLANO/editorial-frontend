@@ -96,3 +96,10 @@ export const getPathsFromUrl = url =>
       ],
       [],
     );
+
+export const toConcept = ({ type, id, accessToken }) => {
+  if (type === 'edit') {
+    return `https://explanations-frontend.test.api.ndla.no/update/${id}/embedded?accessToken=${accessToken}`;
+  }
+  return `https://explanations-frontend.test.api.ndla.no/create/embedded?accessToken=${accessToken}`;
+};

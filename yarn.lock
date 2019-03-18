@@ -908,7 +908,14 @@
   dependencies:
     "@ndla/core" "^0.4.10"
 
-"@ndla/core@^0.4.10":
+"@ndla/button@^0.2.9":
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.2.9.tgz#961a1dfdc265b518299316e29237339d48bda0de"
+  integrity sha512-p6nbn3H999ED8x19cxPayOaRcn+hH+tQoI4LfGJR4sAWepn+XeNkT8y2K3mjV/sy9uSToNDK96cRvmaT0999/w==
+  dependencies:
+    "@ndla/core" "^0.5.0"
+
+"@ndla/core@^0.4.0", "@ndla/core@^0.4.10", "@ndla/core@^0.4.3":
   version "0.4.10"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.10.tgz#877d0ebbde525113c317aa257cb13500dd7e52fe"
   integrity sha512-pM8tO9nexEueLWvUg87M9oRa6bDWHN7cgSvDqHNY8jWAPGse9FV4rpA9nsTil/bexQIlZBIeRvOMo12eH8/n1A==
@@ -932,6 +939,16 @@
   version "0.4.9"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.9.tgz#619bfafe1720d2801af7ad0ae91085b1ce461115"
   integrity sha512-2N1T2VHaMNX7IFPsyPwTOL5SBbu/W4zYHfZJUVLhkOTNz8HZBK7ABkAytlr+AbNNlW7PFkSsA++iZco8FGyvkg==
+  dependencies:
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.3.3"
+    sass-mq "^5.0.0"
+
+"@ndla/core@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.5.0.tgz#aaeae0f931d249ef90b09a0016775b48a441fadd"
+  integrity sha512-UWxlxwt2VeE+ykgbIjNW5FU3rGHSKn0jO4r3VPyHLR8JlQdCKxUxEPrkrRMg1s4mZTDM2mJy3g69a+kmysErJA==
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
@@ -1038,12 +1055,22 @@
     "@ndla/licenses" "^0.4.3"
     "@ndla/util" "^0.3.1"
 
-"@ndla/licenses@^0.4.3":
+"@ndla/licenses@^0.4.0", "@ndla/licenses@^0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-0.4.3.tgz#26881ecd3bc371970c7c3678a0df068caed40896"
   integrity sha512-wT18L6MvEEQD/RiC5EUZ4cWGxPhDc60FIg09QeaESAZQNqbUK4ON91GTUDzilB1meEBCuAhLe3w7/D90lZ/cAw==
   dependencies:
     defined "1.0.0"
+
+"@ndla/modal@^0.2.0":
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.2.14.tgz#7804510803032b0ad169b1c9506c5b6643f429ed"
+  integrity sha512-PM/PXZrxscsmUP7399kL/p+FEc2C/ICd4NdUQIrnuLtRWTy4zugRpYJSUMRH+v6XHLSzZF0cT66BFOUpLxEGdg==
+  dependencies:
+    "@ndla/button" "^0.2.9"
+    "@ndla/core" "^0.5.0"
+    "@ndla/util" "^0.3.2"
+    focus-trap-react "^6.0.0"
 
 "@ndla/modal@^0.2.12":
   version "0.2.12"
@@ -1073,6 +1100,16 @@
     "@ndla/button" "^0.2.4"
     "@ndla/core" "^0.4.6"
     "@ndla/util" "^0.3.1"
+
+"@ndla/notion@0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-0.1.2.tgz#27dc444dba394b306aba0044612f780b25f87efe"
+  integrity sha512-rk0F1TS4SaW5sX9w6s3BOFgZ2h3NJjH00XyPKt56y1BdZX/7HC83xr9rq7v5n0nZwKziRlTxat1m3wSUg1DWKg==
+  dependencies:
+    "@ndla/core" "^0.4.0"
+    "@ndla/licenses" "^0.4.0"
+    "@ndla/modal" "^0.2.0"
+    "@ndla/ui" "^0.18.2"
 
 "@ndla/pager@^0.3.6":
   version "0.3.6"
@@ -1142,6 +1179,24 @@
 "@ndla/tracker@^0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.3.1.tgz#c639fbacf412857750ece984f29ee23b11fd743f"
+
+"@ndla/ui@^0.18.2":
+  version "0.18.12"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.18.12.tgz#6c748b6d67bf0508059843e669a488f985eb810c"
+  integrity sha512-KDBJTdXlIbVzwjXWOZayli5h2pGBBlRdkT3n9iCPQuf4r64WYL/N+j13J+NYSLMQH1LZf9eLbgnCTEO6iohZuQ==
+  dependencies:
+    "@ndla/core" "^0.4.3"
+    classnames "2.2.6"
+    focus-trap "^3.0.0"
+    focus-trap-react "^4.0.0"
+    jump.js "^1.0.2"
+    lodash "^4.17.5"
+    react-bem-helper "1.4.1"
+    react-device-detect "^1.5.9"
+    react-facebook "^6.0.15"
+    react-prop-types "0.4.0"
+    react-slick "^0.23.2"
+    react-transition-group "^2.2.1"
 
 "@ndla/ui@^0.19.13":
   version "0.19.13"
@@ -10452,7 +10507,7 @@ react-dev-utils@^6.0.4:
     strip-ansi "4.0.0"
     text-table "0.2.0"
 
-react-device-detect@^1.6.1, react-device-detect@^1.6.2:
+react-device-detect@^1.5.9, react-device-detect@^1.6.1, react-device-detect@^1.6.2:
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-1.6.2.tgz#2587e4d1dc15bdfce7a1bf5417624ecd2a2fc31f"
   integrity sha512-XIBgwIfpGAknm7tXe/YNbx4ieIR7IyFI3KNfSQk4UjHVy97UHe/nB7iJj8R/dDsI+I/ZzPR4HJ39Gh5tI4nhxw==
@@ -10647,6 +10702,16 @@ react-testing-library@^4.1.5:
   dependencies:
     dom-testing-library "^3.1.0"
     wait-for-expect "^1.0.0"
+
+react-transition-group@^2.2.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.6.1.tgz#abf4a95e2f13fb9ba83a970a896fedbc5c4856a2"
+  integrity sha512-9DHwCy0aOYEe35frlEN68N9ut/THDQBLnVoQuKTvzF4/s3tk7lqkefCqxK2Nv96fOh6JXk6tQtliygk6tl3bQA==
+  dependencies:
+    dom-helpers "^3.3.1"
+    loose-envify "^1.4.0"
+    prop-types "^15.6.2"
+    react-lifecycles-compat "^3.0.4"
 
 react-transition-group@^2.4.0:
   version "2.4.0"

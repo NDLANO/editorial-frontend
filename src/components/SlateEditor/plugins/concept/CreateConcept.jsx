@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
 
 import { getLocale } from '../../../../modules/locale/locale';
-import { fetchConcept } from '../../../../modules/article/articleApi';
 import ConceptModal from './ConceptModal';
 
 class EditConcept extends React.PureComponent {
@@ -18,18 +17,7 @@ class EditConcept extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.node.data.get('content-id')) {
-      this.getConcept();
-    } else {
-      this.setState({ conceptModalOpen: true, createConcept: true });
-    }
     this.setState({ accessToken: localStorage.getItem('access_token') });
-  }
-
-  async getConcept() {
-    const { node, locale } = this.props;
-    const concept = await fetchConcept(node.data.get('content-id'), locale);
-    this.setState({ concept, linkText: node.data.get('link-text') });
   }
 
   toggleConceptModal(e) {
@@ -40,34 +28,20 @@ class EditConcept extends React.PureComponent {
   }
 
   render() {
-    const {
-      concept,
-      linkText,
-      conceptModalOpen,
-      accessToken,
-      createConcept,
-    } = this.state;
-    const { t, children } = this.props;
-    console.log(concept.id);
-    console.log(this.props.attributes);
+    const { concept, linkText, conceptModalOpen, accessToken } = this.state;
     return (
-      <span {...this.props.attributes} onMouseDown={this.toggleConceptModal}>
-        {concept.id ? (
-          <Notion id={concept.id} ariaLabel={t('notions.edit')}>
-            {linkText}
-          </Notion>
-        ) : (
-          children
-        )}
+      <>
+        <span onMouseDown={this.toggleConceptModal}>
+          <Notion id={concept.id}>{linkText}</Notion>
+        </span>
         {conceptModalOpen && (
           <ConceptModal
             id={concept.id}
             accessToken={accessToken}
             onClose={this.toggleConceptModal}
-            createConcept={createConcept}
           />
         )}
-      </span>
+      </>
     );
   }
 }

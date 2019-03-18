@@ -50,7 +50,7 @@ class TopicArticleVisualElement extends Component {
     return (
       <div>
         <FieldHeader title={t('form.visualElement.title')} />
-          
+
         {!visualElement.resource ? (
           <VisualElementMenu onSelect={this.handleSelectResource} />
         ) : null}

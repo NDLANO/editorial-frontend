@@ -452,9 +452,9 @@ const phrases = {
         empty: 'No notes',
       },
     },
-    published: {
-      label: 'Published date',
-      helpLabel: 'Edit published date manually',
+    updated: {
+      label: 'Updated date',
+      helpLabel: 'Edit updated date manually',
     },
     editImage: 'Edit image',
     editAudio: 'Edit audio',

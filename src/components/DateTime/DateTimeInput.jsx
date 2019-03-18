@@ -7,7 +7,7 @@ import { english } from 'flatpickr/dist/l10n/default';
 import styled from 'react-emotion';
 import { colors } from '@ndla/core';
 import NyNorsk from './NyNorsk';
-const FORMAT_PATTERN = 'Y-m-d';
+const FORMAT_PATTERN = 'd/m/Y';
 
 const locales = {
   nb: Norwegian,
@@ -52,20 +52,24 @@ class DateTimeInput extends React.Component {
     const selectedDateValue = selectedDates[0] || null;
     if (selectedDateValue && selectedDateValue !== value) {
       selectedDateValue.setHours(12);
-
       onChange({
-        target: { name, value: selectedDateValue, type: 'DateTime' },
+        target: {
+          name,
+          value: selectedDateValue.toISOString(),
+          type: 'DateTime',
+        },
       });
     }
   }
 
   getOptions() {
+    const { time_24hr, enableTime, dateFormat, locale } = this.props;
+
     const options = {
-      time_24hr: true,
-      enableTime: false,
-      dateFormat: FORMAT_PATTERN,
-      altInput: true,
-      locale: locales[this.props.locale],
+      time_24hr,
+      enableTime,
+      dateFormat,
+      locale: locales[locale],
     };
     options.onChange = [this.onChange];
     return options;
@@ -74,17 +78,20 @@ class DateTimeInput extends React.Component {
   setValue() {
     const { value } = this.props;
     if (value) {
-      this.flatpickr.setDate(value, false);
+      this.flatpickr.setDate(new Date(value), false);
     }
   }
 
   render() {
-    const { className, value, ...rest } = this.props;
+    const { className, value, onChange, name, placeholder } = this.props;
     return (
       <StyledDateTimeInput>
         <input
           className={className || ''}
-          {...rest}
+          onChange={onChange}
+          value={value}
+          name={name}
+          placeholder={placeholder}
           ref={node => {
             this.node = node;
           }}
@@ -98,10 +105,19 @@ class DateTimeInput extends React.Component {
 DateTimeInput.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.instanceOf(Date),
+  value: PropTypes.string,
   locale: PropTypes.string.isRequired,
   className: PropTypes.string,
   name: PropTypes.string.isRequired,
+  time_24hr: PropTypes.bool,
+  enableTime: PropTypes.bool,
+  dateFormat: PropTypes.string,
+};
+
+DateTimeInput.defaultProps = {
+  time_24hr: true,
+  enableTime: false,
+  dateFormat: FORMAT_PATTERN,
 };
 
 export default DateTimeInput;

@@ -463,9 +463,9 @@ const phrases = {
         empty: 'Ingen merknader',
       },
     },
-    published: {
-      label: 'Publisert dato',
-      helpLabel: 'Sett publisert dato manuelt',
+    updated: {
+      label: 'Oppdatert dato',
+      helpLabel: 'Sett oppdatert dato manuelt',
     },
     editImage: 'Endre bilde',
     editAudio: 'Endre lyd',

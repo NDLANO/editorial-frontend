@@ -16,7 +16,7 @@ import HowToHelper from '../../../components/HowTo/HowToHelper';
 import DateTimeInput from '../../../components/DateTime/DateTimeInput';
 import { Field } from '../../../components/Fields';
 
-const FormDatePicker = ({ t, name, locale, ...rest }) => {
+const FormDatePicker = ({ t, name, ...rest }) => {
   return (
     <Field>
       <FieldHeader title={t(`form.${name}.label`)}>
@@ -25,7 +25,7 @@ const FormDatePicker = ({ t, name, locale, ...rest }) => {
           tooltip={t(`form.${name}.helpLabel`)}
         />
       </FieldHeader>
-      <DateTimeInput name={name} locale={locale} {...rest} />
+      <DateTimeInput name={name} {...rest} />
     </Field>
   );
 };

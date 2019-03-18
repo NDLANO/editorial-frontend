@@ -31,7 +31,7 @@ import {
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 import { CommonFieldPropsShape } from '../../../shapes';
 import { TYPE as link } from '../../../components/SlateEditor/plugins/link';
-import { FormDatePicker } from '../../Form'
+import { FormDatePicker } from '../../Form';
 
 const classes = new BEMHelper({
   name: 'topic-article-content',
@@ -79,10 +79,14 @@ const TopicArticleContent = ({
         : ''}
     </div>
     <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
-    { id && <FormDatePicker
-      name="updated"
-      {...commonFieldProps.bindInput('published')}
-    />}
+    {id && (
+      <FormDatePicker
+        name="updated"
+        enableTime
+        dateFormat="d/m/Y - H:i"
+        {...commonFieldProps.bindInput('updated')}
+      />
+    )}
     <TopicArticleVisualElement
       visualElement={visualElement}
       commonFieldProps={commonFieldProps}

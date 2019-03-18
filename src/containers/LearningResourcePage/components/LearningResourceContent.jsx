@@ -45,7 +45,7 @@ import {
   editTablePlugin,
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
-
+import { FormDatePicker } from '../../Form';
 import { CommonFieldPropsShape } from '../../../shapes';
 import { EditMarkupLink } from './EditMarkupLink';
 
@@ -121,6 +121,14 @@ class LearningResourceContent extends Component {
           {...commonFieldProps}
         />
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
+        {model.id && (
+          <FormDatePicker
+            name="updated"
+            enableTime
+            dateFormat="d/m/Y - H:i"
+            {...commonFieldProps.bindInput('updated')}
+          />
+        )}
         <FieldHeader title={t('form.content.label')}>
           {model.id && userAccess.includes('drafts:admin') && (
             <EditMarkupLink

@@ -13,14 +13,14 @@ import { FieldHeader } from '@ndla/forms';
 import ImageSearch from '@ndla/image-search';
 import { connect } from 'react-redux';
 import Button from '@ndla/button';
-import { getLocale } from '../../../modules/locale/locale';
+import { getLocale } from '../../modules/locale/locale';
 import * as api from '../../VisualElement/visualElementApi';
-import Lightbox from '../../../components/Lightbox';
-import MetaImage from './MetaImage';
-import { CommonFieldPropsShape } from '../../../shapes';
-import HowToHelper from '../../../components/HowTo/HowToHelper';
+import Lightbox from '../../components/Lightbox';
+import FormMetaImage from './components/FormMetaImage';
+import { CommonFieldPropsShape } from '../../shapes';
+import HowToHelper from '../../components/HowTo/HowToHelper';
 
-class MetaImageSearch extends Component {
+class FormMetaImageSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,11 +31,11 @@ class MetaImageSearch extends Component {
     this.toggleImageSearchLightBox = this.toggleImageSearchLightBox.bind(this);
   }
 
-  componentDidMount() {
-    if (this.props.metaImageId) {
-      api.fetchImage(this.props.metaImageId).then(image => {
-        this.setState({ image });
-      });
+  async componentDidMount() {
+    const { metaImageId } = this.props;
+    if (metaImageId) {
+      const image = await api.fetchImage(metaImageId);
+      this.setState({ image });
     }
   }
 
@@ -59,7 +59,7 @@ class MetaImageSearch extends Component {
 
   render() {
     const { t, locale, commonFieldProps } = this.props;
-    const { image } = this.state;
+    const { image, showImageSearch } = this.state;
     return (
       <div>
         <FieldHeader title={t('learningResourceForm.fields.metaImage.title')}>
@@ -69,7 +69,7 @@ class MetaImageSearch extends Component {
           />
         </FieldHeader>
         <Lightbox
-          display={this.state.showImageSearch}
+          display={showImageSearch}
           appearance="big"
           onClose={this.toggleImageSearchLightBox}>
           <ImageSearch
@@ -79,12 +79,12 @@ class MetaImageSearch extends Component {
             searchPlaceholder={t('imageSearch.placeholder')}
             searchButtonTitle={t('imageSearch.buttonTitle')}
             useImageTitle={t('imageSearch.useImage')}
-            onImageSelect={img => this.onImageChange(img)}
+            onImageSelect={imageSelected => this.onImageChange(imageSelected)}
             onError={api.onError}
           />
         </Lightbox>
         {image ? (
-          <MetaImage
+          <FormMetaImage
             image={image}
             commonFieldProps={commonFieldProps}
             toggleImageSearchLightBox={this.toggleImageSearchLightBox}
@@ -97,7 +97,7 @@ class MetaImageSearch extends Component {
   }
 }
 
-MetaImageSearch.propTypes = {
+FormMetaImageSearch.propTypes = {
   metaImageId: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
@@ -109,4 +109,4 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default connect(mapStateToProps)(injectT(MetaImageSearch));
+export default connect(mapStateToProps)(injectT(FormMetaImageSearch));

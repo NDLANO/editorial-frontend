@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { css } from 'react-emotion';
 import Button from '@ndla/button';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
-import { formClasses } from '../../Form';
+import { formClasses } from './';
 import MetaInformation from '../../../components/MetaInformation';
 import { TextField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
@@ -21,7 +21,7 @@ const metaImageButtonStyle = css`
   display: block;
 `;
 
-const MetaImage = ({
+const FormMetaImage = ({
   image,
   toggleImageSearchLightBox,
   commonFieldProps,
@@ -65,10 +65,10 @@ const MetaImage = ({
   );
 };
 
-MetaImage.propTypes = {
+FormMetaImage.propTypes = {
   image: PropTypes.shape({}),
   toggleImageSearchLightBox: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 
-export default injectT(MetaImage);
+export default injectT(FormMetaImage);

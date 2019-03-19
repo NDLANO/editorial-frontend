@@ -349,6 +349,7 @@ class LearningResourceForm extends Component {
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader
+          statusText={model.status.current}
           model={model}
           type={model.articleType}
           editUrl={lang => toEditArticle(model.id, model.articleType, lang)}

@@ -30,7 +30,7 @@ const types = {
       <ContentTypeBadge
         type={contentTypes.SUBJECT_MATERIAL}
         background
-        size="large"
+        size="small"
       />
     ),
   },
@@ -38,7 +38,7 @@ const types = {
     form: 'topicArticleForm',
     cssModifier: 'article',
     icon: (
-      <ContentTypeBadge type={contentTypes.SUBJECT} background size="large" />
+      <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />
     ),
   },
   image: { form: 'imageForm', cssModifier: 'multimedia', icon: <Camera /> },
@@ -49,8 +49,7 @@ const types = {
   },
 };
 
-const FormHeader = props => {
-  const { t, model, type, editUrl } = props;
+const FormHeader = ({ t, model, type, editUrl, statusText }) => {
   const languages = [
     { key: 'nn', title: t('language.nn'), include: true },
     { key: 'en', title: t('language.en'), include: true },
@@ -60,11 +59,6 @@ const FormHeader = props => {
     { key: 'unknown', title: t('language.unknown'), include: false },
     { key: 'de', title: t('language.de'), include: false },
   ];
-
-  const { status } = model;
-  const statusText = status.current
-    ? t(`form.status.${status.current.toLowerCase()}`)
-    : t('form.status.new');
 
   const emptyLanguages = languages.filter(
     lang =>
@@ -83,8 +77,8 @@ const FormHeader = props => {
         <div className={statusWrapperCSS}>
           <div className={splitterCSS} />
           <p className={statusCSS}>
-            <small>STATUS:</small>
-            {statusText}
+            <small>{t('form.workflow.statusLabel')}:</small>
+            {statusText || t('form.status.new')}
           </p>
           <HowToHelper
             pageId="status"
@@ -103,13 +97,13 @@ const FormHeader = props => {
               </span>
             ) : (
               <Tooltip
+                key={`types_${lang}`}
                 tooltip={t('language.change', {
                   language: t(`language.${lang}`).toLowerCase(),
                 })}>
                 <Link
                   zIndex={-1}
                   className={languageButtonsCSS}
-                  key={`types_${lang}`}
                   to={editUrl(lang)}>
                   {t(`language.${lang}`)}
                 </Link>
@@ -130,6 +124,7 @@ const FormHeader = props => {
 };
 
 FormHeader.propTypes = {
+  statusText: PropTypes.string,
   model: PropTypes.shape({
     id: PropTypes.number,
     language: PropTypes.string,
@@ -149,8 +144,8 @@ const splitterCSS = css`
 const headerCSS = css`
   display: flex;
   justify-content: space-between;
-  padding: ${spacing.xsmall} 0;
-  margin: 0 0 ${spacing.xsmall};
+  padding: ${spacing.small} 0 ${spacing.xsmall};
+  margin: ${spacing.normal} 0 ${spacing.small};
   border-bottom: 2px solid ${colors.brand.light};
 `;
 
@@ -168,7 +163,7 @@ const titleCSS = css`
 
 const languageWrapperCSS = css`
   padding-left: ${spacing.small};
-  margin: 0 0 ${spacing.small};
+  margin: 0 0 ${spacing.normal};
   display: flex;
   align-items: center;
   > *:last-child {

@@ -124,6 +124,7 @@ const phrases = {
     unknown: 'Ukjent',
     de: 'Tysk',
     empty: 'Ingen flere språk',
+    change: 'Til {language} versjon',
   },
   welcomePage: {
     lastUsed: 'Sist brukt',
@@ -431,7 +432,7 @@ const phrases = {
       draft: 'Utkast',
     },
     previewLanguageArticle: {
-      button: 'Samanlikn forskjellige språkversjoner',
+      button: 'Samanlikn språkversjonar',
       title: 'Utkast på {language}',
     },
     contributor: {
@@ -498,6 +499,8 @@ const phrases = {
         title: 'Slett språkversjon',
         modal: 'Er du sikker på at du vil slette denne språkversjonen?',
       },
+      statusInfoTooltip: 'Kva er forskjella på dei ulike statusane?',
+      statusLabel: 'Status',
     },
     status: {
       created: 'Oppretta',

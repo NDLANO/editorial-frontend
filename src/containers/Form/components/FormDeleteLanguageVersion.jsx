@@ -85,7 +85,9 @@ class FormDeleteLanguageVersion extends React.Component {
               onClick: this.toggleShowDeleteWarning,
             },
             {
-              text: t('form.workflow.deleteLanguageVersion.button'),
+              text: t('form.workflow.deleteLanguageVersion.button', {
+                languageVersion: t(`language.${language}`).toLowerCase(),
+              }),
               onClick: this.deleteLanguageVersion,
             },
           ]}

@@ -124,7 +124,7 @@ const phrases = {
     unknown: 'Ukjent',
     de: 'Tysk',
     empty: 'Ingen flere språk',
-    change: 'Åpne {language} versjon',
+    change: 'Til {language} versjon',
   },
   welcomePage: {
     lastUsed: 'Sist brukt',
@@ -300,7 +300,7 @@ const phrases = {
     info: {
       lastUpdated: 'Sist oppdatert: {updated}',
     },
-    title: 'Emnebeskrivelse | {title} ({key})',
+    title: 'Emne',
     fields: {
       caption: {
         label: {
@@ -496,11 +496,12 @@ const phrases = {
       qualityAssurance: 'Kvalitetssikring',
       saveAsNew: 'Lagre kopi som ny artikkel',
       deleteLanguageVersion: {
-        button: 'Slett {languageVersion} språkversjon',
+        button: 'Slett {languageVersion} versjon',
         title: 'Slett språkversjon',
         modal: 'Er du sikker på at du vil slette denne språkversjonen?',
       },
-      statusInfoTooltip: 'Informasjon om ulike statuser',
+      statusInfoTooltip: 'Hva er forskjellen på ulike statuser?',
+      statusLabel: 'Status',
     },
     status: {
       new: 'Ny - Ikke lagret',

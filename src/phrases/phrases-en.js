@@ -126,6 +126,7 @@ const phrases = {
     unknown: 'Unknown',
     de: 'German',
     empty: 'No languages left',
+    change: 'To {language} version',
   },
   welcomePage: {
     lastUsed: 'Last used',
@@ -420,7 +421,7 @@ const phrases = {
       draft: 'Draft',
     },
     previewLanguageArticle: {
-      button: 'Compare different language versions',
+      button: 'Compare language versions',
       title: 'Draft on {language}',
     },
     contributor: {
@@ -487,6 +488,8 @@ const phrases = {
         title: 'Delete language version',
         modal: 'Are you sure that you want to delete this language version?',
       },
+      statusInfoTooltip: 'Whats the difference between statuses?',
+      statusLabel: 'Status',
     },
     status: {
       created: 'Created',

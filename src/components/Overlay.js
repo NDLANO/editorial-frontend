@@ -23,6 +23,10 @@ const appearances = {
     opacity: 0.8;
     background-color: white;
   `,
+  lighter: css`
+    background: rgba(1, 1, 1, 0.3);
+    z-index: 2;
+  `,
 };
 
 const getAllAppearances = modifiers => {

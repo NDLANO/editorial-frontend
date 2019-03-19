@@ -28,6 +28,7 @@ import MastheadButton from './MastheadButton';
 import MastheadSearch from '../MastheadSearch';
 import SessionContainer from './SessionContainer';
 import { menuItemCss } from '../../../style';
+import Overlay from '../../../components/Overlay';
 
 export const classes = new BEMHelper({
   name: 'navigation',
@@ -47,7 +48,7 @@ const StyledSplitter = styled.div`
 
 const StyledNavigationWrapper = styled.div`
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   top: 0;
   left: 0;
   right: 0;
@@ -87,17 +88,6 @@ const StyledMenuContainer = styled.div`
       width: calc(50% - ${spacing.normal});
     }
   }
-`;
-
-const StyledBackground = styled.div`
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  background: rgba(1, 1, 1, 0.3);
-  ${animations.fadeIn()};
 `;
 
 const StyledWrapper = styled.div`
@@ -229,7 +219,7 @@ export class Navigation extends Component {
             )}
           </StyledNavigationWrapper>
         </FocusTrapReact>
-        {open && <StyledBackground />}
+        {open && <Overlay modifiers={'lighter'} />}
       </StyledWrapper>
     );
   }

@@ -124,6 +124,7 @@ const phrases = {
     unknown: 'Ukjent',
     de: 'Tysk',
     empty: 'Ingen flere språk',
+    change: 'Åpne {language} versjon',
   },
   welcomePage: {
     lastUsed: 'Sist brukt',
@@ -433,7 +434,7 @@ const phrases = {
       draft: 'Utkast',
     },
     previewLanguageArticle: {
-      button: 'Sammenlign forskjellige språkversjoner',
+      button: 'Sammenlign språkversjoner',
       title: 'Utkast på {language}',
     },
     contributor: {
@@ -495,10 +496,11 @@ const phrases = {
       qualityAssurance: 'Kvalitetssikring',
       saveAsNew: 'Lagre kopi som ny artikkel',
       deleteLanguageVersion: {
-        button: 'Slett språkversjon',
+        button: 'Slett {languageVersion} språkversjon',
         title: 'Slett språkversjon',
         modal: 'Er du sikker på at du vil slette denne språkversjonen?',
       },
+      statusInfoTooltip: 'Informasjon om ulike statuser',
     },
     status: {
       new: 'Ny - Ikke lagret',

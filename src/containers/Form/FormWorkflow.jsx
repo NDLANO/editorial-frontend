@@ -20,7 +20,6 @@ import { CommonFieldPropsShape, NewArticleShape } from '../../shapes';
 import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
 import FormQualityAssurance from './components/FormQualityAssurance';
-import FormDeleteLanguageVersion from './components/FormDeleteLanguageVersion';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { toEditArticle } from '../../util/routeHelpers';
 
@@ -149,7 +148,6 @@ class FormWorkflow extends Component {
           possibleStatuses={possibleStatuses}
           onUpdateStatus={this.onUpdateStatus}
         />
-        <FormDeleteLanguageVersion model={model} />
         <div>
           <FieldHeader title={t('form.workflow.saveAsNew')} />
           <Button onClick={this.onSaveAsNew}>

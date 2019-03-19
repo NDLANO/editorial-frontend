@@ -8,11 +8,12 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from '@ndla/i18n';
+import { Plus } from '@ndla/icons/action';
 import { Link } from 'react-router-dom';
 import Overlay from '../../components/Overlay';
+import { linkFillButtonCSS } from '../../style';
 
 const classes = new BEMHelper({
   name: 'dropdown-menu',
@@ -39,9 +40,13 @@ class FormLanguage extends Component {
     const { display } = this.state;
     return (
       <div {...classes()}>
-        <Button stripped onClick={this.onDisplayToggle}>
+        <button
+          type="button"
+          className={linkFillButtonCSS}
+          onClick={this.onDisplayToggle}>
+          <Plus />
           {t('form.variant.create')}
-        </Button>
+        </button>
         {display && (
           <Overlay onExit={this.onDisplayToggle} modifiers={['zIndex']} />
         )}

@@ -9,28 +9,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { css } from 'react-emotion';
-import darken from 'polished/lib/color/darken';
-import { colors } from '@ndla/core';
 import { withRouter } from 'react-router-dom';
-import Button from '@ndla/button';
-import { FieldHeader } from '@ndla/forms';
+import { cx } from 'react-emotion';
+import { DeleteForever } from '@ndla/icons/editor';
 import { deleteLanguageVersion } from '../../../modules/draft/draftApi';
 import { HistoryShape } from '../../../shapes';
 import { toEditArticle } from '../../../util/routeHelpers';
 import AlertModal from '../../../components/AlertModal';
-
-const deleteButtonStyle = css`
-  background-color: ${colors.support.red};
-  border-color: ${colors.support.red};
-  color: white;
-  &:hover,
-  &:focus {
-    background-color: ${darken(0.2, colors.support.red)};
-    border-color: ${darken(0.2, colors.support.red)};
-    color: white;
-  }
-`;
+import { linkFillButtonCSS, linkFillButtonDeleteCSS } from '../../../style';
 
 class FormDeleteLanguageVersion extends React.Component {
   constructor() {
@@ -78,12 +64,18 @@ class FormDeleteLanguageVersion extends React.Component {
     ) {
       return null;
     }
+
     return (
       <div>
-        <FieldHeader title={t('form.workflow.deleteLanguageVersion.title')} />
-        <Button css={deleteButtonStyle} onClick={this.toggleShowDeleteWarning}>
-          {t('form.workflow.deleteLanguageVersion.button')}
-        </Button>
+        <button
+          type="button"
+          className={cx(linkFillButtonCSS, linkFillButtonDeleteCSS)}
+          onClick={this.toggleShowDeleteWarning}>
+          <DeleteForever />
+          {t('form.workflow.deleteLanguageVersion.button', {
+            languageVersion: t(`language.${language}`).toLowerCase(),
+          })}
+        </button>
         <AlertModal
           show={showDeleteWarning}
           text={t('form.workflow.deleteLanguageVersion.modal')}

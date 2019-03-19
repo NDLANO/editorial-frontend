@@ -12,11 +12,13 @@ import { css, cx } from 'react-emotion';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, SquareAudio } from '@ndla/icons/editor';
 import { injectT } from '@ndla/i18n';
+import Tooltip from '@ndla/tooltip';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { Link } from 'react-router-dom';
-import PreviewDraftLightbox from '../../components/PreviewDraft/PreviewDraftLightbox';
 import FormDeleteLanguageVersion from './components/FormDeleteLanguageVersion';
 import FormLanguage from './FormLanguage';
+import HowToHelper from '../../components/HowTo/HowToHelper';
+import { linkFillButtonCSS } from '../../style';
 
 const { contentTypes } = constants;
 
@@ -48,7 +50,7 @@ const types = {
 };
 
 const FormHeader = props => {
-  const { t, model, type, editUrl, getArticle } = props;
+  const { t, model, type, editUrl } = props;
   const languages = [
     { key: 'nn', title: t('language.nn'), include: true },
     { key: 'en', title: t('language.en'), include: true },
@@ -58,10 +60,8 @@ const FormHeader = props => {
     { key: 'unknown', title: t('language.unknown'), include: false },
     { key: 'de', title: t('language.de'), include: false },
   ];
-  const language = languages.find(lang => lang.key === model.language);
 
   const { status } = model;
-  console.log('current', status.current);
   const statusText = status.current
     ? t(`form.status.${status.current.toLowerCase()}`)
     : t('form.status.new');
@@ -72,13 +72,6 @@ const FormHeader = props => {
       !model.supportedLanguages.includes(lang.key) &&
       lang.include,
   );
-  const otherLanguages = model.supportedLanguages.filter(
-    lang => lang !== language.key,
-  );
-
-  console.log('???', props);
-  console.log(types);
-  console.log(otherLanguages);
 
   return (
     <header>
@@ -87,7 +80,17 @@ const FormHeader = props => {
           {types[type].icon}
           <h1>{t(`${types[type].form}.title`)}</h1>
         </div>
-        <div>{statusText}</div>
+        <div className={statusWrapperCSS}>
+          <div className={splitterCSS} />
+          <p className={statusCSS}>
+            <small>STATUS:</small>
+            {statusText}
+          </p>
+          <HowToHelper
+            pageId="status"
+            tooltip={t('form.workflow.statusInfoTooltip')}
+          />
+        </div>
       </div>
       {model.id && (
         <div className={languageWrapperCSS}>
@@ -99,21 +102,27 @@ const FormHeader = props => {
                 {t(`language.${lang}`)}
               </span>
             ) : (
-              <Link
-                className={languageButtonsCSS}
-                key={`types_${lang}`}
-                to={editUrl(lang)}>
-                {t(`language.${lang}`)}
-              </Link>
+              <Tooltip
+                tooltip={t('language.change', {
+                  language: t(`language.${lang}`).toLowerCase(),
+                })}>
+                <Link
+                  zIndex={-1}
+                  className={languageButtonsCSS}
+                  key={`types_${lang}`}
+                  to={editUrl(lang)}>
+                  {t(`language.${lang}`)}
+                </Link>
+              </Tooltip>
             ),
           )}
-          <PreviewDraftLightbox
-            label={t('subNavigation.learningResource')}
-            typeOfPreview="previewLanguageArticle"
-            getArticle={getArticle}
-          />
-          <FormDeleteLanguageVersion model={model} />
+          <div className={splitterCSS} />
+          <Link className={linkFillButtonCSS} to={'#'}>
+            {t(`form.previewLanguageArticle.button`)}
+          </Link>
+          <div className={splitterCSS} />
           <FormLanguage emptyLanguages={emptyLanguages} editUrl={editUrl} />
+          <FormDeleteLanguageVersion model={model} />
         </div>
       )}
     </header>
@@ -130,16 +139,23 @@ FormHeader.propTypes = {
   editUrl: PropTypes.func,
 };
 
+const splitterCSS = css`
+  width: 1px;
+  background: ${colors.brand.lighter};
+  height: ${spacing.normal};
+  margin: 0 ${spacing.xsmall};
+`;
+
 const headerCSS = css`
   display: flex;
   justify-content: space-between;
-  padding: ${spacing.small} 0;
-  margin: 0 0 ${spacing.small};
-  border-bottom: 2px solid ${colors.brand.tertiary};
+  padding: ${spacing.xsmall} 0;
+  margin: 0 0 ${spacing.xsmall};
+  border-bottom: 2px solid ${colors.brand.light};
 `;
 
 const titleCSS = css`
-  padding-left: ${spacing.normal};
+  padding-left: ${spacing.small};
   display: flex;
   align-items: center;
   h1 {
@@ -151,8 +167,15 @@ const titleCSS = css`
 `;
 
 const languageWrapperCSS = css`
-  padding-left: ${spacing.normal};
+  padding-left: ${spacing.small};
   margin: 0 0 ${spacing.small};
+  display: flex;
+  align-items: center;
+  > *:last-child {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
 `;
 
 const languageButtonsCSS = css`
@@ -170,12 +193,30 @@ const languageButtonsCSS = css`
     &:hover {
       color: #fff;
       background: ${colors.brand.primary};
-      transform: translate(10px, 10px);
+      transform: translate(1px, 1px);
     }
   }
   &.current {
     color: ${colors.brand.primary};
     background: ${colors.brand.light};
+  }
+`;
+
+const statusWrapperCSS = css`
+  display: flex;
+  align-items: center;
+`;
+
+const statusCSS = css`
+  ${fonts.sizes(18, 1.1)};
+  font-weight: ${fonts.weight.semibold};
+  text-transform: uppercase;
+  margin: 0 ${spacing.small};
+  small {
+    color: ${colors.text.light};
+    padding-right: ${spacing.xsmall};
+    ${fonts.sizes(14, 1.1)};
+    font-weight: ${fonts.weight.light};
   }
 `;
 

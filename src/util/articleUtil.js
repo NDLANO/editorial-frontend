@@ -18,18 +18,21 @@ export const transformArticleToApiVersion = article => ({
     content: article.content,
     language: article.language,
   },
+  visualElement: article.visualElement
+    ? { visualElement: article.visualElement, language: article.language }
+    : undefined,
   metaDescription: {
     metaDescription: article.metaDescription,
   },
 });
 
-export const transformArticle = (article, locale) => {
+export const transformArticle = article => {
   if (!article) return undefined;
   const footNotes = defined(article.metaData.footnotes, []);
   return {
     ...article,
-    created: formatDate(article.created, locale),
-    updated: formatDate(article.updated, locale),
+    created: formatDate(article.created),
+    updated: formatDate(article.updated),
     footNotes,
     requiredLibraries: article.requiredLibraries
       ? article.requiredLibraries.map(lib => {

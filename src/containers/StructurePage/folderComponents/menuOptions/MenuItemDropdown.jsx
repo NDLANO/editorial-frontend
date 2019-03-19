@@ -15,7 +15,6 @@ import { Done } from '@ndla/icons/editor';
 import Downshift from 'downshift';
 import Fuse from 'fuse.js';
 import { Cross } from '@ndla/icons/action';
-import { Search } from '@ndla/icons/common';
 import handleError from '../../../../util/handleError';
 import { itemToString } from '../../../../util/downShiftHelpers';
 import {
@@ -23,7 +22,6 @@ import {
   DropdownInput,
   DropdownActionButton,
   dropDownClasses,
-  dropdownActionButtonStyle,
 } from '../../../../components/Dropdown/common';
 import RoundIcon from '../../../../components/RoundIcon';
 import Spinner from '../../../../components/Spinner';
@@ -39,7 +37,6 @@ const menuItemStyle = css`
 const dropdownInputStyle = css`
   margin-right: 6.5px;
   max-height: 26px;
-  width: auto;
 `;
 
 class MenuItemDropdown extends PureComponent {
@@ -135,16 +132,12 @@ class MenuItemDropdown extends PureComponent {
                     emptyList: t('taxonomy.emptyFilter'),
                   }}
                 />
-                {selected ? (
+                {selected && (
                   <DropdownActionButton
                     onClick={downshiftProps.clearSelection}
                     stripped>
                     <Cross className="c-icon--medium" />
                   </DropdownActionButton>
-                ) : (
-                  <div css={dropdownActionButtonStyle}>
-                    <Search className="c-icon--medium" />
-                  </div>
                 )}
               </div>
             )}

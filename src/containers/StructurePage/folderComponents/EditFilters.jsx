@@ -21,6 +21,7 @@ import {
 } from '../../../modules/taxonomy';
 import AlertModal from '../../../components/AlertModal';
 import EditFilterList from './EditFilterList';
+import { filterWrapper, StyledErrorMessage } from './styles';
 
 class EditFilters extends React.Component {
   constructor() {
@@ -75,15 +76,14 @@ class EditFilters extends React.Component {
   }
 
   render() {
-    const { classes, t, filters } = this.props;
+    const { t, filters } = this.props;
     const { editMode, showDelete, error } = this.state;
 
     return (
-      <div {...classes('editFilters')} data-testid="editFilterBox">
+      <div css={filterWrapper} data-testid="editFilterBox">
         <EditFilterList
           filters={filters}
           editMode={editMode}
-          classes={classes}
           setEditState={this.setEditMode}
           showDeleteWarning={this.showDeleteWarning}
           editFilter={this.editFilter}
@@ -108,7 +108,7 @@ class EditFilters extends React.Component {
             {t('taxonomy.addFilter')}
           </Button>
         )}
-        <div {...classes('errorMessage')}>{error}</div>
+        <StyledErrorMessage>{error}</StyledErrorMessage>
 
         <AlertModal
           show={showDelete}
@@ -134,7 +134,6 @@ class EditFilters extends React.Component {
 EditFilters.propTypes = {
   id: PropTypes.string,
   t: PropTypes.func,
-  classes: PropTypes.func,
   filters: PropTypes.arrayOf(PropTypes.object),
   getFilters: PropTypes.func,
 };

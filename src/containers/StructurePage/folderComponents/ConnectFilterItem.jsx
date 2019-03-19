@@ -8,17 +8,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
+import { spacing, colors } from '@ndla/core';
+import styled from 'react-emotion';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import {
   RESOURCE_FILTER_CORE,
   RESOURCE_FILTER_SUPPLEMENTARY,
 } from '../../../constants';
-
-const classes = new BEMHelper({
-  name: 'connectFilter',
-  prefix: 'c-',
-});
 
 const ConnectFilterItem = ({ id, name, inputValues, onChange }) => {
   const relevance =
@@ -26,17 +22,16 @@ const ConnectFilterItem = ({ id, name, inputValues, onChange }) => {
       ? true
       : inputValues.relevance === RESOURCE_FILTER_CORE;
   return (
-    <div {...classes('')}>
-      <label {...classes('item')}>
-        <input
-          {...classes('checkbox')}
+    <StyledFilterItem data-cy="connectFilterItem">
+      <StyledLabel>
+        <StyledCheckbox
           type="checkbox"
           name={`${id}-active`}
           checked={inputValues.active || false}
           onChange={() => onChange({ active: !inputValues.active })}
         />
         {name}
-      </label>
+      </StyledLabel>
       <ToggleSwitch
         onClick={() =>
           onChange({
@@ -48,9 +43,31 @@ const ConnectFilterItem = ({ id, name, inputValues, onChange }) => {
         on={relevance}
         testId={`${id}-relevance`}
       />
-    </div>
+    </StyledFilterItem>
   );
 };
+
+const StyledFilterItem = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+`;
+
+const StyledLabel = styled('label')`
+  display: flex;
+  margin: calc(${spacing.small} / 2);
+  align-items: center;
+  color: ${colors.grey};
+`;
+
+const StyledCheckbox = styled('input')`
+  width: auto;
+  margin-right: calc(${spacing.small} / 2);
+  -webkit-appearance: checkbox !important;
+  -moz-appearance: checkbox !important;
+  padding: inital;
+`;
 
 ConnectFilterItem.propTypes = {
   id: PropTypes.string,

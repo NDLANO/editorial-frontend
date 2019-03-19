@@ -19,8 +19,7 @@ const AddFileToList = ({
         isOpen={showFileUploader}
         size="medium"
         onClose={onClose}
-        backgroundColor="white"
-        minHeight="90vh">
+        backgroundColor="white">
         {onCloseModal => (
           <Fragment>
             <ModalHeader>
@@ -30,11 +29,7 @@ const AddFileToList = ({
               />
             </ModalHeader>
             <ModalBody>
-              <FileUploader
-                addedFiles={addedFiles}
-                onClose={onClose}
-                onFileSave={onFileSave}
-              />
+              <FileUploader onClose={onClose} onFileSave={onFileSave} />
             </ModalBody>
           </Fragment>
         )}

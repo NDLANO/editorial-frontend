@@ -54,7 +54,6 @@ const FolderItem = ({
   const type = id.includes('subject') ? 'subject' : 'topic';
   const isMainActive = pathToString === url.replace('/structure/', '');
 
-  const showSettings = isOpen && config.enableFullTaxonomy;
   const showLinkButton =
     isOpen && type === 'topic' && config.enableFullTaxonomy && isMainActive;
   const showSubjectFilters = isOpen && type === 'subject';
@@ -67,13 +66,14 @@ const FolderItem = ({
           <RoundIcon open={linkViewOpen} icon={<LinkIcon />} />
         </Button>
       )}
-      {showSettings && (
+      {isOpen && (
         <SettingsMenu
           id={id}
           name={name}
           type={type}
           path={pathToString}
           topicFilters={filters}
+          showAllOptions={config.enableFullTaxonomy}
           {...rest}
         />
       )}

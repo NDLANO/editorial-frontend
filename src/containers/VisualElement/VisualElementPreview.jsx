@@ -20,30 +20,29 @@ class VisualElementPreview extends Component {
   constructor(props) {
     super(props);
     this.removeVisualElement = this.removeVisualElement.bind(this);
+    this.state = {
+      metaData: {},
+    };
   }
 
   async componentDidMount() {
-    const { value, name, onChange } = this.props;
+    const { value } = this.props;
     if (value.resource && value.resource !== 'h5p') {
       const metaData = await api.fetchVisualElement(value);
-      onChange({
-        target: {
-          name,
-          value: { ...value, metaData },
-        },
-      });
+      this.setState({ metaData });
     }
   }
 
   removeVisualElement() {
     const { onChange, name, resetSelectedResource } = this.props;
-
+    this.setState({ metaData: {} });
     onChange({ target: { name, value: {} } });
     resetSelectedResource();
   }
 
   render() {
     const { value, t, changeVisualElement } = this.props;
+    const { metaData } = this.state;
     if (!value.resource) {
       return null;
     }
@@ -52,7 +51,15 @@ class VisualElementPreview extends Component {
       title: t(`topicArticleForm.visualElementTitle.${value.resource}`),
       copyright: t('topicArticleForm.visualElementCopyright'),
     };
-    const element = getVisualElementInformation(value.metaData, value.resource);
+    const resourceMetadata =
+      value && value.metaData
+        ? { ...value.metaData, dkdkd: 'FIRST' }
+        : { ...metaData, dkdkd: 'SECOND' };
+    const element = getVisualElementInformation(
+      resourceMetadata,
+      value.resource,
+    );
+
     return (
       <Field>
         <div {...visualElementClasses('preview')}>

@@ -67,10 +67,7 @@ class SlateAudio extends React.Component {
       locale,
     } = this.props;
     const { audio } = this.state;
-
-    const player = audio.id && (
-      <AudioPlayerMounter audio={audio} speech={embed.audioType === 'speech'} />
-    );
+    const speech = embed.audioType === 'speech';
 
     return (
       <Figure id={`${audio.id}`} {...attributes}>
@@ -83,9 +80,10 @@ class SlateAudio extends React.Component {
             locale={locale}
             onRemoveClick={onRemoveClick}
             embed={embed}
-            submitted={submitted}>
-            {player}
-          </EditAudio>
+            audio={audio}
+            speech={speech}
+            submitted={submitted}
+          />
         ) : (
           <div
             role="button"
@@ -93,7 +91,7 @@ class SlateAudio extends React.Component {
             tabIndex={0}
             onKeyPress={this.toggleEdit}
             onClick={this.toggleEdit}>
-            {player}
+            {audio.id && <AudioPlayerMounter audio={audio} speech={speech} />}
           </div>
         )}
       </Figure>

@@ -48,7 +48,6 @@ const schema = {
         { type: 'heading-three' },
       ],
       normalize: (editor, error) => {
-        console.log(error.child);
         switch (error.code) {
           case 'next_sibling_type_invalid': {
             editor.withoutNormalizing(() => {

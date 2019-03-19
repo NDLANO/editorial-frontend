@@ -14,7 +14,7 @@ import ImageSearch from '@ndla/image-search';
 import { connect } from 'react-redux';
 import Button from '@ndla/button';
 import { getLocale } from '../../modules/locale/locale';
-import * as api from '../../VisualElement/visualElementApi';
+import * as api from '../VisualElement/visualElementApi';
 import Lightbox from '../../components/Lightbox';
 import FormMetaImage from './components/FormMetaImage';
 import { CommonFieldPropsShape } from '../../shapes';

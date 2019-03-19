@@ -47,6 +47,7 @@ import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
   isFormDirty,
+  parseImageUrl,
 } from '../../../util/formHelper';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
@@ -54,15 +55,6 @@ import { validateDraft } from '../../../modules/draft/draftApi';
 import { articleConverter } from '../../../modules/draft/draft';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import config from '../../../config';
-
-const parseImageUrl = metaImage => {
-  if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
-    return '';
-  }
-
-  const splittedUrl = metaImage.url.split('/');
-  return splittedUrl[splittedUrl.length - 1];
-};
 
 export const getInitialModel = (article = {}, language) => {
   const metaImageId = parseImageUrl(article.metaImage);

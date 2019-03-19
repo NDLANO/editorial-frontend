@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { css } from 'react-emotion';
 import Button from '@ndla/button';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
-import { formClasses } from './';
+import { formClasses } from '../';
 import MetaInformation from '../../../components/MetaInformation';
 import { TextField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';

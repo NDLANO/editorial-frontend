@@ -64,6 +64,7 @@ MastheadSearch.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  close: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

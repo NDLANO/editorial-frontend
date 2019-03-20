@@ -28,27 +28,42 @@ const formCSS = css`
   border-radius: ${misc.borderRadius};
   border: 1px solid transparent;
   ${fonts.sizes(16, 1.2)} font-weight: ${fonts.weight.semibold};
-  padding: ${spacing.xsmall} ${spacing.xsmall} ${spacing.xsmall} ${
-  spacing.small
-};
+  padding: ${spacing.xsmall};
+  padding-left: ${spacing.small};
   transition: all 200ms ease;
+
   input {
     padding: ${spacing.xsmall};
     background: transparent;
     border: 0;
     outline: none;
     color: ${colors.brand.primary};
+    transition: width 200ms ease 100ms;
+    width: 200px;
+
+    &:focus {
+      width: 400px;
+    }
   }
+
+  & > button {
+    color: ${colors.brand.grey};
+  }
+
   .c-icon {
     margin: 0 ${spacing.small};
   }
+
   &:focus-within {
     border: 1px solid ${colors.brand.primary};
+
     .c-icon {
       color: ${colors.brand.primary};
     }
   }
-  &:hover, &:focus {
+
+  &:hover,
+  &:focus {
     &:not(:focus-within) {
       cursor: pointer;
       background: ${colors.brand.greyLighter};
@@ -144,20 +159,14 @@ export class MastheadSearchForm extends Component {
     const { searching, t } = this.props;
 
     return (
-      <form onSubmit={this.handleSubmit} className={formCSS}>
+      <form onSubmit={this.handleSubmit} css={formCSS}>
         <input
           type="text"
           onChange={this.handleQueryChange}
           value={this.state.query}
           placeholder={t('searchForm.placeholder')}
         />
-        <Button
-          submit
-          stripped
-          css={css`
-            color: ${colors.brand.grey};
-          `}
-          loading={searching}>
+        <Button submit stripped loading={searching}>
           <Search className="c-icon--medium" />
         </Button>
       </form>

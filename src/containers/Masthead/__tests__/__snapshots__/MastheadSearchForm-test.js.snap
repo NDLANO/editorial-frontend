@@ -2,7 +2,7 @@
 
 exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 <form
-  className="css-1xnpzgm"
+  className="css-kkjrjy"
   onSubmit={[Function]}
 >
   <input
@@ -12,7 +12,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
     value="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
   />
   <button
-    className="css-e0v71u emotion-0"
+    className="css-ac6kxl emotion-0"
     disabled={false}
     type="submit"
   >
@@ -47,7 +47,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 
 exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 <form
-  className="css-1xnpzgm"
+  className="css-kkjrjy"
   onSubmit={[Function]}
 >
   <input
@@ -57,7 +57,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
     value="#4737"
   />
   <button
-    className="css-e0v71u emotion-0"
+    className="css-ac6kxl emotion-0"
     disabled={false}
     type="submit"
   >
@@ -92,7 +92,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 
 exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] = `
 <form
-  className="css-1xnpzgm"
+  className="css-kkjrjy"
   onSubmit={[Function]}
 >
   <input
@@ -102,7 +102,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
     value=""
   />
   <button
-    className="css-e0v71u emotion-0"
+    className="css-ac6kxl emotion-0"
     disabled={false}
     type="submit"
   >
@@ -137,7 +137,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
 
 exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the end 1`] = `
 <form
-  className="css-1xnpzgm"
+  className="css-kkjrjy"
   onSubmit={[Function]}
 >
   <input
@@ -147,7 +147,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
     value=""
   />
   <button
-    className="css-e0v71u emotion-0"
+    className="css-ac6kxl emotion-0"
     disabled={false}
     type="submit"
   >
@@ -182,7 +182,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
 
 exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
 <form
-  className="css-1xnpzgm"
+  className="css-kkjrjy"
   onSubmit={[Function]}
 >
   <input
@@ -192,7 +192,7 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
     value=""
   />
   <button
-    className="css-e0v71u emotion-0"
+    className="css-ac6kxl emotion-0"
     disabled={false}
     type="submit"
   >

@@ -70,7 +70,7 @@ export class SessionContainer extends Component {
   }
 
   render() {
-    const { t, userName, authenticated } = this.props;
+    const { t, userName, authenticated, close: closeNavMenu } = this.props;
     const { open } = this.state;
     const isAccessTokenPersonal = getAccessTokenPersonal();
 
@@ -79,7 +79,12 @@ export class SessionContainer extends Component {
         {authenticated && isAccessTokenPersonal ? (
           <div>
             <User className={cx(userIconCss, 'c-icon--22')} />
-            <Button onClick={this.toggleOpen} link>
+            <Button
+              onClick={() => {
+                this.toggleOpen();
+                closeNavMenu();
+              }}
+              link>
               {userName}
             </Button>
           </div>
@@ -113,6 +118,7 @@ export class SessionContainer extends Component {
 SessionContainer.propTypes = {
   userName: PropTypes.string,
   authenticated: PropTypes.bool.isRequired,
+  close: PropTypes.func,
 };
 
 SessionContainer.defaultProps = {

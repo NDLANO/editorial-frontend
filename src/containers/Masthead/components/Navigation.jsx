@@ -69,10 +69,15 @@ export class Navigation extends Component {
       open: false,
     };
     this.toggleOpen = this.toggleOpen.bind(this);
+    this.closeMenu = this.closeMenu.bind(this);
   }
 
   toggleOpen() {
     this.setState(prevState => ({ open: !prevState.open }));
+  }
+
+  closeMenu() {
+    this.setState({ open: false });
   }
 
   render() {
@@ -84,9 +89,7 @@ export class Navigation extends Component {
         <FocusTrapReact
           active={open}
           focusTrapOptions={{
-            onDeactivate: () => {
-              this.setState({ open: false });
-            },
+            onDeactivate: this.closeMenu,
             clickOutsideDeactivates: true,
             escapeDeactivates: true,
           }}>
@@ -95,12 +98,13 @@ export class Navigation extends Component {
               <div>
                 <MastheadButton onClick={this.toggleOpen} open={open} />
                 <StyledSplitter />
-                <MastheadSearch t={t} />
+                <MastheadSearch t={t} close={this.closeMenu} />
               </div>
               <div>
                 <SessionContainer
                   userName={userName}
                   authenticated={authenticated}
+                  close={this.closeMenu}
                 />
                 <StyledSplitter />
                 <div css={logoCSS}>
@@ -108,7 +112,7 @@ export class Navigation extends Component {
                 </div>
               </div>
             </StyledHeaderItems>
-            {open && <OpenMenu close={this.toggleOpen} />}
+            {open && <OpenMenu close={this.closeMenu} />}
           </StyledNavigationWrapper>
         </FocusTrapReact>
         {open && <Overlay modifiers={'lighter'} />}

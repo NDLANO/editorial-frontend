@@ -13,7 +13,7 @@ import { cx, css } from 'react-emotion';
 import { User } from '@ndla/icons/common';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
-import { colors, spacing, animations } from '@ndla/core';
+import { colors, spacing, animations, shadows } from '@ndla/core';
 import { Link, withRouter } from 'react-router-dom';
 import {
   toLogoutFederated,
@@ -21,7 +21,6 @@ import {
   toLogin,
 } from '../../../util/routeHelpers';
 import { getAccessTokenPersonal } from '../../../util/authHelpers';
-import { dropDownContainerCSS } from '../../../style';
 import { StyledMenuItem } from './StyledMenuItem';
 
 const animateDownCss = css`
@@ -31,6 +30,14 @@ const animateDownCss = css`
 const userIconCss = css`
   color: ${colors.brand.grey};
   margin-right: ${spacing.xsmall};
+`;
+
+const dropDownContainerCSS = css`
+  position: absolute;
+  z-index: 9999;
+  background: #fff;
+  padding: ${spacing.normal};
+  box-shadow: ${shadows.levitate1};
 `;
 
 const AuthSiteNavItem = ({ t, onClick }) => (

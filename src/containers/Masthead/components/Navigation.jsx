@@ -9,25 +9,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import { Cross } from '@ndla/icons/action';
-import { Menu } from '@ndla/icons/common';
 import { injectT } from '@ndla/i18n';
-import { withRouter, Link } from 'react-router-dom';
-import { colors, spacing, animations } from '@ndla/core';
+import { withRouter } from 'react-router-dom';
+import { colors, spacing } from '@ndla/core';
 import { Logo } from '@ndla/ui';
 import FocusTrapReact from 'focus-trap-react';
 import styled, { css } from 'react-emotion';
-import config from '../../../config';
-import {
-  toCreateLearningResource,
-  toCreateTopicArticle,
-  toCreateImage,
-  toCreateAudioFile,
-} from '../../../util/routeHelpers';
 import MastheadButton from './MastheadButton';
 import MastheadSearch from '../MastheadSearch';
 import SessionContainer from './SessionContainer';
-import { menuItemCss } from '../../../style';
+import OpenMenu from './OpenMenu';
 import Overlay from '../../../components/Overlay';
 
 export const classes = new BEMHelper({
@@ -67,29 +58,6 @@ const StyledHeaderItems = styled.div`
     align-items: center;
   }
 `;
-
-const StyledMenuContainer = styled.div`
-  background: ${colors.brand.greyLightest};
-  position: absolute;
-  right: 0;
-  left: 0;
-  transform: translateY(6px);
-  ${animations.fadeIn(animations.durations.superFast)};
-  > div {
-    max-width: 660px;
-    margin: ${spacing.large} auto;
-  }
-  nav {
-    display: flex;
-    justify-content: space-between;
-    > div {
-      display: flex;
-      flex-direction: column;
-      width: calc(50% - ${spacing.normal});
-    }
-  }
-`;
-
 const StyledWrapper = styled.div`
   margin-bottom: ${spacing.spacingUnit * 4}px;
 `;
@@ -110,6 +78,7 @@ export class Navigation extends Component {
   render() {
     const { open } = this.state;
     const { t, userName, authenticated } = this.props;
+
     return (
       <StyledWrapper>
         <FocusTrapReact
@@ -124,24 +93,7 @@ export class Navigation extends Component {
           <StyledNavigationWrapper>
             <StyledHeaderItems>
               <div>
-                <MastheadButton onClick={this.toggleOpen}>
-                  {open ? (
-                    <>
-                      <Cross
-                        className={css`
-                          width: 22px;
-                          height: 22px;
-                        `}
-                      />
-                      <span>{t('masthead.closeMenu')}</span>
-                    </>
-                  ) : (
-                    <>
-                      <Menu />
-                      <span>{t('masthead.menu')}</span>
-                    </>
-                  )}
-                </MastheadButton>
+                <MastheadButton onClick={this.toggleOpen} open={open} />
                 <StyledSplitter />
                 <MastheadSearch t={t} />
               </div>
@@ -151,72 +103,12 @@ export class Navigation extends Component {
                   authenticated={authenticated}
                 />
                 <StyledSplitter />
-                <div className={logoCSS}>
+                <div css={logoCSS}>
                   <Logo to="/" label="Nasjonal digital læringsarena" />
                 </div>
               </div>
             </StyledHeaderItems>
-            {open && (
-              <StyledMenuContainer>
-                <div>
-                  <nav>
-                    <div>
-                      <Link
-                        className={menuItemCss}
-                        to={toCreateLearningResource()}
-                        onClick={this.toggleOpen}>
-                        <span>{t('subNavigation.subjectMatter')}</span>
-                      </Link>
-                      <Link
-                        className={menuItemCss}
-                        to={toCreateTopicArticle()}
-                        onClick={this.toggleOpen}>
-                        <span>{t('subNavigation.topicArticle')}</span>
-                      </Link>
-                      <Link
-                        className={menuItemCss}
-                        to={toCreateImage()}
-                        onClick={this.toggleOpen}>
-                        <span>{t('subNavigation.image')}</span>
-                      </Link>
-                      <Link
-                        className={menuItemCss}
-                        to={toCreateAudioFile()}
-                        onClick={this.toggleOpen}>
-                        <span>{t('subNavigation.audio')}</span>
-                      </Link>
-                      <Link
-                        className={menuItemCss}
-                        to="/agreement/new"
-                        onClick={this.toggleOpen}>
-                        <span>{t('subNavigation.agreement')}</span>
-                      </Link>
-                    </div>
-                    <div>
-                      <a
-                        className={menuItemCss}
-                        href={config.learningpathFrontendDomain}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={this.toggleOpen}>
-                        <span>{t('subNavigation.learningPathLink')}</span>
-                      </a>
-                      <div
-                        className={menuItemCss}
-                        style={{ pointerEvents: 'none', opacity: 0.3 }}>
-                        <span>{t('subNavigation.concept')}</span>
-                      </div>
-                      <Link
-                        className={menuItemCss}
-                        to="/structure"
-                        onClick={this.toggleOpen}>
-                        <span>{t('subNavigation.structure')}</span>
-                      </Link>
-                    </div>
-                  </nav>
-                </div>
-              </StyledMenuContainer>
-            )}
+            {open && <OpenMenu close={this.toggleOpen} />}
           </StyledNavigationWrapper>
         </FocusTrapReact>
         {open && <Overlay modifiers={'lighter'} />}

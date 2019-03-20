@@ -21,7 +21,8 @@ import {
   toLogin,
 } from '../../../util/routeHelpers';
 import { getAccessTokenPersonal } from '../../../util/authHelpers';
-import { menuItemCss, dropDownContainerCSS } from '../../../style';
+import { dropDownContainerCSS } from '../../../style';
+import { StyledMenuItem } from './StyledMenuItem';
 
 const animateDownCss = css`
   ${animations.fadeInBottom()}
@@ -38,12 +39,12 @@ const AuthSiteNavItem = ({ t, onClick }) => (
       transform: translateY(${spacing.normal});
     `}>
     <div className={cx(dropDownContainerCSS, animateDownCss)}>
-      <Link className={menuItemCss} to={toLogoutSession()} onClick={onClick}>
+      <StyledMenuItem to={toLogoutSession()} onClick={onClick}>
         {t('logoutProviders.localLogout')}
-      </Link>
-      <Link className={menuItemCss} to={toLogoutFederated()} onClick={onClick}>
+      </StyledMenuItem>
+      <StyledMenuItem to={toLogoutFederated()} onClick={onClick}>
         {t('logoutProviders.federatedLogout')}
-      </Link>
+      </StyledMenuItem>
     </div>
   </div>
 );

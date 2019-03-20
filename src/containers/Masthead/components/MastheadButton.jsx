@@ -8,6 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Cross } from '@ndla/icons/action';
+import { Menu } from '@ndla/icons/common';
+import { injectT } from '@ndla/i18n';
 import { css } from 'react-emotion';
 import { colors, fonts, spacing, misc } from '@ndla/core';
 
@@ -39,15 +42,32 @@ const buttonStyle = css`
   }
 `;
 
-const MastheadButton = ({ children, color, minWidth, ...rest }) => (
-  <button type="button" {...rest} css={buttonStyle}>
-    {children}
+const crossCss = css`
+  width: 22px;
+  height: 22px;
+`;
+
+const MastheadButton = ({ children, color, minWidth, open, onClick, t }) => (
+  <button type="button" onClick={onClick} css={buttonStyle}>
+    {open ? (
+      <>
+        <Cross css={crossCss} />
+        <span>{t('masthead.closeMenu')}</span>
+      </>
+    ) : (
+      <>
+        <Menu />
+        <span>{t('masthead.menu')}</span>
+      </>
+    )}
   </button>
 );
 
 MastheadButton.propTypes = {
   color: PropTypes.string,
   minWidth: PropTypes.number,
+  open: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 MastheadButton.defaultProps = {
@@ -55,4 +75,4 @@ MastheadButton.defaultProps = {
   minWidth: 0,
 };
 
-export default MastheadButton;
+export default injectT(MastheadButton);

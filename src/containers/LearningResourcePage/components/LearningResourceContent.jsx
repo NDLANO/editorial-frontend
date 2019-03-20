@@ -122,12 +122,12 @@ class LearningResourceContent extends Component {
         />
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
         {model.id && userAccess.includes('drafts:admin') && (
-          <FormHeader title={t('form.content.label')}>
+          <FieldHeader title={t('form.content.label')}>
             <EditMarkupLink
               to={`/edit-markup/${model.id}/${model.language}`}
               title={t('editMarkup.linkTitle')}
             />
-          </FormHeader>
+          </FieldHeader>
         )}
         <RichBlockTextField
           slateSchema={schema}

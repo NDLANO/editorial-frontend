@@ -168,6 +168,7 @@ class AudioForm extends Component {
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader
+          noStatus
           model={model}
           type="audio"
           editUrl={lang => toEditAudio(model.id, lang)}

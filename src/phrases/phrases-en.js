@@ -323,10 +323,7 @@ const phrases = {
     },
   },
   audioForm: {
-    title: {
-      create: 'You are now creating a audio file',
-      update: 'You are now editing a audio file',
-    },
+    title: 'audio file',
   },
   imageEditor: {
     remove: {
@@ -335,7 +332,7 @@ const phrases = {
     },
   },
   imageForm: {
-    title: 'Image | {title} ({key})',
+    title: 'Image',
   },
   learningResourceForm: {
     metaImage: {
@@ -343,7 +340,7 @@ const phrases = {
       copyright: 'Copyright',
       change: 'Change meta image',
     },
-    title: 'Learning resource | {title} ({key})',
+    title: 'Learning resource',
     validation: {
       missingEmbedData:
         'One or more inlcuded video, image, or audio elements is missing caption or alternative text.',

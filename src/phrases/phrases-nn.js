@@ -337,7 +337,7 @@ const phrases = {
     },
   },
   audioForm: {
-    title: 'Lyd | {title} ({key})',
+    title: 'Lyd',
   },
   imageEditor: {
     remove: {
@@ -346,7 +346,7 @@ const phrases = {
     },
   },
   imageForm: {
-    title: 'Bilde | {title} ({key})',
+    title: 'Bilde ',
   },
   learningResourceForm: {
     metaImage: {
@@ -354,7 +354,7 @@ const phrases = {
       copyright: 'Opphav',
       change: 'Bytt metabilde',
     },
-    title: 'Fagstoff | {title} ({key})',
+    title: 'Læringsressurs',
     validation: {
       missingEmbedData:
         'Ein eller fleire inkluderte lyd-, bilde-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.',

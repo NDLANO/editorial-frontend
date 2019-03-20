@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { css, cx } from 'react-emotion';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, SquareAudio } from '@ndla/icons/editor';
+import { FileCompare } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
 import Tooltip from '@ndla/tooltip';
 import { ContentTypeBadge, constants } from '@ndla/ui';
@@ -49,7 +50,7 @@ const types = {
   },
 };
 
-const FormHeader = ({ t, model, type, editUrl, statusText }) => {
+const FormHeader = ({ t, model, type, editUrl, statusText, noStatus }) => {
   const languages = [
     { key: 'nn', title: t('language.nn'), include: true },
     { key: 'en', title: t('language.en'), include: true },
@@ -74,7 +75,7 @@ const FormHeader = ({ t, model, type, editUrl, statusText }) => {
           {types[type].icon}
           <h1>{t(`${types[type].form}.title`)}</h1>
         </div>
-        <div className={statusWrapperCSS}>
+        {!noStatus && <div className={statusWrapperCSS}>
           <div className={splitterCSS} />
           <p className={statusCSS}>
             <small>{t('form.workflow.statusLabel')}:</small>
@@ -84,7 +85,7 @@ const FormHeader = ({ t, model, type, editUrl, statusText }) => {
             pageId="status"
             tooltip={t('form.workflow.statusInfoTooltip')}
           />
-        </div>
+        </div>}
       </div>
       {model.id && (
         <div className={languageWrapperCSS}>
@@ -102,7 +103,6 @@ const FormHeader = ({ t, model, type, editUrl, statusText }) => {
                   language: t(`language.${lang}`).toLowerCase(),
                 })}>
                 <Link
-                  zIndex={-1}
                   className={languageButtonsCSS}
                   to={editUrl(lang)}>
                   {t(`language.${lang}`)}
@@ -112,7 +112,7 @@ const FormHeader = ({ t, model, type, editUrl, statusText }) => {
           )}
           <div className={splitterCSS} />
           <Link className={linkFillButtonCSS} to={'#'}>
-            {t(`form.previewLanguageArticle.button`)}
+            <FileCompare />{t(`form.previewLanguageArticle.button`)}
           </Link>
           <div className={splitterCSS} />
           <FormLanguage emptyLanguages={emptyLanguages} editUrl={editUrl} />
@@ -124,6 +124,7 @@ const FormHeader = ({ t, model, type, editUrl, statusText }) => {
 };
 
 FormHeader.propTypes = {
+  noStatus: PropTypes.bool,
   statusText: PropTypes.string,
   model: PropTypes.shape({
     id: PropTypes.number,

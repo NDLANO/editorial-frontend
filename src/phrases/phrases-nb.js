@@ -337,7 +337,7 @@ const phrases = {
     },
   },
   audioForm: {
-    title: 'Lyd | {title} ({key})',
+    title: 'Lyd',
   },
   imageEditor: {
     editImage: 'Rediger bildet',
@@ -347,7 +347,7 @@ const phrases = {
     },
   },
   imageForm: {
-    title: 'Bilde | {title} ({key})',
+    title: 'Bilde',
   },
   learningResourceForm: {
     metaImage: {

@@ -183,10 +183,11 @@ class ImageForm extends Component {
         ),
       },
     ];
-
+    
     return (
       <FormWrapper inModal={inModal} onSubmit={this.handleSubmit}>
         <FormHeader
+          noStatus
           model={model}
           type="image"
           editUrl={lang => toEditImage(model.id, lang)}

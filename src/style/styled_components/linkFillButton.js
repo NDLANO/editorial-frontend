@@ -18,7 +18,7 @@ export const linkFillButtonCSS = css`
   .c-icon {
     width: 16px;
     height: 16px;
-    margin: 0 2px 0 -3px;
+    margin: 0 3px 0 -3px;
   }
   &:focus,
   &:hover {

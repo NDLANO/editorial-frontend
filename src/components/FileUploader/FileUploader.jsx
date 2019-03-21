@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import { injectT } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import { UploadDropZone } from '@ndla/forms';
@@ -70,7 +70,7 @@ class FileUploader extends React.Component {
     }
 
     return (
-      <div className={wrapperCSS}>
+      <div css={wrapperCSS}>
         <UploadDropZone
           name="file"
           allowedFiles={['application/*']}

@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { spacing } from '@ndla/core';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 const StyleMetaInformation = styled.div`
   display: inline-block;

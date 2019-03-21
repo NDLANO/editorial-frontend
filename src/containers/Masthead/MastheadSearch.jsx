@@ -34,13 +34,13 @@ class MastheadSearch extends Component {
   }
 
   render() {
-    const { history, searching } = this.props;
+    const { history, searching, close } = this.props;
     const { query } = this.state;
     return (
       <MastheadSearchForm
         query={query}
         searching={searching}
-        onSearchQuerySubmit={searchQuery =>
+        onSearchQuerySubmit={searchQuery => {
           history.push(
             toSearch({
               query: searchQuery,
@@ -48,8 +48,9 @@ class MastheadSearch extends Component {
               sort: '-relevance',
               'page-size': 10,
             }),
-          )
-        }
+          );
+          close();
+        }}
       />
     );
   }
@@ -63,6 +64,7 @@ MastheadSearch.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  close: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

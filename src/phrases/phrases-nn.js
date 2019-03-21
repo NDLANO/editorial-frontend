@@ -149,15 +149,16 @@ const phrases = {
   subNavigation: {
     media: 'Media',
     learningPath: 'Læringssti',
-    subjectMatter: 'Fagstoff',
+    learningPathLink: 'Gå til læringssti',
+    subjectMatter: 'Opprett læringsressurs',
     detailSearch: 'Detaljsøk',
-    topicArticle: 'Emne',
-    learningResource: 'Fagstoff',
-    image: 'Bilde',
-    audio: 'Lyd',
-    agreement: 'Avtale',
-    structure: 'Struktur',
-    concept: 'Begrep',
+    topicArticle: 'Opprett emne',
+    learningResource: 'Læringsressurs',
+    image: 'Nytt Bilde',
+    audio: 'Ny Lydfil',
+    agreement: 'Ny Avtale',
+    structure: 'Strukturredigering',
+    concept: 'Gå til forklaringtjenesta',
     searchContent: 'Søk innhald',
     searchMedia: 'Søk media',
   },
@@ -886,6 +887,10 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Emne',
+  },
+  masthead: {
+    menu: 'Meny',
+    closeMenu: 'Lukk',
   },
 };
 

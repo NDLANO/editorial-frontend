@@ -37,7 +37,7 @@ export function useFetchArticleData(articleId, locale) {
     const tags = await draftApi.fetchTags(locale);
     setTags(tags ? tags.tags : []);
   };
-  
+
   useEffect(() => {
     fetchArticle();
     fetchTags();

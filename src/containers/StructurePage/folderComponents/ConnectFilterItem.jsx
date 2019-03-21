@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { spacing, colors } from '@ndla/core';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import {
   RESOURCE_FILTER_CORE,

@@ -12,7 +12,7 @@ import { FieldHeader } from '@ndla/forms';
 import { colors, spacing, fonts } from '@ndla/core';
 import { uuid } from '@ndla/util';
 import { injectT } from '@ndla/i18n';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { Field } from '../../../components/Fields';
 import formatDate from '../../../util/formatDate';
 import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';

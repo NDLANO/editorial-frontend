@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
 import { injectT } from '@ndla/i18n';
@@ -31,6 +31,7 @@ const formatFile = ({ title, type, url, ...rest }, id, t) => ({
   title,
   type,
   ...rest,
+  path: url,
   formats: [
     { url, fileType: type, tooltip: `${t(`form.file.download`)} ${title}` },
   ],
@@ -156,6 +157,7 @@ class Filelist extends React.Component {
     if (!files.length === 0) {
       return null;
     }
+
     return (
       <Fragment>
         <StyledSection>

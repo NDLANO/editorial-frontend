@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { FieldHeader, FieldSection, Dropdown } from '@ndla/forms';
+import { FieldHeader, FieldSection, Select } from '@ndla/forms';
 import { getLocale } from '../../../modules/locale/locale';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 
@@ -31,7 +31,7 @@ const FormLicense = props => {
       </FieldHeader>
       <FieldSection>
         <div>
-          <Dropdown
+          <Select
             disabled={disabled}
             value=""
             onChange={onChange}
@@ -42,7 +42,7 @@ const FormLicense = props => {
                 {license.title}
               </option>
             ))}
-          </Dropdown>
+          </Select>
         </div>
       </FieldSection>
     </Fragment>

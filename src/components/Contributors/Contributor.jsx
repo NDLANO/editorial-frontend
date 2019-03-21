@@ -12,7 +12,7 @@ import {
   FieldSection,
   FieldSplitter,
   Input,
-  Dropdown,
+  Select,
   FieldRemoveButton,
 } from '@ndla/forms';
 
@@ -45,7 +45,7 @@ const Contributor = ({
           value={contributor.name}
           onChange={e => handleContributorChange(e, 'name', index)}
         />
-        <Dropdown
+        <Select
           value={contributor.type}
           onChange={e => handleContributorChange(e, 'type', index)}
           onBlur={e => handleContributorChange(e, 'type', index)}
@@ -56,7 +56,7 @@ const Contributor = ({
               {item.translation}
             </option>
           ))}
-        </Dropdown>
+        </Select>
       </FieldSplitter>
     </div>
     <div>

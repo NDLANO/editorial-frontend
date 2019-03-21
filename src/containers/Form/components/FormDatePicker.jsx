@@ -12,19 +12,13 @@ import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { FieldHeader } from '@ndla/forms';
 import { getLocale } from '../../../modules/locale/locale';
-import HowToHelper from '../../../components/HowTo/HowToHelper';
 import DateTimeInput from '../../../components/DateTime/DateTimeInput';
 import { Field } from '../../../components/Fields';
 
 const FormDatePicker = ({ t, name, ...rest }) => {
   return (
     <Field>
-      <FieldHeader title={t(`form.${name}.label`)}>
-        <HowToHelper
-          pageId="articlePublished"
-          tooltip={t(`form.${name}.helpLabel`)}
-        />
-      </FieldHeader>
+      <FieldHeader title={t(`form.${name}.label`)} />
       <DateTimeInput name={name} {...rest} />
     </Field>
   );

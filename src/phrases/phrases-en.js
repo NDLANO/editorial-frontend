@@ -454,7 +454,6 @@ const phrases = {
     },
     updated: {
       label: 'Updated date',
-      helpLabel: 'Edit updated date manually',
     },
     editImage: 'Edit image',
     editAudio: 'Edit audio',

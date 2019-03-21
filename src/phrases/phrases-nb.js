@@ -466,7 +466,6 @@ const phrases = {
     },
     updated: {
       label: 'Oppdatert dato',
-      helpLabel: 'Sett oppdatert dato manuelt',
     },
     editImage: 'Endre bilde',
     editAudio: 'Endre lyd',

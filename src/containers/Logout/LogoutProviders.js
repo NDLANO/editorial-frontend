@@ -8,7 +8,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { toLogoutFederated, toLogoutSession } from '../../util/routeHelpers';
 
 const LogoutProvidersContainer = styled('div')`

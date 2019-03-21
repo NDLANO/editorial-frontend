@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import PreviewDraft from './PreviewDraft';
 import PreviewProduction from './PreviewProduction';
 import PreviewLanguage from './PreviewLanguage';

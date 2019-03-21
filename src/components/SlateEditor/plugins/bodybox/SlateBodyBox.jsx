@@ -8,14 +8,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import Types from 'slate-prop-types';
 import { injectT } from '@ndla/i18n';
 import { colors } from '@ndla/core';
 import { ChevronLeft } from '@ndla/icons/common';
 import darken from 'polished/lib/color/darken';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import DeleteButton from '../../../DeleteButton';
 import { EditorShape } from '../../../../shapes';
 

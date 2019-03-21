@@ -20,7 +20,6 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
 
   const component = TestRenderer.create(
     <MastheadSearchForm
-      show
       query=""
       searching={false}
       onSearchQuerySubmit={noop}
@@ -56,7 +55,6 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
 
   const component = TestRenderer.create(
     <MastheadSearchForm
-      show
       query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373"
       searching={false}
       locale="nb"
@@ -90,7 +88,6 @@ test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
 
   const component = TestRenderer.create(
     <MastheadSearchForm
-      show
       query="https://ndla.no/nb/node/4737?fag=36"
       searching={false}
       locale="nb"
@@ -120,7 +117,6 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
 
   const component = TestRenderer.create(
     <MastheadSearchForm
-      show
       query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
       searching={false}
       onSearchQuerySubmit={noop}
@@ -150,7 +146,6 @@ test('MastheadSearchForm redirects on ndla node id pasted', () => {
 
   const component = TestRenderer.create(
     <MastheadSearchForm
-      show
       query="#4737"
       searching={false}
       locale="nb"

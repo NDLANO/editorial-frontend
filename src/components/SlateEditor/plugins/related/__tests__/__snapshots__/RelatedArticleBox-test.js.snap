@@ -1,10 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`it goes in and out of edit mode 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0,0,0,0.3);
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
 <div>
   <div
     aria-hidden="true"
-    class="css-7dq7l3 emotion-0"
+    class="emotion-0 emotion-1"
   />
   <div
     style="height: 120px;"
@@ -13,8 +26,12 @@ exports[`it goes in and out of edit mode 1`] = `
 `;
 
 exports[`it goes in and out of edit mode 2`] = `
+.emotion-0 article > p {
+  font-family: Source Sans Pro !important;
+}
+
 <div
-  class="css-mlcrrv"
+  class="emotion-0"
   data-testid="relatedWrapper"
   role="button"
   tabindex="0"

@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 
 export const StyledButton = styled.button`
@@ -73,6 +73,7 @@ export const StyledButton = styled.button`
       }
       return colors.brand.primary;
     }};
+
     &::before {
       transform: scale(1.25);
       opacity: 1;

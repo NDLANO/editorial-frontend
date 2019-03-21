@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
 import { contributorGroups, contributorTypes } from '@ndla/licenses';
 import Button from '@ndla/button';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { fonts, colors } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Contributor from './Contributor';

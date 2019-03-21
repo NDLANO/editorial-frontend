@@ -8,7 +8,8 @@
 
 import React, { Fragment, createRef, Component } from 'react';
 import { injectT } from '@ndla/i18n';
-import styled, { css } from 'react-emotion';
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import Types from 'slate-prop-types';

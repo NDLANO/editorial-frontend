@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import defined from 'defined';
 import { Crop, FocalPoint } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';

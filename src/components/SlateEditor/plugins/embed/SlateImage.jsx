@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Figure } from '@ndla/ui';
 import Button from '@ndla/button';
-import { cx } from 'react-emotion';
 import SlateTypes from 'slate-prop-types';
 import config from '../../../../config';
 import { EmbedShape } from '../../../../shapes';
@@ -59,15 +58,16 @@ class SlateImage extends React.Component {
       'lower-right-y': embed['lower-right-y'],
     };
 
-    const figureClassNames = cx('c-figure', {
-      [`u-float-${embed.size}-${embed.align}`]:
-        ['left', 'right'].includes(embed.align) &&
-        ['small', 'xsmall'].includes(embed.size),
-      [`u-float-${embed.align}`]:
-        ['left', 'right'].includes(embed.align) &&
-        !['small', 'xsmall'].includes(embed.size),
-      isSelectedForCopy: isSelectedForCopy && (!editModus || !active),
-    });
+    const figureClassNames = `c-figure ${['left', 'right'].includes(
+      embed.align,
+    ) &&
+      ['small', 'xsmall'].includes(embed.size) &&
+      `u-float-${embed.size}-${embed.align}`} ${['left', 'right'].includes(
+      embed.align,
+    ) &&
+      isSelectedForCopy &&
+      (!editModus || !active) &&
+      'isSelectedForCopy'}`;
 
     return (
       <Figure

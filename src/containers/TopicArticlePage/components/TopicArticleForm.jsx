@@ -35,12 +35,13 @@ import {
   isFormikFormDirty,
   topicArticleRules,
 } from '../../../util/formHelper';
-import { FormActionButton, AlertModalWrapper } from '../../Form';
+import { FormActionButton } from '../../Form';
 import FormikField from '../../../components/FormikField';
 import {
   FormikCopyright,
   FormikWorkflow,
   FormikAddNotes,
+  FormikAlertModalWrapper,
   formClasses,
   FormikHeader,
 } from '../../FormikForm';
@@ -48,7 +49,7 @@ import { formatErrorMessage } from '../../Form/FormWorkflow';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { validateDraft } from '../../../modules/draft/draftApi';
-import { articleConverter } from '../../../modules/draft/draft';
+import { transformArticleFromApiVersion } from '../../../util/articleUtil';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import AlertModal from '../../../components/AlertModal';
 import validateFormik from '../../../components/formikValidationSchema';
@@ -99,7 +100,7 @@ class TopicArticleForm extends Component {
         this.setState({ error: undefined });
       }
       const articleFromProd = await getArticle(articleId);
-      const convertedArticle = articleConverter(
+      const convertedArticle = transformArticleFromApiVersion(
         articleFromProd,
         selectedLanguage,
       );
@@ -163,10 +164,11 @@ class TopicArticleForm extends Component {
         return;
       }
     }
-    onUpdate({
+    await onUpdate({
       ...this.getArticle(values),
       revision,
     });
+    actions.setSubmitting(false);
     actions.setFieldValue('notes', [], false);
     this.setState({ savedToServer: true });
   }
@@ -254,8 +256,8 @@ class TopicArticleForm extends Component {
         onSubmit={(values, actions) =>
           this.handleSubmit(values, actions, initVal)
         }
-        validate={values => validateFormik(values, topicArticleRules, t)}
-        enableReinitialize>
+        enableReinitialize
+        validate={values => validateFormik(values, topicArticleRules, t)}>
         {formikProps => {
           const { values, initialValues, touched, dirty } = formikProps;
           return (
@@ -341,9 +343,7 @@ class TopicArticleForm extends Component {
                   {t('form.save')}
                 </SaveButton>
               </Field>
-              <AlertModalWrapper
-                isFormik
-                model={values}
+              <FormikAlertModalWrapper
                 {...formikProps}
                 severity="danger"
                 text={t('alertModal.notSaved')}

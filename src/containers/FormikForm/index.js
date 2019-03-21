@@ -6,6 +6,7 @@ import FormikWorkflow from './FormikWorkflow';
 import FormikAddNotes from './FormikAddNotes';
 import FormikLicense from './components/FormikLicense.jsx';
 import FormikHeader from './FormikHeader';
+import FormikAlertModalWrapper from './FormikAlertModalWrapper';
 
 const formClasses = new BEMHelper({
   name: 'form',
@@ -14,6 +15,7 @@ const formClasses = new BEMHelper({
 
 export {
   FormikCopyright,
+  FormikAlertModalWrapper,
   FormikAgreementConnection,
   FormikIngress,
   FormikWorkflow,

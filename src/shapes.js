@@ -103,8 +103,8 @@ export const NoteShape = PropTypes.shape({
 });
 
 export const ArticleShape = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  title: PropTypes.string,
   notes: PropTypes.arrayOf(NoteShape),
 });
 

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
+import isEqual from 'lodash/fp/isEqual';
 import { isEditorValueDirty } from './articleContentConverter';
 import { getField } from '../components/Fields';
 
@@ -59,7 +60,7 @@ export const isFormikFormDirty = ({
         if (isEditorValueDirty(values[dirtyValue])) {
           dirtyFields.push(dirtyValue);
         }
-      } else {
+      } else if (!isEqual(values[dirtyValue], initialValues[dirtyValue])) {
         dirtyFields.push(dirtyValue);
       }
     });

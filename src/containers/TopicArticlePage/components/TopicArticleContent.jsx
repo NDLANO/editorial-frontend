@@ -77,20 +77,19 @@ const TopicArticleContent = ({
     <FormikIngress />
     <TopicArticleVisualElement visualElement={visualElement} />
     <FormikField name="content" label={t('form.content.label')} noBorder>
-      {({ field }) => {
-        return (
-          <RichTextEditor
-            placeholder={t('form.content.placeholder')}
-            id={field.name}
-            {...field}
-            renderNode={renderNode}
-            renderMark={renderMark}
-            plugins={plugins}
-            supportedToolbarElements={supportedToolbarElements}
-            schema={slateSchema}
-          />
-        );
-      }}
+      {({ field, form: { isSubmitting } }) => (
+        <RichTextEditor
+          placeholder={t('form.content.placeholder')}
+          id={field.name}
+          {...field}
+          submitted={isSubmitting}
+          renderNode={renderNode}
+          renderMark={renderMark}
+          plugins={plugins}
+          supportedToolbarElements={supportedToolbarElements}
+          schema={slateSchema}
+        />
+      )}
     </FormikField>
   </Fragment>
 );

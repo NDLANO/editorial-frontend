@@ -52,7 +52,7 @@ import {
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { validateDraft } from '../../../modules/draft/draftApi';
-import { articleConverter } from '../../../modules/draft/draft';
+import { transformArticleFromApiVersion } from '../../../util/articleUtil';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import config from '../../../config';
 
@@ -135,7 +135,7 @@ class LearningResourceForm extends Component {
         this.setState({ error: undefined });
       }
       const articleFromProd = await getArticle(articleId);
-      const convertedArticle = articleConverter(
+      const convertedArticle = transformArticleFromApiVersion(
         articleFromProd,
         selectedLanguage,
       );

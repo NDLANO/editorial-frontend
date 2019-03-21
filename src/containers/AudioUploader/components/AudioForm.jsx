@@ -22,12 +22,12 @@ import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
 } from '../../../util/formHelper';
+import { FormActionButton } from '../../Form';
 import {
-  FormHeader,
-  AlertModalWrapper,
-  FormActionButton,
+  FormikHeader,
   formClasses,
-} from '../../Form';
+  FormikAlertModalWrapper,
+} from '../../FormikForm';
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 import { toEditAudio } from '../../../util/routeHelpers';
@@ -162,8 +162,8 @@ class AudioForm extends Component {
           const { values } = formikProps;
           return (
             <Form {...formClasses()}>
-              <FormHeader
-                model={values}
+              <FormikHeader
+                values={values}
                 type="audio"
                 editUrl={lang => toEditAudio(values.id, lang)}
               />
@@ -204,9 +204,7 @@ class AudioForm extends Component {
                 </FormActionButton>
                 <SaveButton isSaving={isSaving} showSaved={showSaved} />
               </Field>
-              <AlertModalWrapper
-                isFormik
-                model={values}
+              <FormikAlertModalWrapper
                 {...formikProps}
                 severity="danger"
                 showSaved={showSaved}

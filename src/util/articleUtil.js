@@ -8,6 +8,7 @@
 
 import defined from 'defined';
 import formatDate from './formatDate';
+import { convertFieldWithFallback } from './convertFieldWithFallback';
 
 export const transformArticleToApiVersion = article => ({
   ...article,
@@ -26,8 +27,31 @@ export const transformArticleToApiVersion = article => ({
   },
 });
 
+const getLanguageFromField = (object, field, fallback = undefined) =>
+  object && object[field] ? object[field].language : fallback;
+
+export const transformArticleFromApiVersion = (article, locale) => ({
+  ...article,
+  title: convertFieldWithFallback(article, 'title', ''),
+  introduction: convertFieldWithFallback(article, 'introduction', ''),
+  visualElement: convertFieldWithFallback(article, 'visualElement', {}),
+  content: convertFieldWithFallback(article, 'content', ''),
+  footnotes:
+    article.content && article.content.footNotes
+      ? article.content.footNotes
+      : undefined,
+  metaDescription: convertFieldWithFallback(article, 'metaDescription', ''),
+  tags: convertFieldWithFallback(article, 'tags', []),
+  language:
+    article && article.title
+      ? getLanguageFromField(article, 'title')
+      : getLanguageFromField(article, 'content', locale),
+});
+
 export const transformArticle = article => {
-  if (!article) return undefined;
+  if (!article) {
+    return undefined;
+  }
   const footNotes = defined(article.metaData.footnotes, []);
   return {
     ...article,

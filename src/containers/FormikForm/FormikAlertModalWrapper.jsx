@@ -11,9 +11,9 @@ import { withRouter } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 import config from '../../config';
 import AlertModal from '../../components/AlertModal';
-import { isFormDirty } from '../../util/formHelper';
+import { isFormikFormDirty } from '../../util/formHelper';
 
-class AlertModalWrapper extends PureComponent {
+class FormikAlertModalWrapper extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { openModal: false, discardChanges: false };
@@ -22,9 +22,12 @@ class AlertModalWrapper extends PureComponent {
   }
 
   componentDidMount() {
-    const { history } = this.props;
+    const { history, isSubmitting } = this.props;
     this.unblock = history.block(nextLocation => {
-      const canNavigate = !isFormDirty(this.props) || this.state.discardChanges;
+      const canNavigate =
+        !isSubmitting ||
+        !isFormikFormDirty(this.props) ||
+        this.state.discardChanges;
       if (!canNavigate) {
         this.setState({
           openModal: true,
@@ -41,7 +44,9 @@ class AlertModalWrapper extends PureComponent {
 
     if (config.isNdlaProdEnvironment) {
       window.onbeforeunload = () =>
-        !isFormDirty(this.props) || this.state.discardChanges;
+        isSubmitting ||
+        !isFormikFormDirty(this.props) ||
+        this.state.discardChanges;
     }
   }
 
@@ -86,20 +91,22 @@ class AlertModalWrapper extends PureComponent {
   }
 }
 
-AlertModalWrapper.propTypes = {
-  model: PropTypes.shape({
+FormikAlertModalWrapper.propTypes = {
+  values: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
     articleType: PropTypes.string,
     language: PropTypes.string,
   }),
-  fields: PropTypes.objectOf(PropTypes.object),
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
     block: PropTypes.func.isRequired,
   }).isRequired,
   text: PropTypes.string,
   severity: PropTypes.string,
+  isFormik: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
+  initialValues: PropTypes.object,
 };
 
-export default withRouter(injectT(AlertModalWrapper));
+export default withRouter(injectT(FormikAlertModalWrapper));

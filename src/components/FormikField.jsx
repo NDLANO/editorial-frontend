@@ -36,7 +36,7 @@ export const FocusLabel = connect(
 
 FocusLabel.propTypes = {
   name: PropTypes.string.isRequired,
-  hasFocus: PropTypes.func.isRequired,
+  hasFocus: PropTypes.bool.isRequired,
   formik: FormikShape,
 };
 
@@ -63,7 +63,7 @@ FormikFieldLabel.propTypes = {
   noBorder: PropTypes.bool,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
-  hasFocus: PropTypes.func,
+  hasFocus: PropTypes.bool,
 };
 
 export const FormikFieldError = ({ children }) => (

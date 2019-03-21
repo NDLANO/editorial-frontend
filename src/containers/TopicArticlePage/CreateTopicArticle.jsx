@@ -5,74 +5,49 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { actions as draftActions } from '../../modules/draft/draft';
 import TopicArticleForm from './components/TopicArticleForm';
-import {
-  actions as tagActions,
-  getAllTagsByLanguage,
-} from '../../modules/tag/tag';
+import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
+import { toEditArticle } from '../../util/routeHelpers';
 
-class CreateTopicArticle extends Component {
-  constructor(props) {
-    super(props);
-    this.updateDraft = this.updateDraft.bind(this);
-  }
+const CreateTopicArticle = props => {
+  const { locale, t, history, ...rest } = props;
+  const { tags, createArticle } = useFetchArticleData(undefined, locale);
 
-  componentDidMount() {
-    const { locale, fetchTags } = this.props;
-    fetchTags({ language: locale });
-  }
-
-  updateDraft(article) {
-    const { updateDraft, history } = this.props;
-    updateDraft({ draft: article, history });
-  }
-
-  render() {
-    const { locale, t, ...rest } = this.props;
-
-    return (
-      <Fragment>
-        <HelmetWithTracker title={t('htmlTitles.createTopicArticlePage')} />
-        <TopicArticleForm
-          article={{ language: locale }}
-          locale={locale}
-          onUpdate={this.updateDraft}
-          {...rest}
-        />
-      </Fragment>
+  const createArticleAndPushRoute = async createdArticle => {
+    const savedArticle = await createArticle(createdArticle);
+    history.push(
+      toEditArticle(
+        savedArticle.id,
+        savedArticle.articleType,
+        createdArticle.language,
+      ),
     );
-  }
-}
+  };
+
+  return (
+    <Fragment>
+      <HelmetWithTracker title={t('htmlTitles.createTopicArticlePage')} />
+      <TopicArticleForm
+        article={{ language: locale }}
+        locale={locale}
+        onUpdate={createArticleAndPushRoute}
+        tags={tags}
+        {...rest}
+      />
+    </Fragment>
+  );
+};
 
 CreateTopicArticle.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  updateDraft: PropTypes.func.isRequired,
+  createMessage: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
-  fetchTags: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = {
-  updateDraft: draftActions.updateDraft,
-  fetchTags: tagActions.fetchTags,
-};
-
-const mapStateToProps = (state, props) => {
-  const getAllTagsSelector = getAllTagsByLanguage(props.locale);
-  return {
-    tags: getAllTagsSelector(state),
-  };
-};
-export default injectT(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(CreateTopicArticle),
-);
+export default injectT(CreateTopicArticle);

@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
-
+import * as messageActions from '../Messages/messagesActions';
 import { getSaving } from '../../modules/draft/draft';
 import { getLocale } from '../../modules/locale/locale';
 import EditTopicArticle from './EditTopicArticle';
@@ -68,10 +68,12 @@ TopicArticlePage.propTypes = {
     }),
   ).isRequired,
   fetchLicenses: PropTypes.func.isRequired,
+  createMessage: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
+  createMessage: (message = {}) => messageActions.addMessage(message),
 };
 
 const mapStateToProps = state => ({

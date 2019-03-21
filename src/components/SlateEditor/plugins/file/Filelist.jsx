@@ -26,7 +26,7 @@ const StyledSection = styled.section`
   margin-bottom: ${spacing.normal};
 `;
 
-const formatFile = ({ title, type, url, path, ...rest }, id, t) => ({
+const formatFile = ({ title, type, url, ...rest }, id, t) => ({
   id,
   title,
   type,

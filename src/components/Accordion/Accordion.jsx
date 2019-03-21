@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';

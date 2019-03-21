@@ -18,7 +18,7 @@ import {
   FieldRemoveButton,
 } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
 import { fetchExternalOembed } from '../../util/apiHelpers';

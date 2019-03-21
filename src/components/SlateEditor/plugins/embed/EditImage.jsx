@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled, { css } from 'react-emotion';
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import FocusTrapReact from 'focus-trap-react';
 import Types from 'slate-prop-types';
 import { injectT } from '@ndla/i18n';

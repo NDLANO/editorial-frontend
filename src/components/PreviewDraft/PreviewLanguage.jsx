@@ -8,9 +8,14 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import PreviewDraft from './PreviewDraft';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
+
+const StyledPreviewHeader = styled.div`
+  min-height: 6rem;
+`;
 
 const PreviewLanguage = props => {
   const {
@@ -25,12 +30,13 @@ const PreviewLanguage = props => {
   return (
     <Fragment>
       <StyledPreviewTwoArticles>
-        <h2 className="u-4/6@desktop u-push-1/6@desktop">
-          {t('form.previewLanguageArticle.title', {
-            language: t(`language.${firstArticle.language}`).toLowerCase(),
-          })}
-        </h2>
-        <br />
+        <StyledPreviewHeader>
+          <h2 className="u-4/6@desktop u-push-1/6@desktop">
+            {t('form.previewLanguageArticle.title', {
+              language: t(`language.${firstArticle.language}`).toLowerCase(),
+            })}
+          </h2>
+        </StyledPreviewHeader>
         <PreviewDraft
           article={firstArticle}
           label={label}
@@ -38,21 +44,23 @@ const PreviewLanguage = props => {
         />
       </StyledPreviewTwoArticles>
       <StyledPreviewTwoArticles>
-        <h2 className="u-4/6@desktop u-push-1/6@desktop">
-          {t('form.previewLanguageArticle.title', {
-            language: t(`language.${previewLanguage}`).toLowerCase(),
-          })}
-        </h2>
-        <select
-          className="u-4/6@desktop u-push-1/6@desktop"
-          onChange={evt => onChangePreviewLanguage(evt.target.value)}
-          value={previewLanguage}>
-          {firstArticle.supportedLanguages.map(language => (
-            <option key={language} value={language}>
-              {t(`language.${language}`)}
-            </option>
-          ))}
-        </select>
+        <StyledPreviewHeader>
+          <h2 className="u-4/6@desktop u-push-1/6@desktop">
+            {t('form.previewLanguageArticle.title', {
+              language: t(`language.${previewLanguage}`).toLowerCase(),
+            })}
+          </h2>
+          <select
+            className="u-4/6@desktop u-push-1/6@desktop"
+            onChange={evt => onChangePreviewLanguage(evt.target.value)}
+            value={previewLanguage}>
+            {firstArticle.supportedLanguages.map(language => (
+              <option key={language} value={language}>
+                {t(`language.${language}`)}
+              </option>
+            ))}
+          </select>
+        </StyledPreviewHeader>
         <PreviewDraft
           article={secondArticle}
           label={label}

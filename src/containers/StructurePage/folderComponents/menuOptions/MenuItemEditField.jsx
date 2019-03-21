@@ -9,7 +9,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { spacing, colors } from '@ndla/core';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { Done } from '@ndla/icons/editor';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';

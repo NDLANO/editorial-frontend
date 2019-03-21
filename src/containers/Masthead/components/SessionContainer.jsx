@@ -6,6 +6,7 @@
  *
  */
 
+import { css } from '@emotion/core';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FocusTrapReact from 'focus-trap-react';

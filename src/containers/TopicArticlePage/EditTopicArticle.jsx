@@ -68,7 +68,7 @@ class EditTopicArticle extends Component {
   }
 
   render() {
-    const { article, t, ...rest } = this.props;
+    const { article, selectedLanguage, t, ...rest } = this.props;
     if (!article) {
       return null;
     }
@@ -80,13 +80,14 @@ class EditTopicArticle extends Component {
         />
       );
     }
+    const language = selectedLanguage || article.language;
     return (
       <Fragment>
         <HelmetWithTracker
           title={`${article.title} ${t('htmlTitles.titleTemplate')}`}
         />
         <TopicArticleForm
-          initialModel={getInitialModel(article)}
+          initialModel={getInitialModel(article, language)}
           selectedLanguage={article.language}
           revision={article.revision}
           articleStatus={article.status}

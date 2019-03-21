@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Types from 'slate-prop-types';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import { RelatedArticleList } from '@ndla/ui';
 import { toggleRelatedArticles } from '@ndla/article-scripts';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';

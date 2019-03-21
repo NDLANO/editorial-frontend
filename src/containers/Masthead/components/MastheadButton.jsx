@@ -11,8 +11,8 @@ import PropTypes from 'prop-types';
 import { Cross } from '@ndla/icons/action';
 import { Menu } from '@ndla/icons/common';
 import { injectT } from '@ndla/i18n';
-import { css } from 'react-emotion';
 import { colors, fonts, spacing, misc } from '@ndla/core';
+import { css } from '@emotion/core';
 
 const buttonStyle = css`
   background: transparent;

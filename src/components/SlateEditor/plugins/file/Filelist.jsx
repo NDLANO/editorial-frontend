@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
 import { injectT } from '@ndla/i18n';
@@ -87,13 +87,11 @@ class Filelist extends React.Component {
   }
 
   onAddFileToList(files) {
-    console.log(files);
     const { t, editor, node } = this.props;
     this.setState({
       showFileUploader: false,
     });
     const existingFiles = node.data.get('nodes');
-    console.log(existingFiles);
     const newFiles = files.map(file => {
       if (file.format) {
         return file;
@@ -104,7 +102,6 @@ class Filelist extends React.Component {
         t,
       );
     });
-    console.log(newFiles);
     editor.setNodeByKey(node.key, {
       data: {
         nodes: existingFiles.concat(

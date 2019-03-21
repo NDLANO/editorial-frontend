@@ -8,7 +8,7 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import { UploadDropZone, Input } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
@@ -46,7 +46,13 @@ const ImageContent = ({ t, commonFieldProps, model }) => {
       {!model.imageFile && (
         <UploadDropZone
           name="imageFile"
-          allowedFiles={['image/gif', 'image/png', 'image/jpeg', 'image/jpg']}
+          allowedFiles={[
+            'image/gif',
+            'image/png',
+            'image/jpeg',
+            'image/jpg',
+            'image/svg+xml',
+          ]}
           onAddedFiles={(files, e) => {
             const bindInputs = { ...bindInput('imageFile') };
             bindInputs.onChange(e);

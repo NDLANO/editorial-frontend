@@ -14,12 +14,13 @@ import { Search } from '@ndla/icons/common';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
 
 import { fetchTopicArticle } from '../../../modules/taxonomy';
 
 import { fetchDraft, fetchNewArticleId } from '../../../modules/draft/draftApi';
+import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
 import { getLocale } from '../../../modules/locale/locale';
 
 const formCSS = css`
@@ -82,6 +83,8 @@ export class MastheadSearchForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUrlPaste = this.handleUrlPaste.bind(this);
     this.handleNodeId = this.handleNodeId.bind(this);
+    this.handleTopicUrl = this.handleTopicUrl.bind(this);
+    this.handleFrontendUrl = this.handleFrontendUrl.bind(this);
   }
 
   handleQueryChange(evt) {
@@ -116,22 +119,47 @@ export class MastheadSearchForm extends Component {
     const splittedNdlaUrl = ndlaUrl.split(/\?/)[0].split('/');
 
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
-    if (!urlId.includes('urn:topic') && Number.isNaN(parseFloat(urlId))) return;
+
+    if (
+      !urlId.includes('urn:topic') &&
+      Number.isNaN(parseFloat(urlId)) &&
+      !splittedNdlaUrl.includes('subjects')
+    ) {
+      return;
+    }
 
     this.setState({ query: '' });
     if (urlId.includes('urn:topic')) {
-      fetchTopicArticle(urlId, locale).then(topicArticle => {
-        const arr = topicArticle.contentUri.split(':');
-        const id = arr[arr.length - 1];
-        history.push(toEditArticle(id, 'topic-article', locale));
-      });
-    } else if (
-      splittedNdlaUrl.includes('ndla.no') &&
-      splittedNdlaUrl.includes('node')
-    ) {
+      this.handleTopicUrl(urlId);
+    } else if (splittedNdlaUrl.includes('node')) {
       this.handleNodeId(urlId);
+    } else if (splittedNdlaUrl.includes('subjects')) {
+      this.handleFrontendUrl(ndlaUrl);
     } else {
       history.push(toEditArticle(urlId, 'standard', locale));
+    }
+  }
+
+  async handleTopicUrl(urlId) {
+    const { locale, history } = this.props;
+    const topicArticle = await fetchTopicArticle(urlId, locale);
+    const arr = topicArticle.contentUri.split(':');
+    const id = arr[arr.length - 1];
+    history.push(toEditArticle(id, 'topic-article', locale));
+  }
+
+  async handleFrontendUrl(url) {
+    const { locale, history } = this.props;
+    const splitted = url.split('subjects');
+    const taxonomyUrl = splitted[splitted.length - 1];
+    try {
+      const newArticle = await resolveUrls(taxonomyUrl, locale);
+      const splittedUri = newArticle.contentUri.split(':');
+      const articleId = splittedUri[splittedUri.length - 1];
+
+      history.push(toEditArticle(articleId, 'standard', locale));
+    } catch {
+      history.push(to404());
     }
   }
 

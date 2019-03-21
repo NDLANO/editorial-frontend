@@ -8,7 +8,7 @@
 
 import React from 'react';
 import Button from '@ndla/button';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 
 const buttonStyle = css`
   margin-right: 1rem;

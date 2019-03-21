@@ -8,7 +8,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import { colors } from '@ndla/core';
 import { TopicArticle, LearningResource, Concept } from '@ndla/icons/editor';

@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import { colors } from '@ndla/core';
 import { ChevronLeft } from '@ndla/icons/common';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import darken from 'polished/lib/color/darken';
 import DeleteButton from '../../../DeleteButton';
 

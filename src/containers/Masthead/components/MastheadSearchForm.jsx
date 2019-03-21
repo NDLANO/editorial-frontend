@@ -14,7 +14,7 @@ import { Search } from '@ndla/icons/common';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
 
 import { fetchTopicArticle } from '../../../modules/taxonomy';

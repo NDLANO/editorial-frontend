@@ -1,21 +1,139 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Goes to edit mode, handles submit 1`] = `
+.emotion-6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: calc(13px / 2);
+}
+
+.emotion-0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  border: 1px solid;
+  line-height: normal;
+  background-color: white;
+  background-color: #4d4d4d;
+  color: #f8f8f8;
+  height: 18px;
+  width: 18px;
+  min-width: 18px;
+  margin-right: calc(13px / 2);
+}
+
+.emotion-0 > svg {
+  height: 20px;
+  width: 20px;
+}
+
+.emotion-0:hover,
+.emotion-0:focus {
+  background-color: #4d4d4d;
+  color: #f8f8f8;
+}
+
+.emotion-2 {
+  margin-right: calc(13px / 2);
+  max-height: 26px;
+}
+
+.emotion-4 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+}
+
+.emotion-4:hover,
+.emotion-4:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-4:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-4[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-4:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-4,
+.emotion-4:disabled {
+  height: 24px;
+  width: 24px;
+  min-width: 24px;
+  background-color: #4d4d4d;
+  border-color: #4d4d4d;
+  padding: 0;
+  line-height: 16.9px;
+}
+
 <div
-  class="css-5mjlri emotion-3"
+  class="emotion-6 emotion-7"
 >
   <div
-    class="css-nq6l38 emotion-0"
+    class="emotion-0 emotion-1"
     open=""
   />
   <input
-    class="css-1cupmrn emotion-1"
+    class="emotion-2 emotion-3"
     data-testid="inlineEditInput"
     type="text"
     value=""
   />
   <button
-    class="css-1dqvgou emotion-2"
+    class="emotion-4 emotion-5"
     data-testid="inlineEditSaveButton"
     type="button"
   >

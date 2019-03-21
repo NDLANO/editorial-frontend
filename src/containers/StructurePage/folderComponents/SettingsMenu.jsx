@@ -10,7 +10,7 @@ import React, { Fragment } from 'react';
 import Button from '@ndla/button';
 import PropTypes from 'prop-types';
 import { Settings } from '@ndla/icons/editor';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import SettingsMenuDropdown from './SettingsMenuDropdown';
 import Overlay from '../../../components/Overlay';
 import RoundIcon from '../../../components/RoundIcon';

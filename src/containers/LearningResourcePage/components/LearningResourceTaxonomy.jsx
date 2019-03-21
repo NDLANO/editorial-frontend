@@ -9,7 +9,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { FieldHeader, Dropdown } from '@ndla/forms';
+import { FieldHeader, Select } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
 import { Field } from '../../../components/Fields';
@@ -428,12 +428,12 @@ class LearningResourceTaxonomy extends Component {
             tooltip={t('taxonomy.resourceTypes.helpLabel')}
           />
         </FieldHeader>
-        <Dropdown
+        <Select
           value={selectedResourceTypeValue(resourceTypes)}
           onChange={this.onChangeSelectedResource}>
           <option value="">{t('taxonomy.resourceTypes.placeholder')}</option>
           {resourceTypesToOptionList(availableResourceTypes)}
-        </Dropdown>
+        </Select>
         <TopicConnections
           availableFilters={availableFilters}
           structure={structure}

@@ -21,15 +21,8 @@ export const StyledButton = styled.button`
   border: 0;
   text-decoration: none;
   box-shadow: none;
-  color: ${props => {
-    if (props.color === 'red') {
-      return `${colors.support.red}99`;
-    }
-    if (props.color === 'green') {
-      return `${colors.support.green}99`;
-    }
-    return colors.brand.tertiary;
-  }};
+  color: ${({ color }) =>
+    color ? `${colors.support[color]}99` : colors.brand.tertiary}s;
   width: ${spacing.normal};
   height: ${spacing.normal};
 
@@ -47,15 +40,8 @@ export const StyledButton = styled.button`
     position: absolute;
     width: ${spacing.normal};
     height: ${spacing.normal};
-    background: ${props => {
-      if (props.color === 'red') {
-        return `${colors.support.red}4D`;
-      }
-      if (props.color === 'green') {
-        return `${colors.support.green}4D`;
-      }
-      return colors.brand.lighter;
-    }};
+    background: ${({ color }) =>
+      color ? `${colors.support[color]}4D` : colors.brand.lighter};
     border-radius: 100%;
     transform: scale(0.5);
     opacity: 0;
@@ -64,15 +50,8 @@ export const StyledButton = styled.button`
 
   &:hover,
   &:focus {
-    color: ${props => {
-      if (props.color === 'red') {
-        return colors.support.red;
-      }
-      if (props.color === 'green') {
-        return colors.support.green;
-      }
-      return colors.brand.primary;
-    }};
+    color: ${({ color }) =>
+      color ? `${colors.support[color]}` : colors.brand.primary}s;
 
     &::before {
       transform: scale(1.25);

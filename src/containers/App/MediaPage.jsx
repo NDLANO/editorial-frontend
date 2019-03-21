@@ -8,49 +8,28 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { SquareAudio, Camera } from '@ndla/icons/editor';
-import { injectT } from '@ndla/i18n';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import AudioUploaderPage from '../AudioUploader/AudioUploaderPage';
 import ImageUploaderPage from '../ImageUploader/ImageUploaderPage';
-import SubNavigation from '../Masthead/components/SubNavigation';
 import Footer from './components/Footer';
 
-const MediaPage = ({ match, t }) => {
-  const supportedTypes = [
-    {
-      title: t('subNavigation.image'),
-      type: 'image-upload',
-      url: '/media/image-upload/new',
-      icon: <Camera className="c-icon--large" />,
-    },
-    {
-      title: t('subNavigation.audio'),
-      type: 'audio-upload',
-      url: '/media/audio-upload/new',
-      icon: <SquareAudio className="c-icon--large" />,
-    },
-  ];
-
-  return (
-    <Fragment>
-      <SubNavigation type="media" subtypes={supportedTypes} />
-      <Switch>
-        <PrivateRoute
-          path={`${match.url}/image-upload`}
-          component={ImageUploaderPage}
-        />
-        <PrivateRoute
-          path={`${match.url}/audio-upload`}
-          component={AudioUploaderPage}
-        />
-        <Route component={NotFoundPage} />
-      </Switch>
-      <Footer showLocaleSelector={false} />
-    </Fragment>
-  );
-};
+const MediaPage = ({ match }) => (
+  <Fragment>
+    <Switch>
+      <PrivateRoute
+        path={`${match.url}/image-upload`}
+        component={ImageUploaderPage}
+      />
+      <PrivateRoute
+        path={`${match.url}/audio-upload`}
+        component={AudioUploaderPage}
+      />
+      <Route component={NotFoundPage} />
+    </Switch>
+    <Footer showLocaleSelector={false} />
+  </Fragment>
+);
 
 MediaPage.propTypes = {
   match: PropTypes.shape({
@@ -64,4 +43,4 @@ MediaPage.propTypes = {
   }).isRequired,
 };
 
-export default injectT(withRouter(MediaPage));
+export default withRouter(MediaPage);

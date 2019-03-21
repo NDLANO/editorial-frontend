@@ -1,6 +1,61 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
+.emotion-2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background: #f8f8f8;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  font-size: 16;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.2 font-weight:600;
+  padding: 6.5px;
+  padding-left: 13px;
+  -webkit-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+
+.emotion-2 input {
+  padding: 6.5px;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: #20588f;
+  -webkit-transition: width 200ms ease 100ms;
+  transition: width 200ms ease 100ms;
+  width: 200px;
+}
+
+.emotion-2 input:focus {
+  width: 400px;
+}
+
+.emotion-2 > button {
+  color: #777777;
+}
+
+.emotion-2 .c-icon {
+  margin: 0 13px;
+}
+
+.emotion-2:focus-within {
+  border: 1px solid #20588f;
+}
+
+.emotion-2:focus-within .c-icon {
+  color: #20588f;
+}
+
+.emotion-2:hover:not(:focus-within),
+.emotion-2:focus:not(:focus-within) {
+  cursor: pointer;
+  background: #eff0f2;
+  border: 1px solid #e8e3e3;
+}
+
 .emotion-0 {
   display: inline-block;
   color: #ffffff;
@@ -31,7 +86,6 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
-  color: #777777;
 }
 
 .emotion-0:hover,
@@ -82,11 +136,10 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 }
 
 <form
-  className="c-masthead-editorial__form"
+  className="emotion-2"
   onSubmit={[Function]}
 >
   <input
-    className="c-masthead-editorial__form-query"
     onChange={[Function]}
     placeholder=""
     type="text"
@@ -127,6 +180,61 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 `;
 
 exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
+.emotion-2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background: #f8f8f8;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  font-size: 16;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.2 font-weight:600;
+  padding: 6.5px;
+  padding-left: 13px;
+  -webkit-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+
+.emotion-2 input {
+  padding: 6.5px;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: #20588f;
+  -webkit-transition: width 200ms ease 100ms;
+  transition: width 200ms ease 100ms;
+  width: 200px;
+}
+
+.emotion-2 input:focus {
+  width: 400px;
+}
+
+.emotion-2 > button {
+  color: #777777;
+}
+
+.emotion-2 .c-icon {
+  margin: 0 13px;
+}
+
+.emotion-2:focus-within {
+  border: 1px solid #20588f;
+}
+
+.emotion-2:focus-within .c-icon {
+  color: #20588f;
+}
+
+.emotion-2:hover:not(:focus-within),
+.emotion-2:focus:not(:focus-within) {
+  cursor: pointer;
+  background: #eff0f2;
+  border: 1px solid #e8e3e3;
+}
+
 .emotion-0 {
   display: inline-block;
   color: #ffffff;
@@ -157,7 +265,6 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
-  color: #777777;
 }
 
 .emotion-0:hover,
@@ -208,11 +315,10 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 }
 
 <form
-  className="c-masthead-editorial__form"
+  className="emotion-2"
   onSubmit={[Function]}
 >
   <input
-    className="c-masthead-editorial__form-query"
     onChange={[Function]}
     placeholder=""
     type="text"
@@ -253,6 +359,61 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 `;
 
 exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] = `
+.emotion-2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background: #f8f8f8;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  font-size: 16;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.2 font-weight:600;
+  padding: 6.5px;
+  padding-left: 13px;
+  -webkit-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+
+.emotion-2 input {
+  padding: 6.5px;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: #20588f;
+  -webkit-transition: width 200ms ease 100ms;
+  transition: width 200ms ease 100ms;
+  width: 200px;
+}
+
+.emotion-2 input:focus {
+  width: 400px;
+}
+
+.emotion-2 > button {
+  color: #777777;
+}
+
+.emotion-2 .c-icon {
+  margin: 0 13px;
+}
+
+.emotion-2:focus-within {
+  border: 1px solid #20588f;
+}
+
+.emotion-2:focus-within .c-icon {
+  color: #20588f;
+}
+
+.emotion-2:hover:not(:focus-within),
+.emotion-2:focus:not(:focus-within) {
+  cursor: pointer;
+  background: #eff0f2;
+  border: 1px solid #e8e3e3;
+}
+
 .emotion-0 {
   display: inline-block;
   color: #ffffff;
@@ -283,7 +444,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   box-shadow: none;
   border: none;
   font-weight: 400;
-  color: #777777;
 }
 
 .emotion-0:hover,
@@ -334,11 +494,10 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
 }
 
 <form
-  className="c-masthead-editorial__form"
+  className="emotion-2"
   onSubmit={[Function]}
 >
   <input
-    className="c-masthead-editorial__form-query"
     onChange={[Function]}
     placeholder=""
     type="text"
@@ -379,6 +538,61 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
 `;
 
 exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the end 1`] = `
+.emotion-2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background: #f8f8f8;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  font-size: 16;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.2 font-weight:600;
+  padding: 6.5px;
+  padding-left: 13px;
+  -webkit-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+
+.emotion-2 input {
+  padding: 6.5px;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: #20588f;
+  -webkit-transition: width 200ms ease 100ms;
+  transition: width 200ms ease 100ms;
+  width: 200px;
+}
+
+.emotion-2 input:focus {
+  width: 400px;
+}
+
+.emotion-2 > button {
+  color: #777777;
+}
+
+.emotion-2 .c-icon {
+  margin: 0 13px;
+}
+
+.emotion-2:focus-within {
+  border: 1px solid #20588f;
+}
+
+.emotion-2:focus-within .c-icon {
+  color: #20588f;
+}
+
+.emotion-2:hover:not(:focus-within),
+.emotion-2:focus:not(:focus-within) {
+  cursor: pointer;
+  background: #eff0f2;
+  border: 1px solid #e8e3e3;
+}
+
 .emotion-0 {
   display: inline-block;
   color: #ffffff;
@@ -409,7 +623,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   box-shadow: none;
   border: none;
   font-weight: 400;
-  color: #777777;
 }
 
 .emotion-0:hover,
@@ -460,11 +673,10 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
 }
 
 <form
-  className="c-masthead-editorial__form"
+  className="emotion-2"
   onSubmit={[Function]}
 >
   <input
-    className="c-masthead-editorial__form-query"
     onChange={[Function]}
     placeholder=""
     type="text"
@@ -505,6 +717,61 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
 `;
 
 exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
+.emotion-2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background: #f8f8f8;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  font-size: 16;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.2 font-weight:600;
+  padding: 6.5px;
+  padding-left: 13px;
+  -webkit-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+
+.emotion-2 input {
+  padding: 6.5px;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: #20588f;
+  -webkit-transition: width 200ms ease 100ms;
+  transition: width 200ms ease 100ms;
+  width: 200px;
+}
+
+.emotion-2 input:focus {
+  width: 400px;
+}
+
+.emotion-2 > button {
+  color: #777777;
+}
+
+.emotion-2 .c-icon {
+  margin: 0 13px;
+}
+
+.emotion-2:focus-within {
+  border: 1px solid #20588f;
+}
+
+.emotion-2:focus-within .c-icon {
+  color: #20588f;
+}
+
+.emotion-2:hover:not(:focus-within),
+.emotion-2:focus:not(:focus-within) {
+  cursor: pointer;
+  background: #eff0f2;
+  border: 1px solid #e8e3e3;
+}
+
 .emotion-0 {
   display: inline-block;
   color: #ffffff;
@@ -535,7 +802,6 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
-  color: #777777;
 }
 
 .emotion-0:hover,
@@ -586,11 +852,10 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
 }
 
 <form
-  className="c-masthead-editorial__form"
+  className="emotion-2"
   onSubmit={[Function]}
 >
   <input
-    className="c-masthead-editorial__form-query"
     onChange={[Function]}
     placeholder=""
     type="text"

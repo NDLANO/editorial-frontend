@@ -1,0 +1,25 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'formik';
+import { isEmpty } from './validators';
+import { FormikShape } from '../shapes';
+import { classes } from './';
+
+export const FocusLabel = connect(
+  ({ name, hasFocus, children, formik: { values } }) => {
+    if (!hasFocus || isEmpty(values[name])) {
+      return null;
+    }
+    return (
+      <div {...classes('focus-label')}>
+        <span {...classes('focus-text')}>{children}</span>
+      </div>
+    );
+  },
+);
+
+FocusLabel.propTypes = {
+  name: PropTypes.string.isRequired,
+  hasFocus: PropTypes.bool.isRequired,
+  formik: FormikShape,
+};

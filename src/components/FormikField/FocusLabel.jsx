@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'formik';
-import { isEmpty } from './validators';
-import { FormikShape } from '../shapes';
+import { isEmpty } from '../validators';
+import { FormikShape } from '../../shapes';
 import { classes } from './';
 
-export const FocusLabel = connect(
+const FocusLabel = connect(
   ({ name, hasFocus, children, formik: { values } }) => {
     if (!hasFocus || isEmpty(values[name])) {
       return null;
@@ -23,3 +23,5 @@ FocusLabel.propTypes = {
   hasFocus: PropTypes.bool.isRequired,
   formik: FormikShape,
 };
+
+export default FocusLabel;

@@ -4,7 +4,7 @@ import { Field } from 'formik';
 import { Value } from 'slate';
 import get from 'lodash/fp/get';
 import { connect } from 'formik';
-import { FormikShape } from '../shapes';
+import { FormikShape } from '../../shapes';
 import FormikFieldLabel from './FormikFieldLabel';
 import FormikFieldDescription from './FormikFieldDescription';
 import { classes } from './';

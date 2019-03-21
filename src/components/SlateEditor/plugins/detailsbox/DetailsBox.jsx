@@ -29,7 +29,9 @@ const DetailsBox = props => {
   };
 
   const summary = node.findDescendant(node => {
-    if (node.type === 'summary') return node;
+    if (node.type === 'summary') {
+      return node;
+    }
   });
 
   const [open, setOpen] = useState(true);
@@ -52,6 +54,11 @@ const DetailsBox = props => {
 
   const [summaryNode, ...contentNodes] = props.children;
 
+  const close = e => {
+    e.preventDefault();
+    setShowEditModal(false);
+  };
+
   return (
     <div css={detailsWrapper} {...props.attributes}>
       <StyledRow>
@@ -60,11 +67,11 @@ const DetailsBox = props => {
         </summary>
         {open && (
           <Button
-            css={css`
-              height: 100%;
-              display: none;
-            `}
-            onClick={() => setShowEditModal(true)}
+            css={editButtonStyle}
+            onMouseDown={e => {
+              e.preventDefault();
+              setShowEditModal(true);
+            }}
             stripped>
             <Pencil />
           </Button>
@@ -76,23 +83,20 @@ const DetailsBox = props => {
             <>
               <ModalHeader>
                 {' '}
-                <ModalCloseButton
-                  title={t('dialog.close')}
-                  onClick={() => setShowEditModal(false)}
-                />
+                <ModalCloseButton title={t('dialog.close')} onClick={close} />
               </ModalHeader>
               <ModalBody>
                 <Input
                   name="caption"
                   container="div"
-                  label="Endre overskrift"
+                  label={t('detailBox.label')}
                   type="text"
                   value={inputValue}
                   onChange={e => setInputvalue(e.target.value)}
-                  placeholder={'Kort sammendrag'}
+                  placeholder={t('detailBox.placeholder')}
                 />
                 <StyledButtonWrapper paddingLeft>
-                  <Button onClick={() => setShowEditModal(false)} outline>
+                  <Button onClick={close} outline>
                     {t('form.abort')}
                   </Button>
                   <Button onClick={onChangeSummary}>
@@ -113,7 +117,7 @@ const DetailsBox = props => {
 const detailsWrapper = css`
   position: relative;
   margin: ${spacing.large} 0;
-  padding-left: 26px;
+  padding-left: ${spacing.normal};
   min-height: 90px;
   border: 1px solid ${colors.brand.greyLight};
   overflow: hidden;
@@ -125,19 +129,19 @@ const detailsWrapper = css`
 
 const contentStyle = open => css`
   display: ${open ? '' : 'none'};
-  margin-top: calc(${spacing.small} * 1.5 + '0px');
+  margin-top: calc(${spacing.small} * 1.5);
 `;
 
 const summaryStyle = open => css`
-  color: #20588f;
+  color: ${colors.brand.primary};
   cursor: pointer;
   font-size: 20px;
-  padding: 26px;
+  padding: ${spacing.normal};
   display: flex;
 
   &::before {
     content: '';
-    border-color: transparent #20588f;
+    border-color: transparent ${colors.brand.primary};
     border-style: solid;
     border-width: 0.35em 0 0.35em 0.45em;
     display: block;
@@ -155,9 +159,43 @@ const StyledRow = styled.div`
   flex-direction: row;
   align-items: center;
 
-  &:hover > button,
-  :focus > button {
+  &:focus button,
+  :hover button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
+const editButtonStyle = css`
+  height: 100%;
+  display: none;
+  width: 26px;
+
+  & > svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &::before {
+    content: '';
     display: block;
+    position: absolute;
+    width: ${spacing.normal};
+    height: ${spacing.normal};
+    background: ${colors.support.greenLight};
+    border-radius: 100%;
+    transform: scale(0.5);
+    opacity: 0;
+    transition: all 200ms ease;
+  }
+
+  &:hover,
+  &:focus {
+    &::before {
+      transform: scale(1.25);
+      opacity: 1;
+    }
   }
 `;
 

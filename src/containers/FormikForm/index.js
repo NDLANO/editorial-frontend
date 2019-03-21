@@ -7,6 +7,7 @@ import FormikAddNotes from './FormikAddNotes';
 import FormikLicense from './components/FormikLicense.jsx';
 import FormikHeader from './FormikHeader';
 import FormikAlertModalWrapper from './FormikAlertModalWrapper';
+import FormikActionButton from './components/FormikActionButton';
 
 const formClasses = new BEMHelper({
   name: 'form',
@@ -22,5 +23,6 @@ export {
   FormikAddNotes,
   FormikLicense,
   FormikHeader,
+  FormikActionButton,
   formClasses,
 };

@@ -35,7 +35,6 @@ import {
   isFormikFormDirty,
   topicArticleRules,
 } from '../../../util/formHelper';
-import { FormActionButton } from '../../Form';
 import FormikField from '../../../components/FormikField';
 import {
   FormikCopyright,
@@ -43,6 +42,7 @@ import {
   FormikAddNotes,
   FormikAlertModalWrapper,
   formClasses,
+  FormikActionButton,
   FormikHeader,
 } from '../../FormikForm';
 import { formatErrorMessage } from '../../Form/FormWorkflow';
@@ -116,7 +116,7 @@ class TopicArticleForm extends Component {
     }
   }
 
-  getArticle(values) {
+  getArticle(values) {  
     const { licenses } = this.props;
     const emptyField = values.id ? '' : undefined;
     const visualElement = createEmbedTag(values.visualElement);
@@ -300,10 +300,10 @@ class TopicArticleForm extends Component {
               <Field right>
                 {error && <span className="c-errorMessage">{error}</span>}
                 {values.id && (
-                  <FormActionButton
+                  <FormikActionButton
                     onClick={() => this.setState({ showResetModal: true })}>
                     {t('form.resetToProd.button')}
-                  </FormActionButton>
+                  </FormikActionButton>
                 )}
 
                 <AlertModal
@@ -321,12 +321,12 @@ class TopicArticleForm extends Component {
                   ]}
                   onCancel={() => this.setState({ showResetModal: false })}
                 />
-                <FormActionButton
+                <FormikActionButton
                   outline
                   onClick={history.goBack}
                   disabled={isSaving}>
                   {t('form.abort')}
-                </FormActionButton>
+                </FormikActionButton>
                 <SaveButton
                   {...formClasses}
                   isSaving={isSaving}

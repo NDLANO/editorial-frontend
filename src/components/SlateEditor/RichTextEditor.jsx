@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
 import { isKeyHotkey } from 'is-hotkey';
 import BEMHelper from 'react-bem-helper';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import createSlateStore, { setSubmitted } from './createSlateStore';
 import SlateToolbar from './plugins/SlateToolbar/SlateToolbar';
 import { PluginShape, SupportedToolbarElementsShape } from '../../shapes';

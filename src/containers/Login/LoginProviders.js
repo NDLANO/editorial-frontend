@@ -7,7 +7,8 @@
 
 import React, { Fragment } from 'react';
 import Button from '@ndla/button';
-import styled, { css } from 'react-emotion';
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import { injectT } from '@ndla/i18n';
 import { loginPersonalAccessToken } from '../../util/authHelpers';
 

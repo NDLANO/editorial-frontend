@@ -6,11 +6,11 @@
  *
  */
 
+import { css } from '@emotion/core';
 import React, { Component, Fragment } from 'react';
 import { bool, func, string, shape, object } from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Input } from '@ndla/forms';
-import { css } from 'react-emotion';
 import { AudioPlayer } from '@ndla/ui';
 import ObjectSelector from '../../../ObjectSelector';
 import { EmbedShape } from '../../../../shapes';
@@ -67,7 +67,7 @@ class EditAudio extends Component {
         />
         <Portal isOpened key="audioPortal">
           <div
-            css={`
+            css={css`
               padding: 50px;
               background-color: white;
             `}

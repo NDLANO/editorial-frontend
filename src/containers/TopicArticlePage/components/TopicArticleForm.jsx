@@ -54,7 +54,7 @@ import { articleConverter } from '../../../modules/draft/draft';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import AlertModal from '../../../components/AlertModal';
 
-export const getInitialModel = (article = {}) => {
+export const getInitialModel = (article = {}, language) => {
   const visualElement = parseEmbedTag(article.visualElement);
   return {
     id: article.id,
@@ -68,13 +68,14 @@ export const getInitialModel = (article = {}) => {
     processors: parseCopyrightContributors(article, 'processors'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
-    copyright: article.copyright
-      ? article.copyright
-      : { license: DEFAULT_LICENSE, origin: '' },
+    license:
+      article.copyright && article.copyright.license
+        ? article.copyright.license.license
+        : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
     notes: [],
     visualElement: visualElement || {},
-    language: article.language,
+    language: language || article.language,
     supportedLanguages: article.supportedLanguages || [],
     articleType: 'topic-article',
   };
@@ -125,7 +126,7 @@ class TopicArticleForm extends Component {
   }
 
   getArticle() {
-    const { model } = this.props;
+    const { model, licenses } = this.props;
     const emptyField = model.id ? '' : undefined;
     const visualElement = createEmbedTag(model.visualElement);
     const content = topicArticleContentToHTML(model.content);
@@ -140,7 +141,7 @@ class TopicArticleForm extends Component {
       metaDescription: editorValueToPlainText(model.metaDescription),
       articleType: 'topic-article',
       copyright: {
-        ...model.copyright,
+        license: licenses.find(license => license.license === model.license),
         creators: model.creators,
         processors: model.processors,
         rightsholders: model.rightsholders,

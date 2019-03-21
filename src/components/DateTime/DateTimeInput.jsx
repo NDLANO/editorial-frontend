@@ -4,9 +4,10 @@ import Flatpickr from 'flatpickr';
 import { Calendar } from '@ndla/icons/editor';
 import { Norwegian } from 'flatpickr/dist/l10n/no';
 import { english } from 'flatpickr/dist/l10n/default';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import NyNorsk from './NyNorsk';
+
 const FORMAT_PATTERN = 'd/m/Y';
 
 const locales = {

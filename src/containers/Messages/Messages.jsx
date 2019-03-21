@@ -9,7 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import styled, { css } from 'react-emotion';
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import createHistory from 'history/createBrowserHistory';
 import { clearMessage } from './messagesActions';
 import { MessageShape } from '../../shapes';

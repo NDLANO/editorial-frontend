@@ -222,7 +222,6 @@ class LearningResourceForm extends Component {
     onUpdate({
       ...this.getArticleFromModel(),
       revision,
-      updated: undefined,
     });
     onModelSavedToServer();
     setModelField('notes', []);

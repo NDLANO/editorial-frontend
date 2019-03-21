@@ -1,4 +1,4 @@
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { Link } from 'react-router-dom';
 
@@ -14,6 +14,7 @@ export const StyledMenuItem = styled(Link)`
   font-weight: ${fonts.weight.semibold};
   white-space: nowrap;
   ${fonts.sizes(18, 1.1)};
+
   &:focus,
   &:hover {
     background: ${colors.brand.lighter} !important;

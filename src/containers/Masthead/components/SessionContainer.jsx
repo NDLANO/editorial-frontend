@@ -6,11 +6,10 @@
  *
  */
 
-import { css } from '@emotion/core';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FocusTrapReact from 'focus-trap-react';
-import { cx, css } from 'react-emotion';
+import { css } from '@emotion/core';
 import { User } from '@ndla/icons/common';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
@@ -43,10 +42,10 @@ const dropDownContainerCSS = css`
 
 const AuthSiteNavItem = ({ t, onClick }) => (
   <div
-    className={css`
+    css={css`
       transform: translateY(${spacing.normal});
     `}>
-    <div className={cx(dropDownContainerCSS, animateDownCss)}>
+    <div css={[dropDownContainerCSS, animateDownCss]}>
       <StyledMenuItem to={toLogoutSession()} onClick={onClick}>
         {t('logoutProviders.localLogout')}
       </StyledMenuItem>
@@ -86,7 +85,7 @@ export class SessionContainer extends Component {
       <div>
         {authenticated && isAccessTokenPersonal ? (
           <div>
-            <User className={cx(userIconCss, 'c-icon--22')} />
+            <User css={userIconCss} className="c-icon--22" />
             <Button
               onClick={() => {
                 this.toggleOpen();

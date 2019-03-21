@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { colors, spacing, animations } from '@ndla/core';
 import { StyledMenuItem } from './StyledMenuItem';
 import config from '../../../config';

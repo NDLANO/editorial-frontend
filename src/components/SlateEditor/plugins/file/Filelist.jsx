@@ -31,6 +31,7 @@ const formatFile = ({ title, type, url, ...rest }, id, t) => ({
   title,
   type,
   ...rest,
+  path: url,
   formats: [
     { url, fileType: type, tooltip: `${t(`form.file.download`)} ${title}` },
   ],
@@ -156,6 +157,7 @@ class Filelist extends React.Component {
     if (!files.length === 0) {
       return null;
     }
+
     return (
       <Fragment>
         <StyledSection>

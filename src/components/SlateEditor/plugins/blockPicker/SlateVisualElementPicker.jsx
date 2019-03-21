@@ -31,7 +31,7 @@ const SlateVisualElementPicker = ({
       onClose={onVisualElementClose}
       size={resource === 'h5p' ? 'fullscreen' : 'large'}
       backgroundColor="white"
-      minHeight="90vh">
+      minHeight={resource !== 'file' && '90vh'}>
       {onCloseModal => (
         <Fragment>
           <ModalHeader>

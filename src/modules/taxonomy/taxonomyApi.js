@@ -42,6 +42,12 @@ function fetchRelevances(locale) {
   );
 }
 
+function resolveUrls(path, locale) {
+  return fetchAuthorized(`${baseUrl}/url/resolve?path=${path}`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
 /* Queries */
 
 /* Taxonomy actions */
@@ -88,4 +94,5 @@ export {
   fetchTopicArticle,
   fetchRelevances,
   updateTaxonomy,
+  resolveUrls,
 };

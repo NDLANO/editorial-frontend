@@ -46,7 +46,13 @@ const ImageContent = ({ t, commonFieldProps, model }) => {
       {!model.imageFile && (
         <UploadDropZone
           name="imageFile"
-          allowedFiles={['image/gif', 'image/png', 'image/jpeg', 'image/jpg']}
+          allowedFiles={[
+            'image/gif',
+            'image/png',
+            'image/jpeg',
+            'image/jpg',
+            'image/svg+xml',
+          ]}
           onAddedFiles={(files, e) => {
             const bindInputs = { ...bindInput('imageFile') };
             bindInputs.onChange(e);

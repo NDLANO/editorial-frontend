@@ -7,8 +7,7 @@
  */
 
 import React from 'react';
-import { Block } from 'slate';
-import { defaultBlocks, textBlockValidationRules } from '../../utils';
+import { textBlockValidationRules } from '../../utils';
 import SlateAside from './SlateAside';
 
 export default function createAside() {
@@ -17,20 +16,6 @@ export default function createAside() {
       aside: textBlockValidationRules,
     },
   };
-
-  // Rule to always insert a paragraph as the last node inside if void type
-  function normalizeNode(node, editor, next) {
-    if (node.object !== 'block') return next();
-    if (node.type !== 'aside') return next();
-    if (!node.nodes.last().type) return next();
-    if (!node.nodes.last().isVoid) return next();
-
-    const block = Block.create(defaultBlocks.defaultBlock);
-    return () =>
-      editor.withoutSaving(() => {
-        editor.insertNodeByKey(node.key, node.nodes.size, block);
-      });
-  }
 
   /* eslint-disable react/prop-types */
   const renderNode = (props, editor, next) => {
@@ -46,6 +31,5 @@ export default function createAside() {
   return {
     schema,
     renderNode,
-    normalizeNode,
   };
 }

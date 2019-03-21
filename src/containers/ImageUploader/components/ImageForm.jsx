@@ -183,7 +183,7 @@ class ImageForm extends Component {
         ),
       },
     ];
-    
+
     return (
       <FormWrapper inModal={inModal} onSubmit={this.handleSubmit}>
         <FormHeader

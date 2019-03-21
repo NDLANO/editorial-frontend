@@ -8,6 +8,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
+import styled from 'react-emotion';
+import { colors } from '@ndla/core';
 import { SquareAudio, Camera } from '@ndla/icons/editor';
 import { injectT } from '@ndla/i18n';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -16,6 +18,10 @@ import AudioUploaderPage from '../AudioUploader/AudioUploaderPage';
 import ImageUploaderPage from '../ImageUploader/ImageUploaderPage';
 import SubNavigation from '../Masthead/components/SubNavigation';
 import Footer from './components/Footer';
+
+const StyledMediaPage = styled('div')`
+  background-color: ${colors.brand.greyLightest};
+`;
 
 const MediaPage = ({ match, t }) => {
   const supportedTypes = [
@@ -35,18 +41,20 @@ const MediaPage = ({ match, t }) => {
 
   return (
     <Fragment>
-      <SubNavigation type="media" subtypes={supportedTypes} />
-      <Switch>
-        <PrivateRoute
-          path={`${match.url}/image-upload`}
-          component={ImageUploaderPage}
-        />
-        <PrivateRoute
-          path={`${match.url}/audio-upload`}
-          component={AudioUploaderPage}
-        />
-        <Route component={NotFoundPage} />
-      </Switch>
+      <StyledMediaPage>
+        <SubNavigation type="media" subtypes={supportedTypes} />
+        <Switch>
+          <PrivateRoute
+            path={`${match.url}/image-upload`}
+            component={ImageUploaderPage}
+          />
+          <PrivateRoute
+            path={`${match.url}/audio-upload`}
+            component={AudioUploaderPage}
+          />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </StyledMediaPage>
       <Footer showLocaleSelector={false} />
     </Fragment>
   );

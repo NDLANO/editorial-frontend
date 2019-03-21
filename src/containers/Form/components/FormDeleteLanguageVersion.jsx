@@ -62,7 +62,7 @@ class FormDeleteLanguageVersion extends React.Component {
       supportedLanguages.length < 2 ||
       !supportedLanguages.includes(language)
     ) {
-      return null;
+      return <div />;
     }
 
     return (

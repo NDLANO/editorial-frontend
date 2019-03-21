@@ -124,7 +124,7 @@ const phrases = {
     unknown: 'Ukjent',
     de: 'Tysk',
     empty: 'Ingen flere språk',
-    change: 'Til {language} versjon',
+    change: 'Bytt til {language} versjon',
   },
   welcomePage: {
     lastUsed: 'Sist brukt',
@@ -505,6 +505,7 @@ const phrases = {
     },
     status: {
       new: 'Ny - Ikke lagret',
+      new_language: 'Nytt språk - ikke lagret',
       created: 'Opprettet',
       imported: 'Fra spoling',
       draft: 'Kladd',
@@ -737,6 +738,11 @@ const phrases = {
       remove: 'Ta bort lydfil',
       sound: 'Lyd',
       speech: 'Tale',
+      dragdrop: {
+        main: 'Dra og slipp',
+        sub: 'eller trykk for å laste opp lydfil',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
+      },
     },
     related: {
       title: 'Relaterte artikler',

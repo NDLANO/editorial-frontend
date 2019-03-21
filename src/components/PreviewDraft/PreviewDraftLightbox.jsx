@@ -168,8 +168,11 @@ class PreviewDraftLightbox extends React.Component {
     const { label, typeOfPreview, t } = this.props;
 
     if (!showPreview) {
+      if (this.props.children) {
+        return this.props.children(this.openPreview);
+      }
       return (
-        <FormActionButton outline onClick={this.openPreview} disabled={loading}>
+        <FormActionButton onClick={this.openPreview} disabled={loading}>
           {loading && <Spinner appearance="small" css={customSpinnerStyle} />}
           {t(`form.${typeOfPreview}.button`)}
         </FormActionButton>
@@ -209,6 +212,7 @@ class PreviewDraftLightbox extends React.Component {
 export default injectT(PreviewDraftLightbox);
 
 PreviewDraftLightbox.propTypes = {
+  children: PropTypes.func,
   getArticle: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   typeOfPreview: PropTypes.oneOf([

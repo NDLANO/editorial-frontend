@@ -6,11 +6,11 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { css, cx } from 'react-emotion';
 import { colors, fonts, spacing } from '@ndla/core';
-import { Camera, SquareAudio } from '@ndla/icons/editor';
+import { Camera, SquareAudio, Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
 import Tooltip from '@ndla/tooltip';
@@ -20,6 +20,7 @@ import FormDeleteLanguageVersion from './components/FormDeleteLanguageVersion';
 import FormLanguage from './FormLanguage';
 import HowToHelper from '../../components/HowTo/HowToHelper';
 import { linkFillButtonCSS } from '../../style';
+import PreviewDraftLightbox from '../../components/PreviewDraft/PreviewDraftLightbox';
 
 const { contentTypes } = constants;
 
@@ -50,7 +51,15 @@ const types = {
   },
 };
 
-const FormHeader = ({ t, model, type, editUrl, statusText, noStatus }) => {
+const FormHeader = ({
+  t,
+  model,
+  type,
+  editUrl,
+  getArticle,
+  statusText,
+  noStatus,
+}) => {
   const languages = [
     { key: 'nn', title: t('language.nn'), include: true },
     { key: 'en', title: t('language.en'), include: true },
@@ -68,6 +77,15 @@ const FormHeader = ({ t, model, type, editUrl, statusText, noStatus }) => {
       lang.include,
   );
 
+  const newLanguage =
+    model.id && !model.supportedLanguages.includes(model.language);
+  const isNew = newLanguage && (
+    <div className={statusWrapperCSS}>
+      <div className={splitterCSS} />
+      <p className={statusCSS}>{t('form.status.new_language')}</p>
+    </div>
+  );
+
   return (
     <header>
       <div className={headerCSS}>
@@ -75,50 +93,89 @@ const FormHeader = ({ t, model, type, editUrl, statusText, noStatus }) => {
           {types[type].icon}
           <h1>{t(`${types[type].form}.title`)}</h1>
         </div>
-        {!noStatus && <div className={statusWrapperCSS}>
-          <div className={splitterCSS} />
-          <p className={statusCSS}>
-            <small>{t('form.workflow.statusLabel')}:</small>
-            {statusText || t('form.status.new')}
-          </p>
-          <HowToHelper
-            pageId="status"
-            tooltip={t('form.workflow.statusInfoTooltip')}
-          />
-        </div>}
+        {!noStatus ? (
+          <div className={statusWrapperCSS}>
+            <div className={splitterCSS} />
+            <p className={statusCSS}>
+              <span className={smallText}>
+                {t('form.workflow.statusLabel')}:
+              </span>
+              {newLanguage
+                ? t('form.status.new_language')
+                : statusText || t('form.status.new')}
+            </p>
+            <HowToHelper
+              pageId="status"
+              tooltip={t('form.workflow.statusInfoTooltip')}
+            />
+          </div>
+        ) : (
+          isNew
+        )}
       </div>
-      {model.id && (
-        <div className={languageWrapperCSS}>
-          {model.supportedLanguages.map(lang =>
-            model.language === lang ? (
+      <div className={languageWrapperCSS}>
+        {model.id ? (
+          <Fragment>
+            {model.supportedLanguages.map(lang =>
+              model.language === lang ? (
+                <span
+                  className={cx(languageButtonsCSS, 'current')}
+                  key={`types_${lang}`}>
+                  <Check />
+                  {t(`language.${lang}`)}
+                </span>
+              ) : (
+                <Tooltip
+                  key={`types_${lang}`}
+                  tooltip={t('language.change', {
+                    language: t(`language.${lang}`).toLowerCase(),
+                  })}>
+                  <Link className={languageButtonsCSS} to={editUrl(lang)}>
+                    {t(`language.${lang}`)}
+                  </Link>
+                </Tooltip>
+              ),
+            )}
+            {newLanguage && (
               <span
                 className={cx(languageButtonsCSS, 'current')}
-                key={`types_${lang}`}>
-                {t(`language.${lang}`)}
+                key={`types_${model.language}`}>
+                <Check />
+                {t(`language.${model.language}`)}
               </span>
-            ) : (
-              <Tooltip
-                key={`types_${lang}`}
-                tooltip={t('language.change', {
-                  language: t(`language.${lang}`).toLowerCase(),
-                })}>
-                <Link
-                  className={languageButtonsCSS}
-                  to={editUrl(lang)}>
-                  {t(`language.${lang}`)}
-                </Link>
-              </Tooltip>
-            ),
-          )}
-          <div className={splitterCSS} />
-          <Link className={linkFillButtonCSS} to={'#'}>
-            <FileCompare />{t(`form.previewLanguageArticle.button`)}
-          </Link>
-          <div className={splitterCSS} />
-          <FormLanguage emptyLanguages={emptyLanguages} editUrl={editUrl} />
-          <FormDeleteLanguageVersion model={model} />
-        </div>
-      )}
+            )}
+            <div className={splitterCSS} />
+            {!noStatus && (
+              <>
+                <PreviewDraftLightbox
+                  label={t('subNavigation.learningResource')}
+                  typeOfPreview="previewLanguageArticle"
+                  getArticle={getArticle}>
+                  {openPreview => (
+                    <button className={linkFillButtonCSS} onClick={openPreview}>
+                      <FileCompare />
+                      {t(`form.previewLanguageArticle.button`)}
+                    </button>
+                  )}
+                </PreviewDraftLightbox>
+                <div className={splitterCSS} />
+              </>
+            )}
+            <FormLanguage emptyLanguages={emptyLanguages} editUrl={editUrl} />
+            {!noStatus && <FormDeleteLanguageVersion model={model} />}
+          </Fragment>
+        ) : (
+          <>
+            <div>
+              <span className={cx(languageButtonsCSS, 'current')}>
+                <Check />
+                {t(`language.${model.language}`)}
+              </span>
+            </div>
+            <div />
+          </>
+        )}
+      </div>
     </header>
   );
 };
@@ -133,6 +190,7 @@ FormHeader.propTypes = {
   }),
   type: PropTypes.string.isRequired,
   editUrl: PropTypes.func,
+  getArticle: PropTypes.func,
 };
 
 const splitterCSS = css`
@@ -175,8 +233,8 @@ const languageWrapperCSS = css`
 `;
 
 const languageButtonsCSS = css`
-  background: ${colors.brand.lighter};
-  color: ${colors.brand.tertiary};
+  background: ${colors.brand.light};
+  color: ${colors.brand.primary};
   box-shadow: none;
   border-radius: ${spacing.xsmall};
   padding: ${spacing.xsmall} ${spacing.small};
@@ -184,6 +242,11 @@ const languageButtonsCSS = css`
   font-weight: ${fonts.weight.semibold};
   margin-right: ${spacing.xsmall};
   transition: all 200ms ease;
+  display: flex;
+  align-items: center;
+  .c-icon {
+    margin-right: ${spacing.xsmall};
+  }
   &:not(.current) {
     &:focus,
     &:hover {
@@ -193,8 +256,8 @@ const languageButtonsCSS = css`
     }
   }
   &.current {
-    color: ${colors.brand.primary};
-    background: ${colors.brand.light};
+    color: #fff;
+    background: ${colors.brand.primary};
   }
 `;
 
@@ -208,12 +271,14 @@ const statusCSS = css`
   font-weight: ${fonts.weight.semibold};
   text-transform: uppercase;
   margin: 0 ${spacing.small};
-  small {
-    color: ${colors.text.light};
-    padding-right: ${spacing.xsmall};
-    ${fonts.sizes(14, 1.1)};
-    font-weight: ${fonts.weight.light};
-  }
+`;
+
+const smallText = css`
+  color: ${colors.text.light};
+  padding-right: ${spacing.xsmall};
+  ${fonts.sizes(14, 1.1)};
+  font-weight: ${fonts.weight.light};
+  text-transform: uppercase;
 `;
 
 export default injectT(FormHeader);

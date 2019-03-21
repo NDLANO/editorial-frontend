@@ -126,7 +126,7 @@ const phrases = {
     unknown: 'Unknown',
     de: 'German',
     empty: 'No languages left',
-    change: 'To {language} version',
+    change: 'Change to {language} version',
   },
   welcomePage: {
     lastUsed: 'Last used',
@@ -489,6 +489,8 @@ const phrases = {
       statusLabel: 'Status',
     },
     status: {
+      new: 'New - unsaved',
+      new_language: 'New language - unsaved',
       created: 'Created',
       imported: 'Imported',
       draft: 'Draft',

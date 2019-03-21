@@ -124,7 +124,7 @@ const phrases = {
     unknown: 'Ukjent',
     de: 'Tysk',
     empty: 'Ingen flere språk',
-    change: 'Til {language} versjon',
+    change: 'Bytt til {language} versjon',
   },
   welcomePage: {
     lastUsed: 'Sist brukt',
@@ -503,6 +503,8 @@ const phrases = {
       statusLabel: 'Status',
     },
     status: {
+      new: 'Ny - Ikke lagret',
+      new_language: 'Nytt språk - ikke lagret',
       created: 'Oppretta',
       imported: 'Fra spoling',
       draft: 'Kladd',

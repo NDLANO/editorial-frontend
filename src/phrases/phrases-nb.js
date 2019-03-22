@@ -465,6 +465,7 @@ const phrases = {
       },
     },
     editImage: 'Endre bilde',
+    editOriginalImage: 'Rediger orginal bilde',
     editAudio: 'Endre lyd',
     resetToProd: {
       button: 'Tilbakestill til prod',

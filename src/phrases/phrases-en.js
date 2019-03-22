@@ -453,6 +453,7 @@ const phrases = {
       },
     },
     editImage: 'Edit image',
+    editOriginalImage: 'Edit orginal image',
     editAudio: 'Edit audio',
     resetToProd: {
       button: 'Reset to prod',

@@ -38,7 +38,7 @@ const LearningResourceMetadata = ({ t, commonFieldProps, tags, model }) => (
     />
     <FieldHeader title={t('form.metaDescription.label')}>
       <HowToHelper
-        pageId="MetaImage"
+        pageId="MetaDescription"
         tooltip={t('form.metaDescription.helpLabel')}
       />
     </FieldHeader>

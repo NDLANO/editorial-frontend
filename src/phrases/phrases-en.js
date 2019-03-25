@@ -337,11 +337,6 @@ const phrases = {
     title: 'Image | {title} ({key})',
   },
   learningResourceForm: {
-    metaImage: {
-      title: 'Image title',
-      copyright: 'Copyright',
-      change: 'Change meta image',
-    },
     title: 'Learning resource | {title} ({key})',
     validation: {
       missingEmbedData:
@@ -352,11 +347,6 @@ const phrases = {
         title: 'Right column',
         moveContent: 'Move content into the text',
         delete: 'Delete right aside',
-      },
-      metaImage: {
-        title: 'Meta image',
-        label: 'Meta image',
-        helpLabel: 'What is a meta image?',
       },
       footnotes: {
         edition: 'Edition',
@@ -473,6 +463,15 @@ const phrases = {
     },
     introduction: {
       label: 'Introduction',
+    },
+    metaImage: {
+      copyright: 'Copyright',
+      change: 'Change meta image',
+      title: 'Meta image',
+      imageTitle: 'Image title',
+      label: 'Meta image',
+      helpLabel: 'What is a meta image?',
+      add: 'Choose meta image',
     },
     visualElement: {
       title: 'Add visual element',

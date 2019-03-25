@@ -21,12 +21,7 @@ const metaImageButtonStyle = css`
   display: block;
 `;
 
-const FormMetaImage = ({
-  image,
-  toggleImageSearchLightBox,
-  commonFieldProps,
-  t,
-}) => {
+const FormMetaImage = ({ image, onImageSelectOpen, commonFieldProps, t }) => {
   const copyright =
     image.copyright && image.copyright.creators
       ? image.copyright.creators.map(creator => creator.name).join(', ')
@@ -34,13 +29,13 @@ const FormMetaImage = ({
   const title = convertFieldWithFallback(image, 'title', '');
   const alt = convertFieldWithFallback(image, 'alttext', '');
   const imageAction = (
-    <Button css={metaImageButtonStyle} onClick={toggleImageSearchLightBox}>
-      {t('learningResourceForm.metaImage.change')}
+    <Button css={metaImageButtonStyle} onClick={onImageSelectOpen}>
+      {t('form.metaImage.change')}
     </Button>
   );
   const metaInformationTranslations = {
-    title: t('learningResourceForm.metaImage.title'),
-    copyright: t('learningResourceForm.metaImage.copyright'),
+    title: t('form.metaImage.imageTitle'),
+    copyright: t('form.metaImage.copyright'),
   };
   return (
     <Fragment>
@@ -67,7 +62,7 @@ const FormMetaImage = ({
 
 FormMetaImage.propTypes = {
   image: PropTypes.shape({}),
-  toggleImageSearchLightBox: PropTypes.func.isRequired,
+  onImageSelectOpen: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 

@@ -6,29 +6,42 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
-import ImageSearch from '@ndla/image-search';
+import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { connect } from 'react-redux';
 import Button from '@ndla/button';
 import { getLocale } from '../../modules/locale/locale';
 import * as api from '../VisualElement/visualElementApi';
-import Lightbox from '../../components/Lightbox';
 import FormMetaImage from './components/FormMetaImage';
 import { CommonFieldPropsShape } from '../../shapes';
 import HowToHelper from '../../components/HowTo/HowToHelper';
+import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
+import {
+  getUploadedImage,
+  getSaving as getSavingImage,
+  actions as imageActions,
+} from '../../modules/image/image';
 
 class FormMetaImageSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showImageSearch: false,
+      showImageSelect: false,
       image: undefined,
     };
     this.onImageChange = this.onImageChange.bind(this);
-    this.toggleImageSearchLightBox = this.toggleImageSearchLightBox.bind(this);
+    this.onImageSelectClose = this.onImageSelectClose.bind(this);
+    this.onImageSelectOpen = this.onImageSelectOpen.bind(this);
+  }
+  componentDidUpdate() {
+    const { uploadedImage, clearUploadedImage } = this.props;
+    if (uploadedImage) {
+      this.onImageChange(uploadedImage);
+      clearUploadedImage();
+    }
   }
 
   async componentDidMount() {
@@ -39,8 +52,15 @@ class FormMetaImageSearch extends Component {
     }
   }
 
+  componentWillUnmount() {
+    const { uploadedImage, clearUploadedImage } = this.props;
+    if (uploadedImage) {
+      clearUploadedImage();
+    }
+  }
+
   onImageChange(image) {
-    this.toggleImageSearchLightBox();
+    this.onImageSelectClose();
     this.setState({ image });
     const { onChange, name } = this.props;
     onChange({
@@ -51,46 +71,68 @@ class FormMetaImageSearch extends Component {
     });
   }
 
-  toggleImageSearchLightBox() {
-    this.setState(prevState => ({
-      showImageSearch: !prevState.showImageSearch,
-    }));
+  onImageSelectClose() {
+    this.setState({
+      showImageSelect: false,
+    });
+  }
+
+  onImageSelectOpen() {
+    this.setState({
+      showImageSelect: true,
+    });
   }
 
   render() {
-    const { t, locale, commonFieldProps } = this.props;
-    const { image, showImageSearch } = this.state;
+    const { t, locale, commonFieldProps, isSavingImage } = this.props;
+    const { image, showImageSelect } = this.state;
     return (
       <div>
-        <FieldHeader title={t('learningResourceForm.fields.metaImage.title')}>
+        <FieldHeader title={t('form.metaImage.title')}>
           <HowToHelper
             pageId="MetaImage"
-            tooltip={t('learningResourceForm.fields.metaImage.helpLabel')}
+            tooltip={t('form.metaImage.helpLabel')}
           />
         </FieldHeader>
-        <Lightbox
-          display={showImageSearch}
-          appearance="big"
-          onClose={this.toggleImageSearchLightBox}>
-          <ImageSearch
-            fetchImage={api.fetchImage}
-            searchImages={api.searchImages}
-            locale={locale}
-            searchPlaceholder={t('imageSearch.placeholder')}
-            searchButtonTitle={t('imageSearch.buttonTitle')}
-            useImageTitle={t('imageSearch.useImage')}
-            onImageSelect={imageSelected => this.onImageChange(imageSelected)}
-            onError={api.onError}
-          />
-        </Lightbox>
+        <Modal
+          controllable
+          isOpen={showImageSelect}
+          onClose={this.onImageSelectClose}
+          size="large"
+          backgroundColor="white"
+          minHeight="90vh">
+          {() => (
+            <Fragment>
+              <ModalHeader>
+                <ModalCloseButton
+                  title={t('dialog.close')}
+                  onClick={this.onImageSelectClose}
+                />
+              </ModalHeader>
+              <ModalBody>
+                <ImageSearchAndUploader
+                  onImageSelect={this.onImageChange}
+                  locale={locale}
+                  isSavingImage={isSavingImage}
+                  closeModal={this.onImageSelectClose}
+                  fetchImage={api.fetchImage}
+                  searchImages={api.searchImages}
+                  onError={api.onError}
+                />
+              </ModalBody>
+            </Fragment>
+          )}
+        </Modal>
         {image ? (
           <FormMetaImage
             image={image}
             commonFieldProps={commonFieldProps}
-            toggleImageSearchLightBox={this.toggleImageSearchLightBox}
+            onImageSelectOpen={this.onImageSelectOpen}
           />
         ) : (
-          <Button onClick={this.toggleImageSearchLightBox}>Velg bilde</Button>
+          <Button onClick={this.onImageSelectOpen}>
+            {t('form.metaImage.add')}
+          </Button>
         )}
       </div>
     );
@@ -103,10 +145,30 @@ FormMetaImageSearch.propTypes = {
   name: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
+  uploadedImage: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    alttext: PropTypes.shape({
+      alttext: PropTypes.string,
+    }),
+    caption: PropTypes.shape({
+      caption: PropTypes.string,
+    }),
+  }),
+  clearUploadedImage: PropTypes.func.isRequired,
+  isSavingImage: PropTypes.bool,
+};
+
+const mapDispatchToProps = {
+  clearUploadedImage: imageActions.clearUploadedImage,
 };
 
 const mapStateToProps = state => ({
   locale: getLocale(state),
+  isSavingImage: getSavingImage(state),
+  uploadedImage: getUploadedImage(state),
 });
 
-export default connect(mapStateToProps)(injectT(FormMetaImageSearch));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(injectT(FormMetaImageSearch));

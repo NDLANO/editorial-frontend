@@ -150,17 +150,17 @@ const phrases = {
     totalCount: 'Total results',
   },
   subNavigation: {
-    media: 'Media',
     learningPath: 'Learningpath',
+    learningPathLink: 'Go to learningpath',
     subjectMatter: 'Subject matter',
     detailSearch: 'Detail search',
-    topicArticle: 'Topic',
+    topicArticle: 'Create new topic',
     learningResource: 'Learning resource',
-    image: 'Image',
-    audio: 'Audio',
-    agreement: 'Agreement',
+    image: 'New image',
+    audio: 'New Audiofile',
+    agreement: 'New Agreement',
     structure: 'Structure',
-    concept: 'Concept',
+    concept: 'Go to concept',
     searchContent: 'Search content',
     searchMedia: 'Search media',
   },
@@ -424,6 +424,10 @@ const phrases = {
     contributor: {
       add: 'Add',
     },
+    detailBox: {
+      changeTitle: 'Change title',
+      placeholder: 'Short summary',
+    },
     mustSaveFirst: 'You must save your changes first',
     abort: 'Abort',
     edit: 'Edit',
@@ -451,6 +455,7 @@ const phrases = {
       },
     },
     editImage: 'Edit image',
+    editOriginalImage: 'Edit orginal image',
     editAudio: 'Edit audio',
     resetToProd: {
       button: 'Reset to prod',
@@ -857,6 +862,10 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Topic',
+  },
+  masthead: {
+    menu: 'Menu',
+    closeMenu: 'Close',
   },
 };
 

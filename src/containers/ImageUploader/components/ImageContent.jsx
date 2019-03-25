@@ -12,10 +12,11 @@ import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import { UploadDropZone, Input } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
+import { DeleteForever } from '@ndla/icons/editor';
 import { animations, spacing, colors } from '@ndla/core';
 import { TextField, getField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
-import DeleteSectionButton from '../../../components/DeleteSectionButton';
+import IconButton from '../../../components/IconButton';
 
 const StyledImage = styled.img`
   margin: ${spacing.normal} 0;
@@ -28,6 +29,8 @@ const StyledDeleteButtonContainer = styled.div`
   right: -${spacing.medium};
   transform: translateY(${spacing.normal});
   z-index: 1;
+  display: flex;
+  flex-direction: row;
 `;
 
 const ImageContent = ({ t, commonFieldProps, model }) => {
@@ -65,7 +68,7 @@ const ImageContent = ({ t, commonFieldProps, model }) => {
       {!model.id && model.imageFile && (
         <StyledDeleteButtonContainer>
           <Tooltip tooltip={t('form.image.removeImage')}>
-            <DeleteSectionButton
+            <IconButton
               onClick={() => {
                 const bindInputs = { ...bindInput('imageFile') };
                 bindInputs.onChange({
@@ -75,8 +78,9 @@ const ImageContent = ({ t, commonFieldProps, model }) => {
                   },
                 });
               }}
-              tabIndex={-1}
-            />
+              tabIndex={-1}>
+              <DeleteForever />
+            </IconButton>
           </Tooltip>
         </StyledDeleteButtonContainer>
       )}

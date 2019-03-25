@@ -150,15 +150,16 @@ const phrases = {
   subNavigation: {
     media: 'Media',
     learningPath: 'Læringssti',
-    subjectMatter: 'Fagstoff',
+    learningPathLink: 'Gå til læringssti',
+    subjectMatter: 'Opprett læringsressurs',
     detailSearch: 'Detaljsøk',
-    topicArticle: 'Emne',
-    learningResource: 'Fagstoff',
-    image: 'Bilde',
-    audio: 'Lyd',
-    agreement: 'Avtale',
-    structure: 'Struktur',
-    concept: 'Begrep',
+    topicArticle: 'Opprett emne',
+    learningResource: 'Læringsressurs',
+    image: 'Nytt Bilde',
+    audio: 'Ny Lydfil',
+    agreement: 'Ny Avtale',
+    structure: 'Strukturredigering',
+    concept: 'Gå til forklaringtjenesta',
     searchContent: 'Søk innhald',
     searchMedia: 'Søk media',
   },
@@ -409,6 +410,10 @@ const phrases = {
       file: 'Fil',
     },
   },
+  detailBox: {
+    changeTitle: 'Endre overskrift',
+    placeholder: 'Kort sammendrag',
+  },
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Innhald',
@@ -430,6 +435,10 @@ const phrases = {
       button: 'Samanlikn utkast og artikkel',
       article: 'Artikkel',
       draft: 'Utkast',
+    },
+    detailBox: {
+      changeTitle: 'Endre overskrift',
+      placeholder: 'Kort sammendrag',
     },
     previewLanguageArticle: {
       button: 'Samanlikn språkversjonar',
@@ -465,6 +474,7 @@ const phrases = {
       },
     },
     editImage: 'Endre bilde',
+    editOriginalImage: 'Rediger orginal bilde',
     editAudio: 'Endre lyd',
     resetToProd: {
       button: 'Tilbakestill til prod',
@@ -873,6 +883,10 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Emne',
+  },
+  masthead: {
+    menu: 'Meny',
+    closeMenu: 'Lukk',
   },
 };
 

@@ -20,8 +20,6 @@ import {
 const BLOCK_TAGS = {
   section: 'section',
   blockquote: 'quote',
-  details: 'details',
-  summary: 'summary',
   pre: 'pre',
   h1: 'heading-two',
   h2: 'heading-two',
@@ -29,6 +27,8 @@ const BLOCK_TAGS = {
   h4: 'heading-three',
   h5: 'heading-three',
   h6: 'heading-three',
+  summary: 'summary',
+  details: 'details',
 };
 
 export const INLINE_TAGS = {
@@ -410,12 +410,12 @@ export const blockRules = {
         return <h6>{children}</h6>;
       case 'quote':
         return <blockquote>{children}</blockquote>;
+      case 'pre':
+        return <pre>{children}</pre>;
       case 'details':
         return <details>{children}</details>;
       case 'summary':
         return <summary>{children}</summary>;
-      case 'pre':
-        return <pre>{children}</pre>;
     }
   },
 };

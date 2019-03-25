@@ -409,6 +409,10 @@ const phrases = {
       file: 'Fil',
     },
   },
+  detailBox: {
+    changeTitle: 'Endre overskrift',
+    placeholder: 'Kort sammendrag',
+  },
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Innhald',
@@ -430,6 +434,10 @@ const phrases = {
       button: 'Samanlikn utkast og artikkel',
       article: 'Artikkel',
       draft: 'Utkast',
+    },
+    detailBox: {
+      changeTitle: 'Endre overskrift',
+      placeholder: 'Kort sammendrag',
     },
     previewLanguageArticle: {
       button: 'Samanlikn forskjellige språkversjoner',

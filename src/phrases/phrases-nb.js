@@ -880,6 +880,10 @@ const phrases = {
       core: 'Kjerneressurs',
     },
   },
+  detailBox: {
+    label: 'Endre overskrift',
+    placeholder: 'Kort sammendrag',
+  },
   contextTypes: {
     topic: 'Emne',
   },

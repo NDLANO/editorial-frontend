@@ -426,6 +426,10 @@ const phrases = {
     contributor: {
       add: 'Add',
     },
+    detailBox: {
+      changeTitle: 'Change title',
+      placeholder: 'Short summary',
+    },
     mustSaveFirst: 'You must save your changes first',
     abort: 'Abort',
     edit: 'Edit',

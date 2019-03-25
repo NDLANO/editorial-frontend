@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { cx } from '@emotion/core';
 import { withRouter } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
 import { deleteLanguageVersion } from '../../../modules/draft/draftApi';
@@ -69,7 +68,7 @@ class FormDeleteLanguageVersion extends React.Component {
       <div>
         <button
           type="button"
-          className={cx(linkFillButtonCSS, linkFillButtonDeleteCSS)}
+          css={[linkFillButtonCSS, linkFillButtonDeleteCSS]}
           onClick={this.toggleShowDeleteWarning}>
           <DeleteForever />
           {t('form.workflow.deleteLanguageVersion.button', {

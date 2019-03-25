@@ -42,7 +42,7 @@ class FormLanguage extends Component {
       <div {...classes()}>
         <button
           type="button"
-          className={linkFillButtonCSS}
+          css={linkFillButtonCSS}
           onClick={this.onDisplayToggle}>
           <Plus />
           {t('form.variant.create')}

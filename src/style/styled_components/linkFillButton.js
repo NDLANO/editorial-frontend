@@ -1,4 +1,4 @@
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import { colors, spacing, fonts, misc } from '@ndla/core';
 
 export const linkFillButtonCSS = css`

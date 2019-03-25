@@ -8,7 +8,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { SquareAudio, Camera } from '@ndla/icons/editor';
 import { injectT } from '@ndla/i18n';

@@ -8,7 +8,7 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { css, cx } from 'react-emotion';
+import { css } from '@emotion/core';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, SquareAudio, Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
@@ -80,26 +80,24 @@ const FormHeader = ({
   const newLanguage =
     model.id && !model.supportedLanguages.includes(model.language);
   const isNew = newLanguage && (
-    <div className={statusWrapperCSS}>
-      <div className={splitterCSS} />
-      <p className={statusCSS}>{t('form.status.new_language')}</p>
+    <div css={statusWrapperCSS}>
+      <div css={splitterCSS} />
+      <p css={statusCSS}>{t('form.status.new_language')}</p>
     </div>
   );
 
   return (
     <header>
-      <div className={headerCSS}>
-        <div className={titleCSS}>
+      <div css={headerCSS}>
+        <div css={titleCSS}>
           {types[type].icon}
           <h1>{t(`${types[type].form}.title`)}</h1>
         </div>
         {!noStatus ? (
-          <div className={statusWrapperCSS}>
-            <div className={splitterCSS} />
-            <p className={statusCSS}>
-              <span className={smallText}>
-                {t('form.workflow.statusLabel')}:
-              </span>
+          <div css={statusWrapperCSS}>
+            <div css={splitterCSS} />
+            <p css={statusCSS}>
+              <span css={smallTextCSS}>{t('form.workflow.statusLabel')}:</span>
               {newLanguage
                 ? t('form.status.new_language')
                 : statusText || t('form.status.new')}
@@ -113,13 +111,14 @@ const FormHeader = ({
           isNew
         )}
       </div>
-      <div className={languageWrapperCSS}>
+      <div css={languageWrapperCSS}>
         {model.id ? (
           <Fragment>
             {model.supportedLanguages.map(lang =>
               model.language === lang ? (
                 <span
-                  className={cx(languageButtonsCSS, 'current')}
+                  css={languageButtonsCSS}
+                  className="current"
                   key={`types_${lang}`}>
                   <Check />
                   {t(`language.${lang}`)}
@@ -130,7 +129,7 @@ const FormHeader = ({
                   tooltip={t('language.change', {
                     language: t(`language.${lang}`).toLowerCase(),
                   })}>
-                  <Link className={languageButtonsCSS} to={editUrl(lang)}>
+                  <Link css={languageButtonsCSS} to={editUrl(lang)}>
                     {t(`language.${lang}`)}
                   </Link>
                 </Tooltip>
@@ -138,13 +137,14 @@ const FormHeader = ({
             )}
             {newLanguage && (
               <span
-                className={cx(languageButtonsCSS, 'current')}
+                css={languageButtonsCSS}
+                className="current"
                 key={`types_${model.language}`}>
                 <Check />
                 {t(`language.${model.language}`)}
               </span>
             )}
-            <div className={splitterCSS} />
+            <div css={splitterCSS} />
             {!noStatus && (
               <>
                 <PreviewDraftLightbox
@@ -152,13 +152,13 @@ const FormHeader = ({
                   typeOfPreview="previewLanguageArticle"
                   getArticle={getArticle}>
                   {openPreview => (
-                    <button className={linkFillButtonCSS} onClick={openPreview}>
+                    <button css={linkFillButtonCSS} onClick={openPreview}>
                       <FileCompare />
                       {t(`form.previewLanguageArticle.button`)}
                     </button>
                   )}
                 </PreviewDraftLightbox>
-                <div className={splitterCSS} />
+                <div css={splitterCSS} />
               </>
             )}
             <FormLanguage emptyLanguages={emptyLanguages} editUrl={editUrl} />
@@ -167,7 +167,7 @@ const FormHeader = ({
         ) : (
           <>
             <div>
-              <span className={cx(languageButtonsCSS, 'current')}>
+              <span css={languageButtonsCSS} className="current">
                 <Check />
                 {t(`language.${model.language}`)}
               </span>
@@ -273,7 +273,7 @@ const statusCSS = css`
   margin: 0 ${spacing.small};
 `;
 
-const smallText = css`
+const smallTextCSS = css`
   color: ${colors.text.light};
   padding-right: ${spacing.xsmall};
   ${fonts.sizes(14, 1.1)};

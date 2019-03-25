@@ -10,7 +10,8 @@ import React from 'react';
 import Button from '@ndla/button';
 import PropTypes from 'prop-types';
 import { Cross } from '@ndla/icons/action';
-import styled, { css } from 'react-emotion';
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import { colors, breakpoints, spacing } from '@ndla/core';
 
 const appearances = {

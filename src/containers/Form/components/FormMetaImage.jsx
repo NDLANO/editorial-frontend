@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import { formClasses } from '../';

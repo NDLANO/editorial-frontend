@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { searchRelatedArticles } from '../../../../modules/article/articleApi';
 import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';

@@ -1,26 +1,283 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Can paste a valid url and add it to topic 1`] = `
+.emotion-13 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0,0,0,0.3);
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+.emotion-11 {
+  background-color: #f8f8f8;
+  box-shadow: 0 0 2px 0 rgba(115,115,115,0.5);
+  width: 600px;
+  border-radius: 5px;
+  position: absolute;
+  top: 20%;
+  z-index: 2;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.emotion-5 {
+  background: linear-gradient(180deg,#5d97a9,#508a9c);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 1.2rem;
+  padding-left: 13px;
+  height: 50px;
+  color: #f8f8f8;
+}
+
+.emotion-3 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  height: 50px;
+  width: 50px;
+}
+
+.emotion-3:hover,
+.emotion-3:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-3:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-3[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-3:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-3:hover,
+.emotion-3:active,
+.emotion-3:disabled,
+.emotion-3:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-3:focus {
+  outline-width: medium;
+}
+
+.emotion-2 {
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+}
+
+.emotion-9 {
+  padding: 2em;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+.emotion-7 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-7:hover,
+.emotion-7:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-7:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-7[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-7:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-7:hover,
+.emotion-7:active,
+.emotion-7:disabled,
+.emotion-7:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-7:focus {
+  outline-width: medium;
+}
+
+.emotion-7,
+.emotion-7:hover {
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 26px;
+  padding: 3px 52px;
+}
+
 <div
-  class="css-f0l7cz emotion-6"
+  class="emotion-13 emotion-14"
 >
   <div
     aria-hidden="true"
-    class="css-7dq7l3 emotion-0"
+    class="emotion-0 emotion-1"
   />
   <div
-    class="css-1fb9dia emotion-5"
+    class="emotion-11 emotion-12"
   >
     <div
-      class="css-h6g89e emotion-2"
+      class="emotion-5 emotion-6"
     >
       Søk etter ressurs
       <button
-        class="css-zdsvka emotion-1"
+        class="emotion-3 emotion-4"
         type="button"
       >
         <svg
-          class="c-icon css-1yvjjcj"
+          class="c-icon emotion-2"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
@@ -46,7 +303,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
       </button>
     </div>
     <div
-      class="css-1xiahet emotion-4"
+      class="emotion-9 emotion-10"
     >
       <input
         data-testid="addResourceUrlInput"
@@ -89,7 +346,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
         </div>
       </div>
       <button
-        class="css-1hn2egk emotion-1"
+        class="emotion-7 emotion-4"
         data-testid="taxonomyLightboxButton"
         type="button"
       >
@@ -101,26 +358,373 @@ exports[`Can paste a valid url and add it to topic 1`] = `
 `;
 
 exports[`Can select a resource from the list and it adds it to topic 1`] = `
+.emotion-17 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0,0,0,0.3);
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+.emotion-15 {
+  background-color: #f8f8f8;
+  box-shadow: 0 0 2px 0 rgba(115,115,115,0.5);
+  width: 600px;
+  border-radius: 5px;
+  position: absolute;
+  top: 20%;
+  z-index: 2;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.emotion-5 {
+  background: linear-gradient(180deg,#5d97a9,#508a9c);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 1.2rem;
+  padding-left: 13px;
+  height: 50px;
+  color: #f8f8f8;
+}
+
+.emotion-3 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  height: 50px;
+  width: 50px;
+}
+
+.emotion-3:hover,
+.emotion-3:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-3:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-3[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-3:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-3:hover,
+.emotion-3:active,
+.emotion-3:disabled,
+.emotion-3:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-3:focus {
+  outline-width: medium;
+}
+
+.emotion-2 {
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+}
+
+.emotion-13 {
+  padding: 2em;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+.emotion-7 {
+  color: white;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.emotion-9 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  color: #4d4d4d;
+}
+
+.emotion-9:hover,
+.emotion-9:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-9:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-9[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-9:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:disabled,
+.emotion-9:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-9:focus {
+  outline-width: medium;
+}
+
+.emotion-11 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-11:hover,
+.emotion-11:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-11:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-11[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-11:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-11:hover,
+.emotion-11:active,
+.emotion-11:disabled,
+.emotion-11:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-11:focus {
+  outline-width: medium;
+}
+
+.emotion-11,
+.emotion-11:hover {
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 26px;
+  padding: 3px 52px;
+}
+
 <div
-  class="css-f0l7cz emotion-8"
+  class="emotion-17 emotion-18"
 >
   <div
     aria-hidden="true"
-    class="css-7dq7l3 emotion-0"
+    class="emotion-0 emotion-1"
   />
   <div
-    class="css-1fb9dia emotion-7"
+    class="emotion-15 emotion-16"
   >
     <div
-      class="css-h6g89e emotion-2"
+      class="emotion-5 emotion-6"
     >
       Søk etter ressurs
       <button
-        class="css-zdsvka emotion-1"
+        class="emotion-3 emotion-4"
         type="button"
       >
         <svg
-          class="c-icon css-1yvjjcj"
+          class="c-icon emotion-2"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
@@ -146,7 +750,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
       </button>
     </div>
     <div
-      class="css-1xiahet emotion-6"
+      class="emotion-13 emotion-14"
     >
       <input
         data-testid="addResourceUrlInput"
@@ -155,7 +759,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         value=""
       />
       <span
-        class="css-1cuzj5i emotion-3"
+        class="emotion-7 emotion-8"
       >
         Eller
       </span>
@@ -177,7 +781,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
           value=""
         />
         <button
-          class="css-6yth7i emotion-1"
+          class="emotion-9 emotion-4"
           type="button"
         >
           <svg
@@ -288,7 +892,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         </div>
       </div>
       <button
-        class="css-1hn2egk emotion-1"
+        class="emotion-11 emotion-4"
         data-testid="taxonomyLightboxButton"
         type="button"
       >
@@ -300,26 +904,373 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
 `;
 
 exports[`Can select a resource from the list and it adds it to topic 2`] = `
+.emotion-17 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0,0,0,0.3);
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+.emotion-15 {
+  background-color: #f8f8f8;
+  box-shadow: 0 0 2px 0 rgba(115,115,115,0.5);
+  width: 600px;
+  border-radius: 5px;
+  position: absolute;
+  top: 20%;
+  z-index: 2;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.emotion-5 {
+  background: linear-gradient(180deg,#5d97a9,#508a9c);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 1.2rem;
+  padding-left: 13px;
+  height: 50px;
+  color: #f8f8f8;
+}
+
+.emotion-3 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  height: 50px;
+  width: 50px;
+}
+
+.emotion-3:hover,
+.emotion-3:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-3:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-3[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-3:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-3:hover,
+.emotion-3:active,
+.emotion-3:disabled,
+.emotion-3:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-3:focus {
+  outline-width: medium;
+}
+
+.emotion-2 {
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+}
+
+.emotion-13 {
+  padding: 2em;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+.emotion-7 {
+  color: white;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.emotion-9 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  color: #4d4d4d;
+}
+
+.emotion-9:hover,
+.emotion-9:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-9:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-9[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-9:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:disabled,
+.emotion-9:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-9:focus {
+  outline-width: medium;
+}
+
+.emotion-11 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-11:hover,
+.emotion-11:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-11:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-11[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-11:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-11:hover,
+.emotion-11:active,
+.emotion-11:disabled,
+.emotion-11:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-11:focus {
+  outline-width: medium;
+}
+
+.emotion-11,
+.emotion-11:hover {
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 26px;
+  padding: 3px 52px;
+}
+
 <div
-  class="css-f0l7cz emotion-8"
+  class="emotion-17 emotion-18"
 >
   <div
     aria-hidden="true"
-    class="css-7dq7l3 emotion-0"
+    class="emotion-0 emotion-1"
   />
   <div
-    class="css-1fb9dia emotion-7"
+    class="emotion-15 emotion-16"
   >
     <div
-      class="css-h6g89e emotion-2"
+      class="emotion-5 emotion-6"
     >
       Søk etter ressurs
       <button
-        class="css-zdsvka emotion-1"
+        class="emotion-3 emotion-4"
         type="button"
       >
         <svg
-          class="c-icon css-1yvjjcj"
+          class="c-icon emotion-2"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
@@ -345,7 +1296,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
       </button>
     </div>
     <div
-      class="css-1xiahet emotion-6"
+      class="emotion-13 emotion-14"
     >
       <input
         data-testid="addResourceUrlInput"
@@ -354,7 +1305,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
         value=""
       />
       <span
-        class="css-1cuzj5i emotion-3"
+        class="emotion-7 emotion-8"
       >
         Eller
       </span>
@@ -376,7 +1327,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
           value="Hva kan du om geologiske prosesser?"
         />
         <button
-          class="css-6yth7i emotion-1"
+          class="emotion-9 emotion-4"
           type="button"
         >
           <svg
@@ -518,7 +1469,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
         </div>
       </div>
       <button
-        class="css-1hn2egk emotion-1"
+        class="emotion-11 emotion-4"
         data-testid="taxonomyLightboxButton"
         type="button"
       >

@@ -6,11 +6,11 @@
  *
  */
 
+import { css } from '@emotion/core';
 import React, { Component, Fragment } from 'react';
 import { bool, func, string, shape, object } from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Input } from '@ndla/forms';
-import { css } from 'react-emotion';
 import { AudioPlayer } from '@ndla/ui';
 import ObjectSelector from '../../../ObjectSelector';
 import { EmbedShape } from '../../../../shapes';
@@ -48,6 +48,7 @@ class EditAudio extends Component {
       onRemoveClick,
       audioType,
       t,
+      locale,
       speech,
       audio: {
         title,
@@ -67,7 +68,7 @@ class EditAudio extends Component {
         />
         <Portal isOpened key="audioPortal">
           <div
-            css={`
+            css={css`
               padding: 50px;
               background-color: white;
             `}
@@ -110,13 +111,16 @@ class EditAudio extends Component {
               placeholder={t('form.audio.caption.placeholder')}
               submitted={submitted}
             />
+            <FigureButtons
+              figureType="audio"
+              tooltip={t('form.audio.remove')}
+              onRemoveClick={onRemoveClick}
+              embed={embed}
+              locale={locale}
+              withMargin
+            />
           </div>
         </Portal>
-        <FigureButtons
-          tooltip={t('form.audio.remove')}
-          onRemoveClick={onRemoveClick}
-          embed={embed}
-        />
       </Fragment>
     );
   }
@@ -135,6 +139,7 @@ EditAudio.propTypes = {
     title: string,
     audioFile: object,
   }),
+  locale: string,
 };
 
 export default injectT(EditAudio);

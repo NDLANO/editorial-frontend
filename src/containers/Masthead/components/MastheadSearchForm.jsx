@@ -9,12 +9,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
-import { colors } from '@ndla/core';
+import { colors, misc, spacing, fonts } from '@ndla/core';
 import { Search } from '@ndla/icons/common';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
 
 import { fetchTopicArticle } from '../../../modules/taxonomy';
@@ -22,7 +22,56 @@ import { fetchTopicArticle } from '../../../modules/taxonomy';
 import { fetchDraft, fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
 import { getLocale } from '../../../modules/locale/locale';
-import { editorialMastheadClasses } from '../MastheadContainer';
+
+const formCSS = css`
+  display: flex;
+  background: ${colors.brand.greyLightest};
+  border-radius: ${misc.borderRadius};
+  border: 1px solid transparent;
+  ${fonts.sizes(16, 1.2)} font-weight: ${fonts.weight.semibold};
+  padding: ${spacing.xsmall};
+  padding-left: ${spacing.small};
+  transition: all 200ms ease;
+
+  input {
+    padding: ${spacing.xsmall};
+    background: transparent;
+    border: 0;
+    outline: none;
+    color: ${colors.brand.primary};
+    transition: width 200ms ease 100ms;
+    width: 200px;
+
+    &:focus {
+      width: 400px;
+    }
+  }
+
+  & > button {
+    color: ${colors.brand.grey};
+  }
+
+  .c-icon {
+    margin: 0 ${spacing.small};
+  }
+
+  &:focus-within {
+    border: 1px solid ${colors.brand.primary};
+
+    .c-icon {
+      color: ${colors.brand.primary};
+    }
+  }
+
+  &:hover,
+  &:focus {
+    &:not(:focus-within) {
+      cursor: pointer;
+      background: ${colors.brand.greyLighter};
+      border: 1px solid ${colors.brand.greyLight};
+    }
+  }
+`;
 
 export class MastheadSearchForm extends Component {
   constructor(props) {
@@ -138,21 +187,14 @@ export class MastheadSearchForm extends Component {
     const { searching, t } = this.props;
 
     return (
-      <form onSubmit={this.handleSubmit} {...editorialMastheadClasses('form')}>
+      <form onSubmit={this.handleSubmit} css={formCSS}>
         <input
           type="text"
-          {...editorialMastheadClasses('form-query')}
           onChange={this.handleQueryChange}
           value={this.state.query}
           placeholder={t('searchForm.placeholder')}
         />
-        <Button
-          submit
-          stripped
-          css={css`
-            color: ${colors.brand.grey};
-          `}
-          loading={searching}>
+        <Button submit stripped loading={searching}>
           <Search className="c-icon--medium" />
         </Button>
       </form>

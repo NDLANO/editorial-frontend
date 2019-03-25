@@ -7,31 +7,61 @@
  */
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import { Plus, Minus } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
-import { withRouter, Link } from 'react-router-dom';
-import {
-  Learningpath,
-  DetailSearch,
-  Agreement,
-  Media,
-  SubjectMatter,
-  Taxonomy,
-} from '@ndla/icons/editor';
-import { colors } from '@ndla/core';
-import config from '../../../config';
-import {
-  toCreateLearningResource,
-  toCreateImage,
-  toSearch,
-} from '../../../util/routeHelpers';
+import { withRouter } from 'react-router-dom';
+import { colors, spacing } from '@ndla/core';
+import { Logo } from '@ndla/ui';
+import FocusTrapReact from 'focus-trap-react';
+import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import MastheadButton from './MastheadButton';
+import MastheadSearch from '../MastheadSearch';
+import SessionContainer from './SessionContainer';
+import OpenMenu from './OpenMenu';
+import Overlay from '../../../components/Overlay';
 
 export const classes = new BEMHelper({
   name: 'navigation',
   prefix: 'c-',
 });
+
+const logoCSS = css`
+  transform: translateY(3px);
+`;
+
+const StyledSplitter = styled.div`
+  height: ${spacing.medium};
+  width: 1px;
+  background: ${colors.brand.greyLighter};
+  margin: 0 ${spacing.normal};
+`;
+
+const StyledNavigationWrapper = styled.div`
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: ${spacing.xsmall};
+  background: #fff;
+`;
+
+const StyledHeaderItems = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 972px;
+  margin: 0 auto;
+  > div {
+    display: flex;
+    align-items: center;
+  }
+`;
+const StyledWrapper = styled.div`
+  margin-bottom: ${spacing.spacingUnit * 4}px;
+`;
 
 export class Navigation extends Component {
   constructor(props) {
@@ -40,111 +70,61 @@ export class Navigation extends Component {
       open: false,
     };
     this.toggleOpen = this.toggleOpen.bind(this);
+    this.closeMenu = this.closeMenu.bind(this);
   }
 
   toggleOpen() {
     this.setState(prevState => ({ open: !prevState.open }));
   }
 
+  closeMenu() {
+    this.setState({ open: false });
+  }
+
   render() {
-    const { t } = this.props;
+    const { open } = this.state;
+    const { t, userName, authenticated } = this.props;
+
     return (
-      <div>
-        <MastheadButton
-          color={colors.brand.primary}
-          minWidth={4}
-          onClick={this.toggleOpen}
-          stripped>
-          <Plus
-            {...classes(
-              'icon',
-              this.state.open ? 'hidden' : 'show',
-              'c-icon--medium',
-            )}
-          />
-          <Minus
-            {...classes(
-              'icon',
-              !this.state.open ? 'hidden' : 'show',
-              'c-icon--medium',
-            )}
-          />
-        </MastheadButton>
-        <div
-          {...classes(
-            'container',
-            !this.state.open ? 'hidden' : ['absolute', 'brand-color-secondary'],
-          )}>
-          <div {...classes('items')}>
-            <Link
-              to={toCreateLearningResource()}
-              {...classes('item')}
-              onClick={this.toggleOpen}>
-              <SubjectMatter className="c-icon--large" />
-              <span>{t('subNavigation.subjectMatter')}</span>
-            </Link>
-            <a
-              tabIndex="0"
-              href={config.learningpathFrontendDomain}
-              target="_blank"
-              rel="noopener noreferrer"
-              {...classes('item')}
-              onClick={this.toggleOpen}>
-              <Learningpath className="c-icon--large" />
-              <span>{t('subNavigation.learningPath')}</span>
-            </a>
-            <Link
-              to={toCreateImage()}
-              {...classes('item')}
-              onClick={this.toggleOpen}>
-              <Media className="c-icon--large" />
-              <span>{t('subNavigation.media')}</span>
-            </Link>
-            <Link
-              to="/agreement/new"
-              {...classes('item')}
-              onClick={this.toggleOpen}>
-              <Agreement className="c-icon--large" />
-              <span>{t('subNavigation.agreement')}</span>
-            </Link>
-            {
-              <Link
-                to="/structure"
-                {...classes('item')}
-                onClick={this.toggleOpen}>
-                <Taxonomy className="c-icon--large" />
-                <span>{t('subNavigation.structure')}</span>
-              </Link>
-            }
-            <Link
-              to={toSearch(
-                {
-                  page: '1',
-                  sort: '-relevance',
-                  'page-size': 10,
-                },
-                'content',
-              )}
-              {...classes('item')}
-              onClick={this.toggleOpen}>
-              <DetailSearch className="c-icon--large" />
-              <span>{t('subNavigation.detailSearch')}</span>
-            </Link>
-          </div>
-        </div>
-        {this.state.open ? (
-          <div
-            role="presentation"
-            onKeyPress={this.toggleOpen}
-            onClick={this.toggleOpen}
-            {...classes('overlay')}
-          />
-        ) : (
-          ''
-        )}
-      </div>
+      <StyledWrapper>
+        <FocusTrapReact
+          active={open}
+          focusTrapOptions={{
+            onDeactivate: this.closeMenu,
+            clickOutsideDeactivates: true,
+            escapeDeactivates: true,
+          }}>
+          <StyledNavigationWrapper>
+            <StyledHeaderItems>
+              <div>
+                <MastheadButton onClick={this.toggleOpen} open={open} />
+                <StyledSplitter />
+                <MastheadSearch t={t} close={this.closeMenu} />
+              </div>
+              <div>
+                <SessionContainer
+                  userName={userName}
+                  authenticated={authenticated}
+                  close={this.closeMenu}
+                />
+                <StyledSplitter />
+                <div css={logoCSS}>
+                  <Logo to="/" label="Nasjonal digital læringsarena" />
+                </div>
+              </div>
+            </StyledHeaderItems>
+            {open && <OpenMenu close={this.closeMenu} />}
+          </StyledNavigationWrapper>
+        </FocusTrapReact>
+        {open && <Overlay modifiers={'lighter'} />}
+      </StyledWrapper>
     );
   }
 }
+
+Navigation.propTypes = {
+  authenticated: PropTypes.bool.isRequired,
+  userName: PropTypes.string,
+};
 
 export default withRouter(injectT(Navigation));

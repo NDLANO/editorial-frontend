@@ -8,7 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { css } from 'react-emotion';
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import { animations } from '@ndla/core';
 const appearances = {
   zIndex: css`
@@ -22,6 +23,10 @@ const appearances = {
   'white-opacity': css`
     opacity: 0.8;
     background-color: white;
+  `,
+  lighter: css`
+    background: rgba(1, 1, 1, 0.3);
+    z-index: 2;
   `,
 };
 

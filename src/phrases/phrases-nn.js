@@ -409,6 +409,10 @@ const phrases = {
       file: 'Fil',
     },
   },
+  detailBox: {
+    changeTitle: 'Endre overskrift',
+    placeholder: 'Kort sammendrag',
+  },
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Innhald',
@@ -449,6 +453,10 @@ const phrases = {
       article: 'Artikkel',
       draft: 'Utkast',
     },
+    detailBox: {
+      changeTitle: 'Endre overskrift',
+      placeholder: 'Kort sammendrag',
+    },
     previewLanguageArticle: {
       button: 'Samanlikn forskjellige språkversjoner',
       title: 'Utkast på {language}',
@@ -483,6 +491,7 @@ const phrases = {
       },
     },
     editImage: 'Endre bilde',
+    editOriginalImage: 'Rediger orginal bilde',
     editAudio: 'Endre lyd',
     resetToProd: {
       button: 'Tilbakestill til prod',

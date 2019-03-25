@@ -483,6 +483,7 @@ const phrases = {
       },
     },
     editImage: 'Endre bilde',
+    editOriginalImage: 'Rediger orginal bilde',
     editAudio: 'Endre lyd',
     resetToProd: {
       button: 'Tilbakestill til prod',
@@ -896,6 +897,10 @@ const phrases = {
       additional: 'Tilleggsressurs',
       core: 'Kjerneressurs',
     },
+  },
+  detailBox: {
+    label: 'Endre overskrift',
+    placeholder: 'Kort sammendrag',
   },
   contextTypes: {
     topic: 'Emne',

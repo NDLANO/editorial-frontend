@@ -7,13 +7,13 @@ import { unwrapBlockquote } from '../changes';
  */
 function onBackspace(opts, event, editor, next) {
   const { value } = editor;
-  const { startOffset, isCollapsed } = value.selection;
+  const { start, isCollapsed } = value.selection;
 
   if (!getCurrentBlockquote(opts, editor) || !isCollapsed) {
     return next();
   }
 
-  if (startOffset !== 0) {
+  if (start.offset !== 0) {
     return next();
   }
 

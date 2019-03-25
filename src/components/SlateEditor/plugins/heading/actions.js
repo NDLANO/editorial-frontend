@@ -27,12 +27,12 @@ export function onEnter(evt, value, options, editor, next) {
 }
 
 export function onBackspace(evt, value, options, editor, next) {
-  const { startOffset, isCollapsed } = value.selection;
+  const { start, isCollapsed } = value.selection;
   const currentHeading = getCurrentHeading(options, value, next);
   if (!currentHeading || !isCollapsed) {
     return next();
   }
-  if (startOffset === 0) {
+  if (start.offset === 0) {
     evt.preventDefault();
     return setBlock(options, editor);
   }

@@ -9,7 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Warning } from '@ndla/icons/editor';
-import styled, { css } from 'react-emotion';
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
 import AlertModalFooter from './AlertModalFooter';
 import Lightbox from '../Lightbox';

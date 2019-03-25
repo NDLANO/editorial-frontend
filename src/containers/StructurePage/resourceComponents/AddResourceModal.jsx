@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { AsyncDropdown } from '../../../components/Dropdown';

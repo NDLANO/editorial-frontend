@@ -8,7 +8,7 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import { UploadDropZone, Input } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';

@@ -8,7 +8,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import { spacing, colors } from '@ndla/core';
 
 import 'monaco-editor/esm/vs/editor/browser/controller/coreCommands';

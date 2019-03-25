@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { colors, spacing } from '@ndla/core';
 

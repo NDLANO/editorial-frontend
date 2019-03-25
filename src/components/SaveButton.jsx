@@ -3,7 +3,8 @@ import { bool, string } from 'prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { Check } from '@ndla/icons/editor';
-import styled, { css } from 'react-emotion';
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 
 const appereances = {

@@ -9,8 +9,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { css, cx } from '@emotion/core';
+import darken from 'polished/lib/color/darken';
+import { colors } from '@ndla/core';
 import { withRouter } from 'react-router-dom';
-import { cx } from 'react-emotion';
 import { DeleteForever } from '@ndla/icons/editor';
 import { deleteLanguageVersion } from '../../../modules/draft/draftApi';
 import { HistoryShape } from '../../../shapes';

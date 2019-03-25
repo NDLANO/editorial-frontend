@@ -1,4 +1,4 @@
 {
-  "presets": ["razzle/babel"],
-  "plugins": ["emotion"]
+  "presets": ["razzle/babel", "@emotion/babel-preset-css-prop"],
+  "plugins": [["emotion", { "sourceMap": true }]]
 }

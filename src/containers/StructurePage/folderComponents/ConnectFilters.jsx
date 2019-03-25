@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { colors } from '@ndla/core';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import isEqual from 'lodash/fp/isEqual';
 import {
   fetchTopicFilters,
